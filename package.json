@@ -8,8 +8,8 @@
     "test": "tests"
   },
   "scripts": {
-    "build": "ember build",
-    "start": "ember server -p $PORT",
+    "build": "ember build --environment=development",
+    "start": "ember server -p $PORT --environment=development",
     "test": "ember test"
   },
   "repository": "",
