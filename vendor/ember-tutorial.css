@@ -1,0 +1,306 @@
+@import url(https://fonts.googleapis.com/css?family=Lato:300,300italic,400,700,700italic);
+
+/**
+ * Base Elements
+ */
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p,
+div,
+span,
+a {
+  font-family: 'Lato', 'Open Sans', 'Helvetica Neue', 'Segoe UI', Helvetica, Arial, sans-serif;
+  line-height: 1.5;
+}
+
+body {
+  background: #f3f3f3;
+}
+
+a {
+  color: #2185D0;
+  text-decoration: none;
+}
+
+p {
+  line-height: 1.5;
+  margin-bottom: 15px;
+}
+
+/**
+ * Button
+ */
+.button {
+  padding: 12px 30px 13px;
+  text-decoration: none;
+  color: #fff;
+  background: #2185D0;
+  border-radius: 5px;
+  border: none;
+  font-size: 16px;
+  opacity: 0.9;
+}
+
+.button:hover {
+  opacity: 1;
+}
+
+/**
+ * Body Container
+ */
+.container {
+  max-width: 1024px;
+  min-height: 100vh;
+  background: #f9f9f9;
+  margin: 0 auto;
+}
+
+/**
+ * Top Navigation
+ */
+.menu {
+  height: 4em;
+  background-color: #677ae4;
+  background-color: #05526A;
+  background-color: #e46855;
+}
+
+.menu h1 {
+  padding: 7px 0 0 20px;
+  color: #f9f9f9;
+  font-size: 2.1em;
+}
+
+.menu h1 em {
+  position: relative;
+  left: -12px;
+}
+
+.menu a {
+  text-decoration: none;
+  line-height: 1;
+  padding: 15px;
+  color: #f9f9f9;
+  opacity: 0.85;
+}
+
+.menu a:hover,
+.menu a.active {
+  opacity: 1;
+}
+
+.menu .links {
+  padding: 21px;
+}
+
+.list-filter input {
+  padding: 11px;
+  font-size: 18px;
+  width: 500px;
+  margin: 50px auto;
+  background-color: rgba(255, 255, 255, 0.75);
+  border: solid 1px lightgray;
+  display: block;
+}
+
+.menu input:focus {
+  background-color: #f9f9f9;
+  outline: none;
+}
+
+.menu button {
+  margin-right: 15px;
+  position: relative;
+  top: -1px;
+  left: -5px;
+  border-top-left-radius: 0;
+  border-bottom-left-radius: 0;
+  background-color: #262626;
+  cursor: pointer;
+  opacity: 1;
+}
+
+.menu button:hover {
+  background-color: #111;
+  opacity: 1;
+}
+
+.menu .results {
+  display: none;
+  position: absolute;
+  width: 215px;
+  top: 54px;
+  left: 10px;
+  background-color: #f6f6f6;
+  border-right: 1px solid rgba(0, 0, 0, 0.05);
+  border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+}
+
+.results li {
+  list-style: none;
+  padding: 10px 15px;
+  cursor: pointer;
+}
+
+.menu .results li:hover {
+  background: #f3f3f3;
+}
+
+/**
+ * Content Area
+ */
+.body {
+  padding: 15px;
+}
+
+/**
+ * Similar to Jumbotron
+ */
+.jumbo {
+  padding: 50px;
+  background: #f6f6f6;
+}
+
+.jumbo:hover {
+  background-color: #f3f3f3;
+}
+
+.jumbo h2 {
+  font-size: 3.2em;
+  margin-top: -25px;
+}
+
+.jumbo p {
+  margin-bottom: 25px;
+}
+
+.jumbo img {
+  height: 200px;
+  position: relative;
+  top: -25px;
+  right: -20px;
+}
+
+/**
+ * Individual Listings
+ */
+.listing {
+  margin-top: 15px;
+  background-color: #f6f6f6;
+  padding: 15px 50px;
+  min-height: 145px;
+  position: relative;
+}
+
+.listing:hover {
+  background-color: #f3f3f3;
+}
+
+.listing img {
+  height: 100px;
+  float: left;
+  margin-right: 45px;
+  border-radius: 5px;
+}
+
+.listing .wide {
+  max-width: 100%;
+  position: relative;
+  z-index: 999;
+}
+
+.listing .wide img {
+  height: initial;
+  width: 100%;
+}
+
+.listing .wide small {
+  display: none;
+}
+
+.listing a.image {
+  max-width: 150px;
+  display: block;
+}
+
+.listing small {
+  float: left;
+  display: block;
+  text-align: center;
+  width: 136px;
+}
+
+.listing h3 {
+  padding: 0 15px 0 0;
+}
+
+.listing h3 a {
+  display: inline;
+}
+
+.listing .map {
+  position: absolute;
+  top: 13px;
+  right: 50px;
+  height: 120px;
+  width: 120px;
+  background-size: cover;
+  border-radius: 5px;
+}
+
+.listing .detail {
+  width: 36%;
+  display: inline-block;
+  padding: 10px 15px 0 0;
+  margin: 0;
+  font-weight: 300;
+  font-style: italic;
+}
+
+.listing .detail span {
+  font-weight: 400;
+  font-style: normal;
+}
+
+/**
+ * Utilities
+ */
+.light {
+  font-weight: 300;
+}
+
+.left {
+  float: left;
+}
+
+.right {
+  float: right;
+}
+
+.hidden {
+  display: none;
+}
+
+.relative {
+  position: relative;
+}
+
+.tomster {
+    background: url(http://emberjs.com/images/tomsters/teaching.png);
+    background-size: contain;
+    background-repeat: no-repeat;
+    height: 200px;
+    width: 200px;
+}
