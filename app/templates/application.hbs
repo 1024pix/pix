@@ -1,19 +1,25 @@
-<div class="container">
-    <div class="menu">
-      {{#link-to 'index'}}
-          <h1 class="left">
-              <em>SuperRentals</em>
-          </h1>
-      {{/link-to}}
-        <div class="left links">
-          {{#link-to 'about'}}
-              About
-          {{/link-to}}
-          {{#link-to 'contact'}}
-              Contact
-          {{/link-to}}
+<nav class="navbar navbar-default navbar-fixed-top">
+    <div class="container">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="/">PIX</a>
         </div>
+        <div id="navbar" class="navbar-collapse collapse">
+            <ul class="nav navbar-nav">
+                <li>{{#link-to 'about' class="button"}}About{{/link-to}}</li>
+                <li>{{#link-to 'contact' class="button"}}Contact{{/link-to}}</li>
+            </ul>
+        </div><!--/.nav-collapse -->
     </div>
+</nav>
+
+<div class="container">
+
     <div class="body">
       {{outlet}}
     </div>

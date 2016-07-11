@@ -1,0 +1,16 @@
+@import url('https://fonts.googleapis.com/css?family=Open+Sans');
+
+.palette {
+  color: #f2f3f4; /* light grey for <html/> background */
+  color: #0f90fa; /* main blue */
+  color: #f3f3f3; /* light grey for <hr/> */
+}
+
+body {
+  font-family: 'Open Sans', sans-serif;
+  padding-top: 51px;
+}
+
+.challenge {
+  border-top: 1px solid #DDD;
+}
