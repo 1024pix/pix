@@ -47,77 +47,12 @@ export default function () {
     }
   });
 
-  this.get('/assessments', () => {
-    return {
-      data: [{
-        type: 'assessments',
-        id: 1,
-        attributes: {
-          title: 'Assessment #1',
-          description: '<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>',
-          help: '<p>Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo.</p>'
-        },
-        relationships: {
-          challenges: {
-            data: [{
-              type: 'course',
-              id: 1
-            }]
-          }
-        }
-      }, {
-        type: 'assessments',
-        id: 2,
-        attributes: {
-          title: 'Assessment #2'
-        }
-      }, {
-        type: 'assessments',
-        id: 3,
-        attributes: {
-          title: 'Assessment #3'
-        }
-      }],
-      included: [{
-        type: 'challenges',
-        id: 1,
-        attributes: {
-          title: 'Epreuve #1',
-          description: '<p>Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt. Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit, sed quia non numquam eius modi tempora incidunt ut labore et dolore magnam aliquam quaerat voluptatem.</p>',
-          help: '<p>Ut enim ad minima veniam, quis nostrum exercitationem ullam corporis suscipit laboriosam, nisi ut aliquid ex ea commodi consequatur? Quis autem vel eum iure reprehenderit qui in ea voluptate velit esse quam nihil molestiae consequatur, vel illum qui dolorem eum fugiat quo voluptas nulla pariatur?</p>'
-        }
-      }, {
-        type: 'challenges',
-        id: 2,
-        attributes: {
-          title: 'Epreuve #2',
-          description: '<p>Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt. Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit, sed quia non numquam eius modi tempora incidunt ut labore et dolore magnam aliquam quaerat voluptatem.</p>',
-          help: null
-        }
-      }, {
-        type: 'challenges',
-        id: 3,
-        attributes: {
-          title: 'Epreuve #3',
-          description: '<p>Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt. Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit, sed quia non numquam eius modi tempora incidunt ut labore et dolore magnam aliquam quaerat voluptatem.</p>',
-          help: null
-        }
-      }]
-    };
+  this.get('/assessments', (schema) => {
+    return schema.assessments.all();
   });
 
-  this.get('/assessments/1', () => {
-    return {
-      data: {
-        type: 'assessments',
-        id: 1,
-        attributes: {
-          title: 'Assessment #1',
-          description: '<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>',
-          help: '<p>Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo.</p>'
-        }
-      }
-    };
+  this.get('/assessments/:id', (schema, request) => {
+    return schema.find('assessment', request.params.id);
   });
 
   this.get('/tests/1/assessment', () => {
