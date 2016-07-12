@@ -7,6 +7,6 @@ export default Model.extend({
   description: attr('string'),
   duration: attr('number'),
   courseDuration: Ember.computed('courseDuration', 'duration', function() {
-    return Math.floor(this.get('duration') / 800);
+    return Math.floor(this.get('duration')) % 80;
   })
 });
