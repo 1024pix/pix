@@ -1,5 +1,5 @@
-import { JSONAPISerializer } from 'ember-cli-mirage';
+import { RestSerializer } from 'ember-cli-mirage';
 
-export default JSONAPISerializer.extend({
-  include: ['challenges']
+export default RestSerializer.extend({
+  //include: ['challenges']
 });
