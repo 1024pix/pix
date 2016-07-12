@@ -1,20 +1,27 @@
 <div class="jumbo">
     <div class="right tomster"></div>
-    <h2>Welcome!</h2>
 
-    <p>
-        We hope you find exactly what you're looking for in a place to stay.
-        <br>Browse our listings, or use the search box above to narrow your search.
-    </p>
-  {{#link-to 'about' class="button"}}
-      About Us
-  {{/link-to}}
+    <div class="container">
+        <div class="col-xs-12">
+            <h2>Démo PIX</h2>
+            <hr>
+        </div>
+
+        <div class="col-xs-10">
+            <ul class="col-xs-6">
+              {{#each model as |course|}}
+                  <li class="list-group-item col-xs-12">
+                    <p class="col-xs-6">
+                      {{course.name}}
+                    </p>
+                    <div class="col-xs-6">
+                        {{#link-to "assessment-create" course.id class="btn btn-primary btn-small"}}
+                            Passer le Test
+                        {{/link-to}}
+                    </div>
+                  </li>
+              {{/each}}
+            </ul>
+        </div>
+    </div>
 </div>
-
-{{#list-filter filter=(action 'filterByCity') as |rentals|}}
-    <ul class="results">
-      {{#each rentals as |rentalUnit|}}
-          <li>{{rental-listing rental=rentalUnit}}</li>
-      {{/each}}
-    </ul>
-{{/list-filter}}

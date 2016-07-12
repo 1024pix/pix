@@ -1,7 +1,8 @@
 import Model from 'ember-data/model';
-import attr from 'ember-data/attr';
+// import attr from 'ember-data/attr';
+import { belongsTo } from 'ember-data/relationships';
+//import { Course } from 'pix-live/app/models/course.js';
 
 export default Model.extend({
-  name: attr(),
-  description: attr()
+  course: belongsTo('course')
 });

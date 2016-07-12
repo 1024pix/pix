@@ -1,0 +1,25 @@
+<div class="container">
+    <div class="col-xs-12">
+        <h2>Évaluation: <strong>{{model.course.content.name}}</strong></h2>
+        <hr>
+    </div>
+
+
+    <div class="col-xs-12">
+        <h4>Description:</h4>
+        <blockquote>
+          {{model.course.content.description}}<br>
+        </blockquote>
+    </div>
+
+    <div class="col-xs-12">
+        <h4>Durée:</h4>
+        <blockquote>
+          {{model.course.courseDuration}} minutes<br>
+        </blockquote>
+    </div>
+
+    <div class="col-xs-12">
+      {{#link-to "challenge-show" model.firstChallenge class="btn btn-success"}}Je suis prêt !{{/link-to}}
+    </div>
+</div>

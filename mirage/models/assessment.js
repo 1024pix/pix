@@ -1,8 +1,5 @@
-import { Model, hasMany } from 'ember-cli-mirage';
-import attr from 'ember-data/attr';
+import { Model, belongsTo } from 'ember-cli-mirage';
 
 export default Model.extend({
-  title: attr(),
-  description: attr(),
-  challenges: hasMany()
+  course: belongsTo('course')
 });
