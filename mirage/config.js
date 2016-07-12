@@ -1,6 +1,3 @@
-import { Assessment } from 'pix-live/mirage/models/assessment';
-
-
 export default function () {
 
   this.urlPrefix = 'http://localhost:4200';

@@ -4,13 +4,53 @@
   color: #f2f3f4; /* light grey for <html/> background */
   color: #0f90fa; /* main blue */
   color: #f3f3f3; /* light grey for <hr/> */
+  color: #78C182; /* green captain train */
 }
 
 body {
   font-family: 'Open Sans', sans-serif;
   padding-top: 51px;
+  background-color: #f2f3f4;
 }
 
-.challenge {
-  border-top: 1px solid #DDD;
+.navbar {
+  background-color: #FFF;
+  border-top: 5px solid #0f90fa;
+  border-bottom-color: #fff;
+}
+
+.courses > ul {
+  padding: 0;
+  margin: 0;
+  list-style-type: none;
+}
+
+.course {
+  margin: 0;
+  display: inline-block;
+  background-color: #fff;
+  border-radius: 0.3125em;
+  border-left: 1px solid #dedfe2;
+  border-right: 1px solid #dedfe2;
+  border-bottom: 1px solid #D0D1D5;
+  box-shadow: 0 1px 0 0 #dedfe2;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  cursor: default;
+  margin-bottom: 20px;
+  padding: 15px 15px 15px 15px;
+}
+
+.course-picture {
+  max-width: 230px;
+}
+
+.course-actions {
+  text-align: center;
+}
+.course-actions > a {
+  background-color: #0f90fa;
+  border: none;
 }
