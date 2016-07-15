@@ -43,6 +43,9 @@ module.exports = function(environment) {
     ENV.APP.LOG_VIEW_LOOKUPS = false;
 
     ENV.APP.rootElement = '#ember-testing';
+
+    // PIX-API
+    ENV.APP.PIX_API_HOST = 'http://localhost:4200';
   }
 
   if (environment === 'staging') {
