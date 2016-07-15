@@ -1,20 +1,28 @@
-<div class="jumbo">
-    <div class="right tomster"></div>
-    <h2>Welcome!</h2>
+<div class="courses-view">
 
-    <p>
-        We hope you find exactly what you're looking for in a place to stay.
-        <br>Browse our listings, or use the search box above to narrow your search.
-    </p>
-  {{#link-to 'about' class="button"}}
-      About Us
-  {{/link-to}}
+    <h2>Liste des tests</h2>
+
+    <div class="courses row">
+        <ul>
+          {{#each model as |course|}}
+              <li class="col-md-3">
+                  <div class="course">
+                      <img class="course-picture" src="/images/course-default-image.png">
+                      <h3 class="course-name">
+                        {{course.name}}
+                      </h3>
+                      <p class="course-description">
+                        {{{course.description}}}
+                      </p>
+                      <div class="course-actions">
+                        {{#link-to "assessment-create" course.id class="btn btn-primary btn-small"}}
+                            Passer le Test
+                        {{/link-to}}
+                      </div>
+                  </div>
+              </li>
+          {{/each}}
+        </ul>
+    </div>
+
 </div>
-
-{{#list-filter filter=(action 'filterByCity') as |rentals|}}
-    <ul class="results">
-      {{#each rentals as |rentalUnit|}}
-          <li>{{rental-listing rental=rentalUnit}}</li>
-      {{/each}}
-    </ul>
-{{/list-filter}}
