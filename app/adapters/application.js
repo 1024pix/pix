@@ -1,6 +1,7 @@
 import RESTAdapter from 'ember-data/adapters/rest';
+import ENV from 'pix-live/config/environment';
 
 export default RESTAdapter.extend({
-  host: 'http://localhost:4200',
-  namespace: 'api/live'
+  host: ENV.APP.PIX_API_HOST,
+  namespace: ENV.APP.PIX_API_NAMESPACE
 });

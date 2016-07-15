@@ -17,7 +17,6 @@ module.exports = function(environment) {
       // Here you can pass flags/options to your application instance
       // when it is created
       // PIX-API
-      PIX_API_HOST: 'http://localhost:4200',
       PIX_API_NAMESPACE: 'api/live'
     }
   };
@@ -31,8 +30,7 @@ module.exports = function(environment) {
     ENV.APP.LOG_VIEW_LOOKUPS = true;
 
     // PIX-API
-    ENV.APP.PIX_API_HOST = 'http://localhost:9000';
-    ENV.APP.PIX_API_NAMESPACE = 'api/live';
+    ENV.APP.PIX_API_HOST = 'http://localhost:4200';
   }
 
   if (environment === 'test') {
@@ -45,6 +43,11 @@ module.exports = function(environment) {
     ENV.APP.LOG_VIEW_LOOKUPS = false;
 
     ENV.APP.rootElement = '#ember-testing';
+  }
+
+  if (environment === 'staging') {
+    // PIX-API
+    ENV.APP.PIX_API_HOST = 'http://localhost:9000';
   }
 
   if (environment === 'production') {
