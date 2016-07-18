@@ -1,0 +1,42 @@
+<div id="assessment">
+    <div class="container">
+        <div class="title">
+            Test #XXX
+            <span class="test-progression">Épreuve 2/3</span>
+        </div>
+        <div class="rounded-panel challenge" data-id="456">
+
+            <div class="challenge-metadata">
+                <p><span class="challenge-id">Numéro de l'épreuve : #456</span></p>
+            </div>
+
+            <hr>
+
+            <div class="challenge-title">
+                <p>Remettez les éléments dans l’ordre pour obtenir un chemin d’accès à un document correct.</p>
+            </div>
+
+            <ul class="challenge-options component-list">
+                <li class="challenge-option">
+                    <input type="radio" id="challenge-456-0" name="challenge-456" value="0">
+                    <label for="challenge-456-0">Mes documents\</label>
+                </li>
+                <li class="challenge-option">
+                    <input type="radio" id="challenge-456-1" name="challenge-456" value="1">
+                    <label for="challenge-456-1">P:\</label>
+                </li>
+                <li class="challenge-option">
+                    <input type="radio" id="challenge-456-2" name="challenge-456" value="2">
+                    <label for="challenge-456-2">rapport.txt</label>
+                </li>
+            </ul>
+
+            <hr>
+
+            <div class="challenge-actions">
+                {{#link-to "challenge-123" class="button-secondary"}}Retourner à l'épreuve précédente{{/link-to}}
+                {{#link-to "challenge-789" class="button-primary pull-right"}}Passer à l'épreuve suivante{{/link-to}}
+            </div>
+        </div>
+    </div>
+</div>

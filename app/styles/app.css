@@ -11,6 +11,7 @@
 @import url('components/identification-form.css');
 @import url('components/user-menu.css');
 /* views */
+@import url('assessment.css');
 @import url('home.css');
 @import url('index.css');
 
@@ -28,6 +29,12 @@ body {
 .body {
   padding-top: 20px;
   margin-bottom: 60px;
+}
+
+.component-list {
+  margin: 0;
+  padding: 0;
+  list-style-type: none;
 }
 
 .title {
