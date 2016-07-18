@@ -2,6 +2,7 @@
 @import url('https://fonts.googleapis.com/css?family=Open+Sans');
 /* globals */
 @import url('globals/buttons.css');
+@import url('globals/form.css');
 @import url('globals/groupped-input.css');
 @import url('globals/rounded-panel.css');
 /* components */

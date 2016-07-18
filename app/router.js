@@ -11,6 +11,7 @@ Router.map(function() {
   this.route('courses', { path: '/parcours' });
   this.route('assessment-create', { path: '/course/:id_course/create_assessment' });
   this.route('assessment-show', { path: '/assessment/:id_assessment' });
+  this.route('preferences');
 });
 
 export default Router;

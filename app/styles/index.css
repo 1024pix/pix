@@ -1,4 +1,4 @@
-#index-view .cover {
+#index .cover {
   background-image: url('/images/stock-photo-113728127.jpg');
   height: 800px;
   background-size: cover;
@@ -9,7 +9,7 @@
   content: ' ';
 }
 
-#index-view .cover::after {
+#index .cover::after {
   position: absolute;
   top: 0;
   left: 0;
@@ -20,7 +20,7 @@
   background: linear-gradient(to bottom, rgba(0, 0, 0, 0.5), transparent);
 }
 
-#index-view .presentation {
+#index .presentation {
   text-align: center;
   padding-top: 30px;
   padding-bottom: 30px;
@@ -32,11 +32,11 @@
   text-shadow: 0px 0px 1px rgba(48, 50, 58, 0.6), 0px 1px 1px rgba(48, 50, 58, 0.6);
   margin: 0.3em 0;
 }
-#index-view .presentation h1 {
+#index .presentation h1 {
   font-weight: 600;
   font-size: 40px;
 }
-#index-view .presentation h2 {
+#index .presentation h2 {
   font-weight: 400;
   font-size: 21px;
   color: #fff;

@@ -1,9 +1,9 @@
-#home-view .tests {
+#home .tests {
   list-style-type: none;
   padding: 0;
 }
 
-#home-view .test-wrapper {
+#home .test-wrapper {
   margin-left: 15px;
   width: 300px;
   float: left;
@@ -11,37 +11,37 @@
   position: relative;
 }
 
-#home-view .test {
+#home .test {
 }
 
-#home-view .test-picture {
+#home .test-picture {
   max-width: 230px;
 }
 
-#home-view .test-name {
+#home .test-name {
   color: #2F70FB;
 }
 
-#home-view .test-description {
+#home .test-description {
   height: 140px;
   overflow: hidden;
 }
 
-#home-view .test-actions {
+#home .test-actions {
   text-align: center;
 }
 
-#home-view .test-actions > a {
+#home .test-actions > a {
   background-color: #2F70FB;
   border: none;
 }
 
-#home-view .test-actions > a:hover,
-#home-view .test-actions > a:active {
+#home .test-actions > a:hover,
+#home .test-actions > a:active {
   background-color: #FDBD2C;
 }
 
-#home-view .test-wrapper.disabled::after {
+#home .test-wrapper.disabled::after {
   content: ' ';
   position: absolute;
   top:0;
@@ -52,11 +52,11 @@
   opacity: 0.5;
 }
 
-#home-view .test-wrapper.disabled .test-name {
+#home .test-wrapper.disabled .test-name {
   color: inherit;
 }
 
-#home-view .test-wrapper.disabled .test-actions > a {
+#home .test-wrapper.disabled .test-actions > a {
   background-color: transparent;
   border: 1px solid #CCC;
   color: inherit;

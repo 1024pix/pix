@@ -46,7 +46,11 @@
 }
 
 #application-header a:hover,
-#application-header a:focus,
-#application-header a:active {
+#application-header a:focus {
   color: #2F70FB;
 }
+
+#application-header a:active {
+  color: #FDBD2C;
+}
+
