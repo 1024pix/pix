@@ -9,6 +9,7 @@
 @import url('components/identification-form.css');
 @import url('components/user-menu.css');
 /* views */
+@import url('home.css');
 @import url('index.css');
 
 @media (min-width: 1200px) {
@@ -20,6 +21,10 @@
 body {
   font-family: 'Open Sans', sans-serif;
   background-color: #f2f3f4;
+}
+
+.body {
+  padding-top: 20px;
 }
 
 .title {
@@ -53,27 +58,5 @@ body {
   cursor: default;
   margin-bottom: 20px;
   padding: 15px 15px 15px 15px;
-}
-
-.course-picture {
-  max-width: 230px;
-}
-
-.course-name {
-  color: #2F70FB;
-}
-
-.course-actions {
-  text-align: center;
-}
-
-.course-actions > a {
-  background-color: #2F70FB;
-  border: none;
-}
-
-.course-actions > a:hover,
-.course-actions > a:focus {
-  background-color: #FDBD2C;
 }
 

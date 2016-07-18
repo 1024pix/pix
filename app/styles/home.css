@@ -1,0 +1,63 @@
+#home-view .tests {
+  list-style-type: none;
+  padding: 0;
+}
+
+#home-view .test-wrapper {
+  margin-left: 15px;
+  width: 300px;
+  float: left;
+  display: inline-block;
+  position: relative;
+}
+
+#home-view .test {
+}
+
+#home-view .test-picture {
+  max-width: 230px;
+}
+
+#home-view .test-name {
+  color: #2F70FB;
+}
+
+#home-view .test-description {
+  height: 140px;
+  overflow: hidden;
+}
+
+#home-view .test-actions {
+  text-align: center;
+}
+
+#home-view .test-actions > a {
+  background-color: #2F70FB;
+  border: none;
+}
+
+#home-view .test-actions > a:hover,
+#home-view .test-actions > a:active {
+  background-color: #FDBD2C;
+}
+
+#home-view .test-wrapper.disabled::after {
+  content: ' ';
+  position: absolute;
+  top:0;
+  left:0;
+  width: 100%;
+  height:100%;
+  background-color: #efefef;
+  opacity: 0.5;
+}
+
+#home-view .test-wrapper.disabled .test-name {
+  color: inherit;
+}
+
+#home-view .test-wrapper.disabled .test-actions > a {
+  background-color: transparent;
+  border: 1px solid #CCC;
+  color: inherit;
+}

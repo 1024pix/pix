@@ -1,14 +1,14 @@
 <form id="identification-form">
-    <p class="title">Identifiez-vous</p>
-    <div class="fields">
-        <div class="groupped-input groupped-input-top firstname">
+    <p class="identification-form-title">Identifiez-vous</p>
+    <div class="identification-form-fields">
+        <div class="groupped-input groupped-input-top">
             <input type="text" id="firstname" placeholder="Prénom">
         </div>
-        <div class="groupped-input groupped-input-bottom lastname">
+        <div class="groupped-input groupped-input-bottom">
             <input type="text" id="lastname" placeholder="Nom de famille">
         </div>
     </div>
-    <div class="actions">
+    <div class="identification-form-actions">
         <button {{action "identify"}} class="button button-primary">Valider</button>
     </div>
 </form>
