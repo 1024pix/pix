@@ -1,3 +1,52 @@
 #application-header {
   background-color: #fff;
+  box-shadow: 0 1px 0 0 #dedfe2;
+  border-radius: 0;
+  border: none;
+  min-height: 80px;
+  margin-top: 0;
+  overflow: visible;
+  z-index: 4;
+}
+
+#application-header .navbar-brand {
+  padding: 0 10px;
+  line-height: 80px;
+}
+
+#application-header .navbar-brand > img {
+  max-height: 80px;
+  padding-bottom: 8px;
+  padding-top: 2px;
+}
+
+#application-header .navbar-form {
+  margin-top: 23px;
+}
+
+#application-header .navbar-nav > li > a {
+  padding-top: 30px;
+  padding-bottom: 30px;
+}
+
+#application-header a {
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  font-smoothing: antialiased;
+  font-weight: 700;
+  font-size: 13px;
+  text-transform: uppercase;
+  letter-spacing: .025em;
+  display: inline-block;
+  padding: 22px 20px 18px;
+  color: #3E4149;
+  text-decoration: none;
+  background-color: #fff;
+  width: 100%;
+}
+
+#application-header a:hover,
+#application-header a:focus,
+#application-header a:active {
+  color: #2F70FB;
 }

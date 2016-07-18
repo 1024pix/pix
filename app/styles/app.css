@@ -1,29 +1,34 @@
 /* fonts */
 @import url('https://fonts.googleapis.com/css?family=Open+Sans');
-
 /* globals */
 @import url('globals/buttons.css');
 @import url('globals/groupped-input.css');
 @import url('globals/rounded-panel.css');
-
 /* components */
 @import url('components/application-header.css');
 @import url('components/identification-form.css');
-
+@import url('components/user-menu.css');
 /* views */
 @import url('index.css');
 
-.palette {
-  color: #f2f3f4; /* light grey for <html/> background */
-  color: #2F70FB; /* PIX blue */
-  color: #FDBD2C; /* PIX yellow */
-  color: #f3f3f3; /* light grey for <hr/> */
-  color: #78C182; /* green captain train */
+@media (min-width: 1200px) {
+  .container {
+    max-width: 960px;
+  }
 }
 
 body {
   font-family: 'Open Sans', sans-serif;
   background-color: #f2f3f4;
+}
+
+.title {
+  display: block;
+  text-rendering: optimizeLegibility;
+  color: #484c58;
+  font-size: 30px;
+  font-weight: 600;
+  margin-bottom: 20px;
 }
 
 .courses > ul {
@@ -61,10 +66,12 @@ body {
 .course-actions {
   text-align: center;
 }
+
 .course-actions > a {
   background-color: #2F70FB;
   border: none;
 }
+
 .course-actions > a:hover,
 .course-actions > a:focus {
   background-color: #FDBD2C;
