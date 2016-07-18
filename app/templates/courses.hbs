@@ -1,0 +1,29 @@
+<div class="container">
+    <div class="courses-view">
+
+    <h2>Liste des tests</h2>
+
+    <div class="courses row">
+        <ul>
+          {{#each model as |course|}}
+              <li class="col-md-3">
+                  <div class="course">
+                      <img class="course-picture" src="/images/course-default-image.png">
+                      <h3 class="course-name">
+                        {{course.name}}
+                      </h3>
+                      <p class="course-description">
+                        {{{course.description}}}
+                      </p>
+                      <div class="course-actions">
+                        {{#link-to "assessment-create" course.id class="btn btn-primary btn-small"}}
+                            Passer le Test
+                        {{/link-to}}
+                      </div>
+                  </div>
+              </li>
+          {{/each}}
+        </ul>
+    </div>
+  </div>
+</div>

@@ -1,28 +1,19 @@
-<div class="courses-view">
-
-    <h2>Liste des tests</h2>
-
-    <div class="courses row">
-        <ul>
-          {{#each model as |course|}}
-              <li class="col-md-3">
-                  <div class="course">
-                      <img class="course-picture" src="/images/course-default-image.png">
-                      <h3 class="course-name">
-                        {{course.name}}
-                      </h3>
-                      <p class="course-description">
-                        {{{course.description}}}
-                      </p>
-                      <div class="course-actions">
-                        {{#link-to "assessment-create" course.id class="btn btn-primary btn-small"}}
-                            Passer le Test
-                        {{/link-to}}
-                      </div>
-                  </div>
-              </li>
-          {{/each}}
-        </ul>
+<div class="index-view">
+    <div class="cover">
     </div>
+    <div class="container">
+        <div class="row presentation">
+            <div class="col-md-12">
+                <h1>Et vous, combien de PIX avez-vous ?</h1>
+                <h2>Grâce à PIX, mesurez, développez et valorisez vos compétences numériques.</h2>
+            </div>
+        </div>
 
+        <div class="row identification-form">
+            <div class="col-md-12">
+                {{identification-form}}
+            </div>
+        </div>
+  </div>
 </div>
+
