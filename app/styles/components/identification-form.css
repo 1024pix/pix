@@ -1,0 +1,19 @@
+#identification-form {
+  padding: 24px 40px;
+  background-color: #fff;
+  border-radius: 5px;
+  width: 460px;
+  margin: 0 auto;
+}
+
+#identification-form .title {
+  font-size: 20px;
+}
+
+#identification-form .fields {
+  margin-bottom: 29px;
+}
+
+#identification-form .actions {
+  margin-bottom: 10px;
+}
