@@ -6,7 +6,8 @@
 @import url('globals/groupped-input.css');
 @import url('globals/rounded-panel.css');
 /* components */
-@import url('components/application-header.css');
+@import url('components/app-header.css');
+@import url('components/app-footer.css');
 @import url('components/identification-form.css');
 @import url('components/user-menu.css');
 /* views */
@@ -15,7 +16,7 @@
 
 @media (min-width: 1200px) {
   .container {
-    max-width: 960px;
+    max-width: 900px;
   }
 }
 
@@ -26,6 +27,7 @@ body {
 
 .body {
   padding-top: 20px;
+  margin-bottom: 60px;
 }
 
 .title {

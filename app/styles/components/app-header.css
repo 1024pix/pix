@@ -1,4 +1,4 @@
-#application-header {
+#app-header .navbar {
   background-color: #fff;
   box-shadow: 0 1px 0 0 #dedfe2;
   border-radius: 0;
@@ -9,27 +9,27 @@
   z-index: 4;
 }
 
-#application-header .navbar-brand {
+#app-header .navbar-brand {
   padding: 0 10px;
   line-height: 80px;
 }
 
-#application-header .navbar-brand > img {
+#app-header .navbar-brand > img {
   max-height: 80px;
   padding-bottom: 8px;
   padding-top: 2px;
 }
 
-#application-header .navbar-form {
+#app-header .navbar-form {
   margin-top: 23px;
 }
 
-#application-header .navbar-nav > li > a {
+#app-header .navbar-nav > li > a {
   padding-top: 30px;
   padding-bottom: 30px;
 }
 
-#application-header a {
+#app-header a {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   font-smoothing: antialiased;
@@ -45,12 +45,12 @@
   width: 100%;
 }
 
-#application-header a:hover,
-#application-header a:focus {
+#app-header a:hover,
+#app-header a:focus {
   color: #2F70FB;
 }
 
-#application-header a:active {
+#app-header a:active {
   color: #FDBD2C;
 }
 
