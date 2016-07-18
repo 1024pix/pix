@@ -15,7 +15,11 @@
 }
 
 #home .test-picture {
-  max-width: 230px;
+  width: 244px;
+  height: 170px;
+  text-align: center;
+  margin: 0 auto;
+  display: block;
 }
 
 #home .test-name {
