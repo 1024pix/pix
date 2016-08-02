@@ -1,16 +1,25 @@
+/* globals describe, beforeEach, afterEach, visit, andThen */
 import '../test-helper';
 import { expect } from 'chai';
 import { it } from 'ember-mocha';
+import startApp from '../helpers/start-app';
+import destroyApp from '../helpers/destroy-app';
 
-import describeVisiting from '../helpers/describe-visiting';
+describe('Acceptance | /home', function() {
+  beforeEach(function() {
+    this.application = startApp();
+  });
 
-describeVisiting('/home', () => {
-  visit('/home');
+  afterEach(function() {
+    return destroyApp(this.application);
+  });
 
-  andThen(() => {
-    it('is on /home', () => { expect(currentURL()).to.be('/home'); });
-    it('has the correct title', () => {
-      expect(find('.title').text().trim()).to.be('Liste des tests');
+  it('should display the title', function() {
+    visit('/home');
+
+    andThen(function() {
+      expect(currentURL()).to.be.eq('/home');
+      expect(find('.title').text().trim()).to.be.equal('Liste des tests');
     });
   });
 });
