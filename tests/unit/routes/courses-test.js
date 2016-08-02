@@ -1,11 +1,11 @@
-import { moduleFor, test } from 'ember-qunit';
 
-moduleFor('route:courses', 'Unit | Route | courses', {
-  // Specify the other units that are required for this test.
-  // needs: ['controller:foo']
-});
+import '../../test-helper';
+import { expect } from 'chai';
+import { describeModule, it } from 'ember-mocha';
 
-test('it exists', function(assert) {
-  let route = this.subject();
-  assert.ok(route);
+describeModule('route:courses', 'Unit | Route | courses', function() {
+  it("exists", function() {
+    let route = this.subject();
+    expect(route).to.be.ok;
+  });
 });
