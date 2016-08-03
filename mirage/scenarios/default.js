@@ -9,5 +9,6 @@ export default function (server) {
 
   server.createList('assessment', 2);
   server.createList('course', 3);
+  server.createList('challenges', 10);
 
 }

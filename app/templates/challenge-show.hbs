@@ -1,0 +1,29 @@
+<div id="assessment">
+    <div class="container">
+        <div class="title intitule-de-test">
+            {{ course.name }}
+        </div>
+
+        <div class="rounded-panel zone-de-consigne">
+            <label>Consigne :</label>
+            <p class="challenge-title">
+            {{ challenge.instruction }}
+            </p>
+        </div>
+
+        <div class="rounded-panel">
+
+            <div class="zone-de-reponse">
+                <label>Réponse :</label>
+            </div>
+
+            <hr>
+
+            <div class="challenge-actions">
+              {{#link-to "home" class="action-skip button-secondary"}}Passer{{/link-to}}
+              {{#link-to "home" class="action-validate button-primary pull-right"}}Valider{{/link-to}}
+            </div>
+        </div>
+    </div>
+</div>
+
