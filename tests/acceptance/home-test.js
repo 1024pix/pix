@@ -1,4 +1,4 @@
-/* globals describe, beforeEach, afterEach, visit, andThen */
+/* globals currentURL, describe, beforeEach, afterEach, visit, andThen */
 import '../test-helper';
 import { expect } from 'chai';
 import { it } from 'ember-mocha';
