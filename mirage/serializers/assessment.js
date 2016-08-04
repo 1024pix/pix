@@ -2,8 +2,6 @@
 import ApplicationSerializer from './application';
 
 export default ApplicationSerializer.extend({
-  include: ['course', 'challenges'],
-
   serialize() {
 
     // XXX from https://github.com/samselikoff/ember-cli-mirage/issues/584

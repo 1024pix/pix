@@ -53,7 +53,7 @@ describe('Acceptance: 4-DemarrerEpreuve', function() {
   });
 
   it("4.4 affiche l'état d'avancement du test", function() {
-
+    expect(find('.avancement-du-test').text()).to.contains(`Épreuve 1 / ${assessment.challenges.models.length}`);
   });
 
   it("4.5 affiche les deux boutons Passer et Valider", function() {

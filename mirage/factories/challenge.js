@@ -2,6 +2,7 @@ import { Factory, faker } from 'ember-cli-mirage';
 
 export default Factory.extend({
   instruction: faker.lorem.sentences(3),
+  number: 0,
 
   afterCreate(challenge, server) {
     const db = server.db;

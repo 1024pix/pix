@@ -10,5 +10,8 @@ export default function () {
     return schema.assessments.create({ course: schema.courses.find(attrs.course) });
   });
   this.get('/assessments/:id');
+  this.get('/assessments/:id/challenges', function(schema, request) {
+    return schema.challenges.where({ assessmentId: request.params.id });
+  });
   this.get('/challenges/:id');
 }
