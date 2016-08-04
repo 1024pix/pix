@@ -6,7 +6,7 @@ describeModel(
   'Unit | Model | challenge',
   {
     // Specify the other units that are required for this test.
-      needs: []
+      needs: ['model:assessment']
   },
   function() {
     // Replace this with your real tests.

@@ -3,6 +3,12 @@ import { Factory } from 'ember-cli-mirage';
 export default Factory.extend({
   afterCreate(assessment, server) {
     assessment.course = server.create('course');
-    assessment.challenges = server.createList('challenge', 5);
+
+    let challenges = server.createList('challenge', 5, { assessmentId: assessment.id });
+    assessment.challenges = challenges;
+
+    server.db.assessments.update(assessment.id, {
+      courseId: assessment.course.id
+    });
   }
 });

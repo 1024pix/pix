@@ -4,5 +4,5 @@ import { belongsTo } from 'ember-data/relationships';
 
 export default DS.Model.extend({
   instruction: attr('string'),
-  assessment: belongsTo('assessment', { async: true })
+  assessment: belongsTo('assessment')
 });

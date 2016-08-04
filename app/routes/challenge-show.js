@@ -1,5 +1,4 @@
 import Ember from 'ember';
-import RSVP from 'rsvp';
 
 export default Ember.Route.extend({
   model(params) {
@@ -7,8 +6,7 @@ export default Ember.Route.extend({
     const store = this.store;
     const controller = this.controllerFor(this.routeName);
 
-    return store
-      .findRecord('challenge', params.id)
+    return store.findRecord('challenge', params.id)
       .then((challenge) => {
         controller.set('challenge', challenge);
         return challenge.get('assessment');
