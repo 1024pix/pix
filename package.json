@@ -10,7 +10,8 @@
   "scripts": {
     "build": "ember build",
     "start": "ember server",
-    "test": "ember test"
+    "test": "ember test",
+    "ci:test": "ember test | tee out.log ; tap-xunit < out.log > $CIRCLE_TEST_REPORTS/junit/test-results.xml"
   },
   "repository": "",
   "engines": {
@@ -45,6 +46,7 @@
     "ember-welcome-page": "^1.0.1",
     "loader.js": "^4.0.1",
     "mocha": "^3.0.0",
+    "tap-xunit": "^1.4.0",
     "urljs": "^2.3.1"
   },
   "dependencies": {
