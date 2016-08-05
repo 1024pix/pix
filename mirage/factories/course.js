@@ -8,7 +8,7 @@ export default Factory.extend({
     "/images/test1.png",
     "/images/test2.png",
     "/images/test3.png",
-    "/images/test4.png",
+    "/images/test4.png"
     //"/images/test5.png",
     //"/images/test6.png",
     //"/images/test7.png"
