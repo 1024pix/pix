@@ -7,9 +7,7 @@ const Router = Ember.Router.extend({
 
 Router.map(function() {
   this.route('index', { path: '/' });
-  this.route('courses', { path: '/parcours' });
   this.route('assessment-create', { path: '/course/:id_course/create_assessment' });
-  this.route('assessment-show', { path: '/assessment/:id_assessment' });
 
   this.route('challenge-show', { path: '/challenges/:id' });
 

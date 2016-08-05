@@ -1,5 +1,7 @@
 import Ember from 'ember';
 
+// FIXME: this is untested. :(
+
 export default Ember.Route.extend({
   model(params) {
     const store = this.get('store');
@@ -11,10 +13,14 @@ export default Ember.Route.extend({
       .then((course) => {
         assessment.set('course', course);
         return assessment.save();
+      })
+      .then((assessment) => {
+        return assessment.get('challenges');
       });
   },
 
   afterModel(model) {
-    this.transitionTo('assessment-show', model.id);
+    let first_challenge = model.sortBy('number').get('firstObject').id;
+    this.transitionTo('challenge-show', first_challenge);
   }
 });
