@@ -7,7 +7,6 @@ export default function (server) {
    Make sure to define a factory for each model you want to create.
    */
 
-  server.createList('assessment', 2);
-  server.createList('course', 3);
-
+  // assessments will create associated courses and challenges
+  server.createList('assessment', 10);
 }

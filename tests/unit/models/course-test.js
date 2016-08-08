@@ -1,23 +1,23 @@
-import { moduleForModel, test } from 'ember-qunit';
+import '../../test-helper';
+import { expect } from 'chai';
+import { describeModel, it } from 'ember-mocha';
 
-moduleForModel('course', 'Unit | Model | course', {
-  needs: []
-});
+describeModel('course',  'Unit | Model | course', function() {
 
-test('it exists', function (assert) {
-  let model = this.subject();
-  // let store = this.store();
-  assert.ok(!!model);
-});
+    it('exists', function() {
+      let model = this.subject();
+      expect(model).to.be.ok;
+    });
 
-test('should have a name', function (assert) {
-  let model = this.subject({ name: 'My super test' });
+    it('should have a name', function() {
+      let model = this.subject({ name: 'My super test' });
+      expect(model.get('name')).to.equal('My super test');
+    });
 
-  assert.equal(model.get('name'), 'My super test', '');
-});
+    it('may have a description', function() {
+      let model = this.subject({ description: '<p>Coucou les tests</p>' });
+      expect(model.get('description')).to.equal('<p>Coucou les tests</p>');
+    });
+  }
+);
 
-test('may have a description', function (assert) {
-  let model = this.subject({ description: '<p>Coucou les tests</p>' });
-
-  assert.equal(model.get('description'), '<p>Coucou les tests</p>', '');
-});

@@ -7,3 +7,7 @@ dependencies:
     - npm install -g bower
     - npm install
     - bower install
+test:
+  override:
+    - mkdir -p $CIRCLE_TEST_REPORTS/junit
+    - npm run ci:test
