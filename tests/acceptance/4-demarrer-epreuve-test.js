@@ -36,7 +36,7 @@ describe('Acceptance: 4-DemarrerEpreuve', function() {
     5. Deux boutons s'affichent : "Passer" ; "Valider" (UX: attention à l'affordance, passer ne valide pas les réponses)
   */
 
-  it('4.0 should be on the right URL', function () {
+  it('4.0 doit être sur l\'URL /challenges/:id', function () {
     expect(currentURL()).to.equal(`/challenges/${challenge.id}`);
   });
 
