@@ -1,9 +1,9 @@
-#home .tests {
+#home .courses {
   list-style-type: none;
   padding: 0;
 }
 
-#home .test-wrapper {
+#home .course-wrapper {
   margin-left: 15px;
   width: 285px;
   float: left;
@@ -11,10 +11,7 @@
   position: relative;
 }
 
-#home .test {
-}
-
-#home .test-picture {
+#home .course-picture {
   width: 244px;
   height: 170px;
   text-align: center;
@@ -22,30 +19,30 @@
   display: block;
 }
 
-#home .test-name {
+#home .course-wrapper h3 {
   color: #2F70FB;
 }
 
-#home .test-description {
+#home .course-description {
   height: 140px;
   overflow: hidden;
 }
 
-#home .test-actions {
+#home .course-actions {
   text-align: center;
 }
 
-#home .test-actions > a {
+#home .course-actions > a {
   background-color: #2F70FB;
   border: none;
 }
 
-#home .test-actions > a:hover,
-#home .test-actions > a:active {
+#home .course-actions > a:hover,
+#home .course-actions > a:active {
   background-color: #FDBD2C;
 }
 
-#home .test-wrapper.disabled::after {
+#home .course-wrapper.disabled::after {
   content: ' ';
   position: absolute;
   top:0;
@@ -56,11 +53,11 @@
   opacity: 0.5;
 }
 
-#home .test-wrapper.disabled .test-name {
+#home .course-wrapper.disabled h3 {
   color: inherit;
 }
 
-#home .test-wrapper.disabled .test-actions > a {
+#home .course-wrapper.disabled .course-actions > a {
   background-color: transparent;
   border: 1px solid #CCC;
   color: inherit;
