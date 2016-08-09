@@ -40,19 +40,19 @@ describe('Acceptance: 4-DemarrerEpreuve', function() {
   });
 
   it('4.1 affiche la zone de consigne', function() {
-    expect(find('.zone-de-consigne').text()).to.contains(challenge.attrs.instruction);
+    expect(find('.challenge-instruction').text()).to.contains(challenge.attrs.instruction);
   });
 
   it('4.2 affiche la zone de réponse', function() {
-    expect(find('.zone-de-reponse').text()).to.contains('Réponse');
+    expect(find('.challenge-answer').text()).to.contains('Réponse');
   });
 
   it('4.3 rappelle l\'intitulé du test', function() {
-    expect(find('.intitule-de-test').text()).to.contains(assessment.course.attrs.name);
+    expect(find('.course-name').text()).to.contains(assessment.course.attrs.name);
   });
 
   it("4.4 affiche l'état d'avancement du test", function() {
-    expect(find('.avancement-du-test').text()).to.contains(`Épreuve 1 / ${assessment.challenges.models.length}`);
+    expect(find('.course-progression').text()).to.contains(`Épreuve 1 / ${assessment.challenges.models.length}`);
   });
 
   it("4.5 affiche les deux boutons Passer et Valider", function() {

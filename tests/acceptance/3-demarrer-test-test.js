@@ -37,6 +37,6 @@ describe('Acceptance: 3-DemarrerTest', function () {
 
   it('2.2 je suis redirigé vers la première épreuve du test', function () {
     expect(currentURL()).to.contains('challenge');
-    expect(findWithAssert('.test-progression').text()).to.contains('1 /');
+    expect(findWithAssert('.course-progression').text()).to.contains('1 /');
   });
 });
