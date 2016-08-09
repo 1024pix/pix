@@ -1,16 +1,13 @@
 import _ from 'lodash';
 
-function pickChallengesAtRandom(schema, howMany = 5) {
-
-  return _.range(1, howMany).map((number) => {
-
+function pickChallengesAtRandom(schema, nbOfChallenges) {
+  return _.range(1, nbOfChallenges).map((number) => {
     const challenges = schema.challenges.where({ number }).models;
-    const randomIdx = _.random(0, (challenges.length - 1));
-
-    return challenges[randomIdx];
+    const randomIndex = _.random(0, (challenges.length - 1));
+    const challenge = challenges[randomIndex];
+    return challenge.id;
   });
 }
-
 
 export default function () {
 
@@ -19,14 +16,14 @@ export default function () {
 
   this.get('/courses');
   this.get('/courses/:id');
-  this.post('/assessments', function(schema) {
-    const attrs = this.normalizedRequestAttrs();
+  this.post('/assessments', function (schema) {
+    const payload = this.normalizedRequestAttrs();
 
     const challengeIds = pickChallengesAtRandom(schema, 5);
-    return schema.assessments.create({ course: schema.courses.find(attrs.course), challengeIds });
+    return schema.assessments.create({ course: schema.courses.find(payload.course), challengeIds });
   });
   this.get('/assessments/:id');
-  this.get('/assessments/:id/challenges', function(schema, request) {
+  this.get('/assessments/:id/challenges', function (schema, request) {
     return schema.challenges.where({ assessmentId: request.params.id });
   });
   this.get('/challenges/:id');

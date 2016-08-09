@@ -17,8 +17,8 @@ export default Ember.Route.extend({
       });
   },
 
-  afterModel(model) {
-    let first_challenge = model.sortBy('number').get('firstObject').id;
-    this.transitionTo('challenge-show', first_challenge);
+  afterModel(challenges) {
+    let firstChallengeId = challenges.sortBy('number').get('firstObject').id;
+    this.transitionTo('challenge-show', firstChallengeId);
   }
 });
