@@ -25,12 +25,7 @@ describe('Acceptance: 3-DemarrerTest', function() {
     visit('/home');
   });
 
-  /* US CA:
-   - Je peux lancer le test en cliquant sur le bouton “Démarrer le Test” dans Home
-   - Quand j'ai lancé le test, je suis redirigé vers la première épreuve du test
-   */
-
-  it('2.0 start in /home', function() {
+  it('2.0 démarrer  sur /home', function() {
     expect(currentPath()).to.equal('home');
   });
 

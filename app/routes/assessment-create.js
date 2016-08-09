@@ -1,7 +1,5 @@
 import Ember from 'ember';
 
-// FIXME: this is untested. :(
-
 export default Ember.Route.extend({
   model(params) {
     const store = this.get('store');
