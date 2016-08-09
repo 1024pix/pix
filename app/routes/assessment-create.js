@@ -11,10 +11,14 @@ export default Ember.Route.extend({
       .then((course) => {
         assessment.set('course', course);
         return assessment.save();
+      })
+      .then((assessment) => {
+        return assessment.get('challenges');
       });
   },
 
-  afterModel(model) {
-    this.transitionTo('assessment-show', model.id);
+  afterModel(challenges) {
+    let firstChallengeId = challenges.sortBy('number').get('firstObject').id;
+    this.transitionTo('challenge-show', firstChallengeId);
   }
 });

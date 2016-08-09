@@ -1,8 +1,9 @@
 import { Factory, faker } from 'ember-cli-mirage';
+import _ from 'lodash';
 
 export default Factory.extend({
   instruction: faker.lorem.sentences(3),
-  number: 0,
+  number: faker.list.cycle.apply(this, _.range(1, 10)),
 
   afterCreate(challenge, server) {
     const db = server.db;

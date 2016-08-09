@@ -6,7 +6,7 @@ export default Ember.Route.extend({
     const store = this.store;
     const controller = this.controllerFor(this.routeName);
 
-    return store.findRecord('challenge', params.id)
+    return store.findRecord('challenge', params.id_challenge)
       .then((challenge) => {
         controller.set('challenge', challenge);
         return challenge.get('assessment');
