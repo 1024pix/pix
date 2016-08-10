@@ -23,4 +23,7 @@ export default function () {
     return schema.challenges.where({ assessmentId: request.params.id });
   });
   this.get('/challenges/:id');
+
+  this.passthrough('https://api.airtable.com/**');
+
 }

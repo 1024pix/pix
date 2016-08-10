@@ -1,0 +1,17 @@
+<div id="persons">
+    <div class="container">
+        <div class="row">
+            <h1>It works!</h1>
+        </div>
+
+        <ul class="row people">
+          {{#each model as |person|}}
+              <li class="rounded-panel person">
+                  <img src="{{ person.profileUrl }}"/>
+                  <span class="person-first-name">{{ person.firstName }}</span>
+                  <span class="person-last-name">{{ person.lastName }}</span>
+              </li>
+          {{/each}}
+        </ul>
+    </div>
+</div>
