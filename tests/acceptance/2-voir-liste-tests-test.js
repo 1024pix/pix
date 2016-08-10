@@ -8,7 +8,7 @@ import { expect } from 'chai';
 import startApp from '../helpers/start-app';
 import destroyApp from '../helpers/destroy-app';
 
-describe('Acceptance | 2 - voir la liste des tests', function() {
+describe.skip('Acceptance | 2 - voir la liste des tests', function() {
   let application;
   let courses;
 

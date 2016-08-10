@@ -8,7 +8,7 @@ import { expect } from 'chai';
 import startApp from '../helpers/start-app';
 import destroyApp from '../helpers/destroy-app';
 
-describe('Acceptance: 4-DemarrerEpreuve', function() {
+describe.skip('Acceptance: 4-DemarrerEpreuve', function() {
   let application;
   let assessment;
   let challenge;

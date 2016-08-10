@@ -2,7 +2,7 @@ import AirtableAdapter from "ember-airtable/adapter";
 
 export default AirtableAdapter.extend({
 
-  pathForType: () => 'Peuple',
+  pathForType: () => 'Tests',
 
   namespace: 'v0/appHAIFk9u1qqglhX',
 

@@ -7,7 +7,7 @@ describeModel(
   'person',
   'Unit | Serializer | person',
   {
-    needs: ['serializer:person']
+    needs: ['adapter:person', 'serializer:person']
   },
   function () {
 
@@ -15,32 +15,30 @@ describeModel(
     const givenPayload = {
       "Prénom": "First name",
       "Nom": "Last name",
-      "Image": [
-        {
-          "id": "attRPVHA8WQXFrny3",
-          "url": "https://dl.airtable.com/f6wEsRMBQZaqv6DDjdGd_Malicia_kawaii.jpg",
-          "filename": "Malicia_kawaii.jpg",
-          "size": 219236,
-          "type": "image/jpeg",
-          "thumbnails": {
-            "small": {
-              "url": "https://dl.airtable.com/FYImjt8RkOFdBpnxR0FQ_small_Malicia_kawaii.jpg",
-              "width": 36,
-              "height": 36
-            },
-            "large": {
-              "url": "https://dl.airtable.com/f0207UWbToKnGKSAgb3r_large_Malicia_kawaii.jpg",
-              "width": 500,
-              "height": 500
-            }
+      "Image": [{
+        "id": "attRPVHA8WQXFrny3",
+        "url": "https://dl.airtable.com/f6wEsRMBQZaqv6DDjdGd_Malicia_kawaii.jpg",
+        "filename": "Malicia_kawaii.jpg",
+        "size": 219236,
+        "type": "image/jpeg",
+        "thumbnails": {
+          "small": {
+            "url": "https://dl.airtable.com/FYImjt8RkOFdBpnxR0FQ_small_Malicia_kawaii.jpg",
+            "width": 36,
+            "height": 36
+          },
+          "large": {
+            "url": "https://dl.airtable.com/f0207UWbToKnGKSAgb3r_large_Malicia_kawaii.jpg",
+            "width": 500,
+            "height": 500
           }
         }
-      ]
+      }]
     };
 
     before(() => {
       server = new Pretender(function () {
-        this.get('/people', function () {
+        this.get('https://api.airtable.com/v0/appHAIFk9u1qqglhX/Peuple', function () {
           const response = {
             "records": [
               {
@@ -61,7 +59,8 @@ describeModel(
     describe('serializer:person', () => {
 
       it('convertie la colonne "Prénom" en attribut "firstName"', function () {
-        return this.store().findAll('person').then((people) => {
+        const store = this.store();
+        return store.findAll('person').then((people) => {
           expect(people.get('firstObject.firstName')).to.eq('First name');
         });
       });
