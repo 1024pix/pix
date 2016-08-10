@@ -1,4 +1,3 @@
-
 import '../../test-helper';
 import { expect } from 'chai';
 import { describeModule, it } from 'ember-mocha';
