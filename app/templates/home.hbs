@@ -8,8 +8,12 @@
         <ul class="row courses">
 
           {{#each model as |course|}}
-              <li class="rounded-panel course">
-                  <img class="course-picture" src="{{ course.imgUrl }}" alt="Illustration du test">
+              <li class="rounded-panel course" data-id="{{ course.id }}">
+                  {{#if course.imageUrl}}
+                    <img class="course-picture" src="{{ course.imageUrl }}" alt="Illustration du test">
+                  {{else}}
+                      <img class="course-picture" src="images/course-default-image.png" alt="Illustration du test">
+                  {{/if}}
 
                   <h3 class="course-name">{{ course.name }}</h3>
 
@@ -19,7 +23,7 @@
 
                   <div class="course-actions">
                     {{#link-to "assessment-create" course.id class="btn btn-primary btn-small"}}
-                        Démarrer le Test
+                        Démarrer le test
                     {{/link-to}}
                   </div>
               </li>

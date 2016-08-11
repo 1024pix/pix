@@ -5,21 +5,30 @@ import { it } from 'ember-mocha';
 import startApp from '../helpers/start-app';
 import destroyApp from '../helpers/destroy-app';
 
-describe('Acceptance | /home', function() {
-  beforeEach(function() {
+describe('Acceptance | /home', function () {
+  beforeEach(function () {
     this.application = startApp();
   });
 
-  afterEach(function() {
+  afterEach(function () {
     return destroyApp(this.application);
   });
 
-  it('should display the title', function() {
+  it('should display the title', function () {
     visit('/home');
 
-    andThen(function() {
+    andThen(function () {
       expect(currentURL()).to.be.eq('/home');
       expect(find('.title').text().trim()).to.be.equal('Liste des tests');
     });
   });
+
+/*
+  describe('quand le test remonté ne contient pas d\'image', function() {
+
+    it ('une image placeholder est affichée', function () {
+      expect(find('.title').text().trim()).to.be.equal('Liste des tests');
+    });
+  });
+*/
 });

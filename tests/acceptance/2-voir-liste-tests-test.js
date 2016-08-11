@@ -3,21 +3,19 @@ import {
   it,
   before,
   after
-} from 'mocha';
+  } from 'mocha';
 import { expect } from 'chai';
 import startApp from '../helpers/start-app';
 import destroyApp from '../helpers/destroy-app';
 
-describe.skip('Acceptance | 2 - voir la liste des tests', function() {
+describe('Acceptance | 2 - voir la liste des tests', function () {
   let application;
-  let courses;
 
-  before(function() {
+  before(function () {
     application = startApp();
-    courses = server.createList('course', 5);
   });
 
-  after(function() {
+  after(function () {
     destroyApp(application);
   });
 
@@ -25,28 +23,47 @@ describe.skip('Acceptance | 2 - voir la liste des tests', function() {
     return visit('/home');
   });
 
-  it('2.0 peut visiter /home', function() {
+  it('2.0 peut visiter /home', function () {
     expect(currentPath()).to.equal('home');
   });
 
   it('2.1 la liste des tests apparaît', function () {
     expect(findWithAssert('.title').text()).to.contains('Liste des tests');
-    expect(findWithAssert('.course')).to.have.length.above(1);
   });
 
-  it('2.2 chaque test possède un intitulé', function () {
-    expect(findWithAssert('.course:nth(0) .course-name').text()).to.contains(courses[0].attrs.name);
+  it('2.2 on affiche autant de tests que remontés par AirTable', function () {
+    expect(findWithAssert('.course')).to.have.lengthOf(6);
   });
 
-  it('2.3 chaque test possède une description courte', function () {
-    expect(findWithAssert('.course:nth(0) .course-description').text()).to.contains(courses[0].attrs.description);
+  describe('2.3 pour un test donné avec toutes les informations', function () {
+
+    let $course;
+
+    before(function () {
+      $course = find('.course[data-id="rec5duNNrPqbSzQ8o"]');
+    });
+
+    it('2.3.1 on affiche son nom', function () {
+      expect($course.find('.course-name').text()).to.equal('Test #1');
+    });
+
+    it('2.3.2 on affiche sa description', function () {
+      expect($course.find('.course-description').text()).to.contains('Libero eum excepturi');
+    });
+
+    it('2.3.3 on affiche son image', function () {
+      expect($course.find('img')[0].src).to.equal('https://dl.airtable.com/oLRaj7sTbCGzsLNwiur1_test1.png');
+    });
+
+    it('2.3.4 on affiche un bouton "démarrer le test"', function () {
+      expect($course.find('a.btn').text().trim()).to.equal('Démarrer le test');
+    });
+
   });
 
-  it('2.4 chaque test possède une image', function () {
-    expect(findWithAssert('.course:nth(0) img')).to.be.ok;
+  it('2.4 pour un test dont il manque l\'image, on affiche une image placeholder', function() {
+    const $course = find('.course[data-id="recOouHLk00aMWJH2"]');
+    expect($course.find('img')[0].src).to.contains('images/course-default-image.png');
   });
 
-  it('2.5 chaque test possède un bouton démarrer le test', function () {
-    expect(findWithAssert('.course:nth(0) a.btn').text()).to.contains('Démarrer le Test');
-  });
 });

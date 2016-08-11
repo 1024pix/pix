@@ -13,17 +13,16 @@ describeModel(
 
     let server;
     const airTableSheetName = 'Tests';
-    const airTableResponse = {
+    let airTableResponse = {
       "records": [{
         "id": "rec5duNNrPqbSzQ8o",
         "fields": {
-          "name": "Test #1",
-          "id": 1,
-          "description": "Libero eum excepturi occaecati sed quod veniam odit id. Et voluptas accusamus sit neque. Et ut voluptatem ut omnis. Eveniet et voluptate magni corporis dolores sapiente voluptatem.",
-          "image": [
+          "Nom": "Nom du test",
+          "Description": "Description du test",
+          "Image": [
             {
               "id": "attuCagYzFRtMjciZ",
-              "url": "https://dl.airtable.com/oLRaj7sTbCGzsLNwiur1_test1.png",
+              "url": "https://test.image.png",
               "filename": "test1.png",
               "size": 81948,
               "type": "image/png",
@@ -40,7 +39,8 @@ describeModel(
                 }
               }
             }
-          ]
+          ],
+          "Durée": 20
         },
         "createdTime": "2016-08-09T15:17:53.000Z"
       }]
@@ -60,9 +60,44 @@ describeModel(
 
     describe('serializer:course', () => {
 
-      it('can query courses from the airtable adapter', function () {
-        return this.store().findAll('course').then((courses) => {
-          expect(courses).to.be.ok;
+      it('convertie la colonne "Nom" en attribut "name" pour le modèle Course', function () {
+        return this.store().findAll('course').then((people) => {
+          expect(people.get('firstObject.name')).to.eq('Nom du test');
+        });
+      });
+
+      it('convertie la colonne "Description" en attribut "description" pour le modèle Course', function () {
+        return this.store().findAll('course').then((people) => {
+          expect(people.get('firstObject.description')).to.eq('Description du test');
+        });
+      });
+
+      it('convertie la colonne "Image" en attribut "imageUrl" pour le modèle Course', function () {
+        return this.store().findAll('course').then((people) => {
+          expect(people.get('firstObject.imageUrl')).to.eq('https://test.image.png');
+        });
+      });
+
+      it('convertie la colonne "Durée" en attribut "duration" pour le modèle Course', function () {
+        return this.store().findAll('course').then((people) => {
+          expect(people.get('firstObject.duration')).to.eq(20);
+        });
+      });
+
+      it('gère le cas où aucune image n\'a été spécifiée par le contributeur', function () {
+        airTableResponse = {
+          "records": [{
+            "id": "rec5duNNrPqbSzQ8o",
+            "fields": {
+              "Nom": "Nom du test",
+              "Description": "Description du test",
+              "Duration": 20
+            }
+          }],
+          "createdTime": "2016-08-09T15:17:53.000Z"
+        };
+        return this.store().findAll('course').then((people) => {
+          expect(people.get('firstObject.imageUrl')).to.be.undefined;
         });
       });
 
