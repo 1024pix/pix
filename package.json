@@ -11,7 +11,12 @@
     "build": "ember build",
     "start": "ember server",
     "test": "ember test",
-    "ci:test": "ember test | tee out.log ; tap-xunit < out.log > $CIRCLE_TEST_REPORTS/junit/test-results.xml"
+    "ci:test": "ember test | tee out.log ; tap-xunit < out.log > $CIRCLE_TEST_REPORTS/junit/test-results.xml",
+    "deploy:prod": "./scripts/deploy.sh production prod",
+    "deploy:dev": "./scripts/deploy.sh development dev",
+    "deploy:staging": "./scripts/deploy.sh staging staging",
+    "deploy:branch": "./scripts/deploy.sh production",
+    "deploy:branch-dev": "./scripts/deploy.sh development"
   },
   "repository": "",
   "engines": {
