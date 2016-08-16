@@ -23,12 +23,4 @@ describe('Acceptance | /home', function () {
     });
   });
 
-/*
-  describe('quand le test remonté ne contient pas d\'image', function() {
-
-    it ('une image placeholder est affichée', function () {
-      expect(find('.title').text().trim()).to.be.equal('Liste des tests');
-    });
-  });
-*/
 });

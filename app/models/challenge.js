@@ -1,9 +1,22 @@
 import DS from 'ember-data';
 import attr from 'ember-data/attr';
-import { belongsTo } from 'ember-data/relationships';
+import Ember from 'ember';
+import _ from 'lodash';
 
 export default DS.Model.extend({
+
   instruction: attr('string'),
-  assessment: belongsTo('assessment'),
-  number: attr('number') // e.g. challenge 1 of 5
+  proposals: attr('string'),
+
+  proposalsAsArray: Ember.computed('proposals', function () {
+    const proposals = '\n' + this.get('proposals');
+
+    if (_.isEmpty(proposals)) {
+      return [];
+    }
+
+    let elements = proposals.split(/\n\s*-\s*/);
+    elements.shift();
+    return elements;
+  })
 });

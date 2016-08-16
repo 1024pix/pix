@@ -1,0 +1,23 @@
+<div id="challenge-preview" data-id="{{ model.id }}">
+    <div class="container">
+
+        <div class="title">
+            Prévisualisation de l'épreuve #{{ model.id }}
+        </div>
+
+        <p>Consigne :</p>
+        <div class="rounded-panel challenge-instruction">
+            <p>{{ model.instruction }}</p>
+        </div>
+
+        <p>Réponse :</p>
+        <div class="rounded-panel challenge-proposals">
+          {{#each model.proposalsAsArray as |proposal|}}
+              <p>
+                  <label>{{input type="radio" name="proposals"}} {{ proposal }}</label>
+              </p>
+          {{/each}}
+        </div>
+
+    </div>
+</div>

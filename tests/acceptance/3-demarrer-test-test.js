@@ -3,7 +3,7 @@ import {
   it,
   before,
   after
-  } from 'mocha';
+} from 'mocha';
 import { expect } from 'chai';
 import startApp from '../helpers/start-app';
 import destroyApp from '../helpers/destroy-app';
@@ -22,7 +22,7 @@ describe.skip('Acceptance | 3 - démarrer un test', function () {
   });
 
   before(function () {
-    visit('/home');
+    return visit('/home');
   });
 
   it('3.0 démarrer  sur /home', function () {
