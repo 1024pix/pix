@@ -49,7 +49,7 @@ describeModel(
     before(() => {
       server = new Pretender(function () {
         this.get(`https://api.airtable.com/v0/appHAIFk9u1qqglhX/${airTableSheetName}`, function () {
-          return [200, {"Content-Type": "application/json"}, JSON.stringify(airTableResponse)];
+          return [200, { "Content-Type": "application/json" }, JSON.stringify(airTableResponse)];
         });
       });
     });

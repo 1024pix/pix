@@ -22,13 +22,4 @@ describe('Acceptance | /home', function () {
       expect(find('.title').text().trim()).to.be.equal('Liste des tests');
     });
   });
-
-/*
-  describe('quand le test remonté ne contient pas d\'image', function() {
-
-    it ('une image placeholder est affichée', function () {
-      expect(find('.title').text().trim()).to.be.equal('Liste des tests');
-    });
-  });
-*/
 });
