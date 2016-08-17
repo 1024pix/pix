@@ -45,28 +45,3 @@ body {
   font-weight: 600;
   margin-bottom: 20px;
 }
-
-.courses > ul {
-  padding: 0;
-  margin: 0;
-  list-style-type: none;
-}
-
-.course {
-  margin: 0;
-  display: inline-block;
-  background-color: #fff;
-  border-radius: 0.3125em;
-  border-left: 1px solid #dedfe2;
-  border-right: 1px solid #dedfe2;
-  border-bottom: 1px solid #D0D1D5;
-  box-shadow: 0 1px 0 0 #dedfe2;
-  -webkit-user-select: none;
-  -moz-user-select: none;
-  -ms-user-select: none;
-  user-select: none;
-  cursor: default;
-  margin-bottom: 20px;
-  padding: 15px 15px 15px 15px;
-}
-

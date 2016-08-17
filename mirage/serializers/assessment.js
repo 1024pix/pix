@@ -10,8 +10,8 @@ export default ApplicationSerializer.extend({
     let json = ApplicationSerializer.prototype.serialize.apply(this, arguments);
 
     json.assessment.links = {
-      course: `/api/live/courses/${json.assessment.courseId}`,
-      challenges: `/api/live/assessments/${json.assessment.id}/challenges`
+      course: `/courses/${json.assessment.courseId}`,
+      challenges: `/assessments/${json.assessment.id}/challenges`
     };
 
     return json;

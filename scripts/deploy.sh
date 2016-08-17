@@ -16,7 +16,11 @@ BUILD_OUTPUT=$2
 tput init
 echo -n '** '
 tput setaf 3
-echo -n "Deploying to dir "
+echo -n "Deploying "
+tput setaf 6 ; tput bold
+git rev-parse --abbrev-ref HEAD | tr -d "\n"
+tput sgr0 ; tput setaf 3
+echo -n " to dir "
 tput setaf 6 ; tput bold
 echo -n $BUILD_OUTPUT
 tput sgr0 ; tput setaf 3
@@ -24,11 +28,6 @@ echo -n " with env "
 tput setaf 6 ; tput bold
 echo -n $BUILD_ENV
 tput sgr0
-echo -n " (branch is "
-tput setaf 3
-git rev-parse --abbrev-ref HEAD
-tput sgr0
-echo -n ")"
 echo
 
 # use a temporary directory for the build
