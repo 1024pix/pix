@@ -19,7 +19,7 @@ describe('Acceptance | /home', function () {
 
     andThen(function () {
       expect(currentURL()).to.be.eq('/home');
-      expect(find('.title').text().trim()).to.be.equal('Liste des tests');
+      expect(find('.title').text()).to.contains('Liste des tests');
     });
   });
 });

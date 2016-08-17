@@ -44,7 +44,7 @@ describe('Acceptance | 2 - voir la liste des tests', function () {
     });
 
     it('2.3.1 on affiche son nom', function () {
-      expect($course.find('.course-name').text()).to.equal('Test #1');
+      expect($course.find('.course-name').text()).to.contains('Test #1');
     });
 
     it('2.3.2 on affiche sa description', function () {
@@ -56,7 +56,7 @@ describe('Acceptance | 2 - voir la liste des tests', function () {
     });
 
     it('2.3.4 on affiche un bouton "démarrer le test"', function () {
-      expect($course.find('a.btn').text().trim()).to.equal('Démarrer le test');
+      expect($course.find('a.btn').text()).to.contains('Démarrer le test');
     });
 
   });
