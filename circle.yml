@@ -24,7 +24,7 @@ deployment:
     commands:
       - git config --global user.email 'mackwic@gmail.com'
       - git config --global user.name 'Thomas Wickham'
-      - npm run deploy:branch-dev
+      - npm run deploy:branch
 
 general:
   branches:

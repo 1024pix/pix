@@ -24,6 +24,11 @@ echo -n " with env "
 tput setaf 6 ; tput bold
 echo -n $BUILD_ENV
 tput sgr0
+echo -n " (branch is "
+tput setaf 3
+git rev-parse --abbrev-ref HEAD
+tput sgr0
+echo -n ")"
 echo
 
 # use a temporary directory for the build
