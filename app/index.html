@@ -7,14 +7,6 @@
     <meta name="description" content="">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <script>
-      page.onResourceRequested = function(requestData, networkRequest) {
-        if (requestData.url.match('fonts.googleapis.com')) {
-          networkRequest.abort();
-        }
-      };
-    </script>
-
     {{content-for "head"}}
 
     <link rel="stylesheet" href="assets/vendor.css">
