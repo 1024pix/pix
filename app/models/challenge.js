@@ -1,12 +1,11 @@
 import DS from 'ember-data';
-import attr from 'ember-data/attr';
 import Ember from 'ember';
 import _ from 'lodash';
 
 export default DS.Model.extend({
 
-  instruction: attr('string'),
-  proposals: attr('string'),
+  instruction: DS.attr('string'),
+  proposals: DS.attr('string'),
 
   proposalsAsArray: Ember.computed('proposals', function () {
     const proposals = '\n' + this.get('proposals');
