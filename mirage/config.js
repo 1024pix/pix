@@ -24,7 +24,6 @@ export default function () {
   this.get('/challenges/:id');
 
   this.passthrough('https://api.airtable.com/**');
-
 }
 
 export function testConfig() {
@@ -191,7 +190,21 @@ export function testConfig() {
       ]
     };
   });
-  this.get(encodeURI('https://api.airtable.com/v0/appHAIFk9u1qqglhX/Epreuves/:id'), function () {
+  this.get('https://api.airtable.com/v0/appHAIFk9u1qqglhX/Tests/:id', function () {
+    return {
+      "id": "rec5duNNrPqbSzQ8o",
+      "fields": {
+        "Nom": "course_name",
+        "Description": "course_description",
+        "Image": [{
+          "url": "https://course_image.png"
+        }],
+        "Durée": 20
+      },
+      "createdTime": "2016-08-09T15:17:53.000Z"
+    };
+  });
+  this.get('https://api.airtable.com/v0/appHAIFk9u1qqglhX/Epreuves/:id', function () {
     return {
       "id": "recLt9uwa2dR3IYpi",
       "fields": {

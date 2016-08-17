@@ -13,6 +13,8 @@ Router.map(function () {
   this.route('challenge-show', { path: '/challenges/:id_challenge' });
   this.route('people');
   this.route('challenges.preview', { path: '/challenges/:challenge_id/preview' });
+  this.route('courses.preview', { path: '/courses/:course_id/preview' });
+
 });
 
 export default Router;
