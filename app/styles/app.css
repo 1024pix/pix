@@ -38,7 +38,7 @@ body {
   list-style-type: none;
 }
 
-.title {
+.container .title {
   display: block;
   text-rendering: optimizeLegibility;
   color: #484c58;

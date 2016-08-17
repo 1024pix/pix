@@ -8,7 +8,7 @@ import { expect } from 'chai';
 import startApp from '../helpers/start-app';
 import destroyApp from '../helpers/destroy-app';
 
-describe('Acceptance | 32 - Créer une épreuve de type QCU', function () {
+describe('Acceptance | 32 - Créer une épreuve de type QCU | ', function () {
 
   let application;
 
@@ -20,7 +20,7 @@ describe('Acceptance | 32 - Créer une épreuve de type QCU', function () {
     destroyApp(application);
   });
 
-  describe('Prévisualiser une épreuve', function () {
+  describe('Prévisualiser une épreuve |', function () {
 
     const challengeId = "recLt9uwa2dR3IYpi";
 
@@ -32,7 +32,7 @@ describe('Acceptance | 32 - Créer une épreuve de type QCU', function () {
       expect(currentURL()).to.equal(`/challenges/${challengeId}/preview`);
     });
 
-    describe('les informations visibles sont :', function () {
+    describe('On affiche', function () {
 
       let $challenge;
 
@@ -41,7 +41,7 @@ describe('Acceptance | 32 - Créer une épreuve de type QCU', function () {
       });
 
       it('l\'identifiant de l\'épreuve', function () {
-        expect($challenge.find('.title').text()).to.contains('Prévisualisation de l\'épreuve #' + challengeId);
+        expect($challenge.find('.title').text()).to.contains(`Prévisualisation de l'épreuve #${challengeId}`);
       });
 
       it('la consigne de l\'épreuve', function () {

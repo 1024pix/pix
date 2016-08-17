@@ -1,0 +1,17 @@
+<div id="course-preview" data-id="{{ course.id }}">
+    <div class="container">
+
+        <div class="title">
+            Prévisualisation du test #{{ course.id }}
+        </div>
+
+        <div class="rounded-panel course-information">
+            <h3 class="course-name">{{ course.name }}</h3>
+            <p class="course-description">{{ course.description }}</p>
+        </div>
+
+
+      {{#link-to "courses.challenge-preview" course.id nextChallenge.id class="btn btn-primary simulate-button"}}Simuler le test{{/link-to}}
+
+    </div>
+</div>

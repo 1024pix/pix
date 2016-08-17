@@ -199,7 +199,11 @@ export function testConfig() {
         "Image": [{
           "url": "https://course_image.png"
         }],
-        "Durée": 20
+        "Durée": 20,
+        "Épreuves": [
+          "recLt9uwa2dR3IYpi",
+          "recub31NerwonPVwX"
+        ]
       },
       "createdTime": "2016-08-09T15:17:53.000Z"
     };

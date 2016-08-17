@@ -6,6 +6,7 @@ const Router = Ember.Router.extend({
 });
 
 Router.map(function () {
+
   this.route('index', { path: '/' });
   this.route('home');
   this.route('preferences');
@@ -13,7 +14,8 @@ Router.map(function () {
   this.route('challenge-show', { path: '/challenges/:id_challenge' });
   this.route('people');
   this.route('challenges.preview', { path: '/challenges/:challenge_id/preview' });
-  this.route('courses.preview', { path: '/courses/:course_id/preview' });
+  this.route('courses.course-preview', { path: '/courses/:course_id/preview' });
+  this.route('courses.challenge-preview', { path: '/courses/:course_id/preview/challenges/:challenge_id' });
 
 });
 

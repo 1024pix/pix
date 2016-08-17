@@ -3,7 +3,7 @@ import Ember from 'ember';
 export default Ember.Route.extend({
   model(params) {
 
-    const store = this.store;
+    const store = this.get('store');
     const controller = this.controllerFor(this.routeName);
 
     return store.findRecord('challenge', params.id_challenge)
