@@ -56,7 +56,6 @@
     "urljs": "^2.3.1"
   },
   "dependencies": {
-    "ember": "latest",
-    "lodash": "^4.15.0"
+    "ember": "latest"
   }
 }
