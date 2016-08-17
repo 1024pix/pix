@@ -36,7 +36,9 @@ tmpdir=`mktemp -d`
 (ember build --environment $BUILD_ENV --output-path $tmpdir \
     && git checkout gh-pages                                \
     && git pull origin gh-pages                             \
-    && mv $tmpdir ./$BUILD_OUTPUT                           \
+    && git rm -r ./$BUILD_OUTPUT                            \
+    && mkdir -p ./$BUILD_OUTPUT                             \
+    && mv $tmpdir/* ./$BUILD_OUTPUT/                        \
     && git add -A ./$BUILD_OUTPUT/                          \
     && git commit -m 'release a new version'                \
     && git push origin gh-pages                             \
