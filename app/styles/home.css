@@ -4,11 +4,18 @@
 }
 
 #home .course {
-  margin-left: 15px;
+  margin: 0 0 15px 15px;
+  padding: 15px;
   width: 285px;
   float: left;
   display: inline-block;
   position: relative;
+  background-color: white;
+  border-radius: 0.3125em;
+  border-left: 1px solid #dedfe2;
+  border-right: 1px solid #dedfe2;
+  border-bottom: 1px solid #D0D1D5;
+  box-shadow: 0 1px 0 0 #dedfe2;
 }
 
 #home .course-picture {

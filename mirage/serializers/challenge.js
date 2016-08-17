@@ -10,7 +10,7 @@ export default ApplicationSerializer.extend({
     if (!!json.challenge) {
       // single model
       json.challenge.links = {
-        assessment: `/api/live/assessments/${json.challenge.assessmentId}`
+        assessment: `/assessments/${json.challenge.assessmentId}`
       };
 
       return json;
@@ -20,7 +20,7 @@ export default ApplicationSerializer.extend({
 
       json.challenges.forEach((c) => {
         c.links = {
-          assessment: `/api/live/assessments/${c.assessmentId}`
+          assessment: `/assessments/${c.assessmentId}`
         };
       });
 

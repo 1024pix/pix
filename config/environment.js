@@ -21,7 +21,7 @@ module.exports = function(environment) {
       // Here you can pass flags/options to your application instance
       // when it is created
       // PIX-API
-      PIX_API_NAMESPACE: 'api/live'
+      // PIX_API_NAMESPACE: 'api/live'
     }
   };
 
