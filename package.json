@@ -26,7 +26,6 @@
   "license": "MIT",
   "devDependencies": {
     "broccoli-asset-rev": "^2.4.2",
-    "chai": "^3.5.0",
     "ember-airtable": "^0.0.2",
     "ember-ajax": "^2.0.1",
     "ember-bootstrap": "^0.8.0",
@@ -44,6 +43,7 @@
     "ember-cli-mocha-reporter": "git+https://github.com/lolmaus/ember-cli-mocha-reporter.git#b98c2694724a6b80b9fb2244a05a46ff8ffd71bd",
     "ember-cli-release": "^0.2.9",
     "ember-cli-sri": "^2.1.0",
+    "ember-cli-test-loader": "1.1.0",
     "ember-cli-uglify": "^1.2.0",
     "ember-data": "^2.6.0",
     "ember-export-application-global": "^1.0.5",
@@ -54,8 +54,5 @@
     "mocha": "^3.0.0",
     "tap-xunit": "^1.4.0",
     "urljs": "^2.3.1"
-  },
-  "dependencies": {
-    "ember": "latest"
   }
 }
