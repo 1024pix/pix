@@ -11,7 +11,6 @@ Router.map(function () {
   this.route('preferences');
   this.route('assessment-create', { path: '/course/:id_course/create_assessment' });
   this.route('challenge-show', { path: '/challenges/:id_challenge' });
-  this.route('people');
   this.route('challenges.preview', { path: '/challenges/:challenge_id/preview' });
 });
 
