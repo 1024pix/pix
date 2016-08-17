@@ -11,3 +11,14 @@ test:
   override:
     - mkdir -p $CIRCLE_TEST_REPORTS/junit
     - npm run ci:test
+
+deployment:
+  staging:
+    branch: master
+    commands:
+      - npm run deploy:staging
+  autodeploy-dev:
+    branch: /.*/
+    commands:
+      - npm run deploy:branch-dev
+
