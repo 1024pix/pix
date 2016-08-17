@@ -26,3 +26,7 @@ deployment:
       - git config --global user.name 'Thomas Wickham'
       - npm run deploy:branch-dev
 
+general:
+  branches:
+    ignore:
+      - gh-pages
