@@ -1,5 +1,5 @@
 import { Factory, faker } from 'ember-cli-mirage';
-import _ from 'lodash';
+import _ from 'lodash/lodash';
 
 export default Factory.extend({
   instruction: faker.lorem.sentences(3),
