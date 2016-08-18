@@ -33,6 +33,8 @@ echo
 # use a temporary directory for the build
 tmpdir=`mktemp -d`
 
+git stash
+
 (ember build --environment $BUILD_ENV --output-path $tmpdir \
     && git checkout gh-pages                                \
     && git pull origin gh-pages                             \
@@ -54,3 +56,6 @@ tmpdir=`mktemp -d`
     echo "FAILED !"
     tput sgr0
 }
+
+git stash pop
+
