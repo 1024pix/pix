@@ -1,7 +1,6 @@
-import Model from 'ember-data/model';
-import { belongsTo, hasMany } from 'ember-data/relationships';
+import DS from 'ember-data';
 
-export default Model.extend({
-  course: belongsTo('course'),
-  challenges: hasMany('challenge')
+export default DS.Model.extend({
+  course: DS.belongsTo('course'),
+  challenges: DS.hasMany('challenge')
 });

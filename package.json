@@ -9,9 +9,18 @@
   },
   "scripts": {
     "build": "ember build",
+    "clean": "rm -rf tmp dist",
+    "clean:bower": "rm -rf bower_components",
+    "clean:npm": "rm -rf node_modules",
+    "clean:all": "npm run clean && npm run clean:bower && npm run clean:npm",
     "start": "ember server",
     "test": "ember test",
-    "ci:test": "ember test | tee out.log ; tap-xunit < out.log > $CIRCLE_TEST_REPORTS/junit/test-results.xml"
+    "ci:test": "ember test | tee out.log ; tap-xunit < out.log > $CIRCLE_TEST_REPORTS/junit/test-results.xml",
+    "deploy:prod": "./scripts/deploy.sh production prod",
+    "deploy:dev": "./scripts/deploy.sh development dev",
+    "deploy:staging": "./scripts/deploy.sh staging staging",
+    "deploy:branch": "./scripts/deploy.sh production",
+    "deploy:branch-dev": "./scripts/deploy.sh development"
   },
   "repository": "",
   "engines": {
@@ -21,15 +30,15 @@
   "license": "MIT",
   "devDependencies": {
     "broccoli-asset-rev": "^2.4.2",
-    "chai": "^3.5.0",
-    "ember-airtable": "0.0.2",
+    "ember-airtable": "^0.0.2",
     "ember-ajax": "^2.0.1",
-    "ember-bootstrap": "0.8.0",
-    "ember-cli": "2.6.2",
+    "ember-bootstrap": "^0.8.0",
+    "ember-cli": "^2.6.2",
     "ember-cli-app-version": "^1.0.0",
     "ember-cli-babel": "^5.1.6",
     "ember-cli-circleci": "0.1.0",
     "ember-cli-dependency-checker": "^1.2.0",
+    "ember-cli-google-fonts": "^2.3.1",
     "ember-cli-htmlbars": "^1.0.3",
     "ember-cli-htmlbars-inline-precompile": "^0.3.1",
     "ember-cli-inject-live-reload": "^1.4.0",
@@ -39,6 +48,7 @@
     "ember-cli-mocha-reporter": "git+https://github.com/lolmaus/ember-cli-mocha-reporter.git#b98c2694724a6b80b9fb2244a05a46ff8ffd71bd",
     "ember-cli-release": "^0.2.9",
     "ember-cli-sri": "^2.1.0",
+    "ember-cli-test-loader": "1.1.0",
     "ember-cli-uglify": "^1.2.0",
     "ember-data": "^2.6.0",
     "ember-export-application-global": "^1.0.5",
@@ -49,8 +59,5 @@
     "mocha": "^3.0.0",
     "tap-xunit": "^1.4.0",
     "urljs": "^2.3.1"
-  },
-  "dependencies": {
-    "ember": "latest"
   }
 }

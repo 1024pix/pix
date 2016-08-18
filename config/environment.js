@@ -20,8 +20,17 @@ module.exports = function(environment) {
     APP: {
       // Here you can pass flags/options to your application instance
       // when it is created
-      // PIX-API
-      // PIX_API_NAMESPACE: 'api/live'
+    },
+
+    googleFonts: [
+      'Open+Sans:300,300i,400,400i,600,600i,700,700i',
+      'Roboto:300,300i,400,400i,600,600i,700,700i'
+    ],
+
+    // Set or update content security policies
+    contentSecurityPolicy: {
+      'font-src': "'self' fonts.gstatic.com",
+      'style-src': "'self' fonts.googleapis.com"
     }
   };
 
@@ -32,9 +41,6 @@ module.exports = function(environment) {
     ENV.APP.LOG_TRANSITIONS = true;
     ENV.APP.LOG_TRANSITIONS_INTERNAL = true;
     ENV.APP.LOG_VIEW_LOOKUPS = true;
-
-    // PIX-API
-    ENV.APP.PIX_API_HOST = 'http://localhost:4200';
   }
 
   if (environment === 'test') {
@@ -47,19 +53,7 @@ module.exports = function(environment) {
     ENV.APP.LOG_VIEW_LOOKUPS = false;
 
     ENV.APP.rootElement = '#ember-testing';
-
-    // PIX-API
-    ENV.APP.PIX_API_HOST = 'http://localhost:4200';
-  }
-
-  if (environment === 'staging') {
-    // PIX-API
-    ENV.APP.PIX_API_HOST = 'http://localhost:9000';
-  }
-
-  if (environment === 'production') {
-    // PIX-API
-    ENV.APP.PIX_API_HOST = 'https://api.pix-app.ovh';
+    ENV.googleFonts = [];
   }
 
   return ENV;

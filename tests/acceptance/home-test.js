@@ -1,11 +1,16 @@
-/* globals currentURL, describe, beforeEach, afterEach, visit, andThen */
 import '../test-helper';
 import { expect } from 'chai';
-import { it } from 'ember-mocha';
+import {
+  describe,
+  it,
+  beforeEach,
+  afterEach
+} from 'mocha';
 import startApp from '../helpers/start-app';
 import destroyApp from '../helpers/destroy-app';
 
 describe('Acceptance | /home', function () {
+
   beforeEach(function () {
     this.application = startApp();
   });
@@ -19,8 +24,7 @@ describe('Acceptance | /home', function () {
 
     andThen(function () {
       expect(currentURL()).to.be.eq('/home');
-      expect(find('.title').text().trim()).to.be.equal('Liste des tests');
+      expect(find('.title').text()).to.contains('Liste des tests');
     });
   });
-
 });
