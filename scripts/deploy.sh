@@ -2,6 +2,8 @@
 
 BUILD_ENV=$1
 BUILD_OUTPUT=$2
+GIT_CURRENT_HASH=`git rev-parse HEAD | tr -d "\n"`
+GIT_CURRENT_BRANCH=`git rev-parse --abbrev-ref HEAD | tr -d "\n"`
 
 # default env: production
 [ -z $BUILD_ENV ] && {
@@ -10,7 +12,7 @@ BUILD_OUTPUT=$2
 
 # if no dist/ is given, use the branch name
 [ -z $BUILD_OUTPUT ] && {
-    BUILD_OUTPUT=`git rev-parse --abbrev-ref HEAD`
+    BUILD_OUTPUT=$GIT_CURRENT_BRANCH
 }
 
 tput init
@@ -18,7 +20,7 @@ echo -n '** '
 tput setaf 3
 echo -n "Deploying "
 tput setaf 6 ; tput bold
-git rev-parse --abbrev-ref HEAD | tr -d "\n"
+echo -n $GIT_CURRENT_BRANCH
 tput sgr0 ; tput setaf 3
 echo -n " to dir "
 tput setaf 6 ; tput bold
@@ -33,16 +35,25 @@ echo
 # use a temporary directory for the build
 tmpdir=`mktemp -d`
 
-tmpchanges=git stash
+# loookup changes
+[ -z `git status --porcelain` ] || {
+    tput setaf 1
+    echo 'You CANT deploy if you have untracked file or uncommited changes. Sorry.'
+    echo '** FAILED !'
+    tput sgr0
+
+    exit 1
+}
+
+GIT_HASH=`git rev-parse HEAD`
 
 (ember build --environment $BUILD_ENV --output-path $tmpdir \
     && git checkout gh-pages                                \
     && git pull origin gh-pages                             \
     && git rm -r ./$BUILD_OUTPUT                            \
-    && mkdir -p ./$BUILD_OUTPUT                             \
-    && mv $tmpdir/* ./$BUILD_OUTPUT/                        \
+    && mv $tmpdir ./$BUILD_OUTPUT                           \
     && git add -A ./$BUILD_OUTPUT/                          \
-    && git commit -m 'release a new version'                \
+    && git commit -m "Release of $BUILD_OUTPUT with env $BUILD_ENV (via commit hash: $GIT_CURRENT_HASH)" \
     && git push origin gh-pages                             \
     && git checkout -
 ) && {
@@ -56,8 +67,4 @@ tmpchanges=git stash
     echo "FAILED !"
     tput sgr0
 }
-
-if [ $tmpchanges != "No local changes to save" ]; then
-  git stash pop
-fi
 
