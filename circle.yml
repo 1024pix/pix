@@ -11,6 +11,7 @@ test:
   override:
     - mkdir -p $CIRCLE_TEST_REPORTS/junit
     - npm run ci:test
+    - npm run ci:coverage
 
 deployment:
   staging:
