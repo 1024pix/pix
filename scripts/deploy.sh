@@ -57,7 +57,7 @@ tmpchanges=git stash
     tput sgr0
 }
 
-if [ $tmpchanges != "No local changes to save" ]; then
+if [ "$tmpchanges" != "No local changes to save" ]; then
   git stash pop
 fi
 
