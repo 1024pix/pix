@@ -1,0 +1,11 @@
+extends: '../.eslintrc'
+
+globals:
+  server: false # server is a global that should NOT be overriden
+
+env:
+  mocha: true
+  embertest: true
+
+rules:
+  no-unused-expressions: 0 # expect(...).to.be.ok
