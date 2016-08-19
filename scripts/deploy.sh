@@ -33,9 +33,14 @@ echo
 # use a temporary directory for the build
 tmpdir=`mktemp -d`
 
+tmpchanges=git stash
+
 (ember build --environment $BUILD_ENV --output-path $tmpdir \
     && git checkout gh-pages                                \
-    && mv $tmpdir ./$BUILD_OUTPUT                           \
+    && git pull origin gh-pages                             \
+    && git rm -r ./$BUILD_OUTPUT                            \
+    && mkdir -p ./$BUILD_OUTPUT                             \
+    && mv $tmpdir/* ./$BUILD_OUTPUT/                        \
     && git add -A ./$BUILD_OUTPUT/                          \
     && git commit -m 'release a new version'                \
     && git push origin gh-pages                             \
@@ -51,3 +56,8 @@ tmpdir=`mktemp -d`
     echo "FAILED !"
     tput sgr0
 }
+
+if [ $tmpchanges != "No local changes to save" ]; then
+  git stash pop
+fi
+

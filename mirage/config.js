@@ -1,4 +1,4 @@
-import _ from 'lodash';
+import _ from 'lodash/lodash';
 
 function pickChallengesAtRandom(schema, nbOfChallenges) {
   return _.range(1, nbOfChallenges).map((number) => {

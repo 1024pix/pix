@@ -15,7 +15,8 @@
 /libpeerconnection.log
 npm-debug.log
 testem.log
+out.log
 
+# IDE
 .idea
-
 *.iml
