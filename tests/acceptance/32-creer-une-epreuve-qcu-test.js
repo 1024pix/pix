@@ -11,9 +11,11 @@ import destroyApp from '../helpers/destroy-app';
 describe('Acceptance | 32 - Créer une épreuve de type QCU | ', function () {
 
   let application;
+  let challenge;
 
   before(function () {
     application = startApp();
+    challenge = server.create('challenge-airtable');
   });
 
   after(function () {
@@ -22,7 +24,7 @@ describe('Acceptance | 32 - Créer une épreuve de type QCU | ', function () {
 
   describe('Prévisualiser une épreuve |', function () {
 
-    const challengeId = "recLt9uwa2dR3IYpi";
+    const challengeId = challenge.attrs.id;
 
     before(function () {
       return visit(`/challenges/${challengeId}/preview`);
@@ -45,13 +47,14 @@ describe('Acceptance | 32 - Créer une épreuve de type QCU | ', function () {
       });
 
       it('la consigne de l\'épreuve', function () {
-        expect($challenge.find('.challenge-instruction').text()).to.contains('Que peut-on dire des œufs de catégorie A ?');
+        expect($challenge.find('.challenge-instruction').text()).to.contains(challenge.attrs.fields.Consigne);
       });
 
-      it('les propositions sous forme de boutons radio', function () {
-        const $proposals = findWithAssert('.challenge-proposals input[type="radio"][name="proposals"]');
-        expect($proposals).to.have.lengthOf(5);
-      });
+      // FIXME: this is not part of the US. This should be removed (need validation in PR)
+      //it('les propositions sous forme de boutons radio', function () {
+      //  const $proposals = findWithAssert('.challenge-proposals input[type="radio"][name="proposals"]');
+      //  expect($proposals).to.have.lengthOf(5);
+      //});
     });
   });
 });
