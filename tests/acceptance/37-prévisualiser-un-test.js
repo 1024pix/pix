@@ -11,8 +11,9 @@ import destroyApp from '../helpers/destroy-app';
 describe('Acceptance | 37 - Prévisualiser un test |', function () {
 
   const courseId = 'rec5duNNrPqbSzQ8o';
-  const firstChallengeId = 'recLt9uwa2dR3IYpi';
-  const secondChallengeId = 'recub31NerwonPVwX';
+  const firstChallengeId = 'recub31NerwonPVwX';
+  const secondChallengeId = 'recLt9uwa2dR3IYpi';
+  const lastChallengeId = 'recLt9uwa2dR3IYpi';
 
   let application;
 
@@ -85,7 +86,7 @@ describe('Acceptance | 37 - Prévisualiser un test |', function () {
       });
 
       it("la consigne de l'épreuve", function () {
-        expect($challenge.find('.challenge-instruction').text()).to.contains('Que peut-on dire des œufs de catégorie A ?');
+        expect($challenge.find('.challenge-instruction').text()).to.contains('Exemple de question QCU');
       });
 
       it('les propositions sous forme de boutons radio pour un QCU', function () {
@@ -101,4 +102,14 @@ describe('Acceptance | 37 - Prévisualiser un test |', function () {
     });
   });
 
+  describe("Prévisualiser la dernière épreuve dans le cadre d'un test |", function () {
+
+    before(function () {
+      return visit(`/courses/${courseId}/preview/challenges/${lastChallengeId}`);
+    });
+
+    it("on n'affiche pas de bouton “Épreuve suivante”", function () {
+      expect(find('.challenge-preview a.next-challenge-button')).to.have.lengthOf(0);
+    })
+  })
 });

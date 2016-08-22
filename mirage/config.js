@@ -2,7 +2,7 @@ import _ from 'lodash/lodash';
 
 function pickChallengesAtRandom(schema, nbOfChallenges) {
   return _.range(1, nbOfChallenges).map((number) => {
-    const challenges = schema.challenges.where({ number }).models;
+    const challenges = schema.challenges.where({number}).models;
     const randomIndex = _.random(0, (challenges.length - 1));
     const challenge = challenges[randomIndex];
     return challenge.id;
@@ -190,6 +190,7 @@ export function testConfig() {
       ]
     };
   });
+
   this.get('https://api.airtable.com/v0/appHAIFk9u1qqglhX/Tests/:id', function () {
     return {
       "id": "rec5duNNrPqbSzQ8o",
@@ -208,16 +209,29 @@ export function testConfig() {
       "createdTime": "2016-08-09T15:17:53.000Z"
     };
   });
-  this.get('https://api.airtable.com/v0/appHAIFk9u1qqglhX/Epreuves/:id', function () {
-    return {
-      "id": "recLt9uwa2dR3IYpi",
-      "fields": {
-        "Consigne": "Que peut-on dire des œufs de catégorie A ?",
-        "description": "catégorie oeuf",
-        "Propositions QCU / QCM": "- Ils sont bio\n- Ils pèsent plus de 63 grammes\n- Ce sont des oeufs frais\n- Ils sont destinés aux consommateurs\n- Ils ne sont pas lavés\n",
-        "Type d'épreuve": "QCU"
-      },
-      "createdTime": "2016-08-09T15:17:53.000Z"
-    };
+
+  this.get('https://api.airtable.com/v0/appHAIFk9u1qqglhX/Epreuves/:id', function (_, request) {
+
+    switch (request.params.id) {
+      case "recLt9uwa2dR3IYpi":
+        return {
+          "id": "recLt9uwa2dR3IYpi",
+          "fields": {
+            "Consigne": "Que peut-on dire des œufs de catégorie A ?",
+            "Propositions QCU / QCM": "- Ils sont bio\n- Ils pèsent plus de 63 grammes\n- Ce sont des oeufs frais\n- Ils sont destinés aux consommateurs\n- Ils ne sont pas lavés\n",
+            "Type d'épreuve": "QCU"
+          }
+        };
+      case "recub31NerwonPVwX":
+      default:
+        return {
+          "id": "recub31NerwonPVwX",
+          "fields": {
+            "Consigne": "Exemple de question QCU\n\n",
+            "Propositions QCU / QCM": "- option 1\n- option 2\n- option 3\n- option 4\n- option 5\n\n",
+            "Type d'épreuve": "QCU"
+          }
+        }
+    }
   });
 }

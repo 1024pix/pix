@@ -18,13 +18,14 @@ export default Ember.Route.extend({
       const course = results.course;
       const challenge = results.challenge;
       const challenges = course.get('challenges');
+      const currentChallengeIndex = challenges.indexOf(challenge);
+      const hasNextChallenge =  currentChallengeIndex + 1 < challenges.get('length');
       const nextChallenge = challenges.objectAt(challenges.indexOf(challenge) + 1);
 
       controller.set('course', course);
       controller.set('challenge', challenge);
       controller.set('nextChallenge', nextChallenge);
+      controller.set('hasNextChallenge', hasNextChallenge);
     });
-
   }
-
 });
