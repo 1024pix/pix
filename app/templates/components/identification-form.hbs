@@ -1,17 +1,22 @@
 <form id="identification-form">
-    <div class="form-title">
-        Identifiez-vous
+    <div id="firstname" class="form-group">
+        <label class="control-label" for="firstname_input">Prénom</label>
+        {{input id="firstname_input" class="form-control" type="text" placeholder="Benjamin" autocomplete="on"}}
     </div>
 
-    <div class="form-group">
-        {{input class="form-control" type="text" id="firstname" placeholder="Prénom" autocomplete="on"}}
+    <div id="lastname" class="form-group">
+        <label class="control-label" for="lastname_input">Nom</label>
+        {{input id="lastname_input" class="form-control" type="text" placeholder="Marteau" autocomplete="on"}}
     </div>
 
-    <div class="form-group">
-      {{input class="form-control" type="text" id="lastname" placeholder="Nom de famille" autocomplete="on"}}
+    <div id="email" class="form-group">
+        <label class="control-label" for="email_input">Email</label>
+        {{input id="email_input" class="form-control" type="email" placeholder="benjamin.marteau@wanadoo.fr" autocomplete="on"}}
     </div>
 
-    <div class="identification-form-actions">
-        <button {{action "identify"}} class="button button-primary">Valider</button>
+    <div class="identification-form-actions pull-right">
+        <button {{action "identify"}} class="button button-primary">
+            Identifiez-vous
+        </button>
     </div>
 </form>

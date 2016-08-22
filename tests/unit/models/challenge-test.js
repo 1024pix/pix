@@ -32,7 +32,7 @@ describeModel(
         expect(getProposalsAsArray(this.subject({ proposals: '- foo' }))).to.deep.equal(['foo']);
       });
 
-      it('"- foo\n- bar", retourne ["foo", "bar"] ', function () {
+      it('"- foo\\n- bar", retourne ["foo", "bar"] ', function () {
         expect(getProposalsAsArray(this.subject({ proposals: '- foo\n- bar' }))).to.deep.equal(['foo', 'bar']);
       });
 
@@ -41,19 +41,19 @@ describeModel(
         expect(getProposalsAsArray(this.subject({ proposals: '- cerf-volant' }))).to.deep.equal(['cerf-volant']);
       });
 
-      it('"- shi\n- foo mi", retourne ["shi", "foo mi"] ', function () {
+      it('"- shi\\n- foo mi", retourne ["shi", "foo mi"] ', function () {
         expect(getProposalsAsArray(this.subject({ proposals: '- shi\n- foo mi' }))).to.deep.equal(['shi', 'foo mi']);
       });
 
-      it('"- joli\n- cerf-volant", retourne ["joli", "cerf-volant"] ', function () {
+      it('"- joli\\n- cerf-volant", retourne ["joli", "cerf-volant"] ', function () {
         expect(getProposalsAsArray(this.subject({ proposals: '- joli\n- cerf-volant' }))).to.deep.equal(['joli', 'cerf-volant']);
       });
 
-      it('"-foo\n-bar", retourne ["foo", "bar"] ', function () {
+      it('"-foo\\n-bar", retourne ["foo", "bar"] ', function () {
         expect(getProposalsAsArray(this.subject({ proposals: '-foo\n-bar' }))).to.deep.equal(['foo', 'bar']);
       });
 
-      it('"- shi\n- foo\n- mi", retourne ["shi", "foo", "mi"] ', function () {
+      it('"- shi\\n- foo\\n- mi", retourne ["shi", "foo", "mi"] ', function () {
         expect(getProposalsAsArray(this.subject({ proposals: '- shi\n- foo\n- mi' }))).to.deep.equal(['shi', 'foo', 'mi']);
       });
 
@@ -61,7 +61,7 @@ describeModel(
         expect(getProposalsAsArray(this.subject({ proposals: '-- foo' }))).to.deep.equal(['- foo']);
       });
 
-      it('"- foo\n\r\t\n\r\t\n\r\t\n- bar", retourne ["foo", "bar"] ', function () {
+      it('"- foo\\n\\r\\t\n\\r\\t\\n\\r\\t\\n- bar", retourne ["foo", "bar"] ', function () {
         expect(getProposalsAsArray(this.subject({ proposals: '- foo\n\r\t\n\r\t\n\r\t\n- bar' }))).to.deep.equal(['foo', 'bar']);
       });
     });
