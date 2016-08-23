@@ -7,12 +7,12 @@ export default ApplicationSerializer.extend({
     // This is how to call super, as Mirage borrows [Backbone's implementation of extend](http://backbonejs.org/#Model-extend)
     let json = ApplicationSerializer.prototype.serialize.apply(this, arguments);
 
-    if (json.courseAirtable) {
-      return json.courseAirtable;
+    if (json.challengeAirtable) {
+      return json.challengeAirtable;
     }
-    else if (json.courseAirtables) {
+    else if (json.challengeAirtables) {
       return {
-        records: json.courseAirtables
+        records: json.challengeAirtables
       };
     }
 

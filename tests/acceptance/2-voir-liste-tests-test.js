@@ -15,7 +15,7 @@ describe('Acceptance | 2 - voir la liste des tests', function () {
 
   before(function () {
     application = startApp();
-    courses = server.createList('courses-airtable', 6);
+    courses = server.createList('course-airtable', 6);
     courseWithoutImage = courses[5];
     courseWithoutImage.attrs.fields.Image[0].url = '';
     courseWithoutImage.save();
@@ -48,30 +48,30 @@ describe('Acceptance | 2 - voir la liste des tests', function () {
 
     before(function () {
       course = courses[1];
-      $course = find(`.course[data-id="${course.attrs.id}"]`);
+      $course = findWithAssert(`.course[data-id="${course.attrs.id}"]`);
     });
 
     it('2.3.1 on affiche son nom', function () {
-      expect($course.find('.course-name').text()).to.contains(course.attrs.fields.Nom);
+      expect($course.findWithAssert('.course-name').text()).to.contains(course.attrs.fields.Nom);
     });
 
     it('2.3.2 on affiche sa description', function () {
-      expect($course.find('.course-description').text()).to.contains(course.attrs.fields.Consigne);
+      expect($course.findWithAssert('.course-description').text()).to.contains(course.attrs.fields.Description);
     });
 
     it('2.3.3 on affiche son image', function () {
-      expect($course.find('img')[0].src).to.equal(course.attrs.fields.Image[0].url);
+      expect($course.findWithAssert('img')[0].src).to.equal(course.attrs.fields.Image[0].url);
     });
 
     it('2.3.4 on affiche un bouton "démarrer le test"', function () {
-      expect($course.find('a.btn').text()).to.contains('Démarrer le test');
+      expect($course.findWithAssert('a.btn').text()).to.contains('Démarrer le test');
     });
 
   });
 
   it('2.4 pour un test dont il manque l\'image, on affiche une image placeholder', function() {
-    const $course = find(`.course[data-id="${courseWithoutImage}"]`);
-    expect($course.find('img')[0].src).to.contains('images/course-default-image.png');
+    const $course = findWithAssert(`.course[data-id="${courseWithoutImage.attrs.id}"]`);
+    expect($course.findWithAssert('img')[0].src).to.contains('images/course-default-image.png');
   });
 
 });
