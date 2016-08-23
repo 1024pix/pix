@@ -20,50 +20,20 @@ describe.skip('Acceptance | 1 - Accéder à la plateforme pour démarrer un test
   });
 
   before(function () {
-    return visit('/home');
+    return visit('/');
   });
 
-  it('2.0 peut visiter /home', function () {
-    expect(currentPath()).to.equal('home');
+  it('1.0 peut visiter /', function () {
+    expect(currentURL()).to.equal('/');
   });
 
-  it('2.1 la liste des tests apparaît', function () {
-    expect(findWithAssert('.title').text()).to.contains('Liste des tests');
+  it('1.1 la landing page contient un pitch de présentation', function () {
+    expect(findWithAssert('.sales-pitch').text()).to.contains('PIX est un projet public de plateforme en ligne d\'évaluation');
   });
 
-  it('2.2 on affiche autant de tests que remontés par AirTable', function () {
-    expect(findWithAssert('.course')).to.have.lengthOf(6);
-  });
-
-  describe('2.3 pour un test donné avec toutes les informations', function () {
-
-    let $course;
-
-    before(function () {
-      $course = find('.course[data-id="rec5duNNrPqbSzQ8o"]');
-    });
-
-    it('2.3.1 on affiche son nom', function () {
-      expect($course.find('.course-name').text()).to.contains('Test #1');
-    });
-
-    it('2.3.2 on affiche sa description', function () {
-      expect($course.find('.course-description').text()).to.contains('Libero eum excepturi');
-    });
-
-    it('2.3.3 on affiche son image', function () {
-      expect($course.find('img')[0].src).to.equal('https://dl.airtable.com/oLRaj7sTbCGzsLNwiur1_test1.png');
-    });
-
-    it('2.3.4 on affiche un bouton "démarrer le test"', function () {
-      expect($course.find('a.btn').text()).to.contains('Démarrer le test');
-    });
-
-  });
-
-  it('2.4 pour un test dont il manque l\'image, on affiche une image placeholder', function() {
-    const $course = find('.course[data-id="recOouHLk00aMWJH2"]');
-    expect($course.find('img')[0].src).to.contains('images/course-default-image.png');
-  });
-
+  it('1.3 la page d\'accueil contient un formulaire Nom / Prénom / Email et un bouton valider', function () {
+    expect(findWithAssert('#lastname').text()).to.contains('Nom');
+    expect(findWithAssert('#firstname').text()).to.contains('Prénom');
+    expect(findWithAssert('#email').text()).to.contains('Email');
+  })
 });
