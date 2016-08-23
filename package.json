@@ -9,6 +9,10 @@
   },
   "scripts": {
     "build": "ember build",
+    "clean": "rm -rf tmp dist",
+    "clean:bower": "rm -rf bower_components",
+    "clean:npm": "rm -rf node_modules",
+    "clean:all": "npm run clean && npm run clean:bower && npm run clean:npm",
     "start": "ember server",
     "test": "ember test",
     "ci:test": "COVERAGE=true ember test | tee out.log && tap-xunit < out.log > $CIRCLE_TEST_REPORTS/junit/test-results.xml && rm out.log",
