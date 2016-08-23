@@ -8,7 +8,7 @@ import { expect } from 'chai';
 import startApp from '../helpers/start-app';
 import destroyApp from '../helpers/destroy-app';
 
-describe.skip('Acceptance | 1 - Accéder à la plateforme pour démarrer un test', function () {
+describe('Acceptance | 1 - Accéder à la plateforme pour démarrer un test', function () {
   let application;
 
   before(function () {
