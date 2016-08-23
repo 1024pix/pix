@@ -44,11 +44,11 @@ describe('Acceptance | 32 - Créer une épreuve de type QCU | ', function () {
       });
 
       it('l\'identifiant de l\'épreuve', function () {
-        expect($challenge.findWithAssert('.title').text()).to.contains(`Prévisualisation de l'épreuve #${challengeId}`);
+        expect($challenge.find('.title').text()).to.contains(`Prévisualisation de l'épreuve #${challengeId}`);
       });
 
       it('la consigne de l\'épreuve', function () {
-        expect($challenge.findWithAssert('.challenge-instruction').text()).to.contains(challenge.attrs.fields.Consigne);
+        expect($challenge.find('.challenge-instruction').text()).to.contains(challenge.attrs.fields.Consigne);
       });
 
       // FIXME: this is not part of the US. This should be removed (need validation in PR)
