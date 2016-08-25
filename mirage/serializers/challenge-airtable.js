@@ -1,21 +1,16 @@
 
 import ApplicationSerializer from './application';
+import Ember from 'ember';
 
 export default ApplicationSerializer.extend({
-  serialize() {
+  serialize(result) {
 
-    // This is how to call super, as Mirage borrows [Backbone's implementation of extend](http://backbonejs.org/#Model-extend)
-    let json = ApplicationSerializer.prototype.serialize.apply(this, arguments);
-
-    if (json.challengeAirtable) {
-      return json.challengeAirtable;
-    }
-    else if (json.challengeAirtables) {
+    if (Ember.isArray(result.models)) {
       return {
-        records: json.challengeAirtables
-      };
+        records: result.models.map((challenge) => this.serialize(challenge))
+      }
+    } else {
+      return result.attrs;
     }
-
-    return json;
   }
 });

@@ -30,6 +30,7 @@ export default AirtableSerializer.extend({
         payload.fields.challenges.reverse();
       }
     }
+
     return this._super(...arguments);
   }
 
