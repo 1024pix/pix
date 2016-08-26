@@ -1,11 +1,12 @@
-import AirtableSerializer from "ember-airtable/serializer";
+import AirtableSerializer from "./airtable-serializer";
 
 export default AirtableSerializer.extend({
 
-  normalizeResponse(store, type, payload) {
-    payload.fields.instruction = payload.fields['Consigne'];
-    payload.fields.proposals = payload.fields['Propositions QCU / QCM'];
-    return this._super(...arguments);
+  transformFields(fields) {
+    return {
+      instruction: fields['Consigne'],
+      proposals: fields['Propositions QCU / QCM']
+    }
   }
 
 });

@@ -22,7 +22,9 @@ describe('Acceptance | 37 - Prévisualiser un test |', function () {
   before(function () {
     application = startApp();
     challenges = server.createList('challenge-airtable', 3);
-    course = server.create('course-airtable', { fields: { "Épreuves": challenges } });
+    course = server.create('course-airtable');
+    course.fields['Épreuves'] = challenges;
+    course.save();
 
     courseId = course.attrs.id;
     firstChallengeId = challenges[0].attrs.id;

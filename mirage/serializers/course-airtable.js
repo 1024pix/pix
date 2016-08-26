@@ -10,7 +10,14 @@ export default ApplicationSerializer.extend({
         records: result.models.map((course) => this.serialize(course))
       }
     } else {
-      return result.attrs
+
+      if (result.attrs.fields['Épreuves']) {
+        result.attrs.fields['Épreuves'] = result.attrs.fields['Épreuves'].map((challenge) => {
+          return challenge.toJSON ? challenge.toJSON().id : challenge;
+        });
+      }
+
+      return result.toJSON();
     }
   }
 });

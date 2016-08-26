@@ -10,7 +10,7 @@ export default ApplicationSerializer.extend({
         records: result.models.map((challenge) => this.serialize(challenge))
       }
     } else {
-      return result.attrs;
+      return result.toJSON();
     }
   }
 });
