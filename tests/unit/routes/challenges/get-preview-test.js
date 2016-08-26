@@ -5,8 +5,8 @@ import {
 } from 'ember-mocha';
 
 describeModule(
-  'route:courses/challenge-preview',
-  'ChallengePreviewRoute',
+  'route:challenges.get-preview',
+  'Unit | Route | challenges.get-preview',
   {
     // Specify the other units that are required for this test.
     // needs: ['controller:foo']

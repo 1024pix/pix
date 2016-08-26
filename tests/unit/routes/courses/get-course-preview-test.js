@@ -5,7 +5,7 @@ import {
 } from 'ember-mocha';
 
 describeModule(
-  'route:courses/course-preview',
+  'route:courses/get-course-preview',
   'CoursePreviewRoute',
   {
     // Specify the other units that are required for this test.

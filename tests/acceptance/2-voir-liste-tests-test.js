@@ -3,7 +3,7 @@ import {
   it,
   before,
   after
-  } from 'mocha';
+} from 'mocha';
 import { expect } from 'chai';
 import startApp from '../helpers/start-app';
 import destroyApp from '../helpers/destroy-app';
@@ -61,7 +61,7 @@ describe('Acceptance | 2 - voir la liste des tests', function () {
 
   });
 
-  it('2.4 pour un test dont il manque l\'image, on affiche une image placeholder', function() {
+  it('2.4 pour un test dont il manque l\'image, on affiche une image placeholder', function () {
     const $course = find('.course[data-id="recOouHLk00aMWJH2"]');
     expect($course.find('img')[0].src).to.contains('images/course-default-image.png');
   });

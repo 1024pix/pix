@@ -1,3 +1,4 @@
+/* jshint expr:true */
 import { expect } from 'chai';
 import {
   describeModule,
@@ -5,8 +6,8 @@ import {
 } from 'ember-mocha';
 
 describeModule(
-  'route:challenge-show',
-  'Unit | Routes | challenge-show',
+  'route:assessments.get-challenge',
+  'Assessments.ChallengeRoute',
   {
     // Specify the other units that are required for this test.
     // needs: ['controller:foo']

@@ -43,10 +43,6 @@ describe('Acceptance | 37 - Prévisualiser un test |', function () {
         $preview = findWithAssert('#course-preview');
       });
 
-      it("le titre de la page avec l'identifiant du test", function () {
-        expect($preview.find('.title').text()).to.contains(`Prévisualisation du test #${courseId}`);
-      });
-
       it('le nom du test', function () {
         expect($preview.find('.course-name').text()).to.contains('course_name');
       });
@@ -79,10 +75,6 @@ describe('Acceptance | 37 - Prévisualiser un test |', function () {
 
       before(function () {
          $challenge = findWithAssert('.challenge-preview');
-      });
-
-      it("l'identifiant de l'épreuve", function () {
-        expect($challenge.find('.title').text()).to.contains(`Prévisualisation de l'épreuve #${firstChallengeId}`);
       });
 
       it("la consigne de l'épreuve", function () {

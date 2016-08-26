@@ -1,13 +1,7 @@
-import AirtableAdapter from "ember-airtable/adapter";
+import AirtableAdapter from "./airtable";
 
 export default AirtableAdapter.extend({
 
-  pathForType: () => 'Epreuves',
+  pathForType: () => 'Epreuves'
 
-  namespace: 'v0/appHAIFk9u1qqglhX',
-
-  headers: {
-    'Accept': 'application/json',
-    'Authorization': 'Bearer keyEgu8JYhXaOhjbd'
-  }
 });

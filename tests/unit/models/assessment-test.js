@@ -2,14 +2,11 @@ import '../../test-helper';
 import { expect } from 'chai';
 import { describeModel, it } from 'ember-mocha';
 
-describeModel('course', 'Unit | Model | Course', {
-    needs: [
-      'model:assessment',
-      'model:challenge'
-    ]
-  }, function () {
+describeModel('assessment',  'Unit | Model | Assessment', {
+    needs: ['model:course']
+  }, function() {
 
-    it('exists', function () {
+    it('exists', function() {
       let model = this.subject();
       expect(model).to.be.ok;
     });

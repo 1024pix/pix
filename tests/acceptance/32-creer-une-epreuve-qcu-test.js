@@ -20,7 +20,7 @@ describe('Acceptance | 32 - Créer une épreuve de type QCU | ', function () {
     destroyApp(application);
   });
 
-  describe('Prévisualiser une épreuve |', function () {
+  describe('32 - Prévisualiser une épreuve |', function () {
 
     const challengeId = "recLt9uwa2dR3IYpi";
 
@@ -28,7 +28,7 @@ describe('Acceptance | 32 - Créer une épreuve de type QCU | ', function () {
       return visit(`/challenges/${challengeId}/preview`);
     });
 
-    it('Il est possible de prévisualiser une épreuve en accédant à l\'URL /challenges/:id/preview', function () {
+    it('32.1. Il est possible de prévisualiser une épreuve en accédant à l\'URL /challenges/:id/preview', function () {
       expect(currentURL()).to.equal(`/challenges/${challengeId}/preview`);
     });
 
@@ -40,15 +40,11 @@ describe('Acceptance | 32 - Créer une épreuve de type QCU | ', function () {
         $challenge = findWithAssert('#challenge-preview');
       });
 
-      it('l\'identifiant de l\'épreuve', function () {
-        expect($challenge.find('.title').text()).to.contains(`Prévisualisation de l'épreuve #${challengeId}`);
-      });
-
-      it('la consigne de l\'épreuve', function () {
+      it('32.2. la consigne de l\'épreuve', function () {
         expect($challenge.find('.challenge-instruction').text()).to.contains('Que peut-on dire des œufs de catégorie A ?');
       });
 
-      it('les propositions sous forme de boutons radio', function () {
+      it('32.3. les propositions sous forme de boutons radio', function () {
         const $proposals = findWithAssert('.challenge-proposals input[type="radio"][name="proposals"]');
         expect($proposals).to.have.lengthOf(5);
       });
