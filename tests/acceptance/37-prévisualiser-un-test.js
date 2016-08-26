@@ -23,13 +23,14 @@ describe('Acceptance | 37 - Prévisualiser un test |', function () {
     application = startApp();
     challenges = server.createList('challenge-airtable', 3);
     course = server.create('course-airtable');
-    course.fields['Épreuves'] = challenges;
+    course.attrs.fields['Épreuves'] = challenges;
     course.save();
 
     courseId = course.attrs.id;
-    firstChallengeId = challenges[0].attrs.id;
+    // XXX order is reversed
+    firstChallengeId = challenges[2].attrs.id;
     secondChallengeId = challenges[1].attrs.id;
-    lastChallengeId = challenges[2].attrs.id;
+    lastChallengeId = challenges[0].attrs.id;
   });
 
   after(function () {
@@ -79,7 +80,7 @@ describe('Acceptance | 37 - Prévisualiser un test |', function () {
     let currentChallenge;
 
     before(function () {
-      currentChallenge = challenges[0];
+      currentChallenge = challenges[2];
       return visit(`/courses/${courseId}/preview/challenges/${firstChallengeId}`);
     });
 
