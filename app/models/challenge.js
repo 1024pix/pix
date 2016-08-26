@@ -11,11 +11,11 @@ export default Model.extend({
   proposals: attr('string'),
 
   proposalsAsArray: computed('proposals', function () {
-    const proposals = '\n' + this.get('proposals');
-
-    if (_.isEmpty(proposals)) {
+    if (_.isEmpty(this.get('proposals'))) {
       return [];
     }
+
+    const proposals = '\n' + this.get('proposals');
 
     let elements = proposals.split(/\n\s*-\s*/);
     elements.shift();
