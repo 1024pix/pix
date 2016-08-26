@@ -7,9 +7,7 @@ export default AirtableSerializer.extend({
       name: fields['Nom'],
       course: fields['Test']
     };
-  }
-
-  /* FIXME: is this still needed ?
+  },
 
   serializeIntoHash: function (data, type, record, options) {
     data['fields'] = this.serialize(record, options);
@@ -22,6 +20,4 @@ export default AirtableSerializer.extend({
       ]
     };
   }
-  */
-
 });
