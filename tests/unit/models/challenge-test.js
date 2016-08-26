@@ -4,9 +4,9 @@ import { describe } from "mocha";
 
 describeModel(
   'challenge',
-  'Unit | Model | challenge',
+  'Unit | Model | Challenge',
   {
-    needs: ['model:assessment']
+    needs: ['model:course']
   },
   function () {
     it('exists', function () {

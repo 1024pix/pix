@@ -1,8 +1,8 @@
 
-import ApplicationSerializer from './application';
+import { RestSerializer } from 'ember-cli-mirage';
 import Ember from 'ember';
 
-export default ApplicationSerializer.extend({
+export default RestSerializer.extend({
   serialize(result) {
 
     if (Ember.isArray(result.models)) {

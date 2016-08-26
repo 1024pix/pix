@@ -1,10 +1,7 @@
-#index {
-  height: 620px;
-}
 
 #index .cover {
   background-image: url('/images/stock-photo-113728127.jpg');
-  height: 800px;
+  height: 100%;
   background-size: cover;
   position: absolute;
   top: 0;

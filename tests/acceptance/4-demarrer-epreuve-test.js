@@ -8,15 +8,24 @@ import { expect } from 'chai';
 import startApp from '../helpers/start-app';
 import destroyApp from '../helpers/destroy-app';
 
-describe.skip('Acceptance: 4-DemarrerEpreuve', function() {
+describe('Acceptance | 4 - Démarrer une épreuve |', function() {
+
+  const propositions = [
+    'proposition 1', 'proposition 2', 'proposition 3'
+  ];
   let application;
   let assessment;
   let challenge;
+  let course;
 
   before(function() {
     application = startApp();
-    assessment = server.create('assessment');
-    challenge = assessment.challenges.models[0];
+    challenge = server.create('challenge-airtable');
+    challenge.attrs.fields['Propositions'] = propositions.map((p) => `- ${p}`).reduce((e1, e2) => `${e1}\n${e2}`);
+    course = server.create('course-airtable');
+    course.fields['Épreuves'] = [ challenge.attrs.id ];
+    assessment = server.create('assessment-airtable');
+    assessment.fields['Test'] = [ course.attrs.id ];
   });
 
   after(function() {
@@ -24,39 +33,35 @@ describe.skip('Acceptance: 4-DemarrerEpreuve', function() {
   });
 
   before(function() {
-    return visit(`/challenges/${challenge.id}`);
+    return visit(`/assessments/${assessment.attrs.id}/challenges/${challenge.attrs.id}`);
   });
 
-  /* US4 CA:
-    1. La zone de consigne s'affiche (texte simple)
-    2. La zone de réponse s'affiche
-    3. L'intitulé du test est rappelé
-    4. L'état d'avancement dans le test est visible (# épreuve / # total d'épreuves)
-    5. Deux boutons s'affichent : "Passer" ; "Valider" (UX: attention à l'affordance, passer ne valide pas les réponses)
-  */
-
-  it('4.0 doit être sur l\'URL /challenges/:id', function () {
-    expect(currentURL()).to.equal(`/challenges/${challenge.id}`);
+  it('4.1. doit être sur l\'URL /assessments/:assessment_id/challenges/:challenge_id', function () {
+    expect(currentURL()).to.equal(`/assessments/${assessment.attrs.id}/challenges/${challenge.attrs.id}`);
   });
 
-  it('4.1 affiche la zone de consigne', function() {
-    expect(find('.challenge-instruction').text()).to.contains(challenge.attrs.instruction);
+  describe('Les informations visibles pour une épreuve de type QCU sont :', function () {
+
+    it('4.2. la consigne de l\'épreuve', function () {
+      const $instruction = findWithAssert('.challenge-instruction');
+      expect($instruction.text()).to.contains(challenge.attrs.fields['Consigne']);
+    });
+
+    it('4.3. les propositions de l\'épreuve', function () {
+      const $proposals = findWithAssert('.challenge-proposal');
+      expect($proposals).to.have.lengthOf(3);
+      expect($proposals.eq(0).text()).to.contains(propositions[0]);
+      expect($proposals.eq(1).text()).to.contains(propositions[1]);
+      expect($proposals.eq(2).text()).to.contains(propositions[2]);
+    });
+
   });
 
-  it('4.2 affiche la zone de réponse', function() {
-    expect(find('.challenge-answer').text()).to.contains('Réponse');
+  it('4.4. affiche le bouton "Valider" permettant de sauvegarder la réponse saisie et de passer à l\'épreuve suivante ', function() {
+    expect(findWithAssert('.validate-button').text()).to.eq('Valider');
   });
 
-  it('4.3 rappelle l\'intitulé du test', function() {
-    expect(find('.course-name').text()).to.contains(assessment.course.attrs.name);
-  });
-
-  it("4.4 affiche l'état d'avancement du test", function() {
-    expect(find('.course-progression').text()).to.contains(`Épreuve 1 / ${assessment.challenges.models.length}`);
-  });
-
-  it("4.5 affiche les deux boutons Passer et Valider", function() {
-    expect(find('.action-skip').text()).to.eq('Passer');
-    expect(find('.action-validate').text()).to.eq('Valider');
+  it('4.5. affiche le bouton "Passer" permettant de passer à l\'épreuve suivante sans avoir saisi de réponse', function() {
+    expect(findWithAssert('.skip-button').text()).to.eq('Passer');
   });
 });

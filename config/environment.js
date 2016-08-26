@@ -14,7 +14,8 @@ module.exports = function(environment) {
       FEATURES: {
         // Here you can enable experimental features on an ember canary build
         // e.g. 'with-controller': true
-      }
+      },
+      useDelay: true
     },
 
     APP: {
@@ -44,6 +45,8 @@ module.exports = function(environment) {
   }
 
   if (environment === 'test') {
+    ENV.EmberENV.useDelay = false;
+
     // Testem prefers this...
     ENV.baseURL = '/';
     ENV.locationType = 'none';

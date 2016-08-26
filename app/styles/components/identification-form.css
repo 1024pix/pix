@@ -6,3 +6,12 @@
   padding: 24px 40px 59px;
 }
 
+#identification-form .identification-form-actions button[disabled] {
+  background-color: rgba(120,193,130,0.50);
+}
+
+#identification-form .identification-form-actions.has-error button[disabled] {
+  background-color: rgba(201,48,44,0.50);
+  border-color: #ac2925;
+}
+

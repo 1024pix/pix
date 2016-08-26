@@ -2,12 +2,15 @@ import DS from 'ember-data';
 import Ember from 'ember';
 import _ from 'lodash/lodash';
 
-export default DS.Model.extend({
+const { Model, attr, belongsTo } = DS;
+const { computed } = Ember;
 
-  instruction: DS.attr('string'),
-  proposals: DS.attr('string'),
+export default Model.extend({
 
-  proposalsAsArray: Ember.computed('proposals', function () {
+  instruction: attr('string'),
+  proposals: attr('string'),
+
+  proposalsAsArray: computed('proposals', function () {
     const proposals = '\n' + this.get('proposals');
 
     if (_.isEmpty(proposals)) {

@@ -10,12 +10,14 @@ Router.map(function () {
   this.route('index', { path: '/' });
   this.route('home');
   this.route('preferences');
-  this.route('assessment-create', { path: '/course/:id_course/create_assessment' });
-  this.route('challenge-show', { path: '/challenges/:id_challenge' });
-  this.route('challenges.preview', { path: '/challenges/:challenge_id/preview' });
-  this.route('courses.course-preview', { path: '/courses/:course_id/preview' });
-  this.route('courses.challenge-preview', { path: '/courses/:course_id/preview/challenges/:challenge_id' });
 
+  this.route('challenges.get-preview', { path: '/challenges/:challenge_id/preview' });
+
+  this.route('courses.get-course-preview', { path: '/courses/:course_id/preview' });
+  this.route('courses.get-challenge-preview', { path: '/courses/:course_id/preview/challenges/:challenge_id' });
+  this.route('courses.create-assessment', { path: '/courses/:course_id/assessment' });
+
+  this.route('assessments.get-challenge', { path: '/assessments/:assessment_id/challenges/:challenge_id' });
 });
 
 export default Router;

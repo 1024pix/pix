@@ -22,5 +22,18 @@ module.exports = function(defaults) {
 
   app.import('bower_components/bootstrap/dist/js/bootstrap.js');
 
+  if (app.env !== 'test') {
+    // css animations
+    app.import({
+      development: 'bower_components/animate.css/animate.css',
+      production: 'bower_components/animate.css/animate.min.css',
+    });
+
+    app.import({
+      development: 'bower_components/loaders.css/loaders.css',
+      production: 'bower_components/loaders.css/loaders.min.css'
+    })
+  }
+
   return app.toTree();
 };
