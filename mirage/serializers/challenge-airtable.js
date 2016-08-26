@@ -1,16 +1,5 @@
 
-import ApplicationSerializer from './application';
-import Ember from 'ember';
+import AirtableSerializer from './airtable-record';
 
-export default ApplicationSerializer.extend({
-  serialize(result) {
-
-    if (Ember.isArray(result.models)) {
-      return {
-        records: result.models.map((challenge) => this.serialize(challenge))
-      }
-    } else {
-      return result.toJSON();
-    }
-  }
+export default AirtableSerializer.extend({
 });
