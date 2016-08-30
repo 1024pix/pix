@@ -1,15 +1,16 @@
-#home-loading .loader-container {
-  width: 1em;
-  height: 3em;
-  margin: 0 auto;
-  padding-top: 180px;
-}
+#home-loading {
+  & .loader-container {
+    width: 1em;
+    height: 3em;
+    margin: 0 auto;
+    padding-top: 180px;
+  }
 
-#home-loading .ball-zig-zag-deflect > div:nth-child(2) {
-  background-color: #2F70FB;
-}
+  & .ball-zig-zag-deflect > div:nth-child(2) {
+    background-color: var(--pix-blue);
+  }
 
-#home-loading .ball-zig-zag-deflect > div:nth-child(1) {
-  background-color: #FDBD2C;
+  & .ball-zig-zag-deflect > div:nth-child(1) {
+    background-color: var(--pix-yellow);
+  }
 }
-

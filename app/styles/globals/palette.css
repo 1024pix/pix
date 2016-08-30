@@ -1,8 +1,30 @@
-.palette {
-  color: #f2f3f4; /* light grey for <html/> background */
-  color: #2F70FB; /* PIX blue */
-  color: #FDBD2C; /* PIX yellow */
-  color: #f3f3f3; /* light grey for <hr/> */
-  color: #78C182; /* green captain train */
+:root {
+  --light-grey1:  #f2f3f4; /* html background */
+  --light-grey2:  #f3f3f3; /* hr */
+  --light-grey3:  #efefef;
+  --light-grey4:  #dedfe2;
+  --light-grey5:  #D0D1D5;
+  --light-grey6:  #CCC;
+  --grey1:        #a5a7ab;
+  --grey2:        #989a9e;
+  --grey3:        #909297;
+  --dark-grey1:   #8b8d92;
+  --dark-grey2:   #7e8086;
+  --dark-grey3:   #6f7177;
+  --dark-grey5:   #484c58;
+
+  --pix-blue:     #2F70FB;
+  --pix-yellow:   #FDBD2C;
+  --pix-orange:   #e97f2a;
+
+  --captrain-green:  #78C182;
+  --captrain-green1: #55b162; /* border-color */
+  --captrain-green2: #67b972;
+  --captrain-green3: #4aa256;
+
+  --green-dark: rgba(120,193,130,0.50);
+
+  --red-dark: rgba(201,48,44,0.50);
+  --red: #ac2925;
 }
 

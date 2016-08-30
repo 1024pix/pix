@@ -26,5 +26,4 @@ export function testConfig() {
   this.post(`${AIRTABLE_ROOT}/${AIRTABLE_DATABASE}/Evaluations`, function (schema) {
     return schema.assessmentAirtables.all();
   });
-
 }

@@ -21,12 +21,14 @@ deployment:
       - git config --global user.email 'mackwic@gmail.com'
       - git config --global user.name 'Thomas Wickham'
       - npm run deploy:staging
+
   autodeploy-dev:
     branch: /.*/
     commands:
       - git config --global user.email 'mackwic@gmail.com'
       - git config --global user.name 'Thomas Wickham'
       - npm run deploy:branch
+      - ./scripts/signal_deploy_to_pr.sh
 
 general:
   branches:
