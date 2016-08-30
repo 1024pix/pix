@@ -88,7 +88,7 @@ describe('Acceptance | 37 - Prévisualiser un test |', function () {
 
       it("un bouton pour accéder à l'épreuve suivante", function() {
         const $nextChallengeButton = findWithAssert('.next-challenge-button');
-        expect($nextChallengeButton.text()).to.be.equals('Épreuve suivante');
+        expect($nextChallengeButton.text()).to.contains('Épreuve suivante');
         expect($nextChallengeButton.attr('href')).to.be.equals(`/courses/${courseId}/preview/challenges/${secondChallengeId}`);
       });
     });

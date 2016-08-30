@@ -121,6 +121,23 @@ export function testConfig() {
             ]
           }
         };
+      case 'test_id_FIXME_remove_it':
+        return {
+          "id": "test_id_FIXME_remove_it",
+          "fields": {
+            "Consigne": "Exemple de question QCU\n\n",
+            "Propositions": "- option 1\n- option 2\n- option 3\n- option 4\n- option 5\n\n",
+            "Type d'épreuve": "QCU",
+            "Tests": [
+              "rec5duNNrPqbSzQ8o"
+            ],
+            "Illustration de la consigne": [
+              {
+                "url": "https://dl.airtable.com/SX1UCYMHQZ2ovVswb510_Tuvalu%20chif..png"
+              }
+            ]
+          }
+        };
       case "recub31NerwonPVwX":
       default:
         return {
