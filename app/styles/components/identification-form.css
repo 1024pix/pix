@@ -1,17 +1,20 @@
+@import url('../globals/palette.css');
+
 #identification-form {
   background-color: #fff;
   border-radius: 5px;
   width: 460px;
   margin: 0 auto;
   padding: 24px 40px 59px;
-}
+  
+  & .identification-form-actions {
+    & button[disabled] {
+      background-color: var(--green-dark);
+    }
 
-#identification-form .identification-form-actions button[disabled] {
-  background-color: rgba(120,193,130,0.50);
+    & .has-error button[disabled] {
+      background-color: var(--red-dark);
+      border-color: var(--red);
+    }
+  }
 }
-
-#identification-form .identification-form-actions.has-error button[disabled] {
-  background-color: rgba(201,48,44,0.50);
-  border-color: #ac2925;
-}
-

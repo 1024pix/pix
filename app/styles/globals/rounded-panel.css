@@ -1,21 +1,23 @@
+@import url('./palette.css');
+
 .rounded-panel {
   background-color: #fff;
   border-radius: 0.3125em;
-  border-left: 1px solid #dedfe2;
-  border-right: 1px solid #dedfe2;
-  border-bottom: 1px solid #D0D1D5;
-  box-shadow: 0 1px 0 0 #dedfe2;
+  border-left: 1px solid var(--light-grey4);
+  border-right: 1px solid var(--light-grey4);
+  border-bottom: 1px solid var(--light-grey5);
+  box-shadow: 0 1px 0 0 var(--light-grey4);
   padding: 20px;
   margin-bottom: 50px;
   overflow: hidden;
-}
 
-.rounded-panel > hr {
-  height: 1px;
-  border: none;
-  background: #E4E5E9;
-  margin: 20px -29px;
-  box-sizing: content-box;
+  & > hr {
+    height: 1px;
+    border: none;
+    background: var(--light-grey5);
+    margin: 20px -29px;
+    box-sizing: content-box;
+  }
 }
 
 .rounded-panel-title {
@@ -25,10 +27,10 @@
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   font-smoothing: antialiased;
-  color: #2F70FB;
+  color: var(--pix-blue);
 }
 
 .rounded-panel-notice {
-  color: #e97f2a;
-  color: #FDBD2C;
+  /*color: var(--pix-orange);*/
+  color: var(--pix-yellow);
 }

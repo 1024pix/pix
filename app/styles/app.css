@@ -3,10 +3,12 @@
 @import url('globals/form.css');
 @import url('globals/groupped-input.css');
 @import url('globals/rounded-panel.css');
+
 /* components */
 @import url('components/app-header.css');
 @import url('components/identification-form.css');
 @import url('components/challenge-item.css');
+
 /* views */
 @import url('home.css');
 @import url('home-loading.css');
@@ -21,7 +23,7 @@
 
 body {
   font-family: 'Open Sans', sans-serif;
-  background-color: #f2f3f4;
+  background-color: var(--light-grey1);
 }
 
 .body {
@@ -37,7 +39,7 @@ body {
 .container .title {
   display: block;
   text-rendering: optimizeLegibility;
-  color: #484c58;
+  color: var(--dark-grey5);
   font-size: 30px;
   font-weight: 600;
   margin-bottom: 20px;

@@ -4,19 +4,25 @@
   line-height: 20px;
   background-repeat: no-repeat;
   background-position: 11px center;
-  border: 1px solid #D0D1D5;
+  border: 1px solid var(--light-grey5);
   border-radius: 5px;
   outline: none;
+
+  & .focus {
+    border: 1px solid var(--pix-blue);
+    box-shadow: none;
+    opacity: 1;
+  }
+
+  & input {
+    border: none;
+    outline: none;
+    width: 100%;
+  }
 }
 
 .groupped-input-with-icon {
   padding-left: 35px;
-}
-
-.groupped-input.focus {
-  border: 1px solid #2F70FB;
-  box-shadow: none;
-  opacity: 1;
 }
 
 .groupped-input-top {
@@ -36,8 +42,3 @@
   border-top-right-radius: 0;
 }
 
-.groupped-input input {
-  border: none;
-  outline: none;
-  width: 100%;
-}
