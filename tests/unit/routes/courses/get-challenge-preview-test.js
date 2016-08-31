@@ -16,5 +16,7 @@ describeModule(
       let route = this.subject();
       expect(route).to.be.ok;
     });
+
+    // TODO: moar tests
   }
 );

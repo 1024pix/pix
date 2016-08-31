@@ -1,16 +1,16 @@
-import AirtableSerializer from "ember-airtable/serializer";
+import AirtableSerializer from "./airtable-serializer";
 
 export default AirtableSerializer.extend({
+  transformFields(fields) {
+    const res = {
+      instruction: fields['Consigne'],
+      proposals: fields['Propositions']
+    };
 
-  normalizeResponse(store, type, payload) {
-    payload.fields.instruction = payload.fields['Consigne'];
-    payload.fields.proposals = payload.fields['Propositions'];
-
-    if (payload.fields['Illustration de la consigne']) {
-      payload.fields.illustrationUrl = payload.fields['Illustration de la consigne'][0].url;
+    if (fields['Illustration de la consigne']) {
+      res.illustrationUrl = fields['Illustration de la consigne'][0].url;
     }
 
-    return this._super(...arguments);
+    return res;
   }
-
 });

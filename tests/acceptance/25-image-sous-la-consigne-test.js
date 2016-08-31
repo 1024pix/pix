@@ -17,7 +17,7 @@ describe("Acceptance | 25 - Afficher une image sous la consigne | ", function ()
   before(function () {
     application = startApp();
     challenge = server.create('challenge-airtable');
-    challenge.attrs.fields['Illustration de la consigne'] = [{ url: 'http://example.com' }];
+    challenge.attrs.fields['Illustration de la consigne'] = [{ url: 'http://example.beta.gouv.fr' }];
   });
 
   after(function () {
@@ -25,7 +25,7 @@ describe("Acceptance | 25 - Afficher une image sous la consigne | ", function ()
   });
 
   before(function () {
-    return visit(`/challenges/${challenge.id}/preview`);
+    return visit(`/challenges/${challenge.attrs.id}/preview`);
   });
 
   it('25.1 Une image unique peut être affichée sous la consigne', function () {

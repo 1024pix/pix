@@ -10,9 +10,15 @@ import destroyApp from '../helpers/destroy-app';
 
 describe('Acceptance | 2 - voir la liste des tests', function () {
   let application;
+  let courses;
+  let courseWithoutImage;
 
   before(function () {
     application = startApp();
+    courses = server.createList('course-airtable', 6);
+    courseWithoutImage = courses[5];
+    courseWithoutImage.attrs.fields.Image[0].url = '';
+    courseWithoutImage.save();
   });
 
   after(function () {
@@ -38,21 +44,23 @@ describe('Acceptance | 2 - voir la liste des tests', function () {
   describe('2.3 pour un test donné avec toutes les informations', function () {
 
     let $course;
+    let course;
 
     before(function () {
-      $course = find('.course[data-id="rec5duNNrPqbSzQ8o"]');
+      course = courses[1];
+      $course = findWithAssert(`.course[data-id="${course.attrs.id}"]`);
     });
 
     it('2.3.1 on affiche son nom', function () {
-      expect($course.find('.course-name').text()).to.contains('Test #1');
+      expect($course.find('.course-name').text()).to.contains(course.attrs.fields.Nom);
     });
 
     it('2.3.2 on affiche sa description', function () {
-      expect($course.find('.course-description').text()).to.contains('Libero eum excepturi');
+      expect($course.find('.course-description').text()).to.contains(course.attrs.fields.Description);
     });
 
     it('2.3.3 on affiche son image', function () {
-      expect($course.find('img')[0].src).to.equal('https://dl.airtable.com/oLRaj7sTbCGzsLNwiur1_test1.png');
+      expect($course.find('img')[0].src).to.equal(course.attrs.fields.Image[0].url);
     });
 
     it('2.3.4 on affiche un bouton "démarrer le test"', function () {
@@ -61,8 +69,8 @@ describe('Acceptance | 2 - voir la liste des tests', function () {
 
   });
 
-  it('2.4 pour un test dont il manque l\'image, on affiche une image placeholder', function () {
-    const $course = find('.course[data-id="recOouHLk00aMWJH2"]');
+  it('2.4 pour un test dont il manque l\'image, on affiche une image placeholder', function() {
+    const $course = findWithAssert(`.course[data-id="${courseWithoutImage.attrs.id}"]`);
     expect($course.find('img')[0].src).to.contains('images/course-default-image.png');
   });
 

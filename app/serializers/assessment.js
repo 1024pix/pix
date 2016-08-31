@@ -1,11 +1,12 @@
-import AirtableSerializer from "ember-airtable/serializer";
+import AirtableSerializer from "./airtable-serializer";
 
 export default AirtableSerializer.extend({
 
-  normalizeResponse(store, type, payload) {
-    payload.fields.name = payload.fields['Nom'];
-    payload.fields.course = payload.fields['Test'];
-    return this._super(...arguments);
+  transformFields(fields) {
+    return {
+      name: fields['Nom'],
+      course: fields['Test']
+    };
   },
 
   serializeIntoHash: function (data, type, record, options) {
@@ -19,5 +20,4 @@ export default AirtableSerializer.extend({
       ]
     };
   }
-
 });

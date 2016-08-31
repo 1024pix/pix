@@ -11,9 +11,11 @@ import destroyApp from '../helpers/destroy-app';
 describe('Acceptance | 32 - Créer une épreuve de type QCU | ', function () {
 
   let application;
+  let challenge;
 
   before(function () {
     application = startApp();
+    challenge = server.create('challenge-airtable');
   });
 
   after(function () {
@@ -22,9 +24,10 @@ describe('Acceptance | 32 - Créer une épreuve de type QCU | ', function () {
 
   describe('32 - Prévisualiser une épreuve |', function () {
 
-    const challengeId = "recLt9uwa2dR3IYpi";
+    let challengeId;
 
     before(function () {
+      challengeId  = challenge.attrs.id;
       return visit(`/challenges/${challengeId}/preview`);
     });
 
@@ -40,14 +43,15 @@ describe('Acceptance | 32 - Créer une épreuve de type QCU | ', function () {
         $challenge = findWithAssert('#challenge-preview');
       });
 
-      it('32.2. la consigne de l\'épreuve', function () {
-        expect($challenge.find('.challenge-instruction').text()).to.contains('Que peut-on dire des œufs de catégorie A ?');
+      it('32.2 la consigne de l\'épreuve', function () {
+        expect($challenge.find('.challenge-instruction').text()).to.contains(challenge.attrs.fields.Consigne);
       });
 
-      it('32.3. les propositions sous forme de boutons radio', function () {
-        const $proposals = findWithAssert('.challenge-proposals input[type="radio"][name="proposals"]');
-        expect($proposals).to.have.lengthOf(5);
-      });
+      // FIXME: this is not part of the US. This should be removed (need validation in PR)
+      //it('32.3 les propositions sous forme de boutons radio', function () {
+      //  const $proposals = findWithAssert('.challenge-proposals input[type="radio"][name="proposals"]');
+      //  expect($proposals).to.have.lengthOf(5);
+      //});
     });
   });
 });
