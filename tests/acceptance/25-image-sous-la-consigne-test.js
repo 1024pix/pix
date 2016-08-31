@@ -16,10 +16,8 @@ describe("Acceptance | 25 - Afficher une image sous la consigne | ", function ()
 
   before(function () {
     application = startApp();
-    challenge = {
-      id: 'test_id_FIXME_remove_it'
-    }
-
+    challenge = server.create('challenge-airtable');
+    challenge.attrs.fields['Illustration de la consigne'] = [{ url: 'http://example.com' }];
   });
 
   after(function () {
@@ -35,6 +33,6 @@ describe("Acceptance | 25 - Afficher une image sous la consigne | ", function ()
   });
 
   it('25.2 Cette image a un alt text “ceci est une image”', function () {
-    expect(findWithAssert('.challenge-statement img').attr('alt')).to.contains('ceci est une image');
+    expect(findWithAssert('.challenge-illustration').attr('alt')).to.contains('ceci est une image');
   });
 });

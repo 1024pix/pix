@@ -8,4 +8,8 @@
     font-weight: 400;
     width: 100%;
   }
+
+  & challenge-illustration {
+    max-width: 100%;
+  }
 }
