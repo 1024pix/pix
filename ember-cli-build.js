@@ -69,7 +69,7 @@ module.exports = function (defaults) {
     // css animations
     app.import({
       development: 'bower_components/animate.css/animate.css',
-      production: 'bower_components/animate.css/animate.min.css',
+      production: 'bower_components/animate.css/animate.min.css'
     });
 
     app.import({

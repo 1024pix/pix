@@ -9,7 +9,7 @@ module.exports = function(environment) {
     EmberENV: {
       // XXX because of a deprecation notice in the console
       EXTEND_PROTOTYPES: {
-        Date: false,
+        Date: false
       },
       FEATURES: {
         // Here you can enable experimental features on an ember canary build

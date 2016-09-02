@@ -1,8 +1,17 @@
 engines:
   csslint:
     enabled: true
+    checks:
+      import:
+        enabled: false
   duplication:
     enabled: true
+    exclude_fingerprints:
+    - 893780c37b3064170e42d3ef38c299b4
+    - 2e23c2c494c706ac07116b5955b25069
+    - 8bc6dd7607130d62e6f49b966d2d4002
+    - bb9554c7909882b0fa32675a7a181947
+    - 9c6e0e2a86535af4c969c4a617e234be
     config:
       languages:
       - javascript
@@ -10,6 +19,9 @@ engines:
     enabled: true
   fixme:
     enabled: true
+    checks:
+      XXX:
+        enabled: false
 ratings:
   paths:
     - "**.css"
