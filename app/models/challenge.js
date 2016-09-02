@@ -2,7 +2,7 @@ import DS from 'ember-data';
 import Ember from 'ember';
 import _ from 'lodash/lodash';
 
-const { Model, attr, belongsTo } = DS;
+const { Model, attr } = DS;
 const { computed } = Ember;
 
 export default Model.extend({

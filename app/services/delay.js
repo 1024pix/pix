@@ -8,7 +8,6 @@ export default Ember.Service.extend({
         setTimeout(resolve, ms)
       });
     }
-    else
-      return new RSVP.resolve()
+    return new RSVP.resolve()
   }
 });

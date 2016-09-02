@@ -77,5 +77,8 @@
     "stylelint-config-standard": "^13.0.0",
     "tap-xunit": "^1.4.0",
     "urljs": "^2.3.1"
+  },
+  "dependencies": {
+    "ember-radio-buttons": "^4.0.1"
   }
 }

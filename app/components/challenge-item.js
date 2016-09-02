@@ -1,30 +1,49 @@
 import Ember from 'ember';
 
-export default Ember.Component.extend({
+const ChallengeItem = Ember.Component.extend({
 
   tagName: 'article',
   classNames: ['challenge-item'],
   attributeBindings: ['challenge.id:data-challenge-id'],
 
-  mode: 'live',
-  challenge: null,
-  isLiveMode: Ember.computed.equal('mode', 'live'),
-  isCoursePreviewMode: Ember.computed.equal('mode', 'course-preview'),
-  hasIllustration: Ember.computed.notEmpty('challenge.illustrationUrl'),
+  assessmentService: Ember.inject.service('assessment'),
 
-  course: null,
-  hasNextChallenge: Ember.computed('challenge', 'course', function () {
-    const course = this.get('course');
-    const challenge = this.get('challenge');
-    const challenges = course.get('challenges');
-    const currentChallengeIndex = challenges.indexOf(challenge);
-    return currentChallengeIndex + 1 < challenges.get('length');
+  challenge: null,
+  assessment: null,
+  selectedProposal: null,
+  error: null,
+
+  hasIllustration: Ember.computed.notEmpty('challenge.illustrationUrl'),
+  isChallengePreviewMode: Ember.computed.empty('assessment'),
+  hasError: Ember.computed.notEmpty('error'),
+
+  onSelectedProposalChanged: Ember.observer('selectedProposal', function() {
+      this.set('error', null);
   }),
 
-  nextChallenge: Ember.computed('challenge', 'course', function () {
-    const course = this.get('course');
-    const challenge = this.get('challenge');
-    const challenges = course.get('challenges');
-    return challenges.objectAt(challenges.indexOf(challenge) + 1);
-  })
+  didUpdateAttrs() {
+    this._super(...arguments);
+    this.set('selectedProposal', null);
+  },
+
+  actions: {
+    validate(challenge, assessment) {
+      if (Ember.isEmpty(this.get('selectedProposal'))) {
+        this.set('error', 'Vous devez sélectionner une réponse.');
+        return;
+      }
+      const value = this._adaptSelectedProposalValueToBackendValue(this.get('selectedProposal'));
+      this.sendAction('onValidated', challenge, assessment, value);
+    }
+  },
+
+  _adaptSelectedProposalValueToBackendValue(value) {
+    return `${value + 1}`;
+  }
 });
+
+ChallengeItem.reopenClass({
+  positionalParams: ['challenge', 'assessment']
+});
+
+export default ChallengeItem;

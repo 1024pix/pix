@@ -3,34 +3,60 @@ import { describeComponent, it } from 'ember-mocha';
 import { describe, before } from 'mocha';
 import hbs from 'htmlbars-inline-precompile';
 import Ember from 'ember';
+import RSVP from 'rsvp';
+
+function renderChallengeItem(challengeAttributes = {}, validateHandler = null) {
+
+  const challenge = Ember.Object.create(challengeAttributes);
+  this.set('challenge', challenge);
+
+  const assessment = Ember.Object.create({});
+  this.set('assessment', assessment);
+  this.set('validateHandler', (validateHandler || (() => null)));
+
+  this.render(hbs`{{challenge-item challenge assessment onValidated=(action validateHandler)}}`);
+}
+
+function renderChallengeItem_challengePreview(challengeAttributes = {}) {
+
+  const challenge = Ember.Object.create(challengeAttributes);
+  this.set('challenge', challenge);
+  this.render(hbs`{{challenge-item challenge}}`);
+}
+
+function selectFirstProposal() {
+
+  return new RSVP.Promise(function(resolve) {
+    return this.$('.challenge-proposal:first input[type="radio"]').click(() => {
+      return resolve();
+    });
+  });
+}
+
+function validateChallenge() {
+  this.$('.validate-button').click();
+}
+
+function assertAlertErrorToBeHidden() {
+  expect(this.$('.alert-error')).to.have.lengthOf(0);
+}
 
 describeComponent(
   'challenge-item',
-  'Integration: ChallengeItemComponent',
+  'Integration | Component | ChallengeItem',
   {
     integration: true
   },
   function () {
 
-    /*
-     * TODO: find a way to make `this` works in mocha hooks such as `before` in order to mutualize and reduce code
-     */
-
-    describe('when used with a given challenge', function () {
-
-      function renderChallengeItemWithASimpleChallenge(context, challengeAttributes) {
-
-        const challenge = Ember.Object.create(challengeAttributes);
-        context.set('challenge', challenge);
-        context.render(hbs`{{challenge-item challenge=challenge}}`);
-      }
+    describe('for a given challenge', function () {
 
       it('should render challenge instruction', function () {
         // given
         const instruction = 'My challenge instruction';
 
         // when
-        renderChallengeItemWithASimpleChallenge(this, { instruction });
+        renderChallengeItem.call(this, { instruction });
 
         // then
         expect(this.$('.challenge-instruction').text()).to.contains(instruction);
@@ -38,7 +64,7 @@ describeComponent(
 
       it('should render challenge proposals', function () {
         // when
-        renderChallengeItemWithASimpleChallenge(this, { proposalsAsArray: ['Xi', 'Fu', 'Mi'] });
+        renderChallengeItem.call(this, { proposalsAsArray: ['Xi', 'Fu', 'Mi'] });
 
         // then
         const $proposals = this.$('.challenge-proposal');
@@ -48,13 +74,9 @@ describeComponent(
         expect($proposals.eq(2).text()).to.contains('Mi');
       });
 
-    });
-
-    describe('when used with default mode (a.k.a. "live")', function () {
-
       it('should display "Skip" button ', function () {
         // when
-        this.render(hbs`{{challenge-item}}`);
+        renderChallengeItem.call(this);
 
         // then
         expect(this.$('.skip-button')).to.have.lengthOf(1);
@@ -62,18 +84,28 @@ describeComponent(
 
       it('should display "Validate" button ', function () {
         // when
-        this.render(hbs`{{challenge-item}}`);
+        renderChallengeItem.call(this);
 
         // then
         expect(this.$('.validate-button')).to.have.lengthOf(1);
       });
 
-      it('should not display "Next" button ', function () {
+      it('should display an img tag with “ceci est une image” alt text', function () {
         // when
-        this.render(hbs`{{challenge-item}}`);
+        renderChallengeItem.call(this, { illustrationUrl: 'http://my.illustration.png' });
 
         // then
-        expect(this.$('.next-challenge-button')).to.have.lengthOf(0);
+        const $illustration = this.$('.challenge-illustration');
+        expect($illustration.attr('alt')).to.contains('ceci est une image');
+      });
+
+      it('should display an img tag with src attribute equals to the challenge.illustrationUrl property', function () {
+        // given
+        const illustrationUrl = 'http://my.illustration.png';
+        renderChallengeItem.call(this, { illustrationUrl });
+
+        let $illustration = this.$('.challenge-illustration');
+        expect($illustration.attr('src')).to.equals(illustrationUrl);
       });
 
     });
@@ -82,7 +114,7 @@ describeComponent(
 
       it('should not display "Skip" button', function () {
         // when
-        this.render(hbs`{{challenge-item mode="challenge-preview"}}`);
+        renderChallengeItem_challengePreview.call(this);
 
         // then
         expect(this.$('.skip-button')).to.have.lengthOf(0);
@@ -90,99 +122,92 @@ describeComponent(
 
       it('should not display "Validate" button', function () {
         // when
-        this.render(hbs`{{challenge-item mode="challenge-preview"}}`);
+        renderChallengeItem_challengePreview.call(this);
 
         // then
         expect(this.$('.validate-button')).to.have.lengthOf(0);
       });
 
-      it('should not display "Next" button ', function () {
-        // when
-        this.render(hbs`{{challenge-item mode="challenge-preview"}}`);
-
-        // then
-        expect(this.$('.next-challenge-button')).to.have.lengthOf(0);
-      });
     });
 
-    describe('when used with mode "course-preview"', function () {
+    describe('Validating the challenge', function () {
 
-      function renderChallengeItemWithCoursePreviewMode(context, challenge, challenges) {
+      it('should callback the validate action when the user click on validate', function (done) {
+        // given
+        renderChallengeItem.call(this, { proposalsAsArray: ['Xi', 'Fu', 'Mi'] }, () => done());
 
-        const course = Ember.Object.create({
-          challenges: challenges
+        // when
+        this.$('.challenge-proposal:first input[type="radio"]').click();
+        this.$('.validate-button').click();
+      });
+
+      it('should call "onValidated" callback with good value for QCU (i.e. proposal index + 1)', function(done) {
+        // given
+        renderChallengeItem.call(this, { proposalsAsArray: ['Xi', 'Fu', 'Mi'] }, (challenge, assessment, answerValue) => {
+
+          // then
+          expect(answerValue).to.equal("1");
+          done();
         });
-        context.set('course', course);
-        context.render(hbs`{{challenge-item mode="course-preview" challenge=challenge course=course}}`);
-      }
 
-      function renderChallengeItemWithCoursePreviewModeAndWithNextChallenge(context) {
-
-        const challenge = Ember.Object.create({ id: '1' });
-        context.set('challenge', challenge);
-
-        const nextChallenge = Ember.Object.create({ id: '2' });
-
-        renderChallengeItemWithCoursePreviewMode(context, challenge, [challenge, nextChallenge]);
-      }
-
-      function renderChallengeItemWithCoursePreviewModeAndWithNoChallengeNext(context) {
-
-        const challenge = Ember.Object.create({ id: '1' });
-        context.set('challenge', challenge);
-
-        renderChallengeItemWithCoursePreviewMode(context, challenge, [challenge]);
-      }
-
-      it('should not display "Skip" button ', function () {
         // when
-        renderChallengeItemWithCoursePreviewModeAndWithNextChallenge(this);
+        this.$('.challenge-proposal:first input[type="radio"]').click();
+        this.$('.validate-button').click();
 
-        // then
-        expect(this.$('.skip-button')).to.have.lengthOf(0);
-      });
-
-      it('should not display "Validate" button ', function () {
-        // when
-        renderChallengeItemWithCoursePreviewModeAndWithNextChallenge(this);
-
-        // then
-        expect(this.$('.validate-button')).to.have.lengthOf(0);
-      });
-
-      it('should display "Next" button when there is a challenge next', function () {
-        // when
-        renderChallengeItemWithCoursePreviewModeAndWithNextChallenge(this);
-        // then
-        expect(this.$('.next-challenge-button')).to.have.lengthOf(1);
-      });
-
-      it('should not display "Next" button when there is no challenge next', function () {
-        // when
-        renderChallengeItemWithCoursePreviewModeAndWithNoChallengeNext(this);
-        // then
-        expect(this.$('.next-challenge-button')).to.have.lengthOf(0);
-      });
-
-    });
-
-    describe('when given an illustraction', function () {
-      it('should display an img tag with “ceci est une image” alt text', function () {
-        this.set('challenge', Ember.Object.create({ illustrationUrl: 'yo' }));
-        this.render(hbs`{{challenge-item challenge=challenge}}`);
-
-        const $illustration = this.$('.challenge-illustration');
-        expect($illustration.attr('alt')).to.contains('ceci est une image');
-      });
-
-      it('should display an img tag with src attribute equals to the challenge.illustrationUrl property', function () {
-        this.set('challenge', Ember.Object.create({ illustrationUrl: 'yo' }));
-        this.render(hbs`{{challenge-item challenge=challenge}}`);
-
-        let $illustration = this.$('.challenge-illustration');
-        expect($illustration.attr('src')).to.equals('yo');
       });
     });
 
+    describe('Error alert box', function () {
+
+      it("should be hidden by default", function () {
+        // when
+        renderChallengeItem.call(this, { proposalsAsArray: ['Xi', 'Fu', 'Mi'] }, () => done());
+
+        // then
+        expect(this.$('.alert-error')).to.have.lengthOf(0);
+      });
+
+      describe('when validating a challenge without having selected a proposal', function () {
+
+        it("should be displayed", function () {
+          // given
+          renderChallengeItem.call(this, { proposalsAsArray: ['Xi', 'Fu', 'Mi'] }, () => {
+
+            // then
+            const $alertError = this.$('.alert-error');
+            expect($alertError).to.have.lengthOf(1);
+          });
+
+          // when
+          validateChallenge.call(this);
+        });
+
+        it('should contains "Vous devez saisir une réponse"', function() {
+          // given
+          renderChallengeItem.call(this, { proposalsAsArray: ['Xi', 'Fu', 'Mi'] }, () => {
+
+            // then
+            const $alertError = this.$('.alert-error');
+            expect($alertError.text()).to.contains("Vous devez saisir une réponse");
+          });
+
+          // when
+          validateChallenge.call(this);
+        });
+
+      });
+
+      describe('when a proposal is selected', function () {
+
+        it("should be removed", function () {
+          // when
+          selectFirstProposal.call(this);
+
+          // then
+          assertAlertErrorToBeHidden.call(this);
+        });
+
+      });
+    });
   }
 );

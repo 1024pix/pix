@@ -13,7 +13,7 @@ export default AirtableSerializer.extend({
     data['fields'] = this.serialize(record, options);
   },
 
-  serialize: function (snapshot, options) {
+  serialize: function (snapshot) {
     return {
       "Test": [
         snapshot.belongsTo('course', { id: true })

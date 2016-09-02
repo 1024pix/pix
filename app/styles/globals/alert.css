@@ -1,0 +1,19 @@
+.alert {
+  outline: none;
+  border-radius: 0.3125em;
+  padding: 9px;
+  vertical-align: middle;
+  margin-bottom: 11px;
+  color: white;
+  text-shadow: none;
+}
+
+.alert-success {
+  border: 1px solid var(--alert-success-green);
+  background-color: var(--alert-success-green);
+}
+
+.alert-danger {
+  border: 1px solid var(--alert-danger-red);
+  background-color: var(--alert-danger-red);
+}

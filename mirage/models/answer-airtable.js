@@ -4,7 +4,6 @@ import { hasMany } from "ember-cli-mirage";
 
 export default AirtableRecord.extend({
   fields: {
-    "Référence": attr('string'),
-    Test: hasMany('course-airtable')
+    "Valeur": attr('string')
   }
 });

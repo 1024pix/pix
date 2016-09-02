@@ -18,6 +18,7 @@ Router.map(function () {
   this.route('courses.create-assessment', { path: '/courses/:course_id/assessment' });
 
   this.route('assessments.get-challenge', { path: '/assessments/:assessment_id/challenges/:challenge_id' });
+  this.route('assessments.get-results', { path: '/assessments/:assessment_id/results' });
 });
 
 export default Router;

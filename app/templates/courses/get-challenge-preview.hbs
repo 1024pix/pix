@@ -1,7 +1,7 @@
 <div id="challenge-preview" data-id="{{ model.challenge.id }}" class="challenge-preview">
     <div class="container">
 
-      {{challenge-item challenge=model.challenge mode="course-preview" course=model.course}}
+      {{challenge-item model.challenge model.assessment onValidated=(action navigate)}}
 
     </div>
 </div>

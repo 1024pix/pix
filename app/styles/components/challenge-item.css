@@ -9,7 +9,7 @@
     width: 100%;
   }
 
-  & challenge-illustration {
+  & .challenge-illustration {
     max-width: 100%;
   }
 }

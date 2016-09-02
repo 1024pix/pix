@@ -2,8 +2,8 @@ import '../../test-helper';
 import { expect } from 'chai';
 import { describeModel, it } from 'ember-mocha';
 
-describeModel('assessment',  'Unit | Model | Assessment', {
-    needs: ['model:course', 'model:answer']
+describeModel('answer',  'Unit | Model | Answer', {
+    needs: ['model:assessment', 'model:challenge']
   }, function() {
 
     it('exists', function() {

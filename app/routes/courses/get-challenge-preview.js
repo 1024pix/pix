@@ -14,19 +14,29 @@ export default Ember.Route.extend({
 
     return RSVP.hash(promises).then(function (results) {
 
-      const course = results.course;
       const challenge = results.challenge;
-      const challenges = course.get('challenges');
-      const currentChallengeIndex = challenges.indexOf(challenge);
-      const nextChallenge = challenges.objectAt(challenges.indexOf(challenge) + 1);
-      const hasNextChallenge = currentChallengeIndex + 1 < challenges.get('length');
+      const course = RSVP.resolve(results.course);
+
+      const assessment = Ember.Object.create({
+        id: 'fake',
+        course
+      });
 
       return {
-        course,
         challenge,
-        hasNextChallenge,
-        nextChallenge
+        assessment
+      };
+    });
+  },
+
+  serialize: function(model) {
+    return model.assessment.get('course').then((course) => {
+      return {
+        course_id: course.id,
+        challenge_id: model.challenge.id
       };
     });
   }
+
+
 });

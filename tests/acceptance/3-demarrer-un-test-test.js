@@ -19,9 +19,9 @@ describe('Acceptance | 3 - Démarrer un test |', function () {
     application = startApp();
     challenge = server.create('challenge-airtable');
     course = server.create('course-airtable');
-    course.attrs.fields['Épreuves'] = [ challenge.attrs.id ];
+    course.attachOne('Épreuves', challenge);
     assessment = server.create('assessment-airtable');
-    assessment.attrs.fields['Test'] = [ course.attrs.id ];
+    assessment.attachOne('Test', course);
   });
 
   after(function () {

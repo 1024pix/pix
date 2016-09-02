@@ -23,9 +23,9 @@ describe('Acceptance | 4 - Démarrer une épreuve |', function() {
     challenge = server.create('challenge-airtable');
     challenge.attrs.fields['Propositions'] = propositions.map((p) => `- ${p}`).reduce((e1, e2) => `${e1}\n${e2}`);
     course = server.create('course-airtable');
-    course.fields['Épreuves'] = [ challenge.attrs.id ];
+    course.attachOne('Épreuves', challenge);
     assessment = server.create('assessment-airtable');
-    assessment.fields['Test'] = [ course.attrs.id ];
+    assessment.attachOne('Test', course);
   });
 
   after(function() {
@@ -58,10 +58,10 @@ describe('Acceptance | 4 - Démarrer une épreuve |', function() {
   });
 
   it('4.4. affiche le bouton "Valider" permettant de sauvegarder la réponse saisie et de passer à l\'épreuve suivante ', function() {
-    expect(findWithAssert('.validate-button').text()).to.eq('Valider');
+    expect(findWithAssert('.validate-button').text()).to.contains('Valider');
   });
 
   it('4.5. affiche le bouton "Passer" permettant de passer à l\'épreuve suivante sans avoir saisi de réponse', function() {
-    expect(findWithAssert('.skip-button').text()).to.eq('Passer');
+    expect(findWithAssert('.skip-button').text()).to.contains('Passer');
   });
 });

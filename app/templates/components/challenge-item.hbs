@@ -8,27 +8,25 @@
 
 <div class="rounded-panel challenge-response">
     <div class="challenge-proposals">
-      {{#each challenge.proposalsAsArray as |proposal|}}
+      {{#each challenge.proposalsAsArray as |proposal index|}}
           <p class="challenge-proposal">
-              <label>{{input type="radio" name="proposals"}} {{ proposal }}</label>
+              <label>{{radio-button name="proposals" value=index checked=selectedProposal}} {{ proposal }}</label>
           </p>
       {{/each}}
     </div>
 
-  {{#if isLiveMode}}
+  {{#unless isChallengePreviewMode}}
       <hr/>
+    {{#if hasError}}
+        <div class="alert alert-danger" role="alert">
+          {{error}}
+        </div>
+    {{/if}}
+
       <div class="actions pull-right">
           <button class="button button-secondary skip-button">Passer</button>
-          <button class="button button-primary validate-button">Valider</button>
+          <button class="button button-primary validate-button" {{action "validate" challenge assessment}}>Valider
+          </button>
       </div>
-  {{else if isCoursePreviewMode}}
-      <hr/>
-      <div class="actions pull-right">
-        {{#if hasNextChallenge}}
-          {{#link-to "courses.get-challenge-preview" course.id nextChallenge.id class="btn btn-primary next-challenge-button"}}
-              Épreuve suivante{{/link-to}}
-        {{/if}}
-      </div>
-  {{/if}}
-
+  {{/unless}}
 </div>

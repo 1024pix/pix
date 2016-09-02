@@ -5,21 +5,21 @@
     as |form|
 }}
     <div id="firstname" class="form-group {{if user.errors.firstname "has-error"}}">
-      {{form.text-field "firstname" label="Prénom" placeholder="Jon"
+      {{form.text-field "firstname" label="Prénom"
         inputClasses="firstname_input form-control" labelClasses="control-label" errorClasses="help-block animated flash" hintClasses="help-block"
         autocomplete="on" required="true"
       }}
     </div>
 
     <div id="lastname" class="form-group {{if user.errors.lastname "has-error"}}">
-      {{form.text-field "lastname" label="Nom" placeholder="Snow"
+      {{form.text-field "lastname" label="Nom"
         inputClasses="lastname_input form-control" labelClasses="control-label" errorClasses="help-block animated flash" hintClasses="help-block"
         autocomplete="on" required="true"
       }}
     </div>
 
     <div id="email" class="form-group {{if user.errors.email "has-error"}}">
-      {{form.email-field "email" label="Email" placeholder="jon.snow@winterfell.got"
+      {{form.email-field "email" label="Email"
         inputClasses="email_input form-control" labelClasses="control-label" errorClasses="help-block animated flash" hintClasses="help-block"
         autocomplete="on" required="true"
       }}

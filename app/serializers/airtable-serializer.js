@@ -4,10 +4,12 @@ import DS from 'ember-data';
 const inflector = Ember.Inflector.inflector;
 
 export default DS.RESTSerializer.extend({
+
   normalizeResponse(store, type, payload) {
+
     const modelNamePlural = inflector.pluralize(type.modelName);
 
-    if(payload.records) {
+    if (payload.records) {
       payload[modelNamePlural] = payload.records;
       delete payload.records;
 

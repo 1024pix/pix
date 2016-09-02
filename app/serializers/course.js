@@ -1,9 +1,8 @@
 import Ember from 'ember';
 import AirtableSerializer from "./airtable-serializer";
-import _ from 'lodash/lodash';
-
 
 export default AirtableSerializer.extend({
+
   transformFields(fields) {
     let result = {
       name: fields['Nom'],
