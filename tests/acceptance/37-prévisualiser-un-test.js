@@ -88,14 +88,14 @@ describe('Acceptance | 37 - Prévisualiser un test |', function () {
       let $challenge;
 
       before(function () {
-         $challenge = findWithAssert('.challenge-preview');
+        $challenge = findWithAssert('.challenge-preview');
       });
 
       it("37.6. la consigne de l'épreuve", function () {
         expect($challenge.find('.challenge-instruction').text()).to.contains(currentChallenge.attrs.fields.Consigne);
       });
 
-      it("37.7. un bouton pour accéder à l'épreuve suivante", function() {
+      it("37.7. un bouton pour accéder à l'épreuve suivante", function () {
         const $validateButton = findWithAssert('.validate-button');
         expect($validateButton.text()).to.contains('Valider');
       });

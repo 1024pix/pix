@@ -31,4 +31,8 @@ export function testConfig() {
     return schema.answerAirtables.all();
   });
 
+  this.get(`${AIRTABLE_ROOT}/${AIRTABLE_DATABASE}/Reponses/:id`, function (schema, request) {
+    return schema.answerAirtables.find(request.params.id);
+  });
+
 }
