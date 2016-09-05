@@ -1,9 +1,14 @@
-<div id="assessment-challenge">
+<div id="assessment-results">
     <div class="container">
 
         <div class="rounded-panel">
             <h1>Mercix !</h1>
-            <p>Fin du test : {{model.assessment.course.name}}</p>
+            <p>
+                Vous avez terminé le test {{model.assessment.course.name}} en répondant
+                à {{model.assessment.answers.length}} question(s) sur {{model.assessment.course.challenges.length}}.
+            </p>
+            <p>Un PixMaster va étudier vos réponses et échanger avec vous pour recueillir vos impressions.</p>
+            <p>{{#link-to "home" class="button button-primary home-link"}}Revenir à la liste des tests{{/link-to}}</p>
         </div>
 
     </div>

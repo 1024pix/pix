@@ -6,11 +6,11 @@ export default Model.extend({
   createdTime: attr('string'),
   fields: {},
 
-  attachMany(what, models) {
-    this.attrs.fields[what] = models.map((model) => model.attrs.id);
+  attachMany(modelName, modelObjects) {
+    this.attrs.fields[modelName] = modelObjects.map((model) => model.attrs.id);
   },
 
-  attachOne(what, model) {
-    this.attachMany(what, [model]);
+  attachOne(modelName, modelObject) {
+    this.attachMany(modelName, [modelObject]);
   }
 });

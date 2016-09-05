@@ -6,11 +6,11 @@
     padding-top: 180px;
   }
 
-  & .ball-zig-zag-deflect > div:nth-child(2) {
+  & .ball-zig-zag > div:nth-child(2) {
     background-color: var(--pix-blue);
   }
 
-  & .ball-zig-zag-deflect > div:nth-child(1) {
+  & .ball-zig-zag > div:nth-child(1) {
     background-color: var(--pix-yellow);
   }
 }

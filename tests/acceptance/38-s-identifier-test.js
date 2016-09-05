@@ -53,21 +53,21 @@ describe("Acceptance | 38 - S'identifier sur la plateforme", function () {
     return fillForm('Jérémy', 'Buget', 'jbu@octo.com')
       .then(() => {
         expect($firstname.val()).to.contains('Jérémy');
-        expect($lastname.val()).to.eq('Buget');
-        expect($email.val()).to.eq('jbu@octo.com');
+        expect($lastname.val()).to.equal('Buget');
+        expect($email.val()).to.equal('jbu@octo.com');
       });
   });
 
   it('38.2 Quand je valide mon identité, je suis redirigé vers la page des tests', function () {
     return fillForm('Jérémy', 'Buget', 'jbu@octo.com')
       .then(() => click(submit_css))
-      .then(() => expect(currentURL()).to.eq('/home'))
+      .then(() => expect(currentURL()).to.equal('/home'))
   });
 
   it('38.3 Quand je suis identifié, je vois apparaître le libellé “Bonjour Prénom” (via session utilisateur)', function () {
 
     // Assert that 38.2 went OK
-    expect(currentURL()).to.eq('/home');
+    expect(currentURL()).to.equal('/home');
 
     expect(findWithAssert('.profile').text()).to.contains('Bonjour Jérémy');
   });

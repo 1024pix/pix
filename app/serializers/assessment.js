@@ -5,7 +5,8 @@ export default AirtableSerializer.extend({
   transformFields(fields) {
     return {
       name: fields['Nom'],
-      course: fields['Test']
+      course: fields['Test'],
+      answers: fields['Reponses']
     };
   },
 
