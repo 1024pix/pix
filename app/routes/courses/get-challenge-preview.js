@@ -29,7 +29,7 @@ export default Ember.Route.extend({
     });
   },
 
-  serialize: function(model) {
+  serialize: function (model) {
     return model.assessment.get('course').then((course) => {
       return {
         course_id: course.id,
@@ -37,6 +37,5 @@ export default Ember.Route.extend({
       };
     });
   }
-
 
 });

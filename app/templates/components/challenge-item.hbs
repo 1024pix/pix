@@ -8,11 +8,27 @@
 
 <div class="rounded-panel challenge-response">
     <div class="challenge-proposals">
-      {{#each challenge.proposalsAsArray as |proposal index|}}
-          <p class="challenge-proposal">
-              <label>{{radio-button name="proposals" value=index checked=selectedProposal}} {{ proposal }}</label>
-          </p>
-      {{/each}}
+
+      {{#if challengeIsTypeQROC}}
+        {{#each challenge._proposalsAsBlocks as |block|}}
+
+          {{#if block.text}}
+              <span>{{block.text}}</span>
+          {{/if}}
+
+          {{#if block.input}}
+            {{input type="text" placeholder=block.input}}
+          {{/if}}
+
+        {{/each}}
+
+      {{else}}
+        {{#each challenge._proposalsAsArray as |proposal index|}}
+            <p class="challenge-proposal">
+                <label>{{radio-button name="proposals" value=index checked=selectedProposal}} {{ proposal }}</label>
+            </p>
+        {{/each}}
+      {{/if}}
     </div>
 
   {{#unless isChallengePreviewMode}}

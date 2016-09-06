@@ -6,7 +6,7 @@ export default AirtableFactory.extend({
     return {
       "Consigne": faker.lorem.paragraphs(2),
       "Propositions": "- yo \n - yo yo \n - yo yo yo",
-      "Type d'épreuve": faker.list.cycle('QCU', 'QCM', 'QROC')
+      "Type d'épreuve": 'QCU'
     }
   }
 });

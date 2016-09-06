@@ -17,8 +17,12 @@ const ChallengeItem = Ember.Component.extend({
   isChallengePreviewMode: Ember.computed.empty('assessment'),
   hasError: Ember.computed.notEmpty('error'),
 
-  onSelectedProposalChanged: Ember.observer('selectedProposal', function() {
-      this.set('error', null);
+  challengeIsTypeQROC: Ember.computed.equal('challenge.type', 'QROC'),
+  challengeIsTypeQCM: Ember.computed.equal('challenge.type', 'QCM'),
+  challengeIsTypeQCU: Ember.computed.equal('challenge.type', 'QCU'),
+
+  onSelectedProposalChanged: Ember.observer('selectedProposal', function () {
+    this.set('error', null);
   }),
 
   didUpdateAttrs() {

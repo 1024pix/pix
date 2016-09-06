@@ -5,7 +5,8 @@ export default AirtableSerializer.extend({
   transformFields(fields) {
     const result = {
       instruction: fields['Consigne'],
-      proposals: fields['Propositions']
+      proposals: fields['Propositions'],
+      type: fields["Type d'épreuve"]
     };
 
     if (fields['Illustration de la consigne']) {

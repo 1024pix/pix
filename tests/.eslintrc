@@ -9,3 +9,4 @@ env:
 
 rules:
   no-unused-expressions: 0 # expect(...).to.be.ok
+  complexity: 0
