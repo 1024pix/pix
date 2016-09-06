@@ -1,12 +1,14 @@
 import { expect } from 'chai';
-import { describeModule, it } from 'ember-mocha';
+import { describeModel, it } from 'ember-mocha';
 import OriginalAssessment from 'pix-live/models/assessment';
 import AssessmentSerializer from 'pix-live/serializers/assessment';
 
-describeModule(
-  'serializer:assessment',
+describeModel(
+  'assessment',
   'Unit | Serializer | assessment',
-  {},
+  {
+    needs: ['model:answer']
+  },
   function () {
 
     const serializer = new AssessmentSerializer();
@@ -27,7 +29,9 @@ describeModule(
             "rec5duNNrPqbSzQ8o"
           ],
           "Reponses": ["rec1234567ABCDEFG", "rec8910111HIJKLMN"],
-          "Référence": "recgS0TFyy0bXTjIL"
+          "Référence": "recgS0TFyy0bXTjIL",
+          "Nom de l'usager": "Jérémy le Grand",
+          "Courriel de l'usager": "jbu@octo.com"
         },
         "createdTime": "2016-08-31T23:22:04.000Z"
       };
@@ -37,7 +41,9 @@ describeModule(
           id: payload.id,
           created: payload.createdTime,
           course: payload.fields['Test'],
-          answers: payload.fields['Reponses']
+          answers: payload.fields['Reponses'],
+          userName: payload.fields["Nom de l'usager"],
+          userEmail: payload.fields["Courriel de l'usager"]
         }
       };
       const assessment = normalizePayload(payload);
