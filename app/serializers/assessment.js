@@ -3,6 +3,7 @@ import AirtableSerializer from "./airtable-serializer";
 export default AirtableSerializer.extend({
 
   transformFields(fields) {
+
     return {
       course: fields['Test'],
       answers: fields['Reponses'],
@@ -12,10 +13,12 @@ export default AirtableSerializer.extend({
   },
 
   serializeIntoHash: function (data, type, record, options) {
+
     data['fields'] = this.serialize(record, options);
   },
 
   serialize: function (snapshot) {
+
     return {
       "Test": [
         snapshot.belongsTo('course', { id: true })

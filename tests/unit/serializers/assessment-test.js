@@ -1,6 +1,5 @@
 import { expect } from 'chai';
 import { describeModel, it } from 'ember-mocha';
-import Answer from 'pix-live/models/answer';
 import OriginalAssessment from 'pix-live/models/assessment';
 import AssessmentSerializer from 'pix-live/serializers/assessment';
 
@@ -8,7 +7,7 @@ describeModel(
   'assessment',
   'Unit | Serializer | assessment',
   {
-    needs: ['serializer:assessment', 'model:answer']
+    needs: ['model:answer']
   },
   function () {
 
@@ -20,16 +19,6 @@ describeModel(
       serializer.normalizeResponse(null, Assessment, payload, payload.id, null);
       return payload;
     }
-
-    it('plop', function () {
-      let ass = this.subject({
-        userEmail: 'toto@plop.com',
-        userName: 'Toto'
-      });
-      const data = ass.serialize();
-      expect(data["Nom de l'usager"]).to.equal('Toto');
-      expect(data["Courriel de l'usager"]).to.equal('toto@plop.com');
-    });
 
     it('normalizes correctly', function () {
 
