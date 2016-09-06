@@ -5,7 +5,9 @@ export default AirtableSerializer.extend({
   transformFields(fields) {
     return {
       course: fields['Test'],
-      answers: fields['Reponses']
+      answers: fields['Reponses'],
+      userName: fields["Nom de l'usager"],
+      userEmail: fields["Courriel de l'usager"]
     };
   },
 
@@ -17,7 +19,9 @@ export default AirtableSerializer.extend({
     return {
       "Test": [
         snapshot.belongsTo('course', { id: true })
-      ]
+      ],
+      "Nom de l'usager": snapshot.attr('userName'),
+      "Courriel de l'usager": snapshot.attr('userEmail')
     };
   }
 });
