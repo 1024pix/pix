@@ -148,6 +148,20 @@ describeComponent(
       });
     });
 
+    describe('Skipping the challenge', function () {
+
+      it('save #ABAND# as value when clicked', function (done) {
+
+        renderChallengeItem.call(this, { proposalsAsArray: ['1', '2', '3'] }, (_challenge, _assessment, answerValue) => {
+
+          expect(answerValue).to.equal('#ABAND#');
+          done()
+        });
+
+        this.$('.skip-button').click();
+      });
+    });
+
     describe('Error alert box', function () {
 
       it("should be hidden by default", function () {

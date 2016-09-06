@@ -38,6 +38,9 @@ const ChallengeItem = Ember.Component.extend({
       }
       const value = this._adaptSelectedProposalValueToBackendValue(this.get('selectedProposal'));
       this.sendAction('onValidated', challenge, assessment, value);
+    },
+    skip() {
+      this.sendAction('onValidated', this.get('challenge'), this.get('assessment'), '#ABAND#')
     }
   },
 
