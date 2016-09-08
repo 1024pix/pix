@@ -5,7 +5,7 @@ import hbs from 'htmlbars-inline-precompile';
 import Ember from 'ember';
 import RSVP from 'rsvp';
 
-function renderChallengeItem(challengeAttributes = {}, validateHandler = null) {
+function renderChallengeItem(challengeAttributes = {}, validateHandler = null, errorHandler = null) {
 
   const challenge = Ember.Object.create(challengeAttributes);
   this.set('challenge', challenge);
@@ -13,8 +13,9 @@ function renderChallengeItem(challengeAttributes = {}, validateHandler = null) {
   const assessment = Ember.Object.create({});
   this.set('assessment', assessment);
   this.set('validateHandler', (validateHandler || (() => null)));
+  this.set('errorHandler', (errorHandler || (() => null)));
 
-  this.render(hbs`{{challenge-item challenge assessment onValidated=(action validateHandler)}}`);
+  this.render(hbs`{{challenge-item challenge assessment onValidated=(action validateHandler) onError=(action errorHandler)}}`);
 }
 
 function renderChallengeItem_challengePreview(challengeAttributes = {}) {
@@ -24,21 +25,8 @@ function renderChallengeItem_challengePreview(challengeAttributes = {}) {
   this.render(hbs`{{challenge-item challenge}}`);
 }
 
-function selectFirstProposal() {
-
-  return new RSVP.Promise(function (resolve) {
-    return this.$('.challenge-proposal:first input[type="radio"]').click(() => {
-      return resolve();
-    });
-  });
-}
-
 function validateChallenge() {
   this.$('.validate-button').click();
-}
-
-function assertAlertErrorToBeHidden() {
-  expect(this.$('.alert-error')).to.have.lengthOf(0);
 }
 
 describeComponent(
@@ -134,7 +122,7 @@ describeComponent(
         renderChallengeItem.call(this, {
           type: 'QCU',
           _proposalsAsArray: ['Xi', 'Fu', 'Mi']
-        }, (challenge, assessment, answerValue) => {
+        }, (_challenge, _assessment, answerValue) => {
 
           // then
           expect(answerValue).to.equal("1");
@@ -152,7 +140,7 @@ describeComponent(
 
       it('save #ABAND# as value when clicked', function (done) {
 
-        renderChallengeItem.call(this, { proposalsAsArray: ['1', '2', '3'] }, (_challenge, _assessment, answerValue) => {
+        renderChallengeItem.call(this, { _proposalsAsArray: ['1', '2', '3'] }, (_challenge, _assessment, answerValue) => {
 
           expect(answerValue).to.equal('#ABAND#');
           done()
@@ -164,54 +152,33 @@ describeComponent(
 
     describe('Error alert box', function () {
 
-      it("should be hidden by default", function () {
+      it("should be hidden by default", function (done) {
         // when
-        renderChallengeItem.call(this, { proposalsAsArray: ['Xi', 'Fu', 'Mi'] }, () => done());
+        renderChallengeItem.call(this, { _proposalsAsArray: ['Xi', 'Fu', 'Mi'] });
 
         // then
-        expect(this.$('.alert-error')).to.have.lengthOf(0);
+        Ember.run.next(() => {
+          expect(this.$('.alert')).to.have.lengthOf(0);
+          done();
+        })
       });
 
       describe('when validating a challenge without having selected a proposal', function () {
 
-        it("should be displayed", function () {
+        it("should be displayed", function (done) {
           // given
-          renderChallengeItem.call(this, { proposalsAsArray: ['Xi', 'Fu', 'Mi'] }, () => {
+          renderChallengeItem.call(this, { _proposalsAsArray: ['Xi', 'Fu', 'Mi'] });
 
+          // when
+          validateChallenge.call(this);
+
+          Ember.run.next(() => {
             // then
-            const $alertError = this.$('.alert-error');
+            const $alertError = this.$('.alert');
             expect($alertError).to.have.lengthOf(1);
-          });
-
-          // when
-          validateChallenge.call(this);
+            done();
+          })
         });
-
-        it('should contains "Vous devez saisir une réponse"', function () {
-          // given
-          renderChallengeItem.call(this, { proposalsAsArray: ['Xi', 'Fu', 'Mi'] }, () => {
-
-            // then
-            const $alertError = this.$('.alert-error');
-            expect($alertError.text()).to.contains("Vous devez saisir une réponse");
-          });
-
-          // when
-          validateChallenge.call(this);
-        });
-
-      });
-
-      describe('when a proposal is selected', function () {
-
-        it("should be removed", function () {
-          // when
-          selectFirstProposal.call(this);
-
-          // then
-          assertAlertErrorToBeHidden.call(this);
-        });
-
       });
     });
 
