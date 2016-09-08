@@ -19,9 +19,57 @@ describeModel(
       expect(model).to.be.ok;
     });
 
+    describe('#numberOfValidatedAnswers', function () {
+
+      it('should return 0 if there is no answers', function () {
+        // given
+        const assessment = this.subject();
+
+        // when
+        const answers = assessment.get('numberOfValidatedAnswers');
+
+        //then
+        expect(answers).to.equal(0);
+      });
+
+      it('should count all validated answers', function () {
+        Ember.run(() => {
+          // given
+          const store = this.store();
+          const assessment = this.subject();
+          store.createRecord('answer', { value: "Xi", assessment });
+          store.createRecord('answer', { value: "Fu", assessment });
+          store.createRecord('answer', { value: "Mi", assessment });
+
+          // when
+          const answers = assessment.get('numberOfValidatedAnswers');
+
+          //then
+          expect(answers).to.equal(3);
+        });
+      });
+
+      it('should not include skipped challenge answers', function () {
+        Ember.run(() => {
+          // given
+          const store = this.store();
+          const assessment = this.subject();
+          store.createRecord('answer', { value: "Xi", assessment });
+          store.createRecord('answer', { value: "#ABAND#", assessment });
+          store.createRecord('answer', { value: "Mi", assessment });
+
+          // when
+          const answers = assessment.get('numberOfValidatedAnswers');
+
+          //then
+          expect(answers).to.equal(2);
+        });
+      });
+    });
+
     describe('#serialize', function () {
 
-      it('includes course ID', function() {
+      it('includes course ID', function () {
         Ember.run(() => {
           // given
           const courseId = 'rec1234567890';

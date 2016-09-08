@@ -11,7 +11,7 @@ export default Ember.Route.extend({
     });
   },
 
-  serialize: function(model) {
+  serialize: function (model) {
     return {
       assessment_id: model.assessment.id,
       challenge_id: model.challenge.id
