@@ -22,6 +22,16 @@
 
         {{/each}}
 
+      {{else if challengeIsTypeQCM}}
+        {{#each challenge._proposalsAsArray as |proposal index|}}
+            <p class="challenge-proposal">
+                <label for="proposal_{{index}}">
+                  {{input id=(concat "proposal_" index) type="checkbox" name=(concat "proposal_" index)}}
+                  {{proposal}}
+                </label>
+            </p>
+        {{/each}}
+
       {{else}}
         {{#each challenge._proposalsAsArray as |proposal index|}}
             <p class="challenge-proposal">

@@ -186,7 +186,7 @@ describeComponent(
 
       describe('QCU', function () {
 
-        it('should render challenge proposals as different text blocks', function () {
+        it('should render challenge proposals as a list of proposal', function () {
           // when
           renderChallengeItem.call(this, { _proposalsAsArray: ['Xi', 'Fu', 'Mi'] });
 
@@ -208,9 +208,18 @@ describeComponent(
         });
       });
 
+      describe('QCM', function () {
+        it('should render challenge proposals as a list of checkboxes', function() {
+          renderChallengeItem.call(this, { type: 'QCM', _proposalsAsArray: ['Xi', 'Fu', 'Mi'] });
+
+          const $proposals = this.$('.challenge-proposal input[type="checkbox"]');
+          expect($proposals).to.have.lengthOf(3);
+        });
+      });
+
       describe('QROC', function () {
 
-        it('should render challenge proposals as different text blocks', function () {
+        it('should render challenge proposals as different text span', function () {
           // when
           renderChallengeItem.call(this, {
             type: 'QROC', _proposalsAsBlocks: [
