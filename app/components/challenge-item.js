@@ -1,25 +1,29 @@
 import Ember from 'ember';
 
+const { computed, inject } = Ember;
+
 const ChallengeItem = Ember.Component.extend({
 
   tagName: 'article',
   classNames: ['challenge-item'],
   attributeBindings: ['challenge.id:data-challenge-id'],
 
-  assessmentService: Ember.inject.service('assessment'),
+  assessmentService: inject.service('assessment'),
 
   challenge: null,
   assessment: null,
   selectedProposal: null,
   error: null,
 
-  hasIllustration: Ember.computed.notEmpty('challenge.illustrationUrl'),
-  isChallengePreviewMode: Ember.computed.empty('assessment'),
-  hasError: Ember.computed.notEmpty('error'),
+  hasIllustration: computed.notEmpty('challenge.illustrationUrl'),
+  isChallengePreviewMode: computed.empty('assessment'),
+  hasError: computed.notEmpty('error'),
 
-  challengeIsTypeQROC: Ember.computed.equal('challenge.type', 'QROC'),
-  challengeIsTypeQCM: Ember.computed.equal('challenge.type', 'QCM'),
-  challengeIsTypeQCU: Ember.computed.equal('challenge.type', 'QCU'),
+  challengeIsTypeQROC: computed('challenge.type', function () {
+    return this.get('challenge.type') === 'QROC' || this.get('challenge.type') === 'QROCM';
+  }),
+  challengeIsTypeQCM: computed.equal('challenge.type', 'QCM'),
+  challengeIsTypeQCU: computed.equal('challenge.type', 'QCU'),
 
   onSelectedProposalChanged: Ember.observer('selectedProposal', function () {
     this.set('error', null);

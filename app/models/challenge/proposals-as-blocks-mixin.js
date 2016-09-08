@@ -24,6 +24,10 @@ function parseInput(lastIsOpening, input) {
   return { lastIsOpening, block };
 }
 
+function stringHasPlaceholder(input) {
+  return 1 <= input.indexOf('#');
+}
+
 export default Ember.Mixin.create({
 
   _proposalsAsBlocks: Ember.computed('proposals', function () {
@@ -38,9 +42,21 @@ export default Ember.Mixin.create({
 
     for (let index = 0; index < parts.length; index += 1) {
       let { lastIsOpening, block } = parseInput((lastIsOpening || false), parts[index]);
-      if (block) {
-        result.push(block);
+      if (!block) {
+        continue;
       }
+
+      if (block.input && stringHasPlaceholder(block.input)) {
+
+        const inputParts = block.input.split('#');
+        const variable = inputParts[0];
+        const placeholder = inputParts[1];
+
+        block.input = variable;
+        block.placeholder = placeholder;
+      }
+
+      result.push(block);
     }
 
     return result;
