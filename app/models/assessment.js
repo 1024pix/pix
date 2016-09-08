@@ -11,9 +11,10 @@ export default Model.extend({
   userEmail: attr('string'),
 
   numberOfValidatedAnswers: computed('answers', function () {
-    return this.get('answers').filter((answer) => {
-      return !isEqual(answer.get('value'), '#ABAND#');
-    }).get('length');
+    return this
+      .get('answers')
+      .filter((answer) => answer.get('value') !== '#ABAND#')
+      .get('length');
   })
 
 });
