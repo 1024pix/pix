@@ -47,6 +47,7 @@ const ChallengeItem = Ember.Component.extend({
     validate() {
 
       if (this._hasError()) {
+        this.set('errorMessage', this._getErrorMessage());
         return this.sendAction('onError', this.get('errorMessage'));
       }
       const value = this._getAnswerValue();
@@ -81,28 +82,28 @@ const ChallengeItem = Ember.Component.extend({
   // eslint-disable-next-line complexity
   _hasError: function () {
     switch (this.get('challenge.type')) {
-      case 'QCU': {
-        const hasError = Ember.isEmpty(this.get('selectedProposal'));
-        if (hasError) {
-          this.set('errorMessage', "Vous devez sélectionner une proposition.")
-        }
-        return hasError;
-      }
+      case 'QCU':
+        return Ember.isEmpty(this.get('selectedProposal'));
       case 'QROC':
       case 'QROCM': {
-        const expectedAnswers = this
-          .get('challenge._proposalsAsBlocks')
-          .filter((proposal) => proposal.input !== undefined)
-          .get('length');
         const values = _.values(this.get('answers'));
-        const hasError = (Ember.isEmpty(values) || values.length < expectedAnswers || values.any(Ember.isBlank));
-        if (hasError) {
-          this.set('errorMessage', "Vous devez saisir une réponse dans tous les champs.");
-        }
-        return hasError;
+        return (Ember.isEmpty(values) || values.length < 1 || values.every(Ember.isBlank));
       }
       default:
         return false;
+    }
+  },
+
+  _getErrorMessage: function () {
+    switch (this.get('challenge.type')) {
+      case 'QCU':
+        return "Vous devez sélectionner une proposition, ou passer l'épreuve.";
+      case 'QROC':
+        return "Vous devez saisir une réponse, ou passer l'épreuve.";
+      case 'QROCM':
+        return "Vous devez saisir une réponse dans au moins un champ, ou passer l'épreuve.";
+      default:
+        return "Répondez correctement à l'épreuve, ou passez la réponse."
     }
   }
 });

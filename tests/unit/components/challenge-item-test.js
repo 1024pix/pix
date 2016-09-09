@@ -32,27 +32,67 @@ describeModule(
       });
     });
 
+    describe('#_getErrorMessage', function () {
+
+      [
+        { type: 'QCU', message: "Vous devez sélectionner une proposition, ou passer l'épreuve." },
+        { type: 'QROC', message: "Vous devez saisir une réponse, ou passer l'épreuve." },
+        { type: 'QROCM', message: "Vous devez saisir une réponse dans au moins un champ, ou passer l'épreuve." },
+        { type: '🎩🗿👻', message: "Répondez correctement à l'épreuve, ou passez la réponse." }
+      ].forEach(({ type, message }) => {
+
+        it(`type ${type}: expect error message to be "${message}"`, function () {
+
+          const challengeItem = this.subject({ challenge: { type } });
+          expect(challengeItem._getErrorMessage()).to.equal(message);
+        });
+      });
+    });
+
     describe('#_hasError', function () {
 
       ['QCU'].forEach((challengeType) => {
-        it(challengeType, function () {
+        it(`${challengeType} has error when no proposal has been selected`, function () {
           const challengeItem = this.subject({ challenge: { type: challengeType }, selectedProposal: null });
 
           expect(challengeItem._hasError()).to.be.true;
-          expect(challengeItem.get('errorMessage')).to.equal('Vous devez sélectionner une proposition.');
+        });
+
+        it(`${challengeType} has no error when a proposal has been selected`, function () {
+          const challengeItem = this.subject({ challenge: { type: challengeType }, selectedProposal: 1 });
+
+          expect(challengeItem._hasError()).to.be.false;
         });
       });
 
       ['QROC', 'QROCM'].forEach((challengeType) => {
-        it(challengeType, function () {
+        it(`${challengeType} has error when no answer has been given`, function () {
           const challengeItem = this.subject({
             challenge: { type: challengeType, _proposalsAsBlocks: [] },
             answers: {}
           });
 
           expect(challengeItem._hasError()).to.be.true;
-          expect(challengeItem.get('errorMessage')).to.equal('Vous devez saisir une réponse dans tous les champs.');
         });
+
+        it(`${challengeType} has no error when at least one answer has been given`, function () {
+          const challengeItem = this.subject({
+            challenge: { type: challengeType, _proposalsAsBlocks: [{ input: 'yo' }, { input: 'yoyo' }] },
+            answers: { yo: 'yo' }
+          });
+
+          expect(challengeItem._hasError()).to.be.false;
+        });
+      });
+
+      it('invalid challenge type has no error', function () {
+        const challengeItem = this.subject({
+          challenge: {
+            type: 'Celui dont le PIXCosmos atteint son paroxysme est en mesure de le faire exploser pour créer un Big Bang'
+          }
+        });
+
+        expect(challengeItem._hasError()).to.be.false;
       });
     });
 
@@ -61,7 +101,7 @@ describeModule(
       it('is called when no proposal has been selected with the message “Vous devez sélectionner une proposition.”', function (done) {
         const challengeItem = this.subject({ challenge: Ember.Object.create({ type: 'QCU' }) });
         challengeItem.set('onError', (message) => {
-          expect(message).to.contains('Vous devez sélectionner une proposition.');
+          expect(message).to.contains("Vous devez sélectionner une proposition, ou passer l'épreuve.");
           done();
         });
 
@@ -157,6 +197,15 @@ describeModule(
         expect(answer).to.equal('var_1 = "value_1", var_2 = "null", var_3 = "value_3"');
       });
 
+      it('return null when challenge type is invalid', function () {
+        const challengeItem = this.subject({
+          challenge: {
+            type: 'Celui dont le PIXCosmos atteint son paroxysme est en mesure de le faire exploser pour créer un Big Bang'
+          }
+        });
+
+        expect(challengeItem._getAnswerValue()).to.be.null;
+      });
     });
 
     describe('#updateQrocAnswer action', function () {
@@ -251,17 +300,6 @@ describeModule(
 
         it('QROC: trigger onError event when the input text is "" (empty)', function (done) {
           const challengeItem = this.subject({ challenge, assessment, answers: { toto: "" } });
-
-          challengeItem.set('onError', () => done());
-          challengeItem.actions.validate.call(challengeItem);
-        });
-
-        it('QROCM: trigger onError event when one of the input is not set or empty', function (done) {
-          const challenge = Ember.Object.create({
-            type: 'QROCM',
-            _proposalsAsBlocks: [{ input: '1' }, { input: '2' }]
-          });
-          const challengeItem = this.subject({ challenge, assessment, answers: { "1": 'yo' } });
 
           challengeItem.set('onError', () => done());
           challengeItem.actions.validate.call(challengeItem);
