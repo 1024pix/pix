@@ -17,7 +17,7 @@
           {{/if}}
 
           {{#if block.input}}
-            {{input type="text" placeholder=block.placeholder}}
+            {{input name=block.input type="text" placeholder=block.placeholder change=(action "updateQrocAnswer") }}
           {{/if}}
 
         {{/each}}
@@ -35,13 +35,13 @@
       <hr/>
     {{#if hasError}}
         <div class="alert alert-danger" role="alert">
-          {{error}}
+          {{errorMessage}}
         </div>
     {{/if}}
 
       <div class="actions pull-right">
           <button class="button button-secondary skip-button" {{action "skip"}}>Passer</button>
-          <button class="button button-primary validate-button" {{action "validate" challenge assessment}}>Valider
+          <button class="button button-primary validate-button" {{action "validate"}}>Valider
           </button>
       </div>
   {{/unless}}
