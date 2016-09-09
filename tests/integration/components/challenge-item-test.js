@@ -167,7 +167,7 @@ describeComponent(
 
         it("should be displayed", function (done) {
           // given
-          renderChallengeItem.call(this, { _proposalsAsArray: ['Xi', 'Fu', 'Mi'] });
+          renderChallengeItem.call(this, { type: 'QCU', _proposalsAsArray: ['Xi', 'Fu', 'Mi'] });
 
           // when
           validateChallenge.call(this);
@@ -176,6 +176,7 @@ describeComponent(
             // then
             const $alertError = this.$('.alert');
             expect($alertError).to.have.lengthOf(1);
+            expect($alertError.text()).to.contains('Vous devez');
             done();
           })
         });
