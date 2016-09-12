@@ -7,6 +7,7 @@ import {
 import { expect } from 'chai';
 import startApp from '../helpers/start-app';
 import destroyApp from '../helpers/destroy-app';
+import markdownit from 'markdown-it';
 
 describe('Acceptance | 4 - Démarrer une épreuve |', function() {
 
@@ -43,8 +44,9 @@ describe('Acceptance | 4 - Démarrer une épreuve |', function() {
   describe('Les informations visibles pour une épreuve de type QCU sont :', function () {
 
     it('4.2. la consigne de l\'épreuve', function () {
+      const expectedMarkdown = markdownit().render(challenge.attrs.fields['Consigne']);
       const $instruction = findWithAssert('.challenge-instruction');
-      expect($instruction.text()).to.contains(challenge.attrs.fields['Consigne']);
+      expect($instruction.html()).to.equal(expectedMarkdown);
     });
 
     it('4.3. les propositions de l\'épreuve', function () {

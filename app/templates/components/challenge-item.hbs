@@ -1,6 +1,8 @@
 <div class="rounded-panel challenge-statement">
 
-    <div class="challenge-instruction">{{ markdown-render challenge.instruction }}</div>
+  {{#if challenge.instruction}}
+      <div class="challenge-instruction">{{ markdown-render challenge.instruction }}</div>
+  {{/if}}
 
   {{#if hasIllustration}}
       <hr>
