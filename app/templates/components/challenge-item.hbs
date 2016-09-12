@@ -1,5 +1,7 @@
 <div class="rounded-panel challenge-statement">
-    <p class="challenge-instruction">{{ challenge.instruction }}</p>
+
+    <div class="challenge-instruction">{{ markdown-render challenge.instruction }}</div>
+
   {{#if hasIllustration}}
       <hr>
       <img class="challenge-illustration" src="{{ challenge.illustrationUrl }}" alt="ceci est une image">

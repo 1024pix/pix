@@ -45,3 +45,8 @@ body {
   font-weight: 600;
   margin-bottom: 20px;
 }
+
+input[type="radio"],
+input[type="checkbox"] {
+  margin: 0 5px 0 0;
+}
