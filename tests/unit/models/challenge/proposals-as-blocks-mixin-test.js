@@ -19,7 +19,11 @@ describe('Unit | Model | Challenge/Proposal As Blocks Mixin', function () {
       data: '${plop}, ${plop} ${plop}',
       expected: [{ input: 'plop' }, { text: ',' }, { input: 'plop' }, { input: 'plop' }]
     },
-    { data: '${plop#var}', expected: [{ input: 'plop', placeholder: 'var' }] }
+    { data: '${plop#var}', expected: [{ input: 'plop', placeholder: 'var' }] },
+    { data: 'line1\nline2', expected: [{ text: 'line1' }, { breakline: true }, { text: 'line2' }] },
+    { data: 'line1\r\nline2', expected: [{ text: 'line1' }, { breakline: true }, { text: 'line2' }] },
+    { data: 'line1\n\rline2', expected: [{ text: 'line1' }, { breakline: true }, { text: 'line2' }] },
+    { data: 'line1\n\nline2', expected: [{ text: 'line1' }, { breakline: true }, { breakline: true }, { text: 'line2' }] }
   ];
 
   const Challenge = Ember.Object.extend(ProposalsAsBlocksMixin, {});
