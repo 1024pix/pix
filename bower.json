@@ -7,7 +7,8 @@
     "Faker": "~3.1.0",
     "bootstrap": "~3.3.6",
     "animate.css": "^3.5.2",
-    "loaders.css": "^0.1.2"
+    "loaders.css": "^0.1.2",
+    "markdown-it": "^7.0.1"
   },
   "devDependencies": {
     "chai": "^3.5.0",

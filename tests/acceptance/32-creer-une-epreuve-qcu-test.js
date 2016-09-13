@@ -7,6 +7,7 @@ import {
 import { expect } from 'chai';
 import startApp from '../helpers/start-app';
 import destroyApp from '../helpers/destroy-app';
+import markdownit from 'markdown-it';
 
 describe('Acceptance | 32 - Créer une épreuve de type QCU | ', function () {
 
@@ -44,14 +45,9 @@ describe('Acceptance | 32 - Créer une épreuve de type QCU | ', function () {
       });
 
       it('32.2 la consigne de l\'épreuve', function () {
-        expect($challenge.find('.challenge-instruction').text()).to.contains(challenge.attrs.fields.Consigne);
+        const markdownInstruction = markdownit().render(challenge.attrs.fields.Consigne);
+        expect($challenge.find('.challenge-instruction').html()).to.equal(markdownInstruction);
       });
-
-      // FIXME: this is not part of the US. This should be removed (need validation in PR)
-      //it('32.3 les propositions sous forme de boutons radio', function () {
-      //  const $proposals = findWithAssert('.challenge-proposals input[type="radio"][name="proposals"]');
-      //  expect($proposals).to.have.lengthOf(5);
-      //});
     });
   });
 });

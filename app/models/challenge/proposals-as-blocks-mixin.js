@@ -30,6 +30,7 @@ function stringHasPlaceholder(input) {
 
 export default Ember.Mixin.create({
 
+  // eslint-disable-next-line complexity
   _proposalsAsBlocks: Ember.computed('proposals', function () {
 
     const proposals = this.get('proposals');
@@ -37,28 +38,31 @@ export default Ember.Mixin.create({
       return [];
     }
 
-    const parts = proposals.split(/\s*(\${)|}\s*/);
     let result = [];
 
-    for (let index = 0; index < parts.length; index += 1) {
-      let { lastIsOpening, block } = parseInput((lastIsOpening || false), parts[index]);
-      if (!block) {
-        continue;
+    const lines = proposals.split(/[\r|\n]+/);
+    lines.forEach((line, index) => {
+      const parts = line.split(/\s*(\${)|}\s*/);
+      for (let j = 0; j < parts.length; j += 1) {
+        let { lastIsOpening, block } = parseInput((lastIsOpening || false), parts[j]);
+        if (!block) {
+          continue;
+        }
+        if (block.input && stringHasPlaceholder(block.input)) {
+
+          const inputParts = block.input.split('#');
+          const variable = inputParts[0];
+          const placeholder = inputParts[1];
+
+          block.input = variable;
+          block.placeholder = placeholder;
+        }
+        result.push(block);
       }
-
-      if (block.input && stringHasPlaceholder(block.input)) {
-
-        const inputParts = block.input.split('#');
-        const variable = inputParts[0];
-        const placeholder = inputParts[1];
-
-        block.input = variable;
-        block.placeholder = placeholder;
+      if (index !== (lines.length - 1)) {
+        result.push({ breakline: true });
       }
-
-      result.push(block);
-    }
-
+    });
     return result;
   })
 });

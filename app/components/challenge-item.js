@@ -39,6 +39,7 @@ const ChallengeItem = Ember.Component.extend({
   actions: {
 
     updateQrocAnswer(event) {
+
       const { name, value } = event.currentTarget;
       this.set(`answers.${name}`, value);
       this.set('errorMessage', null);

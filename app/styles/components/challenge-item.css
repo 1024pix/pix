@@ -2,6 +2,18 @@
 .challenge-item {
   & .challenge-instruction {
     font-size: 20px;
+
+    & img {
+      display: block;
+      text-align: center;
+      margin: 0 auto;
+    }
+  }
+
+  & .challenge-proposals hr {
+    border: none;
+    background: none;
+    margin: 10px;
   }
 
   & .challenge-proposal label {

@@ -7,6 +7,7 @@ import {
 import { expect } from 'chai';
 import startApp from '../helpers/start-app';
 import destroyApp from '../helpers/destroy-app';
+import markdownit from 'markdown-it';
 
 describe('Acceptance | 37 - Prévisualiser un test |', function () {
 
@@ -92,7 +93,8 @@ describe('Acceptance | 37 - Prévisualiser un test |', function () {
       });
 
       it("37.6. la consigne de l'épreuve", function () {
-        expect($challenge.find('.challenge-instruction').text()).to.contains(currentChallenge.attrs.fields.Consigne);
+        const expectedMarkdown = markdownit().render(currentChallenge.attrs.fields.Consigne);
+        expect($challenge.find('.challenge-instruction').html()).to.equal(expectedMarkdown);
       });
 
       it("37.7. un bouton pour accéder à l'épreuve suivante", function () {
