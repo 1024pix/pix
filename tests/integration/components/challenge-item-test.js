@@ -265,6 +265,26 @@ describeComponent(
           const $proposalsInput = this.$('.challenge-proposals input[type="text"]');
           expect($proposalsInput).to.have.lengthOf(2);
         });
+
+        it('should render challenge propsals as different breakline blocks', function () {
+          // when
+          renderChallengeItem.call(this, {
+            type: 'QROC', _proposalsAsBlocks: [
+              { text: 'Reims' },
+              { breakline: true },
+              { input: 'reims' },
+              { breakline: true },
+              { text: '-' },
+              { input: 'losc' },
+              { breakline: true },
+              { text: 'Losc' }
+            ]
+          });
+
+          // then
+          const $breaklines = this.$('.challenge-proposals hr');
+          expect($breaklines).to.have.lengthOf(3);
+        });
       });
     });
   }

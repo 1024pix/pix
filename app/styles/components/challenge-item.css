@@ -10,6 +10,12 @@
     }
   }
 
+  & .challenge-proposals hr {
+    border: none;
+    background: none;
+    margin: 10px;
+  }
+
   & .challenge-proposal label {
     font-weight: 400;
     width: 100%;

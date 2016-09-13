@@ -24,6 +24,10 @@
             {{input name=block.input type="text" placeholder=block.placeholder change=(action "updateQrocAnswer") }}
           {{/if}}
 
+          {{#if block.breakline}}
+            <hr>
+          {{/if}}
+
         {{/each}}
 
       {{else if challengeIsTypeQCM}}
