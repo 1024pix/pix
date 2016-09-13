@@ -25,15 +25,11 @@
 
       & .course-content {
         padding: 15px;
-        height: 140px;
+        height: 115px;
         overflow: hidden;
 
         & .course-name {
           color: var(--pix-blue);
-        }
-
-        & .course-description {
-/*          color: #969696;*/
         }
       }
 
@@ -45,6 +41,7 @@
           background-color: var(--pix-blue);
           border-color: var(--pix-blue);
           border-bottom: 1px solid var(--pix-blue1);
+          text-transform: none;
 
           &:hover,
           &:active {
