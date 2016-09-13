@@ -26,7 +26,8 @@
         {{#each challenge._proposalsAsArray as |proposal index|}}
             <p class="challenge-proposal">
                 <label for="proposal_{{index}}">
-                  {{input id=(concat "proposal_" index) type="checkbox" name=(concat "proposal_" index)}}
+                  {{input id=(concat "proposal_" index) type="checkbox"
+                          name=index change=(action "updateQcmAnswer")}}
                   {{proposal}}
                 </label>
             </p>

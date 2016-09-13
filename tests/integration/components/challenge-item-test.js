@@ -216,6 +216,17 @@ describeComponent(
           const $proposals = this.$('.challenge-proposal input[type="checkbox"]');
           expect($proposals).to.have.lengthOf(3);
         });
+
+        it('should add checked proposals in the answer property as an array', function (done) {
+          renderChallengeItem.call(this, { type: 'QCM', _proposalsAsArray: ['Xi', 'Fu', 'Mi'] }, (_challenge, _assessment, answer) => {
+            expect(answer).to.equal('"Xi", "Mi"');
+            done();
+          });
+
+          this.$('.challenge-proposal:nth(0) input[type="checkbox"]').click();
+          this.$('.challenge-proposal:nth(2) input[type="checkbox"]').click();
+          this.$('.validate-button').click();
+        });
       });
 
       describe('QROC', function () {

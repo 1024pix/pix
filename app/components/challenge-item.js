@@ -44,6 +44,26 @@ const ChallengeItem = Ember.Component.extend({
       this.set('errorMessage', null);
     },
 
+    updateQcmAnswer(event) {
+      const { name, checked } = event.currentTarget;
+      let answers = this.get('answers');
+
+      if (checked) {
+        if (Ember.isArray(answers)) {
+          answers.push(name);
+        }
+        else {
+          answers = [name];
+        }
+      }
+      else {
+        _.remove(answers, (answer) => answer === name);
+      }
+
+      this.set('answers', answers);
+      this.set('errorMessage', null);
+    },
+
     validate() {
 
       if (this._hasError()) {
@@ -69,6 +89,12 @@ const ChallengeItem = Ember.Component.extend({
         const selectedValue = this.get('selectedProposal');
         return `${selectedValue + 1}`;
       }
+      case 'QCM': {
+        const answers = this.get('answers');
+        const proposals = this.get('challenge._proposalsAsArray');
+        let answerValue = answers.map((answer) => `"${proposals[answer]}"`).join(', ');
+        return answerValue;
+      }
       case 'QROC':
       case 'QROCM': {
         const answers = this.get('answers');
@@ -84,6 +110,8 @@ const ChallengeItem = Ember.Component.extend({
     switch (this.get('challenge.type')) {
       case 'QCU':
         return Ember.isEmpty(this.get('selectedProposal'));
+      case 'QCM':
+        return !(this.get('answers.length') >= 1);
       case 'QROC':
       case 'QROCM': {
         const values = _.values(this.get('answers'));
@@ -98,6 +126,8 @@ const ChallengeItem = Ember.Component.extend({
     switch (this.get('challenge.type')) {
       case 'QCU':
         return "Vous devez sélectionner une proposition, ou passer l'épreuve.";
+      case 'QCM':
+        return "Vous devez sélectionner au moins une proposition, ou passer l'épreuve.";
       case 'QROC':
         return "Vous devez saisir une réponse, ou passer l'épreuve.";
       case 'QROCM':
