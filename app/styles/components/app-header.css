@@ -4,9 +4,10 @@
 
   & .navbar {
     background-color: #fff;
-    box-shadow: 0 1px 0 0 var(--light-grey4);
+    box-shadow: 0 0 3px 0 var(--light-grey4);
     border-radius: 0;
     border: none;
+    border-bottom: 1px solid #dedfe2;
     min-height: 80px;
     margin-top: 0;
     overflow: visible;
@@ -14,7 +15,7 @@
   }
 
   & .navbar-brand {
-    padding: 0 10px;
+    padding: 5px 10px;
     line-height: 80px;
 
     & > img {

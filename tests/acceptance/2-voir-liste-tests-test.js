@@ -64,7 +64,7 @@ describe('Acceptance | 2 - voir la liste des tests', function () {
     });
 
     it('2.3.4 on affiche un bouton "démarrer le test"', function () {
-      expect($course.find('a.btn').text()).to.contains('Démarrer le test');
+      expect($course.find('a.button').text()).to.contains('Démarrer le test');
     });
 
   });
