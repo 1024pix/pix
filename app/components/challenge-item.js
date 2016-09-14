@@ -130,7 +130,7 @@ const ChallengeItem = Ember.Component.extend({
       case 'QCM':
         return "Vous devez sélectionner au moins une proposition, ou passer l'épreuve.";
       case 'QROC':
-        return "Vous devez saisir une réponse, ou passer l'épreuve.";
+        return "Pour valider, saisir une réponse. Sinon, passer.";
       case 'QROCM':
         return "Vous devez saisir une réponse dans au moins un champ, ou passer l'épreuve.";
       default:
