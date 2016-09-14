@@ -1,5 +1,7 @@
 
 .challenge-item {
+  font-size: 17px;
+
   & .challenge-instruction {
     font-size: 20px;
 
