@@ -35,13 +35,13 @@ describeModule(
     describe('#_getErrorMessage', function () {
 
       [
-        { type: 'QCU', message: "Vous devez sélectionner une proposition, ou passer l'épreuve." },
-        { type: 'QCUIMG', message: "Vous devez sélectionner une proposition, ou passer l'épreuve." },
+        { type: 'QCU', message: "Pour valider, sélectionner une réponse. Sinon, passer." },
+        { type: 'QCUIMG', message: "Pour valider, sélectionner une réponse. Sinon, passer." },
         { type: 'QROC', message: "Pour valider, saisir une réponse. Sinon, passer." },
-        { type: 'QROCM', message: "Vous devez saisir une réponse dans au moins un champ, ou passer l'épreuve." },
-        { type: '🎩🗿👻', message: "Répondez correctement à l'épreuve, ou passez la réponse." },
-        { type: 'QCM', message: "Vous devez sélectionner au moins une proposition, ou passer l'épreuve." },
-        { type: 'QCMIMG', message: "Vous devez sélectionner au moins une proposition, ou passer l'épreuve." }
+        { type: 'QROCM', message: "Pour valider, saisir au moins une réponse. Sinon, passer." },
+        { type: '🎩🗿👻', message: "Pour valider, répondez correctement à l'épreuve. Sinon passer." },
+        { type: 'QCM', message: "Pour valider, sélectionner au moins une réponse. Sinon, passer." },
+        { type: 'QCMIMG', message: "Pour valider, sélectionner au moins une réponse. Sinon, passer." }
       ].forEach(({ type, message }) => {
 
         it(`type ${type}: expect error message to be "${message}"`, function () {
@@ -115,10 +115,10 @@ describeModule(
 
     describe('#onError is called when an error is raised', function () {
 
-      it('is called when no proposal has been selected with the message “Vous devez sélectionner une proposition.”', function (done) {
+      it('is called when no proposal has been selected with the message “Pour valider, sélectionner une réponse. Sinon, passer.”', function (done) {
         const challengeItem = this.subject({ challenge: Ember.Object.create({ type: 'QCU' }) });
         challengeItem.set('onError', (message) => {
-          expect(message).to.contains("Vous devez sélectionner une proposition, ou passer l'épreuve.");
+          expect(message).to.contains("Pour valider, sélectionner une réponse. Sinon, passer.");
           done();
         });
 

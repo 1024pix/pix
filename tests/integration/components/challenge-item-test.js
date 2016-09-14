@@ -176,7 +176,7 @@ describeComponent(
             // then
             const $alertError = this.$('.alert');
             expect($alertError).to.have.lengthOf(1);
-            expect($alertError.text()).to.contains('Vous devez');
+            expect($alertError.text()).to.contains('Pour valider');
             done();
           })
         });

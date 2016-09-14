@@ -139,16 +139,16 @@ const ChallengeItem = Ember.Component.extend({
     switch (this.get('challenge.type')) {
       case 'QCUIMG':
       case 'QCU':
-        return "Vous devez sélectionner une proposition, ou passer l'épreuve.";
+        return "Pour valider, sélectionner une réponse. Sinon, passer.";
       case 'QCMIMG':
       case 'QCM':
-        return "Vous devez sélectionner au moins une proposition, ou passer l'épreuve.";
+        return "Pour valider, sélectionner au moins une réponse. Sinon, passer.";
       case 'QROC':
         return "Pour valider, saisir une réponse. Sinon, passer.";
       case 'QROCM':
-        return "Vous devez saisir une réponse dans au moins un champ, ou passer l'épreuve.";
+        return "Pour valider, saisir au moins une réponse. Sinon, passer.";
       default:
-        return "Répondez correctement à l'épreuve, ou passez la réponse."
+        return "Pour valider, répondez correctement à l'épreuve. Sinon passer.";
     }
   }
 });
