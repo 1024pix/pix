@@ -8,12 +8,7 @@
 
     & .course {
       padding: 0;
-      background-color: white;
-      border-radius: 0.3125em;
-      border-left: 1px solid var(--light-grey4);
-      border-right: 1px solid var(--light-grey4);
-      border-bottom: 1px solid var(--light-grey5);
-      box-shadow: 0 1px 0 0 var(--light-grey4);
+      box-shadow: 0 1px 3px 0 var(--light-grey4);
 
       & .course-picture {
         width: 100%;
