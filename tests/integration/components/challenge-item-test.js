@@ -185,47 +185,54 @@ describeComponent(
 
     describe('Challenges types', function () {
 
-      describe('QCU', function () {
+      ['QCU', 'QCUIMG'].forEach((qcuType) => {
+        describe(qcuType, function () {
 
-        it('should render challenge proposals as a list of proposal', function () {
-          // when
-          renderChallengeItem.call(this, { _proposalsAsArray: ['Xi', 'Fu', 'Mi'] });
+          it('should render challenge proposals as a list of proposal', function () {
+            // when
+            renderChallengeItem.call(this, { type: qcuType, _proposalsAsArray: ['Xi', 'Fu', 'Mi'] });
 
-          // then
-          const $proposals = this.$('.challenge-proposal');
-          expect($proposals).to.have.lengthOf(3);
-          expect($proposals.eq(0).text()).to.contains('Xi');
-          expect($proposals.eq(1).text()).to.contains('Fu');
-          expect($proposals.eq(2).text()).to.contains('Mi');
-        });
+            // then
+            const $proposals = this.$('.challenge-proposal');
+            expect($proposals).to.have.lengthOf(3);
+            expect($proposals.eq(0).text()).to.contains('Xi');
+            expect($proposals.eq(1).text()).to.contains('Fu');
+            expect($proposals.eq(2).text()).to.contains('Mi');
+          });
 
-        it('should render challenge proposals as different radios buttons', function () {
-          // when
-          renderChallengeItem.call(this, { _proposalsAsArray: ['Xi', 'Fu', 'Mi'] });
+          it('should render challenge proposals as different radios buttons', function () {
+            // when
+            renderChallengeItem.call(this, { type: qcuType, _proposalsAsArray: ['Xi', 'Fu', 'Mi'] });
 
-          // then
-          const $proposals = this.$('.challenge-proposal input[type="radio"]');
-          expect($proposals).to.have.lengthOf(3);
+            // then
+            const $proposals = this.$('.challenge-proposal input[type="radio"]');
+            expect($proposals).to.have.lengthOf(3);
+          });
         });
       });
 
-      describe('QCM', function () {
-        it('should render challenge proposals as a list of checkboxes', function() {
-          renderChallengeItem.call(this, { type: 'QCM', _proposalsAsArray: ['Xi', 'Fu', 'Mi'] });
+      ['QCM', 'QCMIMG'].forEach((qcmType) => {
+        describe(qcmType, function () {
+          it('should render challenge proposals as a list of checkboxes', function () {
+            renderChallengeItem.call(this, { type: qcmType, _proposalsAsArray: ['Xi', 'Fu', 'Mi'] });
 
-          const $proposals = this.$('.challenge-proposal input[type="checkbox"]');
-          expect($proposals).to.have.lengthOf(3);
-        });
-
-        it('should add checked proposals in the answer property as an array', function (done) {
-          renderChallengeItem.call(this, { type: 'QCM', _proposalsAsArray: ['Xi', 'Fu', 'Mi'] }, (_challenge, _assessment, answer) => {
-            expect(answer).to.equal('"Xi", "Mi"');
-            done();
+            const $proposals = this.$('.challenge-proposal input[type="checkbox"]');
+            expect($proposals).to.have.lengthOf(3);
           });
 
-          this.$('.challenge-proposal:nth(0) input[type="checkbox"]').click();
-          this.$('.challenge-proposal:nth(2) input[type="checkbox"]').click();
-          this.$('.validate-button').click();
+          it('should add checked proposals in the answer property as an array', function (done) {
+            renderChallengeItem.call(this, {
+              type: qcmType,
+              _proposalsAsArray: ['Xi', 'Fu', 'Mi']
+            }, (_challenge, _assessment, answer) => {
+              expect(answer).to.equal('1, 3');
+              done();
+            });
+
+            this.$('.challenge-proposal:nth(0) input[type="checkbox"]').click();
+            this.$('.challenge-proposal:nth(2) input[type="checkbox"]').click();
+            this.$('.validate-button').click();
+          });
         });
       });
 

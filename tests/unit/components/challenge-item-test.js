@@ -36,10 +36,12 @@ describeModule(
 
       [
         { type: 'QCU', message: "Vous devez sélectionner une proposition, ou passer l'épreuve." },
+        { type: 'QCUIMG', message: "Vous devez sélectionner une proposition, ou passer l'épreuve." },
         { type: 'QROC', message: "Pour valider, saisir une réponse. Sinon, passer." },
         { type: 'QROCM', message: "Vous devez saisir une réponse dans au moins un champ, ou passer l'épreuve." },
         { type: '🎩🗿👻', message: "Répondez correctement à l'épreuve, ou passez la réponse." },
-        { type: 'QCM', message: "Vous devez sélectionner au moins une proposition, ou passer l'épreuve." }
+        { type: 'QCM', message: "Vous devez sélectionner au moins une proposition, ou passer l'épreuve." },
+        { type: 'QCMIMG', message: "Vous devez sélectionner au moins une proposition, ou passer l'épreuve." }
       ].forEach(({ type, message }) => {
 
         it(`type ${type}: expect error message to be "${message}"`, function () {
@@ -52,28 +54,32 @@ describeModule(
 
     describe('#_hasError', function () {
 
-      it('QCU has error when no proposal has been selected', function () {
-        const challengeItem = this.subject({ challenge: { type: 'QCU' }, selectedProposal: null });
+      ['QCU', 'QCUIMG'].forEach((challengeType) => {
+        it(`${challengeType} has error when no proposal has been selected`, function () {
+          const challengeItem = this.subject({ challenge: { type: challengeType }, selectedProposal: null });
 
-        expect(challengeItem._hasError()).to.be.true;
+          expect(challengeItem._hasError()).to.be.true;
+        });
+
+        it(`${challengeType} has  no error when a proposal has been selected`, function () {
+          const challengeItem = this.subject({ challenge: { type: challengeType }, selectedProposal: 1 });
+
+          expect(challengeItem._hasError()).to.be.false;
+        });
       });
 
-      it('QCU has no error when a proposal has been selected', function () {
-        const challengeItem = this.subject({ challenge: { type: 'QCU' }, selectedProposal: 1 });
+      ['QCM', 'QCMIMG'].forEach((challengeType) => {
+        it(`${challengeType} has error when no proposal has been selected`, function () {
+          const challengeItem = this.subject({ challenge: { type: challengeType }, answers: null });
 
-        expect(challengeItem._hasError()).to.be.false;
-      });
+          expect(challengeItem._hasError()).to.be.true;
+        });
 
-      it('QCM has error when no proposal has been selected', function () {
-        const challengeItem = this.subject({ challenge: { type: 'QCM' }, answers: null });
+        it(`${challengeType} has no error when a proposal has been selected`, function () {
+          const challengeItem = this.subject({ challenge: { type: challengeType }, answers: [1] });
 
-        expect(challengeItem._hasError()).to.be.true;
-      });
-
-      it("QCM has no error when a proposal has been selected", function () {
-        const challengeItem = this.subject({ challenge: { type: 'QCM' }, answers: [1] });
-
-        expect(challengeItem._hasError()).to.be.false;
+          expect(challengeItem._hasError()).to.be.false;
+        });
       });
 
       ['QROC', 'QROCM'].forEach((challengeType) => {
@@ -139,18 +145,20 @@ describeModule(
 
     describe('#_getAnswerValue', function () {
 
-      it("QCU: should return value + 1 in order to be easier to treat by PixMasters", function () {
-        // given
-        const challengeItem = this.subject();
-        const challenge = Ember.Object.create({ type: 'QCU' });
-        challengeItem.set('challenge', challenge);
-        challengeItem.set('selectedProposal', 1);
+      ['QCU', 'QCUIMG'].forEach((challengeType) => {
+        it(`${challengeType}: should return value + 1 in order to be easier to treat by PixMasters`, function () {
+          // given
+          const challengeItem = this.subject();
+          const challenge = Ember.Object.create({ type: challengeType });
+          challengeItem.set('challenge', challenge);
+          challengeItem.set('selectedProposal', 1);
 
-        // when
-        const answer = challengeItem._getAnswerValue();
+          // when
+          const answer = challengeItem._getAnswerValue();
 
-        // then
-        expect(answer).to.equal('2');
+          // then
+          expect(answer).to.equal('2');
+        });
       });
 
       it("QROC: should return simple answer value as string", function () {
@@ -208,35 +216,37 @@ describeModule(
         expect(answer).to.equal('var_1 = "value_1", var_2 = "null", var_3 = "value_3"');
       });
 
-      it("QCM: should return the value quoted, when one value has been selected", function () {
-        const challengeItem = this.subject();
-        const challenge = Ember.Object.create({ type: 'QCM', _proposalsAsArray: ['yo', 'oy', 'pix'] });
-        challengeItem.set('challenge', challenge);
-        const answers = [2];
-        challengeItem.set('answers', answers);
+      ['QCM', 'QCMIMG'].forEach((challengeType) => {
+        it(`${challengeType}: should return the index of the value +1`, function () {
+          const challengeItem = this.subject();
+          const challenge = Ember.Object.create({ type: challengeType, _proposalsAsArray: ['yo', 'oy', 'pix'] });
+          challengeItem.set('challenge', challenge);
+          const answers = [2];
+          challengeItem.set('answers', answers);
 
-        // when
-        const answer = challengeItem._getAnswerValue();
+          // when
+          const answer = challengeItem._getAnswerValue();
 
-        // then
-        expect(answer).to.equal('"pix"');
+          // then
+          expect(answer).to.equal('3');
+        });
+
+        it(`${challengeType}: should return the indexes of the values, separated by commas, when one value has been selected`, function () {
+          const challengeItem = this.subject();
+          const challenge = Ember.Object.create({ type: challengeType, _proposalsAsArray: ['yo', 'oy', 'pix'] });
+          challengeItem.set('challenge', challenge);
+          const answers = [0, 2];
+          challengeItem.set('answers', answers);
+
+          // when
+          const answer = challengeItem._getAnswerValue();
+
+          // then
+          expect(answer).to.equal('1, 3');
+        });
       });
 
-      it("QCM: should return the values quoted, separated by commas, when one value has been selected", function () {
-        const challengeItem = this.subject();
-        const challenge = Ember.Object.create({ type: 'QCM', _proposalsAsArray: ['yo', 'oy', 'pix'] });
-        challengeItem.set('challenge', challenge);
-        const answers = [0, 2];
-        challengeItem.set('answers', answers);
-
-        // when
-        const answer = challengeItem._getAnswerValue();
-
-        // then
-        expect(answer).to.equal('"yo", "pix"');
-      });
-
-      it('return null when challenge type is invalid', function ()  {
+      it('return null when challenge type is invalid', function () {
         const challengeItem = this.subject({
           challenge: {
             type: 'Celui dont le PIXCosmos atteint son paroxysme est en mesure de le faire exploser pour créer un Big Bang'
@@ -354,7 +364,7 @@ describeModule(
     describe('#validate action', function () {
       const assessment = Ember.Object.create({});
 
-      describe('when challenge is type QCU/QCM', function () {
+      describe('when challenge is type QCU/QCM/QCUIMG/QCMIMG', function () {
 
         const challenge = Ember.Object.create({ type: 'QCU' });
 
