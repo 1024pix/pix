@@ -4,72 +4,50 @@
     padding: 0;
   }
 
-  & .course {
-    margin: 0 0 15px 15px;
-    padding: 15px;
-    width: 285px;
-    float: left;
-    display: inline-block;
-    position: relative;
-    background-color: white;
-    border-radius: 0.3125em;
-    border-left: 1px solid var(--light-grey4);
-    border-right: 1px solid var(--light-grey4);
-    border-bottom: 1px solid var(--light-grey5);
-    box-shadow: 0 1px 0 0 var(--light-grey4);
-  }
+  & .course-item {
 
-  & .course-picture {
-    width: 244px;
-    height: 170px;
-    text-align: center;
-    margin: 0 auto;
-    display: block;
-  }
+    & .course {
+      padding: 0;
+      box-shadow: 0 1px 3px 0 var(--light-grey4);
 
-  & .course-description {
-    height: 140px;
-    overflow: hidden;
-  }
-
-  & .course-wrapper h3 {
-    color: var(--pix-blue);
-
-    & .disabled {
-      &::after {
-        content: ' ';
-        position: absolute;
-        top:0;
-        left:0;
+      & .course-picture {
         width: 100%;
-        height:100%;
-        background-color: var(--light-grey3);
-        opacity: 0.5;
+        height: 170px;
+        text-align: center;
+        margin: 0 auto;
+        display: block;
       }
 
-      & h3 {
-        color: inherit;
+      & .course-content {
+        padding: 15px;
+        height: 115px;
+        overflow: hidden;
+
+        & .course-name {
+          color: var(--pix-blue);
+        }
       }
 
-      & .course-actions > a {
-        background-color: transparent;
-        border: 1px solid var(--light-grey6);
-        color: inherit;
+      & .course-actions {
+        text-align: center;
+        padding: 15px;
+
+        & > a {
+          background-color: var(--pix-blue);
+          border-color: var(--pix-blue);
+          border-bottom: 1px solid var(--pix-blue1);
+          text-transform: none;
+
+          &:hover,
+          &:active {
+            background-color: var(--pix-yellow);
+             border-color: var(--pix-yellow);
+             border-bottom: 1px solid var(--pix-yellow1);
+          }
+        }
       }
+
     }
   }
 
-  & .course-actions {
-    text-align: center;
-
-    & > a {
-      background-color: var(--pix-blue);
-      border: none;
-
-      &:hover,
-      &:active {
-        background-color: var(--pix-yellow);
-      }
-    }
-  }
 }

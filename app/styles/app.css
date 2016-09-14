@@ -25,10 +25,11 @@
 body {
   font-family: 'Open Sans', sans-serif;
   background-color: var(--light-grey1);
+  padding-top: 108px;
 }
 
 .body {
-  padding-top: 20px;
+  padding-top: 12px;
 }
 
 .component-list {
