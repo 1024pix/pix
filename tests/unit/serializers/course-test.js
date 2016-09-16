@@ -5,7 +5,7 @@ import Pretender from 'pretender';
 
 describeModel(
   'course',
-  'Unit | Serializer | course',
+  'Unit | Serializer | Course',
   {
     needs: ['adapter:course', 'serializer:course']
   },

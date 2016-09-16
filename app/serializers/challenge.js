@@ -13,6 +13,12 @@ export default AirtableSerializer.extend({
       result.illustrationUrl = fields['Illustration de la consigne'][0].url;
     }
 
+    if (fields['Pièce jointe']) {
+      const { url, filename } = fields['Pièce jointe'][0];
+      result.attachmentUrl = url;
+      result.attachmentFilename = filename;
+    }
+
     return result;
   }
 });

@@ -1,5 +1,5 @@
-import {expect} from 'chai';
-import {describeModule, it} from 'ember-mocha';
+import { expect } from 'chai';
+import { describeModule, it } from 'ember-mocha';
 import OriginalChallenge from 'pix-live/models/challenge';
 import ChallengeSerializer from 'pix-live/serializers/challenge';
 
@@ -18,52 +18,80 @@ describeModule(
       return payload;
     }
 
-    it('it normalize correctly', function () {
-      const payload = {
-        "createdTime": "2016-08-24T16:05:16.000Z",
-        "fields": {
-          "Auteur": [
-            "SPS"
-          ],
-          "Bonnes réponses": "2",
-          "Consigne": "Quel signe précède toujours une formule dans une cellule de feuille de calcul ?",
-          "Licence image": "no",
-          "Preview": "http://staging.pix.beta.gouv.fr/challenges/rec1LvIU9OZ2sXyuy/preview",
-          "Propositions": "- #\r\n- =\r\n- !\r\n- :\r\n- $\r",
-          "Record ID": "rec1LvIU9OZ2sXyuy",
-          "Reponses": [],
-          "Type d'épreuve": "QCU",
-          "Type péda": "q-situation",
-          "_Niveau": [
-            "3"
-          ],
-          "_Preview Temp": "https://docs.google.com/presentation/d/1aEn-VH5_ijVBRmsLDvtQmG83BZihE37PnCz5g2mEbWk/edit#slide=id.g15ad5fc552_0_4",
-          "_Statut": "proposé",
-          "acquis": [
-            "#formuleSimple"
-          ],
-          "compétence": "1.3. Traiter des données",
-          "description": "Signe précédant une formule",
-          "domaine": "1.3. Traiter des données",
-          "id": 98,
-          "versions Alter": [
-            "recgPPjKpxqAMaAeX"
-          ]
-        },
-        "id": "rec1LvIU9OZ2sXyuy"
-      };
-      const expected = {
-        challenge: {
-          id: payload.id,
-          created: payload.createdTime,
-          instruction: payload.fields.Consigne,
-          proposals: payload.fields.Propositions,
-          type: 'QCU'
-        }
-      };
-      const challenge = normalizePayload(payload);
+    it('#normalizeResponse', function () {
 
-      expect(challenge).to.be.deep.equal(expected);
+      describe('when challenge is complete', function () {
+
+        it('serializes all the fields', function () {
+          const payload = {
+            "createdTime": "2016-08-24T16:05:16.000Z",
+            "fields": {
+              "Consigne": "Quel signe précède toujours une formule dans une cellule de feuille de calcul ?",
+              "Propositions": "- #\r\n- =\r\n- !\r\n- :\r\n- $\r",
+              "Type d'épreuve": "QCU",
+              "Illustration de la consigne": [{
+                "url": "https://dl.airtable.com/OvrobamORSOy3O44sSEu_Clipboard04.png"
+              }],
+              "Pièce jointe": [{
+                "url": "https://dl.airtable.com/IqgzfJisSRC6rrR4KFBz_test.pdf",
+                "filename": "test.pdf"
+              }]
+            },
+            "id": "rec1LvIU9OZ2sXyuy"
+          };
+          const expected = {
+            challenge: {
+              id: payload.id,
+              created: payload.createdTime,
+              instruction: payload.fields.Consigne,
+              proposals: payload.fields.Propositions,
+              type: 'QCU',
+              illustrationUrl: payload.fields['Illustration de la consigne'][0].url,
+              attachmentUrl: payload.fields['Pièce jointe'][0].url,
+              attachmentFilename: payload.fields['Pièce jointe'][0].filename
+            }
+          };
+          const challenge = normalizePayload(payload);
+
+          expect(challenge).to.deep.equal(expected);
+        });
+
+      });
+
+      describe('when challenge has no illustration', function () {
+
+        it('set illustration URL to undefined', function () {
+
+          const payload = {
+            "createdTime": "2016-08-24T16:05:16.000Z",
+            "fields": {
+              "Illustration de la consigne": null
+            },
+            "id": "rec1LvIU9OZ2sXyuy"
+          };
+          const challenge = normalizePayload(payload);
+
+          expect(challenge.illustrationUrl).to.be.undefined;
+        });
+      });
+
+      describe('when challenge has no illustration', function () {
+
+        it('set attachemnt data to undefined', function () {
+
+          const payload = {
+            "createdTime": "2016-08-24T16:05:16.000Z",
+            "fields": {
+              "Pièce jointe": null
+            },
+            "id": "rec1LvIU9OZ2sXyuy"
+          };
+          const challenge = normalizePayload(payload);
+
+          expect(challenge.attachmentUrl).to.be.undefined;
+          expect(challenge.attachmentFilename).to.be.undefined;
+        });
+      });
     });
   }
 );

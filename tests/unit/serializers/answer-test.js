@@ -5,7 +5,7 @@ import AnswerSerializer from 'pix-live/serializers/answer';
 
 describeModule(
   'serializer:answer',
-  'Unit | Serializer | answer',
+  'Unit | Serializer | Answer',
   {},
   function () {
 

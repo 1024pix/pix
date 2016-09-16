@@ -5,7 +5,7 @@ import AssessmentSerializer from 'pix-live/serializers/assessment';
 
 describeModel(
   'assessment',
-  'Unit | Serializer | assessment',
+  'Unit | Serializer | Assessment',
   {
     needs: ['model:answer']
   },

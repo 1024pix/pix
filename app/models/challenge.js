@@ -10,7 +10,9 @@ const ChallengeModel = Model.extend(ProposalsAsArrayMixin, ProposalsAsBlocksMixi
     instruction: attr('string'),
     proposals: attr('string'),
     illustrationUrl: attr('string'),
-    type: attr('string')
+    type: attr('string'),
+    attachmentUrl: attr('string'),
+    attachmentFilename: attr('string')
   });
 
 export default ChallengeModel;

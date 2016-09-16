@@ -12,6 +12,33 @@
     }
   }
 
+  & .challenge-attachment {
+    text-align: center;
+
+    & a {
+    padding: 0 15px 15px;
+    background-color: var(--pix-blue);
+    border-color: var(--pix-blue);
+    border-bottom: 1px solid var(--pix-blue1);
+    text-transform: uppercase;
+    text-decoration: none;
+    color: white;
+
+      &:hover,
+      &:active {
+         background-color: var(--pix-yellow);
+         border-color: var(--pix-yellow);
+         border-bottom: 1px solid var(--pix-yellow1);
+       }
+
+      & .glyphicon {
+        margin-right: 15px;
+        font-size: 30px;
+        top: 18px;
+      }
+    }
+  }
+
   & .challenge-proposals hr {
     border: none;
     background: none;
@@ -24,6 +51,9 @@
   }
 
   & .challenge-illustration {
-    max-width: 100%;
+
+    & img {
+      max-width: 100%;
+    }
   }
 }

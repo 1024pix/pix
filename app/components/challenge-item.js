@@ -18,6 +18,7 @@ const ChallengeItem = Ember.Component.extend({
   answers: {},
 
   hasIllustration: computed.notEmpty('challenge.illustrationUrl'),
+  hasAttachment: computed.notEmpty('challenge.attachmentUrl'),
   isChallengePreviewMode: computed.empty('assessment'),
   hasError: computed.notEmpty('errorMessage'),
 

@@ -6,7 +6,19 @@
 
   {{#if hasIllustration}}
       <hr>
-      <img class="challenge-illustration" src="{{ challenge.illustrationUrl }}" alt="ceci est une image">
+      <div class=" challenge-illustration">
+          <img src="{{ challenge.illustrationUrl }}" alt="ceci est une image">
+      </div>
+  {{/if}}
+  {{#if hasAttachment}}
+      <hr>
+      <div class="challenge-attachment">
+          <a href="{{challenge.attachmentUrl}}" class="button" target="_blank">
+              <span class="glyphicon glyphicon-download" aria-hidden="true"></span>
+              Télécharger le fichier<br>
+            {{challenge.attachmentFilename}}
+          </a>
+      </div>
   {{/if}}
 </div>
 
@@ -25,7 +37,7 @@
           {{/if}}
 
           {{#if block.breakline}}
-            <hr>
+              <hr>
           {{/if}}
 
         {{/each}}
@@ -35,7 +47,7 @@
             <p class="challenge-proposal">
                 <label for="proposal_{{index}}">
                   {{input id=(concat "proposal_" index) type="checkbox"
-                          name=index change=(action "updateQcmAnswer")}}
+                  name=index change=(action "updateQcmAnswer")}}
                   {{proposal}}
                 </label>
             </p>

@@ -10,6 +10,13 @@ import startApp from '../helpers/start-app';
 import destroyApp from '../helpers/destroy-app';
 import RSVP from 'rsvp';
 
+function checkMissingInput(cssClass, fieldId) {
+  return fillIn(cssClass, '')
+    .then(() => {
+      expect(find(fieldId).hasClass('has-error')).to.be.true;
+      expect(findWithAssert(`${fieldId} .help-block`).text()).to.contains('Champ requis');
+    });
+}
 describe("Acceptance | 38 - S'identifier sur la plateforme", function () {
   let application;
 
@@ -79,27 +86,15 @@ describe("Acceptance | 38 - S'identifier sur la plateforme", function () {
     });
 
     it('missing firstname', function () {
-      return fillIn(firstname_css, '')
-        .then(() => {
-          expect(find('#firstname').hasClass('has-error')).to.be.true;
-          expect(findWithAssert('#firstname .help-block').text()).to.contains('Champ requis');
-        });
+      return checkMissingInput(firstname_css, '#firstname');
     });
 
     it('missing lastname', function () {
-      return fillIn(lastname_css, '')
-        .then(() => {
-          expect(find('#lastname').hasClass('has-error')).to.be.true;
-          expect(findWithAssert('#lastname .help-block').text()).to.contains('Champ requis');
-        });
+      return checkMissingInput(lastname_css, '#lastname');
     });
 
     it('missing email', function () {
-      return fillIn(email_css, '')
-        .then(() => {
-          expect(find('#email').hasClass('has-error')).to.be.true;
-          expect(findWithAssert('#email .help-block').text()).to.contains('Champ requis');
-        });
+      return checkMissingInput(email_css, '#email');
     });
 
     it('bad email', function () {

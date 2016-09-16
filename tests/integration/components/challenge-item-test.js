@@ -71,7 +71,7 @@ describeComponent(
         renderChallengeItem.call(this, { illustrationUrl: 'http://my.illustration.png' });
 
         // then
-        const $illustration = this.$('.challenge-illustration');
+        const $illustration = this.$('.challenge-illustration > img');
         expect($illustration.attr('alt')).to.contains('ceci est une image');
       });
 
@@ -80,7 +80,7 @@ describeComponent(
         const illustrationUrl = 'http://my.illustration.png';
         renderChallengeItem.call(this, { illustrationUrl });
 
-        let $illustration = this.$('.challenge-illustration');
+        let $illustration = this.$('.challenge-illustration > img');
         expect($illustration.attr('src')).to.equals(illustrationUrl);
       });
 
