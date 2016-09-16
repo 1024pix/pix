@@ -8,7 +8,6 @@
 
     & .course {
       padding: 0;
-      box-shadow: 0 1px 3px 0 var(--light-grey4);
 
       & .course-picture {
         width: 100%;
@@ -22,6 +21,7 @@
         padding: 15px;
         height: 115px;
         overflow: hidden;
+        text-align: center;
 
         & .course-name {
           color: var(--pix-blue);
@@ -31,6 +31,7 @@
       & .course-actions {
         text-align: center;
         padding: 15px;
+        padding-bottom: 30px;
 
         & > a {
           background-color: var(--pix-blue);
@@ -48,6 +49,7 @@
       }
 
     }
+
   }
 
 }

@@ -33,10 +33,6 @@ describe('Acceptance | 2 - voir la liste des tests', function () {
     expect(currentPath()).to.equal('home');
   });
 
-  it('2.1 la liste des tests apparaît', function () {
-    expect(findWithAssert('.title').text()).to.contains('Liste des tests');
-  });
-
   it('2.2 on affiche autant de tests que remontés par AirTable', function () {
     expect(findWithAssert('.course')).to.have.lengthOf(6);
   });

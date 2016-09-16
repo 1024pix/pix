@@ -11,6 +11,11 @@
   margin-bottom: 30px;
   overflow: hidden;
 
+  & .big-text,
+  &.big-text {
+    font-size: 17px;
+  }
+
   & hr {
     height: 1px;
     border: none;

@@ -1,0 +1,8 @@
+@import url('../globals/palette.css');
+
+#assessment-results {
+  & .course-name {
+    color: var(--pix-blue);
+    font-weight: 600;
+  }
+}
