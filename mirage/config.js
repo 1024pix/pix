@@ -1,5 +1,9 @@
 export default function () {
   this.passthrough('https://api.airtable.com/**');
+
+  this.post('https://sentry.io/**', () => {
+    return 200;
+  });
 }
 
 export function testConfig() {
