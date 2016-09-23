@@ -15,14 +15,14 @@ test:
     - npm run ci:coverage
 
 deployment:
-  staging:
+  development:
     branch: master
     commands:
       - git config --global user.email 'mackwic@gmail.com'
       - git config --global user.name 'Thomas Wickham'
-      - npm run deploy:staging
+      - npm run deploy:development
 
-  autodeploy-dev:
+  in-progress:
     branch: /.*/
     commands:
       - git config --global user.email 'mackwic@gmail.com'

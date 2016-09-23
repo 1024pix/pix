@@ -17,11 +17,9 @@
     "test": "ember test",
     "ci:test": "./scripts/ci-test.sh",
     "ci:coverage": "COVERALLS_REPO_TOKEN=4N0uyZhpJrg7ta7KAR3rz54qeOoHOmXqL ./node_modules/.bin/coveralls < coverage/lcov.info ; CODECLIMATE_REPO_TOKEN=4be8413753f290bf2f907800f8fe4da302d6e8c35c3d969f5c1ee39e003a14eb codeclimate-test-reporter < coverage/lcov.info ; rm -rf coverage/",
-    "deploy:prod": "./scripts/deploy.sh production prod",
-    "deploy:dev": "./scripts/deploy.sh development dev",
-    "deploy:staging": "./scripts/deploy.sh staging staging",
-    "deploy:branch": "./scripts/deploy.sh production",
-    "deploy:branch-dev": "./scripts/deploy.sh development"
+    "deploy:production": "./scripts/deploy.sh production production",
+    "deploy:development": "./scripts/deploy.sh development development",
+    "deploy:branch": "./scripts/deploy.sh development"
   },
   "repository": "",
   "engines": {

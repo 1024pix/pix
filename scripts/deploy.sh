@@ -10,7 +10,7 @@ GIT_CURRENT_BRANCH=`git rev-parse --abbrev-ref HEAD | tr -d "\n"`
     BUILD_ENV=production
 }
 
-# if no dist/ is given, use the branch name
+# if no <BUILD_OUTPUT> argument is given, use the branch name
 [ -z $BUILD_OUTPUT ] && {
     BUILD_OUTPUT=$GIT_CURRENT_BRANCH
 }
