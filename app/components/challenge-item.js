@@ -3,6 +3,28 @@ import _ from 'lodash/lodash';
 
 const { computed, inject } = Ember;
 
+function actionValidate () {
+  if (this._hasError()) {
+    this.set('errorMessage', this._getErrorMessage());
+    return this.sendAction('onError', this.get('errorMessage'));
+  }
+  const value = this._getAnswerValue();
+  this.sendAction('onValidated', this.get('challenge'), this.get('assessment'), value);
+}
+
+function actionSkip () {
+  this.set('errorMessage', null);
+  this.sendAction('onValidated', this.get('challenge'), this.get('assessment'), '#ABAND#')
+}
+
+function callOnlyOnce (targetFunction) {
+  if (EmberENV.useDelay) {
+    return _.throttle(targetFunction, 2000, { leading: true, trailing: false});
+  } else {
+    return targetFunction;
+  }
+}
+
 const ChallengeItem = Ember.Component.extend({
 
   tagName: 'article',
@@ -74,21 +96,10 @@ const ChallengeItem = Ember.Component.extend({
       this.set('errorMessage', null);
     },
 
-    validate() {
+    // XXX: prevent double-clicking from creating double record.
+    validate: callOnlyOnce(actionValidate),
 
-      if (this._hasError()) {
-        this.set('errorMessage', this._getErrorMessage());
-        return this.sendAction('onError', this.get('errorMessage'));
-      }
-      const value = this._getAnswerValue();
-      this.sendAction('onValidated', this.get('challenge'), this.get('assessment'), value);
-    },
-
-    skip() {
-
-      this.set('errorMessage', null);
-      this.sendAction('onValidated', this.get('challenge'), this.get('assessment'), '#ABAND#')
-    }
+    skip: callOnlyOnce(actionSkip)
   },
 
   // eslint-disable-next-line complexity
