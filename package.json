@@ -1,6 +1,6 @@
 {
   "name": "pix-live",
-  "version": "0.0.0",
+  "version": "1.0.0",
   "description": "Small description for pix-live goes here",
   "private": true,
   "directories": {
@@ -30,14 +30,13 @@
   "devDependencies": {
     "babel-eslint": "^6.1.2",
     "broccoli-asset-rev": "^2.4.6",
-    "chai": "^3.5.0",
     "codeclimate-test-reporter": "^0.3.3",
     "colorguard": "^1.2.0",
     "coveralls": "^2.11.12",
     "ember-airtable": "0.0.2",
     "ember-ajax": "^2.5.1",
     "ember-bootstrap": "0.9.0",
-    "ember-cli": "2.7.0",
+    "ember-cli": "^2.8.0",
     "ember-cli-app-version": "^2.0.0",
     "ember-cli-babel": "^5.1.10",
     "ember-cli-circleci": "0.1.0",
@@ -56,14 +55,13 @@
     "ember-cli-sri": "^2.1.0",
     "ember-cli-test-loader": "1.1.0",
     "ember-cli-uglify": "^1.2.0",
-    "ember-data": "^2.7.0",
+    "ember-data": "^2.8.0",
     "ember-export-application-global": "^1.0.5",
-    "ember-form-for": "2.0.0-alpha.4",
+    "ember-form-for": "2.0.0-alpha.11",
     "ember-load-initializers": "^0.5.1",
     "ember-lodash": "0.0.10",
     "ember-markdown-it": "0.0.4",
     "ember-resolver": "^2.0.3",
-    "ember-welcome-page": "^1.0.1",
     "eslint": "^3.3.1",
     "loader.js": "^4.0.11",
     "markdown-it": "https://registry.npmjs.org/markdown-it/-/markdown-it-6.0.4.tgz",
@@ -74,9 +72,7 @@
     "postcss-nesting": "^2.3.1",
     "postcss-reporter": "^1.4.1",
     "stylelint": "^7.2.0",
-    "stylelint-config-standard": "^13.0.0",
-    "tap-xunit": "^1.4.0",
-    "urljs": "^2.3.1"
+    "stylelint-config-standard": "^13.0.0"
   },
   "dependencies": {
     "ember-radio-buttons": "^4.0.1"
