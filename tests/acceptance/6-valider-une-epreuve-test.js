@@ -43,6 +43,14 @@ describe('Acceptance | 6 - Valider une épreuve |', function() {
     return visit(`/assessments/${assessmentId}/challenges/${firstChallengeId}`);
   });
 
+  before(function () {
+    $progressBar = findWithAssert('.pix-progress-bar');
+  });
+
+  it("6.0. La barre de progression commence à 1", function () {
+    const expectedText = "1";
+    expect($progressBar.text()).to.contains(expectedText);
+  });
   it("6.1. Je peux valider ma réponse à une épreuve via un bouton 'Valider'", function () {
     expect(findWithAssert('.validate-button')).to.have.lengthOf(1);
   });
@@ -52,6 +60,8 @@ describe('Acceptance | 6 - Valider une épreuve |', function() {
     beforeEach(function () {
       return click('.challenge-proposal:first input[type="radio"]');
     });
+
+
 
     it("6.2. Ma réponse est sauvegardée dans le BO", function () {
 
@@ -63,8 +73,12 @@ describe('Acceptance | 6 - Valider une épreuve |', function() {
         expect(currentURL()).to.contains(`/assessments/${assessmentId}/challenges/${lastChallengeId}`);
       });
     });
+    it("6.4. La barre de progression avance d'une unité, de 1 à 2.", function () {
+      const expectedText = "2";
+      expect($progressBar.text()).to.contains(expectedText);
+    });
 
-    it("6.4. Si l'épreuve que je viens de valider était la dernière du test, je suis redirigé vers la page de fin du test", function () {
+    it("6.5. Si l'épreuve que je viens de valider était la dernière du test, je suis redirigé vers la page de fin du test", function () {
       const $validateButton = $('.validate-button')[0];
       return click($validateButton).then(() => {
         expect(currentURL()).to.contains(`/assessments/${assessmentId}/results`);
