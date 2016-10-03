@@ -3,16 +3,13 @@ machine:
     version: v6.2.1
 
 dependencies:
-  pre:
-    - npm install -g bower
-    - npm install
-    - bower install
+  override:
+    - make install
+
 test:
   override:
     - mkdir -p $CIRCLE_TEST_REPORTS/junit
-    - npm run build
-    - npm run ci:test
-    - npm run ci:coverage
+    - make ci-test
 
 deployment:
   development:
@@ -20,15 +17,14 @@ deployment:
     commands:
       - git config --global user.email 'mackwic@gmail.com'
       - git config --global user.name 'Thomas Wickham'
-      - npm run deploy:development
+      - make deploy
 
   in-progress:
     branch: /.*/
     commands:
       - git config --global user.email 'mackwic@gmail.com'
       - git config --global user.name 'Thomas Wickham'
-      - npm run deploy:branch
-      - ./scripts/signal_deploy_to_pr.sh
+      - make deploy-branch
 
 general:
   branches:
