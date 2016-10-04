@@ -8,6 +8,9 @@
 }
 
 #assessment-challenge  {
+  & .progress  {
+    background-color: #ccc;
+  }
   & .progress-bar-info  {
     min-width: 10%; /* below 10%, text may not be visible */
     background-color: var(--pix-blue);
