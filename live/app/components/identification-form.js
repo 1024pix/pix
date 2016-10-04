@@ -1,58 +1,77 @@
 import Ember from 'ember';
+import _ from 'lodash/lodash';
+
+// XXX from http://stackoverflow.com/a/46181/2120773
+function validateEmail(email) {
+  const regExp = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+  return regExp.test(email);
+}
+
+function getInputErrors(user) {
+
+  const errors = [];
+
+  if (Ember.isEmpty(user.firstName)) {
+
+    errors.push('Vous devez saisir votre prénom.');
+  }
+  if (Ember.isEmpty(user.lastName)) {
+
+    errors.push('Vous devez saisir votre nom.');
+  }
+  if (Ember.isEmpty(user.email) || !validateEmail(user.email)) {
+
+    errors.push('Vous devez saisir une adresse e-mail valide.');
+  }
+  return errors;
+}
+
+function removeErrorMessage(component) {
+
+  component.set('errorMessage', null);
+}
+
+function setUserInSession(component, user) {
+
+  const session = component.get('session');
+  session.set('user', user);
+  session.save();
+}
+
+function navigateToHomePage(component) {
+
+  component.get('routing').transitionTo('home');
+}
 
 export default Ember.Component.extend({
 
   routing: Ember.inject.service('-routing'),
   session: Ember.inject.service('session'),
-  user: null,
 
-  init() {
-    this._super(...arguments);
-    this.set('session.isIdentified', false);
-    this.set('user', Ember.ObjectProxy.create({
-      content: this.get('session'),
-      errors: {}
-    }));
-    return this;
-  },
+  user: Ember.Object.create(),
+  errorMessage: null,
 
-  hasErrors: Ember.computed('user.errors.{firstname,lastname,email}', function () {
-    return false === (Ember.isEmpty(this.get('user.errors.firstname'))
-      && Ember.isEmpty(this.get('user.errors.lastname'))
-      && Ember.isEmpty(this.get('user.errors.email')));
-  }),
-
-  isSubmitDisabled: Ember.computed('session.{firstname,lastname,email}', 'hasErrors', function () {
-    return (
-      Ember.isEmpty(this.get('session.firstname'))
-      || Ember.isEmpty(this.get('session.lastname'))
-      || Ember.isEmpty(this.get('session.email'))
-      || this.get('hasErrors')
-    );
-  }),
+  hasError: Ember.computed.notEmpty('errorMessage'),
 
   actions: {
+
     identify() {
-      this.set('session.isIdentified', true);
-      this.get('session').save();
-      this.get('routing').transitionTo('home');
-    },
 
-    update(object, propertyPath, value) {
-      if (Ember.isEmpty(value)) {
-        this.set(`user.errors.${propertyPath}`, ['Champ requis']);
-        return;
+      const user = this.get('user');
+
+      const errors = getInputErrors(user);
+
+      if (Ember.isEmpty(errors)) {
+
+        removeErrorMessage(this);
+        setUserInSession(this, user);
+        navigateToHomePage(this);
+      } else {
+
+        this.set('errorMessage', _.first(errors));
       }
-
-      this.set(`user.errors.${propertyPath}`, null);
-
-      if (propertyPath === 'email' && false === $('.email_input')[0].checkValidity()) {
-        this.set('user.errors.email', ['Entrez un email correct']);
-        return;
-      }
-
-      object.set(propertyPath, value);
     }
+
   }
 
 });

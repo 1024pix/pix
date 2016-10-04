@@ -5,19 +5,13 @@ import {
   beforeEach,
   after
 } from 'mocha';
-import {expect} from 'chai';
+import { expect } from 'chai';
 import startApp from '../helpers/start-app';
 import destroyApp from '../helpers/destroy-app';
 import RSVP from 'rsvp';
 
-function checkMissingInput(cssClass, fieldId) {
-  return fillIn(cssClass, '')
-    .then(() => {
-      expect(find(fieldId).hasClass('has-error')).to.be.true;
-      expect(findWithAssert(`${fieldId} .help-block`).text()).to.contains('Champ requis');
-    });
-}
 describe("Acceptance | 38 - S'identifier sur la plateforme", function () {
+
   let application;
 
   before(function () {
@@ -32,92 +26,86 @@ describe("Acceptance | 38 - S'identifier sur la plateforme", function () {
     return visit('/');
   });
 
-  const firstname_css = '.firstname_input';
-  const lastname_css = '.lastname_input';
-  const email_css = '.email_input';
-  const submit_css = '.identification-form-actions button';
-  let $firstname;
-  let $lastname;
+  let $firstName;
+  let $lastName;
   let $email;
   let $submit;
 
   before(function () {
-    $firstname = findWithAssert(firstname_css).first();
-    $lastname = findWithAssert(lastname_css).first();
-    $email = findWithAssert(email_css).first();
-    $submit = findWithAssert(submit_css).first();
+    $firstName = findWithAssert('#firstName');
+    $lastName = findWithAssert('#lastName');
+    $email = findWithAssert('#email');
+    $submit = findWithAssert('button[type="submit"]').first();
   });
 
-  function fillForm(firstname, lastname, email) {
-    return RSVP.all([
-      fillIn(firstname_css, firstname),
-      fillIn(lastname_css, lastname),
-      fillIn(email_css, email)
-    ]);
+  function fillForm(firstName, lastName, email) {
+    fillIn($firstName, firstName),
+    fillIn($lastName, lastName),
+    fillIn($email, email)
   }
 
-  it("38.1 Depuis la page d'accueil, je saisie mon prénom + nom + email", function () {
-    return fillForm('Jérémy', 'Buget', 'jbu@octo.com')
-      .then(() => {
-        expect($firstname.val()).to.contains('Jérémy');
-        expect($lastname.val()).to.equal('Buget');
-        expect($email.val()).to.equal('jbu@octo.com');
-      });
+  function checkMissingInput($field, errorMessage) {
+    fillIn($field, '');
+    click($submit);
+    andThen(() => {
+      const $errorMessage = findWithAssert('.alert-danger').first();
+      expect($errorMessage.text()).to.contains(errorMessage);
+    });
+  }
+
+  it("38.1 Depuis la page d'accueil, je saisie mon prénom + nom + e-mail", function () {
+    fillForm('Jon', 'Snow', 'jsnow@winterfell.got');
+    andThen(() => {
+      expect($firstName.val()).to.contains('Jon');
+      expect($lastName.val()).to.equal('Snow');
+      expect($email.val()).to.equal('jsnow@winterfell.got');
+    });
   });
 
-  it('38.2 Quand je valide mon identité, je suis redirigé vers la page des tests', function () {
-    return fillForm('Jérémy', 'Buget', 'jbu@octo.com')
-      .then(() => click(submit_css))
-      .then(() => expect(currentURL()).to.equal('/home'))
+  describe('38.2 Quand je valide mon identité', function () {
+
+    before(function() {
+      visit('/');
+      fillForm('Thomas', 'Wickham', 'twi@octo.com');
+//      click($submit);
+    });
+
+    it("je suis redirigé vers la page d'accueil", function() {
+      expect(currentURL()).to.equal('/home');
+    });
+
+    it("je vois apparaître 'Bonjour Prénom' dans le header", function() {
+      expect(findWithAssert('.profile').text()).to.contains('Bonjour Jon');
+    });
+
   });
 
-  it('38.3 Quand je suis identifié, je vois apparaître le libellé “Bonjour Prénom” (via session utilisateur)', function () {
+  describe("38.4 En cas de champs vide ou invalide, un message d'erreur apparaît", function () {
 
-    // Assert that 38.2 went OK
-    expect(currentURL()).to.equal('/home');
-
-    expect(findWithAssert('.profile').text()).to.contains('Bonjour Jérémy');
-  });
-
-  describe("38.4 En cas de champs manquant, un message d'erreur apparaît", function () {
     beforeEach(() => {
-      return visit('/')
-        .then(() => fillForm('Thomas', 'Wickham', 'twi@octo.com'));
+      visit('/');
+      fillForm('Thomas', 'Wickham', 'twi@octo.com');
     });
 
-    it('missing firstname', function () {
-      return checkMissingInput(firstname_css, '#firstname');
+    it('Prénom vide', function () {
+      checkMissingInput($firstName, 'Vous devez saisir votre prénom.');
     });
 
-    it('missing lastname', function () {
-      return checkMissingInput(lastname_css, '#lastname');
+    it('Nom vide', function () {
+      checkMissingInput($lastName, 'Vous devez saisir votre nom.');
     });
 
-    it('missing email', function () {
-      return checkMissingInput(email_css, '#email');
+    it('E-mail vide', function () {
+      checkMissingInput($email, 'Vous devez saisir une adresse e-mail valide.');
     });
 
-    it('bad email', function () {
-      return fillIn(email_css, 'bad email')
-        .then(() => {
-          expect(find('#email').hasClass('has-error')).to.be.true;
-          expect(findWithAssert('#email .help-block').text()).to.contains('Entrez un email correct');
-        });
+    it('E-mail invalide', function () {
+      fillIn($email, '// bademail //');
+      andThen(() => {
+        const $errorMessage = findWithAssert('.alert-danger').first();
+        expect($errorMessage.text()).to.contains('Vous devez saisir une adresse e-mail valide');
+      });
     });
-
-    it("can't submit a form when an error is present", function () {
-      return fillIn(firstname_css, '')
-        .then(() => expect(find(submit_css)[0].disabled).to.be.true)
-        .then(() => click(submit_css))
-        .then(() => expect(currentURL()).to.eq('/'))
-    });
-
-    it("if the form is empty and the page has just been loaded, it can't submit the form", function () {
-      return visit('/')
-        .then(() => expect(find(submit_css)[0].disabled).to.be.true)
-        .then(() => click(submit_css))
-        .then(() => expect(currentURL()).to.eq('/'))
-    })
 
   });
 });

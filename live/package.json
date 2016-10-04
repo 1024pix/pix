@@ -59,7 +59,6 @@
     "ember-cli-uglify": "^1.2.0",
     "ember-data": "^2.8.0",
     "ember-export-application-global": "^1.0.5",
-    "ember-form-for": "2.0.0-alpha.11",
     "ember-load-initializers": "^0.5.1",
     "ember-lodash": "0.0.10",
     "ember-markdown-it": "0.0.4",

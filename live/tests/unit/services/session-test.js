@@ -1,5 +1,5 @@
 /* jshint expr:true */
-import {expect} from 'chai';
+import { expect } from 'chai';
 import {
   describeModule,
   it
@@ -12,12 +12,9 @@ import {
 describeModule(
   'service:session',
   'SessionService',
-  {
-    // Specify the other units that are required for this test.
-    // needs: ['service:foo']
-  },
+  {},
   function () {
-    // Replace this with your real tests.
+
     it('exists', function () {
       let service = this.subject();
       expect(service).to.be.ok;
@@ -25,9 +22,11 @@ describeModule(
 
     let store = {};
     const localStorageStub = {
+
       getItem(itemName) {
         return store[itemName];
       },
+
       setItem(itemName, value) {
         store[itemName] = value.toString();
       }
@@ -44,54 +43,59 @@ describeModule(
       window.localStorage.setItem = originalLocalStorage.setItem;
     });
 
-    it('starts empty', function () {
-      let session = this.subject();
-      expect(session.get('firstname')).to.be.empty;
-      expect(session.get('lastname')).to.be.empty;
-      expect(session.get('email')).to.be.empty;
-      expect(session.get('isIdentified')).to.be.false;
+    it('contains no user by default', function () {
+      expect(this.subject().get('user')).to.not.exist;
     });
 
+    describe('#save', function () {
 
-    it('#save() save data to localStorage', function () {
-      const session = this.subject();
-      const values = {
-        firstname: 'firstname',
-        lastname: 'lastname',
-        email: 'email'
-      };
-      session.setProperties(values);
+      it('persists data to Local Storage', function () {
+        const session = this.subject();
+        const user = {
+          firstName: 'firstName',
+          lastName: 'lastName',
+          email: 'email'
+        };
+        session.set('user', user);
 
-      session.save();
+        session.save();
 
-      expect(store['pix-live.session']).to.eq(JSON.stringify(values));
+        expect(store['pix-live.session']).to.equal(JSON.stringify({ user }));
+      });
     });
 
-    it('#init() restore data from localStorage', function () {
-      const values = {
-        firstname: 'Thomas',
-        lastname: 'Wickham',
-        email: 'twi@octo.com'
-      };
-      localStorageStub.setItem('pix-live.session', JSON.stringify(values));
-      const session = this.subject();
+    describe('#init', function () {
 
-      values.isIdentified = true;
-      const sut = session.getProperties('firstname', 'lastname', 'email', 'isIdentified');
-      expect(sut).to.deep.eq(values);
+      it('restores data from Local Storage', function () {
+        // given
+        const storedData = {
+          user: {
+            firstName: 'Thomas',
+            lastName: 'Wickham',
+            email: 'twi@octo.com'
+          }
+        };
+        localStorageStub.setItem('pix-live.session', JSON.stringify(storedData));
+
+        // when
+        const session = this.subject();
+
+        // then
+        const user = session.get('user');
+        expect(user).to.deep.equal(storedData.user);
+      });
+
+      it('uses an empty session if JSON parsing failed', function () {
+        // given
+        localStorageStub.setItem('pix-live.session', JSON.stringify({}));
+
+        // when
+        const session = this.subject();
+
+        // then
+        expect(session.get('user')).to.not.exist;
+      });
+
     });
 
-    it('#init() use an empty session is JSON parsing failed', function () {
-      localStorageStub.setItem('pix-live.session', '[object Object]');
-      const session = this.subject();
-
-      const expected = {
-        firstname: "",
-        lastname: "",
-        email: "",
-        isIdentified: false
-      };
-      const sut = session.getProperties('firstname', 'lastname', 'email', 'isIdentified');
-      expect(sut).to.deep.eq(expected);
-    });
   });
