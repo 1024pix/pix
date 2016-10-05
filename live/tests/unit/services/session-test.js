@@ -98,4 +98,31 @@ describeModule(
 
     });
 
+    describe('#isIdentified', function () {
+
+      it('returns true if user is set in session', function () {
+        // given
+        const session = this.subject();
+        const user = {
+          firstName: 'firstName',
+          lastName: 'lastName',
+          email: 'email'
+        };
+        session.set('user', user);
+
+        // then
+        expect(session.isIdentified()).to.be.true;
+      });
+
+      it('returns false if user is not set in session', function () {
+        // given
+        const session = this.subject();
+        session.set('user', null);
+
+        // then
+        expect(session.isIdentified()).to.be.false;
+      });
+
+    });
+
   });

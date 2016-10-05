@@ -9,6 +9,7 @@ import startApp from '../helpers/start-app';
 import destroyApp from '../helpers/destroy-app';
 
 describe('Acceptance | 1 - Accéder à la plateforme pour démarrer un test', function () {
+
   let application;
 
   before(function () {
@@ -20,7 +21,7 @@ describe('Acceptance | 1 - Accéder à la plateforme pour démarrer un test', fu
   });
 
   before(function () {
-    return visit('/');
+    visit('/');
   });
 
   it('1.0 peut visiter /', function () {
@@ -33,12 +34,12 @@ describe('Acceptance | 1 - Accéder à la plateforme pour démarrer un test', fu
 
   it('1.3 la page d\'accueil contient un formulaire Nom / Prénom / Email et un bouton valider', function () {
     expect(findWithAssert('label[for="firstName"]').text()).to.contains('Prénom');
-    expect(findWithAssert('#firstName')).to.exist;
+    expect(findWithAssert('#firstName'));
 
     expect(findWithAssert('label[for="lastName"]').text()).to.contains('Nom');
-    expect(findWithAssert('#lastName')).to.exist;
+    expect(findWithAssert('#lastName'));
 
     expect(findWithAssert('label[for="lastName"]').text()).to.contains('Nom');
-    expect(findWithAssert('#email')).to.exist;
+    expect(findWithAssert('#email'));
   })
 });
