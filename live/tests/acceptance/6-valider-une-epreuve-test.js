@@ -20,6 +20,8 @@ describe('Acceptance | 6 - Valider une épreuve |', function() {
   let firstChallengeId;
   let lastChallengeId;
 
+  let $progressBar;
+
   before(function() {
     application = startApp();
 
@@ -60,8 +62,6 @@ describe('Acceptance | 6 - Valider une épreuve |', function() {
     beforeEach(function () {
       return click('.challenge-proposal:first input[type="radio"]');
     });
-
-
 
     it("6.2. Ma réponse est sauvegardée dans le BO", function () {
 

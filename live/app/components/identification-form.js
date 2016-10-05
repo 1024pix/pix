@@ -38,9 +38,9 @@ function setUserInSession(component, user) {
   session.save();
 }
 
-function navigateToHomePage(component) {
+function callActionOnUserIdentified(component) {
 
-  component.get('routing').transitionTo('home');
+  component.sendAction('onUserIdentified');
 }
 
 export default Ember.Component.extend({
@@ -59,13 +59,15 @@ export default Ember.Component.extend({
 
       const user = this.get('user');
 
+      Ember.Logger.info('user.firstName=' + user.get('firstName'));
+
       const errors = getInputErrors(user);
 
       if (Ember.isEmpty(errors)) {
 
         removeErrorMessage(this);
         setUserInSession(this, user);
-        navigateToHomePage(this);
+        callActionOnUserIdentified(this);
       } else {
 
         this.set('errorMessage', _.first(errors));

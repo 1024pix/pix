@@ -8,7 +8,6 @@ import {
 import { expect } from 'chai';
 import startApp from '../helpers/start-app';
 import destroyApp from '../helpers/destroy-app';
-import RSVP from 'rsvp';
 
 describe("Acceptance | 38 - S'identifier sur la plateforme", function () {
 
@@ -38,22 +37,24 @@ describe("Acceptance | 38 - S'identifier sur la plateforme", function () {
     $submit = findWithAssert('button[type="submit"]').first();
   });
 
+  function getErrorMessageDiv() {
+    return findWithAssert('.alert-danger').first();
+  }
+
   function fillForm(firstName, lastName, email) {
-    fillIn($firstName, firstName),
-    fillIn($lastName, lastName),
-    fillIn($email, email)
+    fillIn('#firstName', firstName);
+    fillIn('#lastName', lastName);
+    fillIn('#email', email);
   }
 
-  function checkMissingInput($field, errorMessage) {
-    fillIn($field, '');
+  function checkMissingInput(selector, errorMessage) {
+    const $submit = findWithAssert('button[type="submit"]').first();
+    fillIn(selector, '');
     click($submit);
-    andThen(() => {
-      const $errorMessage = findWithAssert('.alert-danger').first();
-      expect($errorMessage.text()).to.contains(errorMessage);
-    });
+    andThen(() => expect(getErrorMessageDiv().text()).to.contains(errorMessage));
   }
 
-  it("38.1 Depuis la page d'accueil, je saisie mon prénom + nom + e-mail", function () {
+  it("38.1 Depuis la page d'accueil, je peux saisir mon prénom + nom + e-mail", function () {
     fillForm('Jon', 'Snow', 'jsnow@winterfell.got');
     andThen(() => {
       expect($firstName.val()).to.contains('Jon');
@@ -64,46 +65,45 @@ describe("Acceptance | 38 - S'identifier sur la plateforme", function () {
 
   describe('38.2 Quand je valide mon identité', function () {
 
-    before(function() {
+    before(function () {
       visit('/');
       fillForm('Thomas', 'Wickham', 'twi@octo.com');
-//      click($submit);
+      click($submit);
     });
 
-    it("je suis redirigé vers la page d'accueil", function() {
+    it("je suis redirigé vers la page d'accueil", function () {
       expect(currentURL()).to.equal('/home');
     });
 
-    it("je vois apparaître 'Bonjour Prénom' dans le header", function() {
-      expect(findWithAssert('.profile').text()).to.contains('Bonjour Jon');
+    it("je vois apparaître 'Bonjour Prénom' dans le header", function () {
+      expect(findWithAssert('.profile').text()).to.contains('Bonjour Thomas');
     });
 
   });
 
   describe("38.4 En cas de champs vide ou invalide, un message d'erreur apparaît", function () {
 
-    beforeEach(() => {
+    beforeEach(function () {
       visit('/');
       fillForm('Thomas', 'Wickham', 'twi@octo.com');
     });
 
     it('Prénom vide', function () {
-      checkMissingInput($firstName, 'Vous devez saisir votre prénom.');
+      checkMissingInput('#firstName', 'Vous devez saisir votre prénom.');
     });
 
     it('Nom vide', function () {
-      checkMissingInput($lastName, 'Vous devez saisir votre nom.');
+      checkMissingInput('#lastName', 'Vous devez saisir votre nom.');
     });
 
     it('E-mail vide', function () {
-      checkMissingInput($email, 'Vous devez saisir une adresse e-mail valide.');
+      checkMissingInput('#email', 'Vous devez saisir une adresse e-mail valide.');
     });
 
     it('E-mail invalide', function () {
-      fillIn($email, '// bademail //');
+      fillIn('#email', '// bademail //');
       andThen(() => {
-        const $errorMessage = findWithAssert('.alert-danger').first();
-        expect($errorMessage.text()).to.contains('Vous devez saisir une adresse e-mail valide');
+        expect(getErrorMessageDiv().text()).to.contains('Vous devez saisir une adresse e-mail valide');
       });
     });
 

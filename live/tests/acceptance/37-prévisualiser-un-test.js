@@ -40,7 +40,7 @@ describe('Acceptance | 37 - Prévisualiser un test |', function () {
   describe("Prévisualiser la première page d'un test |", function () {
 
     before(function () {
-      return visit(`/courses/${courseId}/preview`);
+      visit(`/courses/${courseId}/preview`);
     });
 
     it("37.1. L'accès à la preview d'un test se fait en accédant à l'URL /courses/:course_id/preview", function () {
@@ -77,7 +77,7 @@ describe('Acceptance | 37 - Prévisualiser un test |', function () {
 
     before(function () {
       currentChallenge = challenges[2];
-      return visit(`/courses/${courseId}/preview/challenges/${firstChallengeId}`);
+      visit(`/courses/${courseId}/preview/challenges/${firstChallengeId}`);
     });
 
     it("37.5. L'accès à la preview d'une épreuve d'un testse fait en accédant à l'URL /courses/:course_id/preview/challenges/:challenge_id", function () {
@@ -107,7 +107,7 @@ describe('Acceptance | 37 - Prévisualiser un test |', function () {
   describe("Prévisualiser la dernière épreuve dans le cadre d'un test |", function () {
 
     before(function () {
-      return visit(`/courses/${courseId}/preview/challenges/${lastChallengeId}`);
+      visit(`/courses/${courseId}/preview/challenges/${lastChallengeId}`);
     });
 
     it("37.8. on n'affiche pas de bouton “Épreuve suivante”", function () {
