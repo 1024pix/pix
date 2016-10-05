@@ -3,7 +3,7 @@ import _ from 'lodash/lodash';
 
 const { computed, inject } = Ember;
 
-function actionValidate () {
+function actionValidate() {
   if (this._hasError()) {
     this.set('errorMessage', this._getErrorMessage());
     return this.sendAction('onError', this.get('errorMessage'));
@@ -12,14 +12,14 @@ function actionValidate () {
   this.sendAction('onValidated', this.get('challenge'), this.get('assessment'), value);
 }
 
-function actionSkip () {
+function actionSkip() {
   this.set('errorMessage', null);
   this.sendAction('onValidated', this.get('challenge'), this.get('assessment'), '#ABAND#')
 }
 
-function callOnlyOnce (targetFunction) {
+function callOnlyOnce(targetFunction) {
   if (EmberENV.useDelay) {
-    return _.throttle(targetFunction, 2000, { leading: true, trailing: false});
+    return _.throttle(targetFunction, 2000, { leading: true, trailing: false });
   } else {
     return targetFunction;
   }
@@ -83,12 +83,10 @@ const ChallengeItem = Ember.Component.extend({
       if (checked) {
         if (Ember.isArray(answers)) {
           answers.push(name);
-        }
-        else {
+        } else {
           answers = [name];
         }
-      }
-      else {
+      } else {
         _.remove(answers, (answer) => answer === name);
       }
 

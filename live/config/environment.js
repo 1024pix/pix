@@ -4,7 +4,7 @@ module.exports = function(environment) {
   var ENV = {
     modulePrefix: 'pix-live',
     environment: environment,
-    baseURL: '/',
+    rootURL: '/',
     locationType: 'auto',
     EmberENV: {
       // XXX because of a deprecation notice in the console
@@ -48,7 +48,6 @@ module.exports = function(environment) {
     ENV.EmberENV.useDelay = false;
 
     // Testem prefers this...
-    ENV.baseURL = '/';
     ENV.locationType = 'none';
 
     // keep test console output quieter
@@ -57,6 +56,10 @@ module.exports = function(environment) {
 
     ENV.APP.rootElement = '#ember-testing';
     ENV.googleFonts = [];
+  }
+
+  if (environment === 'production') {
+
   }
 
   return ENV;

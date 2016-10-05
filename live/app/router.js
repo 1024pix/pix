@@ -2,10 +2,11 @@ import Ember from 'ember';
 import config from './config/environment';
 
 const Router = Ember.Router.extend({
-  location: config.locationType
+  location: config.locationType,
+  rootURL: config.rootURL
 });
 
-Router.map(function () {
+export default Router.map(function () {
 
   this.route('index', { path: '/' });
   this.route('home');
@@ -20,5 +21,3 @@ Router.map(function () {
   this.route('assessments.get-challenge', { path: '/assessments/:assessment_id/challenges/:challenge_id' });
   this.route('assessments.get-results', { path: '/assessments/:assessment_id/results' });
 });
-
-export default Router;

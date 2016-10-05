@@ -9,16 +9,17 @@
 
     {{content-for "head"}}
 
-    <link rel="stylesheet" href="assets/vendor.css">
-    <link rel="stylesheet" href="assets/pix-live.css">
+    <link rel="stylesheet" href="{{rootURL}}assets/vendor.css">
+    <link rel="stylesheet" href="{{rootURL}}assets/pix-live.css">
 
     {{content-for "head-footer"}}
   </head>
   <body>
     {{content-for "body"}}
 
-    <script src="assets/vendor.js"></script>
-    <script src="assets/pix-live.js"></script>
+    <script src="{{rootURL}}assets/vendor.js"></script>
+    <script src="{{rootURL}}assets/pix-live.js"></script>
+
     <script src="https://cdn.ravenjs.com/3.7.0/ember/raven.min.js"></script>
     <script>Raven.config('https://4b60c9f39a844832956f840b9d0d1359@sentry.io/99479').install();</script>
 
