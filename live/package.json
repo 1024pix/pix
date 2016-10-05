@@ -73,7 +73,8 @@
     "postcss-nesting": "^2.3.1",
     "postcss-reporter": "^1.4.1",
     "stylelint": "^7.2.0",
-    "stylelint-config-standard": "^13.0.0"
+    "stylelint-config-standard": "^13.0.0",
+    "tap-xunit": "^1.4.0"
   },
   "dependencies": {
     "ember-radio-buttons": "^4.0.1"

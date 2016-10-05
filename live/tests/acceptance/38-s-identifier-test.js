@@ -28,13 +28,11 @@ describe("Acceptance | 38 - S'identifier sur la plateforme", function () {
   let $firstName;
   let $lastName;
   let $email;
-  let $submit;
 
   before(function () {
     $firstName = findWithAssert('#firstName');
     $lastName = findWithAssert('#lastName');
     $email = findWithAssert('#email');
-    $submit = findWithAssert('button[type="submit"]').first();
   });
 
   function getErrorMessageDiv() {
@@ -47,11 +45,17 @@ describe("Acceptance | 38 - S'identifier sur la plateforme", function () {
     fillIn('#email', email);
   }
 
-  function checkMissingInput(selector, errorMessage) {
+  function submitIdentificationForm() {
     const $submit = findWithAssert('button[type="submit"]').first();
-    fillIn(selector, '');
     click($submit);
-    andThen(() => expect(getErrorMessageDiv().text()).to.contains(errorMessage));
+  }
+
+  function checkMissingInput(selector, errorMessage) {
+    fillIn(selector, '');
+    submitIdentificationForm();
+    andThen(() => {
+      expect(getErrorMessageDiv().text()).to.contains(errorMessage)
+    });
   }
 
   it("38.1 Depuis la page d'accueil, je peux saisir mon prénom + nom + e-mail", function () {
@@ -68,7 +72,7 @@ describe("Acceptance | 38 - S'identifier sur la plateforme", function () {
     before(function () {
       visit('/');
       fillForm('Thomas', 'Wickham', 'twi@octo.com');
-      click($submit);
+      submitIdentificationForm();
     });
 
     it("je suis redirigé vers la page d'accueil", function () {
@@ -102,6 +106,7 @@ describe("Acceptance | 38 - S'identifier sur la plateforme", function () {
 
     it('E-mail invalide', function () {
       fillIn('#email', '// bademail //');
+      submitIdentificationForm();
       andThen(() => {
         expect(getErrorMessageDiv().text()).to.contains('Vous devez saisir une adresse e-mail valide');
       });
