@@ -28,6 +28,12 @@
         }
       }
 
+      & .course-number-of-challenges {
+        text-align: center;
+        padding: 15px;
+        padding-bottom: 5px;
+      }
+
       & .course-actions {
         text-align: center;
         padding: 15px;

@@ -9,13 +9,21 @@ import startApp from '../helpers/start-app';
 import destroyApp from '../helpers/destroy-app';
 
 describe('Acceptance | 2 - voir la liste des tests', function () {
+
   let application;
   let courses;
   let courseWithoutImage;
+  const numberOfCourses = 4;
+  let courseWithAllData;
 
   before(function () {
     application = startApp();
     courses = server.createList('course-airtable', 6);
+    let challenges = server.createList('challenge-airtable', numberOfCourses);
+
+    courseWithAllData = courses[1];
+    courseWithAllData.attachMany('Épreuves', challenges);
+
     courseWithoutImage = courses[5];
     courseWithoutImage.attrs.fields.Image[0].url = '';
     courseWithoutImage.save();
@@ -43,7 +51,7 @@ describe('Acceptance | 2 - voir la liste des tests', function () {
     let course;
 
     before(function () {
-      course = courses[1];
+      course = courseWithAllData;
       $course = findWithAssert(`.course[data-id="${course.attrs.id}"]`);
     });
 
@@ -55,11 +63,15 @@ describe('Acceptance | 2 - voir la liste des tests', function () {
       expect($course.find('.course-description').text()).to.contains(course.attrs.fields.Description);
     });
 
-    it('2.3.3 on affiche son image', function () {
+    it('2.3.3 on affiche le nombre d\'épreuve(s) qu\'il contient', function () {
+      expect($course.find('.course-number-of-challenges').text()).to.contains(numberOfCourses);
+    });
+
+    it('2.3.4 on affiche son image', function () {
       expect($course.find('img')[0].src).to.equal(course.attrs.fields.Image[0].url);
     });
 
-    it('2.3.4 on affiche un bouton "démarrer le test"', function () {
+    it('2.3.5 on affiche un bouton "démarrer le test"', function () {
       expect($course.find('a.button').text()).to.contains('Démarrer le test');
     });
 
