@@ -21,7 +21,7 @@ test-live:
 serve-api:
 	cd api && npm run serve
 serve-live:
-	cd live && ember serve
+	cd live && npm start
 
 start-api:
 	cd api && npm start
