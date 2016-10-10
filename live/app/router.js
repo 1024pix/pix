@@ -7,7 +7,6 @@ const Router = Ember.Router.extend({
 });
 
 export default Router.map(function () {
-
   this.route('index', { path: '/' });
   this.route('home');
   this.route('preferences');
@@ -20,4 +19,5 @@ export default Router.map(function () {
 
   this.route('assessments.get-challenge', { path: '/assessments/:assessment_id/challenges/:challenge_id' });
   this.route('assessments.get-results', { path: '/assessments/:assessment_id/results' });
+  this.route('secret-yo');
 });

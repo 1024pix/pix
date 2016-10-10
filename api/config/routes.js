@@ -18,4 +18,7 @@ module.exports = [
   { method: 'GET', path: '/api/challenges', config: Challenges.list },
   { method: 'GET', path: '/api/challenges/{id}', config: Challenges.get }
 
-];
+].map((route) => {
+  route.config.cors = { origin: ['*'] };
+  return route;
+});
