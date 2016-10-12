@@ -5,9 +5,13 @@
   "main": "server.js",
   "scripts": {
     "serve": "./node_modules/.bin/nodemon server.js",
-    "test": "NODE_ENV=test ./node_modules/.bin/mocha --require ./tests/init --reporter dot  --recursive tests" ,
-    "test:watch": "./node_modules/.bin/mocha --watch --require ./tests/init --recursive tests",
-    "knex": "node node_modules/knex/bin/cli --knexfile db/knexfile.js"
+    "test": "NODE_ENV=test ./node_modules/.bin/mocha -r tests/setup --recursive tests",
+    "test:serve": "NODE_ENV=test ./node_modules/.bin/mocha -r tests/setup --recursive tests --watch",
+    "knex": "./node_modules/.bin/knex --knexfile db/knexfile.js",
+    "db:migrate": "npm run knex migrate:latest",
+    "db:seed": "npm run knex seed:run",
+    "coverage": "NODE_ENV=test ./node_modules/.bin/istanbul cover _mocha -- -r tests/setup --recursive tests",
+    "lint": "./node_modules/.bin/eslint app/**/*.js"
   },
   "repository": {
     "type": "git",
@@ -20,25 +24,30 @@
   },
   "homepage": "https://github.com/sgmap/pix-api#readme",
   "dependencies": {
-    "airtable": "^0.4.2",
-    "blipp": "^2.3.0",
-    "bookshelf": "^0.10.2",
-    "boom": "^4.1.0",
-    "good": "^7.0.2",
-    "good-console": "^6.1.2",
-    "good-squeeze": "^5.0.0",
-    "hapi": "^15.1.0",
-    "knex": "^0.12.1",
-    "moment": "^2.15.1",
-    "path": "^0.12.7",
-    "pg": "^6.1.0",
-    "should": "^11.1.0",
-    "sqlite3": "^3.1.4"
+    "airtable": "0.4.2",
+    "blipp": "2.3.0",
+    "bookshelf": "0.10.2",
+    "boom": "4.1.0",
+    "good": "7.0.2",
+    "good-console": "6.1.2",
+    "good-squeeze": "5.0.0",
+    "hapi": "15.1.1",
+    "inject-then": "2.0.7",
+    "knex": "0.12.3",
+    "lodash": "4.16.4",
+    "moment": "2.15.1",
+    "path": "0.12.7",
+    "pg": "6.1.0",
+    "sinon": "^1.17.6",
+    "sqlite3": "3.1.6"
   },
   "devDependencies": {
-    "chai": "^3.5.0",
-    "mocha": "^3.1.0",
-    "nodemon": "^1.10.2",
-    "sinon": "^1.17.6"
+    "chai": "3.5.0",
+    "eslint": "^3.7.1",
+    "istanbul": "^0.4.5",
+    "mocha": "3.1.2",
+    "nock": "8.0.0",
+    "nodemon": "1.10.2",
+    "sinon": "1.17.6"
   }
 }

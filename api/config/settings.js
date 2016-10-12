@@ -1,15 +1,35 @@
+'use strict';
+
 const path = require('path');
 
-module.exports = {
+module.exports = (function () {
 
-  rootPath: path.normalize(__dirname + '/..'),
+  let config = {
 
-  port: (process.env.NODE_ENV !== 'test') ? parseInt(process.env.PORT, 10) || 3000 : null,
+    rootPath: path.normalize(__dirname + '/..'),
 
-  environment: process.env.NODE_ENV || 'development',
+    port: parseInt(process.env.PORT, 10) || 3000,
 
-  hapi: {
-    options: {}
+    environment: process.env.NODE_ENV || 'development',
+
+    hapi: {
+      options: {}
+    },
+
+    airtable: {
+      apiKey: 'keyEgu8JYhXaOhjbd',
+      base: 'appHAIFk9u1qqglhX'
+    }
+  };
+
+  if (process.env.NODE_ENV === 'test') {
+    config.port = null;
+    config.airtable = {
+      apiKey: 'test-api-key',
+      base: 'test-base'
+    };
   }
 
-};
+  return config;
+
+})();

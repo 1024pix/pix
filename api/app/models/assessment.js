@@ -4,7 +4,7 @@ const Answer = require('./answer');
 
 module.exports = Bookshelf.Model.extend({
 
-  tableName: 'assessment',
+  tableName: 'assessments',
 
   user: () => {
     return this.belongsTo(User);

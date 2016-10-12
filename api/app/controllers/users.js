@@ -20,5 +20,16 @@ module.exports = {
         reply(`{"user": ${JSON.stringify(user)} }`).type('application/json');
       });
     }
+  },
+
+  save: {
+    handler: (request, reply) => {
+
+      const user = new User(request.payload);
+      user.save().then(() => {
+        reply(`{"user": ${JSON.stringify(user)} }`).type('application/json');
+      });
+
+    }
   }
 };

@@ -1,45 +1,38 @@
 const server = require('../../../server');
-const after = require('mocha').after;
 
-describe('/api/greetings', function () {
+describe('API | Greetings', function () {
 
   after(function (done) {
 
     server.stop(done);
   });
 
-  describe('route /', function (done) {
+  describe('GET /', function () {
+
+    const options = { method: "GET", url: "/" };
 
     it('/ should return "Hello, world!"', function (done) {
 
-      const options = {
-        method: "GET",
-        url: "/"
-      };
+      server.injectThen(options).then((response) => {
 
-      server.inject(options, (response) => {
-
-        response.statusCode.should.be.equal(200);
-        response.result.should.have.lengthOf(13);
-        response.result.should.be.equal('Hello, world!');
+        expect(response.statusCode).to.equal(200);
+        expect(response.result).to.have.lengthOf(13);
+        expect(response.result).to.equal('Hello, world!');
         done();
       });
     });
   });
 
-  describe('route /{name}', function (done) {
+  describe('GET /:name', function () {
 
-    it('/ should return "Hello, {name}!"', function (done) {
+    it('should return "Hello, {name}!"', function (done) {
 
-      const options = {
-        method: "GET",
-        url: "/test_name"
-      };
+      const options = { method: "GET", url: "/test_name" };
 
-      server.inject(options, (response) => {
+      server.injectThen(options).then((response) => {
 
-        response.statusCode.should.be.equal(200);
-        response.result.should.be.equal('Hello, test_name!');
+        expect(response.statusCode).to.equal(200);
+        expect(response.result).to.equal('Hello, test_name!');
         done();
       });
     });

@@ -13,7 +13,7 @@
   {{#if hasAttachment}}
       <hr>
       <div class="challenge-attachment">
-          <a href="{{challenge.attachmentUrl}}" class="button" target="_blank">
+          <a href="{{challenge.attachmentUrl}}" class="button" target="_blank" download="{{challenge.attachmentFilename}}">
               <span class="glyphicon glyphicon-download" aria-hidden="true"></span>
               Télécharger le fichier<br>
             {{challenge.attachmentFilename}}
