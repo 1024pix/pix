@@ -18,4 +18,19 @@ The name of the remote repository is the name of the remote application, e.g. fo
 `dokku@pix-app.ovh:some-remote`, when One push a commit, the builded application will be available
 via `some-remote.pix-app.ovh`. All remote are accepted, please create as much apps as you need.
 
+Commandes de base
+-----------------
+
+(après s'être SSH sur ubuntu@pix-app.ovh ou via le client dokku)
+
+- aide générale: `dokku help`
+- aide des bases de données `dokku postgres:help`
+- voir l'état d'une db: `dokku postgres:info <db>`
+- voir l'état d'une app: `dokku apps:info <app>`
+- lancer une commande: `dokku run <app> <cmd>`
+- se connecter à une db: `dokku postgres:connect <db>`
+- relancer une app: `dokku ps:restart <app>`
+
+Doc dokku: http://dokku.viewdocs.io/dokku~v0.4.14/configuration-management/#
+Doc dokku:postgres https://github.com/dokku/dokku-postgres#commands
 
