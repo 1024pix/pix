@@ -15,4 +15,3 @@ GIT_CURRENT_BRANCH=`git rev-parse --abbrev-ref HEAD | tr -d "\n"`
 
 git subtree push --prefix api $APP master
 
-
