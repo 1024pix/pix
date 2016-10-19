@@ -5,13 +5,16 @@
   "main": "server.js",
   "scripts": {
     "serve": "./node_modules/.bin/nodemon server.js",
-    "test": "NODE_ENV=test ./node_modules/.bin/mocha -r tests/setup --recursive tests",
+    "test": "NODE_ENV=test npm run db:migrate && NODE_ENV=test ./node_modules/.bin/mocha -r tests/setup --recursive tests",
     "test:serve": "NODE_ENV=test ./node_modules/.bin/mocha -r tests/setup --recursive tests --watch",
     "knex": "./node_modules/.bin/knex --knexfile db/knexfile.js",
     "db:migrate": "npm run knex migrate:latest",
     "db:seed": "npm run knex seed:run",
     "coverage": "NODE_ENV=test ./node_modules/.bin/istanbul cover _mocha -- -r tests/setup --recursive tests",
-    "lint": "./node_modules/.bin/eslint app/**/*.js"
+    "lint": "./node_modules/.bin/eslint app/**/*.js",
+    "deploy:production": "./scripts/deploy.sh api-prod",
+    "deploy:development": "./scripts/deploy.sh api-development",
+    "deploy:branch": "./scripts/deploy.sh"
   },
   "repository": {
     "type": "git",
@@ -21,6 +24,9 @@
   "license": "AGPL-1.0",
   "bugs": {
     "url": "https://github.com/sgmap/pix-api/issues"
+  },
+  "engines": {
+    "node": "6.9.0"
   },
   "homepage": "https://github.com/sgmap/pix-api#readme",
   "dependencies": {
@@ -48,6 +54,7 @@
     "mocha": "3.1.2",
     "nock": "8.0.0",
     "nodemon": "1.10.2",
-    "sinon": "1.17.6"
+    "sinon": "1.17.6",
+    "sinon-as-promised": "^4.0.2"
   }
 }

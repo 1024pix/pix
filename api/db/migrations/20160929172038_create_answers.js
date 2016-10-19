@@ -7,9 +7,9 @@ exports.up = (knex) => {
   function table(t) {
 
     t.increments().primary();
-    t.integer('assessmentId').unsigned().references('assessments.id');
-    t.string('challengeRef').notNull();
     t.string('value').notNull();
+    t.integer('assessmentId').unsigned().references('assessments.id');
+    t.string('challengeId').notNull();
     t.dateTime('createdAt').notNullable().defaultTo(knex.fn.now());
     t.dateTime('updatedAt').notNullable().defaultTo(knex.fn.now());
   }

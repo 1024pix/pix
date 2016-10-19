@@ -1,14 +1,16 @@
-
 export function inferApiHost(locationObject) {
 
-  if (/localhost/.test(locationObject.hostname))
+  if (/localhost/.test(locationObject.hostname)) {
     return `http://${EmberENV.apiHost.localhost}`;
+  }
 
-  if ('pix.beta.gouv.fr' === locationObject.hostname)
+  if ('pix.beta.gouv.fr' === locationObject.hostname) {
     return `https://api-prod.${EmberENV.apiHost.pix}`;
+  }
 
-  if ('development.pix.beta.gouv.fr' === locationObject.hostname)
+  if ('development.pix.beta.gouv.fr' === locationObject.hostname) {
     return `http://api-development.${EmberENV.apiHost.pix}`;
+  }
 
   const matches = /^(.*).pix.beta.gouv.fr/.exec(locationObject.hostname);
   return `http://${matches[1]}.${EmberENV.apiHost.pix}`;

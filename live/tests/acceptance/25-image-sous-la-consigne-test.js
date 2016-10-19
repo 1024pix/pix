@@ -24,9 +24,7 @@ describe("Acceptance | 25 - Afficher une image sous la consigne | ", function ()
   describe("Quand l'épreuve contient une illustration en consigne", function () {
 
     before(function () {
-      challenge = server.create('challenge-airtable');
-      challenge.attrs.fields['Illustration de la consigne'] = [{ url: 'http://example.beta.gouv.fr' }];
-      return visit(`/challenges/${challenge.attrs.id}/preview`);
+      return visit('/challenges/qcu_challenge_with_image_id/preview');
     });
 
     it('25.1 Une image unique peut être affichée sous la consigne', function () {
@@ -43,9 +41,7 @@ describe("Acceptance | 25 - Afficher une image sous la consigne | ", function ()
   describe("Quand l'épreuve ne contient pas d'illustration en consigne", function () {
 
     before(function () {
-      challenge = server.create('challenge-airtable');
-      challenge.attrs.fields['Illustration de la consigne'] = null;
-      return visit(`/challenges/${challenge.attrs.id}/preview`);
+      return visit('/challenges/qcu_challenge_without_image_id/preview');
     });
 
     it("25.3 La section d'illustration est cachée", function () {

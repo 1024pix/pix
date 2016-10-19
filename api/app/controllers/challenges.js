@@ -1,20 +1,28 @@
-const base = require('../../config/airtable').base;
+'use strict';
+
 const Boom = require('boom');
+const challengeRepository = require('../repositories/challenge-repository');
+const challengeSerializer = require('../serializers/challenge-serializer');
 
 module.exports = {
 
-  get: {
-
+  list: {
     handler: (request, reply) => {
 
-      base('Epreuves').find(request.params.id, (error, record) => {
+      challengeRepository
+        .list()
+        .then((challenges) => reply(challengeSerializer.serializeArray(challenges)))
+        .catch((error) => reply(Boom.badImplementation(error)));
+    }
+  },
 
-        if (error) {
-          return reply(Boom.badImplementation(error));
-        }
-        return reply({ challenge: record });
-      });
+  get: {
+    handler: (request, reply) => {
+
+      challengeRepository
+        .get(request.params.id)
+        .then((challenge) => reply(challengeSerializer.serialize(challenge)))
+        .catch((error) => reply(Boom.badImplementation(error)));
     }
   }
-
 };

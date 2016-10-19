@@ -1,40 +1,28 @@
 'use strict';
 
-const base = require('../../config/airtable').base;
 const Boom = require('boom');
+const courseRepository = require('../repositories/course-repository');
+const courseSerializer = require('../serializers/course-serializer');
 
 module.exports = {
 
   list: {
     handler: (request, reply) => {
 
-      let courses = [];
-
-      base('Tests')
-        .select({ view: 'PIX view' })
-        .eachPage((records, fetchNextPage) => {
-          courses = courses.concat(records);
-          fetchNextPage();
-        }, (error) => {
-
-          if (error) {
-            return reply(Boom.badImplementation(error));
-          }
-          return reply({ courses });
-        });
+      courseRepository
+        .list()
+        .then((courses) => reply(courseSerializer.serializeArray(courses)))
+        .catch((error) => reply(Boom.badImplementation(error)));
     }
   },
 
   get: {
     handler: (request, reply) => {
 
-      base('Tests').find(request.params.id, (error, record) => {
-
-        if (error) {
-          return reply(Boom.badImplementation(error));
-        }
-        return reply({ course: record });
-      });
+      courseRepository
+        .get(request.params.id)
+        .then((course) => reply(courseSerializer.serialize((course))))
+        .catch((error) => reply(Boom.badImplementation(error)));
     }
   }
 

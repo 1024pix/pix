@@ -46,9 +46,9 @@ deploy-live-production:
 	cd live && npm run deploy:prod
 
 deploy-api-production:
-	./api/scripts/deploy.sh api-prod
+	(cd api && npm run deploy:production)
 deploy-api-development:
-	./api/scripts/deploy.sh api-development
+	(cd api && npm run deploy:development)
 deploy-api-branch:
-	./api/scripts/deploy.sh
+	(cd api && npm run deploy:branch)
 

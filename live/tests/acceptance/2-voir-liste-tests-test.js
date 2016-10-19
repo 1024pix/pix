@@ -11,22 +11,9 @@ import destroyApp from '../helpers/destroy-app';
 describe('Acceptance | 2 - voir la liste des tests', function () {
 
   let application;
-  let courses;
-  let courseWithoutImage;
-  const numberOfCourses = 4;
-  let courseWithAllData;
 
   before(function () {
     application = startApp();
-    courses = server.createList('course-airtable', 6);
-    let challenges = server.createList('challenge-airtable', numberOfCourses);
-
-    courseWithAllData = courses[1];
-    courseWithAllData.attachMany('Épreuves', challenges);
-
-    courseWithoutImage = courses[5];
-    courseWithoutImage.attrs.fields.Image[0].url = '';
-    courseWithoutImage.save();
   });
 
   after(function () {
@@ -41,34 +28,32 @@ describe('Acceptance | 2 - voir la liste des tests', function () {
     expect(currentPath()).to.equal('home');
   });
 
-  it('2.2 on affiche autant de tests que remontés par AirTable', function () {
-    expect(findWithAssert('.course')).to.have.lengthOf(6);
+  it("2.2 on affiche autant de tests que remontés par l'API", function () {
+    expect(findWithAssert('.course')).to.have.lengthOf(3);
   });
 
   describe('2.3 pour un test donné avec toutes les informations', function () {
 
     let $course;
-    let course;
 
     before(function () {
-      course = courseWithAllData;
-      $course = findWithAssert(`.course[data-id="${course.attrs.id}"]`);
+      $course = findWithAssert('.course[data-id="simple_course_id"]');
     });
 
     it('2.3.1 on affiche son nom', function () {
-      expect($course.find('.course-name').text()).to.contains(course.attrs.fields.Nom);
+      expect($course.find('.course-name').text()).to.contains('Name of the course');
     });
 
     it('2.3.2 on affiche sa description', function () {
-      expect($course.find('.course-description').text()).to.contains(course.attrs.fields.Description);
+      expect($course.find('.course-description').text()).to.contains('A short description of the course');
     });
 
     it('2.3.3 on affiche le nombre d\'épreuve(s) qu\'il contient', function () {
-      expect($course.find('.course-number-of-challenges').text()).to.contains(numberOfCourses);
+      expect($course.find('.course-number-of-challenges').text()).to.contains('3 épreuves');
     });
 
     it('2.3.4 on affiche son image', function () {
-      expect($course.find('img')[0].src).to.equal(course.attrs.fields.Image[0].url);
+      expect($course.find('img')[0].src).to.equal('https://dl.airtable.com/L8AQwmIURNu79XmKFoPO_storage-1209059_960_720.jpg');
     });
 
     it('2.3.5 on affiche un bouton "démarrer le test"', function () {
@@ -78,7 +63,7 @@ describe('Acceptance | 2 - voir la liste des tests', function () {
   });
 
   it('2.4 pour un test dont il manque l\'image, on affiche une image placeholder', function() {
-    const $course = findWithAssert(`.course[data-id="${courseWithoutImage.attrs.id}"]`);
+    const $course = findWithAssert('.course[data-id="course_with_no_image"]');
     expect($course.find('img')[0].src).to.contains('images/course-default-image.png');
   });
 

@@ -46,10 +46,6 @@ module.exports = function (environment) {
     ENV.APP.LOG_TRANSITIONS = false;
     ENV.APP.LOG_TRANSITIONS_INTERNAL = false;
     ENV.APP.LOG_VIEW_LOOKUPS = false;
-
-    ENV['ember-cli-mirage'] = {
-      enabled: false
-    };
   }
 
   if (environment === 'test') {
@@ -66,8 +62,10 @@ module.exports = function (environment) {
     ENV.googleFonts = [];
   }
 
-  if (environment === 'production') {
-
+  if (environment === 'branch') {
+    ENV['ember-cli-mirage'] = {
+      enabled: false
+    };
   }
 
   return ENV;

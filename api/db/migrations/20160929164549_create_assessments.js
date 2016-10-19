@@ -8,6 +8,9 @@ exports.up = (knex) => {
 
     t.increments().primary();
     t.integer('userId').unsigned().references('users.id');
+    t.string('courseId').notNull();
+    t.string('userName').notNull();
+    t.string('userEmail').notNull();
     t.dateTime('createdAt').notNullable().defaultTo(knex.fn.now());
     t.dateTime('updatedAt').notNullable().defaultTo(knex.fn.now());
   }

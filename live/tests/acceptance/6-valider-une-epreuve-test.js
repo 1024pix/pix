@@ -9,40 +9,25 @@ import startApp from '../helpers/start-app';
 import destroyApp from '../helpers/destroy-app';
 import { beforeEach } from "mocha";
 
-describe('Acceptance | 6 - Valider une épreuve |', function() {
+describe('Acceptance | 6 - Valider une épreuve |', function () {
 
   let application;
-  let assessment;
   let challenges;
-  let course;
 
-  let assessmentId;
-  let firstChallengeId;
   let lastChallengeId;
 
   let $progressBar;
 
-  before(function() {
+  before(function () {
     application = startApp();
-
-    challenges = server.createList('challenge-airtable', 2);
-    firstChallengeId = challenges[1].attrs.id;
-    lastChallengeId = challenges[0].attrs.id;
-
-    course = server.create('course-airtable');
-    course.attachMany('Épreuves', challenges);
-
-    assessment = server.create('assessment-airtable');
-    assessment.attachOne('Test', course);
-    assessmentId = assessment.attrs.id;
   });
 
-  after(function() {
+  after(function () {
     destroyApp(application);
   });
 
-  before(function() {
-    return visit(`/assessments/${assessmentId}/challenges/${firstChallengeId}`);
+  before(function () {
+    return visit(`/assessments/in_progress_assessment_id/challenges/qcm_challenge_id`);
   });
 
   before(function () {
@@ -59,29 +44,28 @@ describe('Acceptance | 6 - Valider une épreuve |', function() {
 
   describe("quand je valide ma réponse à une épreuve", function () {
 
-    beforeEach(function () {
-      return click('.challenge-proposal:first input[type="radio"]');
-    });
-
-    it("6.2. Ma réponse est sauvegardée dans le BO", function () {
-
-    });
-
     it("6.3. Si l'épreuve que je viens de valider n'était pas la dernière du test, je suis redirigé vers l'épreuve suivante", function () {
-      const $validateButton = $('.validate-button')[0];
-      return click($validateButton).then(() => {
-        expect(currentURL()).to.contains(`/assessments/${assessmentId}/challenges/${lastChallengeId}`);
+      return click('.challenge-proposal:first input[type="checkbox"]').then(() => {
+        const $validateButton = $('.validate-button')[0];
+        return click($validateButton).then(() => {
+          expect(currentURL()).to.contains(`/assessments/in_progress_assessment_id/challenges/qcu_challenge_id`);
+        });
       });
     });
+
     it("6.4. La barre de progression avance d'une unité, de 1 à 2.", function () {
       const expectedText = "2";
       expect($progressBar.text()).to.contains(expectedText);
     });
 
     it("6.5. Si l'épreuve que je viens de valider était la dernière du test, je suis redirigé vers la page de fin du test", function () {
-      const $validateButton = $('.validate-button')[0];
-      return click($validateButton).then(() => {
-        expect(currentURL()).to.contains(`/assessments/${assessmentId}/results`);
+      visit(`/assessments/in_progress_assessment_id/challenges/qrocm_challenge_id`).then(() => {
+        fillIn('input[name="logiciel"]', 'COUCOU').then(() => {
+          const $validateButton = $('.validate-button')[0];
+          return click($validateButton).then(() => {
+            expect(currentURL()).to.contains(`/assessments/in_progress_assessment_id/results`);
+          });
+        });
       });
     });
   });

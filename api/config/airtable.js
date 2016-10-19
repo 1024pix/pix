@@ -1,3 +1,5 @@
+'use strict';
+
 const Airtable = require('airtable');
 const airtableConfig = require('./settings').airtable;
 

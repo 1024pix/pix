@@ -1,25 +1,20 @@
-const Answer = require('../models/answer');
+'use strict';
+
+const Boom = require('boom');
+const answerSerializer = require('../serializers/answer-serializer');
 
 module.exports = {
 
-  list: {
-    handler: (request, reply) => {
-      Answer
-        .fetchAll()
-        .then((answers) => {
-          reply(`{"answers": ${JSON.stringify(answers)} }`).type('application/json');
-        });
-    }
-  },
-
   save: {
     handler: (request, reply) => {
-      new Answer(request.payload)
-        .save()
-        .then((answer) => {
-          reply(`{"answer": ${JSON.stringify(answer)} }`).type('application/json');
-        });
+
+      const answer = answerSerializer.deserialize(request.payload);
+
+      return answer.save()
+        .then((answer) => reply(answerSerializer.serialize(answer)).code(201))
+        .catch((error) => reply(Boom.badImplementation(error)));
     }
   }
 
 };
+

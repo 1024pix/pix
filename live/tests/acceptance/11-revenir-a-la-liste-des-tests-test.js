@@ -8,14 +8,12 @@ import { expect } from 'chai';
 import startApp from '../helpers/start-app';
 import destroyApp from '../helpers/destroy-app';
 
-describe("Acceptance | 10 - Consulter l'écran de fin d'un test ", function() {
+describe("Acceptance | 11 - Revenir à la liste des tests", function() {
 
   let application;
-  let assessment;
 
   before(function() {
     application = startApp();
-    assessment = server.create('assessment-airtable');
   });
 
   after(function() {
@@ -23,7 +21,7 @@ describe("Acceptance | 10 - Consulter l'écran de fin d'un test ", function() {
   });
 
   before(function() {
-    return visit(`/assessments/${assessment.attrs.id}/results`);
+    return visit(`/assessments/completed_assessment_id/results`);
   });
 
   it("11.1. propose un moyen pour revenir à la liste des tests", function () {

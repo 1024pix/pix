@@ -43,7 +43,6 @@ function callActionOnUserIdentified(component) {
 
 export default Ember.Component.extend({
 
-  routing: Ember.inject.service('-routing'),
   session: Ember.inject.service('session'),
 
   user: Ember.Object.create(),

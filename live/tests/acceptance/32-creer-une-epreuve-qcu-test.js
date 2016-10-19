@@ -16,7 +16,6 @@ describe('Acceptance | 32 - Créer une épreuve de type QCU | ', function () {
 
   before(function () {
     application = startApp();
-    challenge = server.create('challenge-airtable');
   });
 
   after(function () {
@@ -28,12 +27,12 @@ describe('Acceptance | 32 - Créer une épreuve de type QCU | ', function () {
     let challengeId;
 
     before(function () {
-      challengeId  = challenge.attrs.id;
-      return visit(`/challenges/${challengeId}/preview`);
+      return visit(`/challenges/challenge_qcu_id/preview`);
     });
 
     it('32.1. Il est possible de prévisualiser une épreuve en accédant à l\'URL /challenges/:id/preview', function () {
-      expect(currentURL()).to.equal(`/challenges/${challengeId}/preview`);
+      expect(currentURL()).to.equal(`/challenges/challenge_qcu_id/preview`);
+      expect(findWithAssert('#challenge-preview'));
     });
 
     describe('On affiche', function () {
@@ -45,8 +44,7 @@ describe('Acceptance | 32 - Créer une épreuve de type QCU | ', function () {
       });
 
       it('32.2 la consigne de l\'épreuve', function () {
-        const markdownInstruction = markdownit().render(challenge.attrs.fields.Consigne);
-        expect($challenge.find('.challenge-instruction').html()).to.equal(markdownInstruction);
+        expect($challenge.find('.challenge-instruction').html()).to.equal('<p>Julie a déposé un document dans un espace de stockage partagé avec Pierre. Elle lui envoie un mail pour l’en informer. Quel est le meilleur message ?</p>\n');
       });
     });
   });

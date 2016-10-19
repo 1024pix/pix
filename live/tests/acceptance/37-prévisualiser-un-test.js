@@ -22,15 +22,6 @@ describe('Acceptance | 37 - Prévisualiser un test |', function () {
 
   before(function () {
     application = startApp();
-    challenges = server.createList('challenge-airtable', 3);
-    course = server.create('course-airtable');
-    course.attachMany('Épreuves', challenges);
-
-    courseId = course.attrs.id;
-    // XXX order is reversed
-    firstChallengeId = challenges[2].attrs.id;
-    secondChallengeId = challenges[1].attrs.id;
-    lastChallengeId = challenges[0].attrs.id;
   });
 
   after(function () {
@@ -40,11 +31,11 @@ describe('Acceptance | 37 - Prévisualiser un test |', function () {
   describe("Prévisualiser la première page d'un test |", function () {
 
     before(function () {
-      visit(`/courses/${courseId}/preview`);
+      visit(`/courses/simple_course_id/preview`);
     });
 
     it("37.1. L'accès à la preview d'un test se fait en accédant à l'URL /courses/:course_id/preview", function () {
-      expect(currentURL()).to.equal(`/courses/${courseId}/preview`);
+      expect(currentURL()).to.equal(`/courses/simple_course_id/preview`);
     });
 
     let $preview;
@@ -56,32 +47,29 @@ describe('Acceptance | 37 - Prévisualiser un test |', function () {
       });
 
       it('37.2. le nom du test', function () {
-        expect($preview.find('.course-name').text()).to.contains(course.attrs.fields.Nom);
+        expect($preview.find('.course-name').text()).to.contains("Name of the course");
       });
 
       it('37.3. la description du test', function () {
-        expect($preview.find('.course-description').text()).to.contains(course.attrs.fields.Description);
+        expect($preview.find('.course-description').text()).to.contains("A short description of the course");
       });
 
       it('37.4. un bouton pour démarrer la simulation du test et qui mène à la première question', function () {
         const $playButton = findWithAssert('.simulate-button');
         expect($playButton.text()).to.be.equals('Simuler le test');
-        expect($playButton.attr('href')).to.be.equals(`/courses/${courseId}/preview/challenges/${firstChallengeId}`);
+        expect($playButton.attr('href')).to.be.equals(`/courses/simple_course_id/preview/challenges/qcm_challenge_id`);
       });
     });
   });
 
   describe("Prévisualiser une épreuve dans le cadre d'un test |", function () {
 
-    let currentChallenge;
-
     before(function () {
-      currentChallenge = challenges[2];
-      visit(`/courses/${courseId}/preview/challenges/${firstChallengeId}`);
+      visit(`/courses/simple_course_id/preview/challenges/qcm_challenge_id`);
     });
 
     it("37.5. L'accès à la preview d'une épreuve d'un testse fait en accédant à l'URL /courses/:course_id/preview/challenges/:challenge_id", function () {
-      expect(currentURL()).to.equal(`/courses/${courseId}/preview/challenges/${firstChallengeId}`);
+      expect(currentURL()).to.equal(`/courses/simple_course_id/preview/challenges/qcm_challenge_id`);
     });
 
     describe('On affiche', function () {
@@ -93,7 +81,7 @@ describe('Acceptance | 37 - Prévisualiser un test |', function () {
       });
 
       it("37.6. la consigne de l'épreuve", function () {
-        const expectedMarkdown = markdownit().render(currentChallenge.attrs.fields.Consigne);
+        const expectedMarkdown = markdownit().render("Que peut-on dire des œufs de catégorie A ?");
         expect($challenge.find('.challenge-instruction').html()).to.equal(expectedMarkdown);
       });
 
@@ -107,7 +95,7 @@ describe('Acceptance | 37 - Prévisualiser un test |', function () {
   describe("Prévisualiser la dernière épreuve dans le cadre d'un test |", function () {
 
     before(function () {
-      visit(`/courses/${courseId}/preview/challenges/${lastChallengeId}`);
+      visit(`/courses/simple_course_id/preview/challenges/${lastChallengeId}`);
     });
 
     it("37.8. on n'affiche pas de bouton “Épreuve suivante”", function () {

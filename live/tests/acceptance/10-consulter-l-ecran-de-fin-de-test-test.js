@@ -7,34 +7,16 @@ import {
 import { expect } from 'chai';
 import startApp from '../helpers/start-app';
 import destroyApp from '../helpers/destroy-app';
-import Ember from 'ember';
 
 describe("Acceptance | 10 - Consulter l'écran de fin d'un test ", function() {
 
   let application;
   let assessment;
   let course;
-  let challenges;
-  let answers;
   let $assessmentResults;
 
   before(function() {
     application = startApp();
-
-    assessment = server.create('assessment-airtable');
-    course = server.create('course-airtable');
-    challenges = server.createList('challenge-airtable', 5);
-    answers = server.createList('answer-airtable', 5);
-
-    assessment.attachOne('Test', course);
-    course.attachMany('Épreuves', challenges);
-    for (let i = 0 ; i < answers.length ; i++) {
-      const answer = answers[i];
-      const challenge = challenges[i];
-      answer.attachOne('Evaluation', assessment);
-      answer.attachOne('Epreuve', challenge);
-    }
-    assessment.attachMany('Reponses', answers);
   });
 
   after(function() {
@@ -42,7 +24,7 @@ describe("Acceptance | 10 - Consulter l'écran de fin d'un test ", function() {
   });
 
   before(function() {
-    return visit(`/assessments/${assessment.attrs.id}/results`);
+    return visit(`/assessments/completed_assessment_id/results`);
   });
 
   before(function () {
@@ -51,7 +33,7 @@ describe("Acceptance | 10 - Consulter l'écran de fin d'un test ", function() {
 
 
   it("10.1. se fait en accédant à l'URL /assessments/:assessment_id/results", function () {
-    expect(currentURL()).to.equal(`/assessments/${assessment.attrs.id}/results`);
+    expect(currentURL()).to.equal(`/assessments/completed_assessment_id/results`);
   });
 
   it("10.2. affiche un titre", function () {
@@ -64,11 +46,11 @@ describe("Acceptance | 10 - Consulter l'écran de fin d'un test ", function() {
   });
 
   it("10.4. affiche l'intitulé du test", function () {
-    expect($assessmentResults.text()).to.contains(course.attrs.fields["Nom"]);
+    expect($assessmentResults.text()).to.contains("Name of the course");
   });
 
   it("10.5. affiche le rapport nombre de réponses saisies sur nombre d'épreuves du test", function () {
-    const expectedString = `${answers.length} question(s) sur ${challenges.length}`;
+    const expectedString = `3 question(s) sur 3`;
     expect($assessmentResults.text()).to.contains(expectedString);
   });
 

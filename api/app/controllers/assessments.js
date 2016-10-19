@@ -1,30 +1,18 @@
-const Assessment = require('../models/assessment');
+'use strict';
+
+const Boom = require('boom');
+const assessmentSerializer = require('../serializers/assessment-serializer');
 
 module.exports = {
 
-  list: {
-    handler: (request, reply) => {
-
-      Assessment.fetchAll().then((assessments) => {
-
-        reply({ assessments });
-      });
-    }
-  },
-
   save: {
     handler: (request, reply) => {
-      new Assessment(request.payload)
-        .save()
-        .then((assessment) => {
-          reply({ assessment });
-        });
-    }
-  },
 
-  update: {
-    handler: (request, reply) => {
-      reply('Todo');
+      const assessment = assessmentSerializer.deserialize(request.payload);
+
+      return assessment.save()
+        .then((assessment) => reply(assessmentSerializer.serialize(assessment)).code(201))
+        .catch((error) => reply(Boom.badImplementation(error)));
     }
   }
 

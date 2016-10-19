@@ -2,7 +2,7 @@
 
 const TABLE_NAME = 'users';
 
-exports.seed = function (knex, Promise) {
+exports.seed = (knex) => {
 
   return knex(TABLE_NAME).del().then(() => {
 

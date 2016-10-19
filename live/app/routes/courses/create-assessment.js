@@ -11,14 +11,18 @@ export default Ember.Route.extend({
     return store.findRecord('course', params.course_id).then((course) => {
 
       // FIXME : add (route?) tests
-      const userName = `${this.get('session.firstname')} ${this.get('session.lastname')}`;
-      const userEmail = this.get('session.email');
+      const userName = `${this.get('session.user.firstName')} ${this.get('session.user.lastName')}`;
+      const userEmail = this.get('session.user.email');
 
-      const assessment = store.createRecord('assessment', { course, userName, userEmail });
-      return RSVP.hash({
-        assessment: assessment.save(),
-        challenge: course.get('challenges.firstObject')
-      });
+      return store
+        .createRecord('assessment', { course, userId: 1, userName, userEmail })
+        .save()
+        .then((assessment) => {
+          return RSVP.hash({
+            assessment,
+            challenge: assessment.get('firstChallenge')
+          });
+        });
     });
   },
 

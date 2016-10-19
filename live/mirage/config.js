@@ -1,37 +1,26 @@
+import getChallenge from './routes/get-challenge';
+import getChallenges from './routes/get-challenges';
+import getCourse from './routes/get-course';
+import getCourses from './routes/get-courses';
+import getAnswer from './routes/get-answer';
+import postAnswers from './routes/post-answers';
+import getAssessment from './routes/get-assessment';
+import postAssessments from './routes/post-assessments';
+
 export default function () {
-}
 
-export function testConfig() {
+  this.namespace = 'http://localhost:3000/api';
 
-  const AIRTABLE_ROOT = 'https://api.airtable.com/v0';
-  const AIRTABLE_DATABASE = 'appHAIFk9u1qqglhX';
+  this.get('/courses', getCourses);
+  this.get('/courses/:id', getCourse);
 
-  this.get(`${AIRTABLE_ROOT}/${AIRTABLE_DATABASE}/Tests`, function (schema) {
-    return schema.courseAirtables.all();
-  });
+  this.get('/challenges', getChallenges);
+  this.get('/challenges/:id', getChallenge);
 
-  this.get(`${AIRTABLE_ROOT}/${AIRTABLE_DATABASE}/Tests/:id`, function (schema, request) {
-    return schema.courseAirtables.find(request.params.id);
-  });
+  this.post('/assessments', postAssessments);
+  this.get('/assessments/:id', getAssessment);
 
-  this.get(`${AIRTABLE_ROOT}/${AIRTABLE_DATABASE}/Epreuves/:id`, function (schema, request) {
-    return schema.challengeAirtables.find(request.params.id);
-  });
-
-  this.get(`${AIRTABLE_ROOT}/${AIRTABLE_DATABASE}/Evaluations/:id`, function (schema, request) {
-    return schema.assessmentAirtables.find(request.params.id);
-  });
-
-  this.post(`${AIRTABLE_ROOT}/${AIRTABLE_DATABASE}/Evaluations`, function (schema) {
-    return schema.assessmentAirtables.all();
-  });
-
-  this.post(`${AIRTABLE_ROOT}/${AIRTABLE_DATABASE}/Reponses`, function (schema) {
-    return schema.answerAirtables.all();
-  });
-
-  this.get(`${AIRTABLE_ROOT}/${AIRTABLE_DATABASE}/Reponses/:id`, function (schema, request) {
-    return schema.answerAirtables.find(request.params.id);
-  });
+  this.post('/answers', postAnswers);
+  this.get('/answers/:id', getAnswer);
 
 }
