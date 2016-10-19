@@ -1,16 +1,41 @@
+# PIX
+
+[![CircleCI](https://circleci.com/gh/sgmap/pix-live/tree/master.svg?style=svg)](https://circleci.com/gh/sgmap/pix-live/tree/master) [![Coverage Status](https://coveralls.io/repos/github/sgmap/pix-live/badge.svg?branch=master)](https://coveralls.io/github/sgmap/pix-live?branch=master) [![Code Climate](https://codeclimate.com/github/sgmap/pix-live/badges/gpa.svg)](https://codeclimate.com/github/sgmap/pix-live) [![Issue Count](https://codeclimate.com/github/sgmap/pix-live/badges/issue_count.svg)](https://codeclimate.com/github/sgmap/pix-live)
+
+## Présentation
+
+[PIX](https://pix.beta.gouv.fr) s’adresse à tous les citoyen•ne•s français•es (élèves, étudiant•e•s, professionnel•le•s, décrocheur•se•s, demandeur•se•s d’emploi, etc.) qui souhaitent mesurer, développer et valoriser leurs compétences numériques.
+
+Le service se présente sous la forme d’une plateforme en ligne d’évaluation et de certification des compétences numériques.
+
+Le but de PIX est de susciter l’envie de se former tout au long de la vie en proposant des méthodes d’évaluation innovantes, exigeantes et bienveillantes ainsi que des recommandations de formations ciblées.
+
 ## Installation
 
-> Prerequesites: you must have Node 6.2.1+ installed.
+### Prérequis
 
-```
-$ git clone git@github.com:sgmap/pix-live.git pix
-$ cd pix
-$ make install
+Vous devez au préalable avoir correctement installé les logiciels suivants :
+
+* [Git](http://git-scm.com/) (2.6.4)
+* [Node.js](http://nodejs.org/) (v6.9.0) et NPM (3.10.8)
+* [Bower](http://bower.io/) (1.7.9)
+* [Ember CLI](http://ember-cli.com/) (2.8.0)
+* [PhantomJS](http://phantomjs.org/) (2.1.1)
+
+> Les versions indiquées sont celles préconisées pour un bon fonctionnement de l'application.
+
+### Instructions
+
+```bash
+$ git clone git@github.com:sgmap/pix-live.git pix && cd pix
+$ make install && (cd api && npm run db:migrate && npm run db:seed)
 $ make test
-$ (cd api && npm run db:migrate && npm run db:seed)
-$ make serve-api                # in a new terminal or tab
-$ make serve-live               # in a new terminal or tab
-$ curl http://localhost:3000    # check PIX-API
-$ open http://localhost:4200    # check PIX-Live
+$ make serve-api # dans un onglet / terminal dédié à l'API
+$ make serve-live # dans un onglet / terminal dédié au client
 ```
 
+Par défaut, [l'API](http://localhost:3000) tourne en local sur le port 3000 et [l'application cliente](http://localhost:4200) sur le port 4200.
+
+## Licence
+
+Ce logiciel et son code source sont distribués sous [licence AGPL](https://www.gnu.org/licenses/why-affero-gpl.fr.html).
