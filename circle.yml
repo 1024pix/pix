@@ -17,7 +17,7 @@ deployment:
     commands:
       - git config --global user.email 'mackwic@gmail.com'
       - git config --global user.name 'Thomas Wickham'
-      - make deploy
+      - make deploy-staging
 
   development:
     branch: /.*/
