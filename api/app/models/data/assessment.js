@@ -8,10 +8,6 @@ module.exports = Bookshelf.Model.extend({
 
   tableName: 'assessments',
 
-  user: () => {
-    return this.belongsTo(User);
-  },
-
   answers: () => {
     return this.hasMany(Answer);
   }
