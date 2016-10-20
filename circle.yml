@@ -17,14 +17,14 @@ deployment:
     commands:
       - git config --global user.email 'mackwic@gmail.com'
       - git config --global user.name 'Thomas Wickham'
-      - make deploy-staging
+      - make deploy
 
-  in-progress:
-    development: /.*/
+  development:
+    branch: /.*/
     commands:
       - git config --global user.email 'mackwic@gmail.com'
       - git config --global user.name 'Thomas Wickham'
-      - make deploy-development
+      - make deploy-branch
 
 general:
   branches:
