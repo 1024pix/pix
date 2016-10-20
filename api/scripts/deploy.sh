@@ -1,11 +1,27 @@
 #! /bin/bash
 
-APP=$1
+BUILD_ENV=$1
+APP="undefined"
+
 GIT_CURRENT_BRANCH=`git rev-parse --abbrev-ref HEAD | tr -d "\n"`
 
-[ -z $APP ] && {
-    APP=$GIT_CURRENT_BRANCH
+# default env: production
+[ -z $BUILD_ENV ] && {
+  BUILD_ENV="production"
 }
+
+case $BUILD_ENV in
+  "development")
+    # if no <BUILD_OUTPUT> argument is given, use the branch name
+    APP=$GIT_CURRENT_BRANCH
+  ;;
+  "staging")
+    APP="api-staging"
+  ;;
+  "production")
+    APP="api-production"
+  ;;
+esac
 
 tmpdir=`mktemp -d`
 cd ..

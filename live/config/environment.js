@@ -16,10 +16,9 @@ module.exports = function (environment) {
         // e.g. 'with-controller': true
       },
       useDelay: true,
-      apiHost: {
-        localhost: 'localhost:3000',
-        pix: 'pix-app.ovh'
-      }
+
+      // Redefined in custom initializer 'initializers/configure-pix-api-host.js'
+      pixApiHost: 'http://localhost:3000'
     },
 
     APP: {
@@ -62,11 +61,12 @@ module.exports = function (environment) {
     ENV.googleFonts = [];
   }
 
-  if (environment === 'branch') {
-    ENV['ember-cli-mirage'] = {
-      enabled: false
-    };
+  if (environment === 'staging') {
   }
+
+  if (environment === 'production') {
+  }
+
 
   return ENV;
 };

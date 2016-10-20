@@ -11,7 +11,7 @@ http://stackoverflow.com/questions/15401815/python-simplehttpserver
 import SimpleHTTPServer, SocketServer
 import urlparse, os
 
-PORT = 3000
+PORT = 5000
 INDEXFILE = 'index.html'
 
 class MyHandler(SimpleHTTPServer.SimpleHTTPRequestHandler):

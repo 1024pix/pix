@@ -1,19 +1,27 @@
 #! /bin/bash
 
 BUILD_ENV=$1
-BUILD_OUTPUT=$2
+BUILD_OUTPUT="undefined"
 GIT_CURRENT_HASH=`git rev-parse HEAD | tr -d "\n"`
 GIT_CURRENT_BRANCH=`git rev-parse --abbrev-ref HEAD | tr -d "\n"`
 
 # default env: production
 [ -z $BUILD_ENV ] && {
-    BUILD_ENV=production
+  BUILD_ENV="production"
 }
 
-# if no <BUILD_OUTPUT> argument is given, use the branch name
-[ -z $BUILD_OUTPUT ] && {
+case $BUILD_ENV in
+  "development")
+    # if no <BUILD_OUTPUT> argument is given, use the branch name
     BUILD_OUTPUT=$GIT_CURRENT_BRANCH
-}
+  ;;
+  "staging")
+    BUILD_OUTPUT="staging"
+  ;;
+  "production")
+    BUILD_OUTPUT="production"
+  ;;
+esac
 
 tput init
 echo -n '** '

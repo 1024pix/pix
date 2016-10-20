@@ -12,9 +12,9 @@
     "db:seed": "npm run knex seed:run",
     "coverage": "NODE_ENV=test ./node_modules/.bin/istanbul cover _mocha -- -r tests/setup --recursive tests",
     "lint": "./node_modules/.bin/eslint app/**/*.js",
-    "deploy:production": "./scripts/deploy.sh api-prod",
-    "deploy:development": "./scripts/deploy.sh api-development",
-    "deploy:branch": "./scripts/deploy.sh"
+    "deploy:development": "./scripts/deploy.sh development",
+    "deploy:staging": "./scripts/deploy.sh staging",
+    "deploy:production": "./scripts/deploy.sh production"
   },
   "repository": {
     "type": "git",
