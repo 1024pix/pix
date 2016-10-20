@@ -26,14 +26,13 @@ class AssessmentSerializer extends JSONAPISerializer {
   }
 
   deserialize(json) {
-    const assessment = new Assessment({
+    return new Assessment({
       id: json.data.id,
       courseId: json.data.relationships.course.data.id,
       userId: json.data.attributes["user-id"],
       userName: json.data.attributes["user-name"],
       userEmail: json.data.attributes["user-email"]
     });
-    return assessment;
   }
 
 }
