@@ -3,7 +3,7 @@ set -eu
 
 dokku plugin:install https://github.com/dokku/dokku-postgres.git postgres || true
 
-# ensure /mnt/pg-{prod,development} are both mounted
+# ensure /mnt/pg-{production,staging} are both mounted
 [ -d /mnt/pg-production -a -d /mnt/pg-staging ] || {
 	echo "FATAL: please mount external volumes on /mnt/pg-* for full installation" >&2
 	exit 1
