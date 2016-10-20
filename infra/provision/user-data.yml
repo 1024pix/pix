@@ -5,29 +5,30 @@ fqdn: pix-app.ovh
 
 # mount external volumes
 mounts:
-  # this implies that the pg-prod volume MUST be *THE FIRST* hdd attached in the list (on the ovh
+  # this implies that the pg-production volume MUST be *THE FIRST* hdd attached in the list (on the ovh
   # console). This is a speedy HDD
-  - [ "/dev/vdb1", "/mnt/pg-prod", ext4, defaults ]
+  - [ "/dev/vdb1", "/mnt/pg-production", ext4, defaults ]
   # and the not-speedy in second
   - [ "/dev/vdc1", "/mnt/pd-staging", ext4, defaults ]
 
 ssh_authorized_keys:
   - "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAACAQDZuP4faupCCfqVYLagukl9Q6efQfKltZGWZoVNlvzTjCZdwOCKF3HCCinPjWKPl+QahwMF9gWhqGA6xKjNAliN55ikjmG/nIP+AacHfcQMccgW1/zXjUArKAJJAS5oM2lP6G85gnc6xgriusGBGZlsQD/El2lH5frsFymFlu/4N8GqPMfXh0a6rVgIokXZZ/GjSY/H+GYTDxnleIHn0XhdHvkoSVlWlXt+R/9i0SsiYPGqrbHLtVjg2784ypwzXic5g97/ufdT7XtMFw7iA9hpUr/cae5ukA6b/k92i3zJzY53Jyi9aUXK/kPcVs6WjOyAqmHHcisOPTotMKjPItA5VbLnbFhmduY6XMR+ywQy1sdqsroI4ZOVUG39yxXN1pumFK/JbvRmBUisaa/9EXhlgkR+c3c/BgQioGQY1mfUOatSlR6d8FmxVgmPQpTYU1OfS3rqhnGhTblyvrkPrCTGeDMnLlfq8y2t8BxfoRPiK2xtqzt40sBCWp+Qjk+cjBt7MskURM84Y4ES2cb+YrN4jf/e2L66i3TTs9HT+38Ymc/mC/Cxg5bnGGEIrWfcLb36vHcGqPIy0gQw7jb0s4kL5UE5nP15GyDFkQeqxx0ACRQddDHD5su8qnljXQCiVxiL38++kgsIKSYdSN7iLW31FhlgC1hvN/8a2F5auBLH9w== jbuget@octo.com"
   - "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAACAQC/ZtDC77+Xou/JBUABjm3iv2lrMb6jcdJwFRiLtDGGCQstjd5FmcmO09UUXpzkwYpetXtkOFfpo83LPRmfDjwrKIsl7t0p8oThqlssrOUI8i81KFKkJ/wXHwaZUdwzLiQG+2fkEQ75vxkB7Wi/DMdvaVQn0KNOY4vL90KWRjlN7ifG3f9qev3JlUuw7ULRbRYCBhEW9JlxYLAyw/NA+Pi5NNmuwNJDs/++9P6ZMQlsaBfrfbXrV23YU+x89T+ojqqFboX0M/kbSrepDTWaDd0Vfz0CyRu1fJ4TGnQkO1cstjwto5jgZbmh4lgqQKm53msaWU2WAVDpvCLrtdzjGz2a9c3T5OfRpBo4WkATSHTUUupBGSI6ZZ35QPdnrGAjp1E6U7jc58zH5SZqxorD+084fuBq9dJLxsKnn2sVvHJrW3buVdTiHxjZtVE8Taa+VcVzYZjoqGzL+YZYONEpochDz3iVs0fRQOJwPrJuWnmlz2Df4pU1Fc8iPAZPD2a9AC0Ngy+IGrBkSORCgNsgvBG/cxfLavyewDTwUrDP0LhSHU42GLxLzEWi/8mNAAcjOfZBvs8B0TD3URx44THl0roAUGFEEp1r/OYJiUXAuxBHgmA7A2wih1uQKPufN3B8xr9+Hb+tlLNZ1Iizqv4gRq9kbVWUZdZAEbmrM1qxEYabNQ== twickham@octo.com"
+  - "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAACAQC0oEOpyh54M6EFZxV8PNIPF9yePhK0N8AasD+4Bl63Ih8ZOWBcQccc4XaybFKYD7bRCa954x/1T6dt3IrIz/rAmT36erQkz0xD5Rb3hI5hMR2QcrvoEs033Yx4nSNpn+naxZKciUGRdo0p/3fA0ZMEsC3Ns1R+z7kv3asyt8ODx5xRphwr6kGhHPrfrgp2zfa9hqaGUIV9n4Ok3Kyx8j23TBnUa4mJVAyCw7wLe9IyRs+mXTMTePv79cENVy72FqoXOOy3IgYSh+LeGgqNnRzRxYFNKCsU9XkUH4iZSfpccM/Qlrs+ZIXv1j0METWNjlFIjSyH40/qAyfAy2+u1xZqpmCYz31o1EaAeuYVEtcqHlnB6aE2ipTNz2+Sc9e3dGsuXbS8luJQ9ecSLvU/vdIahMkvXase2MEoF+UPAxBsVjiGoicphH1Xzz3Mju39y0oQVJ4fcEm35UMrXA6Fsc6kUGtXT3Thf9kvBiQh/1w7pF8T/im4fz4bJR9HHTKqCsT4XVhkJhcfxn0yHGFpKSvuogTcDomfo+fI25IOF4MnEu1lULUCqr8YogyZ4VSvD8vyLdv8o5+2C43bXfhZoUQvA0mLAyj6qPjFU3UWwc2+47VJDgJBvc4xVoz9VIpnf0I1fhWh+wBBRaag0Dx1lFsXnaO5RDxXXYqMQm8qD540KQ== davbohr@gmail.com"
 
 packages:
   - mosh
 
-runcmd: 
+runcmd:
   - [ wget, "https://raw.githubusercontent.com/dokku/dokku/v0.7.2/bootstrap.sh" ]
   - sudo DOKKU_TAG=v0.7.2 bash bootstrap.sh
   - sudo dokku plugin:install https://github.com/dokku/dokku-postgres.git postgres
   - [ sudo, mkdir, -p, "/var/lib/dokku/services/postgres/" ]
-  - [ sudo, ln, -s, "/mnt/pg-prod", "/var/lib/dokku/services/postgres/pg-prod" ]
+  - [ sudo, ln, -s, "/mnt/pg-production", "/var/lib/dokku/services/postgres/pg-production" ]
   - [ sudo, ln, -s, "/mnt/pg-staging", "/var/lib/dokku/services/postgres/pg-staging" ]
-  - [ dokku, "postgres:create", "pg-prod" ]
-  - [ dokku, "apps:create", "api-prod" ]
-  - [ dokku, "postgres:link", "pg-prod:api-prod" ]
+  - [ dokku, "postgres:create", "pg-production" ]
+  - [ dokku, "apps:create", "api-production" ]
+  - [ dokku, "postgres:link", "pg-production:api-production" ]
   - [ dokku, "postgres:create", "pg-staging" ]
   - [ dokku, "apps:create", "api-staging" ]
   - [ dokku, "postgres:link", "pg-staging:api-staging" ]

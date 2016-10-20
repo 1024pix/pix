@@ -17,11 +17,11 @@ install_dokku_client:
 	chmod +x ./dokku_client.sh
 	echo "you can now use ./dokku_client.sh as a dokku client. (an alias could be smart)"
 
-reset-database-development:
+reset-database-staging:
 	scp ./administrative_tasks/reboot_database.sh $(REMOTE):/tmp/
-	$(REMOTE_CMD) sudo bash /tmp/reboot_database.sh pg-development api-development
+	$(REMOTE_CMD) sudo bash /tmp/reboot_database.sh pg-staging api-staging
 
 reset-database-production:
 	scp ./administrative_tasks/reboot_database.sh $(REMOTE):/tmp/
-	$(REMOTE_CMD) sudo bash /tmp/reboot_database.sh pg-prod api-prod
+	$(REMOTE_CMD) sudo bash /tmp/reboot_database.sh pg-production api-production
 

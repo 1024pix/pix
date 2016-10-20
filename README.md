@@ -1,8 +1,10 @@
-# PIX
+PIX
+===
 
 [![CircleCI](https://circleci.com/gh/sgmap/pix-live/tree/master.svg?style=svg)](https://circleci.com/gh/sgmap/pix-live/tree/master) [![Coverage Status](https://coveralls.io/repos/github/sgmap/pix-live/badge.svg?branch=master)](https://coveralls.io/github/sgmap/pix-live?branch=master) [![Code Climate](https://codeclimate.com/github/sgmap/pix-live/badges/gpa.svg)](https://codeclimate.com/github/sgmap/pix-live) [![Issue Count](https://codeclimate.com/github/sgmap/pix-live/badges/issue_count.svg)](https://codeclimate.com/github/sgmap/pix-live)
 
-## Présentation
+Présentation
+------------
 
 [PIX](https://pix.beta.gouv.fr) s’adresse à tous les citoyen•ne•s français•es (élèves, étudiant•e•s, professionnel•le•s, décrocheur•se•s, demandeur•se•s d’emploi, etc.) qui souhaitent mesurer, développer et valoriser leurs compétences numériques.
 
@@ -10,7 +12,8 @@ Le service se présente sous la forme d’une plateforme en ligne d’évaluatio
 
 Le but de PIX est de susciter l’envie de se former tout au long de la vie en proposant des méthodes d’évaluation innovantes, exigeantes et bienveillantes ainsi que des recommandations de formations ciblées.
 
-## Installation
+Installation
+------------
 
 ### Prérequis
 
@@ -36,6 +39,7 @@ $ make serve-live # dans un onglet / terminal dédié au client
 
 Par défaut, [l'API](http://localhost:3000) tourne en local sur le port 3000 et [l'application cliente](http://localhost:4200) sur le port 4200.
 
-## Licence
+Licence
+-------
 
 Ce logiciel et son code source sont distribués sous [licence AGPL](https://www.gnu.org/licenses/why-affero-gpl.fr.html).

@@ -4,7 +4,7 @@ set -eu
 dokku plugin:install https://github.com/dokku/dokku-postgres.git postgres || true
 
 # ensure /mnt/pg-{prod,development} are both mounted
-[ -d /mnt/pg-prod -a -d /mnt/pg-development ] || {
+[ -d /mnt/pg-production -a -d /mnt/pg-staging ] || {
 	echo "FATAL: please mount external volumes on /mnt/pg-* for full installation" >&2
 	exit 1
 }
@@ -20,6 +20,6 @@ function create_postgres_service() {
         dokku postgres:start $name
 }
 
-create_postgres_service pg-prod
-create_postgres_service pg-development
+create_postgres_service pg-production
+create_postgres_service pg-staging
 
