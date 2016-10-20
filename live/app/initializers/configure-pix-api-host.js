@@ -7,7 +7,7 @@ export function configurePixApiHost(locationObject) {
   }
 
   if (ENV.environment === 'staging') {
-    return 'https://api-development.pix-app.ovh';
+    return 'https://api-staging.pix-app.ovh';
   }
 
   if (/localhost/.test(locationObject.hostname)) {
