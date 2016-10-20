@@ -63,7 +63,7 @@ describe('ConfigurePixApiHostInitializer', function () {
       const pixApiHost = configurePixApiHost();
 
       // then
-      expect(pixApiHost).to.equal('https://api-staging.pix-app.ovh')
+      expect(pixApiHost).to.equal('http://api-staging.pix-app.ovh')
     });
 
     it('should detect feature branches environment', function () {
