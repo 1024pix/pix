@@ -7,7 +7,6 @@ exports.up = (knex) => {
   function table(t) {
 
     t.increments().primary();
-    t.integer('userId').notNull();
     t.string('courseId').notNull();
     t.string('userName').notNull();
     t.string('userEmail').notNull();

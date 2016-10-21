@@ -24,7 +24,6 @@ describe('API | Assessments', function () {
         data: {
           type: "assessment",
           attributes: {
-            "user-id": 'user_id',
             "user-name": 'Jon Snow',
             "user-email": 'jsnow@winterfell.got'
           },
@@ -78,7 +77,6 @@ describe('API | Assessments', function () {
           .fetch()
           .then(function (model) {
             expect(model.get('courseId')).to.equal(options.payload.data.relationships.course.data.id);
-            expect(model.get('userId')).to.equal(options.payload.data.attributes["user-id"]);
             expect(model.get('userName')).to.equal(options.payload.data.attributes["user-name"]);
             expect(model.get('userEmail')).to.equal(options.payload.data.attributes["user-email"]);
             done();

@@ -7,7 +7,6 @@ export default Model.extend({
 
   course: belongsTo('course', { inverse: null }),
   answers: hasMany('answer'),
-  userId: attr('string'),
   userName: attr('string'),
   userEmail: attr('string'),
 

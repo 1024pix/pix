@@ -10,7 +10,6 @@ class AssessmentSerializer extends JSONAPISerializer {
   }
 
   serializeAttributes(model, data) {
-    data.attributes['user-id'] = model.userId;
     data.attributes['user-name'] = model.userName;
     data.attributes['user-email'] = model.userEmail;
   }
@@ -29,7 +28,6 @@ class AssessmentSerializer extends JSONAPISerializer {
     return new Assessment({
       id: json.data.id,
       courseId: json.data.relationships.course.data.id,
-      userId: json.data.attributes["user-id"],
       userName: json.data.attributes["user-name"],
       userEmail: json.data.attributes["user-email"]
     });

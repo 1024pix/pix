@@ -6,7 +6,6 @@ describe('Serializer | AssessmentSerializer', function () {
   const modelObject = new Assessment({
     id: 'assessment_id',
     courseId: 'course_id',
-    userId: 'user_id',
     userName: 'Jon Snow',
     userEmail: 'jsnow@winterfell.got'
   });
@@ -16,7 +15,6 @@ describe('Serializer | AssessmentSerializer', function () {
       type: "assessments",
       id: 'assessment_id',
       attributes: {
-        "user-id": 'user_id',
         "user-name": 'Jon Snow',
         "user-email": 'jsnow@winterfell.got'
       },
@@ -52,7 +50,6 @@ describe('Serializer | AssessmentSerializer', function () {
       // then
       expect(assessment.get('id')).to.equal(jsonAssessment.data.id);
       expect(assessment.get('courseId')).to.equal(jsonAssessment.data.relationships.course.data.id);
-      expect(assessment.get('userId')).to.equal(jsonAssessment.data.attributes["user-id"]);
       expect(assessment.get('userName')).to.equal(jsonAssessment.data.attributes["user-name"]);
       expect(assessment.get('userEmail')).to.equal(jsonAssessment.data.attributes["user-email"]);
     });

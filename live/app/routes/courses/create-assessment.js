@@ -15,7 +15,7 @@ export default Ember.Route.extend({
       const userEmail = this.get('session.user.email');
 
       return store
-        .createRecord('assessment', { course, userId: 1, userName, userEmail })
+        .createRecord('assessment', { course, userName, userEmail })
         .save()
         .then((assessment) => {
           return RSVP.hash({
