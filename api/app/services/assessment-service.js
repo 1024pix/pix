@@ -34,10 +34,11 @@ module.exports = {
     return new Promise((resolve, reject) => {
 
       const courseId = assessment.get('courseId');
-
       courseRepository
         .get(courseId)
-        .then((course) => selectNextChallengeId(course, currentChallengeId))
+        .then((course) => {
+          resolve(selectNextChallengeId(course, currentChallengeId))
+        })
         .catch((error) => reject(error));
     });
   }

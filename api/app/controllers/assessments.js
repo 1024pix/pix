@@ -1,7 +1,11 @@
 'use strict';
 
 const Boom = require('boom');
+const assessmentRepository = require('../repositories/assessment-repository');
 const assessmentSerializer = require('../serializers/assessment-serializer');
+const assessmentService = require('../services/assessment-service');
+const challengeRepository = require('../repositories/challenge-repository');
+const challengeSerializer = require('../serializers/challenge-serializer');
 
 module.exports = {
 
@@ -12,6 +16,24 @@ module.exports = {
 
       return assessment.save()
         .then((assessment) => reply(assessmentSerializer.serialize(assessment)).code(201))
+        .catch((error) => reply(Boom.badImplementation(error)));
+    }
+  },
+
+  getNextChallenge: {
+    handler: (request, reply) => {
+
+      assessmentRepository
+        .get(request.params.id)
+        .then((assessment) => {
+          assessmentService.getAssessmentNextChallengeId(assessment, null)
+          .then((challenge_id) => {
+            challengeRepository
+              .get(challenge_id)
+              .then((challenge) => reply(challengeSerializer.serialize(challenge)))
+          })
+          .catch((error) => reply(Boom.badImplementation(error)));
+        })
         .catch((error) => reply(Boom.badImplementation(error)));
     }
   }
