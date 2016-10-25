@@ -1,50 +1,23 @@
-## Installation
+Tâches NPM
+-----------
 
-Prerequesites: you must have [Node.js](https://nodejs.org/) correctly installed.
-
-```
-$ npm install
-$ npm run db:migrate
-$ npm run db:seed
-$ curl http://localhost:3000/api/users
-```
-
-## Usage
-
-### `$ npm start`
-
-Run the application in development mode.
-
-### `$ npm run serve`
-
-Run the application in development mode, with sources watching (via [nodemon](http://nodemon.io/)).
-
-### `$ npm run db:migrate`
-
-Update the database by applying new migration scripts  (cf. `/db/migration` files).
-
-### `$ npm run db:seed`
-
-Seed the database with some data (cf. `/db/seed` files).
-
-### `$ npm test`
-
-Run the tests.
-
-### `$ npm run test:serve`
-
-Run the tests in development mode, with sources watching.
-
-### `$ npm run coverage`
-
-Run the test with code coverage (via Istanbul engine) and generate a report in `/coverage` folder.
-
-### `$ npm run lint`
-
-Run ESLint linter on `/app` source folder.
+| Task                | Description                                                                     |
+| ------------------- | ------------------------------------------------------------------------------- |
+| start               | Démarrer le serveur                                                             |
+| serve               | Démarrer le serveur en mode sources watching / auto-reload (via *nodemon*)      |
+| db:migrate          | Jouer les scripts de migration de la base de données (cf. `/db/migrations`)     |
+| db:seed             | Jouer les scripts d'alimentation de la base de données (cf. `/db/seed`)         |
+| test                | Exécuter les tests                                                              |
+| test:serve          | Exécuter les tests en mode sources watching / auto-reload                       |
+| coverage            | Calculer la couverture de code de l'API (rapport généré dans `/coverage`)       |
+| lint                | Vérifier le respect des standards de code                                       |
+| deploy:development  | Tâche utilisée par CircleCI pour déployer l'API en tant que Review App          |
+| deploy:staging      | Tâche utilisée par CircleCI pour déployer l'API sur l'environnement de staging  |
+| deploy:production   | Déployer l'API en production (action manuuelle)                                 |
 
 
-## Database
+Database
+--------
 
 ### Development (default)
 
