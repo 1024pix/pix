@@ -33,17 +33,6 @@ describe('ConfigurePixApiHostInitializer', function () {
 
   describe('configurePixApiHost', function () {
 
-    it('should detect localhost', function () {
-      // given
-      const location = { hostname: 'localhost:4200' };
-
-      // when
-      const pixApiHost = configurePixApiHost(location);
-
-      // then
-      expect(pixApiHost).to.equal(`http://localhost:3000`);
-    });
-
     it('should detect Pix production', function () {
       // given
       ENV.environment = 'production';
@@ -66,8 +55,9 @@ describe('ConfigurePixApiHostInitializer', function () {
       expect(pixApiHost).to.equal('http://api-staging.pix-app.ovh')
     });
 
-    it('should detect feature branches environment', function () {
+    it('should detect Pix integration', function () {
       // given
+      ENV.environment = 'integration';
       const location = { hostname: '123-user-stories-are-magic.pix.beta.gouv.fr' };
 
       // when
@@ -76,5 +66,17 @@ describe('ConfigurePixApiHostInitializer', function () {
       // then
       expect(pixApiHost).to.equal(`http://123-user-stories-are-magic.pix-app.ovh`)
     });
+
+    it('should detect localhost', function () {
+      // given
+      const location = { hostname: 'localhost:4200' };
+
+      // when
+      const pixApiHost = configurePixApiHost(location);
+
+      // then
+      expect(pixApiHost).to.equal(`http://localhost:3000`);
+    });
+
   });
 });

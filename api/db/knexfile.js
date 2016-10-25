@@ -14,6 +14,20 @@ module.exports = {
     useNullAsDefault: true
   },
 
+  integration: {
+    client: 'sqlite3',
+    connection: {
+      filename: `${__dirname}/integration.sqlite3`
+    },
+    migrations: {
+      directory: './migrations'
+    },
+    seeds: {
+      directory: './seeds'
+    },
+    useNullAsDefault: true
+  },
+
   staging: {
     client: 'postgresql',
     connection: process.env.DATABASE_URL,

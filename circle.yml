@@ -19,12 +19,12 @@ deployment:
       - git config --global user.name 'Thomas Wickham'
       - make deploy-staging
 
-  development:
+  integration:
     branch: /.*/
     commands:
       - git config --global user.email 'mackwic@gmail.com'
       - git config --global user.name 'Thomas Wickham'
-      - make deploy-branch
+      - make deploy-integration
 
 general:
   branches:

@@ -8,7 +8,8 @@
     "bootstrap": "~3.3.7",
     "animate.css": "^3.5.2",
     "loaders.css": "^0.1.2",
-    "markdown-it": "^8.0.0"
+    "showdown": "1.4.3",
+    "showdown-target-blank": "^1.0.1"
   },
   "devDependencies": {
     "chai": "^3.5.0",
