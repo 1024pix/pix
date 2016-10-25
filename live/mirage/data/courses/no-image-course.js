@@ -15,9 +15,6 @@ export default {
       challenges: {
         data: [{
           type: "challenges",
-          id: qcmChallenge.data.id
-        }, {
-          type: "challenges",
           id: qcuChallenge.data.id
         }, {
           type: "challenges",
