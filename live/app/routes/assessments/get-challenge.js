@@ -17,10 +17,6 @@ export default Ember.Route.extend({
     });
   },
 
-  afterModel(model) {
-    Ember.debug('model = ' + JSON.stringify(model));
-  },
-
   actions : {
 
     saveAnswerAndNavigate: function (currentChallenge, assessment, answerValue) {

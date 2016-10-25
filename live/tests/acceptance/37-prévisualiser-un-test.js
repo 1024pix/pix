@@ -7,15 +7,11 @@ import {
 import { expect } from 'chai';
 import startApp from '../helpers/start-app';
 import destroyApp from '../helpers/destroy-app';
-import markdownit from 'markdown-it';
 
 describe('Acceptance | 37 - Prévisualiser un test |', function () {
 
   let challenges;
   let course;
-  let courseId;
-  let firstChallengeId;
-  let secondChallengeId;
   let lastChallengeId;
 
   let application;
@@ -81,8 +77,7 @@ describe('Acceptance | 37 - Prévisualiser un test |', function () {
       });
 
       it("37.6. la consigne de l'épreuve", function () {
-        const expectedMarkdown = markdownit().render("Que peut-on dire des œufs de catégorie A ?");
-        expect($challenge.find('.challenge-instruction').html()).to.equal(expectedMarkdown);
+        expect($challenge.find('.challenge-instruction').html()).to.contain("Que peut-on dire des œufs de catégorie A ?");
       });
 
       it("37.7. un bouton pour accéder à l'épreuve suivante", function () {

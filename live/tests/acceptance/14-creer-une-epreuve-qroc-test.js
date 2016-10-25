@@ -8,7 +8,6 @@ import {
 import { expect } from 'chai';
 import startApp from '../helpers/start-app';
 import destroyApp from '../helpers/destroy-app';
-import RSVP from 'rsvp';
 
 describe("Acceptance | 14 - Créer une épreuve de type QROC | ", function () {
 

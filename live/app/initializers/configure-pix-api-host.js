@@ -10,12 +10,12 @@ export function configurePixApiHost(locationObject) {
     return 'http://api-staging.pix-app.ovh';
   }
 
-  if (/localhost/.test(locationObject.hostname)) {
-    return 'http://localhost:3000';
+  if (ENV.environment === 'integration') {
+    const matches = /^(.*).pix.beta.gouv.fr/.exec(locationObject.hostname);
+    return `http://${matches[1]}.pix-app.ovh`;
   }
 
-  const matches = /^(.*).pix.beta.gouv.fr/.exec(locationObject.hostname);
-  return `http://${matches[1]}.pix-app.ovh`;
+  return 'http://localhost:3000';
 }
 
 export function initialize() {

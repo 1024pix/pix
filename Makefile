@@ -4,7 +4,7 @@ serve:   serve-api   serve-live
 start:   start-api   start-live
 ci-test: ci-test-api ci-test-live
 
-deploy-development: deploy-live-development deploy-api-development
+deploy-integration: deploy-live-integration deploy-api-integration
 deploy-staging: 	  deploy-live-staging 	  deploy-api-staging
 deploy-production:  deploy-live-production  deploy-api-production
 
@@ -37,16 +37,16 @@ ci-test-api: test-api
 ci-test-live:
 	cd live && npm run ci:test
 
-deploy-live-development:
-	cd live && npm run deploy:development
+deploy-live-integration:
+	cd live && npm run deploy:integration
 	./live/scripts/signal_deploy_to_pr.sh
 deploy-live-staging:
 	cd live && npm run deploy:staging
 deploy-live-production:
-	cd live && npm run deploy:prod
+	cd live && npm run deploy:production
 
-deploy-api-development:
-	(cd api && npm run deploy:development)
+deploy-api-integration:
+	(cd api && npm run deploy:integration)
 deploy-api-staging:
 	(cd api && npm run deploy:staging)
 deploy-api-production:

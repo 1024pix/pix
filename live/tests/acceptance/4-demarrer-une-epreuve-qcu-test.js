@@ -7,7 +7,6 @@ import {
 import { expect } from 'chai';
 import startApp from '../helpers/start-app';
 import destroyApp from '../helpers/destroy-app';
-import markdownit from 'markdown-it';
 
 describe('Acceptance | 4 - Démarrer une épreuve |', function() {
 
@@ -35,9 +34,8 @@ describe('Acceptance | 4 - Démarrer une épreuve |', function() {
   describe('Les informations visibles pour une épreuve de type QCU sont :', function () {
 
     it('4.2. la consigne de l\'épreuve', function () {
-      const expectedMarkdown = markdownit().render("Julie a déposé un document dans un espace de stockage partagé avec Pierre. Elle lui envoie un mail pour l’en informer. Quel est le meilleur message ?");
       const $instruction = findWithAssert('.challenge-instruction');
-      expect($instruction.html()).to.equal(expectedMarkdown);
+      expect($instruction.text()).to.contain('Julie a déposé un document dans un espace de stockage partagé avec Pierre. Elle lui envoie un mail pour l’en informer. Quel est le meilleur message ?');
     });
 
     it('4.3. les propositions de l\'épreuve', function () {

@@ -61,6 +61,9 @@ module.exports = function (environment) {
     ENV.googleFonts = [];
   }
 
+  if (environment === 'integration') {
+  }
+
   if (environment === 'staging') {
   }
 

@@ -11,7 +11,7 @@ GIT_CURRENT_BRANCH=`git rev-parse --abbrev-ref HEAD | tr -d "\n"`
 }
 
 case $BUILD_ENV in
-  "development")
+  "integration")
     # if no <BUILD_OUTPUT> argument is given, use the branch name
     BUILD_OUTPUT=$GIT_CURRENT_BRANCH
   ;;
