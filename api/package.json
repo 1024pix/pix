@@ -21,7 +21,7 @@
     "url": "git+ssh://git@github.com/sgmap/pix-api.git"
   },
   "author": "SGMAP",
-  "license": "AGPL-1.0",
+  "license": "AGPL-3.0",
   "bugs": {
     "url": "https://github.com/sgmap/pix-api/issues"
   },
