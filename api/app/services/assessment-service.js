@@ -36,9 +36,7 @@ module.exports = {
       const courseId = assessment.get('courseId');
       courseRepository
         .get(courseId)
-        .then((course) => {
-          resolve(selectNextChallengeId(course, currentChallengeId))
-        })
+        .then((course) => resolve(selectNextChallengeId(course, currentChallengeId)))
         .catch((error) => reject(error));
     });
   }
