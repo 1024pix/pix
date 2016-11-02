@@ -16,26 +16,26 @@ describe('API | Assessments', function () {
             "fields": {
               // a bunch of fields
               "\u00c9preuves": [
-                "recLt9uwa2dR3IYpi",
-                "recB9k5U9GUCSVTuP",
+                "first_challenge",
+                "second_challenge",
               ],
             },
           }
         );
         nock('https://api.airtable.com')
-          .get('/v0/test-base/Epreuves/recLt9uwa2dR3IYpi')
+          .get('/v0/test-base/Epreuves/first_challenge')
           .times(3)
           .reply(200, {
-            "id": "recLt9uwa2dR3IYpi",
+            "id": "first_challenge",
             "fields": {
               // a bunch of fields
             },
           }
         );
         nock('https://api.airtable.com')
-          .get('/v0/test-base/Epreuves/recB9k5U9GUCSVTuP')
+          .get('/v0/test-base/Epreuves/second_challenge')
           .reply(200, {
-            "id": "recB9k5U9GUCSVTuP",
+            "id": "second_challenge",
             "fields": {
               // a bunch of fields
             },
@@ -184,7 +184,7 @@ describe('API | Assessments', function () {
       server.injectThen(assessmentData).then((response) => {
         const challengeData = { method: "GET", url: "/api/assessments/" + response.result.data.id + "/next" };
         server.injectThen(challengeData).then((response) => {
-          expect(response.result.data.id).to.equal('recLt9uwa2dR3IYpi');
+          expect(response.result.data.id).to.equal('first_challenge');
           done();
         });
       });
@@ -192,9 +192,9 @@ describe('API | Assessments', function () {
 
     it("should return the next challenge otherwise", function (done) {
       server.injectThen(assessmentData).then((response) => {
-        const challengeData = { method: "GET", url: "/api/assessments/" + response.result.data.id + "/next/recLt9uwa2dR3IYpi" };
+        const challengeData = { method: "GET", url: "/api/assessments/" + response.result.data.id + "/next/first_challenge" };
         server.injectThen(challengeData).then((response) => {
-          expect(response.result.data.id).to.equal('recB9k5U9GUCSVTuP');
+          expect(response.result.data.id).to.equal('second_challenge');
           done();
         });
       });
