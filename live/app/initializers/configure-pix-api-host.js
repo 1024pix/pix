@@ -3,7 +3,7 @@ import ENV from 'pix-live/config/environment';
 export function configurePixApiHost(locationObject) {
 
   if (ENV.environment === 'production') {
-    return 'https://api-prod.pix-app.ovh';
+    return 'http://api-production.pix-app.ovh';
   }
 
   if (ENV.environment === 'staging') {
