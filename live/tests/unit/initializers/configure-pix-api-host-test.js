@@ -41,7 +41,7 @@ describe('ConfigurePixApiHostInitializer', function () {
       const pixApiHost = configurePixApiHost();
 
       // then
-      expect(pixApiHost).to.equal('https://api-production.pix-app.ovh')
+      expect(pixApiHost).to.equal('http://api-production.pix-app.ovh')
     });
 
     it('should detect Pix staging', function () {
