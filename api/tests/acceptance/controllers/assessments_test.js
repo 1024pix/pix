@@ -5,6 +5,7 @@ const Assessment = require('../../../app/models/data/assessment');
 
 describe('API | Assessments', function () {
 
+
   before(function (done) {
     knex.migrate.latest().then(() => {
       knex.seed.run().then(() => {
@@ -48,6 +49,58 @@ describe('API | Assessments', function () {
 
   after(function (done) {
     server.stop(done);
+  });
+
+  describe('GET /api/assessments/:id', function () {
+
+    it("should return 200 HTTP status code", function (done) {
+
+      knex.select('id')
+      .from('assessments')
+      .limit(1)
+      .then(function(rows) {
+        server.injectThen({ method: "GET", url: `/api/assessments/${rows[0].id}` }).then((response) => {
+          expect(response.statusCode).to.equal(200);
+          done();
+        });
+      });
+
+    });
+
+
+   it("should return application/json", function (done) {
+
+     knex.select('id')
+      .from('assessments')
+      .limit(1)
+      .then(function(rows) {
+        server.injectThen({ method: "GET", url: `/api/assessments/${rows[0].id}` }).then((response) => {
+          const contentType = response.headers['content-type'];
+          expect(contentType).to.contain('application/json');
+          done();
+        });
+      });
+
+   });
+
+
+   it("should return the expected assessment", function (done) {
+
+     knex.select('id')
+      .from('assessments')
+      .limit(1)
+      .then(function(rows) {
+        server.injectThen({ method: "GET", url: `/api/assessments/${rows[0].id}` }).then((response) => {
+          const expectedAssessment = {"type":"assessments","id":rows[0].id,"attributes":{"user-name":"Jon Snow","user-email":"jsnow@winterfell.got"},"relationships":{"course":{"data":{"type":"courses","id":"anyFromAirTable"}},"answers":{"data":[]}}};
+          const assessment = response.result.data;
+          expect(assessment).to.deep.equal(expectedAssessment);
+          done();
+        });
+      });
+
+   });
+
+
   });
 
   describe('POST /api/assessments', function () {
@@ -107,13 +160,13 @@ describe('API | Assessments', function () {
       server.injectThen(options).then((response) => {
 
         new Assessment({ id: response.result.data.id })
-          .fetch()
-          .then(function (model) {
-            expect(model.get('courseId')).to.equal(options.payload.data.relationships.course.data.id);
-            expect(model.get('userName')).to.equal(options.payload.data.attributes["user-name"]);
-            expect(model.get('userEmail')).to.equal(options.payload.data.attributes["user-email"]);
-            done();
-          });
+        .fetch()
+        .then(function (model) {
+          expect(model.get('courseId')).to.equal(options.payload.data.relationships.course.data.id);
+          expect(model.get('userName')).to.equal(options.payload.data.attributes["user-name"]);
+          expect(model.get('userEmail')).to.equal(options.payload.data.attributes["user-email"]);
+          done();
+        });
 
       });
     });

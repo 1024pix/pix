@@ -10,6 +10,7 @@ describe('Serializer | AnswerSerializer', function () {
   const modelObject = new Answer({
     id: 'answer_id',
     value: 'answer_value',
+    result: 'result_value',
     assessmentId: 'assessment_id',
     challengeId: 'challenge_id'
   });
@@ -19,7 +20,8 @@ describe('Serializer | AnswerSerializer', function () {
       type: 'answers',
       id: 'answer_id',
       attributes: {
-        value: "answer_value"
+        value: "answer_value",
+        result: "result_value"
       },
       relationships: {
         assessment: {
@@ -61,6 +63,7 @@ describe('Serializer | AnswerSerializer', function () {
       expect(answer.get('assessmentId')).to.equal(jsonAnswer.data.relationships.assessment.data.id);
       expect(answer.get('challengeId')).to.equal(jsonAnswer.data.relationships.challenge.data.id);
       expect(answer.get('value')).to.equal(jsonAnswer.data.attributes.value);
+      expect(answer.get('result')).to.equal(jsonAnswer.data.attributes.result);
     });
 
   });

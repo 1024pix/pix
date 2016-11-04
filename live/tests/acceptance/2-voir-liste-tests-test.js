@@ -49,7 +49,7 @@ describe('Acceptance | 2 - voir la liste des tests', function () {
     });
 
     it('2.3.3 on affiche le nombre d\'épreuve(s) qu\'il contient', function () {
-      expect($course.find('.course-number-of-challenges').text()).to.contains('3 épreuves');
+      expect($course.find('.course-number-of-challenges').text()).to.contains('4 épreuves');
     });
 
     it('2.3.4 on affiche son image', function () {

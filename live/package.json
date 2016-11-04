@@ -62,6 +62,7 @@
     "ember-export-application-global": "^1.0.5",
     "ember-load-initializers": "^0.5.1",
     "ember-lodash": "0.0.10",
+    "ember-math-helpers": "1.2.7",
     "ember-radio-buttons": "^4.0.1",
     "ember-resolver": "^2.0.3",
     "eslint": "^3.3.1",

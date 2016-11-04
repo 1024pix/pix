@@ -9,7 +9,8 @@
     "animate.css": "^3.5.2",
     "loaders.css": "^0.1.2",
     "showdown": "1.4.3",
-    "showdown-target-blank": "^1.0.1"
+    "showdown-target-blank": "^1.0.1",
+    "simple-markdown": "0.1.1"
   },
   "devDependencies": {
     "chai": "^3.5.0",

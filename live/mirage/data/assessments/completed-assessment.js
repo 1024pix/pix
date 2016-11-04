@@ -1,5 +1,6 @@
 import simpleCourse from '../courses/simple-course';
 import qcuAnswer from '../answers/qcu-answer';
+import qcuAnswerWithImage from '../answers/qcu-answer-with-image';
 import qcmAnswer from '../answers/qcm-answer';
 import qrocmAnswer from '../answers/qrocm-answer';
 
@@ -23,6 +24,9 @@ export default {
         data: [{
           type: 'answers',
           id: qcuAnswer.data.id
+        }, {
+          type: 'answers',
+          id: qcuAnswerWithImage.data.id
         }, {
           type: 'answers',
           id: qcmAnswer.data.id
