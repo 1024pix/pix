@@ -1,3 +1,4 @@
+import qcuChallengeWithImage from '../challenges/qcu-challenge-with-image';
 import qcuChallenge from '../challenges/qcu-challenge';
 import qcmChallenge from '../challenges/qcm-challenge';
 import qrocmChallenge from '../challenges/qrocm-challenge';
@@ -20,6 +21,9 @@ export default {
         }, {
           type: "challenges",
           id: qcuChallenge.data.id
+        }, {
+          type: "challenges",
+          id: qcuChallengeWithImage.data.id
         }, {
           type: "challenges",
           id: qrocmChallenge.data.id

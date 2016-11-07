@@ -5,7 +5,8 @@ export default {
     type: 'answers',
     id: 'answer_qcm_id',
     attributes: {
-      value: '1,2,5'
+      value: '1,2,5',
+      result: 'pending'
     },
     relationships: {
       challenge: {

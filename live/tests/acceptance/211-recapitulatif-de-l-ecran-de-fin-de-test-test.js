@@ -33,6 +33,7 @@ describe("Acceptance | 10 - Consulter l'écran de fin d'un test ", function() {
     const $proposals = findWithAssert('.table#summary tbody tr');
     expect($proposals.text()).to.contains('Que peut-on dire des œufs');
     expect($proposals.text()).to.contains('Julie a déposé un document');
+    expect($proposals.text()).to.contains('Stéphanie a mis une information');
     expect($proposals.text()).to.contains('Citez un ou plusieurs logiciel(s)');
   });
 

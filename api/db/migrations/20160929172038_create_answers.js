@@ -8,6 +8,7 @@ exports.up = (knex) => {
 
     t.increments().primary();
     t.string('value').notNull();
+    t.string('result');
     t.integer('assessmentId').unsigned().references('assessments.id');
     t.string('challengeId').notNull();
     t.dateTime('createdAt').notNullable().defaultTo(knex.fn.now());
