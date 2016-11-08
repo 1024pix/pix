@@ -7,7 +7,6 @@ const AIRTABLE_TABLE_NAME = 'Epreuves';
 
 module.exports = {
 
-
   get(id) {
 
     return new Promise((resolve, reject) => {

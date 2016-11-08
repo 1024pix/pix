@@ -13,12 +13,11 @@ module.exports = {
 
       const answer = answerSerializer.deserialize(request.payload);
 
-
       solutionRepository
-        .get(answer.attributes.challengeId)
+        .get(answer.get('challengeId'))
         .then((solution) => {
           const answerCorrectness = solutionService.matchUserAnswerWithActualSolution(answer, solution);
-          answer.attributes.result = answerCorrectness;
+          answer.set('result', answerCorrectness);
           return answer.save()
             .then((answer) => reply(answerSerializer.serialize(answer)).code(201))
             .catch((error) => reply(Boom.badImplementation(error)));
@@ -30,9 +29,9 @@ module.exports = {
   get: {
     handler: (request, reply) => {
 
-      new Answer({ id: request.params.id }).fetch().then((answer) => {
-        reply(answerSerializer.serialize(answer));
-      });
+      new Answer({ id: request.params.id })
+        .fetch()
+        .then((answer) => reply(answerSerializer.serialize(answer)));
     }
   }
 

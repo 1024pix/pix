@@ -22,7 +22,7 @@ class AssessmentSerializer extends JSONAPISerializer {
         type: 'courses',
         id: model.courseId
       }
-    }
+    };
 
     if (model.answers) {
       data.relationships.answers = {
