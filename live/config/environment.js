@@ -17,13 +17,12 @@ module.exports = function (environment) {
       },
       useDelay: true,
 
-      // Redefined in custom initializer 'initializers/configure-pix-api-host.js'
-      pixApiHost: 'http://localhost:3000'
     },
 
     APP: {
       // Here you can pass flags/options to your application instance
       // when it is created
+      API_HOST: '/'
     },
 
     googleFonts: [
@@ -45,6 +44,9 @@ module.exports = function (environment) {
     ENV.APP.LOG_TRANSITIONS = false;
     ENV.APP.LOG_TRANSITIONS_INTERNAL = false;
     ENV.APP.LOG_VIEW_LOOKUPS = false;
+
+    // Redefined in custom initializer 'initializers/configure-pix-api-host.js'
+    ENV.APP.API_HOST= 'http://localhost:3000'
   }
 
   if (environment === 'test') {
@@ -59,6 +61,7 @@ module.exports = function (environment) {
 
     ENV.APP.rootElement = '#ember-testing';
     ENV.googleFonts = [];
+    ENV.APP.API_HOST= 'http://localhost:3000'
   }
 
   if (environment === 'integration') {
