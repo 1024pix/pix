@@ -1,0 +1,15 @@
+.beta-logo {
+  text-align: center;
+  text-transform: uppercase;
+  position: absolute;
+  top: 26px;
+  right: -35px;
+  transform: rotate(45deg);
+  width: 150px;
+  background-color: #ffbe00;
+  color: white;
+  padding: 5px;
+  font-size: 15px;
+  font-weight: bold;
+  z-index: 10;
+}
