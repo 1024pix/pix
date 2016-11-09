@@ -1,12 +1,10 @@
-@import url('../globals/palette.css');
-
 #identification-form {
   background-color: #fff;
   border-radius: 5px;
   width: 460px;
   margin: 0 auto;
   padding: 24px 40px 59px;
-  
+
   & .identification-form-actions {
     & button[disabled] {
       background-color: var(--green-dark);

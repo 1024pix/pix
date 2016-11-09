@@ -1,7 +1,7 @@
 #home {
   & .courses {
     list-style-type: none;
-    padding: 0;
+    padding: 30px 0;
   }
 
   & .course-item {

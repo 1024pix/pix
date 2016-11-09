@@ -1,17 +1,14 @@
-@import url('../globals/palette.css');
-
 #app-header {
 
   & .navbar {
     background-color: #fff;
-    box-shadow: 0 0 3px 0 var(--light-grey4);
-    border-radius: 0;
     border: none;
-    border-bottom: 1px solid #dedfe2;
     min-height: 80px;
     margin-top: 0;
     overflow: visible;
     z-index: 4;
+    margin-bottom: 0;
+    box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.3);
   }
 
   & .navbar-brand {

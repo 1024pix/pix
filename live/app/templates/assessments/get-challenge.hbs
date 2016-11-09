@@ -1,6 +1,9 @@
 <div id="assessment-challenge">
-    <div class="container">
-      {{progress-bar progress=progress}}
-      {{challenge-item model.challenge model.assessment onValidated="saveAnswerAndNavigate"}}
-    </div>
+
+  {{course-banner course=model.assessment.course withHomeLink=true}}
+
+  <div class="container">
+    {{progress-bar progress=progress}}
+    {{challenge-item model.challenge model.assessment onValidated="saveAnswerAndNavigate"}}
+  </div>
 </div>

@@ -1,12 +1,5 @@
 @import url('../globals/palette.css');
 
-#assessment-results {
-  & .course-name {
-    color: var(--pix-blue);
-    font-weight: 600;
-  }
-}
-
 #assessment-challenge  {
   & .progress  {
     background-color: #ccc;

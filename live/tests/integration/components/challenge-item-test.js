@@ -3,7 +3,6 @@ import { describeComponent, it } from 'ember-mocha';
 import { describe, before } from 'mocha';
 import hbs from 'htmlbars-inline-precompile';
 import Ember from 'ember';
-import RSVP from 'rsvp';
 
 function renderChallengeItem(challengeAttributes = {}, validateHandler = null, errorHandler = null) {
 

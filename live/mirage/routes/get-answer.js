@@ -8,12 +8,12 @@ import qcmAnswerOk from '../data/answers/qcm-answer-ok';
 export default function (schema, request) {
 
   const answers = {
-    'qcm_answer_id': qcmAnswer,
-    'qcu_answer_with_image_id': qcuAnswerWithImage,
-    'qcu_answer_id': qcuAnswer,
-    'qrocm_answer_id': qrocmAnswer,
-    'qcm_answer_ko_id': qcmAnswerKo,
-    'qcm_answer_ok_id': qcmAnswerOk
+    'answer_qcm_id': qcmAnswer,
+    'answer_qcu_with_image_id': qcuAnswerWithImage,
+    'answer_qcu_id': qcuAnswer,
+    'answer_qrocm_id': qrocmAnswer,
+    'answer_qcm_ko_id': qcmAnswerKo,
+    'answer_qcm_ok_id': qcmAnswerOk
   };
 
   const answer = answers[request.params.id];

@@ -1,5 +1,3 @@
-@import url('../globals/palette.css');
-
 #course-preview {
   & strong {
     color: var(--pix-blue);

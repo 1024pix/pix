@@ -1,13 +1,10 @@
 <div id="assessment-results">
-    <div class="container">
+
+  {{course-banner course=model.assessment.course}}
+
+  <div class="container">
 
         <div class="rounded-panel big-text">
-            <h1>Mercix !</h1>
-            <p>
-                Vous avez terminé le test <span class="course-name">{{model.assessment.course.name}}</span> en répondant
-                à {{model.assessment.numberOfValidatedAnswers}} question(s) sur {{model.assessment.course.challenges.length}}.
-            </p>
-            
             <table class="table table-bordered" id="summary">
                 <thead>
                     <tr>
@@ -38,7 +35,7 @@
                                 <small>validation en cours</small>
                             </div>
                         {{/if}}
-                        
+
                     </td>
                 </tr>
                 {{/each}}

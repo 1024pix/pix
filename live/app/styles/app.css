@@ -6,9 +6,11 @@
 @import url('globals/rounded-panel.css');
 
 /* components */
+@import url('globals/palette.css');
 @import url('components/app-header.css');
 @import url('components/identification-form.css');
 @import url('components/challenge-item.css');
+@import url('components/course-banner.css');
 
 /* views */
 @import url('home.css');
@@ -24,12 +26,12 @@
 }
 
 body {
-  font-family: 'Open Sans', sans-serif;
+  font-family: Lato, Arial, sans-serif;
   background-color: var(--light-grey1);
 }
 
 .body {
-  padding-top: 12px;
+  padding-top: 0;
 }
 
 .component-list {

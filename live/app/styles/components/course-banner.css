@@ -1,0 +1,28 @@
+.course-banner {
+  background-color: var(--pix-blue);
+  color: white;
+  margin-bottom: 20px;
+}
+
+.course-banner-wrapper {
+  display: flex;
+  align-items: center;
+  min-height: 100px; /* magic number */
+}
+
+.course-banner-name {
+  font-size: 28px; /* magic number */
+}
+
+.course-banner-home-link {
+  font-size: 16px;
+  margin-left: auto;
+  min-width: 200px;
+  text-align: right;
+  color: white;
+
+  &:hover {
+    color: white;
+  }
+}
+
