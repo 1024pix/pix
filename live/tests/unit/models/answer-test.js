@@ -11,6 +11,18 @@ describeModel('answer',  'Unit | Model | Answer', {
       expect(model).to.be.ok;
     });
 
+    describe('isResultOk', function () {
+
+      it('should return bool', function () {
+        Ember.run(() => {
+          // given
+          const store = this.store();
+          const answer = store.createRecord('answer', {'result': 'ok'});
+
+          expect(answer.get('isResultOk')).to.equal(true);
+        });
+      });
+    });
   }
 );
 
