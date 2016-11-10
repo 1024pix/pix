@@ -26,7 +26,7 @@ class CourseSerializer extends JSONAPISerializer {
         }
       };
       for (let challengeId of model.challenges) {
-        data.relationships.challenges.data.push({
+        data.relationships.challenges.data.unshift({
           "type": 'challenges',
           "id": challengeId
         });
