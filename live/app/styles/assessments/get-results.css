@@ -9,9 +9,9 @@
     padding-left: 16px;
     padding-right: 16px;
     height: 48px;
-    background-color: #e6e6e6;
-    color: #3e4149;
-    font-family: 'Lato';
+    background-color: var(--tooltip-background-color);
+    color: var(--tooltip-color);
+    font-family: 'Lato', Arial, sans-serif;
     font-size: 14px;
     box-shadow: 2px 2px 2px 0 rgba(0, 0, 0, 0.2);
     border: solid 1px #ffffff;
@@ -40,7 +40,6 @@
 .assessment-results-title {
   width: 240px;
   height: 48px;
-  font-family: 'Lato';
   font-size: 40px;
   font-weight: 900;
   color: var(--pix-blue);
@@ -59,7 +58,7 @@
   width: auto;
   height: 80px;
   border-radius: 5px;
-  border-color: #f2f3f4;
+  border-color: var(--light-grey1);
   background-color: #ffffff;
   box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.3);
   margin-bottom: 10px;
@@ -67,10 +66,11 @@
     box-shadow: none;
     border: solid 2px #446eff;
     transition: border-color 1s ease;
-  };  
+  }
+
   &:nth-last-child(1) {
     margin-bottom: 20px;
-  };
+  }
 }
 
 .assessment-results-result {
@@ -81,7 +81,7 @@
 .assessment-results-result-index {
   width: 11px;
   height: 24px;
-  font-family: 'Open Sans';
+  font-family: 'Open Sans', Arial, sans-serif;
   font-size: 18px;
   font-weight: bold;
   text-align: center;
@@ -95,7 +95,7 @@
   margin-left: 22px;
 }
 .assessment-results-result-instruction {
-  font-family: 'Lato';
+  font-family: 'Lato', Arial, sans-serif;
   font-size: 18px;
   margin-left: 22px;
 }
@@ -110,6 +110,7 @@
 .assessment-results-link {
   display: flex;
   flex-direction: row-reverse;
+  margin-bottom: 30px;
 }
 
 .assessment-results-link-home {
@@ -125,8 +126,8 @@
   height: 22px;
   text-transform: uppercase;
   font-size: 16px;
-  font-weight: 600; /* semibold */
+  font-weight: 600;
   text-align: center;
-  font-family: 'Open Sans';
+  font-family: 'Open Sans', Arial, sans-serif;
   color: #ffffff;
 }

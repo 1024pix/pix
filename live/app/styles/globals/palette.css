@@ -31,5 +31,8 @@
 
   --alert-success-green: #78C182;
   --alert-danger-red: #E14956;
+
+  --tooltip-background-color: #e6e6e6;
+  --tooltip-color: #3e4149;
 }
 
