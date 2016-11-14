@@ -25,8 +25,7 @@ describe("Acceptance | 11 - Revenir à la liste des tests", function() {
   });
 
   it("11.1. propose un moyen pour revenir à la liste des tests", function () {
-    const $homeLink = findWithAssert('.home-link');
-    expect($homeLink.attr('href')).to.equal('/home');
+    const $homeLink = findWithAssert('button.assessment-results-link-home');
   });
 
 });

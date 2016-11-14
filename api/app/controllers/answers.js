@@ -16,7 +16,7 @@ module.exports = {
       solutionRepository
         .get(answer.get('challengeId'))
         .then((solution) => {
-          const answerCorrectness = solutionService.matchUserAnswerWithActualSolution(answer, solution);
+          const answerCorrectness = solutionService.match(answer, solution);
           answer.set('result', answerCorrectness);
           return answer.save()
             .then((answer) => reply(answerSerializer.serialize(answer)).code(201))

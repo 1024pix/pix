@@ -41,7 +41,7 @@ describe("Acceptance | 25 - Afficher une image sous la consigne | ", function ()
   describe("Quand l'épreuve ne contient pas d'illustration en consigne", function () {
 
     before(function () {
-      return visit('/challenges/qcu_challenge_without_image_id/preview');
+      return visit('/challenges/qcu_challenge_id/preview');
     });
 
     it("25.3 La section d'illustration est cachée", function () {

@@ -1,8 +1,9 @@
-import simpleCourse from '../courses/simple-course';
-import qcuAnswer from '../answers/qcu-answer';
+import simpleCourse       from '../courses/simple-course';
+import qcuAnswer          from '../answers/qcu-answer';
 import qcuAnswerWithImage from '../answers/qcu-answer-with-image';
-import qcmAnswer from '../answers/qcm-answer';
-import qrocmAnswer from '../answers/qrocm-answer';
+import qcmAnswer          from '../answers/qcm-answer';
+import qcuAnswerAband     from '../answers/qcu-answer-aband';
+import qrocmAnswer        from '../answers/qrocm-answer';
 
 export default {
   data: {
@@ -30,6 +31,9 @@ export default {
         }, {
           type: 'answers',
           id: qcmAnswer.data.id
+        }, {
+          type: 'answers',
+          id: qcuAnswerAband.data.id
         }, {
           type: 'answers',
           id: qrocmAnswer.data.id

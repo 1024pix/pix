@@ -48,7 +48,7 @@ describe("Acceptance | 27 - Télécharger une pièce jointe depuis la consigne d
   describe("Quand l'épreuve ne contient pas de pièce jointe en consigne", function () {
 
     before(function () {
-      return visit(`/challenges/qcu_challenge_without_attachment_id/preview`);
+      return visit(`/challenges/qcu_challenge_id/preview`);
     });
 
     it("27.4 La section de téléchargement des pièces jointes est cachée", function() {

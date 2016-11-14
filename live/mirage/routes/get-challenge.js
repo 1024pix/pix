@@ -1,29 +1,35 @@
-import qcuChallengeWithImage from '../data/challenges/qcu-challenge-with-image';
-import qcuChallengeWithAttachment from '../data/challenges/qcu-challenge-with-attachment';
+import _                                  from 'lodash/lodash';
+import qcuChallengeAband                  from '../data/challenges/qcu-challenge-aband';
+import qcuChallengeWithImage              from '../data/challenges/qcu-challenge-with-image';
+import qcuChallengeWithAttachment         from '../data/challenges/qcu-challenge-with-attachment';
 import qcuChallengeWithLinksInInstruction from '../data/challenges/qcu-challenge-with-links-in-instruction';
-import qcuChallenge from '../data/challenges/qcu-challenge';
-import qcmChallenge from '../data/challenges/qcm-challenge';
-import qrocmChallenge from '../data/challenges/qrocm-challenge';
+import qcuChallenge                       from '../data/challenges/qcu-challenge';
+import qcmChallenge                       from '../data/challenges/qcm-challenge';
+import qrocmChallenge                     from '../data/challenges/qrocm-challenge';
 
-// eslint-disable-next-line complexity
 export default function (schema, request) {
 
-  switch (request.params.id) {
+  const allChallenges = [
+    qcuChallengeAband,
+    qcuChallengeWithImage,
+    qcuChallengeWithAttachment,
+    qcuChallengeWithLinksInInstruction,
+    qcuChallenge,
+    qcmChallenge,
+    qrocmChallenge
+  ];
 
-    case qcmChallenge.data.id:
-      return qcmChallenge;
-    case qcuChallenge.data.id:
-      return qcuChallenge;
-    case qrocmChallenge.data.id:
-      return qrocmChallenge;
-    case qcuChallengeWithImage.data.id:
-      return qcuChallengeWithImage;
-    case qcuChallengeWithAttachment.data.id:
-      return qcuChallengeWithAttachment;
-    case qcuChallengeWithLinksInInstruction.data.id:
-      return qcuChallengeWithLinksInInstruction;
-    default:
-      return qcuChallenge;
+  const challenges = _.map(allChallenges, function(oneChallenge) {
+    return {id: oneChallenge.data.id, obj: oneChallenge}
+  });
+
+  const challenge = _.find(challenges, {id:request.params.id});
+
+  if (challenge) {
+    return challenge.obj;
+  } else {
+    throw new Error('The challenge you required in the fake server does not exist ' + request.params.id);
   }
+
 
 }

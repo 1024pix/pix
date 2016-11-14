@@ -28,16 +28,11 @@ describe("Acceptance | 10 - Consulter l'écran de fin d'un test ", function() {
   });
 
   before(function () {
-    $assessmentResults = findWithAssert('#assessment-results');
+    $assessmentResults = findWithAssert('.assessment-results');
   });
 
   it("10.1. se fait en accédant à l'URL /assessments/:assessment_id/results", function () {
     expect(currentURL()).to.equal(`/assessments/completed_assessment_id/results`);
-  });
-
-  it("10.3. affiche un texte explicatif", function () {
-    const expectedText = "Un PixMaster va étudier vos réponses et échanger avec vous pour recueillir vos impressions.";
-    expect($assessmentResults.text()).to.contains(expectedText);
   });
 
   it("10.4. affiche l'intitulé du test", function () {
@@ -45,8 +40,7 @@ describe("Acceptance | 10 - Consulter l'écran de fin d'un test ", function() {
   });
 
   it("11.1. propose un moyen pour revenir à la liste des tests", function () {
-    const $homeLink = findWithAssert('.home-link');
-    expect($homeLink.attr('href')).to.equal('/home');
+    const $homeLink = findWithAssert('button.assessment-results-link-home');
   });
 
 });

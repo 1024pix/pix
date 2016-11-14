@@ -1,19 +1,12 @@
 import Ember from 'ember';
+import _ from 'lodash/lodash';
 
 export function convertToHtml(params) {
-  let rules = SimpleMarkdown.defaultRules; // for example
-
-  let parser = SimpleMarkdown.parserFor(rules);
-  let htmlOutput = SimpleMarkdown.reactFor(SimpleMarkdown.ruleOutput(rules, 'html'));
-
-  let blockParseAndOutput = function(source) {
-    let blockSource = source + "\n\n";
-    let parseTree = parser(blockSource, {inline: false});
-    let outputResult = htmlOutput(parseTree);
-    return outputResult;
-  };
-
-  return blockParseAndOutput(params);
+  if (_.isArray(params) && params.length > 0) {
+    let converter = new showdown.Converter();
+    return converter.makeHtml(params[0]);
+  } 
+  return '';
 }
 
 export default Ember.Helper.helper(convertToHtml);

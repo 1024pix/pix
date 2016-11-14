@@ -10,22 +10,29 @@ describe('Service | Solution :', function () {
     solution.type = 'QCU';
     solution.value = '2';
     const goodAnswer = new Answer({id:'good_answer_id'});
-    goodAnswer.attributes = {value:'2'}
+    goodAnswer.attributes = {value:'2'};
     const badAnswer = new Answer({id:'bad_answer_id'});
-    badAnswer.attributes = {value:'1'}
+    badAnswer.attributes = {value:'1'};
+    const skippedAnswer = new Answer({id:'skipped_answer_id'});
+    skippedAnswer.attributes = {value:'#ABAND#'};
 
     before(function (done) {
       done();
     });
 
     it("should be 'ok' for a correct answer", function () {
-      const result = service.matchUserAnswerWithActualSolution(goodAnswer, solution);
+      const result = service.match(goodAnswer, solution);
       expect(result).to.equal('ok');
     });
 
     it("should be 'ko' for a incorrect answer", function () {
-      const result = service.matchUserAnswerWithActualSolution(badAnswer, solution);
+      const result = service.match(badAnswer, solution);
       expect(result).to.equal('ko');
+    });
+
+    it("should be 'aband' for a skipped answer", function () {
+      const result = service.match(skippedAnswer, solution);
+      expect(result).to.equal('aband');
     });
   });
 
@@ -37,20 +44,28 @@ describe('Service | Solution :', function () {
     const goodAnswer = new Answer({id:'good_answer_id'});
     goodAnswer.attributes = {value:'2'}
     const badAnswer = new Answer({id:'bad_answer_id'});
-    badAnswer.attributes = {value:'1'}
+    badAnswer.attributes = {value:'1'};
+    const skippedAnswer = new Answer({id:'skipped_answer_id'});
+    skippedAnswer.attributes = {value:'#ABAND#'};
+
 
     before(function (done) {
       done();
     });
 
-    it("should return 'pending' if the question is not a QCU, even if the answer is correct", function () {
-      const result = service.matchUserAnswerWithActualSolution(badAnswer, solution);
+    it("should return 'pending' if the question is not a QCU/QCM, even if the answer is correct", function () {
+      const result = service.match(goodAnswer, solution);
       expect(result).to.equal('pending');
     });
 
-    it("should return 'pending' if the question is not a QCU, even if the answer is incorrect", function () {
-      const result = service.matchUserAnswerWithActualSolution(badAnswer, solution);
+    it("should return 'pending' if the question is not a QCU/QCM, even if the answer is incorrect", function () {
+      const result = service.match(badAnswer, solution);
       expect(result).to.equal('pending');
+    });
+
+    it("should return 'aband' if the question is not a QCU/QCM, and the user has skipped", function () {
+      const result = service.match(skippedAnswer, solution);
+      expect(result).to.equal('aband');
     });
   });
 
@@ -63,15 +78,20 @@ describe('Service | Solution :', function () {
     goodAnswer.attributes = { value: '2,1' }
     const badAnswer = new Answer({ id: 'bad_answer_id' });
     badAnswer.attributes = { value: '1,3' }
+    const skippedAnswer = new Answer({id:'skipped_answer_id'});
+    skippedAnswer.attributes = {value:'#ABAND#'};
 
     it("should be 'ok' for a correct answer", function () {
-      const result = service.matchUserAnswerWithActualSolution(goodAnswer, solution);
+      const result = service.match(goodAnswer, solution);
       expect(result).to.equal('ok');
     });
-
     it("should be 'ko' for a incorrect answer", function () {
-      const result = service.matchUserAnswerWithActualSolution(badAnswer, solution);
+      const result = service.match(badAnswer, solution);
       expect(result).to.equal('ko');
+    });
+    it("should be 'aband' for a skipped answer", function () {
+      const result = service.match(skippedAnswer, solution);
+      expect(result).to.equal('aband');
     });
   });
 

@@ -1,0 +1,60 @@
+<div class='assessment-results' id='assessment-results'>
+
+  {{course-banner course=model.assessment.course}}
+
+  <div class='container'>
+
+    <div class='assessment-results-title'>
+      Vos résultats
+    </div>
+
+    <div class='assessment-results-list'>
+      {{#each model.assessment.answers as |answer index|}}
+      <div class='assessment-results-list-item assessment-results-result'>
+        <div class="assessment-results-result-index">
+          {{add index 1}}
+        </div>            
+        <div class="assessment-results-result-line">
+        </div>            
+        <div class="assessment-results-result-instruction">
+          {{strip-instruction (convert-to-html answer.challenge.instruction)}}
+        </div>
+        <div class="assessment-results-result-img">
+         
+         {{#if answer.isResultOk}}
+         <div data-toggle="tooltip" data-placement="top" title="Réponse correcte">
+          <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" width="24" height="24" viewBox="0 0 24 24"><path d="M12,2A10,10 0 0,1 22,12A10,10 0 0,1 12,22A10,10 0 0,1 2,12A10,10 0 0,1 12,2M11,16.5L18,9.5L16.59,8.09L11,13.67L7.91,10.59L6.5,12L11,16.5Z" fill="#30d5b0"/></svg>
+         </div>
+         
+         {{else if answer.isResultNotOk}}
+         <div data-toggle="tooltip" data-placement="top" title="Réponse incorrecte">
+          <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" width="24px" height="24px" viewBox="0 0 24 24" ><path d="M12,2C17.53,2 22,6.47 22,12C22,17.53 17.53,22 12,22C6.47,22 2,17.53 2,12C2,6.47 6.47,2 12,2M15.59,7L12,10.59L8.41,7L7,8.41L10.59,12L7,15.59L8.41,17L12,13.41L15.59,17L17,15.59L13.41,12L17,8.41L15.59,7Z" fill="#ff4600" /></svg>
+         </div>
+
+         {{else if answer.isResultWithoutAnswer}}
+         <div data-toggle="tooltip" data-placement="top" title="Sans réponse">
+          <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" width="24" height="24" viewBox="0 0 24 24"><path d="M12,2A10,10 0 0,0 2,12A10,10 0 0,0 12,22A10,10 0 0,0 22,12A10,10 0 0,0 12,2M8,8L13,12L8,16M14,8H16V16H14" fill="#3e4149"/></svg>
+         </div>
+
+         {{else}}
+         <div data-toggle="tooltip" data-placement="top" title="Vérification en cours">
+          <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" width="24" height="24" viewBox="0 0 24 24"><path d="M20,2V4H18V8.41L14.41,12L18,15.59V20H20V22H4V20H6V15.59L9.59,12L6,8.41V4H4V2H20M16,16.41L13,13.41V10.59L16,7.59V4H8V7.59L11,10.59V13.41L8,16.41V17H10L12,15L14,17H16V16.41M12,9L10,7H14L12,9Z" fill="#446eff"/></svg>
+         </div>
+         {{/if}}
+
+      </div>
+
+    </div>
+    {{/each}}
+  </div>    
+
+  <div class='assessment-results-link'>
+    {{#link-to 'home' class='assessment-results-link-home' tagName='button'}}
+    <span class="assessment-results-back">Revenir à la liste des tests</span>
+    {{/link-to}}  
+  </div>
+
+</div>
+
+
+</div>

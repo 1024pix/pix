@@ -28,7 +28,7 @@ describe('Acceptance | 4 - Démarrer une épreuve |', function() {
   });
 
   before(function() {
-    return visit(`/assessments/an_assessment_id/challenges/challenge_qcu_id`);
+    return visit(`/assessments/an_assessment_id/challenges/qcu_challenge_id`);
   });
 
   describe('Les informations visibles pour une épreuve de type QCU sont :', function () {

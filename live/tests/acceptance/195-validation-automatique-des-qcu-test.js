@@ -27,13 +27,13 @@ describe("Acceptance | 195 - Validation automatique d'un QCU, visualisation du r
   });
 
   it("195.1. Pour un QCU avec une bonne réponse, le tableau récapitulatif donne une indication que la réponse est correcte", function () {
-    let $cell = findWithAssert('.table#summary tbody tr:nth-child(1) td:nth-child(3)');
-    expect($cell.text()).to.contains('réponse correcte');
+    let $cell = findWithAssert('div[data-toggle="tooltip"]:eq(0)');
+    expect($cell.attr('data-original-title')).to.equal('Réponse correcte');
   });
 
   it("195.2. Pour un QCU avec une mauvaise réponse, le tableau récapitulatif donne une indication que la réponse est incorrecte", function () {
-    let $cell = findWithAssert('.table#summary tbody tr:nth-child(2) td:nth-child(3)');
-    expect($cell.text()).to.contains('réponse incorrecte');
+    let $cell = findWithAssert('div[data-toggle="tooltip"]:eq(1)');
+    expect($cell.attr('data-original-title')).to.equal('Réponse incorrecte');
   });
 
 });

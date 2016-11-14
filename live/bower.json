@@ -10,7 +10,6 @@
     "loaders.css": "^0.1.2",
     "showdown": "1.4.3",
     "showdown-target-blank": "^1.0.1",
-    "simple-markdown": "0.1.1",
     "raven-js": "3.8.0"
   },
   "devDependencies": {

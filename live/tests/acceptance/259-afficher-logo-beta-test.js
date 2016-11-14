@@ -35,7 +35,7 @@ describe('Acceptance | 259 - Afficher le logo BETA | ', function () {
   });
 
   it('Le logo est présent sur la page d\'une épreuve', function () {
-    visit('/assessments/new_assessment_id/challenges/qcu_challenge');
+    visit('/assessments/new_assessment_id/challenges/qcu_challenge_id');
     andThen(() => {
       findWithAssert('.beta-logo');
     });

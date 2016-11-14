@@ -3,11 +3,13 @@ import RSVP from 'rsvp';
 
 export default Ember.Service.extend({
   ms(ms) {
-    if (EmberENV.useDelay) {
+    /* istanbul ignore if  */
+    if (EmberENV.useDelay) { //unreachable by tests
       return new RSVP.Promise((resolve) => {
-        setTimeout(resolve, ms)
+        setTimeout(resolve, ms);
       });
     }
-    return new RSVP.resolve()
+    // test-only, to avoid test to take too long
+    return new RSVP.resolve(); 
   }
 });

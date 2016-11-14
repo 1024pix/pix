@@ -65,7 +65,6 @@ module.exports = function (defaults) {
 
   app.import('bower_components/bootstrap/dist/js/bootstrap.js');
   app.import('bower_components/showdown/dist/showdown.js');
-  app.import('bower_components/simple-markdown/simple-markdown.js');
   app.import('bower_components/showdown-target-blank/dist/showdown-target-blank.js');
   app.import('bower_components/raven-js/dist/raven.js');
 

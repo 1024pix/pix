@@ -13,6 +13,9 @@ export default Model.extend({
   isResultOk: computed('result', function () {
     return this.get('result') === 'ok'
   }),
+  isResultWithoutAnswer: computed('result', function () {
+    return this.get('result') === 'aband'
+  }),
   isResultNotOk: computed('result', function () {
     return this.get('result') === 'ko'
   })

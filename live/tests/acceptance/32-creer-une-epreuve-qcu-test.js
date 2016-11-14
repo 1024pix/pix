@@ -26,11 +26,11 @@ describe('Acceptance | 32 - Créer une épreuve de type QCU | ', function () {
     let challengeId;
 
     before(function () {
-      return visit(`/challenges/challenge_qcu_id/preview`);
+      return visit(`/challenges/qcu_challenge_id/preview`);
     });
 
     it('32.1. Il est possible de prévisualiser une épreuve en accédant à l\'URL /challenges/:id/preview', function () {
-      expect(currentURL()).to.equal(`/challenges/challenge_qcu_id/preview`);
+      expect(currentURL()).to.equal(`/challenges/qcu_challenge_id/preview`);
       expect(findWithAssert('#challenge-preview'));
     });
 

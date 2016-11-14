@@ -87,7 +87,7 @@ describe('Acceptance | 37 - Prévisualiser un test |', function () {
     });
   });
 
-  describe("Prévisualiser la dernière épreuve dans le cadre d'un test |", function () {
+  describe.skip("Prévisualiser la dernière épreuve dans le cadre d'un test |", function () {
 
     before(function () {
       visit(`/courses/simple_course_id/preview/challenges/${lastChallengeId}`);
