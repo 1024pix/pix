@@ -6,7 +6,7 @@ module.exports = {
 
     return new Promise((resolve, reject) => {
 
-      Assessment.where('id', id).fetch({ withRelated: 'answers' })
+      Assessment.where('id', id).fetch({ withRelated: ['answers'] })
         .then((assessment) => resolve(assessment))
         .catch((err) => reject(err));
       });
