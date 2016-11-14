@@ -1,0 +1,29 @@
+const ChallengeController = require('./challenge-controller');
+
+exports.register = function (server, options, next) {
+
+  server.route([
+    {
+      method: 'GET',
+      path: '/api/challenges',
+      config: { handler: ChallengeController.list, tags: ['api'] }
+    },
+    {
+      method: 'GET',
+      path: '/api/challenges/{id}',
+      config: { handler: ChallengeController.get, tags: ['api'] }
+    },
+    {
+      method: 'POST',
+      path: '/api/challenges/{id}',
+      config: { handler: ChallengeController.refresh, tags: ['api'] }
+    }
+  ]);
+
+  return next();
+};
+
+exports.register.attributes = {
+  name: 'challenges-api',
+  version: '1.0.0'
+};

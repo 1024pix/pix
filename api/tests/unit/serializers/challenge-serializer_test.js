@@ -1,5 +1,5 @@
-const serializer = require('../../../app/serializers/challenge-serializer');
-const Challenge = require('../../../app/models/referential/challenge');
+const serializer = require('../../../lib/infrastructure/serializers/challenge-serializer');
+const Challenge = require('../../../lib/domain/models/referential/challenge');
 
 describe('Serializer | ChallengeSerializer', function () {
 

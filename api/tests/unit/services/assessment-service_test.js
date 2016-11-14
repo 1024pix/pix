@@ -1,8 +1,8 @@
-const service = require('../../../app/services/assessment-service');
-const Assessment = require('../../../app/models/data/assessment');
-const Answer = require('../../../app/models/data/answer');
-const Course = require('../../../app/models/referential/course');
-const courseRepository = require('../../../app/repositories/course-repository');
+const service = require('../../../lib/domain/services/assessment-service');
+const Assessment = require('../../../lib/domain/models/data/assessment');
+const Answer = require('../../../lib/domain/models/data/answer');
+const Course = require('../../../lib/domain/models/referential/course');
+const courseRepository = require('../../../lib/infrastructure/repositories/course-repository');
 
 describe('Service | Assessments', function () {
 

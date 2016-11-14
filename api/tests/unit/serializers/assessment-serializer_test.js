@@ -1,5 +1,5 @@
-const serializer = require('../../../app/serializers/assessment-serializer');
-const Assessment = require('../../../app/models/data/assessment');
+const serializer = require('../../../lib/infrastructure/serializers/assessment-serializer');
+const Assessment = require('../../../lib/domain/models/data/assessment');
 
 describe('Serializer | AssessmentSerializer', function () {
 

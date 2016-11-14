@@ -1,6 +1,6 @@
-const service = require('../../../app/services/solution-service');
-const Answer = require('../../../app/models/data/answer');
-const Solution = require('../../../app/models/referential/solution');
+const service = require('../../../lib/domain/services/solution-service');
+const Answer = require('../../../lib/domain/models/data/answer');
+const Solution = require('../../../lib/domain/models/referential/solution');
 
 describe('Service | Solution :', function () {
 
@@ -42,7 +42,7 @@ describe('Service | Solution :', function () {
     solution.type = 'QROCM';
     solution.value = '2';
     const goodAnswer = new Answer({ id: 'good_answer_id' });
-    goodAnswer.attributes = { value: '2' }
+    goodAnswer.attributes = { value: '2' };
     const badAnswer = new Answer({ id: 'bad_answer_id' });
     badAnswer.attributes = { value: '1' };
     const skippedAnswer = new Answer({ id: 'skipped_answer_id' });

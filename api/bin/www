@@ -1,0 +1,9 @@
+#!/usr/bin/env node
+
+const server = require('../server');
+const logger = require('../lib/infrastructure/logger');
+
+server.start((err) => {
+  if (err) throw err;
+  logger.info('Server running at %s:%s', server.info.address, server.info.port)
+});

@@ -1,4 +1,4 @@
-const Course = require('../../../../app/models/referential/course');
+const Course = require('../../../../lib/domain/models/referential/course');
 
 describe('Model | Course', function () {
 
