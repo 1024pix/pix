@@ -1,5 +1,3 @@
-'use strict';
-
 /*
  * Compare 2 String.
  * If they contain a list of number, and these unordered number are same, it returns true.
@@ -29,7 +27,6 @@ module.exports = {
       return 'ok';
     }
     return 'ko';
-
   }
 
 };

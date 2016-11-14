@@ -87,14 +87,4 @@ describe('Acceptance | 37 - Prévisualiser un test |', function () {
     });
   });
 
-  describe.skip("Prévisualiser la dernière épreuve dans le cadre d'un test |", function () {
-
-    before(function () {
-      visit(`/courses/simple_course_id/preview/challenges/${lastChallengeId}`);
-    });
-
-    it("37.8. on n'affiche pas de bouton “Épreuve suivante”", function () {
-      expect(find('.challenge-preview a.next-challenge-button')).to.have.lengthOf(0);
-    })
-  })
 });

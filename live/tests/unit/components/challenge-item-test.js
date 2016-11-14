@@ -175,7 +175,7 @@ describeModule(
         const answer = challengeItem._getAnswerValue();
 
         // then
-        expect(answer).to.equal('variable1 = "value_1"');
+        expect(answer).to.equal('value_1');
       });
 
       it("QROCM: should return answer's values concatenated as string", function () {

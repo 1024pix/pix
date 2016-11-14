@@ -25,6 +25,10 @@ function callOnlyOnce(targetFunction) {
   }
 }
 
+function getFirstValueOfDictionary(answers) {
+  return _.pairs(answers)[0][1];
+}
+
 const ChallengeItem = Ember.Component.extend({
 
   tagName: 'article',
@@ -115,7 +119,10 @@ const ChallengeItem = Ember.Component.extend({
         const answers = this.get('answers');
         return `${answers.map((answer) => parseInt(answer, 10) + 1).join(', ')}`;
       }
-      case 'QROC':
+      case 'QROC': {
+        const answers = this.get('answers');
+        return getFirstValueOfDictionary(answers);
+      }
       case 'QROCM': {
         const answers = this.get('answers');
         return _.pairs(answers).map(([key, value]) => `${key} = "${value}"`).join(', ');

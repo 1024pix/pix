@@ -3,6 +3,7 @@ import qcuAnswer          from '../answers/qcu-answer';
 import qcuAnswerWithImage from '../answers/qcu-answer-with-image';
 import qcmAnswer          from '../answers/qcm-answer';
 import qcuAnswerAband     from '../answers/qcu-answer-aband';
+import qrocAnswer from '../answers/qroc-answer';
 import qrocmAnswer        from '../answers/qrocm-answer';
 
 export default {
@@ -31,6 +32,9 @@ export default {
         }, {
           type: 'answers',
           id: qcmAnswer.data.id
+        }, {
+          type: 'answers',
+          id: qrocAnswer.data.id
         }, {
           type: 'answers',
           id: qcuAnswerAband.data.id

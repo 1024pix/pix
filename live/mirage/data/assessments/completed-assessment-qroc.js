@@ -1,11 +1,11 @@
 import simpleCourse from '../courses/simple-course';
-import qcmAnswerOk from '../answers/qcm-answer-ok';
-import qcmAnswerKo from '../answers/qcm-answer-ko';
+import qrocAnswerOk from '../answers/qroc-answer-ok';
+import qrocAnswerKo from '../answers/qroc-answer-ko';
 
 export default {
   data: {
     type: 'assessments',
-    id: 'completed_assessment_qcm_id',
+    id: 'completed_assessment_qroc_id',
     attributes: {
       "user-id": 'user_id',
       "user-name": 'Jon Snow',
@@ -21,10 +21,10 @@ export default {
       answers: {
         data: [{
           type: 'answers',
-          id: qcmAnswerOk.data.id
+          id: qrocAnswerKo.data.id
         }, {
           type: 'answers',
-          id: qcmAnswerKo.data.id
+          id: qrocAnswerOk.data.id
         }]
       }
     }
