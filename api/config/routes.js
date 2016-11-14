@@ -19,7 +19,7 @@ module.exports = [
   { method: 'GET',  path: '/api/assessments/{id}',                    config: Assessments.get },
 
   { method: 'POST', path: '/api/answers',                             config: Answers.save },
-  { method: 'GET', path: '/api/answers/{id}',                         config: Answers.get },
+  { method: 'GET',  path: '/api/answers/{id}',                        config: Answers.get },
 
   { method: 'GET',  path: '/api/courses',                             config: Courses.list },
   { method: 'GET',  path: '/api/courses/{id}',                        config: Courses.get },

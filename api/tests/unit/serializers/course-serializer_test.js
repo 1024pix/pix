@@ -12,6 +12,7 @@ describe('Serializer | CourseSerializer', function () {
           "Nom": 'Name of the course',
           "Description": 'Description of the course',
           "Durée": 10,
+          "Adaptatif ?": false,
           "Épreuves": [
             "challenge_5",
             "challenge_4",
@@ -36,6 +37,7 @@ describe('Serializer | CourseSerializer', function () {
           "id": course.id,
           "attributes": {
             "name": course.name,
+            "isAdaptive": course.isAdaptive,
             "description": course.description,
             "duration": course.duration,
             "image-url": "http://image.url"

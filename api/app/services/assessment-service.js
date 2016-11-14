@@ -2,7 +2,7 @@
 
 const courseRepository = require('../repositories/course-repository');
 
-function selectNextChallengeId(course, currentChallengeId) {
+function selectNextChallengeId(course, currentChallengeId, assessment) {
 
   return new Promise((resolve) => {
 
@@ -36,7 +36,7 @@ module.exports = {
       const courseId = assessment.get('courseId');
       courseRepository
         .get(courseId)
-        .then((course) => resolve(selectNextChallengeId(course, currentChallengeId)))
+        .then((course) => resolve(selectNextChallengeId(course, currentChallengeId, assessment)))
         .catch((error) => reject(error));
     });
   }
