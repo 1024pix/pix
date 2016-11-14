@@ -1,14 +1,16 @@
 'use strict';
 
 const Bookshelf = require('../../../infrastructure/bookshelf');
-const Answer = require('./answer');
+Bookshelf.plugin('registry')
 
-module.exports = Bookshelf.Model.extend({
+require('./answer');
+
+module.exports = Bookshelf.model('Assessment', {
 
   tableName: 'assessments',
 
-  answers () {
-    return this.hasMany(Answer, 'assessmentId');
+  answers: function () {
+    return this.hasMany('Answer', 'assessmentId');
   }
 
 });

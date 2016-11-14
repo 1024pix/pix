@@ -19,8 +19,8 @@ module.exports = {
 
   get(request, reply) {
 
-    new Assessment({ id: request.params.id })
-      .fetch({ withRelated: ['answers'] })
+    assessmentRepository
+      .get(request.params.id)
       .then((assessment) => {
         let serializedAssessment = assessmentSerializer.serialize(assessment);
         return reply(serializedAssessment);
