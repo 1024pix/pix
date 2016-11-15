@@ -72,6 +72,14 @@ module.exports = {
         }
       })
       .catch((err) => reply(Boom.badImplementation(err)));
+  },
+
+  refresh(request, reply) {
+
+    courseRepository
+      .refresh(request.params.id)
+      .then((course) => reply(courseSerializer.serialize(course)))
+      .catch((err) => reply(Boom.badImplementation(err)));
   }
 
 };

@@ -12,7 +12,13 @@ exports.register = function (server, options, next) {
       method: 'GET',
       path: '/api/courses/{id}',
       config: { handler: CourseController.get, tags: ['api'] }
+    },
+    {
+      method: 'POST',
+      path: '/api/courses/{id}',
+      config: { handler: CourseController.refresh, tags: ['api'] }
     }
+
   ]);
 
   return next();

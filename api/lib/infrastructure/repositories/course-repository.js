@@ -1,6 +1,7 @@
 const base = require('../airtable').base;
 const Course = require('../../domain/models/referential/course');
 const cache = require('../cache');
+const logger = require('../logger');
 
 const AIRTABLE_TABLE_NAME = 'Tests';
 
@@ -32,6 +33,8 @@ module.exports = {
 
             cache.set('courses', courses);
 
+            logger.info('Fetched and cached courses');
+
             return resolve(courses);
           });
       });
@@ -42,23 +45,50 @@ module.exports = {
 
     return new Promise((resolve, reject) => {
 
-      cache.get(`course_${id}`, (err, value) => {
+      const cacheKey = `course-repository_get_${id}`;
+
+      cache.get(cacheKey, (err, cachedValue) => {
 
         if (err) return reject(err);
 
-        if (value) return resolve(value);
+        if (cachedValue) return resolve(cachedValue);
 
-        base(AIRTABLE_TABLE_NAME).find(id, (err, record) => {
-
-          if (err) return reject(err);
-
-          const course = new Course(record);
-
-          cache.set(`course_${id}`, course);
-
-          return resolve(course);
-        });
+        return this._fetch(id, reject, cacheKey, resolve);
       });
     });
+  },
+
+  refresh(id) {
+
+    return new Promise((resolve, reject) => {
+
+      const cacheKey = `course-repository_get_${id}`;
+
+      cache.del(cacheKey, (err, count) => {
+
+        if (err) return reject(err);
+
+        if (count > 0) logger.info(`Deleted from cache course ${id}`);
+
+        return this._fetch(id, reject, cacheKey, resolve);
+      });
+    });
+  },
+
+  _fetch: function (id, reject, cacheKey, resolve) {
+
+    base(AIRTABLE_TABLE_NAME).find(id, (err, record) => {
+
+      if (err) return reject(err);
+
+      const challenge = new Course(record);
+
+      cache.set(cacheKey, challenge);
+
+      logger.info(`Fetched and cached course ${id}`);
+
+      return resolve(challenge);
+    });
   }
+
 };

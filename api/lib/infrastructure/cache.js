@@ -1,5 +1,7 @@
 const NodeCache = require( "node-cache" );
 
-const cache = new NodeCache({ stdTTL: 10 * 60 }); // in seconds
+const ONE_HOUR = 60 * 60;
+
+const cache = new NodeCache({ stdTTL: ONE_HOUR }); // in seconds
 
 module.exports = cache;
