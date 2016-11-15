@@ -4,6 +4,7 @@ const courseSerializer = require('../../infrastructure/serializers/course-serial
 const challengeRepository = require('../../infrastructure/repositories/challenge-repository');
 const challengeSerializer = require('../../infrastructure/serializers/challenge-serializer');
 const cache = require('../../infrastructure/cache');
+const logger = require('../../infrastructure/logger');
 
 module.exports = {
 
@@ -24,13 +25,17 @@ module.exports = {
           const response = courseSerializer.serializeArray(courses);
 
           const challengeIds = courses.reduce((a, b) => {
-            return a.concat(b.challenges);
+            if (b.challenges) {
+              return a.concat(b.challenges);
+            }
+            return a;
           }, []);
 
           const promises = challengeIds.map(challengeId => challengeRepository.get(challengeId));
 
           Promise.all(promises)
             .then(challenges => {
+
               response.included = challenges.map((challenge) => challengeSerializer.serialize(challenge).data);
 
               cache.set(key, response);
@@ -52,15 +57,19 @@ module.exports = {
 
         const response = courseSerializer.serialize(course);
 
-        const promises = course.challenges.map(challengeId => challengeRepository.get(challengeId));
+        if (course.challenges) {
 
-        Promise.all(promises)
-          .then(challenges => {
-            response.included = challenges.map((challenge) => challengeSerializer.serialize(challenge).data);
-            return reply(response);
-          })
-          .catch((err) => reply(Boom.badImplementation(err)));
+          const promises = course.challenges.map(challengeId => challengeRepository.get(challengeId));
 
+          Promise.all(promises)
+            .then(challenges => {
+              response.included = challenges.map((challenge) => challengeSerializer.serialize(challenge).data);
+              return reply(response);
+            })
+            .catch((err) => reply(Boom.badImplementation(err)));
+        } else {
+          return reply(response);
+        }
       })
       .catch((err) => reply(Boom.badImplementation(err)));
   }

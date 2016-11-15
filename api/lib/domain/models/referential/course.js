@@ -6,6 +6,8 @@ class Course extends AirtableModel {
 
   initialize() {
 
+    super.initialize();
+
     const fields = this.record.fields;
     this.name = fields['Nom'];
     this.description = fields['Description'];
