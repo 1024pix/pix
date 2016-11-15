@@ -6,6 +6,26 @@ const Router = Ember.Router.extend({
   rootURL: config.rootURL
 });
 
+// XXX https://github.com/poteto/ember-metrics/issues/43#issuecomment-252081256
+if (config.environment === 'integration' || config.environment === 'staging' || config.environment === 'production') {
+  Router.reopen({
+    metrics: Ember.inject.service(),
+
+    didTransition() {
+      this._super(...arguments);
+      this._trackPage();
+    },
+
+    _trackPage() {
+      Ember.run.scheduleOnce('afterRender', this, () => {
+        const page = this.get('url');
+        const title = this.getWithDefault('currentRouteName', 'unknown');
+        Ember.get(this, 'metrics').trackPage({ page, title });
+      });
+    }
+  });
+}
+
 export default Router.map(function () {
   this.route('index', { path: '/' });
   this.route('home');

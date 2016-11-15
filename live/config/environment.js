@@ -61,16 +61,67 @@ module.exports = function (environment) {
 
     ENV.APP.rootElement = '#ember-testing';
     ENV.googleFonts = [];
-    ENV.APP.API_HOST= 'http://localhost:3000'
+    ENV.APP.API_HOST= 'http://localhost:3000';
   }
 
   if (environment === 'integration') {
+    ENV.metricsAdapters = [
+      {
+        name: 'Piwik',
+        environments: ['integration'],
+        config: {
+          piwikUrl: '//stats.data.gouv.fr',
+          siteId: 30
+        }
+      },
+      {
+        name: 'GoogleAnalytics',
+        environments: ['integration'],
+        config: {
+          id: 'UA-87429411-1'
+        }
+      }
+    ];
   }
 
   if (environment === 'staging') {
+    ENV.metricsAdapters = [
+      {
+        name: 'Piwik',
+        environments: ['staging'],
+        config: {
+          piwikUrl: '//stats.data.gouv.fr',
+          siteId: 31
+        }
+      },
+      {
+        name: 'GoogleAnalytics',
+        environments: ['staging'],
+        config: {
+          id: 'UA-87429411-1'
+        }
+      }
+    ];
   }
 
   if (environment === 'production') {
+    ENV.metricsAdapters = [
+      {
+        name: 'Piwik',
+        environments: ['production'],
+        config: {
+          piwikUrl: '//stats.data.gouv.fr',
+          siteId: 29
+        }
+      },
+      {
+        name: 'GoogleAnalytics',
+        environments: ['production'],
+        config: {
+          id: 'UA-87412969-1'
+        }
+      }
+    ];
   }
 
 
