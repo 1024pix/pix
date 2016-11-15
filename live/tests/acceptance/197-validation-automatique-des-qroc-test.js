@@ -26,18 +26,14 @@ describe("Acceptance | 197 - Validation automatique d'un QROC, visualisation du 
     return visit(`/assessments/completed_assessment_qroc_id/results`);
   });
 
-  before(function () {
-    $summary = findWithAssert('.table#summary tbody tr');
-  });
-
   it("197.1. Pour un QROC avec une bonne réponse, le tableau récapitulatif donne une indication que la réponse est correcte", function () {
-    let $cell = findWithAssert('.table#summary tbody tr:nth-child(2) td:nth-child(3)');
-    expect($cell.text()).to.contains('réponse correcte');
+    let $cell = findWithAssert('div[data-toggle="tooltip"]:eq(0)');
+    expect($cell.attr('data-original-title')).to.equal('Réponse incorrecte');
   });
 
   it("197.2. Pour un QROC avec une mauvaise réponse, le tableau récapitulatif donne une indication que la réponse est incorrecte", function () {
-    let $cell = findWithAssert('.table#summary tbody tr:nth-child(1) td:nth-child(3)');
-    expect($cell.text()).to.contains('réponse incorrecte');
+    let $cell = findWithAssert('div[data-toggle="tooltip"]:eq(1)');
+    expect($cell.attr('data-original-title')).to.equal('Réponse correcte');
   });
 
 });

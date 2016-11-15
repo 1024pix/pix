@@ -1,3 +1,27 @@
+
+{{#if (eq router.currentRouteName "index")}}
+  <div class='app-header'>
+  {{corner-ribbon}}  
+  
+  <div class='app-header-container'>
+    <div class='app-header-container-marianne'>
+      <div class='app-header-marianne'>
+        <img src="{{rootURL}}images/logo-de-la-republique-francaise.svg">
+      </div>
+    </div>
+    <div class='app-header-container-logo'>
+      <div class='app-header-logo'>
+        <img src="{{rootURL}}images/pix-logo.svg">
+      </div>
+    </div>
+  </div>
+</div>
+
+{{else}}
+  
+<div class="app-header-started">
+{{corner-ribbon}}  
+
 <nav class="navbar">
     <div class="container">
         <div class="navbar-header">
@@ -9,17 +33,12 @@
                 <span class="icon-bar"></span>
             </button>
             <div class="navbar-brand">
-                <img src="{{rootURL}}images/pix-logo.png" alt="Logo PIX">
+                <img src="{{rootURL}}images/pix-logo.svg" alt="Logo PIX" width="auto" height="60">
             </div>
         </div>
-      {{#if session.isIdentified }}
-          <div class="profile nav navbar-nav navbar-right">
-              <p class="navbar-text">
-                  <a href="#" role="button">
-                    Bonjour {{ session.user.firstName }}
-                  </a>
-              </p>
-          </div>
-      {{/if}}
     </div>
 </nav>
+</div>
+
+{{/if}}
+

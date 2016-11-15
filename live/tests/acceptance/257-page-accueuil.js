@@ -29,17 +29,7 @@ describe('Acceptance | 1 - Accéder à la plateforme pour démarrer un test', fu
   });
 
   it('1.1 la landing page contient un pitch de présentation', function () {
-    expect(findWithAssert('.sales-pitch').text()).to.contains('PIX est un projet public de plateforme en ligne d\'évaluation');
+    expect(findWithAssert('.first-page-hero__main-value-prop').text()).to.contains('Développez vos compétences numériques');
   });
 
-  it('1.3 la page d\'accueil contient un formulaire Nom / Prénom / Email et un bouton valider', function () {
-    expect(findWithAssert('label[for="firstName"]').text()).to.contains('Prénom');
-    expect(findWithAssert('#firstName'));
-
-    expect(findWithAssert('label[for="lastName"]').text()).to.contains('Nom');
-    expect(findWithAssert('#lastName'));
-
-    expect(findWithAssert('label[for="lastName"]').text()).to.contains('Nom');
-    expect(findWithAssert('#email'));
-  })
 });

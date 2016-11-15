@@ -1,4 +1,39 @@
-#app-header {
+.app-header {
+  background-color: white;
+}
+
+.app-header-container {
+  height: var(--app-header-height);
+  position: relative;
+}
+
+.app-header-container-marianne {
+  position: absolute;
+  height: 100%;
+  width: 100%; 
+  display: flex;
+  align-items: center;
+}
+
+.app-header-marianne {
+  margin-left: 130px;
+}
+
+.app-header-container-logo {
+  position: absolute;
+  height: 100%;
+  width: 100%; 
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.app-header-logo {
+  margin-top: 12px;
+}
+
+/*XXX : old way, tech debt*/
+.app-header-started {
 
   & .navbar {
     background-color: #fff;
@@ -24,6 +59,10 @@
 
   & .navbar-form {
     margin-top: 23px;
+  }
+  
+  & .navbar-header {
+    margin-top: 12px;
   }
 
   & .navbar-nav > li > a {
@@ -54,4 +93,3 @@
     }
   }
 }
-

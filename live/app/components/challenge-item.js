@@ -19,7 +19,7 @@ function actionSkip() {
 
 function callOnlyOnce(targetFunction) {
   if (EmberENV.useDelay) {
-    return _.throttle(targetFunction, 2000, { leading: true, trailing: false });
+    return _.throttle(targetFunction, 1000, { leading: true, trailing: false });
   } else {
     return targetFunction;
   }

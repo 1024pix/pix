@@ -1,7 +1,9 @@
 /* globals */
 @import url('globals/alert.css');
 @import url('globals/buttons.css');
+@import url('globals/dimension.css');
 @import url('globals/form.css');
+@import url('globals/flexbox-helpers.css');
 @import url('globals/groupped-input.css');
 @import url('globals/rounded-panel.css');
 
@@ -9,6 +11,8 @@
 @import url('globals/palette.css');
 @import url('components/app-header.css');
 @import url('components/beta-logo.css');
+@import url('components/first-page.css');
+@import url('components/corner-ribbon.css');
 @import url('components/identification-form.css');
 @import url('components/challenge-item.css');
 @import url('components/course-banner.css');

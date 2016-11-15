@@ -1,0 +1,35 @@
+
+/* The ribbons */
+.corner-ribbon{
+  width: 200px;
+  background: #e43;
+  position: absolute;
+  top: 33px;
+  left: -50px;
+  text-align: center;
+  line-height: 34px;
+  letter-spacing: 1px;
+  color: #f0f0f0;
+  transform: rotate(-45deg);
+  z-index: 999;
+
+}
+
+.corner-ribbon-text {
+  font-size: 20px;
+  font-weight: bold;
+}
+
+
+.corner-ribbon.top-right{
+  top: 33px;
+  right: -50px;
+  left: auto;
+  transform: rotate(45deg);
+}
+
+
+
+.corner-ribbon.yellow{
+  background: var(--marigold);
+}
