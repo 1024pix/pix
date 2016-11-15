@@ -35,12 +35,12 @@ describe('Acceptance | 176 - Affichage du bandeau d\'une épreuve |', function (
       expect($courseListButton.text()).to.equal('Retour à la liste des tests');
     });
 
-    it('Quand je clique sur le bouton "Revenir à la liste des tests", je suis redirigé vers la liste des tests', function () {
+    it('Quand je clique sur le bouton "Revenir à la liste des tests", je suis redirigé vers l\'index', function () {
       // when
       click('.course-banner-home-link');
 
-      // then
-      andThen(() => expect(find('#home')).to.have.lengthOf(1));
+      // then...
+      andThen(() => expect(currentURL()).to.equal('/'));
     });
   });
 

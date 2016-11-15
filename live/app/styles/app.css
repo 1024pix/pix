@@ -35,6 +35,7 @@
 body {
   font-family: var(--font-lato);
   background-color: var(--light-grey1);
+  overflow-x: hidden;
 }
 
 .body {
