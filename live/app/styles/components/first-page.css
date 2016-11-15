@@ -168,41 +168,28 @@
 }
 
 
-.first-page-email__input-container {
+.first-page-email__form {
   display: flex;
   justify-content: center;
   margin-bottom: 80px;
 }
 
-.first-page-email__input {
-  width: 641px;
+.first-page-email__form-item {
+  display: flex;
+  align-items: center;
+}
+
+.first-page-email-enter {
+  width: 510px;
   height: 46px;
   border: 1px solid #ffffff;
-  /*border-radius: 5px;*/
   border-top-left-radius: 5px;
   border-bottom-left-radius: 5px;
   background-color: #ffffff;
   font-size: 20px;
   color: #686868;
   outline: none;
-}
-
-.first-page-email__button {
-  width: 214px;
-  height: 46px;
-  border: 1px solid #c3d0ff;
-  border-top-right-radius: 5px;
-  border-bottom-right-radius: 5px;
-  background-color: #c3d0ff;
-  font-size: 16px;
-  font-weight: bold;
-  text-align: center;
-  color: #3d68ff;
-  outline: none;
-  
-  position: relative;
-  left: -70px;
-  top: -3px;
+  padding-left: 18px;
 }
 
 

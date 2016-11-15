@@ -1,0 +1,86 @@
+
+.load-email {
+  position: relative;
+  border: 1px solid #c3d0ff;
+  border-top-right-radius: 5px;
+  border-bottom-right-radius: 5px;
+  min-width: 200px;
+  padding: 11px 0;
+  background-color: #c3d0ff;
+  font-size: 16px;
+  font-weight: bold;
+  text-align: center;
+  color: #3d68ff;
+  font-size: 16px;
+  font-weight: bold;
+  text-align: center;
+  outline: none;
+  box-shadow: 1px 1px 4px 1px transparent;
+  transition: box-shadow 300ms ease-in-out;
+}
+.load-email:hover {
+  box-shadow: 1px 1px 6px 1px #ccc;
+}
+
+.load-email:before {
+  content: '\00a0\00a0\00a0\00a0 Merci';
+  position: absolute;
+  z-index: 500;
+  transform: rotateX(180deg);
+  color: #fff;
+  letter-spacing: 1px;
+  opacity: 0;
+  transition: none;
+}
+.load-email-is-error:before {
+  content: '\00a0\00a0\00a0\00a0 Erreur';
+}
+.load-email:after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 20%;
+  opacity: 0;
+  height: 100%;
+  overflow: hidden;
+  background-color: #0EBEFF;
+  border-top-right-radius: 5px;
+  border-bottom-right-radius: 5px;
+  transition: width 10ms 600ms ease-in-out, background-color 300ms ease-in, opacity 250ms 300ms ease-in;
+}
+
+.load-email-is-active {
+  transform: rotateX(180deg);
+  background-color: #fff;
+  box-shadow: 1px 1px 4px 1px transparent !important;
+  transition: transform 300ms ease-in-out, background-color 300ms ease-in;
+}
+.load-email-is-active:after {
+  opacity: 1;
+  background-color: green;
+  width: 100%;
+  transition: width 1s 0.5s ease-in-out, background-color 300ms 300ms ease-in, opacity 250ms 300ms ease-in;
+}
+.load-email-is-active:before {
+  opacity: 1;
+  transition: opacity 250ms 1.5s ease-in;
+}
+
+
+.load-email-is-error {
+  transform: rotateX(180deg);
+  background-color: #fff;
+  box-shadow: 1px 1px 4px 1px transparent !important;
+  transition: transform 300ms ease-in-out, background-color 300ms ease-in;
+}
+.load-email-is-error:after {
+  opacity: 1;
+  background-color: red;
+  width: 100%;
+  transition: width 1s 0.5s ease-in-out, background-color 300ms 300ms ease-in, opacity 250ms 300ms ease-in;
+}
+.load-email-is-error:before {
+  opacity: 1;
+  transition: opacity 250ms 1.5s ease-in;
+}

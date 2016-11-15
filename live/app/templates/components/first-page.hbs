@@ -59,13 +59,7 @@
       Vous souhaitez devenir beta-testeur ou être informé(e) du développement de Pix ?
     </div>
     <div class="first-page-email__input-container">
-
-    <form action="https://formspree.io/1024pix@gmail.com"
-      method="POST">
-          <input type="email" class="first-page-email__input" placeholder="   Saisissez votre email" name="_replyto">
-          <input type="submit" class="first-page-email__button" value="Rejoindre la communauté">
-    </form>
-
+      {{load-email}}
     </div>
   </div>
 
@@ -116,7 +110,7 @@
     <div class="first-page-footer__contact-us first-page-footer__item">
       <a class="first-page-footer__mailto" href="mailto:contact@pix.beta.gouv.fr">Contactez-nous</a>
        | 
-      <a class="first-page-footer__mailto" href="https://github.com/sgmap/pix-live">Le code source est libre</a>
+      <a class="first-page-footer__mailto" href="https://github.com/sgmap/pix-live" target="_blank">Le code source est libre</a>
     </div>
     <div class="first-page-footer__logo-marianne first-page-footer__item">
       <img src="{{rootURL}}images/mnsr.png" class="first-page-footer__logo-marianne-img">
