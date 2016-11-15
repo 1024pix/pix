@@ -107,9 +107,11 @@ const ChallengeItem = Ember.Component.extend({
   // eslint-disable-next-line complexity
   _getAnswerValue() {
     const challengeType = this.get('challenge.type');
+    console.log(challengeType);
 
     switch (challengeType) {
       case 'QCUIMG':
+      case 'QRU':
       case 'QCU': {
         const selectedValue = this.get('selectedProposal');
         return `${selectedValue + 1}`;
@@ -136,6 +138,7 @@ const ChallengeItem = Ember.Component.extend({
   _hasError: function () {
     switch (this.get('challenge.type')) {
       case 'QCUIMG':
+      case 'QRU':
       case 'QCU':
         return Ember.isEmpty(this.get('selectedProposal'));
       case 'QCMIMG':
@@ -162,6 +165,8 @@ const ChallengeItem = Ember.Component.extend({
         return "Pour valider, sélectionner au moins une réponse. Sinon, passer.";
       case 'QROC':
         return "Pour valider, saisir une réponse. Sinon, passer.";
+      case 'QRU':
+        return "Cocher la case avant de valider. Sinon, passer.";
       case 'QROCM':
         return "Pour valider, saisir au moins une réponse. Sinon, passer.";
       default:

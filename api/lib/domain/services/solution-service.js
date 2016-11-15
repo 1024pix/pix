@@ -29,6 +29,10 @@ module.exports = {
       return 'aband';
     }
 
+    if (solution.type === 'QRU') {
+      return 'pending';
+    }
+
     if (solution.type === 'QCU') {
       return solutionServiceQcu.match(answerValue, solutionValue);
     }

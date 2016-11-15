@@ -4,6 +4,23 @@ const Solution = require('../../../lib/domain/models/referential/solution');
 
 describe('Service | Solution :', function () {
 
+
+  describe('The correctness of a QRU', function () {
+
+    const solution = new Solution({ id: "solution_id" });
+    solution.type = 'QRU';
+    const goodAnswer = new Answer({ id: 'good_answer_id' });
+    goodAnswer.attributes = { value: '2' };
+
+
+    it("should be 'pending' in all cases", function () {
+      const result = service.match(goodAnswer, solution);
+      expect(result).to.equal('pending');
+    });
+
+  });
+
+
   describe('The correctness of a QCU', function () {
 
     const solution = new Solution({ id: "solution_id" });
