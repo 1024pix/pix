@@ -49,11 +49,11 @@ describe('Acceptance | 4 - Démarrer une épreuve |', function() {
   });
 
   it('4.4. affiche le bouton "Valider" permettant de sauvegarder la réponse saisie et de passer à l\'épreuve suivante ', function() {
-    expect(findWithAssert('.validate-button').text()).to.contains('Valider');
+    expect(findWithAssert('a.challenge-item-actions__validate-action').text()).to.contains('Je valide');
   });
 
   it('4.5. affiche le bouton "Passer" permettant de passer à l\'épreuve suivante sans avoir saisi de réponse', function() {
-    expect(findWithAssert('.skip-button').text()).to.contains('Passer');
+    expect(findWithAssert('a.challenge-item-actions__skip-action').text()).to.contains('Je passe');
   });
 
 });

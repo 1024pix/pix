@@ -1,35 +1,38 @@
-<div class="rounded-panel challenge-statement">
+<div class="challenge-item">
+  <div class="rounded-panel challenge-statement">
 
-  {{#if challenge.instruction}}
-      <div class="challenge-instruction">{{ markdown-to-html extensions='targetBlank' markdown=challenge.instruction }}</div>
-  {{/if}}
+    {{#if challenge.instruction}}
+      <div
+          class="challenge-instruction">{{ markdown-to-html extensions='targetBlank' markdown=challenge.instruction }}</div>
+    {{/if}}
 
-  {{#if hasIllustration}}
+    {{#if hasIllustration}}
       <hr>
       <div class=" challenge-illustration">
-          <img src="{{ challenge.illustrationUrl }}" alt="ceci est une image">
+        <img src="{{ challenge.illustrationUrl }}" alt="ceci est une image">
       </div>
-  {{/if}}
-  {{#if hasAttachment}}
+    {{/if}}
+    {{#if hasAttachment}}
       <hr>
       <div class="challenge-attachment">
-          <a href="{{challenge.attachmentUrl}}" class="button" target="_blank" download="{{challenge.attachmentFilename}}">
-              <span class="glyphicon glyphicon-download" aria-hidden="true"></span>
-              Télécharger le fichier<br>
-            {{challenge.attachmentFilename}}
-          </a>
+        <a href="{{challenge.attachmentUrl}}" class="button" target="_blank"
+           download="{{challenge.attachmentFilename}}">
+          <span class="glyphicon glyphicon-download" aria-hidden="true"></span>
+          Télécharger le fichier<br>
+          {{challenge.attachmentFilename}}
+        </a>
       </div>
-  {{/if}}
-</div>
+    {{/if}}
+  </div>
 
-<div class="rounded-panel challenge-response">
+  <div class="rounded-panel challenge-response">
     <div class="challenge-proposals">
 
       {{#if challengeIsTypeQROC}}
         {{#each challenge._proposalsAsBlocks as |block|}}
 
           {{#if block.text}}
-              <span>{{block.text}}</span>
+            <span>{{block.text}}</span>
           {{/if}}
 
           {{#if block.input}}
@@ -37,43 +40,47 @@
           {{/if}}
 
           {{#if block.breakline}}
-              <hr>
+            <hr>
           {{/if}}
 
         {{/each}}
 
       {{else if challengeIsTypeQCM}}
         {{#each challenge._proposalsAsArray as |proposal index|}}
-            <p class="challenge-proposal">
-                <label for="proposal_{{index}}">
-                  {{input id=(concat "proposal_" index) type="checkbox"
-                  name=index change=(action "updateQcmAnswer")}}
-                  {{proposal}}
-                </label>
-            </p>
+          <p class="challenge-proposal">
+            <label for="proposal_{{index}}">
+              {{input id=(concat "proposal_" index) type="checkbox"
+              name=index change=(action "updateQcmAnswer")}}
+              {{proposal}}
+            </label>
+          </p>
         {{/each}}
 
       {{else}}
         {{#each challenge._proposalsAsArray as |proposal index|}}
-            <p class="challenge-proposal">
-                <label>{{radio-button name="proposals" value=index checked=selectedProposal}} {{ proposal }}</label>
-            </p>
+          <p class="challenge-proposal">
+            <label>{{radio-button name="proposals" value=index checked=selectedProposal}} {{ proposal }}</label>
+          </p>
         {{/each}}
       {{/if}}
     </div>
 
-  {{#unless isChallengePreviewMode}}
-      <hr/>
     {{#if hasError}}
-        <div class="alert alert-danger" role="alert">
-          {{errorMessage}}
-        </div>
-    {{/if}}
-
-      <div class="actions pull-right">
-          <button class="button button-secondary skip-button" {{action "skip"}}>Passer</button>
-          <button class="button button-primary validate-button" {{action "validate"}}>Valider
-          </button>
+      <hr/>
+      <div class="alert alert-danger" role="alert">
+        {{errorMessage}}
       </div>
+    {{/if}}
+  </div>
+
+  {{#unless isChallengePreviewMode}}
+    <div class="challenge-item-actions">
+      <a class="challenge-item-actions__action challenge-item-actions__skip-action" {{action "skip"}}>
+        <span class="challenge-item-actions__skip-action-text">Je passe</span>
+      </a>
+      <a class="challenge-item-actions__action challenge-item-actions__validate-action" {{action "validate"}}>
+        <span class="challenge-item-actions__validate-action-text">Je valide</span>
+      </a>
+    </div>
   {{/unless}}
 </div>

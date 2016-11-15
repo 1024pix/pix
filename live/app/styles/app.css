@@ -8,6 +8,7 @@
 @import url('globals/rounded-panel.css');
 
 /* components */
+@import url('globals/fonts.css');
 @import url('globals/palette.css');
 @import url('components/app-header.css');
 @import url('components/beta-logo.css');
@@ -32,7 +33,7 @@
 }
 
 body {
-  font-family: Lato, Arial, sans-serif;
+  font-family: var(--font-lato);
   background-color: var(--light-grey1);
 }
 

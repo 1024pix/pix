@@ -11,7 +11,7 @@
     height: 48px;
     background-color: var(--tooltip-background-color);
     color: var(--tooltip-color);
-    font-family: 'Lato', Arial, sans-serif;
+    font-family: var(--font-lato);
     font-size: 14px;
     box-shadow: 2px 2px 2px 0 rgba(0, 0, 0, 0.2);
     border: solid 1px #ffffff;
@@ -81,7 +81,7 @@
 .assessment-results-result-index {
   width: 11px;
   height: 24px;
-  font-family: 'Open Sans', Arial, sans-serif;
+  font-family: var(--font-open-sans);
   font-size: 18px;
   font-weight: bold;
   text-align: center;
@@ -95,7 +95,7 @@
   margin-left: 22px;
 }
 .assessment-results-result-instruction {
-  font-family: 'Lato', Arial, sans-serif;
+  font-family: var(--font-lato);
   font-size: 18px;
   margin-left: 22px;
 }
@@ -128,6 +128,6 @@
   font-size: 16px;
   font-weight: 600;
   text-align: center;
-  font-family: 'Open Sans', Arial, sans-serif;
+  font-family: var(--font-open-sans);
   color: #ffffff;
 }

@@ -25,7 +25,7 @@ function renderChallengeItem_challengePreview(challengeAttributes = {}) {
 }
 
 function validateChallenge() {
-  this.$('.validate-button').click();
+  this.$('a.challenge-item-actions__validate-action').click();
 }
 
 describeComponent(
@@ -54,7 +54,7 @@ describeComponent(
         renderChallengeItem.call(this);
 
         // then
-        expect(this.$('.skip-button')).to.have.lengthOf(1);
+        expect(this.$('.challenge-item-actions__skip-action')).to.have.lengthOf(1);
       });
 
       it('should display "Validate" button ', function () {
@@ -62,7 +62,7 @@ describeComponent(
         renderChallengeItem.call(this);
 
         // then
-        expect(this.$('.validate-button')).to.have.lengthOf(1);
+        expect(this.$('a.challenge-item-actions__validate-action')).to.have.lengthOf(1);
       });
 
       it('should display an img tag with “ceci est une image” alt text', function () {
@@ -92,7 +92,7 @@ describeComponent(
         renderChallengeItem_challengePreview.call(this);
 
         // then
-        expect(this.$('.skip-button')).to.have.lengthOf(0);
+        expect(this.$('.challenge-item-actions__skip-action')).to.have.lengthOf(0);
       });
 
       it('should not display "Validate" button', function () {
@@ -100,7 +100,7 @@ describeComponent(
         renderChallengeItem_challengePreview.call(this);
 
         // then
-        expect(this.$('.validate-button')).to.have.lengthOf(0);
+        expect(this.$('a.challenge-item-actions__validate-action')).to.have.lengthOf(0);
       });
 
     });
@@ -113,7 +113,7 @@ describeComponent(
 
         // when
         this.$('.challenge-proposal:first input[type="radio"]').click();
-        this.$('.validate-button').click();
+        this.$('a.challenge-item-actions__validate-action').click();
       });
 
       it('should call "onValidated" callback with good value for QCU (i.e. proposal index + 1)', function (done) {
@@ -130,7 +130,7 @@ describeComponent(
 
         // when
         this.$('.challenge-proposal:first input[type="radio"]').click();
-        this.$('.validate-button').click();
+        this.$('a.challenge-item-actions__validate-action').click();
 
       });
     });
@@ -145,7 +145,7 @@ describeComponent(
           done()
         });
 
-        this.$('.skip-button').click();
+        this.$('.challenge-item-actions__skip-action').click();
       });
     });
 
@@ -230,7 +230,7 @@ describeComponent(
 
             this.$('.challenge-proposal:nth(0) input[type="checkbox"]').click();
             this.$('.challenge-proposal:nth(2) input[type="checkbox"]').click();
-            this.$('.validate-button').click();
+            this.$('a.challenge-item-actions__validate-action').click();
           });
         });
       });

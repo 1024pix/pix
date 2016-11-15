@@ -81,8 +81,7 @@ describe('Acceptance | 37 - Prévisualiser un test |', function () {
       });
 
       it("37.7. un bouton pour accéder à l'épreuve suivante", function () {
-        const $validateButton = findWithAssert('.validate-button');
-        expect($validateButton.text()).to.contains('Valider');
+        expect(findWithAssert('a.challenge-item-actions__validate-action').text()).to.contains('Je valide');
       });
     });
   });
