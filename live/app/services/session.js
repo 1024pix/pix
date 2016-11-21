@@ -15,7 +15,7 @@ export default Ember.Service.extend({
       try {
         session = JSON.parse(session);
         this.set('user', session.user);
-      } catch (e) {
+      } catch (e) {/* istanbul ignore next */
         Ember.Logger.warn('bad session. Continuing with an empty session');
       }
     }

@@ -1,33 +1,49 @@
-import qcmChallenge from '../data/challenges/qcm-challenge';
-import qcuChallenge from '../data/challenges/qcu-challenge';
-import qrocChallenge from '../data/challenges/qroc-challenge';
-import qcuChallengeWithImage from '../data/challenges/qcu-challenge-with-image';
-import qrocmChallenge from '../data/challenges/qrocm-challenge';
+import _                  from 'lodash/lodash';
 
-import qcmAnswer from '../data/answers/qcm-answer';
-import qcuAnswer from '../data/answers/qcu-answer';
-import qrocAnswer from '../data/answers/qroc-answer';
-import qcuAnswerWithImage from '../data/answers/qcu-answer-with-image';
-import qrocmAnswer from '../data/answers/qrocm-answer';
+import rawQcmChallenge     from '../data/challenges/raw-qcm-challenge';
+import refQcmChallengeFull from '../data/challenges/ref-qcm-challenge';
+import refQcuChallengeFull from '../data/challenges/ref-qcu-challenge';
+import refQrocChallengeFull from '../data/challenges/ref-qroc-challenge';
+import refQrocmChallengeFull from '../data/challenges/ref-qrocm-challenge';
+
+import rawQcmAnswer          from '../data/answers/raw-qcm-answer';
+import refQcuAnswer          from '../data/answers/ref-qcu-answer';
+import refQcmAnswer          from '../data/answers/ref-qcm-answer';
+import refQrocAnswer          from '../data/answers/ref-qroc-answer';
+import refQrocmAnswer          from '../data/answers/ref-qrocm-answer';
+
 
 export default function (schema, request) {
 
-  const answer = JSON.parse(request.requestBody);
+const answer = JSON.parse(request.requestBody);
+const challengeId = answer.data.relationships.challenge.data.id;  
 
-  switch (answer.data.relationships.challenge.data.id) {
+const allChallenges = [
+ rawQcmChallenge,
+ refQcmChallengeFull,
+ refQcuChallengeFull,
+ refQrocChallengeFull,
+ refQrocmChallengeFull
+];
 
-    case qcmChallenge.data.id:
-      return qcmAnswer;
-    case qcuChallenge.data.id:
-      return qcuAnswer;
-    case qrocChallenge.data.id:
-      return qrocAnswer;
-    case qcuChallengeWithImage.data.id:
-      return qcuAnswerWithImage;
-    case qrocmChallenge.data.id:
-      return qrocmAnswer;
-    default:
-      throw new Error();
-  }
+const allAnswers = [
+ rawQcmAnswer,
+ refQcuAnswer,
+ refQcmAnswer,
+ refQrocAnswer,
+ refQrocmAnswer
+];
+
+const answers = _.map(allChallenges, function(oneChallenge, index) {
+  return {id: oneChallenge.data.id, obj: allAnswers[index]}
+});
+
+const finalAnswer = _.find(answers, {id:challengeId});
+
+if (finalAnswer) {
+  return finalAnswer.obj;
+} else {
+  throw new Error('Unable to POST this answer in the stub, sorry');
+}
 
 }

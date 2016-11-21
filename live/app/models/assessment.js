@@ -9,14 +9,6 @@ export default Model.extend({
   answers: hasMany('answer'),
   userName: attr('string'),
   userEmail: attr('string'),
-
-  numberOfValidatedAnswers: computed('answers', function () {
-    return this
-      .get('answers')
-      .filter((answer) => answer.get('value') !== '#ABAND#')
-      .get('length');
-  }),
-
   firstChallenge: computed.alias('course.challenges.firstObject')
 
 });

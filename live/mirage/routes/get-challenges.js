@@ -1,16 +1,18 @@
-import qcuChallenge from '../data/challenges/qcu-challenge';
-import qcmChallenge from '../data/challenges/qcm-challenge';
-import qrocChallenge from '../data/challenges/qroc-challenge';
-import qrocmChallenge from '../data/challenges/qrocm-challenge';
+import rawQcmChallenge     from '../data/challenges/raw-qcm-challenge';
+import refQcmChallengeFull from '../data/challenges/ref-qcm-challenge';
+import refQcuChallengeFull from '../data/challenges/ref-qcu-challenge';
+import refQrocChallengeFull from '../data/challenges/ref-qroc-challenge';
+import refQrocmChallengeFull from '../data/challenges/ref-qrocm-challenge';
 
 export default function () {
 
   return {
     data: [
-      qcuChallenge.data,
-      qcmChallenge.data,
-      qrocChallenge.data,
-      qrocmChallenge.data
+      rawQcmChallenge,
+      refQcmChallengeFull.data,
+      refQcuChallengeFull.data,
+      refQrocChallengeFull.data,
+      refQrocmChallengeFull.data
     ]
   }
 

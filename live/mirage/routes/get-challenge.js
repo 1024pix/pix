@@ -1,24 +1,19 @@
 import _                                  from 'lodash/lodash';
-import qcuChallengeAband                  from '../data/challenges/qcu-challenge-aband';
-import qcuChallengeWithImage              from '../data/challenges/qcu-challenge-with-image';
-import qcuChallengeWithAttachment         from '../data/challenges/qcu-challenge-with-attachment';
-import qcuChallengeWithLinksInInstruction from '../data/challenges/qcu-challenge-with-links-in-instruction';
-import qcuChallenge                       from '../data/challenges/qcu-challenge';
-import qcmChallenge                       from '../data/challenges/qcm-challenge';
-import qrocChallenge                      from '../data/challenges/qroc-challenge';
-import qrocmChallenge                     from '../data/challenges/qrocm-challenge';
+
+import rawQcmChallenge     from '../data/challenges/raw-qcm-challenge';
+import refQcmChallengeFull from '../data/challenges/ref-qcm-challenge';
+import refQcuChallengeFull from '../data/challenges/ref-qcu-challenge';
+import refQrocChallengeFull from '../data/challenges/ref-qroc-challenge';
+import refQrocmChallengeFull from '../data/challenges/ref-qrocm-challenge';
 
 export default function (schema, request) {
 
   const allChallenges = [
-    qcuChallengeAband,
-    qcuChallengeWithImage,
-    qcuChallengeWithAttachment,
-    qcuChallengeWithLinksInInstruction,
-    qcuChallenge,
-    qcmChallenge,
-    qrocChallenge,
-    qrocmChallenge
+    rawQcmChallenge,
+    refQcmChallengeFull,
+    refQcuChallengeFull,
+    refQrocChallengeFull,
+    refQrocmChallengeFull
   ];
 
   const challenges = _.map(allChallenges, function (oneChallenge) {

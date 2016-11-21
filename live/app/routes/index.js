@@ -7,13 +7,6 @@ export default Ember.Route.extend({
     return RSVP.all([
       this.store.findAll('course')
     ]).then((courses) => courses[0]);
-  },
-
-  actions: {
-
-    navigateToHome: function () {
-      this.transitionTo('home');
-    }
   }
 
 });

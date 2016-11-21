@@ -1,11 +1,13 @@
-import simpleCourse from '../data/courses/simple-course';
-import courseWithNoImage from '../data/courses/no-image-course';
+import refCourse from '../data/courses/ref-course';
+import rawCourse      from '../data/courses/raw-course';
+
+
 
 export default function () {
   return {
     data: [
-      simpleCourse.data,
-      courseWithNoImage.data
+      refCourse.data,
+      rawCourse.data
     ]
   }
 }

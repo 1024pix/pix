@@ -1,29 +1,19 @@
 import _                  from 'lodash/lodash';
-import qcmAnswerAband     from '../data/answers/qcu-answer-aband';
-import qcuAnswer          from '../data/answers/qcu-answer';
-import qcuAnswerWithImage from '../data/answers/qcu-answer-with-image';
-import qrocmAnswer        from '../data/answers/qrocm-answer';
-import qcmAnswer          from '../data/answers/qcm-answer';
-import qcmAnswerKo        from '../data/answers/qcm-answer-ko';
-import qcmAnswerOk        from '../data/answers/qcm-answer-ok';
-import qrocAnswerKo       from '../data/answers/qroc-answer-ko';
-import qrocAnswer         from '../data/answers/qroc-answer';
-import qrocAnswerOk       from '../data/answers/qroc-answer-ok';
 
+import rawQcmAnswer          from '../data/answers/raw-qcm-answer';
+import refQcmAnswer          from '../data/answers/ref-qcm-answer';
+import refQcuAnswer          from '../data/answers/ref-qcu-answer';
+import refQrocAnswer          from '../data/answers/ref-qroc-answer';
+import refQrocmAnswer          from '../data/answers/ref-qrocm-answer';
 
 export default function (schema, request) {
 
   const allAnswers = [
-    qcuAnswer,
-    qcuAnswerWithImage,
-    qcmAnswer,
-    qrocmAnswer,
-    qcmAnswerKo,
-    qcmAnswerOk,
-    qcmAnswerAband,
-    qrocAnswerKo,
-    qrocAnswer,
-    qrocAnswerOk
+    rawQcmAnswer,
+    refQcuAnswer,
+    refQcmAnswer,
+    refQrocAnswer,
+    refQrocmAnswer
   ];
 
   const answers = _.map(allAnswers, function(oneAnswer) {

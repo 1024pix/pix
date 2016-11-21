@@ -8,6 +8,8 @@ const Router = Ember.Router.extend({
 
 // XXX https://github.com/poteto/ember-metrics/issues/43#issuecomment-252081256
 if (config.environment === 'integration' || config.environment === 'staging' || config.environment === 'production') {
+  // do not make any sense in test ENV, therefore can be safely ignored
+  /* istanbul ignore next */
   Router.reopen({
     metrics: Ember.inject.service(),
 
