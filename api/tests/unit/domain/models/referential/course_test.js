@@ -1,6 +1,6 @@
-const Course = require('../../../../lib/domain/models/referential/course');
+const Course = require('../../../../../lib/domain/models/referential/course');
 
-describe('Model | Course', function () {
+describe('Unit | Model | Course', function () {
 
   describe('#initialize()', function () {
 

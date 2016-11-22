@@ -33,7 +33,8 @@ test-watch-live:
 test-watch-api:
 	cd api && npm run test:watch
 
-ci-test-api: test-api
+ci-test-api:
+	cd api && npm run lint && npm run coverage
 ci-test-live:
 	cd live && npm run ci:test
 

@@ -1,7 +1,5 @@
-'use strict';
-
 const Bookshelf = require('../../../infrastructure/bookshelf');
-Bookshelf.plugin('registry')
+Bookshelf.plugin('registry');
 
 require('./answer');
 

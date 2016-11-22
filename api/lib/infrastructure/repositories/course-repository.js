@@ -1,4 +1,4 @@
-const base = require('../airtable').base;
+const Airtable = require('../airtable');
 const Course = require('../../domain/models/referential/course');
 const cache = require('../cache');
 const logger = require('../logger');
@@ -11,7 +11,9 @@ module.exports = {
 
     return new Promise((resolve, reject) => {
 
-      cache.get('courses', (err, cachedValue) => {
+      const cacheKey = 'course-repository_list';
+
+      cache.get(cacheKey, (err, cachedValue) => {
 
         if (err) return reject(err);
 
@@ -19,7 +21,7 @@ module.exports = {
 
         let courses = [];
 
-        base(AIRTABLE_TABLE_NAME)
+        Airtable.base(AIRTABLE_TABLE_NAME)
           .select({ view: 'PIX view' })
           .eachPage((records, fetchNextPage) => {
 
@@ -31,9 +33,9 @@ module.exports = {
 
             if (err) return reject(err);
 
-            cache.set('courses', courses);
+            cache.set(cacheKey, courses);
 
-            logger.info('Fetched and cached courses');
+            logger.debug('Fetched and cached courses');
 
             return resolve(courses);
           });
@@ -68,7 +70,7 @@ module.exports = {
 
         if (err) return reject(err);
 
-        if (count > 0) logger.info(`Deleted from cache course ${id}`);
+        if (count > 0) logger.debug(`Deleted from cache course ${id}`);
 
         return this._fetch(id, reject, cacheKey, resolve);
       });
@@ -77,7 +79,7 @@ module.exports = {
 
   _fetch: function (id, reject, cacheKey, resolve) {
 
-    base(AIRTABLE_TABLE_NAME).find(id, (err, record) => {
+    Airtable.base(AIRTABLE_TABLE_NAME).find(id, (err, record) => {
 
       if (err) return reject(err);
 
@@ -85,7 +87,7 @@ module.exports = {
 
       cache.set(cacheKey, challenge);
 
-      logger.info(`Fetched and cached course ${id}`);
+      logger.debug(`Fetched and cached course ${id}`);
 
       return resolve(challenge);
     });

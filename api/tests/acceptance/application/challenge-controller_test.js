@@ -1,6 +1,6 @@
 const server = require('../../../server');
 
-describe('API | ChallengeController', function () {
+describe('Acceptance | API | ChallengeController', function () {
 
   before(function (done) {
     knex.migrate.latest().then(() => {

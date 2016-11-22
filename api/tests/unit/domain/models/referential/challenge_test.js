@@ -1,6 +1,6 @@
-const Challenge = require('../../../../lib/domain/models/referential/challenge');
+const Challenge = require('../../../../../lib/domain/models/referential/challenge');
 
-describe('Model | Challenge', function () {
+describe('Unit | Model | Challenge', function () {
 
   describe('#initialize()', function () {
 

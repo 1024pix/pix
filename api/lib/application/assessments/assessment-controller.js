@@ -1,5 +1,4 @@
 const Boom = require('boom');
-const Assessment = require('../../domain/models/data/assessment');
 const assessmentSerializer = require('../../infrastructure/serializers/assessment-serializer');
 const assessmentRepository = require('../../infrastructure/repositories/assessment-repository');
 const assessmentService = require('../../domain/services/assessment-service');

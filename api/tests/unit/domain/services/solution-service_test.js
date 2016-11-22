@@ -1,9 +1,8 @@
-const service = require('../../../lib/domain/services/solution-service');
-const Answer = require('../../../lib/domain/models/data/answer');
-const Solution = require('../../../lib/domain/models/referential/solution');
+const service = require('../../../../lib/domain/services/solution-service');
+const Answer = require('../../../../lib/domain/models/data/answer');
+const Solution = require('../../../../lib/domain/models/referential/solution');
 
-describe('Service | Solution :', function () {
-
+describe('Unit | Service | Solution :', function () {
 
   describe('The correctness of a QRU', function () {
 
@@ -12,14 +11,12 @@ describe('Service | Solution :', function () {
     const goodAnswer = new Answer({ id: 'good_answer_id' });
     goodAnswer.attributes = { value: '2' };
 
-
     it("should be 'pending' in all cases", function () {
       const result = service.match(goodAnswer, solution);
       expect(result).to.equal('pending');
     });
 
   });
-
 
   describe('The correctness of a QCU', function () {
 

@@ -10,6 +10,7 @@ require('sinon-as-promised');
 
 global.chai = require('chai');
 global.expect = chai.expect;
+global.chai.use(require('chai-as-promised'));
 
 /*
  Setup Test database (generate api/db/test.sqlite3)

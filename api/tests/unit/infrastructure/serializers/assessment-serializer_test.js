@@ -1,7 +1,7 @@
-const serializer = require('../../../lib/infrastructure/serializers/assessment-serializer');
-const Assessment = require('../../../lib/domain/models/data/assessment');
+const serializer = require('../../../../lib/infrastructure/serializers/assessment-serializer');
+const Assessment = require('../../../../lib/domain/models/data/assessment');
 
-describe('Serializer | AssessmentSerializer', function () {
+describe('Unit | Serializer | AssessmentSerializer', function () {
 
   const modelObject = new Assessment({
     id: 'assessment_id',

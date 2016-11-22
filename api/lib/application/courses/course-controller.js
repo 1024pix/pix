@@ -71,7 +71,14 @@ module.exports = {
           return reply(response);
         }
       })
-      .catch((err) => reply(Boom.badImplementation(err)));
+      .catch((err) => {
+
+        let error = Boom.badImplementation(err);
+        if ('MODEL_ID_NOT_FOUND' == err.error.type) {
+          error = Boom.notFound(err);
+        }
+        return reply(error);
+      });
   },
 
   refresh(request, reply) {

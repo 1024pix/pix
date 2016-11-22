@@ -8,15 +8,18 @@ class Course extends AirtableModel {
 
     super.initialize();
 
-    const fields = this.record.fields;
-    this.name = fields['Nom'];
-    this.description = fields['Description'];
-    this.duration = fields['Durée'];
-    this.challenges = fields['Épreuves'];
-    this.isAdaptive = fields['Adaptatif ?'];
+    if (this.record.fields) {
 
-    if (fields['Image'] && fields['Image'].length > 0) {
-      this.imageUrl = fields['Image'][0].url;
+      const fields = this.record.fields;
+      this.name = fields['Nom'];
+      this.description = fields['Description'];
+      this.duration = fields['Durée'];
+      this.challenges = fields['Épreuves'];
+      this.isAdaptive = fields['Adaptatif ?'];
+
+      if (fields['Image'] && fields['Image'].length > 0) {
+        this.imageUrl = fields['Image'][0].url;
+      }
     }
   }
 

@@ -1,0 +1,89 @@
+const Hapi = require('hapi');
+const AssessmentController = require('../../../../lib/application/assessments/assessment-controller');
+
+describe('Unit | Router | AssessmentRouter', function () {
+
+  let server;
+
+  beforeEach(function () {
+    server = this.server = new Hapi.Server();
+    server.connection({ port: null });
+    server.register({ register: require('../../../../lib/application/assessments') });
+  });
+
+  function expectRouteToExist(routeOptions, done) {
+    server.inject(routeOptions, (res) => {
+      expect(res.statusCode).to.equal(200);
+      done();
+    });
+  }
+
+  describe('POST /api/assessments', function () {
+
+    before(function (done) {
+      sinon.stub(AssessmentController, 'save', (request, reply) => reply('ok'));
+      done();
+    });
+
+    after(function (done) {
+      AssessmentController.save.restore();
+      done();
+    });
+
+    it('should exist', function (done) {
+      expectRouteToExist({ method: 'POST', url: '/api/assessments' }, done);
+    });
+  });
+
+  describe('GET /api/assessments/assessment_id/next', function () {
+
+    before(function (done) {
+      sinon.stub(AssessmentController, 'getNextChallenge', (request, reply) => reply('ok'));
+      done();
+    });
+
+    after(function (done) {
+      AssessmentController.getNextChallenge.restore();
+      done();
+    });
+
+    it('should exist', function (done) {
+      expectRouteToExist({ method: 'GET', url: '/api/assessments/assessment_id/next' }, done);
+    });
+  });
+
+  describe('GET /api/assessments/assessment_id/next/challenge_id', function () {
+
+    before(function (done) {
+      sinon.stub(AssessmentController, 'getNextChallenge', (request, reply) => reply('ok'));
+      done();
+    });
+
+    after(function (done) {
+      AssessmentController.getNextChallenge.restore();
+      done();
+    });
+
+    it('should exist', function (done) {
+      expectRouteToExist({ method: 'GET', url: '/api/assessments/assessment_id/next/challenge_id' }, done);
+    });
+  });
+
+  describe('GET /api/assessments/assessment_id', function () {
+
+    before(function (done) {
+      sinon.stub(AssessmentController, 'get', (request, reply) => reply('ok'));
+      done();
+    });
+
+    after(function (done) {
+      AssessmentController.get.restore();
+      done();
+    });
+
+    it('should exist', function (done) {
+      expectRouteToExist({ method: 'GET', url: '/api/assessments/assessment_id' }, done);
+    });
+  });
+
+});

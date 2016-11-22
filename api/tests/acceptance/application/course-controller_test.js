@@ -2,7 +2,7 @@ const server = require('../../../server');
 const _ = require('lodash');
 const util = require('util');
 
-describe('API | Courses', function () {
+describe('Acceptance | API | Courses', function () {
 
   before(function (done) {
     knex.migrate.latest().then(() => {

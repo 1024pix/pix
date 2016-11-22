@@ -16,7 +16,7 @@ module.exports = {
     new User({ id: request.params.id })
       .fetch()
       .then((user) => reply(user))
-      .catch((err) => reply(Boom.badImplementation(err)));
+      .catch((err) => reply(Boom.notFound(err)));
   },
 
   save(request, reply) {

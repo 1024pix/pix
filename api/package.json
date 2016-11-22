@@ -3,20 +3,6 @@
   "version": "1.0.0",
   "description": "Middleware for the PIX platform project",
   "main": "server.js",
-  "scripts": {
-    "start": "node bin/www",
-    "serve": "./node_modules/.bin/nodemon bin/www",
-    "test": "NODE_ENV=test npm run db:migrate && NODE_ENV=test ./node_modules/.bin/mocha -r tests/setup --recursive tests",
-    "test:serve": "NODE_ENV=test ./node_modules/.bin/mocha -r tests/setup --recursive tests --watch",
-    "knex": "./node_modules/.bin/knex --knexfile db/knexfile.js",
-    "db:migrate": "npm run knex migrate:latest",
-    "db:seed": "npm run knex seed:run",
-    "coverage": "NODE_ENV=test ./node_modules/.bin/istanbul cover _mocha -- -r tests/setup --recursive tests",
-    "lint": "./node_modules/.bin/eslint lib/**/*.js",
-    "deploy:integration": "./scripts/deploy.sh integration",
-    "deploy:staging": "./scripts/deploy.sh staging",
-    "deploy:production": "./scripts/deploy.sh production"
-  },
   "repository": {
     "type": "git",
     "url": "git+ssh://git@github.com/sgmap/pix-api.git"
@@ -57,12 +43,27 @@
   },
   "devDependencies": {
     "chai": "^3.5.0",
+    "chai-as-promised": "^6.0.0",
     "eslint": "^3.7.1",
     "istanbul": "^0.4.5",
     "mocha": "^3.1.2",
     "nock": "^8.0.0",
     "nodemon": "^1.10.2",
+    "npm-run-all": "^3.1.1",
     "sinon": "^1.17.6",
     "sinon-as-promised": "^4.0.2"
+  },
+  "scripts": {
+    "start": "node bin/www",
+    "start:watch": "./node_modules/.bin/nodemon bin/www",
+    "db:migrate": "./node_modules/.bin/knex --knexfile db/knexfile.js migrate:latest",
+    "db:seed": "./node_modules/.bin/knex --knexfile db/knexfile.js seed:run",
+    "test": "NODE_ENV=test npm run db:migrate && NODE_ENV=test ./node_modules/.bin/mocha -r tests/setup --recursive tests",
+    "test:watch": "npm test -- --watch",
+    "coverage": "NODE_ENV=test ./node_modules/.bin/istanbul cover _mocha -- -r tests/setup --recursive tests",
+    "lint": "./node_modules/.bin/eslint lib/**/*.js",
+    "deploy:integration": "./scripts/deploy.sh integration",
+    "deploy:staging": "./scripts/deploy.sh staging",
+    "deploy:production": "./scripts/deploy.sh production"
   }
 }

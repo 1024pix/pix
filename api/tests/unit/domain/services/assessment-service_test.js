@@ -1,10 +1,10 @@
-const service = require('../../../lib/domain/services/assessment-service');
-const Assessment = require('../../../lib/domain/models/data/assessment');
-const Answer = require('../../../lib/domain/models/data/answer');
-const Course = require('../../../lib/domain/models/referential/course');
-const courseRepository = require('../../../lib/infrastructure/repositories/course-repository');
+const service = require('../../../../lib/domain/services/assessment-service');
+const Assessment = require('../../../../lib/domain/models/data/assessment');
+const Answer = require('../../../../lib/domain/models/data/answer');
+const Course = require('../../../../lib/domain/models/referential/course');
+const courseRepository = require('../../../../lib/infrastructure/repositories/course-repository');
 
-describe('Service | Assessments', function () {
+describe('Unit | Service | Assessments', function () {
 
   describe('#getAssessmentNextChallengeId()', function () {
 
@@ -18,12 +18,15 @@ describe('Service | Assessments', function () {
       challengeId: 'challenge_id'
     });
 
-    before(function (done) {
+    before(function () {
       course.id = 'course_id';
       course.isAdaptive = true;
       course.challenges = ['ch1', 'ch2', 'ch3'];
       sinon.stub(courseRepository, 'get').resolves(course);
-      done();
+    });
+
+    after(function () {
+      courseRepository.get.restore();
     });
 
     it("should return the first assessment's course challenge ID when current challenge ID is null", function () {

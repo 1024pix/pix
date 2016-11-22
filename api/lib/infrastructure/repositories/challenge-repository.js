@@ -1,4 +1,4 @@
-const base = require('../airtable').base;
+const Airtable = require('../airtable');
 const cache = require('../cache');
 const logger = require('../logger');
 const Challenge = require('../../domain/models/referential/challenge');
@@ -21,21 +21,22 @@ module.exports = {
 
         let challenges = [];
 
-        base(AIRTABLE_TABLE_NAME)
+        Airtable.base(AIRTABLE_TABLE_NAME)
           .select()
           .eachPage((records, fetchNextPage) => {
 
             for (let record of records) {
               challenges.push(new Challenge(record));
             }
+
             fetchNextPage();
           }, (err) => {
 
             if (err) return reject(err);
 
-            cache.set('challenges', challenges);
+            cache.set('challenge-repository_list', challenges);
 
-            logger.info('Fetched and cached challenges');
+            logger.debug('Fetched and cached challenges');
 
             return resolve(challenges);
           });
@@ -71,7 +72,7 @@ module.exports = {
 
         if (err) return reject(err);
 
-        if (count > 0) logger.info(`Deleted from cache challenge ${id}`);
+        if (count > 0) logger.debug(`Deleted from cache challenge ${id}`);
 
         return this._fetch(id, reject, cacheKey, resolve);
       });
@@ -80,7 +81,7 @@ module.exports = {
 
   _fetch: function (id, reject, cacheKey, resolve) {
 
-    base(AIRTABLE_TABLE_NAME).find(id, (err, record) => {
+    Airtable.base(AIRTABLE_TABLE_NAME).find(id, (err, record) => {
 
       if (err) return reject(err);
 
@@ -88,7 +89,7 @@ module.exports = {
 
       cache.set(cacheKey, challenge);
 
-      logger.info(`Fetched and cached challenge ${id}`);
+      logger.debug(`Fetched and cached challenge ${id}`);
 
       return resolve(challenge);
     });

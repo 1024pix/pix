@@ -1,7 +1,7 @@
-const serializer = require('../../../lib/infrastructure/serializers/course-serializer');
-const Course = require('../../../lib/domain/models/referential/course');
+const serializer = require('../../../../lib/infrastructure/serializers/course-serializer');
+const Course = require('../../../../lib/domain/models/referential/course');
 
-describe('Serializer | CourseSerializer', function () {
+describe('Unit | Serializer | CourseSerializer', function () {
 
   describe('#serialize()', function () {
 

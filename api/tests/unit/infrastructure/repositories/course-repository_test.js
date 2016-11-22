@@ -1,10 +1,10 @@
 const Airtable = require('../../../../lib/infrastructure/airtable');
 const cache = require('../../../../lib/infrastructure/cache');
-const Challenge = require('../../../../lib/domain/models/referential/challenge');
+const Course = require('../../../../lib/domain/models/referential/course');
 
-const ChallengeRepository = require('../../../../lib/infrastructure/repositories/challenge-repository');
+const CourseRepository = require('../../../../lib/infrastructure/repositories/course-repository');
 
-describe('Unit | Repository | ChallengeRepository', function () {
+describe('Unit | Repository | CourseRepository', function () {
 
   let stub;
 
@@ -24,16 +24,16 @@ describe('Unit | Repository | ChallengeRepository', function () {
 
   describe('#list()', function () {
 
-    describe('when the challenges have been previously fetched and cached', function () {
+    describe('when the courses have been previously fetched and cached', function () {
 
-      it('should return the challenges directly retrieved from the cache', function () {
+      it('should return the courses directly retrieved from the cache', function () {
         // given
-        const cacheKey = `challenge-repository_list`;
-        const cachedValue = [{ challenge: '1' }, { challenge: '2' }, { challenge: '3' }];
+        const cacheKey = `course-repository_list`;
+        const cachedValue = [{ course: '1' }, { course: '2' }, { course: '3' }];
         cache.set(cacheKey, cachedValue);
 
         // when
-        const result = ChallengeRepository.list();
+        const result = CourseRepository.list();
 
         // then
         return expect(result).to.eventually.deep.equal(cachedValue);
@@ -62,7 +62,7 @@ describe('Unit | Repository | ChallengeRepository', function () {
 
       it('should reject with thrown error', function () {
         // when
-        const result = ChallengeRepository.list();
+        const result = CourseRepository.list();
 
         // then
         return expect(result).to.eventually.be.rejectedWith(cacheErrorMessage);
@@ -70,11 +70,11 @@ describe('Unit | Repository | ChallengeRepository', function () {
 
     });
 
-    describe('when the challenges have not been previously cached', function () {
+    describe('when the courses have not been previously cached', function () {
 
-      const record_1 = { "id": "challenge_1" };
-      const record_2 = { "id": "challenge_2" };
-      const record_3 = { "id": "challenge_3" };
+      const record_1 = { "id": "course_1" };
+      const record_2 = { "id": "course_2" };
+      const record_3 = { "id": "course_3" };
       const records = [record_1, record_2, record_3];
 
       beforeEach(function () {
@@ -89,23 +89,23 @@ describe('Unit | Repository | ChallengeRepository', function () {
         });
       });
 
-      it('should return the challenges fetched from Airtable', function () {
+      it('should return the courses fetched from Airtable', function () {
         // given
-        const challenges = [new Challenge(record_1), new Challenge(record_2), new Challenge(record_3)];
+        const courses = [new Course(record_1), new Course(record_2), new Course(record_3)];
 
         // when
-        const result = ChallengeRepository.list();
+        const result = CourseRepository.list();
 
         // then
-        return expect(result).to.eventually.deep.equal(challenges);
+        return expect(result).to.eventually.deep.equal(courses);
       });
 
-      it('should store the challenge in the cache', function () {
+      it('should store the course in the cache', function () {
         // given
-        const cacheKey = 'challenge-repository_list';
+        const cacheKey = 'course-repository_list';
 
         // when
-        ChallengeRepository.list().then(_ => {
+        CourseRepository.list().then(_ => {
 
           // then
           cache.get(cacheKey, (err, cachedValue) => {
@@ -123,23 +123,30 @@ describe('Unit | Repository | ChallengeRepository', function () {
 
   describe('#get(id)', function () {
 
-    describe('when the challenge has been previously fetched and cached', function () {
+    describe('when the course has been previously fetched and cached', function () {
 
-      it('should return the challenge directly retrieved from the cache', function () {
+      const courseId = 'courseId';
+      const cacheKey = `course-repository_get_${courseId}`;
+      const cachedValue = { foo: 'bar' };
+
+      beforeEach(function () {
         // given
-        const challengeId = 'challengeId';
-        const cacheKey = `challenge-repository_get_${challengeId}`;
-        const cachedValue = { foo: 'bar' };
         cache.set(cacheKey, cachedValue);
+      });
 
+      it('should return the course directly retrieved from the cache', function () {
         // when
-        const result = ChallengeRepository.get(challengeId);
+        const result = CourseRepository.get(courseId);
 
         // then
         return expect(result).to.eventually.deep.equal(cachedValue);
       });
 
       it('should not make call to Airtable', function () {
+        // when
+        CourseRepository.get(courseId);
+
+        // then
         expect(stub.called).to.be.false;
       });
 
@@ -162,7 +169,7 @@ describe('Unit | Repository | ChallengeRepository', function () {
 
       it('should reject with thrown error', function () {
         // when
-        const result = ChallengeRepository.get('challenge_id');
+        const result = CourseRepository.get('course_id');
 
         // then
         return expect(result).to.eventually.be.rejectedWith(cacheErrorMessage);
@@ -170,16 +177,10 @@ describe('Unit | Repository | ChallengeRepository', function () {
 
     });
 
-    describe('when the challenge has not been previously cached', function () {
+    describe('when the course has not been previously cached', function () {
 
       let record = {
-        "id": "challenge_id",
-        "fields": {
-          "Consigne": "Citez jusqu'à 3 moteurs de recherche généralistes.",
-          "Propositions": "${moteur 1}\n${moteur 2}\n${moteur 3}",
-          "Type d'épreuve": "QROCM",
-          "Bonnes réponses": "${moteur 1} ou ${moteur 2} ou ${moteur 3} = \nGoogle\nBing\nQwant\nDuckduckgo\nYahoo\nYahoo Search\nLycos\nAltavista\nHotbot"
-        }
+        "id": "course_id"
       };
 
       beforeEach(function () {
@@ -191,25 +192,25 @@ describe('Unit | Repository | ChallengeRepository', function () {
         });
       });
 
-      it('should return the challenge fetched from Airtable', function () {
+      it('should return the course fetched from Airtable', function () {
         // given
-        const challenge = new Challenge(record);
+        const course = new Course(record);
 
         // when
-        const result = ChallengeRepository.get(challenge.id);
+        const result = CourseRepository.get(course.id);
 
         // then
-        return expect(result).to.eventually.deep.equal(challenge);
+        return expect(result).to.eventually.deep.equal(course);
       });
 
-      it('should store the challenge in the cache', function () {
+      it('should store the course in the cache', function () {
         // given
-        const challengeId = 'challenge_id';
+        const courseId = 'course_id';
 
         // when
-        const result = ChallengeRepository.get(challengeId);
+        const result = CourseRepository.get(courseId);
 
-        cache.get(`challenge-repository_get_${challengeId}`, (err, cachedValue) => {
+        cache.get(`course-repository_get_${courseId}`, (err, cachedValue) => {
           expect(cachedValue).to.exist;
         });
       });
@@ -223,7 +224,7 @@ describe('Unit | Repository | ChallengeRepository', function () {
   describe('#refresh(id)', function () {
 
     let record = {
-      "id": "challenge_id",
+      "id": "course_id",
       "fields": {
         "Consigne": "Citez jusqu'à 3 moteurs de recherche généralistes.",
         "Propositions": "${moteur 1}\n${moteur 2}\n${moteur 3}",
@@ -241,26 +242,26 @@ describe('Unit | Repository | ChallengeRepository', function () {
       });
     });
 
-    it('should return the challenge fetched from Airtable', function () {
+    it('should return the course fetched from Airtable', function () {
       // given
-      const challenge = new Challenge(record);
+      const course = new Course(record);
 
       // when
-      const result = ChallengeRepository.refresh(challenge.id);
+      const result = CourseRepository.refresh(course.id);
 
       // then
-      return expect(result).to.eventually.deep.equal(challenge);
+      return expect(result).to.eventually.deep.equal(course);
     });
 
-    it('should store the challenge in the cache', function () {
+    it('should store the course in the cache', function () {
       // given
-      const challengeId = 'challenge_id';
+      const courseId = 'course_id';
 
       // when
-      ChallengeRepository.refresh(challengeId);
+      CourseRepository.refresh(courseId);
 
       // then
-      cache.get(`challenge-repository_get_${challengeId}`, (err, cachedValue) => {
+      cache.get(`course-repository_get_${courseId}`, (err, cachedValue) => {
         expect(cachedValue).to.exist;
       });
     });
@@ -282,7 +283,7 @@ describe('Unit | Repository | ChallengeRepository', function () {
 
       it('should reject with thrown error', function () {
         // when
-        const result = ChallengeRepository.refresh('challenge_id');
+        const result = CourseRepository.refresh('course_id');
 
         // then
         return expect(result).to.eventually.be.rejectedWith(cacheErrorMessage);

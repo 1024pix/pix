@@ -1,7 +1,7 @@
-const serializer = require('../../../lib/infrastructure/serializers/challenge-serializer');
-const Challenge = require('../../../lib/domain/models/referential/challenge');
+const serializer = require('../../../../lib/infrastructure/serializers/challenge-serializer');
+const Challenge = require('../../../../lib/domain/models/referential/challenge');
 
-describe('Serializer | ChallengeSerializer', function () {
+describe('Unit | Serializer | ChallengeSerializer', function () {
 
   describe('#serialize()', function () {
 

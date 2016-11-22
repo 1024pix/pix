@@ -1,4 +1,4 @@
-const base = require('../airtable').base;
+const Airtable = require('../airtable');
 const Solution = require('../../domain/models/referential/solution');
 const cache = require('../cache');
 
@@ -16,7 +16,7 @@ module.exports = {
 
         if (value) return resolve(value);
 
-        base(AIRTABLE_TABLE_NAME).find(id, (err, record) => {
+        Airtable.base(AIRTABLE_TABLE_NAME).find(id, (err, record) => {
 
           if (err) return reject(err);
 
