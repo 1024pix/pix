@@ -1,29 +1,16 @@
 {
   "name": "pix-live",
-  "version": "1.0.0",
-  "description": "Small description for pix-live goes here",
+  "version": "1.1.0",
+  "description": "Plateforme d'évaluation et de certification des compétences numériques à l'usage de tous les citoyens francophones.",
   "private": true,
   "directories": {
     "doc": "doc",
     "test": "tests"
   },
-  "scripts": {
-    "install:all": "npm install && bower install",
-    "build": "ember build",
-    "clean": "rm -rf tmp dist",
-    "clean:bower": "rm -rf bower_components",
-    "clean:npm": "rm -rf node_modules",
-    "clean:all": "npm run clean && npm run clean:bower && npm run clean:npm",
-    "start": "ember server",
-    "test": "ember test",
-    "test:watch": "ember test --serve",
-    "ci:test": "npm run build && ./scripts/ci-test.sh && npm run ci:coverage",
-    "ci:coverage": "COVERALLS_REPO_TOKEN=4N0uyZhpJrg7ta7KAR3rz54qeOoHOmXqL ./node_modules/.bin/coveralls < coverage/lcov.info ; CODECLIMATE_REPO_TOKEN=4be8413753f290bf2f907800f8fe4da302d6e8c35c3d969f5c1ee39e003a14eb codeclimate-test-reporter < coverage/lcov.info ; rm -rf coverage/",
-    "deploy:integration": "./scripts/deploy.sh integration",
-    "deploy:staging": "./scripts/deploy.sh staging",
-    "deploy:production": "./scripts/deploy.sh production"
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@github.com/sgmap/pix-live.git"
   },
-  "repository": "",
   "engines": {
     "node": ">= 6.9.0"
   },
@@ -77,5 +64,21 @@
     "stylelint": "^7.2.0",
     "stylelint-config-standard": "^13.0.0",
     "tap-xunit": "^1.4.0"
+  },
+  "scripts": {
+    "install:all": "npm install && bower install",
+    "build": "ember build",
+    "clean": "rm -rf tmp dist",
+    "clean:bower": "rm -rf bower_components",
+    "clean:npm": "rm -rf node_modules",
+    "clean:all": "npm run clean && npm run clean:bower && npm run clean:npm",
+    "start": "ember server",
+    "test": "ember test",
+    "test:watch": "ember test --serve",
+    "ci:test": "npm run build && ./scripts/ci-test.sh && npm run ci:coverage",
+    "ci:coverage": "COVERALLS_REPO_TOKEN=4N0uyZhpJrg7ta7KAR3rz54qeOoHOmXqL ./node_modules/.bin/coveralls < coverage/lcov.info ; CODECLIMATE_REPO_TOKEN=4be8413753f290bf2f907800f8fe4da302d6e8c35c3d969f5c1ee39e003a14eb codeclimate-test-reporter < coverage/lcov.info ; rm -rf coverage/",
+    "deploy:integration": "./scripts/deploy.sh integration",
+    "deploy:staging": "./scripts/deploy.sh staging",
+    "deploy:production": "./scripts/deploy.sh production"
   }
 }

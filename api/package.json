@@ -1,11 +1,11 @@
 {
   "name": "pix-api",
-  "version": "1.0.0",
-  "description": "Middleware for the PIX platform project",
+  "version": "1.1.0",
+  "description": "Plateforme d'évaluation et de certification des compétences numériques à l'usage de tous les citoyens francophones",
   "main": "server.js",
   "repository": {
     "type": "git",
-    "url": "git+ssh://git@github.com/sgmap/pix-api.git"
+    "url": "git+ssh://git@github.com/sgmap/pix-live.git"
   },
   "author": "SGMAP",
   "license": "AGPL-3.0",
