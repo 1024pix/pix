@@ -3,14 +3,14 @@ import Ember from 'ember';
 // The whole component is left untested for 17/11 release.`
 // Issue raised https://github.com/sgmap/pix-live/issues/142
 
-export default Ember.Component.extend({  
+export default Ember.Component.extend({
   didInsertElement: function() {
     Ember.run.scheduleOnce('afterRender', this, function() {
 
 
       let btn = $('.load-email')[0];
       let $contactForm = $('#contact-form');
-      
+
       $contactForm.submit(
         /* istanbul ignore next */
         function(e) {
@@ -18,7 +18,7 @@ export default Ember.Component.extend({
         btn.textContent = 'Veuillez patienter...';
         let emailValue = $('.first-page-email-enter').val();
         $.ajax({
-          url: 'https://formspree.io/1024pix@gmail.com',
+          url: 'https://formspree.io/1024pix+formspree@gmail.com',
           method: 'POST',
           data: {email:emailValue},
           dataType: 'json',

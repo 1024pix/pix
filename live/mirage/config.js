@@ -11,6 +11,8 @@ export default function () {
 
   this.namespace = 'http://localhost:3000/api';
 
+  this.passthrough('https://formspree.io/**');
+
   this.get('/courses', getCourses);
   this.get('/courses/:id', getCourse);
 
