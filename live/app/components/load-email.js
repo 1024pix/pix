@@ -1,7 +1,7 @@
 import Ember from 'ember';
 
 // The whole component is left untested for 17/11 release.`
-// Issue raised https://github.com/sgmap/pix-live/issues/142
+// Issue raised https://github.com/sgmap/pix/issues/142
 
 export default Ember.Component.extend({
   didInsertElement: function() {
@@ -9,7 +9,7 @@ export default Ember.Component.extend({
 
       const $loadEmailButton = $('.load-email-button')[0];
       const $contactForm = $('#contact-form');
-      
+
       $contactForm.submit(
         /* istanbul ignore next */
         function(e) {

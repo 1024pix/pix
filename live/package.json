@@ -9,7 +9,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+ssh://git@github.com/sgmap/pix-live.git"
+    "url": "git+ssh://git@github.com/sgmap/pix.git"
   },
   "engines": {
     "node": ">= 6.9.0"

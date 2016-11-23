@@ -1,6 +1,6 @@
 # Pix-live
 
-[![CircleCI](https://circleci.com/gh/sgmap/pix-live/tree/master.svg?style=svg)](https://circleci.com/gh/sgmap/pix-live/tree/master) [![Coverage Status](https://coveralls.io/repos/github/sgmap/pix-live/badge.svg?branch=master)](https://coveralls.io/github/sgmap/pix-live?branch=master) [![Code Climate](https://codeclimate.com/github/sgmap/pix-live/badges/gpa.svg)](https://codeclimate.com/github/sgmap/pix-live) [![Issue Count](https://codeclimate.com/github/sgmap/pix-live/badges/issue_count.svg)](https://codeclimate.com/github/sgmap/pix-live)
+[![CircleCI](https://circleci.com/gh/sgmap/pix/tree/master.svg?style=svg)](https://circleci.com/gh/sgmap/pix/tree/master) [![Coverage Status](https://coveralls.io/repos/github/sgmap/pix/badge.svg?branch=master)](https://coveralls.io/github/sgmap/pix?branch=master) [![Code Climate](https://codeclimate.com/github/sgmap/pix/badges/gpa.svg)](https://codeclimate.com/github/sgmap/pix) [![Issue Count](https://codeclimate.com/github/sgmap/pix/badges/issue_count.svg)](https://codeclimate.com/github/sgmap/pix)
 
 This README outlines the details of collaborating on this Ember application.
 A short introduction of this app could easily go here.

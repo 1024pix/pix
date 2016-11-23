@@ -5,7 +5,7 @@
   "main": "server.js",
   "repository": {
     "type": "git",
-    "url": "git+ssh://git@github.com/sgmap/pix-live.git"
+    "url": "git+ssh://git@github.com/sgmap/pix.git"
   },
   "author": "SGMAP",
   "license": "AGPL-3.0",
