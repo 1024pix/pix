@@ -2,6 +2,7 @@
 
 ## 1.2.0 (24/11/2016)
 
+- [#272](https://github.com/sgmap/pix-live/pull/272) [BUGFIX] Gestion du Responsive Web Design.
 - [#164](https://github.com/sgmap/pix-live/pull/164) [DOC] Ajout du fichier CHANGELOG pour suivre les évolutions de la plateforme.
 
 ## 1.1.0 (23/11/2016)
