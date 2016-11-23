@@ -98,6 +98,8 @@
   font-family: var(--font-lato);
   font-size: 18px;
   margin-left: 22px;
+  height: 30px;
+  overflow: hidden;
 }
 .assessment-results-result-img {
   margin-left: auto;

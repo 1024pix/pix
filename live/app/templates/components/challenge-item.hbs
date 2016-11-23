@@ -15,11 +15,16 @@
     {{#if hasAttachment}}
       <hr>
       <div class="challenge-attachment">
-        <a href="{{challenge.attachmentUrl}}" class="button" target="_blank"
+        <a href="{{challenge.attachmentUrl}}" class="button challenge-attachment-link" target="_blank"
            download="{{challenge.attachmentFilename}}">
-          <span class="glyphicon glyphicon-download" aria-hidden="true"></span>
-          Télécharger le fichier<br>
-          {{challenge.attachmentFilename}}
+          <div class="challenge-attachment-container">
+            <div>
+              <span class="glyphicon glyphicon-download" aria-hidden="true"></span>
+            </div>
+            <div class="challenge-attachment-instruction">
+              Télécharger le fichier {{challenge.attachmentFilename}}
+            </div>
+          </div>
         </a>
       </div>
     {{/if}}

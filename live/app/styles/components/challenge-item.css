@@ -6,6 +6,14 @@
 - Actions
 */
 
+.challenge-attachment-container {
+  display: flex;
+}
+
+.challenge-attachment-link {
+  max-width: 290px;
+}
+
 .challenge-item {
   font-size: 17px;
 
@@ -29,11 +37,12 @@
     text-align: center;
 
     & a {
-    padding: 0 15px 15px;
+    /*padding: 0 15px 15px;*/
     background-color: var(--pix-blue);
     border-color: var(--pix-blue);
     border-bottom: 1px solid var(--pix-blue1);
     text-transform: uppercase;
+    word-break: break-all;
     text-decoration: none;
     color: white;
 
@@ -47,7 +56,6 @@
       & .glyphicon {
         margin-right: 15px;
         font-size: 30px;
-        top: 18px;
       }
     }
   }

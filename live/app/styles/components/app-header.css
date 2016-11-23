@@ -8,11 +8,14 @@
 }
 
 .app-header-container-marianne {
-  position: absolute;
-  height: 100%;
-  width: 100%; 
-  display: flex;
-  align-items: center;
+  display: none;
+  @media (min-width: 992px) {
+    position: absolute;
+    height: 100%;
+    width: 100%; 
+    display: flex;
+    align-items: center;
+  }
 }
 
 .app-header-marianne {
@@ -32,64 +35,21 @@
   margin-top: 12px;
 }
 
-/*XXX : old way, tech debt*/
-.app-header-started {
-
-  & .navbar {
-    background-color: #fff;
-    border: none;
-    min-height: 80px;
-    margin-top: 0;
-    overflow: visible;
-    z-index: 4;
-    margin-bottom: 0;
-    box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.3);
+.app-header-logo-svg {
+  @media (max-width: 992px) {
+    width: 130px;
+    height: 80px;
   }
 
-  & .navbar-brand {
-    padding: 5px 10px;
-    line-height: 80px;
+}
 
-    & > img {
-      max-height: 80px;
-      padding-bottom: 8px;
-      padding-top: 2px;
-    }
-  }
+.app-header-navbar {
+  background-color: #fff;
+}
 
-  & .navbar-form {
-    margin-top: 23px;
-  }
-  
-  & .navbar-header {
-    margin-top: 12px;
-  }
-
-  & .navbar-nav > li > a {
-    padding-top: 30px;
-    padding-bottom: 30px;
-  }
-
-  & a {
-    font-smoothing: antialiased;
-    font-weight: 700;
-    font-size: 13px;
-    text-transform: uppercase;
-    letter-spacing: .025em;
-    display: inline-block;
-    padding: 22px 20px 18px;
-    color: #3E4149;
-    text-decoration: none;
-    background-color: #fff;
-    width: 100%;
-
-    &:hover,
-    &:focus {
-       color: var(--pix-blue);
-    }
-
-    &:active {
-       color: var(--pix-yellow);
-    }
-  }
+.navbar-header__brand {
+  height: 75px;
+  display: flex;
+  align-items: center;
+  padding-left: 15px;
 }
