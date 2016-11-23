@@ -1,5 +1,9 @@
 # PIX Changelog
 
+## 1.2.1 (24/11/2016)
+
+- [#165](https://github.com/sgmap/pix-live/pull/165) [BUGFIX] Correction de la souscription en tant que beta-testeur.
+
 ## 1.2.0 (24/11/2016)
 
 - [#272](https://github.com/sgmap/pix-live/pull/272) [BUGFIX] Gestion du Responsive Web Design.
