@@ -13,7 +13,7 @@ test:
 
 deployment:
   staging:
-    branch: master
+    branch: dev
     commands:
       - git config --global user.email 'mackwic@gmail.com'
       - git config --global user.name 'Thomas Wickham'
