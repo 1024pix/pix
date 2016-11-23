@@ -2,19 +2,19 @@
 
 ## 1.2.1 (24/11/2016)
 
-- [#165](https://github.com/sgmap/pix-live/pull/165) [BUGFIX] Correction de la souscription en tant que beta-testeur.
+- [#165](https://github.com/sgmap/pix/pull/165) [BUGFIX] Correction de la souscription en tant que beta-testeur.
 
 ## 1.2.0 (24/11/2016)
 
-- [#272](https://github.com/sgmap/pix-live/pull/272) [BUGFIX] Gestion du Responsive Web Design.
-- [#164](https://github.com/sgmap/pix-live/pull/164) [DOC] Ajout du fichier CHANGELOG pour suivre les évolutions de la plateforme.
+- [#272](https://github.com/sgmap/pix/pull/272) [BUGFIX] Gestion du Responsive Web Design.
+- [#164](https://github.com/sgmap/pix/pull/164) [DOC] Ajout du fichier CHANGELOG pour suivre les évolutions de la plateforme.
 
 ## 1.1.0 (23/11/2016)
 
-- [#158](https://github.com/sgmap/pix-live/pull/158) [BUGFIX] Modification du mail Formspree pour contourner momentanément la limite de 1000 bêta-souscripteurs / mois.
-- [#156](https://github.com/sgmap/pix-live/pull/156) [FEATURE] Remplacement du mot "digital" par "numérique". 
-- [#153](https://github.com/sgmap/pix-live/pull/153) [CLEANUP] Ajout de tests pour PIX-API.
-- [#154](https://github.com/sgmap/pix-live/pull/154) [CLEANUP] Remaniement des tests d'acceptance pour PIX-Live.
+- [#158](https://github.com/sgmap/pix/pull/158) [BUGFIX] Modification du mail Formspree pour contourner momentanément la limite de 1000 bêta-souscripteurs / mois.
+- [#156](https://github.com/sgmap/pix/pull/156) [FEATURE] Remplacement du mot "digital" par "numérique". 
+- [#153](https://github.com/sgmap/pix/pull/153) [CLEANUP] Ajout de tests pour PIX-API.
+- [#154](https://github.com/sgmap/pix/pull/154) [CLEANUP] Remaniement des tests d'acceptance pour PIX-Live.
 
 ## 1.0.0 (15/11/2016)
 
