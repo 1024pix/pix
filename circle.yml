@@ -15,15 +15,15 @@ deployment:
   staging:
     branch: dev
     commands:
-      - git config --global user.email 'mackwic@gmail.com'
-      - git config --global user.name 'Thomas Wickham'
+      - git config --global user.email 'jbuget@gmail.com'
+      - git config --global user.name 'Jérémy Buget'
       - make deploy-staging
 
   integration:
     branch: /.*/
     commands:
-      - git config --global user.email 'mackwic@gmail.com'
-      - git config --global user.name 'Thomas Wickham'
+      - git config --global user.email 'jbuget@gmail.com'
+      - git config --global user.name 'Jérémy Buget'
       - make deploy-integration
 
 general:

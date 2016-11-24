@@ -75,8 +75,9 @@
     "start": "ember server",
     "test": "ember test",
     "test:watch": "ember test --serve",
-    "ci:test": "npm run build && ./scripts/ci-test.sh && npm run ci:coverage",
-    "ci:coverage": "COVERALLS_REPO_TOKEN=4N0uyZhpJrg7ta7KAR3rz54qeOoHOmXqL ./node_modules/.bin/coveralls < coverage/lcov.info ; CODECLIMATE_REPO_TOKEN=4be8413753f290bf2f907800f8fe4da302d6e8c35c3d969f5c1ee39e003a14eb codeclimate-test-reporter < coverage/lcov.info ; rm -rf coverage/",
+    //"ci:test": "npm run build && ./scripts/ci-test.sh && npm run ci:coverage",
+    "ci:test": "COVERAGE=true ember test",
+    //"ci:coverage": "COVERALLS_REPO_TOKEN=4N0uyZhpJrg7ta7KAR3rz54qeOoHOmXqL ./node_modules/.bin/coveralls < coverage/lcov.info ; CODECLIMATE_REPO_TOKEN=4be8413753f290bf2f907800f8fe4da302d6e8c35c3d969f5c1ee39e003a14eb codeclimate-test-reporter < coverage/lcov.info ; rm -rf coverage/",
     "deploy:integration": "./scripts/deploy.sh integration",
     "deploy:staging": "./scripts/deploy.sh staging",
     "deploy:production": "./scripts/deploy.sh production"
