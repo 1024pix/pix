@@ -2,7 +2,6 @@ install: install-api install-live
 test:    test-api    test-live
 serve:   serve-api   serve-live
 start:   start-api   start-live
-ci-test: ci-test-api ci-test-live
 
 deploy-integration: deploy-live-integration deploy-api-integration
 deploy-staging: 	  deploy-live-staging 	  deploy-api-staging
@@ -32,11 +31,6 @@ test-watch-live:
 	cd live && npm run test:watch
 test-watch-api:
 	cd api && npm run test:watch
-
-ci-test-api:
-	cd api && npm run lint && npm run coverage
-ci-test-live:
-	cd live && npm run ci:test
 
 deploy-live-integration:
 	cd live && npm run deploy:integration

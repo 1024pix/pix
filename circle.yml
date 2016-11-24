@@ -4,12 +4,13 @@ machine:
 
 dependencies:
   override:
-    - make install
+    - cd api && npm install
+    - cd live && npm run install:all
 
 test:
   override:
-    - mkdir -p $CIRCLE_TEST_REPORTS/junit
-    - make ci-test
+    - cd api && npm run lint && npm run coverage
+    - cd live && npm run ci:test
 
 deployment:
   staging:
@@ -17,14 +18,17 @@ deployment:
     commands:
       - git config --global user.email 'jbuget@gmail.com'
       - git config --global user.name 'Jeremy Buget'
-      - make deploy-staging
+      - cd live && npm run deploy:staging
+      - cd api && npm run deploy:staging
 
   integration:
     branch: /.*/
     commands:
       - git config --global user.email 'jbuget@gmail.com'
       - git config --global user.name 'Jeremy Buget'
-      - make deploy-integration
+      - cd live && npm run deploy:integration
+      - ./live/scripts/signal_deploy_to_pr.sh
+      - cd api && npm run deploy:integration
 
 general:
   branches:
