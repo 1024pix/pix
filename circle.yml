@@ -12,7 +12,7 @@ test:
     - make ci-test
 
 deployment:
-  preprod:
+  staging:
     branch: dev
     commands:
       - git config --global user.email 'jbuget@gmail.com'
