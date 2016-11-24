@@ -73,13 +73,6 @@ module.exports = function (environment) {
           piwikUrl: '//stats.data.gouv.fr',
           siteId: 30
         }
-      },
-      {
-        name: 'GoogleAnalytics',
-        environments: ['integration'],
-        config: {
-          id: 'UA-87429411-1'
-        }
       }
     ];
   }
@@ -93,13 +86,6 @@ module.exports = function (environment) {
           piwikUrl: '//stats.data.gouv.fr',
           siteId: 31
         }
-      },
-      {
-        name: 'GoogleAnalytics',
-        environments: ['staging'],
-        config: {
-          id: 'UA-87429411-1'
-        }
       }
     ];
   }
@@ -112,13 +98,6 @@ module.exports = function (environment) {
         config: {
           piwikUrl: '//stats.data.gouv.fr',
           siteId: 29
-        }
-      },
-      {
-        name: 'GoogleAnalytics',
-        environments: ['production'],
-        config: {
-          id: 'UA-87412969-1'
         }
       }
     ];
