@@ -75,7 +75,7 @@
     "start": "ember server",
     "test": "ember test",
     "test:watch": "ember test --serve",
-    "ci:test": "COVERAGE=true ember test",
+    "ci:test": "ember test",
     "deploy:integration": "./scripts/deploy.sh integration",
     "deploy:staging": "./scripts/deploy.sh staging",
     "deploy:production": "./scripts/deploy.sh production"
