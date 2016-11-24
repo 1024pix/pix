@@ -12,18 +12,18 @@ test:
     - make ci-test
 
 deployment:
-  staging:
+  preprod:
     branch: dev
     commands:
       - git config --global user.email 'jbuget@gmail.com'
-      - git config --global user.name 'Jérémy Buget'
+      - git config --global user.name 'Jeremy Buget'
       - make deploy-staging
 
   integration:
     branch: /.*/
     commands:
       - git config --global user.email 'jbuget@gmail.com'
-      - git config --global user.name 'Jérémy Buget'
+      - git config --global user.name 'Jeremy Buget'
       - make deploy-integration
 
 general:
