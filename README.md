@@ -1,11 +1,9 @@
 PIX
 ===
 
-[![CircleCI](https://circleci.com/gh/sgmap/pix/tree/master.svg?style=svg)](https://circleci.com/gh/sgmap/pix/tree/master)
+[![CircleCI](https://circleci.com/gh/sgmap/pix/tree/dev.svg?style=shield&circle-token=:circle-token)](https://circleci.com/gh/sgmap/pix)
 [![Coverage Status](https://coveralls.io/repos/github/sgmap/pix/badge.svg)](https://coveralls.io/github/sgmap/pix)
 [![Code Climate](https://codeclimate.com/github/sgmap/pix/badges/gpa.svg)](https://codeclimate.com/github/sgmap/pix)
-[![Test Coverage](https://codeclimate.com/github/sgmap/pix/badges/coverage.svg)](https://codeclimate.com/github/sgmap/pix/coverage)
-[![Issue Count](https://codeclimate.com/github/sgmap/pix/badges/issue_count.svg)](https://codeclimate.com/github/sgmap/pix)
 
 Présentation
 ------------
