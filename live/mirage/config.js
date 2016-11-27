@@ -9,6 +9,8 @@ import postAssessments from './routes/post-assessments';
 
 export default function () {
 
+  this.passthrough('/write-coverage');
+
   this.namespace = 'http://localhost:3000/api';
 
   this.passthrough('https://formspree.io/**');

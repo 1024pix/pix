@@ -61,6 +61,7 @@
     "postcss-import": "^8.1.2",
     "postcss-nesting": "^2.3.1",
     "postcss-reporter": "^1.4.1",
+    "replace": "^0.3.0",
     "stylelint": "^7.2.0",
     "stylelint-config-standard": "^13.0.0",
     "tap-xunit": "^1.4.0"
@@ -74,8 +75,12 @@
     "clean:all": "npm run clean && npm run clean:bower && npm run clean:npm",
     "start": "ember server",
     "test": "ember test",
+    "coverage:check": "COVERAGE=true ember test",
+    "coverage:convert": "node scripts/lcov-path-converter",
+    "coverage:rename": "mv coverage/lcov.info ../coverage/live_lcov.info",
+    "coverage": "npm run coverage:check && npm run coverage:convert && npm run coverage:rename",
     "test:watch": "ember test --serve",
-    "ci:test": "ember test",
+    "ci:test": "COVERAGE=true ember test",
     "deploy:integration": "./scripts/deploy.sh integration",
     "deploy:staging": "./scripts/deploy.sh staging",
     "deploy:production": "./scripts/deploy.sh production"

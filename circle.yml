@@ -4,13 +4,11 @@ machine:
 
 dependencies:
   override:
-    - cd api && npm install
-    - cd live && npm run install:all
+    - npm run install:all
 
 test:
   override:
-    - cd api && npm run lint && npm run coverage
-    - cd live && npm run ci:test
+    - npm run coverage
 
 deployment:
   staging:

@@ -1,4 +1,3 @@
-install: install-api install-live
 test:    test-api    test-live
 serve:   serve-api   serve-live
 start:   start-api   start-live
@@ -6,11 +5,6 @@ start:   start-api   start-live
 deploy-integration: deploy-live-integration deploy-api-integration
 deploy-staging: 	  deploy-live-staging 	  deploy-api-staging
 deploy-production:  deploy-live-production  deploy-api-production
-
-install-api:
-	cd api && npm install
-install-live:
-	cd live && npm run install:all
 
 test-api:
 	cd api && npm test
