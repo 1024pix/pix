@@ -12,7 +12,8 @@
   "devDependencies": {
     "codeclimate-test-reporter": "^0.4.0",
     "coveralls": "^2.11.15",
-    "lcov-result-merger": "^1.2.0"
+    "lcov-result-merger": "^1.2.0",
+    "npm-run-all": "^3.1.1"
   },
   "repository": {
     "type": "git",
@@ -20,22 +21,20 @@
   },
   "scripts": {
 
-    /* INSTALL */
+    "help": "",
+
     "install:api": "cd api && npm install",
     "install:live": "cd live && npm run install:all",
     "install:all": "npm install && npm run install:api && npm run install:live",
 
-    /* START */
     "start:api": "cd api && npm start:watch",
     "start:live": "cd live && ember serve",
-    "start": "npm-run-all start:api start:live",
+    "start": "run-p start:api start:live",
 
-    /* TEST*/
     "test:api": "cd api && npm test",
     "test:live": "cd live && npm test",
     "test": "npm run test:api && npm run test:live",
 
-    /* COVERAGE */
     "coverage:clean": "rm -rf ./coverage",
     "coverage:api": "cd api && npm run coverage",
     "coverage:live": "cd live && npm run coverage",
@@ -44,7 +43,6 @@
     "coverage:codeclimate": "cat coverage/lcov.info | CODECLIMATE_REPO_TOKEN=bd614b65638c2cdf55c040a201c45996b8838195786bc522453ee241c9fb2cae ./node_modules/.bin/codeclimate-test-reporter",
     "coverage": "npm run coverage:clean && npm run coverage:api && npm run coverage:live && npm run coverage:merge && npm run coverage:coveralls && npm run coverage:codeclimate",
 
-    /* DEPLOY */
     "deploy:integration:api": "cd api && npm run deploy:integration",
     "deploy:integration:live": "cd live && npm run deploy:integration && ./live/scripts/signal_deploy_to_pr.sh",
     "deploy:integration": "npm run deploy:integration:api && npm run deploy:integration:live",
