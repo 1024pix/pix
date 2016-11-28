@@ -8,7 +8,7 @@ PIX
 Présentation
 ------------
 
-[PIX](https://pix.beta.gouv.fr) s’adresse à tous les citoyen•ne•s français•es (élèves, étudiant•e•s, professionnel•le•s, décrocheur•se•s, demandeur•se•s d’emploi, etc.) qui souhaitent mesurer, développer et valoriser leurs compétences numériques.
+[PIX](https://pix.beta.gouv.fr) s’adresse à tous les citoyen•ne•s francophones (élèves, étudiant•e•s, professionnel•le•s, décrocheur•se•s, demandeur•se•s d’emploi, sénior•e•s, citoyen•ne•s) qui souhaitent mesurer, développer et valoriser leurs compétences numériques.
 
 Le service se présente sous la forme d’une plateforme en ligne d’évaluation et de certification des compétences numériques.
 
@@ -33,10 +33,9 @@ Vous devez au préalable avoir correctement installé les logiciels suivants :
 
 ```bash
 $ git clone git@github.com:sgmap/pix.git && cd pix
-$ make install && (cd api && npm run db:migrate && npm run db:seed)
-$ make test
-$ make serve-api # dans un onglet / terminal dédié à l'API
-$ make serve-live # dans un onglet / terminal dédié au client
+$ npm install
+$ npm test
+$ npm start
 ```
 
 Par défaut, [l'API](http://localhost:3000) tourne en local sur le port 3000 et [l'application cliente](http://localhost:4200) sur le port 4200.
