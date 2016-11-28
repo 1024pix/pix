@@ -9,7 +9,7 @@ import _ from 'lodash/lodash';
 import startApp from '../helpers/start-app';
 import destroyApp from '../helpers/destroy-app';
 
-describe('Acceptance | 02 - Afficher le logo PIX | ', function () {
+describe('Acceptance | a2 - Afficher le logo PIX | ', function () {
 
   let application;
 
@@ -21,15 +21,15 @@ describe('Acceptance | 02 - Afficher le logo PIX | ', function () {
     destroyApp(application);
   });
 
-  it('02.1 Le logo est présent sur la page index', function () {
+  it('a2.1 Le logo est présent sur la page index', function () {
     visit('/');
     andThen(() => {
       findWithAssert($('img[src="images/pix-logo.svg"]'));
     });
   });
 
-  it('02.2 Le logo est présent sur la page d\'une épreuve', function () {
-    visit('/assessments/first_assessment_id/challenges/ref_qcu_challenge_id');
+  it('a2.2 Le logo est présent sur la page d\'une épreuve', function () {
+    visit('/assessments/ref_assessment_id/challenges/ref_qcu_challenge_id');
     andThen(() => {
       findWithAssert($('img[src="images/pix-logo.svg"]'));
     });

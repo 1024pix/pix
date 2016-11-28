@@ -9,7 +9,7 @@ import { expect } from 'chai';
 import startApp from '../helpers/start-app';
 import destroyApp from '../helpers/destroy-app';
 
-describe("Acceptance | 14 - Afficher un QROC | ", function () {
+describe("Acceptance | b4 - Afficher un QROCM | ", function () {
 
   let application;
   let challenge;
@@ -23,20 +23,20 @@ describe("Acceptance | 14 - Afficher un QROC | ", function () {
   });
 
   before(function () {
-    return visit(`/assessments/first_assessment_id/challenges/ref_qrocm_challenge_id`);
+    return visit(`/assessments/ref_assessment_id/challenges/ref_qrocm_challenge_id`);
   });
 
-  it('14.1 It should render challenge instruction', function () {
+  it('b4.1 It should render challenge instruction', function () {
     // instruction is :
     // Un QCM propose plusieurs choix, lutilisateur peut en choisir plusieurs
     expect($('.challenge-instruction').text()).to.equal('Un QROCM est une question ouverte avec plusieurs champs texte libre pour repondre');
   });
 
-  it('14.2 It should display only one input text as proposal to user', function () {
+  it('b4.2 It should display only one input text as proposal to user', function () {
     expect($('.challenge-proposals input[type="text"]')).to.have.lengthOf(3);
   });
 
-  it('14.3 Error alert box should be displayed if user validate without checking a checkbox', function () {
+  it('b4.3 Error alert box should be displayed if user validate without checking a checkbox', function () {
     $('a.challenge-item-actions__validate-action').click();
     andThen(() => {
       expect($('.alert')).to.have.lengthOf(1);

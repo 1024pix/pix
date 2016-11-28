@@ -8,7 +8,7 @@ import refQrocmAnswer          from '../answers/ref-qrocm-answer';
 export default {
   data: {
     type: 'assessments',
-    id: 'first_assessment_id',
+    id: 'ref_assessment_id',
     attributes: {
       "user-id": 'user_id',
       "user-name": 'Jon Snow',

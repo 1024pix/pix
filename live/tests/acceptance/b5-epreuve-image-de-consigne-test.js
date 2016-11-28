@@ -9,7 +9,7 @@ import { expect } from 'chai';
 import startApp from '../helpers/start-app';
 import destroyApp from '../helpers/destroy-app';
 
-describe("Acceptance | 07 - Afficher une image sous la consigne | ", function () {
+describe("Acceptance | b5 - Afficher une image sous la consigne | ", function () {
   let application;
   let challenge;
 
@@ -24,15 +24,15 @@ describe("Acceptance | 07 - Afficher une image sous la consigne | ", function ()
   describe("Quand l'épreuve contient une illustration en consigne", function () {
 
     before(function () {
-      return visit('/assessments/first_assessment_id/challenges/ref_qcm_challenge_id');
+      return visit('/assessments/ref_assessment_id/challenges/ref_qcm_challenge_id');
     });
 
-    it('07.1 Une image unique peut être affichée sous la consigne', function () {
+    it('b5.1 Une image unique peut être affichée sous la consigne', function () {
       const $illustration = findWithAssert('.challenge-illustration > img');
       expect($illustration.length).to.equal(1);
     });
 
-    it('07.2 Cette image a un alt text “ceci est une image”', function () {
+    it('b5.2 Cette image a un alt text “ceci est une image”', function () {
       const $illustration = findWithAssert('.challenge-illustration > img');
       expect($illustration.attr('alt')).to.contains('ceci est une image');
     });
@@ -44,7 +44,7 @@ describe("Acceptance | 07 - Afficher une image sous la consigne | ", function ()
       return visit('/assessments/raw_assessment_id/challenges/raw_qcm_challenge_id');
     });
 
-    it("07.3 La section d'illustration est cachée", function () {
+    it("b5.3 La section d'illustration est cachée", function () {
 
       // We are in a challenge...
       findWithAssert('.challenge-item');

@@ -8,7 +8,7 @@ import { expect } from 'chai';
 import startApp from '../helpers/start-app';
 import destroyApp from '../helpers/destroy-app';
 
-describe('Acceptance | 11 - Prévisualiser une épreuve | ', function () {
+describe('Acceptance | e1 - Prévisualiser une épreuve | ', function () {
 
   let application;
   let challenge;
@@ -21,7 +21,7 @@ describe('Acceptance | 11 - Prévisualiser une épreuve | ', function () {
     destroyApp(application);
   });
 
-  describe('11 - Prévisualiser une épreuve |', function () {
+  describe('e1 - Prévisualiser une épreuve |', function () {
 
     let challengeId;
 
@@ -29,7 +29,7 @@ describe('Acceptance | 11 - Prévisualiser une épreuve | ', function () {
       return visit(`/challenges/ref_qcu_challenge_id/preview`);
     });
 
-    it('11.1 Il est possible de prévisualiser une épreuve en accédant à l\'URL /challenges/:id/preview', function () {
+    it('e1.1 Il est possible de prévisualiser une épreuve en accédant à l\'URL /challenges/:id/preview', function () {
       expect(currentURL()).to.equal(`/challenges/ref_qcu_challenge_id/preview`);
       expect(findWithAssert('#challenge-preview'));
     });
@@ -42,7 +42,7 @@ describe('Acceptance | 11 - Prévisualiser une épreuve | ', function () {
         $challenge = findWithAssert('#challenge-preview');
       });
 
-      it('11.2 la consigne de l\'épreuve', function () {
+      it('e1.2 la consigne de l\'épreuve', function () {
         expect($challenge.find('.challenge-instruction').text()).to.contain('Un QCU propose plusieurs choix, l\'utilisateur peut en choisir un seul');
       });
 
