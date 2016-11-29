@@ -1,4 +1,5 @@
 import '../../test-helper';
+import Ember from 'ember';
 import { expect } from 'chai';
 import { describeModel, it } from 'ember-mocha';
 import { describe } from 'mocha';

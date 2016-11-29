@@ -27,11 +27,13 @@
             {{#if course.imageUrl}}
             <img class="course-picture" src="{{ course.imageUrl }}" alt="Illustration du test">
             {{else}}
-            <img class="course-picture" src="images/course-default-image.png" alt="Illustration du test">
+            <img class="course-picture" src="{{rootURL}}images/course-default-image.png" alt="Illustration du test">
             {{/if}}
 
             <div class="course-content">
-              <h4 class="course-name">{{ course.name }}</h4>
+              <h4 class="course-name">
+                {{ course.name }}
+              </h4>
               <div class="course-description">
                 {{ course.description }}
               </div>

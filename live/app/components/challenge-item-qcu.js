@@ -1,8 +1,5 @@
 import Ember from 'ember';
-import _ from 'lodash/lodash';
 import ChallengeItemGeneric from './challenge-item-generic';
-
-
 
 const ChallengeItemQcu = ChallengeItemGeneric.extend({
 
@@ -22,7 +19,7 @@ const ChallengeItemQcu = ChallengeItemGeneric.extend({
   },
 
   _getErrorMessage() {
-    return "Pour valider, sélectionner une réponse. Sinon, passer.";
+    return 'Pour valider, sélectionner une réponse. Sinon, passer.';
   },
 
   actions: {

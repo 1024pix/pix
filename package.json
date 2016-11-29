@@ -31,7 +31,7 @@
     "start:live": "cd live && ember serve",
     "start": "run-p start:api start:live",
 
-    "test:api": "cd api && npm test",
+    "test:api": "cd api && npm run lint && npm test",
     "test:live": "cd live && npm test",
     "test": "npm run test:api && npm run test:live",
 

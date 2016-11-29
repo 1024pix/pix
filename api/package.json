@@ -59,10 +59,10 @@
     "db:seed": "./node_modules/.bin/knex --knexfile db/knexfile.js seed:run",
     "test": "NODE_ENV=test npm run db:migrate && NODE_ENV=test ./node_modules/.bin/mocha -r tests/setup --recursive tests",
     "test:watch": "npm test -- --watch",
+    "lint": "./node_modules/.bin/eslint lib/**/*.js",
     "coverage:check": "NODE_ENV=test npm run db:migrate && NODE_ENV=test ./node_modules/.bin/istanbul cover --dir '../coverage' _mocha -- -r tests/setup --recursive tests",
     "coverage:rename": "mv ../coverage/lcov.info ../coverage/api_lcov.info",
     "coverage": "npm run coverage:check && npm run coverage:rename",
-    "lint": "./node_modules/.bin/eslint lib/**/*.js",
     "deploy:integration": "./scripts/deploy.sh integration",
     "deploy:staging": "./scripts/deploy.sh staging",
     "deploy:production": "./scripts/deploy.sh production"

@@ -2,16 +2,15 @@ import {
   describe,
   it,
   before,
-  beforeEach,
   after
 } from 'mocha';
 import { expect } from 'chai';
 import startApp from '../helpers/start-app';
 import destroyApp from '../helpers/destroy-app';
 
-describe("Acceptance | b5 - Afficher une image sous la consigne | ", function () {
+describe('Acceptance | b5 - Afficher une image sous la consigne | ', function () {
+
   let application;
-  let challenge;
 
   before(function () {
     application = startApp();
@@ -21,7 +20,7 @@ describe("Acceptance | b5 - Afficher une image sous la consigne | ", function ()
     destroyApp(application);
   });
 
-  describe("Quand l'épreuve contient une illustration en consigne", function () {
+  describe('Quand l\'épreuve contient une illustration en consigne', function () {
 
     before(function () {
       return visit('/assessments/ref_assessment_id/challenges/ref_qcm_challenge_id');
@@ -38,13 +37,13 @@ describe("Acceptance | b5 - Afficher une image sous la consigne | ", function ()
     });
   });
 
-  describe("Quand l'épreuve ne contient pas d'illustration en consigne", function () {
+  describe('Quand l\'épreuve ne contient pas d\'illustration en consigne', function () {
 
     before(function () {
       return visit('/assessments/raw_assessment_id/challenges/raw_qcm_challenge_id');
     });
 
-    it("b5.3 La section d'illustration est cachée", function () {
+    it('b5.3 La section d\'illustration est cachée', function () {
 
       // We are in a challenge...
       findWithAssert('.challenge-item');

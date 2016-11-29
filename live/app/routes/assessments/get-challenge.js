@@ -1,7 +1,7 @@
 import Ember from 'ember';
 import RSVP from 'rsvp';
 import DS from 'ember-data';
-import getChallengeType from '../../utils/get-challenge-type'
+import getChallengeType from '../../utils/get-challenge-type';
 
 export default Ember.Route.extend({
 

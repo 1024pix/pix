@@ -1,3 +1,4 @@
+import Ember from 'ember';
 import DS from 'ember-data';
 
 const { Model, attr, belongsTo } = DS;
@@ -9,15 +10,15 @@ export default Model.extend({
   result: attr('string'),
   assessment: belongsTo('assessment'),
   challenge: belongsTo('challenge'),
-  
+
   isResultOk: computed('result', function () {
-    return this.get('result') === 'ok'
+    return this.get('result') === 'ok';
   }),
   isResultWithoutAnswer: computed('result', function () {
-    return this.get('result') === 'aband'
+    return this.get('result') === 'aband';
   }),
   isResultNotOk: computed('result', function () {
-    return this.get('result') === 'ko'
+    return this.get('result') === 'ko';
   })
 
 });

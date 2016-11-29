@@ -1,18 +1,17 @@
 import refCourse from '../courses/ref-course';
-
-import refQcuAnswer          from '../answers/ref-qcu-answer';
-import refQcmAnswer          from '../answers/ref-qcm-answer';
-import refQrocAnswer          from '../answers/ref-qroc-answer';
-import refQrocmAnswer          from '../answers/ref-qrocm-answer';
+import refQcuAnswer from '../answers/ref-qcu-answer';
+import refQcmAnswer from '../answers/ref-qcm-answer';
+import refQrocAnswer from '../answers/ref-qroc-answer';
+import refQrocmAnswer from '../answers/ref-qrocm-answer';
 
 export default {
   data: {
     type: 'assessments',
     id: 'ref_assessment_id',
     attributes: {
-      "user-id": 'user_id',
-      "user-name": 'Jon Snow',
-      "user-email": 'jsnow@winterfell.got'
+      'user-id': 'user_id',
+      'user-name': 'Jon Snow',
+      'user-email': 'jsnow@winterfell.got'
     },
     relationships: {
       course: {
@@ -38,4 +37,4 @@ export default {
       }
     }
   }
-}
+};

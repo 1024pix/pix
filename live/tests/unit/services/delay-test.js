@@ -24,6 +24,6 @@ describeModule(
       expect(delay).to.respondsTo('ms');
       let promise = delay.ms(0);
       expect(promise).to.respondsTo('then');
-    })
+    });
   }
 );

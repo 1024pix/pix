@@ -1,8 +1,6 @@
 import Ember from 'ember';
 import callOnlyOnce from '../utils/call-only-once';
 
-const { computed, inject } = Ember;
-
 const ChallengeItemGeneric = Ember.Component.extend({
 
   /* CSS properties
@@ -26,7 +24,7 @@ const ChallengeItemGeneric = Ember.Component.extend({
       illustrationUrl: this.get('challenge.illustrationUrl'),
       attachmentUrl: this.get('challenge.attachmentUrl'),
       attachmentFilename: this.get('challenge.attachmentFilename')
-    }
+    };
   }),
 
   /* Actions
@@ -45,7 +43,7 @@ const ChallengeItemGeneric = Ember.Component.extend({
 
     skip: callOnlyOnce(function () {
       this.set('errorMessage', null);
-      this.sendAction('onValidated', this.get('challenge'), this.get('assessment'), '#ABAND#')
+      this.sendAction('onValidated', this.get('challenge'), this.get('assessment'), '#ABAND#');
     })
   }
 

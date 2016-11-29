@@ -1,12 +1,14 @@
 import '../../test-helper';
+import Ember from 'ember';
 import { expect } from 'chai';
 import { describeModel, it } from 'ember-mocha';
 
-describeModel('answer',  'Unit | Model | Answer', {
+describeModel('answer', 'Unit | Model | Answer',
+  {
     needs: ['model:assessment', 'model:challenge']
-  }, function() {
+  }, function () {
 
-    it('exists', function() {
+    it('exists', function () {
       let model = this.subject();
       expect(model).to.be.ok;
     });
@@ -17,7 +19,7 @@ describeModel('answer',  'Unit | Model | Answer', {
         Ember.run(() => {
           // given
           const store = this.store();
-          const answer = store.createRecord('answer', {'result': 'ok'});
+          const answer = store.createRecord('answer', { 'result': 'ok' });
 
           expect(answer.get('isResultOk')).to.equal(true);
         });

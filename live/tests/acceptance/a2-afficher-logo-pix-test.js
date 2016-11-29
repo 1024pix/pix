@@ -4,8 +4,6 @@ import {
   before,
   after
 } from 'mocha';
-import { expect } from 'chai';
-import _ from 'lodash/lodash';
 import startApp from '../helpers/start-app';
 import destroyApp from '../helpers/destroy-app';
 

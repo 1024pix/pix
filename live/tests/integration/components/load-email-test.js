@@ -1,4 +1,3 @@
-/* jshint expr:true */
 import { expect } from 'chai';
 import {
   describeComponent,
@@ -8,7 +7,7 @@ import hbs from 'htmlbars-inline-precompile';
 
 describeComponent(
   'load-email',
-  'Integration: LoadEmailComponent',
+  'Integration | LoadEmailComponent',
   {
     integration: true
   },

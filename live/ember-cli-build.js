@@ -66,7 +66,6 @@ module.exports = function (defaults) {
   app.import('bower_components/bootstrap/dist/js/bootstrap.js');
   app.import('bower_components/showdown/dist/showdown.js');
   app.import('bower_components/showdown-target-blank/dist/showdown-target-blank.js');
-  app.import('bower_components/raven-js/dist/raven.js');
 
   if (app.env !== 'test') {
     // css animations
@@ -78,7 +77,10 @@ module.exports = function (defaults) {
     app.import({
       development: 'bower_components/loaders.css/loaders.css',
       production: 'bower_components/loaders.css/loaders.min.css'
-    })
+    });
+
+    app.import('bower_components/raven-js/dist/raven.js');
+    app.import('bower_components/raven-js/dist/plugins/ember.js');
   }
 
   return app.toTree();

@@ -1,9 +1,4 @@
-import {
-  describe,
-  it,
-  before,
-  after
-} from 'mocha';
+import { describe, it, before, after } from 'mocha';
 import { expect } from 'chai';
 import startApp from '../helpers/start-app';
 import destroyApp from '../helpers/destroy-app';
@@ -24,7 +19,7 @@ describe('Acceptance | a3 - voir la liste des tests', function () {
     return visit('/');
   });
 
-  it("a3.1 on affiche autant de tests que remontés par l'API", function () {
+  it('a3.1 on affiche autant de tests que remontés par l\'API', function () {
     expect(findWithAssert('.course')).to.have.lengthOf(2);
   });
 
@@ -58,7 +53,7 @@ describe('Acceptance | a3 - voir la liste des tests', function () {
 
   });
 
-  it('a3.3 pour un test dont il manque l\'image, on affiche une image placeholder', function() {
+  it('a3.3 pour un test dont il manque l\'image, on affiche une image placeholder', function () {
     const $course = findWithAssert('.course[data-id="raw_course_id"]');
     expect($course.find('img')[0].src).to.contains('images/course-default-image.png');
   });

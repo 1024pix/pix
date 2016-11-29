@@ -2,17 +2,15 @@ import {
   describe,
   it,
   before,
-  beforeEach,
   after
 } from 'mocha';
 import { expect } from 'chai';
 import startApp from '../helpers/start-app';
 import destroyApp from '../helpers/destroy-app';
 
-describe("Acceptance | b7 - Points communs a toutes les épreuves | ", function () {
+describe('Acceptance | b7 - Points communs a toutes les épreuves | ', function () {
 
   let application;
-  let challenge;
 
   before(function () {
     application = startApp();
@@ -23,7 +21,7 @@ describe("Acceptance | b7 - Points communs a toutes les épreuves | ", function 
   });
 
   before(function () {
-    return visit(`/assessments/ref_assessment_id/challenges/ref_qrocm_challenge_id`);
+    return visit('/assessments/ref_assessment_id/challenges/ref_qrocm_challenge_id');
   });
 
   it('b7.0 Le nom du test est affiché', function() {
@@ -34,14 +32,14 @@ describe("Acceptance | b7 - Points communs a toutes les épreuves | ", function 
     expect($('.challenge-instruction').text()).to.equal('Un QROCM est une question ouverte avec plusieurs champs texte libre pour repondre');
   });
 
-  it("b7.2a Le contenu de type [foo](bar) doit être converti sous forme de lien", function() {
+  it('b7.2a Le contenu de type [foo](bar) doit être converti sous forme de lien', function() {
     let $links = findWithAssert('.challenge-instruction a');
     expect($links.length).to.equal(1);
     expect($links.text()).to.equal('ouverte');
     expect($links.attr('href')).to.equal('http://link.ouverte.url');
   });
 
-  it("b7.2b Les liens doivent s'ouvrir dans un nouvel onglet", function() {
+  it('b7.2b Les liens doivent s\'ouvrir dans un nouvel onglet', function() {
     let $links = findWithAssert('.challenge-instruction a');
     expect($links.attr('target')).to.equal('_blank');
   });

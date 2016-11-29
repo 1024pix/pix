@@ -2,8 +2,6 @@ import Ember from 'ember';
 import _ from 'lodash/lodash';
 import ChallengeItemGeneric from './challenge-item-generic';
 
-
-
 const ChallengeItemQroc = ChallengeItemGeneric.extend({
 
   _hasError: function () {
@@ -17,7 +15,7 @@ const ChallengeItemQroc = ChallengeItemGeneric.extend({
   },
 
   _getErrorMessage() {
-    return "Pour valider, saisir une réponse. Sinon, passer.";
+    return 'Pour valider, saisir une réponse. Sinon, passer.';
   },
 
   actions: {
