@@ -2,14 +2,14 @@
 
 ## 2.0.0 (30/11/2016)
 
-- [#181] [INFRA] Mise en place de npm-run-all pour faciliter et accélérer le développement.
-- [#285] [CLEANUP] Suppression de tout code lié à la session.
-- [#177] [CLEANUP] Remise en route du linter.
-- [#175] [CLEANUP] Montée de version des dépendances.
-- [#174] [CLEANUP] Refactoring du composant challenge-item.
-- [#173] [INFRA] Réactivation et consolidation de la couverture de code du projet.
-- [#172] [CLEANUP] suppression du cache pour le contrôleur "GET /courses" dans l'API.
-- [#171] [INFRA] Changement de la configuration de l'intégration continue CircleCI.
+- [#181](https://github.com/sgmap/pix/pull/181) [INFRA] Mise en place de npm-run-all pour faciliter et accélérer le développement.
+- [#285](https://github.com/sgmap/pix/pull/285) [CLEANUP] Suppression de tout code lié à la session.
+- [#177](https://github.com/sgmap/pix/pull/177) [CLEANUP] Remise en route du linter.
+- [#175](https://github.com/sgmap/pix/pull/175) [CLEANUP] Montée de version des dépendances.
+- [#174](https://github.com/sgmap/pix/pull/174) [CLEANUP] Refactoring du composant challenge-item.
+- [#173](https://github.com/sgmap/pix/pull/173) [INFRA] Réactivation et consolidation de la couverture de code du projet.
+- [#172](https://github.com/sgmap/pix/pull/172) [CLEANUP] suppression du cache pour le contrôleur "GET /courses" dans l'API.
+- [#171](https://github.com/sgmap/pix/pull/171) [INFRA] Changement de la configuration de l'intégration continue CircleCI.
 
 ## 1.2.1 (24/11/2016)
 
