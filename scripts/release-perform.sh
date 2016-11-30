@@ -15,6 +15,17 @@ YELLOW="$(tput bold ; tput setaf 3)"
 BLUE="$(tput bold ; tput setaf 4)"
 CYAN="$(tput bold ; tput setaf 6)"
 
+# Creates new release branch
+# https://gist.github.com/DarrenN/8c6a5b969481725a4413
+PACKAGE_VERSION=$(cat package.json \
+  | grep version \
+  | head -1 \
+  | awk -F: '{ print $2 }' \
+  | sed 's/[",]//g' \
+  | tr -d '[[:space:]]')
+
+echo -e "Beginning release performing for version ${GREEN}$PACKAGE_VERSION${RESET_COLOR}.\n"
+
 # Checks that current branch is a 'release' one
 CURRENT_BRANCH=$(git rev-parse --abbrev-ref HEAD)
 if [[ "$CURRENT_BRANCH" != release-* ]];
@@ -36,4 +47,12 @@ git add CHANGELOG.md
 git commit -m "Update CHANGELOG.md"
 git push origin $CURRENT_BRANCH
 
-#
+# Merge 'release' branch on 'dev' one
+git checkout dev
+git merge origin/$CURRENT_BRANCH
+git push origin dev
+echo -e "You are now on branch ${YELLOW}dev{RESET_COLOR}.\n"
+
+echo -e "From now create a ${CYAN}Pull Request${RESET_COLOR} on GitHub, checks that all is ok on ${CYAN}staging${RESET_COLOR} environment and then execute ${CYAN}release:publish${RESET_COLOR} NPM task.\n"
+
+echo -e "Release performing ${GREEN}succeeded${RESET_COLOR}."
