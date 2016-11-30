@@ -5,17 +5,17 @@ env:
   node: true
 rules:
   indent:
-    - error
+    - 2
     - 2
     - SwitchCase: 1
   linebreak-style:
-    - error
+    - 2
     - unix
   quotes:
-    - error
+    - 2
     - single
   semi:
-    - error
+    - 2
     - always
 parserOptions:
   ecmaVersion: 6
