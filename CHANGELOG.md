@@ -2,6 +2,7 @@
 
 ## 2.0.0 (30/11/2016)
 
+- [#160](https://github.com/sgmap/pix/pull/160) [FEATURE] Suppression du tracking Google Analytics.
 - [#181](https://github.com/sgmap/pix/pull/181) [INFRA] Mise en place de npm-run-all pour faciliter et accélérer le développement.
 - [#285](https://github.com/sgmap/pix/pull/285) [CLEANUP] Suppression de tout code lié à la session.
 - [#177](https://github.com/sgmap/pix/pull/177) [CLEANUP] Remise en route du linter.
