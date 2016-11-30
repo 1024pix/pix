@@ -55,6 +55,6 @@
 
     "release:prepare": "./scripts/release-prepare.sh",
     "release:perform": "./scripts/release-perform.sh",
-    "release:deploy": "./scripts/release-deploy.sh"
+    "release:publish": "./scripts/release-publish.sh"
   }
 }

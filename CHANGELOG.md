@@ -1,5 +1,7 @@
 # PIX Changelog
 
+
+
 ## 1.2.1 (24/11/2016)
 
 - [#165](https://github.com/sgmap/pix/pull/165) [BUGFIX] Correction de la souscription en tant que beta-testeur.
