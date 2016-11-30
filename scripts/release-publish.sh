@@ -61,13 +61,16 @@ git tag -a $PACKAGE_VERSION -m "Release version $PACKAGE_VERSION"
 git push origin $PACKAGE_VERSION
 
 # Remove local branch 'gh-pages' if exists, then fetch it from remote
-if [ -z $(git show-ref gh-pages) ];
+GH_PAGES_BRANCH="gh-pages"
+if git rev-parse --quiet --verify $GH_PAGES_BRANCH > /dev/null;
 then
-    git branch -D gh-pages
+    git branch -D $GH_PAGES_BRANCH
 fi
-git checkout -b gh-pages origin/gh-pages
+git checkout -b $GH_PAGES_BRANCH origin/gh-pages
 
+# Deploy the application into production
 npm run deploy:production
+
 git checkout dev
 echo -e "You are now on branch ${YELLOW}dev${RESET_COLOR}.\n"
 
