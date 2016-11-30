@@ -47,10 +47,11 @@ git fetch --all
 
 # Remove local branch 'release' if exists, then create it
 RELEASE_BRANCH="release-$PACKAGE_VERSION"
-if [ -z $(git show-ref $RELEASE_BRANCH) ];
+if git rev-parse --quiet --verify $RELEASE_BRANCH > /dev/null;
 then
     git branch -D $RELEASE_BRANCH
 fi
+
 git checkout -b $RELEASE_BRANCH
 echo -e "You are now on branch ${YELLOW}$RELEASE_BRANCH${RESET_COLOR}.\n"
 
