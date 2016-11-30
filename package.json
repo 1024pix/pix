@@ -51,6 +51,10 @@
     "deploy:staging": "npm run deploy:staging:api && npm run deploy:staging:live",
     "deploy:production:api": "cd api && npm run deploy:production",
     "deploy:production:live": "cd live && npm run deploy:production",
-    "deploy:production": "npm run deploy:production:api && npm run deploy:production:live"
+    "deploy:production": "npm run deploy:production:api && npm run deploy:production:live",
+
+    "release:prepare": "./scripts/release-prepare.sh",
+    "release:perform": "./scripts/release-perform.sh",
+    "release:deploy": "./scripts/release-deploy.sh"
   }
 }
