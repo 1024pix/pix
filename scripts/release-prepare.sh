@@ -49,7 +49,7 @@ git fetch --all
 RELEASE_BRANCH="release-$PACKAGE_VERSION"
 if [ -z $(git show-ref $RELEASE_BRANCH) ];
 then
-    git branch -D gh-pages
+    git branch -D $RELEASE_BRANCH
 fi
 git checkout -b $RELEASE_BRANCH
 echo -e "You are now on branch ${YELLOW}$RELEASE_BRANCH${RESET_COLOR}.\n"
