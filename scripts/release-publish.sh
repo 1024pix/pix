@@ -51,8 +51,9 @@ echo -e "You are now on branch ${YELLOW}master${RESET_COLOR}.\n"
 git merge origin/dev
 git push origin master
 git tag -a $PACKAGE_VERSION -m "Release version $PACKAGE_VERSION"
-git push $PACKAGE_VERSION
+git push origin $PACKAGE_VERSION
 
+npm run deploy:production
 git checkout dev
 echo -e "You are now on branch ${YELLOW}dev${RESET_COLOR}.\n"
 
