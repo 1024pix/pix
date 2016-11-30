@@ -47,12 +47,6 @@ git add CHANGELOG.md
 git commit -m "Update CHANGELOG.md"
 git push origin $CURRENT_BRANCH
 
-# Merge 'release' branch on 'dev' one
-git checkout dev
-git merge origin/$CURRENT_BRANCH
-git push origin dev
-echo -e "You are now on branch ${YELLOW}dev{RESET_COLOR}.\n"
-
-echo -e "From now create a ${CYAN}Pull Request${RESET_COLOR} on GitHub, checks that all is ok on ${CYAN}staging${RESET_COLOR} environment and then execute ${CYAN}release:publish${RESET_COLOR} NPM task.\n"
+echo -e "From now checks that all is ok on ${CYAN}http://$CURRENT_BRANCH.pix.beta.gouv.fr${RESET_COLOR} environment and then execute ${CYAN}release:publish${RESET_COLOR} NPM task.\n"
 
 echo -e "Release performing ${GREEN}succeeded${RESET_COLOR}."

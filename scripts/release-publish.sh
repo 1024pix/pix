@@ -26,11 +26,11 @@ PACKAGE_VERSION=$(cat package.json \
 
 echo -e "Beginning release pulication for version ${GREEN}$PACKAGE_VERSION${RESET_COLOR}.\n"
 
-# Checks we are on branch 'dev'
+# Checks that current branch is a 'release' one
 CURRENT_BRANCH=$(git rev-parse --abbrev-ref HEAD)
-if [ "$CURRENT_BRANCH" != "dev" ];
+if [[ "$CURRENT_BRANCH" != release-* ]];
 then
-  echo -e "${RED}Wrong branch!${RESET_COLOR} You must be on branch ${GREEN}dev${RESET_COLOR} in order to make a release but your current one is ${RED}${CURRENT_BRANCH}${RESET_COLOR}.\n"
+  echo "${RED}Wrong branch!${RESET_COLOR} You must be on a release branch as ${GREEN}release-x.y.z${RESET_COLOR} in order to perform the release but your current one is ${RED}${CURRENT_BRANCH}${RESET_COLOR}."
   exit 1
 fi
 
@@ -42,16 +42,27 @@ then
     exit 1
 fi
 
+# Merge 'release' branch on 'dev'
+git checkout dev
+git merge $CURRENT_BRANCH
+git push origin dev
+echo -e "You are now on branch ${YELLOW}dev${RESET_COLOR}.\n"
+
 # Fetches all last changes
 git fetch --all
 
 git checkout master
 echo -e "You are now on branch ${YELLOW}master${RESET_COLOR}.\n"
 
-git merge origin/dev
+# Merge 'dev' branch on 'master'
+git merge dev
 git push origin master
 git tag -a $PACKAGE_VERSION -m "Release version $PACKAGE_VERSION"
 git push origin $PACKAGE_VERSION
+
+# Checks that 'gh-pages' is up-to-date
+git branch -D gh-pages
+git checkout -b gh-pages origin/gh-pages
 
 npm run deploy:production
 git checkout dev
