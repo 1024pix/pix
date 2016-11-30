@@ -33,7 +33,7 @@ Vous devez au préalable avoir correctement installé les logiciels suivants :
 
 ```bash
 $ git clone git@github.com:sgmap/pix.git && cd pix
-$ npm install
+$ npm run install:all
 $ npm test
 $ npm start
 ```
