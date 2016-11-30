@@ -5,27 +5,27 @@ import refQrocmChallengeFull from '../challenges/ref-qrocm-challenge';
 
 export default {
   data: {
-    type: "courses",
-    id: "ref_course_id",
+    type: 'courses',
+    id: 'ref_course_id',
     attributes: {
-      name: "First Course",
-      description: "Contient toutes les sortes d\'epreuves",
+      name: 'First Course',
+      description: 'Contient toutes les sortes d\'epreuves',
       duration: 10,
-      "image-url": 'http://fakeimg.pl/350x200/?text=First%20Course'
+      'image-url': 'http://fakeimg.pl/350x200/?text=First%20Course'
     },
     relationships: {
       challenges: {
         data: [{
-          type: "challenges",
+          type: 'challenges',
           id: refQcmChallengeFull.data.id
         }, {
-          type: "challenges",
+          type: 'challenges',
           id: refQcuChallengeFull.data.id
         }, {
-          type: "challenges",
+          type: 'challenges',
           id: refQrocChallengeFull.data.id
         }, {
-          type: "challenges",
+          type: 'challenges',
           id: refQrocmChallengeFull.data.id
         }]
       }

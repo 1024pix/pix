@@ -4,22 +4,24 @@
 
           {{#each model as |course|}}
               <li class="col-md-4 course-item animated fadeIn">
-                  <div class="rounded-panel course" data-id="{{ course.id }}">
+                  <div class="rounded-panel course" data-id="{{course.id}}">
                     {{#if course.imageUrl}}
-                        <img class="course-picture" src="{{ course.imageUrl }}" alt="Illustration du test">
+                        <img class="course-picture" src="{{course.imageUrl}}" alt="Illustration du test">
                     {{else}}
-                        <img class="course-picture" src="images/course-default-image.png" alt="Illustration du test">
+                        <img class="course-picture" src="{{rootURL}}images/course-default-image.png" alt="Illustration du test">
                     {{/if}}
 
                       <div class="course-content">
-                          <h4 class="course-name">{{ course.name }}</h4>
+                          <h4 class="course-name">
+                            {{course.name}}
+                          </h4>
                           <div class="course-description">
-                            {{ course.description }}
+                            {{course.description}}
                           </div>
                       </div>
 
                       <div class="course-number-of-challenges">
-                        {{ course.challenges.length }} épreuves
+                        {{course.challenges.length}} épreuves
                       </div>
                       <div class="course-actions">
                         {{#link-to "courses.create-assessment" course.id class="button button-primary start-button"}}

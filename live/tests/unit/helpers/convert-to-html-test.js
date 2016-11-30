@@ -1,4 +1,3 @@
-/* jshint expr:true */
 import { expect } from 'chai';
 import {
   describe,
@@ -8,11 +7,10 @@ import {
   convertToHtml
 } from 'pix-live/helpers/convert-to-html';
 
-describe('ConvertToHtmlHelper', function() {
+describe('Unit | Helpers | ConvertToHtmlHelper', function() {
   // Replace this with your real tests.
   it('works', function() {
-    let conversion = convertToHtml(['**a bold sentence**']);
-    let boldSentence = conversion;
+    let boldSentence = convertToHtml(['**a bold sentence**']);
     expect(boldSentence).to.equal('<p><strong>a bold sentence</strong></p>');
   });
   it('skip call with bad arg', function() {

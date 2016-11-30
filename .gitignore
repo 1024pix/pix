@@ -3,6 +3,7 @@
 # compiled output
 **/dist
 **/tmp
+**/coverage
 
 # dependencies
 **/node_modules

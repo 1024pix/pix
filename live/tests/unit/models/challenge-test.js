@@ -1,6 +1,5 @@
 import { expect } from 'chai';
 import { describeModel, it } from 'ember-mocha';
-import { describe } from "mocha";
 
 describeModel(
   'challenge',

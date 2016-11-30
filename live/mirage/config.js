@@ -9,9 +9,11 @@ import postAssessments from './routes/post-assessments';
 
 export default function () {
 
-  this.namespace = 'http://localhost:3000/api';
-
+  this.passthrough('/write-coverage');
   this.passthrough('https://formspree.io/**');
+  this.post('https://sentry.io/**', () => {});
+
+  this.namespace = 'http://localhost:3000/api';
 
   this.get('/courses', getCourses);
   this.get('/courses/:id', getCourse);

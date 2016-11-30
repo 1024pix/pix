@@ -3,19 +3,14 @@ import RSVP from 'rsvp';
 
 export default Ember.Route.extend({
 
-  session: Ember.inject.service(),
-
   model(params) {
 
     const store = this.get('store');
     return store.findRecord('course', params.course_id).then((course) => {
 
-      // FIXME : add (route?) tests
-      const userName = `${this.get('session.user.firstName')} ${this.get('session.user.lastName')}`;
-      const userEmail = this.get('session.user.email');
-
+      // No auth yet, therefore userName and userEmail are null.
       return store
-        .createRecord('assessment', { course, userName, userEmail })
+        .createRecord('assessment', { course, userName:null, userEmail:null })
         .save()
         .then((assessment) => {
           return RSVP.hash({

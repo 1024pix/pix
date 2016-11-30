@@ -1,5 +1,3 @@
-'use strict';
-
 let plugins = [{ register: require('blipp') }];
 
 if (process.env.NODE_ENV === 'test') {

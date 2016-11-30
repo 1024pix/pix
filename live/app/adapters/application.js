@@ -1,9 +1,9 @@
-import DS from 'ember-data'
-import ENV from 'pix-live/config/environment';
+import DS from 'ember-data';
+import config from '../config/environment';
 
 export default DS.JSONAPIAdapter.extend({
 
   namespace: 'api',
-  host: ENV.APP.API_HOST
+  host: config.APP.API_HOST
 
 });

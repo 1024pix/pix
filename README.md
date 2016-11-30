@@ -1,12 +1,14 @@
 PIX
 ===
 
-[![CircleCI](https://circleci.com/gh/sgmap/pix-live/tree/master.svg?style=svg)](https://circleci.com/gh/sgmap/pix-live/tree/master) [![Coverage Status](https://coveralls.io/repos/github/sgmap/pix-live/badge.svg?branch=master)](https://coveralls.io/github/sgmap/pix-live?branch=master) [![Code Climate](https://codeclimate.com/github/sgmap/pix-live/badges/gpa.svg)](https://codeclimate.com/github/sgmap/pix-live) [![Issue Count](https://codeclimate.com/github/sgmap/pix-live/badges/issue_count.svg)](https://codeclimate.com/github/sgmap/pix-live)
+[![CircleCI](https://circleci.com/gh/sgmap/pix/tree/dev.svg?style=shield&circle-token=:circle-token)](https://circleci.com/gh/sgmap/pix)
+[![Coverage Status](https://coveralls.io/repos/github/sgmap/pix/badge.svg)](https://coveralls.io/github/sgmap/pix)
+[![Code Climate](https://codeclimate.com/github/sgmap/pix/badges/gpa.svg)](https://codeclimate.com/github/sgmap/pix)
 
 Présentation
 ------------
 
-[PIX](https://pix.beta.gouv.fr) s’adresse à tous les citoyen•ne•s français•es (élèves, étudiant•e•s, professionnel•le•s, décrocheur•se•s, demandeur•se•s d’emploi, etc.) qui souhaitent mesurer, développer et valoriser leurs compétences numériques.
+[PIX](https://pix.beta.gouv.fr) s’adresse à tous les citoyen•ne•s francophones (élèves, étudiant•e•s, professionnel•le•s, décrocheur•se•s, demandeur•se•s d’emploi, sénior•e•s, citoyen•ne•s) qui souhaitent mesurer, développer et valoriser leurs compétences numériques.
 
 Le service se présente sous la forme d’une plateforme en ligne d’évaluation et de certification des compétences numériques.
 
@@ -30,11 +32,10 @@ Vous devez au préalable avoir correctement installé les logiciels suivants :
 ### Instructions
 
 ```bash
-$ git clone git@github.com:sgmap/pix-live.git pix && cd pix
-$ make install && (cd api && npm run db:migrate && npm run db:seed)
-$ make test
-$ make serve-api # dans un onglet / terminal dédié à l'API
-$ make serve-live # dans un onglet / terminal dédié au client
+$ git clone git@github.com:sgmap/pix.git && cd pix
+$ npm run install:all
+$ npm test
+$ npm start
 ```
 
 Par défaut, [l'API](http://localhost:3000) tourne en local sur le port 3000 et [l'application cliente](http://localhost:4200) sur le port 4200.

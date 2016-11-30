@@ -1,0 +1,27 @@
+
+{{challenge-instruction instruction=instruction}}
+
+<div class="rounded-panel challenge-response">
+    <div class="challenge-proposals">
+
+      {{#each challenge._proposalsAsArray as |proposal index|}}
+          <p class="challenge-proposal">
+              <label>{{radio-button name="proposals" value=index checked=selectedProposal}} {{ proposal }}</label>
+          </p>
+      {{/each}}
+
+    </div>
+</div>
+
+{{#if errorMessage}}
+    <div class="alert alert-danger" role="alert">
+      {{errorMessage}}
+    </div>
+{{/if}}
+
+{{#if assessment}}
+  {{challenge-actionbar
+      skip="skip"
+      validate="validate"}}
+{{/if}}
+

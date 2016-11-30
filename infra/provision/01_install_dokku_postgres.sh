@@ -1,4 +1,5 @@
 #! /bin/bash
+#! /bin/bash
 set -eu
 
 dokku plugin:install https://github.com/dokku/dokku-postgres.git postgres || true

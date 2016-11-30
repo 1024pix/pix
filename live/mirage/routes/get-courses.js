@@ -1,7 +1,5 @@
 import refCourse from '../data/courses/ref-course';
-import rawCourse      from '../data/courses/raw-course';
-
-
+import rawCourse from '../data/courses/raw-course';
 
 export default function () {
   return {
@@ -9,5 +7,5 @@ export default function () {
       refCourse.data,
       rawCourse.data
     ]
-  }
+  };
 }

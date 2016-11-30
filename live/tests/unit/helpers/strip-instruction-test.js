@@ -1,4 +1,3 @@
-/* jshint expr:true */
 import { expect } from 'chai';
 import {
   describe,
@@ -8,7 +7,7 @@ import {
   stripInstruction
 } from 'pix-live/helpers/strip-instruction';
 
-describe('StripInstructionHelper', function() {
+describe('Unit | Helpers | StripInstructionHelper', function() {
   // Replace this with your real tests.
   it('works', function() {
     let result = stripInstruction(['<div class="paragraph"><strong>a bold sentence</strong></div>']);

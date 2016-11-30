@@ -1,6 +1,7 @@
 import Ember from 'ember';
 import RSVP from 'rsvp';
 import DS from 'ember-data';
+import getChallengeType from '../../utils/get-challenge-type';
 
 export default Ember.Route.extend({
 
@@ -54,6 +55,10 @@ export default Ember.Route.extend({
       .then((course) => course.getProgress(model.challenge));
 
     controller.set('progress', DS.PromiseObject.create({ promise: progressToSet }));
+
+    const challengeType =  getChallengeType(model.challenge.get('type'));
+    controller.set('challengeItemType', 'challenge-item-' + challengeType);
+
   },
 
   serialize: function (model) {

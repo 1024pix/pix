@@ -1,4 +1,3 @@
-/* jshint expr:true */
 import { expect } from 'chai';
 import {
   describeComponent,
@@ -8,7 +7,7 @@ import hbs from 'htmlbars-inline-precompile';
 
 describeComponent(
   'get-result',
-  'Integration: GetResultComponent',
+  'Integration | GetResultComponent',
   {
     integration: true
   },

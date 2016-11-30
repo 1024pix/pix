@@ -1,0 +1,23 @@
+<div class="rounded-panel challenge-statement">
+
+  {{#if instruction.text}}
+      <div class="challenge-instruction">{{ markdown-to-html extensions='targetBlank' markdown=instruction.text }}</div>
+  {{/if}}
+
+  {{#if instruction.illustrationUrl}}
+      <hr>
+      <div class=" challenge-illustration">
+          <img src="{{ instruction.illustrationUrl }}" alt="ceci est une image">
+      </div>
+  {{/if}}
+  {{#if instruction.attachmentUrl}}
+      <hr>
+      <div class="challenge-attachment">
+          <a href="{{instruction.attachmentUrl}}" class="button" target="_blank">
+              <span class="glyphicon glyphicon-download" aria-hidden="true"></span>
+              Télécharger le fichier<br>
+            {{instruction.attachmentFilename}}
+          </a>
+      </div>
+  {{/if}}
+</div>

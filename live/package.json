@@ -1,6 +1,6 @@
 {
   "name": "pix-live",
-  "version": "1.2.1",
+  "version": "2.0.0-SNAPSHOT",
   "description": "Plateforme d'évaluation et de certification des compétences numériques à l'usage de tous les citoyens francophones.",
   "private": true,
   "directories": {
@@ -9,7 +9,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+ssh://git@github.com/sgmap/pix-live.git"
+    "url": "git+ssh://git@github.com/sgmap/pix.git"
   },
   "engines": {
     "node": ">= 6.9.0"
@@ -31,7 +31,7 @@
     "ember-cli-circleci": "0.1.0",
     "ember-cli-code-coverage": "0.2.2",
     "ember-cli-dependency-checker": "^1.3.0",
-    "ember-cli-eslint": "1.7.0",
+    "ember-cli-eslint": "3.0.0",
     "ember-cli-google-fonts": "^2.3.1",
     "ember-cli-htmlbars": "^1.1.0",
     "ember-cli-htmlbars-inline-precompile": "^0.3.5",
@@ -61,6 +61,7 @@
     "postcss-import": "^8.1.2",
     "postcss-nesting": "^2.3.1",
     "postcss-reporter": "^1.4.1",
+    "replace": "^0.3.0",
     "stylelint": "^7.2.0",
     "stylelint-config-standard": "^13.0.0",
     "tap-xunit": "^1.4.0"
@@ -74,9 +75,12 @@
     "clean:all": "npm run clean && npm run clean:bower && npm run clean:npm",
     "start": "ember server",
     "test": "ember test",
+    "coverage:check": "COVERAGE=true ember test",
+    "coverage:convert": "node scripts/lcov-path-converter",
+    "coverage:rename": "mv coverage/lcov.info ../coverage/live_lcov.info",
+    "coverage": "npm run coverage:check && npm run coverage:convert && npm run coverage:rename",
     "test:watch": "ember test --serve",
-    "ci:test": "npm run build && ./scripts/ci-test.sh && npm run ci:coverage",
-    "ci:coverage": "COVERALLS_REPO_TOKEN=4N0uyZhpJrg7ta7KAR3rz54qeOoHOmXqL ./node_modules/.bin/coveralls < coverage/lcov.info ; CODECLIMATE_REPO_TOKEN=4be8413753f290bf2f907800f8fe4da302d6e8c35c3d969f5c1ee39e003a14eb codeclimate-test-reporter < coverage/lcov.info ; rm -rf coverage/",
+    "ci:test": "COVERAGE=true ember test",
     "deploy:integration": "./scripts/deploy.sh integration",
     "deploy:staging": "./scripts/deploy.sh staging",
     "deploy:production": "./scripts/deploy.sh production"

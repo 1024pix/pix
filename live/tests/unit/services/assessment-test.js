@@ -1,10 +1,9 @@
-/* jshint expr:true */
 import { expect } from 'chai';
 import {
   describeModule,
   it
 } from 'ember-mocha';
-import { before, describe } from "mocha";
+import { describe } from 'mocha';
 import Ember from 'ember';
 
 describeModule(
@@ -34,10 +33,10 @@ describeModule(
           const { challenges, assessment } = instantiateModels(store, [{ id: 1 }, { id: 2 }]);
 
           expect(this.subject().getNextChallenge(challenges[0], assessment)).to.respondsTo('then');
-        })
+        });
       });
 
-      it("return the next challenge when current challenge is not the assessment's last one", function () {
+      it('return the next challenge when current challenge is not the assessment\'s last one', function () {
 
         return Ember.run(() => {
           // given
@@ -54,7 +53,7 @@ describeModule(
         });
       });
 
-      it("return the next challenge when current challenge is the assessment's latest", function () {
+      it('return the next challenge when current challenge is the assessment\'s latest', function () {
 
         return Ember.run(() => {
           // given
@@ -71,7 +70,7 @@ describeModule(
         });
       });
 
-      it("return challenge model objects well formed", function () {
+      it('return challenge model objects well formed', function () {
 
         return Ember.run(() => {
           // given

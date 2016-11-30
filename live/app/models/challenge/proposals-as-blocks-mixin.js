@@ -10,7 +10,7 @@ function parseInput(lastIsOpening, input) {
     case undefined:
       lastIsOpening = false;
       break;
-    case "":
+    case '':
       break;
     default:
       if (lastIsOpening) {

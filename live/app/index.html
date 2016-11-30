@@ -3,11 +3,11 @@
   <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title>PixLive</title>
-    <meta name="description" content="">
+    <title>PIX</title>
+    <meta name="description" content="PIX est une plateforme en ligne d'évaluation et de certification des compétences numériques des citoyens francophones (élèves, étudiant•e•s, décrocheur•se•s, demandeur•se•s d'emploi, sénior•e•s).">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="icon" href="data:;base64,iVBORw0KGgo=">
-    
+
     {{content-for "head"}}
 
     <link rel="stylesheet" href="{{rootURL}}assets/vendor.css">
@@ -19,6 +19,13 @@
     {{content-for "body"}}
 
     <script src="{{rootURL}}assets/vendor.js"></script>
+    <!-- XXX https://docs.sentry.io/clients/javascript/integrations/ember/ -->
+    <script>
+      Raven
+        .config('https://4b60c9f39a844832956f840b9d0d1359@sentry.io/99479')
+        .addPlugin(Raven.Plugins.Ember)
+        .install();
+    </script>
     <script src="{{rootURL}}assets/pix-live.js"></script>
 
     {{content-for "body-footer"}}

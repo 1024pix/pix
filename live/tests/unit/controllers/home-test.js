@@ -1,4 +1,3 @@
-/* jshint expr:true */
 import { expect } from 'chai';
 import {
   describeModule,
@@ -7,7 +6,7 @@ import {
 
 describeModule(
   'controller:home',
-  'HomeController',
+  'Unit | Controller | HomeController',
   {
     // Specify the other units that are required for this test.
     // needs: ['controller:foo']

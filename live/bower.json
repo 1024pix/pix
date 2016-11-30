@@ -8,9 +8,9 @@
     "bootstrap": "~3.3.7",
     "animate.css": "^3.5.2",
     "loaders.css": "^0.1.2",
+    "raven-js": "^3.8.1",
     "showdown": "1.4.3",
-    "showdown-target-blank": "^1.0.1",
-    "raven-js": "3.8.0"
+    "showdown-target-blank": "^1.0.1"
   },
   "devDependencies": {
     "chai": "^3.5.0",

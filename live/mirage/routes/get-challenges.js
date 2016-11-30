@@ -1,4 +1,4 @@
-import rawQcmChallenge     from '../data/challenges/raw-qcm-challenge';
+import rawQcmChallenge from '../data/challenges/raw-qcm-challenge';
 import refQcmChallengeFull from '../data/challenges/ref-qcm-challenge';
 import refQcuChallengeFull from '../data/challenges/ref-qcu-challenge';
 import refQrocChallengeFull from '../data/challenges/ref-qroc-challenge';
@@ -14,6 +14,6 @@ export default function () {
       refQrocChallengeFull.data,
       refQrocmChallengeFull.data
     ]
-  }
+  };
 
 }
