@@ -45,10 +45,15 @@ fi
 # Fetches all last changes
 git fetch --all
 
-# Create new release branch
-git checkout -b "release-$PACKAGE_VERSION"
-echo -e "You are now on branch ${YELLOW}release-$PACKAGE_VERSION${RESET_COLOR}.\n"
+# Remove local branch 'release' if exists, then create it
+RELEASE_BRANCH="release-$PACKAGE_VERSION"
+if [ -z $(git show-ref $RELEASE_BRANCH) ];
+then
+    git branch -D gh-pages
+fi
+git checkout -b $RELEASE_BRANCH
+echo -e "You are now on branch ${YELLOW}$RELEASE_BRANCH${RESET_COLOR}.\n"
 
-echo -e "From now edit the ${CYAN}CHANGELOG.md{RESET_COLOR} file$ and then execute ${CYAN}release:perform${RESET_COLOR} NPM task.\n"
+echo -e "From now edit the ${CYAN}CHANGELOG.md${RESET_COLOR} file and then execute ${CYAN}release:perform${RESET_COLOR} NPM task.\n"
 
 echo -e "Release preparation ${GREEN}succeeded${RESET_COLOR}."

@@ -60,8 +60,11 @@ git push origin master
 git tag -a $PACKAGE_VERSION -m "Release version $PACKAGE_VERSION"
 git push origin $PACKAGE_VERSION
 
-# Checks that 'gh-pages' is up-to-date
-git branch -D gh-pages
+# Remove local branch 'gh-pages' if exists, then fetch it from remote
+if [ -z $(git show-ref gh-pages) ];
+then
+    git branch -D gh-pages
+fi
 git checkout -b gh-pages origin/gh-pages
 
 npm run deploy:production
