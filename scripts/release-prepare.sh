@@ -15,11 +15,22 @@ YELLOW="$(tput bold ; tput setaf 3)"
 BLUE="$(tput bold ; tput setaf 4)"
 CYAN="$(tput bold ; tput setaf 6)"
 
+# Creates new release branch
+# https://gist.github.com/DarrenN/8c6a5b969481725a4413
+PACKAGE_VERSION=$(cat package.json \
+  | grep version \
+  | head -1 \
+  | awk -F: '{ print $2 }' \
+  | sed 's/[",]//g' \
+  | tr -d '[[:space:]]')
+
+echo -e "Beginning release preparation for version ${GREEN}$PACKAGE_VERSION${RESET_COLOR}.\n"
+
 # Checks we are on branch 'dev'
 CURRENT_BRANCH=$(git rev-parse --abbrev-ref HEAD)
 if [ "$CURRENT_BRANCH" != "dev" ];
 then
-  echo "${RED}Wrong branch!${RESET_COLOR} You must be on branch ${GREEN}dev${RESET_COLOR} in order to make a release but your current one is ${RED}${CURRENT_BRANCH}${RESET_COLOR}."
+  echo -e "${RED}Wrong branch!${RESET_COLOR} You must be on branch ${GREEN}dev${RESET_COLOR} in order to make a release but your current one is ${RED}${CURRENT_BRANCH}${RESET_COLOR}.\n"
   exit 1
 fi
 
@@ -34,17 +45,10 @@ fi
 # Fetches all last changes
 git fetch --all
 
-# Creates new release branch
-# https://gist.github.com/DarrenN/8c6a5b969481725a4413
-PACKAGE_VERSION=$(cat package.json \
-  | grep version \
-  | head -1 \
-  | awk -F: '{ print $2 }' \
-  | sed 's/[",]//g' \
-  | tr -d '[[:space:]]')
-
 # Create new release branch
 git checkout -b "release-$PACKAGE_VERSION"
-echo "You are now on branch ${YELLOW}release-$PACKAGE_VERSION${RESET_COLOR}"
+echo -e "You are now on branch ${YELLOW}release-$PACKAGE_VERSION${RESET_COLOR}.\n"
 
-echo "From now, ${CYAN}edit the CHANGELOG.md file${RESET_COLOR}, then ${CYAN}execute release:perform NPM task ${RESET_COLOR}"
+echo -e "From now edit the ${CYAN}CHANGELOG.md{RESET_COLOR} file$ and then execute ${CYAN}release:perform${RESET_COLOR} NPM task.\n"
+
+echo -e "Release preparation ${GREEN}succeeded${RESET_COLOR}."
