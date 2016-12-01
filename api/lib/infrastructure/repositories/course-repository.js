@@ -7,11 +7,12 @@ const AIRTABLE_TABLE_NAME = 'Tests';
 
 module.exports = {
 
-  list() {
+  list(isAdaptive) {
 
     return new Promise((resolve, reject) => {
 
-      const cacheKey = 'course-repository_list';
+      const cacheKey = (isAdaptive) ? 'adaptive-course-repository_list' : 'course-repository_list';
+      const airtableQuery = (isAdaptive) ? { filterByFormula: '{Adaptatif ?} = TRUE()' } : { view: 'PIX view' };
 
       cache.get(cacheKey, (err, cachedValue) => {
 
@@ -22,7 +23,7 @@ module.exports = {
         let courses = [];
 
         Airtable.base(AIRTABLE_TABLE_NAME)
-          .select({ view: 'PIX view' })
+          .select(airtableQuery)
           .eachPage((records, fetchNextPage) => {
 
             for (let record of records) {

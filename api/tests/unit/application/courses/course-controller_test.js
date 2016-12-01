@@ -47,6 +47,24 @@ describe('Unit | Controller | CourseController', function () {
         done();
       });
     });
+
+    it('should fetch and return all the adaptive courses, serialized as JSONAPI', function (done) {
+      // given
+      sinon.stub(CourseRepository, 'list').resolves(courses);
+      sinon.stub(CourseSerializer, 'serializeArray', _ => courses);
+
+      // when
+      server.inject({ method: 'GET', url: '/api/courses?adaptive=true' }, (res) => {
+
+        // then
+        expect(res.result).to.deep.equal(courses);
+
+        // after
+        CourseRepository.list.restore();
+        CourseSerializer.serializeArray.restore();
+        done();
+      });
+    });
   });
 
   describe('#get', function () {

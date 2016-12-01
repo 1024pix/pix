@@ -10,7 +10,7 @@ module.exports = {
   list(request, reply) {
 
     courseRepository
-      .list()
+      .list(request.query.adaptive)
       .then(courses => {
 
         const response = courseSerializer.serializeArray(courses);
