@@ -1,30 +1,30 @@
-import '../../test-helper';
 import Ember from 'ember';
 import { expect } from 'chai';
-import { describeModel, it } from 'ember-mocha';
+import { describe, it } from 'mocha';
+import { setupModelTest } from 'ember-mocha';
 
-describeModel('answer', 'Unit | Model | Answer',
-  {
+describe('Unit | Model | Answer', function () {
+
+  setupModelTest('answer', {
     needs: ['model:assessment', 'model:challenge']
-  }, function () {
+  });
 
-    it('exists', function () {
-      let model = this.subject();
-      expect(model).to.be.ok;
-    });
+  it('exists', function () {
+    var model = this.subject();
+    // var store = this.store();
+    expect(model).to.be.ok;
+  });
 
-    describe('isResultOk', function () {
+  describe('isResultOk', function () {
 
-      it('should return bool', function () {
-        Ember.run(() => {
-          // given
-          const store = this.store();
-          const answer = store.createRecord('answer', { 'result': 'ok' });
+    it('should return bool', function () {
+      Ember.run(() => {
+        // given
+        const store = this.store();
+        const answer = store.createRecord('answer', { 'result': 'ok' });
 
-          expect(answer.get('isResultOk')).to.equal(true);
-        });
+        expect(answer.get('isResultOk')).to.equal(true);
       });
     });
-  }
-);
-
+  });
+});

@@ -1,16 +1,17 @@
 import { expect } from 'chai';
-import { describeModel, it } from 'ember-mocha';
+import { describe, it } from 'mocha';
+import { setupModelTest } from 'ember-mocha';
 
-describeModel(
-  'challenge',
-  'Unit | Model | Challenge',
-  {
+describe('Unit | Model | Challenge', function () {
+
+  setupModelTest('challenge', {
     needs: ['model:course']
-  },
-  function () {
-    it('exists', function () {
-      let model = this.subject();
-      expect(model).to.be.ok;
-    });
-  }
-);
+  });
+
+  it('exists', function () {
+    var model = this.subject();
+    // var store = this.store();
+    expect(model).to.be.ok;
+  });
+
+});

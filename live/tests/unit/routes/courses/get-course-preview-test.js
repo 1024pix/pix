@@ -1,20 +1,15 @@
 import { expect } from 'chai';
-import {
-  describeModule,
-  it
-} from 'ember-mocha';
+import { describe, it } from 'mocha';
+import { setupTest } from 'ember-mocha';
 
-describeModule(
-  'route:courses/get-course-preview',
-  'CoursePreviewRoute',
-  {
-    // Specify the other units that are required for this test.
-    // needs: ['controller:foo']
-  },
-  function () {
-    it('exists', function () {
-      let route = this.subject();
-      expect(route).to.be.ok;
-    });
-  }
-);
+describe('Unit | Route | CoursePreview', function() {
+
+  setupTest('route:courses/get-course-preview', {});
+
+  it('exists', function() {
+    let route = this.subject();
+    expect(route).to.be.ok;
+  });
+
+});
+

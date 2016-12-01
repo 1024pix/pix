@@ -1,12 +1,15 @@
-import '../../test-helper';
 import { expect } from 'chai';
-import { describeModule, it } from 'ember-mocha';
+import { describe, it } from 'mocha';
+import { setupTest } from 'ember-mocha';
 
-describeModule('route:home', 'Unit | Route | home', function() {
+describe('Unit | Route | home', function() {
+
+  setupTest('route:home', {});
+
   it('exists', function() {
     let route = this.subject();
     expect(route).to.be.ok;
   });
-});
 
+});
 

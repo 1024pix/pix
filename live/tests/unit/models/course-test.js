@@ -1,18 +1,16 @@
-import '../../test-helper';
 import Ember from 'ember';
 import { expect } from 'chai';
-import { describeModel, it } from 'ember-mocha';
-import { describe } from 'mocha';
+import { describe, it } from 'mocha';
+import { setupModelTest } from 'ember-mocha';
 
-describeModel('course', 'Unit | Model | Course', {
-  needs: [
-    'model:assessment',
-    'model:challenge'
-  ]
-}, function () {
+describe('Unit | Model | Course', function () {
+
+  setupModelTest('course', {
+    needs: ['model:assessment', 'model:challenge']
+  });
 
   it('exists', function () {
-    let model = this.subject();
+    const model = this.subject();
     expect(model).to.be.ok;
   });
 
@@ -23,7 +21,7 @@ describeModel('course', 'Unit | Model | Course', {
         // given
         const store = this.store();
         const challenge = store.createRecord('challenge', {});
-        const course = this.subject({ challenges: [ challenge ] });
+        const course = this.subject({ challenges: [challenge] });
 
         expect(course.getProgress(challenge)).to.have.property('currentStep', 1);
       });
@@ -35,7 +33,7 @@ describeModel('course', 'Unit | Model | Course', {
         const store = this.store();
         const challenge1 = store.createRecord('challenge', {});
         const challenge2 = store.createRecord('challenge', {});
-        const course = this.subject({ challenges: [ challenge1, challenge2 ] });
+        const course = this.subject({ challenges: [challenge1, challenge2] });
 
         expect(course.getProgress(challenge1)).to.have.property('maxStep', 2);
         expect(course.getProgress(challenge2)).to.have.property('maxStep', 2);
@@ -48,7 +46,7 @@ describeModel('course', 'Unit | Model | Course', {
         const store = this.store();
         const challenge1 = store.createRecord('challenge', {});
         const challenge2 = store.createRecord('challenge', {});
-        const course = this.subject({ challenges: [ challenge1, challenge2 ] });
+        const course = this.subject({ challenges: [challenge1, challenge2] });
 
         expect(course.getProgress(challenge2)).to.have.property('currentStep', 2);
       });
@@ -60,7 +58,7 @@ describeModel('course', 'Unit | Model | Course', {
         const store = this.store();
         const challengeInCourse = store.createRecord('challenge', {});
         const challengeOutsideCourse = store.createRecord('challenge', {});
-        const course = this.subject({ challenges: [ challengeInCourse ] });
+        const course = this.subject({ challenges: [challengeInCourse] });
 
         expect(() => course.getProgress(challengeOutsideCourse)).to.throw(RangeError);
       });

@@ -1,21 +1,14 @@
-/* jshint expr:true */
 import { expect } from 'chai';
-import {
-  describeModule,
-  it
-} from 'ember-mocha';
+import { describe, it } from 'mocha';
+import { setupTest } from 'ember-mocha';
 
-describeModule(
-  'route:assessments.get-challenge',
-  'Assessments.ChallengeRoute',
-  {
-    // Specify the other units that are required for this test.
-    // needs: ['controller:foo']
-  },
-  function() {
-    it('exists', function() {
-      let route = this.subject();
-      expect(route).to.be.ok;
-    });
-  }
-);
+describe('Unit | Route | Assessments.ChallengeRoute', function() {
+
+  setupTest('route:assessments.get-challenge', {});
+
+  it('exists', function() {
+    let route = this.subject();
+    expect(route).to.be.ok;
+  });
+
+});

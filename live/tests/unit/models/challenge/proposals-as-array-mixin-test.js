@@ -1,7 +1,6 @@
 import Ember from 'ember';
-import { describe } from 'mocha';
-import { it } from 'ember-mocha';
 import { expect } from 'chai';
+import { describe, it } from 'mocha';
 import ProposalsAsArrayMixin from 'pix-live/models/challenge/proposals-as-array-mixin';
 
 describe('Unit | Model | Challenge/Propsals As Array Mixin', function () {

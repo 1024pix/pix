@@ -1,29 +1,22 @@
-/* jshint expr:true */
 import { expect } from 'chai';
-import {
-  describeModule,
-  it
-} from 'ember-mocha';
+import { describe, it } from 'mocha';
+import { setupTest } from 'ember-mocha';
 
-describeModule(
-  'service:delay',
-  'DelayService',
-  {
-    // Specify the other units that are required for this test.
-    // needs: ['service:foo']
-  },
-  function() {
-    // Replace this with your real tests.
-    it('exists', function() {
-      let service = this.subject();
-      expect(service).to.be.ok;
-    });
+describe('Unit | Service | DelayService', function() {
 
-    it('has delay#ms() which return a promise', function () {
-      let delay = this.subject();
-      expect(delay).to.respondsTo('ms');
-      let promise = delay.ms(0);
-      expect(promise).to.respondsTo('then');
-    });
-  }
-);
+  setupTest('service:delay', {});
+
+  // Replace this with your real tests.
+  it('exists', function() {
+    var controller = this.subject();
+    expect(controller).to.be.ok;
+  });
+
+  it('has delay#ms() which return a promise', function () {
+    const delay = this.subject();
+    expect(delay).to.respondsTo('ms');
+    const promise = delay.ms(0);
+    expect(promise).to.respondsTo('then');
+  });
+
+});
