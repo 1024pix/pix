@@ -20,7 +20,10 @@
     "url": "git+https://github.com/sgmap/pix.git"
   },
   "scripts": {
-    "help": "",
+    "clean:api": "cd api && npm run clean",
+    "clean:live": "cd live && npm run clean",
+    "clean:coverage": "rm -rf coverage api/coverage live/coverage",
+    "clean": "node_modules/.bin/run-p clean:api clean:live clean:coverage",
     "install:api": "cd api && npm install",
     "install:live": "cd live && npm run install:all",
     "install:all": "npm install && node_modules/.bin/run-p install:api install:live",

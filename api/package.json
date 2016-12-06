@@ -53,6 +53,7 @@
     "sinon-as-promised": "^4.0.2"
   },
   "scripts": {
+    "clean": "rm -rf node_modules",
     "start": "node bin/www",
     "start:watch": "./node_modules/.bin/nodemon bin/www",
     "db:migrate": "./node_modules/.bin/knex --knexfile db/knexfile.js migrate:latest",

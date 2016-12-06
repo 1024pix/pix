@@ -69,10 +69,7 @@
   "scripts": {
     "install:all": "npm install && bower install",
     "build": "ember build",
-    "clean": "rm -rf tmp dist",
-    "clean:bower": "rm -rf bower_components",
-    "clean:npm": "rm -rf node_modules",
-    "clean:all": "npm run clean && npm run clean:bower && npm run clean:npm",
+    "clean": "rm -rf tmp dist bower_components node_modules",
     "start": "ember server",
     "test": "ember test",
     "coverage:check": "COVERAGE=true ember test",
