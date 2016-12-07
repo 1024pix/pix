@@ -1,5 +1,9 @@
 # PIX Changelog
 
+## 2.1.1 (7/12/2016)
+
+- [#196](https://github.com/sgmap/pix/pull/196) [INFRA] Correction du script de livraison release-publish.
+
 ## 2.1.0 (7/12/2016)
 
 - [#193](https://github.com/sgmap/pix/pull/193) [CLEANUP] Ajout de tests unitaires et d'intégration pour le composant qcu-proposals
