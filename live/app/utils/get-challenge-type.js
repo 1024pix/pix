@@ -3,7 +3,7 @@ import _ from 'lodash/lodash';
 export default function getChallengeType(challengeTypeFromAirtable) {
   let result = 'qcu'; // qcu by default, no error thrown
 
-  let challengeType = challengeTypeFromAirtable.toUpperCase();
+  const challengeType = challengeTypeFromAirtable.toUpperCase();
 
   if (_.contains(['QCUIMG', 'QCU', 'QRU'], challengeType)) {
     result = 'qcu';

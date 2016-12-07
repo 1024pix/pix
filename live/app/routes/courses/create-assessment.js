@@ -6,6 +6,7 @@ export default Ember.Route.extend({
   model(params) {
 
     const store = this.get('store');
+
     return store.findRecord('course', params.course_id).then((course) => {
 
       // No auth yet, therefore userName and userEmail are null.
@@ -14,8 +15,7 @@ export default Ember.Route.extend({
         .save()
         .then((assessment) => {
           return RSVP.hash({
-            assessment,
-            challenge: assessment.get('firstChallenge')
+            assessment
           });
         });
     });
@@ -23,7 +23,7 @@ export default Ember.Route.extend({
 
   afterModel(model) {
     // FIXME: manage the case when assessment's course has no challenge
-    this.transitionTo('assessments.get-challenge', model);
+    this.transitionTo('assessments.get-challenge', model.assessment.get('id'), model.assessment.get('firstChallenge.id'));
   }
 
 });

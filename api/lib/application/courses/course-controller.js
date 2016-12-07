@@ -3,7 +3,6 @@ const courseRepository = require('../../infrastructure/repositories/course-repos
 const courseSerializer = require('../../infrastructure/serializers/course-serializer');
 const challengeRepository = require('../../infrastructure/repositories/challenge-repository');
 const challengeSerializer = require('../../infrastructure/serializers/challenge-serializer');
-const logger = require('../../infrastructure/logger');
 
 module.exports = {
 

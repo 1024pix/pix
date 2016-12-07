@@ -33,10 +33,10 @@ class AssessmentSerializer extends JSONAPISerializer {
       data.relationships.answers = {
         data: []
       };
-      for (let answerId of model.answers) {
+      for (const answer of model.answers) {
         data.relationships.answers.data.push({
-          "type": 'answers',
-          "id": answerId.id
+          'type': 'answers',
+          'id': answer.id
         });
       }
     }
@@ -46,18 +46,18 @@ class AssessmentSerializer extends JSONAPISerializer {
   deserialize(json) {
 
     // XXX : use faker, waiting for authentication to come back one day
-    if (!nonEmpty(json.data.attributes["user-name"])) {
-      json.data.attributes["user-name"] = faker.internet.userName();
+    if (!nonEmpty(json.data.attributes['user-name'])) {
+      json.data.attributes['user-name'] = faker.internet.userName();
     }
-    if (!nonEmpty(json.data.attributes["user-email"])) {
-      json.data.attributes["user-email"] = faker.internet.email();
+    if (!nonEmpty(json.data.attributes['user-email'])) {
+      json.data.attributes['user-email'] = faker.internet.email();
     }
 
     return new Assessment({
       id: json.data.id,
       courseId: json.data.relationships.course.data.id,
-      userName: json.data.attributes["user-name"],
-      userEmail: json.data.attributes["user-email"]
+      userName: json.data.attributes['user-name'],
+      userEmail: json.data.attributes['user-email']
     });
   }
 

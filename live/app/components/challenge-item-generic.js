@@ -3,35 +3,12 @@ import callOnlyOnce from '../utils/call-only-once';
 
 const ChallengeItemGeneric = Ember.Component.extend({
 
-  /* CSS properties
-  ––––––––––––––––––––––––––––––––––––––––––––––––––*/
   tagName: 'article',
   classNames: ['challenge-item'],
   attributeBindings: ['challenge.id:data-challenge-id'],
 
-  /* Passed properties
-  ––––––––––––––––––––––––––––––––––––––––––––––––––*/
-  challenge: null,
-  assessment: null,
-  errorMessage: null,
-  answers: {},
-
-  /* Computed properties
-  ––––––––––––––––––––––––––––––––––––––––––––––––––*/
-  instruction: Ember.computed('challenge', function() {
-    return {
-      text: this.get('challenge.instruction'),
-      illustrationUrl: this.get('challenge.illustrationUrl'),
-      attachmentUrl: this.get('challenge.attachmentUrl'),
-      attachmentFilename: this.get('challenge.attachmentFilename')
-    };
-  }),
-
-  /* Actions
-  ––––––––––––––––––––––––––––––––––––––––––––––––––*/
   actions: {
 
-    // callOnlyOnce : prevent double-clicking from creating double record.
     validate: callOnlyOnce(function () {
       if (this._hasError()) {
         this.set('errorMessage', this._getErrorMessage());

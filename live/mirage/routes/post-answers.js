@@ -25,8 +25,8 @@ export default function (schema, request) {
 
   const allAnswers = [
     rawQcmAnswer,
-    refQcuAnswer,
     refQcmAnswer,
+    refQcuAnswer,
     refQrocAnswer,
     refQrocmAnswer
   ];

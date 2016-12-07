@@ -7,10 +7,10 @@ class CourseSerializer extends JSONAPISerializer {
   }
 
   serializeAttributes(model, data) {
-    data.attributes["name"] = model.name;
-    data.attributes["description"] = model.description;
-    data.attributes["duration"] = model.duration;
-    data.attributes["isAdaptive"] = model.isAdaptive;
+    data.attributes['name'] = model.name;
+    data.attributes['description'] = model.description;
+    data.attributes['duration'] = model.duration;
+    data.attributes['isAdaptive'] = model.isAdaptive;
 
     if (model.imageUrl) {
       data.attributes['image-url'] = model.imageUrl;
@@ -24,10 +24,10 @@ class CourseSerializer extends JSONAPISerializer {
           data: []
         }
       };
-      for (let challengeId of model.challenges) {
+      for (const  challengeId of model.challenges) {
         data.relationships.challenges.data.unshift({
-          "type": 'challenges',
-          "id": challengeId
+          'type': 'challenges',
+          'id': challengeId
         });
       }
     }

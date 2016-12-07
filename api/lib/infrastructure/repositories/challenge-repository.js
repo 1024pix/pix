@@ -19,13 +19,13 @@ module.exports = {
 
         if (cachedValue) return resolve(cachedValue);
 
-        let challenges = [];
+        const challenges = [];
 
         Airtable.base(AIRTABLE_TABLE_NAME)
           .select()
           .eachPage((records, fetchNextPage) => {
 
-            for (let record of records) {
+            for (const record of records) {
               challenges.push(new Challenge(record));
             }
 

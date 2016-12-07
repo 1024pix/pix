@@ -2,131 +2,135 @@ const service = require('../../../../lib/domain/services/solution-service');
 const Answer = require('../../../../lib/domain/models/data/answer');
 const Solution = require('../../../../lib/domain/models/referential/solution');
 
-describe('Unit | Service | Solution :', function () {
+describe('Unit | Service | SolutionService', function () {
 
-  describe('The correctness of a QRU', function () {
+  function buildSolution(type, value) {
+    const solution = new Solution({ id: 'solution_id' });
+    solution.type = type;
+    solution.value = value;
+    return solution;
+  }
 
-    const solution = new Solution({ id: "solution_id" });
-    solution.type = 'QRU';
-    const goodAnswer = new Answer({ id: 'good_answer_id' });
-    goodAnswer.attributes = { value: '2' };
+  function buildAnswer(value) {
+    const answer = new Answer({ id: 'answer_id' });
+    answer.attributes = { value };
+    return answer;
+  }
 
-    it("should be 'pending' in all cases", function () {
-      const result = service.match(goodAnswer, solution);
-      expect(result).to.equal('pending');
+  describe("#match", function () {
+
+    describe('if answer is #ABAND#', function () {
+
+      it('should return "aband"', function () {
+        const answer = buildAnswer('#ABAND#');
+        const solution = buildSolution('SOME_TYPE', null);
+        expect(service.match(answer, solution)).to.equal('aband');
+      });
+
     });
 
-  });
+    describe('if solution type is QRU', function () {
 
-  describe('The correctness of a QCU', function () {
+      it('should return "pending"', function () {
+        const answer = buildAnswer('some answer');
+        const solution = buildSolution('QRU', 'some value');
+        expect(service.match(answer, solution)).to.equal('pending');
+      });
 
-    const solution = new Solution({ id: "solution_id" });
-    solution.type = 'QCU';
-    solution.value = '2';
-    const goodAnswer = new Answer({ id: 'good_answer_id' });
-    goodAnswer.attributes = { value: '2' };
-    const badAnswer = new Answer({ id: 'bad_answer_id' });
-    badAnswer.attributes = { value: '1' };
-    const skippedAnswer = new Answer({ id: 'skipped_answer_id' });
-    skippedAnswer.attributes = { value: '#ABAND#' };
-
-    before(function (done) {
-      done();
     });
 
-    it("should be 'ok' for a correct answer", function () {
-      const result = service.match(goodAnswer, solution);
-      expect(result).to.equal('ok');
+    describe('if solution type is QCU', function () {
+
+      it('should return "ok" when answer and solution are equal', function () {
+        const answer = buildAnswer('same value');
+        const solution = buildSolution('QCU', 'same value');
+        expect(service.match(answer, solution)).to.equal('ok');
+      });
+
+      it('should return "ko" when answer and solution are different', function () {
+        const answer = buildAnswer('answer value');
+        const solution = buildSolution('QCU', 'different solution value');
+        expect(service.match(answer, solution)).to.equal('ko');
+      });
+
     });
 
-    it("should be 'ko' for a incorrect answer", function () {
-      const result = service.match(badAnswer, solution);
-      expect(result).to.equal('ko');
+    describe('if solution type is QCM', function () {
+
+      const successfulCases = [
+        { answer: '1', solution: '1' },
+        { answer: '1, 2', solution: '1, 2' },
+        { answer: '1, 2, 3', solution: '1, 2, 3' },
+        { answer: '1,2,3', solution: '1,2,3' },
+        { answer: '3, 2, 1', solution: '1, 2, 3' },
+        { answer: '1,2,3', solution: '1, 2, 3' },
+        { answer: '1,   2,   3   ', solution: '1, 2, 3' },
+        { answer: '1, 2, 3', solution: '1, 2, 3' }
+      ];
+
+      successfulCases.forEach(function (testCase) {
+        it('should return "ok" when answer is "' + testCase.answer + '" and solution is "' + testCase.solution + '"', function () {
+          const answer = buildAnswer(testCase.answer);
+          const solution = buildSolution('QCM', testCase.solution);
+          expect(service.match(answer, solution)).to.equal('ok');
+        });
+      });
+
+      const failedCases = [
+        { answer: '2', solution: '1' },
+        { answer: '1, 3', solution: '1, 2' },
+        { answer: '1, 2, 3', solution: '1, 2' },
+        { answer: '3, 1', solution: '1, 2' }
+      ];
+
+      failedCases.forEach(function (testCase) {
+        it('should return "ko" when answer is "' + testCase.answer + '" and solution is "' + testCase.solution + '"', function () {
+          const answer = buildAnswer(testCase.answer);
+          const solution = buildSolution('QCM', testCase.solution);
+          expect(service.match(answer, solution)).to.equal('ko');
+        });
+      });
+
     });
 
-    it("should be 'aband' for a skipped answer", function () {
-      const result = service.match(skippedAnswer, solution);
-      expect(result).to.equal('aband');
-    });
-  });
+    describe('if solution type is QROC', function () {
 
-  describe('Solution of any question other than QCU, QCM, QROC', function () {
+      it('should return "ko" when answer does not match any solution variants', function () {
+        const answer = buildAnswer('unmatching answer');
+        const solution = buildSolution('QROC', 'unmatched solution variant');
+        expect(service.match(answer, solution)).to.equal('ko');
+      });
 
-    const solution = new Solution({ id: "solution_id" });
-    solution.type = 'QROCM';
-    solution.value = '2';
-    const goodAnswer = new Answer({ id: 'good_answer_id' });
-    goodAnswer.attributes = { value: '2' };
-    const badAnswer = new Answer({ id: 'bad_answer_id' });
-    badAnswer.attributes = { value: '1' };
-    const skippedAnswer = new Answer({ id: 'skipped_answer_id' });
-    skippedAnswer.attributes = { value: '#ABAND#' };
+      const successfulCases = [
+        { answer: 'Answer', solution: 'Answer' },
+        { answer: 'ANSWER', solution: 'answer' },
+        { answer: 'answer', solution: 'ANSWER' },
+        { answer: 'answer with spaces', solution: 'Answer With Spaces' },
+        { answer: 'with accents', solution: 'wîth àccénts' },
+        { answer: 'variant 1', solution: 'variant 1\nvariant 2\nvariant 3\n' },
+        { answer: 'variant 2', solution: 'variant 1\nvariant 2\nvariant 3\n' },
+        { answer: 'variant 3', solution: 'variant 1\nvariant 2\nvariant 3\n' }
+      ];
 
-    before(function (done) {
-      done();
-    });
-
-    it("should return 'pending' if the question is not a QCU, QCM or QROC, even if the answer is correct", function () {
-      const result = service.match(goodAnswer, solution);
-      expect(result).to.equal('pending');
-    });
-
-    it("should return 'pending' if the question is not a QCU, QCM or QROC, even if the answer is incorrect", function () {
-      const result = service.match(badAnswer, solution);
-      expect(result).to.equal('pending');
+      successfulCases.forEach(function (testCase) {
+        it('should return "ok" when answer is "' + testCase.answer + '" and solution is "' + escape(testCase.solution) + '"', function () {
+          const answer = buildAnswer(testCase.answer);
+          const solution = buildSolution('QROC', testCase.solution);
+          expect(service.match(answer, solution)).to.equal('ok');
+        });
+      });
     });
 
-    it("should return 'aband' if the question is not a QCU/QCM, and the user has skipped", function () {
-      const result = service.match(skippedAnswer, solution);
-      expect(result).to.equal('aband');
-    });
-  });
+    describe('if solution type is none of the above ones', function () {
 
-  describe('The correctness of a QCM', function () {
+      it('should return "pending"', function () {
+        const answer = buildAnswer('some value');
+        const solution = buildSolution('SOME_TYPE', 'Some variant');
+        expect(service.match(answer, solution)).to.equal('pending');
+      });
 
-    const solution = new Solution({ id: "solution_id" });
-    solution.type = 'QCM';
-    solution.value = '1,2';
-    const goodAnswer = new Answer({ id: 'good_answer_id' });
-    goodAnswer.attributes = { value: '2,1' };
-    const badAnswer = new Answer({ id: 'bad_answer_id' });
-    badAnswer.attributes = { value: '1,3' };
-    const skippedAnswer = new Answer({ id: 'skipped_answer_id' });
-    skippedAnswer.attributes = { value: '#ABAND#' };
-
-    it("should be 'ok' for a correct answer", function () {
-      const result = service.match(goodAnswer, solution);
-      expect(result).to.equal('ok');
-    });
-    it("should be 'ko' for a incorrect answer", function () {
-      const result = service.match(badAnswer, solution);
-      expect(result).to.equal('ko');
-    });
-    it("should be 'aband' for a skipped answer", function () {
-      const result = service.match(skippedAnswer, solution);
-      expect(result).to.equal('aband');
-    });
-  });
-
-  describe('The correctness of a QROC', function () {
-
-    const solution = new Solution({ id: "solution_id" });
-    solution.type = 'QROC';
-    solution.value = 'Rue de la Couteauderie\nRue Couteauderie\nRue la Couteauderie\nde la Couteauderie\nla Couteauderie\n';
-    const goodAnswer = new Answer({ id: 'good_answer_id' });
-    goodAnswer.attributes = { value: 'la couteaudérie' };  // Avec un accent et tout
-    const badAnswer = new Answer({ id: 'bad_answer_id' });
-    badAnswer.attributes = { value: 'hokuto no ken' };
-
-    it("should be 'ok' for a correct QROC answer", function () {
-      const result = service.match(goodAnswer, solution);
-      expect(result).to.equal('ok');
     });
 
-    it("should be 'ko' for a incorrect QROC answer", function () {
-      const result = service.match(badAnswer, solution);
-      expect(result).to.equal('ko');
-    });
   });
 
 });

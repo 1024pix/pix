@@ -21,7 +21,7 @@ module.exports = {
     assessmentRepository
       .get(request.params.id)
       .then((assessment) => {
-        let serializedAssessment = assessmentSerializer.serialize(assessment);
+        const serializedAssessment = assessmentSerializer.serialize(assessment);
         return reply(serializedAssessment);
       })
       .catch((err) => reply(Boom.badImplementation(err)));

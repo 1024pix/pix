@@ -1,17 +1,16 @@
-import Ember from 'ember';
-import _ from 'lodash/lodash';
 import ChallengeItemGeneric from './challenge-item-generic';
 
 const ChallengeItemQroc = ChallengeItemGeneric.extend({
 
   _hasError: function () {
-    const values = _.values(this.get('answers'));
-    return (Ember.isEmpty(values) || values.length < 1 || values.every(Ember.isBlank));
+    return this._getAnswerValue().length < 1;
   },
 
+  // XXX : data is extracted from DOM of child component, breaking child encapsulation.
+  // This is not "the Ember way", however it makes code easier to read,
+  // and moreover, is a much more robust solution when you need to test it properly.
   _getAnswerValue() {
-    const answers = this.get('answers');
-    return _.pairs(answers).map(([key, value]) => `${key} = "${value}"`).join(', ');
+    return this.$('input[data-uid="qroc-proposal-uid"]').val();
   },
 
   _getErrorMessage() {
@@ -19,11 +18,7 @@ const ChallengeItemQroc = ChallengeItemGeneric.extend({
   },
 
   actions: {
-
-    updateQrocAnswer(event) {
-
-      const { name, value } = event.currentTarget;
-      this.set(`answers.${name}`, value);
+    inputChanged() {
       this.set('errorMessage', null);
     }
   }

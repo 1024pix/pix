@@ -1,5 +1,3 @@
-'use strict';
-
 const AirtableModel = require('./airtable-model');
 
 class Solution extends AirtableModel {
@@ -11,8 +9,8 @@ class Solution extends AirtableModel {
     if (this.record.fields) {
 
       const fields = this.record.fields;
-      this.type =  fields["Type d'épreuve"];
-      this.value = fields["Bonnes réponses"];
+      this.type = fields['Type d\'épreuve'];
+      this.value = fields['Bonnes réponses'];
 
     }
   }

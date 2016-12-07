@@ -1,26 +1,34 @@
-const solutionServiceQcu = require('./solution-service-qcu');
-const solutionServiceQcm = require('./solution-service-qcm');
-
-function removeAccentsSpacesUppercase(rawAnswer) {
-  // Remove accents/diacritics in a string in JavaScript
-  // http://stackoverflow.com/a/37511463/827989
-  return rawAnswer.trim().toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, "");
-}
-
-function fuzzyMatchingWithAnswers(userAnswer, correctAnswers) {
-  userAnswer = removeAccentsSpacesUppercase(userAnswer);
-  let correctAnswersList = correctAnswers.split('\n');
-  for (let correctAnswer of correctAnswersList) {
-    if (userAnswer == removeAccentsSpacesUppercase(correctAnswer)) {
-      return true;
-    }
-  }
-  return false;
-}
-
 module.exports = {
 
-  match (answer, solution) {
+  // XXX inspired by http://stackoverflow.com/a/37511463/827989
+  _removeAccentsSpacesUppercase(rawAnswer) {
+    return rawAnswer.trim().toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '');
+  },
+
+  _fuzzyMatchingWithAnswers(answer, solutionVariants) {
+    answer = this._removeAccentsSpacesUppercase(answer);
+    const solutionVariantList = solutionVariants.split('\n');
+    for (const variant of solutionVariantList) {
+      if (answer == this._removeAccentsSpacesUppercase(variant)) {
+        return true;
+      }
+    }
+    return false;
+  },
+
+  _areStringListEquivalent(listA, listB) {
+    let result = false;
+    try {
+      const trimmedListA = listA.split(',').map(s => s.trim());
+      const trimmedListB = listB.split(',').map(s => s.trim());
+      result = (trimmedListA.sort().join(',') === trimmedListB.sort().join(','));
+    } catch (e) {
+      result = false;
+    }
+    return result;
+  },
+
+  match(answer, solution) {
 
     const answerValue = answer.get('value');
     const solutionValue = solution.value;
@@ -34,18 +42,15 @@ module.exports = {
     }
 
     if (solution.type === 'QCU') {
-      return solutionServiceQcu.match(answerValue, solutionValue);
+      return (answerValue === solutionValue) ? 'ok' : 'ko';
     }
 
     if (solution.type === 'QCM') {
-      return solutionServiceQcm.match(answerValue, solutionValue);
+      return this._areStringListEquivalent(answerValue, solutionValue) ? 'ok' : 'ko';
     }
 
     if (solution.type === 'QROC') {
-      if (fuzzyMatchingWithAnswers(answer.get('value'), solution.value)) {
-        return 'ok';
-      }
-      return 'ko';
+      return this._fuzzyMatchingWithAnswers(answerValue, solutionValue) ? 'ok' : 'ko';
     }
 
     return 'pending';

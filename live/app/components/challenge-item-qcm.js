@@ -1,16 +1,16 @@
-import Ember from 'ember';
-import _ from 'lodash/lodash';
 import ChallengeItemGeneric from './challenge-item-generic';
 
 const ChallengeItemQcm = ChallengeItemGeneric.extend({
 
   _hasError: function () {
-    return !(this.get('answers.length') >= 1);
+    return this._getAnswerValue().length < 1;
   },
 
+  // XXX : data is extracted from DOM of child component, breaking child encapsulation.
+  // This is not "the Ember way", however it makes code easier to read,
+  // and moreover, is a much more robust solution when you need to test it properly.
   _getAnswerValue() {
-    const answers = this.get('answers');
-    return `${answers.map((answer) => parseInt(answer, 10) + 1).join(', ')}`;
+    return this.$('input:checkbox:checked').map(function () {return this.name;}).get().join(',');
   },
 
   _getErrorMessage() {
@@ -18,27 +18,9 @@ const ChallengeItemQcm = ChallengeItemGeneric.extend({
   },
 
   actions: {
-
-    updateQcmAnswer(event) {
-      const { name, checked } = event.currentTarget;
-      let answers = this.get('answers');
-
-      if (checked) {
-        if (Ember.isArray(answers)) {
-          answers.push(name);
-        }
-        else {
-          answers = [name];
-        }
-      }
-      else {
-        _.remove(answers, (answer) => answer === name);
-      }
-
-      this.set('answers', answers);
+    answerChanged: function() {
       this.set('errorMessage', null);
     }
-
   }
 
 });

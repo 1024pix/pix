@@ -5,7 +5,7 @@ export default {
     attributes: {
       type: 'QROC',
       instruction: 'Un QROC est une question ouverte avec un simple champ texte libre pour répondre',
-      proposals: '${PrenomElizabeth2#Quel est le prenom d\'Elizabeth2'
+      proposals: 'Entrez le prénom de B. Gates : ${firstname#prénom} (en toutes lettres)\nSVP'
     }
   }
 };

@@ -11,9 +11,10 @@ describe('Unit | Router | UserRouter', function () {
     server.register({ register: require('../../../../lib/application/users') });
   });
 
-  function expectRouteToExist(routeOptions) {
+  function expectRouteToExist(routeOptions, done) {
     server.inject(routeOptions, (res) => {
       expect(res.statusCode).to.equal(200);
+      done();
     });
   }
 
@@ -27,8 +28,8 @@ describe('Unit | Router | UserRouter', function () {
       UserController.list.restore();
     });
 
-    it('should exist', function () {
-      expectRouteToExist({ method: 'GET', url: '/api/users' });
+    it('should exist', function (done) {
+      expectRouteToExist({ method: 'GET', url: '/api/users' }, done);
     });
   });
 
@@ -42,12 +43,12 @@ describe('Unit | Router | UserRouter', function () {
       UserController.get.restore();
     });
 
-    it('should exist', function () {
-      expectRouteToExist({ method: 'GET', url: '/api/users/user_id' });
+    it('should exist', function (done) {
+      expectRouteToExist({ method: 'GET', url: '/api/users/user_id' }, done);
     });
   });
 
-  describe('POST /api/users/{id}', function () {
+  describe('POST /api/users', function () {
 
     before(function () {
       sinon.stub(UserController, 'save', (request, reply) => reply('ok'));
@@ -57,8 +58,8 @@ describe('Unit | Router | UserRouter', function () {
       UserController.save.restore();
     });
 
-    it('should exist', function () {
-      expectRouteToExist({ method: 'POST', url: '/api/users/user_id' });
+    it('should exist', function (done) {
+      return expectRouteToExist({ method: 'POST', url: '/api/users' }, done);
     });
   });
 

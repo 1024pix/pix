@@ -24,7 +24,7 @@ export default function (schema, request) {
   if (answer) {
     return answer.obj;
   } else {
-    throw new Error('The answer you required in the fake server does not exist ' + request.params.id);
+    throw new Error({message:'404 The answer you required in the fake server does not exist ' + request.params.id});
   }
 
 }

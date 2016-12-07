@@ -17,6 +17,10 @@ rules:
   semi:
     - 2
     - always
+  prefer-const:
+    - 2
+  no-var:
+    - 2
 parserOptions:
   ecmaVersion: 6
   sourceType: script

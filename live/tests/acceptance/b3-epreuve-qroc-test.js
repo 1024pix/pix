@@ -25,8 +25,6 @@ describe('Acceptance | b3 - Afficher un QROC | ', function () {
   });
 
   it('b3.1 It should render challenge instruction', function () {
-    // instruction is :
-    // Un QCM propose plusieurs choix, lutilisateur peut en choisir plusieurs
     expect($('.challenge-instruction').text()).to.equal('Un QROC est une question ouverte avec un simple champ texte libre pour répondre');
   });
 
@@ -34,10 +32,10 @@ describe('Acceptance | b3 - Afficher un QROC | ', function () {
     expect($('.challenge-proposals input[type="text"]')).to.have.lengthOf(1);
   });
 
-  it('b3.3 Error alert box should be displayed if user validate without checking a checkbox', function () {
+  it('b3.3 Error alert box should be displayed if user validate without writing any answer', function () {
+    fillIn('input[data-uid="qroc-proposal-uid"]', '');
     expect($('.alert')).to.have.lengthOf(0);
-    findWithAssert('a.challenge-item-actions__validate-action');
-    click($('a.challenge-item-actions__validate-action'));
+    click(findWithAssert('a.challenge-item-actions__validate-action'));
     andThen(() => {
       // assertions for after async behavior
       expect($('.alert')).to.have.lengthOf(1);

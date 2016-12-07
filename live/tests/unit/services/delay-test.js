@@ -6,9 +6,8 @@ describe('Unit | Service | DelayService', function() {
 
   setupTest('service:delay', {});
 
-  // Replace this with your real tests.
   it('exists', function() {
-    var controller = this.subject();
+    const controller = this.subject();
     expect(controller).to.be.ok;
   });
 

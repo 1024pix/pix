@@ -1,4 +1,4 @@
-let plugins = [{ register: require('blipp') }];
+const plugins = [{ register: require('blipp') }];
 
 if (process.env.NODE_ENV === 'test') {
 

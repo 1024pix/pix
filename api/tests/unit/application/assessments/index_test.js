@@ -20,14 +20,12 @@ describe('Unit | Router | AssessmentRouter', function () {
 
   describe('POST /api/assessments', function () {
 
-    before(function (done) {
+    before(function () {
       sinon.stub(AssessmentController, 'save', (request, reply) => reply('ok'));
-      done();
     });
 
-    after(function (done) {
+    after(function () {
       AssessmentController.save.restore();
-      done();
     });
 
     it('should exist', function (done) {
@@ -37,14 +35,12 @@ describe('Unit | Router | AssessmentRouter', function () {
 
   describe('GET /api/assessments/assessment_id/next', function () {
 
-    before(function (done) {
+    before(function () {
       sinon.stub(AssessmentController, 'getNextChallenge', (request, reply) => reply('ok'));
-      done();
     });
 
-    after(function (done) {
+    after(function () {
       AssessmentController.getNextChallenge.restore();
-      done();
     });
 
     it('should exist', function (done) {
@@ -54,14 +50,12 @@ describe('Unit | Router | AssessmentRouter', function () {
 
   describe('GET /api/assessments/assessment_id/next/challenge_id', function () {
 
-    before(function (done) {
+    before(function () {
       sinon.stub(AssessmentController, 'getNextChallenge', (request, reply) => reply('ok'));
-      done();
     });
 
-    after(function (done) {
+    after(function () {
       AssessmentController.getNextChallenge.restore();
-      done();
     });
 
     it('should exist', function (done) {
@@ -71,14 +65,12 @@ describe('Unit | Router | AssessmentRouter', function () {
 
   describe('GET /api/assessments/assessment_id', function () {
 
-    before(function (done) {
+    before(function () {
       sinon.stub(AssessmentController, 'get', (request, reply) => reply('ok'));
-      done();
     });
 
-    after(function (done) {
+    after(function () {
       AssessmentController.get.restore();
-      done();
     });
 
     it('should exist', function (done) {

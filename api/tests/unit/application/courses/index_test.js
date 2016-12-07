@@ -11,9 +11,10 @@ describe('Unit | Router | CourseRouter', function () {
     server.register({ register: require('../../../../lib/application/courses') });
   });
 
-  function expectRouteToExist(routeOptions) {
+  function expectRouteToExist(routeOptions, done) {
     server.inject(routeOptions, (res) => {
       expect(res.statusCode).to.equal(200);
+      done();
     });
   }
 
@@ -27,8 +28,8 @@ describe('Unit | Router | CourseRouter', function () {
       CourseController.list.restore();
     });
 
-    it('should exist', function () {
-      expectRouteToExist({ method: 'GET', url: '/api/courses' });
+    it('should exist', function (done) {
+      expectRouteToExist({ method: 'GET', url: '/api/courses' }, done);
     });
   });
 
@@ -42,8 +43,8 @@ describe('Unit | Router | CourseRouter', function () {
       CourseController.get.restore();
     });
 
-    it('should exist', function () {
-      expectRouteToExist({ method: 'GET', url: '/api/courses/course_id' });
+    it('should exist', function (done) {
+      expectRouteToExist({ method: 'GET', url: '/api/courses/course_id' }, done);
     });
   });
 
@@ -57,8 +58,8 @@ describe('Unit | Router | CourseRouter', function () {
       CourseController.refresh.restore();
     });
 
-    it('should exist', function () {
-      expectRouteToExist({ method: 'POST', url: '/api/courses/course_id' });
+    it('should exist', function (done) {
+      expectRouteToExist({ method: 'POST', url: '/api/courses/course_id' }, done);
     });
   });
 

@@ -4,7 +4,7 @@ import _ from 'lodash/lodash';
 
 export function convertToHtml(params) {
   if (_.isArray(params) && params.length > 0) {
-    let converter = new showdown.Converter();
+    const converter = new showdown.Converter();
     return converter.makeHtml(params[0]);
   }
   return '';

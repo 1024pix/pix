@@ -42,7 +42,7 @@ describe('Unit | Controller | UserController', function () {
       });
     });
 
-    it('should return an error 500 when the fetch fails', function() {
+    it('should return an error 500 when the fetch fails', function(done) {
       // given
       stub.rejects(new Error('Fetch error'));
 

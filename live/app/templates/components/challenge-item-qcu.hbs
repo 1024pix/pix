@@ -1,22 +1,19 @@
 
-{{challenge-instruction instruction=instruction}}
+{{challenge-instruction instruction=challenge._instructionAsObject}}
 
 <div class="rounded-panel challenge-response">
-    <div class="challenge-proposals">
-
-      {{#each challenge._proposalsAsArray as |proposal index|}}
-          <p class="challenge-proposal">
-              <label>{{radio-button name="proposals" value=index checked=selectedProposal}} {{ proposal }}</label>
-          </p>
-      {{/each}}
-
-    </div>
+  <div class="challenge-proposals">
+    {{qcu-proposals 
+        answers=answers._valueAsArrayOfBoolean 
+        proposals=challenge._proposalsAsArray
+        onAnswerUpdated='answerChanged'}}
+  </div>
 </div>
 
 {{#if errorMessage}}
-    <div class="alert alert-danger" role="alert">
-      {{errorMessage}}
-    </div>
+  <div class="alert alert-danger" role="alert">
+    {{errorMessage}}
+  </div>
 {{/if}}
 
 {{#if assessment}}
@@ -24,4 +21,3 @@
       skip="skip"
       validate="validate"}}
 {{/if}}
-

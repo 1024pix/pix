@@ -1,0 +1,22 @@
+{{#each blocks as |block|}}
+
+  {{#if block.text}}
+    <span>{{block.text}}</span>
+  {{/if}}
+  
+  
+  {{#if block.input}}
+    <input 
+      type="text" 
+      data-uid="qroc-proposal-uid"
+      name={{block.input}}
+      placeholder={{block.placeholder}}
+      value="{{answerValue}}"
+    >
+  {{/if}}
+  
+  {{#if block.breakline}}
+    <hr>
+  {{/if}} 
+
+{{/each}}

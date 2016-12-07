@@ -20,13 +20,13 @@ module.exports = {
 
         if (cachedValue) return resolve(cachedValue);
 
-        let courses = [];
+        const courses = [];
 
         Airtable.base(AIRTABLE_TABLE_NAME)
           .select(airtableQuery)
           .eachPage((records, fetchNextPage) => {
 
-            for (let record of records) {
+            for (const record of records) {
               courses.push(new Course(record));
             }
             fetchNextPage();

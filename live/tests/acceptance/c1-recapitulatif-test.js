@@ -43,22 +43,22 @@ describe('Acceptance | c1 - Consulter l\'écran de fin d\'un test ', function() 
 
 
   it('c1.3 Pour une bonne réponse, le tableau récapitulatif donne une indication adéquate', function () {
-    let $cell = findWithAssert('div[data-toggle="tooltip"]:eq(0)');
+    const $cell = findWithAssert('div[data-toggle="tooltip"]:eq(0)');
     expect($cell.attr('data-original-title')).to.equal('Réponse correcte');
   });
 
   it('c1.4 Pour une mauvaise réponse, le tableau récapitulatif donne une indication adéquate', function () {
-    let $cell = findWithAssert('div[data-toggle="tooltip"]:eq(1)');
+    const $cell = findWithAssert('div[data-toggle="tooltip"]:eq(1)');
     expect($cell.attr('data-original-title')).to.equal('Réponse incorrecte');
   });
 
   it('c1.5 Pour une réponse en cours de validation, le tableau récapitulatif donne une indication adéquate', function () {
-    let $cell = findWithAssert('div[data-toggle="tooltip"]:eq(2)');
+    const $cell = findWithAssert('div[data-toggle="tooltip"]:eq(2)');
     expect($cell.attr('data-original-title')).to.equal('Vérification en cours');
   });
 
   it('c1.6 Pour une réponse dont l\'utilisateur a cliqué sur \'Je Passe\', le tableau récapitulatif donne une indication adéquate', function () {
-    let $cell = findWithAssert('div[data-toggle="tooltip"]:eq(3)');
+    const $cell = findWithAssert('div[data-toggle="tooltip"]:eq(3)');
     expect($cell.attr('data-original-title')).to.equal('Sans réponse');
   });
 

@@ -20,14 +20,12 @@ describe('Unit | Router | AnswerRouter', function () {
 
   describe('POST /api/answers', function () {
 
-    before(function (done) {
+    before(function () {
       sinon.stub(AnswerController, 'save', (request, reply) => reply('ok'));
-      done();
     });
 
-    after(function (done) {
+    after(function () {
       AnswerController.save.restore();
-      done();
     });
 
     it('should exist', function (done) {
@@ -37,18 +35,31 @@ describe('Unit | Router | AnswerRouter', function () {
 
   describe('GET /api/answers/{id}', function () {
 
-    before(function (done) {
+    before(function () {
       sinon.stub(AnswerController, 'get', (request, reply) => reply('ok'));
-      done();
     });
 
-    after(function (done) {
+    after(function () {
       AnswerController.get.restore();
-      done();
     });
 
     it('should exist', function (done) {
       expectRouteToExist({ method: 'GET', url: '/api/answers/answer_id' }, done);
+    });
+  });
+
+  describe('GET /api/answers?assessment=<assessment_id>&challenge=<challenge_id>', function () {
+
+    before(function () {
+      sinon.stub(AnswerController, 'findByChallengeAndAssessment', (request, reply) => reply('ok'));
+    });
+
+    after(function () {
+      AnswerController.findByChallengeAndAssessment.restore();
+    });
+
+    it('should exist', function (done) {
+      expectRouteToExist({ method: 'GET', url: '/api/answers' }, done);
     });
   });
 

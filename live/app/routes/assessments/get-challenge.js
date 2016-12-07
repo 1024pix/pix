@@ -1,7 +1,7 @@
 import Ember from 'ember';
-import RSVP from 'rsvp';
 import DS from 'ember-data';
 import getChallengeType from '../../utils/get-challenge-type';
+import RSVP from 'rsvp';
 
 export default Ember.Route.extend({
 
@@ -9,16 +9,20 @@ export default Ember.Route.extend({
 
   model(params) {
     const store = this.get('store');
-    const assessmentPromise = store.findRecord('assessment', params.assessment_id);
-    const challengePromise = store.findRecord('challenge', params.challenge_id);
 
-    return RSVP.hash({
-      assessment: assessmentPromise,
-      challenge: challengePromise
-    });
+    const assessmentId = params.assessment_id;
+    const challengeId = params.challenge_id;
+
+    const promises = {
+      assessment: store.findRecord('assessment', assessmentId),
+      challenge: store.findRecord('challenge', challengeId),
+      answers: store.queryRecord('answer', { assessment: assessmentId, challenge: challengeId })
+    };
+
+    return RSVP.hash(promises).then(results => results);
   },
 
-  actions : {
+  actions: {
 
     saveAnswerAndNavigate: function (currentChallenge, assessment, answerValue) {
       const answer = this._createAnswer(answerValue, currentChallenge, assessment);
@@ -35,19 +39,21 @@ export default Ember.Route.extend({
       challenge: currentChallenge,
       assessment
     });
-  },
+  }
+  ,
 
   _navigateToNextView: function (currentChallenge, assessment) {
 
     this.get('assessmentService').getNextChallenge(currentChallenge, assessment).then((challenge) => {
       if (challenge) {
-        return this.transitionTo('assessments.get-challenge', { challenge, assessment });
+        return this.transitionTo('assessments.get-challenge', assessment.get('id'), challenge.get('id'));
       }
-      return this.transitionTo('assessments.get-results', { assessment });
+      return this.transitionTo('assessments.get-results', assessment.get('id'));
     });
-  },
+  }
+  ,
 
-  setupController: function(controller, model) {
+  setupController: function (controller, model) {
     this._super(controller, model);
 
     const progressToSet = model.assessment
@@ -56,10 +62,10 @@ export default Ember.Route.extend({
 
     controller.set('progress', DS.PromiseObject.create({ promise: progressToSet }));
 
-    const challengeType =  getChallengeType(model.challenge.get('type'));
+    const challengeType = getChallengeType(model.challenge.get('type'));
     controller.set('challengeItemType', 'challenge-item-' + challengeType);
-
-  },
+  }
+  ,
 
   serialize: function (model) {
     return {
@@ -68,4 +74,5 @@ export default Ember.Route.extend({
     };
   }
 
-});
+})
+;

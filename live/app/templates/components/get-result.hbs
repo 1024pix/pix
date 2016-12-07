@@ -1,6 +1,6 @@
 <div class='assessment-results' id='assessment-results'>
 
-  {{course-banner course=model.assessment.course}}
+  {{course-banner course=assessment.course}}
 
   <div class='container'>
 
@@ -9,7 +9,7 @@
     </div>
 
     <div class='assessment-results-list'>
-      {{#each model.assessment.answers as |answer index|}}
+      {{#each assessment.answers as |answer index|}}
       <div class='assessment-results-list-item assessment-results-result'>
         <div class="assessment-results-result-index">
           {{add index 1}}

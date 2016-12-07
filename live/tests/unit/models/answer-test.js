@@ -10,7 +10,7 @@ describe('Unit | Model | Answer', function () {
   });
 
   it('exists', function () {
-    var model = this.subject();
+    const model = this.subject();
     // var store = this.store();
     expect(model).to.be.ok;
   });

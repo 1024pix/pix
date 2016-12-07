@@ -12,6 +12,11 @@ exports.register = function (server, options, next) {
       method: 'GET',
       path: '/api/answers/{id}',
       config: { handler: AnswerController.get, tags: ['api'] }
+    },
+    {
+      method: 'GET',
+      path: '/api/answers',
+      config: { handler: AnswerController.findByChallengeAndAssessment, tags: ['api'] }
     }
   ]);
 

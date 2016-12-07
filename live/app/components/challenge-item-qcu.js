@@ -1,21 +1,18 @@
-import Ember from 'ember';
 import ChallengeItemGeneric from './challenge-item-generic';
 
 const ChallengeItemQcu = ChallengeItemGeneric.extend({
 
-  selectedProposal: null,
-
-  onSelectedProposalChanged: Ember.observer('selectedProposal', function () {
-    this.set('errorMessage', null);
-  }),
-
   _hasError: function () {
-    return Ember.isEmpty(this.get('selectedProposal'));
+    return this._getAnswerValue().length < 1;
   },
 
+  // XXX : data is extracted from DOM of child component, breaking child encapsulation.
+  // This is not "the Ember way", however it makes code easier to read,
+  // and moreover, is a much more robust solution when you need to test it properly.
   _getAnswerValue() {
-    const selectedValue = this.get('selectedProposal');
-    return `${selectedValue + 1}`;
+    return this.$('input:radio:checked').map(function () {
+      return this.name;
+    }).get().join('');
   },
 
   _getErrorMessage() {
@@ -23,8 +20,9 @@ const ChallengeItemQcu = ChallengeItemGeneric.extend({
   },
 
   actions: {
-
-
+    answerChanged: function () {
+      this.set('errorMessage', null);
+    }
   }
 
 });

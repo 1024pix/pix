@@ -1,25 +1,12 @@
 
-{{challenge-instruction instruction=instruction}}
+{{challenge-instruction instruction=challenge._instructionAsObject}}
 
 <div class="rounded-panel challenge-response">
     <div class="challenge-proposals">
-
-      {{#each challenge._proposalsAsBlocks as |block|}}
-
-        {{#if block.text}}
-            <span>{{block.text}}</span>
-        {{/if}}
-
-        {{#if block.input}}
-          {{input name=block.input type="text" placeholder=block.placeholder change=(action "updateQrocAnswer") }}
-        {{/if}}
-
-        {{#if block.breakline}}
-            <hr>
-        {{/if}}
-
-      {{/each}}
-
+        {{qrocm-proposal 
+            blocks=challenge._proposalsAsBlocks
+            answersValue=answers._valuesAsMap
+            onInputChanged='inputChanged' }}
     </div>
 </div>
 

@@ -15,7 +15,7 @@ export default Ember.Component.extend({
         function (e) {
           e.preventDefault();
           $loadEmailButton.textContent = 'Veuillez patienter...';
-          let emailValue = $('.load-email-enter').val();
+          const emailValue = $('.load-email-enter').val();
           $.ajax({
             url: 'https://formspree.io/1024pix+formspree@gmail.com',
             method: 'POST',

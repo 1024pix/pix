@@ -1,10 +1,8 @@
-'use strict';
-
 const path = require('path');
 
 module.exports = (function () {
 
-  let config = {
+  const config = {
 
     rootPath: path.normalize(__dirname + '/..'),
 

@@ -7,7 +7,7 @@ describe('Unit | Route | Assessments.ChallengeRoute', function() {
   setupTest('route:assessments.get-challenge', {});
 
   it('exists', function() {
-    let route = this.subject();
+    const route = this.subject();
     expect(route).to.be.ok;
   });
 

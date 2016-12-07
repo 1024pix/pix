@@ -20,14 +20,12 @@ describe('Unit | Router | ChallengeRouter', function () {
 
   describe('GET /api/challenges', function () {
 
-    before(function (done) {
+    before(function () {
       sinon.stub(ChallengeController, 'list', (request, reply) => reply('ok'));
-      done();
     });
 
-    after(function (done) {
+    after(function () {
       ChallengeController.list.restore();
-      done();
     });
 
     it('should exist', function (done) {
@@ -37,14 +35,12 @@ describe('Unit | Router | ChallengeRouter', function () {
 
   describe('GET /api/challenges/{id}', function () {
 
-    before(function (done) {
+    before(function () {
       sinon.stub(ChallengeController, 'get', (request, reply) => reply('ok'));
-      done();
     });
 
-    after(function (done) {
+    after(function () {
       ChallengeController.get.restore();
-      done();
     });
 
     it('should exist', function (done) {
@@ -54,14 +50,12 @@ describe('Unit | Router | ChallengeRouter', function () {
 
   describe('POST /api/challenges/{id}', function () {
 
-    before(function (done) {
+    before(function () {
       sinon.stub(ChallengeController, 'refresh', (request, reply) => reply('ok'));
-      done();
     });
 
-    after(function (done) {
+    after(function () {
       ChallengeController.refresh.restore();
-      done();
     });
 
     it('should exist', function (done) {

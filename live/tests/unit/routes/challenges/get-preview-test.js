@@ -7,7 +7,7 @@ describe('Unit | Route | challenges.get-preview', function() {
   setupTest('route:challenges.get-preview', {});
 
   it('exists', function() {
-    let route = this.subject();
+    const route = this.subject();
     expect(route).to.be.ok;
   });
 

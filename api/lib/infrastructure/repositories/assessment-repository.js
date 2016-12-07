@@ -9,6 +9,6 @@ module.exports = {
       Assessment.where('id', id).fetch({ withRelated: ['answers'] })
         .then((assessment) => resolve(assessment))
         .catch((err) => reject(err));
-      });
+    });
   }
 };

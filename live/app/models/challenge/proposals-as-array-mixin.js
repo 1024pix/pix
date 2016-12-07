@@ -9,7 +9,7 @@ export default Ember.Mixin.create({
 
     const proposals = '\n' + this.get('proposals');
 
-    let elements = proposals.split(/\n\s*-\s*/);
+    const elements = proposals.split(/\n\s*-\s*/);
     elements.shift();
     return elements;
   })

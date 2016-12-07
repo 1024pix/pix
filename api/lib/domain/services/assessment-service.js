@@ -1,6 +1,6 @@
 const courseRepository = require('../../infrastructure/repositories/course-repository');
 
-function selectNextChallengeId(course, currentChallengeId, assessment) {
+function selectNextChallengeId(course, currentChallengeId) {
 
   return new Promise((resolve) => {
 
@@ -15,7 +15,7 @@ function selectNextChallengeId(course, currentChallengeId, assessment) {
     }
 
     let i = 1;
-    for (let challengeId of challenges) {
+    for (const challengeId of challenges) {
       if (currentChallengeId === challengeId) {
         break;
       }

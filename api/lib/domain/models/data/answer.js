@@ -1,7 +1,7 @@
 const Bookshelf = require('../../../infrastructure/bookshelf');
 Bookshelf.plugin('registry');
 
-require('./assessment');
+const Assessment = require('./assessment');
 
 module.exports = Bookshelf.model('Answer', {
 

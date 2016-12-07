@@ -5,7 +5,7 @@ export default {
     type: 'answers',
     id: 'ref_answer_qrocm_id',
     attributes: {
-      value: '1,2,5',
+      value: 'logiciel1 = "word", logiciel2 = "excel", logiciel3 = "powerpoint"',
       result: 'aband'
     },
     relationships: {
@@ -13,6 +13,12 @@ export default {
         data: {
           type: 'challenges',
           id: challenge.data.id
+        }
+      },
+      assessment: {
+        data: {
+          type: 'assessments',
+          id: 'ref_assessment_id'
         }
       }
     }

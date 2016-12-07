@@ -1,26 +1,19 @@
 
-{{challenge-instruction instruction=instruction}}
+{{challenge-instruction instruction=challenge._instructionAsObject}}
 
 <div class="rounded-panel challenge-response">
-    <div class="challenge-proposals">
-
-      {{#each challenge._proposalsAsArray as |proposal index|}}
-          <p class="challenge-proposal">
-              <label for="proposal_{{index}}">
-                {{input id=(concat "proposal_" index) type="checkbox"
-                name=index change=(action "updateQcmAnswer")}}
-                {{proposal}}
-              </label>
-          </p>
-      {{/each}}
-
-    </div>
+  <div class="challenge-proposals">
+    {{qcm-proposals 
+        answers=answers._valueAsArrayOfBoolean 
+        proposals=challenge._proposalsAsArray
+        onAnswerUpdated='answerChanged'}}
+  </div>
 </div>
 
 {{#if errorMessage}}
-    <div class="alert alert-danger" role="alert">
-      {{errorMessage}}
-    </div>
+  <div class="alert alert-danger" role="alert">
+    {{errorMessage}}
+  </div>
 {{/if}}
 
 {{#if assessment}}

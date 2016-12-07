@@ -34,7 +34,7 @@
     "test:live": "cd live && npm test",
     "test": "npm run test:api && npm run test:live",
     "coverage:clean": "rm -rf ./coverage",
-    "coverage:api": "cd api && npm run coverage",
+    "coverage:api": "cd api && npm run lint && npm run coverage",
     "coverage:live": "cd live && npm run coverage",
     "coverage:merge": "./node_modules/.bin/lcov-result-merger 'coverage/*_lcov.info' 'coverage/lcov.info'",
     "coverage:coveralls": "cat coverage/lcov.info | COVERALLS_SERVICE_NAME=circleci COVERALLS_REPO_TOKEN=M9ACRID08PaZPH1LoaIkNpek1S8YEyAvA ./node_modules/.bin/coveralls",
