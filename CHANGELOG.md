@@ -1,5 +1,12 @@
 # PIX Changelog
 
+## 2.1.0 (7/12/2016)
+
+- [#193](https://github.com/sgmap/pix/pull/193) [CLEANUP] Ajout de tests unitaires et d'intégration pour le composant qcu-proposals
+- [#187](https://github.com/sgmap/pix/pull/187) [FEATURE] Gestion du bouton back.
+- [#187](https://github.com/sgmap/pix/pull/187) [BUGFIX] Diverses corrections de bugs dans l'écran de fin de test : réponses en doublons, points de suspensions dans les intitulés, validation des QCM fausse.
+- [#185](https://github.com/sgmap/pix/pull/185) [INFRA] Montée de version d'Ember ~2.8.0 à ~2.10.0.
+
 ## 2.0.0 (30/11/2016)
 
 - [#160](https://github.com/sgmap/pix/pull/160) [FEATURE] Suppression du tracking Google Analytics.
