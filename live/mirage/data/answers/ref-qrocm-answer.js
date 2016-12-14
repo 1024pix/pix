@@ -5,7 +5,7 @@ export default {
     type: 'answers',
     id: 'ref_answer_qrocm_id',
     attributes: {
-      value: 'logiciel1 = "word", logiciel2 = "excel", logiciel3 = "powerpoint"',
+      value: 'logiciel1: word\nlogiciel2: excel\nlogiciel3: powerpoint',
       result: 'aband'
     },
     relationships: {
@@ -24,4 +24,3 @@ export default {
     }
   }
 };
-

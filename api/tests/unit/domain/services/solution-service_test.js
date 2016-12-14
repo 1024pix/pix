@@ -121,6 +121,46 @@ describe('Unit | Service | SolutionService', function () {
       });
     });
 
+    describe('if solution type is QROCM-ind', function () {
+
+      it('should return "ko" when answer does not match any solution variants', function () {
+        const answer = buildAnswer('answer: unmatching answer');
+        const solution = buildSolution('QROCM-ind', 'answer:\n- unmatched solution variant');
+        expect(service.match(answer, solution)).to.equal('ko');
+      });
+
+      const successfulCases = [
+        { answer: '9lettres: courgette\n6lettres: tomate',
+          solution: '9lettres:\n- courgette\n6lettres:\n- tomate\n- etamot' },
+        { answer: '9lettres: courgette\n6lettres: etamot',
+          solution: '9lettres:\n- courgette\n6lettres:\n- tomate\n- etamot' },
+        { answer: "a: '1'\nb: '2'",
+          solution: 'a:\n- 1\nb:\n- 2' }
+      ]
+
+      successfulCases.forEach(function (testCase) {
+        it('should return "ok" when answer is "' + testCase.answer + '" and solution is "' + escape(testCase.solution) + '"', function () {
+          const answer = buildAnswer(testCase.answer);
+          const solution = buildSolution('QROCM-ind', testCase.solution);
+          expect(service.match(answer, solution)).to.equal('ok');
+        });
+      });
+
+      failedCases = [
+        { answer: '9lettres: courgette\n6lettres: tomates', // notice "s" at the end of tomates 
+          solution: '9lettres:\n- courgette\n6lettres:\n- tomate\n- etamot' },
+      ]
+
+      failedCases.forEach(function (testCase) {
+        it('should return "ko" when answer is "' + testCase.answer + '" and solution is "' + escape(testCase.solution) + '"', function () {
+          const answer = buildAnswer(testCase.answer);
+          const solution = buildSolution('QROCM-ind', testCase.solution);
+          expect(service.match(answer, solution)).to.equal('ko');
+        });
+      });
+      
+    });
+
     describe('if solution type is none of the above ones', function () {
 
       it('should return "pending"', function () {

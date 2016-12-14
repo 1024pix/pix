@@ -1,3 +1,4 @@
+/* global jsyaml */
 import _ from 'lodash/lodash';
 import ChallengeItemGeneric from './challenge-item-generic';
 
@@ -9,9 +10,7 @@ const ChallengeItemQrocm = ChallengeItemGeneric.extend({
   },
 
   _getAnswerValue() {
-    return _.map(this._getRawAnswerValue(), function (value, key) {
-      return `${key} = "${value}"`;
-    }).join(', ');
+    return jsyaml.safeDump(this._getRawAnswerValue());
   },
 
   // XXX : data is extracted from DOM of child component, breaking child encapsulation.

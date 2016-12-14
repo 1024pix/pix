@@ -11,7 +11,7 @@ export default function getChallengeType(challengeTypeFromAirtable) {
     result = 'qcm';
   } else if (_.contains(['QROC'], challengeType)) {
     result = 'qroc';
-  } else if (_.contains(['QROCM'], challengeType)) {
+  } else if (_.contains(['QROCM', 'QROCM-IND'], challengeType)) {
     result = 'qrocm';
   }
 
