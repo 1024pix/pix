@@ -3,7 +3,7 @@ const _ = require('lodash');
 function _arrayToNonEmptyStringArray(arr) {
   if (_.isArray(arr)) {
     return arr.filter(e => e != null).map(String);
-  } 
+  }
   return [];
 }
 

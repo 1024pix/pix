@@ -1,6 +1,7 @@
 const solutionServiceQcm = require('./solution-service-qcm');
 const solutionServiceQroc = require('./solution-service-qroc');
 const solutionServiceQrocmInd = require('./solution-service-qrocm-ind');
+const solutionServiceQrocmDep = require('./solution-service-qrocm-dep');
 
 module.exports = {
 
@@ -31,7 +32,11 @@ module.exports = {
 
     if (solution.type === 'QROCM-ind') {
       return solutionServiceQrocmInd.match(answerValue, solutionValue);
-    }    
+    }
+
+    if (solution.type === 'QROCM-dep') {
+      return solutionServiceQrocmDep.match(answerValue, solutionValue);
+    }
 
     return 'pending';
   }
