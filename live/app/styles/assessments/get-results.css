@@ -27,10 +27,15 @@
   }
 
   & .tooltip.top .tooltip-arrow {
-    bottom: -3px;
+    bottom: -4px;
     left: 50%;
-    margin-left: -22px;
-    border-width: 18px 23px 0;
+    margin-left: -13px;
+    border-width: 10px 13px 0;
+  }
+
+  /* XXX : See https://github.com/sgmap/pix/issues/211 */
+  & [data-lines="2"] + div .tooltip-inner {
+    padding-top: 3px;
   }
 }
 

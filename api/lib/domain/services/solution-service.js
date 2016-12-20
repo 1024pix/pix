@@ -15,7 +15,7 @@ module.exports = {
     }
 
     if (solution.type === 'QRU') {
-      return 'pending';
+      return 'not-implemented';
     }
 
     if (solution.type === 'QCU') {
@@ -38,7 +38,7 @@ module.exports = {
       return solutionServiceQrocmDep.match(answerValue, solutionValue);
     }
 
-    return 'pending';
+    return 'not-implemented';
   }
 
 };

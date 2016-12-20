@@ -33,10 +33,10 @@ describe('Unit | Service | SolutionService', function () {
 
     describe('if solution type is QRU', function () {
 
-      it('should return "pending"', function () {
+      it('should return "not-implemented"', function () {
         const answer = buildAnswer('some answer');
         const solution = buildSolution('QRU', 'some value');
-        expect(service.match(answer, solution)).to.equal('pending');
+        expect(service.match(answer, solution)).to.equal('not-implemented');
       });
 
     });
@@ -200,10 +200,10 @@ describe('Unit | Service | SolutionService', function () {
 
     describe('if solution type is none of the above ones', function () {
 
-      it('should return "pending"', function () {
+      it('should return "not-implemented"', function () {
         const answer = buildAnswer('some value');
         const solution = buildSolution('SOME_TYPE', 'Some variant');
-        expect(service.match(answer, solution)).to.equal('pending');
+        expect(service.match(answer, solution)).to.equal('not-implemented');
       });
 
     });

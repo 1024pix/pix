@@ -52,9 +52,9 @@ describe('Acceptance | c1 - Consulter l\'écran de fin d\'un test ', function() 
     expect($cell.attr('data-original-title')).to.equal('Réponse incorrecte');
   });
 
-  it('c1.5 Pour une réponse en cours de validation, le tableau récapitulatif donne une indication adéquate', function () {
+  it('c1.5 Pour une réponse dont la validation n\'est pas encore implémentée, le tableau récapitulatif donne une indication adéquate', function () {
     const $cell = findWithAssert('div[data-toggle="tooltip"]:eq(2)');
-    expect($cell.attr('data-original-title')).to.equal('Vérification en cours');
+    expect($cell.attr('data-original-title')).to.equal('Correction automatique en cours de développement ;)');
   });
 
   it('c1.6 Pour une réponse dont l\'utilisateur a cliqué sur \'Je Passe\', le tableau récapitulatif donne une indication adéquate', function () {
