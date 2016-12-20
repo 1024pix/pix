@@ -31,9 +31,15 @@ module.exports = {
 
     assessmentRepository
       .get(request.params.id)
-      .then((assessment) => assessmentService.getAssessmentNextChallengeId(assessment, request.params.challengeId))
-      .then((nextChallengeId) => challengeRepository.get(nextChallengeId))
-      .then((challenge) => reply(challengeSerializer.serialize(challenge)))
+      .then((assessment) => {
+        return assessmentService.getAssessmentNextChallengeId(assessment, request.params.challengeId);
+      })
+      .then((nextChallengeId) => {
+        return (nextChallengeId) ? challengeRepository.get(nextChallengeId) : null;
+      })
+      .then((challenge) => {
+        return (challenge) ? reply(challengeSerializer.serialize(challenge)) : reply('null');
+      })
       .catch((err) => reply(Boom.badImplementation(err)));
   }
 

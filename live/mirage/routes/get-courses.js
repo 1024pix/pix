@@ -10,7 +10,7 @@ export default function (schema, request) {
   ];
 
   const filteredCourses = _.filter(allCourses, function (oneCourse) {
-    return request.queryParams.adaptive == undefined || oneCourse.attributes.isAdaptive;
+    return _.isEmpty(request.queryParams.isAdaptive) || oneCourse.attributes.isAdaptive;
   });
 
   return { data: filteredCourses };

@@ -56,7 +56,7 @@ server.register([
     }
   }
 ], (err) => {
-  if (err) logger.error(err)
+  if (err) logger.error(err);
 });
 
 module.exports = server;

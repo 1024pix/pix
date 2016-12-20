@@ -5,6 +5,6 @@ export default Ember.Route.extend({
   delay: Ember.inject.service(),
 
   model() {
-    return this.store.query('course', { adaptive: true });
+    return this.store.query('course', { isAdaptive: true });
   }
 });

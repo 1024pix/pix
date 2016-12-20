@@ -10,7 +10,7 @@ class CourseSerializer extends JSONAPISerializer {
     data.attributes['name'] = model.name;
     data.attributes['description'] = model.description;
     data.attributes['duration'] = model.duration;
-    data.attributes['isAdaptive'] = model.isAdaptive;
+    data.attributes['is-adaptive'] = model.isAdaptive;
 
     if (model.imageUrl) {
       data.attributes['image-url'] = model.imageUrl;
@@ -25,7 +25,7 @@ class CourseSerializer extends JSONAPISerializer {
         }
       };
       for (const  challengeId of model.challenges) {
-        data.relationships.challenges.data.unshift({
+        data.relationships.challenges.data.push({
           'type': 'challenges',
           'id': challengeId
         });

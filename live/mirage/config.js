@@ -1,5 +1,6 @@
 import getChallenge                      from './routes/get-challenge';
 import getChallenges                     from './routes/get-challenges';
+import getNextChallenge                  from './routes/get-next-challenge';
 import getCourse                         from './routes/get-course';
 import getCourses                        from './routes/get-courses';
 import getAnswer                         from './routes/get-answer';
@@ -24,6 +25,8 @@ export default function () {
 
   this.post('/assessments',    postAssessments);
   this.get('/assessments/:id', getAssessment);
+  this.get('/assessments/:assessmentId/next/:challengeId', getNextChallenge);
+  this.get('/assessments/:assessmentId/next', getNextChallenge);
 
   this.post('/answers',        postAnswers);
   this.get('/answers/:id',     getAnswer);
