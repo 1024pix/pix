@@ -74,7 +74,18 @@ module.exports = {
 
         if (count > 0) logger.debug(`Deleted from cache challenge ${id}`);
 
-        return this._fetch(id, reject, cacheKey, resolve);
+        const cacheSolutionKey = `solution_${id}`;
+
+        cache.del(cacheSolutionKey, (err, count) => {
+
+          if (err) return reject(err);
+
+          if (count > 0) logger.debug(`Deleted from cache solution ${id}`);
+
+          return this._fetch(id, reject, cacheKey, resolve);
+        });
+
+        // return this._fetch(id, reject, cacheKey, resolve);
       });
     });
   },

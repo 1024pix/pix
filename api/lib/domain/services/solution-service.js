@@ -9,6 +9,7 @@ module.exports = {
 
     const answerValue = answer.get('value');
     const solutionValue = solution.value;
+    const solutionScoring = solution.scoring;
 
     if ('#ABAND#' === answerValue) {
       return 'aband';
@@ -35,7 +36,7 @@ module.exports = {
     }
 
     if (solution.type === 'QROCM-dep') {
-      return solutionServiceQrocmDep.match(answerValue, solutionValue);
+      return solutionServiceQrocmDep.match(answerValue, solutionValue, solutionScoring);
     }
 
     return 'not-implemented';

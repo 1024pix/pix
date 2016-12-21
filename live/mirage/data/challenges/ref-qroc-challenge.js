@@ -1,7 +1,7 @@
 export default {
   data: {
     type: 'challenges',
-    id: 'ref_qroc_challenge_full',
+    id: 'ref_qroc_challenge_id',
     attributes: {
       type: 'QROC',
       instruction: 'Un QROC est une question ouverte avec un simple champ texte libre pour répondre',

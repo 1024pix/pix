@@ -1,12 +1,12 @@
-import challenge from '../challenges/ref-qrocm-challenge';
+import challenge from '../challenges/ref-qru-challenge';
 
 export default {
   data: {
     type: 'answers',
-    id: 'ref_answer_qrocm_id',
+    id: 'ref_answer_qru_id',
     attributes: {
-      value: 'logiciel1: word\nlogiciel2: excel\nlogiciel3: powerpoint',
-      result: 'partially'
+      value: '',
+      result: 'aband'
     },
     relationships: {
       challenge: {
@@ -24,3 +24,4 @@ export default {
     }
   }
 };
+

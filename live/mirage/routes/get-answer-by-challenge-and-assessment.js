@@ -3,6 +3,7 @@ import _               from 'lodash/lodash';
 import rawQcmAnswer    from '../data/answers/raw-qcm-answer';
 import refQcmAnswer    from '../data/answers/ref-qcm-answer';
 import refQcuAnswer    from '../data/answers/ref-qcu-answer';
+import refQruAnswer    from '../data/answers/ref-qru-answer';
 import refQrocAnswer   from '../data/answers/ref-qroc-answer';
 import refQrocmAnswer  from '../data/answers/ref-qrocm-answer';
 
@@ -11,6 +12,7 @@ export default function (schema, request) {
   const allAnswers = [
     rawQcmAnswer,
     refQcuAnswer,
+    refQruAnswer,
     refQcmAnswer,
     refQrocAnswer,
     refQrocmAnswer
@@ -20,11 +22,11 @@ export default function (schema, request) {
     return {id: oneAnswer.data.id, obj: oneAnswer};
   });
 
-  const answer = _.find(answers, 
+  const answer = _.find(answers,
     function(oneAnswer) {
-      const belongsToAssessment = 
+      const belongsToAssessment =
         _.get(oneAnswer.obj, 'data.relationships.assessment.data.id') === request.queryParams.assessment;
-      const belongsToChallenge = 
+      const belongsToChallenge =
         _.get(oneAnswer.obj, 'data.relationships.challenge.data.id') === request.queryParams.challenge;
       return belongsToAssessment && belongsToChallenge;
     });

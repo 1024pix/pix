@@ -46,4 +46,36 @@ describe('Unit | Utils | lodash-utils', function () {
       done();
     });
   });
+
+
+  describe('ensureString', function () {
+    it('when no input, return an empty String', function (done) {
+      expect(_.ensureString()).to.equal('');
+      done();
+    });
+    it('when input is explicitly undefined, return an empty String', function (done) {
+      expect(_.ensureString(undefined)).to.equal('');
+      done();
+    });
+    it('when input is explicitly null, return an empty String', function (done) {
+      expect(_.ensureString(null)).to.equal('');
+      done();
+    });
+    it('when input is a number (typeof meaning), it returns a JSON.stringify version of the input', function (done) {
+      expect(_.ensureString(42)).to.equal('42');
+      done();
+    });
+    it('when input is a string (typeof meaning), it returns a JSON.stringify version of the input', function (done) {
+      expect(_.ensureString('42')).to.equal('42');
+      done();
+    });
+    it('when input is an object (typeof meaning), it returns a JSON.stringify version of the input', function (done) {
+      expect(_.ensureString(/[aeiou]+/g)).to.equal('/[aeiou]+/g');
+      done();
+    });
+    it('when input is an boolean (typeof meaning), it returns a JSON.stringify version of the input', function (done) {
+      expect(_.ensureString(true)).to.equal('true');
+      done();
+    });
+  });
 });

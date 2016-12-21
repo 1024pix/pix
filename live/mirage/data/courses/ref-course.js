@@ -1,5 +1,6 @@
 import refQcmChallengeFull from '../challenges/ref-qcm-challenge';
 import refQcuChallengeFull from '../challenges/ref-qcu-challenge';
+import refQruChallengeFull from '../challenges/ref-qru-challenge';
 import refQrocChallengeFull from '../challenges/ref-qroc-challenge';
 import refQrocmChallengeFull from '../challenges/ref-qrocm-challenge';
 
@@ -22,6 +23,9 @@ export default {
         }, {
           type: 'challenges',
           id: refQcuChallengeFull.data.id
+        }, {
+          type: 'challenges',
+          id: refQruChallengeFull.data.id
         }, {
           type: 'challenges',
           id: refQrocChallengeFull.data.id

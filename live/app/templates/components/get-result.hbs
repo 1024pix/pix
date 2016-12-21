@@ -36,6 +36,11 @@
           <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" width="24" height="24" viewBox="0 0 24 24"><path d="M12,2A10,10 0 0,0 2,12A10,10 0 0,0 12,22A10,10 0 0,0 22,12A10,10 0 0,0 12,2M8,8L13,12L8,16M14,8H16V16H14" fill="#3e4149"/></svg>
          </div>
 
+         {{else if answer.isResultPartiallyOk}}
+         <div data-toggle="tooltip" data-placement="top" title="Réponse partielle">
+          <svg width="22" height="22" viewBox="0 0 24 25" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><defs><path d="M941,28.7873535 C944.182598,28.7873535 947.234845,30.0516356 949.485281,32.3020721 C951.735718,34.5525087 953,37.6047556 953,40.7873535 C953,47.4147705 947.627417,52.7873535 941,52.7873535 C937.817402,52.7873535 934.765155,51.5230714 932.514719,49.2726349 C930.264282,47.0221983 929,43.9699514 929,40.7873535 C929,37.6047556 930.264282,34.5525087 932.514719,32.3020721 C934.765155,30.0516356 937.817402,28.7873535 941,28.7873535 L941,28.7873535 Z" id="path-1"></path><mask id="mask-2" maskContentUnits="userSpaceOnUse" maskUnits="objectBoundingBox" x="0" y="0" width="24" height="24" fill="white"><use xlink:href="#path-1"></use></mask></defs><g id="Résultats" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd"><g id="test-fin-1" transform="translate(-1155.000000, -532.000000)" stroke="#FFBE00" stroke-width="14"><g id="Group3" transform="translate(226.000000, 504.000000)"><use id="Shape-Copy-3" mask="url(#mask-2)" xlink:href="#path-1"></use></g></g></g></svg>
+         </div>
+
          {{else}}
          <div data-toggle="tooltip" data-placement="top" data-lines="2" title="Correction automatique en cours de développement ;)">
           <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" width="24" height="24" viewBox="0 0 24 24"><path d="M13,13H11V7H13M13,17H11V15H13M12,2A10,10 0 0,0 2,12A10,10 0 0,0 12,22A10,10 0 0,0 22,12A10,10 0 0,0 12,2Z" fill="#446eff"/></svg>

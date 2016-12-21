@@ -40,7 +40,7 @@ describe('Acceptance | a3 - voir la liste des tests', function () {
     });
 
     it('a3.2.3 on affiche le nombre d\'épreuve(s) qu\'il contient', function () {
-      expect($course.find('.course-number-of-challenges').text()).to.contains('4 épreuves');
+      expect($course.find('.course-number-of-challenges').text()).to.contains('5 épreuves');
     });
 
     it('a3.2.4 on affiche son image', function () {

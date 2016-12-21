@@ -19,6 +19,9 @@ export default Model.extend(ValueAsArrayOfBoolean, ValueAsArrayOfString, {
   isResultWithoutAnswer: computed('result', function () {
     return this.get('result') === 'aband';
   }),
+  isResultPartiallyOk: computed('result', function () {
+    return this.get('result') === 'partially';
+  }),
   isResultNotOk: computed('result', function () {
     return this.get('result') === 'ko';
   })

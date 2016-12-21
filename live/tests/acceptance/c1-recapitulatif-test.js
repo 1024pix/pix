@@ -53,24 +53,29 @@ describe('Acceptance | c1 - Consulter l\'écran de fin d\'un test ', function() 
   });
 
   it('c1.5 Pour une réponse dont la validation n\'est pas encore implémentée, le tableau récapitulatif donne une indication adéquate', function () {
-    const $cell = findWithAssert('div[data-toggle="tooltip"]:eq(2)');
+    const $cell = findWithAssert('div[data-toggle="tooltip"]:eq(3)');
     expect($cell.attr('data-original-title')).to.equal('Correction automatique en cours de développement ;)');
   });
 
   it('c1.6 Pour une réponse dont l\'utilisateur a cliqué sur \'Je Passe\', le tableau récapitulatif donne une indication adéquate', function () {
-    const $cell = findWithAssert('div[data-toggle="tooltip"]:eq(3)');
+    const $cell = findWithAssert('div[data-toggle="tooltip"]:eq(2)');
     expect($cell.attr('data-original-title')).to.equal('Sans réponse');
   });
 
-  it('c1.7 Le nom du test est affiché', function() {
+  it('c1.7 Pour une réponse dont l\'utilisateur n\'a qu\'une partie des bonnes réponse, le tableau récapitulatif donne une indication adéquate', function () {
+    const $cell = findWithAssert('div[data-toggle="tooltip"]:eq(4)');
+    expect($cell.attr('data-original-title')).to.equal('Réponse partielle');
+  });
+
+  it('c1.8 Le nom du test est affiché', function() {
     expect(findWithAssert('.course-banner-name').text()).to.contains('First Course');
   });
 
-  it('c1.8 Le bouton "Revenir à la liste des tests" n\'apparaît pas', function () {
+  it('c1.9 Le bouton "Revenir à la liste des tests" n\'apparaît pas', function () {
     expect(find('.course-banner-home-link')).to.have.lengthOf(0);
   });
 
-  it('c1.9. propose un moyen pour revenir à la liste des tests', function () {
+  it('c1.10. propose un moyen pour revenir à la liste des tests', function () {
     findWithAssert('button.assessment-results-link-home');
   });
 
