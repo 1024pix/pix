@@ -34,6 +34,7 @@ Vous devez au préalable avoir correctement installé les logiciels suivants :
 ```bash
 $ git clone git@github.com:sgmap/pix.git && cd pix
 $ npm run install:all
+$ (cd api && npm run db:migrate)
 $ npm test
 $ npm start
 ```
