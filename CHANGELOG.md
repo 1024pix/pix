@@ -1,10 +1,17 @@
 # PIX Changelog
 
-## 2.1.1 (7/12/2016)
+## 3.0.0 (03/01/2017)
+
+- [#214](https://github.com/sgmap/pix/pull/214) [FEATURE] Affichage du libellé "Correction automatique en cours de développement ;)" dans l'écran de fin d'un test 
+- [#213](https://github.com/sgmap/pix/pull/213) [FEATURE] Validation d'une épreuve d'un test adaptatif 
+- [#208](https://github.com/sgmap/pix/pull/208) [FEATURE] Ajout de la validation automatique des questions de type QROCm-depsco 
+- [#219](https://github.com/sgmap/pix/pull/219) [DOC] Mise à jour de la procédure d'installation dans le README
+
+## 2.1.1 (07/12/2016)
 
 - [#196](https://github.com/sgmap/pix/pull/196) [INFRA] Correction du script de livraison release-publish.
 
-## 2.1.0 (7/12/2016)
+## 2.1.0 (07/12/2016)
 
 - [#193](https://github.com/sgmap/pix/pull/193) [CLEANUP] Ajout de tests unitaires et d'intégration pour le composant qcu-proposals
 - [#187](https://github.com/sgmap/pix/pull/187) [FEATURE] Gestion du bouton back.
