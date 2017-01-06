@@ -1,1 +1,4 @@
 extends: '../.eslintrc'
+
+globals:
+  include: true

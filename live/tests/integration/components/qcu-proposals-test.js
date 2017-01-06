@@ -3,7 +3,7 @@ import { describe, it } from 'mocha';
 import { setupComponentTest } from 'ember-mocha';
 import hbs from 'htmlbars-inline-precompile';
 
-describe('Integration | Component | QcmProposalsComponent', function () {
+describe('Integration | Component | QcuProposalsComponent', function () {
 
   setupComponentTest('qcu-proposals', {
     needs: ['helper:inc']
@@ -50,11 +50,7 @@ describe('Integration | Component | QcmProposalsComponent', function () {
       expect(this.$('.challenge-proposal')).to.have.lengthOf(proposals.length);
     });
 
-    it.skip('should unselect all radio buttons if no answer was given (default)', function () {
-    });
 
-    it.skip('should select corresponding radio button if an answer was given', function () {
-    });
 
   });
 

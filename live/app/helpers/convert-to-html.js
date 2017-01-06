@@ -1,6 +1,6 @@
 /* global showdown */
 import Ember from 'ember';
-import _ from 'lodash/lodash';
+import _ from 'pix-live/utils/lodash-custom';
 
 export function convertToHtml(params) {
   if (_.isArray(params) && params.length > 0) {

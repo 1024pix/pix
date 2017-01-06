@@ -67,6 +67,7 @@ module.exports = function (defaults) {
   app.import('bower_components/showdown/dist/showdown.js');
   app.import('bower_components/showdown-target-blank/dist/showdown-target-blank.js');
   app.import('bower_components/js-yaml/dist/js-yaml.js');
+  app.import('bower_components/lodash/dist/lodash.js');
 
   if (app.env !== 'test') {
     // css animations

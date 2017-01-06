@@ -1,9 +1,12 @@
+{{#if challenge.hasntInternetAllowed}}
+  {{challenge-stay}}
+{{/if}}
 
 {{challenge-instruction instruction=challenge._instructionAsObject}}
 
 <div class="rounded-panel challenge-response">
     <div class="challenge-proposals">
-        {{qrocm-proposal 
+        {{qrocm-proposal
             blocks=challenge._proposalsAsBlocks
             answersValue=answers._valuesAsMap
             onInputChanged='inputChanged' }}

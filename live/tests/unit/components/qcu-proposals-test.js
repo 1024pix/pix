@@ -1,9 +1,10 @@
+import _ from 'pix-live/utils/lodash-custom';
+
 import { expect } from 'chai';
 import { describe, it } from 'mocha';
 import { setupTest } from 'ember-mocha';
-import _ from 'lodash/lodash';
 
-describe('Unit | Component | QcmProposalsComponent', function () {
+describe('Unit | Component | QcuProposalsComponent', function () {
 
   setupTest('component:qcu-proposals', {});
 
@@ -81,7 +82,7 @@ describe('Unit | Component | QcmProposalsComponent', function () {
       expect(_.every(labeledRadios, (labeledRadio) => labeledRadio[1] === false)).to.be.true;
     });
 
-    it('should return an array of [<proposal_text>, <boolean_answer>] with <boolean_answer> values set to "false" when answer value is "null" or "undefined"', function () {
+    it('should return an array of [<proposal_text>, <boolean_answer>] with <boolean_answer> values empty when answer value is not a boolean', function () {
       // given
       answers = [true, undefined, null];
       initComponent.call(this);
@@ -90,9 +91,7 @@ describe('Unit | Component | QcmProposalsComponent', function () {
       const labeledRadios = component.get('labeledRadios');
 
       // then
-      expect(labeledRadios[0][BOOLEAN_ANSWER]).to.equal(true);
-      expect(labeledRadios[1][BOOLEAN_ANSWER]).to.equal(false);
-      expect(labeledRadios[2][BOOLEAN_ANSWER]).to.equal(false);
+      expect(labeledRadios).to.have.lengthOf(0);
     });
 
   });

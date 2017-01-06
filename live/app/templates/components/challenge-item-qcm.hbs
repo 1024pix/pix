@@ -1,10 +1,14 @@
+{{#if challenge.hasntInternetAllowed}}
+  {{challenge-stay}}
+{{/if}}
+
 
 {{challenge-instruction instruction=challenge._instructionAsObject}}
 
 <div class="rounded-panel challenge-response">
   <div class="challenge-proposals">
-    {{qcm-proposals 
-        answers=answers._valueAsArrayOfBoolean 
+    {{qcm-proposals
+        answers=answers._valueAsArrayOfBoolean
         proposals=challenge._proposalsAsArray
         onAnswerUpdated='answerChanged'}}
   </div>

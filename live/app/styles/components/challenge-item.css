@@ -126,3 +126,9 @@
   font-weight: 900;
   text-transform: uppercase;
 }
+
+/* Challenge-response
+–––––––––––––––––––––––––––––––––––––––––––––––––– */
+.challenge-response {
+  margin-bottom: 20px;
+}

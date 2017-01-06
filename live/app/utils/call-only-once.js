@@ -1,5 +1,5 @@
 import config from '../config/environment';
-import _ from 'lodash/lodash';
+import _ from './lodash-custom';
 
 export default function callOnlyOnce (targetFunction) {
   if (config.EmberENV.useDelay) {

@@ -13,7 +13,7 @@ You will need the following things properly installed on your computer.
 * [Node.js](http://nodejs.org/) (with NPM)
 * [Bower](http://bower.io/)
 * [Ember CLI](http://ember-cli.com/)
-* [PhantomJS](http://phantomjs.org/)
+* [PhantomJS](http://phantomjs.org/) !! Be sure to install at least PhantomJS 2.X
 
 ## Installation
 

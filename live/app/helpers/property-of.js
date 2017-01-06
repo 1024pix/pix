@@ -1,5 +1,5 @@
 import Ember from 'ember';
-import _ from 'lodash/lodash';
+import _ from 'pix-live/utils/lodash-custom';
 
 export function propertyOf(params) {
   const map = params[0];

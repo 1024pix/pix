@@ -1,10 +1,10 @@
-const utils = require('./solution-service-utils');
+const _ = include('lib/utils/lodash-utils');
 
 module.exports = {
 
   match (answer, solution) {
 
-    if (utils.areStringListEquivalent(answer, solution)) {
+    if (_.areCSVequivalent(answer, solution)) {
       return 'ok';
     }
     return 'ko';

@@ -5,8 +5,8 @@
   border-right: 1px solid var(--light-grey4);
   border-bottom: 1px solid var(--light-grey5);
   box-shadow: 0 1px 0 0 var(--light-grey4);
-  padding: 20px;
-  margin-bottom: 30px;
+  padding:20px;
+  margin-bottom: 10px;
   overflow: hidden;
 
   & .big-text,

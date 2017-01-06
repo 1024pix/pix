@@ -12,6 +12,7 @@
     "raven-js": "^3.8.1",
     "showdown": "1.4.3",
     "showdown-target-blank": "^1.0.1",
-    "js-yaml": "^3.7.0"
+    "js-yaml": "^3.7.0",
+    "lodash": "^4.17.2"
   }
 }
