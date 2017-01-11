@@ -1,19 +1,11 @@
-Tâches NPM
+NPM tasks
 -----------
 
-| Task                | Description                                                                     |
-| ------------------- | ------------------------------------------------------------------------------- |
-| start               | Démarrer le serveur                                                             |
-| serve               | Démarrer le serveur en mode sources watching / auto-reload (via *nodemon*)      |
-| db:migrate          | Jouer les scripts de migration de la base de données (cf. `/db/migrations`)     |
-| db:seed             | Jouer les scripts d'alimentation de la base de données (cf. `/db/seed`)         |
-| test                | Exécuter les tests                                                              |
-| test:serve          | Exécuter les tests en mode sources watching / auto-reload                       |
-| coverage            | Calculer la couverture de code de l'API (rapport généré dans `/coverage`)       |
-| lint                | Vérifier le respect des standards de code                                       |
-| deploy:development  | Tâche utilisée par CircleCI pour déployer l'API en tant que Review App          |
-| deploy:staging      | Tâche utilisée par CircleCI pour déployer l'API sur l'environnement de staging  |
-| deploy:production   | Déployer l'API en production (action manuuelle)                                 |
+Execute the NPM `help` to see the available NPM tasks for API.
+
+```
+$ npm run help
+```
 
 
 Database
