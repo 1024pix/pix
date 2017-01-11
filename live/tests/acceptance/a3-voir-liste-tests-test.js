@@ -20,7 +20,7 @@ describe('Acceptance | a3 - voir la liste des tests', function () {
   });
 
   it('a3.1 on affiche autant de tests que remontés par l\'API', function () {
-    expect(findWithAssert('.course')).to.have.lengthOf(2);
+    expect(findWithAssert('.course')).to.have.lengthOf(3);
   });
 
   describe('a3.2 pour un test donné avec toutes les informations', function () {

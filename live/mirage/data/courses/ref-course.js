@@ -11,7 +11,6 @@ export default {
     attributes: {
       name: 'First Course',
       description: 'Contient toutes les sortes d\'epreuves',
-      isAdaptive: true,
       duration: 10,
       'image-url': 'http://fakeimg.pl/350x200/?text=First%20Course'
     },
