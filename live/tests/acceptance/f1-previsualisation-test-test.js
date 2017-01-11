@@ -37,7 +37,9 @@ describe('Acceptance | f1 - Prévisualisation  d\'un test |', function () {
       });
 
       it('f1.3 la description du test', function () {
-        expect($preview.find('.course-description').text()).to.contains('Contient toutes les sortes d\'epreuves');
+        const $courseDescription = $preview.find('.course-description');
+        const instructionText = 'Contient toutes sortes d\'epreuves avec différentes caractéristiques couvrant tous les cas d\'usage.';
+        expect($courseDescription.text()).to.contains(instructionText);
       });
 
       it('f1.4 un bouton pour démarrer la simulation du test et qui mène à la première question', function () {
@@ -67,11 +69,11 @@ describe('Acceptance | f1 - Prévisualisation  d\'un test |', function () {
       });
 
       it('f1.6 la consigne de l\'épreuve', function () {
-        expect($challenge.find('.challenge-instruction').html()).to.contain('Un QCM propose plusieurs choix');
+        expect($challenge.find('.challenge-statement__instruction').html()).to.contain('Un QCM propose plusieurs choix');
       });
 
       it('f1.7 un bouton pour accéder à l\'épreuve suivante', function () {
-        expect(findWithAssert('a.challenge-item-actions__validate-action').text()).to.contains('Je valide');
+        expect(findWithAssert('.challenge-actions__action-validate').text()).to.contains('Je valide');
       });
     });
   });

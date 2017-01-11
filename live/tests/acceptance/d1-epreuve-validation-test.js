@@ -3,7 +3,7 @@ import startApp from '../helpers/start-app';
 import destroyApp from '../helpers/destroy-app';
 
 function getValidateActionLink() {
-  return $('a.challenge-item-actions__validate-action')[0];
+  return $('.challenge-actions__action-validate');
 }
 
 describe('Acceptance | d1 - Valider une épreuve |', function () {
@@ -32,13 +32,13 @@ describe('Acceptance | d1 - Valider une épreuve |', function () {
     expect($progressBar.text()).to.contains(expectedText);
   });
   it('d1.1 Je peux valider ma réponse à une épreuve via un bouton "Je valide"', function () {
-    expect(findWithAssert('a.challenge-item-actions__validate-action')).to.have.lengthOf(1);
+    expect(findWithAssert('.challenge-actions__action-validate')).to.have.lengthOf(1);
   });
 
   describe('quand je valide ma réponse à une épreuve', function () {
 
     it('d1.3 Si l\'épreuve que je viens de valider n\'était pas la dernière du test, je suis redirigé vers l\'épreuve suivante', function () {
-      return click('.challenge-proposal:first input[type="checkbox"]').then(() => {
+      return click('.challenge-response__proposal-label').then(() => {
         const $validateButton = getValidateActionLink();
         return click($validateButton).then(() => {
           expect(currentURL()).to.contains('/assessments/ref_assessment_id/challenges/ref_qcu_challenge_id');
@@ -52,8 +52,8 @@ describe('Acceptance | d1 - Valider une épreuve |', function () {
     });
 
     it('d1.5 Si l\'épreuve que je viens de valider était la dernière du test, je suis redirigé vers la page de fin du test', function () {
-      visit('/assessments/ref_assessment_id/challenges/ref_qrocm_challenge_id').then(() => {
-        fillIn('input[name="logiciel1"]', 'COUCOU').then(() => {
+      visit('/assessments/ref_assessment_id/challenges/multiple_files_challenge_id').then(() => {
+        click('.challenge-response__proposal-input').then(() => {
           const $validateButton = getValidateActionLink();
           return click($validateButton).then(() => {
             expect(currentURL()).to.contains('/assessments/ref_assessment_id/results');

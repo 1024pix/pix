@@ -1,0 +1,49 @@
+.challenge-actions {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  margin-bottom: 30px;
+}
+
+.challenge-actions__action {
+  cursor: pointer;
+  text-align: center;
+}
+
+.challenge-actions__action-skip {
+  color: var(--skip-action-color);
+  margin-right: 15px;
+}
+
+.challenge-actions__action-skip:hover {
+  color: var(--skip-action-color);
+}
+
+.challenge-actions__action-skip-text {
+  width: 55px;
+  height: 19px;
+  font-family: var(--font-open-sans);
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.challenge-actions__action-validate {
+  width: 130px;
+  height: 46px;
+  border-radius: 23px;
+  background-color: var(--validate-action-background-color);
+  color: var(--validate-action-color);
+}
+
+.challenge-actions__action-validate:hover {
+  color: var(--validate-action-color);
+}
+
+.challenge-actions__action-validate-text {
+  width: 76px;
+  line-height: 46px;
+  font-family: var(--font-lato);
+  font-size: 16px;
+  font-weight: 900;
+  text-transform: uppercase;
+}

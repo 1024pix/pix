@@ -11,15 +11,20 @@ describe('Unit | Serializer | ChallengeSerializer', function () {
         'id': 'challenge_id',
         'fields': {
           'Consigne': 'Que peut-on dire des œufs de catégorie A ?\n',
-          'Timer': '300',
           'Propositions': '- Ils sont bio.\n- Ils pèsent plus de 63 grammes.\n- Ce sont des oeufs frais.\n- Ils sont destinés aux consommateurs.\n- Ils ne sont pas lavés.\n',
           'Type d\'épreuve': 'QCM',
           'Illustration de la consigne': [{
             'url': 'http://challenge.illustration.url'
           }],
-          'Pièce jointe': [{
-            'url': 'http://challenge.attachement.url',
-            'filename': 'challenge_attachment_name'
+          "Pièce jointe": [{
+            "url": "http://challenge.attachement.url.docx",
+            "filename": "challenge_attachment_name_docx"
+          }, {
+            "url": "http://challenge.attachement.url.odt",
+            "filename": "challenge_attachment_name_odt"
+          }, {
+            "url": "http://challenge.attachement.url.fuck",
+            "filename": "challenge_attachment_name_fuck"
           }]
         }
       };
@@ -30,18 +35,21 @@ describe('Unit | Serializer | ChallengeSerializer', function () {
 
       // then
       expect(json).to.deep.equal({
-        'data': {
-          'type': 'challenges',
-          'id': challenge.id,
-          'attributes': {
-            'instruction': challenge.instruction,
-            'proposals': challenge.proposals,
-            'type': challenge.type,
-            'illustration-url': challenge.illustrationUrl,
-            'attachment-url': challenge.attachmentUrl,
+        "data": {
+          "type": "challenges",
+          "id": challenge.id,
+          "attributes": {
+            "instruction": challenge.instruction,
+            "proposals": challenge.proposals,
+            "type": challenge.type,
+            "illustration-url": challenge.illustrationUrl,
             'hasnt-internet-allowed': challenge.hasntInternetAllowed,
             'timer': challenge.timer,
-            'attachment-filename': challenge.attachmentFilename
+            "attachments": [
+              challenge.attachments[0],
+              challenge.attachments[1],
+              challenge.attachments[2]
+            ]
           }
         }
       });

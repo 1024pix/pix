@@ -2,29 +2,28 @@
   {{challenge-stay}}
 {{/if}}
 
-{{challenge-instruction instruction=challenge._instructionAsObject}}
+{{challenge-statement challenge}}
 
 <div class="rounded-panel challenge-response">
-  <div class="challenge-proposals">
-      {{qrocm-proposal
-          blocks=challenge._proposalsAsBlocks
-          answersValue=answers._valuesAsMap
-          onInputChanged='inputChanged' }}
+  <div class="rounded-panel__row challenge-proposals">
+    {{qrocm-proposal
+      blocks=challenge._proposalsAsBlocks
+      answersValue=answers._valuesAsMap
+      onInputChanged='inputChanged' }}
   </div>
+
   {{#if challenge.timer}}
     {{timeout-jauge allotedTime=challenge.timer}}
   {{/if}}
 </div>
 
 {{#if errorMessage}}
-    <div class="alert alert-danger" role="alert">
-      {{errorMessage}}
-    </div>
+  <div class="alert alert-danger" role="alert">
+    {{errorMessage}}
+  </div>
 {{/if}}
 
 {{#if assessment}}
-  {{challenge-actionbar
-      skip="skip"
-      validate="validate"}}
+  {{challenge-actions skip="skip" validate="validate"}}
 {{/if}}
 

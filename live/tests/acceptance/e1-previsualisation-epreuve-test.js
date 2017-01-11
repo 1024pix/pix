@@ -34,7 +34,7 @@ describe('Acceptance | e1 - Prévisualiser une épreuve | ', function () {
       });
 
       it('e1.2 la consigne de l\'épreuve', function () {
-        expect($challenge.find('.challenge-instruction').text()).to.contain('Un QCU propose plusieurs choix, l\'utilisateur peut en choisir un seul');
+        expect($challenge.find('.challenge-statement__instruction').text()).to.contain('Un QCU propose plusieurs choix, l\'utilisateur peut en choisir un seul');
       });
 
     });

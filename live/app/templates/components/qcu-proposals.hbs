@@ -1,18 +1,18 @@
 {{#each labeledRadios as |labeledRadio index|}}
-  <p class="challenge-proposal">
-      <label>
+  <p class="challenge-response__proposal">
+    <label class="challenge-response__proposal-label">
 
-        {{!-- Radio button --}}
-        <input 
-          type="radio"
-          name="{{inc index}}"
-          checked={{labeledRadio.[1]}} 
-          onclick={{action "radioClicked" index}} />
+      {{!-- Radio button --}}
+      <input class="challenge-response__proposal-input"
+             type="radio"
+             name="{{inc index}}"
+             checked={{labeledRadio.[1]}}
+             onclick={{action "radioClicked" index}} />
 
-        {{!-- text of proposal  --}}
-        {{labeledRadio.[0]}}
+      {{!-- text of proposal  --}}
+      {{labeledRadio.[0]}}
 
-      </label>
-  </p>  
+    </label>
+  </p>
 {{/each}}
 

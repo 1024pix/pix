@@ -1,0 +1,57 @@
+<div class="rounded-panel challenge-statement">
+
+  {{#if challenge.instruction}}
+    <div class="rounded-panel__row challenge-statement__instruction-section">
+      {{markdown-to-html class="challenge-statement__instruction" extensions='targetBlank'
+                         markdown=challenge.instruction}}
+    </div>
+  {{/if}}
+
+  {{#if challenge.illustrationUrl}}
+    <div class="rounded-panel__row challenge-statement__illustration-section">
+      <img class="challenge-statement__illustration" src="{{ challenge.illustrationUrl }}"
+           alt="Illustration de l'épreuve">
+    </div>
+  {{/if}}
+
+  {{#if challenge.hasAttachment}}
+    <div class="rounded-panel__row challenge-statement__attachments-section">
+
+      {{#if challenge.hasSingleAttachment}}
+        <div class="challenge-statement__action">
+          <a class="challenge-statement__action-link" href="{{challenge.attachments.firstObject}}" target="_blank">
+            <span class="challenge-statement__action-label">Télécharger</span>
+          </a>
+        </div>
+      {{/if}}
+
+      {{#if challenge.hasMultipleAttachments}}
+        <p class="challenge-statement__text">
+          <span class="challenge-statement__text-content">Choisissez le type de fichier que vous voulez utiliser</span>
+        <div class="challenge-statement__help-icon">
+          <div class="challenge-statement__help-tooltip">
+            <span class="challenge-statement__help-text">Pix vous laisse le choix du format de fichier à télécharger. Si vous ne savez pas quelle option retenir, conservez le choix par défaut. Il correspond au format de fichier pris en charge par le plus grand nombre de logiciels.</span>
+          </div>
+        </div>
+        </p>
+        <ul class="challenge-statement__file-options">
+          {{#each challenge.attachments as |attachmentUrl|}}
+            <li class="challenge-statement__file-option">
+              <label class="challenge-statement__file-option-label">
+                <input class="challenge-statement__file-option-input" type="radio" value="{{attachmentUrl}}"
+                       name="attachment_selector" onclick={{action "selectAttachementUrl" attachmentUrl}}/>
+                fichier .{{extract-extension attachmentUrl}}
+              </label>
+            </li>
+          {{/each}}
+        </ul>
+        <div class="challenge-statement__action">
+          <a class="challenge-statement__action-link" href="{{selectedAttachmentUrl}}" target="_blank">
+            <span class="challenge-statement__action-label">Télécharger</span>
+          </a>
+        </div>
+      {{/if}}
+    </div>
+  {{/if}}
+
+</div>

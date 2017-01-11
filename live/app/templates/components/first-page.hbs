@@ -7,7 +7,8 @@
           Développez vos compétences numériques
         </div>
         <div class="first-page-hero__sub-value-prop">
-          PIX est un projet public de plateforme en ligne d’évaluation et de certification des compétences numériques, en cours de développement.
+          PIX est un projet public de plateforme en ligne d’évaluation et de certification des compétences numériques,
+          en cours de développement.
         </div>
       </div>
     </div>
@@ -22,33 +23,33 @@
       <ul class="row courses">
 
         {{#each model as |course|}}
-        <li class="col-md-3 course-item animated fadeIn">
-          <div class="rounded-panel course" data-id="{{ course.id }}">
-            {{#if course.imageUrl}}
-            <img class="course-picture" src="{{ course.imageUrl }}" alt="Illustration du test">
-            {{else}}
-            <img class="course-picture" src="{{rootURL}}images/course-default-image.png" alt="Illustration du test">
-            {{/if}}
+          <li class="col-md-3 course-item animated fadeIn">
+            <div class="rounded-panel course" data-id="{{ course.id }}">
+              {{#if course.imageUrl}}
+                <img class="course-picture" src="{{ course.imageUrl }}" alt="Illustration du test">
+              {{else}}
+                <img class="course-picture" src="{{rootURL}}images/course-default-image.png" alt="Illustration du test">
+              {{/if}}
 
-            <div class="course-content">
-              <h4 class="course-name">
-                {{ course.name }}
-              </h4>
-              <div class="course-description">
-                {{ course.description }}
+              <div class="course-content">
+                <h4 class="course-name">
+                  {{ course.name }}
+                </h4>
+                <div class="course-description">
+                  {{ course.description }}
+                </div>
+              </div>
+
+              <div class="course-number-of-challenges">
+                {{ course.challenges.length }} épreuves
+              </div>
+              <div class="course-actions">
+                {{#link-to "courses.create-assessment" course.id class="button button-primary start-button"}}
+                  Démarrer le test
+                {{/link-to}}
               </div>
             </div>
-
-            <div class="course-number-of-challenges">
-              {{ course.challenges.length }} épreuves
-            </div>
-            <div class="course-actions">
-              {{#link-to "courses.create-assessment" course.id class="button button-primary start-button"}}
-              Démarrer le test
-              {{/link-to}}
-            </div>
-          </div>
-        </li>
+          </li>
         {{/each}}
 
       </ul>
@@ -81,7 +82,7 @@
     <div class="first-page-feature__icon-container">
       <img src="{{rootURL}}images/icon-monde.svg" class="first-page-feature__icon">
     </div>
-    <div class="first-page-feature__title">PIX est pour tout le monde </div>
+    <div class="first-page-feature__title">PIX est pour tout le monde</div>
     <div class="first-page-feature__text"> Collégiens, lycéens, étudiants, professionnels, citoyens…</div>
   </div>
   <div class="first-page-feature">
@@ -89,35 +90,42 @@
       <img src="{{rootURL}}images/icon-reference.svg" class="first-page-feature__icon">
     </div>
     <div class="first-page-feature__title">PIX est la référence</div>
-    <div class="first-page-feature__text"> La certification nationale de la culture numérique made in France au standard européen.</div>
+    <div class="first-page-feature__text"> La certification nationale de la culture numérique made in France au standard
+      européen.
+    </div>
   </div>
   <div class="first-page-feature">
     <div class="first-page-feature__icon-container">
       <img src="{{rootURL}}images/icon-evolutif.svg" class="first-page-feature__icon">
     </div>
     <div class="first-page-feature__title">PIX est évolutif</div>
-    <div class="first-page-feature__text"> Le référentiel de compétences s’adapte en permanence aux évolutions du monde numérique.</div>
+    <div class="first-page-feature__text"> Le référentiel de compétences s’adapte en permanence aux évolutions du monde
+      numérique.
+    </div>
   </div>
   <div class="first-page-feature">
     <div class="first-page-feature__icon-container">
       <img src="{{rootURL}}images/icon-gratuit.svg" class="first-page-feature__icon">
     </div>
     <div class="first-page-feature__title">PIX est gratuit</div>
-    <div class="first-page-feature__text"> Entraînez-vous et progressez gratuitement à votre rythme avant d’être certifié.</div>
+    <div class="first-page-feature__text"> Entraînez-vous et progressez gratuitement à votre rythme avant d’être
+      certifié.
+    </div>
   </div>
 </div>
 
 
-  <div class="first-page-footer container">
-    <div class="first-page-footer__item-marianne">
-      <img src="{{rootURL}}images/mnsr3.svg" class="first-page-footer__logo-marianne-img">
-    </div>
-    <div class="first-page-footer__item-contact">
-      <a class="first-page-footer__mailto" href="mailto:contact@pix.beta.gouv.fr">Contactez-nous</a>
-       |
-      <a class="first-page-footer__mailto" href="https://github.com/sgmap/pix" target="_blank">Le code source est libre</a>
-    </div>
-    <div class="first-page-footer__item-logo">
-      <img src="{{rootURL}}images/pix-logo.svg" class="first-page-footer__logo-pix-img">
-    </div>
+<div class="first-page-footer container">
+  <div class="first-page-footer__item-marianne">
+    <img src="{{rootURL}}images/mnsr3.svg" class="first-page-footer__logo-marianne-img">
   </div>
+  <div class="first-page-footer__item-contact">
+    <a class="first-page-footer__mailto" href="mailto:contact@pix.beta.gouv.fr">Contactez-nous</a>
+    |
+    <a class="first-page-footer__mailto" href="https://github.com/sgmap/pix" target="_blank">Le code source est
+      libre</a>
+  </div>
+  <div class="first-page-footer__item-logo">
+    <img src="{{rootURL}}images/pix-logo.svg" class="first-page-footer__logo-pix-img">
+  </div>
+</div>

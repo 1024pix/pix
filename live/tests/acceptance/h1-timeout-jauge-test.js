@@ -4,10 +4,10 @@ import destroyApp from '../helpers/destroy-app';
 import _ from 'pix-live/utils/lodash-custom';
 
 function getValidateActionLink() {
-  return $('a.challenge-item-actions__validate-action')[0];
+  return $('.challenge-actions__action-validate');
 }
 function getSkipActionLink() {
-  return $('a.challenge-item-actions__skip-action')[0];
+  return $('.challenge-actions__action-skip');
 }
 
 function fullUrlOfLastPostRequest() {

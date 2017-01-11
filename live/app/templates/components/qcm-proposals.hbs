@@ -1,18 +1,18 @@
 {{#each labeledCheckboxes as |labeledCheckbox index|}}
-  <p class="challenge-proposal">
-      <label>
+  <p class="challenge-response__proposal">
+    <label class="challenge-response__proposal-label">
 
         {{!-- checkbox --}}
-        <input 
+        <input class="challenge-response__proposal-input"
           type="checkbox"
           name="{{inc index}}"
-          checked={{labeledCheckbox.[1]}} 
+          checked={{labeledCheckbox.[1]}}
           onclick={{action "checkboxClicked"}} />
 
         {{!-- text of proposal  --}}
         {{labeledCheckbox.[0]}}
 
       </label>
-  </p>  
+  </p>
 {{/each}}
 

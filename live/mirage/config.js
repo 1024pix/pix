@@ -30,6 +30,6 @@ export default function () {
 
   this.post('/answers',        postAnswers);
   this.get('/answers/:id',     getAnswer);
-  this.get ('/answers',        getAnswerByChallengeAndAssessment);
+  this.get('/answers',        getAnswerByChallengeAndAssessment);
 
 }

@@ -17,9 +17,8 @@ class ChallengeSerializer extends JSONAPISerializer {
       data.attributes['illustration-url'] = model.illustrationUrl;
     }
 
-    if (model.attachmentUrl) {
-      data.attributes['attachment-url'] = model.attachmentUrl;
-      data.attributes['attachment-filename'] = model.attachmentFilename;
+    if (model.attachments) {
+      data.attributes['attachments'] = model.attachments;
     }
   }
 }

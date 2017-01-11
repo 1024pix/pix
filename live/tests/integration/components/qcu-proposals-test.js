@@ -3,10 +3,10 @@ import { describe, it } from 'mocha';
 import { setupComponentTest } from 'ember-mocha';
 import hbs from 'htmlbars-inline-precompile';
 
-describe('Integration | Component | QcuProposalsComponent', function () {
+describe('Integration | Component | QcuProposals', function () {
 
   setupComponentTest('qcu-proposals', {
-    needs: ['helper:inc']
+    integration: true
   });
 
   /* Rendering
@@ -24,30 +24,21 @@ describe('Integration | Component | QcuProposalsComponent', function () {
       answerChangedHandler = () => true;
     });
 
-    function initComponent() {
-      const component = this.subject();
-      component.set('proposals', proposals);
-      component.set('answers', answers);
-      component.set('answerChanged', answerChangedHandler);
-    }
-
-    function renderComponent() {
-      this.render(hbs`{{qcu-proposals answers=answers proposals=proposals onAnswerUpdated='answerChanged'}}`);
-    }
-
     // Inspired from:
     // - Ember-mocha: https://github.com/emberjs/ember-mocha#setup-component-tests
     // - Ember: https://guides.emberjs.com/v2.10.0/testing/testing-components
     // -        https://guides.emberjs.com/v2.10.0/tutorial/autocomplete-component/
     it('should render as much radio buttons as proposals', function () {
       // given
-      initComponent.call(this);
+      this.set('proposals', proposals);
+      this.set('answers', answers);
+      this.set('answerChanged', answerChangedHandler);
 
       // when
-      renderComponent.call(this);
+      this.render(hbs`{{qcu-proposals answers=answers proposals=proposals onAnswerUpdated='answerChanged'}}`);
 
       // then
-      expect(this.$('.challenge-proposal')).to.have.lengthOf(proposals.length);
+      expect(this.$('.challenge-response__proposal-input')).to.have.lengthOf(proposals.length);
     });
 
 

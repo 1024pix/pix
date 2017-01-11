@@ -21,13 +21,13 @@ describe('Acceptance | b5 - Afficher une image sous la consigne | ', function ()
     });
 
     it('b5.1 Une image unique peut être affichée sous la consigne', function () {
-      const $illustration = findWithAssert('.challenge-illustration > img');
+      const $illustration = findWithAssert('.challenge-statement__illustration');
       expect($illustration.length).to.equal(1);
     });
 
     it('b5.2 Cette image a un alt text “ceci est une image”', function () {
-      const $illustration = findWithAssert('.challenge-illustration > img');
-      expect($illustration.attr('alt')).to.contains('ceci est une image');
+      const $illustration = findWithAssert('.challenge-statement__illustration');
+      expect($illustration.attr('alt')).to.contains('Illustration de l\'épreuve');
     });
   });
 
@@ -43,7 +43,7 @@ describe('Acceptance | b5 - Afficher une image sous la consigne | ', function ()
       findWithAssert('.challenge-item');
 
       // ... but illustration is hidden
-      const $illustration = $('.challenge-illustration');
+      const $illustration = $('.challenge-statement__illustration');
       expect($illustration.length).to.equal(0);
     });
   });

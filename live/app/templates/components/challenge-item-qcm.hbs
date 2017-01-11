@@ -2,15 +2,14 @@
   {{challenge-stay}}
 {{/if}}
 
-
-{{challenge-instruction instruction=challenge._instructionAsObject}}
+{{challenge-statement challenge}}
 
 <div class="rounded-panel challenge-response">
-  <div class="challenge-proposals">
+  <div class="rounded-panel__row challenge-proposals">
     {{qcm-proposals
-        answers=answers._valueAsArrayOfBoolean
-        proposals=challenge._proposalsAsArray
-        onAnswerUpdated='answerChanged'}}
+      answers=answers._valueAsArrayOfBoolean
+      proposals=challenge._proposalsAsArray
+      onAnswerUpdated='answerChanged'}}
   </div>
   {{#if challenge.timer}}
     {{timeout-jauge allotedTime=challenge.timer}}
@@ -24,7 +23,5 @@
 {{/if}}
 
 {{#if assessment}}
-  {{challenge-actionbar
-      skip="skip"
-      validate="validate"}}
+  {{challenge-actions skip="skip" validate="validate"}}
 {{/if}}

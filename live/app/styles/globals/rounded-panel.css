@@ -5,36 +5,10 @@
   border-right: 1px solid var(--light-grey4);
   border-bottom: 1px solid var(--light-grey5);
   box-shadow: 0 1px 0 0 var(--light-grey4);
-  padding: 20px;
-  margin-bottom: 10px;
+  margin-bottom: 30px;
   overflow: hidden;
-
-  & .big-text,
-  &.big-text {
-    font-size: 17px;
-  }
-
-  & hr {
-    height: 1px;
-    border: none;
-    background: var(--light-grey5);
-    margin: 20px -29px;
-    box-sizing: content-box;
-  }
-
 }
 
-.rounded-panel-title {
-  text-rendering: optimizeLegibility;
-  font-size: 20px;
-  font-weight: 400;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  font-smoothing: antialiased;
-  color: var(--pix-blue);
-}
-
-.rounded-panel-notice {
-  /*color: var(--pix-orange);*/
-  color: var(--pix-yellow);
+.rounded-panel__row {
+  padding: 20px;
 }

@@ -6,6 +6,9 @@ import refQcuAnswer from '../data/answers/ref-qcu-answer';
 import refQruAnswer from '../data/answers/ref-qru-answer';
 import refQrocAnswer from '../data/answers/ref-qroc-answer';
 import refQrocmAnswer from '../data/answers/ref-qrocm-answer';
+import noFileAnswer from '../data/answers/no-file-answer';
+import oneFileAnswer from '../data/answers/one-file-answer';
+import multipleFilesAnswer from '../data/answers/multiple-files-answer';
 
 export default function (schema, request) {
 
@@ -15,7 +18,10 @@ export default function (schema, request) {
     refQruAnswer,
     refQcmAnswer,
     refQrocAnswer,
-    refQrocmAnswer
+    refQrocmAnswer,
+    noFileAnswer,
+    oneFileAnswer,
+    multipleFilesAnswer
   ];
 
   const answers = _.map(allAnswers, function (oneAnswer) {
@@ -27,7 +33,7 @@ export default function (schema, request) {
   if (answer) {
     return answer.obj;
   } else {
-    throw new Error({message:'404 The answer you required in the fake server does not exist ' + request.params.id});
+    throw new Error({ message: '404 The answer you required in the fake server does not exist ' + request.params.id });
   }
 
 }

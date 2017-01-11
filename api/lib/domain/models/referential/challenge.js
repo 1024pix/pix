@@ -26,9 +26,7 @@ class Challenge extends AirtableModel {
       }
 
       if (fields['Pièce jointe']) {
-        const { url, filename } = fields['Pièce jointe'][0];
-        this.attachmentUrl = url;
-        this.attachmentFilename = filename;
+        this.attachments = fields['Pièce jointe'].map(attachment => attachment.url);
       }
     }
   }

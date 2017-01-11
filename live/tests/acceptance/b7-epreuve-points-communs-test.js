@@ -23,27 +23,29 @@ describe('Acceptance | b7 - Points communs a toutes les épreuves | ', function 
   });
 
   it('b7.1 L\'instruction de l\'epreuve est affichée', function () {
-    expect($('.challenge-instruction').text()).to.equal('Un QROCM est une question ouverte avec plusieurs champs texte libre pour repondre');
+    const $challengeInstruction = $('.challenge-statement__instruction');
+    const instructiontext = 'Un QROCM est une question ouverte avec plusieurs champs texte libre pour repondre';
+    expect($challengeInstruction.text()).to.equal(instructiontext);
   });
 
   it('b7.2a Le contenu de type [foo](bar) doit être converti sous forme de lien', function() {
-    const $links = findWithAssert('.challenge-instruction a');
+    const $links = findWithAssert('.challenge-statement__instruction a');
     expect($links.length).to.equal(1);
     expect($links.text()).to.equal('ouverte');
     expect($links.attr('href')).to.equal('http://link.ouverte.url');
   });
 
   it('b7.2b Les liens doivent s\'ouvrir dans un nouvel onglet', function() {
-    const $links = findWithAssert('.challenge-instruction a');
+    const $links = findWithAssert('.challenge-statement__instruction a');
     expect($links.attr('target')).to.equal('_blank');
   });
 
   it('b7.3 Un bouton de type "Skip" doit s\'afficher', function () {
-    expect($('.challenge-item-actions__skip-action')).to.have.lengthOf(1);
+    expect($('.challenge-actions__action-skip')).to.have.lengthOf(1);
   });
 
   it('b7.4 Un bouton de type "Validate" doit s\'afficher', function () {
-    expect($('a.challenge-item-actions__validate-action')).to.have.lengthOf(1);
+    expect($('.challenge-actions__action-skip')).to.have.lengthOf(1);
   });
 
   it('b7.5 Il existe un bouton "Revenir à la liste des tests"', function () {
@@ -55,7 +57,7 @@ describe('Acceptance | b7 - Points communs a toutes les épreuves | ', function 
     // when
     click('.course-banner-home-link');
 
-    // then...
+    // then
     andThen(() => expect(currentURL()).to.equal('/'));
   });
 });

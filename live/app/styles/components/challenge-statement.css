@@ -1,0 +1,149 @@
+.challenge-statement {
+  /* XXX required to let "help tooltip" displaying well even if instruction section is short (1 line) */
+  overflow: visible;
+}
+
+.challenge-statement__instruction-section {
+  font-size: 20px;
+}
+
+.challenge-statement__illustration-section {
+  display: block;
+  text-align: center;
+  border-top: 1px solid var(--light-grey5);
+  box-sizing: content-box;
+}
+
+.challenge-statement__illustration {
+  max-width: 100%;
+}
+
+.challenge-statement__attachments-section {
+  background-color: #ececec;
+  text-align: center;
+  padding: 20px;
+}
+
+.challenge-statement__text {
+  font-size: 16px;
+}
+
+.challenge-statement__help-icon {
+  width: 18px;
+  height: 18px;
+  line-height: 18px;
+  color: #fff;
+  display: inline-block;
+  background: var(--pix-blue);
+  border-radius: 50%;
+  margin: 0 5px;
+  cursor: pointer;
+  position: relative;
+  text-align: center;
+  vertical-align: middle;
+}
+
+.challenge-statement__help-icon:after {
+  content: "i";
+  position: absolute;
+  font-size: 12px;
+  font-weight: 900;
+  left: 8px;
+}
+
+.challenge-statement__help-tooltip {
+  visibility: hidden;
+  color: #ccc;
+  text-align: justify;
+  border-radius: 6px;
+  padding: 15px;
+  width: 430px;
+  height: auto;
+  background-color: #ffffff;
+  box-shadow: 1px 1px 1px 0 rgba(0, 0, 0, 0.1);
+  border: solid 1px #d8d8d8;
+  position: absolute;
+  z-index: 999;
+  left: 50%;
+  margin-left: -400px;
+  bottom: 30px;
+}
+
+/* XXX tooltip bottom arrow */
+.challenge-statement__help-tooltip:before {
+  content: '';
+  position: absolute;
+  top: 100%;
+  left: 400px;
+  margin-left: -10px;
+  width: 0; height: 0;
+  border-top: 10px solid #d8d8d8;
+  border-right: 10px solid transparent;
+  border-left: 10px solid transparent;
+}
+.challenge-statement__help-tooltip:after {
+  content: '';
+  position: absolute;
+  top: 100%;
+  left: 400px;
+  margin-left: -8px;
+  width: 0; height: 0;
+  border-top: 8px solid #FFFFFF;
+  border-right: 8px solid transparent;
+  border-left: 8px solid transparent;
+}
+
+/* XXX the magic trick to manage tooltip appearing at icon mouse hover */
+.challenge-statement__help-icon:hover .challenge-statement__help-tooltip {
+  visibility: visible;
+}
+
+.challenge-statement__help-text {
+  font-size: 14px;
+  color: #3e4149;
+}
+
+
+.challenge-statement__file-options {
+  margin-left: 0;
+  padding: 10px 0;
+}
+
+.challenge-statement__file-option {
+  list-style-type: none;
+  display: inline-block;
+  padding: 0 15px;
+}
+
+.challenge-statement__file-option-label {
+  font-size: 16px;
+}
+
+.challenge-statement__action {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.challenge-statement__action-link {
+  width: 156px;
+  height: 46px;
+  border-radius: 23px;
+  background-color: var(--download-action-background-color);
+  color: var(--download-action-color);
+  cursor: pointer;
+  text-align: center;
+}
+
+.challenge-statement__action-link:hover {
+  color: var(--download-action-color);
+}
+
+.challenge-statement__action-label {
+  width: 76px;
+  line-height: 46px;
+  font-family: var(--font-lato);
+  font-size: 16px;
+  font-weight: 900;
+  text-transform: uppercase;
+}

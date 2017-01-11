@@ -69,6 +69,7 @@ describe('Acceptance | c1 - Consulter l\'écran de fin d\'un test ', function() 
     });
   });
 
+
   it('c1.9 Le nom du test est affiché', function() {
     expect(findWithAssert('.course-banner-name').text()).to.contains('First Course');
   });

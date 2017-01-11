@@ -3,19 +3,19 @@
   {{#if block.text}}
     <span>{{block.text}}</span>
   {{/if}}
-  
-  
+
+
   {{#if block.input}}
-      <input 
-        type="text" 
+      <input class="challenge-response__proposal-input"
+        type="text"
         name={{block.input}}
         value={{property-of answersValue block.input}}
         placeholder={{block.placeholder}}
       >
   {{/if}}
-  
+
   {{#if block.breakline}}
     <hr>
-  {{/if}} 
+  {{/if}}
 
 {{/each}}

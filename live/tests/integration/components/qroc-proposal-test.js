@@ -4,7 +4,7 @@ import hbs from 'htmlbars-inline-precompile';
 
 describeComponent(
   'qroc-proposal',
-  'Integration: QrocProposalComponent',
+  'Integration: QrocProposal',
   {
     integration: true
   },

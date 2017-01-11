@@ -6,14 +6,14 @@ const original_lodash = require('lodash');
 
 describe('Unit | Utils | lodash-utils', function () {
 
-  describe('scope', function () {
+  describe('#scope', function () {
     it('should not affect original version of lodash', function () {
       expect(original_lodash.elementAfter).not.to.exist;
       expect(_.elementAfter).to.exist;
     });
   });
 
-  describe('elementAfter', function () {
+  describe('#elementAfter', function () {
     it('for a given array and element in array (but not the last one), should return the element after the one provided', function () {
       expect(_.elementAfter(['a', 'b', 'c', 'd'], 'a')).to.equal('b');
       expect(_.elementAfter(['a', 'b', 'c', 'd'], 'b')).to.equal('c');
@@ -39,8 +39,7 @@ describe('Unit | Utils | lodash-utils', function () {
     });
   });
 
-
-  describe('areCSVequivalent', function () {
+  describe('#areCSVequivalent', function () {
     it('when no arg are given, should return false', function () {
       expect(_.areCSVequivalent()).to.equal(false);
     });
@@ -61,8 +60,7 @@ describe('Unit | Utils | lodash-utils', function () {
 
   });
 
-
-  describe('ensureString', function () {
+  describe('#ensureString', function () {
     it('when no input, return an empty String', function () {
       expect(_.ensureString()).to.equal('');
     });
