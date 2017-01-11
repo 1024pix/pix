@@ -14,6 +14,7 @@ function _updateExistingAnswer(existingAnswer, newAnswer, reply) {
         .save({
           result: answerCorrectness,
           value: newAnswer.get('value'),
+          timeout: newAnswer.get('timeout'),
           challengeId: existingAnswer.get('challengeId'),
           assessmentId: existingAnswer.get('assessmentId')
         }, { method: 'update' })
@@ -28,6 +29,7 @@ function _saveNewAnswer(newAnswer, reply) {
     .then((solution) => {
       const answerCorrectness = solutionService.match(newAnswer, solution);
       newAnswer.set('result', answerCorrectness);
+      newAnswer.set('timeout', newAnswer.get('timeout'));
       newAnswer.save()
         .then((newAnswer) => reply(answerSerializer.serialize(newAnswer)).code(201))
         .catch((err) => reply(Boom.badImplementation(err)));

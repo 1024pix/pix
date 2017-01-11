@@ -10,6 +10,7 @@ export default Model.extend(ValueAsArrayOfBoolean, ValueAsArrayOfString, {
 
   value: attr('string'),
   result: attr('string'),
+  timeout: attr('number'),
   assessment: belongsTo('assessment'),
   challenge: belongsTo('challenge'),
 
@@ -24,6 +25,9 @@ export default Model.extend(ValueAsArrayOfBoolean, ValueAsArrayOfString, {
   }),
   isResultNotOk: computed('result', function () {
     return this.get('result') === 'ko';
+  }),
+  isResultTimedOut: computed('result', function () {
+    return this.get('result') === 'timedout';
   })
 
 });

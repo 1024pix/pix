@@ -19,6 +19,7 @@
 @import url('components/load-email.css');
 @import url('components/course-banner.css');
 @import url('components/challenge-stay.css');
+@import url('components/timeout-jauge.css');
 
 /* views */
 @import url('home.css');

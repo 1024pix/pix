@@ -1,3 +1,4 @@
+/* global describe, it, expect */
 const serializer = require('../../../../lib/infrastructure/serializers/answer-serializer');
 const Answer = require('../../../../lib/domain/models/data/answer');
 
@@ -6,6 +7,7 @@ describe('Unit | Serializer | AnswerSerializer', function () {
   const modelObject = new Answer({
     id: 'answer_id',
     value: 'answer_value',
+    timeout: 8,
     result: 'result_value',
     assessmentId: 'assessment_id',
     challengeId: 'challenge_id'
@@ -16,8 +18,9 @@ describe('Unit | Serializer | AnswerSerializer', function () {
       type: 'answers',
       id: 'answer_id',
       attributes: {
-        value: "answer_value",
-        result: "result_value"
+        value: 'answer_value',
+        timeout: 8,
+        result: 'result_value'
       },
       relationships: {
         assessment: {

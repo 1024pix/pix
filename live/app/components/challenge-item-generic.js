@@ -7,6 +7,10 @@ const ChallengeItemGeneric = Ember.Component.extend({
   classNames: ['challenge-item'],
   attributeBindings: ['challenge.id:data-challenge-id'],
 
+  _getTimeout() {
+    return $('.timeout-jauge-remaining').attr('data-spent');
+  },
+
   actions: {
 
     validate: callOnlyOnce(function () {
@@ -14,13 +18,13 @@ const ChallengeItemGeneric = Ember.Component.extend({
         this.set('errorMessage', this._getErrorMessage());
         return this.sendAction('onError', this.get('errorMessage'));
       }
-      const value = this._getAnswerValue();
-      this.sendAction('onValidated', this.get('challenge'), this.get('assessment'), value);
+      const answerValue = this._getAnswerValue();
+      this.sendAction('onValidated', this.get('challenge'), this.get('assessment'), answerValue, this._getTimeout());
     }),
 
     skip: callOnlyOnce(function () {
       this.set('errorMessage', null);
-      this.sendAction('onValidated', this.get('challenge'), this.get('assessment'), '#ABAND#');
+      this.sendAction('onValidated', this.get('challenge'), this.get('assessment'), '#ABAND#', this._getTimeout());
     })
   }
 

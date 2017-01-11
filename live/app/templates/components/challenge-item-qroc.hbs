@@ -11,6 +11,9 @@
         answerValue=answers.value
         onInputChanged='inputChanged'}}
   </div>
+  {{#if challenge.timer}}
+    {{timeout-jauge allotedTime=challenge.timer}}
+  {{/if}}
 </div>
 
 {{#if errorMessage}}

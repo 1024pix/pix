@@ -1,9 +1,3 @@
-import {
-  describe,
-  it,
-  before,
-  after
-} from 'mocha';
 import { expect } from 'chai';
 import startApp from '../helpers/start-app';
 import destroyApp from '../helpers/destroy-app';
@@ -20,7 +14,7 @@ describe('Acceptance | c1 - Consulter l\'écran de fin d\'un test ', function() 
     destroyApp(application);
   });
 
-  before(function() {
+  beforeEach(function() {
     return visit('/assessments/ref_assessment_id/results');
   });
 
@@ -67,15 +61,23 @@ describe('Acceptance | c1 - Consulter l\'écran de fin d\'un test ', function() 
     expect($cell.attr('data-original-title')).to.equal('Réponse partielle');
   });
 
-  it('c1.8 Le nom du test est affiché', function() {
+  it('c1.8 Pour une réponse dont l\'utilisateur a bien répondu mais trop tard, le tableau récapitulatif donne une indication adéquate', function () {
+    visit('/assessments/raw_assessment_id/results');
+    andThen(() => {
+      const $picto = findWithAssert('.assessment-results-result-img > div');
+      expect($picto.data('original-title')).to.contain('Temps dépassé');
+    });
+  });
+
+  it('c1.9 Le nom du test est affiché', function() {
     expect(findWithAssert('.course-banner-name').text()).to.contains('First Course');
   });
 
-  it('c1.9 Le bouton "Revenir à la liste des tests" n\'apparaît pas', function () {
+  it('c1.10 Le bouton "Revenir à la liste des tests" n\'apparaît pas', function () {
     expect(find('.course-banner-home-link')).to.have.lengthOf(0);
   });
 
-  it('c1.10. propose un moyen pour revenir à la liste des tests', function () {
+  it('c1.11. propose un moyen pour revenir à la liste des tests', function () {
     findWithAssert('button.assessment-results-link-home');
   });
 

@@ -1,5 +1,5 @@
 import config from '../config/environment';
-import _ from './lodash-custom';
+import _ from 'pix-live/utils/lodash-custom';
 
 export default function callOnlyOnce (targetFunction) {
   if (config.EmberENV.useDelay) {

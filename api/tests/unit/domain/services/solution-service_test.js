@@ -18,9 +18,9 @@ describe('Unit | Service | SolutionService', function () {
     return solution;
   }
 
-  function buildAnswer(value) {
+  function buildAnswer(value, timeout) {
     const answer = new Answer({ id: 'answer_id' });
-    answer.attributes = { value };
+    answer.attributes = { value, timeout };
     return answer;
   }
 
@@ -52,6 +52,12 @@ describe('Unit | Service | SolutionService', function () {
         const answer = buildAnswer('same value');
         const solution = buildSolution('QCU', 'same value');
         expect(service.match(answer, solution)).to.equal('ok');
+      });
+
+      it('should return "timedout" when answer and solution are equal, but timeout is negative', function () {
+        const answer = buildAnswer('same value', -15);
+        const solution = buildSolution('QCU', 'same value');
+        expect(service.match(answer, solution)).to.equal('timedout');
       });
 
       it('should return "ko" when answer and solution are different', function () {
@@ -290,6 +296,36 @@ describe('Unit | Service | SolutionService', function () {
 
     });
 
+  });
+
+  describe('#_timedOut', function() {
+    it('should return "timedout" if result is partially correct and timeout is negative', function () {
+      expect(service._timedOut('partially', -5)).to.equal('timedout');
+    });
+    it('should return "timedout" if result is "ok" and timeout is negative', function () {
+      expect(service._timedOut('ok', -5)).to.equal('timedout');
+    });
+    it('should return "partially" if result is partially correct and timeout is 0', function () {
+      expect(service._timedOut('partially', 0)).to.equal('partially');
+    });
+    it('should return "ok" if result is "ok" and timeout is 0', function () {
+      expect(service._timedOut('ok', 0)).to.equal('ok');
+    });
+    it('should return "partially" if result is partially correct and timeout is positive', function () {
+      expect(service._timedOut('partially', 11)).to.equal('partially');
+    });
+    it('should return "ok" if result is "ok" and timeout is 0', function () {
+      expect(service._timedOut('ok', 11)).to.equal('ok');
+    });
+    it('should return "aband" if result is "aband" and timeout is negative', function () {
+      expect(service._timedOut('aband', -5)).to.equal('aband');
+    });
+    it('should return "aband" if result is "aband" and timeout is 0', function () {
+      expect(service._timedOut('aband', 0)).to.equal('aband');
+    });
+    it('should return "aband" if result is "aband" and timeout is positive', function () {
+      expect(service._timedOut('aband', 11)).to.equal('aband');
+    });
   });
 
 });

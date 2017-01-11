@@ -5,6 +5,7 @@ export default {
     id: 'ref_qru_challenge_id',
     attributes: {
       type: 'QRU',
+      timer: 70,
       'illustration-url': 'http://fakeimg.pl/350x200/?text=QRU',
       'attachment-url': 'http://example_of_url',
       'attachment-filename': 'filename.pdf',

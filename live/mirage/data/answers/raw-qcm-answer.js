@@ -6,7 +6,7 @@ export default {
     id: 'raw_answer_qcm_id',
     attributes: {
       value: '',
-      result: 'ok'
+      result: 'timedout'
     },
     relationships: {
       challenge: {

@@ -5,6 +5,7 @@ export default {
     id: 'ref_qcm_challenge_id',
     attributes: {
       type: 'QCM',
+      timer: 2,
       instruction: 'Un QCM propose plusieurs choix, l\'utilisateur peut en choisir [plusieurs](http://link.plusieurs.url)',
       'attachment-url': 'http://example_of_url',
       'attachment-filename': 'example_of_filename.pdf',

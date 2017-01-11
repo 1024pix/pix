@@ -1,7 +1,7 @@
 const JSONAPISerializer = require('./jsonapi-serializer');
 const Answer = require('../../domain/models/data/answer');
 
-class AssessmentSerializer extends JSONAPISerializer {
+class AnswerSerializer extends JSONAPISerializer {
 
   constructor() {
     super('answers');
@@ -9,6 +9,7 @@ class AssessmentSerializer extends JSONAPISerializer {
 
   serializeAttributes(model, data) {
     data.attributes.value = model.value;
+    data.attributes.timeout = model.timeout;
     data.attributes.result = model.result;
   }
 
@@ -34,6 +35,7 @@ class AssessmentSerializer extends JSONAPISerializer {
     const answer = new Answer({
       value: json.data.attributes.value,
       result: json.data.attributes.result,
+      timeout: json.data.attributes.timeout,
       assessmentId: json.data.relationships.assessment.data.id,
       challengeId: json.data.relationships.challenge.data.id
     });
@@ -47,4 +49,4 @@ class AssessmentSerializer extends JSONAPISerializer {
 
 }
 
-module.exports = new AssessmentSerializer();
+module.exports = new AnswerSerializer();

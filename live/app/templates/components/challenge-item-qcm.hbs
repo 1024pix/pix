@@ -12,6 +12,9 @@
         proposals=challenge._proposalsAsArray
         onAnswerUpdated='answerChanged'}}
   </div>
+  {{#if challenge.timer}}
+    {{timeout-jauge allotedTime=challenge.timer}}
+  {{/if}}
 </div>
 
 {{#if errorMessage}}

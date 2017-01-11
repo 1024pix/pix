@@ -5,12 +5,15 @@
 {{challenge-instruction instruction=challenge._instructionAsObject}}
 
 <div class="rounded-panel challenge-response">
-    <div class="challenge-proposals">
-        {{qrocm-proposal
-            blocks=challenge._proposalsAsBlocks
-            answersValue=answers._valuesAsMap
-            onInputChanged='inputChanged' }}
-    </div>
+  <div class="challenge-proposals">
+      {{qrocm-proposal
+          blocks=challenge._proposalsAsBlocks
+          answersValue=answers._valuesAsMap
+          onInputChanged='inputChanged' }}
+  </div>
+  {{#if challenge.timer}}
+    {{timeout-jauge allotedTime=challenge.timer}}
+  {{/if}}
 </div>
 
 {{#if errorMessage}}
