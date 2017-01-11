@@ -4,14 +4,13 @@
     <span>{{block.text}}</span>
   {{/if}}
 
-
   {{#if block.input}}
     <input class="challenge-response__proposal-input"
            type="text"
-           data-uid="qroc-proposal-uid"
            name={{block.input}}
-           placeholder={{block.placeholder}}
-           value="{{answerValue}}">
+             placeholder={{block.placeholder}}
+           value="{{answerValue}}"
+           data-uid="qroc-proposal-uid">
   {{/if}}
 
   {{#if block.breakline}}

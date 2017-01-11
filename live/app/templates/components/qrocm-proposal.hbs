@@ -4,14 +4,12 @@
     <span>{{block.text}}</span>
   {{/if}}
 
-
   {{#if block.input}}
-      <input class="challenge-response__proposal-input"
-        type="text"
-        name={{block.input}}
-        value={{property-of answersValue block.input}}
-        placeholder={{block.placeholder}}
-      >
+    <input class="challenge-response__proposal-input"
+           type="text"
+           name={{block.input}}
+             placeholder={{block.placeholder}}
+           value={{property-of answersValue block.input}}>
   {{/if}}
 
   {{#if block.breakline}}

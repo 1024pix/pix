@@ -34,6 +34,37 @@ describe('Unit | Service | SolutionService', function () {
         expect(service.match(answer, solution)).to.equal('aband');
       });
 
+      // XXX prevent bug after commit #9332cd2
+      it('should return "aband" even if question type is QCU', function () {
+        const answer = buildAnswer('#ABAND#');
+        const solution = buildSolution('QCU', 'Good answer');
+        expect(service.match(answer, solution)).to.equal('aband');
+      });
+
+      it('should return "aband" even if question type is QCM', function () {
+        const answer = buildAnswer('#ABAND#');
+        const solution = buildSolution('QCM', 'Good answer');
+        expect(service.match(answer, solution)).to.equal('aband');
+      });
+
+      it('should return "aband" even if question type is QROC', function () {
+        const answer = buildAnswer('#ABAND#');
+        const solution = buildSolution('QROC', 'Good answer');
+        expect(service.match(answer, solution)).to.equal('aband');
+      });
+
+      it('should return "aband" even if question type is QROCM-ind', function () {
+        const answer = buildAnswer('#ABAND#');
+        const solution = buildSolution('QROCM-ind', '9lettres:\n- courgette\n6lettres:\n- tomate\n- etamot');
+        expect(service.match(answer, solution)).to.equal('aband');
+      });
+
+      it('should return "aband" even if question type is QROCM-dep', function () {
+        const answer = buildAnswer('#ABAND#');
+        const solution = buildSolution('QROCM-dep', twoPossibleSolutions);
+        expect(service.match(answer, solution)).to.equal('aband');
+      });
+
     });
 
     describe('if solution type is QRU', function () {
@@ -142,13 +173,16 @@ describe('Unit | Service | SolutionService', function () {
         expect(service.match(answer, solution)).to.equal('ko');
       });
 
-      const successfulCases = [
-        { answer: '9lettres: courgette\n6lettres: tomate',
-          solution: '9lettres:\n- courgette\n6lettres:\n- tomate\n- etamot' },
-        { answer: '9lettres: courgette\n6lettres: etamot',
-          solution: '9lettres:\n- courgette\n6lettres:\n- tomate\n- etamot' },
-        { answer: 'a: "1"\nb: "2"',
-          solution: 'a:\n- 1\nb:\n- 2' }
+      const successfulCases = [{
+        answer: '9lettres: courgette\n6lettres: tomate',
+        solution: '9lettres:\n- courgette\n6lettres:\n- tomate\n- etamot'
+      }, {
+        answer: '9lettres: courgette\n6lettres: etamot',
+        solution: '9lettres:\n- courgette\n6lettres:\n- tomate\n- etamot'
+      }, {
+        answer: 'a: "1"\nb: "2"',
+        solution: 'a:\n- 1\nb:\n- 2'
+      }
       ];
 
       successfulCases.forEach(function (testCase) {
@@ -160,8 +194,10 @@ describe('Unit | Service | SolutionService', function () {
       });
 
       const failedCases = [
-        { answer: '9lettres: courgette\n6lettres: tomates', // notice "s" at the end of tomates
-          solution: '9lettres:\n- courgette\n6lettres:\n- tomate\n- etamot' },
+        {
+          answer: '9lettres: courgette\n6lettres: tomates', // notice "s" at the end of tomates
+          solution: '9lettres:\n- courgette\n6lettres:\n- tomate\n- etamot'
+        },
       ];
 
       failedCases.forEach(function (testCase) {
@@ -195,8 +231,10 @@ describe('Unit | Service | SolutionService', function () {
       });
 
       const maximalScoreCases = [
-        { answer: 'num1: " google.fr"\nnum2: "Yahoo anSwer "',
-          solution: twoPossibleSolutions },
+        {
+          answer: 'num1: " google.fr"\nnum2: "Yahoo anSwer "',
+          solution: twoPossibleSolutions
+        },
       ];
 
       maximalScoreCases.forEach(function (testCase) {
@@ -224,14 +262,18 @@ describe('Unit | Service | SolutionService', function () {
       });
 
       const maximalScoreCases = [
-        { when: '3 correct answers are given, and scoring is 1-3',
+        {
+          when: '3 correct answers are given, and scoring is 1-3',
           answer: 'num1: " google.fr"\nnum2: "Yahoo anSwer "\nnum3: bing',
           solution: threePossibleSolutions,
-          scoring: '1: @acquix\n2: @acquix\n3: @acquix' },
-        { when: '3 correct answers are given, and scoring is 1-2',
+          scoring: '1: @acquix\n2: @acquix\n3: @acquix'
+        },
+        {
+          when: '3 correct answers are given, and scoring is 1-2',
           answer: 'num1: " google.fr"\nnum2: "Yahoo anSwer "\nnum3: bing',
           solution: threePossibleSolutions,
-          scoring: '1: @acquix\n2: @acquix' },
+          scoring: '1: @acquix\n2: @acquix'
+        },
       ];
 
       maximalScoreCases.forEach(function (testCase) {
@@ -243,14 +285,18 @@ describe('Unit | Service | SolutionService', function () {
       });
 
       const partialScoreCases = [
-        { when: '1 correct answers are given + 2 wrong, and scoring is 1-3',
+        {
+          when: '1 correct answers are given + 2 wrong, and scoring is 1-3',
           answer: 'num1: " google.fr"\nnum2: "bad answer"\nnum3: "bad answer"',
           solution: threePossibleSolutions,
-          scoring: '1: @acquix\n2: @acquix\n3: @acquix' },
-        { when: '2 correct answers are given + 1 empty, and scoring is 1-3',
+          scoring: '1: @acquix\n2: @acquix\n3: @acquix'
+        },
+        {
+          when: '2 correct answers are given + 1 empty, and scoring is 1-3',
           answer: 'num1: " google.fr"\nnum2: "Yahoo anSwer "\nnum3: ""',
           solution: threePossibleSolutions,
-          scoring: '1: @acquix\n2: @acquix\n3: @acquix' },
+          scoring: '1: @acquix\n2: @acquix\n3: @acquix'
+        },
       ];
 
       partialScoreCases.forEach(function (testCase) {
@@ -262,18 +308,24 @@ describe('Unit | Service | SolutionService', function () {
       });
 
       const failedCases = [
-        { when: '2 correct answers are given but scoring requires 3 correct answers',
+        {
+          when: '2 correct answers are given but scoring requires 3 correct answers',
           answer: 'num1: " google.fr"\nnum2: "Yahoo anSwer "',
           solution: twoPossibleSolutions,
-          scoring: '3: @acquix' },
-        { when: 'no correct answer is given and scoring is 1-3',
+          scoring: '3: @acquix'
+        },
+        {
+          when: 'no correct answer is given and scoring is 1-3',
           answer: 'num1: " tristesse"\nnum2: "bad answer"',
           solution: twoPossibleSolutions,
-          scoring: '1: @acquix\n2: @acquix\n3: @acquix' },
-        { when: 'duplicate good answer is given and scoring is 2-3',
+          scoring: '1: @acquix\n2: @acquix\n3: @acquix'
+        },
+        {
+          when: 'duplicate good answer is given and scoring is 2-3',
           answer: 'num1: "google"\nnum2: "google.fr"',
           solution: twoPossibleSolutions,
-          scoring: '2: @acquix\n3: @acquix' },
+          scoring: '2: @acquix\n3: @acquix'
+        },
       ];
 
       failedCases.forEach(function (testCase) {
@@ -298,7 +350,7 @@ describe('Unit | Service | SolutionService', function () {
 
   });
 
-  describe('#_timedOut', function() {
+  describe('#_timedOut', function () {
     it('should return "timedout" if result is partially correct and timeout is negative', function () {
       expect(service._timedOut('partially', -5)).to.equal('timedout');
     });
