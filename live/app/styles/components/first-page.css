@@ -137,7 +137,7 @@
         padding: 15px;
         padding-bottom: 30px;
 
-        & > a {
+        & > .start-button {
           background-color: var(--pix-blue);
           border-color: var(--pix-blue);
           border-bottom: 1px solid var(--pix-blue1);
@@ -173,7 +173,7 @@
 }
 
 .first-page-email-content {
-  
+
 }
 
 .first-page-email__input-container {
@@ -205,9 +205,9 @@
   justify-content: center;
   align-items: center;
   background-color: white;
-  padding-top: 50px;  
+  padding-top: 50px;
   @media (min-width: 992px) {
-    padding-top: 75px;  
+    padding-top: 75px;
     flex-direction: row;
   }
 }

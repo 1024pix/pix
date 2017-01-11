@@ -39,7 +39,7 @@
         padding: 15px;
         padding-bottom: 30px;
 
-        & > a {
+        & > .start-button {
           background-color: var(--pix-blue);
           border-color: var(--pix-blue);
           border-bottom: 1px solid var(--pix-blue1);
@@ -59,3 +59,5 @@
   }
 
 }
+
+

@@ -1,6 +1,6 @@
 import Ember from 'ember';
 
-import {expect} from 'chai';
+import { expect } from 'chai';
 import startApp from '../helpers/start-app';
 import destroyApp from '../helpers/destroy-app';
 
@@ -24,20 +24,24 @@ describe('Acceptance | a4 - Démarrer un test |', function () {
     return visit('/');
   });
 
-  it('a4.1 Je peux démarrer un test depuis la liste des tests de la page d\'accueil', function () {
+
+  it('a4.1 Je peux démarrer un test depuis la liste des tests de la page d\'accueil', function() {
     const $startLink = findWithAssert('.start-button');
     expect($startLink.text()).to.contains('Démarrer le test');
   });
 
-  it('a4.2 Quand je démarre un test, je suis redirigé vers la première épreuve du test', function () {
+
+  it('a4.2 Quand je démarre un test, je suis redirigé vers la première épreuve du test', function() {
     const $startLink = findWithAssert('.start-button');
-    return click($startLink).then(function () {
+    return click($startLink).then(function() {
       findWithAssert('#assessment-challenge');
       expect(currentURL()).to.contains(URL_OF_FIRST_TEST);
     });
   });
 
-  it.skip('a4.3 Quand je démarre un test sur mobile, une modale m\'averti que l\'expérience ne sera pas optimale, mais je peux quand même continuer', function (done) {
+
+  it('a4.3 Quand je démarre un test sur mobile, une modale m\'averti que l\'expérience ne sera pas optimale, mais je peux quand même continuer', function(done) {
+
     const $startLink = findWithAssert('.start-button');
 
     expect($(MODAL_SELECTOR)).to.have.lengthOf(0);
@@ -59,7 +63,7 @@ describe('Acceptance | a4 - Démarrer un test |', function () {
     // blocked by modal
     andThen(() => {
       // XXX : ickiest hack : wait 500ms for bootstrap transition to complete
-      Ember.run.later(function () {
+      Ember.run.later(function() {
         expect($(MODAL_SELECTOR)).to.have.lengthOf(1);
         expect(currentURL()).to.equals('/');
         $('a[data-dismiss]').click();
@@ -74,12 +78,13 @@ describe('Acceptance | a4 - Démarrer un test |', function () {
 
   });
 
-  it('a4.4 Quand je RE-démarre un test sur mobile, la modale NE s\'affiche PAS', function (done) {
+
+  it('a4.4 Quand je RE-démarre un test sur mobile, la modale NE s\'affiche PAS', function(done) {
     const $startLink = findWithAssert('.start-button');
     triggerEvent('.first-page', 'simulateMobileScreen');
 
     andThen(() => {
-      Ember.run.later(function () {
+      Ember.run.later(function() {
         expect(currentURL()).to.equals('/');
         expect($(MODAL_SELECTOR)).to.have.lengthOf(0);
       }, 500);

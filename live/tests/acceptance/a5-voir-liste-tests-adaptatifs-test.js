@@ -32,22 +32,19 @@ describe('Acceptance | a5 - voir la liste des tests adaptatifs', function () {
     });
 
     it('a5.2.1 on affiche son nom', function () {
-      const courseTitle = 'Adaptive Course';
-      expect($course.find('.course-name').text()).to.contains(courseTitle);
+      expect($course.find('.course-name').text()).to.contains('Adaptive Course');
     });
 
     it('a5.2.2 on affiche sa description', function () {
-      const courseDescription = 'Est un test adaptatif.';
-      expect($course.find('.course-description').text()).to.contains(courseDescription);
+      expect($course.find('.course-description').text()).to.contains('Est un test adaptatif');
     });
 
     it('a5.2.3 on affiche son image', function () {
-      const courseIllustrationUrl = 'http://fakeimg.pl/350x200/?text=Adaptive%20Course';
-      expect($course.find('img')[0].src).to.equal(courseIllustrationUrl);
+      expect($course.find('img')[0].src).to.equal('http://fakeimg.pl/350x200/?text=Adaptive%20Course');
     });
 
     it('a5.2.4 on affiche un bouton "démarrer le test"', function () {
-      expect($course.find('a.button').text()).to.contains('Démarrer le test');
+      expect($course.find('.start-button').text()).to.contains('Démarrer le test');
     });
 
   });
