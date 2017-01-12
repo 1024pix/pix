@@ -47,6 +47,6 @@ git add CHANGELOG.md
 git commit -m "Update CHANGELOG.md"
 git push origin $CURRENT_BRANCH
 
-echo -e "From now checks that all is ok on ${CYAN}http://$CURRENT_BRANCH.pix.beta.gouv.fr${RESET_COLOR} environment and then execute ${CYAN}release:publish${RESET_COLOR} NPM task. If you need to update CHANGELOG.md file, then edit it and run ${CYAN}release:perform${RESET_COLOR} NPM task again.\n"
+echo -e "If the CHANGELOG.md file is ok, then execute ${CYAN}release:publish${RESET_COLOR} NPM task. If you need to update the CHANGELOG.md file, then edit it and run ${CYAN}release:perform${RESET_COLOR} NPM task again.\n"
 
 echo -e "Release performing ${GREEN}succeeded${RESET_COLOR}."

@@ -43,7 +43,7 @@ then
 fi
 
 # Fetches all last changes
-git fetch --all
+git pull
 
 # Remove local branch 'release' if exists, then create it
 RELEASE_BRANCH="release-$PACKAGE_VERSION"

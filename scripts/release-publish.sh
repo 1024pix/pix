@@ -49,7 +49,7 @@ git push origin dev
 echo -e "You are now on branch ${YELLOW}dev${RESET_COLOR}.\n"
 
 # Fetches all last changes
-git fetch --all
+git pull
 
 git checkout master
 echo -e "You are now on branch ${YELLOW}master${RESET_COLOR}.\n"
