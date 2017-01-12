@@ -1,6 +1,6 @@
 {
   "name": "pix-live",
-  "version": "3.1.0",
+  "version": "3.1.1",
   "description": "Plateforme d'évaluation et de certification des compétences numériques à l'usage de tous les citoyens francophones.",
   "private": true,
   "directories": {
