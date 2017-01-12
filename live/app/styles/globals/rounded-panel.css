@@ -12,3 +12,8 @@
 .rounded-panel__row {
   padding: 20px;
 }
+
+.rounded-panel hr {
+  margin-left: -20px;
+  margin-right: -20px;
+}

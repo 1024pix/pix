@@ -12,7 +12,9 @@
       onInputChanged='inputChanged'}}
   </div>
   {{#if challenge.timer}}
-    {{timeout-jauge allotedTime=challenge.timer}}
+    <div class="rounded-panel__row timeout-jauge-wrapper">
+      {{timeout-jauge allotedTime=challenge.timer}}
+    </div>
   {{/if}}
 </div>
 

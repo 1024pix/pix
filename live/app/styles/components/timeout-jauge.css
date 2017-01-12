@@ -1,3 +1,7 @@
+.timeout-jauge-wrapper {
+  padding-top: 0;
+}
+
 .timeout-jauge {
   width: 100%;
   display: flex;
