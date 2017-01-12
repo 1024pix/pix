@@ -1,5 +1,10 @@
 # PIX Changelog
 
+## 3.1.1 (12/01/2017)
+
+- [#238](https://github.com/sgmap/pix/pull/238) [DOC] Formatage du fichier CHANGELOG
+
+
 ## 3.1.0 (12/01/2017)
 
 - [#236](https://github.com/sgmap/pix/pull/236) [BUGFIX] La validation de certaines épreuves QROCM-dep est fausse
