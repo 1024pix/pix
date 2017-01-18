@@ -1,9 +1,17 @@
-import { expect } from 'chai';
+import {expect} from 'chai';
 import startApp from '../helpers/start-app';
 import destroyApp from '../helpers/destroy-app';
 
 function getValidateActionLink() {
   return $('.challenge-actions__action-validate');
+}
+
+function visitTimedChallenge() {
+  visit('/assessments/ref_assessment_id/challenges/ref_qcm_challenge_id');
+  andThen(() => {
+    const buttonConfirm = findWithAssert('.challenge-item-warning button');
+    buttonConfirm.click();
+  });
 }
 
 describe('Acceptance | d1 - Valider une épreuve |', function () {
@@ -20,7 +28,7 @@ describe('Acceptance | d1 - Valider une épreuve |', function () {
   });
 
   before(function () {
-    return visit('/assessments/ref_assessment_id/challenges/ref_qcm_challenge_id');
+    return visitTimedChallenge();
   });
 
   before(function () {

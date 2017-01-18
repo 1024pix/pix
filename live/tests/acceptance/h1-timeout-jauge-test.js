@@ -1,4 +1,4 @@
-import { expect } from 'chai';
+import {expect} from 'chai';
 import startApp from '../helpers/start-app';
 import destroyApp from '../helpers/destroy-app';
 import _ from 'pix-live/utils/lodash-custom';
@@ -23,7 +23,23 @@ function bodyOfLastPostRequest() {
   return JSON.parse($($('.last-post-request-body')[0]).text());
 }
 
-describe('Acceptance | H1 - Timeout Jauge | ',function () {
+function visitTimedChallenge() {
+  visit('/assessments/ref_assessment_id/challenges/ref_qcm_challenge_id');
+  andThen(() => {
+    const buttonConfirm = findWithAssert('.challenge-item-warning button');
+    buttonConfirm.click();
+  });
+}
+
+function visitTimedQruChallenge() {
+  visit('/assessments/ref_assessment_id/challenges/ref_qru_challenge_id');
+  andThen(() => {
+    const buttonConfirm = findWithAssert('.challenge-item-warning button');
+    buttonConfirm.click();
+  });
+}
+
+describe('Acceptance | H1 - Timeout Jauge | ', function () {
 
   let application;
 
@@ -35,10 +51,10 @@ describe('Acceptance | H1 - Timeout Jauge | ',function () {
     destroyApp(application);
   });
 
-  describe('Test affichage ou non de la jauge',function(){
+  describe('Test affichage ou non de la jauge', function () {
     //XXX: Deux cas car on test aussi une absence d'affichage
-    it('doit afficher la jauge si exigée par le backend mais ne pas l\'afficher dans le cas contraire ',function () {
-      visit('/assessments/ref_assessment_id/challenges/ref_qcm_challenge_id');
+    it('doit afficher la jauge si exigée par le backend mais ne pas l\'afficher dans le cas contraire ', function () {
+      visitTimedChallenge();
       andThen(() => {
         expect($('.timeout-jauge')).to.have.lengthOf(1);
       });
@@ -50,26 +66,26 @@ describe('Acceptance | H1 - Timeout Jauge | ',function () {
   });
 
   describe('Test quand la jauge est affichée', function () {
-    describe('Format d\'affichage',function () {
+    describe('Format d\'affichage', function () {
 
-      it('valeur 2 en backend est affichée 0:02 dans le timer',function () {
-        visit('/assessments/ref_assessment_id/challenges/ref_qcm_challenge_id');
+      it('valeur 2 en backend est affichée 0:02 dans le timer', function () {
+        visitTimedChallenge();
         andThen(() => {
           const $countDown = findWithAssert('.timeout-jauge-remaining');
           expect($countDown.text().trim()).to.equal('0:02');
         });
       });
 
-      it('valeur 70 en backend est affichée 1:10 dans le timer',function () {
-        visit('/assessments/ref_assessment_id/challenges/ref_qru_challenge_id');
+      it('valeur 70 en backend est affichée 1:10 dans le timer', function () {
+        visitTimedQruChallenge();
         andThen(() => {
           const $countDown = findWithAssert('.timeout-jauge-remaining');
           expect($countDown.text().trim()).to.equal('1:10');
         });
       });
 
-      it('Le timer se décharge progressivement',function () {
-        visit('/assessments/ref_assessment_id/challenges/ref_qcm_challenge_id');
+      it('Le timer se décharge progressivement', function () {
+        visitTimedChallenge();
         andThen(() => {
           triggerEvent('.timeout-jauge', 'resetElapsedTime');
         });
@@ -92,7 +108,7 @@ describe('Acceptance | H1 - Timeout Jauge | ',function () {
         });
       });
 
-      it('Décremente le compteur toutes les secondes, et s\'arrête définitivement à 0:00',function () {
+      it('Décremente le compteur toutes les secondes, et s\'arrête définitivement à 0:00', function () {
         visit('/assessments/ref_assessment_id/challenges/ref_qcm_challenge_id');
         andThen(() => {
           triggerEvent('.timeout-jauge', 'resetElapsedTime');
@@ -122,7 +138,7 @@ describe('Acceptance | H1 - Timeout Jauge | ',function () {
         });
       });
 
-      it('Affiche le pictogramme en noir, ou en rouge lorsque le timer est à 0:00',function () {
+      it('Affiche le pictogramme en noir, ou en rouge lorsque le timer est à 0:00', function () {
         visit('/assessments/ref_assessment_id/challenges/ref_qcm_challenge_id');
         andThen(() => {
           triggerEvent('.timeout-jauge', 'resetElapsedTime');
@@ -154,7 +170,7 @@ describe('Acceptance | H1 - Timeout Jauge | ',function () {
 
     });
 
-    describe('Sauvegarde du temps passé | ',function () {
+    describe('Sauvegarde du temps passé | ', function () {
 
       it('Si l\'utilisateur valide et il reste du temps, demande la sauvegarde du temps restant en secondes', function () {
         visit('/assessments/ref_assessment_id/challenges/ref_qcm_challenge_id');
@@ -172,7 +188,7 @@ describe('Acceptance | H1 - Timeout Jauge | ',function () {
       });
 
       it('Si l\'utilisateur valide et si le temps imparti est dépassé, demande la sauvegarde du nombre de secondes après 0', function () {
-        visit('/assessments/ref_assessment_id/challenges/ref_qcm_challenge_id');
+        visitTimedChallenge();
         andThen(() => {
           triggerEvent('.timeout-jauge', 'resetElapsedTime');
           $('.last-post-request').remove();
@@ -190,7 +206,7 @@ describe('Acceptance | H1 - Timeout Jauge | ',function () {
       });
 
       it('Si l\'utilisateur ABANDONNE et il reste du temps, demande la sauvegarde du temps restant en secondes', function () {
-        visit('/assessments/ref_assessment_id/challenges/ref_qcm_challenge_id');
+        visitTimedChallenge();
         andThen(() => {
           triggerEvent('.timeout-jauge', 'resetElapsedTime');
           $('.last-post-request').remove();
@@ -205,7 +221,7 @@ describe('Acceptance | H1 - Timeout Jauge | ',function () {
       });
 
       it('Si l\'utilisateur ABANDONNE et si le temps imparti est dépassé, demande la sauvegarde du nombre de secondes après 0', function () {
-        visit('/assessments/ref_assessment_id/challenges/ref_qcm_challenge_id');
+        visitTimedChallenge();
         andThen(() => {
           triggerEvent('.timeout-jauge', 'resetElapsedTime');
           $('.last-post-request').remove();

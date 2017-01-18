@@ -2,6 +2,14 @@ import { expect } from 'chai';
 import startApp from '../helpers/start-app';
 import destroyApp from '../helpers/destroy-app';
 
+function visitTimedChallenge() {
+  visit('/assessments/ref_assessment_id/challenges/ref_qcm_challenge_id');
+  andThen(() => {
+    const buttonConfirm = findWithAssert('.challenge-item-warning button');
+    buttonConfirm.click();
+  });
+}
+
 describe('Acceptance | b5 - Afficher une image sous la consigne | ', function () {
 
   let application;
@@ -17,7 +25,7 @@ describe('Acceptance | b5 - Afficher une image sous la consigne | ', function ()
   describe('Quand l\'épreuve contient une illustration en consigne', function () {
 
     before(function () {
-      return visit('/assessments/ref_assessment_id/challenges/ref_qcm_challenge_id');
+      return visitTimedChallenge();
     });
 
     it('b5.1 Une image unique peut être affichée sous la consigne', function () {

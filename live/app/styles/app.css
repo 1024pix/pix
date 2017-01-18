@@ -19,6 +19,7 @@
 @import url('components/challenge-stay.css');
 @import url('components/modal-mobile.css');
 @import url('components/timeout-jauge.css');
+@import url('components/warning-timing-page.css');
 
 /* views */
 @import url('home.css');

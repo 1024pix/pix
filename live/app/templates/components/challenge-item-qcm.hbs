@@ -1,29 +1,40 @@
-{{#if challenge.hasntInternetAllowed}}
-  {{challenge-stay}}
+{{#if hasChallengeTimer}}
+  {{#unless hasUserConfirmWarning}}
+    {{warning-page hasUserConfirmWarning=(action "setUserConfirmation") time=challenge.timer}}
+  {{/unless}}
 {{/if}}
 
-{{challenge-statement challenge}}
+{{#unless hasChallengeTimer}}
 
-<div class="rounded-panel challenge-response">
-  <div class="rounded-panel__row challenge-proposals">
-    {{qcm-proposals
-      answers=answers._valueAsArrayOfBoolean
-      proposals=challenge._proposalsAsArray
-      onAnswerUpdated='answerChanged'}}
+  {{#if challenge.hasntInternetAllowed}}
+    {{challenge-stay}}
+  {{/if}}
+
+  {{challenge-statement challenge}}
+  <div class="rounded-panel challenge-response">
+    <div class="rounded-panel__row challenge-proposals">
+      {{qcm-proposals
+        answers=answers._valueAsArrayOfBoolean
+        proposals=challenge._proposalsAsArray
+        onAnswerUpdated='answerChanged'}}
+    </div>
+    {{#if challenge.timer}}
+      {{#if hasUserConfirmWarning}}
+      <div class="rounded-panel__row timeout-jauge-wrapper">
+        {{timeout-jauge allotedTime=challenge.timer}}
+      </div>
+      {{/if}}
+    {{/if}}
   </div>
-  {{#if challenge.timer}}
-    <div class="rounded-panel__row timeout-jauge-wrapper">
-      {{timeout-jauge allotedTime=challenge.timer}}
+
+  {{#if errorMessage}}
+    <div class="alert alert-danger" role="alert">
+      {{errorMessage}}
     </div>
   {{/if}}
-</div>
 
-{{#if errorMessage}}
-  <div class="alert alert-danger" role="alert">
-    {{errorMessage}}
-  </div>
-{{/if}}
+  {{#if assessment}}
+    {{challenge-actions skip="skip" validate="validate"}}
+  {{/if}}
 
-{{#if assessment}}
-  {{challenge-actions skip="skip" validate="validate"}}
-{{/if}}
+{{/unless}}

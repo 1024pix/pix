@@ -1,4 +1,4 @@
-import { expect } from 'chai';
+import {expect} from 'chai';
 import startApp from '../helpers/start-app';
 import destroyApp from '../helpers/destroy-app';
 
@@ -69,7 +69,12 @@ describe('Acceptance | f1 - Prévisualisation  d\'un test |', function () {
       });
 
       it('f1.6 la consigne de l\'épreuve', function () {
-        expect($challenge.find('.challenge-statement__instruction').html()).to.contain('Un QCM propose plusieurs choix');
+        visit('/courses/ref_course_id/preview/challenges/ref_qcm_challenge_id');
+        andThen(() => {
+          const buttonConfirm = findWithAssert('.challenge-item-warning button');
+          buttonConfirm.click();
+          expect($challenge.find('.challenge-statement__instruction').html()).to.contain('Un QCM propose plusieurs choix');
+        });
       });
 
       it('f1.7 un bouton pour accéder à l\'épreuve suivante', function () {

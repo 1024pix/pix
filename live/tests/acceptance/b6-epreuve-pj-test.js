@@ -2,6 +2,14 @@ import { expect } from 'chai';
 import startApp from '../helpers/start-app';
 import destroyApp from '../helpers/destroy-app';
 
+function visitTimedChallenge() {
+  visit('/assessments/ref_assessment_id/challenges/ref_qcm_challenge_id');
+  andThen(() => {
+    const buttonConfirm = findWithAssert('.challenge-item-warning button');
+    buttonConfirm.click();
+  });
+}
+
 describe('Acceptance | b6 - Télécharger une pièce jointe depuis la consigne d\'une épreuve | ', function () {
 
   let application;
@@ -17,7 +25,7 @@ describe('Acceptance | b6 - Télécharger une pièce jointe depuis la consigne d
   describe('Quand l\'épreuve contient une pièce jointe en consigne', function () {
 
     before(function () {
-      return visit('/assessments/ref_assessment_id/challenges/ref_qcm_challenge_id');
+      return visitTimedChallenge();
     });
 
     it('b6.1 Il existe un moyen pour télécharger la pièce jointe d\'une épreuve dans la zone de consigne', function () {

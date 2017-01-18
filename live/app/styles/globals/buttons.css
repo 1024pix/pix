@@ -16,6 +16,7 @@
   border-bottom: 1px solid var(--captrain-green1);
   box-shadow: 0 1px 1px -1px var(--grey3);
   cursor: pointer;
+  outline: none;
 }
 
 .button-primary {
