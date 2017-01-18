@@ -1,5 +1,8 @@
+PIX-API
+=======
+
 NPM tasks
------------
+---------
 
 Execute the NPM `help` to see the available NPM tasks for API.
 
@@ -7,9 +10,8 @@ Execute the NPM `help` to see the available NPM tasks for API.
 $ npm run help
 ```
 
-
 Database
---------
+-------------
 
 ### Development (default)
 

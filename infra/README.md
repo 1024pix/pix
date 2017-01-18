@@ -1,5 +1,5 @@
-PIX Infrastructure
-==================
+PIX-Infra
+=========
 
 Where: Ovh Cloud, an EG-7-SSD
 How: Dokku, with ssh keys (@mackwic ssh keys are set on CircleCI side)
