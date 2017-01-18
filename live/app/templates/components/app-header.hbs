@@ -1,40 +1,38 @@
-
 {{#if (eq router.currentRouteName "index")}}
   <div class='app-header'>
-  
-  <div class='app-header-container'>
-    <div class='app-header-container-marianne'>
-      <div class='app-header-marianne'>
-        <img src="{{rootURL}}images/logo-de-la-republique-francaise.svg">
+
+    <div class='app-header-container'>
+      <div class='app-header-container-marianne'>
+        <div class='app-header-marianne'>
+          <img src="{{rootURL}}images/logo-de-la-republique-francaise.svg">
+        </div>
       </div>
-    </div>
-    <div class='app-header-container-logo'>
-      <div class='app-header-logo'>
-        <img src="{{rootURL}}images/pix-logo.svg" class='app-header-logo-svg'>
+      <div class='app-header-container-logo'>
+        <div class='app-header-logo'>
+          <img src="{{rootURL}}images/pix-logo.svg" class='app-header-logo-svg'>
+        </div>
       </div>
+      {{corner-ribbon}}
     </div>
-  {{corner-ribbon}}  
   </div>
-</div>
 
 {{else}}
-  
-<div class="app-header-started">
-  
 
-<nav class="app-header-navbar">
-    <div class="app-header-navbar__container container">
+  <div class="app-header-started">
+
+    <nav class="app-header-navbar">
+      <div class="app-header-navbar__container container">
         <div class="navbar-header row">
-            <div class="navbar-header__brand">
-                <img src="{{rootURL}}images/pix-logo.svg" alt="Logo PIX" width="auto" height="60">
-            </div>
-            <div class="navbar-header__ribbon">
-                {{corner-ribbon}}
-            </div>
+          <div class="navbar-header__brand">
+            <img src="{{rootURL}}images/pix-logo.svg" alt="Logo PIX" width="auto" height="60">
+          </div>
+          <div class="navbar-header__ribbon">
+            {{corner-ribbon}}
+          </div>
         </div>
-    </div>
-</nav>
-</div>
+      </div>
+    </nav>
+  </div>
 
 {{/if}}
 

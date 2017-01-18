@@ -25,8 +25,8 @@ module.exports = function (environment) {
     },
 
     googleFonts: [
-      'Lato:300,300i,400,400i,600,600i,700,700i', // main font
-      'Open+Sans:300,300i,400,400i,600,600i,700,700i' // used for ex. on buttons
+      'Lato', // main font
+      'Open+Sans' // used for ex. on buttons
     ],
 
     // Set or update content security policies

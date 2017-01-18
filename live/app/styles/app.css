@@ -9,6 +9,7 @@
 @import url('globals/fonts.css');
 @import url('globals/palette.css');
 @import url('components/app-header.css');
+@import url('components/app-footer.css');
 @import url('components/first-page.css');
 @import url('components/corner-ribbon.css');
 @import url('components/challenge-statement.css');
@@ -25,6 +26,7 @@
 @import url('home.css');
 @import url('home-loading.css');
 @import url('index.css');
+@import url('project.css');
 @import url('courses/get-preview.css');
 @import url('assessments/get-results.css');
 

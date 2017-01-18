@@ -5,6 +5,7 @@
   --light-grey4: #dedfe2;
   --light-grey5: #D0D1D5;
   --light-grey6: #CCC;
+  --light-grey7: #f6f6f6;
   --grey1: #a5a7ab;
   --grey2: #989a9e;
   --grey3: #909297;
@@ -46,5 +47,6 @@
   --skip-action-color: #3e4149;
   --charcoal-grey: #3e4149;
 
+  --project-blue: #3d68ff;
 }
 

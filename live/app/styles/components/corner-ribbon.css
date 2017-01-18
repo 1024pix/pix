@@ -19,12 +19,10 @@
   left: -7px;
   top: 36px;
   transform: rotate(45deg);
-  box-shadow: 0 0 1px #888;
 }
 
 
 .ribbon a {
-  border: 1px solid #faa;
   color: #fff;
   display: block;
   font-weight: bold;
@@ -33,8 +31,6 @@
   padding: 3px 0;
   text-align: center;
   text-decoration: none;
-  /* shadow */
-  text-shadow: 0 0 5px #444;
   min-width: 237px;
   cursor: none;
   pointer-events: none;

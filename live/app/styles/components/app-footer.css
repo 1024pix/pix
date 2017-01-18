@@ -1,0 +1,62 @@
+.app-footer {
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  justify-content: space-around;
+}
+
+.app-footer__pix-logo {
+  order: 0;
+  margin-top: 20px;
+  margin-bottom: 20px;
+}
+
+.app-footer__pix-logo-img {
+  height: 80px;
+}
+
+.app-footer__item-contact {
+  order: 1;
+  margin-bottom: 30px;
+}
+
+.app-footer__item-marianne {
+  order: 2;
+  margin-bottom: 30px;
+}
+
+.app-footer__logo-marianne-img {
+  height: 60px;
+}
+
+.app-footer__link-text {
+  color: var(--charcoal-grey);
+  margin: 0 5px;
+}
+
+
+@media (min-width: 992px) {
+
+  .app-footer {
+    flex-direction: row;
+    justify-content: space-around;
+    margin: 0 auto;
+    height: 150px;
+  }
+
+  .app-footer__pix-logo {
+    order: 0;
+    margin: 0;
+  }
+
+  .app-footer__item-contact {
+    order: 1;
+    margin: 0;
+  }
+
+  .app-footer__item-marianne {
+    order: 2;
+    margin: 0;
+  }
+
+}
