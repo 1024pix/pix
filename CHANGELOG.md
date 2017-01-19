@@ -1,9 +1,14 @@
 # PIX Changelog
 
+## 4.0.0 (19/01/0217)
+
+- [#232](https://github.com/sgmap/pix/pull/232) [FEATURE] Afficher une page avec un message d'avertissement lorsque la prochaine épreuve est timée.
+- [#240](https://github.com/sgmap/pix/pull/240) [FEATURE] Ajout de la page de présentation du projet.
+- [#239](https://github.com/sgmap/pix/pull/239) [INFRA] Développement et déploiement du CLI d'administration de l'infra.
+
 ## 3.1.1 (12/01/2017)
 
 - [#238](https://github.com/sgmap/pix/pull/238) [DOC] Formatage du fichier CHANGELOG
-
 
 ## 3.1.0 (12/01/2017)
 
@@ -12,7 +17,6 @@
 - [#228](https://github.com/sgmap/pix/pull/228) [FEATURE] Afficher un message d'avertissement (contre le support incomplet du media mobile) pour les usagers sur smartphone
 - [#226](https://github.com/sgmap/pix/pull/226) [FEATURE] Afficher un compteur de temps pour les épreuves chronométrées
 - [#221](https://github.com/sgmap/pix/pull/221) [FEATURE] Pouvoir télécharger un fichier au format souhaité  review asked
-
 
 ## 3.0.0 (03/01/2017)
 
