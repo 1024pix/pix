@@ -14,3 +14,7 @@ Le CLI PIX permet entre autre de sauvegarder et restaurer les bases de données 
 
 Pour une description exhaustive des fonctionnalités offertes par le PIX-CLI, il suffit d'exécuter la commande `pix help` (défaut).
 
+Déploiement
+-----------
+
+Pour déployer une nouvelle version du PIX-CLI, il faut exécuter la commande NPM `npm run deploy`.

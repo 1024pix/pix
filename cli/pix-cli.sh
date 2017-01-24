@@ -1,5 +1,7 @@
 #!/bin/bash
 
+PIX_CLI_VERSION="1.1.0"
+
 COMMAND=$1
 
 if [ "$COMMAND" == "" ]; then
@@ -21,6 +23,7 @@ if [ "$COMMAND" == "help" ]; then
   echo "  ssh-keys:add <name> </path/to/key>            # Add a new public key by pipe or path (alias for Dokku command 'ssh-keys:add')"
   echo "  ssh-keys:list                                 # List of all authorized dokku public ssh keys (alias for Dokku command 'ssh-keys:list')"
   echo "  ssh-keys:remove <name>                        # Remove SSH public key by name (alias for Dokku command ssh-keys:remove'')"
+  echo "  version                                       # Display current version of PIX-CLI"
   echo ""
   exit 0
 fi
@@ -123,7 +126,8 @@ if [ "$COMMAND" == "ssh-keys:add" ]; then
   NAME=$2
   PUB_KEY_FILE=$3
 
-  dokku ssh-keys:add $NAME $PUB_KEY_FILE
+  cat ${PUB_KEY_FILE} >> ~/.ssh/authorized_keys
+  sudo dokku ssh-keys:add ${NAME} ${PUB_KEY_FILE}
 
   echo "SSH key added for name $NAME."
   exit 0
@@ -137,7 +141,7 @@ if [ "$COMMAND" == "ssh-keys:list" ]; then
     exit 1
   fi
 
-  dokku ssh-keys:list
+  sudo dokku ssh-keys:list
 
   exit 0
 fi
@@ -152,9 +156,21 @@ if [ "$COMMAND" == "ssh-keys:remove" ]; then
 
   NAME=$2
 
-  dokku ssh-keys:remove $NAME
+  sudo dokku ssh-keys:remove $NAME
 
   echo "SSH key $NAME was removed."
+  exit 0
+fi
+
+# pix version
+# ex: pix version
+if [ "$COMMAND" == "version" ]; then
+  if [ $# -ne 1 ]; then
+    echo "Bad number of arguments. See usage for command $COMMAND."
+    exit 1
+  fi
+
+  echo ${PIX_CLI_VERSION}
   exit 0
 fi
 
