@@ -51,6 +51,7 @@
     font-weight: 900;
     color: #ffffff;
     margin-bottom: 24px;
+    width: 830px;
   }
 }
 
@@ -216,7 +217,7 @@
   height: 260px;
   width: 200px;
   @media (min-width: 992px) {
-    height: 350px;
+    height: 294px;
     margin-left: 35px;
     &:first-child {
       margin-left: 0px;
@@ -249,4 +250,29 @@
   margin-top: 12px;
   color: #3e4149;
   text-align: center;
+}
+.first-page-about {
+  padding-bottom: 80px;
+  display: flex;
+  justify-content: center;
+  background: #ffffff;
+}
+
+.first-page-about a{
+  display: block;
+  width: 201px;
+  height: 36px;
+  line-height: 36px;
+  border-radius: 3px;
+  border: none;
+  background-color: var(--marigold);
+  font-size: 14px;
+  font-weight: bold;
+  font-style: normal;
+  font-stretch: normal;
+  text-align: center;
+  color: var(--charcoal-grey);
+  font-family: var(--font-lato);
+  text-decoration: none;
+  cursor: pointer;
 }

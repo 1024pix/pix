@@ -21,6 +21,7 @@
 @import url('components/modal-mobile.css');
 @import url('components/timeout-jauge.css');
 @import url('components/warning-timing-page.css');
+@import url('components/app-menu.css');
 
 /* views */
 @import url('home.css');

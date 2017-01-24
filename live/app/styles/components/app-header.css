@@ -5,30 +5,40 @@
 .app-header-container {
   height: var(--app-header-height);
   position: relative;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  @media screen and (min-width: 992px){
+    justify-content: initial;
+  }
+
 }
 
 .app-header-container-marianne {
   display: none;
   @media (min-width: 992px) {
-    position: absolute;
-    height: 100%;
-    width: 100%; 
-    display: flex;
-    align-items: center;
+    position: relative;
+    height : 120px;
+    display: block;
+    order: 0;
+    margin-left: 130px;
   }
 }
 
 .app-header-marianne {
-  margin-left: 130px;
+  margin-top: 35px;
 }
 
 .app-header-container-logo {
-  position: absolute;
-  height: 100%;
-  width: 100%; 
   display: flex;
   align-items: center;
   justify-content: center;
+  order : 2;
+  @media (min-width: 992px) {
+    margin-left: 433px;
+    order: 0;
+  }
 }
 
 .app-header-logo {
