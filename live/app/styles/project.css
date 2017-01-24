@@ -9,7 +9,7 @@
 }
 
 /* page global style */
-.project-page h3 {
+.project-page h2 {
   text-align: center;
   font-size: 30px;
   font-weight: 900;
@@ -46,19 +46,19 @@
   padding: 20px;
 }
 
-
 /* Specific styles */
 .project-page__header {
-  padding: 50px 40px 0;
-  margin-bottom: 40px;
+  padding: 20px 40px 20px;
+  margin-bottom: 0;
 }
 
-p.project-page__header-text {
-  font-size: 40px;
+.project-page__header-text {
+  font-size: 22px;
   text-align: center;
   font-weight: 900;
   font-style: italic;
-  line-height: 50px;
+  line-height: 28px;
+  margin-top: 0;
 }
 
 p.project-page__populations-headline {
@@ -77,6 +77,7 @@ p.project-page__populations-headline {
   flex-flow: row wrap;
   justify-content: space-around;
 }
+
 .project-page__user-type {
   margin-bottom: 15px;
 }
@@ -148,8 +149,12 @@ hr.project-page__presentation-header-line {
   }
 
   .project-page__header {
-    padding-bottom: 0;
+    padding: 50px 40px 40px;
   }
 
+  .project-page__header-text {
+    font-size: 40px;
+    line-height: 50px;
+  }
 
 }
