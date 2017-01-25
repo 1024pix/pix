@@ -11,7 +11,7 @@ describe('Unit | Service | SolutionService', function () {
   const threePossibleSolutions = 'Google:\n- Google\n- google.fr\n- Google Search\nYahoo:\n- Yahoo\n- Yahoo Answer\nBing:\n- Bing';
 
   function buildSolution(type, value, scoring) {
-    const solution = new Solution({ id: 'solution_id' });
+    const solution = new Solution({id: 'solution_id'});
     solution.type = type;
     solution.value = value;
     solution.scoring = _.ensureString(scoring).replace(/@/g, '');  // XXX
@@ -19,8 +19,8 @@ describe('Unit | Service | SolutionService', function () {
   }
 
   function buildAnswer(value, timeout) {
-    const answer = new Answer({ id: 'answer_id' });
-    answer.attributes = { value, timeout };
+    const answer = new Answer({id: 'answer_id'});
+    answer.attributes = {value, timeout};
     return answer;
   }
 
@@ -102,14 +102,14 @@ describe('Unit | Service | SolutionService', function () {
     describe('if solution type is QCM', function () {
 
       const successfulCases = [
-        { answer: '1', solution: '1' },
-        { answer: '1, 2', solution: '1, 2' },
-        { answer: '1, 2, 3', solution: '1, 2, 3' },
-        { answer: '1,2,3', solution: '1,2,3' },
-        { answer: '3, 2, 1', solution: '1, 2, 3' },
-        { answer: '1,2,3', solution: '1, 2, 3' },
-        { answer: '1,   2,   3   ', solution: '1, 2, 3' },
-        { answer: '1, 2, 3', solution: '1, 2, 3' }
+        {answer: '1', solution: '1'},
+        {answer: '1, 2', solution: '1, 2'},
+        {answer: '1, 2, 3', solution: '1, 2, 3'},
+        {answer: '1,2,3', solution: '1,2,3'},
+        {answer: '3, 2, 1', solution: '1, 2, 3'},
+        {answer: '1,2,3', solution: '1, 2, 3'},
+        {answer: '1,   2,   3   ', solution: '1, 2, 3'},
+        {answer: '1, 2, 3', solution: '1, 2, 3'}
       ];
 
       successfulCases.forEach(function (testCase) {
@@ -121,10 +121,10 @@ describe('Unit | Service | SolutionService', function () {
       });
 
       const failedCases = [
-        { answer: '2', solution: '1' },
-        { answer: '1, 3', solution: '1, 2' },
-        { answer: '1, 2, 3', solution: '1, 2' },
-        { answer: '3, 1', solution: '1, 2' }
+        {answer: '2', solution: '1'},
+        {answer: '1, 3', solution: '1, 2'},
+        {answer: '1, 2, 3', solution: '1, 2'},
+        {answer: '3, 1', solution: '1, 2'}
       ];
 
       failedCases.forEach(function (testCase) {
@@ -146,14 +146,14 @@ describe('Unit | Service | SolutionService', function () {
       });
 
       const successfulCases = [
-        { answer: 'Answer', solution: 'Answer' },
-        { answer: 'ANSWER', solution: 'answer' },
-        { answer: 'answer', solution: 'ANSWER' },
-        { answer: 'answer with spaces', solution: 'Answer With Spaces' },
-        { answer: 'with accents', solution: 'wîth àccénts' },
-        { answer: 'variant 1', solution: 'variant 1\nvariant 2\nvariant 3\n' },
-        { answer: 'variant 2', solution: 'variant 1\nvariant 2\nvariant 3\n' },
-        { answer: 'variant 3', solution: 'variant 1\nvariant 2\nvariant 3\n' }
+        {answer: 'Answer', solution: 'Answer'},
+        {answer: 'ANSWER', solution: 'answer'},
+        {answer: 'answer', solution: 'ANSWER'},
+        {answer: 'answer with spaces', solution: 'Answer With Spaces'},
+        {answer: 'with accents', solution: 'wîth àccénts'},
+        {answer: 'variant 1', solution: 'variant 1\nvariant 2\nvariant 3\n'},
+        {answer: 'variant 2', solution: 'variant 1\nvariant 2\nvariant 3\n'},
+        {answer: 'variant 3', solution: 'variant 1\nvariant 2\nvariant 3\n'}
       ];
 
       successfulCases.forEach(function (testCase) {
@@ -182,8 +182,7 @@ describe('Unit | Service | SolutionService', function () {
       }, {
         answer: 'a: "1"\nb: "2"',
         solution: 'a:\n- 1\nb:\n- 2'
-      }
-      ];
+      }];
 
       successfulCases.forEach(function (testCase) {
         it('should return "ok" when answer is "' + testCase.answer + '" and solution is "' + escape(testCase.solution) + '"', function () {

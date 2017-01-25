@@ -14,6 +14,9 @@ module.exports = {
       return 'timedout';
     }
     return result;
+  },
+
+  _getNumberOfExpectedAnswers() {
 
   },
 

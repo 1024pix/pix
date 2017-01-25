@@ -6,12 +6,12 @@ module.exports = {
 
   match (yamlAnswer, yamlSolution) {
     try {
-      let result = 'ko';
       const answer = yaml.load(yamlAnswer);
       const solution = yaml.load(yamlSolution);
       const everyAnswerMatchItsSolution = _.every(solution, function(possibleAnswers, key) {
         return utils.fuzzyMatchingWithAnswers(answer[key], possibleAnswers);
       });
+      let result = 'ko';
       if (everyAnswerMatchItsSolution) {
         result = 'ok';
       }
