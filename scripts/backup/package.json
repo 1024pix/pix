@@ -1,0 +1,18 @@
+{
+  "name": "backup",
+  "version": "1.0.0",
+  "description": "Airtable backup",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "Airtable",
+    "Backup"
+  ],
+  "author": "Pix",
+  "license": "ISC",
+  "devDependencies": {
+    "airtable": "^0.4.3"
+  }
+}
