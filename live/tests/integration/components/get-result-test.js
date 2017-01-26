@@ -1,20 +1,17 @@
 import { expect } from 'chai';
-import {
-  describeComponent,
-  it
-} from 'ember-mocha';
+import { describe, it } from 'mocha';
+import { setupComponentTest } from 'ember-mocha';
 import hbs from 'htmlbars-inline-precompile';
 
-describeComponent(
-  'get-result',
-  'Integration | GetResultComponent',
-  {
+describe('Integration | Component | GetResultComponent', function() {
+
+  setupComponentTest('get-result', {
     integration: true
-  },
-  function() {
-    it('renders', function() {
-      this.render(hbs`{{get-result}}`);
-      expect(this.$()).to.have.length(1);
-    });
-  }
-);
+  });
+
+  it('renders', function() {
+    this.render(hbs`{{get-result}}`);
+    expect(this.$()).to.have.length(1);
+  });
+
+});

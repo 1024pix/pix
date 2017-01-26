@@ -1,17 +1,16 @@
 import { expect } from 'chai';
-import { describeComponent, it } from 'ember-mocha';
+import { setupComponentTest, it } from 'ember-mocha';
 import hbs from 'htmlbars-inline-precompile';
 
-describeComponent(
-  'corner-ribbon',
-  'Integration | CornerRibbonComponent',
-  {
+describe('Integration | Component | CornerRibbonComponent', function () {
+
+  setupComponentTest('corner-ribbon', {
     integration: true
-  },
-  function() {
-    it('renders', function() {
-      this.render(hbs`{{corner-ribbon}}`);
-      expect(this.$()).to.have.length(1);
-    });
-  }
-);
+  });
+
+  it('renders', function() {
+    this.render(hbs`{{corner-ribbon}}`);
+    expect(this.$()).to.have.length(1);
+  });
+
+});

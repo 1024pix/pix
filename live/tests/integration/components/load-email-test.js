@@ -1,17 +1,17 @@
 import { expect } from 'chai';
-import { describeComponent, it } from 'ember-mocha';
+import { describe, it } from 'mocha';
+import { setupComponentTest } from 'ember-mocha';
 import hbs from 'htmlbars-inline-precompile';
 
-describeComponent(
-  'load-email',
-  'Integration | LoadEmailComponent',
-  {
+describe('Integration | Component | LoadEmailComponent', function() {
+
+  setupComponentTest('load-email', {
     integration: true
-  },
-  function() {
-    it('renders', function() {
-      this.render(hbs`{{load-email}}`);
-      expect(this.$()).to.have.length(1);
-    });
-  }
-);
+  });
+
+  it('renders', function() {
+    this.render(hbs`{{load-email}}`);
+    expect(this.$()).to.have.length(1);
+  });
+
+});
