@@ -1,5 +1,5 @@
 import Ember from 'ember';
-
+import { describe, it, beforeEach, afterEach } from 'mocha';
 import { expect } from 'chai';
 import startApp from '../helpers/start-app';
 import destroyApp from '../helpers/destroy-app';
@@ -7,23 +7,18 @@ import destroyApp from '../helpers/destroy-app';
 const URL_OF_FIRST_TEST = '/assessments/ref_assessment_id/challenges/ref_qcm_challenge_id';
 const MODAL_SELECTOR = '.modal.fade.js-modal-mobile.in';
 
-
 describe('Acceptance | a4 - Démarrer un test |', function () {
 
   let application;
 
-  before(function () {
+  beforeEach(function () {
     application = startApp();
+    visit('/');
   });
 
-  after(function () {
+  afterEach(function () {
     destroyApp(application);
   });
-
-  beforeEach(function () {
-    return visit('/');
-  });
-
 
   it('a4.1 Je peux démarrer un test depuis la liste des tests de la page d\'accueil', function() {
     const $startLink = findWithAssert('.start-button');

@@ -1,4 +1,4 @@
-.challenge-item-warning{
+.challenge-item-warning {
   border-radius: 5px;
   background-color: #ffffff;
   box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.3);
@@ -8,10 +8,9 @@
   display: flex;
   flex-direction: column;
   justify-content: center;
-
 }
 
-.challenge-item-warning__instruction-primary{
+.challenge-item-warning__instruction-primary {
   font-family: var(--font-lato);
   font-size: 24px;
   font-weight: bold;
@@ -22,7 +21,7 @@
   color: var(--charcoal-grey);
 }
 
-.challenge-item-warning__intruction-secondary{
+.challenge-item-warning__intruction-secondary {
   font-family: var(--font-lato);
   font-size: 18px;
   margin-top: 9px;
@@ -33,19 +32,20 @@
   color: var(--charcoal-grey);
 }
 
-.challenge-item-warning__instruction-time{
+.challenge-item-warning__instruction-time {
   color: var(--intruction-blue);
   text-align: center;
 
 }
 
-.challenge-item-warning__allocated-time{
+.challenge-item-warning__allocated-time {
   text-align: center;
   color: var(--charcoal-grey);
   font-size: 27.8px;
   font-family: var(--font-lato);
 }
-.challenge__allocated-time__jauge{
+
+.challenge__allocated-time__jauge {
   width: 139px;
   height: 50px;
   border-radius: 7px;
@@ -56,14 +56,16 @@
   flex-direction: row;
   justify-content: center;
 }
+
 .challenge__allocated-time__value {
   width: 69px;
 }
-.challenge-item-warning__action{
+
+.challenge-item-warning__action {
   text-align: center;
 }
 
-.challenge-item-warning__confirm-btn{
+.challenge-item-warning__confirm-btn {
   width: 234px;
   height: 46px;
   border-radius: 5px;

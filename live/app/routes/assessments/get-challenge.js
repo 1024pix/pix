@@ -1,6 +1,4 @@
 import Ember from 'ember';
-import DS from 'ember-data';
-import getChallengeType from '../../utils/get-challenge-type';
 import RSVP from 'rsvp';
 
 export default Ember.Route.extend({
@@ -16,16 +14,24 @@ export default Ember.Route.extend({
     const promises = {
       assessment: store.findRecord('assessment', assessmentId),
       challenge: store.findRecord('challenge', challengeId),
-      answers: store.queryRecord('answer', { assessment: assessmentId, challenge: challengeId }),
-      timer : store.findRecord('challenge', challengeId).get('attributes.timer') || false
+      answers: store.queryRecord('answer', { assessment: assessmentId, challenge: challengeId })
     };
 
-    return RSVP.hash(promises, 'assessment_challenge_answers_timer').then(results => results);
+    return RSVP.hash(promises).then(model => {
+      return this._addProgressToModel(model);
+    });
+  },
+
+  serialize(model) {
+    return {
+      assessment_id: model.assessment.id,
+      challenge_id: model.challenge.id
+    };
   },
 
   actions: {
 
-    saveAnswerAndNavigate: function (currentChallenge, assessment, answerValue, answerTimeout) {
+    saveAnswerAndNavigate(currentChallenge, assessment, answerValue, answerTimeout) {
       const answer = this._createAnswer(answerValue, answerTimeout, currentChallenge, assessment);
       answer.save().then(() => {
         this._navigateToNextView(currentChallenge, assessment);
@@ -33,27 +39,24 @@ export default Ember.Route.extend({
     }
   },
 
-  _createAnswer: function (answerValue, answerTimeout, currentChallenge, assessment) {
-
+  _createAnswer(answerValue, answerTimeout, currentChallenge, assessment) {
     return this.get('store').createRecord('answer', {
       value: answerValue,
       timeout: answerTimeout,
       challenge: currentChallenge,
       assessment
     });
-  }
-  ,
+  },
 
-  _urlForNextChallenge: function (adapter, assessmentId, currentChallengeId) {
+  _urlForNextChallenge(adapter, assessmentId, currentChallengeId) {
     return adapter.buildURL('assessment', assessmentId) + '/next/' + currentChallengeId;
   },
 
-  _navigateToNextView: function (currentChallenge, assessment) {
-
+  _navigateToNextView(currentChallenge, assessment) {
     const adapter = this.get('store').adapterFor('application');
     adapter.ajax(this._urlForNextChallenge(adapter, assessment.get('id'), currentChallenge.get('id')), 'GET')
       .then(nextChallenge => {
-        if(nextChallenge) {
+        if (nextChallenge) {
           this.transitionTo('assessments.get-challenge', assessment.get('id'), nextChallenge.data.id);
         } else {
           this.transitionTo('assessments.get-results', assessment.get('id'));
@@ -61,24 +64,11 @@ export default Ember.Route.extend({
       });
   },
 
-  setupController: function (controller, model) {
-    this._super(controller, model);
-
-    const progressToSet = model.assessment
-      .get('course')
-      .then((course) => course.getProgress(model.challenge));
-
-    controller.set('progress', DS.PromiseObject.create({ promise: progressToSet }));
-
-    const challengeType = getChallengeType(model.challenge.get('type'));
-    controller.set('challengeItemType', 'challenge-item-' + challengeType);
-  },
-
-  serialize: function (model) {
-    return {
-      assessment_id: model.assessment.id,
-      challenge_id: model.challenge.id
-    };
+  _addProgressToModel(model) {
+    return model.assessment.get('course').then((course) => {
+      model.progress = course.getProgress(model.challenge);
+      return model;
+    });
   }
 
 });

@@ -1,4 +1,5 @@
-import {expect} from 'chai';
+import { describe, it, before, after } from 'mocha';
+import { expect } from 'chai';
 import startApp from '../helpers/start-app';
 import destroyApp from '../helpers/destroy-app';
 import _ from 'pix-live/utils/lodash-custom';
@@ -24,20 +25,23 @@ function bodyOfLastPostRequest() {
 }
 
 function visitTimedChallenge() {
-  visit('/assessments/ref_assessment_id/challenges/ref_qcm_challenge_id');
+  visit(TIMED_CHALLENGE_URI);
   andThen(() => {
-    const buttonConfirm = findWithAssert('.challenge-item-warning button');
+    const buttonConfirm = findWithAssert(CHALLENGE_ITEM_WARNING_BUTTON);
     buttonConfirm.click();
   });
 }
 
 function visitTimedQruChallenge() {
-  visit('/assessments/ref_assessment_id/challenges/ref_qru_challenge_id');
+  visit(TIMED_QRU_CHALLENGE_URI);
   andThen(() => {
-    const buttonConfirm = findWithAssert('.challenge-item-warning button');
+    const buttonConfirm = findWithAssert(CHALLENGE_ITEM_WARNING_BUTTON);
     buttonConfirm.click();
   });
 }
+const TIMED_CHALLENGE_URI = '/assessments/ref_assessment_id/challenges/ref_qcm_challenge_id';
+const TIMED_QRU_CHALLENGE_URI = '/assessments/ref_assessment_id/challenges/ref_qru_challenge_id';
+const CHALLENGE_ITEM_WARNING_BUTTON = '.challenge-item-warning button';
 
 describe('Acceptance | H1 - Timeout Jauge | ', function () {
 

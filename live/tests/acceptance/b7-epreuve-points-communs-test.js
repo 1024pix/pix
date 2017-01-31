@@ -1,3 +1,4 @@
+import { describe, it, beforeEach, afterEach } from 'mocha';
 import { expect } from 'chai';
 import startApp from '../helpers/start-app';
 import destroyApp from '../helpers/destroy-app';
@@ -6,16 +7,13 @@ describe('Acceptance | b7 - Points communs a toutes les épreuves | ', function 
 
   let application;
 
-  before(function () {
+  beforeEach(function () {
     application = startApp();
+    visit('/assessments/ref_assessment_id/challenges/ref_qrocm_challenge_id');
   });
 
-  after(function () {
+  afterEach(function () {
     destroyApp(application);
-  });
-
-  before(function () {
-    return visit('/assessments/ref_assessment_id/challenges/ref_qrocm_challenge_id');
   });
 
   it('b7.0 Le nom du test est affiché', function() {

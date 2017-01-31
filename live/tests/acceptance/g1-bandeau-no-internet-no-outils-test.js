@@ -1,41 +1,31 @@
+import { describe, it, beforeEach, afterEach } from 'mocha';
 import { expect } from 'chai';
 import startApp from '../helpers/start-app';
 import destroyApp from '../helpers/destroy-app';
 
-describe('Acceptance | g1 - Bandeau no internet no outils |', function () {
+const CHALLENGE_WITHOUT_INTERNET_NOR_TOOLS_URI = '/assessments/ref_assessment_id/challenges/ref_qcu_challenge_id';
+const CHALLENGE_ALLOWING_INTERNET_OR_TOOS_URI = '/assessments/ref_assessment_id/challenges/ref_qcm_challenge_id';
+
+describe('Acceptance | g1 - Afficahge du bandeau indiquant que l\'usage d\'Internet ou d\'outils est interdit | ', function () {
 
   let application;
 
-  before(function () {
+  beforeEach(function () {
     application = startApp();
   });
 
-  after(function () {
+  afterEach(function () {
     destroyApp(application);
   });
 
-  describe('Afficher un bandeau si l\'utilisateur ne doit pas utiliser ni Internet ni outils tierce', function () {
-
-    before(function () {
-      visit('/assessments/ref_assessment_id/challenges/ref_qcu_challenge_id');
-    });
-
-    it('g1.1 Le bandeau s\'affiche si l\'épreuve le requiert', function () {
-      expect(findWithAssert('.challenge-stay__text').text()).to.contains('Vous devez répondre à cette question sans sortir de cette page !');
-    });
-
+  it('g1.1 le bandeau doit être affiché si l\'usage d\'Internet ou d\'outils est interdit dans le cadre de l\'épreuve', async function () {
+    await visit(CHALLENGE_WITHOUT_INTERNET_NOR_TOOLS_URI);
+    expect($('.challenge-stay__text').text()).to.contains('Vous devez répondre à cette question sans sortir de cette page !');
   });
 
-  describe('Ne doit pas afficher un bandeau si l\'utilisateur a le droit d\'utiliser Internet et des outils tierce', function () {
-
-    before(function () {
-      visit('/assessments/ref_assessment_id/challenges/ref_qcm_challenge_id');
-    });
-
-    it('g1.2 Le bandeau s\'affiche si l\'épreuve le requiert', function () {
-      expect($('.challenge-stay__text')).to.have.lengthOf(0);
-    });
-
+  it('g1.2 le bandeau ne doit pas être affiché si l\'usage d\'Internet ou d\'outils est autorisé dans le cadre de l\'épreuve', function () {
+    visit(CHALLENGE_ALLOWING_INTERNET_OR_TOOS_URI);
+    expect($('.challenge-stay__text')).to.have.lengthOf(0);
   });
 
 });

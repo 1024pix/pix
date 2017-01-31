@@ -1,31 +1,29 @@
+import { describe, it, beforeEach, afterEach } from 'mocha';
 import { expect } from 'chai';
 import startApp from '../helpers/start-app';
 import destroyApp from '../helpers/destroy-app';
 
 function visitTimedChallenge() {
   visit('/assessments/ref_assessment_id/challenges/ref_qcm_challenge_id');
-  andThen(() => {
-    const buttonConfirm = findWithAssert('.challenge-item-warning button');
-    buttonConfirm.click();
-  });
+  click('.challenge-item-warning button');
 }
 
 describe('Acceptance | b6 - Télécharger une pièce jointe depuis la consigne d\'une épreuve | ', function () {
 
   let application;
 
-  before(function () {
+  beforeEach(function () {
     application = startApp();
   });
 
-  after(function () {
+  afterEach(function () {
     destroyApp(application);
   });
 
   describe('Quand l\'épreuve contient une pièce jointe en consigne', function () {
 
-    before(function () {
-      return visitTimedChallenge();
+    beforeEach(function () {
+      visitTimedChallenge();
     });
 
     it('b6.1 Il existe un moyen pour télécharger la pièce jointe d\'une épreuve dans la zone de consigne', function () {
@@ -47,11 +45,11 @@ describe('Acceptance | b6 - Télécharger une pièce jointe depuis la consigne d
 
   describe('Quand l\'épreuve ne contient pas de pièce jointe en consigne', function () {
 
-    before(function () {
-      return visit('/assessments/raw_assessment_id/challenges/raw_qcm_challenge_id');
+    beforeEach(function () {
+      visit('/assessments/raw_assessment_id/challenges/raw_qcm_challenge_id');
     });
 
-    it('b6.4 La section de téléchargement des pièces jointes est cachée', function() {
+    it('b6.4 La section de téléchargement des pièces jointes est cachée', function () {
       // We are in a challenge...
       findWithAssert('.challenge-item');
 

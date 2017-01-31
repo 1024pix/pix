@@ -32,7 +32,6 @@ export default Router.map(function () {
   this.route('index', { path: '/' });
   this.route('home');
   this.route('placement-tests');
-  this.route('preferences');
 
   this.route('challenges.get-preview', { path: '/challenges/:challenge_id/preview' });
 

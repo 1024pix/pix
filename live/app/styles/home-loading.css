@@ -1,16 +1,14 @@
-#home-loading {
-  & .loader-container {
-    width: 1em;
-    height: 3em;
-    margin: 0 auto;
-    padding-top: 180px;
-  }
+#home-loading .loader-container {
+  width: 1em;
+  height: 3em;
+  margin: 0 auto;
+  padding-top: 180px;
+}
 
-  & .ball-zig-zag > div:nth-child(2) {
-    background-color: var(--pix-blue);
-  }
+#home-loading .ball-zig-zag > div:nth-child(2) {
+  background-color: var(--pix-blue);
+}
 
-  & .ball-zig-zag > div:nth-child(1) {
-    background-color: var(--pix-yellow);
-  }
+#home-loading .ball-zig-zag > div:nth-child(1) {
+  background-color: var(--pix-yellow);
 }

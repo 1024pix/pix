@@ -1,31 +1,29 @@
+import { describe, it, beforeEach, afterEach } from 'mocha';
 import { expect } from 'chai';
 import startApp from '../helpers/start-app';
 import destroyApp from '../helpers/destroy-app';
 
 function visitTimedChallenge() {
   visit('/assessments/ref_assessment_id/challenges/ref_qcm_challenge_id');
-  andThen(() => {
-    const buttonConfirm = findWithAssert('.challenge-item-warning button');
-    buttonConfirm.click();
-  });
+  click('.challenge-item-warning button');
 }
 
 describe('Acceptance | b5 - Afficher une image sous la consigne | ', function () {
 
   let application;
 
-  before(function () {
+  beforeEach(function () {
     application = startApp();
   });
 
-  after(function () {
+  afterEach(function () {
     destroyApp(application);
   });
 
   describe('Quand l\'épreuve contient une illustration en consigne', function () {
 
-    before(function () {
-      return visitTimedChallenge();
+    beforeEach(function () {
+      visitTimedChallenge();
     });
 
     it('b5.1 Une image unique peut être affichée sous la consigne', function () {
@@ -41,7 +39,7 @@ describe('Acceptance | b5 - Afficher une image sous la consigne | ', function ()
 
   describe('Quand l\'épreuve ne contient pas d\'illustration en consigne', function () {
 
-    before(function () {
+    beforeEach(function () {
       return visit('/assessments/raw_assessment_id/challenges/raw_qcm_challenge_id');
     });
 

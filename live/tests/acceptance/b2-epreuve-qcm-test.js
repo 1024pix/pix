@@ -1,20 +1,20 @@
-import {expect} from 'chai';
+import { describe, it, before, after } from 'mocha';
+import { expect } from 'chai';
 import startApp from '../helpers/start-app';
 import destroyApp from '../helpers/destroy-app';
 
 function visitTimedChallenge() {
   visit('/assessments/ref_assessment_id/challenges/ref_qcm_challenge_id');
-  andThen(() => {
-    const buttonConfirm = findWithAssert('.challenge-item-warning button');
-    buttonConfirm.click();
-  });
+  click('.challenge-item-warning button');
 }
+
 describe('Acceptance | b2 - Afficher un QCM | ', function () {
 
   let application;
 
   before(function () {
     application = startApp();
+    visitTimedChallenge();
   });
 
   after(function () {
@@ -22,7 +22,6 @@ describe('Acceptance | b2 - Afficher un QCM | ', function () {
   });
 
   before(function () {
-    return visitTimedChallenge();
   });
 
   it('b2.1 It should render challenge instruction', function () {

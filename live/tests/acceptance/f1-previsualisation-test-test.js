@@ -1,4 +1,5 @@
-import {expect} from 'chai';
+import { describe, it, before, after } from 'mocha';
+import { expect } from 'chai';
 import startApp from '../helpers/start-app';
 import destroyApp from '../helpers/destroy-app';
 
@@ -68,13 +69,10 @@ describe('Acceptance | f1 - Prévisualisation  d\'un test |', function () {
         $challenge = findWithAssert('.challenge-preview');
       });
 
-      it('f1.6 la consigne de l\'épreuve', function () {
-        visit('/courses/ref_course_id/preview/challenges/ref_qcm_challenge_id');
-        andThen(() => {
-          const buttonConfirm = findWithAssert('.challenge-item-warning button');
-          buttonConfirm.click();
-          expect($challenge.find('.challenge-statement__instruction').html()).to.contain('Un QCM propose plusieurs choix');
-        });
+      it('f1.6 la consigne de l\'épreuve', async function () {
+        await visit('/courses/ref_course_id/preview/challenges/ref_qcm_challenge_id');
+        await click('.challenge-item-warning button');
+        expect($challenge.find('.challenge-statement__instruction').html()).to.contain('Un QCM propose plusieurs choix');
       });
 
       it('f1.7 un bouton pour accéder à l\'épreuve suivante', function () {

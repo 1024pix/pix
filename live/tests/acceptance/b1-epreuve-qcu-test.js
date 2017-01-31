@@ -1,23 +1,24 @@
+import { describe, it, beforeEach, afterEach } from 'mocha';
 import { expect } from 'chai';
 import startApp from '../helpers/start-app';
 import destroyApp from '../helpers/destroy-app';
 
+function getProposalInputs() {
+  return $('.challenge-response__proposal-input');
+}
+
+let application;
+
 describe('Acceptance | b1 - Afficher un QCU | ', function () {
 
-  let application;
-
-  before(function () {
+  beforeEach(function () {
     application = startApp();
+    visit('/assessments/ref_assessment_id/challenges/ref_qcu_challenge_id');
   });
 
-  after(function () {
+  afterEach(function () {
     destroyApp(application);
   });
-
-  before(function () {
-    return visit('/assessments/ref_assessment_id/challenges/ref_qcu_challenge_id');
-  });
-
 
   it('b1.1 Une liste de radiobuttons doit s\'afficher', function () {
     const $proposals = $('.challenge-response__proposal-input[type="radio"]');
@@ -35,34 +36,32 @@ describe('Acceptance | b1 - Afficher un QCU | ', function () {
     expect($('.challenge-response__proposal:nth-child(4)').text().trim()).to.equal('4eme possibilite');
   });
 
-  it('b1.4 L\'alerte est affichée si l\'utilisateur valide, mais aucun radiobutton n\'est coché', function () {
+  it('b1.4 L\'alerte est affichée si l\'utilisateur valide, mais aucun radiobutton n\'est coché', async function () {
+    // given
     $(':radio').prop('checked', false);
-    $('.challenge-actions__action-validate').click();
-    andThen(() => {
-      expect($('.alert')).to.have.lengthOf(1);
-      expect($('.alert').text().trim()).to.equal('Pour valider, sélectionner une réponse. Sinon, passer.');
-    });
+
+    // when
+    await click('.challenge-actions__action-validate');
+
+    // then
+    const $alert = $('.alert');
+    expect($alert).to.have.lengthOf(1);
+    expect($alert.text().trim()).to.equal('Pour valider, sélectionner une réponse. Sinon, passer.');
   });
 
-
-
-  it('b1.5 Si un utilisateur clique sur un radiobutton, il est coché', function () {
-    expect($('input:radio:checked:nth-child(1)').is(':checked')).to.equal(false);
-    click($('.challenge-response__proposal:nth-child(1) input'));
-    andThen(() => {
-      expect($('input:radio:checked:nth-child(1)').is(':checked')).to.equal(true);
-      expect($('input:radio:checked')).to.have.lengthOf(1);
-    });
+  it('b1.5 Si un utilisateur clique sur un radiobutton, il est coché', async function () {
+    const $proposalInputs = getProposalInputs();
+    expect($proposalInputs.first().is(':checked')).to.equal(false);
+    await click($proposalInputs.first());
+    expect($proposalInputs.first().is(':checked')).to.equal(true);
+    expect($('.challenge-response__proposal-input:checked')).to.have.lengthOf(1);
   });
 
-  it('b1.6 Si un utilisateur clique sur un radiobutton, il est coché, et tous les autres sont décochés', function () {
-    expect($('input:radio:checked')).to.have.lengthOf(1);
-    click($('.challenge-response__proposal:nth-child(2) input'));
-    andThen(() => {
-      expect($('input:radio:checked')).to.have.lengthOf(1);
-    });
+  it('b1.6 Si un utilisateur clique sur un radiobutton, il est coché, et tous les autres sont décochés', async function () {
+    const checkedProposalInputsSelector = '.challenge-response__proposal-input:checked';
+    expect($(checkedProposalInputsSelector)).to.have.lengthOf(1);
+    await click($('.challenge-response__proposal-input').get(2));
+    expect($(checkedProposalInputsSelector)).to.have.lengthOf(1);
   });
-
-
 
 });

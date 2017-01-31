@@ -7,11 +7,11 @@
 .course-banner-wrapper {
   display: flex;
   align-items: center;
-  min-height: 100px; /* magic number */
+  min-height: 100px;
 }
 
 .course-banner-name {
-  font-size: 28px; /* magic number */
+  font-size: 28px;
 }
 
 .course-banner-home-link {
@@ -21,9 +21,8 @@
   /* stand above BETA ribbon */
   z-index: 999;
   color: white;
-
-  &:hover {
-    color: white;
-  }
 }
 
+.course-banner-home-link:hover {
+  color: white;
+}

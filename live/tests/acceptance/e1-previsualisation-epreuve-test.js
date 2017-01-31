@@ -1,3 +1,4 @@
+import { describe, it, beforeEach, afterEach } from 'mocha';
 import { expect } from 'chai';
 import startApp from '../helpers/start-app';
 import destroyApp from '../helpers/destroy-app';
@@ -6,18 +7,18 @@ describe('Acceptance | e1 - Prévisualiser une épreuve | ', function () {
 
   let application;
 
-  before(function () {
+  beforeEach(function () {
     application = startApp();
   });
 
-  after(function () {
+  afterEach(function () {
     destroyApp(application);
   });
 
   describe('e1 - Prévisualiser une épreuve |', function () {
 
-    before(function () {
-      return visit('/challenges/ref_qcu_challenge_id/preview');
+    beforeEach(function () {
+      visit('/challenges/ref_qcu_challenge_id/preview');
     });
 
     it('e1.1 Il est possible de prévisualiser une épreuve en accédant à l\'URL /challenges/:id/preview', function () {
@@ -29,7 +30,7 @@ describe('Acceptance | e1 - Prévisualiser une épreuve | ', function () {
 
       let $challenge;
 
-      before(function () {
+      beforeEach(function () {
         $challenge = findWithAssert('#challenge-preview');
       });
 

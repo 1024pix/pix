@@ -1,3 +1,4 @@
+import { describe, it, beforeEach, afterEach } from 'mocha';
 import { expect } from 'chai';
 import startApp from '../helpers/start-app';
 import destroyApp from '../helpers/destroy-app';
@@ -6,16 +7,13 @@ describe('Acceptance | b3 - Afficher un QROC | ', function () {
 
   let application;
 
-  before(function () {
+  beforeEach(function () {
     application = startApp();
+    visit('/assessments/ref_assessment_id/challenges/ref_qroc_challenge_id');
   });
 
-  after(function () {
+  afterEach(function () {
     destroyApp(application);
-  });
-
-  before(function () {
-    return visit('/assessments/ref_assessment_id/challenges/ref_qroc_challenge_id');
   });
 
   it('b3.1 It should render challenge instruction', function () {

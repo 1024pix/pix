@@ -15,11 +15,8 @@ export default Ember.Route.extend({
 
   setupController: function(controller, model) {
     this._super(controller, model);
-
-
     const challengeType =  getChallengeType(model.challenge.get('type'));
     controller.set('challengeItemType', 'challenge-item-' + challengeType);
-
   }
 
 });

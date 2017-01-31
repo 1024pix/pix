@@ -1,4 +1,4 @@
-import { describe, it, before, after } from 'mocha';
+import { describe, it, beforeEach, afterEach } from 'mocha';
 import { expect } from 'chai';
 import startApp from '../helpers/start-app';
 import destroyApp from '../helpers/destroy-app';
@@ -7,16 +7,13 @@ describe('Acceptance | a3 - voir la liste des tests', function () {
 
   let application;
 
-  before(function () {
+  beforeEach(function () {
     application = startApp();
+    visit('/');
   });
 
-  after(function () {
+  afterEach(function () {
     destroyApp(application);
-  });
-
-  before(function () {
-    return visit('/');
   });
 
   it('a3.1 on affiche autant de tests que remontés par l\'API', function () {
@@ -27,7 +24,7 @@ describe('Acceptance | a3 - voir la liste des tests', function () {
 
     let $course;
 
-    before(function () {
+    beforeEach(function () {
       $course = findWithAssert('.course[data-id="ref_course_id"]');
     });
 

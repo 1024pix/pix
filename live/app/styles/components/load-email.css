@@ -108,7 +108,6 @@
   transition: opacity 250ms 1.5s ease-in;
 }
 
-
 .load-email-button-is-error {
   transform: rotateX(180deg);
   background-color: #fff;
@@ -121,6 +120,7 @@
   width: 100%;
   transition: width 1s 0.5s ease-in-out, background-color 300ms 300ms ease-in, opacity 250ms 300ms ease-in;
 }
+
 .load-email-button-is-error:before {
   opacity: 1;
   transition: opacity 250ms 1.5s ease-in;

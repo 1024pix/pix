@@ -4,14 +4,13 @@
 
   <div class="container">
     {{#unless model.assessment.course.isAdaptive}}
-      {{progress-bar progress}}
+      {{progress-bar model.progress}}
     {{/unless}}
 
-    {{component challengeItemType
+    {{component model.challenge.challengeItemType
         challenge=model.challenge
         assessment=model.assessment
         answers=model.answers
-        timer=model.timer
         onValidated="saveAnswerAndNavigate"}}
   </div>
 </div>

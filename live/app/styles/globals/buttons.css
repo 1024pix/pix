@@ -35,7 +35,7 @@
   text-decoration: none;
   display: inline-block;
   border-bottom: 1px solid var(--captrain-green1);
-  box-shadow: 0px 1px 1px -1px var(--grey3);
+  box-shadow: 0 1px 1px -1px var(--grey3);
 }
 
 .button-primary:hover,

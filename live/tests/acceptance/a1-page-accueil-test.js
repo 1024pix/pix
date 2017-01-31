@@ -1,3 +1,4 @@
+import { describe, it, beforeEach, afterEach } from 'mocha';
 import { expect } from 'chai';
 import startApp from '../helpers/start-app';
 import destroyApp from '../helpers/destroy-app';
@@ -6,16 +7,13 @@ describe('Acceptance | a1 - Accéder à la plateforme pour démarrer un test', f
 
   let application;
 
-  before(function () {
+  beforeEach(function () {
     application = startApp();
-  });
-
-  after(function () {
-    destroyApp(application);
-  });
-
-  before(function () {
     visit('/');
+  });
+
+  afterEach(function () {
+    destroyApp(application);
   });
 
   it('a1.0 peut visiter /', function () {

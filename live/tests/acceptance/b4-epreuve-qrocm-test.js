@@ -1,3 +1,4 @@
+import { describe, it, beforeEach, afterEach } from 'mocha';
 import { expect } from 'chai';
 import startApp from '../helpers/start-app';
 import destroyApp from '../helpers/destroy-app';
@@ -6,16 +7,13 @@ describe('Acceptance | b4 - Afficher un QROCM | ', function () {
 
   let application;
 
-  before(function () {
+  beforeEach(function () {
     application = startApp();
+    visit('/assessments/ref_assessment_id/challenges/ref_qrocm_challenge_id');
   });
 
-  after(function () {
+  afterEach(function () {
     destroyApp(application);
-  });
-
-  before(function () {
-    return visit('/assessments/ref_assessment_id/challenges/ref_qrocm_challenge_id');
   });
 
   it('b4.1 It should render challenge instruction', function () {
@@ -28,15 +26,14 @@ describe('Acceptance | b4 - Afficher un QROCM | ', function () {
     expect($('.challenge-response__proposal-input')).to.have.lengthOf(3);
   });
 
-  it('b4.3 Error alert box should be displayed if user validate without checking a checkbox', function () {
+  it('b4.3 Error alert box should be displayed if user validate without checking a checkbox', async function () {
     // 1st make sure all inputs are cleared
     $(':input').val('');
     // Then try to validate sth
-    click($('.challenge-actions__action-validate'));
-    andThen(() => {
-      expect($('.alert')).to.have.lengthOf(1);
-      expect($('.alert').text().trim()).to.equal('Pour valider, saisir au moins une réponse. Sinon, passer.');
-    });
+    await click($('.challenge-actions__action-validate'));
+
+    expect($('.alert')).to.have.lengthOf(1);
+    expect($('.alert').text().trim()).to.equal('Pour valider, saisir au moins une réponse. Sinon, passer.');
   });
 
 

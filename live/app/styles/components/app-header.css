@@ -9,14 +9,15 @@
   flex-direction: row;
   align-items: center;
   justify-content: center;
+
   @media screen and (min-width: 992px){
     justify-content: initial;
   }
-
 }
 
 .app-header-container-marianne {
   display: none;
+
   @media (min-width: 992px) {
     position: relative;
     height : 120px;
@@ -50,7 +51,6 @@
     width: 130px;
     height: 80px;
   }
-
 }
 
 .app-header-navbar {

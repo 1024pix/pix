@@ -1,9 +1,9 @@
 <div id="challenge-preview" data-id="{{ model.challenge.id }}" class="challenge-preview">
-    <div class="container">
+  <div class="container">
 
-      {{component challengeItemType 
-          challenge=model.challenge 
-          assessment=model.assessment 
-          onValidated=(action navigate)}}
-    </div>
+    {{component challengeItemType
+        challenge=model.challenge
+        assessment=model.assessment
+        onValidated=(action navigate)}}
+  </div>
 </div>
