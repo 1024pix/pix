@@ -3,14 +3,6 @@ const server = require('../../../server');
 
 describe('Acceptance | API | ChallengeController', function () {
 
-  before(function (done) {
-    knex.migrate.latest().then(() => {
-      knex.seed.run().then(() => {
-        done();
-      });
-    });
-  });
-
   after(function (done) {
     server.stop(done);
   });
@@ -18,8 +10,10 @@ describe('Acceptance | API | ChallengeController', function () {
   describe('GET /api/challenges/:challenge_id', function () {
 
     before(function (done) {
+      nock.cleanAll();
       nock('https://api.airtable.com')
         .get('/v0/test-base/Epreuves/recLt9uwa2dR3IYpi')
+        .query(true)
         .times(3)
         .reply(200, {
           'id': 'recLt9uwa2dR3IYpi',
@@ -96,6 +90,7 @@ describe('Acceptance | API | ChallengeController', function () {
         done();
       });
     });
+
   });
 
 });
