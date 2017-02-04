@@ -44,8 +44,12 @@ module.exports = {
 
     answerRepository
       .findByChallengeAndAssessment(newAnswer.get('challengeId'), newAnswer.get('assessmentId'))
-      .then(existingAnswer => _updateExistingAnswer(existingAnswer, newAnswer, reply))
-      .catch(() => _saveNewAnswer(newAnswer, reply));
+      .then(existingAnswer => {
+        if (!existingAnswer) {
+          return _saveNewAnswer(newAnswer, reply);
+        }
+        return _updateExistingAnswer(existingAnswer, newAnswer, reply);
+      });
   },
 
   get(request, reply) {
