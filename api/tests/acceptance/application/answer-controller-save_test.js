@@ -1,28 +1,28 @@
-/* global describe, before, beforeEach, after, afterEach, knex, nock, it, expect */
+/* global knex, nock */
+const { describe, before, beforeEach, after, afterEach, it } = require('mocha');
+const { expect } = require('chai');
 const server = require('../../../server');
 const Answer = require('../../../lib/domain/models/data/answer');
 
 server.register(require('inject-then'));
 
-describe('Acceptance | API | Answers', function () {
+describe('Acceptance | Controller | answer-controller', function () {
 
   after(function (done) {
     server.stop(done);
   });
 
-  /* Save
-  –––––––––––––––––––––––––––––––––––––––––––––––––– */
   describe('POST /api/answers (create)', function () {
 
     beforeEach(function (done) {
-      knex('answers').delete().then(() => {done();});
+      knex('answers').delete().then(() => done() );
     });
+
     afterEach(function (done) {
-      knex('answers').delete().then(() => {done();});
+      knex('answers').delete().then(() => done());
     });
 
     before(function (done) {
-      nock.cleanAll();
       nock('https://api.airtable.com')
         .get('/v0/test-base/Epreuves/a_challenge_id')
         .query(true)
@@ -37,6 +37,7 @@ describe('Acceptance | API | Answers', function () {
         });
       done();
     });
+
     after(function (done) {
       nock.cleanAll();
       done();
@@ -96,6 +97,7 @@ describe('Acceptance | API | Answers', function () {
       server.injectThen(options).then((response) => {
         const answer = response.result.data;
 
+        // then
         new Answer()
           .fetch()
           .then(function (model) {
@@ -105,7 +107,6 @@ describe('Acceptance | API | Answers', function () {
             expect(model.get('assessmentId')).to.equal(options.payload.data.relationships.assessment.data.id);
             expect(model.get('challengeId')).to.equal(options.payload.data.relationships.challenge.data.id);
 
-            // then
             expect(answer.id).to.equal(model.id);
             expect(answer.id).to.equal(response.result.data.id);
             expect(answer.attributes.value).to.equal(model.get('value'));
@@ -119,6 +120,5 @@ describe('Acceptance | API | Answers', function () {
     });
 
   });
-
 
 });

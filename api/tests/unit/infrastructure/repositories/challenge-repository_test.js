@@ -1,10 +1,14 @@
+/* global sinon */
+const { describe, it, before, after, beforeEach, afterEach } = require('mocha');
+const { expect } = require('chai');
+
 const Airtable = require('../../../../lib/infrastructure/airtable');
 const cache = require('../../../../lib/infrastructure/cache');
-const Challenge = require('../../../../lib/domain/models/referential/challenge');
 
 const ChallengeRepository = require('../../../../lib/infrastructure/repositories/challenge-repository');
+const challengeSerializer = require('../../../../lib/infrastructure/serializers/airtable/challenge-serializer');
 
-describe('Unit | Repository | ChallengeRepository', function () {
+describe('Unit | Repository | challenge-repository', function () {
 
   let stub;
 
@@ -28,7 +32,7 @@ describe('Unit | Repository | ChallengeRepository', function () {
 
       it('should return the challenges directly retrieved from the cache', function () {
         // given
-        const cacheKey = `challenge-repository_list`;
+        const cacheKey = 'challenge-repository_list';
         const cachedValue = [{ challenge: '1' }, { challenge: '2' }, { challenge: '3' }];
         cache.set(cacheKey, cachedValue);
 
@@ -47,11 +51,10 @@ describe('Unit | Repository | ChallengeRepository', function () {
 
     describe('when the cache throw an error', function () {
 
-      let mockedCache;
       const cacheErrorMessage = 'Cache error';
 
       before(function () {
-        mockedCache = sinon.stub(cache, 'get', (key, callback) => {
+        sinon.stub(cache, 'get', (key, callback) => {
           callback(new Error(cacheErrorMessage));
         });
       });
@@ -72,9 +75,9 @@ describe('Unit | Repository | ChallengeRepository', function () {
 
     describe('when the challenges have not been previously cached', function () {
 
-      const record_1 = { "id": "challenge_1" };
-      const record_2 = { "id": "challenge_2" };
-      const record_3 = { "id": "challenge_3" };
+      const record_1 = { id: 'challenge_1' };
+      const record_2 = { id: 'challenge_2' };
+      const record_3 = { id: 'challenge_3' };
       const records = [record_1, record_2, record_3];
 
       beforeEach(function () {
@@ -84,14 +87,18 @@ describe('Unit | Repository | ChallengeRepository', function () {
               eachPage(pageCallback, cb) {
                 pageCallback(records, cb);
               }
-            }
+            };
           }
         });
       });
 
       it('should return the challenges fetched from Airtable', function () {
         // given
-        const challenges = [new Challenge(record_1), new Challenge(record_2), new Challenge(record_3)];
+        const challenges = [
+          challengeSerializer.deserialize(record_1),
+          challengeSerializer.deserialize(record_2),
+          challengeSerializer.deserialize(record_3)
+        ];
 
         // when
         const result = ChallengeRepository.list();
@@ -105,7 +112,7 @@ describe('Unit | Repository | ChallengeRepository', function () {
         const cacheKey = 'challenge-repository_list';
 
         // when
-        ChallengeRepository.list().then(_ => {
+        ChallengeRepository.list().then(() => {
 
           // then
           cache.get(cacheKey, (err, cachedValue) => {
@@ -147,11 +154,10 @@ describe('Unit | Repository | ChallengeRepository', function () {
 
     describe('when the cache throw an error', function () {
 
-      let mockedCache;
       const cacheErrorMessage = 'Cache error';
 
       before(function () {
-        mockedCache = sinon.stub(cache, 'get', (key, callback) => {
+        sinon.stub(cache, 'get', (key, callback) => {
           callback(new Error(cacheErrorMessage));
         });
       });
@@ -172,13 +178,13 @@ describe('Unit | Repository | ChallengeRepository', function () {
 
     describe('when the challenge has not been previously cached', function () {
 
-      let record = {
-        "id": "challenge_id",
-        "fields": {
-          "Consigne": "Citez jusqu'à 3 moteurs de recherche généralistes.",
-          "Propositions": "${moteur 1}\n${moteur 2}\n${moteur 3}",
-          "Type d'épreuve": "QROCM",
-          "Bonnes réponses": "${moteur 1} ou ${moteur 2} ou ${moteur 3} = \nGoogle\nBing\nQwant\nDuckduckgo\nYahoo\nYahoo Search\nLycos\nAltavista\nHotbot"
+      const record = {
+        id: 'challenge_id',
+        fields: {
+          'Consigne': 'Citez jusqu\'à 3 moteurs de recherche généralistes.',
+          'Propositions': '${moteur 1}\n${moteur 2}\n${moteur 3}',
+          'Type d\'épreuve': 'QROCM',
+          'Bonnes réponses': '${moteur 1} ou ${moteur 2} ou ${moteur 3} = \nGoogle\nBing\nQwant\nDuckduckgo\nYahoo\nYahoo Search\nLycos\nAltavista\nHotbot'
         }
       };
 
@@ -193,7 +199,7 @@ describe('Unit | Repository | ChallengeRepository', function () {
 
       it('should return the challenge fetched from Airtable', function () {
         // given
-        const challenge = new Challenge(record);
+        const challenge = challengeSerializer.deserialize(record);
 
         // when
         const result = ChallengeRepository.get(challenge.id);
@@ -207,13 +213,14 @@ describe('Unit | Repository | ChallengeRepository', function () {
         const challengeId = 'challenge_id';
 
         // when
-        const result = ChallengeRepository.get(challengeId);
+        ChallengeRepository.get(challengeId);
 
         cache.get(`challenge-repository_get_${challengeId}`, (err, cachedValue) => {
           expect(cachedValue).to.exist;
         });
       });
     });
+
   });
 
   /*
@@ -222,13 +229,13 @@ describe('Unit | Repository | ChallengeRepository', function () {
 
   describe('#refresh(id)', function () {
 
-    let record = {
-      "id": "challenge_id",
-      "fields": {
-        "Consigne": "Citez jusqu'à 3 moteurs de recherche généralistes.",
-        "Propositions": "${moteur 1}\n${moteur 2}\n${moteur 3}",
-        "Type d'épreuve": "QROCM",
-        "Bonnes réponses": "${moteur 1} ou ${moteur 2} ou ${moteur 3} = \nGoogle\nBing\nQwant\nDuckduckgo\nYahoo\nYahoo Search\nLycos\nAltavista\nHotbot"
+    const record = {
+      id: 'challenge_id',
+      'fields': {
+        'Consigne': 'Citez jusqu\'à 3 moteurs de recherche généralistes.',
+        'Propositions': '${moteur 1}\n${moteur 2}\n${moteur 3}',
+        'Type d\'épreuve': 'QROCM',
+        'Bonnes réponses': '${moteur 1} ou ${moteur 2} ou ${moteur 3} = \nGoogle\nBing\nQwant\nDuckduckgo\nYahoo\nYahoo Search\nLycos\nAltavista\nHotbot'
       }
     };
 
@@ -243,7 +250,7 @@ describe('Unit | Repository | ChallengeRepository', function () {
 
     it('should return the challenge fetched from Airtable', function () {
       // given
-      const challenge = new Challenge(record);
+      const challenge = challengeSerializer.deserialize(record);
 
       // when
       const result = ChallengeRepository.refresh(challenge.id);
@@ -267,11 +274,10 @@ describe('Unit | Repository | ChallengeRepository', function () {
 
     describe('when the cache throw an error', function () {
 
-      let mockedCache;
       const cacheErrorMessage = 'Cache error';
 
       before(function () {
-        mockedCache = sinon.stub(cache, 'del', (key, callback) => {
+        sinon.stub(cache, 'del', (key, callback) => {
           callback(new Error(cacheErrorMessage));
         });
       });

@@ -16,10 +16,6 @@ module.exports = {
     return result;
   },
 
-  _getNumberOfExpectedAnswers() {
-
-  },
-
   match(answer, solution) {
 
     let result = 'not-implemented';

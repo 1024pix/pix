@@ -17,7 +17,7 @@
   },
   "homepage": "https://github.com/sgmap/pix-api#readme",
   "dependencies": {
-    "airtable": "^0.4.3",
+    "airtable": "0.4.3",
     "blipp": "^2.3.0",
     "bookshelf": "^0.10.2",
     "boom": "^4.2.0",

@@ -1,10 +1,10 @@
 const Boom = require('boom');
-const assessmentSerializer = require('../../infrastructure/serializers/assessment-serializer');
-const solutionSerializer = require('../../infrastructure/serializers/solution-serializer');
+const assessmentSerializer = require('../../infrastructure/serializers/jsonapi/assessment-serializer');
 const assessmentRepository = require('../../infrastructure/repositories/assessment-repository');
 const assessmentService = require('../../domain/services/assessment-service');
 const challengeRepository = require('../../infrastructure/repositories/challenge-repository');
-const challengeSerializer = require('../../infrastructure/serializers/challenge-serializer');
+const challengeSerializer = require('../../infrastructure/serializers/jsonapi/challenge-serializer');
+const solutionSerializer = require('../../infrastructure/serializers/jsonapi/solution-serializer');
 const courseRepository = require('../../infrastructure/repositories/course-repository');
 const _ = require('../../utils/lodash-utils');
 const answerRepository = require('../../infrastructure/repositories/answer-repository');
@@ -83,16 +83,9 @@ module.exports = {
 
               })
               .catch((err) => reply(Boom.badImplementation(err)));
-
           });
-
         }
-
-
       });
-
-
-
   }
 
 };

@@ -9,7 +9,6 @@ module.exports = {
         .where({ challengeId, assessmentId })
         .fetch()
     );
-
   },
 
   findByAssessment(assessmentId) {

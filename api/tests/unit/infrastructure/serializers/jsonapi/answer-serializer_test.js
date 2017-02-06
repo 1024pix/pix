@@ -1,8 +1,9 @@
-/* global describe, it, expect */
-const serializer = require('../../../../lib/infrastructure/serializers/answer-serializer');
-const Answer = require('../../../../lib/domain/models/data/answer');
+const { describe, it } = require('mocha');
+const { expect } = require('chai');
+const serializer = require('../../../../../lib/infrastructure/serializers/jsonapi/answer-serializer');
+const Answer = require('../../../../../lib/domain/models/data/answer');
 
-describe('Unit | Serializer | AnswerSerializer', function () {
+describe('Unit | Serializer | JSONAPI | AnswerSerializer', function () {
 
   const modelObject = new Answer({
     id: 'answer_id',

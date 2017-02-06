@@ -1,6 +1,6 @@
 const Boom = require('boom');
 const Answer = require('../../domain/models/data/answer');
-const answerSerializer = require('../../infrastructure/serializers/answer-serializer');
+const answerSerializer = require('../../infrastructure/serializers/jsonapi/answer-serializer');
 const solutionRepository = require('../../infrastructure/repositories/solution-repository');
 const answerRepository = require('../../infrastructure/repositories/answer-repository');
 const solutionService = require('../../domain/services/solution-service');

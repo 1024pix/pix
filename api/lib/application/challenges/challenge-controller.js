@@ -1,22 +1,22 @@
 const Boom = require('boom');
-const challengeRepository = require('../../infrastructure/repositories/challenge-repository');
-const challengeSerializer = require('../../infrastructure/serializers/challenge-serializer');
+const repository = require('../../infrastructure/repositories/challenge-repository');
+const serializer = require('../../infrastructure/serializers/jsonapi/challenge-serializer');
 
 module.exports = {
 
   list(request, reply) {
 
-    challengeRepository
+    repository
       .list()
-      .then((challenges) => reply(challengeSerializer.serializeArray(challenges)))
+      .then((challenges) => reply(serializer.serializeArray(challenges)))
       .catch((err) => reply(Boom.badImplementation(err)));
   },
 
   get(request, reply) {
 
-    challengeRepository
+    repository
       .get(request.params.id)
-      .then((challenge) => reply(challengeSerializer.serialize(challenge)))
+      .then((challenge) => reply(serializer.serialize(challenge)))
       .catch((err) => {
         let error = Boom.badImplementation(err);
         if ('MODEL_ID_NOT_FOUND' == err.error.type) {
@@ -28,9 +28,9 @@ module.exports = {
 
   refresh(request, reply) {
 
-    challengeRepository
+    repository
       .refresh(request.params.id)
-      .then((challenge) => reply(challengeSerializer.serialize(challenge)))
+      .then((challenge) => reply(serializer.serialize(challenge)))
       .catch((err) => reply(Boom.badImplementation(err)));
   }
 

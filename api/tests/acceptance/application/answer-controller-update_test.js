@@ -4,7 +4,7 @@ const Answer = require('../../../lib/domain/models/data/answer');
 
 server.register(require('inject-then'));
 
-describe('Acceptance | API | Answers', function () {
+describe('Acceptance | Controller | answer-controller', function () {
 
   after(function (done) {
     server.stop(done);

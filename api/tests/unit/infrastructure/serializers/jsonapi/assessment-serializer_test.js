@@ -1,7 +1,9 @@
-const serializer = require('../../../../lib/infrastructure/serializers/assessment-serializer');
-const Assessment = require('../../../../lib/domain/models/data/assessment');
+const { describe, it } = require('mocha');
+const { expect } = require('chai');
+const serializer = require('../../../../../lib/infrastructure/serializers/jsonapi/assessment-serializer');
+const Assessment = require('../../../../../lib/domain/models/data/assessment');
 
-describe('Unit | Serializer | AssessmentSerializer', function () {
+describe('Unit | Serializer | JSONAPI | AssessmentSerializer', function () {
 
   const modelObject = new Assessment({
     id: 'assessment_id',

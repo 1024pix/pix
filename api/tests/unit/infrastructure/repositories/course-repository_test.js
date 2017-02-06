@@ -1,10 +1,13 @@
+/* global sinon */
+const { describe, it, before, after, beforeEach, afterEach } = require('mocha');
+const { expect } = require('chai');
+
 const Airtable = require('../../../../lib/infrastructure/airtable');
 const cache = require('../../../../lib/infrastructure/cache');
-const Course = require('../../../../lib/domain/models/referential/course');
-
 const CourseRepository = require('../../../../lib/infrastructure/repositories/course-repository');
+const courseSerializer = require('../../../../lib/infrastructure/serializers/airtable/course-serializer');
 
-describe('Unit | Repository | CourseRepository', function () {
+describe('Unit | Repository | course-repository', function () {
 
   let stub;
 
@@ -28,7 +31,7 @@ describe('Unit | Repository | CourseRepository', function () {
 
       it('should return the courses directly retrieved from the cache', function () {
         // given
-        const cacheKey = `course-repository_list`;
+        const cacheKey = 'course-repository_list';
         const cachedValue = [{ course: '1' }, { course: '2' }, { course: '3' }];
         cache.set(cacheKey, cachedValue);
 
@@ -47,11 +50,10 @@ describe('Unit | Repository | CourseRepository', function () {
 
     describe('when the cache throw an error', function () {
 
-      let mockedCache;
       const cacheErrorMessage = 'Cache error';
 
       before(function () {
-        mockedCache = sinon.stub(cache, 'get', (key, callback) => {
+        sinon.stub(cache, 'get', (key, callback) => {
           callback(new Error(cacheErrorMessage));
         });
       });
@@ -72,9 +74,9 @@ describe('Unit | Repository | CourseRepository', function () {
 
     describe('when the courses have not been previously cached', function () {
 
-      const record_1 = { "id": "course_1" };
-      const record_2 = { "id": "course_2" };
-      const record_3 = { "id": "course_3" };
+      const record_1 = { id: 'course_1' };
+      const record_2 = { id: 'course_2' };
+      const record_3 = { id: 'course_3' };
       const records = [record_1, record_2, record_3];
 
       beforeEach(function () {
@@ -84,14 +86,18 @@ describe('Unit | Repository | CourseRepository', function () {
               eachPage(pageCallback, cb) {
                 pageCallback(records, cb);
               }
-            }
+            };
           }
         });
       });
 
       it('should return the courses fetched from Airtable', function () {
         // given
-        const courses = [new Course(record_1), new Course(record_2), new Course(record_3)];
+        const courses = [
+          courseSerializer.deserialize(record_1),
+          courseSerializer.deserialize(record_2),
+          courseSerializer.deserialize(record_3)
+        ];
 
         // when
         const result = CourseRepository.list();
@@ -105,7 +111,7 @@ describe('Unit | Repository | CourseRepository', function () {
         const cacheKey = 'course-repository_list';
 
         // when
-        CourseRepository.list().then(_ => {
+        CourseRepository.list().then(() => {
 
           // then
           cache.get(cacheKey, (err, cachedValue) => {
@@ -154,11 +160,10 @@ describe('Unit | Repository | CourseRepository', function () {
 
     describe('when the cache throw an error', function () {
 
-      let mockedCache;
       const cacheErrorMessage = 'Cache error';
 
       before(function () {
-        mockedCache = sinon.stub(cache, 'get', (key, callback) => {
+        sinon.stub(cache, 'get', (key, callback) => {
           callback(new Error(cacheErrorMessage));
         });
       });
@@ -179,9 +184,7 @@ describe('Unit | Repository | CourseRepository', function () {
 
     describe('when the course has not been previously cached', function () {
 
-      let record = {
-        "id": "course_id"
-      };
+      const record = { id: 'course_id' };
 
       beforeEach(function () {
         stub.returns({
@@ -194,7 +197,7 @@ describe('Unit | Repository | CourseRepository', function () {
 
       it('should return the course fetched from Airtable', function () {
         // given
-        const course = new Course(record);
+        const course = courseSerializer.deserialize(record);
 
         // when
         const result = CourseRepository.get(course.id);
@@ -208,7 +211,7 @@ describe('Unit | Repository | CourseRepository', function () {
         const courseId = 'course_id';
 
         // when
-        const result = CourseRepository.get(courseId);
+        CourseRepository.get(courseId);
 
         cache.get(`course-repository_get_${courseId}`, (err, cachedValue) => {
           expect(cachedValue).to.exist;
@@ -223,13 +226,13 @@ describe('Unit | Repository | CourseRepository', function () {
 
   describe('#refresh(id)', function () {
 
-    let record = {
-      "id": "course_id",
-      "fields": {
-        "Consigne": "Citez jusqu'à 3 moteurs de recherche généralistes.",
-        "Propositions": "${moteur 1}\n${moteur 2}\n${moteur 3}",
-        "Type d'épreuve": "QROCM",
-        "Bonnes réponses": "${moteur 1} ou ${moteur 2} ou ${moteur 3} = \nGoogle\nBing\nQwant\nDuckduckgo\nYahoo\nYahoo Search\nLycos\nAltavista\nHotbot"
+    const record = {
+      id: 'course_id',
+      'fields': {
+        'Consigne': 'Citez jusqu\'à 3 moteurs de recherche généralistes.',
+        'Propositions': '${moteur 1}\n${moteur 2}\n${moteur 3}',
+        'Type d\'épreuve': 'QROCM',
+        'Bonnes réponses': '${moteur 1} ou ${moteur 2} ou ${moteur 3} = \nGoogle\nBing\nQwant\nDuckduckgo\nYahoo\nYahoo Search\nLycos\nAltavista\nHotbot'
       }
     };
 
@@ -244,7 +247,7 @@ describe('Unit | Repository | CourseRepository', function () {
 
     it('should return the course fetched from Airtable', function () {
       // given
-      const course = new Course(record);
+      const course = courseSerializer.deserialize(record);
 
       // when
       const result = CourseRepository.refresh(course.id);
@@ -268,11 +271,10 @@ describe('Unit | Repository | CourseRepository', function () {
 
     describe('when the cache throw an error', function () {
 
-      let mockedCache;
       const cacheErrorMessage = 'Cache error';
 
       before(function () {
-        mockedCache = sinon.stub(cache, 'del', (key, callback) => {
+        sinon.stub(cache, 'del', (key, callback) => {
           callback(new Error(cacheErrorMessage));
         });
       });

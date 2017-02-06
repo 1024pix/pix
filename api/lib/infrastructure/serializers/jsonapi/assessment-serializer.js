@@ -1,5 +1,5 @@
 const JSONAPISerializer = require('./jsonapi-serializer');
-const Assessment = require('../../domain/models/data/assessment');
+const Assessment = require('../../../domain/models/data/assessment');
 
 const faker = require('faker');
 const _ = require('lodash');

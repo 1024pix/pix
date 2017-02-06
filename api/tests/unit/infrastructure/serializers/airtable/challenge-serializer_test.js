@@ -1,16 +1,17 @@
-/* global describe, it, expect */
-const Challenge = require('../../../../../lib/domain/models/referential/challenge');
+const { describe, it } = require('mocha');
+const { expect } = require('chai');
+const serializer = require('../../../../../lib/infrastructure/serializers/airtable/challenge-serializer');
 
-describe('Unit | Model | Challenge', function () {
+describe('Unit | Serializer | challenge-serializer', function () {
 
-  describe('#initialize()', function () {
+  describe('#deserialize', function () {
 
-    it(`should convert record 'id' into 'id' property`, function () {
+    it('should convert record "id" into "id" property', function () {
       // given
       const airtableRecord = { id: 'rec123', fields: {} };
 
       // when
-      const challenge = new Challenge(airtableRecord);
+      const challenge = serializer.deserialize(airtableRecord);
 
       // then
       expect(challenge.id).to.equal(airtableRecord.id);
@@ -30,7 +31,7 @@ describe('Unit | Model | Challenge', function () {
         const airtableRecord = { fields };
 
         // when
-        const challenge = new Challenge(airtableRecord);
+        const challenge = serializer.deserialize(airtableRecord);
 
         // then
         expect(challenge[modelProperty]).to.equal(airtableRecord.fields[airtableField]);
@@ -38,7 +39,7 @@ describe('Unit | Model | Challenge', function () {
 
     });
 
-    it(`should convert record 'Illustration de la consigne' into 'illustrationUrl' property`, function () {
+    it('should convert record "Illustration de la consigne" into "illustrationUrl"" property', function () {
       // given
       const airtableRecord = {
         fields: {
@@ -49,60 +50,78 @@ describe('Unit | Model | Challenge', function () {
       };
 
       // when
-      const challenge = new Challenge(airtableRecord);
+      const challenge = serializer.deserialize(airtableRecord);
 
       // then
       expect(challenge.illustrationUrl).to.equal(airtableRecord.fields['Illustration de la consigne'][0].url);
     });
 
-    it(`should not return 'attachments' property when challenge has no attachment`, function () {
+    it('should not return "attachments" property when challenge has no attachment', function () {
       // given
       const airtableRecord = { fields: {} };
 
       // when
-      const challenge = new Challenge(airtableRecord);
+      const challenge = serializer.deserialize(airtableRecord);
 
       // then
       expect(challenge.attachments).to.not.exist;
     });
 
-    it(`should convert record "Pièce jointe" into an array of 1 element when challenge has one attachment`, function () {
+    it('should convert record "Pièce jointe" into an array of 1 element when challenge has one attachment', function () {
       // given
       const attachment = {
-        "url": "https://dl.airtable.com/MurPbtCWS9cjyjGmYAMw_PIX_couleur_remplissage.pptx",
-        "filename": "PIX_couleur_remplissage.pptx",
+        url: 'https://dl.airtable.com/MurPbtCWS9cjyjGmYAMw_PIX_couleur_remplissage.pptx'
       };
       const airtableRecord = { fields: { 'Pièce jointe': [attachment] } };
 
       // when
-      const challenge = new Challenge(airtableRecord);
+      const challenge = serializer.deserialize(airtableRecord);
 
       // then
       expect(challenge.attachments).to.have.lengthOf(1);
       expect(challenge.attachments[0]).to.equal(attachment.url);
     });
 
-    it(`should convert record "Pièce jointe" into an array of 2 elements when challenge has multiple attachments`, function () {
+    it('should convert record "Pièce jointe" into an array of 2 elements when challenge has multiple attachments', function () {
       // given
       const attachmentDocx = {
-        "url": "https://dl.airtable.com/MurPbtCWS9cjyjGmYAMw_PIX_couleur_remplissage.docx",
-        "filename": "PIX_couleur_remplissage.docx"
+        url: 'https://dl.airtable.com/MurPbtCWS9cjyjGmYAMw_PIX_couleur_remplissage.docx'
       };
       const attachmentOdt = {
-        "url": "https://dl.airtable.com/MurPbtCWS9cjyjGmYAMw_PIX_couleur_remplissage.odt",
-        "filename": "PIX_couleur_remplissage.odt"
+        url: 'https://dl.airtable.com/MurPbtCWS9cjyjGmYAMw_PIX_couleur_remplissage.odt'
       };
 
-      const airtableRecord = { fields: { 'Pièce jointe': [attachmentDocx, attachmentOdt] } };
+      const airtableRecord = { fields: { 'Pièce jointe': [attachmentOdt, attachmentDocx] } };
 
       // when
-      const challenge = new Challenge(airtableRecord);
+      const challenge = serializer.deserialize(airtableRecord);
 
       // then
       expect(challenge.attachments).to.have.lengthOf(2);
       expect(challenge.attachments[0]).to.equal(attachmentDocx.url);
       expect(challenge.attachments[1]).to.equal(attachmentOdt.url);
     });
+
+    it('should revert attachments order because Airtable return data in wrong order', function() {
+      // given
+      const attachment_1 = {
+        url: 'https://dl.airtable.com/MurPbtCWS9cjyjGmYAMw_PIX_couleur_remplissage.docx'
+      };
+      const attachment_2 = {
+        url: 'https://dl.airtable.com/MurPbtCWS9cjyjGmYAMw_PIX_couleur_remplissage.odt'
+      };
+
+      const airtableRecord = { fields: { 'Pièce jointe': [attachment_2, attachment_1] } };
+
+      // when
+      const challenge = serializer.deserialize(airtableRecord);
+
+      // then
+      expect(challenge.attachments).to.have.lengthOf(2);
+      expect(challenge.attachments[0]).to.equal(attachment_1.url);
+      expect(challenge.attachments[1]).to.equal(attachment_2.url);
+    });
+
 
     // XXX : Pay attention to boolean negation : hasntInternetAllowed, instead of hasInternetAllowed,
     // it is because the nominal case is : user is allowed to use internet.
@@ -118,7 +137,7 @@ describe('Unit | Model | Challenge', function () {
         };
 
         // when
-        const challenge = new Challenge(airtableRecord);
+        const challenge = serializer.deserialize(airtableRecord);
 
         // then
         expect(challenge.hasntInternetAllowed).to.equal(true);
@@ -133,7 +152,7 @@ describe('Unit | Model | Challenge', function () {
         };
 
         // when
-        const challenge = new Challenge(airtableRecord);
+        const challenge = serializer.deserialize(airtableRecord);
 
         // then
         expect(challenge.hasntInternetAllowed).to.equal(false);
@@ -146,7 +165,7 @@ describe('Unit | Model | Challenge', function () {
         };
 
         // when
-        const challenge = new Challenge(airtableRecord);
+        const challenge = serializer.deserialize(airtableRecord);
 
         // then
         expect(challenge.hasntInternetAllowed).to.equal(undefined);

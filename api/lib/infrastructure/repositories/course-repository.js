@@ -1,7 +1,7 @@
 const Airtable = require('../airtable');
-const Course = require('../../domain/models/referential/course');
 const cache = require('../cache');
 const logger = require('../logger');
+const serializer = require('../serializers/airtable/course-serializer');
 
 const AIRTABLE_TABLE_NAME = 'Tests';
 
@@ -27,7 +27,7 @@ module.exports = {
           .eachPage((records, fetchNextPage) => {
 
             for (const record of records) {
-              courses.push(new Course(record));
+              courses.push(serializer.deserialize(record));
             }
             fetchNextPage();
           }, (err) => {
@@ -84,13 +84,13 @@ module.exports = {
 
       if (err) return reject(err);
 
-      const challenge = new Course(record);
+      const course = serializer.deserialize(record);
 
-      cache.set(cacheKey, challenge);
+      cache.set(cacheKey, course);
 
       logger.debug(`Fetched and cached course ${id}`);
 
-      return resolve(challenge);
+      return resolve(course);
     });
   }
 

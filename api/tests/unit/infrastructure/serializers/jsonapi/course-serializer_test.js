@@ -1,32 +1,27 @@
-/* global describe, it, expect */
-const serializer = require('../../../../lib/infrastructure/serializers/course-serializer');
-const Course = require('../../../../lib/domain/models/referential/course');
+const { describe, it } = require('mocha');
+const { expect } = require('chai');
+const serializer = require('../../../../../lib/infrastructure/serializers/jsonapi/course-serializer');
+const Course = require('../../../../../lib/domain/models/referential/course');
 
-describe('Unit | Serializer | CourseSerializer', function () {
+describe('Unit | Serializer | JSONAPI | CourseSerializer', function () {
 
   describe('#serialize()', function () {
 
     it('should convert a Course model object (with challenges order inverted) into JSON API data (with challenges order in right order)', function () {
-      const record = {
-        'id': 'course_id',
-        'fields': {
-          'Nom': 'Name of the course',
-          'Description': 'Description of the course',
-          'Durée': 10,
-          'Adaptatif ?': false,
-          'Épreuves': [
-            'challenge_5',
-            'challenge_4',
-            'challenge_3',
-            'challenge_2',
-            'challenge_1'
-          ],
-          'Image': [{
-            'url': 'http://image.url',
-          }]
-        }
-      };
-      const course = new Course(record);
+      const course = new Course();
+      course.id = 'course_id';
+      course.name = 'Name of the course';
+      course.description = 'Description of the course';
+      course.duration = 10;
+      course.isAdaptive = false;
+      course.imageUrl = 'http://image.url';
+      course.challenges = [
+        'challenge_1',
+        'challenge_2',
+        'challenge_3',
+        'challenge_4',
+        'challenge_5'
+      ];
 
       // when
       const json = serializer.serialize(course);
