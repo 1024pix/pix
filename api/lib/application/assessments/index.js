@@ -23,6 +23,11 @@ exports.register = function (server, options, next) {
       method: 'GET',
       path: '/api/assessments/{id}',
       config: { handler: AssessmentController.get, tags: ['api'] }
+    },
+    {
+      method: 'GET',
+      path: '/api/assessments/{id}/solutions/{answerId}',
+      config: { handler: AssessmentController.getAssessmentSolutions, tags: ['api'] }
     }
   ]);
 

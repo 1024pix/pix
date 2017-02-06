@@ -5,8 +5,8 @@ export default {
     type: 'answers',
     id: 'ref_answer_qcm_id',
     attributes: {
-      value: '1,2,4',
-      result: 'ok'
+      value: '2,4',
+      result: 'ko'
     },
     relationships: {
       challenge: {

@@ -6,7 +6,7 @@ export default {
     id: 'ref_answer_qcu_id',
     attributes: {
       value: '2',
-      result: 'ko'
+      result: 'ok'
     },
     relationships: {
       challenge: {

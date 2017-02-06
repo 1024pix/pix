@@ -35,12 +35,12 @@ describe('Acceptance | c1 - Consulter l\'écran de fin d\'un test ', function() 
 
   it('c1.3 Pour une bonne réponse, le tableau récapitulatif donne une indication adéquate', function () {
     const $cell = findWithAssert('div[data-toggle="tooltip"]:eq(0)');
-    expect($cell.attr('data-original-title')).to.equal('Réponse correcte');
+    expect($cell.attr('data-original-title')).to.equal('Réponse incorrecte');
   });
 
   it('c1.4 Pour une mauvaise réponse, le tableau récapitulatif donne une indication adéquate', function () {
     const $cell = findWithAssert('div[data-toggle="tooltip"]:eq(1)');
-    expect($cell.attr('data-original-title')).to.equal('Réponse incorrecte');
+    expect($cell.attr('data-original-title')).to.equal('Réponse correcte');
   });
 
   it('c1.5 Pour une réponse dont la validation n\'est pas encore implémentée, le tableau récapitulatif donne une indication adéquate', function () {

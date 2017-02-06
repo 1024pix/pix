@@ -43,7 +43,7 @@
 /* Title
 –––––––––––––––––––––––––––––––––––––––––––––––––– */
 .assessment-results-title {
-  width: 240px;
+  min-width: 240px;
   height: 48px;
   font-size: 40px;
   font-weight: 900;
@@ -100,17 +100,32 @@
   margin-left: 22px;
 }
 .assessment-results-result-instruction {
-  font-family: var(--font-lato);
+  font-family: ;
   font-size: 18px;
-  margin-left: 22px;
+  margin-left: 14px;
   height: 30px;
   overflow: hidden;
 }
 .assessment-results-result-img {
-  margin-left: auto;
-  margin-right: 37px;
+  margin-left: 14px;
 }
 
+.assessment-results-result-correction {
+  width: 73px;
+  font-family: var(--font-lato);
+  font-size: 12px;
+  font-weight: bold;
+  color: var(--pix-blue);
+  margin-right: 23px;
+  margin-left: auto;
+  height: 21px; /* XXX : should be aligned with flexbox */
+}
+
+.assessment-results-result-correction-button {
+  border:none;
+  outline:0;
+  background-color: transparent;
+}
 
 /* Button 'go back'
 –––––––––––––––––––––––––––––––––––––––––––––––––– */

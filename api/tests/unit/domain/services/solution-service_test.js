@@ -14,7 +14,7 @@ describe('Unit | Service | SolutionService', function () {
     const solution = new Solution({id: 'solution_id'});
     solution.type = type;
     solution.value = value;
-    solution.scoring = _.ensureString(scoring).replace(/@/g, '');  // XXX
+    solution.scoring = _.ensureString(scoring).replace(/@/g, '');
     return solution;
   }
 

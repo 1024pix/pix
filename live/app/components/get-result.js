@@ -8,4 +8,6 @@ export default Ember.Component.extend({
       $('[data-toggle="tooltip"]').tooltip();
     });
   }
+
+
 });

@@ -1,0 +1,84 @@
+.comparison-window {
+  max-width: 600px;
+  margin: 30px auto;
+}
+
+.comparison-window--content, .comparison-window--body {
+  border-radius: 5px;
+}
+
+.comparison-window--body {
+  background-color: var(--light-grey1);
+  display: flex;
+  flex-direction: column;
+}
+
+.comparison-window__instruction {
+  margin: 20px 15px 15px;
+  font-size: 16px;
+}
+
+.comparison-window-oracle[data-goodness='good'] {
+  color: #13c9a0;
+  font-weight: 900;
+}
+
+.comparison-window-oracle[data-goodness='bad'][data-checked='yes'] {
+  text-decoration: line-through;
+}
+
+/*Modal Close button*/
+
+.routable-modal--close-button {
+  position: absolute;
+  top: -25px;
+  right: -10px; /*XXX : right alignment, found no other way to achieve it;*/
+  margin-right: 0px;
+  height: 17px;
+  font-family: var(--font-lato);
+  font-size: 14px;
+  border:none;
+  background-color: transparent;
+  color: #ffffff;
+}
+
+/*Modal Header*/
+.comparison-window--header {
+  position: relative;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  max-width: 1070px;
+  min-height: 70px;
+  border-radius: 5px;
+}
+
+.assessment-results-result-titre {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  margin-left: 15px;
+}
+
+.assessment-results-result-text {
+  display: flex;
+  margin-left: 9px;
+  max-width: 618.5px;
+  font-family: var(--font-lato);
+  font-size: 18px;
+  font-weight: 900;
+  font-style: italic;
+  color: var(--charcoal-grey);
+}
+
+.assessment-results-result-light-line {
+  width: 1px;
+  height: 50px;
+  border: solid 1.5px #d5d5d5;
+  margin-left: 22px;
+}
+
+/*Close button*/
+.close-button-container {
+  display: flex;
+}

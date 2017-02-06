@@ -10,5 +10,17 @@ module.exports = {
         .fetch()
     );
 
+  },
+
+  findByAssessment(assessmentId) {
+
+    return new Promise((resolve, reject) => {
+      Answer
+        .where({ assessmentId })
+        .fetchAll()
+        .then(resolve)
+        .catch(reject);
+    });
   }
+
 };

@@ -48,7 +48,7 @@ describe('Acceptance | b2 - Afficher un QCM | ', function () {
   });
 
   it('b2.5 By default, already checked checkboxes are checked', function () {
-    expect($('input:checkbox:checked')).to.have.lengthOf(3);
+    expect($('input:checkbox:checked')).to.have.lengthOf(2);
   });
 
   it('b2.6 It should render an ordered list of instruction', function () {
@@ -64,7 +64,7 @@ describe('Acceptance | b2 - Afficher un QCM | ', function () {
 
   it('b2.8 Error alert box should be displayed if user validate without checking a checkbox', function () {
     const $validateLink = $('.challenge-actions__action-validate');
-    expect($('input:checkbox:checked')).to.have.lengthOf(3);
+    expect($('input:checkbox:checked')).to.have.lengthOf(2);
     $('input:checkbox').prop('checked', false);
     expect($('input:checkbox:checked')).to.have.lengthOf(0);
     click($validateLink);

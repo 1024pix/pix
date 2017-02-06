@@ -12,5 +12,15 @@ export default Ember.Route.extend({
       assessment_id: model.assessment.id
     };
   }
+  ,
+  actions: {
+
+    openComparison: function (assessment_id, answer_id, index) {
+      this.get('router').transitionTo('assessments.get-comparison', assessment_id, answer_id, index);
+    }
+  }
+
+
+
 
 });

@@ -1,9 +1,14 @@
 const Boom = require('boom');
 const assessmentSerializer = require('../../infrastructure/serializers/assessment-serializer');
+const solutionSerializer = require('../../infrastructure/serializers/solution-serializer');
 const assessmentRepository = require('../../infrastructure/repositories/assessment-repository');
 const assessmentService = require('../../domain/services/assessment-service');
 const challengeRepository = require('../../infrastructure/repositories/challenge-repository');
 const challengeSerializer = require('../../infrastructure/serializers/challenge-serializer');
+const courseRepository = require('../../infrastructure/repositories/course-repository');
+const _ = require('../../utils/lodash-utils');
+const answerRepository = require('../../infrastructure/repositories/answer-repository');
+const solutionRepository = require('../../infrastructure/repositories/solution-repository');
 
 module.exports = {
 
@@ -25,6 +30,7 @@ module.exports = {
         return reply(serializedAssessment);
       })
       .catch((err) => reply(Boom.badImplementation(err)));
+
   },
 
   getNextChallenge(request, reply) {
@@ -41,6 +47,52 @@ module.exports = {
         return (challenge) ? reply(challengeSerializer.serialize(challenge)) : reply('null');
       })
       .catch((err) => reply(Boom.badImplementation(err)));
+  },
+
+  getAssessmentSolutions(request, reply) {
+
+    assessmentRepository
+      .get(request.params.id)
+      .then((assessment) => {
+        if (_.isEmpty(assessment)) {
+          return reply('null');
+        } else {
+
+          answerRepository.findByAssessment(assessment.get('id')).then((answers) => {
+            const answersLength = _.get(answers, 'length', 0);
+
+            courseRepository
+              .get(assessment.get('courseId'))
+              .then((course) => {
+
+                const challengesLength = _.get(course, 'challenges.length', 0);
+
+                if (challengesLength > 0 && _.isEqual(answersLength, challengesLength)) {
+
+                  const modelAnswers = _.map(answers.models, (o) => o.attributes);
+                  const requestedAnswer = _.find(modelAnswers, { id: _.parseInt(request.params.answerId) });
+
+                  solutionRepository
+                    .get(requestedAnswer.challengeId)
+                    .then((solution) => {
+                      return reply(solutionSerializer.serialize(solution));
+                    });
+                } else {
+                  return reply('null');
+                }
+
+              })
+              .catch((err) => reply(Boom.badImplementation(err)));
+
+          });
+
+        }
+
+
+      });
+
+
+
   }
 
 };

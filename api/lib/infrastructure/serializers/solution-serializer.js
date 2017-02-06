@@ -3,11 +3,10 @@ const JSONAPISerializer = require('./jsonapi-serializer');
 class SolutionSerializer extends JSONAPISerializer {
 
   constructor() {
-    super('challenges');
+    super('solutions');
   }
 
   serializeAttributes(model, data) {
-    data.attributes['type'] = model.type;
     data.attributes['value'] = model.value;
   }
 }

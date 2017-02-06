@@ -1,3 +1,6 @@
+/* global sinon */
+const { before, beforeEach, describe, it, after } = require('mocha');
+const { expect } = require('chai');
 const Hapi = require('hapi');
 const AssessmentController = require('../../../../lib/application/assessments/assessment-controller');
 
@@ -77,5 +80,4 @@ describe('Unit | Router | AssessmentRouter', function () {
       expectRouteToExist({ method: 'GET', url: '/api/assessments/assessment_id' }, done);
     });
   });
-
 });

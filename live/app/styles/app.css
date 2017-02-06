@@ -5,6 +5,10 @@
 @import url('globals/flexbox-helpers.css');
 @import url('globals/rounded-panel.css');
 
+/* 3rd-party */
+@import url('vendor/ember-routable-modal/core');
+@import url('vendor/ember-routable-modal/dialog');
+
 /* components */
 @import url('globals/fonts.css');
 @import url('globals/palette.css');
@@ -22,6 +26,8 @@
 @import url('components/timeout-jauge.css');
 @import url('components/warning-timing-page.css');
 @import url('components/app-menu.css');
+@import url('components/get-results.css');
+@import url('components/comparison-window.css');
 
 /* views */
 @import url('home.css');
@@ -29,7 +35,6 @@
 @import url('index.css');
 @import url('project.css');
 @import url('courses/get-preview.css');
-@import url('assessments/get-results.css');
 
 @media (min-width: 1200px) {
   .container {
