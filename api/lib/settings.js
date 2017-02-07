@@ -1,13 +1,5 @@
 const path = require('path');
 
-global.base_dir = path.join(__dirname, '/..');
-global.abs_path = function(path) {
-  return global.base_dir + path;
-};
-global.include = function(file) {
-  return require(global.abs_path('/' + file));
-};
-
 module.exports = (function () {
 
   const config = {

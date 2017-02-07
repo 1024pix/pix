@@ -1,3 +1,4 @@
+const { describe, it, before, expect, sinon } = require('../../../test-helper');
 const Hapi = require('hapi');
 const Challenge = require('../../../../lib/domain/models/referential/challenge');
 const ChallengeRepository = require('../../../../lib/infrastructure/repositories/challenge-repository');

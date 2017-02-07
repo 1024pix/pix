@@ -1,4 +1,4 @@
-/* global describe, before, beforeEach, after, afterEach, knex, nock, it, expect */
+const { describe, it, before, after, beforeEach, afterEach, expect, knex, nock } = require('../../test-helper');
 const server = require('../../../server');
 const Answer = require('../../../lib/domain/models/data/answer');
 
@@ -10,9 +10,6 @@ describe('Acceptance | Controller | answer-controller', function () {
     server.stop(done);
   });
 
-
-  /* Update
-  –––––––––––––––––––––––––––––––––––––––––––––––––– */
   describe('POST /api/answers (update)', function () {
 
     const options = {
@@ -48,7 +45,9 @@ describe('Acceptance | Controller | answer-controller', function () {
       });
     });
     afterEach(function (done) {
-      knex('answers').delete().then(() => {done();});
+      knex('answers').delete().then(() => {
+        done();
+      });
     });
 
     before(function (done) {
@@ -65,8 +64,6 @@ describe('Acceptance | Controller | answer-controller', function () {
         });
       done();
     });
-
-
 
     it('should return 200 HTTP status code', function (done) {
       server.injectThen(options).then((response) => {
@@ -119,8 +116,6 @@ describe('Acceptance | Controller | answer-controller', function () {
       });
     });
 
-
   });
-
 
 });

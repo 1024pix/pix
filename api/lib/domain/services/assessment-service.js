@@ -1,7 +1,6 @@
 const courseRepository = require('../../infrastructure/repositories/course-repository');
 const Answer = require('../../domain/models/data/answer');
-const _ = require('../../utils/lodash-utils');
-
+const _ = require('../../infrastructure/utils/lodash-utils');
 
 function _selectNextInAdaptiveMode(assessment, challenges) {
 

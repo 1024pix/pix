@@ -1,4 +1,4 @@
-const _ = include('lib/utils/lodash-utils');
+const _ = require('../../utils/lodash-utils');
 const Challenge = require('../../../domain/models/referential/challenge');
 
 class ChallengeSerializer {

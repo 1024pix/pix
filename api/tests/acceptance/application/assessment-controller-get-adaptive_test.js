@@ -1,4 +1,4 @@
-/* global describe, before, after, beforeEach, afterEach, knex, nock, it, expect */
+const { describe, it, before, after, beforeEach, afterEach, expect, knex, nock } = require('../../test-helper');
 const server = require('../../../server');
 
 describe('Acceptance | API | Assessments', function () {

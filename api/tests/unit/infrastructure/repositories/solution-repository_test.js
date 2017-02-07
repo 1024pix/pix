@@ -1,6 +1,4 @@
-/* global sinon */
-const { describe, it, before, after, beforeEach, afterEach } = require('mocha');
-const { expect } = require('chai');
+const { describe, it, before, after, beforeEach, afterEach, expect, sinon } = require('../../../test-helper');
 
 const Airtable = require('../../../../lib/infrastructure/airtable');
 const cache = require('../../../../lib/infrastructure/cache');

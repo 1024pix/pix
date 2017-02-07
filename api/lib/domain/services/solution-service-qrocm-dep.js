@@ -1,6 +1,6 @@
 /*eslint no-console: ["error", { allow: ["warn", "error"] }] */
 const jsYaml = require('js-yaml');
-const _ = require('../../utils/lodash-utils');
+const _ = require('../../infrastructure/utils/lodash-utils');
 
 function _applyTreatments(objects) {
   const result = {};

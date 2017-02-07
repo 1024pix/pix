@@ -1,4 +1,4 @@
-/* global describe, before, beforeEach, after, afterEach, knex, it, expect */
+const { describe, it, after, beforeEach, afterEach, expect, knex } = require('../../test-helper');
 const server = require('../../../server');
 
 server.register(require('inject-then'));

@@ -1,6 +1,4 @@
-/* global nock */
-const { describe, it, before, after } = require('mocha');
-const { expect } = require('chai');
+const { describe, it, before, after, expect, nock } = require('../../test-helper');
 const server = require('../../../server');
 
 server.register(require('inject-then'));

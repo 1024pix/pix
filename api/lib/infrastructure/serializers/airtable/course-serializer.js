@@ -1,4 +1,4 @@
-const _ = include('lib/utils/lodash-utils');
+const _ = require('../../utils/lodash-utils');
 const Course = require('../../../domain/models/referential/course');
 
 class CourseSerializer {

@@ -1,8 +1,6 @@
-/* global describe, it, expect */
-
-const _ = include('lib/utils/lodash-utils'); // our custom function(s) of lodash
+const { describe, it, expect } = require('../../../test-helper');
 const original_lodash = require('lodash');
-
+const _ = require('../../../../lib/infrastructure/utils/lodash-utils');
 
 describe('Unit | Utils | lodash-utils', function () {
 

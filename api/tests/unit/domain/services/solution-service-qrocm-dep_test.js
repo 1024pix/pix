@@ -1,3 +1,4 @@
+const { describe, it, expect } = require('../../../test-helper');
 const service = require('../../../../lib/domain/services/solution-service-qrocm-dep');
 
 describe('Unit | Service | SolutionServiceQrocmDep', function () {
@@ -47,7 +48,6 @@ describe('Unit | Service | SolutionServiceQrocmDep', function () {
           });
         });
 
-
         [
           `solA: '2'\nsolB: '888'`,
           `solA: '888'\nsolB: '2'`,
@@ -83,7 +83,6 @@ describe('Unit | Service | SolutionServiceQrocmDep', function () {
           });
         });
 
-
         [
           `moteur 1: 'yahoo'\nmoteur 2: 'google'\nmoteur 3: 'mauvaise_reponse'`,
           `moteur 1: 'yahoo'\nmoteur 2: 'google'\nmoteur 3: ''`,
@@ -105,7 +104,6 @@ describe('Unit | Service | SolutionServiceQrocmDep', function () {
             expect(result).to.equal('ko');
           });
         });
-
 
       });
 

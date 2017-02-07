@@ -1,5 +1,4 @@
-const { describe, it } = require('mocha');
-const { expect } = require('chai');
+const { describe, it, expect } = require('../../../../test-helper');
 const serializer = require('../../../../../lib/infrastructure/serializers/jsonapi/challenge-serializer');
 const Challenge = require('../../../../../lib/domain/models/referential/challenge');
 

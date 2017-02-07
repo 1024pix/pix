@@ -1,6 +1,6 @@
+const { describe, it, before, after, expect, sinon } = require('../../../test-helper');
 const Hapi = require('hapi');
 const User = require('../../../../lib/domain/models/data/user');
-const cache = require('../../../../lib/infrastructure/cache');
 
 describe('Unit | Controller | UserController', function () {
 

@@ -1,4 +1,4 @@
-const _ = include('lib/utils/lodash-utils');
+const _ = require('../../infrastructure/utils/lodash-utils');
 
 
 module.exports = {
