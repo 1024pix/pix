@@ -2,7 +2,7 @@ const { describe, it, expect } = require('../../../../test-helper');
 const serializer = require('../../../../../lib/infrastructure/serializers/jsonapi/assessment-serializer');
 const Assessment = require('../../../../../lib/domain/models/data/assessment');
 
-describe('Unit | Serializer | JSONAPI | AssessmentSerializer', function () {
+describe('Unit | Serializer | JSONAPI | assessment-serializer', function () {
 
   const modelObject = new Assessment({
     id: 'assessment_id',

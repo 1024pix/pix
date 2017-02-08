@@ -2,7 +2,7 @@ const { describe, it, expect } = require('../../../../test-helper');
 const serializer = require('../../../../../lib/infrastructure/serializers/jsonapi/course-serializer');
 const Course = require('../../../../../lib/domain/models/referential/course');
 
-describe('Unit | Serializer | JSONAPI | CourseSerializer', function () {
+describe('Unit | Serializer | JSONAPI | course-serializer', function () {
 
   describe('#serialize()', function () {
 

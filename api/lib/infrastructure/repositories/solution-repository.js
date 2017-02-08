@@ -7,11 +7,11 @@ const AIRTABLE_TABLE_NAME = 'Epreuves';
 
 module.exports = {
 
-  get(id) {
+  get(challengeId) {
 
     return new Promise((resolve, reject) => {
 
-      const cacheKey = `solution-repository_get_${id}`;
+      const cacheKey = `solution-repository_get_${challengeId}`;
 
       cache.get(cacheKey, (err, cachedValue) => {
 
@@ -19,31 +19,31 @@ module.exports = {
 
         if (cachedValue) return resolve(cachedValue);
 
-        return this._fetch(id, reject, cacheKey, resolve);
+        return this._fetch(challengeId, reject, cacheKey, resolve);
       });
     });
   },
 
-  refresh(id) {
+  refresh(challengeId) {
 
     return new Promise((resolve, reject) => {
 
-      const cacheKey = `solution-repository_get_${id}`;
+      const cacheKey = `solution-repository_get_${challengeId}`;
 
       cache.del(cacheKey, (err, count) => {
 
         if (err) return reject(err);
 
-        if (count > 0) logger.debug(`Deleted from cache solution ${id}`);
+        if (count > 0) logger.debug(`Deleted from cache solution ${challengeId}`);
 
-        return this._fetch(id, reject, cacheKey, resolve);
+        return this._fetch(challengeId, reject, cacheKey, resolve);
       });
     });
   },
 
-  _fetch: function (id, reject, cacheKey, resolve) {
+  _fetch: function (challengeId, reject, cacheKey, resolve) {
 
-    Airtable.base(AIRTABLE_TABLE_NAME).find(id, (err, record) => {
+    Airtable.base(AIRTABLE_TABLE_NAME).find(challengeId, (err, record) => {
 
       if (err) return reject(err);
 
@@ -51,7 +51,7 @@ module.exports = {
 
       cache.set(cacheKey, solution);
 
-      logger.debug(`Fetched and cached solution ${id}`);
+      logger.debug(`Fetched and cached solution of challenge ${challengeId}`);
 
       return resolve(solution);
     });

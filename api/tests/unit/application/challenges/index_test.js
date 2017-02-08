@@ -64,4 +64,19 @@ describe('Unit | Router | ChallengeRouter', function () {
     });
   });
 
+  describe('POST /api/challenges/{id}/solution', function () {
+
+    before(function () {
+      sinon.stub(ChallengeController, 'refreshSolution', (request, reply) => reply('ok'));
+    });
+
+    after(function () {
+      ChallengeController.refreshSolution.restore();
+    });
+
+    it('should exist', function (done) {
+      expectRouteToExist({ method: 'POST', url: '/api/challenges/challenge_id/solution' }, done);
+    });
+  });
+
 });

@@ -26,7 +26,6 @@ function _hasBadAnswers(validations) {
   return !_.isEmpty(badAnswers);
 }
 
-
 function _compareAnswersAndSolutions(answers, solutions) {
 
   const validations = {};
@@ -89,7 +88,6 @@ module.exports = {
 
     // Restitution
     return _calculateResult(scoring, validations);
-
   }
 
 };

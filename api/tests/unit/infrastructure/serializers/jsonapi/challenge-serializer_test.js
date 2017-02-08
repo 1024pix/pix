@@ -2,7 +2,7 @@ const { describe, it, expect } = require('../../../../test-helper');
 const serializer = require('../../../../../lib/infrastructure/serializers/jsonapi/challenge-serializer');
 const Challenge = require('../../../../../lib/domain/models/referential/challenge');
 
-describe('Unit | Serializer | JSONAPI | ChallengeSerializer', function () {
+describe('Unit | Serializer | JSONAPI | challenge-serializer', function () {
 
   describe('#serialize()', function () {
 
