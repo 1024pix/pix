@@ -4,7 +4,10 @@
 }
 
 .challenge-statement__instruction-section {
-  font-size: 20px;
+  font-size: 14px;
+  @media (min-width: 700px) {
+    font-size: 20px;
+  }
 }
 
 .challenge-statement__illustration-section {

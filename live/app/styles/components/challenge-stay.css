@@ -13,6 +13,9 @@
 }
 .challenge-stay__text {
   padding-left: 15px;
-  font-size: 16px;
+  font-size: 12px;
+  @media (min-width: 700px) {
+    font-size: 16px;
+  }
   font-weight: bold;
 }
