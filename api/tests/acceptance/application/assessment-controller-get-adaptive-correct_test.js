@@ -3,7 +3,6 @@ const server = require('../../../server');
 
 describe('Acceptance | API | Assessments', function () {
 
-
   before(function (done) {
     nock.cleanAll();
     nock('https://api.airtable.com')
@@ -62,29 +61,44 @@ describe('Acceptance | API | Assessments', function () {
 
   describe('(adaptive correct answer) GET /api/assessments/:assessment_id/next/:current_challenge_id', function () {
 
-    //assessment
-    let inserted_assessment_id = null;
+    let insertedAssessmentId = null;
 
-    const inserted_assessment = {
+    const insertedAssessment = {
       userName: 'John Doe',
       userEmail: 'john.doe@mailmail.com',
       courseId: 'w_adaptive_course_id'
     };
 
+    const insertedScenarios = [{
+      courseId: 'w_adaptive_course_id',
+      path: 'ok',
+      nextChallengeId: 'w_second_challenge'
+    }, {
+      courseId: 'w_adaptive_course_id',
+      path: 'ko',
+      nextChallengeId: 'w_third_challenge'
+    }];
+
     beforeEach(function (done) {
       knex('assessments').delete().then(() => {
-        knex('assessments').insert([inserted_assessment]).then((rows) => {
-          inserted_assessment_id = rows[0];
+        knex('assessments').insert([insertedAssessment]).then((rows) => {
+          insertedAssessmentId = rows[0];
 
           const inserted_answer = {
             value: 'any good answer',
             result: 'ok',
             challengeId: 'anyChallengeIdFromAirtable',
-            assessmentId: inserted_assessment_id
+            assessmentId: insertedAssessmentId
           };
+
           knex('answers').delete().then(() => {
             knex('answers').insert([inserted_answer]).then(() => {
-              done();
+
+              knex('scenarios').delete().then(() => {
+                knex('scenarios').insert(insertedScenarios).then(() => {
+                  done();
+                });
+              });
             });
           });
         });
@@ -101,14 +115,12 @@ describe('Acceptance | API | Assessments', function () {
 
     it('should return the second challenge if the first answer is correct', function (done) {
 
-      const challengeData = { method: 'GET', url: '/api/assessments/' + inserted_assessment_id + '/next/w_first_challenge' };
+      const challengeData = { method: 'GET', url: '/api/assessments/' + insertedAssessmentId + '/next/w_first_challenge' };
       server.injectThen(challengeData).then((response) => {
         expect(response.result.data.id).to.equal('w_second_challenge');
         done();
       });
     });
   });
-
-
 
 });

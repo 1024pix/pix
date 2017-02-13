@@ -1,31 +1,27 @@
 const courseRepository = require('../../infrastructure/repositories/course-repository');
 const Answer = require('../../domain/models/data/answer');
+const Scenario = require('../../domain/models/data/scenario');
 const _ = require('../../infrastructure/utils/lodash-utils');
 
-function _selectNextInAdaptiveMode(assessment, challenges) {
+function _selectNextInAdaptiveMode(assessment) {
 
-  return new Promise((resolve) => {
+  return new Promise((resolve, reject) => {
 
     const answerIds = assessment.related('answers').pluck('id');
 
-    // Check input
-    // else if (answerIds.length > 1) { // if there is more than one answer, user reached the end of test
-    if (answerIds.length > 1) { // if there is more than one answer, user reached the end of test
-      resolve(null);
-    }
-    // ADAPTIVE TEST HAPPENS HERE
-    else if (answerIds.length === 1) {
-      Answer.where('id', _.first(answerIds)).fetch().then((firstAnswerToFirstChallenge) => {
+    Answer.where('id', 'IN', answerIds).fetchAll().then((answers) => {
+      const responsePattern = answers.map(answer => (answer.attributes.result == 'ok') ? 'ok' : 'ko').join('-');
 
-        if (firstAnswerToFirstChallenge.attributes.result === 'ok') {
-          resolve(_.second(challenges));
+      Scenario.where('path', responsePattern).orderBy('updatedAt', 'DESC').fetch().then((scenario) => {
+        if (!scenario) {
+          return resolve(null);
+        } else if(scenario.attributes.nextChallengeId == 'null') {
+          resolve(null);
         } else {
-          resolve(_.third(challenges));
+          resolve(scenario.attributes.nextChallengeId);
         }
       });
-    }
-
-
+    }).catch((error) => reject(error));
   });
 }
 
@@ -55,7 +51,7 @@ function selectNextChallengeId(course, currentChallengeId, assessment) {
     }
 
     if (course.isAdaptive) {
-      return resolve(_selectNextInAdaptiveMode(assessment, challenges));
+      return resolve(_selectNextInAdaptiveMode(assessment));
     } else {
       return resolve(_selectNextInNormalMode(currentChallengeId, challenges));
     }
