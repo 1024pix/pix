@@ -39,8 +39,8 @@ describe('Acceptance | a3 - voir la liste des tests', function () {
     });
 
     it('a3.2.3 on affiche le nombre d\'épreuve(s) qu\'il contient', function () {
-      const courseChallenges = '8 épreuves';
-      expect($course.find('.course-number-of-challenges').text()).to.contains(courseChallenges);
+      const courseChallenges = '5 épreuves';
+      expect($course.find('.course-number-of-challenges').text().trim()).to.equal(courseChallenges);
     });
 
     it('a3.2.4 on affiche son image', function () {

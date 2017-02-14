@@ -14,9 +14,9 @@ import postFeedbacks from './routes/post-feedbacks';
 export default function () {
 
   this.passthrough('/write-coverage');
-  this.passthrough('https://formspree.io/**');
-  this.post('https://sentry.io/**', () => {
-  });
+  this.post('https://fonts.googleapis.com/**', () => {});
+  this.post('https://formspree.io/**', () => {});
+  this.post('https://sentry.io/**', () => {});
 
   this.namespace = 'http://localhost:3000/api';
 

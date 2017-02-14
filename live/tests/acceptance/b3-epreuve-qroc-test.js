@@ -1,7 +1,9 @@
 import { describe, it, beforeEach, afterEach } from 'mocha';
 import { expect } from 'chai';
+import {resetPostRequest, bodyOfLastPostRequest, urlOfLastPostRequest} from '../helpers/shared-state';
 import startApp from '../helpers/start-app';
 import destroyApp from '../helpers/destroy-app';
+import _ from 'pix-live/utils/lodash-custom';
 
 describe('Acceptance | b3 - Afficher un QROC | ', function () {
 
@@ -35,6 +37,14 @@ describe('Acceptance | b3 - Afficher un QROC | ', function () {
       expect($('.alert')).to.have.lengthOf(1);
       expect($('.alert').text().trim()).to.equal('Pour valider, saisir une réponse. Sinon, passer.');
     });
+  });
+
+  it('b3.4 It should save the answer of the user when user validate', async function () {
+    resetPostRequest();
+    fillIn('input[data-uid="qroc-proposal-uid"]', 'My New Answer');
+    await click('.challenge-actions__action-validate');
+    expect(urlOfLastPostRequest()).to.equal('/api/answers');
+    expect(_.get(bodyOfLastPostRequest(), 'data.attributes.value')).to.equal('My New Answer');
   });
 
 });

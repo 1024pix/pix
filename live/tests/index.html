@@ -18,13 +18,6 @@
     {{content-for "test-head-footer"}}
 
 
-    <script>
-      page.onResourceRequested = function(requestData, networkRequest) {
-        if (requestData.url.match('fonts.googleapis.com')) {
-          networkRequest.abort();
-        }
-      };
-    </script>
 
   </head>
   <body>

@@ -6,11 +6,9 @@ import refQcuChallengeFull from '../data/challenges/ref-qcu-challenge';
 import refQruChallengeFull from '../data/challenges/ref-qru-challenge';
 import refQrocChallengeFull from '../data/challenges/ref-qroc-challenge';
 import refQrocmChallengeFull from '../data/challenges/ref-qrocm-challenge';
-import noFileChallenge from '../data/challenges/no-file-challenge';
-import oneFileChallenge from '../data/challenges/one-file-challenge';
-import multipleFilesChallenge from '../data/challenges/multiple-files-challenge';
 
 export default function (schema, request) {
+
 
   const allChallenges = [
     rawQcmChallenge,
@@ -18,10 +16,7 @@ export default function (schema, request) {
     refQcuChallengeFull,
     refQruChallengeFull,
     refQrocChallengeFull,
-    refQrocmChallengeFull,
-    noFileChallenge,
-    oneFileChallenge,
-    multipleFilesChallenge
+    refQrocmChallengeFull
   ];
 
   const challenges = _.map(allChallenges, function (oneChallenge) {
@@ -31,6 +26,10 @@ export default function (schema, request) {
   const challenge = _.find(challenges, { id: request.params.id });
 
   if (challenge) {
+    if (challenge.obj.recalculate) {
+      challenge.obj.recalculate();
+    }
+
     return challenge.obj;
   } else {
     throw new Error('The challenge you required in the fake server does not exist ' + request.params.id);

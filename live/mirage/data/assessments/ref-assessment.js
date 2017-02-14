@@ -4,9 +4,6 @@ import refQruAnswer from '../answers/ref-qru-answer';
 import refQcmAnswer from '../answers/ref-qcm-answer';
 import refQrocAnswer from '../answers/ref-qroc-answer';
 import refQrocmAnswer from '../answers/ref-qrocm-answer';
-import noFileAnswer from '../answers/no-file-answer';
-import oneFileAnswer from '../answers/one-file-answer';
-import multipleFilesAnswer from '../answers/multiple-files-answer';
 
 export default {
   data: {
@@ -40,15 +37,6 @@ export default {
         }, {
           type: 'answers',
           id: refQrocmAnswer.data.id
-        }, {
-          type: 'answers',
-          id: noFileAnswer.data.id
-        }, {
-          type: 'answers',
-          id: oneFileAnswer.data.id
-        }, {
-          type: 'answers',
-          id: multipleFilesAnswer.data.id
         }]
       }
     }
