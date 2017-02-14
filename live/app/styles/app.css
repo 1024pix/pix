@@ -6,8 +6,8 @@
 @import url('globals/rounded-panel.css');
 
 /* 3rd-party */
-@import url('vendor/ember-routable-modal/core');
-@import url('vendor/ember-routable-modal/dialog');
+@import url('vendor/ember-routable-modal/core.css');
+@import url('vendor/ember-routable-modal/dialog.css');
 
 /* components */
 @import url('globals/fonts.css');
@@ -19,6 +19,7 @@
 @import url('components/challenge-statement.css');
 @import url('components/challenge-response.css');
 @import url('components/challenge-actions.css');
+@import url('components/feedback-panel.css');
 @import url('components/load-email.css');
 @import url('components/course-banner.css');
 @import url('components/challenge-stay.css');

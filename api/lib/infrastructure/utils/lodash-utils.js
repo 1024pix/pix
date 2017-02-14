@@ -56,7 +56,12 @@ _.mixin({
         return _(array).nth(currentIndex + 1);
       }
     }
+  },
+
+  'isBlank'(string) {
+    return (_.isUndefined(string) || _.isNull(string) || string.trim().length === 0);
   }
+
 });
 
 module.exports = _;

@@ -7,7 +7,7 @@ module.exports = Bookshelf.model('Assessment', {
 
   tableName: 'assessments',
 
-  answers: function () {
+  answers() {
     return this.hasMany('Answer', 'assessmentId');
   }
 

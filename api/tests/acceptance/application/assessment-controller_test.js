@@ -106,7 +106,7 @@ describe('Acceptance | API | Assessments', function () {
       .from('assessments')
       .limit(1)
       .then(function() {
-        server.injectThen({ method: 'GET', url: `/api/assessments/${insertedAssessmentId}` }).then((response) => {
+        server.inject({ method: 'GET', url: `/api/assessments/${insertedAssessmentId}` }, (response) => {
           expect(response.statusCode).to.equal(200);
           done();
         });
@@ -121,7 +121,7 @@ describe('Acceptance | API | Assessments', function () {
       .from('assessments')
       .limit(1)
       .then(function() {
-        server.injectThen({ method: 'GET', url: `/api/assessments/${insertedAssessmentId}` }).then((response) => {
+        server.inject({ method: 'GET', url: `/api/assessments/${insertedAssessmentId}` }, (response) => {
           const contentType = response.headers['content-type'];
           expect(contentType).to.contain('application/json');
           done();
@@ -138,7 +138,7 @@ describe('Acceptance | API | Assessments', function () {
       .from('assessments')
       .limit(1)
       .then(function() {
-        server.injectThen({ method: 'GET', url: `/api/assessments/${insertedAssessmentId}` }).then((response) => {
+        server.inject({ method: 'GET', url: `/api/assessments/${insertedAssessmentId}` }, (response) => {
           const expectedAssessment = {
             'type':'assessments',
             'id': insertedAssessmentId,
@@ -191,14 +191,14 @@ describe('Acceptance | API | Assessments', function () {
     };
 
     it('should return 201 HTTP status code', function (done) {
-      server.injectThen(options).then((response) => {
+      server.inject(options, (response) => {
         expect(response.statusCode).to.equal(201);
         done();
       });
     });
 
     it('should return application/json', function (done) {
-      server.injectThen(options).then((response) => {
+      server.inject(options, (response) => {
         const contentType = response.headers['content-type'];
         expect(contentType).to.contain('application/json');
         done();
@@ -209,7 +209,7 @@ describe('Acceptance | API | Assessments', function () {
       // given
       Assessment.count().then(function (beforeAssessmentsNumber) {
         // when
-        server.injectThen(options).then(() => {
+        server.inject(options, () => {
           Assessment.count().then(function (afterAssessmentsNumber) {
             // then
             expect(afterAssessmentsNumber).to.equal(beforeAssessmentsNumber + 1);
@@ -222,7 +222,7 @@ describe('Acceptance | API | Assessments', function () {
     it('should persist the given course ID and user ID', function (done) {
 
       // when
-      server.injectThen(options).then((response) => {
+      server.inject(options, (response) => {
 
         new Assessment({ id: response.result.data.id })
         .fetch()
@@ -239,7 +239,7 @@ describe('Acceptance | API | Assessments', function () {
     it('should return persisted assessement', function (done) {
 
       // when
-      server.injectThen(options).then((response) => {
+      server.inject(options, (response) => {
         const assessment = response.result.data;
 
         // then
@@ -279,16 +279,16 @@ describe('Acceptance | API | Assessments', function () {
     });
 
     it('should return 200 HTTP status code', function (done) {
-      const challengeData = { method: 'GET', url: '/api/assessments/' + insertedAssessmentId + '/next' };
-      server.injectThen(challengeData).then((response) => {
+      const options = { method: 'GET', url: '/api/assessments/' + insertedAssessmentId + '/next' };
+      server.inject(options, (response) => {
         expect(response.statusCode).to.equal(200);
         done();
       });
     });
 
     it('should return application/json', function (done) {
-      const challengeData = { method: 'GET', url: '/api/assessments/' + insertedAssessmentId + '/next' };
-      server.injectThen(challengeData).then((response) => {
+      const options = { method: 'GET', url: '/api/assessments/' + insertedAssessmentId + '/next' };
+      server.inject(options, (response) => {
         const contentType = response.headers['content-type'];
         expect(contentType).to.contain('application/json');
         done();
@@ -296,24 +296,24 @@ describe('Acceptance | API | Assessments', function () {
     });
 
     it('should return the first challenge if no challenge specified', function (done) {
-      const challengeData = { method: 'GET', url: '/api/assessments/' + insertedAssessmentId + '/next' };
-      server.injectThen(challengeData).then((response) => {
+      const options = { method: 'GET', url: '/api/assessments/' + insertedAssessmentId + '/next' };
+      server.inject(options, (response) => {
         expect(response.result.data.id).to.equal('first_challenge');
         done();
       });
     });
 
     it('should return the next challenge otherwise', function (done) {
-      const challengeData = { method: 'GET', url: '/api/assessments/' + insertedAssessmentId + '/next/first_challenge' };
-      server.injectThen(challengeData).then((response) => {
+      const options = { method: 'GET', url: '/api/assessments/' + insertedAssessmentId + '/next/first_challenge' };
+      server.inject(options, (response) => {
         expect(response.result.data.id).to.equal('second_challenge');
         done();
       });
     });
 
     it('should return null if reached the last challenge of the course', function (done) {
-      const challengeData = { method: 'GET', url: '/api/assessments/' + insertedAssessmentId + '/next/second_challenge' };
-      server.injectThen(challengeData).then((response) => {
+      const options = { method: 'GET', url: '/api/assessments/' + insertedAssessmentId + '/next/second_challenge' };
+      server.inject(options, (response) => {
         expect(response.result).to.equal('null');
         done();
       });
@@ -345,16 +345,16 @@ describe('Acceptance | API | Assessments', function () {
     });
 
     it('should return 200 HTTP status code', function (done) {
-      const challengeData = { method: 'GET', url: '/api/assessments/' + insertedAssessmentId + '/next' };
-      server.injectThen(challengeData).then((response) => {
+      const options = { method: 'GET', url: '/api/assessments/' + insertedAssessmentId + '/next' };
+      server.inject(options, (response) => {
         expect(response.statusCode).to.equal(200);
         done();
       });
     });
 
     it('should return application/json', function (done) {
-      const challengeData = { method: 'GET', url: '/api/assessments/' + insertedAssessmentId + '/next' };
-      server.injectThen(challengeData).then((response) => {
+      const options = { method: 'GET', url: '/api/assessments/' + insertedAssessmentId + '/next' };
+      server.inject(options, (response) => {
         const contentType = response.headers['content-type'];
         expect(contentType).to.contain('application/json');
         done();
@@ -362,8 +362,8 @@ describe('Acceptance | API | Assessments', function () {
     });
 
     it('should return the first challenge if no challenge specified', function (done) {
-      const challengeData = { method: 'GET', url: '/api/assessments/' + insertedAssessmentId + '/next' };
-      server.injectThen(challengeData).then((response) => {
+      const options = { method: 'GET', url: '/api/assessments/' + insertedAssessmentId + '/next' };
+      server.inject(options, (response) => {
         expect(response.result.data.id).to.equal('first_challenge');
         done();
       });
@@ -428,8 +428,8 @@ describe('Acceptance | API | Assessments', function () {
 
     it('should return the second challenge if the first answer is correct', function (done) {
 
-      const challengeData = { method: 'GET', url: '/api/assessments/' + insertedAssessmentId + '/next/first_challenge' };
-      server.injectThen(challengeData).then((response) => {
+      const options = { method: 'GET', url: '/api/assessments/' + insertedAssessmentId + '/next/first_challenge' };
+      server.inject(options, (response) => {
         expect(response.result.data.id).to.equal('second_challenge');
         done();
       });
@@ -478,8 +478,8 @@ describe('Acceptance | API | Assessments', function () {
 
     it('should return the third challenge if the first answer is incorrect', function (done) {
 
-      const challengeData = { method: 'GET', url: '/api/assessments/' + insertedAssessmentId + '/next/first_challenge' };
-      server.injectThen(challengeData).then((response) => {
+      const options = { method: 'GET', url: '/api/assessments/' + insertedAssessmentId + '/next/first_challenge' };
+      server.inject(options, (response) => {
         expect(response.result.data.id).to.equal('third_challenge');
         done();
       });
@@ -534,8 +534,8 @@ describe('Acceptance | API | Assessments', function () {
 
     it('should return null if 2 answers are given', function (done) {
 
-      const challengeData = { method: 'GET', url: '/api/assessments/' + insertedAssessmentId + '/next/first_challenge' };
-      server.injectThen(challengeData).then((response) => {
+      const options = { method: 'GET', url: '/api/assessments/' + insertedAssessmentId + '/next/first_challenge' };
+      server.inject(options, (response) => {
         expect(response.result).to.equal('null');
         done();
       });

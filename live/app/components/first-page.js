@@ -18,15 +18,13 @@ export default Ember.Component.extend({
 
   actions:{
     startTest: function (course_url, course_id) {
-      const that = this;
-
-      if (that.isMobile() && !localStorage.getItem('pix-mobile-warning')) {
+      if (this.isMobile() && !localStorage.getItem('pix-mobile-warning')) {
         localStorage.setItem('pix-mobile-warning', 'true');
-        that.set('course_url', course_url);
-        that.set('course_id', course_id);
+        this.set('course_url', course_url);
+        this.set('course_id', course_id);
         $('#js-modal-mobile').modal();
       } else {
-        that.get('router').transitionTo(course_url, course_id);
+        this.get('router').transitionTo(course_url, course_id);
       }
 
     }

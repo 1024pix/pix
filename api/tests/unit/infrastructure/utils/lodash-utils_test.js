@@ -81,4 +81,37 @@ describe('Unit | Utils | lodash-utils', function () {
       expect(_.ensureString(true)).to.equal('true');
     });
   });
+
+  describe('#isBlank', function () {
+
+    it('should return true if string is undefined', function () {
+      expect(_.isBlank()).to.be.true;
+    });
+
+    [
+      null,
+      '',
+      ' ',
+      '   ',
+      '\t',
+      '\r\n',
+      '\n'
+    ].forEach(function (string) {
+      it(`should return true if string is "${string}"`, function () {
+        expect(_.isBlank(string)).to.be.true;
+      });
+    });
+
+    [
+      'a',
+      ' a',
+      'a ',
+      ' a ',
+      '\ta\ta'
+    ].forEach(function (string) {
+      it(`should return false if string is "${string}"`, function () {
+        expect(_.isBlank(string)).to.be.false;
+      });
+    });
+  });
 });

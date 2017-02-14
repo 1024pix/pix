@@ -1,4 +1,3 @@
-
 <div class="comparison-window">
   <div class="routable-modal--dialog comparison-window--dialog">
 
@@ -53,9 +52,6 @@
 
       <div class="routable-modal--body comparison-window--body">
 
-        {{!--  XXX margin-top of next element not working, need empty element here  --}}
-        <!--<div class="empty-stuff" style="border: 1px solid red;">&nbsp;</div>-->
-
         <div class="rounded-panel comparison-window__instruction">
           <div class="rounded-panel__row ">
             {{markdown-to-html
@@ -73,7 +69,7 @@
          {{/if}}
         </div>
 
-        <div class="rounded-panel comparison-window__instruction">
+        <div class="rounded-panel comparison-window__proposals">
           <div class="rounded-panel__row ">
             {{#each labeledCheckboxes as |labeledCheckbox index|}}
             <p class="challenge-response__proposal">
@@ -98,6 +94,10 @@
             {{/each}}
           </div>
         </div>
+      </div>
+
+      <div class="routable-modal--footer comparison-window--footer">
+        {{feedback-panel answer}}
       </div>
     </div>
   </div>

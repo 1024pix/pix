@@ -1,0 +1,110 @@
+.feedback-panel {
+  background-color: var(--feedback-panel-background-color);
+  color: var(--charcoal-grey);
+  padding: 20px 40px;
+  font-size: 15px;
+  border-bottom-left-radius: 5px;
+  border-bottom-right-radius: 5px;
+}
+
+/*
+ * "Link" view
+ * --------------------------------------------------------------------------
+ */
+
+.feedback-panel__open-link {
+  cursor: pointer;
+  color: inherit;
+  font-weight: 600;
+}
+
+.feedback-panel__open-link:hover,
+.feedback-panel__open-link:focus,
+.feedback-panel__open-link:active {
+  color: var(--charcoal-grey);
+}
+
+/*
+ * "Form" view
+ * --------------------------------------------------------------------------
+ */
+
+.feedback-panel__form-title {
+  font-size: 15px;
+  font-weight: 900;
+  margin: 0 0 20px;
+}
+
+.feedback-panel__form-description {
+  margin-bottom: 20px;
+}
+
+.feedback-panel__form-description p {
+  margin: 0;
+}
+
+.feedback-panel__form-wrapper {
+  display: flex;
+}
+
+.feedback-panel__form {
+  width: 100%;
+}
+
+.feedback-panel__group {
+  margin-bottom: 10px;
+}
+
+.feedback-panel__field {
+  width: 100%;
+  border-radius: 3px;
+  background-color: #ffffff;
+  border: solid 1px #d8d8d8;
+  box-sizing: border-box;
+  padding: 8px;
+  font-size: 14px;
+}
+
+.feedback-panel__field--content {
+  resize: none;
+}
+
+.feedback-panel__button {
+  border-radius: 3px;
+  box-sizing: border-box;
+  padding: 10px 20px;
+  background-color: var(--feedback-panel-background-color);
+  border: 1px solid #7d808b;
+  margin-right: 10px;
+}
+
+.feedback-panel__button--send {
+  background-color: #7d808b;
+  color: white;
+}
+
+/*
+ * "Mercix" view
+ * --------------------------------------------------------------------------
+ */
+
+.feedback-panel__view--mercix {
+  text-align: center;
+  font-family: var(--font-lato);
+  font-size: 18px;
+  color: var(--charcoal-grey);
+  padding-top: 20px;
+  padding-bottom: 10px;
+}
+
+/*
+ * RWD
+ * --------------------------------------------------------------------------
+ */
+
+@media (min-width: 992px) {
+
+  .feedback-panel__form {
+    width: 50%;
+  }
+}

@@ -3,9 +3,9 @@ Bookshelf.plugin('registry');
 
 const Assessment = require('./assessment');
 
-module.exports = Bookshelf.model('Answer', {
+module.exports = Bookshelf.model('Feedback', {
 
-  tableName: 'answers',
+  tableName: 'feedbacks',
 
   assessment() {
     return this.belongsTo(Assessment);

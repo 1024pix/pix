@@ -85,16 +85,16 @@ describe('Acceptance | API | Assessments', function () {
     });
 
     it('should return 200 HTTP status code', function (done) {
-      const challengeData = { method: 'GET', url: '/api/assessments/' + insertedAssessmentId + '/next' };
-      server.injectThen(challengeData).then((response) => {
+      const options = { method: 'GET', url: '/api/assessments/' + insertedAssessmentId + '/next' };
+      server.inject(options, (response) => {
         expect(response.statusCode).to.equal(200);
         done();
       });
     });
 
     it('should return application/json', function (done) {
-      const challengeData = { method: 'GET', url: '/api/assessments/' + insertedAssessmentId + '/next' };
-      server.injectThen(challengeData).then((response) => {
+      const options = { method: 'GET', url: '/api/assessments/' + insertedAssessmentId + '/next' };
+      server.inject(options, (response) => {
         const contentType = response.headers['content-type'];
         expect(contentType).to.contain('application/json');
         done();
@@ -102,8 +102,8 @@ describe('Acceptance | API | Assessments', function () {
     });
 
     it('should return the first challenge if no challenge specified', function (done) {
-      const challengeData = { method: 'GET', url: '/api/assessments/' + insertedAssessmentId + '/next' };
-      server.injectThen(challengeData).then((response) => {
+      const options = { method: 'GET', url: '/api/assessments/' + insertedAssessmentId + '/next' };
+      server.inject(options, (response) => {
         expect(response.result.data.id).to.equal('z_first_challenge');
         done();
       });

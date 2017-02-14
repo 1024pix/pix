@@ -65,14 +65,14 @@ describe('Acceptance | API | ChallengeController', function () {
     const options = { method: 'GET', url: '/api/challenges/recLt9uwa2dR3IYpi' };
 
     it('should return 200 HTTP status code', function (done) {
-      server.injectThen(options).then((response) => {
+      server.inject(options, (response) => {
         expect(response.statusCode).to.equal(200);
         done();
       });
     });
 
     it('should return application/json', function (done) {
-      server.injectThen(options).then((response) => {
+      server.inject(options, (response) => {
         const contentType = response.headers['content-type'];
         expect(contentType).to.contain('application/json');
         done();
@@ -80,7 +80,7 @@ describe('Acceptance | API | ChallengeController', function () {
     });
 
     it('should return the expected challenge', function (done) {
-      server.injectThen(options).then((response) => {
+      server.inject(options, (response) => {
         const challenge = response.result.data;
         expect(challenge.id).to.equal('recLt9uwa2dR3IYpi');
         expect(challenge.attributes.instruction).to.equal('Que peut-on dire des œufs de catégorie A ?\n');

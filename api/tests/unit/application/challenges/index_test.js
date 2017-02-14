@@ -2,7 +2,7 @@ const { describe, it, before, after, beforeEach, expect, sinon } = require('../.
 const Hapi = require('hapi');
 const ChallengeController = require('../../../../lib/application/challenges/challenge-controller');
 
-describe('Unit | Router | ChallengeRouter', function () {
+describe('Unit | Router | challenge-router', function () {
 
   let server;
 

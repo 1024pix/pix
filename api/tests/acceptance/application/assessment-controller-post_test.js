@@ -35,14 +35,14 @@ describe('Acceptance | API | Assessments POST', function () {
     };
 
     it('should return 201 HTTP status code', function (done) {
-      server.injectThen(options).then((response) => {
+      server.inject(options, (response) => {
         expect(response.statusCode).to.equal(201);
         done();
       });
     });
 
     it('should return application/json', function (done) {
-      server.injectThen(options).then((response) => {
+      server.inject(options, (response) => {
         const contentType = response.headers['content-type'];
         expect(contentType).to.contain('application/json');
         done();
@@ -53,7 +53,7 @@ describe('Acceptance | API | Assessments POST', function () {
       // given
       Assessment.count().then(function (beforeAssessmentsNumber) {
         // when
-        server.injectThen(options).then(() => {
+        server.inject(options, () => {
           Assessment.count().then(function (afterAssessmentsNumber) {
             // then
             expect(afterAssessmentsNumber).to.equal(beforeAssessmentsNumber + 1);
@@ -66,7 +66,7 @@ describe('Acceptance | API | Assessments POST', function () {
     it('should persist the given course ID and user ID', function (done) {
 
       // when
-      server.injectThen(options).then((response) => {
+      server.inject(options, (response) => {
 
         new Assessment({ id: response.result.data.id })
         .fetch()
@@ -83,7 +83,7 @@ describe('Acceptance | API | Assessments POST', function () {
     it('should return persisted assessement', function (done) {
 
       // when
-      server.injectThen(options).then((response) => {
+      server.inject(options, (response) => {
         const assessment = response.result.data;
 
         // then

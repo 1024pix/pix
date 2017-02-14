@@ -9,7 +9,8 @@ describe('Acceptance | API | Assessments GET', function () {
 
   describe('GET /api/assessments/:id', function () {//
 
-    let inserted_assessment_id = null;
+    let options;
+    let inserted_assessment_id;
 
     const inserted_assessment = {
       userName: 'John Doe',
@@ -21,6 +22,7 @@ describe('Acceptance | API | Assessments GET', function () {
       knex('assessments').delete().then(() => {
         knex('assessments').insert([inserted_assessment]).then((rows) => {
           inserted_assessment_id = rows[0];
+          options = { method: 'GET', url: `/api/assessments/${inserted_assessment_id}` };
           done();
         });
       });
@@ -38,7 +40,7 @@ describe('Acceptance | API | Assessments GET', function () {
         .from('assessments')
         .limit(1)
         .then(function () {
-          server.injectThen({ method: 'GET', url: `/api/assessments/${inserted_assessment_id}` }).then((response) => {
+          server.inject(options, (response) => {
             expect(response.statusCode).to.equal(200);
             done();
           });
@@ -52,7 +54,7 @@ describe('Acceptance | API | Assessments GET', function () {
         .from('assessments')
         .limit(1)
         .then(function () {
-          server.injectThen({ method: 'GET', url: `/api/assessments/${inserted_assessment_id}` }).then((response) => {
+          server.inject(options, (response) => {
             const contentType = response.headers['content-type'];
             expect(contentType).to.contain('application/json');
             done();
@@ -68,7 +70,7 @@ describe('Acceptance | API | Assessments GET', function () {
         .from('assessments')
         .limit(1)
         .then(function () {
-          server.injectThen({ method: 'GET', url: `/api/assessments/${inserted_assessment_id}` }).then((response) => {
+          server.inject(options, (response) => {
             const expectedAssessment = {
               'type': 'assessments',
               'id': inserted_assessment_id,

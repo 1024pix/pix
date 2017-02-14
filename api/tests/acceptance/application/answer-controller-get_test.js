@@ -1,19 +1,16 @@
 const { describe, it, after, beforeEach, afterEach, expect, knex } = require('../../test-helper');
 const server = require('../../../server');
 
-server.register(require('inject-then'));
-
 describe('Acceptance | Controller | answer-controller', function () {
 
   after(function (done) {
     server.stop(done);
   });
 
-  /* Get
-  –––––––––––––––––––––––––––––––––––––––––––––––––– */
-  describe('Get /api/answers/:id (single answer)', function () {
+  describe('Get /api/answers/:id', function () {
 
-    let inserted_answer_id = null;
+    let options;
+    let inserted_answer_id;
 
     const inserted_answer = {
       value: '1,2',
@@ -26,24 +23,27 @@ describe('Acceptance | Controller | answer-controller', function () {
       knex('answers').delete().then(() => {
         knex('answers').insert([inserted_answer]).then((id) => {
           inserted_answer_id = id;
+          options = { method: 'GET', url: `/api/answers/${inserted_answer_id}` };
           done();
         });
       });
     });
 
     afterEach(function (done) {
-      knex('answers').delete().then(() => {done();});
+      knex('answers').delete().then(() => {
+        done();
+      });
     });
 
     it('should return 200 HTTP status code', function (done) {
-      server.injectThen({method: 'GET', url: `/api/answers/${inserted_answer_id}`}).then((response) => {
+      server.inject(options, (response) => {
         expect(response.statusCode).to.equal(200);
         done();
       });
     });
 
     it('should return application/json', function (done) {
-      server.injectThen({method: 'GET', url: `/api/answers/${inserted_answer_id}`}).then((response) => {
+      server.inject(options, (response) => {
         const contentType = response.headers['content-type'];
         expect(contentType).to.contain('application/json');
         done();
@@ -51,7 +51,7 @@ describe('Acceptance | Controller | answer-controller', function () {
     });
 
     it('should return required answer', function (done) {
-      server.injectThen({method: 'GET', url: `/api/answers/${inserted_answer_id}`}).then((response) => {
+      server.inject(options, (response) => {
         const answer = response.result.data;
 
         expect(answer.id.toString()).to.equal(inserted_answer_id.toString());

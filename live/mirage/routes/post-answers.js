@@ -23,12 +23,6 @@ import multipleFilesAnswer from '../data/answers/multiple-files-answer';
 
 export default function (schema, request) {
 
-  /* eslint-disable */
-  console.log('POST Answer');
-  console.log(request.requestBody);
-  /* eslint-enable */
-
-
   const answer = JSON.parse(request.requestBody);
   const challengeId = answer.data.relationships.challenge.data.id;
 

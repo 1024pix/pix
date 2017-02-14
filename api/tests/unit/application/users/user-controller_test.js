@@ -2,7 +2,7 @@ const { describe, it, before, after, expect, sinon } = require('../../../test-he
 const Hapi = require('hapi');
 const User = require('../../../../lib/domain/models/data/user');
 
-describe('Unit | Controller | UserController', function () {
+describe('Unit | Controller | user-controller', function () {
 
   let server;
 

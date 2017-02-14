@@ -5,7 +5,7 @@ const CourseRepository = require('../../../../lib/infrastructure/repositories/co
 const CourseSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/course-serializer');
 const cache = require('../../../../lib/infrastructure/cache');
 
-describe('Unit | Controller | CourseController', function () {
+describe('Unit | Controller | course-controller', function () {
 
   let server;
 

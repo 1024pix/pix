@@ -2,8 +2,6 @@ const { describe, it, before, after, beforeEach, afterEach, expect, knex, nock }
 const server = require('../../../server');
 const Answer = require('../../../lib/domain/models/data/answer');
 
-server.register(require('inject-then'));
-
 describe('Acceptance | Controller | answer-controller', function () {
 
   after(function (done) {
@@ -39,7 +37,7 @@ describe('Acceptance | Controller | answer-controller', function () {
 
     beforeEach(function (done) {
       knex('answers').delete().then(() => {
-        server.injectThen(options).then(() => {
+        server.inject(options, () => {
           done();
         });
       });
@@ -66,14 +64,14 @@ describe('Acceptance | Controller | answer-controller', function () {
     });
 
     it('should return 200 HTTP status code', function (done) {
-      server.injectThen(options).then((response) => {
+      server.inject(options, (response) => {
         expect(response.statusCode).to.equal(200);
         done();
       });
     });
 
     it('should return application/json', function (done) {
-      server.injectThen(options).then((response) => {
+      server.inject(options, (response) => {
         const contentType = response.headers['content-type'];
         expect(contentType).to.contain('application/json');
         done();
@@ -81,7 +79,7 @@ describe('Acceptance | Controller | answer-controller', function () {
     });
 
     it('should not add a new answer into the database', function (done) {
-      server.injectThen(options).then((response) => {
+      server.inject(options, (response) => {
         Answer.count().then(function (afterAnswersNumber) {
           expect(afterAnswersNumber).to.equal(1);
           done();
@@ -91,7 +89,7 @@ describe('Acceptance | Controller | answer-controller', function () {
 
     it('should return updated answer', function (done) {
       // when
-      server.injectThen(options).then((response) => {
+      server.inject(options, (response) => {
         const answer = response.result.data;
 
         new Answer()

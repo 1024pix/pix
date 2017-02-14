@@ -6,7 +6,7 @@ const ChallengeSerializer = require('../../../../lib/infrastructure/serializers/
 const Solution = require('../../../../lib/domain/models/referential/solution');
 const SolutionRepository = require('../../../../lib/infrastructure/repositories/solution-repository');
 
-describe('Unit | Controller | ChallengeController', function () {
+describe('Unit | Controller | challenge-controller', function () {
 
   let server;
 

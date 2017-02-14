@@ -1,8 +1,6 @@
 const { describe, it, after, beforeEach, afterEach, expect, knex } = require('../../test-helper');
 const server = require('../../../server');
 
-server.register(require('inject-then'));
-
 describe('Acceptance | Controller | answer-controller', function () {
 
   after(function (done) {
@@ -40,14 +38,14 @@ describe('Acceptance | Controller | answer-controller', function () {
     });
 
     it('should return 200 HTTP status code', function (done) {
-      server.injectThen({ method: 'GET', url: queryUrl }).then((response) => {
+      server.inject({ method: 'GET', url: queryUrl }, (response) => {
         expect(response.statusCode).to.equal(200);
         done();
       });
     });
 
     it('should return application/json', function (done) {
-      server.injectThen({ method: 'GET', url: queryUrl }).then((response) => {
+      server.inject({ method: 'GET', url: queryUrl }, (response) => {
         const contentType = response.headers['content-type'];
         expect(contentType).to.contain('application/json');
         done();
@@ -55,7 +53,7 @@ describe('Acceptance | Controller | answer-controller', function () {
     });
 
     it('should return required answer', function (done) {
-      server.injectThen({ method: 'GET', url: queryUrl }).then((response) => {
+      server.inject({ method: 'GET', url: queryUrl }, (response) => {
         const answer = response.result.data;
 
         expect(answer.id.toString()).to.equal(inserted_answer_id.toString());
@@ -69,10 +67,10 @@ describe('Acceptance | Controller | answer-controller', function () {
     });
 
     it('should return 200 with "null" data if not found answer', function (done) {
-      server.injectThen({
+      server.inject({
         method: 'GET',
         url: '/api/answers?challenge=nothing&assessment=nothing'
-      }).then((response) => {
+      }, (response) => {
         expect(response.statusCode).to.equal(200);
         expect(response.result.data).to.be.null;
 

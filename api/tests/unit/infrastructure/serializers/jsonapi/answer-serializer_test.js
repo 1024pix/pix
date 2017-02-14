@@ -63,6 +63,7 @@ describe('Unit | Serializer | JSONAPI | answer-serializer', function () {
       expect(answer.get('challengeId')).to.equal(jsonAnswer.data.relationships.challenge.data.id);
       expect(answer.get('value')).to.equal(jsonAnswer.data.attributes.value);
       expect(answer.get('result')).to.equal(jsonAnswer.data.attributes.result);
+      expect(answer.get('timeout')).to.equal(jsonAnswer.data.attributes.timeout);
     });
 
   });

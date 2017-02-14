@@ -1,9 +1,14 @@
 .comparison-window {
-  max-width: 600px;
-  margin: 30px auto;
+  padding: 0 15px;
 }
 
-.comparison-window--content, .comparison-window--body {
+.comparison-window--dialog {
+  max-width: 900px;
+  margin-top: 40px;
+}
+
+.comparison-window--content,
+.comparison-window--body {
   border-radius: 5px;
 }
 
@@ -11,10 +16,16 @@
   background-color: var(--light-grey1);
   display: flex;
   flex-direction: column;
+  padding: 15px 15px 0;
 }
 
 .comparison-window__instruction {
-  margin: 20px 15px 15px;
+  margin: 0 0 15px;
+  font-size: 16px;
+}
+
+.comparison-window__proposals {
+  margin: 0 0 15px;
   font-size: 16px;
 }
 
@@ -33,11 +44,11 @@
   position: absolute;
   top: -25px;
   right: -10px; /*XXX : right alignment, found no other way to achieve it;*/
-  margin-right: 0px;
+  margin-right: 0;
   height: 17px;
   font-family: var(--font-lato);
   font-size: 14px;
-  border:none;
+  border: none;
   background-color: transparent;
   color: #ffffff;
 }
@@ -75,10 +86,26 @@
   width: 1px;
   height: 50px;
   border: solid 1.5px #d5d5d5;
-  margin-left: 22px;
+  margin-left: 15px;
 }
 
 /*Close button*/
 .close-button-container {
   display: flex;
+}
+
+@media (min-width: 992px) {
+
+  .comparison-window {
+    padding: 0;
+  }
+
+  .comparison-window--dialog {
+    margin-top: 60px;
+  }
+
+  .comparison-window--body {
+    padding: 20px 40px 10px;
+  }
+
 }

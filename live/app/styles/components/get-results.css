@@ -91,13 +91,13 @@
   font-weight: bold;
   text-align: center;
   color: #3e4149;
-  margin-left: 22px;
+  margin-left: 15px;
 }
 .assessment-results-result-line {
   width: 2px;
   height: 61px;
   border: solid 1.5px #d5d5d5;
-  margin-left: 22px;
+  margin-left: 15px;
 }
 .assessment-results-result-instruction {
   font-family: ;
