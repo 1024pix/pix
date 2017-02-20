@@ -9,11 +9,11 @@
 }
 
 .alert-success {
-  border: 1px solid var(--alert-success-green);
-  background-color: var(--alert-success-green);
+  border: 1px solid $alert-success-green;
+  background-color: $alert-success-green;
 }
 
 .alert-danger {
-  border: 1px solid var(--alert-danger-red);
-  background-color: var(--alert-danger-red);
+  border: 1px solid $alert-danger-red;
+  background-color: $alert-danger-red;
 }

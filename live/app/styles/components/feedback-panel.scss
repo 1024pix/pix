@@ -1,6 +1,6 @@
 .feedback-panel {
-  background-color: var(--feedback-panel-background-color);
-  color: var(--charcoal-grey);
+  background-color: $feedback-panel-background-color;
+  color: $charcoal-grey;
   padding: 20px 40px;
   font-size: 15px;
   border-bottom-left-radius: 5px;
@@ -19,7 +19,7 @@
 .feedback-panel__open-link:hover,
 .feedback-panel__open-link:focus,
 .feedback-panel__open-link:active {
-  color: var(--charcoal-grey);
+  color: $charcoal-grey;
 }
 
 /* "Form" view
@@ -45,6 +45,9 @@
 
 .feedback-panel__form {
   width: 100%;
+  @media (min-width: 992px) {
+    width: 50%;
+  }
 }
 
 .feedback-panel__group {
@@ -69,7 +72,7 @@
   border-radius: 3px;
   box-sizing: border-box;
   padding: 10px 20px;
-  background-color: var(--feedback-panel-background-color);
+  background-color: $feedback-panel-background-color;
   border: 1px solid #7d808b;
   margin-right: 10px;
 }
@@ -84,18 +87,9 @@
 
 .feedback-panel__view--mercix {
   text-align: center;
-  font-family: var(--font-lato);
+  font-family: $font-lato;
   font-size: 18px;
-  color: var(--charcoal-grey);
+  color: $charcoal-grey;
   padding-top: 20px;
   padding-bottom: 10px;
-}
-
-/* RWD
-–––––––––––––––––––––––––––––––––––––––––––––––––– */
-@media (min-width: 992px) {
-
-  .feedback-panel__form {
-    width: 50%;
-  }
 }

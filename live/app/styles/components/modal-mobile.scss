@@ -10,11 +10,11 @@
 }
 
 .modal-mobile .modal-body {
-  font-family: var(--font-lato);
+  font-family: $font-lato;
   font-size: 22px;
   font-weight: 300;
   text-align: center;
-  color: var(--charcoal-grey);
+  color: $charcoal-grey;
 }
 
 .modal-mobile .modal-footer {
@@ -37,9 +37,9 @@
 }
 
 .modal-mobile__confirm-button {
-  background-color: var(--pix-blue);
-  border-color: var(--pix-blue);
-  border-bottom: 1px solid var(--pix-blue1);
+  background-color: $pix-blue;
+  border-color: $pix-blue;
+  border-bottom: 1px solid $pix-blue1;
   height: 46px;
   border-radius: 23px;
   text-transform: uppercase;
@@ -49,15 +49,15 @@
 
 .modal-mobile__confirm-button:hover,
 .modal-mobile__confirm-button:active {
-  background-color: var(--pix-yellow);
-  border-color: var(--pix-yellow);
-  border-bottom: 1px solid var(--pix-yellow1);
+  background-color: $pix-yellow;
+  border-color: $pix-yellow;
+  border-bottom: 1px solid $pix-yellow1;
 }
 
 .modal-mobile__dismiss-link {
   cursor: pointer;
-  font-family: var(--font-lato);
-  color: var(--charcoal-grey);
+  font-family: $font-lato;
+  color: $charcoal-grey;
   font-weight: bold;
   margin-top: 38px;
   margin-bottom: 38px;

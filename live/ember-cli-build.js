@@ -3,10 +3,6 @@
 var EmberApp = require('ember-cli/lib/broccoli/ember-app');
 
 /* postcss plugins */
-var postcssImport = require('postcss-import');
-var cssnext = require('postcss-cssnext');
-var browserReporter = require('postcss-browser-reporter');
-var reporter = require('postcss-reporter');
 
 module.exports = function (defaults) {
   var app = new EmberApp(defaults, {
@@ -16,37 +12,8 @@ module.exports = function (defaults) {
       includePolyfill: true
     },
 
-    postcssOptions: {
-      compile: {
-        enabled: true,
-        plugins: [
-          // multiple-file transformation (eg: imports)
-          {
-            module: postcssImport,
-            options: {}
-          },
-          // single-file transformations (eg: variables, nesting, etc.)
-          {
-            module: cssnext,
-            options: {
-              browsers: ['last 2 version'],
-              calc: true,
-              colorFunction: true,
-              colorGray: true,
-              nesting: true,
-              pseudoClassMatches: true,
-              pseudoClassAnyLink: true,
-              pseudoClassNot: true
-            }
-          },
-          // linters
-          // reporters at the end
-          { module: browserReporter },
-          { module: reporter }
-        ]
-      },
-      filter: { enabled: false }
-    }
+    sassOptions: {}
+
   });
 
   // Use `app.import` to add additional libraries to the generated

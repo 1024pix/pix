@@ -16,7 +16,7 @@
 .challenge-statement__illustration-section {
   display: block;
   text-align: center;
-  border-top: 1px solid var(--light-grey5);
+  border-top: 1px solid $light-grey5;
   box-sizing: content-box;
 }
 
@@ -40,7 +40,7 @@
   line-height: 18px;
   color: #fff;
   display: inline-block;
-  background: var(--pix-blue);
+  background: $pix-blue;
   border-radius: 50%;
   margin: 0 5px;
   cursor: pointer;
@@ -139,20 +139,20 @@
   width: 156px;
   height: 46px;
   border-radius: 23px;
-  background-color: var(--download-action-background-color);
-  color: var(--download-action-color);
+  background-color: $download-action-background-color;
+  color: $download-action-color;
   cursor: pointer;
   text-align: center;
 }
 
 .challenge-statement__action-link:hover {
-  color: var(--download-action-color);
+  color: $download-action-color;
 }
 
 .challenge-statement__action-label {
   width: 76px;
   line-height: 46px;
-  font-family: var(--font-lato);
+  font-family: $font-lato;
   font-size: 16px;
   font-weight: 900;
   text-transform: uppercase;

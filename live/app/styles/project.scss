@@ -4,7 +4,7 @@
   justify-content: space-around;
   align-self: center;
   background-color: #fafafa;
-  color: var(--charcoal-grey);
+  color: $charcoal-grey;
   text-rendering: optimizeLegibility;
 }
 
@@ -24,13 +24,13 @@
 }
 
 .project-page li {
-  color: var(--project-blue);
+  color: $project-blue;
 }
 
 .project-page hr {
   width: 50px;
   height: 4px;
-  background-color: var(--project-blue);
+  background-color: $project-blue;
   margin: 0 auto 20px;
   border-radius: 2px;
   border: none;
@@ -39,17 +39,34 @@
 .project-page .rounded-panel {
   margin-left: 10px;
   margin-right: 10px;
+
+  @media (min-width: 992px) {
+    margin-bottom: 50px;
+    margin-left: auto;
+    margin-right: auto;
+  }
 }
 
 .project-page__panel {
   margin-bottom: 50px;
   padding: 20px;
+
+  @media (min-width: 992px) {
+    width: 940px;
+    margin-left: auto;
+    margin-right: auto;
+    padding: 50px 70px 40px;
+  }
 }
 
 /* Specific styles */
 .project-page__header {
   padding: 20px 40px 20px;
   margin-bottom: 0;
+
+  @media (min-width: 992px) {
+    padding: 50px 40px 40px;
+  }
 }
 
 .project-page__header-text {
@@ -59,6 +76,11 @@
   font-style: italic;
   line-height: 28px;
   margin-top: 0;
+
+  @media (min-width: 992px) {
+    font-size: 40px;
+    line-height: 50px;
+  }
 }
 
 p.project-page__populations-headline {
@@ -114,11 +136,11 @@ p.project-page__populations-headline {
 }
 
 .project-page__value-header-name {
-  color: var(--project-blue);
+  color: $project-blue;
 }
 
 .project-page__presentation {
-  background-color: var(--project-blue);
+  background-color: $project-blue;
   color: #ffffff;
   font-size: 20px;
   line-height: 28px;
@@ -131,30 +153,4 @@ p.project-page__populations-headline {
 
 hr.project-page__presentation-header-line {
   background-color: #ffffff;
-}
-
-@media (min-width: 992px) {
-
-  .project-page .rounded-panel {
-    margin-bottom: 50px;
-    margin-left: auto;
-    margin-right: auto;
-  }
-
-  .project-page__panel {
-    width: 940px;
-    margin-left: auto;
-    margin-right: auto;
-    padding: 50px 70px 40px;
-  }
-
-  .project-page__header {
-    padding: 50px 40px 40px;
-  }
-
-  .project-page__header-text {
-    font-size: 40px;
-    line-height: 50px;
-  }
-
 }

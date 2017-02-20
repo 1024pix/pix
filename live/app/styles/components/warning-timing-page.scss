@@ -11,38 +11,38 @@
 }
 
 .challenge-item-warning__instruction-primary {
-  font-family: var(--font-lato);
+  font-family: $font-lato;
   font-size: 24px;
   font-weight: bold;
   font-style: normal;
   font-stretch: normal;
   text-align: center;
   margin-top: 22px;
-  color: var(--charcoal-grey);
+  color: $charcoal-grey;
 }
 
 .challenge-item-warning__intruction-secondary {
-  font-family: var(--font-lato);
+  font-family: $font-lato;
   font-size: 18px;
   margin-top: 9px;
   margin-bottom: 50px;
   font-style: normal;
   font-stretch: normal;
   text-align: center;
-  color: var(--charcoal-grey);
+  color: $charcoal-grey;
 }
 
 .challenge-item-warning__instruction-time {
-  color: var(--intruction-blue);
+  color: $intruction-blue;
   text-align: center;
 
 }
 
 .challenge-item-warning__allocated-time {
   text-align: center;
-  color: var(--charcoal-grey);
+  color: $charcoal-grey;
   font-size: 27.8px;
-  font-family: var(--font-lato);
+  font-family: $font-lato;
 }
 
 .challenge__allocated-time__jauge {
@@ -71,7 +71,7 @@
   border-radius: 5px;
   margin-top: 22px;
   border: none;
-  background-color: var(--validate-action-background-color);
-  color: var(--validate-action-color);
+  background-color: $validate-action-background-color;
+  color: $validate-action-color;
   text-transform: uppercase;
 }

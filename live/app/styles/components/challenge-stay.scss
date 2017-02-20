@@ -3,7 +3,7 @@
   height: 40px;
   display: flex;
   align-items: center;
-  background-color: var(--marigold);
+  background-color: $marigold;
   border-radius: 5px;
   margin-bottom: 11px;
   padding-left: 20px;
@@ -17,10 +17,9 @@
   padding-left: 15px;
   font-size: 12px;
   font-weight: bold;
-}
 
-@media (min-width: 700px) {
-  .challenge-stay__text {
+  @media (min-width: 700px) {
     font-size: 16px;
   }
 }
+

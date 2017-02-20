@@ -7,16 +7,14 @@
 - Footer
 */
 
-:root {
-  --index-page-hero-height: 580px;
-}
+$index-page-hero-height: 580px;
 
 /* Hero
 –––––––––––––––––––––––––––––––––––––––––––––––––– */
 .index-page-hero {
   background-image: url("/images/stock-photo2.jpg");
   background-size: cover;
-  height: var(--index-page-hero-height);
+  height: $index-page-hero-height;
   width: 100%;
 }
 
@@ -24,13 +22,12 @@
   height: 100%;
   display: flex;
 }
+
 .index-page-hero__box-item {
   margin-top: auto;
   margin-bottom: auto;
-}
 
-@media (min-width: 992px) {
-  .index-page-hero__box-item {
+  @media (min-width: 992px) {
     margin-top: auto;
     margin-bottom: 5%;
     margin-left: 160px;
@@ -46,10 +43,8 @@
   margin-right: 15px;
   margin-bottom: 15px;
   max-width: 845px;
-}
 
-@media (min-width: 992px) {
-  .index-page-hero__main-value-prop {
+  @media (min-width: 992px) {
     font-size: 65px;
     font-weight: 900;
     color: #ffffff;
@@ -65,10 +60,8 @@
   margin-left: 15px;
   margin-right: 15px;
   max-width: 567px;
-}
 
-@media (min-width: 992px) {
-  .index-page-hero__sub-value-prop {
+  @media (min-width: 992px) {
     font-size: 26px;
     font-weight: bold;
     color: #ffffff;
@@ -78,7 +71,7 @@
 /* Challenges
 –––––––––––––––––––––––––––––––––––––––––––––––––– */
 .index-page-challenges {
-  background-color: var(--light-grey1);
+  background-color: $light-grey1;
 }
 
 /* XXX : issue raised, impossible to put a margin-top to title (single direction margin declaration) */
@@ -100,15 +93,13 @@
 –––––––––––––––––––––––––––––––––––––––––––––––––– */
 .index-page-email {
   height: 385px;
-  background-color: var(--pix-blue);
+  background-color: $pix-blue;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-}
 
-@media (min-width: 992px) {
-  .index-page-email {
+  @media (min-width: 992px) {
     height: 270px;
   }
 }
@@ -121,10 +112,7 @@
   color: white;
   margin-left: 15px;
   margin-right: 15px;
-}
-
-@media (min-width: 992px) {
-  .index-page-email__title {
+  @media (min-width: 992px) {
     font-size: 34px;
     margin-left: 0;
     margin-right: 0;
@@ -140,10 +128,8 @@
   align-items: center;
   background-color: white;
   padding-top: 50px;
-}
 
-@media (min-width: 992px) {
-  .index-page-features {
+  @media (min-width: 992px) {
     padding-top: 75px;
     flex-direction: row;
   }
@@ -152,15 +138,16 @@
 .index-page-feature {
   height: 260px;
   width: 200px;
-}
 
-@media (min-width: 992px) {
-  .index-page-feature {
+  @media (min-width: 992px) {
     height: 294px;
     margin-left: 35px;
   }
+}
 
-  .index-page-feature:first-child {
+.index-page-feature:first-child {
+
+  @media (min-width: 992px) {
     margin-left: 0;
   }
 }
@@ -178,10 +165,8 @@
   text-align: center;
   margin-top: 20px;
   color: #3e4149;
-}
 
-@media (min-width: 992px) {
-  .index-page-feature__title:first-child {
+  @media (min-width: 992px) {
     margin-left: 0;
   }
 }
@@ -207,14 +192,14 @@
   line-height: 36px;
   border-radius: 3px;
   border: none;
-  background-color: var(--marigold);
+  background-color: $marigold;
   font-size: 14px;
   font-weight: bold;
   font-style: normal;
   font-stretch: normal;
   text-align: center;
-  color: var(--charcoal-grey);
-  font-family: var(--font-lato);
+  color: $charcoal-grey;
+  font-family: $font-lato;
   text-decoration: none;
   cursor: pointer;
 }

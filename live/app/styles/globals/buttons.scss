@@ -6,17 +6,14 @@
   text-transform: uppercase;
   outline: none;
   border-radius: 0.3125em;
-  border: 1px solid var(--captrain-green);
   padding: 12px 22px;
   text-align: center;
-  background-color: var(--captrain-green);
-  background-image: none;
+  background: $captrain-green none;
   text-decoration: none;
   display: inline-block;
-  border-bottom: 1px solid var(--captrain-green1);
-  box-shadow: 0 1px 1px -1px var(--grey3);
+  border: 1px solid;
+  box-shadow: 0 1px 1px -1px $grey3;
   cursor: pointer;
-  outline: none;
 }
 
 .button-primary {
@@ -27,23 +24,22 @@
   text-transform: uppercase;
   outline: none;
   border-radius: 0.3125em;
-  border: 1px solid var(--captrain-green);
   padding: 12px 22px;
   text-align: center;
-  background-color: var(--captrain-green);
+  background-color: $captrain-green;
   background-image: none;
   text-decoration: none;
   display: inline-block;
-  border-bottom: 1px solid var(--captrain-green1);
-  box-shadow: 0 1px 1px -1px var(--grey3);
+  border: 1px solid;
+  box-shadow: 0 1px 1px -1px $grey3;
 }
 
 .button-primary:hover,
 .button-primary:focus {
   color: #fff;
-  background-color: var(--captrain-green2);
-  border-color: var(--captrain-green2);
-  border-bottom-color: var(--captrain-green3);
+  background-color: $captrain-green2;
+  border-color: $captrain-green2;
+  border-bottom-color: $captrain-green3;
   text-decoration: none;
 }
 
@@ -55,22 +51,21 @@
   text-transform: uppercase;
   outline: none;
   border-radius: 0.3125em;
-  border: 1px solid var(--grey1);
   padding: 12px 22px;
   text-align: center;
-  background-color: var(--grey1);
+  background-color: $grey1;
   background-image: none;
   text-decoration: none;
   display: inline-block;
-  border-bottom: 1px solid var(--dark-grey1);
-  box-shadow: 0 1px 1px -1px var(--grey3);
+  border: 1px solid;
+  box-shadow: 0 1px 1px -1px $grey3;
 }
 
 .button-secondary:hover,
 .button-secondary:focus {
   color: #fff;
-  background-color: var(--grey2);
-  border-color: var(--grey2);
-  border-bottom-color: var(--dark-grey2);
+  background-color: $grey2;
+  border-color: $grey2;
+  border-bottom-color: $dark-grey2;
   text-decoration: none;
 }

@@ -1,10 +1,18 @@
 .comparison-window {
   padding: 0 15px;
+
+  @media (min-width: 992px) {
+    padding: 0;
+  }
 }
 
 .comparison-window--dialog {
   max-width: 900px;
   margin-top: 40px;
+
+  @media (min-width: 992px) {
+    margin-top: 60px;
+  }
 }
 
 .comparison-window--content,
@@ -13,10 +21,14 @@
 }
 
 .comparison-window--body {
-  background-color: var(--light-grey1);
+  background-color: $light-grey1;
   display: flex;
   flex-direction: column;
   padding: 15px 15px 0;
+
+  @media (min-width: 992px) {
+    padding: 20px 40px 10px;
+  }
 }
 
 .comparison-window__instruction {
@@ -46,7 +58,7 @@
   right: -10px; /*XXX : right alignment, found no other way to achieve it;*/
   margin-right: 0;
   height: 17px;
-  font-family: var(--font-lato);
+  font-family: $font-lato;
   font-size: 14px;
   border: none;
   background-color: transparent;
@@ -75,11 +87,11 @@
   display: flex;
   margin-left: 9px;
   max-width: 618.5px;
-  font-family: var(--font-lato);
+  font-family: $font-lato;
   font-size: 18px;
   font-weight: 900;
   font-style: italic;
-  color: var(--charcoal-grey);
+  color: $charcoal-grey;
 }
 
 .assessment-results-result-light-line {
@@ -91,20 +103,4 @@
 
 .close-button-container {
   display: flex;
-}
-
-@media (min-width: 992px) {
-
-  .comparison-window {
-    padding: 0;
-  }
-
-  .comparison-window--dialog {
-    margin-top: 60px;
-  }
-
-  .comparison-window--body {
-    padding: 20px 40px 10px;
-  }
-
 }
