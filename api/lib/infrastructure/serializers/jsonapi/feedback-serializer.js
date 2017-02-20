@@ -4,7 +4,7 @@ const Feedback = require('../../../domain/models/data/feedback');
 class FeedbackSerializer extends JSONAPISerializer {
 
   constructor() {
-    super('feedbacks');
+    super('feedback');
   }
 
   serializeAttributes(model, data) {

@@ -1,7 +1,7 @@
 // QRU challenge with all fields filled
 export default {
   data: {
-    type: 'challenges',
+    type: 'challenge',
     id: 'ref_qru_challenge_id',
     attributes: {
       type: 'QRU',

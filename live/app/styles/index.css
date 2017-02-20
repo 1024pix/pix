@@ -1,41 +1,220 @@
-#index .cover {
-  background-image: url('/images/stock-photo-113728127.jpg');
-  height: 100%;
+/* Table of contents
+––––––––––––––––––––––––––––––––––––––––––––––––––
+- Hero
+- Challenges
+- Email
+- Features
+- Footer
+*/
+
+:root {
+  --index-page-hero-height: 580px;
+}
+
+/* Hero
+–––––––––––––––––––––––––––––––––––––––––––––––––– */
+.index-page-hero {
+  background-image: url("/images/stock-photo2.jpg");
   background-size: cover;
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  content: ' ';
+  height: var(--index-page-hero-height);
+  width: 100%;
 }
 
-#index .cover::after {
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  content: '';
-  bottom: 10%;
-  background: linear-gradient(to bottom, rgba(0, 0, 0, 0.5), transparent);
+.index-page-hero__box {
+  height: 100%;
+  display: flex;
+}
+.index-page-hero__box-item {
+  margin-top: auto;
+  margin-bottom: auto;
 }
 
-#index .presentation {
-  text-align: center;
-  padding-top: 30px;
-  padding-bottom: 30px;
-  color: #FFF;
-  font-smoothing: antialiased;
-  text-shadow: 0px 0px 1px rgba(48, 50, 58, 0.6), 0px 1px 1px rgba(48, 50, 58, 0.6);
-  margin: 0.3em 0;
+@media (min-width: 992px) {
+  .index-page-hero__box-item {
+    margin-top: auto;
+    margin-bottom: 5%;
+    margin-left: 160px;
+  }
 }
 
-#index .presentation h1 {
-  font-weight: 600;
+.index-page-hero__main-value-prop {
   font-size: 40px;
+  font-weight: 900;
+  line-height: 1;
+  color: #ffffff;
+  margin-left: 15px;
+  margin-right: 15px;
+  margin-bottom: 15px;
+  max-width: 845px;
 }
 
-#index .presentation h2 {
-  font-weight: 400;
-  font-size: 21px;
-  color: #fff;
+@media (min-width: 992px) {
+  .index-page-hero__main-value-prop {
+    font-size: 65px;
+    font-weight: 900;
+    color: #ffffff;
+    margin-bottom: 24px;
+    width: 830px;
+  }
+}
+
+.index-page-hero__sub-value-prop {
+  font-size: 20px;
+  font-weight: bold;
+  color: #ffffff;
+  margin-left: 15px;
+  margin-right: 15px;
+  max-width: 567px;
+}
+
+@media (min-width: 992px) {
+  .index-page-hero__sub-value-prop {
+    font-size: 26px;
+    font-weight: bold;
+    color: #ffffff;
+  }
+}
+
+/* Challenges
+–––––––––––––––––––––––––––––––––––––––––––––––––– */
+.index-page-challenges {
+  background-color: var(--light-grey1);
+}
+
+/* XXX : issue raised, impossible to put a margin-top to title (single direction margin declaration) */
+.index-page-challenges__empty {
+  margin-bottom: 56px;
+}
+
+.index-page-challenges__title {
+  font-size: 36px;
+  line-height: 0.8;
+  text-align: center;
+  color: #3d68ff;
+  margin-bottom: 52px;
+  margin-right: 15px;
+  margin-left: 15px;
+}
+
+/* Email
+–––––––––––––––––––––––––––––––––––––––––––––––––– */
+.index-page-email {
+  height: 385px;
+  background-color: var(--pix-blue);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+@media (min-width: 992px) {
+  .index-page-email {
+    height: 270px;
+  }
+}
+
+.index-page-email__title {
+  font-size: 24px;
+  margin-bottom: 24px;
+  font-weight: bold;
+  text-align: center;
+  color: white;
+  margin-left: 15px;
+  margin-right: 15px;
+}
+
+@media (min-width: 992px) {
+  .index-page-email__title {
+    font-size: 34px;
+    margin-left: 0;
+    margin-right: 0;
+  }
+}
+
+/* Features
+–––––––––––––––––––––––––––––––––––––––––––––––––– */
+.index-page-features {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  background-color: white;
+  padding-top: 50px;
+}
+
+@media (min-width: 992px) {
+  .index-page-features {
+    padding-top: 75px;
+    flex-direction: row;
+  }
+}
+
+.index-page-feature {
+  height: 260px;
+  width: 200px;
+}
+
+@media (min-width: 992px) {
+  .index-page-feature {
+    height: 294px;
+    margin-left: 35px;
+  }
+
+  .index-page-feature:first-child {
+    margin-left: 0;
+  }
+}
+
+.index-page-feature__icon-container {
+  display: flex;
+  justify-content: center;
+  height: 107px;
+}
+
+.index-page-feature__title {
+  font-size: 16px;
+  font-weight: bold;
+  line-height: 1.4;
+  text-align: center;
+  margin-top: 20px;
+  color: #3e4149;
+}
+
+@media (min-width: 992px) {
+  .index-page-feature__title:first-child {
+    margin-left: 0;
+  }
+}
+
+.index-page-feature__text {
+  font-size: 15px;
+  margin-top: 12px;
+  color: #3e4149;
+  text-align: center;
+}
+
+.index-page-about {
+  padding-bottom: 80px;
+  display: flex;
+  justify-content: center;
+  background: #ffffff;
+}
+
+.index-page-about a {
+  display: block;
+  width: 201px;
+  height: 36px;
+  line-height: 36px;
+  border-radius: 3px;
+  border: none;
+  background-color: var(--marigold);
+  font-size: 14px;
+  font-weight: bold;
+  font-style: normal;
+  font-stretch: normal;
+  text-align: center;
+  color: var(--charcoal-grey);
+  font-family: var(--font-lato);
+  text-decoration: none;
+  cursor: pointer;
 }

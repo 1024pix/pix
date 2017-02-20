@@ -7,7 +7,7 @@ describe('Acceptance | API | Assessments GET', function () {
     server.stop(done);
   });
 
-  describe('GET /api/assessments/:id', function () {//
+  describe('/api/assessments/:id', function () {//
 
     let options;
     let inserted_assessment_id;
@@ -72,7 +72,7 @@ describe('Acceptance | API | Assessments GET', function () {
         .then(function () {
           server.inject(options, (response) => {
             const expectedAssessment = {
-              'type': 'assessments',
+              'type': 'assessment',
               'id': inserted_assessment_id,
               'attributes': {
                 'user-name': 'John Doe',

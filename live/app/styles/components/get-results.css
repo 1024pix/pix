@@ -1,44 +1,41 @@
 /* Whole assessments container
 –––––––––––––––––––––––––––––––––––––––––––––––––– */
-.assessment-results {
 
-  /* Forces bootstrap's default by including bootstrap props into .assessment-results container */
-  & .tooltip-inner {
-    padding-top: 13px;
-    width: auto;
-    padding-left: 16px;
-    padding-right: 16px;
-    height: 48px;
-    background-color: var(--tooltip-background-color);
-    color: var(--tooltip-color);
-    font-family: var(--font-lato);
-    font-size: 14px;
-    box-shadow: 2px 2px 2px 0 rgba(0, 0, 0, 0.2);
-    border: solid 1px #ffffff;
-  }
-
-  & .tooltip.top .tooltip-arrow {
-    border-top-color: #e6e6e6;
-  }
-
-  & .tooltip.in {
-    opacity: 1;
-    transition: opacity 1s ease;
-  }
-
-  & .tooltip.top .tooltip-arrow {
-    bottom: -4px;
-    left: 50%;
-    margin-left: -13px;
-    border-width: 10px 13px 0;
-  }
-
-  /* XXX : See https://github.com/sgmap/pix/issues/211 */
-  & [data-lines="2"] + div .tooltip-inner {
-    padding-top: 3px;
-  }
+/* Forces bootstrap's default by including bootstrap props into .assessment-results container */
+.assessment-results .tooltip-inner {
+  padding-top: 13px;
+  width: auto;
+  padding-left: 16px;
+  padding-right: 16px;
+  height: 48px;
+  background-color: var(--tooltip-background-color);
+  color: var(--tooltip-color);
+  font-family: var(--font-lato);
+  font-size: 14px;
+  box-shadow: 2px 2px 2px 0 rgba(0, 0, 0, 0.2);
+  border: solid 1px #ffffff;
 }
 
+.assessment-results .tooltip.top .tooltip-arrow {
+  border-top-color: #e6e6e6;
+}
+
+.assessment-results .tooltip.in {
+  opacity: 1;
+  transition: opacity 1s ease;
+}
+
+.assessment-results .tooltip.top .tooltip-arrow {
+  bottom: -4px;
+  left: 50%;
+  margin-left: -13px;
+  border-width: 10px 13px 0;
+}
+
+/* XXX : See https://github.com/sgmap/pix/issues/211 */
+.assessment-results [data-lines="2"] + div .tooltip-inner {
+  padding-top: 3px;
+}
 
 /* Title
 –––––––––––––––––––––––––––––––––––––––––––––––––– */
@@ -50,7 +47,6 @@
   color: var(--pix-blue);
   margin-bottom: 26px;
 }
-
 
 /* List of results
 –––––––––––––––––––––––––––––––––––––––––––––––––– */
@@ -67,15 +63,16 @@
   background-color: #ffffff;
   box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.3);
   margin-bottom: 10px;
-  &:hover {
-    box-shadow: none;
-    border: solid 2px #446eff;
-    transition: border-color 1s ease;
-  }
+}
 
-  &:nth-last-child(1) {
-    margin-bottom: 20px;
-  }
+.assessment-results-list-item:hover {
+  box-shadow: none;
+  border: solid 2px #446eff;
+  transition: border-color 1s ease;
+}
+
+.assessment-results-list-item:nth-last-child(1) {
+  margin-bottom: 20px;
 }
 
 .assessment-results-result {
@@ -83,6 +80,7 @@
   height: 80px;
   align-items: center;
 }
+
 .assessment-results-result-index {
   width: 11px;
   height: 24px;
@@ -93,19 +91,21 @@
   color: #3e4149;
   margin-left: 15px;
 }
+
 .assessment-results-result-line {
   width: 2px;
   height: 61px;
   border: solid 1.5px #d5d5d5;
   margin-left: 15px;
 }
+
 .assessment-results-result-instruction {
-  font-family: ;
   font-size: 18px;
   margin-left: 14px;
   height: 30px;
   overflow: hidden;
 }
+
 .assessment-results-result-img {
   margin-left: 14px;
 }
@@ -122,8 +122,8 @@
 }
 
 .assessment-results-result-correction-button {
-  border:none;
-  outline:0;
+  border: none;
+  outline: 0;
   background-color: transparent;
 }
 

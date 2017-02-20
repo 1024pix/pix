@@ -1,1 +1,78 @@
-{{first-page showOnly="4" model=model}}
+<div class="index-page">
+
+  <div class="index-page-hero">
+    <div class="index-page-hero__box">
+      <div class="index-page-hero__box-item">
+        <div class="index-page-hero__main-value-prop">
+          Développez vos compétences numériques
+        </div>
+        <div class="index-page-hero__sub-value-prop">
+          PIX est un projet public de plateforme en ligne d’évaluation et de certification des compétences numériques, en cours de développement.
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="index-page-challenges">
+    <div class="index-page-challenges__empty">&nbsp;</div>
+    <div class="index-page-challenges__title">
+      Découvrez nos épreuves et aidez-nous à les améliorer !
+    </div>
+    {{course-list courses=model startCourse='startCourse'}}
+  </div>
+
+  <div class="index-page-email">
+    <div class="index-page-email-content">
+      <div class="index-page-email__title">
+        Vous souhaitez devenir beta-testeur ou être informé(e) du développement de Pix ?
+      </div>
+      <div class="index-page-email__input-container">
+        {{load-email}}
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="index-page-features">
+
+  <div class="index-page-feature">
+    <div class="index-page-feature__icon-container">
+      <img src="{{rootURL}}images/icon-cafe.svg" class="index-page-feature__icon">
+    </div>
+    <div class="index-page-feature__title">Vivez l’expérience PIX</div>
+    <div class="index-page-feature__text"> Un parcours d’évaluation convivial, accessible et interactif.</div>
+  </div>
+  <div class="index-page-feature">
+    <div class="index-page-feature__icon-container">
+      <img src="{{rootURL}}images/icon-monde.svg" class="index-page-feature__icon">
+    </div>
+    <div class="index-page-feature__title">PIX est pour tout le monde </div>
+    <div class="index-page-feature__text"> Collégiens, lycéens, étudiants, professionnels, citoyens…</div>
+  </div>
+  <div class="index-page-feature">
+    <div class="index-page-feature__icon-container">
+      <img src="{{rootURL}}images/icon-reference.svg" class="index-page-feature__icon">
+    </div>
+    <div class="index-page-feature__title">PIX est la référence</div>
+    <div class="index-page-feature__text"> La certification nationale de la culture numérique made in France au standard européen.</div>
+  </div>
+  <div class="index-page-feature">
+    <div class="index-page-feature__icon-container">
+      <img src="{{rootURL}}images/icon-evolutif.svg" class="index-page-feature__icon">
+    </div>
+    <div class="index-page-feature__title">PIX est évolutif</div>
+    <div class="index-page-feature__text"> Le référentiel de compétences s’adapte en permanence aux évolutions du monde numérique.</div>
+  </div>
+  <div class="index-page-feature">
+    <div class="index-page-feature__icon-container">
+      <img src="{{rootURL}}images/icon-gratuit.svg" class="index-page-feature__icon">
+    </div>
+    <div class="index-page-feature__title">PIX est gratuit</div>
+    <div class="index-page-feature__text"> Entraînez-vous et progressez gratuitement à votre rythme avant d’être certifié.</div>
+  </div>
+</div>
+<div class="index-page-about">
+  <a class="" href="{{rootURL}}/projet">En savoir plus sur le projet</a>
+</div>
+
+{{app-footer}}

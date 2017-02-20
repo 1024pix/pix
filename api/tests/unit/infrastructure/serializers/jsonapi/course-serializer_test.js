@@ -28,7 +28,7 @@ describe('Unit | Serializer | JSONAPI | course-serializer', function () {
       // then
       expect(json).to.deep.equal({
         'data': {
-          'type': 'courses',
+          'type': 'course',
           'id': course.id,
           'attributes': {
             'name': course.name,

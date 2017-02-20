@@ -21,11 +21,11 @@ describe('Acceptance | a1 - Accéder à la plateforme pour démarrer un test', f
   });
 
   it('a1.1 la landing page contient un pitch de présentation', function () {
-    expect(findWithAssert('.first-page-hero__main-value-prop').text()).to.contains('Développez vos compétences numériques');
+    expect(findWithAssert('.index-page-hero__main-value-prop').text()).to.contains('Développez vos compétences numériques');
   });
 
   it('a1.2 Sur la landing page, un lien pointant vers la page projet est présent dans les valeurs pix', function(){
-    findWithAssert('.first-page-about a[href="/projet"]');
+    findWithAssert('.index-page-about a[href="/projet"]');
   });
 
 });

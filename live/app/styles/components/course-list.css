@@ -1,0 +1,8 @@
+.course-list.container {
+  max-width: 1180px;
+}
+
+.course-list__ul {
+  list-style-type: none;
+  padding: 30px 0;
+}

@@ -14,11 +14,12 @@
 @import url('globals/palette.css');
 @import url('components/app-header.css');
 @import url('components/app-footer.css');
-@import url('components/first-page.css');
 @import url('components/corner-ribbon.css');
 @import url('components/challenge-statement.css');
 @import url('components/challenge-response.css');
 @import url('components/challenge-actions.css');
+@import url('components/course-item.css');
+@import url('components/course-list.css');
 @import url('components/feedback-panel.css');
 @import url('components/load-email.css');
 @import url('components/course-banner.css');
@@ -31,11 +32,11 @@
 @import url('components/comparison-window.css');
 
 /* views */
-@import url('home.css');
-@import url('home-loading.css');
 @import url('index.css');
 @import url('project.css');
 @import url('courses/get-preview.css');
+@import url('courses.css');
+@import url('courses-loading.css');
 
 @media (min-width: 1200px) {
   .container {

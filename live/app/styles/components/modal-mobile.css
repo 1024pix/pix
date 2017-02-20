@@ -1,33 +1,33 @@
-.modal-mobile {
+/* XXX : Forces bootstrap's default by including bootstrap props into .modal-mobile  container */
+.modal-mobile .modal-header {
+  border: none;
+  text-align: center;
+  margin-top: 29px;
+}
 
-  /* XXX : Forces bootstrap's default by including bootstrap props into .modal-mobile  container */
-  & .modal-header{
-    border: none;
-    text-align: center;
-    margin-top: 29px;
-  }
-  & .modal-title{
-    line-height: 0;
-  }
-  & .modal-body{
-    font-family: var(--font-lato);
-    font-size: 22px;
-    font-weight: 300;
-    text-align: center;
-    color: var(--charcoal-grey);
-  }
-  & .modal-footer{
-    border: none;
-  }
-  & .modal.fade.in {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    background: rgba(0,0,0,0.5);
-    transition: all 1s ease;
-  }
+.modal-mobile .modal-title {
+  line-height: 0;
+}
 
+.modal-mobile .modal-body {
+  font-family: var(--font-lato);
+  font-size: 22px;
+  font-weight: 300;
+  text-align: center;
+  color: var(--charcoal-grey);
+}
+
+.modal-mobile .modal-footer {
+  border: none;
+}
+
+.modal-mobile .modal.fade.in {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background: rgba(0, 0, 0, 0.5);
+  transition: all 1s ease;
 }
 
 .modal-button-container {
@@ -40,19 +40,18 @@
   background-color: var(--pix-blue);
   border-color: var(--pix-blue);
   border-bottom: 1px solid var(--pix-blue1);
-  text-transform: none;
   height: 46px;
   border-radius: 23px;
   text-transform: uppercase;
   padding-right: 40px;
   padding-left: 40px;
-  &:hover,
-  &:active {
-    background-color: var(--pix-yellow);
-    border-color: var(--pix-yellow);
-    border-bottom: 1px solid var(--pix-yellow1);
-  }
+}
 
+.modal-mobile__confirm-button:hover,
+.modal-mobile__confirm-button:active {
+  background-color: var(--pix-yellow);
+  border-color: var(--pix-yellow);
+  border-bottom: 1px solid var(--pix-yellow1);
 }
 
 .modal-mobile__dismiss-link {

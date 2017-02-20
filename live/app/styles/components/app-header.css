@@ -9,8 +9,10 @@
   flex-direction: row;
   align-items: center;
   justify-content: center;
+}
 
-  @media screen and (min-width: 992px){
+@media screen and (min-width: 992px) {
+  .app-header-container {
     justify-content: initial;
   }
 }
@@ -18,9 +20,12 @@
 .app-header-container-marianne {
   display: none;
 
-  @media (min-width: 992px) {
+}
+
+@media (min-width: 992px) {
+  .app-header-container-marianne {
     position: relative;
-    height : 120px;
+    height: 120px;
     display: block;
     order: 0;
     margin-left: 130px;
@@ -35,8 +40,11 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  order : 2;
-  @media (min-width: 992px) {
+  order: 2;
+}
+
+@media (min-width: 992px) {
+  .app-header-container-logo {
     margin-left: 433px;
     order: 0;
   }
@@ -46,8 +54,8 @@
   margin-top: 12px;
 }
 
-.app-header-logo-svg {
-  @media (max-width: 992px) {
+@media (max-width: 992px) {
+  .app-header-logo-svg {
     width: 130px;
     height: 80px;
   }

@@ -11,7 +11,7 @@ function nonEmpty(string) {
 class AssessmentSerializer extends JSONAPISerializer {
 
   constructor() {
-    super('assessments');
+    super('assessment');
   }
 
   serializeAttributes(model, data) {

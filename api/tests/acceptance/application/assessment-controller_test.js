@@ -140,7 +140,7 @@ describe('Acceptance | API | Assessments', function () {
       .then(function() {
         server.inject({ method: 'GET', url: `/api/assessments/${insertedAssessmentId}` }, (response) => {
           const expectedAssessment = {
-            'type':'assessments',
+            'type':'assessment',
             'id': insertedAssessmentId,
             'attributes':
             {

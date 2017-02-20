@@ -3,7 +3,7 @@ const JSONAPISerializer = require('./jsonapi-serializer');
 class CourseSerializer extends JSONAPISerializer {
 
   constructor() {
-    super('courses');
+    super('course');
   }
 
   serializeAttributes(model, data) {

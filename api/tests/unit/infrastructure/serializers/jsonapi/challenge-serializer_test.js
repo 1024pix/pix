@@ -28,7 +28,7 @@ describe('Unit | Serializer | JSONAPI | challenge-serializer', function () {
       // then
       expect(json).to.deep.equal({
         data: {
-          type: 'challenges',
+          type: 'challenge',
           id: challenge.id,
           attributes: {
             instruction: challenge.instruction,

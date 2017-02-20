@@ -13,7 +13,7 @@ describe('Unit | Serializer | JSONAPI | assessment-serializer', function () {
 
   const jsonAssessment = {
     data: {
-      type: "assessments",
+      type: "assessment",
       id: 'assessment_id',
       attributes: {
         "user-name": 'Jon Snow',

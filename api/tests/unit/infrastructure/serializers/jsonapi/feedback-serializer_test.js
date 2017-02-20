@@ -14,7 +14,7 @@ describe('Unit | Serializer | JSONAPI | feedback-serializer', function () {
 
   const jsonFeedback = {
     data: {
-      type: 'feedbacks',
+      type: 'feedback',
       id: 'feedback_id',
       attributes: {
         email: 'shi@fu.me',

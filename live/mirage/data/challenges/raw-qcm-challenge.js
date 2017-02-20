@@ -1,7 +1,7 @@
 // QCM challenge with all field filled
 export default {
   data: {
-    type: 'challenges',
+    type: 'challenge',
     id: 'raw_qcm_challenge_id',
     attributes: {
       type: 'QCM',

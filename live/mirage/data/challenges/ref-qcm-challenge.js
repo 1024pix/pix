@@ -10,7 +10,7 @@ export default {
     this.data.attributes.timer = getTimer();
   },
   data: {
-    type: 'challenges',
+    type: 'challenge',
     id: 'ref_qcm_challenge_id',
     attributes: {
       type: 'QCM',

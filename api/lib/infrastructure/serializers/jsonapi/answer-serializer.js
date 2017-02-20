@@ -4,7 +4,7 @@ const Answer = require('../../../domain/models/data/answer');
 class AnswerSerializer extends JSONAPISerializer {
 
   constructor() {
-    super('answers');
+    super('answer');
   }
 
   serializeAttributes(model, data) {

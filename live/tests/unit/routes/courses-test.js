@@ -2,9 +2,9 @@ import { expect } from 'chai';
 import { describe, it } from 'mocha';
 import { setupTest } from 'ember-mocha';
 
-describe('Unit | Route | home', function() {
+describe('Unit | Route | courses', function() {
 
-  setupTest('route:home', {});
+  setupTest('route:courses', {});
 
   it('exists', function() {
     const route = this.subject();

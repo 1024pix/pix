@@ -15,7 +15,7 @@ describe('Unit | Serializer | JSONAPI | answer-serializer', function () {
 
   const jsonAnswer = {
     data: {
-      type: 'answers',
+      type: 'answer',
       id: 'answer_id',
       attributes: {
         value: 'answer_value',

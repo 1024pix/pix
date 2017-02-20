@@ -5,7 +5,10 @@
 
 .challenge-statement__instruction-section {
   font-size: 14px;
-  @media (min-width: 700px) {
+}
+
+@media (min-width: 700px) {
+  .challenge-statement__instruction-section {
     font-size: 20px;
   }
 }
@@ -79,18 +82,21 @@
   top: 100%;
   left: 400px;
   margin-left: -10px;
-  width: 0; height: 0;
+  width: 0;
+  height: 0;
   border-top: 10px solid #d8d8d8;
   border-right: 10px solid transparent;
   border-left: 10px solid transparent;
 }
+
 .challenge-statement__help-tooltip:after {
   content: '';
   position: absolute;
   top: 100%;
   left: 400px;
   margin-left: -8px;
-  width: 0; height: 0;
+  width: 0;
+  height: 0;
   border-top: 8px solid #FFFFFF;
   border-right: 8px solid transparent;
   border-left: 8px solid transparent;
@@ -105,7 +111,6 @@
   font-size: 14px;
   color: #3e4149;
 }
-
 
 .challenge-statement__file-options {
   margin-left: 0;
