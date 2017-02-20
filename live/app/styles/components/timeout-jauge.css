@@ -1,5 +1,6 @@
 .timeout-jauge-wrapper {
   padding-top: 0;
+  margin-top: -23px;
 }
 
 .timeout-jauge {

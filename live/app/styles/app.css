@@ -1,6 +1,7 @@
 /* globals */
 @import url('globals/alert.css');
 @import url('globals/buttons.css');
+@import url('globals/redesign-inputs.css');
 @import url('globals/dimension.css');
 @import url('globals/flexbox-helpers.css');
 @import url('globals/rounded-panel.css');
@@ -37,6 +38,7 @@
 @import url('courses/get-preview.css');
 @import url('courses.css');
 @import url('courses-loading.css');
+
 
 @media (min-width: 1200px) {
   .container {
@@ -83,7 +85,3 @@ body {
   margin-bottom: 20px;
 }
 
-input[type="radio"],
-input[type="checkbox"] {
-  margin: 0 5px 0 0;
-}

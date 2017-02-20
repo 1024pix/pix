@@ -54,10 +54,10 @@ describe('Acceptance | b2 - Afficher un QCM | ', function () {
   });
 
   it('b2.6 It should render an ordered list of instruction', function () {
-    expect($('.challenge-response__proposal:nth-child(1)').text().trim()).to.equal('possibilite 1, et/ou');
-    expect($('.challenge-response__proposal:nth-child(2)').text().trim()).to.equal('possibilite 2, et/ou');
-    expect($('.challenge-response__proposal:nth-child(3)').text().trim()).to.equal('possibilite 3, et/ou');
-    expect($('.challenge-response__proposal:nth-child(4)').text().trim()).to.equal('possibilite 4');
+    expect($('.proposal-text:eq(0)').text().trim()).to.equal('possibilite 1, et/ou');
+    expect($('.proposal-text:eq(1)').text().trim()).to.equal('possibilite 2, et/ou');
+    expect($('.proposal-text:eq(2)').text().trim()).to.equal('possibilite 3, et/ou');
+    expect($('.proposal-text:eq(3)').text().trim()).to.equal('possibilite 4');
   });
 
   it('b2.7 Error alert box should be hidden by default', function () {
@@ -76,28 +76,26 @@ describe('Acceptance | b2 - Afficher un QCM | ', function () {
     });
   });
 
-
-  it('b2.10 If an user check a checkbox, it is checked', function () {
-    expect($('input:checkbox:checked:nth-child(1)').is(':checked')).to.equal(false);
-    $('.challenge-response__proposal:nth-child(1) input').click();
+  it('b2.9 If an user check a checkbox, it is checked', function () {
+    expect($('input:checkbox:checked')).to.have.lengthOf(0);
+    $('.input-checkbox-proposal:eq(1)').click();
     andThen(() => {
-      expect($('input:checkbox:checked:nth-child(1)').is(':checked')).to.equal(true);
       expect($('input:checkbox:checked')).to.have.lengthOf(1);
     });
   });
 
-  it('b2.11 If an user check another checkbox, it is checked, the previous checked checkboxes remains checked', function () {
+  it('b2.10 If an user check another checkbox, it is checked, the previous checked checkboxes remains checked', function () {
     expect($('input:checkbox:checked')).to.have.lengthOf(1);
-    click($('.challenge-response__proposal:nth-child(2) input'));
+    $('.input-checkbox-proposal:eq(2)').click();
     andThen(() => {
       expect($('input:checkbox:checked')).to.have.lengthOf(2);
     });
   });
 
-  it('b2.12 If an user validate the challenge, the api is request to save the answer of the user', async function () {
+  it('b2.11 If an user validate the challenge, the api is request to save the answer of the user', async function () {
     resetPostRequest();
     await click('.challenge-actions__action-validate');
     expect(urlOfLastPostRequest()).to.equal('/api/answers');
-    expect(_.get(bodyOfLastPostRequest(), 'data.attributes.value')).to.equal('1,2');
+    expect(_.get(bodyOfLastPostRequest(), 'data.attributes.value')).to.equal('2,3');
   });
 });

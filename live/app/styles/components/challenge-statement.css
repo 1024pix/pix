@@ -125,6 +125,8 @@
 
 .challenge-statement__file-option-label {
   font-size: 16px;
+  line-height: 10px;
+  font-weight: normal;
 }
 
 .challenge-statement__action {

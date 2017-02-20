@@ -7,7 +7,10 @@
 }
 
 .rounded-panel__row {
-  padding: 20px;
+  padding-right: 20px;
+  padding-top: 32px;
+  padding-left: 35px;
+  padding-bottom: 23px;
 }
 
 .rounded-panel hr {

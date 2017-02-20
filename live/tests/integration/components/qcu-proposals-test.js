@@ -38,7 +38,7 @@ describe('Integration | Component | QcuProposals', function () {
       this.render(hbs`{{qcu-proposals answers=answers proposals=proposals onAnswerUpdated='answerChanged'}}`);
 
       // then
-      expect(this.$('.challenge-response__proposal-input')).to.have.lengthOf(proposals.length);
+      expect(this.$('.proposal-text')).to.have.lengthOf(proposals.length);
     });
 
 
