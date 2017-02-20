@@ -1,0 +1,26 @@
+<form class="follower__form" id="contact-form">
+  <div class="follower__form-container">
+    <div class="follower__form-item follower__form-input-container">
+      {{input class="follower-email" placeholder="Saisissez votre email" type="email" value=followerEmail}}
+    </div>
+    <div class="follower__form-item">
+      <button {{action "submit" allowedKeys="enter"}}
+        class="follower-form__button {{if isPending 'follower-form__button--pending' 'follower-form__button--default'}}">{{submitButtonText}}</button>
+    </div>
+  </div>
+
+  {{#if hasMessage}}
+    <div class="follower-info-message {{messageClassName}}">
+    {{#if hasError}}
+        <svg style="width:15px;height:15px;" viewBox="0 0 24 24">
+          <path fill="#f45c00" d="M13.46,12L19,17.54V19H17.54L12,13.46L6.46,19H5V17.54L10.54,12L5,6.46V5H6.46L12,10.54L17.54,5H19V6.46L13.46,12Z"/>
+        </svg>
+    {{else}}
+      <svg style="width:12px;height:15px" viewBox="0 0 24 24">
+        <path fill="#30d5b0" d="M21,7L9,19L3.5,13.5L4.91,12.09L9,16.17L19.59,5.59L21,7Z" />
+      </svg>
+    {{/if}}
+    <span>{{infoMessage}}</span>
+  </div>
+  {{/if}}
+</form>
