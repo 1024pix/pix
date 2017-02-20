@@ -1,10 +1,11 @@
-const { describe, it } = require('mocha');
-const { expect } = require('chai');
+const { describe, it, before, after, expect, knex, sinon } = require('../../../test-helper');
 
 const service = require('../../../../lib/domain/services/solution-service');
 const Answer = require('../../../../lib/domain/models/data/answer');
 const Solution = require('../../../../lib/domain/models/referential/solution');
 const _ = require('../../../../lib/infrastructure/utils/lodash-utils');
+// const ChallengeRepository = require('../../../../lib/infrastructure/repositories/challenge-repository');
+const SolutionRepository = require('../../../../lib/infrastructure/repositories/solution-repository');
 
 describe('Unit | Service | SolutionService', function () {
 
@@ -70,10 +71,10 @@ describe('Unit | Service | SolutionService', function () {
 
     describe('if solution type is QRU', function () {
 
-      it('should return "not-implemented"', function () {
+      it('should return "unimplemented"', function () {
         const answer = buildAnswer('some answer');
         const solution = buildSolution('QRU', 'some value');
-        expect(service.match(answer, solution)).to.equal('not-implemented');
+        expect(service.match(answer, solution)).to.equal('unimplemented');
       });
 
     });
@@ -343,10 +344,10 @@ describe('Unit | Service | SolutionService', function () {
 
     describe('if solution type is none of the above ones', function () {
 
-      it('should return "not-implemented"', function () {
+      it('should return "unimplemented"', function () {
         const answer = buildAnswer('some value');
         const solution = buildSolution('SOME_TYPE', 'Some variant');
-        expect(service.match(answer, solution)).to.equal('not-implemented');
+        expect(service.match(answer, solution)).to.equal('unimplemented');
       });
 
     });
@@ -381,6 +382,157 @@ describe('Unit | Service | SolutionService', function () {
     it('should return "aband" if result is "aband" and timeout is positive', function () {
       expect(service._timedOut('aband', 11)).to.equal('aband');
     });
+  });
+
+
+  describe('#revalidate', function () {
+
+    const ko_answer = {
+      id: 1,
+      value: '1,2,3',
+      result: 'ko',
+      challengeId: 'any_challenge_id'
+    };
+
+    const ok_answer = {
+      id: 2,
+      value: '1, 2, 3',
+      result: 'partially',
+      challengeId: 'any_challenge_id'
+    };
+
+    const unimplemented_answer = {
+      id: 4,
+      value: '1,2,3',
+      result: 'unimplemented',
+      challengeId: 'any_challenge_id'
+    };
+
+    const aband_answer = {
+      id: 5,
+      value: '#ABAND#',
+      result: 'aband',
+      challengeId: 'any_challenge_id'
+    };
+
+    const timedout_answer = {
+      id: 6,
+      value: '1,2,3',
+      result: 'timedout',
+      challengeId: 'any_challenge_id'
+    };
+
+    before(function (done) {
+      knex('answers').delete().then(() => {
+        knex('answers').insert([ko_answer, ok_answer, unimplemented_answer, aband_answer, timedout_answer]).then(() => {
+          done();
+        });
+      });
+    });
+
+    after(function (done) {
+      knex('answers').delete().then(() => {done();});
+    });
+
+
+    it('If the answer is timedout, resolve to the answer itself, unchanged', function (done) {
+      expect(service.revalidate).to.exist;
+      service.revalidate(new Answer(timedout_answer)).then(function (foundAnswer) {
+        expect(foundAnswer.id).equals(timedout_answer.id);
+        expect(foundAnswer.attributes.value).equals(timedout_answer.value);
+        expect(foundAnswer.attributes.result).equals(timedout_answer.result);
+        expect(foundAnswer.attributes.challengeId).equals(timedout_answer.challengeId);
+        done();
+      });
+    });
+
+    it('If the answer is aband, resolve to the answer itself, unchanged', function (done) {
+      expect(service.revalidate).to.exist;
+      service.revalidate(new Answer(aband_answer)).then(function (foundAnswer) {
+        expect(foundAnswer.id).equals(aband_answer.id);
+        expect(foundAnswer.attributes.value).equals(aband_answer.value);
+        expect(foundAnswer.attributes.result).equals(aband_answer.result);
+        expect(foundAnswer.attributes.challengeId).equals(aband_answer.challengeId);
+        done();
+      });
+    });
+
+    it('If the answer is ko, resolve to the answer itself, with result corresponding to the matching', function (done) {
+
+      // given
+      const MATCHING_RETURNS = '#ANY_RESULT#';
+
+      sinon.stub(SolutionRepository, 'get').resolves({}); // avoid HTTP call, but what it replies doesn't matter
+      sinon.stub(service, 'match').returns(MATCHING_RETURNS);
+      expect(service.revalidate).to.exist;
+
+      // when
+      service.revalidate(new Answer(ko_answer)).then(function (foundAnswer) {
+
+        // then
+        expect(SolutionRepository.get.callOnce);
+        expect(service.match.callOnce);
+        expect(foundAnswer.id).equals(ko_answer.id);
+        expect(foundAnswer.attributes.result).equals(MATCHING_RETURNS);
+
+        SolutionRepository.get.restore();
+        service.match.restore();
+        done();
+      });
+
+    });
+
+    it('If the answer is ok, resolve to the answer itself, with result corresponding to the matching', function (done) {
+
+      // given
+      const MATCHING_RETURNS = '#ANY_RESULT#';
+
+      sinon.stub(SolutionRepository, 'get').resolves({}); // avoid HTTP call, but what it replies doesn't matter
+      sinon.stub(service, 'match').returns(MATCHING_RETURNS);
+      expect(service.revalidate).to.exist;
+
+      // when
+      service.revalidate(new Answer(ok_answer)).then(function (foundAnswer) {
+
+        // then
+        expect(SolutionRepository.get.callOnce);
+        expect(service.match.callOnce);
+        expect(foundAnswer.id).equals(ok_answer.id);
+        expect(foundAnswer.attributes.result).equals(MATCHING_RETURNS);
+
+        SolutionRepository.get.restore();
+        service.match.restore();
+        done();
+      });
+
+    });
+
+
+    it('If the answer is unimplemented, resolve to the answer itself, with result corresponding to the matching', function (done) {
+
+      // given
+      const MATCHING_RETURNS = '#ANY_RESULT#';
+
+      sinon.stub(SolutionRepository, 'get').resolves({}); // avoid HTTP call, but what it replies doesn't matter
+      sinon.stub(service, 'match').returns(MATCHING_RETURNS);
+      expect(service.revalidate).to.exist;
+
+      // when
+      service.revalidate(new Answer(unimplemented_answer)).then(function (foundAnswer) {
+
+        // then
+        expect(SolutionRepository.get.callOnce);
+        expect(service.match.callOnce);
+        expect(foundAnswer.id).equals(unimplemented_answer.id);
+        expect(foundAnswer.attributes.result).equals(MATCHING_RETURNS);
+
+        SolutionRepository.get.restore();
+        service.match.restore();
+        done();
+      });
+
+    });
+
   });
 
 });
