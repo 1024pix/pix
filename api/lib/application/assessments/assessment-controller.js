@@ -2,6 +2,7 @@ const Boom = require('boom');
 const assessmentSerializer = require('../../infrastructure/serializers/jsonapi/assessment-serializer');
 const assessmentRepository = require('../../infrastructure/repositories/assessment-repository');
 const assessmentService = require('../../domain/services/assessment-service');
+const assessmentUtils = require('../../domain/services/assessment-service-utils');
 const challengeRepository = require('../../infrastructure/repositories/challenge-repository');
 const challengeSerializer = require('../../infrastructure/serializers/jsonapi/challenge-serializer');
 const solutionSerializer = require('../../infrastructure/serializers/jsonapi/solution-serializer');
@@ -56,9 +57,10 @@ module.exports = {
       .then((assessment) => {
         if (_.isEmpty(assessment)) {
           return reply('null');
-        } else {
-
-          answerRepository.findByAssessment(assessment.get('id')).then((answers) => {
+        }
+        
+        return answerRepository.findByAssessment(assessment.get('id'))
+          .then((answers) => {
             const answersLength = _.get(answers, 'length', 0);
 
             courseRepository
@@ -67,8 +69,17 @@ module.exports = {
 
                 const challengesLength = _.get(course, 'challenges.length', 0);
 
-                if (challengesLength > 0 && _.isEqual(answersLength, challengesLength)) {
+                if (!course.isAdaptive) {
+                  return challengesLength > 0 && _.isEqual(answersLength, challengesLength);
+                } else {
+                  const responsePattern = assessmentUtils.getResponsePattern(answers);
+                  return assessmentUtils.getNextChallengeFromScenarios(responsePattern)
+                    .then(nextChallengeId => nextChallengeId === null);
+                }
+              })
+              .then((testIsOver) => {
 
+                if(testIsOver) {
                   const modelAnswers = _.map(answers.models, (o) => o.attributes);
                   const requestedAnswer = _.find(modelAnswers, { id: _.parseInt(request.params.answerId) });
 
@@ -84,7 +95,6 @@ module.exports = {
               })
               .catch((err) => reply(Boom.badImplementation(err)));
           });
-        }
       });
   }
 

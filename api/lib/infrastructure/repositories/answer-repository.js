@@ -16,6 +16,7 @@ module.exports = {
     return new Promise((resolve, reject) => {
       Answer
         .where({ assessmentId })
+        .orderBy('createdAt')
         .fetchAll()
         .then(resolve)
         .catch(reject);

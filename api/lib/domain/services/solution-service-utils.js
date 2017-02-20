@@ -41,5 +41,3 @@ module.exports = {
   fuzzyMatchingWithAnswers,
   areStringListEquivalent
 };
-
-

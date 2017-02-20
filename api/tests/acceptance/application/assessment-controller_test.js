@@ -45,7 +45,7 @@ describe('Acceptance | API | Assessments', function () {
           .reply(200, {
             'id': 'first_challenge',
             'fields': {
-              // a bunch of fields
+              'Bonnes réponses': 'fromage'
             },
           }
           );
@@ -54,7 +54,7 @@ describe('Acceptance | API | Assessments', function () {
           .reply(200, {
             'id': 'second_challenge',
             'fields': {
-              // a bunch of fields
+              'Bonnes réponses': 'truite'
             },
           }
           );
@@ -63,7 +63,7 @@ describe('Acceptance | API | Assessments', function () {
           .reply(200, {
             'id': 'third_challenge',
             'fields': {
-              // a bunch of fields
+              'Bonnes réponses': 'dromadaire'
             },
           }
           );
@@ -74,7 +74,9 @@ describe('Acceptance | API | Assessments', function () {
 
   after(function (done) {
     nock.cleanAll();
-    server.stop(done);
+    knex('scenarios').delete().then(() => {
+      server.stop(done);
+    });
   });
 
   describe('GET /api/assessments/:id', function () {
@@ -319,6 +321,14 @@ describe('Acceptance | API | Assessments', function () {
       });
     });
 
+    it('should return null if reached the last challenge of the course', function (done) {
+      const options = { method: 'GET', url: '/api/assessments/' + insertedAssessmentId + '/next/second_challenge' };
+      server.inject(options, (response) => {
+        expect(response.result).to.equal('null');
+        done();
+      });
+    });
+
   });
 
   describe('(adaptive) GET /api/assessments/:assessment_id/next', function () {
@@ -421,6 +431,7 @@ describe('Acceptance | API | Assessments', function () {
     afterEach(function (done) {
       knex('assessments').delete().then(() => {
         knex('answers').delete().then(() => {
+          // Keep scenarios for the other functions
           done();
         });
       });
@@ -541,6 +552,5 @@ describe('Acceptance | API | Assessments', function () {
       });
     });
   });
-
 
 });

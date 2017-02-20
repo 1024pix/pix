@@ -108,7 +108,9 @@ describe('Acceptance | API | Assessments', function () {
     afterEach(function (done) {
       knex('assessments').delete().then(() => {
         knex('answers').delete().then(() => {
-          done();
+          knex('scenarios').delete().then(() => {
+            done();
+          });
         });
       });
     });

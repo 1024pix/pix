@@ -1,6 +1,5 @@
 const { describe, it } = require('mocha');
 const { expect } = require('chai');
-const _ = require('../../../../lib/infrastructure/utils/lodash-utils');
 const service = require('../../../../lib/domain/services/solution-service-utils');
 
 
@@ -24,18 +23,18 @@ describe('Unit | Domain | Services | solution-service-utils', function () {
     });
 
     [
-      { title: 'a string with unexpected normal spaces beetween numbers', value: '6 0 582 555' },
+      { title: 'a string with unexpected normal spaces between numbers', value: '6 0 582 555' },
       { title: 'when there is no answer', value: '' },
       { title: 'when it is not the right value', value: '1' },
       { title: 'when it is not a number', value: 'A' }
     ].forEach(userAnswer => {
 
-      it(`should return true even when user answer is ${userAnswer.title}`, function () {
+      it(`should return false even when user answer is ${userAnswer.title}`, function () {
         const result = service.fuzzyMatchingWithAnswers(userAnswer.value, correctAnswersList);
         expect(result).to.be.false;
       });
 
-      });
+    });
 
   });
 });

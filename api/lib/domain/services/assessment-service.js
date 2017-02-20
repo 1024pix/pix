@@ -1,27 +1,19 @@
 const courseRepository = require('../../infrastructure/repositories/course-repository');
-const Answer = require('../../domain/models/data/answer');
-const Scenario = require('../../domain/models/data/scenario');
+const answerRepository = require('../../infrastructure/repositories/answer-repository');
+const assessmentUtils = require('./assessment-service-utils');
 const _ = require('../../infrastructure/utils/lodash-utils');
 
 function _selectNextInAdaptiveMode(assessment) {
 
   return new Promise((resolve, reject) => {
 
-    const answerIds = assessment.related('answers').pluck('id');
-
-    Answer.where('id', 'IN', answerIds).fetchAll().then((answers) => {
-      const responsePattern = answers.map(answer => (answer.attributes.result == 'ok') ? 'ok' : 'ko').join('-');
-
-      Scenario.where('path', responsePattern).orderBy('updatedAt', 'DESC').fetch().then((scenario) => {
-        if (!scenario) {
-          return resolve(null);
-        } else if(scenario.attributes.nextChallengeId == 'null') {
-          resolve(null);
-        } else {
-          resolve(scenario.attributes.nextChallengeId);
-        }
-      });
-    }).catch((error) => reject(error));
+    answerRepository.findByAssessment(assessment.get('id'))
+      .then((answers) => {
+        const responsePattern = assessmentUtils.getResponsePattern(answers);
+        return assessmentUtils.getNextChallengeFromScenarios(responsePattern);
+      })
+      .then(resolve)
+      .catch(reject);
   });
 }
 
