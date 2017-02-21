@@ -43,6 +43,18 @@
   }
 }
 
+.assessment-challenge-container .container {
+  max-width: 990px;
+  padding-right: 15px;
+  padding-left: 15px;
+  width: 100%;
+
+  @media (min-width: 1024px) {
+    padding-right: 0;
+    padding-left: 0;
+  }
+}
+
 body {
   font-family: $font-lato;
   background-color: $light-grey1;
