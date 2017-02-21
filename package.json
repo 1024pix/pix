@@ -12,6 +12,7 @@
   "devDependencies": {
     "codeclimate-test-reporter": "^0.4.0",
     "coveralls": "^2.11.15",
+    "eslint": "^3.16.0",
     "lcov-result-merger": "^1.2.0",
     "npm-run-all": "^3.1.1"
   },
