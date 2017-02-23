@@ -11,14 +11,17 @@ export default Ember.Route.extend({
     const assessmentId = params.assessment_id;
     const challengeId = params.challenge_id;
 
-    const promises = {
+    return RSVP.hash({
       assessment: store.findRecord('assessment', assessmentId),
       challenge: store.findRecord('challenge', challengeId),
       answers: store.queryRecord('answer', { assessment: assessmentId, challenge: challengeId })
-    };
+    });
+  },
 
-    return RSVP.hash(promises).then(model => {
-      return this._addProgressToModel(model);
+  afterModel(model) {
+    return model.assessment.get('course').then((course) => {
+      model.progress = course.getProgress(model.challenge);
+      return model;
     });
   },
 
@@ -62,13 +65,6 @@ export default Ember.Route.extend({
           this.transitionTo('assessments.get-results', assessment.get('id'));
         }
       });
-  },
-
-  _addProgressToModel(model) {
-    return model.assessment.get('course').then((course) => {
-      model.progress = course.getProgress(model.challenge);
-      return model;
-    });
   }
 
 });
