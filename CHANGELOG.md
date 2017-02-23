@@ -1,4 +1,6 @@
 # PIX Changelog
+## 1.4.1 (23/02/2017)
+- [#309](https://github.com/sgmap/pix/pull/309) [BUGFIX] Correction d'un bug sur la progressbar
 
 ## 1.4.0 (22/02/2017)
 
