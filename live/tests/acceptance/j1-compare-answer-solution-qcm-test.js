@@ -24,9 +24,9 @@ describe('Acceptance | j1 - Comparer réponses et solutions pour un QCM |', func
   const CSS_LINETHROUGH_OFF = 'none';
 
 
-  const TEXT_OF_RESULT_SELECTOR = '.comparison-window--header .assessment-results-result-titre .assessment-results-result-text';
-  const SVG_OF_RESULT_SELECTOR = '.comparison-window--header .assessment-results-result-titre svg';
-  const INDEX_OF_RESULT_SELECTOR = '.comparison-window--header .assessment-results-result-index';
+  const TEXT_OF_RESULT_SELECTOR = '.comparison-window__header .assessment-results-result-titre .assessment-results-result-text';
+  const SVG_OF_RESULT_SELECTOR = '.comparison-window__header .assessment-results-result-titre svg';
+  const INDEX_OF_RESULT_SELECTOR = '.comparison-window__header .assessment-results-result-index';
 
   const TEXT_OF_INSTRUCTION_SELECTOR = '.comparison-window--body .challenge-statement__instruction';
   const IMAGE_OF_INSTRUCTION_SELECTOR = '.comparison-window--body .challenge-statement__illustration-section';
@@ -60,8 +60,6 @@ describe('Acceptance | j1 - Comparer réponses et solutions pour un QCM |', func
       expect($('.assessment-results-list-item:eq(0) .js-correct-answer').text()).to.contain('RÉPONSE'); //QCM
       expect($('.assessment-results-list-item:eq(1) .js-correct-answer').text()).not.to.contain('RÉPONSE'); //QCU
       expect($('.assessment-results-list-item:eq(2) .js-correct-answer').text()).not.to.contain('RÉPONSE'); //QRU
-      expect($('.assessment-results-list-item:eq(3) .js-correct-answer').text()).not.to.contain('RÉPONSE'); //QROC
-      expect($('.assessment-results-list-item:eq(4) .js-correct-answer').text()).not.to.contain('RÉPONSE'); //QROCM
     });
   });
 
@@ -128,7 +126,6 @@ describe('Acceptance | j1 - Comparer réponses et solutions pour un QCM |', func
       await visit(RESULT_URL);
       expect($(CHECKBOX_CORRECT_AND_CHECKED)).to.have.lengthOf(0);
       expect($(LABEL_CORRECT_AND_CHECKED)).to.have.lengthOf(0);
-
 
       await visit(COMPARISON_MODAL_URL);
       expect($(CHECKBOX_CORRECT_AND_CHECKED).is(':checked')).to.equal(true);

@@ -58,7 +58,9 @@
     </div>
 
     <div class="js-correct-answer assessment-results-result-correction">
-      {{#if (eq answer.challenge.type "QCM")}}
+      {{#if (eq answer.challenge.type "QCM") }}
+        <button class="assessment-results-result-correction-button" {{action (route-action "openComparison" assessment.id answer.id (add index 1))}}> RÉPONSE </button>
+      {{else if (eq answer.challenge.type "QROC")}}
         <button class="assessment-results-result-correction-button" {{action (route-action "openComparison" assessment.id answer.id (add index 1))}}> RÉPONSE </button>
       {{/if}}
     </div>

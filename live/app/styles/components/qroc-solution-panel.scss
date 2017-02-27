@@ -1,0 +1,48 @@
+.correction-qroc-box--answer__input{
+  height: 26px;
+  border-radius: 3px;
+  background-color: #ffffff;
+  box-shadow: inset 0 1px 3px 0 rgba(0, 0, 0, 0.15);
+  border: solid 1px #d8d8d8;
+  padding: 8px 8px 12px 10px;
+}
+
+.correction-qroc-box__input-right-answer {
+  font-family: $font-lato;
+  font-size: 16px;
+  font-weight: bold;
+  color: #13c9a0;
+}
+
+.correction-qroc-box__input-wrong-answer{
+  font-family: $font-lato;
+  font-size: 16px;
+  color: $charcoal-grey;
+  text-decoration: line-through;
+}
+
+.correction-qroc-box__input-no-answer{
+  font-family: $font-lato;
+  font-size: 16px;
+  color: $charcoal-grey;
+  font-style: italic;
+}
+
+.correction-qroc-box__solution {
+  display: flex;
+  align-items: center;
+  margin-top: 5px;
+}
+
+.correction-qroc-box__solution-text {
+  height: 19px;
+  font-family: $font-lato;
+  font-size: 16px;
+  font-weight: bold;
+  color: #13c9a0;
+  display:flex;
+  align-items: center;
+  margin-left: 7px;
+  position: relative;
+  bottom:1px;
+}
