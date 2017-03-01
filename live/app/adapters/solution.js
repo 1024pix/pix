@@ -8,5 +8,11 @@ export default ApplicationAdapter.extend({
     return Ember.$.getJSON( `${this.host}/${this.namespace}/assessments/${query.assessmentId}/solutions/${query.answerId}`, (data) => {
       return RSVP.resolve(data);
     });
+  },
+  // refresh cache
+  refreshRecord(modelName, clazz) {
+    return Ember.$.post( `${this.host}/${this.namespace}/challenges/${clazz.challengeId}/solution`, (data) => {
+      return RSVP.resolve(data);
+    });
   }
 });

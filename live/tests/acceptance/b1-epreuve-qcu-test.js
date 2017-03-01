@@ -2,7 +2,7 @@ import { describe, it, beforeEach, afterEach } from 'mocha';
 import { expect } from 'chai';
 import startApp from '../helpers/start-app';
 import destroyApp from '../helpers/destroy-app';
-import { resetPostRequest, bodyOfLastPostRequest, urlOfLastPostRequest } from '../helpers/shared-state';
+import { resetTestingState, bodyOfLastPostRequest, urlOfLastPostRequest } from '../helpers/shared-state';
 import _ from 'pix-live/utils/lodash-custom';
 
 
@@ -69,7 +69,7 @@ describe('Acceptance | b1 - Afficher un QCU | ', function () {
 
   it('b1.6 Si un utilisateur clique sur un radiobutton, et valide l\'épreuve, une demande de sauvegarde de sa réponse est envoyée à l\'API', async function () {
     // Given
-    resetPostRequest();
+    resetTestingState();
 
     // Given
     expect($('.input-radio-proposal:eq(0)').is(':checked')).to.equal(false);

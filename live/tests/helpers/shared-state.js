@@ -1,15 +1,11 @@
 
 
 export function resetTestingState() {
-  localStorage.setItem('mirageTestingState', null);
+  localStorage.clear();
 }
 
 export function setTestingState(state) {
   localStorage.setItem('mirageTestingState', JSON.stringify(state));
-}
-
-export function resetPostRequest() {
-  localStorage.setItem('miragePostUrl', null);
 }
 
 export function urlOfLastPostRequest() {

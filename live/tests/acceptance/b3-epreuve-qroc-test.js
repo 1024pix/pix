@@ -1,6 +1,6 @@
 import { describe, it, beforeEach, afterEach } from 'mocha';
 import { expect } from 'chai';
-import {resetPostRequest, bodyOfLastPostRequest, urlOfLastPostRequest} from '../helpers/shared-state';
+import {resetTestingState, bodyOfLastPostRequest, urlOfLastPostRequest} from '../helpers/shared-state';
 import startApp from '../helpers/start-app';
 import destroyApp from '../helpers/destroy-app';
 import _ from 'pix-live/utils/lodash-custom';
@@ -40,7 +40,7 @@ describe('Acceptance | b3 - Afficher un QROC | ', function () {
   });
 
   it('b3.4 It should save the answer of the user when user validate', async function () {
-    resetPostRequest();
+    resetTestingState();
     fillIn('input[data-uid="qroc-proposal-uid"]', 'My New Answer');
     await click('.challenge-actions__action-validate');
     expect(urlOfLastPostRequest()).to.equal('/api/answers');

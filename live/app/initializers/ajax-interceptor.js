@@ -10,6 +10,9 @@ export function initialize(/* application */) {
           body: settings.data
         }));
       }
+      if ('POST' === settings.type) {
+        localStorage.setItem('POST_ON_URL_' + settings.url.split('api')[1], settings.data);
+      }
     });
   }
 }

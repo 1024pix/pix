@@ -71,6 +71,13 @@ _.mixin({
     return _.some(x, function(value) {
       return _.isTruthy(value);
     });
+  },
+  // See http://veerasundar.com/blog/2013/01/underscore-js-and-guid-function/
+  guid: function() {
+    return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
+      const r = Math.random()*16|0, v = c == 'x' ? r : (r&0x3|0x8);
+      return v.toString(16);
+    });
   }
 }, {chain: false});
 

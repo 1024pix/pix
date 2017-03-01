@@ -11,6 +11,7 @@ import postAssessments from './routes/post-assessments';
 import getAnswerByChallengeAndAssessment from './routes/get-answer-by-challenge-and-assessment';
 import postFollowers                     from './routes/post-followers';
 import postFeedbacks from './routes/post-feedbacks';
+import postRefreshSolution from './routes/post-refresh-solution';
 
 export default function () {
 
@@ -26,6 +27,8 @@ export default function () {
 
   this.get('/challenges', getChallenges);
   this.get('/challenges/:id', getChallenge);
+
+  this.post('/challenges/:challengeId/solution', postRefreshSolution);
 
   this.post('/assessments', postAssessments);
   this.get('/assessments/:id', getAssessment);

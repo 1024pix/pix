@@ -2,7 +2,7 @@ import { describe, it, before, after } from 'mocha';
 import { expect } from 'chai';
 import startApp from '../helpers/start-app';
 import destroyApp from '../helpers/destroy-app';
-import {resetPostRequest, bodyOfLastPostRequest, urlOfLastPostRequest} from '../helpers/shared-state';
+import {resetTestingState, bodyOfLastPostRequest, urlOfLastPostRequest} from '../helpers/shared-state';
 import _ from 'pix-live/utils/lodash-custom';
 
 function visitTimedChallenge() {
@@ -93,7 +93,7 @@ describe('Acceptance | b2 - Afficher un QCM | ', function () {
   });
 
   it('b2.11 If an user validate the challenge, the api is request to save the answer of the user', async function () {
-    resetPostRequest();
+    resetTestingState();
     await click('.challenge-actions__action-validate');
     expect(urlOfLastPostRequest()).to.equal('/api/answers');
     expect(_.get(bodyOfLastPostRequest(), 'data.attributes.value')).to.equal('2,3');

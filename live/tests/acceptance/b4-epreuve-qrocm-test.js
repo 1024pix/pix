@@ -2,7 +2,7 @@ import { describe, it, beforeEach, afterEach } from 'mocha';
 import { expect } from 'chai';
 import startApp from '../helpers/start-app';
 import destroyApp from '../helpers/destroy-app';
-import {resetPostRequest, bodyOfLastPostRequest, urlOfLastPostRequest} from '../helpers/shared-state';
+import {resetTestingState, bodyOfLastPostRequest, urlOfLastPostRequest} from '../helpers/shared-state';
 import _ from 'pix-live/utils/lodash-custom';
 
 describe('Acceptance | b4 - Afficher un QROCM | ', function () {
@@ -39,7 +39,7 @@ describe('Acceptance | b4 - Afficher un QROCM | ', function () {
   });
 
   it('b4.4 It should save the answer of the user when user validate', async function () {
-    resetPostRequest();
+    resetTestingState();
     $(':input:eq(0)').val('stuff1');
     $(':input:eq(1)').val('stuff2');
     $(':input:eq(2)').val('stuff3');
