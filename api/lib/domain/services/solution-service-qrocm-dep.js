@@ -1,68 +1,83 @@
 /*eslint no-console: ["error", { allow: ["warn", "error"] }] */
 const jsYaml = require('js-yaml');
 const _ = require('../../infrastructure/utils/lodash-utils');
+const utils = require('./solution-service-utils');
 
-function _applyTreatments(objects) {
-  const result = {};
-  _.each(objects, (value, key) => {
-    result[key] = value.toString().trim().toLowerCase();
+
+function _applyTreatmentsToSolutions(solutions) {
+  return _.mapValues(solutions, (validSolutions) => {
+    return _.map(validSolutions, (validSolution) => {
+      return utils._treatmentT2(utils._treatmentT1(validSolution.toString()));
+    });
   });
-  return result;
 }
 
-function _getSolutionKeys(solutions) {
-  return Object.keys(solutions);
+
+function _applyTreatmentsToAnswers(answers) {
+  return _.mapValues(answers, _.toString);
 }
 
-function _removeMatchedSolutionIfExist(matchingSolutionKey, solutions) {
-  if (matchingSolutionKey) {
-    solutions = _.omit(solutions, matchingSolutionKey);
-  }
-  return solutions;
-}
 
-function _hasBadAnswers(validations) {
-  const badAnswers = _.filter(validations, (item) => item === false);
-  return !_.isEmpty(badAnswers);
-}
-
-function _compareAnswersAndSolutions(answers, solutions) {
+function _calculateValidation(answers, solutions) {
 
   const validations = {};
-  _.each(answers, (answer) => {
-    validations[answer] = false;
-    const solutionKeys = _getSolutionKeys(solutions);
-    let matchingSolutionKey = null;
+
+  _.each(answers, (answer, index) => {
+
+    const indexation = answer + '_' + index;
+    const solutionKeys = Object.keys(solutions);
+
     _.each(solutionKeys, (solutionKey) => {
-      if (validations[answer] == false) {
-        const solutionVariants = solutions[solutionKey];
-        if (!_.isEmpty(answer) && solutionVariants.includes(answer)) {
-          validations[answer] = true;
-          matchingSolutionKey = solutionKey;
-        }
+
+      const solutionVariants = solutions[solutionKey];
+
+      if (_.isUndefined(validations[indexation])) {
+        validations[indexation] = [];
       }
+
+      validations[indexation].push(utils.treatmentT1T2T3(answer, solutionVariants));
+
     });
-    solutions = _removeMatchedSolutionIfExist(matchingSolutionKey, solutions);
   });
   return validations;
+}
+
+function _numberOfGoodAnswers(fullValidations) {
+  const allGoodAnswers = _goodAnswers(fullValidations);
+  const uniqGoodAnswers = _.uniqBy(allGoodAnswers, 'adminAnswers');
+  return uniqGoodAnswers.length;
+}
+
+function _goodAnswers(fullValidations) {
+  return _.chain(fullValidations)
+          .map(_goodAnswer)
+          .filter((e) => e !== null)
+          .value();
+}
+
+// the lowest t1t2t3 ratio is below 0.25
+function _goodAnswer(allValidations) {
+  const bestAnswerSoFar = _.minBy(allValidations, (oneValidation) => oneValidation.t1t2t3Ratio);
+  return bestAnswerSoFar.t1t2t3Ratio <= 0.25 ? bestAnswerSoFar : null;
 }
 
 function _calculateResult(scoring, validations) {
   let result = 'ok';
 
-  if (_.isEmpty(scoring)) {
-    if (_hasBadAnswers(validations)) {
-      result = 'ko';
-    }
+  const numberOfGoodAnswers = _numberOfGoodAnswers(validations);
+
+  if (_.isEmpty(scoring) && numberOfGoodAnswers !== _.size(validations)) {
+    result = 'ko';
+  } else if (_.isEmpty(scoring) && numberOfGoodAnswers === _.size(validations)) {
+    result = 'ok';
   } else {
 
-    const nbGoodAnswers = _.filter(validations, (item) => item == true).length;
     const minGrade = _.min(Object.keys(scoring));
     const maxGrade = _.max(Object.keys(scoring));
 
-    if (nbGoodAnswers >= maxGrade) {
+    if (numberOfGoodAnswers >= maxGrade) {
       result = 'ok';
-    } else if (nbGoodAnswers >= minGrade) {
+    } else if (numberOfGoodAnswers >= minGrade) {
       result = 'partially';
     } else {
       result = 'ko';
@@ -71,23 +86,39 @@ function _calculateResult(scoring, validations) {
   return result;
 }
 
-module.exports = {
+function _applyPreTreatmentsToAnswer(yamlAnswer) {
+  return yamlAnswer.replace(/\u00A0/g, ' ');
+}
 
+module.exports = {
   match(yamlAnswer, yamlSolution, yamlScoring) {
+
+    // Validate inputs
+    if (_.isNotString(yamlAnswer)
+        || _.isNotString(yamlSolution)
+        || _.isEmpty(yamlAnswer)
+        || !_.includes(yamlSolution, '\n')) {
+      return 'ko';
+    }
+
+    // Pre-Treatments
+    const preTreatedAnswers = _applyPreTreatmentsToAnswer(yamlAnswer);
+
+    // remove unbreakable spaces
     // Convert Yaml to JS objects
-    let answers = jsYaml.safeLoad(yamlAnswer);
-    let solutions = jsYaml.safeLoad(yamlSolution);
+    const answers = jsYaml.safeLoad(preTreatedAnswers);
+    const solutions = jsYaml.safeLoad(yamlSolution);
     const scoring = jsYaml.safeLoad(yamlScoring);
 
+
     // Treatments
-    answers = _applyTreatments(answers);
-    solutions = _applyTreatments(solutions);
+    const treatedSolutions = _applyTreatmentsToSolutions(solutions);
+    const treatedAnswers = _applyTreatmentsToAnswers(answers);
 
     // Comparisons
-    const validations = _compareAnswersAndSolutions(answers, solutions);
+    const fullValidations = _calculateValidation(treatedAnswers, treatedSolutions);
 
-    // Restitution
-    return _calculateResult(scoring, validations);
+    return _calculateResult(scoring, fullValidations);
   }
 
 };

@@ -1,59 +1,67 @@
 const jsYaml = require('js-yaml');
-const _ = require('lodash');
+const _ = require('../../infrastructure/utils/lodash-utils');
+const utils = require('./solution-service-utils');
 
-
-function applyTreatmentsToAnswers(answers) {
-  _.each(answers, (answer, index) => {
-    answers[index] = answer.toString().trim().toLowerCase();
-  });
-  return answers;
-}
-function applyTreatmentsToSolutions(solutions) {
-  _.each(solutions, (solution, index) => {
-    const validOptions = [];
-    solution.forEach((validValue) => {
-      validOptions.push(validValue.toString().trim().toLowerCase());
+function _applyTreatmentsToSolutions(solutions) {
+  return _.mapValues(solutions, (validSolutions) => {
+    return _.map(validSolutions, (validSolution) => {
+      return utils._treatmentT2(utils._treatmentT1(validSolution.toString()));
     });
-    solutions[index] = validOptions;
   });
-  return solutions;
 }
-function compareAnswersAndSolutions(answers, solutions) {
-  const validations = {};
-  const keys = Object.keys(answers);
 
-  keys.forEach((key) => {
-    validations[key] = solutions[key].includes(answers[key]);
-  });
-  return validations;
+function _applyTreatmentsToAnswers(answers) {
+  return _.mapValues(answers, _.toString);
 }
-function calculateResult(validations) {
+
+
+function _calculateResult(validations) {
   let result = 'ok';
 
   _.each(validations, (validation) => {
-    if (validation === false) {
+    if (validation.t1t2t3Ratio > 0.25) {
       result = 'ko';
     }
   });
   return result;
 }
+
+function _applyPreTreatmentsToAnswer(yamlAnswer) {
+  return yamlAnswer.replace(/\u00A0/g, ' ');
+}
+
+
 module.exports = {
 
   match (yamlAnswer, yamlSolution) {
 
-    //convert YAML to JSObject
-    let answers = jsYaml.load(yamlAnswer);
-    let solutions = jsYaml.load(yamlSolution);
+    if (_.isNotString(yamlAnswer)
+        || _.isNotString(yamlSolution)
+        || _.isEmpty(yamlSolution)
+        || !_.includes(yamlSolution, '\n')) {
+      return 'ko';
+    }
 
-    //Treatments
-    answers = applyTreatmentsToAnswers(answers);
-    solutions = applyTreatmentsToSolutions(solutions);
+    // Pre-Treatments
+    const preTreatedAnswers = _applyPreTreatmentsToAnswer(yamlAnswer);
+
+    // remove unbreakable spaces
+    // and convert YAML to JSObject
+    const answers = jsYaml.safeLoad(preTreatedAnswers);
+    const solutions = jsYaml.safeLoad(yamlSolution);
+
+    // Treatments
+    const treatedSolutions = _applyTreatmentsToSolutions(solutions);
+    const treatedAnswers = _applyTreatmentsToAnswers(answers);
 
     //Comparison
-    const validations = compareAnswersAndSolutions(answers, solutions);
+    const validations = _.map(treatedAnswers, function(answer, keyAnswer) {
+      const solutionsToAnswer = treatedSolutions[keyAnswer];
+      return utils.treatmentT1T2T3(answer, solutionsToAnswer);
+    });
 
     //Restitution
-    return calculateResult(validations);
+    return _calculateResult(validations);
 
   }
 

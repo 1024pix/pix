@@ -4,7 +4,6 @@ const service = require('../../../../lib/domain/services/solution-service');
 const Answer = require('../../../../lib/domain/models/data/answer');
 const Solution = require('../../../../lib/domain/models/referential/solution');
 const _ = require('../../../../lib/infrastructure/utils/lodash-utils');
-// const ChallengeRepository = require('../../../../lib/infrastructure/repositories/challenge-repository');
 const SolutionRepository = require('../../../../lib/infrastructure/repositories/solution-repository');
 
 describe('Unit | Service | SolutionService', function () {
@@ -141,71 +140,165 @@ describe('Unit | Service | SolutionService', function () {
 
     describe('if solution type is QROC', function () {
 
-      it('should return "ko" when answer does not match any solution variants', function () {
-        const answer = buildAnswer('unmatching answer');
-        const solution = buildSolution('QROC', 'unmatched solution variant');
-        expect(service.match(answer, solution)).to.equal('ko');
-      });
-
       const successfulCases = [
-        {answer: 'Answer', solution: 'Answer'},
-        {answer: 'ANSWER', solution: 'answer'},
-        {answer: 'answer', solution: 'ANSWER'},
-        {answer: 'answer with spaces', solution: 'Answer With Spaces'},
-        {answer: 'with accents', solution: 'wîth àccénts'},
-        {answer: 'variant 1', solution: 'variant 1\nvariant 2\nvariant 3\n'},
-        {answer: 'variant 2', solution: 'variant 1\nvariant 2\nvariant 3\n'},
-        {answer: 'variant 3', solution: 'variant 1\nvariant 2\nvariant 3\n'}
+        {case:'(single solution) same answer and solution', answer: 'Answer', solution: 'Answer'},
+        {case:'(single solution) same answer and solution, but first is uppercased, last is lowercased', answer: 'ANSWER', solution: 'answer'},
+        {case:'(single solution) same answer and solution, but answer is lowercased, solution is uppercased', answer: 'answer', solution: 'ANSWER'},
+        {case:'(single solution) answer with spaces, solution hasnt', answer: 'a b c d e', solution: 'abcde'},
+        {case:'(single solution) answer with unbreakable spaces, solution hasnt', answer: 'a b c d e', solution: 'abcde'},
+        {case:'(single solution) solution with trailing spaces', answer: 'abcd', solution: '    abcd   '},
+        {case:'(single solution) solution with trailing spaces and uppercase', answer: 'aaa bbb ccc', solution: '    AAABBBCCC   '},
+        {case:'(single solution) answer with accent, but solution hasnt', answer: 'îàé êêê', solution: 'iae eee'},
+        {case:'(single solution) answer is 0.1 away from solution', answer: '0123456789', solution: '123456789'},
+        {case:'(single solution) answer is 0.25 away from solution', answer: '01234', solution: '1234'},
+        {case:'(single solution) solution contains too much spaces', answer: 'a b c d e', solution: 'a b c d e'},
+        {case:'(single solution) answer without accent, but solution has', answer: 'with accents eee', solution: 'wîth àccénts êêê'},
+        {case:'(multiple solutions) answer is amongst solution', answer: 'variant 1', solution: 'variant 1\nvariant 2\nvariant 3\n'},
+        {case:'(multiple solutions) answer is 0.2 away from a solution', answer: 'quack', solution: 'quacks\nazertysqdf\nblablabla\n'},
+        {case:'(multiple solutions) answer is 0.25 away from a solution', answer: 'quak', solution: 'qvak\nqwak\nanything\n'}
       ];
 
       successfulCases.forEach(function (testCase) {
-        it('should return "ok" when answer is "' + testCase.answer + '" and solution is "' + escape(testCase.solution) + '"', function () {
+        it(testCase.case + ', should return "ok" when answer is "' + testCase.answer + '" and solution is "' + escape(testCase.solution) + '"', function () {
           const answer = buildAnswer(testCase.answer);
           const solution = buildSolution('QROC', testCase.solution);
           expect(service.match(answer, solution)).to.equal('ok');
         });
       });
+
+
+      const failingCases = [
+        {case:'solution do not exists', answer: 'any answer'},
+        {case:'solution is not a String', answer: 'a', solution : new Date()},
+        {case:'solution is empty', answer: '', solution : ''},
+        {case:'answer is not a String', answer: new Date(), solution : ''},
+        {case:'answer does not match any solution variants', answer: 'abandoned answer', solution: 'unmatched solution variant'},
+        {case:'(single solution) answer is 0.3 away from solution', answer: '0123456789', solution: '1234567'},
+        {case:'(single solution) answer is 0.5 away from solution', answer: '0123456789', solution: '12345'},
+        {case:'(single solution) answer is 10 away from solution', answer: 'a', solution: '0123456789'},
+        {case:'(multiple solutions) answer is minimum 0.4 away from a solution', answer: 'quaks', solution: 'qvakes\nqwakes\nanything\n'}
+      ];
+
+      failingCases.forEach(function (testCase) {
+        it(testCase.case + ', should return "ko" when answer is "' + testCase.answer + '" and solution is "' + escape(testCase.solution) + '"', function () {
+          const answer = buildAnswer(testCase.answer);
+          const solution = buildSolution('QROC', testCase.solution);
+          expect(service.match(answer, solution)).to.equal('ko');
+        });
+      });
+
+
     });
+
 
     describe('if solution type is QROCM-ind', function () {
 
-      it('should return "ko" when answer does not match any solution variants', function () {
-        const answer = buildAnswer('answer: unmatching answer');
-        const solution = buildSolution('QROCM-ind', 'answer:\n- unmatched solution variant');
-        expect(service.match(answer, solution)).to.equal('ko');
-      });
-
       const successfulCases = [{
+        case: '(nominal case) Each answer strictly respect a corresponding solution',
         answer: '9lettres: courgette\n6lettres: tomate',
-        solution: '9lettres:\n- courgette\n6lettres:\n- tomate\n- etamot'
-      }, {
-        answer: '9lettres: courgette\n6lettres: etamot',
-        solution: '9lettres:\n- courgette\n6lettres:\n- tomate\n- etamot'
-      }, {
-        answer: 'a: "1"\nb: "2"',
-        solution: 'a:\n- 1\nb:\n- 2'
-      }, {
-        answer: `num1:\n- 4\nnum2:\n- 2\nnum3:\n- 1\nnum4:\n- 3`,
-        solution: `num1:\n- 4\nnum2:\n- 2\nnum3:\n- 1\nnum4:\n- 3`
-      }];
+        solution: '9lettres:\n- courgette\n6lettres:\n- tomate\n- chicon\n- legume'
+      },
+      {
+        case: 'solution contains numbers',
+        answer: 'num1: 888\nnum2: 64',
+        solution: 'num1:\n- 888\nnum2:\n- 64'
+      },
+      {
+        case: 'leading/trailing spaces in solution',
+        answer: '9lettres: c o u r g e t t e\n6lettres: t o m a t e',
+        solution: '9lettres:\n-  courgette   \n6lettres:\n-   tomate    \n-   chicon    \n- legume   '
+      },
+      {
+        case: 'uppercases and leading/trailing spaces in solution',
+        answer: '9lettres: c o u r g e t t e\n6lettres: t o m a t e',
+        solution: '9lettres:\n-  COUrgETTE   \n6lettres:\n-   TOmaTE    \n-   CHICON    \n- LEGUME   '
+      },
+      {
+        case: 'spaces in answer',
+        answer: '9lettres: c o u r g e t t e\n6lettres: t o m a t e',
+        solution: '9lettres:\n- courgette\n6lettres:\n- tomate\n- chicon\n- legume'
+      },
+      {
+        case: 'answer with levenshtein distance below 0.25',
+        answer: '9lettres: ourgette\n6lettres: tomae',
+        solution: '9lettres:\n- courgette\n6lettres:\n- tomate\n- chicon\n- legume'
+      },
+      {
+        case: 'answer with uppercases',
+        answer: '9lettres: COURGETTE\n6lettres: TOMATE',
+        solution: '9lettres:\n- courgette\n6lettres:\n- tomate\n- chicon\n- legume'
+      },
+      {
+        case: 'answer with uppercases and spaces',
+        answer: '9lettres: C O U R G E T T E\n6lettres: T O M A T E',
+        solution: '9lettres:\n- courgette\n6lettres:\n- tomate\n- chicon\n- legume'
+      },
+      {
+        case: 'answer with uppercases spaces, and levenshtein > 0 but <= 0.25',
+        answer: '9lettres: C O U G E T T E\n6lettres:  O M A T E',
+        solution: '9lettres:\n- courgette\n6lettres:\n- tomate\n- chicon\n- legume'
+      },
+      {
+        case: 'answer with uppercases spaces, and levenshtein > 0 but <= 0.25, and accents',
+        answer: '9lettres: ç O u -- ;" ;--- _ \' grè TTÊ\n6lettres:  O M A T E',
+        solution: '9lettres:\n- courgette\n6lettres:\n- tomate\n- chicon\n- legume'
+      },
+      {
+        case: 'unbreakable spaces in answer',
+        answer: '9lettres: c o u r g e t t e\n6lettres: t o m a t e',
+        solution: '9lettres:\n- courgette\n6lettres:\n- tomate\n- chicon\n- legume'
+      },
+      {
+        case: 'Solution has spaces in-between',
+        answer: '9lettres: abcdefg\n6lettres: ghjkl',
+        solution: '9lettres:\n- a b c d e f g\n6lettres:\n- ghjklm\n- ghjklp\n- ghjklz'
+      },
+      {
+        case: '(nominal case) Each answer strictly respect another corresponding solution',
+        answer: '9lettres: patate\n6lettres: legume',
+        solution: '9lettres:\n- courgette \n- patate\n6lettres:\n- tomate\n- chicon\n- legume'
+      },
+      {
+        case: 'Each answer correctly match its solution, with worst levenshtein distance below or equal to 0.25',
+        answer: '9lettres: abcd\n6lettres: ghjkl',
+        solution: '9lettres:\n- abcde\n6lettres:\n- ghjklm\n- ghjklp\n- ghjklz'
+      }
+      ];
 
       successfulCases.forEach(function (testCase) {
-        it('should return "ok" when answer is "' + testCase.answer + '" and solution is "' + escape(testCase.solution) + '"', function () {
+        it(testCase.case + ', should return "ok" when answer is "' + testCase.answer + '" and solution is "' + escape(testCase.solution) + '"', function () {
           const answer = buildAnswer(testCase.answer);
           const solution = buildSolution('QROCM-ind', testCase.solution);
           expect(service.match(answer, solution)).to.equal('ok');
         });
       });
 
-      const failedCases = [
+      const failingCases = [
+        {case:'solution do not exists', answer: 'any answer'},
+        {case:'solution is empty', answer: '', solution : ''},
+        {case:'answer is not a String', answer: new Date(), solution : ''},
+        {case:'solution is not a String', answer: 'a', solution : new Date()},
+        {case:'solution has no separator \\n', answer: 'blabla', solution : 'blabla'},
         {
-          answer: '9lettres: courgette\n6lettres: tomates', // notice "s" at the end of tomates
-          solution: '9lettres:\n- courgette\n6lettres:\n- tomate\n- etamot'
+          case: 'Each answer points to the solution of another question',
+          answer: '9lettres: tomate\n6lettres: courgette',
+          solution: '9lettres:\n- courgette\n6lettres:\n- tomate\n- chicon\n- legume'
         },
+        {
+          case: 'One of the levenshtein distance is above 0.25',
+          answer: '9lettres: abcde\n6lettres: ghjkl',
+          //abcdefg below creates a levenshtein distance above 0.25
+          solution: '9lettres:\n- abcdefg\n6lettres:\n- ghjklm\n- ghjklp\n- ghjklz'
+        },
+        {
+          case: 'All of the levenshtein distances are above 0.25',
+          answer: '9lettres: abcde\n6lettres: ghjklpE11!!',
+          solution: '9lettres:\n- abcdefg\n6lettres:\n- ghjklm\n- ghjklp\n- ghjklz'
+        }
       ];
 
-      failedCases.forEach(function (testCase) {
-        it('should return "ko" when answer is "' + testCase.answer + '" and solution is "' + escape(testCase.solution) + '"', function () {
+      failingCases.forEach(function (testCase) {
+        it(testCase.case + ', should return "ko" when answer is "' + testCase.answer + '" and solution is "' + escape(testCase.solution) + '"', function () {
           const answer = buildAnswer(testCase.answer);
           const solution = buildSolution('QROCM-ind', testCase.solution);
           expect(service.match(answer, solution)).to.equal('ko');
@@ -214,35 +307,90 @@ describe('Unit | Service | SolutionService', function () {
 
     });
 
+
     describe('if solution type is QROCM-dep', function () {
 
-      it('should return "ko" for badly formatted solution', function () {
-        const answer = buildAnswer('num1: Google\nnum2: Yahoo');
-        const solution = buildSolution('QROCM-dep', 'solution like a QCU');
-        expect(service.match(answer, solution)).to.equal('ko');
-      });
+      const failedCases = [
+        {
+          when: 'Badly formatted solution',
+          answer: 'num1: Google\nnum2: Yahoo',
+          solution: 'solution like a QCU',
+        },
+        {
+          when: 'Answer is empty and solution is also empty',
+          answer: '',
+          solution: '\n',
+        },
+        {
+          when: 'Answer is empty and solution is normal',
+          answer: '',
+          solution: twoPossibleSolutions,
+        },
+        {
+          when: 'Solution is not a String',
+          answer: 'num1: " google.fr"\nnum2: "Yahoo"',
+          solution: {a: new Date()},
+        },
+        {
+          when: 'Answer is incorrect',
+          answer: 'num1: Foo\nnum2: Bar',
+          solution: twoPossibleSolutions,
+        },
+        {
+          when: 'User duplicated a correct answer',
+          answer: 'num1: google.fr\nnum2: google.fr',
+          solution: twoPossibleSolutions,
+        }
+      ];
 
-      it('should return "ko" when answer is incorrect', function () {
-        const answer = buildAnswer('num1: Foo\nnum2: Bar');
-        const solution = buildSolution('QROCM-dep', twoPossibleSolutions);
-        expect(service.match(answer, solution)).to.equal('ko');
-      });
-
-      it('should return "ko" when user duplicated a correct answer', function () {
-        const answer = buildAnswer('num1: google.fr\nnum2: google.fr');
-        const solution = buildSolution('QROCM-dep', twoPossibleSolutions);
-        expect(service.match(answer, solution)).to.equal('ko');
+      failedCases.forEach(function (testCase) {
+        it('Should return "ko" when : ' + testCase.when + ' , answer is ' + testCase.answer + '", and solution is "' + escape(testCase.solution) + '"', function () {
+          const answer = buildAnswer(testCase.answer);
+          const solution = buildSolution('QROCM-dep', testCase.solution);
+          expect(service.match(answer, solution)).to.equal('ko');
+        });
       });
 
       const maximalScoreCases = [
         {
-          answer: 'num1: " google.fr"\nnum2: "Yahoo anSwer "',
+          when: 'Both answers are correct with 1 solution',
+          answer: 'num1: Google\nnum2: Yahoo',
+          solution: 'Google:\n- Google\nYahoo:\n- Yahoo'
+        },
+        {
+          when: 'Both answers are correct with 1 solution that contains only numbers',
+          answer: 'num1: 123\nnum2: 987',
+          solution: 'Google:\n- 987\nYahoo:\n- 123'
+        },
+        {
+          when: 'Both answers are correct with 2 solutions',
+          answer: 'num1: Google\nnum2: Yahoo',
           solution: twoPossibleSolutions
         },
+        {
+          when: 'Both answers are correct, and solutions contains spaces everywhere',
+          answer: 'num1: Google\nnum2: Yahoo',
+          solution: 'Google:\n-  G o o g le  \nYahoo:\n-   Y a h o    o   '
+        },
+        {
+          when: 'Both answers are correct with 2 solutions, 2nd version',
+          answer: 'num1: Google Search\nnum2: Yahoo Answer',
+          solution: twoPossibleSolutions
+        },
+        {
+          when: 'Both answers are correct, with levenshtein 0 < x =< 0.25, uppercase, space and punctuation errors',
+          answer: 'num1: GooGLe!!! earch  \nnum2:  Yahoo  n-?swer  ',
+          solution: twoPossibleSolutions
+        },
+        {
+          when: 'All answers are correct, with 3 solutions',
+          answer: 'num1: Google Search\nnum2: Yahoo Answer\nnum3: Bing',
+          solution: threePossibleSolutions
+        }
       ];
 
       maximalScoreCases.forEach(function (testCase) {
-        it('should return "ok" when answer is "' + testCase.answer + '" and solution is "' + escape(testCase.solution) + '"', function () {
+        it('Should return "ok" when : ' + testCase.when + ' , answer is ' + testCase.answer + '", and solution is "' + escape(testCase.solution) + '"', function () {
           const answer = buildAnswer(testCase.answer);
           const solution = buildSolution('QROCM-dep', testCase.solution);
           expect(service.match(answer, solution)).to.equal('ok');
@@ -268,7 +416,13 @@ describe('Unit | Service | SolutionService', function () {
       const maximalScoreCases = [
         {
           when: '3 correct answers are given, and scoring is 1-3',
-          answer: 'num1: " google.fr"\nnum2: "Yahoo anSwer "\nnum3: bing',
+          answer: 'num1: " google.fr"\nnum2: "yahoo answer "\nnum3: bing',
+          solution: threePossibleSolutions,
+          scoring: '1: @acquix\n2: @acquix\n3: @acquix'
+        },
+        {
+          when: '3 correct answers are given, (all 3 have punctation, accent and spaces errors), and scoring is 1-3',
+          answer: 'num1: " g Ooglé.FR!!--"\nnum2: "  Y?,,a h o o AnSwer "\nnum3: BìNg()()(',
           solution: threePossibleSolutions,
           scoring: '1: @acquix\n2: @acquix\n3: @acquix'
         },
@@ -296,6 +450,12 @@ describe('Unit | Service | SolutionService', function () {
           scoring: '1: @acquix\n2: @acquix\n3: @acquix'
         },
         {
+          when: '1 correct answers are given (despite accent, punctation and spacing errors) + 2 wrong, and scoring is 1-3',
+          answer: 'num1: " gooG lè!!.fr"\nnum2: "bad answer"\nnum3: "bad answer"',
+          solution: threePossibleSolutions,
+          scoring: '1: @acquix\n2: @acquix\n3: @acquix'
+        },
+        {
           when: '2 correct answers are given + 1 empty, and scoring is 1-3',
           answer: 'num1: " google.fr"\nnum2: "Yahoo anSwer "\nnum3: ""',
           solution: threePossibleSolutions,
@@ -319,17 +479,23 @@ describe('Unit | Service | SolutionService', function () {
           scoring: '3: @acquix'
         },
         {
-          when: 'no correct answer is given and scoring is 1-3',
+          when: 'No correct answer is given and scoring is 1-3',
           answer: 'num1: " tristesse"\nnum2: "bad answer"',
           solution: twoPossibleSolutions,
           scoring: '1: @acquix\n2: @acquix\n3: @acquix'
         },
         {
-          when: 'duplicate good answer is given and scoring is 2-3',
+          when: 'Similar good answer is given and scoring is 2-3',
           answer: 'num1: "google"\nnum2: "google.fr"',
           solution: twoPossibleSolutions,
           scoring: '2: @acquix\n3: @acquix'
         },
+        {
+          when: 'Duplicate good answer exactly, and scoring is 2-3',
+          answer: 'num1: "google"\nnum2: "google"',
+          solution: twoPossibleSolutions,
+          scoring: '2: @acquix\n3: @acquix'
+        }
       ];
 
       failedCases.forEach(function (testCase) {
