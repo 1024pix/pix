@@ -1,29 +1,61 @@
 import Ember from 'ember';
 import _ from 'pix-live/utils/lodash-custom';
 
-function fmtMSS(s) {
-  if (!_.isInteger(s))
+function _pluralize(word, count) {
+  if (!count) {
+    return '';
+  }
+  return (count > 1) ? `${count} ${word}s` : `${count} ${word}`;
+}
+
+function _getMinutes(time) {
+  return Math.floor(time / 60);
+}
+
+function _getSeconds(time) {
+  return time % 60;
+}
+
+function _formatTimeForText(time) {
+
+  if (_.isNotInteger(time)) {
+    return '';
+  }
+
+  const minutes = _getMinutes(time);
+  const seconds = _getSeconds(time);
+
+  const formattedMinutes = _pluralize('minute', minutes);
+  const formattedSeconds = _pluralize('seconde', seconds);
+  const joiningWord = (!minutes || !seconds) ? '' : ' et ';
+
+  return `${formattedMinutes}${joiningWord}${formattedSeconds}`;
+}
+
+function _formatTimeForButton(time) {
+
+  if (_.isNotInteger(time) || !time) {
     return 0;
-  return (s - (s %= 60)) / 60 + (9 < s ? ':' : ':0') + s;
+  }
+
+  const minutes = _getMinutes(time);
+  const seconds = _getSeconds(time);
+
+  const formattedMinutes = minutes;
+  const formattedSeconds = (seconds < 9) ? `0${seconds}` : `${seconds}`;
+
+  return `${formattedMinutes}:${formattedSeconds}`;
 }
 
 export default Ember.Component.extend({
 
-  _pluralize(mystring, count){
-    return (parseInt(count) > 1) ? mystring + 's' : mystring;
-  },
+  allocatedHumanTime: Ember.computed('time', function () {
+    return _formatTimeForText(this.get('time'));
+  }),
 
-  _formatTimeToHuman(allocatedTime){
-    if(typeof allocatedTime === undefined) return 0;
-    const timeArr = allocatedTime.toString().split(':');
-    const seconds = (parseInt(timeArr[1])<1)? '' : ' et ' + timeArr[1] + this._pluralize(' seconde', timeArr[1]);
-    return timeArr[0] + this._pluralize(' minute', timeArr[0]) + seconds;
-  },
-
-  didInsertElement(){
-    this.set('allocatedTime', fmtMSS(this.get('time')));
-    this.set('allocatedHumanTime', this._formatTimeToHuman(this.get('allocatedTime')));
-  },
+  allocatedTime: Ember.computed('time', function () {
+    return _formatTimeForButton(this.get('time'));
+  }),
 
   actions: {
     confirmWarning() {
