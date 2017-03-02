@@ -3,12 +3,12 @@
   overflow: visible;
 }
 
-.challenge-statement__instruction-section {
-  font-size: 14px;
+.challenge-statement__instruction strong {
+  font-weight: 900;
 }
 
-@media (min-width: 700px) {
-  .challenge-statement__instruction-section {
+.challenge-statement__instruction-section {
+  @media (min-width: 700px) {
     font-size: 20px;
   }
 }

@@ -12,6 +12,11 @@ module.exports = function (defaults) {
       includePolyfill: true
     },
 
+    autoprefixer: {
+      browsers: ['last 2 versions'],
+      cascade: false
+    },
+
     sassOptions: {}
 
   });
