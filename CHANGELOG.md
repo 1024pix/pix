@@ -1,5 +1,9 @@
 # Pix Changelog
 
+## 1.4.3 (02/03/2017)
+
+- [#323](https://github.com/sgmap/pix/pull/323) [INFRA] Mise à jour du script de déploiement et du CHANGELOG. 
+
 ## 1.4.2 (02/03/2017)
 
 - [#298](https://github.com/sgmap/pix/pull/298) [FEATURE] Prise en comtpe du degré de tolérance sur les QROC(m)(ind)(dep) (US-218).
