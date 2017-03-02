@@ -45,6 +45,9 @@ fi
 # Fetches all last changes
 git pull
 
+# Reinstall all dependencies
+npm run clean && npm run install:all
+
 # Remove local branch 'release' if exists, then create it
 RELEASE_BRANCH="release-$PACKAGE_VERSION"
 if git rev-parse --quiet --verify $RELEASE_BRANCH > /dev/null;
