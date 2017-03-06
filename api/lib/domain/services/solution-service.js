@@ -3,6 +3,8 @@ const Boom = require('boom');
 const _ = require('../../infrastructure/utils/lodash-utils');
 
 const solutionServiceQcm = require('./solution-service-qcm');
+const solutionServiceQcu = require('./solution-service-qcu');
+const solutionServiceQru = require('./solution-service-qru');
 const solutionServiceQroc = require('./solution-service-qroc');
 const solutionServiceQrocmInd = require('./solution-service-qrocm-ind');
 const solutionServiceQrocmDep = require('./solution-service-qrocm-dep');
@@ -47,17 +49,18 @@ module.exports = {
     const answerTimeout = answer.get('timeout');
     const solutionValue = solution.value;
     const solutionScoring = solution.scoring;
+    const deactivations = solution.deactivations;
 
     if ('#ABAND#' === answerValue) {
       return 'aband';
     }
 
     if (solution.type === 'QRU') {
-      result = 'unimplemented';
+      result = solutionServiceQru.match(answerValue, solutionValue);
     }
 
     if (solution.type === 'QCU') {
-      result = (answerValue === solutionValue) ? 'ok' : 'ko';
+      result = solutionServiceQcu.match(answerValue, solutionValue);
     }
 
     if (solution.type === 'QCM') {
@@ -65,18 +68,20 @@ module.exports = {
     }
 
     if (solution.type === 'QROC') {
-      result = solutionServiceQroc.match(answerValue, solutionValue);
+      result = solutionServiceQroc.match(answerValue, solutionValue, deactivations);
     }
 
     if (solution.type === 'QROCM-ind') {
-      result = solutionServiceQrocmInd.match(answerValue, solutionValue);
+      result = solutionServiceQrocmInd.match(answerValue, solutionValue, deactivations);
     }
 
     if (solution.type === 'QROCM-dep') {
-      result = solutionServiceQrocmDep.match(answerValue, solutionValue, solutionScoring);
+      result = solutionServiceQrocmDep.match(answerValue, solutionValue, solutionScoring, deactivations);
     }
 
-    result = this._timedOut(result, answerTimeout);
+    if (answerTimeout) {
+      result = this._timedOut(result, answerTimeout);
+    }
 
     return result;
   }

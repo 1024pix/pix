@@ -68,7 +68,7 @@ _.mixin({
   },
   isNotArrayOfString: function (x) {
     return !_.isArrayOfString(x);
-  },
+  }
 
 });
 
