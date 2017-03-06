@@ -1,5 +1,3 @@
-'use strict';
-
 const TABLE_NAME = 'answers';
 
 exports.up = (knex) => {
@@ -7,7 +5,7 @@ exports.up = (knex) => {
   function table(t) {
 
     t.increments().primary();
-    t.string('value').notNull();
+    t.text('value').notNull();
     t.string('result');
     t.integer('assessmentId').unsigned().references('assessments.id');
     t.string('challengeId').notNull();

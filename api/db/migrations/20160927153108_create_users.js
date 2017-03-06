@@ -1,5 +1,3 @@
-'use strict';
-
 const TABLE_NAME = 'users';
 
 exports.up = (knex) => {
