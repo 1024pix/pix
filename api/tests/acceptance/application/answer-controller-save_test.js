@@ -8,10 +8,10 @@ describe('Acceptance | Controller | answer-controller', function () {
     server.stop(done);
   });
 
-  describe('POST /api/answers (create)', function () {
+  describe('POST /api/answers', function () {
 
     beforeEach(function (done) {
-      knex('answers').delete().then(() => done() );
+      knex('answers').delete().then(() => done());
     });
 
     afterEach(function (done) {
@@ -39,30 +39,36 @@ describe('Acceptance | Controller | answer-controller', function () {
       done();
     });
 
-    const options = {
-      method: 'POST', url: '/api/answers', payload: {
-        data: {
-          type: 'answer',
-          attributes: {
-            value: '1'
-          },
-          relationships: {
-            assessment: {
-              data: {
-                type: 'assessment',
-                id: 'assessment_id'
-              }
+    let options;
+
+    beforeEach(function () {
+      options = {
+        method: 'POST',
+        url: '/api/answers',
+        payload: {
+          data: {
+            type: 'answer',
+            attributes: {
+              value: '1'
             },
-            challenge: {
-              data: {
-                type: 'challenge',
-                id: 'a_challenge_id'
+            relationships: {
+              assessment: {
+                data: {
+                  type: 'assessment',
+                  id: 'assessment_id'
+                }
+              },
+              challenge: {
+                data: {
+                  type: 'challenge',
+                  id: 'a_challenge_id'
+                }
               }
             }
           }
         }
-      }
-    };
+      };
+    });
 
     it('should return 201 HTTP status code', function (done) {
       server.inject(options, (response) => {
@@ -112,6 +118,21 @@ describe('Acceptance | Controller | answer-controller', function () {
 
             done();
           });
+      });
+    });
+
+    it('should persist long text for column "answers.value"', function (done) {
+      // given
+      options.payload.data.attributes.value = 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo. Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt. Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit, sed quia non numquam eius modi tempora incidunt ut labore et dolore magnam aliquam quaerat voluptatem. Ut enim ad minima veniam, quis nostrum exercitationem ullam corporis suscipit laboriosam, nisi ut aliquid ex ea commodi consequatur? Quis autem vel eum iure reprehenderit qui in ea voluptate velit esse quam nihil molestiae consequatur, vel illum qui dolorem eum fugiat quo voluptas nulla pariatur?';
+
+      // when
+      server.inject(options, () => {
+
+        // then
+        Answer.count().then(function (afterAnswersNumber) {
+          expect(afterAnswersNumber).to.equal(1);
+          done();
+        });
       });
     });
 
