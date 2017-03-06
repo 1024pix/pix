@@ -76,14 +76,14 @@
   border-radius: 5px;
 }
 
-.assessment-results-result-titre {
+.comparison-window__title {
   display: flex;
   flex-direction: row;
   align-items: center;
   margin-left: 15px;
 }
 
-.assessment-results-result-text {
+.comparison-window__title-text {
   display: flex;
   margin-left: 9px;
   max-width: 618.5px;
@@ -103,4 +103,22 @@
 
 .close-button-container {
   display: flex;
+}
+
+.comparison-window__result-item-index {
+  width: 11px;
+  height: 24px;
+  font-family: $font-open-sans;
+  font-size: 18px;
+  font-weight: bold;
+  text-align: center;
+  color: #3e4149;
+  margin-left: 22px;
+}
+
+.comparison-window__result-item-line {
+  width: 2px;
+  height: 61px;
+  border: solid 1.5px #d5d5d5;
+  margin-left: 22px;
 }

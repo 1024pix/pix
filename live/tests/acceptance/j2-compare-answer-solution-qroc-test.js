@@ -8,9 +8,9 @@ describe('Acceptance | j2 - Comparer réponses et solutions pour un QROC | ', fu
   const RESULT_URL = '/assessments/ref_assessment_id/results';
   const COMPARISON_MODAL_URL = '/assessments/ref_assessment_id/results/compare/ref_answer_qroc_id/4';
 
-  const TEXT_OF_RESULT_SELECTOR = '.comparison-window__header .assessment-results-result-titre .assessment-results-result-text';
-  const SVG_OF_RESULT_SELECTOR = '.comparison-window__header .assessment-results-result-titre svg';
-  const INDEX_OF_RESULT_SELECTOR = '.comparison-window__header .assessment-results-result-index';
+  const TEXT_OF_RESULT_SELECTOR = '.comparison-window__header .comparison-window__title .comparison-window__title-text';
+  const SVG_OF_RESULT_SELECTOR = '.comparison-window__header .comparison-window__title svg';
+  const INDEX_OF_RESULT_SELECTOR = '.comparison-window__header .comparison-window__result-item-index';
 
   const TEXT_OF_INSTRUCTION_SELECTOR = '.comparison-window--body .challenge-statement__instruction';
 
@@ -31,13 +31,13 @@ describe('Acceptance | j2 - Comparer réponses et solutions pour un QROC | ', fu
 
     it('affiche le lien REPONSE vers la modale depuis l\'ecran des resultats pour un QROC', async function () {
       await visit(RESULT_URL);
-      expect($('.assessment-results-list-item:eq(3) .js-correct-answer').text()).to.contain('RÉPONSE');
+      expect($('.result-list__item .js-correct-answer').text()).to.contain('RÉPONSE');
     });
 
     it('ouvre la modale si on clique sur REPONSE', async function () {
       await visit(RESULT_URL);
       expect($('.comparison-window')).to.have.lengthOf(0);
-      await click('.assessment-results-result-correction-button');
+      await click('.result-list__correction__button');
       expect($('.comparison-window')).to.have.lengthOf(1);
       await click('.close-button-container');
       expect($('.comparison-window')).to.have.lengthOf(0);

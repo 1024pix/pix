@@ -1,0 +1,40 @@
+/* Whole assessments container
+–––––––––––––––––––––––––––––––––––––––––––––––––– */
+.result-list__icon {
+
+/* Forces bootstrap's default by including bootstrap props into .assessment-results container */
+  .tooltip-inner {
+    padding-top: 13px;
+    width: auto;
+    padding-left: 16px;
+    padding-right: 16px;
+    height: 48px;
+    background-color: $tooltip-background-color;
+    color: $tooltip-color;
+    font-family: $font-lato;
+    font-size: 14px;
+    box-shadow: 2px 2px 2px 0 rgba(0, 0, 0, 0.2);
+    border: solid 1px #ffffff;
+  }
+
+ .tooltip.top .tooltip-arrow {
+    border-top-color: #e6e6e6;
+  }
+
+ .tooltip.in {
+    opacity: 1;
+    transition: opacity .75s ease;
+  }
+
+ .tooltip.top .tooltip-arrow {
+    bottom: -4px;
+    left: 50%;
+    margin-left: -13px;
+    border-width: 10px 13px 0;
+  }
+
+/* XXX : See https://github.com/sgmap/pix/issues/211 */
+ [data-lines="2"] + div .tooltip-inner {
+    padding-top: 3px;
+  }
+}

@@ -23,7 +23,7 @@ describe('Unit | Model | Answer', function () {
         const store = this.store();
         const answer = store.createRecord('answer', { 'result': 'ok' });
 
-        expect(answer.get('isResultOk')).to.equal(true);
+        expect(answer.get('result')).to.equal('ok');
       });
     });
   });

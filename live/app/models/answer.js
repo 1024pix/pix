@@ -1,10 +1,8 @@
-import Ember from 'ember';
 import DS from 'ember-data';
 import ValueAsArrayOfBoolean from './answer/value-as-array-of-boolean-mixin';
 import ValueAsArrayOfString from './answer/value-as-array-of-string-mixin';
 
 const { Model, attr, belongsTo } = DS;
-const { computed } = Ember;
 
 export default Model.extend(ValueAsArrayOfBoolean, ValueAsArrayOfString, {
 
@@ -12,22 +10,5 @@ export default Model.extend(ValueAsArrayOfBoolean, ValueAsArrayOfString, {
   result: attr('string'),
   timeout: attr('number'),
   assessment: belongsTo('assessment'),
-  challenge: belongsTo('challenge'),
-
-  isResultOk: computed('result', function () {
-    return this.get('result') === 'ok';
-  }),
-  isResultWithoutAnswer: computed('result', function () {
-    return this.get('result') === 'aband';
-  }),
-  isResultPartiallyOk: computed('result', function () {
-    return this.get('result') === 'partially';
-  }),
-  isResultNotOk: computed('result', function () {
-    return this.get('result') === 'ko';
-  }),
-  isResultTimedOut: computed('result', function () {
-    return this.get('result') === 'timedout';
-  })
-
+  challenge: belongsTo('challenge')
 });

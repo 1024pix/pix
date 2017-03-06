@@ -11,7 +11,6 @@ export default Ember.Route.extend(ModalRouteMixin, {
     const answerId = params.answer_id;
     const index = params.index;
 
-
     return store.findRecord('answer', answerId).then((answer) => {
       return store.findRecord('challenge', answer.get('challenge.id')).then((challenge) => {
         return store.queryRecord('solution', {assessmentId, answerId}).then(function(solution) {

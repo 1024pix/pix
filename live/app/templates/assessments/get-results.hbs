@@ -1,1 +1,26 @@
-{{get-result assessment=model}}
+<div class='assessment-results' id='assessment-results'>
+
+  <div class="assessment-results__course-banner">
+    {{course-banner course=model.course}}
+  </div>
+
+  <div class='container'>
+
+    <div class="assessment-results__title">
+      Vos résultats
+    </div>
+    <div class="assessment-results__list">
+      {{#each model.answers as |answer index|}}
+        {{result-item answer index openComparison="openComparison"}}
+      {{/each}}
+    </div>
+
+    <div class="assessment-results__index-link-container">
+      {{#link-to 'index' class='assessment-results__index-link__element' tagName='button'}}
+        <span class="assessment-results__link-back">Revenir à la liste des tests</span>
+      {{/link-to}}
+    </div>
+
+  </div>
+
+</div>

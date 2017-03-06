@@ -1,4 +1,4 @@
-#! /bin/bash
+#!/bin/bash
 
 [ -z $GITHUB_TOKEN ] && {
 	echo 'FATAL: $GITHUB_TOKEN is absent'
