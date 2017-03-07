@@ -57,11 +57,11 @@ describe('Acceptance | j1 - Comparer réponses et solutions pour un QCM |', func
   describe('j1.1 Affiche sur la ligne de l\'épreuve le mot REPONSE pour un QCM sur l\'écran des résultats', function () {
     it('j1.1.1 il l\'affiche pour un QCM mais pas pour les autres types d\'épreuves' , async function () {
       await visit(RESULT_URL);
-      expect($('.result-list__item:eq(0) .js-correct-answer').text()).to.contain('RÉPONSE'); //QCM
-      expect($('.result-list__item:eq(1) .js-correct-answer').text()).not.to.contain('RÉPONSE'); //QCU
-      expect($('.result-list__item:eq(2) .js-correct-answer').text()).not.to.contain('RÉPONSE'); //QRU
-      expect($('.result-list__item:eq(3) .js-correct-answer').text()).not.to.contain('RÉPONSE'); //QROC
-      expect($('.result-list__item:eq(4) .js-correct-answer').text()).not.to.contain('RÉPONSE'); //QROCM
+      expect($('.result-item:eq(0) .js-correct-answer').text()).to.contain('RÉPONSE'); //QCM
+      expect($('.result-item:eq(1) .js-correct-answer').text()).not.to.contain('RÉPONSE'); //QCU
+      expect($('.result-item:eq(2) .js-correct-answer').text()).not.to.contain('RÉPONSE'); //QRU
+      expect($('.result-item:eq(3) .js-correct-answer').text()).to.contain('RÉPONSE'); //QROC
+      expect($('.result-item:eq(4) .js-correct-answer').text()).not.to.contain('RÉPONSE'); //QROCM
     });
   });
 
@@ -76,7 +76,7 @@ describe('Acceptance | j1 - Comparer réponses et solutions pour un QCM |', func
     it('j1.2.1 Si on clique sur REPONSE la modale s\'ouvre' , async function () {
       await visit(RESULT_URL);
       expect($('.comparison-window')).to.have.lengthOf(0);
-      await click('.result-list__correction__button');
+      await click('.result-item__correction__button');
       expect($('.comparison-window')).to.have.lengthOf(1);
       // XXX test env needs the modal to be closed manually
       await click('.close-button-container');

@@ -1,22 +1,23 @@
-import {expect} from 'chai';
-import {describe, it} from 'mocha';
-import {setupTest} from 'ember-mocha';
+import Ember from 'ember';
+import { expect } from 'chai';
+import { describe, it } from 'mocha';
+import { setupTest } from 'ember-mocha';
 
 const undefinedAnswer = 'undefined';
 const answerWithEmptyResult = {
   value: '',
   result: '',
-  name : 'answerWithEmptyResult',
+  name: 'answerWithEmptyResult',
 };
 const answerWithUndefinedResult = {
   value: '',
   result: undefined,
-  name : 'answerWithUndefinedResult',
+  name: 'answerWithUndefinedResult',
 };
 const answerWithNullResult = {
   value: '',
   result: null,
-  name : 'answerWithNullResult',
+  name: 'answerWithNullResult',
 };
 const answerWithOkResult = {
   value: '',
@@ -28,11 +29,12 @@ const answerWithRandomResult = {
 };
 
 describe('Unit | Component | result-item-component', function () {
+
   setupTest('component:result-item', {});
 
   let component;
 
-  beforeEach(function(){
+  beforeEach(function () {
     component = this.subject();
   });
 
@@ -67,6 +69,31 @@ describe('Unit | Component | result-item-component', function () {
       // then
       expect(component.get('resultItemContent.title')).to.equal('Correction automatique en cours de développement ;)');
     });
+  });
+
+  describe('#validationImplementedForChallengeType', function () {
+
+    [
+      { challengeType: 'QCM', expected: true },
+      { challengeType: 'QROC', expected: true },
+      { challengeType: 'QROCm-ind', expected: false },
+      { challengeType: 'QROCm-dep', expected: false },
+      { challengeType: 'QCU', expected: false }
+    ].forEach(function (data) {
+
+      it(`should return ${data.expected} when challenge type is ${data.challengeType}`, function () {
+        // given
+        const challenge = Ember.Object.create({ type: data.challengeType });
+        const answer = Ember.Object.create({ challenge });
+
+        // when
+        component.set('answer', answer);
+
+        // then
+        expect(component.get('validationImplementedForChallengeType')).to.equal(data.expected);
+      });
+    });
+
   });
 
 });

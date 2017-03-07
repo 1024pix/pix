@@ -1,7 +1,7 @@
-import {expect} from 'chai';
+import { expect } from 'chai';
 import Ember from 'ember';
-import {describe, it} from 'mocha';
-import {setupComponentTest} from 'ember-mocha';
+import { describe, it, beforeEach } from 'mocha';
+import { setupComponentTest } from 'ember-mocha';
 import hbs from 'htmlbars-inline-precompile';
 
 const providedChallengeInstruction = 'Un QCM propose plusieurs choix, l\'utilisateur peut en choisir [plusieurs](http://link.plusieurs.url)';
@@ -30,88 +30,90 @@ const expectedPath = 'M12,2C17.53,2 22,6.47 22,12C22,17.53 17.53,22 12,22C6.47,2
 const expectedChallengeInstruction = 'Un QCM propose plusieurs choix, l\'utilisateur peut en choisir plusieur...';
 
 describe('Integration | Component | result item', function () {
+
   setupComponentTest('result-item', {
     integration: true
   });
 
-  function renderComponent() {
-    this.render(hbs`{{result-item answer index}}`);
-  }
-
-  function addPropertyToComponent(item, value) {
-    this.set(item, value);
-  }
-
   describe('Component rendering ', function () {
 
-    it('should exist', function () {
-      // When
-      addPropertyToComponent.call(this, 'answer', '');
-      addPropertyToComponent.call(this, 'index', 0);
+    beforeEach(function () {
+      this.set('index', 0);
+    });
 
-      renderComponent.call(this);
-      // Then
+    it('should exist', function () {
+      // given
+      this.set('answer', '');
+
+      // when
+      this.render(hbs`{{result-item answer index}}`);
+
+      // then
       expect(this.$()).to.have.length(1);
     });
 
     it('component render an index 1 when 0 provided', function () {
-      // When
-      addPropertyToComponent.call(this, 'answer', '');
-      addPropertyToComponent.call(this, 'index', 0);
+      // given
+      this.set('answer', '');
 
-      renderComponent.call(this);
-      // Then
-      const index = this.$('.result-list__index').text();
+      // when
+      this.render(hbs`{{result-item answer index}}`);
+
+      // then
+      const index = this.$('.result-item__index').text();
       expect(index.trim().replace('\n', '')).to.equal('1');
     });
 
     it('component render an instruction with no empty content', function () {
-      // When
-      addPropertyToComponent.call(this, 'answer', '');
-      addPropertyToComponent.call(this, 'index', 0);
+      // given
+      this.set('answer', '');
 
-      renderComponent.call(this);
-      // Then
-      expect(this.$('.result-list__instruction')).to.have.lengthOf(1);
-      expect(this.$('.result-list__instruction').text()).to.contain('\n');
+      // when
+      this.render(hbs`{{result-item answer index}}`);
+
+      // then
+      expect(this.$('.result-item__instruction')).to.have.lengthOf(1);
+      expect(this.$('.result-item__instruction').text()).to.contain('\n');
     });
 
     it(`component render an instruction which contain ${expectedChallengeInstruction}`, function () {
-      // When
-      addPropertyToComponent.call(this, 'answer', answer);
-      addPropertyToComponent.call(this, 'index', 0);
+      // given
+      this.set('answer', answer);
 
-      // Then
+      // when
       this.render(hbs`{{result-item answer index}}`);
-      expect(this.$('.result-list__instruction').text().trim()).to.equal(expectedChallengeInstruction);
+
+      // then
+      expect(this.$('.result-item__instruction').text().trim()).to.equal(expectedChallengeInstruction);
     });
 
     it('component render an button when QCM', function () {
-      // When
-      addPropertyToComponent.call(this, 'answer', answer);
-      addPropertyToComponent.call(this, 'index', 0);
+      // given
+      this.set('answer', answer);
 
       this.render(hbs`{{result-item answer index}}`);
       // Then
-      expect(this.$('.result-list__correction__button').text().trim()).to.deep.equal('RÉPONSE');
+      expect(this.$('.result-item__correction__button').text().trim()).to.deep.equal('RÉPONSE');
     });
 
     it('component render tooltip with title Réponse incorrecte', function () {
-      // When
-      addPropertyToComponent.call(this, 'answer', answer);
-      addPropertyToComponent.call(this, 'index', 0);
+      // given
+      this.set('answer', answer);
 
+      // when
       this.render(hbs`{{result-item answer index}}`);
-      // Then
+
+      // then
       expect(this.$('div[data-toggle="tooltip"]').attr('title').trim()).to.equal('Réponse incorrecte');
     });
 
     it('component render tooltip with svg', function () {
-      // When
-      addPropertyToComponent.call(this, 'answer', answer);
-      addPropertyToComponent.call(this, 'index', 0);
+      // given
+      this.set('answer', answer);
 
+      // when
       this.render(hbs`{{result-item answer index}}`);
+
       // Then
       expect(this.$('svg path').attr('d')).to.equal(expectedPath);
       expect(this.$('svg path').attr('fill')).to.equal('#ff4600');

@@ -1,4 +1,5 @@
 import Ember from 'ember';
+
 const contentReference = {
   ok: {
     title: 'Réponse correcte',
@@ -44,14 +45,20 @@ const timeOutAfterRender = 1000; //XXX: Wait after attribute rendering
 const resultItem = Ember.Component.extend({
   didRender() {
     this._super(...arguments);
-    Ember.run.debounce(this,function(){
+    Ember.run.debounce(this, function () {
       $('[data-toggle="tooltip"]').tooltip();
-    },timeOutAfterRender);
+    }, timeOutAfterRender);
   },
 
   resultItemContent: Ember.computed('answer.result', function () {
-    if(!this.get('answer.result')) return;
+    if (!this.get('answer.result')) return;
     return contentReference[this.get('answer.result')] || contentReference['default'];
+  }),
+
+  validationImplementedForChallengeType: Ember.computed('answer.challenge.type', function () {
+    const implementedTypes = ['QCM', 'QROC'];
+    const challengeType = this.get('answer.challenge.type');
+    return implementedTypes.includes(challengeType);
   }),
 
   actions: {

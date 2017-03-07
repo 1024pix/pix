@@ -23,9 +23,6 @@ describe('Acceptance | b2 - Afficher un QCM | ', function () {
     destroyApp(application);
   });
 
-  before(function () {
-  });
-
   it('b2.1 It should render challenge instruction', function () {
     const $challengeInstruction = $('.challenge-statement__instruction');
     const instructionText = 'Un QCM propose plusieurs choix, l\'utilisateur peut en choisir plusieurs';

@@ -54,29 +54,30 @@ const ComparisonWindow = Ember.Component.extend({
   index: null,
 
   isAssessmentChallengeTypeQroc: Ember.computed.equal('challenge.type', 'QROC'),
-  isAssessmentChallengeTypeQCM: Ember.computed.equal('challenge.type', 'QCM'),
+  isAssessmentChallengeTypeQcm: Ember.computed.equal('challenge.type', 'QCM'),
   isAssessmentChallengeTypeQrocm: Ember.computed.equal('challenge.type', 'QROCM'),
   isAssessmentChallengeTypeQrocmInd: Ember.computed.equal('challenge.type', 'QROCM-IND'),
   isAssessmentChallengeTypeQrocmDep: Ember.computed.equal('challenge.type', 'QROCM-DEP'),
 
 
-  solutionArray: Ember.computed('solution', function() {
+
+  solutionArray: Ember.computed('solution', function () {
     return this.get('solution').get('_valueAsArrayOfBoolean');
   }),
 
-  labeledCheckboxes: Ember.computed('answer', function() {
+  labeledCheckboxes: Ember.computed('answer', function () {
     return labeledCheckboxes(this.get('challenge').get('_proposalsAsArray'), this.get('answer').get('_valueAsArrayOfBoolean'));
   }),
 
   resultItemContent: Ember.computed('answer.result', function () {
-    if(!this.get('answer.result')) return ;
+    if (!this.get('answer.result')) return;
     return contentReference[this.get('answer.result')] || contentReference['default'];
   })
 
 });
 
 ComparisonWindow.reopenClass({
-  positionalParams: ['answer','challenge','solution','index']
+  positionalParams: ['answer', 'challenge', 'solution', 'index']
 });
 
 export default ComparisonWindow;

@@ -20,7 +20,9 @@ describe('Acceptance | a6 - souscrire en tant que follower', function(){
     await visit('/');
     await fillIn('.follower-email','florian@pix.fr');
     await click('.follower-form__button');
+
     // then
+    // FIXME WTF ???!!!
     //expect($('.follower-info-message.has-success')).to.be.exist;
     expect(true).to.be.true;
     done();

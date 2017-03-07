@@ -5,7 +5,6 @@ import destroyApp from '../helpers/destroy-app';
 import { resetTestingState, bodyOfLastPostRequest, urlOfLastPostRequest } from '../helpers/shared-state';
 import _ from 'pix-live/utils/lodash-custom';
 
-
 let application;
 
 describe('Acceptance | b1 - Afficher un QCU | ', function () {

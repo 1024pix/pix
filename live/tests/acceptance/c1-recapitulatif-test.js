@@ -25,13 +25,12 @@ describe('Acceptance | c1 - Consulter l\'écran de fin d\'un test ', function() 
   });
 
   it('c1.2 le tableau récapitulatif contient les instructions ', function () {
-    const $proposals = findWithAssert('.result-list__item');
+    const $proposals = findWithAssert('.result-item');
     expect($proposals.text()).to.contains('Un QCM propose plusieurs choix');
     expect($proposals.text()).to.contains('Un QCU propose plusieurs choix');
     expect($proposals.text()).to.contains('Un QROC est une question ouverte');
     expect($proposals.text()).to.contains('Un QROCM est une question ouverte');
   });
-
 
   it('c1.3 Pour une bonne réponse, le tableau récapitulatif donne une indication adéquate', function () {
     const $cell = findWithAssert('div[data-toggle="tooltip"]:eq(0)');
