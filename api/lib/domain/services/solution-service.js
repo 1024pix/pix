@@ -1,5 +1,4 @@
 const Answer = require('../../domain/models/data/answer');
-const Boom = require('boom');
 const _ = require('../../infrastructure/utils/lodash-utils');
 
 const solutionServiceQcm = require('./solution-service-qcm');
@@ -13,22 +12,16 @@ const solutionRepository = require('../../infrastructure/repositories/solution-r
 module.exports = {
 
   revalidate(existingAnswer) {
-    return new Promise((resolve, reject) => {
-      const currentResult = existingAnswer.get('result');
-      if (currentResult === 'timedout' || currentResult === 'aband') {
-        resolve(existingAnswer);
-      } else {
-        solutionRepository
-        .get(existingAnswer.get('challengeId'))
-        .then((solution) => {
-          const answerCorrectness = this.match(existingAnswer, solution);
-          new Answer({ id: existingAnswer.id, result: answerCorrectness })
-              .save()
-              .then((updatedAnswer) => resolve(updatedAnswer))
-              .catch((err) => reject(Boom.badImplementation(err)));
-        });
-      }
-    });
+    const currentResult = existingAnswer.get('result');
+    if (currentResult === 'timedout' || currentResult === 'aband') {
+      return Promise.resolve(existingAnswer);
+    }
+    return solutionRepository
+      .get(existingAnswer.get('challengeId'))
+      .then((solution) => {
+        const answerCorrectness = this.match(existingAnswer, solution);
+        return new Answer({ id: existingAnswer.id, result: answerCorrectness }).save();
+      });
   },
 
   _timedOut(result, answerTimeout) {

@@ -21,15 +21,15 @@ module.exports = {
   revalidateAnswers(request, reply) {
     const challengeId = request.params.id;
     return answerRepository
-            .findByChallenge(challengeId)
-            .then(oldAnswers => {
-              const revalidatedAnswers = oldAnswers.map(oldAnswer => solutionService.revalidate(oldAnswer));
-              Promise.all(revalidatedAnswers).then(newAnswers => {
-                const revalidationStatistics = challengeService.getRevalidationStatistics(oldAnswers, newAnswers);
-                return reply(revalidationStatistics);
-              });
-            })
-            .catch((err) => reply(Boom.badImplementation(err)));
+      .findByChallenge(challengeId)
+      .then(oldAnswers => {
+        const revalidatedAnswers = oldAnswers.map(oldAnswer => solutionService.revalidate(oldAnswer));
+        Promise.all(revalidatedAnswers).then(newAnswers => {
+          const revalidationStatistics = challengeService.getRevalidationStatistics(oldAnswers, newAnswers);
+          return reply(revalidationStatistics);
+        });
+      })
+      .catch((err) => reply(Boom.badImplementation(err)));
 
   },
 

@@ -1,7 +1,7 @@
 const { describe, it, after, before, beforeEach, afterEach, expect, knex, nock } = require('../../test-helper');
 const server = require('../../../server');
 
-describe('Acceptance | API | Solutions of Assessments', function () {
+describe('Acceptance | API | assessment-controller-get-solutions', function () {
 
   before(function (done) {
     knex.migrate.latest().then(() => {
@@ -11,64 +11,64 @@ describe('Acceptance | API | Solutions of Assessments', function () {
           .query(true)
           .times(4)
           .reply(200, {
-            'id': 'non_adaptive_course_id',
-            'fields': {
-              // a bunch of fields
-              'Adaptatif ?': false,
-              '\u00c9preuves': [
-                'second_challenge',
-                'first_challenge',
-              ],
-            },
-          }
+              'id': 'non_adaptive_course_id',
+              'fields': {
+                // a bunch of fields
+                'Adaptatif ?': false,
+                '\u00c9preuves': [
+                  'second_challenge',
+                  'first_challenge',
+                ],
+              },
+            }
           );
         nock('https://api.airtable.com')
           .get('/v0/test-base/Tests/adaptive_course_id')
           .query(true)
           .times(4)
           .reply(200, {
-            'id': 'adaptive_course_id',
-            'fields': {
-              // a bunch of fields
-              'Adaptatif ?': true,
-              '\u00c9preuves': [
-                'third_challenge',
-                'second_challenge',
-                'first_challenge',
-              ],
-            },
-          }
+              'id': 'adaptive_course_id',
+              'fields': {
+                // a bunch of fields
+                'Adaptatif ?': true,
+                '\u00c9preuves': [
+                  'third_challenge',
+                  'second_challenge',
+                  'first_challenge',
+                ],
+              },
+            }
           );
         nock('https://api.airtable.com')
           .get('/v0/test-base/Epreuves/first_challenge')
           .query(true)
           .times(3)
           .reply(200, {
-            'id': 'first_challenge',
-            'fields': {
-              'Bonnes réponses': 'fromage'
-            },
-          }
+              'id': 'first_challenge',
+              'fields': {
+                'Bonnes réponses': 'fromage'
+              },
+            }
           );
         nock('https://api.airtable.com')
           .get('/v0/test-base/Epreuves/second_challenge')
           .query(true)
           .reply(200, {
-            'id': 'second_challenge',
-            'fields': {
-              'Bonnes réponses': 'truite'
-            },
-          }
+              'id': 'second_challenge',
+              'fields': {
+                'Bonnes réponses': 'truite'
+              },
+            }
           );
         nock('https://api.airtable.com')
           .get('/v0/test-base/Epreuves/third_challenge')
           .query(true)
           .reply(200, {
-            'id': 'third_challenge',
-            'fields': {
-              'Bonnes réponses': 'dromadaire'
-            },
-          }
+              'id': 'third_challenge',
+              'fields': {
+                'Bonnes réponses': 'dromadaire'
+              },
+            }
           );
         done();
       });
