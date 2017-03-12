@@ -1,8 +1,17 @@
-import json, sqlite3
+import json, sqlite3, csv, sys
 connection = sqlite3.connect('../api/db/dev.sqlite3')
 
-with open('records.json') as f:
-    scenarios = json.load(f)['scenarios']
+filename = sys.argv[1]
+
+if filename.endswith('json'):
+    with open(filename) as f:
+        scenarios = json.load(f)['scenarios']
+else:
+    with open(filename) as csvfile:
+        reader = csv.reader(csvfile)
+        scenarios = []
+        for line in reader:
+            scenarios.append(line)
 
 c = connection.cursor()
 c.executemany('INSERT INTO scenarios VALUES (NULL, ?, ?, ?, datetime("now"), datetime("now"))', scenarios)

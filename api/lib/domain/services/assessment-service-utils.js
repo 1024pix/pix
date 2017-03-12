@@ -4,8 +4,8 @@ function getResponsePattern(answers) {
   return answers.map(answer => (answer.attributes.result === 'ok') ? 'ok' : 'ko').join('-');
 }
 
-function getNextChallengeFromScenarios(responsePattern) {
-  return Scenario.where('path', responsePattern).orderBy('updatedAt', 'DESC').fetch()
+function getNextChallengeFromScenarios(courseId, responsePattern) {
+  return Scenario.where({courseId: courseId, path: responsePattern}).orderBy('updatedAt', 'DESC').fetch()
     .then(scenario => {
       if (scenario && scenario.attributes.nextChallengeId !== 'null') {
         return scenario.attributes.nextChallengeId;

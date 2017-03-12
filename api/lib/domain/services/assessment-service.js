@@ -9,7 +9,7 @@ function _selectNextInAdaptiveMode(assessment) {
     answerRepository.findByAssessment(assessment.get('id'))
       .then((answers) => {
         const responsePattern = assessmentUtils.getResponsePattern(answers);
-        return assessmentUtils.getNextChallengeFromScenarios(responsePattern);
+        return assessmentUtils.getNextChallengeFromScenarios(assessment.get('courseId'), responsePattern);
       })
       .then(resolve)
       .catch(reject);

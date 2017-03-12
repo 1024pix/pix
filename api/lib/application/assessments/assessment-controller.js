@@ -61,6 +61,7 @@ module.exports = {
         return answerRepository.findByAssessment(assessment.get('id'))
           .then((answers) => {
             const answersLength = _.get(answers, 'length', 0);
+            const courseId = assessment.get('courseId');
 
             courseRepository
               .get(assessment.get('courseId'))
@@ -72,7 +73,7 @@ module.exports = {
                   return challengesLength > 0 && _.isEqual(answersLength, challengesLength);
                 } else {
                   const responsePattern = assessmentUtils.getResponsePattern(answers);
-                  return assessmentUtils.getNextChallengeFromScenarios(responsePattern)
+                  return assessmentUtils.getNextChallengeFromScenarios(courseId, responsePattern)
                     .then(nextChallengeId => nextChallengeId === null);
                 }
               })
