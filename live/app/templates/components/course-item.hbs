@@ -1,19 +1,14 @@
-<div class="course-item rounded-panel" data-id="{{course.id}}">
+<img class="course-item__picture" src="{{imageUrl}}" alt="">
 
-  <img class="course-item__picture" src="{{imageUrl}}" alt="Illustration du test">
-
-  <div class="course-item__content">
-    <h4 class="course-item__name">{{course.name}}</h4>
-    <div class="course-item__description">{{course.description}}</div>
-  </div>
-
+<div class="course-item__content">
+  <h3 class="course-item__name">{{course.name}}</h3>
+  <div class="course-item__description">{{course.description}}</div>
   <div class="course-item__challenges-number">{{course.challenges.length}} épreuves</div>
 
-  <div class="course-item__actions">
-    {{!-- iPhone needs style="cursor: pointer;" to trigger the event !! --}}
-    {{!-- https://github.com/emberjs/ember.js/issues/605#issuecomment-57037709 --}}
-    <button {{action "startCourse" course}} class="course-item__action course-item__action--start button" style="cursor: pointer;">
-      Démarrer le test
-    </button>
-  </div>
+  {{!-- iPhone needs style="cursor: pointer;" to trigger the event !! --}}
+  {{!-- https://github.com/emberjs/ember.js/issues/605#issuecomment-57037709 --}}
+  <a class="course-item__begin-button" {{action "startCourse" course}} style="cursor: pointer;" title='Commencer le test "{{course.name}}"'>
+    Commencer
+  </a>
+
 </div>

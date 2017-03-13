@@ -22,6 +22,7 @@ const CourseList = Ember.Component.extend({
 
   courses: null,
   selectedCourse: null,
+  classNames: ['course-list'],
 
   didInsertElement () {
     const that = this;

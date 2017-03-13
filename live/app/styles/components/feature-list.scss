@@ -1,8 +1,8 @@
-.course-list {
+.feature-list {
   width: 100%;
 }
 
-.course-list__ul {
+.feature-list__ul {
   list-style-type: none;
   padding: 0;
   margin: 0;
@@ -14,6 +14,10 @@
   }
 }
 
-.course-list__li {
-  margin: 10px;
+.feature-list__li {
+  margin-bottom: 20px;
+
+  @media (min-width: 992px) {
+    margin: 0 20px;
+  }
 }

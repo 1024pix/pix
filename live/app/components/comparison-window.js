@@ -1,5 +1,6 @@
 import Ember from 'ember';
 import labeledCheckboxes from 'pix-live/utils/labeled-checkboxes';
+
 const contentReference = {
   ok: {
     title: 'Vous avez la bonne réponse !',

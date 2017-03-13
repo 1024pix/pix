@@ -1,6 +1,7 @@
 import Ember from 'ember';
 
 const AppMenu = Ember.Component.extend({
+
   defaultItems : [
     {
       title: 'Le projet',
@@ -10,8 +11,7 @@ const AppMenu = Ember.Component.extend({
 
   menuData: Ember.computed('items.[]', function(){
     return (typeof this.get('items') != 'undefined')? this.get('items') : this.get('defaultItems');
-  }),
-
+  })
 
 });
 

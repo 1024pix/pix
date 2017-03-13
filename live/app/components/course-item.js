@@ -4,6 +4,9 @@ const CourseItem = Ember.Component.extend({
 
   course: null,
 
+  tagName: 'article',
+  classNames: ['course-item', 'rounded-panel'],
+
   imageUrl: Ember.computed('course', function () {
     const imageUrl = this.get('course.imageUrl');
     return imageUrl ? imageUrl : '/assets/images/course-default-image.png';

@@ -1,221 +1,196 @@
-/* Table of contents
-––––––––––––––––––––––––––––––––––––––––––––––––––
-- Hero
-- Challenges
-- Email
-- Features
-- Footer
-*/
+/* Palette
+–––––––––––––––––––––––––––––––––––––––––––––––––– */
 
-$index-page-hero-height: 580px;
+$challenges-background-color: #fafafa;
+$challenges-title-color: #3d68ff;
+
+
+/* Sections:
+
+ - General
+ - Hero
+ - Challenges
+ - Community
+ - Features
+ - Partners
+–––––––––––––––––––––––––––––––––––––––––––––––––– */
+
+.index-page__background {
+  position: absolute;
+  background: url("/images/index-hero-bg.jpg");
+  background-size: cover;
+  height: 700px;
+  width: 100%;
+  z-index: -1;
+}
+
+.index-page__section {
+  padding: 80px 20px;
+
+  @media (min-width: 992px) {
+    padding: 80px 0;
+  }
+}
 
 /* Hero
 –––––––––––––––––––––––––––––––––––––––––––––––––– */
+.index-page__section--hero {
+  padding-top: 0;
+}
+
 .index-page-hero {
-  background-image: url("/images/stock-photo2.jpg");
-  background-size: cover;
-  height: $index-page-hero-height;
+  background-image: linear-gradient(to bottom, rgba(0,0,0,0.50) 5%,rgba(30,30,30,0.25) 100%);
+  height: 700px;
   width: 100%;
 }
 
-.index-page-hero__box {
-  height: 100%;
-  display: flex;
+.index-page-hero__content {
+  margin: 0 auto;
+  max-width: 1200px;
 }
 
-.index-page-hero__box-item {
-  margin-top: auto;
-  margin-bottom: auto;
+.index-page-hero__title {
+  margin-top: 160px;
+  line-height: 1.2;
+  font-family: $font-raleway;
+  font-weight: 700;
+  color: $white;
+  text-align: center;
 
   @media (min-width: 992px) {
-    margin-top: auto;
-    margin-bottom: 5%;
-    margin-left: 160px;
+    font-size: 50px;
+    margin-top: 250px;
   }
 }
 
-.index-page-hero__main-value-prop {
-  font-size: 40px;
-  font-weight: 900;
-  line-height: 1;
-  color: #ffffff;
-  margin-left: 15px;
-  margin-right: 15px;
-  margin-bottom: 15px;
-  max-width: 845px;
+.index-page-hero__description {
+  font-family: $font-raleway;
+  color: $white;
+  text-align: center;
+  font-size: 22px;
+  font-weight: 300;
+  padding-top : 20px;
+  line-height : 1.2;
 
   @media (min-width: 992px) {
-    font-size: 65px;
-    font-weight: 900;
-    color: #ffffff;
-    margin-bottom: 24px;
-    width: 830px;
+    padding: 0 200px;
   }
 }
 
-.index-page-hero__sub-value-prop {
-  font-size: 20px;
-  font-weight: bold;
-  color: #ffffff;
-  margin-left: 15px;
-  margin-right: 15px;
-  max-width: 567px;
-
-  @media (min-width: 992px) {
-    font-size: 26px;
-    font-weight: bold;
-    color: #ffffff;
-  }
-}
 
 /* Challenges
 –––––––––––––––––––––––––––––––––––––––––––––––––– */
+
+.index-page__section--challenges {
+  padding-bottom: 75px; // take into account course-item margin-bottom (5px)
+}
+
+
 .index-page-challenges {
-  background-color: $light-grey1;
-}
-
-/* XXX : issue raised, impossible to put a margin-top to title (single direction margin declaration) */
-.index-page-challenges__empty {
-  margin-bottom: 56px;
-}
-
-.index-page-challenges__title {
-  font-size: 36px;
-  line-height: 0.8;
-  text-align: center;
-  color: #3d68ff;
-  margin-bottom: 52px;
-  margin-right: 15px;
-  margin-left: 15px;
-}
-
-/* Email
-–––––––––––––––––––––––––––––––––––––––––––––––––– */
-.index-page-email {
-  height: 260px;
-  background-color: $pix-blue;
+  background-color: $challenges-background-color;
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
-
-  @media (min-width: 992px) {
-    height: 350px;
-  }
 }
 
-.index-page-email__title {
+.index-page-challenges__title {
+  max-width: 600px;
+  font-size: 32px;
+  font-family: $font-raleway;
+  font-weight: 800;
+  color: $challenges-title-color;
+  margin: 0 auto;
+  text-transform: uppercase;
+  text-align: center;
+  line-height: 1.2;
+}
+
+.index-page-challenges__list {
+  padding-top: 20px;
+  max-width: 1200px;
+}
+
+/* Community
+–––––––––––––––––––––––––––––––––––––––––––––––––– */
+
+.index-page-community {
+  height: 500px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  color: $white;
+  background: url("/images/index-community-bg.png");
+  background-size: cover;
+}
+
+.index-page-community__title {
   font-size: 24px;
-  margin-bottom: 24px;
+  font-family: $font-raleway;
   font-weight: bold;
   text-align: center;
   color: white;
   text-transform: uppercase;
+  margin: 0;
 
   @media (min-width: 992px) {
     font-size: 36px;
-    margin-left: 0;
-    margin-right: 0;
+    font-weight: 800;
+    margin-top: 70px;
   }
 }
 
-.index-page-email__details {
-  font-family: $font-lato;
-  font-weight: normal;
-  font-style: normal;
-  font-stretch: normal;
+.index-page-community__description {
+  margin-top: 10px;
+  margin-bottom: 0;
+  font-family: $font-raleway;
+  font-size: 28px;
+  max-width: 600px;
   text-align: center;
-  color: #ffffff;
-  margin: 0 auto 36px;
+  font-weight: 300;
+}
 
-  @media (min-width: 992px) {
-    font-size: 32px;
-    max-width: 872.8px;
-    height: 78px;
-  }
+.index-page-community__form {
+  margin-top: 70px;
 }
 
 /* Features
 –––––––––––––––––––––––––––––––––––––––––––––––––– */
+
 .index-page-features {
+  background-color: $white;
   display: flex;
   flex-direction: column;
-  justify-content: center;
   align-items: center;
-  background-color: white;
-  padding-top: 50px;
-
-  @media (min-width: 992px) {
-    padding-top: 75px;
-    flex-direction: row;
-  }
 }
 
-.index-page-feature {
-  height: 260px;
-  width: 200px;
-
-  @media (min-width: 992px) {
-    height: 294px;
-    margin-left: 35px;
-  }
-}
-
-.index-page-feature:first-child {
-
-  @media (min-width: 992px) {
-    margin-left: 0;
-  }
-}
-
-.index-page-feature__icon-container {
-  display: flex;
-  justify-content: center;
-  height: 107px;
-}
-
-.index-page-feature__title {
-  font-size: 16px;
-  font-weight: bold;
-  line-height: 1.4;
-  text-align: center;
-  margin-top: 20px;
-  color: #3e4149;
-
-  @media (min-width: 992px) {
-    margin-left: 0;
-  }
-}
-
-.index-page-feature__text {
-  font-size: 15px;
-  margin-top: 12px;
-  color: #3e4149;
-  text-align: center;
-}
-
-.index-page-about {
-  padding-bottom: 80px;
-  display: flex;
-  justify-content: center;
-  background: #ffffff;
-}
-
-.index-page-about a {
-  display: block;
-  width: 201px;
-  height: 36px;
-  line-height: 36px;
-  border-radius: 3px;
-  border: none;
+.index-page-features__project-button {
+  margin-top: 40px;
+  border-radius: 20px;
   background-color: $marigold;
-  font-size: 14px;
-  font-weight: bold;
-  font-style: normal;
-  font-stretch: normal;
-  text-align: center;
+  text-transform: uppercase;
   color: $charcoal-grey;
+  font-size: 12px;
+  text-align: center;
+  letter-spacing: 1px;
+  font-weight: 600;
   font-family: $font-lato;
-  text-decoration: none;
-  cursor: pointer;
+  padding: 10px 30px;
+
+  &:hover,
+  &:focus,
+  &:active {
+    text-decoration: none;
+    color: $charcoal-grey;
+  }
+
+  @media (min-width: 992px) {
+    font-size: 13px;
+  }
+}
+
+/* Partners
+–––––––––––––––––––––––––––––––––––––––––––––––––– */
+
+.index-page-partners {
+  background: #fafafa;
 }

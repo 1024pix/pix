@@ -1,0 +1,27 @@
+.feature-item {
+  padding: 0;
+  width: 220px;
+  font-family: $font-lato;
+}
+
+.feature-item__icon-container {
+  display: flex;
+  justify-content: center;
+  height: 107px;
+}
+
+.feature-item__title {
+  font-size: 16px;
+  font-weight: 600;
+  line-height: 1.38;
+  text-align: center;
+  margin-top: 20px;
+  color: $charcoal-grey;
+}
+
+.feature-item__description {
+  font-size: 15px;
+  margin-top: 12px;
+  color: $charcoal-grey;
+  text-align: center;
+}

@@ -1,8 +1,10 @@
 .app-footer {
+  padding: 20px;
   display: flex;
   align-items: center;
   flex-direction: column;
   justify-content: space-around;
+  background-color: $light-grey1;
 
   @media (min-width: 992px) {
     flex-direction: row;
@@ -12,35 +14,39 @@
   }
 }
 
-.app-footer__pix-logo {
-  order: 0;
-  margin-top: 20px;
+.app-footer__section {
   margin-bottom: 20px;
 
   @media (min-width: 992px) {
-    order: 0;
+    margin-bottom: 0;
+  }
+}
+
+.app-footer__section--pix-logo {
+  order: 0;
+  width: 260px;
+  text-align: center;
+
+  @media (min-width: 992px) {
     margin: 0;
   }
 }
 
-.app-footer__pix-logo-img {
-  height: 80px;
-}
-
-.app-footer__item-contact {
+.app-footer__section--contact {
   order: 1;
-  margin-bottom: 30px;
+
   @media (min-width: 992px) {
-    order: 1;
     margin: 0;
   }
 }
 
-.app-footer__item-marianne {
+.app-footer__section--marianne-logo {
   order: 2;
-  margin-bottom: 30px;
+  margin-bottom: 0;
+  width: 260px;
+  text-align: center;
+
   @media (min-width: 992px) {
-    order: 2;
     margin: 0;
   }
 }

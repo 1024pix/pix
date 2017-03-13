@@ -1,12 +1,10 @@
-<div class="course-list container">
-  <ul class="course-list__ul row">
-    {{#each courses as |course|}}
-      <li class="course-list__li col-md-3 animated fadeIn">
-        {{course-item course=course startCourse='startCourse'}}
-      </li>
-    {{/each}}
-  </ul>
-</div>
+<ul class="course-list__ul">
+  {{#each courses as |course|}}
+    <li class="course-list__li animated fadeIn">
+      {{course-item course=course startCourse='startCourse'}}
+    </li>
+  {{/each}}
+</ul>
 
 {{modal-mobile}}
 

@@ -1,45 +1,71 @@
 .course-item {
   padding: 0;
+  width: 280px;
+  margin: 0; // FIXME: rounded-panel should not have margin
 }
 
 .course-item__picture {
   width: 100%;
-  height: 170px;
+  height: 160px;
   text-align: center;
   margin: 0 auto;
   display: block;
 }
 
 .course-item__content {
-  padding: 15px;
-  height: 115px;
-  overflow: hidden;
+  padding: 10px;
   text-align: center;
 }
 
 .course-item__name {
-  color: #446eff;
+  font-family: $font-raleway;
+  font-size: 22px;
+  font-weight: 600;
+  line-height: 1.09;
+  text-align: center;
+  color: $charcoal-grey;
+  margin-top: 15px;
+  height: 48px;
+  padding: 0 26px;
+}
+
+.course-item__description {
+  margin-top: 10px;
+  font-family: $font-lato;
+  font-size: 15px;
+  line-height: 1.2;
+  color: $slate-grey;
+  height: 56px;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .course-item__challenges-number {
   text-align: center;
-  padding: 15px 15px 5px;
+  margin-top: 20px;
+  text-transform: uppercase;
+  font-size: 12px;
+  color: $charcoal-grey;
+  font-family: $font-lato;
 }
 
-.course-item__actions {
+.course-item__begin-button {
+  margin-top: 10px;
+  text-transform: uppercase;
+  color: $blue;
+  font-weight: 600;
+  font-family: $font-lato;
+  font-size: 14px;
+  letter-spacing: 0.5px;
   text-align: center;
-  padding: 15px 15px 30px;
-}
+  width: 160px;
+  padding: 12px;
+  display: inline-block;
 
-.course-item__action--start {
-  background-color: #446eff;
-  border-color: #446eff;
-  border-bottom: 1px solid #2861CF;
-  text-transform: none;
-}
-
-.course-item__action--start:hover {
-  background-color: #FDBD2C;
-  border-color: #FDBD2C;
-  border-bottom: 1px solid #CF9C24;
+  &:hover,
+  &:focus,
+  &:active {
+    text-decoration: none;
+    color: $blue;
+  }
 }

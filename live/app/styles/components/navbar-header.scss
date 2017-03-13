@@ -1,0 +1,106 @@
+.navbar-header {
+  background-color: transparent;
+  padding: 20px 0;
+  float: none;
+  color: $white;
+}
+
+.navbar-header--white {
+  background-color: white;
+  color: $slate-grey;
+}
+
+.navbar-header__container {
+  margin: 0 auto;
+  max-width: 1200px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  @media (min-width: 992px) {
+    justify-content: space-between;
+    flex-direction: row;
+  }
+
+}
+
+/* Logo
+–––––––––––––––––––––––––––––––––––––––––––––––––– */
+
+.navbar-header-logo {
+  display: inline-block;
+  position: relative;
+  width: 106px;
+  height: 80px;
+}
+
+.navbar-header-logo__link {
+  display: inline-block;
+
+  &:hover,
+  &:active,
+  &:focus {
+    text-decoration: none;
+  }
+}
+
+.navbar-header-logo__image {
+  width: 106px;
+}
+
+.navbar-header-logo__beta {
+  color: $marigold;
+  font-family: $font-lato;
+  font-size: 12px;
+  letter-spacing: 10px;
+  font-weight: 900;
+  position: absolute;
+  text-transform: uppercase;
+  text-align: center;
+  width: 100%;
+  bottom: 0;
+  height: 15px;
+}
+
+/* Links
+–––––––––––––––––––––––––––––––––––––––––––––––––– */
+
+.navbar-header-links {
+  display: none;
+
+  @media (min-width: 992px) {
+    display: block;
+    padding: 20px 0;
+  }
+}
+
+.navbar-header-links__list {
+  padding: 0;
+  margin: 0;
+  list-style-type: none;
+  display: flex;
+}
+
+.navbar-header-links__item {
+  margin-left: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 40px;
+}
+
+.navbar-header-links__link {
+  text-transform: uppercase;
+  font-size: 13px;
+  font-family: $font-lato;
+  width: 100%;
+  color: inherit;
+
+  &:hover,
+  &:focus,
+  &:active {
+    color: $marigold;
+    text-decoration: none;
+  }
+}
+
