@@ -65,6 +65,9 @@ _.mixin({
   isNonEmptyString: function (x) {
     return _.isString(x) && !_.isEmpty(x);
   },
+  isNonEmptyArray: function (x) {
+    return _.isArray(x) && !_.isEmpty(x);
+  },
   hasSomeTruthyProps: function (x) {
     if (!_.isObject(x)) return false;
     if (_.isEmpty(x)) return false;
@@ -84,6 +87,7 @@ _.mixin({
       return v.toString(16);
     });
   }
+
 }, {chain: false});
 
 export default _;

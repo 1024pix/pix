@@ -1,0 +1,23 @@
+<div class="qcm-panel__proposals rounded-panel">
+  <div class="rounded-panel__row qcm-panel__proposal-list">
+    {{#each labeledCheckboxes as |labeledCheckbox index|}}
+      <p class="qcm-panel__proposal-item">
+        {{!-- checkbox --}}
+        <input class="qcm-panel__proposal-checkbox"
+               type="checkbox" disabled="disabled"
+               name="{{inc index}}" checked={{labeledCheckbox.[1]}}/>
+        <label class="qcm-panel__proposal-label qcm-proposal-label">
+          {{!-- text of proposal  --}}
+          <span class="qcm-proposal-label__oracle"
+                data-goodness="{{if (get solutionArray (concat index)) 'good' 'bad'}}" data-checked={{if labeledCheckbox.[1] 'yes' 'no'}}>
+                  {{labeledCheckbox.[0]}}
+          </span>
+          {{!-- SVG to represent on / off state --}}
+          <svg class="checkbox-disabled-on qcm-proposal-label__checkbox-picture" width="18px" height="18px" viewBox="0 0 18 18" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><g id="Styles" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd"><g id="Icons" transform="translate(-293.000000, -89.000000)" fill="#7D808B"><g id="icontest--checkbox-disabled" transform="translate(292.000000, 88.000000)"><path d="M8,15 L3,10 L4.41,8.58 L8,12.17 L15.59,4.58 L17,6 L8,15 Z M17,1 L3,1 C1.89,1 1,1.89 1,3 L1,17 C1,18.1045695 1.8954305,19 3,19 L17,19 C18.1045695,19 19,18.1045695 19,17 L19,3 C19,1.89 18.1,1 17,1 Z" id="Shape"></path></g></g></g></svg>
+          <svg class="checkbox-disabled-off qcm-proposal-label__checkbox-picture" width="18px" height="18px" viewBox="0 0 18 18" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><g id="Styles" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd"><g id="Icons" transform="translate(-213.000000, -89.000000)" fill="#7D808B"><g id="icontest--checkbox-off" transform="translate(212.000000, 88.000000)"><path d="M17,1 L3,1 C1.89,1 1,1.89 1,3 L1,17 C1,18.1045695 1.8954305,19 3,19 L17,19 C18.1045695,19 19,18.1045695 19,17 L19,3 C19,1.89 18.1,1 17,1 L17,1 Z M17,3 L17,17 L3,17 L3,3 L17,3 Z" id="Shape"></path></g></g></g></svg>
+        </label>
+
+      </p>
+    {{/each}}
+  </div>
+</div>

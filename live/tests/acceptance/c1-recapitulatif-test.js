@@ -1,9 +1,9 @@
-import { describe, it, beforeEach, afterEach } from 'mocha';
-import { expect } from 'chai';
+import {describe, it, beforeEach, afterEach} from 'mocha';
+import {expect} from 'chai';
 import startApp from '../helpers/start-app';
 import destroyApp from '../helpers/destroy-app';
 
-describe('Acceptance | c1 - Consulter l\'écran de fin d\'un test ', function() {
+describe('Acceptance | c1 - Consulter l\'écran de fin d\'un test ', function () {
 
   let application;
 
@@ -37,36 +37,34 @@ describe('Acceptance | c1 - Consulter l\'écran de fin d\'un test ', function() 
     expect($cell.attr('data-original-title')).to.equal('Réponse incorrecte');
   });
 
-  it.skip('c1.4 Pour une mauvaise réponse, le tableau récapitulatif donne une indication adéquate', function () {
+  it('c1.4 Pour une mauvaise réponse, le tableau récapitulatif donne une indication adéquate', function () {
     const $cell = findWithAssert('div[data-toggle="tooltip"]:eq(1)');
     expect($cell.attr('data-original-title')).to.equal('Réponse correcte');
   });
 
-  it.skip('c1.5 Pour une réponse dont la validation n\'est pas encore implémentée, le tableau récapitulatif donne une indication adéquate', function () {
+  it('c1.5 Pour une réponse dont la validation n\'est pas encore implémentée, le tableau récapitulatif donne une indication adéquate', function () {
     const $cell = findWithAssert('div[data-toggle="tooltip"]:eq(3)');
     expect($cell.attr('data-original-title')).to.equal('Correction automatique en cours de développement ;)');
   });
 
-  it.skip('c1.6 Pour une réponse dont l\'utilisateur a cliqué sur \'Je Passe\', le tableau récapitulatif donne une indication adéquate', function () {
+  it('c1.6 Pour une réponse dont l\'utilisateur a cliqué sur \'Je Passe\', le tableau récapitulatif donne une indication adéquate', function () {
     const $cell = findWithAssert('div[data-toggle="tooltip"]:eq(2)');
     expect($cell.attr('data-original-title')).to.equal('Sans réponse');
   });
 
-  it.skip('c1.7 Pour une réponse dont l\'utilisateur n\'a qu\'une partie des bonnes réponse, le tableau récapitulatif donne une indication adéquate', function () {
+  it('c1.7 Pour une réponse dont l\'utilisateur n\'a qu\'une partie des bonnes réponse, le tableau récapitulatif donne une indication adéquate', function () {
     const $cell = findWithAssert('div[data-toggle="tooltip"]:eq(4)');
     expect($cell.attr('data-original-title')).to.equal('Réponse partielle');
   });
 
-  it.skip('c1.8 Pour une réponse dont l\'utilisateur a bien répondu mais trop tard, le tableau récapitulatif donne une indication adéquate', function () {
-    visit('/assessments/raw_assessment_id/results');
-    andThen(() => {
-      const $picto = findWithAssert('.assessment-results-result-img > div');
-      expect($picto.data('original-title')).to.contain('Temps dépassé');
-    });
+  it('c1.8 Pour une réponse dont l\'utilisateur a bien répondu mais trop tard, le tableau récapitulatif donne  une indication adéquate', async function () {
+    await visit('/assessments/raw_assessment_id/results');
+    const $picto = findWithAssert('.result-item__icon>div');
+    expect($picto.data('original-title')).to.contain('Temps dépassé');
   });
 
 
-  it('c1.9 Le nom du test est affiché', function() {
+  it('c1.9 Le nom du test est affiché', function () {
     expect(findWithAssert('.course-banner-name').text()).to.contains('First Course');
   });
 

@@ -36,20 +36,6 @@
   font-size: 16px;
 }
 
-.comparison-window__proposals {
-  margin: 0 0 15px;
-  font-size: 16px;
-}
-
-.comparison-window-oracle[data-goodness='good'] {
-  color: #13c9a0;
-  font-weight: 900;
-}
-
-.comparison-window-oracle[data-goodness='bad'][data-checked='yes'] {
-  text-decoration: line-through;
-}
-
 /*Modal Close button*/
 
 .routable-modal--close-button {

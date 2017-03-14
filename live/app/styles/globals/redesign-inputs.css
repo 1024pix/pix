@@ -4,7 +4,7 @@
  * Trick label & SVG to replace built-in checkboxes & radiobuttons.
  *
  **/
-.picture-checkbox-proposal--qcm {
+.qcm-proposal-label__checkbox-picture {
   position: absolute;
   left: -11px;
   top: 3px;
@@ -139,7 +139,7 @@
   left: -11px;
   top: 3px;
 }
-.label-checkbox-proposal--comparison {
+.qcm-panel__proposal-label {
   display: inline-block;
   padding-left: 20px;
   line-height: 21px;
@@ -158,25 +158,25 @@
   padding-left: 20px;
   position: relative;
 }
-.checkbox-comparison-window {
+.qcm-panel__proposal-checkbox {
   opacity: 0;
   display: none;
 }
 
 /*XXX Can't use BEM properly when using CSS state manipulation*/
-.checkbox-comparison-window:checked ~ label svg.checkbox-disabled-on {
+.qcm-panel__proposal-checkbox:checked ~ label svg.checkbox-disabled-on {
   opacity: 0;
 }
 
-.checkbox-comparison-window:not(:checked) ~ label svg.checkbox-disabled-off {
+.qcm-panel__proposal-checkbox:not(:checked) ~ label svg.checkbox-disabled-off {
   opacity: 1;
 }
 
-.checkbox-comparison-window:checked ~ label svg.checkbox-disabled-on {
+.qcm-panel__proposal-checkbox:checked ~ label svg.checkbox-disabled-on {
   opacity: 1;
 }
 
-.checkbox-comparison-window:not(:checked) ~ label svg.checkbox-disabled-on {
+.qcm-panel__proposal-checkbox:not(:checked) ~ label svg.checkbox-disabled-on {
   opacity: 0;
 }
 

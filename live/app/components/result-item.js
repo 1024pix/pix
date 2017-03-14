@@ -43,6 +43,7 @@ const contentReference = {
 const timeOutAfterRender = 1000; //XXX: Wait after attribute rendering
 
 const resultItem = Ember.Component.extend({
+  classNames: ['result-item'],
   didRender() {
     this._super(...arguments);
     Ember.run.debounce(this, function () {

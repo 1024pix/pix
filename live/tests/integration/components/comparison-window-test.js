@@ -79,7 +79,7 @@ describe('Integration | Component | comparison window', function () {
       // when
       this.render(hbs`{{comparison-window answer challenge solution index}}`);
       // then
-      expect(this.$('.comparison-window__corrected-answers--qcm')).to.have.length(1);
+      expect(this.$('.qcm-solution-panel')).to.have.length(1);
     });
 
     it('should render a feedback panel', function () {
