@@ -11,7 +11,7 @@ function visitTimedChallenge() {
 describe('Acceptance | d1 - Valider une épreuve |', function () {
 
   let application;
-
+  const PROGRESS_BAR_SELECTOR = '.pix-progress-bar';
   before(function () {
     application = startApp();
     visitTimedChallenge();
@@ -21,10 +21,16 @@ describe('Acceptance | d1 - Valider une épreuve |', function () {
     destroyApp(application);
   });
 
-  it('d1.0 La barre de progression commence à 1', function () {
-    const expectedText = '1';
-    const $progressBar = findWithAssert('.pix-progress-bar');
-    expect($progressBar.text()).to.contains(expectedText);
+  it('d1.0a La barre de progression commence à 1, si j\'accède au challenge depuis l\'url directe', function () {
+    const $progressBar = findWithAssert(PROGRESS_BAR_SELECTOR);
+    expect($progressBar.text().trim()).to.equal('1 / 5');
+  });
+
+  it('d1.0b La barre de progression commence à 1, si j\'accède au challenge depuis depuis le lien Airtable', async function () {
+    await visit('/courses/ref_course_id');
+    await click('.challenge-item-warning button');
+    const $progressBar = findWithAssert(PROGRESS_BAR_SELECTOR);
+    expect($progressBar.text().trim()).to.equal('1 / 5');
   });
 
   it('d1.1 Je peux valider ma réponse à une épreuve via un bouton "Je valide"', function () {
