@@ -12,6 +12,8 @@ describe('Acceptance | b6 - Télécharger une pièce jointe depuis la consigne d
 
   let application;
 
+  const $ATTACHMENT_LINK = $('.challenge-statement__action-link');
+
   beforeEach(function () {
     application = startApp();
   });
@@ -27,14 +29,14 @@ describe('Acceptance | b6 - Télécharger une pièce jointe depuis la consigne d
     });
 
     it('b6.1 Il existe un moyen pour télécharger la pièce jointe d\'une épreuve dans la zone de consigne', function () {
-      const $attachmentLink = findWithAssert('.challenge-statement__action-link');
-      expect($attachmentLink.length).to.equal(1);
+      const $ATTACHMENT_LINK = findWithAssert('.challenge-statement__action-link');
+      expect($ATTACHMENT_LINK.length).to.equal(1);
     });
 
     it('b6.2 Le lien de la pièce jointe pointe vers le bon lien', function () {
-      const $attachmentLink = $('.challenge-statement__action-link');
-      expect($attachmentLink.text()).to.contains('Télécharger');
-      expect($attachmentLink.attr('href')).to.equal('http://example_of_url');
+      const $ATTACHMENT_LINK = $('.challenge-statement__action-link');
+      expect($ATTACHMENT_LINK.text()).to.contains('Télécharger');
+      expect($ATTACHMENT_LINK.attr('href')).to.equal('http://example_of_url');
     });
 
     it('b6.3 Il n\'y a qu\'un seul fichier téléchargeable', function () {
@@ -46,7 +48,7 @@ describe('Acceptance | b6 - Télécharger une pièce jointe depuis la consigne d
   describe('Quand l\'épreuve ne contient pas de pièce jointe en consigne', function () {
 
     beforeEach(function () {
-      visit('/assessments/raw_assessment_id/challenges/raw_qcm_challenge_id');
+      visit('/assessments/ref_assessment_id/challenges/ref_qroc_challenge_id');
     });
 
     it('b6.4 La section de téléchargement des pièces jointes est cachée', function () {
@@ -54,8 +56,7 @@ describe('Acceptance | b6 - Télécharger une pièce jointe depuis la consigne d
       findWithAssert('.challenge-item');
 
       // ... but attachment is hidden
-      const $attachmentLink = $('.challenge-statement__action-link');
-      expect($attachmentLink.length).to.equal(0);
+      expect($ATTACHMENT_LINK.length).to.equal(0);
     });
   });
 

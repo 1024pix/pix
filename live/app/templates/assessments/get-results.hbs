@@ -11,7 +11,7 @@
     </div>
     <div class="assessment-results__list">
       {{#each model.answers as |answer index|}}
-        {{result-item answer index openComparison="openComparison"}}
+        {{result-item answer=answer index=index openComparison="openComparison"}}
       {{/each}}
     </div>
 

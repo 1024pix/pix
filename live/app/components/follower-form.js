@@ -1,11 +1,16 @@
 import Ember from 'ember';
+import ENV from 'pix-live/config/environment';
+
 const messageDisplayDuration = 1500;
 
 function hideMessageDiv(context) {
-  Ember.run.later(function () {
-    context.set('status', 'empty');
-  }, messageDisplayDuration);
+  if (ENV.environment !== 'test') {
+    Ember.run.later(function () {
+      context.set('status', 'empty');
+    }, messageDisplayDuration);
+  }
 }
+
 export default Ember.Component.extend({
 
   classNames: ['follower-form'],
@@ -58,7 +63,7 @@ export default Ember.Component.extend({
     submit(){
       this.set('status', 'pending');
       const email = (this.get('followerEmail'))? this.get('followerEmail').trim() : '';
-      if (!this._checkEmail(email) || email.length<1) {
+      if (!this._checkEmail(email) || email.length < 1) {
         this.set('status', 'error');
         hideMessageDiv(this);
         return;

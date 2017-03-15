@@ -46,7 +46,7 @@ describe('Integration | Component | result item', function () {
       this.set('answer', '');
 
       // when
-      this.render(hbs`{{result-item answer index}}`);
+      this.render(hbs`{{result-item answer=answer index=index}}`);
 
       // then
       expect(this.$()).to.have.length(1);
@@ -57,7 +57,7 @@ describe('Integration | Component | result item', function () {
       this.set('answer', '');
 
       // when
-      this.render(hbs`{{result-item answer index}}`);
+      this.render(hbs`{{result-item answer=answer index=index}}`);
 
       // then
       const index = this.$('.result-item__index').text();
@@ -69,7 +69,7 @@ describe('Integration | Component | result item', function () {
       this.set('answer', '');
 
       // when
-      this.render(hbs`{{result-item answer index}}`);
+      this.render(hbs`{{result-item answer=answer index=index}}`);
 
       // then
       expect(this.$('.result-item__instruction')).to.have.lengthOf(1);
@@ -81,7 +81,7 @@ describe('Integration | Component | result item', function () {
       this.set('answer', answer);
 
       // when
-      this.render(hbs`{{result-item answer index}}`);
+      this.render(hbs`{{result-item answer=answer index=index}}`);
 
       // then
       expect(this.$('.result-item__instruction').text().trim()).to.equal(expectedChallengeInstruction);
@@ -91,7 +91,7 @@ describe('Integration | Component | result item', function () {
       // given
       this.set('answer', answer);
 
-      this.render(hbs`{{result-item answer index}}`);
+      this.render(hbs`{{result-item answer=answer index=index}}`);
       // Then
       expect(this.$('.result-item__correction__button').text().trim()).to.deep.equal('RÉPONSE');
     });
@@ -101,7 +101,7 @@ describe('Integration | Component | result item', function () {
       this.set('answer', answer);
 
       // when
-      this.render(hbs`{{result-item answer index}}`);
+      this.render(hbs`{{result-item answer=answer index=index}}`);
 
       // then
       expect(this.$('div[data-toggle="tooltip"]').attr('title').trim()).to.equal('Réponse incorrecte');
@@ -112,7 +112,7 @@ describe('Integration | Component | result item', function () {
       this.set('answer', answer);
 
       // when
-      this.render(hbs`{{result-item answer index}}`);
+      this.render(hbs`{{result-item answer=answer index=index}}`);
 
       // Then
       expect(this.$('svg path').attr('d')).to.equal(expectedPath);

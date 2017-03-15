@@ -1,6 +1,6 @@
 import Ember from 'ember';
 import { expect } from 'chai';
-import { describe, it } from 'mocha';
+import { describe, it, beforeEach } from 'mocha';
 import { setupTest } from 'ember-mocha';
 
 const undefinedAnswer = 'undefined';

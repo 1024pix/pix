@@ -1,4 +1,3 @@
-import rawQcmChallenge from '../data/challenges/raw-qcm-challenge';
 import refQcmChallengeFull from '../data/challenges/ref-qcm-challenge';
 import refQcuChallengeFull from '../data/challenges/ref-qcu-challenge';
 import refQruChallengeFull from '../data/challenges/ref-qru-challenge';
@@ -9,7 +8,6 @@ export default function () {
 
   return {
     data: [
-      rawQcmChallenge,
       refQcmChallengeFull.data,
       refQcuChallengeFull.data,
       refQruChallengeFull.data,

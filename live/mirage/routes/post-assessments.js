@@ -1,6 +1,5 @@
 import _ from 'pix-live/utils/lodash-custom';
 
-import rawAssessment from '../data/assessments/raw-assessment';
 import refAssessment from '../data/assessments/ref-assessment';
 
 export default function (schema, request) {
@@ -9,7 +8,6 @@ export default function (schema, request) {
   const courseId = answer.data.relationships.course.data.id;
 
   const allAssessments = [
-    rawAssessment,
     refAssessment
   ];
 

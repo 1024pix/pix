@@ -4,6 +4,7 @@ import { describe, it } from 'mocha';
 import { setupComponentTest } from 'ember-mocha';
 import wait from 'ember-test-helpers/wait';
 import hbs from 'htmlbars-inline-precompile';
+import _ from 'pix-live/utils/lodash-custom';
 
 const LINK_VIEW = '.feedback-panel__view--link';
 const FORM_VIEW = '.feedback-panel__view--form';
@@ -73,16 +74,23 @@ describe('Integration | Component | feedback-panel', function () {
   describe('Form view', function () {
 
     let isSaveMethodCalled = false;
+    let saveMethodBody = null;
+    let saveMethodUrl = null;
+
     const storeStub = Ember.Service.extend({
       createRecord() {
+        const createRecordArgs = arguments;
         return Object.create({
           save() {
             isSaveMethodCalled = true;
+            saveMethodUrl = createRecordArgs[0];
+            saveMethodBody = createRecordArgs[1];
             return Ember.RSVP.resolve();
           }
         });
       }
     });
+
     beforeEach(function () {
       // configure answer & cie. model object
       const assessment = Ember.Object.extend({ id: 'assessment_id' }).create();
@@ -96,7 +104,10 @@ describe('Integration | Component | feedback-panel', function () {
       // stub store service
       this.register('service:store', storeStub);
       this.inject.service('store', { as: 'store' });
+
       isSaveMethodCalled = false;
+      saveMethodBody = null;
+      saveMethodUrl = null;
     });
 
     it('should display only the "form" view', function () {
@@ -136,15 +147,27 @@ describe('Integration | Component | feedback-panel', function () {
 
     it('clicking on "send" button should save the feedback into the store / API and display the "mercix" view', function () {
       // given
+      const CONTENT_VALUE = 'Prêtes-moi ta plume, pour écrire un mot';
+      const EMAIL_VALUE = 'myemail@gemail.com';
       const $content = this.$('.feedback-panel__field--content');
-      $content.val('Prêtes-moi ta plume, pour écrire un mot');
+      const $email = this.$('.feedback-panel__field--email');
+      $content.val(CONTENT_VALUE);
+      $email.val(EMAIL_VALUE);
       $content.change();
+      $email.change();
 
       // when
       this.$(BUTTON_SEND).click();
+
       // then
       return wait().then(() => {
         expect(isSaveMethodCalled).to.be.true;
+        expect(saveMethodUrl).to.equal('feedback');
+        expect(_.isObject(saveMethodBody)).to.equal(true);
+        expect(saveMethodBody.assessement).to.exists;
+        expect(saveMethodBody.challenge).to.exists;
+        expect(saveMethodBody.content).to.equal(CONTENT_VALUE);
+        expect(saveMethodBody.email).to.equal(EMAIL_VALUE);
         expectMercixViewToBeVisible(this);
       });
     });

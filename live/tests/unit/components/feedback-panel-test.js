@@ -73,5 +73,4 @@ describe('Unit | Component | feedback-panel', function () {
 
   });
 
-})
-;
+});

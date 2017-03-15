@@ -1,4 +1,3 @@
-import rawQcmChallenge from '../data/challenges/raw-qcm-challenge';
 import refQcmChallengeFull from '../data/challenges/ref-qcm-challenge';
 import refQcuChallengeFull from '../data/challenges/ref-qcu-challenge';
 import refQruChallengeFull from '../data/challenges/ref-qru-challenge';
@@ -10,8 +9,6 @@ export default function (schema, request) {
   // case 1 : we're trying to reach the first challenge for a given assessment
   if (!request.params.challengeId) {
     switch (request.params.assessmentId) {
-      case 'raw_assessment_id':
-        return rawQcmChallenge;
       case 'ref_assessment_id':
         return refQcmChallengeFull;
       default:
@@ -21,8 +18,6 @@ export default function (schema, request) {
 
   // case 2 : test already started, challenge exists.
   const nextChallenge = {
-    // raw_course
-    'raw_qcm_challenge_id': 'null',  // JSON should contain 'null', not null
 
     // ref_course
     'ref_qcm_challenge_id': refQcuChallengeFull,

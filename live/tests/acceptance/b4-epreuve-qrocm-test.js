@@ -1,4 +1,4 @@
-import { describe, it, beforeEach, afterEach } from 'mocha';
+import { describe, it, before, after } from 'mocha';
 import { expect } from 'chai';
 import startApp from '../helpers/start-app';
 import destroyApp from '../helpers/destroy-app';
@@ -9,12 +9,12 @@ describe('Acceptance | b4 - Afficher un QROCM | ', function () {
 
   let application;
 
-  beforeEach(function () {
+  before(function () {
     application = startApp();
     visit('/assessments/ref_assessment_id/challenges/ref_qrocm_challenge_id');
   });
 
-  afterEach(function () {
+  after(function () {
     destroyApp(application);
   });
 

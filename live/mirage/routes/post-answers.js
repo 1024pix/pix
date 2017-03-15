@@ -1,6 +1,5 @@
 import _ from 'pix-live/utils/lodash-custom';
 
-import rawQcmChallenge from '../data/challenges/raw-qcm-challenge';
 import refQcmChallengeFull from '../data/challenges/ref-qcm-challenge';
 import refQcuChallengeFull from '../data/challenges/ref-qcu-challenge';
 import refQruChallengeFull from '../data/challenges/ref-qru-challenge';
@@ -8,7 +7,6 @@ import refQrocChallengeFull from '../data/challenges/ref-qroc-challenge';
 import refQrocmChallengeFull from '../data/challenges/ref-qrocm-challenge';
 
 // answers
-import rawQcmAnswer from '../data/answers/raw-qcm-answer';
 import refQcuAnswer from '../data/answers/ref-qcu-answer';
 import refQruAnswer from '../data/answers/ref-qru-answer';
 import refQcmAnswer from '../data/answers/ref-qcm-answer';
@@ -21,7 +19,6 @@ export default function (schema, request) {
   const challengeId = answer.data.relationships.challenge.data.id;
 
   const allChallenges = [
-    rawQcmChallenge,
     refQcmChallengeFull,
     refQcuChallengeFull,
     refQruChallengeFull,
@@ -30,7 +27,6 @@ export default function (schema, request) {
   ];
 
   const allAnswers = [
-    rawQcmAnswer,
     refQcmAnswer,
     refQcuAnswer,
     refQruAnswer,

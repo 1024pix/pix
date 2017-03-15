@@ -80,6 +80,13 @@ _.mixin({
     return !_.isInteger(x);
   },
 
+  isNumeric: function isNumeric(value) {
+    if (typeof value === 'number') return true;
+    const str = (value || '').toString();
+    if (!str) return false;
+    return !isNaN(str);
+  },
+
   // See http://veerasundar.com/blog/2013/01/underscore-js-and-guid-function/
   guid: function() {
     return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
