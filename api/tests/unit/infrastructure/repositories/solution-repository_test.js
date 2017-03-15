@@ -1,191 +1,169 @@
-const { describe, it, before, after, beforeEach, afterEach, expect, sinon } = require('../../../test-helper');
-
-const Airtable = require('../../../../lib/infrastructure/airtable');
+const { describe, it, beforeEach, afterEach, expect, sinon } = require('../../../test-helper');
+const airtable = require('../../../../lib/infrastructure/airtable');
 const cache = require('../../../../lib/infrastructure/cache');
-const SolutionRepository = require('../../../../lib/infrastructure/repositories/solution-repository');
+const solutionRepository = require('../../../../lib/infrastructure/repositories/solution-repository');
 const solutionSerializer = require('../../../../lib/infrastructure/serializers/airtable/solution-serializer');
 
 describe('Unit | Repository | solution-repository', function () {
 
-  let stub;
+  let getRecord;
+  let getRecords;
 
   beforeEach(function () {
     cache.flushAll();
-    stub = sinon.stub(Airtable, 'base');
+    getRecord = sinon.stub(airtable, 'getRecord');
+    getRecords = sinon.stub(airtable, 'getRecords');
   });
 
   afterEach(function () {
     cache.flushAll();
-    stub.restore();
+    getRecord.restore();
+    getRecords.restore();
   });
 
   /*
-   * #get(id)
+   * #get
    */
 
-  describe('#get(id)', function () {
+  describe('#get', function () {
 
-    describe('when the solution has been previously fetched and cached', function () {
+    const challengeId = 'challengeId';
+    const cacheKey = `solution-repository_get_${challengeId}`;
+    const solution = { foo: 'bar' };
 
-      const solutionId = 'solutionId';
-      const cacheKey = `solution-repository_get_${solutionId}`;
-      const cachedValue = { foo: 'bar' };
-
-      beforeEach(function () {
-        cache.set(cacheKey, cachedValue);
-      });
-
-      it('should return the solution directly retrieved from the cache', function () {
-        // when
-        const result = SolutionRepository.get(solutionId);
-
-        // then
-        return expect(result).to.eventually.deep.equal(cachedValue);
-      });
-
-      it('should not make call to Airtable', function () {
-        // when
-        SolutionRepository.get(solutionId);
-
-        // then
-        expect(stub.called).to.be.false;
-      });
-
-    });
-
-    describe('when the cache throw an error', function () {
-
-      const cacheErrorMessage = 'Cache error';
-
-      before(function () {
-        sinon.stub(cache, 'get', (key, callback) => {
-          callback(new Error(cacheErrorMessage));
-        });
-      });
-
-      after(function () {
-        cache.get.restore();
-      });
-
-      it('should reject with thrown error', function () {
-        // when
-        const result = SolutionRepository.get('solution_id');
-
-        // then
-        return expect(result).to.eventually.be.rejectedWith(cacheErrorMessage);
-      });
-
-    });
-
-    describe('when the solution has not been previously cached', function () {
-
-      const record = { id: 'solution_id' };
-
-      beforeEach(function () {
-        stub.returns({
-          find(id, callback) {
-            if (record.id !== id) callback(new Error());
-            return callback(null, record);
-          }
-        });
-      });
-
-      it('should return the solution fetched from Airtable', function () {
-        // given
-        const solution = solutionSerializer.deserialize(record);
-
-        // when
-        const result = SolutionRepository.get(solution.id);
-
-        // then
-        return expect(result).to.eventually.deep.equal(solution);
-      });
-
-      it('should store the solution in the cache', function () {
-        // given
-        const solutionId = 'solution_id';
-
-        // when
-        SolutionRepository.get(solutionId);
-
-        cache.get(`solution-repository_get_${solutionId}`, (err, cachedValue) => {
-          expect(cachedValue).to.exist;
-        });
-      });
-    });
-  });
-
-  /*
-   * #refresh(id)
-   */
-
-  describe('#refresh(id)', function () {
-
-    const record = {
-      id: 'solution_id',
-      'fields': {
-        'Type d\'épreuve': 'QROCM',
-        'Bonnes réponses': '${moteur 1} ou ${moteur 2} ou ${moteur 3} = \nGoogle\nBing\nQwant\nDuckduckgo\nYahoo\nYahoo Search\nLycos\nAltavista\nHotbot'
-      }
-    };
-
-    beforeEach(function () {
-      stub.returns({
-        find(id, callback) {
-          if (record.id !== id) callback(new Error());
-          return callback(null, record);
-        }
-      });
-    });
-
-    it('should return the solution fetched from Airtable', function () {
+    it('should resolve with the solution directly retrieved from the cache without calling airtable when the solution has been cached', function () {
       // given
-      const solution = solutionSerializer.deserialize(record);
+      getRecord.resolves(true);
+      cache.set(cacheKey, solution);
 
       // when
-      const result = SolutionRepository.refresh(solution.id);
+      const result = solutionRepository.get(challengeId);
 
       // then
+      expect(getRecord.notCalled).to.be.true;
       return expect(result).to.eventually.deep.equal(solution);
     });
 
-    it('should store the solution in the cache', function () {
+    it('should reject with an error when the cache throw an error', function () {
       // given
-      const solutionId = 'solution_id';
+      const cacheErrorMessage = 'Cache error';
+      sinon.stub(cache, 'get', (key, callback) => {
+        callback(new Error(cacheErrorMessage));
+      });
 
       // when
-      SolutionRepository.refresh(solutionId);
+      const result = solutionRepository.get(challengeId);
 
       // then
-      cache.get(`solution-repository_get_${solutionId}`, (err, cachedValue) => {
-        expect(cachedValue).to.exist;
-      });
+      cache.get.restore();
+      return expect(result).to.eventually.be.rejectedWith(cacheErrorMessage);
     });
 
-    describe('when the cache throw an error', function () {
+    describe('when the solution was not previously cached', function () {
 
-      const cacheErrorMessage = 'Cache error';
+      beforeEach(function () {
+        getRecord.resolves(solution);
+      });
 
-      before(function () {
-        sinon.stub(cache, 'del', (key, callback) => {
-          callback(new Error(cacheErrorMessage));
+      it('should resolve with the challenges fetched from airtable', function (done) {
+        // when
+        const result = solutionRepository.get(challengeId);
+
+        // then
+        expect(result).to.eventually.deep.equal(solution);
+        done();
+      });
+
+      it('should cache the solution fetched from airtable', function (done) {
+        // when
+        solutionRepository.get(challengeId).then(() => {
+
+          // then
+          cache.get(cacheKey, (err, cachedValue) => {
+            expect(cachedValue).to.exist;
+            done();
+          });
         });
       });
 
-      after(function () {
-        cache.del.restore();
-      });
-
-      it('should reject with thrown error', function () {
+      it('should query correctly airtable', function (done) {
         // when
-        const result = SolutionRepository.refresh('solution_id');
+        solutionRepository.get(challengeId).then(() => {
 
-        // then
-        return expect(result).to.eventually.be.rejectedWith(cacheErrorMessage);
+          // then
+          expect(getRecord.calledWith('Epreuves', challengeId, solutionSerializer)).to.be.true;
+          done();
+        });
+      });
+    });
+  });
+
+  /*
+   * #refresh
+   */
+
+  describe('#refresh', function () {
+
+    const challengeId = 'challenge_id';
+    const cacheKey = `solution-repository_get_${challengeId}`;
+
+    it('should reject with an error when the cache throw an error', function (done) {
+      // given
+      const cacheErrorMessage = 'Cache error';
+      sinon.stub(cache, 'del', (key, callback) => {
+        callback(new Error(cacheErrorMessage));
       });
 
+      // when
+      const result = solutionRepository.refresh(challengeId);
+
+      // then
+      cache.del.restore();
+      expect(result).to.eventually.be.rejectedWith(cacheErrorMessage);
+      done();
     });
 
+    it('should resolve with the solution fetched from airtable when the solution was not previously cached', function (done) {
+      // given
+      const solution = {
+        id: challengeId,
+        value: 'Solution value'
+      };
+      getRecord.resolves(solution);
+
+      // when
+      const result = solutionRepository.refresh(challengeId);
+
+      // then
+      expect(result).to.eventually.deep.equal(solution);
+      done();
+    });
+
+    it('should replace the old solution by the new one in cache', function (done) {
+      // given
+      const oldCourse = {
+        id: challengeId,
+        name: 'Old solution',
+        description: 'Old description of the solution'
+      };
+      cache.set(cacheKey, oldCourse);
+      const newCourse = {
+        id: challengeId,
+        name: 'New solution',
+        description: 'new description of the solution'
+      };
+      getRecord.resolves(newCourse);
+
+      // when
+      solutionRepository.refresh(challengeId).then(() => {
+
+        // then
+        cache.get(cacheKey, (err, cachedValue) => {
+          expect(cachedValue).to.deep.equal(newCourse);
+          done();
+        });
+      });
+    });
   });
 
 });

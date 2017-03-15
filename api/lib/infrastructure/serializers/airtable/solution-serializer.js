@@ -1,7 +1,8 @@
 const _ = require('../../utils/lodash-utils');
 const Solution = require('../../../domain/models/referential/solution');
+const AirtableSerializer = require('./airtable-serializer');
 
-class SolutionSerializer {
+class SolutionSerializer extends AirtableSerializer {
 
   deserialize(airtableRecord) {
 

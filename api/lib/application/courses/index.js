@@ -18,7 +18,6 @@ exports.register = function (server, options, next) {
       path: '/api/courses/{id}',
       config: { handler: CourseController.refresh, tags: ['api'] }
     }
-
   ]);
 
   return next();

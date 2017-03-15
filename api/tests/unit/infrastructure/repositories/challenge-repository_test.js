@@ -1,300 +1,258 @@
-const { describe, it, before, after, beforeEach, afterEach, expect, sinon } = require('../../../test-helper');
-
-const Airtable = require('../../../../lib/infrastructure/airtable');
+const { describe, it, beforeEach, afterEach, expect, sinon } = require('../../../test-helper');
+const airtable = require('../../../../lib/infrastructure/airtable');
 const cache = require('../../../../lib/infrastructure/cache');
-
-const ChallengeRepository = require('../../../../lib/infrastructure/repositories/challenge-repository');
+const challengeRepository = require('../../../../lib/infrastructure/repositories/challenge-repository');
 const challengeSerializer = require('../../../../lib/infrastructure/serializers/airtable/challenge-serializer');
+
+function _buildChallenge(id, instruction, proposals) {
+  return { id, instruction, proposals };
+}
 
 describe('Unit | Repository | challenge-repository', function () {
 
-  let stub;
+  let getRecord;
+  let getRecords;
 
   beforeEach(function () {
     cache.flushAll();
-    stub = sinon.stub(Airtable, 'base');
+    getRecord = sinon.stub(airtable, 'getRecord');
+    getRecords = sinon.stub(airtable, 'getRecords');
   });
 
   afterEach(function () {
     cache.flushAll();
-    stub.restore();
+    getRecord.restore();
+    getRecords.restore();
   });
 
   /*
-   * #list()
+   * #list
    */
 
-  describe('#list()', function () {
+  describe('#list', function () {
 
-    describe('when the challenges have been previously fetched and cached', function () {
+    const cacheKey = 'challenge-repository_list';
+    const challenges = [
+      _buildChallenge('challenge_id_1', 'Instruction #1', 'Proposals #1'),
+      _buildChallenge('challenge_id_2', 'Instruction #2', 'Proposals #2'),
+      _buildChallenge('challenge_id_3', 'Instruction #3', 'Proposals #3')
+    ];
 
-      it('should return the challenges directly retrieved from the cache', function () {
-        // given
-        const cacheKey = 'challenge-repository_list';
-        const cachedValue = [{ challenge: '1' }, { challenge: '2' }, { challenge: '3' }];
-        cache.set(cacheKey, cachedValue);
-
-        // when
-        const result = ChallengeRepository.list();
-
-        // then
-        return expect(result).to.eventually.deep.equal(cachedValue);
-      });
-
-      it('should not make call to Airtable', function () {
-        expect(stub.called).to.be.false;
-      });
-
-    });
-
-    describe('when the cache throw an error', function () {
-
+    it('should reject with an error when the cache throw an error', function (done) {
+      // given
       const cacheErrorMessage = 'Cache error';
-
-      before(function () {
-        sinon.stub(cache, 'get', (key, callback) => {
-          callback(new Error(cacheErrorMessage));
-        });
+      sinon.stub(cache, 'get', (key, callback) => {
+        callback(new Error(cacheErrorMessage));
       });
 
-      after(function () {
-        cache.get.restore();
-      });
+      // when
+      const result = challengeRepository.list();
 
-      it('should reject with thrown error', function () {
-        // when
-        const result = ChallengeRepository.list();
-
-        // then
-        return expect(result).to.eventually.be.rejectedWith(cacheErrorMessage);
-      });
-
+      // then
+      cache.get.restore();
+      expect(result).to.eventually.be.rejectedWith(cacheErrorMessage);
+      done();
     });
 
-    describe('when the challenges have not been previously cached', function () {
+    it('should resolve with the callenges directly retrieved from the cache without calling airtable when the challenge has been cached', function (done) {
+      // given
+      getRecords.resolves(true);
+      cache.set(cacheKey, challenges);
 
-      const record_1 = { id: 'challenge_1' };
-      const record_2 = { id: 'challenge_2' };
-      const record_3 = { id: 'challenge_3' };
-      const records = [record_1, record_2, record_3];
+      // when
+      const result = challengeRepository.list();
+
+      // then
+      expect(getRecords.notCalled).to.be.true;
+      expect(result).to.eventually.deep.equal(challenges);
+      done();
+    });
+
+    describe('when challenges have not been previsously cached', function () {
 
       beforeEach(function () {
-        stub.returns({
-          select() {
-            return {
-              eachPage(pageCallback, cb) {
-                pageCallback(records, cb);
-              }
-            };
-          }
-        });
+        getRecords.resolves(challenges);
       });
 
-      it('should return the challenges fetched from Airtable', function () {
-        // given
-        const challenges = [
-          challengeSerializer.deserialize(record_1),
-          challengeSerializer.deserialize(record_2),
-          challengeSerializer.deserialize(record_3)
-        ];
-
+      it('should resolve with the challenges fetched from airtable', function (done) {
         // when
-        const result = ChallengeRepository.list();
+        const result = challengeRepository.list();
 
         // then
-        return expect(result).to.eventually.deep.equal(challenges);
+        expect(result).to.eventually.deep.equal(challenges);
+        done();
       });
 
-      it('should store the challenge in the cache', function () {
-        // given
-        const cacheKey = 'challenge-repository_list';
-
+      it('should cache the challenge fetched from airtable', function (done) {
         // when
-        ChallengeRepository.list().then(() => {
+        challengeRepository.list().then(() => {
 
           // then
           cache.get(cacheKey, (err, cachedValue) => {
             expect(cachedValue).to.exist;
+            done();
           });
         });
       });
+
+      it('should query correctly airtable', function (done) {
+        // given
+        const expectedQuery = {};
+
+        // when
+        challengeRepository.list().then(() => {
+
+          // then
+          expect(getRecords.calledWith('Epreuves', expectedQuery, challengeSerializer)).to.be.true;
+          done();
+        });
+      });
     });
+
 
   });
 
   /*
-   * #get(id)
+   * #get
    */
 
-  describe('#get(id)', function () {
+  describe('#get', function () {
 
-    describe('when the challenge has been previously fetched and cached', function () {
+    const challengeId = 'challengeId';
+    const cacheKey = `challenge-repository_get_${challengeId}`;
+    const challenge = { foo: 'bar' };
 
-      it('should return the challenge directly retrieved from the cache', function () {
-        // given
-        const challengeId = 'challengeId';
-        const cacheKey = `challenge-repository_get_${challengeId}`;
-        const cachedValue = { foo: 'bar' };
-        cache.set(cacheKey, cachedValue);
-
-        // when
-        const result = ChallengeRepository.get(challengeId);
-
-        // then
-        return expect(result).to.eventually.deep.equal(cachedValue);
-      });
-
-      it('should not make call to Airtable', function () {
-        expect(stub.called).to.be.false;
-      });
-
-    });
-
-    describe('when the cache throw an error', function () {
-
-      const cacheErrorMessage = 'Cache error';
-
-      before(function () {
-        sinon.stub(cache, 'get', (key, callback) => {
-          callback(new Error(cacheErrorMessage));
-        });
-      });
-
-      after(function () {
-        cache.get.restore();
-      });
-
-      it('should reject with thrown error', function () {
-        // when
-        const result = ChallengeRepository.get('challenge_id');
-
-        // then
-        return expect(result).to.eventually.be.rejectedWith(cacheErrorMessage);
-      });
-
-    });
-
-    describe('when the challenge has not been previously cached', function () {
-
-      const record = {
-        id: 'challenge_id',
-        fields: {
-          'Consigne': 'Citez jusqu\'à 3 moteurs de recherche généralistes.',
-          'Propositions': '${moteur 1}\n${moteur 2}\n${moteur 3}',
-          'Type d\'épreuve': 'QROCM',
-          'Bonnes réponses': '${moteur 1} ou ${moteur 2} ou ${moteur 3} = \nGoogle\nBing\nQwant\nDuckduckgo\nYahoo\nYahoo Search\nLycos\nAltavista\nHotbot'
-        }
-      };
-
-      beforeEach(function () {
-        stub.returns({
-          find(id, callback) {
-            if (record.id !== id) callback(new Error());
-            return callback(null, record);
-          }
-        });
-      });
-
-      it('should return the challenge fetched from Airtable', function () {
-        // given
-        const challenge = challengeSerializer.deserialize(record);
-
-        // when
-        const result = ChallengeRepository.get(challenge.id);
-
-        // then
-        return expect(result).to.eventually.deep.equal(challenge);
-      });
-
-      it('should store the challenge in the cache', function () {
-        // given
-        const challengeId = 'challenge_id';
-
-        // when
-        ChallengeRepository.get(challengeId);
-
-        cache.get(`challenge-repository_get_${challengeId}`, (err, cachedValue) => {
-          expect(cachedValue).to.exist;
-        });
-      });
-    });
-
-  });
-
-  /*
-   * #refresh(id)
-   */
-
-  describe('#refresh(id)', function () {
-
-    const record = {
-      id: 'challenge_id',
-      'fields': {
-        'Consigne': 'Citez jusqu\'à 3 moteurs de recherche généralistes.',
-        'Propositions': '${moteur 1}\n${moteur 2}\n${moteur 3}',
-        'Type d\'épreuve': 'QROCM',
-        'Bonnes réponses': '${moteur 1} ou ${moteur 2} ou ${moteur 3} = \nGoogle\nBing\nQwant\nDuckduckgo\nYahoo\nYahoo Search\nLycos\nAltavista\nHotbot'
-      }
-    };
-
-    beforeEach(function () {
-      stub.returns({
-        find(id, callback) {
-          if (record.id !== id) callback(new Error());
-          return callback(null, record);
-        }
-      });
-    });
-
-    it('should return the challenge fetched from Airtable', function () {
+    it('should resolve with the challenge directly retrieved from the cache without calling airtable when the challenge has been cached', function () {
       // given
-      const challenge = challengeSerializer.deserialize(record);
+      getRecord.resolves(true);
+      cache.set(cacheKey, challenge);
 
       // when
-      const result = ChallengeRepository.refresh(challenge.id);
+      const result = challengeRepository.get(challengeId);
+
+      // then
+      expect(getRecord.notCalled).to.be.true;
+      return expect(result).to.eventually.deep.equal(challenge);
+    });
+
+    it('should reject with an error when the cache throw an error', function () {
+      // given
+      const cacheErrorMessage = 'Cache error';
+      sinon.stub(cache, 'get', (key, callback) => {
+        callback(new Error(cacheErrorMessage));
+      });
+
+      // when
+      const result = challengeRepository.get(challengeId);
+
+      // then
+      cache.get.restore();
+      return expect(result).to.eventually.be.rejectedWith(cacheErrorMessage);
+    });
+
+    describe('when the challenge was not previously cached', function () {
+
+      beforeEach(function () {
+        getRecord.resolves(challenge);
+      });
+
+      it('should resolve with the challenges fetched from airtable', function (done) {
+        // when
+        const result = challengeRepository.get(challengeId);
+
+        // then
+        expect(result).to.eventually.deep.equal(challenge);
+        done();
+      });
+
+      it('should cache the challenge fetched from airtable', function (done) {
+        // when
+        challengeRepository.get(challengeId).then(() => {
+
+          // then
+          cache.get(cacheKey, (err, cachedValue) => {
+            expect(cachedValue).to.exist;
+            done();
+          });
+        });
+      });
+
+      it('should query correctly airtable', function (done) {
+        // when
+        challengeRepository.get(challengeId).then(() => {
+
+          // then
+          expect(getRecord.calledWith('Epreuves', challengeId, challengeSerializer)).to.be.true;
+          done();
+        });
+      });
+    });
+  });
+
+  /*
+   * #refresh
+   */
+
+  describe('#refresh', function () {
+
+    const challengeId = 'challenge_id';
+    const cacheKey = `challenge-repository_get_${challengeId}`;
+
+    it('should reject with an error when the cache throw an error', function () {
+      // given
+      const cacheErrorMessage = 'Cache error';
+      sinon.stub(cache, 'del', (key, callback) => {
+        callback(new Error(cacheErrorMessage));
+      });
+
+      // when
+      const result = challengeRepository.refresh(challengeId);
+
+      // then
+      cache.del.restore();
+      return expect(result).to.eventually.be.rejectedWith(cacheErrorMessage);
+    });
+
+    it('should resolve with the challenge fetched from airtable when the challenge was not previously cached', function () {
+      // given
+      const challenge = {
+        id: challengeId,
+        instruction: 'Challenge instruction',
+        proposals: 'Challenge proposals'
+      };
+      getRecord.resolves(challenge);
+
+      // when
+      const result = challengeRepository.refresh(challengeId);
 
       // then
       return expect(result).to.eventually.deep.equal(challenge);
     });
 
-    it('should store the challenge in the cache', function () {
+    it('should replace the old challenge by the new one in cache', function () {
       // given
-      const challengeId = 'challenge_id';
+      const oldCourse = {
+        id: challengeId,
+        name: 'Old challenge',
+        description: 'Old description of the challenge'
+      };
+      cache.set(cacheKey, oldCourse);
+      const newCourse = {
+        id: challengeId,
+        name: 'New challenge',
+        description: 'new description of the challenge'
+      };
+      getRecord.resolves(newCourse);
 
       // when
-      ChallengeRepository.refresh(challengeId);
-
-      // then
-      cache.get(`challenge-repository_get_${challengeId}`, (err, cachedValue) => {
-        expect(cachedValue).to.exist;
-      });
-    });
-
-    describe('when the cache throw an error', function () {
-
-      const cacheErrorMessage = 'Cache error';
-
-      before(function () {
-        sinon.stub(cache, 'del', (key, callback) => {
-          callback(new Error(cacheErrorMessage));
-        });
-      });
-
-      after(function () {
-        cache.del.restore();
-      });
-
-      it('should reject with thrown error', function () {
-        // when
-        const result = ChallengeRepository.refresh('challenge_id');
+      challengeRepository.refresh(challengeId).then(() => {
 
         // then
-        return expect(result).to.eventually.be.rejectedWith(cacheErrorMessage);
+        cache.get(cacheKey, (err, cachedValue) => {
+          expect(cachedValue).to.deep.equal(newCourse);
+        });
       });
-
     });
-
   });
 
-})
-;
+});

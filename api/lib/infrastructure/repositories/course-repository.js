@@ -1,96 +1,82 @@
-const Airtable = require('../airtable');
 const cache = require('../cache');
-const logger = require('../logger');
+const airtable = require('../airtable');
 const serializer = require('../serializers/airtable/course-serializer');
 
 const AIRTABLE_TABLE_NAME = 'Tests';
 
+function _getCourses(query, cacheKey) {
+  return new Promise((resolve, reject) => {
+    cache.get(cacheKey, (err, cachedValue) => {
+      if (err) return reject(err);
+      if (cachedValue) return resolve(cachedValue);
+      airtable
+        .getRecords(AIRTABLE_TABLE_NAME, query, serializer)
+        .then(courses => {
+          cache.set(cacheKey, courses);
+          return resolve(courses);
+        })
+        .catch(reject);
+    });
+  });
+}
+
+function _fetchCourse(id, cacheKey, resolve, reject) {
+  airtable
+    .getRecord(AIRTABLE_TABLE_NAME, id, serializer)
+    .then(course => {
+      cache.set(cacheKey, course);
+      return resolve(course);
+    })
+    .catch(reject);
+}
+
 module.exports = {
 
-  list(isAdaptive) {
+  getProgressionTests() {
+    const query = {
+      sort: [{ field: 'Ordre affichage', direction: 'asc' }],
+      view: 'Tests de progression'
+    };
+    const cacheKey = 'course-repository_getProgressionTests';
+    return _getCourses(query, cacheKey);
+  },
 
-    return new Promise((resolve, reject) => {
+  getCoursesOfTheWeek() {
+    const query = {
+      sort: [{ field: 'Ordre affichage', direction: 'asc' }],
+      view: 'Défis de la semaine'
+    };
+    const cacheKey = 'course-repository_getCoursesOfTheWeek';
+    return _getCourses(query, cacheKey);
+  },
 
-      const cacheKey = (isAdaptive) ? 'adaptive-course-repository_list' : 'course-repository_list';
-      const airtableQuery = (isAdaptive) ? { filterByFormula: '{Adaptatif ?} = TRUE()' } : { view: 'PIX view' };
-
-      cache.get(cacheKey, (err, cachedValue) => {
-
-        if (err) return reject(err);
-
-        if (cachedValue) return resolve(cachedValue);
-
-        const courses = [];
-
-        Airtable.base(AIRTABLE_TABLE_NAME)
-          .select(airtableQuery)
-          .eachPage((records, fetchNextPage) => {
-
-            for (const record of records) {
-              courses.push(serializer.deserialize(record));
-            }
-            fetchNextPage();
-          }, (err) => {
-
-            if (err) return reject(err);
-
-            cache.set(cacheKey, courses);
-
-            logger.debug('Fetched and cached courses');
-
-            return resolve(courses);
-          });
-      });
-    });
+  getAdaptiveCourses() {
+    const query = {
+      sort: [{ field: 'Ordre affichage', direction: 'asc' }],
+      view: 'Tests de positionnement'
+    };
+    const cacheKey = 'course-repository_getAdaptiveCourses';
+    return _getCourses(query, cacheKey);
   },
 
   get(id) {
-
     return new Promise((resolve, reject) => {
-
       const cacheKey = `course-repository_get_${id}`;
-
       cache.get(cacheKey, (err, cachedValue) => {
-
         if (err) return reject(err);
-
         if (cachedValue) return resolve(cachedValue);
-
-        return this._fetch(id, reject, cacheKey, resolve);
+        return _fetchCourse(id, cacheKey, resolve, reject);
       });
     });
   },
 
   refresh(id) {
-
     return new Promise((resolve, reject) => {
-
       const cacheKey = `course-repository_get_${id}`;
-
-      cache.del(cacheKey, (err, count) => {
-
+      cache.del(cacheKey, (err) => {
         if (err) return reject(err);
-
-        if (count > 0) logger.debug(`Deleted from cache course ${id}`);
-
-        return this._fetch(id, reject, cacheKey, resolve);
+        return _fetchCourse(id, cacheKey, resolve, reject);
       });
-    });
-  },
-
-  _fetch: function (id, reject, cacheKey, resolve) {
-
-    Airtable.base(AIRTABLE_TABLE_NAME).find(id, (err, record) => {
-
-      if (err) return reject(err);
-
-      const course = serializer.deserialize(record);
-
-      cache.set(cacheKey, course);
-
-      logger.debug(`Fetched and cached course ${id}`);
-
-      return resolve(course);
     });
   }
 

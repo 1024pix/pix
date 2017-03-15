@@ -26,15 +26,15 @@ describe('Unit | Controller | course-controller', function () {
   describe('#list', function () {
 
     const courses = [
-      new Course({ "id": "course_1" }),
-      new Course({ "id": "course_2" }),
-      new Course({ "id": "course_3" })
+      new Course({ id: 'course_1' }),
+      new Course({ id: 'course_2' }),
+      new Course({ id: 'course_3' })
     ];
 
     it('should fetch and return all the courses, serialized as JSONAPI', function (done) {
       // given
-      sinon.stub(CourseRepository, 'list').resolves(courses);
-      sinon.stub(CourseSerializer, 'serializeArray', _ => courses);
+      sinon.stub(CourseRepository, 'getProgressionTests').resolves(courses);
+      sinon.stub(CourseSerializer, 'serializeArray', () => courses);
 
       // when
       server.inject({ method: 'GET', url: '/api/courses' }, (res) => {
@@ -43,7 +43,7 @@ describe('Unit | Controller | course-controller', function () {
         expect(res.result).to.deep.equal(courses);
 
         // after
-        CourseRepository.list.restore();
+        CourseRepository.getProgressionTests.restore();
         CourseSerializer.serializeArray.restore();
         done();
       });
@@ -51,8 +51,8 @@ describe('Unit | Controller | course-controller', function () {
 
     it('should fetch and return all the adaptive courses, serialized as JSONAPI', function (done) {
       // given
-      sinon.stub(CourseRepository, 'list').resolves(courses);
-      sinon.stub(CourseSerializer, 'serializeArray', _ => courses);
+      sinon.stub(CourseRepository, 'getProgressionTests').resolves(courses);
+      sinon.stub(CourseSerializer, 'serializeArray', () => courses);
 
       // when
       server.inject({ method: 'GET', url: '/api/courses?adaptive=true' }, (res) => {
@@ -61,7 +61,7 @@ describe('Unit | Controller | course-controller', function () {
         expect(res.result).to.deep.equal(courses);
 
         // after
-        CourseRepository.list.restore();
+        CourseRepository.getProgressionTests.restore();
         CourseSerializer.serializeArray.restore();
         done();
       });
@@ -70,12 +70,12 @@ describe('Unit | Controller | course-controller', function () {
 
   describe('#get', function () {
 
-    const course = new Course({ "id": "course_id" });
+    const course = new Course({ 'id': 'course_id' });
 
     it('should fetch and return the given course, serialized as JSONAPI', function (done) {
       // given
       sinon.stub(CourseRepository, 'get').resolves(course);
-      sinon.stub(CourseSerializer, 'serialize', _ => course);
+      sinon.stub(CourseSerializer, 'serialize', () => course);
 
       // when
       server.inject({ method: 'GET', url: '/api/courses/course_id' }, (res) => {
@@ -93,9 +93,9 @@ describe('Unit | Controller | course-controller', function () {
     it('should reply with error status code 404 if course not found', function (done) {
       // given
       const error = {
-        "error": {
-          "type": "MODEL_ID_NOT_FOUND",
-          "message": "Could not find row by id unknown_id"
+        error: {
+          type: 'MODEL_ID_NOT_FOUND',
+          message: 'Could not find row by id unknown_id'
         }
       };
       sinon.stub(CourseRepository, 'get').rejects(error);
