@@ -1,6 +1,6 @@
 # Pix Changelog
 
-##1.5.0 (17/03/2017)
+## 1.5.0 (17/03/2017)
 
 - [#333](https://github.com/sgmap/pix/pull/333) [FEATURE] Nouveau design de la page index (US-337).
 - [#326](https://github.com/sgmap/pix/pull/326) [BUGFIX] Suppression du loader disgracieux (US-390)
