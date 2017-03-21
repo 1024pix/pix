@@ -3,12 +3,24 @@ const airtable = require('../airtable');
 const serializer = require('../serializers/airtable/course-serializer');
 
 const AIRTABLE_TABLE_NAME = 'Tests';
+const AIRTABLE_TABLE_VIEW_PROGRESSION_COURSES = 'Tests de progression';
+const AIRTABLE_TABLE_VIEW_ADAPTIVE_COURSES = 'Tests de positionnement';
+const AIRTABLE_TABLE_VIEW_COURSES_OF_THE_WEEK = 'Défis de la semaine';
 
-function _getCourses(query, cacheKey) {
+const CACHE_KEY_GET_PROGRESSION_COURSES = 'course-repository_getProgressionTests';
+const CACHE_KEY_GET_COURSES_OF_THE_WEEK = 'course-repository_getCoursesOfTheWeek';
+const CACHE_KEY_GET_ADAPTIVE_COURSES = 'course-repository_getAdaptiveCourses';
+
+function _getCourses(viewName, cacheKey) {
   return new Promise((resolve, reject) => {
     cache.get(cacheKey, (err, cachedValue) => {
       if (err) return reject(err);
       if (cachedValue) return resolve(cachedValue);
+
+      const query = {
+        filterByFormula: '{Statut} = "Publié"',
+        view: viewName
+      };
       airtable
         .getRecords(AIRTABLE_TABLE_NAME, query, serializer)
         .then(courses => {
@@ -32,31 +44,16 @@ function _fetchCourse(id, cacheKey, resolve, reject) {
 
 module.exports = {
 
-  getProgressionTests() {
-    const query = {
-      sort: [{ field: 'Ordre affichage', direction: 'asc' }],
-      view: 'Tests de progression'
-    };
-    const cacheKey = 'course-repository_getProgressionTests';
-    return _getCourses(query, cacheKey);
+  getProgressionCourses() {
+    return _getCourses(AIRTABLE_TABLE_VIEW_PROGRESSION_COURSES, CACHE_KEY_GET_PROGRESSION_COURSES);
   },
 
   getCoursesOfTheWeek() {
-    const query = {
-      sort: [{ field: 'Ordre affichage', direction: 'asc' }],
-      view: 'Défis de la semaine'
-    };
-    const cacheKey = 'course-repository_getCoursesOfTheWeek';
-    return _getCourses(query, cacheKey);
+    return _getCourses(AIRTABLE_TABLE_VIEW_COURSES_OF_THE_WEEK, CACHE_KEY_GET_COURSES_OF_THE_WEEK);
   },
 
   getAdaptiveCourses() {
-    const query = {
-      sort: [{ field: 'Ordre affichage', direction: 'asc' }],
-      view: 'Tests de positionnement'
-    };
-    const cacheKey = 'course-repository_getAdaptiveCourses';
-    return _getCourses(query, cacheKey);
+    return _getCourses(AIRTABLE_TABLE_VIEW_ADAPTIVE_COURSES, CACHE_KEY_GET_ADAPTIVE_COURSES);
   },
 
   get(id) {
@@ -78,6 +75,21 @@ module.exports = {
         return _fetchCourse(id, cacheKey, resolve, reject);
       });
     });
-  }
+  },
 
+  refreshAll() {
+    return new Promise((resolve, reject) => {
+      cache.del(CACHE_KEY_GET_PROGRESSION_COURSES, (err) => {
+        if (err) return reject(err);
+        cache.del(CACHE_KEY_GET_COURSES_OF_THE_WEEK, (err) => {
+          if (err) return reject(err);
+          cache.del(CACHE_KEY_GET_ADAPTIVE_COURSES, (err) => {
+            if (err) return reject(err);
+            return resolve(true);
+          });
+        });
+      });
+    });
+
+  }
 };

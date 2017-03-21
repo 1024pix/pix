@@ -71,7 +71,7 @@ describe('Unit | Repository | course-repository', function () {
         getRecord.resolves(course);
       });
 
-      it('should resolve with the courses fetched from airtable', function (done) {
+      it('should resolve with the courses fetched from Airtable', function (done) {
         // when
         const result = courseRepository.get(courseId);
 
@@ -80,7 +80,7 @@ describe('Unit | Repository | course-repository', function () {
         done();
       });
 
-      it('should cache the course fetched from airtable', function (done) {
+      it('should cache the course fetched from Airtable', function (done) {
         // when
         courseRepository.get(courseId).then(() => {
 
@@ -173,10 +173,10 @@ describe('Unit | Repository | course-repository', function () {
   });
 
   /*
-   * #getProgressionTests
+   * #getProgressionCourses
    */
 
-  describe('#getProgressionTests', function () {
+  describe('#getProgressionCourses', function () {
 
     const cacheKey = 'course-repository_getProgressionTests';
     const courses = [
@@ -193,7 +193,7 @@ describe('Unit | Repository | course-repository', function () {
       });
 
       // when
-      const result = courseRepository.getProgressionTests();
+      const result = courseRepository.getProgressionCourses();
 
       // then
       cache.get.restore();
@@ -207,7 +207,7 @@ describe('Unit | Repository | course-repository', function () {
       cache.set(cacheKey, courses);
 
       // when
-      const result = courseRepository.getProgressionTests();
+      const result = courseRepository.getProgressionCourses();
 
       // then
       expect(getRecords.notCalled).to.be.true;
@@ -221,18 +221,18 @@ describe('Unit | Repository | course-repository', function () {
         getRecords.resolves(courses);
       });
 
-      it('should resolve with the courses fetched from airtable', function (done) {
+      it('should resolve with the courses fetched from Airtable', function (done) {
         // when
-        const result = courseRepository.getProgressionTests();
+        const result = courseRepository.getProgressionCourses();
 
         // then
         expect(result).to.eventually.deep.equal(courses);
         done();
       });
 
-      it('should cache the course fetched from airtable', function (done) {
+      it('should cache the course fetched from Airtable', function (done) {
         // when
-        courseRepository.getProgressionTests().then(() => {
+        courseRepository.getProgressionCourses().then(() => {
 
           // then
           cache.get(cacheKey, (err, cachedValue) => {
@@ -245,12 +245,12 @@ describe('Unit | Repository | course-repository', function () {
       it('should query correctly airtable', function (done) {
         // given
         const expectedQuery = {
-          sort: [{ field: 'Ordre affichage', direction: 'asc' }],
+          filterByFormula: '{Statut} = "Publié"',
           view: 'Tests de progression'
         };
 
         // when
-        courseRepository.getProgressionTests().then(() => {
+        courseRepository.getProgressionCourses().then(() => {
 
           // then
           expect(getRecords.calledWith('Tests', expectedQuery, courseSerializer)).to.be.true;
@@ -310,7 +310,7 @@ describe('Unit | Repository | course-repository', function () {
         getRecords.resolves(courses);
       });
 
-      it('should resolve with the courses fetched from airtable', function (done) {
+      it('should resolve with the courses fetched from Airtable', function (done) {
         // when
         const result = courseRepository.getCoursesOfTheWeek();
 
@@ -319,7 +319,7 @@ describe('Unit | Repository | course-repository', function () {
         done();
       });
 
-      it('should cache the course fetched from airtable', function (done) {
+      it('should cache the course fetched from Airtable', function (done) {
         // when
         courseRepository.getCoursesOfTheWeek().then(() => {
 
@@ -334,7 +334,7 @@ describe('Unit | Repository | course-repository', function () {
       it('should query correctly airtable', function (done) {
         // given
         const expectedQuery = {
-          sort: [{ field: 'Ordre affichage', direction: 'asc' }],
+          filterByFormula: '{Statut} = "Publié"',
           view: 'Défis de la semaine'
         };
 
@@ -399,7 +399,7 @@ describe('Unit | Repository | course-repository', function () {
         getRecords.resolves(courses);
       });
 
-      it('should resolve with the courses fetched from airtable', function (done) {
+      it('should resolve with the courses fetched from Airtable', function (done) {
         // when
         const result = courseRepository.getAdaptiveCourses();
 
@@ -408,7 +408,7 @@ describe('Unit | Repository | course-repository', function () {
         done();
       });
 
-      it('should cache the course fetched from airtable', function (done) {
+      it('should cache the course fetched from Airtable', function (done) {
         // when
         courseRepository.getAdaptiveCourses().then(() => {
 
@@ -423,7 +423,7 @@ describe('Unit | Repository | course-repository', function () {
       it('should query correctly airtable', function (done) {
         // given
         const expectedQuery = {
-          sort: [{ field: 'Ordre affichage', direction: 'asc' }],
+          filterByFormula: '{Statut} = "Publié"',
           view: 'Tests de positionnement'
         };
 
@@ -437,4 +437,30 @@ describe('Unit | Repository | course-repository', function () {
       });
     });
   });
+
+  /*
+   * #refreshAll
+   */
+
+  describe('#refreshAll', function() {
+
+    it('should resolve with true when the clean succeeds', function (done) {
+      // given
+      sinon.stub(cache, 'del', (key, callback) => {
+        callback();
+      });
+
+      // when
+      courseRepository.refreshAll().then(() => {
+
+        // then
+        expect(cache.del.calledThrice).to.be.true;
+
+        // after
+        cache.del.restore();
+        done();
+      });
+    });
+  });
+
 });

@@ -1,11 +1,13 @@
 import _ from 'pix-live/utils/lodash-custom';
 
 import refCourse from '../data/courses/ref-course';
+import highlightedCourse from '../data/courses/highlighted-course';
 
 export default function (schema, request) {
 
   const allCourses = [
-    refCourse
+    refCourse,
+    highlightedCourse
   ];
 
   const courses = _.map(allCourses, function (oneCourse) {

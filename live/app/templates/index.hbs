@@ -12,10 +12,25 @@
     </div>
   </section>
 
-  <section class="index-page__section index-page__section--challenges index-page-challenges">
-    <h2 class="index-page-challenges__title">Découvrez nos épreuves et aidez‑nous à les améliorer !</h2>
-    <div class="index-page-challenges__list">
-      {{course-list courses=model startCourse='startCourse'}}
+  {{! I don't know how to correctly test this with our current Mirage config/use :-( }}
+  {{#if model.coursesOfTheWeek}}
+    <section class="index-page__section index-page__section--challenges index-page-challenges">
+      <div class="index-page-challenges__container">
+        <div class="index-page-challenges__presentation">
+          <h2 class="index-page-challenges__presentation-title">Le défi <span class="text--marigold">Pix</span> de la semaine</h2>
+          <p class="index-page-challenges__presentation-text">Chaque semaine, testez vos compétences numériques sur un nouveau sujet.</p>
+        </div>
+        <div class="index-page-challenges__course-list">
+          {{course-list courses=model.coursesOfTheWeek startCourse='startCourse' limit=2}}
+        </div>
+      </div>
+    </section>
+  {{/if}}
+
+  <section class="index-page__section index-page__section--courses index-page-courses">
+    <h2 class="index-page-courses__title">Découvrez nos épreuves et aidez‑nous à les améliorer !</h2>
+    <div class="index-page-courses__course-list">
+      {{course-list courses=model.progressionCourses startCourse='startCourse'}}
     </div>
   </section>
 

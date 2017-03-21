@@ -22,9 +22,9 @@ Installation
 Vous devez au préalable avoir correctement installé les logiciels suivants :
 
 * [Git](http://git-scm.com/) (2.6.4)
-* [Node.js](http://nodejs.org/) (v6.9.0) et NPM (3.10.8)
-* [Bower](http://bower.io/) (1.7.9)
-* [Ember CLI](http://ember-cli.com/) (2.8.0)
+* [Node.js](http://nodejs.org/) (v7.7.3) et NPM (4.1.2)
+* [Bower](http://bower.io/) (1.8.0)
+* [Ember CLI](http://ember-cli.com/) (2.11.1)
 * [PhantomJS](http://phantomjs.org/) (2.1.1)
 
 > Les versions indiquées sont celles préconisées pour un bon fonctionnement de l'application.
@@ -33,7 +33,7 @@ Vous devez au préalable avoir correctement installé les logiciels suivants :
 
 ```bash
 $ git clone git@github.com:sgmap/pix.git && cd pix
-$ npm run install:all
+$ npm install
 $ (cd api && npm run db:migrate)
 $ npm test
 $ npm start

@@ -64,4 +64,20 @@ describe('Unit | Router | course-router', function () {
     });
   });
 
+  describe('PUT /api/courses', function () {
+
+    before(function () {
+      sinon.stub(CourseController, 'refreshAll', (request, reply) => reply('ok'));
+    });
+
+    after(function () {
+      CourseController.refreshAll.restore();
+    });
+
+    it('should exist', function (done) {
+      expectRouteToExist({ method: 'PUT', url: '/api/courses' }, done);
+    });
+  });
+
+
 });

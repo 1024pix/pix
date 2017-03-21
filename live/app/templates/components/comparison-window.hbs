@@ -1,72 +1,70 @@
-<div class="comparison-window">
-  <div class="routable-modal--dialog comparison-window--dialog">
+<div class="routable-modal--dialog comparison-window--dialog">
 
-    <div class="routable-modal--content comparison-window--content">
+  <div class="routable-modal--content comparison-window--content">
 
-      <div class="routable-modal--header comparison-window__header">
+    <div class="routable-modal--header comparison-window__header">
 
-        {{#routable-modal-close-button class="routable-modal--close-button"}}
-          <div class="close-button-container">
-            <div>fermer</div>
-            <div>
-              <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" width="24" height="24" viewBox="0 0 24 27"><path d="M12,20C7.59,20 4,16.41 4,12C4,7.59 7.59,4 12,4C16.41,4 20,7.59 20,12C20,16.41 16.41,20 12,20M12,2C6.47,2 2,6.47 2,12C2,17.53 6.47,22 12,22C17.53,22 22,17.53 22,12C22,6.47 17.53,2 12,2M14.59,8L12,10.59L9.41,8L8,9.41L10.59,12L8,14.59L9.41,16L12,13.41L14.59,16L16,14.59L13.41,12L16,9.41L14.59,8Z" fill="white"/>
-              </svg>
-            </div>
-          </div>
-        {{/routable-modal-close-button}}
-
-        <div class="comparison-window__result-item-index">
-          {{index}}
-        </div>
-
-        <div class="comparison-window__result-item-line">
-        </div>
-
-        <div class="comparison-window__title">
-          <div data-toggle="tooltip" data-placement="top" title="{{resultItemContent.titleTooltip}}">
-            {{#if resultItemContent.custom}}
-              <svg class="{{resultItemContent.color}}" width="22" height="22" viewBox="0 0 24 25" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><defs><path d="{{resultItemContent.path}}" id="path-1"></path><mask id="mask-2" maskContentUnits="userSpaceOnUse" maskUnits="objectBoundingBox" x="0" y="0" width="24" height="24" fill="white"><use xlink:href="#path-1"></use></mask></defs><g id="Résultats" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd"><g id="test-fin-1" transform="translate(-1155.000000, -532.000000)" stroke="#FFBE00" stroke-width="14"><g id="Group3" transform="translate(226.000000, 504.000000)"><use id="Shape-Copy-3" mask="url(#mask-2)" xlink:href="#path-1"></use></g></g></g></svg>
-            {{else}}
-              <svg class="{{resultItemContent.color}}" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" width="24" height="24" viewBox="0 0 24 24"><path d="{{resultItemContent.path}}" fill="{{resultItemContent.color}}" ></path></svg>
-            {{/if}}
+      {{#routable-modal-close-button class="routable-modal--close-button"}}
+        <div class="close-button-container">
+          <div>fermer</div>
+          <div>
+            <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" width="24" height="24" viewBox="0 0 24 27"><path d="M12,20C7.59,20 4,16.41 4,12C4,7.59 7.59,4 12,4C16.41,4 20,7.59 20,12C20,16.41 16.41,20 12,20M12,2C6.47,2 2,6.47 2,12C2,17.53 6.47,22 12,22C17.53,22 22,17.53 22,12C22,6.47 17.53,2 12,2M14.59,8L12,10.59L9.41,8L8,9.41L10.59,12L8,14.59L9.41,16L12,13.41L14.59,16L16,14.59L13.41,12L16,9.41L14.59,8Z" fill="white"/>
+            </svg>
           </div>
         </div>
-        <div class="comparison-window__title-text">{{resultItemContent.title}}</div>
+      {{/routable-modal-close-button}}
+
+      <div class="comparison-window__result-item-index">
+        {{index}}
       </div>
 
-      <div class="routable-modal--body comparison-window--body">
+      <div class="comparison-window__result-item-line">
+      </div>
 
-        <div class="rounded-panel comparison-window__instruction">
-          <div class="rounded-panel__row ">
-            {{markdown-to-html
-              class="challenge-statement__instruction"
-              extensions='targetBlank'
-              markdown=challenge.instruction}}
-          </div>
-
-          {{#if challenge.illustrationUrl}}
-            <div class="rounded-panel__row challenge-statement__illustration-section">
-              <img class="challenge-statement__illustration" src="{{ challenge.illustrationUrl }}" alt="Illustration de l'épreuve">
-            </div>
+      <div class="comparison-window__title">
+        <div data-toggle="tooltip" data-placement="top" title="{{resultItemContent.titleTooltip}}">
+          {{#if resultItemContent.custom}}
+            <svg class="{{resultItemContent.color}}" width="22" height="22" viewBox="0 0 24 25" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><defs><path d="{{resultItemContent.path}}" id="path-1"></path><mask id="mask-2" maskContentUnits="userSpaceOnUse" maskUnits="objectBoundingBox" x="0" y="0" width="24" height="24" fill="white"><use xlink:href="#path-1"></use></mask></defs><g id="Résultats" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd"><g id="test-fin-1" transform="translate(-1155.000000, -532.000000)" stroke="#FFBE00" stroke-width="14"><g id="Group3" transform="translate(226.000000, 504.000000)"><use id="Shape-Copy-3" mask="url(#mask-2)" xlink:href="#path-1"></use></g></g></g></svg>
+          {{else}}
+            <svg class="{{resultItemContent.color}}" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" width="24" height="24" viewBox="0 0 24 24"><path d="{{resultItemContent.path}}" fill="{{resultItemContent.color}}" ></path></svg>
           {{/if}}
         </div>
+      </div>
+      <div class="comparison-window__title-text">{{resultItemContent.title}}</div>
+    </div>
 
-        {{#if isAssessmentChallengeTypeQcm}}
-            {{qcm-solution-panel challenge=challenge answer=answer solution=solution}}
-        {{/if}}
+    <div class="routable-modal--body comparison-window--body">
 
-        {{#if isAssessmentChallengeTypeQroc}}
-          <div class="comparison-window__corrected-answers comparison-window__corrected-answers--qroc">
-            {{qroc-solution-panel answer=answer solution=solution }}
+      <div class="rounded-panel comparison-window__instruction">
+        <div class="rounded-panel__row ">
+          {{markdown-to-html
+            class="challenge-statement__instruction"
+            extensions='targetBlank'
+            markdown=challenge.instruction}}
+        </div>
+
+        {{#if challenge.illustrationUrl}}
+          <div class="rounded-panel__row challenge-statement__illustration-section">
+            <img class="challenge-statement__illustration" src="{{ challenge.illustrationUrl }}" alt="Illustration de l'épreuve">
           </div>
         {{/if}}
-
       </div>
 
-      <div class="routable-modal--footer">
-        <div class="comparison-window__feedback-panel">
-          {{feedback-panel answer}}
+      {{#if isAssessmentChallengeTypeQcm}}
+          {{qcm-solution-panel challenge=challenge answer=answer solution=solution}}
+      {{/if}}
+
+      {{#if isAssessmentChallengeTypeQroc}}
+        <div class="comparison-window__corrected-answers comparison-window__corrected-answers--qroc">
+          {{qroc-solution-panel answer=answer solution=solution }}
         </div>
+      {{/if}}
+
+    </div>
+
+    <div class="routable-modal--footer">
+      <div class="comparison-window__feedback-panel">
+        {{feedback-panel answer}}
       </div>
     </div>
   </div>

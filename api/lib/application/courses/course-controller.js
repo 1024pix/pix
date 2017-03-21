@@ -5,35 +5,42 @@ const challengeRepository = require('../../infrastructure/repositories/challenge
 const challengeSerializer = require('../../infrastructure/serializers/jsonapi/challenge-serializer');
 
 function _fetchCourses(query) {
-  if (query.isAdaptive) {
+  if (query.isAdaptive === 'true') {
     return courseRepository.getAdaptiveCourses();
   }
-  if (query.isCourseOfTheWeek) {
+  if (query.isCourseOfTheWeek === 'true') {
     return courseRepository.getCoursesOfTheWeek();
   }
-  return courseRepository.getProgressionTests();
+  return courseRepository.getProgressionCourses();
+}
+
+function _extractCoursesChallenges(courses) {
+  const challengeIds = courses.reduce((listOfId, course) => {
+    if (course.challenges) {
+      return listOfId.concat(course.challenges);
+    }
+    return listOfId;
+  }, []);
+  const challenges = challengeIds.map(challengeId => challengeRepository.get(challengeId));
+  return Promise.all(challenges);
+}
+
+function _buildResponse(courses, challenges) {
+  const response = courseSerializer.serializeArray(courses);
+  response.included = challenges.map(challenge => challengeSerializer.serialize(challenge).data);
+  return response;
 }
 
 module.exports = {
 
   list(request, reply) {
+    let courses;
     _fetchCourses(request.query)
-      .then(courses => {
-        const response = courseSerializer.serializeArray(courses);
-        const challengeIds = courses.reduce((listOfId, course) => {
-          if (course.challenges) {
-            return listOfId.concat(course.challenges);
-          }
-          return listOfId;
-        }, []);
-        const promises = challengeIds.map(challengeId => challengeRepository.get(challengeId));
-        Promise.all(promises)
-          .then(challenges => {
-            response.included = challenges.map(challenge => challengeSerializer.serialize(challenge).data);
-            return reply(response);
-          })
-          .catch(err => reply(Boom.badImplementation(err)));
+      .then(fetchedCourses => {
+        courses = fetchedCourses;
+        return _extractCoursesChallenges(courses);
       })
+      .then(challenges => reply(_buildResponse(courses, challenges)))
       .catch(err => reply(Boom.badImplementation(err)));
   },
 
@@ -68,6 +75,13 @@ module.exports = {
       .refresh(request.params.id)
       .then(course => reply(courseSerializer.serialize(course)))
       .catch(err => reply(Boom.badImplementation(err)));
+  },
+
+  refreshAll(request, reply) {
+    courseRepository
+      .refreshAll()
+      .then(() => reply('Courses updated'))
+      .catch(reply);
   }
 
 };

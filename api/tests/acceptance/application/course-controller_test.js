@@ -54,14 +54,20 @@ describe('Acceptance | API | Courses', function () {
     const options = { method: 'GET', url: '/api/courses' };
 
     it('should return 200 HTTP status code', function (done) {
+      // when
       server.inject(options, (response) => {
+
+        // then
         expect(response.statusCode).to.equal(200);
         done();
       });
     });
 
     it('should return application/json', function (done) {
+      // when
       server.inject(options, (response) => {
+
+        // then
         const contentType = response.headers['content-type'];
         expect(contentType).to.contain('application/json');
         done();
@@ -69,7 +75,9 @@ describe('Acceptance | API | Courses', function () {
     });
 
     it('should return all the courses from the tests referential', function (done) {
+      // when
       server.inject(options, (response) => {
+        // then
         const courses = response.result.data;
         expect(courses.length).to.equal(5);
         done();
@@ -127,14 +135,20 @@ describe('Acceptance | API | Courses', function () {
     const options = { method: 'GET', url: '/api/courses/course_id' };
 
     it('should return 200 HTTP status code', function (done) {
+      // when
       server.inject(options, (response) => {
+
+        // then
         expect(response.statusCode).to.equal(200);
         done();
       });
     });
 
     it('should return application/json', function (done) {
+      // when
       server.inject(options, (response) => {
+
+        // then
         const contentType = response.headers['content-type'];
         expect(contentType).to.contain('application/json');
         done();
@@ -142,7 +156,10 @@ describe('Acceptance | API | Courses', function () {
     });
 
     it('should return the expected course', function (done) {
+      // when
       server.inject(options, (response) => {
+
+        // then
         const course = response.result.data;
         expect(course.id).to.equal('course_id');
         expect(course.attributes.name).to.equal('A la recherche de l\'information #01');

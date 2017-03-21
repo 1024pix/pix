@@ -2,7 +2,6 @@ const { describe, it } = require('mocha');
 const { expect } = require('chai');
 const service = require('../../../../lib/domain/services/assessment-service-utils');
 
-
 describe('Unit | Domain | Services | assessment-service-utils', function () {
 
   describe('#getResponsePattern', function () {

@@ -4,6 +4,7 @@ import getNextChallenge from './routes/get-next-challenge';
 import getAssessmentSolutions from './routes/get-assessment-solutions';
 import getCourse from './routes/get-course';
 import getCourses from './routes/get-courses';
+import getCoursesOfTheWeek from './routes/get-courses-of-the-week';
 import getAnswer from './routes/get-answer';
 import postAnswers from './routes/post-answers';
 import getAssessment from './routes/get-assessment';
@@ -23,6 +24,7 @@ export default function () {
   this.namespace = 'http://localhost:3000/api';
 
   this.get('/courses', getCourses);
+  this.get('/courses?isCourseOfTheWeek=true', getCoursesOfTheWeek);
   this.get('/courses/:id', getCourse);
 
   this.get('/challenges', getChallenges);

@@ -48,6 +48,8 @@ const contentReference = {
 
 const ComparisonWindow = Ember.Component.extend({
 
+  classNames: ['comparison-window'],
+
   answer: null,
   challenge: null,
   solution: null,

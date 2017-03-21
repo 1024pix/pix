@@ -1,10 +1,10 @@
 machine:
   node:
-    version: v6.9.5
+    version: v7.7.3
 
 dependencies:
-  override:
-    - npm run install:all
+  pre:
+    - npm install -g bower
 
 test:
   override:

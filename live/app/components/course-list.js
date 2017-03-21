@@ -22,7 +22,22 @@ const CourseList = Ember.Component.extend({
 
   courses: null,
   selectedCourse: null,
+
   classNames: ['course-list'],
+
+  filteredCourses: Ember.computed('courses.[]', function () {
+    const courses = this.get('courses');
+    let filteredCourses = [];
+
+    if (courses) {
+      const limit = this.get('limit');
+      filteredCourses = courses.toArray();
+      if (limit) {
+        filteredCourses = courses.slice(0, limit);
+      }
+    }
+    return filteredCourses;
+  }),
 
   didInsertElement () {
     const that = this;

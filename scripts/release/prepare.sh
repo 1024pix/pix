@@ -46,7 +46,7 @@ fi
 git pull
 
 # Reinstall all dependencies
-npm run clean && npm run install:all
+npm run clean && npm install
 
 # Remove local branch 'release' if exists, then create it
 RELEASE_BRANCH="release-$PACKAGE_VERSION"

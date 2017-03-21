@@ -1,8 +1,8 @@
 const { describe, it, before, afterEach, beforeEach, expect, sinon } = require('../../../test-helper');
 const Hapi = require('hapi');
 const Course = require('../../../../lib/domain/models/referential/course');
-const CourseRepository = require('../../../../lib/infrastructure/repositories/course-repository');
-const CourseSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/course-serializer');
+const courseRepository = require('../../../../lib/infrastructure/repositories/course-repository');
+const courseSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/course-serializer');
 const cache = require('../../../../lib/infrastructure/cache');
 
 describe('Unit | Controller | course-controller', function () {
@@ -31,10 +31,10 @@ describe('Unit | Controller | course-controller', function () {
       new Course({ id: 'course_3' })
     ];
 
-    it('should fetch and return all the courses, serialized as JSONAPI', function (done) {
+    it('should fetch and return all the courses', function (done) {
       // given
-      sinon.stub(CourseRepository, 'getProgressionTests').resolves(courses);
-      sinon.stub(CourseSerializer, 'serializeArray', () => courses);
+      sinon.stub(courseRepository, 'getProgressionCourses').resolves(courses);
+      sinon.stub(courseSerializer, 'serializeArray', () => courses);
 
       // when
       server.inject({ method: 'GET', url: '/api/courses' }, (res) => {
@@ -43,26 +43,44 @@ describe('Unit | Controller | course-controller', function () {
         expect(res.result).to.deep.equal(courses);
 
         // after
-        CourseRepository.getProgressionTests.restore();
-        CourseSerializer.serializeArray.restore();
+        courseRepository.getProgressionCourses.restore();
+        courseSerializer.serializeArray.restore();
         done();
       });
     });
 
-    it('should fetch and return all the adaptive courses, serialized as JSONAPI', function (done) {
+    it('should fetch and return all the adaptive courses', function (done) {
       // given
-      sinon.stub(CourseRepository, 'getProgressionTests').resolves(courses);
-      sinon.stub(CourseSerializer, 'serializeArray', () => courses);
+      sinon.stub(courseRepository, 'getAdaptiveCourses').resolves(courses);
+      sinon.stub(courseSerializer, 'serializeArray', () => courses);
 
       // when
-      server.inject({ method: 'GET', url: '/api/courses?adaptive=true' }, (res) => {
+      server.inject({ method: 'GET', url: '/api/courses?isAdaptive=true' }, (res) => {
 
         // then
         expect(res.result).to.deep.equal(courses);
 
         // after
-        CourseRepository.getProgressionTests.restore();
-        CourseSerializer.serializeArray.restore();
+        courseRepository.getAdaptiveCourses.restore();
+        courseSerializer.serializeArray.restore();
+        done();
+      });
+    });
+
+    it('should fetch and return all the highlitghted courses of the week', function (done) {
+      // given
+      sinon.stub(courseRepository, 'getCoursesOfTheWeek').resolves(courses);
+      sinon.stub(courseSerializer, 'serializeArray', () => courses);
+
+      // when
+      server.inject({ method: 'GET', url: '/api/courses?isCourseOfTheWeek=true' }, (res) => {
+
+        // then
+        expect(res.result).to.deep.equal(courses);
+
+        // after
+        courseRepository.getCoursesOfTheWeek.restore();
+        courseSerializer.serializeArray.restore();
         done();
       });
     });
@@ -74,8 +92,8 @@ describe('Unit | Controller | course-controller', function () {
 
     it('should fetch and return the given course, serialized as JSONAPI', function (done) {
       // given
-      sinon.stub(CourseRepository, 'get').resolves(course);
-      sinon.stub(CourseSerializer, 'serialize', () => course);
+      sinon.stub(courseRepository, 'get').resolves(course);
+      sinon.stub(courseSerializer, 'serialize', () => course);
 
       // when
       server.inject({ method: 'GET', url: '/api/courses/course_id' }, (res) => {
@@ -84,8 +102,8 @@ describe('Unit | Controller | course-controller', function () {
         expect(res.result).to.deep.equal(course);
 
         // after
-        CourseRepository.get.restore();
-        CourseSerializer.serialize.restore();
+        courseRepository.get.restore();
+        courseSerializer.serialize.restore();
         done();
       });
     });
@@ -98,7 +116,7 @@ describe('Unit | Controller | course-controller', function () {
           message: 'Could not find row by id unknown_id'
         }
       };
-      sinon.stub(CourseRepository, 'get').rejects(error);
+      sinon.stub(courseRepository, 'get').rejects(error);
 
       // when
       server.inject({ method: 'GET', url: '/api/courses/unknown_id' }, (res) => {
@@ -107,10 +125,47 @@ describe('Unit | Controller | course-controller', function () {
         expect(res.statusCode).to.equal(404);
 
         // after
-        CourseRepository.get.restore();
+        courseRepository.get.restore();
         done();
       });
     });
   });
 
+  describe('#refreshAll', function () {
+
+    it('should return "courses updated" if refresh is ok', function (done) {
+      // given
+      sinon.stub(courseRepository, 'refreshAll').resolves(true);
+
+      // when
+      server.inject({ method: 'PUT', url: '/api/courses' }, (res) => {
+
+        // then
+        expect(res.statusCode).to.equal(200);
+        expect(res.result).to.equal('Courses updated');
+
+        // after
+        courseRepository.refreshAll.restore();
+        done();
+      });
+    });
+
+    it('should return "courses updated" if refresh is ok', function (done) {
+      // given
+      const error = 'An internal server error occurred';
+      sinon.stub(courseRepository, 'refreshAll').rejects(error);
+
+      // when
+      server.inject({ method: 'PUT', url: '/api/courses' }, (res) => {
+
+        // then
+        expect(res.statusCode).to.equal(500);
+        expect(res.result.message).to.equal(error);
+
+        // after
+        courseRepository.refreshAll.restore();
+        done();
+      });
+    });
+  });
 });

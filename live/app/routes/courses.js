@@ -2,9 +2,14 @@ import Ember from 'ember';
 
 export default Ember.Route.extend({
 
-  delay: Ember.inject.service(),
-
   model() {
-    return this.store.findAll('course');
+    return this.get('store').findAll('course');
+  },
+
+  actions: {
+    startCourse(course) {
+      this.transitionTo('courses.create-assessment', course);
+    }
   }
+
 });

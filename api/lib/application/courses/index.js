@@ -9,6 +9,11 @@ exports.register = function (server, options, next) {
       config: { handler: CourseController.list, tags: ['api'] }
     },
     {
+      method: 'PUT',
+      path: '/api/courses',
+      config: { handler: CourseController.refreshAll, tags: ['api'] }
+    },
+    {
       method: 'GET',
       path: '/api/courses/{id}',
       config: { handler: CourseController.get, tags: ['api'] }
