@@ -12,6 +12,8 @@
 
   @media (min-width: 992px) {
     flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: center;
   }
 }
 
