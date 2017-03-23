@@ -1,13 +1,9 @@
-<div class="course-banner">
+<div class="course-banner__container">
 
-  <div class="container course-banner-wrapper">
+  <span class="course-banner__name">{{course.name}}</span>
 
-    <span class="course-banner-name">{{course.name}}</span>
-
-    {{#if withHomeLink}}
-      {{#link-to "index" class="course-banner-home-link"}}Retour à la liste des tests{{/link-to}}
-    {{/if}}
-
-  </div>
+  {{#if withHomeLink}}
+    {{#link-to "index" class="course-banner__home-link"}}Retour à la liste des tests{{/link-to}}
+  {{/if}}
 
 </div>

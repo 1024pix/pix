@@ -17,7 +17,7 @@ describe('Acceptance | b7 - Points communs a toutes les épreuves | ', function 
   });
 
   it('b7.0 Le nom du test est affiché', function() {
-    expect(findWithAssert('.course-banner-name').text()).to.contains('First Course');
+    expect(findWithAssert('.course-banner__name').text()).to.contains('First Course');
   });
 
   it('b7.1 L\'instruction de l\'epreuve est affichée', function () {
@@ -47,13 +47,13 @@ describe('Acceptance | b7 - Points communs a toutes les épreuves | ', function 
   });
 
   it('b7.5 Il existe un bouton "Revenir à la liste des tests"', function () {
-    const $courseListButton = findWithAssert('.course-banner-home-link');
+    const $courseListButton = findWithAssert('.course-banner__home-link');
     expect($courseListButton.text()).to.equal('Retour à la liste des tests');
   });
 
   it('b7.6 Quand je clique sur le bouton "Revenir à la liste des tests", je suis redirigé vers l\'index', function () {
     // when
-    click('.course-banner-home-link');
+    click('.course-banner__home-link');
 
     // then
     andThen(() => expect(currentURL()).to.equal('/'));

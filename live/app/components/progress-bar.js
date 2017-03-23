@@ -1,9 +1,5 @@
 import Ember from 'ember';
 
-const ProgressBar = Ember.Component.extend({});
-
-ProgressBar.reopenClass({
-  positionalParams: ['progress']
+export default Ember.Component.extend({
+  classNames: ['progress', 'pix-progress-bar']
 });
-
-export default ProgressBar;

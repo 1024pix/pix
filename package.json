@@ -19,6 +19,9 @@
     "lcov-result-merger": "^1.2.0",
     "npm-run-all": "^3.1.1"
   },
+  "engines": {
+    "node": ">= 7.7.4"
+  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/sgmap/pix.git"

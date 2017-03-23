@@ -50,7 +50,7 @@ describe('Acceptance | e1 - Prévisualiser une épreuve | ', function () {
       // Given
       await visit('/challenges/ref_qcu_challenge_id/preview');
       expect(currentURL()).to.equal('/assessments/ref_assessment_id/challenges/ref_qcu_challenge_id');
-      expect(findWithAssert('#assessment-challenge'));
+      expect(findWithAssert('.assessment-challenge'));
     });
 
     it('e1.3 Il y a une demande de rafraichissement du cache des solutions', async function () {

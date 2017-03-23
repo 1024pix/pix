@@ -1,10 +1,14 @@
-<div id="assessment-challenge" class="assessment-challenge-container">
+<div class="assessment-challenge">
 
-  {{course-banner course=model.assessment.course withHomeLink=true}}
+  <div class="assessment-challenge__course-banner">
+    {{course-banner course=model.assessment.course withHomeLink=true}}
+  </div>
 
-  <div class="container">
+  <div class="assessment-challenge__content">
     {{#unless model.assessment.course.isAdaptive}}
-      {{progress-bar model.progress}}
+      <div class="assessment-challenge__progress-bar">
+        {{progress-bar progress=model.progress}}
+      </div>
     {{/unless}}
 
     {{component model.challenge.challengeItemType

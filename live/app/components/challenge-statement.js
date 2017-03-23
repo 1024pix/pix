@@ -4,6 +4,8 @@ const ChallengeStatement = Ember.Component.extend({
 
   selectedAttachmentUrl: null,
 
+  classNames: ['rounded-panel', 'challenge-statement'],
+
   init() {
     this._super(...arguments);
     this.selectedAttachmentUrl = this.get('challenge.attachments.firstObject');

@@ -35,7 +35,7 @@ describe('Acceptance | a4 - Démarrer un test |', function () {
   it('a4.4 Quand je démarre un test, je suis redirigé vers la première épreuve du test', function() {
     const $startLink = findWithAssert(START_BUTTON);
     return click($startLink).then(function() {
-      findWithAssert('#assessment-challenge');
+      findWithAssert('.assessment-challenge');
       expect(currentURL()).to.contains(URL_OF_FIRST_TEST);
     });
   });

@@ -3,8 +3,6 @@ import labeledCheckboxes from 'pix-live/utils/labeled-checkboxes';
 
 export default Ember.Component.extend({
 
-  tagName: 'div',
-
   labeledCheckboxes: Ember.computed('proposals', 'answers', function() {
     return labeledCheckboxes(this.get('proposals'), this.get('answers'));
   }),

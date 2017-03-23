@@ -22,7 +22,7 @@ describe('Integration | Component | pix logo', function() {
   });
 
   it('should display "béta"', function () {
-    expect(this.$().text().trim()).to.equal('Béta');
+    expect(this.$().text().trim()).to.equal('Bêta');
   });
 
 });

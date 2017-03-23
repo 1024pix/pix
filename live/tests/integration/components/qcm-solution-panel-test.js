@@ -1,5 +1,5 @@
 import {expect} from 'chai';
-import {describe, it} from 'mocha';
+import {describe, it, before} from 'mocha';
 import {setupComponentTest} from 'ember-mocha';
 import hbs from 'htmlbars-inline-precompile';
 import Ember from 'ember';
@@ -37,8 +37,8 @@ function charCount(str) {
   return str.match(/[a-zA-Z]/g).length;
 }
 
-
 describe('Integration | Component | qcm-solution-panel.js', function () {
+
   setupComponentTest('qcm-solution-panel', {
     integration: true
   });
@@ -112,6 +112,8 @@ describe('Integration | Component | qcm-solution-panel.js', function () {
 
       it('QCM, Au moins l\'une des réponse correcte n\'est pas cochée', function () {
         //Given
+        answer = Ember.Object.create(unCorrectAnswer);
+
         this.set('answer', answer);
         this.set('solution', solution);
         this.set('challenge', challenge);
@@ -164,11 +166,6 @@ describe('Integration | Component | qcm-solution-panel.js', function () {
           expect($('.comparison-window .qcm-proposal-label__checkbox-picture:eq(' + index + ')').is(':disabled')).to.equal(true);
         });
       });
-
-
     });
-
-
   });
-
 });
