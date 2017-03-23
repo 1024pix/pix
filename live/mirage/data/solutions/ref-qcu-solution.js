@@ -3,7 +3,7 @@ export default {
     type: 'solutions',
     id: 'ref_solution_id',
     attributes: {
-      value: '2,3'
+      value: '2'
     }
   }
 };

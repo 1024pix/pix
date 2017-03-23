@@ -3,17 +3,10 @@
   "version": "1.5.1",
   "description": "Plateforme d'évaluation et de certification des compétences numériques à l'usage de tous les citoyens francophones",
   "main": "server.js",
-  "repository": {
-    "type": "git",
-    "url": "git+ssh://git@github.com/sgmap/pix.git"
-  },
   "author": "SGMAP",
   "license": "AGPL-3.0",
-  "bugs": {
-    "url": "https://github.com/sgmap/pix-api/issues"
-  },
   "engines": {
-    "node": ">=6.9.0"
+    "node": ">=7.7.0"
   },
   "homepage": "https://github.com/sgmap/pix-api#readme",
   "dependencies": {

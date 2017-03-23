@@ -78,7 +78,7 @@ describe('Unit | Component | result-item-component', function () {
       { challengeType: 'QROC', expected: true },
       { challengeType: 'QROCm-ind', expected: false },
       { challengeType: 'QROCm-dep', expected: false },
-      { challengeType: 'QCU', expected: false }
+      { challengeType: 'QCU', expected: true }
     ].forEach(function (data) {
 
       it(`should return ${data.expected} when challenge type is ${data.challengeType}`, function () {

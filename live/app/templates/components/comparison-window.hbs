@@ -22,15 +22,15 @@
       </div>
 
       <div class="comparison-window__title">
-        <div data-toggle="tooltip" data-placement="top" title="{{resultItemContent.titleTooltip}}">
-          {{#if resultItemContent.custom}}
-            <svg class="{{resultItemContent.color}}" width="22" height="22" viewBox="0 0 24 25" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><defs><path d="{{resultItemContent.path}}" id="path-1"></path><mask id="mask-2" maskContentUnits="userSpaceOnUse" maskUnits="objectBoundingBox" x="0" y="0" width="24" height="24" fill="white"><use xlink:href="#path-1"></use></mask></defs><g id="Résultats" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd"><g id="test-fin-1" transform="translate(-1155.000000, -532.000000)" stroke="#FFBE00" stroke-width="14"><g id="Group3" transform="translate(226.000000, 504.000000)"><use id="Shape-Copy-3" mask="url(#mask-2)" xlink:href="#path-1"></use></g></g></g></svg>
+        <div data-toggle="tooltip" data-placement="top" title="{{resultItem.titleTooltip}}">
+          {{#if resultItem.custom}}
+            <svg class="{{resultItem.color}}" width="22" height="22" viewBox="0 0 24 25" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><defs><path d="{{resultItem.path}}" id="path-1"></path><mask id="mask-2" maskContentUnits="userSpaceOnUse" maskUnits="objectBoundingBox" x="0" y="0" width="24" height="24" fill="white"><use xlink:href="#path-1"></use></mask></defs><g id="Résultats" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd"><g id="test-fin-1" transform="translate(-1155.000000, -532.000000)" stroke="#FFBE00" stroke-width="14"><g id="Group3" transform="translate(226.000000, 504.000000)"><use id="Shape-Copy-3" mask="url(#mask-2)" xlink:href="#path-1"></use></g></g></g></svg>
           {{else}}
-            <svg class="{{resultItemContent.color}}" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" width="24" height="24" viewBox="0 0 24 24"><path d="{{resultItemContent.path}}" fill="{{resultItemContent.color}}" ></path></svg>
+            <svg class="{{resultItem.color}}" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" width="24" height="24" viewBox="0 0 24 24"><path d="{{resultItem.path}}" fill="{{resultItem.color}}" ></path></svg>
           {{/if}}
         </div>
       </div>
-      <div class="comparison-window__title-text">{{resultItemContent.title}}</div>
+      <div class="comparison-window__title-text">{{resultItem.title}}</div>
     </div>
 
     <div class="routable-modal--body comparison-window--body">
@@ -54,6 +54,11 @@
           {{qcm-solution-panel challenge=challenge answer=answer solution=solution}}
       {{/if}}
 
+
+      {{#if isAssessmentChallengeTypeQcu}}
+          {{qcu-solution-panel challenge=challenge answer=answer solution=solution}}
+      {{/if}}
+      
       {{#if isAssessmentChallengeTypeQroc}}
         <div class="comparison-window__corrected-answers comparison-window__corrected-answers--qroc">
           {{qroc-solution-panel answer=answer solution=solution }}

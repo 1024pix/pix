@@ -9,14 +9,14 @@ const contentReference = {
   },
 
   ko: {
-    title: 'Vous n\'avez pas donné de réponse',
+    title: 'Vous n\'avez pas la bonne réponse',
     titleTooltip: 'Réponse incorrecte',
     path: 'M12,2C17.53,2 22,6.47 22,12C22,17.53 17.53,22 12,22C6.47,22 2,17.53 2,12C2,6.47 6.47,2 12,2M15.59,7L12,10.59L8.41,7L7,8.41L10.59,12L7,15.59L8.41,17L12,13.41L15.59,17L17,15.59L13.41,12L17,8.41L15.59,7Z',
     color: '#ff4600'
   },
 
   aband: {
-    title: 'Vous n\'avez pas la bonne réponse',
+    title: 'Vous n\'avez pas donné de réponse',
     titleTooltip: 'Sans réponse',
     path: 'M12,2A10,10 0 0,0 2,12A10,10 0 0,0 12,22A10,10 0 0,0 22,12A10,10 0 0,0 12,2M8,8L13,12L8,16M14,8H16V16H14',
     color: '#3e4149'
@@ -43,7 +43,6 @@ const contentReference = {
     path: 'M13,13H11V7H13M13,17H11V15H13M12,2A10,10 0 0,0 2,12A10,10 0 0,0 12,22A10,10 0 0,0 22,12A10,10 0 0,0 12,2Z',
     color: '#446eff'
   }
-
 };
 
 const ComparisonWindow = Ember.Component.extend({
@@ -57,14 +56,19 @@ const ComparisonWindow = Ember.Component.extend({
 
   isAssessmentChallengeTypeQroc: Ember.computed.equal('challenge.type', 'QROC'),
   isAssessmentChallengeTypeQcm: Ember.computed.equal('challenge.type', 'QCM'),
+  isAssessmentChallengeTypeQcu: Ember.computed.equal('challenge.type', 'QCU'),
   isAssessmentChallengeTypeQrocm: Ember.computed.equal('challenge.type', 'QROCM'),
   isAssessmentChallengeTypeQrocmInd: Ember.computed.equal('challenge.type', 'QROCM-IND'),
   isAssessmentChallengeTypeQrocmDep: Ember.computed.equal('challenge.type', 'QROCM-DEP'),
 
-  resultItemContent: Ember.computed('answer.result', function () {
-    if (!this.get('answer.result')) return;
+  resultItem: Ember.computed('answer.result', function () {
+    let resultItem = contentReference['default'];
     const answerStatus = this.get('answer.result');
-    return (answerStatus in contentReference)? contentReference[answerStatus] : '';
+
+    if (answerStatus && (answerStatus in contentReference)) {
+      resultItem = contentReference[answerStatus];
+    }
+    return resultItem;
   })
 
 });
