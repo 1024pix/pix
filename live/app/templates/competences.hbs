@@ -1,0 +1,38 @@
+<div class="competences-page">
+
+  {{navbar-header class="navbar-header--white"}}
+
+  <div class="competences-page__panel competences-page__header">
+    <h1 class="competences-page__header-text">
+      Retrouvez les 5 domaines de compétences que Pix souhaite évaluer, en accord avec le référentiel européen DIGCOMP.
+    </h1>
+  </div>
+
+  {{#cp-panels class="competences-page__domains" as |panels|}}
+    {{#each model as |domain|}}
+      {{#panels.panel class="rounded-panel competences-domain" as |panel|}}
+        {{#panel.toggle class="competences-domain__header"}}
+          <h2 class="competences-domain__title">{{domain.title}}</h2>
+          <span class="competences-domain__title-icon"></span>
+        {{/panel.toggle}}
+        {{#panel.body class="competences-domain__content"}}
+          <div class="competences-domain__topics">
+            {{#each domain.topics as |topic|}}
+              <div class="domain-topic">
+                <h3 class="domain-topic__title">{{topic.title}}</h3>
+                <p class="domain-topic__description">{{topic.description}}</p>
+                <div class="domain-topic__themes">
+                  <h4 class="domain-topic__themes-title">Thématiques associées</h4>
+                  <p class="domain-topic__themes-content">{{topic.themes}}</p>
+                </div>
+              </div>
+            {{/each}}
+          </div>
+        {{/panel.body}}
+      {{/panels.panel}}
+    {{/each}}
+  {{/cp-panels}}
+
+</div>
+
+{{app-footer}}

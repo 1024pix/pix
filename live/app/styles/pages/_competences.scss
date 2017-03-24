@@ -1,0 +1,141 @@
+.competences-page {
+  display: flex;
+  flex-flow: column;
+  align-items: center;
+  background-color: #fafafa;
+  color: $charcoal-grey;
+  text-rendering: optimizeLegibility;
+}
+
+.competences-page__header {
+  padding: 60px 20px;
+  width: 100%;
+  background-image: linear-gradient(to bottom, #446eff, #001f8d), linear-gradient(#3d68ff, #3d68ff);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  margin: 0 0 50px;
+}
+
+.competences-page__header-text {
+  text-align: center;
+  margin: 0 auto;
+  color: $white;
+  font-family: $font-lato;
+  font-size: 32px;
+  font-weight: bold;
+  font-style: italic;
+  line-height: 1.2;
+  max-width: 940px;
+
+  @media (min-width: 992px) {
+    font-size: 35px;
+  }
+}
+
+.competences-page__domains {
+  max-width: 940px;
+  width: 100%;
+  padding: 0 20px;
+  margin-bottom: 50px;
+
+  @media (min-width: 992px) {
+    padding: 0;
+  }
+}
+
+.competences-domain {
+  width: 100%;
+  padding: 20px;
+
+  @media (min-width: 992px) {
+    padding: 20px 40px;
+  }
+}
+
+.cp-Panel-body-inner {
+  overflow: visible;
+}
+
+.competences-domain__header {
+  color: $charcoal-grey;
+  display: flex;
+  width: 100%;
+  align-items: center;
+  justify-content: space-between;
+
+  &:hover,
+  &:focus,
+  &:active {
+    color: $charcoal-grey;
+    text-decoration: none;
+  }
+}
+
+.competences-domain__title {
+  margin: 15px 0;
+  font-family: $font-raleway;
+  font-weight: 500;
+  font-size: 26px;
+
+  @media (min-width: 992px) {
+    font-size: 40px;
+  }
+}
+
+.competences-domain__title-icon {
+  display: inline-block;
+  width: 20px;
+  height: 20px;
+  margin-right: 5px;
+  -webkit-transform: rotate(-315deg);
+  transform: rotate(-315deg);
+  border: solid 2px #979797;
+  border-top: none;
+  border-left: none;
+}
+
+/* XXX we do not have the choice here to bypass BEM for managing collapsible panel title in "closed" status. */
+.cp-is-open > .competences-domain__title-icon {
+  border: solid 2px #979797;
+  border-bottom: none;
+  border-right: none;
+}
+
+.domain-topic {
+  border-top: 1px solid #d8d8d8;
+  padding: 26px 0 5px;
+  margin-top: 30px;
+}
+
+.domain-topic__title {
+  font-family: $font-raleway;
+  font-size: 28px;
+  font-weight: 600;
+  color: $blue;
+  margin-top: 0;
+  margin-bottom: 17px;
+}
+
+.domain-topic__description {
+  font-family: $font-lato;
+  font-size: 20px;
+  margin-bottom: 20px;
+  color: $charcoal-grey;
+}
+
+.domain-topic__themes-title {
+  font-family: $font-lato;
+  font-size: 12px;
+  font-weight: bold;
+  text-transform: uppercase;
+  margin: 0 0 5px 0;
+}
+
+.domain-topic__themes-content {
+  font-family: $font-lato;
+  font-size: 16px;
+  font-weight: 300;
+  color: $charcoal-grey;
+}

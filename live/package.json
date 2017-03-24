@@ -42,6 +42,7 @@
     "ember-cli-sri": "2.1.1",
     "ember-cli-test-loader": "1.1.1",
     "ember-cli-uglify": "1.2.0",
+    "ember-collapsible-panel": "^2.0.1",
     "ember-data": "2.11.1",
     "ember-exam": "0.6.0",
     "ember-export-application-global": "1.1.1",

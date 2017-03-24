@@ -8,9 +8,6 @@
   "bugs": {
     "url": "https://github.com/sgmap/pix/issues"
   },
-  "engines": {
-    "node": ">=7.7.0"
-  },
   "main": "index.js",
   "devDependencies": {
     "codeclimate-test-reporter": "^0.4.0",
