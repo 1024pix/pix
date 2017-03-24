@@ -5,6 +5,16 @@ const QrocSolutionPanel = Ember.Component.extend({
   answer: null,
   solution: null,
 
+  isResultOk : Ember.computed('answer', function () {
+    return this.get('answer.result') === 'ok';
+  }),
+  isResultKo : Ember.computed('answer', function () {
+    return this.get('answer.result') === 'ko';
+  }),
+  isResultWithoutAnswer : Ember.computed('answer', function () {
+    return this.get('answer.result') === 'aband';
+  }),
+
   answerToDisplay: Ember.computed('answer', function () {
     const answer = this.get('answer.value');
     if (answer === '#ABAND#'){
