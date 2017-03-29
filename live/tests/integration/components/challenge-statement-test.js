@@ -141,6 +141,15 @@ describe('Integration | Component | ChallengeStatement', function () {
         hasMultipleAttachments: true
       };
 
+      const challengeQROC = {
+        instruction : 'Dans la présentation à télécharger, un mot est caché sous le parchemin. Trouvez-le !',
+        hasInternetAllowed : false,
+        hasSingleAttachment: false,
+        hasAttachment: true,
+        hasMultipleAttachments: true,
+        attachments: ['http://dl.airtable.com/EL9k935vQQS1wAGIhcZU_PIX_parchemin.ppt', 'http://dl.airtable.com/VGAwZSilQji6Spm9C9Tf_PIX_parchemin.odp']
+      };
+
       it('should display as many radio button as attachments', function() {
         // given
         addChallengeToContext(this, challenge);
@@ -168,6 +177,20 @@ describe('Integration | Component | ChallengeStatement', function () {
       it('should select first attachment as default selected radio buton', function() {
         // given
         addChallengeToContext(this, challenge);
+
+        // when
+        renderChallengeStatement(this);
+
+        // then
+        const $firstRadioButton = this.$('.challenge-statement__file-option-input')[0];
+        const $secondRadioButton = this.$('.challenge-statement__file-option-input')[1];
+        expect($firstRadioButton.checked).to.be.true;
+        expect($secondRadioButton.checked).to.be.false;
+      });
+
+      it('should select first attachment as default selected radio button', function() {
+        // given
+        addChallengeToContext(this, challengeQROC);
 
         // when
         renderChallengeStatement(this);

@@ -1,21 +1,16 @@
 import Ember from 'ember';
 
 const ChallengeStatement = Ember.Component.extend({
-
-  selectedAttachmentUrl: null,
-
+  
   classNames: ['rounded-panel', 'challenge-statement'],
+  
+  selectedAttachmentUrl: Ember.computed('challenge.attachments', function(){
+    return this.get('challenge.attachments.firstObject');
+  }),
 
-  init() {
-    this._super(...arguments);
-    this.selectedAttachmentUrl = this.get('challenge.attachments.firstObject');
-  },
-
-  didInsertElement() {
-    this._super(...arguments);
-    const selectedRadio = this.$(`.challenge-statement__file-option-input[value="${this.selectedAttachmentUrl}"]`);
-    selectedRadio.attr('checked', 'checked');
-  },
+  attachmentsData: Ember.computed('challenge.attachements',function(){
+    return this.get('challenge.attachments');
+  }),
 
   actions: {
     selectAttachementUrl(attachementUrl) {

@@ -171,6 +171,5 @@ describe('Unit | Serializer | challenge-serializer', function () {
       });
 
     });
-
   });
 });
