@@ -1,5 +1,6 @@
-const {describe, it, before, after, beforeEach, afterEach, expect, knex} = require('../../test-helper');
+const {describe, it, after, beforeEach, afterEach, expect, knex, sinon} = require('../../test-helper');
 const server = require('../../../server');
+const Mailjet = require('../../../lib/infrastructure/mailjet')
 
 describe('Acceptance | Controller | follower-controller', function () {
 
@@ -26,6 +27,7 @@ describe('Acceptance | Controller | follower-controller', function () {
           }
         }
       };
+      const spyMailjet = sinon.spy(Mailjet, 'sendWelcomeEmail');
 
       server.inject({method: 'POST', url: '/api/followers', payload}).then((response) => {
         expect(response.statusCode).to.equal(201);
@@ -34,6 +36,8 @@ describe('Acceptance | Controller | follower-controller', function () {
         expect(follower.data.id).to.exist;
         expect(follower.data.type).to.equal('followers');
         expect(follower.data.attributes.email).to.equal('shi+1@fu.me');
+        expect(spyMailjet.withArgs('shi+1@fu.me').calledOnce).to.be.true;
+        spyMailjet.restore();
         done();
       });
     });
@@ -47,9 +51,13 @@ describe('Acceptance | Controller | follower-controller', function () {
           }
         }
       };
+
       server.inject({method: 'POST', url: '/api/followers', payload}).then(_ => {
+        const spyMailjet = sinon.spy(Mailjet, 'sendWelcomeEmail');
         server.inject({method: 'POST', url: '/api/followers', payload}).then((res) => {
+          expect(spyMailjet.notCalled).to.be.true;
           expect(res.statusCode).to.equal(409);
+          spyMailjet.restore();
           done();
         });
       });

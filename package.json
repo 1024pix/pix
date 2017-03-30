@@ -57,5 +57,8 @@
     "release:prepare": "./scripts/release/prepare.sh",
     "release:perform": "./scripts/release/perform.sh",
     "release:publish": "./scripts/release/publish.sh"
+  },
+  "dependencies": {
+    "node-mailjet": "^3.0.6"
   }
 }

@@ -7,8 +7,14 @@ function hideMessageDiv(context) {
   if (ENV.environment !== 'test') {
     Ember.run.later(function () {
       context.set('status', 'empty');
+      context.set('errorType', 'invalid');
     }, messageDisplayDuration);
   }
+}
+
+function getErrorType(errors) {
+  const statusCode = parseInt(errors[0].status);
+  return (statusCode === 409) ? 'exist' : 'invalid';
 }
 
 export default Ember.Component.extend({
@@ -17,10 +23,14 @@ export default Ember.Component.extend({
 
   emailValidator: Ember.inject.service('email-validator'),
   store: Ember.inject.service(),
+  errorType:'invalid' ,
   status: 'empty', // empty | pending | success | error
 
   messages: {
-    error: 'Votre adresse n\'est pas valide',
+    error : {
+      invalid: 'Votre adresse n\'est pas valide',
+      exist: 'L\'e-mail choisi est déjà utilisé'
+    },
     success: 'Merci pour votre inscription'
   },
 
@@ -45,7 +55,8 @@ export default Ember.Component.extend({
   }),
 
   infoMessage: Ember.computed('hasError', function () {
-    return (this.get('hasError')) ? this.get('messages.error') : this.get('messages.success');
+    const currentErrorType = this.get('errorType');
+    return (this.get('hasError')) ? this.get('messages.error')[currentErrorType] : this.get('messages.success');
   }),
 
   submitButtonText: Ember.computed('status', function () {
@@ -77,7 +88,8 @@ export default Ember.Component.extend({
           hideMessageDiv(this);
           this.set('followerEmail', null);
         })
-        .catch(() => {
+        .catch(({errors}) => {
+          this.set('errorType', getErrorType(errors));
           this.set('status', 'error');
           hideMessageDiv(this);
         });
