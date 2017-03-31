@@ -1,5 +1,10 @@
 # Pix Changelog
 
+## 1.6.0 (31/03/2017)
+
+- [#355](https://github.com/sgmap/pix/pull/355) [FEATURE] Email de bienvenue aux followers (US-367).
+- [#352](https://github.com/sgmap/pix/pull/352) [BUGFIX] La première pièce à télécharger doit être coché par défaut (US-421). 
+
 ## 1.5.1 (24/03/2017)
 
 - [#345](https://github.com/sgmap/pix/pull/345) [FEATURE] Afficher les défis Pix de la semaine sur la page d'accueil (US-396). 
