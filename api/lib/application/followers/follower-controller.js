@@ -2,8 +2,9 @@ const Boom = require('boom');
 const Follower = require('../../domain/models/data/follower');
 const EmailValidator = require('../../domain/services/email-validator');
 const followerSerializer = require('../../infrastructure/serializers/jsonapi/follower-serializer');
+const mailjet = require('../../infrastructure/mailjet');
 
-function _assertFollowerNotExist(follower){
+function _assertFollowerNotExist(follower) {
   return new Promise((resolve, reject) => {
     if (follower) {
       return reject(Boom.conflict('Follower already exist'));
@@ -12,7 +13,7 @@ function _assertFollowerNotExist(follower){
   });
 }
 
-function _saveFollower(email){
+function _saveFollower(email) {
   return new Promise((resolve, reject) => {
     new Follower({email: email})
       .save()
@@ -39,6 +40,7 @@ module.exports = {
       .then(_assertFollowerNotExist)
       .then(() => _saveFollower(email))
       .then((follower) => {
+        mailjet.sendWelcomeEmail(email);
         reply(followerSerializer.serialize(follower)).code(201);
       })
       .catch((err) => reply(err));
