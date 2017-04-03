@@ -3,7 +3,7 @@ import { expect } from 'chai';
 import startApp from '../helpers/start-app';
 import destroyApp from '../helpers/destroy-app';
 
-describe('Acceptance | a5 - voir la liste des tests adaptatifs', function () {
+describe('Acceptance | a5 - La page des tests adaptatifs', function () {
 
   let application;
 
@@ -16,34 +16,14 @@ describe('Acceptance | a5 - voir la liste des tests adaptatifs', function () {
     destroyApp(application);
   });
 
-  it('a5.1 on affiche autant de tests que remontés par l\'API', function () {
-    expect(findWithAssert('.course')).to.have.lengthOf(1);
+  it('a5.0 est accessible depuis "/placement-tests"', function () {
+    expect(currentURL()).to.equal('/placement-tests');
   });
 
-  describe('a5.2 pour un test donné avec toutes les informations', function () {
+  describe('a5.1 contient une section', function () {
 
-    let $course;
-
-    beforeEach(function () {
-      $course = findWithAssert('.course[data-id="ref_course_id"]');
+    it('a5.1.1 avec la liste des tests', function () {
+      findWithAssert('.placement-tests-page-courses__course-list');
     });
-
-    it('a5.2.1 on affiche son nom', function () {
-      expect($course.find('.course-name').text()).to.contains('First Course');
-    });
-
-    it('a5.2.2 on affiche sa description', function () {
-      expect($course.find('.course-description').text()).to.contains('Contient toutes sortes d\'epreuves avec différentes caractéristiques couvrant tous les cas d\'usage');
-    });
-
-    it('a5.2.3 on affiche son image', function () {
-      expect($course.find('img')[0].src).to.equal('http://fakeimg.pl/350x200/?text=First%20Course');
-    });
-
-    it('a5.2.4 on affiche un bouton "démarrer le test"', function () {
-      expect($course.find('.start-button').text()).to.contains('Démarrer le test');
-    });
-
   });
-
 });

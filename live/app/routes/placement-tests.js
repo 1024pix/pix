@@ -6,5 +6,12 @@ export default Ember.Route.extend({
 
   model() {
     return this.store.query('course', { isAdaptive: true });
+  },
+
+  actions: {
+    startCourse(course) {
+      this.transitionTo('courses.create-assessment', course);
+    }
   }
+
 });
