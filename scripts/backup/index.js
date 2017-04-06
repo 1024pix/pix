@@ -20,14 +20,22 @@ function createBackupFolder() {
   });
 }
 
+function getFilePath(folderName, tableName) {
+  return folderName + '/' + 'Pix_Production_' + tableName.replace(' ', '') + '.json';
+}
+
+function createFileFromPath(filePath) {
+  const file = fs.openSync(filePath, 'w+');
+  fs.closeSync(file);
+}
+
 function createBackupFiles(folderName) {
   return new Promise((resolve) => {
     const tables = ['Epreuves', 'Tests', 'Images Propositions', 'Acquis'];
     const tableData = [];
     tables.forEach(tableName => {
-      const filePath = folderName + '/' + 'Pix_Production_' + tableName.replace(' ', '') + '.json';
-      const file = fs.openSync(filePath, 'w+');
-      fs.closeSync(file);
+      const filePath = getFilePath(folderName, tableName);
+      createFileFromPath(filePath);
       tableData.push({tableName, filePath});
     });
     resolve(tableData);

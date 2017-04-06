@@ -8,10 +8,12 @@ describe('Unit | Serializer | JSONAPI | answer-serializer', function () {
     id: 'answer_id',
     value: 'answer_value',
     timeout: 8,
+    elapsedTime: 30,
     result: 'result_value',
     assessmentId: 'assessment_id',
     challengeId: 'challenge_id'
   });
+
 
   const jsonAnswer = {
     data: {
@@ -20,6 +22,7 @@ describe('Unit | Serializer | JSONAPI | answer-serializer', function () {
       attributes: {
         value: 'answer_value',
         timeout: 8,
+        'elapsed-time': 30,
         result: 'result_value'
       },
       relationships: {
@@ -64,6 +67,7 @@ describe('Unit | Serializer | JSONAPI | answer-serializer', function () {
       expect(answer.get('value')).to.equal(jsonAnswer.data.attributes.value);
       expect(answer.get('result')).to.equal(jsonAnswer.data.attributes.result);
       expect(answer.get('timeout')).to.equal(jsonAnswer.data.attributes.timeout);
+      expect(answer.get('elapsedTime')).to.equal(jsonAnswer.data.attributes['elapsed-time']);
     });
 
   });

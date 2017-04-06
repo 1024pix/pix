@@ -30,6 +30,7 @@ function _saveNewAnswer(newAnswer, reply) {
       const answerCorrectness = solutionService.match(newAnswer, solution);
       newAnswer.set('result', answerCorrectness);
       newAnswer.set('timeout', newAnswer.get('timeout'));
+      newAnswer.set('elapsedTime', newAnswer.get('elapsedTime'));
       newAnswer.save()
         .then((newAnswer) => reply(answerSerializer.serialize(newAnswer)).code(201))
         .catch((err) => reply(Boom.badImplementation(err)));
@@ -41,7 +42,6 @@ module.exports = {
   save(request, reply) {
 
     const newAnswer = answerSerializer.deserialize(request.payload);
-
     answerRepository
       .findByChallengeAndAssessment(newAnswer.get('challengeId'), newAnswer.get('assessmentId'))
       .then(existingAnswer => {
