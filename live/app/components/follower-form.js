@@ -1,16 +1,12 @@
 import Ember from 'ember';
-import ENV from 'pix-live/config/environment';
+import config from 'pix-live/config/environment';
 import isEmailValid from 'pix-live/utils/email-validator';
 
-const messageDisplayDuration = 1500;
-
 function hideMessageDiv(context) {
-  if (ENV.environment !== 'test') {
-    Ember.run.later(function () {
-      context.set('status', 'empty');
-      context.set('errorType', 'invalid');
-    }, messageDisplayDuration);
-  }
+  Ember.run.later(function () {
+    context.set('status', 'empty');
+    context.set('errorType', 'invalid');
+  }, config.APP.MESSAGE_DISPLAY_DURATION);
 }
 
 function getErrorType(errors) {

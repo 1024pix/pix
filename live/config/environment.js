@@ -21,7 +21,11 @@ module.exports = function (environment) {
     APP: {
       // Here you can pass flags/options to your application instance
       // when it is created
-      API_HOST: ''
+      API_HOST: '',
+      isChallengeTimerEnable : true,
+      MESSAGE_DISPLAY_DURATION: 1500,
+      isMobileSimulationEnabled: false,
+      isTimerCountdownEnabled: true
     },
 
     googleFonts: [
@@ -35,7 +39,7 @@ module.exports = function (environment) {
       'font-src': "'self' fonts.gstatic.com",
       'style-src': "'self' fonts.googleapis.com"
     },
-    isChallengeTimerEnable : true
+
   };
 
   if (environment === 'development') {
@@ -63,7 +67,10 @@ module.exports = function (environment) {
     ENV.APP.rootElement = '#ember-testing';
     ENV.googleFonts = [];
     ENV.APP.API_HOST = 'http://localhost:3000';
-    ENV.isChallengeTimerEnable = false;
+    ENV.APP.isChallengeTimerEnable = false;
+    ENV.APP.MESSAGE_DISPLAY_DURATION = 0;
+    ENV.APP.isMobileSimulationEnabled = true;
+    ENV.APP.isTimerCountdownEnabled = false;
   }
 
   if (environment === 'integration') {
