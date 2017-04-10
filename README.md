@@ -22,7 +22,7 @@ Installation
 Vous devez au préalable avoir correctement installé les logiciels suivants :
 
 * [Git](http://git-scm.com/) (2.6.4)
-* [Node.js](http://nodejs.org/) (v7.7.3) et NPM (4.1.2)
+* [Node.js](http://nodejs.org/) (v7.8.0) et NPM (4.2.0)
 * [Bower](http://bower.io/) (1.8.0)
 * [Ember CLI](http://ember-cli.com/) (2.11.1)
 * [PhantomJS](http://phantomjs.org/) (2.1.1)
@@ -31,15 +31,34 @@ Vous devez au préalable avoir correctement installé les logiciels suivants :
 
 ### Instructions
 
+**1/ Récupérer le code source**
+
 ```bash
 $ git clone git@github.com:sgmap/pix.git && cd pix
-$ npm install
-$ (cd api && npm run db:migrate)
-$ npm test
+```
+
+**2/ Lancer le script de configuration de l'environnement**
+
+```bash
+$ npm run configure
+```
+
+> Pour information, ce script récupère toutes les dépendances des différents modules, exécute les tests (API et Web) et instancie un fichier Dotenv de configuration de l'environnement.
+
+**3/ Configurer les variables d'environnement dans le fichier `pix/api/.env`**
+
+Pour récupérer les différents identifiants / clés de connexion, s'adresser à un membre de [l'équipe PIX](https://github.com/orgs/sgmap/teams/pix).
+
+
+**4/ Lancer l'application**
+
+```bash
 $ npm start
 ```
 
-Par défaut, [l'API](http://localhost:3000) tourne en local sur le port 3000 et [l'application cliente](http://localhost:4200) sur le port 4200.
+**5/ Accéder à l'application**
+
+Par défaut, [l'API](http://localhost:3000) tourne en local sur le port 3000 et [l'application Web cliente](http://localhost:4200) sur le port 4200.
 
 Licence
 -------

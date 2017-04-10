@@ -5,8 +5,6 @@ machine:
 dependencies:
   pre:
     - npm install -g bower
-  override:
-    - npm run install:all
 
 test:
   override:

@@ -24,13 +24,16 @@
     "url": "git+https://github.com/sgmap/pix.git"
   },
   "scripts": {
+    "clean:root": "rm -rf node_modules && rm -rf tmp",
     "clean:api": "cd api && npm run clean",
     "clean:live": "cd live && npm run clean",
     "clean:coverage": "rm -rf coverage api/coverage live/coverage",
-    "clean": "node_modules/.bin/run-p clean:api clean:live clean:coverage",
+    "clean": "node_modules/.bin/run-p clean:api clean:live clean:coverage && npm run clean:root",
+    "configure:dotenv":"cp scripts/configure/sample.env api/.env",
+    "configure:api": "(cd api && npm run db:migrate)",
+    "configure": "npm install && npm test && npm run configure:dotenv && npm run configure:api",
     "install:api": "cd api && npm install",
     "install:live": "cd live && npm install",
-    "install:all": "npm install && node_modules/.bin/run-p install:api install:live",
     "postinstall": "node_modules/.bin/run-p install:api install:live",
     "start:api": "cd api && npm run start:watch",
     "start:live": "cd live && ember serve --proxy",

@@ -1,5 +1,5 @@
 {
-  "name": "backup",
+  "name": "pix-script-backup",
   "version": "1.0.0",
   "description": "Airtable backup",
   "main": "index.js",
@@ -10,8 +10,7 @@
     "Airtable",
     "Backup"
   ],
-  "author": "Pix",
-  "license": "ISC",
+  "license": "AGPL-3.0",
   "devDependencies": {
     "airtable": "^0.4.3"
   }
