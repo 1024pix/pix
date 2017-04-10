@@ -1,5 +1,6 @@
 import Ember from 'ember';
 import ENV from 'pix-live/config/environment';
+import isEmailValid from 'pix-live/utils/email-validator';
 
 const messageDisplayDuration = 1500;
 
@@ -21,7 +22,6 @@ export default Ember.Component.extend({
 
   classNames: ['follower-form'],
 
-  emailValidator: Ember.inject.service('email-validator'),
   store: Ember.inject.service(),
   errorType:'invalid' ,
   status: 'empty', // empty | pending | success | error
@@ -63,18 +63,11 @@ export default Ember.Component.extend({
     return (this.get('status') === 'pending') ? 'envoi en cours' : 's\'inscrire';
   }),
 
-  _checkEmail(email){
-    if (!this.get('emailValidator').emailIsValid(email)) {
-      return false;
-    }
-    return true;
-  },
-
   actions: {
     submit(){
       this.set('status', 'pending');
       const email = (this.get('followerEmail'))? this.get('followerEmail').trim() : '';
-      if (!this._checkEmail(email) || email.length < 1) {
+      if (!isEmailValid(email)) {
         this.set('status', 'error');
         hideMessageDiv(this);
         return;
