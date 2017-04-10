@@ -48,6 +48,10 @@ export default Ember.Component.extend({
     return 100 - (get(this, 'remainingSeconds') / actualAllotedTime) * 100;
   }),
 
+  jaugeWidthStyle: computed('percentageOfTimeout', function() {
+    return Ember.String.htmlSafe(`width: ${this.get('percentageOfTimeout')}%`);
+  }),
+
   hasFinished: computed('remainingSeconds', function() {
     return get(this, 'remainingSeconds') <= 0;
   }),
