@@ -80,6 +80,7 @@ describe('Unit | Utils | lodash-utils', function () {
     it('when input is an boolean (typeof meaning), it returns a toString() version of the input', function () {
       expect(_.ensureString(true)).to.equal('true');
     });
+
   });
 
   describe('#isBlank', function () {

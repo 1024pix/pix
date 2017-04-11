@@ -81,7 +81,7 @@ describe('Acceptance | Controller | answer-controller', function () {
 
     it('should not add a new answer into the database', function (done) {
       server.inject(options, (response) => {
-        Answer.count().then((afterAnswersNumber)=>{
+        Answer.count().then((afterAnswersNumber) => {
           expect(afterAnswersNumber).to.equal(1);
           done();
         });
@@ -100,6 +100,7 @@ describe('Acceptance | Controller | answer-controller', function () {
             expect(model.get('value')).to.equal(options.payload.data.attributes.value);
             expect(model.get('elapsedTime')).to.equal(options.payload.data.attributes['elapsed-time']);
             expect(model.get('result')).to.equal('ok');
+            expect(model.get('resultDetails')).to.equal('null\n');
             expect(model.get('assessmentId')).to.equal(options.payload.data.relationships.assessment.data.id);
             expect(model.get('challengeId')).to.equal(options.payload.data.relationships.challenge.data.id);
 

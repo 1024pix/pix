@@ -19,8 +19,12 @@ module.exports = {
     return solutionRepository
       .get(existingAnswer.get('challengeId'))
       .then((solution) => {
-        const answerCorrectness = this.match(existingAnswer, solution);
-        return new Answer({ id: existingAnswer.id, result: answerCorrectness }).save();
+        const answerCorrectness = this.validate(existingAnswer, solution);
+        return new Answer({
+          id: existingAnswer.id,
+          result: answerCorrectness.result,
+          resultDetails: answerCorrectness.resultDetails
+        }).save();
       });
   },
 
@@ -34,49 +38,54 @@ module.exports = {
     return result;
   },
 
-  match(answer, solution) {
+  validate(answer, solution) {
 
-    let result = 'unimplemented';
+    let response = {
+      result: 'unimplemented',
+      resultDetails: null
+    };
 
     const answerValue = answer.get('value');
     const answerTimeout = answer.get('timeout');
     const solutionValue = solution.value;
     const solutionScoring = solution.scoring;
+    const enabledTreatments = solution.enabledTreatments;
     const deactivations = solution.deactivations;
 
     if ('#ABAND#' === answerValue) {
-      return 'aband';
+      response.result = 'aband';
+      return response;
     }
 
     if (solution.type === 'QRU') {
-      result = solutionServiceQru.match(answerValue, solutionValue);
+      response.result = solutionServiceQru.match(answerValue, solutionValue);
     }
 
     if (solution.type === 'QCU') {
-      result = solutionServiceQcu.match(answerValue, solutionValue);
+      response.result = solutionServiceQcu.match(answerValue, solutionValue);
     }
 
     if (solution.type === 'QCM') {
-      result = solutionServiceQcm.match(answerValue, solutionValue);
+      response.result = solutionServiceQcm.match(answerValue, solutionValue);
     }
 
     if (solution.type === 'QROC') {
-      result = solutionServiceQroc.match(answerValue, solutionValue, deactivations);
+      response.result = solutionServiceQroc.match(answerValue, solutionValue, deactivations);
     }
 
     if (solution.type === 'QROCM-ind') {
-      result = solutionServiceQrocmInd.match(answerValue, solutionValue, deactivations);
+      response = solutionServiceQrocmInd.match(answerValue, solutionValue, enabledTreatments);
     }
 
     if (solution.type === 'QROCM-dep') {
-      result = solutionServiceQrocmDep.match(answerValue, solutionValue, solutionScoring, deactivations);
+      response.result = solutionServiceQrocmDep.match(answerValue, solutionValue, solutionScoring, deactivations);
     }
 
     if (answerTimeout) {
-      result = this._timedOut(result, answerTimeout);
+      response.result = this._timedOut(response.result, answerTimeout);
     }
 
-    return result;
+    return response;
   }
 
 };

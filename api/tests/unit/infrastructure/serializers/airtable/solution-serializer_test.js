@@ -37,37 +37,72 @@ describe('Unit | Serializer | solution-serializer', function () {
 
     });
 
-    it('Should generate an empty deactivations property by default', function () {
+    describe('Treatments options management', function () {
 
-      // given
-      const airtableRecord = { fields: {} };
+      it('should return [t1, t2, t3] when treatments deactivations are not defined in Airtable', function () {
+        // given
+        const fields = [];
+        const airtableRecord = { fields };
+        // when
+        const solution = serializer.deserialize(airtableRecord);
+        // then
+        expect(solution.enabledTreatments).to.deep.equal(['t1', 't2', 't3']);
+      });
 
-      // when
-      const solution = serializer.deserialize(airtableRecord);
+      it('should return [t2, t3] when T1 is deactivated in Airtable', function () {
+        // given
+        const airtableRecord = {
+          fields: {
+            'désactiver T1': true
+          }
+        };
+        // when
+        const solution = serializer.deserialize(airtableRecord);
+        // then
+        expect(solution.enabledTreatments).to.deep.equal(['t2', 't3']);
+      });
 
-      // then
-      expect(solution.deactivations).to.deep.equal({t1: undefined, t2: undefined, t3: undefined});
+      it('should return [t1, t3] when T2 is deactivated in Airtable', function () {
+        // given
+        const airtableRecord = {
+          fields: {
+            'désactiver T2': true
+          }
+        };
+        // when
+        const solution = serializer.deserialize(airtableRecord);
+        // then
+        expect(solution.enabledTreatments).to.deep.equal(['t1', 't3']);
+      });
+
+      it('should return [t1, t2] when T1 is deactivated in Airtable', function () {
+        // given
+        const airtableRecord = {
+          fields: {
+            'désactiver T3': true
+          }
+        };
+        // when
+        const solution = serializer.deserialize(airtableRecord);
+        // then
+        expect(solution.enabledTreatments).to.deep.equal(['t1', 't2']);
+      });
+
+      it('should return [] when T1, T2 and T3 are deactivated in Airtable', function () {
+        // given
+        const airtableRecord = {
+          fields: {
+            'désactiver T1': true,
+            'désactiver T2': true,
+            'désactiver T3': true
+          }
+        };
+        // when
+        const solution = serializer.deserialize(airtableRecord);
+        // then
+        expect(solution.enabledTreatments).to.deep.equal([]);
+      });
 
     });
-
-    it('Should be able to deactivate t1, t2, t3', function () {
-
-      // given
-      const airtableRecord = {
-        fields:
-        {'désactiver T1': 't1',
-          'désactiver T2': 't2',
-          'désactiver T3': 't3'}
-      };
-
-      // when
-      const solution = serializer.deserialize(airtableRecord);
-
-      // then
-      expect(solution.deactivations).to.deep.equal({t1: 't1', t2: 't2', t3: 't3'});
-
-    });
-
-
   });
 });

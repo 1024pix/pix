@@ -8,6 +8,7 @@ export default Model.extend(ValueAsArrayOfBoolean, ValueAsArrayOfString, {
 
   value: attr('string'),
   result: attr('string'),
+  resultDetails : attr('string'),
   timeout: attr('number'),
   elapsedTime: attr('number'),
   assessment: belongsTo('assessment'),

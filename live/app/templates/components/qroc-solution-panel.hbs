@@ -2,9 +2,7 @@
   <div class="rounded-panel__row ">
 
     <div class="correction-qroc-box__answer">
-      <input class="{{if isResultOk "correction-qroc-box__input-right-answer"
-                     (if isResultKo "correction-qroc-box__input-wrong-answer"
-                     (if isResultWithoutAnswer "correction-qroc-box__input-no-answer"))}} correction-qroc-box--answer__input"
+      <input class="{{inputClass}} correction-qroc-box--answer__input"
              value="{{answerToDisplay}}"
              disabled>
     </div>

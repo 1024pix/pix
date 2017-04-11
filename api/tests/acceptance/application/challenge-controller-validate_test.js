@@ -33,10 +33,6 @@ describe('Acceptance | API | ChallengeController', function () {
       done();
     });
 
-    //new challenge is QCM with solution = '1,2,3'
-    // previously, answers below were NOT ok.
-    // Let's see if validate them again change it.
-    //type is qcrom-dep
     const ko_answer = {
       value: '1,2,3',
       result: 'ko',

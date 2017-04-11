@@ -1,5 +1,8 @@
+
 .comparison-window {
   padding: 0 15px;
+  max-width: 900px;
+  margin:auto;
 
   @media (min-width: 992px) {
     padding: 0;

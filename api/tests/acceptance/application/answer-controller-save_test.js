@@ -3,7 +3,6 @@ const server = require('../../../server');
 const Answer = require('../../../lib/domain/models/data/answer');
 
 describe('Acceptance | Controller | answer-controller', function () {
-
   after(function (done) {
     server.stop(done);
   });
@@ -107,6 +106,7 @@ describe('Acceptance | Controller | answer-controller', function () {
             expect(model.id).to.be.a('number');
             expect(model.get('value')).to.equal(options.payload.data.attributes.value);
             expect(model.get('result')).to.equal('ok');
+            expect(model.get('resultDetails')).to.equal('null\n');
             expect(model.get('assessmentId')).to.equal(options.payload.data.relationships.assessment.data.id);
             expect(model.get('challengeId')).to.equal(options.payload.data.relationships.challenge.data.id);
 
@@ -114,6 +114,7 @@ describe('Acceptance | Controller | answer-controller', function () {
             expect(answer.id).to.equal(response.result.data.id);
             expect(answer.attributes.value).to.equal(model.get('value'));
             expect(answer.attributes.result).to.equal(model.get('result'));
+            expect(answer.attributes['result-details']).to.equal(model.get('resultDetails'));
             expect(answer.relationships.assessment.data.id).to.equal(model.get('assessmentId'));
             expect(answer.relationships.challenge.data.id).to.equal(model.get('challengeId'));
 

@@ -16,10 +16,23 @@ class SolutionSerializer extends AirtableSerializer {
 
       solution.type = fields['Type d\'épreuve'];
       solution.value = fields['Bonnes réponses'];
+      solution.enabledTreatments = ['t1', 't2', 't3'];
+      if (fields['désactiver T1']) {
+        _.pull(solution.enabledTreatments, 't1');
+      }
+      if (fields['désactiver T2']) {
+        _.pull(solution.enabledTreatments, 't2');
+      }
+      if (fields['désactiver T3']) {
+        _.pull(solution.enabledTreatments, 't3');
+      }
+
+      // TODO to be removed before code review
       solution.deactivations = {};
       solution.deactivations.t1 = fields['désactiver T1'];
       solution.deactivations.t2 = fields['désactiver T2'];
       solution.deactivations.t3 = fields['désactiver T3'];
+
       solution.scoring = _.ensureString(fields['Scoring']).replace(/@/g, ''); // XXX YAML ne supporte pas @
     }
 

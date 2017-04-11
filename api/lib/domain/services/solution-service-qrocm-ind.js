@@ -1,135 +1,90 @@
 const jsYaml = require('js-yaml');
+const levenshtein = require('fast-levenshtein');
 const _ = require('../../infrastructure/utils/lodash-utils');
-const utils = require('./solution-service-utils');
-const deactivationsService = require('./deactivations-service');
+const { applyPreTreatments, applyTreatments } = require('./validation-treatments');
 
-function _applyTreatmentsToSolutions(solutions, deactivations) {
-  return _.mapValues(solutions, (validSolutions) => {
-    return _.map(validSolutions, (validSolution) => {
-
-      if (deactivationsService.isDefault(deactivations)) {
-        return utils._treatmentT2(utils._treatmentT1(validSolution));
-      }
-      else if (deactivationsService.hasOnlyT1(deactivations)) {
-        return utils._treatmentT2(validSolution);
-      }
-      else if (deactivationsService.hasOnlyT2(deactivations)) {
-        return utils._treatmentT1(validSolution);
-      }
-      else if (deactivationsService.hasOnlyT3(deactivations)) {
-        return utils._treatmentT2(utils._treatmentT1(validSolution));
-      }
-      else if (deactivationsService.hasOnlyT1T2(deactivations)) {
-        return validSolution;
-      }
-      else if (deactivationsService.hasOnlyT1T3(deactivations)) {
-        return utils._treatmentT2(validSolution);
-      }
-      else if (deactivationsService.hasOnlyT2T3(deactivations)) {
-        return utils._treatmentT1(validSolution);
-      }
-      else if (deactivationsService.hasT1T2T3(deactivations)) {
-        return validSolution;
-      }
-
+function _applyTreatmentsToSolutions(solutions, enabledTreatments) {
+  return _.forEach(solutions, (solution, solutionKey) => {
+    solution.forEach((variant, variantIndex) => {
+      solutions[solutionKey][variantIndex] = applyTreatments(variant, enabledTreatments);
     });
   });
 }
 
-function _applyTreatmentsToAnswers(answers) {
-  return _.mapValues(answers, _.toString);
+function _applyTreatmentsToAnswers(answers, enabledTreatments) {
+  return _.forEach(answers, (answer, answerKey) => {
+    answers[answerKey] = applyTreatments(answer, enabledTreatments);
+  });
 }
 
-
-function _calculateResult(validations, deactivations) {
-  let result = 'ok';
-
-  _.each(validations, (validation) => {
-
-    if (deactivationsService.isDefault(deactivations)) {
-      if (validation.t1t2t3Ratio > 0.25) {
-        result = 'ko';
-      }
-    }
-    else if (deactivationsService.hasOnlyT1(deactivations)) {
-      if (validation.t2t3Ratio > 0.25) {
-        result = 'ko';
-      }
-    }
-    else if (deactivationsService.hasOnlyT2(deactivations)) {
-      if (validation.t1t3Ratio > 0.25) {
-        result = 'ko';
-      }
-    }
-    else if (deactivationsService.hasOnlyT3(deactivations)) {
-      if (!_.includes(validation.adminAnswers, validation.t1t2)) {
-        result = 'ko';
-      }
-    }
-    else if (deactivationsService.hasOnlyT1T2(deactivations)) {
-      if (validation.t3Ratio > 0.25) {
-        result = 'ko';
-      }
-    }
-    else if (deactivationsService.hasOnlyT1T3(deactivations)) {
-      if (!_.includes(validation.adminAnswers, validation.t2)) {
-        result = 'ko';
-      }
-    }
-    else if (deactivationsService.hasOnlyT2T3(deactivations)) {
-      if (!_.includes(validation.adminAnswers, validation.t1)) {
-        result = 'ko';
-      }
-    }
-    else if (deactivationsService.hasT1T2T3(deactivations)) {
-      if (!_.includes(validation.adminAnswers, validation.userAnswer)) {
-        result = 'ko';
-      }
-    }
-
+function _areApproximatevelyEqualAccordingToLevenshteinDistanceRatio(answer, solutionVariants) {
+  let smallestLevenshteinDistance = answer.length;
+  solutionVariants.forEach((variant) => {
+    const levenshteinDistance = levenshtein.get(answer, variant);
+    smallestLevenshteinDistance = Math.min(smallestLevenshteinDistance, levenshteinDistance);
   });
+  const ratio = smallestLevenshteinDistance / answer.length;
+  return ratio <= 0.25;
+}
 
+function _compareAnswersAndSolutions(answers, solutions, enabledTreatments) {
+  const results = {};
+  _.map(answers, (answer, answerKey) => {
+    const solutionVariants = solutions[answerKey];
+    if (enabledTreatments.includes('t3')) {
+      results[answerKey] = _areApproximatevelyEqualAccordingToLevenshteinDistanceRatio(answer, solutionVariants);
+    } else {
+      results[answerKey] = solutionVariants.includes(answer);
+    }
+  });
+  return results;
+}
+
+function _formatResult(resultDetails) {
+  let result = 'ok';
+  _.forEach(resultDetails, resultDetail => {
+    if (!resultDetail)
+      result = 'ko';
+  });
   return result;
 }
 
-function _applyPreTreatmentsToAnswer(yamlAnswer) {
-  return yamlAnswer.replace(/\u00A0/g, ' ');
-}
-
-
 module.exports = {
 
-  match (yamlAnswer, yamlSolution, deactivations) {
+  _applyTreatmentsToSolutions,
+  _applyTreatmentsToAnswers,
+  _compareAnswersAndSolutions,
+  _formatResult,
 
-    if (_.isNotString(yamlAnswer)
-        || _.isNotString(yamlSolution)
-        || _.isEmpty(yamlSolution)
-        || !_.includes(yamlSolution, '\n')) {
-      return 'ko';
+  match (yamlAnswer, yamlSolution, enabledTreatments) {
+
+    // Input checking
+    if (!_.isString(yamlAnswer)
+      || _.isEmpty(yamlSolution)
+      || !_.includes(yamlSolution, '\n')) {
+      return { result: 'ko' };
     }
 
-    // Pre-Treatments
-    const preTreatedAnswers = _applyPreTreatmentsToAnswer(yamlAnswer);
+    // Pre-treatments
+    const preTreatedAnswers = applyPreTreatments(yamlAnswer);
+    const preTreatedSolutions = applyPreTreatments(yamlSolution);
 
-    // and convert YAML to JSObject
+    // Convert YAML to JSObject
     const answers = jsYaml.safeLoad(preTreatedAnswers);
-    const solutions = jsYaml.safeLoad(yamlSolution);
+    const solutions = jsYaml.safeLoad(preTreatedSolutions);
 
     // Treatments
-    const treatedSolutions = _applyTreatmentsToSolutions(solutions, deactivations);
-    const treatedAnswers = _applyTreatmentsToAnswers(answers);
+    const treatedSolutions = _applyTreatmentsToSolutions(solutions, enabledTreatments);
+    const treatedAnswers = _applyTreatmentsToAnswers(answers, enabledTreatments);
 
-    //Comparison
-    const validations = _.map(treatedAnswers, function(answer, keyAnswer) {
-      const solutionsToAnswer = treatedSolutions[keyAnswer];
-      const strSolutionsToAnswer = _.map(solutionsToAnswer, _.toString);
-      const result = utils.treatmentT1T2T3(answer, strSolutionsToAnswer);
-      return result;
-    });
+    // Comparison
+    const resultDetails = _compareAnswersAndSolutions(treatedAnswers, treatedSolutions, enabledTreatments);
 
-    //Restitution
-    return _calculateResult(validations, deactivations);
-
+    // Restitution
+    return {
+      result: _formatResult(resultDetails),
+      resultDetails: resultDetails
+    };
   }
 
 };
