@@ -43,7 +43,7 @@ const ChallengeItemGeneric = Ember.Component.extend({
   },
 
   _tick(){
-    if (ENV.isChallengeTimerEnable) {
+    if (ENV.APP.isChallengeTimerEnable) {
       const timer = Ember.run.later(this, function () {
         const elapsedTime = this.get('_elapsedTime');
         this.set('_elapsedTime', elapsedTime + 1);
