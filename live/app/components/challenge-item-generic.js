@@ -14,7 +14,9 @@ const ChallengeItemGeneric = Ember.Component.extend({
 
   init() {
     this._super(...arguments);
-    this._start();
+    if (!_.isInteger(this.get('challenge.timer'))) {
+      this._start();
+    }
   },
 
   hasUserConfirmWarning: Ember.computed('challenge', function () {
@@ -78,6 +80,7 @@ const ChallengeItemGeneric = Ember.Component.extend({
     }),
 
     setUserConfirmation: callOnlyOnce(function () {
+      this._start();
       this.toggleProperty('hasUserConfirmWarning');
       this.toggleProperty('hasChallengeTimer');
     }),

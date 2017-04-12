@@ -17,6 +17,7 @@ function _updateExistingAnswer(existingAnswer, newAnswer, reply) {
           resultDetails: jsYaml.safeDump(answerCorrectness.resultDetails),
           value: newAnswer.get('value'),
           timeout: newAnswer.get('timeout'),
+          elapsedTime: newAnswer.get('elapsedTime'),
           challengeId: existingAnswer.get('challengeId'),
           assessmentId: existingAnswer.get('assessmentId')
         }, { method: 'update' })

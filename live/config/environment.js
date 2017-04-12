@@ -39,7 +39,6 @@ module.exports = function (environment) {
       'font-src': "'self' fonts.gstatic.com",
       'style-src': "'self' fonts.googleapis.com"
     },
-
   };
 
   if (environment === 'development') {
