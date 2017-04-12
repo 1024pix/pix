@@ -40,7 +40,7 @@ module.exports = {
       .then(_assertFollowerNotExist)
       .then(() => _saveFollower(email))
       .then((follower) => {
-        mailjet.sendWelcomeEmail(email);
+        //mailjet.sendWelcomeEmail(email);
         reply(followerSerializer.serialize(follower)).code(201);
       })
       .catch((err) => reply(err));
