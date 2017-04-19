@@ -17,6 +17,7 @@
 **/npm-debug.log
 **/testem.log
 **/out.log
+**/api/.env
 
 # IDE
 **/.idea
