@@ -48,7 +48,7 @@ const CourseList = Ember.Component.extend({
       });
     });
 
-    if (ENV.environment === 'test') {
+    if (ENV.APP.isMobileSimulationEnabled) {
       this.$().on('simulateMobileScreen', function () {
         that.set('isSimulatedMobileScreen', 'true');
       });
@@ -56,11 +56,10 @@ const CourseList = Ember.Component.extend({
   },
 
   _isMobile () {
-    if (ENV.environment !== 'test') {
-      return $(window).width() < 767;
-    } else {
+    if (ENV.APP.isMobileSimulationEnabled) {
       return this.get('isSimulatedMobileScreen');
     }
+    return $(window).width() < 767;
   },
 
   actions: {

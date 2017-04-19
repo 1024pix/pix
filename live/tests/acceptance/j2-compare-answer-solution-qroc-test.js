@@ -8,6 +8,7 @@ describe('Acceptance | j2 - Comparer réponses et solutions pour un QROC | ', fu
   const RESULT_URL = '/assessments/ref_assessment_id/results';
   const COMPARISON_MODAL_URL = '/assessments/ref_assessment_id/results/compare/ref_answer_qroc_id/4';
 
+
   const TEXT_OF_RESULT_SELECTOR = '.comparison-window__header .comparison-window__title .comparison-window__title-text';
   const SVG_OF_RESULT_SELECTOR = '.comparison-window__header .comparison-window__title svg';
   const INDEX_OF_RESULT_SELECTOR = '.comparison-window__header .comparison-window__result-item-index';

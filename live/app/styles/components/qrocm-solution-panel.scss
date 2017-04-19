@@ -1,0 +1,40 @@
+.correction-qrocm{
+  padding : 10px;
+  display: flex;
+  flex-direction: row;
+}
+
+.correction-qrocm__label{
+  font-family: $font-lato;
+  font-size: 16px;
+  color: $charcoal-grey;
+}
+
+.correction-qrocm__answer-solution{
+  margin-left: 10px;
+}
+
+.correction-qrocm__answer-input{
+  height: 26px;
+  border-radius: 3px;
+  background-color: #ffffff;
+  box-shadow: inset 0 1px 3px 0 rgba(0, 0, 0, 0.15);
+  border: solid 1px #d8d8d8;
+  padding: 8px 8px 12px 10px;
+}
+
+.correction-qrocm__solution{
+  display: flex;
+  align-items: center;
+  margin-top: 4px;
+}
+
+.correction-qrocm__solution-text{
+  font-family: $font-lato;
+  font-weight: bold;
+  color: #13c9a0;
+  font-size: 16px;
+  margin-left: 3px;
+  padding-bottom: 1px;
+}
+

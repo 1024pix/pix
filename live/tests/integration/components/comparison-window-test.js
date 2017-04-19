@@ -72,6 +72,18 @@ describe('Integration | Component | comparison-window', function () {
       expect(this.$('.comparison-window__corrected-answers--qroc')).to.have.length(1);
     });
 
+    it('should render corrected answers when challenge type is QROCM-ind', function () {
+      // given
+      challenge = Ember.Object.create({type: 'QROCM-ind', proposals: ''});
+      solution = Ember.Object.create({value:''});
+      this.set('challenge', challenge);
+      this.set('solution', solution);
+      // when
+      this.render(hbs`{{comparison-window answer challenge solution index}}`);
+      // then
+      expect(this.$('.comparison-window__corrected-answers--qrocm')).to.have.length(1);
+    });
+
     it('should render corrected answers when challenge type is QCM', function () {
       // given
       challenge = Ember.Object.create({type: 'QCM'});
@@ -87,6 +99,14 @@ describe('Integration | Component | comparison-window', function () {
       this.render(hbs`{{comparison-window answer challenge solution index}}`);
       //then
       expect(this.$('.comparison-window__feedback-panel')).to.have.length(1);
+    });
+
+    it('should have a max width of 900px and a margin auto in order to quit by clicking beside', function () {
+      // when
+      this.render(hbs`{{comparison-window answer challenge solution index}}`);
+      // then
+      expect(this.$('.comparison-window').css('max-width')).to.be.equal('900px');
+      expect(this.$('.comparison-window').css('margin')).to.be.equal('0px');
     });
   });
 });

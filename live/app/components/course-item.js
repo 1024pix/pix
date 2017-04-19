@@ -9,7 +9,7 @@ const CourseItem = Ember.Component.extend({
 
   imageUrl: Ember.computed('course', function () {
     const imageUrl = this.get('course.imageUrl');
-    return imageUrl ? imageUrl : '/assets/images/course-default-image.png';
+    return imageUrl ? imageUrl : '/images/course-default-image.png';
   }),
 
   actions: {

@@ -15,16 +15,27 @@ module.exports = (function () {
     },
 
     airtable: {
-      apiKey: 'keyEgu8JYhXaOhjbd',
-      base: 'appHAIFk9u1qqglhX'
+      apiKey: process.env.AIRTABLE_API_KEY,
+      base: process.env.AIRTABLE_BASE
+    },
+
+    mailjet: {
+      apiKey: process.env.MAILJET_KEY,
+      apiSecret: process.env.MAILJET_SECRET
     }
   };
 
   if (process.env.NODE_ENV === 'test') {
     config.port = null;
+
     config.airtable = {
       apiKey: 'test-api-key',
       base: 'test-base'
+    };
+
+    config.mailjet = {
+      apiKey: 'test-api-ket',
+      apiSecret: 'test-api-secret'
     };
   }
 

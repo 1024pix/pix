@@ -1,8 +1,8 @@
 <div class="progress-bar progress-bar-info"
      role="progressbar"
-     aria-valuenow="{{progress.currentStep}}"
+     aria-valuenow={{progress.currentStep}}
      aria-valuemin="0"
      aria-valuemax="100"
-     style="width:{{progress.stepPercentage}}%">
+     style={{barStyle}}>
   {{progress.currentStep}} / {{progress.maxStep}}
 </div>

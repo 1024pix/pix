@@ -1,3 +1,7 @@
+// As early as possible in your application, require and configure dotenv.
+// https://www.npmjs.com/package/dotenv#usage
+require('dotenv').config();
+
 const Hapi = require('hapi');
 const HapiSwagger = require('hapi-swagger');
 const Pack = require('./package');

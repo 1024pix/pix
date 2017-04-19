@@ -43,7 +43,7 @@ describe('Unit | Component | CourseItemComponent', function () {
 
       // then
       expect(imageUrl).to.exists;
-      expect(imageUrl).to.equal('/assets/images/course-default-image.png');
+      expect(imageUrl).to.equal('/images/course-default-image.png');
     });
 
   });

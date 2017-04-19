@@ -40,7 +40,7 @@ describe('Integration | Component | course item', function () {
 
       // then
       const $picture = this.$('.course-item__picture');
-      expect($picture.attr('src')).to.equal('/assets/images/course-default-image.png');
+      expect($picture.attr('src')).to.equal('/images/course-default-image.png');
     });
 
     it('should render course name', function () {

@@ -1,20 +1,9 @@
 import {expect} from 'chai';
 import {describe, it} from 'mocha';
-import {setupTest} from 'ember-mocha';
+import isEmailValid from 'pix-live/utils/email-validator';
 
-describe('Unit | Service | EmailValidatorService', function () {
-
-  setupTest('service:email-validator', {});
-  let validator;
-  beforeEach(function () {
-    validator = this.subject();
-  });
-
-  it('exists', function () {
-    expect(validator).to.be.ok;
-  });
-
-  describe('Test all case Invalid and then valid email', function () {
+describe('Unit | Utility | email validator', function () {
+  describe('Invalid emails', function () {
     [
       '',
       ' ',
@@ -27,10 +16,12 @@ describe('Unit | Service | EmailValidatorService', function () {
       '@pix'
     ].forEach(function (badEmail) {
       it(`should return false when email is invalid: ${badEmail}`, function () {
-        expect(validator.emailIsValid(badEmail)).to.be.false;
+        expect(isEmailValid(badEmail)).to.be.false;
       });
     });
+  });
 
+  describe('Valid emails', function () {
     [
       'follower@pix.fr',
       'follower@pix.fr ',
@@ -43,10 +34,8 @@ describe('Unit | Service | EmailValidatorService', function () {
       'follower+beta@pix.beta.gouv.fr'
     ].forEach(function (validEmail) {
       it(`should return true if provided email is valid: ${validEmail}`, function () {
-        expect(validator.emailIsValid(validEmail)).to.be.true;
+        expect(isEmailValid(validEmail)).to.be.true;
       });
     });
   });
-
-
 });

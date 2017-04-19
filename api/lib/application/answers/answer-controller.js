@@ -4,21 +4,26 @@ const answerSerializer = require('../../infrastructure/serializers/jsonapi/answe
 const solutionRepository = require('../../infrastructure/repositories/solution-repository');
 const answerRepository = require('../../infrastructure/repositories/answer-repository');
 const solutionService = require('../../domain/services/solution-service');
+const jsYaml = require('js-yaml');
 
 function _updateExistingAnswer(existingAnswer, newAnswer, reply) {
   solutionRepository
     .get(existingAnswer.get('challengeId'))
     .then((solution) => {
-      const answerCorrectness = solutionService.match(newAnswer, solution);
+      const answerCorrectness = solutionService.validate(newAnswer, solution);
       new Answer({ id: existingAnswer.id })
         .save({
-          result: answerCorrectness,
+          result: answerCorrectness.result,
+          resultDetails: jsYaml.safeDump(answerCorrectness.resultDetails),
           value: newAnswer.get('value'),
           timeout: newAnswer.get('timeout'),
+          elapsedTime: newAnswer.get('elapsedTime'),
           challengeId: existingAnswer.get('challengeId'),
           assessmentId: existingAnswer.get('assessmentId')
         }, { method: 'update' })
-        .then((updatedAnswer) => reply(answerSerializer.serialize(updatedAnswer)).code(200))
+        .then((updatedAnswer) => {
+          return reply(answerSerializer.serialize(updatedAnswer)).code(200);
+        })
         .catch((err) => reply(Boom.badImplementation(err)));
     });
 }
@@ -27,9 +32,11 @@ function _saveNewAnswer(newAnswer, reply) {
   solutionRepository
     .get(newAnswer.get('challengeId'))
     .then((solution) => {
-      const answerCorrectness = solutionService.match(newAnswer, solution);
-      newAnswer.set('result', answerCorrectness);
+      const answerValidation = solutionService.validate(newAnswer, solution);
+      newAnswer.set('result', answerValidation.result);
+      newAnswer.set('resultDetails', jsYaml.safeDump(answerValidation.resultDetails));
       newAnswer.set('timeout', newAnswer.get('timeout'));
+      newAnswer.set('elapsedTime', newAnswer.get('elapsedTime'));
       newAnswer.save()
         .then((newAnswer) => reply(answerSerializer.serialize(newAnswer)).code(201))
         .catch((err) => reply(Boom.badImplementation(err)));
@@ -41,7 +48,6 @@ module.exports = {
   save(request, reply) {
 
     const newAnswer = answerSerializer.deserialize(request.payload);
-
     answerRepository
       .findByChallengeAndAssessment(newAnswer.get('challengeId'), newAnswer.get('assessmentId'))
       .then(existingAnswer => {

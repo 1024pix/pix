@@ -1,9 +1,8 @@
-/*eslint no-console: ["error", { allow: ["warn", "error"] }] */
 const jsYaml = require('js-yaml');
 const _ = require('../../infrastructure/utils/lodash-utils');
 const utils = require('./solution-service-utils');
 const deactivationsService = require('./deactivations-service');
-
+const { t1, t2, applyPreTreatments } = require('./validation-treatments');
 
 function _applyTreatmentsToSolutions(solutions, deactivations) {
   return _.mapValues(solutions, (validSolutions) => {
@@ -11,22 +10,22 @@ function _applyTreatmentsToSolutions(solutions, deactivations) {
       const pretreatedSolution = validSolution.toString();
 
       if (deactivationsService.isDefault(deactivations)) {
-        return utils._treatmentT2(utils._treatmentT1(pretreatedSolution));
+        return t2(t1(pretreatedSolution));
       }
       else if (deactivationsService.hasOnlyT1(deactivations)) {
-        return utils._treatmentT2(pretreatedSolution);
+        return t2(pretreatedSolution);
       }
       else if (deactivationsService.hasOnlyT2(deactivations)) {
-        return utils._treatmentT1(pretreatedSolution);
+        return t1(pretreatedSolution);
       }
       else if (deactivationsService.hasOnlyT3(deactivations)) {
-        return utils._treatmentT2(utils._treatmentT1(pretreatedSolution));
+        return t2(t1(pretreatedSolution));
       }
       else if (deactivationsService.hasOnlyT1T2(deactivations)) {
         return pretreatedSolution;
       }
       else if (deactivationsService.hasOnlyT1T3(deactivations)) {
-        return utils._treatmentT2(pretreatedSolution);
+        return t2(pretreatedSolution);
       }
       else if (deactivationsService.hasT1T2T3(deactivations)) {
         return pretreatedSolution;
@@ -35,13 +34,11 @@ function _applyTreatmentsToSolutions(solutions, deactivations) {
   });
 }
 
-
 function _applyTreatmentsToAnswers(answers) {
   return _.mapValues(answers, _.toString);
 }
 
-
-function _calculateValidation(answers, solutions) {
+function _compareAnswersAndSolutions(answers, solutions) {
 
   const validations = {};
 
@@ -104,7 +101,7 @@ function _goodAnswer(allValidations, deactivations) {
   }
 }
 
-function _calculateResult(scoring, validations, deactivations) {
+function _formatResult(scoring, validations, deactivations) {
   let result = 'ok';
 
   const numberOfGoodAnswers = _numberOfGoodAnswers(validations, deactivations);
@@ -129,39 +126,33 @@ function _calculateResult(scoring, validations, deactivations) {
   return result;
 }
 
-function _applyPreTreatmentsToAnswer(yamlAnswer) {
-  return yamlAnswer.replace(/\u00A0/g, ' ');
-}
-
 module.exports = {
+
   match(yamlAnswer, yamlSolution, yamlScoring, deactivations) {
 
-    // Validate inputs
-    if (_.isNotString(yamlAnswer)
-        || _.isNotString(yamlSolution)
+    // Input checking
+    if (!_.isString(yamlAnswer)
         || _.isEmpty(yamlAnswer)
         || !_.includes(yamlSolution, '\n')) {
       return 'ko';
     }
 
     // Pre-Treatments
-    const preTreatedAnswers = _applyPreTreatmentsToAnswer(yamlAnswer);
+    const preTreatedAnswers = applyPreTreatments(yamlAnswer);
 
-    // remove unbreakable spaces
     // Convert Yaml to JS objects
     const answers = jsYaml.safeLoad(preTreatedAnswers);
     const solutions = jsYaml.safeLoad(yamlSolution);
     const scoring = jsYaml.safeLoad(_.ensureString(yamlScoring));
-
 
     // Treatments
     const treatedSolutions = _applyTreatmentsToSolutions(solutions, deactivations);
     const treatedAnswers = _applyTreatmentsToAnswers(answers);
 
     // Comparisons
-    const fullValidations = _calculateValidation(treatedAnswers, treatedSolutions);
+    const fullValidations = _compareAnswersAndSolutions(treatedAnswers, treatedSolutions);
 
-    return _calculateResult(scoring, fullValidations, deactivations);
+    return _formatResult(scoring, fullValidations, deactivations);
   }
 
 };
