@@ -29,6 +29,7 @@ server.register([
   require('./lib/application/users'),
   require('./lib/application/followers'),
   require('./lib/application/feedbacks'),
+  require('./lib/application/healthcheck'),
 
   /* Hapi plugins */
   require('inert'),
