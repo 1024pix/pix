@@ -1,4 +1,8 @@
-# Pix Changelog
+# PIX Changelog
+
+## 1.6.2 (19/04/2017)
+
+- [#430](https://github.com/sgmap/pix/pull/430) [INFRA] Réparation du script de livraison.
 
 ## 1.6.1 (14/04/2017)
 
