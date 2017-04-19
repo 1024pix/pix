@@ -5,7 +5,7 @@ function getResponsePattern(answers) {
 }
 
 function getNextChallengeFromScenarios(courseId, responsePattern) {
-  return Scenario.where({courseId: courseId, path: responsePattern}).orderBy('updatedAt', 'DESC').fetch()
+  return Scenario.where({ courseId: courseId, path: responsePattern }).orderBy('updatedAt', 'DESC').fetch()
     .then(scenario => {
       if (scenario && scenario.attributes.nextChallengeId !== 'null') {
         return scenario.attributes.nextChallengeId;
