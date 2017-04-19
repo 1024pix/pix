@@ -1,5 +1,10 @@
 # PIX Changelog
 
+## 1.6.3 (19/04/2017)
+
+- [#375](https://github.com/sgmap/pix/pull/375) [FEATURE] On expose un nouvel endpoint avec les infos api sur /api (US-453).
+- [#370](https://github.com/sgmap/pix/pull/370) [CLEANUP] Suppression des positional params.
+
 ## 1.6.2 (19/04/2017)
 
 - [#430](https://github.com/sgmap/pix/pull/430) [INFRA] Réparation du script de livraison.
