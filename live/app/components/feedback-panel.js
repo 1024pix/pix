@@ -5,10 +5,11 @@ const FORM_CLOSED = 'FORM_CLOSED';
 const FORM_OPENED= 'FORM_OPENED';
 const FORM_SUBMITTED = 'FORM_SUBMITTED';
 
-const FeedbackPanel = Ember.Component.extend({
+export default Ember.Component.extend({
 
   store: Ember.inject.service(),
 
+  answer: null,
   email: '',
   content: '',
   error: null,
@@ -50,11 +51,4 @@ const FeedbackPanel = Ember.Component.extend({
       this.set('status', FORM_CLOSED);
     }
   }
-
 });
-
-FeedbackPanel.reopenClass({
-  positionalParams: ['answer']
-});
-
-export default FeedbackPanel;

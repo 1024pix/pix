@@ -1,14 +1,16 @@
 import Ember from 'ember';
 
-const ChallengeStatement = Ember.Component.extend({
-  
+export default  Ember.Component.extend({
+
   classNames: ['rounded-panel', 'challenge-statement'],
-  
-  selectedAttachmentUrl: Ember.computed('challenge.attachments', function(){
+
+  challenge: null,
+
+  selectedAttachmentUrl: Ember.computed('challenge.attachments', function () {
     return this.get('challenge.attachments.firstObject');
   }),
 
-  attachmentsData: Ember.computed('challenge.attachements',function(){
+  attachmentsData: Ember.computed('challenge.attachements', function () {
     return this.get('challenge.attachments');
   }),
 
@@ -18,9 +20,3 @@ const ChallengeStatement = Ember.Component.extend({
     }
   }
 });
-
-ChallengeStatement.reopenClass({
-  positionalParams: ['challenge']
-});
-
-export default ChallengeStatement;

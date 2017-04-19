@@ -36,28 +36,28 @@ describe('Integration | Component | comparison-window', function () {
 
     it('renders', function () {
       // when
-      this.render(hbs`{{comparison-window answer challenge solution index}}`);
+      this.render(hbs`{{comparison-window answer=answer challenge=challenge solution=solution index=index}}`);
       // then
       expect(this.$()).to.have.lengthOf(1);
     });
 
     it('should render challenge result in the header', function () {
       // when
-      this.render(hbs`{{comparison-window answer challenge solution index}}`);
+      this.render(hbs`{{comparison-window answer=answer challenge=challenge solution=solution index=index}}`);
       // then
       expect(this.$('.comparison-window__header')).to.have.length(1);
     });
 
     it('should render challenge instruction', function () {
       // when
-      this.render(hbs`{{comparison-window answer challenge solution index}}`);
+      this.render(hbs`{{comparison-window answer=answer challenge=challenge solution=solution index=index}}`);
       // then
       expect(this.$('.challenge-statement__instruction')).to.have.length(1);
     });
 
     it('should not render corrected answers when challenge has no type', function () {
       // when
-      this.render(hbs`{{comparison-window answer challenge solution index}}`);
+      this.render(hbs`{{comparison-window answer=answer challenge=challenge solution=solution index=index}}`);
       // then
       expect(this.$('.comparison-window__corrected-answers')).to.have.length(0);
     });
@@ -67,7 +67,7 @@ describe('Integration | Component | comparison-window', function () {
       challenge = Ember.Object.create({type: 'QROC'});
       this.set('challenge', challenge);
       // when
-      this.render(hbs`{{comparison-window answer challenge solution index}}`);
+      this.render(hbs`{{comparison-window answer=answer challenge=challenge solution=solution index=index}}`);
       // then
       expect(this.$('.comparison-window__corrected-answers--qroc')).to.have.length(1);
     });
@@ -79,7 +79,7 @@ describe('Integration | Component | comparison-window', function () {
       this.set('challenge', challenge);
       this.set('solution', solution);
       // when
-      this.render(hbs`{{comparison-window answer challenge solution index}}`);
+      this.render(hbs`{{comparison-window answer=answer challenge=challenge solution=solution index=index}}`);
       // then
       expect(this.$('.comparison-window__corrected-answers--qrocm')).to.have.length(1);
     });
@@ -89,14 +89,14 @@ describe('Integration | Component | comparison-window', function () {
       challenge = Ember.Object.create({type: 'QCM'});
       this.set('challenge', challenge);
       // when
-      this.render(hbs`{{comparison-window answer challenge solution index}}`);
+      this.render(hbs`{{comparison-window answer=answer challenge=challenge solution=solution index=index}}`);
       // then
       expect(this.$('.qcm-solution-panel')).to.have.length(1);
     });
 
     it('should render a feedback panel', function () {
       //when
-      this.render(hbs`{{comparison-window answer challenge solution index}}`);
+      this.render(hbs`{{comparison-window answer=answer challenge=challenge solution=solution index=index}}`);
       //then
       expect(this.$('.comparison-window__feedback-panel')).to.have.length(1);
     });

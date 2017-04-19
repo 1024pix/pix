@@ -6,7 +6,7 @@ const classByResultValue = {
   aband: 'correction-qroc-box__input-no-answer'
 };
 
-const QrocSolutionPanel = Ember.Component.extend({
+export default Ember.Component.extend({
 
   answer: null,
   solution: null,
@@ -33,11 +33,5 @@ const QrocSolutionPanel = Ember.Component.extend({
       return '';
     }
     return solutionVariants.split('\n')[0];
-  }),
+  })
 });
-
-QrocSolutionPanel.reopenClass({
-  positionalParams: ['answer', 'solution']
-});
-
-export default QrocSolutionPanel;
