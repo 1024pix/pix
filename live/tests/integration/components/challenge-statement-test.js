@@ -15,7 +15,7 @@ describe('Integration | Component | ChallengeStatement', function () {
   }
 
   function renderChallengeStatement(component) {
-    component.render(hbs`{{challenge-statement challenge}}`);
+    component.render(hbs`{{challenge-statement challenge=challenge}}`);
   }
 
   /*

@@ -45,7 +45,7 @@ const contentReference = {
   }
 };
 
-const ComparisonWindow = Ember.Component.extend({
+export default Ember.Component.extend({
 
   classNames: ['comparison-window'],
 
@@ -70,11 +70,4 @@ const ComparisonWindow = Ember.Component.extend({
     }
     return resultItem;
   })
-
 });
-
-ComparisonWindow.reopenClass({
-  positionalParams: ['answer', 'challenge', 'solution', 'index']
-});
-
-export default ComparisonWindow;
