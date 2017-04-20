@@ -1,8 +1,0 @@
-fruit+24@pix.fr
-fruit+25@pix.fr
-fruit+20@pix.fr
-fruit+21@pix.fr
-fruit+22@pix.fr
-fruit+23@pix.fr
-fruit+27@pix.fr
-fruit+25@
