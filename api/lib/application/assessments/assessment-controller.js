@@ -1,4 +1,6 @@
 const Boom = require('boom');
+const _ = require('../../infrastructure/utils/lodash-utils');
+
 const assessmentSerializer = require('../../infrastructure/serializers/jsonapi/assessment-serializer');
 const assessmentRepository = require('../../infrastructure/repositories/assessment-repository');
 const assessmentService = require('../../domain/services/assessment-service');
@@ -7,9 +9,11 @@ const challengeRepository = require('../../infrastructure/repositories/challenge
 const challengeSerializer = require('../../infrastructure/serializers/jsonapi/challenge-serializer');
 const solutionSerializer = require('../../infrastructure/serializers/jsonapi/solution-serializer');
 const courseRepository = require('../../infrastructure/repositories/course-repository');
-const _ = require('../../infrastructure/utils/lodash-utils');
+
 const answerRepository = require('../../infrastructure/repositories/answer-repository');
 const solutionRepository = require('../../infrastructure/repositories/solution-repository');
+
+const NotFoundError = require('../../domain/errors').NotFoundError;
 
 module.exports = {
 
@@ -22,15 +26,21 @@ module.exports = {
   },
 
   get(request, reply) {
+    const assessmentId = request.params.id;
 
-    assessmentRepository
-      .get(request.params.id)
+    return assessmentService
+      .getScoredAssessment(assessmentId)
       .then((assessment) => {
         const serializedAssessment = assessmentSerializer.serialize(assessment);
         return reply(serializedAssessment);
       })
-      .catch((err) => reply(Boom.badImplementation(err)));
-
+      .catch(err => {
+        if (err instanceof NotFoundError) {
+          reply(Boom.notFound(err));
+        } else {
+          reply(Boom.badImplementation(err));
+        }
+      });
   },
 
   getNextChallenge(request, reply) {
@@ -79,12 +89,11 @@ module.exports = {
               })
               .then((testIsOver) => {
 
-                if(testIsOver) {
-                  const modelAnswers = _.map(answers.models, (o) => o.attributes);
-                  const requestedAnswer = _.find(modelAnswers, { id: _.parseInt(request.params.answerId) });
+                if (testIsOver) {
+                  const requestedAnswer = answers.filter(answer => answer.id === _.parseInt(request.params.answerId))[ 0 ];
 
                   solutionRepository
-                    .get(requestedAnswer.challengeId)
+                    .get(requestedAnswer.get('challengeId'))
                     .then((solution) => {
                       return reply(solutionSerializer.serialize(solution));
                     });

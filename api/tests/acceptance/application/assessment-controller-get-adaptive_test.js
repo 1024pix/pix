@@ -26,7 +26,6 @@ describe('Acceptance | API | Assessments', function () {
     nock('https://api.airtable.com')
       .get('/v0/test-base/Epreuves/z_first_challenge')
       .query(true)
-      .times(3)
       .reply(200, {
         'id': 'z_first_challenge',
         'fields': {
