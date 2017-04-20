@@ -1,8 +1,16 @@
+
 # PIX Changelog
+
+## 1.7.0 (19/04/2017)
+
+- [#283](https://github.com/sgmap/pix/pull/283) [FEATURE] Ajout des acquis aux épreuves pour calculer le niveau de l’apprenant (US-360).
+- [#373](https://github.com/sgmap/pix/pull/373) [BUGFIX] Affichage de l’avertissement ‘epreuve timée’ lorsque deux challenges du même type se suivent (US-424)
+- [#376](https://github.com/sgmap/pix/pull/376) [CLEANUP] Amélioration de l’image de présentation sur la page d’accueil (US-417).
+- [#372](https://github.com/sgmap/pix/pull/372) [CLEANUP] Importation des followers dans base de données de production et suppression de scripts d’import (US-449).
 
 ## 1.6.3 (19/04/2017)
 
-- [#375](https://github.com/sgmap/pix/pull/375) [FEATURE] On expose un nouvel endpoint avec les infos api sur /api (US-453).
+- [#375](https://github.com/sgmap/pix/pull/375) [INFRA] On expose un nouvel endpoint avec les infos api sur /api (US-453).
 - [#370](https://github.com/sgmap/pix/pull/370) [CLEANUP] Suppression des positional params.
 
 ## 1.6.2 (19/04/2017)
