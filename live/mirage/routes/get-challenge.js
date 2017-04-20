@@ -5,6 +5,8 @@ import refQcuChallengeFull from '../data/challenges/ref-qcu-challenge';
 import refQruChallengeFull from '../data/challenges/ref-qru-challenge';
 import refQrocChallengeFull from '../data/challenges/ref-qroc-challenge';
 import refQrocmChallengeFull from '../data/challenges/ref-qrocm-challenge';
+import refTimedChallengeFull from '../data/challenges/ref-timed-challenge';
+import refTimedChallengeBisFull from '../data/challenges/ref-timed-challenge-bis';
 
 export default function (schema, request) {
 
@@ -14,7 +16,9 @@ export default function (schema, request) {
     refQcuChallengeFull,
     refQruChallengeFull,
     refQrocChallengeFull,
-    refQrocmChallengeFull
+    refQrocmChallengeFull,
+    refTimedChallengeFull,
+    refTimedChallengeBisFull
   ];
 
   const challenges = _.map(allChallenges, function (oneChallenge) {
