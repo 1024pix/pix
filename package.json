@@ -29,7 +29,7 @@
     "clean:live": "cd live && npm run clean",
     "clean:coverage": "rm -rf coverage api/coverage live/coverage",
     "clean": "node_modules/.bin/run-p clean:api clean:live clean:coverage && npm run clean:root",
-    "configure:dotenv":"cp scripts/configure/sample.env api/.env",
+    "configure:dotenv": "cp scripts/configure/sample.env api/.env",
     "configure:api": "(cd api && npm run db:migrate)",
     "configure": "npm install && npm test && npm run configure:dotenv && npm run configure:api",
     "install:api": "cd api && npm install",
