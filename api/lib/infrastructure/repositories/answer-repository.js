@@ -18,7 +18,7 @@ module.exports = {
         .where({ assessmentId })
         .orderBy('createdAt')
         .fetchAll()
-        .then(resolve)
+        .then(answers => resolve(answers.models))
         .catch(reject);
     });
   },
@@ -29,7 +29,7 @@ module.exports = {
       return Answer
         .where({ challengeId })
         .fetchAll()
-        .then((answers) => resolve(answers.models))
+        .then(answers => resolve(answers.models))
         .catch(reject);
     });
   }

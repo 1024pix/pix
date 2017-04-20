@@ -4,6 +4,7 @@ const server = require('../../../server');
 describe('Acceptance | API | Assessments', function () {
 
   before(function (done) {
+
     nock.cleanAll();
     nock('https://api.airtable.com')
       .get('/v0/test-base/Tests/w_adaptive_course_id')
@@ -24,7 +25,6 @@ describe('Acceptance | API | Assessments', function () {
     nock('https://api.airtable.com')
       .get('/v0/test-base/Epreuves/w_first_challenge')
       .query(true)
-      .times(3)
       .reply(200, {
         'id': 'w_first_challenge',
         'fields': {

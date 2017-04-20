@@ -7,7 +7,7 @@ describe('Unit | Router | answer-router', function () {
   let server;
 
   beforeEach(function () {
-    server = this.server = new Hapi.Server();
+    server = new Hapi.Server();
     server.connection({ port: null });
     server.register({ register: require('../../../../lib/application/answers') });
   });

@@ -1,13 +1,21 @@
 const courseRepository = require('../../infrastructure/repositories/course-repository');
 const answerRepository = require('../../infrastructure/repositories/answer-repository');
+const assessmentRepository = require('../../infrastructure/repositories/assessment-repository');
+const challengeService = require('../../domain/services/challenge-service');
+const challengeRepository = require('../../infrastructure/repositories/challenge-repository');
+
 const assessmentUtils = require('./assessment-service-utils');
 const _ = require('../../infrastructure/utils/lodash-utils');
+
+const NotFoundError = require('../../domain/errors').NotFoundError;
+
+const scoringService = require('../../domain/services/scoring-service');
 
 function _selectNextInAdaptiveMode(assessment) {
 
   return new Promise((resolve, reject) => {
     answerRepository.findByAssessment(assessment.get('id'))
-      .then((answers) => {
+      .then(answers => {
         const responsePattern = assessmentUtils.getResponsePattern(answers);
         return assessmentUtils.getNextChallengeFromScenarios(assessment.get('courseId'), responsePattern);
       })
@@ -31,6 +39,23 @@ function _selectNextInNormalMode(currentChallengeId, challenges) {
 }
 
 
+function _completeAssessmentWithScore(assessment, answers, knowledgeData) {
+
+  if (answers.length === 0) {
+    return assessment;
+  }
+
+  const performanceStats = scoringService.getPerformanceStats(answers, knowledgeData);
+  const diagnosis = scoringService.computeDiagnosis(performanceStats, knowledgeData);
+
+  assessment.set('estimatedLevel', diagnosis.estimatedLevel);
+  assessment.set('pixScore', diagnosis.pixScore);
+  assessment.set('notAcquiredKnowledgeTags', performanceStats.notAcquiredKnowledgeTags);
+  assessment.set('acquiredKnowledgeTags', performanceStats.acquiredKnowledgeTags);
+
+  return assessment;
+}
+
 function selectNextChallengeId(course, currentChallengeId, assessment) {
 
   return new Promise((resolve) => {
@@ -50,29 +75,71 @@ function selectNextChallengeId(course, currentChallengeId, assessment) {
 }
 
 
+
+function getScoredAssessment(assessmentId) {
+  return new Promise((resolve, reject) => {
+
+    let assessment;
+    let answers;
+
+    assessmentRepository
+      .get(assessmentId)
+      .then(retrievedAssessment => {
+
+        if(retrievedAssessment === null) {
+          return Promise.reject(new NotFoundError(`Unable to find assessment with ID ${assessmentId}`));
+        }
+
+        assessment = retrievedAssessment;
+        return answerRepository.findByAssessment(assessment.get('id'));
+      })
+      .then(retrievedAnswers => {
+        answers = retrievedAnswers;
+        return courseRepository.get(assessment.get('courseId'));
+      })
+      .then(course => {
+        const challengePromises = course.challenges.map(challengeId => challengeRepository.get(challengeId));
+        return Promise.all(challengePromises);
+      })
+      .then(challenges => {
+        const knowledgeData = challengeService.getKnowledgeData(challenges);
+
+        const scoredAssessment = _completeAssessmentWithScore(assessment, answers, knowledgeData);
+        resolve(scoredAssessment);
+      })
+      .catch(reject);
+  });
+}
+
+function getAssessmentNextChallengeId(assessment, currentChallengeId) {
+
+  return new Promise((resolve, reject) => {
+
+    if (!assessment) {
+      resolve(null);
+    }
+
+    if (!assessment.get('courseId')) {
+      resolve(null);
+    }
+
+    if (_.startsWith(assessment.get('courseId'), 'null')) {
+      resolve(null);
+    }
+
+    const courseId = assessment.get('courseId');
+    courseRepository
+      .get(courseId)
+      .then((course) => resolve(selectNextChallengeId(course, currentChallengeId, assessment)))
+      .catch((error) => reject(error));
+  });
+}
+
 module.exports = {
-  getAssessmentNextChallengeId(assessment, currentChallengeId) {
 
-    return new Promise((resolve, reject) => {
+  getAssessmentNextChallengeId,
+  getScoredAssessment,
 
-      if (!assessment) {
-        resolve(null);
-      }
-
-      if (!assessment.get('courseId')) {
-        resolve(null);
-      }
-
-      if (_.startsWith(assessment.get('courseId'), 'null')) {
-        resolve(null);
-      }
-
-      const courseId = assessment.get('courseId');
-      courseRepository
-        .get(courseId)
-        .then((course) => resolve(selectNextChallengeId(course, currentChallengeId, assessment)))
-        .catch((error) => reject(error));
-    });
-  }
+  _completeAssessmentWithScore
 
 };
