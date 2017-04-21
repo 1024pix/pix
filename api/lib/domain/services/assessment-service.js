@@ -7,7 +7,7 @@ const challengeRepository = require('../../infrastructure/repositories/challenge
 const assessmentUtils = require('./assessment-service-utils');
 const _ = require('../../infrastructure/utils/lodash-utils');
 
-const NotFoundError = require('../../domain/errors').NotFoundError;
+const {NotFoundError, NotElligibleToScoringError} = require('../../domain/errors');
 
 const scoringService = require('../../domain/services/scoring-service');
 
@@ -88,6 +88,8 @@ function getScoredAssessment(assessmentId) {
 
         if(retrievedAssessment === null) {
           return Promise.reject(new NotFoundError(`Unable to find assessment with ID ${assessmentId}`));
+        } else if (_.startsWith(retrievedAssessment.get('courseId'), 'null')) {
+          return Promise.reject(new NotElligibleToScoringError(`Assessment with ID ${assessmentId} is a preview Challenge`));
         }
 
         assessment = retrievedAssessment;

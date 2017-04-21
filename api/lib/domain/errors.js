@@ -4,4 +4,10 @@ class NotFoundError extends Error {
   }
 }
 
-module.exports = { NotFoundError };
+class NotElligibleToScoringError extends Error {
+  constructor(message) {
+    super(message);
+  }
+}
+
+module.exports = { NotFoundError, NotElligibleToScoringError };

@@ -3,29 +3,36 @@ const { describe, it, beforeEach, afterEach, expect, sinon } = require('../../..
 const Boom = require('boom');
 
 const assessmentController = require('../../../../lib/application/assessments/assessment-controller');
+const assessmentRepository = require('../../../../lib/infrastructure/repositories/assessment-repository');
 const assessmentService = require('../../../../lib/domain/services/assessment-service');
 const assessmentSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/assessment-serializer');
 
-const NotFoundError = require('../../../../lib/domain/errors').NotFoundError;
+const { NotFoundError, NotElligibleToScoringError } = require('../../../../lib/domain/errors');
+const Assessment = require('../../../../lib/domain/models/data/assessment');
 
 
 describe('Unit | Controller | assessment-controller', () => {
 
   describe('#get', () => {
 
+    const ASSESSMENT_ID = 12;
     const reply = sinon.spy();
     let getScoredAssessmentStub;
     let assessmentSerializerStub;
-    let request = { params: { id: 12 } };
+    let getAssessmentStub;
+    let request;
 
     beforeEach(() => {
+      request = { params: { id: ASSESSMENT_ID } };
       getScoredAssessmentStub = sinon.stub(assessmentService, 'getScoredAssessment').resolves();
       assessmentSerializerStub = sinon.stub(assessmentSerializer, 'serialize');
+      getAssessmentStub = sinon.stub(assessmentRepository, 'get');
     });
 
     afterEach(() => {
       getScoredAssessmentStub.restore();
       assessmentSerializerStub.restore();
+      getAssessmentStub.restore();
     });
 
     it('checks sanity', () => {
@@ -61,6 +68,27 @@ describe('Unit | Controller | assessment-controller', () => {
 
 
       });
+    });
+
+    it('should return the Assessment without scoring with getScoredAssessment rejecting NotElligibleToScoringError', () => {
+      // Given
+      const assessment = new Assessment({});
+      getAssessmentStub.returns(Promise.resolve(assessment));
+      getScoredAssessmentStub.rejects(new NotElligibleToScoringError('Expected Error Message'));
+
+      const expectedSerializedAssessment = { message: 'mySerializedAssessment' };
+      assessmentSerializerStub.returns(expectedSerializedAssessment);
+
+      // When
+      let promise = assessmentController.get(request, reply);
+
+      // Then
+      return promise.then(() => {
+        sinon.assert.calledWith(getAssessmentStub, ASSESSMENT_ID);
+        sinon.assert.calledWith(assessmentSerializerStub, assessment);
+        sinon.assert.calledWith(reply, expectedSerializedAssessment);
+      });
+
     });
 
 
