@@ -13,7 +13,7 @@ const Challenge = require('../../../../lib/domain/models/referential/challenge')
 
 const Answer = require('../../../../lib/domain/models/data/answer');
 
-const {NotElligibleToScoringError} = require('../../../../lib/domain/errors');
+const { NotElligibleToScoringError } = require('../../../../lib/domain/errors');
 
 function _buildChallenge(knowledgeTags) {
   const challenge = new Challenge({ id: 'challenge_id' });
@@ -233,7 +233,7 @@ describe('Unit | Domain | Services | assessment-service', function () {
         .catch((err) => {
           sinon.assert.notCalled(findByAssessmentStub);
           expect(err).to.be.an.instanceof(NotElligibleToScoringError);
-          expect(err.message).to.equal('Assessment with ID ' + ASSESSMENT_ID + ' is a preview Challenge');
+          expect(err.message).to.equal(`Assessment with ID ${ASSESSMENT_ID} is a preview Challenge`);
         });
     });
 

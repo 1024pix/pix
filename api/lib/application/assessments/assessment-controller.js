@@ -36,17 +36,19 @@ module.exports = {
       })
       .catch(err => {
         if (err instanceof NotFoundError) {
-          reply(Boom.notFound(err));
-        } else if (err instanceof NotElligibleToScoringError) {
+          return reply(Boom.notFound(err));
+        }
+
+        if (err instanceof NotElligibleToScoringError) {
           return assessmentRepository
             .get(assessmentId)
             .then((assessment) => {
               reply(assessmentSerializer.serialize(assessment));
             });
         }
-        else {
-          reply(Boom.badImplementation(err));
-        }
+
+        return reply(Boom.badImplementation(err));
+
       });
   },
 
