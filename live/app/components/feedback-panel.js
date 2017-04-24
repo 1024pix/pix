@@ -9,46 +9,65 @@ export default Ember.Component.extend({
 
   store: Ember.inject.service(),
 
-  answer: null,
-  email: '',
-  content: '',
-  error: null,
-  status: FORM_CLOSED,
-  isFormClosed: Ember.computed.equal('status', FORM_CLOSED),
-  isFormOpened: Ember.computed.equal('status', FORM_OPENED),
+  classNames: ['feedback-panel'],
+
+  assessment: null,
+  challenge: null,
+
+  _status: FORM_CLOSED,
+  _email: null,
+  _content: null,
+  _error: null,
+
+  isFormClosed: Ember.computed.equal('_status', FORM_CLOSED),
+  isFormOpened: Ember.computed.equal('_status', FORM_OPENED),
+
+  didUpdateAttrs() {
+    this._super(...arguments);
+    this.reset();
+  },
+
+  reset() {
+    this.set('_status', FORM_CLOSED);
+    this.set('_email', null);
+    this.set('_content', null);
+    this.set('_error', null);
+  },
 
   actions: {
+
     openFeedbackForm() {
-      this.set('status', FORM_OPENED);
+      this.set('_status', FORM_OPENED);
     },
 
     sendFeedback() {
-      if (!Ember.isEmpty(this.get('email')) && !isValid(this.get('email'))) {
-        this.set('error', 'Vous devez saisir une adresse mail valide.');
+      const email = this.get('_email');
+      if (!Ember.isEmpty(email) && !isValid(email)) {
+        this.set('_error', 'Vous devez saisir une adresse mail valide.');
         return;
       }
 
-      if (Ember.isEmpty(this.get('content').trim())) {
-        this.set('error', 'Vous devez saisir un message.');
+      if (Ember.isEmpty(this.get('_content').trim())) {
+        this.set('_error', 'Vous devez saisir un message.');
         return;
       }
 
       const store = this.get('store');
-      const answer = this.get('answer');
+      const assessment = this.get('assessment');
+      const challenge = this.get('challenge');
 
       const feedback = store.createRecord('feedback', {
-        email: this.get('email'),
-        content: this.get('content'),
-        assessment: answer.get('assessment'),
-        challenge: answer.get('challenge')
+        email: this.get('_email'),
+        content: this.get('_content'),
+        assessment,
+        challenge
       });
-      feedback.save()
-        .then(() => this.set('status', FORM_SUBMITTED));
+
+      feedback.save().then(() => this.set('_status', FORM_SUBMITTED));
     },
 
     cancelFeedback() {
-      this.set('error', null);
-      this.set('status', FORM_CLOSED);
+      this.reset();
     }
   }
 });

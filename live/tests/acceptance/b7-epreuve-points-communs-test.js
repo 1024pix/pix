@@ -58,4 +58,8 @@ describe('Acceptance | b7 - Points communs a toutes les épreuves | ', function 
     // then
     andThen(() => expect(currentURL()).to.equal('/'));
   });
+
+  it('b7.7 Il est possible de signaler l\'épreuve via le formulaire de Feedback', () => {
+    expect($('.feedback-panel')).to.have.lengthOf(1);
+  });
 });

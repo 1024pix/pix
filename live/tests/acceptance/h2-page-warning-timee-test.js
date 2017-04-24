@@ -42,6 +42,10 @@ describe('Acceptance | h2 - Warning prochaine page timée  | ', function () {
       expect($('.timeout-jauge')).to.have.lengthOf(0);
     });
 
+    it('h2.4 le formulaire de signalement n\'est pas affiché pour une épreuve chronométrée tant que l\'usager n\'a pas confirmé être prêt pour l\'épreuve', () => {
+      expect($('.feedback-panel')).to.have.lengthOf(0);
+    });
+
   });
 
   describe('h2-Test comportement lorsque le bouton de confirmation est cliqué', function () {
@@ -63,6 +67,10 @@ describe('Acceptance | h2 - Warning prochaine page timée  | ', function () {
       expect($('.timeout-jauge')).to.have.lengthOf(1);
     });
 
+    it('h2.4 le formulaire de signalement est affiché', () => {
+      expect($('.feedback-panel')).to.have.lengthOf(1);
+    });
+
   });
 
   describe('h2-Affichage de la page warning pour 2 epreuves timées du même types (suite au bug US-424)', function () {
@@ -80,7 +88,8 @@ describe('Acceptance | h2 - Warning prochaine page timée  | ', function () {
 
       // then
       expect($('.challenge-item-warning')).to.have.lengthOf(1);
-
     });
   });
+
+
 });

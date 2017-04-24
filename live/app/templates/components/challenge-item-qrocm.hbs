@@ -34,8 +34,13 @@
     </div>
   {{/if}}
 
-
   {{#if assessment}}
     {{challenge-actions skip="skip" validate="validate"}}
   {{/if}}
 {{/unless}}
+
+{{#if canDisplayFeedbackPanel}}
+  <div class="challenge-item__feedback">
+    {{feedback-panel assessment=assessment challenge=challenge}}
+  </div>
+{{/if}}
