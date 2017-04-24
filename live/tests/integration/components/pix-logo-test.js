@@ -21,8 +21,16 @@ describe('Integration | Component | pix logo', function() {
     expect(this.$('.pix-logo__image').attr('src')).to.equal('images/pix-logo.svg');
   });
 
-  it('should display "béta"', function () {
+  it('should display "bêta"', function () {
     expect(this.$().text().trim()).to.equal('Bêta');
+  });
+
+  it('should have a textual alternative', function () {
+    expect(this.$('.pix-logo__image').attr('alt')).to.equal('Le site officiel de PIX, version bêta');
+  });
+
+  it('should have a title in the link', function () {
+    expect(this.$('.pix-logo__link').attr('title')).to.equal('Lien vers la page d\'accueil de PIX');
   });
 
 });
