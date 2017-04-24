@@ -50,7 +50,7 @@
     "ember-math-helpers": "2.0.5",
     "ember-metrics": "0.8.1",
     "ember-resolver": "2.1.1",
-    "ember-routable-modal": "0.2.1",
+    "ember-routable-modal": "dbbk/ember-routable-modal#a5b7a0bb",
     "ember-route-action-helper": "2.0.2",
     "ember-source": "2.11.2",
     "eslint": "3.16.0",
