@@ -13,7 +13,7 @@ const courseRepository = require('../../infrastructure/repositories/course-repos
 const answerRepository = require('../../infrastructure/repositories/answer-repository');
 const solutionRepository = require('../../infrastructure/repositories/solution-repository');
 
-const NotFoundError = require('../../domain/errors').NotFoundError;
+const { NotFoundError, NotElligibleToScoringError } = require('../../domain/errors');
 
 module.exports = {
 
@@ -36,10 +36,19 @@ module.exports = {
       })
       .catch(err => {
         if (err instanceof NotFoundError) {
-          reply(Boom.notFound(err));
-        } else {
-          reply(Boom.badImplementation(err));
+          return reply(Boom.notFound(err));
         }
+
+        if (err instanceof NotElligibleToScoringError) {
+          return assessmentRepository
+            .get(assessmentId)
+            .then((assessment) => {
+              reply(assessmentSerializer.serialize(assessment));
+            });
+        }
+
+        return reply(Boom.badImplementation(err));
+
       });
   },
 

@@ -111,3 +111,10 @@
   border: solid 1.5px #d5d5d5;
   margin-left: 22px;
 }
+
+.comparison-window__feedback-panel {
+  background-color: $feedback-panel-background-color;
+  border-bottom-left-radius: 5px;
+  border-bottom-right-radius: 5px;
+  padding: 20px 40px;
+}

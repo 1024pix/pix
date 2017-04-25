@@ -13,6 +13,8 @@ const Challenge = require('../../../../lib/domain/models/referential/challenge')
 
 const Answer = require('../../../../lib/domain/models/data/answer');
 
+const { NotElligibleToScoringError } = require('../../../../lib/domain/errors');
+
 function _buildChallenge(knowledgeTags) {
   const challenge = new Challenge({ id: 'challenge_id' });
   challenge.knowledgeTags = knowledgeTags;
@@ -209,6 +211,30 @@ describe('Unit | Domain | Services | assessment-service', function () {
       }, (error) => {
         expect(error.message).to.equal(`Unable to find assessment with ID ${ASSESSMENT_ID}`);
       });
+    });
+
+    it('should detect Assessement created for preview Challenge and do not evaluate score', () => {
+      // Given
+      let assessmentFromPreview = new Assessment({
+        id: '1',
+        courseId: 'nullfec89bd5-a706-419b-a6d2-f8805e708ace'
+      });
+      getAssessmentStub.returns(Promise.resolve(assessmentFromPreview));
+      findByAssessmentStub.returns(Promise.reject());
+
+      // When
+      let promise = service.getScoredAssessment(ASSESSMENT_ID);
+
+      // Then
+      return promise
+        .then(() => {
+          sinon.assert.fail('Should not succeed');
+        })
+        .catch((err) => {
+          sinon.assert.notCalled(findByAssessmentStub);
+          expect(err).to.be.an.instanceof(NotElligibleToScoringError);
+          expect(err.message).to.equal(`Assessment with ID ${ASSESSMENT_ID} is a preview Challenge`);
+        });
     });
 
     describe('when we retrieved the assessement', () => {

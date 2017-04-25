@@ -3,8 +3,6 @@ import callOnlyOnce from '../utils/call-only-once';
 import _ from 'pix-live/utils/lodash-custom';
 import ENV from 'pix-live/config/environment';
 
-let warningConfirmationSent = false;
-
 const ChallengeItemGeneric = Ember.Component.extend({
 
   tagName: 'article',
@@ -13,6 +11,7 @@ const ChallengeItemGeneric = Ember.Component.extend({
 
   _elapsedTime: null,
   _timer: null,
+  _hasUserAknowledgedTimingWarning: false,
 
   init() {
     this._super(...arguments);
@@ -22,7 +21,8 @@ const ChallengeItemGeneric = Ember.Component.extend({
   },
 
   didUpdateAttrs() {
-    if (!warningConfirmationSent) {
+    this._super(...arguments);
+    if (!this.get('_hasUserAknowledgedTimingWarning')) {
       this.set('hasUserConfirmWarning', false);
       this.set('hasChallengeTimer', this.hasTimerDefined());
     }
@@ -40,6 +40,10 @@ const ChallengeItemGeneric = Ember.Component.extend({
 
   hasChallengeTimer: Ember.computed('challenge', function () {
     return this.hasTimerDefined();
+  }),
+
+  canDisplayFeedbackPanel: Ember.computed('_hasUserAknowledgedTimingWarning', function () {
+    return !this.hasTimerDefined() || (this.hasTimerDefined() && this.get('_hasUserAknowledgedTimingWarning'));
   }),
 
   hasTimerDefined(){
@@ -81,20 +85,20 @@ const ChallengeItemGeneric = Ember.Component.extend({
       }
       const answerValue = this._getAnswerValue();
       this.sendAction('onValidated', this.get('challenge'), this.get('assessment'), answerValue, this._getTimeout(), this._getElapsedTime());
-      warningConfirmationSent = false;
+      this.set('_hasUserAknowledgedTimingWarning', false);
     }),
 
     skip: callOnlyOnce(function () {
       this.set('errorMessage', null);
       this.sendAction('onValidated', this.get('challenge'), this.get('assessment'), '#ABAND#', this._getTimeout(), this._getElapsedTime());
-      warningConfirmationSent = false;
+      this.set('_hasUserAknowledgedTimingWarning', false);
     }),
 
     setUserConfirmation() {
       this._start();
       this.toggleProperty('hasUserConfirmWarning');
       this.toggleProperty('hasChallengeTimer');
-      warningConfirmationSent = true;
+      this.set('_hasUserAknowledgedTimingWarning', true);
     }
   }
 

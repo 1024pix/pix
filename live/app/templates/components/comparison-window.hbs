@@ -72,7 +72,6 @@
         </div>
       {{/if}}
 
-
       {{#if isAssessmentChallengeTypeQrocmInd}}
         <div class="comparison-window__corrected-answers comparison-window__corrected-answers--qrocm">
           {{qrocm-ind-solution-panel answer=answer solution=solution challenge=challenge}}
@@ -82,7 +81,7 @@
 
     <div class="routable-modal--footer">
       <div class="comparison-window__feedback-panel">
-        {{feedback-panel answer=answer}}
+        {{feedback-panel assessment=answer.assessment challenge=challenge}}
       </div>
     </div>
   </div>

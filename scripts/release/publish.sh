@@ -52,6 +52,8 @@ echo -e "You are now on branch ${YELLOW}dev${RESET_COLOR}.\n"
 git fetch --all
 
 git checkout master
+git pull --rebase
+
 echo -e "You are now on branch ${YELLOW}master${RESET_COLOR}.\n"
 
 # Merge 'dev' branch on 'master'

@@ -22,7 +22,7 @@ describe('Unit | Component | feedback-panel', function () {
     it('should return true if status equals "FORM_CLOSED"', function () {
       // given
       const component = this.subject();
-      component.set('status', 'FORM_CLOSED');
+      component.set('_status', 'FORM_CLOSED');
 
       // when
       const isFormClosed = component.get('isFormClosed');
@@ -34,7 +34,7 @@ describe('Unit | Component | feedback-panel', function () {
     it('should return false if status is not equal to "FORM_CLOSED"', function () {
       // given
       const component = this.subject();
-      component.set('status', 'FORM_OPENED');
+      component.set('_status', 'FORM_OPENED');
 
       // when
       const isFormClosed = component.get('isFormClosed');
@@ -50,7 +50,7 @@ describe('Unit | Component | feedback-panel', function () {
     it('should return true if status equals "FORM_OPENED"', function () {
       // given
       const component = this.subject();
-      component.set('status', 'FORM_OPENED');
+      component.set('_status', 'FORM_OPENED');
 
       // when
       const isFormClosed = component.get('isFormOpened');
@@ -62,7 +62,7 @@ describe('Unit | Component | feedback-panel', function () {
     it('should return false if status is not equal to "FORM_OPENED"', function () {
       // given
       const component = this.subject();
-      component.set('status', 'FORM_CLOSED');
+      component.set('_status', 'FORM_CLOSED');
 
       // when
       const isFormClosed = component.get('isFormOpened');
