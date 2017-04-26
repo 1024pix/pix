@@ -1,6 +1,6 @@
 {
   "name": "pix-live",
-  "version": "1.8.0",
+  "version": "1.8.1",
   "description": "Plateforme d'évaluation et de certification des compétences numériques à l'usage de tous les citoyens francophones.",
   "private": true,
   "directories": {
@@ -47,6 +47,7 @@
     "ember-exam": "0.6.0",
     "ember-export-application-global": "1.1.1",
     "ember-load-initializers": "0.6.3",
+    "ember-lodash": "^4.17.2",
     "ember-math-helpers": "2.0.5",
     "ember-metrics": "0.8.1",
     "ember-resolver": "2.1.1",

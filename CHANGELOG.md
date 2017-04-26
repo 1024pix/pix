@@ -1,6 +1,10 @@
 
 # PIX Changelog
 
+## 1.8.1 (26/04/2017)
+
+- [#388](https://github.com/sgmap/pix/pull/388) [BUGFIX] Problème d'affichage de la modale de correction pour un QROCm-ind.
+
 ## 1.8.0 (25/04/2017)
 
 - [#381](https://github.com/sgmap/pix/pull/381) [FEATURE] Le logo PIX est accessible (US-444).
