@@ -2,8 +2,8 @@
 import _ from 'lodash';
 
 function transformSolutionsToString(solutionsAsObject) {
-  _.each(solutionsAsObject, function (potentialSolution) {
-    potentialSolution.forEach(function (value, index) {
+  _.each(solutionsAsObject, (potentialSolution) => {
+    potentialSolution.forEach((value, index) => {
       potentialSolution[index] = potentialSolution[index].toString();
     });
   });
