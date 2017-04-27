@@ -1,5 +1,6 @@
 <div id="challenge-preview">
     <div class="container">
-      {{component challengeItemType challenge=model.challenge }}
+      {{component (get-challenge-component-class model.challenge)
+        challenge=model.challenge }}
     </div>
 </div>
