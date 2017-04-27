@@ -9,16 +9,19 @@
 
     <div class="feedback-panel__form-description">
       <p>PIX est à l’écoute de vos remarques pour améliorer les épreuves proposées #personnenestparfait.</p>
-      <p>Vous pouvez nous laisser votre adresse mail si vous le souhaitez. Vos coordonnées ne feront l’objet d’aucune transmission à des tiers.</p>
+      <p>Vous pouvez nous laisser votre adresse mail si vous le souhaitez. Vos coordonnées ne feront l’objet d’aucune
+        transmission à des tiers.</p>
     </div>
 
     <div class="feedback-panel__form-wrapper">
       <form class="feedback-panel__form">
         <div class="feedback-panel__group">
-          {{input class="feedback-panel__field feedback-panel__field--email" type="text" value=_email placeholder="Votre email (optionnel)"}}
+          {{input class="feedback-panel__field feedback-panel__field--email" type="text" value=_email
+                  placeholder="Votre email (optionnel)"}}
         </div>
         <div class="feedback-panel__group">
-          {{textarea class="feedback-panel__field feedback-panel__field--content" value=_content placeholder="Votre message" rows=6}}
+          {{textarea class="feedback-panel__field feedback-panel__field--content" value=_content
+                     placeholder="Votre message" rows=6}}
         </div>
 
         {{#if _error}}
@@ -27,7 +30,9 @@
           </div>
         {{/if}}
         <button class="feedback-panel__button feedback-panel__button--send" {{action "sendFeedback"}}>Envoyer</button>
-        <button class="feedback-panel__button feedback-panel__button--cancel" {{action "cancelFeedback"}}>Annuler</button>
+        {{#if isFormClosedByDefault}}
+          <button class="feedback-panel__button feedback-panel__button--cancel" {{action "cancelFeedback"}}>Annuler</button>
+        {{/if}}
       </form>
     </div>
   </div>

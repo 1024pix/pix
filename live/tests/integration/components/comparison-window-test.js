@@ -1,8 +1,11 @@
-import {expect} from 'chai';
-import {describe, it, beforeEach} from 'mocha';
-import {setupComponentTest} from 'ember-mocha';
+import { expect } from 'chai';
+import { describe, it, beforeEach } from 'mocha';
+import { setupComponentTest } from 'ember-mocha';
 import hbs from 'htmlbars-inline-precompile';
 import Ember from 'ember';
+
+const FEEDBACK_FORM = '.feedback-panel__view--form';
+const LINK_OPEN_FORM = '.feedback-panel__view--link';
 
 describe('Integration | Component | comparison-window', function () {
 
@@ -64,7 +67,7 @@ describe('Integration | Component | comparison-window', function () {
 
     it('should render corrected answers when challenge type is QROC', function () {
       // given
-      challenge = Ember.Object.create({type: 'QROC'});
+      challenge = Ember.Object.create({ type: 'QROC' });
       this.set('challenge', challenge);
       // when
       this.render(hbs`{{comparison-window answer=answer challenge=challenge solution=solution index=index}}`);
@@ -74,8 +77,8 @@ describe('Integration | Component | comparison-window', function () {
 
     it('should render corrected answers when challenge type is QROCM-ind', function () {
       // given
-      challenge = Ember.Object.create({type: 'QROCM-ind', proposals: ''});
-      solution = Ember.Object.create({value:''});
+      challenge = Ember.Object.create({ type: 'QROCM-ind', proposals: '' });
+      solution = Ember.Object.create({ value: '' });
       this.set('challenge', challenge);
       this.set('solution', solution);
       // when
@@ -86,7 +89,7 @@ describe('Integration | Component | comparison-window', function () {
 
     it('should render corrected answers when challenge type is QCM', function () {
       // given
-      challenge = Ember.Object.create({type: 'QCM'});
+      challenge = Ember.Object.create({ type: 'QCM' });
       this.set('challenge', challenge);
       // when
       this.render(hbs`{{comparison-window answer=answer challenge=challenge solution=solution index=index}}`);
@@ -94,11 +97,13 @@ describe('Integration | Component | comparison-window', function () {
       expect(this.$('.qcm-solution-panel')).to.have.length(1);
     });
 
-    it('should render a feedback panel', function () {
+    it('should render a feedback panel already opened', function () {
       //when
       this.render(hbs`{{comparison-window answer=answer challenge=challenge solution=solution index=index}}`);
       //then
       expect(this.$('.comparison-window__feedback-panel')).to.have.length(1);
+      expect(this.$(FEEDBACK_FORM)).to.have.lengthOf(1);
+      expect(this.$(LINK_OPEN_FORM)).to.have.lengthOf(0);
     });
 
     it('should have a max width of 900px and a margin auto in order to quit by clicking beside', function () {
