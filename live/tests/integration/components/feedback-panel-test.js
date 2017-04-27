@@ -73,42 +73,25 @@ describe('Integration | Component | feedback-panel', function () {
   });
 
   describe('Form view', function () {
-
-    let isSaveMethodCalled = false;
-    let saveMethodBody = null;
-    let saveMethodUrl = null;
-
-    const storeStub = Ember.Service.extend({
-      createRecord() {
-        const createRecordArgs = arguments;
-        return Object.create({
-          save() {
-            isSaveMethodCalled = true;
-            saveMethodUrl = createRecordArgs[0];
-            saveMethodBody = createRecordArgs[1];
-            return Ember.RSVP.resolve();
-          }
-        });
-      }
-    });
+    let didReceiveSaveAction = false;
+    let feedbackToSave = null;
 
     beforeEach(function () {
       // configure answer & cie. model object
       const assessment = Ember.Object.extend({ id: 'assessment_id' }).create();
       const challenge = Ember.Object.extend({ id: 'challenge_id' }).create();
 
+      // define actions
+      this.set('stubSaveFeedback', (feedback) => {
+        didReceiveSaveAction = true;
+        feedbackToSave = feedback;
+        return Ember.RSVP.resolve();
+      });
+
       // render component
       this.set('assessment', assessment);
       this.set('challenge', challenge);
-      this.render(hbs`{{feedback-panel assessment=assessment challenge=challenge default_status='FORM_OPENED'}}`);
-
-      // stub store service
-      this.register('service:store', storeStub);
-      this.inject.service('store', { as: 'store' });
-
-      isSaveMethodCalled = false;
-      saveMethodBody = null;
-      saveMethodUrl = null;
+      this.render(hbs`{{feedback-panel assessment=assessment challenge=challenge default_status='FORM_OPENED' save=(action stubSaveFeedback)}}`);
     });
 
     it('should display only the "form" view', function () {
@@ -149,13 +132,12 @@ describe('Integration | Component | feedback-panel', function () {
 
       // then
       return wait().then(() => {
-        expect(isSaveMethodCalled).to.be.true;
-        expect(saveMethodUrl).to.equal('feedback');
-        expect(_.isObject(saveMethodBody)).to.equal(true);
-        expect(saveMethodBody.assessement).to.exists;
-        expect(saveMethodBody.challenge).to.exists;
-        expect(saveMethodBody.content).to.equal(CONTENT_VALUE);
-        expect(saveMethodBody.email).to.equal(EMAIL_VALUE);
+        expect(didReceiveSaveAction).to.be.true;
+        expect(_.isObject(feedbackToSave)).to.equal(true);
+        expect(feedbackToSave.get('assessement')).to.exists;
+        expect(feedbackToSave.get('challenge')).to.exists;
+        expect(feedbackToSave.get('content')).to.equal(CONTENT_VALUE);
+        expect(feedbackToSave.get('email')).to.equal(EMAIL_VALUE);
         expectMercixViewToBeVisible(this);
       });
     });

@@ -81,7 +81,7 @@
 
     <div class="routable-modal--footer">
       <div class="comparison-window__feedback-panel">
-        {{feedback-panel assessment=answer.assessment challenge=challenge default_status='FORM_OPENED'}}
+        {{feedback-panel assessment=answer.assessment challenge=challenge default_status='FORM_OPENED' save=(action "saveFeedback")}}
       </div>
     </div>
   </div>

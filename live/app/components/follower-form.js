@@ -71,7 +71,7 @@ export default Ember.Component.extend({
 
       const store = this.get('store');
       const follower = store.createRecord('follower', {email: email});
-      follower.save()
+      this.get('save')(follower)
         .then(() => {
           this.set('status', 'success');
           hideMessageDiv(this);
