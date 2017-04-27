@@ -4,18 +4,8 @@ exports.register = function (server, options, next) {
 
   server.route([
     {
-      method: 'GET',
-      path: '/api/users',
-      config: { handler: UserController.list, tags: ['api'] }
-    },
-    {
-      method: 'GET',
-      path: '/api/users/{id}',
-      config: { handler: UserController.get, tags: ['api'] }
-    },
-    {
       method: 'POST',
-      path: '/api/users',
+      path: '/api/accounts',
       config: { handler: UserController.save, tags: ['api'] }
     }
   ]);

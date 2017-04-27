@@ -1,11 +1,14 @@
 const { describe, it, after, before, beforeEach, afterEach, expect, knex, nock } = require('../../test-helper');
 const server = require('../../../server');
 
-describe('Acceptance | API | assessment-controller-get-solutions', function () {
+describe('Acceptance | API | assessment-controller-get-solutions', () => {
 
-  before(function (done) {
-    knex.migrate.latest().then(() => {
-      knex.seed.run().then(() => {
+  before(() => {
+    return knex.migrate.latest()
+      .then(() => {
+        return knex.seed.run();
+      })
+      .then(() => {
         nock('https://api.airtable.com')
           .get('/v0/test-base/Tests/non_adaptive_course_id')  // XXX cf. issue #204, there may be a conflict with course-controller_test
           .query(true)
@@ -70,17 +73,22 @@ describe('Acceptance | API | assessment-controller-get-solutions', function () {
               },
             }
           );
-        done();
       });
-    });
   });
 
-  after(function (done) {
+  after((done) => {
     nock.cleanAll();
     server.stop(done);
   });
 
-  describe('(non-adaptive end of test) GET /api/assessments/:assessment_id/solutions/:answer_id', function () {
+  afterEach(() => {
+    return knex('assessments').delete()
+      .then(() => {
+        return knex('answers').delete()
+      });
+  });
+
+  describe('(non-adaptive end of test) GET /api/assessments/:assessment_id/solutions/:answer_id', () => {
 
     //assessment
     let insertedAssessmentId = null;
@@ -92,10 +100,10 @@ describe('Acceptance | API | assessment-controller-get-solutions', function () {
       courseId: 'non_adaptive_course_id'
     };
 
-    beforeEach(function (done) {
-      knex('assessments').delete().then(() => {
-        knex('assessments').insert([insertedAssessment]).then((rows) => {
-          insertedAssessmentId = rows[0];
+    beforeEach(() => {
+      return knex('assessments').insert([ insertedAssessment ])
+        .then((rows) => {
+          insertedAssessmentId = rows[ 0 ];
 
           const inserted_answer_1 = {
             value: 'any bad answer',
@@ -103,47 +111,44 @@ describe('Acceptance | API | assessment-controller-get-solutions', function () {
             challengeId: 'first_challenge',
             assessmentId: insertedAssessmentId
           };
+
           const inserted_answer_2 = {
             value: 'any good answer',
             result: 'ok',
             challengeId: 'second_challenge',
             assessmentId: insertedAssessmentId
           };
-          knex('answers').delete().then(() => {
-            knex('answers').insert([inserted_answer_1, inserted_answer_2]).then((rows) => {
-              insertedAnswerId = rows[0];
-              done();
-            });
-          });
+
+          return knex('answers').insert([ inserted_answer_1, inserted_answer_2 ]);
+        })
+        .then((rows) => {
+          insertedAnswerId = rows[ 0 ];
         });
-      });
     });
 
-    afterEach(function (done) {
-      knex('assessments').delete().then(() => {
-        knex('answers').delete().then(() => {
-          done();
-        });
-      });
-    });
+    it('should return the solution if the user answered every challenge', () => {
+      // Given
+      const options = {
+        method: 'GET',
+        url: '/api/assessments/' + insertedAssessmentId + '/solutions/' + insertedAnswerId
+      };
+      const expectedSolution = {
+        type: 'solutions',
+        id: 'second_challenge',
+        attributes: { value: 'truite' }
+      };
 
-    it('should return the solution if the user answered every challenge', function (done) {
+      // When
+      let promise = server.injectThen(options);
 
-      const options = { method: 'GET', url: '/api/assessments/' + insertedAssessmentId + '/solutions/' + insertedAnswerId};
-      server.inject(options, (response) => {
-        const expectedSolution = {
-          type: 'solutions',
-          id: 'second_challenge',
-          attributes: { value: 'truite' }
-        };
-        const solution = response.result.data;
-        expect(solution).to.deep.equal(expectedSolution);
-        done();
+      // Then
+      return promise.then((response) => {
+        expect(response.result.data).to.deep.equal(expectedSolution);
       });
     });
   });
 
-  describe('(non-adaptive not end of test) GET /api/assessments/:assessment_id/solutions/:answer_id', function () {
+  describe('(non-adaptive not end of test) GET /api/assessments/:assessment_id/solutions/:answer_id', () => {
 
     //assessment
     let insertedAssessmentId = null;
@@ -155,46 +160,42 @@ describe('Acceptance | API | assessment-controller-get-solutions', function () {
       courseId: 'non_adaptive_course_id'
     };
 
-    beforeEach(function (done) {
-      knex('assessments').delete().then(() => {
-        knex('assessments').insert([insertedAssessment]).then((rows) => {
-          insertedAssessmentId = rows[0];
+    beforeEach(() => {
+      return knex('assessments').insert([ insertedAssessment ]).then((rows) => {
+        insertedAssessmentId = rows[ 0 ];
 
-          const inserted_answer = {
-            value: 'any bad answer',
-            result: 'ko',
-            challengeId: 'first_challenge',
-            assessmentId: insertedAssessmentId
-          };
-          knex('answers').delete().then(() => {
-            knex('answers').insert([inserted_answer]).then((rows) => {
-              insertedAnswerId = rows[0];
-              done();
-            });
-          });
+        const inserted_answer = {
+          value: 'any bad answer',
+          result: 'ko',
+          challengeId: 'first_challenge',
+          assessmentId: insertedAssessmentId
+        };
+
+        return knex('answers').insert([ inserted_answer ]);
+      })
+        .then((rows) => {
+          insertedAnswerId = rows[ 0 ];
         });
-      });
     });
 
-    afterEach(function (done) {
-      knex('assessments').delete().then(() => {
-        knex('answers').delete().then(() => {
-          done();
-        });
-      });
-    });
+    it('should return null if user did not answer every challenge', () => {
+      // Given
+      const options = {
+        method: 'GET',
+        url: '/api/assessments/' + insertedAssessmentId + '/solutions/' + insertedAnswerId
+      };
 
-    it('should return null if user did not answer every challenge', function (done) {
+      // When
+      let promise = server.inject(options);
 
-      const options = { method: 'GET', url: '/api/assessments/' + insertedAssessmentId + '/solutions/' + insertedAnswerId };
-      server.inject(options, (response) => {
+      // Then
+      return promise.then((response) => {
         expect(response.result).to.equal('null');
-        done();
       });
     });
   });
 
-  describe('(adaptive end of test) GET /api/assessments/:assessment_id/solutions/:answer_id', function () {
+  describe('(adaptive end of test) GET /api/assessments/:assessment_id/solutions/:answer_id', () => {
 
     let insertedAssessmentId = null;
     let insertedAnswerId = null;
@@ -205,10 +206,12 @@ describe('Acceptance | API | assessment-controller-get-solutions', function () {
       courseId: 'adaptive_course_id'
     };
 
-    beforeEach(function (done) {
-      knex('assessments').delete().then(() => {
-        knex('assessments').insert([insertedAssessment]).then((rows) => {
-          insertedAssessmentId = rows[0];
+    beforeEach(() => {
+      return knex('assessments')
+        .insert([ insertedAssessment ])
+        .then((rows) => {
+
+          insertedAssessmentId = rows[ 0 ];
 
           const inserted_answer = {
             value: 'any bad answer',
@@ -216,41 +219,35 @@ describe('Acceptance | API | assessment-controller-get-solutions', function () {
             challengeId: 'first_challenge',
             assessmentId: insertedAssessmentId
           };
-          knex('answers').delete().then(() => {
-            knex('answers').insert([inserted_answer]).then((rows) => {
-              insertedAnswerId = rows[0];
-              done();
-            });
-          });
+
+          return knex('answers').insert([ inserted_answer ]);
+        }).then((rows) => {
+          insertedAnswerId = rows[ 0 ];
         });
-      });
     });
 
-    afterEach(function (done) {
-      knex('assessments').delete().then(() => {
-        knex('answers').delete().then(() => {
-          done();
-        });
-      });
-    });
+    it('should return a solution if user completed the adaptive test', () => {
+      const options = {
+        method: 'GET',
+        url: '/api/assessments/' + insertedAssessmentId + '/solutions/' + insertedAnswerId
+      };
+      const expectedSolution = {
+        type: 'solutions',
+        id: 'first_challenge',
+        attributes: { value: 'fromage' }
+      };
 
-    it('should return a solution if user completed the adaptive test', function (done) {
+      // When
+      let promise = server.injectThen(options);
 
-      const options = { method: 'GET', url: '/api/assessments/' + insertedAssessmentId + '/solutions/' + insertedAnswerId };
-      server.inject(options, (response) => {
-        const expectedSolution = {
-          type: 'solutions',
-          id: 'first_challenge',
-          attributes: { value: 'fromage' }
-        };
-        const solution = response.result.data;
-        expect(solution).to.deep.equal(expectedSolution);
-        done();
+      // Then
+      return promise.then((response) => {
+        expect(response.result.data).to.deep.equal(expectedSolution);
       });
     });
   });
 
-  describe('(adaptive not end of test) GET /api/assessments/:assessment_id/solutions/:answer_id', function () {
+  describe('(adaptive not end of test) GET /api/assessments/:assessment_id/solutions/:answer_id', () => {
 
     let insertedAssessmentId = null;
     let insertedAnswerId = null;
@@ -267,10 +264,10 @@ describe('Acceptance | API | assessment-controller-get-solutions', function () {
       nextChallengeId: 'second_challenge'
     };
 
-    beforeEach(function (done) {
-      knex('assessments').delete().then(() => {
-        knex('assessments').insert([insertedAssessment]).then((rows) => {
-          insertedAssessmentId = rows[0];
+    beforeEach(() => {
+      return knex('assessments').insert([ insertedAssessment ])
+        .then((rows) => {
+          insertedAssessmentId = rows[ 0 ];
 
           const inserted_answer = {
             value: 'any good answer',
@@ -278,37 +275,32 @@ describe('Acceptance | API | assessment-controller-get-solutions', function () {
             challengeId: 'first_challenge',
             assessmentId: insertedAssessmentId
           };
-          knex('answers').delete().then(() => {
-            knex('answers').insert([inserted_answer]).then((rows) => {
-              insertedAnswerId = rows[0];
 
-              knex('scenarios').delete().then(() => {
-                knex('scenarios').insert([insertedScenario]).then(() => {
-                  done();
-                });
-              });
-            });
-          });
+          return knex('answers').insert([ inserted_answer ]);
+        }).then((rows) => {
+          insertedAnswerId = rows[ 0 ];
+
+          return knex('scenarios').insert([ insertedScenario ]);
         });
-      });
     });
 
-    afterEach(function (done) {
-      knex('assessments').delete().then(() => {
-        knex('answers').delete().then(() => {
-          knex('scenarios').delete().then(() => {
-            done();
-          });
-        });
-      });
+    afterEach(() => {
+      return knex('scenarios').delete();
     });
 
-    it('should return null if user did not complete the adaptive test', function (done) {
+    it('should return null if user did not complete the adaptive test', () => {
+      // Given
+      const options = {
+        method: 'GET',
+        url: '/api/assessments/' + insertedAssessmentId + '/solutions/' + insertedAnswerId
+      };
 
-      const options = { method: 'GET', url: '/api/assessments/' + insertedAssessmentId + '/solutions/' + insertedAnswerId };
-      server.inject(options, (response) => {
+      // When
+      let promise = server.injectThen(options);
+
+      // Then
+      return promise.then((response) => {
         expect(response.result).to.equal('null');
-        done();
       });
     });
   });

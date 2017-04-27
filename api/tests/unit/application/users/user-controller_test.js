@@ -1,105 +1,115 @@
 const { describe, it, before, after, expect, sinon } = require('../../../test-helper');
 const Hapi = require('hapi');
-const User = require('../../../../lib/domain/models/data/user');
+const Boom = require('boom');
 
-describe('Unit | Controller | user-controller', function () {
+const faker = require('faker');
+
+const userController = require('../../../../lib/application/users/user-controller');
+const validationErrorSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/validation-error-serializer');
+
+describe('Unit | Controller | user-controller', () => {
 
   let server;
 
-  before(function () {
-    server = this.server = new Hapi.Server();
+  before(() => {
+    server = new Hapi.Server();
     server.connection({ port: null });
     server.register({ register: require('../../../../lib/application/users') });
   });
 
-  describe('#list', function () {
+  describe('#save', () => {
 
-    let stub;
-    const users = [
-      new User({ "id": "user_1" }),
-      new User({ "id": "user_2" }),
-      new User({ "id": "user_3" })
-    ];
+    let boomBadRequestMock;
+    let validationErrorSerializerStub;
+    let replyStub;
 
-    before(function () {
-      stub = sinon.stub(User, 'fetchAll');
+    beforeEach(() => {
+      boomBadRequestMock = sinon.mock(Boom);
+      validationErrorSerializerStub = sinon.stub(validationErrorSerializer, 'serialize');
+      replyStub = sinon.stub();
     });
 
-    after(function () {
-      stub.restore();
+    afterEach(() => {
+      validationErrorSerializerStub.restore();
+      boomBadRequestMock.restore();
     });
 
-    it('should fetch and return all the users, serialized as JSONAPI', function (done) {
-      // given
-      stub.resolves(users);
+    it('should reply with a serialized error', () => {
+      // Given
+      const codeSpy = sinon.spy();
+      const expectedSerializedError = { errors: [] };
+      validationErrorSerializerStub.withArgs().returns(expectedSerializedError);
+      replyStub.returns({ code: codeSpy });
 
-      // when
-      server.inject({ method: 'GET', url: '/api/users' }, (res) => {
-
-        // then
-        expect(res.result).to.deep.equal(users);
-        done();
-      });
-    });
-
-    it('should return an error 500 when the fetch fails', function(done) {
-      // given
-      stub.rejects(new Error('Fetch error'));
-
-      // when
-      server.inject({ method: 'GET', url: '/api/users' }, (res) => {
-
-        // then
-        expect(res.statusCode).to.equal(500);
-        done();
-      });
-    });
-  });
-
-  describe('#get', function () {
-
-    let stub;
-    const user = new User({ "id": "user_id" });
-
-    before(function () {
-      stub = sinon.stub(User.prototype, 'fetch');
-    });
-
-    after(function () {
-      stub.restore();
-    });
-
-    it('should fetch and return the given user, serialized as JSONAPI', function (done) {
-      // given
-      stub.resolves(user);
-
-      // when
-      server.inject({ method: 'GET', url: '/api/users/user_id' }, (res) => {
-
-        // then
-        expect(res.result).to.deep.equal(user);
-        done();
-      });
-    });
-
-    it('should reply with error status code 404 if user not found', function (done) {
-      // given
-      const error = {
-        "error": {
-          "type": "MODEL_ID_NOT_FOUND",
-          "message": "Could not find row by id unknown_id"
+      const request = {
+        payload: {
+          data: {
+            attributes: {
+              firstName: '',
+              lastName: ''
+            }
+          }
         }
       };
-      stub.rejects(error);
 
-      // when
-      server.inject({ method: 'GET', url: '/api/users/unknown_id' }, (res) => {
+      // When
+      let promise = userController.save(request, replyStub);
 
-        // then
-        expect(res.statusCode).to.equal(404);
-        done();
+      // Then
+      return promise.then(() => {
+        sinon.assert.calledWith(replyStub, expectedSerializedError);
+        sinon.assert.calledOnce(validationErrorSerializerStub);
+        sinon.assert.calledWith(codeSpy, 400);
       });
     });
+
+    describe('should return 400 Bad request', () => {
+
+      it('when there is not payload', () => {
+        // Given
+        const request = {};
+        boomBadRequestMock.expects('badRequest').exactly(1);
+
+        // When
+        userController.save(request, replyStub);
+
+        // Then
+        boomBadRequestMock.verify();
+      });
+
+      it('when there is an empty payload', () => {
+        // Given
+        const request = {
+          payload: {}
+        };
+        boomBadRequestMock.expects('badRequest').exactly(1);
+
+        // When
+        userController.save(request, replyStub);
+
+        // Then
+        boomBadRequestMock.verify();
+      });
+
+      it('when there is an payload with empty data', () => {
+        // Given
+        const request = {
+          payload: {
+            data: {}
+          }
+        };
+        boomBadRequestMock.expects('badRequest').exactly(1);
+
+        // When
+        userController.save(request, replyStub);
+
+        // Then
+        boomBadRequestMock.verify();
+      });
+
+
+    });
+
   });
 
 });
