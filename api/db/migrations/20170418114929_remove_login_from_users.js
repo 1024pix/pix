@@ -6,6 +6,7 @@ exports.up = function(knex, Promise) {
     knex.schema.table(TABLE_NAME, function (table) {
       table.dropColumn('login');
       table.boolean('cgu');
+      table.unique('email');
     })
   ]);
 
