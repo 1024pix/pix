@@ -1,13 +1,20 @@
-const { describe, it, after, beforeEach, afterEach, expect, knex } = require('../../test-helper');
+const { describe, it, after, beforeEach, before, expect, sinon } = require('../../test-helper');
 const faker = require('faker');
 
 const server = require('../../../server');
 const User = require('../../../lib/domain/models/data/user');
 
+const mailService = require('../../../lib/domain/services/mail-service');
+
 describe('Acceptance | Controller | users-controller', function () {
 
   let options;
   let attributes;
+  let sendAccountCreationEmailStub;
+
+  before(() => {
+    sendAccountCreationEmailStub = sinon.stub(mailService, "sendAccountCreationEmail")
+  });
 
   beforeEach(function () {
     attributes = {
@@ -31,8 +38,8 @@ describe('Acceptance | Controller | users-controller', function () {
     };
   });
 
-  after(function (done) {
-    server.stop(done);
+  after(function () {
+    sendAccountCreationEmailStub.restore();
   });
 
   it('should return 201 HTTP status code', function () {

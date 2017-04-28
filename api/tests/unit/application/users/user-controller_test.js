@@ -3,9 +3,13 @@ const Hapi = require('hapi');
 const Boom = require('boom');
 
 const faker = require('faker');
+const User = require('../../../../lib/domain/models/data/user');
 
 const userController = require('../../../../lib/application/users/user-controller');
 const validationErrorSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/validation-error-serializer');
+
+const mailService = require('../../../../lib/domain/services/mail-service');
+const userSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/user-serializer');
 
 describe('Unit | Controller | user-controller', () => {
 
@@ -32,6 +36,60 @@ describe('Unit | Controller | user-controller', () => {
     afterEach(() => {
       validationErrorSerializerStub.restore();
       boomBadRequestMock.restore();
+    });
+
+    describe('when the account is created', () => {
+
+      let userSerializerStub;
+      let mailServiceMock;
+      let user;
+      let email;
+
+      beforeEach(() => {
+
+        email = faker.internet.email();
+        user = new User({
+          email
+        });
+
+        mailServiceMock = sinon.mock(mailService);
+        userSerializerStub = sinon.stub(userSerializer, "deserialize").returns({
+          save: _ => { return Promise.resolve(user); }
+        });
+
+        replyStub.returns({
+          code: _ => {}
+        })
+      });
+
+      afterEach(() => {
+        userSerializerStub.restore();
+      });
+
+      it('should send an email', () => {
+        // Given
+        const request = {
+          payload: {
+            data: {
+              attributes: {
+                firstName: '',
+                lastName: '',
+                email
+              }
+            }
+          }
+        };
+        mailServiceMock.expects("sendAccountCreationEmail").once().withArgs(email);
+
+        // When
+        let promise = userController.save(request, replyStub);
+
+        // Then
+        return promise.then(() => {
+          mailServiceMock.verify();
+        });
+      });
+
     });
 
     it('should reply with a serialized error', () => {
