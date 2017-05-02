@@ -12,31 +12,38 @@
   display: block;
 }
 
-.course-item__content {
+.course-item__container {
   padding: 10px;
   text-align: center;
+
+  height: 240px;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
 }
 
 .course-item__name {
+
+  width: 100%;
+  margin-bottom: auto;
+
   font-family: $font-raleway;
   font-size: 22px;
   font-weight: 600;
   line-height: 1.09;
   text-align: center;
   color: $charcoal-grey;
-  margin-top: 15px;
-  height: 48px;
-  padding: 0 26px;
 }
 
 .course-item__description {
+  width: 100%;
+  margin-bottom: auto;
+  align-self: flex-start;
   margin-top: 10px;
   font-family: $font-lato;
   font-size: 15px;
   line-height: 1.2;
   color: $slate-grey;
-  height: 56px;
-  overflow: hidden;
   text-overflow: ellipsis;
 }
 
@@ -58,8 +65,8 @@
   font-size: 14px;
   letter-spacing: 0.5px;
   text-align: center;
-  width: 160px;
   padding: 12px;
+  height: 44px;
   display: inline-block;
 
   &:hover,
