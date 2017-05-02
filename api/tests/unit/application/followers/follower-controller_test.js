@@ -1,40 +1,57 @@
-const {describe, it, expect, before, sinon, after} = require('../../../test-helper');
-const _ = require('lodash');
-const Hapi = require('hapi');
+const { describe, it, expect, sinon, beforeEach, afterEach } = require('../../../test-helper');
 const EmailValidator = require('../../../../lib/domain/services/email-validator');
 const Follower = require('../../../../lib/domain/models/data/follower');
 const followerSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/follower-serializer');
-const Mailjet = require('../../../../lib/infrastructure/mailjet')
+
+const followerController = require('../../../../lib/application/followers/follower-controller');
+const mailService = require('../../../../lib/domain/services/mail-service');
+
+const faker = require('faker');
+const server = require('../../../../server');
 
 describe('Unit | Controller | FollowerController', function () {
 
-  let server;
-
-  before(function () {
-    server = this.server = new Hapi.Server();
-    server.connection({port: null});
-    server.register({register: require('../../../../lib/application/followers')});
-  });
-
   describe('#save', function () {
-    it('should return 400 status code when email provided is not valid', function (done) {
-      //Given
-      const follower = {"email": "testeur@follower.pix"};
+
+    let sendWelcomeEmail;
+
+    beforeEach(() => {
+      sendWelcomeEmail = sinon.stub(mailService, 'sendWelcomeEmail');
+    });
+
+    afterEach(() => {
+      sendWelcomeEmail.restore();
+    });
+
+    it('should return 400 status code when email provided is not valid', function () {
+      // Given
+      const follower = { "email": "testeur@follower.pix" };
       const emailValidatorStub = sinon.stub(EmailValidator, 'emailIsValid').returns(false);
       sinon.stub(followerSerializer, 'deserialize', _ => new Follower(follower));
 
-      const spyMailjet = sinon.spy(Mailjet, 'sendWelcomeEmail');
-      // when
-      server.inject({method: 'POST', url: '/api/followers', payload: {"email": 'INVALID_EMAIL'}},
-        (res) => {
-          // then
-          expect(res.statusCode).to.equal(400);
-          expect(spyMailjet.calledOnce).to.be.false;
-          emailValidatorStub.restore();
-          followerSerializer.deserialize.restore();
-          spyMailjet.restore();
-          done();
-        });
+      // When
+      let promise = server.injectThen({ method: 'POST', url: '/api/followers', payload: { "email": 'INVALID_EMAIL' } });
+
+      // Then
+      return promise.then((res) => {
+        expect(res.statusCode).to.equal(400);
+        emailValidatorStub.restore();
+        followerSerializer.deserialize.restore();
+      });
+    });
+
+    it('should send a welcome email', function () {
+      // Given
+      const email = faker.internet.email();
+      const request = { payload: { data: { attributes: { email } } } };
+
+      // When
+      const promise = followerController.save(request, sinon.spy());
+
+      // Then
+      return promise.then(() => {
+        sinon.assert.calledWith(sendWelcomeEmail, email);
+      });
     });
   });
 });

@@ -1,7 +1,7 @@
 <div id="challenge-preview" data-id="{{ model.challenge.id }}" class="challenge-preview">
   <div class="container">
 
-    {{component challengeItemType
+    {{component (get-challenge-component-class model.challenge)
         challenge=model.challenge
         assessment=model.assessment
         onValidated=(action navigate)}}

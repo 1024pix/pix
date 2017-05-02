@@ -39,19 +39,20 @@ describe('Integration | Component | feedback-panel', function () {
 
   describe('Default rendering', function () {
 
-    it('should display only the "link" view', function () {
+    it('should display the feedback Panel', function () {
       // when
       this.render(hbs`{{feedback-panel}}`);
       // then
+      expect(this.$()).to.have.length(1);
       expectLinkViewToBeVisible(this);
     });
 
   });
 
-  describe('Link view', function () {
+  describe('Link view (available only when form is closed by default)', function () {
 
     beforeEach(function () {
-      this.render(hbs`{{feedback-panel _status='FORM_CLOSED'}}`);
+      this.render(hbs`{{feedback-panel}}`);
     });
 
     it('should display only the "link" view', function () {
@@ -72,42 +73,25 @@ describe('Integration | Component | feedback-panel', function () {
   });
 
   describe('Form view', function () {
-
-    let isSaveMethodCalled = false;
-    let saveMethodBody = null;
-    let saveMethodUrl = null;
-
-    const storeStub = Ember.Service.extend({
-      createRecord() {
-        const createRecordArgs = arguments;
-        return Object.create({
-          save() {
-            isSaveMethodCalled = true;
-            saveMethodUrl = createRecordArgs[0];
-            saveMethodBody = createRecordArgs[1];
-            return Ember.RSVP.resolve();
-          }
-        });
-      }
-    });
+    let didReceiveSaveAction = false;
+    let feedbackToSave = null;
 
     beforeEach(function () {
       // configure answer & cie. model object
       const assessment = Ember.Object.extend({ id: 'assessment_id' }).create();
       const challenge = Ember.Object.extend({ id: 'challenge_id' }).create();
 
+      // define actions
+      this.set('stubSaveFeedback', (feedback) => {
+        didReceiveSaveAction = true;
+        feedbackToSave = feedback;
+        return Ember.RSVP.resolve();
+      });
+
       // render component
       this.set('assessment', assessment);
       this.set('challenge', challenge);
-      this.render(hbs`{{feedback-panel assessment=assessment challenge=challenge _status='FORM_OPENED'}}`);
-
-      // stub store service
-      this.register('service:store', storeStub);
-      this.inject.service('store', { as: 'store' });
-
-      isSaveMethodCalled = false;
-      saveMethodBody = null;
-      saveMethodUrl = null;
+      this.render(hbs`{{feedback-panel assessment=assessment challenge=challenge default_status='FORM_OPENED' save=(action stubSaveFeedback)}}`);
     });
 
     it('should display only the "form" view', function () {
@@ -132,19 +116,6 @@ describe('Integration | Component | feedback-panel', function () {
       expect($buttonSend.text()).to.equal('Envoyer');
     });
 
-    it('should contain "cancel" button with label "Annuler" and placeholder "Votre message"', function () {
-      const $buttonCancel = this.$(BUTTON_CANCEL);
-      expect($buttonCancel).to.have.length(1);
-      expect($buttonCancel.text()).to.equal('Annuler');
-    });
-
-    it('clicking on "cancel" button should close the "form" view and and display the "link" view', function () {
-      // when
-      this.$(BUTTON_CANCEL).click();
-      // then
-      expectLinkViewToBeVisible(this);
-    });
-
     it('clicking on "send" button should save the feedback into the store / API and display the "mercix" view', function () {
       // given
       const CONTENT_VALUE = 'Prêtes-moi ta plume, pour écrire un mot';
@@ -161,22 +132,59 @@ describe('Integration | Component | feedback-panel', function () {
 
       // then
       return wait().then(() => {
-        expect(isSaveMethodCalled).to.be.true;
-        expect(saveMethodUrl).to.equal('feedback');
-        expect(_.isObject(saveMethodBody)).to.equal(true);
-        expect(saveMethodBody.assessement).to.exists;
-        expect(saveMethodBody.challenge).to.exists;
-        expect(saveMethodBody.content).to.equal(CONTENT_VALUE);
-        expect(saveMethodBody.email).to.equal(EMAIL_VALUE);
+        expect(didReceiveSaveAction).to.be.true;
+        expect(_.isObject(feedbackToSave)).to.equal(true);
+        expect(feedbackToSave.get('assessement')).to.exists;
+        expect(feedbackToSave.get('challenge')).to.exists;
+        expect(feedbackToSave.get('content')).to.equal(CONTENT_VALUE);
+        expect(feedbackToSave.get('email')).to.equal(EMAIL_VALUE);
         expectMercixViewToBeVisible(this);
       });
     });
+
+    it('should not contain "cancel" button if the feedback form is opened by default', function () {
+      // then
+      const $buttonCancel = this.$(BUTTON_CANCEL);
+      expect($buttonCancel).to.have.length(0);
+    });
+  });
+
+  describe('#Cancel Button available only if the feedback panel is closed by default', function () {
+
+    beforeEach(function () {
+      // configure answer & cie. model object
+      const assessment = Ember.Object.extend({ id: 'assessment_id' }).create();
+      const challenge = Ember.Object.extend({ id: 'challenge_id' }).create();
+
+      // render component
+      this.set('assessment', assessment);
+      this.set('challenge', challenge);
+      this.render(hbs`{{feedback-panel assessment=assessment challenge=challenge}}`);
+    });
+
+    it('should contain "cancel" button with label "Annuler" and placeholder "Votre message"', function () {
+      //when
+      this.$(OPEN_LINK).click();
+
+      //then
+      const $buttonCancel = this.$(BUTTON_CANCEL);
+      expect($buttonCancel).to.have.length(1);
+      expect($buttonCancel.text()).to.equal('Annuler');
+    });
+
+    it('clicking on "cancel" button should close the "form" view and and display the "link" view', function () {
+      // when
+      this.$(BUTTON_CANCEL).click();
+      // then
+      expectLinkViewToBeVisible(this);
+    });
+
   });
 
   describe('Mercix view', function () {
 
     beforeEach(function () {
-      this.render(hbs`{{feedback-panel _status='FORM_SUBMITTED'}}`);
+      this.render(hbs`{{feedback-panel default_status='FORM_SUBMITTED'}}`);
     });
 
     it('should display only the "mercix" view', function () {
@@ -188,7 +196,9 @@ describe('Integration | Component | feedback-panel', function () {
 
     it('should display error if "content" is blank', function () {
       // given
-      this.render(hbs`{{feedback-panel _status='FORM_OPENED' _content='   '}}`);
+      this.render(hbs`{{feedback-panel default_status='FORM_OPENED'}}`);
+      this.$('.feedback-panel__field--content').val('   ');
+      this.$('.feedback-panel__field--content').change();
 
       // when
       this.$(BUTTON_SEND).click();
@@ -200,7 +210,9 @@ describe('Integration | Component | feedback-panel', function () {
 
     it('should display error if "email" is set but invalid', function () {
       // given
-      this.render(hbs`{{feedback-panel _status='FORM_OPENED' _content='Lorem ipsum dolor sit amet' _email='wrong_email'}}`);
+      this.render(hbs`{{feedback-panel default_status='FORM_OPENED' _content='Lorem ipsum dolor sit amet'}}`);
+      this.$('.feedback-panel__field--email').val('wrong_email');
+      this.$('.feedback-panel__field--email').change();
 
       // when
       this.$(BUTTON_SEND).click();
@@ -211,7 +223,10 @@ describe('Integration | Component | feedback-panel', function () {
 
     it('should not display error if "form" view (with error) was closed and re-opened', function () {
       // given
-      this.render(hbs`{{feedback-panel _status='FORM_OPENED' _content='   '}}`);
+      this.render(hbs`{{feedback-panel}}`);
+      this.$(OPEN_LINK).click();
+      this.$('.feedback-panel__field--content').val('   ');
+      this.$('.feedback-panel__field--content').change();
       this.$(BUTTON_SEND).click();
       expect(this.$('.alert')).to.have.length(1);
 

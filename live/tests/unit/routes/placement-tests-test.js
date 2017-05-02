@@ -4,7 +4,9 @@ import { setupTest } from 'ember-mocha';
 
 describe('Unit | Route | placement-tests', function() {
 
-  setupTest('route:placement-tests', {});
+  setupTest('route:placement-tests', {
+    needs: ['service:delay']
+  });
 
   it('exists', function() {
     const route = this.subject();

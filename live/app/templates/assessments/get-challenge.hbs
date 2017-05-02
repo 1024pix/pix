@@ -11,7 +11,7 @@
       </div>
     {{/unless}}
 
-    {{component model.challenge.challengeItemType
+    {{component (get-challenge-component-class model.challenge)
         challenge=model.challenge
         assessment=model.assessment
         answers=model.answers

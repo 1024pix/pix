@@ -10,6 +10,7 @@ const INPUT_EMAIL = '.follower-email';
 
 
 describe('Integration | Component | follower form', function() {
+
   setupComponentTest('follower-form', {
     integration: true
   });
@@ -35,6 +36,10 @@ describe('Integration | Component | follower form', function() {
     });
 
   });
+
+  /*
+   FIXME: the tests below do not respect the Ember Way and will not be ok for Ember 2.12 (cf. commit #8d28dd) but we can not fix them now :-(
+  */
 
   describe('Form view', function () {
     let isSaveMethodCalled = false;

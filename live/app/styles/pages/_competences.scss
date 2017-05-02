@@ -24,7 +24,7 @@
   color: $white;
   font-family: $font-lato;
   font-size: 32px;
-  font-weight: bold;
+  font-weight: $font-bold;
   font-style: italic;
   line-height: 1.2;
   max-width: 940px;
@@ -76,7 +76,7 @@
 .competences-domain__title {
   margin: 15px 0;
   font-family: $font-raleway;
-  font-weight: 500;
+  font-weight: $font-medium;
   font-size: 26px;
 
   @media (min-width: 992px) {
@@ -112,7 +112,7 @@
 .domain-topic__title {
   font-family: $font-raleway;
   font-size: 28px;
-  font-weight: 600;
+  font-weight: $font-semi-bold;
   color: $blue;
   margin-top: 0;
   margin-bottom: 17px;
@@ -128,7 +128,7 @@
 .domain-topic__themes-title {
   font-family: $font-lato;
   font-size: 12px;
-  font-weight: bold;
+  font-weight: $font-bold;
   text-transform: uppercase;
   margin: 0 0 5px 0;
 }
@@ -136,6 +136,6 @@
 .domain-topic__themes-content {
   font-family: $font-lato;
   font-size: 16px;
-  font-weight: 300;
+  font-weight: $font-light;
   color: $charcoal-grey;
 }

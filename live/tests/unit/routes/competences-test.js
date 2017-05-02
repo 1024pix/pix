@@ -5,8 +5,7 @@ import { setupTest } from 'ember-mocha';
 describe('Unit | Route | competences', function() {
 
   setupTest('route:competences', {
-    // Specify the other units that are required for this test.
-    // needs: ['controller:foo']
+    needs: ['service:panelActions']
   });
 
   it('exists', function() {

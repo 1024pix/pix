@@ -28,7 +28,7 @@
   height: 24px;
   font-family: $font-open-sans;
   font-size: 18px;
-  font-weight: bold;
+  font-weight: $font-bold;
   text-align: center;
   color: #3e4149;
   margin-left: 22px;
@@ -52,7 +52,7 @@
   width: 73px;
   font-family: $font-lato;
   font-size: 12px;
-  font-weight: bold;
+  font-weight: $font-bold;
   color: $pix-blue;
   margin-right: 23px;
   margin-left: auto;

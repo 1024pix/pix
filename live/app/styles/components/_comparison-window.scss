@@ -78,7 +78,7 @@
   max-width: 618.5px;
   font-family: $font-lato;
   font-size: 18px;
-  font-weight: 900;
+  font-weight: $font-heavy;
   font-style: italic;
   color: $charcoal-grey;
 }
@@ -99,7 +99,7 @@
   height: 24px;
   font-family: $font-open-sans;
   font-size: 18px;
-  font-weight: bold;
+  font-weight: $font-bold;
   text-align: center;
   color: #3e4149;
   margin-left: 22px;

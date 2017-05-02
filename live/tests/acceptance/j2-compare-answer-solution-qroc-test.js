@@ -14,7 +14,7 @@ describe('Acceptance | j2 - Comparer réponses et solutions pour un QROC | ', fu
   const INDEX_OF_RESULT_SELECTOR = '.comparison-window__header .comparison-window__result-item-index';
   const TEXT_OF_INSTRUCTION_SELECTOR = '.comparison-window--body .challenge-statement__instruction';
   const CORRECTION_BOX_QROC = '.comparison-window__corrected-answers--qroc';
-  const FEEDBACK_LINK = '.comparison-window__feedback-panel';
+  const FEEDBACK_PANEL = '.comparison-window__feedback-panel';
 
   let application;
 
@@ -68,8 +68,8 @@ describe('Acceptance | j2 - Comparer réponses et solutions pour un QROC | ', fu
       expect($(CORRECTION_BOX_QROC)).to.have.lengthOf(1);
     });
 
-    it('contient un lien vers feedback', async function () {
-      expect($(FEEDBACK_LINK)).to.have.lengthOf(1);
+    it('contient une zone reservé au feedback panel', async function () {
+      expect($(FEEDBACK_PANEL)).to.have.lengthOf(1);
     });
 
     it('on peut fermer la modale', async function () {

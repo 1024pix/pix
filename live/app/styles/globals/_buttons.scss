@@ -1,7 +1,7 @@
 .button {
   color: #fff;
   font-size: 0.9em;
-  font-weight: 400;
+  font-weight: $font-normal;
   letter-spacing: 0.025em;
   text-transform: uppercase;
   outline: none;
@@ -19,7 +19,7 @@
 .button-primary {
   color: #fff;
   font-size: 0.9em;
-  font-weight: 400;
+  font-weight: $font-normal;
   letter-spacing: 0.025em;
   text-transform: uppercase;
   outline: none;
@@ -46,7 +46,7 @@
 .button-secondary {
   color: #fff;
   font-size: 0.9em;
-  font-weight: 400;
+  font-weight: $font-normal;
   letter-spacing: 0.025em;
   text-transform: uppercase;
   outline: none;

@@ -24,9 +24,9 @@ deployment:
     commands:
       - git config --global user.email 'jbuget@gmail.com'
       - git config --global user.name 'Jeremy Buget'
+      - cd api && npm run deploy:integration
       - cd live && npm run deploy:integration
       - ./live/scripts/signal_deploy_to_pr.sh
-      - cd api && npm run deploy:integration
 
 general:
   branches:
