@@ -16,35 +16,26 @@ function getErrorType(errors) {
 
 export default Ember.Component.extend({
 
+  store: Ember.inject.service(),
+
   classNames: ['follower-form'],
 
-  store: Ember.inject.service(),
-  errorType:'invalid' ,
+  _followerEmail: null,
+  errorType: 'invalid', // invalid | exist
   status: 'empty', // empty | pending | success | error
 
   messages: {
-    error : {
+    error: {
       invalid: 'Votre adresse n\'est pas valide',
       exist: 'L\'e-mail choisi est déjà utilisé'
     },
     success: 'Merci pour votre inscription'
   },
 
-  hasError: Ember.computed('status', function () {
-    return this.get('status') === 'error';
-  }),
-
-  isPending: Ember.computed('status', function () {
-    return this.get('status') === 'pending';
-  }),
-
-  hasSuccess: Ember.computed('status', function () {
-    return this.get('status') === 'success';
-  }),
-
-  hasMessage: Ember.computed('hasError', 'hasSuccess', function () {
-    return this.get('hasError') || this.get('hasSuccess');
-  }),
+  hasError: Ember.computed.equal('status', 'error'),
+  isPending: Ember.computed.equal('status', 'pending'),
+  hasSuccess: Ember.computed.equal('status', 'success'),
+  hasMessage: Ember.computed.or('hasError', 'hasSuccess'),
 
   messageClassName: Ember.computed('status', function () {
     return (this.get('status') === 'error') ? 'has-error' : 'has-success';
@@ -62,7 +53,7 @@ export default Ember.Component.extend({
   actions: {
     submit(){
       this.set('status', 'pending');
-      const email = (this.get('followerEmail'))? this.get('followerEmail').trim() : '';
+      const email = (this.get('_followerEmail')) ? this.get('_followerEmail').trim() : '';
       if (!isEmailValid(email)) {
         this.set('status', 'error');
         hideMessageDiv(this);
@@ -70,14 +61,14 @@ export default Ember.Component.extend({
       }
 
       const store = this.get('store');
-      const follower = store.createRecord('follower', {email: email});
-      this.get('save')(follower)
+      const follower = store.createRecord('follower', { email });
+      follower.save()
         .then(() => {
           this.set('status', 'success');
           hideMessageDiv(this);
-          this.set('followerEmail', null);
+          this.set('_followerEmail', null);
         })
-        .catch(({errors}) => {
+        .catch(({ errors }) => {
           this.set('errorType', getErrorType(errors));
           this.set('status', 'error');
           hideMessageDiv(this);

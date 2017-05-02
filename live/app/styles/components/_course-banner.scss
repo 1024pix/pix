@@ -19,7 +19,11 @@
 }
 
 .course-banner__name {
-  font-size: 28px;
+  font-size: 23px;
+
+  @media (min-width: 992px) {
+    font-size: 28px;
+  }
 }
 
 .course-banner__home-link {
