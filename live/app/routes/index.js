@@ -13,10 +13,6 @@ export default Ember.Route.extend({
   actions: {
     startCourse(course) {
       this.transitionTo('courses.create-assessment', course);
-    },
-
-    saveFollower(follower) {
-      return follower.save();
     }
   }
 
