@@ -8,9 +8,15 @@
 }
 
 .challenge-statement__instruction-section {
-  @media (min-width: 700px) {
+  font-size: 15px;
+
+  @media (min-width: 992px) {
     font-size: 20px;
   }
+}
+
+.challenge-statement__instruction-section blockquote {
+  font-size: inherit;
 }
 
 .challenge-statement__illustration-section {
