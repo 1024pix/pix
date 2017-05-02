@@ -6,6 +6,8 @@ const CourseItem = Ember.Component.extend({
 
   tagName: 'article',
   classNames: ['course-item', 'rounded-panel'],
+  attributeBindings: ['tabindex'],
+  tabindex: 0,
 
   imageUrl: Ember.computed('course', function () {
     const imageUrl = this.get('course.imageUrl');
