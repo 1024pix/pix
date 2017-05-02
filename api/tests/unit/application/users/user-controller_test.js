@@ -1,9 +1,10 @@
-const { describe, it, before, after, expect, sinon } = require('../../../test-helper');
-const Hapi = require('hapi');
-const Boom = require('boom');
+const { describe, it, after, afterEach, beforeEach, sinon } = require('../../../test-helper');
 
 const faker = require('faker');
 const User = require('../../../../lib/domain/models/data/user');
+const Boom = require('boom');
+
+const server = require('../../../../server');
 
 const userController = require('../../../../lib/application/users/user-controller');
 const validationErrorSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/validation-error-serializer');
@@ -13,12 +14,8 @@ const userSerializer = require('../../../../lib/infrastructure/serializers/jsona
 
 describe('Unit | Controller | user-controller', () => {
 
-  let server;
-
-  before(() => {
-    server = new Hapi.Server();
-    server.connection({ port: null });
-    server.register({ register: require('../../../../lib/application/users') });
+  after((done) => {
+    server.stop(done);
   });
 
   describe('#save', () => {
@@ -122,6 +119,83 @@ describe('Unit | Controller | user-controller', () => {
     });
 
     describe('should return 400 Bad request', () => {
+
+      let userSerializerStub;
+      const request = {
+        payload: {
+          data: {
+            attributes: {
+              firstName: '',
+              lastName: ''
+            }
+          }
+        }
+      };
+
+      beforeEach(() => {
+        userSerializerStub = sinon.stub(userSerializer, 'deserialize');
+        replyStub.returns({ code: sinon.spy() });
+      });
+
+      afterEach(() => {
+        userSerializerStub.restore();
+      });
+
+      describe('when from Sqlite3', () => {
+
+        it('should return an already registered email error message', () => {
+          // Given
+          validationErrorSerializerStub.withArgs().returns({ errors: [] });
+          const sqliteConstraint = { code: 'SQLITE_CONSTRAINT' };
+          userSerializerStub.returns({
+            save: () => {
+              return Promise.reject(sqliteConstraint);
+            }
+          });
+
+          // When
+          let promise = userController.save(request, replyStub);
+
+          // Then
+          return promise.then(() => {
+            sinon.assert.calledWith(validationErrorSerializerStub, {
+              data: {
+                email: [ 'Cette adresse electronique est déjà enregistrée.' ]
+              }
+            });
+          });
+        });
+
+      });
+
+      describe('when from Postgresql', () => {
+
+        it('should return an already registered email error message', () => {
+          // Given
+          validationErrorSerializerStub.withArgs().returns({ errors: [] });
+          const sqliteConstraint = { code: 23505 };
+          userSerializerStub.returns({
+            save: () => {
+              return Promise.reject(sqliteConstraint);
+            }
+          });
+
+          // When
+          let promise = userController.save(request, replyStub);
+
+          // Then
+          return promise.then(() => {
+            sinon.assert.calledWith(validationErrorSerializerStub, {
+              data: {
+                email: [ 'Cette adresse electronique est déjà enregistrée.' ]
+              }
+            });
+          });
+        });
+
+      });
+
+
 
       it('when there is not payload', () => {
         // Given
