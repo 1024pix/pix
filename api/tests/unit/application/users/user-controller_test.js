@@ -173,7 +173,7 @@ describe('Unit | Controller | user-controller', () => {
         it('should return an already registered email error message', () => {
           // Given
           validationErrorSerializerStub.withArgs().returns({ errors: [] });
-          const sqliteConstraint = { code: 23505 };
+          const sqliteConstraint = { code: '23505' };
           userSerializerStub.returns({
             save: () => {
               return Promise.reject(sqliteConstraint);
