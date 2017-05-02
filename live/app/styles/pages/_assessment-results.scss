@@ -64,7 +64,7 @@
   min-width: 240px;
   height: 48px;
   font-size: 40px;
-  font-weight: 900;
+  font-weight: $font-heavy;
   color: $pix-blue;
   margin-bottom: 26px;
 }
@@ -100,7 +100,7 @@
   height: 22px;
   text-transform: uppercase;
   font-size: 16px;
-  font-weight: 600;
+  font-weight: $font-semi-bold;
   text-align: center;
   font-family: $font-open-sans;
   color: #ffffff;

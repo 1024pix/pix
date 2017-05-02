@@ -24,7 +24,7 @@
   height: 19px;
   font-family: $font-open-sans;
   font-size: 14px;
-  font-weight: 600;
+  font-weight: $font-semi-bold;
 }
 
 .challenge-actions__action-validate {
@@ -44,7 +44,7 @@
   line-height: 46px;
   font-family: $font-lato;
   font-size: 16px;
-  font-weight: 900;
+  font-weight: $font-heavy;
   text-transform: uppercase;
 }
 

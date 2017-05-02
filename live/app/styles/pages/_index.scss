@@ -50,7 +50,7 @@ $background-height: 600px;
   margin-top: 160px;
   line-height: 1.2;
   font-family: $font-raleway;
-  font-weight: 700;
+  font-weight: $font-bold;
   color: $white;
   text-align: center;
 
@@ -65,7 +65,7 @@ $background-height: 600px;
   color: $white;
   text-align: center;
   font-size: 22px;
-  font-weight: 300;
+  font-weight: $font-light;
   padding-top : 20px;
   line-height : 1.2;
 
@@ -113,7 +113,7 @@ $background-height: 600px;
 
 .index-page-challenges__presentation-title {
   font-size: 42px;
-  font-weight: 800;
+  font-weight: $font-extra-bold;
   margin-top: 0;
 
   @media (min-width: 992px) {
@@ -123,7 +123,7 @@ $background-height: 600px;
 
 .index-page-challenges__presentation-text {
   font-size:24px;
-  font-weight: 300;
+  font-weight: $font-light;
   line-height: 1.2;
 
   @media (min-width: 992px) {
@@ -161,7 +161,7 @@ $background-height: 600px;
   max-width: 600px;
   font-size: 32px;
   font-family: $font-raleway;
-  font-weight: 800;
+  font-weight: $font-extra-bold;
   color: $challenges-title-color;
   margin: 0 auto;
   text-transform: uppercase;
@@ -190,7 +190,7 @@ $background-height: 600px;
 .index-page-community__title {
   font-size: 24px;
   font-family: $font-raleway;
-  font-weight: bold;
+  font-weight: $font-bold;
   text-align: center;
   color: white;
   text-transform: uppercase;
@@ -198,7 +198,7 @@ $background-height: 600px;
 
   @media (min-width: 992px) {
     font-size: 36px;
-    font-weight: 800;
+    font-weight: $font-extra-bold;
     margin-top: 70px;
   }
 }
@@ -210,7 +210,7 @@ $background-height: 600px;
   font-size: 28px;
   max-width: 600px;
   text-align: center;
-  font-weight: 300;
+  font-weight: $font-light;
 }
 
 .index-page-community__form {
@@ -236,7 +236,7 @@ $background-height: 600px;
   font-size: 12px;
   text-align: center;
   letter-spacing: 1px;
-  font-weight: 600;
+  font-weight: $font-semi-bold;
   font-family: $font-lato;
   padding: 10px 30px;
 

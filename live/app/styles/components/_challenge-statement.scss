@@ -4,7 +4,7 @@
 }
 
 .challenge-statement__instruction strong {
-  font-weight: 900;
+  font-weight: $font-heavy;
 }
 
 .challenge-statement__instruction-section {
@@ -53,7 +53,7 @@
   content: "i";
   position: absolute;
   font-size: 12px;
-  font-weight: 900;
+  font-weight: $font-heavy;
   left: 8px;
 }
 
@@ -126,7 +126,7 @@
 .challenge-statement__file-option-label {
   font-size: 16px;
   line-height: 10px;
-  font-weight: normal;
+  font-weight: $font-normal;
 }
 
 .challenge-statement__action {
@@ -154,6 +154,6 @@
   line-height: 46px;
   font-family: $font-lato;
   font-size: 16px;
-  font-weight: 900;
+  font-weight: $font-heavy;
   text-transform: uppercase;
 }

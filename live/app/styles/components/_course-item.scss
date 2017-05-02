@@ -29,7 +29,7 @@
 
   font-family: $font-raleway;
   font-size: 22px;
-  font-weight: 600;
+  font-weight: $font-semi-bold;
   line-height: 1.09;
   text-align: center;
   color: $charcoal-grey;
@@ -60,7 +60,7 @@
   margin-top: 10px;
   text-transform: uppercase;
   color: $blue;
-  font-weight: 600;
+  font-weight: $font-semi-bold;
   font-family: $font-lato;
   font-size: 14px;
   letter-spacing: 0.5px;

@@ -12,7 +12,7 @@
 .modal-mobile .modal-body {
   font-family: $font-lato;
   font-size: 22px;
-  font-weight: 300;
+  font-weight: $font-light;
   text-align: center;
   color: $charcoal-grey;
 }
@@ -58,7 +58,7 @@
   cursor: pointer;
   font-family: $font-lato;
   color: $charcoal-grey;
-  font-weight: bold;
+  font-weight: $font-bold;
   margin-top: 38px;
   margin-bottom: 38px;
   font-size: 14px;

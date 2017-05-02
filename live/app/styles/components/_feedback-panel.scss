@@ -9,7 +9,7 @@
 .feedback-panel__open-link {
   cursor: pointer;
   color: inherit;
-  font-weight: 900;
+  font-weight: $font-heavy;
   font-size: 15px;
   line-height: 20px;
 }
@@ -25,7 +25,7 @@
 
 .feedback-panel__form-title {
   font-size: 15px;
-  font-weight: 900;
+  font-weight: $font-heavy;
   margin: 0 0 20px;
   line-height: 20px;
 }

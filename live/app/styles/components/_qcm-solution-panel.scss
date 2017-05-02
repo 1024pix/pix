@@ -13,13 +13,13 @@
 }
 
 .qcm-panel__proposal-label{
-  font-weight: 400;
+  font-weight: $font-normal;
   width: 100%;
 }
 
 .qcm-proposal-label__oracle[data-goodness='good'] {
   color: $caribbean-green;
-  font-weight: 900;
+  font-weight: $font-heavy;
 }
 
 .qcm-proposal-label__oracle[data-goodness='bad'][data-checked='yes'] {
