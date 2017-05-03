@@ -1,26 +1,22 @@
+<form onchange="{{action "radioClicked"}}">
 {{#each labeledRadios as |labeledRadio index|}}
 <p class="proposal-paragraph">
 
   {{!-- Radio button --}}
   <input type="radio"
-         class="input-radio-proposal"
-         name="{{inc index}}"
-         checked={{labeledRadio.[1]}} />
+         name="radio"
+         value="{{inc index}}"
+         id="radio_{{inc index}}"
+         checked={{labeledRadio.[1]}}
+  />
 
   {{!-- Surrounding label --}}
-  <label for="{{inc index}}"
-          onclick={{action "radioClicked" index}}
+  <label for="radio_{{inc index}}"
           class="label-checkbox-proposal--qcu">
 
     {{!-- text of proposal  --}}
-    <span class="proposal-text">{{labeledRadio.[0]}}</span>
-
-    {{!-- SVG to represent on / off state --}}
-    <svg class="radio-on picture-checkbox-proposal--qcu" width="18px" height="18px" viewBox="0 0 18 18" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><g id="Styles" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd"><g id="Icons" transform="translate(-133.000000, -89.000000)" fill="#3D68FF"><g id="icontest--radio-enabled" transform="translate(132.000000, 88.000000)"><path d="M10,1 C12.3869484,1 14.6761336,1.94821156 16.363961,3.63603897 C18.0517884,5.32386638 19,7.61305159 19,10 C19,14.9705627 14.9705627,19 10,19 C7.61305159,19 5.32386638,18.0517884 3.63603897,16.363961 C1.94821156,14.6761336 1,12.3869484 1,10 C1,7.61305159 1.94821156,5.32386638 3.63603897,3.63603897 C5.32386638,1.94821156 7.61305159,1 10,1 L10,1 Z M9.1,14.05 L15.4,7.75 L14.131,6.481 L9.1,11.503 L6.319,8.731 L5.05,10 L9.1,14.05 Z" id="Shape"></path></g></g></g></svg>
-
-    <svg class="radio-off picture-checkbox-proposal--qcu" width="18px" height="18px" viewBox="0 0 18 18" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd"><circle id="Oval" stroke="#7D808B" stroke-width="2" cx="9" cy="9" r="8"></circle></g></svg>
-
+    <span class="sr-only">La réponse à la question est : </span><span class="proposal-text">{{labeledRadio.[0]}}</span>
   </label>
 </p>
 {{/each}}
-
+</form>
