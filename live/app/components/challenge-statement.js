@@ -14,7 +14,13 @@ export default  Ember.Component.extend({
     this.id = 'challenge_statement_'  + this.get('challenge.id');
   },
 
+  didReceiveAttrs() {
+    this._super(...arguments);
+    Ember.$('#' + this.id).focus();
+  },
+
   didInsertElement() {
+    this._super(...arguments);
     Ember.$('#' + this.id).focus();
   },
 
