@@ -4,9 +4,21 @@ export default  Ember.Component.extend({
 
   classNames: ['rounded-panel', 'challenge-statement'],
 
+  attributeBindings: ['tabindex', 'id'],
+  tabindex: -1,
+
   challenge: null,
 
-  selectedAttachmentUrl: Ember.computed('challenge.attachments', function() {
+  init() {
+    this._super(...arguments);
+    this.id = 'challenge_statement_'  + this.get('challenge.id');
+  },
+
+  didInsertElement() {
+    Ember.$('#' + this.id).focus();
+  },
+
+  selectedAttachmentUrl: Ember.computed('challenge.attachments', function () {
     return this.get('challenge.attachments.firstObject');
   }),
 
