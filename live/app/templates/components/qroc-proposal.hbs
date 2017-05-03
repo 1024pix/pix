@@ -1,12 +1,13 @@
 {{#each _blocks as |block|}}
 
   {{#if block.text}}
-    <span>{{block.text}}</span>
+    <span id="qroc_input">{{block.text}}</span>
   {{/if}}
 
   {{#if block.input}}
     <input class="challenge-response__proposal-input"
            type="text"
+           for="qroc_input"
            name={{block.input}}
            placeholder={{block.placeholder}}
            value="{{userAnswer}}"
