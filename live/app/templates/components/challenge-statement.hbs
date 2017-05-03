@@ -16,7 +16,7 @@
 
     {{#if challenge.hasSingleAttachment}}
       <div class="challenge-statement__action">
-        <a class="challenge-statement__action-link" href="{{challenge.attachments.firstObject}}" target="_blank">
+        <a class="challenge-statement__action-link" href="{{challenge.attachments.firstObject}}" target="_blank" download="Télécharger la pièce jointe">
           <span class="challenge-statement__action-label">Télécharger</span>
         </a>
       </div>
@@ -42,7 +42,7 @@
                    name="attachment_selector"
                    value="{{attachmentUrl}}"
                    onclick={{action "selectAttachementUrl" attachmentUrl}}
-                     checked="{{if (eq attachmentUrl selectedAttachmentUrl) "checked"}}"
+                   checked="{{if (eq attachmentUrl selectedAttachmentUrl) "checked"}}"
             />
 
             <label class="label-checkbox-downloadable" for="attachment{{index}}">
@@ -53,8 +53,7 @@
         {{/each}}
       </ul>
       <div class="challenge-statement__action">
-        <a class="challenge-statement__action-link" href="{{selectedAttachmentUrl}}" target="_blank"
-           download="Télécharger la pièce jointe">
+        <a class="challenge-statement__action-link" href="{{selectedAttachmentUrl}}" target="_blank" download="Télécharger la pièce jointe">
           <span class="challenge-statement__action-label">Télécharger</span>
         </a>
       </div>
