@@ -1,11 +1,11 @@
 const { describe, it, expect } = require('../../../../test-helper');
 const serializer = require('../../../../../lib/infrastructure/serializers/airtable/solution-serializer');
 
-describe('Unit | Serializer | solution-serializer', function () {
+describe('Unit | Serializer | solution-serializer', () => {
 
-  describe('#deserialize', function () {
+  describe('#deserialize', () => {
 
-    it('should convert record "id" into "id" property', function () {
+    it('should convert record "id" into "id" property', () => {
       // given
       const airtableRecord = { id: 'rec123', fields: {} };
 
@@ -22,7 +22,7 @@ describe('Unit | Serializer | solution-serializer', function () {
 
     ].forEach(({ airtableField, modelProperty }) => {
 
-      it(`Should convert record '${airtableField}' field into '${modelProperty}' property`, function () {
+      it(`Should convert record '${airtableField}' field into '${modelProperty}' property`, () => {
         // given
         const fields = [];
         fields[airtableField] = `${modelProperty}_value`;
@@ -37,9 +37,9 @@ describe('Unit | Serializer | solution-serializer', function () {
 
     });
 
-    describe('Treatments options management', function () {
+    describe('Treatments options management', () => {
 
-      it('should return [t1, t2, t3] when treatments deactivations are not defined in Airtable', function () {
+      it('should return [t1, t2, t3] when validation treatments are not defined in Airtable', () => {
         // given
         const fields = [];
         const airtableRecord = { fields };
@@ -49,11 +49,11 @@ describe('Unit | Serializer | solution-serializer', function () {
         expect(solution.enabledTreatments).to.deep.equal(['t1', 't2', 't3']);
       });
 
-      it('should return [t2, t3] when T1 is deactivated in Airtable', function () {
+      it('should return [t2, t3] when T1 is deactivated in Airtable', () => {
         // given
         const airtableRecord = {
           fields: {
-            'désactiver T1': true
+            'T1 - Espaces, casses & accents': 'Désactivé'
           }
         };
         // when
@@ -62,11 +62,11 @@ describe('Unit | Serializer | solution-serializer', function () {
         expect(solution.enabledTreatments).to.deep.equal(['t2', 't3']);
       });
 
-      it('should return [t1, t3] when T2 is deactivated in Airtable', function () {
+      it('should return [t1, t3] when T2 is deactivated in Airtable', () => {
         // given
         const airtableRecord = {
           fields: {
-            'désactiver T2': true
+            'T2 - Ponctuation': 'Désactivé'
           }
         };
         // when
@@ -75,11 +75,11 @@ describe('Unit | Serializer | solution-serializer', function () {
         expect(solution.enabledTreatments).to.deep.equal(['t1', 't3']);
       });
 
-      it('should return [t1, t2] when T1 is deactivated in Airtable', function () {
+      it('should return [t1, t2] when T1 is deactivated in Airtable', () => {
         // given
         const airtableRecord = {
           fields: {
-            'désactiver T3': true
+            'T3 - Distance d\'édition': 'Désactivé'
           }
         };
         // when
@@ -88,13 +88,13 @@ describe('Unit | Serializer | solution-serializer', function () {
         expect(solution.enabledTreatments).to.deep.equal(['t1', 't2']);
       });
 
-      it('should return [] when T1, T2 and T3 are deactivated in Airtable', function () {
+      it('should return [] when T1, T2 and T3 are deactivated in Airtable', () => {
         // given
         const airtableRecord = {
           fields: {
-            'désactiver T1': true,
-            'désactiver T2': true,
-            'désactiver T3': true
+            'T1 - Espaces, casses & accents': 'Désactivé',
+            'T2 - Ponctuation': 'Désactivé',
+            'T3 - Distance d\'édition': 'Désactivé'
           }
         };
         // when
@@ -102,6 +102,22 @@ describe('Unit | Serializer | solution-serializer', function () {
         // then
         expect(solution.enabledTreatments).to.deep.equal([]);
       });
+
+      it('should take into account 3 values: _blank_, "Activé", "Désactivé"', () => {
+        // given
+        const airtableRecord = {
+          fields: {
+            'T2 - Ponctuation': 'Activé',
+            'T3 - Distance d\'édition': 'Désactivé'
+          }
+        };
+        // when
+        const solution = serializer.deserialize(airtableRecord);
+        // then
+        expect(solution.enabledTreatments).to.deep.equal(['t1', 't2']);
+      });
+
+
 
     });
   });
