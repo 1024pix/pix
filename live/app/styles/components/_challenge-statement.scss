@@ -118,38 +118,6 @@
   color: $charcoal-grey;
 }
 
-.challenge-statement__file-option_input:before,
-.challenge-statement__file-option_input:checked:after {
-  display: block;
-  position: relative;
-  content: '';
-  border-radius: 100%;
-}
-
-.challenge-statement__file-option_input:checked:after {
-  height: 8.5px;
-  width: 8.5px;
-  top: -15px;
-  left: 2px;
-
-  background-color: #3D68FF;
-}
-
-.challenge-statement__file-option_input:before {
-  height: 17px;
-  width: 17px;
-  top: -2px;
-  left: -2px;
-
-  border: solid 2px #7D808B;
-  background-color: white;
-}
-
-.challenge-statement__file-option_input:focus:before {
-  border: solid 2px #3D68FF;
-  box-shadow: 0px 0px 5px 0px #3D68FF;
-}
-
 .challenge-statement__file-options {
   margin-left: 0;
   padding: 10px 0;
