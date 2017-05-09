@@ -34,9 +34,9 @@ class SolutionSerializer extends AirtableSerializer {
 
       // TODO to be removed before code review
       solution.deactivations = {};
-      solution.deactivations.t1 = isTreatmentDisable(fields, 'T1 - Espaces, casses & accents');
-      solution.deactivations.t2 = isTreatmentDisable(fields, 'T2 - Ponctuation');
-      solution.deactivations.t3 = isTreatmentDisable(fields, 'T3 - Distance d\'édition');
+      solution.deactivations.t1 = fields['désactiver T1'] || false;
+      solution.deactivations.t2 = fields['désactiver T2'] || false;
+      solution.deactivations.t3 = fields['désactiver T3'] || false;
 
       solution.scoring = _.ensureString(fields['Scoring']).replace(/@/g, ''); // XXX YAML ne supporte pas @
     }
