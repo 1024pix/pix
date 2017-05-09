@@ -16,6 +16,6 @@
 
 <div class="result-item__correction">
   {{#if validationImplementedForChallengeType}}
-    <button class="result-item__correction__button js-correct-answer"{{action "openComparisonPopin"}}> RÉPONSE</button>
+    <button class="result-item__correction__button js-correct-answer" {{action "openComparisonPopin" a11y-focus-id }} id="{{a11y-focus-id}}"> RÉPONSE</button>
   {{/if}}
 </div>

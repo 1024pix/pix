@@ -34,13 +34,17 @@ const contentReference = {
 
 const timeOutAfterRender = 1000; // FIXME: This trigger the tooltip after rendering
 
-export default Ember.Component.extend({
+const resultItem = Ember.Component.extend({
 
-  classNames: ['result-item'],
+  classNames: [ 'result-item' ],
+
+  attributeBindings: ['tabindex'],
+
+  tabindex: 0,
 
   resultItem: Ember.computed('answer.result', function() {
     if (!this.get('answer.result')) return;
-    return contentReference[this.get('answer.result')] || contentReference['default'];
+    return contentReference[ this.get('answer.result') ] || contentReference[ 'default' ];
   }),
 
   validationImplementedForChallengeType: Ember.computed('answer.challenge.type', function() {

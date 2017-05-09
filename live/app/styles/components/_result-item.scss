@@ -13,6 +13,12 @@
     transition: border-color 1s ease;
   }
 
+  &:focus {
+    outline: none;
+    box-shadow: none;
+    border: solid 2px #446eff;
+  }
+
   &:nth-last-child(1) {
     margin-bottom: 20px;
   }
