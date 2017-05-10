@@ -10,6 +10,8 @@ export default Model.extend({
   answers: hasMany('answer'),
   userName: attr('string'),
   userEmail: attr('string'),
-  firstChallenge: computed.alias('course.challenges.firstObject')
+  firstChallenge: computed.alias('course.challenges.firstObject'),
+  estimatedLevel: attr('number'),
+  pixScore: attr('number'),
 
 });
