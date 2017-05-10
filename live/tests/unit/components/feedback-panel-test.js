@@ -42,7 +42,6 @@ describe('Unit | Component | feedback-panel', function () {
       // then
       expect(isFormClosed).to.be.false;
     });
-
   });
 
   describe('#isFormOpened', function () {
@@ -73,55 +72,29 @@ describe('Unit | Component | feedback-panel', function () {
 
   });
 
-  describe('#isFormClosedByDefault', function () {
-
-    it('should return true if no specification', function () {
-      // given
-      const component = this.subject();
-
-      // when
-      const isFormClosedByDefault = component.get('isFormClosedByDefault');
-
-      // then
-      expect(isFormClosedByDefault).to.be.true;
-    });
-
-    it('should return false if we specified FORM_OPENED', function () {
-      // given
-      const component = this.subject();
-      component.set('default_status', 'FORM_OPENED');
-
-      // when
-      const isFormClosedByDefault = component.get('isFormClosedByDefault');
-
-      // then
-      expect(isFormClosedByDefault).to.be.false;
-    });
-  });
-
-  describe('#reset', function () {
+  describe('#_reset', function () {
 
     it('should return empty mail, text, error and back to the default status', function () {
       // given
       const component = this.subject();
-      component.set('default_status', 'FORM_OPENED');
+      component.set('collapsible', false);
       component.set('_email', 'un@email.com');
       component.set('_content', 'un contenu');
       component.set('_error', 'une erreur');
       component.set('_status', 'FORM_CLOSED');
 
       // when
-      component.reset();
+      component._reset();
 
       // then
       expect(component.get('_email')).to.be.null;
       expect(component.get('_content')).to.be.null;
       expect(component.get('_error')).to.be.null;
-      expect(component.get('_status')).to.be.equal(component.get('default_status'));
+      expect(component.get('_status')).to.be.equal('FORM_OPENED');
     });
   });
 
-  describe('#closeForm', function () {
+  describe('#_closeForm', function () {
 
     it('should set status to CLOSED and set errors to null', function () {
       // given
@@ -130,7 +103,7 @@ describe('Unit | Component | feedback-panel', function () {
       component.set('_status', 'FORM_OPENED');
 
       // when
-      component.closeForm();
+      component._closeForm();
 
       // then
       expect(component.get('_error')).to.be.null;
@@ -138,4 +111,30 @@ describe('Unit | Component | feedback-panel', function () {
     });
   });
 
+  describe('#_getDefaultStatus', function () {
+
+    it('should return FORM_CLOSED if has property collapsible at "true"', function() {
+      // given
+      const component = this.subject();
+      component.set('collapsible', true);
+
+      // when
+      const defaultStatus =  component._getDefaultStatus();
+
+      // then
+      expect(defaultStatus).to.equal('FORM_CLOSED');
+    });
+
+    it('should return FORM_OPENED if has property collapsible at "false"', function() {
+      // given
+      const component = this.subject();
+      component.set('collapsible', false);
+
+      // when
+      const defaultStatus = component._getDefaultStatus();
+
+      // then
+      expect(defaultStatus).to.equal('FORM_OPENED');
+    });
+  });
 });

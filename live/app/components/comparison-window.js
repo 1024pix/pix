@@ -69,11 +69,5 @@ export default Ember.Component.extend({
       resultItem = contentReference[answerStatus];
     }
     return resultItem;
-  }),
-
-  actions: {
-    saveFeedback(feedback) {
-      return feedback.save();
-    }
-  }
+  })
 });
