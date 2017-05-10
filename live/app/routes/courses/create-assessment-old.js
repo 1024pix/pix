@@ -1,9 +1,9 @@
-import Ember from 'ember';
+import BaseRoute from 'pix-live/routes/base-route';
 
 /*
 * keep old URL /courses/:course_id/assessment, with redirection
 */
-export default Ember.Route.extend({
+export default BaseRoute.extend({
 
   model(params) {
     return params.course_id;

@@ -1,8 +1,9 @@
-import Ember from 'ember';
 import ModalRouteMixin from 'ember-routable-modal/mixins/route';
 import RSVP from 'rsvp';
+import BaseRoute from 'pix-live/routes/base-route';
 
-export default Ember.Route.extend(ModalRouteMixin, {
+
+export default BaseRoute.extend(ModalRouteMixin, {
 
   model(params) {
     const store = this.get('store');

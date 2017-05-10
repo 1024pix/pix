@@ -1,7 +1,8 @@
 import Ember from 'ember';
 import RSVP from 'rsvp';
+import BaseRoute from 'pix-live/routes/base-route';
 
-export default Ember.Route.extend({
+export default BaseRoute.extend({
 
   assessmentService: Ember.inject.service('assessment'),
 

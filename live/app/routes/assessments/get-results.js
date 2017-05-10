@@ -1,6 +1,6 @@
-import Ember from 'ember';
+import BaseRoute from 'pix-live/routes/base-route';
 
-export default Ember.Route.extend({
+export default BaseRoute.extend({
   model(params) {
     return this.store.findRecord('assessment', params.assessment_id, { reload: true });
   },

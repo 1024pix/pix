@@ -1,7 +1,8 @@
-import Ember from 'ember';
 import _ from 'pix-live/utils/lodash-custom';
+import BaseRoute from 'pix-live/routes/base-route';
 
-export default Ember.Route.extend({
+
+export default BaseRoute.extend({
 
   model(params) {
     const store = this.get('store');

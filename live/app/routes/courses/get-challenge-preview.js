@@ -1,8 +1,9 @@
 import Ember from 'ember';
 import RSVP from 'rsvp';
 import getChallengeType from '../../utils/get-challenge-type';
+import BaseRoute from 'pix-live/routes/base-route';
 
-export default Ember.Route.extend({
+export default BaseRoute.extend({
 
   model(params) {
 
