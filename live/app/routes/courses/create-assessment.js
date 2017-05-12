@@ -1,6 +1,6 @@
-import Ember from 'ember';
+import BaseRoute from 'pix-live/routes/base-route';
 
-export default Ember.Route.extend({
+export default BaseRoute.extend({
 
   model(params) {
     const store = this.get('store');

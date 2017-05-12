@@ -1,4 +1,5 @@
 import Ember from 'ember';
+import BaseRoute from 'pix-live/routes/base-route';
 
 const domains = [{
   id: 'information-et-donnees',
@@ -86,7 +87,7 @@ const domains = [{
   }]
 }];
 
-export default Ember.Route.extend({
+export default BaseRoute.extend({
 
   panelActions: Ember.inject.service(),
 

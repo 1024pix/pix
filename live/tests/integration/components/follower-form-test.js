@@ -42,9 +42,10 @@ describe('Integration | Component | follower form', function() {
   */
 
   describe('Form view', function () {
-    let isSaveMethodCalled = false;
-    let saveMethodBody = null;
-    let saveMethodUrl = null;
+
+    let isSaveMethodCalled;
+    let saveMethodBody;
+    let saveMethodUrl;
 
     const storeStub = Ember.Service.extend({
       createRecord() {
@@ -82,8 +83,6 @@ describe('Integration | Component | follower form', function() {
 
 
     beforeEach(function () {
-      this.render(hbs`{{follower-form}}`);
-
       isSaveMethodCalled = false;
       saveMethodBody = null;
       saveMethodUrl = null;
@@ -94,6 +93,8 @@ describe('Integration | Component | follower form', function() {
       // stub store service
       this.register('service:store', storeStub);
       this.inject.service('store', { as: 'store' });
+
+      this.render(hbs`{{follower-form}}`);
 
       const EMAIL_VALUE = 'myemail@gemail.com';
       const $email = this.$(INPUT_EMAIL);
@@ -116,6 +117,8 @@ describe('Integration | Component | follower form', function() {
     it('clicking on "send" button should not save the email of the follower cause its already saved', function () {
       // given
       this.register('service:store', storeStubRejection);
+
+      this.render(hbs`{{follower-form}}`);
 
       const EMAIL_VALUE = 'myemail@gemail.com';
       const $email = this.$(INPUT_EMAIL);

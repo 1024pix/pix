@@ -18,7 +18,7 @@ describe('Integration | Component | pix logo', function() {
   });
 
   it('should display the logo', function () {
-    expect(this.$('.pix-logo__image').attr('src')).to.equal('images/pix-logo.svg');
+    expect(this.$('.pix-logo__image').attr('src')).to.equal('/images/pix-logo.svg');
   });
 
   it('should display "bêta"', function () {

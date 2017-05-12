@@ -1,12 +1,12 @@
 {
   "name": "pix-api",
-  "version": "1.9.0",
+  "version": "1.10.0",
   "description": "Plateforme d'évaluation et de certification des compétences numériques à l'usage de tous les citoyens francophones",
   "main": "server.js",
   "author": "SGMAP",
   "license": "AGPL-3.0",
   "engines": {
-    "node": ">= 7.7.4"
+    "node": ">= 7.10.0"
   },
   "homepage": "https://github.com/sgmap/pix-api#readme",
   "dependencies": {
