@@ -28,15 +28,15 @@ class SolutionSerializer extends AirtableSerializer {
       solution.value = fields['Bonnes réponses'];
 
       solution.enabledTreatments = ['t1', 't2', 't3'];
-      checkTreatmentIsEnableAndRemoveItIfNot(fields, 'T1 - Espaces, casses & accents', solution.enabledTreatments, 't1');
+      checkTreatmentIsEnableAndRemoveItIfNot(fields, 'T1 - Espaces, casse & accents', solution.enabledTreatments, 't1');
       checkTreatmentIsEnableAndRemoveItIfNot(fields, 'T2 - Ponctuation', solution.enabledTreatments, 't2');
       checkTreatmentIsEnableAndRemoveItIfNot(fields, 'T3 - Distance d\'édition', solution.enabledTreatments, 't3');
 
       // TODO to be removed before code review
       solution.deactivations = {};
-      solution.deactivations.t1 = fields['désactiver T1'] || false;
-      solution.deactivations.t2 = fields['désactiver T2'] || false;
-      solution.deactivations.t3 = fields['désactiver T3'] || false;
+      solution.deactivations.t1 = fields['T1 - Espaces, casse & accents'] === 'Désactivé';
+      solution.deactivations.t2 = fields['T2 - Ponctuation'] === 'Désactivé';
+      solution.deactivations.t3 = fields['T3 - Distance d\'édition'] === 'Désactivé';
 
       solution.scoring = _.ensureString(fields['Scoring']).replace(/@/g, ''); // XXX YAML ne supporte pas @
     }

@@ -49,7 +49,6 @@ describe('Unit | Serializer | solution-serializer', () => {
         // then
         expect(solution).to.include.keys('deactivations');
         expect(solution.deactivations).to.be.an('object');
-
       });
 
       it('should contain t1, t2 and t3', function () {
@@ -63,7 +62,7 @@ describe('Unit | Serializer | solution-serializer', () => {
         expect(solution.deactivations).to.include.keys('t1', 't2', 't3');
       });
 
-      it('should set false as default value for t1, t2 and t3 ', function () {
+      it('should enable treatments by default (no value for fields t1, t2, t3 in airtable )', function () {
         // given
         const airtableRecord = { fields: {} };
 
@@ -76,9 +75,9 @@ describe('Unit | Serializer | solution-serializer', () => {
         expect(solution.deactivations.t3).to.be.false;
       });
 
-      it('should set true for t1 when "désactiver T1" is checked and transmitted from Airtable', function () {
+      it('should set true to deactivations, when "désactiver T1" is true and "T1 - Espaces, casse & accents" is Désactivé and transmitted from Airtable', function () {
         // given
-        const airtableRecord = { fields: {'désactiver T1' : true} };
+        const airtableRecord = { fields: {'désactiver T1' : true, 'T1 - Espaces, casse & accents': 'Désactivé'} };
 
         // when
         const solution = serializer.deserialize(airtableRecord);
@@ -89,9 +88,23 @@ describe('Unit | Serializer | solution-serializer', () => {
         expect(solution.deactivations.t3).to.be.false;
       });
 
-      it('should set true for t2 when "désactiver T2" is checked and transmitted from Airtable', function () {
+
+      it('Should set false to deactivations, when "désactiver T1" is false and "T1 - Espaces, casse & accents" is Désactivé and transmitted from Airtable', function () {
         // given
-        const airtableRecord = { fields: {'désactiver T2' : true} };
+        const airtableRecord = { fields: {'désactiver T1' : false, 'T1 - Espaces, casse & accents': 'Désactivé'} };
+
+        // when
+        const solution = serializer.deserialize(airtableRecord);
+
+        // then
+        expect(solution.deactivations.t1).to.be.true;
+        expect(solution.deactivations.t2).to.be.false;
+        expect(solution.deactivations.t3).to.be.false;
+      });
+
+      it('should set true to deactivations, when "désactiver T2" is true and "T2 - Ponctuation" is Désactivé and transmitted from Airtable', function () {
+        // given
+        const airtableRecord = { fields: {'désactiver T2' : true, 'T2 - Ponctuation': 'Désactivé'} };
 
         // when
         const solution = serializer.deserialize(airtableRecord);
@@ -102,9 +115,22 @@ describe('Unit | Serializer | solution-serializer', () => {
         expect(solution.deactivations.t3).to.be.false;
       });
 
-      it('should set true for t3 when "désactiver T3" is checked and transmitted from Airtable', function () {
+      it('should set true to deactivations, when "désactiver T2" is false and "T2 - Ponctuation" is Désactivé and transmitted from Airtable', function () {
         // given
-        const airtableRecord = { fields: {'désactiver T3' : true} };
+        const airtableRecord = { fields: {'désactiver T2' : false, 'T2 - Ponctuation': 'Désactivé'} };
+
+        // when
+        const solution = serializer.deserialize(airtableRecord);
+
+        // then
+        expect(solution.deactivations.t1).to.be.false;
+        expect(solution.deactivations.t2).to.be.true;
+        expect(solution.deactivations.t3).to.be.false;
+      });
+
+      it('should set true to deactivations, when "désactiver T3" is true and "T3 - Distance d\'édition" is Désactivé and transmitted from Airtable', function () {
+        // given
+        const airtableRecord = { fields: {'désactiver T3' : true, 'T3 - Distance d\'édition': 'Désactivé'} };
 
         // when
         const solution = serializer.deserialize(airtableRecord);
@@ -114,6 +140,21 @@ describe('Unit | Serializer | solution-serializer', () => {
         expect(solution.deactivations.t2).to.be.false;
         expect(solution.deactivations.t3).to.be.true;
       });
+
+      it('should set true to deactivations, when "désactiver T3" is false and "T3 - Distance d\'édition" is Désactivé and transmitted from Airtable', function () {
+        // given
+        const airtableRecord = { fields: {'désactiver T3' : false, 'T3 - Distance d\'édition': 'Désactivé'} };
+
+        // when
+        const solution = serializer.deserialize(airtableRecord);
+
+        // then
+        expect(solution.deactivations.t1).to.be.false;
+        expect(solution.deactivations.t2).to.be.false;
+        expect(solution.deactivations.t3).to.be.true;
+      });
+
+
     });
 
 
@@ -134,7 +175,7 @@ describe('Unit | Serializer | solution-serializer', () => {
         // given
         const airtableRecord = {
           fields: {
-            'T1 - Espaces, casses & accents': 'Désactivé'
+            'T1 - Espaces, casse & accents': 'Désactivé'
           }
         };
 
@@ -179,7 +220,7 @@ describe('Unit | Serializer | solution-serializer', () => {
         // given
         const airtableRecord = {
           fields: {
-            'T1 - Espaces, casses & accents': 'Désactivé',
+            'T1 - Espaces, casse & accents': 'Désactivé',
             'T2 - Ponctuation': 'Désactivé',
             'T3 - Distance d\'édition': 'Désactivé'
           }
