@@ -11,12 +11,12 @@ const errorMessages = {
   success: 'Merci pour votre inscription'
 };
 
-describe('Unit | Component | followerComponent', function () {
+describe('Unit | Component | followerComponent', function() {
 
   setupTest('component:follower-form', {});
 
-  describe('#Computed Properties behaviors: ', function () {
-    describe('When status get <error>, computed :', function () {
+  describe('#Computed Properties behaviors: ', function() {
+    describe('When status get <error>, computed :', function() {
       [
         { attribute: 'hasError', expected: true },
         { attribute: 'isPending', expected: false },
@@ -27,7 +27,7 @@ describe('Unit | Component | followerComponent', function () {
         { attribute: 'submitButtonText', expected: 's\'inscrire' },
         { attribute: 'hasMessage', expected: true },
       ].forEach(({ attribute, expected }) => {
-        it(`should return ${expected} when passing ${attribute}`, function () {
+        it(`should return ${expected} when passing ${attribute}`, function() {
           // given
           const component = this.subject();
           // when
@@ -39,7 +39,7 @@ describe('Unit | Component | followerComponent', function () {
       });
     });
 
-    describe('When status get <success>, computed :', function () {
+    describe('When status get <success>, computed :', function() {
       [
         { attribute: 'hasError', expected: false },
         { attribute: 'isPending', expected: false },
@@ -50,7 +50,7 @@ describe('Unit | Component | followerComponent', function () {
         { attribute: 'submitButtonText', expected: 's\'inscrire' },
         { attribute: 'hasMessage', expected: true },
       ].forEach(({ attribute, expected }) => {
-        it(`should return ${expected} when passing ${attribute}`, function () {
+        it(`should return ${expected} when passing ${attribute}`, function() {
           // given
           const component = this.subject();
           // when

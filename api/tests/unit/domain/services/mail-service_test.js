@@ -10,7 +10,7 @@ describe('Unit | Service | MailService', () => {
     let sendEmailStub;
 
     beforeEach(() => {
-      sendEmailStub = sinon.stub(mailJet, "sendEmail").resolves()
+      sendEmailStub = sinon.stub(mailJet, 'sendEmail').resolves();
     });
 
     afterEach(() => {
@@ -20,7 +20,6 @@ describe('Unit | Service | MailService', () => {
     it('should use mailJet to send an email', () => {
       // Given
       const email = 'text@example.net';
-
 
       // When
       const promise = mailService.sendAccountCreationEmail(email);
@@ -43,7 +42,7 @@ describe('Unit | Service | MailService', () => {
     let sendEmailStub;
 
     beforeEach(() => {
-      sendEmailStub = sinon.stub(mailJet, "sendEmail").resolves()
+      sendEmailStub = sinon.stub(mailJet, 'sendEmail').resolves();
     });
 
     afterEach(() => {
@@ -53,7 +52,6 @@ describe('Unit | Service | MailService', () => {
     it('should use mailJet to send an email', () => {
       // Given
       const email = 'text@example.net';
-
 
       // When
       const promise = mailService.sendWelcomeEmail(email);
@@ -67,6 +65,6 @@ describe('Unit | Service | MailService', () => {
         });
       });
     });
-  })
+  });
 
 });

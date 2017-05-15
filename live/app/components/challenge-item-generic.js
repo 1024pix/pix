@@ -34,19 +34,19 @@ const ChallengeItemGeneric = Ember.Component.extend({
     Ember.run.cancel(timer);
   },
 
-  hasUserConfirmWarning: Ember.computed('challenge', function () {
+  hasUserConfirmWarning: Ember.computed('challenge', function() {
     return false;
   }),
 
-  hasChallengeTimer: Ember.computed('challenge', function () {
+  hasChallengeTimer: Ember.computed('challenge', function() {
     return this.hasTimerDefined();
   }),
 
-  canDisplayFeedbackPanel: Ember.computed('_hasUserAknowledgedTimingWarning', function () {
+  canDisplayFeedbackPanel: Ember.computed('_hasUserAknowledgedTimingWarning', function() {
     return !this.hasTimerDefined() || (this.hasTimerDefined() && this.get('_hasUserAknowledgedTimingWarning'));
   }),
 
-  hasTimerDefined(){
+  hasTimerDefined() {
     return _.isInteger(this.get('challenge.timer'));
   },
 
@@ -54,18 +54,18 @@ const ChallengeItemGeneric = Ember.Component.extend({
     return $('.timeout-jauge-remaining').attr('data-spent');
   },
 
-  _getElapsedTime(){
+  _getElapsedTime() {
     return this.get('_elapsedTime');
   },
 
-  _start(){
+  _start() {
     this.set('_elapsedTime', 0);
     this._tick();
   },
 
-  _tick(){
+  _tick() {
     if (ENV.APP.isChallengeTimerEnable) {
-      const timer = Ember.run.later(this, function () {
+      const timer = Ember.run.later(this, function() {
         const elapsedTime = this.get('_elapsedTime');
         this.set('_elapsedTime', elapsedTime + 1);
         this.notifyPropertyChange('_elapsedTime');
@@ -78,7 +78,7 @@ const ChallengeItemGeneric = Ember.Component.extend({
 
   actions: {
 
-    validate: callOnlyOnce(function () {
+    validate: callOnlyOnce(function() {
       if (this._hasError()) {
         this.set('errorMessage', this._getErrorMessage());
         return this.sendAction('onError', this.get('errorMessage'));
@@ -88,7 +88,7 @@ const ChallengeItemGeneric = Ember.Component.extend({
       this.set('_hasUserAknowledgedTimingWarning', false);
     }),
 
-    skip: callOnlyOnce(function () {
+    skip: callOnlyOnce(function() {
       this.set('errorMessage', null);
       this.sendAction('onValidated', this.get('challenge'), this.get('assessment'), '#ABAND#', this._getTimeout(), this._getElapsedTime());
       this.set('_hasUserAknowledgedTimingWarning', false);

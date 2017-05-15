@@ -61,7 +61,7 @@ export default Ember.Component.extend({
   isAssessmentChallengeTypeQrocmInd: Ember.computed.equal('challenge.type', 'QROCM-ind'),
   isAssessmentChallengeTypeQrocmDep: Ember.computed.equal('challenge.type', 'QROCM-dep'),
 
-  resultItem: Ember.computed('answer.result', function () {
+  resultItem: Ember.computed('answer.result', function() {
     let resultItem = contentReference['default'];
     const answerStatus = this.get('answer.result');
 

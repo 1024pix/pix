@@ -1,6 +1,6 @@
 const UserController = require('./user-controller');
 
-exports.register = function (server, options, next) {
+exports.register = function(server, options, next) {
 
   server.route([
     {

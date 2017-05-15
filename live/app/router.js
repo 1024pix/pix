@@ -28,7 +28,7 @@ if (config.environment === 'integration' || config.environment === 'staging' || 
   });
 }
 
-export default Router.map(function () {
+export default Router.map(function() {
   this.route('index', { path: '/' });
   this.route('courses');
   this.route('placement-tests');

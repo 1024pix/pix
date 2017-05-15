@@ -9,7 +9,7 @@ describe('Integration | Component | pix logo', function() {
     integration: true
   });
 
-  beforeEach(function () {
+  beforeEach(function() {
     this.render(hbs`{{pix-logo}}`);
   });
 
@@ -17,19 +17,19 @@ describe('Integration | Component | pix logo', function() {
     expect(this.$()).to.have.lengthOf(1);
   });
 
-  it('should display the logo', function () {
+  it('should display the logo', function() {
     expect(this.$('.pix-logo__image').attr('src')).to.equal('/images/pix-logo.svg');
   });
 
-  it('should display "bêta"', function () {
+  it('should display "bêta"', function() {
     expect(this.$().text().trim()).to.equal('Bêta');
   });
 
-  it('should have a textual alternative', function () {
+  it('should have a textual alternative', function() {
     expect(this.$('.pix-logo__image').attr('alt')).to.equal('Le site officiel de PIX, version bêta');
   });
 
-  it('should have a title in the link', function () {
+  it('should have a title in the link', function() {
     expect(this.$('.pix-logo__link').attr('title')).to.equal('Lien vers la page d\'accueil de PIX');
   });
 

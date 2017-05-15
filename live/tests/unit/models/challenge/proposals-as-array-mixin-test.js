@@ -3,7 +3,7 @@ import { expect } from 'chai';
 import { describe, it } from 'mocha';
 import ProposalsAsArrayMixin from 'pix-live/models/challenge/proposals-as-array-mixin';
 
-describe('Unit | Model | Challenge/Propsals As Array Mixin', function () {
+describe('Unit | Model | Challenge/Propsals As Array Mixin', function() {
 
   const testData = [
     { data: '', expected: [] },
@@ -22,7 +22,7 @@ describe('Unit | Model | Challenge/Propsals As Array Mixin', function () {
 
   testData.forEach(({ data, expected }) => {
 
-    it(`"${data.toString()}" retourne [${expected}]`, function () {
+    it(`"${data.toString()}" retourne [${expected}]`, function() {
       const sut = Challenge.create({ proposals: data });
       expect(sut.get('_proposalsAsArray')).to.deep.equal(expected);
     });

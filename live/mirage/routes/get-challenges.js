@@ -6,7 +6,7 @@ import refQrocmChallengeFull from '../data/challenges/ref-qrocm-challenge';
 import refTimedChallengeFull from '../data/challenges/ref-timed-challenge';
 import refTimedChallengeBisFull from '../data/challenges/ref-timed-challenge-bis';
 
-export default function () {
+export default function() {
 
   return {
     data: [

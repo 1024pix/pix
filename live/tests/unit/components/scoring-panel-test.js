@@ -2,13 +2,13 @@ import { expect } from 'chai';
 import { describe, it } from 'mocha';
 import { setupTest } from 'ember-mocha';
 
-describe('Unit | Component | scoring-panel', function () {
+describe('Unit | Component | scoring-panel', function() {
 
   setupTest('component:scoring-panel', {});
 
-  describe('#hasATrophy', function () {
+  describe('#hasATrophy', function() {
 
-    it('should be true when level is more than 0', function () {
+    it('should be true when level is more than 0', function() {
       // given
       const assessmentWithTrophy = { estimatedLevel: 1 };
       const component = this.subject();
@@ -21,7 +21,7 @@ describe('Unit | Component | scoring-panel', function () {
       expect(hasATrophy).to.be.equal(true);
     });
 
-    it('should be false when level is equal to 0', function () {
+    it('should be false when level is equal to 0', function() {
       // given
       const assessmentWithNoTrophy = { estimatedLevel: 0 };
       const component = this.subject();

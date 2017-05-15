@@ -21,7 +21,7 @@ describe('Integration | Component | feature item', function() {
     expect(this.$()).to.have.length(1);
   });
 
-  it('should render an icon', function () {
+  it('should render an icon', function() {
     this.set('feature', feature);
     this.render(hbs`{{feature-item feature=feature}}`);
 
@@ -30,7 +30,7 @@ describe('Integration | Component | feature item', function() {
     expect($icon.attr('src')).to.equal('images/icon-coucou.svg');
   });
 
-  it('should render an title', function () {
+  it('should render an title', function() {
     this.set('feature', feature);
     this.render(hbs`{{feature-item feature=feature}}`);
 
@@ -39,7 +39,7 @@ describe('Integration | Component | feature item', function() {
     expect($title.text().trim()).to.equal(feature.title);
   });
 
-  it('should render an description', function () {
+  it('should render an description', function() {
     this.set('feature', feature);
     this.render(hbs`{{feature-item feature=feature}}`);
 

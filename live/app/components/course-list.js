@@ -1,7 +1,6 @@
 import Ember from 'ember';
 import ENV from 'pix-live/config/environment';
 
-
 function _userNotAlreadyWarnedAboutMobileIncompleteSupport(that) {
   return that._isMobile() && !localStorage.getItem('pix-mobile-warning');
 }
@@ -25,7 +24,7 @@ const CourseList = Ember.Component.extend({
 
   classNames: ['course-list'],
 
-  filteredCourses: Ember.computed('courses.[]', function () {
+  filteredCourses: Ember.computed('courses.[]', function() {
     const courses = this.get('courses');
     let filteredCourses = [];
 
@@ -39,23 +38,23 @@ const CourseList = Ember.Component.extend({
     return filteredCourses;
   }),
 
-  didInsertElement () {
+  didInsertElement() {
     const that = this;
-    Ember.run.scheduleOnce('afterRender', this, function () {
-      $('button[data-confirm]').click(function () {
+    Ember.run.scheduleOnce('afterRender', this, function() {
+      $('button[data-confirm]').click(function() {
         $('#js-modal-mobile').modal('hide');
         that.sendAction('startCourse', that.get('selectedCourse'));
       });
     });
 
     if (ENV.APP.isMobileSimulationEnabled) {
-      this.$().on('simulateMobileScreen', function () {
+      this.$().on('simulateMobileScreen', function() {
         that.set('isSimulatedMobileScreen', 'true');
       });
     }
   },
 
-  _isMobile () {
+  _isMobile() {
     if (ENV.APP.isMobileSimulationEnabled) {
       return this.get('isSimulatedMobileScreen');
     }

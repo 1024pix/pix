@@ -1,15 +1,15 @@
 const { describe, it, before, after, expect, nock } = require('../../test-helper');
 const server = require('../../../server');
 
-describe('Acceptance | API | Courses', function () {
+describe('Acceptance | API | Courses', function() {
 
-  after(function (done) {
+  after(function(done) {
     server.stop(done);
   });
 
-  describe('GET /api/courses', function () {
+  describe('GET /api/courses', function() {
 
-    before(function (done) {
+    before(function(done) {
       nock.cleanAll();
       nock('https://api.airtable.com')
         .get('/v0/test-base/Tests')
@@ -46,14 +46,14 @@ describe('Acceptance | API | Courses', function () {
       done();
     });
 
-    after(function (done) {
+    after(function(done) {
       nock.cleanAll();
       done();
     });
 
     const options = { method: 'GET', url: '/api/courses' };
 
-    it('should return 200 HTTP status code', function (done) {
+    it('should return 200 HTTP status code', function(done) {
       // when
       server.inject(options, (response) => {
 
@@ -63,7 +63,7 @@ describe('Acceptance | API | Courses', function () {
       });
     });
 
-    it('should return application/json', function (done) {
+    it('should return application/json', function(done) {
       // when
       server.inject(options, (response) => {
 
@@ -74,7 +74,7 @@ describe('Acceptance | API | Courses', function () {
       });
     });
 
-    it('should return all the courses from the tests referential', function (done) {
+    it('should return all the courses from the tests referential', function(done) {
       // when
       server.inject(options, (response) => {
         // then
@@ -85,9 +85,9 @@ describe('Acceptance | API | Courses', function () {
     });
   });
 
-  describe('GET /api/courses/:course_id', function () {
+  describe('GET /api/courses/:course_id', function() {
 
-    before(function (done) {
+    before(function(done) {
       nock.cleanAll();
       nock('https://api.airtable.com')
         .get('/v0/test-base/Tests/course_id')
@@ -127,14 +127,14 @@ describe('Acceptance | API | Courses', function () {
       done();
     });
 
-    after(function (done) {
+    after(function(done) {
       nock.cleanAll();
       done();
     });
 
     const options = { method: 'GET', url: '/api/courses/course_id' };
 
-    it('should return 200 HTTP status code', function (done) {
+    it('should return 200 HTTP status code', function(done) {
       // when
       server.inject(options, (response) => {
 
@@ -144,7 +144,7 @@ describe('Acceptance | API | Courses', function () {
       });
     });
 
-    it('should return application/json', function (done) {
+    it('should return application/json', function(done) {
       // when
       server.inject(options, (response) => {
 
@@ -155,7 +155,7 @@ describe('Acceptance | API | Courses', function () {
       });
     });
 
-    it('should return the expected course', function (done) {
+    it('should return the expected course', function(done) {
       // when
       server.inject(options, (response) => {
 

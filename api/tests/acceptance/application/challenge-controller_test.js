@@ -1,15 +1,15 @@
 const { describe, it, before, after, expect, nock } = require('../../test-helper');
 const server = require('../../../server');
 
-describe('Acceptance | API | ChallengeController', function () {
+describe('Acceptance | API | ChallengeController', function() {
 
-  after(function (done) {
+  after(function(done) {
     server.stop(done);
   });
 
-  describe('GET /api/challenges/:challenge_id', function () {
+  describe('GET /api/challenges/:challenge_id', function() {
 
-    before(function (done) {
+    before(function(done) {
       nock.cleanAll();
       nock('https://api.airtable.com')
         .get('/v0/test-base/Epreuves/recLt9uwa2dR3IYpi')
@@ -57,21 +57,21 @@ describe('Acceptance | API | ChallengeController', function () {
       done();
     });
 
-    after(function (done) {
+    after(function(done) {
       nock.cleanAll();
       done();
     });
 
     const options = { method: 'GET', url: '/api/challenges/recLt9uwa2dR3IYpi' };
 
-    it('should return 200 HTTP status code', function (done) {
+    it('should return 200 HTTP status code', function(done) {
       server.inject(options, (response) => {
         expect(response.statusCode).to.equal(200);
         done();
       });
     });
 
-    it('should return application/json', function (done) {
+    it('should return application/json', function(done) {
       server.inject(options, (response) => {
         const contentType = response.headers['content-type'];
         expect(contentType).to.contain('application/json');
@@ -79,7 +79,7 @@ describe('Acceptance | API | ChallengeController', function () {
       });
     });
 
-    it('should return the expected challenge', function (done) {
+    it('should return the expected challenge', function(done) {
       server.inject(options, (response) => {
         const challenge = response.result.data;
         expect(challenge.id).to.equal('recLt9uwa2dR3IYpi');

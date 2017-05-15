@@ -3,7 +3,7 @@ import { expect } from 'chai';
 import { describe, it } from 'mocha';
 import { getChallengeComponentClass } from 'pix-live/helpers/get-challenge-component-class';
 
-describe('Unit | Helper | get challenge component class', function () {
+describe('Unit | Helper | get challenge component class', function() {
 
   [
     { challengeType: 'QCU', expectedClass: 'challenge-item-qcu' },
@@ -17,7 +17,7 @@ describe('Unit | Helper | get challenge component class', function () {
     { challengeType: 'QROCm-dep', expectedClass: 'challenge-item-qrocm' }
   ].forEach((useCase) => {
 
-    it(`should return component class "${useCase.expectedClass}" when challenge type is "${useCase.challengeType}"`, function () {
+    it(`should return component class "${useCase.expectedClass}" when challenge type is "${useCase.challengeType}"`, function() {
       // given
       const challenge = Ember.Object.create({ type: useCase.challengeType });
       const params = [challenge];

@@ -18,7 +18,6 @@ const LABEL_INCORRECT_AND_CHECKED = '.qcm-proposal-label__oracle:eq(0)';
 const CHECKBOX_INCORRECT_AND_UNCHECKED = '.qcm-proposal-label__checkbox-picture:eq(0)';
 const LABEL_INCORRECT_AND_UNCHECKED = '.qcm-proposal-label__oracle:eq(0)';
 
-
 const CSS_BOLD_FONT_WEIGHT = '900';
 const CSS_NORMAL_FONT_WEIGHT = '400';
 
@@ -37,21 +36,21 @@ function charCount(str) {
   return str.match(/[a-zA-Z]/g).length;
 }
 
-describe('Integration | Component | qcm-solution-panel.js', function () {
+describe('Integration | Component | qcm-solution-panel.js', function() {
 
   setupComponentTest('qcm-solution-panel', {
     integration: true
   });
 
-  describe('#Component should renders: ', function () {
+  describe('#Component should renders: ', function() {
 
-    it('Should renders', function () {
+    it('Should renders', function() {
       this.render(hbs`{{qcm-solution-panel}}`);
       expect(this.$()).to.have.length(1);
       expect($(LABEL_CORRECT_AND_CHECKED)).to.have.lengthOf(0);
     });
 
-    describe('checkbox state', function () {
+    describe('checkbox state', function() {
       const correctAnswer = {
         id: 'answer_id', assessment, challenge, value: '2,4'
       };
@@ -60,7 +59,7 @@ describe('Integration | Component | qcm-solution-panel.js', function () {
         id: 'answer_id', assessment, challenge, value: '1,4'
       };
 
-      before(function () {
+      before(function() {
         challenge = Ember.Object.create({
           id: 'challenge_id',
           proposals: '-foo\n- bar\n- qix\n- yon',
@@ -110,7 +109,7 @@ describe('Integration | Component | qcm-solution-panel.js', function () {
         expect($(LABEL_INCORRECT_AND_UNCHECKED).css('text-decoration')).to.equal(CSS_LINETHROUGH_OFF);
       });
 
-      it('QCM, Au moins l\'une des réponse correcte n\'est pas cochée', function () {
+      it('QCM, Au moins l\'une des réponse correcte n\'est pas cochée', function() {
         //Given
         answer = Ember.Object.create(unCorrectAnswer);
 
@@ -129,7 +128,7 @@ describe('Integration | Component | qcm-solution-panel.js', function () {
         expect($(LABEL_CORRECT_AND_UNCHECKED).css('text-decoration')).to.equal(CSS_LINETHROUGH_OFF);
       });
 
-      it('QCM, au moins l\'une des réponse incorrecte est cochée', function () {
+      it('QCM, au moins l\'une des réponse incorrecte est cochée', function() {
         //Given
         answer = Ember.Object.create(unCorrectAnswer);
 
@@ -151,7 +150,7 @@ describe('Integration | Component | qcm-solution-panel.js', function () {
 
       });
 
-      it('Aucune case à cocher n\'est cliquable', function () {
+      it('Aucune case à cocher n\'est cliquable', function() {
         //Given
         this.set('answer', answer);
         this.set('solution', solution);
@@ -162,7 +161,7 @@ describe('Integration | Component | qcm-solution-panel.js', function () {
 
         // Then
         const size = $('.comparison-window .qcm-proposal-label__checkbox-picture').length;
-        _.times(size, function (index) {
+        _.times(size, function(index) {
           expect($('.comparison-window .qcm-proposal-label__checkbox-picture:eq(' + index + ')').is(':disabled')).to.equal(true);
         });
       });

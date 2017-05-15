@@ -10,7 +10,6 @@ const assessmentSerializer = require('../../../../lib/infrastructure/serializers
 const { NotFoundError, NotElligibleToScoringError } = require('../../../../lib/domain/errors');
 const Assessment = require('../../../../lib/domain/models/data/assessment');
 
-
 describe('Unit | Controller | assessment-controller', () => {
 
   describe('#get', () => {
@@ -54,18 +53,17 @@ describe('Unit | Controller | assessment-controller', () => {
       // given
       const expectedError = { error: 'Expected API Return 404' };
 
-      let boomNotFound = sinon.stub(Boom, 'notFound').returns(expectedError);
+      const boomNotFound = sinon.stub(Boom, 'notFound').returns(expectedError);
       const getScoredError = new NotFoundError('Expected API Return 404');
       getScoredAssessmentStub.rejects(getScoredError);
 
       // when
-      let promise = assessmentController.get(request, reply);
+      const promise = assessmentController.get(request, reply);
 
       // then
       return promise.then(() => {
         boomNotFound.restore();
         sinon.assert.calledWithExactly(boomNotFound, getScoredError);
-
 
       });
     });
@@ -80,7 +78,7 @@ describe('Unit | Controller | assessment-controller', () => {
       assessmentSerializerStub.returns(expectedSerializedAssessment);
 
       // When
-      let promise = assessmentController.get(request, reply);
+      const promise = assessmentController.get(request, reply);
 
       // Then
       return promise.then(() => {
@@ -91,16 +89,15 @@ describe('Unit | Controller | assessment-controller', () => {
 
     });
 
-
     it('should return a Bad Implementation error when we cannot retrieve the score', () => {
       // given
       const expectedError = { error: 'Expected API Return ' };
 
-      let boomBadImplementationStub = sinon.stub(Boom, 'badImplementation').returns(expectedError);
+      const boomBadImplementationStub = sinon.stub(Boom, 'badImplementation').returns(expectedError);
       getScoredAssessmentStub.rejects(new Error('Expected Error Message'));
 
       // when
-      let promise = assessmentController.get(request, reply);
+      const promise = assessmentController.get(request, reply);
 
       // then
       return promise.then(() => {
@@ -118,7 +115,7 @@ describe('Unit | Controller | assessment-controller', () => {
       getScoredAssessmentStub.resolves(scoredAssessement);
 
       // when
-      let promise = assessmentController.get(request, reply);
+      const promise = assessmentController.get(request, reply);
 
       // then
       return promise.then(() => {

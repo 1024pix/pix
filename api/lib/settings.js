@@ -1,6 +1,6 @@
 const path = require('path');
 
-module.exports = (function () {
+module.exports = (function() {
 
   const config = {
 

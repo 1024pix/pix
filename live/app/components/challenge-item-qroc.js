@@ -2,7 +2,7 @@ import ChallengeItemGeneric from './challenge-item-generic';
 
 const ChallengeItemQroc = ChallengeItemGeneric.extend({
 
-  _hasError: function () {
+  _hasError: function() {
     return this._getAnswerValue().length < 1;
   },
 

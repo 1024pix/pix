@@ -5,7 +5,7 @@ const validator = require('validator');
 
 const _ = require('lodash');
 
-validator.isRequired = function (value) {
+validator.isRequired = function(value) {
   return !_.isNil(value);
 };
 

@@ -8,8 +8,7 @@ import refQrocmChallengeFull from '../data/challenges/ref-qrocm-challenge';
 import refTimedChallengeFull from '../data/challenges/ref-timed-challenge';
 import refTimedChallengeBisFull from '../data/challenges/ref-timed-challenge-bis';
 
-export default function (schema, request) {
-
+export default function(schema, request) {
 
   const allChallenges = [
     refQcmChallengeFull,
@@ -21,7 +20,7 @@ export default function (schema, request) {
     refTimedChallengeBisFull
   ];
 
-  const challenges = _.map(allChallenges, function (oneChallenge) {
+  const challenges = _.map(allChallenges, function(oneChallenge) {
     return { id: oneChallenge.data.id, obj: oneChallenge };
   });
 

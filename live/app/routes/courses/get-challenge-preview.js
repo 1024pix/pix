@@ -14,7 +14,7 @@ export default BaseRoute.extend({
       challenge: store.findRecord('challenge', params.challenge_id)
     };
 
-    return RSVP.hash(promises).then(function (results) {
+    return RSVP.hash(promises).then(function(results) {
 
       const challenge = results.challenge;
       const course = RSVP.resolve(results.course);
@@ -34,13 +34,12 @@ export default BaseRoute.extend({
   setupController: function(controller, model) {
     this._super(controller, model);
 
-
     const challengeType =  getChallengeType(model.challenge.get('type'));
     controller.set('challengeItemType', 'challenge-item-' + challengeType);
 
   },
 
-  serialize: function (model) {
+  serialize: function(model) {
     return model.assessment.get('course').then((course) => {
       return {
         course_id: course.id,

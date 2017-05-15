@@ -3,20 +3,20 @@ import { expect } from 'chai';
 import { describe, it } from 'mocha';
 import { setupModelTest } from 'ember-mocha';
 
-describe('Unit | Model | Course', function () {
+describe('Unit | Model | Course', function() {
 
   setupModelTest('course', {
     needs: ['model:assessment', 'model:challenge']
   });
 
-  it('exists', function () {
+  it('exists', function() {
     const model = this.subject();
     expect(model).to.be.ok;
   });
 
-  describe('getProgress', function () {
+  describe('getProgress', function() {
 
-    it('currentStep start at 1', function () {
+    it('currentStep start at 1', function() {
       Ember.run(() => {
         // given
         const store = this.store();
@@ -27,7 +27,7 @@ describe('Unit | Model | Course', function () {
       });
     });
 
-    it('maxStep is 2 when there is 2 challenges in the course', function () {
+    it('maxStep is 2 when there is 2 challenges in the course', function() {
       Ember.run(() => {
         // given
         const store = this.store();
@@ -40,7 +40,7 @@ describe('Unit | Model | Course', function () {
       });
     });
 
-    it('currentStep is 2 when there is 2 challenges in the course and called with 2nd test', function () {
+    it('currentStep is 2 when there is 2 challenges in the course and called with 2nd test', function() {
       Ember.run(() => {
         // given
         const store = this.store();
@@ -52,7 +52,7 @@ describe('Unit | Model | Course', function () {
       });
     });
 
-    it('throw an Error when challenge is not part of course', function () {
+    it('throw an Error when challenge is not part of course', function() {
       Ember.run(() => {
         // given
         const store = this.store();

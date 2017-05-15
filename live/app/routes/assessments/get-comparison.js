@@ -2,7 +2,6 @@ import ModalRouteMixin from 'ember-routable-modal/mixins/route';
 import RSVP from 'rsvp';
 import BaseRoute from 'pix-live/routes/base-route';
 
-
 export default BaseRoute.extend(ModalRouteMixin, {
 
   model(params) {
@@ -26,6 +25,5 @@ export default BaseRoute.extend(ModalRouteMixin, {
     });
 
   },
-
 
 });

@@ -20,7 +20,6 @@ function sendWelcomeEmail(email) {
   });
 }
 
-
 module.exports = {
   sendAccountCreationEmail,
   sendWelcomeEmail

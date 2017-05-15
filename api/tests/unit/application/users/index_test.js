@@ -2,11 +2,11 @@ const { describe, it, before, after, beforeEach, expect, sinon } = require('../.
 const Hapi = require('hapi');
 const UserController = require('../../../../lib/application/users/user-controller');
 
-describe('Unit | Router | user-router', function () {
+describe('Unit | Router | user-router', function() {
 
   let server;
 
-  beforeEach(function () {
+  beforeEach(function() {
     server = new Hapi.Server();
     server.connection({ port: null });
     server.register({ register: require('../../../../lib/application/users') });
@@ -19,17 +19,17 @@ describe('Unit | Router | user-router', function () {
     });
   }
 
-  describe('POST /api/accounts', function () {
+  describe('POST /api/accounts', function() {
 
-    before(function () {
+    before(function() {
       sinon.stub(UserController, 'save', (request, reply) => reply('ok'));
     });
 
-    after(function () {
+    after(function() {
       UserController.save.restore();
     });
 
-    it('should exist', function (done) {
+    it('should exist', function(done) {
       return expectRouteToExist({ method: 'POST', url: '/api/accounts' }, done);
     });
   });

@@ -2,19 +2,19 @@ import { expect } from 'chai';
 import { describe, it } from 'mocha';
 import { setupTest } from 'ember-mocha';
 
-describe('Unit | Component | timeout-jauge-component ', function () {
+describe('Unit | Component | timeout-jauge-component ', function() {
 
   setupTest('component:timeout-jauge', {});
 
   let component;
 
-  beforeEach(function () {
+  beforeEach(function() {
     component = this.subject();
   });
 
-  describe('#Test rendering Property', function () {
+  describe('#Test rendering Property', function() {
 
-    describe('#remainingSeconds', function () {
+    describe('#remainingSeconds', function() {
       [
         { allotedTime: new Date(),  _elapsedTime:0,     expected: 0   },
         { allotedTime: '  ',        _elapsedTime:0,     expected: 0   },
@@ -31,7 +31,7 @@ describe('Unit | Component | timeout-jauge-component ', function () {
         { allotedTime: '120',      _elapsedTime:150000, expected: -30 },
       ].forEach((data) => {
 
-        it(`should return "${data.expected}" when alloting ${data.allotedTime} and _elapsedTime is ${data._elapsedTime}ms`, function () {
+        it(`should return "${data.expected}" when alloting ${data.allotedTime} and _elapsedTime is ${data._elapsedTime}ms`, function() {
           // given
           component.set('allotedTime', data.allotedTime);
           component.set('_elapsedTime', data._elapsedTime);
@@ -43,8 +43,7 @@ describe('Unit | Component | timeout-jauge-component ', function () {
       });
     });
 
-
-    describe('#remainingTime', function () {
+    describe('#remainingTime', function() {
       [
         { allotedTime: new Date(), _elapsedTime:0, expected: '0:00' },
         { allotedTime: '  ',       _elapsedTime:0, expected: '0:00' },
@@ -61,7 +60,7 @@ describe('Unit | Component | timeout-jauge-component ', function () {
         { allotedTime: '120',      _elapsedTime:150000, expected: '0:00' },
       ].forEach((data) => {
 
-        it(`should return "${data.expected}" when alloting ${data.allotedTime} and _elapsedTime is ${data._elapsedTime}ms`, function () {
+        it(`should return "${data.expected}" when alloting ${data.allotedTime} and _elapsedTime is ${data._elapsedTime}ms`, function() {
           // given
           component.set('allotedTime', data.allotedTime);
           component.set('_elapsedTime', data._elapsedTime);
@@ -73,7 +72,7 @@ describe('Unit | Component | timeout-jauge-component ', function () {
       });
     });
 
-    describe('#percentageOfTimeout', function () {
+    describe('#percentageOfTimeout', function() {
       [
         { allotedTime: new Date(), _elapsedTime:4000,    expected: 0 },
         { allotedTime: '  ',       _elapsedTime:4000,    expected: 0 },
@@ -86,7 +85,7 @@ describe('Unit | Component | timeout-jauge-component ', function () {
         { allotedTime: 150,        _elapsedTime:225000,  expected: 150 }
       ].forEach((data) => {
 
-        it(`should return "${data.expected}" when alloting ${data.allotedTime} and _elapsedTime is ${data._elapsedTime}ms`, function () {
+        it(`should return "${data.expected}" when alloting ${data.allotedTime} and _elapsedTime is ${data._elapsedTime}ms`, function() {
           // given
           component.set('allotedTime', data.allotedTime);
           component.set('_elapsedTime', data._elapsedTime);

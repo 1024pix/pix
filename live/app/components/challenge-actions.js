@@ -6,10 +6,10 @@ export default Ember.Component.extend({
 
   actions: {
 
-    skip: function () {
+    skip: function() {
       this.sendAction('skip');
     },
-    validate: function () {
+    validate: function() {
       this.sendAction('validate');
     }
   }

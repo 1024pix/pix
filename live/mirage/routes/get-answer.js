@@ -8,7 +8,7 @@ import refQrocmAnswer from '../data/answers/ref-qrocm-answer';
 import refTimedAnswer from '../data/answers/ref-timed-answer';
 import refTimedAnswerBis from '../data/answers/ref-timed-answer-bis';
 
-export default function (schema, request) {
+export default function(schema, request) {
 
   const allAnswers = [
     refQcuAnswer,
@@ -20,7 +20,7 @@ export default function (schema, request) {
     refTimedAnswerBis
   ];
 
-  const answers = _.map(allAnswers, function (oneAnswer) {
+  const answers = _.map(allAnswers, function(oneAnswer) {
     return { id: oneAnswer.data.id, obj: oneAnswer };
   });
 

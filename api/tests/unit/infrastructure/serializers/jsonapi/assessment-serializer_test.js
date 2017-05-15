@@ -2,7 +2,7 @@ const { describe, it, expect } = require('../../../../test-helper');
 const serializer = require('../../../../../lib/infrastructure/serializers/jsonapi/assessment-serializer');
 const Assessment = require('../../../../../lib/domain/models/data/assessment');
 
-describe('Unit | Serializer | JSONAPI | assessment-serializer', function () {
+describe('Unit | Serializer | JSONAPI | assessment-serializer', function() {
 
   const modelObject = new Assessment({
     id: 'assessment_id',
@@ -34,9 +34,9 @@ describe('Unit | Serializer | JSONAPI | assessment-serializer', function () {
     }
   };
 
-  describe('#serialize()', function () {
+  describe('#serialize()', function() {
 
-    it('should convert an Assessment model object into JSON API data', function () {
+    it('should convert an Assessment model object into JSON API data', function() {
       // when
       const json = serializer.serialize(modelObject);
 
@@ -46,9 +46,9 @@ describe('Unit | Serializer | JSONAPI | assessment-serializer', function () {
 
   });
 
-  describe('#deserialize()', function () {
+  describe('#deserialize()', function() {
 
-    it('should convert JSON API data into an Assessment model object', function () {
+    it('should convert JSON API data into an Assessment model object', function() {
       // when
       const assessment = serializer.deserialize(jsonAssessment);
 

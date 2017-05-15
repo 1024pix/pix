@@ -2,11 +2,11 @@ import { expect } from 'chai';
 import { describe, it } from 'mocha';
 import { setupTest } from 'ember-mocha';
 
-describe('Unit | Component | CourseItemComponent', function () {
+describe('Unit | Component | CourseItemComponent', function() {
 
   setupTest('component:course-item', {});
 
-  describe('Computed property "imageUrl"', function () {
+  describe('Computed property "imageUrl"', function() {
     let component;
 
     const COURSE_WITH_IMAGE = {imageUrl:'any_image.png'};
@@ -22,7 +22,7 @@ describe('Unit | Component | CourseItemComponent', function () {
       component.set('course', COURSE_WITHOUT_IMAGE);
     }
 
-    it('should display the image of the course', function () {
+    it('should display the image of the course', function() {
       // given
       initComponentWithImage.call(this);
 
@@ -34,7 +34,7 @@ describe('Unit | Component | CourseItemComponent', function () {
       expect(imageUrl).to.equal('any_image.png');
     });
 
-    it('should display a default image if no image url is given', function () {
+    it('should display a default image if no image url is given', function() {
       // given
       initComponentWithoutImage.call(this);
 

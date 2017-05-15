@@ -1,9 +1,9 @@
 const { describe, it, expect } = require('../../../test-helper');
 const service = require('../../../../lib/domain/services/email-validator');
 
-describe('Unit | Service | email-validator', function () {
+describe('Unit | Service | email-validator', function() {
 
-  it('should return false when email is not provided', function () {
+  it('should return false when email is not provided', function() {
     expect(service.emailIsValid()).to.be.false;
   });
 
@@ -17,8 +17,8 @@ describe('Unit | Service | email-validator', function () {
     'INVALID_EMAIL@pix.',
     '@pix.fr',
     '@pix'
-  ].forEach(function (badEmail) {
-    it(`should return false when email is invalid: ${badEmail}`, function () {
+  ].forEach(function(badEmail) {
+    it(`should return false when email is invalid: ${badEmail}`, function() {
       expect(service.emailIsValid(badEmail)).to.be.false;
     });
   });
@@ -33,8 +33,8 @@ describe('Unit | Service | email-validator', function () {
     'follower+beta@pix.fr',
     'follower+beta@pix.gouv.fr',
     'follower+beta@pix.beta.gouv.fr'
-  ].forEach(function (validEmail) {
-    it(`should return true if provided email is valid: ${validEmail}`, function () {
+  ].forEach(function(validEmail) {
+    it(`should return true if provided email is valid: ${validEmail}`, function() {
       expect(service.emailIsValid(validEmail)).to.be.true;
     });
   });

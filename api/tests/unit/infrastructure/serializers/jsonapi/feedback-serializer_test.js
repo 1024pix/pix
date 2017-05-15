@@ -2,7 +2,7 @@ const { describe, it, expect } = require('../../../../test-helper');
 const serializer = require('../../../../../lib/infrastructure/serializers/jsonapi/feedback-serializer');
 const Feedback = require('../../../../../lib/domain/models/data/feedback');
 
-describe('Unit | Serializer | JSONAPI | feedback-serializer', function () {
+describe('Unit | Serializer | JSONAPI | feedback-serializer', function() {
 
   const modelObject = new Feedback({
     id: 'feedback_id',
@@ -37,9 +37,9 @@ describe('Unit | Serializer | JSONAPI | feedback-serializer', function () {
     }
   };
 
-  describe('#serialize()', function () {
+  describe('#serialize()', function() {
 
-    it('should convert a Feedback model object into JSON API data', function () {
+    it('should convert a Feedback model object into JSON API data', function() {
       // when
       const json = serializer.serialize(modelObject);
 
@@ -49,9 +49,9 @@ describe('Unit | Serializer | JSONAPI | feedback-serializer', function () {
 
   });
 
-  describe('#deserialize()', function () {
+  describe('#deserialize()', function() {
 
-    it('should convert JSON API data into a Feedback model object', function () {
+    it('should convert JSON API data into a Feedback model object', function() {
       // when
       const feedback = serializer.deserialize(jsonFeedback);
 

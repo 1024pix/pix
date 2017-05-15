@@ -4,20 +4,20 @@ import { describe, it } from 'mocha';
 import { setupComponentTest } from 'ember-mocha';
 import hbs from 'htmlbars-inline-precompile';
 
-describe('Integration | Component | course item', function () {
+describe('Integration | Component | course item', function() {
 
   setupComponentTest('course-item', {
     integration: true
   });
 
-  describe('rendering:', function () {
+  describe('rendering:', function() {
 
-    it('renders', function () {
+    it('renders', function() {
       this.render(hbs`{{course-item}}`);
       expect(this.$()).to.have.length(1);
     });
 
-    it('should render course picture if it is defined', function () {
+    it('should render course picture if it is defined', function() {
       // given
       const course = Ember.Object.create({ imageUrl: 'image_src' });
       this.set('course', course);
@@ -30,7 +30,7 @@ describe('Integration | Component | course item', function () {
       expect($picture.attr('src')).to.equal(course.get('imageUrl'));
     });
 
-    it('should render default picture if course picture is not defined', function () {
+    it('should render default picture if course picture is not defined', function() {
       // given
       const course = Ember.Object.create();
       this.set('course', course);
@@ -43,7 +43,7 @@ describe('Integration | Component | course item', function () {
       expect($picture.attr('src')).to.equal('/images/course-default-image.png');
     });
 
-    it('should render course name', function () {
+    it('should render course name', function() {
       // given
       const course = Ember.Object.create({ name: 'name_value'});
       this.set('course', course);
@@ -56,7 +56,7 @@ describe('Integration | Component | course item', function () {
       expect($name.text().trim()).to.equal(course.get('name'));
     });
 
-    it('should render course description', function () {
+    it('should render course description', function() {
       // given
       const course = Ember.Object.create({ description: 'description_value'});
       this.set('course', course);
@@ -69,7 +69,7 @@ describe('Integration | Component | course item', function () {
       expect($description.text().trim()).to.equal(course.get('description'));
     });
 
-    it('should render the number of challenges', function () {
+    it('should render the number of challenges', function() {
       // given
       const course = Ember.Object.create({ challenges: ['c1', 'c2', 'c3', 'c4']});
       this.set('course', course);
@@ -82,7 +82,7 @@ describe('Integration | Component | course item', function () {
       expect($nbChallenges.text().trim()).to.equal('4 épreuves');
     });
 
-    it('should render a link to begin the course', function () {
+    it('should render a link to begin the course', function() {
       // given
       const course = Ember.Object.create();
       this.set('course', course);
@@ -95,7 +95,7 @@ describe('Integration | Component | course item', function () {
       expect($startAction.text().trim()).to.equal('Commencer');
     });
 
-    it('should render a link containing the course name in title', function () {
+    it('should render a link containing the course name in title', function() {
       // given
       const course = Ember.Object.create({ name: 'My course'});
       this.set('course', course);
@@ -109,9 +109,9 @@ describe('Integration | Component | course item', function () {
     });
   });
 
-  describe('behaviours:', function () {
+  describe('behaviours:', function() {
 
-    it('should send action "startCourse" with course in argument when clicking on "start" button', function () {
+    it('should send action "startCourse" with course in argument when clicking on "start" button', function() {
       // given
       const course = Ember.Object.create({ id: 'course_id'});
       this.set('course', course);
@@ -130,6 +130,5 @@ describe('Integration | Component | course item', function () {
     });
 
   });
-
 
 });

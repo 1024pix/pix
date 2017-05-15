@@ -29,19 +29,19 @@ const expectedPath = 'M12,2C17.53,2 22,6.47 22,12C22,17.53 17.53,22 12,22C6.47,2
 
 const expectedChallengeInstruction = 'Un QCM propose plusieurs choix, l\'utilisateur peut en choisir plusieur...';
 
-describe('Integration | Component | result item', function () {
+describe('Integration | Component | result item', function() {
 
   setupComponentTest('result-item', {
     integration: true
   });
 
-  describe('Component rendering ', function () {
+  describe('Component rendering ', function() {
 
-    beforeEach(function () {
+    beforeEach(function() {
       this.set('index', 0);
     });
 
-    it('should exist', function () {
+    it('should exist', function() {
       // given
       this.set('answer', '');
 
@@ -52,7 +52,7 @@ describe('Integration | Component | result item', function () {
       expect(this.$()).to.have.length(1);
     });
 
-    it('component render an index 1 when 0 provided', function () {
+    it('component render an index 1 when 0 provided', function() {
       // given
       this.set('answer', '');
 
@@ -64,7 +64,7 @@ describe('Integration | Component | result item', function () {
       expect(index.trim().replace('\n', '')).to.equal('1');
     });
 
-    it('component render an instruction with no empty content', function () {
+    it('component render an instruction with no empty content', function() {
       // given
       this.set('answer', '');
 
@@ -76,7 +76,7 @@ describe('Integration | Component | result item', function () {
       expect(this.$('.result-item__instruction').text()).to.contain('\n');
     });
 
-    it(`component render an instruction which contain ${expectedChallengeInstruction}`, function () {
+    it(`component render an instruction which contain ${expectedChallengeInstruction}`, function() {
       // given
       this.set('answer', answer);
 
@@ -87,7 +87,7 @@ describe('Integration | Component | result item', function () {
       expect(this.$('.result-item__instruction').text().trim()).to.equal(expectedChallengeInstruction);
     });
 
-    it('component render an button when QCM', function () {
+    it('component render an button when QCM', function() {
       // given
       this.set('answer', answer);
 
@@ -96,7 +96,7 @@ describe('Integration | Component | result item', function () {
       expect(this.$('.result-item__correction__button').text().trim()).to.deep.equal('RÉPONSE');
     });
 
-    it('component render tooltip with title Réponse incorrecte', function () {
+    it('component render tooltip with title Réponse incorrecte', function() {
       // given
       this.set('answer', answer);
 
@@ -107,7 +107,7 @@ describe('Integration | Component | result item', function () {
       expect(this.$('div[data-toggle="tooltip"]').attr('title').trim()).to.equal('Réponse incorrecte');
     });
 
-    it('component render tooltip with svg', function () {
+    it('component render tooltip with svg', function() {
       // given
       this.set('answer', answer);
 

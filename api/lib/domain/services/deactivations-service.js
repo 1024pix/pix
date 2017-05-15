@@ -23,7 +23,7 @@ module.exports = {
   },
 
   hasOnlyT2T3(deactivations) {
-    if (deactivations && (!deactivations.t1) && deactivations.t2 && deactivations.t3 ) {
+    if (deactivations && (!deactivations.t1) && deactivations.t2 && deactivations.t3) {
       return true;
     }
     return false;

@@ -24,7 +24,6 @@ function _selectNextInAdaptiveMode(assessment) {
   });
 }
 
-
 function _selectNextInNormalMode(currentChallengeId, challenges) {
 
   /*
@@ -37,7 +36,6 @@ function _selectNextInNormalMode(currentChallengeId, challenges) {
   return _.defaultTo(nextChallengeId, null); // result MUST be null if not found
 
 }
-
 
 function _completeAssessmentWithScore(assessment, answers, knowledgeData) {
 
@@ -73,7 +71,6 @@ function selectNextChallengeId(course, currentChallengeId, assessment) {
     }
   });
 }
-
 
 function getScoredAssessment(assessmentId) {
   return new Promise((resolve, reject) => {

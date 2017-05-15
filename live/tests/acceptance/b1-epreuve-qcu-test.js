@@ -7,34 +7,34 @@ import _ from 'pix-live/utils/lodash-custom';
 
 let application;
 
-describe('Acceptance | b1 - Afficher un QCU | ', function () {
+describe('Acceptance | b1 - Afficher un QCU | ', function() {
 
-  beforeEach(function () {
+  beforeEach(function() {
     application = startApp();
     visit('/assessments/ref_assessment_id/challenges/ref_qcu_challenge_id');
   });
 
-  afterEach(function () {
+  afterEach(function() {
     destroyApp(application);
   });
 
-  it('b1.1 Une liste de radiobuttons doit s\'afficher', function () {
+  it('b1.1 Une liste de radiobuttons doit s\'afficher', function() {
     const $proposals = $('.input-radio-proposal');
     expect($proposals).to.have.lengthOf(4);
   });
 
-  it('b1.2 Par défaut, le radiobutton de la réponse sauvegardée est affiché', function () {
+  it('b1.2 Par défaut, le radiobutton de la réponse sauvegardée est affiché', function() {
     expect($('.input-radio-proposal:checked')).to.have.lengthOf(1);
   });
 
-  it('b1.3 Une liste ordonnée d\'instruction doit s\'afficher', function () {
+  it('b1.3 Une liste ordonnée d\'instruction doit s\'afficher', function() {
     expect($('.proposal-text:eq(0)').text().trim()).to.equal('1ere possibilite');
     expect($('.proposal-text:eq(1)').text().trim()).to.equal('2eme possibilite');
     expect($('.proposal-text:eq(2)').text().trim()).to.equal('3eme possibilite');
     expect($('.proposal-text:eq(3)').text().trim()).to.equal('4eme possibilite');
   });
 
-  it('b1.4 L\'alerte est affichée si l\'utilisateur valide, mais aucun radiobutton n\'est coché', async function () {
+  it('b1.4 L\'alerte est affichée si l\'utilisateur valide, mais aucun radiobutton n\'est coché', async function() {
 
     // given
     $(':radio').prop('checked', false);
@@ -48,7 +48,7 @@ describe('Acceptance | b1 - Afficher un QCU | ', function () {
     expect($alert.text().trim()).to.equal('Pour valider, sélectionner une réponse. Sinon, passer.');
   });
 
-  it('b1.5 Si un utilisateur clique sur un radiobutton, il est le seul coché, et les autres sont décochés', async function () {
+  it('b1.5 Si un utilisateur clique sur un radiobutton, il est le seul coché, et les autres sont décochés', async function() {
 
     // Given
     expect($('.input-radio-proposal:eq(0)').is(':checked')).to.equal(false);
@@ -66,7 +66,7 @@ describe('Acceptance | b1 - Afficher un QCU | ', function () {
     expect($('.input-radio-proposal:eq(3)').is(':checked')).to.equal(false);
   });
 
-  it('b1.6 Si un utilisateur clique sur un radiobutton, et valide l\'épreuve, une demande de sauvegarde de sa réponse est envoyée à l\'API', async function () {
+  it('b1.6 Si un utilisateur clique sur un radiobutton, et valide l\'épreuve, une demande de sauvegarde de sa réponse est envoyée à l\'API', async function() {
     // Given
     resetTestingState();
 

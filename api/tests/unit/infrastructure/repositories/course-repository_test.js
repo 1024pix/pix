@@ -8,18 +8,18 @@ function _buildCourse(id, name, description) {
   return { id, name, description };
 }
 
-describe('Unit | Repository | course-repository', function () {
+describe('Unit | Repository | course-repository', function() {
 
   let getRecord;
   let getRecords;
 
-  beforeEach(function () {
+  beforeEach(function() {
     cache.flushAll();
     getRecord = sinon.stub(airtable, 'getRecord');
     getRecords = sinon.stub(airtable, 'getRecords');
   });
 
-  afterEach(function () {
+  afterEach(function() {
     cache.flushAll();
     getRecord.restore();
     getRecords.restore();
@@ -29,13 +29,13 @@ describe('Unit | Repository | course-repository', function () {
    * #get
    */
 
-  describe('#get', function () {
+  describe('#get', function() {
 
     const courseId = 'courseId';
     const cacheKey = `course-repository_get_${courseId}`;
     const course = { foo: 'bar' };
 
-    it('should resolve with the course directly retrieved from the cache without calling airtable when the course has been cached', function (done) {
+    it('should resolve with the course directly retrieved from the cache without calling airtable when the course has been cached', function(done) {
       // given
       getRecord.resolves(true);
       cache.set(cacheKey, course);
@@ -49,7 +49,7 @@ describe('Unit | Repository | course-repository', function () {
       done();
     });
 
-    it('should reject with an error when the cache throw an error', function (done) {
+    it('should reject with an error when the cache throw an error', function(done) {
       // given
       const cacheErrorMessage = 'Cache error';
       sinon.stub(cache, 'get', (key, callback) => {
@@ -65,13 +65,13 @@ describe('Unit | Repository | course-repository', function () {
       done();
     });
 
-    describe('when the course was not previously cached', function () {
+    describe('when the course was not previously cached', function() {
 
-      beforeEach(function () {
+      beforeEach(function() {
         getRecord.resolves(course);
       });
 
-      it('should resolve with the courses fetched from Airtable', function (done) {
+      it('should resolve with the courses fetched from Airtable', function(done) {
         // when
         const result = courseRepository.get(courseId);
 
@@ -80,7 +80,7 @@ describe('Unit | Repository | course-repository', function () {
         done();
       });
 
-      it('should cache the course fetched from Airtable', function (done) {
+      it('should cache the course fetched from Airtable', function(done) {
         // when
         courseRepository.get(courseId).then(() => {
 
@@ -92,7 +92,7 @@ describe('Unit | Repository | course-repository', function () {
         });
       });
 
-      it('should query correctly airtable', function (done) {
+      it('should query correctly airtable', function(done) {
         // when
         courseRepository.get(courseId).then(() => {
 
@@ -108,12 +108,12 @@ describe('Unit | Repository | course-repository', function () {
    * #refresh
    */
 
-  describe('#refresh', function () {
+  describe('#refresh', function() {
 
     const courseId = 'course_id';
     const cacheKey = `course-repository_get_${courseId}`;
 
-    it('should reject with an error when the cache throw an error', function (done) {
+    it('should reject with an error when the cache throw an error', function(done) {
       // given
       const cacheErrorMessage = 'Cache error';
       sinon.stub(cache, 'del', (key, callback) => {
@@ -129,7 +129,7 @@ describe('Unit | Repository | course-repository', function () {
       done();
     });
 
-    it('should resolve with the course fetched from airtable when the course was not previously cached', function (done) {
+    it('should resolve with the course fetched from airtable when the course was not previously cached', function(done) {
       // given
       const course = {
         id: courseId,
@@ -146,7 +146,7 @@ describe('Unit | Repository | course-repository', function () {
       done();
     });
 
-    it('should replace the old course by the new one in cache', function () {
+    it('should replace the old course by the new one in cache', function() {
       // given
       const oldCourse = {
         id: courseId,
@@ -176,7 +176,7 @@ describe('Unit | Repository | course-repository', function () {
    * #getProgressionCourses
    */
 
-  describe('#getProgressionCourses', function () {
+  describe('#getProgressionCourses', function() {
 
     const cacheKey = 'course-repository_getProgressionTests';
     const courses = [
@@ -185,7 +185,7 @@ describe('Unit | Repository | course-repository', function () {
       _buildCourse('course_id_3', 'Course #3', 'Desc. #3')
     ];
 
-    it('should reject with an error when the cache throw an error', function (done) {
+    it('should reject with an error when the cache throw an error', function(done) {
       // given
       const cacheErrorMessage = 'Cache error';
       sinon.stub(cache, 'get', (key, callback) => {
@@ -201,7 +201,7 @@ describe('Unit | Repository | course-repository', function () {
       done();
     });
 
-    it('should resolve with the course directly retrieved from the cache without calling airtable when the course has been cached', function (done) {
+    it('should resolve with the course directly retrieved from the cache without calling airtable when the course has been cached', function(done) {
       // given
       getRecords.resolves(true);
       cache.set(cacheKey, courses);
@@ -215,13 +215,13 @@ describe('Unit | Repository | course-repository', function () {
       done();
     });
 
-    describe('when courses have not been previsously cached', function () {
+    describe('when courses have not been previsously cached', function() {
 
-      beforeEach(function () {
+      beforeEach(function() {
         getRecords.resolves(courses);
       });
 
-      it('should resolve with the courses fetched from Airtable', function (done) {
+      it('should resolve with the courses fetched from Airtable', function(done) {
         // when
         const result = courseRepository.getProgressionCourses();
 
@@ -230,7 +230,7 @@ describe('Unit | Repository | course-repository', function () {
         done();
       });
 
-      it('should cache the course fetched from Airtable', function (done) {
+      it('should cache the course fetched from Airtable', function(done) {
         // when
         courseRepository.getProgressionCourses().then(() => {
 
@@ -242,7 +242,7 @@ describe('Unit | Repository | course-repository', function () {
         });
       });
 
-      it('should query correctly airtable', function (done) {
+      it('should query correctly airtable', function(done) {
         // given
         const expectedQuery = {
           filterByFormula: '{Statut} = "Publié"',
@@ -265,7 +265,7 @@ describe('Unit | Repository | course-repository', function () {
    * #getCoursesOfTheWeek
    */
 
-  describe('#getCoursesOfTheWeek', function () {
+  describe('#getCoursesOfTheWeek', function() {
 
     const cacheKey = 'course-repository_getCoursesOfTheWeek';
     const courses = [
@@ -274,7 +274,7 @@ describe('Unit | Repository | course-repository', function () {
       _buildCourse('course_id_3', 'Course #3', 'Desc. #3')
     ];
 
-    it('should reject with an error when the cache throw an error', function (done) {
+    it('should reject with an error when the cache throw an error', function(done) {
       // given
       const cacheErrorMessage = 'Cache error';
       sinon.stub(cache, 'get', (key, callback) => {
@@ -290,7 +290,7 @@ describe('Unit | Repository | course-repository', function () {
       done();
     });
 
-    it('should resolve with the courses directly retrieved from the cache without calling airtable when the course has been cached', function (done) {
+    it('should resolve with the courses directly retrieved from the cache without calling airtable when the course has been cached', function(done) {
       // given
       getRecords.resolves(true);
       cache.set(cacheKey, courses);
@@ -304,13 +304,13 @@ describe('Unit | Repository | course-repository', function () {
       done();
     });
 
-    describe('when courses have not been previsously cached', function () {
+    describe('when courses have not been previsously cached', function() {
 
-      beforeEach(function () {
+      beforeEach(function() {
         getRecords.resolves(courses);
       });
 
-      it('should resolve with the courses fetched from Airtable', function (done) {
+      it('should resolve with the courses fetched from Airtable', function(done) {
         // when
         const result = courseRepository.getCoursesOfTheWeek();
 
@@ -319,7 +319,7 @@ describe('Unit | Repository | course-repository', function () {
         done();
       });
 
-      it('should cache the course fetched from Airtable', function (done) {
+      it('should cache the course fetched from Airtable', function(done) {
         // when
         courseRepository.getCoursesOfTheWeek().then(() => {
 
@@ -331,7 +331,7 @@ describe('Unit | Repository | course-repository', function () {
         });
       });
 
-      it('should query correctly airtable', function (done) {
+      it('should query correctly airtable', function(done) {
         // given
         const expectedQuery = {
           filterByFormula: '{Statut} = "Publié"',
@@ -354,7 +354,7 @@ describe('Unit | Repository | course-repository', function () {
    * #getAdaptiveCourses
    */
 
-  describe('#getAdaptiveCourses', function () {
+  describe('#getAdaptiveCourses', function() {
 
     const cacheKey = 'course-repository_getAdaptiveCourses';
     const courses = [
@@ -363,7 +363,7 @@ describe('Unit | Repository | course-repository', function () {
       _buildCourse('course_id_3', 'Course #3', 'Desc. #3')
     ];
 
-    it('should reject with an error when the cache throw an error', function (done) {
+    it('should reject with an error when the cache throw an error', function(done) {
       // given
       const cacheErrorMessage = 'Cache error';
       sinon.stub(cache, 'get', (key, callback) => {
@@ -379,7 +379,7 @@ describe('Unit | Repository | course-repository', function () {
       done();
     });
 
-    it('should resolve with the courses directly retrieved from the cache without calling airtable when the course has been cached', function (done) {
+    it('should resolve with the courses directly retrieved from the cache without calling airtable when the course has been cached', function(done) {
       // given
       getRecords.resolves(true);
       cache.set(cacheKey, courses);
@@ -393,13 +393,13 @@ describe('Unit | Repository | course-repository', function () {
       done();
     });
 
-    describe('when courses have not been previsously cached', function () {
+    describe('when courses have not been previsously cached', function() {
 
-      beforeEach(function () {
+      beforeEach(function() {
         getRecords.resolves(courses);
       });
 
-      it('should resolve with the courses fetched from Airtable', function (done) {
+      it('should resolve with the courses fetched from Airtable', function(done) {
         // when
         const result = courseRepository.getAdaptiveCourses();
 
@@ -408,7 +408,7 @@ describe('Unit | Repository | course-repository', function () {
         done();
       });
 
-      it('should cache the course fetched from Airtable', function (done) {
+      it('should cache the course fetched from Airtable', function(done) {
         // when
         courseRepository.getAdaptiveCourses().then(() => {
 
@@ -420,7 +420,7 @@ describe('Unit | Repository | course-repository', function () {
         });
       });
 
-      it('should query correctly airtable', function (done) {
+      it('should query correctly airtable', function(done) {
         // given
         const expectedQuery = {
           filterByFormula: '{Statut} = "Publié"',
@@ -444,7 +444,7 @@ describe('Unit | Repository | course-repository', function () {
 
   describe('#refreshAll', function() {
 
-    it('should resolve with true when the clean succeeds', function (done) {
+    it('should resolve with true when the clean succeeds', function(done) {
       // given
       sinon.stub(cache, 'del', (key, callback) => {
         callback();

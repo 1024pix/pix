@@ -11,7 +11,7 @@ function _assertResultItemTooltip(resultItem, expected) {
   expect(resultItem.titleTooltip).to.equal(expected);
 }
 
-describe('Unit | Component | comparison-window', function () {
+describe('Unit | Component | comparison-window', function() {
 
   setupTest('component:comparison-window', {});
 
@@ -24,15 +24,15 @@ describe('Unit | Component | comparison-window', function () {
   const challengeQrocmInd = { type: 'QROCM-ind' };
   const challengeQrocmDep = { type: 'QROCM-dep' };
 
-  beforeEach(function () {
+  beforeEach(function() {
     component = this.subject();
     answer = Ember.Object.create();
     component.set('answer', answer);
   });
 
-  describe('#isAssessmentChallengeTypeQroc', function () {
+  describe('#isAssessmentChallengeTypeQroc', function() {
 
-    it('should be true when the challenge is QROC', function () {
+    it('should be true when the challenge is QROC', function() {
       // given
       component.set('challenge', challengeQroc);
       // when
@@ -41,7 +41,7 @@ describe('Unit | Component | comparison-window', function () {
       expect(isAssessmentChallengeTypeQroc).to.be.true;
     });
 
-    it('should be false when the challenge is not QROCM-ind', function () {
+    it('should be false when the challenge is not QROCM-ind', function() {
       // given
       component.set('challenge', challengeQrocmInd);
       // when
@@ -51,9 +51,9 @@ describe('Unit | Component | comparison-window', function () {
     });
   });
 
-  describe('#isAssessmentChallengeTypeQcm', function () {
+  describe('#isAssessmentChallengeTypeQcm', function() {
 
-    it('should be true when the challenge is QCM', function () {
+    it('should be true when the challenge is QCM', function() {
       // given
       component.set('challenge', challengeQcm);
       // when
@@ -62,7 +62,7 @@ describe('Unit | Component | comparison-window', function () {
       expect(isAssessmentChallengeTypeQcm).to.be.true;
     });
 
-    it('should be false when the challenge is not QCM', function () {
+    it('should be false when the challenge is not QCM', function() {
       // given
       component.set('challenge', challengeQroc);
       // when
@@ -72,9 +72,9 @@ describe('Unit | Component | comparison-window', function () {
     });
   });
 
-  describe('#isAssessmentChallengeTypeQrocmInd', function () {
+  describe('#isAssessmentChallengeTypeQrocmInd', function() {
 
-    it('should be true when the challenge is QROCM-ind', function () {
+    it('should be true when the challenge is QROCM-ind', function() {
       // given
       component.set('challenge', challengeQrocmInd);
       // when
@@ -83,7 +83,7 @@ describe('Unit | Component | comparison-window', function () {
       expect(isAssessmentChallengeTypeQrocmInd).to.be.true;
     });
 
-    it('should be true when the challenge is not QROCM-ind', function () {
+    it('should be true when the challenge is not QROCM-ind', function() {
       // given
       component.set('challenge', challengeQroc);
       // when
@@ -93,9 +93,9 @@ describe('Unit | Component | comparison-window', function () {
     });
   });
 
-  describe('#isAssessmentChallengeTypeQrocmDep', function () {
+  describe('#isAssessmentChallengeTypeQrocmDep', function() {
 
-    it('should be true when the challenge is QROCM-dep', function () {
+    it('should be true when the challenge is QROCM-dep', function() {
       // given
       component.set('challenge', challengeQrocmDep);
       // when
@@ -104,7 +104,7 @@ describe('Unit | Component | comparison-window', function () {
       expect(isAssessmentChallengeTypeQrocmDep).to.be.true;
     });
 
-    it('should be true when the challenge is not QROCM-dep', function () {
+    it('should be true when the challenge is not QROCM-dep', function() {
       // given
       component.set('challenge', challengeQroc);
       // when
@@ -116,9 +116,9 @@ describe('Unit | Component | comparison-window', function () {
 
   });
 
-  describe('#resultItem', function () {
+  describe('#resultItem', function() {
 
-    it('should return adapted title and tooltip when validation is unavailable (i.e. empty)', function () {
+    it('should return adapted title and tooltip when validation is unavailable (i.e. empty)', function() {
       // given
       answer.set('result', '');
 
@@ -130,7 +130,7 @@ describe('Unit | Component | comparison-window', function () {
       _assertResultItemTooltip(resultItem, 'Correction automatique en cours de développement ;)');
     });
 
-    it('should return adapted title and tooltip when validation status is unknown', function () {
+    it('should return adapted title and tooltip when validation status is unknown', function() {
       // given
       answer.set('result', 'xxx');
 
@@ -142,7 +142,7 @@ describe('Unit | Component | comparison-window', function () {
       _assertResultItemTooltip(resultItem, 'Correction automatique en cours de développement ;)');
     });
 
-    it('should return adapted title and tooltip when validation status is undefined', function () {
+    it('should return adapted title and tooltip when validation status is undefined', function() {
       // given
       let undefined;
       answer.set('result', undefined);
@@ -155,7 +155,7 @@ describe('Unit | Component | comparison-window', function () {
       _assertResultItemTooltip(resultItem, 'Correction automatique en cours de développement ;)');
     });
 
-    it('should return adapted title and tooltip when result is "ok"', function () {
+    it('should return adapted title and tooltip when result is "ok"', function() {
       // given
       answer.set('result', 'ok');
 
@@ -167,7 +167,7 @@ describe('Unit | Component | comparison-window', function () {
       _assertResultItemTooltip(resultItem, 'Réponse correcte');
     });
 
-    it('should return adapted title and tooltip when result is "ko"', function () {
+    it('should return adapted title and tooltip when result is "ko"', function() {
       // given
       answer.set('result', 'ko');
 
@@ -179,7 +179,7 @@ describe('Unit | Component | comparison-window', function () {
       _assertResultItemTooltip(resultItem, 'Réponse incorrecte');
     });
 
-    it('should return adapted title and tooltip when result is "aband"', function () {
+    it('should return adapted title and tooltip when result is "aband"', function() {
       // given
       answer.set('result', 'aband');
 
@@ -191,7 +191,7 @@ describe('Unit | Component | comparison-window', function () {
       _assertResultItemTooltip(resultItem, 'Sans réponse');
     });
 
-    it('should return adapted title and tooltip when result is "partially"', function () {
+    it('should return adapted title and tooltip when result is "partially"', function() {
       // given
       answer.set('result', 'partially');
 
@@ -204,7 +204,7 @@ describe('Unit | Component | comparison-window', function () {
       expect(resultItem.custom).to.be.true;
     });
 
-    it('should return adapted title and tooltip when result is "timedout"', function () {
+    it('should return adapted title and tooltip when result is "timedout"', function() {
       // given
       answer.set('result', 'timedout');
 
@@ -216,7 +216,6 @@ describe('Unit | Component | comparison-window', function () {
       _assertResultItemTooltip(resultItem, 'Temps dépassé');
     });
   });
-
 
 });
 

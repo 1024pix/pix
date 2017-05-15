@@ -8,7 +8,6 @@ import refQrocmChallengeFull from '../data/challenges/ref-qrocm-challenge';
 import refTimedChallenge from '../data/challenges/ref-timed-challenge';
 import refTimedChallengeBis from '../data/challenges/ref-timed-challenge-bis';
 
-
 // answers
 import refQcuAnswer from '../data/answers/ref-qcu-answer';
 import refQruAnswer from '../data/answers/ref-qru-answer';
@@ -18,7 +17,7 @@ import refQrocmAnswer from '../data/answers/ref-qrocm-answer';
 import refTimedAnswer from '../data/answers/ref-timed-answer';
 import refTimedAnswerBis from '../data/answers/ref-timed-answer-bis';
 
-export default function (schema, request) {
+export default function(schema, request) {
 
   const answer = JSON.parse(request.requestBody);
   const challengeId = answer.data.relationships.challenge.data.id;
@@ -43,7 +42,7 @@ export default function (schema, request) {
     refTimedAnswerBis
   ];
 
-  const answers = _.map(allChallenges, function (oneChallenge, index) {
+  const answers = _.map(allChallenges, function(oneChallenge, index) {
     return { id: oneChallenge.data.id, obj: allAnswers[index] };
   });
 

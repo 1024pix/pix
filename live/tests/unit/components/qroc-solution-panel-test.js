@@ -2,16 +2,16 @@ import { expect } from 'chai';
 import { describe, it } from 'mocha';
 import { setupTest } from 'ember-mocha';
 
-describe('Unit | Component | qroc-solution-panel', function () {
+describe('Unit | Component | qroc-solution-panel', function() {
 
   setupTest('component:qroc-solution-panel', {});
   const rightAnswer = { result: 'ok' };
   const wrongAnswer = { result: 'ko' };
   //const noAnswer = { result: 'aband' };
 
-  describe('#isResultOk', function () {
+  describe('#isResultOk', function() {
 
-    it('should return true when result is ok', function () {
+    it('should return true when result is ok', function() {
       // given
       const component = this.subject();
       component.set('answer', rightAnswer);
@@ -21,7 +21,7 @@ describe('Unit | Component | qroc-solution-panel', function () {
       expect(isResultOk).to.be.true;
     });
 
-    it('should return true when result is not ok', function () {
+    it('should return true when result is not ok', function() {
       // given
       const component = this.subject();
       component.set('answer', wrongAnswer);
@@ -33,9 +33,9 @@ describe('Unit | Component | qroc-solution-panel', function () {
 
   });
 
-  describe('#answerToDisplay', function () {
+  describe('#answerToDisplay', function() {
 
-    it('should return PAS DE REPONSE if the answer is #ABAND#', function () {
+    it('should return PAS DE REPONSE if the answer is #ABAND#', function() {
       // given
       const answer = {
         value: '#ABAND#'
@@ -48,7 +48,7 @@ describe('Unit | Component | qroc-solution-panel', function () {
       expect(answerToDisplay).to.equal('Pas de réponse');
     });
 
-    it('should return the answer if the answer is not #ABAND#', function () {
+    it('should return the answer if the answer is not #ABAND#', function() {
       // given
       const answer = {
         value: 'La Reponse B'
@@ -62,9 +62,9 @@ describe('Unit | Component | qroc-solution-panel', function () {
     });
   });
 
-  describe('#solutionToDisplay', function () {
+  describe('#solutionToDisplay', function() {
 
-    it('should return the first solution if the solution has some variants', function () {
+    it('should return the first solution if the solution has some variants', function() {
       // given
       const solution = {
         value: 'Reponse\nreponse\nréponse'
@@ -77,7 +77,7 @@ describe('Unit | Component | qroc-solution-panel', function () {
       expect(solutionToDisplay).to.equal('Reponse');
     });
 
-    it('should return the solution', function () {
+    it('should return the solution', function() {
       // given
       const solution = {
         value: 'Reponse'
@@ -90,7 +90,7 @@ describe('Unit | Component | qroc-solution-panel', function () {
       expect(solutionToDisplay).to.equal('Reponse');
     });
 
-    it('should return an empty string if the solution is null', function () {
+    it('should return an empty string if the solution is null', function() {
       // given
       const emptySolution = {
         value: ''
@@ -103,7 +103,7 @@ describe('Unit | Component | qroc-solution-panel', function () {
       expect(solutionToDisplay).to.equal('');
     });
 
-    it('should return an empty string if the solution is an empty String', function () {
+    it('should return an empty string if the solution is an empty String', function() {
       // given
       const solutionNull = {
         value: null

@@ -6,25 +6,25 @@ const ChallengeSerializer = require('../../../../lib/infrastructure/serializers/
 const Solution = require('../../../../lib/domain/models/referential/solution');
 const SolutionRepository = require('../../../../lib/infrastructure/repositories/solution-repository');
 
-describe('Unit | Controller | challenge-controller', function () {
+describe('Unit | Controller | challenge-controller', function() {
 
   let server;
 
-  before(function () {
+  before(function() {
     server = this.server = new Hapi.Server();
     server.connection({ port: null });
     server.register({ register: require('../../../../lib/application/challenges') });
   });
 
-  describe('#list', function () {
+  describe('#list', function() {
 
     const challenges = [
-      new Challenge({ "id": "challenge_1" }),
-      new Challenge({ "id": "challenge_2" }),
-      new Challenge({ "id": "challenge_3" })
+      new Challenge({ 'id': 'challenge_1' }),
+      new Challenge({ 'id': 'challenge_2' }),
+      new Challenge({ 'id': 'challenge_3' })
     ];
 
-    it('should fetch and return all the challenges, serialized as JSONAPI', function (done) {
+    it('should fetch and return all the challenges, serialized as JSONAPI', function(done) {
       // given
       sinon.stub(ChallengeRepository, 'list').resolves(challenges);
       sinon.stub(ChallengeSerializer, 'serializeArray', _ => challenges);
@@ -43,11 +43,11 @@ describe('Unit | Controller | challenge-controller', function () {
     });
   });
 
-  describe('#get', function () {
+  describe('#get', function() {
 
-    const challenge = new Challenge({ "id": "challenge_id" });
+    const challenge = new Challenge({ 'id': 'challenge_id' });
 
-    it('should fetch and return the given challenge, serialized as JSONAPI', function (done) {
+    it('should fetch and return the given challenge, serialized as JSONAPI', function(done) {
       // given
       sinon.stub(ChallengeRepository, 'get').resolves(challenge);
       sinon.stub(ChallengeSerializer, 'serialize', () => challenge);
@@ -65,12 +65,12 @@ describe('Unit | Controller | challenge-controller', function () {
       });
     });
 
-    it('should reply with error status code 404 if challenge not found', function (done) {
+    it('should reply with error status code 404 if challenge not found', function(done) {
       // given
       const error = {
-        "error": {
-          "type": "MODEL_ID_NOT_FOUND",
-          "message": "Could not find row by id unknown_id"
+        'error': {
+          'type': 'MODEL_ID_NOT_FOUND',
+          'message': 'Could not find row by id unknown_id'
         }
       };
       sinon.stub(ChallengeRepository, 'get').rejects(error);
@@ -88,9 +88,9 @@ describe('Unit | Controller | challenge-controller', function () {
     });
   });
 
-  describe('#refreshSolution', function () {
+  describe('#refreshSolution', function() {
 
-    it('should refresh all the given challenge solutions', function (done) {
+    it('should refresh all the given challenge solutions', function(done) {
       // given
       const solution = new Solution({
         id: 1,

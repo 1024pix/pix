@@ -1,6 +1,6 @@
 module.exports = {
 
-  match () {
+  match() {
     return 'unimplemented';
   }
 };

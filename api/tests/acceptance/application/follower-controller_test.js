@@ -4,15 +4,15 @@ const mailService = require('../../../lib/domain/services/mail-service');
 
 describe('Acceptance | Controller | follower-controller', () => {
 
-  beforeEach(function (done) {
+  beforeEach(function(done) {
     knex('followers').delete().then(() => done());
   });
 
-  afterEach(function (done) {
+  afterEach(function(done) {
     knex('followers').delete().then(() => done());
   });
 
-  describe('POST /api/followers', function () {
+  describe('POST /api/followers', function() {
 
     let mailServiceStub;
 
@@ -35,7 +35,7 @@ describe('Acceptance | Controller | follower-controller', () => {
       };
 
       // When
-      let promise = server.injectThen({ method: 'POST', url: '/api/followers', payload });
+      const promise = server.injectThen({ method: 'POST', url: '/api/followers', payload });
 
       // Then
       return promise.then((response) => {
@@ -49,7 +49,7 @@ describe('Acceptance | Controller | follower-controller', () => {
       });
     });
 
-    it('should return an error with status code 409 if follower already exist', function () {
+    it('should return an error with status code 409 if follower already exist', function() {
       const payload = {
         data: {
           type: 'followers',

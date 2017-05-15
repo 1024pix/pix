@@ -2,13 +2,13 @@ const {describe, it, before, after, beforeEach, afterEach, expect, knex, nock} =
 const server = require('../../../server');
 const Answer = require('../../../lib/domain/models/data/answer');
 
-describe('Acceptance | Controller | answer-controller', function () {
+describe('Acceptance | Controller | answer-controller', function() {
 
-  after(function (done) {
+  after(function(done) {
     server.stop(done);
   });
 
-  describe('POST /api/answers (update)', function () {
+  describe('POST /api/answers (update)', function() {
 
     const options = {
       method: 'POST', url: '/api/answers', payload: {
@@ -36,20 +36,20 @@ describe('Acceptance | Controller | answer-controller', function () {
       }
     };
 
-    beforeEach(function (done) {
+    beforeEach(function(done) {
       knex('answers').delete().then(() => {
         server.inject(options, () => {
           done();
         });
       });
     });
-    afterEach(function (done) {
+    afterEach(function(done) {
       knex('answers').delete().then(() => {
         done();
       });
     });
 
-    before(function (done) {
+    before(function(done) {
       nock('https://api.airtable.com')
         .get('/v0/test-base/Epreuves/a_challenge_id')
         .times(5)
@@ -64,14 +64,14 @@ describe('Acceptance | Controller | answer-controller', function () {
       done();
     });
 
-    it('should return 200 HTTP status code', function (done) {
+    it('should return 200 HTTP status code', function(done) {
       server.inject(options, (response) => {
         expect(response.statusCode).to.equal(200);
         done();
       });
     });
 
-    it('should return application/json', function (done) {
+    it('should return application/json', function(done) {
       server.inject(options, (response) => {
         const contentType = response.headers['content-type'];
         expect(contentType).to.contain('application/json');
@@ -79,8 +79,8 @@ describe('Acceptance | Controller | answer-controller', function () {
       });
     });
 
-    it('should not add a new answer into the database', function (done) {
-      server.inject(options, (response) => {
+    it('should not add a new answer into the database', function(done) {
+      server.inject(options, () => {
         Answer.count().then((afterAnswersNumber) => {
           expect(afterAnswersNumber).to.equal(1);
           done();
@@ -88,14 +88,14 @@ describe('Acceptance | Controller | answer-controller', function () {
       });
     });
 
-    it('should return updated answer', function (done) {
+    it('should return updated answer', function(done) {
       // when
       server.inject(options, (response) => {
         const answer = response.result.data;
 
         new Answer()
           .fetch()
-          .then(function (model) {
+          .then(function(model) {
             expect(model.id).to.be.a('number');
             expect(model.get('value')).to.equal(options.payload.data.attributes.value);
             expect(model.get('elapsedTime')).to.equal(options.payload.data.attributes['elapsed-time']);

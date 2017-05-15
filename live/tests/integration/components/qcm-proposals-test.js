@@ -3,13 +3,13 @@ import { describe, it } from 'mocha';
 import { setupComponentTest } from 'ember-mocha';
 import hbs from 'htmlbars-inline-precompile';
 
-describe('Integration | Component | QcmProposals', function () {
+describe('Integration | Component | QcmProposals', function() {
 
   setupComponentTest('qcm-proposals', {
     integration: true
   });
 
-  it('renders', function () {
+  it('renders', function() {
     this.render(hbs`{{qcm-proposals}}`);
     expect(this.$()).to.have.length(1);
   });

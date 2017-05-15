@@ -5,25 +5,25 @@ const courseRepository = require('../../../../lib/infrastructure/repositories/co
 const courseSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/course-serializer');
 const cache = require('../../../../lib/infrastructure/cache');
 
-describe('Unit | Controller | course-controller', function () {
+describe('Unit | Controller | course-controller', function() {
 
   let server;
 
-  before(function () {
+  before(function() {
     server = this.server = new Hapi.Server();
     server.connection({ port: null });
     server.register({ register: require('../../../../lib/application/courses') });
   });
 
-  beforeEach(function () {
+  beforeEach(function() {
     cache.flushAll();
   });
 
-  afterEach(function () {
+  afterEach(function() {
     cache.flushAll();
   });
 
-  describe('#list', function () {
+  describe('#list', function() {
 
     const courses = [
       new Course({ id: 'course_1' }),
@@ -31,7 +31,7 @@ describe('Unit | Controller | course-controller', function () {
       new Course({ id: 'course_3' })
     ];
 
-    it('should fetch and return all the courses', function (done) {
+    it('should fetch and return all the courses', function(done) {
       // given
       sinon.stub(courseRepository, 'getProgressionCourses').resolves(courses);
       sinon.stub(courseSerializer, 'serializeArray', () => courses);
@@ -49,7 +49,7 @@ describe('Unit | Controller | course-controller', function () {
       });
     });
 
-    it('should fetch and return all the adaptive courses', function (done) {
+    it('should fetch and return all the adaptive courses', function(done) {
       // given
       sinon.stub(courseRepository, 'getAdaptiveCourses').resolves(courses);
       sinon.stub(courseSerializer, 'serializeArray', () => courses);
@@ -67,7 +67,7 @@ describe('Unit | Controller | course-controller', function () {
       });
     });
 
-    it('should fetch and return all the highlitghted courses of the week', function (done) {
+    it('should fetch and return all the highlitghted courses of the week', function(done) {
       // given
       sinon.stub(courseRepository, 'getCoursesOfTheWeek').resolves(courses);
       sinon.stub(courseSerializer, 'serializeArray', () => courses);
@@ -86,11 +86,11 @@ describe('Unit | Controller | course-controller', function () {
     });
   });
 
-  describe('#get', function () {
+  describe('#get', function() {
 
     const course = new Course({ 'id': 'course_id' });
 
-    it('should fetch and return the given course, serialized as JSONAPI', function (done) {
+    it('should fetch and return the given course, serialized as JSONAPI', function(done) {
       // given
       sinon.stub(courseRepository, 'get').resolves(course);
       sinon.stub(courseSerializer, 'serialize', () => course);
@@ -108,7 +108,7 @@ describe('Unit | Controller | course-controller', function () {
       });
     });
 
-    it('should reply with error status code 404 if course not found', function (done) {
+    it('should reply with error status code 404 if course not found', function(done) {
       // given
       const error = {
         error: {
@@ -131,9 +131,9 @@ describe('Unit | Controller | course-controller', function () {
     });
   });
 
-  describe('#refreshAll', function () {
+  describe('#refreshAll', function() {
 
-    it('should return "courses updated" if refresh is ok', function (done) {
+    it('should return "courses updated" if refresh is ok', function(done) {
       // given
       sinon.stub(courseRepository, 'refreshAll').resolves(true);
 
@@ -150,7 +150,7 @@ describe('Unit | Controller | course-controller', function () {
       });
     });
 
-    it('should return "courses updated" if refresh is ok', function (done) {
+    it('should return "courses updated" if refresh is ok', function(done) {
       // given
       const error = 'An internal server error occurred';
       sinon.stub(courseRepository, 'refreshAll').rejects(error);

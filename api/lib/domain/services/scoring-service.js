@@ -22,7 +22,6 @@ function propagateKnowledge(knowledgeList, startNode, direction) {
   return nodeList;
 }
 
-
 function _createPerformanceRecord(challenge, answer) {
   const knowledgeTags = challenge.knowledgeTags;
   const mainKnowledgeTag = knowledgeTags[0];

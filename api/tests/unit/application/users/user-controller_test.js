@@ -50,13 +50,13 @@ describe('Unit | Controller | user-controller', () => {
         });
 
         mailServiceMock = sinon.mock(mailService);
-        userSerializerStub = sinon.stub(userSerializer, "deserialize").returns({
+        userSerializerStub = sinon.stub(userSerializer, 'deserialize').returns({
           save: _ => { return Promise.resolve(user); }
         });
 
         replyStub.returns({
           code: _ => {}
-        })
+        });
       });
 
       afterEach(() => {
@@ -76,10 +76,10 @@ describe('Unit | Controller | user-controller', () => {
             }
           }
         };
-        mailServiceMock.expects("sendAccountCreationEmail").once().withArgs(email);
+        mailServiceMock.expects('sendAccountCreationEmail').once().withArgs(email);
 
         // When
-        let promise = userController.save(request, replyStub);
+        const promise = userController.save(request, replyStub);
 
         // Then
         return promise.then(() => {
@@ -108,7 +108,7 @@ describe('Unit | Controller | user-controller', () => {
       };
 
       // When
-      let promise = userController.save(request, replyStub);
+      const promise = userController.save(request, replyStub);
 
       // Then
       return promise.then(() => {
@@ -154,7 +154,7 @@ describe('Unit | Controller | user-controller', () => {
           });
 
           // When
-          let promise = userController.save(request, replyStub);
+          const promise = userController.save(request, replyStub);
 
           // Then
           return promise.then(() => {
@@ -181,7 +181,7 @@ describe('Unit | Controller | user-controller', () => {
           });
 
           // When
-          let promise = userController.save(request, replyStub);
+          const promise = userController.save(request, replyStub);
 
           // Then
           return promise.then(() => {
@@ -194,8 +194,6 @@ describe('Unit | Controller | user-controller', () => {
         });
 
       });
-
-
 
       it('when there is not payload', () => {
         // Given
@@ -238,7 +236,6 @@ describe('Unit | Controller | user-controller', () => {
         // Then
         boomBadRequestMock.verify();
       });
-
 
     });
 

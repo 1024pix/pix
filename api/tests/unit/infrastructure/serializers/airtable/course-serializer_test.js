@@ -1,11 +1,11 @@
 const { describe, it, expect } = require('../../../../test-helper');
 const serializer = require('../../../../../lib/infrastructure/serializers/airtable/course-serializer');
 
-describe('Unit | Serializer | course-serializer', function () {
+describe('Unit | Serializer | course-serializer', function() {
 
-  describe('#deserialize', function () {
+  describe('#deserialize', function() {
 
-    it('should convert record "id" into "id" property', function () {
+    it('should convert record "id" into "id" property', function() {
       // given
       const airtableRecord = { id: 'rec123', fields: {} };
 
@@ -23,7 +23,7 @@ describe('Unit | Serializer | course-serializer', function () {
       { airtableField: 'Adaptatif ?', modelProperty: 'isAdaptive' }
     ].forEach(({ airtableField, modelProperty }) => {
 
-      it(`should convert record '${airtableField}' field into '${modelProperty}' property`, function () {
+      it(`should convert record '${airtableField}' field into '${modelProperty}' property`, function() {
         // given
         const fields = [];
         fields[airtableField] = `${modelProperty}_value`;

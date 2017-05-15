@@ -8,7 +8,7 @@ function charCount(str) {
   return str.match(/[a-zA-Z]/g).length;
 }
 
-describe('Acceptance | j1 - Comparer réponses et solutions pour un QCM |', function () {
+describe('Acceptance | j1 - Comparer réponses et solutions pour un QCM |', function() {
 
   const RESULT_URL = '/assessments/ref_assessment_id/results';
   const COMPARISON_MODAL_URL = '/assessments/ref_assessment_id/results/compare/ref_answer_qcm_id/1';
@@ -22,16 +22,16 @@ describe('Acceptance | j1 - Comparer réponses et solutions pour un QCM |', func
 
   let application;
 
-  before(function () {
+  before(function() {
     application = startApp();
   });
 
-  after(function () {
+  after(function() {
     destroyApp(application);
   });
 
-  describe('j1.1 Affiche sur la ligne de l\'épreuve le mot REPONSE pour un QCM sur l\'écran des résultats', function () {
-    it('j1.1.1 il l\'affiche pour un QCM, un QCU mais pas pour les autres types d\'épreuves' , async function () {
+  describe('j1.1 Affiche sur la ligne de l\'épreuve le mot REPONSE pour un QCM sur l\'écran des résultats', function() {
+    it('j1.1.1 il l\'affiche pour un QCM, un QCU mais pas pour les autres types d\'épreuves' , async function() {
       await visit(RESULT_URL);
       expect($('.result-item:eq(0) .js-correct-answer').text()).to.contain('RÉPONSE'); //QCM
       expect($('.result-item:eq(1) .js-correct-answer').text()).to.contain('RÉPONSE'); //QCU
@@ -41,15 +41,15 @@ describe('Acceptance | j1 - Comparer réponses et solutions pour un QCM |', func
     });
   });
 
-  describe('j1.2 Accès à la modale', function () {
-    it('j1.2.2 On peut accèder directement à la modale via URL et fermer la modale' , async function () {
+  describe('j1.2 Accès à la modale', function() {
+    it('j1.2.2 On peut accèder directement à la modale via URL et fermer la modale' , async function() {
       await visit(COMPARISON_MODAL_URL);
       expect($('.comparison-window')).to.have.lengthOf(1);
       // XXX test env needs the modal to be closed manually
       await click('.close-button-container');
       expect($('.comparison-window')).to.have.lengthOf(0);
     });
-    it('j1.2.1 Si on clique sur REPONSE la modale s\'ouvre' , async function () {
+    it('j1.2.1 Si on clique sur REPONSE la modale s\'ouvre' , async function() {
       await visit(RESULT_URL);
       expect($('.comparison-window')).to.have.lengthOf(0);
       await click('.result-item__correction__button');
@@ -60,9 +60,9 @@ describe('Acceptance | j1 - Comparer réponses et solutions pour un QCM |', func
     });
   });
 
-  describe('j1.3 Contenu de la modale : résultat & instruction', function () {
+  describe('j1.3 Contenu de la modale : résultat & instruction', function() {
 
-    it('j1.3.1 Vérification de l\'index, ainsi que l\'image et le texte du résultat dans le header', async function () {
+    it('j1.3.1 Vérification de l\'index, ainsi que l\'image et le texte du résultat dans le header', async function() {
 
       await visit(RESULT_URL);
       expect($(INDEX_OF_RESULT_SELECTOR)).to.have.lengthOf(0);
@@ -79,7 +79,7 @@ describe('Acceptance | j1 - Comparer réponses et solutions pour un QCM |', func
       expect($('.comparison-window')).to.have.lengthOf(0);
     });
 
-    it('j1.3.2 Vérification de la présence de l\'instruction, texte et image', async function () {
+    it('j1.3.2 Vérification de la présence de l\'instruction, texte et image', async function() {
 
       await visit(RESULT_URL);
       expect($(TEXT_OF_INSTRUCTION_SELECTOR)).to.exist;

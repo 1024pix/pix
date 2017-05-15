@@ -4,7 +4,7 @@ import { describe, it } from 'mocha';
 import { setupComponentTest } from 'ember-mocha';
 import hbs from 'htmlbars-inline-precompile';
 
-describe('Integration | Component | ChallengeStatement', function () {
+describe('Integration | Component | ChallengeStatement', function() {
 
   setupComponentTest('challenge-statement', {
     integration: true
@@ -23,10 +23,10 @@ describe('Integration | Component | ChallengeStatement', function () {
    * ------------------------------------------------
    */
 
-  describe('Instruction section:', function () {
+  describe('Instruction section:', function() {
 
     // Inspired from: https://github.com/emberjs/ember-mocha/blob/0790a78d7464655fee0c103d2fa960fa53a056ca/tests/setup-component-test-test.js#L118-L122
-    it('should render challenge instruction if it exists', function () {
+    it('should render challenge instruction if it exists', function() {
       // given
       addChallengeToContext(this, {
         instruction: 'La consigne de mon test'
@@ -39,7 +39,7 @@ describe('Integration | Component | ChallengeStatement', function () {
       expect(Ember.$.trim(this.$('.challenge-statement__instruction').text())).to.equal('La consigne de mon test');
     });
 
-    it('should not render challenge instruction if it does not exist', function () {
+    it('should not render challenge instruction if it does not exist', function() {
       // given
       addChallengeToContext(this, {});
 
@@ -57,8 +57,8 @@ describe('Integration | Component | ChallengeStatement', function () {
    * ------------------------------------------------
    */
 
-  describe('Illustration section', function () {
-    it('should display challenge illustration (and alt) if it exists', function () {
+  describe('Illustration section', function() {
+    it('should display challenge illustration (and alt) if it exists', function() {
       // given
       addChallengeToContext(this, {
         illustrationUrl: 'http://challenge.illustration.url'
@@ -73,7 +73,7 @@ describe('Integration | Component | ChallengeStatement', function () {
       expect($illustration.prop('alt')).to.equal('Illustration de l\'épreuve');
     });
 
-    it('should not display challenge illustration if it does not exist', function () {
+    it('should not display challenge illustration if it does not exist', function() {
       // given
       addChallengeToContext(this, {});
 
@@ -90,9 +90,9 @@ describe('Integration | Component | ChallengeStatement', function () {
    * ------------------------------------------------
    */
 
-  describe('Attachments section:', function () {
+  describe('Attachments section:', function() {
 
-    describe('if challenge has no file', function () {
+    describe('if challenge has no file', function() {
 
       it('should not display attachements section', function() {
         addChallengeToContext(this, {
@@ -108,9 +108,9 @@ describe('Integration | Component | ChallengeStatement', function () {
       });
     });
 
-    describe('if challenge has only one file', function () {
+    describe('if challenge has only one file', function() {
 
-      it('should display only one link button', function () {
+      it('should display only one link button', function() {
         // given
         addChallengeToContext(this, {
           attachments: ['http://challenge.file.url'],
@@ -130,7 +130,7 @@ describe('Integration | Component | ChallengeStatement', function () {
 
     });
 
-    describe('if challenge has multiple files', function () {
+    describe('if challenge has multiple files', function() {
 
       const file1 = 'http://file.1.docx';
       const file2 = 'file.2.odt';

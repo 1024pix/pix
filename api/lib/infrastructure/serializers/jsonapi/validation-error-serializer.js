@@ -11,7 +11,7 @@ function _buildError(field, message) {
 function serialize(validationErrors) {
   const errors = [];
 
-  Object.keys(validationErrors.data).forEach(function (field) {
+  Object.keys(validationErrors.data).forEach(function(field) {
     validationErrors.data[ field ].forEach((message) => {
       errors.push(_buildError(field, message));
     });

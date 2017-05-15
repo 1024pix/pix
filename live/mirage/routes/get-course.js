@@ -4,7 +4,7 @@ import refCourse from '../data/courses/ref-course';
 import highlightedCourse from '../data/courses/highlighted-course';
 import courseWithTimedChallenge from '../data/courses/ref-course-timed-challenges';
 
-export default function (schema, request) {
+export default function(schema, request) {
 
   const allCourses = [
     refCourse,
@@ -12,7 +12,7 @@ export default function (schema, request) {
     courseWithTimedChallenge
   ];
 
-  const courses = _.map(allCourses, function (oneCourse) {
+  const courses = _.map(allCourses, function(oneCourse) {
     return { id: oneCourse.data.id, obj: oneCourse };
   });
 

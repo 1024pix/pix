@@ -4,7 +4,7 @@ import { it } from 'ember-mocha';
 import { expect } from 'chai';
 import ProposalsAsBlocksMixin from 'pix-live/models/challenge/proposals-as-blocks-mixin';
 
-describe('Unit | Model | Challenge/Proposal As Blocks Mixin', function () {
+describe('Unit | Model | Challenge/Proposal As Blocks Mixin', function() {
 
   const testData = [
     { data: '', expected: [] },
@@ -29,9 +29,9 @@ describe('Unit | Model | Challenge/Proposal As Blocks Mixin', function () {
 
   const Challenge = Ember.Object.extend(ProposalsAsBlocksMixin, {});
 
-  testData.forEach(function ({ data, expected }) {
+  testData.forEach(function({ data, expected }) {
 
-    it(`"${data}" retourne ${JSON.stringify(expected)}`, function () {
+    it(`"${data}" retourne ${JSON.stringify(expected)}`, function() {
       const sut = Challenge.create({ proposals: data });
       const blocks = sut.get('_proposalsAsBlocks');
       expect(blocks, JSON.stringify(blocks)).to.deep.equals(expected);

@@ -2,8 +2,8 @@ import {expect} from 'chai';
 import {describe, it} from 'mocha';
 import isEmailValid from 'pix-live/utils/email-validator';
 
-describe('Unit | Utility | email validator', function () {
-  describe('Invalid emails', function () {
+describe('Unit | Utility | email validator', function() {
+  describe('Invalid emails', function() {
     [
       '',
       ' ',
@@ -14,14 +14,14 @@ describe('Unit | Utility | email validator', function () {
       'INVALID_EMAIL@pix.',
       '@pix.fr',
       '@pix'
-    ].forEach(function (badEmail) {
-      it(`should return false when email is invalid: ${badEmail}`, function () {
+    ].forEach(function(badEmail) {
+      it(`should return false when email is invalid: ${badEmail}`, function() {
         expect(isEmailValid(badEmail)).to.be.false;
       });
     });
   });
 
-  describe('Valid emails', function () {
+  describe('Valid emails', function() {
     [
       'follower@pix.fr',
       'follower@pix.fr ',
@@ -32,8 +32,8 @@ describe('Unit | Utility | email validator', function () {
       'follower+beta@pix.fr',
       'follower+beta@pix.gouv.fr',
       'follower+beta@pix.beta.gouv.fr'
-    ].forEach(function (validEmail) {
-      it(`should return true if provided email is valid: ${validEmail}`, function () {
+    ].forEach(function(validEmail) {
+      it(`should return true if provided email is valid: ${validEmail}`, function() {
         expect(isEmailValid(validEmail)).to.be.true;
       });
     });

@@ -2,19 +2,19 @@ import { expect } from 'chai';
 import { describe, it } from 'mocha';
 import { setupTest } from 'ember-mocha';
 
-describe('Unit | Component | warning-page-component ', function () {
+describe('Unit | Component | warning-page-component ', function() {
 
   setupTest('component:warning-page', {});
 
   let component;
 
-  beforeEach(function () {
+  beforeEach(function() {
     component = this.subject();
   });
 
-  describe('#Test rendering Property', function () {
+  describe('#Test rendering Property', function() {
 
-    describe('#allocatedTime', function () {
+    describe('#allocatedTime', function() {
       [
         { input: '', expected: 0 },
         { input: ' ', expected: 0 },
@@ -31,7 +31,7 @@ describe('Unit | Component | warning-page-component ', function () {
         { input: 122, expected: '2:02' },
         { input: 130, expected: '2:10' }
       ].forEach((data) => {
-        it(`should return "${data.expected}" when passing ${data.input}`, function () {
+        it(`should return "${data.expected}" when passing ${data.input}`, function() {
           // given
           component.set('time', data.input);
 
@@ -44,7 +44,7 @@ describe('Unit | Component | warning-page-component ', function () {
       });
     });
 
-    describe('#allocatedHumanTime', function () {
+    describe('#allocatedHumanTime', function() {
       [
         { input: '', expected: '' },
         { input: ' ', expected: '' },
@@ -61,7 +61,7 @@ describe('Unit | Component | warning-page-component ', function () {
         { input: 122, expected: '2 minutes et 2 secondes' },
         { input: 130, expected: '2 minutes et 10 secondes' }
       ].forEach((data) => {
-        it(`should return "${data.expected}" when passing ${data.input}`, function () {
+        it(`should return "${data.expected}" when passing ${data.input}`, function() {
           // given
           component.set('time', data.input);
 

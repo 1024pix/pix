@@ -2,14 +2,14 @@ import _ from 'pix-live/utils/lodash-custom';
 import refAssessment from '../data/assessments/ref-assessment';
 import refAssessmentTimedChallenges from '../data/assessments/ref-assessment-timed-challenges';
 
-export default function (schema, request) {
+export default function(schema, request) {
 
   const allAssessments = [
     refAssessment,
     refAssessmentTimedChallenges
   ];
 
-  const assessments = _.map(allAssessments, function (oneAssessment) {
+  const assessments = _.map(allAssessments, function(oneAssessment) {
     return { id: oneAssessment.data.id, obj: oneAssessment };
   });
 

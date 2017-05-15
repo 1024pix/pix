@@ -1,6 +1,6 @@
 const AnswerController = require('./answer-controller');
 
-exports.register = function (server, options, next) {
+exports.register = function(server, options, next) {
 
   server.route([
     {

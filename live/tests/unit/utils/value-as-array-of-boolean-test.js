@@ -16,7 +16,7 @@ describe('Unit | Utility | value as array of boolean', function() {
 
   testData.forEach(({ when, input, expected }) => {
 
-    it(`"${when}", example : "${JSON.stringify(input)}" retourne [${expected}]`, function () {
+    it(`"${when}", example : "${JSON.stringify(input)}" retourne [${expected}]`, function() {
       expect(valueAsArrayOfBoolean(input)).to.deep.equal(expected);
     });
   });

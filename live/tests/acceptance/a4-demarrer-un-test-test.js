@@ -9,16 +9,16 @@ const URL_OF_FIRST_TEST = '/assessments/ref_assessment_id/challenges/ref_qcm_cha
 const MODAL_SELECTOR = '.modal.fade.js-modal-mobile.in';
 const START_BUTTON = '.course-item__begin-button';
 
-describe('Acceptance | a4 - Démarrer un test |', function () {
+describe('Acceptance | a4 - Démarrer un test |', function() {
 
   let application;
 
-  beforeEach(function () {
+  beforeEach(function() {
     application = startApp();
     visit('/');
   });
 
-  afterEach(function () {
+  afterEach(function() {
     destroyApp(application);
   });
 

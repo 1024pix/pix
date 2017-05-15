@@ -16,7 +16,6 @@ const LABEL_INCORRECT_AND_CHECKED = '.qcu-proposal-label__oracle:eq(2)';
 const RADIO_INCORRECT_AND_UNCHECKED = '.picture-radio-proposal--qcu:eq(0)';
 const LABEL_INCORRECT_AND_UNCHECKED = '.qcu-proposal-label__oracle:eq(0)';
 
-
 const CSS_BOLD_FONT_WEIGHT = '900';
 const CSS_NORMAL_FONT_WEIGHT = '400';
 
@@ -35,7 +34,7 @@ function charCount(str) {
   return str.match(/[a-zA-Z]/g).length;
 }
 
-describe('Integration | Component | qcu-solution-panel.js', function () {
+describe('Integration | Component | qcu-solution-panel.js', function() {
   setupComponentTest('qcu-solution-panel', {
     integration: true
   });
@@ -48,15 +47,15 @@ describe('Integration | Component | qcu-solution-panel.js', function () {
     id: 'answer_id', assessment, challenge, value: '3'
   };
 
-  describe('#Component should renders: ', function () {
+  describe('#Component should renders: ', function() {
 
-    it('Should renders', function () {
+    it('Should renders', function() {
       this.render(hbs`{{qcu-solution-panel}}`);
       expect(this.$()).to.have.length(1);
       expect($(LABEL_CORRECT_AND_CHECKED)).to.have.lengthOf(0);
     });
 
-    describe('Radio state', function () {
+    describe('Radio state', function() {
 
       before(function() {
         challenge = Ember.Object.create({
@@ -72,7 +71,7 @@ describe('Integration | Component | qcu-solution-panel.js', function () {
         answer = Ember.Object.create(correctAnswer);
       });
 
-      it('QCU,la réponse correcte est cochée', function () {
+      it('QCU,la réponse correcte est cochée', function() {
         //Given
         this.set('answer', answer);
         this.set('solution', solution);
@@ -91,7 +90,7 @@ describe('Integration | Component | qcu-solution-panel.js', function () {
         expect($(LABEL_CORRECT_AND_CHECKED).css('text-decoration')).to.equal(CSS_LINETHROUGH_OFF);
       });
 
-      it('QCU, la réponse correcte n\'est pas cochée', function () {
+      it('QCU, la réponse correcte n\'est pas cochée', function() {
         //Given
         answer = Ember.Object.create(unCorrectAnswer);
 
@@ -111,7 +110,7 @@ describe('Integration | Component | qcu-solution-panel.js', function () {
         expect($(LABEL_CORRECT_AND_UNCHECKED).css('text-decoration')).to.equal(CSS_LINETHROUGH_OFF);
       });
 
-      it('QCU, la réponse incorrecte n\'est pas cochée', function () {
+      it('QCU, la réponse incorrecte n\'est pas cochée', function() {
         //Given
         this.set('answer', answer);
         this.set('solution', solution);
@@ -128,7 +127,7 @@ describe('Integration | Component | qcu-solution-panel.js', function () {
         expect($(LABEL_INCORRECT_AND_UNCHECKED).css('text-decoration')).to.equal(CSS_LINETHROUGH_OFF);
       });
 
-      it('QCU,la réponse incorrecte est cochée', function () {
+      it('QCU,la réponse incorrecte est cochée', function() {
         //Given
         answer = Ember.Object.create(unCorrectAnswer);
 
@@ -148,7 +147,7 @@ describe('Integration | Component | qcu-solution-panel.js', function () {
 
       });
 
-      it('Aucune case à cocher n\'est cliquable', function () {
+      it('Aucune case à cocher n\'est cliquable', function() {
         //Given
         this.set('answer', answer);
         this.set('solution', solution);
@@ -159,14 +158,12 @@ describe('Integration | Component | qcu-solution-panel.js', function () {
 
         // Then
         const size = $('.comparison-window .qcu-panel__proposal-radio').length;
-        _.times(size, function (index) {
+        _.times(size, function(index) {
           expect($('.comparison-window .qcu-panel__proposal-radio:eq(' + index + ')').is(':disabled')).to.equal(true);
         });
       });
 
-
     });
-
 
   });
 

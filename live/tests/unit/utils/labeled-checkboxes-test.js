@@ -2,9 +2,9 @@ import { expect } from 'chai';
 import { describe, it } from 'mocha';
 import labeledCheckboxes from 'pix-live/utils/labeled-checkboxes';
 
-describe('Unit | Utility | labeled checkboxes', function () {
+describe('Unit | Utility | labeled checkboxes', function() {
 
-  describe('Success cases', function () {
+  describe('Success cases', function() {
 
     [{
       when: 'nominal case, existing answers',
@@ -57,7 +57,7 @@ describe('Unit | Utility | labeled checkboxes', function () {
       answers: [false, true],
       output: []
     }]
-      .forEach(function (testCase) {
+      .forEach(function(testCase) {
         it('Should reply to proposals'
           + JSON.stringify(testCase.proposals)
           + ' and answers '

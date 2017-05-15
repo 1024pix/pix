@@ -2,7 +2,7 @@ import ChallengeItemGeneric from './challenge-item-generic';
 
 const ChallengeItemQcm = ChallengeItemGeneric.extend({
 
-  _hasError: function () {
+  _hasError: function() {
     return this._getAnswerValue().length < 1;
   },
 
@@ -10,7 +10,7 @@ const ChallengeItemQcm = ChallengeItemGeneric.extend({
   // This is not "the Ember way", however it makes code easier to read,
   // and moreover, is a much more robust solution when you need to test it properly.
   _getAnswerValue() {
-    return this.$('.challenge-proposals input:checkbox:checked').map(function () {return this.name;}).get().join(',');
+    return this.$('.challenge-proposals input:checkbox:checked').map(function() {return this.name;}).get().join(',');
   },
 
   _getErrorMessage() {

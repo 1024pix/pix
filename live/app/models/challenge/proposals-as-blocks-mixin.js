@@ -33,7 +33,7 @@ export default Ember.Mixin.create({
   // see proposals-as-block-mixin-test.js to understand how it works
 
   // eslint-disable-next-line complexity
-  _proposalsAsBlocks: Ember.computed('proposals', function () {
+  _proposalsAsBlocks: Ember.computed('proposals', function() {
 
     const proposals = this.get('proposals');
     if (Ember.isEmpty(proposals)) {

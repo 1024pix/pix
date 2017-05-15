@@ -20,9 +20,9 @@ describe('Unit | Service | AssessmentService', function() {
     return { challenges, assessment };
   }
 
-  describe('#getNextChallenge', function () {
+  describe('#getNextChallenge', function() {
 
-    it('returns a promise', function () {
+    it('returns a promise', function() {
       return Ember.run(() => {
         const store = this.container.lookup('service:store');
         const { challenges, assessment } = instantiateModels(store, [{ id: 1 }, { id: 2 }]);
@@ -31,7 +31,7 @@ describe('Unit | Service | AssessmentService', function() {
       });
     });
 
-    it('return the next challenge when current challenge is not the assessment\'s last one', function () {
+    it('return the next challenge when current challenge is not the assessment\'s last one', function() {
 
       return Ember.run(() => {
         // given
@@ -48,7 +48,7 @@ describe('Unit | Service | AssessmentService', function() {
       });
     });
 
-    it('return the next challenge when current challenge is the assessment\'s latest', function () {
+    it('return the next challenge when current challenge is the assessment\'s latest', function() {
 
       return Ember.run(() => {
         // given
@@ -65,7 +65,7 @@ describe('Unit | Service | AssessmentService', function() {
       });
     });
 
-    it('return challenge model objects well formed', function () {
+    it('return challenge model objects well formed', function() {
 
       return Ember.run(() => {
         // given

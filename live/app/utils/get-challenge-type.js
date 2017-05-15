@@ -1,6 +1,5 @@
 import _ from './lodash-custom';
 
-
 export default function getChallengeType(challengeTypeFromAirtable) {
   let result = 'qcu'; // qcu by default, no error thrown
   const challengeType = challengeTypeFromAirtable.toUpperCase();

@@ -1,7 +1,7 @@
 import Ember from 'ember';
 import _ from 'pix-live/utils/lodash-custom';
 
-function _isATruthyValue(value){
+function _isATruthyValue(value) {
   return _.isTruthy(value) && value === true;
 }
 

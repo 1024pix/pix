@@ -1,4 +1,4 @@
-const { describe, it, beforeEach, afterEach, expect, sinon } = require('../../test-helper');
+const { describe, it, expect } = require('../../test-helper');
 
 const errors = require('../../../lib/domain/errors');
 

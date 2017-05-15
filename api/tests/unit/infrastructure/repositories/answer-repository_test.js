@@ -2,10 +2,9 @@ const { describe, it, before, after, expect, knex } = require('../../../test-hel
 
 const AnswerRepository = require('../../../../lib/infrastructure/repositories/answer-repository');
 
-describe('Unit | Repository | AnswerRepository', function () {
+describe('Unit | Repository | AnswerRepository', function() {
 
-
-  describe('findByChallengeAndAssessment', function () {
+  describe('findByChallengeAndAssessment', function() {
 
     // nominal case
     const inserted_answer_1 = {
@@ -31,7 +30,7 @@ describe('Unit | Repository | AnswerRepository', function () {
       assessmentId: 1
     };
 
-    before(function (done) {
+    before(function(done) {
       knex('answers').delete().then(() => {
         knex('answers').insert([inserted_answer_1, inserted_answer_2, inserted_answer_3]).then(() => {
           done();
@@ -39,11 +38,11 @@ describe('Unit | Repository | AnswerRepository', function () {
       });
     });
 
-    after(function (done) {
+    after(function(done) {
       knex('answers').delete().then(() => {done();});
     });
 
-    it('should find the answer by challenge and assessment and return its in an object', function (done) {
+    it('should find the answer by challenge and assessment and return its in an object', function(done) {
       expect(AnswerRepository.findByChallengeAndAssessment).to.exist;
       AnswerRepository.findByChallengeAndAssessment('challenge_1234', 1234).then(function(foundAnswers) {
         expect(foundAnswers).to.exist;
@@ -54,7 +53,7 @@ describe('Unit | Repository | AnswerRepository', function () {
     });
   });
 
-  describe('findByChallenge', function () {
+  describe('findByChallenge', function() {
 
     const inserted_answer_1 = {
       value: '1',
@@ -79,7 +78,7 @@ describe('Unit | Repository | AnswerRepository', function () {
       assessmentId: 1
     };
 
-    before(function (done) {
+    before(function(done) {
       knex('answers').delete().then(() => {
         knex('answers').insert([inserted_answer_1, inserted_answer_2, inserted_answer_3]).then(() => {
           done();
@@ -87,11 +86,11 @@ describe('Unit | Repository | AnswerRepository', function () {
       });
     });
 
-    after(function (done) {
+    after(function(done) {
       knex('answers').delete().then(() => {done();});
     });
 
-    it('should find all answers by challenge', function (done) {
+    it('should find all answers by challenge', function(done) {
 
       expect(AnswerRepository.findByChallenge).to.exist;
 

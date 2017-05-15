@@ -2,16 +2,16 @@ const { describe, after, afterEach, beforeEach, it, knex, expect, nock, before }
 
 const server = require('../../../server');
 
-describe('Acceptance | API | ChallengeController', function () {
+describe('Acceptance | API | ChallengeController', function() {
 
-  after(function (done) {
+  after(function(done) {
     server.stop(done);
   });
 
   // validate again all answers of the challenge
-  describe('PUT /api/challenges/:challenge_id/validate', function () {
+  describe('PUT /api/challenges/:challenge_id/validate', function() {
 
-    before(function (done) {
+    before(function(done) {
       nock.cleanAll();
       nock('https://api.airtable.com')
         .get('/v0/test-base/Epreuves/challenge_1234')
@@ -28,7 +28,7 @@ describe('Acceptance | API | ChallengeController', function () {
       done();
     });
 
-    after(function (done) {
+    after(function(done) {
       nock.cleanAll();
       done();
     });
@@ -69,8 +69,7 @@ describe('Acceptance | API | ChallengeController', function () {
       challengeId: 'challenge_1234'
     };
 
-
-    beforeEach(function (done) {
+    beforeEach(function(done) {
       knex('answers').delete().then(() => {
         knex('answers').insert([
           ko_answer,
@@ -84,20 +83,20 @@ describe('Acceptance | API | ChallengeController', function () {
       });
     });
 
-    afterEach(function (done) {
+    afterEach(function(done) {
       knex('answers').delete().then(() => {done();});
     });
 
     const options = { method: 'PUT', url: '/api/challenges/challenge_1234/validate' };
 
-    it('should return 200 HTTP status code', function (done) {
+    it('should return 200 HTTP status code', function(done) {
       server.inject(options).then((response) => {
         expect(response.statusCode).to.equal(200);
         done();
       });
     });
 
-    it('should return application/json', function (done) {
+    it('should return application/json', function(done) {
       server.inject(options).then((response) => {
         const contentType = response.headers['content-type'];
         expect(contentType).to.contain('application/json');
@@ -105,7 +104,7 @@ describe('Acceptance | API | ChallengeController', function () {
       });
     });
 
-    it('should be able to transform all related answer, but not unrelated answer(s)', function (done) {
+    it('should be able to transform all related answer, but not unrelated answer(s)', function(done) {
       server.inject(options).then(() => {
         knex.select('*').from('answers').then((answers) => {
           const answer_1 = answers[0];
@@ -119,7 +118,7 @@ describe('Acceptance | API | ChallengeController', function () {
       });
     });
 
-    it('should be able to change "ok", "ko", "partially", "unimplemented"', function (done) {
+    it('should be able to change "ok", "ko", "partially", "unimplemented"', function(done) {
       server.inject(options).then((response) => {
         const payload = response.payload;
         const result = JSON.parse(payload);
@@ -135,7 +134,7 @@ describe('Acceptance | API | ChallengeController', function () {
       });
     });
 
-    it('should NOT be able to change "timedout", "aband"', function (done) {
+    it('should NOT be able to change "timedout", "aband"', function(done) {
       server.inject(options).then((response) => {
         const payload = response.payload;
         const result = JSON.parse(payload);
@@ -148,6 +147,5 @@ describe('Acceptance | API | ChallengeController', function () {
     });
 
   });
-
 
 });

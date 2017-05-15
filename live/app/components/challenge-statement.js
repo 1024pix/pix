@@ -6,11 +6,11 @@ export default  Ember.Component.extend({
 
   challenge: null,
 
-  selectedAttachmentUrl: Ember.computed('challenge.attachments', function () {
+  selectedAttachmentUrl: Ember.computed('challenge.attachments', function() {
     return this.get('challenge.attachments.firstObject');
   }),
 
-  attachmentsData: Ember.computed('challenge.attachements', function () {
+  attachmentsData: Ember.computed('challenge.attachements', function() {
     return this.get('challenge.attachments');
   }),
 

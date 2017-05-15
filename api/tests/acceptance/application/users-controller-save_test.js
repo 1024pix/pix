@@ -6,17 +6,17 @@ const User = require('../../../lib/domain/models/data/user');
 
 const mailService = require('../../../lib/domain/services/mail-service');
 
-describe('Acceptance | Controller | users-controller', function () {
+describe('Acceptance | Controller | users-controller', function() {
 
   let options;
   let attributes;
   let sendAccountCreationEmailStub;
 
   before(() => {
-    sendAccountCreationEmailStub = sinon.stub(mailService, "sendAccountCreationEmail")
+    sendAccountCreationEmailStub = sinon.stub(mailService, 'sendAccountCreationEmail');
   });
 
-  beforeEach(function () {
+  beforeEach(function() {
     attributes = {
       firstName: faker.name.firstName(),
       lastName: faker.name.lastName(),
@@ -38,17 +38,17 @@ describe('Acceptance | Controller | users-controller', function () {
     };
   });
 
-  after(function () {
+  after(function() {
     sendAccountCreationEmailStub.restore();
   });
 
-  it('should return 201 HTTP status code', function () {
+  it('should return 201 HTTP status code', function() {
     return server.injectThen(options).then(response => {
       expect(response.statusCode).to.equal(201);
     });
   });
 
-  it('should return 400 HTTP status code when no payload', function () {
+  it('should return 400 HTTP status code when no payload', function() {
     // Given
     options.payload = {};
 
@@ -58,14 +58,14 @@ describe('Acceptance | Controller | users-controller', function () {
     });
   });
 
-  it('should return 400 HTTP status code when email already exists', function () {
+  it('should return 400 HTTP status code when email already exists', function() {
     // Given
     const firstRegistration = server.injectThen(options);
 
     // When
     const secondRegistration = firstRegistration
       .then(_ => {
-        return server.injectThen(options)
+        return server.injectThen(options);
       });
 
     // Then
@@ -74,11 +74,10 @@ describe('Acceptance | Controller | users-controller', function () {
     });
   });
 
-
-  it('should save the user in the database', function () {
+  it('should save the user in the database', function() {
     return server.injectThen(options)
-      .then(response => {
-        return new User({ email: attributes.email }).fetch()
+      .then(() => {
+        return new User({ email: attributes.email }).fetch();
       })
       .then((user) => {
         expect(attributes.firstName).to.equal(user.get('firstName'));
@@ -86,13 +85,13 @@ describe('Acceptance | Controller | users-controller', function () {
       });
   });
 
-  it('should crypt user password', function () {
+  it('should crypt user password', function() {
     // Given
     options.payload.data.attributes.password = 'my-123-password';
 
     return server.injectThen(options)
       .then(() => {
-        return new User({ email: attributes.email }).fetch()
+        return new User({ email: attributes.email }).fetch();
       })
       .then((user) => {
         expect(user.get('password')).not.to.equal('my-123-password');
@@ -100,12 +99,12 @@ describe('Acceptance | Controller | users-controller', function () {
   });
 
   describe('should return 400 HTTP status code', () => {
-    it('when the email is not valid', function () {
+    it('when the email is not valid', function() {
       // Given
-      options.payload.data.attributes.email = "invalid.email@";
+      options.payload.data.attributes.email = 'invalid.email@';
 
       // When
-      let promise = server.injectThen(options);
+      const promise = server.injectThen(options);
 
       // Then
       return promise.then(response => {

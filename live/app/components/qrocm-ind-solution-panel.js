@@ -24,7 +24,7 @@ function _computeInputClass(answerOutcome) {
 
 const QrocmIndSolutionPanel = Ember.Component.extend({
 
-  inputFields: Ember.computed('challenge.proposals', 'answer.value', 'solution.value', function () {
+  inputFields: Ember.computed('challenge.proposals', 'answer.value', 'solution.value', function() {
 
     const labels = labelsAsObject(this.get('challenge.proposals'));
     const answers = answersAsObject(this.get('answer.value'), _.keys(labels));
@@ -54,7 +54,6 @@ const QrocmIndSolutionPanel = Ember.Component.extend({
   })
 
 });
-
 
 export default QrocmIndSolutionPanel;
 

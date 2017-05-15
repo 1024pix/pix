@@ -1,6 +1,5 @@
 import _ from 'pix-live/utils/lodash-custom';
 
-
 /*
  * Example :
  * => Input :
@@ -17,7 +16,7 @@ import _ from 'pix-live/utils/lodash-custom';
  *     ['is grass red ?', false],
  *     ['are clouds red ?' false]]
  */
-export default function labeledCheckboxes (proposals, userAnswers) {
+export default function labeledCheckboxes(proposals, userAnswers) {
 
   // accept that user didn't give any answer yet
   const definedUserAnswers = _.isNil(userAnswers) ? [] : userAnswers;

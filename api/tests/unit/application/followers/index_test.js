@@ -1,12 +1,12 @@
-const {describe, it, expect, before, after, sinon} = require('../../../test-helper');
+const {describe, it, expect, before, after, beforeEach, sinon} = require('../../../test-helper');
 const Hapi = require('hapi');
 const FollowerController = require('../../../../lib/application/followers/follower-controller');
 
-describe('Unit | Router | FollowerRouter', function () {
+describe('Unit | Router | FollowerRouter', function() {
 
   let server;
 
-  beforeEach(function () {
+  beforeEach(function() {
     server = this.server = new Hapi.Server();
     server.connection({ port: null });
     server.register({ register: require('../../../../lib/application/followers') });
@@ -19,17 +19,17 @@ describe('Unit | Router | FollowerRouter', function () {
     });
   }
 
-  describe('POST /api/followers', function () {
+  describe('POST /api/followers', function() {
 
-    before(function () {
+    before(function() {
       sinon.stub(FollowerController, 'save', (request, reply) => reply('ok'));
     });
 
-    after(function () {
+    after(function() {
       FollowerController.save.restore();
     });
 
-    it('should exist', function (done) {
+    it('should exist', function(done) {
       return expectRouteToExist({ method: 'POST', url: '/api/followers' }, done);
     });
   });

@@ -62,7 +62,7 @@
     "db:reset": "npm run db:delete && npm run db:migrate && npm run db:seed",
     "test": "NODE_ENV=test npm run db:migrate && NODE_ENV=test ./node_modules/.bin/mocha --recursive tests",
     "test:watch": "npm test -- --watch",
-    "lint": "./node_modules/.bin/eslint lib/**",
+    "lint": "./node_modules/.bin/eslint lib tests",
     "coverage:check": "NODE_ENV=test npm run db:migrate && NODE_ENV=test ./node_modules/.bin/istanbul cover --dir '../coverage' _mocha -- --recursive tests",
     "coverage:rename": "mv ../coverage/lcov.info ../coverage/api_lcov.info",
     "coverage": "npm run coverage:check && npm run coverage:rename",

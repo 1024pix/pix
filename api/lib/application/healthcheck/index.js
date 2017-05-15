@@ -1,5 +1,5 @@
 const healthcheckController = require('./healthcheck-controller');
-exports.register = function (server, options, next) {
+exports.register = function(server, options, next) {
 
   server.route([
     {

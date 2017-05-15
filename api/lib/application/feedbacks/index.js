@@ -1,6 +1,6 @@
 const FeedbackController = require('./feedback-controller');
 
-exports.register = function (server, options, next) {
+exports.register = function(server, options, next) {
 
   server.route([
     {
