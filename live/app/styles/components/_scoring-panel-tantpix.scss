@@ -1,0 +1,58 @@
+.scoring-panel-tantpix {
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+}
+
+.tantpix-panel__illustration-container {
+  margin-top: 16px;
+  max-width: 155px;
+  width: 100%;
+}
+
+.tantpix-panel__illustration {
+  @media (min-width: 767px) {
+    max-width: 100%;
+  }
+}
+
+.tantpix-panel__title {
+  font-family: $font-raleway;
+  font-size: 40px;
+  font-weight: $font-light;
+
+  @media (min-width: 767px) {
+    font-size: 60px;
+  }
+}
+
+.tantpix-panel__description-container {
+  max-width: 550px;
+  width: 100%;
+}
+
+.tantpix-panel__description {
+  font-family: $font-raleway;
+  font-size: 17px;
+  text-align: center;
+  font-weight: $font-light;
+  @media (min-width: 767px) {
+    font-size: 28px;
+  }
+}
+
+.tantpix-panel__button-container {
+  margin-top: 18px; //26.5
+  margin-bottom: 32px;
+}
+
+.tantpix-panel__button {
+  font-family: $font-lato;
+  font-size: 14px;
+  text-transform: uppercase;
+  width: 160px;
+  height: 40px;
+  border-radius: 23px;
+  border: solid 1px #ffffff;
+  background: none;
+}
