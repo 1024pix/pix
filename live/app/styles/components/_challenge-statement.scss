@@ -22,7 +22,7 @@
 .challenge-statement__illustration-section {
   display: block;
   text-align: center;
-  border-top: 1px solid $light-grey5;
+  border-top: 1px solid $iron-grey;
   box-sizing: content-box;
 }
 
@@ -31,7 +31,7 @@
 }
 
 .challenge-statement__attachments-section {
-  background-color: #ececec;
+  background-color: $gallery-grey;
   text-align: center;
   padding: 20px;
 }
@@ -44,7 +44,7 @@
   width: 18px;
   height: 18px;
   line-height: 18px;
-  color: #fff;
+  color: $white;
   display: inline-block;
   background: $pix-blue;
   border-radius: 50%;
@@ -65,15 +65,15 @@
 
 .challenge-statement__help-tooltip {
   visibility: hidden;
-  color: #ccc;
+  color: $silver-grey;
   text-align: justify;
   border-radius: 6px;
   padding: 15px;
   width: 430px;
   height: auto;
-  background-color: #ffffff;
+  background-color: $white;
   box-shadow: 1px 1px 1px 0 rgba(0, 0, 0, 0.1);
-  border: solid 1px #d8d8d8;
+  border: solid 1px $gainsboro;
   position: absolute;
   z-index: 999;
   left: 50%;
@@ -90,7 +90,7 @@
   margin-left: -10px;
   width: 0;
   height: 0;
-  border-top: 10px solid #d8d8d8;
+  border-top: 10px solid $gainsboro;
   border-right: 10px solid transparent;
   border-left: 10px solid transparent;
 }
@@ -103,7 +103,7 @@
   margin-left: -8px;
   width: 0;
   height: 0;
-  border-top: 8px solid #FFFFFF;
+  border-top: 8px solid white;
   border-right: 8px solid transparent;
   border-left: 8px solid transparent;
 }
@@ -115,7 +115,7 @@
 
 .challenge-statement__help-text {
   font-size: 14px;
-  color: #3e4149;
+  color: $charcoal-grey;
 }
 
 .challenge-statement__file-options {
@@ -145,14 +145,14 @@
   width: 156px;
   height: 46px;
   border-radius: 23px;
-  background-color: $download-action-background-color;
-  color: $download-action-color;
+  background-color: $pix-blue;
+  color: $white;
   cursor: pointer;
   text-align: center;
 }
 
 .challenge-statement__action-link:hover {
-  color: $download-action-color;
+  color: $white;
 }
 
 .challenge-statement__action-label {

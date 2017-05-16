@@ -12,7 +12,7 @@
   flex-direction: column;
   border-radius: 10px;
   margin: 10px 5px 10px;
-  background-color: #ffffff;
+  background-color: $white;
   @media screen and (min-width: 321px) {
     margin: 25px 15px 15px;
   }
@@ -51,27 +51,28 @@
   }
 }
 
-.signup-form__temporary-msg{
+.signup-form__temporary-msg {
   max-width: 449px;
   width: 100%;
   text-align: center;
 }
 
-.signup-form__temporary-msg h4{
+.signup-form__temporary-msg h4 {
   border-radius: 3px;
-  color: #ffffff;
+  color: $white;
   font-size: 14px;
   padding: 9px;
 }
 
-.signup-form__temporary-msg.signup-form__temporary-msg--error, .signup-form__temporary-msg.signup-form__temporary-msg--success{
+.signup-form__temporary-msg.signup-form__temporary-msg--error, .signup-form__temporary-msg.signup-form__temporary-msg--success {
   margin-bottom: 10px;
 }
 
-.signup-form__temporary-msg.signup-form__temporary-msg--error h4{
-  background: $persimmon;
+.signup-form__temporary-msg.signup-form__temporary-msg--error h4 {
+  background: $pure-orange;
 }
-.signup-form__temporary-msg.signup-form__temporary-msg--success h4{
+
+.signup-form__temporary-msg.signup-form__temporary-msg--success h4 {
   background: $caribbean-green;
 }
 
@@ -84,8 +85,7 @@
   }
 }
 
-
-.signup-form__cgu-container{
+.signup-form__cgu-container {
   max-width: 449px;
   width: 100%;
   padding: 0 15px;
@@ -97,27 +97,28 @@
   flex-direction: column;
   @media screen and (min-width: 321px) {
     margin-top: 6px;
-    margin-bottom:0;
+    margin-bottom: 0;
     padding: 0;
   }
 }
-.signup-form__cgu-container input[type="checkbox"]{
+
+.signup-form__cgu-container input[type="checkbox"] {
   -webkit-appearance: none;
 }
 
-.signup-form__cgu-container input[type="checkbox"]:after{
+.signup-form__cgu-container input[type="checkbox"]:after {
   border-color: $gainsboro;
 }
 
-.signup-form__cgu-container input[type="checkbox"]:disabled:after{
+.signup-form__cgu-container input[type="checkbox"]:disabled:after {
   border-color: $gainsboro;
 }
 
-.signup-form__cgu-container input[type="checkbox"]:focus{
+.signup-form__cgu-container input[type="checkbox"]:focus {
   outline: none;
 }
 
-.signup-form__cgu-container input[type="checkbox"]:after{
+.signup-form__cgu-container input[type="checkbox"]:after {
   border: 2px solid $gainsboro;
   border-radius: 2px;
   content: '';
@@ -127,7 +128,7 @@
   width: 18px;
 }
 
-.signup-form__cgu-container input[type="checkbox"]:checked:before{
+.signup-form__cgu-container input[type="checkbox"]:checked:before {
   -webkit-transform: rotate(45deg);
   transform: rotate(45deg);
   position: absolute;
@@ -135,33 +136,33 @@
   display: table;
   width: 7px;
   height: 14px;
-  border: 2px solid #fff;
+  border: 2px solid $white;
   border-top: 0;
   border-left: 0;
   content: '';
 }
 
-.signup-form__cgu-container input[type="checkbox"]:checked:after{
-  background-color: $project-blue;
-  border-color: $project-blue;
+.signup-form__cgu-container input[type="checkbox"]:checked:after {
+  background-color: $pix-blue;
+  border-color: $pix-blue;
 }
 
-.signup-form__cgu-container input[type="checkbox"]:disabled:checked:after{
+.signup-form__cgu-container input[type="checkbox"]:disabled:checked:after {
   background-color: rgba(0, 0, 0, 0.26);
   border-color: transparent;
 }
 
-.signup-form__cgu-container input[type="checkbox"]:focus:after{
-  border-color: $project-blue;
+.signup-form__cgu-container input[type="checkbox"]:focus:after {
+  border-color: $pix-blue;
 }
 
-.signup-form__cgu-label{
+.signup-form__cgu-label {
   position: relative;
   display: flex;
-  margin-bottom:0;
+  margin-bottom: 0;
 }
 
-.signup-form__cgu-label span{
+.signup-form__cgu-label span {
   color: $slate-grey;
   font-size: 13px;
   @media screen and (min-width: 321px) {
@@ -169,22 +170,21 @@
   }
 }
 
-.signup__cgu-link{
-  color: $neonblue;
+.signup__cgu-link {
+  color: $blue-ribbon;
 }
 
-.signup-form__submit-container{
+.signup-form__submit-container {
   margin: 5px auto 20px;
   @media screen and (min-width: 321px) {
     margin: 31px auto 34px;
   }
 }
 
-
-.signup-textfield__cgu-message--error{
-  color: $persimmon;
-  font-size:12px;
-  margin-bottom:7px;
+.signup-textfield__cgu-message--error {
+  color: $pure-orange;
+  font-size: 12px;
+  margin-bottom: 7px;
   text-align: center;
 }
 
@@ -195,7 +195,7 @@
   border: none;
   text-transform: uppercase;
   font-size: 13px;
-  background: $project-blue;
-  color: #ffffff;
+  background: $pix-blue;
+  color: $white;
   outline: none;
 }

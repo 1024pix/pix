@@ -1,5 +1,5 @@
 .button {
-  color: #fff;
+  color: $white;
   font-size: 0.9em;
   font-weight: $font-normal;
   letter-spacing: 0.025em;
@@ -8,16 +8,16 @@
   border-radius: 0.3125em;
   padding: 12px 22px;
   text-align: center;
-  background: $captrain-green none;
+  background: $deyork-green none;
   text-decoration: none;
   display: inline-block;
   border: 1px solid;
-  box-shadow: 0 1px 1px -1px $grey3;
+  box-shadow: 0 1px 1px -1px $oslo-grey;
   cursor: pointer;
 }
 
 .button-primary {
-  color: #fff;
+  color: $white;
   font-size: 0.9em;
   font-weight: $font-normal;
   letter-spacing: 0.025em;
@@ -26,25 +26,25 @@
   border-radius: 0.3125em;
   padding: 12px 22px;
   text-align: center;
-  background-color: $captrain-green;
+  background-color: $deyork-green;
   background-image: none;
   text-decoration: none;
   display: inline-block;
   border: 1px solid;
-  box-shadow: 0 1px 1px -1px $grey3;
+  box-shadow: 0 1px 1px -1px $oslo-grey;
 }
 
 .button-primary:hover,
 .button-primary:focus {
-  color: #fff;
-  background-color: $captrain-green2;
-  border-color: $captrain-green2;
-  border-bottom-color: $captrain-green3;
+  color: $white;
+  background-color: $fern-green;
+  border-color: $fern-green;
+  border-bottom-color: $salad-green;
   text-decoration: none;
 }
 
 .button-secondary {
-  color: #fff;
+  color: $white;
   font-size: 0.9em;
   font-weight: $font-normal;
   letter-spacing: 0.025em;
@@ -53,19 +53,19 @@
   border-radius: 0.3125em;
   padding: 12px 22px;
   text-align: center;
-  background-color: $grey1;
+  background-color: $aluminium-grey;
   background-image: none;
   text-decoration: none;
   display: inline-block;
   border: 1px solid;
-  box-shadow: 0 1px 1px -1px $grey3;
+  box-shadow: 0 1px 1px -1px $oslo-grey;
 }
 
 .button-secondary:hover,
 .button-secondary:focus {
-  color: #fff;
-  background-color: $grey2;
-  border-color: $grey2;
-  border-bottom-color: $dark-grey2;
+  color: $white;
+  background-color: $manatee-grey;
+  border-color: $manatee-grey;
+  border-bottom-color: $jumbo-grey;
   text-decoration: none;
 }

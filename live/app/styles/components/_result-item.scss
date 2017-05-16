@@ -2,18 +2,18 @@
   width: auto;
   height: 80px;
   border-radius: 5px;
-  border-color: $light-grey1;
-  background-color: #ffffff;
+  border-color: $porcelain-grey;
+  background-color: $white;
   box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.3);
   margin-bottom: 10px;
 
   &:hover {
     box-shadow: none;
-    border: solid 2px #446eff;
+    border: solid 2px $dogder-blue;
     transition: border-color 1s ease;
   }
 
-  &:nth-last-child(1){
+  &:nth-last-child(1) {
     margin-bottom: 20px;
   }
 }
@@ -30,14 +30,14 @@
   font-size: 18px;
   font-weight: $font-bold;
   text-align: center;
-  color: #3e4149;
+  color: $charcoal-grey;
   margin-left: 22px;
 }
 
 .result-item__item-line {
   width: 2px;
   height: 61px;
-  border: solid 1.5px #d5d5d5;
+  border: solid 1.5px $alto-grey-light;
   margin-left: 22px;
 }
 
@@ -60,47 +60,47 @@
 }
 
 .result-item__correction__button {
-  border:none;
-  outline:0;
+  border: none;
+  outline: 0;
   background-color: transparent;
 }
 
 .result-item__icon {
   margin-left: 14px;
 
-/* Forces bootstrap's default by including bootstrap props into .assessment-results container */
+  /* Forces bootstrap's default by including bootstrap props into .assessment-results container */
   .tooltip-inner {
     padding-top: 13px;
     width: auto;
     padding-left: 16px;
     padding-right: 16px;
     height: 48px;
-    background-color: $tooltip-background-color;
-    color: $tooltip-color;
+    background-color: $mercury-grey;
+    color: $charcoal-grey;
     font-family: $font-lato;
     font-size: 14px;
     box-shadow: 2px 2px 2px 0 rgba(0, 0, 0, 0.2);
-    border: solid 1px #ffffff;
+    border: solid 1px $white;
   }
 
- .tooltip.top .tooltip-arrow {
-    border-top-color: #e6e6e6;
+  .tooltip.top .tooltip-arrow {
+    border-top-color: $mercury-grey;
   }
 
- .tooltip.in {
+  .tooltip.in {
     opacity: 1;
     transition: opacity .75s ease;
   }
 
- .tooltip.top .tooltip-arrow {
+  .tooltip.top .tooltip-arrow {
     bottom: -4px;
     left: 50%;
     margin-left: -13px;
     border-width: 10px 13px 0;
   }
 
-/* XXX : See https://github.com/sgmap/pix/issues/211 */
- [data-lines="2"] + div .tooltip-inner {
+  /* XXX : See https://github.com/sgmap/pix/issues/211 */
+  [data-lines="2"] + div .tooltip-inner {
     padding-top: 3px;
   }
 }
