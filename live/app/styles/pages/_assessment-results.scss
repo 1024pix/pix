@@ -29,8 +29,6 @@
   }
 }
 
-
-
 /* Forces bootstrap's default by including bootstrap props into .assessment-results container */
 .assessment-results .tooltip-inner {
   padding-top: 13px;
@@ -38,16 +36,16 @@
   padding-left: 16px;
   padding-right: 16px;
   height: 48px;
-  background-color: $tooltip-background-color;
-  color: $tooltip-color;
+  background-color: $mercury-grey;
+  color: $charcoal-grey;
   font-family: $font-lato;
   font-size: 14px;
   box-shadow: 2px 2px 2px 0 rgba(0, 0, 0, 0.2);
-  border: solid 1px #ffffff;
+  border: solid 1px $white;
 }
 
 .assessment-results .tooltip.top .tooltip-arrow {
-  border-top-color: #e6e6e6;
+  border-top-color: $mercury-grey;
 }
 
 .assessment-results .tooltip.in {
@@ -84,7 +82,7 @@
   display: flex;
   flex-direction: column;
   &:nth-last-child(1) {
-     margin-bottom: 20px;
+    margin-bottom: 20px;
   }
 }
 
@@ -104,7 +102,11 @@
   border: none;
 }
 
-.assessment-results__link-back{
+.assessment-results__index-link__element:hover {
+  background: $blue-ribbon;
+}
+
+.assessment-results__link-back {
   width: 277px;
   height: 22px;
   text-transform: uppercase;
@@ -112,5 +114,5 @@
   font-weight: $font-semi-bold;
   text-align: center;
   font-family: $font-open-sans;
-  color: #ffffff;
+  color: $white;
 }

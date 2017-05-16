@@ -1,7 +1,8 @@
-.signup-textfield{
+.signup-textfield {
   position: relative;
 }
-.signup-textfield__label{
+
+.signup-textfield__label {
   font-family: $font-lato;
   font-size: 12px;
   font-weight: bold;
@@ -9,7 +10,7 @@
   text-transform: uppercase;
 }
 
-.signup-textfield__input-field-container{
+.signup-textfield__input-field-container {
   display: flex;
   height: 35px;
   border-radius: 3px;
@@ -20,17 +21,19 @@
   }
 }
 
-.signup-textfield__input-container--default{
+.signup-textfield__input-container--default {
   border: 1px solid $gainsboro;
 }
-.signup-textfield__input-container--error{
-  border: 1px solid $persimmon;
+
+.signup-textfield__input-container--error {
+  border: 1px solid $pure-orange;
 }
-.signup-textfield__input-container--success{
+
+.signup-textfield__input-container--success {
   border: 1px solid $caribbean-green;
 }
 
-.signup-textfield__input-field-container input{
+.signup-textfield__input-field-container input {
   flex-grow: 1;
   border: none;
   margin-left: 10px;
@@ -38,11 +41,11 @@
   color: $slate-grey;
 }
 
-.signup-textfield__input-field-container svg{
+.signup-textfield__input-field-container svg {
   margin: 6px 8px;
 }
 
-.signup-textfield__message{
+.signup-textfield__message {
   position: absolute;
   top: 0;
   right: 0;
@@ -50,12 +53,11 @@
 
 }
 
-.signup-textfield__message--error{
-  color: $persimmon;
+.signup-textfield__message--error {
+  color: $pure-orange;
 }
 
-.signup-textfield__message--error.signup-textfield__message-password,.signup-textfield__message--error.signup-textfield__message-email {
-  position: relative;
+.signup-textfield__message--error.signup-textfield__message-password, .signup-textfield__message--error.signup-textfield__message-email {
   position: relative;
   text-align: right;
   margin-top: -5px;

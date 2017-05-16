@@ -11,12 +11,12 @@
 }
 
 .challenge-actions__action-skip {
-  color: $skip-action-color;
+  color: $charcoal-grey;
   margin-right: 15px;
 }
 
 .challenge-actions__action-skip:hover {
-  color: $skip-action-color;
+  color: $charcoal-grey;
 }
 
 .challenge-actions__action-skip-text {
@@ -31,12 +31,12 @@
   width: 130px;
   height: 46px;
   border-radius: 23px;
-  background-color: $validate-action-background-color;
-  color: $validate-action-color;
+  background-color: $strong-cyan;
+  color: $white;
 }
 
 .challenge-actions__action-validate:hover {
-  color: $validate-action-color;
+  color: $white;
 }
 
 .challenge-actions__action-validate-text {
@@ -48,7 +48,7 @@
   text-transform: uppercase;
 }
 
-.picture-checkbox-proposal--qcm{
+.picture-checkbox-proposal--qcm {
   position: absolute;
   left: -11px;
   top: 3px;

@@ -59,7 +59,7 @@
 .course-item__begin-button {
   margin-top: 10px;
   text-transform: uppercase;
-  color: $blue;
+  color: $pix-blue;
   font-weight: $font-semi-bold;
   font-family: $font-lato;
   font-size: 14px;
@@ -73,6 +73,6 @@
   &:focus,
   &:active {
     text-decoration: none;
-    color: $blue;
+    color: $pix-blue;
   }
 }

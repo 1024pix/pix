@@ -2,7 +2,7 @@
   display: flex;
   flex-flow: column;
   align-items: center;
-  background-color: #fafafa;
+  background-color: $alabaster-grey;
   color: $charcoal-grey;
   text-rendering: optimizeLegibility;
 }
@@ -98,13 +98,13 @@
 
 /* XXX we do not have the choice here to bypass BEM for managing collapsible panel title in "closed" status. */
 .cp-is-open > .competences-domain__title-icon {
-  border: solid 2px #979797;
+  border: solid 2px $dusty-grey;
   border-bottom: none;
   border-right: none;
 }
 
 .domain-topic {
-  border-top: 1px solid #d8d8d8;
+  border-top: 1px solid $gainsboro;
   padding: 26px 0 5px;
   margin-top: 30px;
 }
@@ -113,7 +113,7 @@
   font-family: $font-raleway;
   font-size: 28px;
   font-weight: $font-semi-bold;
-  color: $blue;
+  color: $pix-blue;
   margin-top: 0;
   margin-bottom: 17px;
 }
