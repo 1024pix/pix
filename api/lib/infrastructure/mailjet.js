@@ -25,7 +25,9 @@ function _formatPayload(options) {
 function sendEmail(options) {
   const mailjet = nodeMailjet.connect(mailjetConfig.apiKey, mailjetConfig.apiSecret);
 
-  return mailjet.post('send').request(_formatPayload(options));
+  return mailjet
+    .post('send')
+    .request(_formatPayload(options));
 }
 
 module.exports = {

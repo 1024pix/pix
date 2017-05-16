@@ -2,7 +2,6 @@ const Bookshelf = require('../../../infrastructure/bookshelf');
 const Assessment = require('./assessment');
 
 const bcrypt = require('bcrypt');
-const Promise = require('bluebird');
 
 module.exports = Bookshelf.Model.extend({
   tableName: 'users',
@@ -30,7 +29,7 @@ module.exports = Bookshelf.Model.extend({
     ],
     cgu: [
       { method: 'isRequired', error: 'Le champ CGU doit être renseigné.' },
-      { method: 'equals', error: 'Veuillez accepter les conditions générales d\'utilisation (CGU) avant de créer un compte.', args: 'true' }
+      { method: 'isTrue', error: 'Veuillez accepter les conditions générales d\'utilisation (CGU) avant de créer un compte.' }
     ]
   },
 

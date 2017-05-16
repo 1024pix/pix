@@ -9,6 +9,10 @@ validator.isRequired = function(value) {
   return !_.isNil(value);
 };
 
+validator.isTrue = function(value) {
+  return _.isBoolean(value) && value === true;
+};
+
 const bookshelf = require('bookshelf')(knex);
 
 bookshelf.plugin('bookshelf-validate', {

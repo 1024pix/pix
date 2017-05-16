@@ -64,7 +64,7 @@
     "clean": "rm -rf tmp dist bower_components node_modules",
     "start": "ember server",
     "test": "ember test",
-    "lint": "./node_modules/.bin/eslint app mirage tests",
+    "lint": "./node_modules/.bin/eslint app mirage tests --fix",
     "coverage:check": "COVERAGE=true ember test",
     "coverage:convert": "node scripts/lcov-path-converter",
     "coverage:rename": "mv coverage/lcov.info ../coverage/live_lcov.info",

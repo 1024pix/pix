@@ -1,0 +1,201 @@
+.signup-form {
+  display: flex;
+  flex-direction: column;
+  max-width: 609px;
+  width: 100%;
+}
+
+.signup-form-container {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  flex-direction: column;
+  border-radius: 10px;
+  margin: 10px 5px 10px;
+  background-color: #ffffff;
+  @media screen and (min-width: 321px) {
+    margin: 25px 15px 15px;
+  }
+  @media screen and (min-width: 767px) {
+    margin: 80px 0;
+  }
+}
+
+.signup-form__logo {
+  position: relative;
+  width: 106px;
+  height: 79px;
+  margin: 26px auto 23px;
+  @media screen and (min-width: 767px) {
+    margin: 56px auto 53px;
+  }
+}
+
+.signup-form__heading-container {
+  margin-bottom: 20px;
+  @media screen and (min-width: 767px) {
+    margin-bottom: 44px;
+  }
+}
+
+.signup-form__heading {
+  font-family: $font-raleway;
+  color: $charcoal-grey;
+  margin: 0;
+  font-size: 22px;
+  @media screen and (min-width: 321px) {
+    font-size: 25px;
+  }
+  @media screen and (min-width: 767px) {
+    font-size: 36px;
+  }
+}
+
+.signup-form__temporary-msg{
+  max-width: 449px;
+  width: 100%;
+  text-align: center;
+}
+
+.signup-form__temporary-msg h4{
+  border-radius: 3px;
+  color: #ffffff;
+  font-size: 14px;
+  padding: 9px;
+}
+
+.signup-form__temporary-msg.signup-form__temporary-msg--error, .signup-form__temporary-msg.signup-form__temporary-msg--success{
+  margin-bottom: 10px;
+}
+
+.signup-form__temporary-msg.signup-form__temporary-msg--error h4{
+  background: $persimmon;
+}
+.signup-form__temporary-msg.signup-form__temporary-msg--success h4{
+  background: $caribbean-green;
+}
+
+.signup-form__input-container {
+  max-width: 449px;
+  width: 100%;
+  padding: 0 20px;
+  @media screen and (min-width: 767px) {
+    padding: 0;
+  }
+}
+
+
+.signup-form__cgu-container{
+  max-width: 449px;
+  width: 100%;
+  padding: 0 15px;
+  margin-top: 0px;
+  margin-bottom: 6px;
+  position: relative;
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+  @media screen and (min-width: 321px) {
+    margin-top: 6px;
+    margin-bottom:0;
+    padding: 0;
+  }
+}
+.signup-form__cgu-container input[type="checkbox"]{
+  -webkit-appearance: none;
+}
+
+.signup-form__cgu-container input[type="checkbox"]:after{
+  border-color: $gainsboro;
+}
+
+.signup-form__cgu-container input[type="checkbox"]:disabled:after{
+  border-color: $gainsboro;
+}
+
+.signup-form__cgu-container input[type="checkbox"]:focus{
+  outline: none;
+}
+
+.signup-form__cgu-container input[type="checkbox"]:after{
+  border: 2px solid $gainsboro;
+  border-radius: 2px;
+  content: '';
+  display: block;
+  height: 18px;
+  transition: 240ms;
+  width: 18px;
+}
+
+.signup-form__cgu-container input[type="checkbox"]:checked:before{
+  -webkit-transform: rotate(45deg);
+  transform: rotate(45deg);
+  position: absolute;
+  left: 6px;
+  display: table;
+  width: 7px;
+  height: 14px;
+  border: 2px solid #fff;
+  border-top: 0;
+  border-left: 0;
+  content: '';
+}
+
+.signup-form__cgu-container input[type="checkbox"]:checked:after{
+  background-color: $project-blue;
+  border-color: $project-blue;
+}
+
+.signup-form__cgu-container input[type="checkbox"]:disabled:checked:after{
+  background-color: rgba(0, 0, 0, 0.26);
+  border-color: transparent;
+}
+
+.signup-form__cgu-container input[type="checkbox"]:focus:after{
+  border-color: $project-blue;
+}
+
+.signup-form__cgu-label{
+  position: relative;
+  display: flex;
+  margin-bottom:0;
+}
+
+.signup-form__cgu-label span{
+  color: $slate-grey;
+  font-size: 13px;
+  @media screen and (min-width: 321px) {
+    font-size: 14px;
+  }
+}
+
+.signup__cgu-link{
+  color: $neonblue;
+}
+
+.signup-form__submit-container{
+  margin: 5px auto 20px;
+  @media screen and (min-width: 321px) {
+    margin: 31px auto 34px;
+  }
+}
+
+
+.signup-textfield__cgu-message--error{
+  color: $persimmon;
+  font-size:12px;
+  margin-bottom:7px;
+  text-align: center;
+}
+
+.signup__submit-button {
+  width: 150px;
+  height: 40px;
+  border-radius: 25px;
+  border: none;
+  text-transform: uppercase;
+  font-size: 13px;
+  background: $project-blue;
+  color: #ffffff;
+  outline: none;
+}

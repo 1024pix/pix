@@ -1,0 +1,64 @@
+.signup-textfield{
+  position: relative;
+}
+.signup-textfield__label{
+  font-family: $font-lato;
+  font-size: 12px;
+  font-weight: bold;
+  color: $charcoal-grey;
+  text-transform: uppercase;
+}
+
+.signup-textfield__input-field-container{
+  display: flex;
+  height: 35px;
+  border-radius: 3px;
+  margin-bottom: 20px;
+  align-items: center;
+  @media screen and (min-width: 767px) {
+
+  }
+}
+
+.signup-textfield__input-container--default{
+  border: 1px solid $gainsboro;
+}
+.signup-textfield__input-container--error{
+  border: 1px solid $persimmon;
+}
+.signup-textfield__input-container--success{
+  border: 1px solid $caribbean-green;
+}
+
+.signup-textfield__input-field-container input{
+  flex-grow: 1;
+  border: none;
+  margin-left: 10px;
+  outline: none;
+  color: $slate-grey;
+}
+
+.signup-textfield__input-field-container svg{
+  margin: 6px 8px;
+}
+
+.signup-textfield__message{
+  position: absolute;
+  top: 0;
+  right: 0;
+  font-size: 12px;
+
+}
+
+.signup-textfield__message--error{
+  color: $persimmon;
+}
+
+.signup-textfield__message--error.signup-textfield__message-password,.signup-textfield__message--error.signup-textfield__message-email {
+  position: relative;
+  position: relative;
+  text-align: right;
+  margin-top: -5px;
+  margin-bottom: 5px;
+}
+

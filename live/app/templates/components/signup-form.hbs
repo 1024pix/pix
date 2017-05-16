@@ -1,0 +1,73 @@
+<form class="signup-form-container">
+  <div class="signup-form__logo">
+    {{pix-logo}}
+  </div>
+
+  <div class="signup-form__heading-container">
+    <h1 class="signup-form__heading">Inscription gratuite</h1>
+  </div>
+
+
+  <div class="signup-form__temporary-msg {{temporaryAlert.status}}">
+    <h4>{{temporaryAlert.message}}</h4>
+  </div>
+
+  <div class="signup-form__input-container">
+    {{signup-textfield
+      label="Nom"
+      textfieldName="lastName"
+      inputBindingValue=user.lastName
+      validate="validateInput"
+      validationStatus=validation.lastName.status
+      validationMessage=validation.lastName.message}}
+  </div>
+
+  <div class="signup-form__input-container">
+    {{signup-textfield
+      label="Prénom"
+      textfieldName="firstName"
+      inputBindingValue=user.firstName
+      validate="validateInput"
+      validationStatus=validation.firstName.status
+      validationMessage=validation.firstName.message}}
+  </div>
+
+  <div class="signup-form__input-container">
+    {{signup-textfield
+      label="Adresse Email"
+      textfieldName="email"
+      validationStatus=validation.email.status
+      validate="validateInputEmail"
+      inputBindingValue=user.email
+      validationMessage=validation.email.message}}
+  </div>
+
+  <div class="signup-form__input-container">
+    {{signup-textfield
+      label="Mot de passe"
+      textfieldName="password"
+      validationStatus=validation.password.status
+      validate="validateInputPassword"
+      inputBindingValue=user.password
+      validationMessage=validation.password.message}}
+  </div>
+
+  <div class="signup-form__cgu-container">
+
+    {{#if user.errors.cgu}}
+      <div class="signup-textfield__cgu-message--error">
+        {{user.errors.cgu.firstObject.message}}
+      </div>
+    {{/if}}
+
+    <label for="cgu" class="signup-form__cgu-label">
+      {{input type="checkbox" id='cgu' checked=user.cgu class="signup-form__cgu-checkbox" }}
+      <span>J'​accepte les {{#link-to 'inscription' class="signup__cgu-link"}}
+        conditions d'​utilisation de Pix{{/link-to}}</span>
+    </label>
+  </div>
+
+  <div class="signup-form__submit-container">
+    <button class="signup__submit-button" {{action "signup"}}>Je m'inscris</button>
+  </div>
+</form>

@@ -1,6 +1,6 @@
-import { expect } from 'chai';
-import { describe, it, beforeEach } from 'mocha';
-import { setupComponentTest } from 'ember-mocha';
+import {expect} from 'chai';
+import {beforeEach, describe, it} from 'mocha';
+import {setupComponentTest} from 'ember-mocha';
 import hbs from 'htmlbars-inline-precompile';
 
 describe('Integration | Component | pix logo', function() {
@@ -18,7 +18,7 @@ describe('Integration | Component | pix logo', function() {
   });
 
   it('should display the logo', function() {
-    expect(this.$('.pix-logo__image').attr('src')).to.equal('/images/pix-logo.svg');
+    expect(this.$('.pix-logo__image').attr('src')).to.equal('images/pix-logo.svg');
   });
 
   it('should display "bêta"', function() {
@@ -26,7 +26,7 @@ describe('Integration | Component | pix logo', function() {
   });
 
   it('should have a textual alternative', function() {
-    expect(this.$('.pix-logo__image').attr('alt')).to.equal('Le site officiel de PIX, version bêta');
+    expect(this.$('.pix-logo__image').attr('alt')).to.equal('Logo officiel de PIX (version bêta)');
   });
 
   it('should have a title in the link', function() {

@@ -34,6 +34,7 @@ export default Router.map(function() {
   this.route('placement-tests');
   this.route('project', { path: '/projet' });
   this.route('competences');
+  this.route('inscription');
 
   this.route('challenges.get-preview', { path: '/challenges/:challenge_id/preview' });
 

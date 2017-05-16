@@ -5,7 +5,7 @@ exports.register = function(server, options, next) {
   server.route([
     {
       method: 'POST',
-      path: '/api/accounts',
+      path: '/api/users',
       config: { handler: UserController.save, tags: ['api'] }
     }
   ]);

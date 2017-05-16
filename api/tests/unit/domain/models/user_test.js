@@ -1,5 +1,4 @@
-const { describe, it, expect, beforeEach, sinon } = require('../../../test-helper');
-
+const {describe, it, expect, sinon, beforeEach} = require('../../../test-helper');
 const User = require('../../../../lib/domain/models/data/user');
 const faker = require('faker');
 
@@ -15,7 +14,7 @@ describe('Unit | Domain | Models | User', () => {
         lastName: faker.name.lastName(),
         email: faker.internet.email(),
         password: 'F26251JHS',
-        cgu: 'true'
+        cgu: true
       };
     });
 
@@ -29,10 +28,10 @@ describe('Unit | Domain | Models | User', () => {
 
       // Then
       return promise.catch((err) => {
-        const emailErrors = err.data[ 'email' ];
+        const emailErrors = err.data['email'];
         expect(emailErrors).to.exist;
 
-        expect(emailErrors).to.deep.equal([ 'Votre adresse electronique n\'est pas correcte.' ]);
+        expect(emailErrors).to.deep.equal(['Votre adresse electronique n\'est pas correcte.']);
       });
     });
 
@@ -45,15 +44,13 @@ describe('Unit | Domain | Models | User', () => {
       const promise = user.save();
 
       // Then
-      return promise
-        .then(() => {
-          sinon.assert.fail('should not succeed');
-        })
-        .catch((err) => {
-          const firstName = err.data[ 'firstName' ];
-          expect(firstName).to.exist;
-          expect(firstName).to.deep.equal([ 'Votre prénom n\'est pas renseigné.' ]);
-        });
+      return promise.then(() => {
+        sinon.assert.fail('should not succeed');
+      }).catch((err) => {
+        const firstName = err.data['firstName'];
+        expect(firstName).to.exist;
+        expect(firstName).to.deep.equal(['Votre prénom n\'est pas renseigné.']);
+      });
     });
 
     it('should have a lastname', () => {
@@ -65,15 +62,13 @@ describe('Unit | Domain | Models | User', () => {
       const promise = user.save();
 
       // Then
-      return promise
-        .then(() => {
-          sinon.assert.fail('should not succeed');
-        })
-        .catch((err) => {
-          const lastName = err.data[ 'lastName' ];
-          expect(lastName).to.exist;
-          expect(lastName).to.deep.equal([ 'Votre nom n\'est pas renseigné.' ]);
-        });
+      return promise.then(() => {
+        sinon.assert.fail('should not succeed');
+      }).catch((err) => {
+        const lastName = err.data['lastName'];
+        expect(lastName).to.exist;
+        expect(lastName).to.deep.equal(['Votre nom n\'est pas renseigné.']);
+      });
     });
 
     describe('the password field', () => {
@@ -86,15 +81,13 @@ describe('Unit | Domain | Models | User', () => {
         const promise = user.save();
 
         // Then
-        return promise
-          .then(() => {
-            sinon.assert.fail('should not succeed');
-          })
-          .catch((err) => {
-            const passwordErrors = err.data[ 'password' ];
-            expect(passwordErrors).to.exist;
-            expect(passwordErrors).to.deep.equal([ 'Votre mot de passe doit comporter au moins une lettre, un chiffre et 8 caractères.' ]);
-          });
+        return promise.then(() => {
+          sinon.assert.fail('should not succeed');
+        }).catch((err) => {
+          const passwordErrors = err.data['password'];
+          expect(passwordErrors).to.exist;
+          expect(passwordErrors).to.deep.equal(['Votre mot de passe doit comporter au moins une lettre, un chiffre et 8 caractères.']);
+        });
       });
 
       it('should contains at least a letter', () => {
@@ -106,15 +99,13 @@ describe('Unit | Domain | Models | User', () => {
         const promise = user.save();
 
         // Then
-        return promise
-          .then(() => {
-            sinon.assert.fail('should not succeed');
-          })
-          .catch((err) => {
-            const passwordErrors = err.data[ 'password' ];
-            expect(passwordErrors).to.exist;
-            expect(passwordErrors).to.deep.equal([ 'Votre mot de passe doit comporter au moins une lettre, un chiffre et 8 caractères.' ]);
-          });
+        return promise.then(() => {
+          sinon.assert.fail('should not succeed');
+        }).catch((err) => {
+          const passwordErrors = err.data['password'];
+          expect(passwordErrors).to.exist;
+          expect(passwordErrors).to.deep.equal(['Votre mot de passe doit comporter au moins une lettre, un chiffre et 8 caractères.']);
+        });
       });
 
       it('should contains at least a figure', () => {
@@ -126,36 +117,45 @@ describe('Unit | Domain | Models | User', () => {
         const promise = user.save();
 
         // Then
-        return promise
-          .then(() => {
-            sinon.assert.fail('should not succeed');
-          })
-          .catch((err) => {
-            const passwordErrors = err.data[ 'password' ];
-            expect(passwordErrors).to.exist;
-            expect(passwordErrors).to.deep.equal([ 'Votre mot de passe doit comporter au moins une lettre, un chiffre et 8 caractères.' ]);
-          });
+        return promise.then(() => {
+          sinon.assert.fail('should not succeed');
+        }).catch((err) => {
+          const passwordErrors = err.data['password'];
+          expect(passwordErrors).to.exist;
+          expect(passwordErrors).to.deep.equal(['Votre mot de passe doit comporter au moins une lettre, un chiffre et 8 caractères.']);
+        });
       });
 
-      it('should be invalid when cgu are not true', () => {
+      it('should be invalid when cgu are false', () => {
         // Given
-        rawData.cgu = 'false';
+        rawData.cgu = false;
         const user = new User(rawData);
 
         // When
         const promise = user.save();
 
         // Then
-        return promise
-          .then(() => {
-            sinon.assert.fail('should not succeed');
-          })
-          .catch((err) => {
-            const cguErrors = err.data[ 'cgu' ];
-            expect(cguErrors).to.exist;
-            expect(cguErrors).to
-              .deep.equal([ 'Veuillez accepter les conditions générales d\'utilisation (CGU) avant de créer un compte.' ]);
-          });
+        return promise.then(() => {
+          sinon.assert.fail('should not succeed');
+        }).catch((err) => {
+          const cguErrors = err.data['cgu'];
+          expect(cguErrors).to.exist;
+          expect(cguErrors).to.deep.equal(['Veuillez accepter les conditions générales d\'utilisation (CGU) avant de créer un compte.']);
+        });
+      });
+
+      it('should be valid when cgu are true', () => {
+        // Given
+        rawData.cgu = true;
+        const user = new User(rawData);
+
+        // When
+        const promise = user.save();
+
+        // Then
+        return promise.then((user) => {
+          expect(user.get('cgu')).to.be.true;
+        });
       });
 
       it('should be invalid when cgu are empty', () => {
@@ -167,16 +167,13 @@ describe('Unit | Domain | Models | User', () => {
         const promise = user.save();
 
         // Then
-        return promise
-          .then(() => {
-            sinon.assert.fail('should not succeed');
-          })
-          .catch((err) => {
-            const cguErrors = err.data[ 'cgu' ];
-            expect(cguErrors).to.exist;
-            expect(cguErrors).to
-              .deep.equal([ 'Le champ CGU doit être renseigné.' ]);
-          });
+        return promise.then(() => {
+          sinon.assert.fail('should not succeed');
+        }).catch((err) => {
+          const cguErrors = err.data['cgu'];
+          expect(cguErrors).to.exist;
+          expect(cguErrors).to.deep.equal(['Le champ CGU doit être renseigné.']);
+        });
       });
 
       it('is valid when everything works', () => {
@@ -187,10 +184,9 @@ describe('Unit | Domain | Models | User', () => {
         const promise = user.save();
 
         // Then
-        return promise
-          .catch(() => {
-            sinon.assert.fail('should not succeed');
-          });
+        return promise.catch(() => {
+          sinon.assert.fail('should not succeed');
+        });
       });
 
     });

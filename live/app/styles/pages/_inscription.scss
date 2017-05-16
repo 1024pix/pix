@@ -1,0 +1,15 @@
+.inscription-page{
+
+}
+
+.signup-container{
+  display: flex;
+  justify-content: center;
+  background: url("/images/signup-bg.jpg") no-repeat;
+  background-size: cover;
+  width: 100%;
+  min-height: 100vh;
+  @media screen and (min-width: 767px) {
+    height: 100%;
+  }
+}
