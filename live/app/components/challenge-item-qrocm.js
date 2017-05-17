@@ -1,4 +1,3 @@
-/* global jsyaml */
 import _ from 'pix-live/utils/lodash-custom';
 
 import ChallengeItemGeneric from './challenge-item-generic';
