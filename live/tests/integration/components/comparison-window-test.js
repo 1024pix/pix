@@ -111,7 +111,6 @@ describe('Integration | Component | comparison-window', function() {
       this.render(hbs`{{comparison-window answer challenge solution index}}`);
       // then
       expect(this.$('.comparison-window').css('max-width')).to.be.equal('900px');
-      expect(this.$('.comparison-window').css('margin')).to.be.equal('0px');
     });
   });
 });

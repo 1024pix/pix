@@ -1,7 +1,6 @@
 {
   "name": "pix-live",
   "dependencies": {
-    "ember-mocha-adapter": "~0.3.1",
     "pretender": "~1.1.0",
     "Faker": "~3.1.0",
     "bootstrap": "~3.3.7",
