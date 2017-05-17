@@ -1,0 +1,5 @@
+deploy_user: 'deploy'
+home: '/home/deploy'
+pix_env: 'production'
+branch: 'master'
+database_url: "tcp://pix_production@postgresql_vip/pix_production"

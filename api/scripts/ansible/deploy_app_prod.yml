@@ -1,0 +1,7 @@
+---
+- name: deploy_node_app
+  hosts: nodeapp:&base
+  gather_facts: no
+  tags: nodeapp, deploy
+  roles:
+    - role: nodeapp/deploy
