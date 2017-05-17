@@ -38,7 +38,7 @@
     "ember-cli-release": "0.2.9",
     "ember-cli-sass": "6.1.1",
     "ember-cli-shims": "1.0.2",
-    "ember-cli-showdown": "2.11.0",
+    "ember-cli-showdown": "^3.1.1",
     "ember-cli-sri": "2.1.1",
     "ember-cli-test-loader": "1.1.1",
     "ember-cli-uglify": "1.2.0",
@@ -56,6 +56,7 @@
     "eslint": "3.16.0",
     "loader.js": "4.1.0",
     "phantomjs-prebuilt": "2.1.14",
+    "showdown": "showdownjs/showdown#1bca88f",
     "tap-xunit": "1.7.0"
   },
   "scripts": {

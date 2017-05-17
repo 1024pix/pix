@@ -21,7 +21,7 @@ describe('Acceptance | b3 - Afficher un QROC | ', function() {
   it('b3.1 It should render challenge instruction', function() {
     const $challengeInstruction = $('.challenge-statement__instruction');
     const instructiontext = 'Un QROC est une question ouverte avec un simple champ texte libre pour répondre';
-    expect($challengeInstruction.text()).to.equal(instructiontext);
+    expect($challengeInstruction.text().trim()).to.equal(instructiontext);
   });
 
   it('b3.2 It should display only one input text as proposal to user', function() {

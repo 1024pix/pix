@@ -23,7 +23,7 @@ describe('Acceptance | b7 - Points communs a toutes les épreuves | ', function(
   it('b7.1 L\'instruction de l\'epreuve est affichée', function() {
     const $challengeInstruction = $('.challenge-statement__instruction');
     const instructiontext = 'Un QROCM est une question ouverte avec plusieurs champs texte libre pour repondre';
-    expect($challengeInstruction.text()).to.equal(instructiontext);
+    expect($challengeInstruction.text().trim()).to.equal(instructiontext);
   });
 
   it('b7.2a Le contenu de type [foo](bar) doit être converti sous forme de lien', function() {

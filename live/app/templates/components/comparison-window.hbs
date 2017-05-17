@@ -43,10 +43,7 @@
 
       <div class="rounded-panel comparison-window__instruction">
         <div class="rounded-panel__row ">
-          {{markdown-to-html
-            class="challenge-statement__instruction"
-            extensions='targetBlank'
-            markdown=challenge.instruction}}
+          {{markdown-to-html class="challenge-statement__instruction" markdown=challenge.instruction}}
         </div>
 
         {{#if challenge.illustrationUrl}}

@@ -26,7 +26,7 @@ describe('Acceptance | b2 - Afficher un QCM | ', function() {
   it('b2.1 It should render challenge instruction', function() {
     const $challengeInstruction = $('.challenge-statement__instruction');
     const instructionText = 'Un QCM propose plusieurs choix, l\'utilisateur peut en choisir plusieurs';
-    expect($challengeInstruction.text()).to.equal(instructionText);
+    expect($challengeInstruction.text().trim()).to.equal(instructionText);
   });
 
   it('b2.2 Le contenu de type [foo](bar) doit être converti sous forme de lien', function() {

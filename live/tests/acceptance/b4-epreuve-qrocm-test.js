@@ -21,7 +21,7 @@ describe('Acceptance | b4 - Afficher un QROCM | ', function() {
   it('b4.1 It should render challenge instruction', function() {
     const $challengeInstruction = $('.challenge-statement__instruction');
     const instructiontext = 'Un QROCM est une question ouverte avec plusieurs champs texte libre pour repondre';
-    expect($challengeInstruction.text()).to.equal(instructiontext);
+    expect($challengeInstruction.text().trim()).to.equal(instructiontext);
   });
 
   it('b4.2 It should display only one input text as proposal to user', function() {
