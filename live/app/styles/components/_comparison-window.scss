@@ -4,7 +4,7 @@
   max-width: 900px;
   margin: auto;
 
-  @media (min-width: 992px) {
+  @include device-is('desktop') {
     padding: 0;
   }
 }
@@ -13,7 +13,7 @@
   max-width: 900px;
   margin-top: 40px;
 
-  @media (min-width: 992px) {
+  @include device-is('desktop') {
     margin-top: 60px;
   }
 }
@@ -29,7 +29,7 @@
   flex-direction: column;
   padding: 15px 15px 0;
 
-  @media (min-width: 992px) {
+  @include device-is('desktop') {
     padding: 20px 40px 10px;
   }
 }

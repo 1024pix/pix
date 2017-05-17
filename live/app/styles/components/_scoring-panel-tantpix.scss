@@ -11,7 +11,7 @@
 }
 
 .tantpix-panel__illustration {
-  @media (min-width: 767px) {
+  @include device-is('tablet') {
     max-width: 100%;
   }
 }
@@ -21,7 +21,7 @@
   font-size: 40px;
   font-weight: $font-light;
 
-  @media (min-width: 767px) {
+  @include device-is('tablet') {
     font-size: 60px;
   }
 }
@@ -36,7 +36,7 @@
   font-size: 17px;
   text-align: center;
   font-weight: $font-light;
-  @media (min-width: 767px) {
+  @include device-is('tablet') {
     font-size: 28px;
   }
 }

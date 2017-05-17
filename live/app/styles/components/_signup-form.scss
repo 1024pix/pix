@@ -13,10 +13,10 @@
   border-radius: 10px;
   margin: 10px 5px 10px;
   background-color: $white;
-  @media screen and (min-width: 321px) {
+  @include device-is('mobile') {
     margin: 25px 15px 15px;
   }
-  @media screen and (min-width: 767px) {
+  @include device-is('tablet') {
     margin: 80px 0;
   }
 }
@@ -26,14 +26,14 @@
   width: 106px;
   height: 79px;
   margin: 26px auto 23px;
-  @media screen and (min-width: 767px) {
+  @include device-is('tablet') {
     margin: 56px auto 53px;
   }
 }
 
 .signup-form__heading-container {
   margin-bottom: 20px;
-  @media screen and (min-width: 767px) {
+  @include device-is('tablet') {
     margin-bottom: 44px;
   }
 }
@@ -43,10 +43,10 @@
   color: $charcoal-grey;
   margin: 0;
   font-size: 22px;
-  @media screen and (min-width: 321px) {
+  @include device-is('mobile') {
     font-size: 25px;
   }
-  @media screen and (min-width: 767px) {
+  @include device-is('tablet') {
     font-size: 36px;
   }
 }
@@ -80,7 +80,7 @@
   max-width: 449px;
   width: 100%;
   padding: 0 20px;
-  @media screen and (min-width: 767px) {
+  @include device-is('tablet') {
     padding: 0;
   }
 }
@@ -95,7 +95,7 @@
   align-items: center;
   display: flex;
   flex-direction: column;
-  @media screen and (min-width: 321px) {
+  @include device-is('mobile') {
     margin-top: 6px;
     margin-bottom: 0;
     padding: 0;
@@ -165,7 +165,7 @@
 .signup-form__cgu-label span {
   color: $slate-grey;
   font-size: 13px;
-  @media screen and (min-width: 321px) {
+  @include device-is('mobile') {
     font-size: 14px;
   }
 }
@@ -176,7 +176,7 @@
 
 .signup-form__submit-container {
   margin: 5px auto 20px;
-  @media screen and (min-width: 321px) {
+  @include device-is('mobile') {
     margin: 31px auto 34px;
   }
 }

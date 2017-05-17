@@ -20,7 +20,7 @@
 .index-page__section {
   padding: 80px 20px;
 
-  @media (min-width: 992px) {
+  @include device-is('desktop') {
     padding: 80px 0;
   }
 }
@@ -50,7 +50,7 @@
   color: $white;
   text-align: center;
 
-  @media (min-width: 992px) {
+  @include device-is('desktop') {
     font-size: 50px;
     margin-top: 250px;
   }
@@ -66,7 +66,7 @@
   padding-top: 20px;
   line-height: 1.2;
 
-  @media (min-width: 992px) {
+  @include device-is('desktop') {
     padding: 0 200px;
   }
 }
@@ -88,7 +88,7 @@
   flex-direction: column;
   padding: 80px 0 70px 0;
 
-  @media (min-width: 992px) {
+  @include device-is('desktop') {
     margin: 0 auto;
     flex-direction: row;
     padding: 70px 90px;
@@ -101,7 +101,7 @@
   text-align: center;
   padding: 0 20px;
 
-  @media (min-width: 992px) {
+  @include device-is('desktop') {
     max-width: 400px;
     text-align: left;
     padding: 0;
@@ -113,7 +113,7 @@
   font-weight: $font-extra-bold;
   margin-top: 0;
 
-  @media (min-width: 992px) {
+  @include device-is('desktop') {
     font-size: 58px;
   }
 }
@@ -127,7 +127,7 @@
   font-weight: $font-light;
   line-height: 1.2;
 
-  @media (min-width: 992px) {
+  @include device-is('desktop') {
     font-size: 37px;
   }
 }
@@ -137,7 +137,7 @@
   margin: 0 auto;
   padding-top: 20px;
 
-  @media (min-width: 992px) {
+  @include device-is('desktop') {
     margin-right: 0;
     padding-top: 0;
   }
@@ -196,7 +196,7 @@
   text-transform: uppercase;
   margin: 0;
 
-  @media (min-width: 992px) {
+  @include device-is('desktop') {
     font-size: 36px;
     font-weight: $font-extra-bold;
     margin-top: 70px;
@@ -247,7 +247,7 @@
     color: $charcoal-grey;
   }
 
-  @media (min-width: 992px) {
+  @include device-is('desktop') {
     font-size: 13px;
   }
 }

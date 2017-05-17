@@ -17,7 +17,7 @@
   padding: 2px;
   max-width: 300px;
 
-  @media (min-width: 992px) {
+  @include device-is('desktop') {
     flex-direction: row;
     max-width: 400px;
   }
@@ -35,7 +35,7 @@
   color: $raven-grey;
   font-family: $font-lato;
 
-  @media (min-width: 992px) {
+  @include device-is('desktop') {
     padding-left: 16px;
   }
 }

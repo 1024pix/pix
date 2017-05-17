@@ -9,12 +9,6 @@
   background-image: linear-gradient(to bottom, #446eff, #001f8d), linear-gradient(#3d68ff, #3d68ff);
   color: $white;
   font-family: $font-raleway;
-
-  @media (min-width: 480px) {
-    flex-direction: row;
-    flex-wrap: wrap;
-  }
-
 }
 
 /*-----------------------------------*/
@@ -26,15 +20,11 @@
   margin-top: -30px;
   text-align: center;
 
-  @media (min-width: 480px) {
-    margin-top: 0px;
-  }
-
-  @media (min-width: 768px) {
+  @include device-is('tablet') {
     margin-right: 50px;
   }
 
-  @media (min-width: 1024px) {
+  @include device-is('desktop') {
     margin-right: 80px;
   }
 }
@@ -46,7 +36,7 @@
   text-align: center;
   padding: 20px;
 
-  @media (min-width: 768px) {
+  @include device-is('tablet') {
     text-align: left;
     padding: 0px;
   }
@@ -61,15 +51,11 @@
   padding: 5px 10px;
   text-align: center;
 
-  @media (min-width: 480px) {
-    align-self: flex-end;
-  }
-
-  @media (min-width: 768px) {
+  @include device-is('tablet') {
     margin-left: 30px;
   }
 
-  @media (min-width: 1024px) {
+  @include device-is('desktop') {
     margin-left: 60px;
     margin-bottom: -30px;
   }
@@ -87,12 +73,7 @@
   height: 169px;
   width: 150px;
 
-  @media (min-width: 480px) {
-    height: 190px;
-    width: 200px;
-  }
-
-  @media (min-width: 768px) {
+  @include device-is('tablet') {
     height: 237px;
     width: 267px;
   }
@@ -111,12 +92,7 @@
   margin-top: -38px;
   font-size: 17px;
 
-  @media (min-width: 480px) {
-    margin-top: -42px;
-    font-size: 20px;
-  }
-
-  @media (min-width: 768px) {
+  @include device-is('tablet') {
     margin-top: -55px;
     font-size: 26px;
   }
@@ -128,14 +104,9 @@
   font-weight: $font-heavy;
   letter-spacing: 6px;
   margin-top: 10px;
-
   font-size: 12px;
 
-  @media (min-width: 480px) {
-    font-size: 14px;
-  }
-
-  @media (min-width: 768px) {
+  @include device-is('tablet') {
     font-size: 18px;
   }
 
@@ -149,7 +120,7 @@
   line-height: 0.95;
   font-size: 20px;
 
-  @media (min-width: 768px) {
+  @include device-is('tablet') {
     font-size: 20px;
   }
 }
@@ -166,7 +137,7 @@
 
   font-size: 45px;
 
-  @media (min-width: 768px) {
+  @include device-is('tablet') {
     font-size: 60px;
   }
 }
@@ -176,7 +147,7 @@
   font-size: 20px;
   line-height: 1.07;
 
-  @media (min-width: 768px) {
+  @include device-is('tablet') {
     font-size: 28px;
   }
 }
@@ -185,7 +156,7 @@
   font-weight: $font-medium;
   font-size: 10px;
 
-  @media (min-width: 768px) {
+  @include device-is('tablet') {
     font-size: 14px;
   }
 }
@@ -198,15 +169,4 @@
   text-align: center;
   background-color: transparent;
   border: transparent;
-
-  @media (min-width: 480px) {
-    font-size: 10px;
-    align-self: flex-end;
-  }
-
-  @media (min-width: 768px) {
-  }
-
-  @media (min-width: 1024px) {
-  }
 }

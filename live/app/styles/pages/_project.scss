@@ -40,7 +40,7 @@
   margin-left: 10px;
   margin-right: 10px;
 
-  @media (min-width: 992px) {
+  @include device-is('desktop') {
     margin-bottom: 50px;
     margin-left: auto;
     margin-right: auto;
@@ -51,7 +51,7 @@
   margin-bottom: 50px;
   padding: 20px;
 
-  @media (min-width: 992px) {
+  @include device-is('desktop') {
     width: 940px;
     margin-left: auto;
     margin-right: auto;
@@ -82,7 +82,7 @@
   line-height: 1.2;
   max-width: 800px;
 
-  @media (min-width: 992px) {
+  @include device-is('desktop') {
     font-size: 36px;
   }
 }

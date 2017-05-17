@@ -6,7 +6,7 @@
   justify-content: space-around;
   background-color: $porcelain-grey;
 
-  @media (min-width: 992px) {
+  @include device-is('desktop') {
     flex-direction: row;
     justify-content: space-around;
     margin: 0 auto;
@@ -17,7 +17,7 @@
 .app-footer__section {
   margin-bottom: 20px;
 
-  @media (min-width: 992px) {
+  @include device-is('desktop') {
     margin-bottom: 0;
   }
 }
@@ -27,7 +27,7 @@
   width: 260px;
   text-align: center;
 
-  @media (min-width: 992px) {
+  @include device-is('desktop') {
     margin: 0;
   }
 }
@@ -35,7 +35,7 @@
 .app-footer__section--contact {
   order: 1;
 
-  @media (min-width: 992px) {
+  @include device-is('desktop') {
     margin: 0;
   }
 }
@@ -46,7 +46,7 @@
   width: 260px;
   text-align: center;
 
-  @media (min-width: 992px) {
+  @include device-is('desktop') {
     margin: 0;
   }
 }

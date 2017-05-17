@@ -10,7 +10,7 @@
 .challenge-statement__instruction-section {
   font-size: 15px;
 
-  @media (min-width: 992px) {
+  @include device-is('desktop') {
     font-size: 20px;
   }
 }

@@ -44,7 +44,7 @@
 
 .feedback-panel__form {
   width: 100%;
-  @media (min-width: 992px) {
+  @include device-is('desktop') {
     width: 50%;
   }
 }
