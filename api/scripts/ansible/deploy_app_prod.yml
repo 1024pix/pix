@@ -1,6 +1,6 @@
 ---
 - name: deploy_node_app
-  hosts: nodeapp:&base
+  hosts: nodeapp
   gather_facts: no
   tags: nodeapp, deploy
   roles:
