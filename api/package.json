@@ -67,7 +67,7 @@
     "coverage:rename": "mv ../coverage/lcov.info ../coverage/api_lcov.info",
     "coverage": "npm run coverage:check && npm run coverage:rename",
     "deploy:integration": "./scripts/deploy.sh integration",
-    "deploy:staging": "./scripts/deploy.sh staging && (OS_REGION_NAME=$OS_REGION_NAME_STAGING ./scripts/deploy_ansible.sh|| true)",
-    "deploy:production": "./scripts/deploy.sh production && (OS_REGION_NAME=$OS_REGION_NAME_PRODUCTION ./scripts/deploy_ansible.sh|| true)"
+    "deploy:staging": "./scripts/deploy.sh staging && (OS_REGION_NAME=$OS_REGION_NAME_STAGING ./scripts/deploy_ansible.sh staging || true)",
+    "deploy:production": "./scripts/deploy.sh production && (OS_REGION_NAME=$OS_REGION_NAME_PRODUCTION ./scripts/deploy_ansible.sh production|| true)"
   }
 }
