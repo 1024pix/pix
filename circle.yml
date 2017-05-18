@@ -5,6 +5,8 @@ machine:
 dependencies:
   pre:
     - npm install -g bower
+    - pip install ansible==2.3.0 python-openstackclient
+    - pip install -U setuptools shade
 
 test:
   override:
