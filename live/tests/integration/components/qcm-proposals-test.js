@@ -3,7 +3,7 @@ import { describe, it } from 'mocha';
 import { setupComponentTest } from 'ember-mocha';
 import hbs from 'htmlbars-inline-precompile';
 
-describe('Integration | Component | QcmProposals', function() {
+describe('Integration | Component | QCM proposals', function() {
 
   setupComponentTest('qcm-proposals', {
     integration: true

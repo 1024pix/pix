@@ -16,8 +16,8 @@
     <div class="rounded-panel__row challenge-proposals">
       {{qcm-proposals
         answers=answers._valueAsArrayOfBoolean
-        proposals=challenge._proposalsAsArray
-        onAnswerUpdated='answerChanged'}}
+        proposals=challenge.proposals
+        answerChanged=(action 'answerChanged')}}
     </div>
     {{#if challenge.timer}}
       {{#if hasUserConfirmWarning}}

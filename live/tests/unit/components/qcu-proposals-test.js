@@ -4,7 +4,7 @@ import { expect } from 'chai';
 import { describe, it } from 'mocha';
 import { setupTest } from 'ember-mocha';
 
-describe('Unit | Component | QcuProposalsComponent', function() {
+describe('Unit | Component | QCU proposals', function() {
 
   setupTest('component:qcu-proposals', {});
 
@@ -13,7 +13,7 @@ describe('Unit | Component | QcuProposalsComponent', function() {
 
   describe('Computed property "labeledRadios"', function() {
 
-    const DEFAULT_PROPOSALS = ['prop 1', 'prop 2', 'prop 3'];
+    const DEFAULT_PROPOSALS = '- prop 1\n- prop 2\n- prop 3';
     const DEFAULT_ANSWERS = [false, true, false];
     const PROPOSAL_TEXT = 0;
     const BOOLEAN_ANSWER = 1;
@@ -48,26 +48,26 @@ describe('Unit | Component | QcuProposalsComponent', function() {
       const labeledRadios = component.get('labeledRadios');
 
       // then
-      expect(labeledRadios[0][PROPOSAL_TEXT]).to.equal(DEFAULT_PROPOSALS[0]);
+      expect(labeledRadios[0][PROPOSAL_TEXT]).to.equal('prop 1');
       expect(labeledRadios[0][BOOLEAN_ANSWER]).to.equal(DEFAULT_ANSWERS[0]);
 
-      expect(labeledRadios[1][PROPOSAL_TEXT]).to.equal(DEFAULT_PROPOSALS[1]);
+      expect(labeledRadios[1][PROPOSAL_TEXT]).to.equal('prop 2');
       expect(labeledRadios[1][BOOLEAN_ANSWER]).to.equal(DEFAULT_ANSWERS[1]);
 
-      expect(labeledRadios[2][PROPOSAL_TEXT]).to.equal(DEFAULT_PROPOSALS[2]);
+      expect(labeledRadios[2][PROPOSAL_TEXT]).to.equal('prop 3');
       expect(labeledRadios[2][BOOLEAN_ANSWER]).to.equal(DEFAULT_ANSWERS[2]);
     });
 
     it('should return an array of [<proposal_text>, <boolean_answer>] with as many items than challenge proposals', function() {
       // given
-      proposals = ['prop 1', 'prop 2', 'prop 3', 'prop 4', 'prop 5'];
+      proposals = '- prop 1\n- prop 2\n- prop 3\n- prop 4\n- prop 5';
       initComponent.call(this);
 
       // when
       const labeledRadios = component.get('labeledRadios');
 
       // then
-      expect(labeledRadios).to.have.lengthOf(proposals.length);
+      expect(labeledRadios).to.have.lengthOf(5);
     });
 
     it('should return an array of [<proposal_text>, <boolean_answer>] with all <boolean_answer> values set to "false" when given answer is "null"', function() {

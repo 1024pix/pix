@@ -15,9 +15,9 @@
   <div class="rounded-panel challenge-response">
     <div class="rounded-panel__row challenge-proposals">
       {{qroc-proposal
-        blocks=challenge._proposalsAsBlocks
+        proposals=challenge.proposals
         answerValue=answers.value
-        onInputChanged='inputChanged'}}
+        answerChanged=(action 'inputChanged')}}
     </div>
     {{#if challenge.timer}}
       {{#if hasUserConfirmWarning}}
