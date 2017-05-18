@@ -10,6 +10,8 @@ if ! [[ -n $OS_AUTH_URL && -n $OS_TENANT_ID && -n $OS_TENANT_NAME && -n $OS_REGI
    exit 1
 fi
 
+cd "$(dirname "$0")"/ansible
+
 #VARS
 sgs="nodeapp"
 
@@ -22,8 +24,6 @@ public_ip_address=$(wget -qO- http://checkip.amazonaws.com)
 for sg in $sgs; do
    openstack security group rule create $sg --protocol tcp --dst-port 22:22 --remote-ip $public_ip_address/32 2>/dev/null || true
 done
-
-cd "$(dirname "$0")"/ansible
 
 #Deploy app
 ansible-playbook -i inventories/pix-$ENVIRONMENT deploy_app_prod.yml --vault-password-file=vault_password
