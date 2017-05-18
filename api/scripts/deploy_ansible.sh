@@ -20,7 +20,7 @@ echo "add ssh to sg"
 public_ip_address=$(wget -qO- http://checkip.amazonaws.com)
 
 for sg in $sgs; do
-   openstack security group rule create $sg --protocol tcp --dst-port 22:22 --remote-ip $public_ip_address/32
+   openstack security group rule create $sg --protocol tcp --dst-port 22:22 --remote-ip $public_ip_address/32 2>/dev/null || true
 done
 
 #Deploy app
@@ -30,7 +30,7 @@ ansible-playbook -i inventories/pix-$ENVIRONMENT deploy_app_prod.yml --vault-pas
 echo "remove ssh to sg"
 for sg in $sgs; do
     group_rule_id=$(openstack security group rule list $sg -f value | grep "$public_ip_address/32 22:22" | awk '{print $1;}' | head -1)
-    openstack security group rule delete $group_rule_id
+    openstack security group rule delete $group_rule_id 2>/dev/null || true
 done
 
 #Remove vault_password
