@@ -23,7 +23,7 @@ for sg in $sgs; do
    openstack security group rule create $sg --protocol tcp --dst-port 22:22 --remote-ip $public_ip_address/32 2>/dev/null || true
 done
 
-cd ansible/
+cd "$(dirname "$0")"/ansible
 
 #Deploy app
 ansible-playbook -i inventories/pix-$ENVIRONMENT deploy_app_prod.yml --vault-password-file=vault_password
