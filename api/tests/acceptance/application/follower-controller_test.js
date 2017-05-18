@@ -15,13 +15,16 @@ describe('Acceptance | Controller | follower-controller', () => {
   describe('POST /api/followers', function() {
 
     let mailServiceStub;
+    let addEmailToRandomContactListStub;
 
     beforeEach(() => {
       mailServiceStub = sinon.stub(mailService, 'sendWelcomeEmail');
+      addEmailToRandomContactListStub = sinon.stub(mailService, 'addEmailToRandomContactList');
     });
 
     afterEach(() => {
       mailServiceStub.restore();
+      addEmailToRandomContactListStub.restore();
     });
 
     it('should persist the follower if follower does not exist', () => {

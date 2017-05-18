@@ -14,13 +14,16 @@ describe('Unit | Controller | FollowerController', function() {
   describe('#save', function() {
 
     let sendWelcomeEmail;
+    let addEmailToRandomContactListStub;
 
     beforeEach(() => {
       sendWelcomeEmail = sinon.stub(mailService, 'sendWelcomeEmail');
+      addEmailToRandomContactListStub = sinon.stub(mailService, 'addEmailToRandomContactList');
     });
 
     afterEach(() => {
       sendWelcomeEmail.restore();
+      addEmailToRandomContactListStub.restore();
     });
 
     it('should return 400 status code when email provided is not valid', function() {
@@ -53,5 +56,20 @@ describe('Unit | Controller | FollowerController', function() {
         sinon.assert.calledWith(sendWelcomeEmail, email);
       });
     });
+
+    it('should add the email into a random contact list', function() {
+      // Given
+      const email = faker.internet.email();
+      const request = { payload: { data: { attributes: { email } } } };
+
+      // When
+      const promise = followerController.save(request, sinon.spy());
+
+      // Then
+      return promise.then(() => {
+        sinon.assert.calledWith(addEmailToRandomContactListStub, email);
+      });
+    });
+
   });
 });
