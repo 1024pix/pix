@@ -46,7 +46,7 @@ const contentReference = {
 
 };
 
-const timeOutAfterRender = 1000; //XXX: Wait after attribute rendering
+const timeOutAfterRender = 900; // FIXME: This trigger the tooltip after rendering
 
 const resultItem = Ember.Component.extend({
   classNames: ['result-item'],
