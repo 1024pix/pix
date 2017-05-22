@@ -58,6 +58,51 @@
   transition: opacity .2s linear;
 }
 
+input[type="checkbox"]:focus {
+  outline: none;
+}
+
+input[type="checkbox"]:before {
+  position: relative;
+
+  height: 18px;
+  width: 18px;
+  top: -3px;
+
+  border: 2px solid $gainsboro;
+  content: ' ';
+  display: block;
+  background-color: $white;
+  border-radius: 10%;
+}
+
+input[type="checkbox"]:focus:before {
+  border-color: $pix-blue;
+}
+
+input[type="checkbox"]:checked:before {
+  border: 2px solid $pix-blue;
+  background-color: $pix-blue;
+}
+
+input[type="checkbox"]:checked:after {
+  height: 18px;
+  width: 18px;
+
+  position: relative;
+  top: -21px;
+
+  font-size: 14px;
+  color: $white;
+
+  content: '✓';
+  display: block;
+  text-align: center;
+}
+
+input[type="checkbox"]:checked:focus:before {
+  box-shadow: 0 0 4px $pix-blue;
+}
 
 /**
  *
@@ -138,7 +183,6 @@ input[type=radio]:focus:before {
 }
 .qcm-panel__proposal-label {
   display: inline-block;
-  padding-left: 20px;
   line-height: 21px;
   position: relative;
 }
@@ -159,22 +203,3 @@ input[type=radio]:focus:before {
   opacity: 0;
   display: none;
 }
-
-/*XXX Can't use BEM properly when using CSS state manipulation*/
-.qcm-panel__proposal-checkbox:checked ~ label svg.checkbox-disabled-on {
-  opacity: 0;
-}
-
-.qcm-panel__proposal-checkbox:not(:checked) ~ label svg.checkbox-disabled-off {
-  opacity: 1;
-}
-
-.qcm-panel__proposal-checkbox:checked ~ label svg.checkbox-disabled-on {
-  opacity: 1;
-}
-
-.qcm-panel__proposal-checkbox:not(:checked) ~ label svg.checkbox-disabled-on {
-  opacity: 0;
-}
-
-

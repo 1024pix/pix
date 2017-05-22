@@ -102,64 +102,14 @@
   }
 }
 
-.signup-form__cgu-container input[type="checkbox"] {
-  -webkit-appearance: none;
-}
-
-.signup-form__cgu-container input[type="checkbox"]:after {
-  border-color: $gainsboro;
-}
-
-.signup-form__cgu-container input[type="checkbox"]:disabled:after {
-  border-color: $gainsboro;
-}
-
-.signup-form__cgu-container input[type="checkbox"]:focus {
-  outline: none;
-}
-
-.signup-form__cgu-container input[type="checkbox"]:after {
-  border: 2px solid $gainsboro;
-  border-radius: 2px;
-  content: '';
-  display: block;
-  height: 18px;
-  transition: 240ms;
-  width: 18px;
-}
-
-.signup-form__cgu-container input[type="checkbox"]:checked:before {
-  -webkit-transform: rotate(45deg);
-  transform: rotate(45deg);
-  position: absolute;
-  left: 6px;
-  display: table;
-  width: 7px;
-  height: 14px;
-  border: 2px solid $white;
-  border-top: 0;
-  border-left: 0;
-  content: '';
-}
-
-.signup-form__cgu-container input[type="checkbox"]:checked:after {
-  background-color: $pix-blue;
-  border-color: $pix-blue;
-}
-
-.signup-form__cgu-container input[type="checkbox"]:disabled:checked:after {
-  background-color: rgba(0, 0, 0, 0.26);
-  border-color: transparent;
-}
-
-.signup-form__cgu-container input[type="checkbox"]:focus:after {
-  border-color: $pix-blue;
-}
-
 .signup-form__cgu-label {
   position: relative;
   display: flex;
   margin-bottom: 0;
+}
+
+.signup-form__cgu-label input[type=checkbox] {
+  margin: 3px 15px;
 }
 
 .signup-form__cgu-label span {
