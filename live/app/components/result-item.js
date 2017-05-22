@@ -34,7 +34,7 @@ const contentReference = {
 
 const timeOutAfterRender = 1000; // FIXME: This trigger the tooltip after rendering
 
-const resultItem = Ember.Component.extend({
+export default Ember.Component.extend({
 
   classNames: [ 'result-item' ],
 

@@ -11,6 +11,7 @@ describe('Integration | Component | QrocmProposalComponent', function() {
 
   it('renders', function() {
     this.render(hbs`{{qrocm-proposal}}`);
+
     expect(this.$()).to.have.length(1);
   });
 

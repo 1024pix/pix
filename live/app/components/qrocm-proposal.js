@@ -14,8 +14,7 @@ export default Ember.Component.extend({
   }),
 
   didInsertElement: function() {
-
-    this.$('input').keydown(() => {
+    this.$('input').keydown(function() {
       this.get('answerChanged')();
     });
   }
