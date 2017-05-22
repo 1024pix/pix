@@ -74,10 +74,11 @@ describe('Integration | Component | qcm-solution-panel.js', function() {
       });
 
       it('QCM, la réponse correcte est cochée', function() {
-        //Given
+        // Given
         this.set('answer', answer);
         this.set('solution', solution);
         this.set('challenge', challenge);
+
         // When
         this.render(hbs`{{qcm-solution-panel challenge=challenge answer=answer solution=solution}}`);
 
@@ -89,7 +90,7 @@ describe('Integration | Component | qcm-solution-panel.js', function() {
         expect(charCount($(LABEL_CORRECT_AND_CHECKED).text())).to.be.above(0);
         expect($(LABEL_CORRECT_AND_CHECKED).css('font-weight')).to.equal(CSS_BOLD_FONT_WEIGHT);
         expect($(LABEL_CORRECT_AND_CHECKED).css('color')).to.equal(CSS_GREEN_COLOR);
-        expect($(LABEL_CORRECT_AND_CHECKED).css('text-decoration')).to.equal(CSS_LINETHROUGH_OFF);
+        expect($(LABEL_CORRECT_AND_CHECKED).css('text-decoration')).to.contains(CSS_LINETHROUGH_OFF);
       });
 
       it('QCM, aucune réponse incorrecte n\'est cochée', function() {
@@ -106,7 +107,7 @@ describe('Integration | Component | qcm-solution-panel.js', function() {
         expect(charCount($(LABEL_INCORRECT_AND_UNCHECKED).text())).to.be.above(0);
         expect($(LABEL_INCORRECT_AND_UNCHECKED).css('font-weight')).to.equal(CSS_NORMAL_FONT_WEIGHT);
         expect($(LABEL_INCORRECT_AND_UNCHECKED).css('color')).to.equal(CSS_BLACK_COLOR);
-        expect($(LABEL_INCORRECT_AND_UNCHECKED).css('text-decoration')).to.equal(CSS_LINETHROUGH_OFF);
+        expect($(LABEL_INCORRECT_AND_UNCHECKED).css('text-decoration')).to.contains(CSS_LINETHROUGH_OFF);
       });
 
       it('QCM, Au moins l\'une des réponse correcte n\'est pas cochée', function() {
@@ -125,7 +126,7 @@ describe('Integration | Component | qcm-solution-panel.js', function() {
         expect(charCount($(LABEL_CORRECT_AND_UNCHECKED).text())).to.be.above(0);
         expect($(LABEL_CORRECT_AND_UNCHECKED).css('font-weight')).to.equal(CSS_BOLD_FONT_WEIGHT);
         expect($(LABEL_CORRECT_AND_UNCHECKED).css('color')).to.equal(CSS_GREEN_COLOR);
-        expect($(LABEL_CORRECT_AND_UNCHECKED).css('text-decoration')).to.equal(CSS_LINETHROUGH_OFF);
+        expect($(LABEL_CORRECT_AND_UNCHECKED).css('text-decoration')).to.contains(CSS_LINETHROUGH_OFF);
       });
 
       it('QCM, au moins l\'une des réponse incorrecte est cochée', function() {
@@ -146,7 +147,7 @@ describe('Integration | Component | qcm-solution-panel.js', function() {
         expect(charCount($(LABEL_INCORRECT_AND_CHECKED).text())).to.be.above(0);
         expect($(LABEL_INCORRECT_AND_CHECKED).css('font-weight')).to.equal(CSS_NORMAL_FONT_WEIGHT);
         expect($(LABEL_INCORRECT_AND_CHECKED).css('color')).to.equal(CSS_BLACK_COLOR);
-        expect($(LABEL_INCORRECT_AND_CHECKED).css('text-decoration')).to.equal(CSS_LINETHROUGH_ON);
+        expect($(LABEL_INCORRECT_AND_CHECKED).css('text-decoration')).to.contains(CSS_LINETHROUGH_ON);
 
       });
 

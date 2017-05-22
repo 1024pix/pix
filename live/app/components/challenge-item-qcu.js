@@ -11,7 +11,7 @@ const ChallengeItemQcu = ChallengeItemGeneric.extend({
   // and moreover, it is a much more robust solution when you need to test it properly.
   _getAnswerValue() {
     return this.$('.challenge-proposals input:radio:checked').map(function() {
-      return this.name;
+      return this.value;
     }).get().join('');
   },
 

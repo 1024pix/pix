@@ -79,7 +79,7 @@ describe('Integration | Component | qrocm solution panel', function() {
 
         expect(answerInput.css('color')).to.be.equal(RIGHT_ANSWER_GREEN);
         expect(answerInput.css('font-weight')).to.be.equal('bold');
-        expect(answerInput.css('text-decoration')).to.be.equal('none');
+        expect(answerInput.css('text-decoration')).to.be.contains('none');
       });
 
       it('should not display the solution', function() {
@@ -108,7 +108,7 @@ describe('Integration | Component | qrocm solution panel', function() {
 
         expect(answerInput.css('color')).to.be.equal(NO_ANSWER_GREY);
         expect(answerInput.css('font-weight')).to.be.equal('400');
-        expect(answerInput.css('text-decoration')).to.be.equal('line-through');
+        expect(answerInput.css('text-decoration')).to.be.contains('line-through');
       });
 
       it('should display one solution in bold green below the input', function() {
@@ -123,7 +123,7 @@ describe('Integration | Component | qrocm solution panel', function() {
 
         expect(solutionText.css('color')).to.be.equal(RIGHT_ANSWER_GREEN);
         expect(solutionText.css('font-weight')).to.be.equal('bold');
-        expect(solutionText.css('text-decoration')).to.be.equal('none');
+        expect(solutionText.css('text-decoration')).to.be.contains('none');
       });
     });
 
@@ -143,7 +143,7 @@ describe('Integration | Component | qrocm solution panel', function() {
 
         expect(answerInput.css('color')).to.be.equal(NO_ANSWER_GREY);
         expect(answerInput.css('font-weight')).to.be.equal('400');
-        expect(answerInput.css('text-decoration')).to.be.equal('none');
+        expect(answerInput.css('text-decoration')).to.be.contains('none');
       });
 
       it('should display one solution in bold green below the input', function() {
@@ -158,7 +158,7 @@ describe('Integration | Component | qrocm solution panel', function() {
 
         expect(solutionText.css('color')).to.be.equal(RIGHT_ANSWER_GREEN);
         expect(solutionText.css('font-weight')).to.be.equal('bold');
-        expect(solutionText.css('text-decoration')).to.be.equal('none');
+        expect(solutionText.css('text-decoration')).to.be.contains('none');
       });
     });
   });

@@ -49,7 +49,7 @@ describe('Integration | Component | qroc solution panel', function() {
       expect(answerInput).to.have.length(1);
       expect(answerBlock).to.have.length(1);
       expect(answerInput.css('font-weight')).to.be.equal('bold');
-      expect(answerInput.css('text-decoration')).to.be.equal('none');
+      expect(answerInput.css('text-decoration')).to.be.contains('none');
       expect(answerInput.css('color')).to.be.equal(RIGHT_ANSWER_GREEN);
       expect(solutionBlock).to.have.length(0);
     });
@@ -73,7 +73,7 @@ describe('Integration | Component | qroc solution panel', function() {
       // then
       expect(answerBlock).to.have.lengthOf(1);
       expect(answerInput.css('font-weight')).to.be.equal('400');
-      expect(answerInput.css('text-decoration')).to.be.equal('line-through');
+      expect(answerInput.css('text-decoration')).to.be.contains('line-through');
 
     });
 
