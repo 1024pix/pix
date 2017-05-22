@@ -16,7 +16,7 @@ const INPUT_TEXT_FIELD = '.signup-form__input-container';
 const INPUT_TEXT_FIELD_CLASS_DEFAULT = 'signup-textfield__input-container--default';
 
 const CHECKBOX_CGU_CONTAINER = '.signup-form__cgu-container';
-const CHECKBOX_CGU_INPUT = '.signup-form__cgu-checkbox';
+const CHECKBOX_CGU_INPUT = '#cgu';
 const CHECKBOX_CGU_LABEL = '.signup-form__cgu-label';
 const UNCHECKED_CHECKBOX_CGU_ERROR = 'Veuillez accepter les conditions générales d\'utilisation (CGU) avant de créer un compte.';
 
