@@ -5,7 +5,7 @@ import { setupTest } from 'ember-mocha';
 describe('Unit | Route | placement-tests', function() {
 
   setupTest('route:placement-tests', {
-    needs: ['service:delay']
+    needs: ['service:delay', 'service:current-routed-modal']
   });
 
   it('exists', function() {

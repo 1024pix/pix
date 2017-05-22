@@ -5,7 +5,7 @@ import { setupTest } from 'ember-mocha';
 describe('Unit | Route | competences', function() {
 
   setupTest('route:competences', {
-    needs: ['service:panelActions']
+    needs: ['service:panelActions', 'service:current-routed-modal']
   });
 
   it('exists', function() {
