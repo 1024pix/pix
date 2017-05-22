@@ -1,7 +1,7 @@
 module.exports = {
   env: {
-    'embertest': true,
-    'mocha': true
+    embertest: true,
+    mocha: true
   },
   globals: {
     'Showdown': false,

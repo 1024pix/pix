@@ -2,16 +2,29 @@
   "name": "pix-live",
   "version": "1.11.0",
   "description": "Plateforme d'évaluation et de certification des compétences numériques à l'usage de tous les citoyens francophones.",
-  "private": true,
+  "license": "AGPL-3.0",
+  "author": "SGMAP",
   "directories": {
     "doc": "doc",
     "test": "tests"
   },
-  "engines": {
-    "node": ">= 7.7.4"
+  "scripts": {
+    "postinstall": "bower cache clean && bower install",
+    "build": "ember build",
+    "clean": "rm -rf tmp dist bower_components node_modules",
+    "start": "ember server",
+    "test": "ember test",
+    "lint": "./node_modules/.bin/eslint app mirage tests --fix",
+    "coverage:check": "COVERAGE=true ember test",
+    "coverage:convert": "node scripts/lcov-path-converter",
+    "coverage:rename": "mv coverage/lcov.info ../coverage/live_lcov.info",
+    "coverage": "npm run coverage:check && npm run coverage:convert && npm run coverage:rename",
+    "test:watch": "ember test --serve",
+    "ci:test": "COVERAGE=true ember test",
+    "deploy:integration": "./scripts/deploy.sh integration",
+    "deploy:staging": "./scripts/deploy.sh staging",
+    "deploy:production": "./scripts/deploy.sh production"
   },
-  "author": "SGMAP",
-  "license": "AGPL-3.0",
   "devDependencies": {
     "broccoli-asset-rev": "^2.5.0",
     "codeclimate-test-reporter": "^0.4.1",
@@ -56,21 +69,8 @@
     "phantomjs-prebuilt": "2.1.14",
     "showdown": "showdownjs/showdown#1bca88f"
   },
-  "scripts": {
-    "postinstall": "bower cache clean && bower install",
-    "build": "ember build",
-    "clean": "rm -rf tmp dist bower_components node_modules",
-    "start": "ember server",
-    "test": "ember test",
-    "lint": "./node_modules/.bin/eslint app mirage tests --fix",
-    "coverage:check": "COVERAGE=true ember test",
-    "coverage:convert": "node scripts/lcov-path-converter",
-    "coverage:rename": "mv coverage/lcov.info ../coverage/live_lcov.info",
-    "coverage": "npm run coverage:check && npm run coverage:convert && npm run coverage:rename",
-    "test:watch": "ember test --serve",
-    "ci:test": "COVERAGE=true ember test",
-    "deploy:integration": "./scripts/deploy.sh integration",
-    "deploy:staging": "./scripts/deploy.sh staging",
-    "deploy:production": "./scripts/deploy.sh production"
-  }
+  "engines": {
+    "node": ">= 7.7.4"
+  },
+  "private": true
 }
