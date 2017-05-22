@@ -10,7 +10,7 @@
 
 .index-page__background {
   position: absolute;
-  background: url("/images/index-hero-bg.jpg");
+  background: url("/images/index-hero-bg-min.jpg");
   background-size: cover;
   height: 600px;
   width: 100%;
@@ -183,7 +183,7 @@
   flex-direction: column;
   align-items: center;
   color: $white;
-  background: url("/images/index-community-bg.png");
+  background: url("/images/index-community-bg-min.jpg");
   background-size: cover;
 }
 
