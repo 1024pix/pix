@@ -24,7 +24,7 @@ export default  Ember.Component.extend({
     Ember.$('#' + this.id).focus();
   },
 
-  selectedAttachmentUrl: Ember.computed('challenge.attachments', function () {
+  selectedAttachmentUrl: Ember.computed('challenge.attachments', function() {
     return this.get('challenge.attachments.firstObject');
   }),
 
