@@ -112,5 +112,28 @@ describe('Integration | Component | comparison-window', function() {
       // then
       expect(this.$('.comparison-window').css('max-width')).to.be.equal('900px');
     });
+
+    [
+      { status: 'ok' },
+      { status: 'ko' },
+      { status: 'aband' },
+      { status: 'partially' },
+      { status: 'timedout' },
+      { status: 'default' },
+    ].forEach(function(data) {
+
+      it(`should display the good icon in title when answer's result is "${data.status}"`, function() {
+        // given
+        answer.set('result', data.status);
+
+        // when
+        this.render(hbs`{{comparison-window answer=answer challenge=challenge solution=solution index=index}}`);
+
+        // then
+        const $icon = this.$('.comparison-window__result-icon');
+        expect(this.$(`.comparison-window__result-icon--${data.status}`)).to.have.lengthOf(1);
+        expect($icon.attr('src')).to.equal(`/images/answer-validation/icon-${data.status}.svg`);
+      });
+    });
   });
 });

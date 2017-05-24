@@ -14,7 +14,6 @@ describe('Acceptance | j1 - Comparer réponses et solutions pour un QCM |', func
   const COMPARISON_MODAL_URL = '/assessments/ref_assessment_id/results/compare/ref_answer_qcm_id/1';
 
   const TEXT_OF_RESULT_SELECTOR = '.comparison-window__header .comparison-window__title-text';
-  const SVG_OF_RESULT_SELECTOR = '.comparison-window__header .comparison-window__title svg';
   const INDEX_OF_RESULT_SELECTOR = '.comparison-window__header .comparison-window__result-item-index';
 
   const TEXT_OF_INSTRUCTION_SELECTOR = '.comparison-window--body .challenge-statement__instruction';
@@ -66,13 +65,10 @@ describe('Acceptance | j1 - Comparer réponses et solutions pour un QCM |', func
 
       await visit(RESULT_URL);
       expect($(INDEX_OF_RESULT_SELECTOR)).to.have.lengthOf(0);
-      expect($(SVG_OF_RESULT_SELECTOR)).to.have.lengthOf(0);
       expect($(TEXT_OF_RESULT_SELECTOR)).to.have.lengthOf(0);
 
       await visit(COMPARISON_MODAL_URL);
       expect($(INDEX_OF_RESULT_SELECTOR).text().replace(/\n/g, '').trim()).to.equal('1');
-      expect($(SVG_OF_RESULT_SELECTOR)).to.have.lengthOf(1);
-      expect(charCount($(TEXT_OF_RESULT_SELECTOR).text())).to.be.above(5);// XXX : Above 5 means "must be a sentence"
 
       // XXX test env needs the modal to be closed manually
       await click('.close-button-container');

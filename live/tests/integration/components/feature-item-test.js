@@ -27,7 +27,7 @@ describe('Integration | Component | feature item', function() {
 
     const $icon = this.$('.feature-item__icon');
     expect($icon).to.exist;
-    expect($icon.attr('src')).to.equal('images/icon-coucou.svg');
+    expect($icon.attr('src')).to.equal('images/features/icon-coucou.svg');
   });
 
   it('should render an title', function() {

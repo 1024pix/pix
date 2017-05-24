@@ -41,10 +41,6 @@
   color: $slate-grey;
 }
 
-.signup-textfield__input-field-container svg {
-  margin: 6px 8px;
-}
-
 .signup-textfield__message {
   position: absolute;
   top: 0;
@@ -64,3 +60,8 @@
   margin-bottom: 5px;
 }
 
+.signup-textfield__icon {
+  width:20px;
+  height:20px;
+  margin: 6px 8px;
+}

@@ -38,7 +38,7 @@ describe('Unit | Component | result-item-component', function() {
     component = this.subject();
   });
 
-  describe('#resultItemContent Computed property - undefined case', function() {
+  describe('#resultItem Computed property - undefined case', function() {
     [
       undefinedAnswer,
       answerWithEmptyResult,
@@ -49,25 +49,25 @@ describe('Unit | Component | result-item-component', function() {
         // when
         component.set('answer', answer);
         // then
-        expect(component.get('resultItemContent')).to.be.undefined;
+        expect(component.get('resultItem')).to.be.undefined;
       });
     });
 
   });
 
-  describe('#resultItemContent Computed property - defined case', function() {
+  describe('#resultItem Computed property - defined case', function() {
     it('should returns true when answer provided with result ok', function() {
       // when
       component.set('answer', answerWithOkResult);
       // then
-      expect(component.get('resultItemContent.title')).to.equal('Réponse correcte');
+      expect(component.get('resultItem.tooltip')).to.equal('Réponse correcte');
     });
 
     it('should returns true when answer provided with result uncommon value by not null or undefined ', function() {
       // when
       component.set('answer', answerWithRandomResult);
       // then
-      expect(component.get('resultItemContent.title')).to.equal('Correction automatique en cours de développement ;)');
+      expect(component.get('resultItem.tooltip')).to.equal('Correction automatique en cours de développement ;)');
     });
   });
 

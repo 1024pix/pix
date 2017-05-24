@@ -101,7 +101,7 @@ describe('Integration | Component | signup textfield', function() {
 
       it('return true if any svg doesn\'t exist', function() {
         // then
-        expect(this.$('svg')).to.have.length(0);
+        expect(this.$('img')).to.have.length(0);
       });
 
       it(`contain an input with an additional class ${INPUT_DEFAULT_CLASS}`, function() {
@@ -131,11 +131,11 @@ describe('Integration | Component | signup textfield', function() {
       this.set('validationMessage', '');
     });
 
-    it('return true if any svg does exist', function() {
+    it('return true if any img does exist', function() {
       // then
       return wait().then(() => {
-        expect(this.$('svg')).to.have.length(1);
-        expect(this.$('svg').attr('class')).to.equal('validation-icon-error');
+        expect(this.$('img')).to.have.length(1);
+        expect(this.$('img').attr('class')).to.contain('signup-textfield__icon--error');
       });
     });
 
@@ -164,14 +164,13 @@ describe('Integration | Component | signup textfield', function() {
       this.render(hbs`{{signup-textfield label=label validationStatus=validationStatus validationMessage=validationMessage textfieldName=textfieldName}}`);
     });
 
-    it('return true if any svg does exist', function() {
+    it('return true if any img does exist', function() {
       // then
-      expect(this.$('svg')).to.have.length(1);
-      expect(this.$('svg').attr('class')).to.equal('validation-icon-success');
+      expect(this.$('img')).to.have.length(1);
+      expect(this.$('img').attr('class')).to.contain('signup-textfield__icon--success');
     });
 
     [
-
       {item: 'Input', itemSelector: INPUT, expectedClass: INPUT_SUCCESS_CLASS},
       {item: 'Div for message validation status', itemSelector: MESSAGE, expectedClass: MESSAGE_SUCCESS_STATUS},
 
@@ -181,7 +180,5 @@ describe('Integration | Component | signup textfield', function() {
         expect(this.$(itemSelector).attr('class')).to.contain(expectedClass);
       });
     });
-
   });
-
 });

@@ -16,15 +16,9 @@
 
   {{#if hasIcon}}
     {{#if (eq validationStatus 'error') }}
-      <svg class="validation-icon-error" style="width:20px;height:20px" viewBox="0 0 24 24">
-        <path fill="#f45c00"
-              d="M12,2C17.53,2 22,6.47 22,12C22,17.53 17.53,22 12,22C6.47,22 2,17.53 2,12C2,6.47 6.47,2 12,2M15.59,7L12,10.59L8.41,7L7,8.41L10.59,12L7,15.59L8.41,17L12,13.41L15.59,17L17,15.59L13.41,12L17,8.41L15.59,7Z"/>
-      </svg>
+      <img src="/images/icon-error.svg" class="signup-textfield__icon signup-textfield__icon--error">
     {{else}}
-      <svg class="validation-icon-success" style="width:20px;height:20px" viewBox="0 0 24 24">
-        <path fill="#30d5b0"
-              d="M12,2A10,10 0 0,1 22,12A10,10 0 0,1 12,22A10,10 0 0,1 2,12A10,10 0 0,1 12,2M11,16.5L18,9.5L16.59,8.09L11,13.67L7.91,10.59L6.5,12L11,16.5Z"/>
-      </svg>
+      <img src="/images/icon-success.svg" class="signup-textfield__icon signup-textfield__icon--success validation-icon-success">
     {{/if}}
   {{/if}}
 </div>
