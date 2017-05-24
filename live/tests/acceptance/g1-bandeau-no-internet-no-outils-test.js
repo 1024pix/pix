@@ -20,7 +20,7 @@ describe('Acceptance | g1 - Afficahge du bandeau indiquant que l\'usage d\'Inter
 
   it('g1.1 le bandeau doit être affiché si l\'usage d\'Internet ou d\'outils est interdit dans le cadre de l\'épreuve', async function() {
     await visit(CHALLENGE_WITHOUT_INTERNET_NOR_TOOLS_URI);
-    expect($('.challenge-stay__text').text()).to.contains('Vous devez répondre à cette question sans sortir de cette page !');
+    expect($('.challenge-stay__text').text()).to.contain('Vous devez répondre à cette question sans sortir de cette page !');
   });
 
   it('g1.2 le bandeau ne doit pas être affiché si l\'usage d\'Internet ou d\'outils est autorisé dans le cadre de l\'épreuve', function() {

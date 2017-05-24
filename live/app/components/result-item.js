@@ -32,7 +32,7 @@ const contentReference = {
   }
 };
 
-const timeOutAfterRender = 1000; //XXX: Wait after attribute rendering
+const timeOutAfterRender = 1000; // FIXME: This trigger the tooltip after rendering
 
 export default Ember.Component.extend({
 
@@ -44,7 +44,7 @@ export default Ember.Component.extend({
   }),
 
   validationImplementedForChallengeType: Ember.computed('answer.challenge.type', function() {
-    const implementedTypes = ['QCM', 'QROC', 'QCU', 'QROCM-ind'];
+    const implementedTypes = [ 'QCM', 'QROC', 'QCU', 'QROCM-ind' ];
     const challengeType = this.get('answer.challenge.type');
     return implementedTypes.includes(challengeType);
   }),

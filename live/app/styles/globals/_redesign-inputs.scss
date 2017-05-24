@@ -58,6 +58,51 @@
   transition: opacity .2s linear;
 }
 
+input[type="checkbox"]:focus {
+  outline: none;
+}
+
+input[type="checkbox"]:before {
+  position: relative;
+
+  height: 18px;
+  width: 18px;
+  top: -3px;
+
+  border: 2px solid $gainsboro;
+  content: ' ';
+  display: block;
+  background-color: $white;
+  border-radius: 10%;
+}
+
+input[type="checkbox"]:focus:before {
+  border-color: $pix-blue;
+}
+
+input[type="checkbox"]:checked:before {
+  border: 2px solid $pix-blue;
+  background-color: $pix-blue;
+}
+
+input[type="checkbox"]:checked:after {
+  height: 18px;
+  width: 18px;
+
+  position: relative;
+  top: -21px;
+
+  font-size: 14px;
+  color: $white;
+
+  content: '✓';
+  display: block;
+  text-align: center;
+}
+
+input[type="checkbox"]:checked:focus:before {
+  box-shadow: 0 0 4px $pix-blue;
+}
 
 /**
  *
@@ -78,26 +123,40 @@
   cursor: pointer;
 }
 
-.input-radio-proposal {
-  opacity: 0;
-  display: none;
+input[type=radio] {
+  width: 0;
 }
-/*XXX Can't use BEM properly when using CSS state manipulation*/
-.input-radio-proposal:checked ~ label svg.radio-off {
-  opacity: 0;
-  transition: opacity .2s linear;
+
+input[type=radio]:before,
+input[type=radio]:checked:after {
+  display: block;
+  position: relative;
+  content: '';
+  border-radius: 100%;
 }
-.input-radio-proposal:not(:checked) ~ label svg.radio-off {
-  opacity: 1;
-  transition: opacity .2s linear;
+
+input[type=radio]:checked:after {
+  height: 8.5px;
+  width: 8.5px;
+  top: -15px;
+  left: 2px;
+
+  background-color: #3D68FF;
 }
-.input-radio-proposal:checked ~ label svg.radio-on {
-  opacity: 1;
-  transition: opacity .2s linear;
+
+input[type=radio]:before {
+  height: 17px;
+  width: 17px;
+  top: -2px;
+  left: -2px;
+
+  border: solid 2px #7D808B;
+  background-color: white;
 }
-.input-radio-proposal:not(:checked) ~ label svg.radio-on {
-  opacity: 0;
-  transition: opacity .2s linear;
+
+input[type=radio]:focus:before {
+  border: solid 2px #3D68FF;
+  box-shadow: 0px 0px 5px 0px #3D68FF;
 }
 
 /**
@@ -105,42 +164,12 @@
  * Configure Radios of input files
  *
  **/
-.picture-checkbox-downloadable {
-  position: absolute;
-  left: -8px;
-  top: 1px;
-}
 .label-checkbox-downloadable {
   display: inline-block;
   padding-left: 18px;
   position: relative;
   cursor: pointer;
 }
-.challenge-statement__picture-container {
-  height: 100%;
-  display: flex;
-}
-.challenge-statement__file-option-input {
-  opacity: 0;
-}
-/*XXX Can't use BEM properly when using CSS state manipulation*/
-.challenge-statement__file-option-input:checked ~ label svg.radio2-off {
-  opacity: 0;
-  transition: opacity .2s linear;
-}
-.challenge-statement__file-option-input:not(:checked) ~ label svg.radio2-off {
-  opacity: 1;
-  transition: opacity .2s linear;
-}
-.challenge-statement__file-option-input:checked ~ label svg.radio2-on {
-  opacity: 1;
-  transition: opacity .2s linear;
-}
-.challenge-statement__file-option-input:not(:checked) ~ label svg.radio2-on {
-  opacity: 0;
-  transition: opacity .2s linear;
-}
-
 
 /**
  *
@@ -154,7 +183,6 @@
 }
 .qcm-panel__proposal-label {
   display: inline-block;
-  padding-left: 20px;
   line-height: 21px;
   position: relative;
 }
@@ -171,26 +199,4 @@
   padding-left: 20px;
   position: relative;
 }
-.qcm-panel__proposal-checkbox {
-  opacity: 0;
-  display: none;
-}
-
-/*XXX Can't use BEM properly when using CSS state manipulation*/
-.qcm-panel__proposal-checkbox:checked ~ label svg.checkbox-disabled-on {
-  opacity: 0;
-}
-
-.qcm-panel__proposal-checkbox:not(:checked) ~ label svg.checkbox-disabled-off {
-  opacity: 1;
-}
-
-.qcm-panel__proposal-checkbox:checked ~ label svg.checkbox-disabled-on {
-  opacity: 1;
-}
-
-.qcm-panel__proposal-checkbox:not(:checked) ~ label svg.checkbox-disabled-on {
-  opacity: 0;
-}
-
 

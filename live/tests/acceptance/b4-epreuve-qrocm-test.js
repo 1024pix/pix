@@ -40,10 +40,13 @@ describe('Acceptance | b4 - Afficher un QROCM | ', function() {
 
   it('b4.4 It should save the answer of the user when user validate', async function() {
     resetTestingState();
+
     $(':input:eq(0)').val('stuff1');
     $(':input:eq(1)').val('stuff2');
     $(':input:eq(2)').val('stuff3');
+
     await click('.challenge-actions__action-validate');
+
     expect(urlOfLastPostRequest()).to.equal('/api/answers');
     expect(_.get(bodyOfLastPostRequest(), 'data.attributes.value')).to.equal('logiciel1: stuff1\nlogiciel2: stuff2\nlogiciel3: stuff3\n');
   });

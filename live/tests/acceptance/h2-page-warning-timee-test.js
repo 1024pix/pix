@@ -60,7 +60,7 @@ describe('Acceptance | h2 - Warning prochaine page timée  | ', function() {
     });
 
     it('h2.2- vérifier que le contenu de l\'épreuve est affiché', function() {
-      expect($('.challenge-statement').css('display')).to.contains('block');
+      expect($('.challenge-statement').css('display')).to.contain('block');
     });
 
     it('h2.3- vérifier que le timer est démarré ', function() {

@@ -1,8 +1,8 @@
-import { describe, it, beforeEach, afterEach } from 'mocha';
-import { expect } from 'chai';
+import {describe, it, beforeEach, afterEach} from 'mocha';
+import {expect} from 'chai';
 import startApp from '../helpers/start-app';
 import destroyApp from '../helpers/destroy-app';
-import { resetTestingState, bodyOfLastPostRequest, urlOfLastPostRequest } from '../helpers/shared-state';
+import {resetTestingState, bodyOfLastPostRequest, urlOfLastPostRequest} from '../helpers/shared-state';
 import _ from 'pix-live/utils/lodash-custom';
 
 let application;
@@ -19,12 +19,12 @@ describe('Acceptance | b1 - Afficher un QCU | ', function() {
   });
 
   it('b1.1 Une liste de radiobuttons doit s\'afficher', function() {
-    const $proposals = $('.input-radio-proposal');
+    const $proposals = $('input[type=radio][name="radio"]');
     expect($proposals).to.have.lengthOf(4);
   });
 
   it('b1.2 Par défaut, le radiobutton de la réponse sauvegardée est affiché', function() {
-    expect($('.input-radio-proposal:checked')).to.have.lengthOf(1);
+    expect($('input[type=radio][name="radio"]:checked')).to.have.lengthOf(1);
   });
 
   it('b1.3 Une liste ordonnée d\'instruction doit s\'afficher', function() {
@@ -51,19 +51,19 @@ describe('Acceptance | b1 - Afficher un QCU | ', function() {
   it('b1.5 Si un utilisateur clique sur un radiobutton, il est le seul coché, et les autres sont décochés', async function() {
 
     // Given
-    expect($('.input-radio-proposal:eq(0)').is(':checked')).to.equal(false);
-    expect($('.input-radio-proposal:eq(1)').is(':checked')).to.equal(true);
-    expect($('.input-radio-proposal:eq(2)').is(':checked')).to.equal(false);
-    expect($('.input-radio-proposal:eq(3)').is(':checked')).to.equal(false);
+    expect($('input[type=radio][name="radio"]:eq(0)').is(':checked')).to.equal(false);
+    expect($('input[type=radio][name="radio"]:eq(1)').is(':checked')).to.equal(true);
+    expect($('input[type=radio][name="radio"]:eq(2)').is(':checked')).to.equal(false);
+    expect($('input[type=radio][name="radio"]:eq(3)').is(':checked')).to.equal(false);
 
     // When
     await click($('.label-checkbox-proposal--qcu:eq(0)')); // Click on label trigger the event.
 
     // Then
-    expect($('.input-radio-proposal:eq(0)').is(':checked')).to.equal(true);
-    expect($('.input-radio-proposal:eq(1)').is(':checked')).to.equal(false);
-    expect($('.input-radio-proposal:eq(2)').is(':checked')).to.equal(false);
-    expect($('.input-radio-proposal:eq(3)').is(':checked')).to.equal(false);
+    expect($('input[type=radio][name="radio"]:eq(0)').is(':checked')).to.equal(true);
+    expect($('input[type=radio][name="radio"]:eq(1)').is(':checked')).to.equal(false);
+    expect($('input[type=radio][name="radio"]:eq(2)').is(':checked')).to.equal(false);
+    expect($('input[type=radio][name="radio"]:eq(3)').is(':checked')).to.equal(false);
   });
 
   it('b1.6 Si un utilisateur clique sur un radiobutton, et valide l\'épreuve, une demande de sauvegarde de sa réponse est envoyée à l\'API', async function() {
@@ -71,10 +71,10 @@ describe('Acceptance | b1 - Afficher un QCU | ', function() {
     resetTestingState();
 
     // Given
-    expect($('.input-radio-proposal:eq(0)').is(':checked')).to.equal(false);
-    expect($('.input-radio-proposal:eq(1)').is(':checked')).to.equal(true);
-    expect($('.input-radio-proposal:eq(2)').is(':checked')).to.equal(false);
-    expect($('.input-radio-proposal:eq(3)').is(':checked')).to.equal(false);
+    expect($('input[type=radio][name="radio"]:eq(0)').is(':checked')).to.equal(false);
+    expect($('input[type=radio][name="radio"]:eq(1)').is(':checked')).to.equal(true);
+    expect($('input[type=radio][name="radio"]:eq(2)').is(':checked')).to.equal(false);
+    expect($('input[type=radio][name="radio"]:eq(3)').is(':checked')).to.equal(false);
 
     // When
     await click($('.label-checkbox-proposal--qcu:eq(3)'));

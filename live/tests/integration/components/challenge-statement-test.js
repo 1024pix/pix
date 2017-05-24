@@ -158,7 +158,7 @@ describe('Integration | Component | ChallengeStatement', function() {
         renderChallengeStatement(this);
 
         // then
-        expect(this.$('.challenge-statement__file-option-input')).to.have.lengthOf(challenge.attachments.length);
+        expect(this.$('.challenge-statement__file-option_input')).to.have.lengthOf(challenge.attachments.length);
       });
 
       it('should display radio buttons with right label', function() {
@@ -182,8 +182,8 @@ describe('Integration | Component | ChallengeStatement', function() {
         renderChallengeStatement(this);
 
         // then
-        const $firstRadioButton = this.$('.challenge-statement__file-option-input')[0];
-        const $secondRadioButton = this.$('.challenge-statement__file-option-input')[1];
+        const $firstRadioButton = this.$('.challenge-statement__file-option_input')[0];
+        const $secondRadioButton = this.$('.challenge-statement__file-option_input')[1];
         expect($firstRadioButton.checked).to.be.true;
         expect($secondRadioButton.checked).to.be.false;
       });
@@ -196,8 +196,8 @@ describe('Integration | Component | ChallengeStatement', function() {
         renderChallengeStatement(this);
 
         // then
-        const $firstRadioButton = this.$('.challenge-statement__file-option-input')[0];
-        const $secondRadioButton = this.$('.challenge-statement__file-option-input')[1];
+        const $firstRadioButton = this.$('.challenge-statement__file-option_input')[0];
+        const $secondRadioButton = this.$('.challenge-statement__file-option_input')[1];
         expect($firstRadioButton.checked).to.be.true;
         expect($secondRadioButton.checked).to.be.false;
       });

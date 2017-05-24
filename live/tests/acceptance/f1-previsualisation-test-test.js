@@ -34,13 +34,13 @@ describe('Acceptance | f1 - Prévisualisation  d\'un test |', function() {
       });
 
       it('f1.2 le nom du test', function() {
-        expect($preview.find('.course-name').text()).to.contains('First Course');
+        expect($preview.find('.course-name').text()).to.contain('First Course');
       });
 
       it('f1.3 la description du test', function() {
         const $courseDescription = $preview.find('.course-description');
         const instructionText = 'Contient toutes sortes d\'epreuves avec différentes caractéristiques couvrant tous les cas d\'usage.';
-        expect($courseDescription.text()).to.contains(instructionText);
+        expect($courseDescription.text()).to.contain(instructionText);
       });
 
       it('f1.4 un bouton pour démarrer la simulation du test et qui mène à la première question', function() {
@@ -76,7 +76,7 @@ describe('Acceptance | f1 - Prévisualisation  d\'un test |', function() {
       });
 
       it('f1.7 un bouton pour accéder à l\'épreuve suivante', function() {
-        expect(findWithAssert('.challenge-actions__action-validate').text()).to.contains('Je valide');
+        expect(findWithAssert('.challenge-actions__action-validate').text()).to.contain('Je valide');
       });
     });
   });

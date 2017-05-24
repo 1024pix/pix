@@ -151,7 +151,8 @@
   text-align: center;
 }
 
-.challenge-statement__action-link:hover {
+.challenge-statement__action-link:hover,
+.challenge-statement__action-link:focus {
   color: $white;
 }
 
