@@ -4,7 +4,7 @@
       <p class="qcm-panel__proposal-item">
         <label class="qcm-panel__proposal-label qcm-proposal-label">
 
-          <input type="checkbox" checked={{if labeledCheckbox.[1] 'checked' ''}} disabled="disabled">
+          <input type="checkbox" class="qcm-panel__proposal-checkbox" checked={{if labeledCheckbox.[1] 'checked' ''}} disabled="disabled">
 
           <span class="qcm-proposal-label__oracle"
                 data-goodness="{{if (get solutionArray (concat index)) 'good' 'bad'}}"

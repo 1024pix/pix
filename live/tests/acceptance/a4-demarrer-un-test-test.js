@@ -36,7 +36,7 @@ describe('Acceptance | a4 - Démarrer un test |', function() {
     const $startLink = findWithAssert(START_BUTTON);
     return click($startLink).then(function() {
       findWithAssert('.assessment-challenge');
-      expect(currentURL()).to.contains(URL_OF_FIRST_TEST);
+      expect(currentURL()).to.contain(URL_OF_FIRST_TEST);
     });
   });
 
@@ -68,7 +68,7 @@ describe('Acceptance | a4 - Démarrer un test |', function() {
         $('a[data-dismiss]').click();
 
         return click($startLink).then(() => {
-          expect(currentURL()).to.contains(URL_OF_FIRST_TEST);
+          expect(currentURL()).to.contain(URL_OF_FIRST_TEST);
           done();
         });
       }, 500);
@@ -87,7 +87,7 @@ describe('Acceptance | a4 - Démarrer un test |', function() {
     });
     click($startLink);
     andThen(() => {
-      expect(currentURL()).to.contains('/assessments/ref_assessment_id/challenges/ref_qcm_challenge_id');
+      expect(currentURL()).to.contain('/assessments/ref_assessment_id/challenges/ref_qcm_challenge_id');
       done();
     });
   });

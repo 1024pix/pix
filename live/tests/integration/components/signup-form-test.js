@@ -16,7 +16,7 @@ const INPUT_TEXT_FIELD = '.signup-form__input-container';
 const INPUT_TEXT_FIELD_CLASS_DEFAULT = 'signup-textfield__input-container--default';
 
 const CHECKBOX_CGU_CONTAINER = '.signup-form__cgu-container';
-const CHECKBOX_CGU_INPUT = '#cgu';
+const CHECKBOX_CGU_INPUT = '#pix-cgu';
 const CHECKBOX_CGU_LABEL = '.signup-form__cgu-label';
 const UNCHECKED_CHECKBOX_CGU_ERROR = 'Veuillez accepter les conditions générales d\'utilisation (CGU) avant de créer un compte.';
 
@@ -242,7 +242,7 @@ describe('Integration | Component | signup form', function() {
         this.$('.signup__submit-button').click();
         // then
         return wait().then(() => {
-          const cguErrorMessageContent = this.$('#cgu').parent().siblings('div').text();
+          const cguErrorMessageContent = this.$(CHECKBOX_CGU_INPUT).parent().siblings('div').text();
           expect(cguErrorMessageContent.trim()).to.equal(UNCHECKED_CHECKBOX_CGU_ERROR);
         });
       });
@@ -373,7 +373,7 @@ describe('Integration | Component | signup form', function() {
         this.$('.signup__submit-button').click();
         // then
         return wait().then(() => {
-          const cguErrorMessageContent = this.$('#cgu').parent().siblings('div').text();
+          const cguErrorMessageContent = this.$(CHECKBOX_CGU_INPUT).parent().siblings('div').text();
           expect(cguErrorMessageContent).to.equal('');
         });
       });

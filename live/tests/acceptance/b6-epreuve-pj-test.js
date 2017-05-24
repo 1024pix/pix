@@ -35,7 +35,7 @@ describe('Acceptance | b6 - Télécharger une pièce jointe depuis la consigne d
 
     it('b6.2 Le lien de la pièce jointe pointe vers le bon lien', function() {
       const $ATTACHMENT_LINK = $('.challenge-statement__action-link');
-      expect($ATTACHMENT_LINK.text()).to.contains('Télécharger');
+      expect($ATTACHMENT_LINK.text()).to.contain('Télécharger');
       expect($ATTACHMENT_LINK.attr('href')).to.equal('http://example_of_url');
     });
 

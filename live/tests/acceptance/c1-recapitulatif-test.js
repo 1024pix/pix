@@ -27,10 +27,10 @@ describe('Acceptance | c1 - Consulter l\'écran de fin d\'un test ', function() 
 
   it('c1.2 le tableau récapitulatif contient les instructions ', function() {
     const $proposals = findWithAssert('.result-item');
-    expect($proposals.text()).to.contains('Un QCM propose plusieurs choix');
-    expect($proposals.text()).to.contains('Un QCU propose plusieurs choix');
-    expect($proposals.text()).to.contains('Un QROC est une question ouverte');
-    expect($proposals.text()).to.contains('Un QROCM est une question ouverte');
+    expect($proposals.text()).to.contain('Un QCM propose plusieurs choix');
+    expect($proposals.text()).to.contain('Un QCU propose plusieurs choix');
+    expect($proposals.text()).to.contain('Un QROC est une question ouverte');
+    expect($proposals.text()).to.contain('Un QROCM est une question ouverte');
   });
 
   it('c1.3 Pour une mauvaise réponse, le tableau récapitulatif donne une indication adéquate', function() {
@@ -39,7 +39,7 @@ describe('Acceptance | c1 - Consulter l\'écran de fin d\'un test ', function() 
   });
 
   it('c1.9 Le nom du test est affiché', function() {
-    expect(findWithAssert('.course-banner__name').text()).to.contains('First Course');
+    expect(findWithAssert('.course-banner__name').text()).to.contain('First Course');
   });
 
   it('c1.10 Le bouton "Revenir à la liste des tests" n\'apparaît pas', function() {

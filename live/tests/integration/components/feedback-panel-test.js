@@ -72,7 +72,7 @@ describe('Integration | Component | feedback-panel', function() {
     });
 
     it('the link label should be "Signaler un problème"', function() {
-      expect(this.$(OPEN_LINK).text()).to.contains('Signaler un problème');
+      expect(this.$(OPEN_LINK).text()).to.contain('Signaler un problème');
     });
 
     it('clicking on the open link should hide the "link" view and display the "form" view', function() {

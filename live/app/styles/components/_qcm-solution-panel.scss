@@ -7,18 +7,13 @@
   margin-left: 7px;
 }
 
-.qcm-panel__proposal-checkbox {
-  opacity: 0;
-  display: none;
+input.qcm-panel__proposal-checkbox {
+  margin-right: 10px;
 }
 
 .qcm-panel__proposal-label {
   font-weight: $font-normal;
   width: 100%;
-}
-
-.qcm-panel__proposal-label input[type=checkbox] {
-  margin-right: 10px;
 }
 
 .qcm-proposal-label__oracle[data-goodness='good'] {
