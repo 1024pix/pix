@@ -1,31 +1,39 @@
-<div class="scoring-panel">
-  {{#if hasATrophy}}
+{{#if hasSomePix}}
 
-    <div class="scoring-panel__trophy">
-      <div class="scoring-panel__trophy-div"><img src="{{rootURL}}/images/coupe.svg" alt="Coupe obtenue"
-                                                  class="scoring-panel__trophy-img"></div>
-      <div class="scoring-panel__trophy-level">NIVEAU {{assessment.estimatedLevel}}</div>
-      <div class="scoring-panel__trophy-bêta">BÊTA</div>
-    </div>
+  <div class="scoring-panel__reward">
+    {{#if hasATrophy}}
+      {{trophy-item level=assessment.estimatedLevel}}
+    {{else}}
+      {{medal-item pixScore=assessment.pixScore}}
+    {{/if}}
+  </div>
 
-    <div class="scoring-panel__congrats">
-      <div class="scoring-panel__congrats-course-name">{{assessment.course.name}}</div>
-      <div class="scoring-panel__congrats-line"></div>
+  <div class="scoring-panel__congrats">
+    <div class="scoring-panel__congrats-course-name">{{assessment.course.name}}</div>
+    <div class="scoring-panel__congrats-line"></div>
+
+    {{#if hasATrophy}}
       <div class="scoring-panel__congrats-felicitations">Félicitations&nbsp;!</div>
       <div class="scoring-panel__congrats-scoring">Vous avez obtenu le niveau&nbsp;{{assessment.estimatedLevel}} pour
         cette
         compétence et avez gagné {{assessment.pixScore}}&nbsp;pix.
       </div>
-      <div class="scoring-panel__congrats-beta">*En version bêta, les pix et niveaux délivrés sont provisoires</div>
-    </div>
-
-    {{#link-to 'index' class='scoring-panel__index-link__element' tagName='button'}}
-      <div class="scoring-panel__index-link">
-        <span class="scoring-panel__index-link-back">REVENIR À L'ACCUEIL</span>
+    {{else}}
+      <div class="scoring-panel__congrats-pas-mal">Pas mal, mais pas max&nbsp;!</div>
+      <div class="scoring-panel__congrats-scoring">Vous avez gagné&nbsp;{{assessment.pixScore}}&nbsp;pix ! *<br>
+        Allez, encore quelques petits efforts et vous décrocherez le premier niveau
       </div>
-    {{/link-to}}
+    {{/if}}
 
-  {{else}}
-    {{scoring-panel-tantpix}}
-  {{/if}}
-</div>
+    <div class="scoring-panel__congrats-beta">*En version bêta, les pix et niveaux délivrés sont provisoires</div>
+  </div>
+
+  {{#link-to 'index' class='scoring-panel__index-link__element' tagName='button'}}
+    <div class="scoring-panel__index-link">
+      <span class="scoring-panel__index-link-back">REVENIR À L'ACCUEIL</span>
+    </div>
+  {{/link-to}}
+
+{{else}}
+  {{scoring-panel-tantpix}}
+{{/if}}

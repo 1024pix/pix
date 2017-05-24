@@ -35,4 +35,33 @@ describe('Unit | Component | scoring-panel', function() {
     });
   });
 
+  describe('#hasSomePix', function() {
+
+    it('should be true when pix score is more than 0', function() {
+      // given
+      const assessmentWithPix = { pixScore: 1 };
+      const component = this.subject();
+
+      // when
+      component.set('assessment', assessmentWithPix);
+      const hasSomePix = component.get('hasSomePix');
+
+      // then
+      expect(hasSomePix).to.be.equal(true);
+    });
+
+    it('should be false when pix score is equal to 0', function() {
+      // given
+      const assessmentWithNoPix = { pixScore: 0 };
+      const component = this.subject();
+
+      // when
+      component.set('assessment', assessmentWithNoPix);
+      const hasSomePix = component.get('hasSomePix');
+
+      // then
+      expect(hasSomePix).to.be.equal(false);
+    });
+  });
+
 });

@@ -1,0 +1,61 @@
+.medal-item{
+  position: relative;
+}
+
+.medal-item__medal-img {
+  width:100%;
+}
+
+.medal-item__pix-score {
+  font-family: $font-overpass;
+  font-weight: $font-bold;
+  text-align: center;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.25);
+  color: $pix-blue;
+  font-size: 45px;
+
+  position: absolute;
+  top:15%;
+  left:31%;
+
+  @include device-is('tablet') {
+    font-size: 65px;
+  }
+
+}
+
+.medal-item__pix-text {
+  font-family: $font-raleway;
+  font-weight: $font-bold;
+  text-align: center;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.25);
+  color: $pix-blue;
+
+  margin-top: -20px;
+  font-size: 30px;
+
+  @include device-is('tablet') {
+    margin-top: -35px;
+    font-size: 40px;
+  }
+
+  position: absolute;
+  top:61%;
+  left:37%;
+
+}
+
+.medal-item__bêta {
+  position: absolute;
+  left:35%;
+  color: $marigold;
+  font-weight: $font-heavy;
+  letter-spacing: 6px;
+
+  font-size: 12px;
+
+  @include device-is('tablet') {
+    font-size: 18px;
+  }
+}
+
