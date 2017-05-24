@@ -13,6 +13,12 @@
     transition: border-color 1s ease;
   }
 
+  &:focus {
+    outline: none;
+    box-shadow: none;
+    border: solid 2px #446eff;
+  }
+
   &:nth-last-child(1) {
     margin-bottom: 20px;
   }
@@ -60,9 +66,22 @@
 }
 
 .result-item__correction__button {
+  color: $pix-blue;
+  font-weight: $font-bold;
+
+  padding-right: 0;
+  padding-left: 0;
+  margin-left: 12px;
+
   border: none;
   outline: 0;
   background-color: transparent;
+}
+
+.result-item__correction__button:focus,
+.result-item__correction__button:hover {
+  border-bottom: solid 2px;
+  font-weight: $font-heavy;
 }
 
 .result-item__icon {

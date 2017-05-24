@@ -38,9 +38,18 @@ const contentReference = {
   }
 };
 
+function _setFocusOnFirstTabbableElement(modalId) {
+  const $tabbableElementInModal = Ember.$(modalId).find(':tabbable');
+
+  const $firstElementToFocus = $tabbableElementInModal.get(0);
+  $firstElementToFocus.focus();
+}
+
 export default Ember.Component.extend({
 
-  classNames: ['comparison-window'],
+  modal: Ember.inject.service('current-routed-modal'),
+
+  classNames: [ 'comparison-window' ],
 
   answer: null,
   challenge: null,
@@ -54,12 +63,36 @@ export default Ember.Component.extend({
   isAssessmentChallengeTypeQrocmInd: Ember.computed.equal('challenge.type', 'QROCM-ind'),
   isAssessmentChallengeTypeQrocmDep: Ember.computed.equal('challenge.type', 'QROCM-dep'),
 
+  didInsertElement() {
+    this._super(...arguments);
+
+    const modalId = '#' + this.elementId;
+
+    _setFocusOnFirstTabbableElement(modalId);
+
+    Ember.$(modalId).find(':tabbable').last().on('blur', function() {
+      _setFocusOnFirstTabbableElement(modalId);
+    });
+  },
+
+  keyUp(event) {
+    if(event.key === 'Escape') {
+      this.get('modal').close();
+    }
+
+    event.preventDefault();
+  },
+
+  didDestroyElement() {
+    Ember.$('#open-comparison_' + this.get('index')).focus();
+  },
+
   resultItem: Ember.computed('answer.result', function() {
-    let resultItem = contentReference['default'];
+    let resultItem = contentReference[ 'default' ];
     const answerStatus = this.get('answer.result');
 
     if (answerStatus && (answerStatus in contentReference)) {
-      resultItem = contentReference[answerStatus];
+      resultItem = contentReference[ answerStatus ];
     }
     return resultItem;
   })

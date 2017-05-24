@@ -13,7 +13,9 @@ function _assertResultItemTooltip(resultItem, expected) {
 
 describe('Unit | Component | comparison-window', function() {
 
-  setupTest('component:comparison-window', {});
+  setupTest('component:comparison-window', {
+    needs: ['service:current-routed-modal', 'initializer:jquery-tabbable']
+  });
 
   let component;
   let answer;
