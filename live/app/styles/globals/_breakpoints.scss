@@ -1,7 +1,7 @@
 /* Breakpoints definition */
 
 $breakpoints: (
-  'mobile': (maw-width: 767px),
+  'mobile': (max-width: 767px),
   'tablet': (min-width: 768px),
   'desktop': (min-width: 992px),
 ) !default;
