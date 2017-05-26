@@ -1,4 +1,8 @@
-# PIX Changelog
+# Pix Changelog
+
+## 1.11.1 (26/05/2017)
+
+- [#423](https://github.com/sgmap/pix/pull/423) [HOTFIX] Correction de la régression suite à l'extraction des images SVG. 
 
 ## 1.11.0 (26/05/2017)
 
