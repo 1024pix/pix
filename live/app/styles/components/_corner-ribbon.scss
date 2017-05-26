@@ -12,7 +12,7 @@
 }
 
 .ribbon {
-  background-color: $pix-yellow;
+  background-color: $lightning-yellow;
   overflow: hidden;
   white-space: nowrap;
   position: absolute;
@@ -22,7 +22,7 @@
 }
 
 .ribbon a {
-  color: #fff;
+  color: $white;
   display: block;
   font-weight: $font-bold;
   font-size: 20px;

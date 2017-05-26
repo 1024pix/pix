@@ -9,7 +9,7 @@ describe('Unit | Controller | healthcheckController', () => {
       expect(healthcheckController.get).to.exist;
     });
 
-    it('should reply with the API description', function () {
+    it('should reply with the API description', function() {
       // given
       const replySpy = sinon.spy();
 

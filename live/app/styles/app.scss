@@ -7,11 +7,10 @@
 @import 'globals/buttons';
 @import 'globals/dimension';
 @import 'globals/redesign-inputs';
-
+@import 'globals/breakpoints';
 /* 3rd-party */
 @import 'vendor/ember-routable-modal/core';
 @import 'vendor/ember-routable-modal/dialog';
-
 /* components */
 @import 'components/rounded-panel';
 @import 'components/app-footer';
@@ -30,6 +29,7 @@
 @import 'components/feedback-panel';
 @import 'components/follower-form';
 @import 'components/modal-mobile';
+@import 'components/medal-item';
 @import 'components/navbar-header';
 @import 'components/pix-logo';
 @import 'components/qroc-solution-panel';
@@ -37,6 +37,7 @@
 @import 'components/result-item';
 @import 'components/scoring-panel';
 @import 'components/timeout-jauge';
+@import 'components/trophy-item';
 @import 'components/warning-timing-page';
 @import 'components/result-item';
 @import 'components/comparison-window';
@@ -44,7 +45,9 @@
 @import 'components/qrocm-solution-panel';
 @import 'components/qcm-solution-panel';
 @import 'components/qcu-solution-panel';
-
+@import 'components/signup-form';
+@import 'components/signup-textfield';
+@import 'components/scoring-panel-tantpix';
 /* pages */
 @import 'pages/index';
 @import 'pages/project';
@@ -52,13 +55,13 @@
 @import 'pages/assessment-challenge';
 @import 'pages/assessment-results';
 @import 'pages/competences';
+@import 'pages/inscription';
 
 body {
   font-family: $font-lato;
-  background-color: $light-grey1;
+  background-color: $porcelain-grey;
 }
 
-input[type="radio"],
-input[type="checkbox"] {
+input[type="radio"] {
   margin: 0 5px 0 0;
 }

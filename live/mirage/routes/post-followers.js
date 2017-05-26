@@ -1,6 +1,6 @@
 import follower from '../data/followers';
 
-export default function () {
+export default function() {
 
   return follower;
 }

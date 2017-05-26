@@ -2,9 +2,9 @@ const { describe, it, expect } = require('../../../test-helper');
 
 const service = require('../../../../lib/domain/services/solution-service-qroc');
 
-describe('Unit | Service | SolutionServiceQROC ', function () {
+describe('Unit | Service | SolutionServiceQROC ', function() {
 
-  describe('match, combining most weird cases without deactivations', function () {
+  describe('match, combining most weird cases without deactivations', function() {
 
     const successfulCases = [
 
@@ -26,12 +26,11 @@ describe('Unit | Service | SolutionServiceQROC ', function () {
       {case:'(multiple solutions) answer is 0.25 away from the closest solution', answer: 'quak', solution: 'qvak\nqwak\nanything\n'}
     ];
 
-    successfulCases.forEach(function (caze) {
-      it (caze.case + ', should return "ok" when answer is "' + caze.answer + '" and solution is "' + escape(caze.solution) + '"', function () {
+    successfulCases.forEach(function(caze) {
+      it (caze.case + ', should return "ok" when answer is "' + caze.answer + '" and solution is "' + escape(caze.solution) + '"', function() {
         expect(service.match(caze.answer, caze.solution)).to.equal('ok');
       });
     });
-
 
     const failingCases = [
       {case:'solution do not exists', answer: 'any answer'},
@@ -45,16 +44,15 @@ describe('Unit | Service | SolutionServiceQROC ', function () {
       {case:'(multiple solutions) answer is minimum 0.4 away from a solution', answer: 'quaks', solution: 'qvakes\nqwakes\nanything\n'}
     ];
 
-    failingCases.forEach(function (caze) {
-      it(caze.case + ', should return "ko" when answer is "' + caze.answer + '" and solution is "' + escape(caze.solution) + '"', function () {
+    failingCases.forEach(function(caze) {
+      it(caze.case + ', should return "ko" when answer is "' + caze.answer + '" and solution is "' + escape(caze.solution) + '"', function() {
         expect(service.match(caze.answer, caze.solution)).to.equal('ko');
       });
     });
 
   });
 
-
-  describe('match, strong focus on treatments', function () {
+  describe('match, strong focus on treatments', function() {
 
     const allCases = [
       {when:'no stress',                   output: 'ok', answer: 'Answer',      solution: '\nvariant1\nAnswer\n',      deactivations: {}},
@@ -72,14 +70,14 @@ describe('Unit | Service | SolutionServiceQROC ', function () {
       {when:'reverted levenshtein stress', output: 'ok', answer: '123456789',   solution: '\nvariant1\n0123456789\n',  deactivations: {}},
     ];
 
-    allCases.forEach(function (caze) {
-      it(caze.when + ', should return ' + caze.output + ' when answer is "' + caze.answer + '" and solution is "' + escape(caze.solution) + '"', function () {
+    allCases.forEach(function(caze) {
+      it(caze.when + ', should return ' + caze.output + ' when answer is "' + caze.answer + '" and solution is "' + escape(caze.solution) + '"', function() {
         expect(service.match(caze.answer, caze.solution, caze.deactivations)).to.equal(caze.output);
       });
     });
   });
 
-  describe('match | t1 deactivated', function () {
+  describe('match | t1 deactivated', function() {
 
     const allCases = [
       {when:'no stress',                   output: 'ok', answer: 'Answer',      solution: '\nvariant1\nAnswer\n',      deactivations: {t1:true}},
@@ -97,14 +95,14 @@ describe('Unit | Service | SolutionServiceQROC ', function () {
       {when:'reverted levenshtein stress', output: 'ok', answer: '123456789',   solution: '\nvariant1\n0123456789\n',  deactivations: {t1:true}},
     ];
 
-    allCases.forEach(function (caze) {
-      it(caze.when + ', should return ' + caze.output + ' when answer is "' + caze.answer + '" and solution is "' + escape(caze.solution) + '"', function () {
+    allCases.forEach(function(caze) {
+      it(caze.when + ', should return ' + caze.output + ' when answer is "' + caze.answer + '" and solution is "' + escape(caze.solution) + '"', function() {
         expect(service.match(caze.answer, caze.solution, caze.deactivations)).to.equal(caze.output);
       });
     });
   });
 
-  describe('match | t2 deactivated', function () {
+  describe('match | t2 deactivated', function() {
 
     const allCases = [
       {when:'no stress',                   output: 'ok', answer: 'Answer',      solution: '\nvariant1\nAnswer\n',      deactivations: {t2:true}},
@@ -122,14 +120,14 @@ describe('Unit | Service | SolutionServiceQROC ', function () {
       {when:'reverted levenshtein stress', output: 'ok', answer: '123456789',   solution: '\nvariant1\n0123456789\n',  deactivations: {t2:true}},
     ];
 
-    allCases.forEach(function (caze) {
-      it(caze.when + ', should return ' + caze.output + ' when answer is "' + caze.answer + '" and solution is "' + escape(caze.solution) + '"', function () {
+    allCases.forEach(function(caze) {
+      it(caze.when + ', should return ' + caze.output + ' when answer is "' + caze.answer + '" and solution is "' + escape(caze.solution) + '"', function() {
         expect(service.match(caze.answer, caze.solution, caze.deactivations)).to.equal(caze.output);
       });
     });
   });
 
-  describe('match | t3 deactivated', function () {
+  describe('match | t3 deactivated', function() {
 
     const allCases = [
       {when:'no stress',                   output: 'ok', answer: 'Answer',      solution: '\nvariant1\nAnswer\n',      deactivations: {t3:true}},
@@ -147,14 +145,14 @@ describe('Unit | Service | SolutionServiceQROC ', function () {
       {when:'reverted levenshtein stress', output: 'ko', answer: '123456789',   solution: '\nvariant1\n0123456789\n',  deactivations: {t3:true}},
     ];
 
-    allCases.forEach(function (caze) {
-      it(caze.when + ', should return ' + caze.output + ' when answer is "' + caze.answer + '" and solution is "' + escape(caze.solution) + '"', function () {
+    allCases.forEach(function(caze) {
+      it(caze.when + ', should return ' + caze.output + ' when answer is "' + caze.answer + '" and solution is "' + escape(caze.solution) + '"', function() {
         expect(service.match(caze.answer, caze.solution, caze.deactivations)).to.equal(caze.output);
       });
     });
   });
 
-  describe('match | t1 and t2 deactivated', function () {
+  describe('match | t1 and t2 deactivated', function() {
 
     const allCases = [
       {when:'no stress',                   output: 'ok', answer: 'Answer',      solution: '\nvariant1\nAnswer\n',      deactivations: {t1:true, t2:true}},
@@ -172,14 +170,14 @@ describe('Unit | Service | SolutionServiceQROC ', function () {
       {when:'reverted levenshtein stress', output: 'ok', answer: '123456789',   solution: '\nvariant1\n0123456789\n',  deactivations: {t1:true, t2:true}},
     ];
 
-    allCases.forEach(function (caze) {
-      it(caze.when + ', should return ' + caze.output + ' when answer is "' + caze.answer + '" and solution is "' + escape(caze.solution) + '"', function () {
+    allCases.forEach(function(caze) {
+      it(caze.when + ', should return ' + caze.output + ' when answer is "' + caze.answer + '" and solution is "' + escape(caze.solution) + '"', function() {
         expect(service.match(caze.answer, caze.solution, caze.deactivations)).to.equal(caze.output);
       });
     });
   });
 
-  describe('match | t1 and t3 deactivated', function () {
+  describe('match | t1 and t3 deactivated', function() {
 
     const allCases = [
       {when:'no stress',                   output: 'ok', answer: 'Answer',      solution: '\nvariant1\nAnswer\n',      deactivations: {t1:true, t3:true}},
@@ -197,14 +195,14 @@ describe('Unit | Service | SolutionServiceQROC ', function () {
       {when:'reverted levenshtein stress', output: 'ko', answer: '123456789',   solution: '\nvariant1\n0123456789\n',  deactivations: {t1:true, t3:true}},
     ];
 
-    allCases.forEach(function (caze) {
-      it(caze.when + ', should return ' + caze.output + ' when answer is "' + caze.answer + '" and solution is "' + escape(caze.solution) + '"', function () {
+    allCases.forEach(function(caze) {
+      it(caze.when + ', should return ' + caze.output + ' when answer is "' + caze.answer + '" and solution is "' + escape(caze.solution) + '"', function() {
         expect(service.match(caze.answer, caze.solution, caze.deactivations)).to.equal(caze.output);
       });
     });
   });
 
-  describe('match | t2 and t3 deactivated', function () {
+  describe('match | t2 and t3 deactivated', function() {
 
     const allCases = [
       {when:'no stress',                   output: 'ok', answer: 'Answer',      solution: '\nvariant1\nAnswer\n',      deactivations: {t2:true, t3:true}},
@@ -222,14 +220,14 @@ describe('Unit | Service | SolutionServiceQROC ', function () {
       {when:'reverted levenshtein stress', output: 'ko', answer: '123456789',   solution: '\nvariant1\n0123456789\n',  deactivations: {t2:true, t3:true}},
     ];
 
-    allCases.forEach(function (caze) {
-      it(caze.when + ', should return ' + caze.output + ' when answer is "' + caze.answer + '" and solution is "' + escape(caze.solution) + '"', function () {
+    allCases.forEach(function(caze) {
+      it(caze.when + ', should return ' + caze.output + ' when answer is "' + caze.answer + '" and solution is "' + escape(caze.solution) + '"', function() {
         expect(service.match(caze.answer, caze.solution, caze.deactivations)).to.equal(caze.output);
       });
     });
   });
 
-  describe('match | t1, t2 and t3 deactivated', function () {
+  describe('match | t1, t2 and t3 deactivated', function() {
 
     const allCases = [
       {when:'no stress',                   output: 'ok', answer: 'Answer',      solution: '\nvariant1\nAnswer\n',      deactivations: {t1:true, t2:true, t3:true}},
@@ -247,8 +245,8 @@ describe('Unit | Service | SolutionServiceQROC ', function () {
       {when:'reverted levenshtein stress', output: 'ko', answer: '123456789',   solution: '\nvariant1\n0123456789\n',  deactivations: {t1:true, t2:true, t3:true}},
     ];
 
-    allCases.forEach(function (caze) {
-      it(caze.when + ', should return ' + caze.output + ' when answer is "' + caze.answer + '" and solution is "' + escape(caze.solution) + '"', function () {
+    allCases.forEach(function(caze) {
+      it(caze.when + ', should return ' + caze.output + ' when answer is "' + caze.answer + '" and solution is "' + escape(caze.solution) + '"', function() {
         expect(service.match(caze.answer, caze.solution, caze.deactivations)).to.equal(caze.output);
       });
     });

@@ -1,9 +1,9 @@
-.correction-qroc-box--answer__input{
+.correction-qroc-box--answer__input {
   height: 26px;
   border-radius: 3px;
-  background-color: #ffffff;
+  background-color: $white;
   box-shadow: inset 0 1px 3px 0 rgba(0, 0, 0, 0.15);
-  border: solid 1px #d8d8d8;
+  border: solid 1px $gainsboro;
   padding: 8px 8px 12px 10px;
 }
 
@@ -14,14 +14,14 @@
   color: $caribbean-green;
 }
 
-.correction-qroc-box__input-wrong-answer{
+.correction-qroc-box__input-wrong-answer {
   font-family: $font-lato;
   font-size: 16px;
   color: $charcoal-grey;
   text-decoration: line-through;
 }
 
-.correction-qroc-box__input-no-answer{
+.correction-qroc-box__input-no-answer {
   font-family: $font-lato;
   font-size: 16px;
   color: $charcoal-grey;
@@ -39,8 +39,8 @@
   font-size: 16px;
   font-weight: $font-bold;
   color: $caribbean-green;
-  display:flex;
+  display: flex;
   margin-left: 7px;
   position: relative;
-  bottom:3px;
+  bottom: 3px;
 }

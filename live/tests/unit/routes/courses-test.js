@@ -4,7 +4,9 @@ import { setupTest } from 'ember-mocha';
 
 describe('Unit | Route | courses', function() {
 
-  setupTest('route:courses', {});
+  setupTest('route:courses', {
+    needs: ['service:current-routed-modal']
+  });
 
   it('exists', function() {
     const route = this.subject();

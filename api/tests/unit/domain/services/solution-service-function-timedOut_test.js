@@ -2,9 +2,9 @@ const { describe, it, expect } = require('../../../test-helper');
 
 const service = require('../../../../lib/domain/services/solution-service');
 
-describe('Unit | Service | SolutionService', function () {
+describe('Unit | Service | SolutionService', function() {
 
-  describe('#_timedOut', function () {
+  describe('#_timedOut', function() {
 
     const allCases = [
       {when: 'partially correct & timeout < 0', preresult: 'partially' , timeout: -5, output: 'timedout'},
@@ -19,8 +19,8 @@ describe('Unit | Service | SolutionService', function () {
 
     ];
 
-    allCases.forEach(function (caze) {
-      it(caze.when + ', should return ' + caze.output + ' when preresult is "' + caze.preresult + '" and timeout is "' + caze.timeout + '"', function () {
+    allCases.forEach(function(caze) {
+      it(caze.when + ', should return ' + caze.output + ' when preresult is "' + caze.preresult + '" and timeout is "' + caze.timeout + '"', function() {
         expect(service._timedOut(caze.preresult, caze.timeout)).to.equal(caze.output);
       });
     });

@@ -44,8 +44,9 @@ module.exports = {
       .then((follower) => {
 
         mailService.sendWelcomeEmail(email);
-        reply(followerSerializer.serialize(follower)).code(201);
+        mailService.addEmailToRandomContactList(email);
 
+        reply(followerSerializer.serialize(follower)).code(201);
       })
       .catch((err) => reply(err));
   }

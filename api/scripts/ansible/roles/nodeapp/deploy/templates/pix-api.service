@@ -1,0 +1,18 @@
+[Unit]
+Description=Pix API
+
+[Service]
+Type=simple
+TimeoutStartSec=5m
+WorkingDirectory={{ working_directory }}
+
+Environment=NODE_ENV={{ pix_env }}
+Environment=DATABASE_URL={{ database_url }}
+
+ExecStart=/usr/bin/npm start 2>&1 >> /var/log/pix-api.log
+
+Restart=always
+RestartSec=10
+
+[Install]
+WantedBy=default.target

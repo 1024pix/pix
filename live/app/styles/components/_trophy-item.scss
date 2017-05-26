@@ -1,0 +1,44 @@
+.trophy-item{
+  position: relative;
+}
+
+.trophy-item__img {
+  width:100%;
+}
+
+.trophy-item__level {
+  font-weight: $font-extra-bold;
+  text-align: center;
+
+  text-shadow: 0 2px 6px rgba(0, 0, 0, 0.25);
+  font-family: $font-overpass;
+  font-weight: $font-heavy;
+  color: $pix-blue;
+  letter-spacing: 3px;
+
+  position: absolute;
+  top:77%;
+  left:19%;
+
+  font-size: 17px;
+
+  @include device-is('tablet') {
+    font-size: 26px;
+  }
+
+}
+
+.trophy-item__bêta {
+  position: absolute;
+  left:35%;
+  color: $marigold;
+  font-weight: $font-heavy;
+  letter-spacing: 6px;
+
+  font-size: 12px;
+
+  @include device-is('tablet') {
+    font-size: 18px;
+  }
+
+}

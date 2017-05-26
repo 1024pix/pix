@@ -9,7 +9,7 @@ function _buildAnswer(result) {
   return answer;
 }
 
-describe('Unit | Service | ChallengeService', function () {
+describe('Unit | Service | ChallengeService', function() {
 
   describe('#getRevalidationStatistics', () => {
 
@@ -23,7 +23,7 @@ describe('Unit | Service | ChallengeService', function () {
     ]
       .forEach((testCase) => {
 
-        it('should be able to return stats about added ' + testCase.case + ' solution', function () {
+        it('should be able to return stats about added ' + testCase.case + ' solution', function() {
           const old_answer = [ _buildAnswer(testCase.oppositeCase) ];
           const new_answer = [ _buildAnswer(testCase.case) ];
           const under_test = service.getRevalidationStatistics(old_answer, new_answer);
@@ -32,7 +32,7 @@ describe('Unit | Service | ChallengeService', function () {
           expect(under_test[ diffProperty ]).to.equal(1);
         });
 
-        it('should be able to return stats about removed ' + testCase.case + ' solution', function () {
+        it('should be able to return stats about removed ' + testCase.case + ' solution', function() {
           const old_answer = [ _buildAnswer(testCase.case) ];
           const new_answer = [ _buildAnswer(testCase.oppositeCase) ];
           const under_test = service.getRevalidationStatistics(old_answer, new_answer);
@@ -41,7 +41,7 @@ describe('Unit | Service | ChallengeService', function () {
           expect(under_test[ diffProperty ]).to.equal(-1);
         });
 
-        it('should be able to return stats that add all ' + testCase.case + ' solutions', function () {
+        it('should be able to return stats that add all ' + testCase.case + ' solutions', function() {
           const old_answer = [ _buildAnswer(testCase.case), _buildAnswer(testCase.case) ];
           const new_answer = [ _buildAnswer(testCase.case), _buildAnswer(testCase.case) ];
           const under_test = service.getRevalidationStatistics(old_answer, new_answer);
@@ -64,8 +64,7 @@ describe('Unit | Service | ChallengeService', function () {
       ];
 
       // when
-      let result = service.getKnowledgeData(challenges);
-
+      const result = service.getKnowledgeData(challenges);
 
       // then
       const expected = {
@@ -95,6 +94,5 @@ describe('Unit | Service | ChallengeService', function () {
     });
 
   });
-
 
 });

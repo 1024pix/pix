@@ -21,6 +21,21 @@ rules:
     - 2
   no-var:
     - 2
+  no-unused-vars:
+    - 2
+    - { argsIgnorePattern: "_" }
+  space-before-blocks:
+    - 2
+  space-before-function-paren:
+    - 2
+    - { anonymous: never, named: never, asyncArrow: ignore }
+  space-in-parens:
+    - 2
+  eol-last:
+    - 2
+  no-multiple-empty-lines:
+    - 2
+    - { max: 1, maxEOF: 1 }
 parserOptions:
   ecmaVersion: 8
   sourceType: script

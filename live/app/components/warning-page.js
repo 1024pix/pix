@@ -49,11 +49,11 @@ function _formatTimeForButton(time) {
 
 export default Ember.Component.extend({
 
-  allocatedHumanTime: Ember.computed('time', function () {
+  allocatedHumanTime: Ember.computed('time', function() {
     return _formatTimeForText(this.get('time'));
   }),
 
-  allocatedTime: Ember.computed('time', function () {
+  allocatedTime: Ember.computed('time', function() {
     return _formatTimeForButton(this.get('time'));
   }),
 

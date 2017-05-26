@@ -2,7 +2,7 @@ import { expect } from 'chai';
 import { setupComponentTest, it } from 'ember-mocha';
 import hbs from 'htmlbars-inline-precompile';
 
-describe('Integration | Component | CornerRibbonComponent', function () {
+describe('Integration | Component | CornerRibbonComponent', function() {
 
   setupComponentTest('corner-ribbon', {
     integration: true

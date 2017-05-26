@@ -1,4 +1,3 @@
-/* global jsyaml */
 import _ from 'lodash';
 
 function transformSolutionsToString(solutionsAsObject) {

@@ -1,13 +1,13 @@
 const { describe, it, after, beforeEach, afterEach, expect, knex } = require('../../test-helper');
 const server = require('../../../server');
 
-describe('Acceptance | Controller | answer-controller', function () {
+describe('Acceptance | Controller | answer-controller', function() {
 
-  after(function (done) {
+  after(function(done) {
     server.stop(done);
   });
 
-  describe('Get /api/answers/:id', function () {
+  describe('Get /api/answers/:id', function() {
 
     let options;
     let inserted_answer_id;
@@ -19,7 +19,7 @@ describe('Acceptance | Controller | answer-controller', function () {
       assessmentId: '12345'
     };
 
-    beforeEach(function (done) {
+    beforeEach(function(done) {
       knex('answers').delete().then(() => {
         knex('answers').insert([inserted_answer]).then((id) => {
           inserted_answer_id = id;
@@ -29,20 +29,20 @@ describe('Acceptance | Controller | answer-controller', function () {
       });
     });
 
-    afterEach(function (done) {
+    afterEach(function(done) {
       knex('answers').delete().then(() => {
         done();
       });
     });
 
-    it('should return 200 HTTP status code', function (done) {
+    it('should return 200 HTTP status code', function(done) {
       server.inject(options, (response) => {
         expect(response.statusCode).to.equal(200);
         done();
       });
     });
 
-    it('should return application/json', function (done) {
+    it('should return application/json', function(done) {
       server.inject(options, (response) => {
         const contentType = response.headers['content-type'];
         expect(contentType).to.contain('application/json');
@@ -50,7 +50,7 @@ describe('Acceptance | Controller | answer-controller', function () {
       });
     });
 
-    it('should return required answer', function (done) {
+    it('should return required answer', function(done) {
       server.inject(options, (response) => {
         const answer = response.result.data;
 

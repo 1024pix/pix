@@ -13,11 +13,11 @@
   margin: 0 auto;
   align-items: center;
   border-radius: 4px;
-  background: #ffffff;
+  background: $white;
   padding: 2px;
   max-width: 300px;
 
-  @media (min-width: 992px) {
+  @include device-is('desktop') {
     flex-direction: row;
     max-width: 400px;
   }
@@ -32,10 +32,10 @@
   border-radius: 5px;
   outline: none;
   font-size: 16px;
-  color: $follower-input;
+  color: $raven-grey;
   font-family: $font-lato;
 
-  @media (min-width: 992px) {
+  @include device-is('desktop') {
     padding-left: 16px;
   }
 }
@@ -44,23 +44,23 @@
 –––––––––––––––––––––––––––––––––––––––––––––––––– */
 .follower-form__button {
   position: relative;
-  border: 1px solid #c3d0ff;
+  border: 1px solid $periwinkle-blue;
   border-radius: 4px;
   min-width: 111px;
   padding: 10px 19px;
   font-size: 18px;
   font-weight: $font-bold;
   text-align: center;
-  color: #ffffff;
+  color: $white;
   outline: none;
 }
 
 .follower-form__button--default {
-  background: $follower-button-default;
+  background: $pix-blue;
 }
 
 .follower-form__button--pending {
-  background: $follower-button-sending;
+  background: $strong-cyan;
 }
 
 .follower-button:before {
@@ -68,7 +68,7 @@
   position: absolute;
   z-index: 500;
   transform: rotateX(180deg);
-  color: #fff;
+  color: $white;
   letter-spacing: 1px;
   opacity: 0;
   transition: none;
@@ -87,7 +87,7 @@
   opacity: 0;
   height: 100%;
   overflow: hidden;
-  background-color: #0EBEFF;
+  background-color: $vivid-blue;
   border-top-right-radius: 5px;
   border-bottom-right-radius: 5px;
   transition: width 10ms 600ms ease-in-out, background-color 300ms ease-in, opacity 250ms 300ms ease-in;
@@ -95,7 +95,7 @@
 
 .follower-button-is-active {
   transform: rotateX(180deg);
-  background-color: #fff;
+  background-color: $white;
   box-shadow: 1px 1px 4px 1px transparent !important;
   transition: transform 300ms ease-in-out, background-color 300ms ease-in;
 }
@@ -114,7 +114,7 @@
 
 .follower-button-is-error {
   transform: rotateX(180deg);
-  background-color: #fff;
+  background-color: $white;
   box-shadow: 1px 1px 4px 1px transparent !important;
   transition: transform 300ms ease-in-out, background-color 300ms ease-in;
 }
@@ -154,16 +154,16 @@
 
 .follower-info-message.has-error {
   border-radius: 4px;
-  background-color: #ffffff;
-  border: solid 2px $follower-label-error;
+  background-color: $white;
+  border: solid 2px $pure-orange;
   padding: 14px 91px;
-  color: $follower-label-error;
+  color: $pure-orange;
 }
 
 .follower-info-message.has-success {
   border-radius: 4px;
-  background-color: #ffffff;
-  border: solid 2px $follower-button-sending;
+  background-color: $white;
+  border: solid 2px $strong-cyan;
   padding: 14px 91px;
-  color: $follower-button-sending;
+  color: $strong-cyan;
 }

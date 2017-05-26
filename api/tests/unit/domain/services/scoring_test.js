@@ -6,7 +6,6 @@ const scoring = require(pathToSource + '/lib/domain/services/scoring-service');
 const Answer = require(pathToSource + '/lib/domain/models/data/answer');
 const Challenge = require(pathToSource + '/lib/domain/models/referential/challenge');
 
-
 function _buildChallenge(knowledgeTags) {
   const challenge = new Challenge({ id: 'challenge_id' });
   challenge.knowledgeTags = knowledgeTags;
@@ -20,16 +19,16 @@ function _buildAnswer(challengeId, result) {
   return answer;
 }
 
-describe('Unit | Domain | Service | scoring', function () {
+describe('Unit | Domain | Service | scoring', function() {
 
-  describe('#nextNode', function () {
+  describe('#nextNode', function() {
 
     [
       { title: 'direction is increasing', node: 'web4', dir: 1, answer: 'web5' },
       { title: 'direction is decreasing', node: 'rechInfo3', dir: -1, answer: 'rechInfo2' },
     ].forEach(testCase => {
 
-      it(`should return ${testCase.answer} when ${testCase.title} and node is ${testCase.node}`, function () {
+      it(`should return ${testCase.answer} when ${testCase.title} and node is ${testCase.node}`, function() {
         const result = scoring.nextNode(testCase.node, testCase.dir);
         expect(result).to.equal(testCase.answer);
       });
@@ -37,7 +36,7 @@ describe('Unit | Domain | Service | scoring', function () {
 
   });
 
-  describe('#propagateKnowledge', function () {
+  describe('#propagateKnowledge', function() {
 
     const allKnowledge = { 'web3': 1, 'web4': 1, 'web5': 1, 'web6': 1 };
 
@@ -46,7 +45,7 @@ describe('Unit | Domain | Service | scoring', function () {
       { title: 'direction is decreasing', startNode: 'web4', dir: -1, answer: [ 'web3', 'web4' ] }
     ].forEach(testCase => {
 
-      it(`should return ${testCase.answer} when ${testCase.title} and node is ${testCase.node}`, function () {
+      it(`should return ${testCase.answer} when ${testCase.title} and node is ${testCase.node}`, function() {
         // When
         const result = scoring.propagateKnowledge(allKnowledge, testCase.startNode, testCase.dir);
 
@@ -221,7 +220,6 @@ describe('Unit | Domain | Service | scoring', function () {
         expect(result.performanceHistory).to.deep.equal([ { difficulty: 2, outcome: 1 } ]);
       });
 
-
       it('should not record an outcome from an answer which is partially correct', () => {
         // Given
         const partialAnswerUrl1 = _buildAnswer('challenge_url_1', 'partial');
@@ -295,7 +293,7 @@ describe('Unit | Domain | Service | scoring', function () {
         {
           performanceStats: {
             nbAcquiredKnowledgeTagsByLevel: {
-              "1": 0, "2": 0, "3": 0, "4": 0, "5": 0, "6": 0, "7": 0, "8": 0
+              '1': 0, '2': 0, '3': 0, '4': 0, '5': 0, '6': 0, '7': 0, '8': 0
             }
           },
           expectedEstimatedLevel: 0,
@@ -304,7 +302,7 @@ describe('Unit | Domain | Service | scoring', function () {
         {
           performanceStats: {
             nbAcquiredKnowledgeTagsByLevel: {
-              "1": 1, "2": 0, "3": 0, "4": 0, "5": 0, "6": 0, "7": 0, "8": 0
+              '1': 1, '2': 0, '3': 0, '4': 0, '5': 0, '6': 0, '7': 0, '8': 0
             }
           },
           expectedEstimatedLevel: 0,
@@ -313,7 +311,7 @@ describe('Unit | Domain | Service | scoring', function () {
         {
           performanceStats: {
             nbAcquiredKnowledgeTagsByLevel: {
-              "1": 2, "2": 0, "3": 0, "4": 0, "5": 0, "6": 0, "7": 0, "8": 0
+              '1': 2, '2': 0, '3': 0, '4': 0, '5': 0, '6': 0, '7': 0, '8': 0
             }
           },
           expectedEstimatedLevel: 1,
@@ -322,7 +320,7 @@ describe('Unit | Domain | Service | scoring', function () {
         {
           performanceStats: {
             nbAcquiredKnowledgeTagsByLevel: {
-              "1": 0, "2": 1, "3": 0, "4": 0, "5": 0, "6": 0, "7": 0, "8": 0
+              '1': 0, '2': 1, '3': 0, '4': 0, '5': 0, '6': 0, '7': 0, '8': 0
             }
           },
           expectedEstimatedLevel: 0,
@@ -331,7 +329,7 @@ describe('Unit | Domain | Service | scoring', function () {
         {
           performanceStats: {
             nbAcquiredKnowledgeTagsByLevel: {
-              "1": 2, "2": 1, "3": 0, "4": 0, "5": 0, "6": 0, "7": 0, "8": 0
+              '1': 2, '2': 1, '3': 0, '4': 0, '5': 0, '6': 0, '7': 0, '8': 0
             }
           },
           expectedEstimatedLevel: 2,
@@ -363,6 +361,6 @@ describe('Unit | Domain | Service | scoring', function () {
         });
 
       });
-    })
+    });
   });
 });

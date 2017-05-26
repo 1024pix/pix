@@ -1,7 +1,3 @@
-$challenges-background-color: #fafafa;
-$challenges-title-color: #3d68ff;
-$background-height: 600px;
-
 /* Sections:
 
  - General
@@ -14,9 +10,9 @@ $background-height: 600px;
 
 .index-page__background {
   position: absolute;
-  background: url("/images/index-hero-bg.jpg");
+  background: url("/images/index-hero-bg-min.jpg");
   background-size: cover;
-  height: $background-height;
+  height: 600px;
   width: 100%;
   z-index: -1;
 }
@@ -24,7 +20,7 @@ $background-height: 600px;
 .index-page__section {
   padding: 80px 20px;
 
-  @media (min-width: 992px) {
+  @include device-is('desktop') {
     padding: 80px 0;
   }
 }
@@ -36,8 +32,8 @@ $background-height: 600px;
 }
 
 .index-page-hero {
-  background-image: linear-gradient(to bottom, rgba(0,0,0,0.50) 5%,rgba(30,30,30,0.25) 100%);
-  height: $background-height;
+  background-image: linear-gradient(to bottom, rgba(0, 0, 0, 0.50) 5%, rgba(30, 30, 30, 0.25) 100%);
+  height: 600px;
   width: 100%;
 }
 
@@ -54,22 +50,23 @@ $background-height: 600px;
   color: $white;
   text-align: center;
 
-  @media (min-width: 992px) {
+  @include device-is('desktop') {
     font-size: 50px;
     margin-top: 250px;
   }
 
 }
+
 .index-page-hero__description {
   font-family: $font-raleway;
   color: $white;
   text-align: center;
   font-size: 22px;
   font-weight: $font-light;
-  padding-top : 20px;
-  line-height : 1.2;
+  padding-top: 20px;
+  line-height: 1.2;
 
-  @media (min-width: 992px) {
+  @include device-is('desktop') {
     padding: 0 200px;
   }
 }
@@ -91,7 +88,7 @@ $background-height: 600px;
   flex-direction: column;
   padding: 80px 0 70px 0;
 
-  @media (min-width: 992px) {
+  @include device-is('desktop') {
     margin: 0 auto;
     flex-direction: row;
     padding: 70px 90px;
@@ -104,7 +101,7 @@ $background-height: 600px;
   text-align: center;
   padding: 0 20px;
 
-  @media (min-width: 992px) {
+  @include device-is('desktop') {
     max-width: 400px;
     text-align: left;
     padding: 0;
@@ -116,17 +113,21 @@ $background-height: 600px;
   font-weight: $font-extra-bold;
   margin-top: 0;
 
-  @media (min-width: 992px) {
+  @include device-is('desktop') {
     font-size: 58px;
   }
 }
 
+.index-page-challenges__presentation-title span {
+  color: $marigold;
+}
+
 .index-page-challenges__presentation-text {
-  font-size:24px;
+  font-size: 24px;
   font-weight: $font-light;
   line-height: 1.2;
 
-  @media (min-width: 992px) {
+  @include device-is('desktop') {
     font-size: 37px;
   }
 }
@@ -136,7 +137,7 @@ $background-height: 600px;
   margin: 0 auto;
   padding-top: 20px;
 
-  @media (min-width: 992px) {
+  @include device-is('desktop') {
     margin-right: 0;
     padding-top: 0;
   }
@@ -149,9 +150,8 @@ $background-height: 600px;
   padding-bottom: 70px; // take into account course-item margin-bottom (5px)
 }
 
-
 .index-page-courses {
-  background-color: $challenges-background-color;
+  background-color: $alabaster-grey;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -162,7 +162,7 @@ $background-height: 600px;
   font-size: 32px;
   font-family: $font-raleway;
   font-weight: $font-extra-bold;
-  color: $challenges-title-color;
+  color: $pix-blue;
   margin: 0 auto;
   text-transform: uppercase;
   text-align: center;
@@ -183,7 +183,7 @@ $background-height: 600px;
   flex-direction: column;
   align-items: center;
   color: $white;
-  background: url("/images/index-community-bg.png");
+  background: url("/images/index-community-bg-min.jpg");
   background-size: cover;
 }
 
@@ -196,7 +196,7 @@ $background-height: 600px;
   text-transform: uppercase;
   margin: 0;
 
-  @media (min-width: 992px) {
+  @include device-is('desktop') {
     font-size: 36px;
     font-weight: $font-extra-bold;
     margin-top: 70px;
@@ -247,7 +247,7 @@ $background-height: 600px;
     color: $charcoal-grey;
   }
 
-  @media (min-width: 992px) {
+  @include device-is('desktop') {
     font-size: 13px;
   }
 }
@@ -256,5 +256,5 @@ $background-height: 600px;
 –––––––––––––––––––––––––––––––––––––––––––––––––– */
 
 .index-page-partners {
-  background: #fafafa;
+  background: $alabaster-grey;
 }

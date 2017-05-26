@@ -1,20 +1,19 @@
-const { describe, it, before, after, expect, sinon } = require('../../../test-helper');
+const { describe, it, before, expect, sinon } = require('../../../test-helper');
 const Hapi = require('hapi');
 const Answer = require('../../../../lib/domain/models/data/answer');
 const solutionRepository = require('../../../../lib/infrastructure/repositories/solution-repository');
 const answerRepository = require('../../../../lib/infrastructure/repositories/answer-repository');
 const solutionService = require('../../../../lib/domain/services/solution-service');
 
-describe('Unit | Controller | answer-controller', function () {
+describe('Unit | Controller | answer-controller', function() {
 
   let server;
 
-  before(function () {
+  before(function() {
     server = this.server = new Hapi.Server();
     server.connection({ port: null });
     server.register({ register: require('../../../../lib/application/answers') });
   });
-
 
   function executeRequest(payload, callback) {
     server.inject({ method: 'POST', url: '/api/answers', payload }, (res) => {
@@ -57,9 +56,9 @@ describe('Unit | Controller | answer-controller', function () {
     timeout: null
   });
 
-  describe('#save', function () {
+  describe('#save', function() {
 
-    it('should return a successful response with HTTP code 201 when answer was created', function (done) {
+    it('should return a successful response with HTTP code 201 when answer was created', function(done) {
       // given
       sinon.stub(answerRepository, 'findByChallengeAndAssessment').resolves(null);
       sinon.stub(solutionRepository, 'get').resolves(null);
@@ -78,7 +77,7 @@ describe('Unit | Controller | answer-controller', function () {
       });
     });
 
-    it('should return the field "resultDetails"', function (done) {
+    it('should return the field "resultDetails"', function(done) {
       // given
       sinon.stub(solutionRepository, 'get').resolves(null);
       sinon.stub(solutionService, 'validate').returns({result : 'ok', resultDetails : {NumA : true, NumB : true, NumC : true, NumD : true}});

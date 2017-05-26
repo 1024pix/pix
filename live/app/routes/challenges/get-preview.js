@@ -1,7 +1,6 @@
 import _ from 'pix-live/utils/lodash-custom';
 import BaseRoute from 'pix-live/routes/base-route';
 
-
 export default BaseRoute.extend({
 
   model(params) {

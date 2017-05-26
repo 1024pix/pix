@@ -3,7 +3,7 @@ import config from 'pix-live/config/environment';
 import isEmailValid from 'pix-live/utils/email-validator';
 
 function hideMessageDiv(context) {
-  Ember.run.later(function () {
+  Ember.run.later(function() {
     context.set('status', 'empty');
     context.set('errorType', 'invalid');
   }, config.APP.MESSAGE_DISPLAY_DURATION);
@@ -37,21 +37,21 @@ export default Ember.Component.extend({
   hasSuccess: Ember.computed.equal('status', 'success'),
   hasMessage: Ember.computed.or('hasError', 'hasSuccess'),
 
-  messageClassName: Ember.computed('status', function () {
+  messageClassName: Ember.computed('status', function() {
     return (this.get('status') === 'error') ? 'has-error' : 'has-success';
   }),
 
-  infoMessage: Ember.computed('hasError', function () {
+  infoMessage: Ember.computed('hasError', function() {
     const currentErrorType = this.get('errorType');
     return (this.get('hasError')) ? this.get('messages.error')[currentErrorType] : this.get('messages.success');
   }),
 
-  submitButtonText: Ember.computed('status', function () {
+  submitButtonText: Ember.computed('status', function() {
     return (this.get('status') === 'pending') ? 'envoi en cours' : 's\'inscrire';
   }),
 
   actions: {
-    submit(){
+    submit() {
       this.set('status', 'pending');
       const email = (this.get('_followerEmail')) ? this.get('_followerEmail').trim() : '';
       if (!isEmailValid(email)) {

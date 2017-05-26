@@ -5,7 +5,7 @@ import destroyApp from '../helpers/destroy-app';
 
 const FEEDBACK_FORM = '.feedback-panel__form';
 
-describe('Acceptance | Signaler une épreuve', function () {
+describe('Acceptance | Signaler une épreuve', function() {
 
   let application;
 
@@ -23,13 +23,13 @@ describe('Acceptance | Signaler une épreuve', function () {
     expect(find(FEEDBACK_FORM)).to.have.lengthOf(1);
   }
 
-  describe('l1.1 Depuis une epreuve', function () {
+  describe('l1.1 Depuis une epreuve', function() {
 
-    before(function () {
+    before(function() {
       application = startApp();
     });
 
-    after(function () {
+    after(function() {
       destroyApp(application);
     });
 
@@ -62,13 +62,13 @@ describe('Acceptance | Signaler une épreuve', function () {
     });
   });
 
-  describe('l1.2 Depuis la fenêtre de comparaison', function () {
+  describe('l1.2 Depuis la fenêtre de comparaison', function() {
 
-    before(function () {
+    before(function() {
       application = startApp();
     });
 
-    after(function () {
+    after(function() {
       destroyApp(application);
     });
 

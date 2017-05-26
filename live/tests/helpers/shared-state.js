@@ -1,5 +1,4 @@
 
-
 export function resetTestingState() {
   localStorage.clear();
 }
@@ -15,5 +14,4 @@ export function urlOfLastPostRequest() {
 export function bodyOfLastPostRequest() {
   return JSON.parse(JSON.parse(localStorage.getItem('miragePostUrl')).body);
 }
-
 

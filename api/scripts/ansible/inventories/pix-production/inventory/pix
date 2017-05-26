@@ -1,0 +1,6 @@
+# Openstack group
+[meta-group_nodeapp]
+
+##### VM list #####
+[nodeapp:children]
+meta-group_nodeapp

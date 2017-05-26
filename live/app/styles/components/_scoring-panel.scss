@@ -10,36 +10,36 @@
   color: $white;
   font-family: $font-raleway;
 
-  @media (min-width: 480px) {
+  @include device-is('tablet') {
     flex-direction: row;
-    padding-bottom: 50px;
-    padding-top: 50px;
     flex-wrap: wrap;
   }
-
 }
 
-/*-----------------------------------*/
+/*---------------Reward DIV--------------------*/
 
-.scoring-panel__trophy {
+.scoring-panel__reward {
+  height: 169px;
+  width: 150px;
   display: flex;
   flex-direction: column;
-  position: relative;
   margin-top: -30px;
   text-align: center;
 
-  @media (min-width: 480px) {
-    margin-top: 0px;
-  }
-
-  @media (min-width: 768px) {
+  @include device-is('tablet') {
     margin-right: 50px;
+    height: 245px;
+    width: 217px;
+    margin-top: 71px;
+    margin-bottom: 71px;
   }
 
-  @media (min-width: 1024px) {
+  @include device-is('desktop') {
     margin-right: 80px;
   }
 }
+
+/*-----------------Congrats DIV-------------------*/
 
 .scoring-panel__congrats {
   display: flex;
@@ -48,102 +48,13 @@
   text-align: center;
   padding: 20px;
 
-  @media (min-width: 768px) {
+  @include device-is('tablet') {
     text-align: left;
     padding: 0px;
-  }
-
-}
-
-.scoring-panel__index-link {
-  border-radius: 23px;
-  border: solid 1px #ffffff;
-  margin-top: 10px;
-  margin-bottom: 15px;
-  padding: 5px 10px;
-  text-align: center;
-
-  @media (min-width: 480px) {
-    align-self: flex-end;
-  }
-
-  @media (min-width: 768px) {
-    margin-left: 30px;
-  }
-
-  @media (min-width: 1024px) {
-    margin-left: 60px;
-    margin-bottom: -30px;
-  }
-
-}
-
-/*-----------------------------------*/
-
-.scoring-panel__trophy-div-svg {
-  display: flex;
-  justify-content: center;
-}
-
-.scoring-panel__trophy-img {
-  height: 169px;
-  width: 150px;
-
-  @media (min-width: 480px) {
-    height: 190px;
-    width: 200px;
-  }
-
-  @media (min-width: 768px) {
-    height: 237px;
-    width: 267px;
+    margin-top: 71px;
+    margin-bottom: 71px;
   }
 }
-
-.scoring-panel__trophy-level {
-  font-weight: $font-extra-bold;
-  text-align: center;
-
-  text-shadow: 0 2px 6px rgba(0, 0, 0, 0.25);
-  font-family: $font-overpass;
-  font-weight: $font-heavy;
-  color: $blue;
-  letter-spacing: 3px;
-
-  margin-top: -38px;
-  font-size: 17px;
-
-  @media (min-width: 480px) {
-    margin-top: -42px;
-    font-size: 20px;
-  }
-
-  @media (min-width: 768px) {
-    margin-top: -55px;
-    font-size: 26px;
-  }
-
-}
-
-.scoring-panel__trophy-bêta {
-  color: $marigold;
-  font-weight: $font-heavy;
-  letter-spacing: 6px;
-  margin-top: 10px;
-
-  font-size: 12px;
-
-  @media (min-width: 480px) {
-    font-size: 14px;
-  }
-
-  @media (min-width: 768px) {
-    font-size: 18px;
-  }
-
-}
-
-/*-----------------------------------*/
 
 .scoring-panel__congrats-course-name {
   margin-bottom: 15px;
@@ -151,7 +62,7 @@
   line-height: 0.95;
   font-size: 20px;
 
-  @media (min-width: 768px) {
+  @include device-is('tablet') {
     font-size: 20px;
   }
 }
@@ -165,12 +76,16 @@
 
 .scoring-panel__congrats-felicitations {
   font-weight: $font-light;
-
   font-size: 45px;
 
-  @media (min-width: 768px) {
+  @include device-is('tablet') {
     font-size: 60px;
   }
+}
+
+.scoring-panel__congrats-pas-mal {
+  font-weight: $font-light;
+  font-size: 35px;
 }
 
 .scoring-panel__congrats-scoring {
@@ -178,8 +93,8 @@
   font-size: 20px;
   line-height: 1.07;
 
-  @media (min-width: 768px) {
-    font-size: 28px;
+  @include device-is('tablet') {
+    font-size: 21px;
   }
 }
 
@@ -187,12 +102,29 @@
   font-weight: $font-medium;
   font-size: 10px;
 
-  @media (min-width: 768px) {
+  @include device-is('tablet') {
     font-size: 14px;
   }
 }
+/*------------BUTTON RETOUR ACCUEIL DIV-----------------*/
 
-/*-----------------------------------*/
+.scoring-panel__index-link {
+  border-radius: 23px;
+  border: solid 1px #ffffff;
+  margin-top: 10px;
+  margin-bottom: 15px;
+  padding: 5px 10px;
+  text-align: center;
+
+  @include device-is('tablet') {
+    margin-left: 30px;
+    align-self: flex-end;
+  }
+
+  @include device-is('desktop') {
+    margin-left: 60px;
+  }
+}
 
 .scoring-panel__index-link__element {
   font-family: $font-lato;
@@ -200,15 +132,10 @@
   text-align: center;
   background-color: transparent;
   border: transparent;
+  outline: 0;
 
-  @media (min-width: 480px) {
-    font-size: 10px;
+  @include device-is('tablet') {
+    font-size: 13px;
     align-self: flex-end;
-  }
-
-  @media (min-width: 768px) {
-  }
-
-  @media (min-width: 1024px) {
   }
 }

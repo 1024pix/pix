@@ -28,12 +28,13 @@ if (config.environment === 'integration' || config.environment === 'staging' || 
   });
 }
 
-export default Router.map(function () {
+Router.map(function() {
   this.route('index', { path: '/' });
   this.route('courses');
   this.route('placement-tests');
   this.route('project', { path: '/projet' });
   this.route('competences');
+  this.route('inscription');
 
   this.route('challenges.get-preview', { path: '/challenges/:challenge_id/preview' });
 
@@ -46,3 +47,5 @@ export default Router.map(function () {
   this.route('assessments.get-results', { path: '/assessments/:assessment_id/results' });
   this.route('assessments.get-comparison', { path: '/assessments/:assessment_id/results/compare/:answer_id/:index' });
 });
+
+export default Router;

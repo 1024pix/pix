@@ -1,15 +1,15 @@
-const { describe, it, before, after, beforeEach, expect, sinon } = require('../../../test-helper');
+const {describe, it, before, after, beforeEach, expect, sinon} = require('../../../test-helper');
 const Hapi = require('hapi');
 const UserController = require('../../../../lib/application/users/user-controller');
 
-describe('Unit | Router | user-router', function () {
+describe('Unit | Router | user-router', () => {
 
   let server;
 
-  beforeEach(function () {
+  beforeEach(() => {
     server = new Hapi.Server();
-    server.connection({ port: null });
-    server.register({ register: require('../../../../lib/application/users') });
+    server.connection({port: null});
+    server.register({register: require('../../../../lib/application/users')});
   });
 
   function expectRouteToExist(routeOptions, done) {
@@ -19,18 +19,18 @@ describe('Unit | Router | user-router', function () {
     });
   }
 
-  describe('POST /api/accounts', function () {
+  describe('POST /api/users', () => {
 
-    before(function () {
+    before(() => {
       sinon.stub(UserController, 'save', (request, reply) => reply('ok'));
     });
 
-    after(function () {
+    after(() => {
       UserController.save.restore();
     });
 
-    it('should exist', function (done) {
-      return expectRouteToExist({ method: 'POST', url: '/api/accounts' }, done);
+    it('should exist', (done) => {
+      return expectRouteToExist({method: 'POST', url: '/api/users'}, done);
     });
   });
 

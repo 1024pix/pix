@@ -2,7 +2,7 @@ const { describe, it, expect } = require('../../../../test-helper');
 const serializer = require('../../../../../lib/infrastructure/serializers/jsonapi/answer-serializer');
 const Answer = require('../../../../../lib/domain/models/data/answer');
 
-describe('Unit | Serializer | JSONAPI | answer-serializer', function () {
+describe('Unit | Serializer | JSONAPI | answer-serializer', function() {
 
   const modelObject = new Answer({
     id: 'answer_id',
@@ -14,7 +14,6 @@ describe('Unit | Serializer | JSONAPI | answer-serializer', function () {
     assessmentId: 'assessment_id',
     challengeId: 'challenge_id'
   });
-
 
   const jsonAnswer = {
     data: {
@@ -44,9 +43,9 @@ describe('Unit | Serializer | JSONAPI | answer-serializer', function () {
     }
   };
 
-  describe('#serialize()', function () {
+  describe('#serialize()', function() {
 
-    it('should convert an Answer model object into JSON API data', function () {
+    it('should convert an Answer model object into JSON API data', function() {
       // when
       const json = serializer.serialize(modelObject);
 
@@ -56,9 +55,9 @@ describe('Unit | Serializer | JSONAPI | answer-serializer', function () {
 
   });
 
-  describe('#deserialize()', function () {
+  describe('#deserialize()', function() {
 
-    it('should convert JSON API data into an Answer model object', function () {
+    it('should convert JSON API data into an Answer model object', function() {
       // when
       const answer = serializer.deserialize(jsonAnswer);
 

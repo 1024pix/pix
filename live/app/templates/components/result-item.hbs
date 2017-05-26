@@ -5,13 +5,8 @@
 <div class="result-item__item-line"></div>
 
 <div class="result-item__icon">
-  <div data-toggle="tooltip" data-placement="top" title="{{resultItemContent.title}}">
-    {{#if resultItemContent.custom}}
-      <svg width="22" height="22" viewBox="0 0 24 25" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><defs><path d="{{resultItemContent.path}}" id="path-1"></path><mask id="mask-2" maskContentUnits="userSpaceOnUse" maskUnits="objectBoundingBox" x="0" y="0" width="24" height="24" fill="white"><use xlink:href="#path-1"></use></mask></defs><g id="Résultats" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd"><g id="test-fin-1" transform="translate(-1155.000000, -532.000000)" stroke="#FFBE00" stroke-width="14"><g id="Group3" transform="translate(226.000000, 504.000000)"><use id="Shape-Copy-3" mask="url(#mask-2)" xlink:href="#path-1"></use></g></g></g></svg>
-    {{else}}
-      <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" width="24" height="24" viewBox="0 0 24 24"><path d="{{resultItemContent.path}}" fill="{{resultItemContent.color}}"></path></svg>
-    {{/if}}
-
+  <div data-toggle="tooltip" data-placement="top" title="{{resultItem.tooltip}}">
+    <img class="result-item__icon-img result-item__icon-img--{{resultItem.status}}" src="/images/answer-validation/icon-{{resultItem.status}}.svg" alt="">
   </div>
 </div>
 
@@ -21,6 +16,6 @@
 
 <div class="result-item__correction">
   {{#if validationImplementedForChallengeType}}
-    <button class="result-item__correction__button js-correct-answer"{{action "openComparisonPopin"}}> RÉPONSE</button>
+    <button class="result-item__correction__button js-correct-answer" {{action "openComparisonPopin" a11y-focus-id }} id="{{a11y-focus-id}}"> RÉPONSE</button>
   {{/if}}
 </div>

@@ -8,18 +8,18 @@ function _buildChallenge(id, instruction, proposals) {
   return { id, instruction, proposals };
 }
 
-describe('Unit | Repository | challenge-repository', function () {
+describe('Unit | Repository | challenge-repository', function() {
 
   let getRecord;
   let getRecords;
 
-  beforeEach(function () {
+  beforeEach(function() {
     cache.flushAll();
     getRecord = sinon.stub(airtable, 'getRecord');
     getRecords = sinon.stub(airtable, 'getRecords');
   });
 
-  afterEach(function () {
+  afterEach(function() {
     cache.flushAll();
     getRecord.restore();
     getRecords.restore();
@@ -29,7 +29,7 @@ describe('Unit | Repository | challenge-repository', function () {
    * #list
    */
 
-  describe('#list', function () {
+  describe('#list', function() {
 
     const cacheKey = 'challenge-repository_list';
     const challenges = [
@@ -38,7 +38,7 @@ describe('Unit | Repository | challenge-repository', function () {
       _buildChallenge('challenge_id_3', 'Instruction #3', 'Proposals #3')
     ];
 
-    it('should reject with an error when the cache throw an error', function (done) {
+    it('should reject with an error when the cache throw an error', function(done) {
       // given
       const cacheErrorMessage = 'Cache error';
       sinon.stub(cache, 'get', (key, callback) => {
@@ -54,7 +54,7 @@ describe('Unit | Repository | challenge-repository', function () {
       done();
     });
 
-    it('should resolve with the callenges directly retrieved from the cache without calling airtable when the challenge has been cached', function (done) {
+    it('should resolve with the callenges directly retrieved from the cache without calling airtable when the challenge has been cached', function(done) {
       // given
       getRecords.resolves(true);
       cache.set(cacheKey, challenges);
@@ -68,13 +68,13 @@ describe('Unit | Repository | challenge-repository', function () {
       done();
     });
 
-    describe('when challenges have not been previsously cached', function () {
+    describe('when challenges have not been previsously cached', function() {
 
-      beforeEach(function () {
+      beforeEach(function() {
         getRecords.resolves(challenges);
       });
 
-      it('should resolve with the challenges fetched from airtable', function (done) {
+      it('should resolve with the challenges fetched from airtable', function(done) {
         // when
         const result = challengeRepository.list();
 
@@ -83,7 +83,7 @@ describe('Unit | Repository | challenge-repository', function () {
         done();
       });
 
-      it('should cache the challenge fetched from airtable', function (done) {
+      it('should cache the challenge fetched from airtable', function(done) {
         // when
         challengeRepository.list().then(() => {
 
@@ -95,7 +95,7 @@ describe('Unit | Repository | challenge-repository', function () {
         });
       });
 
-      it('should query correctly airtable', function (done) {
+      it('should query correctly airtable', function(done) {
         // given
         const expectedQuery = {};
 
@@ -109,20 +109,19 @@ describe('Unit | Repository | challenge-repository', function () {
       });
     });
 
-
   });
 
   /*
    * #get
    */
 
-  describe('#get', function () {
+  describe('#get', function() {
 
     const challengeId = 'challengeId';
     const cacheKey = `challenge-repository_get_${challengeId}`;
     const challenge = { foo: 'bar' };
 
-    it('should resolve with the challenge directly retrieved from the cache without calling airtable when the challenge has been cached', function () {
+    it('should resolve with the challenge directly retrieved from the cache without calling airtable when the challenge has been cached', function() {
       // given
       getRecord.resolves(true);
       cache.set(cacheKey, challenge);
@@ -135,7 +134,7 @@ describe('Unit | Repository | challenge-repository', function () {
       return expect(result).to.eventually.deep.equal(challenge);
     });
 
-    it('should reject with an error when the cache throw an error', function () {
+    it('should reject with an error when the cache throw an error', function() {
       // given
       const cacheErrorMessage = 'Cache error';
       sinon.stub(cache, 'get', (key, callback) => {
@@ -150,13 +149,13 @@ describe('Unit | Repository | challenge-repository', function () {
       return expect(result).to.eventually.be.rejectedWith(cacheErrorMessage);
     });
 
-    describe('when the challenge was not previously cached', function () {
+    describe('when the challenge was not previously cached', function() {
 
-      beforeEach(function () {
+      beforeEach(function() {
         getRecord.resolves(challenge);
       });
 
-      it('should resolve with the challenges fetched from airtable', function (done) {
+      it('should resolve with the challenges fetched from airtable', function(done) {
         // when
         const result = challengeRepository.get(challengeId);
 
@@ -165,7 +164,7 @@ describe('Unit | Repository | challenge-repository', function () {
         done();
       });
 
-      it('should cache the challenge fetched from airtable', function (done) {
+      it('should cache the challenge fetched from airtable', function(done) {
         // when
         challengeRepository.get(challengeId).then(() => {
 
@@ -177,7 +176,7 @@ describe('Unit | Repository | challenge-repository', function () {
         });
       });
 
-      it('should query correctly airtable', function (done) {
+      it('should query correctly airtable', function(done) {
         // when
         challengeRepository.get(challengeId).then(() => {
 
@@ -193,12 +192,12 @@ describe('Unit | Repository | challenge-repository', function () {
    * #refresh
    */
 
-  describe('#refresh', function () {
+  describe('#refresh', function() {
 
     const challengeId = 'challenge_id';
     const cacheKey = `challenge-repository_get_${challengeId}`;
 
-    it('should reject with an error when the cache throw an error', function () {
+    it('should reject with an error when the cache throw an error', function() {
       // given
       const cacheErrorMessage = 'Cache error';
       sinon.stub(cache, 'del', (key, callback) => {
@@ -213,7 +212,7 @@ describe('Unit | Repository | challenge-repository', function () {
       return expect(result).to.eventually.be.rejectedWith(cacheErrorMessage);
     });
 
-    it('should resolve with the challenge fetched from airtable when the challenge was not previously cached', function () {
+    it('should resolve with the challenge fetched from airtable when the challenge was not previously cached', function() {
       // given
       const challenge = {
         id: challengeId,
@@ -229,7 +228,7 @@ describe('Unit | Repository | challenge-repository', function () {
       return expect(result).to.eventually.deep.equal(challenge);
     });
 
-    it('should replace the old challenge by the new one in cache', function () {
+    it('should replace the old challenge by the new one in cache', function() {
       // given
       const oldCourse = {
         id: challengeId,

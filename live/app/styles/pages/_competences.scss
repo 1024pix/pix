@@ -2,7 +2,7 @@
   display: flex;
   flex-flow: column;
   align-items: center;
-  background-color: #fafafa;
+  background-color: $alabaster-grey;
   color: $charcoal-grey;
   text-rendering: optimizeLegibility;
 }
@@ -29,7 +29,7 @@
   line-height: 1.2;
   max-width: 940px;
 
-  @media (min-width: 992px) {
+  @include device-is('desktop') {
     font-size: 35px;
   }
 }
@@ -40,7 +40,7 @@
   padding: 0 20px;
   margin-bottom: 50px;
 
-  @media (min-width: 992px) {
+  @include device-is('desktop') {
     padding: 0;
   }
 }
@@ -49,7 +49,7 @@
   width: 100%;
   padding: 20px;
 
-  @media (min-width: 992px) {
+  @include device-is('desktop') {
     padding: 20px 40px;
   }
 }
@@ -79,7 +79,7 @@
   font-weight: $font-medium;
   font-size: 26px;
 
-  @media (min-width: 992px) {
+  @include device-is('desktop') {
     font-size: 40px;
   }
 }
@@ -98,13 +98,13 @@
 
 /* XXX we do not have the choice here to bypass BEM for managing collapsible panel title in "closed" status. */
 .cp-is-open > .competences-domain__title-icon {
-  border: solid 2px #979797;
+  border: solid 2px $dusty-grey;
   border-bottom: none;
   border-right: none;
 }
 
 .domain-topic {
-  border-top: 1px solid #d8d8d8;
+  border-top: 1px solid $gainsboro;
   padding: 26px 0 5px;
   margin-top: 30px;
 }
@@ -113,7 +113,7 @@
   font-family: $font-raleway;
   font-size: 28px;
   font-weight: $font-semi-bold;
-  color: $blue;
+  color: $pix-blue;
   margin-top: 0;
   margin-bottom: 17px;
 }

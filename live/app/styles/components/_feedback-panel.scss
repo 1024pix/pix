@@ -44,7 +44,7 @@
 
 .feedback-panel__form {
   width: 100%;
-  @media (min-width: 992px) {
+  @include device-is('desktop') {
     width: 50%;
   }
 }
@@ -56,8 +56,8 @@
 .feedback-panel__field {
   width: 100%;
   border-radius: 3px;
-  background-color: #ffffff;
-  border: solid 1px #d8d8d8;
+  background-color: $white;
+  border: solid 1px $gainsboro;
   box-sizing: border-box;
   padding: 8px;
   font-size: 14px;
@@ -71,13 +71,13 @@
   border-radius: 3px;
   box-sizing: border-box;
   padding: 10px 20px;
-  background-color: $feedback-panel-background-color;
-  border: 1px solid #7d808b;
+  background-color: $alto-grey;
+  border: 1px solid $raven-grey;
   margin-right: 10px;
 }
 
 .feedback-panel__button--send {
-  background-color: #7d808b;
+  background-color: $raven-grey;
   color: white;
 }
 

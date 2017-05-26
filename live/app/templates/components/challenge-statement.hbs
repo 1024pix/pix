@@ -1,7 +1,6 @@
 {{#if challenge.instruction}}
   <div class="rounded-panel__row challenge-statement__instruction-section">
-    {{markdown-to-html class="challenge-statement__instruction" extensions='targetBlank'
-                       markdown=challenge.instruction}}
+    {{markdown-to-html class="challenge-statement__instruction" markdown=challenge.instruction}}
   </div>
 {{/if}}
 
@@ -17,7 +16,7 @@
 
     {{#if challenge.hasSingleAttachment}}
       <div class="challenge-statement__action">
-        <a class="challenge-statement__action-link" href="{{challenge.attachments.firstObject}}" target="_blank">
+        <a class="challenge-statement__action-link" href="{{challenge.attachments.firstObject}}" target="_blank" download>
           <span class="challenge-statement__action-label">Télécharger</span>
         </a>
       </div>
@@ -26,11 +25,11 @@
     {{#if challenge.hasMultipleAttachments}}
       <p class="challenge-statement__text">
         <span class="challenge-statement__text-content">Choisissez le type de fichier que vous voulez utiliser</span>
-        <div class="challenge-statement__help-icon">
-          <div class="challenge-statement__help-tooltip">
-            <span class="challenge-statement__help-text">Pix vous laisse le choix du format de fichier à télécharger. Si vous ne savez pas quelle option retenir, conservez le choix par défaut. Il correspond au format de fichier pris en charge par le plus grand nombre de logiciels.</span>
-          </div>
+      <div class="challenge-statement__help-icon">
+        <div class="challenge-statement__help-tooltip">
+          <span class="challenge-statement__help-text">Pix vous laisse le choix du format de fichier à télécharger. Si vous ne savez pas quelle option retenir, conservez le choix par défaut. Il correspond au format de fichier pris en charge par le plus grand nombre de logiciels.</span>
         </div>
+      </div>
       </p>
       <ul class="challenge-statement__file-options">
         {{#each attachmentsData as |attachmentUrl index|}}
@@ -39,44 +38,22 @@
             {{!-- This radiobutton is hidden  - SVG displayed instead - but needed to handle behaviour. --}}
             <input type="radio"
                    id="attachment{{index}}"
-                   class="challenge-statement__file-option-input"
+                   class="challenge-statement__file-option_input"
                    name="attachment_selector"
                    value="{{attachmentUrl}}"
+                   onclick={{action "selectAttachementUrl" attachmentUrl}}
                    checked="{{if (eq attachmentUrl selectedAttachmentUrl) "checked"}}"
             />
 
-            <label class="label-checkbox-downloadable" for="attachment{{index}}" onclick={{action "selectAttachementUrl"
-                                                                                                  attachmentUrl}}>
-
+            <label class="label-checkbox-downloadable" for="attachment{{index}}">
               <span class="challenge-statement__file-option-label">fichier .{{extract-extension attachmentUrl}}</span>
-
-              {{!-- XXX SVG to represent on / off state --}}
-              <svg class="radio2-on picture-checkbox-downloadable" width="17px" height="17px" viewBox="0 0 17 17"
-                   version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
-                <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
-                  <g id="filled{{index}}" transform="translate(1.000000, 1.000000)">
-                    <circle id="Oval-ext" stroke="#7D808B" stroke-width="2" fill="#FFFFFF" cx="7.5" cy="7.5"
-                            r="7.5"></circle>
-                    <circle id="Oval-Bleu" fill="#3D68FF" cx="7.5250001" cy="7.55500031" r="4.125"></circle>
-                  </g>
-                </g>
-              </svg>
-              <svg class="radio2-off picture-checkbox-downloadable" width="17px" height="17px" viewBox="0 0 17 17"
-                   version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
-                <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
-                  <g id="myicon" transform="translate(1.000000, 1.000000)" stroke="#7D808B" stroke-width="2"
-                     fill="#FFFFFF">
-                    <circle id="Oval-ext" cx="7.5" cy="7.5" r="7.5"></circle>
-                  </g>
-                </g>
-              </svg>
             </label>
 
           </li>
         {{/each}}
       </ul>
       <div class="challenge-statement__action">
-        <a class="challenge-statement__action-link" href="{{selectedAttachmentUrl}}" target="_blank">
+        <a class="challenge-statement__action-link" href="{{selectedAttachmentUrl}}" target="_blank" download>
           <span class="challenge-statement__action-label">Télécharger</span>
         </a>
       </div>

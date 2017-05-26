@@ -18,7 +18,7 @@
   font-size: 12px;
   font-weight: $font-bold;
 
-  @media (min-width: 700px) {
+  @include device-is('tablet') {
     font-size: 16px;
   }
 }

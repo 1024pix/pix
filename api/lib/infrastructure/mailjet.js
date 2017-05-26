@@ -25,10 +25,34 @@ function _formatPayload(options) {
 function sendEmail(options) {
   const mailjet = nodeMailjet.connect(mailjetConfig.apiKey, mailjetConfig.apiSecret);
 
-  return mailjet.post('send').request(_formatPayload(options));
+  return mailjet
+    .post('send')
+    .request(_formatPayload(options));
+}
+
+function getContactListByName(Name) {
+  const mailJet = nodeMailjet.connect(mailjetConfig.apiKey, mailjetConfig.apiSecret);
+
+  return mailJet
+    .get('contactslist')
+    .request({ Name })
+    .then((contactLists) => {
+      return Promise.resolve(contactLists.body.Data[0]);
+    });
+}
+
+function addEmailToContactList(email, contactListID) {
+  const mailJet = nodeMailjet.connect(mailjetConfig.apiKey, mailjetConfig.apiSecret);
+
+  return mailJet
+    .post('contactslist')
+    .id(contactListID)
+    .action('managecontact')
+    .request({ Email: email, action: 'addnoforce' });
 }
 
 module.exports = {
-  sendEmail
+  sendEmail,
+  getContactListByName,
+  addEmailToContactList
 };
-

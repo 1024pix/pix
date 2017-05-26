@@ -4,3 +4,6 @@ env:
   jquery: true
 parserOptions:
   sourceType: module
+globals:
+  jsyaml: true
+

@@ -5,8 +5,12 @@ const validator = require('validator');
 
 const _ = require('lodash');
 
-validator.isRequired = function (value) {
+validator.isRequired = function(value) {
   return !_.isNil(value);
+};
+
+validator.isTrue = function(value) {
+  return _.isBoolean(value) && value === true;
 };
 
 const bookshelf = require('bookshelf')(knex);

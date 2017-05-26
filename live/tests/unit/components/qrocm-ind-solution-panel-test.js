@@ -2,11 +2,11 @@ import { expect } from 'chai';
 import { describe, it, beforeEach } from 'mocha';
 import { setupTest } from 'ember-mocha';
 
-describe('Unit | Component | qrocm-solution-panel', function () {
+describe('Unit | Component | qrocm-solution-panel', function() {
 
   setupTest('component:qrocm-ind-solution-panel', {});
 
-  describe('#inputFields', function () {
+  describe('#inputFields', function() {
 
     let challenge;
     let answer;
@@ -26,7 +26,7 @@ describe('Unit | Component | qrocm-solution-panel', function () {
       return component.get('inputFields');
     }
 
-    it('should return an array with data to display (case when the answers are right)', function () {
+    it('should return an array with data to display (case when the answers are right)', function() {
       //Given
       challenge = { proposals: 'content : ${smiley1}\n\ntriste : ${smiley2}' };
       answer = { value: 'smiley1: \':)\' smiley2: \':(\'', resultDetails: 'smiley1: true\nsmiley2: true' };
@@ -53,7 +53,7 @@ describe('Unit | Component | qrocm-solution-panel', function () {
       expect(inputFields).to.be.deep.equal(expectedFieldsData);
     });
 
-    it('should return an array with data to display (case when there is wrong answers)', function () {
+    it('should return an array with data to display (case when there is wrong answers)', function() {
       //Given
       challenge = { proposals: 'Clé USB : ${num1}\n\nCarte mémoire (SD) : ${num2}' };
       answer = { value: 'num1: \'1\' num2: \'2\'', resultDetails: 'num1: false\nnum2: false' };
@@ -80,7 +80,7 @@ describe('Unit | Component | qrocm-solution-panel', function () {
 
     });
 
-    it('should return an array with data to display (case when there is some empty answer)', function () {
+    it('should return an array with data to display (case when there is some empty answer)', function() {
       //Given
       challenge = { proposals: 'Clé USB : ${num1}\n\nCarte mémoire (SD) : ${num2}' };
       answer = { value: 'num1: \'\' num2: \'2\'', resultDetails: 'num1: false\nnum2: false' };
@@ -107,7 +107,7 @@ describe('Unit | Component | qrocm-solution-panel', function () {
       expect(inputFields).to.be.deep.equal(result);
     });
 
-    it('should return an array with data to display (proposals contains a dash ("-"))', function () {
+    it('should return an array with data to display (proposals contains a dash ("-"))', function() {
       // given
       challenge = { proposals: '- alain@pix.fr : ${num1}\n\n- leonie@pix.fr : ${num2}\n\n- Programme_Pix.pdf : ${num3}\n\n- lucie@pix.fr : ${num4}\n\n- Programme du festival Pix : ${num5}\n\n- jeremy@pix.fr : ${num6}' };
       answer = {
@@ -161,7 +161,7 @@ describe('Unit | Component | qrocm-solution-panel', function () {
       expect(inputFields).to.be.deep.equal(result);
     });
 
-    it('should return an array with data to display (proposals are questions)', function () {
+    it('should return an array with data to display (proposals are questions)', function() {
       // given
       challenge = { proposals: '- Combien le dossier "projet PIX" contient-il de dossiers ? ${Num1}\n\n- Combien le dossier "images" contient-il de fichiers ? ${Num2}' };
       answer = { value: 'Num1: \'2\' Num2: \'3\'', resultDetails: 'Num1: false\nNum2: false' };
@@ -188,7 +188,7 @@ describe('Unit | Component | qrocm-solution-panel', function () {
       expect(inputFields).to.be.deep.equal(result);
     });
 
-    it('it should return "Pas de réponse" in each answer if the question was passed', function () {
+    it('it should return "Pas de réponse" in each answer if the question was passed', function() {
       // given
       challenge = { proposals: 'Clé USB : ${num1}\n\nCarte mémoire (SD) : ${num2}' };
       answer = { value: '#ABAND#', resultDetails: 'num1: false\nnum2: false' };

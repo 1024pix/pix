@@ -28,50 +28,50 @@ const answerWithRandomResult = {
   result: 'RANDOM_RESULT'
 };
 
-describe('Unit | Component | result-item-component', function () {
+describe('Unit | Component | result-item-component', function() {
 
   setupTest('component:result-item', {});
 
   let component;
 
-  beforeEach(function () {
+  beforeEach(function() {
     component = this.subject();
   });
 
-  describe('#resultItemContent Computed property - undefined case', function () {
+  describe('#resultItem Computed property - undefined case', function() {
     [
       undefinedAnswer,
       answerWithEmptyResult,
       answerWithUndefinedResult,
       answerWithNullResult
-    ].forEach(function (answer) {
-      it(`should returns false when answer provided is: ${answer.name}`, function () {
+    ].forEach(function(answer) {
+      it(`should returns false when answer provided is: ${answer.name}`, function() {
         // when
         component.set('answer', answer);
         // then
-        expect(component.get('resultItemContent')).to.be.undefined;
+        expect(component.get('resultItem')).to.be.undefined;
       });
     });
 
   });
 
-  describe('#resultItemContent Computed property - defined case', function () {
-    it('should returns true when answer provided with result ok', function () {
+  describe('#resultItem Computed property - defined case', function() {
+    it('should returns true when answer provided with result ok', function() {
       // when
       component.set('answer', answerWithOkResult);
       // then
-      expect(component.get('resultItemContent.title')).to.equal('Réponse correcte');
+      expect(component.get('resultItem.tooltip')).to.equal('Réponse correcte');
     });
 
-    it('should returns true when answer provided with result uncommon value by not null or undefined ', function () {
+    it('should returns true when answer provided with result uncommon value by not null or undefined ', function() {
       // when
       component.set('answer', answerWithRandomResult);
       // then
-      expect(component.get('resultItemContent.title')).to.equal('Correction automatique en cours de développement ;)');
+      expect(component.get('resultItem.tooltip')).to.equal('Correction automatique en cours de développement ;)');
     });
   });
 
-  describe('#validationImplementedForChallengeType', function () {
+  describe('#validationImplementedForChallengeType', function() {
 
     [
       { challengeType: 'QCM', expected: true },
@@ -79,9 +79,9 @@ describe('Unit | Component | result-item-component', function () {
       { challengeType: 'QROCm-ind', expected: false },
       { challengeType: 'QROCm-dep', expected: false },
       { challengeType: 'QCU', expected: true }
-    ].forEach(function (data) {
+    ].forEach(function(data) {
 
-      it(`should return ${data.expected} when challenge type is ${data.challengeType}`, function () {
+      it(`should return ${data.expected} when challenge type is ${data.challengeType}`, function() {
         // given
         const challenge = Ember.Object.create({ type: data.challengeType });
         const answer = Ember.Object.create({ challenge });

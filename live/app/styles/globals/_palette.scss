@@ -1,64 +1,47 @@
-$light-grey1: #f2f3f4; /* html background */
-$light-grey2: #f3f3f3; /* hr */
-$light-grey3: #efefef;
-$light-grey4: #dedfe2;
-$light-grey5: #D0D1D5;
-$light-grey6: #CCC;
-$light-grey7: #f6f6f6;
-$grey1: #a5a7ab;
-$grey2: #989a9e;
-$grey3: #909297;
-$dark-grey1: #8b8d92;
-$dark-grey2: #7e8086;
-$dark-grey3: #6f7177;
-$dark-grey5: #484c58;
+/*
+  Colors name From:
+    - http://www.colorhexa.com
+    - http://chir.ag/projects/name-that-color
+*/
+$white: #ffffff;
+$porcelain-grey: #f2f3f4;
+$mercury-grey: #e6e6e6;
+$alto-grey: #dedede;
+$alto-grey-light: #D5D5D5;
+$iron-grey: #D0D1D5;
+$gainsboro: #D8D8D8;
+$alabaster-grey: #FAFAFA;
+$gallery-grey: #ececec;
+$silver-grey: #CCCCCC;
+$dusty-grey: #979797;
+$aluminium-grey: #a5a7ab;
+$manatee-grey: #989a9e;
+$raven-grey: #7d808a;
+$oslo-grey: #909297;
+$jumbo-grey: #7e8086;
+$slate-grey: #6a6d76;
+$boulder-grey: #777777;
+$charcoal-grey: #3e4149;
+$black: #000000;
 
-$pix-blue: #446eff;
-$pix-blue1: #2861CF;
-$intruction-blue: #3d68ff;
-$pix-yellow: #FDBD2C;
-$pix-yellow1: #CF9C24;
-$pix-orange: #e97f2a;
+$periwinkle-blue: #c3d0ff;
+$vivid-blue: #0EBEFF;
+$pix-blue: #3d68ff;
+$mariner-blue: #2861CF;
+$dogder-blue: #446eff;
+$blue-ribbon: #2549FF;
 
-$captrain-green: #78C182;
-$captrain-green1: #55b162; /* border-color */
-$captrain-green2: #67b972;
-$captrain-green3: #4aa256;
-$green-dark: rgba(120, 193, 130, 0.50);
-$caribbean-green: #13c9a0;//qcm-solution-checkbox
-
-$red-dark: rgba(201, 48, 44, 0.50);
-$red: #ac2925;
-$blue: #3d68ff;
-
+$lightning-yellow: #FDBD2C;
+$nugget-yellow: #CF9C24;
 $marigold: #ffbe00;
 
-$alert-success-green: #78C182;
-$alert-danger-red: #E14956;
+$deyork-green: #78C182;
+$fern-green: #67b972;
+$salad-green: #4aa256;
+$caribbean-green: #13c9a0;
+$strong-cyan: #12caa1;
 
-$tooltip-background-color: #e6e6e6;
-$tooltip-color: #3e4149;
+$mandy-red: #E14956;
+$mexican-red: #ac2925;
 
-$validate-action-background-color: #12caa1;
-$validate-action-color: #ffffff;
-
-$download-action-background-color: #446eff;
-$download-action-color: #ffffff;
-
-$skip-action-color: #3e4149;
-$charcoal-grey: #3e4149;
-$slate-grey: #6a6d76;
-
-$project-blue: #3d68ff;
-$feedback-panel-background-color: #dedede;
-
-$follower-button-default: #3d68ff;
-$follower-button-sending: #12caa1;
-$follower-input: #7d808a;
-$follower-label-error: #f45c00;
-
-$white: #ffffff;
-
-.text--marigold {
-  color: $marigold;
-}
+$pure-orange: #f45c00;

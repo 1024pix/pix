@@ -8,7 +8,6 @@ import wait from 'ember-test-helpers/wait';
 const BUTTON_SEND = '.follower-form__button';
 const INPUT_EMAIL = '.follower-email';
 
-
 describe('Integration | Component | follower form', function() {
 
   setupComponentTest('follower-form', {
@@ -20,15 +19,15 @@ describe('Integration | Component | follower form', function() {
     expect(this.$()).to.have.length(1);
   });
 
-  describe('Test Component form', function(){
-    it('should render submit button', function () {
+  describe('Test Component form', function() {
+    it('should render submit button', function() {
       //When
       this.render(hbs`{{follower-form}}`);
       //then
       expect(this.$('.follower-form__button').length).to.equal(1);
     });
 
-    it('should return true if input exist', function () {
+    it('should return true if input exist', function() {
       //When
       this.render(hbs`{{follower-form}}`);
       //then
@@ -41,7 +40,7 @@ describe('Integration | Component | follower form', function() {
    FIXME: the tests below do not respect the Ember Way and will not be ok for Ember 2.12 (cf. commit #8d28dd) but we can not fix them now :-(
   */
 
-  describe('Form view', function () {
+  describe('Form view', function() {
 
     let isSaveMethodCalled;
     let saveMethodBody;
@@ -81,14 +80,13 @@ describe('Integration | Component | follower form', function() {
       }
     });
 
-
-    beforeEach(function () {
+    beforeEach(function() {
       isSaveMethodCalled = false;
       saveMethodBody = null;
       saveMethodUrl = null;
     });
 
-    it('clicking on "send" button should save the email of the follower', function () {
+    it('clicking on "send" button should save the email of the follower', function() {
       // given
       // stub store service
       this.register('service:store', storeStub);
@@ -114,7 +112,7 @@ describe('Integration | Component | follower form', function() {
       });
     });
 
-    it('clicking on "send" button should not save the email of the follower cause its already saved', function () {
+    it('clicking on "send" button should not save the email of the follower cause its already saved', function() {
       // given
       this.register('service:store', storeStubRejection);
 

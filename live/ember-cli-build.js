@@ -1,6 +1,5 @@
-/*jshint node:true*/
-/* global require, module */
-var EmberApp = require('ember-cli/lib/broccoli/ember-app');
+/* eslint-env node */
+const EmberApp = require('ember-cli/lib/broccoli/ember-app');
 
 /* postcss plugins */
 
@@ -35,8 +34,6 @@ module.exports = function (defaults) {
   // along with the exports of each module as its value.
 
   app.import('bower_components/bootstrap/dist/js/bootstrap.js');
-  app.import('bower_components/showdown/dist/showdown.js');
-  app.import('bower_components/showdown-target-blank/dist/showdown-target-blank.js');
   app.import('bower_components/js-yaml/dist/js-yaml.js');
   app.import('bower_components/lodash/dist/lodash.js');
 

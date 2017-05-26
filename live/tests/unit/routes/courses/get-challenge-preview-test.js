@@ -4,7 +4,9 @@ import { setupTest } from 'ember-mocha';
 
 describe('Unit | Route | ChallengePreview', function() {
 
-  setupTest('route:courses/get-challenge-preview', {});
+  setupTest('route:courses/get-challenge-preview', {
+    needs: ['service:current-routed-modal']
+  });
 
   it('exists', function() {
     const route = this.subject();

@@ -1,6 +1,6 @@
 const ChallengeController = require('./challenge-controller');
 
-exports.register = function (server, options, next) {
+exports.register = function(server, options, next) {
 
   server.route([
     {

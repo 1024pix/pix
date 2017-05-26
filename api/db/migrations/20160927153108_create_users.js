@@ -7,7 +7,7 @@ exports.up = (knex) => {
     t.increments().primary();
     t.string('firstName').notNullable();
     t.string('lastName').notNullable();
-    t.string('email').unique().notNullable();
+    t.string('email').notNullable();
     t.string('login').notNullable();
     t.string('password').notNullable();
     t.dateTime('createdAt').notNullable().defaultTo(knex.fn.now());

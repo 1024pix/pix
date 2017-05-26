@@ -4,9 +4,9 @@ import { describe, it } from 'mocha';
 
 describe('Unit | Utility | answers as object', function() {
 
-  describe('#answersAsObject', function () {
+  describe('#answersAsObject', function() {
 
-    it('should return an object of given answers with key of the input', function () {
+    it('should return an object of given answers with key of the input', function() {
       // given
       const answer = {
         value : 'num1: \'4\' num2: \'1\' num3: \'2\' num4: \'3\''
@@ -25,7 +25,7 @@ describe('Unit | Utility | answers as object', function() {
       expect(result).to.deep.equal(expectedResult);
     });
 
-    it('should return an empty object when the answer is aband', function () {
+    it('should return an empty object when the answer is aband', function() {
       // given
       const answer = { value : '#ABAND#' };
       const inputKeys = ['key1', 'key2', 'key3'];

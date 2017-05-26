@@ -3,16 +3,15 @@
   font-size: 16px;
 }
 
-.qcm-panel__proposal-item{
+.qcm-panel__proposal-item {
   margin-left: 7px;
 }
 
-.qcm-panel__proposal-checkbox{
-  opacity: 0;
-  display: none;
+input.qcm-panel__proposal-checkbox {
+  margin-right: 10px;
 }
 
-.qcm-panel__proposal-label{
+.qcm-panel__proposal-label {
   font-weight: $font-normal;
   width: 100%;
 }

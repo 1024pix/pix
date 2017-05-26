@@ -1,9 +1,9 @@
 const { describe, it, before, after, beforeEach, afterEach, expect, knex, nock } = require('../../test-helper');
 const server = require('../../../server');
 
-describe('Acceptance | API | Assessments', function () {
+describe('Acceptance | API | Assessments', function() {
 
-  before(function (done) {
+  before(function(done) {
 
     nock.cleanAll();
     nock('https://api.airtable.com')
@@ -53,13 +53,12 @@ describe('Acceptance | API | Assessments', function () {
     done();
   });
 
-  after(function (done) {
+  after(function(done) {
     nock.cleanAll();
     server.stop(done);
   });
 
-
-  describe('(adaptive correct answer) GET /api/assessments/:assessment_id/next/:current_challenge_id', function () {
+  describe('(adaptive correct answer) GET /api/assessments/:assessment_id/next/:current_challenge_id', function() {
 
     let insertedAssessmentId = null;
 
@@ -79,7 +78,7 @@ describe('Acceptance | API | Assessments', function () {
       nextChallengeId: 'w_third_challenge'
     }];
 
-    beforeEach(function (done) {
+    beforeEach(function(done) {
       knex('assessments').delete().then(() => {
         knex('assessments').insert([insertedAssessment]).then((rows) => {
           insertedAssessmentId = rows[0];
@@ -105,7 +104,7 @@ describe('Acceptance | API | Assessments', function () {
       });
     });
 
-    afterEach(function (done) {
+    afterEach(function(done) {
       knex('assessments').delete().then(() => {
         knex('answers').delete().then(() => {
           knex('scenarios').delete().then(() => {
@@ -115,7 +114,7 @@ describe('Acceptance | API | Assessments', function () {
       });
     });
 
-    it('should return the second challenge if the first answer is correct', function (done) {
+    it('should return the second challenge if the first answer is correct', function(done) {
 
       const options = { method: 'GET', url: '/api/assessments/' + insertedAssessmentId + '/next/w_first_challenge' };
       server.inject(options, (response) => {

@@ -25,7 +25,8 @@ module.exports = function (environment) {
       isChallengeTimerEnable : true,
       MESSAGE_DISPLAY_DURATION: 1500,
       isMobileSimulationEnabled: false,
-      isTimerCountdownEnabled: true
+      isTimerCountdownEnabled: true,
+      isMessageStatusTogglingEnabled: true
     },
 
     googleFonts: [
@@ -40,6 +41,10 @@ module.exports = function (environment) {
       'font-src': "'self' fonts.gstatic.com",
       'style-src': "'self' fonts.googleapis.com"
     },
+
+    showdown: {
+      openLinksInNewWindow: true
+    }
   };
 
   if (environment === 'development') {
@@ -52,6 +57,8 @@ module.exports = function (environment) {
 
     // Redefined in custom initializer 'initializers/configure-pix-api-host.js'
     ENV.APP.API_HOST = 'http://localhost:3000';
+
+
   }
 
   if (environment === 'test') {
@@ -71,6 +78,7 @@ module.exports = function (environment) {
     ENV.APP.MESSAGE_DISPLAY_DURATION = 0;
     ENV.APP.isMobileSimulationEnabled = true;
     ENV.APP.isTimerCountdownEnabled = false;
+    ENV.APP.isMessageStatusTogglingEnabled = false;
   }
 
   if (environment === 'integration') {

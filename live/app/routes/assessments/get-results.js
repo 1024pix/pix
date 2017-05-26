@@ -15,7 +15,7 @@ export default BaseRoute.extend({
   },
 
   actions: {
-    openComparison: function (assessment_id, answer_id, index) {
+    openComparison: function(assessment_id, answer_id, index) {
       this.transitionTo('assessments.get-comparison', assessment_id, answer_id, index);
     }
   }

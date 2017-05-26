@@ -18,7 +18,7 @@
   flex-direction: column;
   align-items: center;
 
-  @media (min-width: 992px) {
+  @include device-is('desktop') {
     justify-content: space-between;
     flex-direction: row;
   }
@@ -69,7 +69,7 @@
 .navbar-header-links {
   display: none;
 
-  @media (min-width: 992px) {
+  @include device-is('desktop') {
     display: block;
     padding: 20px 0;
   }

@@ -3,7 +3,7 @@
   flex-flow: column wrap;
   justify-content: space-around;
   align-self: center;
-  background-color: #fafafa;
+  background-color: $alabaster-grey;
   color: $charcoal-grey;
   text-rendering: optimizeLegibility;
 }
@@ -24,13 +24,13 @@
 }
 
 .project-page li {
-  color: $project-blue;
+  color: $pix-blue;
 }
 
 .project-page hr {
   width: 50px;
   height: 4px;
-  background-color: $project-blue;
+  background-color: $pix-blue;
   margin: 0 auto 20px;
   border-radius: 2px;
   border: none;
@@ -40,7 +40,7 @@
   margin-left: 10px;
   margin-right: 10px;
 
-  @media (min-width: 992px) {
+  @include device-is('desktop') {
     margin-bottom: 50px;
     margin-left: auto;
     margin-right: auto;
@@ -51,7 +51,7 @@
   margin-bottom: 50px;
   padding: 20px;
 
-  @media (min-width: 992px) {
+  @include device-is('desktop') {
     width: 940px;
     margin-left: auto;
     margin-right: auto;
@@ -82,7 +82,7 @@
   line-height: 1.2;
   max-width: 800px;
 
-  @media (min-width: 992px) {
+  @include device-is('desktop') {
     font-size: 36px;
   }
 }
@@ -140,12 +140,12 @@ p.project-page__populations-headline {
 }
 
 .project-page__value-header-name {
-  color: $project-blue;
+  color: $pix-blue;
 }
 
 .project-page__presentation {
-  background-color: $project-blue;
-  color: #ffffff;
+  background-color: $pix-blue;
+  color: $white;
   font-size: 20px;
   line-height: 28px;
   font-weight: $font-light;
@@ -156,5 +156,5 @@ p.project-page__populations-headline {
 }
 
 hr.project-page__presentation-header-line {
-  background-color: #ffffff;
+  background-color: $white;
 }

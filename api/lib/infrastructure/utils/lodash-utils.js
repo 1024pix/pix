@@ -60,13 +60,13 @@ _.mixin({
   'isBlank'(string) {
     return (_.isUndefined(string) || _.isNull(string) || string.trim().length === 0);
   },
-  isArrayOfString: function (x) {
+  isArrayOfString: function(x) {
     return _.isArray(x) && _.every(x, _.isString);
   },
-  isNotString: function (x) {
+  isNotString: function(x) {
     return !_.isString(x);
   },
-  isNotArrayOfString: function (x) {
+  isNotArrayOfString: function(x) {
     return !_.isArrayOfString(x);
   }
 

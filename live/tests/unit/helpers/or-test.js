@@ -24,7 +24,7 @@ describe('Unit | Helper | or', function() {
     {input: [true, 'undefined'], output: true},
     {input: [true, true], output: true}
   ].forEach(({input, output}) => {
-    it(`should render ${output} when ${JSON.stringify(input)} provided`, function () {
+    it(`should render ${output} when ${JSON.stringify(input)} provided`, function() {
       //When
       const result = or(input);
       //then

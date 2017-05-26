@@ -3,7 +3,7 @@ import { expect } from 'chai';
 import { describe, it } from 'mocha';
 import ValueAsArrayOfBooleanMixin from 'pix-live/models/answer/value-as-array-of-boolean-mixin';
 
-describe('Unit | Model | Value As Array of Boolean Mixin', function () {
+describe('Unit | Model | Value As Array of Boolean Mixin', function() {
 
   const testData = [
     { when: 'Empty String', input: '', expected: [] },
@@ -19,11 +19,10 @@ describe('Unit | Model | Value As Array of Boolean Mixin', function () {
 
   testData.forEach(({ when, input, expected }) => {
 
-    it(`"${when}", example : "${JSON.stringify(input)}" retourne [${expected}]`, function () {
+    it(`"${when}", example : "${JSON.stringify(input)}" retourne [${expected}]`, function() {
       const sut = Challenge.create({ value: input });
       expect(sut.get('_valueAsArrayOfBoolean')).to.deep.equal(expected);
     });
   });
 });
-
 

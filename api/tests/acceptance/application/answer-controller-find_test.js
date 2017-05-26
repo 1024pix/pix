@@ -1,15 +1,15 @@
 const { describe, it, after, beforeEach, afterEach, expect, knex } = require('../../test-helper');
 const server = require('../../../server');
 
-describe('Acceptance | Controller | answer-controller', function () {
+describe('Acceptance | Controller | answer-controller', function() {
 
-  after(function (done) {
+  after(function(done) {
     server.stop(done);
   });
 
   /* Find
    –––––––––––––––––––––––––––––––––––––––––––––––––– */
-  describe('Find /api/answers?challengeId=Y&assessmentId=Z', function () {
+  describe('Find /api/answers?challengeId=Y&assessmentId=Z', function() {
 
     let inserted_answer_id = null;
 
@@ -22,7 +22,7 @@ describe('Acceptance | Controller | answer-controller', function () {
       assessmentId: '12345'
     };
 
-    beforeEach(function (done) {
+    beforeEach(function(done) {
       knex('answers').delete().then(() => {
         knex('answers').insert([inserted_answer]).then((id) => {
           inserted_answer_id = id;
@@ -31,20 +31,20 @@ describe('Acceptance | Controller | answer-controller', function () {
       });
     });
 
-    afterEach(function (done) {
+    afterEach(function(done) {
       knex('answers').delete().then(() => {
         done();
       });
     });
 
-    it('should return 200 HTTP status code', function (done) {
+    it('should return 200 HTTP status code', function(done) {
       server.inject({ method: 'GET', url: queryUrl }, (response) => {
         expect(response.statusCode).to.equal(200);
         done();
       });
     });
 
-    it('should return application/json', function (done) {
+    it('should return application/json', function(done) {
       server.inject({ method: 'GET', url: queryUrl }, (response) => {
         const contentType = response.headers['content-type'];
         expect(contentType).to.contain('application/json');
@@ -52,7 +52,7 @@ describe('Acceptance | Controller | answer-controller', function () {
       });
     });
 
-    it('should return required answer', function (done) {
+    it('should return required answer', function(done) {
       server.inject({ method: 'GET', url: queryUrl }, (response) => {
         const answer = response.result.data;
 
@@ -66,7 +66,7 @@ describe('Acceptance | Controller | answer-controller', function () {
       });
     });
 
-    it('should return 200 with "null" data if not found answer', function (done) {
+    it('should return 200 with "null" data if not found answer', function(done) {
       server.inject({
         method: 'GET',
         url: '/api/answers?challenge=nothing&assessment=nothing'

@@ -2,11 +2,11 @@ const { describe, it, expect } = require('../../../../test-helper');
 const serializer = require('../../../../../lib/infrastructure/serializers/jsonapi/solution-serializer');
 const Solution = require('../../../../../lib/domain/models/referential/solution');
 
-describe('Unit | Serializer | JSONAPI | solution-serializer', function () {
+describe('Unit | Serializer | JSONAPI | solution-serializer', function() {
 
-  describe('#serialize()', function () {
+  describe('#serialize()', function() {
 
-    it('should convert a Solution model object into JSON API data', function () {
+    it('should convert a Solution model object into JSON API data', function() {
 
       const solution = new Solution();
       solution.id = 'solution_id';

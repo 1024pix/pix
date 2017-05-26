@@ -1,0 +1,87 @@
+---
+
+- name: create requirement directory
+  become: yes
+  become_user: '{{ deploy_user }}'
+  file:
+    path: "{{ home_app }}"
+    state: directory
+    mode: 0755
+
+- name: clone code
+  become: yes
+  become_user: '{{ deploy_user }}'
+  git:
+    repo: https://github.com/sgmap/pix.git
+    dest: "{{ home_app }}"
+    depth: 1
+    accept_hostkey: yes
+    version: "{{ branch }}"
+  register: git_res
+
+- name: install package
+  become: yes
+  become_user: '{{ deploy_user }}'
+  command: npm run install:api
+  args:
+    chdir: "{{ home_app }}"
+  when: git_res.changed
+
+- name: set working dir
+  set_fact:
+    working_directory: "{{ home_app }}/api/"
+  when: git_res.changed
+
+- name: stop app
+  become: yes
+  systemd:
+    name: pix-api
+    state: stopped
+  ignore_errors: yes
+  when: git_res.changed
+
+- name: migrate data
+  become: yes
+  become_user: '{{ deploy_user }}'
+  command: npm run db:migrate
+  args:
+    chdir: "{{ working_directory }}"
+  environment:
+    NODE_ENV: '{{ pix_env }}'
+    DATABASE_URL: '{{ database_url }}'
+  run_once: yes
+  when: git_res.changed
+
+- name: seed data
+  command: npm run db:seed
+  args:
+    chdir: "{{ working_directory }}"
+  environment:
+    NODE_ENV: '{{ pix_env }}'
+    DATABASE_URL: '{{ database_url }}'
+  run_once: yes
+  when: "(git_res.changed) and (need_seed | default(false))"
+
+- name: run test
+  become: yes
+  become_user: '{{ deploy_user }}'
+  command: npm test
+  args:
+    chdir: "{{ working_directory }}"
+  when: git_res.changed
+
+- name: set unit file
+  become: yes
+  template:
+    dest: /etc/systemd/system/
+    src: pix-api.service
+  when: git_res.changed
+
+- name: start app
+  become: yes
+  systemd:
+    daemon_reload: yes
+    name: pix-api
+    state: restarted
+    enabled: yes
+  when: git_res.changed

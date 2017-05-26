@@ -11,7 +11,7 @@ describe('Unit | Service | DelayService', function() {
     expect(controller).to.be.ok;
   });
 
-  it('has delay#ms() which return a promise', function () {
+  it('has delay#ms() which return a promise', function() {
     const delay = this.subject();
     expect(delay).to.respondsTo('ms');
     const promise = delay.ms(0);

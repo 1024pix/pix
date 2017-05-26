@@ -1,9 +1,9 @@
 const { describe, it, after, before, beforeEach, afterEach, expect, knex, nock } = require('../../test-helper');
 const server = require('../../../server');
 
-describe('Acceptance | API | Assessments GET', function () {
+describe('Acceptance | API | Assessments GET', function() {
 
-  before(function (done) {
+  before(function(done) {
 
     nock.cleanAll();
     nock('https://api.airtable.com')
@@ -55,11 +55,11 @@ describe('Acceptance | API | Assessments GET', function () {
 
   });
 
-  after(function (done) {
+  after(function(done) {
     server.stop(done);
   });
 
-  describe('(no provided answer) GET /api/assessments/:id', function () {//
+  describe('(no provided answer) GET /api/assessments/:id', function() {//
 
     let options;
     let inserted_assessment_id;
@@ -70,7 +70,7 @@ describe('Acceptance | API | Assessments GET', function () {
       courseId: 'anyFromAirTable'
     };
 
-    beforeEach(function (done) {
+    beforeEach(function(done) {
       knex('assessments').delete().then(() => {
         knex('assessments').insert([inserted_assessment]).then((rows) => {
           inserted_assessment_id = rows[0];
@@ -80,18 +80,18 @@ describe('Acceptance | API | Assessments GET', function () {
       });
     });
 
-    afterEach(function (done) {
+    afterEach(function(done) {
       knex('assessments').delete().then(() => {
         done();
       });
     });
 
-    it('should return 200 HTTP status code', function (done) {
+    it('should return 200 HTTP status code', function(done) {
 
       knex.select('id')
         .from('assessments')
         .limit(1)
-        .then(function () {
+        .then(function() {
           server.inject(options, (response) => {
             expect(response.statusCode).to.equal(200);
             done();
@@ -100,12 +100,12 @@ describe('Acceptance | API | Assessments GET', function () {
 
     });
 
-    it('should return application/json', function (done) {
+    it('should return application/json', function(done) {
 
       knex.select('id')
         .from('assessments')
         .limit(1)
-        .then(function () {
+        .then(function() {
           server.inject(options, (response) => {
             const contentType = response.headers['content-type'];
             expect(contentType).to.contain('application/json');
@@ -115,11 +115,11 @@ describe('Acceptance | API | Assessments GET', function () {
 
     });
 
-    it('should return the expected assessment', function (done) {
+    it('should return the expected assessment', function(done) {
       knex.select('id')
         .from('assessments')
         .limit(1)
-        .then(function () {
+        .then(function() {
           server.inject(options, (response) => {
             const expectedAssessment = {
               'type': 'assessment',
@@ -145,7 +145,7 @@ describe('Acceptance | API | Assessments GET', function () {
     });
   });
 
-  describe('(answers provided) GET /api/assessments/:id', function () {//
+  describe('(answers provided) GET /api/assessments/:id', function() {//
 
     let inserted_assessment_id = null;
     let inserted_answer_ids = null;
@@ -156,7 +156,7 @@ describe('Acceptance | API | Assessments GET', function () {
       courseId: 'anyFromAirTable'
     };
 
-    beforeEach(function (done) {
+    beforeEach(function(done) {
       inserted_answer_ids = [];
       knex('assessments').delete().then(() => {
         knex('assessments').insert([inserted_assessment]).then((rows) => {
@@ -187,7 +187,7 @@ describe('Acceptance | API | Assessments GET', function () {
       });
     });
 
-    afterEach(function (done) {
+    afterEach(function(done) {
       knex('assessments').delete().then(() => {
         knex('answers').delete().then(() => {
           done();
@@ -195,12 +195,12 @@ describe('Acceptance | API | Assessments GET', function () {
       });
     });
 
-    it('should return 200 HTTP status code', function (done) {
+    it('should return 200 HTTP status code', function(done) {
 
       knex.select('id')
         .from('assessments')
         .limit(1)
-        .then(function () {
+        .then(function() {
           server.inject({ method: 'GET', url: `/api/assessments/${inserted_assessment_id}` }).then((response) => {
             expect(response.statusCode).to.equal(200);
             done();
@@ -209,12 +209,12 @@ describe('Acceptance | API | Assessments GET', function () {
 
     });
 
-    it('should return application/json', function (done) {
+    it('should return application/json', function(done) {
 
       knex.select('id')
         .from('assessments')
         .limit(1)
-        .then(function () {
+        .then(function() {
           server.inject({ method: 'GET', url: `/api/assessments/${inserted_assessment_id}` }).then((response) => {
             const contentType = response.headers['content-type'];
             expect(contentType).to.contain('application/json');
@@ -224,11 +224,11 @@ describe('Acceptance | API | Assessments GET', function () {
 
     });
 
-    it('should return the expected assessment', function (done) {
+    it('should return the expected assessment', function(done) {
       knex.select('id')
         .from('assessments')
         .limit(1)
-        .then(function () {
+        .then(function() {
           server.inject({ method: 'GET', url: `/api/assessments/${inserted_assessment_id}` }).then((response) => {
             const expectedAssessment = {
               'type': 'assessment',

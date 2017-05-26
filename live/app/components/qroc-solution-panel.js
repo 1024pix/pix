@@ -11,15 +11,15 @@ export default Ember.Component.extend({
   answer: null,
   solution: null,
 
-  inputClass: Ember.computed('answer.result', function () {
+  inputClass: Ember.computed('answer.result', function() {
     return classByResultValue[this.get('answer.result')] || '';
   }),
 
-  isResultOk: Ember.computed('answer', function () {
+  isResultOk: Ember.computed('answer', function() {
     return this.get('answer.result') === 'ok';
   }),
 
-  answerToDisplay: Ember.computed('answer', function () {
+  answerToDisplay: Ember.computed('answer', function() {
     const answer = this.get('answer.value');
     if (answer === '#ABAND#') {
       return 'Pas de réponse';
@@ -27,7 +27,7 @@ export default Ember.Component.extend({
     return answer;
   }),
 
-  solutionToDisplay: Ember.computed('solution.value', function () {
+  solutionToDisplay: Ember.computed('solution.value', function() {
     const solutionVariants = this.get('solution.value');
     if (!solutionVariants) {
       return '';

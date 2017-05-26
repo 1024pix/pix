@@ -4,20 +4,20 @@ import { describe, it } from 'mocha';
 import { setupComponentTest } from 'ember-mocha';
 import hbs from 'htmlbars-inline-precompile';
 
-describe('Integration | Component | course list', function () {
+describe('Integration | Component | course list', function() {
 
   setupComponentTest('course-list', {
     integration: true
   });
 
-  describe('rendering:', function () {
+  describe('rendering:', function() {
 
-    it('renders', function () {
+    it('renders', function() {
       this.render(hbs`{{course-list}}`);
       expect(this.$()).to.have.length(1);
     });
 
-    it('should render as many course-item as courses elements', function () {
+    it('should render as many course-item as courses elements', function() {
       // given
       const courses = [
         Ember.Object.create({ id: '1' }),

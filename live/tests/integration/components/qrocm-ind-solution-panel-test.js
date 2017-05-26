@@ -12,11 +12,10 @@ const LABEL = '.correction-qrocm__label';
 const INPUT = '.correction-qrocm__answer-input';
 const SOLUTION_TEXT = '.correction-qrocm__solution-text';
 
-
 const RIGHT_ANSWER_GREEN = 'rgb(19, 201, 160)';
 const NO_ANSWER_GREY = 'rgb(62, 65, 73)';
 
-describe('Integration | Component | qrocm solution panel', function () {
+describe('Integration | Component | qrocm solution panel', function() {
 
   setupComponentTest('qrocm-ind-solution-panel', {
     integration: true
@@ -33,18 +32,18 @@ describe('Integration | Component | qrocm solution panel', function () {
   });
   const solution = Ember.Object.create({ value: 'key1:\n- rightAnswer1\nkey2:\n- rightAnswer20\n- rightAnswer21\nkey3 :\n- rightAnswer3' });
 
-  beforeEach(function () {
+  beforeEach(function() {
     this.set('answer', answer);
     this.set('solution', solution);
     this.set('challenge', challenge);
   });
 
-  it('renders', function () {
+  it('renders', function() {
     this.render(hbs`{{qrocm-ind-solution-panel answer=answer solution=solution challenge=challenge}}`);
     expect(this.$()).to.have.length(1);
   });
 
-  it('should disabled all inputs', function () {
+  it('should disabled all inputs', function() {
     // given
     this.render(hbs`{{qrocm-ind-solution-panel answer=answer solution=solution challenge=challenge}}`);
     const input = this.$('input');
@@ -52,7 +51,7 @@ describe('Integration | Component | qrocm solution panel', function () {
     expect(input).to.be.disabled;
   });
 
-  it('should contains three labels', function () {
+  it('should contains three labels', function() {
     // given
     this.render(hbs`{{qrocm-ind-solution-panel answer=answer solution=solution challenge=challenge}}`);
     const labels = this.$(LABEL);
@@ -60,11 +59,11 @@ describe('Integration | Component | qrocm solution panel', function () {
     expect(labels).to.have.length(3);
   });
 
-  describe('comparison of a qrocm-ind with a right answer, a wrong answer and one empty answer', function () {
+  describe('comparison of a qrocm-ind with a right answer, a wrong answer and one empty answer', function() {
 
-    describe('right answer display', function () {
+    describe('right answer display', function() {
 
-      it('should display the right answer in green bold', function () {
+      it('should display the right answer in green bold', function() {
         // given
         this.render(hbs`{{qrocm-ind-solution-panel challenge=challenge answer=answer solution=solution}}`);
         const answerBlock = this.$(FIRST_CORRECTION_BLOCK);
@@ -80,10 +79,10 @@ describe('Integration | Component | qrocm solution panel', function () {
 
         expect(answerInput.css('color')).to.be.equal(RIGHT_ANSWER_GREEN);
         expect(answerInput.css('font-weight')).to.be.equal('bold');
-        expect(answerInput.css('text-decoration')).to.be.equal('none');
+        expect(answerInput.css('text-decoration')).to.be.contains('none');
       });
 
-      it('should not display the solution', function () {
+      it('should not display the solution', function() {
         // given
         this.render(hbs`{{qrocm-ind-solution-panel challenge=challenge answer=answer solution=solution}}`);
         const solutionBlock = this.$(FIRST_CORRECTION_BLOCK + ' ' + SOLUTION_BLOCK);
@@ -93,9 +92,9 @@ describe('Integration | Component | qrocm solution panel', function () {
       });
     });
 
-    describe('wrong answer display', function () {
+    describe('wrong answer display', function() {
 
-      it('should display the wrong answer in the second div line-throughed bold', function () {
+      it('should display the wrong answer in the second div line-throughed bold', function() {
         // given
         this.render(hbs`{{qrocm-ind-solution-panel challenge=challenge answer=answer solution=solution}}`);
         const answerBlock = this.$(SECOND_CORRECTION_BLOCK);
@@ -109,10 +108,10 @@ describe('Integration | Component | qrocm solution panel', function () {
 
         expect(answerInput.css('color')).to.be.equal(NO_ANSWER_GREY);
         expect(answerInput.css('font-weight')).to.be.equal('400');
-        expect(answerInput.css('text-decoration')).to.be.equal('line-through');
+        expect(answerInput.css('text-decoration')).to.be.contains('line-through');
       });
 
-      it('should display one solution in bold green below the input', function () {
+      it('should display one solution in bold green below the input', function() {
         // given
         this.render(hbs`{{qrocm-ind-solution-panel challenge=challenge answer=answer solution=solution}}`);
         const solutionBlock = this.$(SECOND_CORRECTION_BLOCK + ' ' + SOLUTION_BLOCK);
@@ -124,13 +123,13 @@ describe('Integration | Component | qrocm solution panel', function () {
 
         expect(solutionText.css('color')).to.be.equal(RIGHT_ANSWER_GREEN);
         expect(solutionText.css('font-weight')).to.be.equal('bold');
-        expect(solutionText.css('text-decoration')).to.be.equal('none');
+        expect(solutionText.css('text-decoration')).to.be.contains('none');
       });
     });
 
-    describe('no answer display', function () {
+    describe('no answer display', function() {
 
-      it('should display the empty answer in the third div with "pas de réponse" in italic', function () {
+      it('should display the empty answer in the third div with "pas de réponse" in italic', function() {
         // given
         this.render(hbs`{{qrocm-ind-solution-panel challenge=challenge answer=answer solution=solution}}`);
         const answerBlock = this.$(THIRD_CORRECTION_BLOCK);
@@ -144,10 +143,10 @@ describe('Integration | Component | qrocm solution panel', function () {
 
         expect(answerInput.css('color')).to.be.equal(NO_ANSWER_GREY);
         expect(answerInput.css('font-weight')).to.be.equal('400');
-        expect(answerInput.css('text-decoration')).to.be.equal('none');
+        expect(answerInput.css('text-decoration')).to.be.contains('none');
       });
 
-      it('should display one solution in bold green below the input', function () {
+      it('should display one solution in bold green below the input', function() {
         // given
         this.render(hbs`{{qrocm-ind-solution-panel challenge=challenge answer=answer solution=solution}}`);
         const solutionBlock = this.$(THIRD_CORRECTION_BLOCK + ' ' + SOLUTION_BLOCK);
@@ -159,7 +158,7 @@ describe('Integration | Component | qrocm solution panel', function () {
 
         expect(solutionText.css('color')).to.be.equal(RIGHT_ANSWER_GREEN);
         expect(solutionText.css('font-weight')).to.be.equal('bold');
-        expect(solutionText.css('text-decoration')).to.be.equal('none');
+        expect(solutionText.css('text-decoration')).to.be.contains('none');
       });
     });
   });

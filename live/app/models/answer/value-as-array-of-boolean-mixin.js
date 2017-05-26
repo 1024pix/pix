@@ -6,7 +6,7 @@ export default Ember.Mixin.create({
   /*
   * Convert "1,2,4" into [true, true, false, true]
   */
-  _valueAsArrayOfBoolean: Ember.computed('value', function () {
+  _valueAsArrayOfBoolean: Ember.computed('value', function() {
     return _.chain(this.get('value'))                                    // in the worst case : ',4, 2 , 2,1,  ,'
     .checkPoint((e) => _.isString(e) ? e : '')                           // check if string
     .split(',')                                                          // now ['', '4', ' 2 ', ' 2', '1', '  ', '']

@@ -1,7 +1,7 @@
 
 module.exports = {
 
-  match (answer, solution) {
+  match(answer, solution) {
 
     if (answer === solution) {
       return 'ok';

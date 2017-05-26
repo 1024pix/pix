@@ -2,12 +2,12 @@ const { describe, it, expect } = require('../../../test-helper');
 
 const service = require('../../../../lib/domain/services/solution-service-qrocm-dep');
 
-describe('Unit | Service | SolutionServiceQROCM-dep ', function () {
+describe('Unit | Service | SolutionServiceQROCM-dep ', function() {
 
   const twoPossibleSolutions = 'Google:\n- Google\n- google.fr\n- Google Search\nYahoo:\n- Yahoo\n- Yahoo Answer';
   const threePossibleSolutions = 'Google:\n- Google\n- google.fr\n- Google Search\nYahoo:\n- Yahoo\n- Yahoo Answer\nBing:\n- Bing';
 
-  describe('if solution type is QROCM-dep', function () {
+  describe('if solution type is QROCM-dep', function() {
 
     const failedCases = [
       {
@@ -91,21 +91,21 @@ describe('Unit | Service | SolutionServiceQROCM-dep ', function () {
       }
     ];
 
-    maximalScoreCases.forEach(function (testCase) {
-      it(`Should return "ok" when ${testCase.when}`, function () {
+    maximalScoreCases.forEach(function(testCase) {
+      it(`Should return "ok" when ${testCase.when}`, function() {
         expect(service.match(testCase.answer, testCase.solution)).to.equal('ok');
       });
     });
 
   });
 
-  describe('if solution type is QROCM-dep with scoring', function () {
+  describe('if solution type is QROCM-dep with scoring', function() {
 
-    it('should return "ko" for badly formatted solution', function () {
+    it('should return "ko" for badly formatted solution', function() {
       expect(service.match('num1: Google\nnum2: Yahoo', 'solution like a QCU', '1: @acquix')).to.equal('ko');
     });
 
-    it('should return "ko" when answer is incorrect', function () {
+    it('should return "ko" when answer is incorrect', function() {
       expect(service.match('num1: Foo\nnum2: Bar', twoPossibleSolutions, '1: acquix')).to.equal('ko');
     });
 
@@ -130,8 +130,8 @@ describe('Unit | Service | SolutionServiceQROCM-dep ', function () {
       }
     ];
 
-    maximalScoreCases.forEach(function (testCase) {
-      it(`should return "ok" when ${testCase.when}`, function () {
+    maximalScoreCases.forEach(function(testCase) {
+      it(`should return "ok" when ${testCase.when}`, function() {
         expect(service.match(testCase.answer, testCase.solution, testCase.scoring)).to.equal('ok');
       });
     });
@@ -157,9 +157,9 @@ describe('Unit | Service | SolutionServiceQROCM-dep ', function () {
       }
     ];
 
-    partialScoreCases.forEach(function (testCase) {
+    partialScoreCases.forEach(function(testCase) {
 
-      it(`should return "partially" when ${testCase.when}`, function () {
+      it(`should return "partially" when ${testCase.when}`, function() {
         expect(service.match(testCase.answer, testCase.solution, testCase.scoring)).to.equal('partially');
       });
 
@@ -192,15 +192,15 @@ describe('Unit | Service | SolutionServiceQROCM-dep ', function () {
       }
     ];
 
-    failedCases.forEach(function (testCase) {
-      it(`should return "ko" when ${testCase.when}`, function () {
+    failedCases.forEach(function(testCase) {
+      it(`should return "ko" when ${testCase.when}`, function() {
         expect(service.match(testCase.answer, testCase.solution, testCase.scoring)).to.equal('ko');
       });
     });
 
   });
 
-  describe('match, strong focus on treatments', function () {
+  describe('match, strong focus on treatments', function() {
 
     const allCases = [
       {
@@ -309,14 +309,14 @@ describe('Unit | Service | SolutionServiceQROCM-dep ', function () {
       },
     ];
 
-    allCases.forEach(function (testCase) {
-      it(`${testCase.when}, should return ${testCase.output} when answer is "${testCase.answer}" and solution is "${testCase.solution}"`, function () {
+    allCases.forEach(function(testCase) {
+      it(`${testCase.when}, should return ${testCase.output} when answer is "${testCase.answer}" and solution is "${testCase.solution}"`, function() {
         expect(service.match(testCase.answer, testCase.solution, testCase.scoring, testCase.deactivations)).to.equal(testCase.output);
       });
     });
   });
 
-  describe('match, t1 deactivated', function () {
+  describe('match, t1 deactivated', function() {
 
     const allCases = [
       {
@@ -425,14 +425,14 @@ describe('Unit | Service | SolutionServiceQROCM-dep ', function () {
       },
     ];
 
-    allCases.forEach(function (testCase) {
-      it(testCase.when + ', should return ' + testCase.output + ' when answer is "' + testCase.answer + '" and solution is "' + testCase.solution + '"', function () {
+    allCases.forEach(function(testCase) {
+      it(testCase.when + ', should return ' + testCase.output + ' when answer is "' + testCase.answer + '" and solution is "' + testCase.solution + '"', function() {
         expect(service.match(testCase.answer, testCase.solution, testCase.scoring, testCase.deactivations)).to.equal(testCase.output);
       });
     });
   });
 
-  describe('match, t2 deactivated', function () {
+  describe('match, t2 deactivated', function() {
 
     const allCases = [
       {
@@ -541,14 +541,14 @@ describe('Unit | Service | SolutionServiceQROCM-dep ', function () {
       },
     ];
 
-    allCases.forEach(function (testCase) {
-      it(testCase.when + ', should return ' + testCase.output + ' when answer is "' + testCase.answer + '" and solution is "' + testCase.solution + '"', function () {
+    allCases.forEach(function(testCase) {
+      it(testCase.when + ', should return ' + testCase.output + ' when answer is "' + testCase.answer + '" and solution is "' + testCase.solution + '"', function() {
         expect(service.match(testCase.answer, testCase.solution, testCase.scoring, testCase.deactivations)).to.equal(testCase.output);
       });
     });
   });
 
-  describe('match, t3 deactivated', function () {
+  describe('match, t3 deactivated', function() {
 
     const allCases = [
       {
@@ -657,14 +657,14 @@ describe('Unit | Service | SolutionServiceQROCM-dep ', function () {
       },
     ];
 
-    allCases.forEach(function (testCase) {
-      it(testCase.when + ', should return ' + testCase.output + ' when answer is "' + testCase.answer + '" and solution is "' + testCase.solution + '"', function () {
+    allCases.forEach(function(testCase) {
+      it(testCase.when + ', should return ' + testCase.output + ' when answer is "' + testCase.answer + '" and solution is "' + testCase.solution + '"', function() {
         expect(service.match(testCase.answer, testCase.solution, testCase.scoring, testCase.deactivations)).to.equal(testCase.output);
       });
     });
   });
 
-  describe('match, t1 and t2 deactivated', function () {
+  describe('match, t1 and t2 deactivated', function() {
 
     const allCases = [
       {
@@ -773,14 +773,14 @@ describe('Unit | Service | SolutionServiceQROCM-dep ', function () {
       },
     ];
 
-    allCases.forEach(function (testCase) {
-      it(testCase.when + ', should return ' + testCase.output + ' when answer is "' + testCase.answer + '" and solution is "' + testCase.solution + '"', function () {
+    allCases.forEach(function(testCase) {
+      it(testCase.when + ', should return ' + testCase.output + ' when answer is "' + testCase.answer + '" and solution is "' + testCase.solution + '"', function() {
         expect(service.match(testCase.answer, testCase.solution, testCase.scoring, testCase.deactivations)).to.equal(testCase.output);
       });
     });
   });
 
-  describe('match, t1 and t3 deactivated', function () {
+  describe('match, t1 and t3 deactivated', function() {
 
     const allCases = [
       {
@@ -889,14 +889,14 @@ describe('Unit | Service | SolutionServiceQROCM-dep ', function () {
       },
     ];
 
-    allCases.forEach(function (testCase) {
-      it(testCase.when + ', should return ' + testCase.output + ' when answer is "' + testCase.answer + '" and solution is "' + testCase.solution + '"', function () {
+    allCases.forEach(function(testCase) {
+      it(testCase.when + ', should return ' + testCase.output + ' when answer is "' + testCase.answer + '" and solution is "' + testCase.solution + '"', function() {
         expect(service.match(testCase.answer, testCase.solution, testCase.scoring, testCase.deactivations)).to.equal(testCase.output);
       });
     });
   });
 
-  describe('match, t1, t2, and t3 deactivated', function () {
+  describe('match, t1, t2, and t3 deactivated', function() {
 
     const allCases = [
       {
@@ -1005,8 +1005,8 @@ describe('Unit | Service | SolutionServiceQROCM-dep ', function () {
       },
     ];
 
-    allCases.forEach(function (testCase) {
-      it(testCase.when + ', should return ' + testCase.output + ' when answer is "' + testCase.answer + '" and solution is "' + testCase.solution + '"', function () {
+    allCases.forEach(function(testCase) {
+      it(testCase.when + ', should return ' + testCase.output + ' when answer is "' + testCase.answer + '" and solution is "' + testCase.solution + '"', function() {
         expect(service.match(testCase.answer, testCase.solution, testCase.scoring, testCase.deactivations)).to.equal(testCase.output);
       });
     });

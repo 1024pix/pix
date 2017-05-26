@@ -39,7 +39,7 @@
 .modal-mobile__confirm-button {
   background-color: $pix-blue;
   border-color: $pix-blue;
-  border-bottom: 1px solid $pix-blue1;
+  border-bottom: 1px solid $mariner-blue;
   height: 46px;
   border-radius: 23px;
   text-transform: uppercase;
@@ -49,9 +49,9 @@
 
 .modal-mobile__confirm-button:hover,
 .modal-mobile__confirm-button:active {
-  background-color: $pix-yellow;
-  border-color: $pix-yellow;
-  border-bottom: 1px solid $pix-yellow1;
+  background-color: $lightning-yellow;
+  border-color: $lightning-yellow;
+  border-bottom: 1px solid $nugget-yellow;
 }
 
 .modal-mobile__dismiss-link {

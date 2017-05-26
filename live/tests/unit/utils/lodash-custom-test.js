@@ -2,11 +2,11 @@ import { expect } from 'chai';
 import { describe, it } from 'mocha';
 import _ from 'pix-live/utils/lodash-custom';
 
-describe('Unit | Utility | lodash custom', function () {
+describe('Unit | Utility | lodash custom', function() {
 
-  describe('#isNonEmptyString', function () {
+  describe('#isNonEmptyString', function() {
 
-    it('when no arg, returns false', function () {
+    it('when no arg, returns false', function() {
       expect(_.isNonEmptyString()).to.equal(false);
     });
 
@@ -17,15 +17,15 @@ describe('Unit | Utility | lodash custom', function () {
       { value: '', expected: false },
       { value: 'abcd', expected: true }
     ].forEach((item) => {
-      it(`should return ${item.expected} when value is ${item.value}`, function () {
+      it(`should return ${item.expected} when value is ${item.value}`, function() {
         expect(_.isNonEmptyString(item.value)).to.equal(item.expected);
       });
     });
   });
 
-  describe('#isNonEmptyArray', function () {
+  describe('#isNonEmptyArray', function() {
 
-    it('when no arg, returns false', function () {
+    it('when no arg, returns false', function() {
       expect(_.isNonEmptyArray()).to.equal(false);
     });
 
@@ -38,15 +38,15 @@ describe('Unit | Utility | lodash custom', function () {
       { value: ['myvalue'], expected: true },
       { value: ['1', null, true], expected: true }
     ].forEach((item) => {
-      it(`should return ${item.expected} when value of array is ${JSON.stringify(item.value)}`, function () {
+      it(`should return ${item.expected} when value of array is ${JSON.stringify(item.value)}`, function() {
         expect(_.isNonEmptyArray(item.value)).to.equal(item.expected);
       });
     });
   });
 
-  describe('#isNotInteger', function () {
+  describe('#isNotInteger', function() {
 
-    it('when no arg, returns false', function () {
+    it('when no arg, returns false', function() {
       expect(_.isNotInteger()).to.equal(true);
     });
 
@@ -60,15 +60,15 @@ describe('Unit | Utility | lodash custom', function () {
       { value: 5, expected: false },
       { value: '5', expected: true }
     ].forEach((item) => {
-      it(`should return ${item.expected} when value is ${item.value}`, function () {
+      it(`should return ${item.expected} when value is ${item.value}`, function() {
         expect(_.isNotInteger(item.value)).to.equal(item.expected);
       });
     });
   });
 
-  describe('#isTruthy', function () {
+  describe('#isTruthy', function() {
 
-    it('when no arg, returns false', function () {
+    it('when no arg, returns false', function() {
       expect(_.isTruthy()).to.equal(false);
     });
 
@@ -86,15 +86,15 @@ describe('Unit | Utility | lodash custom', function () {
       { value: '', expected: false },
       { value: 'foo', expected: true }
     ].forEach((item) => {
-      it(`should return ${item.expected} when value is ${item.value}`, function () {
+      it(`should return ${item.expected} when value is ${item.value}`, function() {
         expect(_.isTruthy(item.value)).to.equal(item.expected);
       });
     });
   });
 
-  describe('#hasSomeTruthyProps', function () {
+  describe('#hasSomeTruthyProps', function() {
 
-    it('when no arg, returns false', function () {
+    it('when no arg, returns false', function() {
       expect(_.hasSomeTruthyProps()).to.equal(false);
     });
 
@@ -114,13 +114,13 @@ describe('Unit | Utility | lodash custom', function () {
       { value: { a: '', b: false }, expected: false },
       { value: { a: 42, b: true }, expected: true }
     ].forEach((item) => {
-      it(`should return ${item.expected} when value is ${item.value}`, function () {
+      it(`should return ${item.expected} when value is ${item.value}`, function() {
         expect(_.hasSomeTruthyProps(item.value)).to.equal(item.expected);
       });
     });
   });
 
-  describe('#isNumeric', function () {
+  describe('#isNumeric', function() {
 
     [
       0,
@@ -137,8 +137,8 @@ describe('Unit | Utility | lodash custom', function () {
       Infinity,
       -Infinity,
       new Number('123')
-    ].forEach(function (n) {
-      it(`should return true when it is already a number type [n=${n}]`, function () {
+    ].forEach(function(n) {
+      it(`should return true when it is already a number type [n=${n}]`, function() {
         expect(_.isNumeric(n)).to.be.true;
       });
     });
@@ -151,8 +151,8 @@ describe('Unit | Utility | lodash custom', function () {
       '-1337.17',
       '0017',
       '00000.017',
-    ].forEach(function (n) {
-      it(`should return true when it is a string that looks like a number [n=${n}]`, function () {
+    ].forEach(function(n) {
+      it(`should return true when it is a string that looks like a number [n=${n}]`, function() {
         expect(_.isNumeric(n)).to.be.true;
       });
     });
@@ -171,12 +171,12 @@ describe('Unit | Utility | lodash custom', function () {
       false,
       [],
       {},
-      function () {
+      function() {
       },
       undefined,
       null,
-    ].forEach(function (n) {
-      it(`should return false when it is a string that does not look like a number [n=${n}]`, function () {
+    ].forEach(function(n) {
+      it(`should return false when it is a string that does not look like a number [n=${n}]`, function() {
         expect(_.isNumeric(n)).to.be.false;
       });
     });

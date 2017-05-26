@@ -10,7 +10,7 @@ const Answer = require('../../../../lib/domain/models/data/answer');
 const Solution = require('../../../../lib/domain/models/referential/solution');
 const _ = require('../../../../lib/infrastructure/utils/lodash-utils');
 
-describe('Unit | Service | SolutionService', function () {
+describe('Unit | Service | SolutionService', function() {
 
   function buildSolution(type, value, scoring, deactivations, enabledTreatments) {
     const solution = new Solution({ id: 'solution_id' });
@@ -28,17 +28,17 @@ describe('Unit | Service | SolutionService', function () {
     return answer;
   }
 
-  describe('#validate', function () {
+  describe('#validate', function() {
 
-    describe('if solution type is QCU', function () {
+    describe('if solution type is QCU', function() {
 
-      it('Should return "aband" if answer is #ABAND#', function () {
+      it('Should return "aband" if answer is #ABAND#', function() {
         const answer = buildAnswer('#ABAND#');
         const solution = buildSolution('QCU', 'some value');
         expect(service.validate(answer, solution)).to.deep.equal({ result: 'aband', resultDetails: null });
       });
 
-      it('Should return result of solution-service-qcu.match() | user didnt abandoned | no timeout', function () {
+      it('Should return result of solution-service-qcu.match() | user didnt abandoned | no timeout', function() {
 
         // Given
         const answer = buildAnswer('qcuAnswer');
@@ -57,7 +57,7 @@ describe('Unit | Service | SolutionService', function () {
         expect(result).to.deep.equal({result: 'qcuMatching', resultDetails: null});
       });
 
-      it('Should be verified against _timedOut function | user didnt abandoned | with timeout', function () {
+      it('Should be verified against _timedOut function | user didnt abandoned | with timeout', function() {
 
         // Given
         const answer = buildAnswer('qcuAnswer', -15);
@@ -78,15 +78,15 @@ describe('Unit | Service | SolutionService', function () {
 
     });
 
-    describe('if solution type is QRU', function () {
+    describe('if solution type is QRU', function() {
 
-      it('Should return "aband" if answer is #ABAND#', function () {
+      it('Should return "aband" if answer is #ABAND#', function() {
         const answer = buildAnswer('#ABAND#');
         const solution = buildSolution('QRU', 'some value');
         expect(service.validate(answer, solution)).to.deep.equal({result: 'aband', resultDetails: null});
       });
 
-      it('Should return result of solution-service-qru.match() | user didnt abandoned | no timeout', function () {
+      it('Should return result of solution-service-qru.match() | user didnt abandoned | no timeout', function() {
 
         // Given
         const answer = buildAnswer('qruAnswer');
@@ -105,7 +105,7 @@ describe('Unit | Service | SolutionService', function () {
         expect(result).to.deep.equal({result: 'qruMatching', resultDetails: null});
       });
 
-      it('Should be verified against _timedOut function | user didnt abandoned | with timeout', function () {
+      it('Should be verified against _timedOut function | user didnt abandoned | with timeout', function() {
 
         // Given
         const answer = buildAnswer('qruAnswer', -15);
@@ -125,15 +125,15 @@ describe('Unit | Service | SolutionService', function () {
       });
     });
 
-    describe('if solution type is QCM', function () {
+    describe('if solution type is QCM', function() {
 
-      it('Should return "aband" if answer is #ABAND#', function () {
+      it('Should return "aband" if answer is #ABAND#', function() {
         const answer = buildAnswer('#ABAND#');
         const solution = buildSolution('QCM', 'some value');
         expect(service.validate(answer, solution)).to.deep.equal({result: 'aband', resultDetails: null});
       });
 
-      it('Should return result of solution-service-qcm.match() | user didnt abandoned | no timeout', function () {
+      it('Should return result of solution-service-qcm.match() | user didnt abandoned | no timeout', function() {
 
         // Given
         const answer = buildAnswer('qcmAnswer');
@@ -152,7 +152,7 @@ describe('Unit | Service | SolutionService', function () {
         expect(result).to.deep.equal({result: 'qcmMatching', resultDetails: null});
       });
 
-      it('Should be verified against _timedOut function | user didnt abandoned | with timeout', function () {
+      it('Should be verified against _timedOut function | user didnt abandoned | with timeout', function() {
 
         // Given
         const answer = buildAnswer('qcmAnswer', -15);
@@ -173,16 +173,15 @@ describe('Unit | Service | SolutionService', function () {
 
     });
 
+    describe('if solution type is QROC', function() {
 
-    describe('if solution type is QROC', function () {
-
-      it('Should return "aband" if answer is #ABAND#', function () {
+      it('Should return "aband" if answer is #ABAND#', function() {
         const answer = buildAnswer('#ABAND#');
         const solution = buildSolution('QROC', 'some value');
         expect(service.validate(answer, solution)).to.deep.equal({result: 'aband', resultDetails: null});
       });
 
-      it('Should return result of solution-service-qroc.match() | user didnt abandoned | no timeout', function () {
+      it('Should return result of solution-service-qroc.match() | user didnt abandoned | no timeout', function() {
 
         // Given
         const answer = buildAnswer('qrocAnswer');
@@ -206,7 +205,7 @@ describe('Unit | Service | SolutionService', function () {
         expect(result).to.deep.equal({result: 'qrocMatching', resultDetails: null});
       });
 
-      it('Should be verified against _timedOut function | user didnt abandoned | with timeout', function () {
+      it('Should be verified against _timedOut function | user didnt abandoned | with timeout', function() {
 
         // Given
         const answer = buildAnswer('qrocAnswer', -15);
@@ -234,8 +233,7 @@ describe('Unit | Service | SolutionService', function () {
 
     });
 
-
-    describe('if solution type is QROCM-ind', function () {
+    describe('if solution type is QROCM-ind', function() {
 
       //TODO : FIX ME When refacto of qrocm-dep and qroc done delete deactivations in parameters of buildSolution and delete this one
       function buildSolutionQROCMind(type, value, scoring, enabledTreatments) {
@@ -247,13 +245,13 @@ describe('Unit | Service | SolutionService', function () {
         return solution;
       }
 
-      it('Should return "aband" if answer is #ABAND#', function () {
+      it('Should return "aband" if answer is #ABAND#', function() {
         const answer = buildAnswer('#ABAND#');
         const solution = buildSolution('QROCM-ind', 'some value');
         expect(service.validate(answer, solution)).to.deep.equal({result: 'aband', resultDetails: null});
       });
 
-      it('Should return result of solution-service-qrocmInd.match() | user didnt abandoned | no timeout', function () {
+      it('Should return result of solution-service-qrocmInd.match() | user didnt abandoned | no timeout', function() {
 
         // Given
         const answer = buildAnswer('qrocmIndAnswer');
@@ -277,7 +275,7 @@ describe('Unit | Service | SolutionService', function () {
 
       });
 
-      it('Should be verified against _timedOut function | user didnt abandoned | with timeout', function () {
+      it('Should be verified against _timedOut function | user didnt abandoned | with timeout', function() {
 
         // Given
         const answer = buildAnswer('qrocmIndAnswer', -15);
@@ -305,15 +303,15 @@ describe('Unit | Service | SolutionService', function () {
 
     });
 
-    describe('if solution type is QROCM-dep', function () {
+    describe('if solution type is QROCM-dep', function() {
 
-      it('Should return "aband" if answer is #ABAND#', function () {
+      it('Should return "aband" if answer is #ABAND#', function() {
         const answer = buildAnswer('#ABAND#');
         const solution = buildSolution('QROCM-dep', 'some value');
         expect(service.validate(answer, solution)).to.deep.equal({result: 'aband', resultDetails: null});
       });
 
-      it('Should return result of solution-service-qrocmDep.match() | user didnt abandoned | no timeout', function () {
+      it('Should return result of solution-service-qrocmDep.match() | user didnt abandoned | no timeout', function() {
 
         // Given
         const answer = buildAnswer('qrocmDepAnswer');
@@ -336,7 +334,7 @@ describe('Unit | Service | SolutionService', function () {
         expect(result).to.deep.equal({result: 'qrocmDepMatching', resultDetails: null});
       });
 
-      it('Should be verified against _timedOut function | user didnt abandoned | with timeout', function () {
+      it('Should be verified against _timedOut function | user didnt abandoned | with timeout', function() {
 
         // Given
         const answer = buildAnswer('qrocmDepAnswer', -15);
@@ -364,16 +362,15 @@ describe('Unit | Service | SolutionService', function () {
 
     });
 
-    describe('if solution type is unknown', function () {
+    describe('if solution type is unknown', function() {
 
-
-      it('should return "aband" if answer is #ABAND#', function () {
+      it('should return "aband" if answer is #ABAND#', function() {
         const answer = buildAnswer('#ABAND#');
         const solution = buildSolution('SOME_TYPE');
         expect(service.validate(answer, solution)).to.deep.equal({result: 'aband', resultDetails: null});
       });
 
-      it('should return "unimplemented" if answer is not #ABAND#', function () {
+      it('should return "unimplemented" if answer is not #ABAND#', function() {
         const answer = buildAnswer('some value');
         const solution = buildSolution('SOME_TYPE');
         expect(service.validate(answer, solution)).to.deep.equal({result: 'unimplemented', resultDetails: null});
@@ -382,6 +379,5 @@ describe('Unit | Service | SolutionService', function () {
     });
 
   });
-
 
 });

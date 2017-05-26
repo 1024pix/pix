@@ -36,7 +36,7 @@ export default Ember.Component.extend({
     this.set('_status', this._getDefaultStatus());
   },
 
-  _closeForm(){
+  _closeForm() {
     this.set('_status', FORM_CLOSED);
     this.set('_error', null);
   },

@@ -2,11 +2,11 @@ const { describe, it, expect } = require('../../../../test-helper');
 const serializer = require('../../../../../lib/infrastructure/serializers/jsonapi/challenge-serializer');
 const Challenge = require('../../../../../lib/domain/models/referential/challenge');
 
-describe('Unit | Serializer | JSONAPI | challenge-serializer', function () {
+describe('Unit | Serializer | JSONAPI | challenge-serializer', function() {
 
-  describe('#serialize()', function () {
+  describe('#serialize()', function() {
 
-    it('should convert a Challenge model object into JSON API data', function () {
+    it('should convert a Challenge model object into JSON API data', function() {
 
       const challenge = new Challenge();
       challenge.id = 'challenge_id';

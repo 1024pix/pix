@@ -2,7 +2,7 @@ import {expect} from 'chai';
 import {describe, it} from 'mocha';
 import {eq} from 'pix-live/helpers/eq';
 
-describe('Unit | Helper | Eq', function () {
+describe('Unit | Helper | Eq', function() {
   // Replace this with your real tests.
   [
     {input: '', output: false},
@@ -24,7 +24,7 @@ describe('Unit | Helper | Eq', function () {
     {input: [42, 'undefined'], output: false},
     {input: [42, 42], output: true}
   ].forEach(({input, output}) => {
-    it(`should render ${output} when ${JSON.stringify(input)} provided`, function () {
+    it(`should render ${output} when ${JSON.stringify(input)} provided`, function() {
       //When
       const result = eq(input);
       //then

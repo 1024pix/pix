@@ -4,18 +4,18 @@ const cache = require('../../../../lib/infrastructure/cache');
 const solutionRepository = require('../../../../lib/infrastructure/repositories/solution-repository');
 const solutionSerializer = require('../../../../lib/infrastructure/serializers/airtable/solution-serializer');
 
-describe('Unit | Repository | solution-repository', function () {
+describe('Unit | Repository | solution-repository', function() {
 
   let getRecord;
   let getRecords;
 
-  beforeEach(function () {
+  beforeEach(function() {
     cache.flushAll();
     getRecord = sinon.stub(airtable, 'getRecord');
     getRecords = sinon.stub(airtable, 'getRecords');
   });
 
-  afterEach(function () {
+  afterEach(function() {
     cache.flushAll();
     getRecord.restore();
     getRecords.restore();
@@ -25,13 +25,13 @@ describe('Unit | Repository | solution-repository', function () {
    * #get
    */
 
-  describe('#get', function () {
+  describe('#get', function() {
 
     const challengeId = 'challengeId';
     const cacheKey = `solution-repository_get_${challengeId}`;
     const solution = { foo: 'bar' };
 
-    it('should resolve with the solution directly retrieved from the cache without calling airtable when the solution has been cached', function () {
+    it('should resolve with the solution directly retrieved from the cache without calling airtable when the solution has been cached', function() {
       // given
       getRecord.resolves(true);
       cache.set(cacheKey, solution);
@@ -44,7 +44,7 @@ describe('Unit | Repository | solution-repository', function () {
       return expect(result).to.eventually.deep.equal(solution);
     });
 
-    it('should reject with an error when the cache throw an error', function () {
+    it('should reject with an error when the cache throw an error', function() {
       // given
       const cacheErrorMessage = 'Cache error';
       sinon.stub(cache, 'get', (key, callback) => {
@@ -59,13 +59,13 @@ describe('Unit | Repository | solution-repository', function () {
       return expect(result).to.eventually.be.rejectedWith(cacheErrorMessage);
     });
 
-    describe('when the solution was not previously cached', function () {
+    describe('when the solution was not previously cached', function() {
 
-      beforeEach(function () {
+      beforeEach(function() {
         getRecord.resolves(solution);
       });
 
-      it('should resolve with the challenges fetched from airtable', function (done) {
+      it('should resolve with the challenges fetched from airtable', function(done) {
         // when
         const result = solutionRepository.get(challengeId);
 
@@ -74,7 +74,7 @@ describe('Unit | Repository | solution-repository', function () {
         done();
       });
 
-      it('should cache the solution fetched from airtable', function (done) {
+      it('should cache the solution fetched from airtable', function(done) {
         // when
         solutionRepository.get(challengeId).then(() => {
 
@@ -86,7 +86,7 @@ describe('Unit | Repository | solution-repository', function () {
         });
       });
 
-      it('should query correctly airtable', function (done) {
+      it('should query correctly airtable', function(done) {
         // when
         solutionRepository.get(challengeId).then(() => {
 
@@ -102,12 +102,12 @@ describe('Unit | Repository | solution-repository', function () {
    * #refresh
    */
 
-  describe('#refresh', function () {
+  describe('#refresh', function() {
 
     const challengeId = 'challenge_id';
     const cacheKey = `solution-repository_get_${challengeId}`;
 
-    it('should reject with an error when the cache throw an error', function (done) {
+    it('should reject with an error when the cache throw an error', function(done) {
       // given
       const cacheErrorMessage = 'Cache error';
       sinon.stub(cache, 'del', (key, callback) => {
@@ -123,7 +123,7 @@ describe('Unit | Repository | solution-repository', function () {
       done();
     });
 
-    it('should resolve with the solution fetched from airtable when the solution was not previously cached', function (done) {
+    it('should resolve with the solution fetched from airtable when the solution was not previously cached', function(done) {
       // given
       const solution = {
         id: challengeId,
@@ -139,7 +139,7 @@ describe('Unit | Repository | solution-repository', function () {
       done();
     });
 
-    it('should replace the old solution by the new one in cache', function (done) {
+    it('should replace the old solution by the new one in cache', function(done) {
       // given
       const oldCourse = {
         id: challengeId,

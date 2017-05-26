@@ -9,7 +9,7 @@ const CourseItem = Ember.Component.extend({
   attributeBindings: ['tabindex'],
   tabindex: 0,
 
-  imageUrl: Ember.computed('course', function () {
+  imageUrl: Ember.computed('course', function() {
     const imageUrl = this.get('course.imageUrl');
     return imageUrl ? imageUrl : '/images/course-default-image.png';
   }),

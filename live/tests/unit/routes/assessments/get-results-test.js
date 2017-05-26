@@ -4,7 +4,9 @@ import { setupTest } from 'ember-mocha';
 
 describe('Unit | Route | Assessments.ResultsRoute', function() {
 
-  setupTest('route:assessments.get-results', {});
+  setupTest('route:assessments.get-results', {
+    needs: ['service:current-routed-modal']
+  });
 
   it('exists', function() {
     const route = this.subject();

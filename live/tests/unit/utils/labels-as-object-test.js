@@ -3,9 +3,9 @@ import { describe, it } from 'mocha';
 import labelsAsObject from 'pix-live/utils/labels-as-object';
 
 describe('Unit | Utility | labels as object', function() {
-  describe('#labelsAsObject', function () {
+  describe('#labelsAsObject', function() {
 
-    it('should return an object with labels and key on the input 1', function () {
+    it('should return an object with labels and key on the input 1', function() {
       // given
       const challenge = {
         proposals: 'Clé USB : ${num1}\n\n' +
@@ -28,7 +28,7 @@ describe('Unit | Utility | labels as object', function() {
 
     });
 
-    it('should return an object with labels and key on the input 2', function () {
+    it('should return an object with labels and key on the input 2', function() {
       // given
       const challenge = {
         proposals: '- Combien le dossier “projet PIX” contient-il de dossiers ? ${Num1}\n\n' +
@@ -46,7 +46,7 @@ describe('Unit | Utility | labels as object', function() {
       expect(result).to.be.deep.equal(expectedResult);
     });
 
-    it('should return an object with labels and key on the input 3', function () {
+    it('should return an object with labels and key on the input 3', function() {
       // given
       const challenge = {
         proposals: '- alain@pix.fr : ${num1}\n' +
@@ -72,7 +72,7 @@ describe('Unit | Utility | labels as object', function() {
       expect(result).to.be.deep.equal(expectedResult);
     });
 
-    it('should return object with labels and if the key of the input has a placeholder (after #), it does not keep the placeholder', function () {
+    it('should return object with labels and if the key of the input has a placeholder (after #), it does not keep the placeholder', function() {
       // given
       const challenge = {
         proposals: 'Nom du fichier : ${nomfichier}\nTaille (en ko) : ${taille}\nType : ${type}\nDate de modification : ${datemodif#JJ/MM/AAAA}'

@@ -95,7 +95,7 @@ function _formatResult(validations, deactivations) {
 
 module.exports = {
 
-  match (answer, solution, deactivations) {
+  match(answer, solution, deactivations) {
 
     // Input checking
     if (!_.isString(answer)

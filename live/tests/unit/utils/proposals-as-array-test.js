@@ -17,10 +17,9 @@ describe('Unit | Utility | proposals as array', function() {
     { data: '- foo\n\r\t\n\r\t\n\r\t\n- bar', expected: ['foo', 'bar'] }
   ];
 
-
   testData.forEach(({ data, expected }) => {
 
-    it(`"${data.toString()}" retourne [${expected}]`, function () {
+    it(`"${data.toString()}" retourne [${expected}]`, function() {
       expect(proposalsAsArray(data)).to.deep.equal(expected);
     });
   });

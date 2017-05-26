@@ -1,6 +1,6 @@
 const AssessmentController = require('./assessment-controller');
 
-exports.register = function (server, options, next) {
+exports.register = function(server, options, next) {
 
   server.route([
 
