@@ -1,25 +1,29 @@
-# PIX Changelog
+# Pix Changelog
+
+## 1.11.1 (26/05/2017)
+
+- [#423](https://github.com/sgmap/pix/pull/423) [HOTFIX] Correction de la régression suite à l'extraction des images SVG. 
 
 ## 1.11.0 (26/05/2017)
 
-- [#402] [FEATURE] Navigation au clavier sur la page de résultats (US-415).
-- [#398] [FEATURE] Ajout de la navigation au clavier au sein et entre les épreuves d'un test (US-446).
-- [#404] [FEATURE] Un betatesteur inscrit vient enrichir aléatoirement l'un des 3 lots de betatesteurs (US-441).
-- [#365] [FEATURE] Écran de création d'un compte utilisateur (US-194). 
-- [#409] [FEATURE] Affichage d'un smiley et d'un message d'encouragement lorsque l'utilisateur n'a obtenu ni trophé, ni point pix, à la fin d'un test d'adaptatif 
-- [#425] [PERFS] Réduit la taille des images de la page d’accueil. 
-- [#429] [BUGFIX] Correction des erreurs de typo de la page "Compétences" (US-500).
-- [#418] [INFRA] Mise à jour de dépendances côté front. 
-- [#416] [INFRA] Amélioration de la prise en compte du Markdown dans Ember. 
-- [#423] [CLEANUP] Remplacer les images SVG inlinées par des vraies fichiers images 
-- [#424] [CLEANUP] Corrige des dépréciations dans les tests.
-- [#421] [CLEANUP] Rend l’appli plus proche du template par défaut 
-- [#420] [CLEANUP] Montée de version de dépendances front-end (dont ember-cli). 
-- [#419] [CLEANUP] Remplacer les challenge/mixins par des utils.
-- [#415] [CLEANUP] Ajouter un référentiel de point de rupture pour le CSS dans un fichier et l'utiliser dans tous le projet.
-- [#417] [CLEANUP] Déclaration de "jsyaml" en tant que variable globale dans ESLint côté front.
-- [#414] [CLEANUP] Epurer la palette de couleur. 
-- [#410] [CLEANUP] Rajoute des règles ESLint.
+- [#402](https://github.com/sgmap/pix/pull/402) [FEATURE] Navigation au clavier sur la page de résultats (US-415).
+- [#398](https://github.com/sgmap/pix/pull/398) [FEATURE] Ajout de la navigation au clavier au sein et entre les épreuves d'un test (US-446).
+- [#404](https://github.com/sgmap/pix/pull/404) [FEATURE] Un betatesteur inscrit vient enrichir aléatoirement l'un des 3 lots de betatesteurs (US-441).
+- [#365](https://github.com/sgmap/pix/pull/365) [FEATURE] Écran de création d'un compte utilisateur (US-194). 
+- [#409](https://github.com/sgmap/pix/pull/409) [FEATURE] Affichage d'un smiley et d'un message d'encouragement lorsque l'utilisateur n'a obtenu ni trophé, ni point pix, à la fin d'un test d'adaptatif 
+- [#425](https://github.com/sgmap/pix/pull/425) [PERFS] Réduit la taille des images de la page d’accueil. 
+- [#429](https://github.com/sgmap/pix/pull/429) [BUGFIX] Correction des erreurs de typo de la page "Compétences" (US-500).
+- [#418](https://github.com/sgmap/pix/pull/418) [INFRA] Mise à jour de dépendances côté front. 
+- [#416](https://github.com/sgmap/pix/pull/416) [INFRA] Amélioration de la prise en compte du Markdown dans Ember. 
+- [#423](https://github.com/sgmap/pix/pull/423) [CLEANUP] Remplacer les images SVG inlinées par des vraies fichiers images 
+- [#424](https://github.com/sgmap/pix/pull/424) [CLEANUP] Corrige des dépréciations dans les tests.
+- [#421](https://github.com/sgmap/pix/pull/421) [CLEANUP] Rend l’appli plus proche du template par défaut 
+- [#420](https://github.com/sgmap/pix/pull/420) [CLEANUP] Montée de version de dépendances front-end (dont ember-cli). 
+- [#419](https://github.com/sgmap/pix/pull/419) [CLEANUP] Remplacer les challenge/mixins par des utils.
+- [#415](https://github.com/sgmap/pix/pull/415) [CLEANUP] Ajouter un référentiel de point de rupture pour le CSS dans un fichier et l'utiliser dans tous le projet.
+- [#417](https://github.com/sgmap/pix/pull/417) [CLEANUP] Déclaration de "jsyaml" en tant que variable globale dans ESLint côté front.
+- [#414](https://github.com/sgmap/pix/pull/414) [CLEANUP] Epurer la palette de couleur. 
+- [#410](https://github.com/sgmap/pix/pull/410) [CLEANUP] Rajoute des règles ESLint.
 
 ## 1.10.0 (12/05/2017)
 
