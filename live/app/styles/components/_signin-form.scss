@@ -1,0 +1,31 @@
+.signin-form-container {
+  margin-top: 30px;
+  padding:10px;
+  text-align: right;
+
+  max-width: 609px;
+  margin: auto;
+
+  @include device-is('tablet') {
+    margin-top: 40px;
+  }
+}
+
+.signin-form-home-link {
+  color: $white;
+}
+
+.signin-form-home-link:hover,
+.signin-form-home-link:focus {
+  color: $white;
+}
+
+.signin-form-close {
+  border: solid 2px $white;
+  padding: 2px;
+
+  width: 20px;
+  border-radius: 20px;
+
+  margin-left: 5px;
+}
