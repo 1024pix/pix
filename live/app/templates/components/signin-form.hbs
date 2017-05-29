@@ -1,2 +1,29 @@
-<a href="/" class="signin-form-home-link">Revenir à la page d'accueil
-  <img class="signin-form-close" alt="" src="/images/icons/icon-close.svg"></a>
+<a href="/" class="signin-form__home-link">Revenir à la page d'accueil
+  <img class="signin-form__home-link_close" alt="" src="/images/icons/icon-close.svg"></a>
+
+<div class="signin-form__panel">
+
+  {{pix-logo}}
+
+  <h1 class="signin-form__panel-title">Se connecter</h1>
+
+  <div class="signin-form__form">
+    <form>
+      <div class="signin-form__form-field">
+        <label for="pix-email">Adresse e-mail</label>
+        <input id="pix-email" type="email" placeholder="nom@exemple.fr">
+      </div>
+
+
+      <div class="signin-form__form-field">
+        <label for="pix-password">Mot de passe</label>
+        <input id="pix-password" type="password">
+      </div>
+
+      <div class="signin-form__form-field signin-form__form-field-button">
+        <button type="submit" class="signin-form__submit_button">Je me connecte</button>
+      </div>
+    </form>
+  </div>
+
+</div>

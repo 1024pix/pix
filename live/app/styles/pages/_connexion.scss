@@ -2,6 +2,7 @@
   background: url("/images/signup-bg.jpg") no-repeat;
   background-size: cover;
   min-height: 100vh;
+  height:100vh;
 
   @include device-is('tablet') {
     padding-top: 48px;
