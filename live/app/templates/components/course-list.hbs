@@ -1,10 +1,14 @@
 <ul class="course-list__ul">
   {{#each filteredCourses as |course|}}
-    <li class="course-list__li animated fadeIn">
+    <li class="course-list__li">
       {{course-item course=course startCourse='startCourse'}}
     </li>
   {{/each}}
+
+  {{#if isLoading}}
+    <li class="course-list__li">{{course-item-placeholder class="course-item-placeholder--first"}}</li>
+    <li class="course-list__li">{{course-item-placeholder}}</li>
+  {{/if}}
 </ul>
 
 {{modal-mobile}}
-

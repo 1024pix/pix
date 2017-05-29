@@ -24,6 +24,8 @@ const CourseList = Ember.Component.extend({
 
   classNames: ['course-list'],
 
+  isLoading: Ember.computed.readOnly('courses.isPending'),
+
   filteredCourses: Ember.computed('courses.[]', function() {
     const courses = this.get('courses');
     let filteredCourses = [];
