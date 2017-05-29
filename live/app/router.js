@@ -46,6 +46,7 @@ Router.map(function() {
   this.route('assessments.get-challenge', { path: '/assessments/:assessment_id/challenges/:challenge_id' });
   this.route('assessments.get-results', { path: '/assessments/:assessment_id/results' });
   this.route('assessments.get-comparison', { path: '/assessments/:assessment_id/results/compare/:answer_id/:index' });
+  this.route('connexion');
 });
 
 export default Router;
