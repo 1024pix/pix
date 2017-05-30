@@ -2,8 +2,6 @@ import { describe, it, before, after } from 'mocha';
 import { expect } from 'chai';
 import startApp from '../helpers/start-app';
 import destroyApp from '../helpers/destroy-app';
-import {resetTestingState, bodyOfLastPostRequest, urlOfLastPostRequest} from '../helpers/shared-state';
-import _ from 'pix-live/utils/lodash-custom';
 
 describe('Acceptance | b4 - Afficher un QROCM | ', function() {
 
@@ -37,18 +35,4 @@ describe('Acceptance | b4 - Afficher un QROCM | ', function() {
     expect($('.alert')).to.have.lengthOf(1);
     expect($('.alert').text().trim()).to.equal('Pour valider, saisir au moins une réponse. Sinon, passer.');
   });
-
-  it('b4.4 It should save the answer of the user when user validate', async function() {
-    resetTestingState();
-
-    $(':input:eq(0)').val('stuff1');
-    $(':input:eq(1)').val('stuff2');
-    $(':input:eq(2)').val('stuff3');
-
-    await click('.challenge-actions__action-validate');
-
-    expect(urlOfLastPostRequest()).to.equal('/api/answers');
-    expect(_.get(bodyOfLastPostRequest(), 'data.attributes.value')).to.equal('logiciel1: stuff1\nlogiciel2: stuff2\nlogiciel3: stuff3\n');
-  });
-
 });

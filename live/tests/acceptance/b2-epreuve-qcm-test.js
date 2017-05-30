@@ -2,8 +2,6 @@ import { describe, it, before, after } from 'mocha';
 import { expect } from 'chai';
 import startApp from '../helpers/start-app';
 import destroyApp from '../helpers/destroy-app';
-import {resetTestingState, bodyOfLastPostRequest, urlOfLastPostRequest} from '../helpers/shared-state';
-import _ from 'pix-live/utils/lodash-custom';
 
 function visitTimedChallenge() {
   visit('/assessments/ref_assessment_id/challenges/ref_qcm_challenge_id');
@@ -79,17 +77,19 @@ describe('Acceptance | b2 - Afficher un QCM | ', function() {
     });
   });
 
-  it('b2.9 If an user validate the challenge with two answers, the api is request to save the answer of the user', async function() {
-    // Given
-    resetTestingState();
+  it('b2.9 If an user check a checkbox, it is checked', function() {
+    expect($('input:checkbox:checked')).to.have.lengthOf(0);
     $('.proposal-text:eq(1)').click();
+    andThen(() => {
+      expect($('input:checkbox:checked')).to.have.lengthOf(1);
+    });
+  });
+
+  it('b2.10 If an user check another checkbox, it is checked, the previous checked checkboxes remains checked', function() {
+    expect($('input:checkbox:checked')).to.have.lengthOf(1);
     $('.proposal-text:eq(2)').click();
-
-    // When
-    await click('.challenge-actions__action-validate');
-
-    // Then
-    expect(urlOfLastPostRequest()).to.equal('/api/answers');
-    expect(_.get(bodyOfLastPostRequest(), 'data.attributes.value')).to.equal('2,3');
+    andThen(() => {
+      expect($('input:checkbox:checked')).to.have.lengthOf(2);
+    });
   });
 });
