@@ -120,9 +120,6 @@ export default Ember.Component.extend({
         this._toggleConfirmation('success', 'Le compte a été bien créé!');
         this._resetValidationFields();
         this.sendAction('refresh');
-      }).catch(() => {
-        this._updateInputsStatus();
-        this._toggleConfirmation('error', 'Oups! Une erreur s\'est produite...');
       });
     }
   }

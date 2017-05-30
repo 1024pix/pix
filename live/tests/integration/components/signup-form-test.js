@@ -9,7 +9,6 @@ const FORM_CONTAINER = '.signup-form-container';
 const FORM_HEADING_CONTAINER = '.signup-form__heading-container';
 const FORM_HEADING = '.signup-form__heading';
 const EXPECTED_FORM_HEADING_CONTENT = 'Inscription gratuite';
-const EXPECTED_FORM_HEADING_CONTENT_ERROR = 'Oups! Une erreur s\'est produite...';
 const EXPECTED_FORM_HEADING_CONTENT_SUCCESS = 'Le compte a été bien créé!';
 
 const INPUT_TEXT_FIELD = '.signup-form__input-container';
@@ -41,7 +40,8 @@ const ICON_SUCCESS_CLASS = 'signup-textfield__icon--success';
 
 const userEmpty = Ember.Object.create({});
 
-describe('Integration | Component | signup form', function() {
+describe.only('Integration | Component | signup form', function() {
+
   setupComponentTest('signup-form', {
     integration: true
   });
@@ -245,33 +245,6 @@ describe('Integration | Component | signup form', function() {
         return wait().then(() => {
           const cguErrorMessageContent = this.$(CHECKBOX_CGU_INPUT).parent().siblings('div').text();
           expect(cguErrorMessageContent.trim()).to.equal(UNCHECKED_CHECKBOX_CGU_ERROR);
-        });
-      });
-
-      it('should display an error message on form title, when an error occured and form is submited', function() {
-        // given
-        const userWithCguNotAccepted = Ember.Object.create({
-          cgu: false,
-          errors: {
-            content: [{
-              attribute: 'cgu',
-              message: UNCHECKED_CHECKBOX_CGU_ERROR,
-            }]
-          },
-          save() {
-            return new Ember.RSVP.reject();
-          }
-        });
-
-        this.set('user', userWithCguNotAccepted);
-        this.render(hbs`{{signup-form user=user}}`);
-
-        // when
-        this.$('.signup__submit-button').click();
-        // then
-        return wait().then(() => {
-          const headingErrorMessageContent = this.$('.signup-form__temporary-msg h4').text();
-          expect(headingErrorMessageContent.trim()).to.equal(EXPECTED_FORM_HEADING_CONTENT_ERROR);
         });
       });
     });
