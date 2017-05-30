@@ -8,20 +8,20 @@
   <h1 class="signin-form__panel-title">Se connecter</h1>
 
   <div class="signin-form__form">
-    <form>
+    <form {{action "submit" on="submit"}}>
       <div class="signin-form__form-field">
         <label for="pix-email">Adresse e-mail</label>
-        <input id="pix-email" type="email" placeholder="nom@exemple.fr">
+        {{input id="pix-email" type="email" placeholder="nom@exemple.fr" value=email}}
       </div>
 
 
       <div class="signin-form__form-field">
         <label for="pix-password">Mot de passe</label>
-        <input id="pix-password" type="password">
+        {{input id="pix-password" type="password" value=password}}
       </div>
 
       <div class="signin-form__form-field signin-form__form-field-button">
-        <button type="submit" class="signin-form__submit_button">Je me connecte</button>
+        <button type="submit" class="signin-form__submit_button" {{action "submit" allowedKeys="enter"}}>Je me connecte</button>
       </div>
     </form>
   </div>
