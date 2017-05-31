@@ -1,6 +1,6 @@
-import {expect} from 'chai';
-import {describe, it} from 'mocha';
-import {setupComponentTest} from 'ember-mocha';
+import { expect } from 'chai';
+import { describe, it } from 'mocha';
+import { setupComponentTest } from 'ember-mocha';
 import hbs from 'htmlbars-inline-precompile';
 import Ember from 'ember';
 import wait from 'ember-test-helpers/wait';
@@ -9,7 +9,6 @@ const FORM_CONTAINER = '.signup-form-container';
 const FORM_HEADING_CONTAINER = '.signup-form__heading-container';
 const FORM_HEADING = '.signup-form__heading';
 const EXPECTED_FORM_HEADING_CONTENT = 'Inscription gratuite';
-const EXPECTED_FORM_HEADING_CONTENT_SUCCESS = 'Le compte a été bien créé!';
 
 const INPUT_TEXT_FIELD = '.signup-form__input-container';
 const INPUT_TEXT_FIELD_CLASS_DEFAULT = 'signup-textfield__input-container--default';
@@ -40,7 +39,7 @@ const ICON_SUCCESS_CLASS = 'signup-textfield__icon--success';
 
 const userEmpty = Ember.Object.create({});
 
-describe.only('Integration | Component | signup form', function() {
+describe('Integration | Component | signup form', function() {
 
   setupComponentTest('signup-form', {
     integration: true
@@ -62,16 +61,16 @@ describe.only('Integration | Component | signup form', function() {
     });
 
     [
-      {expectedRendering: 'form container', input: FORM_CONTAINER, expected: 1},
-      {expectedRendering: 'div to wrap heading of form', input: FORM_HEADING_CONTAINER, expected: 1},
-      {expectedRendering: 'form title (h1)', input: FORM_HEADING, expected: 1},
-      {expectedRendering: '4 input fields in form', input: INPUT_TEXT_FIELD, expected: 4},
-      {expectedRendering: 'cgu container', input: CHECKBOX_CGU_CONTAINER, expected: 1},
-      {expectedRendering: 'cgu checkbox', input: CHECKBOX_CGU_INPUT, expected: 1},
-      {expectedRendering: 'cgu label', input: CHECKBOX_CGU_LABEL, expected: 1},
-      {expectedRendering: 'submit button', input: SUBMIT_BUTTON_CONTAINER, expected: 1},
+      { expectedRendering: 'form container', input: FORM_CONTAINER, expected: 1 },
+      { expectedRendering: 'div to wrap heading of form', input: FORM_HEADING_CONTAINER, expected: 1 },
+      { expectedRendering: 'form title (h1)', input: FORM_HEADING, expected: 1 },
+      { expectedRendering: '4 input fields in form', input: INPUT_TEXT_FIELD, expected: 4 },
+      { expectedRendering: 'cgu container', input: CHECKBOX_CGU_CONTAINER, expected: 1 },
+      { expectedRendering: 'cgu checkbox', input: CHECKBOX_CGU_INPUT, expected: 1 },
+      { expectedRendering: 'cgu label', input: CHECKBOX_CGU_LABEL, expected: 1 },
+      { expectedRendering: 'submit button', input: SUBMIT_BUTTON_CONTAINER, expected: 1 },
 
-    ].forEach(function({expectedRendering, input, expected}) {
+    ].forEach(function({ expectedRendering, input, expected }) {
 
       it(`should render ${expectedRendering}`, function() {
         expect(this.$(input)).to.have.length(expected);
@@ -95,7 +94,7 @@ describe.only('Integration | Component | signup form', function() {
         expectedType: 'button'
       },
 
-    ].forEach(function({expectedRendering, input, expectedLength, expectedValue, expectedType}) {
+    ].forEach(function({ expectedRendering, input, expectedLength, expectedValue, expectedType }) {
 
       it(`should render a ${expectedRendering}`, function() {
         expect(this.$(input)).to.have.length(expectedLength);
@@ -218,7 +217,7 @@ describe.only('Integration | Component | signup form', function() {
         });
       });
 
-      it('should display an error message on cgu field, when cgu isn\'t accepted and form is submited', function() {
+      it('should display an error message on cgu field, when cgu isn\'t accepted and form is submitted', function() {
         // given
         const userWithCguNotAccepted = Ember.Object.create({
           cgu: false,
@@ -245,6 +244,30 @@ describe.only('Integration | Component | signup form', function() {
         return wait().then(() => {
           const cguErrorMessageContent = this.$(CHECKBOX_CGU_INPUT).parent().siblings('div').text();
           expect(cguErrorMessageContent.trim()).to.equal(UNCHECKED_CHECKBOX_CGU_ERROR);
+        });
+      });
+
+      it('should not display success notification message when an error occurred during the form submission', function() {
+        const userThatThrowAnErrorDuringSaving = Ember.Object.create({
+          errors: {
+            content: [{
+              attribute: 'email',
+              message: 'An error concerning the email thrown by the API',
+            }]
+          },
+          save()  {
+            return new Ember.RSVP.reject();
+          }
+        });
+
+        this.set('user', userThatThrowAnErrorDuringSaving);
+        this.render(hbs`{{signup-form user=user}}`);
+
+        // when
+        this.$('.signup__submit-button').click();
+        // then
+        return wait().then(() => {
+          expect(this.$('.signup-form__notification-message')).to.have.lengthOf(0);
         });
       });
     });
@@ -330,7 +353,7 @@ describe.only('Integration | Component | signup form', function() {
         });
       });
 
-      it('should not display an error message on cgu field, when cgu is accepted and form is submited', function() {
+      it('should not display an error message on cgu field, when cgu is accepted and form is submitted', function() {
         // given
         const userWithCguAccepted = Ember.Object.create({
           cgu: true,
@@ -373,12 +396,12 @@ describe.only('Integration | Component | signup form', function() {
         this.$('.signup__submit-button').click();
         // then
         return wait().then(() => {
-          const headingErrorMessageContent = this.$('.signup-form__temporary-msg h4').text();
-          expect(headingErrorMessageContent.trim()).to.equal(EXPECTED_FORM_HEADING_CONTENT_SUCCESS);
+          const $notificationMessage = this.$('.signup-form__notification-message').text();
+          expect($notificationMessage.trim()).to.equal('Votre compte a bien été créé !');
         });
       });
 
-      it('should reset validation property, when all things are ok and form is submited', function() {
+      it('should reset validation property, when all things are ok and form is submitted', function() {
         // given
         const validUser = Ember.Object.create({
           email: 'toto@pix.fr',
@@ -406,8 +429,5 @@ describe.only('Integration | Component | signup form', function() {
       });
 
     });
-
   });
-
-})
-;
+});
