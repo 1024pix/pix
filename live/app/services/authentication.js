@@ -6,6 +6,10 @@ export default Ember.Service.extend({
 
   logout() {
     this.set('token', '');
+  },
+
+  login(token) {
+    this.set('token', token);
   }
 
 });

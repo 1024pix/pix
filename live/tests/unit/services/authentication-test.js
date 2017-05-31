@@ -41,4 +41,15 @@ describe('Unit | Service | authentication', function() {
     // Then
     expect(service.get('token')).to.equal('');
   });
+
+  it('should allow to logout', function() {
+    // Given
+    const service = this.subject();
+
+    // When
+    service.login('234UI12TBHU2');
+
+    // Then
+    expect(service.get('token')).to.equal('234UI12TBHU2');
+  });
 });
