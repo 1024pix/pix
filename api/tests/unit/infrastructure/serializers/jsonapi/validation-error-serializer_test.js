@@ -166,7 +166,7 @@ describe('Unit | Serializer | JSONAPI | validation-error-serializer', () => {
       });
     });
 
-    it('should format a validation error into Json Spec when invalid captcha response', function() {
+    it('should format a validation error into Json Spec when invalid captcha response', function () {
       // given
       const invalidCaptchaResponse = {
         data: {
@@ -194,6 +194,32 @@ describe('Unit | Serializer | JSONAPI | validation-error-serializer', () => {
 
       // then
       expect(formattedJSON).to.deep.equal(expectJsonFormat);
+    });
+
+    it('should format a validation error into a JSON spec when generic error', () => {
+      // Given
+      const errors = {
+        data: {
+          "": ['L\'adresse e-mail et/ou le mot de passe saisi(s) sont incorrects.']
+        }
+      };
+
+      const expectedFormattedJSON = {
+        'errors': [
+          {
+            'status': '400',
+            'title': 'Invalid Payload',
+            'detail': 'L\'adresse e-mail et/ou le mot de passe saisi(s) sont incorrects.',
+            'source': {'pointer': '/data/attributes'}
+          }
+        ]
+      };
+
+      // When
+      const formattedJSON = serializer.serialize(errors);
+
+      // Then
+      expect(formattedJSON).to.deep.equal(expectedFormattedJSON);
     });
   });
 });
