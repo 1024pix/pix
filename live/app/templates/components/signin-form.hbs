@@ -7,6 +7,10 @@
 
   <h1 class="signin-form__panel-title">Se connecter</h1>
 
+  {{#if displayErrorMessage}}
+    <div class="signin-form__errors">L'adresse email et/ou le mot de passe saisi sont incorrectes</div>
+  {{/if}}
+
   <div class="signin-form__form">
     <form {{action "submit" on="submit"}}>
       <div class="signin-form__form-field">

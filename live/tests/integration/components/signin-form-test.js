@@ -18,6 +18,7 @@ describe('Integration | Component | signin form', function() {
       expect(email).to.equal(expectedEmail);
       expect(password).to.equal(expectedPassword);
       done();
+      return Promise.resolve();
     });
 
     // Given
@@ -35,6 +36,7 @@ describe('Integration | Component | signin form', function() {
       expect(email).to.equal(expectedEmail);
       expect(password).to.equal(expectedPassword);
       done();
+      return Promise.resolve();
     });
 
     this.render(hbs`{{signin-form onSubmit=(action 'onSubmitAction')}}`);
@@ -42,6 +44,37 @@ describe('Integration | Component | signin form', function() {
 
     // When
     this.$('.signin-form__form form').submit();
+  });
+
+  it('should display an error', function() {
+    // Expect
+    this.on('onSubmitAction', () => {
+      return Promise.resolve();
+    });
+
+    this.render(hbs`{{signin-form onSubmit=(action 'onSubmitAction')}}`);
+    _fillSigninForm(this, expectedEmail, expectedPassword);
+
+    // When
+    this.$('.signin-form__form form').submit();
+
+    // Then
+    expect(this.$('.signin-form__errors')).to.have.length(0);
+  });
+
+  it('should hide the error message if it was previously displayed', function() {
+    // Expect
+    this.on('onSubmitAction', () => { return Promise.resolve(); });
+    this.render(hbs`{{signin-form onSubmit=(action 'onSubmitAction') displayErrorMessage='true'}}`);
+
+    expect(this.$('.signin-form__errors')).to.have.length(1);
+    _fillSigninForm(this, expectedEmail, expectedPassword);
+
+    // When
+    this.$('.signin-form__form form').submit();
+
+    // Then
+    expect(this.$('.signin-form__errors')).to.have.length(0);
   });
 
   function _fillSigninForm(context, email, password) {
