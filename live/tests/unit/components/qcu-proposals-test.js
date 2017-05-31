@@ -1,5 +1,3 @@
-import _ from 'pix-live/utils/lodash-custom';
-
 import { expect } from 'chai';
 import { describe, it } from 'mocha';
 import { setupTest } from 'ember-mocha';
@@ -14,51 +12,40 @@ describe('Unit | Component | QCU proposals', function() {
   describe('Computed property "labeledRadios"', function() {
 
     const DEFAULT_PROPOSALS = '- prop 1\n- prop 2\n- prop 3';
-    const DEFAULT_ANSWERS = [false, true, false];
-    const PROPOSAL_TEXT = 0;
-    const BOOLEAN_ANSWER = 1;
 
-    let answers;
+    let answersValue;
     let proposals;
     let component;
 
     beforeEach(function() {
       proposals = DEFAULT_PROPOSALS;
-      answers = DEFAULT_ANSWERS;
+      answersValue = '2';
     });
 
     function initComponent() {
       component = this.subject();
       component.set('proposals', proposals);
-      component.set('answers', answers);
+      component.set('answersValue', answersValue);
     }
 
-    /*
-     * Ex :
-     * - proposals = ['prop 1', 'prop 2', 'prop 3']
-     * - answers = [false, true, false]
-     *
-     * => labeledRadios = [['prop 1', false], ['prop 2', true], ['prop 3', false]]
-     */
     it('should return an array of [<proposal_text>, <boolean_answer>]', function() {
-      // given
+      // Given
+      answersValue = '2';
+      const expectedLabeledRadios = [
+        ['prop 1', false],
+        ['prop 2', true],
+        ['prop 3', false]
+      ];
       initComponent.call(this);
 
-      // when
+      // When
       const labeledRadios = component.get('labeledRadios');
 
-      // then
-      expect(labeledRadios[0][PROPOSAL_TEXT]).to.equal('prop 1');
-      expect(labeledRadios[0][BOOLEAN_ANSWER]).to.equal(DEFAULT_ANSWERS[0]);
-
-      expect(labeledRadios[1][PROPOSAL_TEXT]).to.equal('prop 2');
-      expect(labeledRadios[1][BOOLEAN_ANSWER]).to.equal(DEFAULT_ANSWERS[1]);
-
-      expect(labeledRadios[2][PROPOSAL_TEXT]).to.equal('prop 3');
-      expect(labeledRadios[2][BOOLEAN_ANSWER]).to.equal(DEFAULT_ANSWERS[2]);
+      // Then
+      expect(labeledRadios).to.deep.equal(expectedLabeledRadios);
     });
 
-    it('should return an array of [<proposal_text>, <boolean_answer>] with as many items than challenge proposals', function() {
+    it('should return an array of [<proposal_text>, <boolean_answer>] with as many items as challenge proposals', function() {
       // given
       proposals = '- prop 1\n- prop 2\n- prop 3\n- prop 4\n- prop 5';
       initComponent.call(this);
@@ -70,28 +57,38 @@ describe('Unit | Component | QCU proposals', function() {
       expect(labeledRadios).to.have.lengthOf(5);
     });
 
-    it('should return an array of [<proposal_text>, <boolean_answer>] with all <boolean_answer> values set to "false" when given answer is "null"', function() {
+    it('should not select a radio when given answer is null', function() {
       // given
-      answers = null;
+      answersValue = null;
+      const expectedLabeledRadios = [
+        ['prop 1', false],
+        ['prop 2', false],
+        ['prop 3', false]
+      ];
       initComponent.call(this);
 
       // when
       const labeledRadios = component.get('labeledRadios');
 
       // then
-      expect(_.every(labeledRadios, (labeledRadio) => labeledRadio[1] === false)).to.be.true;
+      expect(labeledRadios).to.deep.equal(expectedLabeledRadios);
     });
 
-    it('should return an array of [<proposal_text>, <boolean_answer>] with <boolean_answer> values empty when answer value is not a boolean', function() {
+    it('should not select a radio when no answer is given', function() {
       // given
-      answers = [true, undefined, null];
+      answersValue = '';
+      const expectedLabeledRadios = [
+        ['prop 1', false],
+        ['prop 2', false],
+        ['prop 3', false]
+      ];
       initComponent.call(this);
 
       // when
       const labeledRadios = component.get('labeledRadios');
 
       // then
-      expect(labeledRadios).to.have.lengthOf(0);
+      expect(labeledRadios).to.deep.equal(expectedLabeledRadios);
     });
 
   });

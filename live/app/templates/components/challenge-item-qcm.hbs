@@ -15,7 +15,7 @@
   <div class="rounded-panel challenge-response">
     <div class="rounded-panel__row challenge-proposals">
       {{qcm-proposals
-        answers=answers._valueAsArrayOfBoolean
+        answersValue=answers.value
         proposals=challenge.proposals
         answerChanged=(action 'answerChanged')}}
     </div>
