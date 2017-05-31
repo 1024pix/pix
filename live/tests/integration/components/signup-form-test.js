@@ -45,7 +45,7 @@ describe('Integration | Component | signup form', function() {
     integration: true
   });
 
-  describe('Component Rendering', function() {
+  describe('Rendering', function() {
 
     beforeEach(function() {
       this.set('user', userEmpty);
@@ -105,7 +105,7 @@ describe('Integration | Component | signup form', function() {
     });
   });
 
-  describe('Component Behavior', function() {
+  describe('Behaviors', function() {
 
     it('should return true if action <Signup> is handled', function() {
       // given
@@ -428,6 +428,31 @@ describe('Integration | Component | signup form', function() {
         });
       });
 
+    });
+  });
+
+  describe.only('Accessibility', function() {
+
+    it('should render an accessible notification message when the account was successfully created', function() {
+      // given
+      const user = Ember.Object.create({
+        save() {
+          return Ember.RSVP.resolve();
+        }
+      });
+
+      this.set('user', user);
+      this.render(hbs`{{signup-form user=user signup="signup"}}`);
+
+      // when
+      $(SUBMIT_BUTTON).click();
+
+      // then
+      return wait().then(() => {
+
+        const $notificationMessage = this.$('.signup-form__notification-message');
+        expect($notificationMessage.attr('aria-live')).to.equal('polite');
+      });
     });
   });
 });
