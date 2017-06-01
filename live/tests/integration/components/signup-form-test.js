@@ -431,7 +431,7 @@ describe('Integration | Component | signup form', function() {
     });
   });
 
-  describe.only('Accessibility', function() {
+  describe('Accessibility', function() {
 
     it('should render an accessible notification message when the account was successfully created', function() {
       // given
