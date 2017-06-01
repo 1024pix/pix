@@ -25,6 +25,11 @@ module.exports = (function() {
 
     googleReCaptcha: {
       secret: process.env.RECAPTCHA_KEY
+    },
+
+    authentication: {
+      secret: process.env.AUTH_SECRET,
+      tokenLifespan: "7d"
     }
   };
 
@@ -44,6 +49,8 @@ module.exports = (function() {
     config.googleReCaptcha = {
       secret: 'test-recaptcha-key'
     };
+
+    config.authentication.secret = 'shhhhhhhhh';
   }
 
   return config;
