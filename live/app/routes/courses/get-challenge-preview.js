@@ -5,8 +5,9 @@ import BaseRoute from 'pix-live/routes/base-route';
 
 export default BaseRoute.extend({
 
-  model(params) {
+  assessmentService: Ember.inject.service('assessment'),
 
+  model(params) {
     const store = this.get('store');
 
     const promises = {
@@ -31,21 +32,28 @@ export default BaseRoute.extend({
     });
   },
 
-  setupController: function(controller, model) {
+  setupController(controller, model) {
     this._super(controller, model);
-
     const challengeType =  getChallengeType(model.challenge.get('type'));
     controller.set('challengeItemType', 'challenge-item-' + challengeType);
 
   },
 
-  serialize: function(model) {
+  serialize(model) {
     return model.assessment.get('course').then((course) => {
       return {
         course_id: course.id,
         challenge_id: model.challenge.id
       };
     });
-  }
+  },
 
+  actions: {
+
+    navigate(challenge, assessment) {
+      this.get('assessmentService').getNextChallenge(challenge, assessment).then((nextChallenge) => {
+        this.transitionToRoute('courses.get-challenge-preview', { challenge: nextChallenge, assessment });
+      });
+    }
+  }
 });

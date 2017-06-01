@@ -1,4 +1,5 @@
 import Ember from 'ember';
+import RSVP from 'rsvp';
 import callOnlyOnce from '../utils/call-only-once';
 import _ from 'pix-live/utils/lodash-custom';
 import ENV from 'pix-live/config/environment';
@@ -9,9 +10,11 @@ const ChallengeItemGeneric = Ember.Component.extend({
   classNames: ['challenge-item'],
   attributeBindings: ['challenge.id:data-challenge-id'],
 
+  answerValidated: null, // action
+
   _elapsedTime: null,
   _timer: null,
-  _hasUserAknowledgedTimingWarning: false,
+  _isUserAwareThatChallengeIsTimed: false,
 
   init() {
     this._super(...arguments);
@@ -22,7 +25,7 @@ const ChallengeItemGeneric = Ember.Component.extend({
 
   didUpdateAttrs() {
     this._super(...arguments);
-    if (!this.get('_hasUserAknowledgedTimingWarning')) {
+    if (!this.get('_isUserAwareThatChallengeIsTimed')) {
       this.set('hasUserConfirmWarning', false);
       this.set('hasChallengeTimer', this.hasTimerDefined());
     }
@@ -42,8 +45,8 @@ const ChallengeItemGeneric = Ember.Component.extend({
     return this.hasTimerDefined();
   }),
 
-  canDisplayFeedbackPanel: Ember.computed('_hasUserAknowledgedTimingWarning', function() {
-    return !this.hasTimerDefined() || (this.hasTimerDefined() && this.get('_hasUserAknowledgedTimingWarning'));
+  canDisplayFeedbackPanel: Ember.computed('_isUserAwareThatChallengeIsTimed', function() {
+    return !this.hasTimerDefined() || (this.hasTimerDefined() && this.get('_isUserAwareThatChallengeIsTimed'));
   }),
 
   hasTimerDefined() {
@@ -78,27 +81,28 @@ const ChallengeItemGeneric = Ember.Component.extend({
 
   actions: {
 
-    validate: callOnlyOnce(function() {
+    validateAnswer() {
       if (this._hasError()) {
-        this.set('errorMessage', this._getErrorMessage());
-        return this.sendAction('onError', this.get('errorMessage'));
+        const errorMessage = this._getErrorMessage();
+        this.set('errorMessage', errorMessage);
+        return RSVP.reject(errorMessage);
       }
       const answerValue = this._getAnswerValue();
-      this.sendAction('onValidated', this.get('challenge'), this.get('assessment'), answerValue, this._getTimeout(), this._getElapsedTime());
-      this.set('_hasUserAknowledgedTimingWarning', false);
-    }),
+      this.set('_isUserAwareThatChallengeIsTimed', false);
+      return this.get('answerValidated')(this.get('challenge'), this.get('assessment'), answerValue, this._getTimeout(), this._getElapsedTime());
+    },
 
-    skip: callOnlyOnce(function() {
+    skipChallenge: callOnlyOnce(function() {
       this.set('errorMessage', null);
-      this.sendAction('onValidated', this.get('challenge'), this.get('assessment'), '#ABAND#', this._getTimeout(), this._getElapsedTime());
-      this.set('_hasUserAknowledgedTimingWarning', false);
+      this.set('_isUserAwareThatChallengeIsTimed', false);
+      this.get('answerValidated')(this.get('challenge'), this.get('assessment'), '#ABAND#', this._getTimeout(), this._getElapsedTime());
     }),
 
     setUserConfirmation() {
       this._start();
       this.toggleProperty('hasUserConfirmWarning');
       this.toggleProperty('hasChallengeTimer');
-      this.set('_hasUserAknowledgedTimingWarning', true);
+      this.set('_isUserAwareThatChallengeIsTimed', true);
     }
   }
 

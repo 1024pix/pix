@@ -17,7 +17,7 @@
       {{qroc-proposal
         proposals=challenge.proposals
         answerValue=answers.value
-        answerChanged=(action 'inputChanged')}}
+        answerChanged=(action 'answerChanged')}}
     </div>
     {{#if challenge.timer}}
       {{#if hasUserConfirmWarning}}
@@ -35,7 +35,7 @@
   {{/if}}
 
   {{#if assessment}}
-    {{challenge-actions skip="skip" validate="validate"}}
+    {{challenge-actions challengeSkipped=(action "skipChallenge") answerValidated=(action "validateAnswer")}}
   {{/if}}
 {{/unless}}
 

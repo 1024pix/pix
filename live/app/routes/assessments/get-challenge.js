@@ -49,12 +49,12 @@ export default BaseRoute.extend({
 
   _navigateToNextView(currentChallenge, assessment) {
     const adapter = this.get('store').adapterFor('application');
-    adapter.ajax(this._urlForNextChallenge(adapter, assessment.get('id'), currentChallenge.get('id')), 'GET')
+    return adapter.ajax(this._urlForNextChallenge(adapter, assessment.get('id'), currentChallenge.get('id')), 'GET')
       .then(nextChallenge => {
         if (nextChallenge) {
-          this.transitionTo('assessments.get-challenge', assessment.get('id'), nextChallenge.data.id);
+          return this.transitionTo('assessments.get-challenge', assessment.get('id'), nextChallenge.data.id);
         } else {
-          this.transitionTo('assessments.get-results', assessment.get('id'));
+          return this.transitionTo('assessments.get-results', assessment.get('id'));
         }
       });
   },
@@ -63,8 +63,8 @@ export default BaseRoute.extend({
 
     saveAnswerAndNavigate(currentChallenge, assessment, answerValue, answerTimeout, answerElapsedTime) {
       const answer = this._createAnswer(answerValue, answerTimeout, currentChallenge, assessment, answerElapsedTime);
-      answer.save().then(() => {
-        this._navigateToNextView(currentChallenge, assessment);
+      return answer.save().then(() => {
+        return this._navigateToNextView(currentChallenge, assessment);
       });
     }
   },
