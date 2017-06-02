@@ -1,11 +1,9 @@
-
 const JSONAPISerializer = require('./jsonapi-serializer');
-const Login = require('../../../domain/models/data/login');
 
-class LoginSerializer extends JSONAPISerializer {
+class AuthenticationSerializer extends JSONAPISerializer {
 
   constructor() {
-    super('login');
+    super('authentication');
   }
 
   serializeAttributes(model, data) {
@@ -14,4 +12,4 @@ class LoginSerializer extends JSONAPISerializer {
   }
 }
 
-module.exports = new LoginSerializer();
+module.exports = new AuthenticationSerializer();

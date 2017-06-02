@@ -200,7 +200,7 @@ describe('Unit | Serializer | JSONAPI | validation-error-serializer', () => {
       // Given
       const errors = {
         data: {
-          "": ['L\'adresse e-mail et/ou le mot de passe saisi(s) sont incorrects.']
+          '': [ 'L\'adresse e-mail et/ou le mot de passe saisi(s) sont incorrects.' ]
         }
       };
 

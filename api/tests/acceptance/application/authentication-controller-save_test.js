@@ -7,14 +7,13 @@ const settings = require('./../../../../api/lib/settings');
 const server = require('../../../server');
 const User = require('../../../lib/domain/models/data/user');
 
-describe('Acceptance | Controller | login-controller', () => {
+describe('Acceptance | Controller | authentication-controller', () => {
 
   let options;
   let attributes;
 
   let user;
   const userPassword = 'A124B2C3#!';
-
 
   before(() => {
     return new User({
@@ -28,7 +27,6 @@ describe('Acceptance | Controller | login-controller', () => {
     });
   });
 
-
   beforeEach(() => {
     attributes = {
       email: user.get('email'),
@@ -37,7 +35,7 @@ describe('Acceptance | Controller | login-controller', () => {
 
     options = {
       method: 'POST',
-      url: '/api/logins',
+      url: '/api/authentications',
       payload: {
         data: {
           type: 'user',
@@ -63,7 +61,7 @@ describe('Acceptance | Controller | login-controller', () => {
       expect(response.statusCode).to.equal(201);
       expect(response.result).to.deep.equal({
         data: {
-          type: 'login',
+          type: 'authentication',
           attributes: {
             user_id: user.get('id'),
             token: expectedToken

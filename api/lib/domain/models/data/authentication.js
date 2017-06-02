@@ -1,4 +1,4 @@
-class Login {
+class Authentication {
 
   constructor(user_id, token) {
     this.user_id = user_id;
@@ -9,9 +9,9 @@ class Login {
     return {
       user_id: this.user_id,
       token: this.token
-    }
+    };
   }
 
 }
 
-module.exports = Login;
+module.exports = Authentication;

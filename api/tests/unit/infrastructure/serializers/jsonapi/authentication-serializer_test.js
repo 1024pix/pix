@@ -1,8 +1,8 @@
 const { describe, it, expect } = require('../../../../test-helper');
-const serializer = require('../../../../../lib/infrastructure/serializers/jsonapi/login-serializer');
-const Login = require('../../../../../lib/domain/models/data/login');
+const serializer = require('../../../../../lib/infrastructure/serializers/jsonapi/authentication-serializer');
+const Authentication = require('../../../../../lib/domain/models/data/authentication');
 
-describe('Unit | Serializer | JSONAPI | login-serializer', function() {
+describe('Unit | Serializer | JSONAPI | authentication-serializer', function() {
 
   const jsonAnswer = {
     data: {
@@ -18,7 +18,7 @@ describe('Unit | Serializer | JSONAPI | login-serializer', function() {
 
     it('should format a login model object into JSON API data', function() {
       // Given
-      const login = new Login(8, 'my-token');
+      const login = new Authentication(8, 'my-token');
 
       // when
       const json = serializer.serialize(login);

@@ -3,10 +3,10 @@ const { describe, it, after, beforeEach, before, knex, sinon, expect } = require
 const faker = require('faker');
 const server = require('../../../../server');
 
-const loginController = require('../../../../lib/application/logins/login-controller');
+const authenticationController = require('../../../../lib/application/authentication/authentication-controller');
 const User = require('../../../../lib/domain/models/data/user');
 
-describe('Unit | Controller | login-controller', () => {
+describe('Unit | Controller | authentication-controller', () => {
 
   const password = 'A124B2C3#!';
   let replyStub;
@@ -60,7 +60,7 @@ describe('Unit | Controller | login-controller', () => {
       const request = _buildRequest(email, password);
 
       // When
-      const promise = loginController.save(request, replyStub);
+      const promise = authenticationController.save(request, replyStub);
 
       // Then
       return promise.then(() => {
@@ -75,18 +75,18 @@ describe('Unit | Controller | login-controller', () => {
       const request = _buildRequest(email, password);
 
       // When
-      const promise = loginController.save(request, replyStub);
+      const promise = authenticationController.save(request, replyStub);
 
       // Then
       return promise.then(() => {
         sinon.assert.calledWith(codeStub, 400);
         expect(replyStub.getCall(0).args).to.deep.equal([{
           errors: [{
-            "status": "400",
-            "title": "Invalid Payload",
-            "detail": "L\'adresse e-mail et/ou le mot de passe saisi(s) sont incorrects.",
-            "source": {
-              "pointer": "/data/attributes"
+            'status': '400',
+            'title': 'Invalid Payload',
+            'detail': 'L\'adresse e-mail et/ou le mot de passe saisi(s) sont incorrects.',
+            'source': {
+              'pointer': '/data/attributes'
             }
           }]
         }]);
@@ -99,7 +99,7 @@ describe('Unit | Controller | login-controller', () => {
       const request = _buildRequest(user.get('email'), password);
 
       // When
-      const promise = loginController.save(request, replyStub);
+      const promise = authenticationController.save(request, replyStub);
 
       // Then
       return promise.then(() => {
@@ -115,7 +115,7 @@ describe('Unit | Controller | login-controller', () => {
       const request = _buildRequest(user.get('email'), password);
 
       // When
-      const promise = loginController.save(request, replyStub);
+      const promise = authenticationController.save(request, replyStub);
 
       // Then
       return promise.then(() => {

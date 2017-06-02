@@ -19,7 +19,6 @@ function _buildEntirePayloadError(message) {
   };
 }
 
-
 function _toKebabCase(fieldName) {
   return fieldName.replace(/([A-Z])/g, (g) => `-${g[0].toLowerCase()}`);
 }

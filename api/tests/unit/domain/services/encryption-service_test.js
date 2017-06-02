@@ -11,7 +11,7 @@ describe('Unit | Service | Encryption', () => {
 
     it('should reject when passwords are not matching', () => {
       // Given
-      let encryptedPassword = bcrypt.hashSync('my-real-password', 1);
+      const encryptedPassword = bcrypt.hashSync('my-real-password', 1);
       const password = 'my-expected-password';
 
       // When
@@ -29,7 +29,7 @@ describe('Unit | Service | Encryption', () => {
 
     it('should resolve when passwords are matching', () => {
       // Given
-      let encryptedPassword = bcrypt.hashSync('my-real-password', 1);
+      const encryptedPassword = bcrypt.hashSync('my-real-password', 1);
       const password = 'my-real-password';
 
       // When
@@ -37,8 +37,8 @@ describe('Unit | Service | Encryption', () => {
 
       // Then
       return promise.catch(_ => {
-          sinon.assert.fail('Should not fail');
-        });
+        sinon.assert.fail('Should not fail');
+      });
     });
 
   });

@@ -3,8 +3,6 @@ const Assessment = require('./assessment');
 
 const encrypt = require('../../services/encryption-service');
 
-const bcrypt = require('bcrypt');
-
 module.exports = Bookshelf.Model.extend({
   tableName: 'users',
 
