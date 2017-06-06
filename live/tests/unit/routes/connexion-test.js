@@ -43,14 +43,13 @@ describe('Unit | Route | connexion', function() {
     // Then
     return promise.then(() => {
       expect(storeStub.createRecordIsCalled).to.be.true;
-      expect(storeStub.calls[0]).to.deep.equal(['login', {email: expectedEmail, password: expectedPassword}]);
+      expect(storeStub.calls[0]).to.deep.equal(['authentication', {email: expectedEmail, password: expectedPassword}]);
     });
   });
 
   it('should save the login', function() {
     // Given
     const route = this.subject();
-
     route.set('store', storeStub);
 
     // When

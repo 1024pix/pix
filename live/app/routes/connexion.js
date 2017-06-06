@@ -7,7 +7,7 @@ export default Ember.Route.extend({
   actions: {
     signin(email, password) {
       return this.get('store')
-        .createRecord('login', { email, password })
+        .createRecord('authentication', { email, password })
         .save()
         .then((login) => {
           this.get('authentication').login(login.get('token'));
