@@ -7,6 +7,7 @@ class AuthenticationSerializer extends JSONAPISerializer {
   }
 
   serializeAttributes(model, data) {
+    data.id = model.user_id;
     data.attributes.user_id = model.user_id;
     data.attributes.token = model.token;
   }
