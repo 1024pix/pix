@@ -21,6 +21,7 @@ describe('Unit | Controller | healthcheckController', () => {
       expect(arguments).to.include.keys('name', 'version', 'description');
       expect(arguments['name']).to.equal('pix-api');
       expect(arguments['description']).to.equal('Plateforme d\'évaluation et de certification des compétences numériques à l\'usage de tous les citoyens francophones');
+      expect(arguments['environment']).to.equal('test');
     });
   });
 });
