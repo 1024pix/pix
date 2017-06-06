@@ -105,3 +105,14 @@ $margin-right: 20px;
 
   padding: 10px 30px;
 }
+
+.signin-form__errors {
+  color: $white;
+  padding:10px;
+  background-color: $pure-orange;
+
+  @include device-is('tablet') {
+    margin: 40px 80px 0px 80px;
+    border-radius: 3px;
+  }
+}
