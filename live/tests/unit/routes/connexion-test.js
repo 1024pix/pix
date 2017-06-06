@@ -23,19 +23,29 @@ class StoreStub {
   }
 }
 
+class SessionStub {
+  authenticate() {
+    this.callArgs = Array.from(arguments);
+  }
+}
+
 describe('Unit | Route | connexion', function() {
   setupTest('route:connexion', {
-    needs: ['service:current-routed-modal', 'service:authentication']
+    needs: ['service:current-routed-modal', 'service:authentication', 'service:session']
   });
 
   const expectedEmail = 'email@example.net';
   const expectedPassword = 'azerty';
   const storeStub = new StoreStub();
+  const sessionStub = new SessionStub();
 
   it('should record the login', function() {
     // Given
     const route = this.subject();
+    route.transitionTo = function() {};
+
     route.set('store', storeStub);
+    route.set('session', sessionStub);
 
     // When
     const promise = route.actions.signin.call(route, expectedEmail, expectedPassword);
@@ -50,7 +60,10 @@ describe('Unit | Route | connexion', function() {
   it('should save the login', function() {
     // Given
     const route = this.subject();
+    route.transitionTo = function() {};
+
     route.set('store', storeStub);
+    route.set('session', sessionStub);
 
     // When
     const promise = route.actions.signin.call(route, expectedEmail, expectedPassword);
@@ -64,14 +77,17 @@ describe('Unit | Route | connexion', function() {
   it('should authenticate the user', function() {
     // Given
     const route = this.subject();
+    route.transitionTo = function() {};
+
     route.set('store', storeStub);
+    route.set('session', sessionStub);
 
     // When
     const promise = route.actions.signin.call(route, expectedEmail, expectedPassword);
 
     // Then
     return promise.then(() => {
-      expect(route.get('authentication').token).to.equal(expectedToken);
+      expect(sessionStub.callArgs).to.deep.equal(['authenticator:simple', expectedToken]);
     });
   });
 });
