@@ -13,8 +13,9 @@ module.exports = {
   save(request, reply) {
 
     let user;
+    const { password, email } = _extractAttributes(request);
 
-    return new User({ email: request.payload.data.attributes.email })
+    return new User({ email })
       .fetch()
       .then(foundUser => {
 
@@ -23,16 +24,10 @@ module.exports = {
         }
 
         user = foundUser;
-
-        const givenPassword = request.payload.data.attributes.password;
-
-        return encrypt.check(givenPassword, foundUser.get('password'));
+        return encrypt.check(password, foundUser.get('password'));
       })
       .then(_ => {
-        const token = jsonwebtoken.sign({
-          user_id: user.get('id'),
-          email: user.get('email')
-        }, settings.authentication.secret, { expiresIn: settings.authentication.tokenLifespan });
+        const token = _createTokenFromUser(user);
 
         const authentication = new Authentication(user.get('id'), token);
         return reply(authenticationSerializer.serialize(authentication)).code(201);
@@ -43,6 +38,17 @@ module.exports = {
       });
   }
 };
+
+function _createTokenFromUser(user) {
+  return jsonwebtoken.sign({
+    user_id: user.get('id'),
+    email: user.get('email')
+  }, settings.authentication.secret, { expiresIn: settings.authentication.tokenLifespan });
+}
+
+function _extractAttributes(request) {
+  return request.payload.data.attributes;
+}
 
 function _buildError() {
   return {
