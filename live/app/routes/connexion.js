@@ -4,7 +4,6 @@ import UnauthenticatedRouteMixin from 'ember-simple-auth/mixins/unauthenticated-
 export default Ember.Route.extend(UnauthenticatedRouteMixin, {
 
   session: Ember.inject.service(),
-  authentication: Ember.inject.service(),
 
   routeIfAlreadyAuthenticated: '/compte',
 

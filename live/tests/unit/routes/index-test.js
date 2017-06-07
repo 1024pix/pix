@@ -5,7 +5,7 @@ import { setupTest } from 'ember-mocha';
 describe('Unit | Route | index', function() {
 
   setupTest('route:index', {
-    needs: ['service:current-routed-modal']
+    needs: ['service:current-routed-modal', 'service:session']
   });
 
   it('exists', function() {

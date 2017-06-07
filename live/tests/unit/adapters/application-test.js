@@ -4,7 +4,7 @@ import {setupTest} from 'ember-mocha';
 
 describe('Unit | Route | subscribers', function() {
   setupTest('adapter:application', {
-    needs: ['service:authentication']
+    needs: ['service:session']
   });
 
   it('should precise /api as the root url', function() {
@@ -21,25 +21,20 @@ describe('Unit | Route | subscribers', function() {
     const applicationAdapter = this.subject();
 
     // When
-    applicationAdapter.get('authentication').set('token', expectedToken);
+    applicationAdapter.set('session', {data: {authenticated: {token: expectedToken}}});
 
-    // Then
     expect(applicationAdapter.get('headers')).to.deep.equal({
-      'www-authentication': `bearer ${expectedToken}`
+      'Authorization': `bearer ${expectedToken}`
     });
   });
 
   it('should allow to logout ', function() {
     // Given
     const applicationAdapter = this.subject();
-    applicationAdapter.get('authentication').set('token', '123456789');
-
-    // When
-    applicationAdapter.get('authentication').logout();
 
     // Then
     expect(applicationAdapter.get('headers')).to.deep.equal({
-      'www-authentication': ''
+      'Authorization': ''
     });
   });
 });

@@ -7,9 +7,8 @@ export default Base.extend({
     return RSVP.resolve(data);
   },
 
-  authenticate(username) {
-    // Un promise qui dit si OUI ou NON on est authentifie
-    return RSVP.resolve({ username });
+  authenticate(token) {
+    return RSVP.resolve({ token });
   }
 
 });

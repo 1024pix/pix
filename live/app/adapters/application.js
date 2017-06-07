@@ -7,18 +7,19 @@ export default DS.JSONAPIAdapter.extend({
   namespace: 'api',
   host: config.APP.API_HOST,
 
-  authentication: Ember.inject.service(),
+  session: Ember.inject.service(),
 
-  headers: Ember.computed('authentication.token', function() {
+  headers: Ember.computed('session.data.authenticated.token', function() {
+
     let tokenBearer;
-    if(this.get('authentication.token')) {
-      tokenBearer = `bearer ${this.get('authentication.token')}`;
+    if(this.get('session.data.authenticated.token')) {
+      tokenBearer = `bearer ${this.get('session.data.authenticated.token')}`;
     } else {
       tokenBearer = '';
     }
 
     return {
-      'www-authentication': tokenBearer
+      'Authorization': tokenBearer
     };
   })
 

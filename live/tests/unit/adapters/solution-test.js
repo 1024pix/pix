@@ -5,7 +5,7 @@ import { setupTest } from 'ember-mocha';
 describe('Unit | Adapters | solution', function() {
 
   setupTest('adapter:solution', {
-    needs: ['service:authentication']
+    needs: ['service:session']
   });
 
   it('exists', function() {

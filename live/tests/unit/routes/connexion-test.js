@@ -31,7 +31,7 @@ class SessionStub {
 
 describe('Unit | Route | connexion', function() {
   setupTest('route:connexion', {
-    needs: ['service:current-routed-modal', 'service:authentication', 'service:session']
+    needs: ['service:current-routed-modal', 'service:session']
   });
 
   const expectedEmail = 'email@example.net';
