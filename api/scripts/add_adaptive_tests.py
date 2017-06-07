@@ -1,5 +1,5 @@
 import json, sqlite3, csv, sys
-connection = sqlite3.connect('../api/db/dev.sqlite3')
+connection = sqlite3.connect('./db/dev.sqlite3')
 
 filename = sys.argv[1]
 
