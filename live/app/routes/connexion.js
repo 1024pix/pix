@@ -9,11 +9,9 @@ export default Ember.Route.extend(UnauthenticatedRouteMixin, {
 
   actions: {
     signin(email, password) {
-      return this.get('store')
-        .createRecord('authentication', { email, password })
-        .save()
-        .then(login => {
-          this.get('session').authenticate('authenticator:simple', login.get('token'));
+      return this.get('session')
+        .authenticate('authenticator:simple', email, password)
+        .then(() => {
           this.transitionTo(this.routeIfAlreadyAuthenticated);
         });
     }

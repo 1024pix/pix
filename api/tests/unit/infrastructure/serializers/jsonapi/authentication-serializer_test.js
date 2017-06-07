@@ -9,8 +9,9 @@ describe('Unit | Serializer | JSONAPI | authentication-serializer', function() {
       id: 8,
       type: 'authentication',
       attributes: {
-        user_id: 8,
+        'user-id': 8,
         token: 'my-token',
+        password: ''
       }
     }
   };

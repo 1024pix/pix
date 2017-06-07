@@ -64,8 +64,9 @@ describe('Acceptance | Controller | authentication-controller', () => {
           id: user.get('id'),
           type: 'authentication',
           attributes: {
-            user_id: user.get('id'),
-            token: expectedToken
+            'user-id': user.get('id'),
+            token: expectedToken,
+            password: ''
           }
         }
       });
