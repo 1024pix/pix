@@ -140,7 +140,7 @@ describe('Unit | Domain | Models | User', () => {
         }).catch((err) => {
           const cguErrors = err.data['cgu'];
           expect(cguErrors).to.exist;
-          expect(cguErrors).to.deep.equal(['Veuillez accepter les conditions générales d\'utilisation (CGU) avant de créer un compte.']);
+          expect(cguErrors).to.deep.equal(['Vous devez accepter les conditions d\'utilisation de Pix pour créer un compte.']);
         });
       });
 

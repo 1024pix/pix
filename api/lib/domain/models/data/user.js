@@ -29,7 +29,7 @@ module.exports = Bookshelf.Model.extend({
     ],
     cgu: [
       { method: 'isRequired', error: 'Le champ CGU doit être renseigné.' },
-      { method: 'isTrue', error: 'Veuillez accepter les conditions générales d\'utilisation (CGU) avant de créer un compte.' }
+      { method: 'isTrue', error: 'Vous devez accepter les conditions d\'utilisation de Pix pour créer un compte.' }
     ]
   },
 

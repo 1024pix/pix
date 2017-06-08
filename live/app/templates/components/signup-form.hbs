@@ -7,10 +7,9 @@
     <h1 class="signup-form__heading">Inscription gratuite</h1>
   </div>
 
-
-  <div class="signup-form__temporary-msg {{temporaryAlert.status}}">
-    <h4>{{temporaryAlert.message}}</h4>
-  </div>
+  {{#if _notificationMessage}}
+    <p class="signup-form__notification-message" aria-live="polite">{{_notificationMessage}}</p>
+  {{/if}}
 
   <div class="signup-form__input-container">
     {{signup-textfield
