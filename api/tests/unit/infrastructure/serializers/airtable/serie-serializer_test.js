@@ -38,7 +38,7 @@ describe('Unit | Serializer | serie-serializer', function() {
       const serie = serializer.deserialize(airtableRecord);
 
       //then
-      expect(serie.nom).to.be.equal(airtableRecord.fields['nom']);
+      expect(serie.name).to.be.equal(airtableRecord.fields['nom']);
     });
 
     it('should convert "nom" field of airtable to "nom" in Serie object', function() {
@@ -46,7 +46,7 @@ describe('Unit | Serializer | serie-serializer', function() {
       //given
       const airtableRecord = {
         fields: {
-          tests: [{id:'test1'}, {id:'test2'}]
+          courses: [{id:'test1'}, {id:'test2'}]
         }
       };
 

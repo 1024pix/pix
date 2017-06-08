@@ -13,8 +13,8 @@ class SerieSerializer extends AirtableSerializer {
     serie.id = airtableRecord.id;
 
     if (airtableRecord.fields) {
-      serie.nom = airtableRecord.fields['nom'];
-      serie.tests = airtableRecord.fields['tests'];
+      serie.name = airtableRecord.fields['nom'];
+      serie.courses = airtableRecord.fields['tests'];
     }
 
     return serie;
