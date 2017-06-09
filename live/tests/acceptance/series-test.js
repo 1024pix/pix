@@ -15,11 +15,42 @@ describe('Acceptance | series', function() {
     destroyApp(application);
   });
 
-  it('I can access to the historic of the weekly courses series by the url /defis-pix', function() {
-    visit('/defis-pix');
+  describe('Accessibility', function() {
 
-    return andThen(() => {
+    it('I can access to the historic of the weekly courses series by the url /defis-pix', async function() {
+      // when
+      await visit('/defis-pix');
+
+      // then
       expect(currentURL()).to.equal('/defis-pix');
+    });
+
+  });
+
+  describe('Rendering', function() {
+
+    it('should display a navbar', async function() {
+      // when
+      await visit('/defis-pix');
+
+      // then
+      expect(find('.navbar-header')).to.have.lengthOf(1);
+    });
+
+    it('should display a header section', async function() {
+      // when
+      await visit('/defis-pix');
+
+      // then
+      expect(find('.series-page__header')).to.have.lengthOf(1);
+    });
+
+    it('should display a list of (weekly courses) series', async function() {
+      // when
+      await visit('/defis-pix');
+
+      // then
+      expect(find('.series-page__series')).to.have.lengthOf(1);
     });
   });
 });
