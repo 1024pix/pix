@@ -3,7 +3,7 @@ import getChallenges from './routes/get-challenges';
 import getNextChallenge from './routes/get-next-challenge';
 import getAssessmentSolutions from './routes/get-assessment-solutions';
 import getCourse from './routes/get-course';
-import getCourses from './routes/get-courses';
+//import getCourses from './routes/get-courses';
 import getCoursesOfTheWeek from './routes/get-courses-of-the-week';
 import getAnswer from './routes/get-answer';
 import postAnswers from './routes/post-answers';
@@ -16,7 +16,6 @@ import postRefreshSolution from './routes/post-refresh-solution';
 import postUsers from './routes/post-users';
 
 export default function() {
-  this.logging = false;
   this.passthrough('/write-coverage');
   this.post('https://fonts.googleapis.com/**', () => {});
   this.post('https://formspree.io/**', () => {});
@@ -26,9 +25,9 @@ export default function() {
   this.namespace = '/api';
   this.timing = 0; // response delay
 
-  this.get('/courses', getCourses);
+  //this.get('/courses', getCourses);
   this.get('/courses?isCourseOfTheWeek=true', getCoursesOfTheWeek);
-  this.get('/courses/:id', getCourse);
+  this.get('/courses/:id', getCourse);//DOMMAGE COLLATERAUX, DANS LA NOUVELLE VERSION RISQUE DE FAIRE PETER DES TESTS
 
   this.get('/challenges', getChallenges);
   this.get('/challenges/:id', getChallenge);
@@ -50,4 +49,11 @@ export default function() {
   this.post('/followers', postFollowers);
 
   this.post('/users', postUsers);
+
+  this.get('/course-groups');
+  this.get('/courses/:id', (schema, request) => {
+    const id = request.params.id;
+
+    return schema.courses.find(id);
+  });
 }

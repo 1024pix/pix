@@ -3,7 +3,7 @@ import { expect } from 'chai';
 import startApp from 'pix-live/tests/helpers/start-app';
 import destroyApp from 'pix-live/tests/helpers/destroy-app';
 
-describe('Acceptance | series', function() {
+describe.only('Acceptance | series', function() {
 
   let application;
 
@@ -46,11 +46,23 @@ describe('Acceptance | series', function() {
     });
 
     it('should display a list of (weekly courses) series', async function() {
+      // given
+      const courses = server.createList('course', 2, {name: 'course name'});
+      server.createList('courseGroup', 3, {courses});
+
       // when
       await visit('/defis-pix');
 
       // then
+      expect(find('.course-item__name')[0].innerText).to.equal('course name');
+
       expect(find('.series-page__series')).to.have.lengthOf(1);
+      expect(find('.series-page__serie-item')).to.have.lengthOf(3);
+      expect(find('.course-list')).to.have.lengthOf(3);
+      expect(find('.course-item')).to.have.lengthOf(6);
     });
+
+    //Futur tests eventuels
+    //it('should launch a test if the user click on "DEMARRER"', function() {});
   });
 });

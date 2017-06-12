@@ -4,5 +4,10 @@
 
   <div class="series-page__header"></div>
 
-  <div class="series-page__series"></div>
+  <div class="series-page__series">
+    {{#each model as |serie|}}
+      <div class="series-page__serie-item">{{serie.name}}</div>
+      <div class="series-page__courses">{{course-list courses=serie.courses}}</div>
+    {{/each}}
+  </div>
 </div>
