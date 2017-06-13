@@ -29,12 +29,13 @@ describe.only('Acceptance | series', function() {
 
   describe('Rendering', function() {
 
-    it('should display a navbar', async function() {
+    it('should display a navbar and a footer', async function() {
       // when
       await visit('/defis-pix');
 
       // then
       expect(find('.navbar-header')).to.have.lengthOf(1);
+      expect(find('.app-footer')).to.have.lengthOf(1);
     });
 
     it('should display a header section', async function() {
@@ -61,6 +62,8 @@ describe.only('Acceptance | series', function() {
       expect(find('.course-list')).to.have.lengthOf(3);
       expect(find('.course-item')).to.have.lengthOf(6);
     });
+
+
 
     //Futur tests eventuels
     //it('should launch a test if the user click on "DEMARRER"', function() {});
