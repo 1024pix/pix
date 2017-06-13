@@ -1,4 +1,79 @@
+/*------------header----------*/
+
 .series-page__header {
-  height: 250px;
   background-image: linear-gradient(to bottom, #446eff, #001f8c), linear-gradient($pix-blue, $pix-blue);
+  color: $white;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+
+  padding-top: 20px;
+  padding-bottom: 20px;
+
+  @include device-is('tablet') {
+    padding-top: 40px;
+    padding-bottom: 40px;
+  }
+
+}
+
+.series-page__header-title {
+  font-family: $font-raleway;
+  font-weight: $font-extra-bold;
+  text-align: center;
+  font-size: 40px;
+
+  @include device-is('tablet') {
+    font-size: 60px;
+  }
+}
+
+.series-page__header-title__pix-span {
+  color: $marigold;
+}
+
+.series-page__header-description {
+  font-family: $font-raleway;
+  font-weight: $font-light;
+  text-align: center;
+  margin: auto;
+  max-width: 300px;
+
+  font-size: 20px;
+
+  @include device-is('tablet') {
+    font-size: 37px;
+    max-width: 880px;
+  }
+}
+
+/*------------series----------*/
+
+.series-page__series {
+  display: flex;
+  flex-direction: column;
+}
+
+.series-page__series-item {
+  max-width: max-content;
+  margin: auto;
+  margin-top: 35px;
+  margin-bottom: 35px;
+}
+
+.series-page__series-name {
+  font-family: $font-raleway;
+  font-size: 22px;
+  font-weight: $font-semi-bold;
+  color: $pix-blue;
+}
+
+.series-page_series-line {
+  margin-bottom: 10px;
+  height: 2px;
+  border: solid 1px #d7d7d7;
+}
+
+.series-page__courses {
+
 }

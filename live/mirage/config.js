@@ -50,10 +50,10 @@ export default function() {
 
   this.post('/users', postUsers);
 
+  //Nouveau Mirage
   this.get('/course-groups');
   this.get('/courses/:id', (schema, request) => {
     const id = request.params.id;
-
     return schema.courses.find(id);
   });
 }
