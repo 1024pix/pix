@@ -71,7 +71,7 @@
     "showdown": "showdownjs/showdown#1bca88f"
   },
   "engines": {
-    "node": ">= 7.7.4"
+    "node": ">= 7"
   },
   "private": true
 }
