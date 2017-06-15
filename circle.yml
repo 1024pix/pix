@@ -1,6 +1,6 @@
 machine:
   node:
-    version: v7.9.0
+    version: 8
 
 dependencies:
   pre:
@@ -8,7 +8,7 @@ dependencies:
     - sudo apt-get install bcrypt
     - npm install -g bower
     - sudo -H pip install ansible==2.3.0 python-openstackclient
-    - sudo -H pip install -U --ignore-installed setuptools shade 
+    - sudo -H pip install -U --ignore-installed setuptools shade
 
 test:
   override:
