@@ -5,6 +5,7 @@ export default BaseRoute.extend({
   model(params) {
     const store = this.get('store');
     return store.findRecord('course', params.course_id);
+
   },
 
   afterModel(course) {

@@ -2,7 +2,7 @@ import getChallenge from './routes/get-challenge';
 import getChallenges from './routes/get-challenges';
 import getNextChallenge from './routes/get-next-challenge';
 import getAssessmentSolutions from './routes/get-assessment-solutions';
-import getCourse from './routes/get-course';
+//import getCourse from './routes/get-course';
 import getCourses from './routes/get-courses';
 import getCoursesOfTheWeek from './routes/get-courses-of-the-week';
 import getAnswer from './routes/get-answer';
@@ -27,7 +27,7 @@ export default function() {
 
   this.get('/courses', getCourses);
   this.get('/courses?isCourseOfTheWeek=true', getCoursesOfTheWeek);
-  this.get('/courses/:id', getCourse);//DOMMAGE COLLATERAUX, DANS LA NOUVELLE VERSION RISQUE DE FAIRE PETER DES TESTS
+  //this.get('/courses/:id', getCourse);//DOMMAGE COLLATERAUX, DANS LA NOUVELLE VERSION RISQUE DE FAIRE PETER DES TESTS
 
   this.get('/challenges', getChallenges);
   this.get('/challenges/:id', getChallenge);
@@ -51,9 +51,15 @@ export default function() {
   this.post('/users', postUsers);
 
   //Nouveau Mirage
+  //CourseGroups
   this.get('/course-groups');
+
+  //Courses
   this.get('/courses/:id', (schema, request) => {
     const id = request.params.id;
-    return schema.courses.find(id);
+    const course = schema.courses.find(id);
+    return course;
   });
+
+  //
 }
