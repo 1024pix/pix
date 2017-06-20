@@ -1,4 +1,4 @@
-import { describe, it, before, after } from 'mocha';
+import { describe, it, beforeEach, afterEach } from 'mocha';
 import { expect } from 'chai';
 
 import startApp from '../helpers/start-app';
@@ -8,12 +8,12 @@ describe('Acceptance | c1 - Consulter l\'écran de fin d\'un test ', function() 
 
   let application;
 
-  before(function() {
+  beforeEach(function() {
     application = startApp();
     visit('/assessments/ref_assessment_id/results');
   });
 
-  after(function() {
+  afterEach(function() {
     destroyApp(application);
   });
 

@@ -5,7 +5,7 @@ import {
 import { mocha } from 'mocha';
 
 mocha.setup({
-  timeout: 2000,
+  timeout: 4000,
   slow: 500,
 });
 
