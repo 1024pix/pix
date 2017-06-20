@@ -32,8 +32,6 @@ const contentReference = {
   }
 };
 
-const timeOutAfterRender = 1000; // FIXME: This trigger the tooltip after rendering
-
 export default Ember.Component.extend({
 
   classNames: [ 'result-item' ],
@@ -47,6 +45,10 @@ export default Ember.Component.extend({
     return contentReference[ this.get('answer.result') ] || contentReference[ 'default' ];
   }),
 
+  resultTooltip: Ember.computed('resultItem', function() {
+    return this.get('resultItem') ? this.get('resultItem').tooltip : null;
+  }),
+
   validationImplementedForChallengeType: Ember.computed('answer.challenge.type', function() {
     const implementedTypes = [ 'QCM', 'QROC', 'QCU', 'QROCM-ind' ];
     const challengeType = this.get('answer.challenge.type');
@@ -55,9 +57,13 @@ export default Ember.Component.extend({
 
   didRender() {
     this._super(...arguments);
-    Ember.run.debounce(this, function() {
-      $('[data-toggle="tooltip"]').tooltip();
-    }, timeOutAfterRender);
+
+    const tooltipElement = this.$('[data-toggle="tooltip"]');
+    const tooltipValue = this.get('resultTooltip');
+
+    if (tooltipValue) {
+      tooltipElement.tooltip({ title: tooltipValue });
+    }
   },
 
   actions: {
