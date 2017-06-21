@@ -66,6 +66,14 @@
     </label>
   </div>
 
+  <div class="signup-form__captcha-container">
+    {{#if user.errors.recaptchaToken}}
+      <div class="signup-field__recaptcha-message--error">{{user.errors.recaptchaToken.firstObject.message}}</div>
+    {{/if}}
+    {{g-recaptcha recaptchaToken=user.recaptchaToken
+                  tokenHasBeenUsed=_tokenHasBeenUsed}}
+  </div>
+
   <div class="signup-form__submit-container">
     <button class="signup__submit-button" {{action "signup"}}>Je m'inscris</button>
   </div>

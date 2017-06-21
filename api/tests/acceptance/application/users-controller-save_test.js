@@ -5,15 +5,21 @@ const server = require('../../../server');
 const User = require('../../../lib/domain/models/data/user');
 
 const mailService = require('../../../lib/domain/services/mail-service');
+const logger = require('../../../lib/infrastructure/logger');
+const gRecaptcha = require('../../../lib/infrastructure/validators/grecaptcha-validator');
 
 describe('Acceptance | Controller | users-controller', function() {
 
   let options;
   let attributes;
   let sendAccountCreationEmailStub;
+  let loggerStub;
+  let recaptchaVerifyStub;
 
   before(() => {
     sendAccountCreationEmailStub = sinon.stub(mailService, 'sendAccountCreationEmail');
+    loggerStub = sinon.stub(logger, 'error').returns({});
+    recaptchaVerifyStub = sinon.stub(gRecaptcha, 'verify').resolves();
   });
 
   beforeEach(function() {
@@ -40,6 +46,8 @@ describe('Acceptance | Controller | users-controller', function() {
 
   after(function() {
     sendAccountCreationEmailStub.restore();
+    loggerStub.restore();
+    recaptchaVerifyStub.restore();
   });
 
   it('should return 201 HTTP status code', function() {
@@ -106,5 +114,7 @@ describe('Acceptance | Controller | users-controller', function() {
         expect(response.statusCode).to.equal(422);
       });
     });
+
   });
+
 });

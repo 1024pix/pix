@@ -75,4 +75,3 @@ GIT_HASH=`git rev-parse HEAD`
     echo "FAILED !"
     tput sgr0
 }
-

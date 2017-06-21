@@ -31,6 +31,7 @@ export default Ember.Component.extend({
 
   _notificationMessage: null,
   validation: null,
+  _tokenHasBeenUsed: null,
 
   init() {
     this._super(...arguments);
@@ -79,6 +80,10 @@ export default Ember.Component.extend({
       cgu: {
         status: 'default',
         message: null
+      },
+      recaptchaToken: {
+        status: 'default',
+        message: null
       }
     };
     this.set('validation', defaultValidationObject);
@@ -100,6 +105,11 @@ export default Ember.Component.extend({
   },
 
   actions: {
+
+    resetTokenHasBeenUsed() {
+      this.set('_tokenHasBeenUsed', false);
+    },
+
     validateInput(key) {
       this._executeFieldValidation(key, isValuePresent);
     },
@@ -118,8 +128,10 @@ export default Ember.Component.extend({
         this.set('_notificationMessage', 'Votre compte a bien été créé !');
         this._resetValidationFields();
         this.sendAction('refresh');
+        this.set('_tokenHasBeenUsed', true);
       }).catch(() => {
         this._updateInputsStatus();
+        this.set('_tokenHasBeenUsed', true);
       });
     }
   }

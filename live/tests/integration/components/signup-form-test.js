@@ -38,6 +38,7 @@ const ICON_ERROR_CLASS = 'signup-textfield__icon--error';
 const ICON_SUCCESS_CLASS = 'signup-textfield__icon--success';
 
 const userEmpty = Ember.Object.create({});
+const CAPTCHA_CONTAINER = '.signup-form__captcha-container';
 
 describe('Integration | Component | signup form', function() {
 
@@ -68,8 +69,8 @@ describe('Integration | Component | signup form', function() {
       { expectedRendering: 'cgu container', input: CHECKBOX_CGU_CONTAINER, expected: 1 },
       { expectedRendering: 'cgu checkbox', input: CHECKBOX_CGU_INPUT, expected: 1 },
       { expectedRendering: 'cgu label', input: CHECKBOX_CGU_LABEL, expected: 1 },
+      { expectedRendering: 'a captcha', input: CAPTCHA_CONTAINER, expected: 1 },
       { expectedRendering: 'submit button', input: SUBMIT_BUTTON_CONTAINER, expected: 1 },
-
     ].forEach(function({ expectedRendering, input, expected }) {
 
       it(`should render ${expectedRendering}`, function() {
@@ -106,6 +107,10 @@ describe('Integration | Component | signup form', function() {
   });
 
   describe('Behaviors', function() {
+
+    beforeEach(function() {
+      this.register('component:g-recaptcha', Ember.Component.extend());
+    });
 
     it('should return true if action <Signup> is handled', function() {
       // given
@@ -270,9 +275,41 @@ describe('Integration | Component | signup form', function() {
           expect(this.$('.signup-form__notification-message')).to.have.lengthOf(0);
         });
       });
+
+      it('should display an error message on form title, when user has not checked re-captcha', function() {
+        // given
+        const UNCHECKED_CHECKBOX_RECAPTCHA_ERROR = 'Veuillez cocher le recaptcha.';
+        const userWithCaptchaNotValid = Ember.Object.create({
+          cgu: true,
+          recaptchaToken: null,
+          errors: {
+            content: [{
+              attribute: 'recaptchaToken',
+              message: UNCHECKED_CHECKBOX_RECAPTCHA_ERROR,
+            }],
+            recaptchaToken: [{
+              message: UNCHECKED_CHECKBOX_RECAPTCHA_ERROR
+            }]
+          },
+          save() {
+            return new Ember.RSVP.reject();
+          }
+        });
+
+        this.set('user', userWithCaptchaNotValid);
+        this.render(hbs`{{signup-form user=user}}`);
+
+        // when
+        this.$('.signup__submit-button').click();
+        // then
+        return wait().then(() => {
+          expect(this.$('.signup-field__recaptcha-message--error')).to.have.lengthOf(1);
+        });
+      });
     });
 
     describe('Successfull cases', function() {
+
       it('should display first name field as validated without error message, when field is filled and focus-out', function() {
         // given
         this.set('user', userEmpty);
@@ -427,31 +464,30 @@ describe('Integration | Component | signup form', function() {
           expect(inputFirst.prop('class')).to.includes(INPUT_TEXT_FIELD_CLASS_DEFAULT);
         });
       });
-
     });
-  });
 
-  describe('Accessibility', function() {
+    describe('Accessibility', function() {
 
-    it('should render an accessible notification message when the account was successfully created', function() {
-      // given
-      const user = Ember.Object.create({
-        save() {
-          return Ember.RSVP.resolve();
-        }
-      });
+      it('should render an accessible notification message when the account was successfully created', function() {
+        // given
+        const user = Ember.Object.create({
+          save() {
+            return Ember.RSVP.resolve();
+          }
+        });
 
-      this.set('user', user);
-      this.render(hbs`{{signup-form user=user signup="signup"}}`);
+        this.set('user', user);
+        this.render(hbs`{{signup-form user=user signup="signup"}}`);
 
-      // when
-      $(SUBMIT_BUTTON).click();
+        // when
+        $(SUBMIT_BUTTON).click();
 
-      // then
-      return wait().then(() => {
+        // then
+        return wait().then(() => {
 
-        const $notificationMessage = this.$('.signup-form__notification-message');
-        expect($notificationMessage.attr('aria-live')).to.equal('polite');
+          const $notificationMessage = this.$('.signup-form__notification-message');
+          expect($notificationMessage.attr('aria-live')).to.equal('polite');
+        });
       });
     });
   });

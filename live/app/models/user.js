@@ -6,5 +6,6 @@ export default Model.extend({
   lastName: attr('string'),
   email: attr('string'),
   password: attr('string'),
-  cgu: attr('boolean')
+  cgu: attr('boolean'),
+  recaptchaToken: attr('string')
 });
