@@ -4,7 +4,7 @@ export default Ember.Service.extend({
   hide() {
     const splash = document.getElementById('app-splash');
     if (splash) {
-      splash.remove();
+      splash.parentNode.removeChild(splash);
     }
   }
 });
