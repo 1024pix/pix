@@ -22,11 +22,9 @@ export default Base.extend({
         }
       })
     }).then(payload => {
-      return new RSVP.Promise((resolve) => {
-        resolve({
-          token: payload.data.attributes.token,
-          userId: payload.data.attributes['user-id']
-        });
+      return RSVP.Promise.resolve({
+        token: payload.data.attributes.token,
+        userId: payload.data.attributes['user-id']
       });
     });
   }

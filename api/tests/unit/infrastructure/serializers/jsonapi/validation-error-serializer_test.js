@@ -166,7 +166,7 @@ describe('Unit | Serializer | JSONAPI | validation-error-serializer', () => {
       });
     });
 
-    it('should format a validation error into Json Spec when invalid captcha response', function () {
+    it('should format a validation error into Json Spec when invalid captcha response', function() {
       // given
       const invalidCaptchaResponse = {
         data: {
