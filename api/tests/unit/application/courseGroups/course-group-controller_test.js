@@ -1,9 +1,9 @@
-const { describe, it, before, afterEach, beforeEach, expect, sinon } = require('../../../test-helper');
+const { describe, it, before, afterEach, beforeEach, expect } = require('../../../test-helper');
 const Hapi = require('hapi');
-const Serie = require('../../../../lib/domain/models/referential/serie');
+const CourseGroup = require('../../../../lib/domain/models/referential/course-group');
 const cache = require('../../../../lib/infrastructure/cache');
 
-describe('Unit | Controller | serie-controller', function() {
+describe('Unit | Controller | course-group-controller', function() {
 
   let server;
 
@@ -24,16 +24,16 @@ describe('Unit | Controller | serie-controller', function() {
   describe('#list', function() {
 
     const series = [
-      new Serie({ id: 'serie1' }),
-      new Serie({ id: 'serie2' }),
-      new Serie({ id: 'serie3' })
+      new CourseGroup({ id: 'serie1' }),
+      new CourseGroup({ id: 'serie2' }),
+      new CourseGroup({ id: 'serie3' })
     ];
 
-    it('should return all the series', function() {
+    it('should return all the courseGroups', function() {
       // given
 
       // when
-      server.inject({ method: 'GET', url: '/api/series' }, (res) => {
+      server.inject({ method: 'GET', url: '/api/course-groups' }, (res) => {
         // then
         expect(res.result).to.deep.equal(series);
       });

@@ -1,6 +1,6 @@
 const { describe, it, expect } = require('../../../../test-helper');
-const serializer = require('../../../../../lib/infrastructure/serializers/airtable/serie-serializer');
-const Serie = require('../../../../../lib/domain/models/referential/serie');
+const serializer = require('../../../../../lib/infrastructure/serializers/airtable/course-group-serializer');
+const CourseGroup = require('../../../../../lib/domain/models/referential/course-group');
 
 describe('Unit | Serializer | serie-serializer', function() {
 
@@ -10,9 +10,9 @@ describe('Unit | Serializer | serie-serializer', function() {
       // given
       const airtableRecord = { id: 'recFake', fields: {} };
       // when
-      const serie = serializer.deserialize(airtableRecord);
+      const courseGroupRecord = serializer.deserialize(airtableRecord);
       // then
-      expect(serie instanceof Serie).to.be.true;
+      expect(courseGroupRecord instanceof CourseGroup).to.be.true;
     });
 
     it('should convert id field of airtable to id in Serie object', function() {
@@ -20,10 +20,10 @@ describe('Unit | Serializer | serie-serializer', function() {
       const airtableRecord = { id: 'recFake' };
 
       //when
-      const serie = serializer.deserialize(airtableRecord);
+      const courseGroupRecord = serializer.deserialize(airtableRecord);
 
       //then
-      expect(serie.id).to.be.equal(airtableRecord.id);
+      expect(courseGroupRecord.id).to.be.equal(airtableRecord.id);
     });
 
     it('should convert "nom" field of airtable to "nom" in Serie object', function() {
@@ -35,10 +35,10 @@ describe('Unit | Serializer | serie-serializer', function() {
       };
 
       //when
-      const serie = serializer.deserialize(airtableRecord);
+      const courseGroupRecord = serializer.deserialize(airtableRecord);
 
       //then
-      expect(serie.name).to.be.equal(airtableRecord.fields['nom']);
+      expect(courseGroupRecord.name).to.be.equal(airtableRecord.fields['nom']);
     });
 
     it('should convert "nom" field of airtable to "nom" in Serie object', function() {
@@ -51,10 +51,10 @@ describe('Unit | Serializer | serie-serializer', function() {
       };
 
       //when
-      const serie = serializer.deserialize(airtableRecord);
+      const courseGroupRecord = serializer.deserialize(airtableRecord);
 
       //then
-      expect(serie.tests).to.be.equal(airtableRecord.fields['tests']);
+      expect(courseGroupRecord.tests).to.be.equal(airtableRecord.fields['tests']);
     });
 
   });

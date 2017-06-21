@@ -1,9 +1,9 @@
 const JSONAPISerializer = require('./jsonapi-serializer');
 
-class serieSerializer extends JSONAPISerializer {
+class courseGroupSerializer extends JSONAPISerializer {
 
   constructor() {
-    super('serie');
+    super('course-group');
   }
 
   serializeAttributes(model, data) {
@@ -32,4 +32,4 @@ class serieSerializer extends JSONAPISerializer {
 
 }
 
-module.exports = new serieSerializer();
+module.exports = new courseGroupSerializer();

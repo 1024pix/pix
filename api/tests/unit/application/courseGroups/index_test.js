@@ -1,15 +1,15 @@
 const { describe, it, before, after, beforeEach, expect, sinon } = require('../../../test-helper');
 const Hapi = require('hapi');
-const SerieController = require('../../../../lib/application/series/serie-controller');
+const courseGroupController = require('../../../../lib/application/courseGroups/course-group-controller');
 
-describe('Unit | Router | serie-router', function() {
+describe('Unit | Router | course-group-router', function() {
 
   let server;
 
   beforeEach(function() {
     server = this.server = new Hapi.Server();
     server.connection({ port: null });
-    server.register({ register: require('../../../../lib/application/series') });
+    server.register({ register: require('../../../../lib/application/courseGroups') });
   });
 
   function expectRouteToExist(routeOptions, done) {
@@ -19,18 +19,18 @@ describe('Unit | Router | serie-router', function() {
     });
   }
 
-  describe('GET /api/series', function() {
+  describe('GET /api/courseGroups', function() {
 
     before(function() {
-      sinon.stub(SerieController, 'list', (request, reply) => reply('ok'));
+      sinon.stub(courseGroupController, 'list', (request, reply) => reply('ok'));
     });
 
     after(function() {
-      SerieController.list.restore();
+      courseGroupController.list.restore();
     });
 
     it('should exist', function(done) {
-      expectRouteToExist({ method: 'GET', url: '/api/series' }, done);
+      expectRouteToExist({ method: 'GET', url: '/api/course-groups' }, done);
     });
   });
 });

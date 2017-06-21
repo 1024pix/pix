@@ -2,8 +2,8 @@ import { expect } from 'chai';
 import { describe, it } from 'mocha';
 import { setupTest } from 'ember-mocha';
 
-describe('Unit | Route | series', function() {
-  setupTest('route:series', {
+describe('Unit | Route | courseGroups', function() {
+  setupTest('route:courseGroups', {
     // Specify the other units that are required for this test.
     needs: ['service:current-routed-modal']
   });

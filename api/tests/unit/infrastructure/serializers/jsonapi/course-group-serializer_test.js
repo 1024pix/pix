@@ -1,6 +1,6 @@
 const { describe, it, expect } = require('../../../../test-helper');
-const serializer = require('../../../../../lib/infrastructure/serializers/jsonapi/serie-serializer');
-const Serie = require('../../../../../lib/domain/models/referential/serie');
+const serializer = require('../../../../../lib/infrastructure/serializers/jsonapi/course-group-serializer');
+const Serie = require('../../../../../lib/domain/models/referential/course-group');
 
 describe('Unit | Serializer | JSONAPI | serie-serializer', function() {
 
@@ -12,7 +12,7 @@ describe('Unit | Serializer | JSONAPI | serie-serializer', function() {
 
   const expectedJsonApiSerie = {
     data: {
-      type: 'serie',
+      type: 'course-group',
       id: 'fakeId',
       attributes: {
         name: 'name of serie'
