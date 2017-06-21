@@ -1,4 +1,4 @@
-import { describe, it, before, after } from 'mocha';
+import { describe, it, beforeEach, afterEach } from 'mocha';
 import { expect } from 'chai';
 import startApp from '../helpers/start-app';
 import destroyApp from '../helpers/destroy-app';
@@ -7,17 +7,17 @@ describe('Acceptance | f1 - Prévisualisation  d\'un test |', function() {
 
   let application;
 
-  before(function() {
+  beforeEach(function() {
     application = startApp();
   });
 
-  after(function() {
+  afterEach(function() {
     destroyApp(application);
   });
 
   describe('Prévisualiser la première page d\'un test |', function() {
 
-    before(function() {
+    beforeEach(function() {
       visit('/courses/ref_course_id/preview');
     });
 
@@ -29,7 +29,7 @@ describe('Acceptance | f1 - Prévisualisation  d\'un test |', function() {
 
     describe('On affiche', function() {
 
-      before(function() {
+      beforeEach(function() {
         $preview = findWithAssert('#course-preview');
       });
 
@@ -53,8 +53,9 @@ describe('Acceptance | f1 - Prévisualisation  d\'un test |', function() {
 
   describe('Prévisualiser une épreuve dans le cadre d\'un test |', function() {
 
-    before(function() {
-      visit('/courses/ref_course_id/preview/challenges/ref_qcm_challenge_id');
+    beforeEach(async function() {
+      await visit('/courses/ref_course_id/preview/challenges/ref_qcm_challenge_id');
+      await click('.challenge-item-warning button');
     });
 
     it('f1.5 L\'accès à la preview d\'une épreuve d\'un test se fait en accédant à l\'URL /courses/:course_id/preview/challenges/:challenge_id', function() {
@@ -63,20 +64,12 @@ describe('Acceptance | f1 - Prévisualisation  d\'un test |', function() {
 
     describe('On affiche', function() {
 
-      let $challenge;
-
-      before(function() {
-        $challenge = findWithAssert('.challenge-preview');
-      });
-
-      it('f1.6 la consigne de l\'épreuve', async function() {
-        await visit('/courses/ref_course_id/preview/challenges/ref_qcm_challenge_id');
-        await click('.challenge-item-warning button');
-        expect($challenge.find('.challenge-statement__instruction').html()).to.contain('Un QCM propose plusieurs choix');
+      it('f1.6 la consigne de l\'épreuve', function() {
+        expect(findWithAssert('.challenge-preview .challenge-statement__instruction').html()).to.contain('Un QCM propose plusieurs choix');
       });
 
       it('f1.7 un bouton pour accéder à l\'épreuve suivante', function() {
-        expect(findWithAssert('.challenge-actions__action-validate').text()).to.contain('Je valide');
+        expect(findWithAssert('.challenge-preview .challenge-actions__action-validate').text()).to.contain('Je valide');
       });
     });
   });

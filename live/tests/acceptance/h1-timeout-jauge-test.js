@@ -1,16 +1,7 @@
-import { describe, it, before, after } from 'mocha';
+import { describe, it, beforeEach, afterEach } from 'mocha';
 import { expect } from 'chai';
 import startApp from '../helpers/start-app';
 import destroyApp from '../helpers/destroy-app';
-import {resetTestingState, bodyOfLastPostRequest, urlOfLastPostRequest} from '../helpers/shared-state';
-import _ from 'pix-live/utils/lodash-custom';
-
-function getValidateActionLink() {
-  return $('.challenge-actions__action-validate');
-}
-function getSkipActionLink() {
-  return $('.challenge-actions__action-skip');
-}
 
 function visitTimedChallenge() {
   visit(TIMED_CHALLENGE_URI);
@@ -27,11 +18,11 @@ describe('Acceptance | H1 - Timeout Jauge | ', function() {
 
   let application;
 
-  before(function() {
+  beforeEach(function() {
     application = startApp();
   });
 
-  after(function() {
+  afterEach(function() {
     destroyApp(application);
   });
 
@@ -47,50 +38,5 @@ describe('Acceptance | H1 - Timeout Jauge | ', function() {
         expect($('.timeout-jauge')).to.have.lengthOf(0);
       });
     });
-  });
-
-  describe('Test quand la jauge est affichée', function() {
-
-    beforeEach(function() {
-      resetTestingState();
-      visit('/');
-    });
-
-    afterEach(function() {
-      resetTestingState();
-    })
-    ;
-    describe('Sauvegarde du temps passé | ', function() {
-
-      it('Si l\'utilisateur valide, demande la sauvegarde du temps restant en secondes', function() {
-        visitTimedChallenge();
-        andThen(() => {
-          const $countDown = findWithAssert('.timeout-jauge-remaining');
-          expect($countDown.text().trim()).to.equal('0:02');
-        });
-        andThen(() => {
-          click(getValidateActionLink());
-        });
-        andThen(() => {
-          expect(urlOfLastPostRequest()).to.equal('/api/answers');
-          expect(_.get(bodyOfLastPostRequest(), 'data.attributes.timeout')).to.equal(2);
-          expect(_.get(bodyOfLastPostRequest(), 'data.attributes.value')).to.equal('2,4');
-        });
-      });
-
-      it('Si l\'utilisateur ABANDONNE, demande la sauvegarde du temps restant en secondes', function() {
-        visitTimedChallenge();
-        andThen(() => {
-          click(getSkipActionLink());
-        });
-        andThen(() => {
-          expect(urlOfLastPostRequest()).to.equal('/api/answers');
-          expect(_.get(bodyOfLastPostRequest(), 'data.attributes.timeout')).to.equal(2);
-          expect(_.get(bodyOfLastPostRequest(), 'data.attributes.value')).to.equal('#ABAND#');
-        });
-      });
-
-    });
-
   });
 });

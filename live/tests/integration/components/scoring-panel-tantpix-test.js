@@ -115,7 +115,7 @@ describe('Integration | Component | scoring panel tantpix', function() {
         expect(smiley.attr('src')).to.includes('/images/smiley.png');
         expect(smiley.attr('srcset')).to.includes('/images/smiley@2x.png');
         expect(smiley.attr('srcset')).to.includes('/images/smiley@3x.png');
-        expect(smiley.attr('alt')).to.includes('smiley tant pix');
+        expect(smiley.attr('alt')).to.includes('smiley');
       });
     });
 

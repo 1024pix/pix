@@ -166,5 +166,34 @@ describe('Unit | Serializer | JSONAPI | validation-error-serializer', () => {
       });
     });
 
+    it('should format a validation error into Json Spec when invalid captcha response', function() {
+      // given
+      const invalidCaptchaResponse = {
+        data: {
+          captchaResponse: ['Le captcha est invalide.']
+        }
+      };
+
+      const expectJsonFormat = {
+        'errors': [
+          {
+            'detail': 'Le captcha est invalide.',
+            'meta': {
+              'field': 'captchaResponse'
+            },
+            'source': {
+              'pointer': '/data/attributes/captcha-response'
+            },
+            'status': '400',
+            'title': 'Invalid Attribute'
+          }
+        ]
+      };
+      // when
+      const formattedJSON = serializer.serialize(invalidCaptchaResponse);
+
+      // then
+      expect(formattedJSON).to.deep.equal(expectJsonFormat);
+    });
   });
 });

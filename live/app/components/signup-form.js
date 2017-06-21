@@ -28,12 +28,10 @@ function isValuePresent(value) {
 
 export default Ember.Component.extend({
   classNames: ['signup-form'],
-  registrationMessage: '',
+
+  _notificationMessage: null,
   validation: null,
-  temporaryAlert: {
-    status: 'default',
-    message: ''
-  },
+  _tokenHasBeenUsed: null,
 
   init() {
     this._super(...arguments);
@@ -53,10 +51,10 @@ export default Ember.Component.extend({
   },
 
   _toggleConfirmation(status, message) {
-    this.set('temporaryAlert', {status: TEMPORARY_DIV_CLASS_MAP[status], message});
-    if(config.APP.isMessageStatusTogglingEnabled) {
+    this.set('temporaryAlert', { status: TEMPORARY_DIV_CLASS_MAP[status], message });
+    if (config.APP.isMessageStatusTogglingEnabled) {
       Ember.run.later(() => {
-        this.set('temporaryAlert', {status: 'default', message: ''});
+        this.set('temporaryAlert', { status: 'default', message: '' });
       }, config.APP.MESSAGE_DISPLAY_DURATION);
     }
   },
@@ -82,6 +80,10 @@ export default Ember.Component.extend({
       cgu: {
         status: 'default',
         message: null
+      },
+      recaptchaToken: {
+        status: 'default',
+        message: null
       }
     };
     this.set('validation', defaultValidationObject);
@@ -89,7 +91,7 @@ export default Ember.Component.extend({
 
   _updateInputsStatus() {
     const errors = this.get('user.errors.content');
-    errors.forEach(({attribute, message}) => {
+    errors.forEach(({ attribute, message }) => {
       this._updateValidationStatus(attribute, 'error', message);
     });
   },
@@ -103,6 +105,11 @@ export default Ember.Component.extend({
   },
 
   actions: {
+
+    resetTokenHasBeenUsed() {
+      this.set('_tokenHasBeenUsed', false);
+    },
+
     validateInput(key) {
       this._executeFieldValidation(key, isValuePresent);
     },
@@ -116,13 +123,15 @@ export default Ember.Component.extend({
     },
 
     signup() {
+      this.set('_notificationMessage', null);
       this.get('user').save().then(() => {
-        this._toggleConfirmation('success', 'Le compte a été bien créé!');
+        this.set('_notificationMessage', 'Votre compte a bien été créé !');
         this._resetValidationFields();
         this.sendAction('refresh');
+        this.set('_tokenHasBeenUsed', true);
       }).catch(() => {
         this._updateInputsStatus();
-        this._toggleConfirmation('error', 'Oups! Une erreur s\'est produite...');
+        this.set('_tokenHasBeenUsed', true);
       });
     }
   }

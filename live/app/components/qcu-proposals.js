@@ -1,16 +1,17 @@
 import Ember from 'ember';
 import labeledCheckboxes from 'pix-live/utils/labeled-checkboxes';
 import proposalsAsArray from 'pix-live/utils/proposals-as-array';
+import valueAsArrayOfBoolean from 'pix-live/utils/value-as-array-of-boolean';
 
 export default Ember.Component.extend({
 
-  answers: null,
+  answersValue: null,
   proposals: null,
   answerChanged: null, // action
 
-  labeledRadios: Ember.computed('proposals', 'answers', function() {
+  labeledRadios: Ember.computed('proposals', 'answersValue', function() {
     const arrayOfProposals = proposalsAsArray(this.get('proposals'));
-    return labeledCheckboxes(arrayOfProposals, this.get('answers'));
+    return labeledCheckboxes(arrayOfProposals, valueAsArrayOfBoolean(this.get('answersValue')));
   }),
 
   _uncheckAllRadioButtons() {

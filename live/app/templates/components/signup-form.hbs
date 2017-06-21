@@ -7,10 +7,9 @@
     <h1 class="signup-form__heading">Inscription gratuite</h1>
   </div>
 
-
-  <div class="signup-form__temporary-msg {{temporaryAlert.status}}">
-    <h4>{{temporaryAlert.message}}</h4>
-  </div>
+  {{#if _notificationMessage}}
+    <p class="signup-form__notification-message" aria-live="polite">{{_notificationMessage}}</p>
+  {{/if}}
 
   <div class="signup-form__input-container">
     {{signup-textfield
@@ -65,6 +64,14 @@
       <span>J'​accepte les {{#link-to 'inscription' class="signup__cgu-link"}}
         conditions d'​utilisation de Pix{{/link-to}}</span>
     </label>
+  </div>
+
+  <div class="signup-form__captcha-container">
+    {{#if user.errors.recaptchaToken}}
+      <div class="signup-field__recaptcha-message--error">{{user.errors.recaptchaToken.firstObject.message}}</div>
+    {{/if}}
+    {{g-recaptcha recaptchaToken=user.recaptchaToken
+                  tokenHasBeenUsed=_tokenHasBeenUsed}}
   </div>
 
   <div class="signup-form__submit-container">

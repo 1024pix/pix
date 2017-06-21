@@ -4,6 +4,6 @@
     {{component (get-challenge-component-class model.challenge)
         challenge=model.challenge
         assessment=model.assessment
-        onValidated=(action navigate)}}
+        answerValidated=(route-action "navigate")}}
   </div>
 </div>

@@ -15,7 +15,7 @@
   <div class="rounded-panel challenge-response">
     <div class="rounded-panel__row challenge-proposals">
       {{qcu-proposals
-        answers=answers._valueAsArrayOfBoolean
+        answersValue=answers.value
         proposals=challenge.proposals
         answerChanged=(action 'answerChanged')}}
     </div>
@@ -35,7 +35,7 @@
   {{/if}}
 
   {{#if assessment}}
-    {{challenge-actions skip="skip" validate="validate"}}
+    {{challenge-actions challengeSkipped=(action "skipChallenge") answerValidated=(action "validateAnswer")}}
   {{/if}}
 {{/unless}}
 

@@ -18,7 +18,7 @@ const ChallengeItemQroc = ChallengeItemGeneric.extend({
   },
 
   actions: {
-    inputChanged() {
+    answerChanged() {
       this.set('errorMessage', null);
     }
   }

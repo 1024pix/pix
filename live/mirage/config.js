@@ -24,6 +24,7 @@ export default function() {
 
   this.urlPrefix = 'http://localhost:3000';
   this.namespace = '/api';
+  this.timing = 0; // response delay
 
   this.get('/courses', getCourses);
   this.get('/courses?isCourseOfTheWeek=true', getCoursesOfTheWeek);

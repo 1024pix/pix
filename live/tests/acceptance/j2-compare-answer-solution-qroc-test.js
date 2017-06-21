@@ -1,4 +1,4 @@
-import { describe, it } from 'mocha';
+import { describe, it, beforeEach, afterEach } from 'mocha';
 import { expect } from 'chai';
 import startApp from '../helpers/start-app';
 import destroyApp from '../helpers/destroy-app';
@@ -16,18 +16,18 @@ describe('Acceptance | j2 - Comparer réponses et solutions pour un QROC | ', fu
 
   let application;
 
-  before(function() {
+  beforeEach(function() {
     application = startApp();
   });
 
-  after(function() {
+  afterEach(function() {
     destroyApp(application);
   });
 
   describe('j2.1 Depuis la page résultat', function() {
 
-    before(function() {
-      visit(RESULT_URL);
+    beforeEach(async function() {
+      await visit(RESULT_URL);
     });
 
     it('affiche le lien REPONSE vers la modale depuis l\'ecran des resultats pour un QROC', async function() {
@@ -44,8 +44,8 @@ describe('Acceptance | j2 - Comparer réponses et solutions pour un QROC | ', fu
 
   describe('j2.2 Contenu de la modale de correction pour un QROC', function() {
 
-    before(function() {
-      visit(COMPARISON_MODAL_URL);
+    beforeEach(async function() {
+      await visit(COMPARISON_MODAL_URL);
     });
 
     it('possible d\'accéder à la modale depuis l\'URL', async function() {

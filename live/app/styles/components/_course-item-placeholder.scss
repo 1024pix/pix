@@ -1,0 +1,65 @@
+$course-item-placeholder-color:          lighten($charcoal-grey, 60);
+$course-item-placeholder-gradient-color: lighten($charcoal-grey, 50);
+
+.course-item-placeholder {
+  position: relative;
+  width: 280px;
+  height: 400px;
+  padding: 0;
+  margin: 0; // FIXME: rounded-panel should not have margin
+}
+
+.course-item-placeholder__picture {
+  width: 100%;
+  height: 160px;
+  background: linear-gradient(90deg, $course-item-placeholder-gradient-color, $course-item-placeholder-gradient-color, lighten($course-item-placeholder-gradient-color, 10), $course-item-placeholder-gradient-color);
+  background-size: 300% 100%;
+  animation: placeholder-gradient-animation 1.5s linear infinite;
+}
+.course-item-placeholder--first .course-item-placeholder__picture {
+  animation-delay: 0.3s;
+}
+
+@keyframes placeholder-gradient-animation {
+  0%    { background-position: 0%   50% }
+  70%   { background-position: 0%   50% }
+  100%  { background-position: 150% 50% }
+}
+
+.course-item-placeholder__container {
+  display: flex;
+  height: 240px;
+  padding: 10px;
+  flex-direction: column;
+  justify-content: flex-end;
+}
+
+.course-item-placeholder__name {
+  width: 120px;
+  height: 22px;
+  margin-left: auto;
+  margin-right: auto;
+  margin-bottom: auto;
+}
+
+.course-item-placeholder__description {
+  width: 200px;
+  height: 30px;
+  margin: 30px auto 40px auto;
+  border-top:    8px solid $course-item-placeholder-color;
+  border-bottom: 8px solid $course-item-placeholder-color;
+}
+
+.course-item-placeholder__challenges-number {
+  width: 60px;
+  height: 12px;
+  margin: 20px auto auto auto;
+  background-color: $course-item-placeholder-color;
+}
+
+.course-item-placeholder__begin-button {
+  width: 100px;
+  height: 12px;
+  margin: 30px auto 15px auto;
+  background-color: lighten($pix-blue, 20);
+}
