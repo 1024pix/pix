@@ -1,0 +1,118 @@
+.signin-form-container {
+  text-align: right;
+
+  max-width: 609px;
+  margin: 30px auto auto;
+
+  @include device-is('tablet') {
+    margin-top: 40px;
+  }
+}
+
+$margin-right: 20px;
+
+.signin-form__home-link {
+  color: $white;
+
+  margin-right: $margin-right;
+
+  @include device-is('tablet') {
+    margin: 8px 0;
+  }
+}
+
+.signin-form__home-link:hover,
+.signin-form__home-link:focus {
+  color: $white;
+}
+
+.signin-form__home-link_close {
+  border: solid 2px $white;
+  padding: 2px;
+
+  width: 20px;
+  border-radius: 20px;
+
+  margin-left: 5px;
+}
+
+.signin-form__panel {
+  background-color: $white;
+  border-radius: 10px;
+
+  margin: 8px $margin-right;
+  padding-top: 16px;
+
+  text-align: center;
+
+  @include device-is('tablet') {
+    padding-top: 40px;
+    margin: 8px 0;
+  }
+}
+
+.signin-form__panel-title {
+  font-family: $font-raleway;
+}
+
+.signin-form__form {
+  display: flex;
+  flex-direction: column;
+
+  padding: 20px;
+
+  @include device-is('tablet') {
+    padding: 40px 80px;
+  }
+}
+
+.signin-form__form-field {
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+
+  margin-bottom: 20px;
+}
+
+.signin-form__form-field label,
+.signin-form__form-field input {
+  display: flex;
+}
+
+.signin-form__form-field label {
+  text-transform: uppercase;
+}
+
+.signin-form__form input {
+  border: solid 1px $gainsboro;
+  border-radius: 3px;
+  outline: none;
+  padding: 5px;
+}
+
+.signin-form__form-field-button {
+  display: inline;
+}
+
+.signin-form__submit_button {
+  color: $white;
+  font-size: 13px;
+  text-transform: uppercase;
+
+  border-radius: 23px;
+  border: solid 1px $pix-blue;
+  background-color: $pix-blue;
+
+  padding: 10px 30px;
+}
+
+.signin-form__errors {
+  color: $white;
+  padding:10px;
+  background-color: $pure-orange;
+
+  @include device-is('tablet') {
+    margin: 40px 80px 0px 80px;
+    border-radius: 3px;
+  }
+}

@@ -2,9 +2,8 @@ import { expect } from 'chai';
 import { describe, it } from 'mocha';
 import { setupTest } from 'ember-mocha';
 
-describe('Unit | Route | index', function() {
-
-  setupTest('route:index', {
+describe('Unit | Route | compte', function() {
+  setupTest('route:compte', {
     needs: ['service:current-routed-modal', 'service:session']
   });
 
@@ -13,5 +12,11 @@ describe('Unit | Route | index', function() {
     expect(route).to.be.ok;
   });
 
-});
+  it('should redirect to /connexion', function() {
+    // Given
+    const route = this.subject();
 
+    // Then
+    expect(route.authenticationRoute).to.equal('/connexion');
+  });
+});

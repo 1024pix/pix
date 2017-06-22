@@ -4,6 +4,7 @@ module.exports = [
   require('./application/challenges'),
   require('./application/courses'),
   require('./application/users'),
+  require('./application/authentication'),
   require('./application/followers'),
   require('./application/feedbacks'),
   require('./application/healthcheck')

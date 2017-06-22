@@ -14,6 +14,7 @@ import postFollowers from './routes/post-followers';
 import postFeedbacks from './routes/post-feedbacks';
 import postRefreshSolution from './routes/post-refresh-solution';
 import postUsers from './routes/post-users';
+import postAuthentications from './routes/post-authentications';
 
 export default function() {
   this.logging = false;
@@ -50,4 +51,5 @@ export default function() {
   this.post('/followers', postFollowers);
 
   this.post('/users', postUsers);
+  this.post('/authentications', postAuthentications);
 }

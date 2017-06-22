@@ -1,7 +1,7 @@
 const Bookshelf = require('../../../infrastructure/bookshelf');
 const Assessment = require('./assessment');
 
-const bcrypt = require('bcrypt');
+const encrypt = require('../../services/encryption-service');
 
 module.exports = Bookshelf.Model.extend({
   tableName: 'users',
@@ -34,13 +34,11 @@ module.exports = Bookshelf.Model.extend({
   },
 
   hashPassword: (model) => {
-    return new Promise((resolve, reject) => {
-      bcrypt.hash(model.attributes.password, 5, (err, hash) => {
-        if (err) reject(err);
+    return encrypt
+      .hashPassword(model.attributes.password)
+      .then((hash) => {
         model.set('password', hash);
-        resolve(hash);
       });
-    });
   },
 
   assessments() {

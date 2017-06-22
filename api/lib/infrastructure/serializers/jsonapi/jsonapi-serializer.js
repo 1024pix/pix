@@ -26,7 +26,10 @@ class JSONAPISerializer {
     const entity = modelObject.toJSON();
     const data = {};
     data.type = this.modelClassName;
-    data.id = entity.id;
+
+    if(entity.id)
+      data.id = entity.id;
+
     data.attributes = {};
     this.serializeAttributes(entity, data);
     this.serializeRelationships(entity, data);

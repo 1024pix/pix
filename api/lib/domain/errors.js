@@ -10,4 +10,10 @@ class NotElligibleToScoringError extends Error {
   }
 }
 
-module.exports = { NotFoundError, NotElligibleToScoringError };
+class PasswordNotMatching extends Error {
+  constructor(message) {
+    super(message);
+  }
+}
+
+module.exports = { NotFoundError, NotElligibleToScoringError, PasswordNotMatching };
