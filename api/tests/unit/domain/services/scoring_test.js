@@ -38,16 +38,22 @@ describe('Unit | Domain | Service | scoring', function() {
 
   describe('#propagateKnowledge', function() {
 
-    const allKnowledge = { 'web3': 1, 'web4': 1, 'web5': 1, 'web6': 1 };
-
     [
-      { title: 'direction is increasing', startNode: 'web4', dir: 1, answer: [ 'web4', 'web5', 'web6' ] },
-      { title: 'direction is decreasing', startNode: 'web4', dir: -1, answer: [ 'web3', 'web4' ] }
+      { title: 'direction is increasing', allKnowledge: { 'web3': 1, 'web4': 1, 'web5': 1, 'web6': 1 },
+        startNode: 'web4', dir: 1, answer: [ 'web4', 'web5', 'web6' ] },
+      { title: 'direction is increasing', allKnowledge: { 'web1': 1, 'web2': 1, 'web3': 1, 'web4': 1, 'web5': 1, 'web6': 1, 'web7': 1, 'web8': 1 },
+        startNode: 'web1', dir: 1, answer: [ 'web1', 'web2', 'web3', 'web4', 'web5', 'web6', 'web7', 'web8' ] },
+      { title: 'direction is decreasing', allKnowledge: { 'web3': 1, 'web4': 1, 'web5': 1, 'web6': 1 },
+        startNode: 'web4', dir: -1, answer: [ 'web3', 'web4' ] },
+      { title: 'direction is increasing with hole', allKnowledge: { 'web1': 1, 'web2': 1, 'web4': 1},
+        startNode: 'web2', dir: 1, answer: [ 'web2', 'web4' ] },
+      { title: 'direction is decreasing with hole', allKnowledge: { 'web1': 1, 'web2': 1, 'web4': 1},
+        startNode: 'web4', dir: -1, answer: [ 'web1', 'web2', 'web4' ] },
     ].forEach(testCase => {
 
-      it(`should return ${testCase.answer} when ${testCase.title} and node is ${testCase.node}`, function() {
+      it(`should return ${testCase.answer} when ${testCase.title} from ${testCase.startNode} within tube ${Object.keys(testCase.allKnowledge).join(',')}`, function() {
         // When
-        const result = scoring.propagateKnowledge(allKnowledge, testCase.startNode, testCase.dir);
+        const result = scoring.propagateKnowledge(testCase.allKnowledge, testCase.startNode, testCase.dir);
 
         // Then
         expect(result.sort()).to.deep.equal(testCase.answer.sort());
