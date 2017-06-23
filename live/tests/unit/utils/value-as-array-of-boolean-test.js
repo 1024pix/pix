@@ -2,7 +2,7 @@ import { expect } from 'chai';
 import { describe, it } from 'mocha';
 import valueAsArrayOfBoolean from 'pix-live/utils/value-as-array-of-boolean';
 
-describe('Unit | Utility | value as array of boolean', function() {
+describe.skip('Unit | Utility | value as array of boolean', function() {
   // Replace this with your real tests.
   const testData = [
     { when: 'Empty String', input: '', expected: [] },

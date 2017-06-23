@@ -11,7 +11,7 @@ const errorMessages = {
   success: 'Merci pour votre inscription'
 };
 
-describe('Unit | Component | followerComponent', function() {
+describe.skip('Unit | Component | followerComponent', function() {
 
   setupTest('component:follower-form', {});
 

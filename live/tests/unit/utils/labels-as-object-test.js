@@ -2,7 +2,7 @@ import { expect } from 'chai';
 import { describe, it } from 'mocha';
 import labelsAsObject from 'pix-live/utils/labels-as-object';
 
-describe('Unit | Utility | labels as object', function() {
+describe.skip('Unit | Utility | labels as object', function() {
   describe('#labelsAsObject', function() {
 
     it('should return an object with labels and key on the input 1', function() {

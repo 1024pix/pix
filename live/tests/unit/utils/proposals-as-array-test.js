@@ -2,7 +2,7 @@ import { expect } from 'chai';
 import { describe, it } from 'mocha';
 import proposalsAsArray from 'pix-live/utils/proposals-as-array';
 
-describe('Unit | Utility | proposals as array', function() {
+describe.skip('Unit | Utility | proposals as array', function() {
   // Replace this with your real tests.
   const testData = [
     { data: '', expected: [] },

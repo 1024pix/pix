@@ -3,7 +3,7 @@ import { expect } from 'chai';
 import startApp from '../helpers/start-app';
 import destroyApp from '../helpers/destroy-app';
 
-describe('Acceptance | b7 - Points communs a toutes les épreuves | ', function() {
+describe.skip('Acceptance | b7 - Points communs a toutes les épreuves | ', function() {
 
   let application;
 

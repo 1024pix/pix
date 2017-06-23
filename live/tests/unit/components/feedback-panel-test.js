@@ -2,7 +2,7 @@ import { expect } from 'chai';
 import { describe, it } from 'mocha';
 import { setupTest } from 'ember-mocha';
 
-describe('Unit | Component | feedback-panel', function() {
+describe.skip('Unit | Component | feedback-panel', function() {
 
   setupTest('component:feedback-panel', {});
 

@@ -2,7 +2,7 @@ import { expect } from 'chai';
 import { describe, it } from 'mocha';
 import labeledCheckboxes from 'pix-live/utils/labeled-checkboxes';
 
-describe('Unit | Utility | labeled checkboxes', function() {
+describe.skip('Unit | Utility | labeled checkboxes', function() {
 
   describe('Success cases', function() {
 

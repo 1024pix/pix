@@ -2,7 +2,7 @@ import { expect } from 'chai';
 import { describe, it } from 'mocha';
 import { setupTest } from 'ember-mocha';
 
-describe('Unit | Component | QCU proposals', function() {
+describe.skip('Unit | Component | QCU proposals', function() {
 
   setupTest('component:qcu-proposals', {});
 

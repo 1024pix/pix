@@ -2,7 +2,7 @@ import { expect } from 'chai';
 import { describe, it } from 'mocha';
 import ArrayTransform from 'pix-live/transforms/array';
 
-describe('Unit | Transformer | Array', function() {
+describe.skip('Unit | Transformer | Array', function() {
 
   describe('#deserialize', function() {
 

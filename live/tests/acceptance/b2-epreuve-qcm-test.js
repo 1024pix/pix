@@ -8,7 +8,7 @@ function visitTimedChallenge() {
   click('.challenge-item-warning button');
 }
 
-describe('Acceptance | b2 - Afficher un QCM | ', function() {
+describe.skip('Acceptance | b2 - Afficher un QCM | ', function() {
 
   let application;
 

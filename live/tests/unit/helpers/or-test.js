@@ -2,7 +2,7 @@ import { expect } from 'chai';
 import { describe, it } from 'mocha';
 import { or } from 'pix-live/helpers/or';
 
-describe('Unit | Helper | or', function() {
+describe.skip('Unit | Helper | or', function() {
   // Replace this with your real tests.
   [
     {input: '', output: false},

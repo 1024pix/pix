@@ -3,7 +3,7 @@ import { expect } from 'chai';
 import startApp from '../helpers/start-app';
 import destroyApp from '../helpers/destroy-app';
 
-describe('Acceptance | a1 - La page d\'accueil', function() {
+describe.skip('Acceptance | a1 - La page d\'accueil', function() {
 
   let application;
 

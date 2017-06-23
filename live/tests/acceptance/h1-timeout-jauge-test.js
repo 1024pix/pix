@@ -14,7 +14,7 @@ function visitTimedChallenge() {
 const TIMED_CHALLENGE_URI = '/assessments/ref_assessment_id/challenges/ref_qcm_challenge_id';
 const CHALLENGE_ITEM_WARNING_BUTTON = '.challenge-item-warning button';
 
-describe('Acceptance | H1 - Timeout Jauge | ', function() {
+describe.skip('Acceptance | H1 - Timeout Jauge | ', function() {
 
   let application;
 

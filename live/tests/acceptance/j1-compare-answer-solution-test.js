@@ -8,7 +8,7 @@ function charCount(str) {
   return str.match(/[a-zA-Z]/g).length;
 }
 
-describe('Acceptance | j1 - Comparer réponses et solutions pour un QCM |', function() {
+describe.skip('Acceptance | j1 - Comparer réponses et solutions pour un QCM |', function() {
 
   const RESULT_URL = '/assessments/ref_assessment_id/results';
   const COMPARISON_MODAL_URL = '/assessments/ref_assessment_id/results/compare/ref_answer_qcm_id/1';

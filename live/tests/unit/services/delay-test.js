@@ -2,7 +2,7 @@ import { expect } from 'chai';
 import { describe, it } from 'mocha';
 import { setupTest } from 'ember-mocha';
 
-describe('Unit | Service | DelayService', function() {
+describe.skip('Unit | Service | DelayService', function() {
 
   setupTest('service:delay', {});
 

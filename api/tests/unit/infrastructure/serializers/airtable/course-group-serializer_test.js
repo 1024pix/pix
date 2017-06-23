@@ -30,7 +30,7 @@ describe('Unit | Serializer | serie-serializer', function() {
       //given
       const airtableRecord = {
         fields: {
-          nom: 'fakeName'
+          Nom: 'fakeName'
         }
       };
 
@@ -38,7 +38,7 @@ describe('Unit | Serializer | serie-serializer', function() {
       const courseGroupRecord = serializer.deserialize(airtableRecord);
 
       //then
-      expect(courseGroupRecord.name).to.be.equal(airtableRecord.fields['nom']);
+      expect(courseGroupRecord.name).to.be.equal(airtableRecord.fields['Nom']);
     });
 
     it('should convert "nom" field of airtable to "nom" in Serie object', function() {
@@ -46,7 +46,7 @@ describe('Unit | Serializer | serie-serializer', function() {
       //given
       const airtableRecord = {
         fields: {
-          courses: [{id:'test1'}, {id:'test2'}]
+          Tests: ['test1', 'test2']
         }
       };
 
@@ -54,7 +54,7 @@ describe('Unit | Serializer | serie-serializer', function() {
       const courseGroupRecord = serializer.deserialize(airtableRecord);
 
       //then
-      expect(courseGroupRecord.tests).to.be.equal(airtableRecord.fields['tests']);
+      expect(courseGroupRecord.courses).to.deep.equal([{ id: 'test1' }, { id: 'test2' }]);
     });
 
   });

@@ -3,7 +3,7 @@ import { expect } from 'chai';
 import startApp from 'pix-live/tests/helpers/start-app';
 import destroyApp from 'pix-live/tests/helpers/destroy-app';
 
-describe('Acceptance | courseGroups', function() {
+describe.skip('Acceptance | courseGroups', function() {
 
   let application;
 

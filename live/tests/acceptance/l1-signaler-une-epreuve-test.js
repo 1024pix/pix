@@ -5,7 +5,7 @@ import destroyApp from '../helpers/destroy-app';
 
 const FEEDBACK_FORM = '.feedback-panel__form';
 
-describe('Acceptance | Signaler une épreuve', function() {
+describe.skip('Acceptance | Signaler une épreuve', function() {
 
   let application;
 

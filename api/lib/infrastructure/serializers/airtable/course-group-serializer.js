@@ -13,8 +13,13 @@ class courseGroupSerializer extends AirtableSerializer {
     courseGroup.id = airtableRecord.id;
 
     if (airtableRecord.fields) {
-      courseGroup.name = airtableRecord.fields['nom'];
-      courseGroup.courses = airtableRecord.fields['tests'];
+      courseGroup.name = airtableRecord.fields['Nom'];
+      const arrayOfTestId = airtableRecord.fields['Tests'] || [];
+
+      courseGroup.courses = [];
+      arrayOfTestId.forEach((TestId) => {
+        courseGroup.courses.push({ id: TestId });
+      });
     }
 
     return courseGroup;

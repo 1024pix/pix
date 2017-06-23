@@ -1,43 +1,56 @@
-const { describe, it, before, afterEach, beforeEach, expect } = require('../../../test-helper');
+const { describe, it, before, afterEach, beforeEach, expect, sinon } = require('../../../test-helper');
 const Hapi = require('hapi');
 const CourseGroup = require('../../../../lib/domain/models/referential/course-group');
+const courseGroupRepository = require('../../../../lib/infrastructure/repositories/course-group-repository');
+const courseGroupSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/course-group-serializer');
 const cache = require('../../../../lib/infrastructure/cache');
+const server = require('../../../../server');
 
 describe('Unit | Controller | course-group-controller', function() {
 
-  let server;
-
-  before(function() {
-    server = this.server = new Hapi.Server();
-    server.connection({ port: null });
-    server.register({ register: require('../../../../lib/application/courses') });
-  });
+  const courseGroups = [
+    new CourseGroup({ id: 'serie1' }),
+    new CourseGroup({ id: 'serie2' }),
+    new CourseGroup({ id: 'serie3' })
+  ];
+  let courseGroupRepositoryListStub;
 
   beforeEach(function() {
     cache.flushAll();
+    courseGroupRepositoryListStub = sinon.stub(courseGroupRepository, 'list').resolves(courseGroups);
   });
 
   afterEach(function() {
     cache.flushAll();
+    courseGroupRepository.list.restore();
   });
 
   describe('#list', function() {
 
-    const series = [
-      new CourseGroup({ id: 'serie1' }),
-      new CourseGroup({ id: 'serie2' }),
-      new CourseGroup({ id: 'serie3' })
-    ];
-
-    it('should return all the courseGroups', function() {
+    it('should call the repository', function() {
       // given
 
       // when
-      server.inject({ method: 'GET', url: '/api/course-groups' }, (res) => {
-        // then
-        expect(res.result).to.deep.equal(series);
+      const promise = server.injectThen({ method: 'GET', url: '/api/course-groups' });
+
+      // Then
+      return promise.then(() => {
+        sinon.assert.calledOnce(courseGroupRepositoryListStub);
       });
 
     });
+
+    it('should return all the courseGroups', function() {
+      // when
+      const promise = server.injectThen({ method: 'GET', url: '/api/course-groups' });
+
+      // Then
+      return promise.then((res) => {
+        expect(res.result).to.deep.equal(courseGroupSerializer.serializeArray(courseGroups));
+      });
+
+    });
+
   });
 });
+
