@@ -2,7 +2,7 @@ import getChallenge from './routes/get-challenge';
 import getChallenges from './routes/get-challenges';
 import getNextChallenge from './routes/get-next-challenge';
 import getAssessmentSolutions from './routes/get-assessment-solutions';
-//import getCourse from './routes/get-course';
+import getCourse from './routes/get-course';
 import getCourses from './routes/get-courses';
 import getCoursesOfTheWeek from './routes/get-courses-of-the-week';
 import getAnswer from './routes/get-answer';
@@ -56,9 +56,12 @@ export default function() {
 
   //Courses
   this.get('/courses/:id', (schema, request) => {
+
     const id = request.params.id;
-    const course = schema.courses.find(id);
-    return course;
+    if (['ref_course_id', 'highligthed_course_id', 'ref_timed_challenge_course_id'].includes(id)) {
+      return getCourse(schema, request);
+    }
+    return schema.courses.find(id);
   });
 
   //

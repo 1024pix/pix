@@ -1,6 +1,6 @@
 /*------------header----------*/
 
-.series-page__header {
+.course-groups-page__header {
   background-image: linear-gradient(to bottom, #446eff, #001f8c), linear-gradient($pix-blue, $pix-blue);
   color: $white;
   display: flex;
@@ -17,7 +17,7 @@
 
 }
 
-.series-page__header-title {
+.course-groups-page__header-title {
   font-family: $font-raleway;
   font-weight: $font-extra-bold;
   text-align: center;
@@ -28,11 +28,11 @@
   }
 }
 
-.series-page__header-title__pix-span {
+.course-groups-page__header-title__pix-span {
   color: $marigold;
 }
 
-.series-page__header-description {
+.course-groups-page__header-description {
   font-family: $font-raleway;
   font-weight: $font-light;
   text-align: center;
@@ -49,31 +49,31 @@
 
 /*------------courseGroups----------*/
 
-.series-page__series {
+.course-groups-page__series {
   display: flex;
   flex-direction: column;
 }
 
-.series-page__series-item {
+.course-groups-page__series-item {
   max-width: max-content;
   margin: auto;
   margin-top: 35px;
   margin-bottom: 35px;
 }
 
-.series-page__series-name {
+.course-groups-page__series-name {
   font-family: $font-raleway;
   font-size: 22px;
   font-weight: $font-semi-bold;
   color: $pix-blue;
 }
 
-.series-page_series-line {
+.course-groups-page_series-line {
   margin-bottom: 10px;
   height: 2px;
   border: solid 1px #d7d7d7;
 }
 
-.series-page__courses {
+.course-groups-page__courses {
 
 }

@@ -1,20 +1,20 @@
-<div class="series-page">
+<div class="course-groups-page">
 
   {{navbar-header class="navbar-header--white"}}
 
-  <div class="series-page__header">
-    <div class="series-page__header-title">Le défi <span class="series-page__header-title__pix-span">pix</span></div>
-    <div class="series-page__header-description">Chaque semaine, tester vos compétences numériques sur un nouveau
+  <div class="course-groups-page__header">
+    <div class="course-groups-page__header-title">Le défi <span class="course-groups-page__header-title__pix-span">pix</span></div>
+    <div class="course-groups-page__header-description">Chaque semaine, tester vos compétences numériques sur un nouveau
       sujet
     </div>
   </div>
 
-  <div class="series-page__series">
+  <div class="course-groups-page__series">
     {{#each model as |serie|}}
-      <div class="series-page__series-item">
-        <div class="series-page__series-name">{{serie.name}}</div>
-        <div class="series-page_series-line"></div>
-        <div class="series-page__courses">{{course-list courses=serie.courses}}</div>
+      <div class="course-groups-page__series-item">
+        <div class="course-groups-page__series-name">{{serie.name}}</div>
+        <div class="course-groups-page_series-line"></div>
+        <div class="course-groups-page__courses">{{course-list courses=serie.courses}}</div>
       </div>
     {{/each}}
   </div>
