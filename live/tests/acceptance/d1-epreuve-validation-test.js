@@ -8,7 +8,7 @@ function visitTimedChallenge() {
   click('.challenge-item-warning button');
 }
 
-describe.skip('Acceptance | d1 - Valider une épreuve |', function() {
+describe('Acceptance | d1 - Valider une épreuve |', function() {
 
   let application;
   const PROGRESS_BAR_SELECTOR = '.pix-progress-bar';

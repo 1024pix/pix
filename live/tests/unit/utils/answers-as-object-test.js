@@ -2,7 +2,7 @@ import answersAsObject from 'pix-live/utils/answers-as-object';
 import { expect } from 'chai';
 import { describe, it } from 'mocha';
 
-describe.skip('Unit | Utility | answers as object', function() {
+describe('Unit | Utility | answers as object', function() {
 
   describe('#answersAsObject', function() {
 

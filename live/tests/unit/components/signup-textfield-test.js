@@ -7,7 +7,7 @@ const EMPTY_LASTNAME_ERROR_MESSAGE = 'Votre nom n’est pas renseigné.';
 const INCORRECT_PASSWORD_FORMAT_ERROR_MESSAGE = 'Votre mot de passe doit comporter au moins une lettre, un chiffre et' +
   ' 8 caractères.';
 
-describe.skip('Unit | Component | signupTextfieldComponent', function() {
+describe('Unit | Component | signupTextfieldComponent', function() {
 
   setupTest('component:signup-textfield', {});
 

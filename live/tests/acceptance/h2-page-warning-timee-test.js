@@ -7,7 +7,7 @@ const TIMED_CHALLENGE_URL = '/assessments/ref_assessment_id/challenges/ref_qcm_c
 const NOT_TIMED_CHALLENGE_URL = '/assessments/ref_assessment_id/challenges/ref_qcu_challenge_id';
 const CHALLENGE_ITEM_WARNING_BUTTON = '.challenge-item-warning button';
 
-describe.skip('Acceptance | h2 - Warning prochaine page timée  | ', function() {
+describe('Acceptance | h2 - Warning prochaine page timée  | ', function() {
 
   let application;
 

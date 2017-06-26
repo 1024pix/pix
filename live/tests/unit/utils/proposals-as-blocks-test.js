@@ -2,7 +2,7 @@ import { expect } from 'chai';
 import { describe, it } from 'mocha';
 import proposalsAsBlocks from 'pix-live/utils/proposals-as-blocks';
 
-describe.skip('Unit | Utility | proposals as blocks', function() {
+describe('Unit | Utility | proposals as blocks', function() {
 
   const testData = [
     { data: '', expected: [] },

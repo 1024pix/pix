@@ -2,7 +2,7 @@ import { expect } from 'chai';
 import { describe, it } from 'mocha';
 import { convertToHtml } from 'pix-live/helpers/convert-to-html';
 
-describe.skip('Unit | Helpers | ConvertToHtmlHelper', function() {
+describe('Unit | Helpers | ConvertToHtmlHelper', function() {
 
   it('works', function() {
     const boldSentence = convertToHtml(['**a bold sentence**']);

@@ -2,7 +2,7 @@ import { expect } from 'chai';
 import { describe, it } from 'mocha';
 import { setupModelTest } from 'ember-mocha';
 
-describe.skip('Unit | Model | Course-group', function() {
+describe('Unit | Model | Course-group', function() {
 
   setupModelTest('course-group', {
     needs: ['model:course']

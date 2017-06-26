@@ -2,7 +2,7 @@ import { expect } from 'chai';
 import { describe, it } from 'mocha';
 import { setupTest } from 'ember-mocha';
 
-describe.skip('Unit | Component | timeout-jauge-component ', function() {
+describe('Unit | Component | timeout-jauge-component ', function() {
 
   setupTest('component:timeout-jauge', {});
 

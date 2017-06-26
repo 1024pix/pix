@@ -3,7 +3,7 @@ import { expect } from 'chai';
 import { describe, it } from 'mocha';
 import { setupTest } from 'ember-mocha';
 
-describe.skip('Unit | Service | AssessmentService', function() {
+describe('Unit | Service | AssessmentService', function() {
 
   setupTest('service:assessment', {
     needs: ['model:assessment', 'model:challenge', 'model:course', 'model:answer']

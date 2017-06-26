@@ -2,7 +2,7 @@ import { expect } from 'chai';
 import { describe, it } from 'mocha';
 import solutionAsObject from 'pix-live/utils/solution-as-object';
 
-describe.skip('Unit | Utility | solution as object', function() {
+describe('Unit | Utility | solution as object', function() {
 
   describe('#solutionsAsObject', function() {
 

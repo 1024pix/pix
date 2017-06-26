@@ -2,7 +2,7 @@ import { expect } from 'chai';
 import { describe, it } from 'mocha';
 import { setupTest } from 'ember-mocha';
 
-describe.skip('Unit | Adapters | solution', function() {
+describe('Unit | Adapters | solution', function() {
 
   setupTest('adapter:solution', {});
 

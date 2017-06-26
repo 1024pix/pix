@@ -2,7 +2,7 @@ import { expect } from 'chai';
 import { describe, it, beforeEach } from 'mocha';
 import { setupTest } from 'ember-mocha';
 
-describe.skip('Unit | Component | qrocm-solution-panel', function() {
+describe('Unit | Component | qrocm-solution-panel', function() {
 
   setupTest('component:qrocm-ind-solution-panel', {});
 

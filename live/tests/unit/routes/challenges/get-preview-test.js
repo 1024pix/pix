@@ -2,7 +2,7 @@ import { expect } from 'chai';
 import { describe, it } from 'mocha';
 import { setupTest } from 'ember-mocha';
 
-describe.skip('Unit | Route | challenges.get-preview', function() {
+describe('Unit | Route | challenges.get-preview', function() {
 
   setupTest('route:challenges.get-preview', {
     needs: ['service:current-routed-modal']

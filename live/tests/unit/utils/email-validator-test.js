@@ -2,7 +2,7 @@ import {expect} from 'chai';
 import {describe, it} from 'mocha';
 import isEmailValid from 'pix-live/utils/email-validator';
 
-describe.skip('Unit | Utility | email validator', function() {
+describe('Unit | Utility | email validator', function() {
   describe('Invalid emails', function() {
     [
       '',

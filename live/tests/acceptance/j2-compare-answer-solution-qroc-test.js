@@ -3,7 +3,7 @@ import { expect } from 'chai';
 import startApp from '../helpers/start-app';
 import destroyApp from '../helpers/destroy-app';
 
-describe.skip('Acceptance | j2 - Comparer réponses et solutions pour un QROC | ', function() {
+describe('Acceptance | j2 - Comparer réponses et solutions pour un QROC | ', function() {
 
   const RESULT_URL = '/assessments/ref_assessment_id/results';
   const COMPARISON_MODAL_URL = '/assessments/ref_assessment_id/results/compare/ref_answer_qroc_id/4';

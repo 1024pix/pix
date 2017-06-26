@@ -7,7 +7,7 @@ import Ember from 'ember';
 const FEEDBACK_FORM = '.feedback-panel__view--form';
 const LINK_OPEN_FORM = '.feedback-panel__view--link';
 
-describe.skip('Integration | Component | comparison-window', function() {
+describe('Integration | Component | comparison-window', function() {
 
   setupComponentTest('comparison-window', {
     integration: true

@@ -3,7 +3,7 @@ import { expect } from 'chai';
 import { describe, it } from 'mocha';
 import { getChallengeComponentClass } from 'pix-live/helpers/get-challenge-component-class';
 
-describe.skip('Unit | Helper | get challenge component class', function() {
+describe('Unit | Helper | get challenge component class', function() {
 
   [
     { challengeType: 'QCU', expectedClass: 'challenge-item-qcu' },

@@ -9,7 +9,7 @@ const URL_OF_FIRST_TEST = '/assessments/ref_assessment_id/challenges/ref_qcm_cha
 const MODAL_SELECTOR = '.modal.fade.js-modal-mobile.in';
 const START_BUTTON = '.course-item__begin-button';
 
-describe.skip('Acceptance | a4 - Démarrer un test |', function() {
+describe('Acceptance | a4 - Démarrer un test |', function() {
 
   let application;
 

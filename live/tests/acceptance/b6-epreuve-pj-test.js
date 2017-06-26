@@ -8,7 +8,7 @@ function visitTimedChallenge() {
   click('.challenge-item-warning button');
 }
 
-describe.skip('Acceptance | b6 - Télécharger une pièce jointe depuis la consigne d\'une épreuve | ', function() {
+describe('Acceptance | b6 - Télécharger une pièce jointe depuis la consigne d\'une épreuve | ', function() {
 
   let application;
 

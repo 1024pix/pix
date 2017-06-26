@@ -28,7 +28,7 @@ const answerWithRandomResult = {
   result: 'RANDOM_RESULT'
 };
 
-describe.skip('Unit | Component | result-item-component', function() {
+describe('Unit | Component | result-item-component', function() {
 
   setupTest('component:result-item', {});
 

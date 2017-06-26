@@ -3,7 +3,7 @@ import { expect } from 'chai';
 import startApp from '../helpers/start-app';
 import destroyApp from '../helpers/destroy-app';
 
-describe.skip('Acceptance | f1 - Prévisualisation  d\'un test |', function() {
+describe('Acceptance | f1 - Prévisualisation  d\'un test |', function() {
 
   let application;
 

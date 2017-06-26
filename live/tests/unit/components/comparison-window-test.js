@@ -11,7 +11,7 @@ function _assertResultItemTooltip(resultItem, expected) {
   expect(resultItem.tooltip).to.equal(expected);
 }
 
-describe.skip('Unit | Component | comparison-window', function() {
+describe('Unit | Component | comparison-window', function() {
 
   setupTest('component:comparison-window', {
     needs: ['service:current-routed-modal', 'initializer:jquery-tabbable']

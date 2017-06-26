@@ -3,7 +3,7 @@ import { expect } from 'chai';
 import startApp from '../helpers/start-app';
 import destroyApp from '../helpers/destroy-app';
 
-describe.skip('Acceptance | b3 - Afficher un QROC | ', function() {
+describe('Acceptance | b3 - Afficher un QROC | ', function() {
 
   let application;
 

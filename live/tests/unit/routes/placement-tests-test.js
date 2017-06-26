@@ -2,7 +2,7 @@ import { expect } from 'chai';
 import { describe, it } from 'mocha';
 import { setupTest } from 'ember-mocha';
 
-describe.skip('Unit | Route | placement-tests', function() {
+describe('Unit | Route | placement-tests', function() {
 
   setupTest('route:placement-tests', {
     needs: ['service:delay', 'service:current-routed-modal']

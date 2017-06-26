@@ -2,7 +2,7 @@ import {expect} from 'chai';
 import {describe, it} from 'mocha';
 import {eq} from 'pix-live/helpers/eq';
 
-describe.skip('Unit | Helper | Eq', function() {
+describe('Unit | Helper | Eq', function() {
   // Replace this with your real tests.
   [
     {input: '', output: false},

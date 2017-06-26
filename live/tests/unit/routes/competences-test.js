@@ -2,7 +2,7 @@ import { expect } from 'chai';
 import { describe, it } from 'mocha';
 import { setupTest } from 'ember-mocha';
 
-describe.skip('Unit | Route | competences', function() {
+describe('Unit | Route | competences', function() {
 
   setupTest('route:competences', {
     needs: ['service:panelActions', 'service:current-routed-modal']

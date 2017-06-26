@@ -2,7 +2,7 @@ import { expect } from 'chai';
 import { describe, it } from 'mocha';
 import _ from 'pix-live/utils/lodash-custom';
 
-describe.skip('Unit | Utility | lodash custom', function() {
+describe('Unit | Utility | lodash custom', function() {
 
   describe('#isNonEmptyString', function() {
 

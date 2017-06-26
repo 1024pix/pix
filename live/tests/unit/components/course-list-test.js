@@ -2,7 +2,7 @@ import { expect } from 'chai';
 import { describe, it, beforeEach } from 'mocha';
 import { setupTest } from 'ember-mocha';
 
-describe.skip('Unit | Component | course list', function() {
+describe('Unit | Component | course list', function() {
 
   setupTest('component:course-list', {});
 
