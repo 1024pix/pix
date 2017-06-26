@@ -18,7 +18,7 @@ class courseGroupSerializer extends AirtableSerializer {
 
       courseGroup.courses = [];
       arrayOfTestId.forEach((TestId) => {
-        courseGroup.courses.push({ id: TestId });
+        courseGroup.courses.push({ id: TestId  });
       });
     }
 

@@ -28,6 +28,25 @@ class courseGroupSerializer extends JSONAPISerializer {
     }
   }
 
+  serializeIncluded(model, data) {
+
+    if (model.courses) {
+      data.included = [];
+      for (const course of model.courses) {
+        data.included.push({
+          'type' : 'course',
+          'id' : course.id,
+          attributes: {
+            'name' : course.name,
+            'description' : course.description,
+            'imageUrl' : course.imageUrl
+          }
+        });
+      }
+    }
+
+  }
+
   deserialize() {}
 
 }
