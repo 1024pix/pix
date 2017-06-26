@@ -1,6 +1,6 @@
 {
   "name": "pix-api",
-  "version": "1.12.0",
+  "version": "1.13.0",
   "description": "Plateforme d'évaluation et de certification des compétences numériques à l'usage de tous les citoyens francophones",
   "main": "server.js",
   "author": "SGMAP",
@@ -28,6 +28,7 @@
     "hapi": "16.1.0",
     "hapi-swagger": "7.7.0",
     "inert": "4.1.0",
+    "jsonwebtoken": "^7.4.1",
     "knex": "0.12.7",
     "lodash": "4.17.4",
     "moment": "2.17.1",

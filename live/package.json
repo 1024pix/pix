@@ -1,6 +1,6 @@
 {
   "name": "pix-live",
-  "version": "1.12.0",
+  "version": "1.13.0",
   "description": "Plateforme d'évaluation et de certification des compétences numériques à l'usage de tous les citoyens francophones.",
   "license": "AGPL-3.0",
   "author": "SGMAP",
@@ -63,6 +63,7 @@
     "ember-resolver": "^4.1.0",
     "ember-routable-modal": "dbbk/ember-routable-modal#9839af4",
     "ember-route-action-helper": "^2.0.3",
+    "ember-simple-auth": "^1.3.0",
     "ember-source": "^2.12.2",
     "ember-tabbable": "^0.1.3",
     "eslint": "^3.19.0",

@@ -1,3 +1,5 @@
+const _ = require('lodash');
+
 function _buildError(field, message) {
   return {
     'status': '400',
@@ -5,6 +7,15 @@ function _buildError(field, message) {
     'detail': message,
     'source': {'pointer': '/data/attributes/' + _toKebabCase(field)},
     'meta': {field},
+  };
+}
+
+function _buildEntirePayloadError(message) {
+  return {
+    'status': '400',
+    'title': 'Invalid Payload',
+    'detail': message,
+    'source': {'pointer': '/data/attributes' },
   };
 }
 
@@ -16,9 +27,17 @@ function serialize(validationErrors) {
   const errors = [];
 
   Object.keys(validationErrors.data).forEach(function(field) {
+
     validationErrors.data[field].forEach((message) => {
-      errors.push(_buildError(field, message));
+
+      if(_.isEmpty(field)) {
+        errors.push(_buildEntirePayloadError(message));
+      } else {
+        errors.push(_buildError(field, message));
+      }
+
     });
+
   });
 
   return {
