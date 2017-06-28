@@ -7,6 +7,7 @@ import getCourses from './routes/get-courses';
 import getCoursesOfTheWeek from './routes/get-courses-of-the-week';
 import getAnswer from './routes/get-answer';
 import postAnswers from './routes/post-answers';
+import patchAnswer from './routes/patch-answer';
 import getAssessment from './routes/get-assessment';
 import postAssessments from './routes/post-assessments';
 import getAnswerByChallengeAndAssessment from './routes/get-answer-by-challenge-and-assessment';
@@ -45,6 +46,7 @@ export default function() {
   this.post('/answers', postAnswers);
   this.get('/answers/:id', getAnswer);
   this.get('/answers', getAnswerByChallengeAndAssessment);
+  this.patch('/answers/:id', patchAnswer);
 
   this.post('/feedbacks', postFeedbacks);
 

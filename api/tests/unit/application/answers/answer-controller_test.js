@@ -1,4 +1,4 @@
-const { describe, it, before, expect, sinon } = require('../../../test-helper');
+const { describe, it, before, afterEach, expect, knex, sinon } = require('../../../test-helper');
 const Hapi = require('hapi');
 const Answer = require('../../../../lib/domain/models/data/answer');
 const solutionRepository = require('../../../../lib/infrastructure/repositories/solution-repository');
@@ -54,6 +54,10 @@ describe('Unit | Controller | answer-controller', function() {
     assessmentId: 12,
     challengeId: 'recdTpx4c0kPPDTtf',
     timeout: null
+  });
+
+  afterEach(function(done) {
+    knex('answers').delete().then(() => done());
   });
 
   describe('#save', function() {

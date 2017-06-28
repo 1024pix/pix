@@ -1,7 +1,7 @@
 import Ember from 'ember';
 import DS from 'ember-data';
 
-const { Model, attr } = DS;
+const { Model, attr, belongsTo } = DS;
 
 export default Model.extend({
 
@@ -13,9 +13,10 @@ export default Model.extend({
   type: attr('string'),
 
   attachments: attr('array'),
+  answer: belongsTo('answer'),
+
   hasAttachment: Ember.computed.notEmpty('attachments'),
   hasSingleAttachment: Ember.computed.equal('attachments.length', 1),
   hasMultipleAttachments: Ember.computed.gt('attachments.length', 1),
   hasTimer: Ember.computed.notEmpty('timer')
-
 });

@@ -33,23 +33,24 @@ export default BaseRoute.extend({
     };
   },
 
-  _createAnswer(answerValue, answerTimeout, currentChallenge, assessment, answerElapsedTime) {
-    return this.get('store').createRecord('answer', {
-      value: answerValue,
-      timeout: answerTimeout,
-      challenge: currentChallenge,
-      elapsedTime: answerElapsedTime,
-      assessment
-    });
+  _findOrCreateAnswer(challenge, assessment) {
+    let answer = assessment.get('answers').findBy('challenge.id', challenge.get('id'));
+    if (!answer) {
+      answer = this.get('store').createRecord('answer', {
+        assessment: assessment,
+        challenge:  challenge
+      });
+    }
+    return answer;
   },
 
-  _urlForNextChallenge(adapter, assessmentId, currentChallengeId) {
-    return adapter.buildURL('assessment', assessmentId) + '/next/' + currentChallengeId;
+  _urlForNextChallenge(adapter, assessmentId, challengeId) {
+    return adapter.buildURL('assessment', assessmentId) + '/next/' + challengeId;
   },
 
-  _navigateToNextView(currentChallenge, assessment) {
+  _navigateToNextView(challenge, assessment) {
     const adapter = this.get('store').adapterFor('application');
-    return adapter.ajax(this._urlForNextChallenge(adapter, assessment.get('id'), currentChallenge.get('id')), 'GET')
+    return adapter.ajax(this._urlForNextChallenge(adapter, assessment.get('id'), challenge.get('id')), 'GET')
       .then(nextChallenge => {
         if (nextChallenge) {
           return this.transitionTo('assessments.get-challenge', assessment.get('id'), nextChallenge.data.id);
@@ -61,11 +62,20 @@ export default BaseRoute.extend({
 
   actions: {
 
-    saveAnswerAndNavigate(currentChallenge, assessment, answerValue, answerTimeout, answerElapsedTime) {
-      const answer = this._createAnswer(answerValue, answerTimeout, currentChallenge, assessment, answerElapsedTime);
-      return answer.save().then(() => {
-        return this._navigateToNextView(currentChallenge, assessment);
+    saveAnswerAndNavigate(challenge, assessment, answerValue, answerTimeout, answerElapsedTime) {
+      const answer = this._findOrCreateAnswer(challenge, assessment);
+      answer.setProperties({
+        value:       answerValue,
+        timeout:     answerTimeout,
+        elapsedTime: answerElapsedTime
       });
+      return answer.save()
+        .then(() => {
+          return this._navigateToNextView(challenge, assessment);
+        }).catch((err) => {
+          alert(`Erreur lors de l’enregistrement de la réponse : ${err}`);
+          return err;
+        });
     }
   },
 

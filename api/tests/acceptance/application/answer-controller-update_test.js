@@ -8,40 +8,60 @@ describe('Acceptance | Controller | answer-controller', function() {
     server.stop(done);
   });
 
-  describe('POST /api/answers (update)', function() {
+  describe('PATCH /api/answers/:id', function() {
 
-    const options = {
-      method: 'POST', url: '/api/answers', payload: {
-        data: {
-          type: 'answer',
-          attributes: {
-            value: '1',
-            'elapsed-time': 100
-          },
-          relationships: {
-            assessment: {
-              data: {
-                type: 'assessment',
-                id: 'assessment_id'
-              }
-            },
-            challenge: {
-              data: {
-                type: 'challenge',
-                id: 'a_challenge_id'
-              }
-            }
-          }
-        }
-      }
+    let options;
+    let insertedAnswerId;
+
+    const insertedAnswer = {
+      value: '2',
+      elapsedTime: 100,
+      timeout: 0,
+      result: 'pending',
+      resultDetails: null,
+      challengeId: 'recLt9uwa2dR3IYpi',
+      assessmentId: '12345'
+    };
+    const updatedAnswerAttributes = {
+      'value': '1',
+      'elapsed-time': 200,
+      'timeout': 0,
+      'result': 'ok',
+      'result-details': null
     };
 
     beforeEach(function(done) {
-      knex('answers').delete().then(() => {
-        server.inject(options, () => {
+      knex('answers').delete()
+        .then(() => knex('answers').insert([insertedAnswer]))
+        .then((id) => {
+          insertedAnswerId = id;
+          options = {
+            method: 'PATCH',
+            url: `/api/answers/${insertedAnswerId}`,
+            payload: {
+              data: {
+                type: 'answer',
+                id: insertedAnswerId,
+                attributes: updatedAnswerAttributes,
+                relationships: {
+                  assessment: {
+                    data: {
+                      type: 'assessment',
+                      id: insertedAnswer.assessmentId
+                    }
+                  },
+                  challenge: {
+                    data: {
+                      type: 'challenge',
+                      id: insertedAnswer.challengeId
+                    }
+                  }
+                }
+              }
+            }
+          };
           done();
         });
-      });
     });
     afterEach(function(done) {
       knex('answers').delete().then(() => {
@@ -51,7 +71,7 @@ describe('Acceptance | Controller | answer-controller', function() {
 
     before(function(done) {
       nock('https://api.airtable.com')
-        .get('/v0/test-base/Epreuves/a_challenge_id')
+        .get(`/v0/test-base/Epreuves/${insertedAnswer.challengeId}?`)
         .times(5)
         .reply(200, {
           'id': 'recLt9uwa2dR3IYpi',
@@ -79,7 +99,7 @@ describe('Acceptance | Controller | answer-controller', function() {
       });
     });
 
-    it('should not add a new answer into the database', function(done) {
+    it('should not create a new answer into the database', function(done) {
       server.inject(options, () => {
         Answer.count().then((afterAnswersNumber) => {
           expect(afterAnswersNumber).to.equal(1);
@@ -88,7 +108,28 @@ describe('Acceptance | Controller | answer-controller', function() {
       });
     });
 
-    it('should return updated answer', function(done) {
+    it('should update the answer in the database', function(done) {
+      // when
+      server.inject(options, () => {
+        new Answer()
+          .fetch()
+          .then(function(model) {
+
+            // then
+            expect(model.id).to.be.a('number');
+            expect(model.get('value')).to.equal(options.payload.data.attributes['value']);
+            expect(model.get('elapsedTime')).to.equal(options.payload.data.attributes['elapsed-time']);
+            expect(model.get('timeout')).to.equal(options.payload.data.attributes['timeout']);
+            expect(model.get('result')).to.equal(options.payload.data.attributes['result']);
+            expect(model.get('resultDetails')).to.equal('null\n');
+            expect(model.get('assessmentId').toString()).to.equal(options.payload.data.relationships.assessment.data.id);
+            expect(model.get('challengeId')).to.equal(options.payload.data.relationships.challenge.data.id);
+            done();
+          });
+      });
+    });
+
+    it('should return the updated answer', function(done) {
       // when
       server.inject(options, (response) => {
         const answer = response.result.data;
@@ -96,20 +137,15 @@ describe('Acceptance | Controller | answer-controller', function() {
         new Answer()
           .fetch()
           .then(function(model) {
-            expect(model.id).to.be.a('number');
-            expect(model.get('value')).to.equal(options.payload.data.attributes.value);
-            expect(model.get('elapsedTime')).to.equal(options.payload.data.attributes['elapsed-time']);
-            expect(model.get('result')).to.equal('ok');
-            expect(model.get('resultDetails')).to.equal('null\n');
-            expect(model.get('assessmentId')).to.equal(options.payload.data.relationships.assessment.data.id);
-            expect(model.get('challengeId')).to.equal(options.payload.data.relationships.challenge.data.id);
 
             // then
             expect(answer.id).to.equal(model.id);
             expect(answer.id).to.equal(response.result.data.id);
-            expect(answer.attributes.value).to.equal(model.get('value'));
-            expect(answer.attributes.result).to.equal(model.get('result'));
-            expect(answer.relationships.assessment.data.id).to.equal(model.get('assessmentId'));
+            expect(answer.attributes['value']).to.equal(model.get('value'));
+            expect(answer.attributes['elapsed-time']).to.equal(model.get('elapsedTime'));
+            expect(answer.attributes['timeout']).to.equal(model.get('timeout'));
+            expect(answer.attributes['result']).to.equal(model.get('result'));
+            expect(answer.relationships.assessment.data.id).to.equal(model.get('assessmentId').toString());
             expect(answer.relationships.challenge.data.id).to.equal(model.get('challengeId'));
 
             done();

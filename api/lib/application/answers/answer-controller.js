@@ -18,8 +18,8 @@ function _updateExistingAnswer(existingAnswer, newAnswer, reply) {
           value: newAnswer.get('value'),
           timeout: newAnswer.get('timeout'),
           elapsedTime: newAnswer.get('elapsedTime'),
-          challengeId: existingAnswer.get('challengeId'),
-          assessmentId: existingAnswer.get('assessmentId')
+          challengeId: newAnswer.get('challengeId'),
+          assessmentId: newAnswer.get('assessmentId')
         }, { method: 'update' })
         .then((updatedAnswer) => {
           return reply(answerSerializer.serialize(updatedAnswer)).code(200);
@@ -32,12 +32,16 @@ function _saveNewAnswer(newAnswer, reply) {
   solutionRepository
     .get(newAnswer.get('challengeId'))
     .then((solution) => {
-      const answerValidation = solutionService.validate(newAnswer, solution);
-      newAnswer.set('result', answerValidation.result);
-      newAnswer.set('resultDetails', jsYaml.safeDump(answerValidation.resultDetails));
-      newAnswer.set('timeout', newAnswer.get('timeout'));
-      newAnswer.set('elapsedTime', newAnswer.get('elapsedTime'));
-      newAnswer.save()
+      const answerCorrectness = solutionService.validate(newAnswer, solution);
+      newAnswer.save({
+        result: answerCorrectness.result,
+        resultDetails: jsYaml.safeDump(answerCorrectness.resultDetails),
+        value: newAnswer.get('value'),
+        timeout: newAnswer.get('timeout'),
+        elapsedTime: newAnswer.get('elapsedTime'),
+        challengeId: newAnswer.get('challengeId'),
+        assessmentId: newAnswer.get('assessmentId')
+      }, { method: 'insert' })
         .then((newAnswer) => reply(answerSerializer.serialize(newAnswer)).code(201))
         .catch((err) => reply(Boom.badImplementation(err)));
     });
@@ -51,10 +55,10 @@ module.exports = {
     answerRepository
       .findByChallengeAndAssessment(newAnswer.get('challengeId'), newAnswer.get('assessmentId'))
       .then(existingAnswer => {
-        if (!existingAnswer) {
-          return _saveNewAnswer(newAnswer, reply);
+        if (existingAnswer) {
+          return reply(Boom.conflict(`An answer with id ${existingAnswer.get('id')} already exists.`));
         }
-        return _updateExistingAnswer(existingAnswer, newAnswer, reply);
+        return _saveNewAnswer(newAnswer, reply);
       });
   },
 
@@ -63,6 +67,19 @@ module.exports = {
     new Answer({ id: request.params.id })
       .fetch()
       .then((answer) => reply(answerSerializer.serialize(answer)));
+  },
+
+  update(request, reply) {
+
+    const updatedAnswer = answerSerializer.deserialize(request.payload);
+    answerRepository
+      .findByChallengeAndAssessment(updatedAnswer.get('challengeId'), updatedAnswer.get('assessmentId'))
+      .then(existingAnswer => {
+        if (!existingAnswer) {
+          return reply(Boom.notFound());
+        }
+        return _updateExistingAnswer(existingAnswer, updatedAnswer, reply);
+      });
   },
 
   findByChallengeAndAssessment(request, reply) {
