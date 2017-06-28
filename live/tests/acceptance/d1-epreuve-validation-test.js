@@ -1,4 +1,4 @@
-import { describe, it, before, after } from 'mocha';
+import { describe, it, beforeEach, afterEach } from 'mocha';
 import { expect } from 'chai';
 import startApp from '../helpers/start-app';
 import destroyApp from '../helpers/destroy-app';
@@ -12,12 +12,12 @@ describe('Acceptance | d1 - Valider une épreuve |', function() {
 
   let application;
   const PROGRESS_BAR_SELECTOR = '.pix-progress-bar';
-  before(function() {
+  beforeEach(function() {
     application = startApp();
     visitTimedChallenge();
   });
 
-  after(function() {
+  afterEach(function() {
     destroyApp(application);
   });
 
@@ -26,9 +26,11 @@ describe('Acceptance | d1 - Valider une épreuve |', function() {
     expect($progressBar.text().trim()).to.equal('1 / 5');
   });
 
-  it('d1.0b La barre de progression commence à 1, si j\'accède au challenge depuis depuis le lien Airtable', async function() {
+  it('d1.0b La barre de progression commence à 1, si j\'accède directement à un course', async function() {
+    // When
     await visit('/courses/ref_course_id');
-    await click('.challenge-item-warning button');
+
+    // Then
     const $progressBar = findWithAssert(PROGRESS_BAR_SELECTOR);
     expect($progressBar.text().trim()).to.equal('1 / 5');
   });
@@ -45,7 +47,14 @@ describe('Acceptance | d1 - Valider une épreuve |', function() {
       expect(currentURL()).to.contain('/assessments/ref_assessment_id/challenges/ref_qcu_challenge_id');
     });
 
-    it('d1.4 La barre de progression avance d\'une unité, de 1 à 2.', function() {
+    it('d1.4 La barre de progression avance d\'une unité, de 1 à 2.', async function() {
+      // Given
+      await click('.proposal-text');
+
+      // When
+      await click('.challenge-actions__action-validate');
+
+      // Then
       const expectedText = '2';
       expect(findWithAssert('.pix-progress-bar').text()).to.contain(expectedText);
     });

@@ -10,11 +10,12 @@
   </div>
 
   <div class="course-groups-page__series">
-    {{#each model as |serie|}}
+    {{#each model as |courseGroup|}}
       <div class="course-groups-page__series-item">
-        <div class="course-groups-page__series-name">{{serie.name}}</div>
+        <div class="course-groups-page__series-name">{{courseGroup.name}}</div>
         <div class="course-groups-page_series-line"></div>
-        <div class="course-groups-page__courses">{{course-list courses=serie.courses}}</div>
+
+        <div class="course-groups-page__courses">{{course-list courses=courseGroup.courses startCourse='startCourse'}}</div>
       </div>
     {{/each}}
   </div>

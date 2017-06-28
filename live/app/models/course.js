@@ -14,10 +14,6 @@ export default Model.extend({
   getProgress(challenge) {
     const challengeIndex = this.get('challenges').indexOf(challenge);
 
-    if (challengeIndex === -1) {
-      throw new RangeError('challenge ne fait pas partie de course');
-    }
-
     const currentStep = 1 + challengeIndex;
     const maxStep = this.get('challenges.length');
     const stepPercentage = currentStep / maxStep * 100;

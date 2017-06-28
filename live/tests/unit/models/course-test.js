@@ -51,17 +51,6 @@ describe('Unit | Model | Course', function() {
         expect(course.getProgress(challenge2)).to.have.property('currentStep', 2);
       });
     });
-
-    it('throw an Error when challenge is not part of course', function() {
-      Ember.run(() => {
-        // given
-        const store = this.store();
-        const challengeInCourse = store.createRecord('challenge', {});
-        const challengeOutsideCourse = store.createRecord('challenge', {});
-        const course = this.subject({ challenges: [challengeInCourse] });
-
-        expect(() => course.getProgress(challengeOutsideCourse)).to.throw(RangeError);
-      });
-    });
+    
   });
 });

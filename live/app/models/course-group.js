@@ -1,8 +1,8 @@
 import DS from 'ember-data';
 
-const { attr, hasMany } = DS;
+const { Model, attr, hasMany } = DS;
 
-export default DS.Model.extend({
+export default Model.extend({
   name : attr('string'),
-  courses : hasMany('course')
+  courses : hasMany('course', { inverse: null })
 });
