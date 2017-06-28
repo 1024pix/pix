@@ -30,7 +30,6 @@ class JSONAPISerializer {
     data.attributes = {};
     this.serializeAttributes(entity, data);
     this.serializeRelationships(entity, data);
-    this.serializeIncluded(entity, data);
     return data;
   }
 
