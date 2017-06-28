@@ -6,48 +6,70 @@ class courseGroupSerializer extends JSONAPISerializer {
     super('course-group');
   }
 
-  serializeAttributes(model, data) {
-    data.attributes['name'] = model.name;
+  serialize(modelObject) {
+    const response = super.serialize(modelObject);
+    response.included = [];
+    if (modelObject.courses) {
+      for (const course of modelObject.courses) {
+        response.included.push(this.serializeIncluded(course));
+      }
+    }
 
+    return response;
   }
 
-  serializeRelationships(model, data) {
+  serializeArray(modelObjects) {
+    const response = {};
+    response.data = [];
+    response.included = [];
+    for (const modelObject of modelObjects) {
+      response.data.push(this.serializeModelObject(modelObject));
+
+      if (modelObject.courses) {
+        for (const course of modelObject.courses) {
+          response.included.push(this.serializeIncluded(course));
+        }
+      }
+    }
+    return response;
+  }
+
+  serializeAttributes(model, serializedModel) {
+    serializedModel.attributes['name'] = model.name;
+  }
+
+  serializeRelationships(model, serializedModel) {
 
     if (model.courses) {
-      data.relationship = {
+      serializedModel.relationships = {
         courses: {
           data: []
         }
       };
+
       for (const course of model.courses) {
-        data.relationship.courses.data.push({
-          'id' : course.id,
-          'type': 'course'
+        serializedModel.relationships.courses.data.push({
+          'id': course.id,
+          'type': 'courses'
         });
       }
     }
   }
 
-  serializeIncluded(model, data) {
-
-    if (model.courses) {
-      data.included = [];
-      for (const course of model.courses) {
-        data.included.push({
-          'type' : 'course',
-          'id' : course.id,
-          attributes: {
-            'name' : course.name,
-            'description' : course.description,
-            'imageUrl' : course.imageUrl
-          }
-        });
+  serializeIncluded(course) {
+    return {
+      'type': 'courses',
+      'id': course.id,
+      attributes: {
+        'name': course.name,
+        'description': course.description,
+        'image-url': course.imageUrl
       }
-    }
-
+    };
   }
 
-  deserialize() {}
+  deserialize() {
+  }
 
 }
 

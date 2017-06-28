@@ -1,5 +1,4 @@
-const { describe, it, before, afterEach, beforeEach, expect, sinon } = require('../../../test-helper');
-const Hapi = require('hapi');
+const { describe, it, afterEach, beforeEach, expect, sinon } = require('../../../test-helper');
 const CourseGroup = require('../../../../lib/domain/models/referential/course-group');
 const courseGroupRepository = require('../../../../lib/infrastructure/repositories/course-group-repository');
 const courseRepository = require('../../../../lib/infrastructure/repositories/course-repository');
@@ -105,27 +104,26 @@ describe('Unit | Controller | course-group-controller', function() {
                 'attributes': {
                   'name': 'OTTO'
                 },
-                'relationship': {
+                'relationships': {
                   'courses': {
                     'data': [
                       {
                         'id': 'test1',
-                        'type': 'course'
+                        'type': 'courses'
                       }
                     ]
                   }
-                },
-                'included': [
-                  {
-                    'type': 'course',
-                    'id': 'test1',
-                    'attributes': {
-                      'description': 'Description du course 1',
-                      'imageUrl': 'image/url.jpg',
-                      'name': 'Test 1',
-                    }
-                  }
-                ]
+                }
+              }],
+            'included': [
+              {
+                'type': 'courses',
+                'id': 'test1',
+                'attributes': {
+                  'description': 'Description du course 1',
+                  'image-url': 'image/url.jpg',
+                  'name': 'Test 1',
+                }
               }
             ]
           }
@@ -134,5 +132,6 @@ describe('Unit | Controller | course-group-controller', function() {
 
     });
   });
-});
+})
+;
 

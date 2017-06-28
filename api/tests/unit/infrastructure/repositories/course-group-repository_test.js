@@ -102,7 +102,7 @@ describe('Unit | Repository | course-group-repository', function() {
         cache.get.restore();
         expect(result).to.be.rejectedWith(cacheErrorMessage);
         done();
-      })
+      });
 
     });
 
