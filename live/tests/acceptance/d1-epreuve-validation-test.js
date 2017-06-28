@@ -3,9 +3,9 @@ import { expect } from 'chai';
 import startApp from '../helpers/start-app';
 import destroyApp from '../helpers/destroy-app';
 
-function visitTimedChallenge() {
-  visit('/assessments/ref_assessment_id/challenges/ref_qcm_challenge_id');
-  click('.challenge-item-warning button');
+async function visitTimedChallenge() {
+  await visit('/assessments/ref_assessment_id/challenges/ref_qcm_challenge_id');
+  await click('.challenge-item-warning button');
 }
 
 function progressBarText() {
@@ -19,29 +19,30 @@ describe('Acceptance | d1 - Valider une épreuve |', function() {
 
   beforeEach(function() {
     application = startApp();
-    visitTimedChallenge();
   });
 
   afterEach(function() {
     destroyApp(application);
   });
 
-  it('d1.0a La barre de progression commence à 1, si j\'accède au challenge depuis l\'url directe', function() {
+  it('d1.0a La barre de progression commence à 1, si j\'accède au challenge depuis l\'url directe', async function() {
+    await visit('/assessments/ref_assessment_id/challenges/ref_qcm_challenge_id');
     expect(progressBarText()).to.equal('1 / 5');
   });
 
   it('d1.0b La barre de progression commence à 1, si j\'accède au challenge depuis depuis le lien Airtable', async function() {
     await visit('/courses/ref_course_id');
-    await click('.challenge-item-warning button');
     expect(progressBarText()).to.equal('1 / 5');
   });
 
-  it('d1.1 Je peux valider ma réponse à une épreuve via un bouton "Je valide"', function() {
+  it('d1.1 Je peux valider ma réponse à une épreuve via un bouton "Je valide"', async function() {
+    await visitTimedChallenge();
     expect(findWithAssert('.challenge-actions__action-validate')).to.have.lengthOf(1);
   });
 
   describe('quand je valide ma réponse à une épreuve', function() {
     beforeEach(async function() {
+      await visitTimedChallenge();
       await click('.proposal-text');
       await click('.challenge-actions__action-validate');
     });
