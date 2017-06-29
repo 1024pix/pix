@@ -4,27 +4,42 @@ const courseRepository = require('../../infrastructure/repositories/course-repos
 
 const extend = require('util')._extend;
 
+const _ = require('lodash');
+
 module.exports = {
 
   list(request, reply) {
 
+    let listOfCourseGroup;
+
     return courseGroupRepository.list()
-      .then((listOfCourseGroup) => {
-
-        listOfCourseGroup.forEach((courseGroup, indexCourseGroup) => {
-          courseGroup.courses.forEach((course, indexCourse) => {
-
-            courseRepository.get(course.id)
-              .then((courseDetails) => {
-                extend(listOfCourseGroup[indexCourseGroup].courses[indexCourse], courseDetails);
-              });
-          });
-        });
-        return listOfCourseGroup;
+      .then((courseGroups) => {
+        listOfCourseGroup = courseGroups;
+        return courseRepository.fetchCoursesFromArrayOfCourseGroup(listOfCourseGroup);
       })
-      .then((listOfCourseGroup) => {
-        reply(courseGroupSerializer.serializeArray(listOfCourseGroup));
+      .then((courses) => {
+        const coursesMappedById = _mapCourseById(courses);
+        const extendedlistOfCourseGroupWithCourse = _addCourseDetailsToCourseGroups(listOfCourseGroup, coursesMappedById);
+
+        reply(courseGroupSerializer.serializeArray(extendedlistOfCourseGroupWithCourse));
       });
 
   }
 };
+
+function _addCourseDetailsToCourseGroups(extendedlistOfCourseGroupWithCourse, coursesMappedById) {
+  extendedlistOfCourseGroupWithCourse.forEach((courseGroup) => {
+    courseGroup.courses.forEach((course) => {
+      extend(course, coursesMappedById[course.id]);
+    });
+  });
+
+  return extendedlistOfCourseGroupWithCourse;
+}
+
+function _mapCourseById(courses) {
+  const coursesMappedById = _.transform(courses, (result, value) => {
+    result[value.id] = value;
+  }, {});
+  return coursesMappedById;
+}

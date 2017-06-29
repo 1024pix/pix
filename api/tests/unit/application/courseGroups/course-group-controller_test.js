@@ -30,8 +30,6 @@ describe('Unit | Controller | course-group-controller', function() {
   describe('#list', function() {
 
     it('should call the course-group repository', function() {
-      // given
-
       // when
       const promise = server.injectThen({ method: 'GET', url: '/api/course-groups' });
 
@@ -131,6 +129,67 @@ describe('Unit | Controller | course-group-controller', function() {
       });
 
     });
+
+    it('should have all course details loaded before send response', function() {
+      // Given
+      const replySpy = sinon.spy();
+      courseRepositoryGetStub.returns(new Promise((resolve) => {
+        setTimeout(() => {
+          resolve({
+            id: 'test1',
+            name: 'Test 1',
+            description: 'Description du course 1',
+            imageUrl: 'image/url.jpg'
+          });
+        }, 100);
+      }));
+      courseGroupRepositoryListStub.resolves([new CourseGroup({
+        id: 'serie1',
+        name: 'OTTO',
+        courses: [{ id: 'test1' }]
+      })]);
+
+      // when
+      const promise = controller.list({}, replySpy);
+
+      // Then
+      return promise.then(_ => {
+        expect(replySpy.firstCall.args).to.deep.equal([
+          {
+            'data': [
+              {
+                'type': 'course-group',
+                'id': 'serie1',
+                'attributes': {
+                  'name': 'OTTO'
+                },
+                'relationships': {
+                  'courses': {
+                    'data': [
+                      {
+                        'id': 'test1',
+                        'type': 'courses'
+                      }
+                    ]
+                  }
+                }
+              }],
+            'included': [
+              {
+                'type': 'courses',
+                'id': 'test1',
+                'attributes': {
+                  'description': 'Description du course 1',
+                  'image-url': 'image/url.jpg',
+                  'name': 'Test 1',
+                }
+              }
+            ]
+          }
+        ]);
+      });
+
+    })
   });
 })
 ;
