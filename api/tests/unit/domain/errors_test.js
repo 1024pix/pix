@@ -7,4 +7,8 @@ describe('Unit | Domain | Errors', () => {
     expect(errors.NotFoundError).to.exist;
   });
 
+  it('should export a InvalidTokenError', () => {
+    expect(errors.InvalidTokenError).to.exist;
+  });
+
 });

@@ -1,4 +1,4 @@
-const {describe, it, after, afterEach, beforeEach, sinon} = require('../../../test-helper');
+const {describe, it, after, afterEach, beforeEach, sinon, expect} = require('../../../test-helper');
 
 const faker = require('faker');
 const User = require('../../../../lib/domain/models/data/user');
@@ -410,4 +410,10 @@ describe('Unit | Controller | user-controller', () => {
 
   });
 
+  describe('#getProfile', () => {
+    it('should be a function', function() {
+      // then
+      expect(userController.getProfile).to.be.a('function');
+    });
+  });
 });

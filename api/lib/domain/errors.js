@@ -4,6 +4,12 @@ class NotFoundError extends Error {
   }
 }
 
+class InvalidTokenError extends Error {
+  constructor(message) {
+    super(message);
+  }
+}
+
 class NotElligibleToScoringError extends Error {
   constructor(message) {
     super(message);
@@ -16,4 +22,4 @@ class PasswordNotMatching extends Error {
   }
 }
 
-module.exports = { NotFoundError, NotElligibleToScoringError, PasswordNotMatching };
+module.exports = {NotFoundError, NotElligibleToScoringError, PasswordNotMatching, InvalidTokenError};

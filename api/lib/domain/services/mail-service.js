@@ -1,5 +1,5 @@
-const mailJet = require('../../infrastructure/mailjet');
 const _ = require('lodash');
+const mailJet = require('../../infrastructure/mailjet');
 const logger = require('./../../infrastructure/logger');
 const ACCOUNT_CREATION_EMAIL_TEMPLATE_ID = '143620';
 const WELCOME_EMAIL_TEMPLATE_ID = '129291';
