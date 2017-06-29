@@ -12,7 +12,6 @@ module.exports = {
         if (cachedValue) return resolve(cachedValue);
         airtable.getRecords('Groupes de tests', {view : 'Grid view' }, serializer).then((courseGroups) => {
           cache.set(cacheKey, courseGroups);
-          console.log(courseGroups);
           return resolve(courseGroups);
         })
           .catch(reject);
