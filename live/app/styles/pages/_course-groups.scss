@@ -38,7 +38,6 @@
   text-align: center;
   margin: auto;
   max-width: 300px;
-
   font-size: 20px;
 
   @include device-is('tablet') {
@@ -49,31 +48,33 @@
 
 /*------------courseGroups----------*/
 
-.course-groups-page__series {
+.course-groups-page__course-group {
   display: flex;
   flex-direction: column;
 }
 
-.course-groups-page__series-item {
+.course-groups-page__course-group-item {
   max-width: max-content;
   margin: auto;
   margin-top: 35px;
   margin-bottom: 35px;
-}
+  max-width: 300px;
 
-.course-groups-page__series-name {
+  @include device-is('tablet') {
+    max-width: none;
+  }
+
+  }
+
+.course-groups-page__course-group-name {
   font-family: $font-raleway;
   font-size: 22px;
   font-weight: $font-semi-bold;
   color: $pix-blue;
 }
 
-.course-groups-page_series-line {
+.course-groups-page_course-group-line {
   margin-bottom: 10px;
   height: 2px;
   border: solid 1px #d7d7d7;
-}
-
-.course-groups-page__courses {
-
 }

@@ -4,7 +4,7 @@ import { describe, it } from 'mocha';
 import { setupComponentTest } from 'ember-mocha';
 import hbs from 'htmlbars-inline-precompile';
 
-describe('Integration | Component | course item', function() {
+describe.only('Integration | Component | course item', function() {
 
   setupComponentTest('course-item', {
     integration: true
@@ -80,6 +80,19 @@ describe('Integration | Component | course item', function() {
       // then
       const $nbChallenges = this.$('.course-item__challenges-number');
       expect($nbChallenges.text().trim()).to.equal('4 épreuves');
+    });
+
+    it('should render the number of challenges', function() {
+      // given
+      const course = Ember.Object.create({ challenges: [], nbChallenges: 2});
+      this.set('course', course);
+
+      // when
+      this.render(hbs`{{course-item course=course}}`);
+
+      // then
+      const $nbChallenges = this.$('.course-item__challenges-number');
+      expect($nbChallenges.text().trim()).to.equal('2 épreuves');
     });
 
     it('should render a link to begin the course', function() {

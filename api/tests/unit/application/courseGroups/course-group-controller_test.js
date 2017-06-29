@@ -121,6 +121,7 @@ describe('Unit | Controller | course-group-controller', function() {
                   'description': 'Description du course 1',
                   'image-url': 'image/url.jpg',
                   'name': 'Test 1',
+                  'nb-challenges': 0,
                 }
               }
             ]
@@ -182,6 +183,7 @@ describe('Unit | Controller | course-group-controller', function() {
                   'description': 'Description du course 1',
                   'image-url': 'image/url.jpg',
                   'name': 'Test 1',
+                  'nb-challenges': 0
                 }
               }
             ]

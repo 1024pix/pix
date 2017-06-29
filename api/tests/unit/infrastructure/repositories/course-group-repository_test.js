@@ -32,9 +32,9 @@ describe('Unit | Repository | course-group-repository', function() {
         getRecords.resolves(courseGroupsFromAirTable);
       });
 
-      it('should query correctly airtable', function() {
+      it('should query correctly airtable in order to get courseGroups in the same order than defined in airtable', function() {
         // Given
-        const expectedQuery = {};
+        const expectedQuery = {view : 'Grid view' };
 
         // When
         courseGroupRepository.list();

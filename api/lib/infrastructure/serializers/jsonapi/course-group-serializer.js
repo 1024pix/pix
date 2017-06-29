@@ -57,13 +57,17 @@ class courseGroupSerializer extends JSONAPISerializer {
   }
 
   serializeIncluded(course) {
+
+    course.challenges = course.challenges || [];
+
     return {
       'type': 'courses',
       'id': course.id,
       attributes: {
         'name': course.name,
         'description': course.description,
-        'image-url': course.imageUrl
+        'image-url': course.imageUrl,
+        'nb-challenges': course.challenges.length
       }
     };
   }

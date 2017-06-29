@@ -51,6 +51,6 @@ describe('Unit | Model | Course', function() {
         expect(course.getProgress(challenge2)).to.have.property('currentStep', 2);
       });
     });
-    
+
   });
 });

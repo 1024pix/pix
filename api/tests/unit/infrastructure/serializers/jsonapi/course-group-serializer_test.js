@@ -16,7 +16,8 @@ describe('Unit | Serializer | JSONAPI | course-group-serializer', function() {
         id: 'courseId1',
         name: 'first course',
         description: 'first course description',
-        imageUrl: 'urlImage'
+        imageUrl: 'urlImage',
+        challenges: ['challenge1', 'challenge2', 'challenge3']
       }, {
         id: 'courseId2',
         name: 'second course',
@@ -46,7 +47,8 @@ describe('Unit | Serializer | JSONAPI | course-group-serializer', function() {
           attributes: {
             name: 'first course',
             description: 'first course description',
-            'image-url': 'urlImage'
+            'image-url': 'urlImage',
+            'nb-challenges': 3
           }
         }, {
           type: 'courses',
@@ -54,7 +56,8 @@ describe('Unit | Serializer | JSONAPI | course-group-serializer', function() {
           attributes: {
             name: 'second course',
             description: 'second course description',
-            'image-url': 'urlImage'
+            'image-url': 'urlImage',
+            'nb-challenges': 0
           }
         }]
       };
@@ -74,7 +77,7 @@ describe('Unit | Serializer | JSONAPI | course-group-serializer', function() {
     courseGroup1.id = 'fakeId1';
     courseGroup1.name = 'name of courseGroup';
     courseGroup1.courses = [
-      { id: 'courseId1', name: 'first course', description: 'first course description', imageUrl: 'urlImage' },
+      { id: 'courseId1', name: 'first course', description: 'first course description', imageUrl: 'urlImage', challenges: ['challenge1', 'challenge2'] },
       { id: 'courseId2', name: 'second course', description: 'second course description', imageUrl: 'urlImage' }
     ];
 
@@ -124,7 +127,8 @@ describe('Unit | Serializer | JSONAPI | course-group-serializer', function() {
         attributes: {
           name: 'first course',
           description: 'first course description',
-          'image-url': 'urlImage'
+          'image-url': 'urlImage',
+          'nb-challenges': 2
         }
       }, {
         type: 'courses',
@@ -132,7 +136,8 @@ describe('Unit | Serializer | JSONAPI | course-group-serializer', function() {
         attributes: {
           name: 'second course',
           description: 'second course description',
-          'image-url': 'urlImage'
+          'image-url': 'urlImage',
+          'nb-challenges': 0
         }
       }, {
         type: 'courses',
@@ -140,7 +145,8 @@ describe('Unit | Serializer | JSONAPI | course-group-serializer', function() {
         attributes: {
           name: 'third course',
           description: 'third course description',
-          'image-url': 'urlImage'
+          'image-url': 'urlImage',
+          'nb-challenges': 0
         }
       }, {
         type: 'courses',
@@ -148,7 +154,8 @@ describe('Unit | Serializer | JSONAPI | course-group-serializer', function() {
         attributes: {
           name: 'fourth course',
           description: 'fourth course description',
-          'image-url': 'urlImage'
+          'image-url': 'urlImage',
+          'nb-challenges': 0
         }
       }]
     };
