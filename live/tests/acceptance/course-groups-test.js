@@ -57,8 +57,8 @@ describe('Acceptance | courseGroups', function() {
       // then
       expect(find('.course-item__name')[0].innerText).to.equal('course name');
 
-      expect(find('.course-groups-page__series')).to.have.lengthOf(1);
-      expect(find('.course-groups-page__series-item')).to.have.lengthOf(3);
+      expect(find('.course-groups-page__course-groups')).to.have.lengthOf(1);
+      expect(find('.course-groups-page__course-group-item')).to.have.lengthOf(3);
       expect(find('.course-list')).to.have.lengthOf(3);
       expect(find('.course-item')).to.have.lengthOf(6);
     });

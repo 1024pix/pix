@@ -54,17 +54,16 @@
 }
 
 .course-groups-page__course-group-item {
-  max-width: max-content;
   margin: auto;
   margin-top: 35px;
   margin-bottom: 35px;
   max-width: 300px;
 
   @include device-is('tablet') {
-    max-width: none;
+    max-width: max-content;
   }
 
-  }
+}
 
 .course-groups-page__course-group-name {
   font-family: $font-raleway;
@@ -76,5 +75,5 @@
 .course-groups-page_course-group-line {
   margin-bottom: 10px;
   height: 2px;
-  border: solid 1px #d7d7d7;
+  border: solid 1px $gainsboro;
 }

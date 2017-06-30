@@ -4,7 +4,7 @@ import { describe, it } from 'mocha';
 import { setupComponentTest } from 'ember-mocha';
 import hbs from 'htmlbars-inline-precompile';
 
-describe.only('Integration | Component | course item', function() {
+describe('Integration | Component | course item', function() {
 
   setupComponentTest('course-item', {
     integration: true
