@@ -34,7 +34,7 @@ describe('Acceptance | d1 - Valider une épreuve |', function() {
   it('d1.0b La barre de progression commence à 1, si j\'accède directement à un course', async function() {
     // When
     await visit('/courses/ref_course_id');
-    
+
     // Then
     const $progressBar = findWithAssert(PROGRESS_BAR_SELECTOR);
     expect($progressBar.text().trim()).to.equal('1 / 5');
@@ -47,6 +47,7 @@ describe('Acceptance | d1 - Valider une épreuve |', function() {
 
   describe('quand je valide ma réponse à une épreuve', function() {
     beforeEach(async function() {
+      // Given
       await visitTimedChallenge();
       await click('.proposal-text');
       await click('.challenge-actions__action-validate');
@@ -57,11 +58,6 @@ describe('Acceptance | d1 - Valider une épreuve |', function() {
     });
 
     it('d1.4 La barre de progression avance d\'une unité, de 1 à 2.', async function() {
-      // Given
-      await click('.proposal-text');
-
-      // When
-      await click('.challenge-actions__action-validate');
 
       // Then
       const expectedText = '2';

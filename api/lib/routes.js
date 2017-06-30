@@ -7,7 +7,7 @@ module.exports = [
   require('./application/feedbacks'),
   require('./application/healthcheck'),
   require('./application/courseGroups'),
-  require('./application/users')
+  require('./application/users'),
   require('./application/authentication'),
   require('./application/cache')
 ];
