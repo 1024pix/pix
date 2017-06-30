@@ -191,7 +191,7 @@ describe('Unit | Controller | course-group-controller', function() {
         ]);
       });
 
-    })
+    });
   });
 })
 ;
