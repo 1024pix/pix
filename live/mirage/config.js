@@ -27,7 +27,6 @@ export default function() {
 
   this.get('/courses', getCourses);
   this.get('/courses?isCourseOfTheWeek=true', getCoursesOfTheWeek);
-  //this.get('/courses/:id', getCourse);//DOMMAGE COLLATERAUX, DANS LA NOUVELLE VERSION RISQUE DE FAIRE PETER DES TESTS
 
   this.get('/challenges', getChallenges);
   this.get('/challenges/:id', getChallenge);
@@ -51,6 +50,7 @@ export default function() {
   this.post('/users', postUsers);
 
   //Nouveau Mirage
+
   //CourseGroups
   this.get('/course-groups');
 
@@ -64,5 +64,4 @@ export default function() {
     return schema.courses.find(id);
   });
 
-  //
 }
