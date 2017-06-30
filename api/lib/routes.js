@@ -8,4 +8,6 @@ module.exports = [
   require('./application/healthcheck'),
   require('./application/courseGroups'),
   require('./application/users')
+  require('./application/authentication'),
+  require('./application/cache')
 ];

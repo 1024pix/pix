@@ -34,4 +34,18 @@ describe('Unit | Router | user-router', () => {
     });
   });
 
+  describe('GET /api/users', function() {
+    before(() => {
+      sinon.stub(UserController, 'getProfile', (request, reply) => reply('ok'));
+    });
+
+    after(() => {
+      UserController.getProfile.restore();
+    });
+
+    it('should exist', (done) => {
+      return expectRouteToExist({method: 'GET', url: '/api/users'}, done);
+    });
+  });
+
 });

@@ -1,4 +1,4 @@
-import { describe, it } from 'mocha';
+import { describe, it, beforeEach, afterEach } from 'mocha';
 import { expect } from 'chai';
 import startApp from '../helpers/start-app';
 import destroyApp from '../helpers/destroy-app';
@@ -21,11 +21,11 @@ describe('Acceptance | j1 - Comparer réponses et solutions pour un QCM |', func
 
   let application;
 
-  before(function() {
+  beforeEach(function() {
     application = startApp();
   });
 
-  after(function() {
+  afterEach(function() {
     destroyApp(application);
   });
 
@@ -41,17 +41,19 @@ describe('Acceptance | j1 - Comparer réponses et solutions pour un QCM |', func
   });
 
   describe('j1.2 Accès à la modale', function() {
-    it('j1.2.2 On peut accèder directement à la modale via URL et fermer la modale' , async function() {
-      await visit(COMPARISON_MODAL_URL);
+
+    it('j1.2.1 Si on clique sur REPONSE la modale s\'ouvre', async function() {
+      await visit(RESULT_URL);
+      expect($('.comparison-window')).to.have.lengthOf(0);
+      await click('.result-item__correction__button');
       expect($('.comparison-window')).to.have.lengthOf(1);
       // XXX test env needs the modal to be closed manually
       await click('.close-button-container');
       expect($('.comparison-window')).to.have.lengthOf(0);
     });
-    it('j1.2.1 Si on clique sur REPONSE la modale s\'ouvre' , async function() {
-      await visit(RESULT_URL);
-      expect($('.comparison-window')).to.have.lengthOf(0);
-      await click('.result-item__correction__button');
+
+    it('j1.2.2 On peut accèder directement à la modale via URL et fermer la modale', async function() {
+      await visit(COMPARISON_MODAL_URL);
       expect($('.comparison-window')).to.have.lengthOf(1);
       // XXX test env needs the modal to be closed manually
       await click('.close-button-container');

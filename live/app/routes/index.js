@@ -1,6 +1,9 @@
+import Ember from 'ember';
 import BaseRoute from 'pix-live/routes/base-route';
 
 export default BaseRoute.extend({
+
+  session: Ember.inject.service(),
 
   model() {
     return {

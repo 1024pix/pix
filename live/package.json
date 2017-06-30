@@ -1,6 +1,6 @@
 {
   "name": "pix-live",
-  "version": "1.11.1",
+  "version": "1.13.0",
   "description": "Plateforme d'évaluation et de certification des compétences numériques à l'usage de tous les citoyens francophones.",
   "license": "AGPL-3.0",
   "author": "SGMAP",
@@ -53,8 +53,8 @@
     "ember-cli-sri": "^2.1.1",
     "ember-cli-test-loader": "^2.1.0",
     "ember-cli-uglify": "^1.2.0",
-    "ember-collapsible-panel": "^2.0.1",
-    "ember-data": "2.11.1",
+    "ember-collapsible-panel": "~2.1.1",
+    "ember-data": "~2.13.0",
     "ember-export-application-global": "^2.0.0",
     "ember-load-initializers": "^1.0.0",
     "ember-lodash": "^4.17.2",
@@ -63,6 +63,7 @@
     "ember-resolver": "^4.1.0",
     "ember-routable-modal": "dbbk/ember-routable-modal#9839af4",
     "ember-route-action-helper": "^2.0.3",
+    "ember-simple-auth": "^1.3.0",
     "ember-source": "^2.12.2",
     "ember-tabbable": "^0.1.3",
     "eslint": "^3.19.0",
@@ -71,7 +72,7 @@
     "showdown": "showdownjs/showdown#1bca88f"
   },
   "engines": {
-    "node": ">= 7.7.4"
+    "node": ">= 7"
   },
   "private": true
 }

@@ -1,0 +1,33 @@
+<a href="/" class="signin-form__home-link">Revenir à la page d'accueil
+  <img class="signin-form__home-link_close" alt="" src="/images/icons/icon-close.svg"></a>
+
+<div class="signin-form__panel">
+
+  {{pix-logo}}
+
+  <h1 class="signin-form__panel-title">Se connecter</h1>
+
+  {{#if displayErrorMessage}}
+    <div class="signin-form__errors">L'adresse email et/ou le mot de passe saisi sont incorrects</div>
+  {{/if}}
+
+  <div class="signin-form__form">
+    <form {{action "submit" on="submit"}}>
+      <div class="signin-form__form-field">
+        <label for="pix-email">Adresse e-mail</label>
+        {{input id="pix-email" type="email" placeholder="nom@exemple.fr" value=email}}
+      </div>
+
+
+      <div class="signin-form__form-field">
+        <label for="pix-password">Mot de passe</label>
+        {{input id="pix-password" type="password" value=password}}
+      </div>
+
+      <div class="signin-form__form-field signin-form__form-field-button">
+        <button type="submit" class="signin-form__submit_button" {{action "submit" allowedKeys="enter"}}>Je me connecte</button>
+      </div>
+    </form>
+  </div>
+
+</div>

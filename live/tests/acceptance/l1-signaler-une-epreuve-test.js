@@ -1,4 +1,4 @@
-import { describe, it, before, after } from 'mocha';
+import { describe, it, beforeEach, afterEach } from 'mocha';
 import { expect } from 'chai';
 import startApp from '../helpers/start-app';
 import destroyApp from '../helpers/destroy-app';
@@ -25,11 +25,11 @@ describe('Acceptance | Signaler une épreuve', function() {
 
   describe('l1.1 Depuis une epreuve', function() {
 
-    before(function() {
+    beforeEach(function() {
       application = startApp();
     });
 
-    after(function() {
+    afterEach(function() {
       destroyApp(application);
     });
 

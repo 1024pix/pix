@@ -1,12 +1,14 @@
 /* jshint node: true */
 
-module.exports = function (environment) {
+module.exports = function(environment) {
   const ENV = {
+
     modulePrefix: 'pix-live',
     environment: environment,
     rootURL: '/',
     locationType: 'auto',
     EmberENV: {
+
       // XXX because of a deprecation notice in the console
       EXTEND_PROTOTYPES: {
         Date: false
@@ -19,14 +21,17 @@ module.exports = function (environment) {
     },
 
     APP: {
+
       // Here you can pass flags/options to your application instance
       // when it is created
       API_HOST: '',
-      isChallengeTimerEnable : true,
+      isChallengeTimerEnable: true,
       MESSAGE_DISPLAY_DURATION: 1500,
       isMobileSimulationEnabled: false,
       isTimerCountdownEnabled: true,
-      isMessageStatusTogglingEnabled: true
+      isMessageStatusTogglingEnabled: true,
+      LOAD_EXTERNAL_SCRIPT: true,
+      GOOGLE_RECAPTCHA_KEY: '6LdPdiIUAAAAADhuSc8524XPDWVynfmcmHjaoSRO'
     },
 
     googleFonts: [
@@ -38,8 +43,8 @@ module.exports = function (environment) {
 
     // Set or update content security policies
     contentSecurityPolicy: {
-      'font-src': "'self' fonts.gstatic.com",
-      'style-src': "'self' fonts.googleapis.com"
+      'font-src': '\'self\' fonts.gstatic.com',
+      'style-src': '\'self\' fonts.googleapis.com'
     },
 
     showdown: {
@@ -47,7 +52,7 @@ module.exports = function (environment) {
     }
   };
 
-  if (environment === 'development') {
+  if(environment === 'development') {
     // LOG
     ENV.APP.LOG_RESOLVER = false;
     ENV.APP.LOG_ACTIVE_GENERATION = false;
@@ -57,11 +62,9 @@ module.exports = function (environment) {
 
     // Redefined in custom initializer 'initializers/configure-pix-api-host.js'
     ENV.APP.API_HOST = 'http://localhost:3000';
-
-
   }
 
-  if (environment === 'test') {
+  if(environment === 'test') {
     ENV.EmberENV.useDelay = false;
 
     // Testem prefers this...
@@ -79,9 +82,10 @@ module.exports = function (environment) {
     ENV.APP.isMobileSimulationEnabled = true;
     ENV.APP.isTimerCountdownEnabled = false;
     ENV.APP.isMessageStatusTogglingEnabled = false;
+    ENV.APP.LOAD_EXTERNAL_SCRIPT = false;
   }
 
-  if (environment === 'integration') {
+  if(environment === 'integration') {
     ENV.metricsAdapters = [
       {
         name: 'Piwik',
@@ -94,7 +98,7 @@ module.exports = function (environment) {
     ];
   }
 
-  if (environment === 'staging') {
+  if(environment === 'staging') {
     ENV.metricsAdapters = [
       {
         name: 'Piwik',
@@ -107,7 +111,7 @@ module.exports = function (environment) {
     ];
   }
 
-  if (environment === 'production') {
+  if(environment === 'production') {
     ENV.metricsAdapters = [
       {
         name: 'Piwik',

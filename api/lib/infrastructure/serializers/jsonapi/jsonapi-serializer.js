@@ -20,16 +20,21 @@ class JSONAPISerializer {
   }
 
   serializeModelObject(modelObject) {
-    if (!modelObject) {
+    if(!modelObject) {
       return null;
     }
     const entity = modelObject.toJSON();
     const data = {};
     data.type = this.modelClassName;
-    data.id = entity.id;
+
+    if(entity.id) {
+      data.id = entity.id;
+    }
+
     data.attributes = {};
     this.serializeAttributes(entity, data);
     this.serializeRelationships(entity, data);
+    this.serializeIncluded(entity, data);
     return data;
   }
 

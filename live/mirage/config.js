@@ -7,6 +7,7 @@ import getCourses from './routes/get-courses';
 import getCoursesOfTheWeek from './routes/get-courses-of-the-week';
 import getAnswer from './routes/get-answer';
 import postAnswers from './routes/post-answers';
+import patchAnswer from './routes/patch-answer';
 import getAssessment from './routes/get-assessment';
 import postAssessments from './routes/post-assessments';
 import getAnswerByChallengeAndAssessment from './routes/get-answer-by-challenge-and-assessment';
@@ -14,6 +15,7 @@ import postFollowers from './routes/post-followers';
 import postFeedbacks from './routes/post-feedbacks';
 import postRefreshSolution from './routes/post-refresh-solution';
 import postUsers from './routes/post-users';
+import postAuthentications from './routes/post-authentications';
 
 export default function() {
   this.passthrough('/write-coverage');
@@ -42,6 +44,7 @@ export default function() {
   this.post('/answers', postAnswers);
   this.get('/answers/:id', getAnswer);
   this.get('/answers', getAnswerByChallengeAndAssessment);
+  this.patch('/answers/:id', patchAnswer);
 
   this.post('/feedbacks', postFeedbacks);
 
@@ -63,5 +66,7 @@ export default function() {
     }
     return schema.courses.find(id);
   });
+
+  this.post('/authentications', postAuthentications);
 
 }

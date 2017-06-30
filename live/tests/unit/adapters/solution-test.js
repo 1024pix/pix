@@ -4,7 +4,9 @@ import { setupTest } from 'ember-mocha';
 
 describe('Unit | Adapters | solution', function() {
 
-  setupTest('adapter:solution', {});
+  setupTest('adapter:solution', {
+    needs: ['service:session']
+  });
 
   it('exists', function() {
     const adapter = this.subject();

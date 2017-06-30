@@ -7,7 +7,7 @@ describe('Acceptance | Controller | answer-controller', function() {
     server.stop(done);
   });
 
-  describe('Get /api/answers/:id', function() {
+  describe('GET /api/answers/:id', function() {
 
     let options;
     let inserted_answer_id;

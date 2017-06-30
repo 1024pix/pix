@@ -15,9 +15,13 @@ function propagateKnowledge(knowledgeList, startNode, direction) {
   const nodeList = [];
 
   let node = startNode;
-  while (knowledgeList.hasOwnProperty(node)) {
-    nodeList.push(node);
+  let difficulty = parseInt(node.slice(-1));
+  while (difficulty >= 1 && difficulty <= 8) {
+    if(knowledgeList.hasOwnProperty(node)) {
+      nodeList.push(node);
+    }
     node = nextNode(node, direction);
+    difficulty = parseInt(node.slice(-1));
   }
   return nodeList;
 }

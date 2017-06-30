@@ -47,6 +47,7 @@
 @import 'components/qcm-solution-panel';
 @import 'components/qcu-solution-panel';
 @import 'components/signup-form';
+@import 'components/signin-form';
 @import 'components/signup-textfield';
 @import 'components/scoring-panel-tantpix';
 
@@ -59,6 +60,7 @@
 @import 'pages/competences';
 @import 'pages/inscription';
 @import 'pages/course-groups';
+@import 'pages/connexion';
 
 body {
   font-family: $font-lato;

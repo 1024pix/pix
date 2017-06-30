@@ -21,10 +21,20 @@ module.exports = (function() {
     mailjet: {
       apiKey: process.env.MAILJET_KEY,
       apiSecret: process.env.MAILJET_SECRET
+    },
+
+    googleReCaptcha: {
+      secret: process.env.RECAPTCHA_KEY
+    },
+
+    authentication: {
+      secret: process.env.AUTH_SECRET,
+      tokenLifespan: '7d'
     }
+
   };
 
-  if (process.env.NODE_ENV === 'test') {
+  if(process.env.NODE_ENV === 'test') {
     config.port = null;
 
     config.airtable = {
@@ -35,6 +45,14 @@ module.exports = (function() {
     config.mailjet = {
       apiKey: 'test-api-ket',
       apiSecret: 'test-api-secret'
+    };
+
+    config.googleReCaptcha = {
+      secret: 'test-recaptcha-key'
+    };
+
+    config.authentication = {
+      secret: 'test-jwt-key'
     };
   }
 

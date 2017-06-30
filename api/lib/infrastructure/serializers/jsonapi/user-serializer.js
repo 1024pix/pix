@@ -1,7 +1,7 @@
 const JSONAPISerializer = require('./jsonapi-serializer');
 const User = require('../../../domain/models/data/user');
 
-class AnswerSerializer extends JSONAPISerializer {
+class UserSerializer extends JSONAPISerializer {
 
   constructor() {
     super('user');
@@ -25,4 +25,4 @@ class AnswerSerializer extends JSONAPISerializer {
 
 }
 
-module.exports = new AnswerSerializer();
+module.exports = new UserSerializer();
