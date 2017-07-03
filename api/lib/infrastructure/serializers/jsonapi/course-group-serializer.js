@@ -58,7 +58,7 @@ class courseGroupSerializer extends JSONAPISerializer {
 
   serializeIncluded(course) {
 
-    course.challenges = course.challenges || [];
+    course.challenges = course.challenges || [];
 
     return {
       'type': 'courses',
