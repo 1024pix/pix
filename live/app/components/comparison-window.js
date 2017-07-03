@@ -1,4 +1,5 @@
 import Ember from 'ember';
+import resultIconUrl from 'pix-live/utils/result-icon-url';
 
 const contentReference = {
   ok: {
@@ -95,5 +96,9 @@ export default Ember.Component.extend({
       resultItem = contentReference[ answerStatus ];
     }
     return resultItem;
+  }),
+
+  resultItemIcon: Ember.computed('resultItem', function() {
+    return resultIconUrl(this.get('resultItem.status'));
   })
 });

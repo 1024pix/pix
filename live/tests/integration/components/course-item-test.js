@@ -19,7 +19,7 @@ describe('Integration | Component | course item', function() {
 
     it('should render course picture if it is defined', function() {
       // given
-      const course = Ember.Object.create({ imageUrl: 'image_src' });
+      const course = Ember.Object.create({ imageUrl: '/images/pix-logo.svg' });
       this.set('course', course);
 
       // when

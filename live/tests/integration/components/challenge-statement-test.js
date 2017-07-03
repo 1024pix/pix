@@ -61,7 +61,7 @@ describe('Integration | Component | ChallengeStatement', function() {
     it('should display challenge illustration (and alt) if it exists', function() {
       // given
       addChallengeToContext(this, {
-        illustrationUrl: 'http://challenge.illustration.url'
+        illustrationUrl: '/images/pix-logo.svg'
       });
 
       // when
@@ -69,7 +69,7 @@ describe('Integration | Component | ChallengeStatement', function() {
 
       // then
       const $illustration = this.$('.challenge-statement__illustration');
-      expect($illustration.prop('src')).to.equal('http://challenge.illustration.url/');
+      expect($illustration.prop('src')).to.match(/\/images\/pix-logo.svg$/);
       expect($illustration.prop('alt')).to.equal('Illustration de l\'épreuve');
     });
 

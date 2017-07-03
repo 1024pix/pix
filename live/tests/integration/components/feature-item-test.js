@@ -10,7 +10,7 @@ describe('Integration | Component | feature item', function() {
   });
 
   const feature = {
-    icon: 'coucou',
+    icon: 'reference',
     title: 'title_value',
     description: 'description_value'
   };
@@ -27,7 +27,7 @@ describe('Integration | Component | feature item', function() {
 
     const $icon = this.$('.feature-item__icon');
     expect($icon).to.exist;
-    expect($icon.attr('src')).to.equal('images/features/icon-coucou.svg');
+    expect($icon.attr('src')).to.equal('/images/features/icon-reference.svg');
   });
 
   it('should render an title', function() {
