@@ -48,6 +48,13 @@ describe('Acceptance | j2 - Comparer réponses et solutions pour un QROC | ', fu
       await visit(COMPARISON_MODAL_URL);
     });
 
+    afterEach(async function() {
+      // XXX test env needs the modal to be closed manually
+      if (find('.close-button-container').length > 0) {
+        await click('.close-button-container');
+      }
+    });
+
     it('possible d\'accéder à la modale depuis l\'URL', async function() {
       expect($('.comparison-window')).to.have.lengthOf(1);
     });
