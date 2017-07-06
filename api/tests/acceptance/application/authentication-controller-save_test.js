@@ -1,4 +1,4 @@
-const {describe, it, beforeEach, before, after, knex, expect} = require('../../test-helper');
+const { describe, it, beforeEach, before, after, knex, expect } = require('../../test-helper');
 
 const faker = require('faker');
 const jsonwebtoken = require('jsonwebtoken');

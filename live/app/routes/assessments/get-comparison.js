@@ -13,7 +13,7 @@ export default BaseRoute.extend(ModalRouteMixin, {
 
     return store.findRecord('answer', answerId).then((answer) => {
       return store.findRecord('challenge', answer.get('challenge.id')).then((challenge) => {
-        return store.queryRecord('solution', {assessmentId, answerId}).then(function(solution) {
+        return store.queryRecord('solution', { assessmentId, answerId }).then(function(solution) {
           return RSVP.hash({
             answer,
             challenge,

@@ -1,19 +1,19 @@
-const {describe, it, expect, sinon} = require('../../test-helper');
+const { describe, it, expect, sinon } = require('../../test-helper');
 const faker = require('faker');
 const server = require('../../../server');
 const authorizationToken = require('../../../lib/infrastructure/validators/jsonwebtoken-verify');
 const UserRepository = require('../../../lib/infrastructure/repositories/user-repository');
 const User = require('../../../lib/domain/models/data/user');
 const profileService = require('../../../lib/domain/services/profile-service');
-const {InvalidTokenError} = require('../../../lib/domain/errors');
+const { InvalidTokenError } = require('../../../lib/domain/errors');
 
 const expectedResultWhenInvalidToken = {
   errors: [{
     status: '400',
     title: 'Invalid Attribute',
     detail: 'Le token n’est pas valide',
-    source: {'pointer': '/data/attributes/authorization'},
-    meta: {'field': 'authorization'}
+    source: { 'pointer': '/data/attributes/authorization' },
+    meta: { 'field': 'authorization' }
   }]
 };
 
@@ -22,8 +22,8 @@ const expectedResultUserNotFounded = {
     status: '400',
     title: 'Invalid Attribute',
     detail: 'Cet utilisateur est introuvable',
-    source: {'pointer': '/data/attributes/authorization'},
-    meta: {'field': 'authorization'}
+    source: { 'pointer': '/data/attributes/authorization' },
+    meta: { 'field': 'authorization' }
   }]
 };
 
@@ -32,8 +32,8 @@ const expectedResultWhenErrorOccured = {
     status: '400',
     title: 'Invalid Attribute',
     detail: 'Une erreur est survenue lors de l’authentification de l’utilisateur',
-    source: {'pointer': '/data/attributes/authorization'},
-    meta: {'field': 'authorization'}
+    source: { 'pointer': '/data/attributes/authorization' },
+    meta: { 'field': 'authorization' }
   }]
 };
 
@@ -56,8 +56,8 @@ describe('Acceptance | Controller | users-controller-get-profile', function() {
       relationships: {
         competences: {
           data: [
-            {type: 'competences', id: 'recCompA'},
-            {type: 'competences', id: 'recCompB'}
+            { type: 'competences', id: 'recCompA' },
+            { type: 'competences', id: 'recCompB' }
           ]
         }
       }
@@ -126,7 +126,7 @@ describe('Acceptance | Controller | users-controller-get-profile', function() {
       areaId: 'recAreaB',
       level: -1
     }],
-    areas: [{id: 'recAreaA', name: 'domaine-name-1'}, {id: 'recAreaB', name: 'domaine-name-2'}]
+    areas: [{ id: 'recAreaA', name: 'domaine-name-1' }, { id: 'recAreaB', name: 'domaine-name-2' }]
   };
 
   describe('GET /users', function() {
@@ -146,7 +146,7 @@ describe('Acceptance | Controller | users-controller-get-profile', function() {
       it('should response with 401 HTTP status code, when authorization token is not valid', (done) => {
         // Then
         authorizationToken.verify.returns(Promise.reject(new InvalidTokenError()));
-        options['headers'] = {authorization: 'INVALID_TOKEN'};
+        options['headers'] = { authorization: 'INVALID_TOKEN' };
         // When
         server.injectThen(options).then(response => {
           // Then
@@ -159,7 +159,7 @@ describe('Acceptance | Controller | users-controller-get-profile', function() {
       it('should return 404  HTTP status code, when authorization is valid but user not found', () => {
         authorizationToken.verify.resolves(4);
         UserRepository.findUserById.returns(Promise.reject(User.NotFoundError));
-        options['headers'] = {authorization: 'Bearer VALID_TOKEN'};
+        options['headers'] = { authorization: 'Bearer VALID_TOKEN' };
         // When
         return server.injectThen(options).then(response => {
           // Then
@@ -171,7 +171,7 @@ describe('Acceptance | Controller | users-controller-get-profile', function() {
       it('should return 500  HTTP status code, when authorization is valid but error occurred', () => {
         authorizationToken.verify.resolves(4);
         UserRepository.findUserById.returns(Promise.reject(new Error()));
-        options['headers'] = {authorization: 'Bearer VALID_TOKEN'};
+        options['headers'] = { authorization: 'Bearer VALID_TOKEN' };
         // When
         return server.injectThen(options).then(response => {
           // Then
@@ -212,7 +212,7 @@ describe('Acceptance | Controller | users-controller-get-profile', function() {
         // Given
         profileServiceStub.resolves(fakeBuildedProfile);
 
-        options['headers'] = {authorization: 'Bearer VALID_TOKEN'};
+        options['headers'] = { authorization: 'Bearer VALID_TOKEN' };
         // When
         return server.injectThen(options).then(response => {
           // Then

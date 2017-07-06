@@ -66,7 +66,7 @@ describe('Unit | Controller | answer-controller', function() {
       // given
       sinon.stub(answerRepository, 'findByChallengeAndAssessment').resolves(null);
       sinon.stub(solutionRepository, 'get').resolves(null);
-      sinon.stub(solutionService, 'validate').returns({result : 'ok', resultDetails : {NumA : true, NumB : true, NumC : true, NumD : true}});
+      sinon.stub(solutionService, 'validate').returns({ result : 'ok', resultDetails : { NumA : true, NumB : true, NumC : true, NumD : true } });
 
       // when
       executeRequest(jsonAnswer, (res) => {
@@ -84,7 +84,7 @@ describe('Unit | Controller | answer-controller', function() {
     it('should return the field "resultDetails"', function(done) {
       // given
       sinon.stub(solutionRepository, 'get').resolves(null);
-      sinon.stub(solutionService, 'validate').returns({result : 'ok', resultDetails : {NumA : true, NumB : true, NumC : true, NumD : true}});
+      sinon.stub(solutionService, 'validate').returns({ result : 'ok', resultDetails : { NumA : true, NumB : true, NumC : true, NumD : true } });
 
       // when
       executeRequest(jsonAnswer, (res) => {

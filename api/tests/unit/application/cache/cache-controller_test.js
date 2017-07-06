@@ -1,4 +1,4 @@
-const {expect, sinon} = require('../../../test-helper');
+const { expect, sinon } = require('../../../test-helper');
 const cache = require('../../../../lib/infrastructure/cache');
 const CacheController = require('../../../../lib/application/cache/cache-controller');
 
@@ -6,7 +6,7 @@ describe('Unit | Controller | CacheController', () => {
 
   describe('#removeCacheEntry', () => {
     const request = {
-      headers: {authorization: 'INVALID_TOKEN'},
+      headers: { authorization: 'INVALID_TOKEN' },
       payload: {
         'cache-key': 'test-cache-key'
       }

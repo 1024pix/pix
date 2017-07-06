@@ -1,7 +1,7 @@
 import Ember from 'ember';
-import {expect} from 'chai';
-import {beforeEach, describe, it} from 'mocha';
-import {setupComponentTest} from 'ember-mocha';
+import { expect } from 'chai';
+import { beforeEach, describe, it } from 'mocha';
+import { setupComponentTest } from 'ember-mocha';
 import hbs from 'htmlbars-inline-precompile';
 
 const TANTPIX_CONTAINER_CLASS = '.scoring-panel-tantpix';
@@ -12,9 +12,9 @@ describe('Integration | Component | scoring panel', function() {
     integration: true
   });
 
-  const assessmentWithTrophy = Ember.Object.create({estimatedLevel : 1, pixScore : 67, course : {isAdaptive : true}});
-  const assessmentWithNoTrophyAndSomePix = Ember.Object.create({estimatedLevel : 0, pixScore : 20, course : {isAdaptive : true}});
-  const assessmentWithNoTrophyAndNoPix = Ember.Object.create({estimatedLevel : 0, pixScore : 0, course : {isAdaptive : true}});
+  const assessmentWithTrophy = Ember.Object.create({ estimatedLevel : 1, pixScore : 67, course : { isAdaptive : true } });
+  const assessmentWithNoTrophyAndSomePix = Ember.Object.create({ estimatedLevel : 0, pixScore : 20, course : { isAdaptive : true } });
+  const assessmentWithNoTrophyAndNoPix = Ember.Object.create({ estimatedLevel : 0, pixScore : 0, course : { isAdaptive : true } });
 
   it('renders', function() {
     this.render(hbs`{{scoring-panel}}`);

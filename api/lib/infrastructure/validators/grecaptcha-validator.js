@@ -1,7 +1,7 @@
 const request = require('request');
 const config = require('../../settings');
 const logger = require('../logger');
-const {InvalidRecaptchaTokenError} = require('./errors');
+const { InvalidRecaptchaTokenError } = require('./errors');
 
 module.exports = {
 

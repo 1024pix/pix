@@ -1,6 +1,6 @@
-import {expect} from 'chai';
-import {describe, it} from 'mocha';
-import {setupTest} from 'ember-mocha';
+import { expect } from 'chai';
+import { describe, it } from 'mocha';
+import { setupTest } from 'ember-mocha';
 
 const EMPTY_FIRSTNAME_ERROR_MESSAGE = 'Votre prénom n’est pas renseigné.';
 const EMPTY_LASTNAME_ERROR_MESSAGE = 'Votre nom n’est pas renseigné.';
@@ -14,11 +14,11 @@ describe('Unit | Component | signupTextfieldComponent', function() {
   describe('Component should renders :', function() {
 
     [
-      {renderingIntent: 'text', inputId: 'shi'},
-      {renderingIntent: 'text', inputId: ''},
-      {renderingIntent: 'email', inputId: 'email'},
-      {renderingIntent: 'password', inputId: 'password'}
-    ].forEach(({renderingIntent, inputId}) => {
+      { renderingIntent: 'text', inputId: 'shi' },
+      { renderingIntent: 'text', inputId: '' },
+      { renderingIntent: 'email', inputId: 'email' },
+      { renderingIntent: 'password', inputId: 'password' }
+    ].forEach(({ renderingIntent, inputId }) => {
       it(`an ${renderingIntent} when input id is ${inputId}`, function() {
         // given
         const component = this.subject();
@@ -35,12 +35,12 @@ describe('Unit | Component | signupTextfieldComponent', function() {
   describe('When validationStatus gets "default", Component computed property: ', function() {
 
     [
-      {property: 'hasIcon', expectedValue: false},
-      {property: 'iconType', expectedValue: ''},
-      {property: 'inputValidationStatus', expectedValue: 'signup-textfield__input--default'},
-      {property: 'inputContainerStatusClass', expectedValue: 'signup-textfield__input-container--default'},
-      {property: 'validationMessageClass', expectedValue: 'signup-textfield__message--default'},
-    ].forEach(({property, expectedValue}) => {
+      { property: 'hasIcon', expectedValue: false },
+      { property: 'iconType', expectedValue: '' },
+      { property: 'inputValidationStatus', expectedValue: 'signup-textfield__input--default' },
+      { property: 'inputContainerStatusClass', expectedValue: 'signup-textfield__input-container--default' },
+      { property: 'validationMessageClass', expectedValue: 'signup-textfield__message--default' },
+    ].forEach(({ property, expectedValue }) => {
       it(`${property} should return ${expectedValue} `, function() {
         // Given
         const component = this.subject();
@@ -57,11 +57,11 @@ describe('Unit | Component | signupTextfieldComponent', function() {
 
       [
 
-        {errorType: 'firstname is empty', message: ''},
-        {errorType: 'lastname is empty', message: ''},
-        {errorType: 'password is incorrect', message: ''},
+        { errorType: 'firstname is empty', message: '' },
+        { errorType: 'lastname is empty', message: '' },
+        { errorType: 'password is incorrect', message: '' },
 
-      ].forEach(({errorType, message}) => {
+      ].forEach(({ errorType, message }) => {
 
         it(`gets ${message} when ${errorType}`, function() {
           // Given
@@ -83,12 +83,12 @@ describe('Unit | Component | signupTextfieldComponent', function() {
   describe('When validationStatus gets "error", Component computed property: ', function() {
 
     [
-      {property: 'hasIcon', expectedValue: true},
-      {property: 'iconType', expectedValue: 'error'},
-      {property: 'inputValidationStatus', expectedValue: 'signup-textfield__input--error'},
-      {property: 'inputContainerStatusClass', expectedValue: 'signup-textfield__input-container--error'},
-      {property: 'validationMessageClass', expectedValue: 'signup-textfield__message--error'},
-    ].forEach(({property, expectedValue}) => {
+      { property: 'hasIcon', expectedValue: true },
+      { property: 'iconType', expectedValue: 'error' },
+      { property: 'inputValidationStatus', expectedValue: 'signup-textfield__input--error' },
+      { property: 'inputContainerStatusClass', expectedValue: 'signup-textfield__input-container--error' },
+      { property: 'validationMessageClass', expectedValue: 'signup-textfield__message--error' },
+    ].forEach(({ property, expectedValue }) => {
       it(`${property} should return ${expectedValue} `, function() {
         // Given
         const component = this.subject();
@@ -104,11 +104,11 @@ describe('Unit | Component | signupTextfieldComponent', function() {
 
       [
 
-        {errorType: 'firstname is empty', message: EMPTY_FIRSTNAME_ERROR_MESSAGE},
-        {errorType: 'lastname is empty', message: EMPTY_LASTNAME_ERROR_MESSAGE},
-        {errorType: 'password is incorrect', message: INCORRECT_PASSWORD_FORMAT_ERROR_MESSAGE},
+        { errorType: 'firstname is empty', message: EMPTY_FIRSTNAME_ERROR_MESSAGE },
+        { errorType: 'lastname is empty', message: EMPTY_LASTNAME_ERROR_MESSAGE },
+        { errorType: 'password is incorrect', message: INCORRECT_PASSWORD_FORMAT_ERROR_MESSAGE },
 
-      ].forEach(({errorType, message}) => {
+      ].forEach(({ errorType, message }) => {
 
         it(`gets ${message} when ${errorType}`, function() {
           // Given
@@ -130,12 +130,12 @@ describe('Unit | Component | signupTextfieldComponent', function() {
   describe('When validationStatus gets "success", Component computed property: ', function() {
 
     [
-      {property: 'hasIcon', expectedValue: true},
-      {property: 'iconType', expectedValue: 'success'},
-      {property: 'inputValidationStatus', expectedValue: 'signup-textfield__input--success'},
-      {property: 'inputContainerStatusClass', expectedValue: 'signup-textfield__input-container--success'},
-      {property: 'validationMessageClass', expectedValue: 'signup-textfield__message--success'},
-    ].forEach(({property, expectedValue}) => {
+      { property: 'hasIcon', expectedValue: true },
+      { property: 'iconType', expectedValue: 'success' },
+      { property: 'inputValidationStatus', expectedValue: 'signup-textfield__input--success' },
+      { property: 'inputContainerStatusClass', expectedValue: 'signup-textfield__input-container--success' },
+      { property: 'validationMessageClass', expectedValue: 'signup-textfield__message--success' },
+    ].forEach(({ property, expectedValue }) => {
       it(`${property} should return ${expectedValue} `, function() {
         // Given
         const component = this.subject();
@@ -151,11 +151,11 @@ describe('Unit | Component | signupTextfieldComponent', function() {
 
       [
 
-        {errorType: 'firstname is valid', message: EMPTY_FIRSTNAME_ERROR_MESSAGE},
-        {errorType: 'lastname is valid', message: EMPTY_LASTNAME_ERROR_MESSAGE},
-        {errorType: 'password is valid', message: INCORRECT_PASSWORD_FORMAT_ERROR_MESSAGE},
+        { errorType: 'firstname is valid', message: EMPTY_FIRSTNAME_ERROR_MESSAGE },
+        { errorType: 'lastname is valid', message: EMPTY_LASTNAME_ERROR_MESSAGE },
+        { errorType: 'password is valid', message: INCORRECT_PASSWORD_FORMAT_ERROR_MESSAGE },
 
-      ].forEach(({errorType, message}) => {
+      ].forEach(({ errorType, message }) => {
 
         it(`gets ${message} when ${errorType}`, function() {
           // Given

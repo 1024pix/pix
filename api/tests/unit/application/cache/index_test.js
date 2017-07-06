@@ -1,4 +1,4 @@
-const {expect, sinon} = require('../../../test-helper');
+const { expect, sinon } = require('../../../test-helper');
 const Hapi = require('hapi');
 const cacheController = require('../../../../lib/application/cache/cache-controller');
 
@@ -8,8 +8,8 @@ describe('Unit | Router | cache-router', () => {
 
   beforeEach(() => {
     server = new Hapi.Server();
-    server.connection({port: null});
-    server.register({register: require('../../../../lib/application/cache')});
+    server.connection({ port: null });
+    server.register({ register: require('../../../../lib/application/cache') });
   });
 
   describe('DELETE /api/cache', function() {
@@ -23,7 +23,7 @@ describe('Unit | Router | cache-router', () => {
 
     it('should exist', () => {
       // When
-      return server.inject({method: 'DELETE', url: '/api/cache'}, (res) => {
+      return server.inject({ method: 'DELETE', url: '/api/cache' }, (res) => {
         // Then
         expect(res.statusCode).to.equal(200);
       });

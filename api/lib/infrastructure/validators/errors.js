@@ -4,5 +4,5 @@ class InvalidRecaptchaTokenError extends Error {
   }
 }
 
-module.exports = {InvalidRecaptchaTokenError};
+module.exports = { InvalidRecaptchaTokenError };
 

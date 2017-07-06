@@ -1,4 +1,4 @@
-const {describe, it, expect} = require('../../../../test-helper');
+const { describe, it, expect } = require('../../../../test-helper');
 const serializer = require('../../../../../lib/infrastructure/serializers/jsonapi/profile-serializer');
 const Profile = require('../../../../../lib/domain/models/data/profile');
 const User = require('../../../../../lib/domain/models/data/user');
@@ -49,8 +49,8 @@ describe('Unit | Serializer | JSONAPI | profile-serializer', () => {
           relationships: {
             competences: {
               data: [
-                {type: 'competences', id: 'recCompA'},
-                {type: 'competences', id: 'recCompB'}
+                { type: 'competences', id: 'recCompA' },
+                { type: 'competences', id: 'recCompB' }
               ]
             }
           },

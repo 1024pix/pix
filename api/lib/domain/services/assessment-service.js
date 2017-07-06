@@ -61,7 +61,7 @@ function selectNextChallengeId(course, currentChallengeId, assessment) {
     const challenges = course.challenges;
 
     if (!currentChallengeId) { // no currentChallengeId means the test has not yet started
-      return resolve(challenges[ 0 ]);
+      return resolve(challenges[0]);
     }
 
     if (course.isAdaptive) {

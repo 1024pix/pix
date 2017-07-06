@@ -99,7 +99,7 @@ module.exports = {
               .then((testIsOver) => {
 
                 if (testIsOver) {
-                  const requestedAnswer = answers.filter(answer => answer.id === _.parseInt(request.params.answerId))[ 0 ];
+                  const requestedAnswer = answers.filter(answer => answer.id === _.parseInt(request.params.answerId))[0];
 
                   solutionRepository
                     .get(requestedAnswer.get('challengeId'))

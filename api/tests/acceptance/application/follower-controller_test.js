@@ -43,7 +43,7 @@ describe('Acceptance | Controller | follower-controller', () => {
       // Then
       return promise.then((response) => {
         expect(response.statusCode).to.equal(201);
-        expect(response.headers[ 'content-type' ]).to.contain('application/json');
+        expect(response.headers['content-type']).to.contain('application/json');
 
         const follower = response.result;
         expect(follower.data.id).to.exist;

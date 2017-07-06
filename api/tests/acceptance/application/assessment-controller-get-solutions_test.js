@@ -103,7 +103,7 @@ describe('Acceptance | API | assessment-controller-get-solutions', () => {
     beforeEach(() => {
       return knex('assessments').insert([ insertedAssessment ])
         .then((rows) => {
-          insertedAssessmentId = rows[ 0 ];
+          insertedAssessmentId = rows[0];
 
           const inserted_answer_1 = {
             value: 'any bad answer',
@@ -122,7 +122,7 @@ describe('Acceptance | API | assessment-controller-get-solutions', () => {
           return knex('answers').insert([ inserted_answer_1, inserted_answer_2 ]);
         })
         .then((rows) => {
-          insertedAnswerId = rows[ 0 ];
+          insertedAnswerId = rows[0];
         });
     });
 
@@ -162,7 +162,7 @@ describe('Acceptance | API | assessment-controller-get-solutions', () => {
 
     beforeEach(() => {
       return knex('assessments').insert([ insertedAssessment ]).then((rows) => {
-        insertedAssessmentId = rows[ 0 ];
+        insertedAssessmentId = rows[0];
 
         const inserted_answer = {
           value: 'any bad answer',
@@ -174,7 +174,7 @@ describe('Acceptance | API | assessment-controller-get-solutions', () => {
         return knex('answers').insert([ inserted_answer ]);
       })
         .then((rows) => {
-          insertedAnswerId = rows[ 0 ];
+          insertedAnswerId = rows[0];
         });
     });
 
@@ -211,7 +211,7 @@ describe('Acceptance | API | assessment-controller-get-solutions', () => {
         .insert([ insertedAssessment ])
         .then((rows) => {
 
-          insertedAssessmentId = rows[ 0 ];
+          insertedAssessmentId = rows[0];
 
           const inserted_answer = {
             value: 'any bad answer',
@@ -222,7 +222,7 @@ describe('Acceptance | API | assessment-controller-get-solutions', () => {
 
           return knex('answers').insert([ inserted_answer ]);
         }).then((rows) => {
-          insertedAnswerId = rows[ 0 ];
+          insertedAnswerId = rows[0];
         });
     });
 
@@ -267,7 +267,7 @@ describe('Acceptance | API | assessment-controller-get-solutions', () => {
     beforeEach(() => {
       return knex('assessments').insert([ insertedAssessment ])
         .then((rows) => {
-          insertedAssessmentId = rows[ 0 ];
+          insertedAssessmentId = rows[0];
 
           const inserted_answer = {
             value: 'any good answer',
@@ -278,7 +278,7 @@ describe('Acceptance | API | assessment-controller-get-solutions', () => {
 
           return knex('answers').insert([ inserted_answer ]);
         }).then((rows) => {
-          insertedAnswerId = rows[ 0 ];
+          insertedAnswerId = rows[0];
 
           return knex('scenarios').insert([ insertedScenario ]);
         });

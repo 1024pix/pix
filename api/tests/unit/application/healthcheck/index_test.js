@@ -1,4 +1,4 @@
-const {describe, it, expect, before, beforeEach, after, sinon} = require('../../../test-helper');
+const { describe, it, expect, before, beforeEach, after, sinon } = require('../../../test-helper');
 const Hapi = require('hapi');
 const healthcheckController = require('../../../../lib/application/healthcheck/healthcheck-controller');
 
@@ -8,8 +8,8 @@ describe('Unit | Router | HealthcheckRouter', function() {
 
   beforeEach(function() {
     server = this.server = new Hapi.Server();
-    server.connection({port: null});
-    server.register({register: require('../../../../lib/application/healthcheck')});
+    server.connection({ port: null });
+    server.register({ register: require('../../../../lib/application/healthcheck') });
   });
 
   function expectRouteToExist(routeOptions, done) {
@@ -30,7 +30,7 @@ describe('Unit | Router | HealthcheckRouter', function() {
     });
 
     it('should exist', function(done) {
-      return expectRouteToExist({method: 'GET', url: '/api'}, done);
+      return expectRouteToExist({ method: 'GET', url: '/api' }, done);
     });
   });
 

@@ -5,7 +5,7 @@ exports.register = function(server, options, next) {
   server.route([{
     method: 'DELETE',
     path: '/api/cache',
-    config: {handler: CacheController.removeCacheEntry, tags: ['api']}
+    config: { handler: CacheController.removeCacheEntry, tags: ['api'] }
   }
   ]);
 

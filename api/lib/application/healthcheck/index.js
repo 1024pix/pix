@@ -5,7 +5,7 @@ exports.register = function(server, options, next) {
     {
       method: 'GET',
       path: '/api',
-      config: {handler: healthcheckController.get, tags: ['api']}
+      config: { handler: healthcheckController.get, tags: ['api'] }
     },
   ]);
 

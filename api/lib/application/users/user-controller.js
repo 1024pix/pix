@@ -6,12 +6,12 @@ const userSerializer = require('../../infrastructure/serializers/jsonapi/user-se
 const validationErrorSerializer = require('../../infrastructure/serializers/jsonapi/validation-error-serializer');
 const mailService = require('../../domain/services/mail-service');
 const UserRepository = require('../../../lib/infrastructure/repositories/user-repository');
-const {InvalidTokenError} = require('../../../lib/domain/errors');
+const { InvalidTokenError } = require('../../../lib/domain/errors');
 const User = require('../../../lib/domain/models/data/user');
 const profileService = require('../../domain/services/profile-service');
 const profileSerializer = require('../../infrastructure/serializers/jsonapi/profile-serializer');
 const googleReCaptcha = require('../../../lib/infrastructure/validators/grecaptcha-validator');
-const {InvalidRecaptchaTokenError} = require('../../../lib/infrastructure/validators/errors');
+const { InvalidRecaptchaTokenError } = require('../../../lib/infrastructure/validators/errors');
 
 function _isUniqConstraintViolated(err) {
   const SQLITE_UNIQ_CONSTRAINT = 'SQLITE_CONSTRAINT';
@@ -81,7 +81,7 @@ module.exports = {
 };
 
 function _buildErrorWhenRecaptchaTokenInvalid(validationErrors) {
-  const captchaError = {recaptchaToken: ['Vous devez cliquer ci-dessous.']};
+  const captchaError = { recaptchaToken: ['Vous devez cliquer ci-dessous.'] };
   const mergedErrors = Object.assign(captchaError, validationErrors);
   return {
     data: mergedErrors

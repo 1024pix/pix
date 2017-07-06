@@ -45,7 +45,7 @@ describe('Integration | Component | course item', function() {
 
     it('should render course name', function() {
       // given
-      const course = Ember.Object.create({ name: 'name_value'});
+      const course = Ember.Object.create({ name: 'name_value' });
       this.set('course', course);
 
       // when
@@ -58,7 +58,7 @@ describe('Integration | Component | course item', function() {
 
     it('should render course description', function() {
       // given
-      const course = Ember.Object.create({ description: 'description_value'});
+      const course = Ember.Object.create({ description: 'description_value' });
       this.set('course', course);
 
       // when
@@ -71,7 +71,7 @@ describe('Integration | Component | course item', function() {
 
     it('should render the number of challenges', function() {
       // given
-      const course = Ember.Object.create({ challenges: ['c1', 'c2', 'c3', 'c4']});
+      const course = Ember.Object.create({ challenges: ['c1', 'c2', 'c3', 'c4'] });
       this.set('course', course);
 
       // when
@@ -97,7 +97,7 @@ describe('Integration | Component | course item', function() {
 
     it('should render a link containing the course name in title', function() {
       // given
-      const course = Ember.Object.create({ name: 'My course'});
+      const course = Ember.Object.create({ name: 'My course' });
       this.set('course', course);
 
       // when
@@ -113,7 +113,7 @@ describe('Integration | Component | course item', function() {
 
     it('should send action "startCourse" with course in argument when clicking on "start" button', function() {
       // given
-      const course = Ember.Object.create({ id: 'course_id'});
+      const course = Ember.Object.create({ id: 'course_id' });
       this.set('course', course);
       let actualCourse;
       this.on('actionHandler', function(receivedCourse) {

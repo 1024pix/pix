@@ -1,4 +1,4 @@
-const {describe, it, after, afterEach, beforeEach, sinon, expect} = require('../../../test-helper');
+const { describe, it, after, afterEach, beforeEach, sinon, expect } = require('../../../test-helper');
 
 const faker = require('faker');
 const User = require('../../../../lib/domain/models/data/user');
@@ -9,7 +9,7 @@ const server = require('../../../../server');
 const userController = require('../../../../lib/application/users/user-controller');
 const validationErrorSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/validation-error-serializer');
 const googleReCaptcha = require('../../../../lib/infrastructure/validators/grecaptcha-validator');
-const {InvalidRecaptchaTokenError} = require('../../../../lib/infrastructure/validators/errors');
+const { InvalidRecaptchaTokenError } = require('../../../../lib/infrastructure/validators/errors');
 const logger = require('../../../../lib/infrastructure/logger');
 
 const mailService = require('../../../../lib/domain/services/mail-service');
@@ -91,7 +91,7 @@ describe('Unit | Controller | user-controller', () => {
         };
         const codeMethodStub = sinon.stub();
         const replyStub = function() {
-          return {code: codeMethodStub};
+          return { code: codeMethodStub };
         };
 
         //when
@@ -159,7 +159,7 @@ describe('Unit | Controller | user-controller', () => {
 
       it('should send an email', () => {
         // Given
-        const expectedSerializedUser = {message: 'serialized user'};
+        const expectedSerializedUser = { message: 'serialized user' };
         userSerializerStub.returns(expectedSerializedUser);
         const sendAccountCreationEmail = sinon.stub(mailService, 'sendAccountCreationEmail');
         const request = {
@@ -191,9 +191,9 @@ describe('Unit | Controller | user-controller', () => {
     it('should reply with a serialized error', () => {
       // Given
       const codeSpy = sinon.spy();
-      const expectedSerializedError = {errors: []};
+      const expectedSerializedError = { errors: [] };
       validationErrorSerializerStub.withArgs().returns(expectedSerializedError);
-      replyStub.returns({code: codeSpy});
+      replyStub.returns({ code: codeSpy });
 
       const request = {
         payload: {
@@ -233,7 +233,7 @@ describe('Unit | Controller | user-controller', () => {
 
       beforeEach(() => {
         userSerializerStub = sinon.stub(userSerializer, 'deserialize');
-        replyStub.returns({code: sinon.spy()});
+        replyStub.returns({ code: sinon.spy() });
       });
 
       afterEach(() => {
@@ -244,8 +244,8 @@ describe('Unit | Controller | user-controller', () => {
 
         it('should return an already registered email error message', () => {
           // Given
-          validationErrorSerializerStub.withArgs().returns({errors: []});
-          const sqliteConstraint = {code: 'SQLITE_CONSTRAINT'};
+          validationErrorSerializerStub.withArgs().returns({ errors: [] });
+          const sqliteConstraint = { code: 'SQLITE_CONSTRAINT' };
           userSerializerStub.returns({
             save: () => {
               return Promise.reject(sqliteConstraint);
@@ -271,8 +271,8 @@ describe('Unit | Controller | user-controller', () => {
 
         it('should return an already registered email error message', () => {
           // Given
-          validationErrorSerializerStub.withArgs().returns({errors: []});
-          const sqliteConstraint = {code: '23505'};
+          validationErrorSerializerStub.withArgs().returns({ errors: [] });
+          const sqliteConstraint = { code: '23505' };
           userSerializerStub.returns({
             save: () => {
               return Promise.reject(sqliteConstraint);
@@ -361,7 +361,7 @@ describe('Unit | Controller | user-controller', () => {
           // given
           const codeMethodSpy = sinon.spy();
           const replyErrorStub = function() {
-            return {code: codeMethodSpy};
+            return { code: codeMethodSpy };
           };
           // When
           const promise = userController.save(request, replyErrorStub);
@@ -379,15 +379,15 @@ describe('Unit | Controller | user-controller', () => {
               status: '400',
               title: 'Invalid Attribute',
               detail: 'Vous devez cliquer ci-dessous.',
-              source: {pointer: '/data/attributes/recaptcha-token'},
-              meta: {field: 'recaptchaToken'}
+              source: { pointer: '/data/attributes/recaptcha-token' },
+              meta: { field: 'recaptchaToken' }
             },
             {
               status: '400',
               title: 'Invalid Attribute',
               detail: 'Le champ CGU doit être renseigné.',
-              source: {pointer: '/data/attributes/cgu'},
-              meta: {field: 'cgu'}
+              source: { pointer: '/data/attributes/cgu' },
+              meta: { field: 'cgu' }
             }]
           };
           const replyErrorStub = sinon.stub();

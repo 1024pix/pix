@@ -89,11 +89,11 @@ export default Ember.Component.extend({
   },
 
   resultItem: Ember.computed('answer.result', function() {
-    let resultItem = contentReference[ 'default' ];
+    let resultItem = contentReference['default'];
     const answerStatus = this.get('answer.result');
 
     if (answerStatus && (answerStatus in contentReference)) {
-      resultItem = contentReference[ answerStatus ];
+      resultItem = contentReference[answerStatus];
     }
     return resultItem;
   }),

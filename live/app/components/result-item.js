@@ -43,7 +43,7 @@ export default Ember.Component.extend({
 
   resultItem: Ember.computed('answer.result', function() {
     if (!this.get('answer.result')) return;
-    return contentReference[ this.get('answer.result') ] || contentReference[ 'default' ];
+    return contentReference[this.get('answer.result')] || contentReference['default'];
   }),
 
   resultTooltip: Ember.computed('resultItem', function() {

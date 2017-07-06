@@ -1,6 +1,6 @@
-import {expect} from 'chai';
-import {describe, it} from 'mocha';
-import {setupComponentTest} from 'ember-mocha';
+import { expect } from 'chai';
+import { describe, it } from 'mocha';
+import { setupComponentTest } from 'ember-mocha';
 import hbs from 'htmlbars-inline-precompile';
 
 const COMPONENT_WRAPPER = '.scoring-panel-tantpix';
@@ -66,7 +66,7 @@ describe('Integration | Component | scoring panel tantpix', function() {
           wrapperLength: 1
         },
 
-      ].forEach(({wrapperDescription, wrapperClass, wrapperTagName, wrapperLength}) => {
+      ].forEach(({ wrapperDescription, wrapperClass, wrapperTagName, wrapperLength }) => {
         it(`should contain: ${wrapperDescription} in scoring panel`, function() {
           const wrapperRendered = this.$(wrapperClass);
           expect(wrapperRendered.prop('tagName').toLowerCase()).to.equal(wrapperTagName);
@@ -102,7 +102,7 @@ describe('Integration | Component | scoring panel tantpix', function() {
           itemTagName: 'button',
           itemContent: BUTTON_NEXT_CONTENT
         },
-      ].forEach(({itemDescription, itemClass, itemTagName, itemContent}) => {
+      ].forEach(({ itemDescription, itemClass, itemTagName, itemContent }) => {
         it(`should be ${itemDescription} in scoring panel`, function() {
           const itemRendered = this.$(itemClass);
           expect(itemRendered.prop('tagName').toLowerCase()).to.equal(itemTagName);

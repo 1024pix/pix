@@ -62,7 +62,7 @@ describe('Unit | Service | MailService', () => {
       // Then
       return promise.then(() => {
         sinon.assert.called(sendEmailStub);
-        expect(sendEmailStub.firstCall.args[ 0 ]).to.deep.equal({
+        expect(sendEmailStub.firstCall.args[0]).to.deep.equal({
           to: email,
           template: '129291'
         });

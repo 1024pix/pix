@@ -60,10 +60,10 @@ describe('Unit | Service | Validation Comparison', function() {
     });
 
     [
-      { scenario: 'the answer is a solution', answer: 'a', solution: ['a', 'b'], expected: 0},
-      { scenario: 'there is 3/4 good character', answer: 'faco', solution: ['face', 'faac'], expected: 1/4},
-      { scenario: 'the best ratio is 3/4 good character on one the solution', answer: 'faco', solution: ['face', 'allo'], expected: 1/4},
-      { scenario: 'the answer has nothing to see compare to solution', answer: 'Linkedin', solution: ['Viadeo', 'Instagram'], expected: 3/4},
+      { scenario: 'the answer is a solution', answer: 'a', solution: ['a', 'b'], expected: 0 },
+      { scenario: 'there is 3/4 good character', answer: 'faco', solution: ['face', 'faac'], expected: 1/4 },
+      { scenario: 'the best ratio is 3/4 good character on one the solution', answer: 'faco', solution: ['face', 'allo'], expected: 1/4 },
+      { scenario: 'the answer has nothing to see compare to solution', answer: 'Linkedin', solution: ['Viadeo', 'Instagram'], expected: 3/4 },
     ].forEach((testCase) => {
       it(testCase.scenario, () => {
         // then

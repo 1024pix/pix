@@ -1,6 +1,6 @@
 import { expect } from 'chai';
-import {describe, it} from 'mocha';
-import {setupModelTest} from 'ember-mocha';
+import { describe, it } from 'mocha';
+import { setupModelTest } from 'ember-mocha';
 
 describe('Follower', function() {
   setupModelTest('follower', {

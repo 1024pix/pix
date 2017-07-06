@@ -9,8 +9,8 @@ describe('Unit | Component | CourseItemComponent', function() {
   describe('Computed property "imageUrl"', function() {
     let component;
 
-    const COURSE_WITH_IMAGE = {imageUrl:'any_image.png'};
-    const COURSE_WITHOUT_IMAGE = {imageUrl:null};
+    const COURSE_WITH_IMAGE = { imageUrl:'any_image.png' };
+    const COURSE_WITHOUT_IMAGE = { imageUrl:null };
 
     function initComponentWithImage() {
       component = this.subject();

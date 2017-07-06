@@ -22,4 +22,4 @@ class PasswordNotMatching extends Error {
   }
 }
 
-module.exports = {NotFoundError, NotElligibleToScoringError, PasswordNotMatching, InvalidTokenError};
+module.exports = { NotFoundError, NotElligibleToScoringError, PasswordNotMatching, InvalidTokenError };

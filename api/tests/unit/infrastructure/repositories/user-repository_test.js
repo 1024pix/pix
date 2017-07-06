@@ -1,4 +1,4 @@
-const {expect, knex} = require('../../../test-helper');
+const { expect, knex } = require('../../../test-helper');
 const faker = require('faker');
 const bcrypt = require('bcrypt');
 

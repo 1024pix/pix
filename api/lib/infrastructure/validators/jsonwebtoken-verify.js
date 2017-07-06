@@ -1,6 +1,6 @@
 const jsonwebtoken = require('jsonwebtoken');
 const settings = require('../../../lib/settings');
-const {InvalidTokenError} = require('../../../lib/domain/errors');
+const { InvalidTokenError } = require('../../../lib/domain/errors');
 
 function _extractTokenFromAuthChain(authChain) {
   const bearerIndex = authChain.indexOf('Bearer ');
