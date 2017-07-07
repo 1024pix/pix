@@ -1,4 +1,4 @@
-const {describe, it, beforeEach, afterEach, sinon} = require('../../../test-helper');
+const { describe, it, beforeEach, afterEach, sinon } = require('../../../test-helper');
 const Boom = require('boom');
 
 const assessmentController = require('../../../../lib/application/assessments/assessment-controller');
@@ -45,7 +45,7 @@ describe('Unit | Controller | assessment-controller', () => {
 
       it('should call getScoredAssessment', () => {
         // When
-        const promise = assessmentController.getNextChallenge({params: {id: 7531}}, () => {
+        const promise = assessmentController.getNextChallenge({ params: { id: 7531 } }, () => {
         });
 
         // Then
@@ -56,7 +56,7 @@ describe('Unit | Controller | assessment-controller', () => {
 
       it('should save the assessment with score', () => {
         // When
-        const promise = assessmentController.getNextChallenge({params: {id: 7531}}, () => {
+        const promise = assessmentController.getNextChallenge({ params: { id: 7531 } }, () => {
         });
 
         // Then
@@ -85,7 +85,7 @@ describe('Unit | Controller | assessment-controller', () => {
           assessmentService.getScoredAssessment.rejects(error);
 
           // When
-          const promise = assessmentController.getNextChallenge({params: {id: 7531}}, replyStub);
+          const promise = assessmentController.getNextChallenge({ params: { id: 7531 } }, replyStub);
 
           // Then
           return promise.then(() => {
@@ -100,7 +100,7 @@ describe('Unit | Controller | assessment-controller', () => {
           assessmentWithScore.save.rejects(error);
 
           // When
-          const promise = assessmentController.getNextChallenge({params: {id: 7531}}, replyStub);
+          const promise = assessmentController.getNextChallenge({ params: { id: 7531 } }, replyStub);
 
           // Then
           return promise.then(() => {
@@ -122,7 +122,7 @@ describe('Unit | Controller | assessment-controller', () => {
 
       it('should not evaluate assessment score', () => {
         // When
-        const promise = assessmentController.getNextChallenge({params: {id: 7531}}, () => {
+        const promise = assessmentController.getNextChallenge({ params: { id: 7531 } }, () => {
         });
 
         // Then

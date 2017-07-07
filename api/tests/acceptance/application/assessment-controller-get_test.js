@@ -1,4 +1,4 @@
-const {describe, it, after, before, beforeEach, afterEach, expect, knex, nock} = require('../../test-helper');
+const { describe, it, after, before, beforeEach, afterEach, expect, knex, nock } = require('../../test-helper');
 const server = require('../../../server');
 
 describe('Acceptance | API | Assessments GET', function() {
@@ -73,7 +73,7 @@ describe('Acceptance | API | Assessments GET', function() {
       knex('assessments').delete().then(() => {
         knex('assessments').insert([inserted_assessment]).then((rows) => {
           inserted_assessment_id = rows[0];
-          options = {method: 'GET', url: `/api/assessments/${inserted_assessment_id}`};
+          options = { method: 'GET', url: `/api/assessments/${inserted_assessment_id}` };
           done();
         });
       });
@@ -128,8 +128,8 @@ describe('Acceptance | API | Assessments GET', function() {
             'pix-score': 0,
           },
           'relationships': {
-            'course': {'data': {'type': 'courses', 'id': 'anyFromAirTable'}},
-            'answers': {'data': []}
+            'course': { 'data': { 'type': 'courses', 'id': 'anyFromAirTable' } },
+            'answers': { 'data': [] }
           }
         };
         const assessment = response.result.data;
@@ -193,7 +193,7 @@ describe('Acceptance | API | Assessments GET', function() {
         .from('assessments')
         .limit(1)
         .then(function() {
-          server.inject({method: 'GET', url: `/api/assessments/${inserted_assessment_id}`}).then((response) => {
+          server.inject({ method: 'GET', url: `/api/assessments/${inserted_assessment_id}` }).then((response) => {
             expect(response.statusCode).to.equal(200);
             done();
           });
@@ -207,7 +207,7 @@ describe('Acceptance | API | Assessments GET', function() {
         .from('assessments')
         .limit(1)
         .then(function() {
-          server.inject({method: 'GET', url: `/api/assessments/${inserted_assessment_id}`}).then((response) => {
+          server.inject({ method: 'GET', url: `/api/assessments/${inserted_assessment_id}` }).then((response) => {
             const contentType = response.headers['content-type'];
             expect(contentType).to.contain('application/json');
             done();
@@ -218,7 +218,7 @@ describe('Acceptance | API | Assessments GET', function() {
 
     it('should return the expected assessment', function() {
       // When
-      const promise = server.injectThen({method: 'GET', url: `/api/assessments/${inserted_assessment_id}`});
+      const promise = server.injectThen({ method: 'GET', url: `/api/assessments/${inserted_assessment_id}` });
 
       // Then
       return promise.then((response) => {
@@ -230,9 +230,9 @@ describe('Acceptance | API | Assessments GET', function() {
             'pix-score': 16
           },
           'relationships': {
-            'course': {'data': {'type': 'courses', 'id': 'anyFromAirTable'}},
+            'course': { 'data': { 'type': 'courses', 'id': 'anyFromAirTable' } },
             'answers': {
-              'data': [{type: 'answers', id: inserted_answer_ids[0]}, {
+              'data': [{ type: 'answers', id: inserted_answer_ids[0] }, {
                 type: 'answers',
                 id: inserted_answer_ids[1]
               }]

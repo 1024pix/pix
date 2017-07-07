@@ -1,4 +1,4 @@
-const {describe, it, expect, before, after, knex, sinon} = require('../../../test-helper');
+const { describe, it, expect, before, after, knex, sinon } = require('../../../test-helper');
 
 const assessmentRepository = require('../../../../lib/infrastructure/repositories/assessment-repository');
 const Assessment = require('../../../../lib/domain/models/data/assessment');
@@ -58,9 +58,11 @@ describe('Unit | Repository | assessmentRepository', () => {
     it('should throw an error if something went wrong', () => {
       //Given
       const error = new Error('Unable to fetch');
-      const whereStub = sinon.stub(Assessment, 'where').returns({ fetchAll: () => {
-        return Promise.reject(error);
-      } });
+      const whereStub = sinon.stub(Assessment, 'where').returns({
+        fetchAll: () => {
+          return Promise.reject(error);
+        }
+      });
 
       // When
       const promise = assessmentRepository.getByUserId(JOHN);

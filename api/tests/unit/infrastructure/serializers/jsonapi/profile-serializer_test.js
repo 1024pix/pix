@@ -8,15 +8,19 @@ describe('Unit | Serializer | JSONAPI | profile-serializer', () => {
 
   describe('#serialize', function() {
 
-    it('should serialize a Profile into JSON:API data of type "users"', function() {
-      // given
-      const user = new User({
+    let user;
+    let areas;
+    let competences;
+    let expectedJson;
+
+    beforeEach(() => {
+      user = new User({
         id: 'user_id',
         'firstName': 'Luke',
         'lastName': 'Skywalker'
       });
 
-      const areas = [
+      areas = [
         {
           id: 'recAreaA',
           name: 'area-name-1'
@@ -27,7 +31,7 @@ describe('Unit | Serializer | JSONAPI | profile-serializer', () => {
         }
       ];
 
-      const competences = [
+      competences = [
         {
           id: 'recCompA',
           name: 'competence-name-1',
@@ -39,13 +43,14 @@ describe('Unit | Serializer | JSONAPI | profile-serializer', () => {
           areaId: 'recAreaB'
         }];
 
-      const expectedJson = {
+      expectedJson = {
         data: [{
           type: 'user',
           id: 'user_id',
           attributes: {
             'first-name': 'Luke',
-            'last-name': 'Skywalker'
+            'last-name': 'Skywalker',
+            'total-pix-score': 128
           },
           relationships: {
             competences: {
@@ -92,7 +97,7 @@ describe('Unit | Serializer | JSONAPI | profile-serializer', () => {
             attributes: {
               name: 'competence-name-2',
               level: 8,
-              'pix-score' : 128
+              'pix-score': 128
             },
             relationships: {
               area: {
@@ -103,18 +108,35 @@ describe('Unit | Serializer | JSONAPI | profile-serializer', () => {
           }
         ]
       };
+    });
 
-      const profile = new Profile(user, competences, areas, [new Assessment({
-        courseId: 'courseID1',
-        estimatedLevel: 8,
-        pixScore : 128
-      })], [{id: 'courseID1', competences: ['recCompB']}]);
+    it('should serialize a Profile into JSON:API data of type "users"', function() {
+      // Given
+      const profile = new Profile(user, competences, areas,
+        [new Assessment(
+          {
+            courseId: 'courseID1',
+            estimatedLevel: 8,
+            pixScore: 128
+          })],
+        [{ id: 'courseID1', competences: ['recCompB'] }]);
 
       // When
       const userSerialized = serializer.serialize(profile);
 
       // Then
       expect(userSerialized).to.be.deep.equal(expectedJson);
+    });
+
+    it('should not serialize "total-pix-score" user attribute when no assessment', function() {
+      // Given
+      const profile = new Profile(user, competences, areas, [], []);
+
+      // When
+      const userSerialized = serializer.serialize(profile);
+
+      // Then
+      expect(userSerialized.data[0].attributes).not.to.have.property('total-pix-score');
     });
   });
 

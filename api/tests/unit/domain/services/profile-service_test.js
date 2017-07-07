@@ -1,20 +1,23 @@
 const { describe, it, expect, sinon, beforeEach, afterEach } = require('../../../test-helper');
+
+const faker = require('faker');
+
 const profileService = require('../../../../lib/domain/services/profile-service');
 const userRepository = require('../../../../lib/infrastructure/repositories/user-repository');
 const competenceRepository = require('../../../../lib/infrastructure/repositories/competence-repository');
 const areaRepository = require('../../../../lib/infrastructure/repositories/area-repository');
 const courseRepository = require('../../../../lib/infrastructure/repositories/course-repository');
 const assessmentRepository = require('../../../../lib/infrastructure/repositories/assessment-repository');
-const faker = require('faker');
 
 const Assessment = require('../../../../lib/domain/models/data/assessment');
+const User = require('../../../../lib/domain/models/data/user');
 
 describe('Unit | Service | Profil User Service', function() {
 
-  const fakeUserRecord = {
+  const fakeUserRecord = new User({
     'first-name': faker.name.findName(),
     'last-name': faker.name.findName()
-  };
+  });
 
   const fakeCompetenceRecords = [
     {
@@ -40,16 +43,16 @@ describe('Unit | Service | Profil User Service', function() {
   ];
 
   const fakeAssessmentRecords = [new Assessment({
-    id : 'assessmentId1',
+    id: 'assessmentId1',
     pixScore: 10,
     estimatedLevel: 1,
-    courseId : 'courseId8'
+    courseId: 'courseId8'
   })];
 
   const fakeCoursesRecords = [{
-    id : 'courseId8',
-    nom : 'Test de positionnement 1.1',
-    competences : ['competenceId1']
+    id: 'courseId8',
+    nom: 'Test de positionnement 1.1',
+    competences: ['competenceId1']
   }];
 
   describe('#getUser', () => {
@@ -114,7 +117,6 @@ describe('Unit | Service | Profil User Service', function() {
       });
 
       it('should call course repository to get adaptive courses', function() {
-
         // When
         const promise = profileService.getByUserId('user-id');
 
@@ -135,7 +137,6 @@ describe('Unit | Service | Profil User Service', function() {
           sinon.assert.called(assessmentRepository.getByUserId);
           sinon.assert.calledWith(assessmentRepository.getByUserId, 'user-id');
         });
-
       });
 
     });

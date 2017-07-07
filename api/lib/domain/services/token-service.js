@@ -6,12 +6,12 @@ function createTokenFromUser(user) {
   return jsonwebtoken.sign({
     user_id: user.get('id'),
     email: user.get('email')
-  }, settings.authentication.secret, {expiresIn: settings.authentication.tokenLifespan});
+  }, settings.authentication.secret, { expiresIn: settings.authentication.tokenLifespan });
 }
 
 function extractTokenFromAuthChain(authChain) {
   const bearerIndex = authChain.indexOf('Bearer ');
-  if(bearerIndex < 0) {
+  if (bearerIndex < 0) {
     return false;
   }
   return authChain.replace(/Bearer /g, '');

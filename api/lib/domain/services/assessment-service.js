@@ -7,7 +7,7 @@ const challengeRepository = require('../../infrastructure/repositories/challenge
 const assessmentUtils = require('./assessment-service-utils');
 const _ = require('../../infrastructure/utils/lodash-utils');
 
-const {NotFoundError, NotElligibleToScoringError} = require('../../domain/errors');
+const { NotFoundError, NotElligibleToScoringError } = require('../../domain/errors');
 
 const scoringService = require('../../domain/services/scoring-service');
 

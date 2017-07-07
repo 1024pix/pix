@@ -1,4 +1,4 @@
-const {describe, it, expect, beforeEach} = require('../../../../test-helper');
+const { describe, it, expect, beforeEach } = require('../../../../test-helper');
 const serializer = require('../../../../../lib/infrastructure/serializers/airtable/course-serializer');
 
 describe('Unit | Serializer | course-serializer', function() {
@@ -32,7 +32,7 @@ describe('Unit | Serializer | course-serializer', function() {
 
     it('should convert record "id" into "id" property', function() {
       // given
-      const airtableRecord = {id: 'rec123', fields: {}};
+      const airtableRecord = { id: 'rec123', fields: {} };
 
       // when
       const course = serializer.deserialize(airtableRecord);
@@ -57,6 +57,29 @@ describe('Unit | Serializer | course-serializer', function() {
         'isAdaptive': true,
         'name': 'Test de positionnement 1.1',
         'competences': ['recsvLz0W2ShyfD63']
+      });
+
+    });
+
+    it('should add an empty array if no competences defined', () => {
+      // Given
+      delete airtableRecord.fields.Competence;
+
+      // When
+      const course = serializer.deserialize(airtableRecord);
+
+      // Then
+      expect(course).to.deep.equal({
+        'challenges': [
+          'recPHXe5p4ip95Bc6',
+          'reclvHn6Bg3FyfwuL'
+        ],
+        'description': undefined,
+        'duration': undefined,
+        'id': 'recNPB7dTNt5krlMA',
+        'isAdaptive': true,
+        'name': 'Test de positionnement 1.1',
+        'competences': []
       });
 
     });

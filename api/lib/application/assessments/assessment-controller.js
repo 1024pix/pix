@@ -14,7 +14,7 @@ const courseRepository = require('../../infrastructure/repositories/course-repos
 const answerRepository = require('../../infrastructure/repositories/answer-repository');
 const solutionRepository = require('../../infrastructure/repositories/solution-repository');
 
-const {NotFoundError, NotElligibleToScoringError} = require('../../domain/errors');
+const { NotFoundError, NotElligibleToScoringError } = require('../../domain/errors');
 
 module.exports = {
 

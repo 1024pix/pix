@@ -1,4 +1,4 @@
-const {describe, it, after, afterEach, expect, knex} = require('../../test-helper');
+const { describe, it, after, afterEach, expect, knex } = require('../../test-helper');
 const server = require('../../../server');
 const Assessment = require('../../../lib/domain/models/data/assessment');
 
@@ -24,8 +24,7 @@ describe('Acceptance | API | Assessments POST', function() {
         method: 'POST', url: '/api/assessments', payload: {
           data: {
             type: 'assessment',
-            attributes: {
-            },
+            attributes: {},
             relationships: {
               course: {
                 data: {
@@ -45,10 +44,31 @@ describe('Acceptance | API | Assessments POST', function() {
       };
     });
 
+    it('should return 201 HTTP status code', function() {
+      const promise = server.inject(options);
+
+      // Then
+      return promise.then((response) => {
+        expect(response.statusCode).to.equal(201);
+      });
+    });
+
+    it('should return application/json', function() {
+      // When
+      const promise = server.inject(options);
+
+      // Then
+      return promise.then((response) => {
+        const contentType = response.headers['content-type'];
+        expect(contentType).to.contain('application/json');
+      });
+    });
+
     describe('when the user is authenticated', () => {
+
       it('should save user_id in the database', () => {
         // Given
-        const user = new User({id : 436357});
+        const user = new User({ id: 436357 });
         const token = tokenService.createTokenFromUser(user);
         options.headers = {};
         options.headers['Authorization'] = `Bearer ${token}`;
@@ -58,33 +78,11 @@ describe('Acceptance | API | Assessments POST', function() {
 
         // Then
         return promise.then(response => {
-          return new Assessment({id: response.result.data.id}).fetch();
+          return new Assessment({ id: response.result.data.id }).fetch();
         })
-        .then(model => {
-          expect(model.get('userId')).to.equal(436357);
-        });
-      });
-    });
-
-    describe('when the user is not authenticated', () => {
-      it('should return 201 HTTP status code', function() {
-        const promise = server.inject(options);
-
-        // Then
-        return promise.then((response) => {
-          expect(response.statusCode).to.equal(201);
-        });
-      });
-
-      it('should return application/json', function() {
-        // When
-        const promise = server.inject(options);
-
-        // Then
-        return promise.then((response) => {
-          const contentType = response.headers['content-type'];
-          expect(contentType).to.contain('application/json');
-        });
+          .then(model => {
+            expect(model.get('userId')).to.equal(436357);
+          });
       });
 
       it('should add a new assessment into the database', function() {
@@ -99,19 +97,6 @@ describe('Acceptance | API | Assessments POST', function() {
           .then(function(afterAssessmentsNumber) {
             expect(afterAssessmentsNumber).to.equal(1);
           });
-      });
-
-      it('should persist the given course ID', function() {
-        // when
-        const promise = server.inject(options);
-
-        // Then
-        return promise.then(response => {
-          return new Assessment({id: response.result.data.id}).fetch();
-        })
-        .then(function(model) {
-          expect(model.get('courseId')).to.equal(options.payload.data.relationships.course.data.id);
-        });
       });
 
       it('should return persisted assessement', function() {
@@ -129,8 +114,25 @@ describe('Acceptance | API | Assessments POST', function() {
           expect(assessment.relationships.course.data.id).to.equal(options.payload.data.relationships.course.data.id);
         });
       });
+
+      describe('when the user is not authenticated', () => {
+
+        it('should persist the given course ID', function() {
+          // when
+          const promise = server.inject(options);
+
+          // Then
+          return promise.then(response => {
+            return new Assessment({ id: response.result.data.id }).fetch();
+          })
+            .then(function(model) {
+              expect(model.get('courseId')).to.equal(options.payload.data.relationships.course.data.id);
+            });
+        });
+
+      });
+
     });
 
   });
-
 });

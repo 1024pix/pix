@@ -1,4 +1,4 @@
-const { describe, it, expect, sinon, beforeEach, afterEach } = require('../../../test-helper');
+const {describe, it, expect, sinon, beforeEach, afterEach} = require('../../../test-helper');
 const Boom = require('boom');
 
 const controller = require('../../../../lib/application/assessments/assessment-controller');
@@ -40,7 +40,7 @@ describe('Unit | Controller | assessment-controller', () => {
       }
     };
 
-    const persistedAssessment = { id: 42 };
+    const persistedAssessment = {id: 42};
     const serializedAssessment = {
       id: 42,
       attributes: {
@@ -60,7 +60,7 @@ describe('Unit | Controller | assessment-controller', () => {
       assessment = new Assessment({});
 
       codeStub = sinon.stub();
-      replyStub = sinon.stub().returns({ code: codeStub });
+      replyStub = sinon.stub().returns({code: codeStub});
 
       sandbox.stub(assessment, 'save').resolves(persistedAssessment);
       sandbox.stub(tokenService, 'extractUserId');
@@ -140,7 +140,7 @@ describe('Unit | Controller | assessment-controller', () => {
 
       it('should return a badImplementationError', () => {
         // Given
-        const badImplementationMessage = { message: 'Boom: Bad Implementation' };
+        const badImplementationMessage = {message: 'Boom: Bad Implementation'};
         badImplementationStub.returns(badImplementationMessage);
         const rejectedError = new Error();
         assessment.save.rejects(rejectedError);

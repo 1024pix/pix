@@ -5,17 +5,18 @@ class Profile {
     this.user = user;
     this.competences = competences;
     this.areas = areas;
-    this.initCompetenceLevel();
-    this.setLevelToCompetences(assessments, courses);
+    this._initCompetenceLevel();
+    this._setLevelAndPixScoreToCompetences(assessments, courses);
+    this._calculateTotalPixScore();
   }
 
-  initCompetenceLevel() {
+  _initCompetenceLevel() {
     if (this.competences) {
       this.competences.forEach((competence) => competence['level'] = -1);
     }
   }
 
-  setLevelToCompetences(assessments, courses) {
+  _setLevelAndPixScoreToCompetences(assessments, courses) {
     assessments.forEach((assessment) => {
       const courseId = assessment.get('courseId');
 
@@ -32,6 +33,21 @@ class Profile {
         linkedCompetence.pixScore = assessment.get('pixScore');
       });
     });
+  }
+
+  _calculateTotalPixScore() {
+
+    const competencesWithScore = _.filter(this.competences, (competence) => { return competence.hasOwnProperty('pixScore'); });
+
+    if(competencesWithScore.length > 0) {
+      let pixScore = 0;
+
+      competencesWithScore.forEach((competence) => {
+        pixScore += competence.pixScore;
+      });
+
+      this.user.set('pix-score', pixScore);
+    }
   }
 }
 
