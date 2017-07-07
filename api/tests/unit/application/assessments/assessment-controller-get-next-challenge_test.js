@@ -12,9 +12,16 @@ describe('Unit | Controller | assessment-controller', () => {
   describe('#getNextChallenge', () => {
 
     let sandbox;
+    let assessmentWithoutScore;
     let assessmentWithScore;
 
     beforeEach(() => {
+
+      assessmentWithoutScore = new Assessment({
+        id: 1,
+        courseId: 'recHzEA6lN4PEs7LG',
+        userId: 5
+      });
 
       assessmentWithScore = new Assessment({
         id: 1,
@@ -27,7 +34,7 @@ describe('Unit | Controller | assessment-controller', () => {
 
       sandbox.stub(assessmentService, 'getScoredAssessment').resolves(assessmentWithScore);
       sandbox.stub(assessmentWithScore, 'save');
-      sandbox.stub(assessmentRepository, 'get').resolves({});
+      sandbox.stub(assessmentRepository, 'get').resolves(assessmentWithoutScore);
       sandbox.stub(assessmentService, 'getAssessmentNextChallengeId');
     });
 
@@ -35,6 +42,22 @@ describe('Unit | Controller | assessment-controller', () => {
 
       sandbox.restore();
 
+    });
+
+    describe('when the assessment is a preview', () => {
+      it('should', () => {
+        // Given
+        const replyStub = sinon.stub();
+        assessmentWithoutScore.set('courseId', 'null2356871');
+
+        // When
+        const promise = assessmentController.getNextChallenge({ params: { id: 12 } }, replyStub);
+
+        // Then
+        return promise.then(() => {
+          sinon.assert.calledWith(replyStub, 'null');
+        });
+      });
     });
 
     describe('when the assessment is over', () => {

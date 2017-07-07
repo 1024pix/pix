@@ -68,6 +68,11 @@ module.exports = {
     return assessmentRepository
       .get(request.params.id)
       .then((assessment) => {
+
+        if(assessmentService.isPreviewAssessment(assessment)) {
+          return Promise.reject(new NotElligibleToScoringError(`Assessment with ID ${request.params.id} is a preview Challenge`));
+        }
+
         return assessmentService.getAssessmentNextChallengeId(assessment, request.params.challengeId);
       })
       .then((nextChallengeId) => {
@@ -92,7 +97,12 @@ module.exports = {
       .then((challenge) => {
         return (challenge) ? reply(challengeSerializer.serialize(challenge)) : reply('null');
       })
-      .catch((err) => reply(Boom.badImplementation(err)));
+      .catch((err) => {
+        if(err instanceof NotElligibleToScoringError)
+          return reply('null');
+        else
+          return reply(Boom.badImplementation(err));
+      });
   },
 
   getAssessmentSolutions(request, reply) {

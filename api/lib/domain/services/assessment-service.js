@@ -80,7 +80,7 @@ function getScoredAssessment(assessmentId) {
 
         if (retrievedAssessment === null) {
           return Promise.reject(new NotFoundError(`Unable to find assessment with ID ${assessmentId}`));
-        } else if (_.startsWith(retrievedAssessment.get('courseId'), 'null')) {
+        } else if (isPreviewAssessment(retrievedAssessment)) {
           return Promise.reject(new NotElligibleToScoringError(`Assessment with ID ${assessmentId} is a preview Challenge`));
         }
 
@@ -135,11 +135,15 @@ function getAssessmentNextChallengeId(assessment, currentChallengeId) {
   });
 }
 
+function isPreviewAssessment(assessment) {
+  return _.startsWith(assessment.get('courseId'), 'null');
+}
+
 module.exports = {
 
   getAssessmentNextChallengeId,
   getScoredAssessment,
-
-  _getAssessmentResultDetails
+  _getAssessmentResultDetails,
+  isPreviewAssessment
 
 };

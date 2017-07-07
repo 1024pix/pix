@@ -44,20 +44,22 @@ describe('Unit | Controller | assessment-controller', () => {
       }
     };
 
-    let assessmentSerializerStub;
-    let assessmentDeserializeStub;
     let saveAssessmentStub;
-    let extractUserIdStub;
     let replyStub;
     let codeStub;
 
+    let sandbox;
+
     beforeEach(() => {
+      sandbox = sinon.sandbox.create();
+
       codeStub = sinon.stub();
       replyStub = sinon.stub().returns({ code: codeStub });
       saveAssessmentStub = sinon.stub().resolves(persistedAssessment);
-      extractUserIdStub = sinon.stub(tokenService, 'extractUserId');
-      assessmentSerializerStub = sinon.stub(assessmentSerializer, 'serialize').returns(serializedAssessment);
-      assessmentDeserializeStub = sinon.stub(assessmentSerializer, 'deserialize')
+
+      sandbox.stub(tokenService, 'extractUserId');
+      sandbox.stub(assessmentSerializer, 'serialize').returns(serializedAssessment);
+      sandbox.stub(assessmentSerializer, 'deserialize')
         .returns({
           set: () => {
           },
@@ -66,9 +68,7 @@ describe('Unit | Controller | assessment-controller', () => {
     });
 
     afterEach(() => {
-      assessmentDeserializeStub.restore();
-      assessmentSerializerStub.restore();
-      extractUserIdStub.restore();
+      sandbox.restore();
     });
 
     it('should exists', () => {
@@ -80,7 +80,7 @@ describe('Unit | Controller | assessment-controller', () => {
       controller.save(request, replyStub);
 
       // Then
-      sinon.assert.calledWith(assessmentDeserializeStub, request.payload);
+      sinon.assert.calledWith(assessmentSerializer.deserialize, request.payload);
     });
 
     it('should call a service that extract the id of user', () => {
@@ -89,8 +89,8 @@ describe('Unit | Controller | assessment-controller', () => {
       controller.save(request, replyStub);
 
       //Then
-      sinon.assert.calledOnce(extractUserIdStub);
-      sinon.assert.calledWith(extractUserIdStub, 'my-token');
+      sinon.assert.calledOnce(tokenService.extractUserId);
+      sinon.assert.calledWith(tokenService.extractUserId, 'my-token');
     });
 
     it('should persist the assessment', () => {
@@ -108,7 +108,7 @@ describe('Unit | Controller | assessment-controller', () => {
 
         // Then
         return promise.then(() => {
-          sinon.assert.calledWith(assessmentSerializerStub, persistedAssessment);
+          sinon.assert.calledWith(assessmentSerializer.serialize, persistedAssessment);
         });
       });
 
