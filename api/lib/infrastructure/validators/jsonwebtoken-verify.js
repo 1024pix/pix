@@ -2,17 +2,11 @@ const jsonwebtoken = require('jsonwebtoken');
 const settings = require('../../../lib/settings');
 const { InvalidTokenError } = require('../../../lib/domain/errors');
 
-function _extractTokenFromAuthChain(authChain) {
-  const bearerIndex = authChain.indexOf('Bearer ');
-  if(bearerIndex < 0) {
-    return false;
-  }
-  return authChain.replace(/Bearer /g, '');
-}
+const tokenService = require('../../../lib/domain/services/token-service');
 
 module.exports = {
   verify(authChain) {
-    const token = (authChain) ? _extractTokenFromAuthChain(authChain) : '';
+    const token = (authChain) ? tokenService.extractTokenFromAuthChain(authChain) : '';
     return new Promise((resolve, reject) => {
       if(!token) {
         return reject(new InvalidTokenError());

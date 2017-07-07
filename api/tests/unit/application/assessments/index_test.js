@@ -36,7 +36,7 @@ describe('Unit | Router | assessment-router', function() {
 
   describe('GET /api/assessments/assessment_id/next', function() {
 
-    before(function() {      
+    before(function() {
       sinon.stub(AssessmentController, 'getNextChallenge', (request, reply) => reply('ok'));
     });
 

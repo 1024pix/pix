@@ -2,6 +2,7 @@ const { describe, it, expect } = require('../../../../test-helper');
 const serializer = require('../../../../../lib/infrastructure/serializers/jsonapi/profile-serializer');
 const Profile = require('../../../../../lib/domain/models/data/profile');
 const User = require('../../../../../lib/domain/models/data/user');
+const Assessment = require('../../../../../lib/domain/models/data/assessment');
 
 describe('Unit | Serializer | JSONAPI | profile-serializer', () => {
 
@@ -90,7 +91,8 @@ describe('Unit | Serializer | JSONAPI | profile-serializer', () => {
             id: 'recCompB',
             attributes: {
               name: 'competence-name-2',
-              level: -1
+              level: 8,
+              'pix-score' : 128
             },
             relationships: {
               area: {
@@ -102,11 +104,16 @@ describe('Unit | Serializer | JSONAPI | profile-serializer', () => {
         ]
       };
 
-      const profile = new Profile(user, competences, areas);
-      // when
+      const profile = new Profile(user, competences, areas, [new Assessment({
+        courseId: 'courseID1',
+        estimatedLevel: 8,
+        pixScore : 128
+      })], [{id: 'courseID1', competences: ['recCompB']}]);
+
+      // When
       const userSerialized = serializer.serialize(profile);
 
-      // then
+      // Then
       expect(userSerialized).to.be.deep.equal(expectedJson);
     });
   });

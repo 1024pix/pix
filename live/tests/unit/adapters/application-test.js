@@ -24,7 +24,7 @@ describe('Unit | Route | subscribers', function() {
     applicationAdapter.set('session', { data: { authenticated: { token: expectedToken } } });
 
     expect(applicationAdapter.get('headers')).to.deep.equal({
-      'Authorization': `bearer ${expectedToken}`
+      'Authorization': `Bearer ${expectedToken}`
     });
   });
 

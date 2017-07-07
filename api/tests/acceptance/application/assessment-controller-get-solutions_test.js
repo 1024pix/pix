@@ -95,8 +95,6 @@ describe('Acceptance | API | assessment-controller-get-solutions', () => {
     let insertedAnswerId = null;
 
     const insertedAssessment = {
-      userName: 'John Doe',
-      userEmail: 'john.doe@mailmail.com',
       courseId: 'non_adaptive_course_id'
     };
 
@@ -155,8 +153,6 @@ describe('Acceptance | API | assessment-controller-get-solutions', () => {
     let insertedAnswerId = null;
 
     const insertedAssessment = {
-      userName: 'John Doe',
-      userEmail: 'john.doe@mailmail.com',
       courseId: 'non_adaptive_course_id'
     };
 
@@ -201,8 +197,6 @@ describe('Acceptance | API | assessment-controller-get-solutions', () => {
     let insertedAnswerId = null;
 
     const insertedAssessment = {
-      userName: 'John Doe',
-      userEmail: 'john.doe@mailmail.com',
       courseId: 'adaptive_course_id'
     };
 
@@ -253,8 +247,6 @@ describe('Acceptance | API | assessment-controller-get-solutions', () => {
     let insertedAnswerId = null;
 
     const insertedAssessment = {
-      userName: 'John Doe',
-      userEmail: 'john.doe@mailmail.com',
       courseId: 'adaptive_course_id'
     };
 

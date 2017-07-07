@@ -63,8 +63,6 @@ describe('Acceptance | API | Assessments', function() {
     let insertedAssessmentId = null;
 
     const inserted_assessment = {
-      userName: 'John Doe',
-      userEmail: 'john.doe@mailmail.com',
       courseId: 'the_adaptive_course_id'
     };
 

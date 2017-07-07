@@ -17,11 +17,11 @@ describe('Unit | Controller | healthcheckController', () => {
       healthcheckController.get(null, replySpy);
 
       // then
-      const arguments = replySpy.firstCall.args[0];
-      expect(arguments).to.include.keys('name', 'version', 'description');
-      expect(arguments['name']).to.equal('pix-api');
-      expect(arguments['description']).to.equal('Plateforme d\'évaluation et de certification des compétences numériques à l\'usage de tous les citoyens francophones');
-      expect(arguments['environment']).to.equal('test');
+      const callArguments = replySpy.firstCall.args[0];
+      expect(callArguments).to.include.keys('name', 'version', 'description');
+      expect(callArguments['name']).to.equal('pix-api');
+      expect(callArguments['description']).to.equal('Plateforme d\'évaluation et de certification des compétences numériques à l\'usage de tous les citoyens francophones');
+      expect(callArguments['environment']).to.equal('test');
     });
   });
 });

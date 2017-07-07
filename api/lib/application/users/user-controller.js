@@ -27,7 +27,7 @@ module.exports = {
 
   save(request, reply) {
 
-    if(!_.has(request, 'payload') || !_.has(request, 'payload.data.attributes')) {
+    if (!_.has(request, 'payload') || !_.has(request, 'payload.data.attributes')) {
       return reply(Boom.badRequest());
     }
 
@@ -42,11 +42,11 @@ module.exports = {
         mailService.sendAccountCreationEmail(user.get('email'));
         reply(userSerializer.serialize(user)).code(201);
       }).catch((err) => {
-        if(err instanceof InvalidRecaptchaTokenError) {
+        if (err instanceof InvalidRecaptchaTokenError) {
           const userValidationErrors = user.validationErrors();
           err = _buildErrorWhenRecaptchaTokenInvalid(userValidationErrors);
         }
-        if(_isUniqConstraintViolated(err)) {
+        if (_isUniqConstraintViolated(err)) {
           err = _buildErrorWhenUniquEmail();
         }
 
@@ -66,11 +66,11 @@ module.exports = {
         reply(profileSerializer.serialize(buildedProfile)).code(201);
       })
       .catch((err) => {
-        if(err instanceof InvalidTokenError) {
+        if (err instanceof InvalidTokenError) {
           return _replyErrorWithMessage(reply, 'Le token n’est pas valide', 401);
         }
 
-        if(err === User.NotFoundError) {
+        if (err === User.NotFoundError) {
           return _replyErrorWithMessage(reply, 'Cet utilisateur est introuvable', 404);
         }
 
