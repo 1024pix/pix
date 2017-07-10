@@ -1,6 +1,6 @@
 # Pix Changelog
 
-## 1.14.0 (10/07/2017)
+## 1.14.0 (10/07/2017) 
 
 - [#457](https://github.com/sgmap/pix/pull/457) [FEATURE] Ajout du score et du niveau par compétences sur le profil utilisateur côté API (US-574).
 - [#436](https://github.com/sgmap/pix/pull/436) [FEATURE] Récupération du niveau par compétence pour un utilisateur via une api sécurisée (US-527).
