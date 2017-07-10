@@ -21,7 +21,7 @@ export default function(schema, request) {
   ];
 
   const answers = _.map(allAnswers, function(oneAnswer) {
-    return {id: oneAnswer.data.id, obj: oneAnswer};
+    return { id: oneAnswer.data.id, obj: oneAnswer };
   });
 
   const answer = _.find(answers,

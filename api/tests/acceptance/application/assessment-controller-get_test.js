@@ -24,14 +24,14 @@ describe('Acceptance | API | Assessments GET', function() {
       });
 
     nock('https://api.airtable.com')
-    .get('/v0/test-base/Epreuves/y_first_challenge')
-    .query(true)
-    .reply(200, {
-      'id': 'y_first_challenge',
-      'fields': {
-        'acquis': ['@web5']
-      },
-    });
+      .get('/v0/test-base/Epreuves/y_first_challenge')
+      .query(true)
+      .reply(200, {
+        'id': 'y_first_challenge',
+        'fields': {
+          'acquis': ['@web5']
+        },
+      });
     nock('https://api.airtable.com')
       .get('/v0/test-base/Epreuves/y_second_challenge')
       .query(true)
@@ -59,15 +59,14 @@ describe('Acceptance | API | Assessments GET', function() {
     server.stop(done);
   });
 
-  describe('(no provided answer) GET /api/assessments/:id', function() {//
+  describe('(no provided answer) GET /api/assessments/:id', function() {
 
     let options;
     let inserted_assessment_id;
 
     const inserted_assessment = {
-      userName: 'John Doe',
-      userEmail: 'john.doe@mailmail.com',
-      courseId: 'anyFromAirTable'
+      courseId: 'anyFromAirTable',
+      userId: 1234
     };
 
     beforeEach(function(done) {
@@ -115,45 +114,38 @@ describe('Acceptance | API | Assessments GET', function() {
 
     });
 
-    it('should return the expected assessment', function(done) {
-      knex.select('id')
-        .from('assessments')
-        .limit(1)
-        .then(function() {
-          server.inject(options, (response) => {
-            const expectedAssessment = {
-              'type': 'assessment',
-              'id': inserted_assessment_id,
-              'attributes': {
-                'user-name': 'John Doe',
-                'user-email': 'john.doe@mailmail.com',
-                'estimated-level': undefined,
-                'pix-score': undefined,
-                'not-acquired-knowledge-tags': undefined,
-                'acquired-knowledge-tags': undefined
-              },
-              'relationships': {
-                'course': { 'data': { 'type': 'courses', 'id': 'anyFromAirTable' } },
-                'answers': { 'data': [] }
-              }
-            };
-            const assessment = response.result.data;
-            expect(assessment).to.deep.equal(expectedAssessment);
-            done();
-          });
-        });
+    it('should return the expected assessment', function() {
+      // When
+      const promise = server.injectThen(options);
+
+      // Then
+      return promise.then((response) => {
+        const expectedAssessment = {
+          'type': 'assessment',
+          'id': inserted_assessment_id,
+          'attributes': {
+            'estimated-level': 0,
+            'pix-score': 0,
+          },
+          'relationships': {
+            'course': { 'data': { 'type': 'courses', 'id': 'anyFromAirTable' } },
+            'answers': { 'data': [] }
+          }
+        };
+        const assessment = response.result.data;
+        expect(assessment).to.deep.equal(expectedAssessment);
+      });
     });
   });
 
-  describe('(answers provided) GET /api/assessments/:id', function() {//
+  describe('(answers provided) GET /api/assessments/:id', function() {
 
     let inserted_assessment_id = null;
     let inserted_answer_ids = null;
 
     const inserted_assessment = {
-      userName: 'John Doe',
-      userEmail: 'john.doe@mailmail.com',
-      courseId: 'anyFromAirTable'
+      courseId: 'anyFromAirTable',
+      userId: 1234
     };
 
     beforeEach(function(done) {
@@ -224,33 +216,32 @@ describe('Acceptance | API | Assessments GET', function() {
 
     });
 
-    it('should return the expected assessment', function(done) {
-      knex.select('id')
-        .from('assessments')
-        .limit(1)
-        .then(function() {
-          server.inject({ method: 'GET', url: `/api/assessments/${inserted_assessment_id}` }).then((response) => {
-            const expectedAssessment = {
-              'type': 'assessment',
-              'id': inserted_assessment_id,
-              'attributes': {
-                'user-name': 'John Doe',
-                'user-email': 'john.doe@mailmail.com',
-                'estimated-level': 3,
-                'pix-score': 16,
-                'not-acquired-knowledge-tags': ['@url1'],
-                'acquired-knowledge-tags': ['@web5', '@web4']
-              },
-              'relationships': {
-                'course': { 'data': { 'type': 'courses', 'id': 'anyFromAirTable' } },
-                'answers': { 'data': [ { type: 'answers', id: inserted_answer_ids[0] }, { type: 'answers', id:  inserted_answer_ids[1] } ] }
-              }
-            };
-            const assessment = response.result.data;
-            expect(assessment).to.deep.equal(expectedAssessment);
-            done();
-          });
-        });
+    it('should return the expected assessment', function() {
+      // When
+      const promise = server.injectThen({ method: 'GET', url: `/api/assessments/${inserted_assessment_id}` });
+
+      // Then
+      return promise.then((response) => {
+        const expectedAssessment = {
+          'type': 'assessment',
+          'id': inserted_assessment_id,
+          'attributes': {
+            'estimated-level': 3,
+            'pix-score': 16
+          },
+          'relationships': {
+            'course': { 'data': { 'type': 'courses', 'id': 'anyFromAirTable' } },
+            'answers': {
+              'data': [{ type: 'answers', id: inserted_answer_ids[0] }, {
+                type: 'answers',
+                id: inserted_answer_ids[1]
+              }]
+            }
+          }
+        };
+        const assessment = response.result.data;
+        expect(assessment).to.deep.equal(expectedAssessment);
+      });
     });
   });
 });

@@ -64,4 +64,19 @@ describe('Unit | Router | answer-router', function() {
     });
   });
 
+  describe('PATCH /api/answers/{id}', function() {
+
+    before(function() {
+      sinon.stub(AnswerController, 'update', (request, reply) => reply('ok'));
+    });
+
+    after(function() {
+      AnswerController.update.restore();
+    });
+
+    it('should exist', function(done) {
+      expectRouteToExist({ method: 'PATCH', url: '/api/answers/answer_id' }, done);
+    });
+  });
+
 });

@@ -75,7 +75,7 @@ module.exports = function(environment) {
     ENV.APP.LOG_VIEW_LOOKUPS = false;
 
     ENV.APP.rootElement = '#ember-testing';
-    ENV.googleFonts = [];
+    ENV.googleFonts = null;
     ENV.APP.API_HOST = 'http://localhost:3000';
     ENV.APP.isChallengeTimerEnable = false;
     ENV.APP.MESSAGE_DISPLAY_DURATION = 0;

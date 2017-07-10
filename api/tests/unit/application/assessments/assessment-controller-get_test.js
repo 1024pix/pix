@@ -14,24 +14,27 @@ describe('Unit | Controller | assessment-controller', () => {
 
   describe('#get', () => {
 
+    let sandbox;
+
     const ASSESSMENT_ID = 12;
     const reply = sinon.spy();
-    let getScoredAssessmentStub;
-    let assessmentSerializerStub;
-    let getAssessmentStub;
+
     let request;
 
     beforeEach(() => {
       request = { params: { id: ASSESSMENT_ID } };
-      getScoredAssessmentStub = sinon.stub(assessmentService, 'getScoredAssessment').resolves();
-      assessmentSerializerStub = sinon.stub(assessmentSerializer, 'serialize');
-      getAssessmentStub = sinon.stub(assessmentRepository, 'get');
+
+      sandbox = sinon.sandbox.create();
+
+      sandbox.stub(assessmentService, 'getScoredAssessment').resolves();
+      sandbox.stub(assessmentSerializer, 'serialize');
+      sandbox.stub(assessmentRepository, 'get');
     });
 
     afterEach(() => {
-      getScoredAssessmentStub.restore();
-      assessmentSerializerStub.restore();
-      getAssessmentStub.restore();
+
+      sandbox.restore();
+
     });
 
     it('checks sanity', () => {
@@ -46,7 +49,7 @@ describe('Unit | Controller | assessment-controller', () => {
       assessmentController.get(request, reply);
 
       // then
-      sinon.assert.calledWithExactly(getScoredAssessmentStub, 1234567);
+      sinon.assert.calledWithExactly(assessmentService.getScoredAssessment, 1234567);
     });
 
     it('should return a NotFound error when the assessment does not exist', () => {
@@ -55,7 +58,7 @@ describe('Unit | Controller | assessment-controller', () => {
 
       const boomNotFound = sinon.stub(Boom, 'notFound').returns(expectedError);
       const getScoredError = new NotFoundError('Expected API Return 404');
-      getScoredAssessmentStub.rejects(getScoredError);
+      assessmentService.getScoredAssessment.rejects(getScoredError);
 
       // when
       const promise = assessmentController.get(request, reply);
@@ -71,19 +74,19 @@ describe('Unit | Controller | assessment-controller', () => {
     it('should return the Assessment without scoring with getScoredAssessment rejecting NotElligibleToScoringError', () => {
       // Given
       const assessment = new Assessment({});
-      getAssessmentStub.returns(Promise.resolve(assessment));
-      getScoredAssessmentStub.rejects(new NotElligibleToScoringError('Expected Error Message'));
+      assessmentRepository.get.returns(Promise.resolve(assessment));
+      assessmentService.getScoredAssessment.rejects(new NotElligibleToScoringError('Expected Error Message'));
 
       const expectedSerializedAssessment = { message: 'mySerializedAssessment' };
-      assessmentSerializerStub.returns(expectedSerializedAssessment);
+      assessmentSerializer.serialize.returns(expectedSerializedAssessment);
 
       // When
       const promise = assessmentController.get(request, reply);
 
       // Then
       return promise.then(() => {
-        sinon.assert.calledWith(getAssessmentStub, ASSESSMENT_ID);
-        sinon.assert.calledWith(assessmentSerializerStub, assessment);
+        sinon.assert.calledWith(assessmentRepository.get, ASSESSMENT_ID);
+        sinon.assert.calledWith(assessmentSerializer.serialize, assessment);
         sinon.assert.calledWith(reply, expectedSerializedAssessment);
       });
 
@@ -94,7 +97,7 @@ describe('Unit | Controller | assessment-controller', () => {
       const expectedError = { error: 'Expected API Return ' };
 
       const boomBadImplementationStub = sinon.stub(Boom, 'badImplementation').returns(expectedError);
-      getScoredAssessmentStub.rejects(new Error('Expected Error Message'));
+      assessmentService.getScoredAssessment.rejects(new Error('Expected Error Message'));
 
       // when
       const promise = assessmentController.get(request, reply);
@@ -111,15 +114,15 @@ describe('Unit | Controller | assessment-controller', () => {
       const serializedAssessment = { data: { type: 'assessement' } };
       const scoredAssessement = { id: 'assessment_id' };
 
-      assessmentSerializerStub.returns(serializedAssessment);
-      getScoredAssessmentStub.resolves(scoredAssessement);
+      assessmentSerializer.serialize.returns(serializedAssessment);
+      assessmentService.getScoredAssessment.resolves(scoredAssessement);
 
       // when
       const promise = assessmentController.get(request, reply);
 
       // then
       return promise.then(() => {
-        sinon.assert.calledWithExactly(assessmentSerializerStub, scoredAssessement);
+        sinon.assert.calledWithExactly(assessmentSerializer.serialize, scoredAssessement);
         sinon.assert.calledWithExactly(reply, serializedAssessment);
       });
     });

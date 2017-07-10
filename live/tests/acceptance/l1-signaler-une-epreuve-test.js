@@ -23,15 +23,15 @@ describe('Acceptance | Signaler une épreuve', function() {
     expect(find(FEEDBACK_FORM)).to.have.lengthOf(1);
   }
 
+  beforeEach(function() {
+    application = startApp();
+  });
+
+  afterEach(function() {
+    destroyApp(application);
+  });
+
   describe('l1.1 Depuis une epreuve', function() {
-
-    beforeEach(function() {
-      application = startApp();
-    });
-
-    afterEach(function() {
-      destroyApp(application);
-    });
 
     it('Je peux signaler une épreuve directement', async () => {
       await visit('/assessments/ref_assessment_id/challenges/ref_qcu_challenge_id');
@@ -64,17 +64,11 @@ describe('Acceptance | Signaler une épreuve', function() {
 
   describe('l1.2 Depuis la fenêtre de comparaison', function() {
 
-    before(function() {
-      application = startApp();
-    });
-
-    after(function() {
-      destroyApp(application);
-    });
-
     it('Je peux signaler une épreuve (page de résultat du test)', async () => {
       await visit('/assessments/ref_assessment_id/results/compare/ref_answer_qcm_id/1');
       assertThatFeedbackFormIsOpen();
+      // XXX test env needs the modal to be closed manually
+      await click('.close-button-container');
     });
 
   });

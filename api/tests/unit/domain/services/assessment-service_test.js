@@ -37,14 +37,10 @@ function _buildAnswer(challengeId, result, assessmentId = 1) {
   return answer;
 }
 
-function _buildAssessment(estimatedLevel, pixScore, notAcquiredKnowledgeTags, acquiredKnowledgeTags, cid) {
-  const assessment = new Assessment({ id: 'assessment_id' });
-  assessment.set('estimatedLevel', estimatedLevel);
-  assessment.set('pixScore', pixScore);
-  assessment.set('notAcquiredKnowledgeTags', notAcquiredKnowledgeTags);
-  assessment.set('acquiredKnowledgeTags', acquiredKnowledgeTags);
-  assessment.cid = cid;
-  return assessment;
+function _buildAssessmentResultDetails(estimatedLevel, pixScore, notAcquiredKnowledgeTags, acquiredKnowledgeTags) {
+  return {
+    estimatedLevel, pixScore, notAcquiredKnowledgeTags, acquiredKnowledgeTags
+  };
 }
 
 describe('Unit | Domain | Services | assessment-service', function() {
@@ -305,8 +301,8 @@ describe('Unit | Domain | Services | assessment-service', function() {
             .then((scoredAssessment) => {
               expect(scoredAssessment.get('id')).to.equal(ASSESSMENT_ID);
               expect(scoredAssessment.get('courseId')).to.deep.equal(COURSE_ID);
-              expect(scoredAssessment.get('estimatedLevel')).to.exist;
-              expect(scoredAssessment.get('pixScore')).to.exist;
+              expect(scoredAssessment.get('estimatedLevel')).to.equal(0);
+              expect(scoredAssessment.get('pixScore')).to.equal(0);
             });
         });
       });
@@ -326,59 +322,47 @@ describe('Unit | Domain | Services | assessment-service', function() {
       nbKnowledgeTagsByLevel: { 1: 2, 2: 1, 3: 0, 4: 0, 5: 0, 6: 0, 7: 0, 8: 0 }
     };
 
-    const assessment = new Assessment({ id: 'assessment_id' });
-
     const correctAnswerWeb1 = _buildAnswer('challenge_web_1', 'ok');
     const correctAnswerWeb2 = _buildAnswer('challenge_web_2', 'ok');
     const partialAnswerWeb1 = _buildAnswer('challenge_web_1', 'partial');
     const incorrectAnswerUrl1 = _buildAnswer('challenge_url_1', 'ko');
     const correctAnswerUrl1 = _buildAnswer('challenge_url_1', 'ok');
 
-    [
-      {
-        answers: [ correctAnswerWeb2, incorrectAnswerUrl1 ],
-        title: 'web2 correct, url1 incorrect',
-        score: 12,
-        level: 1,
-        acquired: [ '@web2', '@web1' ],
-        notAcquired: [ '@url1' ]
-      },
-      {
-        answers: [ partialAnswerWeb1, correctAnswerUrl1 ],
-        title: 'web1 partial, url1 correct',
-        score: 4,
-        level: 0,
-        acquired: [ '@url1' ],
-        notAcquired: [ '@web1', '@web2' ]
-      },
-      {
-        answers: [ correctAnswerWeb2, correctAnswerUrl1 ],
-        title: 'web2 correct, url1 correct',
-        score: 16,
-        level: 2,
-        acquired: [ '@web2', '@web1', '@url1' ],
-        notAcquired: []
-      },
-      {
-        answers: [ correctAnswerWeb1, correctAnswerWeb2 ],
-        title: 'web1 correct, web2 correct',
-        score: 12,
-        level: 1,
-        acquired: [ '@web1', '@web2' ],
-        notAcquired: []
-      }
-    ]
-      .forEach(pattern => {
-        it(`should compute ${pattern.score} and level ${pattern.level} when user pattern is ${pattern.title}`, function() {
-          // When
-          const scoredAssessment = service._completeAssessmentWithScore(assessment, pattern.answers, knowledgeData);
+    it('should compute 12 and level 1 when user pattern is web2 correct, url1 incorrect', function() {
+      // When
+      const scoredAssessment = service._getAssessmentResultDetails([ correctAnswerWeb2, incorrectAnswerUrl1 ], knowledgeData);
 
-          // Then
-          const expectedScoredAssessment = _buildAssessment(pattern.level, pattern.score, pattern.notAcquired, pattern.acquired, scoredAssessment.cid);
-          expect(scoredAssessment).to.deep.equal(expectedScoredAssessment);
-        });
-      });
+      // Then
+      const expectedScoredAssessment = _buildAssessmentResultDetails(1, 12, ['@url1'], ['@web2', '@web1']);
+      expect(scoredAssessment).to.deep.equal(expectedScoredAssessment);
+    });
 
+    it('should compute 4 and level 0 when user pattern is web1 partial, url1 correct', function() {
+      // When
+      const scoredAssessment = service._getAssessmentResultDetails([ partialAnswerWeb1, correctAnswerUrl1 ], knowledgeData);
+
+      // Then
+      const expectedScoredAssessment = _buildAssessmentResultDetails(0, 4, ['@web1', '@web2'], ['@url1']);
+      expect(scoredAssessment).to.deep.equal(expectedScoredAssessment);
+    });
+
+    it('should compute 16 and level 2 when user pattern is web2 correct, url1 correct', function() {
+      // When
+      const scoredAssessment = service._getAssessmentResultDetails([ correctAnswerWeb2, correctAnswerUrl1 ], knowledgeData);
+
+      // Then
+      const expectedScoredAssessment = _buildAssessmentResultDetails(2, 16, [], ['@web2', '@web1', '@url1']);
+      expect(scoredAssessment).to.deep.equal(expectedScoredAssessment);
+    });
+
+    it('should compute 12 and level 1 when user pattern is web1 correct, web2 correct', function() {
+      // When
+      const scoredAssessment = service._getAssessmentResultDetails([ correctAnswerWeb1, correctAnswerWeb2 ], knowledgeData);
+
+      // Then
+      const expectedScoredAssessment = _buildAssessmentResultDetails(1, 12, [], ['@web1', '@web2']);
+      expect(scoredAssessment).to.deep.equal(expectedScoredAssessment);
+    });
   });
 
 });

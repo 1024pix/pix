@@ -1,4 +1,4 @@
-const {describe, it, expect, before} = require('../../../../test-helper');
+const { describe, it, expect, before } = require('../../../../test-helper');
 const serializer = require('../../../../../lib/infrastructure/serializers/jsonapi/validation-error-serializer');
 
 const Bookshelf = require('../../../../../lib/infrastructure/bookshelf');
@@ -13,11 +13,11 @@ describe('Unit | Serializer | JSONAPI | validation-error-serializer', () => {
       DummyObject = Bookshelf.Model.extend({
         validations: {
           email: [
-            {method: 'isEmail', error: 'Not a valid email address'}
+            { method: 'isEmail', error: 'Not a valid email address' }
           ],
           age: [
-            {method: 'isInt', error: 'You cant be so old', args: {min: 10, max: 99}},
-            {method: 'isLength', error: 'Age can only be two digits', args: {min: 0, max: 2}}
+            { method: 'isInt', error: 'You cant be so old', args: { min: 10, max: 99 } },
+            { method: 'isLength', error: 'Age can only be two digits', args: { min: 0, max: 2 } }
           ]
         }
       });
@@ -34,7 +34,7 @@ describe('Unit | Serializer | JSONAPI | validation-error-serializer', () => {
             'status': '400',
             'title': 'Invalid Attribute',
             'detail': 'Not a valid email address',
-            'source': {'pointer': '/data/attributes/email'},
+            'source': { 'pointer': '/data/attributes/email' },
             'meta': {
               'field': 'email'
             }
@@ -66,7 +66,7 @@ describe('Unit | Serializer | JSONAPI | validation-error-serializer', () => {
             'status': '400',
             'title': 'Invalid Attribute',
             'detail': 'Error message',
-            'source': {'pointer': '/data/attributes/first-name'},
+            'source': { 'pointer': '/data/attributes/first-name' },
             'meta': {
               'field': 'firstName'
             }
@@ -94,7 +94,7 @@ describe('Unit | Serializer | JSONAPI | validation-error-serializer', () => {
             'status': '400',
             'title': 'Invalid Attribute',
             'detail': 'Error message #1',
-            'source': {'pointer': '/data/attributes/field'},
+            'source': { 'pointer': '/data/attributes/field' },
             'meta': {
               'field': 'field'
             }
@@ -102,7 +102,7 @@ describe('Unit | Serializer | JSONAPI | validation-error-serializer', () => {
             'status': '400',
             'title': 'Invalid Attribute',
             'detail': 'Error message #2',
-            'source': {'pointer': '/data/attributes/field'},
+            'source': { 'pointer': '/data/attributes/field' },
             'meta': {
               'field': 'field'
             }
@@ -110,7 +110,7 @@ describe('Unit | Serializer | JSONAPI | validation-error-serializer', () => {
             'status': '400',
             'title': 'Invalid Attribute',
             'detail': 'Error message #3',
-            'source': {'pointer': '/data/attributes/field'},
+            'source': { 'pointer': '/data/attributes/field' },
             'meta': {
               'field': 'field'
             }
@@ -138,7 +138,7 @@ describe('Unit | Serializer | JSONAPI | validation-error-serializer', () => {
             'status': '400',
             'title': 'Invalid Attribute',
             'detail': 'You cant be so old',
-            'source': {'pointer': '/data/attributes/age'},
+            'source': { 'pointer': '/data/attributes/age' },
             'meta': {
               'field': 'age'
             }
@@ -147,7 +147,7 @@ describe('Unit | Serializer | JSONAPI | validation-error-serializer', () => {
             'status': '400',
             'title': 'Invalid Attribute',
             'detail': 'Age can only be two digits',
-            'source': {'pointer': '/data/attributes/age'},
+            'source': { 'pointer': '/data/attributes/age' },
             'meta': {
               'field': 'age'
             }
@@ -210,7 +210,7 @@ describe('Unit | Serializer | JSONAPI | validation-error-serializer', () => {
             'status': '400',
             'title': 'Invalid Payload',
             'detail': 'L\'adresse e-mail et/ou le mot de passe saisi(s) sont incorrects.',
-            'source': {'pointer': '/data/attributes'}
+            'source': { 'pointer': '/data/attributes' }
           }
         ]
       };

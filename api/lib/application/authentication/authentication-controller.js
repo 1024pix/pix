@@ -1,10 +1,9 @@
 const User = require('../../../lib/domain/models/data/user');
 
-const jsonwebtoken = require('jsonwebtoken');
-
 const encrypt = require('../../domain/services/encryption-service');
+const tokenService = require('../../domain/services/token-service');
+
 const validationErrorSerializer = require('../../infrastructure/serializers/jsonapi/validation-error-serializer');
-const settings = require('../../settings');
 
 const Authentication = require('../../domain/models/data/authentication');
 const authenticationSerializer = require('../../infrastructure/serializers/jsonapi/authentication-serializer');
@@ -27,7 +26,7 @@ module.exports = {
         return encrypt.check(password, foundUser.get('password'));
       })
       .then(_ => {
-        const token = _createTokenFromUser(user);
+        const token = tokenService.createTokenFromUser(user);
 
         const authentication = new Authentication(user.get('id'), token);
         return reply(authenticationSerializer.serialize(authentication)).code(201);
@@ -38,13 +37,6 @@ module.exports = {
       });
   }
 };
-
-function _createTokenFromUser(user) {
-  return jsonwebtoken.sign({
-    user_id: user.get('id'),
-    email: user.get('email')
-  }, settings.authentication.secret, { expiresIn: settings.authentication.tokenLifespan });
-}
 
 function _extractAttributes(request) {
   return request.payload.data.attributes;

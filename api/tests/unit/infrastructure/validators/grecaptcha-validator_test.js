@@ -1,14 +1,14 @@
-const {describe, it, expect, sinon, beforeEach, afterEach, before, after} = require('../../../test-helper');
+const { describe, it, expect, sinon, beforeEach, afterEach, before, after } = require('../../../test-helper');
 const gRecaptcha = require('../../../../lib/infrastructure/validators/grecaptcha-validator');
-const {InvalidRecaptchaTokenError} = require('../../../../lib/infrastructure/validators/errors');
+const { InvalidRecaptchaTokenError } = require('../../../../lib/infrastructure/validators/errors');
 const request = require('request');
 const logger = require('../../../../lib/infrastructure/logger');
-const {googleReCaptcha} = require('../../../../lib/settings');
+const { googleReCaptcha } = require('../../../../lib/settings');
 
 const INVALID_OR_UNKNOW_RECAPTCHA = 'INVALID_RECAPTCHA';
 const RECAPTCHA_TOKEN = 'a-valid-recaptch-token-should-be-a-string-of-512-numalpha-characters';
-const SUCCESSFULL_VERIFICATION_RESPONSE = {'body': '{\n  "success": true,\n "hostname": "",\n  "error-codes": [\n    "timeout-or-duplicate"\n  ]\n}'};
-const UNSUCCESSFULL_VERIFICATION_RESPONSE = {'body': '{\n  "success": false,\n "hostname": "",\n  "error-codes": [\n    "timeout-or-duplicate"\n  ]\n}'};
+const SUCCESSFULL_VERIFICATION_RESPONSE = { 'body': '{\n  "success": true,\n "hostname": "",\n  "error-codes": [\n    "timeout-or-duplicate"\n  ]\n}' };
+const UNSUCCESSFULL_VERIFICATION_RESPONSE = { 'body': '{\n  "success": false,\n "hostname": "",\n  "error-codes": [\n    "timeout-or-duplicate"\n  ]\n}' };
 
 describe('Unit | Service | google-recaptcha-validator', () => {
 

@@ -1,6 +1,6 @@
-import {expect} from 'chai';
-import {it, describe} from 'mocha';
-import {setupTest} from 'ember-mocha';
+import { expect } from 'chai';
+import { it, describe } from 'mocha';
+import { setupTest } from 'ember-mocha';
 
 describe('Unit | Route | subscribers', function() {
   setupTest('adapter:application', {
@@ -21,10 +21,10 @@ describe('Unit | Route | subscribers', function() {
     const applicationAdapter = this.subject();
 
     // When
-    applicationAdapter.set('session', {data: {authenticated: {token: expectedToken}}});
+    applicationAdapter.set('session', { data: { authenticated: { token: expectedToken } } });
 
     expect(applicationAdapter.get('headers')).to.deep.equal({
-      'Authorization': `bearer ${expectedToken}`
+      'Authorization': `Bearer ${expectedToken}`
     });
   });
 

@@ -1,4 +1,4 @@
-import {isEmpty} from 'lodash';
+import { isEmpty } from 'lodash';
 
 function parseInput(lastIsOpening, input) {
   let block = false;

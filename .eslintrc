@@ -31,6 +31,12 @@ rules:
     - { anonymous: never, named: never, asyncArrow: ignore }
   space-in-parens:
     - 2
+  object-curly-spacing:
+    - 2
+    - always
+  computed-property-spacing:
+    - 2
+    - never
   eol-last:
     - 2
   no-multiple-empty-lines:

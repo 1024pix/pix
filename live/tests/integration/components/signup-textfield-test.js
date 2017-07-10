@@ -1,6 +1,6 @@
-import {expect} from 'chai';
-import {describe, it} from 'mocha';
-import {setupComponentTest} from 'ember-mocha';
+import { expect } from 'chai';
+import { describe, it } from 'mocha';
+import { setupComponentTest } from 'ember-mocha';
 import hbs from 'htmlbars-inline-precompile';
 import wait from 'ember-test-helpers/wait';
 
@@ -33,12 +33,12 @@ describe('Integration | Component | signup textfield', function() {
     });
 
     [
-      {expectedRendering: 'label', item: LABEL, expectedLength: 1},
-      {expectedRendering: 'div', item: MESSAGE, expectedLength: 1},
-      {expectedRendering: 'input', item: INPUT, expectedLength: 1},
-      {expectedRendering: 'div', item: '', expectedLength: 1},
+      { expectedRendering: 'label', item: LABEL, expectedLength: 1 },
+      { expectedRendering: 'div', item: MESSAGE, expectedLength: 1 },
+      { expectedRendering: 'input', item: INPUT, expectedLength: 1 },
+      { expectedRendering: 'div', item: '', expectedLength: 1 },
 
-    ].forEach(function({expectedRendering, item, expectedLength}) {
+    ].forEach(function({ expectedRendering, item, expectedLength }) {
       it(`Should render a ${expectedRendering}`, function() {
         // Then
         expect(this.$(item)).to.have.length(expectedLength);
@@ -47,10 +47,10 @@ describe('Integration | Component | signup textfield', function() {
     });
 
     [
-      {item: LABEL, expectedRendering: 'label', expectedText: LABEL_TEXT},
-      {item: MESSAGE, expectedRendering: 'div.message', expectedText: MESSAGE_TEXT},
+      { item: LABEL, expectedRendering: 'label', expectedText: LABEL_TEXT },
+      { item: MESSAGE, expectedRendering: 'div.message', expectedText: MESSAGE_TEXT },
 
-    ].forEach(function({item, expectedRendering, expectedText}) {
+    ].forEach(function({ item, expectedRendering, expectedText }) {
       it(`Should render a ${expectedRendering}`, function() {
         // Then
         expect(this.$(item).text().toUpperCase()).to.equal(expectedText);
@@ -141,10 +141,10 @@ describe('Integration | Component | signup textfield', function() {
 
     [
 
-      {item: 'Input', itemSelector: INPUT, expectedClass: INPUT_ERROR_CLASS},
-      {item: 'Div for message validation status', itemSelector: MESSAGE, expectedClass: MESSAGE_ERROR_STATUS},
+      { item: 'Input', itemSelector: INPUT, expectedClass: INPUT_ERROR_CLASS },
+      { item: 'Div for message validation status', itemSelector: MESSAGE, expectedClass: MESSAGE_ERROR_STATUS },
 
-    ].forEach(({item, itemSelector, expectedClass}) => {
+    ].forEach(({ item, itemSelector, expectedClass }) => {
       it(`contain an ${item} with an additional class ${expectedClass}`, function() {
         // then
         expect(this.$(itemSelector).attr('class')).to.contain(expectedClass);
@@ -171,10 +171,10 @@ describe('Integration | Component | signup textfield', function() {
     });
 
     [
-      {item: 'Input', itemSelector: INPUT, expectedClass: INPUT_SUCCESS_CLASS},
-      {item: 'Div for message validation status', itemSelector: MESSAGE, expectedClass: MESSAGE_SUCCESS_STATUS},
+      { item: 'Input', itemSelector: INPUT, expectedClass: INPUT_SUCCESS_CLASS },
+      { item: 'Div for message validation status', itemSelector: MESSAGE, expectedClass: MESSAGE_SUCCESS_STATUS },
 
-    ].forEach(({item, itemSelector, expectedClass}) => {
+    ].forEach(({ item, itemSelector, expectedClass }) => {
       it(`contain an ${item} with an additional class ${expectedClass}`, function() {
         // then
         expect(this.$(itemSelector).attr('class')).to.contain(expectedClass);

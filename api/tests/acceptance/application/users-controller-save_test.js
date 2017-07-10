@@ -1,4 +1,4 @@
-const {describe, it, after, beforeEach, before, expect, sinon} = require('../../test-helper');
+const { describe, it, after, beforeEach, before, expect, sinon } = require('../../test-helper');
 const faker = require('faker');
 
 const server = require('../../../server');
@@ -83,7 +83,7 @@ describe('Acceptance | Controller | users-controller', function() {
 
   it('should save the user in the database', function() {
     return server.injectThen(options).then(_ => {
-      return new User({email: attributes.email}).fetch();
+      return new User({ email: attributes.email }).fetch();
     }).then((user) => {
       expect(attributes['first-name']).to.equal(user.get('firstName'));
       expect(attributes['last-name']).to.equal(user.get('lastName'));
@@ -95,7 +95,7 @@ describe('Acceptance | Controller | users-controller', function() {
     options.payload.data.attributes.password = 'my-123-password';
 
     return server.injectThen(options).then(() => {
-      return new User({email: attributes.email}).fetch();
+      return new User({ email: attributes.email }).fetch();
     }).then((user) => {
       expect(user.get('password')).not.to.equal('my-123-password');
     });

@@ -1,4 +1,4 @@
-const { describe, it, before, expect, sinon } = require('../../../test-helper');
+const { describe, it, before, afterEach, expect, knex, sinon } = require('../../../test-helper');
 const Hapi = require('hapi');
 const Answer = require('../../../../lib/domain/models/data/answer');
 const solutionRepository = require('../../../../lib/infrastructure/repositories/solution-repository');
@@ -56,13 +56,17 @@ describe('Unit | Controller | answer-controller', function() {
     timeout: null
   });
 
+  afterEach(function(done) {
+    knex('answers').delete().then(() => done());
+  });
+
   describe('#save', function() {
 
     it('should return a successful response with HTTP code 201 when answer was created', function(done) {
       // given
       sinon.stub(answerRepository, 'findByChallengeAndAssessment').resolves(null);
       sinon.stub(solutionRepository, 'get').resolves(null);
-      sinon.stub(solutionService, 'validate').returns({result : 'ok', resultDetails : {NumA : true, NumB : true, NumC : true, NumD : true}});
+      sinon.stub(solutionService, 'validate').returns({ result : 'ok', resultDetails : { NumA : true, NumB : true, NumC : true, NumD : true } });
 
       // when
       executeRequest(jsonAnswer, (res) => {
@@ -80,7 +84,7 @@ describe('Unit | Controller | answer-controller', function() {
     it('should return the field "resultDetails"', function(done) {
       // given
       sinon.stub(solutionRepository, 'get').resolves(null);
-      sinon.stub(solutionService, 'validate').returns({result : 'ok', resultDetails : {NumA : true, NumB : true, NumC : true, NumD : true}});
+      sinon.stub(solutionService, 'validate').returns({ result : 'ok', resultDetails : { NumA : true, NumB : true, NumC : true, NumD : true } });
 
       // when
       executeRequest(jsonAnswer, (res) => {

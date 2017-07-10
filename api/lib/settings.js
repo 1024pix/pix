@@ -31,6 +31,7 @@ module.exports = (function() {
       secret: process.env.AUTH_SECRET,
       tokenLifespan: '7d'
     }
+
   };
 
   if(process.env.NODE_ENV === 'test') {
@@ -50,7 +51,9 @@ module.exports = (function() {
       secret: 'test-recaptcha-key'
     };
 
-    config.authentication.secret = 'shhhhhhhhh';
+    config.authentication = {
+      secret: 'test-jwt-key'
+    };
   }
 
   return config;

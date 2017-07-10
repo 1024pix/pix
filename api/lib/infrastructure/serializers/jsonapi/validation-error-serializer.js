@@ -5,8 +5,8 @@ function _buildError(field, message) {
     'status': '400',
     'title': 'Invalid Attribute',
     'detail': message,
-    'source': {'pointer': '/data/attributes/' + _toKebabCase(field)},
-    'meta': {field},
+    'source': { 'pointer': '/data/attributes/' + _toKebabCase(field) },
+    'meta': { field },
   };
 }
 
@@ -15,7 +15,7 @@ function _buildEntirePayloadError(message) {
     'status': '400',
     'title': 'Invalid Payload',
     'detail': message,
-    'source': {'pointer': '/data/attributes' },
+    'source': { 'pointer': '/data/attributes' },
   };
 }
 
@@ -45,4 +45,4 @@ function serialize(validationErrors) {
   };
 }
 
-module.exports = {serialize};
+module.exports = { serialize };

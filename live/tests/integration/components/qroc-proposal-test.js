@@ -1,6 +1,6 @@
-import {expect} from 'chai';
-import {describe, it} from 'mocha';
-import {setupComponentTest} from 'ember-mocha';
+import { expect } from 'chai';
+import { describe, it } from 'mocha';
+import { setupComponentTest } from 'ember-mocha';
 import hbs from 'htmlbars-inline-precompile';
 
 describe('Integration | Component | QROC proposal', function() {
@@ -33,15 +33,15 @@ describe('Integration | Component | QROC proposal', function() {
   describe('Component behavior when user skip challenge:', function() {
 
     [
-      {input: 'aband', output: 'aband'},
-      {input: '#aband#', output: '#aband#'},
-      {input: 'aband#', output: 'aband#'},
-      {input: 'ABAND', output: 'ABAND'},
-      {input: '#ABAND', output: '#ABAND'},
-      {input: 'ABAND#', output: 'ABAND#'},
-      {input: '#ABAND#', output: ''},
-      {input: '', output: ''}
-    ].forEach(({input, output}) => {
+      { input: 'aband', output: 'aband' },
+      { input: '#aband#', output: '#aband#' },
+      { input: 'aband#', output: 'aband#' },
+      { input: 'ABAND', output: 'ABAND' },
+      { input: '#ABAND', output: '#ABAND' },
+      { input: 'ABAND#', output: 'ABAND#' },
+      { input: '#ABAND#', output: '' },
+      { input: '', output: '' }
+    ].forEach(({ input, output }) => {
 
       it(`should display '' value ${input} is providing to component`, function() {
         // given

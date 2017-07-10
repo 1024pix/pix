@@ -7,5 +7,6 @@ module.exports = [
   require('./application/authentication'),
   require('./application/followers'),
   require('./application/feedbacks'),
-  require('./application/healthcheck')
+  require('./application/healthcheck'),
+  require('./application/cache')
 ];

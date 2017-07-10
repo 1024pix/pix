@@ -29,7 +29,7 @@ describe('Unit | Utility | answers as object', function() {
       // given
       const answer = { value : '#ABAND#' };
       const inputKeys = ['key1', 'key2', 'key3'];
-      const expectedResult = { key1 : '', key2 : '', key3 : ''};
+      const expectedResult = { key1 : '', key2 : '', key3 : '' };
       // when
       const result = answersAsObject(answer.value, inputKeys);
 

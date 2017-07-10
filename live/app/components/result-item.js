@@ -1,4 +1,5 @@
 import Ember from 'ember';
+import resultIconUrl from 'pix-live/utils/result-icon-url';
 
 const contentReference = {
   ok: {
@@ -42,11 +43,15 @@ export default Ember.Component.extend({
 
   resultItem: Ember.computed('answer.result', function() {
     if (!this.get('answer.result')) return;
-    return contentReference[ this.get('answer.result') ] || contentReference[ 'default' ];
+    return contentReference[this.get('answer.result')] || contentReference['default'];
   }),
 
   resultTooltip: Ember.computed('resultItem', function() {
     return this.get('resultItem') ? this.get('resultItem').tooltip : null;
+  }),
+
+  resultItemIcon: Ember.computed('resultItem', function() {
+    return resultIconUrl(this.get('resultItem.status'));
   }),
 
   validationImplementedForChallengeType: Ember.computed('answer.challenge.type', function() {

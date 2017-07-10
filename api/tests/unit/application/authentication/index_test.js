@@ -1,4 +1,4 @@
-const {describe, it, before, after, beforeEach, expect, sinon} = require('../../../test-helper');
+const { describe, it, before, after, beforeEach, expect, sinon } = require('../../../test-helper');
 const Hapi = require('hapi');
 const AuthenticationController = require('../../../../lib/application/authentication/authentication-controller');
 
@@ -8,8 +8,8 @@ describe('Unit | Router | authentication-router', () => {
 
   beforeEach(() => {
     server = new Hapi.Server();
-    server.connection({port: null});
-    server.register({register: require('../../../../lib/application/authentication')});
+    server.connection({ port: null });
+    server.register({ register: require('../../../../lib/application/authentication') });
   });
 
   describe('POST /api/authentications', () => {

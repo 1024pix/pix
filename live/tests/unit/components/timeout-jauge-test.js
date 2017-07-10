@@ -16,18 +16,18 @@ describe('Unit | Component | timeout-jauge-component ', function() {
 
     describe('#remainingSeconds', function() {
       [
-        { allotedTime: new Date(),  _elapsedTime:0,     expected: 0   },
-        { allotedTime: '  ',        _elapsedTime:0,     expected: 0   },
-        { allotedTime: undefined,   _elapsedTime:0,     expected: 0   },
-        { allotedTime: null,        _elapsedTime:0,     expected: 0   },
-        { allotedTime: '0',         _elapsedTime:0,     expected: 0   },
-        { allotedTime: '40',        _elapsedTime:0,     expected: 40  },
-        { allotedTime: '70',        _elapsedTime:0,     expected: 70  },
+        { allotedTime: new Date(),  _elapsedTime:0,     expected: 0 },
+        { allotedTime: '  ',        _elapsedTime:0,     expected: 0 },
+        { allotedTime: undefined,   _elapsedTime:0,     expected: 0 },
+        { allotedTime: null,        _elapsedTime:0,     expected: 0 },
+        { allotedTime: '0',         _elapsedTime:0,     expected: 0 },
+        { allotedTime: '40',        _elapsedTime:0,     expected: 40 },
+        { allotedTime: '70',        _elapsedTime:0,     expected: 70 },
         { allotedTime: '120',       _elapsedTime:0,     expected: 120 },
         { allotedTime: 150,         _elapsedTime:0,     expected: 150 },
-        { allotedTime: '120',      _elapsedTime:60000,  expected: 60  },
-        { allotedTime: '120',      _elapsedTime:90000,  expected: 30  },
-        { allotedTime: '120',      _elapsedTime:120000, expected: 0   },
+        { allotedTime: '120',      _elapsedTime:60000,  expected: 60 },
+        { allotedTime: '120',      _elapsedTime:90000,  expected: 30 },
+        { allotedTime: '120',      _elapsedTime:120000, expected: 0 },
         { allotedTime: '120',      _elapsedTime:150000, expected: -30 },
       ].forEach((data) => {
 

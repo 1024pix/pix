@@ -2,3 +2,6 @@ extends: '../.eslintrc'
 
 globals:
   include: true
+
+env:
+  mocha: true

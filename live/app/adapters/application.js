@@ -13,7 +13,7 @@ export default DS.JSONAPIAdapter.extend({
 
     let tokenBearer;
     if(this.get('session.data.authenticated.token')) {
-      tokenBearer = `bearer ${this.get('session.data.authenticated.token')}`;
+      tokenBearer = `Bearer ${this.get('session.data.authenticated.token')}`;
     } else {
       tokenBearer = '';
     }

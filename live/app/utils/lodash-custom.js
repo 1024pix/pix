@@ -95,6 +95,6 @@ _.mixin({
     });
   }
 
-}, {chain: false});
+}, { chain: false });
 
 export default _;

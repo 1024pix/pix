@@ -14,6 +14,11 @@ exports.register = function(server, options, next) {
       config: { handler: AnswerController.get, tags: ['api'] }
     },
     {
+      method: 'PATCH',
+      path: '/api/answers/{id}',
+      config: { handler: AnswerController.update, tags: ['api'] }
+    },
+    {
       method: 'GET',
       path: '/api/answers',
       config: { handler: AnswerController.findByChallengeAndAssessment, tags: ['api'] }

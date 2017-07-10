@@ -4,6 +4,7 @@ const _ = require('../../infrastructure/utils/lodash-utils');
 const assessmentSerializer = require('../../infrastructure/serializers/jsonapi/assessment-serializer');
 const assessmentRepository = require('../../infrastructure/repositories/assessment-repository');
 const assessmentService = require('../../domain/services/assessment-service');
+const tokenService = require('../../domain/services/token-service');
 const assessmentUtils = require('../../domain/services/assessment-service-utils');
 const challengeRepository = require('../../infrastructure/repositories/challenge-repository');
 const challengeSerializer = require('../../infrastructure/serializers/jsonapi/challenge-serializer');
@@ -18,10 +19,20 @@ const { NotFoundError, NotElligibleToScoringError } = require('../../domain/erro
 module.exports = {
 
   save(request, reply) {
+
     const assessment = assessmentSerializer.deserialize(request.payload);
 
+    if (request.headers.hasOwnProperty('authorization')) {
+      const token = tokenService.extractTokenFromAuthChain(request.headers.authorization);
+      const userId = tokenService.extractUserId(token);
+
+      assessment.set('userId', userId);
+    }
+
     return assessment.save()
-      .then((assessment) => reply(assessmentSerializer.serialize(assessment)).code(201))
+      .then(assessment => {
+        reply(assessmentSerializer.serialize(assessment)).code(201);
+      })
       .catch((err) => reply(Boom.badImplementation(err)));
   },
 
@@ -54,10 +65,31 @@ module.exports = {
 
   getNextChallenge(request, reply) {
 
-    assessmentRepository
+    return assessmentRepository
       .get(request.params.id)
       .then((assessment) => {
+
+        if(assessmentService.isPreviewAssessment(assessment)) {
+          return Promise.reject(new NotElligibleToScoringError(`Assessment with ID ${request.params.id} is a preview Challenge`));
+        }
+
         return assessmentService.getAssessmentNextChallengeId(assessment, request.params.challengeId);
+      })
+      .then((nextChallengeId) => {
+
+        if (nextChallengeId) {
+          return Promise.resolve(nextChallengeId);
+        }
+
+        return assessmentService
+          .getScoredAssessment(request.params.id)
+          .then((scoredAssessment) => {
+            return scoredAssessment.save()
+              .then(() => {
+                return nextChallengeId;
+              });
+          });
+
       })
       .then((nextChallengeId) => {
         return (nextChallengeId) ? challengeRepository.get(nextChallengeId) : null;
@@ -65,7 +97,12 @@ module.exports = {
       .then((challenge) => {
         return (challenge) ? reply(challengeSerializer.serialize(challenge)) : reply('null');
       })
-      .catch((err) => reply(Boom.badImplementation(err)));
+      .catch((err) => {
+        if(err instanceof NotElligibleToScoringError)
+          return reply('null');
+        else
+          return reply(Boom.badImplementation(err));
+      });
   },
 
   getAssessmentSolutions(request, reply) {
@@ -99,7 +136,7 @@ module.exports = {
               .then((testIsOver) => {
 
                 if (testIsOver) {
-                  const requestedAnswer = answers.filter(answer => answer.id === _.parseInt(request.params.answerId))[ 0 ];
+                  const requestedAnswer = answers.filter(answer => answer.id === _.parseInt(request.params.answerId))[0];
 
                   solutionRepository
                     .get(requestedAnswer.get('challengeId'))

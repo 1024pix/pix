@@ -1,4 +1,4 @@
-const {describe, it, expect, sinon, beforeEach} = require('../../../test-helper');
+const { describe, it, expect, sinon, beforeEach } = require('../../../test-helper');
 const User = require('../../../../lib/domain/models/data/user');
 const faker = require('faker');
 

@@ -7,6 +7,11 @@ exports.register = function(server, options, next) {
       method: 'POST',
       path: '/api/users',
       config: { handler: UserController.save, tags: ['api'] }
+    },
+    {
+      method: 'GET',
+      path: '/api/users',
+      config: { handler: UserController.getProfile, tags: ['api'] }
     }
   ]);
 

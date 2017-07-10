@@ -17,6 +17,7 @@ class CourseSerializer extends AirtableSerializer {
       course.description = fields['Description'];
       course.duration = fields['Durée'];
       course.isAdaptive = fields['Adaptatif ?'];
+      course.competences = fields['Competence'] || [];
 
       if (fields['Image'] && fields['Image'].length > 0) {
         course.imageUrl = fields['Image'][0].url;

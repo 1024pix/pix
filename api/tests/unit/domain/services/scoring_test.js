@@ -39,16 +39,29 @@ describe('Unit | Domain | Service | scoring', function() {
   describe('#propagateKnowledge', function() {
 
     [
-      { title: 'direction is increasing', allKnowledge: { 'web3': 1, 'web4': 1, 'web5': 1, 'web6': 1 },
-        startNode: 'web4', dir: 1, answer: [ 'web4', 'web5', 'web6' ] },
-      { title: 'direction is increasing', allKnowledge: { 'web1': 1, 'web2': 1, 'web3': 1, 'web4': 1, 'web5': 1, 'web6': 1, 'web7': 1, 'web8': 1 },
-        startNode: 'web1', dir: 1, answer: [ 'web1', 'web2', 'web3', 'web4', 'web5', 'web6', 'web7', 'web8' ] },
-      { title: 'direction is decreasing', allKnowledge: { 'web3': 1, 'web4': 1, 'web5': 1, 'web6': 1 },
-        startNode: 'web4', dir: -1, answer: [ 'web3', 'web4' ] },
-      { title: 'direction is increasing with hole', allKnowledge: { 'web1': 1, 'web2': 1, 'web4': 1},
-        startNode: 'web2', dir: 1, answer: [ 'web2', 'web4' ] },
-      { title: 'direction is decreasing with hole', allKnowledge: { 'web1': 1, 'web2': 1, 'web4': 1},
-        startNode: 'web4', dir: -1, answer: [ 'web1', 'web2', 'web4' ] },
+      {
+        title: 'direction is increasing', allKnowledge: { 'web3': 1, 'web4': 1, 'web5': 1, 'web6': 1 },
+        startNode: 'web4', dir: 1, answer: ['web4', 'web5', 'web6']
+      },
+      {
+        title: 'direction is increasing',
+        allKnowledge: { 'web1': 1, 'web2': 1, 'web3': 1, 'web4': 1, 'web5': 1, 'web6': 1, 'web7': 1, 'web8': 1 },
+        startNode: 'web1',
+        dir: 1,
+        answer: ['web1', 'web2', 'web3', 'web4', 'web5', 'web6', 'web7', 'web8']
+      },
+      {
+        title: 'direction is decreasing', allKnowledge: { 'web3': 1, 'web4': 1, 'web5': 1, 'web6': 1 },
+        startNode: 'web4', dir: -1, answer: ['web3', 'web4']
+      },
+      {
+        title: 'direction is increasing with hole', allKnowledge: { 'web1': 1, 'web2': 1, 'web4': 1 },
+        startNode: 'web2', dir: 1, answer: ['web2', 'web4']
+      },
+      {
+        title: 'direction is decreasing with hole', allKnowledge: { 'web1': 1, 'web2': 1, 'web4': 1 },
+        startNode: 'web4', dir: -1, answer: ['web1', 'web2', 'web4']
+      },
     ].forEach(testCase => {
 
       it(`should return ${testCase.answer} when ${testCase.title} from ${testCase.startNode} within tube ${Object.keys(testCase.allKnowledge).join(',')}`, function() {
@@ -66,9 +79,9 @@ describe('Unit | Domain | Service | scoring', function() {
 
     const knowledgeData = {
       challengesById: {
-        'challenge_web_1': _buildChallenge([ '@web1' ]),
-        'challenge_web_2': _buildChallenge([ '@web2' ]),
-        'challenge_url_1': _buildChallenge([ '@url1' ])
+        'challenge_web_1': _buildChallenge(['@web1']),
+        'challenge_web_2': _buildChallenge(['@web2']),
+        'challenge_url_1': _buildChallenge(['@url1'])
       },
       knowledgeTagSet: { '@web1': true, '@web2': true, '@url1': true },
       nbKnowledgeTagsByLevel: { 1: 2, 2: 1, 3: 0, 4: 0, 5: 0, 6: 0, 7: 0, 8: 0 }
@@ -93,10 +106,10 @@ describe('Unit | Domain | Service | scoring', function() {
         const correctAnswerWeb1 = _buildAnswer('challenge_web_1', 'ok');
 
         // When
-        const result = scoring.getPerformanceStats([ correctAnswerWeb1 ], knowledgeData);
+        const result = scoring.getPerformanceStats([correctAnswerWeb1], knowledgeData);
 
         // Then
-        expect(result.acquiredKnowledgeTags).to.deep.equal([ '@web1' ]);
+        expect(result.acquiredKnowledgeTags).to.deep.equal(['@web1']);
       });
 
       it('should not add knowledge tags when level is only partially acquired', () => {
@@ -104,7 +117,7 @@ describe('Unit | Domain | Service | scoring', function() {
         const correctAnswerWeb1 = _buildAnswer('challenge_web_1', 'partial');
 
         // When
-        const result = scoring.getPerformanceStats([ correctAnswerWeb1 ], knowledgeData);
+        const result = scoring.getPerformanceStats([correctAnswerWeb1], knowledgeData);
 
         // Then
         expect(result.acquiredKnowledgeTags).to.deep.equal([]);
@@ -115,7 +128,7 @@ describe('Unit | Domain | Service | scoring', function() {
         const correctAnswerWeb1 = _buildAnswer('challenge_web_1', 'ko');
 
         // When
-        const result = scoring.getPerformanceStats([ correctAnswerWeb1 ], knowledgeData);
+        const result = scoring.getPerformanceStats([correctAnswerWeb1], knowledgeData);
 
         // Then
         expect(result.acquiredKnowledgeTags).to.deep.equal([]);
@@ -126,10 +139,10 @@ describe('Unit | Domain | Service | scoring', function() {
         const correctAnswerWeb2 = _buildAnswer('challenge_web_2', 'ok');
 
         // When
-        const result = scoring.getPerformanceStats([ correctAnswerWeb2 ], knowledgeData);
+        const result = scoring.getPerformanceStats([correctAnswerWeb2], knowledgeData);
 
         // Then
-        expect(result.acquiredKnowledgeTags).to.deep.equal([ '@web2', '@web1' ]);
+        expect(result.acquiredKnowledgeTags).to.deep.equal(['@web2', '@web1']);
       });
     });
 
@@ -139,10 +152,10 @@ describe('Unit | Domain | Service | scoring', function() {
         const incorrectAnswerUrl1 = _buildAnswer('challenge_url_1', 'ko');
 
         // When
-        const result = scoring.getPerformanceStats([ incorrectAnswerUrl1 ], knowledgeData);
+        const result = scoring.getPerformanceStats([incorrectAnswerUrl1], knowledgeData);
 
         // Then
-        expect(result.notAcquiredKnowledgeTags).to.deep.equal([ '@url1' ]);
+        expect(result.notAcquiredKnowledgeTags).to.deep.equal(['@url1']);
       });
 
       it('should contains every related knowledge tags', () => {
@@ -150,10 +163,10 @@ describe('Unit | Domain | Service | scoring', function() {
         const partialAnswerWeb1 = _buildAnswer('challenge_web_1', 'partial');
 
         // When
-        const result = scoring.getPerformanceStats([ partialAnswerWeb1 ], knowledgeData);
+        const result = scoring.getPerformanceStats([partialAnswerWeb1], knowledgeData);
 
         // Then
-        expect(result.notAcquiredKnowledgeTags).to.deep.equal([ '@web1', '@web2' ]);
+        expect(result.notAcquiredKnowledgeTags).to.deep.equal(['@web1', '@web2']);
       });
 
       // TODO Dans ce cas, le tableau contient un état instable (J'ai appris ET je n'ai pas appris)
@@ -163,10 +176,10 @@ describe('Unit | Domain | Service | scoring', function() {
         const correctAnswerWeb2 = _buildAnswer('challenge_web_2', 'ok');
 
         // When
-        const result = scoring.getPerformanceStats([ wrongAnswerWeb1, correctAnswerWeb2 ], knowledgeData);
+        const result = scoring.getPerformanceStats([wrongAnswerWeb1, correctAnswerWeb2], knowledgeData);
 
         // Then
-        expect(result.acquiredKnowledgeTags).to.deep.equal([ '@web1', '@web2' ]);
+        expect(result.acquiredKnowledgeTags).to.deep.equal(['@web1', '@web2']);
         expect(result.notAcquiredKnowledgeTags).to.deep.equal([]);
       });
 
@@ -175,10 +188,10 @@ describe('Unit | Domain | Service | scoring', function() {
         const correctAnswerWeb1 = _buildAnswer('challenge_web_1', 'ko');
 
         // When
-        const result = scoring.getPerformanceStats([ correctAnswerWeb1 ], knowledgeData);
+        const result = scoring.getPerformanceStats([correctAnswerWeb1], knowledgeData);
 
         // Then
-        expect(result.notAcquiredKnowledgeTags).to.deep.equal([ '@web1', '@web2' ]);
+        expect(result.notAcquiredKnowledgeTags).to.deep.equal(['@web1', '@web2']);
       });
 
       // TODO Ici, c'est étrange qu'un ne retrouve pas web_1 quelque part
@@ -187,11 +200,11 @@ describe('Unit | Domain | Service | scoring', function() {
         const partialAnswerWeb2 = _buildAnswer('challenge_web_2', 'partial');
 
         // When
-        const result = scoring.getPerformanceStats([ partialAnswerWeb2 ], knowledgeData);
+        const result = scoring.getPerformanceStats([partialAnswerWeb2], knowledgeData);
 
         // Then
         expect(result.acquiredKnowledgeTags).to.deep.equal([]);
-        expect(result.notAcquiredKnowledgeTags).to.deep.equal([ '@web2' ]);
+        expect(result.notAcquiredKnowledgeTags).to.deep.equal(['@web2']);
       });
     });
 
@@ -209,10 +222,10 @@ describe('Unit | Domain | Service | scoring', function() {
         const correctAnswerUrl1 = _buildAnswer('challenge_url_1', 'ok');
 
         // When
-        const result = scoring.getPerformanceStats([ correctAnswerUrl1 ], knowledgeData);
+        const result = scoring.getPerformanceStats([correctAnswerUrl1], knowledgeData);
 
         // Then
-        expect(result.performanceHistory).to.deep.equal([ { difficulty: 1, outcome: 1 } ]);
+        expect(result.performanceHistory).to.deep.equal([{ difficulty: 1, outcome: 1 }]);
       });
 
       it('should add a performance input when the answer is correct and save the difficulty', () => {
@@ -220,10 +233,10 @@ describe('Unit | Domain | Service | scoring', function() {
         const correctAnswerWeb2 = _buildAnswer('challenge_web_2', 'ok');
 
         // When
-        const result = scoring.getPerformanceStats([ correctAnswerWeb2 ], knowledgeData);
+        const result = scoring.getPerformanceStats([correctAnswerWeb2], knowledgeData);
 
         // Then
-        expect(result.performanceHistory).to.deep.equal([ { difficulty: 2, outcome: 1 } ]);
+        expect(result.performanceHistory).to.deep.equal([{ difficulty: 2, outcome: 1 }]);
       });
 
       it('should not record an outcome from an answer which is partially correct', () => {
@@ -231,10 +244,10 @@ describe('Unit | Domain | Service | scoring', function() {
         const partialAnswerUrl1 = _buildAnswer('challenge_url_1', 'partial');
 
         // When
-        const result = scoring.getPerformanceStats([ partialAnswerUrl1 ], knowledgeData);
+        const result = scoring.getPerformanceStats([partialAnswerUrl1], knowledgeData);
 
         // Then
-        expect(result.performanceHistory).to.deep.equal([ { difficulty: 1, outcome: 0 } ]);
+        expect(result.performanceHistory).to.deep.equal([{ difficulty: 1, outcome: 0 }]);
       });
 
       it('should not record an outcome from an answer which is wrong', () => {
@@ -242,10 +255,10 @@ describe('Unit | Domain | Service | scoring', function() {
         const wrongAnswerUrl1 = _buildAnswer('challenge_url_1', 'ko');
 
         // When
-        const result = scoring.getPerformanceStats([ wrongAnswerUrl1 ], knowledgeData);
+        const result = scoring.getPerformanceStats([wrongAnswerUrl1], knowledgeData);
 
         // Then
-        expect(result.performanceHistory).to.deep.equal([ { difficulty: 1, outcome: 0 } ]);
+        expect(result.performanceHistory).to.deep.equal([{ difficulty: 1, outcome: 0 }]);
       });
 
     });
@@ -268,7 +281,7 @@ describe('Unit | Domain | Service | scoring', function() {
         const correctAnswerUrl1 = _buildAnswer('challenge_url_1', 'ok');
 
         // When
-        const result = scoring.getPerformanceStats([ correctAnswerWeb2, correctAnswerUrl1 ], knowledgeData);
+        const result = scoring.getPerformanceStats([correctAnswerWeb2, correctAnswerUrl1], knowledgeData);
 
         // Then
         expect(result.nbAcquiredKnowledgeTagsByLevel).to.deep.equal({
@@ -286,10 +299,10 @@ describe('Unit | Domain | Service | scoring', function() {
     describe('the field pixScore', () => {
       const knowledgeData = {
         challengesById: {
-          'challenge_web_1': _buildChallenge([ '@web1' ]),
-          'challenge_web_2': _buildChallenge([ '@web2' ]),
-          'challenge_url_1': _buildChallenge([ '@url1' ]),
-          'challenge_social_1': _buildChallenge([ '@soc1' ]),
+          'challenge_web_1': _buildChallenge(['@web1']),
+          'challenge_web_2': _buildChallenge(['@web2']),
+          'challenge_url_1': _buildChallenge(['@url1']),
+          'challenge_social_1': _buildChallenge(['@soc1']),
         },
         knowledgeTagSet: { '@web1': true, '@web2': true, '@url1': true },
         nbKnowledgeTagsByLevel: { 1: 2, 2: 1, 3: 0, 4: 0, 5: 0, 6: 0, 7: 0, 8: 0 }
