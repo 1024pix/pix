@@ -46,12 +46,11 @@ describe('Unit | Controller | feedback-controller', function() {
     });
 
     before(function() {
-      Feedback.prototype.save = sinon.stub();
-      Feedback.prototype.save.resolves(persistedFeedback);
+      sinon.stub(Feedback.prototype, 'save').resolves(persistedFeedback);
     });
 
     after(function() {
-      sinon.restore(Feedback.prototype.save);
+      Feedback.prototype.save.restore();
     });
 
     function executeRequest(payload, callback) {

@@ -49,8 +49,7 @@
     "mocha": "3.2.0",
     "nock": "9.0.6",
     "nodemon": "1.11.0",
-    "sinon": "1.17.7",
-    "sinon-as-promised": "4.0.2"
+    "sinon": "2.3.7"
   },
   "scripts": {
     "help": "./scripts/help.sh",

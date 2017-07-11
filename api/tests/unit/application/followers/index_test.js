@@ -22,7 +22,7 @@ describe('Unit | Router | FollowerRouter', function() {
   describe('POST /api/followers', function() {
 
     before(function() {
-      sinon.stub(FollowerController, 'save', (request, reply) => reply('ok'));
+      sinon.stub(FollowerController, 'save').callsFake((request, reply) => reply('ok'));
     });
 
     after(function() {

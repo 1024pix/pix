@@ -14,7 +14,7 @@ describe('Unit | Router | cache-router', () => {
 
   describe('DELETE /api/cache', function() {
     before(() => {
-      sinon.stub(cacheController, 'removeCacheEntry', (request, reply) => reply('ok'));
+      sinon.stub(cacheController, 'removeCacheEntry').callsFake((request, reply) => reply('ok'));
     });
 
     after(() => {

@@ -22,7 +22,7 @@ describe('Unit | Router | course-router', function() {
   describe('GET /api/courses', function() {
 
     before(function() {
-      sinon.stub(CourseController, 'list', (request, reply) => reply('ok'));
+      sinon.stub(CourseController, 'list').callsFake((request, reply) => reply('ok'));
     });
 
     after(function() {
@@ -37,7 +37,7 @@ describe('Unit | Router | course-router', function() {
   describe('GET /api/courses/{id}', function() {
 
     before(function() {
-      sinon.stub(CourseController, 'get', (request, reply) => reply('ok'));
+      sinon.stub(CourseController, 'get').callsFake((request, reply) => reply('ok'));
     });
 
     after(function() {
@@ -52,7 +52,7 @@ describe('Unit | Router | course-router', function() {
   describe('POST /api/courses/{id}', function() {
 
     before(function() {
-      sinon.stub(CourseController, 'refresh', (request, reply) => reply('ok'));
+      sinon.stub(CourseController, 'refresh').callsFake((request, reply) => reply('ok'));
     });
 
     after(function() {
@@ -67,7 +67,7 @@ describe('Unit | Router | course-router', function() {
   describe('PUT /api/courses', function() {
 
     before(function() {
-      sinon.stub(CourseController, 'refreshAll', (request, reply) => reply('ok'));
+      sinon.stub(CourseController, 'refreshAll').callsFake((request, reply) => reply('ok'));
     });
 
     after(function() {
