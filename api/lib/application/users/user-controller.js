@@ -23,6 +23,7 @@ function _isUniqConstraintViolated(err) {
 const _replyErrorWithMessage = function(reply, errorMessage, statusCode) {
   reply(validationErrorSerializer.serialize(_handleWhenInvalidAuthorization(errorMessage))).code(statusCode);
 };
+
 module.exports = {
 
   save(request, reply) {
