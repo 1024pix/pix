@@ -62,6 +62,7 @@
     "deploy:production": "npm run deploy:production:api && npm run deploy:production:live",
     "release:prepare": "./scripts/release/prepare.sh",
     "release:perform": "./scripts/release/perform.sh",
-    "release:publish": "./scripts/release/publish.sh"
+    "release:publish": "./scripts/release/publish.sh",
+    "preview:update": "./scripts/release/update-preview.sh"
   }
 }
