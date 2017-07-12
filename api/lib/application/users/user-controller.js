@@ -13,6 +13,8 @@ const profileSerializer = require('../../infrastructure/serializers/jsonapi/prof
 const googleReCaptcha = require('../../../lib/infrastructure/validators/grecaptcha-validator');
 const { InvalidRecaptchaTokenError } = require('../../../lib/infrastructure/validators/errors');
 
+const logger = require('../../infrastructure/logger');
+
 function _isUniqConstraintViolated(err) {
   const SQLITE_UNIQ_CONSTRAINT = 'SQLITE_CONSTRAINT';
   const PGSQL_UNIQ_CONSTRAINT = '23505';
@@ -23,6 +25,7 @@ function _isUniqConstraintViolated(err) {
 const _replyErrorWithMessage = function(reply, errorMessage, statusCode) {
   reply(validationErrorSerializer.serialize(_handleWhenInvalidAuthorization(errorMessage))).code(statusCode);
 };
+
 module.exports = {
 
   save(request, reply) {
@@ -42,10 +45,12 @@ module.exports = {
         mailService.sendAccountCreationEmail(user.get('email'));
         reply(userSerializer.serialize(user)).code(201);
       }).catch((err) => {
+
         if (err instanceof InvalidRecaptchaTokenError) {
           const userValidationErrors = user.validationErrors();
           err = _buildErrorWhenRecaptchaTokenInvalid(userValidationErrors);
         }
+
         if (_isUniqConstraintViolated(err)) {
           err = _buildErrorWhenUniquEmail();
         }
@@ -66,6 +71,7 @@ module.exports = {
         reply(profileSerializer.serialize(buildedProfile)).code(201);
       })
       .catch((err) => {
+
         if (err instanceof InvalidTokenError) {
           return _replyErrorWithMessage(reply, 'Le token n’est pas valide', 401);
         }
@@ -73,6 +79,8 @@ module.exports = {
         if (err === User.NotFoundError) {
           return _replyErrorWithMessage(reply, 'Cet utilisateur est introuvable', 404);
         }
+
+        logger.error(err);
 
         return _replyErrorWithMessage(reply, 'Une erreur est survenue lors de l’authentification de l’utilisateur', 500);
       });

@@ -14,6 +14,8 @@ const courseRepository = require('../../infrastructure/repositories/course-repos
 const answerRepository = require('../../infrastructure/repositories/answer-repository');
 const solutionRepository = require('../../infrastructure/repositories/solution-repository');
 
+const logger = require('../../infrastructure/logger');
+
 const { NotFoundError, NotElligibleToScoringError } = require('../../domain/errors');
 
 module.exports = {
@@ -33,7 +35,10 @@ module.exports = {
       .then(assessment => {
         reply(assessmentSerializer.serialize(assessment)).code(201);
       })
-      .catch((err) => reply(Boom.badImplementation(err)));
+      .catch((err) => {
+        logger.error(err);
+        reply(Boom.badImplementation(err));
+      });
   },
 
   get(request, reply) {
@@ -57,6 +62,8 @@ module.exports = {
               reply(assessmentSerializer.serialize(assessment));
             });
         }
+
+        logger.error(err);
 
         return reply(Boom.badImplementation(err));
 
@@ -100,8 +107,9 @@ module.exports = {
       .catch((err) => {
         if(err instanceof NotElligibleToScoringError)
           return reply('null');
-        else
-          return reply(Boom.badImplementation(err));
+
+        logger.error(err);
+        reply(Boom.badImplementation(err));
       });
   },
 

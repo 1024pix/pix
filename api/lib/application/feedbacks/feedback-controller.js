@@ -2,6 +2,8 @@ const Boom = require('boom');
 const _ = require('../../infrastructure/utils/lodash-utils');
 const serializer = require('../../infrastructure/serializers/jsonapi/feedback-serializer');
 
+const logger = require('../../infrastructure/logger');
+
 module.exports = {
 
   save(request, reply) {
@@ -14,7 +16,11 @@ module.exports = {
 
     newFeedback
       .save()
-      .then(persistedFeedback => reply(serializer.serialize(persistedFeedback)).code(201));
+      .then(persistedFeedback => reply(serializer.serialize(persistedFeedback)).code(201))
+      .catch((err) => {
+        logger.error(err);
+        reply(Boom.badImplementation(err));
+      });
   }
 
 };

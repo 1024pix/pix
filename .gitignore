@@ -18,6 +18,7 @@
 **/testem.log
 **/out.log
 **/api/.env
+**/*.log
 
 # IDE
 **/.idea

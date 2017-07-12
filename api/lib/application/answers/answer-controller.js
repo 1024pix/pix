@@ -6,6 +6,8 @@ const answerRepository = require('../../infrastructure/repositories/answer-repos
 const solutionService = require('../../domain/services/solution-service');
 const jsYaml = require('js-yaml');
 
+const logger = require('../../infrastructure/logger');
+
 function _updateExistingAnswer(existingAnswer, newAnswer, reply) {
   solutionRepository
     .get(existingAnswer.get('challengeId'))
@@ -24,7 +26,10 @@ function _updateExistingAnswer(existingAnswer, newAnswer, reply) {
         .then((updatedAnswer) => {
           return reply(answerSerializer.serialize(updatedAnswer)).code(200);
         })
-        .catch((err) => reply(Boom.badImplementation(err)));
+        .catch((err) => {
+          logger.error(err);
+          reply(Boom.badImplementation(err));
+        });
     });
 }
 
@@ -43,7 +48,10 @@ function _saveNewAnswer(newAnswer, reply) {
         assessmentId: newAnswer.get('assessmentId')
       }, { method: 'insert' })
         .then((newAnswer) => reply(answerSerializer.serialize(newAnswer)).code(201))
-        .catch((err) => reply(Boom.badImplementation(err)));
+        .catch((err) => {
+          logger.error(err);
+          reply(Boom.badImplementation(err));
+        });
     });
 }
 
@@ -66,7 +74,8 @@ module.exports = {
 
     new Answer({ id: request.params.id })
       .fetch()
-      .then((answer) => reply(answerSerializer.serialize(answer)));
+      .then((answer) => reply(answerSerializer.serialize(answer)))
+      .catch(err => logger.error(err));
   },
 
   update(request, reply) {
@@ -75,9 +84,11 @@ module.exports = {
     answerRepository
       .findByChallengeAndAssessment(updatedAnswer.get('challengeId'), updatedAnswer.get('assessmentId'))
       .then(existingAnswer => {
+
         if (!existingAnswer) {
           return reply(Boom.notFound());
         }
+
         return _updateExistingAnswer(existingAnswer, updatedAnswer, reply);
       });
   },
@@ -88,7 +99,10 @@ module.exports = {
       .then((answer) => {
         return reply(answerSerializer.serialize(answer)).code(200);
       })
-      .catch((err) => reply(Boom.badImplementation(err)));
+      .catch(err => {
+        logger.error(err);
+        reply(Boom.badImplementation(err));
+      });
   }
 
 };
