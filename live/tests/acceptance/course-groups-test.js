@@ -15,9 +15,9 @@ describe('Acceptance | courseGroups', function() {
     destroyApp(application);
   });
 
-  describe('Accessibility', function() {
+  describe('Access to the page', function() {
 
-    it('I can access to the historic of the weekly courses courseGroups by the url /defis-pix', async function() {
+    it('should display the historic of the weekly courses courseGroups by the url /defis-pix', async function() {
       // when
       await visit('/defis-pix');
 

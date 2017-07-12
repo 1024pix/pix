@@ -144,7 +144,7 @@
   }
 }
 
-.index-page-challenges__div-link-old-courses-of-the-week {
+.index-page-challenges__courses-of-the-week {
   border-radius: 23px;
   border: solid 1px $white;
   margin:auto;
@@ -158,13 +158,9 @@
     margin-top: 0px;
   }
 
-  :hover{
-    color: $white;
-    text-decoration: none;
-  }
 }
 
-.index-page-challenges__link-old-courses-of-the-week {
+.index-page-challenges__courses-of-the-week-link {
   font-family: $font-lato;
   letter-spacing: 0.5px;
   text-align: center;
@@ -172,6 +168,11 @@
   border: transparent;
   outline: 0;
   color: $white;
+
+  &:hover{
+    color: $white;
+    text-decoration: none;
+  }
 }
 
 

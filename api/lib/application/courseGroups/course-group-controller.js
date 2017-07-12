@@ -10,16 +10,13 @@ module.exports = {
 
   list(request, reply) {
 
-    let listOfCourseGroup;
-
     return courseGroupRepository.list()
       .then((courseGroups) => {
-        listOfCourseGroup = courseGroups;
-        return courseRepository.fetchCoursesFromArrayOfCourseGroup(listOfCourseGroup);
+        return Promise.all([courseRepository.fetchCoursesFromArrayOfCourseGroup(courseGroups), courseGroups]);
       })
-      .then((courses) => {
+      .then(([courses, courseGroups]) => {
         const coursesMappedById = _mapCourseById(courses);
-        const extendedlistOfCourseGroupWithCourse = _addCourseDetailsToCourseGroups(listOfCourseGroup, coursesMappedById);
+        const extendedlistOfCourseGroupWithCourse = _addCourseDetailsToCourseGroups(courseGroups, coursesMappedById);
 
         reply(courseGroupSerializer.serializeArray(extendedlistOfCourseGroupWithCourse));
       });
@@ -27,14 +24,14 @@ module.exports = {
   }
 };
 
-function _addCourseDetailsToCourseGroups(extendedlistOfCourseGroupWithCourse, coursesMappedById) {
-  extendedlistOfCourseGroupWithCourse.forEach((courseGroup) => {
+function _addCourseDetailsToCourseGroups(listOfCourseGroupWithCourse, coursesMappedById) {
+  listOfCourseGroupWithCourse.forEach((courseGroup) => {
     courseGroup.courses.forEach((course) => {
       extend(course, coursesMappedById[course.id]);
     });
   });
 
-  return extendedlistOfCourseGroupWithCourse;
+  return listOfCourseGroupWithCourse;
 }
 
 function _mapCourseById(courses) {

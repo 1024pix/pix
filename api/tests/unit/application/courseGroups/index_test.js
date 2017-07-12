@@ -12,13 +12,6 @@ describe('Unit | Router | course-group-router', function() {
     server.register({ register: require('../../../../lib/application/courseGroups') });
   });
 
-  function expectRouteToExist(routeOptions, done) {
-    server.inject(routeOptions, (res) => {
-      expect(res.statusCode).to.equal(200);
-      done();
-    });
-  }
-
   describe('GET /api/courseGroups', function() {
 
     before(function() {
@@ -30,7 +23,10 @@ describe('Unit | Router | course-group-router', function() {
     });
 
     it('should exist', function(done) {
-      expectRouteToExist({ method: 'GET', url: '/api/course-groups' }, done);
+      server.inject({ method: 'GET', url: '/api/course-groups' }, (res) => {
+        expect(res.statusCode).to.equal(200);
+        done();
+      });
     });
   });
 });

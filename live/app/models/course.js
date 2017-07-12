@@ -9,7 +9,7 @@ export default Model.extend({
   duration: attr('number'),
   imageUrl: attr('string'),
   isAdaptive: attr('boolean'),
-  nbChallenges : attr('number'),
+  nbChallenges: attr('number'),
   challenges: hasMany('challenge', { inverse: null }),
 
   getProgress(challenge) {

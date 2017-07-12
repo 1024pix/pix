@@ -8,9 +8,6 @@ class courseGroup extends AirtableModel {
     extend(this, object);
   }
 
-  toJSON() {
-    return super.toJSON();
-  }
 }
 
 module.exports = courseGroup;

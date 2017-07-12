@@ -34,7 +34,7 @@ describe('Unit | Repository | course-group-repository', function() {
 
       it('should query correctly airtable in order to get courseGroups in the same order than defined in airtable', function() {
         // Given
-        const expectedQuery = {view : 'Grid view' };
+        const expectedQuery = { view: 'Grid view' };
 
         // When
         courseGroupRepository.list();
@@ -88,20 +88,28 @@ describe('Unit | Repository | course-group-repository', function() {
         done();
       });
 
-      it('should reject with an error when the cache throw an error', function(done) {
-        // given
+      describe('in the case cache reject an error', function() {
+
         const cacheErrorMessage = 'Cache error';
-        sinon.stub(cache, 'get', (key, callback) => {
-          callback(new Error(cacheErrorMessage));
+
+        beforeEach(function() {
+          sinon.stub(cache, 'get', (key, callback) => {
+            callback(new Error(cacheErrorMessage));
+          });
         });
 
-        // when
-        const result = courseGroupRepository.list();
+        afterEach(function() {
+          cache.get.restore();
+        });
 
-        // then
-        cache.get.restore();
-        expect(result).to.be.rejectedWith(cacheErrorMessage);
-        done();
+        it('should reject with an error when the cache throw an error', function(done) {
+          // When
+          const result = courseGroupRepository.list();
+
+          // Then
+          expect(result).to.be.rejectedWith(cacheErrorMessage);
+          done();
+        });
       });
 
     });

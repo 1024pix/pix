@@ -12,7 +12,6 @@
     </div>
   </section>
 
-  {{! I don't know how to correctly test this with our current Mirage config/use :-( }}
   <section class="index-page__section index-page__section--challenges index-page-challenges">
     <div class="index-page-challenges__container">
       <div class="index-page-challenges__presentation">
@@ -23,8 +22,8 @@
         {{course-list courses=model.coursesOfTheWeek startCourse='startCourse' limit=2}}
       </div>
     </div>
-    <div class="index-page-challenges__div-link-old-courses-of-the-week">
-      {{#link-to 'course-groups' class="index-page-challenges__link-old-courses-of-the-week"}}
+    <div class="index-page-challenges__courses-of-the-week">
+      {{#link-to 'course-groups' class="index-page-challenges__courses-of-the-week-link"}}
         VOIR LES DÉFIS PRÉCÉDENTS{{/link-to}}
     </div>
   </section>
