@@ -67,14 +67,14 @@ module.exports = {
         }
       })
       .catch(err => {
-        logger.error(err);
 
-        let error = Boom.badImplementation(err);
-        if ('MODEL_ID_NOT_FOUND' == err.error.type) {
-          error = Boom.notFound(err);
+        if ('MODEL_ID_NOT_FOUND' === err.error.type) {
+          return reply(Boom.notFound(err));
         }
 
-        return reply(error);
+        logger.error(err);
+
+        return reply(Boom.badImplementation(err));
       });
   },
 

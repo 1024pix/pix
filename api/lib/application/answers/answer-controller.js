@@ -48,7 +48,10 @@ function _saveNewAnswer(newAnswer, reply) {
         assessmentId: newAnswer.get('assessmentId')
       }, { method: 'insert' })
         .then((newAnswer) => reply(answerSerializer.serialize(newAnswer)).code(201))
-        .catch((err) => reply(Boom.badImplementation(err)));
+        .catch((err) => {
+          logger.error(err);
+          reply(Boom.badImplementation(err));
+        });
     });
 }
 
@@ -64,9 +67,6 @@ module.exports = {
           return reply(Boom.conflict(`An answer with id ${existingAnswer.get('id')} already exists.`));
         }
         return _saveNewAnswer(newAnswer, reply);
-      })
-      .catch(err => {
-        logger.error(err);
       });
   },
 
@@ -90,8 +90,7 @@ module.exports = {
         }
 
         return _updateExistingAnswer(existingAnswer, updatedAnswer, reply);
-      })
-      .catch(err => logger.error(err));
+      });
   },
 
   findByChallengeAndAssessment(request, reply) {
