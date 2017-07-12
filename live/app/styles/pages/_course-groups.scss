@@ -1,0 +1,79 @@
+/*------------header----------*/
+
+.course-groups-page__header {
+  background-image: linear-gradient(to bottom, #446eff, #001f8c), linear-gradient($pix-blue, $pix-blue);
+  color: $white;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+
+  padding-top: 20px;
+  padding-bottom: 20px;
+
+  @include device-is('tablet') {
+    padding-top: 40px;
+    padding-bottom: 40px;
+  }
+
+}
+
+.course-groups-page__header-title {
+  font-family: $font-raleway;
+  font-weight: $font-extra-bold;
+  text-align: center;
+  font-size: 40px;
+
+  @include device-is('tablet') {
+    font-size: 60px;
+  }
+}
+
+.course-groups-page__header-title__pix-span {
+  color: $marigold;
+}
+
+.course-groups-page__header-description {
+  font-family: $font-raleway;
+  font-weight: $font-light;
+  text-align: center;
+  margin: auto;
+  max-width: 300px;
+  font-size: 20px;
+
+  @include device-is('tablet') {
+    font-size: 37px;
+    max-width: 880px;
+  }
+}
+
+/*------------courseGroups----------*/
+
+.course-groups-page__course-group {
+  display: flex;
+  flex-direction: column;
+}
+
+.course-groups-page__course-group-item {
+  margin: auto;
+  margin-top: 35px;
+  margin-bottom: 35px;
+  max-width: 300px;
+
+  @include device-is('tablet') {
+    max-width: max-content;
+  }
+
+}
+
+.course-groups-page__course-group-name {
+  font-family: $font-raleway;
+  font-size: 22px;
+  font-weight: $font-semi-bold;
+  color: $pix-blue;
+}
+
+.course-groups-page_course-group-line {
+  margin-bottom: 10px;
+  height: 2px;
+  border: solid 1px $gainsboro;
+}

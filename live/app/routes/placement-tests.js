@@ -11,7 +11,7 @@ export default BaseRoute.extend({
 
   actions: {
     startCourse(course) {
-      this.transitionTo('courses.create-assessment', course);
+      this.transitionTo('courses.create-assessment', course.get('id'));
     }
   }
 

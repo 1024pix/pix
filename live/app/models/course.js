@@ -9,14 +9,11 @@ export default Model.extend({
   duration: attr('number'),
   imageUrl: attr('string'),
   isAdaptive: attr('boolean'),
+  nbChallenges: attr('number'),
   challenges: hasMany('challenge', { inverse: null }),
 
   getProgress(challenge) {
     const challengeIndex = this.get('challenges').indexOf(challenge);
-
-    if (challengeIndex === -1) {
-      throw new RangeError('challenge ne fait pas partie de course');
-    }
 
     const currentStep = 1 + challengeIndex;
     const maxStep = this.get('challenges.length');

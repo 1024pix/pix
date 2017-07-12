@@ -16,6 +16,7 @@ function progressBarText() {
 describe('Acceptance | d1 - Valider une épreuve |', function() {
 
   let application;
+  const PROGRESS_BAR_SELECTOR = '.pix-progress-bar';
 
   beforeEach(function() {
     application = startApp();
@@ -30,9 +31,13 @@ describe('Acceptance | d1 - Valider une épreuve |', function() {
     expect(progressBarText()).to.equal('1 / 5');
   });
 
-  it('d1.0b La barre de progression commence à 1, si j\'accède au challenge depuis depuis le lien Airtable', async function() {
+  it('d1.0b La barre de progression commence à 1, si j\'accède directement à un course', async function() {
+    // When
     await visit('/courses/ref_course_id');
-    expect(progressBarText()).to.equal('1 / 5');
+
+    // Then
+    const $progressBar = findWithAssert(PROGRESS_BAR_SELECTOR);
+    expect($progressBar.text().trim()).to.equal('1 / 5');
   });
 
   it('d1.1 Je peux valider ma réponse à une épreuve via un bouton "Je valide"', async function() {
@@ -42,6 +47,7 @@ describe('Acceptance | d1 - Valider une épreuve |', function() {
 
   describe('quand je valide ma réponse à une épreuve', function() {
     beforeEach(async function() {
+      // Given
       await visitTimedChallenge();
       await click('.proposal-text');
       await click('.challenge-actions__action-validate');
@@ -52,7 +58,10 @@ describe('Acceptance | d1 - Valider une épreuve |', function() {
     });
 
     it('d1.4 La barre de progression avance d\'une unité, de 1 à 2.', async function() {
-      expect(progressBarText()).to.equal('2 / 5');
+
+      // Then
+      const expectedText = '2';
+      expect(findWithAssert('.pix-progress-bar').text()).to.contain(expectedText);
     });
 
     it('d1.5 Si l\'épreuve que je viens de valider était la dernière du test, je suis redirigé vers la page de fin du test', async function() {

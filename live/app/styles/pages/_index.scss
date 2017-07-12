@@ -80,18 +80,19 @@
 
 .index-page-challenges {
   background-image: linear-gradient(to bottom, #446eff, #001f8d), linear-gradient(#3d68ff, #3d68ff);
-}
+  padding-bottom: 20px;
+  }
 
 .index-page-challenges__container {
   max-width: 1200px;
   display: flex;
   flex-direction: column;
-  padding: 80px 0 70px 0;
+  padding: 80px 0 10px 0;
 
   @include device-is('desktop') {
     margin: 0 auto;
     flex-direction: row;
-    padding: 70px 90px;
+    padding: 70px 90px 30px;
   }
 }
 
@@ -142,6 +143,38 @@
     padding-top: 0;
   }
 }
+
+.index-page-challenges__courses-of-the-week {
+  border-radius: 23px;
+  border: solid 1px $white;
+  margin:auto;
+  margin-top: 10px;
+  margin-bottom: 15px;
+  padding: 5px 10px;
+  text-align: center;
+  width: 180px;
+
+  @include device-is('desktop') {
+    margin-top: 0px;
+  }
+
+}
+
+.index-page-challenges__courses-of-the-week-link {
+  font-family: $font-lato;
+  letter-spacing: 0.5px;
+  text-align: center;
+  background-color: transparent;
+  border: transparent;
+  outline: 0;
+  color: $white;
+
+  &:hover{
+    color: $white;
+    text-decoration: none;
+  }
+}
+
 
 /* Courses
 –––––––––––––––––––––––––––––––––––––––––––––––––– */

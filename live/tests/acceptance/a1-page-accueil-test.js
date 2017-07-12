@@ -49,7 +49,7 @@ describe('Acceptance | a1 - La page d\'accueil', function() {
 
     it('a1.6 avec un titre', function() {
       const $title = findWithAssert('.index-page-challenges__presentation-title');
-      expect($title.text().trim()).to.equal('Le défi Pix de la semaine');
+      expect($title.text().trim()).to.equal('Les défis Pix de la semaine');
     });
 
     it('a1.7 avec un texte descriptif', function() {

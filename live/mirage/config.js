@@ -18,7 +18,6 @@ import postUsers from './routes/post-users';
 import postAuthentications from './routes/post-authentications';
 
 export default function() {
-  this.logging = false;
   this.passthrough('/write-coverage');
   this.post('https://fonts.googleapis.com/**', () => {});
   this.post('https://formspree.io/**', () => {});
@@ -30,7 +29,6 @@ export default function() {
 
   this.get('/courses', getCourses);
   this.get('/courses?isCourseOfTheWeek=true', getCoursesOfTheWeek);
-  this.get('/courses/:id', getCourse);
 
   this.get('/challenges', getChallenges);
   this.get('/challenges/:id', getChallenge);
@@ -53,5 +51,22 @@ export default function() {
   this.post('/followers', postFollowers);
 
   this.post('/users', postUsers);
+
+  //Nouveau Mirage
+
+  //CourseGroups
+  this.get('/course-groups');
+
+  //Courses
+  this.get('/courses/:id', (schema, request) => {
+
+    const id = request.params.id;
+    if (['ref_course_id', 'highligthed_course_id', 'ref_timed_challenge_course_id'].includes(id)) {
+      return getCourse(schema, request);
+    }
+    return schema.courses.find(id);
+  });
+
   this.post('/authentications', postAuthentications);
+
 }
