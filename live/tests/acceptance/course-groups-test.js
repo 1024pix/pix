@@ -48,8 +48,8 @@ describe('Acceptance | courseGroups', function() {
 
     it('should display a list of (weekly courses) course-groups', async function() {
       // given
-      const courses = server.createList('course', 2, {name: 'course name'});
-      server.createList('courseGroup', 3, {courses});
+      const courses = server.createList('course', 2, { name: 'course name' });
+      server.createList('courseGroup', 3, { courses });
 
       // when
       await visit('/defis-pix');

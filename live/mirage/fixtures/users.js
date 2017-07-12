@@ -1,3 +1,3 @@
 export default [
-  {id: 'user_id'}
+  { id: 'user_id' }
 ];

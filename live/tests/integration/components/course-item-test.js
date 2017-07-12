@@ -84,7 +84,7 @@ describe('Integration | Component | course item', function() {
 
     it('should render the number of challenges', function() {
       // given
-      const course = Ember.Object.create({ challenges: [], nbChallenges: 2});
+      const course = Ember.Object.create({ challenges: [], nbChallenges: 2 });
       this.set('course', course);
 
       // when
