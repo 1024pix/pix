@@ -1,5 +1,4 @@
 deploy_user: 'deploy'
 home: '/home/deploy'
-pix_env: 'staging'
 branch: 'dev'
-database_url: "tcp://pix_staging@postgresql_vip/pix_staging"
+run_test: yes

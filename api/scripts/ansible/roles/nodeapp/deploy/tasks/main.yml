@@ -1,7 +1,5 @@
 ---
-
 - name: create requirement directory
-  become: yes
   become_user: '{{ deploy_user }}'
   file:
     path: "{{ home_app }}"
@@ -9,7 +7,6 @@
     mode: 0755
 
 - name: clone code
-  become: yes
   become_user: '{{ deploy_user }}'
   git:
     repo: https://github.com/sgmap/pix.git
@@ -20,7 +17,6 @@
   register: git_res
 
 - name: install package
-  become: yes
   become_user: '{{ deploy_user }}'
   command: npm run install:api
   args:
@@ -33,52 +29,57 @@
   when: git_res.changed
 
 - name: stop app
-  become: yes
   systemd:
     name: pix-api
     state: stopped
   ignore_errors: yes
   when: git_res.changed
 
-- name: migrate data
-  become: yes
+- name: vars file directory
   become_user: '{{ deploy_user }}'
-  command: npm run db:migrate
+  file:
+    path: "{{ home_vars_app }}"
+    state: directory
+    mode: 0755
+
+- name: vars file
+  become_user: '{{ deploy_user }}'
+  template:
+    dest: "{{ home_vars_app }}"
+    src: pix-vars.sh
+    mode: 0755
+  when: pix_environment is defined
+
+- name: migrate data
+  become_user: '{{ deploy_user }}'
+  command: "{{ home_vars_app }}/pix-vars.sh npm run db:migrate"
   args:
     chdir: "{{ working_directory }}"
-  environment:
-    NODE_ENV: '{{ pix_env }}'
-    DATABASE_URL: '{{ database_url }}'
   run_once: yes
   when: git_res.changed
 
 - name: seed data
-  command: npm run db:seed
+  become_user: '{{ deploy_user }}'
+  command: "{{ home_vars_app }}/pix-vars.sh npm run db:seed"
   args:
     chdir: "{{ working_directory }}"
-  environment:
-    NODE_ENV: '{{ pix_env }}'
-    DATABASE_URL: '{{ database_url }}'
   run_once: yes
   when: "(git_res.changed) and (need_seed | default(false))"
 
 - name: run test
-  become: yes
   become_user: '{{ deploy_user }}'
-  command: npm test
+  command: "{{ home_vars_app }}/pix-vars.sh npm test"
   args:
     chdir: "{{ working_directory }}"
-  when: git_res.changed
+  when: git_res.changed and run_test
 
 - name: set unit file
-  become: yes
   template:
     dest: /etc/systemd/system/
     src: pix-api.service
-  when: git_res.changed
+  when: git_res.changed and pix_environment is defined
 
 - name: start app
-  become: yes
   systemd:
     daemon_reload: yes
     name: pix-api
