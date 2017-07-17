@@ -59,7 +59,7 @@ module.exports = {
       });
   },
 
-  getProfile(request, reply) {
+  getAuthenticatedUserProfile(request, reply) {
     const token = request.headers.authorization;
     return authorizationToken
       .verify(token)

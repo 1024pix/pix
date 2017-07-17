@@ -19,12 +19,13 @@ class ProfileSerializer extends JSONAPISerializer {
     data.attributes['first-name'] = model.firstName;
     data.attributes['last-name'] = model.lastName;
 
-    if (!_.isUndefined(model['pix-score']))
+    if(!_.isUndefined(model['pix-score'])) {
       data.attributes['total-pix-score'] = model['pix-score'];
+    }
   }
 
   serializeRelationships(model, modelName, data) {
-    if (model) {
+    if(model) {
       data.relationships = {};
       data.relationships[modelName] = {
         data: []
@@ -46,17 +47,20 @@ class ProfileSerializer extends JSONAPISerializer {
         'type': 'competences',
         attributes: {
           'name': competence.name,
+          'index': competence.index,
           'level': competence.level
         },
         relationships: {
           'area': {
-            'type': 'areas',
-            'id': competence.areaId
+            'data': {
+              'type': 'areas',
+              'id': competence.areaId
+            }
           }
         }
       };
 
-      if (competence.level >= 0) {
+      if(competence.level >= 0) {
         competenceData.attributes['pix-score'] = competence.pixScore;
       }
 
@@ -77,7 +81,7 @@ class ProfileSerializer extends JSONAPISerializer {
   }
 
   serializeIncluded(model) {
-    if (!model.competences || !model.areas) {
+    if(!model.competences || !model.areas) {
       return null;
     }
 
@@ -88,19 +92,18 @@ class ProfileSerializer extends JSONAPISerializer {
   }
 
   serializeModelObject(modelObject) {
-    if (!modelObject) {
+    if(!modelObject) {
       return null;
     }
     const entity = modelObject.user.toJSON();
     const competencesEntity = modelObject.competences;
-    const dataWrapper = [{}];
-    const data = dataWrapper[0];
-    data.type = this.modelClassName;
+    const data = {};
+    data.type = 'users';
     data.id = entity.id;
     data.attributes = {};
     this.serializeAttributes(entity, data);
     this.serializeRelationships(competencesEntity, 'competences', data);
-    return dataWrapper;
+    return data;
   }
 }
 

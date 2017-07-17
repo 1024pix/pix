@@ -51,11 +51,13 @@ describe('Unit | Domain | Models | Profile', () => {
         {
           id: 'competenceId1',
           name: '1.1 Mener une recherche d’information',
+          index: '1.1',
           areaId: 'areaId1',
         },
         {
           id: 'competenceId2',
           name: '1.2 Gérer des données',
+          index: '1.2',
           areaId: 'areaId2'
         }];
     });
@@ -74,12 +76,14 @@ describe('Unit | Domain | Models | Profile', () => {
         {
           id: 'competenceId1',
           name: '1.1 Mener une recherche d’information',
+          index: '1.1',
           areaId: 'areaId1',
           level: -1
         },
         {
           id: 'competenceId2',
           name: '1.2 Gérer des données',
+          index: '1.2',
           areaId: 'areaId2',
           level: -1
         }];
@@ -108,6 +112,7 @@ describe('Unit | Domain | Models | Profile', () => {
         {
           id: 'competenceId1',
           name: '1.1 Mener une recherche d’information',
+          index: '1.1',
           areaId: 'areaId1',
           level: 1,
           pixScore: 10
@@ -115,6 +120,7 @@ describe('Unit | Domain | Models | Profile', () => {
         {
           id: 'competenceId2',
           name: '1.2 Gérer des données',
+          index: '1.2',
           areaId: 'areaId2',
           level: -1
         }];

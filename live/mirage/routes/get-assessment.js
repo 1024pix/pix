@@ -17,7 +17,7 @@ export default function(schema, request) {
 
   if (assessment) {
     return assessment.obj;
-  } else {
+  }else {
     throw new Error('The assessment you required in the fake server does not exist ' + request.params.id);
   }
 

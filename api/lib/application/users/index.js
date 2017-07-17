@@ -10,8 +10,8 @@ exports.register = function(server, options, next) {
     },
     {
       method: 'GET',
-      path: '/api/users',
-      config: { handler: UserController.getProfile, tags: ['api'] }
+      path: '/api/users/me',
+      config: { handler: UserController.getAuthenticatedUserProfile, tags: ['api'] }
     }
   ]);
 

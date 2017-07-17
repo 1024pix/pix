@@ -29,7 +29,7 @@ export default function(schema, request) {
     'ref_qrocm_challenge_id': 'null',
 
     'ref_timed_challenge_id': refTimedChallengeBis,
-    'ref_timed_challenge_bis_id': 'null',
+    'ref_timed_challenge_bis_id': 'null'
 
   };
 
@@ -37,7 +37,7 @@ export default function(schema, request) {
 
   if (challenge) {
     return challenge;
-  } else {
+  }else {
     throw new Error('There is no challenge following challenge ' + request.params.challengeId);
   }
 

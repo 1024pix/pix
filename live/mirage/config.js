@@ -16,8 +16,10 @@ import postFeedbacks from './routes/post-feedbacks';
 import postRefreshSolution from './routes/post-refresh-solution';
 import postUsers from './routes/post-users';
 import postAuthentications from './routes/post-authentications';
+import getAuthenticatedUser from './routes/get-user-me';
 
 export default function() {
+  this.logging = false;
   this.passthrough('/write-coverage');
   this.post('https://fonts.googleapis.com/**', () => {});
   this.post('https://formspree.io/**', () => {});
@@ -68,5 +70,7 @@ export default function() {
   });
 
   this.post('/authentications', postAuthentications);
-
+  this.get('/users/me', getAuthenticatedUser);
+  this.get('/competences/:id');
+  this.get('/areas/:id');
 }

@@ -19,9 +19,9 @@ export default function(schema, request) {
 
   if (assessment) {
     return assessment.obj;
-  } else if (_.startsWith(courseId, 'null')) {
+  }else if (_.startsWith(courseId, 'null')) {
     return refAssessment;
-  } else {
+  }else {
     throw new Error('undefined new assessment, sorry');
   }
 

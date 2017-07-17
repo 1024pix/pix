@@ -35,17 +35,19 @@ describe('Unit | Serializer | JSONAPI | profile-serializer', () => {
         {
           id: 'recCompA',
           name: 'competence-name-1',
+          index: '1.1',
           areaId: 'recAreaA'
         },
         {
           id: 'recCompB',
           name: 'competence-name-2',
+          index: '1.2',
           areaId: 'recAreaB'
         }];
 
       expectedJson = {
-        data: [{
-          type: 'user',
+        data: {
+          type: 'users',
           id: 'user_id',
           attributes: {
             'first-name': 'Luke',
@@ -61,7 +63,7 @@ describe('Unit | Serializer | JSONAPI | profile-serializer', () => {
             }
           },
 
-        }],
+        },
         included: [
           {
             type: 'areas',
@@ -82,12 +84,15 @@ describe('Unit | Serializer | JSONAPI | profile-serializer', () => {
             id: 'recCompA',
             attributes: {
               name: 'competence-name-1',
+              index: '1.1',
               level: -1
             },
             relationships: {
               area: {
-                type: 'areas',
-                id: 'recAreaA'
+                data: {
+                  type: 'areas',
+                  id: 'recAreaA'
+                }
               }
             }
           },
@@ -96,13 +101,16 @@ describe('Unit | Serializer | JSONAPI | profile-serializer', () => {
             id: 'recCompB',
             attributes: {
               name: 'competence-name-2',
+              index: '1.2',
               level: 8,
               'pix-score': 128
             },
             relationships: {
               area: {
-                type: 'areas',
-                id: 'recAreaB'
+                data: {
+                  type: 'areas',
+                  id: 'recAreaB'
+                }
               }
             }
           }
@@ -136,7 +144,7 @@ describe('Unit | Serializer | JSONAPI | profile-serializer', () => {
       const userSerialized = serializer.serialize(profile);
 
       // Then
-      expect(userSerialized.data[0].attributes).not.to.have.property('total-pix-score');
+      expect(userSerialized.data.attributes).not.to.have.property('total-pix-score');
     });
   });
 

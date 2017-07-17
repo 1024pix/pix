@@ -34,17 +34,17 @@ describe('Unit | Router | user-router', () => {
     });
   });
 
-  describe('GET /api/users', function() {
+  describe('GET /api/users/me', function() {
     before(() => {
-      sinon.stub(UserController, 'getProfile').callsFake((request, reply) => reply('ok'));
+      sinon.stub(UserController, 'getAuthenticatedUserProfile').callsFake((request, reply) => reply('ok'));
     });
 
     after(() => {
-      UserController.getProfile.restore();
+      UserController.getAuthenticatedUserProfile.restore();
     });
 
     it('should exist', (done) => {
-      return expectRouteToExist({ method: 'GET', url: '/api/users' }, done);
+      return expectRouteToExist({ method: 'GET', url: '/api/users/me' }, done);
     });
   });
 

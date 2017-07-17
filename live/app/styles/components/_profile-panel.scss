@@ -1,0 +1,40 @@
+.profile-panel {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  max-width: 1190px;
+}
+
+.profile-panel__header {
+  width: 100%;
+  padding-left: 100px;
+
+  @include device-is('mobile') {
+    padding: 0 30px;
+  }
+}
+
+.profile-header__title {
+  font-family: $font-raleway;
+  font-size: 40px;
+  font-weight: 800;
+  color: $pix-blue;
+  text-transform: uppercase;
+  text-align: left;
+  @include device-is('mobile') {
+    font-size: 30px;
+  }
+}
+
+.profile-header__details {
+  font-family: $font-lato;
+  font-size: 16px;
+  letter-spacing: 1.8px;
+  color: $charcoal-grey;
+  margin-bottom: 52px;
+  text-align: left;
+}
+
+.profile-panel__competence-areas {
+  width: 100%;
+}

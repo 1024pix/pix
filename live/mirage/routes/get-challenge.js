@@ -28,7 +28,7 @@ export default function(schema, request) {
 
   if (challenge) {
     return challenge.obj;
-  } else {
+  }else {
     throw new Error('The challenge you required in the fake server does not exist ' + request.params.id);
   }
 

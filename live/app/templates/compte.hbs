@@ -1,7 +1,12 @@
-<div>
-  <h1>Bienvenue sur l'espace compte</h1>
+<div class="compte-page">
 
-  <a href="/deconnexion">Se déconnecter</a>
+  {{navbar-header class="navbar-header--white"}}
 
-  {{outlet}}
+  <h1>Bienvenue</h1>
+
+  <a href="/logout">Se déconnecter</a>
+
+  {{profile-panel competences=model.competences}}
 </div>
+
+{{app-footer}}

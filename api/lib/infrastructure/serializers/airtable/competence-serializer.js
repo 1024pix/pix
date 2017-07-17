@@ -11,6 +11,7 @@ class CompetenceSerializer extends AirtableSerializer {
     const fields = airtableRecord.fields;
     if(fields) {
       competence.name = fields['Titre'];
+      competence.index = fields['Sous-domaine'];
       competence.areaId = fields['Domaine'];
     }
 
