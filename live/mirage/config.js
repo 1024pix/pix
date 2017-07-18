@@ -21,9 +21,12 @@ import getAuthenticatedUser from './routes/get-user-me';
 export default function() {
   this.logging = false;
   this.passthrough('/write-coverage');
-  this.post('https://fonts.googleapis.com/**', () => {});
-  this.post('https://formspree.io/**', () => {});
-  this.post('https://sentry.io/**', () => {});
+  this.post('https://fonts.googleapis.com/**', () => {
+  });
+  this.post('https://formspree.io/**', () => {
+  });
+  this.post('https://sentry.io/**', () => {
+  });
 
   this.urlPrefix = 'http://localhost:3000';
   this.namespace = '/api';
@@ -63,7 +66,7 @@ export default function() {
   this.get('/courses/:id', (schema, request) => {
 
     const id = request.params.id;
-    if (['ref_course_id', 'highligthed_course_id', 'ref_timed_challenge_course_id'].includes(id)) {
+    if(['ref_course_id', 'highligthed_course_id', 'ref_timed_challenge_course_id'].includes(id)) {
       return getCourse(schema, request);
     }
     return schema.courses.find(id);

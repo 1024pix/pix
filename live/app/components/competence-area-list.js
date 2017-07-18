@@ -1,6 +1,6 @@
 import Ember from 'ember';
 import groupBy from 'ember-group-by';
-import _ from 'pix-live/utils/lodash-custom';
+import _sortBy from 'lodash/sortBy';
 
 export default Ember.Component.extend({
 
@@ -17,8 +17,6 @@ export default Ember.Component.extend({
 
   _competencesByAreaSorted: Ember.computed('_competencesGroupedByArea', function() {
     const competencesByArea = this.get('_competencesGroupedByArea');
-    return _.sortBy(competencesByArea, [function(o) {
-      return o.value;
-    }]);
+    return _sortBy(competencesByArea, (competence) => competence.value);
   }),
 });

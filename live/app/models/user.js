@@ -10,12 +10,13 @@ export default Model.extend({
   cgu: attr('boolean'),
   recaptchaToken: attr('string'),
   competences: hasMany('competence'),
+  totalPixScore: attr('number'),
 
   competenceAreas: Ember.computed('competences', function() {
     return this.get('competences').then(competences => {
       return competences.reduce((areas, competence) => {
         competence.get('area').then(competenceArea => {
-          if (!areas[competenceArea.get('id')]) {
+          if(!areas[competenceArea.get('id')]) {
             areas[competenceArea.get('id')] = {
               name: competenceArea.get('name'),
               competences: []

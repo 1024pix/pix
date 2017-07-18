@@ -16,6 +16,9 @@ export default Factory.extend({
   cgu() {
     return faker.random.boolean();
   },
+  totalPixScore() {
+    return faker.random.number();
+  },
   recaptchaToken() {
     return faker.random.uuid();
   }
