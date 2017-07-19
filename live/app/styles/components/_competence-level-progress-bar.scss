@@ -1,0 +1,73 @@
+.competence-level-progress-bar__background {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  padding-right: 2px;
+}
+
+.competence-level-progress-bar__background-level-limit {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  height: 24px;
+  width: 62.5%;
+  padding-right: 2px;
+  border-radius: 12px;
+  background-image: linear-gradient(to right, rgba(255, 255, 255, 0.5), rgba(0, 0, 0, 0.5)), linear-gradient($porcelain-grey, $porcelain-grey);
+}
+
+.competence-level-progress-bar__background-level-limit-indicator {
+  height: 20px;
+  width: 20px;
+  border-radius: 20px;
+  background-color: $white;
+  color: $dusty-grey;
+  text-align: center;
+}
+
+.competence-level-progress-bar__background-available-soon-text {
+  max-width: 50px;
+  font-family: $font-lato;
+  font-size: 8px;
+  text-align: center;
+
+  @include device-is('tablet') {
+    max-width: none;
+    font-size: 14px;
+  }
+}
+
+.competence-level-progress-bar__background-level-limit-max-indicator {
+  width: 20px;
+  height: 20px;
+  border-radius: 20px;
+  background-color: $white;
+  color: $dusty-grey;
+  text-align: center;
+}
+
+.competence-level-progress-bar__level {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  padding-right: 2px;
+  background-image: linear-gradient(to right, rgba(255, 190, 0, 0.0), $pizazz-orange), linear-gradient($amber-orange, $amber-orange);
+  border-radius: 12px;
+  height: 24px;
+
+  position: relative;
+  bottom: 24px;
+}
+
+.competence-level-progress-bar__level-indicator {
+  width: 20px;
+  height: 20px;
+  background-color: $white;
+  border-radius: 20px;
+  text-align: center;
+
+  font-family: $font-overpass;
+  font-weight: bold;
+  color: $pix-blue;
+}

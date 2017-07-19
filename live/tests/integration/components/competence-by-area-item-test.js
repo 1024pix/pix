@@ -19,7 +19,7 @@ describe('Integration | Component | competence area item', function() {
 
   it('should render a title', function() {
     // Given
-    const competence = Ember.Object.create({ name: 'competence-A', });
+    const competence = Ember.Object.create({ name: 'competence-A', level: 1 });
     const areaWithOnlyOneCompetence = { property: 'area', value: '1. Information et données', items: [competence] };
     this.set('competenceArea', areaWithOnlyOneCompetence);
     // when
@@ -75,7 +75,7 @@ describe('Integration | Component | competence area item', function() {
       this.render(hbs`{{competence-by-area-item competenceArea=competenceArea}}`);
 
       // then
-      expect(this.$('.competence__level')).to.have.lengthOf(1);
+      expect(this.$('.competence__progress-bar')).to.have.lengthOf(1);
     });
   });
 });

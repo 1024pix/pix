@@ -4,7 +4,9 @@
   {{#each _competencesSortedList as |competence|}}
     <div class="competence">
       <div class="competence__name">{{competence.name}}</div>
-      <div class="competence__level" data-level="{{competence.level}}">&nbsp;</div>
+      <div class="competence__progress-bar">
+        {{competence-level-progress-bar level=competence.level}}
+      </div>
     </div>
   {{/each}}
 </div>
