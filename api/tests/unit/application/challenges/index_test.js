@@ -22,7 +22,7 @@ describe('Unit | Router | challenge-router', function() {
   describe('GET /api/challenges', function() {
 
     before(function() {
-      sinon.stub(ChallengeController, 'list', (request, reply) => reply('ok'));
+      sinon.stub(ChallengeController, 'list').callsFake((request, reply) => reply('ok'));
     });
 
     after(function() {
@@ -37,7 +37,7 @@ describe('Unit | Router | challenge-router', function() {
   describe('GET /api/challenges/{id}', function() {
 
     before(function() {
-      sinon.stub(ChallengeController, 'get', (request, reply) => reply('ok'));
+      sinon.stub(ChallengeController, 'get').callsFake((request, reply) => reply('ok'));
     });
 
     after(function() {
@@ -52,7 +52,7 @@ describe('Unit | Router | challenge-router', function() {
   describe('POST /api/challenges/{id}', function() {
 
     before(function() {
-      sinon.stub(ChallengeController, 'refresh', (request, reply) => reply('ok'));
+      sinon.stub(ChallengeController, 'refresh').callsFake((request, reply) => reply('ok'));
     });
 
     after(function() {
@@ -67,7 +67,7 @@ describe('Unit | Router | challenge-router', function() {
   describe('PUT /api/challenges/{id}/validate', function() {
 
     before(function() {
-      sinon.stub(ChallengeController, 'revalidateAnswers', (request, reply) => reply('ok'));
+      sinon.stub(ChallengeController, 'revalidateAnswers').callsFake((request, reply) => reply('ok'));
     });
 
     after(function() {
@@ -78,11 +78,11 @@ describe('Unit | Router | challenge-router', function() {
       expectRouteToExist({ method: 'PUT', url: '/api/challenges/{id}/validate' }, done);
     });
   });
-  
+
   describe('POST /api/challenges/{id}/solution', function() {
 
     before(function() {
-      sinon.stub(ChallengeController, 'refreshSolution', (request, reply) => reply('ok'));
+      sinon.stub(ChallengeController, 'refreshSolution').callsFake((request, reply) => reply('ok'));
     });
 
     after(function() {

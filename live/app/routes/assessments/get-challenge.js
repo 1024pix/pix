@@ -7,6 +7,7 @@ export default BaseRoute.extend({
   assessmentService: Ember.inject.service('assessment'),
 
   model(params) {
+
     const store = this.get('store');
 
     const assessmentId = params.assessment_id;

@@ -1,6 +1,6 @@
 {
   "name": "pix",
-  "version": "1.14.0",
+  "version": "1.15.0",
   "description": "Plateforme d'évaluation et de certification des compétences numériques des citoyens francophones.",
   "author": "Team PIX",
   "license": "AGPL-3.0",
@@ -62,6 +62,7 @@
     "deploy:production": "npm run deploy:production:api && npm run deploy:production:live",
     "release:prepare": "./scripts/release/prepare.sh",
     "release:perform": "./scripts/release/perform.sh",
-    "release:publish": "./scripts/release/publish.sh"
+    "release:publish": "./scripts/release/publish.sh",
+    "preview:update": "./scripts/release/update-preview.sh"
   }
 }

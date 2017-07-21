@@ -8,7 +8,6 @@ chai.use(require('chai-as-promised'));
 
 // Sinon
 const sinon = require('sinon');
-require('sinon-as-promised');
 
 // Knex
 const knexConfig = require('../db/knexfile');

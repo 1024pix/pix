@@ -21,7 +21,7 @@ describe('Unit | Router | feedback-router', function() {
   describe('POST /api/feedbacks', function() {
 
     before(function() {
-      sinon.stub(FeedbackController, 'save', (request, reply) => reply('ok'));
+      sinon.stub(FeedbackController, 'save').callsFake((request, reply) => reply('ok'));
     });
 
     after(function() {

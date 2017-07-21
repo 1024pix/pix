@@ -38,7 +38,7 @@ describe('Unit | Validator | json-web-token-verify', function() {
 
       let jsonwebtokenStub;
       beforeEach(function() {
-        jsonwebtokenStub = sinon.stub(jsonwebtoken, 'verify', function(token, key, cb) {
+        jsonwebtokenStub = sinon.stub(jsonwebtoken, 'verify').callsFake((token, key, cb) => {
           cb(null, { user_id: 1 });
         });
       });

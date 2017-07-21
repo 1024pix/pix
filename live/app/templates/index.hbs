@@ -12,18 +12,21 @@
     </div>
   </section>
 
-  {{! I don't know how to correctly test this with our current Mirage config/use :-( }}
-    <section class="index-page__section index-page__section--challenges index-page-challenges">
-      <div class="index-page-challenges__container">
-        <div class="index-page-challenges__presentation">
-          <h2 class="index-page-challenges__presentation-title">Le défi <span class="text--marigold">Pix</span> de la semaine</h2>
-          <p class="index-page-challenges__presentation-text">Chaque semaine, testez vos compétences numériques sur un nouveau sujet.</p>
-        </div>
-        <div class="index-page-challenges__course-list">
-          {{course-list courses=model.coursesOfTheWeek startCourse='startCourse' limit=2}}
-        </div>
+  <section class="index-page__section index-page__section--challenges index-page-challenges">
+    <div class="index-page-challenges__container">
+      <div class="index-page-challenges__presentation">
+        <h2 class="index-page-challenges__presentation-title">Les défis <span class="text--marigold">Pix</span> de la semaine</h2>
+        <p class="index-page-challenges__presentation-text">Chaque semaine, testez vos compétences numériques sur un nouveau sujet.</p>
       </div>
-    </section>
+      <div class="index-page-challenges__course-list">
+        {{course-list courses=model.coursesOfTheWeek startCourse='startCourse' limit=2}}
+      </div>
+    </div>
+    <div class="index-page-challenges__courses-of-the-week">
+      {{#link-to 'course-groups' class="index-page-challenges__courses-of-the-week-link"}}
+        VOIR LES DÉFIS PRÉCÉDENTS{{/link-to}}
+    </div>
+  </section>
 
   <section class="index-page__section index-page__section--courses index-page-courses">
     <h2 class="index-page-courses__title">Découvrez nos épreuves et aidez‑nous à les améliorer !</h2>
@@ -34,7 +37,8 @@
 
   <section class="index-page__section index-page__section--community index-page-community">
     <h2 class="index-page-community__title">Rejoindre la communauté</h2>
-    <p class="index-page-community__description">Vous souhaitez devenir béta‑testeur<br>ou être informé(e) du développement de Pix ?</p>
+    <p class="index-page-community__description">Vous souhaitez devenir béta‑testeur<br>ou être informé(e) du
+      développement de Pix ?</p>
     <div class="index-page-community__form">
       {{follower-form}}
     </div>

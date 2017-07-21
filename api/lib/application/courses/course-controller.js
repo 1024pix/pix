@@ -4,6 +4,8 @@ const courseSerializer = require('../../infrastructure/serializers/jsonapi/cours
 const challengeRepository = require('../../infrastructure/repositories/challenge-repository');
 const challengeSerializer = require('../../infrastructure/serializers/jsonapi/challenge-serializer');
 
+const logger = require('../../infrastructure/logger');
+
 function _fetchCourses(query) {
   if (query.isAdaptive === 'true') {
     return courseRepository.getAdaptiveCourses();
@@ -41,7 +43,10 @@ module.exports = {
         return _extractCoursesChallenges(courses);
       })
       .then(challenges => reply(_buildResponse(courses, challenges)))
-      .catch(err => reply(Boom.badImplementation(err)));
+      .catch((err) => {
+        logger.error(err);
+        reply(Boom.badImplementation(err));
+      });
   },
 
   get(request, reply) {
@@ -62,11 +67,14 @@ module.exports = {
         }
       })
       .catch(err => {
-        let error = Boom.badImplementation(err);
-        if ('MODEL_ID_NOT_FOUND' == err.error.type) {
-          error = Boom.notFound(err);
+
+        if ('MODEL_ID_NOT_FOUND' === err.error.type) {
+          return reply(Boom.notFound(err));
         }
-        return reply(error);
+
+        logger.error(err);
+
+        return reply(Boom.badImplementation(err));
       });
   },
 
@@ -74,7 +82,10 @@ module.exports = {
     courseRepository
       .refresh(request.params.id)
       .then(course => reply(courseSerializer.serialize(course)))
-      .catch(err => reply(Boom.badImplementation(err)));
+      .catch((err) => {
+        logger.error(err);
+        reply(Boom.badImplementation(err));
+      });
   },
 
   refreshAll(request, reply) {

@@ -21,6 +21,8 @@
 @import 'components/challenge-statement';
 @import 'components/challenge-stay';
 @import 'components/comparison-window';
+@import 'components/competence-by-area-item';
+@import 'components/competence-level-progress-bar';
 @import 'components/course-banner';
 @import 'components/course-item';
 @import 'components/course-item-placeholder';
@@ -50,7 +52,8 @@
 @import 'components/signin-form';
 @import 'components/signup-textfield';
 @import 'components/scoring-panel-tantpix';
-
+@import 'components/score-pastille';
+@import 'components/profile-panel';
 /* pages */
 @import 'pages/index';
 @import 'pages/project';
@@ -59,7 +62,9 @@
 @import 'pages/assessment-results';
 @import 'pages/competences';
 @import 'pages/inscription';
-@import 'pages/connexion';
+@import 'pages/course-groups';
+@import 'pages/login';
+@import 'pages/compte';
 
 body {
   font-family: $font-lato;

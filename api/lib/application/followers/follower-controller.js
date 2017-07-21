@@ -5,6 +5,8 @@ const followerSerializer = require('../../infrastructure/serializers/jsonapi/fol
 
 const mailService = require('../../domain/services/mail-service');
 
+const logger = require('../../infrastructure/logger');
+
 function _assertFollowerNotExist(follower) {
   return new Promise((resolve, reject) => {
     if (follower) {
@@ -48,7 +50,10 @@ module.exports = {
 
         reply(followerSerializer.serialize(follower)).code(201);
       })
-      .catch((err) => reply(err));
+      .catch(err => {
+        logger.error(err);
+        reply(err);
+      });
   }
 };
 

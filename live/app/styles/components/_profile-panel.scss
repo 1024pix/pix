@@ -1,0 +1,59 @@
+.profile-panel {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  max-width: 1190px;
+}
+
+.profile-panel__header {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 0 30px;
+  width: 100%;
+
+  @include device-is('tablet') {
+    padding-left: 100px;
+    justify-content: space-between;
+    flex-direction: row;
+  }
+}
+
+.profile-header__left-bloc {
+  margin: 20px auto 0;
+  @include device-is('tablet') {
+    margin: 55px 0 0;
+  }
+}
+
+.profile-header__title {
+  font-family: $font-raleway;
+  font-weight: 800;
+  color: $pix-blue;
+  text-transform: uppercase;
+  text-align: left;
+  height: 47px;
+  font-size: 30px;
+
+  @include device-is('tablet') {
+    font-size: 40px;
+  }
+}
+
+.profile-header__details {
+  font-family: $font-lato;
+  font-size: 16px;
+  height: 19px;
+  letter-spacing: 1.8px;
+  color: $charcoal-grey;
+  text-align: left;
+  margin-bottom: 10px;
+
+  @include device-is('tablet') {
+    margin-bottom: 52px;
+  }
+}
+
+.profile-panel__competence-areas {
+  width: 100%;
+}

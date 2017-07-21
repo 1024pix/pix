@@ -29,7 +29,7 @@ export default function(schema, request) {
     refQrocChallengeFull,
     refQrocmChallengeFull,
     refTimedChallenge,
-    refTimedChallengeBis,
+    refTimedChallengeBis
   ];
 
   const allAnswers = [
@@ -50,7 +50,7 @@ export default function(schema, request) {
 
   if (finalAnswer) {
     return finalAnswer.obj;
-  } else {
+  }else {
     throw new Error('Unable to POST this answer in the stub, sorry');
   }
 

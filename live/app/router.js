@@ -7,7 +7,7 @@ const Router = Ember.Router.extend({
 });
 
 // XXX https://github.com/poteto/ember-metrics/issues/43#issuecomment-252081256
-if (config.environment === 'integration' || config.environment === 'staging' || config.environment === 'production') {
+if(config.environment === 'integration' || config.environment === 'staging' || config.environment === 'production') {
   // do not make any sense in test ENV, therefore can be safely ignored
   /* istanbul ignore next */
   Router.reopen({
@@ -47,8 +47,9 @@ Router.map(function() {
   this.route('assessments.get-challenge', { path: '/assessments/:assessment_id/challenges/:challenge_id' });
   this.route('assessments.get-results', { path: '/assessments/:assessment_id/results' });
   this.route('assessments.get-comparison', { path: '/assessments/:assessment_id/results/compare/:answer_id/:index' });
-  this.route('connexion');
-  this.route('deconnexion');
+  this.route('login', { path: '/connexion' });
+  this.route('logout', { path: '/deconnexion' });
+  this.route('course-groups', { path: '/defis-pix' });
 });
 
 export default Router;

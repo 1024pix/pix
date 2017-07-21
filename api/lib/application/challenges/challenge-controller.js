@@ -8,6 +8,8 @@ const answerRepository = require('../../infrastructure/repositories/answer-repos
 const solutionService = require('../../domain/services/solution-service');
 const challengeService = require('../../domain/services/challenge-service');
 
+const logger = require('../../infrastructure/logger');
+
 module.exports = {
 
   list(request, reply) {
@@ -15,7 +17,10 @@ module.exports = {
     challengeRepository
       .list()
       .then((challenges) => reply(challengeSerializer.serializeArray(challenges)))
-      .catch((err) => reply(Boom.badImplementation(err)));
+      .catch((err) => {
+        logger.error(err);
+        reply(Boom.badImplementation(err));
+      });
   },
 
   revalidateAnswers(request, reply) {
@@ -29,7 +34,10 @@ module.exports = {
           return reply(revalidationStatistics);
         });
       })
-      .catch((err) => reply(Boom.badImplementation(err)));
+      .catch((err) => {
+        logger.error(err);
+        reply(Boom.badImplementation(err));
+      });
 
   },
 
@@ -39,6 +47,7 @@ module.exports = {
       .get(request.params.id)
       .then((challenge) => reply(challengeSerializer.serialize(challenge)))
       .catch((err) => {
+        logger.error(err);
         let error = Boom.badImplementation(err);
         if ('MODEL_ID_NOT_FOUND' == err.error.type) {
           error = Boom.notFound(err);
@@ -53,7 +62,10 @@ module.exports = {
     challengeRepository
       .refresh(request.params.id)
       .then((challenge) => reply(challengeSerializer.serialize(challenge)))
-      .catch((err) => reply(Boom.badImplementation(err)));
+      .catch((err) => {
+        logger.error(err);
+        reply(Boom.badImplementation(err));
+      });
   },
 
   refreshSolution(request, reply) {
@@ -61,7 +73,10 @@ module.exports = {
     solutionRepository
       .refresh(request.params.id)
       .then(() => reply('ok'))
-      .catch((err) => reply(Boom.badImplementation(err)));
+      .catch((err) => {
+        logger.error(err);
+        reply(Boom.badImplementation(err));
+      });
 
   }
 

@@ -42,12 +42,12 @@ describe('Acceptance | Controller | users-controller-get-profile', function() {
   const lastName = faker.name.lastName();
   const options = {
     method: 'GET',
-    url: '/api/users',
+    url: '/api/users/me',
     payload: {}
   };
   const expectedSerializedProfile = {
-    data: [{
-      type: 'user',
+    data: {
+      type: 'users',
       id: 'user_id',
       attributes: {
         'first-name': firstName,
@@ -61,7 +61,7 @@ describe('Acceptance | Controller | users-controller-get-profile', function() {
           ]
         }
       }
-    }],
+    },
     included: [
       {
         type: 'areas',
@@ -82,12 +82,16 @@ describe('Acceptance | Controller | users-controller-get-profile', function() {
         id: 'recCompA',
         attributes: {
           name: 'competence-name-1',
-          level: -1
+          index: '1.1',
+          level: -1,
+          'course-id': 'recBxPAuEPlTgt72q11'
         },
         relationships: {
           area: {
-            type: 'areas',
-            id: 'recAreaA',
+            data: {
+              type: 'areas',
+              id: 'recAreaA',
+            }
           }
         }
       },
@@ -96,12 +100,16 @@ describe('Acceptance | Controller | users-controller-get-profile', function() {
         id: 'recCompB',
         attributes: {
           name: 'competence-name-2',
-          level: -1
+          index: '1.2',
+          level: -1,
+          'course-id': 'recBxPAuEPlTgt72q99'
         },
         relationships: {
           area: {
-            type: 'areas',
-            id: 'recAreaB'
+            data: {
+              type: 'areas',
+              id: 'recAreaB'
+            }
           }
         }
       }
@@ -117,14 +125,18 @@ describe('Acceptance | Controller | users-controller-get-profile', function() {
     competences: [{
       id: 'recCompA',
       name: 'competence-name-1',
+      index: '1.1',
       areaId: 'recAreaA',
-      level: -1
+      level: -1,
+      courseId: 'recBxPAuEPlTgt72q11'
     },
     {
       id: 'recCompB',
       name: 'competence-name-2',
+      index: '1.2',
       areaId: 'recAreaB',
-      level: -1
+      level: -1,
+      courseId: 'recBxPAuEPlTgt72q99'
     }],
     areas: [{ id: 'recAreaA', name: 'domaine-name-1' }, { id: 'recAreaB', name: 'domaine-name-2' }]
   };

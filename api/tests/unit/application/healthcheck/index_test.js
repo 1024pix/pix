@@ -22,7 +22,7 @@ describe('Unit | Router | HealthcheckRouter', function() {
   describe('GET /api', function() {
 
     before(function() {
-      sinon.stub(healthcheckController, 'get', (request, reply) => reply('ok'));
+      sinon.stub(healthcheckController, 'get').callsFake((request, reply) => reply('ok'));
     });
 
     after(function() {

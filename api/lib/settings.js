@@ -18,6 +18,11 @@ module.exports = (function() {
       base: process.env.AIRTABLE_BASE
     },
 
+    logging: {
+      enabled: process.env.LOG_ENABLED === 'true',
+      path: process.env.LOG_PATH || '/var/log/pix.log'
+    },
+
     mailjet: {
       apiKey: process.env.MAILJET_KEY,
       apiSecret: process.env.MAILJET_SECRET
@@ -41,6 +46,8 @@ module.exports = (function() {
       apiKey: 'test-api-key',
       base: 'test-base'
     };
+
+    config.logging.enabled = false;
 
     config.mailjet = {
       apiKey: 'test-api-ket',

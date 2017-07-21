@@ -6,8 +6,9 @@ Type=simple
 TimeoutStartSec=5m
 WorkingDirectory={{ working_directory }}
 
-Environment=NODE_ENV={{ pix_env }}
-Environment=DATABASE_URL={{ database_url }}
+{% for env in pix_environment %}
+Environment={{ env }}={{ pix_environment[env]}}
+{% endfor %}
 
 ExecStart=/usr/bin/npm start 2>&1 >> /var/log/pix-api.log
 

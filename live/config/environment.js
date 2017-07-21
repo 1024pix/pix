@@ -31,7 +31,8 @@ module.exports = function(environment) {
       isTimerCountdownEnabled: true,
       isMessageStatusTogglingEnabled: true,
       LOAD_EXTERNAL_SCRIPT: true,
-      GOOGLE_RECAPTCHA_KEY: '6LdPdiIUAAAAADhuSc8524XPDWVynfmcmHjaoSRO'
+      GOOGLE_RECAPTCHA_KEY: '6LdPdiIUAAAAADhuSc8524XPDWVynfmcmHjaoSRO',
+      FEEDBACK_PANEL_SCROLL_DURATION: 800
     },
 
     googleFonts: [

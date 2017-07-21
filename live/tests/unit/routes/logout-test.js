@@ -12,8 +12,8 @@ class SessionStub {
   }
 }
 
-describe('Unit | Route | deconnexion', () => {
-  setupTest('route:deconnexion', {
+describe('Unit | Route | logout', () => {
+  setupTest('route:logout', {
     needs: ['service:current-routed-modal', 'service:session']
   });
 
@@ -27,7 +27,8 @@ describe('Unit | Route | deconnexion', () => {
     const route = this.subject();
     const sessionStub = new SessionStub();
     route.set('session', sessionStub);
-    route.transitionTo = function() {};
+    route.transitionTo = function() {
+    };
 
     // When
     route.beforeModel();

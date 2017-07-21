@@ -35,11 +35,11 @@ export default function(schema, request) {
 
   if (answer) {
     return answer.obj;
-  } else {
+  }else {
     let queryParams = '';
     try {
       queryParams = JSON.stringify(request.queryParams);
-    } catch(e) {
+    } catch (e) {
       queryParams = '';
     }
     throw new Error('404 The answer you required in the fake server does not exist... ' + queryParams);

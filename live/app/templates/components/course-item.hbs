@@ -3,11 +3,14 @@
 <div class="course-item__container">
   <h3 class="course-item__name">{{course.name}}</h3>
   <div class="course-item__description">{{course.description}}</div>
-  <div class="course-item__challenges-number">{{course.challenges.length}} épreuves</div>
+  <div class="course-item__challenges-number">
+    {{#if course.challenges.length}} {{course.challenges.length}}{{else}} {{course.nbChallenges}}{{/if}} épreuves
+  </div>
 
   {{!-- iPhone needs style="cursor: pointer;" to trigger the event !! --}}
   {{!-- https://github.com/emberjs/ember.js/issues/605#issuecomment-57037709 --}}
-  <a class="course-item__begin-button" href="#" {{action "startCourse" course}} style="cursor: pointer;" title='Commencer le test "{{course.name}}"'>
+  <a class="course-item__begin-button" href="#" {{action "startCourse" course}} style="cursor: pointer;"
+     title='Commencer le test "{{course.name}}"'>
     Commencer
   </a>
 

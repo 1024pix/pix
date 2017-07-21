@@ -22,7 +22,7 @@ describe('Unit | Router | answer-router', function() {
   describe('POST /api/answers', function() {
 
     before(function() {
-      sinon.stub(AnswerController, 'save', (request, reply) => reply('ok'));
+      sinon.stub(AnswerController, 'save').callsFake((request, reply) => reply('ok'));
     });
 
     after(function() {
@@ -37,7 +37,7 @@ describe('Unit | Router | answer-router', function() {
   describe('GET /api/answers/{id}', function() {
 
     before(function() {
-      sinon.stub(AnswerController, 'get', (request, reply) => reply('ok'));
+      sinon.stub(AnswerController, 'get').callsFake((request, reply) => reply('ok'));
     });
 
     after(function() {
@@ -52,7 +52,7 @@ describe('Unit | Router | answer-router', function() {
   describe('GET /api/answers?assessment=<assessment_id>&challenge=<challenge_id>', function() {
 
     before(function() {
-      sinon.stub(AnswerController, 'findByChallengeAndAssessment', (request, reply) => reply('ok'));
+      sinon.stub(AnswerController, 'findByChallengeAndAssessment').callsFake((request, reply) => reply('ok'));
     });
 
     after(function() {
@@ -67,7 +67,7 @@ describe('Unit | Router | answer-router', function() {
   describe('PATCH /api/answers/{id}', function() {
 
     before(function() {
-      sinon.stub(AnswerController, 'update', (request, reply) => reply('ok'));
+      sinon.stub(AnswerController, 'update').callsFake((request, reply) => reply('ok'));
     });
 
     after(function() {

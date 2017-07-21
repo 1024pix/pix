@@ -9,8 +9,8 @@ class SessionStub {
   }
 }
 
-describe('Unit | Route | connexion', function() {
-  setupTest('route:connexion', {
+describe('Unit | Route | login page', function() {
+  setupTest('route:login', {
     needs: [ 'service:current-routed-modal', 'service:session' ]
   });
 
@@ -22,8 +22,7 @@ describe('Unit | Route | connexion', function() {
     // Given
     const route = this.subject();
     route.set('session', sessionStub);
-    route.transitionTo = function() {
-    };
+    route.transitionTo = () => {};
 
     // When
     const promise = route.actions.signin.call(route, expectedEmail, expectedPassword);

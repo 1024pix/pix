@@ -27,7 +27,7 @@ describe('Unit | Controller | challenge-controller', function() {
     it('should fetch and return all the challenges, serialized as JSONAPI', function(done) {
       // given
       sinon.stub(ChallengeRepository, 'list').resolves(challenges);
-      sinon.stub(ChallengeSerializer, 'serializeArray', _ => challenges);
+      sinon.stub(ChallengeSerializer, 'serializeArray').callsFake(_ => challenges);
 
       // when
       server.inject({ method: 'GET', url: '/api/challenges' }, (res) => {
@@ -50,7 +50,7 @@ describe('Unit | Controller | challenge-controller', function() {
     it('should fetch and return the given challenge, serialized as JSONAPI', function(done) {
       // given
       sinon.stub(ChallengeRepository, 'get').resolves(challenge);
-      sinon.stub(ChallengeSerializer, 'serialize', () => challenge);
+      sinon.stub(ChallengeSerializer, 'serialize').callsFake(_ => challenge);
 
       // when
       server.inject({ method: 'GET', url: '/api/challenges/challenge_id' }, (res) => {

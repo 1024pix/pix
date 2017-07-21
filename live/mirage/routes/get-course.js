@@ -20,7 +20,7 @@ export default function(schema, request) {
 
   if (course) {
     return course.obj;
-  } else {
+  }else {
     throw new Error('The course you required in the fake server does not exist ' + request.params.id);
   }
 

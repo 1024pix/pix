@@ -35,17 +35,21 @@ describe('Unit | Serializer | JSONAPI | profile-serializer', () => {
         {
           id: 'recCompA',
           name: 'competence-name-1',
-          areaId: 'recAreaA'
+          index: '1.1',
+          areaId: 'recAreaA',
+          courseId: 'recBxPAuEPlTgt72q11'
         },
         {
           id: 'recCompB',
           name: 'competence-name-2',
-          areaId: 'recAreaB'
+          index: '1.2',
+          areaId: 'recAreaB',
+          courseId: 'recBxPAuEPlTgt72q99'
         }];
 
       expectedJson = {
-        data: [{
-          type: 'user',
+        data: {
+          type: 'users',
           id: 'user_id',
           attributes: {
             'first-name': 'Luke',
@@ -61,7 +65,7 @@ describe('Unit | Serializer | JSONAPI | profile-serializer', () => {
             }
           },
 
-        }],
+        },
         included: [
           {
             type: 'areas',
@@ -82,12 +86,16 @@ describe('Unit | Serializer | JSONAPI | profile-serializer', () => {
             id: 'recCompA',
             attributes: {
               name: 'competence-name-1',
-              level: -1
+              index: '1.1',
+              level: -1,
+              'course-id': 'recBxPAuEPlTgt72q11'
             },
             relationships: {
               area: {
-                type: 'areas',
-                id: 'recAreaA'
+                data: {
+                  type: 'areas',
+                  id: 'recAreaA'
+                }
               }
             }
           },
@@ -96,13 +104,17 @@ describe('Unit | Serializer | JSONAPI | profile-serializer', () => {
             id: 'recCompB',
             attributes: {
               name: 'competence-name-2',
+              index: '1.2',
               level: 8,
-              'pix-score': 128
+              'pix-score': 128,
+              'course-id': 'recBxPAuEPlTgt72q99'
             },
             relationships: {
               area: {
-                type: 'areas',
-                id: 'recAreaB'
+                data: {
+                  type: 'areas',
+                  id: 'recAreaB'
+                }
               }
             }
           }
@@ -136,7 +148,7 @@ describe('Unit | Serializer | JSONAPI | profile-serializer', () => {
       const userSerialized = serializer.serialize(profile);
 
       // Then
-      expect(userSerialized.data[0].attributes).not.to.have.property('total-pix-score');
+      expect(userSerialized.data.attributes).not.to.have.property('total-pix-score');
     });
   });
 

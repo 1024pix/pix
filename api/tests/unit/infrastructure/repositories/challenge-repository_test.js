@@ -41,7 +41,7 @@ describe('Unit | Repository | challenge-repository', function() {
     it('should reject with an error when the cache throw an error', function(done) {
       // given
       const cacheErrorMessage = 'Cache error';
-      sinon.stub(cache, 'get', (key, callback) => {
+      sinon.stub(cache, 'get').callsFake((key, callback) => {
         callback(new Error(cacheErrorMessage));
       });
 
@@ -137,7 +137,7 @@ describe('Unit | Repository | challenge-repository', function() {
     it('should reject with an error when the cache throw an error', function() {
       // given
       const cacheErrorMessage = 'Cache error';
-      sinon.stub(cache, 'get', (key, callback) => {
+      sinon.stub(cache, 'get').callsFake((key, callback) => {
         callback(new Error(cacheErrorMessage));
       });
 
@@ -200,7 +200,7 @@ describe('Unit | Repository | challenge-repository', function() {
     it('should reject with an error when the cache throw an error', function() {
       // given
       const cacheErrorMessage = 'Cache error';
-      sinon.stub(cache, 'del', (key, callback) => {
+      sinon.stub(cache, 'del').callsFake((key, callback) => {
         callback(new Error(cacheErrorMessage));
       });
 

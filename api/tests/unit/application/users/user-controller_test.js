@@ -410,10 +410,10 @@ describe('Unit | Controller | user-controller', () => {
 
   });
 
-  describe('#getProfile', () => {
-    it('should be a function', function() {
+  describe('#getAuthenticatedUserProfile', () => {
+    it('should be a function', () => {
       // then
-      expect(userController.getProfile).to.be.a('function');
+      expect(userController.getAuthenticatedUserProfile).to.be.a('function');
     });
   });
 });

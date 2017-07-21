@@ -20,7 +20,7 @@ describe('Unit | Service | google-recaptcha-validator', () => {
 
     it('should call google verify with good url and query parameters', function() {
       // given
-      const requestPostStub = sinon.stub(request, 'post', function(uri, cb) {
+      const requestPostStub = sinon.stub(request, 'post').callsFake((uri, cb) => {
         // then
         requestPostStub.restore();
         expect(uri).to.equal(`https://www.google.com/recaptcha/api/siteverify?secret=${googleReCaptcha.secret}&response=${RECAPTCHA_TOKEN}`);

@@ -22,7 +22,7 @@ describe('Unit | Router | assessment-router', function() {
   describe('POST /api/assessments', function() {
 
     before(function() {
-      sinon.stub(AssessmentController, 'save', (request, reply) => reply('ok'));
+      sinon.stub(AssessmentController, 'save').callsFake((request, reply) => reply('ok'));
     });
 
     after(function() {
@@ -37,7 +37,7 @@ describe('Unit | Router | assessment-router', function() {
   describe('GET /api/assessments/assessment_id/next', function() {
 
     before(function() {
-      sinon.stub(AssessmentController, 'getNextChallenge', (request, reply) => reply('ok'));
+      sinon.stub(AssessmentController, 'getNextChallenge').callsFake((request, reply) => reply('ok'));
     });
 
     after(function() {
@@ -52,7 +52,7 @@ describe('Unit | Router | assessment-router', function() {
   describe('GET /api/assessments/assessment_id/next/challenge_id', function() {
 
     before(function() {
-      sinon.stub(AssessmentController, 'getNextChallenge', (request, reply) => reply('ok'));
+      sinon.stub(AssessmentController, 'getNextChallenge').callsFake((request, reply) => reply('ok'));
     });
 
     after(function() {
@@ -67,7 +67,7 @@ describe('Unit | Router | assessment-router', function() {
   describe('GET /api/assessments/assessment_id', function() {
 
     before(function() {
-      sinon.stub(AssessmentController, 'get', (request, reply) => reply('ok'));
+      sinon.stub(AssessmentController, 'get').callsFake((request, reply) => reply('ok'));
     });
 
     after(function() {

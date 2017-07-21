@@ -16,9 +16,6 @@
   border-radius: 3px;
   margin-bottom: 20px;
   align-items: center;
-  @media screen and (min-width: 767px) {
-
-  }
 }
 
 .signup-textfield__input-container--default {
@@ -61,7 +58,7 @@
 }
 
 .signup-textfield__icon {
-  width:20px;
-  height:20px;
+  width: 20px;
+  height: 20px;
   margin: 6px 8px;
 }

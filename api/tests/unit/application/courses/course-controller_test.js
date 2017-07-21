@@ -34,7 +34,7 @@ describe('Unit | Controller | course-controller', function() {
     it('should fetch and return all the courses', function(done) {
       // given
       sinon.stub(courseRepository, 'getProgressionCourses').resolves(courses);
-      sinon.stub(courseSerializer, 'serializeArray', () => courses);
+      sinon.stub(courseSerializer, 'serializeArray').callsFake(_ => courses);
 
       // when
       server.inject({ method: 'GET', url: '/api/courses' }, (res) => {
@@ -52,7 +52,7 @@ describe('Unit | Controller | course-controller', function() {
     it('should fetch and return all the adaptive courses', function(done) {
       // given
       sinon.stub(courseRepository, 'getAdaptiveCourses').resolves(courses);
-      sinon.stub(courseSerializer, 'serializeArray', () => courses);
+      sinon.stub(courseSerializer, 'serializeArray').callsFake(_ => courses);
 
       // when
       server.inject({ method: 'GET', url: '/api/courses?isAdaptive=true' }, (res) => {
@@ -70,7 +70,7 @@ describe('Unit | Controller | course-controller', function() {
     it('should fetch and return all the highlitghted courses of the week', function(done) {
       // given
       sinon.stub(courseRepository, 'getCoursesOfTheWeek').resolves(courses);
-      sinon.stub(courseSerializer, 'serializeArray', () => courses);
+      sinon.stub(courseSerializer, 'serializeArray').callsFake(_ => courses);
 
       // when
       server.inject({ method: 'GET', url: '/api/courses?isCourseOfTheWeek=true' }, (res) => {
@@ -93,7 +93,7 @@ describe('Unit | Controller | course-controller', function() {
     it('should fetch and return the given course, serialized as JSONAPI', function(done) {
       // given
       sinon.stub(courseRepository, 'get').resolves(course);
-      sinon.stub(courseSerializer, 'serialize', () => course);
+      sinon.stub(courseSerializer, 'serialize').callsFake(_ => course);
 
       // when
       server.inject({ method: 'GET', url: '/api/courses/course_id' }, (res) => {

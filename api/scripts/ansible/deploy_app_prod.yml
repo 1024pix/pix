@@ -2,6 +2,7 @@
 - name: deploy_node_app
   hosts: nodeapp
   gather_facts: no
+  become: yes
   tags: nodeapp, deploy
   roles:
     - role: nodeapp/deploy

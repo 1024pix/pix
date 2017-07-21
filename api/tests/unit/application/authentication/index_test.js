@@ -15,7 +15,7 @@ describe('Unit | Router | authentication-router', () => {
   describe('POST /api/authentications', () => {
 
     before(() => {
-      sinon.stub(AuthenticationController, 'save', (request, reply) => reply('ok'));
+      sinon.stub(AuthenticationController, 'save').callsFake((request, reply) => reply('ok'));
     });
 
     after(() => {

@@ -1,8 +1,9 @@
 import Ember from 'ember';
 import isValid from '../utils/email-validator';
+import config from 'pix-live/config/environment';
 
 const FORM_CLOSED = 'FORM_CLOSED';
-const FORM_OPENED= 'FORM_OPENED';
+const FORM_OPENED = 'FORM_OPENED';
 const FORM_SUBMITTED = 'FORM_SUBMITTED';
 
 export default Ember.Component.extend({
@@ -45,10 +46,17 @@ export default Ember.Component.extend({
     return this.get('collapsible') ? FORM_CLOSED : FORM_OPENED;
   },
 
+  _scrollToPanel: function() {
+    Ember.$('body').animate({
+      scrollTop: Ember.$('.feedback-panel__view').offset().top - 15
+    }, config.APP.FEEDBACK_PANEL_SCROLL_DURATION);
+  },
+
   actions: {
 
     openFeedbackForm() {
       this.set('_status', FORM_OPENED);
+      this._scrollToPanel();
     },
 
     cancelFeedback() {
@@ -57,13 +65,13 @@ export default Ember.Component.extend({
 
     sendFeedback() {
       const email = this.get('_email');
-      if (!Ember.isEmpty(email) && !isValid(email)) {
+      if(!Ember.isEmpty(email) && !isValid(email)) {
         this.set('_error', 'Vous devez saisir une adresse mail valide.');
         return;
       }
 
       const content = this.get('_content');
-      if (Ember.isEmpty(content) || Ember.isEmpty(content.trim())) {
+      if(Ember.isEmpty(content) || Ember.isEmpty(content.trim())) {
         this.set('_error', 'Vous devez saisir un message.');
         return;
       }
