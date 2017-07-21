@@ -36,13 +36,15 @@ describe('Unit | Serializer | JSONAPI | profile-serializer', () => {
           id: 'recCompA',
           name: 'competence-name-1',
           index: '1.1',
-          areaId: 'recAreaA'
+          areaId: 'recAreaA',
+          courseId: 'recBxPAuEPlTgt72q11'
         },
         {
           id: 'recCompB',
           name: 'competence-name-2',
           index: '1.2',
-          areaId: 'recAreaB'
+          areaId: 'recAreaB',
+          courseId: 'recBxPAuEPlTgt72q99'
         }];
 
       expectedJson = {
@@ -85,7 +87,8 @@ describe('Unit | Serializer | JSONAPI | profile-serializer', () => {
             attributes: {
               name: 'competence-name-1',
               index: '1.1',
-              level: -1
+              level: -1,
+              'course-id': 'recBxPAuEPlTgt72q11'
             },
             relationships: {
               area: {
@@ -103,7 +106,8 @@ describe('Unit | Serializer | JSONAPI | profile-serializer', () => {
               name: 'competence-name-2',
               index: '1.2',
               level: 8,
-              'pix-score': 128
+              'pix-score': 128,
+              'course-id': 'recBxPAuEPlTgt72q99'
             },
             relationships: {
               area: {

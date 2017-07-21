@@ -71,3 +71,24 @@
   font-weight: bold;
   color: $pix-blue;
 }
+
+.competence-level-progress-bar__start {
+  text-align: right;
+  padding: 2px 17px 3px 0;
+  height: 24px;
+}
+
+.competence-level-progress-bar__start-link {
+  width: 81px;
+  font-family: $font-lato;
+  font-size: 14px;
+  font-weight: $font-bold;
+  letter-spacing: 0.5px;
+  color: $pix-blue;
+  text-decoration: none;
+  cursor: pointer;
+
+  &:hover {
+    color: $pix-blue;
+  }
+}

@@ -85,4 +85,56 @@ describe('Integration | Component | competence level progress bar', function() {
     });
   });
 
+  describe('when there is an associated course', function() {
+
+    it('should display ’commencer’ in progress bar, when the level is not defined (-1)', function() {
+      // given
+      const courseId = 'rec123';
+      const level = -1;
+
+      this.set('courseId', courseId);
+      this.set('level', level);
+
+      // when
+      this.render(hbs`{{competence-level-progress-bar level=level courseId=courseId}}`);
+
+      // then
+      expect(this.$('.competence-level-progress-bar__start')).to.have.length(1);
+      expect(this.$('a.competence-level-progress-bar__start-link')).to.have.length(1);
+      expect(this.$('a.competence-level-progress-bar__start-link').text().trim()).to.be.equal('Commencer');
+    });
+
+    it('should not display ’commencer’ in progress bar, when the level is already defined', function() {
+      // given
+      const courseId = 'rec123';
+      const level = 3;
+
+      this.set('courseId', courseId);
+      this.set('level', level);
+
+      // when
+      this.render(hbs`{{competence-level-progress-bar level=level courseId=courseId}}`);
+
+      // then
+      expect(this.$('.competence-level-progress-bar__start')).to.have.length(0);
+      expect(this.$('a.competence-level-progress-bar__start-link')).to.have.length(0);
+    });
+  });
+
+  describe('when there is no associated course', function() {
+
+    it('should not display ’commencer’ in progress bar', function() {
+      // given
+      const level = 3;
+      this.set('level', level);
+
+      // when
+      this.render(hbs`{{competence-level-progress-bar level=level}}`);
+
+      // then
+      expect(this.$('.competence-level-progress-bar__start')).to.have.length(0);
+      expect(this.$('a.competence-level-progress-bar__start-link')).to.have.length(0);
+    });
+  });
+
 });

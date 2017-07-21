@@ -1,5 +1,6 @@
 import Ember from 'ember';
 import DS from 'ember-data';
+
 const { Model, attr, belongsTo } = DS;
 
 export default Model.extend({
@@ -8,5 +9,6 @@ export default Model.extend({
   user: belongsTo('user'),
   index: attr('number'),
   level: attr('number'),
-  areaName: Ember.computed.alias('area.name')
+  areaName: Ember.computed.alias('area.name'),
+  courseId: attr('string')
 });

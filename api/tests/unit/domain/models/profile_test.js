@@ -53,12 +53,14 @@ describe('Unit | Domain | Models | Profile', () => {
           name: '1.1 Mener une recherche d’information',
           index: '1.1',
           areaId: 'areaId1',
+          courseId: 'recBxPAuEPlTgt72q11'
         },
         {
           id: 'competenceId2',
           name: '1.2 Gérer des données',
           index: '1.2',
-          areaId: 'areaId2'
+          areaId: 'areaId2',
+          courseId: 'recBxPAuEPlTgt72q99'
         }];
     });
 
@@ -78,14 +80,16 @@ describe('Unit | Domain | Models | Profile', () => {
           name: '1.1 Mener une recherche d’information',
           index: '1.1',
           areaId: 'areaId1',
-          level: -1
+          level: -1,
+          courseId: 'recBxPAuEPlTgt72q11'
         },
         {
           id: 'competenceId2',
           name: '1.2 Gérer des données',
           index: '1.2',
           areaId: 'areaId2',
-          level: -1
+          level: -1,
+          courseId: 'recBxPAuEPlTgt72q99'
         }];
 
       // When
@@ -115,14 +119,16 @@ describe('Unit | Domain | Models | Profile', () => {
           index: '1.1',
           areaId: 'areaId1',
           level: 1,
-          pixScore: 10
+          pixScore: 10,
+          courseId: 'recBxPAuEPlTgt72q11'
         },
         {
           id: 'competenceId2',
           name: '1.2 Gérer des données',
           index: '1.2',
           areaId: 'areaId2',
-          level: -1
+          level: -1,
+          courseId: 'recBxPAuEPlTgt72q99'
         }];
 
       // When

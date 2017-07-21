@@ -11,33 +11,40 @@ class Profile {
   }
 
   _initCompetenceLevel() {
-    if (this.competences) {
+    if(this.competences) {
       this.competences.forEach((competence) => competence['level'] = -1);
     }
   }
 
   _setLevelAndPixScoreToCompetences(assessments, courses) {
     assessments.forEach((assessment) => {
-      const courseId = assessment.get('courseId');
+      const courseIdFromAssessment = assessment.get('courseId');
+      const course = this._getCourseById(courses, courseIdFromAssessment);
+      const estimateLevel = assessment.get('estimatedLevel');
+      const pixScore = assessment.get('pixScore');
 
-      const course = _.find(courses, function(course) {
-        return course.id === courseId;
+      this.competences.filter((competence) => {
+        return course.competences.indexOf(competence.id) > -1;
+      }).map((competence) => {
+        competence.level = estimateLevel;
+        competence.pixScore = pixScore;
+        return competence;
       });
 
-      course.competences.forEach((competenceId) => {
-        const linkedCompetence = _.find(this.competences, function(competence) {
-          return competence.id === competenceId;
-        });
+    });
+  }
 
-        linkedCompetence.level = assessment.get('estimatedLevel');
-        linkedCompetence.pixScore = assessment.get('pixScore');
-      });
+  _getCourseById(courses, courseIdFromAssessment) {
+    return _.find(courses, function(course) {
+      return course.id === courseIdFromAssessment;
     });
   }
 
   _calculateTotalPixScore() {
 
-    const competencesWithScore = _.filter(this.competences, (competence) => { return competence.hasOwnProperty('pixScore'); });
+    const competencesWithScore = _.filter(this.competences, (competence) => {
+      return competence.hasOwnProperty('pixScore');
+    });
 
     if(competencesWithScore.length > 0) {
       let pixScore = 0;

@@ -14,12 +14,14 @@ describe('Unit | Repository | competence-repository', function() {
     {
       id: 'recsvLDFHShyfDXXXXX',
       name: '1.1 Mener une recherche d’information',
-      areaId: 'recvoGdo0z0z0pXWZ'
+      areaId: 'recvoGdo0z0z0pXWZ',
+      courseId: 'Test de positionnement 1.1'
     },
     {
       id: 'recsvLDFHShyfDXXXXX',
       name: '1.1 Mener une recherche d’information',
-      areaId: 'recvoGdo0z0z0pXWZ'
+      areaId: 'recvoGdo0z0z0pXWZ',
+      courseId: 'Test de positionnement 1.2'
     }];
 
   beforeEach(function() {
