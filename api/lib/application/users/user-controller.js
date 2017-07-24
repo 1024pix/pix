@@ -15,17 +15,6 @@ const { InvalidRecaptchaTokenError } = require('../../../lib/infrastructure/vali
 
 const logger = require('../../infrastructure/logger');
 
-function _isUniqConstraintViolated(err) {
-  const SQLITE_UNIQ_CONSTRAINT = 'SQLITE_CONSTRAINT';
-  const PGSQL_UNIQ_CONSTRAINT = '23505';
-
-  return (err.code === SQLITE_UNIQ_CONSTRAINT || err.code === PGSQL_UNIQ_CONSTRAINT);
-}
-
-const _replyErrorWithMessage = function(reply, errorMessage, statusCode) {
-  reply(validationErrorSerializer.serialize(_handleWhenInvalidAuthorization(errorMessage))).code(statusCode);
-};
-
 module.exports = {
 
   save(request, reply) {
@@ -86,6 +75,17 @@ module.exports = {
       });
   }
 
+};
+
+function _isUniqConstraintViolated(err) {
+  const SQLITE_UNIQ_CONSTRAINT = 'SQLITE_CONSTRAINT';
+  const PGSQL_UNIQ_CONSTRAINT = '23505';
+
+  return (err.code === SQLITE_UNIQ_CONSTRAINT || err.code === PGSQL_UNIQ_CONSTRAINT);
+}
+
+const _replyErrorWithMessage = function(reply, errorMessage, statusCode) {
+  reply(validationErrorSerializer.serialize(_handleWhenInvalidAuthorization(errorMessage))).code(statusCode);
 };
 
 function _buildErrorWhenRecaptchaTokenInvalid(validationErrors) {
