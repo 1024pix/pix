@@ -1,9 +1,6 @@
 <div class="compte-page">
 
-  {{navbar-header class="navbar-header--white"}}
-  <h1>Bienvenue</h1>
-
-  <a href="/logout">Se déconnecter</a>
+  {{navbar-header class="navbar-header--white" user=model}}
 
   {{profile-panel competences=model.competences totalPixScore=model.totalPixScore}}
 </div>

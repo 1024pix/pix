@@ -65,7 +65,6 @@
 
 /* Links
 –––––––––––––––––––––––––––––––––––––––––––––––––– */
-
 .navbar-header-links {
   display: none;
 
@@ -73,6 +72,10 @@
     display: block;
     padding: 20px 0;
   }
+}
+
+.navbar-header-links--user-logged {
+  padding: 0;
 }
 
 .navbar-header-links__list {
@@ -105,3 +108,16 @@
   }
 }
 
+.logged-user-details {
+  margin-top: 0px;
+}
+
+.logged-user-name {
+  font-family: $font-lato;
+  font-size: 14px;
+  font-weight: $font-bold;
+  letter-spacing: 0.5px;
+  text-align: right;
+  color: $charcoal-grey;
+  text-transform: capitalize;
+}
