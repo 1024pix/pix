@@ -5,7 +5,6 @@ function isUniqConstraintViolated(err) {
   return (err.code === SQLITE_UNIQ_CONSTRAINT || err.code === PGSQL_UNIQ_CONSTRAINT);
 }
 
-
 module.exports = {
   isUniqConstraintViolated
 };

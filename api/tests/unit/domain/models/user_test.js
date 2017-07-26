@@ -18,7 +18,7 @@ describe('Unit | Domain | Models | User', () => {
       };
     });
 
-    it('should have an email', () => {
+    it('should fail when the email is empty', () => {
       // Given
       rawData.email = '';
       const user = new User(rawData);
