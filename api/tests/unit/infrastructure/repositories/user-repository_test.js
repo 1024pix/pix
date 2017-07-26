@@ -4,6 +4,7 @@ const bcrypt = require('bcrypt');
 
 const User = require('../../../../lib/domain/models/data/user');
 const UserRepository = require('../../../../lib/infrastructure/repositories/user-repository');
+const { NotFoundError } = require('../../../../lib/domain/errors');
 
 describe('Unit | Repository | UserRepository', function() {
 
@@ -59,5 +60,60 @@ describe('Unit | Repository | UserRepository', function() {
       });
     });
 
+  });
+
+  describe('#findByEmail', () => {
+
+    const email = faker.internet.email();
+    const userPassword = bcrypt.hashSync('A124B2C3#!', 1);
+    const inserted_user = {
+      firstName: faker.name.firstName(),
+      lastName: faker.name.lastName(),
+      email,
+      password: userPassword,
+      cgu: true
+    };
+
+    before(() => {
+      return knex('users')
+        .delete()
+        .then(() => {
+          return knex('users').insert(inserted_user);
+        });
+    });
+
+    after(() => {
+      return knex('users').delete();
+    });
+
+    it('should be a function', () => {
+      // then
+      expect(UserRepository.findByEmail).to.be.a('function');
+    });
+
+    it('should handle a rejection, when user id is not found', () => {
+      // Given
+      const emailThatDoesNotExist = 10093;
+
+      // When
+      const promise = UserRepository.findByEmail(emailThatDoesNotExist);
+
+      // Then
+      return promise
+        .catch((err) => {
+          expect(err).to.be.an.instanceof(NotFoundError);
+        });
+    });
+
+    it('should return a user when found', () => {
+      // When
+      const promise = UserRepository.findByEmail(email);
+
+      // Then
+      return promise
+        .then((user) => {
+          expect(user.get('email')).to.equal(email);
+        });
+    });
   });
 });
