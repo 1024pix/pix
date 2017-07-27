@@ -99,7 +99,6 @@ function _add(a, b) {
 }
 
 function computeDiagnosis(performanceStats, knowledgeData) {
-
   const firstFiveLevels = [1, 2, 3, 4, 5];
   let pixScore = 0;
 
@@ -115,7 +114,11 @@ function computeDiagnosis(performanceStats, knowledgeData) {
   const nbKnowledgeTags = firstFiveLevels.map(level => knowledgeData.nbKnowledgeTagsByLevel[level]).reduce(_add);
 
   const highestLevel = Math.max(...firstFiveLevels.filter(level => knowledgeData.nbKnowledgeTagsByLevel[level] > 0));
-  const estimatedLevel = Math.floor(nbAcquiredKnowledgeTags * highestLevel / nbKnowledgeTags);
+
+  let estimatedLevel = 0;
+  if (nbAcquiredKnowledgeTags > 0) {
+    estimatedLevel = Math.floor(nbAcquiredKnowledgeTags * highestLevel / nbKnowledgeTags);
+  }
 
   return {
     estimatedLevel,
