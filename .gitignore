@@ -19,6 +19,7 @@
 **/out.log
 **/api/.env
 **/*.log
+**/*.log.*
 
 # IDE
 **/.idea
