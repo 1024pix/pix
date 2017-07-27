@@ -380,6 +380,26 @@ describe('Unit | Domain | Service | scoring', function() {
         });
 
       });
+
+      describe('when there is not challenge tags', () => {
+        it('should return 0 as the estimatedLevel', () => {
+          // Given
+          const performanceStats = {
+            nbAcquiredKnowledgeTagsByLevel: { '1': 0, '2': 0, '3': 0, '4': 0, '5': 0, '6': 0, '7': 0, '8': 0 }
+          };
+          const knowledgeData = {
+            challengesById: {},
+            knowledgeTagSet: {},
+            nbKnowledgeTagsByLevel: { '1': 0, '2': 0, '3': 0, '4': 0, '5': 0, '6': 0, '7': 0, '8': 0 }
+          };
+
+          // When
+          const result = scoring.computeDiagnosis(performanceStats, knowledgeData);
+
+          // Then
+          expect(result.estimatedLevel).to.equal(0);
+        });
+      });
     });
   });
 });

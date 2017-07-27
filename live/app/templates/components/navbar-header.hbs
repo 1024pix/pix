@@ -6,15 +6,26 @@
   </div>
 
   <!-- Links (right) -->
-  <div class="navbar-header-links">
-    <ul class="navbar-header-links__list">
-      <li class="navbar-header-links__item">
-        {{#link-to 'project' class="navbar-header-links__link navbar-header-links__link--project"}}Projet{{/link-to}}
-      </li>
-      <li class="navbar-header-links__item">
-        {{#link-to 'competences' class="navbar-header-links__link navbar-header-links__link--competences"}}Compétences{{/link-to}}
-      </li>
-    </ul>
+  <div class="navbar-header-right">
+    <div class="navbar-header-links {{if isUserLogged 'navbar-header-links--user-logged' ''}}">
+      <ul class="navbar-header-links__list">
+        <li class="navbar-header-links__item">
+          {{#link-to 'project' class="navbar-header-links__link navbar-header-links__link--project"}}Projet{{/link-to}}
+        </li>
+        <li class="navbar-header-links__item">
+          {{#link-to 'competences' class="navbar-header-links__link navbar-header-links__link--competences"}}
+            Compétences{{/link-to}}
+        </li>
+      </ul>
+    </div>
+
+    {{#if isUserLogged}}
+      <div class="logged-user-details">
+        <div class="logged-user-name">
+          {{concat  user.firstName ' '  user.lastName}}
+        </div>
+      </div>
+    {{/if}}
   </div>
 
 </div>
