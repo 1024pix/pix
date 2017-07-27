@@ -1,5 +1,9 @@
 # Pix Changelog
 
+## 1.15.1 (27/07/2017)
+
+- [#478](https://github.com/sgmap/pix/pull/478) [BUGFIX] Mon niveau à l'issue d'un test sans aucun acquis recensé doit être 0 (US-635).
+
 ## 1.15.0 (21/07/2017)
 
 - [#467](https://github.com/sgmap/pix/pull/467) [FEATURE] L'utilisateur connecté peut voir son niveau sur chacune des compétences dans sa page connecté (US-623).
