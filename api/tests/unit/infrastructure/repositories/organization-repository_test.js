@@ -89,7 +89,7 @@ describe('Unit | Repository | OrganizationRepository', function() {
         })
         .catch(() => {
           expect(promise).to.be.rejected;
-        })
+        });
     });
 
   });
