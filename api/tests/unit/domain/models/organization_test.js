@@ -2,6 +2,8 @@ const { describe, it, expect, sinon, beforeEach, knex } = require('../../../test
 const Organization = require('../../../../lib/domain/models/data/organization');
 const faker = require('faker');
 
+const organizationService = require('../../../../lib/domain/services/organization-service');
+
 describe('Unit | Domain | Models | Organization', () => {
 
   describe('validation', () => {
@@ -12,7 +14,8 @@ describe('Unit | Domain | Models | Organization', () => {
       rawData = {
         email: faker.internet.email(),
         type: null,
-        name: faker.name.lastName()
+        name: faker.name.lastName(),
+        code: organizationService.generateOrganizationCode()
       };
     });
 
@@ -139,6 +142,27 @@ describe('Unit | Domain | Models | Organization', () => {
 
     });
 
+    describe('the code field', () => {
+      it('should match the AAAA99 pattern', () => {
+        rawData.code = '';
+
+        const organization = new Organization(rawData);
+
+        // When
+        const promise = organization.save();
+
+        // Then
+        return promise
+          .then(() => {
+            sinon.assert.fail('Cannot succeed');
+          })
+          .catch((err) => {
+            const email = err.data['code'];
+            expect(email).to.deep.equal(['Le champ code doit respecter le format AAAA99.']);
+          });
+
+      });
+    });
   });
 
 });
