@@ -1,13 +1,25 @@
 const userRepository = require('../../infrastructure/repositories/user-repository');
-const organisationRepository = require('../../infrastructure/repositories/organization-repository');
 
+const organisationRepository = require('../../infrastructure/repositories/organization-repository');
 const organizationSerializer = require('../../infrastructure/serializers/jsonapi/organization-serializer');
+const organizationService = require('../../domain/services/organization-service');
+
 const validationErrorSerializer = require('../../infrastructure/serializers/jsonapi/validation-error-serializer');
 
 const _ = require('lodash');
 const logger = require('../../infrastructure/logger');
 
 const { AlreadyRegisteredEmailError } = require('../../domain/errors');
+
+function _generateUniqueOrganizationCode() {
+  const code = organizationService.generateOrganizationCode();
+
+  return organisationRepository.isCodeAvailable(code)
+    .then((code) => {
+      return code;
+    })
+    .catch(_generateUniqueOrganizationCode);
+}
 
 module.exports = {
   create: (request, reply) => {
@@ -31,7 +43,10 @@ module.exports = {
       .then((user) => {
         organization.set('userId', user.id);
         organization.user = user;
-
+      })
+      .then(_generateUniqueOrganizationCode)
+      .then((code) => {
+        organization.set('code', code);
         return organisationRepository.saveFromModel(organization);
       })
       .then((organization) => {

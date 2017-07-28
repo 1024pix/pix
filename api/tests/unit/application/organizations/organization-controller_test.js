@@ -6,6 +6,7 @@ const controller = require('../../../../lib/application/organizations/organizati
 const userRepository = require('../../../../lib/infrastructure/repositories/user-repository');
 const organisationRepository = require('../../../../lib/infrastructure/repositories/organization-repository');
 const organizationSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/organization-serializer');
+const organizationService = require('../../../../lib/domain/services/organization-service');
 const logger = require('../../../../lib/infrastructure/logger');
 const { AlreadyRegisteredEmailError } = require('../../../../lib/domain/errors');
 
@@ -26,10 +27,12 @@ describe('Unit | Controller | organizationController', () => {
 
       sandbox = sinon.sandbox.create();
 
-      sandbox.stub(userRepository, 'save').resolves(user);
       sandbox.stub(logger, 'error');
+      sandbox.stub(userRepository, 'save').resolves(user);
       sandbox.stub(userRepository, 'isEmailAvailable').resolves();
+      sandbox.stub(organizationService, 'generateOrganizationCode').returns('ABCD12');
       sandbox.stub(organisationRepository, 'saveFromModel').resolves(organization);
+      sandbox.stub(organisationRepository, 'isCodeAvailable').resolves();
       sandbox.stub(organizationSerializer, 'deserialize').returns(organization);
       sandbox.stub(organizationSerializer, 'serialize');
 
@@ -156,6 +159,64 @@ describe('Unit | Controller | organizationController', () => {
           sinon.assert.calledWith(replyStub, serializedOrganization);
 
         });
+      });
+
+      describe('generating a code for the organization', () => {
+        it('should generate a code', () => {
+          // When
+          const promise = controller.create(request, replyStub);
+
+          // Then
+          return promise.then(() => {
+            sinon.assert.calledOnce(organizationService.generateOrganizationCode);
+          });
+        });
+
+        it('should verify if the code is unique', () => {
+          // Then
+          const promise = controller.create(request, replyStub);
+
+          // When
+          return promise.then(() => {
+            sinon.assert.calledWith(organisationRepository.isCodeAvailable, 'ABCD12');
+          });
+        });
+
+        it('should generate a code as many times as necessary to find a unique one', () => {
+          // Given
+          organizationService.generateOrganizationCode.onFirstCall().returns('CODE01');
+          organizationService.generateOrganizationCode.onSecondCall().returns('CODE02');
+          organizationService.generateOrganizationCode.onThirdCall().returns('CODE03');
+
+          organisationRepository.isCodeAvailable.withArgs('CODE01').rejects();
+          organisationRepository.isCodeAvailable.withArgs('CODE02').rejects();
+          organisationRepository.isCodeAvailable.withArgs('CODE03').resolves('CODE03');
+
+          // Then
+          const promise = controller.create(request, replyStub);
+
+          // When
+          return promise.then(() => {
+            sinon.assert.calledThrice(organisationRepository.isCodeAvailable);
+          });
+        });
+
+        it('should generate a code as many times as necessary to find a unique one', () => {
+          // Given
+          const code = 'CODE01';
+          organizationService.generateOrganizationCode.resolves(code);
+          organisationRepository.isCodeAvailable.resolves(code);
+
+          // Then
+          const promise = controller.create(request, replyStub);
+
+          // When
+          return promise.then(() => {
+            const callArguments = organisationRepository.saveFromModel.firstCall.args[0];
+            expect(callArguments.get('code')).to.equal(code);
+          });
+        });
+
       });
 
       describe('when the organization payload is invalid', () => {
