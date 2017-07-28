@@ -1,5 +1,5 @@
 const User = require('../../domain/models/data/user');
-const { NotFoundError } = require('../../domain/errors');
+const { NotFoundError, AlreadyRegisteredEmailError } = require('../../domain/errors');
 
 module.exports = {
 
@@ -17,7 +17,25 @@ module.exports = {
       .where({ id: userId })
       .fetch({ require: true });
   },
+
   save(userRawData) {
     return new User(userRawData).save();
+  },
+
+  validateData(userRawData) {
+    return new User(userRawData).validationErrors();
+  },
+
+  isEmailAvailable(email) {
+    return User
+      .where({ email })
+      .fetch()
+      .then(user => {
+        if (user) {
+          return Promise.reject(new AlreadyRegisteredEmailError());
+        }
+
+        return Promise.resolve(email);
+      });
   }
 };

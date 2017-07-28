@@ -6,7 +6,8 @@ const controller = require('../../../../lib/application/organizations/organizati
 const userRepository = require('../../../../lib/infrastructure/repositories/user-repository');
 const organisationRepository = require('../../../../lib/infrastructure/repositories/organization-repository');
 const organizationSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/organization-serializer');
-const { NotFoundError } = require('../../../../lib/domain/errors');
+const logger = require('../../../../lib/infrastructure/logger');
+const { AlreadyRegisteredEmailError } = require('../../../../lib/domain/errors');
 
 describe('Unit | Controller | organizationController', () => {
 
@@ -26,7 +27,8 @@ describe('Unit | Controller | organizationController', () => {
       sandbox = sinon.sandbox.create();
 
       sandbox.stub(userRepository, 'save').resolves(user);
-      sandbox.stub(userRepository, 'findByEmail').rejects(new NotFoundError());
+      sandbox.stub(logger, 'error');
+      sandbox.stub(userRepository, 'isEmailAvailable').resolves();
       sandbox.stub(organisationRepository, 'saveFromModel').resolves(organization);
       sandbox.stub(organizationSerializer, 'deserialize').returns(organization);
       sandbox.stub(organizationSerializer, 'serialize');
@@ -38,7 +40,8 @@ describe('Unit | Controller | organizationController', () => {
               type: 'PRO',
               email: 'existing-email@example.net',
               'first-name': 'Tom',
-              'last-name': 'Hanks'
+              'last-name': 'Hanks',
+              password: 'Pix2048#-DamnItEvolved'
             }
           }
         }
@@ -74,7 +77,7 @@ describe('Unit | Controller | organizationController', () => {
           firstName: 'Tom',
           lastName: 'Hanks',
           cgu: true,
-          password: 'Pix1024#'
+          password: 'Pix2048#-DamnItEvolved'
         });
 
       });
@@ -82,7 +85,7 @@ describe('Unit | Controller | organizationController', () => {
 
     describe('when unable to create an account', () => {
       beforeEach(() => {
-        userRepository.findByEmail.resolves(user);
+        userRepository.isEmailAvailable.rejects(new AlreadyRegisteredEmailError());
       });
 
       it('should reply 400', () => {
@@ -178,6 +181,38 @@ describe('Unit | Controller | organizationController', () => {
               ]
             });
           });
+        });
+      });
+
+    });
+
+    describe('when unable to save something in the database', () => {
+      it('should return 500', () => {
+        // Given
+        const error = new Error();
+        userRepository.isEmailAvailable.rejects(error);
+
+        // When
+        const promise = controller.create(request, replyStub);
+
+        // Then
+        return promise.then(() => {
+          sinon.assert.calledWith(codeStub, 500);
+          sinon.assert.calledOnce(replyStub);
+        });
+      });
+
+      it('should log any error', () => {
+        // Given
+        const error = new Error();
+        userRepository.isEmailAvailable.rejects(error);
+
+        // When
+        const promise = controller.create(request, replyStub);
+
+        // Then
+        return promise.then(() => {
+          sinon.assert.calledWith(logger.error, error);
         });
       });
 

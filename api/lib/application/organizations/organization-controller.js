@@ -4,35 +4,29 @@ const organisationRepository = require('../../infrastructure/repositories/organi
 const organizationSerializer = require('../../infrastructure/serializers/jsonapi/organization-serializer');
 const validationErrorSerializer = require('../../infrastructure/serializers/jsonapi/validation-error-serializer');
 
-const { NotFoundError } = require('../../domain/errors');
+const _ = require('lodash');
+const logger = require('../../infrastructure/logger');
+
+const { AlreadyRegisteredEmailError } = require('../../domain/errors');
 
 module.exports = {
   create: (request, reply) => {
 
     const organization = organizationSerializer.deserialize(request.payload);
+    const userRawData = _extractUserInformation(request, organization);
 
-    const validationErrors = organization.validationErrors();
-    if (validationErrors) {
-      return reply(validationErrorSerializer.serialize({ data: validationErrors })).code(400);
+    const userValidationErrors = userRepository.validateData(userRawData);
+    const organizationValidationErrors = organization.validationErrors();
+
+    if (userValidationErrors || organizationValidationErrors) {
+      const errors = _.merge(userValidationErrors, organizationValidationErrors);
+      return reply(validationErrorSerializer.serialize({ data: errors })).code(400);
     }
 
     return userRepository
-      .findByEmail((organization.get('email')))
+      .isEmailAvailable(organization.get('email'))
       .then(() => {
-        return Promise.reject(_buildAlreadyExistingEmailError((organization.get('email'))));
-      })
-      .catch((err) => {
-        if (err instanceof NotFoundError) {
-          return userRepository.save({
-            firstName: request.payload.data.attributes['first-name'] || '',
-            lastName: request.payload.data.attributes['last-name'] || '',
-            email: organization.get('email') || '',
-            cgu: true,
-            password: 'Pix1024#'
-          });
-        }
-
-        return Promise.reject(err);
+        return userRepository.save(userRawData);
       })
       .then((user) => {
         organization.set('userId', user.id);
@@ -44,7 +38,12 @@ module.exports = {
         reply(organizationSerializer.serialize(organization));
       })
       .catch((err) => {
-        reply(validationErrorSerializer.serialize(err)).code(400);
+        if (err instanceof AlreadyRegisteredEmailError) {
+          return reply(validationErrorSerializer.serialize(_buildAlreadyExistingEmailError(organization.get('email')))).code(400);
+        }
+
+        logger.error(err);
+        reply().code(500);
       });
   }
 };
@@ -52,5 +51,15 @@ module.exports = {
 function _buildAlreadyExistingEmailError(email) {
   return {
     data: { email: [`L'adresse ${email} est déjà associée à un utilisateur.`] }
+  };
+}
+
+function _extractUserInformation(request, organization) {
+  return {
+    firstName: request.payload.data.attributes['first-name'] || '',
+    lastName: request.payload.data.attributes['last-name'] || '',
+    email: organization.get('email') || '',
+    cgu: true,
+    password: request.payload.data.attributes['password'] || ''
   };
 }

@@ -16,7 +16,8 @@ describe('Acceptance | Controller | organization-controller', function() {
           email: 'organization@email.com',
           type: 'PRO',
           'first-name': 'Steve',
-          'last-name': 'Travail'
+          'last-name': 'Travail',
+          password: 'Pix1024#'
         }
       }
     };
@@ -68,6 +69,25 @@ describe('Acceptance | Controller | organization-controller', function() {
           expect(parsedResponse.errors[0].detail).to.equal('Le type d\'organisation doit être l\'une des valeurs suivantes: SCO, SUP, PRO.');
           expect(response.statusCode).to.equal(400);
         });
+      });
+
+      it('should return both User and Organization errors at the same time', () => {
+        // Given
+        payload.data.attributes.type = 'FAK';
+        payload.data.attributes.password = 'invalid-password';
+
+        // Then
+        const creatingOrganizationOnFailure = server.inject(options);
+
+        // Then
+        return creatingOrganizationOnFailure
+          .then((response) => {
+            const parsedResponse = JSON.parse(response.payload);
+
+            expect(parsedResponse.errors).to.have.length(2);
+            expect(parsedResponse.errors[1].detail).to.equal('Le type d\'organisation doit être l\'une des valeurs suivantes: SCO, SUP, PRO.');
+            expect(parsedResponse.errors[0].detail).to.equal('Votre mot de passe doit comporter au moins une lettre, un chiffre et 8 caractères.');
+          });
       });
 
       it('should not keep the user in the database', () => {
