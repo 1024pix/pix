@@ -10,13 +10,13 @@ module.exports = {
     return Organization
       .where({ code })
       .fetch()
-      .then(codes => {
+      .then(organizations => {
 
-        if(codes) {
+        if(organizations) {
           return Promise.reject();
         }
 
-        return code;
+        return Promise.resolve(code);
       });
   }
 
