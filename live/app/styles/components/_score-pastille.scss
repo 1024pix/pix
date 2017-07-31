@@ -1,16 +1,6 @@
-.profile-header__score-pastille-wrapper {
+.score-pastille {
   width: 94px;
   height: 94px;
-  margin: 0 auto 12px;
-  display: block;
-  padding: 0;
-
-  @include device-is('tablet') {
-    margin: 36px 50px auto 45.5px;
-  }
-}
-
-.score-pastille {
   background: url('/images/hexa-pix.svg') no-repeat center center;
   background-size: cover;
   margin: 0 auto;
