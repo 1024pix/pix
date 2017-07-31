@@ -1,4 +1,4 @@
-const { expect, knex, sinon } = require('../../../test-helper');
+const { describe, it, before, after, expect, knex, sinon } = require('../../../test-helper');
 const faker = require('faker');
 const bcrypt = require('bcrypt');
 
@@ -44,5 +44,53 @@ describe('Unit | Repository | OrganizationRepository', function() {
         sinon.assert.calledOnce(organization.save);
       });
     });
+  });
+
+  describe('#isCodeAvailable', () => {
+
+    const organization = {
+      email: faker.internet.email(),
+      type: 'PRO',
+      name: faker.name.firstName(),
+      code: 'ABCD01'
+    };
+
+    before(() => {
+      return knex('organizations').insert(organization);
+    });
+
+    after(() => {
+      return knex('organizations').delete();
+    });
+
+    it('should be a function', () => {
+      // then
+      expect(OrganizationRepository.isCodeAvailable).to.be.a('function');
+    });
+
+    it('should return the code when the code is not already used', () => {
+      // When
+      const promise = OrganizationRepository.isCodeAvailable('ABCD02');
+
+      // Then
+      return promise.then((code) => {
+        expect(code).to.equal('ABCD02');
+      });
+    });
+
+    it('should reject when the organization already exists', () => {
+      // When
+      const promise = OrganizationRepository.isCodeAvailable('ABCD01');
+
+      // Then
+      return promise
+        .then(() => {
+          sinon.assert.fail('Should not be a success');
+        })
+        .catch(() => {
+          expect(promise).to.be.rejected;
+        });
+    });
+
   });
 });

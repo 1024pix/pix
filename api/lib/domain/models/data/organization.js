@@ -5,6 +5,10 @@ module.exports = Bookshelf.Model.extend({
   tableName: 'organizations',
 
   validations: {
+    code: [
+      { method: 'matches', error: 'Le champ code doit respecter le format AAAA99.', args: /[A-Z]{4}\d{2}/ }
+    ],
+
     name: [
       { method: 'isLength', error: 'Le champ name doit être renseigné.', args: { min: 1 } }
     ],
