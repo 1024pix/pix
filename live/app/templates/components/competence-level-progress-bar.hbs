@@ -21,6 +21,7 @@
 {{#if canUserStartCourse}}
   <div class="competence-level-progress-bar__start">
     {{#link-to "courses.create-assessment" courseId class="competence-level-progress-bar__start-link" }}
-      Commencer{{/link-to}}
+      Commencer <div class="sr-only">le test "{{name}}"</div>
+    {{/link-to}}
   </div>
 {{/if}}

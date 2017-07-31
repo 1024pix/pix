@@ -9,6 +9,7 @@ export default Ember.Component.extend({
 
   level: null,
   courseId: null,
+  name: null,
 
   hasLevel: Ember.computed('level', function() {
     const level = this.get('level');
