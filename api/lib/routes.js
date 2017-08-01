@@ -9,5 +9,6 @@ module.exports = [
   require('./application/courseGroups'),
   require('./application/users'),
   require('./application/authentication'),
-  require('./application/cache')
+  require('./application/cache'),
+  require('./application/organizations')
 ];

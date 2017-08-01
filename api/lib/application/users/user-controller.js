@@ -12,19 +12,9 @@ const profileService = require('../../domain/services/profile-service');
 const profileSerializer = require('../../infrastructure/serializers/jsonapi/profile-serializer');
 const googleReCaptcha = require('../../../lib/infrastructure/validators/grecaptcha-validator');
 const { InvalidRecaptchaTokenError } = require('../../../lib/infrastructure/validators/errors');
+const bookshelfUtils = require('../../infrastructure/utils/bookshelf-utils');
 
 const logger = require('../../infrastructure/logger');
-
-function _isUniqConstraintViolated(err) {
-  const SQLITE_UNIQ_CONSTRAINT = 'SQLITE_CONSTRAINT';
-  const PGSQL_UNIQ_CONSTRAINT = '23505';
-
-  return (err.code === SQLITE_UNIQ_CONSTRAINT || err.code === PGSQL_UNIQ_CONSTRAINT);
-}
-
-const _replyErrorWithMessage = function(reply, errorMessage, statusCode) {
-  reply(validationErrorSerializer.serialize(_handleWhenInvalidAuthorization(errorMessage))).code(statusCode);
-};
 
 module.exports = {
 
@@ -51,7 +41,7 @@ module.exports = {
           err = _buildErrorWhenRecaptchaTokenInvalid(userValidationErrors);
         }
 
-        if (_isUniqConstraintViolated(err)) {
+        if (bookshelfUtils.isUniqConstraintViolated(err)) {
           err = _buildErrorWhenUniquEmail();
         }
 
@@ -86,6 +76,10 @@ module.exports = {
       });
   }
 
+};
+
+const _replyErrorWithMessage = function(reply, errorMessage, statusCode) {
+  reply(validationErrorSerializer.serialize(_handleWhenInvalidAuthorization(errorMessage))).code(statusCode);
 };
 
 function _buildErrorWhenRecaptchaTokenInvalid(validationErrors) {

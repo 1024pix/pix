@@ -5,7 +5,7 @@ function _buildError(field, message) {
     'status': '400',
     'title': 'Invalid Attribute',
     'detail': message,
-    'source': { 'pointer': '/data/attributes/' + _toKebabCase(field) },
+    'source': { 'pointer': '/data/attributes/' + _.kebabCase(field) },
     'meta': { field },
   };
 }
@@ -17,10 +17,6 @@ function _buildEntirePayloadError(message) {
     'detail': message,
     'source': { 'pointer': '/data/attributes' },
   };
-}
-
-function _toKebabCase(fieldName) {
-  return fieldName.replace(/([A-Z])/g, (g) => `-${g[0].toLowerCase()}`);
 }
 
 function serialize(validationErrors) {
