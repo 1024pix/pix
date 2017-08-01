@@ -91,6 +91,45 @@
   padding-left: 5px;
 }
 
+.profile-header__share-modal-content {
+  text-align: center;
+
+  @include device-is('tablet') {
+    font-size: 22px;
+  }
+}
+
+.profile-header__share-modal-form {
+  display: flex;
+  flex-direction: column;
+
+  max-width: 320px;
+  padding: 30px 16px 16px;
+  margin: auto;
+}
+
+.profile-header__share-modal-input {
+  border: $pure-orange 1px solid;
+  padding: 10px 5px;
+  border-radius: 5px;
+  text-align: center;
+
+  @include device-is('tablet') {
+    padding: 16px 64px;
+  }
+}
+
+.profile-header__share-modal-buttons {
+  display: flex;
+  flex-direction: row-reverse;
+
+  margin-top: 30px;
+}
+
+.profile-header__share-modal-button {
+  flex-grow: 1;
+}
+
 .profile-header__score-pastille-wrapper {
   display: flex;
   flex-direction: column;
