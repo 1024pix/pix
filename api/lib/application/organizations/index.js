@@ -9,7 +9,7 @@ exports.register = function(server, options, next) {
     },
     {
       method: 'GET',
-      path: '/api/organizations/search',
+      path: '/api/organizations',
       config: { handler: organisationController.search, tags: ['api'] }
     }
   ]);
