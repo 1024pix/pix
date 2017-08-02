@@ -1,12 +1,13 @@
 import Ember from 'ember';
 
 export default Ember.Component.extend({
-
+  session: Ember.inject.service(),
+  store: Ember.inject.service(),
   classNames: ['navbar-header'],
-  user: null,
+  _canDisplayMenu: false,
 
-  isUserLogged: Ember.computed('user', function() {
-    const user = this.get('user');
-    return Ember.isPresent(user);
+  isUserLogged: Ember.computed('session', function() {
+    return this.get('session.isAuthenticated');
   })
+
 });

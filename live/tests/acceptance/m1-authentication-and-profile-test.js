@@ -1,4 +1,4 @@
-import { describe, it, beforeEach, afterEach } from 'mocha';
+import { afterEach, beforeEach, describe, it } from 'mocha';
 import { expect } from 'chai';
 import startApp from '../helpers/start-app';
 import destroyApp from '../helpers/destroy-app';
@@ -34,7 +34,7 @@ describe('Acceptance | Espace compte', function() {
 
       // then
       return andThen(function() {
-        expect(currentURL()).to.equal('/connexion');
+        expect(currentURL()).to.equal('/');
       });
     });
   });

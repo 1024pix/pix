@@ -1,0 +1,130 @@
+.logged-user-details {
+  margin-top: 0px;
+  cursor: pointer;
+  position: relative;
+}
+
+.logged-user-name__link {
+  text-decoration: none;
+  color: $charcoal-grey;
+
+  &:hover,
+  &:visited,
+  &:focus,
+  &:active {
+    text-decoration: none;
+    color: $charcoal-grey;
+  }
+}
+
+.logged-user-name {
+  font-family: $font-lato;
+  font-size: 14px;
+  font-weight: $font-bold;
+  letter-spacing: 0.5px;
+  text-align: right;
+  color: $charcoal-grey;
+  text-transform: capitalize;
+}
+
+.caret {
+  width: 0;
+  height: 0;
+  border-style: solid;
+  border-width: 4px 4px 0 4px;
+  border-color: $charcoal-grey transparent transparent transparent;
+}
+
+.logged-user-menu {
+  position: absolute;
+  right: 0;
+  top: 30px;
+}
+
+.logged-user-menu__list {
+  margin: 0px;
+  padding: 0px;
+  width: 290px;
+  background-color: $white;
+  box-shadow: 0 4px 7px 0 rgba(0, 0, 0, 0.3);
+}
+
+.logged-user-menu__item {
+  margin: 2px auto;
+  width: 288px;
+  list-style: none;
+  padding-left: 10px;
+
+  @include device-is('tablet') {
+    padding-left: 26px;
+  }
+}
+
+.user-menu-item {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  height: 110px;
+  background-color: $porcelain-grey;
+
+  @include device-is('tablet') {
+    height: 120px;
+  }
+}
+
+.user-menu-item__details-firstname {
+  font-family: $font-lato;
+  font-size: 18px;
+  height: 22px;
+  letter-spacing: 1px;
+  color: $charcoal-grey;
+  text-transform: capitalize;
+}
+
+.user-menu-item__details-email {
+  font-family: $font-lato;
+  letter-spacing: 0.3px;
+  color: $slate-grey;
+  font-size: 14px;
+  height: 17px;
+}
+
+.user-menu-item__account-link {
+  margin-top: 14px;
+  width: 100%;
+}
+
+.user-menu-item__account-link button {
+  min-width: 103px;
+  height: 32px;
+  border-radius: 4px;
+  border: none;
+  background-color: $pix-blue;
+  font-family: $font-lato;
+  color: $white;
+  text-transform: capitalize;
+  font-size: 14px;
+}
+
+.user-menu__item--logout {
+  display: flex;
+  align-items: center;
+  height: 65px;
+  @include device-is('tablet') {
+    height: 95.5px;
+  }
+}
+
+.logged-user-menu__item-logout {
+  height: 16px;
+  opacity: 0.7;
+  font-family: $font-lato;
+  font-size: 13px;
+  letter-spacing: 1px;
+  color: $slate-grey;
+  text-transform: uppercase;
+
+  &:hover {
+    color: $charcoal-grey;
+  }
+}
