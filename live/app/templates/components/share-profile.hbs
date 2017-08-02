@@ -1,0 +1,27 @@
+<button class="share-profile__share-button" {{action "toggleSharingModal"}}>
+  Partager <span class="sr-only">mon profile</span>
+  <img class="share-profile__share-button-image" src="/images/icon-partager.svg" alt="">
+</button>
+
+{{#if isShowingModal}}
+  {{#pix-modale onClose="toggleSharingModal"}}
+    <h1>Partage de votre profil</h1>
+
+    <div class="pix-modale__content share-profile__modal-content">
+      <div>Veuillez saisir le code correspondant à votre organisation (collège, lycée, université, école, entreprise).</div>
+
+      <div class="share-profile__modal-form">
+        <input value="" placeholder="Ex: ABCD12" class="share-profile__modal-input" />
+
+        <div class="share-profile__share-modal-buttons">
+          <button class="pix-modal__button pix-modal__button--primary">Continuer</button>
+          <button class="pix-modal__button" {{action "toggleSharingModal"}}>Annuler</button>
+        </div>
+      </div>
+    </div>
+  {{/pix-modale}}
+{{/if}}
+
+
+{{yield}}
+

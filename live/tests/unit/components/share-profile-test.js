@@ -2,9 +2,9 @@ import { expect } from 'chai';
 import { describe, it } from 'mocha';
 import { setupTest } from 'ember-mocha';
 
-describe('Unit | Component | profile-panel', function() {
+describe('Unit | Component | share-profile', function() {
 
-  setupTest('component:profile-panel', {});
+  setupTest('component:share-profile', {});
 
   describe('#init', () => {
     it('should set the overlay as translucent', function() {

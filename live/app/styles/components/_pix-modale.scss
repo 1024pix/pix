@@ -44,10 +44,13 @@
   border: none;
   border-radius: 5px;
   padding: 10px 20px;
-  background-color: $pix-blue;
 
   text-transform: uppercase;
   color: $white;
 
   box-sizing: border-box;
+}
+
+.pix-modal__button--primary {
+  background-color: $pix-blue;
 }

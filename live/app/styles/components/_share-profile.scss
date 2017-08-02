@@ -1,0 +1,57 @@
+.share-profile__share-button {
+  flex-grow: 0;
+
+  background: $pix-blue;
+  text-transform: uppercase;
+  padding: 12px 17px;
+  color: $white;
+  border: none;
+  border-radius: 5px;
+
+  margin-top: 10px;
+}
+
+.share-profile__share-button-image {
+  vertical-align: text-top;
+  padding-left: 5px;
+}
+
+.share-profile__modal-content {
+  text-align: center;
+
+  @include device-is('tablet') {
+    font-size: 22px;
+  }
+}
+
+.share-profile__modal-form {
+  display: flex;
+  flex-direction: column;
+
+  max-width: 380px;
+  padding: 30px 16px 16px;
+  margin: auto;
+}
+
+.share-profile__modal-input {
+  border: $pure-orange 1px solid;
+  padding: 10px 5px;
+  border-radius: 5px;
+  text-align: center;
+
+  @include device-is('tablet') {
+    padding: 16px 64px;
+  }
+}
+
+.share-profile__share-modal-buttons {
+  display: flex;
+  flex-direction: row-reverse;
+  justify-content: space-between;
+
+  margin-top: 30px;
+}
+
+.share-profile__share-modal-button {
+  flex-grow: 1;
+}
