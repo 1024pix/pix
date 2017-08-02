@@ -31,4 +31,22 @@ describe('Unit | Router | organization-router', () => {
     });
   });
 
+  describe('GET /api/organizations/search', _ => {
+
+    before(() => {
+      sinon.stub(organisationController, 'search').callsFake((request, reply) => reply('ok'));
+    });
+
+    after(() => {
+      organisationController.search.restore();
+    });
+
+    it('should exist', (done) => {
+      server.inject({ method: 'GET', url: '/api/organizations/search' }, res => {
+        expect(res.statusCode).to.equal(200);
+        done();
+      });
+    });
+  });
+
 });

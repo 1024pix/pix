@@ -21,6 +21,16 @@ function _generateUniqueOrganizationCode() {
     .catch(_generateUniqueOrganizationCode);
 }
 
+function _extractFilters(request) {
+  return _.reduce(request.query, (result, filter, key) => {
+    const field = key.match(/filter\[([a-z]*)]/)[1];
+    if (field) {
+      result[field] = filter;
+    }
+    return result;
+  }, {});
+}
+
 module.exports = {
   create: (request, reply) => {
 
@@ -62,6 +72,21 @@ module.exports = {
       });
   },
 
+  search: (request, reply) => {
+
+    const params = _extractFilters(request);
+
+    return organisationRepository
+      .findBy(params)
+      .then((organizations) => {
+
+        reply(organizationSerializer.serializeArray(organizations.models));
+      })
+      .catch(err => {
+        logger.error(err);
+        reply().code(500);
+      });
+  }
 };
 
 function _buildAlreadyExistingEmailError(email) {
