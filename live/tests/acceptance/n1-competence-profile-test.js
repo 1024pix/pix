@@ -50,6 +50,14 @@ describe('Acceptance | n1 - competence profile', function() {
     });
   });
 
+  it('should redirect to home, when user is not found', async function() {
+    // when
+    await visit('/compte');
+    return andThen(() => {
+      expect(currentURL()).to.equal('/');
+    });
+  });
+
   it('should display user competences (with level) grouped by area', function() {
     // given
     seedDatabase();

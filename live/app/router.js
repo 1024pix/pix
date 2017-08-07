@@ -36,6 +36,7 @@ Router.map(function() {
   this.route('competences');
   this.route('inscription');
   this.route('compte');
+  this.route('enrollment', { path: 'rejoindre' });
 
   this.route('challenges.get-preview', { path: '/challenges/:challenge_id/preview' });
 

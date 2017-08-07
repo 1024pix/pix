@@ -18,6 +18,7 @@ class ProfileSerializer extends JSONAPISerializer {
   serializeAttributes(model, data) {
     data.attributes['first-name'] = model.firstName;
     data.attributes['last-name'] = model.lastName;
+    data.attributes['email'] = model.email;
 
     if(!_.isUndefined(model['pix-score'])) {
       data.attributes['total-pix-score'] = model['pix-score'];

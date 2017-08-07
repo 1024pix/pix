@@ -52,7 +52,7 @@ export default Ember.Component.extend({
 
   _toggleConfirmation(status, message) {
     this.set('temporaryAlert', { status: TEMPORARY_DIV_CLASS_MAP[status], message });
-    if (config.APP.isMessageStatusTogglingEnabled) {
+    if(config.APP.isMessageStatusTogglingEnabled) {
       Ember.run.later(() => {
         this.set('temporaryAlert', { status: 'default', message: '' });
       }, config.APP.MESSAGE_DISPLAY_DURATION);
@@ -125,6 +125,8 @@ export default Ember.Component.extend({
     signup() {
       this.set('_notificationMessage', null);
       this.get('user').save().then(() => {
+        const credentials = { email: this.get('user.email'), password: this.get('user.password') };
+        this.sendAction('redirectToProfileRoute', credentials);
         this.set('_notificationMessage', 'Votre compte a bien été créé !');
         this._resetValidationFields();
         this.sendAction('refresh');

@@ -1,0 +1,25 @@
+{{#if _user}}
+  <div class="logged-user-name" {{action 'toggleUserMenu'}} role="button" aria-haspopup="true"
+       aria-expanded="{{_canDisplayMenu}}">
+    <a href="#" role="button" class="logged-user-name__link">
+      {{concat  _user.firstName ' '  _user.lastName}}
+      <span class="caret"></span>
+    </a>
+  </div>
+  {{#if _canDisplayMenu}}
+    <div class="logged-user-menu">
+      <ul class="logged-user-menu__list">
+        <li class="logged-user-menu__item user-menu-item">
+          <div class="user-menu-item__details-firstname"> {{_user.firstName}}</div>
+          <div class="user-menu-item__details-email">{{_user.email}}</div>
+          <div class="user-menu-item__account-link">
+            <button>Mon compte</button>
+          </div>
+
+        </li>
+        <li class="logged-user-menu__item user-menu__item--logout">
+          {{#link-to 'logout' class="logged-user-menu__item-logout"}}se déconnecter{{/link-to}}</li>
+      </ul>
+    </div>
+  {{/if}}
+{{/if}}

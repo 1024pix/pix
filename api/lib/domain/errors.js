@@ -22,4 +22,10 @@ class PasswordNotMatching extends Error {
   }
 }
 
-module.exports = { NotFoundError, NotElligibleToScoringError, PasswordNotMatching, InvalidTokenError };
+class AlreadyRegisteredEmailError extends Error {
+  constructor(message) {
+    super(message);
+  }
+}
+
+module.exports = { NotFoundError, NotElligibleToScoringError, PasswordNotMatching, InvalidTokenError, AlreadyRegisteredEmailError };

@@ -1,6 +1,9 @@
 import Ember from 'ember';
+import UnauthenticatedRouteMixin from 'ember-simple-auth/mixins/unauthenticated-route-mixin';
 
-export default Ember.Route.extend({
+export default Ember.Route.extend(UnauthenticatedRouteMixin, {
+
+  session: Ember.inject.service(),
 
   model() {
     // XXX: Model needs to be initialize with empty to handle validations on all fields from Api
@@ -16,6 +19,14 @@ export default Ember.Route.extend({
   actions: {
     refresh() {
       this.refresh();
+    },
+
+    redirectToProfileRoute({ email, password }) {
+      return this.get('session')
+        .authenticate('authenticator:simple', email, password)
+        .then(() => {
+          this.transitionTo('compte');
+        });
     }
   }
 });

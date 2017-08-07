@@ -4,6 +4,7 @@ import { setupComponentTest } from 'ember-mocha';
 import hbs from 'htmlbars-inline-precompile';
 import Ember from 'ember';
 import wait from 'ember-test-helpers/wait';
+import sinon from 'sinon';
 
 const FORM_CONTAINER = '.signup-form-container';
 const FORM_HEADING_CONTAINER = '.signup-form__heading-container';
@@ -112,31 +113,91 @@ describe('Integration | Component | signup form', function() {
       this.register('component:g-recaptcha', Ember.Component.extend());
     });
 
-    it('should return true if action <Signup> is handled', function() {
-      // given
-      let isFormSubmitted = false;
-      const user = Ember.Object.create({
-        email: 'toto@pix.fr',
-        firstName: 'Marion',
-        lastName: 'Yade',
-        password: 'gipix2017',
-        cgu: true,
+    describe('behavior when signup successful (test external calls)', function() {
+      it('should return true if action <Signup> is handled', function() {
+        // given
+        let isFormSubmitted = false;
+        const user = Ember.Object.create({
+          email: 'toto@pix.fr',
+          firstName: 'Marion',
+          lastName: 'Yade',
+          password: 'gipix2017',
+          cgu: true,
 
-        save() {
-          isFormSubmitted = true;
-          return Ember.RSVP.resolve();
-        }
+          save() {
+            isFormSubmitted = true;
+            return Ember.RSVP.resolve();
+          }
+        });
+
+        this.set('user', user);
+        this.render(hbs`{{signup-form user=user signup="signup"}}`);
+
+        // when
+        $(SUBMIT_BUTTON).click();
+
+        // then
+        return wait().then(() => {
+          expect(isFormSubmitted).to.be.true;
+        });
       });
 
-      this.set('user', user);
-      this.render(hbs`{{signup-form user=user signup="signup"}}`);
+      it('should refresh all fields on form', function() {
+        // given
+        let hasRefreshBeenCalled = false;
+        this.set('refresh', () => {
+          hasRefreshBeenCalled = true;
+        });
 
-      // when
-      $(SUBMIT_BUTTON).click();
+        const user = Ember.Object.create({
+          email: 'toto@pix.fr',
+          firstName: 'Marion',
+          lastName: 'Yade',
+          password: 'gipix2017',
+          cgu: true,
 
-      // then
-      return wait().then(() => {
-        expect(isFormSubmitted).to.be.true;
+          save() {
+            return Ember.RSVP.resolve();
+          }
+        });
+        this.set('user', user);
+        this.render(hbs`{{signup-form user=user signup="signup" refresh=(action refresh)}}`);
+
+        // when
+        $(SUBMIT_BUTTON).click();
+
+        // then
+        expect(hasRefreshBeenCalled).to.be.true;
+      });
+
+      it('should redirect automatically to user compte', function() {
+        // given
+        const redirectToProfileRouteStub = sinon.stub();
+
+        this.set('redirectToProfileRoute', redirectToProfileRouteStub);
+
+        const user = Ember.Object.create({
+          email: 'toto@pix.fr',
+          firstName: 'Marion',
+          lastName: 'Yade',
+          password: 'gipix2017',
+          cgu: true,
+
+          save() {
+            return Ember.RSVP.resolve();
+          }
+        });
+        this.set('user', user);
+        this.render(hbs`{{signup-form user=user signup="signup" redirectToProfileRoute=(action redirectToProfileRoute)}}`);
+
+        // when
+        $(SUBMIT_BUTTON).click();
+
+        // then
+        return wait().then(() => {
+          sinon.assert.calledOnce(redirectToProfileRouteStub);
+          sinon.assert.calledWith(redirectToProfileRouteStub, { email: 'toto@pix.fr', password: 'gipix2017' });
+        });
       });
     });
 
@@ -235,7 +296,7 @@ describe('Integration | Component | signup form', function() {
               message: UNCHECKED_CHECKBOX_CGU_ERROR
             }]
           },
-          save()  {
+          save() {
             return new Ember.RSVP.reject();
           }
         });
@@ -260,7 +321,7 @@ describe('Integration | Component | signup form', function() {
               message: 'An error concerning the email thrown by the API',
             }]
           },
-          save()  {
+          save() {
             return new Ember.RSVP.reject();
           }
         });

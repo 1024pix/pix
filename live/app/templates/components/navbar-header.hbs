@@ -20,11 +20,7 @@
     </div>
 
     {{#if isUserLogged}}
-      <div class="logged-user-details">
-        <div class="logged-user-name">
-          {{concat  user.firstName ' '  user.lastName}}
-        </div>
-      </div>
+      {{user-logged-menu}}
     {{/if}}
   </div>
 

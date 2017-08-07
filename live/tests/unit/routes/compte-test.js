@@ -12,11 +12,11 @@ describe('Unit | Route | compte', function() {
     expect(route).to.be.ok;
   });
 
-  it('should redirect to /connexion', function() {
+  it('should redirect to / (Home)', function() {
     // Given
     const route = this.subject();
 
     // Then
-    expect(route.authenticationRoute).to.equal('/connexion');
+    expect(route.authenticationRoute).to.equal('/');
   });
 });

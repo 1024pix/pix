@@ -1,7 +1,8 @@
 const Bookshelf = require('../../../infrastructure/bookshelf');
-const Assessment = require('./assessment');
-
 const encrypt = require('../../services/encryption-service');
+
+const Assessment = require('./assessment');
+const Organization = require('./organization');
 
 module.exports = Bookshelf.Model.extend({
   tableName: 'users',
@@ -43,5 +44,9 @@ module.exports = Bookshelf.Model.extend({
 
   assessments() {
     return this.hasMany(Assessment);
+  },
+
+  organizations() {
+    return this.hasMany(Organization);
   }
 });

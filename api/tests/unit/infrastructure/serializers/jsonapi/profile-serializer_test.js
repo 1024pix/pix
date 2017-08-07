@@ -17,7 +17,8 @@ describe('Unit | Serializer | JSONAPI | profile-serializer', () => {
       user = new User({
         id: 'user_id',
         'firstName': 'Luke',
-        'lastName': 'Skywalker'
+        'lastName': 'Skywalker',
+        'email': 'luke@sky.fr'
       });
 
       areas = [
@@ -54,7 +55,8 @@ describe('Unit | Serializer | JSONAPI | profile-serializer', () => {
           attributes: {
             'first-name': 'Luke',
             'last-name': 'Skywalker',
-            'total-pix-score': 128
+            'total-pix-score': 128,
+            'email': 'luke@sky.fr'
           },
           relationships: {
             competences: {

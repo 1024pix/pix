@@ -4,6 +4,7 @@
 **/dist
 **/tmp
 **/coverage
+**/pix.log.*
 
 # dependencies
 **/node_modules
