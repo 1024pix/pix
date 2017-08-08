@@ -1,0 +1,60 @@
+.index-page-patners-enrollment {
+  background-image: linear-gradient(to bottom, $dogder-blue, $strong-blue);
+}
+
+.partners-enrollment-panel {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.partners-enrollment__title {
+  max-width: 1117.4px;
+  font-family: $font-lato;
+  font-size: 25px;
+  font-weight: bold;
+  font-style: italic;
+  text-align: center;
+  color: #ffffff;
+
+  @include device-is('tablet') {
+    font-size: 42px;
+  }
+}
+
+.partners-enrollment__description {
+  max-width: 777px;
+  font-family: $font-lato;
+  font-size: 17px;
+  text-align: center;
+  margin-top: 12px;
+  color: #ffffff;
+
+  @include device-is('tablet') {
+    font-size: 24px;
+  }
+}
+
+.partners-enrollment__link-container {
+  text-align: center;
+  margin-top: 38px;
+}
+
+.partners-enrollment__link {
+  max-width: 174.3px;
+  height: 40px;
+  border-radius: 20px;
+  background-color: #ffffff;
+  font-family: $font-lato;
+  font-size: 13px;
+  letter-spacing: 1px;
+  text-align: center;
+  color: $blue-ribbon;
+  padding: 12px 30px;
+  text-decoration: none;
+  text-transform: uppercase;
+
+  &:hover {
+    color: $blue-ribbon;
+  }
+}

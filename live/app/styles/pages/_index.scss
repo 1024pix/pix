@@ -79,9 +79,9 @@
 }
 
 .index-page-challenges {
-  background-image: linear-gradient(to bottom, #446eff, #001f8d), linear-gradient(#3d68ff, #3d68ff);
+  background: $porcelain-grey;
   padding-bottom: 20px;
-  }
+}
 
 .index-page-challenges__container {
   max-width: 1200px;
@@ -98,7 +98,7 @@
 
 .index-page-challenges__presentation {
   font-family: $font-raleway;
-  color: $white;
+  color: $pix-blue;
   text-align: center;
   padding: 0 20px;
 
@@ -127,6 +127,7 @@
   font-size: 24px;
   font-weight: $font-light;
   line-height: 1.2;
+  color: $charcoal-grey;
 
   @include device-is('desktop') {
     font-size: 37px;
@@ -147,12 +148,13 @@
 .index-page-challenges__courses-of-the-week {
   border-radius: 23px;
   border: solid 1px $white;
-  margin:auto;
+  margin: auto;
   margin-top: 10px;
   margin-bottom: 15px;
   padding: 5px 10px;
   text-align: center;
   width: 180px;
+  background: $pix-blue;
 
   @include device-is('desktop') {
     margin-top: 0px;
@@ -169,12 +171,11 @@
   outline: 0;
   color: $white;
 
-  &:hover{
+  &:hover {
     color: $white;
     text-decoration: none;
   }
 }
-
 
 /* Courses
 –––––––––––––––––––––––––––––––––––––––––––––––––– */
