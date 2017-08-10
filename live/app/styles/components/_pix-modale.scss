@@ -40,6 +40,13 @@
   }
 }
 
+.pix-modale__close-button {
+  color: $white;
+  position: absolute;
+  top: -30px;
+  right: 0;
+}
+
 .pix-modal__button {
   border: none;
   border-radius: 5px;

@@ -5,8 +5,11 @@
 
 {{#if isShowingModal}}
   {{#pix-modale onClose="toggleSharingModal"}}
+    <a href="#" class="pix-modale__close-button" {{action "toggleSharingModal"}}>Fermer
+      <img src="/images/comparison-window/icon-close-modal.svg" alt="Fermer la fenêtre modale" width="24" height="24">
+    </a>
+    
     <h1>Partage de votre profil</h1>
-
 
     {{#if organization}}
       <section class="pix-modale__content share-profile__modal-content-organization-details">
@@ -30,7 +33,7 @@
         </div>
 
         <div class="share-profile__modal-form">
-          {{input id="code" placeholder="Ex: ABCD12" value=code class="share-profile__modal-input"}}
+          {{input id="code" placeholder="Ex: ABCD12" value=code class="share-profile__modal-input" enter="searchFromCode"}}
 
           {{#unless organizationExists}}
             <div class="share-profile__form-error">Ce code ne correspond à aucune organization.</div>

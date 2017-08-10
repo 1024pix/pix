@@ -20,10 +20,10 @@ export function destroyApp(application) {
     window.server.shutdown();
   }
   // Sanity check
-  assertModalIsClosed();
+  _assertModalIsClosed();
 }
 
-function assertModalIsClosed() {
+function _assertModalIsClosed() {
   if (document.body.classList.contains('routable-modal--open')) {
     throw new Error(
       'The body element still has a `routable-modal--open` class, although the app just has been destroyed. ' +
