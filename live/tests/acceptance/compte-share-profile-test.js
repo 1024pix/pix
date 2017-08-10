@@ -1,8 +1,8 @@
 import { afterEach, beforeEach, describe, it } from 'mocha';
 import { expect } from 'chai';
-import startApp from '../helpers/start-app';
-import destroyApp from '../helpers/destroy-app';
+import { startApp, destroyApp } from '../helpers/application';
 import seeds from '../helpers/seeds';
+import testing from '../helpers/testing';
 
 describe('Acceptance | Compte | share profile', function() {
 
@@ -19,7 +19,7 @@ describe('Acceptance | Compte | share profile', function() {
   it('display an error when the organization does not exists', async function() {
     // given
     seeds.injectUserAccount();
-    seeds.authenticateUser();
+    testing.authenticateUser();
 
     // when
     await visit('/compte');
@@ -41,7 +41,7 @@ describe('Acceptance | Compte | share profile', function() {
     // given
     seeds.injectUserAccount();
     const organization = seeds.injectOrganization('ABCD00');
-    seeds.authenticateUser();
+    testing.authenticateUser();
 
     // when
     await visit('/compte');

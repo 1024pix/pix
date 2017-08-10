@@ -1,8 +1,7 @@
 import { afterEach, beforeEach, describe, it } from 'mocha';
 import { expect } from 'chai';
-import startApp from '../helpers/start-app';
 import seeds from '../helpers/seeds';
-import destroyApp from '../helpers/destroy-app';
+import { startApp, destroyApp } from '../helpers/application';
 
 describe('Acceptance | Compte | competence profile', function() {
   let application;

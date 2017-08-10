@@ -1,7 +1,6 @@
 import { afterEach, beforeEach, describe, it } from 'mocha';
 import { expect } from 'chai';
-import startApp from '../helpers/start-app';
-import destroyApp from '../helpers/destroy-app';
+import { startApp, destroyApp } from '../helpers/application';
 
 describe('Acceptance | o1 - board organization', function() {
   let application;
@@ -21,7 +20,7 @@ describe('Acceptance | o1 - board organization', function() {
       firstName: 'Benjamin',
       lastName: 'Marteau',
       email: 'benjamin.marteau@pix.com',
-      password: '1024pix!',
+      password: '1024pix!', 
       organizationIds: [1]
     });
   }
