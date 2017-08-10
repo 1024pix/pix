@@ -76,4 +76,5 @@ export default function() {
   this.get('/users/me', getAuthenticatedUser);
   this.get('/competences/:id');
   this.get('/areas/:id');
+  this.get('/organizations/:id');
 }

@@ -5,7 +5,7 @@ import { setupModelTest } from 'ember-mocha';
 describe('Unit | Model | user model', function() {
   setupModelTest('user', {
     // Specify the other units that are required for this test.
-    needs: ['model:competence']
+    needs: ['model:competence', 'model:organization']
   });
   // Replace this with your real tests.
   it('exists', function() {

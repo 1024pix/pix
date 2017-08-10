@@ -7,17 +7,19 @@ const userRepository = require('../../../../lib/infrastructure/repositories/user
 const organisationRepository = require('../../../../lib/infrastructure/repositories/organization-repository');
 const organizationSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/organization-serializer');
 const organizationService = require('../../../../lib/domain/services/organization-service');
+
 const logger = require('../../../../lib/infrastructure/logger');
 const { AlreadyRegisteredEmailError } = require('../../../../lib/domain/errors');
 
 describe('Unit | Controller | organizationController', () => {
 
+  let sandbox;
+  let codeStub;
+  let request;
+  let replyStub;
+
   describe('#create', () => {
 
-    let request;
-    let replyStub;
-    let codeStub;
-    let sandbox;
     const organization = new Organisation({ email: 'existing-email@example.net', type: 'PRO' });
     const user = new User({ email: 'existing-email@example.net', id: 12 });
 
@@ -279,4 +281,5 @@ describe('Unit | Controller | organizationController', () => {
 
     });
   });
+
 });

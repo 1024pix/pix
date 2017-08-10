@@ -1,10 +1,11 @@
 const _ = require('lodash');
 
 class Profile {
-  constructor(user, competences, areas, assessments, courses) {
+  constructor(user, competences, areas, assessments, courses, organizations) {
     this.user = user;
     this.competences = competences;
     this.areas = areas;
+    this.organizations = organizations;
     this._initCompetenceLevel();
     this._setLevelAndPixScoreToCompetences(assessments, courses);
     this._calculateTotalPixScore();

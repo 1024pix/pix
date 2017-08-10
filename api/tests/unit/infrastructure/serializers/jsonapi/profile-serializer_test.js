@@ -2,6 +2,7 @@ const { describe, it, expect } = require('../../../../test-helper');
 const serializer = require('../../../../../lib/infrastructure/serializers/jsonapi/profile-serializer');
 const Profile = require('../../../../../lib/domain/models/data/profile');
 const User = require('../../../../../lib/domain/models/data/user');
+const Organization = require('../../../../../lib/domain/models/data/organization');
 const Assessment = require('../../../../../lib/domain/models/data/assessment');
 
 describe('Unit | Serializer | JSONAPI | profile-serializer', () => {
@@ -11,9 +12,23 @@ describe('Unit | Serializer | JSONAPI | profile-serializer', () => {
     let user;
     let areas;
     let competences;
-    let expectedJson;
+    let organizations;
+    let assessments;
+    let courses;
+
+    let emptyCompetences;
+    let emptyAreas;
+    let emptyAssessments;
+    let emptyCourses;
+    let emptyOrganizations;
 
     beforeEach(() => {
+      emptyCompetences = [];
+      emptyAreas = [];
+      emptyAssessments = [];
+      emptyCourses = [];
+      emptyOrganizations = [];
+
       user = new User({
         id: 'user_id',
         'firstName': 'Luke',
@@ -48,7 +63,26 @@ describe('Unit | Serializer | JSONAPI | profile-serializer', () => {
           courseId: 'recBxPAuEPlTgt72q99'
         }];
 
-      expectedJson = {
+      organizations = [
+        new Organization({ id: 'organizationId1', name: 'etablissement 1', email: 'best.etablishment@company.com', type: 'SCO', code: 'ABCD12' }),
+        new Organization({ id: 'organizationId2', name: 'etablissement 2', email: 'best.enterprise@company.com', type: 'PRO', code: 'EFGH34' })
+      ];
+
+      assessments = [new Assessment(
+        {
+          courseId: 'courseID1',
+          estimatedLevel: 8,
+          pixScore: 128
+        })];
+
+      courses = [{ id: 'courseID1', competences: ['recCompB'] }];
+
+    });
+
+    it('should serialize a Profile into JSON:API data of type "users"', function() {
+      // Given
+      const profile = new Profile(user, competences, areas, assessments, courses, emptyOrganizations);
+      const expectedJson = {
         data: {
           type: 'users',
           id: 'user_id',
@@ -66,7 +100,6 @@ describe('Unit | Serializer | JSONAPI | profile-serializer', () => {
               ]
             }
           },
-
         },
         included: [
           {
@@ -122,18 +155,6 @@ describe('Unit | Serializer | JSONAPI | profile-serializer', () => {
           }
         ]
       };
-    });
-
-    it('should serialize a Profile into JSON:API data of type "users"', function() {
-      // Given
-      const profile = new Profile(user, competences, areas,
-        [new Assessment(
-          {
-            courseId: 'courseID1',
-            estimatedLevel: 8,
-            pixScore: 128
-          })],
-        [{ id: 'courseID1', competences: ['recCompB'] }]);
 
       // When
       const userSerialized = serializer.serialize(profile);
@@ -142,9 +163,9 @@ describe('Unit | Serializer | JSONAPI | profile-serializer', () => {
       expect(userSerialized).to.be.deep.equal(expectedJson);
     });
 
-    it('should not serialize "total-pix-score" user attribute when no assessment', function() {
+    it('should not serialize "total-pix-score" user attribute when no assessments', function() {
       // Given
-      const profile = new Profile(user, competences, areas, [], []);
+      const profile = new Profile(user, competences, areas, emptyAssessments, emptyCourses, emptyOrganizations);
 
       // When
       const userSerialized = serializer.serialize(profile);
@@ -152,6 +173,59 @@ describe('Unit | Serializer | JSONAPI | profile-serializer', () => {
       // Then
       expect(userSerialized.data.attributes).not.to.have.property('total-pix-score');
     });
+
+    it('should serialize organizations if user is admin of some organizations', function() {
+      // Given
+      const profile = new Profile(user, emptyCompetences, emptyAreas, emptyAssessments, emptyCourses, organizations);
+      const expectedJsonWithOrganisations = {
+        data: {
+          type: 'users',
+          id: 'user_id',
+          attributes: {
+            'first-name': 'Luke',
+            'last-name': 'Skywalker',
+            'email': 'luke@sky.fr'
+          },
+          relationships: {
+            organizations: {
+              data: [
+                { type: 'organizations', id: 'organizationId1' },
+                { type: 'organizations', id: 'organizationId2' }
+              ]
+            }
+          },
+        },
+        included: [
+          {
+            type: 'organizations',
+            id: 'organizationId1',
+            attributes: {
+              name: 'etablissement 1',
+              email: 'best.etablishment@company.com',
+              type: 'SCO',
+              code : 'ABCD12'
+            }
+          },
+          {
+            type: 'organizations',
+            id: 'organizationId2',
+            attributes: {
+              name: 'etablissement 2',
+              email: 'best.enterprise@company.com',
+              type: 'PRO',
+              code : 'EFGH34'
+            }
+          }
+        ]
+      };
+
+      // When
+      const userSerialized = serializer.serialize(profile);
+
+      // Then
+      expect(userSerialized).to.be.deep.equal(expectedJsonWithOrganisations);
+    });
+
   });
 
 });

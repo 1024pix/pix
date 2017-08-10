@@ -11,6 +11,7 @@ export default Model.extend({
   recaptchaToken: attr('string'),
   competences: hasMany('competence'),
   totalPixScore: attr('number'),
+  organizations: hasMany('organization'),
 
   competenceAreas: Ember.computed('competences', function() {
     return this.get('competences').then(competences => {

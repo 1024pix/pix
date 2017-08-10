@@ -3,6 +3,7 @@ const competenceRepository = require('../../infrastructure/repositories/competen
 const areaRepository = require('../../infrastructure/repositories/area-repository');
 const courseRepository = require('../../infrastructure/repositories/course-repository');
 const assessmentRepository = require('../../infrastructure/repositories/assessment-repository');
+const organizationRepository = require('../../infrastructure/repositories/organization-repository');
 
 const Profile = require('../../domain/models/data/profile');
 
@@ -14,10 +15,11 @@ const profileService = {
 
     const adaptiveCourses = courseRepository.getAdaptiveCourses();
     const assessments = assessmentRepository.getByUserId(user_id);
+    const organizations = organizationRepository.getByUserId(user_id);
 
-    return Promise.all([user, competences, areas, assessments, adaptiveCourses])
-      .then(([user, competences, areas, assessments, adaptiveCourses]) => {
-        return new Profile(user, competences, areas, assessments, adaptiveCourses);
+    return Promise.all([user, competences, areas, assessments, adaptiveCourses, organizations])
+      .then(([user, competences, areas, assessments, adaptiveCourses, organizations]) => {
+        return new Profile(user, competences, areas, assessments, adaptiveCourses, organizations);
       });
   }
 };

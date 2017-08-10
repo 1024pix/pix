@@ -60,7 +60,8 @@ module.exports = {
         logger.error(err);
         reply().code(500);
       });
-  }
+  },
+
 };
 
 function _buildAlreadyExistingEmailError(email) {
