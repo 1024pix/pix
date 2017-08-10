@@ -7,18 +7,45 @@
   {{#pix-modale onClose="toggleSharingModal"}}
     <h1>Partage de votre profil</h1>
 
-    <div class="pix-modale__content share-profile__modal-content">
-      <div>Veuillez saisir le code correspondant à votre organisation (collège, lycée, université, école, entreprise).</div>
 
-      <div class="share-profile__modal-form">
-        <input value="" placeholder="Ex: ABCD12" class="share-profile__modal-input" />
+    {{#if organization}}
+      <section class="pix-modale__content share-profile__modal-content-organization-details">
+        <p class="share-profile__modal-transmission">Vous vous apprêtez à transmettre une copie de votre profil Pix à
+          l'organisation:</p>
+        <p class="share-profile__modal-organization-name">{{organization.name}}</p>
+        <p class="share-profile__modal-informations-shared">En cliquant sur le bouton «Envoyer», elle recevra les
+          informations suivantes:</p>
+        <ul class="share-profile__modal-informations-shared">
+          <li>› votre nom et prénom</li>
+          <li>› l'état actuel de votre profil</li>
+        </ul>
+        <p class="share-profile__modal-informations-evolutions">Elle ne recevra pas les évolutions futures de votre
+          profil.</p>
+      </section>
+    {{else}}
 
-        <div class="share-profile__share-modal-buttons">
-          <button class="pix-modal__button pix-modal__button--primary">Continuer</button>
-          <button class="pix-modal__button" {{action "toggleSharingModal"}}>Annuler</button>
+      <section class="pix-modale__content share-profile__modal-content-organization-form">
+        <div>Veuillez saisir le code correspondant à votre organisation (collège, lycée, université, école,
+          entreprise).
         </div>
-      </div>
-    </div>
+
+        <div class="share-profile__modal-form">
+          {{input id="code" placeholder="Ex: ABCD12" value=code class="share-profile__modal-input"}}
+
+          {{#unless organizationExists}}
+            <div class="share-profile__form-error">Ce code ne correspond à aucune organization.</div>
+          {{/unless}}
+
+          <div class="share-profile__share-modal-buttons">
+            <button class="pix-modal__button pix-modal__button--primary" {{action "searchFromCode"}}>Continuer
+            </button>
+            <button class="pix-modal__button" {{action "toggleSharingModal"}}>Annuler</button>
+          </div>
+        </div>
+      </section>
+
+    {{/if}}
+
   {{/pix-modale}}
 {{/if}}
 

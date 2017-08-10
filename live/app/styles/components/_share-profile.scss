@@ -16,12 +16,47 @@
   padding-left: 5px;
 }
 
-.share-profile__modal-content {
+.share-profile__modal-content-organization-form {
   text-align: center;
 
   @include device-is('tablet') {
     font-size: 22px;
   }
+}
+
+.share-profile__modal-informations-evolutions {
+  font-size: 16px;
+}
+
+.share-profile__modal-content-organization-details {
+  padding: 20px;
+  text-align: center;
+}
+
+.share-profile__modal-transmission {
+  @include device-is('tablet') {
+    font-size: 18px;
+  }
+}
+
+.share-profile__modal-organization-name {
+  font-weight: $font-bold;
+  font-size: 16px;
+  text-align: center;
+
+  @include device-is('tablet') {
+    font-size: 24px;
+  }
+}
+
+p.share-profile__modal-informations-shared {
+  font-size: 16px;
+}
+
+ul.share-profile__modal-informations-shared {
+  display: inline-block;
+  text-align: left;
+  list-style: none;
 }
 
 .share-profile__modal-form {
@@ -42,6 +77,11 @@
   @include device-is('tablet') {
     padding: 16px 64px;
   }
+}
+
+.share-profile__form-error {
+  color: $pure-orange;
+  font-size: 16px;
 }
 
 .share-profile__share-modal-buttons {

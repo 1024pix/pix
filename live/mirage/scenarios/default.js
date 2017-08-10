@@ -28,6 +28,6 @@ export default function(server) {
     code: 'ABCD66'
   });
 
-  server.createList('organization', 2);
+  server.createList('organization', 2, { user });
 
 }
