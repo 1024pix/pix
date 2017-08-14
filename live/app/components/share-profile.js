@@ -10,6 +10,9 @@ export default Ember.Component.extend({
   actions: {
     toggleSharingModal() {
       this.toggleProperty('isShowingModal');
+      this.set('code', '');
+      this.set('organizationExists', true);
+      this.set('organization', null);
     },
 
     searchFromCode() {

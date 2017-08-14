@@ -33,7 +33,7 @@ describe('Acceptance | Compte | share profile', function() {
       expect(find('.ember-modal-dialog #code').val()).to.equal('ABCD01');
       expect(find('.share-profile__modal-form > .share-profile__form-error').length).to.equal(1);
       expect(find('.share-profile__modal-form > .share-profile__form-error').text())
-        .to.equal('Ce code ne correspond à aucune organization.');
+        .to.equal('Ce code ne correspond à aucune organisation.');
     });
   });
 

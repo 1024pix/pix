@@ -8,7 +8,7 @@
     <a href="#" class="pix-modale__close-button" {{action "toggleSharingModal"}}>Fermer
       <img src="/images/comparison-window/icon-close-modal.svg" alt="Fermer la fenêtre modale" width="24" height="24">
     </a>
-    
+
     <h1>Partage de votre profil</h1>
 
     {{#if organization}}
@@ -36,7 +36,7 @@
           {{input id="code" placeholder="Ex: ABCD12" value=code class="share-profile__modal-input" enter="searchFromCode"}}
 
           {{#unless organizationExists}}
-            <div class="share-profile__form-error">Ce code ne correspond à aucune organization.</div>
+            <div class="share-profile__form-error">Ce code ne correspond à aucune organisation.</div>
           {{/unless}}
 
           <div class="share-profile__share-modal-buttons">

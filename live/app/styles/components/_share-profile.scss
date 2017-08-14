@@ -34,9 +34,7 @@
 }
 
 .share-profile__modal-transmission {
-  @include device-is('tablet') {
-    font-size: 18px;
-  }
+  font-size: 18px;
 }
 
 .share-profile__modal-organization-name {
@@ -54,6 +52,7 @@ p.share-profile__modal-informations-shared {
 }
 
 ul.share-profile__modal-informations-shared {
+  font-size: 16px;
   display: inline-block;
   text-align: left;
   list-style: none;
