@@ -27,12 +27,20 @@
   text-transform: capitalize;
 }
 
+.index-page-hero__navbar-header .logged-user-name__link {
+  color: $white;
+}
+
 .caret {
   width: 0;
   height: 0;
   border-style: solid;
   border-width: 4px 4px 0 4px;
   border-color: $charcoal-grey transparent transparent transparent;
+}
+
+.index-page-hero__navbar-header .caret {
+  border-color: $white transparent transparent transparent;
 }
 
 .logged-user-menu {

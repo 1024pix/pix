@@ -141,7 +141,8 @@ describe('Acceptance | Controller | users-controller-get-profile', function() {
       level: -1,
       courseId: 'recBxPAuEPlTgt72q99'
     }],
-    areas: [{ id: 'recAreaA', name: 'domaine-name-1' }, { id: 'recAreaB', name: 'domaine-name-2' }]
+    areas: [{ id: 'recAreaA', name: 'domaine-name-1' }, { id: 'recAreaB', name: 'domaine-name-2' }],
+    organizations: []
   };
 
   describe('GET /users', function() {

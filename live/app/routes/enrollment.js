@@ -1,4 +1,5 @@
 import Ember from 'ember';
+import BaseRoute from 'pix-live/routes/base-route';
 
 const pixDescriptionGoals = [
   'Faciliter l\'évaluation des compétences et connaissances numériques des élèves (à partir de la 4ème) et des étudiants',
@@ -73,7 +74,7 @@ const pixUncommitments = [
   'Une obligation ministérielle !'
 ];
 
-export default Ember.Route.extend({
+export default BaseRoute.extend({
 
   panelActions: Ember.inject.service(),
 

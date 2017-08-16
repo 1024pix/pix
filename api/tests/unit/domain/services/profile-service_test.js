@@ -8,6 +8,7 @@ const competenceRepository = require('../../../../lib/infrastructure/repositorie
 const areaRepository = require('../../../../lib/infrastructure/repositories/area-repository');
 const courseRepository = require('../../../../lib/infrastructure/repositories/course-repository');
 const assessmentRepository = require('../../../../lib/infrastructure/repositories/assessment-repository');
+const organizationRepository = require('../../../../lib/infrastructure/repositories/organization-repository');
 
 const Assessment = require('../../../../lib/domain/models/data/assessment');
 const User = require('../../../../lib/domain/models/data/user');
@@ -55,6 +56,14 @@ describe('Unit | Service | Profil User Service', function() {
     competences: ['competenceId1']
   }];
 
+  const fakeOrganizationsRecords = [{
+    id : 'organizationId1',
+    name : 'orga 1'
+  }, {
+    id : 'organizationId2',
+    name : 'orga 2'
+  }];
+
   describe('#getUser', () => {
 
     it('should exist', () => {
@@ -74,6 +83,7 @@ describe('Unit | Service | Profil User Service', function() {
         sandbox.stub(areaRepository, 'list').resolves(fakeAreaRecords);
         sandbox.stub(courseRepository, 'getAdaptiveCourses').resolves(fakeCoursesRecords);
         sandbox.stub(assessmentRepository, 'getByUserId').resolves(fakeAssessmentRecords);
+        sandbox.stub(organizationRepository, 'getByUserId').resolves(fakeOrganizationsRecords);
       });
 
       afterEach(() => {
@@ -105,7 +115,8 @@ describe('Unit | Service | Profil User Service', function() {
               areaId: 'areaId2',
               level: -1
             }],
-          areas: fakeAreaRecords
+          areas: fakeAreaRecords,
+          organizations : fakeOrganizationsRecords
         };
 
         // When
@@ -116,7 +127,7 @@ describe('Unit | Service | Profil User Service', function() {
         });
       });
 
-      it('should call course repository to get adaptive courses', function() {
+      it('should call course repository to get adaptive courses', () => {
         // When
         const promise = profileService.getByUserId('user-id');
 
@@ -127,7 +138,7 @@ describe('Unit | Service | Profil User Service', function() {
 
       });
 
-      it('should call assessment repository to get all assessments from the current user', function() {
+      it('should call assessment repository to get all assessments from the current user', () => {
 
         // When
         const promise = profileService.getByUserId('user-id');
@@ -136,6 +147,18 @@ describe('Unit | Service | Profil User Service', function() {
         return promise.then(() => {
           sinon.assert.called(assessmentRepository.getByUserId);
           sinon.assert.calledWith(assessmentRepository.getByUserId, 'user-id');
+        });
+      });
+
+      it('should call organization repository to get all organizations from the current user', () => {
+
+        // When
+        const promise = profileService.getByUserId('user-id');
+
+        // Then
+        return promise.then(() => {
+          sinon.assert.called(organizationRepository.getByUserId);
+          sinon.assert.calledWith(organizationRepository.getByUserId, 'user-id');
         });
       });
 

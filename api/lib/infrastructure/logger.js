@@ -14,7 +14,7 @@ if (settings.logging.enabled) {
   logger.addStream({
     name: 'file-output',
     path: settings.logging.path,
-    level: 'warn',
+    level: 'info',
     type: 'rotating-file',
     period: '1d',
     count: 5

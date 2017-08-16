@@ -12,12 +12,27 @@ module.exports = {
       .fetch()
       .then(organizations => {
 
-        if(organizations) {
+        if (organizations) {
           return Promise.reject();
         }
 
         return Promise.resolve(code);
       });
-  }
+  },
 
+  get(id) {
+    return Organization
+      .where({ id: id })
+      .fetch({ require: true });
+  },
+
+  getByUserId(userId) {
+    return Organization
+      .where({ userId: userId })
+      .fetchAll({ require: true })
+      .then((organizations)=>{
+        return organizations.models;
+      });
+  }
 };
+
