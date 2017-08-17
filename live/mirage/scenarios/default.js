@@ -17,7 +17,15 @@ export default function(server) {
     recaptchaToken: 'recaptcha-token-xxxxxx',
     totalPixScore: '777',
     competenceIds: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16],
-    organizationIds: [1]
+    //organizationIds: [1]
+  });
+
+  server.create('organization', {
+    id: 1,
+    name: 'LexCorp',
+    email: 'lex@lexcorp.com',
+    type: 'PRO',
+    code: 'ABCD66'
   });
 
 }

@@ -222,7 +222,7 @@ describe('Unit | Repository | OrganizationRepository', function() {
         const promise = OrganizationRepository.getByUserId(userId);
 
         // Then
-        return promise.then(foundOrganizations=>{
+        return promise.then(foundOrganizations => {
           expect(foundOrganizations).to.exist;
           expect(foundOrganizations).to.be.an('array');
           expect(foundOrganizations).to.have.lengthOf(2);
@@ -230,11 +230,11 @@ describe('Unit | Repository | OrganizationRepository', function() {
 
       });
 
-      it('should return a rejection when organization id is not found', function() {
+      it('should return an empty Array, when organization id is not found', function() {
         const userId = 10083;
-        return OrganizationRepository.get(userId)
-          .catch((err) => {
-            expect(err.message).to.equal('EmptyResponse');
+        return OrganizationRepository.getByUserId(userId)
+          .then((organization) => {
+            expect(organization).to.deep.equal([]);
           });
       });
 
