@@ -26,6 +26,10 @@ module.exports = {
       .fetch({ require: true });
   },
 
+  findBy(filters) {
+    return Organization.where(filters).fetchAll();
+  },
+
   getByUserId(userId) {
     return Organization
       .where({ userId })

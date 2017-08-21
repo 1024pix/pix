@@ -1,0 +1,96 @@
+.share-profile__share-button {
+  flex-grow: 0;
+
+  background: $pix-blue;
+  text-transform: uppercase;
+  padding: 12px 17px;
+  color: $white;
+  border: none;
+  border-radius: 5px;
+
+  margin-top: 10px;
+}
+
+.share-profile__share-button-image {
+  vertical-align: text-top;
+  padding-left: 5px;
+}
+
+.share-profile__modal-content-organization-form {
+  text-align: center;
+
+  @include device-is('tablet') {
+    font-size: 22px;
+  }
+}
+
+.share-profile__modal-informations-evolutions {
+  font-size: 16px;
+}
+
+.share-profile__modal-content-organization-details {
+  padding: 20px;
+  text-align: center;
+}
+
+.share-profile__modal-transmission {
+  font-size: 18px;
+}
+
+.share-profile__modal-organization-name {
+  font-weight: $font-bold;
+  font-size: 16px;
+  text-align: center;
+
+  @include device-is('tablet') {
+    font-size: 24px;
+  }
+}
+
+p.share-profile__modal-informations-shared {
+  font-size: 16px;
+}
+
+ul.share-profile__modal-informations-shared {
+  font-size: 16px;
+  display: inline-block;
+  text-align: left;
+  list-style: none;
+}
+
+.share-profile__modal-form {
+  display: flex;
+  flex-direction: column;
+
+  max-width: 380px;
+  padding: 30px 16px 16px;
+  margin: auto;
+}
+
+.share-profile__modal-input {
+  border: $pure-orange 1px solid;
+  padding: 10px 5px;
+  border-radius: 5px;
+  text-align: center;
+
+  @include device-is('tablet') {
+    padding: 16px 64px;
+  }
+}
+
+.share-profile__form-error {
+  color: $pure-orange;
+  font-size: 16px;
+}
+
+.share-profile__share-modal-buttons {
+  display: flex;
+  flex-direction: row-reverse;
+  justify-content: space-between;
+
+  margin-top: 30px;
+}
+
+.share-profile__share-modal-button {
+  flex-grow: 1;
+}

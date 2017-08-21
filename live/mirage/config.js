@@ -77,4 +77,15 @@ export default function() {
   this.get('/competences/:id');
   this.get('/areas/:id');
   this.get('/organizations/:id');
+
+  this.get('/organizations', (schema, request) => {
+
+    const code = request.queryParams['filter[code]'];
+
+    if(code) {
+      return schema.organizations.where({ code });
+    }
+
+    return schema.organizations.all();
+  });
 }

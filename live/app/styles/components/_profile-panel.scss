@@ -13,7 +13,7 @@
   width: 100%;
 
   @include device-is('tablet') {
-    padding-left: 100px;
+    padding: 0 100px;
     justify-content: space-between;
     flex-direction: row;
   }
@@ -21,6 +21,7 @@
 
 .profile-header__left-bloc {
   margin: 20px auto 0;
+
   @include device-is('tablet') {
     margin: 55px 0 0;
   }
@@ -56,4 +57,31 @@
 
 .profile-panel__competence-areas {
   width: 100%;
+}
+
+.profile-header__share {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  text-align: center;
+
+  margin-bottom: 20px;
+
+  @include device-is('tablet') {
+    margin-bottom: 0px;
+    max-width: 150px;
+  }
+}
+
+.profile-header__score-pastille-wrapper {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  text-align: center;
+
+  padding: 0 auto 12px;
+
+  @include device-is('tablet') {
+    padding: 36px 50px auto 45.5px;
+  }
 }

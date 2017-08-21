@@ -3,5 +3,5 @@ import Ember from 'ember';
 export default Ember.Component.extend({
   classNames: ['profile-panel'],
   competences: null,
-  totalPixScore: null,
+  totalPixScore: null
 });

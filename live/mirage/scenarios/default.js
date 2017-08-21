@@ -7,7 +7,7 @@ export default function(server) {
   server.loadFixtures('competences');
   server.loadFixtures('organizations');
 
-  server.create('user', {
+  const user = server.create('user', {
     id: 1,
     firstName: 'François',
     lastName: 'Hisquin',
@@ -27,5 +27,7 @@ export default function(server) {
     type: 'PRO',
     code: 'ABCD66'
   });
+
+  server.createList('organization', 2, { user });
 
 }

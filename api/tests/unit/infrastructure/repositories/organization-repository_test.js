@@ -240,4 +240,27 @@ describe('Unit | Repository | OrganizationRepository', function() {
 
     });
   });
+
+  describe('#findBy', () => {
+    it('should be a function', function() {
+      // then
+      expect(OrganizationRepository.findBy).to.be.a('function');
+    });
+
+    it('should return Organization that matches filters', function() {
+      // given
+      const fetchStub = sinon.stub().resolves();
+      sinon.stub(Organization, 'where').returns({ fetchAll: fetchStub });
+
+      // when
+      const filters = { code: 1234 };
+      const promise = OrganizationRepository.findBy(filters);
+
+      // then
+      return promise.then(() => {
+        sinon.assert.calledWith(Organization.where, filters);
+        sinon.assert.callOrder(Organization.where, fetchStub);
+      });
+    });
+  });
 });
