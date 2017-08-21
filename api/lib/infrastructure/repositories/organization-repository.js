@@ -1,4 +1,5 @@
 const Organization = require('../../domain/models/data/organization');
+const { NotFoundError } = require('../../domain/errors');
 
 module.exports = {
 
@@ -17,6 +18,18 @@ module.exports = {
         }
 
         return Promise.resolve(code);
+      });
+  },
+
+  isOrganizationIdExist(id) {
+    return Organization
+      .where({ id })
+      .fetch()
+      .then(organizations => {
+        if(!organizations) {
+          return Promise.reject(new NotFoundError('l’organisation n’existe pas'));
+        }
+        return Promise.resolve(true);
       });
   },
 
