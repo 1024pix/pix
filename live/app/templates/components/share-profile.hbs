@@ -33,7 +33,13 @@
         </div>
 
         <div class="share-profile__modal-form">
-          {{input id="code" placeholder="Ex: ABCD12" value=code class="share-profile__modal-input" enter="searchFromCode"}}
+          {{input id="code"
+                  placeholder=placeholder
+                  focus-in="focusIn"
+                  focus-out="focusOut"
+                  value=code
+                  class="share-profile__modal-input"
+                  enter="searchFromCode"}}
 
           {{#unless organizationExists}}
             <div class="share-profile__form-error">Ce code ne correspond à aucune organisation.</div>

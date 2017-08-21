@@ -25,6 +25,31 @@ describe('Unit | Component | share-profile', function() {
 
   });
 
+  describe('#placeholder', function() {
+    it('should leave the placeholder empty with "focusIn"', function() {
+      // Given
+      const component = this.subject();
+
+      // Then
+      component.send('focusIn');
+
+      // When
+      expect(component.get('placeholder')).to.be.equal('');
+    });
+
+    it('should reset the placeholder to its default value with "focusOut"', function() {
+      // Given
+      const component = this.subject();
+      component.set('placeholder', 'Ex: EFGH89');
+
+      // Then
+      component.send('focusOut');
+
+      // When
+      expect(component.get('placeholder')).to.be.equal('Ex: ABCD12');
+    });
+  });
+
   describe('#toggleSharingModal', () => {
     it('should use the "close" action', function() {
       // Given

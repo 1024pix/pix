@@ -2,7 +2,9 @@ import Ember from 'ember';
 
 export default Ember.Component.extend({
   isShowingModal: false,
+
   code: '',
+  placeholder: 'Ex: ABCD12',
 
   organizationExists: true,
   organization: null,
@@ -26,6 +28,14 @@ export default Ember.Component.extend({
             this.set('organizationExists', false);
           }
         });
+    },
+
+    focusIn() {
+      this.set('placeholder', '');
+    },
+
+    focusOut() {
+      this.set('placeholder', 'Ex: ABCD12');
     }
   }
 });
