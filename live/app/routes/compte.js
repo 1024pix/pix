@@ -20,11 +20,9 @@ export default Ember.Route.extend(AuthenticatedRouteMixin, {
           code
         }
       }).then((organisations) => {
-        if(organisations.content.length === 1) {
-          return organisations.get('firstObject');
-        } else {
-          return null;
-        }
+        const isOrganizationFound = organisations.content.length === 1;
+
+        return isOrganizationFound ? organisations.get('firstObject') : null;
       });
     }
   }

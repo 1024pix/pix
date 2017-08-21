@@ -11,26 +11,6 @@ const logger = require('../../infrastructure/logger');
 
 const { AlreadyRegisteredEmailError } = require('../../domain/errors');
 
-function _generateUniqueOrganizationCode() {
-  const code = organizationService.generateOrganizationCode();
-
-  return organisationRepository.isCodeAvailable(code)
-    .then((code) => {
-      return code;
-    })
-    .catch(_generateUniqueOrganizationCode);
-}
-
-function _extractFilters(request) {
-  return _.reduce(request.query, (result, filter, key) => {
-    const field = key.match(/filter\[([a-z]*)]/)[1];
-    if (field) {
-      result[field] = filter;
-    }
-    return result;
-  }, {});
-}
-
 module.exports = {
   create: (request, reply) => {
 
@@ -103,4 +83,24 @@ function _extractUserInformation(request, organization) {
     cgu: true,
     password: request.payload.data.attributes['password'] || ''
   };
+}
+
+function _generateUniqueOrganizationCode() {
+  const code = organizationService.generateOrganizationCode();
+
+  return organisationRepository.isCodeAvailable(code)
+    .then((code) => {
+      return code;
+    })
+    .catch(_generateUniqueOrganizationCode);
+}
+
+function _extractFilters(request) {
+  return _.reduce(request.query, (result, queryFilterValue, queryFilterKey) => {
+    const field = queryFilterKey.match(/filter\[([a-z]*)]/)[1];
+    if (field) {
+      result[field] = queryFilterValue;
+    }
+    return result;
+  }, {});
 }

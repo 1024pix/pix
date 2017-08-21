@@ -21,7 +21,7 @@ export default ModalDialog.extend(EmberKeyboardMixin, {
   didInsertElement() {
     this._super(...arguments);
 
-    const modalId = '#' + Ember.$('.ember-modal-dialog').attr('id');
+    const modalId = `#${Ember.$('.ember-modal-dialog').attr('id')}`;
 
     _setFocusOnFirstTabbableElement(modalId);
 
