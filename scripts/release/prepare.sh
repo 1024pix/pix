@@ -15,16 +15,7 @@ YELLOW="$(tput bold ; tput setaf 3)"
 BLUE="$(tput bold ; tput setaf 4)"
 CYAN="$(tput bold ; tput setaf 6)"
 
-# Creates new release branch
-# https://gist.github.com/DarrenN/8c6a5b969481725a4413
-PACKAGE_VERSION=$(cat package.json \
-  | grep version \
-  | head -1 \
-  | awk -F: '{ print $2 }' \
-  | sed 's/[",]//g' \
-  | tr -d '[[:space:]]')
-
-echo -e "Beginning release preparation for version ${GREEN}$PACKAGE_VERSION${RESET_COLOR}.\n"
+echo -e "Preparing a new release for ${RED}production${RESET_COLOR}.\n"
 
 # Checks we are on branch 'dev'
 CURRENT_BRANCH=$(git rev-parse --abbrev-ref HEAD)
@@ -41,6 +32,46 @@ then
     git status
     exit 1
 fi
+
+NEW_VERSION_TYPE=$1
+
+if [ "$NEW_VERSION_TYPE" != "patch" -a "$NEW_VERSION_TYPE" != "minor" ];
+then
+  echo -e "${RED}Wrong argument!${RESET_COLOR} Only ${GREEN}patch${RESET_COLOR} or ${GREEN}minor${RESET_COLOR} is allowed.\n"
+  exit 1
+fi
+
+OLD_PACKAGE_VERSION=$(cat package.json \
+  | grep version \
+  | head -1 \
+  | awk -F: '{ print $2 }' \
+  | sed 's/[",]//g' \
+  | tr -d '[[:space:]]')
+
+npm version $NEW_VERSION_TYPE --git-tag-version=false >> /dev/null
+
+ROOT_PATH=`pwd`
+
+cd $ROOT_PATH/api/ && npm version $NEW_VERSION_TYPE --git-tag-version=false >> /dev/null
+cd $ROOT_PATH/live/ && npm version $NEW_VERSION_TYPE --git-tag-version=false >> /dev/null
+
+cd $ROOT_PATH
+
+# Creates new release branch
+# https://gist.github.com/DarrenN/8c6a5b969481725a4413
+PACKAGE_VERSION=$(cat package.json \
+  | grep version \
+  | head -1 \
+  | awk -F: '{ print $2 }' \
+  | sed 's/[",]//g' \
+  | tr -d '[[:space:]]')
+
+git add . -u
+git ci -m "[RELEASE] A ${NEW_VERSION_TYPE} is being released from ${OLD_PACKAGE_VERSION} to ${PACKAGE_VERSION}."
+
+git tag -a "v${PACKAGE_VERSION}" -m "[RELEASE] A ${NEW_VERSION_TYPE} is being released from ${OLD_PACKAGE_VERSION} to ${PACKAGE_VERSION}."
+
+git push origin dev --tags
 
 # Fetches all last changes
 git pull
