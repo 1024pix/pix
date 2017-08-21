@@ -1,4 +1,4 @@
-const { describe, it, expect } = require('../../test-helper');
+const {describe, it, expect} = require('../../test-helper');
 const errors = require('../../../lib/domain/errors');
 
 describe('Unit | Domain | Errors', () => {
@@ -9,6 +9,10 @@ describe('Unit | Domain | Errors', () => {
 
   it('should export a InvalidTokenError', () => {
     expect(errors.InvalidTokenError).to.exist;
+  });
+
+  it('should export a InvalidAuthorizationHeaders', () => {
+    expect(errors.InvalidAuthorizationHeaders).to.exist;
   });
 
 });
