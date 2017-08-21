@@ -4,7 +4,7 @@ exports.up = function(knex) {
 
   function table(t) {
     t.increments().primary();
-    t.string('organizationId').notNullable();
+    t.string('organizationId').unsigned().references('organizations.id');
     t.string('score');
     t.json('profile').notNullable();
     t.dateTime('createdAt').notNullable().defaultTo(knex.fn.now());
