@@ -78,7 +78,7 @@ describe('Unit | Repository | SnapshotRepository', function() {
     ]
   };
   const snapshot = {
-    organizationId: 3,
+    organizationId: 150,
     score: 128,
     profile: JSON.stringify(serializedUserProfile)
   };
