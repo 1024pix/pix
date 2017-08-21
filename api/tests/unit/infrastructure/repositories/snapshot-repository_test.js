@@ -1,4 +1,4 @@
-const {expect, knex, describe, beforeEach, afterEach, it, sinon} = require('../../../test-helper');
+const { expect, knex, describe, beforeEach, afterEach, it, sinon } = require('../../../test-helper');
 const snapshotRepository = require('../../../../lib/infrastructure/repositories/snapshot-repository');
 const Snapshot = require('../../../../lib/domain/models/data/snapshot');
 
@@ -17,8 +17,8 @@ describe('Unit | Repository | SnapshotRepository', function() {
       relationships: {
         competences: {
           data: [
-            {type: 'competences', id: 'recCompA'},
-            {type: 'competences', id: 'recCompB'}
+            { type: 'competences', id: 'recCompA' },
+            { type: 'competences', id: 'recCompB' }
           ]
         }
       },
