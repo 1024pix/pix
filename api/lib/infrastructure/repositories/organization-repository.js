@@ -1,5 +1,4 @@
 const Organization = require('../../domain/models/data/organization');
-const { NotFoundError } = require('../../domain/errors');
 
 module.exports = {
 
@@ -27,9 +26,9 @@ module.exports = {
       .fetch()
       .then(organizations => {
         if(!organizations) {
-          return Promise.reject(new NotFoundError('l’organisation n’existe pas'));
+          return false;
         }
-        return Promise.resolve(true);
+        return true;
       });
   },
 
