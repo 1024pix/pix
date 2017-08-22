@@ -1,7 +1,6 @@
 import { describe, it, beforeEach, afterEach } from 'mocha';
 import { expect } from 'chai';
-import startApp from 'pix-live/tests/helpers/start-app';
-import destroyApp from 'pix-live/tests/helpers/destroy-app';
+import { startApp, destroyApp } from '../helpers/application';
 
 describe('Acceptance | courseGroups', function() {
 

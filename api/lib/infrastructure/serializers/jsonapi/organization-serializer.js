@@ -4,7 +4,7 @@ const Organization = require('../../../domain/models/data/organization');
 class OrganizationSerializer extends JSONAPISerializer {
 
   constructor() {
-    super('organizations');
+    super('organization');
   }
 
   serialize(modelObject) {
@@ -55,6 +55,17 @@ class OrganizationSerializer extends JSONAPISerializer {
       type: json.data.attributes.type,
       name: json.data.attributes.name,
     });
+  }
+
+  serializeArray(modelObjects) {
+    const response = {};
+    response.data = [];
+
+    for (const modelObject of modelObjects) {
+      response.data.push(this.serializeModelObject(modelObject));
+    }
+
+    return response;
   }
 
 }

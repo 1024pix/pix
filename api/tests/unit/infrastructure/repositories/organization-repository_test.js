@@ -222,7 +222,7 @@ describe('Unit | Repository | OrganizationRepository', function() {
         const promise = OrganizationRepository.getByUserId(userId);
 
         // Then
-        return promise.then(foundOrganizations=>{
+        return promise.then(foundOrganizations => {
           expect(foundOrganizations).to.exist;
           expect(foundOrganizations).to.be.an('array');
           expect(foundOrganizations).to.have.lengthOf(2);
@@ -230,14 +230,37 @@ describe('Unit | Repository | OrganizationRepository', function() {
 
       });
 
-      it('should return a rejection when organization id is not found', function() {
+      it('should return an empty Array, when organization id is not found', function() {
         const userId = 10083;
-        return OrganizationRepository.get(userId)
-          .catch((err) => {
-            expect(err.message).to.equal('EmptyResponse');
+        return OrganizationRepository.getByUserId(userId)
+          .then((organization) => {
+            expect(organization).to.deep.equal([]);
           });
       });
 
+    });
+  });
+
+  describe('#findBy', () => {
+    it('should be a function', function() {
+      // then
+      expect(OrganizationRepository.findBy).to.be.a('function');
+    });
+
+    it('should return Organization that matches filters', function() {
+      // given
+      const fetchStub = sinon.stub().resolves();
+      sinon.stub(Organization, 'where').returns({ fetchAll: fetchStub });
+
+      // when
+      const filters = { code: 1234 };
+      const promise = OrganizationRepository.findBy(filters);
+
+      // then
+      return promise.then(() => {
+        sinon.assert.calledWith(Organization.where, filters);
+        sinon.assert.callOrder(Organization.where, fetchStub);
+      });
     });
   });
 });

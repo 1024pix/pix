@@ -1,0 +1,63 @@
+@import "../ember-modal-dialog/ember-modal-structure";
+@import "../ember-modal-dialog/ember-modal-appearance";
+
+.ember-modal-overlay.translucent {
+  background-color: rgba(red($charcoal-grey), green($charcoal-grey), blue($charcoal-grey), 0.95);
+}
+
+.ember-modal-dialog {
+  width: 80%;
+  padding: 0;
+  border-radius: 5px;
+  background-color: $porcelain-grey;
+  box-shadow: 0 0 10px 5px rgba(0, 0, 0, 0.2);
+}
+
+.ember-modal-dialog h1 {
+  margin: 0;
+  padding: 20px 0;
+  border-radius: 5px 5px 0 0;
+  background-color: $white;
+
+  font-size: 20px;
+  font-family: $font-lato;
+  font-weight: $font-bold;
+  color: $pix-blue;
+  text-transform: uppercase;
+
+  text-align: center;
+
+  @include device-is('tablet') {
+    font-size: 25px;
+  }
+}
+
+.pix-modale__content {
+  padding-top:20px;
+
+  @include device-is('tablet') {
+    padding:50px;
+  }
+}
+
+.pix-modale__close-button {
+  color: $white;
+  position: absolute;
+  top: -30px;
+  right: 0;
+}
+
+.pix-modal__button {
+  border: none;
+  border-radius: 5px;
+  padding: 10px 20px;
+
+  text-transform: uppercase;
+  color: $white;
+
+  box-sizing: border-box;
+}
+
+.pix-modal__button--primary {
+  background-color: $pix-blue;
+}

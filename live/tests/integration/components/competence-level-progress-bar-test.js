@@ -94,14 +94,15 @@ describe('Integration | Component | competence level progress bar', function() {
 
       this.set('courseId', courseId);
       this.set('level', level);
+      this.set('name', 'Premier test de positionnement');
 
       // when
-      this.render(hbs`{{competence-level-progress-bar level=level courseId=courseId}}`);
+      this.render(hbs`{{competence-level-progress-bar name=name level=level courseId=courseId}}`);
 
       // then
       expect(this.$('.competence-level-progress-bar__start')).to.have.length(1);
       expect(this.$('a.competence-level-progress-bar__start-link')).to.have.length(1);
-      expect(this.$('a.competence-level-progress-bar__start-link').text().trim()).to.be.equal('Commencer');
+      expect(this.$('a.competence-level-progress-bar__start-link').text().trim()).to.be.equal('Commencer le test "Premier test de positionnement"');
     });
 
     it('should not display ’commencer’ in progress bar, when the level is already defined', function() {
@@ -111,9 +112,10 @@ describe('Integration | Component | competence level progress bar', function() {
 
       this.set('courseId', courseId);
       this.set('level', level);
+      this.set('name', 'Premier test de positionnement');
 
       // when
-      this.render(hbs`{{competence-level-progress-bar level=level courseId=courseId}}`);
+      this.render(hbs`{{competence-level-progress-bar level=level courseId=courseId name=name}}`);
 
       // then
       expect(this.$('.competence-level-progress-bar__start')).to.have.length(0);
@@ -127,9 +129,10 @@ describe('Integration | Component | competence level progress bar', function() {
       // given
       const level = 3;
       this.set('level', level);
+      this.set('name', 'Premier test de positionnement');
 
       // when
-      this.render(hbs`{{competence-level-progress-bar level=level}}`);
+      this.render(hbs`{{competence-level-progress-bar level=level name=name}}`);
 
       // then
       expect(this.$('.competence-level-progress-bar__start')).to.have.length(0);
