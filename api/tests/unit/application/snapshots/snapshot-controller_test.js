@@ -353,7 +353,7 @@ describe('Unit | Controller | snapshotController', () => {
           // given
           authorizationToken.verify.resolves('user_id');
           UserRepository.findUserById.resolves({});
-          OrganizationRepository.isOrganizationIdExist.returns(false);
+          OrganizationRepository.isOrganizationIdExist.resolves(false);
 
           const expectedSerializeArg = {
             data: {
