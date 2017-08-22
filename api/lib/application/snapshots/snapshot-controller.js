@@ -5,7 +5,7 @@ const OrganizationRepository = require('../../../lib/infrastructure/repositories
 const profileSerializer = require('../../../lib/infrastructure/serializers/jsonapi/profile-serializer');
 const SnapshotService = require('../../../lib/domain/services/snapshot-service');
 const profileService = require('../../domain/services/profile-service');
-const { InvalidTokenError, NotFoundError, InvaliOrganizationIdError } = require('../../domain/errors');
+const {InvalidTokenError, NotFoundError, InvaliOrganizationIdError} = require('../../domain/errors');
 
 module.exports = {
 
@@ -15,6 +15,10 @@ module.exports = {
       return _replyErrorWithMessage(reply, 'Le token n’est pas valide', 401);
     }
 
+    if(!_hasAnOrganizationId(request.payload)) {
+      return _replyErrorWithMessage(reply, 'L’identifiant de l’organization n’est pas valide', 401);
+    }
+
     const token = request.headers.authorization;
     return authorizationToken
       .verify(token)
@@ -22,11 +26,15 @@ module.exports = {
         return UserRepository.findUserById(userId);
       })
       .then((foundUser) => {
-        const isOrganizationExist = OrganizationRepository.isOrganizationIdExist(request.payload.organizationId);
-        if(!isOrganizationExist) {
-          throw new InvaliOrganizationIdError();
-        }
-        return foundUser;
+        return OrganizationRepository
+          .isOrganizationIdExist(request.payload.organizationId)
+          .then((isOrganizationExist) => {
+            if(!isOrganizationExist) {
+              throw new InvaliOrganizationIdError();
+            }
+            return foundUser;
+          });
+
       })
       .then((foundUser) => {
         return profileService.getByUserId(foundUser.id);
@@ -56,7 +64,6 @@ module.exports = {
         if(err instanceof InvaliOrganizationIdError) {
           return _replyErrorWithMessage(reply, 'Cette organisation n’existe pas', 401);
         }
-
         return _replyErrorWithMessage(reply, 'Une erreur est survenue lors de la création de l’instantané', 500);
       });
   }
@@ -72,6 +79,10 @@ function _handleWhenInvalidAuthorization(errorMessage) {
       authorization: [errorMessage]
     }
   };
+}
+
+function _hasAnOrganizationId(payload) {
+  return payload && payload.hasOwnProperty('organizationId') && payload.organizationId;
 }
 
 function _hasAnAtuhorizationHeaders(request) {
