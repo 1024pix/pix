@@ -1,4 +1,4 @@
-const { expect, knex, describe, beforeEach, afterEach, it, sinon } = require('../../../test-helper');
+const { expect, knex, describe, beforeEach, afterEach, after, it, sinon } = require('../../../test-helper');
 const snapshotRepository = require('../../../../lib/infrastructure/repositories/snapshot-repository');
 const Snapshot = require('../../../../lib/domain/models/data/snapshot');
 
@@ -82,6 +82,10 @@ describe('Unit | Repository | SnapshotRepository', function() {
     score: 128,
     profile: JSON.stringify(serializedUserProfile)
   };
+
+  after(() => {
+    return knex('snapshots').delete();
+  });
 
   beforeEach(() => {
     sinon.spy(Snapshot.prototype, 'save');
