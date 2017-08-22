@@ -11,8 +11,8 @@ describe('Unit | Domain | Errors', () => {
     expect(errors.InvalidTokenError).to.exist;
   });
 
-  it('should export a InvalidAuthorizationHeaders', () => {
-    expect(errors.InvalidAuthorizationHeaders).to.exist;
+  it('should export a InvaliOrganizationIdError', () => {
+    expect(errors.InvaliOrganizationIdError).to.exist;
   });
 
 });

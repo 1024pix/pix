@@ -4,7 +4,7 @@ class NotFoundError extends Error {
   }
 }
 
-class InvalidAuthorizationHeaders extends Error {
+class InvaliOrganizationIdError extends Error {
   constructor(message) {
     super(message);
   }
@@ -40,5 +40,5 @@ module.exports = {
   PasswordNotMatching,
   InvalidTokenError,
   AlreadyRegisteredEmailError,
-  InvalidAuthorizationHeaders
+  InvaliOrganizationIdError
 };
