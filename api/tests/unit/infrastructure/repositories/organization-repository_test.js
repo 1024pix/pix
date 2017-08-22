@@ -121,7 +121,7 @@ describe('Unit | Repository | OrganizationRepository', function() {
       expect(OrganizationRepository.isOrganizationIdExist).to.be.a('function');
     });
 
-    it('should resolve when an organization id is found', () => {
+    it('should return true when an organization id is found', () => {
       // When
       const promise = OrganizationRepository.isOrganizationIdExist(organizationId);
 
@@ -131,19 +131,14 @@ describe('Unit | Repository | OrganizationRepository', function() {
       });
     });
 
-    it('should reject when the organization id is not found', () => {
+    it('should return false when the organization id is not found', () => {
       // When
-      const promise = OrganizationRepository.isOrganizationIdExist(null);
+      const promise = OrganizationRepository.isOrganizationIdExist(6);
 
       // Then
-      return promise
-        .then(() => {
-          sinon.assert.fail('Should not be a success');
-        })
-        .catch(() => {
-          expect(promise).to.be.rejected;
-          expect(promise).to.be.rejectedWith('l’organisation n’existe pas');
-        });
+      return promise.then((result) => {
+        expect(result).to.be.false;
+      });
     });
   });
 

@@ -130,6 +130,34 @@ describe('Unit | Controller | snapshotController', () => {
       sinon.assert.calledOnce(validationErrorSerializer.serialize);
     });
 
+    it('should have a request with organizationId', () => {
+      // given
+      const replyStub = sinon.stub().returns({
+        code: () => {
+        }
+      });
+
+      const requestWithoutOrganization = {
+        headers: {
+          authorization: 'valid_token'
+        },
+        payload: {}
+      };
+
+      const expectedSerializeArg = {
+        data: {
+          authorization: ['L’identifiant de l’organization n’est pas valide']
+        }
+      };
+
+      // when
+      snapshotController.create(requestWithoutOrganization, replyStub);
+
+      // then
+      sinon.assert.calledOnce(validationErrorSerializer.serialize);
+      sinon.assert.calledWith(validationErrorSerializer.serialize, expectedSerializeArg);
+    });
+
     describe('Behavior', () => {
 
       let sandbox;
