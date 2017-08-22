@@ -5,7 +5,7 @@ const OrganizationRepository = require('../../../lib/infrastructure/repositories
 const profileSerializer = require('../../../lib/infrastructure/serializers/jsonapi/profile-serializer');
 const SnapshotService = require('../../../lib/domain/services/snapshot-service');
 const profileService = require('../../domain/services/profile-service');
-const {InvalidTokenError, NotFoundError, InvaliOrganizationIdError} = require('../../domain/errors');
+const { InvalidTokenError, NotFoundError, InvaliOrganizationIdError } = require('../../domain/errors');
 
 module.exports = {
 
