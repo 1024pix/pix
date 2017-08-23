@@ -4,7 +4,7 @@ module.exports = {
   create(snapshot) {
     const snapshotRaw = {
       organizationId: snapshot.organizationId,
-      userId: snapshot.userId,
+      userId: snapshot.profile.data.id,
       score: snapshot.profile.data.attributes['total-pix-score'],
       profile: JSON.stringify(snapshot.profile)
     };
