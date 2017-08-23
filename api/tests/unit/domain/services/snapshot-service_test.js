@@ -80,6 +80,7 @@ describe('Unit | Service | Snapshot service', function() {
 
   const snapshot = {
     organizationId: 3,
+    userId: 2,
     profile: serializedUserProfile
   };
 
@@ -104,6 +105,7 @@ describe('Unit | Service | Snapshot service', function() {
 
       const snapshotRaw = {
         organizationId: 3,
+        userId: 2,
         score: 128,
         profile: JSON.stringify(serializedUserProfile)
       };
@@ -114,6 +116,32 @@ describe('Unit | Service | Snapshot service', function() {
       return promise.then(() => {
         // then
         sinon.assert.calledWith(SnapshotRepository.save, snapshotRaw);
+      });
+
+    });
+
+    it('should return a snapshot id, when successfull snapshot saving', () => {
+      // given
+      const createdSnapshot = {
+        get() {
+          return 3;
+        }
+      };
+      SnapshotRepository.save.resolves(createdSnapshot);
+
+      const snapshotRaw = {
+        organizationId: 3,
+        userId: 2,
+        score: 128,
+        profile: JSON.stringify(serializedUserProfile)
+      };
+
+      // when
+      const promise = SnapshotService.create(snapshot);
+
+      return promise.then((snapshotId) => {
+        // then
+        expect(snapshotId).to.equal(3);
       });
 
     });
