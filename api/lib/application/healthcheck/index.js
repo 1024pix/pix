@@ -7,6 +7,11 @@ exports.register = function(server, options, next) {
       path: '/api',
       config: { handler: healthcheckController.get, tags: ['api'] }
     },
+    {
+      method: 'GET',
+      path: '/api/healthcheck/db',
+      config: { handler: healthcheckController.getDbStatus, tags: ['api'] }
+    },
   ]);
 
   return next();
