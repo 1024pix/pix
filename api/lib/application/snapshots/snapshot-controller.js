@@ -2,9 +2,11 @@ const authorizationToken = require('../../../lib/infrastructure/validators/jsonw
 const validationErrorSerializer = require('../../infrastructure/serializers/jsonapi/validation-error-serializer');
 const UserRepository = require('../../../lib/infrastructure/repositories/user-repository');
 const OrganizationRepository = require('../../../lib/infrastructure/repositories/organization-repository');
+const snapshotSerializer = require('../../../lib/infrastructure/serializers/jsonapi/snapshot-serializer');
 const profileSerializer = require('../../../lib/infrastructure/serializers/jsonapi/profile-serializer');
 const SnapshotService = require('../../../lib/domain/services/snapshot-service');
 const profileService = require('../../domain/services/profile-service');
+const logger = require('../../../lib/infrastructure/logger');
 const { InvalidTokenError, NotFoundError, InvaliOrganizationIdError } = require('../../domain/errors');
 
 module.exports = {
@@ -42,13 +44,14 @@ module.exports = {
       })
       .then((serializedProfile) => {
         const snapshotDetails = {
-          organizationId: request.payload.organizationId,
+          organizationId: organizationId,
           profile: serializedProfile
         };
         return SnapshotService.create(snapshotDetails);
       })
-      .then(() => {
-        reply().code(201);
+      .then((snapshotId) => {
+        const insertedSnaphotId = { id: snapshotId };
+        reply(snapshotSerializer.serialize(insertedSnaphotId)).code(201);
       }).catch((err) => {
 
         if(err instanceof InvalidTokenError) {
@@ -62,6 +65,7 @@ module.exports = {
         if(err instanceof InvaliOrganizationIdError) {
           return _replyErrorWithMessage(reply, 'Cette organisation n’existe pas', 401);
         }
+        logger.error(err);
         return _replyErrorWithMessage(reply, 'Une erreur est survenue lors de la création de l’instantané', 500);
       });
   }
@@ -80,7 +84,7 @@ function _handleWhenInvalidAuthorization(errorMessage) {
 }
 
 function _extractOrganizationId(request) {
-  return request.payload.data.attributes['organization-id'] || '';
+  return request.hasOwnProperty('payload') && request.payload.data && request.payload.data.attributes['organization-id'] || '';
 }
 
 function _hasAnAtuhorizationHeaders(request) {
