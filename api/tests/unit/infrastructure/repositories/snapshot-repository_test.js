@@ -79,6 +79,7 @@ describe('Unit | Repository | SnapshotRepository', function() {
   };
   const snapshot = {
     organizationId: 150,
+    userId: 4,
     score: 128,
     profile: JSON.stringify(serializedUserProfile)
   };
@@ -96,14 +97,30 @@ describe('Unit | Repository | SnapshotRepository', function() {
     knex('snapshots').delete();
   });
 
-  it('should save a new snapshot', () => {
-    // given
-
+  it('should return a snapshot Id, when saving a new snapshot', () => {
+    // when
     const promise = snapshotRepository.save(snapshot);
 
-    return promise.then(snapshotId => {
-      expect(snapshotId).to.not.be.null;
+    return promise.then(snapshot => {
+      // then
+      expect(snapshot).to.not.be.null;
       sinon.assert.calledOnce(Snapshot.prototype.save);
+    });
+  });
+
+  it('should reject a promise, when an error has occured', () => {
+    // given
+    const snapshotWithError = {
+      organizationId: 150,
+      score: 128,
+      profile: JSON.stringify(serializedUserProfile)
+    };
+    // given
+    const promise = snapshotRepository.save(snapshotWithError);
+
+    return promise.catch((err) => {
+      expect(err).to.be.an.instanceof(Error);
+      expect(promise).to.be.rejected;
     });
   });
 });
