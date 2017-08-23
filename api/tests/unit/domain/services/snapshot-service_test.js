@@ -129,13 +129,6 @@ describe('Unit | Service | Snapshot service', function() {
       };
       SnapshotRepository.save.resolves(createdSnapshot);
 
-      const snapshotRaw = {
-        organizationId: 3,
-        userId: 2,
-        score: 128,
-        profile: JSON.stringify(serializedUserProfile)
-      };
-
       // when
       const promise = SnapshotService.create(snapshot);
 
