@@ -105,7 +105,7 @@ describe('Unit | Service | Snapshot service', function() {
 
       const snapshotRaw = {
         organizationId: 3,
-        userId: 2,
+        userId: serializedUserProfile.data.id,
         score: 128,
         profile: JSON.stringify(serializedUserProfile)
       };
