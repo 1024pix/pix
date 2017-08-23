@@ -97,7 +97,7 @@ describe('Unit | Repository | SnapshotRepository', function() {
     knex('snapshots').delete();
   });
 
-  it('should return a snapshot Id, when saving a new snapshot', () => {
+  it('should save a snapshot', () => {
     // when
     const promise = snapshotRepository.save(snapshot);
 
@@ -108,19 +108,4 @@ describe('Unit | Repository | SnapshotRepository', function() {
     });
   });
 
-  it('should reject a promise, when an error has occured', () => {
-    // given
-    const snapshotWithError = {
-      organizationId: 150,
-      score: 128,
-      profile: JSON.stringify(serializedUserProfile)
-    };
-    // given
-    const promise = snapshotRepository.save(snapshotWithError);
-
-    return promise.catch((err) => {
-      expect(err).to.be.an.instanceof(Error);
-      expect(promise).to.be.rejected;
-    });
-  });
 });
