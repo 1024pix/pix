@@ -14,7 +14,7 @@ module.exports = {
   create: function(request, reply) {
 
     if(!_hasAnAtuhorizationHeaders(request)) {
-      return _replyErrorWithMessage(reply, 'Le token n’est pas valide', 401);
+      return _replyErrorWithMessage(reply, 'Le token n’est pas valide', 400);
     }
 
     const token = request.headers.authorization;
@@ -26,8 +26,7 @@ module.exports = {
         return UserRepository.findUserById(userId);
       })
       .then((foundUser) => {
-        return OrganizationRepository
-          .isOrganizationIdExist(organizationId)
+        return OrganizationRepository.isOrganizationIdExist(organizationId)
           .then((isOrganizationExist) => {
             if(!isOrganizationExist) {
               throw new InvaliOrganizationIdError();
@@ -59,11 +58,11 @@ module.exports = {
         }
 
         if(err instanceof NotFoundError) {
-          return _replyErrorWithMessage(reply, 'Cet utilisateur est introuvable', 401);
+          return _replyErrorWithMessage(reply, 'Cet utilisateur est introuvable', 400);
         }
 
         if(err instanceof InvaliOrganizationIdError) {
-          return _replyErrorWithMessage(reply, 'Cette organisation n’existe pas', 401);
+          return _replyErrorWithMessage(reply, 'Cette organisation n’existe pas', 400);
         }
         logger.error(err);
         return _replyErrorWithMessage(reply, 'Une erreur est survenue lors de la création de l’instantané', 500);
