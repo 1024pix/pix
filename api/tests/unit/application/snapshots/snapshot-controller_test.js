@@ -99,7 +99,11 @@ describe('Unit | Controller | snapshotController', () => {
         authorization: 'valid_token'
       },
       payload: {
-        organizationId: 3
+        data: {
+          attributes: {
+            'organization-id': 3
+          }
+        }
       }
     };
     beforeEach(() => {
@@ -128,34 +132,6 @@ describe('Unit | Controller | snapshotController', () => {
 
       // then
       sinon.assert.calledOnce(validationErrorSerializer.serialize);
-    });
-
-    it('should have a request with organizationId', () => {
-      // given
-      const replyStub = sinon.stub().returns({
-        code: () => {
-        }
-      });
-
-      const requestWithoutOrganization = {
-        headers: {
-          authorization: 'valid_token'
-        },
-        payload: {}
-      };
-
-      const expectedSerializeArg = {
-        data: {
-          authorization: ['L’identifiant de l’organization n’est pas valide']
-        }
-      };
-
-      // when
-      snapshotController.create(requestWithoutOrganization, replyStub);
-
-      // then
-      sinon.assert.calledOnce(validationErrorSerializer.serialize);
-      sinon.assert.calledWith(validationErrorSerializer.serialize, expectedSerializeArg);
     });
 
     describe('Behavior', () => {
@@ -223,7 +199,7 @@ describe('Unit | Controller | snapshotController', () => {
           // then
           return promise.then(() => {
             sinon.assert.calledOnce(OrganizationRepository.isOrganizationIdExist);
-            sinon.assert.calledWith(OrganizationRepository.isOrganizationIdExist, request.payload.organizationId);
+            sinon.assert.calledWith(OrganizationRepository.isOrganizationIdExist, request.payload.data.attributes['organization-id']);
           });
         });
 

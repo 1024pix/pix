@@ -15,11 +15,9 @@ module.exports = {
       return _replyErrorWithMessage(reply, 'Le token n’est pas valide', 401);
     }
 
-    if(!_hasAnOrganizationId(request.payload)) {
-      return _replyErrorWithMessage(reply, 'L’identifiant de l’organization n’est pas valide', 401);
-    }
-
     const token = request.headers.authorization;
+    const organizationId = _extractOrganizationId(request);
+
     return authorizationToken
       .verify(token)
       .then((userId) => {
@@ -27,7 +25,7 @@ module.exports = {
       })
       .then((foundUser) => {
         return OrganizationRepository
-          .isOrganizationIdExist(request.payload.organizationId)
+          .isOrganizationIdExist(organizationId)
           .then((isOrganizationExist) => {
             if(!isOrganizationExist) {
               throw new InvaliOrganizationIdError();
@@ -81,8 +79,8 @@ function _handleWhenInvalidAuthorization(errorMessage) {
   };
 }
 
-function _hasAnOrganizationId(payload) {
-  return payload && payload.hasOwnProperty('organizationId') && payload.organizationId;
+function _extractOrganizationId(request) {
+  return request.payload.data.attributes['organization-id'] || '';
 }
 
 function _hasAnAtuhorizationHeaders(request) {
