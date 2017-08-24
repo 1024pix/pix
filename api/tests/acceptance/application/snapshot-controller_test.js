@@ -1,6 +1,6 @@
 const faker = require('faker');
 const bcrypt = require('bcrypt');
-const {describe, it, after, before, expect, afterEach, beforeEach, knex, sinon} = require('../../test-helper');
+const { describe, it, after, before, expect, afterEach, beforeEach, knex, sinon } = require('../../test-helper');
 const authorizationToken = require('../../../lib/infrastructure/validators/jsonwebtoken-verify');
 const profileService = require('../../../lib/domain/services/profile-service');
 const User = require('../../../lib/domain/models/data/user');
@@ -27,15 +27,15 @@ describe('Acceptance | Controller | snapshot-controller', function() {
       level: -1,
       courseId: 'recBxPAuEPlTgt72q11'
     },
-      {
-        id: 'recCompB',
-        name: 'competence-name-2',
-        index: '1.2',
-        areaId: 'recAreaB',
-        level: -1,
-        courseId: 'recBxPAuEPlTgt72q99'
-      }],
-    areas: [{id: 'recAreaA', name: 'domaine-name-1'}, {id: 'recAreaB', name: 'domaine-name-2'}],
+    {
+      id: 'recCompB',
+      name: 'competence-name-2',
+      index: '1.2',
+      areaId: 'recAreaB',
+      level: -1,
+      courseId: 'recBxPAuEPlTgt72q99'
+    }],
+    areas: [{ id: 'recAreaA', name: 'domaine-name-1' }, { id: 'recAreaB', name: 'domaine-name-2' }],
     organizations: []
   };
 
@@ -93,7 +93,7 @@ describe('Acceptance | Controller | snapshot-controller', function() {
         payload
       };
 
-      options['headers'] = {authorization: 'VALID_TOKEN'};
+      options['headers'] = { authorization: 'VALID_TOKEN' };
       sinon.stub(authorizationToken, 'verify').resolves(userId);
       sinon.stub(profileService, 'getByUserId').resolves(fakeBuildedProfile);
       injectPromise = server.inject(options);
