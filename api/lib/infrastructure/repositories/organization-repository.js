@@ -8,7 +8,7 @@ module.exports = {
 
   isCodeAvailable(code) {
     return Organization
-      .where({code})
+      .where({ code })
       .fetch()
       .then(organizations => {
 
@@ -22,15 +22,15 @@ module.exports = {
 
   isOrganizationIdExist(id) {
     return Organization
-      .where({id})
+      .where({ id })
       .fetch()
       .then(organizations => !!organizations);
   },
 
   get(id) {
     return Organization
-      .where({id: id})
-      .fetch({require: true});
+      .where({ id: id })
+      .fetch({ require: true });
   },
 
   findBy(filters) {
@@ -39,7 +39,7 @@ module.exports = {
 
   getByUserId(userId) {
     return Organization
-      .where({userId})
+      .where({ userId })
       .fetchAll()
       .then((organizations) => {
         return organizations.models;
