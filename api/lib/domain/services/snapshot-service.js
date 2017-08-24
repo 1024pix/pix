@@ -11,10 +11,6 @@ module.exports = {
 
     return snapshotRepository
       .save(snapshotRaw)
-      .then((snapshot) => {
-        return snapshot.get('id');
-      });
-    //.catch(err => err);
-
+      .then((snapshot) => snapshot.get('id'));
   }
 };
