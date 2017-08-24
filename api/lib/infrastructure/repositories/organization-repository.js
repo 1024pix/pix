@@ -8,7 +8,7 @@ module.exports = {
 
   isCodeAvailable(code) {
     return Organization
-      .where({ code })
+      .where({code})
       .fetch()
       .then(organizations => {
 
@@ -22,25 +22,20 @@ module.exports = {
 
   isOrganizationIdExist(id) {
     return Organization
-      .where({ id })
+      .where({id})
       .fetch()
-      .then(organizations => {
-        if(!organizations) {
-          return false;
-        }
-        return true;
-      });
+      .then(organizations => !!organizations);
   },
 
   get(id) {
     return Organization
-      .where({ id: id })
-      .fetch({ require: true });
+      .where({id: id})
+      .fetch({require: true});
   },
 
   getByUserId(userId) {
     return Organization
-      .where({ userId })
+      .where({userId})
       .fetchAll()
       .then((organizations) => {
         return organizations.models;
