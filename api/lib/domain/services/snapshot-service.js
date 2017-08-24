@@ -13,10 +13,8 @@ module.exports = {
       .save(snapshotRaw)
       .then((snapshot) => {
         return snapshot.get('id');
-      })
-      .catch((err) => {
-        return err;
       });
+    //.catch(err => err);
 
   }
 };
