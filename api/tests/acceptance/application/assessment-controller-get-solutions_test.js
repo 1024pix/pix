@@ -19,8 +19,8 @@ describe('Acceptance | API | assessment-controller-get-solutions', () => {
                 // a bunch of fields
               'Adaptatif ?': false,
               '\u00c9preuves': [
-                'second_challenge',
-                'first_challenge',
+                'q_second_challenge',
+                'q_first_challenge',
               ],
             },
           }
@@ -35,40 +35,45 @@ describe('Acceptance | API | assessment-controller-get-solutions', () => {
                 // a bunch of fields
               'Adaptatif ?': true,
               '\u00c9preuves': [
-                'third_challenge',
-                'second_challenge',
-                'first_challenge',
+                'q_third_challenge',
+                'q_second_challenge',
+                'q_first_challenge',
               ],
             },
           }
           );
         nock('https://api.airtable.com')
-          .get('/v0/test-base/Epreuves/first_challenge')
+          .get('/v0/test-base/Epreuves/q_first_challenge')
           .query(true)
-          .times(3)
+          .times(2)
           .reply(200, {
-            'id': 'first_challenge',
+            'id': 'q_first_challenge',
             'fields': {
+              'acquis': ['web3'],
               'Bonnes réponses': 'fromage'
             },
           }
           );
         nock('https://api.airtable.com')
-          .get('/v0/test-base/Epreuves/second_challenge')
+          .get('/v0/test-base/Epreuves/q_second_challenge')
           .query(true)
+          .times(2)
           .reply(200, {
-            'id': 'second_challenge',
+            'id': 'q_second_challenge',
             'fields': {
+              'acquis': ['web2'],
               'Bonnes réponses': 'truite'
             },
           }
           );
         nock('https://api.airtable.com')
-          .get('/v0/test-base/Epreuves/third_challenge')
+          .get('/v0/test-base/Epreuves/q_third_challenge')
           .query(true)
+          .times(1)
           .reply(200, {
-            'id': 'third_challenge',
+            'id': 'q_third_challenge',
             'fields': {
+              'acquis': ['web1'],
               'Bonnes réponses': 'dromadaire'
             },
           }
@@ -106,14 +111,14 @@ describe('Acceptance | API | assessment-controller-get-solutions', () => {
           const inserted_answer_1 = {
             value: 'any bad answer',
             result: 'ko',
-            challengeId: 'first_challenge',
+            challengeId: 'q_first_challenge',
             assessmentId: insertedAssessmentId
           };
 
           const inserted_answer_2 = {
             value: 'any good answer',
             result: 'ok',
-            challengeId: 'second_challenge',
+            challengeId: 'q_second_challenge',
             assessmentId: insertedAssessmentId
           };
 
@@ -132,7 +137,7 @@ describe('Acceptance | API | assessment-controller-get-solutions', () => {
       };
       const expectedSolution = {
         type: 'solutions',
-        id: 'second_challenge',
+        id: 'q_second_challenge',
         attributes: { value: 'truite' }
       };
 
@@ -163,7 +168,7 @@ describe('Acceptance | API | assessment-controller-get-solutions', () => {
         const inserted_answer = {
           value: 'any bad answer',
           result: 'ko',
-          challengeId: 'first_challenge',
+          challengeId: 'q_first_challenge',
           assessmentId: insertedAssessmentId
         };
 
@@ -174,7 +179,7 @@ describe('Acceptance | API | assessment-controller-get-solutions', () => {
         });
     });
 
-    it('should return null if user did not answer every challenge', () => {
+    it('should return null if the adaptive test is not over', () => {
       // Given
       const options = {
         method: 'GET',
@@ -208,9 +213,9 @@ describe('Acceptance | API | assessment-controller-get-solutions', () => {
           insertedAssessmentId = rows[0];
 
           const inserted_answer = {
-            value: 'any bad answer',
-            result: 'ko',
-            challengeId: 'first_challenge',
+            value: 'any good answer',
+            result: 'ok',
+            challengeId: 'q_first_challenge',
             assessmentId: insertedAssessmentId
           };
 
@@ -227,7 +232,7 @@ describe('Acceptance | API | assessment-controller-get-solutions', () => {
       };
       const expectedSolution = {
         type: 'solutions',
-        id: 'first_challenge',
+        id: 'q_first_challenge',
         attributes: { value: 'fromage' }
       };
 
@@ -253,7 +258,7 @@ describe('Acceptance | API | assessment-controller-get-solutions', () => {
     const insertedScenario = {
       courseId: 'adaptive_course_id',
       path: 'ok',
-      nextChallengeId: 'second_challenge'
+      nextChallengeId: 'q_second_challenge'
     };
 
     beforeEach(() => {
@@ -262,9 +267,9 @@ describe('Acceptance | API | assessment-controller-get-solutions', () => {
           insertedAssessmentId = rows[0];
 
           const inserted_answer = {
-            value: 'any good answer',
-            result: 'ok',
-            challengeId: 'first_challenge',
+            value: 'any bad answer',
+            result: 'ko',
+            challengeId: 'q_first_challenge',
             assessmentId: insertedAssessmentId
           };
 

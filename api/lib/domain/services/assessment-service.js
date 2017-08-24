@@ -11,13 +11,21 @@ const { NotFoundError, NotElligibleToScoringError } = require('../../domain/erro
 
 const scoringService = require('../../domain/services/scoring-service');
 
-function _selectNextInAdaptiveMode(assessment) {
+function _selectNextInAdaptiveMode(assessmentPix, coursePix) {
 
   return new Promise((resolve, reject) => {
-    answerRepository.findByAssessment(assessment.get('id'))
+    let answersPix, challengesPix;
+
+    answerRepository.findByAssessment(assessmentPix.get('id'))
       .then(answers => {
-        const responsePattern = assessmentUtils.getResponsePattern(answers);
-        return assessmentUtils.getNextChallengeFromScenarios(assessment.get('courseId'), responsePattern);
+        answersPix = answers;
+
+        const challengePromises = coursePix.challenges.map(challengeId => challengeRepository.get(challengeId));
+        return Promise.all(challengePromises);
+      }).then(challenges => {
+        challengesPix = challenges;
+
+        return assessmentUtils.getNextChallengeInAdaptiveCourse(answersPix, challengesPix);
       })
       .then(resolve)
       .catch(reject);
@@ -50,7 +58,7 @@ function _getAssessmentResultDetails(answers, knowledgeData) {
   };
 }
 
-function selectNextChallengeId(course, currentChallengeId, assessment) {
+function _selectNextChallengeId(course, currentChallengeId, assessment) {
 
   return new Promise((resolve) => {
 
@@ -61,7 +69,7 @@ function selectNextChallengeId(course, currentChallengeId, assessment) {
     }
 
     if (course.isAdaptive) {
-      return resolve(_selectNextInAdaptiveMode(assessment));
+      return resolve(_selectNextInAdaptiveMode(assessment, course));
     } else {
       return resolve(_selectNextInNormalMode(currentChallengeId, challenges));
     }
@@ -130,7 +138,7 @@ function getAssessmentNextChallengeId(assessment, currentChallengeId) {
     const courseId = assessment.get('courseId');
     courseRepository
       .get(courseId)
-      .then((course) => resolve(selectNextChallengeId(course, currentChallengeId, assessment)))
+      .then((course) => resolve(_selectNextChallengeId(course, currentChallengeId, assessment)))
       .catch((error) => reject(error));
   });
 }
