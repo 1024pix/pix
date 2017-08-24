@@ -1,16 +1,18 @@
-const JSONAPISerializer = require('./jsonapi-serializer');
+const JSONAPISerializer = require('jsonapi-serializer').Serializer;
 
-class AuthenticationSerializer extends JSONAPISerializer {
+class AuthenticationSerializer {
 
-  constructor() {
-    super('authentication');
-  }
+  serialize(authentication) {
 
-  serializeAttributes(model, data) {
-    data.id = model.user_id;
-    data.attributes['user-id'] = model.user_id;
-    data.attributes.token = model.token;
-    data.attributes.password = '';
+    return new JSONAPISerializer('authentication', {
+      attributes: ['token', 'user_id', 'password'],
+      transform(record) {
+        record.user_id = record.user_id.toString();
+        record.id = record.user_id;
+        record.password = '';
+        return record;
+      }
+    }).serialize(authentication);
   }
 }
 
