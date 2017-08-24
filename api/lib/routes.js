@@ -10,5 +10,6 @@ module.exports = [
   require('./application/users'),
   require('./application/authentication'),
   require('./application/cache'),
-  require('./application/organizations')
+  require('./application/organizations'),
+  require('./application/snapshots')
 ];

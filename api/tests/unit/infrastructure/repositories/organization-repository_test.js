@@ -93,6 +93,55 @@ describe('Unit | Repository | OrganizationRepository', function() {
     });
   });
 
+  describe('#isOrganizationIdExist', () => {
+
+    const organization = {
+      email: faker.internet.email(),
+      type: 'PRO',
+      name: faker.name.firstName(),
+      code: 'ABCD01'
+    };
+
+    let organizationId;
+
+    before(() => {
+      return knex('organizations')
+        .insert(organization)
+        .then((id) => {
+          organizationId = id.toString();
+        });
+    });
+
+    after(() => {
+      return knex('organizations').delete();
+    });
+
+    it('should be a function', () => {
+      // then
+      expect(OrganizationRepository.isOrganizationIdExist).to.be.a('function');
+    });
+
+    it('should return true when an organization id is found', () => {
+      // When
+      const promise = OrganizationRepository.isOrganizationIdExist(organizationId);
+
+      // Then
+      return promise.then((result) => {
+        expect(result).to.be.true;
+      });
+    });
+
+    it('should return false when the organization id is not found', () => {
+      // When
+      const promise = OrganizationRepository.isOrganizationIdExist(6);
+
+      // Then
+      return promise.then((result) => {
+        expect(result).to.be.false;
+      });
+    });
+  });
+
   describe('#get', () => {
 
     const existingId = 1;

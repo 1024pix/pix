@@ -20,6 +20,13 @@ module.exports = {
       });
   },
 
+  isOrganizationIdExist(id) {
+    return Organization
+      .where({ id })
+      .fetch()
+      .then(organizations => !!organizations);
+  },
+
   get(id) {
     return Organization
       .where({ id: id })
