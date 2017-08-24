@@ -7,68 +7,16 @@ const profileSerializer = require('../../../lib/infrastructure/serializers/jsona
 const SnapshotService = require('../../../lib/domain/services/snapshot-service');
 const profileService = require('../../domain/services/profile-service');
 const logger = require('../../../lib/infrastructure/logger');
-const { InvalidTokenError, NotFoundError, InvaliOrganizationIdError } = require('../../domain/errors');
+const {InvalidTokenError, NotFoundError, InvaliOrganizationIdError} = require('../../domain/errors');
 
-module.exports = {
-
-  create: function(request, reply) {
-
-    if(!_hasAnAtuhorizationHeaders(request)) {
-      return _replyErrorWithMessage(reply, 'Le token n’est pas valide', 400);
-    }
-
-    const token = request.headers.authorization;
-    const organizationId = _extractOrganizationId(request);
-
-    return authorizationToken
-      .verify(token)
-      .then((userId) => {
-        return UserRepository.findUserById(userId);
-      })
-      .then((foundUser) => {
-        return OrganizationRepository.isOrganizationIdExist(organizationId)
-          .then((isOrganizationExist) => {
-            if(!isOrganizationExist) {
-              throw new InvaliOrganizationIdError();
-            }
-            return foundUser;
-          });
-
-      })
-      .then((foundUser) => {
-        return profileService.getByUserId(foundUser.id);
-      })
-      .then((profile) => {
-        return profileSerializer.serialize(profile);
-      })
-      .then((serializedProfile) => {
-        const snapshotDetails = {
-          organizationId: organizationId,
-          profile: serializedProfile
-        };
-        return SnapshotService.create(snapshotDetails);
-      })
-      .then((snapshotId) => {
-        const insertedSnaphotId = { id: snapshotId };
-        reply(snapshotSerializer.serialize(insertedSnaphotId)).code(201);
-      }).catch((err) => {
-
-        if(err instanceof InvalidTokenError) {
-          return _replyErrorWithMessage(reply, 'Le token n’est pas valide', 401);
-        }
-
-        if(err instanceof NotFoundError) {
-          return _replyErrorWithMessage(reply, 'Cet utilisateur est introuvable', 400);
-        }
-
-        if(err instanceof InvaliOrganizationIdError) {
-          return _replyErrorWithMessage(reply, 'Cette organisation n’existe pas', 400);
-        }
-        logger.error(err);
-        return _replyErrorWithMessage(reply, 'Une erreur est survenue lors de la création de l’instantané', 500);
-      });
-  }
-};
+function _assertThatOrganizationExists(organizationId) {
+  return OrganizationRepository.isOrganizationIdExist(organizationId)
+    .then((isOrganizationExist) => {
+      if(!isOrganizationExist) {
+        throw new InvaliOrganizationIdError();
+      }
+    });
+}
 
 const _replyErrorWithMessage = function(reply, errorMessage, statusCode) {
   reply(validationErrorSerializer.serialize(_handleWhenInvalidAuthorization(errorMessage))).code(statusCode);
@@ -89,3 +37,42 @@ function _extractOrganizationId(request) {
 function _hasAnAtuhorizationHeaders(request) {
   return request && request.hasOwnProperty('headers') && request.headers.hasOwnProperty('authorization');
 }
+
+function _replyError(err, reply) {
+  if(err instanceof InvalidTokenError) {
+    return _replyErrorWithMessage(reply, 'Le token n’est pas valide', 401);
+  }
+
+  if(err instanceof NotFoundError) {
+    return _replyErrorWithMessage(reply, 'Cet utilisateur est introuvable', 422);
+  }
+
+  if(err instanceof InvaliOrganizationIdError) {
+    return _replyErrorWithMessage(reply, 'Cette organisation n’existe pas', 422);
+  }
+  logger.error(err);
+  return _replyErrorWithMessage(reply, 'Une erreur est survenue lors de la création de l’instantané', 500);
+}
+
+function create(request, reply) {
+
+  if(!_hasAnAtuhorizationHeaders(request)) {
+    return _replyErrorWithMessage(reply, 'Le token n’est pas valide', 401);
+  }
+
+  const token = request.headers.authorization;
+  const organizationId = _extractOrganizationId(request);
+
+  return authorizationToken
+    .verify(token)
+    .then(UserRepository.findUserById)
+    .then((foundUser) => _assertThatOrganizationExists(organizationId).then(() => foundUser))
+    .then(({id}) => profileService.getByUserId(id))
+    .then((profile) => profileSerializer.serialize(profile))
+    .then((profile) => SnapshotService.create({organizationId, profile}))
+    .then((snapshotId) => snapshotSerializer.serialize({id: snapshotId}))
+    .then(snapshotSerialized => reply(snapshotSerialized).code(201))
+    .catch((err) => _replyError(err, reply));
+}
+
+module.exports = {create};
