@@ -70,9 +70,9 @@ function _numberOfGoodAnswers(fullValidations, deactivations) {
 
 function _goodAnswers(fullValidations, deactivations) {
   return _.chain(fullValidations)
-          .map((fullValidation) => {return _goodAnswer(fullValidation, deactivations);})
-          .filter((e) => e !== null)
-          .value();
+    .map((fullValidation) => {return _goodAnswer(fullValidation, deactivations);})
+    .filter((e) => e !== null)
+    .value();
 }
 
 // the lowest t1t2t3 ratio is below 0.25

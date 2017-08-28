@@ -16,7 +16,7 @@ describe('Acceptance | API | assessment-controller-get-solutions', () => {
           .reply(200, {
             'id': 'non_adaptive_course_id',
             'fields': {
-                // a bunch of fields
+              // a bunch of fields
               'Adaptatif ?': false,
               '\u00c9preuves': [
                 'q_second_challenge',
@@ -32,7 +32,7 @@ describe('Acceptance | API | assessment-controller-get-solutions', () => {
           .reply(200, {
             'id': 'adaptive_course_id',
             'fields': {
-                // a bunch of fields
+              // a bunch of fields
               'Adaptatif ?': true,
               '\u00c9preuves': [
                 'q_third_challenge',

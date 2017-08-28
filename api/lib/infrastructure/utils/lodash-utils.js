@@ -31,10 +31,10 @@ _.mixin({
     if (_.isString(string1) && _.isString(string2)) {
       const splitTrimSort = function(str) {
         return _.chain(str)   // "3, 1, 2 "
-                .split(',')   // ["3"," 1"," 2 "]
-                .map(_.trim)  // ["3","1","2"]
-                .sort()       // ["1","2","3"]
-                .value();
+          .split(',')   // ["3"," 1"," 2 "]
+          .map(_.trim)  // ["3","1","2"]
+          .sort()       // ["1","2","3"]
+          .value();
       };
       return _(splitTrimSort(string1)).isEqual(splitTrimSort(string2));
     }

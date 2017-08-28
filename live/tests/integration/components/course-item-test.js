@@ -118,7 +118,7 @@ describe('Integration | Component | course item', function() {
 
       // then
       const $startAction = this.$('.course-item__begin-button');
-      expect($startAction.attr('title')).to.equal('Commencer le test \"My course\"');
+      expect($startAction.attr('title')).to.equal('Commencer le test "My course"');
     });
   });
 

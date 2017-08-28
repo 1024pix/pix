@@ -50,10 +50,8 @@ describe('Unit | Service | google-recaptcha-validator', () => {
         // when
         const promise = gRecaptcha.verify(RECAPTCHA_TOKEN);
 
-        return promise.then(() => {
-          // Then
-          expect(promise).to.be.resolved;
-        });
+        // then
+        return expect(promise).to.be.fulfilled;
       });
 
     });

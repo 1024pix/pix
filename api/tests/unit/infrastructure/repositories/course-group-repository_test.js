@@ -93,9 +93,7 @@ describe('Unit | Repository | course-group-repository', function() {
         const cacheErrorMessage = 'Cache error';
 
         beforeEach(function() {
-          sinon.stub(cache, 'get', (key, callback) => {
-            callback(new Error(cacheErrorMessage));
-          });
+          sinon.stub(cache, 'get').callsFake((key, callback) => callback(new Error(cacheErrorMessage)));
         });
 
         afterEach(function() {

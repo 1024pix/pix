@@ -27,11 +27,6 @@ describe('Unit | Controller | CacheController', () => {
       replyStub.reset();
     });
 
-    it('should exist', () => {
-      // Then
-      expect(CacheController.removeCacheEntry).to.exist.and.to.be.a.function;
-    });
-
     it('should call reply', () => {
       // when
       CacheController.removeCacheEntry(request, replyStub);

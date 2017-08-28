@@ -1,5 +1,5 @@
-/* global showdown */
 import Ember from 'ember';
+import showdown from 'showdown';
 import _ from 'pix-live/utils/lodash-custom';
 
 export function convertToHtml(params) {
