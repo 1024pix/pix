@@ -24,7 +24,17 @@ engines:
         enabled: false
 ratings:
   paths:
-    - "**.css"
-    - "**.js"
+  - api/bin/**
+  - api/lib/**
+  - live/app/**
 exclude_paths:
-
+- "scripts"
+- "cli"
+- "infra"
+- "api/db"
+- "api/scripts"
+- "api/tests"
+- "live/mirage"
+- "live/public"
+- "live/scripts"
+- "live/tests"
