@@ -35,7 +35,7 @@ describe('Acceptance | Espace compte', function() {
 
         // then
         return andThen(function() {
-          expect(currentURL()).to.equal('/');
+          expect(currentURL()).to.equal('/connexion');
         });
       });
     });

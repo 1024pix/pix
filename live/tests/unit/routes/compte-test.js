@@ -19,7 +19,7 @@ describe('Unit | Route | compte', function() {
     const route = this.subject();
 
     // Then
-    expect(route.authenticationRoute).to.equal('/');
+    expect(route.authenticationRoute).to.equal('/connexion');
   });
 
   describe('searchForOrganization', function() {

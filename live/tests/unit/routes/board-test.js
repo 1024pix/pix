@@ -7,7 +7,7 @@ import sinon from 'sinon';
 describe('Unit | Route | board', function() {
   setupTest('route:board', {
     // Specify the other units that are required for this test.
-    needs: ['service:current-routed-modal']
+    needs: ['service:current-routed-modal', 'service:session']
   });
 
   it('exists', function() {
