@@ -162,8 +162,8 @@ describe('Integration | Component | feedback-panel', function() {
         expect(isSaveMethodCalled).to.be.true;
         expect(saveMethodUrl).to.equal('feedback');
         expect(_.isObject(saveMethodBody)).to.equal(true);
-        expect(saveMethodBody.assessement).to.exists;
-        expect(saveMethodBody.challenge).to.exists;
+        expect(saveMethodBody.assessment).to.exist;
+        expect(saveMethodBody.challenge).to.exist;
         expect(saveMethodBody.content).to.equal(CONTENT_VALUE);
         expect(saveMethodBody.email).to.equal(EMAIL_VALUE);
         expectMercixViewToBeVisible(this);

@@ -21,10 +21,12 @@ export default Ember.Route.extend(AuthenticatedRouteMixin, {
         }
       }).then((organisations) => {
         const isOrganizationFound = organisations.content.length === 1;
-
         return isOrganizationFound ? organisations.get('firstObject') : null;
       });
+    },
+
+    shareProfileSnapshot(organization) {
+      return this.get('store').createRecord('snapshot', { organization }).save();
     }
   }
-
 });

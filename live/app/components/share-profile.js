@@ -1,41 +1,78 @@
 import Ember from 'ember';
 
+const ORGANIZATION_CODE_PLACEHOLDER = 'Ex: ABCD12';
+const STEP_1_ORGANIZATION_CODE_ENTRY = 'organization-code-entry';
+const STEP_2_SHARING_CONFIRMATION = 'sharing-confirmation';
+const STEP_3_SUCCESS_NOTIFICATION = 'success-notification';
+
 export default Ember.Component.extend({
-  isShowingModal: false,
 
-  code: '',
-  placeholder: 'Ex: ABCD12',
+  classNames: ['share-profile'],
 
-  organizationExists: true,
-  organization: null,
+  // Actions
+  searchForOrganization: null,
+  shareProfileSnapshot: null,
+
+  // Internals
+  _showingModal: false,
+  _view: STEP_1_ORGANIZATION_CODE_ENTRY,
+  _placeholder: ORGANIZATION_CODE_PLACEHOLDER,
+  _code: null,
+  _organization: null,
+  _organizationNotFound: false,
+
+  // Computed
+  stepOrganizationCodeEntry: Ember.computed.equal('_view', STEP_1_ORGANIZATION_CODE_ENTRY),
+  stepProfileSharingConfirmation: Ember.computed.equal('_view', STEP_2_SHARING_CONFIRMATION),
 
   actions: {
-    toggleSharingModal() {
-      this.toggleProperty('isShowingModal');
-      this.set('code', '');
-      this.set('organizationExists', true);
-      this.set('organization', null);
+
+    openModal() {
+      this.set('_showingModal', true);
     },
 
-    searchFromCode() {
-      this.get('searchForOrganization')(this.get('code'))
-        .then((organization) => {
+    closeModal() {
+      this.set('_showingModal', false);
+      this.set('_view', STEP_1_ORGANIZATION_CODE_ENTRY);
+      this.set('_code', null);
+      this.set('_organization', null);
+      this.set('_organizationNotFound', false);
+    },
 
-          if(organization) {
-            this.set('organizationExists', true);
-            this.set('organization', organization);
+    cancelSharingAndGoBackToOrganizationCodeEntryView() {
+      this.set('_view', STEP_1_ORGANIZATION_CODE_ENTRY);
+      this.set('_organization', null);
+      this.set('_organizationNotFound', false);
+    },
+
+    findOrganizationAndGoToSharingConfirmationView() {
+      this
+        .get('searchForOrganization')(this.get('_code'))
+        .then((organization) => {
+          if (organization) {
+            this.set('_view', STEP_2_SHARING_CONFIRMATION);
+            this.set('_organization', organization);
+            this.set('_organizationNotFound', false);
           } else {
-            this.set('organizationExists', false);
+            this.set('_organizationNotFound', true);
           }
         });
     },
 
-    focusIn() {
-      this.set('placeholder', '');
+    shareSnapshotAndGoToSuccessNotificationView() {
+      this
+        .get('shareProfileSnapshot')(this.get('_organization'))
+        .then(() => {
+          this.set('_view', STEP_3_SUCCESS_NOTIFICATION);
+        });
     },
 
-    focusOut() {
-      this.set('placeholder', 'Ex: ABCD12');
+    focusInOrganizationCodeInput() {
+      this.set('_placeholder', null);
+    },
+
+    focusOutOrganizationCodeInput() {
+      this.set('_placeholder', ORGANIZATION_CODE_PLACEHOLDER);
     }
   }
 });

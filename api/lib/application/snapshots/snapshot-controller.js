@@ -31,7 +31,7 @@ function _handleWhenInvalidAuthorization(errorMessage) {
 }
 
 function _extractOrganizationId(request) {
-  return request.hasOwnProperty('payload') && request.payload.data && request.payload.data.attributes['organization-id'] || '';
+  return request.hasOwnProperty('payload') && request.payload.data && request.payload.data.relationships.organization.data.id || '';
 }
 
 function _hasAnAtuhorizationHeaders(request) {

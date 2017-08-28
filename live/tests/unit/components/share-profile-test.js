@@ -6,96 +6,74 @@ describe('Unit | Component | share-profile', function() {
 
   setupTest('component:share-profile', {});
 
-  describe('#init', () => {
-    it('should set the overlay as translucent', function() {
-      // Given
-      const component = this.subject();
+  let component;
 
-      // then
-      expect(component.get('isShowingModal')).to.be.equal(false);
+  beforeEach(function() {
+    component = this.subject();
+  });
+
+  describe('#init', () => {
+
+    it('should set the overlay as translucent', function() {
+      expect(component.get('_showingModal')).to.be.equal(false);
     });
 
-    it('should set the organizationExists as true', function() {
-      // Given
-      const component = this.subject();
-
-      // then
-      expect(component.get('organizationExists')).to.be.equal(true);
+    it('should set the organizationExists as false', function() {
+      expect(component.get('_organizationNotFound')).to.be.equal(false);
     });
 
   });
 
   describe('#placeholder', function() {
     it('should leave the placeholder empty with "focusIn"', function() {
-      // Given
-      const component = this.subject();
+      // then
+      component.send('focusInOrganizationCodeInput');
 
-      // Then
-      component.send('focusIn');
-
-      // When
-      expect(component.get('placeholder')).to.be.equal('');
+      // when
+      expect(component.get('_placeholder')).to.be.null;
     });
 
     it('should reset the placeholder to its default value with "focusOut"', function() {
       // Given
-      const component = this.subject();
       component.set('placeholder', 'Ex: EFGH89');
 
-      // Then
-      component.send('focusOut');
+      // then
+      component.send('focusOutOrganizationCodeInput');
 
-      // When
-      expect(component.get('placeholder')).to.be.equal('Ex: ABCD12');
+      // when
+      expect(component.get('_placeholder')).to.be.equal('Ex: ABCD12');
     });
   });
 
   describe('#toggleSharingModal', () => {
-    it('should use the "close" action', function() {
-      // Given
-      const component = this.subject();
-
+    it('should use the "open" action', function() {
       // when
-      component.send('toggleSharingModal');
+      component.send('openModal');
 
       // then
-      expect(component.get('isShowingModal')).to.equal(true);
+      expect(component.get('_showingModal')).to.equal(true);
     });
 
     it('should reset the code to default value', function() {
       // Given
-      const component = this.subject();
-      component.set('code', 'ABCD01');
+      component.set('_code', 'ABCD01');
 
       // when
-      component.send('toggleSharingModal');
+      component.send('closeModal');
 
       // then
-      expect(component.get('code')).to.equal('');
-    });
-
-    it('should the organizationExists to true', function() {
-      // Given
-      const component = this.subject();
-      component.set('organizationExists', false);
-
-      // when
-      component.send('toggleSharingModal');
-
-      // then
-      expect(component.get('organizationExists')).to.equal(true);
+      expect(component.get('_code')).to.be.null;
     });
 
     it('should reset the organization to default value', function() {
       // Given
-      const component = this.subject();
       component.set('organization', {});
 
       // when
-      component.send('toggleSharingModal');
+      component.send('closeModal');
 
       // then
-      expect(component.get('organization')).to.equal(null);
+      expect(component.get('_organization')).to.equal(null);
     });
 
   });

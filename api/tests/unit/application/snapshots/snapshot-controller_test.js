@@ -102,8 +102,12 @@ describe('Unit | Controller | snapshotController', () => {
       },
       payload: {
         data: {
-          attributes: {
-            'organization-id': 3
+          relationships: {
+            organization: {
+              data: {
+                id: 3
+              }
+            }
           }
         }
       }
@@ -203,7 +207,7 @@ describe('Unit | Controller | snapshotController', () => {
           // then
           return promise.then(() => {
             sinon.assert.calledOnce(OrganizationRepository.isOrganizationIdExist);
-            sinon.assert.calledWith(OrganizationRepository.isOrganizationIdExist, request.payload.data.attributes['organization-id']);
+            sinon.assert.calledWith(OrganizationRepository.isOrganizationIdExist, request.payload.data.relationships.organization.data.id);
           });
         });
 
@@ -254,7 +258,7 @@ describe('Unit | Controller | snapshotController', () => {
           return promise.then(() => {
             sinon.assert.calledOnce(SnapshotService.create);
             sinon.assert.calledWith(SnapshotService.create, {
-              organizationId: request.payload.data.attributes['organization-id'],
+              organizationId: request.payload.data.relationships.organization.data.id,
               profile: serializedUserProfile
             });
           });
@@ -293,7 +297,7 @@ describe('Unit | Controller | snapshotController', () => {
           profileSerializer.serialize.returns(serializedUserProfile);
 
           const expectedSnapshotDetails = {
-            organizationId: request.payload.data.attributes['organization-id'],
+            organizationId: request.payload.data.relationships.organization.data.id,
             profile: serializedUserProfile
           };
           // when

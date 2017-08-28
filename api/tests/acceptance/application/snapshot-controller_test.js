@@ -55,11 +55,9 @@ describe('Acceptance | Controller | snapshot-controller', function() {
 
   before(() => {
     return knex.migrate.latest()
-      .then(() => {
-        return knex.seed.run();
-      }).then(() => {
-        return knex('users').insert(inserted_user);
-      }).then((result) => {
+      .then(() => knex.seed.run())
+      .then(() => knex('users').insert(inserted_user))
+      .then((result) => {
         userId = result.shift();
         inserted_organization['userId'] = userId;
         return knex('organizations').insert(inserted_organization);
@@ -81,8 +79,12 @@ describe('Acceptance | Controller | snapshot-controller', function() {
     beforeEach(() => {
       payload = {
         data: {
-          attributes: {
-            'organization-id': organizationId
+          relationships: {
+            organization: {
+              data: {
+                id: organizationId
+              }
+            }
           }
         }
       };
@@ -118,7 +120,7 @@ describe('Acceptance | Controller | snapshot-controller', function() {
 
       it('should return 422 HTTP status code', () => {
         // Given
-        payload.data.attributes['organization-id'] = null;
+        payload.data.relationships.organization.data.id = null;
 
         // Then
         const creatingSnapshotWithWrongParams = server.inject(options);
