@@ -1,9 +1,26 @@
 import Ember from 'ember';
 import BaseRoute from 'pix-live/routes/base-route';
+import UnauthenticatedRouteMixin from 'ember-simple-auth/mixins/unauthenticated-route-mixin';
 
-export default BaseRoute.extend({
+export default BaseRoute.extend(UnauthenticatedRouteMixin, {
 
   session: Ember.inject.service(),
+  store: Ember.inject.service(),
+
+  beforeModel() {
+    if(this.get('session.isAuthenticated')) {
+      return this.get('store')
+        .findRecord('user', this.get('session.data.authenticated.userId'))
+        .then((connectedUser) => {
+
+          if(connectedUser.get('organizations.length')) {
+            this.transitionTo('board');
+          } else {
+            this.transitionTo('compte');
+          }
+        });
+    }
+  },
 
   model() {
     return {

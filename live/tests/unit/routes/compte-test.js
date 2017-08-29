@@ -1,6 +1,6 @@
 import Ember from 'ember';
 import { expect } from 'chai';
-import { describe, it } from 'mocha';
+import { describe, it, before } from 'mocha';
 import { setupTest } from 'ember-mocha';
 import sinon  from 'sinon';
 
@@ -15,6 +15,79 @@ describe('Unit | Route | compte', function() {
 
     // Then
     expect(route.authenticationRoute).to.equal('/connexion');
+  });
+
+  describe('model', function() {
+
+    let storyStub;
+    let findRecordStub;
+
+    before(function() {
+      findRecordStub = sinon.stub();
+      storyStub = Ember.Service.extend({
+        findRecord: findRecordStub
+      });
+    });
+
+    it('should redirect to logout when unable to find user details', function() {
+      // Given
+      this.register('service:store', storyStub);
+      this.inject.service('store', { as: 'store' });
+
+      findRecordStub.rejects();
+      const route = this.subject();
+      route.transitionTo = sinon.stub();
+
+      // When
+      const promise = route.model();
+
+      // Then
+      return promise.catch(function() {
+        sinon.assert.calledWith(route.transitionTo, 'logout');
+      });
+    });
+
+    it('should redirect to /board when the user as an organization', function() {
+      // Given
+      const linkedOrganization = Ember.Object.create({ id: 1 });
+      const foundUser = Ember.Object.create({ organizations: [linkedOrganization] });
+
+      this.register('service:store', storyStub);
+      this.inject.service('store', { as: 'store' });
+
+      findRecordStub.resolves(foundUser);
+      const route = this.subject();
+      route.transitionTo = sinon.stub();
+
+      // When
+      const promise = route.model();
+
+      // Then
+      return promise.then(function() {
+        sinon.assert.calledWith(route.transitionTo, 'board');
+      });
+    });
+
+    it('should remain on /compte when the user as no organization linked', function() {
+      // Given
+      const foundUser = Ember.Object.create({});
+
+      this.register('service:store', storyStub);
+      this.inject.service('store', { as: 'store' });
+
+      findRecordStub.resolves(foundUser);
+      const route = this.subject();
+      route.transitionTo = sinon.stub();
+
+      // When
+      const promise = route.model();
+
+      // Then
+      return promise.then(function() {
+        sinon.assert.notCalled(route.transitionTo);
+      });
+    });
+
   });
 
   describe('#searchForOrganization', function() {

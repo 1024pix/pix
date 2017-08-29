@@ -25,6 +25,7 @@
 
   @include device-is('tablet') {
     margin-bottom: 0px;
+    padding-right: 10px;
   }
 }
 

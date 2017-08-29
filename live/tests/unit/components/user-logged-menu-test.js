@@ -10,11 +10,21 @@ describe('Unit | Component | User logged Menu', function() {
 
     beforeEach(function() {
       this.register('service:store', Ember.Service.extend({
-        queryRecord() {
+        findRecord() {
           return Ember.RSVP.resolve({});
         }
       }));
       this.inject.service('store', { as: 'store' });
+
+      this.register('service:session', Ember.Service.extend({
+        isAuthenticated: true,
+        data: {
+          authenticated: {
+            userId: 1435
+          }
+        }
+      }));
+      this.inject.service('session', { as: 'session' });
     });
 
     it('should return true, when user details is clicked', function() {
@@ -46,14 +56,24 @@ describe('Unit | Component | User logged Menu', function() {
   });
 
   describe('Display user details', function() {
-    let queryRecordArgs;
+    let findRecordArgs;
 
     describe('When user is logged', function() {
 
       beforeEach(function() {
+        this.register('service:session', Ember.Service.extend({
+          isAuthenticated: true,
+          data: {
+            authenticated: {
+              userId: 1435
+            }
+          }
+        }));
+        this.inject.service('session', { as: 'session' });
+
         this.register('service:store', Ember.Service.extend({
-          queryRecord() {
-            queryRecordArgs = Array.from(arguments);
+          findRecord() {
+            findRecordArgs = Array.from(arguments);
             return Ember.RSVP.resolve({
               firstName: 'FHI',
               lastName: '4EVER',
@@ -69,7 +89,7 @@ describe('Unit | Component | User logged Menu', function() {
         this.subject();
 
         // then
-        expect(queryRecordArgs).to.deep.equal(['user', {}]);
+        expect(findRecordArgs).to.deep.equal(['user', 1435]);
       });
 
     });

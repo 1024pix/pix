@@ -1,13 +1,7 @@
 import { expect } from 'chai';
 import { describe, it } from 'mocha';
 import { setupTest } from 'ember-mocha';
-
-class SessionStub {
-  authenticate() {
-    this.callArgs = Array.from(arguments);
-    return Promise.resolve();
-  }
-}
+import sinon from 'sinon';
 
 describe('Unit | Route | inscription', function() {
   setupTest('route:inscription', {
@@ -23,14 +17,15 @@ describe('Unit | Route | inscription', function() {
     // Given
     const expectedEmail = 'email@example.net';
     const expectedPassword = 'Azertya1!';
-    const sessionStub = new SessionStub();
+    const authenticateStub = sinon.stub().resolves();
+    const queryRecordStub = sinon.stub().resolves();
+    const sessionStub = { authenticate: authenticateStub };
+    const storeStub = { queryRecord: queryRecordStub };
 
     const route = this.subject();
+    route.transitionTo = sinon.stub();
     route.set('session', sessionStub);
-    let transitionToArg;
-    route.transitionTo = function() {
-      transitionToArg = Array.from(arguments);
-    };
+    route.set('store', storeStub);
 
     // When
     const promise = route.actions.redirectToProfileRoute.call(route, {
@@ -40,8 +35,9 @@ describe('Unit | Route | inscription', function() {
 
     return promise.then(() => {
       // Then
-      expect(sessionStub.callArgs).to.deep.equal(['authenticator:simple', expectedEmail, expectedPassword]);
-      expect(transitionToArg).to.deep.equal(['compte']);
+      sinon.assert.calledWith(authenticateStub, 'authenticator:simple', expectedEmail, expectedPassword);
+      sinon.assert.calledWith(queryRecordStub, 'user', {});
+      sinon.assert.calledWith(route.transitionTo, 'compte');
     });
   });
 });
