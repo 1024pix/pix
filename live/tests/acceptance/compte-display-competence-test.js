@@ -43,7 +43,7 @@ describe('Acceptance | Compte | competence profile', function() {
     // when
     await visit('/compte');
     return andThen(() => {
-      expect(currentURL()).to.equal('/');
+      expect(currentURL()).to.equal('/connexion');
     });
   });
 

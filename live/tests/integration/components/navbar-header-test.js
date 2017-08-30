@@ -39,7 +39,14 @@ describe('Integration | Component | navbar-header', function() {
   describe('Rendering for logged user', function() {
 
     beforeEach(function() {
-      this.register('service:session', Ember.Service.extend({ isAuthenticated: true }));
+      this.register('service:session', Ember.Service.extend({
+        isAuthenticated: true,
+        data: {
+          authenticated: {
+            userId: 1435
+          }
+        }
+      }));
       this.inject.service('session', { as: 'session' });
 
       this.render(hbs`{{navbar-header}}`);

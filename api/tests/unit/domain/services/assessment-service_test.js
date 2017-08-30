@@ -246,10 +246,10 @@ describe('Unit | Domain | Services | assessment-service', function() {
           .then(() => {
             sinon.assert.fail('Should not succeed');
           },
-            (error) => {
-              sinon.assert.calledWithExactly(getCourseStub, COURSE_ID);
-              expect(error.message).to.equal('Error from courseRepository');
-            });
+          (error) => {
+            sinon.assert.calledWithExactly(getCourseStub, COURSE_ID);
+            expect(error.message).to.equal('Error from courseRepository');
+          });
       });
 
       it('should load answers for the assessment', () => {

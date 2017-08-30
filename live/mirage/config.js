@@ -88,4 +88,6 @@ export default function() {
 
     return schema.organizations.all();
   });
+
+  this.post('/snapshots');
 }

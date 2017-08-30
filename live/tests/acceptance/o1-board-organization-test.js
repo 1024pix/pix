@@ -14,13 +14,19 @@ describe('Acceptance | o1 - board organization', function() {
   });
 
   function seedDatabase() {
-    server.loadFixtures('organizations');
+    server.create('organization', {
+      id: 1,
+      name: 'LexCorp',
+      email: 'lex@lexcorp.com',
+      type: 'PRO',
+      code: 'ABCD66',
+    });
     server.create('user', {
       id: 1,
       firstName: 'Benjamin',
       lastName: 'Marteau',
       email: 'benjamin.marteau@pix.com',
-      password: '1024pix!', 
+      password: '1024pix!',
       organizationIds: [1]
     });
   }
@@ -41,8 +47,23 @@ describe('Acceptance | o1 - board organization', function() {
     await visit('/board');
 
     // then
-    return andThen(() => {
+    andThen(() => {
       expect(currentURL()).to.equal('/board');
+    });
+
+    await visit('/deconnexion');
+  });
+
+  it('should not be accessible while the user is not connected', async function() {
+    // given
+    seedDatabase();
+
+    // when
+    await visit('/board');
+
+    // then
+    andThen(() => {
+      expect(currentURL()).to.equal('/connexion');
     });
   });
 

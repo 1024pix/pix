@@ -1,13 +1,13 @@
+/* Wrapper */
+
 .share-profile__share-button {
   flex-grow: 0;
-
   background: $pix-blue;
   text-transform: uppercase;
   padding: 12px 17px;
   color: $white;
   border: none;
   border-radius: 5px;
-
   margin-top: 10px;
 }
 
@@ -16,30 +16,76 @@
   padding-left: 5px;
 }
 
-.share-profile__modal-content-organization-form {
-  text-align: center;
+/* "Organization code entry" view */
 
-  @include device-is('tablet') {
-    font-size: 22px;
+.share-profile__statement {
+  @include device-is('desktop') {
+    width: 545px;
+    height: 59px;
+    text-align: center;
   }
 }
 
-.share-profile__modal-informations-evolutions {
-  font-size: 16px;
+.share-profile__modal-form {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  margin: auto;
+  align-items: center;
+  justify-content: space-between;
+
+  @include device-is('desktop') {
+    width: 265px;
+    max-width: 380px;
+    padding: 30px 16px 16px;
+  }
 }
 
-.share-profile__modal-content-organization-details {
-  padding: 20px;
+.share-profile__organization-code-input {
+  width: 100%;
   text-align: center;
+
+  @include device-is('desktop') {
+    width: 265px;
+  }
 }
 
-.share-profile__modal-transmission {
-  font-size: 18px;
+.share-profile__form-error {
+  color: $pure-orange;
+  margin-bottom: 5px;
+
+  @include device-is('desktop') {
+    font-size: 16px;
+  }
 }
 
-.share-profile__modal-organization-name {
+.share-profile__share-modal-buttons {
+  width: 100%;
+  display: flex;
+  flex-direction: row-reverse;
+  justify-content: space-between;
+  box-sizing: border-box;
+
+  @include device-is('desktop') {
+    width: 265px;
+  }
+}
+
+.share-profile__share-modal-button {
+  flex-grow: 1;
+}
+
+/* "Sharing confirmation" view */
+
+.share-profile__informations-shared {
+  @include device-is('tablet') {
+    font-size: 18px;
+  }
+}
+
+.share-profile__organization-name {
   font-weight: $font-bold;
-  font-size: 16px;
+  font-size: 20px;
   text-align: center;
 
   @include device-is('tablet') {
@@ -47,50 +93,14 @@
   }
 }
 
-p.share-profile__modal-informations-shared {
-  font-size: 16px;
-}
-
-ul.share-profile__modal-informations-shared {
-  font-size: 16px;
-  display: inline-block;
-  text-align: left;
-  list-style: none;
-}
-
-.share-profile__modal-form {
-  display: flex;
-  flex-direction: column;
-
-  max-width: 380px;
-  padding: 30px 16px 16px;
-  margin: auto;
-}
-
-.share-profile__modal-input {
-  border: $pure-orange 1px solid;
-  padding: 10px 5px;
-  border-radius: 5px;
-  text-align: center;
-
+.share-profile__disclaimer {
   @include device-is('tablet') {
-    padding: 16px 64px;
+    font-size: 16px;
   }
 }
 
-.share-profile__form-error {
-  color: $pure-orange;
-  font-size: 16px;
-}
+/* "Success notification" view */
 
-.share-profile__share-modal-buttons {
-  display: flex;
-  flex-direction: row-reverse;
-  justify-content: space-between;
-
-  margin-top: 30px;
-}
-
-.share-profile__share-modal-button {
-  flex-grow: 1;
+.share-profile__statement {
+  margin-bottom: 5px;
 }

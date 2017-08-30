@@ -30,7 +30,7 @@ describe('Unit | Component | CourseItemComponent', function() {
       const imageUrl = component.get('imageUrl');
 
       // then
-      expect(imageUrl).to.exists;
+      expect(imageUrl).to.exist;
       expect(imageUrl).to.equal('any_image.png');
     });
 
@@ -42,7 +42,7 @@ describe('Unit | Component | CourseItemComponent', function() {
       const imageUrl = component.get('imageUrl');
 
       // then
-      expect(imageUrl).to.exists;
+      expect(imageUrl).to.exist;
       expect(imageUrl).to.equal('/images/course-default-image.png');
     });
 

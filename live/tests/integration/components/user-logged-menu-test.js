@@ -10,12 +10,12 @@ describe('Integration | Component | user logged menu', function() {
     integration: true
   });
 
-  describe('Default rendering for logged user', function() {
+  describe('when rendering for logged user', function() {
 
     beforeEach(function() {
       // given
       this.register('service:store', Ember.Service.extend({
-        queryRecord() {
+        findRecord() {
           return Ember.RSVP.resolve({
             firstName: 'FHI',
             lastName: '4EVER',
@@ -23,7 +23,13 @@ describe('Integration | Component | user logged menu', function() {
           });
         }
       }));
+
+      this.register('service:session', Ember.Service.extend({
+        data: { authenticated: { userId: 123 } }
+      }));
+
       this.inject.service('store', { as: 'store' });
+      this.inject.service('session', { as: 'session' });
 
       // when
       this.render(hbs`{{user-logged-menu}}`);
@@ -41,29 +47,12 @@ describe('Integration | Component | user logged menu', function() {
       expect(this.$('.logged-user-name__link').text().trim()).to.be.equal('FHI 4EVER');
     });
 
-  });
-
-  describe('behavior on user menu', function() {
-
     it('should hide user menu, when no action on user-name', function() {
       // when
       this.render(hbs`{{user-logged-menu}}`);
 
       // then
       expect(this.$('.logged-user-menu')).to.have.length(0);
-    });
-
-    beforeEach(function() {
-      this.register('service:store', Ember.Service.extend({
-        queryRecord() {
-          return Ember.RSVP.resolve({
-            firstName: 'FHI',
-            lastName: '4EVER',
-            email: 'FHI@4EVER.fr'
-          });
-        }
-      }));
-      this.inject.service('store', { as: 'store' });
     });
 
     it('should display a user menu, when user-name is clicked', function() {
@@ -95,14 +84,14 @@ describe('Integration | Component | user logged menu', function() {
 
   });
 
-  describe('behavior when user is unlogged or not found', function() {
-
+  describe('when user is unlogged or not found', function() {
     beforeEach(function() {
       this.register('service:store', Ember.Service.extend({
-        queryRecord() {
+        findRecord() {
           return Ember.RSVP.reject();
         }
       }));
+
       this.inject.service('store', { as: 'store' });
     });
 

@@ -4,6 +4,12 @@ class NotFoundError extends Error {
   }
 }
 
+class InvaliOrganizationIdError extends Error {
+  constructor(message) {
+    super(message);
+  }
+}
+
 class InvalidTokenError extends Error {
   constructor(message) {
     super(message);
@@ -28,4 +34,11 @@ class AlreadyRegisteredEmailError extends Error {
   }
 }
 
-module.exports = { NotFoundError, NotElligibleToScoringError, PasswordNotMatching, InvalidTokenError, AlreadyRegisteredEmailError };
+module.exports = {
+  NotFoundError,
+  NotElligibleToScoringError,
+  PasswordNotMatching,
+  InvalidTokenError,
+  AlreadyRegisteredEmailError,
+  InvaliOrganizationIdError
+};

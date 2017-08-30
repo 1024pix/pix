@@ -15,7 +15,7 @@ describe('Unit | Router | course-group-router', function() {
   describe('GET /api/courseGroups', function() {
 
     before(function() {
-      sinon.stub(courseGroupController, 'list', (request, reply) => reply('ok'));
+      sinon.stub(courseGroupController, 'list').callsFake((request, reply) => reply('ok'));
     });
 
     after(function() {

@@ -1,6 +1,6 @@
 import Ember from 'ember';
 import { expect } from 'chai';
-import { describe, it } from 'mocha';
+import { describe, it, before } from 'mocha';
 import { setupTest } from 'ember-mocha';
 import sinon  from 'sinon';
 
@@ -9,23 +9,91 @@ describe('Unit | Route | compte', function() {
     needs: ['service:current-routed-modal', 'service:session']
   });
 
-  it('exists', function() {
-    const route = this.subject();
-    expect(route).to.be.ok;
-  });
-
   it('should redirect to / (Home)', function() {
     // Given
     const route = this.subject();
 
     // Then
-    expect(route.authenticationRoute).to.equal('/');
+    expect(route.authenticationRoute).to.equal('/connexion');
   });
 
-  describe('searchForOrganization', function() {
+  describe('model', function() {
+
+    let storyStub;
+    let findRecordStub;
+
+    before(function() {
+      findRecordStub = sinon.stub();
+      storyStub = Ember.Service.extend({
+        findRecord: findRecordStub
+      });
+    });
+
+    it('should redirect to logout when unable to find user details', function() {
+      // Given
+      this.register('service:store', storyStub);
+      this.inject.service('store', { as: 'store' });
+
+      findRecordStub.rejects();
+      const route = this.subject();
+      route.transitionTo = sinon.stub();
+
+      // When
+      const promise = route.model();
+
+      // Then
+      return promise.catch(function() {
+        sinon.assert.calledWith(route.transitionTo, 'logout');
+      });
+    });
+
+    it('should redirect to /board when the user as an organization', function() {
+      // Given
+      const linkedOrganization = Ember.Object.create({ id: 1 });
+      const foundUser = Ember.Object.create({ organizations: [linkedOrganization] });
+
+      this.register('service:store', storyStub);
+      this.inject.service('store', { as: 'store' });
+
+      findRecordStub.resolves(foundUser);
+      const route = this.subject();
+      route.transitionTo = sinon.stub();
+
+      // When
+      const promise = route.model();
+
+      // Then
+      return promise.then(function() {
+        sinon.assert.calledWith(route.transitionTo, 'board');
+      });
+    });
+
+    it('should remain on /compte when the user as no organization linked', function() {
+      // Given
+      const foundUser = Ember.Object.create({});
+
+      this.register('service:store', storyStub);
+      this.inject.service('store', { as: 'store' });
+
+      findRecordStub.resolves(foundUser);
+      const route = this.subject();
+      route.transitionTo = sinon.stub();
+
+      // When
+      const promise = route.model();
+
+      // Then
+      return promise.then(function() {
+        sinon.assert.notCalled(route.transitionTo);
+      });
+    });
+
+  });
+
+  describe('#searchForOrganization', function() {
 
     let storeQueryStub;
-    let storyStub;
+    let storeStub;
     let organizations;
     let organizationCollectionStub;
 
@@ -34,14 +102,14 @@ describe('Unit | Route | compte', function() {
       organizations = { get: organizationCollectionStub, content: [{}] };
 
       storeQueryStub = sinon.stub().resolves(organizations);
-      storyStub = Ember.Service.extend({
+      storeStub = Ember.Service.extend({
         query: storeQueryStub
       });
     });
 
     it('should search for an organization', function() {
       // Given
-      this.register('service:store', storyStub);
+      this.register('service:store', storeStub);
       this.inject.service('store', { as: 'store' });
 
       const route = this.subject();
@@ -63,7 +131,7 @@ describe('Unit | Route | compte', function() {
         // Given
         organizationCollectionStub.returns('THE FIRST OBJECT');
 
-        this.register('service:store', storyStub);
+        this.register('service:store', storeStub);
         this.inject.service('store', { as: 'store' });
         const route = this.subject();
 
@@ -82,7 +150,7 @@ describe('Unit | Route | compte', function() {
         organizations.content = [];
         organizationCollectionStub.returns('THE FIRST OBJECT');
 
-        this.register('service:store', storyStub);
+        this.register('service:store', storeStub);
         this.inject.service('store', { as: 'store' });
         const route = this.subject();
 
@@ -95,4 +163,38 @@ describe('Unit | Route | compte', function() {
       });
     });
   });
+
+  describe('#shareProfileSnapshot', function() {
+
+    let storeStub;
+    let storeCreateRecordStub;
+    let storeSaveStub;
+    let organization;
+
+    beforeEach(() => {
+      storeSaveStub = sinon.stub().resolves();
+      organization = Ember.Object.create({ id: 1234, name: 'ACME', code: 'RVSG44', save: storeSaveStub });
+      storeCreateRecordStub = sinon.stub().returns(organization);
+      storeStub = Ember.Service.extend({
+        createRecord: storeCreateRecordStub,
+      });
+    });
+
+    it('should create and save a new Snapshot', function() {
+      // given
+      this.register('service:store', storeStub);
+      this.inject.service('store', { as: 'store' });
+      const route = this.subject();
+
+      // when
+      const promise = route.actions.shareProfileSnapshot.call(route, organization);
+
+      // then
+      return promise.then(function() {
+        sinon.assert.called(storeCreateRecordStub);
+        sinon.assert.called(storeSaveStub);
+      });
+    });
+  });
+
 });

@@ -58,13 +58,14 @@ describe('Acceptance | Controller | authentication-controller', () => {
         email: user.get('email')
       }, settings.authentication.secret, { expiresIn: settings.authentication.tokenLifespan });
 
+      const userId = user.get('id').toString();
       expect(response.statusCode).to.equal(201);
       expect(response.result).to.deep.equal({
         data: {
-          id: user.get('id'),
-          type: 'authentication',
+          id: userId,
+          type: 'authentications',
           attributes: {
-            'user-id': user.get('id'),
+            'user-id': userId,
             token: expectedToken,
             password: ''
           }

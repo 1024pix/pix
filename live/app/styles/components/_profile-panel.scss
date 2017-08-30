@@ -32,12 +32,13 @@
   font-weight: 800;
   color: $pix-blue;
   text-transform: uppercase;
-  text-align: left;
+  text-align: center;
   height: 47px;
   font-size: 30px;
 
   @include device-is('tablet') {
     font-size: 40px;
+    text-align: left;
   }
 }
 
@@ -47,11 +48,12 @@
   height: 19px;
   letter-spacing: 1.8px;
   color: $charcoal-grey;
-  text-align: left;
+  text-align: center;
   margin-bottom: 10px;
 
   @include device-is('tablet') {
     margin-bottom: 52px;
+    text-align: left;
   }
 }
 

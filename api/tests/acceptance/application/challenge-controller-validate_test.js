@@ -78,8 +78,8 @@ describe('Acceptance | API | ChallengeController', function() {
           aband_answer,
           timedout_answer,
           unimplemented_answer]).then(() => {
-            done();
-          });
+          done();
+        });
       });
     });
 

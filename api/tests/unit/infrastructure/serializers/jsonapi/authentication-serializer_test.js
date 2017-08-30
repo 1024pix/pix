@@ -4,12 +4,12 @@ const Authentication = require('../../../../../lib/domain/models/data/authentica
 
 describe('Unit | Serializer | JSONAPI | authentication-serializer', function() {
 
-  const jsonAnswer = {
+  const expectedJsonAnswer = {
     data: {
-      id: 8,
-      type: 'authentication',
+      id: '8',
+      type: 'authentications',
       attributes: {
-        'user-id': 8,
+        'user-id': '8',
         token: 'my-token',
         password: ''
       }
@@ -26,7 +26,7 @@ describe('Unit | Serializer | JSONAPI | authentication-serializer', function() {
       const json = serializer.serialize(login);
 
       // then
-      expect(json).to.deep.equal(jsonAnswer);
+      expect(json).to.deep.equal(expectedJsonAnswer);
     });
 
   });

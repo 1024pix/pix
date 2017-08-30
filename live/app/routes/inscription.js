@@ -25,6 +25,9 @@ export default Ember.Route.extend(UnauthenticatedRouteMixin, {
       return this.get('session')
         .authenticate('authenticator:simple', email, password)
         .then(() => {
+          return this.get('store').queryRecord('user', {});
+        })
+        .then(() => {
           this.transitionTo('compte');
         });
     }
