@@ -47,7 +47,7 @@ describe('Acceptance | b7 - Points communs a toutes les épreuves | ', function(
 
   it('b7.5 Il existe un bouton "Revenir à la liste des tests"', function() {
     const $courseListButton = findWithAssert('.course-banner__home-link');
-    expect($courseListButton.text()).to.equal('Retour à la liste des tests');
+    expect($courseListButton.text()).to.equal('Revenir à l\'accueil');
   });
 
   it('b7.6 Quand je clique sur le bouton "Revenir à la liste des tests", je suis redirigé vers l\'index', function() {
