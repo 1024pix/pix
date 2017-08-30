@@ -60,7 +60,7 @@ echo -e "You are now on branch ${YELLOW}master${RESET_COLOR}.\n"
 git merge dev
 git push origin master
 git tag -a "v${PACKAGE_VERSION}" --force
-git push origin "v$PACKAGE_VERSION"
+git push origin "v$PACKAGE_VERSION" --force
 
 # Remove local branch 'gh-pages' if exists, then fetch it from remote
 GH_PAGES_BRANCH="gh-pages"
