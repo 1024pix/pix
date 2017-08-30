@@ -71,7 +71,7 @@ git ci -m "[RELEASE] A ${NEW_VERSION_TYPE} is being released from ${OLD_PACKAGE
 
 git tag -a "v${PACKAGE_VERSION}" -m "[RELEASE] A ${NEW_VERSION_TYPE} is being released from ${OLD_PACKAGE_VERSION} to ${PACKAGE_VERSION}."
 
-git push origin dev --tags
+git push origin dev && git push origin dev --tags
 
 # Fetches all last changes
 git pull
