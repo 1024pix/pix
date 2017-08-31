@@ -62,8 +62,7 @@ GIT_HASH=`git rev-parse HEAD`
     && mv $tmpdir ./$BUILD_OUTPUT                           \
     && git add -A ./$BUILD_OUTPUT                           \
     && git commit -m "Release of $BUILD_OUTPUT with env $BUILD_ENV (via commit hash: $GIT_CURRENT_HASH)" \
-    && git push origin gh-pages                             \
-    && git checkout -
+    && git push origin gh-pages --force-with-lease          \
 ) && {
     echo -n '** '
     tput setaf 2
@@ -75,3 +74,5 @@ GIT_HASH=`git rev-parse HEAD`
     echo "FAILED !"
     tput sgr0
 }
+
+git checkout -
