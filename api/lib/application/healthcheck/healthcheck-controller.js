@@ -21,6 +21,9 @@ module.exports = {
       .catch(() => {
         reply(Boom.serverUnavailable('Connection to database failed'));
       });
-  }
+  },
 
+  crashTest(request, reply) {
+    reply(Boom.internal());
+  }
 };

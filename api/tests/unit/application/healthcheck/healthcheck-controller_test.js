@@ -63,5 +63,4 @@ describe('Unit | Controller | healthcheckController', () => {
       });
     });
   });
-
 });

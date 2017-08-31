@@ -20,6 +20,7 @@
     "catbox": "^7.1.5",
     "catbox-memory": "^2.0.4",
     "dotenv": "^4.0.0",
+    "epimetheus": "^1.0.54",
     "faker": "^4.1.0",
     "fast-levenshtein": "^2.0.6",
     "good": "^7.3.0",
