@@ -8,7 +8,7 @@ describe('Unit | Model | Challenge', function() {
     it('should exist', function() {
       // given
       const url1 = new Skill('url', 1);
-      const challenge = new Challenge('recXXX', [url1]);
+      const challenge = new Challenge('recXXX', 'validé', [url1]);
 
       // then
       expect(challenge.hardestSkill).to.exist;
@@ -18,7 +18,7 @@ describe('Unit | Model | Challenge', function() {
       // given
       const web5 = new Skill('web', 5);
       const url1 = new Skill('url', 1);
-      const challenge = new Challenge('recXXX', [url1, web5]);
+      const challenge = new Challenge('recXXX', 'validé', [url1, web5]);
 
       // then
       expect(challenge.hardestSkill).to.equal(web5);

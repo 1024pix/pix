@@ -9,7 +9,7 @@ describe('Unit | Model | Answer', function() {
     it('should exist', function() {
       // given
       const url1 = new Skill('url', 1);
-      const challenge = new Challenge('recXXX', [url1]);
+      const challenge = new Challenge('recXXX', 'validé', [url1]);
       const answer = new Answer(challenge, 'ko');
 
       // then
@@ -20,7 +20,7 @@ describe('Unit | Model | Answer', function() {
       // given
       const web5 = new Skill('web', 5);
       const url1 = new Skill('url', 1);
-      const challenge = new Challenge('recXXX', [url1, web5]);
+      const challenge = new Challenge('recXXX', 'validé', [url1, web5]);
       const answer = new Answer(challenge, 'ok');
 
       // when
@@ -34,7 +34,7 @@ describe('Unit | Model | Answer', function() {
   describe('#binaryOutcome', function() {
     it('should exist', function() {
       // given
-      const challenge = new Challenge('recXXX', []);
+      const challenge = new Challenge('recXXX', 'validé', []);
       const answer = new Answer(challenge, 'ko');
 
       // then
@@ -43,7 +43,7 @@ describe('Unit | Model | Answer', function() {
 
     it('should return 1 if answer is correct', function() {
       // given
-      const challenge = new Challenge('recXXX', []);
+      const challenge = new Challenge('recXXX', 'validé', []);
       const answer = new Answer(challenge, 'ok');
 
       // when
@@ -55,7 +55,7 @@ describe('Unit | Model | Answer', function() {
 
     it('should return 0 if answer is not correct', function() {
       // given
-      const challenge = new Challenge('recXXX', []);
+      const challenge = new Challenge('recXXX', 'validé', []);
       const answer = new Answer(challenge, 'partial');
 
       // when

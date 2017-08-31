@@ -50,6 +50,7 @@ describe('Acceptance | API | assessment-controller-get-solutions', () => {
             'id': 'q_first_challenge',
             'fields': {
               'acquis': ['web3'],
+              'Statut': 'validé',
               'Bonnes réponses': 'fromage'
             },
           }
@@ -62,6 +63,7 @@ describe('Acceptance | API | assessment-controller-get-solutions', () => {
             'id': 'q_second_challenge',
             'fields': {
               'acquis': ['web2'],
+              'Statut': 'validé',
               'Bonnes réponses': 'truite'
             },
           }
@@ -74,6 +76,7 @@ describe('Acceptance | API | assessment-controller-get-solutions', () => {
             'id': 'q_third_challenge',
             'fields': {
               'acquis': ['web1'],
+              'Statut': 'validé',
               'Bonnes réponses': 'dromadaire'
             },
           }

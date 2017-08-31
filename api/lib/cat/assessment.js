@@ -92,7 +92,7 @@ class Assessment {
 
   get filteredChallenges() {
     const answeredChallenges = this.answers.map(answer => answer.challenge);
-    return this.course.challenges.filter(challenge => !answeredChallenges.includes(challenge));
+    return this.course.challenges.filter(challenge => !answeredChallenges.includes(challenge) && ['validé', 'validé sans test', 'pré-validé'].includes(challenge.status));
   }
 
   get nextChallenge() {

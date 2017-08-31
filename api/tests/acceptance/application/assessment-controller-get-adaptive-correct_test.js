@@ -29,6 +29,7 @@ describe('Acceptance | API | Assessments', function() {
       .reply(200, {
         'id': 'w_first_challenge',
         'fields': {
+          'Statut': 'validé',
           'acquis': ['web2']
         }
       });
@@ -38,6 +39,7 @@ describe('Acceptance | API | Assessments', function() {
       .reply(200, {
         'id': 'w_second_challenge',
         'fields': {
+          'Statut': 'validé',
           'acquis': ['web3']
         }
       });
@@ -47,6 +49,7 @@ describe('Acceptance | API | Assessments', function() {
       .reply(200, {
         'id': 'w_third_challenge',
         'fields': {
+          'Statut': 'validé',
           'acquis': ['web1']
         }
       });
