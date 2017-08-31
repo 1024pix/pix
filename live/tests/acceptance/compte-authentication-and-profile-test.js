@@ -4,7 +4,7 @@ import { startApp, destroyApp } from '../helpers/application';
 import seeds from '../helpers/seeds';
 import testing from '../helpers/testing';
 
-describe('Acceptance | Espace compte', function() {
+describe('Acceptance | Espace compte | Authentication', function() {
 
   let application;
 
@@ -16,7 +16,49 @@ describe('Acceptance | Espace compte', function() {
     destroyApp(application);
   });
 
+  function seedDatabaseForUserWithOrganization() {
+    server.create('organization', {
+      id: 1,
+      name: 'LexCorp',
+      email: 'lex@lexcorp.com',
+      type: 'PRO',
+      code: 'ABCD66',
+    });
+    server.create('user', {
+      id: 1,
+      firstName: 'Samurai',
+      lastName: 'Jack',
+      email: 'samurai.jack@aku.world',
+      password: 'B@ck2past',
+      cgu: true,
+      recaptchaToken: 'recaptcha-token-xxxxxx',
+      organizationIds: [1]
+    });
+  }
+
+  describe('Logged Menu', function() {
+    describe('after visiting the project page', function() {
+      it('should redirect to /compte user "Mon compte"', function() {
+        // given
+        seeds.injectUserAccount();
+        testing.authenticateUser();
+
+        visit('/projet');
+
+        // when
+        click('.logged-user-name');
+        click('a:contains("Mon compte")');
+
+        // then
+        return andThen(function() {
+          expect(currentURL()).to.equal('/compte');
+        });
+      });
+    });
+  });
+
   describe('Success cases', function() {
+
     describe('m1.1 Accessing to the /compte page while disconnected', function() {
       it('should redirect to the connexion page', function() {
         // given
@@ -32,28 +74,7 @@ describe('Acceptance | Espace compte', function() {
       });
     });
 
-    describe('m1.2 Log-in phase', function() {
-
-      function seedDatabaseForUserWithOrganization() {
-        server.create('organization', {
-          id: 1,
-          name: 'LexCorp',
-          email: 'lex@lexcorp.com',
-          type: 'PRO',
-          code: 'ABCD66',
-        });
-        server.create('user', {
-          id: 1,
-          firstName: 'Samurai',
-          lastName: 'Jack',
-          email: 'samurai.jack@aku.world',
-          password: 'B@ck2past',
-          cgu: true,
-          recaptchaToken: 'recaptcha-token-xxxxxx',
-          organizationIds: [1]
-        });
-      }
-
+    describe('Log-in phase', function() {
       it('should redirect to the /compte after connexion for usual users', function() {
         // given
         seeds.injectUserAccount();
