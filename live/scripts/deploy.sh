@@ -59,9 +59,8 @@ GIT_HASH=`git rev-parse HEAD`
     && git checkout gh-pages                                \
     && git pull origin gh-pages                             \
     && ( [ -d ./$BUILD_OUTPUT ] && rm -rf ./$BUILD_OUTPUT)  \
-    && mkdir ./$BUILD_OUTPUT                                \
-    && mv $tmpdir/* ./$BUILD_OUTPUT                         \
-    && git add -A ./$BUILD_OUTPUT/                          \
+    && mv $tmpdir ./$BUILD_OUTPUT                           \
+    && git add -A ./$BUILD_OUTPUT                           \
     && git commit -m "Release of $BUILD_OUTPUT with env $BUILD_ENV (via commit hash: $GIT_CURRENT_HASH)" \
     && git push origin gh-pages                             \
     && git checkout -
