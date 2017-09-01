@@ -68,7 +68,7 @@ describe('Unit | Route | compte', function() {
       });
     });
 
-    it('should remain on /compte when the user as no organization linked', function() {
+    it('should remain on /compte when the user as no organization linked (with a forced data reload)', function() {
       // Given
       const foundUser = Ember.Object.create({});
 
@@ -85,6 +85,7 @@ describe('Unit | Route | compte', function() {
       // Then
       return promise.then(function() {
         sinon.assert.notCalled(route.transitionTo);
+        sinon.assert.calledWith(findRecordStub, 'user', undefined, { reload: true });
       });
     });
 
