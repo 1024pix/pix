@@ -40,7 +40,8 @@
     "pg": "^7.2.0",
     "request": "^2.81.0",
     "sqlite3": "^3.1.9",
-    "vision": "^4.1.1"
+    "vision": "^4.1.1",
+    "xregexp": "^3.2.0"
   },
   "devDependencies": {
     "chai": "^4.1.1",
