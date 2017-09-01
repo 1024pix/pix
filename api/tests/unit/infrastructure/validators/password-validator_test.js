@@ -1,8 +1,7 @@
-import { expect } from 'chai';
-import { describe, it } from 'mocha';
-import isPasswordvalid from 'pix-live/utils/password-validator';
+const { describe, it, expect } = require('../../../test-helper');
+const isPasswordvalid = require('../../../../lib/infrastructure/validators/password-validator');
 
-describe('Unit | Utility | password validator', function() {
+describe('Unit | Validator | password-validator', function() {
 
   describe('Validation rules', function() {
 
@@ -57,7 +56,7 @@ describe('Unit | Utility | password validator', function() {
       '12345678ab+!@)-=`"#&',
       '1234Password avec espace',
       '1A      A1',
-      'à1      ',
+      'à1      '
     ].forEach(function(validPassword) {
       it(`should return true if provided password is valid: ${validPassword}`, function() {
         expect(isPasswordvalid(validPassword)).to.be.true;

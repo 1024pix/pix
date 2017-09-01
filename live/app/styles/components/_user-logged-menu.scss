@@ -99,19 +99,17 @@
 
 .user-menu-item__account-link {
   margin-top: 14px;
-  width: 100%;
 }
 
-.user-menu-item__account-link button {
-  min-width: 103px;
-  height: 32px;
+.user-menu-item__account-link a {
   border-radius: 4px;
-  border: none;
+  padding: 7px 12px 8px 12px;
   background-color: $pix-blue;
+
+  font-size: 14px;
   font-family: $font-lato;
   color: $white;
   text-transform: capitalize;
-  font-size: 14px;
 }
 
 .user-menu__item--logout {

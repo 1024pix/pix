@@ -16,7 +16,7 @@ function getAdaptedAssessment(answersPix, challengesPix) {
         const skillDifficulty = parseInt(skillName.slice(-1));
         skills.push(new Skill(tubeName, skillDifficulty));
       });
-      const challenge = new Challenge(challengePix.id, skills);
+      const challenge = new Challenge(challengePix.id, challengePix.status, skills);
       challenges.push(challenge);
       challengesById[challengePix.id] = challenge;
     }

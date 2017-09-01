@@ -1,9 +1,9 @@
-import XRegExp from 'xregexp';
+const XRegExp = require('xregexp');
 
-export default function isPasswordValid(password) {
+module.exports = (password) => {
   if (!password) {
     return false;
   }
   const pattern = XRegExp('^(?=.*\\p{L})(?=.*\\d).{8,}$');
   return pattern.test(password);
-}
+};

@@ -13,7 +13,7 @@
           <div class="user-menu-item__details-firstname"> {{_user.firstName}}</div>
           <div class="user-menu-item__details-email">{{_user.email}}</div>
           <div class="user-menu-item__account-link">
-            <button>Mon compte</button>
+            {{#link-to 'index'}}Mon compte{{/link-to}}
           </div>
 
         </li>

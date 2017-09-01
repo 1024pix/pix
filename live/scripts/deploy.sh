@@ -55,15 +55,14 @@ tmpdir=`mktemp -d`
 
 GIT_HASH=`git rev-parse HEAD`
 
-(ember build --environment $BUILD_ENV --output-path $tmpdir \
-    && git checkout gh-pages                                \
-    && git pull origin gh-pages                             \
-    && ( [ -d ./$BUILD_OUTPUT ] && git rm -r ./$BUILD_OUTPUT || true ) \
-    && mv $tmpdir ./$BUILD_OUTPUT                           \
-    && git add -A ./$BUILD_OUTPUT/                          \
+(ember build --environment $BUILD_ENV --output-path $tmpdir           \
+    && git checkout gh-pages                                          \
+    && git pull origin gh-pages                                       \
+    && { if [ -d ./$BUILD_OUTPUT ]; then rm -rf ./$BUILD_OUTPUT; fi } \
+    && mv $tmpdir ./$BUILD_OUTPUT                                     \
+    && git add -A ./$BUILD_OUTPUT                                     \
     && git commit -m "Release of $BUILD_OUTPUT with env $BUILD_ENV (via commit hash: $GIT_CURRENT_HASH)" \
-    && git push origin gh-pages                             \
-    && git checkout -
+    && git push origin gh-pages                                       \
 ) && {
     echo -n '** '
     tput setaf 2
@@ -75,3 +74,6 @@ GIT_HASH=`git rev-parse HEAD`
     echo "FAILED !"
     tput sgr0
 }
+
+git checkout -
+

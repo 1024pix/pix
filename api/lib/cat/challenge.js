@@ -1,6 +1,7 @@
 class Challenge {
-  constructor(id, skills) {
+  constructor(id, status, skills) {
     this.id = id;
+    this.status = status;
     this.skills = skills;
   }
 

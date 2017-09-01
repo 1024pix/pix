@@ -82,6 +82,17 @@ describe('Integration | Component | user logged menu', function() {
       });
     });
 
+    it('should render a button to the profile', function() {
+      // when
+      this.render(hbs`{{user-logged-menu}}`);
+      this.$('.logged-user-name').click();
+
+      return wait().then(() => {
+        // then
+        expect(this.$('.user-menu-item__account-link').text().trim()).to.equal('Mon compte');
+      });
+    });
+
   });
 
   describe('when user is unlogged or not found', function() {

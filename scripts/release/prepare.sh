@@ -67,7 +67,7 @@ PACKAGE_VERSION=$(cat package.json \
   | tr -d '[[:space:]]')
 
 git add . -u
-git ci -m "[RELEASE] A ${NEW_VERSION_TYPE} is being released from ${OLD_PACKAGE_VERSION} to ${PACKAGE_VERSION}."
+git commit -m "[RELEASE] A ${NEW_VERSION_TYPE} is being released from ${OLD_PACKAGE_VERSION} to ${PACKAGE_VERSION}."
 
 git tag -a "v${PACKAGE_VERSION}" -m "[RELEASE] A ${NEW_VERSION_TYPE} is being released from ${OLD_PACKAGE_VERSION} to ${PACKAGE_VERSION}."
 
