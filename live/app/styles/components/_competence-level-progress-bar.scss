@@ -14,7 +14,7 @@
   width: 62.5%;
   padding-right: 2px;
   border-radius: 12px;
-  background-image: linear-gradient(to right, rgba(255, 255, 255, 0.5), rgba(0, 0, 0, 0.5)), linear-gradient($porcelain-grey, $porcelain-grey);
+  background: linear-gradient(90deg, $porcelain-grey 0%, $alto-grey 100%);
 }
 
 .competence-level-progress-bar__background-level-limit-indicator {
