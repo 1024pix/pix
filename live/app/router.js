@@ -52,6 +52,7 @@ Router.map(function() {
   this.route('logout', { path: '/deconnexion' });
   this.route('course-groups', { path: '/defis-pix' });
   this.route('board');
+  this.route('legal-notices',{ path: '/mentions-legales' });
 });
 
 export default Router;
