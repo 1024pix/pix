@@ -10,6 +10,7 @@ const challengeRepository = require('../../infrastructure/repositories/challenge
 const challengeSerializer = require('../../infrastructure/serializers/jsonapi/challenge-serializer');
 const solutionSerializer = require('../../infrastructure/serializers/jsonapi/solution-serializer');
 const courseRepository = require('../../infrastructure/repositories/course-repository');
+const skillRepository = require('../../infrastructure/repositories/skill-repository');
 
 const answerRepository = require('../../infrastructure/repositories/answer-repository');
 const solutionRepository = require('../../infrastructure/repositories/solution-repository');
@@ -135,21 +136,29 @@ module.exports = {
         });
       })
       .then(({ answers, course }) => {
-
         // fetch challenges (requires course)
         const challenges = course.challenges.map(challengeId => challengeRepository.get(challengeId));
+        
         return Promise.all(challenges).then(challenges => {
           return { answers, course, challenges };
         });
       })
       .then(({ answers, course, challenges }) => {
-
+        // fetch skillNames (requires course)
+        const competenceId = course.competences[0];
+        const skillNames = skillRepository.getFromCompetence(competenceId);
+        return Promise.all([skillNames]).then(values => {
+          const skillNames = values[0];
+          return { answers, course, challenges, skillNames };
+        });
+      })
+      .then(({ answers, course, challenges, skillNames }) => {
         // verify if test is over
         let testIsOver;
         if (course.isAdaptive) {
-          const nextChallengeId = assessmentUtils.getNextChallengeInAdaptiveCourse(answers, challenges);
+          const nextChallengeId = assessmentUtils.getNextChallengeInAdaptiveCourse(course, answers, challenges, skillNames);
           testIsOver = _.isEmpty(nextChallengeId);
-        }else {
+        } else {
           const answersLength = answers.length || 0;
           const challengesLength = challenges.length || 0;
           testIsOver = _.isEqual(answersLength, challengesLength);

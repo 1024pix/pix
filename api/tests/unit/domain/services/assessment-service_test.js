@@ -5,8 +5,8 @@ const service = require('../../../../lib/domain/services/assessment-service');
 const assessmentRepository = require('../../../../lib/infrastructure/repositories/assessment-repository');
 const courseRepository = require('../../../../lib/infrastructure/repositories/course-repository');
 const challengeRepository = require('../../../../lib/infrastructure/repositories/challenge-repository');
-const challengeService = require('../../../../lib/domain/services/challenge-service');
 const answerRepository = require('../../../../lib/infrastructure/repositories/answer-repository');
+const skillRepository = require('../../../../lib/infrastructure/repositories/skill-repository');
 
 const Assessment = require('../../../../lib/domain/models/data/assessment');
 const Challenge = require('../../../../lib/domain/models/referential/challenge');
@@ -15,8 +15,9 @@ const Answer = require('../../../../lib/domain/models/data/answer');
 
 const { NotElligibleToScoringError } = require('../../../../lib/domain/errors');
 
-function _buildChallenge(knowledgeTags) {
-  const challenge = new Challenge({ id: 'challenge_id' });
+function _buildChallenge(challengeId, knowledgeTags) {
+  const challenge = new Challenge();
+  challenge.id = challengeId;
   challenge.knowledgeTags = knowledgeTags;
   return challenge;
 }
@@ -35,12 +36,6 @@ function _buildAnswer(challengeId, result, assessmentId = 1) {
   answer.set('assessmentId', assessmentId);
   answer.set('result', result);
   return answer;
-}
-
-function _buildAssessmentResultDetails(estimatedLevel, pixScore, notAcquiredKnowledgeTags, acquiredKnowledgeTags) {
-  return {
-    estimatedLevel, pixScore, notAcquiredKnowledgeTags, acquiredKnowledgeTags
-  };
 }
 
 describe('Unit | Domain | Services | assessment-service', function() {
@@ -124,7 +119,7 @@ describe('Unit | Domain | Services | assessment-service', function() {
     let getCourseStub;
     let getChallengeStub;
     let findByAssessmentStub;
-    let getKnowledgeDataStub;
+    let getSkillStub;
 
     const COURSE_ID = 123;
     const ASSESSMENT_ID = 836;
@@ -133,33 +128,30 @@ describe('Unit | Domain | Services | assessment-service', function() {
     const correctAnswerWeb2 = _buildAnswer('challenge_web_2', 'ok', ASSESSMENT_ID);
     const partialAnswerWeb1 = _buildAnswer('challenge_web_1', 'partial', ASSESSMENT_ID);
 
-    const knowledgeData = {
-      challengesById: {
-        'challenge_web_1': _buildChallenge([ '@web1' ]),
-        'challenge_web_2': _buildChallenge([ '@web2' ]),
-        'challenge_url_1': _buildChallenge([ '@url1' ])
-      },
-      knowledgeTagSet: { '@web1': true, '@web2': true, '@url1': true },
-      nbKnowledgeTagsByLevel: { 1: 2, 2: 1, 3: 0, 4: 0, 5: 0, 6: 0, 7: 0, 8: 0 }
-    };
+    const challenges = [
+      _buildChallenge('challenge_url_1', ['@url1']),
+      _buildChallenge('challenge_web_1', ['@web1']),
+      _buildChallenge('challenge_web_2', ['@web2'])
+    ];
 
     beforeEach(() => {
       getAssessmentStub = sinon.stub(assessmentRepository, 'get').returns(Promise.resolve(assessment));
-      getCourseStub = sinon.stub(courseRepository, 'get').returns({ challenges: [] });
-      getChallengeStub = sinon.stub(challengeRepository, 'get').returns();
+      getCourseStub = sinon.stub(courseRepository, 'get').returns({ challenges: ['challenge_web_2', 'challenge_web_1'], competences: ['competence_id'] });
+      getChallengeStub = sinon.stub(challengeRepository, 'get');
+      getChallengeStub.withArgs('challenge_web_1').returns(challenges[1]);
+      getChallengeStub.withArgs('challenge_web_2').returns(challenges[2]);
+      getSkillStub = sinon.stub(skillRepository, 'getFromCompetence').returns(new Set());
 
       findByAssessmentStub = sinon.stub(answerRepository, 'findByAssessment')
         .returns(Promise.resolve([ correctAnswerWeb2, partialAnswerWeb1 ]));
-
-      getKnowledgeDataStub = sinon.stub(challengeService, 'getKnowledgeData').returns(knowledgeData);
     });
 
     afterEach(() => {
       getAssessmentStub.restore();
       getCourseStub.restore();
       getChallengeStub.restore();
+      getSkillStub.restore();
       findByAssessmentStub.restore();
-      getKnowledgeDataStub.restore();
     });
 
     it('should retrieve assessment from repository', () => {
@@ -204,7 +196,7 @@ describe('Unit | Domain | Services | assessment-service', function() {
       });
     });
 
-    it('should detect Assessement created for preview Challenge and do not evaluate score', () => {
+    it('should detect Assessment created for preview Challenge and do not evaluate score', () => {
       // Given
       const assessmentFromPreview = new Assessment({
         id: '1',
@@ -228,7 +220,7 @@ describe('Unit | Domain | Services | assessment-service', function() {
         });
     });
 
-    describe('when we retrieved the assessement', () => {
+    describe('when we retrieved the assessment', () => {
 
       beforeEach(() => {
         getAssessmentStub.returns(Promise.resolve(assessment));
@@ -270,7 +262,7 @@ describe('Unit | Domain | Services | assessment-service', function() {
         let secondFakeChallenge;
 
         beforeEach(() => {
-          const course = { challenges: [ 'challenge_web_1', 'challenge_web_2' ] };
+          const course = { challenges: [ 'challenge_web_1', 'challenge_web_2' ], competences: ['competence_id'] };
           getCourseStub.returns(Promise.resolve(course));
 
           firstFakeChallenge = _buildChallenge([ '@web1' ]);
@@ -278,18 +270,6 @@ describe('Unit | Domain | Services | assessment-service', function() {
 
           getChallengeStub.onFirstCall().returns(Promise.resolve(firstFakeChallenge));
           getChallengeStub.onSecondCall().returns(Promise.resolve(secondFakeChallenge));
-        });
-
-        it('should get knowledgeData each one', () => {
-          // When
-          const promise = service.getScoredAssessment(ASSESSMENT_ID);
-
-          // Then
-          return promise
-            .then(() => {
-              sinon.assert.calledOnce(getKnowledgeDataStub);
-              sinon.assert.calledWithExactly(getKnowledgeDataStub, [ firstFakeChallenge, secondFakeChallenge ]);
-            });
         });
 
         it('should resolve the promise with a scored assessment', () => {
@@ -306,62 +286,6 @@ describe('Unit | Domain | Services | assessment-service', function() {
             });
         });
       });
-    });
-  });
-
-  describe('#_completeAssessmentWithScore', function() {
-
-    const knowledgeData = {
-      challengesById: {
-        'challenge_web_1': _buildChallenge([ '@web1' ]),
-        'challenge_web_2': _buildChallenge([ '@web2' ]),
-        'challenge_url_1': _buildChallenge([ '@url1' ]),
-        'challenge_social_1': _buildChallenge([ '@soc1' ]),
-      },
-      knowledgeTagSet: { '@web1': true, '@web2': true, '@url1': true },
-      nbKnowledgeTagsByLevel: { 1: 2, 2: 1, 3: 0, 4: 0, 5: 0, 6: 0, 7: 0, 8: 0 }
-    };
-
-    const correctAnswerWeb1 = _buildAnswer('challenge_web_1', 'ok');
-    const correctAnswerWeb2 = _buildAnswer('challenge_web_2', 'ok');
-    const partialAnswerWeb1 = _buildAnswer('challenge_web_1', 'partial');
-    const incorrectAnswerUrl1 = _buildAnswer('challenge_url_1', 'ko');
-    const correctAnswerUrl1 = _buildAnswer('challenge_url_1', 'ok');
-
-    it('should compute 12 and level 1 when user pattern is web2 correct, url1 incorrect', function() {
-      // When
-      const scoredAssessment = service._getAssessmentResultDetails([ correctAnswerWeb2, incorrectAnswerUrl1 ], knowledgeData);
-
-      // Then
-      const expectedScoredAssessment = _buildAssessmentResultDetails(1, 12, ['@url1'], ['@web2', '@web1']);
-      expect(scoredAssessment).to.deep.equal(expectedScoredAssessment);
-    });
-
-    it('should compute 4 and level 0 when user pattern is web1 partial, url1 correct', function() {
-      // When
-      const scoredAssessment = service._getAssessmentResultDetails([ partialAnswerWeb1, correctAnswerUrl1 ], knowledgeData);
-
-      // Then
-      const expectedScoredAssessment = _buildAssessmentResultDetails(0, 4, ['@web1', '@web2'], ['@url1']);
-      expect(scoredAssessment).to.deep.equal(expectedScoredAssessment);
-    });
-
-    it('should compute 16 and level 2 when user pattern is web2 correct, url1 correct', function() {
-      // When
-      const scoredAssessment = service._getAssessmentResultDetails([ correctAnswerWeb2, correctAnswerUrl1 ], knowledgeData);
-
-      // Then
-      const expectedScoredAssessment = _buildAssessmentResultDetails(2, 16, [], ['@web2', '@web1', '@url1']);
-      expect(scoredAssessment).to.deep.equal(expectedScoredAssessment);
-    });
-
-    it('should compute 12 and level 1 when user pattern is web1 correct, web2 correct', function() {
-      // When
-      const scoredAssessment = service._getAssessmentResultDetails([ correctAnswerWeb1, correctAnswerWeb2 ], knowledgeData);
-
-      // Then
-      const expectedScoredAssessment = _buildAssessmentResultDetails(1, 12, [], ['@web1', '@web2']);
-      expect(scoredAssessment).to.deep.equal(expectedScoredAssessment);
     });
   });
 

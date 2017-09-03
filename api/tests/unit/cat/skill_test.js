@@ -6,7 +6,7 @@ describe('Unit | Model | Skill', function() {
   describe('#getEasierWithin()', function() {
     it('should exist', function() {
       // given
-      const url1 = new Skill('url', 1);
+      const url1 = new Skill('url1');
       const tubes = { 'url': [url1] };
 
       // then
@@ -15,7 +15,7 @@ describe('Unit | Model | Skill', function() {
 
     it('should return the skill itself if it is alone within its tube', function() {
       // given
-      const url1 = new Skill('url', 1);
+      const url1 = new Skill('url1');
       const tubes = { 'url': [url1] };
 
       // then
@@ -24,9 +24,9 @@ describe('Unit | Model | Skill', function() {
 
     it('should return url1 and url3 when requesting skills easier than url3 within url1-3-5', function() {
       // given
-      const url1 = new Skill('url', 1);
-      const url3 = new Skill('url', 3);
-      const url5 = new Skill('url', 5);
+      const url1 = new Skill('url1');
+      const url3 = new Skill('url3');
+      const url5 = new Skill('url5');
       const tubes = { 'url': [url1, url3, url5] };
 
       // then
@@ -37,7 +37,7 @@ describe('Unit | Model | Skill', function() {
   describe('#getHarderWithin()', function() {
     it('should exist', function() {
       // given
-      const url1 = new Skill('url', 1);
+      const url1 = new Skill('url1');
       const tubes = { 'url': [url1] };
 
       // then
@@ -46,7 +46,7 @@ describe('Unit | Model | Skill', function() {
 
     it('should return the skill itself if it is alone within its tube', function() {
       // given
-      const url1 = new Skill('url', 1);
+      const url1 = new Skill('url1');
       const tubes = { 'url': [url1] };
 
       // then
@@ -55,9 +55,9 @@ describe('Unit | Model | Skill', function() {
 
     it('should return url3 and url5 when requesting skills harder than url3 within url1-3-5', function() {
       // given
-      const url1 = new Skill('url', 1);
-      const url3 = new Skill('url', 3);
-      const url5 = new Skill('url', 5);
+      const url1 = new Skill('url1');
+      const url3 = new Skill('url3');
+      const url5 = new Skill('url5');
       const tubes = { 'url': [url1, url3, url5] };
 
       // then

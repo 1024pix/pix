@@ -1,7 +1,8 @@
 class Skill {
-  constructor(tubeName, difficulty) {
-    this.tubeName = tubeName;
-    this.difficulty = difficulty;
+  constructor(name) {
+    this.name = name;
+    this.tubeName = name.slice(0, -1);
+    this.difficulty = parseInt(name.slice(-1));
   }
 
   getEasierWithin(tubes) {

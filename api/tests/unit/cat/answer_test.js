@@ -8,7 +8,7 @@ describe('Unit | Model | Answer', function() {
   describe('#maxDifficulty', function() {
     it('should exist', function() {
       // given
-      const url1 = new Skill('url', 1);
+      const url1 = new Skill('url1');
       const challenge = new Challenge('recXXX', 'validé', [url1]);
       const answer = new Answer(challenge, 'ko');
 
@@ -18,8 +18,8 @@ describe('Unit | Model | Answer', function() {
 
     it('should return the maximal skill difficulty of a challenge', function() {
       // given
-      const web5 = new Skill('web', 5);
-      const url1 = new Skill('url', 1);
+      const web5 = new Skill('web5');
+      const url1 = new Skill('url1');
       const challenge = new Challenge('recXXX', 'validé', [url1, web5]);
       const answer = new Answer(challenge, 'ok');
 

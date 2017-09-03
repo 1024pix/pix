@@ -1,4 +1,5 @@
 const { describe, it, after, before, beforeEach, afterEach, expect, knex, nock } = require('../../test-helper');
+const cache = require('../../../lib/infrastructure/cache');
 const server = require('../../../server');
 
 describe('Acceptance | API | Assessments GET', function() {
@@ -15,6 +16,7 @@ describe('Acceptance | API | Assessments GET', function() {
         'fields': {
           // a bunch of fields
           'Adaptatif ?': true,
+          'Competence': ['competence_id'],
           '\u00c9preuves': [
             'y_third_challenge',
             'y_second_challenge',
@@ -24,11 +26,45 @@ describe('Acceptance | API | Assessments GET', function() {
       });
 
     nock('https://api.airtable.com')
+      .get('/v0/test-base/Epreuves')
+      .query(true)
+      .times(3)
+      .reply(200, {
+        'records': [
+          {
+            'id': 'y_first_challenge',
+            'fields': {
+              'Statut': 'validé',
+              'competences': ['competence_id'],
+              'acquis': ['@web5']
+            }
+          },
+          {
+            'id': 'y_second_challenge',
+            'fields': {
+              'Statut': 'validé',
+              'competences': ['competence_id'],
+              'acquis': ['@url1']
+            },
+          },
+          {
+            'id': 'y_third_challenge',
+            'fields': {
+              'Statut': 'validé',
+              'competences': ['competence_id'],
+              'acquis': ['@web4']
+            },
+          }
+        ]
+      });
+
+    nock('https://api.airtable.com')
       .get('/v0/test-base/Epreuves/y_first_challenge')
       .query(true)
       .reply(200, {
         'id': 'y_first_challenge',
         'fields': {
+          'competences': ['competence_id'],
           'acquis': ['@web5']
         },
       });
@@ -38,6 +74,7 @@ describe('Acceptance | API | Assessments GET', function() {
       .reply(200, {
         'id': 'y_second_challenge',
         'fields': {
+          'competences': ['competence_id'],
           'acquis': ['@url1']
         },
       });
@@ -47,6 +84,7 @@ describe('Acceptance | API | Assessments GET', function() {
       .reply(200, {
         'id': 'y_third_challenge',
         'fields': {
+          'competences': ['competence_id'],
           'acquis': ['@web4']
         },
       });
@@ -56,6 +94,7 @@ describe('Acceptance | API | Assessments GET', function() {
   });
 
   after(function(done) {
+    cache.flushAll();
     server.stop(done);
   });
 
@@ -226,8 +265,8 @@ describe('Acceptance | API | Assessments GET', function() {
           'type': 'assessment',
           'id': inserted_assessment_id,
           'attributes': {
-            'estimated-level': 3,
-            'pix-score': 16
+            'estimated-level': 1,
+            'pix-score': 8
           },
           'relationships': {
             'course': { 'data': { 'type': 'courses', 'id': 'anyFromAirTable' } },
