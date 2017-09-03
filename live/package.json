@@ -63,7 +63,7 @@
     "ember-math-helpers": "^2.2.3",
     "ember-metrics": "^0.12.1",
     "ember-modal-dialog": "^2.3.0",
-    "ember-resolver": "^4.4.0",
+    "ember-resolver": "^4.5.0",
     "ember-routable-modal": "^0.3.1",
     "ember-route-action-helper": "^2.0.6",
     "ember-simple-auth": "^1.4.0",

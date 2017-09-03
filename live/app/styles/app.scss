@@ -3,11 +3,12 @@
 /* globals */
 @import 'globals/palette';
 @import 'globals/fonts';
+@import 'globals/breakpoints';
 @import 'globals/alert';
 @import 'globals/buttons';
 @import 'globals/dimension';
+@import 'globals/loading';
 @import 'globals/redesign-inputs';
-@import 'globals/breakpoints';
 
 /* 3rd-party */
 @import 'vendor/ember-routable-modal/core';
