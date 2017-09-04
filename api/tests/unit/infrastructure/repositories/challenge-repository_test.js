@@ -122,7 +122,7 @@ describe('Unit | Repository | challenge-repository', function() {
   describe('#getFromCompetence', function() {
 
     const competenceId = 'competence_id';
-    const cacheKey = 'challenge-repository_get_from_competence_${competenceId}';
+    const cacheKey = `challenge-repository_get_from_competence_${competenceId}`;
     const challenges = [
       _buildChallengeWithCompetence('challenge_id_1', 'Instruction #1', 'Proposals #1', 'competence_id', 'validé'),
       _buildChallengeWithCompetence('challenge_id_2', 'Instruction #2', 'Proposals #2', 'other_competence_id', 'validé'),

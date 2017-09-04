@@ -40,7 +40,7 @@ module.exports = {
 
   getFromCompetence(competenceId) {
     return new Promise((resolve, reject) => {
-      const cacheKey = 'challenge-repository_get_from_competence_${competenceId}';
+      const cacheKey = `challenge-repository_get_from_competence_${competenceId}`;
       cache.get(cacheKey, (err, cachedValue) => {
         if (err) return reject(err);
         if (cachedValue) return resolve(cachedValue);
