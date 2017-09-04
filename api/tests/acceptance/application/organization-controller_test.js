@@ -108,4 +108,201 @@ describe('Acceptance | Controller | organization-controller', function() {
 
     });
   });
+
+  describe('GET /api/organizations/{id}/snapshots', () => {
+    const payload = {};
+    let organizationId;
+    let userId;
+    let snapshotId;
+
+    before((done) => {
+      _insertUser()
+        .then((user_id) => {
+          userId = user_id;
+          return _insertOrganization(userId);
+        })
+        .then((organization_id) => {
+          organizationId = organization_id;
+          return _insertSnapshot(organizationId, userId);
+        })
+        .then((snapshot_id) => {
+          snapshotId = snapshot_id;
+        })
+        .then(() => done());
+    });
+
+    after(() => {
+      return Promise.all([knex('users').delete(), knex('organizations').delete(), knex('snapshots').delete()]);
+    });
+
+    it('should return 200 HTTP status code', (done) => {
+      // given
+      const url = `/api/organizations/${organizationId}/snapshots`;
+      const expectedSnapshots = {
+        data:
+          [{
+            type: 'snapshots',
+            id: snapshotId.toString(),
+            attributes: {
+              score: '15',
+              'completion-percentage': '70',
+              'created-at': '2017-08-31 15:57:06'
+            },
+            relationships: {
+              user: {
+                data: {
+                  'id': userId.toString(),
+                  'type': 'users'
+                }
+              }
+            }
+          }],
+        included: [
+          {
+            type: 'users',
+            id: userId.toString(),
+            attributes: {
+              'first-name': 'john',
+              'last-name': 'Doe'
+            }
+          }
+        ]
+      };
+      const options = {
+        method: 'GET', url, payload
+      };
+
+      // when
+      server.inject(options).then((response) => {
+        // then
+        expect(response.statusCode).to.equal(200);
+        expect(response.result).to.eql(expectedSnapshots);
+        done();
+      });
+    });
+
+    it('should return 400, when no snapshot was found', () => {
+      // given
+      const options = {
+        method: 'GET', url: '/api/organizations/unknownId/snapshots', payload: {}
+      };
+
+      // when
+      return server.inject(options).then((response) => {
+        // then
+        expect(response.statusCode).to.equal(404);
+      });
+    });
+  });
 });
+
+function _insertOrganization(userId) {
+  const organizationRaw = {
+    name: 'The name of the organization',
+    email: 'organization@email.com',
+    type: 'SUP',
+    userId
+  };
+
+  return knex('organizations').insert(organizationRaw)
+    .then(organization => organization.shift());
+}
+
+function _insertUser() {
+  const userRaw = {
+    'firstName': 'john',
+    'lastName': 'Doe',
+    'email': 'john.Doe@internet.fr',
+    password: 'Pix2017!'
+  };
+
+  return knex('users').insert(userRaw)
+    .then(user => user.shift());
+}
+
+function _insertSnapshot(organizationId, userId) {
+  const serializedUserProfile = {
+    data: {
+      type: 'users',
+      id: userId,
+      attributes: {
+        'first-name': 'John',
+        'last-name': 'Doe',
+        'total-pix-score': 15,
+        'email': 'john.Doe@internet.fr'
+      },
+      relationships: {
+        competences: {
+          data: [
+            { type: 'competences', id: 'recCompA' },
+            { type: 'competences', id: 'recCompB' }
+          ]
+        }
+      },
+    },
+    included: [
+      {
+        type: 'areas',
+        id: 'recAreaA',
+        attributes: {
+          name: 'area-name-1'
+        }
+      },
+      {
+        type: 'areas',
+        id: 'recAreaB',
+        attributes: {
+          name: 'area-name-2'
+        }
+      },
+      {
+        type: 'competences',
+        id: 'recCompA',
+        attributes: {
+          name: 'competence-name-1',
+          index: '1.1',
+          level: -1,
+          'course-id': 'recBxPAuEPlTgt72q11'
+        },
+        relationships: {
+          area: {
+            data: {
+              type: 'areas',
+              id: 'recAreaA'
+            }
+          }
+        }
+      },
+      {
+        type: 'competences',
+        id: 'recCompB',
+        attributes: {
+          name: 'competence-name-2',
+          index: '1.2',
+          level: 8,
+          'pix-score': 128,
+          'course-id': 'recBxPAuEPlTgt72q99'
+        },
+        relationships: {
+          area: {
+            data: {
+              type: 'areas',
+              id: 'recAreaB'
+            }
+          }
+        }
+      }
+    ]
+  };
+  const snapshotRaw = {
+    organizationId: organizationId,
+    completionPercentage: 70,
+    userId,
+    score: 15,
+    profile: JSON.stringify(serializedUserProfile),
+    createdAt: '2017-08-31 15:57:06'
+  };
+
+  return knex('snapshots')
+    .insert(snapshotRaw);
+}

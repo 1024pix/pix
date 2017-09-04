@@ -2,6 +2,7 @@ const { describe, it, expect, sinon, beforeEach, afterEach } = require('../../..
 const profileService = require('../../../../lib/domain/services/profile-service');
 const UserRepository = require('../../../../lib/infrastructure/repositories/user-repository');
 const SnapshotService = require('../../../../lib/domain/services/snapshot-service');
+const ProfileCompletionService = require('../../../../lib/domain/services/profile-completion-service');
 const snapshotController = require('../../../../lib/application/snapshots/snapshot-controller');
 const authorizationToken = require('../../../../lib/infrastructure/validators/jsonwebtoken-verify');
 const validationErrorSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/validation-error-serializer');
@@ -156,6 +157,7 @@ describe('Unit | Controller | snapshotController', () => {
         sandbox.stub(OrganizationRepository, 'isOrganizationIdExist');
         sandbox.stub(SnapshotService, 'create');
         sandbox.stub(profileSerializer, 'serialize');
+        sandbox.stub(ProfileCompletionService, 'getPercentage');
         sandbox.stub(snapshotSerializer, 'serialize');
         sandbox.stub(logger, 'error');
       });
@@ -243,6 +245,22 @@ describe('Unit | Controller | snapshotController', () => {
           });
         });
 
+        it('should call Profile completion service', () => {
+          // given
+          authorizationToken.verify.resolves({});
+          UserRepository.findUserById.resolves({});
+          OrganizationRepository.isOrganizationIdExist.resolves(true);
+          profileService.getByUserId.resolves({});
+          profileSerializer.serialize.returns({});
+          // when
+          const promise = snapshotController.create(request, replyStub);
+
+          // then
+          return promise.then(() => {
+            sinon.assert.calledOnce(ProfileCompletionService.getPercentage);
+          });
+        });
+
         it('should call Snapshot repository', () => {
           // given
           authorizationToken.verify.resolves({});
@@ -250,6 +268,7 @@ describe('Unit | Controller | snapshotController', () => {
           OrganizationRepository.isOrganizationIdExist.resolves(true);
           profileService.getByUserId.resolves({});
           profileSerializer.serialize.returns(serializedUserProfile);
+          ProfileCompletionService.getPercentage.resolves(25);
           SnapshotService.create.resolves({});
           // when
           const promise = snapshotController.create(request, replyStub);
@@ -259,6 +278,7 @@ describe('Unit | Controller | snapshotController', () => {
             sinon.assert.calledOnce(SnapshotService.create);
             sinon.assert.calledWith(SnapshotService.create, {
               organizationId: request.payload.data.relationships.organization.data.id,
+              completionPercentage: 25,
               profile: serializedUserProfile
             });
           });
@@ -271,6 +291,7 @@ describe('Unit | Controller | snapshotController', () => {
           OrganizationRepository.isOrganizationIdExist.resolves(true);
           profileService.getByUserId.resolves({});
           profileSerializer.serialize.returns(serializedUserProfile);
+          ProfileCompletionService.getPercentage.resolves(25);
           SnapshotService.create.resolves(2);
           // when
           const promise = snapshotController.create(request, replyStub);
@@ -295,9 +316,10 @@ describe('Unit | Controller | snapshotController', () => {
           OrganizationRepository.isOrganizationIdExist.resolves(true);
           profileService.getByUserId.resolves({});
           profileSerializer.serialize.returns(serializedUserProfile);
-
+          ProfileCompletionService.getPercentage.resolves(25);
           const expectedSnapshotDetails = {
             organizationId: request.payload.data.relationships.organization.data.id,
+            completionPercentage: 25,
             profile: serializedUserProfile
           };
           // when
@@ -405,6 +427,7 @@ describe('Unit | Controller | snapshotController', () => {
           OrganizationRepository.isOrganizationIdExist.resolves(true);
           profileService.getByUserId.resolves({});
           profileSerializer.serialize.returns(serializedUserProfile);
+          ProfileCompletionService.getPercentage.resolves(25);
           SnapshotService.create.rejects(error);
 
           // when

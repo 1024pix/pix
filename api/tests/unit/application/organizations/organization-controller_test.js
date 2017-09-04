@@ -7,6 +7,11 @@ const userRepository = require('../../../../lib/infrastructure/repositories/user
 const organisationRepository = require('../../../../lib/infrastructure/repositories/organization-repository');
 const organizationSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/organization-serializer');
 const organizationService = require('../../../../lib/domain/services/organization-service');
+const snapshotRepository = require('../../../../lib/infrastructure/repositories/snapshot-repository');
+const snapshotSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/snapshot-serializer');
+const validationErrorSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/validation-error-serializer');
+const Snapshot = require('../../../../lib/domain/models/data/snapshot');
+const bookshelfUtils = require('../../../../lib/infrastructure/utils/bookshelf-utils');
 
 const logger = require('../../../../lib/infrastructure/logger');
 const { AlreadyRegisteredEmailError } = require('../../../../lib/domain/errors');
@@ -288,7 +293,7 @@ describe('Unit | Controller | organizationController', () => {
     let replyStub;
     let codeStub;
     const arrayOfSerializedOrganization = [{}, {}];
-    const arrayOfOrganizations = { models: [ new Organisation(), new Organisation() ] };
+    const arrayOfOrganizations = { models: [new Organisation(), new Organisation()] };
 
     beforeEach(() => {
       codeStub = sinon.stub();
@@ -385,4 +390,166 @@ describe('Unit | Controller | organizationController', () => {
     });
 
   });
+
+  describe('#getSharedProfiles', () => {
+
+    let sandbox;
+
+    beforeEach(() => {
+      sandbox = sinon.sandbox.create();
+      sandbox.stub(logger, 'error');
+      sandbox.stub(snapshotRepository, 'getSnapshotsByOrganizationId');
+      sandbox.stub(snapshotSerializer, 'serializeArray');
+      sandbox.stub(validationErrorSerializer, 'serialize');
+      sandbox.stub(bookshelfUtils, 'mergeModelWithRelationship');
+    });
+
+    afterEach(() => {
+      sandbox.restore();
+    });
+
+    describe('Collaborations', function() {
+      it('should be an existing function', () => {
+        // then
+        expect(controller.getSharedProfiles).to.be.a('function');
+      });
+
+      it('should call snapshot repository', () => {
+        // given
+        snapshotRepository.getSnapshotsByOrganizationId.resolves();
+        const request = {
+          params: {
+            id: 7
+          }
+        };
+        const reply = sinon.stub().returns({
+          code: () => {
+          }
+        });
+        // when
+        const promise = controller.getSharedProfiles(request, reply);
+
+        // then
+        return promise.then(() => {
+          sinon.assert.calledOnce(snapshotRepository.getSnapshotsByOrganizationId);
+          sinon.assert.calledWith(snapshotRepository.getSnapshotsByOrganizationId, 7);
+        });
+      });
+
+      it('should call snapshot serializer', () => {
+        // given
+        const snapshots = [{
+          toJSON: () => {
+            return {};
+          }
+        }];
+        snapshotRepository.getSnapshotsByOrganizationId.resolves({});
+        bookshelfUtils.mergeModelWithRelationship.resolves(snapshots);
+        const request = {
+          params: {
+            id: 7
+          }
+        };
+        const reply = sinon.stub().returns({
+          code: () => {
+          }
+        });
+
+        // when
+        const promise = controller.getSharedProfiles(request, reply);
+
+        // then
+        return promise.then(() => {
+          sinon.assert.calledOnce(snapshotSerializer.serializeArray);
+          sinon.assert.calledWith(snapshotSerializer.serializeArray, [{}]);
+        });
+      });
+
+      it('should call a reply function', () => {
+        // then
+        const snapshots = [];
+        const serializedSnapshots = { data: [] };
+        snapshotRepository.getSnapshotsByOrganizationId.resolves(snapshots);
+        snapshotSerializer.serializeArray.resolves(serializedSnapshots);
+        const request = {
+          params: {
+            id: 7
+          }
+        };
+
+        const reply = sinon.stub().returns({
+          code: () => {
+          }
+        });
+
+        // when
+        const promise = controller.getSharedProfiles(request, reply);
+
+        // then
+        return promise.then(() => {
+          sinon.assert.calledOnce(reply);
+        });
+      });
+
+    });
+
+    describe('Error cases', () => {
+
+      it('should return an serialized NotFoundError, when no snapshot was found', () => {
+        // given
+        const error = Snapshot.NotFoundError;
+        snapshotRepository.getSnapshotsByOrganizationId.rejects(error);
+        const serializedError = { errors: [] };
+        validationErrorSerializer.serialize.returns(serializedError);
+        const request = {
+          params: {
+            id: 156778
+          }
+        };
+        const replyStub = sinon.stub().returns({
+          code: () => {
+          }
+        });
+
+        // when
+        const promise = controller.getSharedProfiles(request, replyStub);
+
+        // then
+        return promise.then(() => {
+          sinon.assert.calledWith(replyStub, serializedError);
+        });
+      });
+
+      it('should log an error, when unknown error has occured', () => {
+        // given
+        const error = new Error();
+        snapshotRepository.getSnapshotsByOrganizationId.rejects(error);
+        const serializedError = { errors: [] };
+        validationErrorSerializer.serialize.returns(serializedError);
+        const request = {
+          params: {
+            id: 156778
+          }
+        };
+        const codeStub = sinon.stub().callsFake(() => {
+        });
+        const replyStub = sinon.stub().returns({
+          code: codeStub
+        });
+
+        // when
+        const promise = controller.getSharedProfiles(request, replyStub);
+
+        // then
+        return promise.then(() => {
+          sinon.assert.calledWith(replyStub, serializedError);
+          sinon.assert.calledOnce(logger.error);
+          sinon.assert.calledWith(codeStub, 500);
+        });
+      });
+
+    });
+
+  });
+
 });
