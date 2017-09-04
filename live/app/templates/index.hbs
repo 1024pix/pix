@@ -9,24 +9,29 @@
     <div class="index-page-hero__content">
       <h1 class="index-page-hero__title">Développez vos compétences numériques</h1>
       <p class="index-page-hero__description">PIX est un projet public de plateforme en ligne d’évaluation et de certification des compétences numériques, en cours de développement.</p>
+
+      {{#unless session.isAuthenticated}}
+        {{#link-to 'inscription' class="index-page-hero__inscription-link"}}Je m'inscris gratuitement{{/link-to}}
+      {{/unless}}
     </div>
   </section>
 
-  <section class="index-page__section index-page__section--challenges index-page-challenges">
-    <div class="index-page-challenges__container">
-      <div class="index-page-challenges__presentation">
-        <h2 class="index-page-challenges__presentation-title">Les défis <span class="text--marigold">Pix</span> de la semaine</h2>
-        <p class="index-page-challenges__presentation-text">Chaque semaine, testez vos compétences numériques sur un nouveau sujet.</p>
+  {{#if session.isAuthenticated}}
+    <section class="index-page__section index-page__section--challenges index-page-challenges">
+      <div class="index-page-challenges__container">
+        <div class="index-page-challenges__presentation">
+          <h2 class="index-page-challenges__presentation-title">Les défis <span class="text--marigold">Pix</span> de la semaine</h2>
+          <p class="index-page-challenges__presentation-text">Chaque semaine, testez vos compétences numériques sur un nouveau sujet.</p>
+        </div>
+        <div class="index-page-challenges__course-list">
+          {{course-list courses=model.coursesOfTheWeek startCourse='startCourse' limit=2}}
+        </div>
       </div>
-      <div class="index-page-challenges__course-list">
-        {{course-list courses=model.coursesOfTheWeek startCourse='startCourse' limit=2}}
+      <div class="index-page-challenges__courses-of-the-week">
+        {{#link-to 'course-groups' class="index-page-challenges__courses-of-the-week-link"}}VOIR LES DÉFIS PRÉCÉDENTS{{/link-to}}
       </div>
-    </div>
-    <div class="index-page-challenges__courses-of-the-week">
-      {{#link-to 'course-groups' class="index-page-challenges__courses-of-the-week-link"}}
-        VOIR LES DÉFIS PRÉCÉDENTS{{/link-to}}
-    </div>
-  </section>
+    </section>
+  {{/if}}
 
   <section class="index-page__section index-page__section--partners index-page-patners-enrollment">
     {{partners-enrollment-panel}}

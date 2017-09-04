@@ -40,6 +40,10 @@
 .index-page-hero__content {
   margin: 0 auto;
   max-width: 1200px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
 }
 
 .index-page-hero__title {
@@ -65,9 +69,31 @@
   font-weight: $font-light;
   padding-top: 20px;
   line-height: 1.2;
+  margin-bottom: 26px;
 
   @include device-is('desktop') {
     padding: 0 200px;
+    margin-bottom: 32px;
+  }
+}
+
+.index-page-hero__inscription-link {
+  background-color: $pix-blue;
+  color: $white;
+  border-radius: 25px;
+  -webkit-box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.2);
+  box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.2);
+  text-align: center;
+  font-size: 13px;
+  font-family: $font-lato;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  padding: 11px 35px;
+
+  &:hover {
+    background-color: $blue-ribbon;
+    color: white;
+    text-decoration: none;
   }
 }
 
