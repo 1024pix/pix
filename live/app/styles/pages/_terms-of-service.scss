@@ -1,0 +1,98 @@
+.terms-of-service-page {
+  display: flex;
+  flex-flow: column;
+  align-items: center;
+  background-color: $alabaster-grey;
+  color: $charcoal-grey;
+  text-rendering: optimizeLegibility;
+  font-size: 14px;
+}
+
+.terms-of-service-page .rounded-panel {
+  margin-left: 10px;
+  margin-right: 10px;
+
+  @include device-is('desktop') {
+    margin-bottom: 50px;
+    margin-left: auto;
+    margin-right: auto;
+    padding: 40px;
+  }
+}
+
+.terms-of-service-page__content {
+  background-color: $white;
+  margin: 50px auto;
+  padding: 20px;
+
+  @include device-is('desktop') {
+    padding: 40px 30px;
+    width: 940px;
+    margin-bottom: 50px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+}
+
+.terms-of-service-page__title {
+  color: $pix-blue;
+  font-family: $font-raleway;
+  font-size: 22px;
+  font-weight: $font-bold;
+  line-height: 26px;
+}
+
+.terms-of-service-page__subtitle {
+  color: $charcoal-grey;
+  font-family: $font-lato;
+  font-size: 16px;
+  line-height: 19px;
+}
+
+.terms-of-service-section {
+  margin-top: 60px;
+}
+
+.terms-of-service-section__subsection {
+  margin-left: 20px;
+  margin-top: 20px;
+
+  @include device-is('desktop') {
+    margin-left: 40px;
+    margin-top: 40px;
+  }
+}
+
+.terms-of-service-section p,
+.terms-of-service-section ul {
+  margin-bottom: 15px;
+}
+
+.terms-of-service__definition {
+  font-weight: $font-bold;
+}
+
+.terms-of-service-section__title {
+  color: $charcoal-grey;
+  font-family: $font-lato;
+  font-size: 16px;
+  font-weight: $font-bold;
+  line-height: 19px;
+}
+
+.terms-of-service-section__subtitle {
+  color: $charcoal-grey;
+  font-family: $font-lato;
+  font-weight: $font-medium;
+  font-size: 14px;
+  text-decoration: underline;
+}
+
+.terms-of-service-section__subsection-title {
+  color: $charcoal-grey;
+  font-family: $font-lato;
+  font-size: 16px;
+  font-weight: $font-bold;
+  line-height: 19px;
+}
+

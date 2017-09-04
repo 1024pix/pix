@@ -61,8 +61,7 @@
 
     <label for="pix-cgu" class="signup-form__cgu-label">
       {{input type="checkbox" id='pix-cgu' checked=user.cgu}}
-      <span>J'​accepte les {{#link-to 'inscription' class="signup__cgu-link"}}
-        conditions d'​utilisation de Pix{{/link-to}}</span>
+      <span>J'​accepte les {{#link-to 'terms-of-service' class="signup__cgu-link"}}conditions d'​utilisation de Pix{{/link-to}}</span>
     </label>
   </div>
 
@@ -70,8 +69,7 @@
     {{#if user.errors.recaptchaToken}}
       <div class="signup-field__recaptcha-message--error">{{user.errors.recaptchaToken.firstObject.message}}</div>
     {{/if}}
-    {{g-recaptcha recaptchaToken=user.recaptchaToken
-                  tokenHasBeenUsed=_tokenHasBeenUsed}}
+    {{g-recaptcha recaptchaToken=user.recaptchaToken tokenHasBeenUsed=_tokenHasBeenUsed}}
   </div>
 
   <div class="signup-form__submit-container">

@@ -53,6 +53,7 @@ Router.map(function() {
   this.route('course-groups', { path: '/defis-pix' });
   this.route('board');
   this.route('legal-notices',{ path: '/mentions-legales' });
+  this.route('terms-of-service', { path: '/conditions-generales-d-utilisation' });
 });
 
 export default Router;
