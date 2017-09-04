@@ -35,6 +35,15 @@ describe('Integration | Component | navbar-header', function() {
       expect(this.$('.navbar-header-links__link--competences')).to.have.lengthOf(1);
       expect(this.$('.navbar-header-links--user-logged')).to.have.length(0);
     });
+
+    it('should display link to inscription page', function() {
+      expect(this.$('.navbar-header-links__link--inscription')).to.have.lengthOf(1);
+    });
+
+    it('should display link to connection page', function() {
+      expect(this.$('.navbar-header-links__link--connection')).to.have.lengthOf(1);
+    });
+
   });
   describe('Rendering for logged user', function() {
 
@@ -56,5 +65,14 @@ describe('Integration | Component | navbar-header', function() {
       // then
       expect(this.$('.logged-user-details')).to.have.lengthOf(1);
     });
+
+    it('should not display link to inscription page', function() {
+      expect(this.$('.navbar-header-links__link--inscription')).to.have.lengthOf(0);
+    });
+
+    it('should not display link to connection page', function() {
+      expect(this.$('.navbar-header-links__link--connection')).to.have.lengthOf(0);
+    });
+
   });
 });

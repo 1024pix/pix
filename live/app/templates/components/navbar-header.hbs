@@ -13,9 +13,16 @@
           {{#link-to 'project' class="navbar-header-links__link navbar-header-links__link--project"}}Projet{{/link-to}}
         </li>
         <li class="navbar-header-links__item">
-          {{#link-to 'competences' class="navbar-header-links__link navbar-header-links__link--competences"}}
-            Compétences{{/link-to}}
+          {{#link-to 'competences' class="navbar-header-links__link navbar-header-links__link--competences"}}Compétences{{/link-to}}
         </li>
+        {{#unless isUserLogged}}
+          <li class="navbar-header-links__item">
+            {{#link-to 'login' class="navbar-header-links__link navbar-header-links__link--connection"}}Se connecter{{/link-to}}
+          </li>
+          <li class="navbar-header-links__item">
+            {{#link-to 'inscription' class="navbar-header-links__link navbar-header-links__link--inscription"}}S'inscrire{{/link-to}}
+          </li>
+        {{/unless}}
       </ul>
     </div>
 
