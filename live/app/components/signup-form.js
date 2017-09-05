@@ -127,9 +127,6 @@ export default Ember.Component.extend({
       this.get('user').save().then(() => {
         const credentials = { email: this.get('user.email'), password: this.get('user.password') };
         this.sendAction('redirectToProfileRoute', credentials);
-        this.set('_notificationMessage', 'Votre compte a bien été créé !');
-        this._resetValidationFields();
-        this.sendAction('refresh');
         this.set('_tokenHasBeenUsed', true);
       }).catch(() => {
         this._updateInputsStatus();
