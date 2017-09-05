@@ -1,9 +1,11 @@
 const userRepository = require('../../infrastructure/repositories/user-repository');
 
 const organisationRepository = require('../../infrastructure/repositories/organization-repository');
+const snapshotRepository = require('../../infrastructure/repositories/snapshot-repository');
 const organizationSerializer = require('../../infrastructure/serializers/jsonapi/organization-serializer');
+const snapshotSerializer = require('../../infrastructure/serializers/jsonapi/snapshot-serializer');
 const organizationService = require('../../domain/services/organization-service');
-
+const bookshelfUtils = require('../../../lib/infrastructure/utils/bookshelf-utils');
 const validationErrorSerializer = require('../../infrastructure/serializers/jsonapi/validation-error-serializer');
 
 const _ = require('lodash');
@@ -66,6 +68,25 @@ module.exports = {
         logger.error(err);
         reply().code(500);
       });
+  },
+
+  getSharedProfiles: (request, reply) => {
+    return snapshotRepository
+      .getSnapshotsByOrganizationId(request.params.id)
+      .then((snapshots) => bookshelfUtils.mergeModelWithRelationship(snapshots, 'user'))
+      .then((snapshotsWithRelatedUsers) => {
+        const jsonSnapshots = snapshotsWithRelatedUsers.map((snapshot) => snapshot.toJSON());
+        return snapshotSerializer.serializeArray(jsonSnapshots);
+      })
+      .then((serializedSnapshots) => reply(serializedSnapshots).code(200))
+      .catch((err) => {
+        if (err.name === 'CustomError') {
+          return reply(validationErrorSerializer.serialize(_buildErrorMessage('Aucun profile profil n’a été partagé avec cette organisation'))).code(404);
+        }
+
+        logger.error(err);
+        return reply(validationErrorSerializer.serialize(_buildErrorMessage('une erreur est survenue lors de la récupération des profils'))).code(500);
+      });
   }
 };
 
@@ -103,4 +124,12 @@ function _extractFilters(request) {
     }
     return result;
   }, {});
+}
+
+function _buildErrorMessage(errorMessage) {
+  return {
+    data: {
+      authorization: [errorMessage]
+    }
+  };
 }

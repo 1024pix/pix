@@ -17,6 +17,7 @@ class ChallengeSerializer extends AirtableSerializer {
       challenge.proposals = fields['Propositions'];
       challenge.knowledgeTags = fields['acquis'];
       challenge.status = fields['Statut'];
+      challenge.competence = (fields['competences']) ? fields['competences'][0] : undefined;
 
       if (fields['Timer']) {
         challenge.timer = _.defaultTo(_.parseInt(fields['Timer']), undefined);

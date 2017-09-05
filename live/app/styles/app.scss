@@ -3,11 +3,12 @@
 /* globals */
 @import 'globals/palette';
 @import 'globals/fonts';
+@import 'globals/breakpoints';
 @import 'globals/alert';
 @import 'globals/buttons';
 @import 'globals/dimension';
+@import 'globals/loading';
 @import 'globals/redesign-inputs';
-@import 'globals/breakpoints';
 
 /* 3rd-party */
 @import 'vendor/ember-routable-modal/core';
@@ -34,6 +35,7 @@
 @import 'components/feature-list';
 @import 'components/feedback-panel';
 @import 'components/follower-form';
+@import 'components/legal-notices';
 @import 'components/modal-mobile';
 @import 'components/medal-item';
 @import 'components/navbar-header';
@@ -73,6 +75,7 @@
 @import 'pages/compte';
 @import 'pages/enrollment';
 @import 'pages/board';
+@import 'pages/terms-of-service';
 
 body {
   font-family: $font-lato;

@@ -1,0 +1,102 @@
+.legal-notices-page {
+  display: flex;
+  flex-flow: column;
+  align-items: center;
+  background-color: $alabaster-grey;
+  color: $charcoal-grey;
+  text-rendering: optimizeLegibility;
+  line-height: 24px;
+}
+
+.legal-notices-page .rounded-panel {
+  margin-left: 10px;
+  margin-right: 10px;
+
+  @include device-is('desktop') {
+    margin-bottom: 50px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+}
+
+.legal-notices-page__container {
+  background-color: $white;
+  margin: 50px auto;
+  padding: 20px;
+
+  @include device-is('desktop') {
+    padding: 40px 30px;
+    width: 940px;
+    margin-bottom: 50px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+}
+
+.legal-notices-page p {
+  font-size: 20px;
+  line-height: 28px;
+  margin-bottom: 20px;
+
+  @include device-is('desktop') {
+    font-size: 16px;
+    line-height: 24px;
+  }
+}
+
+.legal-notices-page__title {
+  color: $pix-blue;
+  font-family: $font-raleway;
+  font-size: 34px;
+  margin-top: 0;
+  margin-bottom: 30px;
+}
+
+.legal-notices-section {
+  border-top: 1px solid $gainsboro;
+  margin-bottom: 30px;
+}
+
+.legal-notices-section__title {
+  color: $pix-blue;
+  font-family: $font-raleway;
+  margin-top: 30px;
+  margin-bottom: 20px;
+}
+
+.legal-notices-section__subtitle {
+  margin-top: 60px;
+  margin-bottom: 30px;
+  text-transform: uppercase;
+  font-size: 16px;
+  font-weight: 600;
+}
+
+.legal-notices-members {
+  list-style-type: none;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
+  margin: 0 0 40px;
+
+  @include device-is('desktop') {
+    flex-direction: row;
+  }
+}
+
+.legal-notices-member {
+  padding: 30px;
+
+  @include device-is('desktop') {
+    width: 26%;
+  }
+}
+
+.legal-notices-data-restriction-means {
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+}

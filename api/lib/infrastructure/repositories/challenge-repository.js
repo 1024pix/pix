@@ -14,6 +14,17 @@ function _fetchChallenge(id, cacheKey, resolve, reject) {
     .catch(reject);
 }
 
+function _fetchChallenges(cacheKey, resolve, reject, filterFunction) {
+  airtable
+    .getRecords(AIRTABLE_TABLE_NAME, {}, serializer)
+    .then(challenges => {
+      const filteredChallenges = challenges.filter(filterFunction);
+      cache.set(cacheKey, filteredChallenges);
+      return resolve(filteredChallenges);
+    })
+    .catch(reject);
+}
+
 module.exports = {
 
   list() {
@@ -22,13 +33,20 @@ module.exports = {
       cache.get(cacheKey, (err, cachedValue) => {
         if (err) return reject(err);
         if (cachedValue) return resolve(cachedValue);
-        airtable
-          .getRecords(AIRTABLE_TABLE_NAME, {}, serializer)
-          .then(challenges => {
-            cache.set(cacheKey, challenges);
-            return resolve(challenges);
-          })
-          .catch(reject);
+        return _fetchChallenges(cacheKey, resolve, reject, () => true);
+      });
+    });
+  },
+
+  getFromCompetence(competenceId) {
+    return new Promise((resolve, reject) => {
+      const cacheKey = `challenge-repository_get_from_competence_${competenceId}`;
+      cache.get(cacheKey, (err, cachedValue) => {
+        if (err) return reject(err);
+        if (cachedValue) return resolve(cachedValue);
+        return _fetchChallenges(cacheKey, resolve, reject,
+          challenge => ['validé', 'validé sans test', 'pré-validé'].includes(challenge.status)
+            && challenge.competence == competenceId);
       });
     });
   },

@@ -1,15 +1,14 @@
 const courseRepository = require('../../infrastructure/repositories/course-repository');
 const answerRepository = require('../../infrastructure/repositories/answer-repository');
 const assessmentRepository = require('../../infrastructure/repositories/assessment-repository');
-const challengeService = require('../../domain/services/challenge-service');
 const challengeRepository = require('../../infrastructure/repositories/challenge-repository');
+const skillRepository = require('../../infrastructure/repositories/skill-repository');
+const assessmentAdapter = require('../../infrastructure/adapters/assessment-adapter');
 
 const assessmentUtils = require('./assessment-service-utils');
 const _ = require('../../infrastructure/utils/lodash-utils');
 
 const { NotFoundError, NotElligibleToScoringError } = require('../../domain/errors');
-
-const scoringService = require('../../domain/services/scoring-service');
 
 function _selectNextInAdaptiveMode(assessmentPix, coursePix) {
 
@@ -25,7 +24,10 @@ function _selectNextInAdaptiveMode(assessmentPix, coursePix) {
       }).then(challenges => {
         challengesPix = challenges;
 
-        return assessmentUtils.getNextChallengeInAdaptiveCourse(answersPix, challengesPix);
+        const competenceId = coursePix.competences[0];
+        return skillRepository.getFromCompetence(competenceId);
+      }).then(skillNames => {
+        return assessmentUtils.getNextChallengeInAdaptiveCourse(coursePix, answersPix, challengesPix, skillNames);
       })
       .then(resolve)
       .catch(reject);
@@ -43,19 +45,6 @@ function _selectNextInNormalMode(currentChallengeId, challenges) {
   const nextChallengeId = _(challenges).elementAfter(currentChallengeId).value();
   return _.defaultTo(nextChallengeId, null); // result MUST be null if not found
 
-}
-
-function _getAssessmentResultDetails(answers, knowledgeData) {
-
-  const performanceStats = scoringService.getPerformanceStats(answers, knowledgeData);
-  const diagnosis = scoringService.computeDiagnosis(performanceStats, knowledgeData);
-
-  return {
-    'estimatedLevel': diagnosis.estimatedLevel,
-    'pixScore': diagnosis.pixScore,
-    'notAcquiredKnowledgeTags': performanceStats.notAcquiredKnowledgeTags,
-    'acquiredKnowledgeTags': performanceStats.acquiredKnowledgeTags
-  };
 }
 
 function _selectNextChallengeId(course, currentChallengeId, assessment) {
@@ -79,8 +68,7 @@ function _selectNextChallengeId(course, currentChallengeId, assessment) {
 function getScoredAssessment(assessmentId) {
   return new Promise((resolve, reject) => {
 
-    let assessment;
-    let answers;
+    let assessmentPix, answersPix, challengesPix, coursePix;
 
     assessmentRepository
       .get(assessmentId)
@@ -92,28 +80,35 @@ function getScoredAssessment(assessmentId) {
           return Promise.reject(new NotElligibleToScoringError(`Assessment with ID ${assessmentId} is a preview Challenge`));
         }
 
-        assessment = retrievedAssessment;
+        assessmentPix = retrievedAssessment;
 
-        return answerRepository.findByAssessment(assessment.get('id'));
+        return answerRepository.findByAssessment(assessmentPix.get('id'));
       })
       .then(retrievedAnswers => {
-        answers = retrievedAnswers;
-        return courseRepository.get(assessment.get('courseId'));
+        answersPix = retrievedAnswers;
+        return courseRepository.get(assessmentPix.get('courseId'));
       })
       .then(course => {
-        const challengePromises = course.challenges.map(challengeId => challengeRepository.get(challengeId));
+        coursePix = course;
+        const challengePromises = coursePix.challenges.map(challengeId => challengeRepository.get(challengeId));
         return Promise.all(challengePromises);
       })
       .then(challenges => {
+        challengesPix = challenges;
+        const competenceId = coursePix.competences[0];
+        return skillRepository.getFromCompetence(competenceId);
+      })
+      .then(skillNames => {
+        if (coursePix.isAdaptive) {
+          const assessment = assessmentAdapter.getAdaptedAssessment(coursePix, answersPix, challengesPix, skillNames);
 
-        const knowledgeData = challengeService.getKnowledgeData(challenges);
-
-        const resultDetails = _getAssessmentResultDetails(answers, knowledgeData);
-
-        assessment.set('estimatedLevel', resultDetails.estimatedLevel);
-        assessment.set('pixScore', resultDetails.pixScore);
-
-        resolve(assessment);
+          assessmentPix.set('estimatedLevel', assessment.obtainedLevel);
+          assessmentPix.set('pixScore', assessment.displayedPixScore);
+        } else {
+          assessmentPix.set('estimatedLevel', 0);
+          assessmentPix.set('pixScore', 0);
+        }
+        resolve(assessmentPix);
       })
       .catch(reject);
   });
@@ -151,7 +146,6 @@ module.exports = {
 
   getAssessmentNextChallengeId,
   getScoredAssessment,
-  _getAssessmentResultDetails,
   isPreviewAssessment
 
 };

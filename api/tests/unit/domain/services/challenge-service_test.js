@@ -53,46 +53,4 @@ describe('Unit | Service | ChallengeService', function() {
 
   });
 
-  describe('#getKnowledgeData', () => {
-
-    it('should extract knowledge data from a challenge list', () => {
-      // given
-      const challenges = [
-        { id: 'tata', knowledgeTags: [ '@acquisA_1', '@acquisB_5', '@acquisC_3' ] },
-        { id: 'titi', knowledgeTags: [ '@acquisA_3' ] },
-        { id: 'toto' }
-      ];
-
-      // when
-      const result = service.getKnowledgeData(challenges);
-
-      // then
-      const expected = {
-        challengesById: {
-          'tata': { id: 'tata', knowledgeTags: [ '@acquisA_1', '@acquisB_5', '@acquisC_3' ] },
-          'titi': { id: 'titi', knowledgeTags: [ '@acquisA_3' ] }
-        },
-        knowledgeTagSet: {
-          '@acquisA_1': true,
-          '@acquisB_5': true,
-          '@acquisC_3': true,
-          '@acquisA_3': true
-        },
-        nbKnowledgeTagsByLevel: {
-          1: 1,
-          2: 0,
-          3: 2,
-          4: 0,
-          5: 1,
-          6: 0,
-          7: 0,
-          8: 0
-        }
-      };
-
-      expect(result).to.deep.equal(expected);
-    });
-
-  });
-
 });

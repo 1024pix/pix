@@ -81,6 +81,7 @@ describe('Unit | Service | Snapshot service', function() {
 
   const snapshot = {
     organizationId: 3,
+    completionPercentage: 10,
     userId: 2,
     profile: serializedUserProfile
   };
@@ -107,6 +108,7 @@ describe('Unit | Service | Snapshot service', function() {
 
       const snapshotRaw = {
         organizationId: 3,
+        completionPercentage: 10,
         userId: serializedUserProfile.data.id,
         score: 128,
         profile: JSON.stringify(serializedUserProfile)

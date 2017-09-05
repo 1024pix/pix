@@ -9,22 +9,10 @@
     <div class="index-page-hero__content">
       <h1 class="index-page-hero__title">Développez vos compétences numériques</h1>
       <p class="index-page-hero__description">PIX est un projet public de plateforme en ligne d’évaluation et de certification des compétences numériques, en cours de développement.</p>
-    </div>
-  </section>
 
-  <section class="index-page__section index-page__section--challenges index-page-challenges">
-    <div class="index-page-challenges__container">
-      <div class="index-page-challenges__presentation">
-        <h2 class="index-page-challenges__presentation-title">Les défis <span class="text--marigold">Pix</span> de la semaine</h2>
-        <p class="index-page-challenges__presentation-text">Chaque semaine, testez vos compétences numériques sur un nouveau sujet.</p>
-      </div>
-      <div class="index-page-challenges__course-list">
-        {{course-list courses=model.coursesOfTheWeek startCourse='startCourse' limit=2}}
-      </div>
-    </div>
-    <div class="index-page-challenges__courses-of-the-week">
-      {{#link-to 'course-groups' class="index-page-challenges__courses-of-the-week-link"}}
-        VOIR LES DÉFIS PRÉCÉDENTS{{/link-to}}
+      {{#unless session.isAuthenticated}}
+        {{#link-to 'inscription' class="index-page-hero__inscription-link"}}Je m'inscris gratuitement{{/link-to}}
+      {{/unless}}
     </div>
   </section>
 
@@ -35,7 +23,7 @@
   <section class="index-page__section index-page__section--courses index-page-courses">
     <h2 class="index-page-courses__title">Découvrez nos épreuves et aidez‑nous à les améliorer !</h2>
     <div class="index-page-courses__course-list">
-      {{course-list courses=model.progressionCourses startCourse='startCourse'}}
+      {{course-list courses=model startCourse='startCourse'}}
     </div>
   </section>
 

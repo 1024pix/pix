@@ -36,20 +36,7 @@ describe('Acceptance | La page d\'accueil', function() {
     });
   });
 
-  describe('the "Challenges" section', function() {
-
-    it('should have a title', function() {
-      const $title = findWithAssert('.index-page-challenges__presentation-title');
-      expect($title.text().trim()).to.equal('Les défis Pix de la semaine');
-    });
-
-    it('should have a description', function() {
-      const $description = findWithAssert('.index-page-challenges__presentation-text');
-      expect($description.text().trim()).to.equal('Chaque semaine, testez vos compétences numériques sur un nouveau sujet.');
-    });
-  });
-
-  describe('contains a section with a bbutton to save new partners', function() {
+  describe('contains a section with a button to save new partners', function() {
 
     it('a1.16 with a title', function() {
       const $title = findWithAssert('.partners-enrollment__title');
@@ -106,5 +93,4 @@ describe('Acceptance | La page d\'accueil', function() {
       findWithAssert('.index-page-features__project-button[href="/projet"]');
     });
   });
-
 });

@@ -5,11 +5,11 @@ const User = require('./user');
 module.exports = Bookshelf.Model.extend({
   tableName: 'snapshots',
 
-  organizations() {
+  organization() {
     return this.belongsTo(Organization);
   },
 
-  users() {
-    return this.belongsTo(User);
+  user() {
+    return this.belongsTo(User, 'userId');
   }
 });

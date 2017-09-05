@@ -22,6 +22,7 @@ export default Ember.Route.extend(AuthenticatedRouteMixin, {
   },
 
   actions: {
+
     searchForOrganization(code) {
       return this.get('store').query('organization', {
         filter: {

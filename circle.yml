@@ -12,7 +12,7 @@ dependencies:
 
 test:
   override:
-    - npm run coverage
+    - npm run test:api
 
 deployment:
   staging:

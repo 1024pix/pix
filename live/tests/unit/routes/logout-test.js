@@ -1,32 +1,20 @@
-import { expect } from 'chai';
+import Ember from 'ember';
+import sinon from 'sinon';
 import { describe, it } from 'mocha';
 import { setupTest } from 'ember-mocha';
 
-class SessionStub {
-  constructor() {
-    this.isInvalidateCalled = false;
-  }
-
-  invalidate() {
-    this.isInvalidateCalled = true;
-  }
-}
-
 describe('Unit | Route | logout', () => {
   setupTest('route:logout', {
-    needs: ['service:current-routed-modal', 'service:session']
-  });
-
-  it('exists', function() {
-    const route = this.subject();
-    expect(route).to.be.ok;
+    needs: ['service:current-routed-modal']
   });
 
   it('should disconnect the user', function() {
     // Given
+    const invalidateStub = sinon.stub();
+    this.register('service:session', Ember.Service.extend({ isAuthenticated: true, invalidate: invalidateStub }));
+    this.inject.service('session', { as: 'session' });
+
     const route = this.subject();
-    const sessionStub = new SessionStub();
-    route.set('session', sessionStub);
     route.transitionTo = function() {
     };
 
@@ -34,28 +22,40 @@ describe('Unit | Route | logout', () => {
     route.beforeModel();
 
     // Then
-    expect(sessionStub.isInvalidateCalled).to.be.true;
+    sinon.assert.calledOnce(invalidateStub);
   });
 
   it('should redirect after disconnection', function() {
     // Given
-    let isTransitionToCalled = false;
-    let isTransitionToArgs = [];
+    const invalidateStub = sinon.stub();
+    this.register('service:session', Ember.Service.extend({ isAuthenticated: true, invalidate: invalidateStub }));
+    this.inject.service('session', { as: 'session' });
 
-    const sessionStub = new SessionStub();
     const route = this.subject();
-    route.set('session', sessionStub);
-    route.transitionTo = function() {
-      isTransitionToCalled = true;
-      isTransitionToArgs = Array.from(arguments);
-    };
+    route.transitionTo = sinon.stub();
 
     // When
     route.beforeModel();
 
     // Then
-    expect(isTransitionToCalled).to.be.true;
-    expect(isTransitionToArgs).to.deep.equal(['/']);
+    sinon.assert.calledOnce(route.transitionTo);
+    sinon.assert.calledWith(route.transitionTo, '/');
   });
 
+  it('should redirect even if user was not authenticated', function() {
+    // Given
+    const invalidateStub = sinon.stub();
+    this.register('service:session', Ember.Service.extend({ isAuthenticated: false, invalidate: invalidateStub }));
+    this.inject.service('session', { as: 'session' });
+
+    const route = this.subject();
+    route.transitionTo = sinon.stub();
+
+    // When
+    route.beforeModel();
+
+    // Then
+    sinon.assert.calledOnce(route.transitionTo);
+    sinon.assert.calledWith(route.transitionTo, '/');
+  });
 });

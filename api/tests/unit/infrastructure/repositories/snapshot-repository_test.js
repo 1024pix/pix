@@ -1,4 +1,4 @@
-const { expect, knex, describe, beforeEach, afterEach, after, it, sinon } = require('../../../test-helper');
+const { expect, describe, beforeEach, afterEach, it, sinon } = require('../../../test-helper');
 const snapshotRepository = require('../../../../lib/infrastructure/repositories/snapshot-repository');
 const Snapshot = require('../../../../lib/domain/models/data/snapshot');
 
@@ -84,28 +84,69 @@ describe('Unit | Repository | SnapshotRepository', function() {
     profile: JSON.stringify(serializedUserProfile)
   };
 
-  after(() => {
-    return knex('snapshots').delete();
-  });
-
-  beforeEach(() => {
-    sinon.spy(Snapshot.prototype, 'save');
-  });
-
-  afterEach(() => {
-    Snapshot.prototype.save.restore();
-    knex('snapshots').delete();
-  });
-
-  it('should save a snapshot', () => {
-    // when
-    const promise = snapshotRepository.save(snapshot);
-
-    return promise.then(snapshot => {
-      // then
-      expect(snapshot).to.not.be.null;
-      sinon.assert.calledOnce(Snapshot.prototype.save);
+  describe('#save', () => {
+    beforeEach(() => {
+      sinon.spy(Snapshot.prototype, 'save');
     });
+
+    afterEach(() => {
+      Snapshot.prototype.save.restore();
+    });
+
+    it('should save a snapshot', () => {
+      // when
+      const promise = snapshotRepository.save(snapshot);
+
+      return promise.then(snapshot => {
+        // then
+        expect(snapshot).to.not.be.null;
+        sinon.assert.calledOnce(Snapshot.prototype.save);
+      });
+    });
+  });
+
+  describe('#getSnapshotsByOrganizationId', () => {
+
+    beforeEach(() => {
+      sinon.stub(Snapshot.prototype, 'where');
+    });
+
+    afterEach(() => {
+      Snapshot.prototype.where.restore();
+    });
+
+    it('should be a function', () => {
+      // then
+      expect(snapshotRepository.getSnapshotsByOrganizationId).to.be.a('function');
+    });
+
+    it('should query snapshot model', () => {
+      // given
+      const fetchAllStub = sinon.stub().resolves();
+      const orderByStub = sinon.stub().returns({
+        fetchAll: fetchAllStub
+      });
+
+      // then
+      Snapshot.prototype.where.returns({
+        orderBy: orderByStub
+      });
+
+      const organizationId = 123;
+
+      // when
+      const promise = snapshotRepository.getSnapshotsByOrganizationId(organizationId);
+
+      // then
+      return promise.then(() => {
+        sinon.assert.calledOnce(Snapshot.prototype.where);
+        sinon.assert.calledOnce(orderByStub);
+        sinon.assert.calledWith(orderByStub, '-createdAt');
+        sinon.assert.calledWith(fetchAllStub, { require: true });
+        sinon.assert.calledOnce(fetchAllStub);
+      });
+    });
+
   });
 
 });

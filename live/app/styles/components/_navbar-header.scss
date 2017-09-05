@@ -98,6 +98,8 @@
   list-style-type: none;
   display: flex;
   justify-content: flex-end;
+  flex-direction: row;
+  flex-wrap: wrap;
 }
 
 .navbar-header-links__item {
@@ -120,5 +122,21 @@
   &:active {
     color: $marigold;
     text-decoration: none;
+  }
+}
+
+.navbar-header-links__link--inscription {
+  border-radius: 20px;
+  border: 2px solid $white;
+  width: 140px;
+  padding: 10px;
+  text-align: center;
+
+  &:hover,
+  &:focus,
+  &:active {
+    color: $pix-blue;
+    text-decoration: none;
+    background-color: $white;
   }
 }

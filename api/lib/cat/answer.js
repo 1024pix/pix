@@ -10,7 +10,11 @@ class Answer {
 
   get maxDifficulty() {
     const difficulties = this.challenge.skills.map(skill => skill.difficulty);
-    return Math.max(...difficulties);
+    if (difficulties.length > 0) {
+      return Math.max(...difficulties);
+    } else {
+      return 2;
+    }
   }
 }
 

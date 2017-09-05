@@ -49,4 +49,22 @@ describe('Unit | Router | organization-router', () => {
     });
   });
 
+  describe('GET /api/organizations/:id/snapshots', _ => {
+
+    before(() => {
+      sinon.stub(organisationController, 'getSharedProfiles').callsFake((request, reply) => reply('ok'));
+    });
+
+    after(() => {
+      organisationController.getSharedProfiles.restore();
+    });
+
+    it('should exist', (done) => {
+      server.inject({ method: 'GET', url: '/api/organizations/:id/snapshots' }, res => {
+        expect(res.statusCode).to.equal(200);
+        done();
+      });
+    });
+  });
+
 });

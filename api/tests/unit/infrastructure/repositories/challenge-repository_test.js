@@ -8,6 +8,10 @@ function _buildChallenge(id, instruction, proposals) {
   return { id, instruction, proposals };
 }
 
+function _buildChallengeWithCompetence(id, instruction, proposals, competence, status) {
+  return { id, instruction, proposals, competence, status };
+}
+
 describe('Unit | Repository | challenge-repository', function() {
 
   let getRecord;
@@ -54,7 +58,7 @@ describe('Unit | Repository | challenge-repository', function() {
       done();
     });
 
-    it('should resolve with the callenges directly retrieved from the cache without calling airtable when the challenge has been cached', function(done) {
+    it('should resolve with the challenges directly retrieved from the cache without calling airtable when the challenge has been cached', function(done) {
       // given
       getRecords.resolves(true);
       cache.set(cacheKey, challenges);
@@ -68,7 +72,7 @@ describe('Unit | Repository | challenge-repository', function() {
       done();
     });
 
-    describe('when challenges have not been previsously cached', function() {
+    describe('when challenges have not been previously cached', function() {
 
       beforeEach(function() {
         getRecords.resolves(challenges);
@@ -101,6 +105,95 @@ describe('Unit | Repository | challenge-repository', function() {
 
         // when
         challengeRepository.list().then(() => {
+
+          // then
+          expect(getRecords.calledWith('Epreuves', expectedQuery, challengeSerializer)).to.be.true;
+          done();
+        });
+      });
+    });
+
+  });
+
+  /*
+   * #getFromCompetence
+   */
+
+  describe('#getFromCompetence', function() {
+
+    const competenceId = 'competence_id';
+    const cacheKey = `challenge-repository_get_from_competence_${competenceId}`;
+    const challenges = [
+      _buildChallengeWithCompetence('challenge_id_1', 'Instruction #1', 'Proposals #1', 'competence_id', 'validé'),
+      _buildChallengeWithCompetence('challenge_id_2', 'Instruction #2', 'Proposals #2', 'other_competence_id', 'validé'),
+      _buildChallengeWithCompetence('challenge_id_3', 'Instruction #3', 'Proposals #3', 'competence_id', 'validé')
+    ];
+
+    it('should reject with an error when the cache throws an error', function(done) {
+      // given
+      const cacheErrorMessage = 'Cache error';
+      sinon.stub(cache, 'get').callsFake((key, callback) => {
+        callback(new Error(cacheErrorMessage));
+      });
+
+      // when
+      const result = challengeRepository.getFromCompetence(competenceId);
+
+      // then
+      cache.get.restore();
+      expect(result).to.eventually.be.rejectedWith(cacheErrorMessage);
+      done();
+    });
+
+    it('should resolve challenges directly retrieved from the cache without calling Airtable when the challenge has been cached', function(done) {
+      // given
+      getRecords.resolves(true);
+      const expectedChallenges = [challenges[0], challenges[2]];
+      cache.set(cacheKey, expectedChallenges);
+
+      // when
+      const result = challengeRepository.getFromCompetence(competenceId);
+
+      // then
+      expect(getRecords.notCalled).to.be.true;
+      expect(result).to.eventually.deep.equal(expectedChallenges);
+      done();
+    });
+
+    describe('when challenges have not been previously cached', function() {
+
+      beforeEach(function() {
+        getRecords.resolves(challenges);
+      });
+
+      it('should resolve with the challenges fetched from Airtable and filtered for this competence', function(done) {
+        // when
+        const result = challengeRepository.getFromCompetence(competenceId);
+
+        // then
+        const expectedChallenges = [challenges[0], challenges[2]];
+        expect(result).to.eventually.deep.equal(expectedChallenges);
+        done();
+      });
+
+      it('should cache the challenges fetched from Airtable', function(done) {
+        // when
+        challengeRepository.getFromCompetence(competenceId).then(() => {
+
+          // then
+          cache.get(cacheKey, (err, cachedValue) => {
+            expect(cachedValue).to.exist;
+            done();
+          });
+        });
+      });
+
+      it('should query correctly Airtable', function(done) {
+        // given
+        const expectedQuery = {};
+
+        // when
+        challengeRepository.getFromCompetence(competenceId).then(() => {
 
           // then
           expect(getRecords.calledWith('Epreuves', expectedQuery, challengeSerializer)).to.be.true;

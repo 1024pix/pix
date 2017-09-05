@@ -142,34 +142,6 @@ describe('Integration | Component | signup form', function() {
         });
       });
 
-      it('should refresh all fields on form', function() {
-        // given
-        let hasRefreshBeenCalled = false;
-        this.set('refresh', () => {
-          hasRefreshBeenCalled = true;
-        });
-
-        const user = Ember.Object.create({
-          email: 'toto@pix.fr',
-          firstName: 'Marion',
-          lastName: 'Yade',
-          password: 'gipix2017',
-          cgu: true,
-
-          save() {
-            return Ember.RSVP.resolve();
-          }
-        });
-        this.set('user', user);
-        this.render(hbs`{{signup-form user=user signup="signup" refresh=(action refresh)}}`);
-
-        // when
-        $(SUBMIT_BUTTON).click();
-
-        // then
-        expect(hasRefreshBeenCalled).to.be.true;
-      });
-
       it('should redirect automatically to user compte', function() {
         // given
         const redirectToProfileRouteStub = sinon.stub();
@@ -473,32 +445,6 @@ describe('Integration | Component | signup form', function() {
         });
       });
 
-      it('should display an success message on form title, when all things are ok and form is submited', function() {
-        // given
-        const validUser = Ember.Object.create({
-          email: 'toto@pix.fr',
-          firstName: 'Marion',
-          lastName: 'Yade',
-          password: 'gipix2017',
-          cgu: true,
-
-          save() {
-            return new Ember.RSVP.resolve();
-          }
-        });
-
-        this.set('user', validUser);
-        this.render(hbs`{{signup-form user=user}}`);
-
-        // when
-        this.$('.signup__submit-button').click();
-        // then
-        return wait().then(() => {
-          const $notificationMessage = this.$('.signup-form__notification-message').text();
-          expect($notificationMessage.trim()).to.equal('Votre compte a bien été créé !');
-        });
-      });
-
       it('should reset validation property, when all things are ok and form is submitted', function() {
         // given
         const validUser = Ember.Object.create({
@@ -527,29 +473,5 @@ describe('Integration | Component | signup form', function() {
       });
     });
 
-    describe('Accessibility', function() {
-
-      it('should render an accessible notification message when the account was successfully created', function() {
-        // given
-        const user = Ember.Object.create({
-          save() {
-            return Ember.RSVP.resolve();
-          }
-        });
-
-        this.set('user', user);
-        this.render(hbs`{{signup-form user=user signup="signup"}}`);
-
-        // when
-        $(SUBMIT_BUTTON).click();
-
-        // then
-        return wait().then(() => {
-
-          const $notificationMessage = this.$('.signup-form__notification-message');
-          expect($notificationMessage.attr('aria-live')).to.equal('polite');
-        });
-      });
-    });
   });
 });

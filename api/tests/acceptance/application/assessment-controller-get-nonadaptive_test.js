@@ -1,4 +1,5 @@
 const { describe, it, before, after, expect, knex, nock } = require('../../test-helper');
+const cache = require('../../../lib/infrastructure/cache');
 const server = require('../../../server');
 
 describe('Acceptance | API | Assessments GET (non adaptive)', function() {
@@ -15,12 +16,41 @@ describe('Acceptance | API | Assessments GET (non adaptive)', function() {
         'fields': {
           // a bunch of fields
           'Adaptatif ?': false,
+          'Competence': ['competence_id'],
           '\u00c9preuves': [
             'second_challenge',
             'first_challenge',
           ],
         },
       });
+
+    nock('https://api.airtable.com')
+      .get('/v0/test-base/Epreuves')
+      .query(true)
+      .times(3)
+      .reply(200, [
+        {
+          'id': 'first_challenge',
+          'fields': {
+            'competences': ['competence_id'],
+            'acquis': ['@web5']
+          }
+        },
+        {
+          'id': 'second_challenge',
+          'fields': {
+            'competences': ['competence_id'],
+            'acquis': ['@url1']
+          },
+        },
+        {
+          'id': 'third_challenge',
+          'fields': {
+            'competences': ['competence_id'],
+            'acquis': ['@web4']
+          },
+        }
+      ]);
 
     nock('https://api.airtable.com')
       .get('/v0/test-base/Epreuves/first_challenge')
@@ -46,6 +76,7 @@ describe('Acceptance | API | Assessments GET (non adaptive)', function() {
       .reply(200, {
         'id': 'third_challenge',
         'fields': {
+          'competences': ['competence_id'],
           // a bunch of fields
         },
       });
@@ -54,6 +85,7 @@ describe('Acceptance | API | Assessments GET (non adaptive)', function() {
   });
 
   after(function(done) {
+    cache.flushAll();
     nock.cleanAll();
     server.stop(done);
   });

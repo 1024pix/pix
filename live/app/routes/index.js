@@ -23,10 +23,12 @@ export default BaseRoute.extend(UnauthenticatedRouteMixin, {
   },
 
   model() {
-    return {
-      coursesOfTheWeek:   this.get('store').query('course', { isCourseOfTheWeek: true }),
-      progressionCourses: this.get('store').query('course', { isCourseOfTheWeek: false, isAdaptive: false })
-    };
+    return this.get('store').query('course', { isCourseOfTheWeek: false, isAdaptive: false });
+  },
+
+  setupController(controller, model) {
+    this._super(controller, model);
+    this.controllerFor('index').set('session', this.get('session'));
   },
 
   actions: {

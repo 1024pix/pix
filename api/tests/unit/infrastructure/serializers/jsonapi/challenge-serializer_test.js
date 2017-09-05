@@ -16,6 +16,7 @@ describe('Unit | Serializer | JSONAPI | challenge-serializer', function() {
       challenge.illustrationUrl = 'http://challenge.illustration.url';
       challenge.hasntInternetAllowed = false;
       challenge.timer = 300;
+      challenge.competence = ['competence_id'];
       challenge.attachments = [
         'http://challenge.attachement.url.docx',
         'http://challenge.attachement.url.odt',
@@ -37,6 +38,7 @@ describe('Unit | Serializer | JSONAPI | challenge-serializer', function() {
             'illustration-url': challenge.illustrationUrl,
             'hasnt-internet-allowed': challenge.hasntInternetAllowed,
             timer: challenge.timer,
+            competence: challenge.competence[0],
             attachments: [
               challenge.attachments[0],
               challenge.attachments[1],

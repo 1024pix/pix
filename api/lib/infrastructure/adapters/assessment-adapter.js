@@ -4,30 +4,34 @@ const Course = require('../../cat/course');
 const Answer = require('../../cat/answer');
 const Assessment = require('../../cat/assessment');
 
-function getAdaptedAssessment(answersPix, challengesPix) {
+function getAdaptedAssessment(coursePix, answersPix, challengesPix, skillNames) {
   const challenges = [];
   const challengesById = {};
+  const skills = {};
+
+  skillNames.forEach(skillName => skills[skillName] = new Skill(skillName));
+  const competenceSkills = new Set(Object.values(skills));
 
   challengesPix.forEach(challengePix => {
-    const skills = [];
+    const challengeSkills = [];
     if (challengePix.knowledgeTags) {
       challengePix.knowledgeTags.forEach(skillName => {
-        const tubeName = skillName.slice(0, -1);
-        const skillDifficulty = parseInt(skillName.slice(-1));
-        skills.push(new Skill(tubeName, skillDifficulty));
+        if (!skills.hasOwnProperty(skillName)) {
+          skills[skillName] = new Skill(skillName);
+        }
+        challengeSkills.push(skills[skillName]);
       });
-      const challenge = new Challenge(challengePix.id, challengePix.status, skills);
+      const challenge = new Challenge(challengePix.id, challengePix.status, challengeSkills);
       challenges.push(challenge);
       challengesById[challengePix.id] = challenge;
     }
   });
 
-  const course = new Course(challenges);
+  const course = new Course(challenges, competenceSkills);
 
-  const answers = answersPix.reduce((accu, answer) => {
-    accu.push(new Answer(challengesById[answer.get('challengeId')], answer.get('result')));
-    return accu;
-  }, []);
+  const answers = answersPix.map(answer =>
+    new Answer(challengesById[answer.get('challengeId')], answer.get('result'))
+  );
 
   return new Assessment(course, answers);
 }

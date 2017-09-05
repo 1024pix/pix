@@ -1,6 +1,6 @@
 {
   "name": "pix-api",
-  "version": "1.20.0",
+  "version": "1.21.0",
   "description": "Plateforme d'évaluation et de certification des compétences numériques à l'usage de tous les citoyens francophones",
   "main": "server.js",
   "author": "SGMAP",
@@ -39,7 +39,7 @@
     "path": "^0.12.7",
     "pg": "^7.2.0",
     "request": "^2.81.0",
-    "sqlite3": "^3.1.9",
+    "sqlite3": "^3.1.8",
     "vision": "^4.1.1",
     "xregexp": "^3.2.0"
   },
