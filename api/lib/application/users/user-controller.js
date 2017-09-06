@@ -7,12 +7,13 @@ const validationErrorSerializer = require('../../infrastructure/serializers/json
 const mailService = require('../../domain/services/mail-service');
 const UserRepository = require('../../../lib/infrastructure/repositories/user-repository');
 const { InvalidTokenError } = require('../../../lib/domain/errors');
-const User = require('../../../lib/domain/models/data/user');
 const profileService = require('../../domain/services/profile-service');
 const profileSerializer = require('../../infrastructure/serializers/jsonapi/profile-serializer');
 const googleReCaptcha = require('../../../lib/infrastructure/validators/grecaptcha-validator');
 const { InvalidRecaptchaTokenError } = require('../../../lib/infrastructure/validators/errors');
 const bookshelfUtils = require('../../infrastructure/utils/bookshelf-utils');
+
+const Bookshelf = require('../../infrastructure/bookshelf');
 
 const logger = require('../../infrastructure/logger');
 
@@ -66,7 +67,7 @@ module.exports = {
           return _replyErrorWithMessage(reply, 'Le token n’est pas valide', 401);
         }
 
-        if (err === User.NotFoundError) {
+        if (err instanceof Bookshelf.Model.NotFoundError) {
           return _replyErrorWithMessage(reply, 'Cet utilisateur est introuvable', 404);
         }
 
