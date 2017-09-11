@@ -75,7 +75,6 @@
   @include device-is('tablet') {
     max-width: 750px;
     margin: auto;
-    margin-bottom: 20px;
     padding-left: 0px;
     font-size: 40px;
     background: $alabaster-grey;
@@ -83,63 +82,7 @@
 
   @include device-is('desktop') {
     margin: auto;
-    margin-bottom: 20px;
     max-width: 970px;
-  }
-
-}
-
-.board-page__body {
-  background: $alabaster-grey;
-
-  @include device-is('tablet') {
-    max-width: 750px;
-    margin: auto;
-    margin-bottom: 40px;
-  }
-
-  @include device-is('desktop') {
-    max-width: 970px;
-    margin: auto;
-    margin-bottom: 40px;
-  }
-
-}
-
-.board-page__body-table__header {
-  display: none;
-
-  @include device-is('tablet') {
-    display: flex;
-    justify-content: space-around;
-    align-items: center;
-    margin-bottom: 10px;
-    height: 50px;
-    background-color: $porcelain-grey;
-
-    font-family: $font-lato;
-    font-size: 12px;
-    font-weight: $font-bold;
-    letter-spacing: 0.5px;
-    text-transform: uppercase;
-  }
-}
-
-.board-page__body-table__body {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  padding: 0 30px;
-  height: 200px;
-  background: $white;
-  font-family: $font-lato;
-  font-size: 32px;
-  font-weight: $font-light;
-  letter-spacing: 0.7px;
-  text-align: center;
-
-  @include device-is('tablet') {
-    box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.3);
   }
 
 }

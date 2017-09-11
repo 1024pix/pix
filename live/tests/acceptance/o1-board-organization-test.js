@@ -29,6 +29,7 @@ describe('Acceptance | o1 - board organization', function() {
       password: '1024pix!',
       organizationIds: [1]
     });
+
   }
 
   function authenticateUser() {
@@ -80,6 +81,20 @@ describe('Acceptance | o1 - board organization', function() {
     expect(find('.board-page__header-organisation__name').text().trim()).to.equal('LexCorp');
     expect(find('.board-page__header-code__text').length).to.equal(1);
     expect(find('.board-page__header-code__text').text().trim()).to.equal('ABCD66');
+  });
+
+  it('should display an empty list of snapshot', async function() {
+    // given
+    seedDatabase();
+    authenticateUser();
+
+    // when
+    await visit('/board');
+
+    // then
+    expect(find('.snapshot-list').length).to.equal(1);
+    expect(find('.snapshot-list__no-profile').text()).to.equal('Aucun profil partagé pour le moment');
+
   });
 
 });

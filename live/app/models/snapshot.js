@@ -1,6 +1,10 @@
 import DS from 'ember-data';
-const { Model, belongsTo } = DS;
+const { Model, belongsTo, attr } = DS;
 
 export default Model.extend({
-  organization: belongsTo('organization')
+  completionPercentage : attr('string'),
+  score : attr('number'),
+  createdAt : attr('date'),
+  organization: belongsTo('organization'),
+  user: belongsTo('user')
 });
