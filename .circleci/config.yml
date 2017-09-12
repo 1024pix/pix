@@ -151,9 +151,8 @@ jobs:
           if [ "${CIRCLE_BRANCH}" == "dev" ]; then
             ./node_modules/.bin/ember build --environment staging
           else
-            npm run deploy:integration
+            ./node_modules/.bin/ember build --environment integration
           fi
-        ./node_modules/.bin/ember build
       - persist_to_workspace:
           root: ~/pix/live
           paths:
