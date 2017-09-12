@@ -42,9 +42,11 @@ echo
 
 # use a temporary directory for the build
 tmpdir=`mktemp -d`
+echo -n "Created temporary directory ${tmpdir}"
 
 # loookup changes
-[ -z `git status --porcelain` ] || {
+pending_changes=`git status --porcelain`
+[ -z "${pending_changes}" ] || {
     tput setaf 1
     echo 'You CANT deploy if you have untracked file or uncommited changes. Sorry.'
     echo '** FAILED !'

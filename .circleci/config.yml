@@ -1,6 +1,6 @@
 # .circleci/config.yml
 #
-# This file configures the CircleCI 2.0 build. /!\ it's very complex /!\
+# This file configures the CircleCI 2.0 build.
 #
 # Documentation:
 # - Overview: https://circleci.com/docs/2.0/workflows/
@@ -11,281 +11,266 @@
 # - the file `.circle-sha` is used to have a common key between different containers of same build
 # - we need cache, everywhere for everything
 # - cache is immutable. Sometimes we need to flush the cache, but we can't. That's why there is this
-# `-v1` at the end. Increment it to `-v2` when you need to change the cache content
+# `v1-` at the beginning. Increment it to `v2-` when you need to change the cache content
 #
-# Cached entries:
-# - `repo-{{ checksum ".circle-sha" }}`                  => the source code
-# - `dependencies-root-{{ checksum "package.json" }}-v1` => `pix/node_modules` directory
-# - `dependencies-api-{{ checksum "package.json" }}-v1`  => `pix/api/node_modules` directory
-# - `dependencies-live-{{ checksum "package.json" }}-v1` => 
-#   `pix/live/{node_modules,bower_components}` directories
-# - `build-live-{{ checksum ".circle-sha" }}`            => `pix/live/dist` directory
+# Cached entries (lifetime = months):
+# - `v1-pix-{{ checksum ".circle-sha" }}`                  => the source code
+# - `v1-server-dependencies-{{ checksum "package.json" }}` => `pix/api/node_modules` directory
+# - `v1-client-dependencies-{{ checksum "package.json" }}` => `pix/live/{node_modules, bower_components}` directories
 #
+# Workspace entries (lifetime = workflow):
+# - `~/pix/live/dist`                                      => `pix/live/dist` directory
+
+
+# Properties shared by all server-side jobs
+server_properties: &server_properties
+  docker:
+    - image: circleci/node:8
+  working_directory: ~/pix/api
+
+# Properties shared by all client-side jobs
+client_properties: &client_properties
+  docker:
+    - image: circleci/node:8-browsers
+  working_directory: ~/pix/live
+
 version: 2.0
 
 jobs:
+
+  # Common
+
   checkout_code:
     docker:
       - image: circleci/node:8
+      - image: circleci/node:8-browsers
     working_directory: ~/pix
     steps:
       - checkout
-      - run:
-          name: save SHA to a file (root)
-          command: echo $CIRCLE_SHA1 > .circle-sha
-      - run:
-          name: save SHA to a file (api)
-          command: echo $CIRCLE_SHA1 > api/.circle-sha
-      - run:
-          name: save SHA to a file (live)
-          command: echo $CIRCLE_SHA1 > live/.circle-sha
+      - run: echo $CIRCLE_SHA1 > .circle-sha
       - save_cache:
-          key: repo-{{ checksum ".circle-sha" }}
+          key: v1-pix-{{ checksum ".circle-sha" }}
           paths:
             - ~/pix
 
-  bundle_dependencies_root:
-    docker:
-      - image: circleci/node:8
-    working_directory: ~/pix
-    steps:
-      - run:
-          name: save SHA to a file
-          command: echo $CIRCLE_SHA1 > .circle-sha
-      - restore_cache:
-          keys:
-            - repo-{{ checksum ".circle-sha" }}
-      - restore_cache:
-          keys:
-            - dependencies-root-{{ checksum "package.json" }}-v1
-      - run: npm install --ignore-scripts
-      - save_cache:
-          key: dependencies-root-{{ checksum "package.json" }}-v1
-          paths:
-            - ~/pix/node_modules
-            - ~/.npm
+  # Server side
 
-  bundle_dependencies_api:
-    docker:
-      - image: circleci/node:8
-    working_directory: ~/pix/api
+  install_server_dependencies:
+    <<: *server_properties
     steps:
-      - run:
-          name: save SHA to a file
-          command: echo $CIRCLE_SHA1 > .circle-sha
+      - run: echo $CIRCLE_SHA1 > .circle-sha
       - restore_cache:
           keys:
-            - repo-{{ checksum ".circle-sha" }}
+            - v1-pix-{{ checksum ".circle-sha" }}
       - restore_cache:
           keys:
-            - dependencies-root-{{ checksum "../package.json" }}-v1
-      - restore_cache:
-          keys:
-            - dependencies-api-{{ checksum "package.json" }}-v1
+            - v1-server-dependencies-{{ checksum "package.json" }}
       - run: npm install
       - save_cache:
-          key: dependencies-api-{{ checksum "package.json" }}-v1
+          key: v1-server-dependencies-{{ checksum "package.json" }}
           paths:
             - ~/pix/api/node_modules
             - ~/pix/.npm
 
-  bundle_dependencies_live:
-    docker:
-      - image: circleci/node:8
-    working_directory: ~/pix/live
+  build_server:
+    <<: *server_properties
     steps:
-      - run:
-          name: save SHA to a file
-          command: echo $CIRCLE_SHA1 > .circle-sha
+      - run: echo "Nothing to do for building the API"
+
+  test_server:
+    <<: *server_properties
+    steps:
+      - run: echo $CIRCLE_SHA1 > .circle-sha
       - restore_cache:
           keys:
-            - repo-{{ checksum ".circle-sha" }}
+            - v1-pix-{{ checksum ".circle-sha" }}
       - restore_cache:
           keys:
-            - dependencies-root-{{ checksum "../package.json" }}-v1
+            - v1-server-dependencies-{{ checksum "package.json" }}
+      - run: |
+          npm run lint
+          npm test
+
+  deploy_server:
+    <<: *server_properties
+    steps:
+      - run: echo $CIRCLE_SHA1 > .circle-sha
       - restore_cache:
           keys:
-            - dependencies-live-{{ checksum "package.json" }}-{{ checksum "bower.json" }}-v1
+            - v1-pix-{{ checksum ".circle-sha" }}
+      - restore_cache:
+          keys:
+            - v1-server-dependencies-{{ checksum "package.json" }}
+      - add-ssh-keys:
+         fingerprints:
+           - "35:db:1e:4a:c2:e7:10:6f:6d:c4:35:75:7e:90:78:8a"
+      - run: |
+          ssh-keyscan pix-app.ovh > ~/.ssh/known_hosts
+          git config user.email "jbuget@gmail.com"
+          git config user.name "Jérémy Buget"
+      - deploy:
+          command: |
+            if [ "${CIRCLE_BRANCH}" == "dev" ]; then
+              npm run deploy:staging
+            else
+              npm run deploy:integration
+            fi
+
+  # Client side
+
+  install_client_dependencies:
+    <<: *client_properties
+    steps:
+      - run: echo $CIRCLE_SHA1 > .circle-sha
+      - restore_cache:
+          keys:
+            - v1-pix-{{ checksum ".circle-sha" }}
+      - restore_cache:
+          keys:
+            - v1-client-dependencies-{{ checksum "package.json" }}-{{ checksum "bower.json" }}
       - run: npm install
       - save_cache:
-          key: dependencies-live-{{ checksum "package.json" }}-{{ checksum "bower.json" }}-v1
+          key: v1-client-dependencies-{{ checksum "package.json" }}-{{ checksum "bower.json" }}
           paths:
             - ~/pix/live/node_modules
             - ~/pix/live/bower_components
             - ~/.npm
             - ~/.cache/bower
 
-  lint_api:
-    docker:
-      - image: circleci/node:8
-    working_directory: ~/pix/api
+  build_client:
+    <<: *client_properties
     steps:
-      - run:
-          name: save SHA to a file
-          command: echo $CIRCLE_SHA1 > .circle-sha
+      - run: echo $CIRCLE_SHA1 > .circle-sha
       - restore_cache:
           keys:
-            - repo-{{ checksum ".circle-sha" }}
+            - v1-pix-{{ checksum ".circle-sha" }}
       - restore_cache:
           keys:
-            - dependencies-root-{{ checksum "../package.json" }}-v1
-      - restore_cache:
-          keys:
-            - dependencies-api-{{ checksum "package.json" }}-v1
-      - run:
-          name: Lint files
-          command: npm run lint
-
-  build_pix_live:
-    docker:
-      - image: circleci/node:8
-    working_directory: ~/pix/live
-    steps:
-      - run:
-          name: save SHA to a file
-          command: echo $CIRCLE_SHA1 > .circle-sha
-      - restore_cache:
-          keys:
-            - repo-{{ checksum ".circle-sha" }}
-      - restore_cache:
-          keys:
-            - dependencies-root-{{ checksum "../package.json" }}-v1
-      - restore_cache:
-          keys:
-            - dependencies-live-{{ checksum "package.json" }}-{{ checksum "bower.json" }}-v1
-
+            - v1-client-dependencies-{{ checksum "package.json" }}-{{ checksum "bower.json" }}
       - run: ./node_modules/.bin/ember build
-
-      - save_cache:
-          key: build-live-{{ checksum ".circle-sha" }}
+      - persist_to_workspace:
+          root: ~/pix/live
           paths:
             - dist
 
-  npm_test_api:
-    docker:
-      - image: circleci/node:8
-    working_directory: ~/pix/api
+  test_client_1:
+    <<: *client_properties
     steps:
-      - run:
-          name: save SHA to a file
-          command: echo $CIRCLE_SHA1 > .circle-sha
+      - run: echo $CIRCLE_SHA1 > .circle-sha
       - restore_cache:
           keys:
-            - repo-{{ checksum ".circle-sha" }}
+            - v1-pix-{{ checksum ".circle-sha" }}
       - restore_cache:
           keys:
-            - dependencies-root-{{ checksum "../package.json" }}-v1
-      - restore_cache:
-          keys:
-            - dependencies-api-{{ checksum "package.json" }}-v1
-      - run:
-          name: Run Tests
-          command: npm run test
+            - v1-client-dependencies-{{ checksum "package.json" }}-{{ checksum "bower.json" }}
+      - attach_workspace:
+          at: ~/pix/live
+      - run: ./node_modules/.bin/ember exam --path dist --split=3 --partition=1
 
-  npm_test_live_1:
-    docker:
-      - image: circleci/node:8-browsers
-    working_directory: ~/pix/live
+  test_client_2:
+    <<: *client_properties
     steps:
-      - run:
-          name: save SHA to a file
-          command: echo $CIRCLE_SHA1 > .circle-sha
+      - run: echo $CIRCLE_SHA1 > .circle-sha
       - restore_cache:
           keys:
-            - repo-{{ checksum ".circle-sha" }}
+            - v1-pix-{{ checksum ".circle-sha" }}
       - restore_cache:
           keys:
-            - dependencies-root-{{ checksum "../package.json" }}-v1
-      - restore_cache:
-          keys:
-            - dependencies-live-{{ checksum "package.json" }}-{{ checksum "bower.json" }}-v1
-      - restore_cache:
-          keys:
-            - build-live-{{ checksum ".circle-sha" }}
-      - run:
-          name: Run Tests
-          command: ./node_modules/.bin/ember exam --path dist --split=3 --partition=1
+            - v1-client-dependencies-{{ checksum "package.json" }}-{{ checksum "bower.json" }}
+      - attach_workspace:
+          at: ~/pix/live
+      - run: ./node_modules/.bin/ember exam --path dist --split=3 --partition=2
 
-  npm_test_live_2:
-    docker:
-      - image: circleci/node:8-browsers
-    working_directory: ~/pix/live
+  test_client_3:
+    <<: *client_properties
     steps:
-      - run:
-          name: save SHA to a file
-          command: echo $CIRCLE_SHA1 > .circle-sha
+      - run: echo $CIRCLE_SHA1 > .circle-sha
       - restore_cache:
           keys:
-            - repo-{{ checksum ".circle-sha" }}
+            - v1-pix-{{ checksum ".circle-sha" }}
       - restore_cache:
           keys:
-            - dependencies-root-{{ checksum "../package.json" }}-v1
-      - restore_cache:
-          keys:
-            - dependencies-live-{{ checksum "package.json" }}-{{ checksum "bower.json" }}-v1
-      - restore_cache:
-          keys:
-            - build-live-{{ checksum ".circle-sha" }}
-      - run:
-          name: Run Tests
-          command: ./node_modules/.bin/ember exam --path dist --split=3 --partition=2
+            - v1-client-dependencies-{{ checksum "package.json" }}-{{ checksum "bower.json" }}
+      - attach_workspace:
+          at: ~/pix/live
+      - run: ./node_modules/.bin/ember exam --path dist --split=3 --partition=3
 
-  npm_test_live_3:
-    docker:
-      - image: circleci/node:8-browsers
-    working_directory: ~/pix/live
+  deploy_client:
+    <<: *client_properties
     steps:
-      - run:
-          name: save SHA to a file
-          command: echo $CIRCLE_SHA1 > .circle-sha
+      - run: echo $CIRCLE_SHA1 > .circle-sha
       - restore_cache:
           keys:
-            - repo-{{ checksum ".circle-sha" }}
+            - v1-pix-{{ checksum ".circle-sha" }}
       - restore_cache:
           keys:
-            - dependencies-root-{{ checksum "../package.json" }}-v1
-      - restore_cache:
-          keys:
-            - dependencies-live-{{ checksum "package.json" }}-{{ checksum "bower.json" }}-v1
-      - restore_cache:
-          keys:
-            - build-live-{{ checksum ".circle-sha" }}
-      - run:
-          name: Run Tests
-          command: ./node_modules/.bin/ember exam --path dist --split=3 --partition=3
-
+            - v1-client-dependencies-{{ checksum "package.json" }}-{{ checksum "bower.json" }}
+      - add-ssh-keys:
+         fingerprints:
+           - "c3:0d:1b:26:62:f1:89:98:d8:8c:f2:6c:b1:25:7b:6b"
+      - run: |
+          ssh-keyscan github.com > ~/.ssh/known_hosts
+          git config user.email "jbuget@gmail.com"
+          git config user.name "Jérémy Buget"
+      - deploy:
+          command: |
+            if [ "${CIRCLE_BRANCH}" == "dev" ]; then
+              npm run deploy:staging
+            else
+              npm run deploy:integration
+            fi
 
 workflows:
   version: 2
-  build-and-deploy:
+  build-test-and-deploy:
     jobs:
+      # Common
       - checkout_code
-      - bundle_dependencies_root:
+
+      # Server side
+      - install_server_dependencies:
           requires:
             - checkout_code
-      - bundle_dependencies_api:
+      - build_server:
+          requires:
+            - install_server_dependencies
+      - test_server:
+          requires:
+            - build_server
+      - deploy_server:
+          requires:
+            - test_server
+          filters:
+            branches:
+              ignore:
+                - master
+                - dev
+                - gh-pages
+
+      # Client side
+      - install_client_dependencies:
           requires:
             - checkout_code
-      - bundle_dependencies_live:
+      - build_client:
           requires:
-            - checkout_code
-      - build_pix_live:
+            - install_client_dependencies
+      - test_client_1:
           requires:
-            - bundle_dependencies_root
-            - bundle_dependencies_live
-      - lint_api:
+            - build_client
+      - test_client_2:
           requires:
-            - bundle_dependencies_root
-            - bundle_dependencies_api
-      - npm_test_api:
+            - build_client
+      - test_client_3:
           requires:
-            - lint_api
-      - npm_test_live_1:
+            - build_client
+      - deploy_client:
           requires:
-            - build_pix_live
-      - npm_test_live_2:
-          requires:
-            - build_pix_live
-      - npm_test_live_3:
-          requires:
-            - build_pix_live
+            - test_client_1
+            - test_client_2
+            - test_client_3
+          filters:
+            branches:
+              ignore:
+                - master
+                - dev
+                - gh-pages

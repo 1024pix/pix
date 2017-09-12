@@ -37,7 +37,7 @@
     "configure": "npm install && npm test && npm run configure:dotenv && npm run configure:api",
     "install:api": "cd api && npm install",
     "install:live": "cd live && npm install",
-    "postinstall": "node_modules/.bin/run-p install:api install:live",
+    "postinstall": "install:api && install:live",
     "start:api": "cd api && npm run start:watch",
     "start:live": "cd live && ember serve --proxy",
     "start": "run-p start:api start:live",
