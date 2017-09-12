@@ -4,6 +4,7 @@ BUILD_ENV=$1
 BUILD_OUTPUT="undefined"
 GIT_CURRENT_HASH=`git rev-parse HEAD | tr -d "\n"`
 GIT_CURRENT_BRANCH=`git rev-parse --abbrev-ref HEAD | tr -d "\n"`
+EMBER_DIST="dist"
 
 # default env: production
 [ -z $BUILD_ENV ] && {
@@ -57,14 +58,15 @@ pending_changes=`git status --porcelain`
 
 GIT_HASH=`git rev-parse HEAD`
 
-(ember build --environment $BUILD_ENV --output-path $tmpdir           \
-    && git checkout gh-pages                                          \
-    && git pull origin gh-pages                                       \
-    && { if [ -d ./$BUILD_OUTPUT ]; then rm -rf ./$BUILD_OUTPUT; fi } \
-    && mv $tmpdir ./$BUILD_OUTPUT                                     \
-    && git add -A ./$BUILD_OUTPUT                                     \
+({ if [ ! -d $EMBER_DIST ]; then ember build --environment $BUILD_ENV; fi } \
+    && cp -R $EMBER_DIST $tmpdir                                            \
+    && git checkout gh-pages                                                \
+    && git pull origin gh-pages                                             \
+    && { if [ -d ./$BUILD_OUTPUT ]; then rm -rf ./$BUILD_OUTPUT; fi }       \
+    && mv $tmpdir ./$BUILD_OUTPUT                                           \
+    && git add -A ./$BUILD_OUTPUT                                           \
     && git commit -m "Release of $BUILD_OUTPUT with env $BUILD_ENV (via commit hash: $GIT_CURRENT_HASH)" \
-    && git push origin gh-pages                                       \
+    && git push origin gh-pages                                             \
 ) && {
     echo -n '** '
     tput setaf 2
