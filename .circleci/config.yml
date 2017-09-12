@@ -101,6 +101,9 @@ jobs:
       - restore_cache:
           keys:
             - v1-server-dependencies-{{ checksum "package.json" }}
+      - add-ssh-keys:
+         fingerprints:
+           - "35:db:1e:4a:c2:e7:10:6f:6d:c4:35:75:7e:90:78:8a"
       - run: |
           ssh-keyscan pix-app.ovh > ~/.ssh/known_hosts
           git config user.email "jbuget@gmail.com"
@@ -148,8 +151,9 @@ jobs:
           if [ "${CIRCLE_BRANCH}" == "dev" ]; then
             ./node_modules/.bin/ember build --environment staging
           else
-            ./node_modules/.bin/ember build --environment integration
+            npm run deploy:integration
           fi
+        ./node_modules/.bin/ember build
       - persist_to_workspace:
           root: ~/pix/live
           paths:
@@ -209,6 +213,9 @@ jobs:
             - v1-client-dependencies-{{ checksum "package.json" }}-{{ checksum "bower.json" }}
       - attach_workspace:
           at: ~/pix/live
+      - add-ssh-keys:
+         fingerprints:
+           - "c3:0d:1b:26:62:f1:89:98:d8:8c:f2:6c:b1:25:7b:6b"
       - run: |
           ssh-keyscan github.com > ~/.ssh/known_hosts
           git config user.email "jbuget@gmail.com"
