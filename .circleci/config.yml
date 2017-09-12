@@ -244,7 +244,6 @@ workflows:
             branches:
               ignore:
                 - master
-                - dev
                 - gh-pages
 
       # Client side
@@ -272,5 +271,4 @@ workflows:
             branches:
               ignore:
                 - master
-                - dev
                 - gh-pages
