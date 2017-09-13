@@ -66,7 +66,7 @@ export default function() {
   this.get('/courses/:id', (schema, request) => {
 
     const id = request.params.id;
-    if(['ref_course_id', 'highligthed_course_id', 'ref_timed_challenge_course_id'].includes(id)) {
+    if (['ref_course_id', 'highligthed_course_id', 'ref_timed_challenge_course_id'].includes(id)) {
       return getCourse(schema, request);
     }
     return schema.courses.find(id);
@@ -82,7 +82,7 @@ export default function() {
 
     const code = request.queryParams['filter[code]'];
 
-    if(code) {
+    if (code) {
       return schema.organizations.where({ code });
     }
 
@@ -90,4 +90,9 @@ export default function() {
   });
 
   this.post('/snapshots');
+  this.get('/organizations/:id/snapshots', (schema, request) => {
+    const organizationId = request.params.id;
+
+    return schema.snapshots.where({ organizationId: organizationId });
+  });
 }

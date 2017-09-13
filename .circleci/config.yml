@@ -1,0 +1,281 @@
+# .circleci/config.yml
+#
+# This file configures the CircleCI 2.0 build.
+#
+# Documentation:
+# - Overview: https://circleci.com/docs/2.0/workflows/
+# - Caching: https://circleci.com/docs/2.0/caching/
+#
+# Things to know:
+# - every job is a container
+# - the file `.circle-sha` is used to have a common key between different containers of same build
+# - we need cache, everywhere for everything
+# - cache is immutable. Sometimes we need to flush the cache, but we can't. That's why there is this
+# `v1-` at the beginning. Increment it to `v2-` when you need to change the cache content
+#
+# Cached entries (lifetime = months):
+# - `v1-pix-{{ checksum ".circle-sha" }}`                  => the source code
+# - `v1-server-dependencies-{{ checksum "package.json" }}` => `pix/api/node_modules` directory
+# - `v1-client-dependencies-{{ checksum "package.json" }}` => `pix/live/{node_modules, bower_components}` directories
+#
+# Workspace entries (lifetime = workflow):
+# - `~/pix/live/dist`                                      => `pix/live/dist` directory
+
+
+# Properties shared by all server-side jobs
+server_properties: &server_properties
+  docker:
+    - image: circleci/node:8
+  working_directory: ~/pix/api
+
+# Properties shared by all client-side jobs
+client_properties: &client_properties
+  docker:
+    - image: circleci/node:8-browsers
+  working_directory: ~/pix/live
+
+version: 2.0
+
+jobs:
+
+  # Common
+
+  checkout_code:
+    docker:
+      - image: circleci/node:8
+      - image: circleci/node:8-browsers
+    working_directory: ~/pix
+    steps:
+      - checkout
+      - run: echo $CIRCLE_SHA1 > .circle-sha
+      - save_cache:
+          key: v1-pix-{{ checksum ".circle-sha" }}
+          paths:
+            - ~/pix
+
+  # Server side
+
+  install_server_dependencies:
+    <<: *server_properties
+    steps:
+      - run: echo $CIRCLE_SHA1 > .circle-sha
+      - restore_cache:
+          keys:
+            - v1-pix-{{ checksum ".circle-sha" }}
+      - restore_cache:
+          keys:
+            - v1-server-dependencies-{{ checksum "package.json" }}
+      - run: npm install
+      - save_cache:
+          key: v1-server-dependencies-{{ checksum "package.json" }}
+          paths:
+            - ~/pix/api/node_modules
+            - ~/pix/.npm
+
+  build_server:
+    <<: *server_properties
+    steps:
+      - run: echo "Nothing to do for building the API"
+
+  test_server:
+    <<: *server_properties
+    steps:
+      - run: echo $CIRCLE_SHA1 > .circle-sha
+      - restore_cache:
+          keys:
+            - v1-pix-{{ checksum ".circle-sha" }}
+      - restore_cache:
+          keys:
+            - v1-server-dependencies-{{ checksum "package.json" }}
+      - run: |
+          npm run lint
+          npm test
+
+  deploy_server:
+    <<: *server_properties
+    steps:
+      - run: echo $CIRCLE_SHA1 > .circle-sha
+      - restore_cache:
+          keys:
+            - v1-pix-{{ checksum ".circle-sha" }}
+      - restore_cache:
+          keys:
+            - v1-server-dependencies-{{ checksum "package.json" }}
+      - add-ssh-keys:
+         fingerprints:
+           - "35:db:1e:4a:c2:e7:10:6f:6d:c4:35:75:7e:90:78:8a"
+      - run: |
+          ssh-keyscan pix-app.ovh > ~/.ssh/known_hosts
+          git config user.email "jbuget@gmail.com"
+          git config user.name "Jérémy Buget"
+      - deploy:
+          command: |
+            if [ "${CIRCLE_BRANCH}" == "dev" ]; then
+              npm run deploy:staging
+            else
+              npm run deploy:integration
+            fi
+
+  # Client side
+
+  install_client_dependencies:
+    <<: *client_properties
+    steps:
+      - run: echo $CIRCLE_SHA1 > .circle-sha
+      - restore_cache:
+          keys:
+            - v1-pix-{{ checksum ".circle-sha" }}
+      - restore_cache:
+          keys:
+            - v1-client-dependencies-{{ checksum "package.json" }}-{{ checksum "bower.json" }}
+      - run: npm install
+      - save_cache:
+          key: v1-client-dependencies-{{ checksum "package.json" }}-{{ checksum "bower.json" }}
+          paths:
+            - ~/pix/live/node_modules
+            - ~/pix/live/bower_components
+            - ~/.npm
+            - ~/.cache/bower
+
+  build_client:
+    <<: *client_properties
+    steps:
+      - run: echo $CIRCLE_SHA1 > .circle-sha
+      - restore_cache:
+          keys:
+            - v1-pix-{{ checksum ".circle-sha" }}
+      - restore_cache:
+          keys:
+            - v1-client-dependencies-{{ checksum "package.json" }}-{{ checksum "bower.json" }}
+      - run: |
+          if [ "${CIRCLE_BRANCH}" == "dev" ]; then
+            ./node_modules/.bin/ember build --environment staging
+          else
+            ./node_modules/.bin/ember build --environment integration
+          fi
+      - persist_to_workspace:
+          root: ~/pix/live
+          paths:
+            - dist
+
+  test_client_1:
+    <<: *client_properties
+    steps:
+      - run: echo $CIRCLE_SHA1 > .circle-sha
+      - restore_cache:
+          keys:
+            - v1-pix-{{ checksum ".circle-sha" }}
+      - restore_cache:
+          keys:
+            - v1-client-dependencies-{{ checksum "package.json" }}-{{ checksum "bower.json" }}
+      - attach_workspace:
+          at: ~/pix/live
+      - run: ./node_modules/.bin/ember exam --path dist --split=3 --partition=1
+
+  test_client_2:
+    <<: *client_properties
+    steps:
+      - run: echo $CIRCLE_SHA1 > .circle-sha
+      - restore_cache:
+          keys:
+            - v1-pix-{{ checksum ".circle-sha" }}
+      - restore_cache:
+          keys:
+            - v1-client-dependencies-{{ checksum "package.json" }}-{{ checksum "bower.json" }}
+      - attach_workspace:
+          at: ~/pix/live
+      - run: ./node_modules/.bin/ember exam --path dist --split=3 --partition=2
+
+  test_client_3:
+    <<: *client_properties
+    steps:
+      - run: echo $CIRCLE_SHA1 > .circle-sha
+      - restore_cache:
+          keys:
+            - v1-pix-{{ checksum ".circle-sha" }}
+      - restore_cache:
+          keys:
+            - v1-client-dependencies-{{ checksum "package.json" }}-{{ checksum "bower.json" }}
+      - attach_workspace:
+          at: ~/pix/live
+      - run: ./node_modules/.bin/ember exam --path dist --split=3 --partition=3
+
+  deploy_client:
+    <<: *client_properties
+    steps:
+      - run: echo $CIRCLE_SHA1 > .circle-sha
+      - restore_cache:
+          keys:
+            - v1-pix-{{ checksum ".circle-sha" }}
+      - restore_cache:
+          keys:
+            - v1-client-dependencies-{{ checksum "package.json" }}-{{ checksum "bower.json" }}
+      - attach_workspace:
+          at: ~/pix/live
+      - add-ssh-keys:
+         fingerprints:
+           - "c3:0d:1b:26:62:f1:89:98:d8:8c:f2:6c:b1:25:7b:6b"
+      - run: |
+          ssh-keyscan github.com > ~/.ssh/known_hosts
+          git config user.email "jbuget@gmail.com"
+          git config user.name "Jérémy Buget"
+      - deploy:
+          command: |
+            if [ "${CIRCLE_BRANCH}" == "dev" ]; then
+              npm run deploy:staging
+            else
+              npm run deploy:integration
+            fi
+
+workflows:
+  version: 2
+  build-test-and-deploy:
+    jobs:
+      # Common
+      - checkout_code
+
+      # Server side
+      - install_server_dependencies:
+          requires:
+            - checkout_code
+      - build_server:
+          requires:
+            - install_server_dependencies
+      - test_server:
+          requires:
+            - build_server
+      - deploy_server:
+          requires:
+            - test_server
+          filters:
+            branches:
+              ignore:
+                - master
+                - gh-pages
+
+      # Client side
+      - install_client_dependencies:
+          requires:
+            - checkout_code
+      - build_client:
+          requires:
+            - install_client_dependencies
+      - test_client_1:
+          requires:
+            - build_client
+      - test_client_2:
+          requires:
+            - build_client
+      - test_client_3:
+          requires:
+            - build_client
+      - deploy_client:
+          requires:
+            - test_client_1
+            - test_client_2
+            - test_client_3
+          filters:
+            branches:
+              ignore:
+                - master
+                - gh-pages

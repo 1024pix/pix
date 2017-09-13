@@ -1,7 +1,8 @@
 import Ember from 'ember';
 import UnauthenticatedRouteMixin from 'ember-simple-auth/mixins/unauthenticated-route-mixin';
+import BaseRoute from 'pix-live/routes/base-route';
 
-export default Ember.Route.extend(UnauthenticatedRouteMixin, {
+export default BaseRoute.extend(UnauthenticatedRouteMixin, {
 
   session: Ember.inject.service(),
 

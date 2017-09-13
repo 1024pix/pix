@@ -1,6 +1,6 @@
 {
   "name": "pix",
-  "version": "1.21.0",
+  "version": "1.22.0",
   "description": "Plateforme d'évaluation et de certification des compétences numériques des citoyens francophones.",
   "author": "Team PIX",
   "license": "AGPL-3.0",
@@ -37,7 +37,7 @@
     "configure": "npm install && npm test && npm run configure:dotenv && npm run configure:api",
     "install:api": "cd api && npm install",
     "install:live": "cd live && npm install",
-    "postinstall": "node_modules/.bin/run-p install:api install:live",
+    "postinstall": "npm run install:api && npm run install:live",
     "start:api": "cd api && npm run start:watch",
     "start:live": "cd live && ember serve --proxy",
     "start": "run-p start:api start:live",

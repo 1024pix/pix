@@ -5,7 +5,6 @@ export default function(server) {
 
   server.loadFixtures('areas');
   server.loadFixtures('competences');
-  server.loadFixtures('organizations');
 
   const user = server.create('user', {
     id: 1,
@@ -19,14 +18,9 @@ export default function(server) {
     competenceIds: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16]
   });
 
-  server.create('organization', {
-    id: 1,
-    name: 'LexCorp',
-    email: 'lex@lexcorp.com',
-    type: 'PRO',
-    code: 'ABCD66'
-  });
+  server.create('organization', { snapshots, userId: 1,  });
+  const snapshots = server.createList('snapshot', 3, { organizationId: 1 });
 
-  server.createList('organization', 2, { user });
+  user.organizationsIds = [1];
 
 }

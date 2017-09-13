@@ -4,6 +4,7 @@ BUILD_ENV=$1
 BUILD_OUTPUT="undefined"
 GIT_CURRENT_HASH=`git rev-parse HEAD | tr -d "\n"`
 GIT_CURRENT_BRANCH=`git rev-parse --abbrev-ref HEAD | tr -d "\n"`
+EMBER_DIST="dist"
 
 # default env: production
 [ -z $BUILD_ENV ] && {
@@ -42,9 +43,11 @@ echo
 
 # use a temporary directory for the build
 tmpdir=`mktemp -d`
+echo -n "Created temporary directory ${tmpdir}"
 
 # loookup changes
-[ -z `git status --porcelain` ] || {
+pending_changes=`git status --porcelain`
+[ -z "${pending_changes}" ] || {
     tput setaf 1
     echo 'You CANT deploy if you have untracked file or uncommited changes. Sorry.'
     echo '** FAILED !'
@@ -55,14 +58,15 @@ tmpdir=`mktemp -d`
 
 GIT_HASH=`git rev-parse HEAD`
 
-(ember build --environment $BUILD_ENV --output-path $tmpdir           \
-    && git checkout gh-pages                                          \
-    && git pull origin gh-pages                                       \
-    && { if [ -d ./$BUILD_OUTPUT ]; then rm -rf ./$BUILD_OUTPUT; fi } \
-    && mv $tmpdir ./$BUILD_OUTPUT                                     \
-    && git add -A ./$BUILD_OUTPUT                                     \
+({ if [ ! -d $EMBER_DIST ]; then ember build --environment $BUILD_ENV; fi } \
+    && cp -R $EMBER_DIST $tmpdir                                            \
+    && git checkout gh-pages                                                \
+    && git pull origin gh-pages                                             \
+    && { if [ -d ./$BUILD_OUTPUT ]; then rm -rf ./$BUILD_OUTPUT; fi }       \
+    && mv $tmpdir/$EMBER_DIST ./$BUILD_OUTPUT                                           \
+    && git add -A ./$BUILD_OUTPUT                                           \
     && git commit -m "Release of $BUILD_OUTPUT with env $BUILD_ENV (via commit hash: $GIT_CURRENT_HASH)" \
-    && git push origin gh-pages                                       \
+    && git push origin gh-pages                                             \
 ) && {
     echo -n '** '
     tput setaf 2

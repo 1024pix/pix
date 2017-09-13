@@ -4,6 +4,7 @@ const server = require('../../../server');
 const authorizationToken = require('../../../lib/infrastructure/validators/jsonwebtoken-verify');
 const UserRepository = require('../../../lib/infrastructure/repositories/user-repository');
 const User = require('../../../lib/domain/models/data/user');
+const Bookshelf = require('../../../lib/infrastructure/bookshelf');
 const profileService = require('../../../lib/domain/services/profile-service');
 const { InvalidTokenError } = require('../../../lib/domain/errors');
 
@@ -176,7 +177,7 @@ describe('Acceptance | Controller | users-controller-get-profile', function() {
       it('should return 404  HTTP status code, when authorization is valid but user not found', () => {
         // given
         authorizationToken.verify.resolves(4);
-        UserRepository.findUserById.returns(Promise.reject(User.NotFoundError));
+        UserRepository.findUserById.returns(Promise.reject(new Bookshelf.Model.NotFoundError()));
         options['headers'] = { authorization: 'Bearer VALID_TOKEN' };
 
         // when

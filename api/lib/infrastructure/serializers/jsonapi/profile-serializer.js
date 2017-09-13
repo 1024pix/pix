@@ -121,6 +121,13 @@ class ProfileSerializer extends JSONAPISerializer {
           'email': organizationJson.email,
           'type': organizationJson.type,
           'code': organizationJson.code
+        },
+        relationships: {
+          snapshots: {
+            links: {
+              related: `/api/organizations/${organizationJson.id}/snapshots`
+            }
+          }
         }
       });
     }

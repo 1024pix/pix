@@ -204,6 +204,13 @@ describe('Unit | Serializer | JSONAPI | profile-serializer', () => {
               email: 'best.etablishment@company.com',
               type: 'SCO',
               code : 'ABCD12'
+            },
+            relationships : {
+              snapshots : {
+                links : {
+                  related : '/api/organizations/organizationId1/snapshots'
+                }
+              }
             }
           },
           {
@@ -214,6 +221,13 @@ describe('Unit | Serializer | JSONAPI | profile-serializer', () => {
               email: 'best.enterprise@company.com',
               type: 'PRO',
               code : 'EFGH34'
+            },
+            relationships : {
+              snapshots : {
+                links : {
+                  related : '/api/organizations/organizationId2/snapshots'
+                }
+              }
             }
           }
         ]

@@ -115,6 +115,22 @@ describe('Unit | Route | index', function() {
         sinon.assert.calledWith(route.transitionTo, 'board');
       });
     });
+
+    it('should redirect to logout when we cannot retrieve user informations', function() {
+      // Given
+      storeServiceStub.findRecord.rejects();
+      const route = this.subject();
+      route.transitionTo = sinon.stub();
+
+      // When
+      const promise = route.beforeModel();
+
+      // Then
+      return promise.then(() => {
+        sinon.assert.calledOnce(route.transitionTo);
+        sinon.assert.calledWith(route.transitionTo, 'logout');
+      });
+    });
   });
 
 });
