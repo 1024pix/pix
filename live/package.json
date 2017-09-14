@@ -51,6 +51,7 @@
     "ember-cli-moment-shim": "^3.4.0",
     "ember-cli-release": "^1.0.0-beta.2",
     "ember-cli-sass": "^7.0.0",
+    "ember-cli-sentry": "^3.0.0-beta",
     "ember-cli-shims": "^1.1.0",
     "ember-cli-showdown": "^4.1.0",
     "ember-cli-sri": "^2.1.1",

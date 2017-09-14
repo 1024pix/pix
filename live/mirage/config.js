@@ -23,10 +23,6 @@ export default function() {
   this.passthrough('/write-coverage');
   this.post('https://fonts.googleapis.com/**', () => {
   });
-  this.post('https://formspree.io/**', () => {
-  });
-  this.post('https://sentry.io/**', () => {
-  });
 
   this.urlPrefix = 'http://localhost:3000';
   this.namespace = '/api';

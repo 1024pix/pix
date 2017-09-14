@@ -48,9 +48,6 @@ module.exports = function (defaults) {
       development: 'bower_components/loaders.css/loaders.css',
       production: 'bower_components/loaders.css/loaders.min.css'
     });
-
-    app.import('bower_components/raven-js/dist/raven.js');
-    app.import('bower_components/raven-js/dist/plugins/ember.js');
   }
 
   return app.toTree();
