@@ -82,7 +82,7 @@ describe('Unit | Service | Profil User Service', function() {
         sandbox.stub(competenceRepository, 'list').resolves(fakeCompetenceRecords);
         sandbox.stub(areaRepository, 'list').resolves(fakeAreaRecords);
         sandbox.stub(courseRepository, 'getAdaptiveCourses').resolves(fakeCoursesRecords);
-        sandbox.stub(assessmentRepository, 'getByUserId').resolves(fakeAssessmentRecords);
+        sandbox.stub(assessmentRepository, 'findCompletedAssessmentsByUserId').resolves(fakeAssessmentRecords);
         sandbox.stub(organizationRepository, 'getByUserId').resolves(fakeOrganizationsRecords);
       });
 
@@ -145,8 +145,8 @@ describe('Unit | Service | Profil User Service', function() {
 
         // Then
         return promise.then(() => {
-          sinon.assert.called(assessmentRepository.getByUserId);
-          sinon.assert.calledWith(assessmentRepository.getByUserId, 'user-id');
+          sinon.assert.called(assessmentRepository.findCompletedAssessmentsByUserId);
+          sinon.assert.calledWith(assessmentRepository.findCompletedAssessmentsByUserId, 'user-id');
         });
       });
 
