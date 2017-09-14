@@ -9,11 +9,9 @@
 @import 'globals/dimension';
 @import 'globals/loading';
 @import 'globals/redesign-inputs';
-
 /* 3rd-party */
 @import 'vendor/ember-routable-modal/core';
 @import 'vendor/ember-routable-modal/dialog';
-
 /* components */
 @import 'components/rounded-panel';
 @import 'components/pix-modale';
@@ -63,6 +61,7 @@
 @import 'components/user-logged-menu';
 @import 'components/partners-enrollment-panel';
 @import 'components/share-profile';
+@import 'components/logged-user-profile-banner';
 /* pages */
 @import 'pages/index';
 @import 'pages/project';

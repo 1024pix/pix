@@ -32,7 +32,7 @@ module.exports = function(environment) {
       isMessageStatusTogglingEnabled: true,
       LOAD_EXTERNAL_SCRIPT: true,
       GOOGLE_RECAPTCHA_KEY: '6LdPdiIUAAAAADhuSc8524XPDWVynfmcmHjaoSRO',
-      FEEDBACK_PANEL_SCROLL_DURATION: 800
+      SCROLL_DURATION: 800
     },
 
     googleFonts: [
@@ -53,7 +53,7 @@ module.exports = function(environment) {
     }
   };
 
-  if(environment === 'development') {
+  if (environment === 'development') {
     // LOG
     ENV.APP.LOG_RESOLVER = false;
     ENV.APP.LOG_ACTIVE_GENERATION = false;
@@ -65,7 +65,7 @@ module.exports = function(environment) {
     ENV.APP.API_HOST = 'http://localhost:3000';
   }
 
-  if(environment === 'test') {
+  if (environment === 'test') {
     ENV.EmberENV.useDelay = false;
 
     // Testem prefers this...
@@ -86,7 +86,7 @@ module.exports = function(environment) {
     ENV.APP.LOAD_EXTERNAL_SCRIPT = false;
   }
 
-  if(environment === 'integration') {
+  if (environment === 'integration') {
     ENV.metricsAdapters = [
       {
         name: 'Piwik',
@@ -99,7 +99,7 @@ module.exports = function(environment) {
     ];
   }
 
-  if(environment === 'staging') {
+  if (environment === 'staging') {
     ENV.metricsAdapters = [
       {
         name: 'Piwik',
@@ -112,7 +112,7 @@ module.exports = function(environment) {
     ];
   }
 
-  if(environment === 'production') {
+  if (environment === 'production') {
     ENV.metricsAdapters = [
       {
         name: 'Piwik',
