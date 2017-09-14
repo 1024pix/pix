@@ -1,4 +1,4 @@
-const FeedbackController = require('./feedback-controller');
+const feedbackController = require('./feedback-controller');
 
 exports.register = function(server, options, next) {
 
@@ -6,7 +6,12 @@ exports.register = function(server, options, next) {
     {
       method: 'POST',
       path: '/api/feedbacks',
-      config: { handler: FeedbackController.save, tags: ['api'] }
+      config: { handler: feedbackController.save, tags: ['api'] }
+    },
+    {
+      method: 'GET',
+      path: '/api/feedbacks',
+      config: { handler: feedbackController.find, tags: ['api'] }
     }
 
   ]);

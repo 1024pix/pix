@@ -399,7 +399,7 @@ describe('Unit | Controller | organizationController', () => {
       sandbox = sinon.sandbox.create();
       sandbox.stub(logger, 'error');
       sandbox.stub(snapshotRepository, 'getSnapshotsByOrganizationId');
-      sandbox.stub(snapshotSerializer, 'serializeArray');
+      sandbox.stub(snapshotSerializer, 'serialize');
       sandbox.stub(validationErrorSerializer, 'serialize');
       sandbox.stub(bookshelfUtils, 'mergeModelWithRelationship');
     });
@@ -460,8 +460,8 @@ describe('Unit | Controller | organizationController', () => {
 
         // then
         return promise.then(() => {
-          sinon.assert.calledOnce(snapshotSerializer.serializeArray);
-          sinon.assert.calledWith(snapshotSerializer.serializeArray, [{}]);
+          sinon.assert.calledOnce(snapshotSerializer.serialize);
+          sinon.assert.calledWith(snapshotSerializer.serialize, [{}]);
         });
       });
 
@@ -470,7 +470,7 @@ describe('Unit | Controller | organizationController', () => {
         const snapshots = [];
         const serializedSnapshots = { data: [] };
         snapshotRepository.getSnapshotsByOrganizationId.resolves(snapshots);
-        snapshotSerializer.serializeArray.resolves(serializedSnapshots);
+        snapshotSerializer.serialize.resolves(serializedSnapshots);
         const request = {
           params: {
             id: 7

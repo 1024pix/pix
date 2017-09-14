@@ -109,12 +109,10 @@ describe('Acceptance | API | Assessments GET', function() {
     };
 
     beforeEach(function(done) {
-      knex('assessments').delete().then(() => {
-        knex('assessments').insert([inserted_assessment]).then((rows) => {
-          inserted_assessment_id = rows[0];
-          options = { method: 'GET', url: `/api/assessments/${inserted_assessment_id}` };
-          done();
-        });
+      knex('assessments').insert([inserted_assessment]).then((rows) => {
+        inserted_assessment_id = rows[0];
+        options = { method: 'GET', url: `/api/assessments/${inserted_assessment_id}` };
+        done();
       });
     });
 
