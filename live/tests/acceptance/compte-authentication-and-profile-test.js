@@ -46,7 +46,7 @@ describe('Acceptance | Espace compte | Authentication', function() {
         visit('/projet');
 
         // when
-        click('.logged-user-name');
+        click('.logged-user-name__link');
         click('a:contains("Mon compte")');
 
         // then

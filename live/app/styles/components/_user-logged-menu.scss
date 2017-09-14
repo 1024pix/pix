@@ -1,12 +1,12 @@
 .logged-user-details {
   margin-top: 0px;
-  cursor: pointer;
   position: relative;
 }
 
 .logged-user-name__link {
   text-decoration: none;
   color: $charcoal-grey;
+  cursor: pointer;
 
   &:hover,
   &:visited,

@@ -60,7 +60,7 @@ describe('Integration | Component | user logged menu', function() {
       this.render(hbs`{{user-logged-menu}}`);
 
       // when
-      this.$('.logged-user-name').click();
+      this.$('.logged-user-name__link').click();
 
       return wait().then(() => {
         // then
@@ -82,15 +82,87 @@ describe('Integration | Component | user logged menu', function() {
       });
     });
 
-    it('should render a button to the profile', function() {
+    it('should hide user menu, when it was previously open and user press key escape', function() {
       // when
-      this.render(hbs`{{user-logged-menu}}`);
+      this.$('.logged-user-name').click();
+      this.$('.logged-user-name').trigger($.Event('keydown', { keyCode: 27 }));
+
+      return wait().then(() => {
+        // then
+        expect(this.$('.logged-user-menu')).to.have.length(0);
+      });
+    });
+
+    it('should hide user menu, when it was previously open and user press key escape', function() {
+      // when
+      this.$('.logged-user-name').click();
       this.$('.logged-user-name').click();
 
       return wait().then(() => {
         // then
-        expect(this.$('.user-menu-item__account-link').text().trim()).to.equal('Mon compte');
+        expect(this.$('.logged-user-menu')).to.have.length(0);
       });
+    });
+
+    describe('button rendering', function() {
+
+      it('should not render a button link to the profile when the user is on compte page', function() {
+        this.register('service:-routing', Ember.Service.extend({
+          currentRouteName : 'compte',
+          generateURL : function() {
+            return '/compte';
+          }
+        }));
+        this.inject.service('-routing', { as: '-routing' });
+
+        // when
+        this.render(hbs`{{user-logged-menu}}`);
+        this.$('.logged-user-name').click();
+
+        return wait().then(() => {
+          // then
+          expect(this.$('.user-menu-item__account-link').length).to.equal(0);
+        });
+      });
+
+      it('should not render a button link to the profile when the user is on compte page', function() {
+        this.register('service:-routing', Ember.Service.extend({
+          currentRouteName : 'board',
+          generateURL : function() {
+            return '/board';
+          }
+        }));
+        this.inject.service('-routing', { as: '-routing' });
+
+        // when
+        this.render(hbs`{{user-logged-menu}}`);
+        this.$('.logged-user-name').click();
+
+        return wait().then(() => {
+          // then
+          expect(this.$('.user-menu-item__account-link').length).to.equal(0);
+        });
+      });
+
+      it('should render a button link to the profile when the user is not on compte page', function() {
+        this.register('service:-routing', Ember.Service.extend({
+          generateURL : function() {
+            return '/autreRoute';
+          }
+        }));
+        this.inject.service('-routing', { as: '-routing' });
+
+        // when
+        this.render(hbs`{{user-logged-menu}}`);
+        this.$('.logged-user-name__link').click();
+
+        return wait().then(() => {
+          // then
+          expect(this.$('.user-menu-item__account-link').text().trim()).to.equal('Mon compte');
+          expect(this.$('.user-menu-item__account-link').length).to.equal(1);
+        });
+      });
+
     });
 
   });
