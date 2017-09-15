@@ -1,52 +1,32 @@
-const JSONAPISerializer = require('./jsonapi-serializer');
+const JSONAPISerializer = require('jsonapi-serializer').Serializer;
+const JSONAPIDeserializer = require('jsonapi-serializer').Deserializer;
 const Feedback = require('../../../domain/models/data/feedback');
 
-class FeedbackSerializer extends JSONAPISerializer {
+module.exports = {
 
-  constructor() {
-    super('feedback');
-  }
-
-  serializeAttributes(model, data) {
-    data.attributes.email = model.email;
-    data.attributes.content = model.content;
-  }
-
-  serializeRelationships(model, data) {
-    data.relationships = {};
-
-    data.relationships.assessment = {
-      data: {
-        type: 'assessments',
-        id: model.assessmentId
+  serialize(feedback) {
+    return new JSONAPISerializer('feedbacks', {
+      attributes: ['createdAt', 'content', 'assessment', 'challenge'],
+      assessment: { ref: 'id' },
+      challenge: { ref: 'id' },
+      transform(feedback) {
+        feedback.id = feedback.id.toString();
+        feedback.assessment = { id: feedback.assessmentId };
+        feedback.challenge = { id: feedback.challengeId };
+        return feedback;
       }
-    };
-
-    data.relationships.challenge = {
-      data: {
-        type: 'challenges',
-        id: model.challengeId
-      }
-    };
-  }
+    }).serialize(feedback);
+  },
 
   deserialize(json) {
-    const feedback = new Feedback({
-      content: json.data.attributes.content,
-      assessmentId: json.data.relationships.assessment.data.id,
-      challengeId: json.data.relationships.challenge.data.id
-    });
-
-    if (json.data.id) {
-      feedback.set('id', json.data.id);
-    }
-    if (json.data.attributes.email) {
-      feedback.set('email', json.data.attributes.email);
-    }
-
-    return feedback;
+    return new JSONAPIDeserializer()
+      .deserialize(json, function(err, feedback) {
+        feedback.assessmentId = json.data.relationships.assessment.data.id;
+        feedback.challengeId = json.data.relationships.challenge.data.id;
+      })
+      .then((deserializedFeedback) => {
+        return new Feedback(deserializedFeedback);
+      });
   }
 
-}
-
-module.exports = new FeedbackSerializer();
+};

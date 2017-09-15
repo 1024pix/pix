@@ -32,7 +32,7 @@ module.exports = function(environment) {
       isMessageStatusTogglingEnabled: true,
       LOAD_EXTERNAL_SCRIPT: true,
       GOOGLE_RECAPTCHA_KEY: '6LdPdiIUAAAAADhuSc8524XPDWVynfmcmHjaoSRO',
-      FEEDBACK_PANEL_SCROLL_DURATION: 800
+      SCROLL_DURATION: 800
     },
 
     googleFonts: [
@@ -44,16 +44,26 @@ module.exports = function(environment) {
 
     // Set or update content security policies
     contentSecurityPolicy: {
+      // Google fonts: https://github.com/damiencaselli/ember-cli-google-fonts#declare-fonts
       'font-src': '\'self\' fonts.gstatic.com',
-      'style-src': '\'self\' fonts.googleapis.com'
+      'style-src': '\'self\' fonts.googleapis.com',
+      // Sentry.io: https://github.com/damiencaselli/ember-cli-sentry/tree/3.0.0-beta#content-security-policy
+      'script-src': "'self' 'unsafe-inline' 'unsafe-eval' cdn.ravenjs.com",
+      'img-src': "data: app.getsentry.com",
+      'connect-src': "'self' app.getsentry.com"
     },
 
     showdown: {
       openLinksInNewWindow: true
+    },
+
+    sentry: {
+      dsn: 'https://4b60c9f39a844832956f840b9d0d1359@sentry.io/99479',
+      development: true
     }
   };
 
-  if(environment === 'development') {
+  if (environment === 'development') {
     // LOG
     ENV.APP.LOG_RESOLVER = false;
     ENV.APP.LOG_ACTIVE_GENERATION = false;
@@ -65,7 +75,7 @@ module.exports = function(environment) {
     ENV.APP.API_HOST = 'http://localhost:3000';
   }
 
-  if(environment === 'test') {
+  if (environment === 'test') {
     ENV.EmberENV.useDelay = false;
 
     // Testem prefers this...
@@ -86,7 +96,7 @@ module.exports = function(environment) {
     ENV.APP.LOAD_EXTERNAL_SCRIPT = false;
   }
 
-  if(environment === 'integration') {
+  if (environment === 'integration') {
     ENV.metricsAdapters = [
       {
         name: 'Piwik',
@@ -99,7 +109,7 @@ module.exports = function(environment) {
     ];
   }
 
-  if(environment === 'staging') {
+  if (environment === 'staging') {
     ENV.metricsAdapters = [
       {
         name: 'Piwik',
@@ -112,7 +122,7 @@ module.exports = function(environment) {
     ];
   }
 
-  if(environment === 'production') {
+  if (environment === 'production') {
     ENV.metricsAdapters = [
       {
         name: 'Piwik',
@@ -123,6 +133,7 @@ module.exports = function(environment) {
         }
       }
     ];
+    ENV.sentry.development = false;
   }
 
   return ENV;

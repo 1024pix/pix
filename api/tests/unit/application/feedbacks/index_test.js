@@ -1,6 +1,6 @@
 const { describe, it, beforeEach, before, after, expect, sinon } = require('../../../test-helper');
 const Hapi = require('hapi');
-const FeedbackController = require('../../../../lib/application/feedbacks/feedback-controller');
+const feedbackController = require('../../../../lib/application/feedbacks/feedback-controller');
 
 describe('Unit | Router | feedback-router', function() {
 
@@ -18,18 +18,34 @@ describe('Unit | Router | feedback-router', function() {
       done();
     });
   }
+
   describe('POST /api/feedbacks', function() {
 
     before(function() {
-      sinon.stub(FeedbackController, 'save').callsFake((request, reply) => reply('ok'));
+      sinon.stub(feedbackController, 'save').callsFake((request, reply) => reply('ok'));
     });
 
     after(function() {
-      FeedbackController.save.restore();
+      feedbackController.save.restore();
     });
 
     it('should exist', function(done) {
       expectRouteToExist({ method: 'POST', url: '/api/feedbacks' }, done);
+    });
+  });
+
+  describe('GET /api/feedbacks', () => {
+
+    before(function() {
+      sinon.stub(feedbackController, 'find').callsFake((request, reply) => reply('ok'));
+    });
+
+    after(function() {
+      feedbackController.find.restore();
+    });
+
+    it('should exist', (done) => {
+      expectRouteToExist({ method: 'GET', url: '/api/feedbacks' }, done);
     });
   });
 

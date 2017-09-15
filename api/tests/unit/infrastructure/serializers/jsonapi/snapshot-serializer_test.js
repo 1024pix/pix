@@ -5,145 +5,55 @@ describe('Unit | Serializer | JSONAPI | snapshot-serializer', () => {
 
   describe('#serialize', () => {
 
-    it('should be a function', () => {
-      // then
-      expect(serializer.serialize).to.be.a('function');
-    });
-
-    it('should correctly serialize', () => {
+    it('should convert a snapshot into a JSON:API compliant object', () => {
       // given
-      const expectedSerialization = {
-        data: {
-          type: 'snapshots',
-          id: '7',
-          attributes: {
-            'id': '7'
-          }
+      const snapshot = {
+        id: 1,
+        score: '10',
+        createdAt: '2017-08-23 12:52:33',
+        completionPercentage: '12',
+        user: {
+          id: 2,
+          firstName: 'Barack',
+          lastName: 'Afrite'
         }
       };
-
-      const snapshot = { id: 7 };
+      const expectedSerializedSnapshot = {
+        data: {
+          type: 'snapshots',
+          id: '1',
+          attributes: {
+            'completion-percentage': '12',
+            'created-at': '2017-08-23 12:52:33',
+            score: '10'
+          },
+          relationships: {
+            user: {
+              data: {
+                id: '2',
+                type: 'users'
+              }
+            }
+          }
+        },
+        included: [{
+          attributes: {
+            'first-name': 'Barack',
+            'last-name': 'Afrite'
+          },
+          id: '2',
+          type: 'users'
+        }]
+      };
 
       // when
       const result = serializer.serialize(snapshot);
 
       // then
-      expect(result).to.be.eql(expectedSerialization);
-    });
-  });
-
-  describe('#serializaArray', () => {
-
-    it('should be a function', () => {
-      // then
-      expect(serializer.serializeArray).to.be.a('function');
+      expect(result).to.deep.equal(expectedSerializedSnapshot);
     });
 
-    it('should return a serialized a snapshot', () => {
-      // given
-      const snapshot = {
-        id: '1',
-        score: '10',
-        createdAt: '2017-08-23 12:52:33',
-        completionPercentage: '12',
-        user: {
-          id: '2',
-          firstName: 'Barack',
-          lastName: 'Afrite'
-        }
-      };
-
-      const expectedJson = {
-        data:
-          {
-            id: '1',
-            type: 'snapshots',
-            attributes: {
-              score: '10',
-              'created-at': '2017-08-23 12:52:33',
-              'completion-percentage': '12',
-            },
-            relationships: {
-              user: {
-                data: {
-                  id: '2',
-                  type: 'users'
-                }
-              }
-            }
-          },
-        included: [
-          {
-            type: 'users',
-            id: '2',
-            attributes: {
-              'first-name': 'Barack',
-              'last-name': 'Afrite'
-            }
-          }
-        ]
-      };
-
-      // when
-      const result = serializer.serializeArray(snapshot);
-
-      // then
-      expect(result).to.eql(expectedJson);
-    });
-
-    it('should return a serialized a snapshot score set to null when its not defined', () => {
-      // given
-      const snapshot = {
-        id: '1',
-        score: null,
-        createdAt: '2017-08-23 12:52:33',
-        completionPercentage: '12',
-        user: {
-          id: '2',
-          firstName: 'Barack',
-          lastName: 'Afrite'
-        }
-      };
-
-      const expectedJson = {
-        data:
-          {
-            id: '1',
-            type: 'snapshots',
-            attributes: {
-              'created-at': '2017-08-23 12:52:33',
-              'completion-percentage': '12',
-              'score': null
-            },
-            relationships: {
-              user: {
-                data: {
-                  id: '2',
-                  type: 'users'
-                }
-              }
-            }
-          },
-        included: [
-          {
-            type: 'users',
-            id: '2',
-            attributes: {
-              'first-name': 'Barack',
-              'last-name': 'Afrite'
-            }
-          }
-        ]
-      };
-
-      // when
-      const result = serializer.serializeArray(snapshot);
-
-      // then
-      expect(result).to.eql(expectedJson);
-    });
-
-    it('should serialize array of snapshots', () => {
+    it('should convert an array of snapshots into a JSON:API compliant array', () => {
       // given
       const snapshot1 = {
         id: 1,
@@ -161,67 +71,118 @@ describe('Unit | Serializer | JSONAPI | snapshot-serializer', () => {
       };
       const snapshotsArray = [snapshot1, snapshot2];
       const expectedJson = {
-        data: [
-          {
-            id: '1',
-            type: 'snapshots',
-            attributes: {
-              score: '10',
-              'created-at': '2017-08-23 12:52:33',
-              'completion-percentage': '12'
-            },
-            relationships: {
-              user: {
-                data: {
-                  id: '1',
-                  type: 'users'
-                }
-              }
-            }
+        data: [{
+          id: '1',
+          type: 'snapshots',
+          attributes: {
+            score: '10',
+            'created-at': '2017-08-23 12:52:33',
+            'completion-percentage': '12'
           },
-          {
-            id: '2',
-            type: 'snapshots',
-            attributes: {
-              score: '12',
-              'completion-percentage': '25',
-              'created-at': '2017-07-29 12:52:44'
-            },
-            relationships: {
-              user: {
-                data: {
-                  id: '2',
-                  type: 'users'
-                }
+          relationships: {
+            user: {
+              data: {
+                id: '1',
+                type: 'users'
               }
             }
           }
-        ],
-        included: [
-          {
-            type: 'users',
-            id: '1',
-            attributes: {
-              'first-name': 'Barack',
-              'last-name': 'Afrite'
-            }
+        }, {
+          id: '2',
+          type: 'snapshots',
+          attributes: {
+            score: '12',
+            'completion-percentage': '25',
+            'created-at': '2017-07-29 12:52:44'
           },
-          {
-            type: 'users',
-            id: '2',
-            attributes: {
-              'first-name': 'Sandro',
-              'last-name': 'Mancuso'
+          relationships: {
+            user: {
+              data: {
+                id: '2',
+                type: 'users'
+              }
             }
           }
-        ]
+        }],
+        included: [{
+          type: 'users',
+          id: '1',
+          attributes: {
+            'first-name': 'Barack',
+            'last-name': 'Afrite'
+          }
+        }, {
+          type: 'users',
+          id: '2',
+          attributes: {
+            'first-name': 'Sandro',
+            'last-name': 'Mancuso'
+          }
+        }]
       };
 
       // when
-      const result = serializer.serializeArray(snapshotsArray);
+      const result = serializer.serialize(snapshotsArray);
 
       // then
-      expect(result).to.eql(expectedJson);
+      expect(result).to.deep.equal(expectedJson);
     });
+
+    it('should set the score to null when it is not defined', () => {
+      // given
+      const snapshot = {
+        id: 1,
+        createdAt: '2017-08-23 12:52:33',
+        completionPercentage: '12',
+      };
+
+      const expectedSerializedSnapshot = {
+        data: {
+          id: '1',
+          type: 'snapshots',
+          attributes: {
+            'created-at': '2017-08-23 12:52:33',
+            'completion-percentage': '12',
+            'score': null
+          }
+        }
+      };
+
+      // when
+      const result = serializer.serialize(snapshot);
+
+      // then
+      expect(result).to.eql(expectedSerializedSnapshot);
+    });
+
+    it('should set the completion percentage to null when it is not defined', () => {
+      // given
+      const snapshot = {
+        id: 1,
+        createdAt: '2017-08-23 12:52:33',
+        score: '12',
+        completionPercentage: null,
+      };
+
+      const expectedSerializedSnapshot = {
+        data: {
+          id: '1',
+          type: 'snapshots',
+          attributes: {
+            'created-at': '2017-08-23 12:52:33',
+            'completion-percentage': null,
+            'score': '12'
+          }
+        }
+      };
+
+      // when
+      const result = serializer.serialize(snapshot);
+
+      // then
+      expect(result).to.eql(expectedSerializedSnapshot);
+    });
+
   });
+
 });

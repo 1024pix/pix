@@ -1,17 +1,7 @@
 const JSONAPISerializer = require('jsonapi-serializer').Serializer;
 
 class SnapshotSerializer {
-  serialize(snapshot) {
-    return new JSONAPISerializer('snapshots', {
-      attributes: ['id'],
-      transform(snapshot) {
-        snapshot.id = snapshot.id.toString();
-        return snapshot;
-      }
-    }).serialize(snapshot);
-  }
-
-  serializeArray(snapshots) {
+  serialize(snapshots) {
     return new JSONAPISerializer('snapshot', {
       attributes: ['score', 'createdAt', 'completionPercentage', 'user'],
       user: {
@@ -20,7 +10,7 @@ class SnapshotSerializer {
       },
       transform(snapshot) {
         snapshot.id = snapshot.id.toString();
-        snapshot.completionPercentage = snapshot.completionPercentage.toString();
+        snapshot.completionPercentage = snapshot.completionPercentage && snapshot.completionPercentage.toString() || null;
         snapshot.score = snapshot.score && snapshot.score.toString() || null;
         return snapshot;
       }

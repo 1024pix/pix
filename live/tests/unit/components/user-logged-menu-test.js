@@ -4,7 +4,9 @@ import { setupTest } from 'ember-mocha';
 import Ember from 'ember';
 
 describe('Unit | Component | User logged Menu', function() {
-  setupTest('component:user-logged-menu', {});
+  setupTest('component:user-logged-menu', {
+    needs: ['service:keyboard']
+  });
 
   describe('action#toggleUserMenu', function() {
 
@@ -92,6 +94,72 @@ describe('Unit | Component | User logged Menu', function() {
         expect(findRecordArgs).to.deep.equal(['user', 1435]);
       });
 
+    });
+
+  });
+
+  describe('canDisplayLinkToProfile', function() {
+
+    beforeEach(function() {
+
+      this.register('service:session', Ember.Service.extend({}));
+      this.inject.service('session', { as: 'session' });
+
+      this.register('service:current-routed-modal', Ember.Service.extend({}));
+      this.inject.service('current-routed-modal', { as: 'current-routed-modal' });
+
+      this.register('service:store', Ember.Service.extend({
+        findRecord() {
+          return Ember.RSVP.resolve({});
+        }
+      }));
+      this.inject.service('store', { as: 'store' });
+
+    });
+
+    it('should be false if the current route is /compte', function() {
+      // given
+      this.register('service:-routing', Ember.Service.extend({
+        currentRouteName : 'compte'
+      }));
+      this.inject.service('-routing', { as: '-routing' });
+      const component = this.subject();
+
+      // when
+      const result = component.get('canDisplayLinkToProfile');
+
+      // then
+      expect(result).to.be.false;
+    });
+
+    it('should be false if the current route is /board', function() {
+      // given
+      this.register('service:-routing', Ember.Service.extend({
+        currentRouteName : 'board'
+      }));
+      this.inject.service('-routing', { as: '-routing' });
+      const component = this.subject();
+
+      // when
+      const result = component.get('canDisplayLinkToProfile');
+
+      // then
+      expect(result).to.be.false;
+    });
+
+    it('should be true if the current route is not /compte', function() {
+      // given
+      this.register('service:-routing', Ember.Service.extend({
+        currentRouteName : 'autreRoute'
+      }));
+      this.inject.service('-routing', { as: '-routing' });
+      const component = this.subject();
+
+      // when
+      const result = component.get('canDisplayLinkToProfile');
+
+      // then
+      expect(result).to.be.true;
     });
 
   });

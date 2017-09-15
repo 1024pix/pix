@@ -76,7 +76,7 @@ module.exports = {
       .then((snapshots) => bookshelfUtils.mergeModelWithRelationship(snapshots, 'user'))
       .then((snapshotsWithRelatedUsers) => {
         const jsonSnapshots = snapshotsWithRelatedUsers.map((snapshot) => snapshot.toJSON());
-        return snapshotSerializer.serializeArray(jsonSnapshots);
+        return snapshotSerializer.serialize(jsonSnapshots);
       })
       .then((serializedSnapshots) => reply(serializedSnapshots).code(200))
       .catch((err) => {

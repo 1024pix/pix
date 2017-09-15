@@ -52,14 +52,18 @@ pending_changes=`git status --porcelain`
     echo 'You CANT deploy if you have untracked file or uncommited changes. Sorry.'
     echo '** FAILED !'
     tput sgr0
-
     exit 1
 }
 
 GIT_HASH=`git rev-parse HEAD`
 
-({ if [ ! -d $EMBER_DIST ]; then ember build --environment $BUILD_ENV; fi } \
-    && cp -R $EMBER_DIST $tmpdir                                            \
+if [ "$BUILD_ENV" == "production" ] || [ "$BUILD_ENV" == "staging" ] || [ ! -d $EMBER_DIST ]; then
+  echo "Building application for env $BUILD_ENV..."
+  ember build --environment $BUILD_ENV --output-path=$EMBER_DIST
+  echo "Application built."
+fi
+
+(cp -R $EMBER_DIST $tmpdir                                            \
     && git checkout gh-pages                                                \
     && git pull origin gh-pages                                             \
     && { if [ -d ./$BUILD_OUTPUT ]; then rm -rf ./$BUILD_OUTPUT; fi }       \

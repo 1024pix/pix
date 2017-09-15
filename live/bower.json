@@ -6,7 +6,6 @@
     "bootstrap": "~3.3.7",
     "animate.css": "^3.5.2",
     "loaders.css": "^0.1.2",
-    "raven-js": "^3.8.1",
     "js-yaml": "^3.7.0",
     "lodash": "^4.17.2"
   }

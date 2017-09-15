@@ -24,13 +24,6 @@
     </div>
 
     <script src="{{rootURL}}assets/vendor.js"></script>
-    <!-- XXX https://docs.sentry.io/clients/javascript/integrations/ember/ -->
-    <script>
-      Raven
-        .config('https://4b60c9f39a844832956f840b9d0d1359@sentry.io/99479')
-        .addPlugin(Raven.Plugins.Ember)
-        .install();
-    </script>
     <script src="{{rootURL}}assets/pix-live.js"></script>
 
     {{content-for "body-footer"}}
