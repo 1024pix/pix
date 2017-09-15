@@ -21,7 +21,6 @@ describe('Unit | Serializer | JSONAPI | feedback-serializer', function() {
           type: 'feedbacks',
           id: 'feedback_id',
           attributes: {
-            email: feedback.email,
             content: feedback.content,
             'created-at': feedback.createdAt
           },

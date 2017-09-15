@@ -6,7 +6,7 @@ module.exports = {
 
   serialize(feedback) {
     return new JSONAPISerializer('feedbacks', {
-      attributes: ['createdAt', 'email', 'content', 'assessment', 'challenge'],
+      attributes: ['createdAt', 'content', 'assessment', 'challenge'],
       assessment: { ref: 'id' },
       challenge: { ref: 'id' },
       transform(feedback) {
