@@ -1,4 +1,4 @@
-/* global _ */
+import _ from 'lodash';
 
 _.mixin({
 
