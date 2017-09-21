@@ -14,6 +14,9 @@ Set.prototype.difference = function(setB) {
   return difference;
 };
 
+const MAX_REACHABLE_LEVEL = 5;
+const NB_PIX_BY_LEVEL = 8;
+
 class Assessment {
   constructor(course, answers) {
     this.course = course;
@@ -128,7 +131,8 @@ class Assessment {
   }
 
   get obtainedLevel() {
-    return Math.floor(this.pixScore / 8);
+    const estimatedLevel = Math.floor(this.pixScore / NB_PIX_BY_LEVEL);
+    return (estimatedLevel >= MAX_REACHABLE_LEVEL) ? MAX_REACHABLE_LEVEL : estimatedLevel;
   }
 }
 

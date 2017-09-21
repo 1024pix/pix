@@ -490,6 +490,17 @@ describe('Unit | Model | Assessment', function() {
       // then
       expect(assessment.obtainedLevel).to.equal(1);
     });
+
+    it('should be 5 even if pixScore is 48 (level 6 must not be reachable for the moment)', function() {
+      // given
+      const course = new Course([], []);
+      const assessment = new Assessment(course, []);
+      sinon.stub(assessment, 'pixScore').get(() => 48);
+
+      // then
+      expect(assessment.obtainedLevel).to.equal(5);
+    });
+
   });
 
   describe('Set', () => {
