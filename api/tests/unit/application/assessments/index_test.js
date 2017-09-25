@@ -1,6 +1,7 @@
 const { describe, it, before, after, beforeEach, expect, sinon } = require('../../../test-helper');
 const Hapi = require('hapi');
 const AssessmentController = require('../../../../lib/application/assessments/assessment-controller');
+const AssessmentAuthorization = require('../../../../lib/application/preHandlers/assessment-authorization');
 
 describe('Unit | Router | assessment-router', function() {
 
@@ -66,16 +67,27 @@ describe('Unit | Router | assessment-router', function() {
 
   describe('GET /api/assessments/assessment_id', function() {
 
+    let sandbox;
+
     before(function() {
-      sinon.stub(AssessmentController, 'get').callsFake((request, reply) => reply('ok'));
+      sandbox = sinon.sandbox.create();
+      sandbox.stub(AssessmentController, 'get').callsFake((request, reply) => reply('ok'));
+      sandbox.stub(AssessmentAuthorization, 'verify').callsFake((request, reply) => reply('userId'));
     });
 
     after(function() {
-      AssessmentController.get.restore();
+      sandbox.restore();
     });
 
     it('should exist', function(done) {
       expectRouteToExist({ method: 'GET', url: '/api/assessments/assessment_id' }, done);
+    });
+
+    it('should call pre-handler', (done) => {
+      return server.inject({ method: 'GET', url: '/api/assessments/assessment_id' }, () => {
+        sinon.assert.called(AssessmentAuthorization.verify);
+        done();
+      });
     });
   });
 });

@@ -1,5 +1,5 @@
 const AssessmentController = require('./assessment-controller');
-
+const AssessmentAuthorization = require('../preHandlers/assessment-authorization');
 exports.register = function(server, options, next) {
 
   server.route([
@@ -22,12 +22,21 @@ exports.register = function(server, options, next) {
     {
       method: 'GET',
       path: '/api/assessments/{id}',
-      config: { handler: AssessmentController.get, tags: ['api'] }
+      config: {
+        pre: [{
+          method: AssessmentAuthorization.verify,
+          assign: 'authorizationCheck'
+        }],
+        handler: AssessmentController.get,
+        tags: ['api']
+      }
     },
     {
       method: 'GET',
       path: '/api/assessments/{id}/solutions/{answerId}',
-      config: { handler: AssessmentController.getAssessmentSolutions, tags: ['api'] }
+      config: {
+        handler: AssessmentController.getAssessmentSolutions, tags: ['api']
+      }
     }
   ]);
 

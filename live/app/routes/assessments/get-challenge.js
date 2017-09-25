@@ -17,6 +17,11 @@ export default BaseRoute.extend({
       assessment: store.findRecord('assessment', assessmentId),
       challenge: store.findRecord('challenge', challengeId),
       answers: store.queryRecord('answer', { assessment: assessmentId, challenge: challengeId })
+    }).catch((err) => {
+      const meta = ('errors' in err) ? err.errors.get('firstObject').meta : null;
+      if (meta.field === 'authorization') {
+        return this.transitionTo('index');
+      }
     });
   },
 
@@ -39,7 +44,7 @@ export default BaseRoute.extend({
     if (!answer) {
       answer = this.get('store').createRecord('answer', {
         assessment: assessment,
-        challenge:  challenge
+        challenge: challenge
       });
     }
     return answer;
@@ -66,8 +71,8 @@ export default BaseRoute.extend({
     saveAnswerAndNavigate(challenge, assessment, answerValue, answerTimeout, answerElapsedTime) {
       const answer = this._findOrCreateAnswer(challenge, assessment);
       answer.setProperties({
-        value:       answerValue,
-        timeout:     answerTimeout,
+        value: answerValue,
+        timeout: answerTimeout,
         elapsedTime: answerElapsedTime
       });
       return answer.save()
