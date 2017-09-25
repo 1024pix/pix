@@ -138,7 +138,7 @@ module.exports = {
       .then(({ answers, course }) => {
         // fetch challenges (requires course)
         const challenges = course.challenges.map(challengeId => challengeRepository.get(challengeId));
-        
+
         return Promise.all(challenges).then(challenges => {
           return { answers, course, challenges };
         });
@@ -146,7 +146,7 @@ module.exports = {
       .then(({ answers, course, challenges }) => {
         // fetch skillNames (requires course)
         const competenceId = course.competences[0];
-        const skillNames = skillRepository.getFromCompetence(competenceId);
+        const skillNames = skillRepository.getFromCompetenceId(competenceId);
         return Promise.all([skillNames]).then(values => {
           const skillNames = values[0];
           return { answers, course, challenges, skillNames };

@@ -38,7 +38,7 @@ module.exports = {
     });
   },
 
-  getFromCompetence(competenceId) {
+  getFromCompetenceId(competenceId) {
     return new Promise((resolve, reject) => {
       const cacheKey = `challenge-repository_get_from_competence_${competenceId}`;
       cache.get(cacheKey, (err, cachedValue) => {

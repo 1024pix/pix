@@ -117,7 +117,7 @@ describe('Unit | Domain | Services | assessment-service', function() {
 
     let getAssessmentStub;
     let getCourseStub;
-    let getChallengeStub;
+    let getChallengesStub;
     let findByAssessmentStub;
     let getSkillStub;
 
@@ -129,7 +129,6 @@ describe('Unit | Domain | Services | assessment-service', function() {
     const partialAnswerWeb1 = _buildAnswer('challenge_web_1', 'partial', ASSESSMENT_ID);
 
     const challenges = [
-      _buildChallenge('challenge_url_1', ['@url1']),
       _buildChallenge('challenge_web_1', ['@web1']),
       _buildChallenge('challenge_web_2', ['@web2'])
     ];
@@ -137,10 +136,8 @@ describe('Unit | Domain | Services | assessment-service', function() {
     beforeEach(() => {
       getAssessmentStub = sinon.stub(assessmentRepository, 'get').returns(Promise.resolve(assessment));
       getCourseStub = sinon.stub(courseRepository, 'get').returns({ challenges: ['challenge_web_2', 'challenge_web_1'], competences: ['competence_id'] });
-      getChallengeStub = sinon.stub(challengeRepository, 'get');
-      getChallengeStub.withArgs('challenge_web_1').returns(challenges[1]);
-      getChallengeStub.withArgs('challenge_web_2').returns(challenges[2]);
-      getSkillStub = sinon.stub(skillRepository, 'getFromCompetence').returns(new Set());
+      getChallengesStub = sinon.stub(challengeRepository, 'getFromCompetenceId').returns(challenges);
+      getSkillStub = sinon.stub(skillRepository, 'getFromCompetenceId').returns(new Set());
 
       findByAssessmentStub = sinon.stub(answerRepository, 'findByAssessment')
         .returns(Promise.resolve([ correctAnswerWeb2, partialAnswerWeb1 ]));
@@ -149,7 +146,7 @@ describe('Unit | Domain | Services | assessment-service', function() {
     afterEach(() => {
       getAssessmentStub.restore();
       getCourseStub.restore();
-      getChallengeStub.restore();
+      getChallengesStub.restore();
       getSkillStub.restore();
       findByAssessmentStub.restore();
     });
@@ -203,7 +200,6 @@ describe('Unit | Domain | Services | assessment-service', function() {
         courseId: 'nullfec89bd5-a706-419b-a6d2-f8805e708ace'
       });
       getAssessmentStub.returns(Promise.resolve(assessmentFromPreview));
-      findByAssessmentStub.returns(Promise.reject());
 
       // When
       const promise = service.getScoredAssessment(ASSESSMENT_ID);
@@ -268,8 +264,7 @@ describe('Unit | Domain | Services | assessment-service', function() {
           firstFakeChallenge = _buildChallenge([ '@web1' ]);
           secondFakeChallenge = _buildChallenge([ '@web2' ]);
 
-          getChallengeStub.onFirstCall().returns(Promise.resolve(firstFakeChallenge));
-          getChallengeStub.onSecondCall().returns(Promise.resolve(secondFakeChallenge));
+          getChallengesStub.resolves([firstFakeChallenge, secondFakeChallenge]);
         });
 
         it('should resolve the promise with a scored assessment', () => {

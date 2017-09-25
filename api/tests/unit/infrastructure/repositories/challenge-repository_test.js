@@ -116,10 +116,10 @@ describe('Unit | Repository | challenge-repository', function() {
   });
 
   /*
-   * #getFromCompetence
+   * #getFromCompetenceId
    */
 
-  describe('#getFromCompetence', function() {
+  describe('#getFromCompetenceId', function() {
 
     const competenceId = 'competence_id';
     const cacheKey = `challenge-repository_get_from_competence_${competenceId}`;
@@ -137,7 +137,7 @@ describe('Unit | Repository | challenge-repository', function() {
       });
 
       // when
-      const result = challengeRepository.getFromCompetence(competenceId);
+      const result = challengeRepository.getFromCompetenceId(competenceId);
 
       // then
       cache.get.restore();
@@ -152,7 +152,7 @@ describe('Unit | Repository | challenge-repository', function() {
       cache.set(cacheKey, expectedChallenges);
 
       // when
-      const result = challengeRepository.getFromCompetence(competenceId);
+      const result = challengeRepository.getFromCompetenceId(competenceId);
 
       // then
       expect(getRecords.notCalled).to.be.true;
@@ -168,7 +168,7 @@ describe('Unit | Repository | challenge-repository', function() {
 
       it('should resolve with the challenges fetched from Airtable and filtered for this competence', function(done) {
         // when
-        const result = challengeRepository.getFromCompetence(competenceId);
+        const result = challengeRepository.getFromCompetenceId(competenceId);
 
         // then
         const expectedChallenges = [challenges[0], challenges[2]];
@@ -178,7 +178,7 @@ describe('Unit | Repository | challenge-repository', function() {
 
       it('should cache the challenges fetched from Airtable', function(done) {
         // when
-        challengeRepository.getFromCompetence(competenceId).then(() => {
+        challengeRepository.getFromCompetenceId(competenceId).then(() => {
 
           // then
           cache.get(cacheKey, (err, cachedValue) => {
@@ -193,7 +193,7 @@ describe('Unit | Repository | challenge-repository', function() {
         const expectedQuery = {};
 
         // when
-        challengeRepository.getFromCompetence(competenceId).then(() => {
+        challengeRepository.getFromCompetenceId(competenceId).then(() => {
 
           // then
           expect(getRecords.calledWith('Epreuves', expectedQuery, challengeSerializer)).to.be.true;
