@@ -55,6 +55,30 @@ class Assessment {
     return -Math.abs(answers.map(answer => answer.binaryOutcome - this._probaOfCorrectAnswer(level, answer.maxDifficulty)).reduce((a, b) => a + b));
   }
 
+  _isAnActiveChallenge(challenge) {
+    const unactiveChallengeStatus = ['validé', 'validé sans test', 'pré-validé'];
+    return unactiveChallengeStatus.includes(challenge.status);
+  }
+
+  _isAnAnsweredChallenge(challenge, answeredChallenges) {
+    return !answeredChallenges.includes(challenge);
+  }
+
+  _isAnAvailableChallenge(challenge) {
+    const answeredChallenges = this.answers.map(answer => answer.challenge);
+    return this._isAnActiveChallenge(challenge) && this._isAnAnsweredChallenge(challenge, answeredChallenges);
+  }
+
+  _isPreviousChallengeTimed() {
+    const answeredChallenges = this.answers.map(answer => answer.challenge);
+    const lastAnswer = this.answers[answeredChallenges.length - 1];
+    return lastAnswer && lastAnswer.challenge.timer !== undefined;
+  }
+
+  _extractNotTimedChallenge(availableChallenges) {
+    return availableChallenges.filter(challenge => challenge.timer === undefined);
+  }
+
   get estimatedLevel() {
     if (this.answers.length === 0) {
       return 2;
@@ -94,8 +118,9 @@ class Assessment {
   }
 
   get filteredChallenges() {
-    const answeredChallenges = this.answers.map(answer => answer.challenge);
-    return this.course.challenges.filter(challenge => !answeredChallenges.includes(challenge) && ['validé', 'validé sans test', 'pré-validé'].includes(challenge.status));
+    let availableChallenges = this.course.challenges.filter(challenge => this._isAnAvailableChallenge(challenge));
+    availableChallenges = this._isPreviousChallengeTimed() ? this._extractNotTimedChallenge(availableChallenges) : availableChallenges;
+    return availableChallenges;
   }
 
   get nextChallenge() {

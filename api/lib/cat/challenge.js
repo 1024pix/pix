@@ -1,8 +1,9 @@
 class Challenge {
-  constructor(id, status, skills) {
+  constructor(id, status, skills, timer) {
     this.id = id;
     this.status = status;
     this.skills = skills;
+    this.timer = timer;
   }
 
   get hardestSkill() {
