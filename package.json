@@ -11,8 +11,8 @@
   "main": "index.js",
   "devDependencies": {
     "codeclimate-test-reporter": "^0.5.0",
-    "coveralls": "^2.13.1",
-    "eslint": "^4.5.0",
+    "coveralls": "^2.13.3",
+    "eslint": "^4.8.0",
     "lcov-result-merger": "^1.2.0",
     "npm-run-all": "^4.1.0"
   },
