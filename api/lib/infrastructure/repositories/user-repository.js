@@ -1,15 +1,12 @@
 const User = require('../../domain/models/data/user');
-const { NotFoundError, AlreadyRegisteredEmailError } = require('../../domain/errors');
+const { AlreadyRegisteredEmailError } = require('../../domain/errors');
 
 module.exports = {
 
   findByEmail(email) {
     return User
       .where({ email })
-      .fetch({ require: true })
-      .catch((err) => {
-        return Promise.reject(new NotFoundError(err));
-      });
+      .fetch({ require: true });
   },
 
   findUserById(userId) {

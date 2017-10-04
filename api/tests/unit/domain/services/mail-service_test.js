@@ -1,7 +1,5 @@
 const { describe, it, beforeEach, afterEach, sinon, expect } = require('../../../test-helper');
-
 const _ = require('lodash');
-
 const mailJet = require('../../../../lib/infrastructure/mailjet');
 const mailService = require('../../../../lib/domain/services/mail-service');
 const logger = require('./../../../../lib/infrastructure/logger');
@@ -107,7 +105,7 @@ describe('Unit | Service | MailService', () => {
 
       // Then
       return promise.then(() => {
-        sinon.assert.calledWith(lodashSampleSpy, [ 'WEBPIX', 'TESTPIX', 'BETAPIX' ]);
+        sinon.assert.calledWith(lodashSampleSpy, ['WEBPIX', 'TESTPIX', 'BETAPIX']);
       });
     });
 
@@ -159,5 +157,50 @@ describe('Unit | Service | MailService', () => {
         sinon.assert.calledWith(errorStub, error);
       });
     });
+  });
+
+  describe('#sendResetPasswordDemandEmail', () => {
+
+    let sendEmailStub;
+
+    beforeEach(() => {
+      sendEmailStub = sinon.stub(mailJet, 'sendEmail').resolves();
+    });
+
+    afterEach(() => {
+      sendEmailStub.restore();
+    });
+
+    it('should be a function', () => {
+      // then
+      expect(mailService.sendResetPasswordDemandEmail).to.be.a('function');
+    });
+
+    describe('when provided passwordResetDemandBaseUrl is not production', () => {
+      it('should call Mailjet with a sub-domain prefix', () => {
+        // Given
+        const email = 'text@example.net';
+        const fakeTemporaryKey = 'token';
+        const passwordResetDemandBaseUrl = 'http://dev.pix.beta.gouv.fr';
+
+        // When
+        const promise = mailService.sendResetPasswordDemandEmail(email, passwordResetDemandBaseUrl, fakeTemporaryKey);
+
+        // Then
+        return promise.then(() => {
+          sinon.assert.calledWith(sendEmailStub, {
+            to: email,
+            template: '207534',
+            from: 'ne-pas-repondre@pix.beta.gouv.fr',
+            fromName: 'PIX - Ne pas répondre',
+            subject: 'Demande de réinitialisation de mot de passe PIX',
+            variables: {
+              resetUrl: `${passwordResetDemandBaseUrl}/compte/motdepasse/${fakeTemporaryKey}`
+            }
+          });
+        });
+      });
+    });
+
   });
 });

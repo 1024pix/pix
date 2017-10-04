@@ -12,7 +12,7 @@ describe('Unit | Service | Token Service', function() {
 
     it('should return userId if the token passed is valid', () => {
       //Given
-      const user = new User({ id : 123 });
+      const user = new User({ id: 123 });
       const token = tokenService.createTokenFromUser(user);
 
       //When

@@ -34,11 +34,41 @@ class AlreadyRegisteredEmailError extends Error {
   }
 }
 
+class UserNotFoundError extends Error {
+  constructor() {
+    super();
+  }
+
+  static getErrorMessage() {
+    return {
+      data: {
+        email: ['Cette adresse email n’existe pas.']
+      }
+    };
+  }
+}
+
+class InternalError extends Error {
+  constructor() {
+    super();
+  }
+
+  static getErrorMessage() {
+    return {
+      data: {
+        error: ['Une erreur interne est survenue.']
+      }
+    };
+  }
+}
+
 module.exports = {
   NotFoundError,
   NotElligibleToScoringError,
   PasswordNotMatching,
   InvalidTokenError,
   AlreadyRegisteredEmailError,
-  InvaliOrganizationIdError
+  InvaliOrganizationIdError,
+  UserNotFoundError,
+  InternalError
 };

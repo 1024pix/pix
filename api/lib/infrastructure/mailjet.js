@@ -11,14 +11,14 @@ function _formatPayload(options) {
     subject: 'Bienvenue dans la communauté PIX',
     template: null
   });
-
+  const variables = configuration.variables || {};
   return {
     'FromEmail': configuration.from,
     'FromName': configuration.fromName,
     'Subject': configuration.subject,
     'MJ-TemplateID': configuration.template,
     'MJ-TemplateLanguage': 'true',
-    'Recipients': [ { 'Email': configuration.to } ]
+    'Recipients': [{ 'Email': configuration.to, 'Vars': variables }]
   };
 }
 

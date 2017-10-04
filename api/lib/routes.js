@@ -14,4 +14,5 @@ module.exports = [
   require('./application/organizations'),
   require('./application/snapshots'),
   require('./application/users'),
+  require('./application/passwords')
 ];

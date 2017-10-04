@@ -29,6 +29,7 @@
     "hapi": "^16.6.2",
     "hapi-swagger": "^7.8.1",
     "inert": "^4.2.1",
+    "joi": "^11.1.1",
     "jsonapi-serializer": "^3.5.5",
     "jsonwebtoken": "^7.4.3",
     "knex": "^0.13.0",

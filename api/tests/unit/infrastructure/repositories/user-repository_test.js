@@ -4,7 +4,8 @@ const bcrypt = require('bcrypt');
 
 const User = require('../../../../lib/domain/models/data/user');
 const UserRepository = require('../../../../lib/infrastructure/repositories/user-repository');
-const { NotFoundError, AlreadyRegisteredEmailError } = require('../../../../lib/domain/errors');
+const { AlreadyRegisteredEmailError } = require('../../../../lib/domain/errors');
+const Bookshelf = require('../../../../lib/infrastructure/bookshelf');
 
 describe('Unit | Repository | UserRepository', function() {
 
@@ -74,14 +75,13 @@ describe('Unit | Repository | UserRepository', function() {
     it('should handle a rejection, when user id is not found', () => {
       // Given
       const emailThatDoesNotExist = 10093;
-
       // When
       const promise = UserRepository.findByEmail(emailThatDoesNotExist);
 
       // Then
       return promise
         .catch((err) => {
-          expect(err).to.be.an.instanceof(NotFoundError);
+          expect(err).to.be.instanceof(Bookshelf.Model.NotFoundError);
         });
     });
 
