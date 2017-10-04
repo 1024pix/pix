@@ -44,7 +44,7 @@ fi
 
 # Merge 'release' branch on 'dev'
 git checkout dev
-git merge $CURRENT_BRANCH
+git merge $CURRENT_BRANCH --no-edit
 git push origin dev
 echo -e "You are now on branch ${YELLOW}dev${RESET_COLOR}.\n"
 
@@ -57,7 +57,7 @@ git pull --rebase
 echo -e "You are now on branch ${YELLOW}master${RESET_COLOR}.\n"
 
 # Merge 'dev' branch on 'master'
-git merge dev
+git merge dev --no-edit
 git push origin master
 git tag -a "v${PACKAGE_VERSION}" --force
 git push origin "v$PACKAGE_VERSION" --force
