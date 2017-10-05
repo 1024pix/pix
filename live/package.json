@@ -19,7 +19,7 @@
     "coverage:convert": "node scripts/lcov-path-converter",
     "coverage:rename": "mv coverage/lcov.info ../coverage/live_lcov.info",
     "coverage": "npm run coverage:check && npm run coverage:convert && npm run coverage:rename",
-    "test:watch": "ember test --serve",
+    "test:watch": "ember exam --serve",
     "ci:test": "COVERAGE=true ember test",
     "deploy:integration": "./scripts/deploy.sh integration",
     "deploy:staging": "./scripts/deploy.sh staging",

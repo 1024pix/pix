@@ -1,8 +1,8 @@
 import { afterEach, beforeEach, describe, it } from 'mocha';
 import { expect } from 'chai';
 import { startApp, destroyApp } from '../helpers/application';
-import seeds from '../helpers/seeds';
-import testing from '../helpers/testing';
+import { authenticateAsSimpleUser, authenticateAsPrescriber } from '../helpers/testing';
+import defaultScenario from '../../mirage/scenarios/default';
 
 describe('Acceptance | Espace compte | Authentication', function() {
 
@@ -10,39 +10,18 @@ describe('Acceptance | Espace compte | Authentication', function() {
 
   beforeEach(function() {
     application = startApp();
+    defaultScenario(server);
   });
 
   afterEach(function() {
     destroyApp(application);
   });
 
-  function seedDatabaseForUserWithOrganization() {
-    server.create('organization', {
-      id: 1,
-      name: 'LexCorp',
-      email: 'lex@lexcorp.com',
-      type: 'PRO',
-      code: 'ABCD66',
-    });
-    server.create('user', {
-      id: 1,
-      firstName: 'Samurai',
-      lastName: 'Jack',
-      email: 'samurai.jack@aku.world',
-      password: 'B@ck2past',
-      cgu: true,
-      recaptchaToken: 'recaptcha-token-xxxxxx',
-      organizationIds: [1]
-    });
-  }
-
   describe('Logged Menu', function() {
     describe('after visiting the project page', function() {
       it('should redirect to /compte user "Mon compte"', function() {
         // given
-        seeds.injectUserAccount();
-        testing.authenticateUser();
-
+        authenticateAsSimpleUser();
         visit('/projet');
 
         // when
@@ -61,9 +40,6 @@ describe('Acceptance | Espace compte | Authentication', function() {
 
     describe('m1.1 Accessing to the /compte page while disconnected', function() {
       it('should redirect to the connexion page', function() {
-        // given
-        seeds.injectUserAccount();
-
         // when
         visit('/compte');
 
@@ -77,8 +53,7 @@ describe('Acceptance | Espace compte | Authentication', function() {
     describe('Log-in phase', function() {
       it('should redirect to the /compte after connexion for usual users', function() {
         // given
-        seeds.injectUserAccount();
-        testing.authenticateUser();
+        authenticateAsSimpleUser();
 
         // then
         return andThen(function() {
@@ -88,8 +63,7 @@ describe('Acceptance | Espace compte | Authentication', function() {
 
       it('should redirect to the /board after connexion for users with organization', function() {
         // given
-        seedDatabaseForUserWithOrganization();
-        testing.authenticateUser();
+        authenticateAsPrescriber();
 
         // then
         return andThen(function() {
