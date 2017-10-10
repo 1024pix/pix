@@ -1,6 +1,6 @@
 # Pix Changelog
 
-## 1.25.0 (10/10/2017)
+## 1.24.0 (10/10/2017)
 
  - [#552](https//github.com/sgmap/pix/pull/552)[CLEANUP] Nettoyage de Ember Mirage.
  - [#541](https//github.com/sgmap/pix/pull/541)[FEATURE] Possibilité d'enregistrer une demande de réinitialisation du mot de passe (US-798)
@@ -13,11 +13,6 @@
  - [#533](https//github.com/sgmap/pix/pull/533)[BUGFIX] Fixer le niveau maximal atteignable au cours d'une évaluation à 5 (US-783).
  - [#546](https//github.com/sgmap/pix/pull/546)[BUGFIX] La liste des profils partagés doit s'actualisée à chaque chargement de la page /board (US-754).
  - [#540](https//github.com/sgmap/pix/pull/540)[CLEANUP] Suppression de Bower et autres dépendances inutiles en vue de pouvoir intégrer Ember Fastboot.
-
-## 1.24.0 (05/10/2017)
-
-TODO @ JBU
-
 
 ## 1.23.0 (15/09/2017)
 
