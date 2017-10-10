@@ -135,7 +135,7 @@ describe('Acceptance | Controller | organization-controller', function() {
       return Promise.all([knex('users').delete(), knex('organizations').delete(), knex('snapshots').delete()]);
     });
 
-    it('should return 200 HTTP status code', (done) => {
+    it('should return 200 HTTP status code', () => {
       // given
       const url = `/api/organizations/${organizationId}/snapshots`;
       const expectedSnapshots = {
@@ -173,25 +173,27 @@ describe('Acceptance | Controller | organization-controller', function() {
       };
 
       // when
-      server.inject(options).then((response) => {
+      return server.injectThen(options).then((response) => {
         // then
         expect(response.statusCode).to.equal(200);
         expect(response.result).to.eql(expectedSnapshots);
-        done();
       });
     });
 
-    it('should return 400, when no snapshot was found', () => {
+    it('should return 200, when no snapshot was found', () => {
       // given
       const options = {
         method: 'GET', url: '/api/organizations/unknownId/snapshots', payload: {}
       };
 
       // when
-      return server.inject(options).then((response) => {
-        // then
-        expect(response.statusCode).to.equal(404);
-      });
+      return server
+        .injectThen(options)
+        .then((response) => {
+          // then
+          expect(response.result.data).to.have.length(0);
+          expect(response.statusCode).to.equal(200);
+        });
     });
   });
 });

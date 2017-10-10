@@ -17,5 +17,11 @@ module.exports = {
       })
       .fetchAll()
       .then(assessments => assessments.models);
+  },
+
+  getByUserIdAndAssessmentId(assessmentId, userId) {
+    return Assessment
+      .query({ where: { id: assessmentId }, andWhere: { userId } })
+      .fetch({ require: true });
   }
 };

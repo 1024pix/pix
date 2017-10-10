@@ -9,6 +9,6 @@ module.exports = {
     return Snapshot
       .where('organizationId', organizationId)
       .orderBy('-createdAt')
-      .fetchAll({ require: true });
+      .fetchAll();
   }
 };

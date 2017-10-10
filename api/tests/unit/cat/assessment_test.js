@@ -239,6 +239,24 @@ describe('Unit | Model | Assessment', function() {
       expect(assessment.filteredChallenges).to.deep.equal([]);
     });
 
+    it('should not return any timed challenge if previous challenge was timed', function() {
+      // given
+      const ch1 = new Challenge('a', 'validé', [], undefined);
+      const ch2 = new Challenge('b', 'validé', [], 30);
+      const ch3 = new Challenge('c', 'validé', [], undefined);
+      const ch4 = new Challenge('d', 'validé', [], 30);
+      const answerCh1 = new Answer(ch1, 'ok');
+      const answerCh2 = new Answer(ch2, 'ok');
+      const challenges = [ch1, ch2, ch3, ch4];
+      const course = new Course(challenges);
+
+      // when
+      const assessment = new Assessment(course, [answerCh1, answerCh2]);
+
+      // then
+      expect(assessment.filteredChallenges).to.deep.equal([ch3]);
+    });
+
     it('should return only challenges that are validated, prevalidated, or validated without test', function() {
       // given
       const drop1 = new Challenge('a', 'poubelle', []);
@@ -248,6 +266,8 @@ describe('Unit | Model | Assessment', function() {
       const drop3 = new Challenge('e', 'proposé', []);
       const keep3 = new Challenge('f', 'validé sans test', []);
       const course = new Course([keep1, keep2, keep3, drop1, drop2, drop3]);
+
+      // when
       const assessment = new Assessment(course, []);
 
       // then
@@ -273,6 +293,8 @@ describe('Unit | Model | Assessment', function() {
       const ch1 = new Challenge('recXXX', 'validé', [web2]);
       const ch2 = new Challenge('recYYY', 'validé', [web1, web3]);
       const course = new Course([ch1, ch2]);
+
+      // when
       const assessment = new Assessment(course, []);
 
       // then
@@ -288,6 +310,8 @@ describe('Unit | Model | Assessment', function() {
       const ch1 = new Challenge('recXXX', 'validé', [url3]);
       const ch2 = new Challenge('recYYY', 'validé', [url2, url4, url5]);
       const course = new Course([ch1, ch2]);
+
+      // when
       const assessment = new Assessment(course, []);
 
       // then
@@ -490,6 +514,17 @@ describe('Unit | Model | Assessment', function() {
       // then
       expect(assessment.obtainedLevel).to.equal(1);
     });
+
+    it('should be 5 even if pixScore is 48 (level 6 must not be reachable for the moment)', function() {
+      // given
+      const course = new Course([], []);
+      const assessment = new Assessment(course, []);
+      sinon.stub(assessment, 'pixScore').get(() => 48);
+
+      // then
+      expect(assessment.obtainedLevel).to.equal(5);
+    });
+
   });
 
   describe('Set', () => {

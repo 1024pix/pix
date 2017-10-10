@@ -1,34 +1,24 @@
 import { afterEach, beforeEach, describe, it } from 'mocha';
 import { expect } from 'chai';
-import seeds from '../helpers/seeds';
+import { authenticateAsSimpleUser } from '../helpers/testing';
 import { destroyApp, startApp } from '../helpers/application';
+import defaultScenario from '../../mirage/scenarios/default';
 
 describe('Acceptance | Compte | competence profile', function() {
   let application;
 
   beforeEach(function() {
     application = startApp();
+    defaultScenario(server);
   });
 
   afterEach(function() {
     destroyApp(application);
   });
 
-  function seedDatabase() {
-    seeds.injectUserAccount();
-  }
-
-  function authenticateUser() {
-    visit('/connexion');
-    fillIn('#pix-email', 'samurai.jack@aku.world');
-    fillIn('#pix-password', 'B@ck2past');
-    click('.signin-form__submit_button');
-  }
-
   it('can visit /compte', async function() {
     // given
-    seedDatabase();
-    authenticateUser();
+    authenticateAsSimpleUser();
 
     // when
     await visit('/compte');
@@ -49,8 +39,7 @@ describe('Acceptance | Compte | competence profile', function() {
 
   it('should display user competences (with level) grouped by area', function() {
     // given
-    seedDatabase();
-    authenticateUser();
+    authenticateAsSimpleUser();
 
     // when
     visit('/compte');
@@ -64,8 +53,7 @@ describe('Acceptance | Compte | competence profile', function() {
 
   it('should display a link ’commencer’ with the correct url to start an adaptive course, for the first competence', function() {
     // given
-    seedDatabase();
-    authenticateUser();
+    authenticateAsSimpleUser();
 
     // when
     visit('/compte');
@@ -78,8 +66,7 @@ describe('Acceptance | Compte | competence profile', function() {
 
   it('should display a hero banner for logged user', function() {
     // given
-    seedDatabase();
-    authenticateUser();
+    authenticateAsSimpleUser();
 
     // when
     visit('/compte');

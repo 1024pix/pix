@@ -10,6 +10,9 @@ function createTokenFromUser(user) {
 }
 
 function extractTokenFromAuthChain(authChain) {
+  if (!authChain) {
+    return authChain;
+  }
   const bearerIndex = authChain.indexOf('Bearer ');
   if (bearerIndex < 0) {
     return false;

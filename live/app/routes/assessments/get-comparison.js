@@ -11,19 +11,14 @@ export default BaseRoute.extend(ModalRouteMixin, {
     const answerId = params.answer_id;
     const index = params.index;
 
-    return store.findRecord('answer', answerId).then((answer) => {
-      return store.findRecord('challenge', answer.get('challenge.id')).then((challenge) => {
-        return store.queryRecord('solution', { assessmentId, answerId }).then(function(solution) {
-          return RSVP.hash({
-            answer,
-            challenge,
-            solution,
-            index
-          });
-        });
-      });
-    });
+    const answer = store.findRecord('answer', answerId);
 
+    return RSVP.hash({
+      index,
+      answer,
+      solution: store.queryRecord('solution', { assessmentId, answerId }),
+      challenge: answer.then((foundAnswer) => store.findRecord('challenge', foundAnswer.get('challenge.id')))
+    });
   },
 
 });

@@ -80,11 +80,8 @@ module.exports = {
       })
       .then((serializedSnapshots) => reply(serializedSnapshots).code(200))
       .catch((err) => {
-        if (err.name === 'CustomError') {
-          return reply(validationErrorSerializer.serialize(_buildErrorMessage('Aucun profile profil n’a été partagé avec cette organisation'))).code(404);
-        }
-
         logger.error(err);
+
         return reply(validationErrorSerializer.serialize(_buildErrorMessage('une erreur est survenue lors de la récupération des profils'))).code(500);
       });
   }

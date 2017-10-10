@@ -35,11 +35,17 @@ module.exports = (function() {
     authentication: {
       secret: process.env.AUTH_SECRET,
       tokenLifespan: '7d'
+    },
+
+    temporaryKey: {
+      secret: process.env.AUTH_SECRET,
+      tokenLifespan: '1d',
+      payload: 'PixResetPassword'
     }
 
   };
 
-  if(process.env.NODE_ENV === 'test') {
+  if (process.env.NODE_ENV === 'test') {
     config.port = null;
 
     config.airtable = {
@@ -59,6 +65,10 @@ module.exports = (function() {
     };
 
     config.authentication = {
+      secret: 'test-jwt-key'
+    };
+
+    config.temporaryKey = {
       secret: 'test-jwt-key'
     };
   }

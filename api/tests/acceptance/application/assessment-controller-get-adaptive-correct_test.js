@@ -13,14 +13,8 @@ describe('Acceptance | API | Assessments', function() {
       .reply(200, {
         'id': 'w_adaptive_course_id',
         'fields': {
-          // a bunch of fields
           'Adaptatif ?': true,
-          'Competence': ['competence_id'],
-          '\u00c9preuves': [
-            'w_third_challenge',
-            'w_second_challenge',
-            'w_first_challenge'
-          ]
+          'Competence': ['competence_id']
         }
       });
 

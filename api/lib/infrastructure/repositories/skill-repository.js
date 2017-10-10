@@ -2,7 +2,7 @@ const cache = require('../cache');
 const challengeRepository = require('./challenge-repository');
 
 function _fetchSkillsFromCompetence(competenceId, cacheKey, resolve, reject) {
-  challengeRepository.getFromCompetence(competenceId)
+  challengeRepository.getFromCompetenceId(competenceId)
     .then(challenges => {
       const skills = new Set();
       challenges.forEach(challenge => challenge.knowledgeTags ? challenge.knowledgeTags.forEach(skill => skills.add(skill)) : null);
@@ -14,7 +14,7 @@ function _fetchSkillsFromCompetence(competenceId, cacheKey, resolve, reject) {
 
 module.exports = {
 
-  getFromCompetence(competenceId) {
+  getFromCompetenceId(competenceId) {
     return new Promise((resolve, reject) => {
       const cacheKey = `skill-repository_get_from_competence_${competenceId}`;
       cache.get(cacheKey, (err, cachedValue) => {

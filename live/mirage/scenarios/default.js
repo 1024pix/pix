@@ -6,21 +6,40 @@ export default function(server) {
   server.loadFixtures('areas');
   server.loadFixtures('competences');
 
-  const user = server.create('user', {
+  server.create('user', {
     id: 1,
-    firstName: 'François',
-    lastName: 'Hisquin',
-    email: 'benjamin.marteau@gmail.com',
-    password: 'FHI4EVER',
+    firstName: 'Jane',
+    lastName: 'Doe',
+    email: 'jane@acme.com',
+    password: 'Jane1234',
     cgu: true,
     recaptchaToken: 'recaptcha-token-xxxxxx',
-    totalPixScore: '777',
+    totalPixScore: 456,
     competenceIds: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16]
   });
 
-  server.create('organization', { snapshots, userId: 1,  });
-  const snapshots = server.createList('snapshot', 3, { organizationId: 1 });
+  const prescriber = server.create('user', {
+    id: 2,
+    firstName: 'John',
+    lastName: 'Smith',
+    email: 'john@acme.com',
+    password: 'John1234',
+    cgu: true,
+    recaptchaToken: 'recaptcha-token-xxxxxx'
+  });
 
-  user.organizationsIds = [1];
+  const organization = server.create('organization', {
+    id: 1,
+    name: 'ACME',
+    email: 'contact@acme.com',
+    type: 'PRO',
+    code: 'ABCD00',
+  });
+
+  prescriber.organization = organization;
+  organization.user = prescriber;
+
+  const snapshots = server.createList('snapshot', 3, { organization: organization });
+  organization.snapshots = snapshots;
 
 }

@@ -17,8 +17,11 @@ export default BaseRoute.extend(AuthenticatedRouteMixin, {
           return this.transitionTo('compte');
         }
 
+        const organization = user.get('organizations.firstObject');
+
         return RSVP.hash({
-          organization: user.get('organizations.firstObject')
+          organization,
+          snapshots: organization.get('snapshots').reload()
         });
       })
       .catch(_ => {

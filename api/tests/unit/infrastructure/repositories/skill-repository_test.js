@@ -26,10 +26,10 @@ describe('Unit | Repository | skill-repository', function() {
   });
 
   /*
-   * #getFromCompetence
+   * #getFromCompetenceId
    */
 
-  describe('#getFromCompetence', function() {
+  describe('#getFromCompetenceId', function() {
 
     const competenceId = 'competence_id';
     const cacheKey = `skill-repository_get_from_competence_${competenceId}`;
@@ -47,7 +47,7 @@ describe('Unit | Repository | skill-repository', function() {
       });
 
       // when
-      const result = skillRepository.getFromCompetence(competenceId);
+      const result = skillRepository.getFromCompetenceId(competenceId);
 
       // then
       cache.get.restore();
@@ -62,7 +62,7 @@ describe('Unit | Repository | skill-repository', function() {
       cache.set(cacheKey, expectedSkills);
 
       // when
-      const result = skillRepository.getFromCompetence(competenceId);
+      const result = skillRepository.getFromCompetenceId(competenceId);
 
       // then
       expect(getRecords.notCalled).to.be.true;
@@ -78,7 +78,7 @@ describe('Unit | Repository | skill-repository', function() {
 
       it('should resolve skills with the challenges fetched from Airtable', function(done) {
         // when
-        const result = skillRepository.getFromCompetence(competenceId);
+        const result = skillRepository.getFromCompetenceId(competenceId);
 
         // then
         const expectedSkills = new Set(['web1', 'web2', 'web3']);
@@ -88,7 +88,7 @@ describe('Unit | Repository | skill-repository', function() {
 
       it('should cache the challenges fetched from Airtable', function(done) {
         // when
-        skillRepository.getFromCompetence(competenceId).then(() => {
+        skillRepository.getFromCompetenceId(competenceId).then(() => {
 
           // then
           cache.get(cacheKey, (err, cachedValue) => {
@@ -103,7 +103,7 @@ describe('Unit | Repository | skill-repository', function() {
         const expectedQuery = {};
 
         // when
-        skillRepository.getFromCompetence(competenceId).then(() => {
+        skillRepository.getFromCompetenceId(competenceId).then(() => {
 
           // then
           expect(getRecords.calledWith('Epreuves', expectedQuery, challengeSerializer)).to.be.true;

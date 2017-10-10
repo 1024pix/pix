@@ -35,11 +35,10 @@ describe('Integration | Component | snapshot list', function() {
     // Given
     const snapshot1 = Ember.Object.create({ id: 1 });
     const snapshot2 = Ember.Object.create({ id: 2 });
-    const organization = Ember.Object.create({ id: 1, snapshots: Ember.RSVP.resolve([snapshot1, snapshot2]) });
-    this.set('organization', organization);
+    this.set('snapshots', [snapshot1, snapshot2]);
 
     // When
-    this.render(hbs`{{snapshot-list organization=organization}}`);
+    this.render(hbs`{{snapshot-list snapshots=snapshots}}`);
 
     // Then
     return wait().then(function() {
@@ -58,11 +57,10 @@ describe('Integration | Component | snapshot list', function() {
       createdAt: '09/25/2017',
       user
     });
-    const organization = Ember.Object.create({ id: 1, snapshots: Ember.RSVP.resolve([snapshot]) });
-    this.set('organization', organization);
+    this.set('snapshots', [snapshot]);
 
     // When
-    this.render(hbs`{{snapshot-list organization=organization}}`);
+    this.render(hbs`{{snapshot-list snapshots=snapshots}}`);
 
     // Then
     return wait().then(function() {

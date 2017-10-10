@@ -127,15 +127,13 @@ jobs:
             - v1-pix-{{ checksum ".circle-sha" }}
       - restore_cache:
           keys:
-            - v1-client-dependencies-{{ checksum "package.json" }}-{{ checksum "bower.json" }}
+            - v1-client-dependencies-{{ checksum "package.json" }}
       - run: npm install
       - save_cache:
-          key: v1-client-dependencies-{{ checksum "package.json" }}-{{ checksum "bower.json" }}
+          key: v1-client-dependencies-{{ checksum "package.json" }}
           paths:
             - ~/pix/live/node_modules
-            - ~/pix/live/bower_components
             - ~/.npm
-            - ~/.cache/bower
 
   build_client:
     <<: *client_properties
@@ -146,7 +144,7 @@ jobs:
             - v1-pix-{{ checksum ".circle-sha" }}
       - restore_cache:
           keys:
-            - v1-client-dependencies-{{ checksum "package.json" }}-{{ checksum "bower.json" }}
+            - v1-client-dependencies-{{ checksum "package.json" }}
       - run: |
           if [ "${CIRCLE_BRANCH}" == "dev" ]; then
             ./node_modules/.bin/ember build --environment staging
@@ -167,7 +165,7 @@ jobs:
             - v1-pix-{{ checksum ".circle-sha" }}
       - restore_cache:
           keys:
-            - v1-client-dependencies-{{ checksum "package.json" }}-{{ checksum "bower.json" }}
+            - v1-client-dependencies-{{ checksum "package.json" }}
       - attach_workspace:
           at: ~/pix/live
       - run: ./node_modules/.bin/ember exam --path dist --split=3 --partition=1
@@ -181,7 +179,7 @@ jobs:
             - v1-pix-{{ checksum ".circle-sha" }}
       - restore_cache:
           keys:
-            - v1-client-dependencies-{{ checksum "package.json" }}-{{ checksum "bower.json" }}
+            - v1-client-dependencies-{{ checksum "package.json" }}
       - attach_workspace:
           at: ~/pix/live
       - run: ./node_modules/.bin/ember exam --path dist --split=3 --partition=2
@@ -195,7 +193,7 @@ jobs:
             - v1-pix-{{ checksum ".circle-sha" }}
       - restore_cache:
           keys:
-            - v1-client-dependencies-{{ checksum "package.json" }}-{{ checksum "bower.json" }}
+            - v1-client-dependencies-{{ checksum "package.json" }}
       - attach_workspace:
           at: ~/pix/live
       - run: ./node_modules/.bin/ember exam --path dist --split=3 --partition=3
@@ -209,7 +207,7 @@ jobs:
             - v1-pix-{{ checksum ".circle-sha" }}
       - restore_cache:
           keys:
-            - v1-client-dependencies-{{ checksum "package.json" }}-{{ checksum "bower.json" }}
+            - v1-client-dependencies-{{ checksum "package.json" }}
       - attach_workspace:
           at: ~/pix/live
       - add-ssh-keys:

@@ -1,6 +1,8 @@
+const jwt = require('jsonwebtoken');
 const { describe, it, after, before, beforeEach, afterEach, expect, knex, nock } = require('../../test-helper');
 const cache = require('../../../lib/infrastructure/cache');
 const server = require('../../../server');
+const settings = require('../../../lib/settings');
 
 describe('Acceptance | API | Assessments GET', function() {
 
@@ -103,16 +105,15 @@ describe('Acceptance | API | Assessments GET', function() {
     let options;
     let inserted_assessment_id;
 
-    const inserted_assessment = {
+    const inserted_assessment_with_user_null = {
       courseId: 'anyFromAirTable',
-      userId: 1234
+      userId: null
     };
 
-    beforeEach(function(done) {
-      knex('assessments').insert([inserted_assessment]).then((rows) => {
+    beforeEach(function() {
+      return knex('assessments').insert([inserted_assessment_with_user_null]).then((rows) => {
         inserted_assessment_id = rows[0];
         options = { method: 'GET', url: `/api/assessments/${inserted_assessment_id}` };
-        done();
       });
     });
 
@@ -175,53 +176,86 @@ describe('Acceptance | API | Assessments GET', function() {
     });
   });
 
-  describe('(answers provided) GET /api/assessments/:id', function() {
-
-    let inserted_assessment_id = null;
-    let inserted_answer_ids = null;
-
+  describe('(when userId and assessmentId match) GET /api/assessments/:id', function() {
     const inserted_assessment = {
       courseId: 'anyFromAirTable',
       userId: 1234
     };
+    let inserted_assessment_id;
+    let options;
 
-    beforeEach(function(done) {
-      inserted_answer_ids = [];
-      knex('assessments').delete().then(() => {
-        knex('assessments').insert([inserted_assessment]).then((rows) => {
-          inserted_assessment_id = rows[0];
+    const token = createToken({ id: inserted_assessment.userId, email: 'shi@fu.me' });
 
-          const inserted_answers = [{
-            value: 'any good answer',
-            result: 'ok',
-            challengeId: 'y_first_challenge',
-            assessmentId: inserted_assessment_id
-          }, {
-            value: 'any bad answer',
-            result: 'ko',
-            challengeId: 'y_second_challenge',
-            assessmentId: inserted_assessment_id
-          }];
-          knex('answers').delete().then(() => {
-            knex('answers').insert([inserted_answers[0]]).then((rows) => { // Faut que je le fasse en deux temps sinon je n'ai que le dernier ID
-              inserted_answer_ids.push(rows[0]);
-              knex('answers').insert([inserted_answers[1]]).then((rows) => {
-                inserted_answer_ids.push(rows[0]);
-                done();
-              });
-            });
-          });
-
-        });
+    beforeEach(function() {
+      return knex('assessments').insert([inserted_assessment]).then((rows) => {
+        inserted_assessment_id = rows[0];
+        options = {
+          headers: {
+            authorization: `Bearer ${token}`
+          },
+          method: 'GET',
+          url: `/api/assessments/${inserted_assessment_id}`
+        };
       });
     });
 
     afterEach(function(done) {
       knex('assessments').delete().then(() => {
-        knex('answers').delete().then(() => {
-          done();
-        });
+        done();
       });
+    });
+
+    it('should return 200 HTTP status code, when userId provided is linked to assessment', function() {
+      return server.inject(options).then((response) => {
+        expect(response.statusCode).to.equal(200);
+      });
+    });
+  });
+
+  describe('(answers provided) GET /api/assessments/:id', function() {
+
+    let inserted_assessment_id = null;
+    let inserted_answer_ids = null;
+
+    const inserted_assessment_with_user_null = {
+      courseId: 'anyFromAirTable',
+      userId: null
+    };
+
+    beforeEach(function(done) {
+      inserted_answer_ids = [];
+
+      knex('assessments').insert([inserted_assessment_with_user_null]).then((rows) => {
+        inserted_assessment_id = rows[0];
+
+        const inserted_answers = [{
+          value: 'any good answer',
+          result: 'ok',
+          challengeId: 'y_first_challenge',
+          assessmentId: inserted_assessment_id
+        }, {
+          value: 'any bad answer',
+          result: 'ko',
+          challengeId: 'y_second_challenge',
+          assessmentId: inserted_assessment_id
+        }];
+
+        knex('answers').delete().then(() => {
+          knex('answers').insert([inserted_answers[0]]).then((rows) => {
+            inserted_answer_ids.push(rows[0]);
+            knex('answers').insert([inserted_answers[1]]).then((rows) => {
+              inserted_answer_ids.push(rows[0]);
+              done();
+            });
+          });
+        });
+
+      });
+    });
+
+    afterEach(async () => {
+      await knex('assessments').delete();
+      return knex('assessments').delete();
     });
 
     it('should return 200 HTTP status code', function(done) {
@@ -282,3 +316,10 @@ describe('Acceptance | API | Assessments GET', function() {
     });
   });
 });
+
+function createToken(user) {
+  return jwt.sign({
+    user_id: user.id,
+    email: user.email
+  }, settings.authentication.secret, { expiresIn: settings.authentication.tokenLifespan });
+}

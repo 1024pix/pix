@@ -1,8 +1,8 @@
 import { afterEach, beforeEach, describe, it } from 'mocha';
 import { expect } from 'chai';
 import { startApp, destroyApp } from '../helpers/application';
-import seeds from '../helpers/seeds';
-import { authenticateUser } from '../helpers/testing';
+import { authenticateAsSimpleUser } from '../helpers/testing';
+import defaultScenario from '../../mirage/scenarios/default';
 
 describe('Acceptance | Sharing a Profile Snapshot with a given Organization', function() {
 
@@ -10,16 +10,12 @@ describe('Acceptance | Sharing a Profile Snapshot with a given Organization', fu
 
   beforeEach(function() {
     application = startApp();
+    defaultScenario(server);
   });
 
   afterEach(function() {
     destroyApp(application);
   });
-
-  function populateDatabaseWithAUserAndAnOrganization() {
-    seeds.injectUserAccount();
-    seeds.injectOrganization('ABCD00');
-  }
 
   async function visitAccountPage() {
     await visit('/compte');
@@ -47,7 +43,7 @@ describe('Acceptance | Sharing a Profile Snapshot with a given Organization', fu
   }
 
   function expectOrganizationNameToBeDisplayed() {
-    expect(find('.share-profile__organization-name').text().trim()).to.equal('Organization 0');
+    expect(find('.share-profile__organization-name').text().trim()).to.equal('ACME');
   }
 
   function expectToBeOnSuccessNotificationView() {
@@ -55,7 +51,7 @@ describe('Acceptance | Sharing a Profile Snapshot with a given Organization', fu
   }
 
   function expectSnapshotToHaveBeenCreated() {
-    expect(server.db.snapshots.length).to.equal(1);
+    expect(server.db.snapshots.length).to.equal(4);
   }
 
   async function confirmProfileSnapshotSharing() {
@@ -71,8 +67,7 @@ describe('Acceptance | Sharing a Profile Snapshot with a given Organization', fu
   }
 
   it('should be possible to share a snapshot of her own profile to a given organization', async function() {
-    populateDatabaseWithAUserAndAnOrganization();
-    authenticateUser();
+    authenticateAsSimpleUser();
 
     await visitAccountPage();
 

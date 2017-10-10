@@ -6,22 +6,27 @@ import courseWithTimedChallenge from '../data/courses/ref-course-timed-challenge
 
 export default function(schema, request) {
 
+  const id = request.params.id;
+
   const allCourses = [
     refCourse,
     highlightedCourse,
     courseWithTimedChallenge
   ];
 
-  const courses = _.map(allCourses, function(oneCourse) {
-    return { id: oneCourse.data.id, obj: oneCourse };
-  });
+  if (allCourses.map((course) => course.data.id).includes(id)) {
 
-  const course = _.find(courses, { id: request.params.id });
+    const courses = _.map(allCourses, (oneCourse) => {
+      return { id: oneCourse.data.id, obj: oneCourse };
+    });
 
-  if (course) {
-    return course.obj;
-  }else {
-    throw new Error('The course you required in the fake server does not exist ' + request.params.id);
+    const course = _.find(courses, { id: request.params.id });
+
+    if (course) {
+      return course.obj;
+    } else {
+      throw new Error(`The course you required in the fake server does not exist ${request.params.id}`);
+    }
   }
-
+  return schema.courses.find(id);
 }

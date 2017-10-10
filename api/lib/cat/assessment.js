@@ -14,6 +14,9 @@ Set.prototype.difference = function(setB) {
   return difference;
 };
 
+const MAX_REACHABLE_LEVEL = 5;
+const NB_PIX_BY_LEVEL = 8;
+
 class Assessment {
   constructor(course, answers) {
     this.course = course;
@@ -50,6 +53,30 @@ class Assessment {
 
   _computeLikelihood(level, answers) {
     return -Math.abs(answers.map(answer => answer.binaryOutcome - this._probaOfCorrectAnswer(level, answer.maxDifficulty)).reduce((a, b) => a + b));
+  }
+
+  _isAnActiveChallenge(challenge) {
+    const unactiveChallengeStatus = ['validé', 'validé sans test', 'pré-validé'];
+    return unactiveChallengeStatus.includes(challenge.status);
+  }
+
+  _isAnAnsweredChallenge(challenge, answeredChallenges) {
+    return !answeredChallenges.includes(challenge);
+  }
+
+  _isAnAvailableChallenge(challenge) {
+    const answeredChallenges = this.answers.map(answer => answer.challenge);
+    return this._isAnActiveChallenge(challenge) && this._isAnAnsweredChallenge(challenge, answeredChallenges);
+  }
+
+  _isPreviousChallengeTimed() {
+    const answeredChallenges = this.answers.map(answer => answer.challenge);
+    const lastAnswer = this.answers[answeredChallenges.length - 1];
+    return lastAnswer && lastAnswer.challenge.timer !== undefined;
+  }
+
+  _extractNotTimedChallenge(availableChallenges) {
+    return availableChallenges.filter(challenge => challenge.timer === undefined);
   }
 
   get estimatedLevel() {
@@ -91,8 +118,9 @@ class Assessment {
   }
 
   get filteredChallenges() {
-    const answeredChallenges = this.answers.map(answer => answer.challenge);
-    return this.course.challenges.filter(challenge => !answeredChallenges.includes(challenge) && ['validé', 'validé sans test', 'pré-validé'].includes(challenge.status));
+    let availableChallenges = this.course.challenges.filter(challenge => this._isAnAvailableChallenge(challenge));
+    availableChallenges = this._isPreviousChallengeTimed() ? this._extractNotTimedChallenge(availableChallenges) : availableChallenges;
+    return availableChallenges;
   }
 
   get nextChallenge() {
@@ -128,7 +156,8 @@ class Assessment {
   }
 
   get obtainedLevel() {
-    return Math.floor(this.pixScore / 8);
+    const estimatedLevel = Math.floor(this.pixScore / NB_PIX_BY_LEVEL);
+    return (estimatedLevel >= MAX_REACHABLE_LEVEL) ? MAX_REACHABLE_LEVEL : estimatedLevel;
   }
 }
 
