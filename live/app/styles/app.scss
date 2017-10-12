@@ -53,7 +53,7 @@
 @import 'components/qcu-solution-panel';
 @import 'components/signup-form';
 @import 'components/signin-form';
-@import 'components/signup-textfield';
+@import 'components/form-textfield';
 @import 'components/scoring-panel-tantpix';
 @import 'components/score-pastille';
 @import 'components/snapshot-list';
@@ -62,6 +62,7 @@
 @import 'components/partners-enrollment-panel';
 @import 'components/share-profile';
 @import 'components/logged-user-profile-banner';
+@import 'components/reset-password-form';
 /* pages */
 @import 'pages/index';
 @import 'pages/project';
@@ -76,6 +77,7 @@
 @import 'pages/enrollment';
 @import 'pages/board';
 @import 'pages/terms-of-service';
+@import 'pages/reset-password';
 
 body {
   font-family: $font-lato;

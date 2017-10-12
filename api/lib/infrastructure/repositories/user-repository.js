@@ -34,5 +34,16 @@ module.exports = {
 
         return Promise.resolve(email);
       });
+  },
+
+  updatePassword(id, password) {
+    return User.where({ id }).save({ password, cgu: true }, {
+      patch: true,
+      require: false
+    });
+  },
+
+  countUserById(id) {
+    return User.where({ id }).count('id');
   }
 };

@@ -39,7 +39,7 @@ class UserNotFoundError extends Error {
     super();
   }
 
-  static getErrorMessage() {
+  getErrorMessage() {
     return {
       data: {
         email: ['Cette adresse email n’existe pas.']
@@ -53,10 +53,38 @@ class InternalError extends Error {
     super();
   }
 
-  static getErrorMessage() {
+  getErrorMessage() {
     return {
       data: {
         error: ['Une erreur interne est survenue.']
+      }
+    };
+  }
+}
+
+class PasswordResetDemandNotFoundError extends Error {
+  constructor() {
+    super();
+  }
+
+  getErrorMessage() {
+    return {
+      data: {
+        temporaryKey: ['Cette demande de réinitialisation n’existe pas.']
+      }
+    };
+  }
+}
+
+class InvalidTemporaryKeyError extends Error {
+  constructor() {
+    super();
+  }
+
+  getErrorMessage() {
+    return {
+      data: {
+        temporaryKey: ['Cette demande de réinitialisation n’est pas valide.']
       }
     };
   }
@@ -70,5 +98,7 @@ module.exports = {
   AlreadyRegisteredEmailError,
   InvaliOrganizationIdError,
   UserNotFoundError,
-  InternalError
+  InternalError,
+  PasswordResetDemandNotFoundError,
+  InvalidTemporaryKeyError
 };

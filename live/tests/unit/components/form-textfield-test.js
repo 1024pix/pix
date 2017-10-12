@@ -9,7 +9,7 @@ const INCORRECT_PASSWORD_FORMAT_ERROR_MESSAGE = 'Votre mot de passe doit comport
 
 describe('Unit | Component | signupTextfieldComponent', function() {
 
-  setupTest('component:signup-textfield', {});
+  setupTest('component:form-textfield', {});
 
   describe('Component should renders :', function() {
 
@@ -37,9 +37,9 @@ describe('Unit | Component | signupTextfieldComponent', function() {
     [
       { property: 'hasIcon', expectedValue: false },
       { property: 'iconType', expectedValue: '' },
-      { property: 'inputValidationStatus', expectedValue: 'signup-textfield__input--default' },
-      { property: 'inputContainerStatusClass', expectedValue: 'signup-textfield__input-container--default' },
-      { property: 'validationMessageClass', expectedValue: 'signup-textfield__message--default' },
+      { property: 'inputValidationStatus', expectedValue: 'form-textfield__input--default' },
+      { property: 'inputContainerStatusClass', expectedValue: 'form-textfield__input-container--default' },
+      { property: 'validationMessageClass', expectedValue: 'form-textfield__message--default' },
     ].forEach(({ property, expectedValue }) => {
       it(`${property} should return ${expectedValue} `, function() {
         // Given
@@ -85,9 +85,9 @@ describe('Unit | Component | signupTextfieldComponent', function() {
     [
       { property: 'hasIcon', expectedValue: true },
       { property: 'iconType', expectedValue: 'error' },
-      { property: 'inputValidationStatus', expectedValue: 'signup-textfield__input--error' },
-      { property: 'inputContainerStatusClass', expectedValue: 'signup-textfield__input-container--error' },
-      { property: 'validationMessageClass', expectedValue: 'signup-textfield__message--error' },
+      { property: 'inputValidationStatus', expectedValue: 'form-textfield__input--error' },
+      { property: 'inputContainerStatusClass', expectedValue: 'form-textfield__input-container--error' },
+      { property: 'validationMessageClass', expectedValue: 'form-textfield__message--error' },
     ].forEach(({ property, expectedValue }) => {
       it(`${property} should return ${expectedValue} `, function() {
         // Given
@@ -132,9 +132,9 @@ describe('Unit | Component | signupTextfieldComponent', function() {
     [
       { property: 'hasIcon', expectedValue: true },
       { property: 'iconType', expectedValue: 'success' },
-      { property: 'inputValidationStatus', expectedValue: 'signup-textfield__input--success' },
-      { property: 'inputContainerStatusClass', expectedValue: 'signup-textfield__input-container--success' },
-      { property: 'validationMessageClass', expectedValue: 'signup-textfield__message--success' },
+      { property: 'inputValidationStatus', expectedValue: 'form-textfield__input--success' },
+      { property: 'inputContainerStatusClass', expectedValue: 'form-textfield__input-container--success' },
+      { property: 'validationMessageClass', expectedValue: 'form-textfield__message--success' },
     ].forEach(({ property, expectedValue }) => {
       it(`${property} should return ${expectedValue} `, function() {
         // Given

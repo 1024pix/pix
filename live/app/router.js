@@ -7,7 +7,7 @@ const Router = Ember.Router.extend({
 });
 
 // XXX https://github.com/poteto/ember-metrics/issues/43#issuecomment-252081256
-if(config.environment === 'integration' || config.environment === 'staging' || config.environment === 'production') {
+if (config.environment === 'integration' || config.environment === 'staging' || config.environment === 'production') {
   // do not make any sense in test ENV, therefore can be safely ignored
   /* istanbul ignore next */
   Router.reopen({
@@ -52,8 +52,9 @@ Router.map(function() {
   this.route('logout', { path: '/deconnexion' });
   this.route('course-groups', { path: '/defis-pix' });
   this.route('board');
-  this.route('legal-notices',{ path: '/mentions-legales' });
+  this.route('legal-notices', { path: '/mentions-legales' });
   this.route('terms-of-service', { path: '/conditions-generales-d-utilisation' });
+  this.route('reset-password', { path: '/changer-mot-de-passe/:temporaryKey' });
 
   this.route('not-found', { path: '/*path' });
 });

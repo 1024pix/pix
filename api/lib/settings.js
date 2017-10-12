@@ -41,7 +41,9 @@ module.exports = (function() {
       secret: process.env.AUTH_SECRET,
       tokenLifespan: '1d',
       payload: 'PixResetPassword'
-    }
+    },
+
+    passwordValidationPattern: '^(?=.*\\p{L})(?=.*\\d).{8,}$'
 
   };
 

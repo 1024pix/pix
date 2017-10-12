@@ -12,7 +12,7 @@
   {{/if}}
 
   <div class="signup-form__input-container">
-    {{signup-textfield
+    {{form-textfield
       label="Nom"
       textfieldName="lastName"
       inputBindingValue=user.lastName
@@ -22,7 +22,7 @@
   </div>
 
   <div class="signup-form__input-container">
-    {{signup-textfield
+    {{form-textfield
       label="Prénom"
       textfieldName="firstName"
       inputBindingValue=user.firstName
@@ -32,7 +32,7 @@
   </div>
 
   <div class="signup-form__input-container">
-    {{signup-textfield
+    {{form-textfield
       label="Adresse Email"
       textfieldName="email"
       validationStatus=validation.email.status
@@ -42,7 +42,7 @@
   </div>
 
   <div class="signup-form__input-container">
-    {{signup-textfield
+    {{form-textfield
       label="Mot de passe"
       textfieldName="password"
       validationStatus=validation.password.status
@@ -54,14 +54,15 @@
   <div class="signup-form__cgu-container">
 
     {{#if user.errors.cgu}}
-      <div class="signup-textfield__cgu-message--error">
+      <div class="form-textfield__cgu-message--error">
         {{user.errors.cgu.firstObject.message}}
       </div>
     {{/if}}
 
     <label for="pix-cgu" class="signup-form__cgu-label">
       {{input type="checkbox" id='pix-cgu' checked=user.cgu}}
-      <span>J'​accepte les {{#link-to 'terms-of-service' class="signup__cgu-link" target="_blank"}}conditions d'​utilisation de Pix{{/link-to}}</span>
+      <span>J'​accepte les {{#link-to 'terms-of-service' class="signup__cgu-link" target="_blank"}}
+        conditions d'​utilisation de Pix{{/link-to}}</span>
     </label>
   </div>
 

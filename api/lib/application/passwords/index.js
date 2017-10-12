@@ -14,13 +14,20 @@ exports.register = function(server, options, next) {
             data: Joi.object().required().keys({
               attributes: Joi.object().required().keys({
                 email: Joi.string().email().required(),
-                'temporary-key' : [Joi.string(), null]
+                'temporary-key': [Joi.string(), null]
               }),
-              type : Joi.string()
+              type: Joi.string()
             })
           })
         },
         tags: ['api']
+      }
+    },
+    {
+      method: 'GET',
+      path: '/api/password-reset-demands/{temporaryKey}',
+      config: {
+        handler: passwordController.checkResetDemand, tags: ['api']
       }
     }
   ]);

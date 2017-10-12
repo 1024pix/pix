@@ -12,7 +12,7 @@ const FORM_HEADING = '.signup-form__heading';
 const EXPECTED_FORM_HEADING_CONTENT = 'Inscription gratuite';
 
 const INPUT_TEXT_FIELD = '.signup-form__input-container';
-const INPUT_TEXT_FIELD_CLASS_DEFAULT = 'signup-textfield__input-container--default';
+const INPUT_TEXT_FIELD_CLASS_DEFAULT = 'form-textfield__input-container--default';
 
 const CHECKBOX_CGU_CONTAINER = '.signup-form__cgu-container';
 const CHECKBOX_CGU_INPUT = '#pix-cgu';
@@ -26,17 +26,17 @@ const SUBMIT_BUTTON_CONTAINER = '.signup-form__submit-container';
 const SUBMIT_BUTTON = '.signup__submit-button';
 const SUBMIT_BUTTON_CONTENT = 'Je m\'inscris';
 
-const MESSAGE_ERROR_STATUS = 'signup-textfield__message--error';
+const MESSAGE_ERROR_STATUS = 'form-textfield__message--error';
 const EMPTY_FIRSTNAME_ERROR_MESSAGE = 'Votre prénom n’est pas renseigné.';
 
 const EMPTY_LASTNAME_ERROR_MESSAGE = 'Votre nom n’est pas renseigné.';
 const EMPTY_EMAIL_ERROR_MESSAGE = 'Votre email n’est pas valide.';
 const INCORRECT_PASSWORD_FORMAT_ERROR_MESSAGE = 'Votre mot de passe doit comporter au moins une lettre, un chiffre et' +
   ' 8 caractères.';
-const MESSAGE_SUCCESS_STATUS = 'signup-textfield__message--success';
+const MESSAGE_SUCCESS_STATUS = 'form-textfield__message--success';
 
-const ICON_ERROR_CLASS = 'signup-textfield__icon--error';
-const ICON_SUCCESS_CLASS = 'signup-textfield__icon--success';
+const ICON_ERROR_CLASS = 'form-textfield__icon--error';
+const ICON_SUCCESS_CLASS = 'form-textfield__icon--success';
 
 const userEmpty = Ember.Object.create({});
 const CAPTCHA_CONTAINER = '.signup-form__captcha-container';
@@ -467,7 +467,7 @@ describe('Integration | Component | signup form', function() {
 
         // then
         return wait().then(() => {
-          const inputFirst = this.$('.signup-textfield__input-field-container').first();
+          const inputFirst = this.$('.form-textfield__input-field-container').first();
           expect(inputFirst.prop('class')).to.includes(INPUT_TEXT_FIELD_CLASS_DEFAULT);
         });
       });

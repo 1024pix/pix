@@ -1,9 +1,9 @@
 import Ember from 'ember';
 
 const INPUT_VALIDATION_STATUS_MAP = {
-  default: 'signup-textfield__input--default',
-  error: 'signup-textfield__input--error',
-  success: 'signup-textfield__input--success'
+  default: 'form-textfield__input--default',
+  error: 'form-textfield__input--error',
+  success: 'form-textfield__input--success'
 };
 
 const ICON_TYPE_STATUS_MAP = {
@@ -13,29 +13,29 @@ const ICON_TYPE_STATUS_MAP = {
 };
 
 const MESSAGE_VALIDATION_STATUS_MAP = {
-  default: 'signup-textfield__message--default',
-  error: 'signup-textfield__message--error',
-  success: 'signup-textfield__message--success'
+  default: 'form-textfield__message--default',
+  error: 'form-textfield__message--error',
+  success: 'form-textfield__message--success'
 };
 
 const INPUT_CONTAINER_VALIDATION_STATUS_MAP = {
-  default: 'signup-textfield__input-container--default',
-  error: 'signup-textfield__input-container--error',
-  success: 'signup-textfield__input-container--success'
+  default: 'form-textfield__input-container--default',
+  error: 'form-textfield__input-container--error',
+  success: 'form-textfield__input-container--success'
 };
 
 export default Ember.Component.extend({
-  classNames: ['signup-textfield'],
+  classNames: ['form-textfield'],
 
   label: '',
   textfieldName: '',
   validationMessage: '',
 
   textfieldType: Ember.computed('textfieldName', function() {
-    if(this.get('textfieldName') === 'password') {
+    if (this.get('textfieldName') === 'password') {
       return 'password';
     }
-    if(this.get('textfieldName') === 'email') {
+    if (this.get('textfieldName') === 'email') {
       return 'email';
     }
     return 'text';

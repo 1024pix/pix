@@ -195,7 +195,7 @@ describe('Unit | Service | MailService', () => {
             fromName: 'PIX - Ne pas répondre',
             subject: 'Demande de réinitialisation de mot de passe PIX',
             variables: {
-              resetUrl: `${passwordResetDemandBaseUrl}/compte/motdepasse/${fakeTemporaryKey}`
+              resetUrl: `${passwordResetDemandBaseUrl}/changer-mot-de-passe/${fakeTemporaryKey}`
             }
           });
         });

@@ -42,7 +42,7 @@ function sendResetPasswordDemandEmail(email, baseUrl, temporaryKey) {
     from: 'ne-pas-repondre@pix.beta.gouv.fr',
     fromName: 'PIX - Ne pas répondre',
     subject: 'Demande de réinitialisation de mot de passe PIX',
-    variables: { resetUrl: `${baseUrl}/compte/motdepasse/${temporaryKey}` }
+    variables: { resetUrl: `${baseUrl}/changer-mot-de-passe/${temporaryKey}` }
   });
 }
 

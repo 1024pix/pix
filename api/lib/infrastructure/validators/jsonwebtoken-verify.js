@@ -8,7 +8,7 @@ module.exports = {
   verify(authChain) {
     const token = (authChain) ? tokenService.extractTokenFromAuthChain(authChain) : '';
     return new Promise((resolve, reject) => {
-      if(!token) {
+      if (!token) {
         return reject(new InvalidTokenError());
       }
 
