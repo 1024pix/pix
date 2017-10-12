@@ -1,6 +1,7 @@
 import { expect } from 'chai';
 import { describe, it } from 'mocha';
 import { setupTest } from 'ember-mocha';
+import Ember from 'ember';
 
 describe('Unit | Component | share-profile', function() {
 
@@ -74,6 +75,62 @@ describe('Unit | Component | share-profile', function() {
 
       // then
       expect(component.get('_organization')).to.equal(null);
+    });
+
+  });
+
+  describe('#isOrganizationHasTypeSup', function() {
+
+    it('should return "true" when organization type is "SUP"', function() {
+      // given
+      component.set('_organization', Ember.Object.create({ type: 'SUP' }));
+
+      // when
+      const isOrganizationHasTypeSup = component.get('isOrganizationHasTypeSup');
+
+      // then
+      expect(isOrganizationHasTypeSup).to.be.true;
+    });
+
+    it('should return "false" when organization type is not "SUP"', function() {
+      // given
+      component.set('_organization', Ember.Object.create({ type: 'SCO' }));
+
+      // when
+      const isOrganizationHasTypeSup = component.get('isOrganizationHasTypeSup');
+
+      // then
+      expect(isOrganizationHasTypeSup).to.be.false;
+    });
+
+  });
+
+  describe('.organizationLabels', function() {
+
+    it('should return adapted ("orgnisation"-based) labels when organization type is PRO', function() {
+      // given
+      component.set('_organization', { type: 'PRO' });
+
+      // when
+      const organizationLabel = component.get('organizationLabels');
+
+      // then
+      expect(organizationLabel.text1).to.equal('Vous vous apprêtez à transmettre une copie de votre profil Pix à l\'organisation :');
+      expect(organizationLabel.text2).to.equal('En cliquant sur le bouton « Envoyer », elle recevra les informations suivantes :');
+      expect(organizationLabel.text3).to.equal('Elle ne recevra les évolutions futures de votre profil que si vous le partagez à nouveau.');
+    });
+
+    it('should return adapted ("établissement"-based) labels when organization type is SUP or SCO', function() {
+      // given
+      component.set('_organization', { type: 'SUP' });
+
+      // when
+      const organizationLabel = component.get('organizationLabels');
+
+      // then
+      expect(organizationLabel.text1).to.equal('Vous vous apprêtez à transmettre une copie de votre profil Pix à l\'établissement :');
+      expect(organizationLabel.text2).to.equal('En cliquant sur le bouton « Envoyer », il recevra les informations suivantes :');
+      expect(organizationLabel.text3).to.equal('Il ne recevra les évolutions futures de votre profil que si vous le partagez à nouveau.');
     });
 
   });

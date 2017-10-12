@@ -1,9 +1,10 @@
-const JSONAPISerializer = require('jsonapi-serializer').Serializer;
+const { Serializer, Deserializer } = require('jsonapi-serializer');
 
-class SnapshotSerializer {
+module.exports = {
+
   serialize(snapshots) {
-    return new JSONAPISerializer('snapshot', {
-      attributes: ['score', 'createdAt', 'completionPercentage', 'user'],
+    return new Serializer('snapshot', {
+      attributes: ['score', 'createdAt', 'completionPercentage', 'user', 'studentCode', 'campaignCode'],
       user: {
         ref: 'id',
         attributes: ['firstName', 'lastName']
@@ -15,7 +16,17 @@ class SnapshotSerializer {
         return snapshot;
       }
     }).serialize(snapshots);
-  }
-}
+  },
 
-module.exports = new SnapshotSerializer();
+  deserialize(json) {
+    return new Deserializer({ keyForAttribute: 'camelCase' })
+      .deserialize(json)
+      .then((snapshot => {
+        snapshot.organization = {
+          id: json.data.relationships.organization.data.id
+        };
+        return snapshot;
+      }));
+  }
+
+};

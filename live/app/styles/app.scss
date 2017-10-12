@@ -9,12 +9,12 @@
 @import 'globals/dimension';
 @import 'globals/loading';
 @import 'globals/redesign-inputs';
+@import 'globals/pix-modale';
 /* 3rd-party */
 @import 'vendor/ember-routable-modal/core';
 @import 'vendor/ember-routable-modal/dialog';
 /* components */
 @import 'components/rounded-panel';
-@import 'components/pix-modale';
 @import 'components/app-footer';
 @import 'components/corner-ribbon';
 @import 'components/challenge-actions';

@@ -31,7 +31,7 @@
   justify-content: center;
 
   @include device-is('tablet') {
-    font-size: 22px;
+    font-size: 18px;
   }
 }
 
@@ -70,6 +70,19 @@
   }
 }
 
+.pix-modal p {
+  margin-bottom: 5px;
+}
+
+.pix-modal ul {
+  margin-bottom: 15px;
+  text-align: left;
+
+  @include device-is('tablet') {
+    text-align: center;
+  }
+}
+
 .pix-modal__text {
   margin-bottom: 15px;
 
@@ -100,11 +113,22 @@
   padding: 15px;
   border-radius: 5px;
   background-color: $white;
-  border: 1px solid $pix-blue;
+  border: 1px solid $gainsboro;
   color: $slate-grey;
   letter-spacing: 2px;
   box-sizing: border-box;
   margin-bottom: 5px;
+  outline: none;
+  text-align: center;
+
+  &:focus {
+    border-color: $pix-blue;
+  }
+
+  @include device-is('tablet') {
+    width: auto;
+    text-align: left;
+  }
 }
 
 /* Buttons
@@ -119,11 +143,6 @@
   box-sizing: border-box;
   font-size: 13px;
   width: 126px;
-  margin-top: 25px;
-
-  @include device-is('tablet') {
-    margin-top: 35px;
-  }
 }
 
 .pix-modal__button--primary {

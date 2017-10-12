@@ -38,12 +38,12 @@ describe('Acceptance | Sharing a Profile Snapshot with a given Organization', fu
   }
 
   async function fillInAndSubmitOrganizationCode() {
-    await fillIn('.share-profile__organization-code-input', 'ABCD00');
+    await fillIn('.share-profile__organization-code-input', 'PRO001');
     await click('.share-profile__continue-button');
   }
 
   function expectOrganizationNameToBeDisplayed() {
-    expect(find('.share-profile__organization-name').text().trim()).to.equal('ACME');
+    expect(find('.share-profile__organization-name').text().trim()).to.equal('Mon Entreprise');
   }
 
   function expectToBeOnSuccessNotificationView() {

@@ -13,11 +13,10 @@ module.exports = {
       }
 
       jsonwebtoken.verify(token, settings.authentication.secret, (err, decoded) => {
-        if(err) {
+        if (err) {
           return reject(new InvalidTokenError());
         }
-        const id = decoded.user_id;
-        resolve(id);
+        resolve(decoded.user_id);
       });
     });
   }

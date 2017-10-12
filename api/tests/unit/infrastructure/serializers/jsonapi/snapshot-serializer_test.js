@@ -12,6 +12,8 @@ describe('Unit | Serializer | JSONAPI | snapshot-serializer', () => {
         score: '10',
         createdAt: '2017-08-23 12:52:33',
         completionPercentage: '12',
+        studentCode: 'ABCD-1234',
+        campaignCode: 'EFGH-5678',
         user: {
           id: 2,
           firstName: 'Barack',
@@ -25,7 +27,9 @@ describe('Unit | Serializer | JSONAPI | snapshot-serializer', () => {
           attributes: {
             'completion-percentage': '12',
             'created-at': '2017-08-23 12:52:33',
-            score: '10'
+            'score': '10',
+            'student-code': 'ABCD-1234',
+            'campaign-code': 'EFGH-5678',
           },
           relationships: {
             user: {
@@ -134,6 +138,8 @@ describe('Unit | Serializer | JSONAPI | snapshot-serializer', () => {
         id: 1,
         createdAt: '2017-08-23 12:52:33',
         completionPercentage: '12',
+        studentCode: 'student_code',
+        campaignCode: 'campaign_code',
       };
 
       const expectedSerializedSnapshot = {
@@ -143,7 +149,9 @@ describe('Unit | Serializer | JSONAPI | snapshot-serializer', () => {
           attributes: {
             'created-at': '2017-08-23 12:52:33',
             'completion-percentage': '12',
-            'score': null
+            'score': null,
+            'student-code': 'student_code',
+            'campaign-code': 'campaign_code',
           }
         }
       };
@@ -152,7 +160,7 @@ describe('Unit | Serializer | JSONAPI | snapshot-serializer', () => {
       const result = serializer.serialize(snapshot);
 
       // then
-      expect(result).to.eql(expectedSerializedSnapshot);
+      expect(result).to.deep.equal(expectedSerializedSnapshot);
     });
 
     it('should set the completion percentage to null when it is not defined', () => {
@@ -162,6 +170,8 @@ describe('Unit | Serializer | JSONAPI | snapshot-serializer', () => {
         createdAt: '2017-08-23 12:52:33',
         score: '12',
         completionPercentage: null,
+        studentCode: 'student_code',
+        campaignCode: 'campaign_code',
       };
 
       const expectedSerializedSnapshot = {
@@ -171,7 +181,9 @@ describe('Unit | Serializer | JSONAPI | snapshot-serializer', () => {
           attributes: {
             'created-at': '2017-08-23 12:52:33',
             'completion-percentage': null,
-            'score': '12'
+            'score': '12',
+            'student-code': 'student_code',
+            'campaign-code': 'campaign_code',
           }
         }
       };
@@ -180,9 +192,114 @@ describe('Unit | Serializer | JSONAPI | snapshot-serializer', () => {
       const result = serializer.serialize(snapshot);
 
       // then
-      expect(result).to.eql(expectedSerializedSnapshot);
+      expect(result).to.deep.equal(expectedSerializedSnapshot);
     });
 
+    it('should set the student code to null when it is not defined', () => {
+      // given
+      const snapshot = {
+        id: 1,
+        createdAt: '2017-10-05 22:452:58',
+        score: '12',
+        studentCode: null,
+        campaignCode: 'campaign_code',
+      };
+
+      const expectedSerializedSnapshot = {
+        data: {
+          id: '1',
+          type: 'snapshots',
+          attributes: {
+            'created-at': '2017-10-05 22:452:58',
+            'completion-percentage': null,
+            'score': '12',
+            'student-code': null,
+            'campaign-code': 'campaign_code',
+          }
+        }
+      };
+
+      // when
+      const result = serializer.serialize(snapshot);
+
+      // then
+      expect(result).to.deep.equal(expectedSerializedSnapshot);
+    });
+
+    it('should set the campaign code to null when it is not defined', () => {
+      // given
+      const snapshot = {
+        id: 1,
+        createdAt: '2017-10-05 22:452:58',
+        score: '12',
+        studentCode: 'student_code',
+        campaignCode: null,
+      };
+
+      const expectedSerializedSnapshot = {
+        data: {
+          id: '1',
+          type: 'snapshots',
+          attributes: {
+            'created-at': '2017-10-05 22:452:58',
+            'completion-percentage': null,
+            'score': '12',
+            'student-code': 'student_code',
+            'campaign-code': null,
+          }
+        }
+      };
+
+      // when
+      const result = serializer.serialize(snapshot);
+
+      // then
+      expect(result).to.deep.equal(expectedSerializedSnapshot);
+    });
+
+  });
+
+  describe('#deserialize', () => {
+
+    it('should convert a JSON:API object into an object literal', () => {
+      // given
+      const jsonApiObject = {
+        data: {
+          type: 'snapshots',
+          id: '1',
+          attributes: {
+            'completion-percentage': '20',
+            'created-at': '2017-10-06 09:33:00',
+            'score': '10',
+            'student-code': 'ABCD-1234',
+            'campaign-code': 'EFGH-5678',
+          },
+          relationships: {
+            organization: { data: { id: '3', type: 'organizations' } }
+          }
+        }
+      };
+
+      const expectedObjectLiteral = {
+        id: '1',
+        score: '10',
+        createdAt: '2017-10-06 09:33:00',
+        completionPercentage: '20',
+        studentCode: 'ABCD-1234',
+        campaignCode: 'EFGH-5678',
+        organization: {
+          id: '3'
+        }
+      };
+
+      // when
+      const promise = serializer.deserialize(jsonApiObject);
+
+      // then
+      return promise.then((result) => {
+        expect(result).to.deep.equal(expectedObjectLiteral);
+      });
+    });
   });
 
 });

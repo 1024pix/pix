@@ -1,13 +1,16 @@
 const snapshotRepository = require('../../../lib/infrastructure/repositories/snapshot-repository');
 
 module.exports = {
-  create(snapshot) {
+
+  create(snapshot, user, serializedProfile) {
     const snapshotRaw = {
-      organizationId: snapshot.organizationId,
+      organizationId: snapshot.organization.id,
       completionPercentage: snapshot.completionPercentage,
-      userId: snapshot.profile.data.id,
-      score: snapshot.profile.data.attributes['total-pix-score'],
-      profile: JSON.stringify(snapshot.profile)
+      studentCode: snapshot.studentCode,
+      campaignCode: snapshot.campaignCode,
+      userId: user.id,
+      score: serializedProfile.data.attributes['total-pix-score'],
+      profile: JSON.stringify(serializedProfile)
     };
 
     return snapshotRepository
