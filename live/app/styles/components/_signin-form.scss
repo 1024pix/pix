@@ -90,6 +90,10 @@ $margin-right: 20px;
   padding: 5px;
 }
 
+.signin-form__forgotten-password-link {
+  align-self: flex-end;
+}
+
 .signin-form__form-field-button {
   display: inline;
 }

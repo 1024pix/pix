@@ -38,6 +38,7 @@
 @import 'components/medal-item';
 @import 'components/navbar-header';
 @import 'components/pix-logo';
+@import 'components/password-reset-form';
 @import 'components/qroc-solution-panel';
 @import 'components/qrocm-proposals';
 @import 'components/result-item';
@@ -78,6 +79,7 @@
 @import 'pages/board';
 @import 'pages/terms-of-service';
 @import 'pages/reset-password';
+@import 'pages/password-reset-demand';
 
 body {
   font-family: $font-lato;

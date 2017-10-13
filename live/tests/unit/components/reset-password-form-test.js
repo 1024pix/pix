@@ -16,7 +16,7 @@ const VALIDATION_MAP = {
   }
 };
 
-describe.only('Unit | Component | reset password form', function() {
+describe('Unit | Component | reset password form', function() {
 
   setupComponentTest('reset-password-form', {
     needs: ['component:form-textfield'],

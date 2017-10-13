@@ -24,6 +24,10 @@
         {{input id="pix-password" type="password" value=password}}
       </div>
 
+      <div class="signin-form__form-field">
+        {{#link-to 'password-reset-demand' class="signin-form__forgotten-password-link"}}Mot de passe oublié ?{{/link-to}}
+      </div>
+
       <div class="signin-form__form-field signin-form__form-field-button">
         <button type="submit" class="signin-form__submit_button" {{action "submit" allowedKeys="enter"}}>Je me connecte</button>
       </div>
