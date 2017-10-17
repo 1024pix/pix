@@ -11,6 +11,15 @@ const VALIDATION_MAP = {
     status: 'error', message: ERROR_PASSWORD_MESSAGE
   },
   success: {
+    status: 'success', message: ''
+  }
+};
+
+const SUBMISSION_MAP = {
+  error: {
+    status: 'error', message: ERROR_PASSWORD_MESSAGE
+  },
+  success: {
     status: 'success', message: PASSWORD_SUCCESS_MESSAGE
   }
 };
@@ -33,10 +42,10 @@ export default Ember.Component.extend({
     handleResetPassword() {
       return this.get('user').save()
         .then(() => {
-          this.set('validation', VALIDATION_MAP['success']);
+          this.set('validation', SUBMISSION_MAP['success']);
           this.set('user.password', null);
         })
-        .catch(() => this.set('validation', VALIDATION_MAP['error']));
+        .catch(() => this.set('validation', SUBMISSION_MAP['error']));
     }
   }
 });

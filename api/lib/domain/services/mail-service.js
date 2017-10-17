@@ -3,7 +3,7 @@ const mailJet = require('../../infrastructure/mailjet');
 const logger = require('./../../infrastructure/logger');
 const ACCOUNT_CREATION_EMAIL_TEMPLATE_ID = '143620';
 const WELCOME_EMAIL_TEMPLATE_ID = '129291';
-const RESET_PASSWORD_DEMAND_EMAIL_TEMPLATE_ID = '207534';
+const RESET_PASSWORD_DEMAND_EMAIL_TEMPLATE_ID = '232827';
 
 function sendAccountCreationEmail(email) {
   return mailJet.sendEmail({

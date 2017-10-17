@@ -4,6 +4,8 @@ import { beforeEach, describe, it } from 'mocha';
 import { setupComponentTest } from 'ember-mocha';
 
 const ERROR_PASSWORD_MESSAGE = 'Votre mot de passe doit comporter au moins une lettre, un chiffre et 8 caractères.';
+const SUCCESS_VALIDATION_MESSAGE = 'Votre mot de passe a été bien mis à jour';
+
 const VALIDATION_MAP = {
   default: {
     status: 'default', message: null
@@ -12,7 +14,16 @@ const VALIDATION_MAP = {
     status: 'error', message: ERROR_PASSWORD_MESSAGE
   },
   success: {
-    status: 'success', message: 'Votre mot de passe a été bien mis à jour'
+    status: 'success', message: ''
+  },
+};
+
+const SUBMISSION_MAP = {
+  success: {
+    status: 'success', message: SUCCESS_VALIDATION_MESSAGE
+  },
+  error: {
+    status: 'error', message: ERROR_PASSWORD_MESSAGE
   }
 };
 
@@ -104,7 +115,7 @@ describe('Unit | Component | reset password form', function() {
         });
 
         // then
-        expect(component.get('validation')).to.eql(VALIDATION_MAP['success']);
+        expect(component.get('validation')).to.eql(SUBMISSION_MAP['success']);
       });
 
       it('should reset paswword input', function() {
@@ -140,7 +151,7 @@ describe('Unit | Component | reset password form', function() {
         });
 
         // then
-        expect(component.get('validation')).to.eql(VALIDATION_MAP['error']);
+        expect(component.get('validation')).to.eql(SUBMISSION_MAP['error']);
       });
     });
 
