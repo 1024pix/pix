@@ -29,7 +29,7 @@ describe('Acceptance | j1 - Comparer réponses et solutions pour un QCM |', func
   });
 
   describe('j1.1 Affiche sur la ligne de l\'épreuve le mot REPONSE pour un QCM sur l\'écran des résultats', function() {
-    it('j1.1.1 il l\'affiche pour un QCM, un QCU mais pas pour les autres types d\'épreuves' , async function() {
+    it('j1.1.1 il l\'affiche pour un QCM, un QCU mais pas pour les autres types d\'épreuves', async function() {
       await visit(RESULT_URL);
       expect($('.result-item:eq(0) .js-correct-answer').text()).to.contain('RÉPONSE'); //QCM
       expect($('.result-item:eq(1) .js-correct-answer').text()).to.contain('RÉPONSE'); //QCU

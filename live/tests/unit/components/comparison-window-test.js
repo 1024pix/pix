@@ -14,7 +14,7 @@ function _assertResultItemTooltip(resultItem, expected) {
 describe('Unit | Component | comparison-window', function() {
 
   setupTest('component:comparison-window', {
-    needs: ['service:current-routed-modal', 'initializer:jquery-tabbable']
+    needs: ['service:current-routed-modal', 'service:keyboard', 'service:component-focus/focus-manager']
   });
 
   let component;

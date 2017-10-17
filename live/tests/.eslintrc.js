@@ -1,14 +1,13 @@
 module.exports = {
   env: {
     embertest: true,
-    mocha: true
+    mocha: true,
+    jquery: true
   },
+  extends: '../.eslintrc.js',
   globals: {
     'Showdown': false,
     'server': false
-  },
-  parserOptions: {
-    ecmaVersion: 8
   },
   rules: {
     'no-unused-expressions': 0

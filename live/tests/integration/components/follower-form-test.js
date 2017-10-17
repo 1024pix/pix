@@ -60,7 +60,7 @@ describe('Integration | Component | follower form', function() {
       }
     });
 
-    const errorObject= Ember.Object.create({
+    const errorObject = Ember.Object.create({
       errors: [{
         status: 409
       }]

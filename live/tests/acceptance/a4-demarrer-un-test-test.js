@@ -23,12 +23,12 @@ describe('Acceptance | a4 - Démarrer un test |', function() {
 
   it('a4.2 Je peux démarrer un test directement depuis la nouvelle url "courses/:course_id"', async function() {
     await visit('/courses/ref_course_id');
-    expect(_.endsWith(currentURL(), 'assessments/ref_assessment_id/challenges/ref_qcm_challenge_id')).to.equal(true);
+    expect(_.endsWith(currentURL(), 'assessments/ref_assessment_id/challenges/ref_qcm_challenge_id')).to.be.true;
   });
 
   it('a4.2 Je peux démarrer un test directement depuis l\'ancienne url "courses/:course_id/assessment"', async function() {
     await visit('/courses/ref_course_id/assessment');
-    expect(_.endsWith(currentURL(), 'assessments/ref_assessment_id/challenges/ref_qcm_challenge_id')).to.equal(true);
+    expect(_.endsWith(currentURL(), 'assessments/ref_assessment_id/challenges/ref_qcm_challenge_id')).to.be.true;
   });
 
   it('a4.4 Quand je démarre un test, je suis redirigé vers la première épreuve du test', function() {
@@ -43,7 +43,7 @@ describe('Acceptance | a4 - Démarrer un test |', function() {
 
     const $startLink = findWithAssert(START_BUTTON);
 
-    expect($(MODAL_SELECTOR)).to.have.lengthOf(0);
+    expect(find(MODAL_SELECTOR)).to.have.lengthOf(0);
 
     // test on mobile
     triggerEvent('.course-list', 'simulateMobileScreen');
@@ -52,7 +52,7 @@ describe('Acceptance | a4 - Démarrer un test |', function() {
     andThen(() => {
       window.localStorage.clear();
       expect(currentURL()).to.equals('/');
-      expect($(MODAL_SELECTOR)).to.have.lengthOf(0);
+      expect(find(MODAL_SELECTOR)).to.have.lengthOf(0);
     });
 
     // start a test
@@ -62,9 +62,9 @@ describe('Acceptance | a4 - Démarrer un test |', function() {
     andThen(() => {
       // XXX : ickiest hack : wait 500ms for bootstrap transition to complete
       Ember.run.later(function() {
-        expect($(MODAL_SELECTOR)).to.have.lengthOf(1);
+        expect(find(MODAL_SELECTOR)).to.have.lengthOf(1);
         expect(currentURL()).to.equals('/');
-        $('a[data-dismiss]').click();
+        find('a[data-dismiss]').click();
 
         return click($startLink).then(() => {
           expect(currentURL()).to.contain(URL_OF_FIRST_TEST);
@@ -81,7 +81,7 @@ describe('Acceptance | a4 - Démarrer un test |', function() {
     andThen(() => {
       Ember.run.later(function() {
         expect(currentURL()).to.equals('/');
-        expect($(MODAL_SELECTOR)).to.have.lengthOf(0);
+        expect(find(MODAL_SELECTOR)).to.have.lengthOf(0);
       }, 500);
     });
     click($startLink);

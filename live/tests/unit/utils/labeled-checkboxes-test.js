@@ -64,8 +64,7 @@ describe('Unit | Utility | labeled checkboxes', function() {
           + JSON.stringify(testCase.answers)
           + ' with '
           + JSON.stringify(testCase.output)
-          + ' when ' + testCase.when,
-        () => {
+          + ' when ' + testCase.when, () => {
           expect(JSON.stringify(labeledCheckboxes(testCase.proposals, testCase.answers))).to.equal(JSON.stringify(testCase.output));
         });
       });

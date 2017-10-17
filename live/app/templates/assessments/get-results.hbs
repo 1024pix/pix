@@ -19,8 +19,7 @@
     </h2>
     <div class="assessment-results__list">
       {{#each model.assessment.answers as |answer index|}}
-        {{result-item answer=answer index=index openComparison="openComparison"
-                      a11y-focus-id=(concat "open-comparison_" (add index 1))}}
+        {{result-item answer=answer index=index openComparison="openComparison" a11y-focus-id=(concat "open-comparison_" (add index 1))}}
       {{/each}}
     </div>
 

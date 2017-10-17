@@ -22,11 +22,14 @@ describe('Integration | Component | qrocm solution panel', function() {
   });
 
   const assessment = Ember.Object.create({ id: 'assessment_id' });
-  const challenge = Ember.Object.create({ id: 'challenge_id', proposals: 'answer1 : ${key1}\nCarte mémoire (SD) : ${key2}\nblabla : ${key3}' });
+  const challenge = Ember.Object.create({
+    id: 'challenge_id',
+    proposals: 'answer1 : ${key1}\nCarte mémoire (SD) : ${key2}\nblabla : ${key3}'
+  });
   const answer = Ember.Object.create({
     id: 'answer_id',
     value: 'key1: \'rightAnswer1\' key2: \'wrongAnswer2\' key3: \'\'',
-    resultDetails : 'key1: true\nkey2: false\nkey3: false',
+    resultDetails: 'key1: true\nkey2: false\nkey3: false',
     assessment,
     challenge
   });
@@ -150,7 +153,7 @@ describe('Integration | Component | qrocm solution panel', function() {
         // given
         this.render(hbs`{{qrocm-ind-solution-panel challenge=challenge answer=answer solution=solution}}`);
         const solutionBlock = this.$(THIRD_CORRECTION_BLOCK + ' ' + SOLUTION_BLOCK);
-        const solutionText  = this.$(THIRD_CORRECTION_BLOCK + ' ' + SOLUTION_BLOCK + ' ' + SOLUTION_TEXT);
+        const solutionText = this.$(THIRD_CORRECTION_BLOCK + ' ' + SOLUTION_BLOCK + ' ' + SOLUTION_TEXT);
 
         // then
         expect(solutionBlock).to.have.length(1);

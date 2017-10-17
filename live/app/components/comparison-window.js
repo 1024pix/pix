@@ -1,5 +1,11 @@
-import Ember from 'ember';
+import Component from '@ember/component';
+import { inject as service } from '@ember/service';
+import { on } from '@ember/object/evented';
+import { computed } from '@ember/object';
+import $ from 'jquery';
 import resultIconUrl from 'pix-live/utils/result-icon-url';
+import { EKMixin, keyUp } from 'ember-keyboard';
+import FocusableComponent from 'ember-component-focus/mixins/focusable-component';
 
 const contentReference = {
   ok: {
@@ -39,16 +45,9 @@ const contentReference = {
   }
 };
 
-function _setFocusOnFirstTabbableElement(modalId) {
-  const $tabbableElementInModal = Ember.$(modalId).find(':tabbable');
+export default Component.extend(EKMixin, FocusableComponent, {
 
-  const $firstElementToFocus = $tabbableElementInModal.get(0);
-  $firstElementToFocus.focus();
-}
-
-export default Ember.Component.extend({
-
-  modal: Ember.inject.service('current-routed-modal'),
+  modal: service('current-routed-modal'),
 
   classNames: [ 'comparison-window' ],
 
@@ -57,38 +56,33 @@ export default Ember.Component.extend({
   solution: null,
   index: null,
 
-  isAssessmentChallengeTypeQroc: Ember.computed.equal('challenge.type', 'QROC'),
-  isAssessmentChallengeTypeQcm: Ember.computed.equal('challenge.type', 'QCM'),
-  isAssessmentChallengeTypeQcu: Ember.computed.equal('challenge.type', 'QCU'),
-  isAssessmentChallengeTypeQrocm: Ember.computed.equal('challenge.type', 'QROCM'),
-  isAssessmentChallengeTypeQrocmInd: Ember.computed.equal('challenge.type', 'QROCM-ind'),
-  isAssessmentChallengeTypeQrocmDep: Ember.computed.equal('challenge.type', 'QROCM-dep'),
+  focusNode: '.routable-modal--close-button',
+
+  isAssessmentChallengeTypeQroc: computed.equal('challenge.type', 'QROC'),
+  isAssessmentChallengeTypeQcm: computed.equal('challenge.type', 'QCM'),
+  isAssessmentChallengeTypeQcu: computed.equal('challenge.type', 'QCU'),
+  isAssessmentChallengeTypeQrocm: computed.equal('challenge.type', 'QROCM'),
+  isAssessmentChallengeTypeQrocmInd: computed.equal('challenge.type', 'QROCM-ind'),
+  isAssessmentChallengeTypeQrocmDep: computed.equal('challenge.type', 'QROCM-dep'),
+
+  activateKeyboard: on('init', function() {
+    this.set('keyboardActivated', true);
+  }),
+
+  closeOnEsc: on(keyUp('Escape'), function() {
+    this.get('modal').close();
+  }),
 
   didInsertElement() {
     this._super(...arguments);
-
-    const modalId = '#' + this.elementId;
-
-    _setFocusOnFirstTabbableElement(modalId);
-
-    Ember.$(modalId).find(':tabbable').last().on('blur', function() {
-      _setFocusOnFirstTabbableElement(modalId);
-    });
-  },
-
-  keyUp(event) {
-    if(event.key === 'Escape') {
-      this.get('modal').close();
-    }
-
-    event.preventDefault();
+    this.focus();
   },
 
   didDestroyElement() {
-    Ember.$('#open-comparison_' + this.get('index')).focus();
+    $('#open-comparison_' + this.get('index')).focus();
   },
 
-  resultItem: Ember.computed('answer.result', function() {
+  resultItem: computed('answer.result', function() {
     let resultItem = contentReference['default'];
     const answerStatus = this.get('answer.result');
 
@@ -98,7 +92,7 @@ export default Ember.Component.extend({
     return resultItem;
   }),
 
-  resultItemIcon: Ember.computed('resultItem', function() {
+  resultItemIcon: computed('resultItem', function() {
     return resultIconUrl(this.get('resultItem.status'));
   })
 });

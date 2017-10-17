@@ -4,6 +4,7 @@ import { setupComponentTest } from 'ember-mocha';
 import hbs from 'htmlbars-inline-precompile';
 import Ember from 'ember';
 import RSVP from 'rsvp';
+import $ from 'jquery';
 
 describe('Integration | Component | share profile', function() {
 

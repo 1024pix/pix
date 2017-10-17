@@ -1,6 +1,7 @@
-import Ember from 'ember';
+import Component from '@ember/component';
+import { computed } from '@ember/object';
 
-export default Ember.Component.extend({
+export default Component.extend({
 
   classNames: ['challenge-actions'],
 
@@ -8,9 +9,9 @@ export default Ember.Component.extend({
   answerValidated: null, // action
 
   _validateButtonStatus: 'enable', // enable, pending, offline
-  isValidateButtonEnable: Ember.computed.equal('_validateButtonStatus', 'enable'),
-  isValidateButtonPending: Ember.computed.equal('_validateButtonStatus', 'pending'),
-  isValidateButtonOffline: Ember.computed.equal('_validateButtonStatus', 'offline'),
+  isValidateButtonEnable: computed.equal('_validateButtonStatus', 'enable'),
+  isValidateButtonPending: computed.equal('_validateButtonStatus', 'pending'),
+  isValidateButtonOffline: computed.equal('_validateButtonStatus', 'offline'),
 
   actions: {
 
@@ -21,14 +22,9 @@ export default Ember.Component.extend({
     validateAnswer() {
       this.set('_validateButtonStatus', 'pending');
 
-      const promise = this.get('answerValidated')();
-      promise
-        .then(() => {
-          this.set('_validateButtonStatus', 'enable');
-        })
-        .catch(() => {
-          this.set('_validateButtonStatus', 'enable');
-        });
+      this.get('answerValidated')()
+        .then(() => this.set('_validateButtonStatus', 'enable'))
+        .catch(() => this.set('_validateButtonStatus', 'enable'));
     }
   }
 

@@ -1,4 +1,5 @@
 import _ from 'pix-live/utils/lodash-custom';
+import $ from 'jquery';
 
 import ChallengeItemGeneric from './challenge-item-generic';
 

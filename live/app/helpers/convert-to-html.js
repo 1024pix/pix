@@ -1,4 +1,4 @@
-import Ember from 'ember';
+import { helper } from '@ember/component/helper';
 import showdown from 'showdown';
 import _ from 'pix-live/utils/lodash-custom';
 
@@ -10,4 +10,4 @@ export function convertToHtml(params) {
   return '';
 }
 
-export default Ember.Helper.helper(convertToHtml);
+export default helper(convertToHtml);

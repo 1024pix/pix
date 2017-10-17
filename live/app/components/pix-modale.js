@@ -1,6 +1,7 @@
+import { on } from '@ember/object/evented';
 import Ember from 'ember';
 import ModalDialog from 'ember-modal-dialog/components/modal-dialog';
-import { EKMixin as EmberKeyboardMixin, keyDown } from 'ember-keyboard';
+import { EKMixin as EmberKeyboardMixin, keyUp } from 'ember-keyboard';
 
 function _setFocusOnFirstTabbableElement(modalId) {
   const $tabbableElementInModal = Ember.$(modalId).find(':tabbable');
@@ -28,7 +29,7 @@ export default ModalDialog.extend(EmberKeyboardMixin, {
     });
   },
 
-  closeOnEsc: Ember.on(keyDown('Escape'), function() {
+  closeOnEsc: on(keyUp('Escape'), function() {
     this.sendAction('close');
   })
 });

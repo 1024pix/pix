@@ -120,7 +120,7 @@ describe('Unit | Component | User logged Menu', function() {
     it('should be false if the current route is /compte', function() {
       // given
       this.register('service:-routing', Ember.Service.extend({
-        currentRouteName : 'compte'
+        currentRouteName: 'compte'
       }));
       this.inject.service('-routing', { as: '-routing' });
       const component = this.subject();
@@ -135,7 +135,7 @@ describe('Unit | Component | User logged Menu', function() {
     it('should be false if the current route is /board', function() {
       // given
       this.register('service:-routing', Ember.Service.extend({
-        currentRouteName : 'board'
+        currentRouteName: 'board'
       }));
       this.inject.service('-routing', { as: '-routing' });
       const component = this.subject();
@@ -150,7 +150,7 @@ describe('Unit | Component | User logged Menu', function() {
     it('should be true if the current route is not /compte', function() {
       // given
       this.register('service:-routing', Ember.Service.extend({
-        currentRouteName : 'autreRoute'
+        currentRouteName: 'autreRoute'
       }));
       this.inject.service('-routing', { as: '-routing' });
       const component = this.subject();

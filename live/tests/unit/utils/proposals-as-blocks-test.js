@@ -11,7 +11,10 @@ describe('Unit | Utility | proposals as blocks', function() {
     { data: '${qroc}', expected: [{ input: 'qroc' }] },
     { data: 'Test: ${test}', expected: [{ text: 'Test:' }, { input: 'test' }] },
     { data: 'Test: ${test} (kilometres)', expected: [{ text: 'Test:' }, { input: 'test' }, { text: '(kilometres)' }] },
-    { data: '${plop}, ${plop} ${plop}', expected: [{ input: 'plop' }, { text: ',' }, { input: 'plop' }, { input: 'plop' }] },
+    {
+      data: '${plop}, ${plop} ${plop}',
+      expected: [{ input: 'plop' }, { text: ',' }, { input: 'plop' }, { input: 'plop' }]
+    },
     { data: '${plop#var}', expected: [{ input: 'plop', placeholder: 'var' }] },
     { data: 'line1\nline2', expected: [{ text: 'line1' }, { breakline: true }, { text: 'line2' }] },
     { data: 'line1\r\nline2', expected: [{ text: 'line1' }, { breakline: true }, { text: 'line2' }] },

@@ -3,7 +3,7 @@ import { describe, it } from 'mocha';
 import { setupTest } from 'ember-mocha';
 import sinon from 'sinon';
 
-import { keyDown } from 'ember-keyboard';
+import { keyUp } from 'ember-keyboard';
 
 describe('Unit | Component | pix-modal', function() {
 
@@ -36,7 +36,7 @@ describe('Unit | Component | pix-modal', function() {
 
       const component = this.subject();
       component.sendAction = sendActionStub;
-      component.trigger(keyDown('Escape'));
+      component.trigger(keyUp('Escape'));
 
       // then
       sinon.assert.calledWith(sendActionStub, 'close');

@@ -119,7 +119,7 @@ describe('Unit | Component | feedback-panel', function() {
       component.set('collapsible', true);
 
       // when
-      const defaultStatus =  component._getDefaultStatus();
+      const defaultStatus = component._getDefaultStatus();
 
       // then
       expect(defaultStatus).to.equal('FORM_CLOSED');

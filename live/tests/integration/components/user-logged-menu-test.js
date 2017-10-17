@@ -108,8 +108,8 @@ describe('Integration | Component | user logged menu', function() {
 
       it('should not render a button link to the profile when the user is on compte page', function() {
         this.register('service:-routing', Ember.Service.extend({
-          currentRouteName : 'compte',
-          generateURL : function() {
+          currentRouteName: 'compte',
+          generateURL: function() {
             return '/compte';
           }
         }));
@@ -127,8 +127,8 @@ describe('Integration | Component | user logged menu', function() {
 
       it('should not render a button link to the profile when the user is on compte page', function() {
         this.register('service:-routing', Ember.Service.extend({
-          currentRouteName : 'board',
-          generateURL : function() {
+          currentRouteName: 'board',
+          generateURL: function() {
             return '/board';
           }
         }));
@@ -146,7 +146,7 @@ describe('Integration | Component | user logged menu', function() {
 
       it('should render a button link to the profile when the user is not on compte page', function() {
         this.register('service:-routing', Ember.Service.extend({
-          generateURL : function() {
+          generateURL: function() {
             return '/autreRoute';
           }
         }));

@@ -7,7 +7,7 @@ describe('#resultDetailsAsObject', function() {
   it('it should return an object from the yaml String', function() {
     // given
     const resultDetailYaml = 'S1: false\nS2: true\n';
-    const expectedObject = { S1 : false, S2 : true };
+    const expectedObject = { S1: false, S2: true };
     // when
     const result = resultDetailsAsObject(resultDetailYaml);
     // then

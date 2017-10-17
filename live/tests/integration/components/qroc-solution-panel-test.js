@@ -60,7 +60,7 @@ describe('Integration | Component | qroc solution panel', function() {
     beforeEach(function() {
       const assessment = Ember.Object.create({ id: 'assessment_id' });
       const challenge = Ember.Object.create({ id: 'challenge_id' });
-      const answer = Ember.Object.create({ id: 'answer_id', result:'ko', assessment, challenge });
+      const answer = Ember.Object.create({ id: 'answer_id', result: 'ko', assessment, challenge });
 
       this.set('answer', answer);
       this.render(hbs`{{qroc-solution-panel answer=answer}}`);
