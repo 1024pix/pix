@@ -36,7 +36,7 @@ describe('Unit | Component | password-reset-form', function() {
 
       // then
       sinon.assert.called(createRecordStub);
-      sinon.assert.calledWith(createRecordStub, 'passwordReset', { email: sentEmail });
+      sinon.assert.calledWith(createRecordStub, 'password-reset-demand', { email: sentEmail });
     });
 
     it('should save the password reset demand', function() {

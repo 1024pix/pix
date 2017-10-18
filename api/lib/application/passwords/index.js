@@ -6,7 +6,7 @@ exports.register = function(server, options, next) {
   server.route([
     {
       method: 'POST',
-      path: '/api/password-resets',
+      path: '/api/password-reset-demands',
       config: {
         handler: passwordController.createResetDemand,
         validate: {

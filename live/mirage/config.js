@@ -74,13 +74,13 @@ export default function() {
   this.post('/followers');
   this.post('/users');
 
-  this.post('/password-resets', (schema, request) => {
+  this.post('/password-reset-demands', (schema, request) => {
     const attrs = JSON.parse(request.requestBody);
     const sentEmail = attrs.data.attributes.email;
     const matchingAccount = schema.users.findBy({ email: sentEmail });
 
     if (matchingAccount != null) {
-      return schema.passwordResets.create({ email: sentEmail });
+      return schema.passwordResetDemands.create({ email: sentEmail });
     } else {
       return new Response(400);
     }

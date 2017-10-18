@@ -13,7 +13,7 @@ export default Ember.Component.extend({
     savePasswordResetDemand() {
       this.set('_displayErrorMessage', false);
       this.set('_displaySuccessMessage', false);
-      this.get('store').createRecord('passwordReset', { email: this.get('email') })
+      this.get('store').createRecord('password-reset-demand', { email: this.get('email') })
         .save()
         .then(() => {
           this.set('_displaySuccessMessage', true);

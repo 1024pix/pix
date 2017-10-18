@@ -1,6 +1,6 @@
 import { afterEach, beforeEach, describe, it } from 'mocha';
 import { expect } from 'chai';
-import { startApp, destroyApp } from '../helpers/application';
+import { destroyApp, startApp } from '../helpers/application';
 
 describe('Acceptance | Reset Password', function() {
 
@@ -38,7 +38,7 @@ describe('Acceptance | Reset Password', function() {
     expect(find('.password-reset-page__inscription-button')).to.have.lengthOf(1);
   });
 
-  it('should redirect to connexion page when email sent correspond to an existing user', async function() {
+  it('should stay on mot de passe oublié page, and show success message, when email sent correspond to an existing user', async function() {
     // given
     server.create('user', {
       id: 1,

@@ -20,7 +20,7 @@ describe('Unit | Router | Password router', () => {
     server.stop();
   });
 
-  describe('POST /api/password-resets', () => {
+  describe('POST /api/password-reset-demands', () => {
 
     it('should exist', () => {
       // given
@@ -30,7 +30,7 @@ describe('Unit | Router | Password router', () => {
 
       const options = {
         method: 'POST',
-        url: '/api/password-resets',
+        url: '/api/password-reset-demands',
         payload: {
           data: {
             attributes: {
@@ -57,7 +57,7 @@ describe('Unit | Router | Password router', () => {
         // given
         const options = {
           method: 'POST',
-          url: '/api/password-resets',
+          url: '/api/password-reset-demands',
           payload: {
             data: {
               attributes: {}

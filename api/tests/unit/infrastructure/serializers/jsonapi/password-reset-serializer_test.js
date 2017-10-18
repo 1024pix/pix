@@ -14,7 +14,7 @@ describe('Unit | Serializer | JSONAPI | password-reset-serializer', function() {
       };
       const expectedSerializedPasswordReset = {
         data: {
-          type: 'password-resets',
+          type: 'password-reset-demands',
           id: '1',
           attributes: {
             email: 'toto@pix.fr',
