@@ -1,4 +1,5 @@
 const { describe, it, expect, sinon, beforeEach, afterEach } = require('../../../test-helper');
+const User = require('../../../../lib/domain/models/data/user');
 const userVerification = require('../../../../lib/application/preHandlers/user-existence-verification');
 const userRepository = require('../../../../lib/infrastructure/repositories/user-repository');
 const { UserNotFoundError } = require('../../../../lib/domain/errors');
@@ -20,7 +21,7 @@ describe('Unit | Pre-handler | User Verification', () => {
 
     beforeEach(() => {
       sandbox = sinon.sandbox.create();
-      sandbox.stub(userRepository, 'countUserById');
+      sandbox.stub(userRepository, 'findUserById');
       sandbox.stub(errorSerializer, 'serialize');
 
       takeOverStub = sandbox.stub();
@@ -46,15 +47,15 @@ describe('Unit | Pre-handler | User Verification', () => {
       it('should passthrough to handler', () => {
         // given
         const userCount = 1;
-        userRepository.countUserById.resolves(userCount);
+        userRepository.findUserById.resolves(userCount);
 
         // when
         const promise = userVerification.verifyById(request, reply);
 
         // then
         return promise.then(() => {
-          sinon.assert.calledOnce(userRepository.countUserById);
-          sinon.assert.calledWith(userRepository.countUserById, request.params.id);
+          sinon.assert.calledOnce(userRepository.findUserById);
+          sinon.assert.calledWith(userRepository.findUserById, request.params.id);
           sinon.assert.calledOnce(reply);
           sinon.assert.calledWith(reply, userCount);
         });
@@ -66,7 +67,7 @@ describe('Unit | Pre-handler | User Verification', () => {
 
       it('should reply 404 status with a serialized error and takeOver the request', () => {
         // given
-        userRepository.countUserById.resolves(null);
+        userRepository.findUserById.rejects(User.NotFoundError());
         const serializedError = {};
         errorSerializer.serialize.returns(serializedError);
 
@@ -74,7 +75,7 @@ describe('Unit | Pre-handler | User Verification', () => {
         const promise = userVerification.verifyById(request, reply);
 
         // then
-        return promise.then(() => {
+        return promise.catch(() => {
           sinon.assert.calledOnce(takeOverStub);
           sinon.assert.calledOnce(codeStub);
           sinon.assert.calledOnce(errorSerializer.serialize);

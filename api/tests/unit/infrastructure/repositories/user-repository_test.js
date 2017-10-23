@@ -167,44 +167,4 @@ describe('Unit | Repository | UserRepository', function() {
       });
     });
   });
-
-  describe('#countUserById', () => {
-
-    let sandbox;
-    let countStub;
-
-    beforeEach(() => {
-      sandbox = sinon.sandbox.create();
-      countStub = sinon.stub().resolves();
-      sandbox.stub(User, 'where').returns({
-        count: countStub
-      });
-    });
-
-    afterEach(() => {
-      sandbox.restore();
-    });
-
-    it('should be a function', function() {
-      // then
-      expect(UserRepository.countUserById).to.be.a('function');
-    });
-
-    describe('Calls params', () => {
-      it('should correctly query database', () => {
-        const invalidUserId = '123344455';
-        const whereArgs = { id: invalidUserId };
-        const countArg = 'id';
-        return UserRepository.countUserById(invalidUserId)
-          .then(() => {
-            sinon.assert.calledOnce(User.where);
-            sinon.assert.calledWith(User.where, whereArgs);
-            sinon.assert.calledOnce(countStub);
-            sinon.assert.calledWith(countStub, countArg);
-          });
-      });
-
-    });
-
-  });
 });

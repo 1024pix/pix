@@ -41,9 +41,5 @@ module.exports = {
       patch: true,
       require: false
     });
-  },
-
-  countUserById(id) {
-    return User.where({ id }).count('id');
   }
 };
