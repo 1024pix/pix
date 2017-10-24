@@ -10,7 +10,7 @@ const errorSerializer = require('../../infrastructure/serializers/jsonapi/valida
 const userSerializer = require('../../infrastructure/serializers/jsonapi/user-serializer');
 
 function _sendPasswordResetDemandUrlEmail(request, email, temporaryKey, passwordResetDemand) {
-  const passwordResetDemandUrl = `http://${request.headers.host}`;
+  const passwordResetDemandUrl = request.headers.origin;
   return mailService
     .sendResetPasswordDemandEmail(email, passwordResetDemandUrl, temporaryKey)
     .then(() => passwordResetDemand);

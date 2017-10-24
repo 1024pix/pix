@@ -26,7 +26,8 @@ describe('Unit | Controller | PasswordController', () => {
             }
           }
         },
-        headers: { host: 'localhost' }
+        connection: { info: { protocol: 'http' } },
+        headers: { origin: 'http://localhost' }
       };
 
       let replyStub;
