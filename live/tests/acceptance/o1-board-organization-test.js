@@ -53,9 +53,9 @@ describe('Acceptance | o1 - board organization', function() {
 
     // then
     expect(find('.board-page__header-organisation__name').length).to.equal(1);
-    expect(find('.board-page__header-organisation__name').text().trim()).to.equal('ACME');
+    expect(find('.board-page__header-organisation__name').text().trim()).to.equal('Mon Entreprise');
     expect(find('.board-page__header-code__text').length).to.equal(1);
-    expect(find('.board-page__header-code__text').text().trim()).to.equal('ABCD00');
+    expect(find('.board-page__header-code__text').text().trim()).to.equal('PRO001');
   });
 
   it('should display an empty list of snapshot', async function() {

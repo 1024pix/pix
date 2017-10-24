@@ -1,4 +1,9 @@
 /* Wrapper */
+.share-profile__section {
+  @include device-is('tablet') {
+    padding: 30px 0;
+  }
+}
 
 .share-profile__share-button {
   flex-grow: 0;
@@ -16,15 +21,17 @@
   padding-left: 5px;
 }
 
-/* "Organization code entry" view */
+.share-profile__row {
+  width: 100%;
+  margin-bottom: 10px;
+  text-align: center;
 
-.share-profile__statement {
-  @include device-is('desktop') {
-    width: 545px;
-    height: 59px;
-    text-align: center;
+  @include device-is('tablet') {
+    margin-bottom: 20px;
   }
 }
+
+/* "Organization code entry" view */
 
 .share-profile__modal-form {
   width: 100%;
@@ -34,7 +41,7 @@
   align-items: center;
   justify-content: space-between;
 
-  @include device-is('desktop') {
+  @include device-is('tablet') {
     width: 265px;
     max-width: 380px;
     padding: 30px 16px 16px;
@@ -45,7 +52,7 @@
   width: 100%;
   text-align: center;
 
-  @include device-is('desktop') {
+  @include device-is('tablet') {
     width: 265px;
   }
 }
@@ -54,7 +61,7 @@
   color: $pure-orange;
   margin-bottom: 5px;
 
-  @include device-is('desktop') {
+  @include device-is('tablet') {
     font-size: 16px;
   }
 }
@@ -66,7 +73,7 @@
   justify-content: space-between;
   box-sizing: border-box;
 
-  @include device-is('desktop') {
+  @include device-is('tablet') {
     width: 265px;
   }
 }
@@ -83,7 +90,7 @@
   }
 }
 
-.share-profile__organization-name {
+p.share-profile__organization-name {
   font-weight: $font-bold;
   font-size: 20px;
   text-align: center;
@@ -93,7 +100,7 @@
   }
 }
 
-.share-profile__disclaimer {
+.share-profile__row--disclaimer {
   @include device-is('tablet') {
     font-size: 16px;
   }
@@ -102,5 +109,8 @@
 /* "Success notification" view */
 
 .share-profile__statement {
-  margin-bottom: 5px;
+  @include device-is('tablet') {
+    padding: 20px 0;
+    text-align: center;
+  }
 }

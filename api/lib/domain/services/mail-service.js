@@ -3,7 +3,7 @@ const mailJet = require('../../infrastructure/mailjet');
 const logger = require('./../../infrastructure/logger');
 const ACCOUNT_CREATION_EMAIL_TEMPLATE_ID = '143620';
 const WELCOME_EMAIL_TEMPLATE_ID = '129291';
-const RESET_PASSWORD_DEMAND_EMAIL_TEMPLATE_ID = '207534';
+const RESET_PASSWORD_DEMAND_EMAIL_TEMPLATE_ID = '232827';
 
 function sendAccountCreationEmail(email) {
   return mailJet.sendEmail({
@@ -42,7 +42,7 @@ function sendResetPasswordDemandEmail(email, baseUrl, temporaryKey) {
     from: 'ne-pas-repondre@pix.beta.gouv.fr',
     fromName: 'PIX - Ne pas répondre',
     subject: 'Demande de réinitialisation de mot de passe PIX',
-    variables: { resetUrl: `${baseUrl}/compte/motdepasse/${temporaryKey}` }
+    variables: { resetUrl: `${baseUrl}/changer-mot-de-passe/${temporaryKey}` }
   });
 }
 

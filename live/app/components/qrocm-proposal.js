@@ -1,7 +1,8 @@
-import Ember from 'ember';
+import Component from '@ember/component';
+import { computed } from '@ember/object';
 import proposalsAsBlocks from 'pix-live/utils/proposals-as-blocks';
 
-export default Ember.Component.extend({
+export default Component.extend({
 
   classNames: ['qrocm-proposal'],
 
@@ -9,7 +10,7 @@ export default Ember.Component.extend({
   answersValue: null,
   answerChanged: null, // action
 
-  _blocks: Ember.computed('proposals', function() {
+  _blocks: computed('proposals', function() {
     return proposalsAsBlocks(this.get('proposals'));
   }),
 

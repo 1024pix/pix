@@ -3,6 +3,9 @@ import {
   setResolver
 } from 'ember-mocha';
 import { mocha } from 'mocha';
+import loadEmberExam from 'ember-exam/test-support/load';
+
+loadEmberExam();
 
 mocha.setup({
   // If a test is randomly killed by the timeout duration,

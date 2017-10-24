@@ -54,7 +54,7 @@ describe('Integration | Component | snapshot list', function() {
       id: 1,
       score: 10,
       completionPercentage: '25',
-      createdAt: '09/25/2017',
+      createdAt: '2017-09-25 12:14:33',
       user
     });
     this.set('snapshots', [snapshot]);
@@ -69,7 +69,7 @@ describe('Integration | Component | snapshot list', function() {
       expect(this.$('.snapshot-list__snapshot-item td:eq(1)').text().trim()).to.equal(user.get('firstName'));
       expect(this.$('.snapshot-list__snapshot-item td:eq(2)').text().trim()).to.equal('25/09/2017');
       expect(this.$('.snapshot-list__snapshot-item td:eq(3)').text().trim()).to.equal(snapshot.get('score').toString());
-      expect(this.$('.snapshot-list__snapshot-item td:eq(4)').text().trim()).to.equal(snapshot.get('completionPercentage')+'%');
+      expect(this.$('.snapshot-list__snapshot-item td:eq(4)').text().trim()).to.equal(snapshot.get('completionPercentage') + '%');
     }.bind(this));
   });
 });

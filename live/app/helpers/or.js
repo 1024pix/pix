@@ -1,4 +1,4 @@
-import Ember from 'ember';
+import { helper } from '@ember/component/helper';
 import _ from 'pix-live/utils/lodash-custom';
 
 function _isATruthyValue(value) {
@@ -13,4 +13,4 @@ export function or(params) {
   return hasTruthyValue;
 }
 
-export default Ember.Helper.helper(or);
+export default helper(or);

@@ -64,7 +64,9 @@ describe('Integration | Component | signin form', function() {
 
   it('should hide the error message if it was previously displayed', function() {
     // Expect
-    this.on('onSubmitAction', () => { return Promise.resolve(); });
+    this.on('onSubmitAction', () => {
+      return Promise.resolve();
+    });
     this.render(hbs`{{signin-form onSubmit=(action 'onSubmitAction') displayErrorMessage='true'}}`);
 
     expect(this.$('.signin-form__errors')).to.have.length(1);

@@ -1,102 +1,32 @@
-const { describe, it, expect, sinon, beforeEach, afterEach } = require('../../../test-helper');
+const { describe, it, sinon, beforeEach, afterEach } = require('../../../test-helper');
 const profileService = require('../../../../lib/domain/services/profile-service');
-const UserRepository = require('../../../../lib/infrastructure/repositories/user-repository');
-const SnapshotService = require('../../../../lib/domain/services/snapshot-service');
-const ProfileCompletionService = require('../../../../lib/domain/services/profile-completion-service');
+const userRepository = require('../../../../lib/infrastructure/repositories/user-repository');
+const snapshotService = require('../../../../lib/domain/services/snapshot-service');
+const profileCompletionService = require('../../../../lib/domain/services/profile-completion-service');
 const snapshotController = require('../../../../lib/application/snapshots/snapshot-controller');
 const authorizationToken = require('../../../../lib/infrastructure/validators/jsonwebtoken-verify');
 const validationErrorSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/validation-error-serializer');
-const OrganizationRepository = require('../../../../lib/infrastructure/repositories/organization-repository');
+const organizationRepository = require('../../../../lib/infrastructure/repositories/organization-repository');
 const profileSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/profile-serializer');
 const snapshotSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/snapshot-serializer');
 const logger = require('../../../../lib/infrastructure/logger');
 const { InvalidTokenError, NotFoundError } = require('../../../../lib/domain/errors');
 
+const USER_ID = 1;
+const ORGANIZATION_ID = 3;
+const SNAPSHOT_ID = 4;
+
 const user = {
-  id: 3,
+  id: USER_ID,
   firstName: 'Luke',
   lastName: 'Skywalker',
   email: 'luke@sky.fr'
 };
-const serializedUserProfile = {
-  data: {
-    type: 'users',
-    id: 'user_id',
-    attributes: {
-      'first-name': 'Luke',
-      'last-name': 'Skywalker',
-      'total-pix-score': 128,
-      'email': 'luke@sky.fr'
-    },
-    relationships: {
-      competences: {
-        data: [
-          { type: 'competences', id: 'recCompA' },
-          { type: 'competences', id: 'recCompB' }
-        ]
-      }
-    },
-  },
-  included: [
-    {
-      type: 'areas',
-      id: 'recAreaA',
-      attributes: {
-        name: 'area-name-1'
-      }
-    },
-    {
-      type: 'areas',
-      id: 'recAreaB',
-      attributes: {
-        name: 'area-name-2'
-      }
-    },
-    {
-      type: 'competences',
-      id: 'recCompA',
-      attributes: {
-        name: 'competence-name-1',
-        index: '1.1',
-        level: -1,
-        'course-id': 'recBxPAuEPlTgt72q11'
-      },
-      relationships: {
-        area: {
-          data: {
-            type: 'areas',
-            id: 'recAreaA'
-          }
-        }
-      }
-    },
-    {
-      type: 'competences',
-      id: 'recCompB',
-      attributes: {
-        name: 'competence-name-2',
-        index: '1.2',
-        level: 8,
-        'pix-score': 128,
-        'course-id': 'recBxPAuEPlTgt72q99'
-      },
-      relationships: {
-        area: {
-          data: {
-            type: 'areas',
-            id: 'recAreaB'
-          }
-        }
-      }
-    }
-  ]
-};
 
-describe('Unit | Controller | snapshotController', () => {
+describe('Unit | Controller | snapshot-controller', () => {
 
   describe('#Create', () => {
 
-    let sandbox;
     const request = {
       headers: {
         authorization: 'valid_token'
@@ -106,25 +36,20 @@ describe('Unit | Controller | snapshotController', () => {
           relationships: {
             organization: {
               data: {
-                id: 3
+                id: ORGANIZATION_ID
               }
             }
           }
         }
       }
     };
+
     beforeEach(() => {
-      sandbox = sinon.sandbox.create();
-      sandbox.spy(validationErrorSerializer, 'serialize');
+      sinon.stub(validationErrorSerializer, 'serialize');
     });
 
     afterEach(() => {
-      sandbox.restore();
-    });
-
-    it('should be a function', () => {
-      // then
-      expect(snapshotController.create).to.be.a('function');
+      validationErrorSerializer.serialize.restore();
     });
 
     it('should have a request with Authorization header', () => {
@@ -152,12 +77,13 @@ describe('Unit | Controller | snapshotController', () => {
       beforeEach(() => {
         sandbox = sinon.sandbox.create();
         sandbox.stub(authorizationToken, 'verify');
-        sandbox.stub(UserRepository, 'findUserById');
+        sandbox.stub(userRepository, 'findUserById');
+        sandbox.stub(snapshotSerializer, 'deserialize');
         sandbox.stub(profileService, 'getByUserId');
-        sandbox.stub(OrganizationRepository, 'isOrganizationIdExist');
-        sandbox.stub(SnapshotService, 'create');
+        sandbox.stub(organizationRepository, 'isOrganizationIdExist');
+        sandbox.stub(snapshotService, 'create');
         sandbox.stub(profileSerializer, 'serialize');
-        sandbox.stub(ProfileCompletionService, 'getPercentage');
+        sandbox.stub(profileCompletionService, 'getPercentage');
         sandbox.stub(snapshotSerializer, 'serialize');
         sandbox.stub(logger, 'error');
       });
@@ -168,9 +94,9 @@ describe('Unit | Controller | snapshotController', () => {
 
       describe('Test collaboration', function() {
 
-        it('should call authorization token verify service', () => {
+        it('should verify that user is well authenticated / authorized', () => {
           // given
-          authorizationToken.verify.resolves({});
+          authorizationToken.verify.resolves();
 
           // when
           const promise = snapshotController.create(request, replyStub);
@@ -178,47 +104,62 @@ describe('Unit | Controller | snapshotController', () => {
           // then
           return promise.then(() => {
             sinon.assert.calledOnce(authorizationToken.verify);
-            sinon.assert.calledWith(authorizationToken.verify, request.headers.authorization);
+            sinon.assert.calledWith(authorizationToken.verify, 'valid_token');
           });
         });
 
-        it('should call UserRepository', () => {
+        it('should fetch the user', () => {
           // given
-          authorizationToken.verify.resolves(user.id);
-          UserRepository.findUserById.resolves({});
+          authorizationToken.verify.resolves(USER_ID);
+          userRepository.findUserById.resolves();
 
           // when
           const promise = snapshotController.create(request, replyStub);
 
           // then
           return promise.then(() => {
-            sinon.assert.calledOnce(UserRepository.findUserById);
-            sinon.assert.calledWith(UserRepository.findUserById, user.id);
+            sinon.assert.calledOnce(userRepository.findUserById);
+            sinon.assert.calledWith(userRepository.findUserById, USER_ID);
           });
         });
 
-        it('should call OrganizationRepository', () => {
+        it('should deserialize the request payload', () => {
           // given
-          authorizationToken.verify.resolves({});
-          UserRepository.findUserById.resolves({});
-          OrganizationRepository.isOrganizationIdExist.resolves();
+          authorizationToken.verify.resolves();
+          userRepository.findUserById.resolves();
 
           // when
           const promise = snapshotController.create(request, replyStub);
 
           // then
           return promise.then(() => {
-            sinon.assert.calledOnce(OrganizationRepository.isOrganizationIdExist);
-            sinon.assert.calledWith(OrganizationRepository.isOrganizationIdExist, request.payload.data.relationships.organization.data.id);
+            sinon.assert.calledOnce(snapshotSerializer.deserialize);
+            sinon.assert.calledWith(snapshotSerializer.deserialize, request.payload);
           });
         });
 
-        it('should call profile service', () => {
+        it('should verify that the organization exists', () => {
           // given
-          authorizationToken.verify.resolves({});
-          UserRepository.findUserById.resolves({});
-          OrganizationRepository.isOrganizationIdExist.resolves(true);
-          profileService.getByUserId.resolves({});
+          authorizationToken.verify.resolves();
+          userRepository.findUserById.resolves();
+          snapshotSerializer.deserialize.resolves({ organization: { id: ORGANIZATION_ID } });
+
+          // when
+          const promise = snapshotController.create(request, replyStub);
+
+          // then
+          return promise.then(() => {
+            sinon.assert.calledOnce(organizationRepository.isOrganizationIdExist);
+            sinon.assert.calledWith(organizationRepository.isOrganizationIdExist, 3);
+          });
+        });
+
+        it('should retrieve profile for user', () => {
+          // given
+          authorizationToken.verify.resolves();
+          userRepository.findUserById.resolves(user);
+          snapshotSerializer.deserialize.resolves({ organization: { id: ORGANIZATION_ID } });
+          organizationRepository.isOrganizationIdExist.resolves({ organization: 'a_valid_organization' });
 
           // when
           const promise = snapshotController.create(request, replyStub);
@@ -226,111 +167,94 @@ describe('Unit | Controller | snapshotController', () => {
           // then
           return promise.then(() => {
             sinon.assert.calledOnce(profileService.getByUserId);
+            sinon.assert.calledWith(profileService.getByUserId, USER_ID);
           });
         });
 
-        it('should call profile serializer', () => {
+        it('should serialize profile in JSON in order to be saved in DB', () => {
           // given
-          authorizationToken.verify.resolves({});
-          UserRepository.findUserById.resolves({});
-          OrganizationRepository.isOrganizationIdExist.resolves(true);
-          profileService.getByUserId.resolves({});
-          profileSerializer.serialize.returns({});
+          authorizationToken.verify.resolves();
+          userRepository.findUserById.resolves(user);
+          snapshotSerializer.deserialize.resolves({ organization: { id: ORGANIZATION_ID } });
+          organizationRepository.isOrganizationIdExist.resolves({ organization: 'a_valid_organization' });
+          profileService.getByUserId.resolves({ profile: 'a_valid_profile' });
+
           // when
           const promise = snapshotController.create(request, replyStub);
 
           // then
           return promise.then(() => {
             sinon.assert.calledOnce(profileSerializer.serialize);
+            sinon.assert.calledWith(profileSerializer.serialize, { profile: 'a_valid_profile' });
           });
         });
 
-        it('should call Profile completion service', () => {
+        it('should calculate profile completion in percentage', () => {
           // given
-          authorizationToken.verify.resolves({});
-          UserRepository.findUserById.resolves({});
-          OrganizationRepository.isOrganizationIdExist.resolves(true);
-          profileService.getByUserId.resolves({});
-          profileSerializer.serialize.returns({});
+          authorizationToken.verify.resolves();
+          userRepository.findUserById.resolves(user);
+          snapshotSerializer.deserialize.resolves({ organization: { id: ORGANIZATION_ID } });
+          organizationRepository.isOrganizationIdExist.resolves({ organization: 'a_valid_organization' });
+          profileService.getByUserId.resolves();
+          profileSerializer.serialize.resolves({ profile: 'a_valid_profile' });
+
           // when
           const promise = snapshotController.create(request, replyStub);
 
           // then
           return promise.then(() => {
-            sinon.assert.calledOnce(ProfileCompletionService.getPercentage);
+            sinon.assert.calledOnce(profileCompletionService.getPercentage);
+            sinon.assert.calledWith(profileCompletionService.getPercentage, { profile: 'a_valid_profile' });
           });
         });
 
-        it('should call Snapshot repository', () => {
+        it('should create & save a Snapshot entity into the repository', () => {
           // given
-          authorizationToken.verify.resolves({});
-          UserRepository.findUserById.resolves({});
-          OrganizationRepository.isOrganizationIdExist.resolves(true);
-          profileService.getByUserId.resolves({});
-          profileSerializer.serialize.returns(serializedUserProfile);
-          ProfileCompletionService.getPercentage.resolves(25);
-          SnapshotService.create.resolves({});
+          const snapshot = { organization: { id: ORGANIZATION_ID } };
+          const serializedProfile = { profile: 'a_valid_profile' };
+
+          authorizationToken.verify.resolves();
+          userRepository.findUserById.resolves(user);
+          snapshotSerializer.deserialize.resolves(snapshot);
+          organizationRepository.isOrganizationIdExist.resolves({ organization: 'a_valid_organization' });
+          profileService.getByUserId.resolves();
+          profileSerializer.serialize.resolves(serializedProfile);
+          profileCompletionService.getPercentage.resolves();
+
           // when
           const promise = snapshotController.create(request, replyStub);
 
           // then
           return promise.then(() => {
-            sinon.assert.calledOnce(SnapshotService.create);
-            sinon.assert.calledWith(SnapshotService.create, {
-              organizationId: request.payload.data.relationships.organization.data.id,
-              completionPercentage: 25,
-              profile: serializedUserProfile
-            });
+            sinon.assert.calledOnce(snapshotService.create);
+            sinon.assert.calledWith(snapshotService.create, snapshot, user, serializedProfile);
           });
         });
 
-        it('should call Snapshot serializer', () => {
+        it('should serialize the response payload', () => {
           // given
-          authorizationToken.verify.resolves({});
-          UserRepository.findUserById.resolves({});
-          OrganizationRepository.isOrganizationIdExist.resolves(true);
-          profileService.getByUserId.resolves({});
-          profileSerializer.serialize.returns(serializedUserProfile);
-          ProfileCompletionService.getPercentage.resolves(25);
-          SnapshotService.create.resolves(2);
+          const snapshot = { organization: { id: ORGANIZATION_ID } };
+          const serializedProfile = { profile: 'a_valid_profile' };
+
+          authorizationToken.verify.resolves();
+          userRepository.findUserById.resolves(user);
+          snapshotSerializer.deserialize.resolves(snapshot);
+          organizationRepository.isOrganizationIdExist.resolves({ organization: 'a_valid_organization' });
+          profileService.getByUserId.resolves();
+          profileSerializer.serialize.resolves(serializedProfile);
+          profileCompletionService.getPercentage.resolves();
+          snapshotService.create.resolves(SNAPSHOT_ID);
+
           // when
           const promise = snapshotController.create(request, replyStub);
 
           // then
           return promise.then(() => {
             sinon.assert.calledOnce(snapshotSerializer.serialize);
-            sinon.assert.calledWith(snapshotSerializer.serialize, {
-              id: 2
-            });
+            sinon.assert.calledWith(snapshotSerializer.serialize, { id: SNAPSHOT_ID });
           });
         });
 
-      });
-
-      describe('When all things is ok', () => {
-
-        it('should persist a new Snapshot', () => {
-          // given
-          authorizationToken.verify.resolves('user_id');
-          UserRepository.findUserById.resolves(user);
-          OrganizationRepository.isOrganizationIdExist.resolves(true);
-          profileService.getByUserId.resolves({});
-          profileSerializer.serialize.returns(serializedUserProfile);
-          ProfileCompletionService.getPercentage.resolves(25);
-          const expectedSnapshotDetails = {
-            organizationId: request.payload.data.relationships.organization.data.id,
-            completionPercentage: 25,
-            profile: serializedUserProfile
-          };
-          // when
-          const promise = snapshotController.create(request, replyStub);
-
-          // then
-          return promise.then(() => {
-            sinon.assert.calledWith(SnapshotService.create, expectedSnapshotDetails);
-            sinon.assert.calledWith(codeSpy, 201);
-          });
-        });
       });
 
       describe('Errors cases', () => {
@@ -356,8 +280,8 @@ describe('Unit | Controller | snapshotController', () => {
 
         it('should return an error, when user is not found', () => {
           // given
-          authorizationToken.verify.resolves('user_id');
-          UserRepository.findUserById.rejects(new NotFoundError());
+          authorizationToken.verify.resolves();
+          userRepository.findUserById.rejects(new NotFoundError());
           const expectedSerializeArg = {
             data: {
               authorization: ['Cet utilisateur est introuvable']
@@ -376,9 +300,10 @@ describe('Unit | Controller | snapshotController', () => {
 
         it('should return an error, when organisation is not found', () => {
           // given
-          authorizationToken.verify.resolves('user_id');
-          UserRepository.findUserById.resolves({});
-          OrganizationRepository.isOrganizationIdExist.resolves(false);
+          authorizationToken.verify.resolves();
+          userRepository.findUserById.resolves();
+          snapshotSerializer.deserialize.resolves({ organization: { id: 'unknnown_organization_id' } });
+          organizationRepository.isOrganizationIdExist.resolves(false);
 
           const expectedSerializeArg = {
             data: {
@@ -398,12 +323,12 @@ describe('Unit | Controller | snapshotController', () => {
 
         it('should return an error, when snapshot saving fails', () => {
           // given
-          authorizationToken.verify.resolves('user_id');
-          UserRepository.findUserById.resolves({});
-          OrganizationRepository.isOrganizationIdExist.resolves(true);
-          profileService.getByUserId.resolves({});
-          profileSerializer.serialize.returns(serializedUserProfile);
-          SnapshotService.create.rejects(new Error());
+          authorizationToken.verify.resolves();
+          userRepository.findUserById.resolves();
+          organizationRepository.isOrganizationIdExist.resolves();
+          profileService.getByUserId.resolves();
+          profileSerializer.serialize.resolves();
+          snapshotService.create.rejects(new Error());
 
           const expectedSerializeArg = {
             data: {
@@ -421,17 +346,12 @@ describe('Unit | Controller | snapshotController', () => {
 
         it('should log an error, when unknown error has occured', () => {
           // given
-          const error = new Error();
-          authorizationToken.verify.resolves('user_id');
-          UserRepository.findUserById.resolves({});
-          OrganizationRepository.isOrganizationIdExist.resolves(true);
-          profileService.getByUserId.resolves({});
-          profileSerializer.serialize.returns(serializedUserProfile);
-          ProfileCompletionService.getPercentage.resolves(25);
-          SnapshotService.create.rejects(error);
+          const error = new Error('Another error');
+          authorizationToken.verify.rejects(error);
 
           // when
           const promise = snapshotController.create(request, replyStub);
+
           // then
           return promise.then(() => {
             sinon.assert.calledWith(logger.error, error);

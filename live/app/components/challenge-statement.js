@@ -1,17 +1,19 @@
-import Ember from 'ember';
+import Component from '@ember/component';
+import { computed } from '@ember/object';
+import $ from 'jquery';
 import moment from 'moment';
 
-export default Ember.Component.extend({
+export default Component.extend({
 
   classNames: ['rounded-panel', 'challenge-statement'],
 
-  attributeBindings: ['tabindex', 'id'],
+  attributeBindings: ['tabindex'],
   tabindex: -1,
 
   challenge: null,
   assessment: null,
 
-  challengeInstruction: Ember.computed('challenge.instruction', function() {
+  challengeInstruction: computed('challenge.instruction', function() {
     const instruction = this.get('challenge.instruction');
     if (!instruction) {
       return null;
@@ -26,19 +28,19 @@ export default Ember.Component.extend({
 
   didReceiveAttrs() {
     this._super(...arguments);
-    Ember.$('#' + this.id).focus();
+    $(`#${this.id}`).focus();
   },
 
   didInsertElement() {
     this._super(...arguments);
-    Ember.$('#' + this.id).focus();
+    $(`#${this.id}`).focus();
   },
 
-  selectedAttachmentUrl: Ember.computed('challenge.attachments', function() {
+  selectedAttachmentUrl: computed('challenge.attachments', function() {
     return this.get('challenge.attachments.firstObject');
   }),
 
-  attachmentsData: Ember.computed('challenge.attachements', function() {
+  attachmentsData: computed('challenge.attachements', function() {
     return this.get('challenge.attachments');
   }),
 

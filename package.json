@@ -1,6 +1,6 @@
 {
   "name": "pix",
-  "version": "1.24.0",
+  "version": "1.25.0",
   "description": "Plateforme d'évaluation et de certification des compétences numériques des citoyens francophones.",
   "author": "Team PIX",
   "license": "AGPL-3.0",
@@ -11,8 +11,8 @@
   "main": "index.js",
   "devDependencies": {
     "codeclimate-test-reporter": "^0.5.0",
-    "coveralls": "^2.13.3",
-    "eslint": "^4.8.0",
+    "coveralls": "^3.0.0",
+    "eslint": "^4.9.0",
     "lcov-result-merger": "^1.2.0",
     "npm-run-all": "^4.1.0"
   },

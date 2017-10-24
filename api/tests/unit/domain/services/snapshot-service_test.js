@@ -1,125 +1,126 @@
 const { describe, it, expect, beforeEach, afterEach, sinon } = require('../../../test-helper');
-const SnapshotService = require('../../../../lib/domain/services/snapshot-service');
+const snapshotService = require('../../../../lib/domain/services/snapshot-service');
 const Snapshot = require('../../../../lib/domain/models/data/snapshot');
-const SnapshotRepository = require('../../../../lib/infrastructure/repositories/snapshot-repository');
-
-const serializedUserProfile = {
-  data: {
-    type: 'users',
-    id: 'user_id',
-    attributes: {
-      'first-name': 'Luke',
-      'last-name': 'Skywalker',
-      'total-pix-score': 128,
-      'email': 'luke@sky.fr'
-    },
-    relationships: {
-      competences: {
-        data: [
-          { type: 'competences', id: 'recCompA' },
-          { type: 'competences', id: 'recCompB' }
-        ]
-      }
-    },
-  },
-  included: [
-    {
-      type: 'areas',
-      id: 'recAreaA',
-      attributes: {
-        name: 'area-name-1'
-      }
-    },
-    {
-      type: 'areas',
-      id: 'recAreaB',
-      attributes: {
-        name: 'area-name-2'
-      }
-    },
-    {
-      type: 'competences',
-      id: 'recCompA',
-      attributes: {
-        name: 'competence-name-1',
-        index: '1.1',
-        level: -1,
-        'course-id': 'recBxPAuEPlTgt72q11'
-      },
-      relationships: {
-        area: {
-          data: {
-            type: 'areas',
-            id: 'recAreaA'
-          }
-        }
-      }
-    },
-    {
-      type: 'competences',
-      id: 'recCompB',
-      attributes: {
-        name: 'competence-name-2',
-        index: '1.2',
-        level: 8,
-        'pix-score': 128,
-        'course-id': 'recBxPAuEPlTgt72q99'
-      },
-      relationships: {
-        area: {
-          data: {
-            type: 'areas',
-            id: 'recAreaB'
-          }
-        }
-      }
-    }
-  ]
-};
+const snapshotRepository = require('../../../../lib/infrastructure/repositories/snapshot-repository');
 
 describe('Unit | Service | Snapshot service', function() {
 
   const snapshot = {
     organizationId: 3,
     completionPercentage: 10,
-    userId: 2,
-    profile: serializedUserProfile
+    studentCode: 'student_code',
+    campaignCode: 'campaign_code',
+    organization: { id: 3 }
+  };
+
+  const user = { id: 2 };
+
+  const serializedProfile = {
+    data: {
+      type: 'users',
+      id: 'profile_id',
+      attributes: {
+        'first-name': 'Luke',
+        'last-name': 'Skywalker',
+        'total-pix-score': 128,
+        'email': 'luke@sky.fr'
+      },
+      relationships: {
+        competences: {
+          data: [
+            { type: 'competences', id: 'recCompA' },
+            { type: 'competences', id: 'recCompB' }
+          ]
+        }
+      },
+    },
+    included: [
+      {
+        type: 'areas',
+        id: 'recAreaA',
+        attributes: {
+          name: 'area-name-1'
+        }
+      },
+      {
+        type: 'areas',
+        id: 'recAreaB',
+        attributes: {
+          name: 'area-name-2'
+        }
+      },
+      {
+        type: 'competences',
+        id: 'recCompA',
+        attributes: {
+          name: 'competence-name-1',
+          index: '1.1',
+          level: -1,
+          'course-id': 'recBxPAuEPlTgt72q11'
+        },
+        relationships: {
+          area: {
+            data: {
+              type: 'areas',
+              id: 'recAreaA'
+            }
+          }
+        }
+      },
+      {
+        type: 'competences',
+        id: 'recCompB',
+        attributes: {
+          name: 'competence-name-2',
+          index: '1.2',
+          level: 8,
+          'pix-score': 128,
+          'course-id': 'recBxPAuEPlTgt72q99'
+        },
+        relationships: {
+          area: {
+            data: {
+              type: 'areas',
+              id: 'recAreaB'
+            }
+          }
+        }
+      }
+    ]
   };
 
   describe('#create', () => {
 
-    it('should exist', () => {
-      // then
-      expect(SnapshotService.create).to.exist;
-    });
-
     beforeEach(() => {
-      sinon.stub(SnapshotRepository, 'save');
+      sinon.stub(snapshotRepository, 'save');
     });
 
     afterEach(() => {
-      SnapshotRepository.save.restore();
+      snapshotRepository.save.restore();
     });
 
     it('should correctly call snapshot repository', () => {
       // given
       const snapshotModel = new Snapshot({ id: 3 });
-      SnapshotRepository.save.resolves(snapshotModel);
+      snapshotRepository.save.resolves(snapshotModel);
 
       const snapshotRaw = {
+        userId: 2,
         organizationId: 3,
         completionPercentage: 10,
-        userId: serializedUserProfile.data.id,
+        studentCode: 'student_code',
+        campaignCode: 'campaign_code',
         score: 128,
-        profile: JSON.stringify(serializedUserProfile)
+        profile: JSON.stringify(serializedProfile)
       };
 
       // when
-      const promise = SnapshotService.create(snapshot);
+      const promise = snapshotService.create(snapshot, user, serializedProfile);
 
       return promise.then(() => {
         // then
-        sinon.assert.calledWith(SnapshotRepository.save, snapshotRaw);
+        sinon.assert.calledOnce(snapshotRepository.save);
+        sinon.assert.calledWith(snapshotRepository.save, snapshotRaw);
       });
 
     });
@@ -127,17 +128,17 @@ describe('Unit | Service | Snapshot service', function() {
     it('should return a snapshot id, when successfull snapshot saving', () => {
       // given
       const createdSnapshot = {
-        get() {
-          return 3;
+        get(property) {
+          return (property === 'id') ? 3 : null;
         }
       };
-      SnapshotRepository.save.resolves(createdSnapshot);
+      snapshotRepository.save.resolves(createdSnapshot);
 
       // when
-      const promise = SnapshotService.create(snapshot);
+      const promise = snapshotService.create(snapshot, user, serializedProfile);
 
+      // then
       return promise.then((snapshotId) => {
-        // then
         expect(snapshotId).to.equal(3);
       });
 
@@ -145,15 +146,16 @@ describe('Unit | Service | Snapshot service', function() {
 
     it('should reject an error has occurred', () => {
       // given
-      const error = new Error();
-      SnapshotRepository.save.rejects(error);
+      const error = new Error('Some database error');
+      snapshotRepository.save.rejects(error);
 
       // when
-      const promise = SnapshotService.create(snapshot);
+      const promise = snapshotService.create(snapshot, user, serializedProfile);
 
       // then
       return promise.catch((err) => {
         expect(err).to.be.an.instanceof(Error);
+        expect(err.message).to.equal('Some database error');
       });
     });
 

@@ -1,6 +1,7 @@
 const { describe, it, expect } = require('../../../test-helper');
 const tokenService = require('../../../../lib/domain/services/token-service');
 const User = require('../../../../lib/domain/models/data/user');
+const { InvalidTemporaryKeyError } = require('../../../../lib/domain/errors');
 
 describe('Unit | Service | Token Service', function() {
 
@@ -31,6 +32,23 @@ describe('Unit | Service | Token Service', function() {
 
       //Then
       expect(result).to.equal(null);
+    });
+
+  });
+
+  describe('#verifyValidity', () => {
+
+    it('should throw an Invalid token error, when token is not valid', () => {
+      // Given
+      const token = 'eyJhbGciOiJIUzI1NiIsIgR5cCI6IkpXVCJ9.eyJ1c2VyX2lPIjoxMjMsImlhdCI6MTQ5OTA3Nzg2Mn0.FRAAoowTA8Bc6BOzD7wWh2viVN47VrPcGgLuHi_NmKw';
+
+      //When
+      const promise = tokenService.verifyValidity(token);
+
+      //Then
+      return promise.catch((result) => {
+        expect(result).to.be.an.instanceof(InvalidTemporaryKeyError);
+      });
     });
 
   });

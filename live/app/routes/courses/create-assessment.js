@@ -15,22 +15,11 @@ export default BaseRoute.extend({
 
     let assessment;
 
-    return store
-      .findRecord('course', model.courseId)
-      .then((course) => {
-        return store.createRecord('assessment', { course }).save();
-      })
-      .then((createdAssessment) => {
-        assessment = createdAssessment;
-        return challengeAdapter.queryNext(store, assessment.get('id'));
-      })
-      .then(challenge => {
-        if (challenge) {
-          this.transitionTo('assessments.get-challenge', { assessment, challenge });
-        } else {
-          this.transitionTo('assessments.get-results', { assessment });
-        }
-      });
+    return store.findRecord('course', model.courseId)
+      .then((course) => store.createRecord('assessment', { course }).save())
+      .then((createdAssessment) => assessment = createdAssessment)
+      .then(() => challengeAdapter.queryNext(store, assessment.get('id')))
+      .then(challenge => this.transitionTo('assessments.get-challenge', { assessment, challenge }));
   }
 
 });

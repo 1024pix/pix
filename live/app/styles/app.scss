@@ -9,12 +9,12 @@
 @import 'globals/dimension';
 @import 'globals/loading';
 @import 'globals/redesign-inputs';
+@import 'globals/pix-modale';
 /* 3rd-party */
 @import 'vendor/ember-routable-modal/core';
 @import 'vendor/ember-routable-modal/dialog';
 /* components */
 @import 'components/rounded-panel';
-@import 'components/pix-modale';
 @import 'components/app-footer';
 @import 'components/corner-ribbon';
 @import 'components/challenge-actions';
@@ -38,6 +38,7 @@
 @import 'components/medal-item';
 @import 'components/navbar-header';
 @import 'components/pix-logo';
+@import 'components/password-reset-form';
 @import 'components/qroc-solution-panel';
 @import 'components/qrocm-proposals';
 @import 'components/result-item';
@@ -53,7 +54,7 @@
 @import 'components/qcu-solution-panel';
 @import 'components/signup-form';
 @import 'components/signin-form';
-@import 'components/signup-textfield';
+@import 'components/form-textfield';
 @import 'components/scoring-panel-tantpix';
 @import 'components/score-pastille';
 @import 'components/snapshot-list';
@@ -62,6 +63,7 @@
 @import 'components/partners-enrollment-panel';
 @import 'components/share-profile';
 @import 'components/logged-user-profile-banner';
+@import 'components/reset-password-form';
 /* pages */
 @import 'pages/index';
 @import 'pages/project';
@@ -76,6 +78,8 @@
 @import 'pages/enrollment';
 @import 'pages/board';
 @import 'pages/terms-of-service';
+@import 'pages/reset-password';
+@import 'pages/password-reset-demand';
 
 body {
   font-family: $font-lato;

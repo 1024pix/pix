@@ -4,23 +4,23 @@ import { setupComponentTest } from 'ember-mocha';
 import hbs from 'htmlbars-inline-precompile';
 import wait from 'ember-test-helpers/wait';
 
-describe('Integration | Component | signup textfield', function() {
-  setupComponentTest('signup-textfield', {
+describe('Integration | Component | form textfield', function() {
+  setupComponentTest('form-textfield', {
     integration: true
   });
 
-  const LABEL = '.signup-textfield__label';
+  const LABEL = '.form-textfield__label';
   const LABEL_TEXT = 'NOM';
 
-  const MESSAGE = '.signup-textfield__message';
-  const MESSAGE_ERROR_STATUS = 'signup-textfield__message--error';
-  const MESSAGE_SUCCESS_STATUS = 'signup-textfield__message--success';
+  const MESSAGE = '.form-textfield__message';
+  const MESSAGE_ERROR_STATUS = 'form-textfield__message--error';
+  const MESSAGE_SUCCESS_STATUS = 'form-textfield__message--success';
   const MESSAGE_TEXT = '';
 
-  const INPUT = '.signup-textfield__input';
-  const INPUT_DEFAULT_CLASS = 'signup-textfield__input--default';
-  const INPUT_SUCCESS_CLASS = 'signup-textfield__input--success';
-  const INPUT_ERROR_CLASS = 'signup-textfield__input--error';
+  const INPUT = '.form-textfield__input';
+  const INPUT_DEFAULT_CLASS = 'form-textfield__input--default';
+  const INPUT_SUCCESS_CLASS = 'form-textfield__input--success';
+  const INPUT_ERROR_CLASS = 'form-textfield__input--error';
 
   describe('#Component rendering', function() {
     beforeEach(function() {
@@ -29,7 +29,7 @@ describe('Integration | Component | signup textfield', function() {
       this.set('textfieldName', 'firstname');
 
       // When
-      this.render(hbs`{{signup-textfield label=label validationStatus=validationStatus textfieldName=textfieldName}}`);
+      this.render(hbs`{{form-textfield label=label validationStatus=validationStatus textfieldName=textfieldName}}`);
     });
 
     [
@@ -48,7 +48,7 @@ describe('Integration | Component | signup textfield', function() {
 
     [
       { item: LABEL, expectedRendering: 'label', expectedText: LABEL_TEXT },
-      { item: MESSAGE, expectedRendering: 'div.message', expectedText: MESSAGE_TEXT },
+      { item: MESSAGE, expectedRendering: 'div.message', expectedText: MESSAGE_TEXT }
 
     ].forEach(function({ item, expectedRendering, expectedText }) {
       it(`Should render a ${expectedRendering}`, function() {
@@ -77,7 +77,7 @@ describe('Integration | Component | signup textfield', function() {
       this.set('validationStatus', '');
       this.set('textfieldName', 'firstname');
 
-      this.render(hbs`{{signup-textfield label=label validationStatus=validationStatus textfieldName=textfieldName validate="validate"}}`);
+      this.render(hbs`{{form-textfield label=label validationStatus=validationStatus textfieldName=textfieldName validate="validate"}}`);
       // when
       this.$(INPUT).val('pix');
       this.$(INPUT).trigger('focusout');
@@ -96,7 +96,7 @@ describe('Integration | Component | signup textfield', function() {
         this.set('validationMessage', '');
 
         // When
-        this.render(hbs`{{signup-textfield label=label validationStatus=validationStatus validationMessage=validationMessage textfieldName=textfieldName}}`);
+        this.render(hbs`{{form-textfield label=label validationStatus=validationStatus validationMessage=validationMessage textfieldName=textfieldName}}`);
       });
 
       it('return true if any svg doesn\'t exist', function() {
@@ -127,7 +127,7 @@ describe('Integration | Component | signup textfield', function() {
       this.set('textfieldName', 'firstname');
 
       // When
-      this.render(hbs`{{signup-textfield label=label validationStatus=validationStatus validationMessage=validationMessage textfieldName=textfieldName}}`);
+      this.render(hbs`{{form-textfield label=label validationStatus=validationStatus validationMessage=validationMessage textfieldName=textfieldName}}`);
       this.set('validationMessage', '');
     });
 
@@ -135,7 +135,7 @@ describe('Integration | Component | signup textfield', function() {
       // then
       return wait().then(() => {
         expect(this.$('img')).to.have.length(1);
-        expect(this.$('img').attr('class')).to.contain('signup-textfield__icon--error');
+        expect(this.$('img').attr('class')).to.contain('form-textfield__icon--error');
       });
     });
 
@@ -161,13 +161,13 @@ describe('Integration | Component | signup textfield', function() {
       this.set('textfieldName', 'firstname');
 
       // When
-      this.render(hbs`{{signup-textfield label=label validationStatus=validationStatus validationMessage=validationMessage textfieldName=textfieldName}}`);
+      this.render(hbs`{{form-textfield label=label validationStatus=validationStatus validationMessage=validationMessage textfieldName=textfieldName}}`);
     });
 
     it('return true if any img does exist', function() {
       // then
       expect(this.$('img')).to.have.length(1);
-      expect(this.$('img').attr('class')).to.contain('signup-textfield__icon--success');
+      expect(this.$('img').attr('class')).to.contain('form-textfield__icon--success');
     });
 
     [

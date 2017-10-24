@@ -1,5 +1,5 @@
 import { expect } from 'chai';
-import { describe, it, beforeEach } from 'mocha';
+import { beforeEach, describe, it } from 'mocha';
 import { setupComponentTest } from 'ember-mocha';
 import hbs from 'htmlbars-inline-precompile';
 import Ember from 'ember';
@@ -48,7 +48,7 @@ describe('Integration | Component | qroc solution panel', function() {
       // then
       expect(answerInput).to.have.length(1);
       expect(answerBlock).to.have.length(1);
-      expect(answerInput.css('font-weight')).to.be.equal('bold');
+      expect(answerInput.css('font-weight')).to.be.equal('700');
       expect(answerInput.css('text-decoration')).to.be.contains('none');
       expect(answerInput.css('color')).to.be.equal(RIGHT_ANSWER_GREEN);
       expect(solutionBlock).to.have.length(0);
@@ -60,7 +60,7 @@ describe('Integration | Component | qroc solution panel', function() {
     beforeEach(function() {
       const assessment = Ember.Object.create({ id: 'assessment_id' });
       const challenge = Ember.Object.create({ id: 'challenge_id' });
-      const answer = Ember.Object.create({ id: 'answer_id', result:'ko', assessment, challenge });
+      const answer = Ember.Object.create({ id: 'answer_id', result: 'ko', assessment, challenge });
 
       this.set('answer', answer);
       this.render(hbs`{{qroc-solution-panel answer=answer}}`);
@@ -86,7 +86,7 @@ describe('Integration | Component | qroc solution panel', function() {
       expect(blockSolution).to.have.lengthOf(1);
       expect(blockSolution.css('align-items')).to.be.equal('stretch');
       expect(blockSolutionText.css('color')).to.be.equal(RIGHT_ANSWER_GREEN);
-      expect(blockSolutionText.css('font-weight')).to.be.equal('bold');
+      expect(blockSolutionText.css('font-weight')).to.be.equal('700');
     });
 
     describe('comparison when the answer was not given', function() {

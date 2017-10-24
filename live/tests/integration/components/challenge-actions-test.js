@@ -31,7 +31,8 @@ describe('Integration | Component | challenge actions', function() {
     it('should be replaced by a (spinning) loader during treatment', function() {
       // given
       this.set('externalAction', function() {
-        return new RSVP.Promise(() => {});
+        return new RSVP.Promise(() => {
+        });
       });
       this.render(hbs`{{challenge-actions answerValidated=(action externalAction)}}`);
 

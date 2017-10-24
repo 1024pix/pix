@@ -29,7 +29,7 @@ describe('Unit | Domain | Errors', () => {
       };
 
       // then
-      const userNotFoundError = errors.UserNotFoundError;
+      const userNotFoundError = new errors.UserNotFoundError();
       expect(userNotFoundError.getErrorMessage).to.be.a('function');
       expect(userNotFoundError.getErrorMessage()).to.eql(expectedErrorMessage);
     });
@@ -49,10 +49,49 @@ describe('Unit | Domain | Errors', () => {
       };
 
       // then
-      const internalError = errors.InternalError;
+      const internalError = new errors.InternalError();
       expect(internalError.getErrorMessage).to.be.a('function');
       expect(internalError.getErrorMessage()).to.eql(expectedErrorMessage);
     });
   });
 
+  describe('#PasswordResetDemandNotFoundError', () => {
+    it('should export a PasswordResetDemandNotFoundError', () => {
+      expect(errors.PasswordResetDemandNotFoundError).to.exist;
+    });
+
+    it('should have a getErrorMessage method', () => {
+      // given
+      const expectedErrorMessage = {
+        data: {
+          temporaryKey: ['Cette demande de réinitialisation n’existe pas.']
+        }
+      };
+
+      // then
+      const internalError = new errors.PasswordResetDemandNotFoundError();
+      expect(internalError.getErrorMessage).to.be.a('function');
+      expect(internalError.getErrorMessage()).to.eql(expectedErrorMessage);
+    });
+  });
+
+  describe('#InvalidTemporaryKeyError', () => {
+    it('should export a InvalidTemporaryKeyError', () => {
+      expect(errors.InvalidTemporaryKeyError).to.exist;
+    });
+
+    it('should have a getErrorMessage method', () => {
+      // given
+      const expectedErrorMessage = {
+        data: {
+          temporaryKey: ['Cette demande de réinitialisation n’est pas valide.']
+        }
+      };
+
+      // then
+      const internalError = new errors.InvalidTemporaryKeyError();
+      expect(internalError.getErrorMessage).to.be.a('function');
+      expect(internalError.getErrorMessage()).to.eql(expectedErrorMessage);
+    });
+  });
 });

@@ -1,5 +1,5 @@
 import { expect } from 'chai';
-import { describe, it, beforeEach } from 'mocha';
+import { beforeEach, describe, it } from 'mocha';
 import { setupComponentTest } from 'ember-mocha';
 import hbs from 'htmlbars-inline-precompile';
 import Ember from 'ember';
@@ -22,11 +22,14 @@ describe('Integration | Component | qrocm solution panel', function() {
   });
 
   const assessment = Ember.Object.create({ id: 'assessment_id' });
-  const challenge = Ember.Object.create({ id: 'challenge_id', proposals: 'answer1 : ${key1}\nCarte mémoire (SD) : ${key2}\nblabla : ${key3}' });
+  const challenge = Ember.Object.create({
+    id: 'challenge_id',
+    proposals: 'answer1 : ${key1}\nCarte mémoire (SD) : ${key2}\nblabla : ${key3}'
+  });
   const answer = Ember.Object.create({
     id: 'answer_id',
     value: 'key1: \'rightAnswer1\' key2: \'wrongAnswer2\' key3: \'\'',
-    resultDetails : 'key1: true\nkey2: false\nkey3: false',
+    resultDetails: 'key1: true\nkey2: false\nkey3: false',
     assessment,
     challenge
   });
@@ -78,7 +81,7 @@ describe('Integration | Component | qrocm solution panel', function() {
         expect(answerLabel.css('color')).to.be.equal(NO_ANSWER_GREY);
 
         expect(answerInput.css('color')).to.be.equal(RIGHT_ANSWER_GREEN);
-        expect(answerInput.css('font-weight')).to.be.equal('bold');
+        expect(answerInput.css('font-weight')).to.be.equal('700');
         expect(answerInput.css('text-decoration')).to.contain('none');
       });
 
@@ -122,7 +125,7 @@ describe('Integration | Component | qrocm solution panel', function() {
         expect(solutionText).to.have.length(1);
 
         expect(solutionText.css('color')).to.be.equal(RIGHT_ANSWER_GREEN);
-        expect(solutionText.css('font-weight')).to.be.equal('bold');
+        expect(solutionText.css('font-weight')).to.be.equal('700');
         expect(solutionText.css('text-decoration')).to.contain('none');
       });
     });
@@ -150,14 +153,14 @@ describe('Integration | Component | qrocm solution panel', function() {
         // given
         this.render(hbs`{{qrocm-ind-solution-panel challenge=challenge answer=answer solution=solution}}`);
         const solutionBlock = this.$(THIRD_CORRECTION_BLOCK + ' ' + SOLUTION_BLOCK);
-        const solutionText  = this.$(THIRD_CORRECTION_BLOCK + ' ' + SOLUTION_BLOCK + ' ' + SOLUTION_TEXT);
+        const solutionText = this.$(THIRD_CORRECTION_BLOCK + ' ' + SOLUTION_BLOCK + ' ' + SOLUTION_TEXT);
 
         // then
         expect(solutionBlock).to.have.length(1);
         expect(solutionText).to.have.length(1);
 
         expect(solutionText.css('color')).to.be.equal(RIGHT_ANSWER_GREEN);
-        expect(solutionText.css('font-weight')).to.be.equal('bold');
+        expect(solutionText.css('font-weight')).to.be.equal('700');
         expect(solutionText.css('text-decoration')).to.contain('none');
       });
     });

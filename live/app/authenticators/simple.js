@@ -1,10 +1,10 @@
+import { inject as service } from '@ember/service';
 import RSVP from 'rsvp';
 import Base from 'ember-simple-auth/authenticators/base';
-import Ember from 'ember';
 
 export default Base.extend({
 
-  ajax: Ember.inject.service(),
+  ajax: service(),
 
   restore(data) {
     return RSVP.resolve(data);

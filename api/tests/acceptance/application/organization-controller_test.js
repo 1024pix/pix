@@ -146,7 +146,9 @@ describe('Acceptance | Controller | organization-controller', function() {
             attributes: {
               score: '15',
               'completion-percentage': '70',
-              'created-at': '2017-08-31 15:57:06'
+              'created-at': '2017-08-31 15:57:06',
+              'student-code': null,
+              'campaign-code': null
             },
             relationships: {
               user: {
@@ -176,7 +178,7 @@ describe('Acceptance | Controller | organization-controller', function() {
       return server.injectThen(options).then((response) => {
         // then
         expect(response.statusCode).to.equal(200);
-        expect(response.result).to.eql(expectedSnapshots);
+        expect(response.result).to.deep.equal(expectedSnapshots);
       });
     });
 

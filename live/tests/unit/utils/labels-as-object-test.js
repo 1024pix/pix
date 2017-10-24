@@ -15,10 +15,10 @@ describe('Unit | Utility | labels as object', function() {
       };
 
       const expectedResult = {
-        'num1' : 'Clé USB : ',
-        'num2' : 'Carte mémoire (SD) : ',
-        'num3' : 'Disque dur externe : ',
-        'num4' : 'CD-R / DVD-R : ',
+        'num1': 'Clé USB : ',
+        'num2': 'Carte mémoire (SD) : ',
+        'num3': 'Disque dur externe : ',
+        'num4': 'CD-R / DVD-R : ',
       };
       //when
       const result = labelsAsObject(challenge.proposals);
@@ -36,8 +36,8 @@ describe('Unit | Utility | labels as object', function() {
       };
 
       const expectedResult = {
-        'Num1' : '- Combien le dossier “projet PIX” contient-il de dossiers ? ',
-        'Num2' : '- Combien le dossier “images” contient-il de fichiers ? ',
+        'Num1': '- Combien le dossier “projet PIX” contient-il de dossiers ? ',
+        'Num2': '- Combien le dossier “images” contient-il de fichiers ? ',
       };
       //when
       const result = labelsAsObject(challenge.proposals);
@@ -58,12 +58,12 @@ describe('Unit | Utility | labels as object', function() {
       };
 
       const expectedResult = {
-        'num1' : '- alain@pix.fr : ',
-        'num2' : '- leonie@pix.fr : ',
-        'num3' : '- Programme_Pix.pdf : ',
-        'num4' : '- lucie@pix.fr : ',
-        'num5' : '- Programme du festival Pix : ',
-        'num6' : '- jeremy@pix.fr : ',
+        'num1': '- alain@pix.fr : ',
+        'num2': '- leonie@pix.fr : ',
+        'num3': '- Programme_Pix.pdf : ',
+        'num4': '- lucie@pix.fr : ',
+        'num5': '- Programme du festival Pix : ',
+        'num6': '- jeremy@pix.fr : ',
       };
       //when
       const result = labelsAsObject(challenge.proposals);
@@ -78,10 +78,10 @@ describe('Unit | Utility | labels as object', function() {
         proposals: 'Nom du fichier : ${nomfichier}\nTaille (en ko) : ${taille}\nType : ${type}\nDate de modification : ${datemodif#JJ/MM/AAAA}'
       };
       const expectedResult = {
-        'nomfichier' : 'Nom du fichier : ',
-        'taille' : 'Taille (en ko) : ',
-        'type' : 'Type : ',
-        'datemodif' : 'Date de modification : '
+        'nomfichier': 'Nom du fichier : ',
+        'taille': 'Taille (en ko) : ',
+        'type': 'Type : ',
+        'datemodif': 'Date de modification : '
       };
       //when
       const result = labelsAsObject(challenge.proposals);

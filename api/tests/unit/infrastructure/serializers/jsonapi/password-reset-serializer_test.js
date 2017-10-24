@@ -10,20 +10,19 @@ describe('Unit | Serializer | JSONAPI | password-reset-serializer', function() {
       const passwordResetDemand = {
         id: 1,
         email: 'toto@pix.fr',
-        temporaryKey : 'one key'
+        temporaryKey: 'one key'
       };
       const expectedSerializedPasswordReset = {
-        data : {
-          type : 'password-resets',
-          id : '1',
-          attributes : {
-            email : 'toto@pix.fr',
-            'temporary-key' : 'one key'
+        data: {
+          type: 'password-reset-demands',
+          id: '1',
+          attributes: {
+            email: 'toto@pix.fr',
+            'temporary-key': 'one key'
           }
         }
       };
 
-      // when
       const result = serializer.serialize(passwordResetDemand);
 
       // then

@@ -1,4 +1,4 @@
-import Ember from 'ember';
+import { helper } from '@ember/component/helper';
 
 export function extractExtension(params) {
   const parts = params[0].split('.');
@@ -6,4 +6,4 @@ export function extractExtension(params) {
   return parts[lastIndex];
 }
 
-export default Ember.Helper.helper(extractExtension);
+export default helper(extractExtension);

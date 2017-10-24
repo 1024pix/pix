@@ -2,7 +2,7 @@ import Ember from 'ember';
 import { expect } from 'chai';
 import { describe, it, before } from 'mocha';
 import { setupTest } from 'ember-mocha';
-import sinon  from 'sinon';
+import sinon from 'sinon';
 
 describe('Unit | Route | compte', function() {
   setupTest('route:compte', {

@@ -190,12 +190,12 @@ describe('Unit | Service | MailService', () => {
         return promise.then(() => {
           sinon.assert.calledWith(sendEmailStub, {
             to: email,
-            template: '207534',
+            template: '232827',
             from: 'ne-pas-repondre@pix.beta.gouv.fr',
             fromName: 'PIX - Ne pas répondre',
             subject: 'Demande de réinitialisation de mot de passe PIX',
             variables: {
-              resetUrl: `${passwordResetDemandBaseUrl}/compte/motdepasse/${fakeTemporaryKey}`
+              resetUrl: `${passwordResetDemandBaseUrl}/changer-mot-de-passe/${fakeTemporaryKey}`
             }
           });
         });
