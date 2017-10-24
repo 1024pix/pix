@@ -1,5 +1,9 @@
 # Pix Changelog
 
+## 1.25.2 (24/10/2017)
+
+- [#567](https//github.com/sgmap/pix/pull/567) [REVERT] Retour en arrière sur "Changer la méthode de récupération de la base url d'origine (US-895)."
+
 ## 1.25.1 (24/10/2017)
 
  - [#567](https//github.com/sgmap/pix/pull/567) [BUGFIX] Changer la méthode de récupération de la base url d'origine (US-895).
