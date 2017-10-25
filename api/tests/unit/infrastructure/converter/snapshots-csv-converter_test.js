@@ -4,7 +4,18 @@ const snapshotsConverter = require('../../../../lib/infrastructure/converter/sna
 describe('Unit | Serializer | CSV | snapshots-converter', () => {
 
   const profile1 = '{"included":[{"type":"areas","attributes":{"name":"4. Protection et sécurité"}},{"type":"competences","attributes":{"name":"Sécuriser l\'environnement numérique","index":"4.1","level": 3}},{"type":"competences","attributes":{"name":"Interagir","index":"2.1","level": 4,"course-id":""}}]}';
-  const profile2 = '{"included":[{"type":"areas","attributes":{"name":"4. Protection et sécurité"}},{"type":"competences","attributes":{"name":"Sécuriser l\'environnement numérique","index":"4.1","level":-1}},{"type":"competences","attributes":{"name":"Interagir","index":"2.1","level":-1,"course-id":""}}]}';
+  const profile2 = {
+    'included': [{
+      'type': 'areas',
+      'attributes': { 'name': '4. Protection et sécurité' }
+    }, {
+      'type': 'competences',
+      'attributes': { 'name': 'Sécuriser l\'environnement numérique', 'index': '4.1', 'level': -1 }
+    }, {
+      'type': 'competences',
+      'attributes': { 'name': 'Interagir', 'index': '2.1', 'level': 2, 'course-id': '' } }]
+  };
+
   const jsonSnapshots = [{
     id: 2,
     score: '22',
@@ -32,7 +43,7 @@ describe('Unit | Serializer | CSV | snapshots-converter', () => {
 
   const expectedTextHeadersCSV = '"Nom";"Prenom";"Numero Etudiant";"Code Campagne";"Date";"Score Pix";"Tests Realises";"Interagir";"Securiser l\'environnement numerique"\n';
   const expectedTextCSVFirstUser = '"NomUser";"PrenomUser";"UNIV123";"CAMPAIGN123";13/10/2017;22;="2/2";4;3\n';
-  const expectedTextCSVSecondUser = '"NomUser";"PrenomUser";"AAA";"EEE";12/10/2017;;="0/2";;\n';
+  const expectedTextCSVSecondUser = '"NomUser";"PrenomUser";"AAA";"EEE";12/10/2017;;="1/2";2;\n';
 
   describe('#convertJsonToCsv()', () => {
 

@@ -11,7 +11,7 @@ module.exports = {
       return textCsv;
     }
 
-    textCsv += _createHeaderLine(JSON.parse(jsonData[0].profile));
+    textCsv += _createHeaderLine(_fromStringOrJsonToJson(jsonData[0].profile));
     textCsv += jsonData.map(_createProfileLine).join('');
 
     return textCsv;
@@ -24,6 +24,7 @@ function _createHeaderLine(jsonProfil) {
   textCsvLineHeaders += ';';
 
   const listCompetences = _cleanArrayCompetences(jsonProfil.included);
+
   textCsvLineHeaders += listCompetences.map(_.property('name')).join(';');
 
   textCsvLineHeaders += '\n';
@@ -32,7 +33,7 @@ function _createHeaderLine(jsonProfil) {
 
 function _createProfileLine(snapshot) {
   let snapshotCsvLine = '';
-  const listCompetences = _cleanArrayCompetences(JSON.parse(snapshot.profile).included);
+  const listCompetences = _cleanArrayCompetences(_fromStringOrJsonToJson(snapshot.profile).included);
   const numberRealisedTest = listCompetences.filter((competence) => competence.level >=0).length;
 
   snapshotCsvLine += [`"${snapshot.user.lastName}"`,
@@ -75,4 +76,12 @@ function _cleanCompetenceName(name) {
     .replace(/é/g,'e')
     .replace(/é/g,'e')
     .replace(/ê/g,'e');
+}
+
+function _fromStringOrJsonToJson(data) {
+  if(typeof data === 'string') {
+    return JSON.parse(data);
+  } else {
+    return data;
+  }
 }
