@@ -16,12 +16,6 @@ const LABEL_INCORRECT_AND_CHECKED = '.qcu-proposal-label__oracle:eq(2)';
 const RADIO_INCORRECT_AND_UNCHECKED = '.picture-radio-proposal--qcu:eq(0)';
 const LABEL_INCORRECT_AND_UNCHECKED = '.qcu-proposal-label__oracle:eq(0)';
 
-const CSS_BOLD_FONT_WEIGHT = '900';
-const CSS_NORMAL_FONT_WEIGHT = '400';
-
-const CSS_GREEN_COLOR = 'rgb(19, 201, 160)';
-const CSS_BLACK_COLOR = 'rgb(51, 51, 51)';
-
 const CSS_LINETHROUGH_ON = 'line-through';
 const CSS_LINETHROUGH_OFF = 'none';
 
@@ -85,8 +79,6 @@ describe('Integration | Component | qcu-solution-panel.js', function() {
 
         expect($(RADIO_CORRECT_AND_CHECKED).hasClass('radio-on')).to.equal(true);
         expect(charCount($(LABEL_CORRECT_AND_CHECKED).text())).to.be.above(0);
-        expect($(LABEL_CORRECT_AND_CHECKED).css('font-weight')).to.equal(CSS_BOLD_FONT_WEIGHT);
-        expect($(LABEL_CORRECT_AND_CHECKED).css('color')).to.equal(CSS_GREEN_COLOR);
         expect($(LABEL_CORRECT_AND_CHECKED).css('text-decoration')).to.contain(CSS_LINETHROUGH_OFF);
       });
 
@@ -105,8 +97,6 @@ describe('Integration | Component | qcu-solution-panel.js', function() {
         expect($(RADIO_CORRECT_AND_CHECKED).hasClass('radio-off')).to.equal(true);
 
         expect(charCount($(LABEL_CORRECT_AND_UNCHECKED).text())).to.be.above(0);
-        expect($(LABEL_CORRECT_AND_UNCHECKED).css('font-weight')).to.equal(CSS_BOLD_FONT_WEIGHT);
-        expect($(LABEL_CORRECT_AND_UNCHECKED).css('color')).to.equal(CSS_GREEN_COLOR);
         expect($(LABEL_CORRECT_AND_UNCHECKED).css('text-decoration')).to.contain(CSS_LINETHROUGH_OFF);
       });
 
@@ -122,8 +112,6 @@ describe('Integration | Component | qcu-solution-panel.js', function() {
         // Then
         expect($(RADIO_INCORRECT_AND_UNCHECKED).hasClass('radio-off')).to.equal(true);
         expect(charCount($(LABEL_INCORRECT_AND_UNCHECKED).text())).to.be.above(0);
-        expect($(LABEL_INCORRECT_AND_UNCHECKED).css('font-weight')).to.equal(CSS_NORMAL_FONT_WEIGHT);
-        expect($(LABEL_INCORRECT_AND_UNCHECKED).css('color')).to.equal(CSS_BLACK_COLOR);
         expect($(LABEL_INCORRECT_AND_UNCHECKED).css('text-decoration')).to.contain(CSS_LINETHROUGH_OFF);
       });
 
@@ -141,8 +129,6 @@ describe('Integration | Component | qcu-solution-panel.js', function() {
         // Then
         expect($(RADIO_INCORRECT_AND_CHECKED).hasClass('radio-on')).to.equal(true);
         expect(charCount($(LABEL_INCORRECT_AND_CHECKED).text())).to.be.above(0);
-        expect($(LABEL_INCORRECT_AND_CHECKED).css('font-weight')).to.equal(CSS_NORMAL_FONT_WEIGHT);
-        expect($(LABEL_INCORRECT_AND_CHECKED).css('color')).to.equal(CSS_BLACK_COLOR);
         expect($(LABEL_INCORRECT_AND_CHECKED).css('text-decoration')).to.contain(CSS_LINETHROUGH_ON);
 
       });
