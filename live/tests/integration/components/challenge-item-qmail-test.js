@@ -39,7 +39,7 @@ describe('Integration | Component | challenge item qmail', function() {
     // Then
     const instructionPanel = document.querySelector('.challenge-statement__instruction-section');
     expect(instructionPanel).to.exist;
-    expect(instructionPanel).to.contain.text('Pour valider cette épreuve ...');
+    expect(instructionPanel).to.contain.text('Pour valider cette épreuve');
   });
 
   describe('confirmation area', function() {

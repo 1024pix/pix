@@ -12,7 +12,7 @@
     "build": "ember build",
     "clean": "rm -rf tmp dist node_modules",
     "start": "ember server",
-    "test": "ember test",
+    "test": "ember test --reporter dot",
     "lint": "./node_modules/.bin/eslint app mirage tests",
     "lint:fix": "npm run lint --fix",
     "coverage:check": "COVERAGE=true ember test",
