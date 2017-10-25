@@ -1,6 +1,5 @@
 import refCourse from '../courses/ref-course';
 import refQcuAnswer from '../answers/ref-qcu-answer';
-import refQruAnswer from '../answers/ref-qru-answer';
 import refQcmAnswer from '../answers/ref-qcm-answer';
 import refQrocAnswer from '../answers/ref-qroc-answer';
 import refQrocmAnswer from '../answers/ref-qrocm-answer';
@@ -28,9 +27,6 @@ export default {
         }, {
           type: 'answers',
           id: refQcuAnswer.data.id
-        }, {
-          type: 'answers',
-          id: refQruAnswer.data.id
         }, {
           type: 'answers',
           id: refQrocAnswer.data.id

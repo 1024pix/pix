@@ -22,6 +22,12 @@ class NotElligibleToScoringError extends Error {
   }
 }
 
+class NotElligibleToQmailError extends Error {
+  constructor(message) {
+    super(message);
+  }
+}
+
 class PasswordNotMatching extends Error {
   constructor(message) {
     super(message);
@@ -100,5 +106,6 @@ module.exports = {
   UserNotFoundError,
   InternalError,
   PasswordResetDemandNotFoundError,
-  InvalidTemporaryKeyError
+  InvalidTemporaryKeyError,
+  NotElligibleToQmailError
 };

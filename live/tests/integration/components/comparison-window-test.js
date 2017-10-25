@@ -48,21 +48,21 @@ describe('Integration | Component | comparison-window', function() {
       // when
       this.render(hbs`{{comparison-window answer=answer challenge=challenge solution=solution index=index}}`);
       // then
-      expect(this.$('.comparison-window__header')).to.have.length(1);
+      expect(this.$('.comparison-window__header')).to.have.lengthOf(1);
     });
 
     it('should render challenge instruction', function() {
       // when
       this.render(hbs`{{comparison-window answer=answer challenge=challenge solution=solution index=index}}`);
       // then
-      expect(this.$('.challenge-statement__instruction')).to.have.length(1);
+      expect(this.$('.challenge-statement__instruction')).to.have.lengthOf(1);
     });
 
     it('should not render corrected answers when challenge has no type', function() {
       // when
       this.render(hbs`{{comparison-window answer=answer challenge=challenge solution=solution index=index}}`);
       // then
-      expect(this.$('.comparison-window__corrected-answers')).to.have.length(0);
+      expect(this.$('.comparison-window__corrected-answers')).to.have.lengthOf(0);
     });
 
     it('should render corrected answers when challenge type is QROC', function() {
@@ -72,7 +72,7 @@ describe('Integration | Component | comparison-window', function() {
       // when
       this.render(hbs`{{comparison-window answer=answer challenge=challenge solution=solution index=index}}`);
       // then
-      expect(this.$('.comparison-window__corrected-answers--qroc')).to.have.length(1);
+      expect(this.$('.comparison-window__corrected-answers--qroc')).to.have.lengthOf(1);
     });
 
     it('should render corrected answers when challenge type is QROCM-ind', function() {
@@ -84,7 +84,7 @@ describe('Integration | Component | comparison-window', function() {
       // when
       this.render(hbs`{{comparison-window answer=answer challenge=challenge solution=solution index=index}}`);
       // then
-      expect(this.$('.comparison-window__corrected-answers--qrocm')).to.have.length(1);
+      expect(this.$('.comparison-window__corrected-answers--qrocm')).to.have.lengthOf(1);
     });
 
     it('should render corrected answers when challenge type is QCM', function() {
@@ -94,14 +94,14 @@ describe('Integration | Component | comparison-window', function() {
       // when
       this.render(hbs`{{comparison-window answer=answer challenge=challenge solution=solution index=index}}`);
       // then
-      expect(this.$('.qcm-solution-panel')).to.have.length(1);
+      expect(this.$('.qcm-solution-panel')).to.have.lengthOf(1);
     });
 
     it('should render a feedback panel already opened', function() {
       //when
       this.render(hbs`{{comparison-window answer=answer challenge=challenge solution=solution index=index}}`);
       //then
-      expect(this.$('.comparison-window__feedback-panel')).to.have.length(1);
+      expect(this.$('.comparison-window__feedback-panel')).to.have.lengthOf(1);
       expect(this.$(FEEDBACK_FORM)).to.have.lengthOf(1);
       expect(this.$(LINK_OPEN_FORM)).to.have.lengthOf(0);
     });

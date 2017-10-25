@@ -101,7 +101,7 @@ describe('Integration | Component | form textfield', function() {
 
       it('return true if any svg doesn\'t exist', function() {
         // then
-        expect(this.$('img')).to.have.length(0);
+        expect(this.$('img')).to.have.lengthOf(0);
       });
 
       it(`contain an input with an additional class ${INPUT_DEFAULT_CLASS}`, function() {
@@ -134,7 +134,7 @@ describe('Integration | Component | form textfield', function() {
     it('return true if any img does exist', function() {
       // then
       return wait().then(() => {
-        expect(this.$('img')).to.have.length(1);
+        expect(this.$('img')).to.have.lengthOf(1);
         expect(this.$('img').attr('class')).to.contain('form-textfield__icon--error');
       });
     });
@@ -166,7 +166,7 @@ describe('Integration | Component | form textfield', function() {
 
     it('return true if any img does exist', function() {
       // then
-      expect(this.$('img')).to.have.length(1);
+      expect(this.$('img')).to.have.lengthOf(1);
       expect(this.$('img').attr('class')).to.contain('form-textfield__icon--success');
     });
 

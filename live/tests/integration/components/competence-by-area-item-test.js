@@ -14,7 +14,7 @@ describe('Integration | Component | competence area item', function() {
     this.render(hbs`{{competence-by-area-item}}`);
 
     // then
-    expect(this.$('.competence-by-area-item')).to.have.length(1);
+    expect(this.$('.competence-by-area-item')).to.have.lengthOf(1);
   });
 
   it('should render a title', function() {
@@ -48,7 +48,7 @@ describe('Integration | Component | competence area item', function() {
     this.render(hbs`{{competence-by-area-item competenceArea=competenceArea}}`);
 
     // then
-    expect(this.$('.competence__name')).to.have.length(5);
+    expect(this.$('.competence__name')).to.have.lengthOf(5);
   });
 
   describe('Competence rendering', function() {

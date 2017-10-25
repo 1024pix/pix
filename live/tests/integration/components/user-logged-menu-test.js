@@ -37,13 +37,13 @@ describe('Integration | Component | user logged menu', function() {
 
     it('should render component', function() {
       // then
-      expect(this.$()).to.have.length(1);
+      expect(this.$()).to.have.lengthOf(1);
     });
 
     it('should display logged user name ', function() {
       // then
-      expect(this.$('.logged-user-name')).to.have.length(1);
-      expect(this.$('.logged-user-name__link')).to.have.length(1);
+      expect(this.$('.logged-user-name')).to.have.lengthOf(1);
+      expect(this.$('.logged-user-name__link')).to.have.lengthOf(1);
       expect(this.$('.logged-user-name__link').text().trim()).to.be.equal('FHI 4EVER');
     });
 
@@ -52,7 +52,7 @@ describe('Integration | Component | user logged menu', function() {
       this.render(hbs`{{user-logged-menu}}`);
 
       // then
-      expect(this.$('.logged-user-menu')).to.have.length(0);
+      expect(this.$('.logged-user-menu')).to.have.lengthOf(0);
     });
 
     it('should display a user menu, when user-name is clicked', function() {
@@ -64,7 +64,7 @@ describe('Integration | Component | user logged menu', function() {
 
       return wait().then(() => {
         // then
-        expect(this.$('.logged-user-menu')).to.have.length(1);
+        expect(this.$('.logged-user-menu')).to.have.lengthOf(1);
         expect(this.$('.user-menu-item__details-firstname').text().trim()).to.equal('FHI');
         expect(this.$('.user-menu-item__details-email').text().trim()).to.equal('FHI@4EVER.fr');
       });
@@ -78,7 +78,7 @@ describe('Integration | Component | user logged menu', function() {
 
       return wait().then(() => {
         // then
-        expect(this.$('.logged-user-menu')).to.have.length(0);
+        expect(this.$('.logged-user-menu')).to.have.lengthOf(0);
       });
     });
 
@@ -89,7 +89,7 @@ describe('Integration | Component | user logged menu', function() {
 
       return wait().then(() => {
         // then
-        expect(this.$('.logged-user-menu')).to.have.length(0);
+        expect(this.$('.logged-user-menu')).to.have.lengthOf(0);
       });
     });
 
@@ -100,7 +100,7 @@ describe('Integration | Component | user logged menu', function() {
 
       return wait().then(() => {
         // then
-        expect(this.$('.logged-user-menu')).to.have.length(0);
+        expect(this.$('.logged-user-menu')).to.have.lengthOf(0);
       });
     });
 
@@ -184,7 +184,7 @@ describe('Integration | Component | user logged menu', function() {
 
       // then
       return wait().then(() => {
-        expect(this.$('.logged-user-name')).to.have.length(0);
+        expect(this.$('.logged-user-name')).to.have.lengthOf(0);
       });
     });
   });

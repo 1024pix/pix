@@ -2,7 +2,6 @@ import _ from 'pix-live/utils/lodash-custom';
 
 import refQcmAnswer from '../data/answers/ref-qcm-answer';
 import refQcuAnswer from '../data/answers/ref-qcu-answer';
-import refQruAnswer from '../data/answers/ref-qru-answer';
 import refQrocAnswer from '../data/answers/ref-qroc-answer';
 import refQrocmAnswer from '../data/answers/ref-qrocm-answer';
 import refTimedAnswer from '../data/answers/ref-timed-answer';
@@ -12,7 +11,6 @@ export default function(schema, request) {
 
   const allAnswers = [
     refQcuAnswer,
-    refQruAnswer,
     refQcmAnswer,
     refQrocAnswer,
     refQrocmAnswer,

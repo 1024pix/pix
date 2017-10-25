@@ -11,7 +11,7 @@ describe('Integration | Component | feature list', function() {
 
   it('renders', function() {
     this.render(hbs`{{feature-list}}`);
-    expect(this.$()).to.have.length(1);
+    expect(this.$()).to.have.lengthOf(1);
   });
 
   it('should always render 5 feature-items', function() {

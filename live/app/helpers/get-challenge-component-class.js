@@ -5,7 +5,8 @@ export function getChallengeComponentClass(params) {
   let result;
   const challenge = params[0];
   const challengeType = challenge.get('type').toUpperCase();
-  if (_(challengeType).isAmongst(['QCUIMG', 'QCU', 'QRU'])) {
+
+  if (_(challengeType).isAmongst(['QCUIMG', 'QCU'])) {
     result = 'qcu';
   } else if (_(challengeType).isAmongst(['QCMIMG', 'QCM'])) {
     result = 'qcm';
@@ -13,7 +14,10 @@ export function getChallengeComponentClass(params) {
     result = 'qroc';
   } else if (_(challengeType).isAmongst(['QROCM', 'QROCM-IND', 'QROCM-DEP'])) {
     result = 'qrocm';
+  } else if (_(challengeType).isAmongst(['QMAIL'])) {
+    result = 'qmail';
   }
+
   return 'challenge-item-' + result;
 }
 

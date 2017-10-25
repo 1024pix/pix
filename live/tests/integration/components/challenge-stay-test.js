@@ -11,7 +11,7 @@ describe('Integration | Component | challenge stay', function() {
 
   it('renders', function() {
     this.render(hbs`{{challenge-stay}}`);
-    expect(this.$()).to.have.length(1);
+    expect(this.$()).to.have.lengthOf(1);
   });
 
   it('should display a warning icon with an accessible description', function() {

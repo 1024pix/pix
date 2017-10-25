@@ -86,7 +86,7 @@ describe('Acceptance | Controller | organization-controller', function() {
           .then((response) => {
             const parsedResponse = JSON.parse(response.payload);
 
-            expect(parsedResponse.errors).to.have.length(2);
+            expect(parsedResponse.errors).to.have.lengthOf(2);
             expect(parsedResponse.errors[1].detail).to.equal('Le type d\'organisation doit être l\'une des valeurs suivantes: SCO, SUP, PRO.');
             expect(parsedResponse.errors[0].detail).to.equal('Votre mot de passe doit comporter au moins une lettre, un chiffre et 8 caractères.');
           });
@@ -194,7 +194,7 @@ describe('Acceptance | Controller | organization-controller', function() {
         .injectThen(options)
         .then((response) => {
           // then
-          expect(response.result.data).to.have.length(0);
+          expect(response.result.data).to.have.lengthOf(0);
           expect(response.statusCode).to.equal(200);
         });
     });

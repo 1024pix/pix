@@ -19,7 +19,7 @@ describe('Integration | Component | navbar-header', function() {
     });
 
     it('renders', function() {
-      expect(this.$()).to.have.length(1);
+      expect(this.$()).to.have.lengthOf(1);
     });
 
     it('should display the Pix logo', function() {
@@ -33,7 +33,7 @@ describe('Integration | Component | navbar-header', function() {
 
     it('should display a link to "referential" page', function() {
       expect(this.$('.navbar-header-links__link--competences')).to.have.lengthOf(1);
-      expect(this.$('.navbar-header-links--user-logged')).to.have.length(0);
+      expect(this.$('.navbar-header-links--user-logged')).to.have.lengthOf(0);
     });
 
     it('should display link to inscription page', function() {

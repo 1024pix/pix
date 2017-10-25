@@ -15,7 +15,7 @@ describe('Integration | Component | competence area list', function() {
       this.render(hbs`{{competence-area-list}}`);
 
       // then
-      expect(this.$()).to.have.length(1);
+      expect(this.$()).to.have.lengthOf(1);
     });
 
     it('should render a wrapper', function() {
@@ -24,7 +24,7 @@ describe('Integration | Component | competence area list', function() {
 
       // then
       const WRAPPER_CLASS = '.competence-area-list';
-      expect(this.$(WRAPPER_CLASS)).to.have.length(1);
+      expect(this.$(WRAPPER_CLASS)).to.have.lengthOf(1);
     });
 
     describe('Rendering when different areas', function() {

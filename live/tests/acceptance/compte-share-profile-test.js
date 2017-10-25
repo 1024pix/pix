@@ -59,7 +59,7 @@ describe('Acceptance | Sharing a Profile Snapshot with a given Organization', fu
   }
 
   function expectModalToBeClosed() {
-    expect(find('.pix-modal')).to.have.length(0);
+    expect(find('.pix-modal')).to.have.lengthOf(0);
   }
 
   async function closeModal() {

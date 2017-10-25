@@ -45,7 +45,7 @@ describe('Integration | Component | result item', function() {
       this.render(hbs`{{result-item answer=answer index=index}}`);
 
       // then
-      expect(this.$()).to.have.length(1);
+      expect(this.$()).to.have.lengthOf(1);
     });
 
     it('should render an index 1 when 0 provided', function() {

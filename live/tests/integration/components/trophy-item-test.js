@@ -10,7 +10,7 @@ describe('Integration | Component | trophy item', function() {
 
   it('renders', function() {
     this.render(hbs`{{trophy-item}}`);
-    expect(this.$()).to.have.length(1);
+    expect(this.$()).to.have.lengthOf(1);
   });
 
   it('should contain the level passed in the component', function() {

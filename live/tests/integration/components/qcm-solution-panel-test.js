@@ -42,7 +42,7 @@ describe('Integration | Component | qcm-solution-panel.js', function() {
 
     it('Should renders', function() {
       this.render(hbs`{{qcm-solution-panel}}`);
-      expect(this.$()).to.have.length(1);
+      expect(this.$()).to.have.lengthOf(1);
       expect($(LABEL_CORRECT_AND_CHECKED)).to.have.lengthOf(0);
     });
 

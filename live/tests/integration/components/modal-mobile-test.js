@@ -11,7 +11,7 @@ describe('Integration | Component | modal mobile', function() {
 
   it('renders', function() {
     this.render(hbs`{{modal-mobile}}`);
-    expect(this.$()).to.have.length(1);
+    expect(this.$()).to.have.lengthOf(1);
   });
 
   it('should display a title with a "warning" icon', function() {

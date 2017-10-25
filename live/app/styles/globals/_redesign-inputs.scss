@@ -9,12 +9,15 @@
   left: -11px;
   top: 3px;
 }
-.label-checkbox-proposal--qcm {
+
+.label-checkbox-proposal {
   display: inline-block;
   padding-left: 20px;
   line-height: 21px;
   position: relative;
   cursor: pointer;
+
+  font-weight: $font-normal;
 }
 
 .qcu-proposal-label__radio-picture {
@@ -113,14 +116,6 @@ input[type="checkbox"]:checked:focus:before {
   position: absolute;
   left: -11px;
   top: 3px;
-}
-
-.label-checkbox-proposal--qcu {
-  display: inline-block;
-  padding-left: 20px;
-  line-height: 21px;
-  position: relative;
-  cursor: pointer;
 }
 
 input[type=radio]:before,

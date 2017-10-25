@@ -15,7 +15,7 @@ describe('Integration | Component | challenge actions', function() {
 
   it('renders', function() {
     this.render(hbs`{{challenge-actions}}`);
-    expect(this.$()).to.have.length(1);
+    expect(this.$()).to.have.lengthOf(1);
   });
 
   describe('Validate button (and placeholding loader)', function() {

@@ -20,7 +20,7 @@ describe('Integration | Component | qroc solution panel', function() {
 
   it('renders', function() {
     this.render(hbs`{{qroc-solution-panel}}`);
-    expect(this.$()).to.have.length(1);
+    expect(this.$()).to.have.lengthOf(1);
   });
 
   it('should disabled all inputs', function() {
@@ -46,12 +46,12 @@ describe('Integration | Component | qroc solution panel', function() {
       const answerBlock = this.$(ANSWER_BLOCK);
       const solutionBlock = this.$(SOLUTION_BLOCK);
       // then
-      expect(answerInput).to.have.length(1);
-      expect(answerBlock).to.have.length(1);
+      expect(answerInput).to.have.lengthOf(1);
+      expect(answerBlock).to.have.lengthOf(1);
       expect(answerInput.css('font-weight')).to.be.equal('700');
       expect(answerInput.css('text-decoration')).to.be.contains('none');
       expect(answerInput.css('color')).to.be.equal(RIGHT_ANSWER_GREEN);
-      expect(solutionBlock).to.have.length(0);
+      expect(solutionBlock).to.have.lengthOf(0);
     });
   });
 
@@ -106,7 +106,7 @@ describe('Integration | Component | qroc solution panel', function() {
         const answerBlock = this.$(ANSWER_BLOCK);
         const answerInput = this.$(ANSWER_INPUT);
         // then
-        expect(answerBlock).to.have.length(1);
+        expect(answerBlock).to.have.lengthOf(1);
         expect(answerInput.css('font-style')).to.be.equal('italic');
         expect(answerInput.css('color')).to.be.equal(NO_ANSWER_GREY);
       });

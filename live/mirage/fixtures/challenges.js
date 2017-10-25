@@ -33,23 +33,16 @@ export default [
     instruction: 'Un QROCM est une question [ouverte](http://link.ouverte.url) avec plusieurs champs texte libre pour repondre',
     proposals: 'Trois logiciels libres : ${logiciel1#un} ${logiciel2#deux} ${logiciel3#trois}\nMerci'
   },{
-    id: 'ref_qru_challenge_id',
-    type: 'QRU',
-    'illustration-url': 'http://fakeimg.pl/350x200/?text=QRU',
-    attachments: ['http://example_of_url'],
-    instruction: 'Un QRU propose un seul choix, typiquement cocher si oui ou non il a effectué une action quelque [part](http://link.part.url) ',
-    proposals: '- Une seule possibilite '
-  },{
     id: 'ref_timed_challenge_id',
-    type: 'QRU',
+    type: 'QCU',
     timer: 5,
-    'illustration-url': 'http://fakeimg.pl/350x200/?text=QRU',
+    'illustration-url': 'http://fakeimg.pl/350x200/?text=QCU',
     attachments: ['http://example_of_url'],
     instruction: 'Une question timée contient un décompte en bas a droite qui se decremente à chaque seconde ',
     proposals: '- Une seule possibilite '
   }, {
     id: 'ref_timed_challenge_bis_id',
-    type: 'QRU',
+    type: 'QCU',
     timer: 5,
     'illustration-url': 'http://fakeimg.pl/350x200/?text=QRU',
     attachments: ['http://example_of_url'],

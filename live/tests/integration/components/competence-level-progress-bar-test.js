@@ -10,7 +10,7 @@ describe('Integration | Component | competence level progress bar', function() {
 
   it('renders', function() {
     this.render(hbs`{{competence-level-progress-bar}}`);
-    expect(this.$()).to.have.length(1);
+    expect(this.$()).to.have.lengthOf(1);
   });
 
   describe('if the level is not defined', function() {
@@ -24,7 +24,7 @@ describe('Integration | Component | competence level progress bar', function() {
       this.render(hbs`{{competence-level-progress-bar level=level}}`);
 
       //Then
-      expect(this.$('.competence-level-progress-bar__background')).to.have.length(0);
+      expect(this.$('.competence-level-progress-bar__background')).to.have.lengthOf(0);
     });
 
     it('should not display a progress bar if level is not defined (-1)', function() {
@@ -36,7 +36,7 @@ describe('Integration | Component | competence level progress bar', function() {
       this.render(hbs`{{competence-level-progress-bar level=level}}`);
 
       //Then
-      expect(this.$('.competence-level-progress-bar__level')).to.have.length(0);
+      expect(this.$('.competence-level-progress-bar__level')).to.have.lengthOf(0);
     });
 
   });
@@ -54,9 +54,9 @@ describe('Integration | Component | competence level progress bar', function() {
       this.render(hbs`{{competence-level-progress-bar level=level}}`);
 
       // then
-      expect(this.$('.competence-level-progress-bar__background-level-limit-indicator')).to.have.length(1);
+      expect(this.$('.competence-level-progress-bar__background-level-limit-indicator')).to.have.lengthOf(1);
       expect(this.$('.competence-level-progress-bar__background-level-limit-indicator').text().trim()).to.equal(LIMIT_LEVEL.toString());
-      expect(this.$('.competence-level-progress-bar__background-level-limit-max-indicator')).to.have.length(1);
+      expect(this.$('.competence-level-progress-bar__background-level-limit-max-indicator')).to.have.lengthOf(1);
       expect(this.$('.competence-level-progress-bar__background-level-limit-max-indicator').text().trim()).to.equal(MAX_LEVEL.toString());
     });
 
@@ -69,7 +69,7 @@ describe('Integration | Component | competence level progress bar', function() {
       this.render(hbs`{{competence-level-progress-bar level=level}}`);
 
       //Then
-      expect(this.$('.competence-level-progress-bar__level')).to.have.length(1);
+      expect(this.$('.competence-level-progress-bar__level')).to.have.lengthOf(1);
     });
 
     it('should indicate the level passed to the component at the end of the progress bar', function() {
@@ -100,8 +100,8 @@ describe('Integration | Component | competence level progress bar', function() {
       this.render(hbs`{{competence-level-progress-bar name=name level=level courseId=courseId}}`);
 
       // then
-      expect(this.$('.competence-level-progress-bar__start')).to.have.length(1);
-      expect(this.$('a.competence-level-progress-bar__start-link')).to.have.length(1);
+      expect(this.$('.competence-level-progress-bar__start')).to.have.lengthOf(1);
+      expect(this.$('a.competence-level-progress-bar__start-link')).to.have.lengthOf(1);
       expect(this.$('a.competence-level-progress-bar__start-link').text().trim()).to.be.equal('Commencer le test "Premier test de positionnement"');
     });
 
@@ -118,8 +118,8 @@ describe('Integration | Component | competence level progress bar', function() {
       this.render(hbs`{{competence-level-progress-bar level=level courseId=courseId name=name}}`);
 
       // then
-      expect(this.$('.competence-level-progress-bar__start')).to.have.length(0);
-      expect(this.$('a.competence-level-progress-bar__start-link')).to.have.length(0);
+      expect(this.$('.competence-level-progress-bar__start')).to.have.lengthOf(0);
+      expect(this.$('a.competence-level-progress-bar__start-link')).to.have.lengthOf(0);
     });
   });
 
@@ -135,8 +135,8 @@ describe('Integration | Component | competence level progress bar', function() {
       this.render(hbs`{{competence-level-progress-bar level=level name=name}}`);
 
       // then
-      expect(this.$('.competence-level-progress-bar__start')).to.have.length(0);
-      expect(this.$('a.competence-level-progress-bar__start-link')).to.have.length(0);
+      expect(this.$('.competence-level-progress-bar__start')).to.have.lengthOf(0);
+      expect(this.$('a.competence-level-progress-bar__start-link')).to.have.lengthOf(0);
     });
   });
 
