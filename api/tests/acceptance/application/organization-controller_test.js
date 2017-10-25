@@ -1,5 +1,7 @@
+const jwt = require('jsonwebtoken');
 const { describe, it, after, expect, afterEach, knex } = require('../../test-helper');
 const server = require('../../../server');
+const settings = require('../../../lib/settings');
 
 describe('Acceptance | Controller | organization-controller', function() {
 
@@ -185,8 +187,7 @@ describe('Acceptance | Controller | organization-controller', function() {
     it('should return 200, when no snapshot was found', () => {
       // given
       const options = {
-        method: 'GET', url: '/api/organizations/unknownId/snapshots', payload: {}
-      };
+        method: 'GET', url: '/api/organizations/unknownId/snapshots', payload: {} };
 
       // when
       return server
@@ -196,6 +197,53 @@ describe('Acceptance | Controller | organization-controller', function() {
           expect(response.result.data).to.have.length(0);
           expect(response.statusCode).to.equal(200);
         });
+    });
+  });
+
+  describe('GET /api/organizations/{id}/snapshots/export?userToken={userToken}', () => {
+    const payload = {};
+    let organizationId;
+    let userToken;
+    let userId;
+
+    before(() => {
+      return _insertUser()
+        .then((user_id) => {
+          userId = user_id;
+          userToken = _createToken(user_id);
+
+          return _insertOrganization(userId);
+        })
+        .then((organization_id) => {
+          organizationId = organization_id;
+          return _insertSnapshot(organizationId, userId);
+        });
+    });
+
+    after(() => {
+      return Promise.all([
+        knex('users').delete(),
+        knex('organizations').delete(),
+        knex('snapshots').delete()]);
+    });
+
+    it('should return 200 HTTP status code', () => {
+      // given
+      const url = `/api/organizations/${organizationId}/snapshots/export?userToken=${userToken}`;
+      const expectedCsvSnapshots = '"Nom";"Prenom";"Numero Etudiant";"Code Campagne";"Date";"Score Pix";' +
+        '"Tests Realises";"competence-name-1";"competence-name-2"\n' +
+        '"Doe";"john";"";"";31/08/2017;15;="1/2";;8\n';
+
+      const request = {
+        method: 'GET', url, payload
+      };
+
+      // when
+      return server.injectThen(request).then((response) => {
+        // then
+        expect(response.statusCode).to.equal(200);
+        expect(response.result).to.deep.equal(expectedCsvSnapshots);
+      });
     });
   });
 });
@@ -309,4 +357,11 @@ function _insertSnapshot(organizationId, userId) {
 
   return knex('snapshots')
     .insert(snapshotRaw);
+}
+
+function _createToken(user) {
+  return jwt.sign({
+    user_id: user,
+    email: 'john.Doe@internet.fr',
+  }, settings.authentication.secret, { expiresIn: settings.authentication.tokenLifespan });
 }

@@ -1,4 +1,5 @@
 const organisationController = require('./organization-controller');
+const snapshotsAuthorization = require('../../application/preHandlers/snapshot-authorization');
 
 exports.register = function(server, options, next) {
   server.route([
@@ -16,6 +17,17 @@ exports.register = function(server, options, next) {
       method: 'GET',
       path: '/api/organizations/{id}/snapshots',
       config: { handler: organisationController.getSharedProfiles, tags: ['api'] }
+    },
+    {
+      method: 'GET',
+      path: '/api/organizations/{id}/snapshots/export',
+      config: {
+        pre: [{
+          method: snapshotsAuthorization.verify,
+          assign: 'authorizationCheck'
+        }],
+        handler: organisationController.exportedSharedSnapshots, tags: ['api']
+      }
     }
   ]);
 

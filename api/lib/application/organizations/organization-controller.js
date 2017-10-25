@@ -7,11 +7,13 @@ const snapshotSerializer = require('../../infrastructure/serializers/jsonapi/sna
 const organizationService = require('../../domain/services/organization-service');
 const bookshelfUtils = require('../../../lib/infrastructure/utils/bookshelf-utils');
 const validationErrorSerializer = require('../../infrastructure/serializers/jsonapi/validation-error-serializer');
+const snapshotsCsvConverter = require('../../infrastructure/converter/snapshots-csv-converter');
 
 const _ = require('lodash');
 const logger = require('../../infrastructure/logger');
 
 const { AlreadyRegisteredEmailError } = require('../../domain/errors');
+const exportCsvFileName = 'Pix - Export donnees partagees.csv';
 
 module.exports = {
   create: (request, reply) => {
@@ -71,21 +73,43 @@ module.exports = {
   },
 
   getSharedProfiles: (request, reply) => {
-    return snapshotRepository
-      .getSnapshotsByOrganizationId(request.params.id)
-      .then((snapshots) => bookshelfUtils.mergeModelWithRelationship(snapshots, 'user'))
-      .then((snapshotsWithRelatedUsers) => {
-        const jsonSnapshots = snapshotsWithRelatedUsers.map((snapshot) => snapshot.toJSON());
-        return snapshotSerializer.serialize(jsonSnapshots);
-      })
+    return _extractSnapshotsForOrganization(request.params.id)
+      .then((jsonSnapshots) => snapshotSerializer.serialize(jsonSnapshots))
       .then((serializedSnapshots) => reply(serializedSnapshots).code(200))
       .catch((err) => {
         logger.error(err);
+        return reply(validationErrorSerializer.serialize(
+          _buildErrorMessage('une erreur est survenue lors de la récupération des profils')
+        )).code(500);
+      });
+  },
 
-        return reply(validationErrorSerializer.serialize(_buildErrorMessage('une erreur est survenue lors de la récupération des profils'))).code(500);
+  exportedSharedSnapshots: (request, reply) => {
+    return _extractSnapshotsForOrganization(request.params.id)
+      .then((jsonSnapshots) => {
+        return snapshotsCsvConverter.convertJsonToCsv(jsonSnapshots);
+      })
+      .then((snapshotsTextCsv) => reply(snapshotsTextCsv)
+        .header('Content-Type', 'text/csv')
+        .header('Content-Disposition', `attachment; filename=${exportCsvFileName}`)
+      )
+      .catch((err) => {
+        logger.error(err);
+        return reply(validationErrorSerializer.serialize(
+          _buildErrorMessage('une erreur est survenue lors de la récupération des profils')
+        )).code(500);
       });
   }
 };
+
+function _extractSnapshotsForOrganization(organizationId) {
+  return snapshotRepository
+    .getSnapshotsByOrganizationId(organizationId)
+    .then((snapshots) => bookshelfUtils.mergeModelWithRelationship(snapshots, 'user'))
+    .then((snapshotsWithRelatedUsers) => {
+      return snapshotsWithRelatedUsers.map((snapshot) => snapshot.toJSON());
+    });
+}
 
 function _buildAlreadyExistingEmailError(email) {
   return {

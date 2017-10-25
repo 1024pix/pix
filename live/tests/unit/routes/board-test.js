@@ -20,7 +20,7 @@ describe('Unit | Route | board', function() {
     }));
     this.inject.service('store', { as: 'store' });
     this.register('service:session', Ember.Service.extend({
-      data: { authenticated: { userId: 12 } }
+      data: { authenticated: { userId: 12, token: 'VALID-TOKEN' } }
     }));
 
     this.inject.service('session', { as: 'session' });
@@ -56,10 +56,10 @@ describe('Unit | Route | board', function() {
     findRecord.resolves(user);
 
     // when
-    const promise = route.model();
+    const result = route.model();
 
     // then
-    return promise.then((model) => {
+    return result.then((model) => {
       expect(model.organization.id).to.equal(1);
     });
   });
@@ -76,13 +76,36 @@ describe('Unit | Route | board', function() {
     findRecord.resolves(user);
 
     // when
-    const promise = route.model();
+    const result = route.model();
 
     // then
-    return promise.then((model) => {
+    return result.then((model) => {
       expect(model.organization.id).to.equal(1);
       sinon.assert.calledWith(firstOrganization.get, 'snapshots');
       sinon.assert.calledOnce(reloadStub);
+    });
+  });
+
+  it('should return url to download snapshots CSV', function() {
+    // given
+    const firstOrganization = Ember.Object.create({ id: 1, snapshots: [] });
+    const reloadStub = sinon.stub();
+    sinon.stub(firstOrganization, 'get')
+      .withArgs('id').returns(2)
+      .withArgs('snapshots').returns({
+        reload: reloadStub
+      });
+    const user = Ember.Object.create({ id: 1, organizations: [firstOrganization, { id: 2 }] });
+    findRecord.resolves(user);
+
+    // when
+    const result = route.model();
+
+    // then
+    return result.then((model) => {
+      expect(model.organization.id).to.equal(1);
+      expect(model.organizationSnapshotsExportUrl).to.be.equal('http://localhost:3000/api/organizations/2/snapshots/export?userToken=VALID-TOKEN');
+
     });
   });
 
@@ -91,10 +114,10 @@ describe('Unit | Route | board', function() {
     findRecord.rejects();
 
     // when
-    const promise = route.model();
+    const result = route.model();
 
     // then
-    return promise.then(_ => {
+    return result.then(_ => {
       sinon.assert.calledOnce(route.transitionTo);
       sinon.assert.calledWith(route.transitionTo, 'index');
     });
@@ -106,13 +129,12 @@ describe('Unit | Route | board', function() {
     findRecord.resolves(user);
 
     // when
-    const promise = route.model();
+    const result = route.model();
 
     // then
-    return promise.then(_ => {
+    return result.then(_ => {
       sinon.assert.calledOnce(route.transitionTo);
       sinon.assert.calledWith(route.transitionTo, 'compte');
     });
   });
-
 });
