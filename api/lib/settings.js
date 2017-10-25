@@ -18,6 +18,10 @@ module.exports = (function() {
       base: process.env.AIRTABLE_BASE
     },
 
+    app: {
+      domain: 'pix.beta.gouv.fr'
+    },
+
     logging: {
       enabled: process.env.LOG_ENABLED,
       path: process.env.LOG_PATH || '/var/log/pix.log'
@@ -49,6 +53,8 @@ module.exports = (function() {
 
   if (process.env.NODE_ENV === 'test') {
     config.port = null;
+
+    config.app.domain = 'localhost',
 
     config.airtable = {
       apiKey: 'test-api-key',

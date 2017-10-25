@@ -8,9 +8,11 @@ const userRepository = require('../../infrastructure/repositories/user-repositor
 const { UserNotFoundError, InternalError, PasswordResetDemandNotFoundError, InvalidTemporaryKeyError } = require('../../domain/errors');
 const errorSerializer = require('../../infrastructure/serializers/jsonapi/validation-error-serializer');
 const userSerializer = require('../../infrastructure/serializers/jsonapi/user-serializer');
+const settings = require('../../settings');
 
 function _sendPasswordResetDemandUrlEmail(request, email, temporaryKey, passwordResetDemand) {
-  const passwordResetDemandUrl = request.headers.origin;
+
+  const passwordResetDemandUrl = `http://${settings.app.domain}`;
   return mailService
     .sendResetPasswordDemandEmail(email, passwordResetDemandUrl, temporaryKey)
     .then(() => passwordResetDemand);
