@@ -1,6 +1,5 @@
 const { describe, it, expect, sinon } = require('../../../test-helper');
 const service = require('../../../../lib/domain/services/solution-service');
-const serviceQru = require('../../../../lib/domain/services/solution-service-qru');
 const serviceQcu = require('../../../../lib/domain/services/solution-service-qcu');
 const serviceQcm = require('../../../../lib/domain/services/solution-service-qcm');
 const serviceQroc = require('../../../../lib/domain/services/solution-service-qroc');
@@ -76,53 +75,6 @@ describe('Unit | Service | SolutionService', function() {
         expect(result).to.deep.equal({ result: 'resultOfTimeout', resultDetails: null });
       });
 
-    });
-
-    describe('if solution type is QRU', function() {
-
-      it('Should return "aband" if answer is #ABAND#', function() {
-        const answer = buildAnswer('#ABAND#');
-        const solution = buildSolution('QRU', 'some value');
-        expect(service.validate(answer, solution)).to.deep.equal({ result: 'aband', resultDetails: null });
-      });
-
-      it('Should return result of solution-service-qru.match() | user didnt abandoned | no timeout', function() {
-
-        // Given
-        const answer = buildAnswer('qruAnswer');
-        const solution = buildSolution('QRU', 'qruSolution');
-
-        sinon.stub(serviceQru, 'match').withArgs('qruAnswer', 'qruSolution').returns('qruMatching');
-        sinon.stub(service, '_timedOut').returns('resultOfTimeout');
-
-        // When
-        const result = service.validate(answer, solution);
-
-        // Then
-        serviceQru.match.restore();
-        service._timedOut.restore();
-
-        expect(result).to.deep.equal({ result: 'qruMatching', resultDetails: null });
-      });
-
-      it('Should be verified against _timedOut function | user didnt abandoned | with timeout', function() {
-
-        // Given
-        const answer = buildAnswer('qruAnswer', -15);
-        const solution = buildSolution('QRU', 'qruSolution');
-
-        sinon.stub(serviceQru, 'match').withArgs('qruAnswer', 'qruSolution').returns('qruMatching');
-        sinon.stub(service, '_timedOut').returns('resultOfTimeout');
-
-        // When
-        const result = service.validate(answer, solution);
-
-        // Then
-        serviceQru.match.restore();
-        service._timedOut.restore();
-
-        expect(result).to.deep.equal({ result: 'resultOfTimeout', resultDetails: null });
-      });
     });
 
     describe('if solution type is QCM', function() {

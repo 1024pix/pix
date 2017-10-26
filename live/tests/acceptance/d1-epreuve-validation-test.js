@@ -27,7 +27,7 @@ describe('Acceptance | d1 - Valider une épreuve |', function() {
 
   it('d1.0a La barre de progression commence à 1, si j\'accède au challenge depuis l\'url directe', async function() {
     await visit('/assessments/ref_assessment_id/challenges/ref_qcm_challenge_id');
-    expect(progressBarText()).to.equal('1 / 5');
+    expect(progressBarText()).to.equal('1 / 4');
   });
 
   it('d1.0b La barre de progression commence à 1, si j\'accède directement à un course', async function() {
@@ -36,7 +36,7 @@ describe('Acceptance | d1 - Valider une épreuve |', function() {
 
     // Then
     const $progressBar = findWithAssert(PROGRESS_BAR_SELECTOR);
-    expect($progressBar.text().trim()).to.equal('1 / 5');
+    expect($progressBar.text().trim()).to.equal('1 / 4');
   });
 
   it('d1.1 Je peux valider ma réponse à une épreuve via un bouton "Je valide"', async function() {

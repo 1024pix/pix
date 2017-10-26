@@ -32,7 +32,7 @@ describe('Integration | Component | scoring panel tantpix', function() {
     });
 
     it('should render successfully component wrapper', function() {
-      expect(this.$()).to.have.length(1);
+      expect(this.$()).to.have.lengthOf(1);
       expect(this.$(COMPONENT_WRAPPER)).to.lengthOf(1);
     });
 

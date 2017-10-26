@@ -15,7 +15,7 @@ describe('Integration | Component | profile panel', function() {
       this.render(hbs`{{profile-panel}}`);
 
       // then
-      expect(this.$()).to.have.length(1);
+      expect(this.$()).to.have.lengthOf(1);
     });
 
     it('should render a wrapper', function() {
@@ -24,7 +24,7 @@ describe('Integration | Component | profile panel', function() {
 
       // then
       const WRAPPER_CLASS = '.profile-panel';
-      expect(this.$(WRAPPER_CLASS)).to.have.length(1);
+      expect(this.$(WRAPPER_CLASS)).to.have.lengthOf(1);
     });
 
     it('should render a profile header', function() {
@@ -34,7 +34,7 @@ describe('Integration | Component | profile panel', function() {
       // Then
       const HEADER_CLASS = '.profile-panel__header';
       const HEADER_TITLE = '.profile-header__title';
-      expect(this.$(HEADER_CLASS)).to.have.length(1);
+      expect(this.$(HEADER_CLASS)).to.have.lengthOf(1);
       expect(this.$(HEADER_TITLE).text().trim()).to.be.equal('Votre profil');
     });
 
@@ -44,7 +44,7 @@ describe('Integration | Component | profile panel', function() {
 
       // Then
       const COMPETENCY_BLOCK = '.profile-panel__competence-areas';
-      expect(this.$(COMPETENCY_BLOCK)).to.have.length(1);
+      expect(this.$(COMPETENCY_BLOCK)).to.have.lengthOf(1);
     });
 
     describe('behavior according to totalPixScore value', function() {
@@ -57,7 +57,7 @@ describe('Integration | Component | profile panel', function() {
         this.render(hbs`{{profile-panel totalPixScore=totalPixScore}}`);
 
         // then
-        expect(this.$('.profile-header__score-pastille-wrapper')).to.have.length(1);
+        expect(this.$('.profile-header__score-pastille-wrapper')).to.have.lengthOf(1);
       });
     });
   });

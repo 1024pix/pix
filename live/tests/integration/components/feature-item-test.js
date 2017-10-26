@@ -18,7 +18,7 @@ describe('Integration | Component | feature item', function() {
   it('renders', function() {
     this.set('feature', feature);
     this.render(hbs`{{feature-item feature=feature}}`);
-    expect(this.$()).to.have.length(1);
+    expect(this.$()).to.have.lengthOf(1);
   });
 
   it('should render an icon', function() {

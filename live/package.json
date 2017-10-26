@@ -1,6 +1,6 @@
 {
   "name": "pix-live",
-  "version": "1.25.2",
+  "version": "1.26.0",
   "description": "Plateforme d'évaluation et de certification des compétences numériques à l'usage de tous les citoyens francophones.",
   "license": "AGPL-3.0",
   "author": "SGMAP",
@@ -12,7 +12,7 @@
     "build": "ember build",
     "clean": "rm -rf tmp dist node_modules",
     "start": "ember server",
-    "test": "ember test",
+    "test": "ember test --reporter dot",
     "lint": "./node_modules/.bin/eslint app mirage tests",
     "lint:fix": "npm run lint --fix",
     "coverage:check": "COVERAGE=true ember test",
@@ -28,6 +28,7 @@
   "devDependencies": {
     "bootstrap": "^3.3.7",
     "broccoli-asset-rev": "^2.6.0",
+    "chai-dom": "^1.5.0",
     "codeclimate-test-reporter": "^0.5.0",
     "coveralls": "^3.0.0",
     "ember-ajax": "^3.0.0",

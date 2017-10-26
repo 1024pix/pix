@@ -29,6 +29,8 @@ git clone . $tmpdir
 pushd $tmpdir
 git filter-branch --prune-empty --subdirectory-filter api HEAD
 
+# Create un fichier d'overidde de la conf API
+
 # Do we have the remote locally ?
 `git remote | grep $APP` || {
     # nope, add it

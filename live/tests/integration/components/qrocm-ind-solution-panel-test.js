@@ -12,9 +12,6 @@ const LABEL = '.correction-qrocm__label';
 const INPUT = '.correction-qrocm__answer-input';
 const SOLUTION_TEXT = '.correction-qrocm__solution-text';
 
-const RIGHT_ANSWER_GREEN = 'rgb(19, 201, 160)';
-const NO_ANSWER_GREY = 'rgb(62, 65, 73)';
-
 describe('Integration | Component | qrocm solution panel', function() {
 
   setupComponentTest('qrocm-ind-solution-panel', {
@@ -43,7 +40,7 @@ describe('Integration | Component | qrocm solution panel', function() {
 
   it('renders', function() {
     this.render(hbs`{{qrocm-ind-solution-panel answer=answer solution=solution challenge=challenge}}`);
-    expect(this.$()).to.have.length(1);
+    expect(this.$()).to.have.lengthOf(1);
   });
 
   it('should disabled all inputs', function() {
@@ -59,7 +56,7 @@ describe('Integration | Component | qrocm solution panel', function() {
     this.render(hbs`{{qrocm-ind-solution-panel answer=answer solution=solution challenge=challenge}}`);
     const labels = this.$(LABEL);
     // then
-    expect(labels).to.have.length(3);
+    expect(labels).to.have.lengthOf(3);
   });
 
   describe('comparison of a qrocm-ind with a right answer, a wrong answer and one empty answer', function() {
@@ -74,14 +71,10 @@ describe('Integration | Component | qrocm solution panel', function() {
         const answerInput = this.$(FIRST_CORRECTION_BLOCK + ' ' + INPUT);
 
         // then
-        expect(answerBlock).to.have.length(1);
-        expect(answerLabel).to.have.length(1);
-        expect(answerInput).to.have.length(1);
+        expect(answerBlock).to.have.lengthOf(1);
+        expect(answerLabel).to.have.lengthOf(1);
+        expect(answerInput).to.have.lengthOf(1);
 
-        expect(answerLabel.css('color')).to.be.equal(NO_ANSWER_GREY);
-
-        expect(answerInput.css('color')).to.be.equal(RIGHT_ANSWER_GREEN);
-        expect(answerInput.css('font-weight')).to.be.equal('700');
         expect(answerInput.css('text-decoration')).to.contain('none');
       });
 
@@ -91,7 +84,7 @@ describe('Integration | Component | qrocm solution panel', function() {
         const solutionBlock = this.$(FIRST_CORRECTION_BLOCK + ' ' + SOLUTION_BLOCK);
 
         // then
-        expect(solutionBlock).to.have.length(0);
+        expect(solutionBlock).to.have.lengthOf(0);
       });
     });
 
@@ -105,12 +98,10 @@ describe('Integration | Component | qrocm solution panel', function() {
         const answerInput = this.$(SECOND_CORRECTION_BLOCK + ' ' + INPUT);
 
         // then
-        expect(answerBlock).to.have.length(1);
-        expect(answerLabel).to.have.length(1);
-        expect(answerInput).to.have.length(1);
+        expect(answerBlock).to.have.lengthOf(1);
+        expect(answerLabel).to.have.lengthOf(1);
+        expect(answerInput).to.have.lengthOf(1);
 
-        expect(answerInput.css('color')).to.be.equal(NO_ANSWER_GREY);
-        expect(answerInput.css('font-weight')).to.be.equal('400');
         expect(answerInput.css('text-decoration')).to.contain('line-through');
       });
 
@@ -121,11 +112,9 @@ describe('Integration | Component | qrocm solution panel', function() {
         const solutionText = this.$(SECOND_CORRECTION_BLOCK + ' ' + SOLUTION_BLOCK + ' ' + SOLUTION_TEXT);
 
         // then
-        expect(solutionBlock).to.have.length(1);
-        expect(solutionText).to.have.length(1);
+        expect(solutionBlock).to.have.lengthOf(1);
+        expect(solutionText).to.have.lengthOf(1);
 
-        expect(solutionText.css('color')).to.be.equal(RIGHT_ANSWER_GREEN);
-        expect(solutionText.css('font-weight')).to.be.equal('700');
         expect(solutionText.css('text-decoration')).to.contain('none');
       });
     });
@@ -140,12 +129,10 @@ describe('Integration | Component | qrocm solution panel', function() {
         const answerInput = this.$(THIRD_CORRECTION_BLOCK + ' ' + INPUT);
 
         // then
-        expect(answerBlock).to.have.length(1);
-        expect(answerLabel).to.have.length(1);
-        expect(answerInput).to.have.length(1);
+        expect(answerBlock).to.have.lengthOf(1);
+        expect(answerLabel).to.have.lengthOf(1);
+        expect(answerInput).to.have.lengthOf(1);
 
-        expect(answerInput.css('color')).to.be.equal(NO_ANSWER_GREY);
-        expect(answerInput.css('font-weight')).to.be.equal('400');
         expect(answerInput.css('text-decoration')).to.contain('none');
       });
 
@@ -156,11 +143,9 @@ describe('Integration | Component | qrocm solution panel', function() {
         const solutionText = this.$(THIRD_CORRECTION_BLOCK + ' ' + SOLUTION_BLOCK + ' ' + SOLUTION_TEXT);
 
         // then
-        expect(solutionBlock).to.have.length(1);
-        expect(solutionText).to.have.length(1);
+        expect(solutionBlock).to.have.lengthOf(1);
+        expect(solutionText).to.have.lengthOf(1);
 
-        expect(solutionText.css('color')).to.be.equal(RIGHT_ANSWER_GREEN);
-        expect(solutionText.css('font-weight')).to.be.equal('700');
         expect(solutionText.css('text-decoration')).to.contain('none');
       });
     });

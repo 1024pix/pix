@@ -15,8 +15,8 @@ describe('Integration | Component | partners enrollment panel', function() {
       this.render(hbs`{{partners-enrollment-panel}}`);
 
       // then
-      expect(this.$()).to.have.length(1);
-      expect(this.$('.partners-enrollment-panel')).to.have.length(1);
+      expect(this.$()).to.have.lengthOf(1);
+      expect(this.$('.partners-enrollment-panel')).to.have.lengthOf(1);
     });
 
     [
@@ -29,7 +29,7 @@ describe('Integration | Component | partners enrollment panel', function() {
         this.render(hbs`{{partners-enrollment-panel}}`);
 
         // then
-        expect(this.$(itemClass)).to.have.length(1);
+        expect(this.$(itemClass)).to.have.lengthOf(1);
       });
     });
 
@@ -39,7 +39,7 @@ describe('Integration | Component | partners enrollment panel', function() {
       this.render(hbs`{{partners-enrollment-panel}}`);
 
       // then
-      expect(this.$('.partners-enrollment__link')).to.have.length(1);
+      expect(this.$('.partners-enrollment__link')).to.have.lengthOf(1);
       expect(this.$('.partners-enrollment__link').text().trim()).to.equal('En savoir plus');
     });
 

@@ -67,7 +67,7 @@ describe('Acceptance | b1 - Afficher un QCU | ', function() {
     expect($('input[type=radio][name="radio"]:eq(3)').is(':checked')).to.equal(false);
 
     // When
-    await click($('.label-checkbox-proposal--qcu:eq(0)')); // Click on label trigger the event.
+    await click($('.label-checkbox-proposal:eq(0)')); // Click on label trigger the event.
 
     // Then
     expect($('input[type=radio][name="radio"]:eq(0)').is(':checked')).to.equal(true);
@@ -103,7 +103,7 @@ describe('Acceptance | b1 - Afficher un QCU | ', function() {
     expect($('input[type=radio][name="radio"]:eq(3)').is(':checked')).to.equal(false);
 
     // When
-    await click($('.label-checkbox-proposal--qcu:eq(3)'));
+    await click($('.label-checkbox-proposal:eq(3)'));
     await click('.challenge-actions__action-validate');
 
     // Then

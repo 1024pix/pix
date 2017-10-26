@@ -14,7 +14,7 @@ describe('Integration | Component | course item', function() {
 
     it('renders', function() {
       this.render(hbs`{{course-item}}`);
-      expect(this.$()).to.have.length(1);
+      expect(this.$()).to.have.lengthOf(1);
     });
 
     it('should render course picture if it is defined', function() {

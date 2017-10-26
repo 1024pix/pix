@@ -39,7 +39,7 @@ describe('Integration | Component | g recaptcha', function() {
 
   it('renders', function() {
     this.render(hbs`{{g-recaptcha}}`);
-    expect(this.$()).to.have.length(1);
+    expect(this.$()).to.have.lengthOf(1);
   });
 
   // XXX Inspired of https://guides.emberjs.com/v2.13.0/tutorial/service/#toc_integration-testing-the-map-component

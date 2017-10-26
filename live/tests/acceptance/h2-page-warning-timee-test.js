@@ -20,28 +20,38 @@ describe('Acceptance | h2 - Warning prochaine page timée  | ', function() {
 
   describe('h2- Test affichage ou non de la page avec le warning', function() {
 
-    beforeEach(function() {
-      visit(TIMED_CHALLENGE_URL);
+    it('doit cacher le contenu du challenge si l\'épreuve est timée', async function() {
+      // When
+      await visit(TIMED_CHALLENGE_URL);
+
+      // Then
+      expect($('.challenge-statement')).to.have.lengthOf(0);
     });
 
-    //XXX: Deux cas car on test aussi une absence d'affichage
-    it('h2.1- doit cacher le contenu du challenge si l\'épreuve est timée mais l\'afficher dans le cas contraire ', async function() {
-      expect($('.challenge-statement')).to.have.lengthOf(0);
+    it('doit afficher le contenu du challenge si l\'épreuve n\'est pas timée', async function() {
+      // When
       await visit(NOT_TIMED_CHALLENGE_URL);
+
+      // Then
       expect($('.challenge-statement')).to.have.lengthOf(1);
     });
 
-    it('h2.2- doit afficher le warning si l\'épreuve est timée mais ne pas l\'afficher dans le cas contraire ', async function() {
-      expect($('.challenge-item-warning')).to.have.lengthOf(1);
-      await visit(NOT_TIMED_CHALLENGE_URL);
-      expect($('.challenge-item-warning')).to.have.lengthOf(0);
-    });
+    it('vérifier que le timer n\'est pas démarré automatiquement lorsque l\'épreuve est timée', async function() {
+      // Given
+      await visit(TIMED_CHALLENGE_URL);
 
-    it('h2.3- vérifier que le timer n\'est pas démarré automatiquement lorsque l\'épreuve est timée', function() {
+      // When
+      await visit(NOT_TIMED_CHALLENGE_URL);
+
+      // Then
       expect($('.timeout-jauge')).to.have.lengthOf(0);
     });
 
-    it('h2.4 le formulaire de signalement n\'est pas affiché pour une épreuve chronométrée tant que l\'usager n\'a pas confirmé être prêt pour l\'épreuve', () => {
+    it('le formulaire de signalement n\'est pas affiché pour une épreuve chronométrée tant que l\'usager n\'a pas confirmé être prêt pour l\'épreuve', async function() {
+      // Given
+      await visit(TIMED_CHALLENGE_URL);
+
+      // Then
       expect($('.feedback-panel')).to.have.lengthOf(0);
     });
 

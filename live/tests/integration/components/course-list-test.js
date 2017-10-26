@@ -14,7 +14,7 @@ describe('Integration | Component | course list', function() {
 
     it('renders', function() {
       this.render(hbs`{{course-list}}`);
-      expect(this.$()).to.have.length(1);
+      expect(this.$()).to.have.lengthOf(1);
     });
 
     it('should render as many course-item as courses elements', function() {

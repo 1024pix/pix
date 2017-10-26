@@ -2,7 +2,6 @@ import _ from 'pix-live/utils/lodash-custom';
 
 import refQcmChallengeFull from '../data/challenges/ref-qcm-challenge';
 import refQcuChallengeFull from '../data/challenges/ref-qcu-challenge';
-import refQruChallengeFull from '../data/challenges/ref-qru-challenge';
 import refQrocChallengeFull from '../data/challenges/ref-qroc-challenge';
 import refQrocmChallengeFull from '../data/challenges/ref-qrocm-challenge';
 import refTimedChallenge from '../data/challenges/ref-timed-challenge';
@@ -10,7 +9,6 @@ import refTimedChallengeBis from '../data/challenges/ref-timed-challenge-bis';
 
 // answers
 import refQcuAnswer from '../data/answers/ref-qcu-answer';
-import refQruAnswer from '../data/answers/ref-qru-answer';
 import refQcmAnswer from '../data/answers/ref-qcm-answer';
 import refQrocAnswer from '../data/answers/ref-qroc-answer';
 import refQrocmAnswer from '../data/answers/ref-qrocm-answer';
@@ -25,7 +23,6 @@ export default function(schema, request) {
   const allChallenges = [
     refQcmChallengeFull,
     refQcuChallengeFull,
-    refQruChallengeFull,
     refQrocChallengeFull,
     refQrocmChallengeFull,
     refTimedChallenge,
@@ -35,7 +32,6 @@ export default function(schema, request) {
   const allAnswers = [
     refQcmAnswer,
     refQcuAnswer,
-    refQruAnswer,
     refQrocAnswer,
     refQrocmAnswer,
     refTimedAnswer,

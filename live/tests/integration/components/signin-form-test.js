@@ -59,7 +59,7 @@ describe('Integration | Component | signin form', function() {
     this.$('.signin-form__form form').submit();
 
     // Then
-    expect(this.$('.signin-form__errors')).to.have.length(0);
+    expect(this.$('.signin-form__errors')).to.have.lengthOf(0);
   });
 
   it('should hide the error message if it was previously displayed', function() {
@@ -69,14 +69,14 @@ describe('Integration | Component | signin form', function() {
     });
     this.render(hbs`{{signin-form onSubmit=(action 'onSubmitAction') displayErrorMessage='true'}}`);
 
-    expect(this.$('.signin-form__errors')).to.have.length(1);
+    expect(this.$('.signin-form__errors')).to.have.lengthOf(1);
     _fillSigninForm(this, expectedEmail, expectedPassword);
 
     // When
     this.$('.signin-form__form form').submit();
 
     // Then
-    expect(this.$('.signin-form__errors')).to.have.length(0);
+    expect(this.$('.signin-form__errors')).to.have.lengthOf(0);
   });
 
   function _fillSigninForm(context, email, password) {

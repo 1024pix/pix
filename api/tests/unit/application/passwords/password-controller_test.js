@@ -25,9 +25,7 @@ describe('Unit | Controller | PasswordController', () => {
               email: 'shi@fu.me'
             }
           }
-        },
-        connection: { info: { protocol: 'http' } },
-        headers: { origin: 'http://localhost' }
+        }
       };
 
       let replyStub;

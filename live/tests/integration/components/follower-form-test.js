@@ -16,7 +16,7 @@ describe('Integration | Component | follower form', function() {
 
   it('renders', function() {
     this.render(hbs`{{follower-form}}`);
-    expect(this.$()).to.have.length(1);
+    expect(this.$()).to.have.lengthOf(1);
   });
 
   describe('Test Component form', function() {

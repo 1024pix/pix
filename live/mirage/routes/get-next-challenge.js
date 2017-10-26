@@ -1,6 +1,5 @@
 import refQcmChallengeFull from '../data/challenges/ref-qcm-challenge';
 import refQcuChallengeFull from '../data/challenges/ref-qcu-challenge';
-import refQruChallengeFull from '../data/challenges/ref-qru-challenge';
 import refQrocChallengeFull from '../data/challenges/ref-qroc-challenge';
 import refQrocmChallengeFull from '../data/challenges/ref-qrocm-challenge';
 
@@ -23,8 +22,7 @@ export default function(schema, request) {
 
     // ref_course
     'ref_qcm_challenge_id': refQcuChallengeFull,
-    'ref_qcu_challenge_id': refQruChallengeFull,
-    'ref_qru_challenge_id': refQrocChallengeFull,
+    'ref_qcu_challenge_id': refQrocChallengeFull,
     'ref_qroc_challenge_id': refQrocmChallengeFull,
     'ref_qrocm_challenge_id': 'null',
 

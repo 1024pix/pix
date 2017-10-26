@@ -1,0 +1,16 @@
+{{challenge-statement challenge=challenge assessment=assessment}}
+
+<div class="rounded-panel challenge-response">
+  <div class="rounded-panel__row challenge-proposals">
+    {{input type='checkbox' checked=_isChecked id="checkbox_qmail_confirmation"}}
+    <label for="checkbox_qmail_confirmation" class="label-checkbox-proposal">Je l'ai fait</label>
+  </div>
+</div>
+
+{{#if errorMessage}}
+  <div class="alert alert-danger" role="alert">
+    {{errorMessage}}
+  </div>
+{{/if}}
+
+{{challenge-actions challengeSkipped=(action "skipChallenge") answerValidated=(action "validateAnswer")}}

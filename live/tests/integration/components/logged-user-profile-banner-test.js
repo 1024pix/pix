@@ -13,7 +13,7 @@ describe('Integration | Component | logged user profile banner', function() {
     this.render(hbs`{{logged-user-profile-banner}}`);
 
     // then
-    expect(this.$()).to.have.length(1);
+    expect(this.$()).to.have.lengthOf(1);
     expect(this.$('.logged-user-profile-banner')).to.have.lengthOf(1);
   });
 

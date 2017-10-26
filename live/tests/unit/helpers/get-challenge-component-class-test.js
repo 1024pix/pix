@@ -8,13 +8,13 @@ describe('Unit | Helper | get challenge component class', function() {
   [
     { challengeType: 'QCU', expectedClass: 'challenge-item-qcu' },
     { challengeType: 'QCUIMG', expectedClass: 'challenge-item-qcu' },
-    { challengeType: 'QRU', expectedClass: 'challenge-item-qcu' },
     { challengeType: 'QCM', expectedClass: 'challenge-item-qcm' },
     { challengeType: 'QCMIMG', expectedClass: 'challenge-item-qcm' },
     { challengeType: 'QROC', expectedClass: 'challenge-item-qroc' },
     { challengeType: 'QROCm', expectedClass: 'challenge-item-qrocm' },
     { challengeType: 'QROCm-ind', expectedClass: 'challenge-item-qrocm' },
-    { challengeType: 'QROCm-dep', expectedClass: 'challenge-item-qrocm' }
+    { challengeType: 'QROCm-dep', expectedClass: 'challenge-item-qrocm' },
+    { challengeType: 'QMAIL', expectedClass: 'challenge-item-qmail' }
   ].forEach((useCase) => {
 
     it(`should return component class "${useCase.expectedClass}" when challenge type is "${useCase.challengeType}"`, function() {

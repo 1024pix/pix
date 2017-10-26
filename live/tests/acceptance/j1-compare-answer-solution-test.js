@@ -33,9 +33,8 @@ describe('Acceptance | j1 - Comparer réponses et solutions pour un QCM |', func
       await visit(RESULT_URL);
       expect($('.result-item:eq(0) .js-correct-answer').text()).to.contain('RÉPONSE'); //QCM
       expect($('.result-item:eq(1) .js-correct-answer').text()).to.contain('RÉPONSE'); //QCU
-      expect($('.result-item:eq(2) .js-correct-answer').text()).not.to.contain('RÉPONSE'); //QRU
-      expect($('.result-item:eq(3) .js-correct-answer').text()).to.contain('RÉPONSE'); //QROC
-      expect($('.result-item:eq(4) .js-correct-answer').text()).not.to.contain('RÉPONSE'); //QROCM
+      expect($('.result-item:eq(2) .js-correct-answer').text()).to.contain('RÉPONSE'); //QROC
+      expect($('.result-item:eq(3) .js-correct-answer').text()).not.to.contain('RÉPONSE'); //QROCM
     });
   });
 

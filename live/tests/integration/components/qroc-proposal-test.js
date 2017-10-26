@@ -11,7 +11,7 @@ describe('Integration | Component | QROC proposal', function() {
 
   it('renders', function() {
     this.render(hbs`{{qroc-proposal}}`);
-    expect(this.$()).to.have.length(1);
+    expect(this.$()).to.have.lengthOf(1);
   });
 
   describe('Component behavior when user fill input of challenge:', function() {

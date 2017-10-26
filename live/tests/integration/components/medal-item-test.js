@@ -10,7 +10,7 @@ describe('Integration | Component | medal item', function() {
 
   it('renders', function() {
     this.render(hbs`{{medal-item}}`);
-    expect(this.$()).to.have.length(1);
+    expect(this.$()).to.have.lengthOf(1);
   });
 
   it('should contain the number of pix passed in the component', function() {

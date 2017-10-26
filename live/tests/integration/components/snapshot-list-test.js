@@ -15,7 +15,7 @@ describe('Integration | Component | snapshot list', function() {
     this.set('organization', organization);
 
     this.render(hbs`{{snapshot-list organization=organization}}`);
-    expect(this.$()).to.have.length(1);
+    expect(this.$()).to.have.lengthOf(1);
   });
 
   it('should inform the user when no profile', function() {
@@ -27,7 +27,7 @@ describe('Integration | Component | snapshot list', function() {
     this.render(hbs`{{snapshot-list organization=organization}}`);
 
     // Then
-    expect(this.$('.snapshot-list__no-profile')).to.have.length(1);
+    expect(this.$('.snapshot-list__no-profile')).to.have.lengthOf(1);
     expect(this.$('.snapshot-list__no-profile').text()).to.equal('Aucun profil partagé pour le moment');
   });
 
@@ -42,8 +42,8 @@ describe('Integration | Component | snapshot list', function() {
 
     // Then
     return wait().then(function() {
-      expect(this.$('.snapshot-list__no-profile')).to.have.length(0);
-      expect(this.$('.snapshot-list__snapshot-item')).to.have.length(2);
+      expect(this.$('.snapshot-list__no-profile')).to.have.lengthOf(0);
+      expect(this.$('.snapshot-list__snapshot-item')).to.have.lengthOf(2);
     }.bind(this));
   });
 
@@ -64,7 +64,7 @@ describe('Integration | Component | snapshot list', function() {
 
     // Then
     return wait().then(function() {
-      expect(this.$('.snapshot-list__snapshot-item')).to.have.length(1);
+      expect(this.$('.snapshot-list__snapshot-item')).to.have.lengthOf(1);
       expect(this.$('.snapshot-list__snapshot-item td:eq(0)').text().trim()).to.equal(user.get('lastName'));
       expect(this.$('.snapshot-list__snapshot-item td:eq(1)').text().trim()).to.equal(user.get('firstName'));
       expect(this.$('.snapshot-list__snapshot-item td:eq(2)').text().trim()).to.equal('25/09/2017');

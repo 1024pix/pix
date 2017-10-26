@@ -43,7 +43,7 @@ describe('Unit | Repository | assessmentRepository', () => {
 
       // Then
       return promise.then((assessments) => {
-        expect(assessments).to.have.length(2);
+        expect(assessments).to.have.lengthOf(2);
 
         const firstId = assessments[0].id;
         expect(firstId).to.equal(1);

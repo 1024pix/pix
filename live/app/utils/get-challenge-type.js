@@ -4,7 +4,7 @@ export default function getChallengeType(challengeTypeFromAirtable) {
   let result = 'qcu'; // qcu by default, no error thrown
   const challengeType = challengeTypeFromAirtable.toUpperCase();
 
-  if (_(challengeType).isAmongst(['QCUIMG', 'QCU', 'QRU'])) {
+  if (_(challengeType).isAmongst(['QCUIMG', 'QCU'])) {
     result = 'qcu';
   } else if (_(challengeType).isAmongst(['QCMIMG', 'QCM'])) {
     result = 'qcm';

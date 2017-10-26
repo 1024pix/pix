@@ -10,7 +10,7 @@ describe('Integration | Component | CornerRibbonComponent', function() {
 
   it('renders', function() {
     this.render(hbs`{{corner-ribbon}}`);
-    expect(this.$()).to.have.length(1);
+    expect(this.$()).to.have.lengthOf(1);
   });
 
 });

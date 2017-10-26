@@ -15,7 +15,7 @@ describe('Integration | Component | score pastille', function() {
       this.render(hbs`{{score-pastille}}`);
 
       // then
-      expect(this.$()).to.have.length(1);
+      expect(this.$()).to.have.lengthOf(1);
     });
 
     describe('Component dashes rendering instead of zero cases:', function() {
