@@ -76,7 +76,6 @@ module.exports = {
     return assessmentRepository
       .get(request.params.id)
       .then((assessment) => {
-
         if (assessmentService.isPreviewAssessment(assessment)) {
           return Promise.reject(new NotElligibleToScoringError(`Assessment with ID ${request.params.id} is a preview Challenge`));
         }
@@ -94,6 +93,7 @@ module.exports = {
           .then((scoredAssessment) => {
             return scoredAssessment.save()
               .then(() => {
+                // XXX always null because if not, it should have passed above (l.88)
                 return nextChallengeId;
               });
           });
@@ -103,7 +103,7 @@ module.exports = {
         return (nextChallengeId) ? challengeRepository.get(nextChallengeId) : null;
       })
       .then((challenge) => {
-        return (challenge) ? reply(challengeSerializer.serialize(challenge)) : reply('null');
+        return (challenge) ? reply(challengeSerializer.serialize(challenge)) : reply().code(204);
       })
       .catch((err) => {
         if (err instanceof NotElligibleToScoringError)

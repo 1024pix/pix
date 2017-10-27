@@ -45,15 +45,16 @@ function _selectNextChallengeId(course, currentChallengeId, assessment) {
 
   const challenges = course.challenges;
 
-  if (!currentChallengeId) { // no currentChallengeId means the test has not yet started
-    return Promise.resolve(challenges[0]);
-  }
-
   if (course.isAdaptive) {
     return Promise.resolve(_selectNextInAdaptiveMode(assessment, course));
   }
 
+  if (!currentChallengeId) { // no currentChallengeId means the test has not yet started
+    return Promise.resolve(challenges[0]);
+  }
+
   return Promise.resolve(_selectNextInNormalMode(currentChallengeId, challenges));
+
 }
 
 function getScoredAssessment(assessmentId) {

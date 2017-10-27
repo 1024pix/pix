@@ -9,13 +9,15 @@ describe('Acceptance | API | Assessments', function() {
     nock('https://api.airtable.com')
       .get('/v0/test-base/Tests/the_adaptive_course_id')
       .query(true)
-      .times(4)
+      .times(1)
       .reply(200, {
         'id': 'the_adaptive_course_id',
         'fields': {
           // a bunch of fields
           'Adaptatif ?': true,
+          'Competence': '1.1',
           '\u00c9preuves': [
+            'z_third_challenge',
             'z_second_challenge',
             'z_first_challenge',
           ],
@@ -28,7 +30,8 @@ describe('Acceptance | API | Assessments', function() {
       .reply(200, {
         'id': 'z_first_challenge',
         'fields': {
-          'acquis': ['web1']
+          'acquis': ['web2'],
+          'timer': undefined,
         },
       });
     nock('https://api.airtable.com')
@@ -49,6 +52,25 @@ describe('Acceptance | API | Assessments', function() {
           'acquis': ['web3']
         },
       });
+    nock('https://api.airtable.com')
+      .get('/v0/test-base/Epreuves')
+      .query(true)
+      .reply(200, [{
+        'id': 'z_second_challenge',
+        'fields': {
+          'acquis': ['web2']
+        }
+      }, {
+        'id': 'z_first_challenge',
+        'fields': {
+          'acquis': ['web1']
+        }
+      }, {
+        'id': 'z_third_challenge',
+        'fields': {
+          'acquis': ['web3']
+        }
+      }]);
 
     done();
   });
@@ -66,44 +88,31 @@ describe('Acceptance | API | Assessments', function() {
       courseId: 'the_adaptive_course_id'
     };
 
-    beforeEach(function(done) {
-      knex('assessments').delete().then(() => {
-        knex('assessments').insert([inserted_assessment]).then((rows) => {
-          insertedAssessmentId = rows[0];
-          done();
-        });
+    beforeEach(() => {
+      return knex('assessments').insert([inserted_assessment]).then((rows) => {
+        insertedAssessmentId = rows[0];
       });
     });
 
-    afterEach(function(done) {
-      knex('assessments').delete().then(() => {done();});
+    afterEach(() => {
+      return knex('assessments').delete();
     });
 
-    it('should return 200 HTTP status code', function(done) {
+    it('should return HTTP status code 204 when there is not next challenge', (done) => {
+      // given
       const options = { method: 'GET', url: '/api/assessments/' + insertedAssessmentId + '/next' };
-      server.inject(options, (response) => {
-        expect(response.statusCode).to.equal(200);
-        done();
-      });
-    });
 
-    it('should return application/json', function(done) {
-      const options = { method: 'GET', url: '/api/assessments/' + insertedAssessmentId + '/next' };
+      // when
       server.inject(options, (response) => {
-        const contentType = response.headers['content-type'];
-        expect(contentType).to.contain('application/json');
-        done();
-      });
-    });
 
-    it('should return the first challenge if no challenge specified', function(done) {
-      const options = { method: 'GET', url: '/api/assessments/' + insertedAssessmentId + '/next' };
-      server.inject(options, (response) => {
-        expect(response.result.data.id).to.equal('z_first_challenge');
+        // then
+        expect(response.statusCode).to.equal(204);
         done();
       });
     });
 
   });
 
-});
+})
+;
+
