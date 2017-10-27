@@ -34,7 +34,7 @@ describe('Unit | Controller | PasswordController', () => {
       beforeEach(() => {
         sandbox = sinon.sandbox.create();
         replyStub = sandbox.stub();
-        sandbox.stub(userService, 'isUserExisting');
+        sandbox.stub(userService, 'isUserExistingByEmail');
         sandbox.stub(mailService, 'sendResetPasswordDemandEmail');
         sandbox.stub(resetPasswordService, 'generateTemporaryKey');
         sandbox.stub(resetPasswordService, 'invalidOldResetPasswordDemand');
@@ -51,7 +51,7 @@ describe('Unit | Controller | PasswordController', () => {
 
         it('should verify user existence (by email)', () => {
           // given
-          userService.isUserExisting.resolves();
+          userService.isUserExistingByEmail.resolves();
           replyStub.returns({
             code: () => {
             }
@@ -62,8 +62,8 @@ describe('Unit | Controller | PasswordController', () => {
 
           // then
           return promise.then(() => {
-            sinon.assert.calledOnce(userService.isUserExisting);
-            sinon.assert.calledWith(userService.isUserExisting, request.payload.data.attributes.email);
+            sinon.assert.calledOnce(userService.isUserExistingByEmail);
+            sinon.assert.calledWith(userService.isUserExistingByEmail, request.payload.data.attributes.email);
           });
         });
 
@@ -73,7 +73,7 @@ describe('Unit | Controller | PasswordController', () => {
           const expectedErrorMessage = error.getErrorMessage();
           const serializedError = {};
           errorSerializer.serialize.returns(serializedError);
-          userService.isUserExisting.rejects(error);
+          userService.isUserExistingByEmail.rejects(error);
           replyStub.returns({
             code: () => {
             }
@@ -95,7 +95,7 @@ describe('Unit | Controller | PasswordController', () => {
 
       it('should invalid old reset password demand', () => {
         // given
-        userService.isUserExisting.resolves();
+        userService.isUserExistingByEmail.resolves();
         resetPasswordService.invalidOldResetPasswordDemand.resolves();
         replyStub.returns({
           code: () => {
@@ -115,7 +115,7 @@ describe('Unit | Controller | PasswordController', () => {
       it('should ask for a temporary token generation', () => {
         // given
         const generatedToken = 'token';
-        userService.isUserExisting.resolves();
+        userService.isUserExistingByEmail.resolves();
         resetPasswordService.generateTemporaryKey.returns(generatedToken);
         replyStub.returns({
           code: () => {
@@ -135,7 +135,7 @@ describe('Unit | Controller | PasswordController', () => {
         // given
         const generatedToken = 'token';
         const demand = { email: 'shi@fu.me', temporaryKey: generatedToken };
-        userService.isUserExisting.resolves();
+        userService.isUserExistingByEmail.resolves();
         resetPasswordService.generateTemporaryKey.returns(generatedToken);
         resetPasswordRepository.create.resolves();
         replyStub.returns({
@@ -157,7 +157,7 @@ describe('Unit | Controller | PasswordController', () => {
         // given
         const generatedToken = 'token';
         const hostBaseUrl = 'http://localhost';
-        userService.isUserExisting.resolves();
+        userService.isUserExistingByEmail.resolves();
         resetPasswordService.generateTemporaryKey.returns(generatedToken);
         const resolvedPasswordReset = {
           attributes: {
@@ -185,7 +185,7 @@ describe('Unit | Controller | PasswordController', () => {
       it('should reply with serialized password reset demand when all went well', () => {
         // given
         const generatedToken = 'token';
-        userService.isUserExisting.resolves();
+        userService.isUserExistingByEmail.resolves();
         resetPasswordService.generateTemporaryKey.returns(generatedToken);
         const resolvedPasswordReset = {
           attributes: {
@@ -219,7 +219,7 @@ describe('Unit | Controller | PasswordController', () => {
           const expectedErrorMessage = error.getErrorMessage();
           const serializedError = {};
           errorSerializer.serialize.returns(serializedError);
-          userService.isUserExisting.rejects(error);
+          userService.isUserExistingByEmail.rejects(error);
           replyStub.returns({
             code: () => {
             }

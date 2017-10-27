@@ -1,10 +1,8 @@
-const { describe, it, after, afterEach, beforeEach, sinon, expect } = require('../../../test-helper');
+const { describe, it, afterEach, beforeEach, sinon, expect } = require('../../../test-helper');
 
 const faker = require('faker');
 const User = require('../../../../lib/domain/models/data/user');
 const Boom = require('boom');
-
-const server = require('../../../../server');
 
 const userController = require('../../../../lib/application/users/user-controller');
 const validationErrorSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/validation-error-serializer');
@@ -17,14 +15,11 @@ const userSerializer = require('../../../../lib/infrastructure/serializers/jsona
 const passwordResetService = require('../../../../lib/domain/services/reset-password-service');
 const encryptionService = require('../../../../lib/domain/services/encryption-service');
 const UserRepository = require('../../../../lib/infrastructure/repositories/user-repository');
+const userService = require('../../../../lib/domain/services/user-service');
 
 const { PasswordResetDemandNotFoundError, InternalError } = require('../../../../lib/domain/errors');
 
 describe('Unit | Controller | user-controller', () => {
-
-  after((done) => {
-    server.stop(done);
-  });
 
   describe('#save', () => {
 
@@ -588,6 +583,93 @@ describe('Unit | Controller | user-controller', () => {
         });
       });
 
+    });
+  });
+
+  describe('#getSkillProfile', () => {
+
+    let sandbox;
+    let replyStub;
+
+    const request = { params: { id: 1 } };
+    const jsonAPI404error = { message: 'Error' };
+    const jsonAPI500error = { message: 'Internal Error' };
+
+    beforeEach(() => {
+      replyStub = sinon.stub();
+      sandbox = sinon.sandbox.create();
+
+      sandbox.stub(userService, 'isUserExistingById').resolves(true);
+      sandbox.stub(userService, 'getSkillProfile').resolves([]);
+      sandbox.stub(Boom, 'badRequest').returns(jsonAPI404error);
+      sandbox.stub(Boom, 'badImplementation').returns(jsonAPI500error);
+      sandbox.stub(logger, 'error').returns({});
+    });
+
+    afterEach(() => {
+      sandbox.restore();
+    });
+
+    it('should be a function', () => {
+      expect(userController).to.have.property('getSkillProfile').and.to.be.a('function');
+    });
+
+    context('when loading user competences fails', () => {
+      it('should reply with an INTERNAL error', () => {
+        // Given
+        const anyErrorFromProfileBuilding = new Error();
+        userService.getSkillProfile.rejects(anyErrorFromProfileBuilding);
+
+        // When
+        const promise = userController.getSkillProfile(request, replyStub);
+
+        // Then
+        return promise.then(() => {
+          sinon.assert.calledOnce(replyStub);
+
+          sinon.assert.notCalled(Boom.badRequest);
+          sinon.assert.calledOnce(Boom.badImplementation);
+          sinon.assert.calledWith(Boom.badImplementation, anyErrorFromProfileBuilding);
+        });
+      });
+
+      it('should log the error', () => {
+        // Given
+        const anyErrorFromProfileBuilding = new Error();
+        userService.getSkillProfile.rejects(anyErrorFromProfileBuilding);
+
+        // When
+        const promise = userController.getSkillProfile(request, replyStub);
+
+        // Then
+        return promise.then(() => {
+          sinon.assert.calledOnce(logger.error);
+          sinon.assert.calledWith(logger.error, anyErrorFromProfileBuilding);
+        });
+      });
+    });
+
+    context('when the user exists', () => {
+      it('should load his achieved assessments', () => {
+        // When
+        const promise = userController.getSkillProfile(request, replyStub);
+
+        // Then
+        return promise.then(() => {
+          sinon.assert.calledOnce(userService.getSkillProfile);
+          sinon.assert.calledWith(userService.getSkillProfile, 1);
+        });
+      });
+
+      it('should the skillProfile', () => {
+        // When
+        const promise = userController.getSkillProfile(request, replyStub);
+
+        // Then
+        return promise.then(() => {
+          sinon.assert.calledWith(replyStub, []);
+        });
+      });
     });
   });
 });

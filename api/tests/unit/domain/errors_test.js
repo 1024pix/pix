@@ -24,7 +24,7 @@ describe('Unit | Domain | Errors', () => {
       // given
       const expectedErrorMessage = {
         data: {
-          email: ['Cette adresse email n’existe pas.']
+          id: ['Ce compte est introuvable.']
         }
       };
 

@@ -11,6 +11,7 @@ module.exports = {
     );
   },
 
+  // TODO: Refactor
   findByAssessment(assessmentId) {
 
     return new Promise((resolve, reject) => {
@@ -23,6 +24,7 @@ module.exports = {
     });
   },
 
+  // TODO: Refactor
   findByChallenge(challengeId) {
 
     return new Promise((resolve, reject) => {
