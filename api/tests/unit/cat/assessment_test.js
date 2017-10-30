@@ -611,3 +611,4 @@ describe('Unit | Model | Assessment', function() {
   });
 
 });
+

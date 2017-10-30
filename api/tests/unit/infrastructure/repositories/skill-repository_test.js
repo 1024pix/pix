@@ -3,6 +3,7 @@ const airtable = require('../../../../lib/infrastructure/airtable');
 const cache = require('../../../../lib/infrastructure/cache');
 const skillRepository = require('../../../../lib/infrastructure/repositories/skill-repository');
 const challengeSerializer = require('../../../../lib/infrastructure/serializers/airtable/challenge-serializer');
+const Bookshelf = require('../../../../lib/infrastructure/bookshelf');
 
 function _buildChallenge(id, instruction, proposals, competence, status, knowledgeTags) {
   return { id, instruction, proposals, competence, status, knowledgeTags };
@@ -47,7 +48,7 @@ describe('Unit | Repository | skill-repository', function() {
       });
 
       // when
-      const result = skillRepository.getFromCompetenceId(competenceId);
+      const result = skillRepository.cache.getFromCompetenceId(competenceId);
 
       // then
       cache.get.restore();
@@ -62,7 +63,7 @@ describe('Unit | Repository | skill-repository', function() {
       cache.set(cacheKey, expectedSkills);
 
       // when
-      const result = skillRepository.getFromCompetenceId(competenceId);
+      const result = skillRepository.cache.getFromCompetenceId(competenceId);
 
       // then
       expect(getRecords.notCalled).to.be.true;
@@ -78,7 +79,7 @@ describe('Unit | Repository | skill-repository', function() {
 
       it('should resolve skills with the challenges fetched from Airtable', function(done) {
         // when
-        const result = skillRepository.getFromCompetenceId(competenceId);
+        const result = skillRepository.cache.getFromCompetenceId(competenceId);
 
         // then
         const expectedSkills = new Set(['web1', 'web2', 'web3']);
@@ -88,7 +89,7 @@ describe('Unit | Repository | skill-repository', function() {
 
       it('should cache the challenges fetched from Airtable', function(done) {
         // when
-        skillRepository.getFromCompetenceId(competenceId).then(() => {
+        skillRepository.cache.getFromCompetenceId(competenceId).then(() => {
 
           // then
           cache.get(cacheKey, (err, cachedValue) => {
@@ -103,7 +104,7 @@ describe('Unit | Repository | skill-repository', function() {
         const expectedQuery = {};
 
         // when
-        skillRepository.getFromCompetenceId(competenceId).then(() => {
+        skillRepository.cache.getFromCompetenceId(competenceId).then(() => {
 
           // then
           expect(getRecords.calledWith('Epreuves', expectedQuery, challengeSerializer)).to.be.true;
@@ -114,4 +115,46 @@ describe('Unit | Repository | skill-repository', function() {
 
   });
 
+  describe('#save', () => {
+    let sandbox;
+    let forgeStub;
+    let invokeStub;
+
+    beforeEach(() => {
+      sandbox = sinon.sandbox.create();
+      invokeStub = sandbox.stub().resolves();
+      forgeStub = sandbox.stub().returns({
+        invokeThen: invokeStub
+      });
+
+      sandbox.stub(Bookshelf.Collection, 'extend').returns({
+        forge: forgeStub
+      });
+    });
+
+    afterEach(() => {
+      sandbox.restore();
+    });
+
+    it('should save assessment skills', () => {
+      // given
+      const skillsFormatted = [
+        { assessmentId: '1', name: '@url2', status: 'ok' },
+        { assessmentId: '2', name: '@web3', status: 'ok' },
+        { assessmentId: '3', name: '@recherch2', status: 'ko' },
+        { assessmentId: '4', name: '@securite3', status: 'ko' },
+      ];
+
+      // when
+      const promise = skillRepository.db.save(skillsFormatted);
+
+      // then
+      return promise.then(() => {
+        sinon.assert.calledOnce(forgeStub);
+        sinon.assert.calledWith(forgeStub, skillsFormatted);
+        sinon.assert.calledOnce(invokeStub);
+        sinon.assert.calledWith(invokeStub, 'save');
+      });
+    });
+  });
 });
