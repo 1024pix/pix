@@ -1,6 +1,7 @@
 const { describe, it, expect, beforeEach, afterEach, sinon } = require('../../../test-helper');
 
 const service = require('../../../../lib/domain/services/assessment-service');
+const assessmentAdapter = require('../../../../lib/infrastructure/adapters/assessment-adapter');
 
 const assessmentRepository = require('../../../../lib/infrastructure/repositories/assessment-repository');
 const courseRepository = require('../../../../lib/infrastructure/repositories/course-repository');
@@ -12,6 +13,7 @@ const Assessment = require('../../../../lib/domain/models/data/assessment');
 const Challenge = require('../../../../lib/domain/models/referential/challenge');
 
 const Answer = require('../../../../lib/domain/models/data/answer');
+const Skill = require('../../../../lib/cat/skill');
 
 const { NotElligibleToScoringError } = require('../../../../lib/domain/errors');
 
@@ -52,7 +54,7 @@ describe('Unit | Domain | Services | assessment-service', function() {
 
     it('Should return the first challenge if no currentChallengeId is given', function(done) {
 
-      sinon.stub(courseRepository, 'get').resolves({ challenges: [ 'the_first_challenge' ] });
+      sinon.stub(courseRepository, 'get').resolves({ challenges: ['the_first_challenge'] });
 
       service.getAssessmentNextChallengeId(_buildAssessmentForCourse('22'), null).then(function(result) {
         expect(result).to.equal('the_first_challenge');
@@ -64,7 +66,7 @@ describe('Unit | Domain | Services | assessment-service', function() {
 
     it('Should return the next challenge if currentChallengeId is given', function(done) {
 
-      sinon.stub(courseRepository, 'get').resolves({ challenges: [ '1st_challenge', '2nd_challenge' ] });
+      sinon.stub(courseRepository, 'get').resolves({ challenges: ['1st_challenge', '2nd_challenge'] });
 
       service.getAssessmentNextChallengeId(_buildAssessmentForCourse('22'), '1st_challenge').then(function(result) {
         expect(result).to.equal('2nd_challenge');
@@ -85,7 +87,7 @@ describe('Unit | Domain | Services | assessment-service', function() {
 
     it('Should resolves to "null" if no courseId is given', function(done) {
 
-      sinon.stub(courseRepository, 'get').resolves({ challenges: [ '1st_challenge', '2nd_challenge' ] });
+      sinon.stub(courseRepository, 'get').resolves({ challenges: ['1st_challenge', '2nd_challenge'] });
 
       service.getAssessmentNextChallengeId(_buildAssessmentForCourse(), '1st_challenge').then(function(result) {
         expect(result).to.equal(null);
@@ -97,7 +99,7 @@ describe('Unit | Domain | Services | assessment-service', function() {
 
     it('Should resolves to "null" if courseId starts with "null"', function(done) {
 
-      sinon.stub(courseRepository, 'get').resolves({ challenges: [ '1st_challenge', '2nd_challenge' ] });
+      sinon.stub(courseRepository, 'get').resolves({ challenges: ['1st_challenge', '2nd_challenge'] });
 
       service.getAssessmentNextChallengeId(_buildAssessmentForCourse('null22'), '1st_challenge').then(function(result) {
         expect(result).to.equal(null);
@@ -135,12 +137,16 @@ describe('Unit | Domain | Services | assessment-service', function() {
 
     beforeEach(() => {
       getAssessmentStub = sinon.stub(assessmentRepository, 'get').returns(Promise.resolve(assessment));
-      getCourseStub = sinon.stub(courseRepository, 'get').returns({ challenges: ['challenge_web_2', 'challenge_web_1'], competences: ['competence_id'] });
+      getCourseStub = sinon.stub(courseRepository, 'get').returns({
+        challenges: ['challenge_web_2', 'challenge_web_1'],
+        competences: ['competence_id']
+      });
       getChallengesStub = sinon.stub(challengeRepository, 'getFromCompetenceId').returns(challenges);
-      getSkillStub = sinon.stub(skillRepository, 'getFromCompetenceId').returns(new Set());
+      getSkillStub = sinon.stub(skillRepository.cache, 'getFromCompetenceId').returns(new Set());
+      sinon.stub(assessmentAdapter, 'getAdaptedAssessment');
 
       findByAssessmentStub = sinon.stub(answerRepository, 'findByAssessment')
-        .returns(Promise.resolve([ correctAnswerWeb2, partialAnswerWeb1 ]));
+        .returns(Promise.resolve([correctAnswerWeb2, partialAnswerWeb1]));
     });
 
     afterEach(() => {
@@ -149,6 +155,7 @@ describe('Unit | Domain | Services | assessment-service', function() {
       getChallengesStub.restore();
       getSkillStub.restore();
       findByAssessmentStub.restore();
+      assessmentAdapter.getAdaptedAssessment.restore();
     });
 
     it('should retrieve assessment from repository', () => {
@@ -230,11 +237,10 @@ describe('Unit | Domain | Services | assessment-service', function() {
         const promise = service.getScoredAssessment(ASSESSMENT_ID);
 
         // Then
-        return promise
-          .then(() => {
-            sinon.assert.fail('Should not succeed');
-          },
-          (error) => {
+        return promise.then(() => {
+          sinon.assert.fail('Should not succeed');
+        })
+          .catch((error) => {
             sinon.assert.calledWithExactly(getCourseStub, COURSE_ID);
             expect(error.message).to.equal('Error from courseRepository');
           });
@@ -258,11 +264,11 @@ describe('Unit | Domain | Services | assessment-service', function() {
         let secondFakeChallenge;
 
         beforeEach(() => {
-          const course = { challenges: [ 'challenge_web_1', 'challenge_web_2' ], competences: ['competence_id'] };
+          const course = { challenges: ['challenge_web_1', 'challenge_web_2'], competences: ['competence_id'] };
           getCourseStub.returns(Promise.resolve(course));
 
-          firstFakeChallenge = _buildChallenge([ '@web1' ]);
-          secondFakeChallenge = _buildChallenge([ '@web2' ]);
+          firstFakeChallenge = _buildChallenge(['@web1']);
+          secondFakeChallenge = _buildChallenge(['@web2']);
 
           getChallengesStub.resolves([firstFakeChallenge, secondFakeChallenge]);
         });
@@ -273,15 +279,71 @@ describe('Unit | Domain | Services | assessment-service', function() {
 
           // Then
           return promise
-            .then((scoredAssessment) => {
-              expect(scoredAssessment.get('id')).to.equal(ASSESSMENT_ID);
-              expect(scoredAssessment.get('courseId')).to.deep.equal(COURSE_ID);
-              expect(scoredAssessment.get('estimatedLevel')).to.equal(0);
-              expect(scoredAssessment.get('pixScore')).to.equal(0);
+            .then(({ assessmentPix, skills }) => {
+              expect(assessmentPix.get('id')).to.equal(ASSESSMENT_ID);
+              expect(assessmentPix.get('courseId')).to.deep.equal(COURSE_ID);
+              expect(assessmentPix.get('estimatedLevel')).to.equal(0);
+              expect(assessmentPix.get('pixScore')).to.equal(0);
+              expect(skills).to.be.undefined;
             });
         });
+
+        it('should resolve the promise with a scored assessment and a skills', () => {
+          // given
+          const course = {
+            challenges: ['challenge_web_1', 'challenge_web_2'],
+            competences: ['competence_id'],
+            isAdaptive: true
+          };
+          getCourseStub.returns(Promise.resolve(course));
+          const expectedValitedSkills = _generateValitedSkills();
+          const expectedFailedSkills = _generateFailedSkills();
+
+          assessmentAdapter.getAdaptedAssessment.returns({
+            validatedSkills: _generateValitedSkills(),
+            failedSkills: _generateFailedSkills(),
+            obtainedLevel: 50,
+            displayedPixScore: 13
+          });
+
+          // When
+          const promise = service.getScoredAssessment(ASSESSMENT_ID);
+
+          // Then
+          return promise
+            .then(({ assessmentPix, skills }) => {
+              expect(assessmentPix.get('id')).to.equal(ASSESSMENT_ID);
+              expect(assessmentPix.get('courseId')).to.deep.equal(COURSE_ID);
+              expect(assessmentPix.get('estimatedLevel')).to.equal(50);
+              expect(assessmentPix.get('pixScore')).to.equal(13);
+              expect(skills.assessmentId).to.equal(ASSESSMENT_ID);
+              expect([...skills.validatedSkills]).to.deep.equal([...expectedValitedSkills]);
+              expect([...skills.failedSkills]).to.deep.equal([...expectedFailedSkills]);
+            });
+        });
+
       });
     });
   });
 
 });
+
+function _generateValitedSkills() {
+  const url2 = new Skill('@url2');
+  const web3 = new Skill('@web3');
+  const skill = new Set();
+  skill.add(url2);
+  skill.add(web3);
+
+  return skill;
+}
+
+function _generateFailedSkills() {
+  const recherche2 = new Skill('@recherch2');
+  const securite3 = new Skill('@securite3');
+  const skill = new Set();
+  skill.add(recherche2);
+  skill.add(securite3);
+
+  return skill;
+}

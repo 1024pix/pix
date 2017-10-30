@@ -113,9 +113,13 @@ describe('Unit | Controller | assessment-controller', () => {
       // given
       const serializedAssessment = { data: { type: 'assessement' } };
       const scoredAssessement = { id: 'assessment_id' };
+      const expectedSerializerArgs = {
+        assessmentPix: scoredAssessement,
+        skills: {}
+      };
 
       assessmentSerializer.serialize.returns(serializedAssessment);
-      assessmentService.getScoredAssessment.resolves(scoredAssessement);
+      assessmentService.getScoredAssessment.resolves(expectedSerializerArgs);
 
       // when
       const promise = assessmentController.get(request, reply);

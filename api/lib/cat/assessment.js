@@ -8,9 +8,11 @@ Set.prototype.union = function(setB) {
 
 Set.prototype.difference = function(setB) {
   const difference = new Set(this);
+
   for (const elem of setB) {
     difference.delete(elem);
   }
+
   return difference;
 };
 
