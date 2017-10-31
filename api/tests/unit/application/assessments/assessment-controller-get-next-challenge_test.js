@@ -1,4 +1,4 @@
-const { describe, it, beforeEach, afterEach, sinon } = require('../../../test-helper');
+const { describe, it, beforeEach, afterEach, sinon, expect } = require('../../../test-helper');
 const Boom = require('boom');
 
 const assessmentController = require('../../../../lib/application/assessments/assessment-controller');
@@ -121,14 +121,19 @@ describe('Unit | Controller | assessment-controller', () => {
         // Given
         assessmentWithScore.save.resolves();
         skillService.saveAssessmentSkills.resolves({});
-        const replyStub = sinon.stub();
+        const codeStub = sinon.stub();
+        const replyStub = sinon.stub().returns({
+          code: codeStub
+        });
 
         // When
         const promise = assessmentController.getNextChallenge({ params: { id: 7531 } }, replyStub);
 
         // Then
         return promise.then(() => {
-          sinon.assert.calledWith(replyStub, 'null');
+          sinon.assert.calledOnce(replyStub);
+          expect(replyStub.getCalls()[0].args).to.deep.equal([]);
+          sinon.assert.calledWith(codeStub, 204);
         });
       });
 
