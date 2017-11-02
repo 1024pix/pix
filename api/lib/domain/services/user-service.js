@@ -26,10 +26,8 @@ function _getRightAnswersByAssesments(assessments) {
 }
 
 function _getCompetenceByChallengeCompetenceId(competences, challenge) {
-  if (challenge) {
-    return competences.find((competence) => competence.id === challenge.competence);
-  }
-
+  return challenge ? competences.find((competence) => competence.id === challenge.competence) : null;
+  gs;
 }
 
 function _loadRequiredChallengesInformationsAndAnswers(answers) {
