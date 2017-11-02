@@ -3,37 +3,30 @@ const Answer = require('../../domain/models/data/answer');
 module.exports = {
 
   findByChallengeAndAssessment(challengeId, assessmentId) {
-
-    return Promise.resolve(
-      Answer
-        .where({ challengeId, assessmentId })
-        .fetch()
-    );
+    return Answer
+      .where({ challengeId, assessmentId })
+      .fetch();
   },
 
-  // TODO: Refactor
   findByAssessment(assessmentId) {
-
-    return new Promise((resolve, reject) => {
-      Answer
-        .where({ assessmentId })
-        .orderBy('createdAt')
-        .fetchAll()
-        .then(answers => resolve(answers.models))
-        .catch(reject);
-    });
+    return Answer
+      .where({ assessmentId })
+      .orderBy('createdAt')
+      .fetchAll()
+      .then(answers => answers.models);
   },
 
-  // TODO: Refactor
   findByChallenge(challengeId) {
+    return Answer
+      .where({ challengeId })
+      .fetchAll()
+      .then(answers => answers.models);
+  },
 
-    return new Promise((resolve, reject) => {
-      return Answer
-        .where({ challengeId })
-        .fetchAll()
-        .then(answers => resolve(answers.models))
-        .catch(reject);
-    });
+  getRightAnswersByAssessment(assessmentId) {
+    return Answer
+      .where({ assessmentId, result: 'ok' })
+      .fetchAll();
   }
 
 };
