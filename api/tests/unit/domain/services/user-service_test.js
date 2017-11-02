@@ -125,10 +125,10 @@ describe('Unit | Service | User Service', () => {
 
     let sandbox;
     const userId = 63731;
+
     const answerCollection = Bookshelf.Collection.extend({
       model: Answer
     });
-
     const answerCollectionWithEmptyData = answerCollection.forge([]);
 
     beforeEach(() => {
@@ -231,7 +231,7 @@ describe('Unit | Service | User Service', () => {
 
     context('when all informations needed are collected', () => {
 
-      it('should group the skills by competence', () => {
+      it('should group skills by competence', () => {
         // Given
         const answerInstance = new Answer({ challengeId: 'challengeRecordIdTwo', result: 'ok' });
         const answer = answerCollection.forge(answerInstance);
@@ -362,10 +362,10 @@ describe('Unit | Service | User Service', () => {
         });
       });
 
-      it('when the challenge id is not found', () => {
+      it('should not assign skill, when the challenge id is not found', () => {
         // Given
         const answer = new Answer({ challengeId: 'challengeRecordIdThatDoesNotExist', result: 'ok' });
-        const answerCollectionArray = answerCollection.forge([answer]);
+        const answerCollectionArray = answerCollection.forge(answer);
 
         answerRepository.getRightAnswersByAssessment.withArgs(13).resolves([]);
         answerRepository.getRightAnswersByAssessment.withArgs(1637).resolves(answerCollectionArray);
@@ -391,10 +391,10 @@ describe('Unit | Service | User Service', () => {
         });
       });
 
-      it('when the competence is not found', () => {
+      it('should not assign skill, when the competence is not found', () => {
         // Given
         const answer = new Answer({ challengeId: 'challengeRecordIdThree', result: 'ok' });
-        const answerCollectionArray = answerCollection.forge([answer]);
+        const answerCollectionArray = answerCollection.forge(answer);
 
         answerRepository.getRightAnswersByAssessment.withArgs(13).resolves([]);
         answerRepository.getRightAnswersByAssessment.withArgs(1637).resolves(answerCollectionArray);
