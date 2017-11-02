@@ -25,8 +25,11 @@ function _getRightAnswersByAssesments(assessments) {
     });
 }
 
-function _getCompetenceById(competences, challenge) {
-  return competences.find((competence) => challenge && competence.id === challenge.competence);
+function _getCompetenceByChallengeCompetenceId(competences, challenge) {
+  if (challenge) {
+    return competences.find((competence) => competence.id === challenge.competence);
+  }
+
 }
 
 function _loadRequiredChallengesInformationsAndAnswers(answers) {
@@ -59,7 +62,7 @@ function _sortThreeMostDifficultSkillsInDesc(skills) {
   return take(sortedSkills, 3);
 }
 
-function _sortCompetencesSkillsInDesc(competences) {
+function _sortAndExtractThreeMostDifficultsCompetencesSkills(competences) {
   competences.forEach((competence) => {
     competence.skills = _sortThreeMostDifficultSkillsInDesc(competence.skills);
   });
@@ -70,7 +73,7 @@ function _getRelatedChallengeById(challenges, answer) {
   return challenges.find((challenge) => challenge.id === answer.challengeId);
 }
 
-function addSkillsToCompetence(competence, challenge) {
+function _addSkillsToCompetence(competence, challenge) {
   if (challenge) {
     challenge.knowledgeTags.forEach((skill) => {
       if (competence) {
@@ -109,11 +112,11 @@ module.exports = {
       .then(([challenges, competences, answers]) => {
         answers.map((answer) => {
           const challenge = _getRelatedChallengeById(challenges, answer);
-          const competence = _getCompetenceById(competences, challenge);
-          addSkillsToCompetence(competence, challenge);
+          const competence = _getCompetenceByChallengeCompetenceId(competences, challenge);
+          _addSkillsToCompetence(competence, challenge);
         });
         return competences;
       })
-      .then(_sortCompetencesSkillsInDesc);
+      .then(_sortAndExtractThreeMostDifficultsCompetencesSkills);
   }
 };
