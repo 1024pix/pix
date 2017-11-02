@@ -1,4 +1,4 @@
-const _ = require('lodash');
+const { take, flatten, sortBy } = require('lodash');
 
 const { UserNotFoundError } = require('../errors');
 const UserCompetence = require('../../../lib/domain/models/UserCompetence');
@@ -10,33 +10,74 @@ const challengeRepository = require('../../../lib/infrastructure/repositories/ch
 const answerRepository = require('../../../lib/infrastructure/repositories/answer-repository');
 const competenceRepository = require('../../../lib/infrastructure/repositories/competence-repository');
 
-function _loadAnwsersByAssessments(assessments) {
-  const answersPromises = [];
-  assessments.forEach((assessment) => {
-    answersPromises.push(answerRepository.findByAssessment(assessment.id));
-  });
+function _getRightAnswersByAssesments(assessments) {
+  const answersPromises = assessments.map((assessment) => answerRepository.getRightAnswersByAssessment(assessment.id));
 
-  return Promise.all(answersPromises);
+  return Promise.all(answersPromises)
+    .then((answers) => {
+      return flatten(answers);
+    })
+    .then((answers) => {
+      return answers.map((answer) => answer.toJSON());
+    })
+    .then((answers) => {
+      return answers.shift();
+    });
 }
 
-function _getCompetenceById(competences, competenceId) {
-  return _(competences).find((competence) => competence.id === competenceId);
+function _getCompetenceById(competences, challenge) {
+  return competences.find((competence) => challenge && competence.id === challenge.competence);
 }
 
-function _castCompetencesToUserCompetences([challenges, competences, answersByAssessments]) {
+function _loadRequiredChallengesInformationsAndAnswers(answers) {
+  return Promise.all([
+    challengeRepository.list(), competenceRepository.list(), answers
+  ]);
+}
 
-  competences = _(competences).reduce((result, value) => {
+function _castCompetencesToUserCompetences([challenges, competences, answers]) {
+  competences = competences.reduce((result, value) => {
     result.push(new UserCompetence(value));
     return result;
   }, []);
 
-  return [challenges, competences, answersByAssessments];
+  return [challenges, competences, answers];
 }
 
-function _loadRequiredChallengesInformationsAndAnswers(answersByAssessments) {
-  return Promise.all([
-    challengeRepository.list(), competenceRepository.list(), answersByAssessments
-  ]);
+function _sortThreeMostDifficultSkillsInDesc(skills) {
+  const skillsWithExtractedLevel = skills.map((skill) => {
+    return {
+      name: skill,
+      difficulty: parseInt(skill.name.slice(-1))
+    };
+  });
+
+  const sortedSkills = sortBy(skillsWithExtractedLevel, ['difficulty'])
+    .reverse()
+    .map((skill) => skill.name);
+
+  return take(sortedSkills, 3);
+}
+
+function _sortCompetencesSkillsInDesc(competences) {
+  competences.forEach((competence) => {
+    competence.skills = _sortThreeMostDifficultSkillsInDesc(competence.skills);
+  });
+  return competences;
+}
+
+function _getRelatedChallengeById(challenges, answer) {
+  return challenges.find((challenge) => challenge.id === answer.challengeId);
+}
+
+function addSkillsToCompetence(competence, challenge) {
+  if (challenge) {
+    challenge.knowledgeTags.forEach((skill) => {
+      if (competence) {
+        competence.addSkill(new Skill(skill));
+      }
+    });
+  }
 }
 
 module.exports = {
@@ -62,28 +103,17 @@ module.exports = {
 
     return assessmentRepository
       .findCompletedAssessmentsByUserId(userId)
-      .then(_loadAnwsersByAssessments)
+      .then(_getRightAnswersByAssesments)
       .then(_loadRequiredChallengesInformationsAndAnswers)
       .then(_castCompetencesToUserCompetences)
-      .then(([challenges, competences, answersByAssessments]) => {
-
-        const answers = _.flatten(answersByAssessments).filter((answer) => answer.get('result') === 'ok');
-
-        _(answers).forEach((answer) => {
-          const challenge = _(challenges).find((challenge) => challenge.id === answer.get('challengeId'));
-
-          if(challenge) {
-            const competence = _getCompetenceById(competences, challenge.competence);
-
-            _(challenge.knowledgeTags).forEach((skill) => {
-              if(competence) {
-                competence.addSkill(new Skill(skill));
-              }
-            });
-          }
+      .then(([challenges, competences, answers]) => {
+        answers.map((answer) => {
+          const challenge = _getRelatedChallengeById(challenges, answer);
+          const competence = _getCompetenceById(competences, challenge);
+          addSkillsToCompetence(competence, challenge);
         });
-
         return competences;
-      });
+      })
+      .then(_sortCompetencesSkillsInDesc);
   }
 };
