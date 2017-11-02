@@ -27,7 +27,6 @@ function _getRightAnswersByAssesments(assessments) {
 
 function _getCompetenceByChallengeCompetenceId(competences, challenge) {
   return challenge ? competences.find((competence) => competence.id === challenge.competence) : null;
-  gs;
 }
 
 function _loadRequiredChallengesInformationsAndAnswers(answers) {
