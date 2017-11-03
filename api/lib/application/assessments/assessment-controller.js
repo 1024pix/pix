@@ -4,6 +4,7 @@ const _ = require('../../infrastructure/utils/lodash-utils');
 const assessmentSerializer = require('../../infrastructure/serializers/jsonapi/assessment-serializer');
 const assessmentRepository = require('../../infrastructure/repositories/assessment-repository');
 const assessmentService = require('../../domain/services/assessment-service');
+const skillsService = require('../../domain/services/skills-service');
 const tokenService = require('../../domain/services/token-service');
 const assessmentUtils = require('../../domain/services/assessment-service-utils');
 const challengeRepository = require('../../infrastructure/repositories/challenge-repository');
@@ -47,8 +48,8 @@ module.exports = {
 
     return assessmentService
       .getScoredAssessment(assessmentId)
-      .then((assessment) => {
-        const serializedAssessment = assessmentSerializer.serialize(assessment);
+      .then(({ assessmentPix }) => {
+        const serializedAssessment = assessmentSerializer.serialize(assessmentPix);
         return reply(serializedAssessment);
       })
       .catch(err => {
@@ -76,7 +77,6 @@ module.exports = {
     return assessmentRepository
       .get(request.params.id)
       .then((assessment) => {
-
         if (assessmentService.isPreviewAssessment(assessment)) {
           return Promise.reject(new NotElligibleToScoringError(`Assessment with ID ${request.params.id} is a preview Challenge`));
         }
@@ -91,9 +91,11 @@ module.exports = {
 
         return assessmentService
           .getScoredAssessment(request.params.id)
-          .then((scoredAssessment) => {
-            return scoredAssessment.save()
+          .then(({ assessmentPix, skills }) => {
+            return assessmentPix.save()
+              .then(() => skillsService.saveAssessmentSkills(skills))
               .then(() => {
+                // XXX always null because if not, it should have passed above (l.88)
                 return nextChallengeId;
               });
           });
@@ -103,11 +105,12 @@ module.exports = {
         return (nextChallengeId) ? challengeRepository.get(nextChallengeId) : null;
       })
       .then((challenge) => {
-        return (challenge) ? reply(challengeSerializer.serialize(challenge)) : reply('null');
+        return (challenge) ? reply(challengeSerializer.serialize(challenge)) : reply().code(204);
       })
       .catch((err) => {
-        if (err instanceof NotElligibleToScoringError)
+        if (err instanceof NotElligibleToScoringError) {
           return reply('null');
+        }
 
         logger.error(err);
         reply(Boom.badImplementation(err));
@@ -146,7 +149,7 @@ module.exports = {
       .then(({ answers, course, challenges }) => {
         // fetch skillNames (requires course)
         const competenceId = course.competences[0];
-        const skillNames = skillRepository.getFromCompetenceId(competenceId);
+        const skillNames = skillRepository.cache.getFromCompetenceId(competenceId);
         return Promise.all([skillNames]).then(values => {
           const skillNames = values[0];
           return { answers, course, challenges, skillNames };
@@ -175,7 +178,7 @@ module.exports = {
             .then((solution) => {
               return reply(solutionSerializer.serialize(solution));
             });
-        }else {
+        } else {
           return reply('null');
         }
 

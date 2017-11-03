@@ -319,11 +319,44 @@ describe('Unit | Model | Assessment', function() {
     });
   });
 
+  describe('#_firstChallenge', function() {
+
+    let url2, url3, url5, challenge1, challenge2, challenge3, challenge4, challenge5, course, assessment;
+
+    beforeEach(() => {
+      url2 = new Skill('url2');
+      url3 = new Skill('url3');
+      url5 = new Skill('url5');
+      challenge1 = new Challenge('b', 'validé', [url2], 30);
+      challenge2 = new Challenge('c', 'validé', [url2], undefined);
+      challenge3 = new Challenge('f', 'validé sans test', [url3], 60);
+      challenge4 = new Challenge('g', 'validé sans test', [url5], undefined);
+      challenge5 = new Challenge('h', 'validé sans test', [url2], undefined);
+      course = new Course([challenge1, challenge2, challenge3, challenge4, challenge5]);
+      assessment = new Assessment(course, []);
+    });
+
+    it('should exist', function() {
+      expect(assessment._firstChallenge).to.exist;
+    });
+
+    it('should return a challenge of level two for a first challenge', function() {
+      // then
+      expect(assessment._firstChallenge.hardestSkill.difficulty).to.equal(2);
+
+    });
+
+    it('should return a challenge which is not timed as a first challenge', function() {
+      // then
+      expect(assessment._firstChallenge.timer).to.equal(undefined);
+    });
+  });
+
   describe('#nextChallenge', function() {
     it('should exist', function() {
       // given
-      const web1 = new Skill('web1');
-      const challenge = new Challenge('recXXX', 'validé', [web1]);
+      const web2 = new Skill('web2');
+      const challenge = new Challenge('recXXX', 'validé', [web2]);
       const course = new Course([challenge]);
       const assessment = new Assessment(course, []);
 
@@ -403,6 +436,20 @@ describe('Unit | Model | Assessment', function() {
 
       // then
       expect(assessment.nextChallenge).to.equal(null);
+    });
+
+    it('should call _firstChallenge function if the assessment has no answer', function() {
+      // given
+      const firstChallenge = new Challenge();
+      const challenges = [];
+      const course = new Course(challenges);
+      const answers = [];
+      const assessment = new Assessment(course, answers);
+      const firstChallengeStub = sinon.stub(assessment, '_firstChallenge').get(() => firstChallenge);
+
+      // then
+      expect(assessment.nextChallenge).to.be.equal(firstChallenge);
+      firstChallengeStub.restore();
     });
   });
 
@@ -564,3 +611,4 @@ describe('Unit | Model | Assessment', function() {
   });
 
 });
+

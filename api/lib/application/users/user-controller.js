@@ -5,6 +5,7 @@ const authorizationToken = require('../../../lib/infrastructure/validators/jsonw
 const userSerializer = require('../../infrastructure/serializers/jsonapi/user-serializer');
 const validationErrorSerializer = require('../../infrastructure/serializers/jsonapi/validation-error-serializer');
 const mailService = require('../../domain/services/mail-service');
+const userService = require('../../domain/services/user-service');
 const UserRepository = require('../../../lib/infrastructure/repositories/user-repository');
 const profileService = require('../../domain/services/profile-service');
 const profileSerializer = require('../../infrastructure/serializers/jsonapi/profile-serializer');
@@ -31,9 +32,7 @@ module.exports = {
     const recaptchaToken = request.payload.data.attributes['recaptcha-token'];
 
     return googleReCaptcha.verify(recaptchaToken)
-      .then(() => {
-        return user.save();
-      })
+      .then(() => user.save())
       .then((user) => {
         mailService.sendAccountCreationEmail(user.get('email'));
         reply(userSerializer.serialize(user)).code(201);
@@ -96,8 +95,18 @@ module.exports = {
         }
         return reply(validationErrorSerializer.serialize(new InternalError().getErrorMessage())).code(500);
       });
-  }
+  },
 
+  getSkillProfile(request, reply) {
+    const userId = request.params.id;
+
+    return userService.getSkillProfile(userId)
+      .then(reply)
+      .catch(err => {
+        logger.error(err);
+        reply(Boom.badImplementation(err));
+      });
+  }
 };
 
 const _replyErrorWithMessage = function(reply, errorMessage, statusCode) {

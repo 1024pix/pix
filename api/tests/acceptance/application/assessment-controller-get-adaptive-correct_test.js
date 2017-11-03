@@ -186,8 +186,8 @@ describe('Acceptance | API | Assessments', function() {
       courseId: 'w_adaptive_course_id'
     };
 
-    beforeEach(function(done) {
-      knex('assessments').insert([insertedAssessment])
+    beforeEach(function() {
+      return knex('assessments').insert([insertedAssessment])
         .then((rows) => {
           insertedAssessmentId = rows[0];
 
@@ -205,23 +205,19 @@ describe('Acceptance | API | Assessments', function() {
         })
         .then((insertedAnswers) => {
           return knex('answers').insert(insertedAnswers);
-        })
-        .then(() => {
-          done();
         });
     });
 
-    afterEach(function(done) {
-      knex('assessments').delete()
-        .then(() => knex('assessments').delete())
-        .then(() => done());
+    afterEach(() => {
+      return knex('assessments').delete()
+        .then(() => knex('assessments').delete());
     });
 
     it('should finish the test if there is no next challenge', function(done) {
 
       const options = { method: 'GET', url: '/api/assessments/' + insertedAssessmentId + '/next/w_second_challenge' };
       server.inject(options, (response) => {
-        expect(response.result.data).to.equal(undefined);
+        expect(response.result).to.be.null;
         done();
       });
     });

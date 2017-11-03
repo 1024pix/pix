@@ -48,7 +48,7 @@ class UserNotFoundError extends Error {
   getErrorMessage() {
     return {
       data: {
-        email: ['Cette adresse email n’existe pas.']
+        id: ['Ce compte est introuvable.']
       }
     };
   }
