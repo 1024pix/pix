@@ -49,6 +49,32 @@ describe('Unit | Router | user-router', () => {
     });
   });
 
+  describe('GET /api/users/{id}/skills', function() {
+    before(() => {
+      sinon.stub(UserController, 'getSkillProfile').callsFake((request, reply) => reply('ok'));
+      sinon.stub(userVerification, 'verifyById').callsFake((request, reply) => reply('ok'));
+    });
+
+    after(() => {
+      UserController.getSkillProfile.restore();
+      userVerification.verifyById.restore();
+    });
+
+    it('should exist', () => {
+      const options = {
+        method: 'GET',
+        url: '/api/users/12/skills'
+      };
+
+      // given
+      return server.inject(options).then(_ => {
+        sinon.assert.calledOnce(userVerification.verifyById);
+        sinon.assert.calledOnce(UserController.getSkillProfile);
+        sinon.assert.callOrder(userVerification.verifyById, UserController.getSkillProfile);
+      });
+    });
+  });
+
   describe('PATCH /api/users/{id}', function() {
 
     const userId = '12344';

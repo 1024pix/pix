@@ -22,7 +22,7 @@ function _selectNextInAdaptiveMode(assessmentPix, coursePix) {
       return challengeRepository.getFromCompetenceId(competenceId);
     }).then(challenges => {
       challengesPix = challenges;
-      return skillRepository.getFromCompetenceId(competenceId);
+      return skillRepository.cache.getFromCompetenceId(competenceId);
     }).then(skillNames => {
       return assessmentUtils.getNextChallengeInAdaptiveCourse(coursePix, answersPix, challengesPix, skillNames);
     });
@@ -45,20 +45,21 @@ function _selectNextChallengeId(course, currentChallengeId, assessment) {
 
   const challenges = course.challenges;
 
-  if (!currentChallengeId) { // no currentChallengeId means the test has not yet started
-    return Promise.resolve(challenges[0]);
-  }
-
   if (course.isAdaptive) {
     return Promise.resolve(_selectNextInAdaptiveMode(assessment, course));
   }
 
+  if (!currentChallengeId) { // no currentChallengeId means the test has not yet started
+    return Promise.resolve(challenges[0]);
+  }
+
   return Promise.resolve(_selectNextInNormalMode(currentChallengeId, challenges));
+
 }
 
 function getScoredAssessment(assessmentId) {
 
-  let assessmentPix, answersPix, challengesPix, coursePix, competenceId;
+  let assessmentPix, answersPix, challengesPix, coursePix, competenceId, skills;
 
   return assessmentRepository
     .get(assessmentId)
@@ -85,19 +86,24 @@ function getScoredAssessment(assessmentId) {
     })
     .then(challenges => {
       challengesPix = challenges;
-      return skillRepository.getFromCompetenceId(competenceId);
+      return skillRepository.cache.getFromCompetenceId(competenceId);
     })
     .then(skillNames => {
       if (coursePix.isAdaptive) {
         const assessment = assessmentAdapter.getAdaptedAssessment(coursePix, answersPix, challengesPix, skillNames);
-
+        skills = {
+          assessmentId,
+          validatedSkills: assessment.validatedSkills,
+          failedSkills: assessment.failedSkills
+        };
         assessmentPix.set('estimatedLevel', assessment.obtainedLevel);
         assessmentPix.set('pixScore', assessment.displayedPixScore);
       } else {
         assessmentPix.set('estimatedLevel', 0);
         assessmentPix.set('pixScore', 0);
       }
-      return assessmentPix;
+
+      return { assessmentPix, skills };
     });
 }
 

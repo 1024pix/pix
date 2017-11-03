@@ -1,4 +1,4 @@
-const Competence = require('../../../domain/models/referential/compentence');
+const Competence = require('../../../domain/models/referential/competence');
 const AirtableSerializer = require('./airtable-serializer');
 
 class CompetenceSerializer extends AirtableSerializer {

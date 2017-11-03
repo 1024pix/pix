@@ -23,7 +23,7 @@ module.exports = {
 
     const { email } = request.payload.data.attributes;
 
-    return userService.isUserExisting(email)
+    return userService.isUserExistingByEmail(email)
       .then(() => resetPasswordService.invalidOldResetPasswordDemand(email))
       .then(resetPasswordService.generateTemporaryKey)
       .then((temporaryKey) => {

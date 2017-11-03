@@ -8,9 +8,11 @@ Set.prototype.union = function(setB) {
 
 Set.prototype.difference = function(setB) {
   const difference = new Set(this);
+
   for (const elem of setB) {
     difference.delete(elem);
   }
+
   return difference;
 };
 
@@ -123,7 +125,18 @@ class Assessment {
     return availableChallenges;
   }
 
+  get _firstChallenge() {
+    const filteredFirstChallenges = this.filteredChallenges.filter(
+      challenge => challenge.hardestSkill.difficulty == 2 && challenge.timer === undefined
+    );
+    filteredFirstChallenges.sort(() => 0.5 - Math.random());
+    return filteredFirstChallenges[0];
+  }
+
   get nextChallenge() {
+    if (this.answers.length == 0) {
+      return this._firstChallenge;
+    }
     if (this.answers.length == 20) {
       return null;
     }

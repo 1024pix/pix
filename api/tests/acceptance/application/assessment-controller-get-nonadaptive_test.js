@@ -149,7 +149,8 @@ describe('Acceptance | API | Assessments GET (non adaptive)', function() {
     it('should return null if reached the last challenge of the course', function(done) {
       const options = { method: 'GET', url: '/api/assessments/' + insertedAssessmentId + '/next/second_challenge' };
       server.inject(options, (response) => {
-        expect(response.result).to.equal('null');
+        expect(response.result).to.be.null;
+        expect(response.statusCode).to.equal(204);
         done();
       });
     });
@@ -157,7 +158,8 @@ describe('Acceptance | API | Assessments GET (non adaptive)', function() {
     it('should return null if reached the last challenge of the course', function(done) {
       const options = { method: 'GET', url: '/api/assessments/' + insertedAssessmentId + '/next/second_challenge' };
       server.inject(options, (response) => {
-        expect(response.result).to.equal('null');
+        expect(response.result).to.be.null;
+        expect(response.statusCode).to.equal(204);
         done();
       });
     });
