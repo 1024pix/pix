@@ -69,7 +69,7 @@ describe('Integration | Component | course item', function() {
       expect($description.text().trim()).to.equal(course.get('description'));
     });
 
-    it('should render the number of challenges', function() {
+    it('should render the number of challenges when the list of challenges is given', function() {
       // given
       const course = Ember.Object.create({ challenges: ['c1', 'c2', 'c3', 'c4'] });
       this.set('course', course);
@@ -82,7 +82,7 @@ describe('Integration | Component | course item', function() {
       expect($nbChallenges.text().trim()).to.equal('4 épreuves');
     });
 
-    it('should render the number of challenges', function() {
+    it('should render the number of challenges when the count of challenge is given', function() {
       // given
       const course = Ember.Object.create({ challenges: [], nbChallenges: 2 });
       this.set('course', course);

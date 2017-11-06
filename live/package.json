@@ -79,6 +79,7 @@
     "ember-tabbable": "^0.1.3",
     "ember-xregexp": "^1.0.2",
     "eslint": "^4.8.0",
+    "eslint-plugin-mocha": "^4.11.0",
     "js-yaml": "^3.10.0",
     "loader.js": "^4.6.0",
     "showdown": "^1.7.5"

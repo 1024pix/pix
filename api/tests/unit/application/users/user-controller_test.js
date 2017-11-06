@@ -157,7 +157,7 @@ describe('Unit | Controller | user-controller', () => {
         });
       });
 
-      it('should send an email', () => {
+      it('should return a serialized user', () => {
         // Given
         const expectedSerializedUser = { message: 'serialized user' };
         userSerializerStub.returns(expectedSerializedUser);
