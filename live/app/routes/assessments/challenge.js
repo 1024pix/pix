@@ -1,22 +1,17 @@
-import Ember from 'ember';
 import RSVP from 'rsvp';
 import BaseRoute from 'pix-live/routes/base-route';
 
 export default BaseRoute.extend({
 
-  assessmentService: Ember.inject.service('assessment'),
-
   model(params) {
-
     const store = this.get('store');
 
-    const assessmentId = params.assessment_id;
+    const { assessment_id: assessmentId } = this.paramsFor('assessments');
     const challengeId = params.challenge_id;
 
     return RSVP.hash({
       assessment: store.findRecord('assessment', assessmentId),
       challenge: store.findRecord('challenge', challengeId),
-      answers: store.queryRecord('answer', { assessment: assessmentId, challenge: challengeId })
     }).catch((err) => {
       const meta = ('errors' in err) ? err.errors.get('firstObject').meta : null;
       if (meta.field === 'authorization') {
@@ -26,8 +21,16 @@ export default BaseRoute.extend({
   },
 
   afterModel(model) {
-    return model.assessment.get('course').then((course) => {
-      model.progress = course.getProgress(model.challenge);
+    const store = this.get('store');
+    const answers = store.queryRecord('answer', {
+      assessment: model.assessment.id,
+      challenge: model.challenge.id
+    });
+    const course = model.assessment.get('course');
+    return RSVP.all([answers, course]).then(values => {
+      model.progress = values[1].getProgress(model.challenge);
+      model.answers = answers;
+      model.course = course;
       return model;
     });
   },
@@ -40,29 +43,23 @@ export default BaseRoute.extend({
   },
 
   _findOrCreateAnswer(challenge, assessment) {
-    let answer = assessment.get('answers').findBy('challenge.id', challenge.get('id'));
+    let answer = assessment.get('answers').findBy('challenge.id', challenge.id);
     if (!answer) {
-      answer = this.get('store').createRecord('answer', {
-        assessment: assessment,
-        challenge: challenge
-      });
+      answer = this.get('store').createRecord('answer', { assessment, challenge });
     }
     return answer;
   },
 
-  _urlForNextChallenge(adapter, assessmentId, challengeId) {
-    return adapter.buildURL('assessment', assessmentId) + '/next/' + challengeId;
-  },
-
   _navigateToNextView(challenge, assessment) {
-    const adapter = this.get('store').adapterFor('application');
-    return adapter.ajax(this._urlForNextChallenge(adapter, assessment.get('id'), challenge.get('id')), 'GET')
+    const store = this.get('store');
+    const challengeAdapter = store.adapterFor('challenge');
+
+    return challengeAdapter.queryNext(store, assessment.id, challenge.id)
       .then(nextChallenge => {
         if (nextChallenge) {
-          return this.transitionTo('assessments.get-challenge', assessment.get('id'), nextChallenge.data.id);
-        } else {
-          return this.transitionTo('assessments.get-results', assessment.get('id'));
+          return this.transitionTo('assessments.challenge', { assessment, challenge: nextChallenge });
         }
+        return this.transitionTo('assessments.results', assessment);
       });
   },
 
@@ -76,9 +73,8 @@ export default BaseRoute.extend({
         elapsedTime: answerElapsedTime
       });
       return answer.save()
-        .then(() => {
-          return this._navigateToNextView(challenge, assessment);
-        }).catch((err) => {
+        .then(() => this._navigateToNextView(challenge, assessment))
+        .catch((err) => {
           alert(`Erreur lors de l’enregistrement de la réponse : ${err}`);
           return err;
         });

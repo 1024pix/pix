@@ -2,6 +2,7 @@ import EmberRouter from '@ember/routing/router';
 import { inject as service } from '@ember/service';
 import { run } from '@ember/runloop';
 import config from './config/environment';
+import { get } from '@ember/object';
 
 const Router = EmberRouter.extend({
   location: config.locationType,
@@ -24,7 +25,7 @@ if (config.environment === 'integration' || config.environment === 'staging' || 
       run.scheduleOnce('afterRender', this, () => {
         const page = this.get('url');
         const title = this.getWithDefault('currentRouteName', 'unknown');
-        this.get('metrics').trackPage({ page, title });
+        get(this, 'metrics').trackPage({ page, title });
       });
     }
   });
@@ -38,16 +39,14 @@ Router.map(function() {
   this.route('competences');
   this.route('inscription');
   this.route('compte');
-  this.route('enrollment', { path: 'rejoindre' });
-
-  this.route('challenges.get-preview', { path: '/challenges/:challenge_id/preview' });
-
-  this.route('courses.get-challenge-preview', { path: '/courses/:course_id/preview/challenges/:challenge_id' });
+  this.route('enrollment', { path: '/rejoindre' });
+  this.route('challenge-preview', { path: '/challenges/:challenge_id/preview' });
   this.route('courses.create-assessment', { path: '/courses/:course_id' });
-
-  this.route('assessments.get-challenge', { path: '/assessments/:assessment_id/challenges/:challenge_id' });
-  this.route('assessments.get-results', { path: '/assessments/:assessment_id/results' });
-  this.route('assessments.get-comparison', { path: '/assessments/:assessment_id/results/compare/:answer_id/:index' });
+  this.route('assessments', { path: '/assessments/:assessment_id' }, function() {
+    this.route('challenge', { path: '/challenges/:challenge_id' });
+    this.route('results', { path: '/results' });
+  });
+  this.route('assessments.comparison', { path: '/assessments/:assessment_id/results/compare/:answer_id/:index' });
   this.route('login', { path: '/connexion' });
   this.route('logout', { path: '/deconnexion' });
   this.route('course-groups', { path: '/defis-pix' });
