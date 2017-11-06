@@ -1,4 +1,4 @@
-const { take, flatten, sortBy } = require('lodash');
+const { take, sortBy } = require('lodash');
 
 const { UserNotFoundError } = require('../errors');
 const UserCompetence = require('../../../lib/domain/models/UserCompetence');
