@@ -44,21 +44,6 @@ describe('Integration | Component | challenge actions', function() {
       expect(this.$('.challenge-actions__loader-spinner')).to.have.lengthOf(1);
     });
 
-    it('should be enable again when the treatment succeeded', function() {
-      // given
-      this.set('externalAction', function() {
-        return RSVP.resolve();
-      });
-      this.render(hbs`{{challenge-actions answerValidated=(action externalAction)}}`);
-
-      // when
-      this.$('.challenge-actions__action-validate').click();
-
-      // then
-      expect(this.$(VALIDATE_BUTTON)).to.have.lengthOf(1);
-      expect(this.$('.challenge-actions__loader-spinner')).to.have.lengthOf(0);
-    });
-
     it('should be enable again when the treatment failed', function() {
       // given
       this.set('externalAction', function() {
