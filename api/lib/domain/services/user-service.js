@@ -11,17 +11,17 @@ const answerRepository = require('../../../lib/infrastructure/repositories/answe
 const competenceRepository = require('../../../lib/infrastructure/repositories/competence-repository');
 
 function _getRightAnswersByAssesments(assessments) {
-  const answersPromises = assessments.map((assessment) => answerRepository.getRightAnswersByAssessment(assessment.id));
 
-  return Promise.all(answersPromises)
-    .then((answers) => {
-      return flatten(answers);
-    })
-    .then((answers) => {
-      return answers.map((answer) => answer.toJSON());
-    })
-    .then((answers) => {
-      return answers.shift();
+  const answersByAssessmentsPromises = assessments.map((assessment) => answerRepository.getRightAnswersByAssessment(assessment.id));
+
+  return Promise.all(answersByAssessmentsPromises)
+    .then(answersByAssessments => {
+      return answersByAssessments.reduce((accu, answersByAssessment) => {
+        answersByAssessment.models.forEach(answer => {
+          accu.push(answer.toJSON());
+        });
+        return accu;
+      }, []);
     });
 }
 
