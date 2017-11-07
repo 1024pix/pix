@@ -70,7 +70,6 @@ function _getRelatedChallengeById(challenges, answer) {
   return challenges.find((challenge) => challenge.id === answer.challengeId);
 }
 
-
 module.exports = {
   isUserExistingByEmail(email) {
     return userRepository
