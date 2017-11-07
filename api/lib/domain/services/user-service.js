@@ -10,17 +10,17 @@ const challengeRepository = require('../../../lib/infrastructure/repositories/ch
 const answerRepository = require('../../../lib/infrastructure/repositories/answer-repository');
 const competenceRepository = require('../../../lib/infrastructure/repositories/competence-repository');
 
-function _getRightAnswersByAssesments(assessments) {
+function _findCorrectAnswersByAssessments(assessments) {
 
-  const answersByAssessmentsPromises = assessments.map((assessment) => answerRepository.getRightAnswersByAssessment(assessment.id));
+  const answersByAssessmentsPromises = assessments.map((assessment) => answerRepository.findCorrectAnswersByAssessment(assessment.id));
 
   return Promise.all(answersByAssessmentsPromises)
     .then(answersByAssessments => {
-      return answersByAssessments.reduce((accu, answersByAssessment) => {
+      return answersByAssessments.reduce((answersInJSON, answersByAssessment) => {
         answersByAssessment.models.forEach(answer => {
-          accu.push(answer.toJSON());
+          answersInJSON.push(answer.toJSON());
         });
-        return accu;
+        return answersInJSON;
       }, []);
     });
 }
@@ -59,7 +59,7 @@ function _sortThreeMostDifficultSkillsInDesc(skills) {
   return take(sortedSkills, 3);
 }
 
-function _sortAndExtractThreeMostDifficultsCompetencesSkills(competences) {
+function _limitSkillsToTheThreeHighestOrderedByDifficultyDesc(competences) {
   competences.forEach((competence) => {
     competence.skills = _sortThreeMostDifficultSkillsInDesc(competence.skills);
   });
@@ -70,15 +70,6 @@ function _getRelatedChallengeById(challenges, answer) {
   return challenges.find((challenge) => challenge.id === answer.challengeId);
 }
 
-function _addSkillsToCompetence(competence, challenge) {
-  if (challenge) {
-    challenge.knowledgeTags.forEach((skill) => {
-      if (competence) {
-        competence.addSkill(new Skill(skill));
-      }
-    });
-  }
-}
 
 module.exports = {
   isUserExistingByEmail(email) {
@@ -103,17 +94,22 @@ module.exports = {
 
     return assessmentRepository
       .findCompletedAssessmentsByUserId(userId)
-      .then(_getRightAnswersByAssesments)
+      .then(_findCorrectAnswersByAssessments)
       .then(_loadRequiredChallengesInformationsAndAnswers)
       .then(_castCompetencesToUserCompetences)
       .then(([challenges, competences, answers]) => {
-        answers.map((answer) => {
+        answers.forEach((answer) => {
           const challenge = _getRelatedChallengeById(challenges, answer);
           const competence = _getCompetenceByChallengeCompetenceId(competences, challenge);
-          _addSkillsToCompetence(competence, challenge);
+
+          if (challenge && competence) {
+            challenge.knowledgeTags.forEach((skill) => {
+              competence.addSkill(new Skill(skill));
+            });
+          }
         });
         return competences;
       })
-      .then(_sortAndExtractThreeMostDifficultsCompetencesSkills);
+      .then(_limitSkillsToTheThreeHighestOrderedByDifficultyDesc);
   }
 };
