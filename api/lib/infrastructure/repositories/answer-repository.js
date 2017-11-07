@@ -23,7 +23,7 @@ module.exports = {
       .then(answers => answers.models);
   },
 
-  getRightAnswersByAssessment(assessmentId) {
+  findCorrectAnswersByAssessment(assessmentId) {
     return Answer
       .where({ assessmentId, result: 'ok' })
       .fetchAll();

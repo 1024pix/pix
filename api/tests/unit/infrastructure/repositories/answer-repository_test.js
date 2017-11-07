@@ -31,7 +31,7 @@ describe('Unit | Repository | AnswerRepository', function() {
       assessmentId: 1
     };
 
-    before(function(done) {
+    before((done) =>{
       knex('answers').delete().then(() => {
         knex('answers').insert([inserted_answer_1, inserted_answer_2, inserted_answer_3]).then(() => {
           done();
@@ -39,10 +39,8 @@ describe('Unit | Repository | AnswerRepository', function() {
       });
     });
 
-    after(function(done) {
-      knex('answers').delete().then(() => {
-        done();
-      });
+    after(() =>{
+      knex('answers').delete();
     });
 
     it('should find the answer by challenge and assessment and return its in an object', function(done) {
@@ -116,7 +114,7 @@ describe('Unit | Repository | AnswerRepository', function() {
     });
   });
 
-  describe('#getRightAnswersByAssessment', () => {
+  describe('#findCorrectAnswersByAssessment', () => {
     let fetchAllStub;
     beforeEach(() => {
       sinon.stub(Answer.prototype, 'where');
@@ -136,7 +134,7 @@ describe('Unit | Repository | AnswerRepository', function() {
       });
 
       // when
-      const promise = AnswerRepository.getRightAnswersByAssessment(assessmentId);
+      const promise = AnswerRepository.findCorrectAnswersByAssessment(assessmentId);
 
       // then
       return promise.then(() => {
