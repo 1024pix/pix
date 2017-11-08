@@ -53,14 +53,14 @@ describe('Unit | Domain | Models | Profile', () => {
           name: '1.1 Mener une recherche d’information',
           index: '1.1',
           areaId: 'areaId1',
-          courseId: 'recBxPAuEPlTgt72q11'
+          courseId: 'courseId8'
         },
         {
           id: 'competenceId2',
           name: '1.2 Gérer des données',
           index: '1.2',
           areaId: 'areaId2',
-          courseId: 'recBxPAuEPlTgt72q99'
+          courseId: 'courseId9'
         }];
     });
 
@@ -81,7 +81,7 @@ describe('Unit | Domain | Models | Profile', () => {
           index: '1.1',
           areaId: 'areaId1',
           level: -1,
-          courseId: 'recBxPAuEPlTgt72q11'
+          courseId: 'courseId8'
         },
         {
           id: 'competenceId2',
@@ -89,7 +89,7 @@ describe('Unit | Domain | Models | Profile', () => {
           index: '1.2',
           areaId: 'areaId2',
           level: -1,
-          courseId: 'recBxPAuEPlTgt72q99'
+          courseId: 'courseId9'
         }];
 
       // When
@@ -110,7 +110,7 @@ describe('Unit | Domain | Models | Profile', () => {
         pixScore: 10,
         estimatedLevel: 1,
         courseId: 'courseId8'
-      })];
+      }),];
 
       const expectedCompetences = [
         {
@@ -120,7 +120,8 @@ describe('Unit | Domain | Models | Profile', () => {
           areaId: 'areaId1',
           level: 1,
           pixScore: 10,
-          courseId: 'recBxPAuEPlTgt72q11'
+          courseId: 'courseId8',
+          assessmentId : 'assessmentId1'
         },
         {
           id: 'competenceId2',
@@ -128,7 +129,86 @@ describe('Unit | Domain | Models | Profile', () => {
           index: '1.2',
           areaId: 'areaId2',
           level: -1,
-          courseId: 'recBxPAuEPlTgt72q99'
+          courseId: 'courseId9',
+        }];
+
+      // When
+      const profile = new Profile(user, competences, areas, assessments, courses);
+
+      // Then
+      expect(profile).to.be.an.instanceof(Profile);
+      expect(profile.user).to.be.equal(user);
+      expect(profile.competences).to.be.deep.equal(expectedCompetences);
+      expect(profile.areas).to.be.equal(areas);
+    });
+
+    it('should not assign pixScore and estimatedLevel to user competence if assessment is not completed', function() {
+      courses[0].competences = ['competenceId1'];
+      assessments = [new Assessment({
+        id: 'assessmentId1',
+        courseId: 'courseId8'
+      }),];
+
+      const expectedCompetences = [
+        {
+          id: 'competenceId1',
+          name: '1.1 Mener une recherche d’information',
+          index: '1.1',
+          areaId: 'areaId1',
+          level: -1,
+          courseId: 'courseId8',
+          assessmentId : 'assessmentId1'
+        },
+        {
+          id: 'competenceId2',
+          name: '1.2 Gérer des données',
+          index: '1.2',
+          areaId: 'areaId2',
+          level: -1,
+          courseId: 'courseId9'
+        }];
+
+      // When
+      const profile = new Profile(user, competences, areas, assessments, courses);
+
+      // Then
+      expect(profile).to.be.an.instanceof(Profile);
+      expect(profile.user).to.be.equal(user);
+      expect(profile.competences).to.be.deep.equal(expectedCompetences);
+      expect(profile.areas).to.be.equal(areas);
+    });
+
+    it('should assign assessment id to competence', function() {
+      courses[0].competences = ['competenceId1'];
+      courses[1].competences = ['competenceId2'];
+      const assessmentA = new Assessment({
+        id: 'assessment_A',
+        courseId: 'courseId8'
+      });
+      const assessmentB = new Assessment({
+        id: 'assessment_B',
+        courseId: 'courseId9'
+      });
+      assessments = [assessmentA, assessmentB];
+
+      const expectedCompetences = [
+        {
+          id: 'competenceId1',
+          name: '1.1 Mener une recherche d’information',
+          index: '1.1',
+          areaId: 'areaId1',
+          level: -1,
+          courseId: 'courseId8',
+          assessmentId: 'assessment_A'
+        },
+        {
+          id: 'competenceId2',
+          name: '1.2 Gérer des données',
+          index: '1.2',
+          areaId: 'areaId2',
+          level: -1,
+          courseId: 'courseId9',
+          assessmentId: 'assessment_B'
         }];
 
       // When

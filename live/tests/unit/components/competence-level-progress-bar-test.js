@@ -73,7 +73,7 @@ describe('Unit | Component | Competence-level-progress-bar ', function() {
           component.set('courseId', courseId);
 
           // then
-          expect(component.get('canUserStartCourse')).to.be.equal(expected);
+          expect(component.get('canUserStartCourse')).to.equal(expected);
         });
       });
 
@@ -111,6 +111,67 @@ describe('Unit | Component | Competence-level-progress-bar ', function() {
       });
 
     });
+
+    describe('#canUserResumeAssessment', function() {
+
+      it('should return true if assessmentId is defined and level of the competence is -1', function() {
+        // given
+        const level = -1;
+        const assessmentId = 'awesomeId';
+        const component = this.subject();
+
+        // when
+        component.set('level', level);
+        component.set('assessmentId', assessmentId);
+
+        // then
+        expect(component.get('canUserResumeAssessment')).to.equal(true);
+      });
+
+      it('should return false if assessmentId is defined and level of the competence is not -1', function() {
+        // given
+        const level = 3;
+        const assessmentId = 'awesomeId';
+        const component = this.subject();
+
+        // when
+        component.set('level', level);
+        component.set('assessmentId', assessmentId);
+
+        // then
+        expect(component.get('canUserResumeAssessment')).to.equal(false);
+      });
+
+      it('should return false if assessmentId is an empty string', function() {
+        // given
+        const level = -1;
+        const assessmentId = '';
+        const component = this.subject();
+
+        // when
+        component.set('level', level);
+        component.set('assessmentId', assessmentId);
+
+        // then
+        expect(component.get('canUserResumeAssessment')).to.equal(false);
+      });
+
+      it('should return false if assessmentId is not defined', function() {
+        // given
+        const level = -1;
+        const assessmentId = null;
+        const component = this.subject();
+
+        // when
+        component.set('level', level);
+        component.set('assessmentId', assessmentId);
+
+        // then
+        expect(component.get('canUserResumeAssessment')).to.equal(false);
+      });
+
+    });
+
   });
 
 });

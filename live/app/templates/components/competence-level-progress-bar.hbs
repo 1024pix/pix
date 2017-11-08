@@ -19,9 +19,17 @@
 {{/if}}
 
 {{#if canUserStartCourse}}
-  <div class="competence-level-progress-bar__start">
-    {{#link-to "courses.create-assessment" courseId class="competence-level-progress-bar__start-link" }}
+  <div class="competence-level-progress-bar__link">
+    {{#link-to "courses.create-assessment" courseId class="competence-level-progress-bar__link-start" }}
       Commencer <div class="sr-only">le test "{{name}}"</div>
+    {{/link-to}}
+  </div>
+{{/if}}
+
+{{#if canUserResumeAssessment}}
+  <div class="competence-level-progress-bar__link">
+    {{#link-to "assessments.resume" assessmentId class="competence-level-progress-bar__link-resume" }}
+      Reprendre <div class="sr-only">le test "{{name}}"</div>
     {{/link-to}}
   </div>
 {{/if}}

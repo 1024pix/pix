@@ -14,7 +14,7 @@ const profileService = {
     const areas = areaRepository.list();
 
     const adaptiveCourses = courseRepository.getAdaptiveCourses();
-    const assessments = assessmentRepository.findCompletedAssessmentsByUserId(user_id);
+    const assessments = assessmentRepository.findLastAssessmentsForEachCoursesByUser(user_id);
     const organizations = organizationRepository.getByUserId(user_id);
 
     return Promise.all([user, competences, areas, assessments, adaptiveCourses, organizations])

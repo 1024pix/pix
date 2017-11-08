@@ -9,10 +9,11 @@ class Profile {
     this._initCompetenceLevel();
     this._setLevelAndPixScoreToCompetences(assessments, courses);
     this._calculateTotalPixScore();
+    this._setAssessmentToCompetence(assessments, courses);
   }
 
   _initCompetenceLevel() {
-    if(this.competences) {
+    if (this.competences) {
       this.competences.forEach((competence) => competence['level'] = -1);
     }
   }
@@ -21,22 +22,27 @@ class Profile {
     assessments.forEach((assessment) => {
       const courseIdFromAssessment = assessment.get('courseId');
       const course = this._getCourseById(courses, courseIdFromAssessment);
-      const estimateLevel = assessment.get('estimatedLevel');
-      const pixScore = assessment.get('pixScore');
 
-      this.competences.filter((competence) => {
-        return course.competences.indexOf(competence.id) > -1;
-      }).map((competence) => {
-        competence.level = estimateLevel;
-        competence.pixScore = pixScore;
-        return competence;
-      });
+      if (assessment.isCompleted()) {
+        const competence = this.competences.find(competence => course.competences.includes(competence.id));
+        competence.level = assessment.get('estimatedLevel');
+        competence.pixScore = assessment.get('pixScore');
+      }
+    });
+  }
 
+  _setAssessmentToCompetence(assessments, courses) {
+    assessments.forEach(assessment => {
+      const courseIdFromAssessment = assessment.get('courseId');
+      const course = this._getCourseById(courses, courseIdFromAssessment);
+
+      const competence = this.competences.find(competence => course.competences.includes(competence.id));
+      competence.assessmentId = assessment.get('id');
     });
   }
 
   _getCourseById(courses, courseIdFromAssessment) {
-    return _.find(courses, function(course) {
+    return _.find(courses, (course) => {
       return course.id === courseIdFromAssessment;
     });
   }
@@ -47,7 +53,7 @@ class Profile {
       return competence.hasOwnProperty('pixScore');
     });
 
-    if(competencesWithScore.length > 0) {
+    if (competencesWithScore.length > 0) {
       let pixScore = 0;
 
       competencesWithScore.forEach((competence) => {

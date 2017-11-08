@@ -46,8 +46,9 @@ export default function(schema, request) {
 
   if (finalAnswer) {
     return finalAnswer.obj;
-  }else {
-    throw new Error('Unable to POST this answer in the stub, sorry');
+  } else {
+    const newAnswer = this.normalizedRequestAttrs();
+    return schema.answers.create(newAnswer);
   }
 
 }
