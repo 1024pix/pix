@@ -1,10 +1,11 @@
 import { describe, it, beforeEach, afterEach } from 'mocha';
 import { expect } from 'chai';
 import { startApp, destroyApp } from '../helpers/application';
+import { debounce } from '@ember/runloop';
 
 async function visitTimedChallenge() {
   await visit('/assessments/ref_assessment_id/challenges/ref_qcm_challenge_id');
-  await click('.challenge-item-warning button');
+  await click('.challenge-item-warning__confirm-btn');
 }
 
 function progressBarText() {
@@ -45,29 +46,37 @@ describe('Acceptance | d1 - Valider une épreuve |', function() {
   });
 
   describe('quand je valide ma réponse à une épreuve', function() {
-    beforeEach(async function() {
-      // Given
-      await visitTimedChallenge();
-      await click('.proposal-text');
-      await click('.challenge-actions__action-validate');
+
+    it('d1.3 Si l\'épreuve que je viens de valider n\'était pas la dernière du test, je suis redirigé vers l\'épreuve suivante (et la barre de progression est mise à jour)', function() {
+      // given
+      visit('/assessments/ref_assessment_id/challenges/ref_qcm_challenge_id');
+      click('.challenge-item-warning__confirm-btn');
+
+      // when
+      click('.challenge-actions__action-validate');
+
+      // then
+      andThen(() => {
+        debounce(this, () => {
+          expect(currentURL()).to.contain('/assessments/ref_assessment_id/challenges/ref_qcu_challenge_id');
+          expect(findWithAssert('.pix-progress-bar').text().trim()).to.contain('2 / 4');
+        }, 150);
+      });
     });
 
-    it('d1.3 Si l\'épreuve que je viens de valider n\'était pas la dernière du test, je suis redirigé vers l\'épreuve suivante', async function() {
-      expect(currentURL()).to.contain('/assessments/ref_assessment_id/challenges/ref_qcu_challenge_id');
-    });
+    it('d1.5 Si l\'épreuve que je viens de valider était la dernière du test, je suis redirigé vers la page de fin du test', function() {
+      // given
+      visit('/assessments/ref_assessment_id/challenges/ref_qrocm_challenge_id');
 
-    it('d1.4 La barre de progression avance d\'une unité, de 1 à 2.', async function() {
+      // when
+      click('.challenge-actions__action-validate');
 
-      // Then
-      const expectedText = '2';
-      expect(findWithAssert('.pix-progress-bar').text()).to.contain(expectedText);
-    });
-
-    it('d1.5 Si l\'épreuve que je viens de valider était la dernière du test, je suis redirigé vers la page de fin du test', async function() {
-      await visit('/assessments/ref_assessment_id/challenges/ref_qrocm_challenge_id');
-      await click('.challenge-response__proposal-input');
-      await click('.challenge-actions__action-validate');
-      expect(currentURL()).to.contain('/assessments/ref_assessment_id/results');
+      // then
+      andThen(() => {
+        debounce(this, () => {
+          expect(currentURL()).to.contain('/assessments/ref_assessment_id/results');
+        }, 150);
+      });
     });
   });
 

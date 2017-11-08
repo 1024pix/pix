@@ -94,6 +94,10 @@ class ProfileSerializer extends JSONAPISerializer {
         competenceData.attributes['pix-score'] = competence.pixScore;
       }
 
+      if (competence.assessmentId) {
+        competenceData.attributes['assessment-id'] = competence.assessmentId;
+      }
+
       included.push(competenceData);
     });
   }

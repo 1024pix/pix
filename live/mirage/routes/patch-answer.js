@@ -19,11 +19,12 @@ export default function(schema, request) {
     refTimedAnswer,
     refTimedAnswerBis
   ];
-  const existingAnswer = _.find(allAnswers, function(answer) {
+  const existingAnswer = _.find(allAnswers, (answer) => {
     return answer.data.id === receivedAnswer.data.id;
   });
   if (!existingAnswer) {
-    throw new Error('Unable to PATCH this answer: no answer with id `' + receivedAnswer.data.id + '` found in the stubs.');
+    // TODO make it work for real
+    return schema.answers.find(receivedAnswer.data.id);
   }
 
   const updatedAnswer = existingAnswer;

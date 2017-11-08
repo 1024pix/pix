@@ -9,6 +9,10 @@ module.exports = Bookshelf.model('Assessment', {
 
   answers() {
     return this.hasMany('Answer', 'assessmentId');
+  },
+
+  isCompleted() {
+    return Boolean(this.get('estimatedLevel') && this.get('pixScore'));
   }
 
 });

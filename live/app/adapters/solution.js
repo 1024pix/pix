@@ -1,18 +1,16 @@
 import ApplicationAdapter from './application';
-import $ from 'jquery';
-import RSVP from 'rsvp';
 
 export default ApplicationAdapter.extend({
 
-  queryRecord(modelName, clazz, query) {
-    return $.getJSON(`${this.host}/${this.namespace}/assessments/${query.assessmentId}/solutions/${query.answerId}`, (data) => {
-      return RSVP.resolve(data);
-    });
+  queryRecord(store, type, query) {
+    const url = `${this.host}/${this.namespace}/assessments/${query.assessmentId}/solutions/${query.answerId}`;
+    return this.ajax(url, 'GET');
   },
+
   // refresh cache
-  refreshRecord(modelName, clazz) {
-    return $.post(`${this.host}/${this.namespace}/challenges/${clazz.challengeId}/solution`, (data) => {
-      return RSVP.resolve(data);
-    });
+  refreshRecord(type, challenge) {
+    const url = `${this.host}/${this.namespace}/challenges/${challenge.challengeId}/solution`;
+    return this.ajax(url, 'POST');
   }
+
 });

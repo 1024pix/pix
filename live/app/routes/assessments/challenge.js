@@ -22,15 +22,12 @@ export default BaseRoute.extend({
 
   afterModel(model) {
     const store = this.get('store');
-    const answers = store.queryRecord('answer', {
-      assessment: model.assessment.id,
-      challenge: model.challenge.id
-    });
-    const course = model.assessment.get('course');
-    return RSVP.all([answers, course]).then(values => {
-      model.progress = values[1].getProgress(model.challenge);
+    return RSVP.hash({
+      answers: store.queryRecord('answer', { assessment: model.assessment.id, challenge: model.challenge.id }),
+      course: model.assessment.get('course')
+    }).then(({ answers, course }) => {
       model.answers = answers;
-      model.course = course;
+      model.progress = course.getProgress(model.challenge);
       return model;
     });
   },
@@ -43,7 +40,7 @@ export default BaseRoute.extend({
   },
 
   _findOrCreateAnswer(challenge, assessment) {
-    let answer = assessment.get('answers').findBy('challenge.id', challenge.id);
+    let answer = assessment.get('answers').findBy('challenge.id', challenge.get('id'));
     if (!answer) {
       answer = this.get('store').createRecord('answer', { assessment, challenge });
     }
@@ -51,16 +48,10 @@ export default BaseRoute.extend({
   },
 
   _navigateToNextView(challenge, assessment) {
-    const store = this.get('store');
-    const challengeAdapter = store.adapterFor('challenge');
-
-    return challengeAdapter.queryNext(store, assessment.id, challenge.id)
-      .then(nextChallenge => {
-        if (nextChallenge) {
-          return this.transitionTo('assessments.challenge', { assessment, challenge: nextChallenge });
-        }
-        return this.transitionTo('assessments.results', assessment);
-      });
+    return this.get('store')
+      .queryRecord('challenge', { assessmentId: assessment.get('id'), challengeId: challenge.get('id') })
+      .then((nextChallenge) => this.transitionTo('assessments.challenge', { assessment, challenge: nextChallenge }))
+      .catch(() => this.transitionTo('assessments.results', assessment));
   },
 
   actions: {
@@ -72,12 +63,7 @@ export default BaseRoute.extend({
         timeout: answerTimeout,
         elapsedTime: answerElapsedTime
       });
-      return answer.save()
-        .then(() => this._navigateToNextView(challenge, assessment))
-        .catch((err) => {
-          alert(`Erreur lors de l’enregistrement de la réponse : ${err}`);
-          return err;
-        });
+      return answer.save().then(() => this._navigateToNextView(challenge, assessment));
     }
   },
 

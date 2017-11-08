@@ -57,11 +57,11 @@ describe('Unit | Service | Profil User Service', function() {
   }];
 
   const fakeOrganizationsRecords = [{
-    id : 'organizationId1',
-    name : 'orga 1'
+    id: 'organizationId1',
+    name: 'orga 1'
   }, {
-    id : 'organizationId2',
-    name : 'orga 2'
+    id: 'organizationId2',
+    name: 'orga 2'
   }];
 
   describe('#getUser', () => {
@@ -82,7 +82,7 @@ describe('Unit | Service | Profil User Service', function() {
         sandbox.stub(competenceRepository, 'list').resolves(fakeCompetenceRecords);
         sandbox.stub(areaRepository, 'list').resolves(fakeAreaRecords);
         sandbox.stub(courseRepository, 'getAdaptiveCourses').resolves(fakeCoursesRecords);
-        sandbox.stub(assessmentRepository, 'findCompletedAssessmentsByUserId').resolves(fakeAssessmentRecords);
+        sandbox.stub(assessmentRepository, 'findLastAssessmentsForEachCoursesByUser').resolves(fakeAssessmentRecords);
         sandbox.stub(organizationRepository, 'getByUserId').resolves(fakeOrganizationsRecords);
       });
 
@@ -107,7 +107,8 @@ describe('Unit | Service | Profil User Service', function() {
               name: '1.1 Mener une recherche d’information',
               areaId: 'areaId1',
               level: 1,
-              pixScore: 10
+              pixScore: 10,
+              assessmentId: 'assessmentId1'
             },
             {
               id: 'competenceId2',
@@ -116,7 +117,7 @@ describe('Unit | Service | Profil User Service', function() {
               level: -1
             }],
           areas: fakeAreaRecords,
-          organizations : fakeOrganizationsRecords
+          organizations: fakeOrganizationsRecords
         };
 
         // When
@@ -145,8 +146,8 @@ describe('Unit | Service | Profil User Service', function() {
 
         // Then
         return promise.then(() => {
-          sinon.assert.called(assessmentRepository.findCompletedAssessmentsByUserId);
-          sinon.assert.calledWith(assessmentRepository.findCompletedAssessmentsByUserId, 'user-id');
+          sinon.assert.called(assessmentRepository.findLastAssessmentsForEachCoursesByUser);
+          sinon.assert.calledWith(assessmentRepository.findLastAssessmentsForEachCoursesByUser, 'user-id');
         });
       });
 

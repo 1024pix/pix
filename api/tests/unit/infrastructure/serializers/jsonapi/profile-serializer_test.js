@@ -13,6 +13,8 @@ describe('Unit | Serializer | JSONAPI | profile-serializer', () => {
     let areas;
     let competences;
     let organizations;
+    let finishedAssessment;
+    let nonFinishedAssessment;
     let assessments;
     let courses;
 
@@ -53,29 +55,61 @@ describe('Unit | Serializer | JSONAPI | profile-serializer', () => {
           name: 'competence-name-1',
           index: '1.1',
           areaId: 'recAreaA',
-          courseId: 'recBxPAuEPlTgt72q11'
+          courseId: 'courseID1',
+          assessmentId : 'assessmentId1'
         },
         {
           id: 'recCompB',
           name: 'competence-name-2',
           index: '1.2',
           areaId: 'recAreaB',
-          courseId: 'recBxPAuEPlTgt72q99'
+          courseId: 'courseID2',
+          assessmentId : 'assessmentId2'
+        },
+        {
+          id: 'recCompC',
+          name: 'competence-name-3',
+          index: '1.3',
+          areaId: 'recAreaB',
+          courseId: 'courseID3'
         }];
 
       organizations = [
-        new Organization({ id: 'organizationId1', name: 'etablissement 1', email: 'best.etablishment@company.com', type: 'SCO', code: 'ABCD12' }),
-        new Organization({ id: 'organizationId2', name: 'etablissement 2', email: 'best.enterprise@company.com', type: 'PRO', code: 'EFGH34' })
+        new Organization({
+          id: 'organizationId1',
+          name: 'etablissement 1',
+          email: 'best.etablishment@company.com',
+          type: 'SCO',
+          code: 'ABCD12'
+        }),
+        new Organization({
+          id: 'organizationId2',
+          name: 'etablissement 2',
+          email: 'best.enterprise@company.com',
+          type: 'PRO',
+          code: 'EFGH34'
+        })
       ];
 
-      assessments = [new Assessment(
-        {
-          courseId: 'courseID1',
-          estimatedLevel: 8,
-          pixScore: 128
-        })];
+      finishedAssessment = new Assessment({
+        id : 'assessmentID1',
+        courseId: 'courseID1',
+        estimatedLevel: 8,
+        pixScore: 128
+      });
+      nonFinishedAssessment = new Assessment({
+        id : 'assessmentID2',
+        courseId: 'courseID2',
+        estimatedLevel: null,
+        pixScore: null,
+      });
 
-      courses = [{ id: 'courseID1', competences: ['recCompB'] }];
+      assessments = [finishedAssessment, nonFinishedAssessment];
+
+      courses = [{ id: 'courseID1', competences: ['recCompA'] },
+        { id: 'courseID2', competences: ['recCompB'] },
+        { id: 'courseID3', competences: ['recCompC'] }
+      ];
 
     });
 
@@ -96,7 +130,8 @@ describe('Unit | Serializer | JSONAPI | profile-serializer', () => {
             competences: {
               data: [
                 { type: 'competences', id: 'recCompA' },
-                { type: 'competences', id: 'recCompB' }
+                { type: 'competences', id: 'recCompB' },
+                { type: 'competences', id: 'recCompC' }
               ]
             }
           },
@@ -122,8 +157,10 @@ describe('Unit | Serializer | JSONAPI | profile-serializer', () => {
             attributes: {
               name: 'competence-name-1',
               index: '1.1',
-              level: -1,
-              'course-id': 'recBxPAuEPlTgt72q11'
+              level: 8,
+              'pix-score': 128,
+              'course-id': 'courseID1',
+              'assessment-id': 'assessmentID1'
             },
             relationships: {
               area: {
@@ -140,9 +177,27 @@ describe('Unit | Serializer | JSONAPI | profile-serializer', () => {
             attributes: {
               name: 'competence-name-2',
               index: '1.2',
-              level: 8,
-              'pix-score': 128,
-              'course-id': 'recBxPAuEPlTgt72q99'
+              level: -1,
+              'course-id': 'courseID2',
+              'assessment-id': 'assessmentID2'
+            },
+            relationships: {
+              area: {
+                data: {
+                  type: 'areas',
+                  id: 'recAreaB'
+                }
+              }
+            }
+          },
+          {
+            type: 'competences',
+            id: 'recCompC',
+            attributes: {
+              name: 'competence-name-3',
+              index: '1.3',
+              level: -1,
+              'course-id': 'courseID3'
             },
             relationships: {
               area: {
@@ -203,12 +258,12 @@ describe('Unit | Serializer | JSONAPI | profile-serializer', () => {
               name: 'etablissement 1',
               email: 'best.etablishment@company.com',
               type: 'SCO',
-              code : 'ABCD12'
+              code: 'ABCD12'
             },
-            relationships : {
-              snapshots : {
-                links : {
-                  related : '/api/organizations/organizationId1/snapshots'
+            relationships: {
+              snapshots: {
+                links: {
+                  related: '/api/organizations/organizationId1/snapshots'
                 }
               }
             }
@@ -220,12 +275,12 @@ describe('Unit | Serializer | JSONAPI | profile-serializer', () => {
               name: 'etablissement 2',
               email: 'best.enterprise@company.com',
               type: 'PRO',
-              code : 'EFGH34'
+              code: 'EFGH34'
             },
-            relationships : {
-              snapshots : {
-                links : {
-                  related : '/api/organizations/organizationId2/snapshots'
+            relationships: {
+              snapshots: {
+                links: {
+                  related: '/api/organizations/organizationId2/snapshots'
                 }
               }
             }
