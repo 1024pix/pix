@@ -214,6 +214,7 @@
 .enrollment-page__steps-establishment__title-image img {
   width: 80px;
 }
+
 .enrollment-page__steps-establishment__title-image {
   margin-bottom: 15px;
 
@@ -224,7 +225,7 @@
   flex-basis: 40px;
 }
 
-.enrollment-page__steps-establishment__title-text{
+.enrollment-page__steps-establishment__title-text {
 
   @include device-is('tablet') {
     flex-grow: 5;
@@ -249,7 +250,7 @@
 }
 
 .cp-is-open .enrollment-page__steps-establishment__title-icon {
-  position:relative;
+  position: relative;
   top: 10px;
   border: solid 2px $pix-blue;
   border-bottom: none;
@@ -275,17 +276,12 @@
 }
 
 .enrollment-page__steps-establishment__steps-list__step-description {
+  line-height: 23px;
+  font-size: 15px;
+  font-weight: $font-semi-bold;
 
   @include device-is('tablet') {
-    font-size: 20px;
-  }
-}
-
-.enrollment-page__steps-establishment__steps-list__step-note {
-  font-size: 10px;
-
-  @include device-is('tablet') {
-    font-size: 12px;
+    font-size: 19px;
   }
 }
 

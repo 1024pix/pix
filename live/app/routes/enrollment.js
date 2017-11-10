@@ -18,7 +18,7 @@ const stepsForPioneersInstitutions = [
     image: 'icon-college.svg',
     steps: [
       {
-        date: 'Jusqu\'à fin septembre 2017',
+        date: 'Jusqu\'à fin décembre 2017',
         description: 'Les collèges et lycées qui souhaitent proposer la certification Pix à leurs élèves s\'inscrivent auprès de Pix.'
       }, {
         description: 'Les équipes pédagogiques découvrent les fonctionnalités de Pix (formations courtes en ligne).'
@@ -41,9 +41,8 @@ const stepsForPioneersInstitutions = [
     image: 'icon-etudiants.svg',
     steps: [
       {
-        date: 'Jusqu\'à fin septembre 2017',
-        description: 'Inscription des établissements pour le 1er semestre et/ou le 2nd semestre.',
-        note: 'Les établissements qui souhaiteront s\'inscrire pour un démarrage au second semestre pourront le faire jusqu\'à la fin octobre 2017.'
+        date: 'Jusqu’à fin septembre 2017',
+        description: 'Inscription des établissements pour le 2nd semestre.'
       }, {
         description: 'Possibilité d\'organiser une pré-campagne d\'évaluation des étudiants en cycle d\'accueil (limitée à certaines compétences).'
       }, {
