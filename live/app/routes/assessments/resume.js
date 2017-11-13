@@ -2,8 +2,8 @@ import BaseRoute from 'pix-live/routes/base-route';
 
 export default BaseRoute.extend({
 
-  model() {
-    const { assessment_id: assessmentId } = this.paramsFor('assessments');
+  model(params) {
+    const assessmentId = params.assessment_id;
     return this.get('store').findRecord('assessment', assessmentId);
   },
 

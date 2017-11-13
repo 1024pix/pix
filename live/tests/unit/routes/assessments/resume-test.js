@@ -30,7 +30,6 @@ describe('Unit | Route | resume', function() {
     // instance route object
     route = this.subject();
     route.transitionTo = sinon.stub();
-    route.paramsFor = sinon.stub().returns({ assessment_id: 123 });
   });
 
   it('exists', function() {
@@ -42,10 +41,11 @@ describe('Unit | Route | resume', function() {
 
     it('should fetch an assessment', function() {
       // given
+      const params = { assessment_id: 123 };
       route.get('store').findRecord.resolves();
 
       // when
-      const promise = route.model();
+      const promise = route.model(params);
 
       // then
       return promise.then(() => {
