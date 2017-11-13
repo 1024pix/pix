@@ -5,7 +5,8 @@
     <div class="competence">
       <div class="competence__name">{{competence.name}}</div>
       <div class="competence__progress-bar">
-        {{competence-level-progress-bar name=competence.name level=competence.level courseId=competence.courseId assessmentId=competence.assessmentId}}
+        {{competence-level-progress-bar name=competence.name level=competence.level courseId=competence.courseId
+                                        assessmentId=competence.assessmentId status=competence.status}}
       </div>
     </div>
   {{/each}}

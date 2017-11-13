@@ -9,6 +9,14 @@
     <div class="competence-level-progress-bar__background-level-limit-max-indicator">
       {{_MAX_LEVEL}}
     </div>
+    {{#if canUserReplayAssessment}}
+      <div class="competence-level-progress-bar__link">
+        {{#link-to "courses.create-assessment" courseId class="competence-level-progress-bar__link-replay" }}
+          Seconde chance <div class="sr-only">pour le test "{{name}}"</div>
+        {{/link-to}}
+      </div>
+    {{/if}}
+
   </div>
 
   <div class="competence-level-progress-bar__level" style={{widthOfProgressBar}}>
@@ -33,3 +41,6 @@
     {{/link-to}}
   </div>
 {{/if}}
+
+
+

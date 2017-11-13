@@ -11,6 +11,7 @@ export default Ember.Component.extend({
   courseId: null,
   assessmentId: null,
   name: null,
+  status: null,
 
   hasLevel: Ember.computed('level', function() {
     const level = this.get('level');
@@ -39,9 +40,11 @@ export default Ember.Component.extend({
     return Boolean(courseId && !hasLevel && !assessmentId);
   }),
 
-  canUserResumeAssessment : Ember.computed('assessmentId', 'hasLevel', function() {
-    const hasLevel = this.get('hasLevel');
-    const assessmentId = this.get('assessmentId');
-    return !hasLevel && Ember.isPresent(assessmentId);
+  canUserResumeAssessment: Ember.computed('assessmentId', 'status', function() {
+    return Boolean(this.get('status') === 'notCompleted') && Ember.isPresent(this.get('assessmentId'));
+  }),
+
+  canUserReplayAssessment: Ember.computed('courseId', 'status', function() {
+    return Boolean(this.get('status') === 'evaluated' && this.get('courseId'));
   })
 });

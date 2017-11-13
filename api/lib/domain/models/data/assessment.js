@@ -12,7 +12,8 @@ module.exports = Bookshelf.model('Assessment', {
   },
 
   isCompleted() {
-    return Boolean(this.get('estimatedLevel') && this.get('pixScore'));
+    return Boolean(this.get('estimatedLevel') && this.get('pixScore')
+      || (this.get('estimatedLevel') === 0));
   }
 
 });

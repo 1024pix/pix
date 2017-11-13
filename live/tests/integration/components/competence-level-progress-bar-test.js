@@ -106,7 +106,7 @@ describe('Integration | Component | competence level progress bar', function() {
       // then
       expect(this.$('.competence-level-progress-bar__link')).to.have.lengthOf(1);
       expect(this.$('a.competence-level-progress-bar__link-start')).to.have.lengthOf(1);
-      expect(this.$('a.competence-level-progress-bar__link-start').text().trim()).to.be.equal('Commencer le test "Premier test de positionnement"');
+      expect(this.$('a.competence-level-progress-bar__link-start').text().trim()).to.contains('Commencer le test "Premier test de positionnement"');
     });
 
     it('should not display ’commencer’ in progress bar, when the level is already defined', function() {
@@ -144,22 +144,47 @@ describe('Integration | Component | competence level progress bar', function() {
 
   describe('resume assessment link', function() {
 
-    it('should display `Reprendre` if level is not defined (-1) and there is an assessment related', function() {
+    it('should display `Reprendre` if status is "notCompleted" and there is an assessment related', function() {
       // given
-      const level = -1;
+      const status = 'notCompleted';
       const assessmentId = 'awesomeId';
       const name = 'deuxième test';
-      this.set('level', level);
+      this.set('status', status);
       this.set('assessmentId', assessmentId);
       this.set('name', name);
 
       // when
-      this.render(hbs`{{competence-level-progress-bar level=level assessmentId=assessmentId name=name}}`);
+      this.render(hbs`{{competence-level-progress-bar status=status assessmentId=assessmentId name=name}}`);
 
       // then
       expect(this.$('.competence-level-progress-bar__link')).to.have.lengthOf(1);
       expect(this.$('a.competence-level-progress-bar__link-resume')).to.have.lengthOf(1);
       expect(this.$('a.competence-level-progress-bar__link-resume').text().trim()).to.be.equal('Reprendre le test "deuxième test"');
+    });
+
+  });
+
+  describe('replay assessment link', function() {
+
+    it('should display `Seconde Change` if status is "evaluated"', function() {
+      // given
+      const status = 'evaluated';
+      const name = 'deuxième test';
+      const courseId = 'courseId';
+      const level = 3;
+
+      this.set('status', status);
+      this.set('name', name);
+      this.set('courseId', courseId);
+      this.set('level', level);
+
+      // when
+      this.render(hbs`{{competence-level-progress-bar status=status name=name courseId=courseId level=level}}`);
+
+      // then
+      expect(this.$('.competence-level-progress-bar__link')).to.have.lengthOf(1);
+      expect(this.$('.competence-level-progress-bar__link-replay')).to.have.lengthOf(1);
+      expect(this.$('a.competence-level-progress-bar__link-replay').text().trim()).to.be.equal('Seconde chance pour le test "deuxième test"');
     });
   });
 
