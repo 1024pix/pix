@@ -7,6 +7,18 @@ const organizationRepository = require('../../infrastructure/repositories/organi
 
 const Profile = require('../../domain/models/data/profile');
 
+// FIXME: A déplacer dans le competenceRepository pour qu'il ne renvoit plus des Challenges de Bookshelf (mais objets du domaine).
+function _initCompetenceLevel(competences) {
+  if (competences) {
+    competences.forEach((competence) => {
+      competence['level'] = -1;
+      competence['status'] = 'notEvaluated';
+    });
+  }
+
+  return competences;
+}
+
 const profileService = {
   getByUserId(user_id) {
     const user = userRepository.findUserById(user_id);
@@ -14,12 +26,16 @@ const profileService = {
     const areas = areaRepository.list();
 
     const adaptiveCourses = courseRepository.getAdaptiveCourses();
-    const assessments = assessmentRepository.findLastAssessmentsForEachCoursesByUser(user_id);
+    const lastAssessments = assessmentRepository.findLastAssessmentsForEachCoursesByUser(user_id);
+    const assessmentsCompleted = assessmentRepository.findCompletedAssessmentsByUserId(user_id);
     const organizations = organizationRepository.getByUserId(user_id);
 
-    return Promise.all([user, competences, areas, assessments, adaptiveCourses, organizations])
-      .then(([user, competences, areas, assessments, adaptiveCourses, organizations]) => {
-        return new Profile(user, competences, areas, assessments, adaptiveCourses, organizations);
+    return Promise.all([user, competences, areas, lastAssessments, assessmentsCompleted, adaptiveCourses, organizations])
+      .then(([user, competences, areas, lastAssessments, assessmentsCompleted, adaptiveCourses, organizations]) => {
+
+        const competencesWithDefaultLevelAndStatus = _initCompetenceLevel(competences);
+
+        return new Profile(user, competencesWithDefaultLevelAndStatus, areas, lastAssessments, assessmentsCompleted, adaptiveCourses, organizations);
       });
   }
 };

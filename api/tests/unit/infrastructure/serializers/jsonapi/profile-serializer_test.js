@@ -15,7 +15,8 @@ describe('Unit | Serializer | JSONAPI | profile-serializer', () => {
     let organizations;
     let finishedAssessment;
     let nonFinishedAssessment;
-    let assessments;
+    let lastAssessments;
+    let assessmentsCompleted;
     let courses;
 
     let emptyCompetences;
@@ -56,7 +57,9 @@ describe('Unit | Serializer | JSONAPI | profile-serializer', () => {
           index: '1.1',
           areaId: 'recAreaA',
           courseId: 'courseID1',
-          assessmentId : 'assessmentId1'
+          assessmentId : 'assessmentId1',
+          level: -1,
+          status: 'notEvaluated'
         },
         {
           id: 'recCompB',
@@ -64,14 +67,18 @@ describe('Unit | Serializer | JSONAPI | profile-serializer', () => {
           index: '1.2',
           areaId: 'recAreaB',
           courseId: 'courseID2',
-          assessmentId : 'assessmentId2'
+          assessmentId : 'assessmentId2',
+          level: -1,
+          status: 'notEvaluated'
         },
         {
           id: 'recCompC',
           name: 'competence-name-3',
           index: '1.3',
           areaId: 'recAreaB',
-          courseId: 'courseID3'
+          courseId: 'courseID3',
+          level: -1,
+          status: 'notEvaluated'
         }];
 
       organizations = [
@@ -104,7 +111,8 @@ describe('Unit | Serializer | JSONAPI | profile-serializer', () => {
         pixScore: null,
       });
 
-      assessments = [finishedAssessment, nonFinishedAssessment];
+      lastAssessments = [finishedAssessment, nonFinishedAssessment];
+      assessmentsCompleted = [finishedAssessment];
 
       courses = [{ id: 'courseID1', competences: ['recCompA'] },
         { id: 'courseID2', competences: ['recCompB'] },
@@ -115,7 +123,7 @@ describe('Unit | Serializer | JSONAPI | profile-serializer', () => {
 
     it('should serialize a Profile into JSON:API data of type "users"', function() {
       // Given
-      const profile = new Profile(user, competences, areas, assessments, courses, emptyOrganizations);
+      const profile = new Profile(user, competences, areas, lastAssessments, assessmentsCompleted, courses, emptyOrganizations);
       const expectedJson = {
         data: {
           type: 'users',
@@ -160,7 +168,8 @@ describe('Unit | Serializer | JSONAPI | profile-serializer', () => {
               level: 8,
               'pix-score': 128,
               'course-id': 'courseID1',
-              'assessment-id': 'assessmentID1'
+              'assessment-id': 'assessmentID1',
+              status: 'evaluated',
             },
             relationships: {
               area: {
@@ -178,6 +187,7 @@ describe('Unit | Serializer | JSONAPI | profile-serializer', () => {
               name: 'competence-name-2',
               index: '1.2',
               level: -1,
+              status: 'notCompleted',
               'course-id': 'courseID2',
               'assessment-id': 'assessmentID2'
             },
@@ -197,6 +207,7 @@ describe('Unit | Serializer | JSONAPI | profile-serializer', () => {
               name: 'competence-name-3',
               index: '1.3',
               level: -1,
+              status: 'notEvaluated',
               'course-id': 'courseID3'
             },
             relationships: {
@@ -220,7 +231,7 @@ describe('Unit | Serializer | JSONAPI | profile-serializer', () => {
 
     it('should not serialize "total-pix-score" user attribute when no assessments', function() {
       // Given
-      const profile = new Profile(user, competences, areas, emptyAssessments, emptyCourses, emptyOrganizations);
+      const profile = new Profile(user, competences, areas, emptyAssessments, emptyAssessments, emptyCourses, emptyOrganizations);
 
       // When
       const userSerialized = serializer.serialize(profile);
@@ -231,7 +242,7 @@ describe('Unit | Serializer | JSONAPI | profile-serializer', () => {
 
     it('should serialize organizations if user is admin of some organizations', function() {
       // Given
-      const profile = new Profile(user, emptyCompetences, emptyAreas, emptyAssessments, emptyCourses, organizations);
+      const profile = new Profile(user, emptyCompetences, emptyAreas, emptyAssessments, emptyAssessments, emptyCourses, organizations);
       const expectedJsonWithOrganisations = {
         data: {
           type: 'users',

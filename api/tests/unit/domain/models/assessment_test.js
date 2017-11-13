@@ -37,5 +37,16 @@ describe('Unit | Domain | Models | Assessment', () => {
       // then
       expect(isCompleted).to.be.false;
     });
+
+    it('should return true when estimated level is 0', () => {
+      // given
+      const assessment = new Assessment({ pixScore: 7, estimatedLevel: 0 });
+
+      // when
+      const isCompleted = assessment.isCompleted();
+
+      // then
+      expect(isCompleted).to.be.true;
+    });
   });
 });

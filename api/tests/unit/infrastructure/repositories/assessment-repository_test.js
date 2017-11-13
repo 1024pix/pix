@@ -1,4 +1,4 @@
-const { describe, it, expect, before, after, knex, sinon, beforeEach } = require('../../../test-helper');
+const { describe, it, expect, before, after, knex, sinon, beforeEach, afterEach } = require('../../../test-helper');
 
 const assessmentRepository = require('../../../../lib/infrastructure/repositories/assessment-repository');
 const Assessment = require('../../../../lib/domain/models/data/assessment');
@@ -6,7 +6,6 @@ const Assessment = require('../../../../lib/domain/models/data/assessment');
 describe('Unit | Repository | assessmentRepository', () => {
 
   describe('#findLastAssessmentsForEachCoursesByUser', () => {
-
     const JOHN = 2;
     const LAYLA = 3;
     const assessmentsInDb = [{
@@ -82,6 +81,88 @@ describe('Unit | Repository | assessmentRepository', () => {
 
   });
 
+  describe('#findLastCompletedAssessmentsByUser', () => {
+    const assessmentsInDb = [{
+      id: 1,
+      userId: 2,
+      courseId: 'courseId1',
+      estimatedLevel: 1,
+      pixScore: 10
+    }, {
+      id: 2,
+      userId: 3,
+      courseId: 'courseId1',
+      estimatedLevel: 2,
+      pixScore: 20
+    }];
+
+    before(() => {
+      return knex('assessments').insert(assessmentsInDb);
+    });
+
+    after(() => {
+      return knex('assessments').delete();
+    });
+
+    let sandbox;
+    let queryStub;
+    let fetchStub;
+    let whereStub;
+    let whereNotNullStub;
+    let whereNotNullStub2;
+    let orderByStub;
+    const userId = 2;
+
+    beforeEach(() => {
+      sandbox = sinon.sandbox.create();
+      orderByStub = sandbox.stub();
+      whereNotNullStub2 = sandbox.stub().returns({
+        orderBy: orderByStub
+      });
+      whereNotNullStub = sandbox.stub().returns({
+        whereNotNull: whereNotNullStub2
+      });
+
+      whereStub = sandbox.stub().returns({
+        whereNotNull: whereNotNullStub
+      });
+
+      fetchStub = sandbox.stub().resolves({ models: {} });
+      queryStub = sandbox.stub().yields({ where: whereStub }).returns({
+        fetch: fetchStub
+      });
+      sandbox.stub(Assessment, 'collection').returns({
+        query: queryStub
+      });
+    });
+
+    afterEach(() => {
+      sandbox.restore();
+    });
+
+    it('should correctly query Assessment conditions', () => {
+      // when
+      const promise = assessmentRepository.findLastCompletedAssessmentsForEachCoursesByUser(userId);
+
+      // then
+      return promise.then(() => {
+        sinon.assert.calledOnce(Assessment.collection);
+        sinon.assert.calledOnce(queryStub);
+        sinon.assert.calledOnce(whereStub);
+        sinon.assert.calledOnce(fetchStub);
+
+        sinon.assert.calledOnce(whereNotNullStub);
+        sinon.assert.calledWith(whereNotNullStub, 'estimatedLevel');
+
+        sinon.assert.calledOnce(whereNotNullStub2);
+        sinon.assert.calledWith(whereNotNullStub2, 'pixScore');
+
+        sinon.assert.calledOnce(orderByStub);
+        sinon.assert.calledWith(orderByStub, 'createdAt', 'desc');
+      });
+    });
+  });
+
   describe('#findCompletedAssessmentsByUserId', () => {
 
     const JOHN = 2;
@@ -133,6 +214,7 @@ describe('Unit | Repository | assessmentRepository', () => {
         expect(assessments).to.have.lengthOf(2);
         expect(assessments[0].id).to.equal(COMPLETED_ASSESSMENT_A_ID);
         expect(assessments[1].id).to.equal(COMPLETED_ASSESSMENT_B_ID);
+
       });
     });
 
@@ -146,7 +228,7 @@ describe('Unit | Repository | assessmentRepository', () => {
       });
 
       // When
-      const promise = assessmentRepository.findCompletedAssessmentsByUserId(JOHN);
+      const promise = assessmentRepository.findLastAssessmentsForEachCoursesByUser(JOHN);
 
       // Then
       whereStub.restore();

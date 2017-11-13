@@ -92,7 +92,7 @@ module.exports = {
   getSkillProfile(userId) {
 
     return assessmentRepository
-      .findCompletedAssessmentsByUserId(userId)
+      .findLastCompletedAssessmentsForEachCoursesByUser(userId)
       .then(_findCorrectAnswersByAssessments)
       .then(_loadRequiredChallengesInformationsAndAnswers)
       .then(_castCompetencesToUserCompetences)

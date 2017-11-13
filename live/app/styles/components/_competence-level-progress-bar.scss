@@ -107,3 +107,19 @@
     color: $pix-blue;
   }
 }
+
+.competence-level-progress-bar__link-replay {
+  margin-top: -30px;
+  width: 81px;
+  font-family: $font-lato;
+  font-size: 14px;
+  font-weight: $font-bold;
+  letter-spacing: 0.5px;
+  color: $pix-blue;
+  text-decoration: none;
+  cursor: pointer;
+
+  &:hover {
+    color: $pix-blue;
+  }
+}

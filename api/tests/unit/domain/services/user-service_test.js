@@ -134,7 +134,7 @@ describe('Unit | Service | User Service', () => {
     beforeEach(() => {
       sandbox = sinon.sandbox.create();
 
-      sandbox.stub(assessmentRepository, 'findCompletedAssessmentsByUserId').resolves([
+      sandbox.stub(assessmentRepository, 'findLastCompletedAssessmentsForEachCoursesByUser').resolves([
         { id: 13 }, { id: 1637 }
       ]);
       sandbox.stub(challengeRepository, 'list').resolves([
@@ -194,8 +194,8 @@ describe('Unit | Service | User Service', () => {
 
       // Then
       return promise.then(() => {
-        sinon.assert.calledOnce(assessmentRepository.findCompletedAssessmentsByUserId);
-        sinon.assert.calledWith(assessmentRepository.findCompletedAssessmentsByUserId, userId);
+        sinon.assert.calledOnce(assessmentRepository.findLastCompletedAssessmentsForEachCoursesByUser);
+        sinon.assert.calledWith(assessmentRepository.findLastCompletedAssessmentsForEachCoursesByUser, userId);
       });
     });
 

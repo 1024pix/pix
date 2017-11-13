@@ -11,5 +11,6 @@ export default Model.extend({
   level: attr('number'),
   areaName: Ember.computed.alias('area.name'),
   courseId: attr('string'),
-  assessmentId: attr('string')
+  assessmentId: attr('string'),
+  status: attr('string')
 });

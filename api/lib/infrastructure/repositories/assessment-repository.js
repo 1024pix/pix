@@ -42,6 +42,19 @@ module.exports = {
 
   },
 
+  findLastCompletedAssessmentsForEachCoursesByUser(userId) {
+    return Assessment
+      .collection()
+      .query(qb => {
+        qb.where({ userId })
+          .whereNotNull('estimatedLevel')
+          .whereNotNull('pixScore')
+          .orderBy('createdAt', 'desc');
+      })
+      .fetch()
+      .then(_selectLastAssessmentForEachCourse);
+  },
+
   getByUserIdAndAssessmentId(assessmentId, userId) {
     return Assessment
       .query({ where: { id: assessmentId }, andWhere: { userId } })
