@@ -6,7 +6,7 @@ export default BaseRoute.extend({
   model(params) {
     const store = this.get('store');
 
-    const { assessment_id: assessmentId } = this.paramsFor('assessments');
+    const assessmentId = params.assessment_id;
     const challengeId = params.challenge_id;
 
     return RSVP.hash({
