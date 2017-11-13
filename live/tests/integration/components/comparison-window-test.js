@@ -1,5 +1,5 @@
 import { expect } from 'chai';
-import { describe, it, beforeEach } from 'mocha';
+import { beforeEach, describe, it } from 'mocha';
 import { setupComponentTest } from 'ember-mocha';
 import hbs from 'htmlbars-inline-precompile';
 import Ember from 'ember';
@@ -135,5 +135,14 @@ describe('Integration | Component | comparison-window', function() {
         expect($icon.attr('src')).to.equal(`/images/answer-validation/icon-${data.status}.svg`);
       });
     });
+
+    it('should render a tutorial panel before feedback panel', function() {
+      // when
+      this.render(hbs`{{comparison-window}}`);
+
+      // then
+      expect(this.$('.tutorial-panel')).to.have.lengthOf(1);
+    });
+
   });
 });
