@@ -33,5 +33,4 @@ describe('Unit | Router | HealthcheckRouter', function() {
       return expectRouteToExist({ method: 'GET', url: '/api' }, done);
     });
   });
-
 });
