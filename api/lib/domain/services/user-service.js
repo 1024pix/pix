@@ -1,8 +1,7 @@
-const { take, sortBy } = require('lodash');
+const { _, take, sortBy } = require('lodash');
 
 const { UserNotFoundError } = require('../errors');
 const UserCompetence = require('../../../lib/domain/models/UserCompetence');
-const Skill = require('../../../lib/domain/models/Skill');
 
 const userRepository = require('../../../lib/infrastructure/repositories/user-repository');
 const assessmentRepository = require('../../../lib/infrastructure/repositories/assessment-repository');
@@ -18,7 +17,7 @@ function _findCorrectAnswersByAssessments(assessments) {
     .then(answersByAssessments => {
       return answersByAssessments.reduce((answersInJSON, answersByAssessment) => {
         answersByAssessment.models.forEach(answer => {
-          answersInJSON.push(answer.toJSON());
+          answersInJSON.push(answer);
         });
         return answersInJSON;
       }, []);
@@ -45,16 +44,8 @@ function _castCompetencesToUserCompetences([challenges, competences, answers]) {
 }
 
 function _sortThreeMostDifficultSkillsInDesc(skills) {
-  const skillsWithExtractedLevel = skills.map((skill) => {
-    return {
-      name: skill,
-      difficulty: parseInt(skill.name.slice(-1))
-    };
-  });
-
-  const sortedSkills = sortBy(skillsWithExtractedLevel, ['difficulty'])
-    .reverse()
-    .map((skill) => skill.name);
+  const sortedSkills = sortBy(skills, ['difficulty'])
+    .reverse();
 
   return take(sortedSkills, 3);
 }
@@ -67,7 +58,21 @@ function _limitSkillsToTheThreeHighestOrderedByDifficultyDesc(competences) {
 }
 
 function _getRelatedChallengeById(challenges, answer) {
-  return challenges.find((challenge) => challenge.id === answer.challengeId);
+  return challenges.find((challenge) => challenge.id === answer.get('challengeId'));
+}
+
+function _getChallengeById(challenges, challengeId) {
+  return _(challenges).find((challenge) => challenge.id === challengeId);
+}
+
+function _findChallengeBySkill(challenges, skill) {
+  return _(challenges).filter((challenge) => {
+    return challenge.hasSkill(skill);
+  }).value();
+}
+
+function _filterAssessmentWithEstimatedLevelGreaterThanZero(assessments) {
+  return _(assessments).filter(assessment => assessment.get('estimatedLevel') >= 1).values();
 }
 
 module.exports = {
@@ -89,26 +94,43 @@ module.exports = {
       });
   },
 
-  getSkillProfile(userId) {
+  getCertificationProfile(userId) {
 
     return assessmentRepository
       .findLastCompletedAssessmentsForEachCoursesByUser(userId)
+      .then(_filterAssessmentWithEstimatedLevelGreaterThanZero)
       .then(_findCorrectAnswersByAssessments)
       .then(_loadRequiredChallengesInformationsAndAnswers)
       .then(_castCompetencesToUserCompetences)
-      .then(([challenges, competences, answers]) => {
+      .then(([challenges, userCompetences, answers]) => {
         answers.forEach((answer) => {
           const challenge = _getRelatedChallengeById(challenges, answer);
-          const competence = _getCompetenceByChallengeCompetenceId(competences, challenge);
+          const competence = _getCompetenceByChallengeCompetenceId(userCompetences, challenge);
 
           if (challenge && competence) {
-            challenge.knowledgeTags.forEach((skill) => {
-              competence.addSkill(new Skill(skill));
+            challenge.skills.forEach((skill) => {
+              competence.addSkill(skill);
             });
           }
         });
-        return competences;
-      })
-      .then(_limitSkillsToTheThreeHighestOrderedByDifficultyDesc);
+
+        userCompetences = _limitSkillsToTheThreeHighestOrderedByDifficultyDesc(userCompetences);
+
+        const challengeIdsAlreadyAnswered = answers.map(answer => answer.get('challengeId'));
+        const challengesAlreadyAnswered = challengeIdsAlreadyAnswered.map(challengeId => _getChallengeById(challenges, challengeId));
+
+        userCompetences.forEach((userCompetence) => {
+          userCompetence.skills.forEach((skill) => {
+            const challengesToValidateCurrentSkill = _findChallengeBySkill(challenges, skill);
+            const challengesLeftToAnswer = _.difference(challengesToValidateCurrentSkill, challengesAlreadyAnswered);
+
+            const challenge = (_.isEmpty(challengesLeftToAnswer)) ? _.first(challengesToValidateCurrentSkill) : _.first(challengesLeftToAnswer);
+
+            userCompetence.addChallenge(challenge);
+          });
+        });
+
+        return userCompetences;
+      });
   }
 };

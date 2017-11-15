@@ -1,3 +1,5 @@
+const Bookshelf = require('../../../infrastructure/bookshelf');
+
 class JSONAPISerializer {
 
   constructor(modelClassName) {
@@ -23,7 +25,9 @@ class JSONAPISerializer {
     if(!modelObject) {
       return null;
     }
-    const entity = modelObject.toJSON();
+
+    // XXX : Code temporaire pour gérer la sérialisation entre les models bookshelf et ceux "métier"
+    const entity = (modelObject instanceof Bookshelf.Model) ? modelObject.toJSON() : modelObject;
     const data = {};
     data.type = this.modelClassName;
 

@@ -113,45 +113,55 @@ describe('Acceptance | API | Assessments GET (non adaptive)', function() {
       return knex('assessments').delete();
     });
 
-    it('should return 200 HTTP status code', function(done) {
+    it('should return 200 HTTP status code', function() {
+      // Given
       const options = { method: 'GET', url: '/api/assessments/' + insertedAssessmentId + '/next' };
-      server.inject(options, (response) => {
+
+      // When
+      return server.injectThen(options).then((response) => {
         expect(response.statusCode).to.equal(200);
-        done();
       });
     });
 
-    it('should return application/json', function(done) {
+    it('should return application/json', function() {
+      // Given
       const options = { method: 'GET', url: '/api/assessments/' + insertedAssessmentId + '/next' };
-      server.inject(options, (response) => {
+
+      // When
+      return server.injectThen(options).then((response) => {
         const contentType = response.headers['content-type'];
         expect(contentType).to.contain('application/json');
-        done();
       });
     });
 
-    it('should return the first challenge if no challenge specified', function(done) {
+    it('should return the first challenge if no challenge specified', function() {
+      // Given
       const options = { method: 'GET', url: '/api/assessments/' + insertedAssessmentId + '/next' };
-      server.inject(options, (response) => {
+
+      // When
+      return server.injectThen(options).then((response) => {
         expect(response.result.data.id).to.equal('first_challenge');
-        done();
       });
     });
 
-    it('should return the next challenge otherwise', function(done) {
+    it('should return the next challenge otherwise', function() {
+      // Given
       const options = { method: 'GET', url: '/api/assessments/' + insertedAssessmentId + '/next/first_challenge' };
-      server.inject(options, (response) => {
+
+      // When
+      return server.injectThen(options).then((response) => {
         expect(response.result.data.id).to.equal('second_challenge');
-        done();
       });
     });
 
-    it('should return null if reached the last challenge of the course', function(done) {
+    it('should return null if reached the last challenge of the course', function() {
+      // Given
       const options = { method: 'GET', url: '/api/assessments/' + insertedAssessmentId + '/next/second_challenge' };
-      server.inject(options, (response) => {
+
+      // When
+      return server.injectThen(options).then((response) => {
         expect(response.result).to.be.null;
         expect(response.statusCode).to.equal(204);
-        done();
       });
     });
 

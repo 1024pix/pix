@@ -1,5 +1,6 @@
 const _ = require('../../utils/lodash-utils');
-const Challenge = require('../../../domain/models/referential/challenge');
+const Challenge = require('../../../domain/models/Challenge');
+const Skill = require('../../../domain/models/Skill');
 const AirtableSerializer = require('./airtable-serializer');
 
 class ChallengeSerializer extends AirtableSerializer {
@@ -15,7 +16,11 @@ class ChallengeSerializer extends AirtableSerializer {
       const fields = airtableRecord.fields;
       challenge.instruction = fields['Consigne'];
       challenge.proposals = fields['Propositions'];
-      challenge.knowledgeTags = fields['acquis'];
+
+      _(fields['acquis']).forEach((acquis) => {
+        challenge.skills.push(new Skill(acquis));
+      });
+
       challenge.status = fields['Statut'];
       challenge.competence = (fields['competences']) ? fields['competences'][0] : undefined;
 

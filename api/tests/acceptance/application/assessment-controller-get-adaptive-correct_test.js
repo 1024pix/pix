@@ -98,8 +98,8 @@ describe('Acceptance | API | Assessments', function() {
       courseId: 'w_adaptive_course_id'
     };
 
-    beforeEach(function(done) {
-      knex('assessments').insert([insertedAssessment])
+    beforeEach(function() {
+      return knex('assessments').insert([insertedAssessment])
         .then((rows) => {
           insertedAssessmentId = rows[0];
 
@@ -112,24 +112,19 @@ describe('Acceptance | API | Assessments', function() {
         })
         .then((inserted_answer) => {
           return knex('answers').insert([inserted_answer]);
-        })
-        .then(() => {
-          done();
         });
     });
 
-    afterEach(function(done) {
-      knex('assessments').delete()
-        .then(() => knex('assessments').delete())
-        .then(() => done());
+    afterEach(function() {
+      return knex('assessments').delete()
+        .then(() => knex('assessments').delete());
     });
 
-    it('should return the second challenge if the first answer is correct', function(done) {
+    it('should return the second challenge if the first answer is correct', function() {
 
       const options = { method: 'GET', url: '/api/assessments/' + insertedAssessmentId + '/next/w_first_challenge' };
-      server.inject(options, (response) => {
+      return server.injectThen(options).then((response) => {
         expect(response.result.data.id).to.equal('w_second_challenge');
-        done();
       });
     });
   });
@@ -209,19 +204,20 @@ describe('Acceptance | API | Assessments', function() {
     });
 
     afterEach(() => {
-      return knex('assessments').delete()
-        .then(() => knex('assessments').delete());
+      return knex('assessments').delete();
     });
 
-    it('should finish the test if there is no next challenge', function(done) {
-
+    it('should finish the test if there is no next challenge', () => {
+      // given
       const options = { method: 'GET', url: '/api/assessments/' + insertedAssessmentId + '/next/w_second_challenge' };
-      server.inject(options, (response) => {
+
+      // when
+      const promise = server.injectThen(options);
+
+      // then
+      return promise.then((response) => {
         expect(response.result).to.be.null;
-        done();
       });
     });
   });
-
-})
-;
+});
