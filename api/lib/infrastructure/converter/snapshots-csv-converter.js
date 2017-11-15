@@ -57,7 +57,7 @@ function _createProfileLine(snapshot) {
 
 function _cleanArrayCompetences(arrayCompetences) {
   return _.sortBy(arrayCompetences, 'attributes.index')
-    .filter(competence => competence.type === 'competences')
+    .filter(competence => _verifyCorrectCompetence(competence))
     .map(competence => {
       return {
         name: `"${_cleanCompetenceName(competence.attributes.name)}"`,
@@ -67,6 +67,9 @@ function _cleanArrayCompetences(arrayCompetences) {
     });
 }
 
+function _verifyCorrectCompetence(competence) {
+  return competence.type === 'competences' && competence.attributes.name;
+}
 function _emptyData(jsonData) {
   return !jsonData[0];
 }

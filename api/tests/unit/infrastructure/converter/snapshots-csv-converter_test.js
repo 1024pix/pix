@@ -3,7 +3,7 @@ const snapshotsConverter = require('../../../../lib/infrastructure/converter/sna
 
 describe('Unit | Serializer | CSV | snapshots-converter', () => {
 
-  const profile1 = '{"included":[{"type":"areas","attributes":{"name":"4. Protection et sécurité"}},{"type":"competences","attributes":{"name":"Sécuriser l\'environnement numérique","index":"4.1","level": 3}},{"type":"competences","attributes":{"name":"Interagir","index":"2.1","level": 4,"course-id":""}}]}';
+  const profile1WithEmptyCompentece = '{"included":[{"type":"areas","attributes":{"name":"4. Protection et sécurité"}},{"type":"competences","attributes":{"name":"Sécuriser l\'environnement numérique","index":"4.1","level": 3}},{"type":"competences","attributes":{"name":"Interagir","index":"2.1","level": 4,"course-id":""}},{"type": "competences","attributes":{"name": "", "index": "", "level": -1, "course-id": "" }}]}';
   const profile2 = {
     'included': [{
       'type': 'areas',
@@ -13,13 +13,14 @@ describe('Unit | Serializer | CSV | snapshots-converter', () => {
       'attributes': { 'name': 'Sécuriser l\'environnement numérique', 'index': '4.1', 'level': -1 }
     }, {
       'type': 'competences',
-      'attributes': { 'name': 'Interagir', 'index': '2.1', 'level': 2, 'course-id': '' } }]
+      'attributes': { 'name': 'Interagir', 'index': '2.1', 'level': 2, 'course-id': '' }
+    }]
   };
 
   const jsonSnapshots = [{
     id: 2,
     score: '22',
-    profile: profile1,
+    profile: profile1WithEmptyCompentece,
     createdAt: '2017-10-13 09:00:59',
     studentCode: 'UNIV123',
     campaignCode: 'CAMPAIGN123',
