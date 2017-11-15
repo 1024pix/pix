@@ -51,7 +51,7 @@ export default BaseRoute.extend({
     return this.get('store')
       .queryRecord('challenge', { assessmentId: assessment.get('id'), challengeId: challenge.get('id') })
       .then((nextChallenge) => this.transitionTo('assessments.challenge', { assessment, challenge: nextChallenge }))
-      .catch(() => this.transitionTo('assessments.results', assessment));
+      .catch(() => this.transitionTo('assessments.results', assessment.get('id')));
   },
 
   actions: {
@@ -65,6 +65,6 @@ export default BaseRoute.extend({
       });
       return answer.save().then(() => this._navigateToNextView(challenge, assessment));
     }
-  },
+  }
 
 });
