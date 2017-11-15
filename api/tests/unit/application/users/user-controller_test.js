@@ -586,7 +586,7 @@ describe('Unit | Controller | user-controller', () => {
     });
   });
 
-  describe('#getSkillProfile', () => {
+  describe('#getCertificationProfile', () => {
 
     let sandbox;
     let replyStub;
@@ -600,7 +600,7 @@ describe('Unit | Controller | user-controller', () => {
       sandbox = sinon.sandbox.create();
 
       sandbox.stub(userService, 'isUserExistingById').resolves(true);
-      sandbox.stub(userService, 'getSkillProfile').resolves([]);
+      sandbox.stub(userService, 'getCertificationProfile').resolves([]);
       sandbox.stub(Boom, 'badRequest').returns(jsonAPI404error);
       sandbox.stub(Boom, 'badImplementation').returns(jsonAPI500error);
       sandbox.stub(logger, 'error').returns({});
@@ -611,17 +611,17 @@ describe('Unit | Controller | user-controller', () => {
     });
 
     it('should be a function', () => {
-      expect(userController).to.have.property('getSkillProfile').and.to.be.a('function');
+      expect(userController).to.have.property('getCertificationProfile').and.to.be.a('function');
     });
 
     context('when loading user competences fails', () => {
       it('should reply with an INTERNAL error', () => {
         // Given
         const anyErrorFromProfileBuilding = new Error();
-        userService.getSkillProfile.rejects(anyErrorFromProfileBuilding);
+        userService.getCertificationProfile.rejects(anyErrorFromProfileBuilding);
 
         // When
-        const promise = userController.getSkillProfile(request, replyStub);
+        const promise = userController.getCertificationProfile(request, replyStub);
 
         // Then
         return promise.then(() => {
@@ -636,10 +636,10 @@ describe('Unit | Controller | user-controller', () => {
       it('should log the error', () => {
         // Given
         const anyErrorFromProfileBuilding = new Error();
-        userService.getSkillProfile.rejects(anyErrorFromProfileBuilding);
+        userService.getCertificationProfile.rejects(anyErrorFromProfileBuilding);
 
         // When
-        const promise = userController.getSkillProfile(request, replyStub);
+        const promise = userController.getCertificationProfile(request, replyStub);
 
         // Then
         return promise.then(() => {
@@ -652,18 +652,18 @@ describe('Unit | Controller | user-controller', () => {
     context('when the user exists', () => {
       it('should load his achieved assessments', () => {
         // When
-        const promise = userController.getSkillProfile(request, replyStub);
+        const promise = userController.getCertificationProfile(request, replyStub);
 
         // Then
         return promise.then(() => {
-          sinon.assert.calledOnce(userService.getSkillProfile);
-          sinon.assert.calledWith(userService.getSkillProfile, 1);
+          sinon.assert.calledOnce(userService.getCertificationProfile);
+          sinon.assert.calledWith(userService.getCertificationProfile, 1);
         });
       });
 
       it('should the skillProfile', () => {
         // When
-        const promise = userController.getSkillProfile(request, replyStub);
+        const promise = userController.getCertificationProfile(request, replyStub);
 
         // Then
         return promise.then(() => {

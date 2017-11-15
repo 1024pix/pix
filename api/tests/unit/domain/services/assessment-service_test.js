@@ -10,7 +10,7 @@ const answerRepository = require('../../../../lib/infrastructure/repositories/an
 const skillRepository = require('../../../../lib/infrastructure/repositories/skill-repository');
 
 const Assessment = require('../../../../lib/domain/models/data/assessment');
-const Challenge = require('../../../../lib/domain/models/referential/challenge');
+const Challenge = require('../../../../lib/domain/models/Challenge');
 
 const Answer = require('../../../../lib/domain/models/data/answer');
 const Skill = require('../../../../lib/cat/skill');
@@ -20,7 +20,7 @@ const { NotElligibleToScoringError } = require('../../../../lib/domain/errors');
 function _buildChallenge(challengeId, knowledgeTags) {
   const challenge = new Challenge();
   challenge.id = challengeId;
-  challenge.knowledgeTags = knowledgeTags;
+  challenge.skills = knowledgeTags;
   return challenge;
 }
 

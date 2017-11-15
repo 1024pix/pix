@@ -1,7 +1,7 @@
 const assessmentAdapter = require('../../infrastructure/adapters/assessment-adapter');
 
-function getNextChallengeInAdaptiveCourse(coursePix, answersPix, challengesPix, skillNames) {
-  const assessment = assessmentAdapter.getAdaptedAssessment(coursePix, answersPix, challengesPix, skillNames);
+function getNextChallengeInAdaptiveCourse(answersPix, challengesPix, skills) {
+  const assessment = assessmentAdapter.getAdaptedAssessment(answersPix, challengesPix, skills);
   return assessment.nextChallenge ? assessment.nextChallenge.id : null;
 }
 

@@ -4,23 +4,26 @@ const Course = require('../../cat/course');
 const Answer = require('../../cat/answer');
 const Assessment = require('../../cat/assessment');
 
-function getAdaptedAssessment(coursePix, answersPix, challengesPix, skillNames) {
+function getAdaptedAssessment(answersPix, challengesPix, skills) {
   const challenges = [];
   const challengesById = {};
-  const skills = {};
+  const catSkills = {};
 
-  skillNames.forEach(skillName => skills[skillName] = new Skill(skillName));
-  const competenceSkills = new Set(Object.values(skills));
+  skills.forEach(skill => catSkills[skill.name] = new Skill(skill.name));
+  const competenceSkills = new Set(Object.values(catSkills));
 
   challengesPix.forEach(challengePix => {
     const challengeSkills = [];
-    if (challengePix.knowledgeTags) {
-      challengePix.knowledgeTags.forEach(skillName => {
-        if (!skills.hasOwnProperty(skillName)) {
-          skills[skillName] = new Skill(skillName);
+
+    if (challengePix.skills) {
+
+      challengePix.skills.forEach(skill => {
+        if (!catSkills.hasOwnProperty(skill.name)) {
+          catSkills[skill.name] = new Skill(skill.name);
         }
-        challengeSkills.push(skills[skillName]);
+        challengeSkills.push(catSkills[skill.name]);
       });
+
       const challenge = new Challenge(challengePix.id, challengePix.status, challengeSkills, challengePix.timer);
       challenges.push(challenge);
       challengesById[challengePix.id] = challenge;

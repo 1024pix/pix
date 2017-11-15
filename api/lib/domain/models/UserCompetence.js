@@ -7,6 +7,7 @@ class UserCompetence {
     this.index = model.index;
     this.name = model.name;
     this.skills = [];
+    this.challenges = [];
   }
 
   addSkill(newSkill) {
@@ -17,6 +18,13 @@ class UserCompetence {
     }
   }
 
+  addChallenge(newChallenge) {
+    const hasAlreadyChallenge = _(this.challenges).filter(challenge => challenge.id === newChallenge.id).size();
+
+    if(!hasAlreadyChallenge) {
+      this.challenges.push(newChallenge);
+    }
+  }
 }
 
 module.exports = UserCompetence;

@@ -51,12 +51,12 @@ describe('Unit | Router | user-router', () => {
 
   describe('GET /api/users/{id}/skills', function() {
     before(() => {
-      sinon.stub(UserController, 'getSkillProfile').callsFake((request, reply) => reply('ok'));
+      sinon.stub(UserController, 'getCertificationProfile').callsFake((request, reply) => reply('ok'));
       sinon.stub(userVerification, 'verifyById').callsFake((request, reply) => reply('ok'));
     });
 
     after(() => {
-      UserController.getSkillProfile.restore();
+      UserController.getCertificationProfile.restore();
       userVerification.verifyById.restore();
     });
 
@@ -69,8 +69,8 @@ describe('Unit | Router | user-router', () => {
       // given
       return server.inject(options).then(_ => {
         sinon.assert.calledOnce(userVerification.verifyById);
-        sinon.assert.calledOnce(UserController.getSkillProfile);
-        sinon.assert.callOrder(userVerification.verifyById, UserController.getSkillProfile);
+        sinon.assert.calledOnce(UserController.getCertificationProfile);
+        sinon.assert.callOrder(userVerification.verifyById, UserController.getCertificationProfile);
       });
     });
   });
