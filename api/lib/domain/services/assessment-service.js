@@ -5,6 +5,7 @@ const challengeRepository = require('../../infrastructure/repositories/challenge
 const skillRepository = require('../../infrastructure/repositories/skill-repository');
 const assessmentAdapter = require('../../infrastructure/adapters/assessment-adapter');
 
+const answerService = require('../services/answer-service');
 const assessmentUtils = require('./assessment-service-utils');
 const _ = require('../../infrastructure/utils/lodash-utils');
 
@@ -76,6 +77,9 @@ function getScoredAssessment(assessmentId) {
     })
     .then(retrievedAnswers => {
       answersPix = retrievedAnswers;
+
+      assessmentPix.set('successRate', answerService.getAnswersSuccessRate(retrievedAnswers));
+
       return courseRepository.get(assessmentPix.get('courseId'));
     })
     .then(course => {

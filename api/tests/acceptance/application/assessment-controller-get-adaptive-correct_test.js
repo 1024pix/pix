@@ -1,7 +1,7 @@
 const { describe, it, before, after, beforeEach, afterEach, expect, knex, nock } = require('../../test-helper');
 const server = require('../../../server');
 
-describe('Acceptance | API | Assessments', function() {
+describe('Acceptance | API | Assessments', () => {
 
   before(function(done) {
 
@@ -90,7 +90,7 @@ describe('Acceptance | API | Assessments', function() {
     server.stop(done);
   });
 
-  describe('(adaptive correct answer) GET /api/assessments/:assessment_id/next/:current_challenge_id', function() {
+  describe('(adaptive correct answer) GET /api/assessments/:assessment_id/next/:current_challenge_id', () => {
 
     let insertedAssessmentId = null;
 
@@ -98,7 +98,7 @@ describe('Acceptance | API | Assessments', function() {
       courseId: 'w_adaptive_course_id'
     };
 
-    beforeEach(function() {
+    beforeEach(() => {
       return knex('assessments').insert([insertedAssessment])
         .then((rows) => {
           insertedAssessmentId = rows[0];
@@ -115,15 +115,19 @@ describe('Acceptance | API | Assessments', function() {
         });
     });
 
-    afterEach(function() {
-      return knex('assessments').delete()
-        .then(() => knex('assessments').delete());
+    afterEach(() => {
+      return knex('assessments').delete();
     });
 
-    it('should return the second challenge if the first answer is correct', function() {
-
+    it('should return the second challenge if the first answer is correct', () => {
+      // given
       const options = { method: 'GET', url: '/api/assessments/' + insertedAssessmentId + '/next/w_first_challenge' };
-      return server.injectThen(options).then((response) => {
+
+      // when
+      const request = server.injectThen(options);
+
+      // then
+      return request.then((response) => {
         expect(response.result.data.id).to.equal('w_second_challenge');
       });
     });
@@ -137,8 +141,8 @@ describe('Acceptance | API | Assessments', function() {
       courseId: 'w_adaptive_course_id'
     };
 
-    beforeEach(function(done) {
-      knex('assessments').insert([insertedAssessment])
+    beforeEach(() => {
+      return knex('assessments').insert([insertedAssessment])
         .then((rows) => {
           insertedAssessmentId = rows[0];
 
@@ -151,29 +155,28 @@ describe('Acceptance | API | Assessments', function() {
         })
         .then((inserted_answer) => {
           return knex('answers').insert([inserted_answer]);
-        })
-        .then(() => {
-          done();
         });
     });
 
-    afterEach(function(done) {
-      knex('assessments').delete()
-        .then(() => knex('assessments').delete())
-        .then(() => done());
+    afterEach(() => {
+      return knex('assessments').delete();
     });
 
-    it('should return the third challenge if the first answer is incorrect', function(done) {
-
+    it('should return the third challenge if the first answer is incorrect', () => {
+      // given
       const options = { method: 'GET', url: '/api/assessments/' + insertedAssessmentId + '/next/w_first_challenge' };
-      server.inject(options, (response) => {
+
+      // when
+      const request = server.injectThen(options);
+
+      // then
+      return request.then((response) => {
         expect(response.result.data.id).to.equal('w_third_challenge');
-        done();
       });
     });
   });
 
-  describe('(end of adaptive test) GET /api/assessments/:assessment_id/next/:current_challenge_id', function() {
+  describe('(end of adaptive test) GET /api/assessments/:assessment_id/next/:current_challenge_id', () => {
 
     let insertedAssessmentId = null;
 
@@ -181,7 +184,7 @@ describe('Acceptance | API | Assessments', function() {
       courseId: 'w_adaptive_course_id'
     };
 
-    beforeEach(function() {
+    beforeEach(() => {
       return knex('assessments').insert([insertedAssessment])
         .then((rows) => {
           insertedAssessmentId = rows[0];

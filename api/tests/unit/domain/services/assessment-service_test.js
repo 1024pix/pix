@@ -284,6 +284,7 @@ describe('Unit | Domain | Services | assessment-service', function() {
               expect(assessmentPix.get('courseId')).to.deep.equal(COURSE_ID);
               expect(assessmentPix.get('estimatedLevel')).to.equal(0);
               expect(assessmentPix.get('pixScore')).to.equal(0);
+              expect(assessmentPix.get('successRate')).to.equal(50);
               expect(skills).to.be.undefined;
             });
         });
@@ -296,11 +297,11 @@ describe('Unit | Domain | Services | assessment-service', function() {
             isAdaptive: true
           };
           getCourseStub.returns(Promise.resolve(course));
-          const expectedValitedSkills = _generateValitedSkills();
+          const expectedValitedSkills = _generateValidatedSkills();
           const expectedFailedSkills = _generateFailedSkills();
 
           assessmentAdapter.getAdaptedAssessment.returns({
-            validatedSkills: _generateValitedSkills(),
+            validatedSkills: _generateValidatedSkills(),
             failedSkills: _generateFailedSkills(),
             obtainedLevel: 50,
             displayedPixScore: 13
@@ -328,7 +329,7 @@ describe('Unit | Domain | Services | assessment-service', function() {
 
 });
 
-function _generateValitedSkills() {
+function _generateValidatedSkills() {
   const url2 = new Skill('@url2');
   const web3 = new Skill('@web3');
   const skill = new Set();

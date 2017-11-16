@@ -92,6 +92,10 @@ module.exports = {
         return assessmentService
           .getScoredAssessment(request.params.id)
           .then(({ assessmentPix, skills }) => {
+
+            // XXX: successRate should not be saved in DB.
+            assessmentPix.unset('successRate');
+
             return assessmentPix.save()
               .then(() => skillsService.saveAssessmentSkills(skills))
               .then(() => {

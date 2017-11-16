@@ -8,6 +8,7 @@ class AssessmentSerializer extends JSONAPISerializer {
   }
 
   serializeAttributes(model, data) {
+    data.attributes['success-rate'] = model.successRate;
     data.attributes['estimated-level'] = model.estimatedLevel;
     data.attributes['pix-score'] = model.pixScore;
   }
@@ -33,7 +34,6 @@ class AssessmentSerializer extends JSONAPISerializer {
         });
       }
     }
-  
   }
 
   deserialize(json) {
