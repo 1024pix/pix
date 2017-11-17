@@ -84,28 +84,5 @@ describe('Unit | Serializer | course-serializer', function() {
 
     });
 
-    it('should add an empty array if no competences defined', () => {
-      // Given
-      delete airtableRecord.fields.Competence;
-
-      // When
-      const course = serializer.deserialize(airtableRecord);
-
-      // Then
-      expect(course).to.deep.equal({
-        'challenges': [
-          'recPHXe5p4ip95Bc6',
-          'reclvHn6Bg3FyfwuL'
-        ],
-        'description': undefined,
-        'duration': undefined,
-        'id': 'recNPB7dTNt5krlMA',
-        'isAdaptive': true,
-        'name': 'Test de positionnement 1.1',
-        'competences': []
-      });
-
-    });
-
   });
 });

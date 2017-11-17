@@ -133,9 +133,17 @@ describe('Unit | Controller | course-controller', function() {
 
   describe('#refreshAll', function() {
 
-    it('should return "courses updated" if refresh is ok', function(done) {
+    beforeEach(() => {
+      sinon.stub(courseRepository, 'refreshAll');
+    });
+
+    afterEach(() => {
+      courseRepository.refreshAll.restore();
+    });
+
+    it('should return "Courses updated" when the refresh is successful', function(done) {
       // given
-      sinon.stub(courseRepository, 'refreshAll').resolves(true);
+      courseRepository.refreshAll.resolves(true);
 
       // when
       server.inject({ method: 'PUT', url: '/api/courses' }, (res) => {
@@ -145,25 +153,20 @@ describe('Unit | Controller | course-controller', function() {
         expect(res.result).to.equal('Courses updated');
 
         // after
-        courseRepository.refreshAll.restore();
         done();
       });
     });
 
-    it('should return "courses updated" if refresh is ok', function(done) {
+    it('should return an internal error when the refresh is failing', function(done) {
       // given
       const error = 'An internal server error occurred';
-      sinon.stub(courseRepository, 'refreshAll').rejects(error);
+      courseRepository.refreshAll.rejects(error);
 
       // when
       server.inject({ method: 'PUT', url: '/api/courses' }, (res) => {
-
         // then
         expect(res.statusCode).to.equal(500);
         expect(res.result.message).to.equal(error);
-
-        // after
-        courseRepository.refreshAll.restore();
         done();
       });
     });

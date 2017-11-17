@@ -78,7 +78,8 @@ class ProfileSerializer extends JSONAPISerializer {
           'name': competence.name,
           'index': competence.index,
           'level': competence.level,
-          'course-id': competence.courseId
+          'course-id': competence.courseId,
+          'status': competence.status,
         },
         relationships: {
           'area': {
@@ -92,6 +93,10 @@ class ProfileSerializer extends JSONAPISerializer {
 
       if (competence.level >= 0) {
         competenceData.attributes['pix-score'] = competence.pixScore;
+      }
+
+      if (competence.assessmentId) {
+        competenceData.attributes['assessment-id'] = competence.assessmentId;
       }
 
       included.push(competenceData);

@@ -2,9 +2,9 @@ import { expect } from 'chai';
 import { describe, it } from 'mocha';
 import { setupTest } from 'ember-mocha';
 
-describe('Unit | Route | Assessments.ResultsRoute', function() {
+describe('Unit | Route | Assessments.ChallengeRoute', function() {
 
-  setupTest('route:assessments.get-results', {
+  setupTest('route:assessments.challenge', {
     needs: ['service:current-routed-modal']
   });
 

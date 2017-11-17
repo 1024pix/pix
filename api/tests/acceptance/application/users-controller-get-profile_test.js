@@ -87,7 +87,8 @@ describe('Acceptance | Controller | users-controller-get-profile', function() {
           name: 'competence-name-1',
           index: '1.1',
           level: -1,
-          'course-id': 'recBxPAuEPlTgt72q11'
+          'course-id': 'recBxPAuEPlTgt72q11',
+          status: 'notEvaluated',
         },
         relationships: {
           area: {
@@ -105,7 +106,8 @@ describe('Acceptance | Controller | users-controller-get-profile', function() {
           name: 'competence-name-2',
           index: '1.2',
           level: -1,
-          'course-id': 'recBxPAuEPlTgt72q99'
+          'course-id': 'recBxPAuEPlTgt72q99',
+          status: 'notEvaluated',
         },
         relationships: {
           area: {
@@ -132,7 +134,8 @@ describe('Acceptance | Controller | users-controller-get-profile', function() {
       index: '1.1',
       areaId: 'recAreaA',
       level: -1,
-      courseId: 'recBxPAuEPlTgt72q11'
+      courseId: 'recBxPAuEPlTgt72q11',
+      status: 'notEvaluated'
     },
     {
       id: 'recCompB',
@@ -140,7 +143,8 @@ describe('Acceptance | Controller | users-controller-get-profile', function() {
       index: '1.2',
       areaId: 'recAreaB',
       level: -1,
-      courseId: 'recBxPAuEPlTgt72q99'
+      courseId: 'recBxPAuEPlTgt72q99',
+      status: 'notEvaluated'
     }],
     areas: [{ id: 'recAreaA', name: 'domaine-name-1' }, { id: 'recAreaB', name: 'domaine-name-2' }],
     organizations: []

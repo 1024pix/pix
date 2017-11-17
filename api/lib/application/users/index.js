@@ -25,7 +25,7 @@ exports.register = function(server, options, next) {
           method: userVerification.verifyById,
           assign: 'user'
         }],
-        handler: UserController.getSkillProfile
+        handler: UserController.getCertificationProfile
         , tags: ['api']
       }
     },

@@ -63,7 +63,7 @@ describe('Unit | Component | signupTextfieldComponent', function() {
 
       ].forEach(({ errorType, message }) => {
 
-        it(`gets ${message} when ${errorType}`, function() {
+        it(`gets ${message} when ${errorType}`, function(done) {
           // Given
           const component = this.subject();
           // When
@@ -72,6 +72,7 @@ describe('Unit | Component | signupTextfieldComponent', function() {
           const propertyValue = component.get('validationMessage');
           // Then
           expect(propertyValue).to.equal(message);
+          done();
         });
 
       });

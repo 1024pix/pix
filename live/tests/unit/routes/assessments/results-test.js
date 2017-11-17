@@ -2,10 +2,10 @@ import { expect } from 'chai';
 import { describe, it } from 'mocha';
 import { setupTest } from 'ember-mocha';
 
-describe('Unit | Route | ChallengePreview', function() {
+describe('Unit | Route | Assessments.ResultsRoute', function() {
 
-  setupTest('route:courses/get-challenge-preview', {
-    needs: ['service:current-routed-modal', 'service:assessment']
+  setupTest('route:assessments.results', {
+    needs: ['service:current-routed-modal']
   });
 
   it('exists', function() {
@@ -14,4 +14,3 @@ describe('Unit | Route | ChallengePreview', function() {
   });
 
 });
-

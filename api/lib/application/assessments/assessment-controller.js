@@ -92,6 +92,10 @@ module.exports = {
         return assessmentService
           .getScoredAssessment(request.params.id)
           .then(({ assessmentPix, skills }) => {
+
+            // XXX: successRate should not be saved in DB.
+            assessmentPix.unset('successRate');
+
             return assessmentPix.save()
               .then(() => skillsService.saveAssessmentSkills(skills))
               .then(() => {
@@ -159,7 +163,7 @@ module.exports = {
         // verify if test is over
         let testIsOver;
         if (course.isAdaptive) {
-          const nextChallengeId = assessmentUtils.getNextChallengeInAdaptiveCourse(course, answers, challenges, skillNames);
+          const nextChallengeId = assessmentUtils.getNextChallengeInAdaptiveCourse(answers, challenges, skillNames);
           testIsOver = _.isEmpty(nextChallengeId);
         } else {
           const answersLength = answers.length || 0;

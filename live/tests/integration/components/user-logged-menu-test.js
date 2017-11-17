@@ -93,7 +93,7 @@ describe('Integration | Component | user logged menu', function() {
       });
     });
 
-    it('should hide user menu, when it was previously open and user press key escape', function() {
+    it('should hide user menu, when the menu is opened then closed', function() {
       // when
       this.$('.logged-user-name').click();
       this.$('.logged-user-name').click();
@@ -106,41 +106,43 @@ describe('Integration | Component | user logged menu', function() {
 
     describe('button rendering', function() {
 
-      it('should not render a button link to the profile when the user is on compte page', function() {
-        this.register('service:-routing', Ember.Service.extend({
-          currentRouteName: 'compte',
-          generateURL: function() {
-            return '/compte';
-          }
-        }));
-        this.inject.service('-routing', { as: '-routing' });
+      context('when the user is on compte page', function() {
+        it('should not render a button link to the "profile" page', function() {
+          this.register('service:-routing', Ember.Service.extend({
+            currentRouteName: 'compte',
+            generateURL: function() {
+              return '/compte';
+            }
+          }));
+          this.inject.service('-routing', { as: '-routing' });
 
-        // when
-        this.render(hbs`{{user-logged-menu}}`);
-        this.$('.logged-user-name').click();
+          // when
+          this.render(hbs`{{user-logged-menu}}`);
+          this.$('.logged-user-name').click();
 
-        return wait().then(() => {
-          // then
-          expect(this.$('.user-menu-item__account-link').length).to.equal(0);
+          return wait().then(() => {
+            // then
+            expect(this.$('.user-menu-item__account-link').length).to.equal(0);
+          });
         });
-      });
 
-      it('should not render a button link to the profile when the user is on compte page', function() {
-        this.register('service:-routing', Ember.Service.extend({
-          currentRouteName: 'board',
-          generateURL: function() {
-            return '/board';
-          }
-        }));
-        this.inject.service('-routing', { as: '-routing' });
+        it('should not render a button link to the "board" page', function() {
+          this.register('service:-routing', Ember.Service.extend({
+            currentRouteName: 'board',
+            generateURL: function() {
+              return '/board';
+            }
+          }));
+          this.inject.service('-routing', { as: '-routing' });
 
-        // when
-        this.render(hbs`{{user-logged-menu}}`);
-        this.$('.logged-user-name').click();
+          // when
+          this.render(hbs`{{user-logged-menu}}`);
+          this.$('.logged-user-name').click();
 
-        return wait().then(() => {
-          // then
-          expect(this.$('.user-menu-item__account-link').length).to.equal(0);
+          return wait().then(() => {
+            // then
+            expect(this.$('.user-menu-item__account-link').length).to.equal(0);
+          });
         });
       });
 

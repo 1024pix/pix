@@ -117,13 +117,13 @@ describe('Unit | Controller | assessment-controller', () => {
         });
       });
 
-      it('should reply null', () => {
+      it('should reply with no content', () => {
         // Given
         assessmentWithScore.save.resolves();
         skillService.saveAssessmentSkills.resolves({});
-        const codeStub = sinon.stub();
         const replyStub = sinon.stub().returns({
-          code: codeStub
+          code: () => {
+          }
         });
 
         // When
@@ -133,7 +133,6 @@ describe('Unit | Controller | assessment-controller', () => {
         return promise.then(() => {
           sinon.assert.calledOnce(replyStub);
           expect(replyStub.getCalls()[0].args).to.deep.equal([]);
-          sinon.assert.calledWith(codeStub, 204);
         });
       });
 

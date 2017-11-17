@@ -13,6 +13,11 @@ export default Component.extend({
   isValidateButtonPending: computed.equal('_validateButtonStatus', 'pending'),
   isValidateButtonOffline: computed.equal('_validateButtonStatus', 'offline'),
 
+  didUpdateAttrs() {
+    this._super(...arguments);
+    this.set('_validateButtonStatus', 'enable');
+  },
+
   actions: {
 
     skipChallenge() {
@@ -21,9 +26,7 @@ export default Component.extend({
 
     validateAnswer() {
       this.set('_validateButtonStatus', 'pending');
-
       this.get('answerValidated')()
-        .then(() => this.set('_validateButtonStatus', 'enable'))
         .catch(() => this.set('_validateButtonStatus', 'enable'));
     }
   }

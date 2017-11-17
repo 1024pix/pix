@@ -9,7 +9,8 @@
         <div class="close-button-container">
           <div>fermer</div>
           <div>
-            <img src="/images/comparison-window/icon-close-modal.svg" alt="Fermer la fenêtre modale" width="24" height="24">
+            <img src="/images/comparison-window/icon-close-modal.svg" alt="Fermer la fenêtre modale" width="24"
+                 height="24">
           </div>
         </div>
       {{/routable-modal-close-button}}
@@ -23,7 +24,8 @@
 
       <div class="comparison-window__title">
         <div data-toggle="tooltip" data-placement="top" title="{{resultItem.tooltip}}">
-          <img class="comparison-window__result-icon comparison-window__result-icon--{{resultItem.status}}" src={{resultItemIcon}} alt="">
+          <img class="comparison-window__result-icon comparison-window__result-icon--{{resultItem.status}}"
+               src={{resultItemIcon}} alt="">
         </div>
       </div>
       <div class="comparison-window__title-text">{{resultItem.title}}</div>
@@ -38,7 +40,8 @@
 
         {{#if challenge.illustrationUrl}}
           <div class="rounded-panel__row challenge-statement__illustration-section">
-            <img class="challenge-statement__illustration" src="{{ challenge.illustrationUrl }}" alt="Illustration de l'épreuve">
+            <img class="challenge-statement__illustration" src="{{ challenge.illustrationUrl }}"
+                 alt="Illustration de l'épreuve">
           </div>
         {{/if}}
       </div>
@@ -49,7 +52,7 @@
 
 
       {{#if isAssessmentChallengeTypeQcu}}
-          {{qcu-solution-panel challenge=challenge answer=answer solution=solution}}
+        {{qcu-solution-panel challenge=challenge answer=answer solution=solution}}
       {{/if}}
 
       {{#if isAssessmentChallengeTypeQroc}}
@@ -63,6 +66,8 @@
           {{qrocm-ind-solution-panel answer=answer solution=solution challenge=challenge}}
         </div>
       {{/if}}
+
+      {{tutorial-panel}}
     </div>
 
     <div class="routable-modal--footer">

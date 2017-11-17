@@ -209,7 +209,7 @@ describe('Unit | Controller | organizationController', () => {
           });
         });
 
-        it('should generate a code as many times as necessary to find a unique one', () => {
+        it('should persist the organization with its code', () => {
           // Given
           const code = 'CODE01';
           organizationService.generateOrganizationCode.resolves(code);

@@ -19,10 +19,17 @@ export default function(schema, request) {
 
   if (assessment) {
     return assessment.obj;
-  }else if (_.startsWith(courseId, 'null')) {
+  } else if (_.startsWith(courseId, 'null')) {
     return refAssessment;
-  }else {
-    throw new Error('undefined new assessment, sorry');
+  } else {
+
+    const newAssessment = {
+      'user-id': 'user_id',
+      'user-name': 'Jane Doe',
+      'user-email': 'jane@acme.com',
+      courseId
+    };
+    return schema.assessments.create(newAssessment);
   }
 
 }

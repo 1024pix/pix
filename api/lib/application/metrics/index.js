@@ -1,7 +1,15 @@
-const epimetheus = require('epimetheus');
+
+const metricController = require('./metric-controller');
 
 exports.register = function(server, options, next) {
-  epimetheus.instrument(server);
+
+  server.route([
+    {
+      method: 'GET',
+      path: '/metrics',
+      config: { handler: metricController.get, tags: ['api'] }
+    }
+  ]);
 
   return next();
 };

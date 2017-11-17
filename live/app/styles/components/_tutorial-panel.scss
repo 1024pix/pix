@@ -1,0 +1,39 @@
+.tutorial-panel {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: 23px;
+}
+
+.tutorial-panel__box-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  border: 1.3px dashed $raven-grey;
+  max-width: 991px;
+  width: 100%;
+  border-radius: 5px;
+  padding: 36px 0 28px;
+}
+
+.tutorial-panel__box-title {
+  font-family: $font-raleway;
+  font-size: 17px;
+  text-align: center;
+  color: $black;
+  font-weight: $font-semi-bold;
+  margin-top: 10.2px;
+
+  @include device-is('desktop') {
+    font-size: 22px;
+    line-height: 26px;
+  }
+}
+
+.tutorial-panel__separator {
+  height: 2px;
+  width: 100%;
+  max-width: 990px;
+  border: 1px solid $gainsboro;
+  margin-top: 23px;
+}

@@ -15,59 +15,68 @@ const User = require('../../../../lib/domain/models/data/user');
 
 describe('Unit | Service | Profil User Service', function() {
 
-  const fakeUserRecord = new User({
-    'first-name': faker.name.findName(),
-    'last-name': faker.name.findName()
-  });
-
-  const fakeCompetenceRecords = [
-    {
-      id: 'competenceId1',
-      name: '1.1 Mener une recherche d’information',
-      areaId: 'areaId1',
-    },
-    {
-      id: 'competenceId2',
-      name: '1.2 Gérer des données',
-      areaId: 'areaId2'
-    }];
-
-  const fakeAreaRecords = [
-    {
-      id: 'areaId1',
-      name: 'Domaine 1'
-    },
-    {
-      id: 'areaId2',
-      name: 'Domaine 2'
-    }
-  ];
-
-  const fakeAssessmentRecords = [new Assessment({
-    id: 'assessmentId1',
-    pixScore: 10,
-    estimatedLevel: 1,
-    courseId: 'courseId8'
-  })];
-
-  const fakeCoursesRecords = [{
-    id: 'courseId8',
-    nom: 'Test de positionnement 1.1',
-    competences: ['competenceId1']
-  }];
-
-  const fakeOrganizationsRecords = [{
-    id : 'organizationId1',
-    name : 'orga 1'
-  }, {
-    id : 'organizationId2',
-    name : 'orga 2'
-  }];
-
   describe('#getUser', () => {
 
     it('should exist', () => {
       expect(profileService.getByUserId).to.exist;
+    });
+
+    let fakeUserRecord;
+    let fakeCompetenceRecords;
+    let fakeAreaRecords;
+    let fakeAssessmentRecords;
+    let fakeCoursesRecords;
+    let fakeOrganizationsRecords;
+
+    beforeEach(() => {
+      fakeUserRecord = new User({
+        'first-name': faker.name.findName(),
+        'last-name': faker.name.findName()
+      });
+
+      fakeCompetenceRecords = [
+        {
+          id: 'competenceId1',
+          name: '1.1 Mener une recherche d’information',
+          areaId: 'areaId1',
+        },
+        {
+          id: 'competenceId2',
+          name: '1.2 Gérer des données',
+          areaId: 'areaId2'
+        }];
+
+      fakeAreaRecords = [
+        {
+          id: 'areaId1',
+          name: 'Domaine 1'
+        },
+        {
+          id: 'areaId2',
+          name: 'Domaine 2'
+        }
+      ];
+
+      fakeAssessmentRecords = [new Assessment({
+        id: 'assessmentId1',
+        pixScore: 10,
+        estimatedLevel: 1,
+        courseId: 'courseId8'
+      })];
+
+      fakeCoursesRecords = [{
+        id: 'courseId8',
+        nom: 'Test de positionnement 1.1',
+        competences: ['competenceId1']
+      }];
+
+      fakeOrganizationsRecords = [{
+        id: 'organizationId1',
+        name: 'orga 1'
+      }, {
+        id: 'organizationId2',
+        name: 'orga 2'
+      }];
     });
 
     describe('Enhanced user', () => {
@@ -82,6 +91,7 @@ describe('Unit | Service | Profil User Service', function() {
         sandbox.stub(competenceRepository, 'list').resolves(fakeCompetenceRecords);
         sandbox.stub(areaRepository, 'list').resolves(fakeAreaRecords);
         sandbox.stub(courseRepository, 'getAdaptiveCourses').resolves(fakeCoursesRecords);
+        sandbox.stub(assessmentRepository, 'findLastAssessmentsForEachCoursesByUser').resolves(fakeAssessmentRecords);
         sandbox.stub(assessmentRepository, 'findCompletedAssessmentsByUserId').resolves(fakeAssessmentRecords);
         sandbox.stub(organizationRepository, 'getByUserId').resolves(fakeOrganizationsRecords);
       });
@@ -97,6 +107,41 @@ describe('Unit | Service | Profil User Service', function() {
         return expect(promise).to.be.fulfilled;
       });
 
+      it('should add a default level and status to competences', () => {
+        // Given
+        assessmentRepository.findLastAssessmentsForEachCoursesByUser.resolves([]);
+        assessmentRepository.findCompletedAssessmentsByUserId.resolves([]);
+
+        const expectedUser = {
+          user: fakeUserRecord,
+          competences: [
+            {
+              id: 'competenceId1',
+              name: '1.1 Mener une recherche d’information',
+              areaId: 'areaId1',
+              level: -1,
+              status: 'notEvaluated'
+            },
+            {
+              id: 'competenceId2',
+              name: '1.2 Gérer des données',
+              areaId: 'areaId2',
+              level: -1,
+              status: 'notEvaluated'
+            }],
+          areas: fakeAreaRecords,
+          organizations: fakeOrganizationsRecords
+        };
+
+        // When
+        const promise = profileService.getByUserId('user-id');
+
+        // Then
+        return promise.then((enhancedUser) => {
+          expect(enhancedUser).to.deep.equal(expectedUser);
+        });
+      });
+
       it('should return an enhanced user with all competences and area', () => {
         // Given
         const expectedUser = {
@@ -107,16 +152,19 @@ describe('Unit | Service | Profil User Service', function() {
               name: '1.1 Mener une recherche d’information',
               areaId: 'areaId1',
               level: 1,
-              pixScore: 10
+              pixScore: 10,
+              assessmentId: 'assessmentId1',
+              status: 'evaluated'
             },
             {
               id: 'competenceId2',
               name: '1.2 Gérer des données',
               areaId: 'areaId2',
-              level: -1
+              level: -1,
+              status: 'notEvaluated'
             }],
           areas: fakeAreaRecords,
-          organizations : fakeOrganizationsRecords
+          organizations: fakeOrganizationsRecords
         };
 
         // When
@@ -145,8 +193,8 @@ describe('Unit | Service | Profil User Service', function() {
 
         // Then
         return promise.then(() => {
-          sinon.assert.called(assessmentRepository.findCompletedAssessmentsByUserId);
-          sinon.assert.calledWith(assessmentRepository.findCompletedAssessmentsByUserId, 'user-id');
+          sinon.assert.called(assessmentRepository.findLastAssessmentsForEachCoursesByUser);
+          sinon.assert.calledWith(assessmentRepository.findLastAssessmentsForEachCoursesByUser, 'user-id');
         });
       });
 

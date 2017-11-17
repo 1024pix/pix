@@ -5,8 +5,8 @@ const skillRepository = require('../../../../lib/infrastructure/repositories/ski
 const challengeSerializer = require('../../../../lib/infrastructure/serializers/airtable/challenge-serializer');
 const Bookshelf = require('../../../../lib/infrastructure/bookshelf');
 
-function _buildChallenge(id, instruction, proposals, competence, status, knowledgeTags) {
-  return { id, instruction, proposals, competence, status, knowledgeTags };
+function _buildChallenge(id, instruction, proposals, competence, status, skills) {
+  return { id, instruction, proposals, competence, status, skills };
 }
 
 describe('Unit | Repository | skill-repository', function() {
@@ -40,7 +40,7 @@ describe('Unit | Repository | skill-repository', function() {
       _buildChallenge('challenge_id_3', 'Instruction #3', 'Proposals #3', 'competence_id', 'validé', ['web1'])
     ];
 
-    it('should reject with an error when the cache throws an error', function(done) {
+    it('should reject with an error when the cache throws an error', function() {
       // given
       const cacheErrorMessage = 'Cache error';
       sinon.stub(cache, 'get').callsFake((key, callback) => {
@@ -52,11 +52,10 @@ describe('Unit | Repository | skill-repository', function() {
 
       // then
       cache.get.restore();
-      expect(result).to.eventually.be.rejectedWith(cacheErrorMessage);
-      done();
+      return expect(result).to.eventually.be.rejectedWith(cacheErrorMessage);
     });
 
-    it('should resolve skills directly retrieved from the cache without calling Airtable when the challenge has been cached', function(done) {
+    it('should resolve skills directly retrieved from the cache without calling Airtable when the challenge has been cached', function() {
       // given
       getRecords.resolves(true);
       const expectedSkills = new Set(['web1', 'web2', 'web3']);
@@ -67,8 +66,7 @@ describe('Unit | Repository | skill-repository', function() {
 
       // then
       expect(getRecords.notCalled).to.be.true;
-      expect(result).to.eventually.deep.equal(expectedSkills);
-      done();
+      return expect(result).to.eventually.deep.equal(expectedSkills);
     });
 
     describe('when skills have not been previously cached', function() {
@@ -77,21 +75,21 @@ describe('Unit | Repository | skill-repository', function() {
         getRecords.resolves(challenges);
       });
 
-      it('should resolve skills with the challenges fetched from Airtable', function(done) {
+      it('should resolve skills with the challenges fetched from Airtable', function() {
         // when
         const result = skillRepository.cache.getFromCompetenceId(competenceId);
 
         // then
         const expectedSkills = new Set(['web1', 'web2', 'web3']);
-        expect(result).to.eventually.deep.equal(expectedSkills);
-        done();
+        return expect(result).to.eventually.deep.equal(expectedSkills);
       });
 
       it('should cache the challenges fetched from Airtable', function(done) {
         // when
-        skillRepository.cache.getFromCompetenceId(competenceId).then(() => {
+        const result = skillRepository.cache.getFromCompetenceId(competenceId);
 
-          // then
+        // then
+        result.then(() => {
           cache.get(cacheKey, (err, cachedValue) => {
             expect(cachedValue).to.exist;
             done();
@@ -99,16 +97,16 @@ describe('Unit | Repository | skill-repository', function() {
         });
       });
 
-      it('should query correctly Airtable', function(done) {
+      it('should query correctly Airtable', function() {
         // given
         const expectedQuery = {};
 
         // when
-        skillRepository.cache.getFromCompetenceId(competenceId).then(() => {
+        const result = skillRepository.cache.getFromCompetenceId(competenceId);
 
-          // then
+        // then
+        return result.then(() => {
           expect(getRecords.calledWith('Epreuves', expectedQuery, challengeSerializer)).to.be.true;
-          done();
         });
       });
     });
