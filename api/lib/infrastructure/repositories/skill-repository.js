@@ -3,11 +3,17 @@ const challengeRepository = require('./challenge-repository');
 const Skill = require('../../domain/models/data/skill');
 const Bookshelf = require('../../infrastructure/bookshelf');
 
+const _ = require('lodash');
+
 function _fetchSkillsFromCompetence(competenceId, cacheKey, resolve, reject) {
   challengeRepository.getFromCompetenceId(competenceId)
     .then(challenges => {
       const skills = new Set();
-      challenges.forEach(challenge => challenge.knowledgeTags ? challenge.knowledgeTags.forEach(skill => skills.add(skill)) : null);
+
+      _(challenges)
+        .without((challenge) => _.isNil(challenge.skills))
+        .forEach((challenge) => _.forEach(challenge.skills, (skill) => skills.add(skill)));
+
       cache.set(cacheKey, skills);
       return resolve(skills);
     })

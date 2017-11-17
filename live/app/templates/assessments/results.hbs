@@ -1,15 +1,15 @@
 <div class="assessment-results">
 
-  {{#if model.assessment.course.isAdaptive}}
+  {{#if model.course.isAdaptive}}
     <div class="assessment-results__logo-banner">
       {{pix-logo}}
     </div>
     <div class="assessment-results__scoring">
-      {{scoring-panel assessment=model.assessment}}
+      {{scoring-panel assessment=model}}
     </div>
   {{else}}
     <div class="assessment-results__course-banner">
-      {{course-banner course=model.assessment.course}}
+      {{course-banner course=model.course}}
     </div>
   {{/if}}
 
@@ -18,7 +18,7 @@
       Vos résultats
     </h2>
     <div class="assessment-results__list">
-      {{#each model.assessment.answers as |answer index|}}
+      {{#each model.answers as |answer index|}}
         {{result-item answer=answer index=index openComparison="openComparison" a11y-focus-id=(concat "open-comparison_" (add index 1))}}
       {{/each}}
     </div>

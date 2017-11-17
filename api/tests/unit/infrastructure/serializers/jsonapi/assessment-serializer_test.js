@@ -6,7 +6,8 @@ describe('Unit | Serializer | JSONAPI | assessment-serializer', function() {
 
   const modelObject = new Assessment({
     id: 'assessment_id',
-    courseId: 'course_id'
+    courseId: 'course_id',
+    successRate: 24
   });
 
   const jsonAssessment = {
@@ -15,7 +16,8 @@ describe('Unit | Serializer | JSONAPI | assessment-serializer', function() {
       id: 'assessment_id',
       attributes: {
         'estimated-level': undefined,
-        'pix-score': undefined
+        'pix-score': undefined,
+        'success-rate': 24
       },
       relationships: {
         course: {

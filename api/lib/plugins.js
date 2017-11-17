@@ -1,7 +1,9 @@
 const HapiSwagger = require('hapi-swagger');
 const Pack = require('../package');
+const Metrics = require('./infrastructure/plugins/metrics');
 
 const plugins = [
+  Metrics,
   require('inert'),
   require('vision'),
   require('blipp'),

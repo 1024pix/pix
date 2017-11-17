@@ -9,6 +9,8 @@ import refTimedChallengeBisFull from '../data/challenges/ref-timed-challenge-bis
 
 export default function(schema, request) {
 
+  const challengeId = request.params.id;
+
   const allChallenges = [
     refQcmChallengeFull,
     refQcuChallengeFull,
@@ -22,12 +24,10 @@ export default function(schema, request) {
     return { id: oneChallenge.data.id, obj: oneChallenge };
   });
 
-  const challenge = _.find(challenges, { id: request.params.id });
+  const challenge = _.find(challenges, { id: challengeId });
 
   if (challenge) {
     return challenge.obj;
-  }else {
-    throw new Error('The challenge you required in the fake server does not exist ' + request.params.id);
   }
-
+  return schema.challenges.find(challengeId);
 }

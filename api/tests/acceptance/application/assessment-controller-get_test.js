@@ -164,6 +164,7 @@ describe('Acceptance | API | Assessments GET', function() {
           'attributes': {
             'estimated-level': 0,
             'pix-score': 0,
+            'success-rate': null
           },
           'relationships': {
             'course': { 'data': { 'type': 'courses', 'id': 'anyFromAirTable' } },
@@ -298,7 +299,8 @@ describe('Acceptance | API | Assessments GET', function() {
           'id': inserted_assessment_id,
           'attributes': {
             'estimated-level': 1,
-            'pix-score': 8
+            'pix-score': 8,
+            'success-rate': 50
           },
           'relationships': {
             'course': { 'data': { 'type': 'courses', 'id': 'anyFromAirTable' } },

@@ -5,6 +5,8 @@ export default function(server) {
 
   server.loadFixtures('areas');
   server.loadFixtures('competences');
+  server.loadFixtures('courses');
+  server.loadFixtures('challenges');
 
   server.create('user', {
     id: 1,
@@ -54,6 +56,10 @@ export default function(server) {
 
   prescriber.organization = company;
   company.user = prescriber;
+
+  server.create('assessment', {
+
+  });
 
   const snapshots = server.createList('snapshot', 3, { organization: company });
   company.snapshots = snapshots;

@@ -97,10 +97,10 @@ module.exports = {
       });
   },
 
-  getSkillProfile(request, reply) {
+  getCertificationProfile(request, reply) {
     const userId = request.params.id;
 
-    return userService.getSkillProfile(userId)
+    return userService.getCertificationProfile(userId)
       .then(reply)
       .catch(err => {
         logger.error(err);

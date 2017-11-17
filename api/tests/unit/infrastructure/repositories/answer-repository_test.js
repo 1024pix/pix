@@ -1,6 +1,7 @@
-const { describe, it, before, after, expect, knex } = require('../../../test-helper');
+const { describe, it, before, after, expect, knex, beforeEach, afterEach, sinon } = require('../../../test-helper');
 
 const AnswerRepository = require('../../../../lib/infrastructure/repositories/answer-repository');
+const Answer = require('../../../../lib/domain/models/data/answer');
 
 describe('Unit | Repository | AnswerRepository', function() {
 
@@ -30,7 +31,7 @@ describe('Unit | Repository | AnswerRepository', function() {
       assessmentId: 1
     };
 
-    before(function(done) {
+    before((done) =>{
       knex('answers').delete().then(() => {
         knex('answers').insert([inserted_answer_1, inserted_answer_2, inserted_answer_3]).then(() => {
           done();
@@ -38,8 +39,8 @@ describe('Unit | Repository | AnswerRepository', function() {
       });
     });
 
-    after(function(done) {
-      knex('answers').delete().then(() => {done();});
+    after(() =>{
+      knex('answers').delete();
     });
 
     it('should find the answer by challenge and assessment and return its in an object', function(done) {
@@ -87,7 +88,9 @@ describe('Unit | Repository | AnswerRepository', function() {
     });
 
     after(function(done) {
-      knex('answers').delete().then(() => {done();});
+      knex('answers').delete().then(() => {
+        done();
+      });
     });
 
     it('should find all answers by challenge', function(done) {
@@ -111,4 +114,34 @@ describe('Unit | Repository | AnswerRepository', function() {
     });
   });
 
+  describe('#findCorrectAnswersByAssessment', () => {
+    let fetchAllStub;
+    beforeEach(() => {
+      sinon.stub(Answer.prototype, 'where');
+      fetchAllStub = sinon.stub();
+    });
+
+    afterEach(() => {
+      Answer.prototype.where.restore();
+    });
+
+    it('should retrieve answers with ok status from assessment id provided', () => {
+      // given
+      const assessmentId = 'assessment_id';
+      fetchAllStub.resolves({});
+      Answer.prototype.where.returns({
+        fetchAll: fetchAllStub
+      });
+
+      // when
+      const promise = AnswerRepository.findCorrectAnswersByAssessment(assessmentId);
+
+      // then
+      return promise.then(() => {
+        sinon.assert.calledOnce(Answer.prototype.where);
+        sinon.assert.calledWith(Answer.prototype.where, { assessmentId, result: 'ok' });
+        sinon.assert.calledOnce(fetchAllStub);
+      });
+    });
+  });
 });

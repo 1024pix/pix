@@ -2,7 +2,7 @@ const { describe, it, expect } = require('../../../../test-helper');
 const serializer = require('../../../../../lib/infrastructure/serializers/airtable/course-group-serializer');
 const CourseGroup = require('../../../../../lib/domain/models/referential/course-group');
 
-describe('Unit | Serializer | serie-serializer', function() {
+describe('Unit | Serializer | course-group-serializer', function() {
 
   describe('#deserialize', function() {
 
@@ -12,7 +12,7 @@ describe('Unit | Serializer | serie-serializer', function() {
       // when
       const courseGroupRecord = serializer.deserialize(airtableRecord);
       // then
-      expect(courseGroupRecord instanceof CourseGroup).to.be.true;
+      expect(courseGroupRecord).to.be.an.instanceOf(CourseGroup);
     });
 
     it('should convert id field of airtable to id in Serie object', function() {
@@ -26,7 +26,7 @@ describe('Unit | Serializer | serie-serializer', function() {
       expect(courseGroupRecord.id).to.be.equal(airtableRecord.id);
     });
 
-    it('should convert "nom" field of airtable to "nom" in Serie object', function() {
+    it('should convert field "Nom" of airtable to "name" in CourseGroup object', function() {
       //given
       const airtableRecord = {
         fields: {
@@ -41,17 +41,16 @@ describe('Unit | Serializer | serie-serializer', function() {
       expect(courseGroupRecord.name).to.be.equal(airtableRecord.fields['Nom']);
     });
 
-    it('should convert "nom" field of airtable to "nom" in Serie object', function() {
-
+    it('should convert field "Tests" into an array of objects with course ids', function() {
       //given
-      const airtableRecord = {
+      const serieAirtableRecord = {
         fields: {
           Tests: ['test1', 'test2']
         }
       };
 
       //when
-      const courseGroupRecord = serializer.deserialize(airtableRecord);
+      const courseGroupRecord = serializer.deserialize(serieAirtableRecord);
 
       //then
       expect(courseGroupRecord.courses).to.deep.equal([{ id: 'test1' }, { id: 'test2' }]);

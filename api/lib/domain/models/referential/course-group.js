@@ -1,10 +1,8 @@
-const AirtableModel = require('./airtable-model');
 const extend = require('util')._extend;
 
-class courseGroup extends AirtableModel {
+class courseGroup {
 
   constructor(object) {
-    super();
     extend(this, object);
   }
 

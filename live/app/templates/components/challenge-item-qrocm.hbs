@@ -35,7 +35,7 @@
   {{/if}}
 
   {{#if assessment}}
-    {{challenge-actions challengeSkipped=(action "skipChallenge") answerValidated=(action "validateAnswer")}}
+    {{challenge-actions challenge=challenge challengeSkipped=(action "skipChallenge") answerValidated=(action "validateAnswer")}}
   {{/if}}
 {{/unless}}
 

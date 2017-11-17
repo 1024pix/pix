@@ -2,7 +2,6 @@ import Ember from 'ember';
 import { describe, it, beforeEach, afterEach } from 'mocha';
 import { expect } from 'chai';
 import { startApp, destroyApp } from '../helpers/application';
-import _ from 'pix-live/utils/lodash-custom';
 
 const URL_OF_FIRST_TEST = '/assessments/ref_assessment_id/challenges/ref_qcm_challenge_id';
 const MODAL_SELECTOR = '.modal.fade.js-modal-mobile.in';
@@ -21,9 +20,11 @@ describe('Acceptance | a4 - Démarrer un test |', function() {
     destroyApp(application);
   });
 
-  it('a4.2 Je peux démarrer un test directement depuis la nouvelle url "courses/:course_id"', async function() {
-    await visit('/courses/ref_course_id');
-    expect(_.endsWith(currentURL(), 'assessments/ref_assessment_id/challenges/ref_qcm_challenge_id')).to.be.true;
+  it('a4.2 Je peux démarrer un test directement depuis la nouvelle url "courses/:course_id"', function() {
+    visit('/courses/ref_course_id');
+    andThen(() => {
+      expect(currentURL()).to.be.equal('/assessments/ref_assessment_id/challenges/ref_qcm_challenge_id');
+    });
   });
 
   it('a4.4 Quand je démarre un test, je suis redirigé vers la première épreuve du test', function() {

@@ -18,7 +18,7 @@ export default BaseRoute.extend({
 
     solutionAdapter.refreshRecord('solution', { challengeId : challenge.get('id') });
     return assessment.save().then(() => {
-      return that.transitionTo('assessments.get-challenge', { assessment, challenge });
+      return that.transitionTo('assessments.challenge', { assessment, challenge });
     });
   }
 

@@ -4,6 +4,8 @@ import refAssessmentTimedChallenges from '../data/assessments/ref-assessment-tim
 
 export default function(schema, request) {
 
+  const assessmentId = request.params.id;
+
   const allAssessments = [
     refAssessment,
     refAssessmentTimedChallenges
@@ -13,12 +15,10 @@ export default function(schema, request) {
     return { id: oneAssessment.data.id, obj: oneAssessment };
   });
 
-  const assessment = _.find(assessments, { id: request.params.id });
+  const assessment = _.find(assessments, { id: assessmentId });
 
   if (assessment) {
     return assessment.obj;
-  }else {
-    throw new Error('The assessment you required in the fake server does not exist ' + request.params.id);
   }
-
+  return schema.assessments.find(assessmentId);
 }
