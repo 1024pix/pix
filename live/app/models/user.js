@@ -28,5 +28,9 @@ export default Model.extend({
         });
       }, []);
     });
+  }),
+
+  fullName: Ember.computed('firstName', 'lastName', function() {
+    return `${this.get('firstName')} ${ this.get('lastName')}`;
   })
 });
