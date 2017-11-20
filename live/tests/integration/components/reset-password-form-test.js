@@ -40,18 +40,16 @@ describe('Integration | Component | reset password form', function() {
         });
       });
 
-      it('should display user’s fullname', function() {
+      it('should display user’s fullName', function() {
         // given
-        const user = { firstName: 'toto', lastName: 'riri' };
+        const user = { fullName: 'toto riri' };
         this.set('user', user);
-        const expectedFullname = `${user.firstName} ${user.lastName}`;
 
         // when
         this.render(hbs`{{reset-password-form user=user}}`);
 
         // then
-        expect(this.$('.reset-password-form__user-details').text().trim()).to.equal(expectedFullname);
-
+        expect(this.$('.reset-password-form__user-details').text().trim()).to.equal(user.fullName);
       });
 
     });

@@ -28,10 +28,6 @@ export default Ember.Component.extend({
   classNames: ['reset-password-form'],
   validation: VALIDATION_MAP['default'],
 
-  fullname: Ember.computed('user', function() {
-    return `${this.get('user.firstName')} ${ this.get('user.lastName')}`;
-  }),
-
   actions: {
     validatePassword() {
       const password = this.get('user.password');
