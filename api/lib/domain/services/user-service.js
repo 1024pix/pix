@@ -1,4 +1,4 @@
-const { _, take, sortBy } = require('lodash');
+const _ = require('lodash');
 
 const { UserNotFoundError } = require('../errors');
 const UserCompetence = require('../../../lib/domain/models/UserCompetence');
@@ -44,10 +44,11 @@ function _castCompetencesToUserCompetences([challenges, competences, answers]) {
 }
 
 function _sortThreeMostDifficultSkillsInDesc(skills) {
-  const sortedSkills = sortBy(skills, ['difficulty'])
-    .reverse();
-
-  return take(sortedSkills, 3);
+  return _(skills)
+    .sortBy('difficulty')
+    .reverse()
+    .take(3)
+    .value();
 }
 
 function _limitSkillsToTheThreeHighestOrderedByDifficultyDesc(competences) {
