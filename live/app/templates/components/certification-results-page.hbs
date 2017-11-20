@@ -1,0 +1,29 @@
+<div class="certification-results__certification-banner">
+  {{certification-banner user=user}}
+</div>
+
+<div class="certification-results__content result-content">
+
+  <div class="result-content__panel">
+    <div class="result-content__panel-picture">
+      <img src="{{rootURL}}/images/flag.svg" alt="drapeau">
+    </div>
+    <div class="result-content__panel-title">
+      Vous avez terminé
+    </div>
+    <div class="result-content__panel-description">
+      Vos résultats vous seront communiqués dans les 10 jours suivant la fin de ce test par courrier électronique.
+      Ils seront également transmis à votre établissement.
+    </div>
+  </div>
+
+  <div class="result-content__warning-container">
+    <div class="result-content__warning-text">
+      Si cet ordinateur n’est pas votre machine personnelle, pensez à vous déconnecter.
+    </div>
+
+    <div class="result-content__warning-logout">
+      {{#link-to "logout" class="warning-logout-button"}}se deconnecter{{/link-to}}
+    </div>
+  </div>
+</div>

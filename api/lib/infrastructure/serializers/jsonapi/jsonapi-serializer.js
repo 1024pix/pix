@@ -22,7 +22,7 @@ class JSONAPISerializer {
   }
 
   serializeModelObject(modelObject) {
-    if(!modelObject) {
+    if (!modelObject) {
       return null;
     }
 
@@ -31,7 +31,7 @@ class JSONAPISerializer {
     const data = {};
     data.type = this.modelClassName;
 
-    if(entity.id) {
+    if (entity.id) {
       data.id = entity.id;
     }
 
