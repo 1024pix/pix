@@ -96,6 +96,20 @@ class InvalidTemporaryKeyError extends Error {
   }
 }
 
+class UserNotAuthorizedToCertifyError extends Error {
+  constructor() {
+    super();
+  }
+
+  getErrorMessage() {
+    return {
+      data: {
+        authorization: ['Vous n’êtes pas autorisé à passer un test de certification.']
+      }
+    };
+  }
+}
+
 module.exports = {
   NotFoundError,
   NotElligibleToScoringError,
@@ -107,5 +121,6 @@ module.exports = {
   InternalError,
   PasswordResetDemandNotFoundError,
   InvalidTemporaryKeyError,
-  NotElligibleToQmailError
+  NotElligibleToQmailError,
+  UserNotAuthorizedToCertifyError
 };

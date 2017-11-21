@@ -327,6 +327,33 @@ describe('Unit | Domain | Services | assessment-service', function() {
     });
   });
 
+  describe('#createCertificationAssessmentForUser', () => {
+    beforeEach(() => {
+      sinon.stub(assessmentRepository, 'save').resolves();
+    });
+    afterEach(() => {
+      assessmentRepository.save.restore();
+    });
+    it('should save an assessment with CERTIFICATION type', () => {
+      // given
+      const certificationCourse = { id: 'certificationId' };
+      const userId = 'userId';
+      const expectedAssessment = {
+        courseId: certificationCourse.id,
+        type: 'CERTIFICATION',
+        userId: userId
+      };
+      // when
+
+      const promise = service.createCertificationAssessmentForUser(certificationCourse, userId);
+      // then
+      return promise.then(() => {
+        sinon.assert.calledOnce(assessmentRepository.save);
+        sinon.assert.calledWith(assessmentRepository.save, expectedAssessment);
+      });
+    });
+  });
+
 });
 
 function _generateValidatedSkills() {

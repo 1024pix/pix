@@ -20,17 +20,26 @@ module.exports = {
         qb.where({ userId });
         qb.whereNotNull('estimatedLevel');
         qb.whereNotNull('pixScore');
+        qb.andWhere(function() {
+          this.where({ type: null })
+            .orWhereNot({ type: 'CERTIFICATION' });
+        });
       })
       .fetchAll()
       .then(assessments => assessments.models);
   },
 
   findLastAssessmentsForEachCoursesByUser(userId) {
+
     return Assessment
       .collection()
       .query(qb => {
         qb.select()
           .where({ userId })
+          .andWhere(function() {
+            this.where({ type: null })
+              .orWhereNot({ type: 'CERTIFICATION' });
+          })
           .orderBy('createdAt', 'desc');
       })
       .fetch()
@@ -59,5 +68,13 @@ module.exports = {
     return Assessment
       .query({ where: { id: assessmentId }, andWhere: { userId } })
       .fetch({ require: true });
-  }
+  },
+
+  save(assessment) {
+    const assessmentBookshelf = new Assessment(assessment);
+    return assessmentBookshelf.save()
+      .then((savedAssessment) => {
+        return savedAssessment.toJSON();
+      });
+  },
 };

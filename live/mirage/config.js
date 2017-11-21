@@ -58,6 +58,7 @@ export default function() {
 
   //Courses
   this.get('/courses/:id', getCourse);
+  this.post('/certification-courses');
 
   this.post('/authentications', postAuthentications);
   this.get('/users/me', getAuthenticatedUser);
