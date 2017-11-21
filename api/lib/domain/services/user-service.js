@@ -127,6 +127,8 @@ module.exports = {
 
             const challenge = (_.isEmpty(challengesLeftToAnswer)) ? _.first(challengesToValidateCurrentSkill) : _.first(challengesLeftToAnswer);
 
+            challenge.testedSkill = skill.name;
+
             userCompetence.addChallenge(challenge);
           });
         });

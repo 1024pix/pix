@@ -56,6 +56,7 @@ Router.map(function() {
   this.route('reset-password', { path: '/changer-mot-de-passe/:temporaryKey' });
   this.route('password-reset-demand', { path: '/mot-de-passe-oublie' });
   this.route('not-found', { path: '/*path' });
+  this.route('certification-course', { path: '/test-de-certification' });
 });
 
 export default Router;
