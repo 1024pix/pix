@@ -43,6 +43,13 @@ describe('Unit | Repository | assessmentRepository', () => {
       estimatedLevel: 3,
       pixScore: 37,
       type : 'CERTIFICATION'
+    }, {
+      id: 6,
+      userId: LAYLA,
+      courseId: 'nullAssessmentPreview',
+      estimatedLevel: 1,
+      pixScore: 1,
+      type: null
     }];
 
     before(() => {
@@ -69,6 +76,16 @@ describe('Unit | Repository | assessmentRepository', () => {
       });
     });
 
+    it('should not return preview assessments', () => {
+      // When
+      const promise = assessmentRepository.findLastAssessmentsForEachCoursesByUser(LAYLA);
+
+      // Then
+      return promise.then((assessments) => {
+        expect(assessments).to.have.lengthOf(1);
+      });
+    });
+
     it('should throw an error if something went wrong', () => {
       //Given
       const error = new Error('Unable to fetch');
@@ -87,9 +104,7 @@ describe('Unit | Repository | assessmentRepository', () => {
         .catch((err) => {
           expect(err).to.equal(error);
         });
-
     });
-
   });
 
   describe('#findLastCompletedAssessmentsByUser', () => {
@@ -213,6 +228,12 @@ describe('Unit | Repository | assessmentRepository', () => {
       estimatedLevel: 3,
       pixScore: 30,
       type: 'CERTIFICATION'
+    }, {
+      id: 6,
+      userId: LAYLA,
+      courseId: 'nullAssessmentPreview',
+      estimatedLevel: 1,
+      pixScore: 1
     }];
 
     before(() => {
@@ -233,6 +254,16 @@ describe('Unit | Repository | assessmentRepository', () => {
         expect(assessments[0].id).to.equal(COMPLETED_ASSESSMENT_A_ID);
         expect(assessments[1].id).to.equal(COMPLETED_ASSESSMENT_B_ID);
 
+      });
+    });
+
+    it('should not return preview assessments from LAYLA', () => {
+      // When
+      const promise = assessmentRepository.findCompletedAssessmentsByUserId(LAYLA);
+
+      // Then
+      return promise.then((assessments) => {
+        expect(assessments).to.have.lengthOf(1);
       });
     });
 

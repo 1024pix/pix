@@ -18,6 +18,7 @@ module.exports = {
     return Assessment
       .query(qb => {
         qb.where({ userId });
+        qb.whereNot('courseId','LIKE','null%');
         qb.whereNotNull('estimatedLevel');
         qb.whereNotNull('pixScore');
         qb.andWhere(function() {
@@ -40,6 +41,7 @@ module.exports = {
             this.where({ type: null })
               .orWhereNot({ type: 'CERTIFICATION' });
           })
+          .whereNot('courseId','LIKE','null%')
           .orderBy('createdAt', 'desc');
       })
       .fetch()
@@ -48,7 +50,6 @@ module.exports = {
         // we don't succeed to write the request with Bookshelf/knex
         return _selectLastAssessmentForEachCourse(assessments);
       });
-
   },
 
   findLastCompletedAssessmentsForEachCoursesByUser(userId) {
