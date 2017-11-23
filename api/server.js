@@ -22,10 +22,8 @@ server.connection({ port: config.port });
 
 const configuration = [].concat(plugins, routes);
 
-
 server.register(configuration, (err) => {
   if (err) logger.error(err);
 });
 
 module.exports = server;
-
