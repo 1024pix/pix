@@ -1,6 +1,7 @@
 const HapiSwagger = require('hapi-swagger');
 const Pack = require('../package');
 const Metrics = require('./infrastructure/plugins/metrics');
+const settings = require('./settings');
 
 const plugins = [
   Metrics,
@@ -29,7 +30,10 @@ const plugins = [
             log: '*'
           } ]
         }, {
-          module: 'good-console'
+          module: 'good-console',
+          args: [{
+            color: settings.logging.colorEnabled
+          }]
         }, 'stdout' ]
       }
     }
