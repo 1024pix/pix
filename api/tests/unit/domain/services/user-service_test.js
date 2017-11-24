@@ -143,12 +143,13 @@ describe('Unit | Service | User Service', () => {
       return competence;
     }
 
-    function _createChallenge(id, competence, skills, testedSkill) {
+    function _createChallenge(id, competence, skills, testedSkill, status = 'validé') {
       const challenge = new Challenge();
       challenge.id = id;
       challenge.skills = skills;
       challenge.competence = competence;
       challenge.testedSkill = testedSkill;
+      challenge.status = status;
       return challenge;
     }
 
@@ -166,6 +167,7 @@ describe('Unit | Service | User Service', () => {
 
     const challengeForSkillCitation4 = _createChallenge('challengeRecordIdOne', competenceFlipper.id, [skillCitation4], '@citation4');
     const challengeForSkillCitation4AndMoteur3 = _createChallenge('challengeRecordIdTwo', competenceFlipper.id, [skillCitation4, skillMoteur3], '@citation4');
+    const archivedChallengeForSkillCitation4 = _createChallenge('challengeRecordIdTen', competenceFlipper.id, [skillCitation4], '@citation4', 'archive');
     const challengeForSkillCollaborer4 = _createChallenge('challengeRecordIdThree', 'competenceRecordIdThatDoesNotExistAnymore', [skillCollaborer4], '@collaborer4');
     const challengeForSkillRecherche4 = _createChallenge('challengeRecordIdFour', competenceFlipper.id, [skillRecherche4], '@recherche4');
     const challengeForSkillRemplir2 = _createChallenge('challengeRecordIdFive', competenceDauphin.id, [skillRemplir2], '@remplir2');
@@ -185,6 +187,7 @@ describe('Unit | Service | User Service', () => {
 
       sandbox.stub(challengeRepository, 'list').resolves([
         challengeForSkillCitation4,
+        archivedChallengeForSkillCitation4,
         challengeForSkillCitation4AndMoteur3,
         challengeForSkillCollaborer4,
         challengeForSkillRecherche4,
@@ -322,8 +325,8 @@ describe('Unit | Service | User Service', () => {
           });
         });
 
-        context('when two challenges validate the same skill', () => {
-          it('should select the unanswered challenge', () => {
+        context('when three challenges validate the same skill', () => {
+          it('should select the unanswered challenge which is published', () => {
             // Given
             const answer = new Answer({ challengeId: challengeForSkillCitation4.id, result: 'ok' });
             const answerCollectionWithOneAnswer = AnswerCollection.forge([answer]);
