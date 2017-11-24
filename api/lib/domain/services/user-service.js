@@ -68,7 +68,7 @@ function _getChallengeById(challenges, challengeId) {
 
 function _findChallengeBySkill(challenges, skill) {
   return _(challenges).filter((challenge) => {
-    return challenge.hasSkill(skill);
+    return challenge.hasSkill(skill) && challenge.isPublished();
   }).value();
 }
 

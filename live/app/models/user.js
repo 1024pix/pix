@@ -1,5 +1,6 @@
 import Ember from 'ember';
 import DS from 'ember-data';
+
 const { Model, attr, hasMany } = DS;
 
 export default Model.extend({
@@ -17,7 +18,7 @@ export default Model.extend({
     return this.get('competences').then(competences => {
       return competences.reduce((areas, competence) => {
         competence.get('area').then(competenceArea => {
-          if(!areas[competenceArea.get('id')]) {
+          if (!areas[competenceArea.get('id')]) {
             areas[competenceArea.get('id')] = {
               name: competenceArea.get('name'),
               competences: []
