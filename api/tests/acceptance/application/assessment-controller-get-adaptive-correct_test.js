@@ -1,11 +1,13 @@
 const { describe, it, before, after, beforeEach, afterEach, expect, knex, nock } = require('../../test-helper');
+const cache = require('../../../lib/infrastructure/cache');
 const server = require('../../../server');
 
-describe('Acceptance | API | Assessments', () => {
+describe('Acceptance | API | assessment-controller-get-adaptive-correct', () => {
 
-  before(function(done) {
+  before((done) => {
 
     nock.cleanAll();
+
     nock('https://api.airtable.com')
       .get('/v0/test-base/Tests/w_adaptive_course_id')
       .query(true)
@@ -17,11 +19,23 @@ describe('Acceptance | API | Assessments', () => {
           'Competence': ['competence_id']
         }
       });
-
+    nock('https://api.airtable.com')
+      .get('/v0/test-base/Competences/competence_id')
+      .query(true)
+      .reply(200, {
+        'id': 'competence_id',
+        'fields': {
+          'Référence': 'challenge-view',
+          'Titre': 'Mener une recherche et une veille d\'information',
+          'Sous-domaine': '1.1',
+          'Domaine': '1. Information et données',
+          'Statut': 'validé',
+          'Acquis': ['@web1']
+        }
+      });
     nock('https://api.airtable.com')
       .get('/v0/test-base/Epreuves')
-      .query(true)
-      .times(3)
+      .query({ view: 'challenge-view' })
       .reply(200, {
         'records': [
           {
@@ -50,13 +64,13 @@ describe('Acceptance | API | Assessments', () => {
           }
         ]
       });
-
     nock('https://api.airtable.com')
       .get('/v0/test-base/Epreuves/w_first_challenge')
       .query(true)
       .reply(200, {
         'id': 'w_first_challenge',
         'fields': {
+          'competences': ['competence_id'],
           'Statut': 'validé',
           'acquis': ['@web2']
         }
@@ -67,6 +81,7 @@ describe('Acceptance | API | Assessments', () => {
       .reply(200, {
         'id': 'w_second_challenge',
         'fields': {
+          'competences': ['competence_id'],
           'Statut': 'validé',
           'acquis': ['@web3']
         }
@@ -77,6 +92,7 @@ describe('Acceptance | API | Assessments', () => {
       .reply(200, {
         'id': 'w_third_challenge',
         'fields': {
+          'competences': ['competence_id'],
           'Statut': 'validé',
           'acquis': ['@web1']
         }
@@ -85,8 +101,9 @@ describe('Acceptance | API | Assessments', () => {
     done();
   });
 
-  after(function(done) {
+  after((done) => {
     nock.cleanAll();
+    cache.flushAll();
     server.stop(done);
   });
 
@@ -223,4 +240,6 @@ describe('Acceptance | API | Assessments', () => {
       });
     });
   });
-});
+
+})
+;

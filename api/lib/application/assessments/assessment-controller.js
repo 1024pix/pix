@@ -11,8 +11,8 @@ const challengeRepository = require('../../infrastructure/repositories/challenge
 const challengeSerializer = require('../../infrastructure/serializers/jsonapi/challenge-serializer');
 const solutionSerializer = require('../../infrastructure/serializers/jsonapi/solution-serializer');
 const courseRepository = require('../../infrastructure/repositories/course-repository');
+const competenceRepository = require('../../infrastructure/repositories/competence-repository');
 const skillRepository = require('../../infrastructure/repositories/skill-repository');
-
 const answerRepository = require('../../infrastructure/repositories/answer-repository');
 const solutionRepository = require('../../infrastructure/repositories/solution-repository');
 
@@ -80,7 +80,6 @@ module.exports = {
         if (assessmentService.isPreviewAssessment(assessment)) {
           return Promise.reject(new NotElligibleToScoringError(`Assessment with ID ${request.params.id} is a preview Challenge`));
         }
-
         return assessmentService.getAssessmentNextChallengeId(assessment, request.params.challengeId);
       })
       .then((nextChallengeId) => {
@@ -151,9 +150,12 @@ module.exports = {
         });
       })
       .then(({ answers, course, challenges }) => {
-        // fetch skillNames (requires course)
-        const competenceId = course.competences[0];
-        const skillNames = skillRepository.cache.getFromCompetenceId(competenceId);
+        return competenceRepository.get(course.competences[0]).then(competence => {
+          return { answers, course, challenges, competence };
+        });
+      })
+      .then(({ answers, course, challenges, competence }) => {
+        const skillNames = skillRepository.findByCompetence(competence);
         return Promise.all([skillNames]).then(values => {
           const skillNames = values[0];
           return { answers, course, challenges, skillNames };

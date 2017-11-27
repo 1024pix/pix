@@ -55,7 +55,8 @@
     "mocha": "^3.5.3",
     "nock": "^9.0.22",
     "nodemon": "^1.12.1",
-    "sinon": "^3.3.0"
+    "sinon": "^3.3.0",
+    "sinon-chai": "^2.14.0"
   },
   "scripts": {
     "help": "./scripts/help.sh",
