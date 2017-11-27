@@ -138,10 +138,20 @@ function isPreviewAssessment(assessment) {
   return _.startsWith(assessment.get('courseId'), 'null');
 }
 
+function createCertificationAssessmentForUser(certificationCourse, userId) {
+  const assessmentCertification = {
+    type: 'CERTIFICATION',
+    courseId: certificationCourse.id,
+    userId: userId
+  };
+  return assessmentRepository.save(assessmentCertification);
+
+}
+
 module.exports = {
 
   getAssessmentNextChallengeId,
   getScoredAssessment,
-  isPreviewAssessment
-
+  isPreviewAssessment,
+  createCertificationAssessmentForUser
 };

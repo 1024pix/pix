@@ -1,4 +1,4 @@
-const { _, take, sortBy } = require('lodash');
+const _ = require('lodash');
 
 const { UserNotFoundError } = require('../errors');
 const UserCompetence = require('../../../lib/domain/models/UserCompetence');
@@ -44,10 +44,11 @@ function _castCompetencesToUserCompetences([challenges, competences, answers]) {
 }
 
 function _sortThreeMostDifficultSkillsInDesc(skills) {
-  const sortedSkills = sortBy(skills, ['difficulty'])
-    .reverse();
-
-  return take(sortedSkills, 3);
+  return _(skills)
+    .sortBy('difficulty')
+    .reverse()
+    .take(3)
+    .value();
 }
 
 function _limitSkillsToTheThreeHighestOrderedByDifficultyDesc(competences) {
@@ -67,7 +68,7 @@ function _getChallengeById(challenges, challengeId) {
 
 function _findChallengeBySkill(challenges, skill) {
   return _(challenges).filter((challenge) => {
-    return challenge.hasSkill(skill);
+    return challenge.hasSkill(skill) && challenge.isPublished();
   }).value();
 }
 
@@ -125,6 +126,8 @@ module.exports = {
             const challengesLeftToAnswer = _.difference(challengesToValidateCurrentSkill, challengesAlreadyAnswered);
 
             const challenge = (_.isEmpty(challengesLeftToAnswer)) ? _.first(challengesToValidateCurrentSkill) : _.first(challengesLeftToAnswer);
+
+            challenge.testedSkill = skill.name;
 
             userCompetence.addChallenge(challenge);
           });

@@ -18,7 +18,7 @@ class ChallengeSerializer extends AirtableSerializer {
       challenge.proposals = fields['Propositions'];
 
       _(fields['acquis']).forEach((acquis) => {
-        challenge.skills.push(new Skill(acquis));
+        challenge.addSkill(new Skill(acquis));
       });
 
       challenge.status = fields['Statut'];

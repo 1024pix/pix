@@ -33,8 +33,6 @@
 
 **/.env
 
-**/package-lock.json
-
 # CircleCI
 *.circle-sha
 

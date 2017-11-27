@@ -12,6 +12,7 @@ const metrics = {
     success: new client.Counter({ name: 'api_request_success', help: 'The number of successful API responses' }),
     server_error: new client.Counter({ name: 'api_request_server_error', help: 'The number of 50x API responses' }),
     client_error: new client.Counter({ name: 'api_request_client_error', help: 'The number of 40x API responses' }),
+    api_request_duration: new client.Summary({ name: 'api_request_duration', help: 'Summary of request duration per API endpoint' })
   }
 };
 
@@ -22,11 +23,17 @@ const Metrics = {
     metrics.request.success.reset();
     metrics.request.server_error.reset();
     metrics.request.client_error.reset();
+    metrics.request.api_request_duration.reset();
   },
 
   register(server, options, next) {
 
     server.on('response', (request) => {
+
+      const responseDuration = request.info.responded - request.info.received;
+      metrics.request.api_request_duration.observe(responseDuration);
+      metrics.request.api_request_duration.observe({ 'path': request.route.path }, responseDuration);
+
       metrics.request.total.inc();
 
       const { statusCode } = request.response;
@@ -47,7 +54,7 @@ const Metrics = {
     return next();
   },
 
-  metrics: client.register,
+  prometheusClient: client.register,
 };
 
 Metrics.register.attributes = {

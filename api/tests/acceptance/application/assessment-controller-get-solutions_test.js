@@ -264,6 +264,7 @@ describe('Acceptance | API | assessment-controller-get-solutions', () => {
         });
     });
 
+    // FIXME
     it('should return a solution if user completed the adaptive test', () => {
       const options = {
         method: 'GET',
