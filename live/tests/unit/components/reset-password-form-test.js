@@ -49,20 +49,6 @@ describe('Unit | Component | reset password form', function() {
     expect(this.$()).to.have.length(1);
   });
 
-  describe('@fullname', () => {
-
-    it('should concatenate user first and last name', function() {
-      // given
-      component.set('user', Ember.Object.create({ firstName: 'Manu', lastName: 'Phillip' }));
-
-      // when
-      const fullname = component.get('fullname');
-
-      // then
-      expect(fullname).to.equal('Manu Phillip');
-    });
-  });
-
   describe('#validatePassword', () => {
 
     it('should set validation status to default, when component is rendered', function() {

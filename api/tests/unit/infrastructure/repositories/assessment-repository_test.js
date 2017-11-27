@@ -13,25 +13,43 @@ describe('Unit | Repository | assessmentRepository', () => {
       userId: JOHN,
       courseId: 'courseId1',
       estimatedLevel: 1,
-      pixScore: 10
+      pixScore: 10,
+      type: null
     }, {
       id: 2,
       userId: LAYLA,
       courseId: 'courseId1',
       estimatedLevel: 2,
-      pixScore: 20
+      pixScore: 20,
+      type: null
     }, {
       id: 3,
       userId: JOHN,
       courseId: 'courseId1',
       estimatedLevel: 3,
-      pixScore: 30
+      pixScore: 30,
+      type: null
     }, {
       id: 4,
       userId: JOHN,
       courseId: 'courseId2',
       estimatedLevel: 3,
-      pixScore: 37
+      pixScore: 37,
+      type: null
+    }, {
+      id: 5,
+      userId: JOHN,
+      courseId: 'courseId3',
+      estimatedLevel: 3,
+      pixScore: 37,
+      type : 'CERTIFICATION'
+    }, {
+      id: 6,
+      userId: LAYLA,
+      courseId: 'nullAssessmentPreview',
+      estimatedLevel: 1,
+      pixScore: 1,
+      type: null
     }];
 
     before(() => {
@@ -42,7 +60,7 @@ describe('Unit | Repository | assessmentRepository', () => {
       return knex('assessments').delete();
     });
 
-    it('should return the list of assessments for each courses from JOHN', () => {
+    it('should return the list of assessments (which are not Certifications) for each courses from JOHN', () => {
       // When
       const promise = assessmentRepository.findLastAssessmentsForEachCoursesByUser(JOHN);
 
@@ -55,6 +73,16 @@ describe('Unit | Repository | assessmentRepository', () => {
 
         const secondId = assessments[1].id;
         expect(secondId).to.equal(4);
+      });
+    });
+
+    it('should not return preview assessments', () => {
+      // When
+      const promise = assessmentRepository.findLastAssessmentsForEachCoursesByUser(LAYLA);
+
+      // Then
+      return promise.then((assessments) => {
+        expect(assessments).to.have.lengthOf(1);
       });
     });
 
@@ -76,9 +104,7 @@ describe('Unit | Repository | assessmentRepository', () => {
         .catch((err) => {
           expect(err).to.equal(error);
         });
-
     });
-
   });
 
   describe('#findLastCompletedAssessmentsByUser', () => {
@@ -195,6 +221,19 @@ describe('Unit | Repository | assessmentRepository', () => {
       courseId: 'courseId',
       estimatedLevel: 2,
       pixScore: 20
+    }, {
+      id: 5,
+      userId: JOHN,
+      courseId: 'courseId',
+      estimatedLevel: 3,
+      pixScore: 30,
+      type: 'CERTIFICATION'
+    }, {
+      id: 6,
+      userId: LAYLA,
+      courseId: 'nullAssessmentPreview',
+      estimatedLevel: 1,
+      pixScore: 1
     }];
 
     before(() => {
@@ -205,7 +244,7 @@ describe('Unit | Repository | assessmentRepository', () => {
       return knex('assessments').delete();
     });
 
-    it('should return the list of assessments from JOHN', () => {
+    it('should return the list of assessments (which are not Certifications) from JOHN', () => {
       // When
       const promise = assessmentRepository.findCompletedAssessmentsByUserId(JOHN);
 
@@ -215,6 +254,16 @@ describe('Unit | Repository | assessmentRepository', () => {
         expect(assessments[0].id).to.equal(COMPLETED_ASSESSMENT_A_ID);
         expect(assessments[1].id).to.equal(COMPLETED_ASSESSMENT_B_ID);
 
+      });
+    });
+
+    it('should not return preview assessments from LAYLA', () => {
+      // When
+      const promise = assessmentRepository.findCompletedAssessmentsByUserId(LAYLA);
+
+      // Then
+      return promise.then((assessments) => {
+        expect(assessments).to.have.lengthOf(1);
       });
     });
 
@@ -281,6 +330,40 @@ describe('Unit | Repository | assessmentRepository', () => {
       });
     });
 
+  });
+
+  describe('#save', function() {
+
+    const assessment = { id: '1', type: 'CERTIFICATION' };
+    const assessmentBookshelf = new Assessment(assessment);
+
+    beforeEach(() => {
+      sinon.stub(Assessment.prototype, 'save').resolves(assessmentBookshelf);
+    });
+
+    afterEach(() => {
+      Assessment.prototype.save.restore();
+    });
+
+    it('should save a new assessment', function() {
+      // when
+      const promise = assessmentRepository.save(assessment);
+
+      // then
+      promise.then(() => {
+        sinon.assert.calledOnce(Assessment.prototype.save);
+      });
+    });
+
+    it('should return a JSON with the assessment', function() {
+      // when
+      const promise = assessmentRepository.save(assessment);
+
+      // then
+      promise.then((savedAssessment) => {
+        expect(savedAssessment).to.deep.equal(assessment);
+      });
+    });
   });
 });
 

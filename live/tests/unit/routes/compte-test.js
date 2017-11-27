@@ -1,6 +1,6 @@
 import Ember from 'ember';
 import { expect } from 'chai';
-import { describe, it, before } from 'mocha';
+import { before, describe, it } from 'mocha';
 import { setupTest } from 'ember-mocha';
 import sinon from 'sinon';
 

@@ -1,9 +1,9 @@
 
-const { metrics } = require('../../infrastructure/plugins/metrics');
+const { prometheusClient } = require('../../infrastructure/plugins/metrics');
 
 module.exports = {
   get(request, reply) {
-    const metricsStr = metrics.metrics();
+    const metricsStr = prometheusClient.metrics();
 
     return reply(metricsStr).type('text/plain');
   }

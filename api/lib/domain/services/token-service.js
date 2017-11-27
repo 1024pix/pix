@@ -21,7 +21,6 @@ function extractTokenFromAuthChain(authChain) {
 }
 
 function verifyValidity(token) {
-
   return new Promise((resolve, reject) => {
     const decoded = getDecodedToken(token);
     return (!decoded) ? reject(new InvalidTemporaryKeyError()) : resolve(decoded);

@@ -1,0 +1,41 @@
+.certification-banner {
+  display: flex;
+  background: linear-gradient(180deg, $vivid-blue 0%, $pix-blue 100%);
+  color: $white;
+  box-shadow: 0 -2px 4px 0 rgba(0, 0, 0, 0.2);
+  justify-content: center;
+}
+
+.certification-banner__container {
+  display: flex;
+  flex-wrap: wrap;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  min-height: 100px;
+  max-width: 990px;
+  width: 100%;
+  padding: 18px 20px;
+
+  @include device-is('desktop') {
+    padding: 0px;
+    flex-direction: row;
+  }
+}
+
+.certification-banner__user-fullname {
+  color: $white;
+  font-family: $font-raleway;
+  font-size: 32px;
+  font-weight: $font-semi-bold;
+  line-height: 37px;
+  text-transform: capitalize;
+}
+
+.certification-banner__user-id {
+  color: $white;
+  font-family: $font-lato;
+  font-size: 50px;
+  font-weight: $font-semi-bold;
+  line-height: 60px;
+}

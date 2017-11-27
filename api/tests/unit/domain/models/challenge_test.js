@@ -30,4 +30,49 @@ describe('Unit | Domain | Models | Challenge', () => {
     });
   });
 
+  describe('#addSkill', () => {
+
+    it('should add a skill', () => {
+      // given
+      const skill = new Skill('@web3');
+      const challenge = new Challenge();
+
+      // when
+      challenge.addSkill(skill);
+
+      // then
+      expect(challenge.skills).to.have.lengthOf(1);
+      expect(challenge.skills[0]).to.equal(skill);
+    });
+
+  });
+
+  describe('#isPublished', () => {
+
+    let challenge;
+
+    beforeEach(() => {
+      challenge = new Challenge();
+    });
+
+    [
+      { status: 'validé', expectedResult: true },
+      { status: 'validé sans test', expectedResult: true },
+      { status: 'proposé', expectedResult: false },
+      { status: 'pré-validé', expectedResult: true },
+      { status: 'archive', expectedResult: false }
+    ].forEach((testCase) => {
+      it(`should return ${testCase.expectedResult} when the status is "${testCase.status}"`, () => {
+        // given
+        challenge.status = testCase.status;
+
+        // when
+        const result = challenge.isPublished();
+
+        // then
+        expect(result).to.equal(testCase.expectedResult);
+      });
+    });
+  });
+
 });

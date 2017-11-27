@@ -1,0 +1,99 @@
+.certification-results__content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  max-width: 990px;
+  width: 100%;
+  padding: 41px 5px;
+  margin: 0 auto;
+
+  @include device-is('tablet') {
+    padding: 41px 0;
+  }
+}
+
+.result-content__panel {
+  max-width: 990px;
+  width: 100%;
+  border-radius: 5px;
+  background-color: $white;
+  box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.3);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 35px 0;
+  margin-bottom: 31px;
+}
+
+.result-content__panel-title {
+  color: $grayish-grey;
+  font-family: $font-raleway;
+  font-size: 20px;
+  font-weight: $font-bold;
+  line-height: 35px;
+  text-align: center;
+  margin-top: 11px;
+
+  @include device-is('tablet') {
+    font-size: 30px;
+  }
+}
+
+.result-content__panel-description {
+  color: $charcoal-grey;
+  font-family: $font-raleway;
+  font-size: 15px;
+  text-align: center;
+  margin-top: 21px;
+  padding: 0 3px;
+
+  @include device-is('tablet') {
+    font-size: 22px;
+    line-height: 28px;
+  }
+}
+
+.result-content__warning-container {
+  text-align: center;
+}
+
+.result-content__warning-text {
+  font-family: $font-lato;
+  text-align: center;
+  font-size: 14px;
+  color: $charcoal-grey;
+  line-height: normal;
+
+  @include device-is('tablet') {
+    line-height: 28px;
+    font-size: 16px;
+  }
+}
+
+.warning-logout-button {
+  border: none;
+  display: block;
+  font-size: 13px;
+  text-transform: uppercase;
+  font-family: $font-lato;
+  font-weight: $font-bold;
+  text-align: center;
+  color: $white;
+  padding: 12px 25px;
+  background: $raven-grey;
+  border-radius: 5px;
+  margin: 12px auto;
+  max-width: 170px;
+  text-decoration: none;
+
+  &:hover {
+    color: $white;
+    text-decoration: none;
+  }
+
+  @include device-is('tablet') {
+    margin-top: 8px;
+  }
+}

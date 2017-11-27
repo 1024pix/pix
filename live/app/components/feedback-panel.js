@@ -47,7 +47,7 @@ export default Ember.Component.extend({
   },
 
   _scrollToPanel: function() {
-    Ember.$('body').animate({
+    Ember.$('html,body').animate({
       scrollTop: Ember.$('.feedback-panel__view').offset().top - 15
     }, config.APP.SCROLL_DURATION);
   },

@@ -94,4 +94,25 @@ describe('Unit | Domain | Errors', () => {
       expect(internalError.getErrorMessage()).to.eql(expectedErrorMessage);
     });
   });
+
+  describe('#UserNotAuthorizedToCertifyError', () => {
+    it('should export a UserNotAuthorizedToCertifyError', () => {
+      expect(errors.UserNotAuthorizedToCertifyError).to.exist;
+    });
+
+    it('should have a getErrorMessage method', () => {
+      // given
+      const expectedErrorMessage = {
+        data: {
+          authorization: ['Vous n’êtes pas autorisé à passer un test de certification.']
+        }
+      };
+
+      // then
+      const internalError = new errors.UserNotAuthorizedToCertifyError();
+      expect(internalError.getErrorMessage).to.be.a('function');
+      expect(internalError.getErrorMessage()).to.eql(expectedErrorMessage);
+    });
+  });
+
 });
