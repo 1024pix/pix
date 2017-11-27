@@ -9,7 +9,7 @@ const assessmentRepository = require('../../../../lib/infrastructure/repositorie
 const Assessment = require('../../../../lib/domain/models/data/assessment');
 const Skill = require('../../../../lib/cat/skill');
 
-describe('Unit | Controller | assessment-controller', () => {
+describe('Unit | Controller | assessment-controller-get-next-challenge', () => {
 
   describe('#getNextChallenge', () => {
 

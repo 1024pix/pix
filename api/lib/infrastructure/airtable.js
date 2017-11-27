@@ -14,13 +14,9 @@ module.exports = {
    * @returns {AirtableModel} The fetched and deserialized model object
    */
   getRecord(tableName, id, serializer) {
-    return new Promise((resolve, reject) => {
-      _base(tableName).find(id, (err, record) => {
-        if (err) return reject(err);
-        const model = serializer.deserialize(record);
-        return resolve(model);
-      });
-    });
+    return _base(tableName)
+      .find(id)
+      .then(serializer.deserialize);
   },
 
   /**

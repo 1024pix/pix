@@ -10,11 +10,11 @@ describe('Acceptance | Controller | feedback-controller', function() {
 
   describe('POST /api/feedbacks', function() {
 
-    beforeEach(function(done) {
+    beforeEach((done) => {
       knex('feedbacks').delete().then(() => done());
     });
 
-    afterEach(function(done) {
+    afterEach((done) => {
       knex('feedbacks').delete().then(() => done());
     });
 
