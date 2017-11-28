@@ -1,14 +1,45 @@
-const { describe, it, before, after, expect, knex, beforeEach, afterEach, sinon } = require('../../../test-helper');
+const { describe, it, expect, knex, beforeEach, afterEach, sinon } = require('../../../test-helper');
 
 const AnswerRepository = require('../../../../lib/infrastructure/repositories/answer-repository');
 const Answer = require('../../../../lib/domain/models/data/answer');
 
-describe('Unit | Repository | AnswerRepository', function() {
+describe('Unit | Repository | AnswerRepository', () => {
 
-  describe('findByChallengeAndAssessment', function() {
+  describe('#get', () => {
+    let answerId;
+
+    beforeEach(() => {
+      return knex('answers')
+        .insert({
+          value: '1,2',
+          result: 'ko',
+          challengeId: 'challenge_1234',
+          assessmentId: 353
+        })
+        .then((createdAnswer) => {
+          answerId = createdAnswer[0];
+        });
+    });
+
+    afterEach(() => {
+      return knex('answers').delete();
+    });
+
+    it('should retrieve an answer from its id', () => {
+      // when
+      const promise = AnswerRepository.get(answerId);
+
+      // then
+      return promise.then(foundAnswer => {
+        expect(foundAnswer.get('id')).to.deep.equal(answerId);
+      });
+    });
+  });
+
+  describe('#findByChallengeAndAssessment', () => {
 
     // nominal case
-    const inserted_answer_1 = {
+    const wrongAnswer = {
       value: '1,2',
       result: 'ko',
       challengeId: 'challenge_1234',
@@ -16,7 +47,7 @@ describe('Unit | Repository | AnswerRepository', function() {
     };
 
     // same assessmentId, different challengeId
-    const inserted_answer_2 = {
+    const correctAnswer = {
       value: '1,2,4',
       result: 'ok',
       challengeId: 'challenge_000',
@@ -24,39 +55,33 @@ describe('Unit | Repository | AnswerRepository', function() {
     };
 
     // different assessmentId, same challengeId
-    const inserted_answer_3 = {
+    const partiallyCorrectAnswer = {
       value: '3',
       result: 'partially',
       challengeId: 'challenge_1234',
       assessmentId: 1
     };
 
-    before((done) =>{
-      knex('answers').delete().then(() => {
-        knex('answers').insert([inserted_answer_1, inserted_answer_2, inserted_answer_3]).then(() => {
-          done();
-        });
-      });
-    });
+    beforeEach(() => knex('answers').insert([wrongAnswer, correctAnswer, partiallyCorrectAnswer]));
 
-    after(() =>{
-      knex('answers').delete();
-    });
+    afterEach(() => knex('answers').delete());
 
-    it('should find the answer by challenge and assessment and return its in an object', function(done) {
-      expect(AnswerRepository.findByChallengeAndAssessment).to.exist;
-      AnswerRepository.findByChallengeAndAssessment('challenge_1234', 1234).then(function(foundAnswers) {
+    it('should find the answer by challenge and assessment and return its in an object', () => {
+      // when
+      const promise = AnswerRepository.findByChallengeAndAssessment('challenge_1234', 1234);
+
+      // then
+      return promise.then(foundAnswers => {
         expect(foundAnswers).to.exist;
         expect(foundAnswers).to.be.an('object');
-        expect(foundAnswers.attributes.value).to.equal(inserted_answer_1.value);
-        done();
+        expect(foundAnswers.attributes.value).to.equal(wrongAnswer.value);
       });
     });
   });
 
-  describe('findByChallenge', function() {
+  describe('#findByChallenge', () => {
 
-    const inserted_answer_1 = {
+    const wrongAnswerForAssessment1234 = {
       value: '1',
       result: 'ko',
       challengeId: 'challenge_1234',
@@ -64,7 +89,7 @@ describe('Unit | Repository | AnswerRepository', function() {
     };
 
     // same challenge different assessment
-    const inserted_answer_2 = {
+    const wrongAnswerForAssessment1 = {
       value: '1,2',
       result: 'ko',
       challengeId: 'challenge_1234',
@@ -72,58 +97,46 @@ describe('Unit | Repository | AnswerRepository', function() {
     };
 
     //different challenge different assessment
-    const inserted_answer_3 = {
+    const timedOutAnswerForAssessement1 = {
       value: '1,2,3',
       result: 'timedout',
       challengeId: 'challenge_000',
       assessmentId: 1
     };
 
-    before(function(done) {
-      knex('answers').delete().then(() => {
-        knex('answers').insert([inserted_answer_1, inserted_answer_2, inserted_answer_3]).then(() => {
-          done();
-        });
-      });
-    });
+    beforeEach(() => knex('answers').insert([wrongAnswerForAssessment1234, wrongAnswerForAssessment1, timedOutAnswerForAssessement1]));
 
-    after(function(done) {
-      knex('answers').delete().then(() => {
-        done();
-      });
-    });
+    afterEach(() => knex('answers').delete());
 
-    it('should find all answers by challenge', function(done) {
+    it('should find all answers by challenge id', () => {
+      // when
+      const promise = AnswerRepository.findByChallenge('challenge_1234');
 
-      expect(AnswerRepository.findByChallenge).to.exist;
-
-      AnswerRepository.findByChallenge('challenge_1234').then(function(foundAnswers) {
+      // then
+      return promise.then(foundAnswers => {
 
         expect(foundAnswers).to.exist;
 
         expect(foundAnswers).to.have.length.of(2);
 
-        expect(foundAnswers[0].attributes.value).to.equal(inserted_answer_1.value);
-        expect(foundAnswers[0].attributes.challengeId).to.equal(inserted_answer_1.challengeId);
+        expect(foundAnswers[0].attributes.value).to.equal(wrongAnswerForAssessment1234.value);
+        expect(foundAnswers[0].attributes.challengeId).to.equal(wrongAnswerForAssessment1234.challengeId);
 
-        expect(foundAnswers[1].attributes.value).to.equal(inserted_answer_2.value);
-        expect(foundAnswers[1].attributes.challengeId).to.equal(inserted_answer_2.challengeId);
-
-        done();
+        expect(foundAnswers[1].attributes.value).to.equal(wrongAnswerForAssessment1.value);
+        expect(foundAnswers[1].attributes.challengeId).to.equal(wrongAnswerForAssessment1.challengeId);
       });
     });
   });
 
   describe('#findCorrectAnswersByAssessment', () => {
     let fetchAllStub;
+
     beforeEach(() => {
       sinon.stub(Answer.prototype, 'where');
       fetchAllStub = sinon.stub();
     });
 
-    afterEach(() => {
-      Answer.prototype.where.restore();
-    });
+    afterEach(() => Answer.prototype.where.restore());
 
     it('should retrieve answers with ok status from assessment id provided', () => {
       // given
