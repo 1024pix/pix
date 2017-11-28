@@ -9,7 +9,7 @@ const answerService = require('../services/answer-service');
 const assessmentUtils = require('./assessment-service-utils');
 const _ = require('../../infrastructure/utils/lodash-utils');
 
-const { NotFoundError, NotElligibleToScoringError } = require('../../domain/errors');
+const { NotFoundError } = require('../../domain/errors');
 
 function _selectNextInAdaptiveMode(assessment, course) {
 
@@ -77,47 +77,58 @@ function getAssessmentNextChallengeId(assessment, currentChallengeId) {
   });
 }
 
-function getScoredAssessment(assessmentId) {
+async function getScoredAssessment(assessmentId) {
 
-  let assessmentPix, answersPix, challengesPix, coursePix, competencePix, skills;
+  let skills;
 
-  return assessmentRepository.get(assessmentId)
-    .then(retrievedAssessment => {
-      if (retrievedAssessment === null) {
-        return Promise.reject(new NotFoundError(`Unable to find assessment with ID ${assessmentId}`));
-      } else if (isPreviewAssessment(retrievedAssessment)) {
-        return Promise.reject(new NotElligibleToScoringError(`Assessment with ID ${assessmentId} is a preview Challenge`));
+  const [assessmentPix, answers] = await Promise.all([
+    assessmentRepository.get(assessmentId),
+    answerRepository.findByAssessment(assessmentId)
+  ]);
+
+  if (assessmentPix === null) {
+    return Promise.reject(new NotFoundError(`Unable to find assessment with ID ${assessmentId}`));
+  }
+
+  assessmentPix.set('estimatedLevel', 0);
+  assessmentPix.set('pixScore', 0);
+  assessmentPix.set('successRate', answerService.getAnswersSuccessRate(answers));
+
+  if (isPreviewAssessment(assessmentPix)) {
+    return Promise.resolve({ assessmentPix, skills });
+  }
+
+  return courseRepository.get(assessmentPix.get('courseId'))
+    .then((course) => {
+
+      if (course.isAdaptive) {
+        return competenceRepository
+          .get(course.competences[0])
+          .then(competencePix => Promise.all([
+            skillRepository.findByCompetence(competencePix),
+            challengeRepository.findByCompetence(competencePix)
+          ]));
       }
-      assessmentPix = retrievedAssessment;
+
+      return null;
     })
-    .then(() => answerRepository.findByAssessment(assessmentPix.get('id')))
-    .then(retrievedAnswers => {
-      answersPix = retrievedAnswers;
-      assessmentPix.set('successRate', answerService.getAnswersSuccessRate(retrievedAnswers));
-    })
-    .then(() => courseRepository.get(assessmentPix.get('courseId')))
-    .then(course => (coursePix = course))
-    .then(() => competenceRepository.get(coursePix.competences[0]))
-    .then((fetchedCompetence) => (competencePix = fetchedCompetence))
-    .then(() => challengeRepository.findByCompetence(competencePix))
-    .then(challenges => challengesPix = challenges)
-    .then(() => skillRepository.findByCompetence(competencePix))
-    .then(skillNames => {
-      if (coursePix.isAdaptive) {
-        const assessment = assessmentAdapter.getAdaptedAssessment(answersPix, challengesPix, skillNames);
+    .then((skillsAndChallenges) => {
+
+      if(skillsAndChallenges) {
+        const [skillNames, challengesPix] = skillsAndChallenges;
+        const catAssessment = assessmentAdapter.getAdaptedAssessment(answers, challengesPix, skillNames);
+
         skills = {
           assessmentId,
-          validatedSkills: assessment.validatedSkills,
-          failedSkills: assessment.failedSkills
+          validatedSkills: catAssessment.validatedSkills,
+          failedSkills: catAssessment.failedSkills
         };
-        assessmentPix.set('estimatedLevel', assessment.obtainedLevel);
-        assessmentPix.set('pixScore', assessment.displayedPixScore);
-      } else {
-        assessmentPix.set('estimatedLevel', 0);
-        assessmentPix.set('pixScore', 0);
+
+        assessmentPix.set('estimatedLevel', catAssessment.obtainedLevel);
+        assessmentPix.set('pixScore', catAssessment.displayedPixScore);
       }
 
-      return { assessmentPix, skills };
+      return Promise.resolve({ assessmentPix, skills });
     });
 }
 
@@ -131,14 +142,21 @@ function createCertificationAssessmentForUser(certificationCourse, userId) {
     courseId: certificationCourse.id,
     userId: userId
   };
-  return assessmentRepository.save(assessmentCertification);
 
+  return assessmentRepository.save(assessmentCertification);
+}
+
+function isAssessmentCompleted(assessment) {
+  if (_.isNil(assessment.get('estimatedLevel')) || _.isNil(assessment.get('pixScore'))) {
+    return false;
+  }
+
+  return true;
 }
 
 module.exports = {
-
   getAssessmentNextChallengeId,
   getScoredAssessment,
-  isPreviewAssessment,
-  createCertificationAssessmentForUser
+  createCertificationAssessmentForUser,
+  isAssessmentCompleted
 };
