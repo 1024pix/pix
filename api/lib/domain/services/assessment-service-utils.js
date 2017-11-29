@@ -1,11 +1,10 @@
 const assessmentAdapter = require('../../infrastructure/adapters/assessment-adapter');
-const _ = require('lodash');
+
+function getNextChallengeInAdaptiveCourse(answersPix, challengesPix, skills) {
+  const assessment = assessmentAdapter.getAdaptedAssessment(answersPix, challengesPix, skills);
+  return assessment.nextChallenge ? assessment.nextChallenge.id : null;
+}
 
 module.exports = {
-
-  getNextChallengeInAdaptiveCourse(answersPix, challengesPix, skills) {
-    const assessment = assessmentAdapter.getAdaptedAssessment(answersPix, challengesPix, skills);
-    return _.get(assessment, 'nextChallenge.id', null);
-  }
-
+  getNextChallengeInAdaptiveCourse
 };

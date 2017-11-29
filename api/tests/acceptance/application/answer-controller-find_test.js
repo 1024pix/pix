@@ -3,7 +3,7 @@ const server = require('../../../server');
 
 describe('Acceptance | Controller | answer-controller', function() {
 
-  after((done) => {
+  after(function(done) {
     server.stop(done);
   });
 
@@ -22,26 +22,29 @@ describe('Acceptance | Controller | answer-controller', function() {
       assessmentId: '12345'
     };
 
-    beforeEach(() => {
-      return knex('answers').delete().then(() => {
-        return knex('answers').insert([inserted_answer]).then((id) => {
+    beforeEach(function(done) {
+      knex('answers').delete().then(() => {
+        knex('answers').insert([inserted_answer]).then((id) => {
           inserted_answer_id = id;
+          done();
         });
       });
     });
 
-    afterEach(() => {
-      return knex('answers').delete();
+    afterEach(function(done) {
+      knex('answers').delete().then(() => {
+        done();
+      });
     });
 
-    it('should return 200 HTTP status code', (done) => {
+    it('should return 200 HTTP status code', function(done) {
       server.inject({ method: 'GET', url: queryUrl }, (response) => {
         expect(response.statusCode).to.equal(200);
         done();
       });
     });
 
-    it('should return application/json', (done) => {
+    it('should return application/json', function(done) {
       server.inject({ method: 'GET', url: queryUrl }, (response) => {
         const contentType = response.headers['content-type'];
         expect(contentType).to.contain('application/json');
@@ -49,7 +52,7 @@ describe('Acceptance | Controller | answer-controller', function() {
       });
     });
 
-    it('should return required answer', (done) => {
+    it('should return required answer', function(done) {
       server.inject({ method: 'GET', url: queryUrl }, (response) => {
         const answer = response.result.data;
 
@@ -63,7 +66,7 @@ describe('Acceptance | Controller | answer-controller', function() {
       });
     });
 
-    it('should return 200 with "null" data if not found answer', (done) => {
+    it('should return 200 with "null" data if not found answer', function(done) {
       server.inject({
         method: 'GET',
         url: '/api/answers?challenge=nothing&assessment=nothing'

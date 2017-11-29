@@ -6,7 +6,9 @@ describe('Acceptance | API | assessment-controller-get-solutions', () => {
 
   before(() => {
     return knex.migrate.latest()
-      .then(() => knex.seed.run())
+      .then(() => {
+        return knex.seed.run();
+      })
       .then(() => {
         nock('https://api.airtable.com')
           .get('/v0/test-base/Tests/non_adaptive_course_id')  // XXX cf. issue #204, there may be a conflict with course-controller_test
@@ -17,7 +19,6 @@ describe('Acceptance | API | assessment-controller-get-solutions', () => {
             'fields': {
               // a bunch of fields
               'Adaptatif ?': false,
-              'Competence': ['competence_id'],
               '\u00c9preuves': [
                 'q_second_challenge',
                 'q_first_challenge',
@@ -44,22 +45,8 @@ describe('Acceptance | API | assessment-controller-get-solutions', () => {
           }
           );
         nock('https://api.airtable.com')
-          .get('/v0/test-base/Competences/competence_id')
-          .query(true)
-          .reply(200, {
-            'id': 'competence_id',
-            'fields': {
-              'Référence': 'challenge-view',
-              'Titre': 'Mener une recherche et une veille d\'information',
-              'Sous-domaine': '1.1',
-              'Domaine': '1. Information et données',
-              'Statut': 'validé',
-              'Acquis': ['@web1']
-            }
-          });
-        nock('https://api.airtable.com')
           .get('/v0/test-base/Epreuves')
-          .query({ view: 'challenge-view' })
+          .query(true)
           .times(3)
           .reply(200, {
             'records': [
@@ -133,8 +120,8 @@ describe('Acceptance | API | assessment-controller-get-solutions', () => {
   });
 
   after((done) => {
-    nock.cleanAll();
     cache.flushAll();
+    nock.cleanAll();
     server.stop(done);
   });
 
@@ -156,7 +143,7 @@ describe('Acceptance | API | assessment-controller-get-solutions', () => {
     };
 
     beforeEach(() => {
-      return knex('assessments').insert([insertedAssessment])
+      return knex('assessments').insert([ insertedAssessment ])
         .then((rows) => {
           insertedAssessmentId = rows[0];
 
@@ -174,7 +161,7 @@ describe('Acceptance | API | assessment-controller-get-solutions', () => {
             assessmentId: insertedAssessmentId
           };
 
-          return knex('answers').insert([inserted_answer_1, inserted_answer_2]);
+          return knex('answers').insert([ inserted_answer_1, inserted_answer_2 ]);
         })
         .then((rows) => {
           insertedAnswerId = rows[0];
@@ -214,7 +201,7 @@ describe('Acceptance | API | assessment-controller-get-solutions', () => {
     };
 
     beforeEach(() => {
-      return knex('assessments').insert([insertedAssessment]).then((rows) => {
+      return knex('assessments').insert([ insertedAssessment ]).then((rows) => {
         insertedAssessmentId = rows[0];
 
         const inserted_answer = {
@@ -224,7 +211,7 @@ describe('Acceptance | API | assessment-controller-get-solutions', () => {
           assessmentId: insertedAssessmentId
         };
 
-        return knex('answers').insert([inserted_answer]);
+        return knex('answers').insert([ inserted_answer ]);
       })
         .then((rows) => {
           insertedAnswerId = rows[0];
@@ -259,7 +246,7 @@ describe('Acceptance | API | assessment-controller-get-solutions', () => {
 
     beforeEach(() => {
       return knex('assessments')
-        .insert([insertedAssessment])
+        .insert([ insertedAssessment ])
         .then((rows) => {
 
           insertedAssessmentId = rows[0];
@@ -271,7 +258,7 @@ describe('Acceptance | API | assessment-controller-get-solutions', () => {
             assessmentId: insertedAssessmentId
           };
 
-          return knex('answers').insert([inserted_answer]);
+          return knex('answers').insert([ inserted_answer ]);
         }).then((rows) => {
           insertedAnswerId = rows[0];
         });
@@ -315,7 +302,7 @@ describe('Acceptance | API | assessment-controller-get-solutions', () => {
     };
 
     beforeEach(() => {
-      return knex('assessments').insert([insertedAssessment])
+      return knex('assessments').insert([ insertedAssessment ])
         .then((rows) => {
           insertedAssessmentId = rows[0];
 
@@ -326,11 +313,11 @@ describe('Acceptance | API | assessment-controller-get-solutions', () => {
             assessmentId: insertedAssessmentId
           };
 
-          return knex('answers').insert([inserted_answer]);
+          return knex('answers').insert([ inserted_answer ]);
         }).then((rows) => {
           insertedAnswerId = rows[0];
 
-          return knex('scenarios').insert([insertedScenario]);
+          return knex('scenarios').insert([ insertedScenario ]);
         });
     });
 

@@ -10,7 +10,7 @@ module.exports = {
 
     const formattedSkills = [].concat(formattedValitedSkills, formattedFailedSkills);
 
-    return skillsRespository.save(formattedSkills);
+    return skillsRespository.db.save(formattedSkills);
   }
 };
 
