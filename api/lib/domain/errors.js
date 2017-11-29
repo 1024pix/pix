@@ -16,6 +16,12 @@ class InvalidTokenError extends Error {
   }
 }
 
+class NotElligibleToScoringError extends Error {
+  constructor(message) {
+    super(message);
+  }
+}
+
 class NotElligibleToQmailError extends Error {
   constructor(message) {
     super(message);
@@ -31,12 +37,6 @@ class PasswordNotMatching extends Error {
 class AlreadyRegisteredEmailError extends Error {
   constructor(message) {
     super(message);
-  }
-}
-
-class NotCompletedAssessmentError extends Error {
-  constructor() {
-    super('Cette évaluation n\'est pas terminée.');
   }
 }
 
@@ -112,6 +112,7 @@ class UserNotAuthorizedToCertifyError extends Error {
 
 module.exports = {
   NotFoundError,
+  NotElligibleToScoringError,
   PasswordNotMatching,
   InvalidTokenError,
   AlreadyRegisteredEmailError,
@@ -121,6 +122,5 @@ module.exports = {
   PasswordResetDemandNotFoundError,
   InvalidTemporaryKeyError,
   NotElligibleToQmailError,
-  UserNotAuthorizedToCertifyError,
-  NotCompletedAssessmentError
+  UserNotAuthorizedToCertifyError
 };

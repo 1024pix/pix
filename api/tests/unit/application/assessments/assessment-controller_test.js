@@ -101,7 +101,7 @@ describe('Unit | Controller | assessment-controller', () => {
       sinon.assert.calledOnce(saveAssessmentStub);
     });
 
-    context('when the assessment is successfully saved', () => {
+    describe('when the assessment is successfully saved', () => {
       it('should serialize the assessment after its creation', () => {
         // When
         const promise = controller.save(request, replyStub);
@@ -124,7 +124,7 @@ describe('Unit | Controller | assessment-controller', () => {
       });
     });
 
-    context('when the assessment can not be saved', () => {
+    describe('when the assessment can not be saved', () => {
 
       let badImplementationStub;
 
