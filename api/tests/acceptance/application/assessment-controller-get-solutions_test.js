@@ -103,7 +103,6 @@ describe('Acceptance | API | assessment-controller-get-solutions', () => {
             },
           }
           );
-
         nock('https://api.airtable.com')
           .get('/v0/test-base/Epreuves/q_second_challenge')
           .query(true)
@@ -139,7 +138,12 @@ describe('Acceptance | API | assessment-controller-get-solutions', () => {
     server.stop(done);
   });
 
-  afterEach(() => knex('assessments').delete());
+  afterEach(() => {
+    return knex('assessments').delete()
+      .then(() => {
+        return knex('answers').delete();
+      });
+  });
 
   describe('(non-adaptive end of test) GET /api/assessments/:assessment_id/solutions/:answer_id', () => {
 
@@ -148,9 +152,7 @@ describe('Acceptance | API | assessment-controller-get-solutions', () => {
     let insertedAnswerId = null;
 
     const insertedAssessment = {
-      courseId: 'non_adaptive_course_id',
-      estimatedLevel: 0,
-      pixScore: 5
+      courseId: 'non_adaptive_course_id'
     };
 
     beforeEach(() => {
@@ -207,12 +209,12 @@ describe('Acceptance | API | assessment-controller-get-solutions', () => {
     let insertedAssessmentId = null;
     let insertedAnswerId = null;
 
-    const notCompletedAssessment = {
+    const insertedAssessment = {
       courseId: 'non_adaptive_course_id'
     };
 
     beforeEach(() => {
-      return knex('assessments').insert([ notCompletedAssessment ]).then((rows) => {
+      return knex('assessments').insert([insertedAssessment]).then((rows) => {
         insertedAssessmentId = rows[0];
 
         const inserted_answer = {
@@ -241,12 +243,7 @@ describe('Acceptance | API | assessment-controller-get-solutions', () => {
 
       // Then
       return promise.then((response) => {
-        expect(response.statusCode).to.equal(409);
-        expect(response.result).to.deep.equal({
-          'error': 'Conflict',
-          'message': 'Cette évaluation n\'est pas terminée.',
-          'statusCode': 409
-        });
+        expect(response.result).to.equal('null');
       });
     });
   });
@@ -256,15 +253,13 @@ describe('Acceptance | API | assessment-controller-get-solutions', () => {
     let insertedAssessmentId = null;
     let insertedAnswerId = null;
 
-    const completedAssessment = {
-      courseId: 'adaptive_course_id',
-      estimatedLevel: 1,
-      pixScore: 9
+    const insertedAssessment = {
+      courseId: 'adaptive_course_id'
     };
 
     beforeEach(() => {
       return knex('assessments')
-        .insert([ completedAssessment ])
+        .insert([insertedAssessment])
         .then((rows) => {
 
           insertedAssessmentId = rows[0];
@@ -309,7 +304,7 @@ describe('Acceptance | API | assessment-controller-get-solutions', () => {
     let insertedAssessmentId = null;
     let insertedAnswerId = null;
 
-    const notCompletedAssessment = {
+    const insertedAssessment = {
       courseId: 'adaptive_course_id'
     };
 
@@ -320,7 +315,7 @@ describe('Acceptance | API | assessment-controller-get-solutions', () => {
     };
 
     beforeEach(() => {
-      return knex('assessments').insert([ notCompletedAssessment ])
+      return knex('assessments').insert([insertedAssessment])
         .then((rows) => {
           insertedAssessmentId = rows[0];
 
@@ -355,12 +350,7 @@ describe('Acceptance | API | assessment-controller-get-solutions', () => {
 
       // Then
       return promise.then((response) => {
-        expect(response.statusCode).to.equal(409);
-        expect(response.result).to.deep.equal({
-          'error': 'Conflict',
-          'message': 'Cette évaluation n\'est pas terminée.',
-          'statusCode': 409
-        });
+        expect(response.result).to.equal('null');
       });
     });
   });
