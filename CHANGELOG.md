@@ -1,5 +1,8 @@
 # Pix Changelog
 
+## 1.29.1 (29/11/2017)
+- [#609](https://github.com/sgmap/pix/pull/609) [HOTFIX] Réduction du nombre de connexions maximum à la base de données (US-978).
+
 ## 1.29.0 (27/11/2017)
 - [#588](https://github.com/sgmap/pix/pull/588) [FEATURE] Création du test de certification depuis le front (US-870).
 - [#596](https://github.com/sgmap/pix/pull/596) [FEATURE] Ajouter des favicons pour Pix (US-953).
