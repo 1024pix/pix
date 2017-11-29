@@ -1,18 +1,18 @@
 const { describe, it, expect, beforeEach, afterEach, sinon } = require('../../../test-helper');
 const Skill = require('../../../../lib/cat/skill');
 const skillsService = require('../../../../lib/domain/services/skills-service');
-const skillRepository = require('../../../../lib/infrastructure/repositories/skill-repository');
+const skillsRepository = require('../../../../lib/infrastructure/repositories/skill-repository');
 
 describe('Unit | Service | Skills Service', () => {
 
   describe('#saveAssessmentSkills', () => {
 
     beforeEach(() => {
-      sinon.stub(skillRepository, 'save').resolves();
+      sinon.stub(skillsRepository.db, 'save').resolves();
     });
 
     afterEach(() => {
-      skillRepository.save.restore();
+      skillsRepository.db.save.restore();
     });
 
     it('should call Skills Repository#save with formatted skills', () => {
@@ -35,8 +35,8 @@ describe('Unit | Service | Skills Service', () => {
 
       // then
       return promise.then(() => {
-        sinon.assert.calledOnce(skillRepository.save);
-        sinon.assert.calledWith(skillRepository.save, skillsFormatted);
+        sinon.assert.calledOnce(skillsRepository.db.save);
+        sinon.assert.calledWith(skillsRepository.db.save, skillsFormatted);
       });
     });
 

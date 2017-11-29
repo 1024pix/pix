@@ -19,7 +19,7 @@ describe('Acceptance | Infrastructure | Repositories | skill-repository', () => 
       ];
 
       // when
-      const promise = skillRepository.save(formattedSkills);
+      const promise = skillRepository.db.save(formattedSkills);
 
       // then
       return promise.then((createdSkills) => {

@@ -1,13 +1,11 @@
 const { describe, it, before, after, beforeEach, afterEach, expect, knex, nock } = require('../../test-helper');
-const cache = require('../../../lib/infrastructure/cache');
 const server = require('../../../server');
 
-describe('Acceptance | API | assessment-controller-get-adaptive', function() {
+describe('Acceptance | API | Assessments', function() {
 
-  before((done) => {
+  before(function(done) {
 
     nock.cleanAll();
-
     nock('https://api.airtable.com')
       .get('/v0/test-base/Tests/the_adaptive_course_id')
       .query(true)
@@ -17,7 +15,7 @@ describe('Acceptance | API | assessment-controller-get-adaptive', function() {
         'fields': {
           // a bunch of fields
           'Adaptatif ?': true,
-          'Competence': ['competence_id'],
+          'Competence': '1.1',
           '\u00c9preuves': [
             'z_third_challenge',
             'z_second_challenge',
@@ -25,49 +23,13 @@ describe('Acceptance | API | assessment-controller-get-adaptive', function() {
           ],
         },
       });
-    nock('https://api.airtable.com')
-      .get('/v0/test-base/Competences/competence_id')
-      .query(true)
-      .reply(200, {
-        'id': 'competence_id',
-        'fields': {
-          'Référence': 'challenge-view',
-          'Titre': 'Mener une recherche et une veille d\'information',
-          'Sous-domaine': '1.1',
-          'Domaine': '1. Information et données',
-          'Statut': 'validé',
-          'Acquis': ['@web1']
-        }
-      });
-    nock('https://api.airtable.com')
-      .get('/v0/test-base/Epreuves')
-      .query({ view: 'challenge-view' })
-      .reply(200, [{
-        'id': 'z_second_challenge',
-        'fields': {
-          'competences': ['competence_id'],
-          'acquis': ['web2']
-        }
-      }, {
-        'id': 'z_first_challenge',
-        'fields': {
-          'competences': ['competence_id'],
-          'acquis': ['web1']
-        }
-      }, {
-        'id': 'z_third_challenge',
-        'fields': {
-          'competences': ['competence_id'],
-          'acquis': ['web3']
-        }
-      }]);
+
     nock('https://api.airtable.com')
       .get('/v0/test-base/Epreuves/z_first_challenge')
       .query(true)
       .reply(200, {
         'id': 'z_first_challenge',
         'fields': {
-          'competences': ['competence_id'],
           'acquis': ['web2'],
           'timer': undefined,
         },
@@ -78,7 +40,6 @@ describe('Acceptance | API | assessment-controller-get-adaptive', function() {
       .reply(200, {
         'id': 'z_second_challenge',
         'fields': {
-          'competences': ['competence_id'],
           'acquis': ['web2']
         },
       });
@@ -88,17 +49,34 @@ describe('Acceptance | API | assessment-controller-get-adaptive', function() {
       .reply(200, {
         'id': 'z_third_challenge',
         'fields': {
-          'competences': ['competence_id'],
           'acquis': ['web3']
         },
       });
+    nock('https://api.airtable.com')
+      .get('/v0/test-base/Epreuves')
+      .query(true)
+      .reply(200, [{
+        'id': 'z_second_challenge',
+        'fields': {
+          'acquis': ['web2']
+        }
+      }, {
+        'id': 'z_first_challenge',
+        'fields': {
+          'acquis': ['web1']
+        }
+      }, {
+        'id': 'z_third_challenge',
+        'fields': {
+          'acquis': ['web3']
+        }
+      }]);
 
     done();
   });
 
-  after((done) => {
+  after(function(done) {
     nock.cleanAll();
-    cache.flushAll();
     server.stop(done);
   });
 
