@@ -208,7 +208,8 @@ describe('Unit | Serializer | JSONAPI | profile-serializer', () => {
               index: '1.3',
               level: -1,
               status: 'notEvaluated',
-              'course-id': 'courseID3'
+              'course-id': 'courseID3',
+              'assessment-id': null,
             },
             relationships: {
               area: {

@@ -80,6 +80,7 @@ class ProfileSerializer extends JSONAPISerializer {
           'level': competence.level,
           'course-id': competence.courseId,
           'status': competence.status,
+          'assessment-id': null,
         },
         relationships: {
           'area': {
