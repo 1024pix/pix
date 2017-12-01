@@ -1,6 +1,7 @@
 const courseRepository = require('../../infrastructure/repositories/course-repository');
 const answerRepository = require('../../infrastructure/repositories/answer-repository');
 const assessmentRepository = require('../../infrastructure/repositories/assessment-repository');
+const certificationChallengeRepository = require('../../infrastructure/repositories/certification-challenge-repository');
 const challengeRepository = require('../../infrastructure/repositories/challenge-repository');
 const skillRepository = require('../../infrastructure/repositories/skill-repository');
 const competenceRepository = require('../../infrastructure/repositories/competence-repository');
@@ -136,14 +137,8 @@ function isPreviewAssessment(assessment) {
   return _.startsWith(assessment.get('courseId'), 'null');
 }
 
-function createCertificationAssessmentForUser(certificationCourse, userId) {
-  const assessmentCertification = {
-    type: 'CERTIFICATION',
-    courseId: certificationCourse.id,
-    userId: userId
-  };
-
-  return assessmentRepository.save(assessmentCertification);
+function isCertificationAssessment(assessment) {
+  return assessment.get('type') === 'CERTIFICATION';
 }
 
 function isAssessmentCompleted(assessment) {
@@ -154,9 +149,17 @@ function isAssessmentCompleted(assessment) {
   return true;
 }
 
+function getNextChallengeForCertificationCourse(assessment) {
+  return certificationChallengeRepository.getNonAnsweredChallengeByCourseId(
+    assessment.get('id'), assessment.get('courseId')
+  );
+}
+
 module.exports = {
   getAssessmentNextChallengeId,
   getScoredAssessment,
-  createCertificationAssessmentForUser,
-  isAssessmentCompleted
+  isAssessmentCompleted,
+  isPreviewAssessment,
+  isCertificationAssessment,
+  getNextChallengeForCertificationCourse
 };

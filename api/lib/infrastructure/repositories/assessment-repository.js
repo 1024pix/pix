@@ -7,7 +7,6 @@ function _selectLastAssessmentForEachCourse(assessments) {
 }
 
 module.exports = {
-
   get(id) {
     return Assessment
       .where('id', id)

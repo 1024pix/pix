@@ -13,6 +13,10 @@ export default Route.extend({
       });
   },
 
+  redirect(certificationCourse) {
+    return this.replaceWith('courses.create-assessment', certificationCourse);
+  },
+
   actions: {
     error() {
       this.transitionTo('index');
