@@ -62,9 +62,11 @@ describe('Unit | Repository | AnswerRepository', () => {
       assessmentId: 1
     };
 
-    beforeEach(() => knex('answers').insert([wrongAnswer, correctAnswer, partiallyCorrectAnswer]));
+    beforeEach(() =>
+      knex('answers').insert([wrongAnswer, correctAnswer, partiallyCorrectAnswer]));
 
-    afterEach(() => knex('answers').delete());
+    afterEach(() =>
+      knex('answers').delete());
 
     it('should find the answer by challenge and assessment and return its in an object', () => {
       // when
@@ -154,6 +156,53 @@ describe('Unit | Repository | AnswerRepository', () => {
         sinon.assert.calledOnce(Answer.prototype.where);
         sinon.assert.calledWith(Answer.prototype.where, { assessmentId, result: 'ok' });
         sinon.assert.calledOnce(fetchAllStub);
+      });
+    });
+  });
+
+  describe('#findByAssessment', () => {
+
+    const answer1 = {
+      value: 'Un pancake Tabernacle',
+      result: 'ko',
+      challengeId: 'challenge_tabernacle',
+      assessmentId: 1
+    };
+
+    const answer2 = {
+      value: 'Qu\'est ce qu\'il fout ce pancake Tabernacle',
+      result: 'ko',
+      challengeId: 'challenge_tabernacle',
+      assessmentId: 2
+    };
+
+    const answer3 = {
+      value: 'la réponse D',
+      result: 'timedout',
+      challengeId: 'challenge_D',
+      assessmentId: 2
+    };
+
+    before(() => {
+      return knex('answers').insert([answer1, answer2, answer3]);
+    });
+
+    after(() => {
+      return knex('answers').delete();
+    });
+
+    it('should resolves answers with assessment id provided', () => {
+      // given
+      const assessmentId = 2;
+
+      // when
+      const promise = AnswerRepository.findByAssessment(assessmentId);
+
+      // then
+      return promise.then((result) => {
+        expect(result.length).to.be.equal(2);
+        expect(result[0].get('assessmentId')).to.be.equal(2);
+        expect(result[1].get('assessmentId')).to.be.equal(2);
       });
     });
   });

@@ -12,28 +12,24 @@ function _buildChallengeWithCompetence(id, instruction, proposals, competence, s
   return { id, instruction, proposals, competence, status };
 }
 
-describe('Unit | Repository | challenge-repository', function() {
+describe('Unit | Repository | challenge-repository', () => {
 
   let getRecord;
   let getRecords;
 
-  beforeEach(function() {
+  beforeEach(() => {
     cache.flushAll();
     getRecord = sinon.stub(airtable, 'getRecord');
     getRecords = sinon.stub(airtable, 'getRecords');
   });
 
-  afterEach(function() {
+  afterEach(() => {
     cache.flushAll();
     getRecord.restore();
     getRecords.restore();
   });
 
-  /*
-   * #list
-   */
-
-  describe('#list', function() {
+  describe('#list', () => {
 
     const cacheKey = 'challenge-repository_list';
     const challenges = [
@@ -72,9 +68,9 @@ describe('Unit | Repository | challenge-repository', function() {
       done();
     });
 
-    describe('when challenges have not been previously cached', function() {
+    describe('when challenges have not been previously cached', () => {
 
-      beforeEach(function() {
+      beforeEach(() => {
         getRecords.resolves(challenges);
       });
 
@@ -114,10 +110,6 @@ describe('Unit | Repository | challenge-repository', function() {
     });
 
   });
-
-  /*
-   * #findByCompetence
-   */
 
   describe('#findByCompetence', () => {
 
@@ -191,17 +183,13 @@ describe('Unit | Repository | challenge-repository', function() {
 
   });
 
-  /*
-   * #get
-   */
-
-  describe('#get', function() {
+  describe('#get', () => {
 
     const challengeId = 'challengeId';
     const cacheKey = `challenge-repository_get_${challengeId}`;
     const challenge = { foo: 'bar' };
 
-    it('should resolve with the challenge directly retrieved from the cache without calling airtable when the challenge has been cached', function() {
+    it('should resolve with the challenge directly retrieved from the cache without calling airtable when the challenge has been cached', () => {
       // given
       getRecord.resolves(true);
       cache.set(cacheKey, challenge);
@@ -214,7 +202,7 @@ describe('Unit | Repository | challenge-repository', function() {
       return expect(result).to.eventually.deep.equal(challenge);
     });
 
-    it('should reject with an error when the cache throw an error', function() {
+    it('should reject with an error when the cache throw an error', () => {
       // given
       const cacheErrorMessage = 'Cache error';
       sinon.stub(cache, 'get').callsFake((key, callback) => {
@@ -229,9 +217,9 @@ describe('Unit | Repository | challenge-repository', function() {
       return expect(result).to.eventually.be.rejectedWith(cacheErrorMessage);
     });
 
-    describe('when the challenge was not previously cached', function() {
+    describe('when the challenge was not previously cached', () => {
 
-      beforeEach(function() {
+      beforeEach(() => {
         getRecord.resolves(challenge);
       });
 
@@ -268,16 +256,12 @@ describe('Unit | Repository | challenge-repository', function() {
     });
   });
 
-  /*
-   * #refresh
-   */
-
-  describe('#refresh', function() {
+  describe('#refresh', () => {
 
     const challengeId = 'challenge_id';
     const cacheKey = `challenge-repository_get_${challengeId}`;
 
-    it('should reject with an error when the cache throw an error', function() {
+    it('should reject with an error when the cache throw an error', () => {
       // given
       const cacheErrorMessage = 'Cache error';
       sinon.stub(cache, 'del').callsFake((key, callback) => {
@@ -292,7 +276,7 @@ describe('Unit | Repository | challenge-repository', function() {
       return expect(result).to.eventually.be.rejectedWith(cacheErrorMessage);
     });
 
-    it('should resolve with the challenge fetched from airtable when the challenge was not previously cached', function() {
+    it('should resolve with the challenge fetched from airtable when the challenge was not previously cached', () => {
       // given
       const challenge = {
         id: challengeId,
@@ -308,7 +292,7 @@ describe('Unit | Repository | challenge-repository', function() {
       return expect(result).to.eventually.deep.equal(challenge);
     });
 
-    it('should replace the old challenge by the new one in cache', function() {
+    it('should replace the old challenge by the new one in cache', () => {
       // given
       const oldCourse = {
         id: challengeId,
@@ -333,5 +317,4 @@ describe('Unit | Repository | challenge-repository', function() {
       });
     });
   });
-
 });

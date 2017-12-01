@@ -1,22 +1,23 @@
+import getAnswer from './routes/get-answer';
+import getAnswerByChallengeAndAssessment from './routes/get-answer-by-challenge-and-assessment';
+import getAssessment from './routes/get-assessment';
+import getAssessmentSolutions from './routes/get-assessment-solutions';
+import getAuthenticatedUser from './routes/get-user-me';
 import getChallenge from './routes/get-challenge';
 import getChallenges from './routes/get-challenges';
-import getNextChallenge from './routes/get-next-challenge';
-import getAssessmentSolutions from './routes/get-assessment-solutions';
 import getCourse from './routes/get-course';
 import getCourses from './routes/get-courses';
 import getCoursesOfTheWeek from './routes/get-courses-of-the-week';
-import getAnswer from './routes/get-answer';
-import postAnswers from './routes/post-answers';
-import patchAnswer from './routes/patch-answer';
-import getAssessment from './routes/get-assessment';
-import postAssessments from './routes/post-assessments';
-import getAnswerByChallengeAndAssessment from './routes/get-answer-by-challenge-and-assessment';
-import postFeedbacks from './routes/post-feedbacks';
-import postRefreshSolution from './routes/post-refresh-solution';
-import postAuthentications from './routes/post-authentications';
-import getAuthenticatedUser from './routes/get-user-me';
+import getNextChallenge from './routes/get-next-challenge';
 import getOrganizations from './routes/get-organizations';
 import getSnapshots from './routes/get-snapshots';
+import patchAnswer from './routes/patch-answer';
+import postAnswers from './routes/post-answers';
+import postAssessments from './routes/post-assessments';
+import postAuthentications from './routes/post-authentications';
+import postCertificationCourse from './routes/post-certification-course';
+import postFeedbacks from './routes/post-feedbacks';
+import postRefreshSolution from './routes/post-refresh-solution';
 
 import { Response } from 'ember-cli-mirage';
 
@@ -58,7 +59,7 @@ export default function() {
 
   //Courses
   this.get('/courses/:id', getCourse);
-  this.post('/certification-courses');
+  this.post('/certification-courses', postCertificationCourse);
 
   this.post('/authentications', postAuthentications);
   this.get('/users/me', getAuthenticatedUser);

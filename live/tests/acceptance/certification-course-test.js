@@ -11,6 +11,8 @@ describe('Acceptance | Certification | Start Course', function() {
   beforeEach(function() {
     application = startApp();
     defaultScenario(server);
+
+    authenticateAsSimpleUser();
   });
 
   afterEach(function() {
@@ -19,17 +21,35 @@ describe('Acceptance | Certification | Start Course', function() {
 
   describe('start certification course', function() {
 
-    it('should start a certification course (display course id for the moment)', async function() {
-      // given
-      authenticateAsSimpleUser();
+    context('When starting a certification course', function() {
 
-      // when
-      await visit('/test-de-certification');
+      beforeEach(async function() {
+        await visit('/test-de-certification');
+      });
 
-      // then
-      expect(currentURL()).to.equal('/test-de-certification');
-      expect(find('.certification-course__course-id').length).to.equal(1);
+      it('should be redirected on the first challenge of an assessment', function() {
+        // then
+        expect(currentURL()).to.match(/assessments\/\d+\/challenges\/1/);
+      });
+
+      it('should navigate to next challenge when we click pass', async function() {
+        // when
+        await click('.challenge-actions__action-skip-text');
+
+        // then
+        expect(currentURL()).to.match(/assessments\/\d+\/challenges\/2/);
+      });
+
+      it('should navigate to redirect to certification result page at the end of the assessment', async function() {
+        // given
+        await click('.challenge-actions__action-skip-text');
+
+        // when
+        await click('.challenge-actions__action-skip-text');
+
+        // then
+        expect(currentURL()).to.equals('/certifications/results');
+      });
     });
   });
-
 });

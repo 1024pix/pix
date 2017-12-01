@@ -139,7 +139,7 @@ describe('Unit | Route | Assessments.ChallengeRoute', function() {
           // then
           return promise.then(function() {
             sinon.assert.callOrder(answerToChallengeOne.save, route.transitionTo);
-            sinon.assert.calledWith(route.transitionTo, 'certifications.results', assessment.get('id'));
+            sinon.assert.calledWith(route.transitionTo, 'certifications.results');
           });
         });
       });

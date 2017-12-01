@@ -11,25 +11,30 @@ export default function(schema, request) {
     refAssessment
   ];
 
+  // TODO: clean legacy
   const assessments = _.map(allAssessments, function(oneAssessment) {
     return { id: oneAssessment.data.relationships.course.data.id, obj: oneAssessment };
   });
 
-  const assessment = _.find(assessments, { id: courseId });
+  const newAssessment = {
+    'user-id': 'user_id',
+    'user-name': 'Jane Doe',
+    'user-email': 'jane@acme.com',
+    courseId
+  };
 
+  const assessment = _.find(assessments, { id: courseId });
   if (assessment) {
     return assessment.obj;
+
   } else if (_.startsWith(courseId, 'null')) {
     return refAssessment;
-  } else {
 
-    const newAssessment = {
-      'user-id': 'user_id',
-      'user-name': 'Jane Doe',
-      'user-email': 'jane@acme.com',
-      courseId
-    };
+  } else if (!_.startsWith(courseId, 'rec')) {
+    newAssessment.type = 'CERTIFICATION';
+    return schema.assessments.create(newAssessment);
+
+  } else {
     return schema.assessments.create(newAssessment);
   }
-
 }

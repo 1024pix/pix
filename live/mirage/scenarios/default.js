@@ -1,6 +1,6 @@
 export default function(server) {
 
-  const courses = server.createList('course', 2, { name: 'course name' });
+  const courses = server.createList('course', 2, { name: 'course name', id: 'recxx' });
   server.createList('courseGroup', 3, { courses });
 
   server.loadFixtures('areas');
@@ -56,12 +56,15 @@ export default function(server) {
 
   prescriber.organization = company;
   company.user = prescriber;
-
-  server.create('assessment', {
-
-  });
+  server.create('assessment', {});
 
   const snapshots = server.createList('snapshot', 3, { organization: company });
   company.snapshots = snapshots;
 
+  // certification course
+  const challenges = server.createList('challenge', 2);
+  server.create('course', {
+    id: '42',
+    challenges
+  });
 }

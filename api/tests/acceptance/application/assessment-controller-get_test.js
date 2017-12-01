@@ -177,7 +177,8 @@ describe('Acceptance | API | assessment-controller-get', function() {
           'attributes': {
             'estimated-level': 0,
             'pix-score': 0,
-            'success-rate': null
+            'success-rate': null,
+            'type' : null
           },
           'relationships': {
             'course': { 'data': { 'type': 'courses', 'id': 'anyFromAirTable' } },
@@ -313,7 +314,8 @@ describe('Acceptance | API | assessment-controller-get', function() {
           'attributes': {
             'estimated-level': 1,
             'pix-score': 8,
-            'success-rate': 50
+            'success-rate': 50,
+            'type' : null
           },
           'relationships': {
             'course': { 'data': { 'type': 'courses', 'id': 'anyFromAirTable' } },
