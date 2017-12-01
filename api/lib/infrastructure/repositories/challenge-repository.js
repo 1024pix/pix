@@ -38,17 +38,20 @@ module.exports = {
     });
   },
 
-  getFromCompetenceId(competenceId) {
-    return new Promise((resolve, reject) => {
-      const cacheKey = `challenge-repository_get_from_competence_${competenceId}`;
-      cache.get(cacheKey, (err, cachedValue) => {
-        if (err) return reject(err);
-        if (cachedValue) return resolve(cachedValue);
-        return _fetchChallenges(cacheKey, resolve, reject,
-          challenge => ['validé', 'validé sans test', 'pré-validé'].includes(challenge.status)
-            && challenge.competence == competenceId);
+  findByCompetence(competence) {
+    const cacheKey = `challenge-repository_find_by_competence_${competence.id}`;
+    const cachedChallenges = cache.get(cacheKey);
+
+    if (cachedChallenges) {
+      return Promise.resolve(cachedChallenges);
+    }
+
+    return airtable
+      .getRecords(AIRTABLE_TABLE_NAME, { view: competence.reference }, serializer)
+      .then(fetchedChallenges => {
+        cache.set(cacheKey, fetchedChallenges);
+        return Promise.resolve(fetchedChallenges);
       });
-    });
   },
 
   get(id) {

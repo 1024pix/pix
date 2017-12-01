@@ -7,8 +7,7 @@ const assessmentRepository = require('../../../../lib/infrastructure/repositorie
 const assessmentService = require('../../../../lib/domain/services/assessment-service');
 const assessmentSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/assessment-serializer');
 
-const { NotFoundError, NotElligibleToScoringError } = require('../../../../lib/domain/errors');
-const Assessment = require('../../../../lib/domain/models/data/assessment');
+const { NotFoundError } = require('../../../../lib/domain/errors');
 
 describe('Unit | Controller | assessment-controller', () => {
 
@@ -69,27 +68,6 @@ describe('Unit | Controller | assessment-controller', () => {
         sinon.assert.calledWithExactly(boomNotFound, getScoredError);
 
       });
-    });
-
-    it('should return the Assessment without scoring with getScoredAssessment rejecting NotElligibleToScoringError', () => {
-      // Given
-      const assessment = new Assessment({});
-      assessmentRepository.get.returns(Promise.resolve(assessment));
-      assessmentService.getScoredAssessment.rejects(new NotElligibleToScoringError('Expected Error Message'));
-
-      const expectedSerializedAssessment = { message: 'mySerializedAssessment' };
-      assessmentSerializer.serialize.returns(expectedSerializedAssessment);
-
-      // When
-      const promise = assessmentController.get(request, reply);
-
-      // Then
-      return promise.then(() => {
-        sinon.assert.calledWith(assessmentRepository.get, ASSESSMENT_ID);
-        sinon.assert.calledWith(assessmentSerializer.serialize, assessment);
-        sinon.assert.calledWith(reply, expectedSerializedAssessment);
-      });
-
     });
 
     it('should return a Bad Implementation error when we cannot retrieve the score', () => {

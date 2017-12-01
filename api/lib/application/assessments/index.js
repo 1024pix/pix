@@ -35,7 +35,7 @@ exports.register = function(server, options, next) {
       method: 'GET',
       path: '/api/assessments/{id}/solutions/{answerId}',
       config: {
-        handler: AssessmentController.getAssessmentSolutions, tags: ['api']
+        handler: AssessmentController.getAssessmentSolution, tags: ['api']
       }
     }
   ]);
