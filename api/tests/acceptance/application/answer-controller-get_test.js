@@ -3,7 +3,7 @@ const server = require('../../../server');
 
 describe('Acceptance | Controller | answer-controller', function() {
 
-  after(function(done) {
+  after((done) => {
     server.stop(done);
   });
 
@@ -19,30 +19,27 @@ describe('Acceptance | Controller | answer-controller', function() {
       assessmentId: '12345'
     };
 
-    beforeEach(function(done) {
-      knex('answers').delete().then(() => {
-        knex('answers').insert([inserted_answer]).then((id) => {
+    beforeEach(() => {
+      return knex('answers').delete().then(() => {
+        return knex('answers').insert([inserted_answer]).then((id) => {
           inserted_answer_id = id;
           options = { method: 'GET', url: `/api/answers/${inserted_answer_id}` };
-          done();
         });
       });
     });
 
-    afterEach(function(done) {
-      knex('answers').delete().then(() => {
-        done();
-      });
+    afterEach(() => {
+      return knex('answers').delete();
     });
 
-    it('should return 200 HTTP status code', function(done) {
+    it('should return 200 HTTP status code', (done) => {
       server.inject(options, (response) => {
         expect(response.statusCode).to.equal(200);
         done();
       });
     });
 
-    it('should return application/json', function(done) {
+    it('should return application/json', (done) => {
       server.inject(options, (response) => {
         const contentType = response.headers['content-type'];
         expect(contentType).to.contain('application/json');
@@ -50,7 +47,7 @@ describe('Acceptance | Controller | answer-controller', function() {
       });
     });
 
-    it('should return required answer', function(done) {
+    it('should return required answer', (done) => {
       server.inject(options, (response) => {
         const answer = response.result.data;
 

@@ -127,17 +127,17 @@ class Assessment {
 
   get _firstChallenge() {
     const filteredFirstChallenges = this.filteredChallenges.filter(
-      challenge => challenge.hardestSkill.difficulty == 2 && challenge.timer === undefined
+      challenge => (challenge.hardestSkill.difficulty === 2) && (challenge.timer === undefined)
     );
     filteredFirstChallenges.sort(() => 0.5 - Math.random());
     return filteredFirstChallenges[0];
   }
 
   get nextChallenge() {
-    if (this.answers.length == 0) {
+    if (this.answers.length === 0) {
       return this._firstChallenge;
     }
-    if (this.answers.length == 20) {
+    if (this.answers.length >= 20) {
       return null;
     }
     const filteredChallenges = this.filteredChallenges;
@@ -150,7 +150,7 @@ class Assessment {
         bestChallenge = challenge;
       }
     });
-    if (maxReward == 0) { // We will not get extra information
+    if (maxReward === 0) { // We will not get extra information
       return null;
     } else {
       return bestChallenge; // May be undefined, in which case the adaptive test should be ended

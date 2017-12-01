@@ -4,11 +4,12 @@ const cache = require('../../../lib/infrastructure/cache');
 const server = require('../../../server');
 const settings = require('../../../lib/settings');
 
-describe('Acceptance | API | Assessments GET', function() {
+describe('Acceptance | API | assessment-controller-get', function() {
 
-  before(function(done) {
+  before((done) => {
 
     nock.cleanAll();
+
     nock('https://api.airtable.com')
       .get('/v0/test-base/Tests/anyFromAirTable')
       .query(true)
@@ -26,10 +27,23 @@ describe('Acceptance | API | Assessments GET', function() {
           ],
         },
       });
-
+    nock('https://api.airtable.com')
+      .get('/v0/test-base/Competences/competence_id')
+      .query(true)
+      .reply(200, {
+        'id': 'competence_id',
+        'fields': {
+          'Référence': 'challenge-view',
+          'Titre': 'Mener une recherche et une veille d\'information',
+          'Sous-domaine': '1.1',
+          'Domaine': '1. Information et données',
+          'Statut': 'validé',
+          'Acquis': ['@web1']
+        }
+      });
     nock('https://api.airtable.com')
       .get('/v0/test-base/Epreuves')
-      .query(true)
+      .query({ view: 'challenge-view' })
       .times(3)
       .reply(200, {
         'records': [
@@ -59,7 +73,6 @@ describe('Acceptance | API | Assessments GET', function() {
           }
         ]
       });
-
     nock('https://api.airtable.com')
       .get('/v0/test-base/Epreuves/y_first_challenge')
       .query(true)
@@ -92,10 +105,10 @@ describe('Acceptance | API | Assessments GET', function() {
       });
 
     done();
-
   });
 
-  after(function(done) {
+  after((done) => {
+    nock.cleanAll();
     cache.flushAll();
     server.stop(done);
   });
@@ -117,7 +130,7 @@ describe('Acceptance | API | Assessments GET', function() {
       });
     });
 
-    afterEach(function(done) {
+    afterEach((done) => {
       knex('assessments').delete().then(() => {
         done();
       });
@@ -200,7 +213,7 @@ describe('Acceptance | API | Assessments GET', function() {
       });
     });
 
-    afterEach(function(done) {
+    afterEach((done) => {
       knex('assessments').delete().then(() => {
         done();
       });
@@ -223,7 +236,7 @@ describe('Acceptance | API | Assessments GET', function() {
       userId: null
     };
 
-    beforeEach(function(done) {
+    beforeEach((done) => {
       inserted_answer_ids = [];
 
       knex('assessments').insert([inserted_assessment_with_user_null]).then((rows) => {

@@ -69,7 +69,7 @@ describe('Acceptance | API | ChallengeController', function() {
       challengeId: 'challenge_1234'
     };
 
-    beforeEach(function(done) {
+    beforeEach((done) => {
       knex('answers').delete().then(() => {
         knex('answers').insert([
           ko_answer,
@@ -83,7 +83,7 @@ describe('Acceptance | API | ChallengeController', function() {
       });
     });
 
-    afterEach(function(done) {
+    afterEach((done) => {
       knex('answers').delete().then(() => {done();});
     });
 

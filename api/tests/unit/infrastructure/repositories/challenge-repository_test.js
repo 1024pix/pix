@@ -116,90 +116,77 @@ describe('Unit | Repository | challenge-repository', function() {
   });
 
   /*
-   * #getFromCompetenceId
+   * #findByCompetence
    */
 
-  describe('#getFromCompetenceId', function() {
+  describe('#findByCompetence', () => {
 
-    const competenceId = 'competence_id';
-    const cacheKey = `challenge-repository_get_from_competence_${competenceId}`;
+    const competence = { id: 'recsvLz0W2ShyfD63', reference: '1.1 Mener une recherche et une veille d\'information' };
+    const cacheKey = `challenge-repository_find_by_competence_${competence.id}`;
     const challenges = [
-      _buildChallengeWithCompetence('challenge_id_1', 'Instruction #1', 'Proposals #1', 'competence_id', 'validé'),
-      _buildChallengeWithCompetence('challenge_id_2', 'Instruction #2', 'Proposals #2', 'other_competence_id', 'validé'),
-      _buildChallengeWithCompetence('challenge_id_3', 'Instruction #3', 'Proposals #3', 'competence_id', 'validé')
+      _buildChallengeWithCompetence('challenge_id_1', 'Instruction #1', 'Proposals #1', competence.id, 'validé'),
+      _buildChallengeWithCompetence('challenge_id_2', 'Instruction #2', 'Proposals #2', competence.id, 'validé sans test'),
+      _buildChallengeWithCompetence('challenge_id_3', 'Instruction #3', 'Proposals #3', competence.id, 'pre-validé')
     ];
 
-    it('should reject with an error when the cache throws an error', function(done) {
-      // given
-      const cacheErrorMessage = 'Cache error';
-      sinon.stub(cache, 'get').callsFake((key, callback) => {
-        callback(new Error(cacheErrorMessage));
-      });
+    beforeEach(() => {
+      sinon.stub(cache, 'get');
+      sinon.stub(cache, 'set');
+    });
 
-      // when
-      const result = challengeRepository.getFromCompetenceId(competenceId);
-
-      // then
+    afterEach(() => {
       cache.get.restore();
-      expect(result).to.eventually.be.rejectedWith(cacheErrorMessage);
-      done();
+      cache.set.restore();
     });
 
-    it('should resolve challenges directly retrieved from the cache without calling Airtable when the challenge has been cached', function(done) {
-      // given
-      getRecords.resolves(true);
-      const expectedChallenges = [challenges[0], challenges[2]];
-      cache.set(cacheKey, expectedChallenges);
+    context('when challenges have been cached', () => {
 
-      // when
-      const result = challengeRepository.getFromCompetenceId(competenceId);
+      it('should resolve challenges directly retrieved from the cache without calling Airtable', () => {
+        // given
+        cache.get.returns(challenges);
 
-      // then
-      expect(getRecords.notCalled).to.be.true;
-      expect(result).to.eventually.deep.equal(expectedChallenges);
-      done();
-    });
-
-    describe('when challenges have not been previously cached', function() {
-
-      beforeEach(function() {
-        getRecords.resolves(challenges);
-      });
-
-      it('should resolve with the challenges fetched from Airtable and filtered for this competence', function(done) {
         // when
-        const result = challengeRepository.getFromCompetenceId(competenceId);
+        const promise = challengeRepository.findByCompetence(competence);
 
         // then
-        const expectedChallenges = [challenges[0], challenges[2]];
-        expect(result).to.eventually.deep.equal(expectedChallenges);
-        done();
-      });
-
-      it('should cache the challenges fetched from Airtable', function(done) {
-        // when
-        challengeRepository.getFromCompetenceId(competenceId).then(() => {
-
-          // then
-          cache.get(cacheKey, (err, cachedValue) => {
-            expect(cachedValue).to.exist;
-            done();
-          });
+        return promise.then(fetchedChallenges => {
+          expect(fetchedChallenges).to.deep.equal(challenges);
+          expect(getRecords).to.not.have.been.called;
+          expect(cache.set).to.not.have.been.called;
         });
       });
 
-      it('should query correctly Airtable', function(done) {
-        // given
-        const expectedQuery = {};
+    });
 
+    context('when challenges have not been previously cached', function() {
+
+      beforeEach(() => {
+        getRecords.resolves(challenges);
+        cache.get.returns();
+        cache.set.returns();
+      });
+
+      it('should resolve with the challenges fetched from Airtable and filtered for this competence', () => {
         // when
-        challengeRepository.getFromCompetenceId(competenceId).then(() => {
+        const promise = challengeRepository.findByCompetence(competence);
 
-          // then
-          expect(getRecords.calledWith('Epreuves', expectedQuery, challengeSerializer)).to.be.true;
-          done();
+        // then
+        return promise.then((fetchedChallenges) => {
+          expect(airtable.getRecords).to.have.been.calledWith('Epreuves', { view: competence.reference }, challengeSerializer);
+          expect(fetchedChallenges).to.deep.equal(challenges);
         });
       });
+
+      it('should cache the challenges fetched from Airtable', () => {
+        // when
+        const promise = challengeRepository.findByCompetence(competence);
+
+        // then
+        return promise.then((fetchedChallenges) => {
+          expect(cache.set).to.have.been.calledWith(cacheKey, fetchedChallenges);
+        });
+      });
+
     });
 
   });
