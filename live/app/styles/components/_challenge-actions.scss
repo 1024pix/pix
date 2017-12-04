@@ -5,76 +5,115 @@
   margin-bottom: 30px;
 }
 
-.challenge-actions__action {
-  cursor: pointer;
-  text-align: center;
-}
-
-.challenge-actions__action-skip {
-  color: $charcoal-grey;
-  margin-right: 15px;
-}
-
-.challenge-actions__action-skip:hover {
-  color: $charcoal-grey;
-}
-
-.challenge-actions__action-skip-text {
-  width: 55px;
-  height: 19px;
-  font-family: $font-open-sans;
-  font-size: 14px;
-  font-weight: $font-semi-bold;
-}
-
-.challenge-actions__action-validate {
-  order: 1;
-  width: 130px;
-  height: 46px;
-  border-radius: 23px;
-  background-color: $jade;
-  color: $white;
-}
-
-.challenge-actions__action-validate:hover {
-  color: $white;
-}
-
-.challenge-actions__action-validate-text {
-  width: 76px;
-  line-height: 46px;
-  font-family: $font-lato;
-  font-size: 16px;
-  font-weight: $font-heavy;
-  text-transform: uppercase;
-  letter-spacing: 1.5px;
-}
-
 .picture-checkbox-proposal--qcm {
   position: absolute;
   left: -11px;
   top: 3px;
 }
 
-.challenge-actions__loader--validate {
-  order: 1;
-  width: 130px;
-  display: flex;
-  justify-content: center;
-  padding: 3px;
+.challenge-actions__action {
+  cursor: pointer;
+  text-align: center;
 }
 
-.challenge-actions__loader-spinner {
-  border: 5px solid $gainsboro;
-  border-top: 5px solid $jade;
-  border-radius: 50%;
-  width: 40px;
-  height: 40px;
-  animation: spin 2s linear infinite;
+.challenge-actions__action-skip {
+  margin-right: 15px;
+  width: 150px;
+  height: 46px;
+  transition: background .25s ease-in-out;
+  -moz-transition: background .25s ease-in-out;
+  -webkit-transition: background .25s ease-in-out;
+  border-radius: 23px;
+  &:hover {
+    background-color: $silver-grey;
+    text-decoration: none;
+  }
+  &:focus {
+    text-decoration: none;
+  }
+}
+
+.challenge-actions__action-skip-text {
+  text-align: center;
+  line-height: 46px;
+  font-family: $font-lato;
+  font-size: 16px;
+  font-weight: $font-semi-bold;
+  color: $slate-grey;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+.challenge-actions__action-skip__loader {
+  margin-right: 15px;
+  width: 150px;
+  height: 46px;
+  border-radius: 23px;
+  background-color: $mercury-grey;
+}
+
+
+.challenge-actions__action-skip__loader-bar {
+  background: url('/images/loader-grey.svg');
+  background-size: 64px 55px;
+  margin: auto;
+  height: 50px;
+  width: 64px;
+  margin-top: -5px;
+}
+
+.challenge-actions__action-validate {
+  order: 1;
+  width: 150px;
+  height: 46px;
+  border-radius: 23px;
+  background-color: $jade;
+  color: $white;
+  transition: background .25s ease-in-out;
+  -moz-transition: background .25s ease-in-out;
+  -webkit-transition: background .25s ease-in-out;
+  text-decoration: none;
+  &:hover{
+    background: $eucalyptus;
+    text-decoration: none;
+
+  }
+  &:active,
+  &:visited,
+  &:focus {
+    text-decoration: none;
+  }
+
+}
+
+.challenge-actions__action-validate-text {
+  width: 76px;
+  line-height: 46px;
+  font-family: $font-lato, sans-serif;
+  font-size: 16px;
+  font-weight: $font-semi-bold;
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
+  color: white;
+  text-decoration: none;
+}
+.challenge-actions__action-validate__loader {
+  order: 1;
+  width: 150px;
+  height: 46px;
+  border-radius: 23px;
+  background: $vista-blue;
+}
+
+.challenge-actions__action-validate__loader-bar {
+  background: url('/images/loader-white.svg');
+  background-size: 64px 55px;
+  margin: auto;
+  height: 50px;
+  width: 64px;
+  margin-top: -5px;
 }
 
 @keyframes spin {
   0% { transform: rotate(0deg); }
   100% { transform: rotate(360deg); }
 }
-

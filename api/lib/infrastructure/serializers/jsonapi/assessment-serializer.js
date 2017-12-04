@@ -1,5 +1,4 @@
 const JSONAPISerializer = require('./jsonapi-serializer');
-const Assessment = require('../../../domain/models/data/assessment');
 
 class AssessmentSerializer extends JSONAPISerializer {
 
@@ -11,6 +10,7 @@ class AssessmentSerializer extends JSONAPISerializer {
     data.attributes['success-rate'] = model.successRate;
     data.attributes['estimated-level'] = model.estimatedLevel;
     data.attributes['pix-score'] = model.pixScore;
+    data.attributes['type'] = model.type;
   }
 
   serializeRelationships(model, data) {
@@ -37,10 +37,10 @@ class AssessmentSerializer extends JSONAPISerializer {
   }
 
   deserialize(json) {
-    return new Assessment({
+    return {
       id: json.data.id,
       courseId: json.data.relationships.course.data.id
-    });
+    };
   }
 
 }
