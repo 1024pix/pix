@@ -22,14 +22,19 @@ export default BaseRoute.extend({
 
   afterModel(model) {
     const store = this.get('store');
-    return RSVP.hash({
-      answers: store.queryRecord('answer', { assessment: model.assessment.id, challenge: model.challenge.id }),
-      course: model.assessment.get('course')
-    }).then(({ answers, course }) => {
-      model.answers = answers;
-      model.progress = course.getProgress(model.challenge);
-      return model;
-    });
+
+    // FIXME Quick-win pour contourner la récupération d'un course (qui n'existe pas pour une certif)
+    // Correction possible: Séparer la phase de récupération du course et la phase de création d'un assessment
+    if (model.assessment.get('type') !== 'CERTIFICATION') {
+      return RSVP.hash({
+        answers: store.queryRecord('answer', { assessment: model.assessment.id, challenge: model.challenge.id }),
+        course: model.assessment.get('course')
+      }).then(({ answers, course }) => {
+        model.answers = answers;
+        model.progress = course.getProgress(model.challenge);
+        return model;
+      });
+    }
   },
 
   serialize(model) {
@@ -52,8 +57,9 @@ export default BaseRoute.extend({
       .queryRecord('challenge', { assessmentId: assessment.get('id'), challengeId: challenge.get('id') })
       .then((nextChallenge) => this.transitionTo('assessments.challenge', { assessment, challenge: nextChallenge }))
       .catch(() => {
-        const endTemplate = assessment.get('type') === 'CERTIFICATION' ? 'certifications.results' : 'assessments.results';
-        this.transitionTo(endTemplate, assessment.get('id'));
+        assessment.get('type') === 'CERTIFICATION' ?
+          this.transitionTo('certifications.results')
+          : this.transitionTo('assessments.results', assessment.get('id'));
       });
   },
 

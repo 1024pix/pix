@@ -80,12 +80,6 @@ describe('Unit | Route | certification test', function() {
 
   describe('#error', function() {
 
-    beforeEach(function() {
-      this.register('service:store', storeStub);
-      this.inject.service('store', { as: 'store' });
-      route = this.subject();
-    });
-
     it('should redirect to index', function() {
       // given
       route.transitionTo = sinon.stub();

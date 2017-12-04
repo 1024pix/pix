@@ -68,7 +68,7 @@ module.exports = {
       })
       .catch(err => {
 
-        if ('MODEL_ID_NOT_FOUND' === err.error.type) {
+        if ('MODEL_ID_NOT_FOUND' === err.error.type || 'NOT_FOUND' === err.error) {
           return reply(Boom.notFound(err));
         }
 

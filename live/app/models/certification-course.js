@@ -1,3 +1,5 @@
-import DS from 'ember-data';
+import Course from './course';
 
-export default DS.Model.extend({});
+export default Course.extend({
+
+});

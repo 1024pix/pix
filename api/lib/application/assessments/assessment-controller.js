@@ -55,10 +55,14 @@ module.exports = {
       const token = tokenService.extractTokenFromAuthChain(request.headers.authorization);
       const userId = tokenService.extractUserId(token);
 
-      assessment.set('userId', userId);
+      // FIXME: this property should be in Domain Object or serializer
+      if (!assessment.courseId.includes('rec')) {
+        assessment.type = 'CERTIFICATION';
+      }
+      assessment.userId = userId;
     }
 
-    return assessment.save()
+    return assessmentRepository.save(assessment)
       .then(assessment => {
         reply(assessmentSerializer.serialize(assessment)).code(201);
       })
@@ -93,6 +97,13 @@ module.exports = {
     return assessmentRepository
       .get(request.params.id)
       .then((assessment) => {
+
+        if (assessmentService.isCertificationAssessment(assessment)) {
+          return assessmentService
+            .getNextChallengeForCertificationCourse(assessment)
+            .then((challenge) => challenge.challengeId);
+        }
+
         return assessmentService.getAssessmentNextChallengeId(assessment, request.params.challengeId);
       })
       .then((nextChallengeId) => {
@@ -124,6 +135,10 @@ module.exports = {
         return (challenge) ? reply(challengeSerializer.serialize(challenge)) : reply().code(204);
       })
       .catch((err) => {
+        if(err instanceof NotFoundError) {
+          return reply(Boom.notFound());
+        }
+
         logger.error(err);
         reply(Boom.badImplementation(err));
       });

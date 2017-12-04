@@ -15,6 +15,13 @@ YELLOW="$(tput bold ; tput setaf 3)"
 BLUE="$(tput bold ; tput setaf 4)"
 CYAN="$(tput bold ; tput setaf 6)"
 
+PACKAGE_VERSION=$(cat package.json \
+  | grep version \
+  | head -1 \
+  | awk -F: '{ print $2 }' \
+  | sed 's/[",]//g' \
+  | tr -d '[[:space:]]')
+
 echo -e "Updating ${GREEN}preview${RESET_COLOR} environment.\n"
 
 echo -e "Updating local version of ${YELLOW}master${RESET_COLOR} branch.\n"
@@ -25,6 +32,9 @@ echo -e "Rebasing ${YELLOW}preview${RESET_COLOR} on ${YELLOW}master${RESET_COLOR
 git checkout preview
 git pull
 git rebase master
+
+git commit -m "[RELEASE] Updating the preview environment to the new version ${PACKAGE_VERSION}." --allow-empty
+
 git push origin preview --force
 
 git checkout dev
