@@ -8,8 +8,7 @@ module.exports = {
   env: {
     browser: true
   },
-  rules: {
-  },
+  rules: {},
   globals: {
     jsyaml: true
   }
