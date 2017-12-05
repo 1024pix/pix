@@ -7,7 +7,7 @@ const assessmentSerializer = require('../../../../lib/infrastructure/serializers
 const assessmentRepository = require('../../../../lib/infrastructure/repositories/assessment-repository');
 const tokenService = require('../../../../lib/domain/services/token-service');
 
-describe('Unit | Controller | assessment-controller', () => {
+describe('Unit | Controller | assessment-controller-save', () => {
 
   describe('#save', () => {
 
@@ -38,14 +38,10 @@ describe('Unit | Controller | assessment-controller', () => {
             id: 42,
             attributes: {
               'estimated-level': 4,
-              'pix-score': 4
+              'pix-score': 4,
+              'type' : 'CERTIFICATION'
             },
             relationships: {
-              user: {
-                data: {
-                  id: 42657
-                }
-              },
               course: {
                 data: {
                   id: '1'
@@ -63,6 +59,47 @@ describe('Unit | Controller | assessment-controller', () => {
       it('should save an assessment with the type CERTIFICATION', function() {
         // given
         const expected = { id: 42, courseId: '1', type: 'CERTIFICATION', userId: null };
+
+        // when
+        controller.save(request, replyStub);
+
+        // then
+        sinon.assert.calledOnce(assessmentRepository.save);
+        sinon.assert.calledWith(assessmentRepository.save, expected);
+      });
+    });
+
+    context('when the assessment saved is a preview test', () => {
+      const request = {
+        headers: {
+          authorization: 'Bearer my-token'
+        },
+        payload: {
+          data: {
+            id: 42,
+            attributes: {
+              'estimated-level': 4,
+              'pix-score': 4,
+              'type' : 'PREVIEW'
+            },
+            relationships: {
+              course: {
+                data: {
+                  id: 'null-preview-id'
+                }
+              }
+            }
+          }
+        }
+      };
+
+      beforeEach(() => {
+        sandbox.stub(assessmentRepository, 'save').resolves();
+      });
+
+      it('should save an assessment with type PREVIEW', function() {
+        // given
+        const expected = { id: 42, courseId: 'null-preview-id', type: 'PREVIEW', userId: null };
 
         // when
         controller.save(request, replyStub);
@@ -183,11 +220,6 @@ describe('Unit | Controller | assessment-controller', () => {
               'pix-score': 4
             },
             relationships: {
-              user: {
-                data: {
-                  id: 42657
-                }
-              },
               course: {
                 data: {
                   id: 'recCourseId'

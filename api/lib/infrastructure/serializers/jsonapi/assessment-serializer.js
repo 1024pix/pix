@@ -44,6 +44,7 @@ class AssessmentSerializer extends JSONAPISerializer {
   deserialize(json) {
     return {
       id: json.data.id,
+      type : json.data.attributes.type,
       courseId: json.data.relationships.course.data.id
     };
   }

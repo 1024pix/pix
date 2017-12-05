@@ -55,10 +55,6 @@ module.exports = {
       const token = tokenService.extractTokenFromAuthChain(request.headers.authorization);
       const userId = tokenService.extractUserId(token);
 
-      // FIXME: this property should be in Domain Object or serializer
-      if (!assessment.courseId.includes('rec')) {
-        assessment.type = 'CERTIFICATION';
-      }
       assessment.userId = userId;
     }
 
