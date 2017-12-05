@@ -1,5 +1,13 @@
 # Pix Changelog
 
+## 1.31.0 (05/12/2017)
+
+[#610](https://github.com/sgmap/pix/pulls/610) [FEATURE] Calculer le score d'une certification (US-886). 
+[#605](https://github.com/sgmap/pix/pulls/605) [FEATURE] Création d'un burger menu (US-692).
+[#608](https://github.com/sgmap/pix/pulls/608) [TECH] Correction du déploiement de preview (US-977). 
+[#617](https://github.com/sgmap/pix/pulls/617) [BUGFIX] Redirection vers la page de résultats à la fin d'une preview de challenge et plus sur la page de fin de certification (US-945). 
+[#616](https://github.com/sgmap/pix/pulls/616) [BUGFIX] Correction du calcul de score (US-994).
+
 ## 1.30.0 (04/12/2017)
 
 - [#611](https://github.com/sgmap/pix/pulls/611) [BUGFIX] resolution du bug qui ne lançait pas le test de certification si aucun challenge n'est associé à un skill déjà validé (US-980).
