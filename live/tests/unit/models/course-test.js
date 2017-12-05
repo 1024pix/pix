@@ -9,11 +9,6 @@ describe('Unit | Model | Course', function() {
     needs: ['model:assessment', 'model:challenge']
   });
 
-  it('exists', function() {
-    const model = this.subject();
-    expect(model).to.be.ok;
-  });
-
   describe('getProgress', function() {
 
     it('currentStep start at 1', function() {
@@ -52,5 +47,31 @@ describe('Unit | Model | Course', function() {
       });
     });
 
+  });
+
+  describe('@type', function() {
+
+    it('should be "DEMO" when the course is not adaptative', function() {
+      // given
+      const course = this.subject({ isAdaptive: false });
+
+      // when
+      const result = course.get('type');
+
+      // then
+      expect(result).to.equal('DEMO');
+
+    });
+
+    it('should be "PLACEMENT" when the course is adaptative', function() {
+      // given
+      const course = this.subject({ isAdaptive: true });
+
+      // when
+      const result = course.get('type');
+
+      // then
+      expect(result).to.equal('PLACEMENT');
+    });
   });
 });

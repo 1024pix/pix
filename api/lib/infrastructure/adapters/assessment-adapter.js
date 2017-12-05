@@ -1,4 +1,4 @@
-const Skill = require('../../cat/skill');
+const CatSkill = require('../../cat/skill');
 const Challenge = require('../../cat/challenge');
 const Course = require('../../cat/course');
 const Answer = require('../../cat/answer');
@@ -13,7 +13,7 @@ function getAdaptedAssessment(answersPix, challengesPix, skills) {
 
   challengesPix.forEach(challengePix => {
     if (challengePix.skills) {
-      const challengeCatSkills = challengePix.skills.map(skill => new Skill(skill.name));
+      const challengeCatSkills = challengePix.skills.map(skill => new CatSkill(skill.name));
       const challenge = new Challenge(challengePix.id, challengePix.status, challengeCatSkills, challengePix.timer);
 
       challenges.push(challenge);
@@ -21,7 +21,7 @@ function getAdaptedAssessment(answersPix, challengesPix, skills) {
     }
   });
 
-  skills.forEach(skill => catSkills[skill.name] = new Skill(skill.name));
+  skills.forEach(skill => catSkills[skill.name] = new CatSkill(skill.name));
   const competenceSkills = new Set(Object.values(catSkills));
 
   const course = new Course(challenges, competenceSkills);

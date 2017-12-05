@@ -56,24 +56,22 @@ module.exports = {
       return response;
     }
 
-    if (solution.type === 'QCU') {
-      response.result = solutionServiceQcu.match(answerValue, solutionValue);
-    }
-
-    if (solution.type === 'QCM') {
-      response.result = solutionServiceQcm.match(answerValue, solutionValue);
-    }
-
-    if (solution.type === 'QROC') {
-      response.result = solutionServiceQroc.match(answerValue, solutionValue, deactivations);
-    }
-
-    if (solution.type === 'QROCM-ind') {
-      response = solutionServiceQrocmInd.match(answerValue, solutionValue, enabledTreatments);
-    }
-
-    if (solution.type === 'QROCM-dep') {
-      response.result = solutionServiceQrocmDep.match(answerValue, solutionValue, solutionScoring, deactivations);
+    switch (solution.type) {
+      case 'QCU':
+        response.result = solutionServiceQcu.match(answerValue, solutionValue);
+        break;
+      case 'QCM':
+        response.result = solutionServiceQcm.match(answerValue, solutionValue);
+        break;
+      case 'QROC':
+        response.result = solutionServiceQroc.match(answerValue, solutionValue, deactivations);
+        break;
+      case 'QROCM-ind':
+        response = solutionServiceQrocmInd.match(answerValue, solutionValue, enabledTreatments);
+        break;
+      case 'QROCM-dep':
+        response.result = solutionServiceQrocmDep.match(answerValue, solutionValue, solutionScoring, deactivations);
+        break;
     }
 
     if (answerTimeout) {

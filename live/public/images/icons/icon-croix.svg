@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="15px" height="15px" viewBox="0 0 15 15" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 47.1 (45422) - http://www.bohemiancoding.com/sketch -->
+    <title>icon croix</title>
+    <desc>Created with Sketch.</desc>
+    <defs></defs>
+    <g id="MOBIL" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="Home--mobile-menu-ouvert" transform="translate(-278.000000, -26.000000)" fill="#6A6D76">
+            <g id="icon-croix" transform="translate(278.000000, 26.000000)">
+                <rect id="Rectangle-10-Copy" transform="translate(7.500000, 7.500000) rotate(-45.000000) translate(-7.500000, -7.500000) " x="-1.5" y="6.28571429" width="18" height="2.42857143" rx="1.21428571"></rect>
+                <rect id="Rectangle-10" transform="translate(7.500000, 7.500000) rotate(45.000000) translate(-7.500000, -7.500000) " x="-1.5" y="6.28571429" width="18" height="2.42857143" rx="1.21428571"></rect>
+            </g>
+        </g>
+    </g>
+</svg>

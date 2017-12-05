@@ -3,6 +3,7 @@ import { beforeEach, describe, it } from 'mocha';
 import { setupComponentTest } from 'ember-mocha';
 import hbs from 'htmlbars-inline-precompile';
 import Ember from 'ember';
+import { setBreakpointForIntegrationTest } from 'pix-live/tests/helpers/responsive';
 
 describe('Integration | Component | navbar-header', function() {
 
@@ -10,42 +11,76 @@ describe('Integration | Component | navbar-header', function() {
     integration: true
   });
 
-  describe('Rendering when user is not logged', function() {
+  context('when user is not logged', function() {
     beforeEach(function() {
       this.register('service:session', Ember.Service.extend({ isAuthenticated: false }));
       this.inject.service('session', { as: 'session' });
-
-      this.render(hbs`{{navbar-header}}`);
     });
 
-    it('renders', function() {
+    it('should be rendered', function() {
+      // when
+      this.render(hbs`{{navbar-header}}`);
+
+      // then
       expect(this.$()).to.have.lengthOf(1);
     });
 
     it('should display the Pix logo', function() {
+      // when
+      this.render(hbs`{{navbar-header}}`);
+
+      // then
       expect(this.$('.navbar-header-logo')).to.have.lengthOf(1);
       expect(this.$('.pix-logo')).to.have.lengthOf(1);
     });
 
-    it('should display a link to "project" page', function() {
-      expect(this.$('.navbar-header-links__link--project')).to.have.lengthOf(1);
-    });
-
-    it('should display a link to "referential" page', function() {
-      expect(this.$('.navbar-header-links__link--competences')).to.have.lengthOf(1);
-      expect(this.$('.navbar-header-links--user-logged')).to.have.lengthOf(0);
-    });
-
     it('should display link to inscription page', function() {
-      expect(this.$('.navbar-header-links__link--inscription')).to.have.lengthOf(1);
+      // when
+      this.render(hbs`{{navbar-header}}`);
+
+      // then
+      expect(this.$('.navbar-menu-signup-link')).to.have.lengthOf(1);
     });
 
     it('should display link to connection page', function() {
-      expect(this.$('.navbar-header-links__link--connection')).to.have.lengthOf(1);
+      // when
+      this.render(hbs`{{navbar-header}}`);
+
+      // then
+      expect(this.$('.navbar-menu-signin-link')).to.have.lengthOf(1);
+    });
+
+    context('when screen has a smartphone or tablet size', function() {
+      it('should display a mobile menu', function() {
+        // given
+        setBreakpointForIntegrationTest(this, 'mobile');
+
+        // when
+        this.render(hbs`{{navbar-header media=media}}`);
+
+        // then
+        expect(this.$('.navbar-mobile-menu')).to.have.lengthOf(1);
+        expect(this.$('.navbar-desktop-menu')).to.have.lengthOf(0);
+      });
+    });
+
+    context('when screen has a desktop size', function() {
+      it('should display a desktop menu', function() {
+        // given
+        setBreakpointForIntegrationTest(this, 'desktop');
+
+        // when
+        this.render(hbs`{{navbar-header media=media}}`);
+
+        // then
+        expect(this.$('.navbar-desktop-menu')).to.have.lengthOf(1);
+        expect(this.$('.navbar-mobile-menu')).to.have.lengthOf(0);
+      });
     });
 
   });
-  describe('Rendering for logged user', function() {
+
+  context('When user is logged', function() {
 
     beforeEach(function() {
       this.register('service:session', Ember.Service.extend({
@@ -67,11 +102,43 @@ describe('Integration | Component | navbar-header', function() {
     });
 
     it('should not display link to inscription page', function() {
-      expect(this.$('.navbar-header-links__link--inscription')).to.have.lengthOf(0);
+      // then
+      expect(this.$('.navbar-menu-signup-link')).to.have.lengthOf(0);
     });
 
     it('should not display link to connection page', function() {
-      expect(this.$('.navbar-header-links__link--connection')).to.have.lengthOf(0);
+      // then
+      expect(this.$('.navbar-menu-signin-link')).to.have.lengthOf(0);
+    });
+
+    it('should be rendered', function() {
+      expect(this.$()).to.have.lengthOf(1);
+    });
+
+    context('when screen has a smartphone or tablet size', function() {
+      it('should display a mobile menu', function() {
+        // given
+        setBreakpointForIntegrationTest(this, 'mobile');
+
+        // when
+        this.render(hbs`{{navbar-header media=media}}`);
+
+        // then
+        expect(this.$('.navbar-mobile-menu')).to.have.lengthOf(1);
+      });
+    });
+
+    context('when screen has a desktop size', function() {
+      it('should display a desktop menu', function() {
+        // given
+        setBreakpointForIntegrationTest(this, 'desktop');
+
+        // when
+        this.render(hbs`{{navbar-header media=media}}`);
+
+        // then
+        expect(this.$('.navbar-desktop-menu')).to.have.lengthOf(1);
+      });
     });
 
   });

@@ -66,6 +66,9 @@
 @import 'components/reset-password-form';
 @import 'components/tutorial-panel';
 @import 'components/certification-result';
+@import "components/navbar-mobile-menu";
+@import "components/navbar-desktop-menu";
+@import "ember-side-menu";
 /* pages */
 @import 'pages/index';
 @import 'pages/project';

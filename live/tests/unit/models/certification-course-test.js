@@ -8,10 +8,18 @@ describe('Unit | Model | certification course', function() {
     needs: []
   });
 
-  // Replace this with your real tests.
-  it('exists', function() {
-    const model = this.subject();
-    // var store = this.store();
-    expect(model).to.be.ok;
+  describe('@type', function() {
+
+    it('should be "CERTIFICATION"', function() {
+      // given
+      const certificationCourse = this.subject();
+
+      // when
+      const result = certificationCourse.get('type');
+
+      // then
+      expect(result).to.equal('CERTIFICATION');
+
+    });
   });
 });

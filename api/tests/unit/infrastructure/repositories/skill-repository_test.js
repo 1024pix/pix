@@ -3,8 +3,12 @@ const cache = require('../../../../lib/infrastructure/cache');
 const skillRepository = require('../../../../lib/infrastructure/repositories/skill-repository');
 const challengeRepository = require('../../../../lib/infrastructure/repositories/challenge-repository');
 const Bookshelf = require('../../../../lib/infrastructure/bookshelf');
+const DomainSkill = require('../../../../lib/domain/models/Skill');
 
-function _buildChallenge(id, instruction, proposals, competence, status, skills) {
+function _buildChallenge(id, instruction, proposals, competence, status, skillNames) {
+
+  const skills = skillNames.map((skillName) => new DomainSkill(skillName));
+
   return { id, instruction, proposals, competence, status, skills };
 }
 
@@ -72,8 +76,14 @@ describe('Unit | Repository | skill-repository', function() {
 
         // then
         return promise.then((skills) => {
-          const expectedSkills = new Set(['web1', 'web2', 'web3', 'url1']);
-          expect(skills).to.deep.equal(expectedSkills);
+          const expectedSkills = [
+            new DomainSkill('web2'),
+            new DomainSkill('web3'),
+            new DomainSkill('url1'),
+            new DomainSkill('web1'),
+          ];
+
+          expect([...skills]).to.deep.equal(expectedSkills);
         });
       });
 
@@ -84,6 +94,28 @@ describe('Unit | Repository | skill-repository', function() {
         // then
         return promise.then((skills) => {
           expect(cache.set).to.have.been.calledWith(`skill-repository_find_by_competence_${competence.id}`, skills);
+        });
+      });
+
+      it('should not return twice the same skill', () => {
+        // given
+        const challenges = [
+          _buildChallenge('challenge_id_1', 'Instruction #1', 'Proposals #1', 'competence_id', 'validé', ['web2', 'web3']),
+          _buildChallenge('challenge_id_3', 'Instruction #3', 'Proposals #3', 'competence_id', 'validé', ['web2']),
+        ];
+        challengeRepository.findByCompetence.resolves(challenges);
+
+        // when
+        const promise = skillRepository.findByCompetence(competence);
+
+        // then
+        return promise.then((skills) => {
+          const expectedSkills = [
+            new DomainSkill('web2'),
+            new DomainSkill('web3'),
+          ];
+
+          expect([...skills]).to.deep.equal(expectedSkills);
         });
       });
     });

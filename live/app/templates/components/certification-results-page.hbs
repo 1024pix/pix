@@ -1,5 +1,5 @@
 <div class="certification-results__certification-banner">
-  {{certification-banner user=user}}
+  {{certification-banner user=user certificationNumber=certificationNumber}}
 </div>
 
 <div class="certification-results__content result-content">
@@ -9,7 +9,7 @@
       <img src="{{rootURL}}/images/flag.svg" alt="drapeau">
     </div>
     <div class="result-content__panel-title">
-      Vous avez terminé
+      Vous avez terminé.
     </div>
     <div class="result-content__panel-description">
       Vos résultats vous seront communiqués dans les 10 jours suivant la fin de ce test par courrier électronique.
@@ -23,7 +23,7 @@
     </div>
 
     <div class="result-content__warning-logout">
-      {{#link-to "logout" class="warning-logout-button"}}se deconnecter{{/link-to}}
+      {{#link-to "logout" class="warning-logout-button"}}Se déconnecter{{/link-to}}
     </div>
   </div>
 </div>
