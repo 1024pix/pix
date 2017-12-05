@@ -4,34 +4,40 @@ const Assessment = require('../../../../../lib/domain/models/data/assessment');
 
 describe('Unit | Serializer | JSONAPI | assessment-serializer', function() {
 
-  const modelObject = new Assessment({
-    id: 'assessment_id',
-    courseId: 'course_id',
-    successRate: 24,
-    type : 'charade'
-  });
+  let modelObject;
+  let jsonAssessment;
 
-  const jsonAssessment = {
-    data: {
-      type: 'assessment',
+  beforeEach(() => {
+    modelObject = new Assessment({
       id: 'assessment_id',
-      attributes: {
-        'estimated-level': undefined,
-        'pix-score': undefined,
-        'success-rate': 24,
-        'type' : 'charade',
-        'certification-number' : null
-      },
-      relationships: {
-        course: {
-          data: {
-            type: 'courses',
-            id: 'course_id'
-          }
+      courseId: 'course_id',
+      successRate: 24,
+      type: 'charade'
+
+    });
+
+    jsonAssessment = {
+      data: {
+        type: 'assessment',
+        id: 'assessment_id',
+        attributes: {
+          'estimated-level': undefined,
+          'pix-score': undefined,
+          'success-rate': 24,
+          'type': 'charade',
+          'certification-number': null
         },
+        relationships: {
+          course: {
+            data: {
+              type: 'courses',
+              id: 'course_id'
+            }
+          },
+        }
       }
-    }
-  };
+    };
+  });
 
   describe('#serialize()', function() {
 
@@ -45,9 +51,9 @@ describe('Unit | Serializer | JSONAPI | assessment-serializer', function() {
 
   });
 
-  describe('#deserialize()', function() {
+  describe('#deserialize()', () => {
 
-    it('should convert JSON API data into an Assessment js object', function() {
+    it('should convert JSON API data into an Assessment js object', () => {
       // when
       const assessment = serializer.deserialize(jsonAssessment);
 
@@ -56,6 +62,19 @@ describe('Unit | Serializer | JSONAPI | assessment-serializer', function() {
       expect(assessment.courseId).to.equal(jsonAssessment.data.relationships.course.data.id);
     });
 
+    describe('field "type"', () => {
+
+      it('should set "type" attribute value when it is present', () => {
+        // given
+        jsonAssessment.data.attributes.type = 'URITROTTOIR';
+
+        // when
+        const assessment = serializer.deserialize(jsonAssessment);
+
+        // then
+        expect(assessment.type).to.equal('URITROTTOIR'); //
+      });
+    });
   });
 
 });
