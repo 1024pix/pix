@@ -20,6 +20,7 @@ export default function(schema, request) {
     'user-id': 'user_id',
     'user-name': 'Jane Doe',
     'user-email': 'jane@acme.com',
+    'certification-number': 'certification-number',
     courseId
   };
 

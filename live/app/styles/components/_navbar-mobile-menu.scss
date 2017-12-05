@@ -1,0 +1,73 @@
+.mobile-menu-header {
+  padding: 0;
+  margin: 0;
+  flex-wrap: wrap;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  background-color: $gainsboro;
+  padding: 20px 0 20px 48px;
+}
+
+.mobile-menu-header__title {
+  font-size: 24px;
+  color: $tundora-grey;
+  text-transform: uppercase;
+  font-weight: $font-light;
+}
+
+.mobile-menu-header__close-button {
+  margin-right: 23px;
+}
+
+.mobile-menu__item {
+  display: block;
+  border-bottom: 1px solid $alto-grey;
+  padding: 20px 0 20px 48px;
+  color: $tundora-grey;
+  font-family: $font-lato;
+  font-size: 16px;
+  text-transform: uppercase;
+
+  &.active,
+  &:hover,
+  &:focus,
+  &:active {
+    color: $marigold;
+    text-decoration: none;
+  }
+}
+
+.navbar-header--white .navbar-mobile-menu .side-menu-toggle {
+  background: url("/images/icons/icon-black-burger.svg") no-repeat center;
+}
+
+.navbar-mobile-menu .side-menu-toggle {
+  background: url("/images/icons/icon-white-burger.svg") no-repeat center;
+}
+
+.navbar-header--white .navbar-mobile-menu .navbar-menu-signup-link {
+  color: $white;
+}
+
+.navbar-mobile-menu .navbar-menu-signup-link {
+  margin-top: 90px;
+  margin-left: 48px;
+  border-radius: 20px;
+  border: 2px solid $pix-blue;
+  padding: 12px 30px;
+  font-size: 13px;
+  text-align: center;
+  color: $white;
+  background: $pix-blue;
+  max-width: 140px;
+
+  &:hover,
+  &:focus,
+  &:active {
+    text-decoration: none;
+    background-color: $white;
+    color: $pix-blue;
+  }
+}

@@ -5,6 +5,11 @@ const CertificationCourseRepository = require('../../../../lib/infrastructure/re
 const CertificationCourseSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/certification-course-serializer');
 const UserService = require('../../../../lib/domain/services/user-service');
 const CertificationChallengesService = require('../../../../lib/domain/services/certification-challenges-service');
+const assessmentRepository = require('../../../../lib/infrastructure/repositories/assessment-repository');
+const answersRepository = require('../../../../lib/infrastructure/repositories/answer-repository');
+const certificationChallengesRepository = require('../../../../lib/infrastructure/repositories/certification-challenge-repository');
+const certificationService = require('../../../../lib/domain/services/certification-service');
+const Assessment = require('../../../../lib/domain/models/data/assessment');
 
 describe('Unit | Controller | certification-course-controller', function() {
 
@@ -33,7 +38,7 @@ describe('Unit | Controller | certification-course-controller', function() {
 
       sandbox = sinon.sandbox.create();
       sandbox.stub(CertificationCourseRepository, 'save').resolves(certificationCourse);
-      sandbox.stub(UserService, 'getCertificationProfile').resolves(userProfile);
+      sandbox.stub(UserService, 'getProfileToCertify').resolves(userProfile);
       sandbox.stub(CertificationChallengesService, 'saveChallenges').resolves({});
       sandbox.stub(CertificationCourseSerializer, 'serialize').resolves({});
 
@@ -59,7 +64,7 @@ describe('Unit | Controller | certification-course-controller', function() {
 
       // then
       return promise.then(() => {
-        sinon.assert.calledOnce(UserService.getCertificationProfile);
+        sinon.assert.calledOnce(UserService.getProfileToCertify);
       });
     });
 
@@ -89,5 +94,103 @@ describe('Unit | Controller | certification-course-controller', function() {
     });
 
   });
+  describe('#getScore', () => {
+    const answersByAssessments = [{ challenge: 'challenge1', result: 'ok' }];
+    const challengesByCertificationId = [{ challenge: 'challenge1', courseId: '2' }];
+    const listOfCompetences = [{
+      id: 'competence1',
+      courseId: 'course1',
+      pixScore: '20',
+      challenges: [{ id: 'challenge1' }]
+    }];
+    const score = 20;
+    const request = {
+      params: {
+        id: 'course_id'
+      }
+    };
+    beforeEach(() => {
+      const assessment = new Assessment({ id: 'assessment_id', userId: 'user_id' });
+      replyStub = sinon.stub().returns({ code: codeStub });
 
+      sandbox = sinon.sandbox.create();
+      sandbox.stub(assessmentRepository, 'getByCertificationCourseId').resolves(assessment);
+      sandbox.stub(answersRepository, 'findByAssessment').resolves(answersByAssessments);
+      sandbox.stub(certificationChallengesRepository, 'findByCertificationCourseId').resolves(challengesByCertificationId);
+      sandbox.stub(UserService, 'getProfileToCertify').resolves(listOfCompetences);
+      sandbox.stub(certificationService, 'getScore').resolves(score);
+
+    });
+
+    afterEach(() => {
+      sandbox.restore();
+    });
+
+    it('should call Assessment Repository to get Assessment by CertificationCourseId', function() {
+      // when
+      const promise = CertificationCourseController.getScore(request, replyStub);
+
+      // then
+      return promise.then(() => {
+        sinon.assert.calledOnce(assessmentRepository.getByCertificationCourseId);
+        sinon.assert.calledWith(assessmentRepository.getByCertificationCourseId, 'course_id');
+      });
+    });
+
+    it('should call Answers Repository to get Answers of certification', function() {
+      // when
+      const promise = CertificationCourseController.getScore(request, replyStub);
+
+      // then
+      return promise.then(() => {
+        sinon.assert.calledOnce(answersRepository.findByAssessment);
+        sinon.assert.calledWith(answersRepository.findByAssessment, 'assessment_id');
+      });
+    });
+
+    it('should call Certification Challenges Repository to find challenges by certification id', function() {
+      // when
+      const promise = CertificationCourseController.getScore(request, replyStub);
+
+      // then
+      return promise.then(() => {
+        sinon.assert.calledOnce(certificationChallengesRepository.findByCertificationCourseId);
+        sinon.assert.calledWith(certificationChallengesRepository.findByCertificationCourseId, 'course_id');
+      });
+    });
+
+    it('should call User Service to get ProfileToCertify', function() {
+      // when
+      const promise = CertificationCourseController.getScore(request, replyStub);
+
+      // then
+      return promise.then(() => {
+        sinon.assert.calledOnce(UserService.getProfileToCertify);
+        sinon.assert.calledWith(UserService.getProfileToCertify, 'user_id');
+      });
+    });
+
+    it('should call certification Service to compute score', function() {
+      // when
+      const promise = CertificationCourseController.getScore(request, replyStub);
+
+      // then
+      return promise.then(() => {
+        sinon.assert.calledOnce(certificationService.getScore);
+        sinon.assert.calledWith(certificationService.getScore, answersByAssessments, challengesByCertificationId, listOfCompetences);
+      });
+    });
+
+    it('should reply the score', function() {
+
+      // when
+      const promise = CertificationCourseController.getScore(request, replyStub);
+
+      // then
+      return promise.then(() => {
+        sinon.assert.calledOnce(replyStub);
+        sinon.assert.calledWith(replyStub, score);
+      });
+    });
+  });
 });

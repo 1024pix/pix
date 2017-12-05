@@ -1,13 +1,28 @@
-import Ember from 'ember';
+import { computed } from '@ember/object';
+import Component from '@ember/component';
+import { alias } from '@ember/object/computed';
+import { inject as service } from '@ember/service';
 
-export default Ember.Component.extend({
-  session: Ember.inject.service(),
-  store: Ember.inject.service(),
+export default Component.extend({
+  session: service(),
+  store: service(),
   classNames: ['navbar-header'],
   _canDisplayMenu: false,
+  _menuItems: [
+    { name: 'Projet', link: 'project', class: 'navbar-header-links__link--project', permanent: true },
+    {
+      name: 'Compétences',
+      link: 'competences',
+      class: 'navbar-header-links__link--competences',
+      permanent: true
+    },
+    { name: 'Se connecter', link: 'login', class: 'navbar-menu-signin-link' },
+    { name: 'S’inscrire', link: 'inscription', class: 'navbar-menu-signup-link' }
+  ],
 
-  isUserLogged: Ember.computed('session', function() {
-    return this.get('session.isAuthenticated');
+  isUserLogged: alias('session.isAuthenticated'),
+  menu: computed('isUserLogged', function() {
+    const menuItems = this.get('_menuItems');
+    return this.get('isUserLogged') ? menuItems.filterBy('permanent', true) : menuItems;
   })
-
 });

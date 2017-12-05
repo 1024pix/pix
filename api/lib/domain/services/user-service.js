@@ -8,6 +8,7 @@ const assessmentRepository = require('../../../lib/infrastructure/repositories/a
 const challengeRepository = require('../../../lib/infrastructure/repositories/challenge-repository');
 const answerRepository = require('../../../lib/infrastructure/repositories/answer-repository');
 const competenceRepository = require('../../../lib/infrastructure/repositories/competence-repository');
+const courseRepository = require('../../../lib/infrastructure/repositories/course-repository');
 
 function _findCorrectAnswersByAssessments(assessments) {
 
@@ -52,6 +53,21 @@ function _findChallengeBySkill(challenges, skill) {
 function _skillHasAtLeastOneChallengeInTheReferentiel(skill, challenges) {
   const challengesBySkill = _findChallengeBySkill(challenges, skill);
   return challengesBySkill.length > 0;
+}
+
+function _addCourseIdAndPixToCompetence(competences, courses, assessments) {
+  competences.forEach((competence) => {
+    const currentCourse =  courses.find(course => course.competences[0] === competence.id);
+    const assessment = assessments.find(assessment => currentCourse.id === assessment.get('courseId'));
+
+    if (assessment) {
+      competence.pixScore = assessment.get('pixScore');
+    } else {
+      competence.pixScore = 0;
+    }
+  });
+
+  return competences;
 }
 
 function _sortThreeMostDifficultSkillsInDesc(skills) {
@@ -100,11 +116,18 @@ module.exports = {
       });
   },
 
-  getCertificationProfile(userId) {
-
-    return assessmentRepository
-      .findLastCompletedAssessmentsForEachCoursesByUser(userId)
-      .then(_filterAssessmentWithEstimatedLevelGreaterThanZero)
+  getProfileToCertify(userId) {
+    let coursesFromAdaptativeCourses;
+    let userLastAssessments;
+    return courseRepository.getAdaptiveCourses()
+      .then((courses) => {
+        coursesFromAdaptativeCourses = courses;
+        return assessmentRepository.findLastCompletedAssessmentsForEachCoursesByUser(userId);
+      })
+      .then((lastAssessments) => {
+        userLastAssessments = lastAssessments;
+        return _filterAssessmentWithEstimatedLevelGreaterThanZero(lastAssessments);
+      })
       .then(_findCorrectAnswersByAssessments)
       .then(_loadRequiredChallengesInformationsAndAnswers)
       .then(_castCompetencesToUserCompetences)
@@ -121,9 +144,10 @@ module.exports = {
         });
 
         userCompetences = _limitSkillsToTheThreeHighestOrderedByDifficultyDesc(userCompetences);
-
         const challengeIdsAlreadyAnswered = answers.map(answer => answer.get('challengeId'));
         const challengesAlreadyAnswered = challengeIdsAlreadyAnswered.map(challengeId => _getChallengeById(challenges, challengeId));
+
+        userCompetences = _addCourseIdAndPixToCompetence(userCompetences, coursesFromAdaptativeCourses, userLastAssessments);
 
         userCompetences.forEach((userCompetence) => {
           userCompetence.skills.forEach((skill) => {

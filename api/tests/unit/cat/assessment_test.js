@@ -166,6 +166,22 @@ describe('Unit | Model | Assessment', function() {
       // then
       expect([...assessment.validatedSkills]).to.be.deep.equal([web1, web3]);
     });
+
+    it('should not have the same skill validated twice', function() {
+      // given
+      const web3forChallengeOne = new Skill('web3');
+      const web3forChallengeTwo = new Skill('web3');
+      const url3 = new Skill('url3');
+      const ch1 = new Challenge('a', 'validé', [web3forChallengeOne]);
+      const ch2 = new Challenge('b', 'validé', [url3, web3forChallengeTwo]);
+      const course = new Course([ch1, ch2]);
+      const answer = new Answer(ch1, 'ok');
+      const answer2 = new Answer(ch2, 'ok');
+      const assessment = new Assessment(course, [answer, answer2]);
+
+      // then
+      expect([...assessment.validatedSkills]).to.be.deep.equal([web3forChallengeOne, url3]);
+    });
   });
 
   describe('#failedSkills', function() {

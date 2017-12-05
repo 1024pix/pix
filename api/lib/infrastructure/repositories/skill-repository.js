@@ -16,11 +16,19 @@ module.exports = {
 
     return challengeRepository.findByCompetence(competence)
       .then(challenges => {
-        const skills = new Set();
-        _(challenges)
+
+        let skills = _(challenges)
+          .map((challenge) => challenge.skills)
           .without((challenge) => _.isNil(challenge.skills))
-          .forEach((challenge) => _.forEach(challenge.skills, (skill) => skills.add(skill)));
+          .flatten()
+          .uniqBy('name')
+          .value();
+
+        // FIXME: Supprimer l'utilisation du Set
+        skills = new Set(skills);
+
         cache.set(cacheKey, skills);
+
         return skills;
       });
   },

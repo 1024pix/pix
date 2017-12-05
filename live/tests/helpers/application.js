@@ -1,12 +1,14 @@
-import Ember from 'ember';
 import Application from '../../app';
 import config from '../../config/environment';
+import { run } from '@ember/runloop';
+import { merge } from '@ember/polyfills';
+import './responsive';
 
 export function startApp(attrs) {
-  let attributes = Ember.merge({}, config.APP);
-  attributes = Ember.merge(attributes, attrs); // use defaults, but you can override;
+  let attributes = merge({}, config.APP);
+  attributes = merge(attributes, attrs); // use defaults, but you can override;
 
-  return Ember.run(() => {
+  return run(() => {
     const application = Application.create(attributes);
     application.setupForTesting();
     application.injectTestHelpers();
@@ -15,7 +17,7 @@ export function startApp(attrs) {
 }
 
 export function destroyApp(application) {
-  Ember.run(application, 'destroy');
+  run(application, 'destroy');
   if (window.server) {
     window.server.shutdown();
   }

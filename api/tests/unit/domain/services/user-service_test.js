@@ -5,6 +5,7 @@ const assessmentRepository = require('../../../../lib/infrastructure/repositorie
 const challengeRepository = require('../../../../lib/infrastructure/repositories/challenge-repository');
 const answerRepository = require('../../../../lib/infrastructure/repositories/answer-repository');
 const competenceRepository = require('../../../../lib/infrastructure/repositories/competence-repository');
+const courseRepository = require('../../../../lib/infrastructure/repositories/course-repository');
 const userService = require('../../../../lib/domain/services/user-service');
 const { UserNotFoundError } = require('../../../../lib/domain/errors');
 
@@ -124,7 +125,7 @@ describe('Unit | Service | User Service', () => {
     });
   });
 
-  describe('#getCertificationProfile', () => {
+  describe('#getProfileToCertify', () => {
 
     let sandbox;
     const userId = 63731;
@@ -178,13 +179,17 @@ describe('Unit | Service | User Service', () => {
     const archivedChallengeForSkillCitation4 = _createChallenge('challengeRecordIdTen', competenceFlipper.id, [skillCitation4], '@citation4', 'archive');
     const oldChallengeWithAlreadyValidatedSkill = _createChallenge('challengeRecordIdEleven', competenceFlipper.id, [skillWithoutChallenge], '@oldSkill8', 'proposé');
 
-    const assessment1 = new Assessment({ id: 13, estimatedLevel: 1, courseId: 'courseId1' });
-    const assessment2 = new Assessment({ id: 1637, estimatedLevel: 2, courseId: 'courseId2' });
-    const assessment3 = new Assessment({ id: 145, estimatedLevel: 0, courseId: 'courseId3' });
+    const assessment1 = new Assessment({ id: 13, estimatedLevel: 1, pixScore: 12, courseId: 'courseId1' });
+    const assessment2 = new Assessment({ id: 1637, estimatedLevel: 2, pixScore: 23, courseId: 'courseId2' });
+    const assessment3 = new Assessment({ id: 145, estimatedLevel: 0, pixScore: 2, courseId: 'courseId3' });
 
     beforeEach(() => {
       sandbox = sinon.sandbox.create();
 
+      sandbox.stub(courseRepository, 'getAdaptiveCourses').resolves([
+        { competences : ['competenceRecordIdOne'], id: 'courseId1' },
+        { competences : ['competenceRecordIdTwo'], id: 'courseId2' },
+      ]);
       sandbox.stub(assessmentRepository, 'findLastCompletedAssessmentsForEachCoursesByUser').resolves([
         assessment1, assessment2, assessment3
       ]);
@@ -215,7 +220,7 @@ describe('Unit | Service | User Service', () => {
 
     it('should load achieved assessments', () => {
       // When
-      const promise = userService.getCertificationProfile(userId);
+      const promise = userService.getProfileToCertify(userId);
 
       // Then
       return promise.then(() => {
@@ -226,7 +231,7 @@ describe('Unit | Service | User Service', () => {
 
     it('should list available challenges', () => {
       // When
-      const promise = userService.getCertificationProfile(userId);
+      const promise = userService.getProfileToCertify(userId);
 
       // Then
       return promise.then(() => {
@@ -236,7 +241,7 @@ describe('Unit | Service | User Service', () => {
 
     it('should list right answers for every assessment fulfilled', () => {
       // When
-      const promise = userService.getCertificationProfile(userId);
+      const promise = userService.getProfileToCertify(userId);
 
       // Then
       return promise.then(() => {
@@ -246,7 +251,7 @@ describe('Unit | Service | User Service', () => {
 
     it('should not list right answers for assessments that have an estimated level null or 1', () => {
       // When
-      const promise = userService.getCertificationProfile(userId);
+      const promise = userService.getProfileToCertify(userId);
 
       // Then
       return promise.then(() => {
@@ -256,7 +261,7 @@ describe('Unit | Service | User Service', () => {
 
     it('should list available competences', () => {
       // When
-      const promise = userService.getCertificationProfile(userId);
+      const promise = userService.getProfileToCertify(userId);
 
       // Then
       return promise.then(() => {
@@ -274,7 +279,7 @@ describe('Unit | Service | User Service', () => {
         answerRepository.findCorrectAnswersByAssessment.withArgs(assessment2.id).resolves(answerCollectionWithOneAnswer);
 
         // When
-        const promise = userService.getCertificationProfile(userId);
+        const promise = userService.getProfileToCertify(userId);
 
         // Then
         return promise.then((skillProfile) => {
@@ -284,6 +289,7 @@ describe('Unit | Service | User Service', () => {
               index: '1.1',
               name: '1.1 Construire un flipper',
               skills: [],
+              pixScore: 12,
               challenges: []
             },
             {
@@ -291,6 +297,7 @@ describe('Unit | Service | User Service', () => {
               index: '1.2',
               name: '1.2 Adopter un dauphin',
               skills: [skillRemplir2],
+              pixScore: 23,
               challenges: [challengeForSkillRemplir2]
             }]);
         });
@@ -312,7 +319,7 @@ describe('Unit | Service | User Service', () => {
             answerRepository.findCorrectAnswersByAssessment.withArgs(assessment2.id).resolves(answerCollectionWithEmptyData);
 
             // When
-            const promise = userService.getCertificationProfile(userId);
+            const promise = userService.getProfileToCertify(userId);
 
             // Then
             return promise.then((skillProfile) => {
@@ -320,12 +327,14 @@ describe('Unit | Service | User Service', () => {
                 id: 'competenceRecordIdOne',
                 index: '1.1',
                 name: '1.1 Construire un flipper',
+                pixScore: 12,
                 skills: [],
                 challenges: []
               }, {
                 id: 'competenceRecordIdTwo',
                 index: '1.2',
                 name: '1.2 Adopter un dauphin',
+                pixScore: 23,
                 skills: [],
                 challenges: []
               }]);
@@ -344,7 +353,7 @@ describe('Unit | Service | User Service', () => {
             answerRepository.findCorrectAnswersByAssessment.withArgs(assessment2.id).resolves(answerCollectionWithOneAnswer);
 
             // When
-            const promise = userService.getCertificationProfile(userId);
+            const promise = userService.getProfileToCertify(userId);
 
             // Then
             return promise.then((skillProfile) => {
@@ -354,6 +363,7 @@ describe('Unit | Service | User Service', () => {
                   index: '1.1',
                   name: '1.1 Construire un flipper',
                   skills: [],
+                  pixScore: 12,
                   challenges: []
                 },
                 {
@@ -361,6 +371,7 @@ describe('Unit | Service | User Service', () => {
                   index: '1.2',
                   name: '1.2 Adopter un dauphin',
                   skills: [skillRemplir2],
+                  pixScore: 23,
                   challenges: [challengeForSkillRemplir2]
                 }]);
             });
@@ -377,7 +388,7 @@ describe('Unit | Service | User Service', () => {
             answerRepository.findCorrectAnswersByAssessment.withArgs(assessment2.id).resolves(answerCollectionWithEmptyData);
 
             // When
-            const promise = userService.getCertificationProfile(userId);
+            const promise = userService.getProfileToCertify(userId);
 
             // Then
             return promise.then((skillProfile) => {
@@ -387,6 +398,7 @@ describe('Unit | Service | User Service', () => {
                   index: '1.1',
                   name: '1.1 Construire un flipper',
                   skills: [skillCitation4],
+                  pixScore: 12,
                   challenges: [challengeForSkillCitation4AndMoteur3]
                 },
                 {
@@ -394,6 +406,7 @@ describe('Unit | Service | User Service', () => {
                   index: '1.2',
                   name: '1.2 Adopter un dauphin',
                   skills: [],
+                  pixScore: 23,
                   challenges: []
                 }]);
             });
@@ -409,7 +422,7 @@ describe('Unit | Service | User Service', () => {
             answerRepository.findCorrectAnswersByAssessment.withArgs(assessment2.id).resolves(answerCollectionWithEmptyData);
 
             // When
-            const promise = userService.getCertificationProfile(userId);
+            const promise = userService.getProfileToCertify(userId);
 
             // Then
             return promise.then((skillProfile) => {
@@ -419,6 +432,7 @@ describe('Unit | Service | User Service', () => {
                   index: '1.1',
                   name: '1.1 Construire un flipper',
                   skills: [skillCitation4, skillRecherche4, skillMoteur3],
+                  pixScore: 12,
                   challenges: [challengeForSkillCitation4, challengeForSkillRecherche4, challengeForSkillCitation4AndMoteur3]
                 },
                 {
@@ -426,6 +440,7 @@ describe('Unit | Service | User Service', () => {
                   index: '1.2',
                   name: '1.2 Adopter un dauphin',
                   skills: [],
+                  pixScore: 23,
                   challenges: []
                 }]);
             });
@@ -446,7 +461,7 @@ describe('Unit | Service | User Service', () => {
         answerRepository.findCorrectAnswersByAssessment.withArgs(assessment2.id).resolves(answerCollectionB);
 
         // When
-        const promise = userService.getCertificationProfile(userId);
+        const promise = userService.getProfileToCertify(userId);
 
         // Then
         return promise.then((skillProfile) => {
@@ -456,6 +471,7 @@ describe('Unit | Service | User Service', () => {
               index: '1.1',
               name: '1.1 Construire un flipper',
               skills: [skillRecherche4],
+              pixScore: 12,
               challenges: [challengeForSkillRecherche4]
             },
             {
@@ -463,6 +479,7 @@ describe('Unit | Service | User Service', () => {
               index: '1.2',
               name: '1.2 Adopter un dauphin',
               skills: [skillUrl3, skillRemplir2],
+              pixScore: 23,
               challenges: [challengeForSkillUrl3, challengeForSkillRemplir2]
             }]);
         });
@@ -479,7 +496,7 @@ describe('Unit | Service | User Service', () => {
         answerRepository.findCorrectAnswersByAssessment.withArgs(assessment2.id).resolves(answerCollectionArray);
 
         // When
-        const promise = userService.getCertificationProfile(userId);
+        const promise = userService.getProfileToCertify(userId);
 
         // Then
         return promise.then((skillProfile) => {
@@ -489,6 +506,7 @@ describe('Unit | Service | User Service', () => {
               index: '1.1',
               name: '1.1 Construire un flipper',
               skills: [],
+              pixScore: 12,
               challenges: []
             },
             {
@@ -496,6 +514,7 @@ describe('Unit | Service | User Service', () => {
               index: '1.2',
               name: '1.2 Adopter un dauphin',
               skills: [skillRemplir4, skillUrl3, skillRemplir2],
+              pixScore: 23,
               challenges: [challengeForSkillRemplir4, challengeForSkillUrl3, challengeForSkillRemplir2]
             }
           ]);
@@ -514,7 +533,7 @@ describe('Unit | Service | User Service', () => {
         answerRepository.findCorrectAnswersByAssessment.withArgs(assessment2.id).resolves(answerCollectionArray);
 
         // When
-        const promise = userService.getCertificationProfile(userId);
+        const promise = userService.getProfileToCertify(userId);
 
         // Then
         return promise.then((skillProfile) => {
@@ -524,6 +543,7 @@ describe('Unit | Service | User Service', () => {
               index: '1.1',
               name: '1.1 Construire un flipper',
               skills: [],
+              pixScore: 12,
               challenges: []
             },
             {
@@ -531,6 +551,7 @@ describe('Unit | Service | User Service', () => {
               index: '1.2',
               name: '1.2 Adopter un dauphin',
               skills: [skillRemplir4, skillUrl3, skillRemplir2],
+              pixScore: 23,
               challenges: [challengeForSkillRemplir4, challengeForSkillUrl3, challengeForSkillRemplir2]
             }
           ]);
@@ -546,7 +567,7 @@ describe('Unit | Service | User Service', () => {
         answerRepository.findCorrectAnswersByAssessment.withArgs(assessment2.id).resolves(answerCollectionArray);
 
         // When
-        const promise = userService.getCertificationProfile(userId);
+        const promise = userService.getProfileToCertify(userId);
 
         // Then
         return promise.then((skillProfile) => {
@@ -556,6 +577,7 @@ describe('Unit | Service | User Service', () => {
               index: '1.1',
               name: '1.1 Construire un flipper',
               skills: [],
+              pixScore: 12,
               challenges: []
             },
             {
@@ -563,6 +585,7 @@ describe('Unit | Service | User Service', () => {
               index: '1.2',
               name: '1.2 Adopter un dauphin',
               skills: [skillRemplir2],
+              pixScore: 23,
               challenges: [challengeForSkillRemplir2]
             }]);
         });
@@ -577,7 +600,7 @@ describe('Unit | Service | User Service', () => {
         answerRepository.findCorrectAnswersByAssessment.withArgs(assessment2.id).resolves(answerCollectionArray);
 
         // When
-        const promise = userService.getCertificationProfile(userId);
+        const promise = userService.getProfileToCertify(userId);
 
         // Then
         return promise.then((skillProfile) => {
@@ -587,6 +610,7 @@ describe('Unit | Service | User Service', () => {
               index: '1.1',
               name: '1.1 Construire un flipper',
               skills: [],
+              pixScore: 12,
               challenges: []
             },
             {
@@ -594,6 +618,7 @@ describe('Unit | Service | User Service', () => {
               index: '1.2',
               name: '1.2 Adopter un dauphin',
               skills: [],
+              pixScore: 23,
               challenges: []
             }]);
         });
@@ -608,7 +633,7 @@ describe('Unit | Service | User Service', () => {
         answerRepository.findCorrectAnswersByAssessment.withArgs(assessment2.id).resolves(answerCollectionArray);
 
         // When
-        const promise = userService.getCertificationProfile(userId);
+        const promise = userService.getProfileToCertify(userId);
 
         // Then
         return promise.then((skillProfile) => {
@@ -618,6 +643,7 @@ describe('Unit | Service | User Service', () => {
               index: '1.1',
               name: '1.1 Construire un flipper',
               skills: [],
+              pixScore: 12,
               challenges: []
             },
             {
@@ -625,6 +651,7 @@ describe('Unit | Service | User Service', () => {
               index: '1.2',
               name: '1.2 Adopter un dauphin',
               skills: [],
+              pixScore: 23,
               challenges: []
             }]);
         });

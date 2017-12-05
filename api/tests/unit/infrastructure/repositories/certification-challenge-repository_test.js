@@ -7,22 +7,22 @@ const { NotFoundError } = require('../../../../lib/domain/errors');
 
 describe('Unit | Repository | certification-challenge-repository', () => {
 
-  const challengeObject = {
-    id: 'challenge_id',
-    competence: 'competenceId',
-    testedSkill: '@skill2'
-  };
-  const certificationCourseObject = { id: 'certification_course_id' };
-  const certificationChallenge = {
-    id: 'id',
-    challengeId: 'challenge_id',
-    competenceId: 'competenceId',
-    associatedSkill: '@skill2',
-    courseId: 'certification_course_id'
-  };
-  const certificationChallengeBookshelf = new CertificationChallengeBookshelf(certificationChallenge);
+  describe('#save', () => {
 
-  describe('#save', function() {
+    const challengeObject = {
+      id: 'challenge_id',
+      competence: 'competenceId',
+      testedSkill: '@skill2'
+    };
+    const certificationCourseObject = { id: 'certification_course_id' };
+    const certificationChallenge = {
+      id: 12,
+      challengeId: 'challenge_id',
+      competenceId: 'competenceId',
+      associatedSkill: '@skill2',
+      courseId: 'certification_course_id'
+    };
+    const certificationChallengeBookshelf = new CertificationChallengeBookshelf(certificationChallenge);
 
     beforeEach(() => {
       sinon.stub(CertificationChallengeBookshelf.prototype, 'save').resolves(certificationChallengeBookshelf);
@@ -40,7 +40,6 @@ describe('Unit | Repository | certification-challenge-repository', () => {
       return promise.then(() => {
         sinon.assert.calledOnce(CertificationChallengeBookshelf.prototype.save);
       });
-
     });
 
     it('should return certification challenge object', () => {
@@ -52,7 +51,6 @@ describe('Unit | Repository | certification-challenge-repository', () => {
         expect(savedCertificationChallenge).to.deep.equal(certificationChallenge);
       });
     });
-
   });
 
   describe('#findChallengesByCertificationCourseId', () => {
@@ -141,7 +139,37 @@ describe('Unit | Repository | certification-challenge-repository', () => {
         return expect(promise).to.be.rejected;
       });
     });
+  });
 
+  describe('#findByCertificationCourseId', () => {
+    let fetchAllStub;
+    beforeEach(() => {
+      sinon.stub(CertificationChallengeBookshelf.prototype, 'where');
+      fetchAllStub = sinon.stub();
+    });
+
+    afterEach(() => {
+      CertificationChallengeBookshelf.prototype.where.restore();
+    });
+
+    it('should retrieve challenges from certificationCourseId', () => {
+      // given
+      const certificationCourseId = 'certificationCourse_id';
+      fetchAllStub.resolves({});
+      CertificationChallengeBookshelf.prototype.where.returns({
+        fetchAll: fetchAllStub
+      });
+
+      // when
+      const promise = certificationChallengeRepository.findByCertificationCourseId(certificationCourseId);
+
+      // then
+      return promise.then(() => {
+        sinon.assert.calledOnce(CertificationChallengeBookshelf.prototype.where);
+        sinon.assert.calledWith(CertificationChallengeBookshelf.prototype.where, { courseId: certificationCourseId });
+        sinon.assert.calledOnce(fetchAllStub);
+      });
+    });
   });
 
   describe('#getNonAnsweredChallengeByCourseId', () => {
@@ -241,6 +269,7 @@ describe('Unit | Repository | certification-challenge-repository', () => {
             expect(result).to.be.instanceOf(CertificationChallenge);
           });
       });
+
     });
   });
 });

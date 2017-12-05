@@ -7,27 +7,47 @@ import sinon from 'sinon';
 
 describe('Unit | Route | Assessments.ChallengeRoute', function() {
   setupTest('route:assessments.challenge', {
-    needs: ['service:current-routed-modal']
+    needs: ['service:current-routed-modal', 'service:session']
   });
 
   let route;
   let StoreStub;
   let createRecordStub;
   let queryRecordStub;
+  let findRecordStub;
+  const params = {
+    assessment_id: 'assessment_id',
+    challenge_id: 'challenge_id'
+  };
 
+  const model = {
+    assessment: {
+      id: 'assessment_id',
+      get: sinon.stub()
+    },
+    challenge: {
+      id: 'challenge_id'
+    }
+  };
+  const userId = 'user_id';
   beforeEach(function() {
     // define stubs
     createRecordStub = sinon.stub();
     queryRecordStub = sinon.stub();
+    findRecordStub = sinon.stub();
+    findRecordStub.withArgs('user', userId).resolves({ userId });
     StoreStub = EmberService.extend({
       createRecord: createRecordStub,
-      queryRecord: queryRecordStub
+      queryRecord: queryRecordStub,
+      findRecord: findRecordStub
     });
 
     // manage dependency injection context
     this.register('service:store', StoreStub);
     this.inject.service('store', { as: 'store' });
-
+    this.register('service:session', EmberService.extend({
+      data: { authenticated: { userId: userId, token: 'VALID-TOKEN' } }
+    }));
     // instance route object
     route = this.subject();
     route.transitionTo = sinon.stub();
@@ -35,6 +55,85 @@ describe('Unit | Route | Assessments.ChallengeRoute', function() {
 
   it('exists', function() {
     expect(route).to.be.ok;
+  });
+
+  describe('#model', function() {
+    it('should correctly call the store to find assessment and challenge', function() {
+      // when
+      route.model(params);
+
+      // then
+      sinon.assert.calledTwice(findRecordStub);
+      sinon.assert.calledWith(findRecordStub, 'assessment', params.assessment_id);
+      sinon.assert.calledWith(findRecordStub, 'challenge', params.challenge_id);
+    });
+  });
+
+  describe('#afterModel', function() {
+    it('should call queryRecord to find answer', function() {
+      // given
+      model.assessment.get.withArgs('isCertification').returns(false);
+      model.assessment.get.withArgs('course').returns({ getProgress: sinon.stub().returns('course') });
+
+      // when
+      const promise = route.afterModel(model);
+
+      // then
+      return promise.then(() => {
+        sinon.assert.calledOnce(queryRecordStub);
+        sinon.assert.calledWith(queryRecordStub, 'answer', { assessment : model.assessment.id, challenge: model.challenge.id });
+      });
+    });
+
+    it('should call findRecord for user if assessment is certification', function() {
+      // given
+      model.assessment.get.withArgs('isCertification').returns(true);
+      model.assessment.get.withArgs('course').returns({ getProgress: sinon.stub().returns('course') });
+
+      // when
+      const promise = route.afterModel(model);
+
+      // then
+      return promise.then(() => {
+        sinon.assert.calledOnce(findRecordStub);
+        sinon.assert.calledWith(findRecordStub, 'user', userId);
+      });
+    });
+
+    it('should not call findRecord for user if assessement is not a certification', function() {
+      // given
+      model.assessment.get.withArgs('isCertification').returns(false);
+      model.assessment.get.withArgs('course').returns({ getProgress: sinon.stub().returns('course') });
+
+      // when
+      const promise = route.afterModel(model);
+
+      // then
+      return promise.then(() => {
+        sinon.assert.notCalled(findRecordStub);
+      });
+    });
+
+    it('should return a complete model', function() {
+      // given
+      model.assessment.get.withArgs('isCertification').returns(true);
+      model.assessment.get.withArgs('course').returns({ getProgress: sinon.stub().returns('course') });
+      const expectedModel = {
+        assessment: { id: 'assessment_id' },
+        challenge: { id: 'challenge_id' },
+        progress: 'course',
+        user: { userId: userId },
+        courseId: 'course_id'
+      };
+
+      // when
+      const promise = route.afterModel(model);
+
+      // then
+      return promise.then((createdModel) => {
+        expect(createdModel.toString()).to.equal(expectedModel.toString());
+      });
+    });
   });
 
   describe('#saveAnswerAndNavigate', function() {

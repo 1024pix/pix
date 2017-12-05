@@ -1,11 +1,15 @@
 <div class="assessment-challenge">
 
   <div class="assessment-challenge__course-banner">
-    {{course-banner course=model.assessment.course withHomeLink=true}}
+    {{#if model.assessment.isCertification}}
+      {{certification-banner user=model.user certificationNumber=model.assessment.certificationNumber}}
+    {{else}}
+      {{course-banner course=model.assessment.course withHomeLink=true}}
+    {{/if}}
   </div>
 
   <div class="assessment-challenge__content">
-    {{#unless (eq model.assessment.type 'CERTIFICATION')}}
+    {{#unless model.assessment.isCertification}}
       {{#unless model.assessment.course.isAdaptive}}
         <div class="assessment-challenge__progress-bar">
           {{progress-bar progress=model.progress}}

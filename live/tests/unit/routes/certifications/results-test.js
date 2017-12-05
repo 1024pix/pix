@@ -9,6 +9,9 @@ describe('Unit | Route | Certifications | Results', function() {
   setupTest('route:certifications.results', {
     needs: ['service:current-routed-modal', 'service:session']
   });
+  const params = {
+    certification_number: 'certification_number',
+  };
 
   it('exists', function() {
     const route = this.subject();
@@ -46,7 +49,7 @@ describe('Unit | Route | Certifications | Results', function() {
         // Given
         findRecordStub.rejects();
         // When
-        const promise = route.model();
+        const promise = route.model(params);
 
         // Then
         return promise.then(function() {
@@ -79,12 +82,12 @@ describe('Unit | Route | Certifications | Results', function() {
         findRecordStub.resolves(expectedUser);
 
         // When
-        const promise = route.model();
+        const promise = route.model(params);
 
         // Then
-        return promise.then(function(user) {
+        return promise.then(function(model) {
           sinon.assert.calledWith(findRecordStub, 'user', 1435, { reload: true });
-          expect(user).to.equal(expectedUser);
+          expect(model.user).to.equal(expectedUser);
         });
       });
     });
