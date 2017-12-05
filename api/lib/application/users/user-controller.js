@@ -97,10 +97,10 @@ module.exports = {
       });
   },
 
-  getCertificationProfile(request, reply) {
+  getProfileToCertify(request, reply) {
     const userId = request.params.id;
 
-    return userService.getCertificationProfile(userId)
+    return userService.getProfileToCertify(userId)
       .then(reply)
       .catch(err => {
         logger.error(err);

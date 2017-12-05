@@ -53,5 +53,12 @@ module.exports = {
 
         return _toDomain(certificationChallenge);
       });
+  },
+
+  findByCertificationCourseId(certificationCourseId) {
+    return CertificationChallengeBookshelf
+      .where({ courseId: certificationCourseId })
+      .fetchAll()
+      .then(challenges => challenges.models);
   }
 };

@@ -522,7 +522,7 @@ describe('Unit | Domain | Services | assessment-service', () => {
     it('should return a challenge which was not answered (challenge with no associated answer)', function() {
       // given
       const assessment = new Assessment({ id: 'assessmentId', courseId: 'certifCourseId' });
-      const challenge = new CertificationChallenge({ id: '1', challengeId : 'recA' });
+      const challenge = new CertificationChallenge({ id: '1', challengeId: 'recA' });
       certificationChallengeRepository.getNonAnsweredChallengeByCourseId.resolves(challenge);
 
       // when
@@ -546,5 +546,7 @@ describe('Unit | Domain | Services | assessment-service', () => {
       // then
       expect(promise).to.be.rejected;
     });
+
   });
+
 });
