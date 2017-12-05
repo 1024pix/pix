@@ -1,7 +1,10 @@
 import RSVP from 'rsvp';
 import BaseRoute from 'pix-live/routes/base-route';
+import Ember from 'ember';
 
 export default BaseRoute.extend({
+
+  session: Ember.inject.service(),
 
   model(params) {
     const store = this.get('store');
@@ -24,8 +27,7 @@ export default BaseRoute.extend({
     const store = this.get('store');
 
     // FIXME Quick-win pour contourner la récupération d'un course (qui n'existe pas pour une certif)
-    // Correction possible: Séparer la phase de récupération du course et la phase de création d'un assessment
-    if (model.assessment.get('type') !== 'CERTIFICATION') {
+    if (!model.assessment.get('isCertification')) {
       return RSVP.hash({
         answers: store.queryRecord('answer', { assessment: model.assessment.id, challenge: model.challenge.id }),
         course: model.assessment.get('course')
@@ -34,6 +36,12 @@ export default BaseRoute.extend({
         model.progress = course.getProgress(model.challenge);
         return model;
       });
+    } else {
+      return this.get('store').findRecord('user', this.get('session.data.authenticated.userId'))
+        .then(user => {
+          model.user = user;
+          return model;
+        });
     }
   },
 
@@ -58,7 +66,7 @@ export default BaseRoute.extend({
       .then((nextChallenge) => this.transitionTo('assessments.challenge', { assessment, challenge: nextChallenge }))
       .catch(() => {
         assessment.get('type') === 'CERTIFICATION' ?
-          this.transitionTo('certifications.results')
+          this.transitionTo('certifications.results', assessment.get('certificationNumber'))
           : this.transitionTo('assessments.results', assessment.get('id'));
       });
   },
