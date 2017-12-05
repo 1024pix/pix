@@ -137,13 +137,17 @@ describe('Unit | Repository | assessmentRepository', () => {
     let whereNotNullStub;
     let whereNotNullStub2;
     let orderByStub;
+    let andWhere;
     const userId = 2;
 
     beforeEach(() => {
       sandbox = sinon.sandbox.create();
       orderByStub = sandbox.stub();
-      whereNotNullStub2 = sandbox.stub().returns({
+      andWhere = sandbox.stub().returns({
         orderBy: orderByStub
+      });
+      whereNotNullStub2 = sandbox.stub().returns({
+        andWhere: andWhere
       });
       whereNotNullStub = sandbox.stub().returns({
         whereNotNull: whereNotNullStub2
@@ -362,6 +366,35 @@ describe('Unit | Repository | assessmentRepository', () => {
       // then
       promise.then((savedAssessment) => {
         expect(savedAssessment).to.deep.equal(assessment);
+      });
+    });
+  });
+
+  describe('#getByCertificationCourseId', () => {
+    let fetchStub;
+    beforeEach(() => {
+      fetchStub = sinon.stub().resolves();
+      sinon.stub(Assessment, 'where').returns({
+        fetch: fetchStub
+      });
+    });
+
+    after(() => {
+      Assessment.where.restore();
+    });
+
+    it('should correctly query Assessment', () => {
+      // given
+      const fakeCertificationCourseId = 10;
+      const expectedParams = { courseId: fakeCertificationCourseId };
+
+      // when
+      const promise = assessmentRepository.getByCertificationCourseId(fakeCertificationCourseId);
+
+      // then
+      return promise.then(() => {
+        sinon.assert.calledOnce(Assessment.where);
+        sinon.assert.calledWith(Assessment.where, expectedParams);
       });
     });
   });
