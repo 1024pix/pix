@@ -1,4 +1,7 @@
 <div class="navbar-header__container">
+  {{#unless media.isDesktop}}
+    {{navbar-mobile-menu menu=menu}}
+  {{/unless}}
 
   <!-- Logo (left) -->
   <div class="navbar-header-logo">
@@ -7,28 +10,12 @@
 
   <!-- Links (right) -->
   <div class="navbar-header-right">
-    <div class="navbar-header-links {{if isUserLogged 'navbar-header-links--user-logged' ''}}">
-      <ul class="navbar-header-links__list">
-        <li class="navbar-header-links__item">
-          {{#link-to 'project' class="navbar-header-links__link navbar-header-links__link--project"}}Projet{{/link-to}}
-        </li>
-        <li class="navbar-header-links__item">
-          {{#link-to 'competences' class="navbar-header-links__link navbar-header-links__link--competences"}}Compétences{{/link-to}}
-        </li>
-        {{#unless isUserLogged}}
-          <li class="navbar-header-links__item">
-            {{#link-to 'login' class="navbar-header-links__link navbar-header-links__link--connection"}}Se connecter{{/link-to}}
-          </li>
-          <li class="navbar-header-links__item">
-            {{#link-to 'inscription' class="navbar-header-links__link navbar-header-links__link--inscription"}}S'inscrire{{/link-to}}
-          </li>
-        {{/unless}}
-      </ul>
-    </div>
+    {{#if media.isDesktop}}
+      {{navbar-desktop-menu menu=menu}}
+    {{/if}}
 
     {{#if isUserLogged}}
       {{user-logged-menu}}
     {{/if}}
   </div>
-
 </div>

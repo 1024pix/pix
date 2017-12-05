@@ -1,9 +1,8 @@
 import { afterEach, beforeEach, describe, it } from 'mocha';
 import { expect } from 'chai';
-import { startApp, destroyApp } from '../helpers/application';
+import { destroyApp, startApp } from '../helpers/application';
 
-describe('Acceptance | index page', function() {
-
+describe('Acceptance | index', function() {
   let application;
 
   beforeEach(function() {
@@ -17,11 +16,14 @@ describe('Acceptance | index page', function() {
   describe('Navbar header section', function() {
     it('should have a link to sign-up page when user is not authenticated', function() {
       // when
+      /* eslint-disable */
+      setBreakpoint('mobile');
+      /* eslint-enable */
       visit('/');
 
       // then
       return andThen(function() {
-        const signUpLink = findWithAssert('.navbar-header-links__link--inscription');
+        const signUpLink = findWithAssert('.navbar-menu-signup-link');
         expect(signUpLink.attr('href').trim()).to.equal('/inscription');
       });
     });
@@ -32,9 +34,10 @@ describe('Acceptance | index page', function() {
 
       // then
       return andThen(function() {
-        const logInLink = findWithAssert('.navbar-header-links__link--connection');
+        const logInLink = findWithAssert('.navbar-menu-signin-link');
         expect(logInLink.attr('href').trim()).to.equal('/connexion');
       });
     });
   });
+
 });
