@@ -8,12 +8,14 @@ const assessmentRepository = require('../../../lib/infrastructure/repositories/a
 const answersRepository = require('../../../lib/infrastructure/repositories/answer-repository');
 const certificationChallengesRepository = require('../../../lib/infrastructure/repositories/certification-challenge-repository');
 const certificationService = require('../../domain/services/certification-service');
+const CertificationCourse = require('../../../lib/domain/models/CertificationCourse');
 
 module.exports = {
   save(request, reply) {
-    let certificationCourse;
     const userId = request.pre.userId;
-    return CertificationCourseRepository.save()
+    let certificationCourse = new CertificationCourse({ userId });
+
+    return CertificationCourseRepository.save(certificationCourse)
       .then((savedCertificationCourse) => {
         return certificationCourse = savedCertificationCourse;
       })

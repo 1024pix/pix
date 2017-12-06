@@ -55,6 +55,7 @@ describe('Unit | Controller | certification-course-controller', function() {
       // then
       return promise.then(() => {
         sinon.assert.calledOnce(CertificationCourseRepository.save);
+        sinon.assert.calledWith(CertificationCourseRepository.save, { userId: 'userId' });
       });
     });
 
