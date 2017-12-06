@@ -26,23 +26,14 @@ export default BaseRoute.extend({
   afterModel(model) {
     const store = this.get('store');
 
-    // FIXME Quick-win pour contourner la récupération d'un course (qui n'existe pas pour une certif)
-    if (!model.assessment.get('isCertification')) {
-      return RSVP.hash({
-        answers: store.queryRecord('answer', { assessment: model.assessment.id, challenge: model.challenge.id }),
-        course: model.assessment.get('course')
-      }).then(({ answers, course }) => {
-        model.answers = answers;
-        model.progress = course.getProgress(model.challenge);
-        return model;
-      });
-    } else {
-      return this.get('store').findRecord('user', this.get('session.data.authenticated.userId'))
-        .then(user => {
-          model.user = user;
-          return model;
-        });
-    }
+    return RSVP.hash({
+      user: model.assessment.get('isCertification') ? store.findRecord('user', this.get('session.data.authenticated.userId')) : null,
+      answers: store.queryRecord('answer', { assessment: model.assessment.id, challenge: model.challenge.id })
+    }).then(hash => {
+      model.user = hash.user;
+      model.answers = hash.answers;
+      return model;
+    });
   },
 
   serialize(model) {

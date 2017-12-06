@@ -2,7 +2,7 @@ const _ = require('lodash');
 
 class UserCompetence {
 
-  constructor(model) {
+  constructor(model = {}) {
     this.id = model.id;
     this.index = model.index;
     this.name = model.name;

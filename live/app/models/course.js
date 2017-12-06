@@ -1,6 +1,7 @@
 import { computed } from '@ember/object';
 import DS from 'ember-data';
-const { Model, attr, hasMany } = DS;
+
+const { Model, attr } = DS;
 
 export default Model.extend({
 
@@ -10,22 +11,8 @@ export default Model.extend({
   imageUrl: attr('string'),
   isAdaptive: attr('boolean'),
   nbChallenges: attr('number'),
-  challenges: hasMany('challenge', { inverse: null }),
   type: computed('isAdaptive', function() {
     return this.get('isAdaptive') ? 'PLACEMENT' : 'DEMO';
-  }),
+  })
 
-  getProgress(challenge) {
-    const challengeIndex = this.get('challenges').indexOf(challenge);
-
-    const currentStep = 1 + challengeIndex;
-    const maxStep = this.get('challenges.length');
-    const stepPercentage = currentStep / maxStep * 100;
-
-    return {
-      currentStep: currentStep,
-      maxStep: maxStep,
-      stepPercentage: stepPercentage
-    };
-  }
 });
