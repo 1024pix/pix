@@ -72,7 +72,7 @@ module.exports = {
     const assessmentId = request.params.id;
 
     return assessmentService
-      .getScoredAssessment(assessmentId)
+      .fetchAssessment(assessmentId)
       .then(({ assessmentPix }) => {
         const serializedAssessment = assessmentSerializer.serialize(assessmentPix);
         return reply(serializedAssessment);
@@ -109,7 +109,7 @@ module.exports = {
         }
 
         return assessmentService
-          .getScoredAssessment(request.params.id)
+          .fetchAssessment(request.params.id)
           .then(({ assessmentPix, skills }) => {
 
             // XXX: successRate should not be saved in DB.
