@@ -55,7 +55,7 @@ describe('Unit | Controller | assessment-controller-get-next-challenge', () => {
 
       sandbox = sinon.sandbox.create();
 
-      sandbox.stub(assessmentService, 'getScoredAssessment').resolves(scoredAsssessment);
+      sandbox.stub(assessmentService, 'fetchAssessment').resolves(scoredAsssessment);
       sandbox.stub(assessmentWithScore, 'save').resolves();
       sandbox.stub(skillService, 'saveAssessmentSkills').resolves();
       sandbox.stub(assessmentService, 'getAssessmentNextChallengeId');
@@ -99,13 +99,13 @@ describe('Unit | Controller | assessment-controller-get-next-challenge', () => {
         assessmentRepository.get.resolves(assessmentWithoutScore);
       });
 
-      it('should call getScoredAssessment', () => {
+      it('should call fetchAssessment', () => {
         // When
         const promise = assessmentController.getNextChallenge({ params: { id: 7531 } }, replyStub);
 
         // Then
         return promise.then(() => {
-          expect(assessmentService.getScoredAssessment).to.have.been.calledWith(7531);
+          expect(assessmentService.fetchAssessment).to.have.been.calledWith(7531);
         });
       });
 
@@ -164,7 +164,7 @@ describe('Unit | Controller | assessment-controller-get-next-challenge', () => {
         it('should return a badImplementation error when evaluating is an error', () => {
           // Given
           const error = new Error('Unable to evaluate level');
-          assessmentService.getScoredAssessment.rejects(error);
+          assessmentService.fetchAssessment.rejects(error);
 
           // When
           const promise = assessmentController.getNextChallenge({ params: { id: 7531 } }, replyStub);
@@ -209,7 +209,7 @@ describe('Unit | Controller | assessment-controller-get-next-challenge', () => {
 
         // Then
         return promise.then(() => {
-          expect(assessmentService.getScoredAssessment).not.to.have.been.called;
+          expect(assessmentService.fetchAssessment).not.to.have.been.called;
         });
       });
 

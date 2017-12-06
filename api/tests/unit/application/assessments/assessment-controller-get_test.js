@@ -25,7 +25,7 @@ describe('Unit | Controller | assessment-controller', () => {
 
       sandbox = sinon.sandbox.create();
 
-      sandbox.stub(assessmentService, 'getScoredAssessment').resolves();
+      sandbox.stub(assessmentService, 'fetchAssessment').resolves();
       sandbox.stub(assessmentSerializer, 'serialize');
       sandbox.stub(assessmentRepository, 'get');
     });
@@ -40,7 +40,7 @@ describe('Unit | Controller | assessment-controller', () => {
       expect(assessmentController.get).to.exist;
     });
 
-    it('should call AssessementService#getScoredAssessment with request param', () => {
+    it('should call AssessementService#fetchAssessment with request param', () => {
       // given
       request = { params: { id: 1234567 } };
 
@@ -48,7 +48,7 @@ describe('Unit | Controller | assessment-controller', () => {
       assessmentController.get(request, reply);
 
       // then
-      sinon.assert.calledWithExactly(assessmentService.getScoredAssessment, 1234567);
+      sinon.assert.calledWithExactly(assessmentService.fetchAssessment, 1234567);
     });
 
     it('should return a NotFound error when the assessment does not exist', () => {
@@ -57,7 +57,7 @@ describe('Unit | Controller | assessment-controller', () => {
 
       const boomNotFound = sinon.stub(Boom, 'notFound').returns(expectedError);
       const getScoredError = new NotFoundError('Expected API Return 404');
-      assessmentService.getScoredAssessment.rejects(getScoredError);
+      assessmentService.fetchAssessment.rejects(getScoredError);
 
       // when
       const promise = assessmentController.get(request, reply);
@@ -75,7 +75,7 @@ describe('Unit | Controller | assessment-controller', () => {
       const expectedError = { error: 'Expected API Return ' };
 
       const boomBadImplementationStub = sinon.stub(Boom, 'badImplementation').returns(expectedError);
-      assessmentService.getScoredAssessment.rejects(new Error('Expected Error Message'));
+      assessmentService.fetchAssessment.rejects(new Error('Expected Error Message'));
 
       // when
       const promise = assessmentController.get(request, reply);
@@ -97,7 +97,7 @@ describe('Unit | Controller | assessment-controller', () => {
       };
 
       assessmentSerializer.serialize.returns(serializedAssessment);
-      assessmentService.getScoredAssessment.resolves(expectedSerializerArgs);
+      assessmentService.fetchAssessment.resolves(expectedSerializerArgs);
 
       // when
       const promise = assessmentController.get(request, reply);
