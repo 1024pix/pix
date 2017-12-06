@@ -2,32 +2,16 @@ import refQcmChallengeFull from '../data/challenges/ref-qcm-challenge';
 import refQcuChallengeFull from '../data/challenges/ref-qcu-challenge';
 import refQrocChallengeFull from '../data/challenges/ref-qroc-challenge';
 import refQrocmChallengeFull from '../data/challenges/ref-qrocm-challenge';
-
 import refTimedChallengeBis from '../data/challenges/ref-timed-challenge-bis';
 
-function getNextChallengeForDynamicAssessment(assessment) {
-  const course = assessment.course;
-  const courseChallenges = course.challenges.models;
-
+function getNextChallengeForDynamicAssessment(assessment, challenges) {
   const answers = assessment.answers.models;
 
-  // When the assessment has just begun
-  if (answers.length === 0) {
-    return courseChallenges[0];
-  }
-
-  const lastAnswer = answers[answers.length - 1];
-  const lastAnswerChallenge = lastAnswer.challenge;
-
-  // when the last answered challenge was the course's last one
-  const nextChallengeIndex = courseChallenges.findIndex(challenge => lastAnswerChallenge.id === challenge.id) + 1;
-  if (nextChallengeIndex >= courseChallenges.length) {
+  if (answers.length >= challenges.length) {
     return null;
   }
 
-  // when the last answered challenge was one of the course's normal one
-  const nextChallenge = courseChallenges.objectAt(nextChallengeIndex);
-  return nextChallenge;
+  return challenges[answers.length];
 }
 
 function getNextChallengeForTestingAssessment(assessmentId, currentChallengeId) {
@@ -60,7 +44,9 @@ export default function(schema, request) {
   // dynamic assessment
   const assessment = schema.assessments.find(assessmentId);
   if (assessment) {
-    return getNextChallengeForDynamicAssessment(assessment);
+    const challengeIds = ['receop4TZKvtjjG0V', 'recLt9uwa2dR3IYpi', 'recn7XhSDTWo0Zzep'];
+    const challenges = schema.challenges.find(challengeIds).models;
+    return getNextChallengeForDynamicAssessment(assessment, challenges);
   }
 
   // testing assessment

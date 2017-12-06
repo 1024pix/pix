@@ -30,12 +30,8 @@ export default function(schema, request) {
 
   } else if (_.startsWith(courseId, 'null')) {
     return refAssessment;
-
   } else if (!_.startsWith(courseId, 'rec')) {
     newAssessment.type = 'CERTIFICATION';
-    return schema.assessments.create(newAssessment);
-
-  } else {
-    return schema.assessments.create(newAssessment);
   }
+  return schema.assessments.create(newAssessment);
 }

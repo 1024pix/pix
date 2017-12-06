@@ -36,6 +36,7 @@
     "moment": "^2.18.1",
     "node-cache": "^4.1.1",
     "node-mailjet": "^3.2.1",
+    "object-hash": "^1.2.0",
     "path": "^0.12.7",
     "pg": "^7.2.0",
     "prom-client": "^10.2.2",

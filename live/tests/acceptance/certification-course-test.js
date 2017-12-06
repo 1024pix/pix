@@ -4,7 +4,7 @@ import { startApp, destroyApp } from '../helpers/application';
 import { authenticateAsSimpleUser } from '../helpers/testing';
 import defaultScenario from '../../mirage/scenarios/default';
 
-describe('Acceptance | Certification | Start Course', function() {
+describe.skip('Acceptance | Certification | Start Course', function() {
 
   let application;
 
