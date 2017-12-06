@@ -22,6 +22,13 @@ exports.register = function(server, options, next) {
         handler: certificationCourseController.getScore,
         tags: ['api']
       }
+    } , {
+      method: 'GET',
+      path: '/api/certification-courses/{id}',
+      config: {
+        handler: certificationCourseController.get,
+        tags: ['api']
+      }
     }
   ]);
 

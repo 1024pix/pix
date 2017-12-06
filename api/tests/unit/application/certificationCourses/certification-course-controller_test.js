@@ -10,6 +10,7 @@ const answersRepository = require('../../../../lib/infrastructure/repositories/a
 const certificationChallengesRepository = require('../../../../lib/infrastructure/repositories/certification-challenge-repository');
 const certificationService = require('../../../../lib/domain/services/certification-service');
 const Assessment = require('../../../../lib/domain/models/data/assessment');
+const certificationCourseSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/certification-course-serializer');
 
 describe('Unit | Controller | certification-course-controller', function() {
 
@@ -192,6 +193,47 @@ describe('Unit | Controller | certification-course-controller', function() {
         sinon.assert.calledOnce(replyStub);
         sinon.assert.calledWith(replyStub, score);
       });
+    });
+  });
+
+  describe('#get', () => {
+    let sandbox;
+
+    const certificationId = 12;
+    const assessment = new Assessment({ id: 'assessment_id' });
+    const reply = sinon.stub();
+
+    let request;
+    const certificationSerialized = { id: certificationId, assessment: { id: 'assessment_id' } };
+
+    beforeEach(() => {
+      request = { params: { id: certificationId } };
+
+      sandbox = sinon.sandbox.create();
+
+      sandbox.stub(assessmentRepository, 'getByCertificationCourseId').resolves(assessment);
+      sandbox.stub(certificationCourseSerializer, 'serialize').returns(certificationSerialized);
+    });
+
+    afterEach(() => {
+      sandbox.restore();
+    });
+
+    it('should call assessmentRepository#getByCertificationCourseId with request param', () => {
+      // when
+      CertificationCourseController.get(request, reply);
+
+      // then
+      sinon.assert.calledOnce(assessmentRepository.getByCertificationCourseId);
+      sinon.assert.calledWithExactly(assessmentRepository.getByCertificationCourseId, certificationId);
+    });
+
+    it('should reply the certification course serialized', () => {
+      // when
+      CertificationCourseController.get(request, reply);
+
+      // then
+      sinon.assert.calledWithExactly(reply, certificationSerialized);
     });
   });
 });
