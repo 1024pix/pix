@@ -1,18 +1,22 @@
 const { describe, it, expect } = require('../../../../test-helper');
 const serializer = require('../../../../../lib/infrastructure/serializers/jsonapi/certification-course-serializer');
-const CertificationCourse = require('../../../../../lib/domain/models/data/certification-course');
+const CertificationCourse = require('../../../../../lib/domain/models/CertificationCourse');
 
 describe('Unit | Serializer | JSONAPI | certification-course-serializer', function() {
 
   describe('#serialize()', function() {
     const certificationCourse = new CertificationCourse({
-      id: 'certification_id'
+      id: 'certification_id',
+      userId : 2
     });
 
     const jsonCertificationCourse = {
       data: {
         type: 'certification-courses',
-        id: 'certification_id'
+        id: 'certification_id',
+        attributes : {
+          'user-id': '2'
+        }
       }
     };
 
