@@ -5,7 +5,10 @@ module.exports = {
   serialize(certificationCourse) {
 
     return new JSONAPISerializer('certification-courses', {
-      attributes : ['userId'],
+      attributes : ['userId', 'assessment'],
+      assessment: {
+        ref: 'id',
+      },
       transform(record) {
         record.userId = record.userId.toString();
         return record;
