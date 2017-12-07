@@ -8,12 +8,15 @@ const assessmentRepository = require('../../../lib/infrastructure/repositories/a
 const answersRepository = require('../../../lib/infrastructure/repositories/answer-repository');
 const certificationChallengesRepository = require('../../../lib/infrastructure/repositories/certification-challenge-repository');
 const certificationService = require('../../domain/services/certification-service');
+const certificationCourseSerializer = require('../../infrastructure/serializers/jsonapi/certification-course-serializer');
+const CertificationCourse = require('../../../lib/domain/models/CertificationCourse');
 
 module.exports = {
   save(request, reply) {
-    let certificationCourse;
     const userId = request.pre.userId;
-    return CertificationCourseRepository.save()
+    let certificationCourse = new CertificationCourse({ userId });
+
+    return CertificationCourseRepository.save(certificationCourse)
       .then((savedCertificationCourse) => {
         return certificationCourse = savedCertificationCourse;
       })
@@ -51,6 +54,18 @@ module.exports = {
         return certificationService.getScore(listAnswers, listCertificationChallenges, testedCompetences);
       })
       .then(reply)
+      .catch((err) => {
+        logger.error(err);
+        reply(Boom.badImplementation(err));
+      });
+  },
+
+  get(request, reply) {
+    const certificationCourseId = request.params.id;
+    return assessmentRepository.getByCertificationCourseId(certificationCourseId)
+      .then((assessment) => {
+        reply(certificationCourseSerializer.serialize({ id: certificationCourseId, assessment: assessment.toJSON(), userId: '' }));
+      })
       .catch((err) => {
         logger.error(err);
         reply(Boom.badImplementation(err));

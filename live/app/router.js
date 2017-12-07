@@ -57,6 +57,8 @@ Router.map(function() {
   this.route('password-reset-demand', { path: '/mot-de-passe-oublie' });
   this.route('not-found', { path: '/*path' });
   this.route('certification-course', { path: '/test-de-certification' });
+  this.route('certifications.resume', { path: '/test-de-certification/:certification_course_id' });
+
 });
 
 export default Router;

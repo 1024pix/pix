@@ -4,7 +4,7 @@ import { startApp, destroyApp } from '../helpers/application';
 import { authenticateAsSimpleUser } from '../helpers/testing';
 import defaultScenario from '../../mirage/scenarios/default';
 
-describe('Acceptance | Certification | Start Course', function() {
+describe.skip('Acceptance | Certification | Start Course', function() {
 
   let application;
 
@@ -49,6 +49,21 @@ describe('Acceptance | Certification | Start Course', function() {
 
         // then
         expect(currentURL()).to.equal('/certifications/certification-number/results');
+      });
+    });
+
+    context('When stop and relaunch the certification course', function() {
+      it('should be redirected on the second challenge of an assessment', async function() {
+        // given
+        await visit('/test-de-certification');
+        await click('.challenge-actions__action-skip-text');
+        await visit('/compte');
+
+        // when
+        await visit('/test-de-certification/certification-number');
+
+        // then
+        expect(currentURL()).to.match(/assessments\/\d+\/challenges\/2/);
       });
     });
   });

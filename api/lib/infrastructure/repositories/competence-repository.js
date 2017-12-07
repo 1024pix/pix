@@ -30,8 +30,7 @@ module.exports = {
       return Promise.resolve(cachedCompetence);
     }
 
-    return airtable
-      .getRecord(AIRTABLE_TABLE_NAME, recordId, serializer)
+    return airtable.getRecord(AIRTABLE_TABLE_NAME, recordId, serializer)
       .then((competence) => {
         cache.set(cacheKey, competence);
         return competence;

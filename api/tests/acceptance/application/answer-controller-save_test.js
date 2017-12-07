@@ -2,7 +2,7 @@ const { describe, it, before, after, beforeEach, afterEach, expect, knex, nock }
 const server = require('../../../server');
 const Answer = require('../../../lib/domain/models/data/answer');
 
-describe('Acceptance | Controller | answer-controller', function() {
+describe('Acceptance | Controller | answer-controller-save', function() {
   after((done) => {
     server.stop(done);
   });

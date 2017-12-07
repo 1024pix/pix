@@ -1,38 +1,18 @@
-const JSONAPISerializer = require('./jsonapi-serializer');
+const JSONAPISerializer = require('jsonapi-serializer').Serializer;
 
-class CourseSerializer extends JSONAPISerializer {
+module.exports = {
 
-  constructor() {
-    super('course');
-  }
-
-  serializeAttributes(model, data) {
-    data.attributes['name'] = model.name;
-    data.attributes['description'] = model.description;
-    data.attributes['duration'] = model.duration;
-    data.attributes['is-adaptive'] = model.isAdaptive;
-
-    if (model.imageUrl) {
-      data.attributes['image-url'] = model.imageUrl;
-    }
-  }
-
-  serializeRelationships(model, data) {
-    if (model.challenges) {
-      data.relationships = {
-        challenges: {
-          data: []
+  serialize(courses) {
+    return new JSONAPISerializer('course', {
+      attributes: ['name', 'description', 'duration', 'isAdaptive', 'nbChallenges', 'imageUrl'],
+      transform(record) {
+        const course = Object.assign({}, record);
+        if (record.challenges) {
+          course.nbChallenges = record.challenges.length;
         }
-      };
-      for (const  challengeId of model.challenges) {
-        data.relationships.challenges.data.push({
-          'type': 'challenges',
-          'id': challengeId
-        });
+        return course;
       }
-    }
+    }).serialize(courses);
   }
 
-}
-
-module.exports = new CourseSerializer();
+};

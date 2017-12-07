@@ -1,6 +1,6 @@
 {
   "name": "pix-api",
-  "version": "1.31.0",
+  "version": "1.32.0",
   "description": "Plateforme d'évaluation et de certification des compétences numériques à l'usage de tous les citoyens francophones",
   "main": "server.js",
   "author": "SGMAP",
@@ -36,6 +36,7 @@
     "moment": "^2.18.1",
     "node-cache": "^4.1.1",
     "node-mailjet": "^3.2.1",
+    "object-hash": "^1.2.0",
     "path": "^0.12.7",
     "pg": "^7.2.0",
     "prom-client": "^10.2.2",
