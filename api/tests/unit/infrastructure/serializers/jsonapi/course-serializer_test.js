@@ -42,6 +42,54 @@ describe('Unit | Serializer | JSONAPI | course-serializer', function() {
       });
     });
 
+    describe('field "nbChallenges"', () => {
+
+      it('should be length of challenges associated to the course where they exist', () => {
+        // given
+        const course = new Course();
+        course.id = 'course_id';
+        course.challenges = [
+          'rec_challenge_1',
+          'rec_challenge_2',
+          'rec_challenge_3',
+          'rec_challenge_4',
+          'rec_challenge_5'
+        ];
+
+        // when
+        const json = serializer.serialize(course);
+
+        // then
+        expect(json).to.deep.equal({
+          'data': {
+            'type': 'courses',
+            'id': course.id,
+            'attributes': {
+              'nb-challenges': 5
+            }
+          }
+        });
+      });
+
+      it('should be undefined when there is no challenges associated to the course', () => {
+        // given
+        const course = new Course();
+        course.id = 'course_id';
+        course.challenges = undefined;
+
+        // when
+        const json = serializer.serialize(course);
+
+        // then
+        expect(json).to.deep.equal({
+          'data': {
+            'type': 'courses',
+            'id': course.id
+          }
+        });
+      });
+    });
+
   });
 
 });
