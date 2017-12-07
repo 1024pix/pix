@@ -33,8 +33,7 @@ function _getCourses(viewName, cacheKey) {
 }
 
 function _fetchCourse(id, cacheKey, resolve, reject) {
-  airtable
-    .getRecord(AIRTABLE_TABLE_NAME, id, serializer)
+  airtable.getRecord(AIRTABLE_TABLE_NAME, id, serializer)
     .then(course => {
       cache.set(cacheKey, course);
       return resolve(course);

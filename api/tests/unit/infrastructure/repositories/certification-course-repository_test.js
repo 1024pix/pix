@@ -1,6 +1,7 @@
 const { expect, describe, beforeEach, afterEach, it, sinon } = require('../../../test-helper');
 const CertificationCourseRepository = require('../../../../lib/infrastructure/repositories/certification-course-repository');
-const CertificationCourse = require('../../../../lib/domain/models/data/certification-course');
+const CertificationCourseBookshelf = require('../../../../lib/domain/models/data/certification-course');
+const CertificationCourse = require('../../../../lib/domain/models/CertificationCourse');
 
 describe('Unit | Repository | Certification Course', function() {
 
@@ -9,29 +10,29 @@ describe('Unit | Repository | Certification Course', function() {
     let certificationCourse;
 
     beforeEach(() => {
-      certificationCourse = { id: 'certifId' };
-      const certificationCourseBookshelf = new CertificationCourse(certificationCourse);
-      sinon.stub(CertificationCourse.prototype, 'save').resolves(certificationCourseBookshelf);
+      certificationCourse = new CertificationCourse({ id: 'certifId', userId: 1 });
+      const certificationCourseBookshelf = new CertificationCourseBookshelf(certificationCourse);
+      sinon.stub(CertificationCourseBookshelf.prototype, 'save').resolves(certificationCourseBookshelf);
     });
 
     afterEach(() => {
-      CertificationCourse.prototype.save.restore();
+      CertificationCourseBookshelf.prototype.save.restore();
     });
 
     it('should save the certification-course', function() {
       // when
-      const promise = CertificationCourseRepository.save();
+      const promise = CertificationCourseRepository.save(certificationCourse);
 
       // then
       return promise.then(() => {
-        sinon.assert.calledOnce(CertificationCourse.prototype.save);
+        sinon.assert.calledOnce(CertificationCourseBookshelf.prototype.save);
       });
 
     });
 
     it('return the saved certification course in JSON ', function() {
       // when
-      const promise = CertificationCourseRepository.save();
+      const promise = CertificationCourseRepository.save(certificationCourse);
 
       // then
       return promise.then((savedCertification) => {

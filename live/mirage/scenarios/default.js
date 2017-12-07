@@ -60,11 +60,4 @@ export default function(server) {
 
   const snapshots = server.createList('snapshot', 3, { organization: company });
   company.snapshots = snapshots;
-
-  // certification course
-  const challenges = server.createList('challenge', 2);
-  server.create('course', {
-    id: '42',
-    challenges
-  });
 }

@@ -6,7 +6,7 @@ describe('Unit | Serializer | JSONAPI | course-serializer', function() {
 
   describe('#serialize()', function() {
 
-    it('should convert a Course model object (with challenges order inverted) into JSON API data (with challenges order in right order)', function() {
+    it('should convert a Course model object into JSON API data', function() {
       const course = new Course();
       course.id = 'course_id';
       course.name = 'Name of the course';
@@ -15,11 +15,11 @@ describe('Unit | Serializer | JSONAPI | course-serializer', function() {
       course.isAdaptive = false;
       course.imageUrl = 'http://image.url';
       course.challenges = [
-        'challenge_1',
-        'challenge_2',
-        'challenge_3',
-        'challenge_4',
-        'challenge_5'
+        'rec_challenge_1',
+        'rec_challenge_2',
+        'rec_challenge_3',
+        'rec_challenge_4',
+        'rec_challenge_5'
       ];
 
       // when
@@ -28,27 +28,65 @@ describe('Unit | Serializer | JSONAPI | course-serializer', function() {
       // then
       expect(json).to.deep.equal({
         'data': {
-          'type': 'course',
+          'type': 'courses',
           'id': course.id,
           'attributes': {
             'name': course.name,
             'is-adaptive': course.isAdaptive,
             'description': course.description,
             'duration': course.duration,
-            'image-url': 'http://image.url'
-          },
-          'relationships': {
-            'challenges': {
-              'data': [
-                { 'type': 'challenges', 'id': 'challenge_1' },
-                { 'type': 'challenges', 'id': 'challenge_2' },
-                { 'type': 'challenges', 'id': 'challenge_3' },
-                { 'type': 'challenges', 'id': 'challenge_4' },
-                { 'type': 'challenges', 'id': 'challenge_5' }
-              ]
-            }
+            'image-url': 'http://image.url',
+            'nb-challenges': 5
           }
         }
+      });
+    });
+
+    describe('field "nbChallenges"', () => {
+
+      it('should be length of challenges associated to the course where they exist', () => {
+        // given
+        const course = new Course();
+        course.id = 'course_id';
+        course.challenges = [
+          'rec_challenge_1',
+          'rec_challenge_2',
+          'rec_challenge_3',
+          'rec_challenge_4',
+          'rec_challenge_5'
+        ];
+
+        // when
+        const json = serializer.serialize(course);
+
+        // then
+        expect(json).to.deep.equal({
+          'data': {
+            'type': 'courses',
+            'id': course.id,
+            'attributes': {
+              'nb-challenges': 5
+            }
+          }
+        });
+      });
+
+      it('should be undefined when there is no challenges associated to the course', () => {
+        // given
+        const course = new Course();
+        course.id = 'course_id';
+        course.challenges = undefined;
+
+        // when
+        const json = serializer.serialize(course);
+
+        // then
+        expect(json).to.deep.equal({
+          'data': {
+            'type': 'courses',
+            'id': course.id
+          }
+        });
       });
     });
 

@@ -78,7 +78,7 @@ function getAssessmentNextChallengeId(assessment, currentChallengeId) {
   });
 }
 
-async function getScoredAssessment(assessmentId) {
+async function fetchAssessment(assessmentId) {
 
   let skills;
 
@@ -95,7 +95,7 @@ async function getScoredAssessment(assessmentId) {
   assessmentPix.set('pixScore', 0);
   assessmentPix.set('successRate', answerService.getAnswersSuccessRate(answers));
 
-  if (isPreviewAssessment(assessmentPix)) {
+  if (_isNonScoredAssessment(assessmentPix)) {
     return Promise.resolve({ assessmentPix, skills });
   }
 
@@ -132,6 +132,9 @@ async function getScoredAssessment(assessmentId) {
       return Promise.resolve({ assessmentPix, skills });
     });
 }
+function _isNonScoredAssessment(assessment) {
+  return isPreviewAssessment(assessment)  || isCertificationAssessment(assessment);
+}
 
 function isPreviewAssessment(assessment) {
   return _.startsWith(assessment.get('courseId'), 'null');
@@ -157,7 +160,7 @@ function getNextChallengeForCertificationCourse(assessment) {
 
 module.exports = {
   getAssessmentNextChallengeId,
-  getScoredAssessment,
+  fetchAssessment,
   isAssessmentCompleted,
   isPreviewAssessment,
   isCertificationAssessment,

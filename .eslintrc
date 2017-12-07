@@ -50,7 +50,7 @@ rules:
   "mocha/no-identical-title":
     - 2
   "mocha/no-skipped-tests":
-    - 2
+    - 1
 parserOptions:
   ecmaVersion: 8
   sourceType: script

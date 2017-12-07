@@ -1,6 +1,6 @@
 const { describe, it, before, afterEach, beforeEach, expect, sinon } = require('../../../test-helper');
 const Hapi = require('hapi');
-const Course = require('../../../../lib/domain/models/referential/course');
+const Course = require('../../../../lib/domain/models/Course');
 const courseRepository = require('../../../../lib/infrastructure/repositories/course-repository');
 const courseSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/course-serializer');
 const cache = require('../../../../lib/infrastructure/cache');
@@ -31,58 +31,55 @@ describe('Unit | Controller | course-controller', function() {
       new Course({ id: 'course_3' })
     ];
 
-    it('should fetch and return all the courses', function(done) {
+    it('should fetch and return all the courses', () => {
       // given
       sinon.stub(courseRepository, 'getProgressionCourses').resolves(courses);
-      sinon.stub(courseSerializer, 'serializeArray').callsFake(_ => courses);
+      sinon.stub(courseSerializer, 'serialize').callsFake(_ => courses);
 
       // when
-      server.inject({ method: 'GET', url: '/api/courses' }, (res) => {
+      return server.inject({ method: 'GET', url: '/api/courses' })
+        .then(res => {
+          // then
+          expect(res.result).to.deep.equal(courses);
 
-        // then
-        expect(res.result).to.deep.equal(courses);
-
-        // after
-        courseRepository.getProgressionCourses.restore();
-        courseSerializer.serializeArray.restore();
-        done();
-      });
+          // after
+          courseRepository.getProgressionCourses.restore();
+          courseSerializer.serialize.restore();
+        });
     });
 
-    it('should fetch and return all the adaptive courses', function(done) {
+    it('should fetch and return all the adaptive courses', () => {
       // given
       sinon.stub(courseRepository, 'getAdaptiveCourses').resolves(courses);
-      sinon.stub(courseSerializer, 'serializeArray').callsFake(_ => courses);
+      sinon.stub(courseSerializer, 'serialize').callsFake(_ => courses);
 
       // when
-      server.inject({ method: 'GET', url: '/api/courses?isAdaptive=true' }, (res) => {
+      return server.inject({ method: 'GET', url: '/api/courses?isAdaptive=true' })
+        .then(res => {
+          // then
+          expect(res.result).to.deep.equal(courses);
 
-        // then
-        expect(res.result).to.deep.equal(courses);
-
-        // after
-        courseRepository.getAdaptiveCourses.restore();
-        courseSerializer.serializeArray.restore();
-        done();
-      });
+          // after
+          courseRepository.getAdaptiveCourses.restore();
+          courseSerializer.serialize.restore();
+        });
     });
 
-    it('should fetch and return all the highlitghted courses of the week', function(done) {
+    it('should fetch and return all the highlitghted courses of the week', () => {
       // given
       sinon.stub(courseRepository, 'getCoursesOfTheWeek').resolves(courses);
-      sinon.stub(courseSerializer, 'serializeArray').callsFake(_ => courses);
+      sinon.stub(courseSerializer, 'serialize').callsFake(_ => courses);
 
       // when
-      server.inject({ method: 'GET', url: '/api/courses?isCourseOfTheWeek=true' }, (res) => {
+      return server.inject({ method: 'GET', url: '/api/courses?isCourseOfTheWeek=true' })
+        .then(res => {
+          // then
+          expect(res.result).to.deep.equal(courses);
 
-        // then
-        expect(res.result).to.deep.equal(courses);
-
-        // after
-        courseRepository.getCoursesOfTheWeek.restore();
-        courseSerializer.serializeArray.restore();
-        done();
-      });
+          // after
+          courseRepository.getCoursesOfTheWeek.restore();
+          courseSerializer.serialize.restore();
+        });
     });
   });
 
@@ -90,25 +87,24 @@ describe('Unit | Controller | course-controller', function() {
 
     const course = new Course({ 'id': 'course_id' });
 
-    it('should fetch and return the given course, serialized as JSONAPI', function(done) {
+    it('should fetch and return the given course, serialized as JSONAPI', () => {
       // given
       sinon.stub(courseRepository, 'get').resolves(course);
       sinon.stub(courseSerializer, 'serialize').callsFake(_ => course);
 
       // when
-      server.inject({ method: 'GET', url: '/api/courses/course_id' }, (res) => {
+      return server.inject({ method: 'GET', url: '/api/courses/course_id' })
+        .then(res => {
+          // then
+          expect(res.result).to.deep.equal(course);
 
-        // then
-        expect(res.result).to.deep.equal(course);
-
-        // after
-        courseRepository.get.restore();
-        courseSerializer.serialize.restore();
-        done();
-      });
+          // after
+          courseRepository.get.restore();
+          courseSerializer.serialize.restore();
+        });
     });
 
-    it('should reply with error status code 404 if course not found', function(done) {
+    it('should reply with error status code 404 if course not found', () => {
       // given
       const error = {
         error: {
@@ -119,15 +115,14 @@ describe('Unit | Controller | course-controller', function() {
       sinon.stub(courseRepository, 'get').rejects(error);
 
       // when
-      server.inject({ method: 'GET', url: '/api/courses/unknown_id' }, (res) => {
+      return server.inject({ method: 'GET', url: '/api/courses/unknown_id' })
+        .then(res => {
+          // then
+          expect(res.statusCode).to.equal(404);
 
-        // then
-        expect(res.statusCode).to.equal(404);
-
-        // after
-        courseRepository.get.restore();
-        done();
-      });
+          // after
+          courseRepository.get.restore();
+        });
     });
   });
 
@@ -141,34 +136,30 @@ describe('Unit | Controller | course-controller', function() {
       courseRepository.refreshAll.restore();
     });
 
-    it('should return "Courses updated" when the refresh is successful', function(done) {
+    it('should return "Courses updated" when the refresh is successful', () => {
       // given
       courseRepository.refreshAll.resolves(true);
-
       // when
-      server.inject({ method: 'PUT', url: '/api/courses' }, (res) => {
-
-        // then
-        expect(res.statusCode).to.equal(200);
-        expect(res.result).to.equal('Courses updated');
-
-        // after
-        done();
-      });
+      return server.inject({ method: 'PUT', url: '/api/courses' })
+        .then(res => {
+          // then
+          expect(res.statusCode).to.equal(200);
+          expect(res.result).to.equal('Courses updated');
+        });
     });
 
-    it('should return an internal error when the refresh is failing', function(done) {
+    it('should return an internal error when the refresh is failing', () => {
       // given
       const error = 'An internal server error occurred';
       courseRepository.refreshAll.rejects(error);
 
       // when
-      server.inject({ method: 'PUT', url: '/api/courses' }, (res) => {
-        // then
-        expect(res.statusCode).to.equal(500);
-        expect(res.result.message).to.equal(error);
-        done();
-      });
+      return server.inject({ method: 'PUT', url: '/api/courses' })
+        .then(res => {
+          // then
+          expect(res.statusCode).to.equal(500);
+          expect(res.result.message).to.equal(error);
+        });
     });
   });
 });
