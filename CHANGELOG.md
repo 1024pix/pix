@@ -1,5 +1,10 @@
 # Pix Changelog
 
+
+## 1.32.1 (08/12/2017)
+
+- [#623](https://github.com/sgmap/pix/pulls/623) [TECH] Renommage de la route de certification (US-1003).
+
 ## 1.32.0 (07/12/2017)
 
 - [#612](https://github.com/sgmap/pix/pulls/612) [BUGFIX] Réparation du lancement des tests de positionnement (US-1002). 
