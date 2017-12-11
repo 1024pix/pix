@@ -16,5 +16,6 @@ module.exports = [
   require('./application/snapshots'),
   require('./application/users'),
   require('./application/passwords'),
-  require('./application/qmail')
+  require('./application/qmail'),
+  require('./application/sessions')
 ];
