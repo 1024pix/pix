@@ -1,5 +1,6 @@
 const certificationCourseController = require('./certification-course-controller');
 const connectedUserVerification = require('../../application/preHandlers/connected-user-verification');
+const accessSessionHandler = require('../../application/preHandlers/access-session');
 
 exports.register = function(server, options, next) {
 
@@ -11,6 +12,10 @@ exports.register = function(server, options, next) {
         pre: [{
           method: connectedUserVerification.verifyByToken,
           assign: 'userId'
+        },
+        {
+          method: accessSessionHandler.sessionIsOpened,
+          assign: 'sessionOpened'
         }],
         handler: certificationCourseController.save,
         tags: ['api']

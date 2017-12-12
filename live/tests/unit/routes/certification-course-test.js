@@ -42,7 +42,7 @@ describe('Unit | Route | certification test', function() {
 
     it('should verify if the user is logged', function() {
       // when
-      const promise = route.model();
+      const promise = route.model({ code: '123456' });
 
       // then
       return promise.then(function() {
@@ -55,18 +55,19 @@ describe('Unit | Route | certification test', function() {
 
       it('should generate certification test', function() {
         // when
-        const promise = route.model();
+        const promise = route.model({ code: '123456' });
 
         // then
         return promise.then(function() {
           sinon.assert.called(createRecordStub);
-          sinon.assert.calledWith(createRecordStub, 'certification-course');
+          sinon.assert.calledWithExactly(createRecordStub, 'certification-course', { sessionCode: '123456' });
         });
 
       });
+
       it('should save certification test', function() {
         // when
-        const promise = route.model();
+        const promise = route.model({ code: '123456' });
 
         // then
         return promise.then(function() {
