@@ -22,9 +22,9 @@ exports.register = function(server, options, next) {
       }
     }, {
       method: 'GET',
-      path: '/api/certification-courses/{id}/score',
+      path: '/api/certification-courses/{id}/result',
       config: {
-        handler: certificationCourseController.getScore,
+        handler: certificationCourseController.getResult,
         tags: ['api']
       }
     } , {

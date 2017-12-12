@@ -12,161 +12,285 @@ function _buildCertificationChallenge(challengeId, competenceId) {
   return new CertificationChallenge({ challengeId, competenceId });
 }
 
-function _buildCompetence(courseId, pixScore) {
+function _buildCompetence(name, index, courseId, pixScore, estimatedLevel) {
   const competence = new Competence();
   competence.id = courseId;
   competence.pixScore = pixScore;
+  competence.estimatedLevel = estimatedLevel;
+  competence.name = name;
+  competence.index = index;
   return competence;
 }
 
-const listChallenges = [
-  _buildCertificationChallenge('challenge_1','comp_1'),
-  _buildCertificationChallenge('challenge_2','comp_1'),
-  _buildCertificationChallenge('challenge_3','comp_1'),
-  _buildCertificationChallenge('challenge_4','comp_2'),
-  _buildCertificationChallenge('challenge_5','comp_2'),
-  _buildCertificationChallenge('challenge_6','comp_2'),
-  _buildCertificationChallenge('challenge_7','comp_3'),
-  _buildCertificationChallenge('challenge_8','comp_3'),
-  _buildCertificationChallenge('challenge_9','comp_3'),
-  _buildCertificationChallenge('challenge_10','comp_4'),
-  _buildCertificationChallenge('challenge_11','comp_4'),
-  _buildCertificationChallenge('challenge_12','comp_4'),
+const challenges = [
+  _buildCertificationChallenge('challenge_A_for_competence_1','competence_1'),
+  _buildCertificationChallenge('challenge_B_for_competence_1','competence_1'),
+  _buildCertificationChallenge('challenge_C_for_competence_1','competence_1'),
+  _buildCertificationChallenge('challenge_D_for_competence_2','competence_2'),
+  _buildCertificationChallenge('challenge_E_for_competence_2','competence_2'),
+  _buildCertificationChallenge('challenge_F_for_competence_2','competence_2'),
+  _buildCertificationChallenge('challenge_G_for_competence_3','competence_3'),
+  _buildCertificationChallenge('challenge_H_for_competence_3','competence_3'),
+  _buildCertificationChallenge('challenge_I_for_competence_3','competence_3'),
+  _buildCertificationChallenge('challenge_J_for_competence_4','competence_4'),
+  _buildCertificationChallenge('challenge_K_for_competence_4','competence_4'),
+  _buildCertificationChallenge('challenge_L_for_competence_4','competence_4'),
 ];
 
-function _listAnswersAllCorrectAnswers() {
+function _buildCorrectAnswersForAllChallenges() {
   return [
-    _buildAnswer('challenge_1','ok'),
-    _buildAnswer('challenge_2','ok'),
-    _buildAnswer('challenge_3','ok'),
-    _buildAnswer('challenge_4','ok'),
-    _buildAnswer('challenge_5','ok'),
-    _buildAnswer('challenge_6','ok'),
-    _buildAnswer('challenge_7','ok'),
-    _buildAnswer('challenge_8','ok'),
-    _buildAnswer('challenge_9','ok'),
-    _buildAnswer('challenge_10','ok'),
-    _buildAnswer('challenge_11','ok'),
-    _buildAnswer('challenge_12','ok'),
+    _buildAnswer('challenge_A_for_competence_1','ok'),
+    _buildAnswer('challenge_B_for_competence_1','ok'),
+    _buildAnswer('challenge_C_for_competence_1','ok'),
+    _buildAnswer('challenge_D_for_competence_2','ok'),
+    _buildAnswer('challenge_E_for_competence_2','ok'),
+    _buildAnswer('challenge_F_for_competence_2','ok'),
+    _buildAnswer('challenge_G_for_competence_3','ok'),
+    _buildAnswer('challenge_H_for_competence_3','ok'),
+    _buildAnswer('challenge_I_for_competence_3','ok'),
+    _buildAnswer('challenge_J_for_competence_4','ok'),
+    _buildAnswer('challenge_K_for_competence_4','ok'),
+    _buildAnswer('challenge_L_for_competence_4','ok'),
   ];
 }
 
-function _listAnswersAllFalseAnswers() {
+function _buildWrongAnswersForAllChallenges() {
   return [
-    _buildAnswer('challenge_1','ko'),
-    _buildAnswer('challenge_2','ko'),
-    _buildAnswer('challenge_3','ko'),
-    _buildAnswer('challenge_4','ko'),
-    _buildAnswer('challenge_5','ko'),
-    _buildAnswer('challenge_6','ko'),
-    _buildAnswer('challenge_7','ko'),
-    _buildAnswer('challenge_8','ko'),
-    _buildAnswer('challenge_9','ko'),
-    _buildAnswer('challenge_10','ko'),
-    _buildAnswer('challenge_11','ko'),
-    _buildAnswer('challenge_12','ko'),
+    _buildAnswer('challenge_A_for_competence_1','ko'),
+    _buildAnswer('challenge_B_for_competence_1','ko'),
+    _buildAnswer('challenge_C_for_competence_1','ko'),
+    _buildAnswer('challenge_D_for_competence_2','ko'),
+    _buildAnswer('challenge_E_for_competence_2','ko'),
+    _buildAnswer('challenge_F_for_competence_2','ko'),
+    _buildAnswer('challenge_G_for_competence_3','ko'),
+    _buildAnswer('challenge_H_for_competence_3','ko'),
+    _buildAnswer('challenge_I_for_competence_3','ko'),
+    _buildAnswer('challenge_J_for_competence_4','ko'),
+    _buildAnswer('challenge_K_for_competence_4','ko'),
+    _buildAnswer('challenge_L_for_competence_4','ko'),
   ];
 }
 
-function _listAnswersLastCompetenceFailed() {
+function _buildAnswersToHaveOnlyTheLastCompetenceFailed() {
   return [
-    _buildAnswer('challenge_1','ok'),
-    _buildAnswer('challenge_2','ok'),
-    _buildAnswer('challenge_3','ok'),
-    _buildAnswer('challenge_4','ok'),
-    _buildAnswer('challenge_5','ok'),
-    _buildAnswer('challenge_6','ok'),
-    _buildAnswer('challenge_7','ok'),
-    _buildAnswer('challenge_8','ok'),
-    _buildAnswer('challenge_9','ok'),
-
-    _buildAnswer('challenge_10','ko'),
-    _buildAnswer('challenge_11','ko'),
-    _buildAnswer('challenge_12','ko'),
+    _buildAnswer('challenge_A_for_competence_1','ok'),
+    _buildAnswer('challenge_B_for_competence_1','ok'),
+    _buildAnswer('challenge_C_for_competence_1','ok'),
+    _buildAnswer('challenge_D_for_competence_2','ok'),
+    _buildAnswer('challenge_E_for_competence_2','ok'),
+    _buildAnswer('challenge_F_for_competence_2','ok'),
+    _buildAnswer('challenge_G_for_competence_3','ok'),
+    _buildAnswer('challenge_H_for_competence_3','ok'),
+    _buildAnswer('challenge_I_for_competence_3','ok'),
+    _buildAnswer('challenge_J_for_competence_4','ko'),
+    _buildAnswer('challenge_K_for_competence_4','ko'),
+    _buildAnswer('challenge_L_for_competence_4','ko'),
   ];
 }
 
-function _listAnswersThirdCompetenceFailedAndReproductibilityLessThan80() {
+function _buildAnswersToHaveAThirdOfTheCompetencesFailedAndReproductibilityRateLessThan80() {
   return [
-    _buildAnswer('challenge_1','ok'),
-    _buildAnswer('challenge_2','ko'),
-    _buildAnswer('challenge_3','ok'),
-    _buildAnswer('challenge_4','ok'),
-    _buildAnswer('challenge_5','ok'),
-    _buildAnswer('challenge_6','ok'),
-    _buildAnswer('challenge_7','ok'),
-    _buildAnswer('challenge_8','ko'),
-    _buildAnswer('challenge_9','ko'),
-    _buildAnswer('challenge_10','ok'),
-    _buildAnswer('challenge_11','ko'),
-    _buildAnswer('challenge_12','ok'),
+    _buildAnswer('challenge_A_for_competence_1','ok'),
+    _buildAnswer('challenge_B_for_competence_1','ko'),
+    _buildAnswer('challenge_C_for_competence_1','ok'),
+    _buildAnswer('challenge_D_for_competence_2','ok'),
+    _buildAnswer('challenge_E_for_competence_2','ok'),
+    _buildAnswer('challenge_F_for_competence_2','ok'),
+    _buildAnswer('challenge_G_for_competence_3','ok'),
+    _buildAnswer('challenge_H_for_competence_3','ko'),
+    _buildAnswer('challenge_I_for_competence_3','ko'),
+    _buildAnswer('challenge_J_for_competence_4','ok'),
+    _buildAnswer('challenge_K_for_competence_4','ko'),
+    _buildAnswer('challenge_L_for_competence_4','ok'),
   ];
 }
+
+const pixForCompetence1 = 10;
+const pixForCompetence2 = 20;
+const pixForCompetence3 = 30;
+const pixForCompetence4 = 40;
+const totalPix = pixForCompetence1 + pixForCompetence2 + pixForCompetence3 + pixForCompetence4;
+
+const competences = [
+  _buildCompetence('Mener une recherche', '1.1', 'competence_1', pixForCompetence1, 1),
+  _buildCompetence('Partager','2.2', 'competence_2', pixForCompetence2, 2),
+  _buildCompetence('Adapter','3.3', 'competence_3', pixForCompetence3, 3),
+  _buildCompetence('Résoudre','4.4', 'competence_4', pixForCompetence4, 4),
+];
+
 describe('Unit | Service | Certification Service', function() {
 
-  describe('#getScore', () => {
+  describe('#getResult', () => {
+    context('when reproductibility rate is < 50%', () => {
 
-    const pixComp1 = 10;
-    const pixComp2 = 30;
-    const pixComp3 = 40;
-    const pixComp4 = 20;
-    const totalPix = pixComp1 + pixComp2 + pixComp3 + pixComp4;
-
-    const listAssessments = [
-      _buildCompetence('comp_1', pixComp1),
-      _buildCompetence('comp_2', pixComp2),
-      _buildCompetence('comp_3', pixComp3),
-      _buildCompetence('comp_4', pixComp4),
-    ];
-
-    it('should return 0 when reproductibility is < 50%', () => {
-      // given
-      const listAnswers = _listAnswersAllFalseAnswers();
-
-      // when
-      const score = certificationService.getScore(listAnswers, listChallenges, listAssessments);
-
-      // then
-      expect(score).to.be.equal(0);
-    });
-
-    context('when reproductibility is between 80% and 100%', () => {
-      it('should return all pix when reproductibility is at 100%', () => {
+      it('should return totalScore = 0', () => {
         // given
-        const listAnswers = _listAnswersAllCorrectAnswers();
+        const answers = _buildWrongAnswersForAllChallenges();
 
         // when
-        const score = certificationService.getScore(listAnswers, listChallenges, listAssessments);
+        const result = certificationService.getResult(answers, challenges, competences);
 
         // then
-        expect(score).to.be.equal(totalPix);
+        expect(result.totalScore).to.equal(0);
       });
-
-      it('should return (all pix - one competence pix) when one competence is totally false', () => {
+      it('should return list of competences with all certifiedLevel at -1', () => {
         // given
-        const listAnswers = _listAnswersLastCompetenceFailed();
+        const answers = _buildWrongAnswersForAllChallenges();
+        const expectedCertifiedCompetences = [{
+          index: '1.1',
+          id: 'competence_1',
+          name: 'Mener une recherche',
+          level: -1
+        }, {
+          index: '2.2',
+          id: 'competence_2',
+          name: 'Partager',
+          level: -1
+        }, {
+          index: '3.3',
+          id: 'competence_3',
+          name: 'Adapter',
+          level: -1
+        }, {
+          index: '4.4',
+          id: 'competence_4',
+          name: 'Résoudre',
+          level: -1 } ];
 
         // when
-        const score = certificationService.getScore(listAnswers, listChallenges, listAssessments);
+        const result = certificationService.getResult(answers, challenges, competences);
 
         // then
-        expect(score).to.be.equal(totalPix - pixComp4);
+        expect(result.listCertifiedCompetences).to.deep.equal(expectedCertifiedCompetences);
       });
 
     });
-
-    context('when reproductibility is between 50% and 80%', () => {
-      it('should return all pix minus 8 for one competence with 1 error and minus all pix for others false competences', () => {
+    context('when reproductibility rate is between 80% and 100%', () => {
+      it('should return totalScore = all pix', () => {
         // given
-        const listAnswers = _listAnswersThirdCompetenceFailedAndReproductibilityLessThan80();
+        const answers = _buildCorrectAnswersForAllChallenges();
+
+        // when
+        const result = certificationService.getResult(answers, challenges, competences);
+
+        // then
+        expect(result.totalScore).to.equal(totalPix);
+      });
+
+      it('should return list of competences with all certifiedLevel equal to estimatedLevel', () => {
+        // given
+        const answers = _buildCorrectAnswersForAllChallenges();
+        const expectedCertifiedCompetences = [{
+          index: '1.1',
+          id: 'competence_1',
+          name: 'Mener une recherche',
+          level: 1
+        }, {
+          index: '2.2',
+          id: 'competence_2',
+          name: 'Partager',
+          level: 2
+        }, {
+          index: '3.3',
+          id: 'competence_3',
+          name: 'Adapter',
+          level: 3
+        }, {
+          index: '4.4',
+          id: 'competence_4',
+          name: 'Résoudre',
+          level: 4 } ];
+
+        // when
+        const result = certificationService.getResult(answers, challenges, competences);
+
+        // then
+        expect(result.listCertifiedCompetences).to.deep.equal(expectedCertifiedCompetences);
+      });
+      it('should return totalScore = (all pix - one competence pix) when one competence is totally false', () => {
+        // given
+        const answers = _buildAnswersToHaveOnlyTheLastCompetenceFailed();
+
+        // when
+        const result = certificationService.getResult(answers, challenges, competences);
+
+        // then
+        expect(result.totalScore).to.equal(totalPix - pixForCompetence4);
+      });
+      it('should return list of competences with certifiedLevel = estimatedLevel except for failed competence', () => {
+        // given
+        const answers = _buildAnswersToHaveOnlyTheLastCompetenceFailed();
+        const expectedCertifiedCompetences = [{
+          index: '1.1',
+          id: 'competence_1',
+          name: 'Mener une recherche',
+          level: 1
+        }, {
+          index: '2.2',
+          id: 'competence_2',
+          name: 'Partager',
+          level: 2
+        }, {
+          index: '3.3',
+          id: 'competence_3',
+          name: 'Adapter',
+          level: 3
+        }, {
+          index: '4.4',
+          id: 'competence_4',
+          name: 'Résoudre',
+          level: -1 } ];
+
+        // when
+        const result = certificationService.getResult(answers, challenges, competences);
+
+        // then
+        expect(result.listCertifiedCompetences).to.deep.equal(expectedCertifiedCompetences);
+      });
+    });
+
+    context('when reproductibility rate is between 50% and 80%', () => {
+      it('should return totalScore = all pix minus 8 for one competence with 1 error and minus all pix for others false competences', () => {
+        // given
+        const answers = _buildAnswersToHaveAThirdOfTheCompetencesFailedAndReproductibilityRateLessThan80();
         const malusForFalseAnswer = 8;
-        const expectedScore = totalPix - pixComp3 - 2*malusForFalseAnswer;
+        const expectedScore = totalPix - pixForCompetence3 - 2*malusForFalseAnswer;
 
         // when
-        const score = certificationService.getScore(listAnswers, listChallenges, listAssessments);
+        const result = certificationService.getResult(answers, challenges, competences);
 
         // then
-        expect(score).to.be.equal(expectedScore);
+        expect(result.totalScore).to.equal(expectedScore);
+      });
+      it('should return list of competences with certifiedLevel less or equal to estimatedLevel', () => {
+        // given
+        const answers = _buildAnswersToHaveAThirdOfTheCompetencesFailedAndReproductibilityRateLessThan80();
+        const expectedCertifiedCompetences = [{
+          index: '1.1',
+          id: 'competence_1',
+          name: 'Mener une recherche',
+          level: 0
+        }, {
+          index: '2.2',
+          id: 'competence_2',
+          name: 'Partager',
+          level: 2
+        }, {
+          index: '3.3',
+          id: 'competence_3',
+          name: 'Adapter',
+          level: -1
+        }, {
+          index: '4.4',
+          id: 'competence_4',
+          name: 'Résoudre',
+          level: 3 } ];
+
+        // when
+        const result = certificationService.getResult(answers, challenges, competences);
+
+        // then
+        expect(result.listCertifiedCompetences).to.deep.equal(expectedCertifiedCompetences);
       });
 
     });
