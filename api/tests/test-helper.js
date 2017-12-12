@@ -20,6 +20,7 @@ nock.disableNetConnect();
 
 module.exports = {
   describe,
+  context:describe,
   it,
   before,
   after,
