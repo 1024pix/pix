@@ -1,6 +1,11 @@
 # Pix Changelog
 
 
+## 1.33.0 (12/12/2017)
+
+- [#626](https://github.com/sgmap/pix/pulls/626) [FEATURE] Sécurisation de la création de session de certification (US-1004).
+- [#624](https://github.com/sgmap/pix/pulls/624) [FEATURE] Génération d'un code de session unique (US-1005).
+
 ## 1.32.1 (08/12/2017)
 
 - [#623](https://github.com/sgmap/pix/pulls/623) [TECH] Renommage de la route de certification (US-1003).
