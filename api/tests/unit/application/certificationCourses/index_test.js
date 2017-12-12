@@ -1,28 +1,30 @@
-const { describe, it, after, before, beforeEach, expect, sinon } = require('../../../test-helper');
+const { expect, sinon } = require('../../../test-helper');
 const Hapi = require('hapi');
 const certificationCourseController = require('../../../../lib/application/certificationCourses/certification-course-controller');
 const connectedUserVerification = require('../../../../lib/application/preHandlers/connected-user-verification');
+const accessSessionHandler = require('../../../../lib/application/preHandlers/access-session');
 
 describe('Unit | Router | certification-course-router', function() {
 
   let server;
+  let sandbox;
 
-  beforeEach(function() {
-    server = this.server = new Hapi.Server();
-    server.connection({ port: null });
-    server.register({ register: require('../../../../lib/application/certificationCourses') });
+  beforeEach(() => {
+    sandbox = sinon.sandbox.create();
+
+    sandbox.stub(connectedUserVerification, 'verifyByToken').callsFake((request, reply) => reply('decodedToken'));
+    sandbox.stub(accessSessionHandler, 'sessionIsOpened').callsFake((request, reply) => reply('decodedToken'));
+    sandbox.stub(certificationCourseController, 'save').callsFake((request, reply) => reply('ok'));
   });
+
+  afterEach(() => sandbox.restore());
 
   describe('POST /api/certification-course', function() {
 
-    before(function() {
-      sinon.stub(connectedUserVerification, 'verifyByToken').callsFake((request, reply) => reply('decodedToken'));
-      sinon.stub(certificationCourseController, 'save').callsFake((request, reply) => reply('ok'));
-    });
-
-    after(function() {
-      connectedUserVerification.verifyByToken.restore();
-      certificationCourseController.save.restore();
+    beforeEach(function() {
+      server = this.server = new Hapi.Server();
+      server.connection({ port: null });
+      server.register({ register: require('../../../../lib/application/certificationCourses') });
     });
 
     it('should exist', function(done) {
@@ -34,10 +36,10 @@ describe('Unit | Router | certification-course-router', function() {
 
     it('should call pre-handler', (done) => {
       return server.inject({ method: 'POST', url: '/api/certification-courses' }, () => {
-        sinon.assert.called(connectedUserVerification.verifyByToken);
+        expect(connectedUserVerification.verifyByToken).to.have.been.called;
+        expect(accessSessionHandler.sessionIsOpened).to.have.been.called;
         done();
       });
     });
   });
-
 });
