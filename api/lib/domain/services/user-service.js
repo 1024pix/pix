@@ -62,8 +62,10 @@ function _addCourseIdAndPixToCompetence(competences, courses, assessments) {
 
     if (assessment) {
       competence.pixScore = assessment.get('pixScore');
+      competence.estimatedLevel = assessment.get('estimatedLevel');
     } else {
       competence.pixScore = 0;
+      competence.estimatedLevel = 0;
     }
   });
 

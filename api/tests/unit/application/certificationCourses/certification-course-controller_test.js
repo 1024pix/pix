@@ -96,7 +96,7 @@ describe('Unit | Controller | certification-course-controller', function() {
     });
 
   });
-  describe('#getScore', () => {
+  describe('#getResult', () => {
     const answersByAssessments = [{ challenge: 'challenge1', result: 'ok' }];
     const challengesByCertificationId = [{ challenge: 'challenge1', courseId: '2' }];
     const listOfCompetences = [{
@@ -120,7 +120,7 @@ describe('Unit | Controller | certification-course-controller', function() {
       sandbox.stub(answersRepository, 'findByAssessment').resolves(answersByAssessments);
       sandbox.stub(certificationChallengesRepository, 'findByCertificationCourseId').resolves(challengesByCertificationId);
       sandbox.stub(UserService, 'getProfileToCertify').resolves(listOfCompetences);
-      sandbox.stub(certificationService, 'getScore').resolves(score);
+      sandbox.stub(certificationService, 'getResult').resolves(score);
 
     });
 
@@ -130,7 +130,7 @@ describe('Unit | Controller | certification-course-controller', function() {
 
     it('should call Assessment Repository to get Assessment by CertificationCourseId', function() {
       // when
-      const promise = CertificationCourseController.getScore(request, replyStub);
+      const promise = CertificationCourseController.getResult(request, replyStub);
 
       // then
       return promise.then(() => {
@@ -141,7 +141,7 @@ describe('Unit | Controller | certification-course-controller', function() {
 
     it('should call Answers Repository to get Answers of certification', function() {
       // when
-      const promise = CertificationCourseController.getScore(request, replyStub);
+      const promise = CertificationCourseController.getResult(request, replyStub);
 
       // then
       return promise.then(() => {
@@ -152,7 +152,7 @@ describe('Unit | Controller | certification-course-controller', function() {
 
     it('should call Certification Challenges Repository to find challenges by certification id', function() {
       // when
-      const promise = CertificationCourseController.getScore(request, replyStub);
+      const promise = CertificationCourseController.getResult(request, replyStub);
 
       // then
       return promise.then(() => {
@@ -163,7 +163,7 @@ describe('Unit | Controller | certification-course-controller', function() {
 
     it('should call User Service to get ProfileToCertify', function() {
       // when
-      const promise = CertificationCourseController.getScore(request, replyStub);
+      const promise = CertificationCourseController.getResult(request, replyStub);
 
       // then
       return promise.then(() => {
@@ -174,19 +174,19 @@ describe('Unit | Controller | certification-course-controller', function() {
 
     it('should call certification Service to compute score', function() {
       // when
-      const promise = CertificationCourseController.getScore(request, replyStub);
+      const promise = CertificationCourseController.getResult(request, replyStub);
 
       // then
       return promise.then(() => {
-        sinon.assert.calledOnce(certificationService.getScore);
-        sinon.assert.calledWith(certificationService.getScore, answersByAssessments, challengesByCertificationId, listOfCompetences);
+        sinon.assert.calledOnce(certificationService.getResult);
+        sinon.assert.calledWith(certificationService.getResult, answersByAssessments, challengesByCertificationId, listOfCompetences);
       });
     });
 
     it('should reply the score', function() {
 
       // when
-      const promise = CertificationCourseController.getScore(request, replyStub);
+      const promise = CertificationCourseController.getResult(request, replyStub);
 
       // then
       return promise.then(() => {
