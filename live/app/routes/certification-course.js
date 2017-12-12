@@ -5,11 +5,10 @@ export default Route.extend({
 
   session: service('session'),
 
-  model() {
-
+  model(params) {
     return this.get('store').findRecord('user', this.get('session.data.authenticated.userId'), { reload: true })
       .then(() => {
-        return this.get('store').createRecord('certification-course', {}).save();
+        return this.get('store').createRecord('certification-course', { sessionCode: params.code }).save();
       });
   },
 
