@@ -9,10 +9,10 @@ module.exports = {
         ref: 'id',
         attributes: ['firstName', 'lastName']
       },
-      transform(snapshot) {
-        snapshot.id = snapshot.id.toString();
-        snapshot.completionPercentage = snapshot.completionPercentage && snapshot.completionPercentage.toString() || null;
-        snapshot.score = snapshot.score && snapshot.score.toString() || null;
+      transform(json) {
+        const snapshot = Object.assign({}, json);
+        snapshot.completionPercentage = json.completionPercentage && json.completionPercentage.toString() || null;
+        snapshot.score = json.score && json.score.toString() || null;
         return snapshot;
       }
     }).serialize(snapshots);

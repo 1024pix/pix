@@ -106,7 +106,7 @@ describe('Acceptance | Controller | answer-controller-save', function() {
               expect(model.get('assessmentId')).to.equal(options.payload.data.relationships.assessment.data.id);
               expect(model.get('challengeId')).to.equal(options.payload.data.relationships.challenge.data.id);
 
-              expect(answer.id).to.equal(model.id);
+              expect(answer.id).to.equal(model.id.toString());
               expect(answer.id).to.equal(response.result.data.id);
               expect(answer.attributes.value).to.equal(model.get('value'));
               expect(answer.attributes.result).to.equal(model.get('result'));

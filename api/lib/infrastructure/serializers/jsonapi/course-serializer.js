@@ -1,9 +1,9 @@
-const JSONAPISerializer = require('jsonapi-serializer').Serializer;
+const { Serializer } = require('jsonapi-serializer');
 
 module.exports = {
 
   serialize(courses) {
-    return new JSONAPISerializer('course', {
+    return new Serializer('course', {
       attributes: ['name', 'description', 'duration', 'isAdaptive', 'nbChallenges', 'imageUrl'],
       transform(record) {
         const course = Object.assign({}, record);

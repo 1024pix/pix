@@ -1,14 +1,11 @@
-const JSONAPISerializer = require('./jsonapi-serializer');
+const { Serializer } = require('jsonapi-serializer');
 
-class SolutionSerializer extends JSONAPISerializer {
+module.exports = {
 
-  constructor() {
-    super('solutions');
+  serialize(solutions) {
+    return new Serializer('solutions', {
+      attributes: ['value']
+    }).serialize(solutions);
   }
 
-  serializeAttributes(model, data) {
-    data.attributes['value'] = model.value;
-  }
-}
-
-module.exports = new SolutionSerializer();
+};

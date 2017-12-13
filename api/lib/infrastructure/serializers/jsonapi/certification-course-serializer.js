@@ -1,10 +1,10 @@
-const JSONAPISerializer = require('jsonapi-serializer').Serializer;
+const { Serializer } = require('jsonapi-serializer');
 
 module.exports = {
 
   serialize(certificationCourse) {
 
-    return new JSONAPISerializer('certification-courses', {
+    return new Serializer('certification-courses', {
       attributes : ['userId', 'assessment'],
       assessment: {
         ref: 'id',

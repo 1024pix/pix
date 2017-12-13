@@ -7,7 +7,7 @@ describe('Unit | Serializer | JSONAPI | challenge-serializer', function() {
   describe('#serialize()', function() {
 
     it('should convert a Challenge model object into JSON API data', function() {
-
+      // given
       const challenge = new Challenge();
       challenge.id = 'challenge_id';
       challenge.instruction = 'Que peut-on dire des œufs de catégorie A ?';
@@ -29,7 +29,7 @@ describe('Unit | Serializer | JSONAPI | challenge-serializer', function() {
       // then
       expect(json).to.deep.equal({
         data: {
-          type: 'challenge',
+          type: 'challenges',
           id: challenge.id,
           attributes: {
             instruction: challenge.instruction,
@@ -47,6 +47,51 @@ describe('Unit | Serializer | JSONAPI | challenge-serializer', function() {
           }
         }
       });
+    });
+
+    describe('field "competence"', () => {
+
+      it('should be the the first associated to the challenge when it exists', () => {
+        // given
+        const challenge = new Challenge();
+        challenge.id = 1;
+        challenge.competence = ['competence_id'];
+
+        // when
+        const json = serializer.serialize(challenge);
+
+        // then
+        expect(json).to.deep.equal({
+          data: {
+            type: 'challenges',
+            id: '1',
+            attributes: {
+              competence: 'competence_id',
+            }
+          }
+        });
+      });
+
+      it('should be null when no competence is associated to the challenge (ex: DEMO course)', () => {
+        // given
+        const challenge = new Challenge();
+        challenge.id = 1;
+
+        // when
+        const json = serializer.serialize(challenge);
+
+        // then
+        expect(json).to.deep.equal({
+          data: {
+            type: 'challenges',
+            id: '1',
+            attributes: {
+              competence: 'N/A',
+            }
+          }
+        });
+      });
+
     });
 
   });
