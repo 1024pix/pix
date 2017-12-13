@@ -42,7 +42,7 @@ describe('Unit | Serializer | JSONAPI | user-serializer', () => {
             'last-name': 'Skywalker',
           },
           id: '234567',
-          type: 'user'
+          type: 'users'
         }
       });
     });

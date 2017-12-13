@@ -1,21 +1,19 @@
-const JSONAPISerializer = require('./jsonapi-serializer');
+const { Serializer } = require('jsonapi-serializer');
 const Follower = require('../../../domain/models/data/follower');
 
-class FollowerSerializer extends JSONAPISerializer {
+module.exports = {
 
-  constructor() {
-    super('followers');
-  }
-
-  serializeAttributes(model, data) {
-    data.attributes.email = model.email;
-  }
+  serialize(followers) {
+    return new Serializer('follower', {
+      attributes: ['email'],
+      transform: (model) => model.toJSON()
+    }).serialize(followers);
+  },
 
   deserialize(jsonApi) {
     return new Follower({
       email: jsonApi.data.attributes.email
     });
   }
-}
 
-module.exports = new FollowerSerializer();
+};

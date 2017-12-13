@@ -10,18 +10,18 @@ describe('Unit | Serializer | JSONAPI | answer-serializer', function() {
     timeout: 8,
     elapsedTime: 30,
     result: 'result_value',
-    resultDetails : 'resultDetails_value',
+    resultDetails: 'resultDetails_value',
     assessmentId: 'assessment_id',
     challengeId: 'challenge_id'
   });
 
   const jsonAnswer = {
     data: {
-      type: 'answer',
+      type: 'answers',
       id: 'answer_id',
       attributes: {
         value: 'answer_value',
-        'result-details' : 'resultDetails_value',
+        'result-details': 'resultDetails_value',
         timeout: 8,
         'elapsed-time': 30,
         result: 'result_value'

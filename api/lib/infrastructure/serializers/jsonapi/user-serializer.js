@@ -1,16 +1,14 @@
-const JSONAPISerializer = require('./jsonapi-serializer');
+const { Serializer } = require('jsonapi-serializer');
 const User = require('../../../domain/models/data/user');
 
-class UserSerializer extends JSONAPISerializer {
+module.exports = {
 
-  constructor() {
-    super('user');
-  }
-
-  serializeAttributes(model, data) {
-    data.attributes['first-name'] = model.firstName;
-    data.attributes['last-name'] = model.lastName;
-  }
+  serialize(users) {
+    return new Serializer('user', {
+      attributes: ['firstName', 'lastName'],
+      transform: (model) => model.toJSON()
+    }).serialize(users);
+  },
 
   deserialize(json) {
     return new User({
@@ -23,6 +21,4 @@ class UserSerializer extends JSONAPISerializer {
     });
   }
 
-}
-
-module.exports = new UserSerializer();
+};

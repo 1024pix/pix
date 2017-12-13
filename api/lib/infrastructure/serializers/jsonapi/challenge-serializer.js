@@ -1,27 +1,17 @@
-const JSONAPISerializer = require('./jsonapi-serializer');
+const { Serializer } = require('jsonapi-serializer');
+const _ = require('lodash');
 
-class ChallengeSerializer extends JSONAPISerializer {
+module.exports = {
 
-  constructor() {
-    super('challenge');
+  serialize(challenges) {
+    return new Serializer('challenge', {
+      attributes: ['type', 'instruction', 'competence', 'proposals', 'hasntInternetAllowed', 'timer', 'illustrationUrl', 'attachments'],
+      transform: (record) => {
+        const challenge = Object.assign({}, record);
+        challenge.competence = _.get(record, 'competence[0]', 'N/A');
+        return challenge;
+      }
+    }).serialize(challenges);
   }
 
-  serializeAttributes(model, data) {
-    data.attributes['type'] = model.type;
-    data.attributes['instruction'] = model.instruction;
-    data.attributes['competence'] = (model.competence) ? model.competence[0] : undefined;
-    data.attributes['proposals'] = model.proposals;
-    data.attributes['hasnt-internet-allowed'] = model.hasntInternetAllowed;
-    data.attributes['timer'] = model.timer;
-
-    if (model.illustrationUrl) {
-      data.attributes['illustration-url'] = model.illustrationUrl;
-    }
-
-    if (model.attachments) {
-      data.attributes['attachments'] = model.attachments;
-    }
-  }
-}
-
-module.exports = new ChallengeSerializer();
+};
