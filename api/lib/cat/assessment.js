@@ -42,9 +42,11 @@ class Assessment {
     return this.answers
       .filter(answer => answer.result !== 'ok')
       .reduce((failedSkills, answer) => {
-        answer.challenge.hardestSkill.getHarderWithin(this.course.tubes).forEach(failedSkill => {
-          failedSkills.add(failedSkill);
-        });
+        if(answer.challenge.skills.length > 0) {
+          answer.challenge.hardestSkill.getHarderWithin(this.course.tubes).forEach(failedSkill => {
+            failedSkills.add(failedSkill);
+          });
+        }
         return failedSkills;
       }, new Set());
   }

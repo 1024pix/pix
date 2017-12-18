@@ -182,6 +182,19 @@ describe('Unit | Model | Assessment', function() {
       // then
       expect([...assessment.validatedSkills]).to.be.deep.equal([web3forChallengeOne, url3]);
     });
+
+    it('should not try to add skill from undefined challenge', function() {
+      // given
+      const web3forChallengeOne = new Skill('web3');
+      const ch1 = new Challenge('a', 'validé', [web3forChallengeOne]);
+      const course = new Course([ch1]);
+      const answer = new Answer(ch1, 'ok');
+      const answer2 = new Answer(undefined, 'ok');
+      const assessment = new Assessment(course, [answer, answer2]);
+
+      // then
+      expect([...assessment.validatedSkills]).to.be.deep.equal([web3forChallengeOne]);
+    });
   });
 
   describe('#failedSkills', function() {
@@ -212,6 +225,19 @@ describe('Unit | Model | Assessment', function() {
 
       // then
       expect([...assessment.failedSkills]).to.be.deep.equal([url5, url6, url8]);
+    });
+
+    it('should not try to add skill from undefined challenge', function() {
+      // given
+      const web3forChallengeOne = new Skill('web3');
+      const ch1 = new Challenge('a', 'validé', [web3forChallengeOne]);
+      const course = new Course([ch1]);
+      const answer = new Answer(ch1, 'ko');
+      const answer2 = new Answer(undefined, 'ko');
+      const assessment = new Assessment(course, [answer, answer2]);
+
+      // then
+      expect([...assessment.failedSkills]).to.be.deep.equal([web3forChallengeOne]);
     });
   });
 
@@ -421,6 +447,67 @@ describe('Unit | Model | Assessment', function() {
       // then
       expect(assessment.nextChallenge).to.equal(ch5);
     });
+    context('when one challenge (level3) has been archived', () => {
+      const web1 = new Skill('web1');
+      const web2 = new Skill('web2');
+      const web3 = new Skill('web3');
+      const web4 = new Skill('web4');
+      const web5 = new Skill('web5');
+      const ch1 = new Challenge('recEasy', 'validé', [web1]);
+      const ch2 = new Challenge('rec2', 'validé', [web2]);
+      const ch3 = new Challenge('rec3', 'archive', [web3]);
+      const ch3Bis= new Challenge('rec3bis', 'validé', [web3]);
+      const ch4 = new Challenge('rec4', 'validé', [web4]);
+      const ch5 = new Challenge('rec5', 'validé', [web5]);
+      it('should return a challenge of level 3 if user got levels 1, 2 ,3 and 4 at KO', function() {
+        // given
+        const course = new Course([ch1, ch2, ch3, ch3Bis, ch4, ch5]);
+        const answer1 = new Answer(ch1, 'ok');
+        const answer2 = new Answer(ch2, 'ok');
+        const answer3 = new Answer(undefined, 'ok');
+        const answer4 = new Answer(ch4, 'ko');
+        const assessment = new Assessment(course, [answer1, answer2, answer3, answer4]);
+
+        // then
+        expect(assessment.nextChallenge).to.equal(ch3Bis);
+      });
+
+      it('should return a challenge of level 5 if user got levels 1, 2, 3, 4 with OK', function() {
+        // given
+        const course = new Course([ch1, ch2, ch3, ch3Bis, ch4, ch5]);
+        const answer1 = new Answer(ch1, 'ok');
+        const answer2 = new Answer(ch2, 'ok');
+        const answer3 = new Answer(undefined, 'ok');
+        const answer4 = new Answer(ch4, 'ok');
+        const assessment = new Assessment(course, [answer1, answer2, answer3,answer4]);
+
+        // then
+        expect(assessment.nextChallenge).to.equal(ch5);
+      });
+      it('should return a challenge of level 4 if user got levels 1, 2 and  3 archived', function() {
+        // given
+        const course = new Course([ch1, ch2, ch3, ch3Bis, ch4]);
+        const answer1 = new Answer(ch1, 'ok');
+        const answer2 = new Answer(ch2, 'ok');
+        const answer3 = new Answer(undefined, 'ok');
+        const assessment = new Assessment(course, [answer1, answer2, answer3]);
+
+        // then
+        expect(assessment.nextChallenge).to.equal(ch4);
+      });
+
+      it('should return a challenge of level 3 if user got levels 1, 2 and 3 archived', function() {
+        // given
+        const course = new Course([ch1, ch2, ch3, ch3Bis]);
+        const answer1 = new Answer(ch1, 'ok');
+        const answer2 = new Answer(ch2, 'ok');
+        const answer3 = new Answer(undefined, 'ok');
+        const assessment = new Assessment(course, [answer1, answer2, answer3]);
+
+        // then
+        expect(assessment.nextChallenge).to.equal(ch3Bis);
+      });
+    });
 
     it('should return null if remaining challenges do not provide extra validated or failed skills', function() {
       // given
@@ -496,7 +583,7 @@ describe('Unit | Model | Assessment', function() {
       expect(assessment.pixScore).to.be.equal(0);
     });
 
-    it('should be 8 if validated skills are web1 among 2 (4 pix), web2 (4 pix) but not web3 among 4 (2 pix)', function() {
+    it('should be 8 if validated skills are web1 among 2 (4 pix), web2 (4 pix) but not web3 among 4 (2 pix)', () => {
       // given
       const skillNames = ['web1', 'chi1', 'web2', 'web3', 'chi3', 'fou3', 'mis3'];
       const skills = {};
@@ -513,7 +600,7 @@ describe('Unit | Model | Assessment', function() {
       expect(assessment.pixScore).to.be.equal(8);
     });
 
-    it('should be 6 if validated skills are web1 (4 pix) and fou3 among 4 (2 pix) (web2 was failed)', function() {
+    it('should be 6 if validated skills are web1 (4 pix) and fou3 among 4 (2 pix) (web2 was failed)', () => {
       // given
       const skillNames = ['web1', 'chi1', 'web2', 'web3', 'chi3', 'fou3', 'mis3'];
       const skills = {};
@@ -530,6 +617,61 @@ describe('Unit | Model | Assessment', function() {
 
       // then
       expect(assessment.pixScore).to.be.equal(6);
+    });
+
+    context('when one challenge was archived', () => {
+      it('should return maximum score even if one answer has undefined challenge and skill do not exist anymore', () => {
+
+        // given
+        const skillNames = ['web1', 'web3', 'ch1', 'ch2', 'ch3', 'truc2'];
+        const skills = {};
+        skillNames.forEach(skillName => skills[skillName] = new Skill(skillName));
+        const competenceSkills = new Set(Object.values(skills));
+        const web1Challenge = new Challenge('a', 'validé', [skills['web1']]);
+        const web3Challege = new Challenge('c', 'validé', [skills['web3']]);
+        const ch1Challenge = new Challenge('a', 'validé', [skills['ch1']]);
+        const ch2Challenge = new Challenge('b', 'archived', [skills['ch2']]);
+        const ch3Challege = new Challenge('c', 'validé', [skills['ch3']]);
+        const truc2Challege = new Challenge('c', 'validé', [skills['truc2']]);
+        const course = new Course([web1Challenge, web3Challege, ch1Challenge, ch2Challenge, ch3Challege, truc2Challege], competenceSkills);
+        const answer1 = new Answer(web1Challenge, 'ok');
+        const answer2 = new Answer(undefined, 'ok');
+        const answer3 = new Answer(web3Challege, 'ok');
+        const answer4 = new Answer(ch1Challenge, 'ok');
+        const answer5 = new Answer(ch2Challenge, 'ok');
+        const answer6 = new Answer(ch3Challege, 'ok');
+        const answer7 = new Answer(truc2Challege, 'ok');
+        const assessment = new Assessment(course, [answer1, answer2, answer3, answer4, answer5, answer6, answer7]);
+
+        // then
+        expect(assessment.pixScore).to.be.equal(24);
+      });
+
+      it('should return maximum score even if one answer has undefined challenge and but skill exist', () => {
+
+        // given
+        const skillNames = ['web1', 'web2', 'web3', 'ch1', 'ch2', 'ch3'];
+        const skills = {};
+        skillNames.forEach(skillName => skills[skillName] = new Skill(skillName));
+        const competenceSkills = new Set(Object.values(skills));
+        const web1Challenge = new Challenge('a', 'validé', [skills['web1']]);
+        const web2Challenge = new Challenge('a', 'validé', [skills['web2']]);
+        const web3Challege = new Challenge('c', 'validé', [skills['web3']]);
+        const ch1Challenge = new Challenge('a', 'validé', [skills['ch1']]);
+        const ch2Challenge = new Challenge('b', 'archived', [skills['ch2']]);
+        const ch3Challege = new Challenge('c', 'validé', [skills['ch3']]);
+        const course = new Course([web1Challenge, web2Challenge, web3Challege, ch1Challenge, ch2Challenge, ch3Challege], competenceSkills);
+        const answer1 = new Answer(web1Challenge, 'ok');
+        const answer2 = new Answer(undefined, 'ok');
+        const answer3 = new Answer(web3Challege, 'ok');
+        const answer4 = new Answer(ch1Challenge, 'ok');
+        const answer5 = new Answer(ch2Challenge, 'ok');
+        const answer6 = new Answer(ch3Challege, 'ok');
+        const assessment = new Assessment(course, [answer1, answer2, answer3, answer4, answer5, answer6]);
+
+        // then
+        expect(assessment.pixScore).to.be.equal(24);
+      });
     });
   });
 
