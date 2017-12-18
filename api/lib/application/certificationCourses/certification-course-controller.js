@@ -29,7 +29,7 @@ module.exports = {
       });
   },
 
-  getScore(request, reply) {
+  getResult(request, reply) {
     const certificationCourseId = request.params.id;
     let userId;
     let listAnswers;
@@ -51,7 +51,7 @@ module.exports = {
       })
       .then((listCompetences) => {
         const testedCompetences = listCompetences.filter(competence => competence.challenges.length > 0);
-        return certificationService.getScore(listAnswers, listCertificationChallenges, testedCompetences);
+        return certificationService.getResult(listAnswers, listCertificationChallenges, testedCompetences);
       })
       .then(reply)
       .catch((err) => {

@@ -62,10 +62,7 @@ module.exports = {
 
     return organisationRepository
       .findBy(params)
-      .then((organizations) => {
-
-        reply(organizationSerializer.serializeArray(organizations.models));
-      })
+      .then(organizations => reply(organizationSerializer.serialize(organizations)))
       .catch(err => {
         logger.error(err);
         reply().code(500);

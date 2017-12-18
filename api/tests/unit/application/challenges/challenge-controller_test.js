@@ -24,22 +24,22 @@ describe('Unit | Controller | challenge-controller', function() {
       new Challenge({ 'id': 'challenge_3' })
     ];
 
-    it('should fetch and return all the challenges, serialized as JSONAPI', function(done) {
+    it('should fetch and return all the challenges, serialized as JSONAPI', () => {
       // given
       sinon.stub(ChallengeRepository, 'list').resolves(challenges);
-      sinon.stub(ChallengeSerializer, 'serializeArray').callsFake(_ => challenges);
+      sinon.stub(ChallengeSerializer, 'serialize').callsFake(_ => challenges);
 
       // when
-      server.inject({ method: 'GET', url: '/api/challenges' }, (res) => {
+      return server.inject({ method: 'GET', url: '/api/challenges' })
+        .then(res => {
 
         // then
-        expect(res.result).to.deep.equal(challenges);
+          expect(res.result).to.deep.equal(challenges);
 
-        // after
-        ChallengeRepository.list.restore();
-        ChallengeSerializer.serializeArray.restore();
-        done();
-      });
+          // after
+          ChallengeRepository.list.restore();
+          ChallengeSerializer.serialize.restore();
+        });
     });
   });
 
@@ -47,25 +47,24 @@ describe('Unit | Controller | challenge-controller', function() {
 
     const challenge = new Challenge({ 'id': 'challenge_id' });
 
-    it('should fetch and return the given challenge, serialized as JSONAPI', function(done) {
+    it('should fetch and return the given challenge, serialized as JSONAPI', () => {
       // given
       sinon.stub(ChallengeRepository, 'get').resolves(challenge);
       sinon.stub(ChallengeSerializer, 'serialize').callsFake(_ => challenge);
 
       // when
-      server.inject({ method: 'GET', url: '/api/challenges/challenge_id' }, (res) => {
+      return server.inject({ method: 'GET', url: '/api/challenges/challenge_id' })
+        .then(res => {
+          // then
+          expect(res.result).to.deep.equal(challenge);
 
-        // then
-        expect(res.result).to.deep.equal(challenge);
-
-        // after
-        ChallengeRepository.get.restore();
-        ChallengeSerializer.serialize.restore();
-        done();
-      });
+          // after
+          ChallengeRepository.get.restore();
+          ChallengeSerializer.serialize.restore();
+        });
     });
 
-    it('should reply with error status code 404 if challenge not found', function(done) {
+    it('should reply with error status code 404 if challenge not found', () => {
       // given
       const error = {
         'error': {
@@ -76,21 +75,20 @@ describe('Unit | Controller | challenge-controller', function() {
       sinon.stub(ChallengeRepository, 'get').rejects(error);
 
       // when
-      server.inject({ method: 'GET', url: '/api/challenges/unknown_id' }, (res) => {
+      return server.inject({ method: 'GET', url: '/api/challenges/unknown_id' })
+        .then(res => {
+          // then
+          expect(res.statusCode).to.equal(404);
 
-        // then
-        expect(res.statusCode).to.equal(404);
-
-        // after
-        ChallengeRepository.get.restore();
-        done();
-      });
+          // after
+          ChallengeRepository.get.restore();
+        });
     });
   });
 
   describe('#refreshSolution', function() {
 
-    it('should refresh all the given challenge solutions', function(done) {
+    it('should refresh all the given challenge solutions', () => {
       // given
       const solution = new Solution({
         id: 1,
@@ -101,16 +99,15 @@ describe('Unit | Controller | challenge-controller', function() {
       sinon.stub(SolutionRepository, 'refresh').resolves(solution);
 
       // when
-      server.inject({ method: 'POST', url: '/api/challenges/challenge_id/solution' }, (res) => {
+      return server.inject({ method: 'POST', url: '/api/challenges/challenge_id/solution' })
+        .then(res => {
+          // then
+          expect(res.result).to.equal('ok');
+          sinon.assert.calledOnce(SolutionRepository.refresh);
 
-        // then
-        expect(res.result).to.equal('ok');
-        sinon.assert.calledOnce(SolutionRepository.refresh);
-
-        // after
-        SolutionRepository.refresh.restore();
-        done();
-      });
+          // after
+          SolutionRepository.refresh.restore();
+        });
     });
 
   });

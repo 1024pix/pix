@@ -65,6 +65,7 @@ describe('Acceptance | API | assessment-controller-get-nonadaptive', function() 
       .reply(200, {
         'id': 'first_challenge',
         'fields': {
+          'competences': ['competence_id'],
           // a bunch of fields
         },
       });
@@ -74,6 +75,7 @@ describe('Acceptance | API | assessment-controller-get-nonadaptive', function() 
       .reply(200, {
         'id': 'second_challenge',
         'fields': {
+          'competences': ['competence_id'],
           // a bunch of fields
         },
       });

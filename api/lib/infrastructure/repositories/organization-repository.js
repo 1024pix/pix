@@ -34,16 +34,17 @@ module.exports = {
   },
 
   findBy(filters) {
-    return Organization.where(filters).fetchAll();
+    return Organization
+      .where(filters)
+      .fetchAll({ withRelated: ['user'] })
+      .then(organizations => organizations.models);
   },
 
   getByUserId(userId) {
     return Organization
       .where({ userId })
       .fetchAll()
-      .then((organizations) => {
-        return organizations.models;
-      });
+      .then(organizations => organizations.models);
   }
 };
 
