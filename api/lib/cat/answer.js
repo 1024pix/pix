@@ -25,5 +25,8 @@ class Answer {
     }
   }
 }
+Answer.SKIPPED = 'aband';
+Answer.OK = 'ok';
+Answer.KO = 'ko';
 
 module.exports = Answer;

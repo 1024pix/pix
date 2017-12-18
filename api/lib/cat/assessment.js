@@ -42,11 +42,14 @@ class Assessment {
     return this.answers
       .filter(answer => answer.result !== 'ok')
       .reduce((failedSkills, answer) => {
-        if(answer.challenge.skills.length > 0) {
-          answer.challenge.hardestSkill.getHarderWithin(this.course.tubes).forEach(failedSkill => {
+        // FIXME refactor !
+        // XXX we take the current failed skill and all the harder skills in
+        // its tube and mark them all as failed
+        answer.challenge.skills.forEach(skill => {
+          skill.getHarderWithin(this.course.tubes).forEach(failedSkill => {
             failedSkills.add(failedSkill);
           });
-        }
+        });
         return failedSkills;
       }, new Set());
   }
