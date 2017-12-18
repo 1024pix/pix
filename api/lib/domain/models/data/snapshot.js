@@ -1,15 +1,17 @@
 const Bookshelf = require('../../../infrastructure/bookshelf');
-const Organization = require('./organization');
-const User = require('./user');
+Bookshelf.plugin('registry');
 
-module.exports = Bookshelf.Model.extend({
+require('./organization');
+require('./user');
+
+module.exports = Bookshelf.model('Snapshot', {
   tableName: 'snapshots',
 
   organization() {
-    return this.belongsTo(Organization);
+    return this.belongsTo('Organization');
   },
 
   user() {
-    return this.belongsTo(User, 'userId');
+    return this.belongsTo('User', 'userId');
   }
 });

@@ -1,10 +1,12 @@
 const Bookshelf = require('../../../infrastructure/bookshelf');
-const User = require('./user');
+Bookshelf.plugin('registry');
 
-module.exports = Bookshelf.Model.extend({
+require('./user');
+
+module.exports = Bookshelf.model('ResetPasswordDemand', {
   tableName: 'reset-password-demands',
 
   user() {
-    return this.belongsTo(User, 'email');
+    return this.belongsTo('User', 'email');
   }
 });

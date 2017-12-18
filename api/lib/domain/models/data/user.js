@@ -1,15 +1,17 @@
 const validator = require('validator');
 
 const Bookshelf = require('../../../infrastructure/bookshelf');
+Bookshelf.plugin('registry');
+
 const encrypt = require('../../services/encryption-service');
 const passwordValidator = require('../../../infrastructure/validators/password-validator');
 
-const Assessment = require('./assessment');
-const Organization = require('./organization');
+require('./assessment');
+require('./organization');
 
 validator.isPassword = passwordValidator;
 
-module.exports = Bookshelf.Model.extend({
+module.exports = Bookshelf.model('User', {
   tableName: 'users',
 
   initialize() {
@@ -52,10 +54,10 @@ module.exports = Bookshelf.Model.extend({
   },
 
   assessments() {
-    return this.hasMany(Assessment);
+    return this.hasMany('Assessment');
   },
 
   organizations() {
-    return this.hasMany(Organization);
+    return this.hasMany('Organization');
   }
 });

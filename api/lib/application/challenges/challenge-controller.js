@@ -16,7 +16,7 @@ module.exports = {
 
     challengeRepository
       .list()
-      .then((challenges) => reply(challengeSerializer.serializeArray(challenges)))
+      .then((challenges) => reply(challengeSerializer.serialize(challenges)))
       .catch((err) => {
         logger.error(err);
         reply(Boom.badImplementation(err));

@@ -1,10 +1,12 @@
 const Bookshelf = require('../../../infrastructure/bookshelf');
-const Assessment = require('./assessment');
+Bookshelf.plugin('registry');
 
-module.exports = Bookshelf.Model.extend({
+require('./assessment');
+
+module.exports = Bookshelf.model('Skill', {
   tableName: 'skills',
 
   assessment() {
-    return this.belongsTo(Assessment);
+    return this.belongsTo('Assessment');
   }
 });

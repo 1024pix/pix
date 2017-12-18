@@ -29,6 +29,17 @@ describe('Unit | Model | Answer', function() {
       // then
       expect(maxDifficulty).to.equal(5);
     });
+
+    it('should return 2 if the challenge is undefined', function() {
+      // given
+      const answer = new Answer(undefined, 'ok');
+
+      // when
+      const maxDifficulty = answer.maxDifficulty;
+
+      // then
+      expect(maxDifficulty).to.equal(2);
+    });
   });
 
   describe('#binaryOutcome', function() {

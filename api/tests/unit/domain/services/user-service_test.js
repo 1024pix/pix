@@ -290,6 +290,7 @@ describe('Unit | Service | User Service', () => {
               name: '1.1 Construire un flipper',
               skills: [],
               pixScore: 12,
+              estimatedLevel: 1,
               challenges: []
             },
             {
@@ -298,6 +299,7 @@ describe('Unit | Service | User Service', () => {
               name: '1.2 Adopter un dauphin',
               skills: [skillRemplir2],
               pixScore: 23,
+              estimatedLevel: 2,
               challenges: [challengeForSkillRemplir2]
             }]);
         });
@@ -328,6 +330,7 @@ describe('Unit | Service | User Service', () => {
                 index: '1.1',
                 name: '1.1 Construire un flipper',
                 pixScore: 12,
+                estimatedLevel: 1,
                 skills: [],
                 challenges: []
               }, {
@@ -335,6 +338,7 @@ describe('Unit | Service | User Service', () => {
                 index: '1.2',
                 name: '1.2 Adopter un dauphin',
                 pixScore: 23,
+                estimatedLevel: 2,
                 skills: [],
                 challenges: []
               }]);
@@ -364,6 +368,7 @@ describe('Unit | Service | User Service', () => {
                   name: '1.1 Construire un flipper',
                   skills: [],
                   pixScore: 12,
+                  estimatedLevel: 1,
                   challenges: []
                 },
                 {
@@ -372,6 +377,7 @@ describe('Unit | Service | User Service', () => {
                   name: '1.2 Adopter un dauphin',
                   skills: [skillRemplir2],
                   pixScore: 23,
+                  estimatedLevel: 2,
                   challenges: [challengeForSkillRemplir2]
                 }]);
             });
@@ -399,6 +405,7 @@ describe('Unit | Service | User Service', () => {
                   name: '1.1 Construire un flipper',
                   skills: [skillCitation4],
                   pixScore: 12,
+                  estimatedLevel: 1,
                   challenges: [challengeForSkillCitation4AndMoteur3]
                 },
                 {
@@ -407,6 +414,7 @@ describe('Unit | Service | User Service', () => {
                   name: '1.2 Adopter un dauphin',
                   skills: [],
                   pixScore: 23,
+                  estimatedLevel: 2,
                   challenges: []
                 }]);
             });
@@ -433,6 +441,7 @@ describe('Unit | Service | User Service', () => {
                   name: '1.1 Construire un flipper',
                   skills: [skillCitation4, skillRecherche4, skillMoteur3],
                   pixScore: 12,
+                  estimatedLevel: 1,
                   challenges: [challengeForSkillCitation4, challengeForSkillRecherche4, challengeForSkillCitation4AndMoteur3]
                 },
                 {
@@ -441,6 +450,7 @@ describe('Unit | Service | User Service', () => {
                   name: '1.2 Adopter un dauphin',
                   skills: [],
                   pixScore: 23,
+                  estimatedLevel: 2,
                   challenges: []
                 }]);
             });
@@ -472,6 +482,7 @@ describe('Unit | Service | User Service', () => {
               name: '1.1 Construire un flipper',
               skills: [skillRecherche4],
               pixScore: 12,
+              estimatedLevel: 1,
               challenges: [challengeForSkillRecherche4]
             },
             {
@@ -480,6 +491,7 @@ describe('Unit | Service | User Service', () => {
               name: '1.2 Adopter un dauphin',
               skills: [skillUrl3, skillRemplir2],
               pixScore: 23,
+              estimatedLevel: 2,
               challenges: [challengeForSkillUrl3, challengeForSkillRemplir2]
             }]);
         });
@@ -507,6 +519,7 @@ describe('Unit | Service | User Service', () => {
               name: '1.1 Construire un flipper',
               skills: [],
               pixScore: 12,
+              estimatedLevel: 1,
               challenges: []
             },
             {
@@ -515,6 +528,7 @@ describe('Unit | Service | User Service', () => {
               name: '1.2 Adopter un dauphin',
               skills: [skillRemplir4, skillUrl3, skillRemplir2],
               pixScore: 23,
+              estimatedLevel: 2,
               challenges: [challengeForSkillRemplir4, challengeForSkillUrl3, challengeForSkillRemplir2]
             }
           ]);
@@ -544,6 +558,7 @@ describe('Unit | Service | User Service', () => {
               name: '1.1 Construire un flipper',
               skills: [],
               pixScore: 12,
+              estimatedLevel: 1,
               challenges: []
             },
             {
@@ -552,6 +567,7 @@ describe('Unit | Service | User Service', () => {
               name: '1.2 Adopter un dauphin',
               skills: [skillRemplir4, skillUrl3, skillRemplir2],
               pixScore: 23,
+              estimatedLevel: 2,
               challenges: [challengeForSkillRemplir4, challengeForSkillUrl3, challengeForSkillRemplir2]
             }
           ]);
@@ -578,6 +594,7 @@ describe('Unit | Service | User Service', () => {
               name: '1.1 Construire un flipper',
               skills: [],
               pixScore: 12,
+              estimatedLevel: 1,
               challenges: []
             },
             {
@@ -586,6 +603,7 @@ describe('Unit | Service | User Service', () => {
               name: '1.2 Adopter un dauphin',
               skills: [skillRemplir2],
               pixScore: 23,
+              estimatedLevel: 2,
               challenges: [challengeForSkillRemplir2]
             }]);
         });
@@ -611,6 +629,7 @@ describe('Unit | Service | User Service', () => {
               name: '1.1 Construire un flipper',
               skills: [],
               pixScore: 12,
+              estimatedLevel: 1,
               challenges: []
             },
             {
@@ -619,6 +638,7 @@ describe('Unit | Service | User Service', () => {
               name: '1.2 Adopter un dauphin',
               skills: [],
               pixScore: 23,
+              estimatedLevel: 2,
               challenges: []
             }]);
         });
@@ -644,6 +664,7 @@ describe('Unit | Service | User Service', () => {
               name: '1.1 Construire un flipper',
               skills: [],
               pixScore: 12,
+              estimatedLevel: 1,
               challenges: []
             },
             {
@@ -652,6 +673,7 @@ describe('Unit | Service | User Service', () => {
               name: '1.2 Adopter un dauphin',
               skills: [],
               pixScore: 23,
+              estimatedLevel: 2,
               challenges: []
             }]);
         });

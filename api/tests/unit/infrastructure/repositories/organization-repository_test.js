@@ -18,11 +18,11 @@ describe('Unit | Repository | OrganizationRepository', function() {
       cgu: true
     };
 
-    before(() => {
+    beforeEach(() => {
       return knex('users').insert(inserted_user);
     });
 
-    after(() => {
+    afterEach(() => {
       return knex('users').delete();
     });
 
@@ -298,8 +298,8 @@ describe('Unit | Repository | OrganizationRepository', function() {
 
     it('should return Organization that matches filters', function() {
       // given
-      const fetchStub = sinon.stub().resolves();
-      sinon.stub(Organization, 'where').returns({ fetchAll: fetchStub });
+      const fetchStub = sinon.stub().resolves({ models: {} });
+      sinon.stub(Organization.prototype, 'where').returns({ fetchAll: fetchStub });
 
       // when
       const filters = { code: 1234 };
@@ -307,9 +307,61 @@ describe('Unit | Repository | OrganizationRepository', function() {
 
       // then
       return promise.then(() => {
-        sinon.assert.calledWith(Organization.where, filters);
-        sinon.assert.callOrder(Organization.where, fetchStub);
+        sinon.assert.calledWith(Organization.prototype.where, filters);
+        sinon.assert.callOrder(Organization.prototype.where, fetchStub);
+        Organization.prototype.where.restore();
       });
     });
+
+    describe('should return associated user with organization', function() {
+
+      const userPassword = bcrypt.hashSync('A124B2C3#!', 1);
+      const associatedUser = {
+        firstName: faker.name.firstName(),
+        lastName: faker.name.lastName(),
+        email: faker.internet.email(),
+        password: userPassword,
+        cgu: true
+      };
+      const insertedOrganization = {
+        email: faker.internet.email(),
+        type: 'PRO',
+        name: faker.name.firstName(),
+        code: 'ABCD01',
+      };
+
+      beforeEach(() => {
+        return knex('users').returning('id').insert(associatedUser)
+          .then(userIdArray => {
+            insertedOrganization.userId = userIdArray[0];
+            return knex('organizations').insert(insertedOrganization);
+          });
+      });
+
+      afterEach(() => {
+        return knex('users').delete()
+          .then(() => {
+            return knex('organizations').delete();
+          });
+      });
+
+      it('should return found Organization with associated user', function() {
+        // given
+        const filters = { code: 'ABCD01' };
+
+        // when
+        const promise = OrganizationRepository.findBy(filters);
+
+        // then
+        return promise.then(organizations => {
+          const organization = organizations[0];
+
+          expect(organization.get('email')).to.equal(insertedOrganization.email);
+          expect(organization.related('user').get('email')).to.equal(associatedUser.email);
+        });
+      });
+
+    });
+
   });
 });
