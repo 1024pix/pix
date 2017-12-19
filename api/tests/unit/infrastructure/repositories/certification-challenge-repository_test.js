@@ -3,7 +3,7 @@ const { describe, it, expect, sinon, beforeEach, afterEach, knex } = require('..
 const certificationChallengeRepository = require('../../../../lib/infrastructure/repositories/certification-challenge-repository');
 const CertificationChallengeBookshelf = require('../../../../lib/domain/models/data/certification-challenge');
 const CertificationChallenge = require('../../../../lib/domain/models/CertificationChallenge');
-const { NotFoundError } = require('../../../../lib/domain/errors');
+const { AssessmentEndedError } = require('../../../../lib/domain/errors');
 
 describe('Unit | Repository | certification-challenge-repository', () => {
 
@@ -247,8 +247,7 @@ describe('Unit | Repository | certification-challenge-repository', () => {
         );
 
         // then
-        //return expect(promise).to.be.rejectedWith('EmptyResponse');
-        return expect(promise).to.be.rejectedWith(NotFoundError);
+        return expect(promise).to.be.rejectedWith(AssessmentEndedError);
       });
 
     });

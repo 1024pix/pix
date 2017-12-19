@@ -13,6 +13,7 @@ describe('Unit | Serializer | JSONAPI | certification-course-serializer', functi
     const certificationCourse = new CertificationCourse({
       id: 'certification_id',
       userId : 2,
+      status : 'completed',
       assessment: assessment
     });
 
@@ -21,7 +22,8 @@ describe('Unit | Serializer | JSONAPI | certification-course-serializer', functi
         type: 'certification-courses',
         id: 'certification_id',
         attributes : {
-          'user-id': '2'
+          'user-id': '2',
+          'status' : 'completed'
         },
         relationships: {
           assessment: {

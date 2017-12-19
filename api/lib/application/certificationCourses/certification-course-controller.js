@@ -14,7 +14,7 @@ const CertificationCourse = require('../../../lib/domain/models/CertificationCou
 module.exports = {
   save(request, reply) {
     const userId = request.pre.userId;
-    let certificationCourse = new CertificationCourse({ userId });
+    let certificationCourse = new CertificationCourse({ userId, status: 'started' });
 
     return CertificationCourseRepository.save(certificationCourse)
       .then((savedCertificationCourse) => {
@@ -62,9 +62,9 @@ module.exports = {
 
   get(request, reply) {
     const certificationCourseId = request.params.id;
-    return assessmentRepository.getByCertificationCourseId(certificationCourseId)
-      .then((assessment) => {
-        reply(certificationCourseSerializer.serialize({ id: certificationCourseId, assessment: assessment.toJSON(), userId: '' }));
+    return CertificationCourseRepository.get(certificationCourseId)
+      .then((certificationCourse) => {
+        reply(certificationCourseSerializer.serialize(certificationCourse));
       })
       .catch((err) => {
         logger.error(err);
