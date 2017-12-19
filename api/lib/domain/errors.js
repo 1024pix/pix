@@ -110,6 +110,20 @@ class UserNotAuthorizedToCertifyError extends Error {
   }
 }
 
+class AssessmentEndedError extends Error {
+  constructor() {
+    super();
+  }
+
+  getErrorMessage() {
+    return {
+      data: {
+        error: ['L\'évaluation est terminée. Nous n\'avons plus de questions à vous poser.']
+      }
+    };
+  }
+}
+
 module.exports = {
   NotFoundError,
   PasswordNotMatching,
@@ -122,5 +136,6 @@ module.exports = {
   InvalidTemporaryKeyError,
   NotElligibleToQmailError,
   UserNotAuthorizedToCertifyError,
-  NotCompletedAssessmentError
+  NotCompletedAssessmentError,
+  AssessmentEndedError
 };

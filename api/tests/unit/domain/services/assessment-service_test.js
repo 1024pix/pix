@@ -17,6 +17,7 @@ const CertificationChallenge = require('../../../../lib/domain/models/Certificat
 
 const Answer = require('../../../../lib/domain/models/data/answer');
 const Skill = require('../../../../lib/cat/skill');
+const { AssessmentEndedError } = require('../../../../lib/domain/errors');
 
 function _buildChallenge(challengeId, skills) {
   const challenge = new Challenge();
@@ -53,9 +54,17 @@ describe('Unit | Domain | Services | assessment-service', () => {
 
   describe('#getAssessmentNextChallengeId', () => {
 
+    beforeEach(() => {
+      sinon.stub(courseRepository, 'get').resolves();
+    });
+
+    afterEach(() => {
+      courseRepository.get.restore();
+    });
+
     it('Should return the first challenge if no currentChallengeId is given', () => {
       // given
-      sinon.stub(courseRepository, 'get').resolves({ challenges: ['the_first_challenge'] });
+      courseRepository.get.resolves({ challenges: ['the_first_challenge'] });
 
       // when
       const promise = service.getAssessmentNextChallengeId(_buildAssessmentForCourse('22'), null);
@@ -63,13 +72,12 @@ describe('Unit | Domain | Services | assessment-service', () => {
       // then
       return promise.then((result) => {
         expect(result).to.equal('the_first_challenge');
-        courseRepository.get.restore();
       });
     });
 
     it('Should return the next challenge if currentChallengeId is given', () => {
       // given
-      sinon.stub(courseRepository, 'get').resolves({ challenges: ['1st_challenge', '2nd_challenge'] });
+      courseRepository.get.resolves({ challenges: ['1st_challenge', '2nd_challenge'] });
 
       // when
       const promise = service.getAssessmentNextChallengeId(_buildAssessmentForCourse('22'), '1st_challenge');
@@ -77,48 +85,32 @@ describe('Unit | Domain | Services | assessment-service', () => {
       // then
       return promise.then((result) => {
         expect(result).to.equal('2nd_challenge');
-        courseRepository.get.restore();
       });
 
     });
 
-    it('Should resolves to "null" if no assessment is given', () => {
-      // when
-      const promise = service.getAssessmentNextChallengeId();
-
-      // then
-      return promise.then((result) => {
-        expect(result).to.equal(null);
-      });
-    });
-
-    it('Should resolves to "null" if no courseId is given', () => {
+    it('Should throw a AssessmentEndedError when there are no more challenges to ask', () => {
       // given
-      sinon.stub(courseRepository, 'get').resolves({ challenges: ['1st_challenge', '2nd_challenge'] });
+      courseRepository.get.resolves({ challenges: ['1st_challenge', '2nd_challenge'] });
 
       // when
-      const promise = service.getAssessmentNextChallengeId(_buildAssessmentForCourse(), '1st_challenge');
+      const promise = service.getAssessmentNextChallengeId(_buildAssessmentForCourse('22'), '2nd_challenge');
 
       // then
-      return promise.then((result) => {
-        expect(result).to.equal(null);
-        courseRepository.get.restore();
-      });
-
+      return expect(promise).to.be.rejectedWith(AssessmentEndedError);
     });
 
-    it('Should resolves to "null" if courseId starts with "null"', () => {
+    it('Should reject with a AssessmentEndedError when the course is a preview', () => {
       // given
-      sinon.stub(courseRepository, 'get').resolves({ challenges: ['1st_challenge', '2nd_challenge'] });
+      const assessment = _buildAssessmentForCourse('null22');
+      assessment.set('type', 'PREVIEW');
 
       // when
-      const promise = service.getAssessmentNextChallengeId(_buildAssessmentForCourse('null22'), '1st_challenge');
+      const promise = service.getAssessmentNextChallengeId(assessment, '1st_challenge');
 
       // then
-      return promise.then((result) => {
-        expect(result).to.equal(null);
-        courseRepository.get.restore();
-      });
+      expect(courseRepository.get).not.to.have.been.called;
+      return expect(promise).to.be.rejectedWith(AssessmentEndedError);
     });
   });
 

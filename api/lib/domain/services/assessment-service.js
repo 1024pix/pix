@@ -10,7 +10,7 @@ const answerService = require('../services/answer-service');
 const assessmentUtils = require('./assessment-service-utils');
 const _ = require('../../infrastructure/utils/lodash-utils');
 
-const { NotFoundError } = require('../../domain/errors');
+const { NotFoundError, AssessmentEndedError } = require('../../domain/errors');
 
 function _selectNextInAdaptiveMode(assessment, course) {
 
@@ -56,26 +56,21 @@ function _selectNextChallengeId(course, currentChallengeId, assessment) {
 
 function getAssessmentNextChallengeId(assessment, currentChallengeId) {
 
-  return new Promise((resolve, reject) => {
+  if (isPreviewAssessment(assessment)) {
+    return Promise.reject(new AssessmentEndedError());
+  }
 
-    if (!assessment) {
-      resolve(null);
-    }
+  const courseId = assessment.get('courseId');
 
-    const courseId = assessment.get('courseId');
+  return courseRepository.get(courseId)
+    .then(course => _selectNextChallengeId(course, currentChallengeId, assessment))
+    .then((nextChallenge) => {
+      if (nextChallenge) {
+        return nextChallenge;
+      }
 
-    if (!courseId) {
-      resolve(null);
-    }
-
-    if (_.startsWith(courseId, 'null')) {
-      resolve(null);
-    }
-
-    courseRepository.get(courseId)
-      .then(course => resolve(_selectNextChallengeId(course, currentChallengeId, assessment)))
-      .catch(reject);
-  });
+      throw new AssessmentEndedError();
+    });
 }
 
 async function fetchAssessment(assessmentId) {
@@ -115,7 +110,7 @@ async function fetchAssessment(assessmentId) {
     })
     .then((skillsAndChallenges) => {
 
-      if(skillsAndChallenges) {
+      if (skillsAndChallenges) {
         const [skillNames, challengesPix] = skillsAndChallenges;
         const catAssessment = assessmentAdapter.getAdaptedAssessment(answers, challengesPix, skillNames);
 
@@ -132,8 +127,9 @@ async function fetchAssessment(assessmentId) {
       return Promise.resolve({ assessmentPix, skills });
     });
 }
+
 function _isNonScoredAssessment(assessment) {
-  return isPreviewAssessment(assessment)  || isCertificationAssessment(assessment);
+  return isPreviewAssessment(assessment) || isCertificationAssessment(assessment);
 }
 
 function isPreviewAssessment(assessment) {

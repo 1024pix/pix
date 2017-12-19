@@ -6,6 +6,7 @@ const assessmentService = require('../../domain/services/assessment-service');
 const skillsService = require('../../domain/services/skills-service');
 const tokenService = require('../../domain/services/token-service');
 const challengeRepository = require('../../infrastructure/repositories/challenge-repository');
+const certificationCourseRepository = require('../../infrastructure/repositories/certification-course-repository');
 const challengeSerializer = require('../../infrastructure/serializers/jsonapi/challenge-serializer');
 const solutionSerializer = require('../../infrastructure/serializers/jsonapi/solution-serializer');
 
@@ -14,15 +15,15 @@ const solutionRepository = require('../../infrastructure/repositories/solution-r
 
 const logger = require('../../infrastructure/logger');
 
-const { NotFoundError, NotCompletedAssessmentError } = require('../../domain/errors');
+const { NotFoundError, NotCompletedAssessmentError, AssessmentEndedError } = require('../../domain/errors');
 
 function _doesAssessmentExistsAndIsCompleted(assessment) {
-  if(!assessment)
+  if (!assessment)
     throw new NotFoundError();
 
   const isAssessmentNotCompleted = !assessmentService.isAssessmentCompleted(assessment);
 
-  if(isAssessmentNotCompleted)
+  if (isAssessmentNotCompleted)
     throw new NotCompletedAssessmentError();
 }
 
@@ -102,36 +103,38 @@ module.exports = {
 
         return assessmentService.getAssessmentNextChallengeId(assessment, request.params.challengeId);
       })
-      .then((nextChallengeId) => {
+      .catch((err) => {
+        if (err instanceof AssessmentEndedError) {
 
-        if (nextChallengeId) {
-          return Promise.resolve(nextChallengeId);
+          return assessmentService
+            .fetchAssessment(request.params.id)
+            .then(({ assessmentPix, skills }) => {
+
+              let promise = Promise.resolve();
+              if (assessmentService.isCertificationAssessment(assessmentPix)) {
+                promise = certificationCourseRepository.updateStatus('completed', assessmentPix.get('courseId'));
+              }
+
+              // XXX: successRate should not be saved in DB.
+              assessmentPix.unset('successRate');
+
+              return promise
+                .then(() => assessmentPix.save())
+                .then(() => skillsService.saveAssessmentSkills(skills));
+            })
+            .then(() => {
+              throw err;
+            });
+        } else {
+          throw err;
         }
-
-        return assessmentService
-          .fetchAssessment(request.params.id)
-          .then(({ assessmentPix, skills }) => {
-
-            // XXX: successRate should not be saved in DB.
-            assessmentPix.unset('successRate');
-
-            return assessmentPix.save()
-              .then(() => skillsService.saveAssessmentSkills(skills))
-              .then(() => {
-                // XXX always null because if not, it should have passed above (l.88)
-                return nextChallengeId;
-              });
-          });
-
       })
-      .then((nextChallengeId) => {
-        return (nextChallengeId) ? challengeRepository.get(nextChallengeId) : null;
-      })
+      .then(challengeRepository.get)
       .then((challenge) => {
-        return (challenge) ? reply(challengeSerializer.serialize(challenge)) : reply().code(204);
+        reply(challengeSerializer.serialize(challenge));
       })
       .catch((err) => {
-        if(err instanceof NotFoundError) {
+        if (err instanceof AssessmentEndedError) {
           return reply(Boom.notFound());
         }
 
