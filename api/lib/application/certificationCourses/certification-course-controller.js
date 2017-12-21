@@ -33,11 +33,13 @@ module.exports = {
     const certificationCourseId = request.params.id;
     let userId;
     let listAnswers;
+    let dateOfCertification;
     let listCertificationChallenges;
 
     return assessmentRepository.getByCertificationCourseId(certificationCourseId)
       .then((assessment) => {
         userId = assessment.get('userId');
+        dateOfCertification = assessment.get('createdAt');
 
         return answersRepository.findByAssessment(assessment.get('id'));
       })
@@ -51,7 +53,9 @@ module.exports = {
       })
       .then((listCompetences) => {
         const testedCompetences = listCompetences.filter(competence => competence.challenges.length > 0);
-        return certificationService.getResult(listAnswers, listCertificationChallenges, testedCompetences);
+        const result = certificationService.getResult(listAnswers, listCertificationChallenges, testedCompetences);
+        result.createdAt = dateOfCertification;
+        return result;
       })
       .then(reply)
       .catch((err) => {
