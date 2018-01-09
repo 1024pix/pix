@@ -158,21 +158,24 @@ class Assessment {
     if (this.answers.length >= 20) {
       return null;
     }
-    const filteredChallenges = this.filteredChallenges;
-    let bestChallenge = filteredChallenges[0];
-    let maxReward = 0;
-    filteredChallenges.forEach(challenge => {
-      const reward = this._computeReward(challenge);
-      if (reward > maxReward) {
-        maxReward = reward;
-        bestChallenge = challenge;
-      }
+
+    const byDescendingRewards = (a, b) => { return b.reward - a.reward; };
+    const randomly = () => { return 0.5 - Math.random(); };
+
+    const challengesAndRewards = this.filteredChallenges.map(challenge => {
+      return { challenge: challenge, reward: this._computeReward(challenge) };
     });
-    if (maxReward === 0) { // We will not get extra information
+    const challengeWithMaxReward = challengesAndRewards.sort(byDescendingRewards)[0];
+    const maxReward = challengeWithMaxReward.reward;
+
+    if (maxReward === 0) {
       return null;
-    } else {
-      return bestChallenge; // May be undefined, in which case the adaptive test should be ended
     }
+
+    const bestChallenges = challengesAndRewards
+      .filter(challengeAndReward => challengeAndReward.reward === maxReward)
+      .map(challengeAndReward => challengeAndReward.challenge);
+    return bestChallenges.sort(randomly)[0];
   }
 
   get pixScore() {
