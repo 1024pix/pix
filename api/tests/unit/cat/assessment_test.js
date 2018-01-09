@@ -71,7 +71,7 @@ describe('Unit | Model | Assessment', function() {
       const likelihoodValues = [3.5, 4.5, 5.5].map(level => assessment._computeLikelihood(level, assessment.answers));
 
       // then
-      expect(likelihoodValues).to.deep.equal([-0.44003380739549824, -0, -0.44003380739549824]);
+      expect(likelihoodValues).to.deep.equal([-0.4400338073954983, -0.06487123739065036, -0.6183891934859586]);
     });
 
     it('should return negative values every time', function() {
@@ -97,14 +97,14 @@ describe('Unit | Model | Assessment', function() {
     });
   });
 
-  describe('#estimatedLevel', function() {
+  describe('#predictedLevel', function() {
     it('should exist', function() {
       // given
       const course = new Course([]);
       const assessment = new Assessment(course, []);
 
       // then
-      expect(assessment.estimatedLevel).to.exist;
+      expect(assessment.predictedLevel).to.exist;
     });
 
     it('should return 2 if user did not provide any answers so far', function() {
@@ -113,7 +113,7 @@ describe('Unit | Model | Assessment', function() {
       const assessment = new Assessment(course, []);
 
       // then
-      expect(assessment.estimatedLevel).to.be.equal(2);
+      expect(assessment.predictedLevel).to.be.equal(2);
     });
 
     it('should return 4.5 if user answered correctly a question of maxDifficulty 4 but failed at 5', function() {
@@ -132,10 +132,10 @@ describe('Unit | Model | Assessment', function() {
       const assessment = new Assessment(course, answers);
 
       // when
-      const estimatedLevel = assessment.estimatedLevel;
+      const predictedLevel = assessment.predictedLevel;
 
       // then
-      expect(estimatedLevel).to.equal(4.5);
+      expect(predictedLevel).to.equal(4.5);
     });
   });
 
@@ -495,7 +495,7 @@ describe('Unit | Model | Assessment', function() {
         const answer2 = new Answer(ch2, 'ok');
         const answer3 = new Answer(undefined, 'ok');
         const answer4 = new Answer(ch4, 'ok');
-        const assessment = new Assessment(course, [answer1, answer2, answer3,answer4]);
+        const assessment = new Assessment(course, [answer1, answer2, answer3, answer4]);
 
         // then
         expect(assessment.nextChallenge).to.equal(ch5);
@@ -570,6 +570,49 @@ describe('Unit | Model | Assessment', function() {
       // then
       expect(assessment.nextChallenge).to.be.equal(firstChallenge);
       firstChallengeStub.restore();
+    });
+
+    it('should not return a question of level 6 after first answer is correct', function() {
+      // given
+      const web1 = new Skill('web1');
+      const web2 = new Skill('web2');
+      const web4 = new Skill('web4');
+      const web6 = new Skill('web6');
+      const ch1 = new Challenge('rec1', 'validé', [web1]);
+      const ch2 = new Challenge('rec2', 'validé', [web2]);
+      const ch4 = new Challenge('rec4', 'validé', [web4]);
+      const ch6 = new Challenge('rec6', 'validé', [web6]);
+      const challenges = [ch1, ch2, ch4, ch6];
+      const course = new Course(challenges);
+      const answer = new Answer(ch2, Answer.OK);
+      const answers = [answer];
+      const assessment = new Assessment(course, answers);
+
+      // then
+      expect(assessment.nextChallenge.skills[0].difficulty).not.to.be.equal(6);
+    });
+
+    it('should return a challenge of difficulty 7 if challenge of difficulty 6 is correctly answered', function() {
+      // given
+      const web1 = new Skill('web1');
+      const web2 = new Skill('web2');
+      const web4 = new Skill('web4');
+      const web6 = new Skill('web6');
+      const web7 = new Skill('web7');
+      const ch1 = new Challenge('rec1', 'validé', [web1]);
+      const ch2 = new Challenge('rec2', 'validé', [web2]);
+      const ch4 = new Challenge('rec4', 'validé', [web4]);
+      const ch6 = new Challenge('rec6', 'validé', [web6]);
+      const ch7 = new Challenge('rec7', 'validé', [web7]);
+      const challenges = [ch1, ch2, ch4, ch6, ch7];
+      const course = new Course(challenges);
+      const answer2 = new Answer(ch2, Answer.OK);
+      const answer6 = new Answer(ch6, Answer.OK);
+      const answers = [answer2, answer6];
+      const assessment = new Assessment(course, answers);
+
+      // then
+      expect(assessment.nextChallenge.skills).to.be.deep.equal([web7]);
     });
   });
 
