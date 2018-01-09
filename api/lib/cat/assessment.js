@@ -1,3 +1,5 @@
+const AnswerStatus = require('../domain/models/AnswerStatus');
+
 Set.prototype.union = function(setB) {
   const union = new Set(this);
   for (const elem of setB) {
@@ -27,7 +29,7 @@ class Assessment {
 
   get validatedSkills() {
     return this.answers
-      .filter(answer => answer.result === 'ok')
+      .filter(answer => AnswerStatus.isOK(answer.result))
       .reduce((skills, answer) => {
         answer.challenge.skills.forEach(skill => {
           skill.getEasierWithin(this.course.tubes).forEach(validatedSkill => {
@@ -40,7 +42,7 @@ class Assessment {
 
   get failedSkills() {
     return this.answers
-      .filter(answer => answer.result !== 'ok')
+      .filter(answer => AnswerStatus.isFailed(answer.result))
       .reduce((failedSkills, answer) => {
         // FIXME refactor !
         // XXX we take the current failed skill and all the harder skills in

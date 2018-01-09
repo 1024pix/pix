@@ -19,12 +19,6 @@ exports.register = function(server, options, next) {
       config: { handler: ChallengeController.refresh, tags: ['api'] }
     },
     {
-
-      method: 'PUT',
-      path: '/api/challenges/{id}/validate',
-      config: { handler: ChallengeController.revalidateAnswers, tags: ['api'] }
-    },
-    {
       method: 'POST',
       path: '/api/challenges/{id}/solution',
       config: { handler: ChallengeController.refreshSolution, tags: ['api'] }

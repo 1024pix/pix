@@ -57,12 +57,15 @@ class UserNotFoundError extends Error {
 class InternalError extends Error {
   constructor() {
     super();
+    this.errorStack = [
+      'Une erreur interne est survenue.'
+    ];
   }
 
   getErrorMessage() {
     return {
       data: {
-        error: ['Une erreur interne est survenue.']
+        error: this.errorStack
       }
     };
   }
@@ -137,5 +140,5 @@ module.exports = {
   NotElligibleToQmailError,
   UserNotAuthorizedToCertifyError,
   NotCompletedAssessmentError,
-  AssessmentEndedError
+  AssessmentEndedError,
 };

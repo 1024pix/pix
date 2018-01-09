@@ -2,6 +2,7 @@ const { describe, it, expect } = require('../../../test-helper');
 
 const service = require('../../../../lib/domain/services/solution-service-qcm');
 const Answer = require('../../../../lib/domain/models/data/answer');
+const AnswerStatus = require('../../../../lib/domain/models/AnswerStatus');
 const Solution = require('../../../../lib/domain/models/referential/solution');
 const _ = require('../../../../lib/infrastructure/utils/lodash-utils');
 
@@ -38,7 +39,8 @@ describe('Unit | Service | SolutionServiceQCM ', function() {
       it('should return "ok" when answer is "' + testCase.answer + '" and solution is "' + testCase.solution + '"', function() {
         const answer = buildAnswer(testCase.answer);
         const solution = buildSolution('QCM', testCase.solution);
-        expect(service.match(answer, solution)).to.equal('ok');
+        const result = service.match(answer, solution);
+        expect(AnswerStatus.isOK(result)).to.be.true;
       });
     });
 
@@ -53,11 +55,11 @@ describe('Unit | Service | SolutionServiceQCM ', function() {
       it('should return "ko" when answer is "' + testCase.answer + '" and solution is "' + testCase.solution + '"', function() {
         const answer = buildAnswer(testCase.answer);
         const solution = buildSolution('QCM', testCase.solution);
-        expect(service.match(answer, solution)).to.equal('ko');
+        const result = service.match(answer, solution);
+        expect(AnswerStatus.isKO(result)).to.be.true;
       });
     });
 
   });
 
 });
-
