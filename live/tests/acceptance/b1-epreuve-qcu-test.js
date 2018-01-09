@@ -108,4 +108,19 @@ describe('Acceptance | b1 - Afficher un QCU | ', function() {
 
     // Then
   });
+
+  it('b1.7 L\'alerte n\'est pas affichée si l\'utilisateur valide sans avoir coché de réponse puis coche sur une réponse', async function() {
+    // given
+    await visit('/assessments/ref_assessment_id/challenges/ref_qcu_challenge_id');
+    $(':radio').prop('checked', false);
+    await click('.challenge-actions__action-validate');
+
+    // when
+    await click($('.label-checkbox-proposal:eq(0)'));
+
+    // then
+    const $alert = $('.alert');
+    expect($alert).to.have.lengthOf(0);
+  });
+
 });

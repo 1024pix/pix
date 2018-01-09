@@ -88,6 +88,7 @@ const ChallengeItemGeneric = Ember.Component.extend({
         return RSVP.reject(errorMessage);
       }
       const answerValue = this._getAnswerValue();
+      this.set('errorMessage', null);
       this.set('_isUserAwareThatChallengeIsTimed', false);
       return this.get('answerValidated')(this.get('challenge'), this.get('assessment'), answerValue, this._getTimeout(), this._getElapsedTime());
     },

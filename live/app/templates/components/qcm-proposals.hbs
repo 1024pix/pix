@@ -5,7 +5,9 @@
   <input type="checkbox"
          id="checkbox_{{inc index}}"
          checked={{labeledCheckbox.[1]}}
-         name="{{inc index}}"/>
+         name="{{inc index}}"
+         onclick={{action "checkboxCliked"}}
+  />
 
   {{!-- Surrounding label --}}
   <label for="checkbox_{{inc index}}"
