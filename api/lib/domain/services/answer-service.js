@@ -1,4 +1,5 @@
 const _ = require('lodash');
+const AnswerStatus = require('../models/AnswerStatus');
 
 module.exports = {
   getAnswersSuccessRate: (answers) => {
@@ -9,7 +10,7 @@ module.exports = {
       return null;
     }
 
-    const countOfValidAnswers = _(answers).filter(answer => answer.get('result') === 'ok').size();
+    const countOfValidAnswers = _(answers).filter(answer => AnswerStatus.isOK(answer.get('result'))).size();
     return (countOfValidAnswers % 100 / countOfAnswers) * 100;
   }
 };

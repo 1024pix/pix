@@ -4,6 +4,8 @@ const utils = require('./solution-service-utils');
 const deactivationsService = require('./deactivations-service');
 const { t1, t2, applyPreTreatments } = require('./validation-treatments');
 
+const AnswerStatus = require('../models/AnswerStatus');
+
 function _applyTreatmentsToSolutions(solutions, deactivations) {
   return _.mapValues(solutions, (validSolutions) => {
     return _.map(validSolutions, (validSolution) => {
@@ -102,25 +104,25 @@ function _goodAnswer(allValidations, deactivations) {
 }
 
 function _formatResult(scoring, validations, deactivations) {
-  let result = 'ok';
+  let result = AnswerStatus.OK;
 
   const numberOfGoodAnswers = _numberOfGoodAnswers(validations, deactivations);
 
   if (_.isEmpty(scoring) && numberOfGoodAnswers !== _.size(validations)) {
-    result = 'ko';
+    result = AnswerStatus.KO;
   } else if (_.isEmpty(scoring) && numberOfGoodAnswers === _.size(validations)) {
-    result = 'ok';
+    result = AnswerStatus.OK;
   } else {
 
     const minGrade = _.min(Object.keys(scoring));
     const maxGrade = _.max(Object.keys(scoring));
 
     if (numberOfGoodAnswers >= maxGrade) {
-      result = 'ok';
+      result = AnswerStatus.OK;
     } else if (numberOfGoodAnswers >= minGrade) {
-      result = 'partially';
+      result = AnswerStatus.PARTIALLY;
     } else {
-      result = 'ko';
+      result = AnswerStatus.KO;
     }
   }
   return result;
@@ -134,7 +136,7 @@ module.exports = {
     if (!_.isString(yamlAnswer)
         || _.isEmpty(yamlAnswer)
         || !_.includes(yamlSolution, '\n')) {
-      return 'ko';
+      return AnswerStatus.KO;
     }
 
     // Pre-Treatments
