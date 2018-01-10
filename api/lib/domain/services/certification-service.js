@@ -3,6 +3,7 @@ const minimumReproductibilityRateToBeTrusted = 80;
 const numberOfPixForOneLevel = 8;
 const _ = require('lodash');
 const answerServices = require('./answer-service');
+const AnswerStatus = require('../models/AnswerStatus');
 
 function _computeSumPixFromCompetences(listCompetences) {
   return  _.sumBy(listCompetences, c => c.pixScore);
@@ -21,7 +22,7 @@ function _enhanceAnswersWithCompetenceId(listAnswers, listChallenges) {
 function _numberOfCorrectAnswersPerCompetence(answersWithCompetences, competence) {
   return _(answersWithCompetences)
     .filter(answer => answer.get('competenceId') === competence.id)
-    .filter(answer => answer.get('result') === 'ok')
+    .filter(answer => AnswerStatus.isOK(answer.get('result')))
     .size();
 }
 

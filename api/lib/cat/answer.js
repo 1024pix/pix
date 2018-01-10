@@ -1,3 +1,5 @@
+const AnswerStatus = require('../domain/models/AnswerStatus');
+
 class Answer {
   constructor(challenge, result) {
     this.challenge = this._getValidChallenge(challenge);
@@ -13,7 +15,7 @@ class Answer {
   }
 
   get binaryOutcome() {
-    return this.result === 'ok' ? 1 : 0;
+    return AnswerStatus.isOK(this.result) ? 1 : 0;
   }
 
   get maxDifficulty() {
@@ -25,8 +27,5 @@ class Answer {
     }
   }
 }
-Answer.SKIPPED = 'aband';
-Answer.OK = 'ok';
-Answer.KO = 'ko';
 
 module.exports = Answer;

@@ -3,6 +3,8 @@ const levenshtein = require('fast-levenshtein');
 const _ = require('../../infrastructure/utils/lodash-utils');
 const { applyPreTreatments, applyTreatments } = require('./validation-treatments');
 
+const AnswerStatus = require('../models/AnswerStatus');
+
 function _applyTreatmentsToSolutions(solutions, enabledTreatments) {
   return _.forEach(solutions, (solution, solutionKey) => {
     solution.forEach((variant, variantIndex) => {
@@ -41,10 +43,11 @@ function _compareAnswersAndSolutions(answers, solutions, enabledTreatments) {
 }
 
 function _formatResult(resultDetails) {
-  let result = 'ok';
+  let result = AnswerStatus.OK;
   _.forEach(resultDetails, resultDetail => {
-    if (!resultDetail)
-      result = 'ko';
+    if (!resultDetail) {
+      result = AnswerStatus.KO;
+    }
   });
   return result;
 }
@@ -62,7 +65,7 @@ module.exports = {
     if (!_.isString(yamlAnswer)
       || _.isEmpty(yamlSolution)
       || !_.includes(yamlSolution, '\n')) {
-      return { result: 'ko' };
+      return { result: AnswerStatus.KO };
     }
 
     // Pre-treatments

@@ -17,7 +17,7 @@ describe('Acceptance | Controller | answer-controller', function() {
       value: '2',
       elapsedTime: 100,
       timeout: 0,
-      result: 'pending',
+      result: 'ok',
       resultDetails: null,
       challengeId: 'recLt9uwa2dR3IYpi',
       assessmentId: '12345'

@@ -57,12 +57,15 @@ class UserNotFoundError extends Error {
 class InternalError extends Error {
   constructor() {
     super();
+    this.errorStack = [
+      'Une erreur interne est survenue.'
+    ];
   }
 
   getErrorMessage() {
     return {
       data: {
-        error: ['Une erreur interne est survenue.']
+        error: this.errorStack
       }
     };
   }
@@ -110,6 +113,20 @@ class UserNotAuthorizedToCertifyError extends Error {
   }
 }
 
+class AssessmentEndedError extends Error {
+  constructor() {
+    super();
+  }
+
+  getErrorMessage() {
+    return {
+      data: {
+        error: ['L\'évaluation est terminée. Nous n\'avons plus de questions à vous poser.']
+      }
+    };
+  }
+}
+
 module.exports = {
   NotFoundError,
   PasswordNotMatching,
@@ -122,5 +139,6 @@ module.exports = {
   InvalidTemporaryKeyError,
   NotElligibleToQmailError,
   UserNotAuthorizedToCertifyError,
-  NotCompletedAssessmentError
+  NotCompletedAssessmentError,
+  AssessmentEndedError,
 };

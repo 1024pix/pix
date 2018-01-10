@@ -64,21 +64,6 @@ describe('Unit | Router | challenge-router', function() {
     });
   });
 
-  describe('PUT /api/challenges/{id}/validate', function() {
-
-    before(function() {
-      sinon.stub(ChallengeController, 'revalidateAnswers').callsFake((request, reply) => reply('ok'));
-    });
-
-    after(function() {
-      ChallengeController.revalidateAnswers.restore();
-    });
-
-    it('should exist', function(done) {
-      expectRouteToExist({ method: 'PUT', url: '/api/challenges/{id}/validate' }, done);
-    });
-  });
-
   describe('POST /api/challenges/{id}/solution', function() {
 
     before(function() {

@@ -5,6 +5,8 @@ const Answer = require('../../../lib/cat/answer');
 const Challenge = require('../../../lib/cat/challenge');
 const Skill = require('../../../lib/cat/skill');
 
+const AnswerStatus = require('../../../lib/domain/models/AnswerStatus');
+
 describe('Unit | Model | Assessment', function() {
 
   describe('#_probaOfCorrectAnswer()', function() {
@@ -61,8 +63,8 @@ describe('Unit | Model | Assessment', function() {
       const ch2 = new Challenge('b', 'validé', [web5]);
       const ch3 = new Challenge('c', 'validé', [url1]);
       const challenges = [ch1, ch2, ch3];
-      const answer1 = new Answer(ch1, Answer.OK);
-      const answer2 = new Answer(ch2, Answer.KO);
+      const answer1 = new Answer(ch1, AnswerStatus.OK);
+      const answer2 = new Answer(ch2, AnswerStatus.KO);
       const answers = [answer1, answer2];
       const course = new Course(challenges);
       const assessment = new Assessment(course, answers);
@@ -71,7 +73,7 @@ describe('Unit | Model | Assessment', function() {
       const likelihoodValues = [3.5, 4.5, 5.5].map(level => assessment._computeLikelihood(level, assessment.answers));
 
       // then
-      expect(likelihoodValues).to.deep.equal([-0.44003380739549824, -0, -0.44003380739549824]);
+      expect(likelihoodValues).to.deep.equal([-0.4400338073954983, -0.06487123739065036, -0.6183891934859586]);
     });
 
     it('should return negative values every time', function() {
@@ -83,8 +85,8 @@ describe('Unit | Model | Assessment', function() {
       const ch2 = new Challenge('b', 'validé', [web5]);
       const ch3 = new Challenge('c', 'validé', [url1]);
       const challenges = [ch1, ch2, ch3];
-      const answer1 = new Answer(ch1, Answer.OK);
-      const answer2 = new Answer(ch2, Answer.KO);
+      const answer1 = new Answer(ch1, AnswerStatus.OK);
+      const answer2 = new Answer(ch2, AnswerStatus.KO);
       const answers = [answer1, answer2];
       const course = new Course(challenges);
       const assessment = new Assessment(course, answers);
@@ -97,14 +99,14 @@ describe('Unit | Model | Assessment', function() {
     });
   });
 
-  describe('#estimatedLevel', function() {
+  describe('#predictedLevel', function() {
     it('should exist', function() {
       // given
       const course = new Course([]);
       const assessment = new Assessment(course, []);
 
       // then
-      expect(assessment.estimatedLevel).to.exist;
+      expect(assessment.predictedLevel).to.exist;
     });
 
     it('should return 2 if user did not provide any answers so far', function() {
@@ -113,7 +115,7 @@ describe('Unit | Model | Assessment', function() {
       const assessment = new Assessment(course, []);
 
       // then
-      expect(assessment.estimatedLevel).to.be.equal(2);
+      expect(assessment.predictedLevel).to.be.equal(2);
     });
 
     it('should return 4.5 if user answered correctly a question of maxDifficulty 4 but failed at 5', function() {
@@ -125,17 +127,17 @@ describe('Unit | Model | Assessment', function() {
       const ch2 = new Challenge('b', 'validé', [web5]);
       const ch3 = new Challenge('c', 'validé', [url1]);
       const challenges = [ch1, ch2, ch3];
-      const answer1 = new Answer(ch1, Answer.OK);
-      const answer2 = new Answer(ch2, Answer.KO);
+      const answer1 = new Answer(ch1, AnswerStatus.OK);
+      const answer2 = new Answer(ch2, AnswerStatus.KO);
       const answers = [answer1, answer2];
       const course = new Course(challenges);
       const assessment = new Assessment(course, answers);
 
       // when
-      const estimatedLevel = assessment.estimatedLevel;
+      const predictedLevel = assessment.predictedLevel;
 
       // then
-      expect(estimatedLevel).to.equal(4.5);
+      expect(predictedLevel).to.equal(4.5);
     });
   });
 
@@ -160,7 +162,7 @@ describe('Unit | Model | Assessment', function() {
       const ch1 = new Challenge('a', 'validé', [web3]);
       const ch2 = new Challenge('b', 'validé', [web1, web3, url3, url4, url5, url6]);
       const course = new Course([ch1, ch2]);
-      const answer = new Answer(ch1, Answer.OK);
+      const answer = new Answer(ch1, AnswerStatus.OK);
       const assessment = new Assessment(course, [answer]);
 
       // then
@@ -175,8 +177,8 @@ describe('Unit | Model | Assessment', function() {
       const ch1 = new Challenge('a', 'validé', [web3forChallengeOne]);
       const ch2 = new Challenge('b', 'validé', [url3, web3forChallengeTwo]);
       const course = new Course([ch1, ch2]);
-      const answer = new Answer(ch1, Answer.OK);
-      const answer2 = new Answer(ch2, Answer.OK);
+      const answer = new Answer(ch1, AnswerStatus.OK);
+      const answer2 = new Answer(ch2, AnswerStatus.OK);
       const assessment = new Assessment(course, [answer, answer2]);
 
       // then
@@ -188,8 +190,8 @@ describe('Unit | Model | Assessment', function() {
       const web3forChallengeOne = new Skill('web3');
       const ch1 = new Challenge('a', 'validé', [web3forChallengeOne]);
       const course = new Course([ch1]);
-      const answer = new Answer(ch1, 'ok');
-      const answer2 = new Answer(undefined, 'ok');
+      const answer = new Answer(ch1, AnswerStatus.OK);
+      const answer2 = new Answer(undefined, AnswerStatus.OK);
       const assessment = new Assessment(course, [answer, answer2]);
 
       // then
@@ -220,7 +222,7 @@ describe('Unit | Model | Assessment', function() {
       const ch1 = new Challenge('a', 'validé', [web1, url5]);
       const ch2 = new Challenge('b', 'validé', [web2, web3, url3, url4, url6, url8]);
       const course = new Course([ch1, ch2]);
-      const answer = new Answer(ch1, Answer.KO);
+      const answer = new Answer(ch1, AnswerStatus.KO);
       const assessment = new Assessment(course, [answer]);
 
       // then
@@ -232,15 +234,15 @@ describe('Unit | Model | Assessment', function() {
       const web3forChallengeOne = new Skill('web3');
       const ch1 = new Challenge('a', 'validé', [web3forChallengeOne]);
       const course = new Course([ch1]);
-      const answer = new Answer(ch1, Answer.KO);
-      const answer2 = new Answer(undefined, Answer.KO);
+      const answer = new Answer(ch1, AnswerStatus.KO);
+      const answer2 = new Answer(undefined, AnswerStatus.KO);
       const assessment = new Assessment(course, [answer, answer2]);
 
       // then
       expect([...assessment.failedSkills]).to.be.deep.equal([web3forChallengeOne]);
     });
 
-    it('should return [web3,web4] when challenge requiring web3,web4 was skipped', () => {
+    it('should return [web3, web4] when challenge requiring web3, web4 was skipped', () => {
       // given
       const web3 = new Skill('web3');
       const web4 = new Skill('web4');
@@ -248,7 +250,7 @@ describe('Unit | Model | Assessment', function() {
       const course = new Course([ch1]);
 
       // when
-      const answer = new Answer(ch1, Answer.SKIPPED);
+      const answer = new Answer(ch1, AnswerStatus.SKIPPED);
       const assessment = new Assessment(course, [answer]);
 
       // then
@@ -275,8 +277,8 @@ describe('Unit | Model | Assessment', function() {
       const ch1 = new Challenge('a', 'validé', [web1]);
       const ch2 = new Challenge('b', 'validé', [web2]);
       const ch3 = new Challenge('c', 'validé', [url3]);
-      const answerCh2 = new Answer(ch2, Answer.OK);
-      const answerCh3 = new Answer(ch3, Answer.OK);
+      const answerCh2 = new Answer(ch2, AnswerStatus.OK);
+      const answerCh3 = new Answer(ch3, AnswerStatus.OK);
       const challenges = [ch1, ch2, ch3];
       const course = new Course(challenges);
       const assessment = new Assessment(course, [answerCh2, answerCh3]);
@@ -289,7 +291,7 @@ describe('Unit | Model | Assessment', function() {
       // given
       const web1 = new Skill('web1');
       const ch1 = new Challenge('a', 'validé', [web1]);
-      const answerCh1 = new Answer(ch1, Answer.OK);
+      const answerCh1 = new Answer(ch1, AnswerStatus.OK);
       const course = new Course([ch1]);
       const assessment = new Assessment(course, [answerCh1]);
 
@@ -303,8 +305,8 @@ describe('Unit | Model | Assessment', function() {
       const ch2 = new Challenge('b', 'validé', [], 30);
       const ch3 = new Challenge('c', 'validé', [], undefined);
       const ch4 = new Challenge('d', 'validé', [], 30);
-      const answerCh1 = new Answer(ch1, Answer.OK);
-      const answerCh2 = new Answer(ch2, Answer.OK);
+      const answerCh1 = new Answer(ch1, AnswerStatus.OK);
+      const answerCh2 = new Answer(ch2, AnswerStatus.OK);
       const challenges = [ch1, ch2, ch3, ch4];
       const course = new Course(challenges);
 
@@ -455,9 +457,9 @@ describe('Unit | Model | Assessment', function() {
       const ch6 = new Challenge('rec6', 'validé', [url6]);
       const ch7 = new Challenge('rec7', 'validé', [rechInfo7]);
       const course = new Course([ch1, ch2, ch3, ch4, ch5, ch6, ch7]);
-      const answer1 = new Answer(ch2, Answer.OK);
-      const answer2 = new Answer(ch4, Answer.OK);
-      const answer3 = new Answer(ch6, Answer.KO);
+      const answer1 = new Answer(ch2, AnswerStatus.OK);
+      const answer2 = new Answer(ch4, AnswerStatus.OK);
+      const answer3 = new Answer(ch6, AnswerStatus.KO);
       const assessment = new Assessment(course, [answer1, answer2, answer3]);
 
       // then
@@ -475,13 +477,14 @@ describe('Unit | Model | Assessment', function() {
       const ch3Bis= new Challenge('rec3bis', 'validé', [web3]);
       const ch4 = new Challenge('rec4', 'validé', [web4]);
       const ch5 = new Challenge('rec5', 'validé', [web5]);
+
       it('should return a challenge of level 3 if user got levels 1, 2 ,3 and 4 at KO', function() {
         // given
         const course = new Course([ch1, ch2, ch3, ch3Bis, ch4, ch5]);
-        const answer1 = new Answer(ch1, 'ok');
-        const answer2 = new Answer(ch2, 'ok');
-        const answer3 = new Answer(undefined, 'ok');
-        const answer4 = new Answer(ch4, 'ko');
+        const answer1 = new Answer(ch1, AnswerStatus.OK);
+        const answer2 = new Answer(ch2, AnswerStatus.OK);
+        const answer3 = new Answer(undefined, AnswerStatus.OK);
+        const answer4 = new Answer(ch4, AnswerStatus.KO);
         const assessment = new Assessment(course, [answer1, answer2, answer3, answer4]);
 
         // then
@@ -491,11 +494,11 @@ describe('Unit | Model | Assessment', function() {
       it('should return a challenge of level 5 if user got levels 1, 2, 3, 4 with OK', function() {
         // given
         const course = new Course([ch1, ch2, ch3, ch3Bis, ch4, ch5]);
-        const answer1 = new Answer(ch1, 'ok');
-        const answer2 = new Answer(ch2, 'ok');
-        const answer3 = new Answer(undefined, 'ok');
-        const answer4 = new Answer(ch4, 'ok');
-        const assessment = new Assessment(course, [answer1, answer2, answer3,answer4]);
+        const answer1 = new Answer(ch1, AnswerStatus.OK);
+        const answer2 = new Answer(ch2, AnswerStatus.OK);
+        const answer3 = new Answer(undefined, AnswerStatus.OK);
+        const answer4 = new Answer(ch4, AnswerStatus.OK);
+        const assessment = new Assessment(course, [answer1, answer2, answer3, answer4]);
 
         // then
         expect(assessment.nextChallenge).to.equal(ch5);
@@ -503,9 +506,9 @@ describe('Unit | Model | Assessment', function() {
       it('should return a challenge of level 4 if user got levels 1, 2 and  3 archived', function() {
         // given
         const course = new Course([ch1, ch2, ch3, ch3Bis, ch4]);
-        const answer1 = new Answer(ch1, 'ok');
-        const answer2 = new Answer(ch2, 'ok');
-        const answer3 = new Answer(undefined, 'ok');
+        const answer1 = new Answer(ch1, AnswerStatus.OK);
+        const answer2 = new Answer(ch2, AnswerStatus.OK);
+        const answer3 = new Answer(undefined, AnswerStatus.OK);
         const assessment = new Assessment(course, [answer1, answer2, answer3]);
 
         // then
@@ -515,9 +518,9 @@ describe('Unit | Model | Assessment', function() {
       it('should return a challenge of level 3 if user got levels 1, 2 and 3 archived', function() {
         // given
         const course = new Course([ch1, ch2, ch3, ch3Bis]);
-        const answer1 = new Answer(ch1, 'ok');
-        const answer2 = new Answer(ch2, 'ok');
-        const answer3 = new Answer(undefined, 'ok');
+        const answer1 = new Answer(ch1, AnswerStatus.OK);
+        const answer2 = new Answer(ch2, AnswerStatus.OK);
+        const answer3 = new Answer(undefined, AnswerStatus.OK);
         const assessment = new Assessment(course, [answer1, answer2, answer3]);
 
         // then
@@ -533,7 +536,7 @@ describe('Unit | Model | Assessment', function() {
       const ch2 = new Challenge('rec2', 'validé', [web2]);
       const ch3 = new Challenge('rec3', 'validé', [web2]);
       const course = new Course([ch1, ch2, ch3]);
-      const answer = new Answer(ch2, Answer.OK);
+      const answer = new Answer(ch2, AnswerStatus.OK);
       const assessment = new Assessment(course, [answer]);
 
       // then
@@ -548,7 +551,7 @@ describe('Unit | Model | Assessment', function() {
       const answers = [];
       for (let i = 0; i < 20; i++) {
         challenges.push(new Challenge('rec' + i, 'validé', [web1]));
-        answers.push(new Answer(challenges[i], Answer.OK));
+        answers.push(new Answer(challenges[i], AnswerStatus.OK));
       }
       challenges.push(new Challenge('rec20', 'validé', [web2]));
       const course = new Course(challenges);
@@ -571,6 +574,85 @@ describe('Unit | Model | Assessment', function() {
       expect(assessment.nextChallenge).to.be.equal(firstChallenge);
       firstChallengeStub.restore();
     });
+
+    it('should return an easier challenge if user skipped previous challenge', function() {
+      // given
+      const web1 = new Skill('web1');
+      const web2 = new Skill('web2');
+      const web3 = new Skill('web3');
+      const ch1 = new Challenge('rec1', 'validé', [web1]);
+      const ch2a = new Challenge('rec2a', 'validé', [web2]);
+      const ch2b = new Challenge('rec2b', 'validé', [web2]);
+      const ch3 = new Challenge('rec3', 'validé', [web3]);
+      const course = new Course([ch1, ch2a, ch2b, ch3]);
+      const answer = new Answer(ch2a, AnswerStatus.SKIPPED);
+      const assessment = new Assessment(course, [answer]);
+
+      // then
+      expect(assessment.nextChallenge.hardestSkill.difficulty).to.be.equal(1);
+    });
+
+    it('should return any challenge at random if several challenges have equal reward at the middle of the test', function() {
+      // given
+      const web1 = new Skill('web1');
+      const web2 = new Skill('web2');
+      const web3 = new Skill('web3');
+      const url3 = new Skill('url3');
+      const ch1 = new Challenge('rec1', 'validé', [web1]);
+      const ch2a = new Challenge('rec2a', 'validé', [web2]);
+      const ch3a = new Challenge('rec3a', 'validé', [web3]);
+      const ch3b = new Challenge('rec3b', 'validé', [web3]);
+      const ch3c = new Challenge('rec3c', 'validé', [url3]);
+      const course = new Course([ch1, ch2a, ch3a, ch3b, ch3c]);
+      const answer = new Answer(ch2a, AnswerStatus.OK);
+      const assessment = new Assessment(course, [answer]);
+
+      // then
+      expect(assessment.nextChallenge.hardestSkill.difficulty).to.be.equal(3);
+    });
+
+    it('should not return a question of level 6 after first answer is correct', function() {
+      // given
+      const web1 = new Skill('web1');
+      const web2 = new Skill('web2');
+      const web4 = new Skill('web4');
+      const web6 = new Skill('web6');
+      const ch1 = new Challenge('rec1', 'validé', [web1]);
+      const ch2 = new Challenge('rec2', 'validé', [web2]);
+      const ch4 = new Challenge('rec4', 'validé', [web4]);
+      const ch6 = new Challenge('rec6', 'validé', [web6]);
+      const challenges = [ch1, ch2, ch4, ch6];
+      const course = new Course(challenges);
+      const answer = new Answer(ch2, AnswerStatus.OK);
+      const answers = [answer];
+      const assessment = new Assessment(course, answers);
+
+      // then
+      expect(assessment.nextChallenge.skills[0].difficulty).not.to.be.equal(6);
+    });
+
+    it('should return a challenge of difficulty 7 if challenge of difficulty 6 is correctly answered', function() {
+      // given
+      const web1 = new Skill('web1');
+      const web2 = new Skill('web2');
+      const web4 = new Skill('web4');
+      const web6 = new Skill('web6');
+      const web7 = new Skill('web7');
+      const ch1 = new Challenge('rec1', 'validé', [web1]);
+      const ch2 = new Challenge('rec2', 'validé', [web2]);
+      const ch4 = new Challenge('rec4', 'validé', [web4]);
+      const ch6 = new Challenge('rec6', 'validé', [web6]);
+      const ch7 = new Challenge('rec7', 'validé', [web7]);
+      const challenges = [ch1, ch2, ch4, ch6, ch7];
+      const course = new Course(challenges);
+      const answer2 = new Answer(ch2, AnswerStatus.OK);
+      const answer6 = new Answer(ch6, AnswerStatus.OK);
+      const answers = [answer2, answer6];
+      const assessment = new Assessment(course, answers);
+
+      // then
+      expect(assessment.nextChallenge.skills).to.be.deep.equal([web7]);
+    });
   });
 
   describe('#pixScore', function() {
@@ -592,8 +674,8 @@ describe('Unit | Model | Assessment', function() {
       const ch1 = new Challenge('a', 'validé', [skills['web1'], skills['web2']]);
       const ch2 = new Challenge('b', 'validé', [skills['web3']]);
       const course = new Course([ch1, ch2], competenceSkills);
-      const answer1 = new Answer(ch1, Answer.KO);
-      const answer2 = new Answer(ch2, Answer.KO);
+      const answer1 = new Answer(ch1, AnswerStatus.KO);
+      const answer2 = new Answer(ch2, AnswerStatus.KO);
       const assessment = new Assessment(course, [answer1, answer2]);
 
       // then
@@ -609,8 +691,8 @@ describe('Unit | Model | Assessment', function() {
       const ch1 = new Challenge('a', 'validé', [skills['web1'], skills['web2']]);
       const ch2 = new Challenge('b', 'validé', [skills['web3']]);
       const course = new Course([ch1, ch2], competenceSkills);
-      const answer1 = new Answer(ch1, Answer.OK);
-      const answer2 = new Answer(ch2, Answer.KO);
+      const answer1 = new Answer(ch1, AnswerStatus.OK);
+      const answer2 = new Answer(ch2, AnswerStatus.KO);
       const assessment = new Assessment(course, [answer1, answer2]);
 
       // then
@@ -627,9 +709,9 @@ describe('Unit | Model | Assessment', function() {
       const ch2 = new Challenge('b', 'validé', [skills['web2']]);
       const ch3 = new Challenge('c', 'validé', [skills['fou3']]);
       const course = new Course([ch1, ch2, ch3], competenceSkills);
-      const answer1 = new Answer(ch1, Answer.OK);
-      const answer2 = new Answer(ch2, Answer.KO);
-      const answer3 = new Answer(ch3, Answer.OK);
+      const answer1 = new Answer(ch1, AnswerStatus.OK);
+      const answer2 = new Answer(ch2, AnswerStatus.KO);
+      const answer3 = new Answer(ch3, AnswerStatus.OK);
       const assessment = new Assessment(course, [answer1, answer2, answer3]);
 
       // then
@@ -651,13 +733,13 @@ describe('Unit | Model | Assessment', function() {
         const ch3Challege = new Challenge('c', 'validé', [skills['ch3']]);
         const truc2Challege = new Challenge('c', 'validé', [skills['truc2']]);
         const course = new Course([web1Challenge, web3Challege, ch1Challenge, ch2Challenge, ch3Challege, truc2Challege], competenceSkills);
-        const answer1 = new Answer(web1Challenge, 'ok');
-        const answer2 = new Answer(undefined, 'ok');
-        const answer3 = new Answer(web3Challege, 'ok');
-        const answer4 = new Answer(ch1Challenge, 'ok');
-        const answer5 = new Answer(ch2Challenge, 'ok');
-        const answer6 = new Answer(ch3Challege, 'ok');
-        const answer7 = new Answer(truc2Challege, 'ok');
+        const answer1 = new Answer(web1Challenge, AnswerStatus.OK);
+        const answer2 = new Answer(undefined, AnswerStatus.OK);
+        const answer3 = new Answer(web3Challege, AnswerStatus.OK);
+        const answer4 = new Answer(ch1Challenge, AnswerStatus.OK);
+        const answer5 = new Answer(ch2Challenge, AnswerStatus.OK);
+        const answer6 = new Answer(ch3Challege, AnswerStatus.OK);
+        const answer7 = new Answer(truc2Challege, AnswerStatus.OK);
         const assessment = new Assessment(course, [answer1, answer2, answer3, answer4, answer5, answer6, answer7]);
 
         // then
@@ -678,12 +760,12 @@ describe('Unit | Model | Assessment', function() {
         const ch2Challenge = new Challenge('b', 'archived', [skills['ch2']]);
         const ch3Challege = new Challenge('c', 'validé', [skills['ch3']]);
         const course = new Course([web1Challenge, web2Challenge, web3Challege, ch1Challenge, ch2Challenge, ch3Challege], competenceSkills);
-        const answer1 = new Answer(web1Challenge, 'ok');
-        const answer2 = new Answer(undefined, 'ok');
-        const answer3 = new Answer(web3Challege, 'ok');
-        const answer4 = new Answer(ch1Challenge, 'ok');
-        const answer5 = new Answer(ch2Challenge, 'ok');
-        const answer6 = new Answer(ch3Challege, 'ok');
+        const answer1 = new Answer(web1Challenge, AnswerStatus.OK);
+        const answer2 = new Answer(undefined, AnswerStatus.OK);
+        const answer3 = new Answer(web3Challege, AnswerStatus.OK);
+        const answer4 = new Answer(ch1Challenge, AnswerStatus.OK);
+        const answer5 = new Answer(ch2Challenge, AnswerStatus.OK);
+        const answer6 = new Answer(ch3Challege, AnswerStatus.OK);
         const assessment = new Assessment(course, [answer1, answer2, answer3, answer4, answer5, answer6]);
 
         // then

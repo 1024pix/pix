@@ -3,6 +3,8 @@ const deactivationsService = require('./deactivations-service');
 const _ = require('../../infrastructure/utils/lodash-utils');
 const { t1, t2, applyPreTreatments } = require('./validation-treatments');
 
+const AnswerStatus = require('../models/AnswerStatus');
+
 function _applyPreTreatmentsToSolutions(solution) {
   return _.chain(solution)
     .split('\n')
@@ -45,51 +47,51 @@ function _formatResult(validations, deactivations) {
 
   if (deactivationsService.isDefault(deactivations)) {
     if (validations.t1t2t3Ratio <= 0.25) {
-      return 'ok';
+      return AnswerStatus.OK;
     }
-    return 'ko';
+    return AnswerStatus.KO;
   }
   else if (deactivationsService.hasOnlyT1(deactivations)) {
     if (validations.t2t3Ratio <= 0.25) {
-      return 'ok';
+      return AnswerStatus.OK;
     }
-    return 'ko';
+    return AnswerStatus.KO;
   }
   else if (deactivationsService.hasOnlyT2(deactivations)) {
     if (validations.t1t3Ratio <= 0.25) {
-      return 'ok';
+      return AnswerStatus.OK;
     }
-    return 'ko';
+    return AnswerStatus.KO;
   }
   else if (deactivationsService.hasOnlyT3(deactivations)) {
     if (_.includes(validations.adminAnswers, validations.t1t2)) {
-      return 'ok';
+      return AnswerStatus.OK;
     }
-    return 'ko';
+    return AnswerStatus.KO;
   }
   else if (deactivationsService.hasOnlyT1T2(deactivations)) {
     if (validations.t3Ratio <= 0.25) {
-      return 'ok';
+      return AnswerStatus.OK;
     }
-    return 'ko';
+    return AnswerStatus.KO;
   }
   else if (deactivationsService.hasOnlyT1T3(deactivations)) {
     if (_.includes(validations.adminAnswers, validations.t2)) {
-      return 'ok';
+      return AnswerStatus.OK;
     }
-    return 'ko';
+    return AnswerStatus.KO;
   }
   else if (deactivationsService.hasOnlyT2T3(deactivations)) {
     if (_.includes(validations.adminAnswers, validations.t1)) {
-      return 'ok';
+      return AnswerStatus.OK;
     }
-    return 'ko';
+    return AnswerStatus.KO;
   }
   else if (deactivationsService.hasT1T2T3(deactivations)) {
     if (_.includes(validations.adminAnswers, validations.userAnswer)) {
-      return 'ok';
+      return AnswerStatus.OK;
     }
-    return 'ko';
+    return AnswerStatus.KO;
   }
 }
 
@@ -101,7 +103,7 @@ module.exports = {
     if (!_.isString(answer)
       || !_.isString(solution)
       || _.isEmpty(solution)) {
-      return 'ko';
+      return AnswerStatus.KO;
     }
 
     const treatedAnswer = applyPreTreatments(answer);

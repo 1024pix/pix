@@ -102,4 +102,17 @@ describe('Acceptance | b2 - Afficher un QCM | ', function() {
       expect($('input:checkbox:checked')).to.have.lengthOf(2);
     });
   });
+
+  it('b2.11 L\'alerte n\'est pas affichée si l\'utilisateur valide sans avoir coché de réponse puis coche sur une réponse', async function() {
+    // given
+    await click('.challenge-actions__action-validate');
+
+    // when
+    await click($('.proposal-text:eq(1)'));
+
+    // then
+    const $alert = $('.alert');
+    expect($alert).to.have.lengthOf(0);
+  });
+
 });

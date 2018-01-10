@@ -6,8 +6,9 @@ const assessmentService = require('../../../../lib/domain/services/assessment-se
 const skillService = require('../../../../lib/domain/services/skills-service');
 const assessmentRepository = require('../../../../lib/infrastructure/repositories/assessment-repository');
 const challengeRepository = require('../../../../lib/infrastructure/repositories/challenge-repository');
+const certificationCourseRepository = require('../../../../lib/infrastructure/repositories/certification-course-repository');
 
-const { NotFoundError } = require('../../../../lib/domain/errors');
+const { AssessmentEndedError } = require('../../../../lib/domain/errors');
 
 const Assessment = require('../../../../lib/domain/models/data/assessment');
 const CertificationChallenge = require('../../../../lib/domain/models/CertificationChallenge');
@@ -59,12 +60,19 @@ describe('Unit | Controller | assessment-controller-get-next-challenge', () => {
       sandbox.stub(assessmentWithScore, 'save').resolves();
       sandbox.stub(skillService, 'saveAssessmentSkills').resolves();
       sandbox.stub(assessmentService, 'getAssessmentNextChallengeId');
+      sandbox.stub(assessmentService, 'getNextChallengeForCertificationCourse');
       sandbox.stub(assessmentRepository, 'get');
+      sandbox.stub(Boom, 'notFound').returns({ message: 'NotFoundError' });
+      sandbox.stub(Boom, 'badImplementation').returns({});
+      sandbox.stub(challengeRepository, 'get').resolves({});
+      sandbox.stub(certificationCourseRepository, 'updateStatus').resolves();
     });
 
     afterEach(() => {
       sandbox.restore();
     });
+
+    // TODO: Que faire si l'assessment n'existe pas pas ?
 
     describe('when the assessment is a preview', () => {
 
@@ -77,26 +85,123 @@ describe('Unit | Controller | assessment-controller-get-next-challenge', () => {
           userId: 5,
           estimatedLevel: 0,
           pixScore: 0,
+          type: 'PREVIEW'
         }));
+
+        assessmentService.getAssessmentNextChallengeId.rejects(new AssessmentEndedError());
       });
 
-      it('should return a 204 code directly', () => {
+      it('should return a 404 code directly', () => {
         // When
         const promise = assessmentController.getNextChallenge({ params: { id: PREVIEW_ASSESSMENT_ID } }, replyStub);
 
         // Then
         return promise.then(() => {
           expect(replyStub).to.have.been.calledOnce;
-          expect(codeStub).to.have.been.calledWith(204);
+          expect(replyStub).to.have.been.calledWith({ message: 'NotFoundError' });
+          expect(Boom.notFound).to.have.been.calledOnce;
         });
       });
+    });
+
+    describe('when retrieving the next challenge is failing', () => {
+
+      beforeEach(() => {
+        assessmentRepository.get.resolves(assessmentWithoutScore);
+      });
+
+      it('should call fetchAssessment', () => {
+        // given
+        const error = new Error();
+        assessmentService.getAssessmentNextChallengeId.rejects(error);
+
+        // When
+        const promise = assessmentController.getNextChallenge({ params: { id: 7531 } }, replyStub);
+
+        // Then
+        return promise.then(() => {
+          expect(Boom.badImplementation).to.have.been.calledWith(error);
+          expect(replyStub).to.have.been.calledWith(Boom.badImplementation(error));
+        });
+      });
+
     });
 
     describe('when the assessment is over', () => {
 
       beforeEach(() => {
-        assessmentService.getAssessmentNextChallengeId.resolves(null);
+        assessmentService.getAssessmentNextChallengeId.rejects(new AssessmentEndedError());
+        assessmentService.getNextChallengeForCertificationCourse.rejects(new AssessmentEndedError());
         assessmentRepository.get.resolves(assessmentWithoutScore);
+      });
+
+      context('when the assessment is a certification', () => {
+
+        it('should update the certification course status', () => {
+          // given
+          const certificationAssessment = new Assessment({
+            id: 7531,
+            courseId: '356',
+            userId: 5,
+            type: 'CERTIFICATION'
+          });
+          assessmentRepository.get.resolves(certificationAssessment);
+          assessmentService.fetchAssessment.resolves({ assessmentPix: certificationAssessment });
+
+          // when
+          const promise = assessmentController.getNextChallenge({ params: { id: 7531 } }, replyStub);
+
+          // then
+          return promise.then(() => {
+            expect(certificationCourseRepository.updateStatus).to.have.been.calledWith('completed', '356');
+          });
+        });
+
+        it('should return 500 when unable to persiste a new certification status', () => {
+          // given
+          const error = new Error();
+          certificationCourseRepository.updateStatus.rejects(error);
+          const certificationAssessment = new Assessment({
+            id: 7531,
+            courseId: '356',
+            userId: 5,
+            type: 'CERTIFICATION'
+          });
+          assessmentRepository.get.resolves(certificationAssessment);
+          assessmentService.fetchAssessment.resolves({ assessmentPix: certificationAssessment });
+
+          // when
+          const promise = assessmentController.getNextChallenge({ params: { id: 7531 } }, replyStub);
+
+          // then
+          return promise.then(() => {
+            expect(Boom.badImplementation).to.have.been.calledWith(error);
+            expect(replyStub).to.have.been.calledWith(Boom.badImplementation(error));
+          });
+        });
+      });
+
+      context('when the assessment is a not certification', () => {
+
+        it('should not update the certification course status', () => {
+          // given
+          const certificationAssessment = new Assessment({
+            id: 7531,
+            courseId: '356',
+            userId: 5,
+            type: 'PLACEMENT'
+          });
+          assessmentRepository.get.resolves(certificationAssessment);
+          assessmentService.fetchAssessment.resolves({ assessmentPix: certificationAssessment });
+
+          // when
+          const promise = assessmentController.getNextChallenge({ params: { id: 7531 } }, replyStub);
+
+          // then
+          return promise.then(() => {
+            expect(certificationCourseRepository.updateStatus).to.not.have.been.called;
+          });
+        });
       });
 
       it('should call fetchAssessment', () => {
@@ -143,22 +248,17 @@ describe('Unit | Controller | assessment-controller-get-next-challenge', () => {
         // Then
         return promise.then(() => {
           expect(replyStub).to.have.been.calledOnce;
-          expect(replyStub.getCalls()[0].args).to.deep.equal([]);
+          expect(replyStub).to.have.been.calledWith({ message: 'NotFoundError' });
+          expect(Boom.notFound).to.have.been.calledOnce;
         });
       });
 
       describe('when saving level and score is failing', () => {
 
-        let badImplementationSpy;
         let replyStub;
 
         beforeEach(() => {
-          badImplementationSpy = sinon.stub(Boom, 'badImplementation').returns({});
           replyStub = sinon.stub();
-        });
-
-        afterEach(() => {
-          badImplementationSpy.restore();
         });
 
         it('should return a badImplementation error when evaluating is an error', () => {
@@ -171,7 +271,7 @@ describe('Unit | Controller | assessment-controller-get-next-challenge', () => {
 
           // Then
           return promise.then(() => {
-            expect(badImplementationSpy).to.have.been.calledWith(error);
+            expect(Boom.badImplementation).to.have.been.calledWith(error);
             expect(replyStub).to.have.been.calledWith(Boom.badImplementation(error));
           });
         });
@@ -186,7 +286,7 @@ describe('Unit | Controller | assessment-controller-get-next-challenge', () => {
 
           // Then
           return promise.then(() => {
-            expect(badImplementationSpy).to.have.been.calledWith(error);
+            expect(Boom.badImplementation).to.have.been.calledWith(error);
             expect(replyStub).to.have.been.calledWith(Boom.badImplementation(error));
           });
 
@@ -224,9 +324,7 @@ describe('Unit | Controller | assessment-controller-get-next-challenge', () => {
 
       beforeEach(() => {
         assessmentRepository.get.resolves(certificationAssessment);
-        sandbox.stub(assessmentService, 'getNextChallengeForCertificationCourse');
         sandbox.stub(assessmentService, 'isCertificationAssessment').returns(true);
-        sandbox.stub(Boom, 'notFound').returns({ message: 'NotFoundError' });
       });
 
       it('should call getNextChallengeForCertificationCourse in assessmentService', function() {
@@ -245,7 +343,7 @@ describe('Unit | Controller | assessment-controller-get-next-challenge', () => {
 
       it('should reply 404 when unable to find the next challenge', () => {
         // given
-        assessmentService.getNextChallengeForCertificationCourse.rejects(new NotFoundError());
+        assessmentService.getNextChallengeForCertificationCourse.rejects(new AssessmentEndedError());
 
         // when
         const promise = assessmentController.getNextChallenge({ params: { id: 12 } }, replyStub);
@@ -261,7 +359,6 @@ describe('Unit | Controller | assessment-controller-get-next-challenge', () => {
         // given
         const challenge = new CertificationChallenge({ challengeId: 'idea' });
         assessmentService.getNextChallengeForCertificationCourse.resolves(challenge);
-        sandbox.stub(challengeRepository, 'get').resolves(false);
 
         // when
         const promise = assessmentController.getNextChallenge({ params: { id: 12 } }, replyStub);

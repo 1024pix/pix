@@ -10,7 +10,7 @@ describe('Unit | Repository | Certification Course', function() {
     let certificationCourse;
 
     beforeEach(() => {
-      certificationCourse = new CertificationCourse({ id: 'certifId', userId: 1 });
+      certificationCourse = new CertificationCourse({ id: 'certifId', userId: 1, status: 'completed' });
       const certificationCourseBookshelf = new CertificationCourseBookshelf(certificationCourse);
       sinon.stub(CertificationCourseBookshelf.prototype, 'save').resolves(certificationCourseBookshelf);
     });
@@ -19,7 +19,7 @@ describe('Unit | Repository | Certification Course', function() {
       CertificationCourseBookshelf.prototype.save.restore();
     });
 
-    it('should save the certification-course', function() {
+    it('should save the certification-course', () => {
       // when
       const promise = CertificationCourseRepository.save(certificationCourse);
 
@@ -30,7 +30,7 @@ describe('Unit | Repository | Certification Course', function() {
 
     });
 
-    it('return the saved certification course in JSON ', function() {
+    it('return the saved certification course in JSON ', () => {
       // when
       const promise = CertificationCourseRepository.save(certificationCourse);
 

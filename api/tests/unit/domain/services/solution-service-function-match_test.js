@@ -6,8 +6,14 @@ const serviceQroc = require('../../../../lib/domain/services/solution-service-qr
 const serviceQrocmInd = require('../../../../lib/domain/services/solution-service-qrocm-ind');
 const serviceQrocmDep = require('../../../../lib/domain/services/solution-service-qrocm-dep');
 const Answer = require('../../../../lib/domain/models/data/answer');
+const AnswerStatus = require('../../../../lib/domain/models/AnswerStatus');
 const Solution = require('../../../../lib/domain/models/referential/solution');
 const _ = require('../../../../lib/infrastructure/utils/lodash-utils');
+
+const ANSWER_OK = 'ok';
+const ANSWER_TIMEDOUT = 'timedout';
+const ANSWER_SKIPPED = 'aband';
+const ANSWER_UNIMPLEMENTED = 'unimplemented';
 
 describe('Unit | Service | SolutionService', function() {
 
@@ -34,7 +40,8 @@ describe('Unit | Service | SolutionService', function() {
       it('Should return "aband" if answer is #ABAND#', function() {
         const answer = buildAnswer('#ABAND#');
         const solution = buildSolution('QCU', 'some value');
-        expect(service.validate(answer, solution)).to.deep.equal({ result: 'aband', resultDetails: null });
+        const result = service.validate(answer, solution);
+        expect(result).to.deep.equal({ result: ANSWER_SKIPPED, resultDetails: null });
       });
 
       it('Should return result of solution-service-qcu.match() | user didnt abandoned | no timeout', function() {
@@ -43,17 +50,15 @@ describe('Unit | Service | SolutionService', function() {
         const answer = buildAnswer('qcuAnswer');
         const solution = buildSolution('QCU', 'qcuSolution');
 
-        sinon.stub(serviceQcu, 'match').withArgs('qcuAnswer', 'qcuSolution').returns('qcuMatching');
-        sinon.stub(service, '_timedOut').returns('resultOfTimeout');
+        sinon.stub(serviceQcu, 'match').withArgs('qcuAnswer', 'qcuSolution').returns(AnswerStatus.OK);
 
         // When
         const result = service.validate(answer, solution);
 
         // Then
         serviceQcu.match.restore();
-        service._timedOut.restore();
 
-        expect(result).to.deep.equal({ result: 'qcuMatching', resultDetails: null });
+        expect(result).to.deep.equal({ result: ANSWER_OK, resultDetails: null });
       });
 
       it('Should be verified against _timedOut function | user didnt abandoned | with timeout', function() {
@@ -62,17 +67,15 @@ describe('Unit | Service | SolutionService', function() {
         const answer = buildAnswer('qcuAnswer', -15);
         const solution = buildSolution('QCU', 'qcuSolution');
 
-        sinon.stub(serviceQcu, 'match').withArgs('qcuAnswer', 'qcuSolution').returns('qcuMatching');
-        sinon.stub(service, '_timedOut').returns('resultOfTimeout');
+        sinon.stub(serviceQcu, 'match').withArgs('qcuAnswer', 'qcuSolution').returns(AnswerStatus.OK);
 
         // When
         const result = service.validate(answer, solution);
 
         // Then
         serviceQcu.match.restore();
-        service._timedOut.restore();
 
-        expect(result).to.deep.equal({ result: 'resultOfTimeout', resultDetails: null });
+        expect(result).to.deep.equal({ result: ANSWER_TIMEDOUT, resultDetails: null });
       });
 
     });
@@ -82,7 +85,8 @@ describe('Unit | Service | SolutionService', function() {
       it('Should return "aband" if answer is #ABAND#', function() {
         const answer = buildAnswer('#ABAND#');
         const solution = buildSolution('QCM', 'some value');
-        expect(service.validate(answer, solution)).to.deep.equal({ result: 'aband', resultDetails: null });
+        const result = service.validate(answer, solution);
+        expect(result).to.deep.equal({ result: ANSWER_SKIPPED, resultDetails: null });
       });
 
       it('Should return result of solution-service-qcm.match() | user didnt abandoned | no timeout', function() {
@@ -91,17 +95,15 @@ describe('Unit | Service | SolutionService', function() {
         const answer = buildAnswer('qcmAnswer');
         const solution = buildSolution('QCM', 'qcmSolution');
 
-        sinon.stub(serviceQcm, 'match').withArgs('qcmAnswer', 'qcmSolution').returns('qcmMatching');
-        sinon.stub(service, '_timedOut').returns('resultOfTimeout');
+        sinon.stub(serviceQcm, 'match').withArgs('qcmAnswer', 'qcmSolution').returns(AnswerStatus.OK);
 
         // When
         const result = service.validate(answer, solution);
 
         // Then
         serviceQcm.match.restore();
-        service._timedOut.restore();
 
-        expect(result).to.deep.equal({ result: 'qcmMatching', resultDetails: null });
+        expect(result).to.deep.equal({ result: ANSWER_OK, resultDetails: null });
       });
 
       it('Should be verified against _timedOut function | user didnt abandoned | with timeout', function() {
@@ -110,17 +112,15 @@ describe('Unit | Service | SolutionService', function() {
         const answer = buildAnswer('qcmAnswer', -15);
         const solution = buildSolution('QCM', 'qcmSolution');
 
-        sinon.stub(serviceQcm, 'match').withArgs('qcmAnswer', 'qcmSolution').returns('qcmMatching');
-        sinon.stub(service, '_timedOut').returns('resultOfTimeout');
+        sinon.stub(serviceQcm, 'match').withArgs('qcmAnswer', 'qcmSolution').returns(AnswerStatus.OK);
 
         // When
         const result = service.validate(answer, solution);
 
         // Then
         serviceQcm.match.restore();
-        service._timedOut.restore();
 
-        expect(result).to.deep.equal({ result: 'resultOfTimeout', resultDetails: null });
+        expect(result).to.deep.equal({ result: ANSWER_TIMEDOUT, resultDetails: null });
       });
 
     });
@@ -130,7 +130,8 @@ describe('Unit | Service | SolutionService', function() {
       it('Should return "aband" if answer is #ABAND#', function() {
         const answer = buildAnswer('#ABAND#');
         const solution = buildSolution('QROC', 'some value');
-        expect(service.validate(answer, solution)).to.deep.equal({ result: 'aband', resultDetails: null });
+        const result = service.validate(answer, solution);
+        expect(result).to.deep.equal({ result: ANSWER_SKIPPED, resultDetails: null });
       });
 
       it('Should return result of solution-service-qroc.match() | user didnt abandoned | no timeout', function() {
@@ -140,21 +141,18 @@ describe('Unit | Service | SolutionService', function() {
         const solution = buildSolution('QROC', 'qrocSolution', null, { t1: true });
 
         const serviceQrocMatch = sinon.stub(serviceQroc, 'match');
-        const serviceTimedOut = sinon.stub(service, '_timedOut');
 
-        serviceQrocMatch.returns('qrocMatching');
+        serviceQrocMatch.returns(AnswerStatus.OK);
 
         // When
         const result = service.validate(answer, solution);
 
         // Then
         serviceQroc.match.restore();
-        service._timedOut.restore();
 
         sinon.assert.calledOnce(serviceQrocMatch);
         sinon.assert.calledWithExactly(serviceQrocMatch, 'qrocAnswer', 'qrocSolution', { t1: true });
-        sinon.assert.notCalled(serviceTimedOut);
-        expect(result).to.deep.equal({ result: 'qrocMatching', resultDetails: null });
+        expect(result).to.deep.equal({ result: ANSWER_OK, resultDetails: null });
       });
 
       it('Should be verified against _timedOut function | user didnt abandoned | with timeout', function() {
@@ -163,24 +161,19 @@ describe('Unit | Service | SolutionService', function() {
         const answer = buildAnswer('qrocAnswer', -15);
         const solution = buildSolution('QROC', 'qrocSolution', null, { t1: true });
         const serviceQrocMatch = sinon.stub(serviceQroc, 'match');
-        const serviceTimedOut = sinon.stub(service, '_timedOut');
 
-        serviceQrocMatch.returns('qrocMatching');
-        serviceTimedOut.returns('resultOfTimeout');
+        serviceQrocMatch.returns(AnswerStatus.OK);
 
         // When
         const result = service.validate(answer, solution);
 
         // Then
         serviceQroc.match.restore();
-        service._timedOut.restore();
 
         sinon.assert.calledOnce(serviceQrocMatch);
         sinon.assert.calledWithExactly(serviceQrocMatch, 'qrocAnswer', 'qrocSolution', { t1: true });
-        sinon.assert.calledOnce(serviceTimedOut);
-        sinon.assert.calledWithExactly(serviceTimedOut, 'qrocMatching', -15);
 
-        expect(result).to.deep.equal({ result: 'resultOfTimeout', resultDetails: null });
+        expect(result).to.deep.equal({ result: ANSWER_TIMEDOUT, resultDetails: null });
       });
 
     });
@@ -200,7 +193,8 @@ describe('Unit | Service | SolutionService', function() {
       it('Should return "aband" if answer is #ABAND#', function() {
         const answer = buildAnswer('#ABAND#');
         const solution = buildSolution('QROCM-ind', 'some value');
-        expect(service.validate(answer, solution)).to.deep.equal({ result: 'aband', resultDetails: null });
+        const result = service.validate(answer, solution);
+        expect(result).to.deep.equal({ result: ANSWER_SKIPPED, resultDetails: null });
       });
 
       it('Should return result of solution-service-qrocmInd.match() | user didnt abandoned | no timeout', function() {
@@ -209,21 +203,18 @@ describe('Unit | Service | SolutionService', function() {
         const answer = buildAnswer('qrocmIndAnswer');
         const solution = buildSolutionQROCMind('QROCM-ind', 'qrocmIndSolution', null, ['t2', 't3']);
         const serviceQrocmInd$match = sinon.stub(serviceQrocmInd, 'match');
-        const serviceTimedOut = sinon.stub(service, '_timedOut');
 
-        serviceQrocmInd$match.returns({ result: 'qrocmIndMatching', resultDetails: { shi: true, fu: false, mi: true } });
+        serviceQrocmInd$match.returns({ result: AnswerStatus.OK, resultDetails: { shi: true, fu: false, mi: true } });
 
         // When
         const result = service.validate(answer, solution);
 
         // Then
         serviceQrocmInd.match.restore();
-        service._timedOut.restore();
 
         sinon.assert.calledOnce(serviceQrocmInd$match);
         sinon.assert.calledWithExactly(serviceQrocmInd$match, 'qrocmIndAnswer', 'qrocmIndSolution', ['t2', 't3']);
-        sinon.assert.notCalled(serviceTimedOut);
-        expect(result).to.deep.equal({ result: 'qrocmIndMatching', resultDetails: { shi: true, fu: false, mi: true } });
+        expect(result).to.deep.equal({ result: ANSWER_OK, resultDetails: { shi: true, fu: false, mi: true } });
 
       });
 
@@ -233,24 +224,19 @@ describe('Unit | Service | SolutionService', function() {
         const answer = buildAnswer('qrocmIndAnswer', -15);
         const solution = buildSolutionQROCMind('QROCM-ind', 'qrocmIndSolution', null, ['t2', 't3']);
         const serviceQrocmInd$match = sinon.stub(serviceQrocmInd, 'match');
-        const serviceTimedOut = sinon.stub(service, '_timedOut');
 
-        serviceQrocmInd$match.returns({ result: 'qrocmIndMatching', resultDetails: { shi: true, fu: false, mi: true } });
-        serviceTimedOut.returns('resultOfTimeout');
+        serviceQrocmInd$match.returns({ result: AnswerStatus.OK, resultDetails: { shi: true, fu: false, mi: true } });
 
         // When
         const result = service.validate(answer, solution);
 
         // Then
         serviceQrocmInd.match.restore();
-        service._timedOut.restore();
 
         sinon.assert.calledOnce(serviceQrocmInd$match);
         sinon.assert.calledWithExactly(serviceQrocmInd$match, 'qrocmIndAnswer', 'qrocmIndSolution', ['t2', 't3']);
-        sinon.assert.calledOnce(serviceTimedOut);
-        sinon.assert.calledWithExactly(serviceTimedOut, 'qrocmIndMatching', -15);
 
-        expect(result).to.deep.equal({ result: 'resultOfTimeout', resultDetails: { shi: true, fu: false, mi: true } });
+        expect(result).to.deep.equal({ result: ANSWER_TIMEDOUT, resultDetails: { shi: true, fu: false, mi: true } });
       });
 
     });
@@ -260,7 +246,8 @@ describe('Unit | Service | SolutionService', function() {
       it('Should return "aband" if answer is #ABAND#', function() {
         const answer = buildAnswer('#ABAND#');
         const solution = buildSolution('QROCM-dep', 'some value');
-        expect(service.validate(answer, solution)).to.deep.equal({ result: 'aband', resultDetails: null });
+        const result = service.validate(answer, solution);
+        expect(result).to.deep.equal({ result: ANSWER_SKIPPED, resultDetails: null });
       });
 
       it('Should return result of solution-service-qrocmDep.match() | user didnt abandoned | no timeout', function() {
@@ -269,21 +256,18 @@ describe('Unit | Service | SolutionService', function() {
         const answer = buildAnswer('qrocmDepAnswer');
         const solution = buildSolution('QROCM-dep', 'qrocmDepSolution', 'anyScoring', { t1: true });
         const serviceQrocmDep$match = sinon.stub(serviceQrocmDep, 'match');
-        const serviceTimedOut = sinon.stub(service, '_timedOut');
 
-        serviceQrocmDep$match.returns('qrocmDepMatching');
+        serviceQrocmDep$match.returns(AnswerStatus.OK);
 
         // When
         const result = service.validate(answer, solution);
 
         // Then
         serviceQrocmDep.match.restore();
-        service._timedOut.restore();
 
         sinon.assert.calledOnce(serviceQrocmDep$match);
         sinon.assert.calledWithExactly(serviceQrocmDep$match, 'qrocmDepAnswer', 'qrocmDepSolution', 'anyScoring', { t1: true });
-        sinon.assert.notCalled(serviceTimedOut);
-        expect(result).to.deep.equal({ result: 'qrocmDepMatching', resultDetails: null });
+        expect(result).to.deep.equal({ result: ANSWER_OK, resultDetails: null });
       });
 
       it('Should be verified against _timedOut function | user didnt abandoned | with timeout', function() {
@@ -292,24 +276,19 @@ describe('Unit | Service | SolutionService', function() {
         const answer = buildAnswer('qrocmDepAnswer', -15);
         const solution = buildSolution('QROCM-dep', 'qrocmDepSolution', 'anyScoring', { t1: true });
         const serviceQrocmDep$match = sinon.stub(serviceQrocmDep, 'match');
-        const serviceTimedOut = sinon.stub(service, '_timedOut');
 
-        serviceQrocmDep$match.returns('qrocmDepMatching');
-        serviceTimedOut.returns('resultOfTimeout');
+        serviceQrocmDep$match.returns(AnswerStatus.OK);
 
         // When
         const result = service.validate(answer, solution);
 
         // Then
         serviceQrocmDep.match.restore();
-        service._timedOut.restore();
 
         sinon.assert.calledOnce(serviceQrocmDep$match);
         sinon.assert.calledWithExactly(serviceQrocmDep$match, 'qrocmDepAnswer', 'qrocmDepSolution', 'anyScoring', { t1: true });
-        sinon.assert.calledOnce(serviceTimedOut);
-        sinon.assert.calledWithExactly(serviceTimedOut, 'qrocmDepMatching', -15);
 
-        expect(result).to.deep.equal({ result: 'resultOfTimeout', resultDetails: null });
+        expect(result).to.deep.equal({ result: ANSWER_TIMEDOUT, resultDetails: null });
       });
 
     });
@@ -319,17 +298,16 @@ describe('Unit | Service | SolutionService', function() {
       it('should return "aband" if answer is #ABAND#', function() {
         const answer = buildAnswer('#ABAND#');
         const solution = buildSolution('SOME_TYPE');
-        expect(service.validate(answer, solution)).to.deep.equal({ result: 'aband', resultDetails: null });
+        const result = service.validate(answer, solution);
+        expect(result).to.deep.equal({ result: ANSWER_SKIPPED, resultDetails: null });
       });
 
       it('should return "unimplemented" if answer is not #ABAND#', function() {
         const answer = buildAnswer('some value');
         const solution = buildSolution('SOME_TYPE');
-        expect(service.validate(answer, solution)).to.deep.equal({ result: 'unimplemented', resultDetails: null });
+        const result = service.validate(answer, solution);
+        expect(result).to.deep.equal({ result: ANSWER_UNIMPLEMENTED, resultDetails: null });
       });
-
     });
-
   });
-
 });
