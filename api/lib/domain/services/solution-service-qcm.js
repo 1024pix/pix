@@ -1,13 +1,15 @@
 const _ = require('../../infrastructure/utils/lodash-utils');
 
+const AnswerStatus = require('../models/AnswerStatus');
+
 module.exports = {
 
   match(answer, solution) {
 
     if (_.areCSVequivalent(answer, solution)) {
-      return 'ok';
+      return AnswerStatus.OK;
     }
-    return 'ko';
+    return AnswerStatus.KO;
   }
 
 };

@@ -169,8 +169,12 @@ describe('Acceptance | API | assessment-controller-get-nonadaptive', function() 
 
       // When
       return server.injectThen(options).then((response) => {
-        expect(response.result).to.be.null;
-        expect(response.statusCode).to.equal(204);
+        expect(response.statusCode).to.equal(404);
+        expect(response.result).to.deep.equal({
+          error: 'Not Found',
+          message: 'Not Found',
+          statusCode: 404
+        });
       });
     });
 

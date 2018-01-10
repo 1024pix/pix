@@ -1,3 +1,5 @@
+const AnswerStatus = require('../domain/models/AnswerStatus');
+
 Set.prototype.union = function(setB) {
   const union = new Set(this);
   for (const elem of setB) {
@@ -27,7 +29,7 @@ class Assessment {
 
   get validatedSkills() {
     return this.answers
-      .filter(answer => answer.result === 'ok')
+      .filter(answer => AnswerStatus.isOK(answer.result))
       .reduce((skills, answer) => {
         answer.challenge.skills.forEach(skill => {
           skill.getEasierWithin(this.course.tubes).forEach(validatedSkill => {
@@ -40,7 +42,7 @@ class Assessment {
 
   get failedSkills() {
     return this.answers
-      .filter(answer => answer.result !== 'ok')
+      .filter(answer => AnswerStatus.isFailed(answer.result))
       .reduce((failedSkills, answer) => {
         // FIXME refactor !
         // XXX we take the current failed skill and all the harder skills in
@@ -59,7 +61,18 @@ class Assessment {
   }
 
   _computeLikelihood(level, answers) {
-    return -Math.abs(answers.map(answer => answer.binaryOutcome - this._probaOfCorrectAnswer(level, answer.maxDifficulty)).reduce((a, b) => a + b));
+    const extraAnswers = answers.map(answer => {
+      return { binaryOutcome: answer.binaryOutcome, maxDifficulty: answer.maxDifficulty };
+    });
+
+    const answerThatAnyoneCanSolve = { maxDifficulty: 0, binaryOutcome: 1 };
+    const answerThatNobodyCanSolve = { maxDifficulty: 7, binaryOutcome: 0 };
+    extraAnswers.push(answerThatAnyoneCanSolve, answerThatNobodyCanSolve);
+
+    const diffBetweenResultAndProbaToResolve = extraAnswers.map(answer =>
+      answer.binaryOutcome - this._probaOfCorrectAnswer(level, answer.maxDifficulty));
+
+    return -Math.abs(diffBetweenResultAndProbaToResolve.reduce((a, b) => a + b));
   }
 
   _isAnActiveChallenge(challenge) {
@@ -86,22 +99,22 @@ class Assessment {
     return availableChallenges.filter(challenge => challenge.timer === undefined);
   }
 
-  get estimatedLevel() {
+  get predictedLevel() {
     if (this.answers.length === 0) {
       return 2;
     }
     let maxLikelihood = -Infinity;
     let level = 0.5;
-    let estimatedLevel = 0.5;
+    let predictedLevel = 0.5;
     while (level < 8) {
       const likelihood = this._computeLikelihood(level, this.answers);
       if (likelihood > maxLikelihood) {
         maxLikelihood = likelihood;
-        estimatedLevel = level;
+        predictedLevel = level;
       }
       level += 0.5;
     }
-    return estimatedLevel;
+    return predictedLevel;
   }
 
   _extraValidatedSkillsIfSolved(challenge) {
@@ -118,7 +131,7 @@ class Assessment {
   }
 
   _computeReward(challenge) {
-    const proba = this._probaOfCorrectAnswer(this.estimatedLevel, challenge.hardestSkill.difficulty);
+    const proba = this._probaOfCorrectAnswer(this.predictedLevel, challenge.hardestSkill.difficulty);
     const nbExtraSkillsIfSolved = this._extraValidatedSkillsIfSolved(challenge).size;
     const nbFailedSkillsIfUnsolved = this._extraFailedSkillsIfUnsolved(challenge).size;
     return proba * nbExtraSkillsIfSolved + (1 - proba) * nbFailedSkillsIfUnsolved;
@@ -145,21 +158,24 @@ class Assessment {
     if (this.answers.length >= 20) {
       return null;
     }
-    const filteredChallenges = this.filteredChallenges;
-    let bestChallenge = filteredChallenges[0];
-    let maxReward = 0;
-    filteredChallenges.forEach(challenge => {
-      const reward = this._computeReward(challenge);
-      if (reward > maxReward) {
-        maxReward = reward;
-        bestChallenge = challenge;
-      }
+
+    const byDescendingRewards = (a, b) => { return b.reward - a.reward; };
+    const randomly = () => { return 0.5 - Math.random(); };
+
+    const challengesAndRewards = this.filteredChallenges.map(challenge => {
+      return { challenge: challenge, reward: this._computeReward(challenge) };
     });
-    if (maxReward === 0) { // We will not get extra information
+    const challengeWithMaxReward = challengesAndRewards.sort(byDescendingRewards)[0];
+    const maxReward = challengeWithMaxReward.reward;
+
+    if (maxReward === 0) {
       return null;
-    } else {
-      return bestChallenge; // May be undefined, in which case the adaptive test should be ended
     }
+
+    const bestChallenges = challengesAndRewards
+      .filter(challengeAndReward => challengeAndReward.reward === maxReward)
+      .map(challengeAndReward => challengeAndReward.challenge);
+    return bestChallenges.sort(randomly)[0];
   }
 
   get pixScore() {

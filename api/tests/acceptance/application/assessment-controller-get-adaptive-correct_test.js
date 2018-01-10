@@ -236,7 +236,12 @@ describe('Acceptance | API | assessment-controller-get-adaptive-correct', () => 
 
       // then
       return promise.then((response) => {
-        expect(response.result).to.be.null;
+        expect(response.statusCode).to.equal(404);
+        expect(response.result).to.deep.equal({
+          error: 'Not Found',
+          message: 'Not Found',
+          statusCode: 404
+        });
       });
     });
   });

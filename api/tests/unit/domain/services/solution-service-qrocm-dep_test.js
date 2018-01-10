@@ -1,6 +1,11 @@
 const { describe, it, expect } = require('../../../test-helper');
 
+const AnswerStatus = require('../../../../lib/domain/models/AnswerStatus');
 const service = require('../../../../lib/domain/services/solution-service-qrocm-dep');
+
+const ANSWER_PARTIALLY = AnswerStatus.PARTIALLY;
+const ANSWER_OK = AnswerStatus.OK;
+const ANSWER_KO = AnswerStatus.KO;
 
 describe('Unit | Service | SolutionServiceQROCM-dep ', function() {
 
@@ -44,7 +49,7 @@ describe('Unit | Service | SolutionServiceQROCM-dep ', function() {
 
     failedCases.forEach((testCase) => {
       it(`should return "ko" when ${testCase.when}`, () => {
-        expect(service.match(testCase.answer, testCase.solution)).to.equal('ko');
+        expect(service.match(testCase.answer, testCase.solution)).to.deep.equal(ANSWER_KO);
       });
     });
 
@@ -93,7 +98,7 @@ describe('Unit | Service | SolutionServiceQROCM-dep ', function() {
 
     maximalScoreCases.forEach(function(testCase) {
       it(`Should return "ok" when ${testCase.when}`, function() {
-        expect(service.match(testCase.answer, testCase.solution)).to.equal('ok');
+        expect(service.match(testCase.answer, testCase.solution)).to.deep.equal(ANSWER_OK);
       });
     });
 
@@ -102,11 +107,11 @@ describe('Unit | Service | SolutionServiceQROCM-dep ', function() {
   describe('if solution type is QROCM-dep with scoring', function() {
 
     it('should return "ko" for badly formatted solution', function() {
-      expect(service.match('num1: Google\nnum2: Yahoo', 'solution like a QCU', '1: @acquix')).to.equal('ko');
+      expect(service.match('num1: Google\nnum2: Yahoo', 'solution like a QCU', '1: @acquix')).to.deep.equal(ANSWER_KO);
     });
 
     it('should return "ko" when answer is incorrect', function() {
-      expect(service.match('num1: Foo\nnum2: Bar', twoPossibleSolutions, '1: acquix')).to.equal('ko');
+      expect(service.match('num1: Foo\nnum2: Bar', twoPossibleSolutions, '1: acquix')).to.deep.equal(ANSWER_KO);
     });
 
     const maximalScoreCases = [
@@ -132,7 +137,7 @@ describe('Unit | Service | SolutionServiceQROCM-dep ', function() {
 
     maximalScoreCases.forEach(function(testCase) {
       it(`should return "ok" when ${testCase.when}`, function() {
-        expect(service.match(testCase.answer, testCase.solution, testCase.scoring)).to.equal('ok');
+        expect(service.match(testCase.answer, testCase.solution, testCase.scoring)).to.deep.equal(ANSWER_OK);
       });
     });
 
@@ -160,7 +165,7 @@ describe('Unit | Service | SolutionServiceQROCM-dep ', function() {
     partialScoreCases.forEach(function(testCase) {
 
       it(`should return "partially" when ${testCase.when}`, function() {
-        expect(service.match(testCase.answer, testCase.solution, testCase.scoring)).to.equal('partially');
+        expect(service.match(testCase.answer, testCase.solution, testCase.scoring)).to.deep.equal(ANSWER_PARTIALLY);
       });
 
     });
@@ -194,7 +199,7 @@ describe('Unit | Service | SolutionServiceQROCM-dep ', function() {
 
     failedCases.forEach(function(testCase) {
       it(`should return "ko" when ${testCase.when}`, function() {
-        expect(service.match(testCase.answer, testCase.solution, testCase.scoring)).to.equal('ko');
+        expect(service.match(testCase.answer, testCase.solution, testCase.scoring)).to.deep.equal(ANSWER_KO);
       });
     });
 
@@ -205,7 +210,7 @@ describe('Unit | Service | SolutionServiceQROCM-dep ', function() {
     const allCases = [
       {
         when: 'no stress',
-        output: 'ok',
+        output: ANSWER_OK,
         answer: 'num1: pqrs\nnum2: efgh',
         solution: 'Google:\n- abcd\n- efgh\n- hijk\nYahoo:\n- lmno\n- pqrs\n',
         scoring: '1: acquix\n2: acquix',
@@ -213,7 +218,7 @@ describe('Unit | Service | SolutionServiceQROCM-dep ', function() {
       },
       {
         when: 'spaces stress',
-        output: 'ok',
+        output: ANSWER_OK,
         answer: 'num1: p q r s \nnum2: efgh',
         solution: 'Google:\n- abcd\n- efgh\n- hijk\nYahoo:\n- lmno\n- pqrs\n',
         scoring: '1: acquix\n2: acquix',
@@ -221,7 +226,7 @@ describe('Unit | Service | SolutionServiceQROCM-dep ', function() {
       },
       {
         when: 'reverted spaces stress',
-        output: 'ok',
+        output: ANSWER_OK,
         answer: 'num1: pqrs \nnum2: efgh',
         solution: 'Google:\n- abcd\n- efgh\n- hijk\nYahoo:\n- lmno\n- p q r s \n',
         scoring: '1: acquix\n2: acquix',
@@ -229,7 +234,7 @@ describe('Unit | Service | SolutionServiceQROCM-dep ', function() {
       },
       {
         when: 'uppercase stress',
-        output: 'ok',
+        output: ANSWER_OK,
         answer: 'num1: PQRS \nnum2: efgh',
         solution: 'Google:\n- abcd\n- efgh\n- hijk\nYahoo:\n- lmno\n- pqrs\n',
         scoring: '1: acquix\n2: acquix',
@@ -237,7 +242,7 @@ describe('Unit | Service | SolutionServiceQROCM-dep ', function() {
       },
       {
         when: 'reverted uppercase stress',
-        output: 'ok',
+        output: ANSWER_OK,
         answer: 'num1: pqrs \nnum2: efgh',
         solution: 'Google:\n- abcd\n- efgh\n- hijk\nYahoo:\n- lmno\n- PQRS\n',
         scoring: '1: acquix\n2: acquix',
@@ -245,7 +250,7 @@ describe('Unit | Service | SolutionServiceQROCM-dep ', function() {
       },
       {
         when: 'accent stress',
-        output: 'ok',
+        output: ANSWER_OK,
         answer: 'num1: ÿüôî \nnum2: efgh',
         solution: 'Google:\n- abcd\n- efgh\n- hijk\nYahoo:\n- lmno\n- yuoi\n',
         scoring: '1: acquix\n2: acquix',
@@ -253,7 +258,7 @@ describe('Unit | Service | SolutionServiceQROCM-dep ', function() {
       },
       {
         when: 'reverted accent stress',
-        output: 'ok',
+        output: ANSWER_OK,
         answer: 'num1: yuoi \nnum2: efgh',
         solution: 'Google:\n- abcd\n- efgh\n- hijk\nYahoo:\n- lmno\n- ÿüôî\n',
         scoring: '1: acquix\n2: acquix',
@@ -261,7 +266,7 @@ describe('Unit | Service | SolutionServiceQROCM-dep ', function() {
       },
       {
         when: 'diacritic stress',
-        output: 'ok',
+        output: ANSWER_OK,
         answer: 'num1: ççççç \nnum2: efgh',
         solution: 'Google:\n- abcd\n- efgh\n- hijk\nYahoo:\n- lmno\n- ccccc\n',
         scoring: '1: acquix\n2: acquix',
@@ -269,7 +274,7 @@ describe('Unit | Service | SolutionServiceQROCM-dep ', function() {
       },
       {
         when: 'reverted diacritic stress',
-        output: 'ok',
+        output: ANSWER_OK,
         answer: 'num1: ccccc \nnum2: efgh',
         solution: 'Google:\n- abcd\n- efgh\n- hijk\nYahoo:\n- lmno\n- ççççç\n',
         scoring: '1: acquix\n2: acquix',
@@ -277,7 +282,7 @@ describe('Unit | Service | SolutionServiceQROCM-dep ', function() {
       },
       {
         when: 'punctuation stress',
-        output: 'ok',
+        output: ANSWER_OK,
         answer: 'num1: +p?q-r!s+ \nnum2: efgh',
         solution: 'Google:\n- abcd\n- efgh\n- hijk\nYahoo:\n- lmno\n- pqrs\n',
         scoring: '1: acquix\n2: acquix',
@@ -285,7 +290,7 @@ describe('Unit | Service | SolutionServiceQROCM-dep ', function() {
       },
       {
         when: 'reverted punctuation stress',
-        output: 'ok',
+        output: ANSWER_OK,
         answer: 'num1: pqrs \nnum2: efgh',
         solution: 'Google:\n- abcd\n- efgh\n- hijk\nYahoo:\n- lmno\n- +p?q-r!s+\n',
         scoring: '1: acquix\n2: acquix',
@@ -293,7 +298,7 @@ describe('Unit | Service | SolutionServiceQROCM-dep ', function() {
       },
       {
         when: 'levenshtein stress',
-        output: 'ok',
+        output: ANSWER_OK,
         answer: 'num1: 0123456789 \nnum2: efgh',
         solution: 'Google:\n- abcd\n- efgh\n- hijk\nYahoo:\n- lmno\n- 123456789\n',
         scoring: '1: acquix\n2: acquix',
@@ -301,7 +306,7 @@ describe('Unit | Service | SolutionServiceQROCM-dep ', function() {
       },
       {
         when: 'reverted levenshtein stress',
-        output: 'ok',
+        output: ANSWER_OK,
         answer: 'num1: 123456789 \nnum2: efgh',
         solution: 'Google:\n- abcd\n- efgh\n- hijk\nYahoo:\n- lmno\n- 0123456789\n',
         scoring: '1: acquix\n2: acquix',
@@ -311,7 +316,7 @@ describe('Unit | Service | SolutionServiceQROCM-dep ', function() {
 
     allCases.forEach(function(testCase) {
       it(`${testCase.when}, should return ${testCase.output} when answer is "${testCase.answer}" and solution is "${testCase.solution}"`, function() {
-        expect(service.match(testCase.answer, testCase.solution, testCase.scoring, testCase.deactivations)).to.equal(testCase.output);
+        expect(service.match(testCase.answer, testCase.solution, testCase.scoring, testCase.deactivations)).to.deep.equal(testCase.output);
       });
     });
   });
@@ -321,7 +326,7 @@ describe('Unit | Service | SolutionServiceQROCM-dep ', function() {
     const allCases = [
       {
         when: 'no stress',
-        output: 'ok',
+        output: ANSWER_OK,
         answer: 'num1: pqrs\nnum2: efgh',
         solution: 'Google:\n- abcd\n- efgh\n- hijk\nYahoo:\n- lmno\n- pqrs\n',
         scoring: '1: acquix\n2: acquix',
@@ -329,7 +334,7 @@ describe('Unit | Service | SolutionServiceQROCM-dep ', function() {
       },
       {
         when: 'spaces stress',
-        output: 'partially',
+        output: ANSWER_PARTIALLY,
         answer: 'num1: p q r s \nnum2: efgh',
         solution: 'Google:\n- abcd\n- efgh\n- hijk\nYahoo:\n- lmno\n- pqrs\n',
         scoring: '1: acquix\n2: acquix',
@@ -337,7 +342,7 @@ describe('Unit | Service | SolutionServiceQROCM-dep ', function() {
       },
       {
         when: 'reverted spaces stress',
-        output: 'partially',
+        output: ANSWER_PARTIALLY,
         answer: 'num1: pqrs \nnum2: efgh',
         solution: 'Google:\n- abcd\n- efgh\n- hijk\nYahoo:\n- lmno\n- p q r s \n',
         scoring: '1: acquix\n2: acquix',
@@ -345,7 +350,7 @@ describe('Unit | Service | SolutionServiceQROCM-dep ', function() {
       },
       {
         when: 'uppercase stress',
-        output: 'partially',
+        output: ANSWER_PARTIALLY,
         answer: 'num1: PQRS \nnum2: efgh',
         solution: 'Google:\n- abcd\n- efgh\n- hijk\nYahoo:\n- lmno\n- pqrs\n',
         scoring: '1: acquix\n2: acquix',
@@ -353,7 +358,7 @@ describe('Unit | Service | SolutionServiceQROCM-dep ', function() {
       },
       {
         when: 'reverted uppercase stress',
-        output: 'partially',
+        output: ANSWER_PARTIALLY,
         answer: 'num1: pqrs \nnum2: efgh',
         solution: 'Google:\n- abcd\n- efgh\n- hijk\nYahoo:\n- lmno\n- PQRS\n',
         scoring: '1: acquix\n2: acquix',
@@ -361,7 +366,7 @@ describe('Unit | Service | SolutionServiceQROCM-dep ', function() {
       },
       {
         when: 'accent stress',
-        output: 'partially',
+        output: ANSWER_PARTIALLY,
         answer: 'num1: ÿüôî \nnum2: efgh',
         solution: 'Google:\n- abcd\n- efgh\n- hijk\nYahoo:\n- lmno\n- yuoi\n',
         scoring: '1: acquix\n2: acquix',
@@ -369,7 +374,7 @@ describe('Unit | Service | SolutionServiceQROCM-dep ', function() {
       },
       {
         when: 'reverted accent stress',
-        output: 'partially',
+        output: ANSWER_PARTIALLY,
         answer: 'num1: yuoi \nnum2: efgh',
         solution: 'Google:\n- abcd\n- efgh\n- hijk\nYahoo:\n- lmno\n- ÿüôî\n',
         scoring: '1: acquix\n2: acquix',
@@ -377,7 +382,7 @@ describe('Unit | Service | SolutionServiceQROCM-dep ', function() {
       },
       {
         when: 'diacritic stress',
-        output: 'partially',
+        output: ANSWER_PARTIALLY,
         answer: 'num1: ççççç \nnum2: efgh',
         solution: 'Google:\n- abcd\n- efgh\n- hijk\nYahoo:\n- lmno\n- ccccc\n',
         scoring: '1: acquix\n2: acquix',
@@ -385,7 +390,7 @@ describe('Unit | Service | SolutionServiceQROCM-dep ', function() {
       },
       {
         when: 'reverted diacritic stress',
-        output: 'partially',
+        output: ANSWER_PARTIALLY,
         answer: 'num1: ccccc \nnum2: efgh',
         solution: 'Google:\n- abcd\n- efgh\n- hijk\nYahoo:\n- lmno\n- ççççç\n',
         scoring: '1: acquix\n2: acquix',
@@ -393,7 +398,7 @@ describe('Unit | Service | SolutionServiceQROCM-dep ', function() {
       },
       {
         when: 'punctuation stress',
-        output: 'ok',
+        output: ANSWER_OK,
         answer: 'num1: +p?q-r!s+ \nnum2: efgh',
         solution: 'Google:\n- abcd\n- efgh\n- hijk\nYahoo:\n- lmno\n- pqrs\n',
         scoring: '1: acquix\n2: acquix',
@@ -401,7 +406,7 @@ describe('Unit | Service | SolutionServiceQROCM-dep ', function() {
       },
       {
         when: 'reverted punctuation stress',
-        output: 'ok',
+        output: ANSWER_OK,
         answer: 'num1: pqrs \nnum2: efgh',
         solution: 'Google:\n- abcd\n- efgh\n- hijk\nYahoo:\n- lmno\n- +p?q-r!s+\n',
         scoring: '1: acquix\n2: acquix',
@@ -409,7 +414,7 @@ describe('Unit | Service | SolutionServiceQROCM-dep ', function() {
       },
       {
         when: 'levenshtein stress',
-        output: 'ok',
+        output: ANSWER_OK,
         answer: 'num1: 0123456789 \nnum2: efgh',
         solution: 'Google:\n- abcd\n- efgh\n- hijk\nYahoo:\n- lmno\n- 123456789\n',
         scoring: '1: acquix\n2: acquix',
@@ -417,7 +422,7 @@ describe('Unit | Service | SolutionServiceQROCM-dep ', function() {
       },
       {
         when: 'reverted levenshtein stress',
-        output: 'ok',
+        output: ANSWER_OK,
         answer: 'num1: 123456789 \nnum2: efgh',
         solution: 'Google:\n- abcd\n- efgh\n- hijk\nYahoo:\n- lmno\n- 0123456789\n',
         scoring: '1: acquix\n2: acquix',
@@ -427,7 +432,7 @@ describe('Unit | Service | SolutionServiceQROCM-dep ', function() {
 
     allCases.forEach(function(testCase) {
       it(testCase.when + ', should return ' + testCase.output + ' when answer is "' + testCase.answer + '" and solution is "' + testCase.solution + '"', function() {
-        expect(service.match(testCase.answer, testCase.solution, testCase.scoring, testCase.deactivations)).to.equal(testCase.output);
+        expect(service.match(testCase.answer, testCase.solution, testCase.scoring, testCase.deactivations)).to.deep.equal(testCase.output);
       });
     });
   });
@@ -437,7 +442,7 @@ describe('Unit | Service | SolutionServiceQROCM-dep ', function() {
     const allCases = [
       {
         when: 'no stress',
-        output: 'ok',
+        output: ANSWER_OK,
         answer: 'num1: pqrs\nnum2: efgh',
         solution: 'Google:\n- abcd\n- efgh\n- hijk\nYahoo:\n- lmno\n- pqrs\n',
         scoring: '1: acquix\n2: acquix',
@@ -445,7 +450,7 @@ describe('Unit | Service | SolutionServiceQROCM-dep ', function() {
       },
       {
         when: 'spaces stress',
-        output: 'ok',
+        output: ANSWER_OK,
         answer: 'num1: p q r s \nnum2: efgh',
         solution: 'Google:\n- abcd\n- efgh\n- hijk\nYahoo:\n- lmno\n- pqrs\n',
         scoring: '1: acquix\n2: acquix',
@@ -453,7 +458,7 @@ describe('Unit | Service | SolutionServiceQROCM-dep ', function() {
       },
       {
         when: 'reverted spaces stress',
-        output: 'ok',
+        output: ANSWER_OK,
         answer: 'num1: pqrs \nnum2: efgh',
         solution: 'Google:\n- abcd\n- efgh\n- hijk\nYahoo:\n- lmno\n- p q r s \n',
         scoring: '1: acquix\n2: acquix',
@@ -461,7 +466,7 @@ describe('Unit | Service | SolutionServiceQROCM-dep ', function() {
       },
       {
         when: 'uppercase stress',
-        output: 'ok',
+        output: ANSWER_OK,
         answer: 'num1: PQRS \nnum2: efgh',
         solution: 'Google:\n- abcd\n- efgh\n- hijk\nYahoo:\n- lmno\n- pqrs\n',
         scoring: '1: acquix\n2: acquix',
@@ -469,7 +474,7 @@ describe('Unit | Service | SolutionServiceQROCM-dep ', function() {
       },
       {
         when: 'reverted uppercase stress',
-        output: 'ok',
+        output: ANSWER_OK,
         answer: 'num1: pqrs \nnum2: efgh',
         solution: 'Google:\n- abcd\n- efgh\n- hijk\nYahoo:\n- lmno\n- PQRS\n',
         scoring: '1: acquix\n2: acquix',
@@ -477,7 +482,7 @@ describe('Unit | Service | SolutionServiceQROCM-dep ', function() {
       },
       {
         when: 'accent stress',
-        output: 'ok',
+        output: ANSWER_OK,
         answer: 'num1: ÿüôî \nnum2: efgh',
         solution: 'Google:\n- abcd\n- efgh\n- hijk\nYahoo:\n- lmno\n- yuoi\n',
         scoring: '1: acquix\n2: acquix',
@@ -485,7 +490,7 @@ describe('Unit | Service | SolutionServiceQROCM-dep ', function() {
       },
       {
         when: 'reverted accent stress',
-        output: 'ok',
+        output: ANSWER_OK,
         answer: 'num1: yuoi \nnum2: efgh',
         solution: 'Google:\n- abcd\n- efgh\n- hijk\nYahoo:\n- lmno\n- ÿüôî\n',
         scoring: '1: acquix\n2: acquix',
@@ -493,7 +498,7 @@ describe('Unit | Service | SolutionServiceQROCM-dep ', function() {
       },
       {
         when: 'diacritic stress',
-        output: 'ok',
+        output: ANSWER_OK,
         answer: 'num1: ççççç \nnum2: efgh',
         solution: 'Google:\n- abcd\n- efgh\n- hijk\nYahoo:\n- lmno\n- ccccc\n',
         scoring: '1: acquix\n2: acquix',
@@ -501,7 +506,7 @@ describe('Unit | Service | SolutionServiceQROCM-dep ', function() {
       },
       {
         when: 'reverted diacritic stress',
-        output: 'ok',
+        output: ANSWER_OK,
         answer: 'num1: ccccc \nnum2: efgh',
         solution: 'Google:\n- abcd\n- efgh\n- hijk\nYahoo:\n- lmno\n- ççççç\n',
         scoring: '1: acquix\n2: acquix',
@@ -509,7 +514,7 @@ describe('Unit | Service | SolutionServiceQROCM-dep ', function() {
       },
       {
         when: 'punctuation stress',
-        output: 'partially',
+        output: ANSWER_PARTIALLY,
         answer: 'num1: +p?q-r!s+ \nnum2: efgh',
         solution: 'Google:\n- abcd\n- efgh\n- hijk\nYahoo:\n- lmno\n- pqrs\n',
         scoring: '1: acquix\n2: acquix',
@@ -517,7 +522,7 @@ describe('Unit | Service | SolutionServiceQROCM-dep ', function() {
       },
       {
         when: 'reverted punctuation stress',
-        output: 'partially',
+        output: ANSWER_PARTIALLY,
         answer: 'num1: pqrs \nnum2: efgh',
         solution: 'Google:\n- abcd\n- efgh\n- hijk\nYahoo:\n- lmno\n- +p?q-r!s+\n',
         scoring: '1: acquix\n2: acquix',
@@ -525,7 +530,7 @@ describe('Unit | Service | SolutionServiceQROCM-dep ', function() {
       },
       {
         when: 'levenshtein stress',
-        output: 'ok',
+        output: ANSWER_OK,
         answer: 'num1: 0123456789 \nnum2: efgh',
         solution: 'Google:\n- abcd\n- efgh\n- hijk\nYahoo:\n- lmno\n- 123456789\n',
         scoring: '1: acquix\n2: acquix',
@@ -533,7 +538,7 @@ describe('Unit | Service | SolutionServiceQROCM-dep ', function() {
       },
       {
         when: 'reverted levenshtein stress',
-        output: 'ok',
+        output: ANSWER_OK,
         answer: 'num1: 123456789 \nnum2: efgh',
         solution: 'Google:\n- abcd\n- efgh\n- hijk\nYahoo:\n- lmno\n- 0123456789\n',
         scoring: '1: acquix\n2: acquix',
@@ -543,7 +548,7 @@ describe('Unit | Service | SolutionServiceQROCM-dep ', function() {
 
     allCases.forEach(function(testCase) {
       it(testCase.when + ', should return ' + testCase.output + ' when answer is "' + testCase.answer + '" and solution is "' + testCase.solution + '"', function() {
-        expect(service.match(testCase.answer, testCase.solution, testCase.scoring, testCase.deactivations)).to.equal(testCase.output);
+        expect(service.match(testCase.answer, testCase.solution, testCase.scoring, testCase.deactivations)).to.deep.equal(testCase.output);
       });
     });
   });
@@ -553,7 +558,7 @@ describe('Unit | Service | SolutionServiceQROCM-dep ', function() {
     const allCases = [
       {
         when: 'no stress',
-        output: 'ok',
+        output: ANSWER_OK,
         answer: 'num1: pqrs\nnum2: efgh',
         solution: 'Google:\n- abcd\n- efgh\n- hijk\nYahoo:\n- lmno\n- pqrs\n',
         scoring: '1: acquix\n2: acquix',
@@ -561,7 +566,7 @@ describe('Unit | Service | SolutionServiceQROCM-dep ', function() {
       },
       {
         when: 'spaces stress',
-        output: 'ok',
+        output: ANSWER_OK,
         answer: 'num1: p q r s \nnum2: efgh',
         solution: 'Google:\n- abcd\n- efgh\n- hijk\nYahoo:\n- lmno\n- pqrs\n',
         scoring: '1: acquix\n2: acquix',
@@ -569,7 +574,7 @@ describe('Unit | Service | SolutionServiceQROCM-dep ', function() {
       },
       {
         when: 'reverted spaces stress',
-        output: 'ok',
+        output: ANSWER_OK,
         answer: 'num1: pqrs \nnum2: efgh',
         solution: 'Google:\n- abcd\n- efgh\n- hijk\nYahoo:\n- lmno\n- p q r s \n',
         scoring: '1: acquix\n2: acquix',
@@ -577,7 +582,7 @@ describe('Unit | Service | SolutionServiceQROCM-dep ', function() {
       },
       {
         when: 'uppercase stress',
-        output: 'ok',
+        output: ANSWER_OK,
         answer: 'num1: PQRS \nnum2: efgh',
         solution: 'Google:\n- abcd\n- efgh\n- hijk\nYahoo:\n- lmno\n- pqrs\n',
         scoring: '1: acquix\n2: acquix',
@@ -585,7 +590,7 @@ describe('Unit | Service | SolutionServiceQROCM-dep ', function() {
       },
       {
         when: 'reverted uppercase stress',
-        output: 'ok',
+        output: ANSWER_OK,
         answer: 'num1: pqrs \nnum2: efgh',
         solution: 'Google:\n- abcd\n- efgh\n- hijk\nYahoo:\n- lmno\n- PQRS\n',
         scoring: '1: acquix\n2: acquix',
@@ -593,7 +598,7 @@ describe('Unit | Service | SolutionServiceQROCM-dep ', function() {
       },
       {
         when: 'accent stress',
-        output: 'ok',
+        output: ANSWER_OK,
         answer: 'num1: ÿüôî \nnum2: efgh',
         solution: 'Google:\n- abcd\n- efgh\n- hijk\nYahoo:\n- lmno\n- yuoi\n',
         scoring: '1: acquix\n2: acquix',
@@ -601,7 +606,7 @@ describe('Unit | Service | SolutionServiceQROCM-dep ', function() {
       },
       {
         when: 'reverted accent stress',
-        output: 'ok',
+        output: ANSWER_OK,
         answer: 'num1: yuoi \nnum2: efgh',
         solution: 'Google:\n- abcd\n- efgh\n- hijk\nYahoo:\n- lmno\n- ÿüôî\n',
         scoring: '1: acquix\n2: acquix',
@@ -609,7 +614,7 @@ describe('Unit | Service | SolutionServiceQROCM-dep ', function() {
       },
       {
         when: 'diacritic stress',
-        output: 'ok',
+        output: ANSWER_OK,
         answer: 'num1: ççççç \nnum2: efgh',
         solution: 'Google:\n- abcd\n- efgh\n- hijk\nYahoo:\n- lmno\n- ccccc\n',
         scoring: '1: acquix\n2: acquix',
@@ -617,7 +622,7 @@ describe('Unit | Service | SolutionServiceQROCM-dep ', function() {
       },
       {
         when: 'reverted diacritic stress',
-        output: 'ok',
+        output: ANSWER_OK,
         answer: 'num1: ccccc \nnum2: efgh',
         solution: 'Google:\n- abcd\n- efgh\n- hijk\nYahoo:\n- lmno\n- ççççç\n',
         scoring: '1: acquix\n2: acquix',
@@ -625,7 +630,7 @@ describe('Unit | Service | SolutionServiceQROCM-dep ', function() {
       },
       {
         when: 'punctuation stress',
-        output: 'ok',
+        output: ANSWER_OK,
         answer: 'num1: +p?q-r!s+ \nnum2: efgh',
         solution: 'Google:\n- abcd\n- efgh\n- hijk\nYahoo:\n- lmno\n- pqrs\n',
         scoring: '1: acquix\n2: acquix',
@@ -633,7 +638,7 @@ describe('Unit | Service | SolutionServiceQROCM-dep ', function() {
       },
       {
         when: 'reverted punctuation stress',
-        output: 'ok',
+        output: ANSWER_OK,
         answer: 'num1: pqrs \nnum2: efgh',
         solution: 'Google:\n- abcd\n- efgh\n- hijk\nYahoo:\n- lmno\n- +p?q-r!s+\n',
         scoring: '1: acquix\n2: acquix',
@@ -641,7 +646,7 @@ describe('Unit | Service | SolutionServiceQROCM-dep ', function() {
       },
       {
         when: 'levenshtein stress',
-        output: 'partially',
+        output: ANSWER_PARTIALLY,
         answer: 'num1: 0123456789 \nnum2: efgh',
         solution: 'Google:\n- abcd\n- efgh\n- hijk\nYahoo:\n- lmno\n- 123456789\n',
         scoring: '1: acquix\n2: acquix',
@@ -649,7 +654,7 @@ describe('Unit | Service | SolutionServiceQROCM-dep ', function() {
       },
       {
         when: 'reverted levenshtein stress',
-        output: 'partially',
+        output: ANSWER_PARTIALLY,
         answer: 'num1: 123456789 \nnum2: efgh',
         solution: 'Google:\n- abcd\n- efgh\n- hijk\nYahoo:\n- lmno\n- 0123456789\n',
         scoring: '1: acquix\n2: acquix',
@@ -659,7 +664,7 @@ describe('Unit | Service | SolutionServiceQROCM-dep ', function() {
 
     allCases.forEach(function(testCase) {
       it(testCase.when + ', should return ' + testCase.output + ' when answer is "' + testCase.answer + '" and solution is "' + testCase.solution + '"', function() {
-        expect(service.match(testCase.answer, testCase.solution, testCase.scoring, testCase.deactivations)).to.equal(testCase.output);
+        expect(service.match(testCase.answer, testCase.solution, testCase.scoring, testCase.deactivations)).to.deep.equal(testCase.output);
       });
     });
   });
@@ -669,7 +674,7 @@ describe('Unit | Service | SolutionServiceQROCM-dep ', function() {
     const allCases = [
       {
         when: 'no stress',
-        output: 'ok',
+        output: ANSWER_OK,
         answer: 'num1: pqrs\nnum2: efgh',
         solution: 'Google:\n- abcd\n- efgh\n- hijk\nYahoo:\n- lmno\n- pqrs\n',
         scoring: '1: acquix\n2: acquix',
@@ -677,7 +682,7 @@ describe('Unit | Service | SolutionServiceQROCM-dep ', function() {
       },
       {
         when: 'spaces stress',
-        output: 'partially',
+        output: ANSWER_PARTIALLY,
         answer: 'num1: p q r s \nnum2: efgh',
         solution: 'Google:\n- abcd\n- efgh\n- hijk\nYahoo:\n- lmno\n- pqrs\n',
         scoring: '1: acquix\n2: acquix',
@@ -685,7 +690,7 @@ describe('Unit | Service | SolutionServiceQROCM-dep ', function() {
       },
       {
         when: 'reverted spaces stress',
-        output: 'partially',
+        output: ANSWER_PARTIALLY,
         answer: 'num1: pqrs \nnum2: efgh',
         solution: 'Google:\n- abcd\n- efgh\n- hijk\nYahoo:\n- lmno\n- p q r s \n',
         scoring: '1: acquix\n2: acquix',
@@ -693,7 +698,7 @@ describe('Unit | Service | SolutionServiceQROCM-dep ', function() {
       },
       {
         when: 'uppercase stress',
-        output: 'partially',
+        output: ANSWER_PARTIALLY,
         answer: 'num1: PQRS \nnum2: efgh',
         solution: 'Google:\n- abcd\n- efgh\n- hijk\nYahoo:\n- lmno\n- pqrs\n',
         scoring: '1: acquix\n2: acquix',
@@ -701,7 +706,7 @@ describe('Unit | Service | SolutionServiceQROCM-dep ', function() {
       },
       {
         when: 'reverted uppercase stress',
-        output: 'partially',
+        output: ANSWER_PARTIALLY,
         answer: 'num1: pqrs \nnum2: efgh',
         solution: 'Google:\n- abcd\n- efgh\n- hijk\nYahoo:\n- lmno\n- PQRS\n',
         scoring: '1: acquix\n2: acquix',
@@ -709,7 +714,7 @@ describe('Unit | Service | SolutionServiceQROCM-dep ', function() {
       },
       {
         when: 'accent stress',
-        output: 'partially',
+        output: ANSWER_PARTIALLY,
         answer: 'num1: ÿüôî \nnum2: efgh',
         solution: 'Google:\n- abcd\n- efgh\n- hijk\nYahoo:\n- lmno\n- yuoi\n',
         scoring: '1: acquix\n2: acquix',
@@ -717,7 +722,7 @@ describe('Unit | Service | SolutionServiceQROCM-dep ', function() {
       },
       {
         when: 'reverted accent stress',
-        output: 'partially',
+        output: ANSWER_PARTIALLY,
         answer: 'num1: yuoi \nnum2: efgh',
         solution: 'Google:\n- abcd\n- efgh\n- hijk\nYahoo:\n- lmno\n- ÿüôî\n',
         scoring: '1: acquix\n2: acquix',
@@ -725,7 +730,7 @@ describe('Unit | Service | SolutionServiceQROCM-dep ', function() {
       },
       {
         when: 'diacritic stress',
-        output: 'partially',
+        output: ANSWER_PARTIALLY,
         answer: 'num1: ççççç \nnum2: efgh',
         solution: 'Google:\n- abcd\n- efgh\n- hijk\nYahoo:\n- lmno\n- ccccc\n',
         scoring: '1: acquix\n2: acquix',
@@ -733,7 +738,7 @@ describe('Unit | Service | SolutionServiceQROCM-dep ', function() {
       },
       {
         when: 'reverted diacritic stress',
-        output: 'partially',
+        output: ANSWER_PARTIALLY,
         answer: 'num1: ccccc \nnum2: efgh',
         solution: 'Google:\n- abcd\n- efgh\n- hijk\nYahoo:\n- lmno\n- ççççç\n',
         scoring: '1: acquix\n2: acquix',
@@ -741,7 +746,7 @@ describe('Unit | Service | SolutionServiceQROCM-dep ', function() {
       },
       {
         when: 'punctuation stress',
-        output: 'partially',
+        output: ANSWER_PARTIALLY,
         answer: 'num1: +p?q-r!s+ \nnum2: efgh',
         solution: 'Google:\n- abcd\n- efgh\n- hijk\nYahoo:\n- lmno\n- pqrs\n',
         scoring: '1: acquix\n2: acquix',
@@ -749,7 +754,7 @@ describe('Unit | Service | SolutionServiceQROCM-dep ', function() {
       },
       {
         when: 'reverted punctuation stress',
-        output: 'partially',
+        output: ANSWER_PARTIALLY,
         answer: 'num1: pqrs \nnum2: efgh',
         solution: 'Google:\n- abcd\n- efgh\n- hijk\nYahoo:\n- lmno\n- +p?q-r!s+\n',
         scoring: '1: acquix\n2: acquix',
@@ -757,7 +762,7 @@ describe('Unit | Service | SolutionServiceQROCM-dep ', function() {
       },
       {
         when: 'levenshtein stress',
-        output: 'ok',
+        output: ANSWER_OK,
         answer: 'num1: 0123456789 \nnum2: efgh',
         solution: 'Google:\n- abcd\n- efgh\n- hijk\nYahoo:\n- lmno\n- 123456789\n',
         scoring: '1: acquix\n2: acquix',
@@ -765,7 +770,7 @@ describe('Unit | Service | SolutionServiceQROCM-dep ', function() {
       },
       {
         when: 'reverted levenshtein stress',
-        output: 'ok',
+        output: ANSWER_OK,
         answer: 'num1: 123456789 \nnum2: efgh',
         solution: 'Google:\n- abcd\n- efgh\n- hijk\nYahoo:\n- lmno\n- 0123456789\n',
         scoring: '1: acquix\n2: acquix',
@@ -775,7 +780,7 @@ describe('Unit | Service | SolutionServiceQROCM-dep ', function() {
 
     allCases.forEach(function(testCase) {
       it(testCase.when + ', should return ' + testCase.output + ' when answer is "' + testCase.answer + '" and solution is "' + testCase.solution + '"', function() {
-        expect(service.match(testCase.answer, testCase.solution, testCase.scoring, testCase.deactivations)).to.equal(testCase.output);
+        expect(service.match(testCase.answer, testCase.solution, testCase.scoring, testCase.deactivations)).to.deep.equal(testCase.output);
       });
     });
   });
@@ -785,7 +790,7 @@ describe('Unit | Service | SolutionServiceQROCM-dep ', function() {
     const allCases = [
       {
         when: 'no stress',
-        output: 'ok',
+        output: ANSWER_OK,
         answer: 'num1: pqrs\nnum2: efgh',
         solution: 'Google:\n- abcd\n- efgh\n- hijk\nYahoo:\n- lmno\n- pqrs\n',
         scoring: '1: acquix\n2: acquix',
@@ -793,7 +798,7 @@ describe('Unit | Service | SolutionServiceQROCM-dep ', function() {
       },
       {
         when: 'spaces stress',
-        output: 'partially',
+        output: ANSWER_PARTIALLY,
         answer: 'num1: p q r s \nnum2: efgh',
         solution: 'Google:\n- abcd\n- efgh\n- hijk\nYahoo:\n- lmno\n- pqrs\n',
         scoring: '1: acquix\n2: acquix',
@@ -801,7 +806,7 @@ describe('Unit | Service | SolutionServiceQROCM-dep ', function() {
       },
       {
         when: 'reverted spaces stress',
-        output: 'partially',
+        output: ANSWER_PARTIALLY,
         answer: 'num1: pqrs \nnum2: efgh',
         solution: 'Google:\n- abcd\n- efgh\n- hijk\nYahoo:\n- lmno\n- p q r s \n',
         scoring: '1: acquix\n2: acquix',
@@ -809,7 +814,7 @@ describe('Unit | Service | SolutionServiceQROCM-dep ', function() {
       },
       {
         when: 'uppercase stress',
-        output: 'partially',
+        output: ANSWER_PARTIALLY,
         answer: 'num1: PQRS \nnum2: efgh',
         solution: 'Google:\n- abcd\n- efgh\n- hijk\nYahoo:\n- lmno\n- pqrs\n',
         scoring: '1: acquix\n2: acquix',
@@ -817,7 +822,7 @@ describe('Unit | Service | SolutionServiceQROCM-dep ', function() {
       },
       {
         when: 'reverted uppercase stress',
-        output: 'partially',
+        output: ANSWER_PARTIALLY,
         answer: 'num1: pqrs \nnum2: efgh',
         solution: 'Google:\n- abcd\n- efgh\n- hijk\nYahoo:\n- lmno\n- PQRS\n',
         scoring: '1: acquix\n2: acquix',
@@ -825,7 +830,7 @@ describe('Unit | Service | SolutionServiceQROCM-dep ', function() {
       },
       {
         when: 'accent stress',
-        output: 'partially',
+        output: ANSWER_PARTIALLY,
         answer: 'num1: ÿüôî \nnum2: efgh',
         solution: 'Google:\n- abcd\n- efgh\n- hijk\nYahoo:\n- lmno\n- yuoi\n',
         scoring: '1: acquix\n2: acquix',
@@ -833,7 +838,7 @@ describe('Unit | Service | SolutionServiceQROCM-dep ', function() {
       },
       {
         when: 'reverted accent stress',
-        output: 'partially',
+        output: ANSWER_PARTIALLY,
         answer: 'num1: yuoi \nnum2: efgh',
         solution: 'Google:\n- abcd\n- efgh\n- hijk\nYahoo:\n- lmno\n- ÿüôî\n',
         scoring: '1: acquix\n2: acquix',
@@ -841,7 +846,7 @@ describe('Unit | Service | SolutionServiceQROCM-dep ', function() {
       },
       {
         when: 'diacritic stress',
-        output: 'partially',
+        output: ANSWER_PARTIALLY,
         answer: 'num1: ççççç \nnum2: efgh',
         solution: 'Google:\n- abcd\n- efgh\n- hijk\nYahoo:\n- lmno\n- ccccc\n',
         scoring: '1: acquix\n2: acquix',
@@ -849,7 +854,7 @@ describe('Unit | Service | SolutionServiceQROCM-dep ', function() {
       },
       {
         when: 'reverted diacritic stress',
-        output: 'partially',
+        output: ANSWER_PARTIALLY,
         answer: 'num1: ccccc \nnum2: efgh',
         solution: 'Google:\n- abcd\n- efgh\n- hijk\nYahoo:\n- lmno\n- ççççç\n',
         scoring: '1: acquix\n2: acquix',
@@ -857,7 +862,7 @@ describe('Unit | Service | SolutionServiceQROCM-dep ', function() {
       },
       {
         when: 'punctuation stress',
-        output: 'ok',
+        output: ANSWER_OK,
         answer: 'num1: +p?q-r!s+ \nnum2: efgh',
         solution: 'Google:\n- abcd\n- efgh\n- hijk\nYahoo:\n- lmno\n- pqrs\n',
         scoring: '1: acquix\n2: acquix',
@@ -865,7 +870,7 @@ describe('Unit | Service | SolutionServiceQROCM-dep ', function() {
       },
       {
         when: 'reverted punctuation stress',
-        output: 'ok',
+        output: ANSWER_OK,
         answer: 'num1: pqrs \nnum2: efgh',
         solution: 'Google:\n- abcd\n- efgh\n- hijk\nYahoo:\n- lmno\n- +p?q-r!s+\n',
         scoring: '1: acquix\n2: acquix',
@@ -873,7 +878,7 @@ describe('Unit | Service | SolutionServiceQROCM-dep ', function() {
       },
       {
         when: 'levenshtein stress',
-        output: 'partially',
+        output: ANSWER_PARTIALLY,
         answer: 'num1: 0123456789 \nnum2: efgh',
         solution: 'Google:\n- abcd\n- efgh\n- hijk\nYahoo:\n- lmno\n- 123456789\n',
         scoring: '1: acquix\n2: acquix',
@@ -881,7 +886,7 @@ describe('Unit | Service | SolutionServiceQROCM-dep ', function() {
       },
       {
         when: 'reverted levenshtein stress',
-        output: 'partially',
+        output: ANSWER_PARTIALLY,
         answer: 'num1: 123456789 \nnum2: efgh',
         solution: 'Google:\n- abcd\n- efgh\n- hijk\nYahoo:\n- lmno\n- 0123456789\n',
         scoring: '1: acquix\n2: acquix',
@@ -891,7 +896,7 @@ describe('Unit | Service | SolutionServiceQROCM-dep ', function() {
 
     allCases.forEach(function(testCase) {
       it(testCase.when + ', should return ' + testCase.output + ' when answer is "' + testCase.answer + '" and solution is "' + testCase.solution + '"', function() {
-        expect(service.match(testCase.answer, testCase.solution, testCase.scoring, testCase.deactivations)).to.equal(testCase.output);
+        expect(service.match(testCase.answer, testCase.solution, testCase.scoring, testCase.deactivations)).to.deep.equal(testCase.output);
       });
     });
   });
@@ -901,7 +906,7 @@ describe('Unit | Service | SolutionServiceQROCM-dep ', function() {
     const allCases = [
       {
         when: 'no stress',
-        output: 'ok',
+        output: ANSWER_OK,
         answer: 'num1: pqrs\nnum2: efgh',
         solution: 'Google:\n- abcd\n- efgh\n- hijk\nYahoo:\n- lmno\n- pqrs\n',
         scoring: '1: acquix\n2: acquix',
@@ -909,7 +914,7 @@ describe('Unit | Service | SolutionServiceQROCM-dep ', function() {
       },
       {
         when: 'spaces stress',
-        output: 'partially',
+        output: ANSWER_PARTIALLY,
         answer: 'num1: p q r s \nnum2: efgh',
         solution: 'Google:\n- abcd\n- efgh\n- hijk\nYahoo:\n- lmno\n- pqrs\n',
         scoring: '1: acquix\n2: acquix',
@@ -917,7 +922,7 @@ describe('Unit | Service | SolutionServiceQROCM-dep ', function() {
       },
       {
         when: 'reverted spaces stress',
-        output: 'partially',
+        output: ANSWER_PARTIALLY,
         answer: 'num1: pqrs \nnum2: efgh',
         solution: 'Google:\n- abcd\n- efgh\n- hijk\nYahoo:\n- lmno\n- p q r s \n',
         scoring: '1: acquix\n2: acquix',
@@ -925,7 +930,7 @@ describe('Unit | Service | SolutionServiceQROCM-dep ', function() {
       },
       {
         when: 'uppercase stress',
-        output: 'partially',
+        output: ANSWER_PARTIALLY,
         answer: 'num1: PQRS \nnum2: efgh',
         solution: 'Google:\n- abcd\n- efgh\n- hijk\nYahoo:\n- lmno\n- pqrs\n',
         scoring: '1: acquix\n2: acquix',
@@ -933,7 +938,7 @@ describe('Unit | Service | SolutionServiceQROCM-dep ', function() {
       },
       {
         when: 'reverted uppercase stress',
-        output: 'partially',
+        output: ANSWER_PARTIALLY,
         answer: 'num1: pqrs \nnum2: efgh',
         solution: 'Google:\n- abcd\n- efgh\n- hijk\nYahoo:\n- lmno\n- PQRS\n',
         scoring: '1: acquix\n2: acquix',
@@ -941,7 +946,7 @@ describe('Unit | Service | SolutionServiceQROCM-dep ', function() {
       },
       {
         when: 'accent stress',
-        output: 'partially',
+        output: ANSWER_PARTIALLY,
         answer: 'num1: ÿüôî \nnum2: efgh',
         solution: 'Google:\n- abcd\n- efgh\n- hijk\nYahoo:\n- lmno\n- yuoi\n',
         scoring: '1: acquix\n2: acquix',
@@ -949,7 +954,7 @@ describe('Unit | Service | SolutionServiceQROCM-dep ', function() {
       },
       {
         when: 'reverted accent stress',
-        output: 'partially',
+        output: ANSWER_PARTIALLY,
         answer: 'num1: yuoi \nnum2: efgh',
         solution: 'Google:\n- abcd\n- efgh\n- hijk\nYahoo:\n- lmno\n- ÿüôî\n',
         scoring: '1: acquix\n2: acquix',
@@ -957,7 +962,7 @@ describe('Unit | Service | SolutionServiceQROCM-dep ', function() {
       },
       {
         when: 'diacritic stress',
-        output: 'partially',
+        output: ANSWER_PARTIALLY,
         answer: 'num1: ççççç \nnum2: efgh',
         solution: 'Google:\n- abcd\n- efgh\n- hijk\nYahoo:\n- lmno\n- ccccc\n',
         scoring: '1: acquix\n2: acquix',
@@ -965,7 +970,7 @@ describe('Unit | Service | SolutionServiceQROCM-dep ', function() {
       },
       {
         when: 'reverted diacritic stress',
-        output: 'partially',
+        output: ANSWER_PARTIALLY,
         answer: 'num1: ccccc \nnum2: efgh',
         solution: 'Google:\n- abcd\n- efgh\n- hijk\nYahoo:\n- lmno\n- ççççç\n',
         scoring: '1: acquix\n2: acquix',
@@ -973,7 +978,7 @@ describe('Unit | Service | SolutionServiceQROCM-dep ', function() {
       },
       {
         when: 'punctuation stress',
-        output: 'partially',
+        output: ANSWER_PARTIALLY,
         answer: 'num1: +p?q-r!s+ \nnum2: efgh',
         solution: 'Google:\n- abcd\n- efgh\n- hijk\nYahoo:\n- lmno\n- pqrs\n',
         scoring: '1: acquix\n2: acquix',
@@ -981,7 +986,7 @@ describe('Unit | Service | SolutionServiceQROCM-dep ', function() {
       },
       {
         when: 'reverted punctuation stress',
-        output: 'partially',
+        output: ANSWER_PARTIALLY,
         answer: 'num1: pqrs \nnum2: efgh',
         solution: 'Google:\n- abcd\n- efgh\n- hijk\nYahoo:\n- lmno\n- +p?q-r!s+\n',
         scoring: '1: acquix\n2: acquix',
@@ -989,7 +994,7 @@ describe('Unit | Service | SolutionServiceQROCM-dep ', function() {
       },
       {
         when: 'levenshtein stress',
-        output: 'partially',
+        output: ANSWER_PARTIALLY,
         answer: 'num1: 0123456789 \nnum2: efgh',
         solution: 'Google:\n- abcd\n- efgh\n- hijk\nYahoo:\n- lmno\n- 123456789\n',
         scoring: '1: acquix\n2: acquix',
@@ -997,7 +1002,7 @@ describe('Unit | Service | SolutionServiceQROCM-dep ', function() {
       },
       {
         when: 'reverted levenshtein stress',
-        output: 'partially',
+        output: ANSWER_PARTIALLY,
         answer: 'num1: 123456789 \nnum2: efgh',
         solution: 'Google:\n- abcd\n- efgh\n- hijk\nYahoo:\n- lmno\n- 0123456789\n',
         scoring: '1: acquix\n2: acquix',
@@ -1007,7 +1012,7 @@ describe('Unit | Service | SolutionServiceQROCM-dep ', function() {
 
     allCases.forEach(function(testCase) {
       it(testCase.when + ', should return ' + testCase.output + ' when answer is "' + testCase.answer + '" and solution is "' + testCase.solution + '"', function() {
-        expect(service.match(testCase.answer, testCase.solution, testCase.scoring, testCase.deactivations)).to.equal(testCase.output);
+        expect(service.match(testCase.answer, testCase.solution, testCase.scoring, testCase.deactivations)).to.deep.equal(testCase.output);
       });
     });
   });

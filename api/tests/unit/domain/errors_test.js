@@ -115,4 +115,24 @@ describe('Unit | Domain | Errors', () => {
     });
   });
 
+  describe('#AssessmentEndedError', () => {
+    it('should export an AssessmentEndedError', () => {
+      expect(errors.AssessmentEndedError).to.exist;
+    });
+
+    it('should have a getErrorMessage method', () => {
+      // given
+      const expectedErrorMessage = {
+        data: {
+          error: ['L\'évaluation est terminée. Nous n\'avons plus de questions à vous poser.']
+        }
+      };
+
+      // then
+      const AssessmentEndedError = new errors.AssessmentEndedError();
+      expect(AssessmentEndedError.getErrorMessage).to.be.a('function');
+      expect(AssessmentEndedError.getErrorMessage()).to.eql(expectedErrorMessage);
+    });
+  });
+
 });

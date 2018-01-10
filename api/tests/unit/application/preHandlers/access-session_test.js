@@ -1,27 +1,23 @@
 const { describe, it, expect, sinon, beforeEach, afterEach } = require('../../../test-helper');
 const AccessSession = require('../../../../lib/application/preHandlers/access-session');
 const SessionService = require('../../../../lib/domain/services/session-service');
-const Boom = require('boom');
 
 describe('Unit | Pre-handler | Session Access', () => {
 
   describe('#sessionIsOpened', () => {
 
-    let replyStub;
-    let takeoverStub;
+    let reply;
+    let takeover;
+    let code;
 
     beforeEach(() => {
-      takeoverStub = sinon.stub();
-      replyStub = sinon.stub().returns({
-        takeover: takeoverStub
-      });
-
-      sinon.stub(Boom, 'unauthorized').returns({ message: 'Not authenticated for session' });
+      takeover = sinon.stub();
+      code = sinon.stub().returns({ takeover });
+      reply = sinon.stub().returns({ code });
       sinon.stub(SessionService, 'getCurrentCode').returns('e24d32');
     });
 
     afterEach(() => {
-      Boom.unauthorized.restore();
       SessionService.getCurrentCode.restore();
     });
 
@@ -36,11 +32,12 @@ describe('Unit | Pre-handler | Session Access', () => {
         const request = { payload: { data: { attributes: {} } } };
 
         // when
-        AccessSession.sessionIsOpened(request, replyStub);
+        AccessSession.sessionIsOpened(request, reply);
 
         // then
-        expect(replyStub).to.have.been.calledWith(Boom.unauthorized());
-        expect(takeoverStub).to.have.been.called;
+        expect(reply).to.have.been.called;
+        expect(code).to.have.been.called;
+        expect(takeover).to.have.been.called;
       });
     });
 
@@ -50,11 +47,11 @@ describe('Unit | Pre-handler | Session Access', () => {
         const request = { payload: { data: { attributes: { id: '1245', 'session-code': 'WrongCode' } } } };
 
         // when
-        AccessSession.sessionIsOpened(request, replyStub);
+        AccessSession.sessionIsOpened(request, reply);
 
         // then
-        expect(replyStub).to.have.been.calledWith(Boom.unauthorized());
-        expect(takeoverStub).to.have.been.called;
+        expect(reply).to.have.been.called;
+        expect(takeover).to.have.been.called;
       });
     });
 
@@ -73,11 +70,11 @@ describe('Unit | Pre-handler | Session Access', () => {
         };
 
         // when
-        AccessSession.sessionIsOpened(request, replyStub);
+        AccessSession.sessionIsOpened(request, reply);
 
         // then
-        expect(replyStub).to.have.been.calledWith(requestWithoutSessionCode);
-        expect(takeoverStub).not.to.have.been.called;
+        expect(reply).to.have.been.calledWith(requestWithoutSessionCode);
+        expect(takeover).not.to.have.been.called;
       });
     });
   });

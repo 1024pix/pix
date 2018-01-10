@@ -14,7 +14,7 @@ const CertificationCourse = require('../../../lib/domain/models/CertificationCou
 module.exports = {
   save(request, reply) {
     const userId = request.pre.userId;
-    let certificationCourse = new CertificationCourse({ userId });
+    let certificationCourse = new CertificationCourse({ userId, status: 'started' });
 
     return CertificationCourseRepository.save(certificationCourse)
       .then((savedCertificationCourse) => {
@@ -33,11 +33,13 @@ module.exports = {
     const certificationCourseId = request.params.id;
     let userId;
     let listAnswers;
+    let dateOfCertification;
     let listCertificationChallenges;
 
     return assessmentRepository.getByCertificationCourseId(certificationCourseId)
       .then((assessment) => {
         userId = assessment.get('userId');
+        dateOfCertification = assessment.get('createdAt');
 
         return answersRepository.findByAssessment(assessment.get('id'));
       })
@@ -51,7 +53,9 @@ module.exports = {
       })
       .then((listCompetences) => {
         const testedCompetences = listCompetences.filter(competence => competence.challenges.length > 0);
-        return certificationService.getResult(listAnswers, listCertificationChallenges, testedCompetences);
+        const result = certificationService.getResult(listAnswers, listCertificationChallenges, testedCompetences);
+        result.createdAt = dateOfCertification;
+        return result;
       })
       .then(reply)
       .catch((err) => {
@@ -62,9 +66,9 @@ module.exports = {
 
   get(request, reply) {
     const certificationCourseId = request.params.id;
-    return assessmentRepository.getByCertificationCourseId(certificationCourseId)
-      .then((assessment) => {
-        reply(certificationCourseSerializer.serialize({ id: certificationCourseId, assessment: assessment.toJSON(), userId: '' }));
+    return CertificationCourseRepository.get(certificationCourseId)
+      .then((certificationCourse) => {
+        reply(certificationCourseSerializer.serialize(certificationCourse));
       })
       .catch((err) => {
         logger.error(err);

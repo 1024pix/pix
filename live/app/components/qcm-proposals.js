@@ -14,5 +14,11 @@ export default Ember.Component.extend({
     const arrayOfBoolean = valueAsArrayOfBoolean(this.get('answersValue'));
 
     return createProposalAnswerTuples(arrayOfProposals, arrayOfBoolean);
-  })
+  }),
+
+  actions: {
+    checkboxCliked() {
+      this.get('answerChanged')();
+    }
+  }
 });

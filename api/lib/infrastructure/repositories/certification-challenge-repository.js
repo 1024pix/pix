@@ -1,6 +1,6 @@
 const CertificationChallengeBookshelf = require('../../domain/models/data/certification-challenge');
 const CertificationChallenge = require('../../domain/models/CertificationChallenge');
-const { NotFoundError } = require('../../domain/errors');
+const { AssessmentEndedError } = require('../../domain/errors');
 const Bookshelf = require('../bookshelf');
 
 function _toDomain(model) {
@@ -48,7 +48,7 @@ module.exports = {
       .fetch()
       .then((certificationChallenge) => {
         if(certificationChallenge === null) {
-          throw new NotFoundError();
+          throw new AssessmentEndedError();
         }
 
         return _toDomain(certificationChallenge);
