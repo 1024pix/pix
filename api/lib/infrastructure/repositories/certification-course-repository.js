@@ -6,7 +6,8 @@ function _toDomain(model) {
   return new CertificationCourse({
     id: model.get('id'),
     userId: model.get('userId'),
-    status: model.get('status')
+    status: model.get('status'),
+    completedAt: model.get('completedAt')
   });
 }
 
@@ -18,8 +19,8 @@ module.exports = {
       .then(_toDomain);
   },
 
-  updateStatus(status, certificationCourseId) {
-    const certificationCourseBookshelf = new CertificationCourseBookshelf({ id: certificationCourseId, status });
+  updateStatus(status, certificationCourseId, completedAt = null) {
+    const certificationCourseBookshelf = new CertificationCourseBookshelf({ id: certificationCourseId, status, completedAt });
     return certificationCourseBookshelf.save();
   },
 
