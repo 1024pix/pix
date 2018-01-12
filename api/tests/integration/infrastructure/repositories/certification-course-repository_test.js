@@ -12,7 +12,8 @@ describe('Integration | Repository | Certification Course', function() {
   const certificationCourse = {
     id: 20,
     status: 'started',
-    userId: 1
+    userId: 1,
+    completedAt: null
   };
 
   describe('#updateStatus', () => {
@@ -25,14 +26,27 @@ describe('Integration | Repository | Certification Course', function() {
       return knex('certification-courses').delete();
     });
 
-    it('should update status of the certificationCourse', () => {
+    it('should update status of the certificationCourse (and not completedAt if any date is passed)', () => {
       // when
       const promise = CertificationCourseRepository.updateStatus('completed', 20);
 
       // then
-      return promise.then(() => knex('certification-courses').first('id', 'status'))
+      return promise.then(() => knex('certification-courses').first('id', 'status', 'completedAt'))
         .then((certificationCourse) => {
           expect(certificationCourse.status).to.equal('completed');
+          expect(certificationCourse.completedAt).to.equal(null);
+        });
+    });
+
+    it('should update status and completedAt of the certificationCourse if one date is passed', () => {
+      // when
+      const promise = CertificationCourseRepository.updateStatus('completed', 20, '2018-01-01');
+
+      // then
+      return promise.then(() => knex('certification-courses').first('id', 'status', 'completedAt'))
+        .then((certificationCourse) => {
+          expect(certificationCourse.status).to.equal('completed');
+          expect(certificationCourse.completedAt).to.equal('2018-01-01');
         });
     });
   });
@@ -61,6 +75,7 @@ describe('Integration | Repository | Certification Course', function() {
       return promise.then((certificationCourse) => {
         expect(certificationCourse.id).to.equal(20);
         expect(certificationCourse.status).to.equal('started');
+        expect(certificationCourse.completedAt).to.equal(null);
         expect(certificationCourse.assessment.id).to.equal(7);
       });
     });
