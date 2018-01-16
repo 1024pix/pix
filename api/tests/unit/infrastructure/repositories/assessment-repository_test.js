@@ -134,8 +134,9 @@ describe('Unit | Repository | assessmentRepository', () => {
     let queryStub;
     let fetchStub;
     let whereStub;
-    let whereNotNullStub;
-    let whereNotNullStub2;
+    let whereCreatedAtStub;
+    let whereEstimatedLevelNotNullStub;
+    let wherePixScoreNotNullStub;
     let orderByStub;
     let andWhere;
     const userId = 2;
@@ -146,15 +147,19 @@ describe('Unit | Repository | assessmentRepository', () => {
       andWhere = sandbox.stub().returns({
         orderBy: orderByStub
       });
-      whereNotNullStub2 = sandbox.stub().returns({
+      wherePixScoreNotNullStub = sandbox.stub().returns({
         andWhere: andWhere
       });
-      whereNotNullStub = sandbox.stub().returns({
-        whereNotNull: whereNotNullStub2
+      whereEstimatedLevelNotNullStub = sandbox.stub().returns({
+        whereNotNull: wherePixScoreNotNullStub
+      });
+
+      whereCreatedAtStub = sandbox.stub().returns({
+        whereNotNull: whereEstimatedLevelNotNullStub
       });
 
       whereStub = sandbox.stub().returns({
-        whereNotNull: whereNotNullStub
+        where: whereCreatedAtStub
       });
 
       fetchStub = sandbox.stub().resolves({ models: {} });
@@ -172,7 +177,8 @@ describe('Unit | Repository | assessmentRepository', () => {
 
     it('should correctly query Assessment conditions', () => {
       // when
-      const promise = assessmentRepository.findLastCompletedAssessmentsForEachCoursesByUser(userId);
+      const limitDate = '2018-02-02T19:20:21.0';
+      const promise = assessmentRepository.findLastCompletedAssessmentsForEachCoursesByUser(userId,limitDate);
 
       // then
       return promise.then(() => {
@@ -181,11 +187,14 @@ describe('Unit | Repository | assessmentRepository', () => {
         sinon.assert.calledOnce(whereStub);
         sinon.assert.calledOnce(fetchStub);
 
-        sinon.assert.calledOnce(whereNotNullStub);
-        sinon.assert.calledWith(whereNotNullStub, 'estimatedLevel');
+        sinon.assert.calledOnce(whereCreatedAtStub);
+        sinon.assert.calledWith(whereCreatedAtStub, 'createdAt', '<', limitDate);
 
-        sinon.assert.calledOnce(whereNotNullStub2);
-        sinon.assert.calledWith(whereNotNullStub2, 'pixScore');
+        sinon.assert.calledOnce(whereEstimatedLevelNotNullStub);
+        sinon.assert.calledWith(whereEstimatedLevelNotNullStub, 'estimatedLevel');
+
+        sinon.assert.calledOnce(wherePixScoreNotNullStub);
+        sinon.assert.calledWith(wherePixScoreNotNullStub, 'pixScore');
 
         sinon.assert.calledOnce(orderByStub);
         sinon.assert.calledWith(orderByStub, 'createdAt', 'desc');
