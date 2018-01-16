@@ -220,12 +220,12 @@ describe('Unit | Service | User Service', () => {
 
     it('should load achieved assessments', () => {
       // When
-      const promise = userService.getProfileToCertify(userId);
+      const promise = userService.getProfileToCertify(userId, '2020-10-27 08:44:25');
 
       // Then
       return promise.then(() => {
         sinon.assert.calledOnce(assessmentRepository.findLastCompletedAssessmentsForEachCoursesByUser);
-        sinon.assert.calledWith(assessmentRepository.findLastCompletedAssessmentsForEachCoursesByUser, userId);
+        sinon.assert.calledWith(assessmentRepository.findLastCompletedAssessmentsForEachCoursesByUser, userId, '2020-10-27 08:44:25');
       });
     });
 

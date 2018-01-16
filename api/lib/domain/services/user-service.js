@@ -118,13 +118,13 @@ module.exports = {
       });
   },
 
-  getProfileToCertify(userId) {
+  getProfileToCertify(userId, limitDate) {
     let coursesFromAdaptativeCourses;
     let userLastAssessments;
     return courseRepository.getAdaptiveCourses()
       .then((courses) => {
         coursesFromAdaptativeCourses = courses;
-        return assessmentRepository.findLastCompletedAssessmentsForEachCoursesByUser(userId);
+        return assessmentRepository.findLastCompletedAssessmentsForEachCoursesByUser(userId, limitDate);
       })
       .then((lastAssessments) => {
         userLastAssessments = lastAssessments;

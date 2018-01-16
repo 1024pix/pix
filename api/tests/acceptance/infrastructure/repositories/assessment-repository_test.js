@@ -174,6 +174,13 @@ describe('Acceptance | Infrastructure | Repositories | assessment-repository', (
       estimatedLevel: null,
       pixScore: null,
       createdAt: '2017-11-08 11:47:38'
+    }, {
+      id: 6,
+      userId: JOHN,
+      courseId: 'courseId1',
+      pixScore: 2,
+      estimatedLevel: 5,
+      createdAt: '2020-10-27 08:44:25'
     }
     ];
 
@@ -205,7 +212,7 @@ describe('Acceptance | Infrastructure | Repositories | assessment-repository', (
       ]);
 
       // when
-      const promise = assessmentRepository.findLastCompletedAssessmentsForEachCoursesByUser(JOHN);
+      const promise = assessmentRepository.findLastCompletedAssessmentsForEachCoursesByUser(JOHN, '2019-10-27 08:44:25');
 
       // then
       return promise.then((assessements) => {
