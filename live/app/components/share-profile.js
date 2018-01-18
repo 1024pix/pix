@@ -27,6 +27,9 @@ export default Ember.Component.extend({
   stepOrganizationCodeEntry: Ember.computed.equal('_view', STEP_1_ORGANIZATION_CODE_ENTRY),
   stepProfileSharingConfirmation: Ember.computed.equal('_view', STEP_2_SHARING_CONFIRMATION),
   isOrganizationHasTypeSup: Ember.computed.equal('_organization.type', 'SUP'),
+  isOrganizationHasTypeSupOrSco: Ember.computed('_organization.type', function() {
+    return this.get('_organization.type') === 'SUP' || this.get('_organization.type') === 'SCO';
+  }),
 
   organizationLabels: Ember.computed('_organization.type', function() {
     if (this.get('_organization.type') === 'PRO') {

@@ -179,14 +179,14 @@ describe('Integration | Component | share profile', function() {
         this.render(hbs`{{share-profile _showingModal=true _view="sharing-confirmation" _organization=organization}}`);
       });
 
-      it('should not ask for student code (required)', function() {
+      it('should not ask for student code', function() {
         // then
         expect(document.querySelector('.share-profile__student-code-input')).to.not.exist;
       });
 
-      it('should not ask for campaign code (optionnal)', function() {
+      it('should ask for campaign code', function() {
         // then
-        expect(document.querySelector('.share-profile__campaign-code-input')).to.not.exist;
+        expect(document.querySelector('.share-profile__campaign-code-input')).to.exist;
       });
 
     });

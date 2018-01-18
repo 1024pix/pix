@@ -54,12 +54,13 @@
               <p>Veuillez saisir votre numéro d'étudiant :</p>
               {{input class="pix-modal__input share-profile__student-code-input" value=_studentCode}}
             </div>
+          {{/if}}
 
+          {{#if isOrganizationHasTypeSupOrSco}}
             <div class="share-profile__row share-profile__row--campaign-code">
               <p>Précisez le code campagne s'il vous a été fourni :</p>
               {{input class="pix-modal__input share-profile__campaign-code-input" value=_campaignCode}}
             </div>
-
           {{/if}}
 
           <div class="share-profile__row share-profile__row--disclaimer">
