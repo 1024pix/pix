@@ -11,11 +11,15 @@ const config = require('./lib/settings');
 const logger = require('./lib/infrastructure/logger');
 
 const server = new Hapi.Server({
-  'connections': {
-    'routes': {
-      'cors': true
+  connections: {
+    routes: {
+      cors: true
+    },
+    router: {
+      isCaseSensitive: false,
+      stripTrailingSlash: true
     }
-  }
+  },
 });
 
 server.connection({ port: config.port });
