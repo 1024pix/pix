@@ -1,6 +1,13 @@
-import { describe, it, beforeEach, afterEach } from 'mocha';
+import {
+  describe,
+  it,
+  beforeEach,
+  afterEach
+} from 'mocha';
 import { expect } from 'chai';
-import { startApp, destroyApp } from '../helpers/application';
+import startApp from '../helpers/start-app';
+import destroyApp from '../helpers/destroy-app';
+import $ from 'jquery';
 
 describe('Acceptance | j2 - Comparer réponses et solutions pour un QROC | ', function() {
 

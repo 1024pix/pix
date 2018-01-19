@@ -1,6 +1,9 @@
-import Ember from 'ember';
+import { htmlSafe } from '@ember/string';
+import { isPresent } from '@ember/utils';
+import { computed } from '@ember/object';
+import Component from '@ember/component';
 
-export default Ember.Component.extend({
+export default Component.extend({
 
   classNames: ['competence-level-progress-bar'],
 
@@ -13,12 +16,12 @@ export default Ember.Component.extend({
   name: null,
   status: null,
 
-  hasLevel: Ember.computed('level', function() {
+  hasLevel: computed('level', function() {
     const level = this.get('level');
-    return Ember.isPresent(this.get('level')) && level !== -1;
+    return isPresent(this.get('level')) && level !== -1;
   }),
 
-  widthOfProgressBar: Ember.computed('level', function() {
+  widthOfProgressBar: computed('level', function() {
 
     const level = this.get('level');
     const maxLevel = this.get('_MAX_LEVEL');
@@ -30,21 +33,21 @@ export default Ember.Component.extend({
       progressBarWidth = (level * 100 / maxLevel) + '%';
     }
 
-    return Ember.String.htmlSafe('width : ' + progressBarWidth);
+    return htmlSafe('width : ' + progressBarWidth);
   }),
 
-  canUserStartCourse: Ember.computed('courseId', 'hasLevel', 'assessmentId', function() {
+  canUserStartCourse: computed('courseId', 'hasLevel', 'assessmentId', function() {
     const courseId = this.get('courseId');
     const hasLevel = this.get('hasLevel');
     const assessmentId = this.get('assessmentId');
     return Boolean(courseId && !hasLevel && !assessmentId);
   }),
 
-  canUserResumeAssessment: Ember.computed('assessmentId', 'status', function() {
-    return Boolean(this.get('status') === 'notCompleted') && Ember.isPresent(this.get('assessmentId'));
+  canUserResumeAssessment: computed('assessmentId', 'status', function() {
+    return Boolean(this.get('status') === 'notCompleted') && isPresent(this.get('assessmentId'));
   }),
 
-  canUserReplayAssessment: Ember.computed('courseId', 'status', function() {
+  canUserReplayAssessment: computed('courseId', 'status', function() {
     return Boolean(this.get('status') === 'evaluated' && this.get('courseId'));
   })
 });

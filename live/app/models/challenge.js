@@ -1,4 +1,4 @@
-import Ember from 'ember';
+import { notEmpty, equal, gt } from '@ember/object/computed';
 import DS from 'ember-data';
 
 const { Model, attr, belongsTo } = DS;
@@ -15,8 +15,8 @@ export default Model.extend({
   attachments: attr('array'),
   answer: belongsTo('answer'),
 
-  hasAttachment: Ember.computed.notEmpty('attachments'),
-  hasSingleAttachment: Ember.computed.equal('attachments.length', 1),
-  hasMultipleAttachments: Ember.computed.gt('attachments.length', 1),
-  hasTimer: Ember.computed.notEmpty('timer')
+  hasAttachment: notEmpty('attachments'),
+  hasSingleAttachment: equal('attachments.length', 1),
+  hasMultipleAttachments: gt('attachments.length', 1),
+  hasTimer: notEmpty('timer')
 });

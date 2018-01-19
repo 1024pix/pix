@@ -1,9 +1,10 @@
+import EmberObject from '@ember/object';
 import { expect } from 'chai';
 import { describe, it, before } from 'mocha';
 import { setupComponentTest } from 'ember-mocha';
 import hbs from 'htmlbars-inline-precompile';
-import Ember from 'ember';
 import _ from 'pix-live/utils/lodash-custom';
+import $ from 'jquery';
 
 const CHECKBOX_CORRECT_AND_CHECKED = 'input[type=checkbox]:eq(1)';
 const LABEL_CORRECT_AND_CHECKED = '.qcm-proposal-label__oracle:eq(1)';
@@ -50,17 +51,17 @@ describe('Integration | Component | qcm-solution-panel.js', function() {
       };
 
       before(function() {
-        challenge = Ember.Object.create({
+        challenge = EmberObject.create({
           id: 'challenge_id',
           proposals: '-foo\n- bar\n- qix\n- yon',
           type: 'QCM'
         });
 
-        solution = Ember.Object.create({
+        solution = EmberObject.create({
           id: 'solution_id', value: '2,3'
         });
 
-        answer = Ember.Object.create(correctAnswer);
+        answer = EmberObject.create(correctAnswer);
       });
 
       it('QCM, la réponse correcte est cochée', function() {
@@ -97,7 +98,7 @@ describe('Integration | Component | qcm-solution-panel.js', function() {
 
       it('QCM, Au moins l\'une des réponse correcte n\'est pas cochée', function() {
         //Given
-        answer = Ember.Object.create(unCorrectAnswer);
+        answer = EmberObject.create(unCorrectAnswer);
 
         this.set('answer', answer);
         this.set('solution', solution);
@@ -113,7 +114,7 @@ describe('Integration | Component | qcm-solution-panel.js', function() {
 
       it('QCM, au moins l\'une des réponse incorrecte est cochée', function() {
         //Given
-        answer = Ember.Object.create(unCorrectAnswer);
+        answer = EmberObject.create(unCorrectAnswer);
 
         this.set('answer', answer);
         this.set('solution', solution);

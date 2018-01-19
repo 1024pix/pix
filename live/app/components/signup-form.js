@@ -1,4 +1,5 @@
-import Ember from 'ember';
+import { later } from '@ember/runloop';
+import Component from '@ember/component';
 import isEmailValid from 'pix-live/utils/email-validator';
 import isPasswordValid from '../utils/password-validator';
 import config from 'pix-live/config/environment';
@@ -26,7 +27,7 @@ function isValuePresent(value) {
   return value.trim() ? true : false;
 }
 
-export default Ember.Component.extend({
+export default Component.extend({
   classNames: ['signup-form'],
 
   _notificationMessage: null,
@@ -53,7 +54,7 @@ export default Ember.Component.extend({
   _toggleConfirmation(status, message) {
     this.set('temporaryAlert', { status: TEMPORARY_DIV_CLASS_MAP[status], message });
     if(config.APP.isMessageStatusTogglingEnabled) {
-      Ember.run.later(() => {
+      later(() => {
         this.set('temporaryAlert', { status: 'default', message: '' });
       }, config.APP.MESSAGE_DISPLAY_DURATION);
     }

@@ -1,4 +1,4 @@
-import Ember from 'ember';
+import Service from '@ember/service';
 import { expect } from 'chai';
 import { beforeEach, describe, it } from 'mocha';
 import { setupTest } from 'ember-mocha';
@@ -21,7 +21,7 @@ describe('Unit | Route | changer mot de passe', function() {
 
     beforeEach(function() {
       findRecordStub = sinon.stub();
-      storeStub = Ember.Service.extend({
+      storeStub = Service.extend({
         findRecord: findRecordStub
       });
 

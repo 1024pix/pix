@@ -1,4 +1,4 @@
-import Ember from 'ember';
+import { inject as service } from '@ember/service';
 
 import AuthenticatedRouteMixin from 'ember-simple-auth/mixins/authenticated-route-mixin';
 import BaseRoute from 'pix-live/routes/base-route';
@@ -6,7 +6,7 @@ import BaseRoute from 'pix-live/routes/base-route';
 export default BaseRoute.extend(AuthenticatedRouteMixin, {
 
   authenticationRoute: '/connexion',
-  session: Ember.inject.service(),
+  session: service(),
 
   model() {
     const store = this.get('store');

@@ -1,4 +1,4 @@
-import Ember from 'ember';
+import EmberObject from '@ember/object';
 import { expect } from 'chai';
 import { describe, it } from 'mocha';
 import { setupTest } from 'ember-mocha';
@@ -32,7 +32,7 @@ describe('Unit | Component | followerComponent', function() {
           const component = this.subject();
           // when
           component.set('status', 'error');
-          component.set('follower', Ember.Object.create());
+          component.set('follower', EmberObject.create());
           // then
           expect(component.get(attribute)).to.equal(expected);
         });
@@ -55,7 +55,7 @@ describe('Unit | Component | followerComponent', function() {
           const component = this.subject();
           // when
           component.set('status', 'success');
-          component.set('follower', Ember.Object.create());
+          component.set('follower', EmberObject.create());
           // then
           expect(component.get(attribute)).to.equal(expected);
         });

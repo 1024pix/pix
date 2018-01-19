@@ -1,6 +1,13 @@
-import { describe, it, beforeEach, afterEach } from 'mocha';
+import {
+  describe,
+  it,
+  beforeEach,
+  afterEach
+} from 'mocha';
 import { expect } from 'chai';
-import { startApp, destroyApp } from '../helpers/application';
+import startApp from '../helpers/start-app';
+import destroyApp from '../helpers/destroy-app';
+import $ from 'jquery';
 
 // see http://stackoverflow.com/a/7349478/2595513
 function charCount(str) {

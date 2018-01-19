@@ -1,4 +1,6 @@
-import Ember from 'ember';
+import { run } from '@ember/runloop';
+import { resolve, reject } from 'rsvp';
+import EmberObject from '@ember/object';
 import { expect } from 'chai';
 import { beforeEach, describe, it } from 'mocha';
 import { setupComponentTest } from 'ember-mocha';
@@ -83,11 +85,11 @@ describe('Unit | Component | reset password form', function() {
 
   describe('#handleResetPassword', () => {
 
-    const userWithGoodPassword = Ember.Object.create({
+    const userWithGoodPassword = EmberObject.create({
       firstName: 'toto',
       lastName: 'riri',
       password: 'Pix123 0 #',
-      save: () => Ember.RSVP.resolve()
+      save: () => resolve()
     });
 
     describe('When user password is saved', () => {
@@ -96,7 +98,7 @@ describe('Unit | Component | reset password form', function() {
         component.set('user', userWithGoodPassword);
 
         // when
-        Ember.run(() => {
+        run(() => {
           component.send('handleResetPassword');
         });
 
@@ -109,7 +111,7 @@ describe('Unit | Component | reset password form', function() {
         component.set('user', userWithGoodPassword);
 
         // when
-        Ember.run(() => {
+        run(() => {
           component.send('handleResetPassword');
         });
 
@@ -123,16 +125,16 @@ describe('Unit | Component | reset password form', function() {
 
       it('should set validation with errors data', function() {
         // given
-        const userWithBadPassword = Ember.Object.create({
+        const userWithBadPassword = EmberObject.create({
           firstName: 'toto',
           lastName: 'riri',
           password: 'Pix',
-          save: () => Ember.RSVP.reject()
+          save: () => reject()
         });
         component.set('user', userWithBadPassword);
 
         // when
-        Ember.run(() => {
+        run(() => {
           component.send('handleResetPassword');
         });
 

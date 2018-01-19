@@ -1,4 +1,4 @@
-import Ember from 'ember';
+import { run } from '@ember/runloop';
 import { expect } from 'chai';
 import { describe, it } from 'mocha';
 import { setupModelTest } from 'ember-mocha';
@@ -17,7 +17,7 @@ describe('Unit | Model | Challenge', function() {
   describe('Computed property #hasAttachment', function() {
 
     it('Should be true when challenge has at least one attachment file', function() {
-      Ember.run(() => {
+      run(() => {
         // given
         const store = this.store();
         const challenge = store.createRecord('challenge', { attachments: ['file.url'] });
@@ -32,7 +32,7 @@ describe('Unit | Model | Challenge', function() {
     });
 
     it('Should be false when challenge has multiple attachment files', function() {
-      Ember.run(() => {
+      run(() => {
         // given
         const store = this.store();
         const challenge = store.createRecord('challenge', { attachments: [] });
@@ -50,7 +50,7 @@ describe('Unit | Model | Challenge', function() {
   describe('Computed property #hasSingleAttachment', function() {
 
     it('Should be true when challenge has only one attachment file', function() {
-      Ember.run(() => {
+      run(() => {
         // given
         const store = this.store();
         const challenge = store.createRecord('challenge', { attachments: ['file.url'] });
@@ -65,7 +65,7 @@ describe('Unit | Model | Challenge', function() {
     });
 
     it('Should be false when challenge has multiple attachment files', function() {
-      Ember.run(() => {
+      run(() => {
         // given
         const store = this.store();
         const challenge = store.createRecord('challenge', { attachments: ['file.url', 'file.1.url', 'file.2.url'] });
@@ -83,7 +83,7 @@ describe('Unit | Model | Challenge', function() {
   describe('Computed property #hasMultipleAttachments', function() {
 
     it('Should be false when challenge has no attachment file', function() {
-      Ember.run(() => {
+      run(() => {
         // given
         const store = this.store();
         const challenge = store.createRecord('challenge', { attachments: [] });
@@ -98,7 +98,7 @@ describe('Unit | Model | Challenge', function() {
     });
 
     it('Should be false when challenge has only one attachment file', function() {
-      Ember.run(() => {
+      run(() => {
         // given
         const store = this.store();
         const challenge = store.createRecord('challenge', { attachments: ['file.url'] });
@@ -113,7 +113,7 @@ describe('Unit | Model | Challenge', function() {
     });
 
     it('Should be true when challenge has multiple attachments files', function() {
-      Ember.run(() => {
+      run(() => {
         // given
         const store = this.store();
         const challenge = store.createRecord('challenge', { attachments: ['file.url', 'file.1.url', 'file.2.url'] });

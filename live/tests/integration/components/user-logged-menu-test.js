@@ -1,9 +1,11 @@
+import { resolve, reject } from 'rsvp';
+import Service from '@ember/service';
 import { expect } from 'chai';
 import { describe, it } from 'mocha';
 import { setupComponentTest } from 'ember-mocha';
 import hbs from 'htmlbars-inline-precompile';
-import Ember from 'ember';
 import wait from 'ember-test-helpers/wait';
+import $ from 'jquery';
 
 describe('Integration | Component | user logged menu', function() {
   setupComponentTest('user-logged-menu', {
@@ -14,9 +16,9 @@ describe('Integration | Component | user logged menu', function() {
 
     beforeEach(function() {
       // given
-      this.register('service:store', Ember.Service.extend({
+      this.register('service:store', Service.extend({
         findRecord() {
-          return Ember.RSVP.resolve({
+          return resolve({
             firstName: 'FHI',
             lastName: '4EVER',
             email: 'FHI@4EVER.fr'
@@ -24,7 +26,7 @@ describe('Integration | Component | user logged menu', function() {
         }
       }));
 
-      this.register('service:session', Ember.Service.extend({
+      this.register('service:session', Service.extend({
         data: { authenticated: { userId: 123 } }
       }));
 
@@ -108,7 +110,7 @@ describe('Integration | Component | user logged menu', function() {
 
       context('when the user is on compte page', function() {
         it('should not render a button link to the "profile" page', function() {
-          this.register('service:-routing', Ember.Service.extend({
+          this.register('service:-routing', Service.extend({
             currentRouteName: 'compte',
             generateURL: function() {
               return '/compte';
@@ -127,7 +129,7 @@ describe('Integration | Component | user logged menu', function() {
         });
 
         it('should not render a button link to the "board" page', function() {
-          this.register('service:-routing', Ember.Service.extend({
+          this.register('service:-routing', Service.extend({
             currentRouteName: 'board',
             generateURL: function() {
               return '/board';
@@ -147,7 +149,7 @@ describe('Integration | Component | user logged menu', function() {
       });
 
       it('should render a button link to the profile when the user is not on compte page', function() {
-        this.register('service:-routing', Ember.Service.extend({
+        this.register('service:-routing', Service.extend({
           generateURL: function() {
             return '/autreRoute';
           }
@@ -171,9 +173,9 @@ describe('Integration | Component | user logged menu', function() {
 
   describe('when user is unlogged or not found', function() {
     beforeEach(function() {
-      this.register('service:store', Ember.Service.extend({
+      this.register('service:store', Service.extend({
         findRecord() {
-          return Ember.RSVP.reject();
+          return reject();
         }
       }));
 

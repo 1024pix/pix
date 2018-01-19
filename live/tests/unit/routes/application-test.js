@@ -1,9 +1,9 @@
-import Ember from 'ember';
+import EmberObject from '@ember/object';
 import { expect } from 'chai';
 import { describe, it } from 'mocha';
 import { setupTest } from 'ember-mocha';
 
-const SplashServiceStub = Ember.Object.extend({
+const SplashServiceStub = EmberObject.extend({
   hideCount: 0,
   hide() {
     this.hideCount++;

@@ -1,20 +1,18 @@
-import Ember from 'ember';
+import { htmlSafe } from '@ember/string';
+import Component from '@ember/component';
+import { run } from '@ember/runloop';
+import { get, set, computed } from '@ember/object';
 import _ from 'pix-live/utils/lodash-custom';
 import ENV from 'pix-live/config/environment';
-
-const get = Ember.get;
-const set = Ember.set;
-const computed = Ember.computed;
-const run = Ember.run;
 
 // see http://stackoverflow.com/a/37770048/2595513
 function fmtMSS(s) {return (s-(s%=60))/60+(9<s?':':':0')+s;}
 
-export default Ember.Component.extend({
+export default Component.extend({
 
   allotedTime: null,
 
-  _totalTime: Ember.computed('allotedTime', function() {
+  _totalTime: computed('allotedTime', function() {
     const actualAllotedTime = get(this, 'allotedTime');
     if (!_.isNumeric(actualAllotedTime)) {
       return 0;
@@ -46,7 +44,7 @@ export default Ember.Component.extend({
   }),
 
   jaugeWidthStyle: computed('percentageOfTimeout', function() {
-    return Ember.String.htmlSafe(`width: ${this.get('percentageOfTimeout')}%`);
+    return htmlSafe(`width: ${this.get('percentageOfTimeout')}%`);
   }),
 
   hasFinished: computed('remainingSeconds', function() {

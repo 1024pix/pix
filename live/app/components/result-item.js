@@ -1,4 +1,5 @@
-import Ember from 'ember';
+import { computed } from '@ember/object';
+import Component from '@ember/component';
 import resultIconUrl from 'pix-live/utils/result-icon-url';
 
 const contentReference = {
@@ -33,7 +34,7 @@ const contentReference = {
   }
 };
 
-export default Ember.Component.extend({
+export default Component.extend({
 
   classNames: [ 'result-item' ],
 
@@ -41,20 +42,20 @@ export default Ember.Component.extend({
 
   tabindex: 0,
 
-  resultItem: Ember.computed('answer.result', function() {
+  resultItem: computed('answer.result', function() {
     if (!this.get('answer.result')) return;
     return contentReference[this.get('answer.result')] || contentReference['default'];
   }),
 
-  resultTooltip: Ember.computed('resultItem', function() {
+  resultTooltip: computed('resultItem', function() {
     return this.get('resultItem') ? this.get('resultItem').tooltip : null;
   }),
 
-  resultItemIcon: Ember.computed('resultItem', function() {
+  resultItemIcon: computed('resultItem', function() {
     return resultIconUrl(this.get('resultItem.status'));
   }),
 
-  validationImplementedForChallengeType: Ember.computed('answer.challenge.type', function() {
+  validationImplementedForChallengeType: computed('answer.challenge.type', function() {
     const implementedTypes = [ 'QCM', 'QROC', 'QCU', 'QROCM-ind' ];
     const challengeType = this.get('answer.challenge.type');
     return implementedTypes.includes(challengeType);

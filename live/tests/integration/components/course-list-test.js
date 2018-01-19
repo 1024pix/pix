@@ -1,4 +1,4 @@
-import Ember from 'ember';
+import EmberObject from '@ember/object';
 import { expect } from 'chai';
 import { describe, it } from 'mocha';
 import { setupComponentTest } from 'ember-mocha';
@@ -20,9 +20,9 @@ describe('Integration | Component | course list', function() {
     it('should render as many course-item as courses elements', function() {
       // given
       const courses = [
-        Ember.Object.create({ id: '1' }),
-        Ember.Object.create({ id: '2' }),
-        Ember.Object.create({ id: '3' })
+        EmberObject.create({ id: '1' }),
+        EmberObject.create({ id: '2' }),
+        EmberObject.create({ id: '3' })
       ];
       this.set('courses', courses);
 

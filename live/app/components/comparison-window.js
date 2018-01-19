@@ -1,3 +1,4 @@
+import { equal } from '@ember/object/computed';
 import Component from '@ember/component';
 import { inject as service } from '@ember/service';
 import { on } from '@ember/object/evented';
@@ -58,12 +59,12 @@ export default Component.extend(EKMixin, FocusableComponent, {
 
   focusNode: '.routable-modal--close-button',
 
-  isAssessmentChallengeTypeQroc: computed.equal('challenge.type', 'QROC'),
-  isAssessmentChallengeTypeQcm: computed.equal('challenge.type', 'QCM'),
-  isAssessmentChallengeTypeQcu: computed.equal('challenge.type', 'QCU'),
-  isAssessmentChallengeTypeQrocm: computed.equal('challenge.type', 'QROCM'),
-  isAssessmentChallengeTypeQrocmInd: computed.equal('challenge.type', 'QROCM-ind'),
-  isAssessmentChallengeTypeQrocmDep: computed.equal('challenge.type', 'QROCM-dep'),
+  isAssessmentChallengeTypeQroc: equal('challenge.type', 'QROC'),
+  isAssessmentChallengeTypeQcm: equal('challenge.type', 'QCM'),
+  isAssessmentChallengeTypeQcu: equal('challenge.type', 'QCU'),
+  isAssessmentChallengeTypeQrocm: equal('challenge.type', 'QROCM'),
+  isAssessmentChallengeTypeQrocmInd: equal('challenge.type', 'QROCM-ind'),
+  isAssessmentChallengeTypeQrocmDep: equal('challenge.type', 'QROCM-dep'),
 
   activateKeyboard: on('init', function() {
     this.set('keyboardActivated', true);

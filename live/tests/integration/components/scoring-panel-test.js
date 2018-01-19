@@ -1,4 +1,4 @@
-import Ember from 'ember';
+import EmberObject from '@ember/object';
 import { expect } from 'chai';
 import { beforeEach, describe, it } from 'mocha';
 import { setupComponentTest } from 'ember-mocha';
@@ -12,13 +12,13 @@ describe('Integration | Component | scoring panel', function() {
     integration: true
   });
 
-  const assessmentWithTrophy = Ember.Object.create({ estimatedLevel: 1, pixScore: 67, course: { isAdaptive: true } });
-  const assessmentWithNoTrophyAndSomePix = Ember.Object.create({
+  const assessmentWithTrophy = EmberObject.create({ estimatedLevel: 1, pixScore: 67, course: { isAdaptive: true } });
+  const assessmentWithNoTrophyAndSomePix = EmberObject.create({
     estimatedLevel: 0,
     pixScore: 20,
     course: { isAdaptive: true }
   });
-  const assessmentWithNoTrophyAndNoPix = Ember.Object.create({
+  const assessmentWithNoTrophyAndNoPix = EmberObject.create({
     estimatedLevel: 0,
     pixScore: 0,
     course: { isAdaptive: true }

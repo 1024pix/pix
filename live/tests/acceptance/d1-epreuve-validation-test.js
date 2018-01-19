@@ -1,7 +1,12 @@
 // FIXME wuth API resource GET /assessment/:id/progress
 
 /*
-import { describe, it, beforeEach, afterEach } from 'mocha';
+import {
+  describe,
+  it,
+  beforeEach,
+  afterEach
+} from 'mocha';
 import { expect } from 'chai';
 import { startApp, destroyApp } from '../helpers/application';
 import { debounce } from '@ember/runloop';

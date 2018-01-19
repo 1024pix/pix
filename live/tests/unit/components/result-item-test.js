@@ -1,4 +1,4 @@
-import Ember from 'ember';
+import EmberObject from '@ember/object';
 import { expect } from 'chai';
 import { describe, it, beforeEach } from 'mocha';
 import { setupTest } from 'ember-mocha';
@@ -83,8 +83,8 @@ describe('Unit | Component | result-item-component', function() {
 
       it(`should return ${data.expected} when challenge type is ${data.challengeType}`, function() {
         // given
-        const challenge = Ember.Object.create({ type: data.challengeType });
-        const answer = Ember.Object.create({ challenge });
+        const challenge = EmberObject.create({ type: data.challengeType });
+        const answer = EmberObject.create({ challenge });
 
         // when
         component.set('answer', answer);

@@ -1,7 +1,8 @@
+import { resolve } from 'rsvp';
+import Service from '@ember/service';
 import { expect } from 'chai';
 import { beforeEach, describe, it } from 'mocha';
 import { setupTest } from 'ember-mocha';
-import Ember from 'ember';
 
 describe('Unit | Component | User logged Menu', function() {
   setupTest('component:user-logged-menu', {
@@ -11,14 +12,14 @@ describe('Unit | Component | User logged Menu', function() {
   describe('action#toggleUserMenu', function() {
 
     beforeEach(function() {
-      this.register('service:store', Ember.Service.extend({
+      this.register('service:store', Service.extend({
         findRecord() {
-          return Ember.RSVP.resolve({});
+          return resolve({});
         }
       }));
       this.inject.service('store', { as: 'store' });
 
-      this.register('service:session', Ember.Service.extend({
+      this.register('service:session', Service.extend({
         isAuthenticated: true,
         data: {
           authenticated: {
@@ -63,7 +64,7 @@ describe('Unit | Component | User logged Menu', function() {
     describe('When user is logged', function() {
 
       beforeEach(function() {
-        this.register('service:session', Ember.Service.extend({
+        this.register('service:session', Service.extend({
           isAuthenticated: true,
           data: {
             authenticated: {
@@ -73,10 +74,10 @@ describe('Unit | Component | User logged Menu', function() {
         }));
         this.inject.service('session', { as: 'session' });
 
-        this.register('service:store', Ember.Service.extend({
+        this.register('service:store', Service.extend({
           findRecord() {
             findRecordArgs = Array.from(arguments);
-            return Ember.RSVP.resolve({
+            return resolve({
               firstName: 'FHI',
               lastName: '4EVER',
               email: 'FHI@4EVER.fr'
@@ -102,15 +103,15 @@ describe('Unit | Component | User logged Menu', function() {
 
     beforeEach(function() {
 
-      this.register('service:session', Ember.Service.extend({}));
+      this.register('service:session', Service.extend({}));
       this.inject.service('session', { as: 'session' });
 
-      this.register('service:current-routed-modal', Ember.Service.extend({}));
+      this.register('service:current-routed-modal', Service.extend({}));
       this.inject.service('current-routed-modal', { as: 'current-routed-modal' });
 
-      this.register('service:store', Ember.Service.extend({
+      this.register('service:store', Service.extend({
         findRecord() {
-          return Ember.RSVP.resolve({});
+          return resolve({});
         }
       }));
       this.inject.service('store', { as: 'store' });
@@ -119,7 +120,7 @@ describe('Unit | Component | User logged Menu', function() {
 
     it('should be false if the current route is /compte', function() {
       // given
-      this.register('service:-routing', Ember.Service.extend({
+      this.register('service:-routing', Service.extend({
         currentRouteName: 'compte'
       }));
       this.inject.service('-routing', { as: '-routing' });
@@ -134,7 +135,7 @@ describe('Unit | Component | User logged Menu', function() {
 
     it('should be false if the current route is /board', function() {
       // given
-      this.register('service:-routing', Ember.Service.extend({
+      this.register('service:-routing', Service.extend({
         currentRouteName: 'board'
       }));
       this.inject.service('-routing', { as: '-routing' });
@@ -149,7 +150,7 @@ describe('Unit | Component | User logged Menu', function() {
 
     it('should be true if the current route is not /compte', function() {
       // given
-      this.register('service:-routing', Ember.Service.extend({
+      this.register('service:-routing', Service.extend({
         currentRouteName: 'autreRoute'
       }));
       this.inject.service('-routing', { as: '-routing' });
