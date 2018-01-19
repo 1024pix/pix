@@ -1,11 +1,12 @@
-import Ember from 'ember';
+import { gt } from '@ember/object/computed';
+import Component from '@ember/component';
 
-export default Ember.Component.extend({
+export default Component.extend({
 
   classNames : ['scoring-panel'],
 
   assessment: null,
 
-  hasATrophy: Ember.computed.gt('assessment.estimatedLevel', 0),
-  hasSomePix: Ember.computed.gt('assessment.pixScore', 0)
+  hasATrophy: gt('assessment.estimatedLevel', 0),
+  hasSomePix: gt('assessment.pixScore', 0)
 });

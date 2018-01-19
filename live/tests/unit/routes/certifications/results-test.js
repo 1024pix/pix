@@ -1,4 +1,4 @@
-import Ember from 'ember';
+import Service from '@ember/service';
 import { expect } from 'chai';
 import { describe, it, beforeEach } from 'mocha';
 import { setupTest } from 'ember-mocha';
@@ -26,7 +26,7 @@ describe('Unit | Route | Certifications | Results', function() {
 
     beforeEach(function() {
       findRecordStub = sinon.stub();
-      storeStub = Ember.Service.extend({
+      storeStub = Service.extend({
         findRecord: findRecordStub
       });
       this.register('service:store', storeStub);
@@ -36,7 +36,7 @@ describe('Unit | Route | Certifications | Results', function() {
     context('When no user is logged', function() {
 
       beforeEach(function() {
-        this.register('service:session', Ember.Service.extend({
+        this.register('service:session', Service.extend({
           isAuthenticated: false
         }));
         this.inject.service('session', { as: 'session' });
@@ -62,7 +62,7 @@ describe('Unit | Route | Certifications | Results', function() {
     context('When user is logged', function() {
 
       beforeEach(function() {
-        this.register('service:session', Ember.Service.extend({
+        this.register('service:session', Service.extend({
           isAuthenticated: true,
           data: {
             authenticated: {

@@ -1,4 +1,4 @@
-import Ember from 'ember';
+import { inject as service } from '@ember/service';
 import BaseRoute from 'pix-live/routes/base-route';
 
 const domains = [{
@@ -89,7 +89,7 @@ const domains = [{
 
 export default BaseRoute.extend({
 
-  panelActions: Ember.inject.service(),
+  panelActions: service(),
 
   model() {
     return domains;

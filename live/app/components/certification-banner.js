@@ -1,10 +1,11 @@
-import Ember from 'ember';
+import { computed } from '@ember/object';
+import Component from '@ember/component';
 
-export default Ember.Component.extend({
+export default Component.extend({
   classNames: ['certification-banner'],
   user: null,
 
-  fullname: Ember.computed('user', function() {
+  fullname: computed('user', function() {
     return `${this.get('user.firstName')} ${ this.get('user.lastName')}`;
   })
 

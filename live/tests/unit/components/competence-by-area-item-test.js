@@ -1,4 +1,4 @@
-import Ember from 'ember';
+import EmberObject from '@ember/object';
 import { expect } from 'chai';
 import { describe, it } from 'mocha';
 import { setupTest } from 'ember-mocha';
@@ -45,9 +45,9 @@ describe('Unit | Component | Competence area item Component', function() {
         const component = this.subject();
 
         const competencesWithSameArea = [
-          Ember.Object.create({ id: 2, name: 'competence-name-2', index: '1.2', area: 'area-id-1', level: -1 }),
-          Ember.Object.create({ id: 3, name: 'competence-name-3', index: '1.3', area: 'area-id-1', level: -1 }),
-          Ember.Object.create({ id: 1, name: 'competence-name-1', index: '1.1', area: 'area-id-1', level: -1 })
+          EmberObject.create({ id: 2, name: 'competence-name-2', index: '1.2', area: 'area-id-1', level: -1 }),
+          EmberObject.create({ id: 3, name: 'competence-name-3', index: '1.3', area: 'area-id-1', level: -1 }),
+          EmberObject.create({ id: 1, name: 'competence-name-1', index: '1.1', area: 'area-id-1', level: -1 })
         ];
         const areaWithManyCompetences = {
           property: 'area',
@@ -59,21 +59,21 @@ describe('Unit | Component | Competence area item Component', function() {
         component.set('competenceArea', areaWithManyCompetences);
         // then
         expect(component.get('_competencesSortedList')).to.deep.equal([
-          Ember.Object.create({
+          EmberObject.create({
             id: 1,
             name: 'competence-name-1',
             index: '1.1',
             area: 'area-id-1',
             level: -1
           }),
-          Ember.Object.create({
+          EmberObject.create({
             id: 2,
             name: 'competence-name-2',
             index: '1.2',
             area: 'area-id-1',
             level: -1
           }),
-          Ember.Object.create({
+          EmberObject.create({
             id: 3,
             name: 'competence-name-3',
             index: '1.3',

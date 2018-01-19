@@ -1,8 +1,8 @@
+import Service from '@ember/service';
 import { describe, it } from 'mocha';
 import { expect } from 'chai';
 import { setupTest } from 'ember-mocha';
 import RSVP from 'rsvp';
-import Ember from 'ember';
 
 describe('Unit | Component | g-recaptcha', function() {
 
@@ -14,7 +14,7 @@ describe('Unit | Component | g-recaptcha', function() {
 
     serviceResetCalled = false;
 
-    this.register('service:googleRecaptcha', Ember.Service.extend({
+    this.register('service:googleRecaptcha', Service.extend({
       loadScript() {
         return RSVP.resolve();
       },

@@ -1,4 +1,4 @@
-import Ember from 'ember';
+import { inject as service } from '@ember/service';
 import AuthenticatedRouteMixin from 'ember-simple-auth/mixins/authenticated-route-mixin';
 import BaseRoute from 'pix-live/routes/base-route';
 import RSVP from 'rsvp';
@@ -7,7 +7,7 @@ import ENV from 'pix-live/config/environment';
 export default BaseRoute.extend(AuthenticatedRouteMixin, {
   authenticationRoute: '/connexion',
 
-  session: Ember.inject.service(),
+  session: service(),
 
   model() {
     return this.get('store').findRecord('user', this.get('session.data.authenticated.userId'))

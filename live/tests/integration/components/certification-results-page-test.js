@@ -1,4 +1,4 @@
-import { computed } from '@ember/object';
+import { alias } from '@ember/object/computed';
 import { expect } from 'chai';
 import { beforeEach, describe, it } from 'mocha';
 import { setupComponentTest } from 'ember-mocha';
@@ -33,7 +33,7 @@ describe('Integration | Component | certification results template', function() 
     it('should have a button to logout', function() {
       // given
       LinkComponent.reopen({
-        href: computed.alias('qualifiedRouteName')
+        href: alias('qualifiedRouteName')
       });
 
       // when

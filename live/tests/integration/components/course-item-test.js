@@ -1,4 +1,4 @@
-import Ember from 'ember';
+import EmberObject from '@ember/object';
 import { expect } from 'chai';
 import { describe, it } from 'mocha';
 import { setupComponentTest } from 'ember-mocha';
@@ -19,7 +19,7 @@ describe('Integration | Component | course item', function() {
 
     it('should render course picture if it is defined', function() {
       // given
-      const course = Ember.Object.create({ imageUrl: '/images/pix-logo.svg' });
+      const course = EmberObject.create({ imageUrl: '/images/pix-logo.svg' });
       this.set('course', course);
 
       // when
@@ -32,7 +32,7 @@ describe('Integration | Component | course item', function() {
 
     it('should render default picture if course picture is not defined', function() {
       // given
-      const course = Ember.Object.create();
+      const course = EmberObject.create();
       this.set('course', course);
 
       // when
@@ -45,7 +45,7 @@ describe('Integration | Component | course item', function() {
 
     it('should render course name', function() {
       // given
-      const course = Ember.Object.create({ name: 'name_value' });
+      const course = EmberObject.create({ name: 'name_value' });
       this.set('course', course);
 
       // when
@@ -58,7 +58,7 @@ describe('Integration | Component | course item', function() {
 
     it('should render course description', function() {
       // given
-      const course = Ember.Object.create({ description: 'description_value' });
+      const course = EmberObject.create({ description: 'description_value' });
       this.set('course', course);
 
       // when
@@ -71,7 +71,7 @@ describe('Integration | Component | course item', function() {
 
     it('should render the number of challenges when the list of challenges is given', function() {
       // given
-      const course = Ember.Object.create({ challenges: ['c1', 'c2', 'c3', 'c4'] });
+      const course = EmberObject.create({ challenges: ['c1', 'c2', 'c3', 'c4'] });
       this.set('course', course);
 
       // when
@@ -84,7 +84,7 @@ describe('Integration | Component | course item', function() {
 
     it('should render the number of challenges when the count of challenge is given', function() {
       // given
-      const course = Ember.Object.create({ challenges: [], nbChallenges: 2 });
+      const course = EmberObject.create({ challenges: [], nbChallenges: 2 });
       this.set('course', course);
 
       // when
@@ -97,7 +97,7 @@ describe('Integration | Component | course item', function() {
 
     it('should render a link to begin the course', function() {
       // given
-      const course = Ember.Object.create();
+      const course = EmberObject.create();
       this.set('course', course);
 
       // when
@@ -110,7 +110,7 @@ describe('Integration | Component | course item', function() {
 
     it('should render a link containing the course name in title', function() {
       // given
-      const course = Ember.Object.create({ name: 'My course' });
+      const course = EmberObject.create({ name: 'My course' });
       this.set('course', course);
 
       // when
@@ -126,7 +126,7 @@ describe('Integration | Component | course item', function() {
 
     it('should send action "startCourse" with course in argument when clicking on "start" button', function() {
       // given
-      const course = Ember.Object.create({ id: 'course_id' });
+      const course = EmberObject.create({ id: 'course_id' });
       this.set('course', course);
       let actualCourse;
       this.on('actionHandler', function(receivedCourse) {

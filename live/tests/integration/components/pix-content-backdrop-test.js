@@ -1,5 +1,6 @@
+import { run } from '@ember/runloop';
+import Service from '@ember/service';
 import { expect } from 'chai';
-import Ember from 'ember';
 import { beforeEach, describe, it } from 'mocha';
 import { setupComponentTest } from 'ember-mocha';
 import hbs from 'htmlbars-inline-precompile';
@@ -10,7 +11,7 @@ describe('Integration | Component | pix content backdrop', function() {
   });
 
   beforeEach(function() {
-    this.register('service:side-menu', Ember.Service.extend({
+    this.register('service:side-menu', Service.extend({
       close() {
       }
     }));
@@ -32,7 +33,7 @@ describe('Integration | Component | pix content backdrop', function() {
       this.render(hbs`{{content-backdrop}}`);
 
       // when
-      Ember.run(() => document.querySelector('.content-backdrop').click());
+      run(() => document.querySelector('.content-backdrop').click());
 
       // then
       expect(this.$('.content-backdrop').attr('style').indexOf('visibility: hidden') > -1);

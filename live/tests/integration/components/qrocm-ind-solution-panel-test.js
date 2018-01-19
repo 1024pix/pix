@@ -1,8 +1,8 @@
+import EmberObject from '@ember/object';
 import { expect } from 'chai';
 import { beforeEach, describe, it } from 'mocha';
 import { setupComponentTest } from 'ember-mocha';
 import hbs from 'htmlbars-inline-precompile';
-import Ember from 'ember';
 
 const FIRST_CORRECTION_BLOCK = '.correction-qrocm:nth-child(1)';
 const SECOND_CORRECTION_BLOCK = '.correction-qrocm:nth-child(2)';
@@ -18,19 +18,19 @@ describe('Integration | Component | qrocm solution panel', function() {
     integration: true
   });
 
-  const assessment = Ember.Object.create({ id: 'assessment_id' });
-  const challenge = Ember.Object.create({
+  const assessment = EmberObject.create({ id: 'assessment_id' });
+  const challenge = EmberObject.create({
     id: 'challenge_id',
     proposals: 'answer1 : ${key1}\nCarte mémoire (SD) : ${key2}\nblabla : ${key3}'
   });
-  const answer = Ember.Object.create({
+  const answer = EmberObject.create({
     id: 'answer_id',
     value: 'key1: \'rightAnswer1\' key2: \'wrongAnswer2\' key3: \'\'',
     resultDetails: 'key1: true\nkey2: false\nkey3: false',
     assessment,
     challenge
   });
-  const solution = Ember.Object.create({ value: 'key1:\n- rightAnswer1\nkey2:\n- rightAnswer20\n- rightAnswer21\nkey3 :\n- rightAnswer3' });
+  const solution = EmberObject.create({ value: 'key1:\n- rightAnswer1\nkey2:\n- rightAnswer20\n- rightAnswer21\nkey3 :\n- rightAnswer3' });
 
   beforeEach(function() {
     this.set('answer', answer);

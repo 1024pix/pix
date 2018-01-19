@@ -1,9 +1,13 @@
-import Ember from 'ember';
+import { computed } from '@ember/object';
+import { equal, or } from '@ember/object/computed';
+import { inject as service } from '@ember/service';
+import Component from '@ember/component';
+import { later } from '@ember/runloop';
 import config from 'pix-live/config/environment';
 import isEmailValid from 'pix-live/utils/email-validator';
 
 function hideMessageDiv(context) {
-  Ember.run.later(function() {
+  later(function() {
     context.set('status', 'empty');
     context.set('errorType', 'invalid');
   }, config.APP.MESSAGE_DISPLAY_DURATION);
@@ -14,9 +18,9 @@ function getErrorType(errors) {
   return (statusCode === 409) ? 'exist' : 'invalid';
 }
 
-export default Ember.Component.extend({
+export default Component.extend({
 
-  store: Ember.inject.service(),
+  store: service(),
 
   classNames: ['follower-form'],
 
@@ -32,21 +36,21 @@ export default Ember.Component.extend({
     success: 'Merci pour votre inscription'
   },
 
-  hasError: Ember.computed.equal('status', 'error'),
-  isPending: Ember.computed.equal('status', 'pending'),
-  hasSuccess: Ember.computed.equal('status', 'success'),
-  hasMessage: Ember.computed.or('hasError', 'hasSuccess'),
+  hasError: equal('status', 'error'),
+  isPending: equal('status', 'pending'),
+  hasSuccess: equal('status', 'success'),
+  hasMessage: or('hasError', 'hasSuccess'),
 
-  messageClassName: Ember.computed('status', function() {
+  messageClassName: computed('status', function() {
     return (this.get('status') === 'error') ? 'has-error' : 'has-success';
   }),
 
-  infoMessage: Ember.computed('hasError', function() {
+  infoMessage: computed('hasError', function() {
     const currentErrorType = this.get('errorType');
     return (this.get('hasError')) ? this.get('messages.error')[currentErrorType] : this.get('messages.success');
   }),
 
-  submitButtonText: Ember.computed('status', function() {
+  submitButtonText: computed('status', function() {
     return (this.get('status') === 'pending') ? 'envoi en cours' : 's\'inscrire';
   }),
 

@@ -1,9 +1,9 @@
-import Ember from 'ember';
+import { inject as service } from '@ember/service';
 import BaseRoute from 'pix-live/routes/base-route';
 
 export default BaseRoute.extend({
 
-  delay: Ember.inject.service(),
+  delay: service(),
 
   model() {
     return this.store.query('course', { isAdaptive: true });

@@ -1,5 +1,11 @@
-import { afterEach, beforeEach, describe, it } from 'mocha';
-import { startApp, destroyApp } from '../helpers/application';
+import {
+  afterEach,
+  beforeEach,
+  describe,
+  it
+} from 'mocha';
+import startApp from '../helpers/start-app';
+import destroyApp from '../helpers/destroy-app';
 
 describe('Acceptance | Page | Legal notices', function() {
 

@@ -1,5 +1,5 @@
+import { equal } from '@ember/object/computed';
 import Component from '@ember/component';
-import { computed } from '@ember/object';
 
 const pendingValue = 'pending';
 const enableValue = 'enable';
@@ -12,12 +12,12 @@ export default Component.extend({
 
   _validateButtonStatus: enableValue, // enable, pending, offline
   _skipButtonStatus: enableValue,
-  isValidateButtonEnable: computed.equal('_validateButtonStatus', enableValue),
-  isValidateButtonPending: computed.equal('_validateButtonStatus', pendingValue),
-  isValidateButtonOffline: computed.equal('_validateButtonStatus', 'offline'),
+  isValidateButtonEnable: equal('_validateButtonStatus', enableValue),
+  isValidateButtonPending: equal('_validateButtonStatus', pendingValue),
+  isValidateButtonOffline: equal('_validateButtonStatus', 'offline'),
 
-  isSkipButtonEnable: computed.equal('_skipButtonStatus', enableValue),
-  isSkipButtonPending: computed.equal('_skipButtonStatus', pendingValue),
+  isSkipButtonEnable: equal('_skipButtonStatus', enableValue),
+  isSkipButtonPending: equal('_skipButtonStatus', pendingValue),
 
   didUpdateAttrs() {
     this._super(...arguments);

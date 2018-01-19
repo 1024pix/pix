@@ -1,8 +1,8 @@
+import Service from '@ember/service';
 import RSVP from 'rsvp';
-import Ember from 'ember';
 import config from '../config/environment';
 
-export default Ember.Service.extend({
+export default Service.extend({
   ms(ms) {
     /* istanbul ignore if  */
     if (config.EmberENV.useDelay) { //unreachable by tests

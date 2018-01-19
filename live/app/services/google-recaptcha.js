@@ -1,10 +1,11 @@
-import Ember from 'ember';
+import { assert } from '@ember/debug';
+import Service from '@ember/service';
 import jQuery from 'jquery';
 import RSVP from 'rsvp';
 import config from 'pix-live/config/environment';
 
 // XXX Inspired of https://guides.emberjs.com/v2.13.0/tutorial/service/#toc_fetching-maps-with-a-service
-export default Ember.Service.extend({
+export default Service.extend({
 
   loadScript() {
     return new RSVP.Promise(function(resolve) {
@@ -18,7 +19,7 @@ export default Ember.Service.extend({
 
   render(containerId, callback, expiredCallback) {
     const grecaptcha = window.grecaptcha;
-    Ember.assert('window.grecaptcha must be available', grecaptcha);
+    assert('window.grecaptcha must be available', grecaptcha);
     if (!this.get('isDestroyed')) {
       const parameters = {
         'callback': callback,

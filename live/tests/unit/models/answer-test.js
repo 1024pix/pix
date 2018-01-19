@@ -1,4 +1,4 @@
-import Ember from 'ember';
+import { run } from '@ember/runloop';
 import { expect } from 'chai';
 import { describe, it } from 'mocha';
 import { setupModelTest } from 'ember-mocha';
@@ -18,7 +18,7 @@ describe('Unit | Model | Answer', function() {
   describe('isResultOk', function() {
 
     it('should return bool', function() {
-      Ember.run(() => {
+      run(() => {
         // given
         const store = this.store();
         const answer = store.createRecord('answer', { 'result': 'ok' });

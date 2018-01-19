@@ -1,4 +1,5 @@
-import Ember from 'ember';
+import { computed } from '@ember/object';
+import Component from '@ember/component';
 import _ from 'lodash';
 import answersAsObject from 'pix-live/utils/answers-as-object';
 import solutionsAsObject from 'pix-live/utils/solution-as-object';
@@ -22,9 +23,9 @@ function _computeInputClass(answerOutcome) {
   return 'correction-qroc-box__input-wrong-answer';
 }
 
-const QrocmIndSolutionPanel = Ember.Component.extend({
+const QrocmIndSolutionPanel = Component.extend({
 
-  inputFields: Ember.computed('challenge.proposals', 'answer.value', 'solution.value', function() {
+  inputFields: computed('challenge.proposals', 'answer.value', 'solution.value', function() {
 
     const labels = labelsAsObject(this.get('challenge.proposals'));
     const answers = answersAsObject(this.get('answer.value'), _.keys(labels));

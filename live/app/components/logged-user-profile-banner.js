@@ -1,13 +1,14 @@
-import Ember from 'ember';
+import $ from 'jquery';
+import Component from '@ember/component';
 import config from 'pix-live/config/environment';
 
-export default Ember.Component.extend({
+export default Component.extend({
   classNames: ['logged-user-profile-banner'],
 
   actions: {
     scrollToProfile() {
-      Ember.$('html, body').animate({
-        scrollTop: Ember.$('.profile-panel__header').offset().top - 15
+      $('html, body').animate({
+        scrollTop: $('.profile-panel__header').offset().top - 15
       }, config.APP.SCROLL_DURATION);
     }
   }

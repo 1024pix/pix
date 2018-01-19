@@ -1,3 +1,4 @@
+import { readOnly } from '@ember/object/computed';
 import { run } from '@ember/runloop';
 import { computed } from '@ember/object';
 import Component from '@ember/component';
@@ -27,7 +28,7 @@ const CourseList = Component.extend({
 
   classNames: ['course-list'],
 
-  isLoading: computed.readOnly('courses.isPending'),
+  isLoading: readOnly('courses.isPending'),
 
   filteredCourses: computed('courses.[]', function() {
     const courses = this.get('courses');

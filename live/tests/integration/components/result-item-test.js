@@ -1,5 +1,5 @@
+import EmberObject from '@ember/object';
 import { expect } from 'chai';
-import Ember from 'ember';
 import { describe, it, beforeEach } from 'mocha';
 import { setupComponentTest } from 'ember-mocha';
 import hbs from 'htmlbars-inline-precompile';
@@ -14,7 +14,7 @@ describe('Integration | Component | result item', function() {
 
     const providedChallengeInstruction = 'Un QCM propose plusieurs choix, l\'utilisateur peut en choisir [plusieurs](http://link.plusieurs.url)';
 
-    const emberChallengeObject = Ember.Object.create({
+    const emberChallengeObject = EmberObject.create({
       type: 'QCM',
       instruction: providedChallengeInstruction,
       proposals: '- soit possibilite A, et/ou' +
@@ -23,7 +23,7 @@ describe('Integration | Component | result item', function() {
       '\n - soit possibilite D'
     });
 
-    const answer = Ember.Object.create({
+    const answer = EmberObject.create({
       value: '2,4',
       result: 'ko',
       id: 1,
