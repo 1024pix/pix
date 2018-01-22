@@ -1,4 +1,4 @@
-import Ember from 'ember';
+import EmberObject from '@ember/object';
 import { expect } from 'chai';
 import { describe, it } from 'mocha';
 import { getChallengeComponentClass } from 'pix-live/helpers/get-challenge-component-class';
@@ -19,7 +19,7 @@ describe('Unit | Helper | get challenge component class', function() {
 
     it(`should return component class "${useCase.expectedClass}" when challenge type is "${useCase.challengeType}"`, function() {
       // given
-      const challenge = Ember.Object.create({ type: useCase.challengeType });
+      const challenge = EmberObject.create({ type: useCase.challengeType });
       const params = [challenge];
 
       // when

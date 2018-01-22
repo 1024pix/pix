@@ -1,4 +1,4 @@
-import Ember from 'ember';
+import Component from '@ember/component';
 import isPasswordValid from '../utils/password-validator';
 
 const ERROR_PASSWORD_MESSAGE = 'Votre mot de passe doit comporter au moins une lettre, un chiffre et 8 caractères.';
@@ -24,7 +24,7 @@ const SUBMISSION_MAP = {
   }
 };
 
-export default Ember.Component.extend({
+export default Component.extend({
   classNames: ['reset-password-form'],
   validation: VALIDATION_MAP['default'],
 

@@ -1,8 +1,10 @@
+import EmberObject from '@ember/object';
+import { resolve, reject } from 'rsvp';
+import Service from '@ember/service';
 import { expect } from 'chai';
 import { describe, it } from 'mocha';
 import { setupComponentTest } from 'ember-mocha';
 import hbs from 'htmlbars-inline-precompile';
-import Ember from 'ember';
 import wait from 'ember-test-helpers/wait';
 
 const BUTTON_SEND = '.follower-form__button';
@@ -46,7 +48,7 @@ describe('Integration | Component | follower form', function() {
     let saveMethodBody;
     let saveMethodUrl;
 
-    const storeStub = Ember.Service.extend({
+    const storeStub = Service.extend({
       createRecord() {
         const createRecordArgs = arguments;
         return Object.create({
@@ -54,19 +56,19 @@ describe('Integration | Component | follower form', function() {
             isSaveMethodCalled = true;
             saveMethodUrl = createRecordArgs[0];
             saveMethodBody = createRecordArgs[1];
-            return Ember.RSVP.resolve();
+            return resolve();
           }
         });
       }
     });
 
-    const errorObject = Ember.Object.create({
+    const errorObject = EmberObject.create({
       errors: [{
         status: 409
       }]
     });
 
-    const storeStubRejection = Ember.Service.extend({
+    const storeStubRejection = Service.extend({
       createRecord() {
         const createRecordArgs = arguments;
         return Object.create({
@@ -74,7 +76,7 @@ describe('Integration | Component | follower form', function() {
             isSaveMethodCalled = true;
             saveMethodUrl = createRecordArgs[0];
             saveMethodBody = createRecordArgs[1];
-            return Ember.RSVP.reject(errorObject);
+            return reject(errorObject);
           }
         });
       }

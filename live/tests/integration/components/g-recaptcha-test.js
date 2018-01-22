@@ -1,11 +1,11 @@
+import Service from '@ember/service';
 import { expect } from 'chai';
 import { describe, it } from 'mocha';
 import { setupComponentTest } from 'ember-mocha';
 import hbs from 'htmlbars-inline-precompile';
-import Ember from 'ember';
 import RSVP from 'rsvp';
 
-const StubGoogleRecaptchaService = Ember.Service.extend({
+const StubGoogleRecaptchaService = Service.extend({
 
   loadScript() {
     return RSVP.resolve();

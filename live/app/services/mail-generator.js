@@ -1,7 +1,7 @@
-import Ember from 'ember';
+import Service from '@ember/service';
 import moment from 'moment';
 
-export default Ember.Service.extend({
+export default Service.extend({
 
   generateEmail: (challengeId, assessmentId, host, environment) => {
 

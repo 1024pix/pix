@@ -1,8 +1,8 @@
+import Service from '@ember/service';
 import { describe, it } from 'mocha';
 import { expect } from 'chai';
 import sinon from 'sinon';
 import { setupTest } from 'ember-mocha';
-import Ember from 'ember';
 
 describe('Unit | Component | password-reset-form', function() {
 
@@ -21,7 +21,7 @@ describe('Unit | Component | password-reset-form', function() {
         save: saveStub
       });
 
-      this.register('service:store', Ember.Service.extend({
+      this.register('service:store', Service.extend({
         createRecord: createRecordStub
       }));
       this.inject.service('store', { as: 'store' });

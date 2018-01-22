@@ -1,11 +1,13 @@
-import Ember from 'ember';
+import { computed } from '@ember/object';
+import { equal } from '@ember/object/computed';
+import Component from '@ember/component';
 
 const ORGANIZATION_CODE_PLACEHOLDER = 'Ex: ABCD12';
 const STEP_1_ORGANIZATION_CODE_ENTRY = 'organization-code-entry';
 const STEP_2_SHARING_CONFIRMATION = 'sharing-confirmation';
 const STEP_3_SUCCESS_NOTIFICATION = 'success-notification';
 
-export default Ember.Component.extend({
+export default Component.extend({
 
   classNames: ['share-profile'],
 
@@ -24,11 +26,14 @@ export default Ember.Component.extend({
   _campaignCode: null,
 
   // Computed
-  stepOrganizationCodeEntry: Ember.computed.equal('_view', STEP_1_ORGANIZATION_CODE_ENTRY),
-  stepProfileSharingConfirmation: Ember.computed.equal('_view', STEP_2_SHARING_CONFIRMATION),
-  isOrganizationHasTypeSup: Ember.computed.equal('_organization.type', 'SUP'),
+  stepOrganizationCodeEntry: equal('_view', STEP_1_ORGANIZATION_CODE_ENTRY),
+  stepProfileSharingConfirmation: equal('_view', STEP_2_SHARING_CONFIRMATION),
+  isOrganizationHasTypeSup: equal('_organization.type', 'SUP'),
+  isOrganizationHasTypeSupOrSco: computed('_organization.type', function() {
+    return this.get('_organization.type') === 'SUP' || this.get('_organization.type') === 'SCO';
+  }),
 
-  organizationLabels: Ember.computed('_organization.type', function() {
+  organizationLabels: computed('_organization.type', function() {
     if (this.get('_organization.type') === 'PRO') {
       return {
         text1: 'Vous vous apprêtez à transmettre une copie de votre profil Pix à l\'organisation :',

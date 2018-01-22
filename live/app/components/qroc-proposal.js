@@ -1,7 +1,8 @@
-import Ember from 'ember';
+import { computed } from '@ember/object';
+import Component from '@ember/component';
 import  proposalsAsBlocks from 'pix-live/utils/proposals-as-blocks';
 
-export default Ember.Component.extend({
+export default Component.extend({
 
   classNames: ['qroc-proposal'],
 
@@ -9,11 +10,11 @@ export default Ember.Component.extend({
   answerValue: null,
   answerChanged: null, // action
 
-  _blocks: Ember.computed('proposals', function() {
+  _blocks: computed('proposals', function() {
     return proposalsAsBlocks(this.get('proposals'));
   }),
 
-  userAnswer : Ember.computed('answerValue', function() {
+  userAnswer : computed('answerValue', function() {
     const answer = this.get('answerValue') || '';
     return answer.indexOf('#ABAND#') > -1? '' : answer;
   }),

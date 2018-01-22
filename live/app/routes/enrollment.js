@@ -1,4 +1,5 @@
-import Ember from 'ember';
+import { hash } from 'rsvp';
+import { inject as service } from '@ember/service';
 import BaseRoute from 'pix-live/routes/base-route';
 
 const pixDescriptionGoals = [
@@ -75,10 +76,10 @@ const pixUncommitments = [
 
 export default BaseRoute.extend({
 
-  panelActions: Ember.inject.service(),
+  panelActions: service(),
 
   model() {
-    return Ember.RSVP.hash({
+    return hash({
       pixDescriptionGoals: pixDescriptionGoals,
       stepsForPioneersInstitutions: stepsForPioneersInstitutions,
       pixCommitments: pixCommitments,

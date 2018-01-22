@@ -1,11 +1,13 @@
-import Ember from 'ember';
+import { isPresent } from '@ember/utils';
+import { computed } from '@ember/object';
+import Component from '@ember/component';
 
-export default Ember.Component.extend({
+export default Component.extend({
 
   organization: null,
   snapshots: null,
-  _hasSnapshots: Ember.computed('snapshots', function() {
-    return Ember.isPresent(this.get('snapshots.length')) && this.get('snapshots.length') > 0;
+  _hasSnapshots: computed('snapshots', function() {
+    return isPresent(this.get('snapshots.length')) && this.get('snapshots.length') > 0;
   })
 
 });

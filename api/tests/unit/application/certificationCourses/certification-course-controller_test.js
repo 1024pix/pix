@@ -1,5 +1,6 @@
 const { describe, it, before, sinon, expect } = require('../../../test-helper');
 const Hapi = require('hapi');
+
 const CertificationCourseController = require('../../../../lib/application/certificationCourses/certification-course-controller');
 const CertificationCourseRepository = require('../../../../lib/infrastructure/repositories/certification-course-repository');
 const CertificationCourseSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/certification-course-serializer');
@@ -32,8 +33,11 @@ describe('Unit | Controller | certification-course-controller', function() {
   });
 
   describe('#save', function() {
+    let clock;
 
     beforeEach(() => {
+      clock = sinon.useFakeTimers(new Date('2018-02-04T01:00:00.000+01:00'));
+
       codeStub = sinon.stub();
       replyStub = sinon.stub().returns({ code: codeStub });
 
@@ -47,6 +51,7 @@ describe('Unit | Controller | certification-course-controller', function() {
 
     afterEach(() => {
       sandbox.restore();
+      clock.restore();
     });
 
     it('should call repository to create certification-course with status "started"', function() {
@@ -67,6 +72,7 @@ describe('Unit | Controller | certification-course-controller', function() {
       // then
       return promise.then(() => {
         sinon.assert.calledOnce(UserService.getProfileToCertify);
+        sinon.assert.calledWith(UserService.getProfileToCertify, 'userId', '2018-02-04T00:00:00.000Z');
       });
     });
 
@@ -113,7 +119,7 @@ describe('Unit | Controller | certification-course-controller', function() {
       }
     };
     beforeEach(() => {
-      const assessment = new Assessment({ id: 'assessment_id', userId: 'user_id' });
+      const assessment = new Assessment({ id: 'assessment_id', userId: 'user_id', createdAt: '2018-01-01' });
       replyStub = sinon.stub().returns({ code: codeStub });
 
       sandbox = sinon.sandbox.create();
@@ -169,7 +175,7 @@ describe('Unit | Controller | certification-course-controller', function() {
       // then
       return promise.then(() => {
         sinon.assert.calledOnce(UserService.getProfileToCertify);
-        sinon.assert.calledWith(UserService.getProfileToCertify, 'user_id');
+        sinon.assert.calledWith(UserService.getProfileToCertify, 'user_id', '2018-01-01');
       });
     });
 

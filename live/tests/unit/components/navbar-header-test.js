@@ -1,12 +1,12 @@
+import Service from '@ember/service';
 import { expect } from 'chai';
 import { beforeEach, describe, it } from 'mocha';
 import { setupTest } from 'ember-mocha';
-import Ember from 'ember';
 
 describe('Unit | Component | Navbar Header Component', function() {
   setupTest('component:navbar-header', {});
-  const sessionStubResolve = Ember.Service.extend({ isAuthenticated: true });
-  const sessionStubReject = Ember.Service.extend({ isAuthenticated: false });
+  const sessionStubResolve = Service.extend({ isAuthenticated: true });
+  const sessionStubReject = Service.extend({ isAuthenticated: false });
 
   describe('When user is logged', function() {
     beforeEach(function() {

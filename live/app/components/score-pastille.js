@@ -1,11 +1,13 @@
-import Ember from 'ember';
+import { isNone } from '@ember/utils';
+import { computed } from '@ember/object';
+import Component from '@ember/component';
 
-export default Ember.Component.extend({
+export default Component.extend({
   classNames: ['score-pastille'],
   pixScore: null,
 
-  score: Ember.computed('pixScore', function() {
+  score: computed('pixScore', function() {
     const pixScore = this.get('pixScore');
-    return Ember.isNone(pixScore) ? '--' : pixScore;
+    return isNone(pixScore) ? '--' : pixScore;
   })
 });

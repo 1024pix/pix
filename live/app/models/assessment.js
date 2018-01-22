@@ -1,3 +1,4 @@
+import { alias, equal } from '@ember/object/computed';
 import { computed } from '@ember/object';
 import DS from 'ember-data';
 
@@ -9,12 +10,12 @@ export default Model.extend({
   answers: hasMany('answer'),
   userName: attr('string'),
   userEmail: attr('string'),
-  firstChallenge: computed.alias('course.challenges.firstObject'),
+  firstChallenge: alias('course.challenges.firstObject'),
   estimatedLevel: attr('number'),
   pixScore: attr('number'),
   type: attr('string'),
   certificationNumber: attr('string'),
-  isCertification: computed.equal('type', 'CERTIFICATION'),
+  isCertification: equal('type', 'CERTIFICATION'),
 
   progress: computed('answers', 'course', function() {
     const maxStep = this.get('course.nbChallenges');

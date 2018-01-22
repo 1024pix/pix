@@ -1,4 +1,6 @@
-import Ember from 'ember';
+import EmberObject from '@ember/object';
+import { resolve } from 'rsvp';
+import Service from '@ember/service';
 import { expect } from 'chai';
 import { describe, it } from 'mocha';
 import { setupComponentTest } from 'ember-mocha';
@@ -86,7 +88,7 @@ describe('Integration | Component | feedback-panel', function() {
 
   describe('Form view', function() {
 
-    const storeStub = Ember.Service.extend({
+    const storeStub = Service.extend({
       createRecord() {
         const createRecordArgs = arguments;
         return Object.create({
@@ -94,7 +96,7 @@ describe('Integration | Component | feedback-panel', function() {
             isSaveMethodCalled = true;
             saveMethodUrl = createRecordArgs[0];
             saveMethodBody = createRecordArgs[1];
-            return Ember.RSVP.resolve();
+            return resolve();
           }
         });
       }
@@ -106,8 +108,8 @@ describe('Integration | Component | feedback-panel', function() {
 
     beforeEach(function() {
       // configure answer & cie. model object
-      const assessment = Ember.Object.extend({ id: 'assessment_id' }).create();
-      const challenge = Ember.Object.extend({ id: 'challenge_id' }).create();
+      const assessment = EmberObject.extend({ id: 'assessment_id' }).create();
+      const challenge = EmberObject.extend({ id: 'challenge_id' }).create();
 
       // render component
       this.set('assessment', assessment);
@@ -181,8 +183,8 @@ describe('Integration | Component | feedback-panel', function() {
 
     beforeEach(function() {
       // configure answer & cie. model object
-      const assessment = Ember.Object.extend({ id: 'assessment_id' }).create();
-      const challenge = Ember.Object.extend({ id: 'challenge_id' }).create();
+      const assessment = EmberObject.extend({ id: 'assessment_id' }).create();
+      const challenge = EmberObject.extend({ id: 'challenge_id' }).create();
 
       // render component
       this.set('assessment', assessment);

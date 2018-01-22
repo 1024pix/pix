@@ -1,11 +1,17 @@
-import Ember from 'ember';
-import { EKMixin as EmberKeyboardMixin, keyDown } from 'ember-keyboard';
+import { on } from '@ember/object/evented';
+import { computed } from '@ember/object';
+import { inject as service } from '@ember/service';
+import Component from '@ember/component';
+import {
+  EKMixin as EmberKeyboardMixin,
+  keyDown
+} from 'ember-keyboard';
 
-export default Ember.Component.extend(EmberKeyboardMixin, {
+export default Component.extend(EmberKeyboardMixin, {
 
-  session: Ember.inject.service(),
-  store: Ember.inject.service(),
-  routing: Ember.inject.service('-routing'),
+  session: service(),
+  store: service(),
+  routing: service('-routing'),
 
   classNames: ['logged-user-details'],
 
@@ -13,7 +19,7 @@ export default Ember.Component.extend(EmberKeyboardMixin, {
   _canDisplayMenu: false,
   _user: null,
 
-  canDisplayLinkToProfile: Ember.computed(function() {
+  canDisplayLinkToProfile: computed(function() {
     return this.get('routing.currentRouteName') !== 'compte' && this.get('routing.currentRouteName') !== 'board';
   }),
 
@@ -23,7 +29,7 @@ export default Ember.Component.extend(EmberKeyboardMixin, {
       .then((user) => this.set('_user', user));
   },
 
-  closeOnEsc: Ember.on(keyDown('Escape'), function() {
+  closeOnEsc: on(keyDown('Escape'), function() {
     this.set('_canDisplayMenu', false);
   }),
 

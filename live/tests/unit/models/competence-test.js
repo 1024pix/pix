@@ -1,4 +1,5 @@
-import Ember from 'ember';
+import { run } from '@ember/runloop';
+import { get } from '@ember/object';
 import { expect } from 'chai';
 import { describe, it } from 'mocha';
 import { setupModelTest } from 'ember-mocha';
@@ -20,7 +21,7 @@ describe('Unit | Model | competence model', function() {
       const Competence = this.store().modelFor('competence');
 
       // when
-      const relationship = Ember.get(Competence, 'relationshipsByName').get('area');
+      const relationship = get(Competence, 'relationshipsByName').get('area');
 
       // then
       expect(relationship.key).to.equal('area');
@@ -31,7 +32,7 @@ describe('Unit | Model | competence model', function() {
   describe('#areaName computed property', () => {
 
     it('should be an alias for "area" relationship on "name" property', function() {
-      Ember.run(() => {
+      run(() => {
         // given
         const store = this.store();
         const area = store.createRecord('area', { name: 'coucou' });

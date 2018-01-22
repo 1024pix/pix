@@ -51,11 +51,12 @@ module.exports = {
       });
   },
 
-  findLastCompletedAssessmentsForEachCoursesByUser(userId) {
+  findLastCompletedAssessmentsForEachCoursesByUser(userId, limitDate) {
     return Assessment
       .collection()
       .query(qb => {
         qb.where({ userId })
+          .where('createdAt', '<', limitDate)
           .whereNotNull('estimatedLevel')
           .whereNotNull('pixScore')
           .andWhere(function() {

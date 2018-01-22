@@ -1,7 +1,8 @@
+import EmberObject from '@ember/object';
+import Service from '@ember/service';
 import { beforeEach, describe, it } from 'mocha';
 import { setupTest } from 'ember-mocha';
 import sinon from 'sinon';
-import Ember from 'ember';
 
 describe('Unit | Route | login page', function() {
   setupTest('route:login', {
@@ -14,12 +15,12 @@ describe('Unit | Route | login page', function() {
   const expectedPassword = 'azerty';
 
   beforeEach(function() {
-    this.register('service:session', Ember.Service.extend({
+    this.register('service:session', Service.extend({
       authenticate: authenticatedStub
     }));
     this.inject.service('session', { as: 'session' });
 
-    this.register('service:store', Ember.Service.extend({
+    this.register('service:store', Service.extend({
       queryRecord: queryRecordStub
     }));
     this.inject.service('store', { as: 'store' });
@@ -29,7 +30,7 @@ describe('Unit | Route | login page', function() {
     // Given
     authenticatedStub.resolves();
 
-    const foundUser = Ember.Object.create({ id: 12 });
+    const foundUser = EmberObject.create({ id: 12 });
     queryRecordStub.resolves(foundUser);
     const route = this.subject();
     route.transitionTo = () => {
@@ -51,7 +52,7 @@ describe('Unit | Route | login page', function() {
       const route = this.subject();
       authenticatedStub.resolves();
 
-      const foundUser = Ember.Object.create({ id: 12 });
+      const foundUser = EmberObject.create({ id: 12 });
       queryRecordStub.resolves(foundUser);
 
       route.transitionTo = sinon.stub();
@@ -70,8 +71,8 @@ describe('Unit | Route | login page', function() {
       const route = this.subject();
       authenticatedStub.resolves();
 
-      const linkedOrganization = Ember.Object.create({ id: 1 });
-      const foundUser = Ember.Object.create({ organizations: [linkedOrganization] });
+      const linkedOrganization = EmberObject.create({ id: 1 });
+      const foundUser = EmberObject.create({ organizations: [linkedOrganization] });
       queryRecordStub.resolves(foundUser);
 
       route.transitionTo = sinon.stub();

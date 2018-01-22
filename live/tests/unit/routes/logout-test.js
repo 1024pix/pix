@@ -1,4 +1,4 @@
-import Ember from 'ember';
+import Service from '@ember/service';
 import sinon from 'sinon';
 import { describe, it } from 'mocha';
 import { setupTest } from 'ember-mocha';
@@ -11,7 +11,7 @@ describe('Unit | Route | logout', () => {
   it('should disconnect the user', function() {
     // Given
     const invalidateStub = sinon.stub();
-    this.register('service:session', Ember.Service.extend({ isAuthenticated: true, invalidate: invalidateStub }));
+    this.register('service:session', Service.extend({ isAuthenticated: true, invalidate: invalidateStub }));
     this.inject.service('session', { as: 'session' });
 
     const route = this.subject();
@@ -28,7 +28,7 @@ describe('Unit | Route | logout', () => {
   it('should redirect after disconnection', function() {
     // Given
     const invalidateStub = sinon.stub();
-    this.register('service:session', Ember.Service.extend({ isAuthenticated: true, invalidate: invalidateStub }));
+    this.register('service:session', Service.extend({ isAuthenticated: true, invalidate: invalidateStub }));
     this.inject.service('session', { as: 'session' });
 
     const route = this.subject();
@@ -45,7 +45,7 @@ describe('Unit | Route | logout', () => {
   it('should redirect even if user was not authenticated', function() {
     // Given
     const invalidateStub = sinon.stub();
-    this.register('service:session', Ember.Service.extend({ isAuthenticated: false, invalidate: invalidateStub }));
+    this.register('service:session', Service.extend({ isAuthenticated: false, invalidate: invalidateStub }));
     this.inject.service('session', { as: 'session' });
 
     const route = this.subject();

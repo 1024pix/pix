@@ -1,4 +1,5 @@
-import Ember from 'ember';
+import EmberObject from '@ember/object';
+import Service from '@ember/service';
 import { expect } from 'chai';
 import { describe, it } from 'mocha';
 import { setupTest } from 'ember-mocha';
@@ -19,7 +20,7 @@ describe('Unit | Route | index', function() {
 
     it('should leave the user on the current location', function() {
       // Given
-      this.register('service:session', Ember.Service.extend({ isAuthenticated: false }));
+      this.register('service:session', Service.extend({ isAuthenticated: false }));
       this.inject.service('session', { as: 'session' });
 
       const route = this.subject();
@@ -40,12 +41,12 @@ describe('Unit | Route | index', function() {
     beforeEach(function() {
 
       storeServiceStub = {
-        findRecord: sinon.stub().resolves(Ember.Object.create({ organizations: [] }))
+        findRecord: sinon.stub().resolves(EmberObject.create({ organizations: [] }))
       };
-      this.register('service:store', Ember.Service.extend(storeServiceStub));
+      this.register('service:store', Service.extend(storeServiceStub));
       this.inject.service('store', { as: 'store' });
 
-      this.register('service:session', Ember.Service.extend({
+      this.register('service:session', Service.extend({
         isAuthenticated: true,
         data: {
           authenticated: {
@@ -100,8 +101,8 @@ describe('Unit | Route | index', function() {
 
     it('should redirect to board when the user is linked to an organization', function() {
       // Given
-      storeServiceStub.findRecord.resolves(Ember.Object.create({
-        organizations: [Ember.Object.create()]
+      storeServiceStub.findRecord.resolves(EmberObject.create({
+        organizations: [EmberObject.create()]
       }));
 
       const route = this.subject();

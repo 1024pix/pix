@@ -1,7 +1,8 @@
+import EmberObject from '@ember/object';
+import Service from '@ember/service';
 import { describe, it } from 'mocha';
 import { setupTest } from 'ember-mocha';
 import sinon from 'sinon';
-import Ember from 'ember';
 
 describe('Unit | Route | Certification | resume', function() {
   setupTest('route:certifications.resume', {
@@ -19,7 +20,7 @@ describe('Unit | Route | Certification | resume', function() {
     // define stubs
     findRecordStub = sinon.stub();
     queryRecordStub = sinon.stub();
-    StoreStub = Ember.Service.extend({
+    StoreStub = Service.extend({
       findRecord: findRecordStub,
       queryRecord: queryRecordStub
     });
@@ -53,8 +54,8 @@ describe('Unit | Route | Certification | resume', function() {
 
   describe('#afterModel', function() {
 
-    const assessment = Ember.Object.create({ id: assessmentId });
-    const certification = Ember.Object.create({ id: certificationCourseId, assessment: assessment });
+    const assessment = EmberObject.create({ id: assessmentId });
+    const certification = EmberObject.create({ id: certificationCourseId, assessment: assessment });
 
     it('should get the next challenge of the assessment', function() {
       // given
@@ -74,7 +75,7 @@ describe('Unit | Route | Certification | resume', function() {
 
       it('should redirect to the challenge view', function() {
         // given
-        const nextChallenge = Ember.Object.create({ id: 456 });
+        const nextChallenge = EmberObject.create({ id: 456 });
         queryRecordStub.resolves(nextChallenge);
 
         // when

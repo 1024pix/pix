@@ -8,7 +8,7 @@ PIX
 Présentation
 ------------
 
-[PIX](https://pix.beta.gouv.fr) s’adresse à tous les citoyen•ne•s francophones (élèves, étudiant•e•s, professionnel•le•s, décrocheur•se•s, demandeur•se•s d’emploi, sénior•e•s, citoyen•ne•s) qui souhaitent mesurer, développer et valoriser leurs compétences numériques.
+[PIX](https://pix.beta.gouv.fr) s’adresse à tous les citoyens francophones (élèves, étudiants, professionnels, décrocheurs, demandeurs d’emploi, séniors, citoyens) qui souhaitent mesurer, développer et valoriser leurs compétences numériques.
 
 Le service se présente sous la forme d’une plateforme en ligne d’évaluation et de certification des compétences numériques.
 
@@ -22,8 +22,10 @@ Installation
 Vous devez au préalable avoir correctement installé les logiciels suivants :
 
 * [Git](http://git-scm.com/) (2.6.4)
-* [Node.js](http://nodejs.org/) (v8.4.0) et NPM (5.3.0)
-* [Ember CLI](http://ember-cli.com/) (2.15.0)
+* [Node.js](http://nodejs.org/) (v8.9.4) et NPM (5.5.1)
+* [Ember CLI](http://ember-cli.com/) (2.18.0)
+
+⚠️ Les versions indiquées sont celles utilisées et préconisées par l'équipe de développement. Il est possible que l'application fonctionne avec des versions différentes. Cependant nous avons constaté des instabilités avec Node 9+ et NPM 5.6.0. 
 
 > Les versions indiquées sont celles préconisées pour un bon fonctionnement de l'application.
 

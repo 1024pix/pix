@@ -1,4 +1,5 @@
 const Boom = require('boom');
+const moment = require('moment');
 const logger = require('../../infrastructure/logger');
 const CertificationCourseRepository = require('../../infrastructure/repositories/certification-course-repository');
 const CertificationCourseSerializer = require('../../infrastructure/serializers/jsonapi/certification-course-serializer');
@@ -20,7 +21,7 @@ module.exports = {
       .then((savedCertificationCourse) => {
         return certificationCourse = savedCertificationCourse;
       })
-      .then(() => userService.getProfileToCertify(userId))
+      .then(() => userService.getProfileToCertify(userId, moment().toISOString()))
       .then((userProfile) => certificationChallengesService.saveChallenges(userProfile, certificationCourse))
       .then(() => reply(CertificationCourseSerializer.serialize(certificationCourse)).code(201))
       .catch((err) => {
@@ -49,7 +50,7 @@ module.exports = {
       })
       .then((certificationChallenges) => {
         listCertificationChallenges = certificationChallenges;
-        return userService.getProfileToCertify(userId);
+        return userService.getProfileToCertify(userId, dateOfCertification);
       })
       .then((listCompetences) => {
         const testedCompetences = listCompetences.filter(competence => competence.challenges.length > 0);

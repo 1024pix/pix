@@ -1,4 +1,5 @@
 const Boom = require('boom');
+const moment = require('moment');
 
 const assessmentSerializer = require('../../infrastructure/serializers/jsonapi/assessment-serializer');
 const assessmentRepository = require('../../infrastructure/repositories/assessment-repository');
@@ -112,7 +113,9 @@ module.exports = {
 
               let promise = Promise.resolve();
               if (assessmentService.isCertificationAssessment(assessmentPix)) {
-                promise = certificationCourseRepository.updateStatus('completed', assessmentPix.get('courseId'));
+                promise = certificationCourseRepository.updateStatus('completed',
+                  assessmentPix.get('courseId'),
+                  moment().toISOString());
               }
 
               // XXX: successRate should not be saved in DB.

@@ -1,4 +1,4 @@
-import Ember from 'ember';
+import EmberObject from '@ember/object';
 import { expect } from 'chai';
 import { beforeEach, describe, it } from 'mocha';
 import { setupComponentTest } from 'ember-mocha';
@@ -29,7 +29,7 @@ describe('Unit | Component | Certification Banner', function() {
 
     it('should concatenate user first and last name', function() {
       // given
-      const fakeUser = Ember.Object.create({ firstName: 'Manu', lastName: 'Phillip' });
+      const fakeUser = EmberObject.create({ firstName: 'Manu', lastName: 'Phillip' });
 
       // when
       component.set('user', fakeUser);
@@ -42,7 +42,7 @@ describe('Unit | Component | Certification Banner', function() {
 
   it('should return user id', function() {
     // given
-    const fakeUser = Ember.Object.create({ firstName: 'Manu', lastName: 'Phillip', id: 1 });
+    const fakeUser = EmberObject.create({ firstName: 'Manu', lastName: 'Phillip', id: 1 });
 
     // when
     component.set('user', fakeUser);
