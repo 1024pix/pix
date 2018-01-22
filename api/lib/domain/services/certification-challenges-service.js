@@ -10,6 +10,10 @@ module.exports = {
       });
     });
 
-    return Promise.all(saveChallengePromises);
+    return Promise.all(saveChallengePromises)
+      .then((certificationChallenges) => {
+        certificationCourse.nbChallenges = certificationChallenges.length;
+        return certificationCourse;
+      });
   }
 };

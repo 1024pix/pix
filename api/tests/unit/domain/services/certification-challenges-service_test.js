@@ -1,4 +1,4 @@
-const { describe, it, sinon, beforeEach, afterEach } = require('../../../test-helper');
+const { describe, it, sinon, beforeEach, afterEach, expect } = require('../../../test-helper');
 const certificationChallengesService = require('../../../../lib/domain/services/certification-challenges-service');
 const certificationChallengeRepository = require('../../../../lib/infrastructure/repositories/certification-challenge-repository');
 
@@ -45,8 +45,6 @@ describe('Unit | Service | Certification Challenge Service', function() {
 
     context('when profile return one competence with two challenges', () => {
       it('should call certification Challenge Repository save twice', () => {
-        // Given
-
         //When
         const promise = certificationChallengesService.saveChallenges(certificationProfileWithOneCompetence, certificationCourse);
 
@@ -61,8 +59,6 @@ describe('Unit | Service | Certification Challenge Service', function() {
 
     context('when profile return two competences with one challenge', () => {
       it('should call certification Challenge Repository save twice', () => {
-        // Given
-
         //When
         const promise = certificationChallengesService.saveChallenges(certificationProfileWithTwoCompetence, certificationCourse);
 
@@ -74,5 +70,19 @@ describe('Unit | Service | Certification Challenge Service', function() {
         });
       });
     });
+
+    it('should return the certification course with the number of saved challenges', function() {
+      // when
+      const promise = certificationChallengesService.saveChallenges(certificationProfileWithTwoCompetence, certificationCourse);
+
+      // then
+      return promise.then((certificationCourse) => {
+        expect(certificationCourse).to.deep.equal({
+          id :'certification-course-id',
+          nbChallenges : 2
+        });
+      });
+    });
+
   });
 });

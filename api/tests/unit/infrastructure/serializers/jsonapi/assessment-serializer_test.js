@@ -8,12 +8,19 @@ describe('Unit | Serializer | JSONAPI | assessment-serializer', function() {
   let jsonAssessment;
 
   beforeEach(() => {
+    const associatedCourse = {
+      id : 'course_id',
+      nbChallenges : 8,
+      description : 'coucou',
+      name: 'PIX EST FORMIDABLE'
+    };
+
     modelObject = new Assessment({
       id: 'assessment_id',
       courseId: 'course_id',
       successRate: 24,
-      type: 'charade'
-
+      type: 'charade',
+      course : associatedCourse
     });
 
     jsonAssessment = {
@@ -35,7 +42,16 @@ describe('Unit | Serializer | JSONAPI | assessment-serializer', function() {
             }
           },
         }
-      }
+      },
+      included : [{
+        type : 'courses',
+        id : 'course_id',
+        attributes : {
+          'nb-challenges': '8',
+          description : 'coucou',
+          name: 'PIX EST FORMIDABLE'
+        }
+      }]
     };
   });
 

@@ -40,7 +40,6 @@ MediaService.reopen({
 
   init() {
     this._super(...arguments);
-
     this._forceSetBreakpoint(this.get('_defaultBreakpoint'));
   }
 });

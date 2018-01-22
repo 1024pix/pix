@@ -9,18 +9,16 @@
   </div>
 
   <div class="assessment-challenge__content">
-    {{#unless model.assessment.isCertification}}
-      {{#unless model.assessment.course.isAdaptive}}
-        <div class="assessment-challenge__progress-bar">
-          {{progress-bar progress=model.assessment.progress}}
-        </div>
-      {{/unless}}
+    {{#unless model.assessment.course.isAdaptive}}
+      <div class="assessment-challenge__progress-bar">
+        {{progress-bar progress=model.assessment.progress}}
+      </div>
     {{/unless}}
 
     {{component (get-challenge-component-class model.challenge)
-        challenge=model.challenge
-        assessment=model.assessment
-        answers=model.answers
-        answerValidated=(route-action "saveAnswerAndNavigate")}}
+                challenge=model.challenge
+                assessment=model.assessment
+                answers=model.answers
+                answerValidated=(route-action "saveAnswerAndNavigate")}}
   </div>
 </div>

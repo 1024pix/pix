@@ -73,6 +73,7 @@
     "db:reset": "npm run db:delete && npm run db:migrate && npm run db:seed",
     "test": "npm run test:api && npm run test:script",
     "test:api": "NODE_ENV=test npm run db:migrate && NODE_ENV=test ./node_modules/.bin/mocha --recursive tests",
+    "test:api:watch": "NODE_ENV=test ./node_modules/.bin/mocha --recursive tests --watch",
     "test:script": "NODE_ENV=test ./node_modules/.bin/mocha --recursive scripts",
     "test:watch": "npm test -- --watch",
     "lint": "./node_modules/.bin/eslint lib tests",

@@ -1,4 +1,5 @@
 const courseRepository = require('../../infrastructure/repositories/course-repository');
+const certificationCourseRepository = require('../../infrastructure/repositories/certification-course-repository');
 const answerRepository = require('../../infrastructure/repositories/answer-repository');
 const assessmentRepository = require('../../infrastructure/repositories/assessment-repository');
 const certificationChallengeRepository = require('../../infrastructure/repositories/certification-challenge-repository');
@@ -9,6 +10,8 @@ const assessmentAdapter = require('../../infrastructure/adapters/assessment-adap
 const answerService = require('../services/answer-service');
 const assessmentUtils = require('./assessment-service-utils');
 const _ = require('../../infrastructure/utils/lodash-utils');
+
+const Course = require('../models/Course');
 
 const { NotFoundError, AssessmentEndedError } = require('../../domain/errors');
 
@@ -128,6 +131,25 @@ async function fetchAssessment(assessmentId) {
     });
 }
 
+function findByFilters(filters) {
+  return assessmentRepository.findByFilters(filters)
+    .then((assessments) => {
+      const assessmentsWithAssociatedCourse = assessments.map((assessment) => {
+        // TODO REFACTO DE LA MAGIC STRING
+        if (assessment.type === 'CERTIFICATION') {
+          return certificationCourseRepository.get(assessment.courseId)
+            .then((certificationCourse) => {
+              assessment.course = new Course(certificationCourse);
+              return assessment;
+            });
+        } else {
+          return Promise.resolve(assessment);
+        }
+      });
+      return Promise.all(assessmentsWithAssociatedCourse);
+    });
+}
+
 function _isNonScoredAssessment(assessment) {
   return isPreviewAssessment(assessment) || isCertificationAssessment(assessment);
 }
@@ -158,7 +180,7 @@ module.exports = {
   getAssessmentNextChallengeId,
   fetchAssessment,
   isAssessmentCompleted,
-  isPreviewAssessment,
   isCertificationAssessment,
-  getNextChallengeForCertificationCourse
+  getNextChallengeForCertificationCourse,
+  findByFilters
 };

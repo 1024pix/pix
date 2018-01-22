@@ -7,10 +7,15 @@ class Course {
     this.description = model.description;
     this.imageUrl = model.imageUrl;
     this.isAdaptive = model.isAdaptive;
+    this.type = model.type;
 
     // relationships
-    this.competence = model.competence;
+    this.competences = model.competences;
     this.challenges = model.challenges || [];
+    this.assessment = model.assessment;
+
+    // transformed
+    this.nbChallenges = this.challenges.length;
   }
 }
 
