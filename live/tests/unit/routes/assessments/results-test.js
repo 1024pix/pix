@@ -2,7 +2,7 @@ import { expect } from 'chai';
 import { describe, it } from 'mocha';
 import { setupTest } from 'ember-mocha';
 import sinon from 'sinon';
-import Ember from 'ember';
+import EmberObject from '@ember/object';
 
 describe('Unit | Route | Assessments.ResultsRoute', function() {
 
@@ -22,7 +22,7 @@ describe('Unit | Route | Assessments.ResultsRoute', function() {
       const route = this.subject();
       route.transitionTo = sinon.spy();
 
-      const certification = Ember.Object.create({ id: 123, isCertification: true });
+      const certification = EmberObject.create({ id: 123, isCertification: true });
 
       // when
       route.afterModel(certification);
@@ -36,7 +36,7 @@ describe('Unit | Route | Assessments.ResultsRoute', function() {
       const route = this.subject();
       route.transitionTo = sinon.spy();
 
-      const certification = Ember.Object.create({ id: 123, isCertification: false });
+      const certification = EmberObject.create({ id: 123, isCertification: false });
 
       // when
       route.afterModel(certification);
