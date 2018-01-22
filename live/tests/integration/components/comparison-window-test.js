@@ -1,8 +1,8 @@
+import EmberObject from '@ember/object';
 import { expect } from 'chai';
 import { beforeEach, describe, it } from 'mocha';
 import { setupComponentTest } from 'ember-mocha';
 import hbs from 'htmlbars-inline-precompile';
-import Ember from 'ember';
 
 const FEEDBACK_FORM = '.feedback-panel__view--form';
 const LINK_OPEN_FORM = '.feedback-panel__view--link';
@@ -20,8 +20,8 @@ describe('Integration | Component | comparison-window', function() {
     let solution;
 
     beforeEach(function() {
-      answer = Ember.Object.create({ value: '1,2', result: 'ko' });
-      challenge = Ember.Object.create({
+      answer = EmberObject.create({ value: '1,2', result: 'ko' });
+      challenge = EmberObject.create({
         instruction: 'This is the instruction',
         proposals: '' +
         '- 1ere possibilite\n ' +
@@ -29,7 +29,7 @@ describe('Integration | Component | comparison-window', function() {
         '- 3eme possibilite\n' +
         '- 4eme possibilite'
       });
-      solution = Ember.Object.create({ value: '2,3' });
+      solution = EmberObject.create({ value: '2,3' });
 
       this.set('answer', answer);
       this.set('challenge', challenge);
@@ -67,7 +67,7 @@ describe('Integration | Component | comparison-window', function() {
 
     it('should render corrected answers when challenge type is QROC', function() {
       // given
-      challenge = Ember.Object.create({ type: 'QROC' });
+      challenge = EmberObject.create({ type: 'QROC' });
       this.set('challenge', challenge);
       // when
       this.render(hbs`{{comparison-window answer=answer challenge=challenge solution=solution index=index}}`);
@@ -77,8 +77,8 @@ describe('Integration | Component | comparison-window', function() {
 
     it('should render corrected answers when challenge type is QROCM-ind', function() {
       // given
-      challenge = Ember.Object.create({ type: 'QROCM-ind', proposals: '' });
-      solution = Ember.Object.create({ value: '' });
+      challenge = EmberObject.create({ type: 'QROCM-ind', proposals: '' });
+      solution = EmberObject.create({ value: '' });
       this.set('challenge', challenge);
       this.set('solution', solution);
       // when
@@ -89,7 +89,7 @@ describe('Integration | Component | comparison-window', function() {
 
     it('should render corrected answers when challenge type is QCM', function() {
       // given
-      challenge = Ember.Object.create({ type: 'QCM' });
+      challenge = EmberObject.create({ type: 'QCM' });
       this.set('challenge', challenge);
       // when
       this.render(hbs`{{comparison-window answer=answer challenge=challenge solution=solution index=index}}`);

@@ -1,14 +1,15 @@
+import { run } from '@ember/runloop';
+import Service from '@ember/service';
 import { expect } from 'chai';
 import { beforeEach, describe, it } from 'mocha';
 import { setupTest } from 'ember-mocha';
-import Ember from 'ember';
 
 describe('Unit | Component | Navbar mobile menu Component', function() {
   setupTest('component:navbar-mobile-menu', {
     needs: ['service:side-menu'],
     unit: true
   });
-  const sessionStubResolve = Ember.Service.extend({ isAuthenticated: true });
+  const sessionStubResolve = Service.extend({ isAuthenticated: true });
 
   describe('#closeMenu', function() {
     beforeEach(function() {
@@ -22,7 +23,7 @@ describe('Unit | Component | Navbar mobile menu Component', function() {
         const component = this.subject();
 
         // when
-        Ember.run(() => {
+        run(() => {
           component.send('closeMenu');
         });
 

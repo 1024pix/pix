@@ -1,9 +1,10 @@
+import { resolve } from 'rsvp';
+import EmberObject from '@ember/object';
 import { expect } from 'chai';
 import { describe, it } from 'mocha';
 import { setupComponentTest } from 'ember-mocha';
 import wait from 'ember-test-helpers/wait';
 import hbs from 'htmlbars-inline-precompile';
-import Ember from 'ember';
 
 describe('Integration | Component | snapshot list', function() {
   setupComponentTest('snapshot-list', {
@@ -11,7 +12,7 @@ describe('Integration | Component | snapshot list', function() {
   });
 
   it('renders', function() {
-    const organization = Ember.Object.create({ id: 1, snapshots: Ember.RSVP.resolve([]) });
+    const organization = EmberObject.create({ id: 1, snapshots: resolve([]) });
     this.set('organization', organization);
 
     this.render(hbs`{{snapshot-list organization=organization}}`);
@@ -20,7 +21,7 @@ describe('Integration | Component | snapshot list', function() {
 
   it('should inform the user when no profile', function() {
     // Given
-    const organization = Ember.Object.create({ id: 1, snapshots: Ember.RSVP.resolve([]) });
+    const organization = EmberObject.create({ id: 1, snapshots: resolve([]) });
     this.set('organization', organization);
 
     // When
@@ -33,8 +34,8 @@ describe('Integration | Component | snapshot list', function() {
 
   it('it should display as many snapshot items as shared', function() {
     // Given
-    const snapshot1 = Ember.Object.create({ id: 1 });
-    const snapshot2 = Ember.Object.create({ id: 2 });
+    const snapshot1 = EmberObject.create({ id: 1 });
+    const snapshot2 = EmberObject.create({ id: 2 });
     this.set('snapshots', [snapshot1, snapshot2]);
 
     // When
@@ -49,8 +50,8 @@ describe('Integration | Component | snapshot list', function() {
 
   it('should display snapshot informations', function() {
     // Given
-    const user = Ember.Object.create({ id: 1, firstName: 'Werner', lastName: 'Heisenberg' });
-    const snapshot = Ember.Object.create({
+    const user = EmberObject.create({ id: 1, firstName: 'Werner', lastName: 'Heisenberg' });
+    const snapshot = EmberObject.create({
       id: 1,
       score: 10,
       completionPercentage: '25',

@@ -1,8 +1,8 @@
+import Service from '@ember/service';
 import { describe, it } from 'mocha';
 import { expect } from 'chai';
 import { setupTest } from 'ember-mocha';
 import sinon from 'sinon';
-import Ember from 'ember';
 
 const expectedUserId = 1;
 const expectedToken = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoyLCJlbWFpbCI6InBpeEBjb250YWN0LmNvbSIsImlhdCI6MTQ5Njg0NTY3OSwiZXhwIjoxNDk3NDUwNDc5fQ.6Mkkstj-9SjXX4lsXrsZ2KL91Ol3kbxn6tlus2apGVY';
@@ -26,7 +26,7 @@ describe('Unit | Authenticator | simple', function() {
   });
 
   beforeEach(function() {
-    this.register('service:ajax', Ember.Service.extend({
+    this.register('service:ajax', Service.extend({
       request: requestStub
     }));
     this.inject.service('ajax', { as: 'ajax' });

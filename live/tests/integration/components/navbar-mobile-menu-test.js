@@ -1,8 +1,8 @@
+import { alias } from '@ember/object/computed';
 import { expect } from 'chai';
 import { beforeEach, describe, it } from 'mocha';
 import { setupComponentTest } from 'ember-mocha';
 import hbs from 'htmlbars-inline-precompile';
-import { computed } from '@ember/object';
 import LinkComponent from '@ember/routing/link-component';
 import Service from '@ember/service';
 
@@ -37,7 +37,7 @@ describe('Integration | Component | navbar mobile menu', function() {
 
     beforeEach(function() {
       LinkComponent.reopen({
-        href: computed.alias('qualifiedRouteName')
+        href: alias('qualifiedRouteName')
       });
       this.register('service:-routing', Service.extend({
         hasRoute() {

@@ -1,6 +1,7 @@
-import Ember from 'ember';
+import { computed } from '@ember/object';
+import Component from '@ember/component';
 
-const CourseItem = Ember.Component.extend({
+const CourseItem = Component.extend({
 
   course: null,
 
@@ -9,7 +10,7 @@ const CourseItem = Ember.Component.extend({
   attributeBindings: ['tabindex'],
   tabindex: 0,
 
-  imageUrl: Ember.computed('course', function() {
+  imageUrl: computed('course', function() {
     const imageUrl = this.get('course.imageUrl');
     return imageUrl ? imageUrl : '/images/course-default-image.png';
   }),

@@ -1,4 +1,4 @@
-import Ember from 'ember';
+import { computed } from '@ember/object';
 import DS from 'ember-data';
 
 const { Model, attr, hasMany } = DS;
@@ -14,7 +14,7 @@ export default Model.extend({
   totalPixScore: attr('number'),
   organizations: hasMany('organization'),
 
-  competenceAreas: Ember.computed('competences', function() {
+  competenceAreas: computed('competences', function() {
     return this.get('competences').then(competences => {
       return competences.reduce((areas, competence) => {
         competence.get('area').then(competenceArea => {
@@ -31,7 +31,7 @@ export default Model.extend({
     });
   }),
 
-  fullName: Ember.computed('firstName', 'lastName', function() {
+  fullName: computed('firstName', 'lastName', function() {
     return `${this.get('firstName')} ${ this.get('lastName')}`;
   })
 });

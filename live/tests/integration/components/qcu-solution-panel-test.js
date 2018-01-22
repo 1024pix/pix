@@ -1,9 +1,10 @@
+import EmberObject from '@ember/object';
 import { expect } from 'chai';
 import { describe, it } from 'mocha';
 import { setupComponentTest } from 'ember-mocha';
 import hbs from 'htmlbars-inline-precompile';
-import Ember from 'ember';
 import _ from 'pix-live/utils/lodash-custom';
+import $ from 'jquery';
 
 const RADIO_CORRECT_AND_CHECKED = '.picture-radio-proposal--qcu:eq(1)';
 const LABEL_CORRECT_AND_CHECKED = '.qcu-proposal-label__oracle:eq(1)';
@@ -52,17 +53,17 @@ describe('Integration | Component | qcu-solution-panel.js', function() {
     describe('Radio state', function() {
 
       before(function() {
-        challenge = Ember.Object.create({
+        challenge = EmberObject.create({
           id: 'challenge_id',
           proposals: '-foo\n- bar\n- qix\n- yon',
           type: 'QCM'
         });
 
-        solution = Ember.Object.create({
+        solution = EmberObject.create({
           id: 'solution_id', value: '2'
         });
 
-        answer = Ember.Object.create(correctAnswer);
+        answer = EmberObject.create(correctAnswer);
       });
 
       it('QCU,la réponse correcte est cochée', function() {
@@ -84,7 +85,7 @@ describe('Integration | Component | qcu-solution-panel.js', function() {
 
       it('QCU, la réponse correcte n\'est pas cochée', function() {
         //Given
-        answer = Ember.Object.create(unCorrectAnswer);
+        answer = EmberObject.create(unCorrectAnswer);
 
         this.set('answer', answer);
         this.set('solution', solution);
@@ -117,7 +118,7 @@ describe('Integration | Component | qcu-solution-panel.js', function() {
 
       it('QCU,la réponse incorrecte est cochée', function() {
         //Given
-        answer = Ember.Object.create(unCorrectAnswer);
+        answer = EmberObject.create(unCorrectAnswer);
 
         this.set('answer', answer);
         this.set('solution', solution);

@@ -1,8 +1,8 @@
+import EmberObject from '@ember/object';
 import { expect } from 'chai';
 import { beforeEach, describe, it } from 'mocha';
 import { setupComponentTest } from 'ember-mocha';
 import hbs from 'htmlbars-inline-precompile';
-import Ember from 'ember';
 
 const ANSWER_BLOCK = '.correction-qroc-box__answer';
 const ANSWER_INPUT = '.correction-qroc-box--answer__input';
@@ -29,9 +29,9 @@ describe('Integration | Component | qroc solution panel', function() {
 
   describe('comparison when the answer is right', function() {
 
-    const assessment = Ember.Object.create({ id: 'assessment_id' });
-    const challenge = Ember.Object.create({ id: 'challenge_id' });
-    const answer = Ember.Object.create({ id: 'answer_id', result: 'ok', assessment, challenge });
+    const assessment = EmberObject.create({ id: 'assessment_id' });
+    const challenge = EmberObject.create({ id: 'challenge_id' });
+    const answer = EmberObject.create({ id: 'answer_id', result: 'ok', assessment, challenge });
 
     it('should diplay the answer in bold green and not the solution', function() {
       // given
@@ -52,9 +52,9 @@ describe('Integration | Component | qroc solution panel', function() {
   describe('comparison when the answer is false', function() {
 
     beforeEach(function() {
-      const assessment = Ember.Object.create({ id: 'assessment_id' });
-      const challenge = Ember.Object.create({ id: 'challenge_id' });
-      const answer = Ember.Object.create({ id: 'answer_id', result: 'ko', assessment, challenge });
+      const assessment = EmberObject.create({ id: 'assessment_id' });
+      const challenge = EmberObject.create({ id: 'challenge_id' });
+      const answer = EmberObject.create({ id: 'answer_id', result: 'ko', assessment, challenge });
 
       this.set('answer', answer);
       this.render(hbs`{{qroc-solution-panel answer=answer}}`);
@@ -82,9 +82,9 @@ describe('Integration | Component | qroc solution panel', function() {
     describe('comparison when the answer was not given', function() {
 
       beforeEach(function() {
-        const assessment = Ember.Object.create({ id: 'assessment_id' });
-        const challenge = Ember.Object.create({ id: 'challenge_id' });
-        const answer = Ember.Object.create({ id: 'answer_id', result: 'aband', assessment, challenge });
+        const assessment = EmberObject.create({ id: 'assessment_id' });
+        const challenge = EmberObject.create({ id: 'challenge_id' });
+        const answer = EmberObject.create({ id: 'answer_id', result: 'aband', assessment, challenge });
 
         this.set('answer', answer);
         this.set('isResultWithoutAnswer', true);

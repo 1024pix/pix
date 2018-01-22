@@ -1,4 +1,5 @@
-import Ember from 'ember';
+import { computed } from '@ember/object';
+import Component from '@ember/component';
 import _ from 'pix-live/utils/lodash-custom';
 
 function _pluralize(word, count) {
@@ -47,13 +48,13 @@ function _formatTimeForButton(time) {
   return `${formattedMinutes}:${formattedSeconds}`;
 }
 
-export default Ember.Component.extend({
+export default Component.extend({
 
-  allocatedHumanTime: Ember.computed('time', function() {
+  allocatedHumanTime: computed('time', function() {
     return _formatTimeForText(this.get('time'));
   }),
 
-  allocatedTime: Ember.computed('time', function() {
+  allocatedTime: computed('time', function() {
     return _formatTimeForButton(this.get('time'));
   }),
 

@@ -1,4 +1,4 @@
-import Ember from 'ember';
+import EmberObject from '@ember/object';
 import { expect } from 'chai';
 import { describe, it, beforeEach } from 'mocha';
 import { setupTest } from 'ember-mocha';
@@ -28,7 +28,7 @@ describe('Unit | Component | comparison-window', function() {
 
   beforeEach(function() {
     component = this.subject();
-    answer = Ember.Object.create();
+    answer = EmberObject.create();
     component.set('answer', answer);
   });
 

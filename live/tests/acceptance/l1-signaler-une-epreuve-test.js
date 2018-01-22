@@ -1,6 +1,12 @@
-import { describe, it, beforeEach, afterEach } from 'mocha';
+import {
+  describe,
+  it,
+  beforeEach,
+  afterEach
+} from 'mocha';
 import { expect } from 'chai';
-import { startApp, destroyApp } from '../helpers/application';
+import startApp from '../helpers/start-app';
+import destroyApp from '../helpers/destroy-app';
 
 const FEEDBACK_FORM = '.feedback-panel__form';
 

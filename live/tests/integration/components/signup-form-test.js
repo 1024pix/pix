@@ -1,10 +1,13 @@
+import { resolve, reject } from 'rsvp';
+import Component from '@ember/component';
+import EmberObject from '@ember/object';
 import { expect } from 'chai';
 import { describe, it } from 'mocha';
 import { setupComponentTest } from 'ember-mocha';
 import hbs from 'htmlbars-inline-precompile';
-import Ember from 'ember';
 import wait from 'ember-test-helpers/wait';
 import sinon from 'sinon';
+import $ from 'jquery';
 
 const FORM_CONTAINER = '.signup-form-container';
 const FORM_HEADING_CONTAINER = '.signup-form__heading-container';
@@ -38,7 +41,7 @@ const MESSAGE_SUCCESS_STATUS = 'form-textfield__message--success';
 const ICON_ERROR_CLASS = 'form-textfield__icon--error';
 const ICON_SUCCESS_CLASS = 'form-textfield__icon--success';
 
-const userEmpty = Ember.Object.create({});
+const userEmpty = EmberObject.create({});
 const CAPTCHA_CONTAINER = '.signup-form__captcha-container';
 
 describe('Integration | Component | signup form', function() {
@@ -110,14 +113,14 @@ describe('Integration | Component | signup form', function() {
   describe('Behaviors', function() {
 
     beforeEach(function() {
-      this.register('component:g-recaptcha', Ember.Component.extend());
+      this.register('component:g-recaptcha', Component.extend());
     });
 
     describe('behavior when signup successful (test external calls)', function() {
       it('should return true if action <Signup> is handled', function() {
         // given
         let isFormSubmitted = false;
-        const user = Ember.Object.create({
+        const user = EmberObject.create({
           email: 'toto@pix.fr',
           firstName: 'Marion',
           lastName: 'Yade',
@@ -126,7 +129,7 @@ describe('Integration | Component | signup form', function() {
 
           save() {
             isFormSubmitted = true;
-            return Ember.RSVP.resolve();
+            return resolve();
           }
         });
 
@@ -148,7 +151,7 @@ describe('Integration | Component | signup form', function() {
 
         this.set('redirectToProfileRoute', redirectToProfileRouteStub);
 
-        const user = Ember.Object.create({
+        const user = EmberObject.create({
           email: 'toto@pix.fr',
           firstName: 'Marion',
           lastName: 'Yade',
@@ -156,7 +159,7 @@ describe('Integration | Component | signup form', function() {
           cgu: true,
 
           save() {
-            return Ember.RSVP.resolve();
+            return resolve();
           }
         });
         this.set('user', user);
@@ -257,7 +260,7 @@ describe('Integration | Component | signup form', function() {
 
       it('should display an error message on cgu field, when cgu isn\'t accepted and form is submitted', function() {
         // given
-        const userWithCguNotAccepted = Ember.Object.create({
+        const userWithCguNotAccepted = EmberObject.create({
           cgu: false,
           errors: {
             content: [{
@@ -269,7 +272,7 @@ describe('Integration | Component | signup form', function() {
             }]
           },
           save() {
-            return new Ember.RSVP.reject();
+            return new reject();
           }
         });
 
@@ -286,7 +289,7 @@ describe('Integration | Component | signup form', function() {
       });
 
       it('should not display success notification message when an error occurred during the form submission', function() {
-        const userThatThrowAnErrorDuringSaving = Ember.Object.create({
+        const userThatThrowAnErrorDuringSaving = EmberObject.create({
           errors: {
             content: [{
               attribute: 'email',
@@ -294,7 +297,7 @@ describe('Integration | Component | signup form', function() {
             }]
           },
           save() {
-            return new Ember.RSVP.reject();
+            return new reject();
           }
         });
 
@@ -312,7 +315,7 @@ describe('Integration | Component | signup form', function() {
       it('should display an error message on form title, when user has not checked re-captcha', function() {
         // given
         const UNCHECKED_CHECKBOX_RECAPTCHA_ERROR = 'Veuillez cocher le recaptcha.';
-        const userWithCaptchaNotValid = Ember.Object.create({
+        const userWithCaptchaNotValid = EmberObject.create({
           cgu: true,
           recaptchaToken: null,
           errors: {
@@ -325,7 +328,7 @@ describe('Integration | Component | signup form', function() {
             }]
           },
           save() {
-            return new Ember.RSVP.reject();
+            return new reject();
           }
         });
 
@@ -425,11 +428,11 @@ describe('Integration | Component | signup form', function() {
 
       it('should not display an error message on cgu field, when cgu is accepted and form is submitted', function() {
         // given
-        const userWithCguAccepted = Ember.Object.create({
+        const userWithCguAccepted = EmberObject.create({
           cgu: true,
 
           save() {
-            return new Ember.RSVP.resolve();
+            return new resolve();
           }
         });
 
@@ -447,7 +450,7 @@ describe('Integration | Component | signup form', function() {
 
       it('should reset validation property, when all things are ok and form is submitted', function() {
         // given
-        const validUser = Ember.Object.create({
+        const validUser = EmberObject.create({
           email: 'toto@pix.fr',
           firstName: 'Marion',
           lastName: 'Yade',
@@ -455,7 +458,7 @@ describe('Integration | Component | signup form', function() {
           cgu: true,
 
           save() {
-            return new Ember.RSVP.resolve();
+            return new resolve();
           }
         });
 

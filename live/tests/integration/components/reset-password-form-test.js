@@ -1,4 +1,5 @@
-import Ember from 'ember';
+import EmberObject from '@ember/object';
+import { resolve, reject } from 'rsvp';
 import { expect } from 'chai';
 import { beforeEach, describe, it } from 'mocha';
 import { setupComponentTest } from 'ember-mocha';
@@ -70,12 +71,12 @@ describe('Integration | Component | reset password form', function() {
 
         const save = () => {
           isSaveMethodCalled = true;
-          return Ember.RSVP.resolve();
+          return resolve();
         };
 
         const saveWithRejection = () => {
           isSaveMethodCalled = true;
-          return Ember.RSVP.reject();
+          return reject();
         };
 
         beforeEach(function() {
@@ -84,7 +85,7 @@ describe('Integration | Component | reset password form', function() {
 
         it('should save the new password, when button is clicked', function() {
           // given
-          const user = Ember.Object.create({ firstName: 'toto', lastName: 'riri', save });
+          const user = EmberObject.create({ firstName: 'toto', lastName: 'riri', save });
           this.set('user', user);
           const validPassword = 'Pix 1 2 3!';
 
@@ -107,7 +108,7 @@ describe('Integration | Component | reset password form', function() {
 
         it('should get an error, when button is clicked and saving return error', function() {
           // given
-          const user = Ember.Object.create({ firstName: 'toto', lastName: 'riri', save: saveWithRejection });
+          const user = EmberObject.create({ firstName: 'toto', lastName: 'riri', save: saveWithRejection });
           this.set('user', user);
           const validPassword = 'Pix 1 2 3!';
 

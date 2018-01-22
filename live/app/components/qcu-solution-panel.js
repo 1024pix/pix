@@ -1,21 +1,22 @@
-import Ember from 'ember';
+import { computed } from '@ember/object';
+import Component from '@ember/component';
 import labeledCheckboxes from 'pix-live/utils/labeled-checkboxes';
 import valueAsArrayOfBoolean from 'pix-live/utils/value-as-array-of-boolean';
 import proposalsAsArray from 'pix-live/utils/proposals-as-array';
 import _ from 'pix-live/utils/lodash-custom';
 
-export default Ember.Component.extend({
+export default Component.extend({
   classNames: ['qcu-solution-panel'],
   answer: null,
   solution: null,
   challenge: null,
 
-  solutionArray: Ember.computed('solution', function() {
+  solutionArray: computed('solution', function() {
     const solution = this.get('solution.value');
     return _.isNonEmptyString(solution) ? valueAsArrayOfBoolean(solution) : [];
   }),
 
-  labeledRadios: Ember.computed('answer', function() {
+  labeledRadios: computed('answer', function() {
     const answer = this.get('answer.value');
     let radiosArray = [];
     if (_.isNonEmptyString(answer)) {

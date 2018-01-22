@@ -1,10 +1,12 @@
-import Ember from 'ember';
+import { computed } from '@ember/object';
+import { cancel, later } from '@ember/runloop';
+import Component from '@ember/component';
 import RSVP from 'rsvp';
 import callOnlyOnce from '../utils/call-only-once';
 import _ from 'pix-live/utils/lodash-custom';
 import ENV from 'pix-live/config/environment';
 
-const ChallengeItemGeneric = Ember.Component.extend({
+const ChallengeItemGeneric = Component.extend({
 
   tagName: 'article',
   classNames: ['challenge-item'],
@@ -34,18 +36,18 @@ const ChallengeItemGeneric = Ember.Component.extend({
   willDestroyElement() {
     this._super(...arguments);
     const timer = this.get('_timer');
-    Ember.run.cancel(timer);
+    cancel(timer);
   },
 
-  hasUserConfirmWarning: Ember.computed('challenge', function() {
+  hasUserConfirmWarning: computed('challenge', function() {
     return false;
   }),
 
-  hasChallengeTimer: Ember.computed('challenge', function() {
+  hasChallengeTimer: computed('challenge', function() {
     return this.hasTimerDefined();
   }),
 
-  canDisplayFeedbackPanel: Ember.computed('_isUserAwareThatChallengeIsTimed', function() {
+  canDisplayFeedbackPanel: computed('_isUserAwareThatChallengeIsTimed', function() {
     return !this.hasTimerDefined() || (this.hasTimerDefined() && this.get('_isUserAwareThatChallengeIsTimed'));
   }),
 
@@ -68,7 +70,7 @@ const ChallengeItemGeneric = Ember.Component.extend({
 
   _tick() {
     if (ENV.APP.isChallengeTimerEnable) {
-      const timer = Ember.run.later(this, function() {
+      const timer = later(this, function() {
         const elapsedTime = this.get('_elapsedTime');
         this.set('_elapsedTime', elapsedTime + 1);
         this.notifyPropertyChange('_elapsedTime');

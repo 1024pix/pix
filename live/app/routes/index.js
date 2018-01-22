@@ -1,11 +1,11 @@
-import Ember from 'ember';
+import { inject as service } from '@ember/service';
 import BaseRoute from 'pix-live/routes/base-route';
 import UnauthenticatedRouteMixin from 'ember-simple-auth/mixins/unauthenticated-route-mixin';
 
 export default BaseRoute.extend(UnauthenticatedRouteMixin, {
 
-  session: Ember.inject.service(),
-  store: Ember.inject.service(),
+  session: service(),
+  store: service(),
 
   beforeModel() {
     if(this.get('session.isAuthenticated')) {

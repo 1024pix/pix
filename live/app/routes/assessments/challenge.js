@@ -1,10 +1,10 @@
+import { inject as service } from '@ember/service';
 import RSVP from 'rsvp';
 import BaseRoute from 'pix-live/routes/base-route';
-import Ember from 'ember';
 
 export default BaseRoute.extend({
 
-  session: Ember.inject.service(),
+  session: service(),
 
   model(params) {
     const store = this.get('store');

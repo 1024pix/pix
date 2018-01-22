@@ -1,8 +1,8 @@
+import Service from '@ember/service';
 import { expect } from 'chai';
 import { beforeEach, describe, it } from 'mocha';
 import { setupComponentTest } from 'ember-mocha';
 import hbs from 'htmlbars-inline-precompile';
-import Ember from 'ember';
 import { setBreakpointForIntegrationTest } from 'pix-live/tests/helpers/responsive';
 
 describe('Integration | Component | navbar-header', function() {
@@ -13,7 +13,7 @@ describe('Integration | Component | navbar-header', function() {
 
   context('when user is not logged', function() {
     beforeEach(function() {
-      this.register('service:session', Ember.Service.extend({ isAuthenticated: false }));
+      this.register('service:session', Service.extend({ isAuthenticated: false }));
       this.inject.service('session', { as: 'session' });
     });
 
@@ -83,7 +83,7 @@ describe('Integration | Component | navbar-header', function() {
   context('When user is logged', function() {
 
     beforeEach(function() {
-      this.register('service:session', Ember.Service.extend({
+      this.register('service:session', Service.extend({
         isAuthenticated: true,
         data: {
           authenticated: {

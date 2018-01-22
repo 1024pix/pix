@@ -1,6 +1,6 @@
-import Ember from 'ember';
+import Route from '@ember/routing/route';
 
-export default Ember.Route.extend({
+export default Route.extend({
 
   //Toutes les pages reset le scroll par défaut (surcharger scrollToTop dans une route si on ne veut pas de scrollReset)
   scrollsToTop: true,

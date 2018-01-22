@@ -1,4 +1,5 @@
-import Ember from 'ember';
+import EmberObject from '@ember/object';
+import Service from '@ember/service';
 import { expect } from 'chai';
 import { before, describe, it } from 'mocha';
 import { setupTest } from 'ember-mocha';
@@ -24,7 +25,7 @@ describe('Unit | Route | compte', function() {
 
     before(function() {
       findRecordStub = sinon.stub();
-      storyStub = Ember.Service.extend({
+      storyStub = Service.extend({
         findRecord: findRecordStub
       });
     });
@@ -49,8 +50,8 @@ describe('Unit | Route | compte', function() {
 
     it('should redirect to /board when the user as an organization', function() {
       // Given
-      const linkedOrganization = Ember.Object.create({ id: 1 });
-      const foundUser = Ember.Object.create({ organizations: [linkedOrganization] });
+      const linkedOrganization = EmberObject.create({ id: 1 });
+      const foundUser = EmberObject.create({ organizations: [linkedOrganization] });
 
       this.register('service:store', storyStub);
       this.inject.service('store', { as: 'store' });
@@ -70,7 +71,7 @@ describe('Unit | Route | compte', function() {
 
     it('should remain on /compte when the user as no organization linked (with a forced data reload)', function() {
       // Given
-      const foundUser = Ember.Object.create({});
+      const foundUser = EmberObject.create({});
 
       this.register('service:store', storyStub);
       this.inject.service('store', { as: 'store' });
@@ -103,7 +104,7 @@ describe('Unit | Route | compte', function() {
       organizations = { get: organizationCollectionStub, content: [{}] };
 
       storeQueryStub = sinon.stub().resolves(organizations);
-      storeStub = Ember.Service.extend({
+      storeStub = Service.extend({
         query: storeQueryStub
       });
     });
@@ -174,9 +175,9 @@ describe('Unit | Route | compte', function() {
 
     beforeEach(() => {
       storeSaveStub = sinon.stub().resolves();
-      organization = Ember.Object.create({ id: 1234, name: 'ACME', code: 'RVSG44', save: storeSaveStub });
+      organization = EmberObject.create({ id: 1234, name: 'ACME', code: 'RVSG44', save: storeSaveStub });
       storeCreateRecordStub = sinon.stub().returns(organization);
-      storeStub = Ember.Service.extend({
+      storeStub = Service.extend({
         createRecord: storeCreateRecordStub,
       });
     });

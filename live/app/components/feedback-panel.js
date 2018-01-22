@@ -1,4 +1,8 @@
-import Ember from 'ember';
+import { isEmpty } from '@ember/utils';
+import $ from 'jquery';
+import { equal } from '@ember/object/computed';
+import { inject as service } from '@ember/service';
+import Component from '@ember/component';
 import isValid from '../utils/email-validator';
 import config from 'pix-live/config/environment';
 
@@ -6,9 +10,9 @@ const FORM_CLOSED = 'FORM_CLOSED';
 const FORM_OPENED = 'FORM_OPENED';
 const FORM_SUBMITTED = 'FORM_SUBMITTED';
 
-export default Ember.Component.extend({
+export default Component.extend({
 
-  store: Ember.inject.service(),
+  store: service(),
 
   classNames: ['feedback-panel'],
 
@@ -21,9 +25,9 @@ export default Ember.Component.extend({
   _content: null,
   _error: null,
 
-  isFormClosed: Ember.computed.equal('_status', FORM_CLOSED),
-  isFormOpened: Ember.computed.equal('_status', FORM_OPENED),
-  isFormSubmitted: Ember.computed.equal('_status', FORM_SUBMITTED),
+  isFormClosed: equal('_status', FORM_CLOSED),
+  isFormOpened: equal('_status', FORM_OPENED),
+  isFormSubmitted: equal('_status', FORM_SUBMITTED),
 
   didReceiveAttrs() {
     this._super(...arguments);
@@ -47,8 +51,8 @@ export default Ember.Component.extend({
   },
 
   _scrollToPanel: function() {
-    Ember.$('html,body').animate({
-      scrollTop: Ember.$('.feedback-panel__view').offset().top - 15
+    $('html,body').animate({
+      scrollTop: $('.feedback-panel__view').offset().top - 15
     }, config.APP.SCROLL_DURATION);
   },
 
@@ -65,13 +69,13 @@ export default Ember.Component.extend({
 
     sendFeedback() {
       const email = this.get('_email');
-      if(!Ember.isEmpty(email) && !isValid(email)) {
+      if(!isEmpty(email) && !isValid(email)) {
         this.set('_error', 'Vous devez saisir une adresse mail valide.');
         return;
       }
 
       const content = this.get('_content');
-      if(Ember.isEmpty(content) || Ember.isEmpty(content.trim())) {
+      if(isEmpty(content) || isEmpty(content.trim())) {
         this.set('_error', 'Vous devez saisir un message.');
         return;
       }

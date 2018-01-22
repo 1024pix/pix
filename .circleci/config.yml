@@ -121,6 +121,9 @@ jobs:
   install_client_dependencies:
     <<: *client_properties
     steps:
+      - run:
+          name: Downgrade npm from 5.6.0 to 5.5.1 (because there is a bug)
+          command: 'sudo npm install -g npm@5.5.1'
       - run: echo $CIRCLE_SHA1 > .circle-sha
       - restore_cache:
           keys:

@@ -1,24 +1,34 @@
 # Pix Changelog
 
+## 1.36.0 (22/01/2018)
+
+- [#662](https://github.com/sgmap/pix/pulls/662) [FEATURE] Page de résultats de certification est rendue inaccessible (renvoi vers homepage) (US-998_2).
+- [#660](https://github.com/sgmap/pix/pulls/660) [FEATURE] Page de résultats de certification est rendue inaccessible (renvoi vers homepage) (US-998_1).
+- [#657](https://github.com/sgmap/pix/pulls/657) [FEATURE] Ajout code campagne partage avec SCO (US-938).
+- [#643](https://github.com/sgmap/pix/pulls/643) [FEATURE] Filtrer les assessments récupéré pour la certif d'après la date (US-1021).
+- [#641](https://github.com/sgmap/pix/pulls/641) [FEATURE] Enregistrement de la date de fin d'une certification (US-986).
+- [#661](https://github.com/sgmap/pix/pulls/661) [TECH] Montée de version de Ember 2.16 à 2.18 (US-1031).
+- [#656](https://github.com/sgmap/pix/pulls/656) [TECH] Normalisation des URLs coté API (US-1037).
+
 ## 1.35.0 (10/01/2018)
 
-- [#642](https://github.com/sgmap/pix/pulls/642) [TECH] Suppression du package ./cli (code inutile) (US-1024).
-- [#635](https://github.com/sgmap/pix/pulls/635) [FEATURE] Choisir une question aléatoirement (US-311).
-- [#639](https://github.com/sgmap/pix/pulls/639) [BUGFIX] Retirer le message d'erreur une fois que la question a été validé (US-1008).
-- [#633](https://github.com/sgmap/pix/pulls/633) [BUGFIX] Résolution du problème de surestimation du niveau (US-389).
-- [#637](https://github.com/sgmap/pix/pulls/637) [BUGFIX] Ajout de padding pour affichage headers dans firefox (US-1009).
 - [#636](https://github.com/sgmap/pix/pulls/636) [FEATURE] Ajout d'un script pour récupérer les résultats de certification (US-1014).
-- [#634](https://github.com/sgmap/pix/pulls/634) [BUGFIX] Correction de l'affichage des réponses sous Firefox 57 (US-1007)
+- [#635](https://github.com/sgmap/pix/pulls/635) [FEATURE] Choisir une question aléatoirement (US-311).
 - [#631](https://github.com/sgmap/pix/pulls/631) [FEATURE] Ajout du statut de la certification dans l'endpoint /api/certification-courses (US-961)
+- [#639](https://github.com/sgmap/pix/pulls/639) [BUGFIX] Retirer le message d'erreur une fois que la question a été validé (US-1008).
+- [#637](https://github.com/sgmap/pix/pulls/637) [BUGFIX] Ajout de padding pour affichage headers dans firefox (US-1009).
+- [#634](https://github.com/sgmap/pix/pulls/634) [BUGFIX] Correction de l'affichage des réponses sous Firefox 57 (US-1007)
+- [#633](https://github.com/sgmap/pix/pulls/633) [BUGFIX] Résolution du problème de surestimation du niveau (US-389).
+- [#642](https://github.com/sgmap/pix/pulls/642) [TECH] Suppression du package ./cli (code inutile) (US-1024).
 
 ## 1.34.0 (18/12/2017)
 
 - [#630](https://github.com/sgmap/pix/pulls/630) [FEATURE] Au chargement d'un test, le message affiché ne fait pas mention du temps (US-1011)
-- [#628](https://github.com/sgmap/pix/pulls/628) [TECH] Ajout d'un script de suppression d'utilisateurs (US-1006).
-- [#622](https://github.com/sgmap/pix/pulls/622) [BUGFIX] Fix challenges with multiple skills (US-999).
-- [#619](https://github.com/sgmap/pix/pulls/619) [CLEANUP] Nettoyer les serializers JSON API pour les mettre au (nouveau) standard. (US-996)
 - [#625](https://github.com/sgmap/pix/pulls/625) [FEATURE] Remonter les profils certifiés (US-950).
 - [#629](https://github.com/sgmap/pix/pulls/629) [BUGFIX] Gestion les challenges qui ne sont plus valide (US-982).
+- [#622](https://github.com/sgmap/pix/pulls/622) [BUGFIX] Fix challenges with multiple skills (US-999).
+- [#619](https://github.com/sgmap/pix/pulls/619) [CLEANUP] Nettoyer les serializers JSON API pour les mettre au (nouveau) standard. (US-996)
+- [#628](https://github.com/sgmap/pix/pulls/628) [TECH] Ajout d'un script de suppression d'utilisateurs (US-1006).
 
 ## 1.33.0 (12/12/2017)
 
@@ -31,39 +41,41 @@
 
 ## 1.32.0 (07/12/2017)
 
-- [#612](https://github.com/sgmap/pix/pulls/612) [BUGFIX] Réparation du lancement des tests de positionnement (US-1002). 
 - [#620](https://github.com/sgmap/pix/pulls/620) [FEATURE] Création d'une route /test-de-certification/id pour reprendre un test (US-997).
 - [#618](https://github.com/sgmap/pix/pulls/618) [FEATURE] Reprise d'une certification qui fonctionne (US-981).
 - [#615](https://github.com/sgmap/pix/pulls/615) [FEATURE] Sauvegarde du userId associé au test de certification en base de données (US-960).
+- [#612](https://github.com/sgmap/pix/pulls/612) [BUGFIX] Réparation du lancement des tests de positionnement (US-1002). 
 - [#614](https://github.com/sgmap/pix/pulls/614) [TECH] Diminution du temps de chargement de la première épreuve d'un test de positionnement (US-928).
 
 ## 1.31.0 (05/12/2017)
 
 - [#610](https://github.com/sgmap/pix/pulls/610) [FEATURE] Calculer le score d'une certification (US-886). 
 - [#605](https://github.com/sgmap/pix/pulls/605) [FEATURE] Création d'un burger menu (US-692).
-- [#608](https://github.com/sgmap/pix/pulls/608) [TECH] Correction du déploiement de preview (US-977). 
 - [#617](https://github.com/sgmap/pix/pulls/617) [BUGFIX] Redirection vers la page de résultats à la fin d'une preview de challenge et plus sur la page de fin de certification (US-945). 
 - [#616](https://github.com/sgmap/pix/pulls/616) [BUGFIX] Correction du calcul de score (US-994).
+- [#608](https://github.com/sgmap/pix/pulls/608) [TECH] Correction du déploiement de preview (US-977). 
 
 ## 1.30.0 (04/12/2017)
 
-- [#611](https://github.com/sgmap/pix/pulls/611) [BUGFIX] resolution du bug qui ne lançait pas le test de certification si aucun challenge n'est associé à un skill déjà validé (US-980).
 - [#612](https://github.com/sgmap/pix/pulls/612) [FEATURE] Mettre le Prénom avant le Nom à l'inscription (US-715).
 - [#603](https://github.com/sgmap/pix/pulls/603) [FEATURE] Répondre à des questions d'un test de certification (US-890).
-- [#613](https://github.com/sgmap/pix/pulls/613) [BUGFIX] Fix affichage des boutons "replay"/"seconde chance" des tests de positionnement (US-965).
-- [#608](https://github.com/sgmap/pix/pulls/608) [TECH] Correction du déploiement de preview (US-977).
 - [#597](https://github.com/sgmap/pix/pulls/597) [FEATURE] Ajouter un loader quand une question est passée/validée et modifier le "Je passe" (US-898).
+- [#613](https://github.com/sgmap/pix/pulls/613) [BUGFIX] Fix affichage des boutons "replay"/"seconde chance" des tests de positionnement (US-965).
+- [#611](https://github.com/sgmap/pix/pulls/611) [BUGFIX] resolution du bug qui ne lançait pas le test de certification si aucun challenge n'est associé à un skill déjà validé (US-980).
+- [#608](https://github.com/sgmap/pix/pulls/608) [TECH] Correction du déploiement de preview (US-977).
 
 ## 1.29.2 (01/12/2017)
 
-- [#591](https://github.com/sgmap/pix/pulls/591) [TECH] Utilisation de vues privées au niveau des Epreuves (dans Airtable) afin de sécuriser (stabiliser) la plateforme (US-892).
 - [#602](https://github.com/sgmap/pix/pulls/602) [BUGFIX] Correction d'une modale grise (US-921).
+- [#591](https://github.com/sgmap/pix/pulls/591) [TECH] Utilisation de vues privées au niveau des Epreuves (dans Airtable) afin de sécuriser (stabiliser) la plateforme (US-892).
 - [#606](https://github.com/sgmap/pix/pulls/606) [CLEANUP] Ajout d'une règle sur le nombre de traitemetns maximum sur une fonction (US-971).
 
 ## 1.29.1 (29/11/2017)
+
 - [#609](https://github.com/sgmap/pix/pull/609) [HOTFIX] Réduction du nombre de connexions maximum à la base de données (US-978).
 
 ## 1.29.0 (27/11/2017)
+
 - [#588](https://github.com/sgmap/pix/pull/588) [FEATURE] Création du test de certification depuis le front (US-870).
 - [#596](https://github.com/sgmap/pix/pull/596) [FEATURE] Ajouter des favicons pour Pix (US-953).
 - [#589](https://github.com/sgmap/pix/pull/589) [FEATURE] Création d'un page statique pour les résultats d'une évaluation de type certification (US-893).
@@ -79,6 +91,7 @@
 - [#594](https://github.com/sgmap/pix/pull/594) [CLEANUP] Ajout d'une propriété calculée fullName au model User.
 
 ## 1.28.0 (17/11/2017)
+
 - [#586](https//github.com/sgmap/pix/pull/586) [FEATURE] Ajout du calcul du taux de bonne réponse pour une évaluation (US-885).
 - [#579](https//github.com/sgmap/pix/pull/579) [FEATURE] Choix des épreuves pour la certification du profil (US-881).
 - [#584](https//github.com/sgmap/pix/pull/584) [FEATURE] Retirer la dépendance epimetheus et avoir nos propres métriques techniques (US-829).
@@ -95,11 +108,13 @@
 - [#563](https//github.com/sgmap/pix/pull/563) [CLEANUP] Nettoyage de code côté front (US-867).
 
 ## 1.27.0 (03/11/2017)
+
 - [#562](https//github.com/sgmap/pix/pull/562) [FEATURE] Persistence des acquis validés et invalidés (US-819).
 - [#573](https//github.com/sgmap/pix/pull/573) [FEATURE] ETQ Consommateur de l'API, JV connaître tous les Acquis validés par Compétence (US-879).
 - [#545](https//github.com/sgmap/pix/pull/545) [FEATURE] La première question d'un test adaptatif est de niveau 2 et non timée (US-806).
 
 ## 1.26.0 (26/10/2017)
+
 - [#565](https//github.com/sgmap/pix/pull/565) [FEATURE] Téléchargement d'un fichier .csv contenant les profils partagés (US-596).
 - [#570](https//github.com/sgmap/pix/pull/570) [BUGFIX] Correction du JSON.parse pour la création du CSV des profils partagés  (US-596).
 - [#569](https//github.com/sgmap/pix/pull/569) [BUGFIX] Correction de l'URL vers la modification de mail (US-895).
