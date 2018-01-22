@@ -1,6 +1,7 @@
 const cache = require('../cache');
 const airtable = require('../airtable');
 const serializer = require('../serializers/airtable/course-serializer');
+const Course = require('../../domain/models/Course');
 
 const AIRTABLE_TABLE_NAME = 'Tests';
 const AIRTABLE_TABLE_VIEW_PROGRESSION_COURSES = 'Tests de progression';
@@ -24,6 +25,7 @@ function _getCourses(viewName, cacheKey) {
       airtable
         .getRecords(AIRTABLE_TABLE_NAME, query, serializer)
         .then(courses => {
+          courses = courses.map(course => new Course(course));
           cache.set(cacheKey, courses);
           return resolve(courses);
         })

@@ -6,12 +6,15 @@ const assessmentAdapter = require('../../../../lib/infrastructure/adapters/asses
 const assessmentRepository = require('../../../../lib/infrastructure/repositories/assessment-repository');
 const certificationChallengeRepository = require('../../../../lib/infrastructure/repositories/certification-challenge-repository');
 const courseRepository = require('../../../../lib/infrastructure/repositories/course-repository');
+const certificationCourseRepository = require('../../../../lib/infrastructure/repositories/certification-course-repository');
 const challengeRepository = require('../../../../lib/infrastructure/repositories/challenge-repository');
 const answerRepository = require('../../../../lib/infrastructure/repositories/answer-repository');
 const skillRepository = require('../../../../lib/infrastructure/repositories/skill-repository');
 const competenceRepository = require('../../../../lib/infrastructure/repositories/competence-repository');
 
-const Assessment = require('../../../../lib/domain/models/data/assessment');
+const AssessmentBookshelf = require('../../../../lib/domain/models/data/assessment');
+const Assessment = require('../../../../lib/domain/models/Assessment');
+const Course = require('../../../../lib/domain/models/Course');
 const Challenge = require('../../../../lib/domain/models/Challenge');
 const CertificationChallenge = require('../../../../lib/domain/models/CertificationChallenge');
 
@@ -27,7 +30,7 @@ function _buildChallenge(challengeId, skills) {
 }
 
 function _buildAssessmentForCourse(courseId, assessmentId = 'assessment_id') {
-  const assessment = new Assessment({ id: assessmentId });
+  const assessment = new AssessmentBookshelf({ id: assessmentId });
   if (courseId) {
     assessment.set('courseId', courseId);
   }
@@ -137,7 +140,7 @@ describe('Unit | Domain | Services | assessment-service', () => {
 
     beforeEach(() => {
       competenceRepository.get.resolves(COMPETENCE);
-      sandbox.stub(assessmentRepository, 'get').resolves(new Assessment({
+      sandbox.stub(assessmentRepository, 'get').resolves(new AssessmentBookshelf({
         id: ASSESSMENT_ID,
         courseId: PREVIEW_COURSE_ID
       }));
@@ -225,7 +228,7 @@ describe('Unit | Domain | Services | assessment-service', () => {
 
       context('when the assessement is a preview', () => {
         beforeEach(() => {
-          answerRepository.findByAssessment.returns([ correctAnswerWeb1 ]);
+          answerRepository.findByAssessment.returns([correctAnswerWeb1]);
         });
 
         it('should return an assessment with an estimated level of 0, a pix-score of 0 and a success rate of 100', () => {
@@ -256,7 +259,7 @@ describe('Unit | Domain | Services | assessment-service', () => {
 
       context('when the assessement is a certification', () => {
         beforeEach(() => {
-          const assessmentFromCertif = new Assessment({ id: ASSESSMENT_ID, type: 'CERTIFICATION' });
+          const assessmentFromCertif = new AssessmentBookshelf({ id: ASSESSMENT_ID, type: 'CERTIFICATION' });
           assessmentRepository.get.resolves(assessmentFromCertif);
         });
         it('should return an assessment with an estimated level of 0 and a pix-score of 0', () => {
@@ -286,7 +289,7 @@ describe('Unit | Domain | Services | assessment-service', () => {
 
       context('when the assessement is linked to a course', () => {
         beforeEach(() => {
-          const assessmentFromPreview = new Assessment({ id: ASSESSMENT_ID, courseId: COURSE_ID });
+          const assessmentFromPreview = new AssessmentBookshelf({ id: ASSESSMENT_ID, courseId: COURSE_ID });
           assessmentRepository.get.resolves(assessmentFromPreview);
         });
 
@@ -380,7 +383,7 @@ describe('Unit | Domain | Services | assessment-service', () => {
 
     it('should detect Assessment created for preview Challenge and do not evaluate score', () => {
       // given
-      const assessmentFromPreview = new Assessment({
+      const assessmentFromPreview = new AssessmentBookshelf({
         id: '1',
         courseId: PREVIEW_COURSE_ID
       });
@@ -464,10 +467,122 @@ describe('Unit | Domain | Services | assessment-service', () => {
     });
   });
 
+  describe('#findByFilters', function() {
+
+    let sandbox;
+
+    beforeEach(() => {
+      sandbox = sinon.sandbox.create();
+      sandbox.stub(assessmentRepository, 'findByFilters').resolves([]);
+      sandbox.stub(certificationCourseRepository, 'get').resolves();
+    });
+
+    afterEach(() => {
+      sandbox.restore();
+    });
+
+    it('should find all the assessment with corresponding filters', function() {
+      // given
+      const filters = { courseId: 'courseId' };
+
+      // when
+      const promise = service.findByFilters(filters);
+
+      // then
+      return promise.then(() => {
+        expect(assessmentRepository.findByFilters).to.have.been.called;
+        expect(assessmentRepository.findByFilters).to.have.been.calledWith({ courseId: 'courseId' });
+      });
+    });
+
+    context('when the assessment is a certification assessment', () => {
+
+      it('should get the course associated to each assessment ', function() {
+        // given
+        const filters = { courseId: 'courseId' };
+        const retrievedAssessments = [new Assessment({ id: 1, type: 'CERTIFICATION', courseId: 'courseId' })];
+        assessmentRepository.findByFilters.resolves(retrievedAssessments);
+
+        // when
+        const promise = service.findByFilters(filters);
+
+        // then
+        return promise.then(() => {
+          expect(certificationCourseRepository.get).to.have.been.calledOnce;
+          expect(certificationCourseRepository.get).to.have.been.calledWith('courseId');
+        });
+      });
+
+      it('should return one assessment with corresponding course', function() {
+        // given
+        const filters = { courseId: 'courseId' };
+        const retrievedAssessments = [new Assessment({ id: 1, type: 'CERTIFICATION', courseId: 'courseId' })];
+        assessmentRepository.findByFilters.resolves(retrievedAssessments);
+        certificationCourseRepository.get.resolves({ id: 'courseId', status: 'started' });
+        // when
+        const promise = service.findByFilters(filters);
+
+        // then
+        return promise.then((assessments) => {
+          expect(assessments[0]).to.be.instanceOf(Assessment);
+          expect(assessments[0].id).to.be.deep.equal(1);
+          expect(assessments[0].course).to.be.instanceOf(Course);
+        });
+      });
+    });
+
+    context('when there are different types of assessment', () => {
+
+      it('should get the course associated to each assessment ', function() {
+        // given
+        const filters = { userId: 1 };
+        const retrievedAssessments = [
+          new Assessment({ id: 1, type: 'CERTIFICATION', courseId: '2' }),
+          new Assessment({ id: 2, type: 'DEMO', courseId: 'recCourseId' })
+        ];
+        assessmentRepository.findByFilters.resolves(retrievedAssessments);
+
+        // when
+        const promise = service.findByFilters(filters);
+
+        // then
+        return promise.then(() => {
+          expect(certificationCourseRepository.get).to.have.been.calledOnce;
+          expect(certificationCourseRepository.get).to.have.been.calledWith('2');
+        });
+      });
+
+      it('should return two assessment with corresponding course just for the certification assessment', function() {
+        // given
+        const filters = { userId: 1 };
+        const retrievedAssessments = [
+          new Assessment({ id: 1, type: 'CERTIFICATION', courseId: '2' }),
+          new Assessment({ id: 2, type: 'DEMO', courseId: 'recCourseId' })
+        ];
+        assessmentRepository.findByFilters.resolves(retrievedAssessments);
+        certificationCourseRepository.get.resolves({ id: 'courseId', status: 'started' });
+
+        // when
+        const promise = service.findByFilters(filters);
+
+        // then
+        return promise.then((assessments) => {
+          expect(assessments[0]).to.be.instanceOf(Assessment);
+          expect(assessments[1]).to.be.instanceOf(Assessment);
+          expect(assessments[0].id).to.be.deep.equal(1);
+          expect(assessments[1].id).to.be.deep.equal(2);
+          expect(assessments[0].course).to.be.instanceOf(Course);
+          expect(assessments[1].course).to.be.deep.equal(undefined);
+        });
+      });
+
+    });
+  });
+
   describe('#isAssessmentCompleted', () => {
     it('should return true when the assessment has a pixScore and an estimatedLevel', () => {
       // given
-      const notCompletedAssessment = new Assessment({ id: '2752', estimatedLevel: 0, pixScore: 0 });
+      const notCompletedAssessment = new AssessmentBookshelf({ id: '2752', estimatedLevel: 0, pixScore: 0 });
 
       // when
       const isCompleted = service.isAssessmentCompleted(notCompletedAssessment);
@@ -478,7 +593,7 @@ describe('Unit | Domain | Services | assessment-service', () => {
 
     it('should return false when the assessment miss a pixScore', () => {
       // given
-      const notCompletedAssessment = new Assessment({ id: '2752', estimatedLevel: 0 });
+      const notCompletedAssessment = new AssessmentBookshelf({ id: '2752', estimatedLevel: 0 });
 
       // when
       const isCompleted = service.isAssessmentCompleted(notCompletedAssessment);
@@ -489,7 +604,7 @@ describe('Unit | Domain | Services | assessment-service', () => {
 
     it('should return false when the assessment miss an estimatedLevel', () => {
       // given
-      const notCompletedAssessment = new Assessment({ id: '2752', pixScore: 0 });
+      const notCompletedAssessment = new AssessmentBookshelf({ id: '2752', pixScore: 0 });
 
       // when
       const isCompleted = service.isAssessmentCompleted(notCompletedAssessment);
@@ -504,7 +619,7 @@ describe('Unit | Domain | Services | assessment-service', () => {
     context('if assessment type is \'CERTIFICATION\'', () => {
       it('should return true', () => {
         // given
-        const assessment = new Assessment({ type: 'CERTIFICATION' });
+        const assessment = new AssessmentBookshelf({ type: 'CERTIFICATION' });
 
         // when
         const result = service.isCertificationAssessment(assessment);
@@ -517,7 +632,7 @@ describe('Unit | Domain | Services | assessment-service', () => {
     context('if assessment type is different of \'CERTIFICATION\'', () => {
       it('should return false', () => {
         // given
-        const assessment = new Assessment({ type: 'BRANDONE EST FORMIDABLE' });
+        const assessment = new AssessmentBookshelf({ type: 'BRANDONE EST FORMIDABLE' });
 
         // when
         const result = service.isCertificationAssessment(assessment);
@@ -543,7 +658,7 @@ describe('Unit | Domain | Services | assessment-service', () => {
 
     it('should return a challenge which was not answered (challenge with no associated answer)', function() {
       // given
-      const assessment = new Assessment({ id: 'assessmentId', courseId: 'certifCourseId' });
+      const assessment = new AssessmentBookshelf({ id: 'assessmentId', courseId: 'certifCourseId' });
       const challenge = new CertificationChallenge({ id: '1', challengeId: 'recA' });
       certificationChallengeRepository.getNonAnsweredChallengeByCourseId.resolves(challenge);
 
@@ -559,7 +674,7 @@ describe('Unit | Domain | Services | assessment-service', () => {
 
     it('should reject when there is no challenges to give anymore', function() {
       // given
-      const assessment = new Assessment({ id: 'assessmentId', courseId: 'certifCourseId' });
+      const assessment = new AssessmentBookshelf({ id: 'assessmentId', courseId: 'certifCourseId' });
       certificationChallengeRepository.getNonAnsweredChallengeByCourseId.rejects();
 
       // when

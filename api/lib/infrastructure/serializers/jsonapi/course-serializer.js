@@ -4,13 +4,9 @@ module.exports = {
 
   serialize(courses) {
     return new Serializer('course', {
-      attributes: ['name', 'description', 'duration', 'isAdaptive', 'nbChallenges', 'imageUrl'],
-      transform(record) {
-        const course = Object.assign({}, record);
-        if (record.challenges) {
-          course.nbChallenges = record.challenges.length;
-        }
-        return course;
+      attributes: ['name', 'description', 'duration', 'isAdaptive', 'nbChallenges', 'type', 'imageUrl', 'assessment'],
+      assessment: {
+        ref: 'id',
       }
     }).serialize(courses);
   }
