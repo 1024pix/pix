@@ -24,6 +24,7 @@ describe('Unit | Serializer | CSV | snapshots-converter', () => {
     createdAt: '2017-10-13 09:00:59',
     studentCode: 'UNIV123',
     campaignCode: 'CAMPAIGN123',
+    testsFinished: 2,
     user: {
       firstName: 'PrenomUser',
       lastName: 'NomUser',
@@ -36,6 +37,7 @@ describe('Unit | Serializer | CSV | snapshots-converter', () => {
     createdAt: '2017-10-12 16:55:50',
     studentCode: 'AAA',
     campaignCode: 'EEE',
+    testsFinished: 1,
     user: {
       firstName: 'PrenomUser',
       lastName: 'NomUser',

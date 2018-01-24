@@ -83,7 +83,7 @@ describe('Unit | Controller | snapshot-controller', () => {
         sandbox.stub(organizationRepository, 'isOrganizationIdExist');
         sandbox.stub(snapshotService, 'create');
         sandbox.stub(profileSerializer, 'serialize');
-        sandbox.stub(profileCompletionService, 'getPercentage');
+        sandbox.stub(profileCompletionService,'getNumberOfFinishedTests');
         sandbox.stub(snapshotSerializer, 'serialize');
         sandbox.stub(logger, 'error');
       });
@@ -203,8 +203,8 @@ describe('Unit | Controller | snapshot-controller', () => {
 
           // then
           return promise.then(() => {
-            sinon.assert.calledOnce(profileCompletionService.getPercentage);
-            sinon.assert.calledWith(profileCompletionService.getPercentage, { profile: 'a_valid_profile' });
+            sinon.assert.calledOnce(profileCompletionService.getNumberOfFinishedTests);
+            sinon.assert.calledWith(profileCompletionService.getNumberOfFinishedTests, { profile: 'a_valid_profile' });
           });
         });
 
@@ -219,7 +219,7 @@ describe('Unit | Controller | snapshot-controller', () => {
           organizationRepository.isOrganizationIdExist.resolves({ organization: 'a_valid_organization' });
           profileService.getByUserId.resolves();
           profileSerializer.serialize.resolves(serializedProfile);
-          profileCompletionService.getPercentage.resolves();
+          profileCompletionService.getNumberOfFinishedTests.resolves();
 
           // when
           const promise = snapshotController.create(request, replyStub);
@@ -242,7 +242,7 @@ describe('Unit | Controller | snapshot-controller', () => {
           organizationRepository.isOrganizationIdExist.resolves({ organization: 'a_valid_organization' });
           profileService.getByUserId.resolves();
           profileSerializer.serialize.resolves(serializedProfile);
-          profileCompletionService.getPercentage.resolves();
+          profileCompletionService.getNumberOfFinishedTests.resolves();
           snapshotService.create.resolves(SNAPSHOT_ID);
 
           // when
