@@ -7,7 +7,7 @@ describe('Unit | Service | Snapshot service', function() {
 
   const snapshot = {
     organizationId: 3,
-    completionPercentage: 10,
+    testsFinished: 10,
     studentCode: 'student_code',
     campaignCode: 'campaign_code',
     organization: { id: 3 }
@@ -107,7 +107,7 @@ describe('Unit | Service | Snapshot service', function() {
       const snapshotRaw = {
         userId: 2,
         organizationId: 3,
-        completionPercentage: 10,
+        testsFinished: 10,
         studentCode: 'student_code',
         campaignCode: 'campaign_code',
         score: 128,

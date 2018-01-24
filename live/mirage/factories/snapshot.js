@@ -6,8 +6,8 @@ export default Factory.extend({
 
   creationDate : faker.date.recent(),
 
-  completionPercentage : () => {
-    return faker.list.random(12, 25, 37, 50, 62, 75)();
+  testsFinished : () => {
+    return faker.list.random(2, 3, 4, 8, 10, 12)();
   }
 
 });
