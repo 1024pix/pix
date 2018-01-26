@@ -91,18 +91,6 @@ module.exports = {
         });
       });
     });
-  },
-
-  fetchCoursesFromArrayOfCourseGroup(listOfCourseGroup) {
-    const promises = [];
-
-    listOfCourseGroup.forEach((courseGroup) => {
-      courseGroup.courses.forEach((course) => {
-        promises.push(this.get(course.id));
-      });
-    });
-
-    return Promise.all(promises);
   }
 
 };

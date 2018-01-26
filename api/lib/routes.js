@@ -6,7 +6,6 @@ module.exports = [
   require('./application/certificationCourses'),
   require('./application/challenges'),
   require('./application/courses'),
-  require('./application/courseGroups'),
   require('./application/simulateErrors'),
   require('./application/feedbacks'),
   require('./application/followers'),

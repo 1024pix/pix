@@ -49,7 +49,6 @@ Router.map(function() {
   this.route('certifications.results', { path: '/certifications/:certification_number/results' });
   this.route('login', { path: '/connexion' });
   this.route('logout', { path: '/deconnexion' });
-  this.route('course-groups', { path: '/defis-pix' });
   this.route('board');
   this.route('legal-notices', { path: '/mentions-legales' });
   this.route('terms-of-service', { path: '/conditions-generales-d-utilisation' });
