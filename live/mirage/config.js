@@ -54,9 +54,6 @@ export default function() {
 
   //Nouveau Mirage
 
-  // CourseGroups
-  this.get('/course-groups');
-
   //Courses
   this.get('/courses/:id', getCourse);
   this.post('/certification-courses', postCertificationCourse);
