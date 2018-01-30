@@ -1,3 +1,4 @@
+
 const TABLE_NAME = 'snapshots';
 const NUMBER_OF_COMPETENCES = 16;
 const MULTIPLICATOR_PERCENTAGE_TO_COMPETENCES = NUMBER_OF_COMPETENCES / 100;
@@ -9,8 +10,8 @@ exports.up = function(knex, Promise) {
   }).then(() => {
     return knex(TABLE_NAME)
       .update({
-        // XXX: the '??' bind the row value
-        testsFinished: knex.raw('ROUND(?? * ' + MULTIPLICATOR_PERCENTAGE_TO_COMPETENCES + ', 0)', ['completionPercentage'])
+        // XXX : the '??' bind the row value
+        testsFinished: knex.raw('ROUND(CAST(?? as numeric) * ' + MULTIPLICATOR_PERCENTAGE_TO_COMPETENCES + ', 0)', ['completionPercentage'])
       });
   }).then(() => {
     return knex.schema.table(TABLE_NAME, function(table) {
@@ -27,7 +28,7 @@ exports.down = function(knex, Promise) {
       return knex(TABLE_NAME)
         .update({
           // XXX : the '??' bind the row value
-          completionPercentage: knex.raw('?? * ' + MULTIPLICATOR_COMPETENCES_TO_PERCENTAGE, ['testsFinished'])
+          completionPercentage: knex.raw('CAST(?? as numeric) * ' + MULTIPLICATOR_COMPETENCES_TO_PERCENTAGE, ['testsFinished'])
         })})
     .then(() => {
       return knex.schema.table(TABLE_NAME, function(table) {
