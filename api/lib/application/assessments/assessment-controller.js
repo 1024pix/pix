@@ -1,13 +1,10 @@
 const Boom = require('boom');
-const moment = require('moment');
 
 const assessmentSerializer = require('../../infrastructure/serializers/jsonapi/assessment-serializer');
 const assessmentRepository = require('../../infrastructure/repositories/assessment-repository');
 const assessmentService = require('../../domain/services/assessment-service');
-const skillsService = require('../../domain/services/skills-service');
 const tokenService = require('../../domain/services/token-service');
 const challengeRepository = require('../../infrastructure/repositories/challenge-repository');
-const certificationCourseRepository = require('../../infrastructure/repositories/certification-course-repository');
 const challengeSerializer = require('../../infrastructure/serializers/jsonapi/challenge-serializer');
 const solutionSerializer = require('../../infrastructure/serializers/jsonapi/solution-serializer');
 
@@ -113,34 +110,6 @@ module.exports = {
         }
 
         return assessmentService.getAssessmentNextChallengeId(assessment, request.params.challengeId);
-      })
-      .catch((err) => {
-        if (err instanceof AssessmentEndedError) {
-
-          return assessmentService
-            .fetchAssessment(request.params.id)
-            .then(({ assessmentPix, skills }) => {
-
-              let promise = Promise.resolve();
-              if (assessmentService.isCertificationAssessment(assessmentPix)) {
-                promise = certificationCourseRepository.updateStatus('completed',
-                  assessmentPix.get('courseId'),
-                  moment().toISOString());
-              }
-
-              // XXX: successRate should not be saved in DB.
-              assessmentPix.unset('successRate');
-
-              return promise
-                .then(() => assessmentPix.save())
-                .then(() => skillsService.saveAssessmentSkills(skills));
-            })
-            .then(() => {
-              throw err;
-            });
-        } else {
-          throw err;
-        }
       })
       .then(challengeRepository.get)
       .then((challenge) => {

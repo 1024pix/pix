@@ -1,7 +1,8 @@
 const { describe, it, expect, before, after, knex, sinon, beforeEach, afterEach } = require('../../../test-helper');
 
 const assessmentRepository = require('../../../../lib/infrastructure/repositories/assessment-repository');
-const Assessment = require('../../../../lib/domain/models/data/assessment');
+const BookshelfAssessment = require('../../../../lib/domain/models/data/assessment');
+const Assessment = require('../../../../lib/domain/models/Assessment');
 
 describe('Unit | Repository | assessmentRepository', () => {
 
@@ -89,7 +90,7 @@ describe('Unit | Repository | assessmentRepository', () => {
     it('should throw an error if something went wrong', () => {
       //Given
       const error = new Error('Unable to fetch');
-      const whereStub = sinon.stub(Assessment, 'where').returns({
+      const whereStub = sinon.stub(BookshelfAssessment, 'where').returns({
         fetchAll: () => {
           return Promise.reject(error);
         }
@@ -107,7 +108,7 @@ describe('Unit | Repository | assessmentRepository', () => {
     });
   });
 
-  describe('#findLastCompletedAssessmentsByUser', () => {
+  describe('#findLastCompletedAssessmentsForEachCoursesByUser', () => {
     const assessmentsInDb = [{
       id: 1,
       userId: 2,
@@ -166,7 +167,7 @@ describe('Unit | Repository | assessmentRepository', () => {
       queryStub = sandbox.stub().yields({ where: whereStub }).returns({
         fetch: fetchStub
       });
-      sandbox.stub(Assessment, 'collection').returns({
+      sandbox.stub(BookshelfAssessment, 'collection').returns({
         query: queryStub
       });
     });
@@ -182,7 +183,7 @@ describe('Unit | Repository | assessmentRepository', () => {
 
       // then
       return promise.then(() => {
-        sinon.assert.calledOnce(Assessment.collection);
+        sinon.assert.calledOnce(BookshelfAssessment.collection);
         sinon.assert.calledOnce(queryStub);
         sinon.assert.calledOnce(whereStub);
         sinon.assert.calledOnce(fetchStub);
@@ -264,9 +265,12 @@ describe('Unit | Repository | assessmentRepository', () => {
       // Then
       return promise.then((assessments) => {
         expect(assessments).to.have.lengthOf(2);
+
+        expect(assessments[0]).to.be.an.instanceOf(Assessment);
+        expect(assessments[1]).to.be.an.instanceOf(Assessment);
+
         expect(assessments[0].id).to.equal(COMPLETED_ASSESSMENT_A_ID);
         expect(assessments[1].id).to.equal(COMPLETED_ASSESSMENT_B_ID);
-
       });
     });
 
@@ -283,7 +287,7 @@ describe('Unit | Repository | assessmentRepository', () => {
     it('should throw an error if something went wrong', () => {
       //Given
       const error = new Error('Unable to fetch');
-      const whereStub = sinon.stub(Assessment, 'where').returns({
+      const whereStub = sinon.stub(BookshelfAssessment, 'where').returns({
         fetchAll: () => {
           return Promise.reject(error);
         }
@@ -312,14 +316,14 @@ describe('Unit | Repository | assessmentRepository', () => {
     describe('test collaboration', () => {
       let fetchStub;
       beforeEach(() => {
-        fetchStub = sinon.stub().resolves();
-        sinon.stub(Assessment, 'query').returns({
+        fetchStub = sinon.stub().resolves(new BookshelfAssessment());
+        sinon.stub(BookshelfAssessment, 'query').returns({
           fetch: fetchStub
         });
       });
 
       after(() => {
-        Assessment.query.restore();
+        BookshelfAssessment.query.restore();
       });
 
       it('should correctly query Assessment', () => {
@@ -336,8 +340,8 @@ describe('Unit | Repository | assessmentRepository', () => {
 
         // then
         return promise.then(() => {
-          sinon.assert.calledOnce(Assessment.query);
-          sinon.assert.calledWith(Assessment.query, expectedParams);
+          sinon.assert.calledOnce(BookshelfAssessment.query);
+          sinon.assert.calledWith(BookshelfAssessment.query, expectedParams);
           sinon.assert.calledWith(fetchStub, { require: true });
         });
       });
@@ -347,15 +351,15 @@ describe('Unit | Repository | assessmentRepository', () => {
 
   describe('#save', function() {
 
-    const assessment = { id: '1', type: 'CERTIFICATION' };
-    const assessmentBookshelf = new Assessment(assessment);
+    const assessment = new Assessment({ id: '1', type: 'CERTIFICATION' });
+    const assessmentBookshelf = new BookshelfAssessment(assessment);
 
     beforeEach(() => {
-      sinon.stub(Assessment.prototype, 'save').resolves(assessmentBookshelf);
+      sinon.stub(BookshelfAssessment.prototype, 'save').resolves(assessmentBookshelf);
     });
 
     afterEach(() => {
-      Assessment.prototype.save.restore();
+      BookshelfAssessment.prototype.save.restore();
     });
 
     it('should save a new assessment', function() {
@@ -363,33 +367,36 @@ describe('Unit | Repository | assessmentRepository', () => {
       const promise = assessmentRepository.save(assessment);
 
       // then
-      promise.then(() => {
-        sinon.assert.calledOnce(Assessment.prototype.save);
+      return promise.then(() => {
+        sinon.assert.calledOnce(BookshelfAssessment.prototype.save);
       });
     });
 
-    it('should return a JSON with the assessment', function() {
+    it('should return the Assessment', function() {
       // when
       const promise = assessmentRepository.save(assessment);
 
       // then
-      promise.then((savedAssessment) => {
+      return promise.then((savedAssessment) => {
+        expect(savedAssessment).to.be.an.instanceOf(Assessment);
         expect(savedAssessment).to.deep.equal(assessment);
       });
     });
   });
 
   describe('#getByCertificationCourseId', () => {
+
     let fetchStub;
+
     beforeEach(() => {
-      fetchStub = sinon.stub().resolves();
-      sinon.stub(Assessment, 'where').returns({
+      fetchStub = sinon.stub().resolves(new BookshelfAssessment());
+      sinon.stub(BookshelfAssessment, 'where').returns({
         fetch: fetchStub
       });
     });
 
     after(() => {
-      Assessment.where.restore();
+      BookshelfAssessment.where.restore();
     });
 
     it('should correctly query Assessment', () => {
@@ -402,8 +409,8 @@ describe('Unit | Repository | assessmentRepository', () => {
 
       // then
       return promise.then(() => {
-        sinon.assert.calledOnce(Assessment.where);
-        sinon.assert.calledWith(Assessment.where, expectedParams);
+        sinon.assert.calledOnce(BookshelfAssessment.where);
+        sinon.assert.calledWith(BookshelfAssessment.where, expectedParams);
       });
     });
   });

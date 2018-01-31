@@ -86,7 +86,7 @@ class ProfileSerializer extends JSONAPISerializer {
           'area': {
             'data': {
               'type': 'areas',
-              'id': competence.areaId
+              'id': competence.area.id
             }
           }
         }

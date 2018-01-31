@@ -10,7 +10,7 @@ const solutionRepository = require('../../../../lib/infrastructure/repositories/
 
 const solutionSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/solution-serializer');
 
-const Assessment = require('../../../../lib/domain/models/data/assessment');
+const Assessment = require('../../../../lib/domain/models/Assessment');
 const Answer = require('../../../../lib/domain/models/data/answer');
 const Solution = require('../../../../lib/domain/models/referential/solution');
 

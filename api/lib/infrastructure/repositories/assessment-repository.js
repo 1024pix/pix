@@ -1,30 +1,36 @@
-const AssessmentBookshelf = require('../../domain/models/data/assessment');
+const BookshelfAssessment = require('../../domain/models/data/assessment');
 const Assessment = require('../../domain/models/Assessment');
-
-const { groupBy, map, head } = require('lodash');
-
-function _toDomain(bookshelfAssessment) {
-  if (bookshelfAssessment !== null) {
-    const modelObjectInJSON = bookshelfAssessment.toJSON();
-    return new Assessment(modelObjectInJSON);
-  }
-  return null;
-}
+const { groupBy, map, head, _ } = require('lodash');
 
 function _selectLastAssessmentForEachCourse(assessments) {
   const assessmentsGroupedByCourse = groupBy(assessments.models, (assessment) => assessment.get('courseId'));
   return map(assessmentsGroupedByCourse, head);
 }
 
+function _toDomain(bookshelfAssessment) {
+
+  if(bookshelfAssessment !== null) {
+    const modelObjectInJSON = bookshelfAssessment.toJSON();
+    return new Assessment(modelObjectInJSON);
+  }
+
+  return null;
+}
+
+function _adaptModelToDb(assessment) {
+  return _.omit(assessment, ['answers', 'successRate', 'marks']);
+}
+
 module.exports = {
   get(id) {
-    return AssessmentBookshelf
+    return BookshelfAssessment
       .where('id', id)
-      .fetch({ withRelated: ['answers'] });
+      .fetch({ withRelated: ['answers'] })
+      .then(_toDomain);
   },
 
   findCompletedAssessmentsByUserId(userId) {
-    return AssessmentBookshelf
+    return BookshelfAssessment
       .query(qb => {
         qb.where({ userId });
         qb.whereNot('courseId', 'LIKE', 'null%');
@@ -36,12 +42,13 @@ module.exports = {
         });
       })
       .fetchAll()
-      .then(assessments => assessments.models);
+      .then(assessments => assessments.models)
+      .then((assessments) => _.map(assessments, (assessment) => _toDomain(assessment)));
   },
 
   findLastAssessmentsForEachCoursesByUser(userId) {
 
-    return AssessmentBookshelf
+    return BookshelfAssessment
       .collection()
       .query(qb => {
         qb.select()
@@ -54,15 +61,12 @@ module.exports = {
           .orderBy('createdAt', 'desc');
       })
       .fetch()
-      .then((assessments) => {
-        // XXX This kind of filter can be done with SQL but request differs according the database (PG, SQLite)
-        // we don't succeed to write the request with Bookshelf/knex
-        return _selectLastAssessmentForEachCourse(assessments);
-      });
+      .then(_selectLastAssessmentForEachCourse)
+      .then((assessments) => _.map(assessments, (assessment) => _toDomain(assessment)));
   },
 
   findLastCompletedAssessmentsForEachCoursesByUser(userId, limitDate) {
-    return AssessmentBookshelf
+    return BookshelfAssessment
       .collection()
       .query(qb => {
         qb.where({ userId })
@@ -76,36 +80,36 @@ module.exports = {
           .orderBy('createdAt', 'desc');
       })
       .fetch()
-      .then(_selectLastAssessmentForEachCourse);
+      .then(_selectLastAssessmentForEachCourse)
+      .then((assessments) => _.map(assessments, (assessment) => _toDomain(assessment)));
   },
 
   getByUserIdAndAssessmentId(assessmentId, userId) {
-    return AssessmentBookshelf
+    return BookshelfAssessment
       .query({ where: { id: assessmentId }, andWhere: { userId } })
-      .fetch({ require: true });
+      .fetch({ require: true })
+      .then(_toDomain);
   },
 
   save(assessment) {
-    const assessmentBookshelf = new AssessmentBookshelf(assessment);
-    return assessmentBookshelf.save()
-      .then((savedAssessment) => {
-        return savedAssessment.toJSON();
-      });
+    const assessmentBookshelf = new BookshelfAssessment(_adaptModelToDb(assessment));
+
+    return assessmentBookshelf.save().then(_toDomain);
   },
 
   getByCertificationCourseId(certificationCourseId) {
-    return AssessmentBookshelf
+    return BookshelfAssessment
       .where({ courseId: certificationCourseId })
-      .fetch();
+      .fetch()
+      .then(_toDomain);
   },
 
   findByFilters(filters) {
-    return AssessmentBookshelf
+    return BookshelfAssessment
       .where(filters)
       .fetchAll()
-      .then((assessments) => {
-        return assessments.map(_toDomain);
-      });
+      .then(assessments => assessments.models)
+      .then((assessments) => _.map(assessments, (assessment) => _toDomain(assessment)));
   }
 
 };

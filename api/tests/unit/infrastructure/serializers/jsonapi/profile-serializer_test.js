@@ -3,7 +3,8 @@ const serializer = require('../../../../../lib/infrastructure/serializers/jsonap
 const Profile = require('../../../../../lib/domain/models/data/profile');
 const User = require('../../../../../lib/domain/models/data/user');
 const Organization = require('../../../../../lib/domain/models/data/organization');
-const Assessment = require('../../../../../lib/domain/models/data/assessment');
+const Assessment = require('../../../../../lib/domain/models/Assessment');
+const Area = require('../../../../../lib/domain/models/Area');
 
 describe('Unit | Serializer | JSONAPI | profile-serializer', () => {
 
@@ -40,14 +41,14 @@ describe('Unit | Serializer | JSONAPI | profile-serializer', () => {
       });
 
       areas = [
-        {
+        new Area({
           id: 'recAreaA',
           name: 'area-name-1'
-        },
-        {
+        }),
+        new Area({
           id: 'recAreaB',
           name: 'area-name-2'
-        }
+        })
       ];
 
       competences = [
@@ -59,7 +60,8 @@ describe('Unit | Serializer | JSONAPI | profile-serializer', () => {
           courseId: 'courseID1',
           assessmentId : 'assessmentId1',
           level: -1,
-          status: 'notEvaluated'
+          status: 'notEvaluated',
+          area: new Area({ id: 'recAreaA' })
         },
         {
           id: 'recCompB',
@@ -69,7 +71,8 @@ describe('Unit | Serializer | JSONAPI | profile-serializer', () => {
           courseId: 'courseID2',
           assessmentId : 'assessmentId2',
           level: -1,
-          status: 'notEvaluated'
+          status: 'notEvaluated',
+          area: new Area({ id: 'recAreaB' })
         },
         {
           id: 'recCompC',
@@ -78,7 +81,8 @@ describe('Unit | Serializer | JSONAPI | profile-serializer', () => {
           areaId: 'recAreaB',
           courseId: 'courseID3',
           level: -1,
-          status: 'notEvaluated'
+          status: 'notEvaluated',
+          area: new Area({ id: 'recAreaB' })
         }];
 
       organizations = [

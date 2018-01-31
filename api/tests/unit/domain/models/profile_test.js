@@ -4,7 +4,7 @@ const Profile = require('../../../../lib/domain/models/data/profile');
 
 const faker = require('faker');
 
-const Assessment = require('../../../../lib/domain/models/data/assessment');
+const Assessment = require('../../../../lib/domain/models/Assessment');
 
 describe('Unit | Domain | Models | Profile', () => {
 
@@ -122,10 +122,12 @@ describe('Unit | Domain | Models | Profile', () => {
 
     it('should not assign pixScore and estimatedLevel to user competence if assessment is not completed', function() {
       courses[0].competences = ['competenceId1'];
-      lastAssessments = [new Assessment({
-        id: 'assessmentId1',
-        courseId: 'courseId8'
-      }),];
+      lastAssessments = [
+        new Assessment({
+          id: 'assessmentId1',
+          courseId: 'courseId8'
+        })
+      ];
 
       const expectedCompetences = [
         {
