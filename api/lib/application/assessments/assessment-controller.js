@@ -14,6 +14,7 @@ const solutionSerializer = require('../../infrastructure/serializers/jsonapi/sol
 const answerRepository = require('../../infrastructure/repositories/answer-repository');
 const solutionRepository = require('../../infrastructure/repositories/solution-repository');
 
+const queryParamsUtils = require('../../infrastructure/utils/query-params-utils');
 const logger = require('../../infrastructure/logger');
 
 const { NotFoundError, NotCompletedAssessmentError, AssessmentEndedError } = require('../../domain/errors');
@@ -87,6 +88,15 @@ module.exports = {
         logger.error(err);
 
         return reply(Boom.badImplementation(err));
+      });
+  },
+
+  findByFilters(request, reply) {
+    const filters = queryParamsUtils.extractFilters(request);
+
+    return assessmentService.findByFilters(filters)
+      .then((assessments) => {
+        reply(assessmentSerializer.serializeArray(assessments));
       });
   },
 

@@ -1,9 +1,37 @@
 const JSONAPISerializer = require('./jsonapi-serializer');
+const Bookshelf = require('../../../infrastructure/bookshelf');
 
 class AssessmentSerializer extends JSONAPISerializer {
 
   constructor() {
     super('assessment');
+  }
+
+  serialize(modelObject) {
+    const response = {};
+    response.included = [];
+
+    response.data = this.serializeModelObject(modelObject);
+    const includedData = this.serializeIncluded(modelObject);
+    if (includedData) {
+      response.included.push(includedData);
+    }
+
+    return response;
+  }
+
+  serializeArray(modelObjects) {
+    const response = {};
+    response.data = [];
+    response.included = [];
+    for (const modelObject of modelObjects) {
+      response.data.push(this.serializeModelObject(modelObject));
+      const includedData = this.serializeIncluded(modelObject);
+      if (includedData) {
+        response.included.push(includedData);
+      }
+    }
+    return response;
   }
 
   serializeAttributes(model, data) {
@@ -38,6 +66,21 @@ class AssessmentSerializer extends JSONAPISerializer {
           'id': answer.id
         });
       }
+    }
+  }
+
+  serializeIncluded(modelObject) {
+    const course = (modelObject instanceof Bookshelf.Model) ? modelObject.toJSON().course : modelObject.course;
+    if (course) {
+      return {
+        'type': 'courses',
+        'id': course.id,
+        attributes: {
+          'name': course.name,
+          'description': course.description,
+          'nb-challenges': course.nbChallenges.toString()
+        }
+      };
     }
   }
 

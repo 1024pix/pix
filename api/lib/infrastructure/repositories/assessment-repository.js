@@ -1,5 +1,15 @@
-const Assessment = require('../../domain/models/data/assessment');
+const AssessmentBookshelf = require('../../domain/models/data/assessment');
+const Assessment = require('../../domain/models/Assessment');
+
 const { groupBy, map, head } = require('lodash');
+
+function _toDomain(bookshelfAssessment) {
+  if (bookshelfAssessment !== null) {
+    const modelObjectInJSON = bookshelfAssessment.toJSON();
+    return new Assessment(modelObjectInJSON);
+  }
+  return null;
+}
 
 function _selectLastAssessmentForEachCourse(assessments) {
   const assessmentsGroupedByCourse = groupBy(assessments.models, (assessment) => assessment.get('courseId'));
@@ -8,16 +18,16 @@ function _selectLastAssessmentForEachCourse(assessments) {
 
 module.exports = {
   get(id) {
-    return Assessment
+    return AssessmentBookshelf
       .where('id', id)
       .fetch({ withRelated: ['answers'] });
   },
 
   findCompletedAssessmentsByUserId(userId) {
-    return Assessment
+    return AssessmentBookshelf
       .query(qb => {
         qb.where({ userId });
-        qb.whereNot('courseId','LIKE','null%');
+        qb.whereNot('courseId', 'LIKE', 'null%');
         qb.whereNotNull('estimatedLevel');
         qb.whereNotNull('pixScore');
         qb.andWhere(function() {
@@ -31,7 +41,7 @@ module.exports = {
 
   findLastAssessmentsForEachCoursesByUser(userId) {
 
-    return Assessment
+    return AssessmentBookshelf
       .collection()
       .query(qb => {
         qb.select()
@@ -40,7 +50,7 @@ module.exports = {
             this.where({ type: null })
               .orWhereNot({ type: 'CERTIFICATION' });
           })
-          .whereNot('courseId','LIKE','null%')
+          .whereNot('courseId', 'LIKE', 'null%')
           .orderBy('createdAt', 'desc');
       })
       .fetch()
@@ -52,7 +62,7 @@ module.exports = {
   },
 
   findLastCompletedAssessmentsForEachCoursesByUser(userId, limitDate) {
-    return Assessment
+    return AssessmentBookshelf
       .collection()
       .query(qb => {
         qb.where({ userId })
@@ -70,13 +80,13 @@ module.exports = {
   },
 
   getByUserIdAndAssessmentId(assessmentId, userId) {
-    return Assessment
+    return AssessmentBookshelf
       .query({ where: { id: assessmentId }, andWhere: { userId } })
       .fetch({ require: true });
   },
 
   save(assessment) {
-    const assessmentBookshelf = new Assessment(assessment);
+    const assessmentBookshelf = new AssessmentBookshelf(assessment);
     return assessmentBookshelf.save()
       .then((savedAssessment) => {
         return savedAssessment.toJSON();
@@ -84,8 +94,18 @@ module.exports = {
   },
 
   getByCertificationCourseId(certificationCourseId) {
-    return Assessment
+    return AssessmentBookshelf
       .where({ courseId: certificationCourseId })
       .fetch();
+  },
+
+  findByFilters(filters) {
+    return AssessmentBookshelf
+      .where(filters)
+      .fetchAll()
+      .then((assessments) => {
+        return assessments.map(_toDomain);
+      });
   }
+
 };

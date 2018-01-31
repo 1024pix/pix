@@ -4,14 +4,14 @@ module.exports = {
 
   serialize(snapshots) {
     return new Serializer('snapshot', {
-      attributes: ['score', 'createdAt', 'completionPercentage', 'user', 'studentCode', 'campaignCode'],
+      attributes: ['score', 'createdAt', 'testsFinished', 'user', 'studentCode', 'campaignCode'],
       user: {
         ref: 'id',
         attributes: ['firstName', 'lastName']
       },
       transform(json) {
         const snapshot = Object.assign({}, json);
-        snapshot.completionPercentage = json.completionPercentage && json.completionPercentage.toString() || null;
+        snapshot.testsFinished = json.testsFinished && json.testsFinished.toString() || null;
         snapshot.score = json.score && json.score.toString() || null;
         return snapshot;
       }

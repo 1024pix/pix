@@ -147,7 +147,7 @@ describe('Acceptance | Controller | organization-controller', function() {
             id: snapshotId.toString(),
             attributes: {
               score: '15',
-              'completion-percentage': '70',
+              'tests-finished': '1',
               'created-at': '2017-08-31 15:57:06',
               'student-code': null,
               'campaign-code': null
@@ -348,7 +348,7 @@ function _insertSnapshot(organizationId, userId) {
   };
   const snapshotRaw = {
     organizationId: organizationId,
-    completionPercentage: 70,
+    testsFinished: 1,
     userId,
     score: 15,
     profile: JSON.stringify(serializedUserProfile),

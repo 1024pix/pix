@@ -11,7 +11,7 @@ describe('Unit | Serializer | JSONAPI | snapshot-serializer', () => {
         id: 1,
         score: '10',
         createdAt: '2017-08-23 12:52:33',
-        completionPercentage: '12',
+        testsFinished: '12',
         studentCode: 'ABCD-1234',
         campaignCode: 'EFGH-5678',
         user: {
@@ -25,7 +25,7 @@ describe('Unit | Serializer | JSONAPI | snapshot-serializer', () => {
           type: 'snapshots',
           id: '1',
           attributes: {
-            'completion-percentage': '12',
+            'tests-finished': '12',
             'created-at': '2017-08-23 12:52:33',
             'score': '10',
             'student-code': 'ABCD-1234',
@@ -63,14 +63,14 @@ describe('Unit | Serializer | JSONAPI | snapshot-serializer', () => {
         id: 1,
         score: 10,
         createdAt: '2017-08-23 12:52:33',
-        completionPercentage: 12,
+        testsFinished: 12,
         user: { id: 1, firstName: 'Barack', lastName: 'Afrite' }
       };
       const snapshot2 = {
         id: 2,
         score: 12,
         createdAt: '2017-07-29 12:52:44',
-        completionPercentage: 25,
+        testsFinished: 25,
         user: { id: 2, firstName: 'Sandro', lastName: 'Mancuso' }
       };
       const snapshotsArray = [snapshot1, snapshot2];
@@ -81,7 +81,7 @@ describe('Unit | Serializer | JSONAPI | snapshot-serializer', () => {
           attributes: {
             score: '10',
             'created-at': '2017-08-23 12:52:33',
-            'completion-percentage': '12'
+            'tests-finished': '12'
           },
           relationships: {
             user: {
@@ -96,7 +96,7 @@ describe('Unit | Serializer | JSONAPI | snapshot-serializer', () => {
           type: 'snapshots',
           attributes: {
             score: '12',
-            'completion-percentage': '25',
+            'tests-finished': '25',
             'created-at': '2017-07-29 12:52:44'
           },
           relationships: {
@@ -137,7 +137,7 @@ describe('Unit | Serializer | JSONAPI | snapshot-serializer', () => {
       const snapshot = {
         id: 1,
         createdAt: '2017-08-23 12:52:33',
-        completionPercentage: '12',
+        testsFinished: '12',
         studentCode: 'student_code',
         campaignCode: 'campaign_code',
       };
@@ -148,7 +148,7 @@ describe('Unit | Serializer | JSONAPI | snapshot-serializer', () => {
           type: 'snapshots',
           attributes: {
             'created-at': '2017-08-23 12:52:33',
-            'completion-percentage': '12',
+            'tests-finished': '12',
             'score': null,
             'student-code': 'student_code',
             'campaign-code': 'campaign_code',
@@ -169,7 +169,7 @@ describe('Unit | Serializer | JSONAPI | snapshot-serializer', () => {
         id: 1,
         createdAt: '2017-08-23 12:52:33',
         score: '12',
-        completionPercentage: null,
+        testsFinished: null,
         studentCode: 'student_code',
         campaignCode: 'campaign_code',
       };
@@ -180,7 +180,7 @@ describe('Unit | Serializer | JSONAPI | snapshot-serializer', () => {
           type: 'snapshots',
           attributes: {
             'created-at': '2017-08-23 12:52:33',
-            'completion-percentage': null,
+            'tests-finished': null,
             'score': '12',
             'student-code': 'student_code',
             'campaign-code': 'campaign_code',
@@ -211,7 +211,7 @@ describe('Unit | Serializer | JSONAPI | snapshot-serializer', () => {
           type: 'snapshots',
           attributes: {
             'created-at': '2017-10-05 22:452:58',
-            'completion-percentage': null,
+            'tests-finished': null,
             'score': '12',
             'student-code': null,
             'campaign-code': 'campaign_code',
@@ -242,7 +242,7 @@ describe('Unit | Serializer | JSONAPI | snapshot-serializer', () => {
           type: 'snapshots',
           attributes: {
             'created-at': '2017-10-05 22:452:58',
-            'completion-percentage': null,
+            'tests-finished': null,
             'score': '12',
             'student-code': 'student_code',
             'campaign-code': null,
@@ -268,7 +268,7 @@ describe('Unit | Serializer | JSONAPI | snapshot-serializer', () => {
           type: 'snapshots',
           id: '1',
           attributes: {
-            'completion-percentage': '20',
+            'tests-finished': '20',
             'created-at': '2017-10-06 09:33:00',
             'score': '10',
             'student-code': 'ABCD-1234',
@@ -284,7 +284,7 @@ describe('Unit | Serializer | JSONAPI | snapshot-serializer', () => {
         id: '1',
         score: '10',
         createdAt: '2017-10-06 09:33:00',
-        completionPercentage: '20',
+        testsFinished: '20',
         studentCode: 'ABCD-1234',
         campaignCode: 'EFGH-5678',
         organization: {

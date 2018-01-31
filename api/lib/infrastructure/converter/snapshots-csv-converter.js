@@ -34,7 +34,6 @@ function _createHeaderLine(jsonProfil) {
 function _createProfileLine(snapshot) {
   let snapshotCsvLine = '';
   const listCompetences = _cleanArrayCompetences(_fromStringOrJsonToJson(snapshot.profile).included);
-  const numberRealisedTest = listCompetences.filter((competence) => competence.level >=0).length;
 
   snapshotCsvLine += [`"${snapshot.user.lastName}"`,
     `"${snapshot.user.firstName}"`,
@@ -47,7 +46,7 @@ function _createProfileLine(snapshot) {
   snapshotCsvLine += ';';
 
   // XXX We add '=' before string to force Excel to read it as string, not as date
-  snapshotCsvLine += `="${numberRealisedTest}/${listCompetences.length}";`;
+  snapshotCsvLine += `="${snapshot.testsFinished}/${listCompetences.length}";`;
 
   snapshotCsvLine += _(listCompetences).map((comp) => comp.level < 0 ? '' : comp.level).join(';');
 

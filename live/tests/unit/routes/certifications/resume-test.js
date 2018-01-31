@@ -3,6 +3,7 @@ import Service from '@ember/service';
 import { describe, it } from 'mocha';
 import { setupTest } from 'ember-mocha';
 import sinon from 'sinon';
+import { expect } from 'chai';
 
 describe('Unit | Route | Certification | resume', function() {
   setupTest('route:certifications.resume', {
@@ -13,6 +14,7 @@ describe('Unit | Route | Certification | resume', function() {
   let StoreStub;
   let findRecordStub;
   let queryRecordStub;
+  let queryStub;
   const certificationCourseId = 'certification_course_id';
   const assessmentId = 'assessment_id';
 
@@ -20,9 +22,11 @@ describe('Unit | Route | Certification | resume', function() {
     // define stubs
     findRecordStub = sinon.stub();
     queryRecordStub = sinon.stub();
+    queryStub = sinon.stub();
     StoreStub = Service.extend({
       findRecord: findRecordStub,
-      queryRecord: queryRecordStub
+      queryRecord: queryRecordStub,
+      query: queryStub
     });
 
     // manage dependency injection context
@@ -36,33 +40,55 @@ describe('Unit | Route | Certification | resume', function() {
 
   describe('#model', function() {
 
-    it('should fetch a certification', function() {
+    it('should get the assessment associated to the certification course', function() {
       // given
       const params = { certification_course_id: certificationCourseId };
-      route.get('store').findRecord.resolves();
+      const filters = {
+        filter: {
+          courseId: certificationCourseId
+        }
+      };
+      const retrievedAssessments = [EmberObject.create({ id: 1 })];
+      route.get('store').query.resolves(retrievedAssessments);
 
       // when
       const promise = route.model(params);
 
       // then
       return promise.then(() => {
-        sinon.assert.calledOnce(findRecordStub);
-        sinon.assert.calledWith(findRecordStub, 'certification-course', certificationCourseId);
+        sinon.assert.calledOnce(queryStub);
+        sinon.assert.calledWith(queryStub, 'assessment', filters);
+      });
+    });
+
+    it('should return the first assessment associated to the certification course', function() {
+      // given
+      const params = { certification_course_id: certificationCourseId };
+      const retrievedAssessments = [];
+      retrievedAssessments.pushObject(EmberObject.create({ id: 1 }));
+      route.get('store').query.resolves(retrievedAssessments);
+
+      // when
+      const promise = route.model(params);
+
+      // then
+      return promise.then((assessment) => {
+        expect(assessment.id).to.equal(1);
       });
     });
   });
 
   describe('#afterModel', function() {
 
-    const assessment = EmberObject.create({ id: assessmentId });
-    const certification = EmberObject.create({ id: certificationCourseId, assessment: assessment });
+    const course = EmberObject.create({ id: 'certification_course_id' });
+    const assessment = EmberObject.create({ id: assessmentId, course });
 
     it('should get the next challenge of the assessment', function() {
       // given
       queryRecordStub.resolves();
 
       // when
-      const promise = route.afterModel(certification);
+      const promise = route.afterModel(assessment);
 
       // then
       return promise.then(() => {
@@ -79,7 +105,7 @@ describe('Unit | Route | Certification | resume', function() {
         queryRecordStub.resolves(nextChallenge);
 
         // when
-        const promise = route.afterModel(certification);
+        const promise = route.afterModel(assessment);
 
         // then
         return promise.then(() => {
@@ -97,7 +123,7 @@ describe('Unit | Route | Certification | resume', function() {
         queryRecordStub.rejects();
 
         // when
-        const promise = route.afterModel(certification);
+        const promise = route.afterModel(assessment);
 
         // then
         return promise.then(() => {

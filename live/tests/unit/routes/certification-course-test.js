@@ -60,7 +60,7 @@ describe('Unit | Route | certification test', function() {
         // then
         return promise.then(function() {
           sinon.assert.called(createRecordStub);
-          sinon.assert.calledWithExactly(createRecordStub, 'certification-course', { sessionCode: '123456' });
+          sinon.assert.calledWithExactly(createRecordStub, 'course', { sessionCode: '123456' });
         });
 
       });

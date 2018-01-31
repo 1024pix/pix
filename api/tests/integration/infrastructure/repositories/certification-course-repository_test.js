@@ -1,5 +1,6 @@
 const { expect, describe, beforeEach, afterEach, it, knex } = require('../../../test-helper');
 const CertificationCourseRepository = require('../../../../lib/infrastructure/repositories/certification-course-repository');
+const { NotFoundError } = require('../../../../lib/domain/errors');
 
 describe('Integration | Repository | Certification Course', function() {
 
@@ -15,6 +16,24 @@ describe('Integration | Repository | Certification Course', function() {
     userId: 1,
     completedAt: null
   };
+
+  const certificationChallenges = [
+    {
+      id: 1,
+      courseId: 20,
+      challengeId: 'recChallenge1'
+    },
+    {
+      id: 2,
+      courseId: 20,
+      challengeId: 'recChallenge2'
+    },
+    {
+      id: 3,
+      courseId: 19,
+      challengeId: 'recChallenge3'
+    }
+  ];
 
   describe('#updateStatus', () => {
 
@@ -57,6 +76,7 @@ describe('Integration | Repository | Certification Course', function() {
       return Promise.all([
         knex('certification-courses').insert(certificationCourse),
         knex('assessments').insert(associatedAssessment),
+        knex('certification-challenges').insert(certificationChallenges),
       ]);
     });
 
@@ -64,19 +84,34 @@ describe('Integration | Repository | Certification Course', function() {
       return Promise.all([
         knex('certification-courses').delete(),
         knex('assessments').delete(),
+        knex('certification-challenges').delete()
       ]);
     });
 
-    it('should retrieve associated assessment with the certification course', function() {
-      // when
-      const promise = CertificationCourseRepository.get(20);
+    context('When the certification course exists', () => {
+      it('should retrieve associated assessment with the certification course', function() {
+        // when
+        const promise = CertificationCourseRepository.get(20);
 
-      // then
-      return promise.then((certificationCourse) => {
-        expect(certificationCourse.id).to.equal(20);
-        expect(certificationCourse.status).to.equal('started');
-        expect(certificationCourse.completedAt).to.equal(null);
-        expect(certificationCourse.assessment.id).to.equal(7);
+        // then
+        return promise.then((certificationCourse) => {
+          expect(certificationCourse.id).to.equal(20);
+          expect(certificationCourse.status).to.equal('started');
+          expect(certificationCourse.type).to.equal('CERTIFICATION');
+          expect(certificationCourse.completedAt).to.equal(null);
+          expect(certificationCourse.assessment.id).to.equal(7);
+          expect(certificationCourse.challenges.length).to.equal(2);
+        });
+      });
+    });
+    
+    context('When the certification course does not exist', () => {
+      it('should retrieve a NotFoundError Error', function() {
+        // when
+        const promise = CertificationCourseRepository.get(4);
+
+        // then
+        return expect(promise).to.be.rejectedWith(NotFoundError);
       });
     });
 
