@@ -1,5 +1,14 @@
 # Pix Changelog
 
+## 1.37.0 (31/01/2018) 
+
+- [#638](https://github.com/betagouv/pix/pull/638) [FEATURE] Afficher une barre de progression sur les pages de test de certification (US-910).
+- [#658](https://github.com/betagouv/pix/pull/658) [FEATURE] Affichage des tests réalisés sur le /board au lieu du % (US-946).
+- [#668](https://github.com/betagouv/pix/pull/668) [BUGFIX] Correction de la migration sur les colonnes de snapshots (US-1059).
+- [#650](https://github.com/betagouv/pix/pull/650) [TECH] Ajout d'un script de déploiement pour l'appli Maths (US-1010).
+- [#664](https://github.com/betagouv/pix/pull/664) [TECH] Script pour récupérer un changelog propre (US-1039).
+- [#666](https://github.com/betagouv/pix/pull/666) [BSR] Suppression des "défis Pix de la semaine" (US-1043).
+
 ## 1.36.0 (22/01/2018)
 
 - [#662](https://github.com/sgmap/pix/pulls/662) [FEATURE] Page de résultats de certification est rendue inaccessible (renvoi vers homepage) (US-998_2).
