@@ -19,7 +19,7 @@ const stepsForPioneersInstitutions = [
     image: 'icon-college.svg',
     steps: [
       {
-        date: 'Jusqu\'à fin décembre 2017',
+        date: 'Jusqu\'à fin avril 2018',
         description: 'Les collèges et lycées qui souhaitent proposer la certification Pix à leurs élèves s\'inscrivent auprès de Pix.'
       }, {
         description: 'Les équipes pédagogiques découvrent les fonctionnalités de Pix (formations courtes en ligne).'
@@ -30,8 +30,8 @@ const stepsForPioneersInstitutions = [
       }, {
         description: 'Les établissements peuvent identifier les besoins de leurs élèves, organiser un accompagnement ciblé et mesurer les progrès au long de l\'année.'
       }, {
-        date: 'De mai à Juin 2018',
-        description: 'Les collèges et lycées organisent des sessions de certification (1h) pour les élèves.'
+        date: 'De mai à juin 2018',
+        description: 'Les collèges et lycées organisent des sessions de certification pour les élèves.'
       },
     ]
   },
@@ -52,7 +52,7 @@ const stepsForPioneersInstitutions = [
         description: 'Les étudiants testent leurs compétences sur la plateforme et constituent leurs profils.'
       }, {
         date: 'De mi-décembre 2017 à février 2018 ',
-        description: 'Les établissements organisent en présentiel des sessions de certification (1h).'
+        description: 'Les établissements organisent en présentiel des sessions de certification.'
       },
     ]
   }
