@@ -8,7 +8,7 @@ export default Route.extend({
   model(params) {
     return this.get('store').findRecord('user', this.get('session.data.authenticated.userId'), { reload: true })
       .then(() => {
-        return this.get('store').createRecord('certification-course', { sessionCode: params.code }).save();
+        return this.get('store').createRecord('course', { sessionCode: params.code }).save();
       });
   },
 

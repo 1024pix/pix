@@ -1,8 +1,5 @@
 export default function(server) {
 
-  const courses = server.createList('course', 2, { name: 'course name', id: 'recxx' });
-  server.createList('courseGroup', 3, { courses });
-
   server.loadFixtures('areas');
   server.loadFixtures('competences');
   server.loadFixtures('courses');

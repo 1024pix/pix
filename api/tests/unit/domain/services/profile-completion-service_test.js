@@ -1,9 +1,9 @@
 const { describe, it, expect } = require('../../../test-helper');
-const { getPercentage } = require('../../../../lib/domain/services/profile-completion-service');
+const { getNumberOfFinishedTests } = require('../../../../lib/domain/services/profile-completion-service');
 
-describe('Unit | Service | profile completion percentage service', function() {
+describe('Unit | Service | profile number of finished tests service', function() {
 
-  describe('#getPercentage', () => {
+  describe('#getNumberOfFinishedTests', () => {
 
     const notEvaluatedProfile = {
       data: {
@@ -630,14 +630,9 @@ describe('Unit | Service | profile completion percentage service', function() {
       ]
     };
 
-    it('should be a function', () => {
-      // then
-      expect(getPercentage).to.be.a('function');
-    });
-
     it('should return 0 when no competence has been evaluated', () => {
       // when
-      const promise = getPercentage(notEvaluatedProfile);
+      const promise = getNumberOfFinishedTests(notEvaluatedProfile);
 
       //then
       return promise.then((percentage) => {
@@ -645,23 +640,23 @@ describe('Unit | Service | profile completion percentage service', function() {
       });
     });
 
-    it('should return 13% when only 2 competences have been evaluated', () => {
+    it('should return 2 when only 2 competences have been evaluated', () => {
       // when
-      const promise = getPercentage(profileWithTwoCompetencesEvaluated);
+      const promise = getNumberOfFinishedTests(profileWithTwoCompetencesEvaluated);
 
       //then
       return promise.then((percentage) => {
-        expect(percentage).to.equal(13);
+        expect(percentage).to.equal(2);
       });
     });
 
-    it('should return 100% when all competences have been evaluated', () => {
+    it('should return 16 when all competences have been evaluated', () => {
       // when
-      const promise = getPercentage(profileWithAllComptencesEvaluated);
+      const promise = getNumberOfFinishedTests(profileWithAllComptencesEvaluated);
 
       //then
       return promise.then((percentage) => {
-        expect(percentage).to.equal(100);
+        expect(percentage).to.equal(16);
       });
     });
   });

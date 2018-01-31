@@ -5,7 +5,7 @@ module.exports = {
   create(snapshot, user, serializedProfile) {
     const snapshotRaw = {
       organizationId: snapshot.organization.id,
-      completionPercentage: snapshot.completionPercentage,
+      testsFinished: snapshot.testsFinished,
       studentCode: snapshot.studentCode,
       campaignCode: snapshot.campaignCode,
       userId: user.id,

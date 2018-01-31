@@ -55,6 +55,7 @@ describe('Unit | Serializer | course-serializer', function() {
         'duration': undefined,
         'id': 'recNPB7dTNt5krlMA',
         'isAdaptive': true,
+        'type': 'PLACEMENT',
         'name': 'Test de positionnement 1.1',
         'competences': ['recsvLz0W2ShyfD63']
       });
@@ -78,10 +79,41 @@ describe('Unit | Serializer | course-serializer', function() {
         'duration': undefined,
         'id': 'recNPB7dTNt5krlMA',
         'isAdaptive': true,
+        'type': 'PLACEMENT',
         'name': 'Test de positionnement 1.1',
         'competences': []
       });
 
+    });
+
+    describe('field type', () => {
+      context('when the course is adaptive', () => {
+        it('should equal "PLACEMENT"', () => {
+          // given
+          airtableRecord.fields['Adaptatif ?'] = true;
+
+          // when
+          const course = serializer.deserialize(airtableRecord);
+
+          // then
+          expect(course.type).to.equal('PLACEMENT');
+        });
+
+      });
+
+      context('when the course is not adaptive', () => {
+        it('should equal "DEMO"', () => {
+          // given
+          airtableRecord.fields['Adaptatif ?'] = false;
+
+          // when
+          const course = serializer.deserialize(airtableRecord);
+
+          // then
+          expect(course.type).to.equal('DEMO');
+        });
+
+      });
     });
 
   });

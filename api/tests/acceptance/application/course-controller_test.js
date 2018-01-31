@@ -90,11 +90,11 @@ describe('Acceptance | API | Courses', function() {
     before(function(done) {
       nock.cleanAll();
       nock('https://api.airtable.com')
-        .get('/v0/test-base/Tests/course_id')
+        .get('/v0/test-base/Tests/rec_course_id')
         .query(true)
         .times(3)
         .reply(200, {
-          id: 'course_id',
+          id: 'rec_course_id',
           fields: {
             'Nom': 'A la recherche de l\'information #01',
             'Description': 'Mener une recherche et une veille d\'information',
@@ -110,7 +110,7 @@ describe('Acceptance | API | Courses', function() {
               'k_challenge_id',
             ],
             'Ordre affichage': 2,
-            'Preview': 'http://development.pix.beta.gouv.fr/courses/course_id/preview',
+            'Preview': 'http://development.pix.beta.gouv.fr/courses/rec_course_id/preview',
             'Nb d\'épreuves': 10,
             'Acquis': '#ordonnancement,#source,#rechercheInfo,#moteur,#wikipedia,#syntaxe,#sponsor,#rechercheInfo,#cult1.1,#rechercheInfo'
           },
@@ -132,11 +132,11 @@ describe('Acceptance | API | Courses', function() {
       done();
     });
 
-    const options = { method: 'GET', url: '/api/courses/course_id' };
+    const options = { method: 'GET', url: '/api/courses/rec_course_id' };
 
     it('should return 200 HTTP status code', function(done) {
       // when
-      server.inject(options, (response) => {
+      return server.inject(options, (response) => {
 
         // then
         expect(response.statusCode).to.equal(200);
@@ -146,7 +146,7 @@ describe('Acceptance | API | Courses', function() {
 
     it('should return application/json', function(done) {
       // when
-      server.inject(options, (response) => {
+      return server.inject(options, (response) => {
 
         // then
         const contentType = response.headers['content-type'];
@@ -157,11 +157,10 @@ describe('Acceptance | API | Courses', function() {
 
     it('should return the expected course', function(done) {
       // when
-      server.inject(options, (response) => {
-
+      return server.inject(options, (response) => {
         // then
         const course = response.result.data;
-        expect(course.id).to.equal('course_id');
+        expect(course.id).to.equal('rec_course_id');
         expect(course.attributes.name).to.equal('A la recherche de l\'information #01');
         expect(course.attributes.description).to.equal('Mener une recherche et une veille d\'information');
         expect(course.attributes['is-adaptive']).to.equal(true);

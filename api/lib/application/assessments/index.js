@@ -11,6 +11,11 @@ exports.register = function(server, options, next) {
     },
     {
       method: 'GET',
+      path: '/api/assessments',
+      config: { handler: AssessmentController.findByFilters, tags: ['api'] }
+    },
+    {
+      method: 'GET',
       path: '/api/assessments/{id}/next',
       config: { handler: AssessmentController.getNextChallenge, tags: ['api'] }
     },

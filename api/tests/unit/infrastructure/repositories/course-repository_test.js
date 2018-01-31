@@ -3,6 +3,7 @@ const cache = require('../../../../lib/infrastructure/cache');
 const airtable = require('../../../../lib/infrastructure/airtable');
 const courseRepository = require('../../../../lib/infrastructure/repositories/course-repository');
 const courseSerializer = require('../../../../lib/infrastructure/serializers/airtable/course-serializer');
+const Course = require('../../../../lib/domain/models/Course');
 
 function _buildCourse(id, name, description) {
   return { id, name, description };
@@ -219,6 +220,18 @@ describe('Unit | Repository | course-repository', function() {
 
       beforeEach(function() {
         getRecords.resolves(courses);
+      });
+
+      it('should resolve an Array of Course Domain Object', function() {
+        // when
+        const promise = courseRepository.getProgressionCourses();
+
+        // then
+        return promise.then((courses) => {
+          courses.forEach(course => {
+            expect(course).to.be.instanceOf(Course);
+          });
+        });
       });
 
       it('should resolve with the courses fetched from Airtable', function(done) {
