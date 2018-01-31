@@ -30,9 +30,9 @@ function _buildChallenge(challengeId, skills) {
 }
 
 function _buildAssessmentForCourse(courseId, assessmentId = 'assessment_id') {
-  const assessment = new AssessmentBookshelf({ id: assessmentId });
+  const assessment = new Assessment({ id: assessmentId });
   if (courseId) {
-    assessment.set('courseId', courseId);
+    assessment.courseId = courseId;
   }
   return assessment;
 }
@@ -45,7 +45,7 @@ function _buildAnswer(challengeId, result, assessmentId = 1) {
   return answer;
 }
 
-describe('Unit | Domain | Services | assessment-service', () => {
+describe('Unit | Domain | Services | assessment', () => {
 
   beforeEach(() => {
     sinon.stub(competenceRepository, 'get');
@@ -106,7 +106,7 @@ describe('Unit | Domain | Services | assessment-service', () => {
     it('Should reject with a AssessmentEndedError when the course is a preview', () => {
       // given
       const assessment = _buildAssessmentForCourse('null22');
-      assessment.set('type', 'PREVIEW');
+      assessment.type = 'PREVIEW';
 
       // when
       const promise = service.getAssessmentNextChallengeId(assessment, '1st_challenge');
@@ -140,7 +140,7 @@ describe('Unit | Domain | Services | assessment-service', () => {
 
     beforeEach(() => {
       competenceRepository.get.resolves(COMPETENCE);
-      sandbox.stub(assessmentRepository, 'get').resolves(new AssessmentBookshelf({
+      sandbox.stub(assessmentRepository, 'get').resolves(new Assessment({
         id: ASSESSMENT_ID,
         courseId: PREVIEW_COURSE_ID
       }));
@@ -208,8 +208,8 @@ describe('Unit | Domain | Services | assessment-service', () => {
       // then
       return promise
         .then(({ assessmentPix }) => {
-          expect(assessmentPix.get('id')).to.equal(ASSESSMENT_ID);
-          expect(assessmentPix.get('courseId')).to.deep.equal(PREVIEW_COURSE_ID);
+          expect(assessmentPix.id).to.equal(ASSESSMENT_ID);
+          expect(assessmentPix.courseId).to.deep.equal(PREVIEW_COURSE_ID);
         });
     });
 
@@ -238,9 +238,9 @@ describe('Unit | Domain | Services | assessment-service', () => {
           // then
           return promise
             .then(({ assessmentPix, skills }) => {
-              expect(assessmentPix.get('estimatedLevel')).to.equal(0);
-              expect(assessmentPix.get('pixScore')).to.equal(0);
-              expect(assessmentPix.get('successRate')).to.equal(100);
+              expect(assessmentPix.estimatedLevel).to.equal(0);
+              expect(assessmentPix.pixScore).to.equal(0);
+              expect(assessmentPix.successRate).to.equal(100);
               expect(skills).to.be.undefined;
             });
         });
@@ -259,7 +259,7 @@ describe('Unit | Domain | Services | assessment-service', () => {
 
       context('when the assessement is a certification', () => {
         beforeEach(() => {
-          const assessmentFromCertif = new AssessmentBookshelf({ id: ASSESSMENT_ID, type: 'CERTIFICATION' });
+          const assessmentFromCertif = new Assessment({ id: ASSESSMENT_ID, type: 'CERTIFICATION' });
           assessmentRepository.get.resolves(assessmentFromCertif);
         });
         it('should return an assessment with an estimated level of 0 and a pix-score of 0', () => {
@@ -269,8 +269,8 @@ describe('Unit | Domain | Services | assessment-service', () => {
           // then
           return promise
             .then(({ assessmentPix, skills }) => {
-              expect(assessmentPix.get('estimatedLevel')).to.equal(0);
-              expect(assessmentPix.get('pixScore')).to.equal(0);
+              expect(assessmentPix.estimatedLevel).to.equal(0);
+              expect(assessmentPix.pixScore).to.equal(0);
               expect(skills).to.be.undefined;
             });
         });
@@ -289,7 +289,7 @@ describe('Unit | Domain | Services | assessment-service', () => {
 
       context('when the assessement is linked to a course', () => {
         beforeEach(() => {
-          const assessmentFromPreview = new AssessmentBookshelf({ id: ASSESSMENT_ID, courseId: COURSE_ID });
+          const assessmentFromPreview = new Assessment({ id: ASSESSMENT_ID, courseId: COURSE_ID });
           assessmentRepository.get.resolves(assessmentFromPreview);
         });
 
@@ -334,9 +334,9 @@ describe('Unit | Domain | Services | assessment-service', () => {
             // then
             return promise
               .then(({ assessmentPix, skills }) => {
-                expect(assessmentPix.get('estimatedLevel')).to.equal(0);
-                expect(assessmentPix.get('pixScore')).to.equal(0);
-                expect(assessmentPix.get('successRate')).to.equal(50);
+                expect(assessmentPix.estimatedLevel).to.equal(0);
+                expect(assessmentPix.pixScore).to.equal(0);
+                expect(assessmentPix.successRate).to.equal(50);
                 expect(skills).to.be.undefined;
               });
           });
@@ -371,9 +371,9 @@ describe('Unit | Domain | Services | assessment-service', () => {
             // then
             return promise
               .then(({ assessmentPix, skills }) => {
-                expect(assessmentPix.get('pixScore')).to.equal(17);
-                expect(assessmentPix.get('estimatedLevel')).to.equal(2);
-                expect(assessmentPix.get('successRate')).to.equal(50);
+                expect(assessmentPix.pixScore).to.equal(17);
+                expect(assessmentPix.estimatedLevel).to.equal(2);
+                expect(assessmentPix.successRate).to.equal(50);
                 expect(skills.assessmentId).to.equal(ASSESSMENT_ID);
               });
           });
@@ -383,7 +383,7 @@ describe('Unit | Domain | Services | assessment-service', () => {
 
     it('should detect Assessment created for preview Challenge and do not evaluate score', () => {
       // given
-      const assessmentFromPreview = new AssessmentBookshelf({
+      const assessmentFromPreview = new Assessment({
         id: '1',
         courseId: PREVIEW_COURSE_ID
       });
@@ -457,9 +457,9 @@ describe('Unit | Domain | Services | assessment-service', () => {
           // then
           return promise
             .then(({ assessmentPix, skills }) => {
-              expect(assessmentPix.get('estimatedLevel')).to.equal(0);
-              expect(assessmentPix.get('pixScore')).to.equal(0);
-              expect(assessmentPix.get('successRate')).to.equal(50);
+              expect(assessmentPix.estimatedLevel).to.equal(0);
+              expect(assessmentPix.pixScore).to.equal(0);
+              expect(assessmentPix.successRate).to.equal(50);
               expect(skills).to.be.undefined;
             });
         });
@@ -582,7 +582,7 @@ describe('Unit | Domain | Services | assessment-service', () => {
   describe('#isAssessmentCompleted', () => {
     it('should return true when the assessment has a pixScore and an estimatedLevel', () => {
       // given
-      const notCompletedAssessment = new AssessmentBookshelf({ id: '2752', estimatedLevel: 0, pixScore: 0 });
+      const notCompletedAssessment = new Assessment({ id: '2752', estimatedLevel: 0, pixScore: 0 });
 
       // when
       const isCompleted = service.isAssessmentCompleted(notCompletedAssessment);
@@ -593,7 +593,7 @@ describe('Unit | Domain | Services | assessment-service', () => {
 
     it('should return false when the assessment miss a pixScore', () => {
       // given
-      const notCompletedAssessment = new AssessmentBookshelf({ id: '2752', estimatedLevel: 0 });
+      const notCompletedAssessment = new Assessment({ id: '2752', estimatedLevel: 0 });
 
       // when
       const isCompleted = service.isAssessmentCompleted(notCompletedAssessment);
@@ -604,7 +604,7 @@ describe('Unit | Domain | Services | assessment-service', () => {
 
     it('should return false when the assessment miss an estimatedLevel', () => {
       // given
-      const notCompletedAssessment = new AssessmentBookshelf({ id: '2752', pixScore: 0 });
+      const notCompletedAssessment = new Assessment({ id: '2752', pixScore: 0 });
 
       // when
       const isCompleted = service.isAssessmentCompleted(notCompletedAssessment);
@@ -619,7 +619,7 @@ describe('Unit | Domain | Services | assessment-service', () => {
     context('if assessment type is \'CERTIFICATION\'', () => {
       it('should return true', () => {
         // given
-        const assessment = new AssessmentBookshelf({ type: 'CERTIFICATION' });
+        const assessment = new Assessment({ type: 'CERTIFICATION' });
 
         // when
         const result = service.isCertificationAssessment(assessment);
@@ -632,7 +632,7 @@ describe('Unit | Domain | Services | assessment-service', () => {
     context('if assessment type is different of \'CERTIFICATION\'', () => {
       it('should return false', () => {
         // given
-        const assessment = new AssessmentBookshelf({ type: 'BRANDONE EST FORMIDABLE' });
+        const assessment = new Assessment({ type: 'BRANDONE EST FORMIDABLE' });
 
         // when
         const result = service.isCertificationAssessment(assessment);
@@ -682,6 +682,56 @@ describe('Unit | Domain | Services | assessment-service', () => {
 
       // then
       expect(promise).to.be.rejected;
+    });
+
+  });
+
+  describe('#isDemoAssessment', () => {
+    it('should return true when the assessment is a DEMO', () => {
+      // given
+      const assessment = new Assessment({ type: 'DEMO' });
+
+      // when
+      const isDemoAssessment = service.isDemoAssessment(assessment);
+
+      // then
+      expect(isDemoAssessment).to.be.true;
+    });
+
+    it('should return true when the assessment is not defined', () => {
+      // given
+      const assessment = new Assessment({ type: '' });
+
+      // when
+      const isDemoAssessment = service.isDemoAssessment(assessment);
+
+      // then
+      expect(isDemoAssessment).to.be.false;
+    });
+
+  });
+
+  describe('#isPlacementAssessment', () => {
+    it('should return true when the assessment is a PLACEMENT', () => {
+      // given
+      const assessment = new Assessment({ type: 'PLACEMENT' });
+
+      // when
+      const isPlacementAssessment = service.isPlacementAssessment(assessment);
+
+      // then
+      expect(isPlacementAssessment).to.be.true;
+    });
+
+    it('should return true when the assessment is not defined', () => {
+      // given
+      const assessment = new Assessment({ type: '' });
+
+      // when
+      const isPlacementTest = service.isPlacementAssessment(assessment);
+
+      // then
+      expect(isPlacementTest).to.be.false;
     });
 
   });

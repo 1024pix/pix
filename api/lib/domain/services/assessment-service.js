@@ -19,7 +19,7 @@ function _selectNextInAdaptiveMode(assessment, course) {
 
   let answers, challenges, competence;
 
-  return answerRepository.findByAssessment(assessment.get('id'))
+  return answerRepository.findByAssessment(assessment.id)
     .then(fetchedAnswers => (answers = fetchedAnswers))
     .then(() => competenceRepository.get(course.competences[0]))
     .then((fetchedCompetence) => (competence = fetchedCompetence))
@@ -63,7 +63,7 @@ function getAssessmentNextChallengeId(assessment, currentChallengeId) {
     return Promise.reject(new AssessmentEndedError());
   }
 
-  const courseId = assessment.get('courseId');
+  const courseId = assessment.courseId;
 
   return courseRepository.get(courseId)
     .then(course => _selectNextChallengeId(course, currentChallengeId, assessment))
@@ -89,15 +89,15 @@ async function fetchAssessment(assessmentId) {
     return Promise.reject(new NotFoundError(`Unable to find assessment with ID ${assessmentId}`));
   }
 
-  assessmentPix.set('estimatedLevel', 0);
-  assessmentPix.set('pixScore', 0);
-  assessmentPix.set('successRate', answerService.getAnswersSuccessRate(answers));
+  assessmentPix.estimatedLevel = 0;
+  assessmentPix.pixScore = 0;
+  assessmentPix.successRate = answerService.getAnswersSuccessRate(answers);
 
   if (_isNonScoredAssessment(assessmentPix)) {
     return Promise.resolve({ assessmentPix, skills });
   }
 
-  return courseRepository.get(assessmentPix.get('courseId'))
+  return courseRepository.get(assessmentPix.courseId)
     .then((course) => {
 
       if (course.isAdaptive) {
@@ -123,8 +123,8 @@ async function fetchAssessment(assessmentId) {
           failedSkills: catAssessment.failedSkills
         };
 
-        assessmentPix.set('estimatedLevel', catAssessment.obtainedLevel);
-        assessmentPix.set('pixScore', catAssessment.displayedPixScore);
+        assessmentPix.estimatedLevel = catAssessment.obtainedLevel;
+        assessmentPix.pixScore = catAssessment.displayedPixScore;
       }
 
       return Promise.resolve({ assessmentPix, skills });
@@ -155,15 +155,23 @@ function _isNonScoredAssessment(assessment) {
 }
 
 function isPreviewAssessment(assessment) {
-  return _.startsWith(assessment.get('courseId'), 'null');
+  return _.startsWith(assessment.courseId, 'null');
+}
+
+function isDemoAssessment(assessment) {
+  return assessment.type === 'DEMO';
 }
 
 function isCertificationAssessment(assessment) {
-  return assessment.get('type') === 'CERTIFICATION';
+  return assessment.type === 'CERTIFICATION';
+}
+
+function isPlacementAssessment(assessment) {
+  return assessment.type === 'PLACEMENT';
 }
 
 function isAssessmentCompleted(assessment) {
-  if (_.isNil(assessment.get('estimatedLevel')) || _.isNil(assessment.get('pixScore'))) {
+  if (_.isNil(assessment.estimatedLevel) || _.isNil(assessment.pixScore)) {
     return false;
   }
 
@@ -172,15 +180,18 @@ function isAssessmentCompleted(assessment) {
 
 function getNextChallengeForCertificationCourse(assessment) {
   return certificationChallengeRepository.getNonAnsweredChallengeByCourseId(
-    assessment.get('id'), assessment.get('courseId')
+    assessment.id, assessment.courseId
   );
 }
 
 module.exports = {
   getAssessmentNextChallengeId,
+  getNextChallengeForCertificationCourse,
   fetchAssessment,
   isAssessmentCompleted,
-  isCertificationAssessment,
-  getNextChallengeForCertificationCourse,
-  findByFilters
+  findByFilters,
+  isPreviewAssessment,
+  isPlacementAssessment,
+  isDemoAssessment,
+  isCertificationAssessment
 };

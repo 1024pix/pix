@@ -1,5 +1,7 @@
 class Assessment {
   constructor(attributes) {
+    // TODO: estimatedLevel et pixScore pourrait être renommé en totalLevel et totalScore ?
+    this.marks = [];
     Object.assign(this, attributes);
   }
 

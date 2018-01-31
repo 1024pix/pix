@@ -10,7 +10,7 @@ const courseRepository = require('../../../../lib/infrastructure/repositories/co
 const assessmentRepository = require('../../../../lib/infrastructure/repositories/assessment-repository');
 const organizationRepository = require('../../../../lib/infrastructure/repositories/organization-repository');
 
-const Assessment = require('../../../../lib/domain/models/data/assessment');
+const Assessment = require('../../../../lib/domain/models/Assessment');
 const User = require('../../../../lib/domain/models/data/user');
 
 describe('Unit | Service | Profil User Service', function() {
@@ -103,6 +103,7 @@ describe('Unit | Service | Profil User Service', function() {
       it('should return a resolved promise', () => {
         // when
         const promise = profileService.getByUserId('user-id');
+
         // then
         return expect(promise).to.be.fulfilled;
       });
@@ -169,6 +170,7 @@ describe('Unit | Service | Profil User Service', function() {
 
         // When
         const promise = profileService.getByUserId('user-id');
+
         // Then
         return promise.then((enhancedUser) => {
           expect(enhancedUser).to.deep.equal(expectedUser);

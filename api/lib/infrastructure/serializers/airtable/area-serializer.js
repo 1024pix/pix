@@ -1,18 +1,19 @@
-const Area = require('../../../domain/models/referential/area');
+const Area = require('../../../domain/models/Area');
 const AirtableSerializer = require('./airtable-serializer');
 
 class AreaSerializer extends AirtableSerializer {
 
   deserialize(airtableRecord) {
 
-    const area = new Area();
-    area.id = airtableRecord.id;
+    const areaAttributes = {};
+
+    areaAttributes.id = airtableRecord.id;
 
     if(airtableRecord.fields) {
-      area.name = airtableRecord.fields['Nom'];
+      areaAttributes.name = airtableRecord.fields['Nom'];
     }
 
-    return area;
+    return new Area(areaAttributes);
   }
 
 }
