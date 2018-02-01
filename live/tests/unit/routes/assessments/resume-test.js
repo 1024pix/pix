@@ -105,7 +105,7 @@ describe('Unit | Route | resume', function() {
         // then
         return promise.then(() => {
           sinon.assert.calledOnce(route.transitionTo);
-          sinon.assert.calledWith(route.transitionTo, 'assessments.results', 123);
+          sinon.assert.calledWith(route.transitionTo, 'assessments.rating', 123);
         });
       });
 
