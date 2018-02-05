@@ -12,7 +12,11 @@
     margin: 0 auto;
     height: 150px;
     width: 100%;
-    max-width: 1400px;
+    max-width: 1200px;
+    padding: 0 100px;
+  }
+
+  @include device-is('large-screen') {
     padding: 0;
   }
 }
@@ -28,8 +32,13 @@
 
 .app-footer__section--pix-logo {
   order: 0;
-  width: 260px;
+  width: 300px;
   text-align: center;
+
+  @include device-is('desktop') {
+    text-align: left;
+  }
+
 }
 
 .app-footer__section--contact {
