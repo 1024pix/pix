@@ -65,8 +65,10 @@ class Profile {
     assessments.forEach(assessment => {
       const courseIdFromAssessment = assessment.courseId;
       const course = this._getCourseById(courses, courseIdFromAssessment);
-      const competence = this.competences.find(competence => course.competences.includes(competence.id));
-      competence.assessmentId = assessment.id;
+      if(course) {
+        const competence = this.competences.find(competence => course.competences.includes(competence.id));
+        competence.assessmentId = assessment.id;
+      }
     });
   }
 
@@ -74,7 +76,7 @@ class Profile {
     return assessments.filter((assessment) => {
       const courseIdFromAssessment = assessment.courseId;
       const course = this._getCourseById(courses, courseIdFromAssessment);
-      return course.competences.indexOf(competenceId) > -1;
+      return course ? course.competences.includes(competenceId) : false;
     });
   }
 
