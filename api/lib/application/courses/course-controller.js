@@ -1,15 +1,12 @@
 const Boom = require('boom');
-const moment = require('moment');
 
 const courseRepository = require('../../infrastructure/repositories/course-repository');
 const courseSerializer = require('../../infrastructure/serializers/jsonapi/course-serializer');
 const certificationCourseSerializer = require('../../infrastructure/serializers/jsonapi/certification-course-serializer');
-const CertificationCourse = require('../../domain/models/CertificationCourse');
-const CertificationCourseRepository = require('../../infrastructure/repositories/certification-course-repository');
-const userService = require('../../../lib/domain/services/user-service');
+const certificationService = require('../../../lib/domain/services/certification-service');
 const courseService = require('../../../lib/domain/services/course-service');
-const certificationChallengesService = require('../../../lib/domain/services/certification-challenges-service');
 const { NotFoundError } = require('../../../lib/domain/errors');
+const { UserNotAuthorizedToCertifyError } = require('../../../lib/domain/errors');
 
 const logger = require('../../infrastructure/logger');
 
@@ -70,16 +67,13 @@ module.exports = {
 
   save(request, reply) {
     const userId = request.pre.userId;
-    let certificationCourse = new CertificationCourse({ userId, status: 'started' });
 
-    return CertificationCourseRepository.save(certificationCourse)
-      .then((savedCertificationCourse) => {
-        return certificationCourse = savedCertificationCourse;
-      })
-      .then(() => userService.getProfileToCertify(userId, moment().toISOString()))
-      .then((userProfile) => certificationChallengesService.saveChallenges(userProfile, certificationCourse))
-      .then((certificationCourse) => reply(certificationCourseSerializer.serialize(certificationCourse)).code(201))
-      .catch((err) => {
+    return certificationService.startNewCertification(userId)
+      .then(certificationCourse => reply(certificationCourseSerializer.serialize(certificationCourse)).code(201))
+      .catch(err => {
+        if (err instanceof UserNotAuthorizedToCertifyError) {
+          return reply(Boom.forbidden(err));
+        }
         logger.error(err);
         reply(Boom.badImplementation(err));
       });
