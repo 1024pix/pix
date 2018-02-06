@@ -22,16 +22,47 @@ function _buildCertificationChallenge(challengeId, competenceId) {
   return new CertificationChallenge({ challengeId, competenceId });
 }
 
-function _buildCompetence(name, index, courseId, pixScore, estimatedLevel) {
+function _buildChallenge(id, competence, type) {
+  return { id, competence, type };
+}
+
+function _buildCompetence(name, index, courseId, pixScore, estimatedLevel, challenges) {
   const competence = new Competence();
   competence.id = courseId;
   competence.pixScore = pixScore;
   competence.estimatedLevel = estimatedLevel;
   competence.name = name;
   competence.index = index;
-  competence.challenges = [{}];
+  competence.challenges = challenges || [{}];
   return competence;
 }
+
+const pixForCompetence1 = 10;
+const pixForCompetence2 = 20;
+const pixForCompetence3 = 30;
+const pixForCompetence4 = 40;
+const UNCERTIFIED_LEVEL = -1;
+
+const challengesCompetence1 = [
+  _buildChallenge('challenge_A_for_competence_1', 'competence_1', 'QCM'),
+  _buildChallenge('challenge_B_for_competence_1', 'competence_1', 'QCM'),
+  _buildChallenge('challenge_C_for_competence_1', 'competence_1', 'QCM')];
+
+const challengesCompetence2 = [
+  _buildChallenge('challenge_D_for_competence_2', 'competence_2', 'QCM'),
+  _buildChallenge('challenge_E_for_competence_2', 'competence_2', 'QCM'),
+  _buildChallenge('challenge_F_for_competence_2', 'competence_2', 'QCM')];
+
+const challengesCompetence3 = [
+  _buildChallenge('challenge_G_for_competence_3', 'competence_3', 'QCM'),
+  _buildChallenge('challenge_H_for_competence_3', 'competence_3', 'QCM'),
+  _buildChallenge('challenge_I_for_competence_3', 'competence_3', 'QCM')];
+
+const challengesCompetence4 = [
+  _buildChallenge('challenge_J_for_competence_4', 'competence_4', 'QCM'),
+  _buildChallenge('challenge_K_for_competence_4', 'competence_4', 'QCM'),
+  _buildChallenge('challenge_L_for_competence_4', 'competence_4', 'QCM'),
+];
 
 const challenges = [
   _buildCertificationChallenge('challenge_A_for_competence_1', 'competence_1'),
@@ -46,6 +77,13 @@ const challenges = [
   _buildCertificationChallenge('challenge_J_for_competence_4', 'competence_4'),
   _buildCertificationChallenge('challenge_K_for_competence_4', 'competence_4'),
   _buildCertificationChallenge('challenge_L_for_competence_4', 'competence_4'),
+];
+
+const competences = [
+  _buildCompetence('Mener une recherche', '1.1', 'competence_1', pixForCompetence1, 1, challengesCompetence1),
+  _buildCompetence('Partager', '2.2', 'competence_2', pixForCompetence2, 2, challengesCompetence2),
+  _buildCompetence('Adapter', '3.3', 'competence_3', pixForCompetence3, 3, challengesCompetence3),
+  _buildCompetence('Résoudre', '4.4', 'competence_4', pixForCompetence4, 4, challengesCompetence4),
 ];
 
 function _buildCorrectAnswersForAllChallenges() {
@@ -116,10 +154,6 @@ function _buildAnswersToHaveAThirdOfTheCompetencesFailedAndReproductibilityRateL
   ];
 }
 
-const pixForCompetence1 = 10;
-const pixForCompetence2 = 20;
-const pixForCompetence3 = 30;
-const pixForCompetence4 = 40;
 const totalPix = pixForCompetence1 + pixForCompetence2 + pixForCompetence3 + pixForCompetence4;
 
 describe('Unit | Service | Certification Service', function() {
@@ -131,12 +165,7 @@ describe('Unit | Service | Certification Service', function() {
     const certificationAssessement = new Assessment({ id: 'assessment_id', userId: 'user_id', courseId: 'course_id', createdAt: '2018-01-01' });
     const certificationCourse = { id: 'course1', status: 'completed' };
 
-    const userProfile = [
-      _buildCompetence('Mener une recherche', '1.1', 'competence_1', pixForCompetence1, 1),
-      _buildCompetence('Partager', '2.2', 'competence_2', pixForCompetence2, 2),
-      _buildCompetence('Adapter', '3.3', 'competence_3', pixForCompetence3, 3),
-      _buildCompetence('Résoudre', '4.4', 'competence_4', pixForCompetence4, 4)
-    ];
+    const userProfile = competences;
 
     beforeEach(() => {
       sandbox = sinon.sandbox.create();
@@ -220,25 +249,25 @@ describe('Unit | Service | Certification Service', function() {
           index: '1.1',
           id: 'competence_1',
           name: 'Mener une recherche',
-          level: -1,
+          level: UNCERTIFIED_LEVEL,
           score: 0
         }, {
           index: '2.2',
           id: 'competence_2',
           name: 'Partager',
-          level: -1,
+          level: UNCERTIFIED_LEVEL,
           score: 0
         }, {
           index: '3.3',
           id: 'competence_3',
           name: 'Adapter',
-          level: -1,
+          level: UNCERTIFIED_LEVEL,
           score: 0
         }, {
           index: '4.4',
           id: 'competence_4',
           name: 'Résoudre',
-          level: -1,
+          level: UNCERTIFIED_LEVEL,
           score: 0
         }];
 
@@ -434,13 +463,7 @@ describe('Unit | Service | Certification Service', function() {
       courseId: 'course_id'
     });
 
-    const userProfile = [
-      _buildCompetence('Mener une recherche', '1.1', 'competence_1', pixForCompetence1, 1),
-      _buildCompetence('Partager', '2.2', 'competence_2', pixForCompetence2, 2),
-      _buildCompetence('Adapter', '3.3', 'competence_3', pixForCompetence3, 3),
-      _buildCompetence('Résoudre', '4.4', 'competence_4', pixForCompetence4, 4)
-    ];
-
+    const userProfile = competences;
     beforeEach(() => {
       sandbox = sinon.sandbox.create();
       sandbox.stub(assessmentRepository, 'get').resolves(certificationAssessement);
@@ -573,6 +596,7 @@ describe('Unit | Service | Certification Service', function() {
 
       it('should return list of competences with all certifiedLevel equal to estimatedLevel', () => {
         // given
+
         const expectedCertifiedCompetences = [
           {
             index: '1.1',
@@ -650,7 +674,7 @@ describe('Unit | Service | Certification Service', function() {
           index: '4.4',
           id: 'competence_4',
           name: 'Résoudre',
-          level: -1,
+          level: UNCERTIFIED_LEVEL,
           score: 0
         }];
 
@@ -704,7 +728,7 @@ describe('Unit | Service | Certification Service', function() {
           index: '3.3',
           id: 'competence_3',
           name: 'Adapter',
-          level: -1,
+          level: UNCERTIFIED_LEVEL,
           score: 0
         }, {
           index: '4.4',
@@ -722,7 +746,101 @@ describe('Unit | Service | Certification Service', function() {
           expect(result.listCertifiedCompetences).to.deep.equal(expectedCertifiedCompetences);
         });
       });
+
     });
+
+    context('when challenges contains one QROCM-dep challenge to validate two skills', () => {
+      beforeEach(() => {
+        const listChallengeComp5WithOneQROCMDEPChallengeAndAnother = [_buildChallenge('challenge_A_for_competence_5', 'competence_5', 'QCM'),
+          _buildChallenge('challenge_B_for_competence_5', 'competence_5', 'QROCM-dep')];
+
+        const listChallengeComp6WithThreeChallenge = [_buildChallenge('challenge_A_for_competence_6', 'competence_6', 'QCM'),
+          _buildChallenge('challenge_B_for_competence_6', 'competence_6', 'QCM'),
+          _buildChallenge('challenge_C_for_competence_6', 'competence_6', 'QCM')];
+
+        const competences = [
+          _buildCompetence('Compétence à valider', '5.5', 'competence_5', 50, 5, listChallengeComp5WithOneQROCMDEPChallengeAndAnother),
+          _buildCompetence('Compétence réussie moyennement', '6.6', 'competence_6', 36, 3, listChallengeComp6WithThreeChallenge)
+        ];
+        const challenges = [
+          _buildCertificationChallenge('challenge_A_for_competence_5', 'competence_5'),
+          _buildCertificationChallenge('challenge_B_for_competence_5', 'competence_5'),
+          _buildCertificationChallenge('challenge_A_for_competence_6', 'competence_6'),
+          _buildCertificationChallenge('challenge_B_for_competence_6', 'competence_6'),
+          _buildCertificationChallenge('challenge_C_for_competence_6', 'competence_6'),
+        ];
+        certificationChallengesRepository.findByCertificationCourseId.resolves(challenges);
+        UserService.getProfileToCertify.resolves(competences);
+
+      });
+
+      it('should compute the result as if QROCM-dep was two OK challenges', function() {
+        // given
+        answersRepository.findByAssessment.resolves([
+          _buildAnswer('challenge_A_for_competence_5', 'ok'),
+          _buildAnswer('challenge_B_for_competence_5', 'ok'),
+          _buildAnswer('challenge_A_for_competence_6', 'ko'),
+          _buildAnswer('challenge_B_for_competence_6', 'ok'),
+          _buildAnswer('challenge_C_for_competence_6', 'ko'),
+        ]);
+
+        const expectedCertifiedCompetences = [{
+          index: '5.5',
+          id: 'competence_5',
+          name: 'Compétence à valider',
+          level: 5,
+          score: 50
+        }, {
+          index: '6.6',
+          id: 'competence_6',
+          name: 'Compétence réussie moyennement',
+          level: UNCERTIFIED_LEVEL,
+          score: 0
+        }];
+
+        // when
+        const promise = certificationService.calculateCertificationResultByAssessmentId('assessment_id');
+
+        // then
+        return promise.then((result) => {
+          expect(result.listCertifiedCompetences).to.deep.equal(expectedCertifiedCompetences);
+        });
+      });
+
+      it('should compute the result of QROCM-dep as only one OK because result is partially right', function() {
+        // given
+        answersRepository.findByAssessment.resolves([
+          _buildAnswer('challenge_A_for_competence_5', 'ok'),
+          _buildAnswer('challenge_B_for_competence_5', 'partially'),
+          _buildAnswer('challenge_A_for_competence_6', 'ko'),
+          _buildAnswer('challenge_B_for_competence_6', 'ok'),
+          _buildAnswer('challenge_C_for_competence_6', 'ok'),
+        ]);
+
+        const expectedCertifiedCompetences = [{
+          index: '5.5',
+          id: 'competence_5',
+          name: 'Compétence à valider',
+          level: 4,
+          score: 42
+        }, {
+          index: '6.6',
+          id: 'competence_6',
+          name: 'Compétence réussie moyennement',
+          level: 2,
+          score: 28
+        }];
+
+        // when
+        const promise = certificationService.calculateCertificationResultByAssessmentId('assessment_id');
+
+        // then
+        return promise.then((result) => {
+          expect(result.listCertifiedCompetences).to.deep.equal(expectedCertifiedCompetences);
+        });
+      });
+    });
+
   });
 
   describe('#startNewCertification', () => {

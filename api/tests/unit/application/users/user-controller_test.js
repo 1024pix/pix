@@ -381,8 +381,7 @@ describe('Unit | Controller | user-controller', () => {
               detail: 'Vous devez cliquer ci-dessous.',
               source: { pointer: '/data/attributes/recaptcha-token' },
               meta: { field: 'recaptchaToken' }
-            },
-            {
+            }, {
               status: '400',
               title: 'Invalid Attribute',
               detail: 'Le champ CGU doit être renseigné.',
@@ -488,7 +487,7 @@ describe('Unit | Controller | user-controller', () => {
         });
       });
 
-      it('should update user password with a hashed password', async () => {
+      it('should update user password with a hashed password', async() => {
         // given
         passwordResetService.hasUserAPasswordResetDemandInProgress.resolves();
         const encryptedPassword = '$2a$05$jJnoQ/YCvAChJmYW9AoQXe/k17mx2l2MqJBgXVo/R/ju4HblB2iAe';
@@ -650,18 +649,29 @@ describe('Unit | Controller | user-controller', () => {
     });
 
     context('when the user exists', () => {
-      it('should load his achieved assessments', () => {
+
+      let clock;
+
+      beforeEach(() => {
+        clock = sinon.useFakeTimers();
+      });
+
+      afterEach(() => {
+        clock.restore();
+      });
+
+      it('should load his current achieved assessments', () => {
         // When
         const promise = userController.getProfileToCertify(request, replyStub);
 
         // Then
         return promise.then(() => {
           sinon.assert.calledOnce(userService.getProfileToCertify);
-          sinon.assert.calledWith(userService.getProfileToCertify, 1);
+          sinon.assert.calledWith(userService.getProfileToCertify, 1, '1970-01-01T00:00:00.000Z');
         });
       });
 
-      it('should the skillProfile', () => {
+      it('should reply the skillProfile', () => {
         // When
         const promise = userController.getProfileToCertify(request, replyStub);
 

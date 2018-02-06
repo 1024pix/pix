@@ -1,4 +1,5 @@
 const Boom = require('boom');
+const moment = require('moment');
 const _ = require('../../infrastructure/utils/lodash-utils');
 const authorizationToken = require('../../../lib/infrastructure/validators/jsonwebtoken-verify');
 
@@ -99,8 +100,9 @@ module.exports = {
 
   getProfileToCertify(request, reply) {
     const userId = request.params.id;
+    const currentDate =  moment().toISOString();
 
-    return userService.getProfileToCertify(userId)
+    return userService.getProfileToCertify(userId, currentDate)
       .then(reply)
       .catch(err => {
         logger.error(err);
