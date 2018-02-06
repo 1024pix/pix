@@ -1,6 +1,8 @@
 const minimumReproductibilityRateToBeCertified = 50;
 const minimumReproductibilityRateToBeTrusted = 80;
 const numberOfPixForOneLevel = 8;
+const uncertifiedLevel = -1;
+const qrocmDepChallenge = 'QROCM-dep';
 const _ = require('lodash');
 const moment = require('moment');
 const AnswerStatus = require('../models/AnswerStatus');
@@ -24,11 +26,29 @@ function _enhanceAnswersWithCompetenceId(listAnswers, listChallenges) {
   });
 }
 
+function _getChallengeType(challengeId, listOfChallenges) {
+  const challenge =_.find(listOfChallenges, challenge => challenge.id === challengeId);
+  return challenge ? challenge.type : '';
+}
+
 function _numberOfCorrectAnswersPerCompetence(answersWithCompetences, competence) {
-  return _(answersWithCompetences)
-    .filter(answer => answer.get('competenceId') === competence.id)
-    .filter(answer => AnswerStatus.isOK(answer.get('result')))
-    .size();
+  const answerForCompetence = _.filter(answersWithCompetences, answer => answer.get('competenceId') === competence.id);
+
+  let nbOfCorrectAnswers = 0;
+  answerForCompetence.forEach(answer => {
+    const challengeType = _getChallengeType(answer.get('challengeId'), competence.challenges);
+    const answerResult = answer.get('result');
+
+    if (challengeType === qrocmDepChallenge && AnswerStatus.isOK(answerResult)) {
+      nbOfCorrectAnswers += 2;
+    } else if (challengeType === qrocmDepChallenge && AnswerStatus.isPARTIALLY(answerResult)) {
+      nbOfCorrectAnswers++;
+    } else if (AnswerStatus.isOK(answerResult)) {
+      nbOfCorrectAnswers++;
+    }
+  });
+
+  return nbOfCorrectAnswers;
 }
 
 function _computedPixToRemovePerCompetence(numberOfCorrectAnswers, competence, reproductibilityRate) {
@@ -43,7 +63,7 @@ function _computedPixToRemovePerCompetence(numberOfCorrectAnswers, competence, r
 
 function _getCertifiedLevel(numberOfCorrectAnswers, competence, reproductibilityRate) {
   if (numberOfCorrectAnswers < 2) {
-    return -1;
+    return uncertifiedLevel;
   }
   if (reproductibilityRate < minimumReproductibilityRateToBeTrusted && numberOfCorrectAnswers === 2) {
     return competence.estimatedLevel - 1;
@@ -77,7 +97,7 @@ function _getCompetenceWithFailedLevel(listCompetences) {
       name: competence.name,
       index: competence.index,
       id: competence.id,
-      level: -1,
+      level: uncertifiedLevel,
       score: 0
     };
   });
