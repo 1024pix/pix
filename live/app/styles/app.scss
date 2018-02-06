@@ -68,6 +68,7 @@
 @import 'components/certification-result';
 @import "components/navbar-mobile-menu";
 @import "components/navbar-desktop-menu";
+@import "components/_blue-ribbon.scss";
 @import "ember-side-menu";
 /* pages */
 @import 'pages/index';
@@ -84,6 +85,7 @@
 @import 'pages/terms-of-service';
 @import 'pages/reset-password';
 @import 'pages/password-reset-demand';
+@import 'pages/certification-course-error';
 
 body {
   font-family: $font-lato;

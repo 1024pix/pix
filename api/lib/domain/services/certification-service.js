@@ -2,10 +2,14 @@ const minimumReproductibilityRateToBeCertified = 50;
 const minimumReproductibilityRateToBeTrusted = 80;
 const numberOfPixForOneLevel = 8;
 const _ = require('lodash');
-const answerServices = require('./answer-service');
+const moment = require('moment');
 const AnswerStatus = require('../models/AnswerStatus');
+const CertificationCourse = require('../../domain/models/CertificationCourse');
+const { UserNotAuthorizedToCertifyError } = require('../../../lib/domain/errors');
 
 const userService = require('../../../lib/domain/services/user-service');
+const certificationChallengesService = require('../../../lib/domain/services/certification-challenges-service');
+const answerServices = require('./answer-service');
 const assessmentRepository = require('../../../lib/infrastructure/repositories/assessment-repository');
 const answersRepository = require('../../../lib/infrastructure/repositories/answer-repository');
 const certificationChallengesRepository = require('../../../lib/infrastructure/repositories/certification-challenge-repository');
@@ -79,6 +83,15 @@ function _getCompetenceWithFailedLevel(listCompetences) {
   });
 }
 
+function _checkIfUserCanStartACertification(userCompetences) {
+  const nbCompetencesWithEstimatedLevelHigherThan0 = userCompetences
+    .filter(competence => competence.estimatedLevel > 0)
+    .length;
+
+  if(nbCompetencesWithEstimatedLevelHigherThan0 < 5)
+    throw new UserNotAuthorizedToCertifyError();
+}
+
 function _getResult(listAnswers, listChallenges, listCompetences) {
   const reproductibilityRate = answerServices.getAnswersSuccessRate(listAnswers);
   if (reproductibilityRate < minimumReproductibilityRateToBeCertified) {
@@ -135,5 +148,18 @@ module.exports = {
     return assessmentRepository
       .get(assessmentId)
       .then(_getCertificationResult);
+  },
+
+  startNewCertification(userId) {
+    let userCompetencesToCertify;
+    const newCertificationCourse = new CertificationCourse({ userId, status: 'started' });
+
+    return userService.getProfileToCertify(userId, moment().toISOString())
+      .then(userCompetences => {
+        userCompetencesToCertify = userCompetences;
+        return _checkIfUserCanStartACertification(userCompetences);
+      })
+      .then(() => certificationCourseRepository.save(newCertificationCourse))
+      .then(savedCertificationCourse => certificationChallengesService.saveChallenges(userCompetencesToCertify, savedCertificationCourse));
   }
 };
