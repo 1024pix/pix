@@ -770,7 +770,7 @@ describe('Unit | Service | Certification Service', function() {
           _buildCertificationChallenge('challenge_C_for_competence_6', 'competence_6'),
         ];
         certificationChallengesRepository.findByCertificationCourseId.resolves(challenges);
-        UserService.getProfileToCertify.resolves(competences);
+        userService.getProfileToCertify.resolves(competences);
 
       });
 
