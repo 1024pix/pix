@@ -155,7 +155,7 @@ describe('Unit | Repository | certification-challenge-repository', () => {
     it('should retrieve challenges from certificationCourseId', () => {
       // given
       const certificationCourseId = 'certificationCourse_id';
-      fetchAllStub.resolves({});
+      fetchAllStub.resolves({ models: [] });
       CertificationChallengeBookshelf.prototype.where.returns({
         fetchAll: fetchAllStub
       });

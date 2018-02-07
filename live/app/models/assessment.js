@@ -17,6 +17,8 @@ export default Model.extend({
   certificationNumber: attr('string'),
   isCertification: equal('type', 'CERTIFICATION'),
 
+  rating: belongsTo('assessment-rating'),
+
   progress: computed('answers', 'course', function() {
     const maxStep = this.get('course.nbChallenges');
     const answersCount = this.get('answers.length');

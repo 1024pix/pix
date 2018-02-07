@@ -1,7 +1,17 @@
-const Assessment = require('../../../../lib/domain/models/data/assessment');
+const Assessment = require('../../../../lib/domain/models/Assessment');
 const { describe, it, expect } = require('../../../test-helper');
 
 describe('Unit | Domain | Models | Assessment', () => {
+
+  describe('#constructor', () => {
+    it('should have a list of marks by default', () => {
+      // when
+      const assessment = new Assessment({});
+
+      // then
+      expect(assessment).to.have.property('marks').and.to.be.an('array');
+    });
+  });
 
   describe('#isCompleted', () => {
 

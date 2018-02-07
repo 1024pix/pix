@@ -26,7 +26,7 @@ describe('Acceptance | competences page', function() {
   });
 
   it('should display page title', function() {
-    expect(find('.competences-page__header-text')).to.have.lengthOf(1);
+    expect(find('.blue-ribbon__text')).to.have.lengthOf(1);
   });
 
   it('should display as many sections as competences domains', function() {

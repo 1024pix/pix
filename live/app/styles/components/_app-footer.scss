@@ -10,9 +10,13 @@
     flex-direction: row;
     justify-content: space-between;
     margin: 0 auto;
-    height: 150px;
+    height: $footer-height;
     width: 100%;
     max-width: 1200px;
+    padding: 0 100px;
+  }
+
+  @include device-is('large-screen') {
     padding: 0;
   }
 }
@@ -22,18 +26,19 @@
 
   @include device-is('desktop') {
     margin-bottom: 0;
+    justify-content: space-between;
   }
 }
 
 .app-footer__section--pix-logo {
   order: 0;
-  width: 260px;
+  width: 300px;
   text-align: center;
 
   @include device-is('desktop') {
-    margin: 0;
-    width: auto;
+    text-align: left;
   }
+
 }
 
 .app-footer__section--contact {
@@ -41,22 +46,16 @@
 
   @include device-is('desktop') {
     margin: 0;
+    align-self: flex-end;
+    margin-bottom: 15px;
+    white-space: nowrap;
   }
 }
 
 .app-footer__section--marianne-logo {
   order: 2;
-  margin-bottom: 0;
   text-align: center;
   max-width: 100%;
-
-  @include device-is('desktop') {
-    margin: 0;
-  }
-}
-
-.mariane-logo-container {
-  margin: 0;
 }
 
 .mariane-logo__item {
@@ -70,7 +69,7 @@
 }
 
 .app-footer__logo-marianne-img {
-  width: 80px;
+  width: 300px;
 }
 
 .app-footer__link-text {

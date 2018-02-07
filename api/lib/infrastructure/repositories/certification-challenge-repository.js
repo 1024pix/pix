@@ -59,6 +59,6 @@ module.exports = {
     return CertificationChallengeBookshelf
       .where({ courseId: certificationCourseId })
       .fetchAll()
-      .then(challenges => challenges.models);
+      .then(challenges => challenges.models.map(_toDomain));
   }
 };

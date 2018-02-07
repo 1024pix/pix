@@ -139,6 +139,10 @@ describe('Acceptance | Controller | users-controller-get-profile', function() {
       courseId: 'recBxPAuEPlTgt72q11',
       status: 'notEvaluated',
       'assessment-id': null,
+      area: {
+        id: 'recAreaA',
+        name: 'area-name-1'
+      }
     },
     {
       id: 'recCompB',
@@ -149,6 +153,10 @@ describe('Acceptance | Controller | users-controller-get-profile', function() {
       courseId: 'recBxPAuEPlTgt72q99',
       status: 'notEvaluated',
       'assessment-id': null,
+      area: {
+        id: 'recAreaB',
+        name: 'area-name-2'
+      }
     }],
     areas: [{ id: 'recAreaA', name: 'domaine-name-1' }, { id: 'recAreaB', name: 'domaine-name-2' }],
     organizations: []
