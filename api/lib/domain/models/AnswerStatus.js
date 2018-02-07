@@ -36,6 +36,7 @@ class AnswerStatus {
   static isOK(otherResult)      { return AnswerStatus.from(otherResult).isOK(); }
   static isKO(otherResult)      { return AnswerStatus.from(otherResult).isKO(); }
   static isSKIPPED(otherResult) { return AnswerStatus.from(otherResult).isSKIPPED(); }
+  static isPARTIALLY(otherResult) { return AnswerStatus.from(otherResult).isPARTIALLY(); }
 
   /* PRIVATE */
   static from(other) {

@@ -58,11 +58,11 @@ function _skillHasAtLeastOneChallengeInTheReferentiel(skill, challenges) {
 function _addCourseIdAndPixToCompetence(competences, courses, assessments) {
   competences.forEach((competence) => {
     const currentCourse =  courses.find(course => course.competences[0] === competence.id);
-    const assessment = assessments.find(assessment => currentCourse.id === assessment.get('courseId'));
+    const assessment = assessments.find(assessment => currentCourse.id === assessment.courseId);
 
     if (assessment) {
-      competence.pixScore = assessment.get('pixScore');
-      competence.estimatedLevel = assessment.get('estimatedLevel');
+      competence.pixScore = assessment.pixScore;
+      competence.estimatedLevel = assessment.estimatedLevel;
     } else {
       competence.pixScore = 0;
       competence.estimatedLevel = 0;
@@ -96,7 +96,7 @@ function _getChallengeById(challenges, challengeId) {
 }
 
 function _filterAssessmentWithEstimatedLevelGreaterThanZero(assessments) {
-  return _(assessments).filter(assessment => assessment.get('estimatedLevel') >= 1).values();
+  return _(assessments).filter(assessment => assessment.estimatedLevel >= 1).values();
 }
 
 module.exports = {

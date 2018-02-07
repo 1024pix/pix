@@ -1,0 +1,22 @@
+.blue-ribbon {
+  padding: 60px 20px;
+  width: 100%;
+  background-image: $pix-blue-gradient;
+  margin: 0 0 50px;
+}
+
+.blue-ribbon__text {
+  text-align: center;
+  margin: 0 auto;
+  color: $white;
+  font-family: $font-lato;
+  font-size: 32px;
+  font-weight: $font-bold;
+  font-style: italic;
+  line-height: 1.2;
+  max-width: 940px;
+
+  @include device-is('desktop') {
+    font-size: 35px;
+  }
+}

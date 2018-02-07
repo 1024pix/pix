@@ -60,32 +60,6 @@
 }
 
 /* Specific styles */
-.project-page__header {
-  padding: 60px 20px;
-  width: 100%;
-  background-image: linear-gradient(to bottom, #446eff, #001f8d), linear-gradient(#3d68ff, #3d68ff);
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  margin: 0 0 50px;
-}
-
-.project-page__header-text {
-  text-align: center;
-  margin: 0 auto;
-  color: $white;
-  font-family: $font-lato;
-  font-size: 32px;
-  font-weight: $font-bold;
-  font-style: italic;
-  line-height: 1.2;
-  max-width: 800px;
-
-  @include device-is('desktop') {
-    font-size: 36px;
-  }
-}
 
 p.project-page__populations-headline {
   font-weight: $font-heavy;

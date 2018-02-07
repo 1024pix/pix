@@ -1,17 +1,17 @@
 const { describe, it, before, afterEach, beforeEach, expect, sinon } = require('../../../test-helper');
 const Hapi = require('hapi');
+const Boom = require('boom');
 const Course = require('../../../../lib/domain/models/Course');
 const courseRepository = require('../../../../lib/infrastructure/repositories/course-repository');
 const courseSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/course-serializer');
 const cache = require('../../../../lib/infrastructure/cache');
 
 const courseController = require('../../../../lib/application/courses/course-controller');
-const CertificationCourseRepository = require('../../../../lib/infrastructure/repositories/certification-course-repository');
-const UserService = require('../../../../lib/domain/services/user-service');
 const CourseService = require('../../../../lib/domain/services/course-service');
-const CertificationChallengesService = require('../../../../lib/domain/services/certification-challenges-service');
-const CertificationCourseSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/certification-course-serializer');
+const certificationService = require('../../../../lib/domain/services/certification-service');
+const certificationCourseSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/certification-course-serializer');
 const { NotFoundError } = require('../../../../lib/domain/errors');
+const { UserNotAuthorizedToCertifyError } = require('../../../../lib/domain/errors');
 
 describe('Unit | Controller | course-controller', function() {
 
@@ -178,84 +178,56 @@ describe('Unit | Controller | course-controller', function() {
   });
 
   describe('#save', function() {
-    let clock;
 
     let sandbox;
     let replyStub;
     let codeStub;
 
-    const certificationCourse = { id: 'CertificationCourseId' };
-    const certificationCourseWithChallengesNumber = { id: 'CertificationCourseId', nbChallenges: 3 };
-    const userProfile = [{ id: 'competence1', challenges: [] }];
-    const request = {
-      pre: {
-        userId: 'userId'
-      }
-    };
+    const newlyCreatedCertificationCourse = { id: 'CertificationCourseId', nbChallenges: 3 };
+    const request = { pre: { userId: 'userId' } };
 
     beforeEach(() => {
-      clock = sinon.useFakeTimers(new Date('2018-02-04T01:00:00.000+01:00'));
-
       codeStub = sinon.stub();
       replyStub = sinon.stub().returns({ code: codeStub });
 
       sandbox = sinon.sandbox.create();
-      sandbox.stub(CertificationCourseRepository, 'save').resolves(certificationCourse);
-      sandbox.stub(UserService, 'getProfileToCertify').resolves(userProfile);
-      sandbox.stub(CertificationChallengesService, 'saveChallenges').resolves(certificationCourseWithChallengesNumber);
-      sandbox.stub(CertificationCourseSerializer, 'serialize').resolves({});
-
     });
 
     afterEach(() => {
-      clock.restore();
       sandbox.restore();
     });
 
-    it('should call repository to create certification-course with status "started"', function() {
-      // when
-      const promise = courseController.save(request, replyStub);
-
-      // then
-      return promise.then(() => {
-        sinon.assert.calledOnce(CertificationCourseRepository.save);
-        sinon.assert.calledWith(CertificationCourseRepository.save, { userId: 'userId', status: 'started' });
-      });
-    });
-
-    it('should call user Service to get User Certification Profile', function() {
-      // when
-      const promise = courseController.save(request, replyStub);
-
-      // then
-      return promise.then(() => {
-        sinon.assert.calledOnce(UserService.getProfileToCertify);
-        sinon.assert.calledWith(UserService.getProfileToCertify, 'userId', '2018-02-04T00:00:00.000Z');
-      });
-    });
-
-    it('should call Certification Course Service to save challenges', function() {
-      // when
-      const promise = courseController.save(request, replyStub);
-
-      // then
-      return promise.then(() => {
-        sinon.assert.calledOnce(CertificationChallengesService.saveChallenges);
-        sinon.assert.calledWith(CertificationChallengesService.saveChallenges, userProfile, certificationCourse);
-      });
-    });
-
     it('should reply the certification course serialized', function() {
+      // given
+      sandbox.stub(certificationService, 'startNewCertification').resolves(newlyCreatedCertificationCourse);
+      sandbox.stub(certificationCourseSerializer, 'serialize').resolves({});
+
       // when
       const promise = courseController.save(request, replyStub);
 
       // then
       return promise.then(() => {
-        sinon.assert.calledOnce(CertificationCourseSerializer.serialize);
-        sinon.assert.calledWith(CertificationCourseSerializer.serialize, certificationCourseWithChallengesNumber);
+        sinon.assert.calledOnce(certificationCourseSerializer.serialize);
+        sinon.assert.calledWith(certificationCourseSerializer.serialize, newlyCreatedCertificationCourse);
         sinon.assert.calledOnce(replyStub);
         sinon.assert.calledOnce(codeStub);
         sinon.assert.calledWith(codeStub, 201);
+      });
+    });
+
+    it('should return 403 error if cannot start a new certification course', function() {
+      // given
+      const error = new UserNotAuthorizedToCertifyError();
+      sandbox.stub(certificationService, 'startNewCertification').rejects(error);
+      sandbox.stub(Boom, 'forbidden').returns({ message: 'forbidden' });
+
+      // when
+      const promise = courseController.save(request, replyStub);
+
+      // then
+      return promise.then(() => {
+        expect(Boom.forbidden).to.have.been.calledWith(error);
+        expect(replyStub).to.have.been.calledWith({ message: 'forbidden' });
       });
     });
 

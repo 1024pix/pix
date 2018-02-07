@@ -1,5 +1,5 @@
 const { describe, it, expect } = require('../../../test-helper');
-const certificationService = require('../../../../lib/domain/services/answer-service');
+const answerService = require('../../../../lib/domain/services/answer-service');
 
 const Bookshelf = require('../../../../lib/infrastructure/bookshelf');
 const Answers = require('../../../../lib/domain/models/data/answer');
@@ -18,7 +18,7 @@ describe('Unit | Domain | Services | answer-service', function() {
         const answers = AnswersCollection.forge([]);
 
         // when
-        const successRate = certificationService.getAnswersSuccessRate(answers.models);
+        const successRate = answerService.getAnswersSuccessRate(answers.models);
 
         // then
         expect(successRate).to.equal(null);
@@ -31,7 +31,7 @@ describe('Unit | Domain | Services | answer-service', function() {
         const answers = AnswersCollection.forge([{ result: 'ok' }]);
 
         // when
-        const successRate = certificationService.getAnswersSuccessRate(answers.models);
+        const successRate = answerService.getAnswersSuccessRate(answers.models);
 
         // then
         expect(successRate).to.equal(100);
@@ -44,7 +44,7 @@ describe('Unit | Domain | Services | answer-service', function() {
         const answers = AnswersCollection.forge([{ result: 'ko' }]);
 
         // when
-        const successRate = certificationService.getAnswersSuccessRate(answers.models);
+        const successRate = answerService.getAnswersSuccessRate(answers.models);
 
         // then
         expect(successRate).to.equal(0);
@@ -57,7 +57,7 @@ describe('Unit | Domain | Services | answer-service', function() {
         const answers = AnswersCollection.forge([{ result: 'ko' }, { result: 'ok' }]);
 
         // when
-        const successRate = certificationService.getAnswersSuccessRate(answers.models);
+        const successRate = answerService.getAnswersSuccessRate(answers.models);
 
         // then
         expect(successRate).to.equal(50);
@@ -68,7 +68,7 @@ describe('Unit | Domain | Services | answer-service', function() {
         const answers = AnswersCollection.forge([{ result: 'ko' }, { result: '#ABAND#' }, { result: 'ok' }]);
 
         // when
-        const successRate = certificationService.getAnswersSuccessRate(answers.models);
+        const successRate = answerService.getAnswersSuccessRate(answers.models);
 
         // then
         expect(successRate).to.be.within(33.333333, 33.333334);

@@ -1,6 +1,6 @@
 const { describe, it, after, afterEach, expect, knex } = require('../../test-helper');
 const server = require('../../../server');
-const Assessment = require('../../../lib/domain/models/data/assessment');
+const BookshelfAssessment = require('../../../lib/domain/models/data/assessment');
 
 const tokenService = require('../../../lib/domain/services/token-service');
 const User = require('../../../lib/domain/models/data/user');
@@ -78,7 +78,7 @@ describe('Acceptance | API | Assessments POST', function() {
 
         // Then
         return promise.then(response => {
-          return new Assessment({ id: response.result.data.id }).fetch();
+          return new BookshelfAssessment({ id: response.result.data.id }).fetch();
         })
           .then(model => {
             expect(model.get('userId')).to.equal(436357);
@@ -92,7 +92,7 @@ describe('Acceptance | API | Assessments POST', function() {
         // Then
         return promise.then(
           () => {
-            return Assessment.count();
+            return BookshelfAssessment.count();
           })
           .then(function(afterAssessmentsNumber) {
             expect(afterAssessmentsNumber).to.equal(1);
@@ -123,7 +123,7 @@ describe('Acceptance | API | Assessments POST', function() {
 
           // Then
           return promise.then(response => {
-            return new Assessment({ id: response.result.data.id }).fetch();
+            return new BookshelfAssessment({ id: response.result.data.id }).fetch();
           })
             .then(function(model) {
               expect(model.get('courseId')).to.equal(options.payload.data.relationships.course.data.id);

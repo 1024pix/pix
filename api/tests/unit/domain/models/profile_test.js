@@ -4,7 +4,7 @@ const Profile = require('../../../../lib/domain/models/data/profile');
 
 const faker = require('faker');
 
-const Assessment = require('../../../../lib/domain/models/data/assessment');
+const Assessment = require('../../../../lib/domain/models/Assessment');
 
 describe('Unit | Domain | Models | Profile', () => {
 
@@ -122,10 +122,12 @@ describe('Unit | Domain | Models | Profile', () => {
 
     it('should not assign pixScore and estimatedLevel to user competence if assessment is not completed', function() {
       courses[0].competences = ['competenceId1'];
-      lastAssessments = [new Assessment({
-        id: 'assessmentId1',
-        courseId: 'courseId8'
-      }),];
+      lastAssessments = [
+        new Assessment({
+          id: 'assessmentId1',
+          courseId: 'courseId8'
+        })
+      ];
 
       const expectedCompetences = [
         {
@@ -353,6 +355,58 @@ describe('Unit | Domain | Models | Profile', () => {
         expect(profile.user).to.be.equal(user);
         expect(profile.competences).to.be.deep.equal(expectedCompetences);
         expect(profile.areas).to.be.equal(areas);
+      });
+
+    });
+
+    context('when user has one assessment without competence linked to the courseId', () => {
+      it('should return the profile only with competences linked to Competences', () => {
+        // Given
+        courses[0].competences = ['competenceId1'];
+        assessmentsCompleted = [new Assessment({
+          id: 'assessmentId1',
+          pixScore: 10,
+          estimatedLevel: 1,
+          courseId: 'courseId8'
+        }), new Assessment({
+          id: 'assessmentId2',
+          pixScore: null,
+          estimatedLevel: null,
+          courseId: 'DemoCourse'
+        })];
+
+        const expectedCompetences = [
+          {
+            id: 'competenceId1',
+            name: '1.1 Mener une recherche d’information',
+            index: '1.1',
+            areaId: 'areaId1',
+            level: 1,
+            pixScore: 10,
+            assessmentId: 'assessmentId1',
+            status: 'evaluated',
+            courseId: 'courseId8'
+          },
+          {
+            id: 'competenceId2',
+            name: '1.2 Gérer des données',
+            index: '1.2',
+            areaId: 'areaId2',
+            level: -1,
+            status: 'notEvaluated',
+            courseId: 'courseId9'
+          }
+        ];
+
+        // When
+        const profile = new Profile(user, competences, areas, assessmentsCompleted, assessmentsCompleted, courses);
+
+        // Then
+        expect(profile).to.be.an.instanceof(Profile);
+        expect(profile.user).to.equal(user);
+        expect(profile.competences).to.deep.equal(expectedCompetences);
+        expect(profile.areas).to.equal(areas);
+
       });
 
     });

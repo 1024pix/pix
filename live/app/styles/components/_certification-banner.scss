@@ -1,6 +1,6 @@
 .certification-banner {
   display: flex;
-  background: linear-gradient(180deg, $vivid-blue 0%, $pix-blue 100%);
+  background: $pix-blue-gradient;
   color: $white;
   box-shadow: 0 -2px 4px 0 rgba(0, 0, 0, 0.2);
   justify-content: center;

@@ -224,40 +224,20 @@ describe('Unit | Route | Assessments.ChallengeRoute', function() {
       });
     });
 
-    context('when the next challenge does not exist (is null)', function() {
-      context('when the assessment is a certification', function() {
-        it('should redirect to the certification end page', function() {
-          // given
-          const assessment = EmberObject.create({ type: 'CERTIFICATION', answers: [answerToChallengeOne] });
-          createRecordStub.returns(answerToChallengeOne);
-          queryRecordStub.rejects();
+    context('when there is no next challenge to answer', function() {
+      it('should redirect to the assessment rating page', function() {
+        // given
+        const assessment = EmberObject.create({ answers: [answerToChallengeOne] });
+        createRecordStub.returns(answerToChallengeOne);
+        queryRecordStub.rejects();
 
-          // when
-          const promise = route.actions.saveAnswerAndNavigate.call(route, challengeOne, assessment, answerValue, answerTimeout, answerElapsedTime);
+        // when
+        const promise = route.actions.saveAnswerAndNavigate.call(route, challengeOne, assessment, answerValue, answerTimeout, answerElapsedTime);
 
-          // then
-          return promise.then(function() {
-            sinon.assert.callOrder(answerToChallengeOne.save, route.transitionTo);
-            sinon.assert.calledWith(route.transitionTo, 'certifications.results');
-          });
-        });
-      });
-
-      context('when the assessment is not certification', function() {
-        it('should redirect to the assessment results page', function() {
-          // given
-          const assessment = EmberObject.create({ answers: [answerToChallengeOne] });
-          createRecordStub.returns(answerToChallengeOne);
-          queryRecordStub.rejects();
-
-          // when
-          const promise = route.actions.saveAnswerAndNavigate.call(route, challengeOne, assessment, answerValue, answerTimeout, answerElapsedTime);
-
-          // then
-          return promise.then(function() {
-            sinon.assert.callOrder(answerToChallengeOne.save, route.transitionTo);
-            sinon.assert.calledWith(route.transitionTo, 'assessments.results', assessment.get('id'));
-          });
+        // then
+        return promise.then(function() {
+          sinon.assert.callOrder(answerToChallengeOne.save, route.transitionTo);
+          sinon.assert.calledWith(route.transitionTo, 'assessments.rating', assessment.get('id'));
         });
       });
     });

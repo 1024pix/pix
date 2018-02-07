@@ -16,13 +16,13 @@ class Profile {
 
   _setLevelAndPixScoreToCompetences(assessments, courses) {
     assessments.forEach((assessment) => {
-      const courseIdFromAssessment = assessment.get('courseId');
+      const courseIdFromAssessment = assessment.courseId;
       const course = this._getCourseById(courses, courseIdFromAssessment);
 
       if (assessment.isCompleted()) {
         const competence = this.competences.find(competence => course.competences.includes(competence.id));
-        competence.level = assessment.get('estimatedLevel');
-        competence.pixScore = assessment.get('pixScore');
+        competence.level = assessment.estimatedLevel;
+        competence.pixScore = assessment.pixScore;
         if (competence.status === 'notCompleted') {
           competence.level = -1;
           delete competence.pixScore;
@@ -57,24 +57,26 @@ class Profile {
   }
 
   _assessementIsNotCompleted(assessment) {
-    return (!assessment.get('pixScore') && !assessment.get('estimatedLevel')
-      && assessment.get('pixScore') !== 0 && assessment.get('estimatedLevel') !== 0);
+    return (!assessment.pixScore && !assessment.estimatedLevel
+      && assessment.pixScore !== 0 && assessment.estimatedLevel !== 0);
   }
 
   _setAssessmentToCompetence(assessments, courses) {
     assessments.forEach(assessment => {
-      const courseIdFromAssessment = assessment.get('courseId');
+      const courseIdFromAssessment = assessment.courseId;
       const course = this._getCourseById(courses, courseIdFromAssessment);
-      const competence = this.competences.find(competence => course.competences.includes(competence.id));
-      competence.assessmentId = assessment.get('id');
+      if(course) {
+        const competence = this.competences.find(competence => course.competences.includes(competence.id));
+        competence.assessmentId = assessment.id;
+      }
     });
   }
 
   _findAssessmentsByCompetenceId(assessments, courses, competenceId) {
     return assessments.filter((assessment) => {
-      const courseIdFromAssessment = assessment.get('courseId');
+      const courseIdFromAssessment = assessment.courseId;
       const course = this._getCourseById(courses, courseIdFromAssessment);
-      return course.competences.indexOf(competenceId) > -1;
+      return course ? course.competences.includes(competenceId) : false;
     });
   }
 

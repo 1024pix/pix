@@ -40,6 +40,12 @@ class NotCompletedAssessmentError extends Error {
   }
 }
 
+class AlreadyRatedAssessmentError extends Error {
+  constructor() {
+    super('Cette évaluation a déjà été évaluée.');
+  }
+}
+
 class UserNotFoundError extends Error {
   constructor() {
     super();
@@ -141,4 +147,5 @@ module.exports = {
   UserNotAuthorizedToCertifyError,
   NotCompletedAssessmentError,
   AssessmentEndedError,
+  AlreadyRatedAssessmentError
 };
