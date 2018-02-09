@@ -7,6 +7,13 @@ const Router = EmberRouter.extend({
 });
 
 Router.map(function() {
+  this.route('index');
+  this.route('login');
+  this.route('about');
+  this.route('authenticated', { path: '' }, function() {
+    // all routes that require the session to be authenticated
+    this.route('protected');
+  });
 });
 
 export default Router;
