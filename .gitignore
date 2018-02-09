@@ -21,3 +21,8 @@ testem.log
 .node_modules.ember-try/
 bower.json.ember-try
 package.json.ember-try
+
+# JetBrains
+.idea
+*.iml
+
