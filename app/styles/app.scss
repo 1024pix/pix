@@ -1,2 +1,22 @@
+@import 'login';
+@import 'users';
 
-@import "ember-cli-bootstrap-4/bootstrap";
+@import 'ember-cli-bootstrap-4/bootstrap';
+
+html, body {
+  height: 100%;
+  width: 100%;
+}
+
+html {
+  font-family: 'Open Sans', Arial, sans-serif;
+}
+
+body {
+  margin: 0;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: 'Raleway', Arial, sans-serif;
+}
+
