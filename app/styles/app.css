@@ -1,3 +1,5 @@
+@import 'ember-cli-bootstrap-4/bootstrap';
+
 @import url('login.css');
 @import url('users.css');
 

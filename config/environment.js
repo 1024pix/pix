@@ -22,17 +22,6 @@ module.exports = function(environment) {
       // when it is created
     },
 
-    googleFonts: [
-      'Open+Sans',
-      'Raleway'
-    ],
-
-    // Set or update content security policies
-    contentSecurityPolicy: {
-      'font-src': "'self' fonts.gstatic.com",
-      'style-src': "'self' fonts.googleapis.com"
-    },
-
     fastboot: {
       hostWhitelist: ['pix-admin.herokuapp.com', /^localhost:\d+$/]
     }

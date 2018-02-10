@@ -1,1 +1,7 @@
 <h1>Index</h1>
+
+{{#if session.isAuthenticated}}
+  <a href="#" {{action 'logout'}}>Logout</a>
+{{else}}
+  {{#link-to 'login'}}Login{{/link-to}}
+{{/if}}

@@ -11,7 +11,6 @@ Router.map(function() {
 
   // authentication
   this.route('login');
-  this.route('logout');
 
   // public routes
   this.route('about');
