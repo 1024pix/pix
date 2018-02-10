@@ -19,6 +19,7 @@ Router.map(function() {
   // private routes
   this.route('dashboard');
   this.route('protected');
+  this.route('users');
 });
 
 export default Router;
