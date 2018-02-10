@@ -3,4 +3,9 @@ import AuthenticatedRouteMixin from 'ember-simple-auth/mixins/authenticated-rout
 
 export default Route.extend(AuthenticatedRouteMixin, {
 
+  beforeModel() {
+    this._super(...arguments);
+    this.transitionTo('authenticated.users');
+  }
+
 });

@@ -1,9 +1,16 @@
+/* vendors */
 @import 'ember-cli-bootstrap-4/bootstrap';
 
+/* pages */
 @import 'login';
+@import 'authenticated';
 @import 'authenticated/users';
 @import 'authenticated/organizations';
 
+/* components */
+@import 'components/menu-bar';
+
+/* global */
 html, body {
   height: 100%;
   width: 100%;

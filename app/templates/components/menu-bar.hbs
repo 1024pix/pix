@@ -1,6 +1,6 @@
-<ul>
-  <li>{{#link-to "authenticated.users"}}Users{{/link-to}}</li>
-  <li>{{#link-to "authenticated.organizations"}}Organizations{{/link-to}}</li>
-  <li><a href="#" {{action 'logout'}}>Logout</a></li>
+<ul class="menu-bar__entries">
+  <li class="menu-bar__entry">{{#link-to "authenticated.users" class="menu-bar__link"}}Users{{/link-to}}</li>
+  <li class="menu-bar__entry">{{#link-to "authenticated.organizations" class="menu-bar__link"}}Organizations{{/link-to}}</li>
+  <li class="menu-bar__entry">{{#link-to "about" class="menu-bar__link"}}About{{/link-to}}</li>
+  <li class="menu-bar__entry"><a href="#" {{action 'logout'}} class="menu-bar__link">Logout</a></li>
 </ul>
-

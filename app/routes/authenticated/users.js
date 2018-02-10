@@ -7,6 +7,18 @@ export default Route.extend(AuthenticatedRouteMixin, {
     return [
       { firstName: 'John', lastName: 'Doe', email: 'jdoe@mail.com' },
       { firstName: 'Bruce', lastName: 'Wayne', email: 'jdoe@mail.com' },
+      { firstName: 'John', lastName: 'Doe', email: 'jdoe@mail.com' },
+      { firstName: 'Bruce', lastName: 'Wayne', email: 'jdoe@mail.com' },
+      { firstName: 'John', lastName: 'Doe', email: 'jdoe@mail.com' },
+      { firstName: 'Bruce', lastName: 'Wayne', email: 'jdoe@mail.com' },
+      { firstName: 'John', lastName: 'Doe', email: 'jdoe@mail.com' },
+      { firstName: 'Bruce', lastName: 'Wayne', email: 'jdoe@mail.com' },
+      { firstName: 'John', lastName: 'Doe', email: 'jdoe@mail.com' },
+      { firstName: 'Bruce', lastName: 'Wayne', email: 'jdoe@mail.com' },
+      { firstName: 'John', lastName: 'Doe', email: 'jdoe@mail.com' },
+      { firstName: 'Bruce', lastName: 'Wayne', email: 'jdoe@mail.com' },
+      { firstName: 'John', lastName: 'Doe', email: 'jdoe@mail.com' },
+      { firstName: 'Bruce', lastName: 'Wayne', email: 'jdoe@mail.com' },
       { firstName: 'Clara', lastName: 'Masoero', email: 'cmasoero' }
     ];
   }

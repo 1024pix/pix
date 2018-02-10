@@ -16,7 +16,6 @@ Router.map(function() {
   // private routes
   this.route('authenticated', { path: '' }, function() {
     // all routes that require the session to be authenticated
-    this.route('index', { path: '/' });
     this.route('users');
     this.route('organizations');
   });
