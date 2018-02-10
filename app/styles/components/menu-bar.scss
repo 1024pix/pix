@@ -6,6 +6,16 @@
   position: fixed;
 }
 
+.menu-bar__logo {
+  text-align: center;
+}
+.menu-bar__logo-image {
+  border-radius: 5px;
+  padding: 5px;
+  background: #ffffff;
+  height: 50px;
+}
+
 .menu-bar__entries {
   margin: 0;
   padding: 0;
