@@ -1,8 +1,1 @@
-{{#if session.isAuthenticated}}
-  <a href="#" {{action 'invalidateSession'}}>Logout</a>
-{{else}}
-  {{#link-to 'login'}}Login{{/link-to}}
-{{/if}}
-<div class="main">
-  {{outlet}}
-</div>
+{{outlet}}
