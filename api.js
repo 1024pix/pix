@@ -12,7 +12,9 @@ app.use((req, res, next) => {
 });
 
 app.get('/', (req, res) => res.send('Hello World!'));
+
 app.post('/token', (req, res) => {
+  console.log('/token');
   const { grant_type, username, password } = req.body ;
   return res.send({
     "access_token":"MTQ0NjJkZmQ5OTM2NDE1ZTZjNGZmZjI3",
@@ -21,4 +23,11 @@ app.post('/token', (req, res) => {
     "refresh_token":"IwOGYzYTlmM2YxOTQ5MGE3YmNmMDFkNTVk"
   });
 });
+
+app.post('/revoke', (req, res) => {
+  console.log('/revoke');
+  const { token } = req.body;
+  return res.send();
+});
+
 app.listen(9000, () => console.log('Example app listening on port 9000!'));
