@@ -1,7 +1,8 @@
-@import 'login';
-@import 'users';
-
 @import 'ember-cli-bootstrap-4/bootstrap';
+
+@import 'login';
+@import 'authenticated/users';
+@import 'authenticated/organizations';
 
 html, body {
   height: 100%;

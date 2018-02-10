@@ -7,8 +7,6 @@ const Router = EmberRouter.extend({
 });
 
 Router.map(function() {
-  this.route('index', { path: '/' });
-
   // authentication
   this.route('login');
 
@@ -16,9 +14,12 @@ Router.map(function() {
   this.route('about');
 
   // private routes
-  this.route('dashboard');
-  this.route('protected');
-  this.route('users');
+  this.route('authenticated', { path: '' }, function() {
+    // all routes that require the session to be authenticated
+    this.route('index', { path: '/' });
+    this.route('users');
+    this.route('organizations');
+  });
 });
 
 export default Router;
