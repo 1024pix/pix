@@ -18,6 +18,8 @@ Router.map(function() {
     // all routes that require the session to be authenticated
     this.route('users');
     this.route('organizations');
+    this.route('certifications');
+    this.route('operating');
   });
 });
 

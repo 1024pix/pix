@@ -26,10 +26,33 @@ h1, h2, h3, h4, h5, h6 {
   color: #3e4676;
   font-size: 16px;
   font-weight: 500;
-  padding: 0 48px;
+  padding: 0 12px;
+
+  @media (min-width: 992px) {
+    padding: 0 48px;
+  }
 }
 
 .page-header__title {
   margin: 0;
   font-size: 20px;
+
+  .fa {
+    @media (min-width: 992px) {
+      margin-right: 10px;
+    }
+  }
+}
+
+.page-body {
+  background: #FFFFFF;
+  margin: 12px;
+  padding: 12px;
+  border-radius: 5px;
+  box-shadow: 0 2px 4px 0 rgba(42, 76, 133, 0.15);
+
+  @media (min-width: 992px) {
+    margin: 48px;
+    padding: 48px;
+  }
 }
