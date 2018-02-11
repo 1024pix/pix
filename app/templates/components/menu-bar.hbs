@@ -1,9 +1,12 @@
-<div class="menu-bar__logo">
+<header class="menu-bar__logo">
   <img class="menu-bar__logo-image" src="/logo-pix.png">
-</div>
+</header>
 <ul class="menu-bar__entries">
-  <li class="menu-bar__entry">{{#link-to "authenticated.users" class="menu-bar__link"}}Users{{/link-to}}</li>
-  <li class="menu-bar__entry">{{#link-to "authenticated.organizations" class="menu-bar__link"}}Organizations{{/link-to}}</li>
-  <li class="menu-bar__entry">{{#link-to "about" class="menu-bar__link"}}About{{/link-to}}</li>
-  <li class="menu-bar__entry"><a href="#" {{action 'logout'}} class="menu-bar__link">Logout</a></li>
+  <li class="menu-bar__entry">{{#link-to "authenticated.users" class="menu-bar__link" title="Utilisateurs"}}{{fa-icon "user-plus"}}{{/link-to}}</li>
+  <li class="menu-bar__entry">{{#link-to "authenticated.organizations" class="menu-bar__link" title="Organisations"}}{{fa-icon "building"}}{{/link-to}}</li>
+  <li class="menu-bar__entry">{{#link-to "authenticated.index" class="menu-bar__link" title="Certifications"}}{{fa-icon "graduation-cap"}}{{/link-to}}</li>
+  <li class="menu-bar__entry">{{#link-to "authenticated.index" class="menu-bar__link" title="Opérations de maintenance"}}{{fa-icon "wrench"}}{{/link-to}}</li>
 </ul>
+<footer class="menu-bar__logout">
+  <a href="#" {{action 'logout'}} class="menu-bar__link" title="Déconnexion">{{fa-icon "power-off"}}</a>
+</footer>

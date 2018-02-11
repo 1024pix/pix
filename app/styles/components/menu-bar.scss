@@ -1,5 +1,11 @@
+$menu-bar-width: 80px;
+
+.page-wrapper__sidebar {
+  min-width: $menu-bar-width;
+}
+
 .menu-bar {
-  width: 240px;
+  width: $menu-bar-width;
   height: 100%;
   background: #456AF6;
   color: #FFFFFF;
@@ -7,19 +13,21 @@
 }
 
 .menu-bar__logo {
+  padding: 10px;
   text-align: center;
 }
+
 .menu-bar__logo-image {
   border-radius: 5px;
   padding: 5px;
   background: #ffffff;
-  height: 50px;
+  width: 60px;
 }
 
 .menu-bar__entries {
   margin: 0;
-  padding: 0;
   list-style-type: none;
+  padding: 10px 0;
 }
 
 .menu-bar__entry {
@@ -30,6 +38,28 @@
 .menu-bar__link {
   color: inherit !important;
   display: block;
-  line-height: 26px;
-  padding: 5px;
+  line-height: 50px;
+  text-align: center;
+  padding: 0 12px;
+  cursor: pointer;
+  font-size: 20px;
+
+  &:hover {
+    text-decoration: none;
+    background-color: #1D4BF2;
+    margin: 0 10px;
+    border-radius: 5px;
+  }
+
+  &.active {
+    background-color: #0838E6;
+    margin: 0 10px;
+    border-radius: 5px;
+  }
+}
+
+.menu-bar__logout {
+  position: fixed;
+  bottom: 10px;
+  width: $menu-bar-width;
 }
