@@ -63,3 +63,12 @@ $menu-bar-width: 80px;
   bottom: 10px;
   width: $menu-bar-width;
 }
+
+.tooltip-inner {
+  background-color: #1D4BF2!important;
+  padding: 8px 14px!important;
+}
+
+.tooltip.bs-tooltip-auto[x-placement^=right] .arrow::before, .tooltip.bs-tooltip-right .arrow::before {
+  border-right-color: #1D4BF2;
+}

@@ -2,11 +2,34 @@
   <img class="menu-bar__logo-image" src="/logo-pix.png">
 </header>
 <ul class="menu-bar__entries">
-  <li class="menu-bar__entry">{{#link-to "authenticated.users" class="menu-bar__link" title="Utilisateurs"}}{{fa-icon "user-plus"}}{{/link-to}}</li>
-  <li class="menu-bar__entry">{{#link-to "authenticated.organizations" class="menu-bar__link" title="Organisations"}}{{fa-icon "building"}}{{/link-to}}</li>
-  <li class="menu-bar__entry">{{#link-to "authenticated.index" class="menu-bar__link" title="Certifications"}}{{fa-icon "graduation-cap"}}{{/link-to}}</li>
-  <li class="menu-bar__entry">{{#link-to "authenticated.index" class="menu-bar__link" title="Opérations de maintenance"}}{{fa-icon "wrench"}}{{/link-to}}</li>
+  <li class="menu-bar__entry">
+    {{#link-to "authenticated.users" class="menu-bar__link"}}
+      {{fa-icon "user-plus"}}
+      {{#bs-tooltip placement="right"}}Utilisateurs{{/bs-tooltip}}
+    {{/link-to}}
+  </li>
+  <li class="menu-bar__entry">
+    {{#link-to "authenticated.organizations" class="menu-bar__link"}}
+      {{fa-icon "building"}}
+      {{#bs-tooltip placement="right"}}Organisations{{/bs-tooltip}}
+    {{/link-to}}
+  </li>
+  <li class="menu-bar__entry">
+    {{#link-to "authenticated.index" class="menu-bar__link"}}
+      {{fa-icon "graduation-cap"}}
+      {{#bs-tooltip placement="right"}}Certifications{{/bs-tooltip}}
+    {{/link-to}}
+  </li>
+  <li class="menu-bar__entry">
+    {{#link-to "authenticated.index" class="menu-bar__link"}}
+      {{fa-icon "wrench"}}
+      {{#bs-tooltip placement="right"}}Exploitation{{/bs-tooltip}}
+    {{/link-to}}
+  </li>
 </ul>
 <footer class="menu-bar__logout">
-  <a href="#" {{action 'logout'}} class="menu-bar__link" title="Déconnexion">{{fa-icon "power-off"}}</a>
+  <a href="#" {{action 'logout'}} class="menu-bar__link" title="Déconnexion">
+    {{fa-icon "power-off"}}
+    {{#bs-tooltip placement="right"}}Déconnexion{{/bs-tooltip}}
+  </a>
 </footer>

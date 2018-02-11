@@ -1,5 +1,4 @@
 /* vendors */
-@import 'ember-cli-bootstrap-4/bootstrap';
 
 /* pages */
 @import 'login';
@@ -12,3 +11,5 @@
 
 /* global */
 @import 'global';
+
+@import "ember-bootstrap/bootstrap";
