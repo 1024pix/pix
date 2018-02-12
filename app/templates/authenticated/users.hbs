@@ -7,13 +7,17 @@
 
 <div class="page-body page-body__users">
 
-  {{models-table
-    data=model
-    columns=columns
-    showColumnsDropdown=false
-    showGlobalFilter=false
-    filteringIgnoreCase=true
-    useNumericPagination=false
-  }}
+  <section class="page-body__section">
+
+    {{models-table
+      data=model
+      columns=columns
+      showColumnsDropdown=false
+      showGlobalFilter=false
+      filteringIgnoreCase=true
+      useNumericPagination=false
+    }}
+
+  </section>
 
 </div>

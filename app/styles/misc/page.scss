@@ -36,14 +36,17 @@
 }
 
 .page-body {
-  background: #FFFFFF;
-  margin: 12px;
-  padding: 12px;
-  border-radius: 5px;
-  box-shadow: 0 2px 4px 0 rgba(42, 76, 133, 0.15);
 
-  @include media-breakpoint-up(lg) {
-    margin: 48px;
-    padding: 48px;
+  .page-body__section {
+    background: #FFFFFF;
+    margin: 12px;
+    padding: 12px;
+    border-radius: 5px;
+    box-shadow: 0 2px 4px 0 rgba(42, 76, 133, 0.15);
+
+    @include media-breakpoint-up(lg) {
+      margin: 48px;
+      padding: 48px;
+    }
   }
 }
