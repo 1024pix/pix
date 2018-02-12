@@ -35,6 +35,7 @@
     "knex": "^0.13.0",
     "lodash": "^4.17.4",
     "moment": "^2.18.1",
+    "moment-timezone": "^0.5.14",
     "node-cache": "^4.1.1",
     "node-mailjet": "^3.2.1",
     "object-hash": "^1.2.0",

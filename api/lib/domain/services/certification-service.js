@@ -126,11 +126,11 @@ function _getResult(listAnswers, listChallenges, listCompetences) {
 }
 
 function _getCertificationResult(assessment) {
-  let dateOfCertification;
+  let startOfCertificationDate;
 
   return Promise.all([assessment, answersRepository.findByAssessment(assessment.id)])
     .then(([assessment, answersByAssessments]) => {
-      dateOfCertification = assessment.createdAt;
+      startOfCertificationDate = assessment.createdAt;
       return Promise.all([assessment, answersByAssessments, certificationChallengesRepository.findByCertificationCourseId(assessment.courseId)]);
     })
     .then(([assessment, answersByAssessments, certificationChallenges]) => {
@@ -140,7 +140,7 @@ function _getCertificationResult(assessment) {
         assessment,
         answersByAssessments,
         certificationChallenges,
-        userService.getProfileToCertify(userId, dateOfCertification),
+        userService.getProfileToCertify(userId, startOfCertificationDate),
         certificationCourseRepository.get(assessment.courseId)
       ]);
     })
@@ -149,9 +149,10 @@ function _getCertificationResult(assessment) {
 
       const result = _getResult(listAnswers, listCertificationChallenges, testedCompetences);
       // FIXME: Missing tests
-      result.createdAt = dateOfCertification;
+      result.createdAt = startOfCertificationDate;
       result.userId = assessment.userId;
       result.status = certificationCourse.status;
+      result.completedAt = certificationCourse.completedAt;
       return result;
     });
 }
