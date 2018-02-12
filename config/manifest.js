@@ -9,7 +9,7 @@ module.exports = function(/* environment, appConfig */) {
     name: "power-admin",
     short_name: "power-admin",
     description: "Administrate the Pix platform",
-    start_url: "/",
+    start_url: "https://pix-admin.herokuapp.com",
     display: "standalone",
     background_color: "#456AF6",
     theme_color: "#456AF6",
