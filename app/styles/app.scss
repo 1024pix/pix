@@ -1,4 +1,10 @@
 /* vendors */
+@import 'ember-bootstrap/bootstrap';
+
+/* global */
+@import 'misc/global';
+@import 'misc/page';
+@import 'misc/button';
 
 /* pages */
 @import 'login';
@@ -9,7 +15,4 @@
 /* components */
 @import 'components/menu-bar';
 
-/* global */
-@import 'global';
 
-@import "ember-bootstrap/bootstrap";

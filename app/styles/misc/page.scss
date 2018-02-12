@@ -1,20 +1,3 @@
-html, body {
-  height: 100%;
-  width: 100%;
-}
-
-html {
-  font-family: 'Open Sans', Arial, sans-serif;
-}
-
-body {
-  margin: 0;
-}
-
-h1, h2, h3, h4, h5, h6 {
-  font-family: 'Raleway', Arial, sans-serif;
-}
-
 .page-header {
   height: 68px;
   line-height: 68px;
@@ -27,21 +10,29 @@ h1, h2, h3, h4, h5, h6 {
   font-size: 16px;
   font-weight: 500;
   padding: 0 12px;
+  justify-content: space-between;
 
-  @media (min-width: 992px) {
+  @include media-breakpoint-up(lg) {
     padding: 0 48px;
   }
-}
 
-.page-header__title {
-  margin: 0;
-  font-size: 20px;
+  .page-header__title {
+    margin: 0;
+    font-size: 20px;
+    font-weight: 600;
 
-  .fa {
-    @media (min-width: 992px) {
-      margin-right: 10px;
+    .fa {
+      @include media-breakpoint-up(lg) {
+        margin-right: 10px;
+      }
     }
   }
+
+  .page-header__actions {
+    display: flex;
+    align-items: center;
+  }
+
 }
 
 .page-body {
@@ -51,7 +42,7 @@ h1, h2, h3, h4, h5, h6 {
   border-radius: 5px;
   box-shadow: 0 2px 4px 0 rgba(42, 76, 133, 0.15);
 
-  @media (min-width: 992px) {
+  @include media-breakpoint-up(lg) {
     margin: 48px;
     padding: 48px;
   }

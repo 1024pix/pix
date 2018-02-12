@@ -59,17 +59,3 @@
   border: 1px solid #CCCCCC;
   line-height: 22px;
 }
-
-.login-form__button {
-  line-height: 38px;
-  padding: 0;
-  background: #456AF6;
-  border-color: #456AF6;
-  color: #FFFFFF;
-  cursor: pointer;
-}
-.login-form__button:active,
-.login-form__button:focus,
-.login-form__button:hover {
-  background-color: #2549FF;
-}

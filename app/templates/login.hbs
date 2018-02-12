@@ -26,7 +26,7 @@
 
         <!-- Form submit button -->
         <div class="login-form__control">
-          <button class="login-form__button" type="submit">Login</button>
+          {{#bs-button class="login-form__button" type="primary" onClick=(action "authenticate")}}Connexion{{/bs-button}}
         </div>
       </form>
     </section>

@@ -1,5 +1,8 @@
 <header class="page-header">
   <h1 class="page-header__title">{{fa-icon "user-plus"}} Utilisateurs</h1>
+  <div class="page-header__actions">
+    {{#bs-button type="primary" onClick=(action "addUser")}}{{fa-icon "plus"}} Ajouter un utilisateur{{/bs-button}}
+  </div>
 </header>
 
 <div class="page-body page-body__users">
@@ -7,6 +10,10 @@
   {{models-table
     data=model
     columns=columns
+    showColumnsDropdown=false
+    showGlobalFilter=false
+    filteringIgnoreCase=true
+    useNumericPagination=false
   }}
 
 </div>
