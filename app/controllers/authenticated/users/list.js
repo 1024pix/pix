@@ -8,9 +8,4 @@ export default Controller.extend({
     { propertyName: 'email', title: 'Courriel' },
   ],
 
-  actions: {
-    addUser() {
-      console.log('Add user');
-    }
-  }
 });

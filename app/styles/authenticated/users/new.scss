@@ -1,0 +1,20 @@
+.user-form__control {
+  margin-top: 24px;
+  cursor: pointer;
+  box-sizing: border-box;
+}
+.user-form__control:first-child {
+  margin-top: 0;
+}
+.user-form__field,
+.user-form__button {
+  box-sizing: border-box;
+  border-radius: 3px;
+  font-size: 14px;
+}
+
+.user-form__field {
+  padding: 8px 8px;
+  border: 1px solid #CCCCCC;
+  line-height: 22px;
+}

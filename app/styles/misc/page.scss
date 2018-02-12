@@ -6,7 +6,8 @@
   display: flex;
   align-items: center;
   box-shadow: 0 2px 4px 0 rgba(42,76,133,0.15);
-  color: #3e4676;
+  /*color: #3e4676;*/
+  color: #333;
   font-size: 16px;
   font-weight: 500;
   padding: 0 12px;
@@ -37,16 +38,24 @@
 
 .page-body {
 
-  .page-body__section {
-    background: #FFFFFF;
-    margin: 12px;
-    padding: 12px;
-    border-radius: 5px;
-    box-shadow: 0 2px 4px 0 rgba(42, 76, 133, 0.15);
+}
 
-    @include media-breakpoint-up(lg) {
-      margin: 48px;
-      padding: 48px;
-    }
+.page-section {
+  background: #FFFFFF;
+  margin: 12px;
+  padding: 12px;
+  border-radius: 5px;
+  box-shadow: 0 2px 4px 0 rgba(42, 76, 133, 0.15);
+
+  @include media-breakpoint-up(lg) {
+    margin: 48px;
+    padding: 48px;
+  }
+
+  .page-section__title {
+    font-size: 20px;
+    font-weight: 500;
+    border-bottom: 1px solid #f5f8ff;
+    padding-bottom: 20px;
   }
 }
