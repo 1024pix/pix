@@ -313,12 +313,6 @@ describe('Acceptance | API | assessment-controller-get-solutions', () => {
       courseId: 'adaptive_course_id'
     };
 
-    const insertedScenario = {
-      courseId: 'adaptive_course_id',
-      path: 'ok',
-      nextChallengeId: 'q_second_challenge'
-    };
-
     beforeEach(() => {
       return knex('assessments').insert([ notCompletedAssessment ])
         .then((rows) => {
@@ -335,12 +329,7 @@ describe('Acceptance | API | assessment-controller-get-solutions', () => {
         }).then((rows) => {
           insertedAnswerId = rows[0];
 
-          return knex('scenarios').insert([insertedScenario]);
         });
-    });
-
-    afterEach(() => {
-      return knex('scenarios').delete();
     });
 
     it('should return null if user did not complete the adaptive test', () => {
