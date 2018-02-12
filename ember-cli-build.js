@@ -9,6 +9,11 @@ module.exports = function(defaults) {
       'importBootstrapFont': true,
       'importBootstrapCSS': false,
       'importBootstrapTheme': true
+    },
+
+    'esw-cache-fallback': {
+      patterns: [ '/' ],
+      version: '1' // Changing the version will bust the cache
     }
   });
 
