@@ -1,1 +1,2 @@
-web: node api/bin/www
+web: cd api && npm start
+postdeploy: cd api && npm run db:migrate
