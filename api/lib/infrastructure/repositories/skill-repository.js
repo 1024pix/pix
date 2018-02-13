@@ -1,7 +1,7 @@
 const _ = require('lodash');
 const cache = require('../cache');
 const challengeRepository = require('./challenge-repository');
-const Skill = require('../../domain/models/data/skill');
+const Skill = require('../data/skill');
 const Bookshelf = require('../../infrastructure/bookshelf');
 
 module.exports = {

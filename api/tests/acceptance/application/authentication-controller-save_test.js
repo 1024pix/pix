@@ -5,7 +5,7 @@ const jsonwebtoken = require('jsonwebtoken');
 const settings = require('./../../../../api/lib/settings');
 
 const server = require('../../../server');
-const User = require('../../../lib/domain/models/data/user');
+const User = require('../../../lib/infrastructure/data/user');
 
 describe('Acceptance | Controller | authentication-controller', () => {
 

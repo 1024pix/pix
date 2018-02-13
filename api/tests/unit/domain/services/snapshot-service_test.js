@@ -1,6 +1,6 @@
 const { describe, it, expect, beforeEach, afterEach, sinon } = require('../../../test-helper');
 const snapshotService = require('../../../../lib/domain/services/snapshot-service');
-const Snapshot = require('../../../../lib/domain/models/data/snapshot');
+const Snapshot = require('../../../../lib/infrastructure/data/snapshot');
 const snapshotRepository = require('../../../../lib/infrastructure/repositories/snapshot-repository');
 
 describe('Unit | Service | Snapshot service', function() {

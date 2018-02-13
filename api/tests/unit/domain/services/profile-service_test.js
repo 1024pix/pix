@@ -11,7 +11,7 @@ const assessmentRepository = require('../../../../lib/infrastructure/repositorie
 const organizationRepository = require('../../../../lib/infrastructure/repositories/organization-repository');
 
 const Assessment = require('../../../../lib/domain/models/Assessment');
-const User = require('../../../../lib/domain/models/data/user');
+const User = require('../../../../lib/infrastructure/data/user');
 
 describe('Unit | Service | Profil User Service', function() {
 

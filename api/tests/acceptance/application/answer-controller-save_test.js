@@ -1,6 +1,6 @@
 const { describe, it, before, after, beforeEach, afterEach, expect, knex, nock } = require('../../test-helper');
 const server = require('../../../server');
-const Answer = require('../../../lib/domain/models/data/answer');
+const Answer = require('../../../lib/infrastructure/data/answer');
 
 describe('Acceptance | Controller | answer-controller-save', function() {
   after((done) => {

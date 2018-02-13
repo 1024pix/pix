@@ -1,5 +1,5 @@
 const { describe, it, expect, sinon, beforeEach, afterEach } = require('../../../test-helper');
-const User = require('../../../../lib/domain/models/data/user');
+const User = require('../../../../lib/infrastructure/data/user');
 const userVerification = require('../../../../lib/application/preHandlers/user-existence-verification');
 const userRepository = require('../../../../lib/infrastructure/repositories/user-repository');
 const { UserNotFoundError } = require('../../../../lib/domain/errors');

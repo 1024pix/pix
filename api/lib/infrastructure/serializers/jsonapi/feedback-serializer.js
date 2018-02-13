@@ -1,5 +1,5 @@
 const { Serializer, Deserializer } = require('jsonapi-serializer');
-const Feedback = require('../../../domain/models/data/feedback');
+const Feedback = require('../../data/feedback');
 
 module.exports = {
 

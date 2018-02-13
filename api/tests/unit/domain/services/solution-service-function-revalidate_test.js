@@ -1,7 +1,7 @@
 const { describe, it, before, after, expect, knex, sinon } = require('../../../test-helper');
 
 const service = require('../../../../lib/domain/services/solution-service');
-const Answer = require('../../../../lib/domain/models/data/answer');
+const Answer = require('../../../../lib/infrastructure/data/answer');
 const SolutionRepository = require('../../../../lib/infrastructure/repositories/solution-repository');
 
 describe('Unit | Service | SolutionService', function() {

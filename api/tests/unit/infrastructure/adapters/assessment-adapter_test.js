@@ -7,7 +7,7 @@ const CatCourse = require('../../../../lib/cat/course');
 const CatSkill = require('../../../../lib/cat/skill');
 const CatChallenge = require('../../../../lib/cat/challenge');
 const CatAnswer = require('../../../../lib/cat/answer');
-const Answer = require('../../../../lib/domain/models/data/answer');
+const Answer = require('../../../../lib/infrastructure/data/answer');
 
 describe('Unit | Adapter | Assessment', () => {
 

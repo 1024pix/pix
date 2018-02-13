@@ -1,6 +1,6 @@
 const { expect, describe, beforeEach, afterEach, it, sinon } = require('../../../test-helper');
 const CertificationCourseRepository = require('../../../../lib/infrastructure/repositories/certification-course-repository');
-const CertificationCourseBookshelf = require('../../../../lib/domain/models/data/certification-course');
+const CertificationCourseBookshelf = require('../../../../lib/infrastructure/data/certification-course');
 const CertificationCourse = require('../../../../lib/domain/models/CertificationCourse');
 
 describe('Unit | Repository | Certification Course', function() {

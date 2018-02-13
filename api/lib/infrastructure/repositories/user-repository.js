@@ -1,4 +1,4 @@
-const User = require('../../domain/models/data/user');
+const User = require('../data/user');
 const { AlreadyRegisteredEmailError } = require('../../domain/errors');
 
 module.exports = {

@@ -1,6 +1,6 @@
 const { describe, it, before, afterEach, expect, knex, sinon } = require('../../../test-helper');
 const Hapi = require('hapi');
-const Answer = require('../../../../lib/domain/models/data/answer');
+const Answer = require('../../../../lib/infrastructure/data/answer');
 const solutionRepository = require('../../../../lib/infrastructure/repositories/solution-repository');
 const answerRepository = require('../../../../lib/infrastructure/repositories/answer-repository');
 const solutionService = require('../../../../lib/domain/services/solution-service');

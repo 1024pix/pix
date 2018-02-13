@@ -1,7 +1,7 @@
 const { describe, it, afterEach, beforeEach, sinon, expect } = require('../../../test-helper');
 
 const faker = require('faker');
-const User = require('../../../../lib/domain/models/data/user');
+const User = require('../../../../lib/infrastructure/data/user');
 const Boom = require('boom');
 
 const userController = require('../../../../lib/application/users/user-controller');

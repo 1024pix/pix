@@ -12,13 +12,13 @@ const answerRepository = require('../../../../lib/infrastructure/repositories/an
 const skillRepository = require('../../../../lib/infrastructure/repositories/skill-repository');
 const competenceRepository = require('../../../../lib/infrastructure/repositories/competence-repository');
 
-const AssessmentBookshelf = require('../../../../lib/domain/models/data/assessment');
+const AssessmentBookshelf = require('../../../../lib/infrastructure/data/assessment');
 const Assessment = require('../../../../lib/domain/models/Assessment');
 const Course = require('../../../../lib/domain/models/Course');
 const Challenge = require('../../../../lib/domain/models/Challenge');
 const CertificationChallenge = require('../../../../lib/domain/models/CertificationChallenge');
 
-const Answer = require('../../../../lib/domain/models/data/answer');
+const Answer = require('../../../../lib/infrastructure/data/answer');
 const Skill = require('../../../../lib/cat/skill');
 const { AssessmentEndedError } = require('../../../../lib/domain/errors');
 
