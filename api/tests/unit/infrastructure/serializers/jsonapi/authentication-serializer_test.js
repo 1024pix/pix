@@ -1,6 +1,6 @@
 const { describe, it, expect } = require('../../../../test-helper');
 const serializer = require('../../../../../lib/infrastructure/serializers/jsonapi/authentication-serializer');
-const Authentication = require('../../../../../lib/domain/models/data/authentication');
+const Authentication = require('../../../../../lib/domain/models/Authentication');
 
 describe('Unit | Serializer | JSONAPI | authentication-serializer', function() {
 

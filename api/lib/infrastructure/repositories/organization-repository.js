@@ -1,4 +1,4 @@
-const Organization = require('../../domain/models/data/organization');
+const Organization = require('../data/organization');
 
 module.exports = {
 

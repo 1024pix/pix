@@ -4,7 +4,7 @@ const faker = require('faker');
 const server = require('../../../../server');
 
 const authenticationController = require('../../../../lib/application/authentication/authentication-controller');
-const User = require('../../../../lib/domain/models/data/user');
+const User = require('../../../../lib/infrastructure/data/user');
 
 describe('Unit | Controller | authentication-controller', () => {
 

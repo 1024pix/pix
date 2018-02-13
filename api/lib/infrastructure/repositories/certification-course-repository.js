@@ -1,4 +1,4 @@
-const CertificationCourseBookshelf = require('../../domain/models/data/certification-course');
+const CertificationCourseBookshelf = require('../data/certification-course');
 const CertificationCourse = require('../../domain/models/CertificationCourse');
 const { NotFoundError } = require('../../domain/errors');
 

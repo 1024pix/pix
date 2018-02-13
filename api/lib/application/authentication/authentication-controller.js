@@ -1,11 +1,11 @@
-const User = require('../../../lib/domain/models/data/user');
+const User = require('../../infrastructure/data/user');
 
 const encrypt = require('../../domain/services/encryption-service');
 const tokenService = require('../../domain/services/token-service');
 
 const validationErrorSerializer = require('../../infrastructure/serializers/jsonapi/validation-error-serializer');
 
-const Authentication = require('../../domain/models/data/authentication');
+const Authentication = require('../../domain/models/Authentication');
 const authenticationSerializer = require('../../infrastructure/serializers/jsonapi/authentication-serializer');
 
 module.exports = {

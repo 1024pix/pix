@@ -1,6 +1,6 @@
 const { describe, it, expect } = require('../../../../test-helper');
 const serializer = require('../../../../../lib/infrastructure/serializers/jsonapi/organization-serializer');
-const Organization = require('../../../../../lib/domain/models/data/organization');
+const Organization = require('../../../../../lib/infrastructure/data/organization');
 
 const faker = require('faker');
 

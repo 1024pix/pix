@@ -1,5 +1,5 @@
 const userRepository = require('../../../lib/infrastructure/repositories/user-repository');
-const User = require('../../../lib/domain/models/data/user');
+const User = require('../../infrastructure/data/user');
 const errorSerializer = require('../../../lib/infrastructure/serializers/jsonapi/validation-error-serializer');
 const { UserNotFoundError } = require('../../domain/errors');
 

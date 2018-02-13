@@ -1,6 +1,6 @@
 const { describe, it, expect } = require('../../../test-helper');
 const tokenService = require('../../../../lib/domain/services/token-service');
-const User = require('../../../../lib/domain/models/data/user');
+const User = require('../../../../lib/infrastructure/data/user');
 const { InvalidTemporaryKeyError } = require('../../../../lib/domain/errors');
 
 describe('Unit | Service | Token Service', function() {

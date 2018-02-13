@@ -1,5 +1,5 @@
 const moment = require('moment');
-const Feedback = require('../../domain/models/data/feedback');
+const Feedback = require('../data/feedback');
 
 function formatDate(date) {
   if (!date) {

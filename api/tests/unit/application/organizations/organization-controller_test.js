@@ -1,7 +1,7 @@
 const { describe, it, expect, sinon, beforeEach, afterEach } = require('../../../test-helper');
 
-const User = require('../../../../lib/domain/models/data/user');
-const Organisation = require('../../../../lib/domain/models/data/organization');
+const User = require('../../../../lib/infrastructure/data/user');
+const Organisation = require('../../../../lib/infrastructure/data/organization');
 const organizationController = require('../../../../lib/application/organizations/organization-controller');
 const userRepository = require('../../../../lib/infrastructure/repositories/user-repository');
 const organisationRepository = require('../../../../lib/infrastructure/repositories/organization-repository');
@@ -10,7 +10,7 @@ const organizationService = require('../../../../lib/domain/services/organizatio
 const snapshotRepository = require('../../../../lib/infrastructure/repositories/snapshot-repository');
 const snapshotSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/snapshot-serializer');
 const validationErrorSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/validation-error-serializer');
-const Snapshot = require('../../../../lib/domain/models/data/snapshot');
+const Snapshot = require('../../../../lib/infrastructure/data/snapshot');
 const bookshelfUtils = require('../../../../lib/infrastructure/utils/bookshelf-utils');
 const snapshotsCsvConverter = require('../../../../lib/infrastructure/converter/snapshots-csv-converter');
 

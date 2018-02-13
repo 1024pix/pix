@@ -1,4 +1,4 @@
-const BookshelfAssessment = require('../../domain/models/data/assessment');
+const BookshelfAssessment = require('../data/assessment');
 const Assessment = require('../../domain/models/Assessment');
 const { groupBy, map, head, _ } = require('lodash');
 

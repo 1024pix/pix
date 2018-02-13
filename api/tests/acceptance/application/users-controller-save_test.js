@@ -2,7 +2,7 @@ const { describe, it, after, beforeEach, before, expect, sinon } = require('../.
 const faker = require('faker');
 
 const server = require('../../../server');
-const User = require('../../../lib/domain/models/data/user');
+const User = require('../../../lib/infrastructure/data/user');
 
 const mailService = require('../../../lib/domain/services/mail-service');
 const logger = require('../../../lib/infrastructure/logger');

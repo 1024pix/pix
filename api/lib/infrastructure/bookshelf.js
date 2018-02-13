@@ -20,4 +20,6 @@ bookshelf.plugin('bookshelf-validate', {
   validator: validator
 });
 
+bookshelf.plugin('registry');
+
 module.exports = bookshelf;

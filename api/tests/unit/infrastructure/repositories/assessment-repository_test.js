@@ -1,7 +1,7 @@
 const { describe, it, expect, before, after, knex, sinon, beforeEach, afterEach } = require('../../../test-helper');
 
 const assessmentRepository = require('../../../../lib/infrastructure/repositories/assessment-repository');
-const BookshelfAssessment = require('../../../../lib/domain/models/data/assessment');
+const BookshelfAssessment = require('../../../../lib/infrastructure/data/assessment');
 const Assessment = require('../../../../lib/domain/models/Assessment');
 
 describe('Unit | Repository | assessmentRepository', () => {

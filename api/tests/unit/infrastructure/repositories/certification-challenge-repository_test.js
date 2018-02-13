@@ -1,7 +1,7 @@
 const { describe, it, expect, sinon, beforeEach, afterEach, knex } = require('../../../test-helper');
 
 const certificationChallengeRepository = require('../../../../lib/infrastructure/repositories/certification-challenge-repository');
-const CertificationChallengeBookshelf = require('../../../../lib/domain/models/data/certification-challenge');
+const CertificationChallengeBookshelf = require('../../../../lib/infrastructure/data/certification-challenge');
 const CertificationChallenge = require('../../../../lib/domain/models/CertificationChallenge');
 const { AssessmentEndedError } = require('../../../../lib/domain/errors');
 

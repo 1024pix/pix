@@ -1,5 +1,5 @@
 const { Serializer } = require('jsonapi-serializer');
-const User = require('../../../domain/models/data/user');
+const User = require('../../data/user');
 
 module.exports = {
 
