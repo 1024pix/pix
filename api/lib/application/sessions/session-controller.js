@@ -6,6 +6,7 @@ const sessionRepository = require('../../infrastructure/repositories/session-rep
 const serializer = require('../../infrastructure/serializers/jsonapi/session-serializer');
 const { ValidationError } = require('bookshelf-validate/lib/errors');
 const validationErrorSerializer = require('../../infrastructure/serializers/jsonapi/validation-error-serializer');
+const errorSerializer = require('../../../lib/infrastructure/serializers/jsonapi/validation-error-serializer');
 
 module.exports = {
   get(request, reply) {
@@ -13,19 +14,24 @@ module.exports = {
   },
 
   save(request, reply) {
-    const sessionModel = serializer.deserialize(request.payload);
+    try {
+      const sessionModel = serializer.deserialize(request.payload);
+      return sessionRepository.save(sessionModel)
+        .then((session) => serializer.serialize(session))
+        .then(reply)
+        .catch((err) => {
 
-    return sessionRepository.save(sessionModel)
-      .then((session) => serializer.serialize(session))
-      .then(reply)
-      .catch((err) => {
+          if (err instanceof ValidationError) {
+            return reply(validationErrorSerializer.serialize(err)).code(400);
+          }
 
-        if (err instanceof ValidationError) {
-          return reply(validationErrorSerializer.serialize(err)).code(400);
-        }
-
-        logger.error(err);
-        reply(Boom.badImplementation(err));
-      });
+          logger.error(err);
+          reply(Boom.badImplementation(err));
+        });
+    }
+    catch (error) {
+      const serializedError = errorSerializer.serialize(error.getErrorMessage());
+      return reply(serializedError).code(400);
+    }
   }
 };
