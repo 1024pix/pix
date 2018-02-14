@@ -14,7 +14,7 @@ describe('Unit | Infrastructure | Models | BookshelfSession', () => {
         address: 'Nice',
         examiner: 'Babar',
         room: '007',
-        date: '01/04/2017',
+        date: '2017-04-20',
         time: '22:32',
         description: ''
       };
@@ -118,29 +118,20 @@ describe('Unit | Infrastructure | Models | BookshelfSession', () => {
           const dateError = err.data['date'];
           expect(dateError).to.exist;
 
-          expect(dateError).to.deep.equal(['Veuillez renseigné une date de session au format (jj/mm/yyyy).']);
+          expect(dateError).to.deep.equal(['Veuillez renseigner une date de session au format (jj/mm/yyyy).']);
         });
     });
 
     it('should fail when the date is invalid', () => {
       // Given
-      rawData.date = '31/02/2018';
+      rawData.date = '2017-01-20';
       const session = new BookshelfSession(rawData);
 
       // When
       const promise = session.save();
 
       // Then
-      return promise
-        .then(() => {
-          sinon.assert.fail();
-        })
-        .catch((err) => {
-          const dateError = err.data['date'];
-          expect(dateError).to.exist;
-
-          expect(dateError).to.deep.equal(['Veuillez renseigné une date de session au format (jj/mm/yyyy).']);
-        });
+      return expect(promise).not.to.be.rejected;
     });
 
     it('should fail when the time is empty or not in format (hh:mm)', () => {
@@ -160,7 +151,7 @@ describe('Unit | Infrastructure | Models | BookshelfSession', () => {
           const timeError = err.data['time'];
           expect(timeError).to.exist;
 
-          expect(timeError).to.deep.equal(['Veuillez renseigné une heure de session au format (hh:mm).']);
+          expect(timeError).to.deep.equal(['Veuillez renseigner une heure de session au format (hh:mm).']);
         });
     });
 
