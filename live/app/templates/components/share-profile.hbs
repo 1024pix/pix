@@ -49,19 +49,17 @@
             <p class="share-profile__organization-name">{{_organization.name}}</p>
           </div>
 
-          {{#if isOrganizationHasTypeSup}}
+          {{#if isOrganizationHasTypeSupOrPro}}
             <div class="share-profile__row share-profile__row--student-code">
-              <p>Veuillez saisir votre numéro d'étudiant :</p>
+              <p>{{organizationLabels.personalCode}}</p>
               {{input class="pix-modal__input share-profile__student-code-input" value=_studentCode}}
             </div>
           {{/if}}
 
-          {{#if isOrganizationHasTypeSupOrSco}}
-            <div class="share-profile__row share-profile__row--campaign-code">
-              <p>Précisez le code campagne s'il vous a été fourni :</p>
-              {{input class="pix-modal__input share-profile__campaign-code-input" value=_campaignCode}}
-            </div>
-          {{/if}}
+          <div class="share-profile__row share-profile__row--campaign-code">
+            <p>Précisez le code campagne s'il vous a été fourni :</p>
+            {{input class="pix-modal__input share-profile__campaign-code-input" value=_campaignCode}}
+          </div>
 
           <div class="share-profile__row share-profile__row--disclaimer">
             <p>{{organizationLabels.text2}}</p>
