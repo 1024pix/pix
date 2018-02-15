@@ -79,28 +79,39 @@ describe('Unit | Component | share-profile', function() {
 
   });
 
-  describe('#isOrganizationHasTypeSup', function() {
+  describe('#isOrganizationHasTypeSupOrPro', function() {
 
     it('should return "true" when organization type is "SUP"', function() {
       // given
       component.set('_organization', EmberObject.create({ type: 'SUP' }));
 
       // when
-      const isOrganizationHasTypeSup = component.get('isOrganizationHasTypeSup');
+      const isOrganizationHasTypeSupOrPro = component.get('isOrganizationHasTypeSupOrPro');
 
       // then
-      expect(isOrganizationHasTypeSup).to.be.true;
+      expect(isOrganizationHasTypeSupOrPro).to.be.true;
     });
 
-    it('should return "false" when organization type is not "SUP"', function() {
+    it('should return "true" when organization type is "PRO"', function() {
+      // given
+      component.set('_organization', EmberObject.create({ type: 'PRO' }));
+
+      // when
+      const isOrganizationHasTypeSupOrPro = component.get('isOrganizationHasTypeSupOrPro');
+
+      // then
+      expect(isOrganizationHasTypeSupOrPro).to.be.true;
+    });
+
+    it('should return "false" when organization type is "SCO"', function() {
       // given
       component.set('_organization', EmberObject.create({ type: 'SCO' }));
 
       // when
-      const isOrganizationHasTypeSup = component.get('isOrganizationHasTypeSup');
+      const isOrganizationHasTypeSupOrPro = component.get('isOrganizationHasTypeSupOrPro');
 
       // then
-      expect(isOrganizationHasTypeSup).to.be.false;
+      expect(isOrganizationHasTypeSupOrPro).to.be.false;
     });
 
   });

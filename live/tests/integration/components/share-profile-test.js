@@ -163,7 +163,7 @@ describe('Integration | Component | share profile', function() {
         expect(document.querySelector('.share-profile__student-code-input')).to.exist;
       });
 
-      it('should ask for campaign code (optionnal)', function() {
+      it('should ask for campaign code (optional)', function() {
         // then
         expect(document.querySelector('.share-profile__campaign-code-input')).to.exist;
       });
@@ -202,14 +202,14 @@ describe('Integration | Component | share profile', function() {
         this.render(hbs`{{share-profile _showingModal=true _view="sharing-confirmation" _organization=organization}}`);
       });
 
-      it('should not ask for student code (required)', function() {
+      it('should ask for ID-Pix (optional)', function() {
         // then
-        expect(document.querySelector('.share-profile__student-code-input')).to.not.exist;
+        expect(document.querySelector('.share-profile__student-code-input')).to.exist;
       });
 
-      it('should not ask for campaign code (optionnal)', function() {
+      it('should ask for campaign code (optional)', function() {
         // then
-        expect(document.querySelector('.share-profile__campaign-code-input')).to.not.exist;
+        expect(document.querySelector('.share-profile__campaign-code-input')).to.exist;
       });
 
     });
