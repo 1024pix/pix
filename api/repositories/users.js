@@ -14,7 +14,15 @@ module.exports = {
   },
 
   get(id) {
-    return records.find((record) => record.id === id);
+    const user = records.find((record) => record.id === id);
+/*
+    user.profile = {};
+    user.assessments = [];
+    user.shares = [];
+    user.campaigns = [];
+    user.certifications = [];
+*/
+    return ;
   },
 
   create(record) {

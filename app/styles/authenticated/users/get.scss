@@ -1,12 +1,217 @@
+.title__user-id {
+  color: #999;
+}
 
-.data-field {
+.title__user-name {
 
 }
 
-.data-field__label {
+.title__user-email {
+  font-weight: 300;
+}
+
+.tab-container {
+  margin: 48px;
+}
+
+.tab-content {
+}
+
+.nav-tabs {
+
+  .nav-link {
+    padding: 24px 48px;
+    border: none;
+    color: #999;
+
+    &:hover {
+      border-bottom: 4px solid #ffc107;
+      color: #333;
+    }
+
+    &.active {
+      border-bottom: 4px solid #456AF6;
+      font-weight: 600;
+    }
+
+  }
+
+  .nav-item {
+    margin-bottom: -1px;
+  }
 
 }
 
-.data-field__value {
+/*  */
 
+.profile {
+  display: flex;
+
+  .profile__panel {
+    width: 100%;
+    padding: 24px 0;
+    display: inline-block;
+    box-sizing: border-box;
+
+    .profile__panel-title {
+      padding-bottom: 48px;
+      margin: 0;
+    }
+  }
+
+  .profile__panel--areas {
+    width: 50%;
+
+    .profile-area-list {
+      list-style-type: none;
+      margin: 0;
+      padding: 0;
+      width: 100%;
+
+      .profile-area-item {
+        margin-top: 24px;
+        margin-bottom: 48px;
+
+        &:first-child {
+          margin-top: 0;
+        }
+
+        &:last-child {
+          margin-bottom: 0;
+        }
+
+        .profile-area {
+          margin: 0;
+          padding: 0;
+
+          .profile-area__name {
+            text-transform: uppercase;
+            font-weight: 500;
+            font-family: Raleway, Arial, sans-serif;
+            color: #999;
+            margin-bottom: 12px;
+
+            text-align: center;
+            display: flex;
+            flex-direction: row;
+            justify-content: center;
+
+            &:before,
+            &:after {
+              flex-grow: 1;
+              height: 1px;
+              content: '\a0';
+              background-color: #dee2e6;
+              position: relative;
+              top: 0.7em;
+            }
+
+            &:before {
+              margin-right: 10px;
+            }
+
+            &:after {
+              margin-left: 10px;
+            }
+          }
+
+          .profile-competences {
+
+            .profile-competence-list {
+              list-style-type: none;
+              padding: 0;
+              margin: 0;
+
+              .profile-competence-item {
+                margin-bottom: 12px;
+
+                &:last-child {
+                  margin-bottom: 0;
+                }
+
+                .profile-competence {
+
+                  .profile-competence__overview {
+                    display: flex;
+                    justify-content: space-between;
+
+                    .profile-competence__name {
+                      margin-bottom: 12px;
+                    }
+
+                    .profile-competence__level {
+                      font-weight: 600;
+                    }
+
+                    .profile-competence__level--invalidated {
+                      font-weight: 300;
+                      color: #999;
+                    }
+                  }
+
+                  .profile-competence__progression {
+                    position: relative;
+
+                    .profile-competence__progression-background {
+                      display: flex;
+
+                      .profile-competence__progression-background-level {
+                        height: 12px;
+                        background-color: #E0E0E0;
+                        display: inline-block;
+                        width: 100%;
+                        margin-left: 2px;
+
+                        &:first-child {
+                          margin-left: 0;
+                        }
+                      }
+                    }
+
+                    .profile-competence__progression-validated {
+                      display: flex;
+                      z-index: 1;
+                      position: absolute;
+                      top: 0;
+                      width: 100%;
+
+                      .profile-competence__progression-validated-level {
+                        height: 12px;
+                        background-color: #ffbe00;
+                        display: inline-block;
+                        width: 100%;
+                        margin-left: 2px;
+
+                        &:first-child {
+                          margin-left: 0;
+                        }
+
+                        &.hidden {
+                          opacity: 0;
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+
+  .profile__panel--placement-tests {
+    margin-left: 48px;
+    line-height: 48px;
+
+    .placement-tests {
+      width: 100%;
+
+      .placement-tests__row {
+        border-bottom: 1px solid #dee2e6;
+      }
+    }
+  }
 }
+

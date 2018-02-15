@@ -15,6 +15,12 @@
     {{/link-to}}
   </li>
   <li class="menu-bar__entry">
+    {{#link-to "about" class="menu-bar__link"}}
+      {{fa-icon "wpforms"}}
+      {{#bs-tooltip placement="right"}}Évaluations{{/bs-tooltip}}
+    {{/link-to}}
+  </li>
+  <li class="menu-bar__entry">
     {{#link-to "authenticated.certifications" class="menu-bar__link"}}
       {{fa-icon "graduation-cap"}}
       {{#bs-tooltip placement="right"}}Certifications{{/bs-tooltip}}
