@@ -19,7 +19,7 @@ const Challenge = require('../../../../lib/domain/models/Challenge');
 const CertificationChallenge = require('../../../../lib/domain/models/CertificationChallenge');
 
 const Answer = require('../../../../lib/infrastructure/data/answer');
-const Skill = require('../../../../lib/cat/skill');
+const Skill = require('../../../../lib/domain/models/Skill');
 const { AssessmentEndedError } = require('../../../../lib/domain/errors');
 
 function _buildChallenge(challengeId, skills) {
@@ -132,8 +132,8 @@ describe('Unit | Domain | Services | assessment', () => {
     const wrongAnswerWeb2 = _buildAnswer('challenge_web_2', 'ko', ASSESSMENT_ID);
 
     const challenges = [
-      _buildChallenge('challenge_web_1', [new Skill('@web1')]),
-      _buildChallenge('challenge_web_2', [new Skill('@web2')])
+      _buildChallenge('challenge_web_1', [new Skill({ name: '@web1' })]),
+      _buildChallenge('challenge_web_2', [new Skill({ name: '@web2' })])
     ];
 
     const sandbox = sinon.sandbox.create();
@@ -149,7 +149,7 @@ describe('Unit | Domain | Services | assessment', () => {
         competences: [COMPETENCE_ID]
       });
       sandbox.stub(challengeRepository, 'findByCompetence').resolves(challenges);
-      sandbox.stub(skillRepository, 'findByCompetence').resolves(new Set([new Skill('@web1'), new Skill('@web2')]));
+      sandbox.stub(skillRepository, 'findByCompetence').resolves(new Set([new Skill({ name: '@web1' }), new Skill({ name: '@web2' })]));
       sandbox.stub(assessmentAdapter, 'getAdaptedAssessment').returns({
         obtainedLevel: 2,
         displayedPixScore: 17
