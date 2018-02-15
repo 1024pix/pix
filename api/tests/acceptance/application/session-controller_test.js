@@ -72,57 +72,114 @@ describe('Acceptance | Controller | session-controller', function() {
         });
     });
 
-    context('when a parameter is missing', () => {
+    context('when something is wrong in the payload', () => {
 
-      beforeEach(() => {
-        options.payload.data.attributes.address = '';
+      context('when address is missing', () => {
+
+        beforeEach(() => {
+          options.payload.data.attributes.address = '';
+        });
+
+        afterEach(() => {
+          options.payload.data.attributes.address = 'Nice';
+        });
+
+        it('should return a Bad Request', () => {
+          // when
+          const promise = server.inject(options);
+
+          // then
+          return promise
+            .then((response) => {
+              expect(response.statusCode).to.equal(400);
+            })
+            .then(() => knex('sessions').select())
+            .then((sessions) => {
+              expect(sessions).to.have.lengthOf(0);
+            });
+        });
+
+        it('should return payLoad with error description', () => {
+          // given
+          const expectedErrorRespond = {
+            'errors': [
+              {
+                'detail': 'Vous n\'avez pas renseigné d\'adresse.',
+                'meta': {
+                  'field': 'address'
+                },
+                'source': {
+                  'pointer': '/data/attributes/address',
+                },
+                'status': '400',
+                'title': 'Invalid Attribute'
+              }
+            ]
+          };
+
+          // when
+          const promise = server.inject(options);
+
+          // then
+          return promise
+            .then((response) => {
+              expect(response.result).to.deep.equal(expectedErrorRespond);
+            });
+        });
       });
 
-      afterEach(() => {
-        options.payload.data.attributes.address = 'Nice';
-      });
+      context('when date is missing', () => {
 
-      it('should return a Bad Request', () => {
-        // when
-        const promise = server.inject(options);
+        beforeEach(() => {
+          options.payload.data.attributes.date = '01/25/2017';
+        });
 
-        // then
-        return promise
-          .then((response) => {
-            expect(response.statusCode).to.equal(400);
-          })
-          .then(() => knex('sessions').select())
-          .then((sessions) => {
-            expect(sessions).to.have.lengthOf(0);
-          });
-      });
+        afterEach(() => {
+          options.payload.data.attributes.date = '08/12/2017';
+        });
 
-      it('should return payLoad with error description', () => {
-        // given
-        const expectedErrorRespond = {
-          'errors': [
-            {
-              'detail': 'Vous n\'avez pas renseigné d\'adresse.',
-              'meta': {
-                'field': 'address'
-              },
-              'source': {
-                'pointer': '/data/attributes/address',
-              },
-              'status': '400',
-              'title': 'Invalid Attribute'
-            }
-          ]
-        };
+        it('should return a Bad Request', () => {
+          // when
+          const promise = server.inject(options);
 
-        // when
-        const promise = server.inject(options);
+          // then
+          return promise
+            .then((response) => {
+              expect(response.statusCode).to.equal(400);
+            })
+            .then(() => knex('sessions').select())
+            .then((sessions) => {
+              expect(sessions).to.have.lengthOf(0);
+            });
+        });
 
-        // then
-        return promise
-          .then((response) => {
-            expect(response.result).to.deep.equal(expectedErrorRespond);
-          });
+        it('should return payLoad with error description', () => {
+          // given
+          const expectedErrorRespond = {
+            'errors': [
+              {
+                'detail': 'Veuillez renseigner une date de session au format (jj/mm/yyyy).',
+                'meta': {
+                  'field': 'date'
+                },
+                'source': {
+                  'pointer': '/data/attributes/date',
+                },
+                'status': '400',
+                'title': 'Invalid Attribute'
+              }
+            ]
+          };
+
+          // when
+          const promise = server.inject(options);
+
+          // then
+          return promise
+            .then((response) => {
+              expect(response.result).to.deep.equal(expectedErrorRespond);
+            });
+        });
       });
     });
   });
