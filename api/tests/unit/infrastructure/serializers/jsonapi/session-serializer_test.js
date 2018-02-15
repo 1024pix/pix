@@ -2,6 +2,7 @@ const { describe, it, expect } = require('../../../../test-helper');
 const serializer = require('../../../../../lib/infrastructure/serializers/jsonapi/session-serializer');
 
 const Session = require('../../../../../lib/domain/models/Session');
+const { WrongDateFormatError } = require('../../../../../lib/domain/errors');
 
 describe('UNIT | Seializer | JSONAPI | session-serializer', function() {
 
@@ -11,7 +12,7 @@ describe('UNIT | Seializer | JSONAPI | session-serializer', function() {
     address: 'Nice',
     room: '28D',
     examiner: 'Antoine Toutvenant',
-    date: '08/12/2017',
+    date: '20/01/2017',
     time: '14:30',
     description: ''
   });
@@ -25,7 +26,7 @@ describe('UNIT | Seializer | JSONAPI | session-serializer', function() {
         address: 'Nice',
         room: '28D',
         examiner: 'Antoine Toutvenant',
-        date: '08/12/2017',
+        date: '20/01/2017',
         time: '14:30',
         description: ''
       }
@@ -64,9 +65,17 @@ describe('UNIT | Seializer | JSONAPI | session-serializer', function() {
       expect(session.address).to.equal('Nice');
       expect(session.room).to.equal('28D');
       expect(session.examiner).to.equal('Antoine Toutvenant');
-      expect(session.date).to.equal('08/12/2017');
+      expect(session.date).to.equal('2017-01-20');
       expect(session.time).to.equal('14:30');
       expect(session.description).to.equal('');
+    });
+
+    it('should', function() {
+      // given
+      jsonSession.data.attributes.date = '12/14/2015';
+
+      // then
+      expect(() => serializer.deserialize(jsonSession)).to.throw(WrongDateFormatError);
     });
 
   });

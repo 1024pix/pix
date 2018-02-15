@@ -56,7 +56,7 @@ describe('Unit | Controller | sessionController', () => {
         address: 'Nice',
         room: '28D',
         examiner: 'Antoine Toutvenant',
-        date: '08/12/2017',
+        date: '2017-12-08',
         time: '14:30',
         description: ''
       });
