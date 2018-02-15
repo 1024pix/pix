@@ -39,9 +39,9 @@ describe('Unit | Adapter | Assessment', () => {
       expect(adaptedAssessment).to.have.property('course').and.to.be.an.instanceOf(CatCourse);
 
       const { course } = adaptedAssessment;
-      expect(course).to.have.property('competenceSkills').and.to.be.an.instanceOf(Set);
+      expect(course).to.have.property('competenceSkills').and.to.be.an.instanceOf(Array);
 
-      const expectedSetOfSkills = new Set([new CatSkill('web3')]);
+      const expectedSetOfSkills = [new CatSkill('web3')];
       expect(course.competenceSkills).to.deep.equal(expectedSetOfSkills);
     });
 
