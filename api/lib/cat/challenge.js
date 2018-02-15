@@ -1,9 +1,15 @@
 class Challenge {
+
   constructor(id, status, skills, timer) {
     this.id = id;
     this.status = status;
     this.skills = skills;
     this.timer = timer;
+  }
+
+  get isActive() {
+    const unactiveChallengeStatus = ['validé', 'validé sans test', 'pré-validé'];
+    return unactiveChallengeStatus.includes(this.status);
   }
 
   get hardestSkill() {
