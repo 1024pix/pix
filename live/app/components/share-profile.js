@@ -37,16 +37,28 @@ export default Component.extend({
       return {
         personalCode: 'Veuillez saisir votre ID-Pix :',
         text1: 'Vous vous apprêtez à transmettre une copie de votre profil Pix à l\'organisation :',
-        text2: 'En cliquant sur le bouton « Envoyer », elle recevra les informations suivantes :',
-        text3: 'Elle ne recevra les évolutions futures de votre profil que si vous le partagez à nouveau.'
+        text2: 'En cliquant sur le bouton « Envoyer », vous transmettrez à l\'organisation :',
+        text3: 'votre ID-Pix et le code campagne',
+        text4: 'L\'organisation ne recevra les évolutions futures de votre profil que si vous le partagez à nouveau.'
       };
+    } else if (this.get('_organization.type') === 'SUP') {
+      return {
+        personalCode: 'Veuillez saisir votre numéro d\'étudiant :',
+        text1: 'Vous vous apprêtez à transmettre une copie de votre profil Pix à l\'établissement :',
+        text2: 'En cliquant sur le bouton « Envoyer », vous transmettrez à l\'établissement :',
+        text3: 'votre numéro d\'étudiant et le code campagne',
+        text4: 'L\'établissement ne recevra les évolutions futures de votre profil que si vous le partagez à nouveau.'
+      };
+    } else {
+      return {
+        personalCode: 'Veuillez saisir votre numéro INE :',
+        text1: 'Vous vous apprêtez à transmettre une copie de votre profil Pix à l\'établissement :',
+        text2: 'En cliquant sur le bouton « Envoyer », vous transmettrez à l\'établissement :',
+        text3: 'le code campagne',
+        text4: 'L\'établissement ne recevra les évolutions futures de votre profil que si vous le partagez à nouveau.'
+      };
+
     }
-    return {
-      personalCode: 'Veuillez saisir votre numéro d\'étudiant :',
-      text1: 'Vous vous apprêtez à transmettre une copie de votre profil Pix à l\'établissement :',
-      text2: 'En cliquant sur le bouton « Envoyer », il recevra les informations suivantes :',
-      text3: 'Il ne recevra les évolutions futures de votre profil que si vous le partagez à nouveau.'
-    };
   }),
 
   actions: {
