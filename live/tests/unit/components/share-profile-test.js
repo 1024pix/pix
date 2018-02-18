@@ -127,11 +127,12 @@ describe('Unit | Component | share-profile', function() {
 
       // then
       expect(organizationLabel.text1).to.equal('Vous vous apprêtez à transmettre une copie de votre profil Pix à l\'organisation :');
-      expect(organizationLabel.text2).to.equal('En cliquant sur le bouton « Envoyer », elle recevra les informations suivantes :');
-      expect(organizationLabel.text3).to.equal('Elle ne recevra les évolutions futures de votre profil que si vous le partagez à nouveau.');
+      expect(organizationLabel.text2).to.equal('En cliquant sur le bouton « Envoyer », vous transmettrez à l\'organisation :');
+      expect(organizationLabel.text3).to.equal('votre ID-Pix et le code campagne');
+      expect(organizationLabel.text4).to.equal('L\'organisation ne recevra les évolutions futures de votre profil que si vous le partagez à nouveau.');
     });
 
-    it('should return adapted ("établissement"-based) labels when organization type is SUP or SCO', function() {
+    it('should return adapted ("établissement"-based) labels when organization type is SUP', function() {
       // given
       component.set('_organization', { type: 'SUP' });
 
@@ -140,8 +141,23 @@ describe('Unit | Component | share-profile', function() {
 
       // then
       expect(organizationLabel.text1).to.equal('Vous vous apprêtez à transmettre une copie de votre profil Pix à l\'établissement :');
-      expect(organizationLabel.text2).to.equal('En cliquant sur le bouton « Envoyer », il recevra les informations suivantes :');
-      expect(organizationLabel.text3).to.equal('Il ne recevra les évolutions futures de votre profil que si vous le partagez à nouveau.');
+      expect(organizationLabel.text2).to.equal('En cliquant sur le bouton « Envoyer », vous transmettrez à l\'établissement :');
+      expect(organizationLabel.text3).to.equal('votre numéro d\'étudiant et le code campagne');
+      expect(organizationLabel.text4).to.equal('L\'établissement ne recevra les évolutions futures de votre profil que si vous le partagez à nouveau.');
+    });
+
+    it('should return adapted ("établissement"-based) labels when organization type is SCO', function() {
+      // given
+      component.set('_organization', { type: 'SCO' });
+
+      // when
+      const organizationLabel = component.get('organizationLabels');
+
+      // then
+      expect(organizationLabel.text1).to.equal('Vous vous apprêtez à transmettre une copie de votre profil Pix à l\'établissement :');
+      expect(organizationLabel.text2).to.equal('En cliquant sur le bouton « Envoyer », vous transmettrez à l\'établissement :');
+      expect(organizationLabel.text3).to.equal('le code campagne');
+      expect(organizationLabel.text4).to.equal('L\'établissement ne recevra les évolutions futures de votre profil que si vous le partagez à nouveau.');
     });
 
   });

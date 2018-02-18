@@ -66,12 +66,13 @@
             <ul class="pix-modal__list">
               <li class="pix-modal__list-item">› votre nom et prénom</li>
               <li class="pix-modal__list-item">› l'état actuel de votre profil</li>
+              <li class="pix-modal__list-item">› {{organizationLabels.text3}}</li>
             </ul>
-            <p>{{organizationLabels.text3}}</p>
+            <p>{{organizationLabels.text4}}</p>
           </div>
 
           <div class="share-profile__share-modal-buttons">
-            <button class="pix-modal__button pix-modal__button--primary share-profile__confirm-button" {{action "shareSnapshotAndGoToSuccessNotificationView"}}>Continuer</button>
+            <button class="pix-modal__button pix-modal__button--primary share-profile__confirm-button" {{action "shareSnapshotAndGoToSuccessNotificationView"}}>Envoyer</button>
             <button class="pix-modal__button pix-modal__button--secondary share-profile__cancel-button" {{action "cancelSharingAndGoBackToOrganizationCodeEntryView"}}>Annuler</button>
           </div>
 
