@@ -1,4 +1,4 @@
-const { describe, it, expect, beforeEach } = require('../../../../test-helper');
+const { expect } = require('../../../../test-helper');
 const AssessmentRating = require('../../../../../lib/domain/models/AssessmentRating');
 const serializer = require('../../../../../lib/infrastructure/serializers/jsonapi/assessment-rating-serializer');
 

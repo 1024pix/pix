@@ -1,5 +1,5 @@
 const Boom = require('boom');
-const { describe, it, expect, sinon, beforeEach, afterEach } = require('../../../test-helper');
+const { expect, sinon } = require('../../../test-helper');
 const logger = require('../../../../lib/infrastructure/logger');
 
 const sessionSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/session-serializer');

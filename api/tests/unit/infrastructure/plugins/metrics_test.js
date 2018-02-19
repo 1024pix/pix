@@ -1,7 +1,7 @@
 const PROJECT_ROOT = '../../../..';
 const TESTS_ROOT = `${PROJECT_ROOT}/tests`;
 
-const { describe, it, expect } = require(`${TESTS_ROOT}/test-helper`);
+const { expect } = require(`${TESTS_ROOT}/test-helper`);
 const { EventEmitter } = require('events');
 const Metrics = require(`${PROJECT_ROOT}/lib/infrastructure/plugins/metrics`);
 

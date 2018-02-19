@@ -1,4 +1,4 @@
-const { describe, it, expect, sinon, beforeEach } = require('../../../test-helper');
+const { expect, sinon } = require('../../../test-helper');
 const BookshelfCertificationCourse = require('../../../../lib/infrastructure/data/certification-course');
 
 describe('Unit | Infrastructure | Models | BookshelfCertificationCourse', () => {

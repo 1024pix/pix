@@ -1,4 +1,4 @@
-const { expect, describe, it } = require('../../../test-helper');
+const { expect,  } = require('../../../test-helper');
 const queryParamsUtils = require('../../../../lib/infrastructure/utils/query-params-utils');
 
 describe('Unit | Utils | Query Params Utils', function() {

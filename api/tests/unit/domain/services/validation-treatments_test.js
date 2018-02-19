@@ -1,4 +1,4 @@
-const { describe, it, expect } = require('../../../test-helper');
+const { expect } = require('../../../test-helper');
 const { t1, t2, applyPreTreatments, applyTreatments } = require('../../../../lib/domain/services/validation-treatments');
 
 describe('Unit | Service | Validation Treatments', function() {

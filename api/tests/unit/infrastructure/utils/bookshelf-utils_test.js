@@ -1,4 +1,4 @@
-const { expect, describe, it, sinon } = require('../../../test-helper');
+const { expect, sinon } = require('../../../test-helper');
 const bookShelfUtils = require('../../../../lib/infrastructure/utils/bookshelf-utils');
 
 describe('Unit | Utils | Bookhelf utils', function() {

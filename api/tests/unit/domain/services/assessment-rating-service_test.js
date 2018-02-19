@@ -1,4 +1,4 @@
-const { describe, it, expect, beforeEach, afterEach, sinon } = require('../../../test-helper');
+const { expect, sinon } = require('../../../test-helper');
 const faker = require('faker');
 
 const service = require('../../../../lib/domain/services/assessment-rating-service');

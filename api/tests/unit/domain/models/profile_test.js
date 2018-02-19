@@ -1,4 +1,4 @@
-const { describe, it, expect } = require('../../../test-helper');
+const { expect } = require('../../../test-helper');
 const User = require('../../../../lib/infrastructure/data/user');
 const Profile = require('../../../../lib/domain/models/Profile');
 

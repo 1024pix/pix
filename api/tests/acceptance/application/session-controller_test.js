@@ -1,4 +1,4 @@
-const { describe, it, after, afterEach, expect, knex } = require('../../test-helper');
+const { expect, knex } = require('../../test-helper');
 const server = require('../../../server');
 
 describe('Acceptance | Controller | session-controller', function() {

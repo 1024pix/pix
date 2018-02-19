@@ -1,4 +1,4 @@
-const { describe, it, beforeEach, afterEach, sinon } = require('../../../test-helper');
+const { sinon } = require('../../../test-helper');
 const User = require('../../../../lib/infrastructure/data/user');
 const passwordController = require('../../../../lib/application/passwords/password-controller');
 const userService = require('../../../../lib/domain/services/user-service');

@@ -1,4 +1,4 @@
-const { describe, it, beforeEach, afterEach, sinon } = require('../../../test-helper');
+const { sinon } = require('../../../test-helper');
 
 const Boom = require('boom');
 const logger = require('../../../../lib/infrastructure/logger');

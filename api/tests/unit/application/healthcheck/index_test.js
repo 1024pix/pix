@@ -1,4 +1,4 @@
-const { describe, it, expect, before, beforeEach, after, sinon } = require('../../../test-helper');
+const { expect, sinon } = require('../../../test-helper');
 const Hapi = require('hapi');
 const healthcheckController = require('../../../../lib/application/healthcheck/healthcheck-controller');
 

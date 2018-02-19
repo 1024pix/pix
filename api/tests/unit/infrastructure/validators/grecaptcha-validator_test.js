@@ -1,4 +1,4 @@
-const { describe, it, expect, sinon, beforeEach, afterEach, before, after } = require('../../../test-helper');
+const { expect, sinon } = require('../../../test-helper');
 const gRecaptcha = require('../../../../lib/infrastructure/validators/grecaptcha-validator');
 const { InvalidRecaptchaTokenError } = require('../../../../lib/infrastructure/validators/errors');
 const request = require('request');

@@ -1,4 +1,4 @@
-const { describe, it, sinon, beforeEach, afterEach, expect } = require('../../../test-helper');
+const { sinon, expect } = require('../../../test-helper');
 const certificationChallengesService = require('../../../../lib/domain/services/certification-challenges-service');
 const certificationChallengeRepository = require('../../../../lib/infrastructure/repositories/certification-challenge-repository');
 

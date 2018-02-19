@@ -1,4 +1,4 @@
-const { describe, it, expect } = require('../../../../test-helper');
+const { expect } = require('../../../../test-helper');
 const serializer = require('../../../../../lib/infrastructure/serializers/jsonapi/answer-serializer');
 const Answer = require('../../../../../lib/infrastructure/data/answer');
 
