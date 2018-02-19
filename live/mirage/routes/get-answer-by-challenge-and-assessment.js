@@ -34,6 +34,20 @@ export default function(schema, request) {
   if (answer) {
     return answer.obj;
   }
-  // TODO make it work for real
-  return schema.answers.first();
+
+  // XXX schema.answers.first() (or where(), or findBy()) should return JSONAPI
+  // For unknown reasons, it is not the case here (even if there is no answers found)
+  // We return this valid JSON API to be sure
+  const validJSONAPI = {
+    data : {
+      type : 'answers',
+      id : 'answerId',
+      attributes : {
+        value : ''
+      }
+    }
+  };
+
+  // TODO make it work for real (use schema.answers.where({assessmentId, challengeId})
+  return schema.answers.first() || validJSONAPI;
 }

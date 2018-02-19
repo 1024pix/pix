@@ -24,8 +24,7 @@ import { Response } from 'ember-cli-mirage';
 export default function() {
   this.logging = false;
   this.passthrough('/write-coverage');
-  this.post('https://fonts.googleapis.com/**', () => {
-  });
+  this.post('https://fonts.googleapis.com/**', () => {});
 
   this.urlPrefix = 'http://localhost:3000';
   this.namespace = '/api';
@@ -40,6 +39,7 @@ export default function() {
   this.post('/challenges/:challengeId/solution', postRefreshSolution);
 
   this.post('/assessments', postAssessments);
+  this.get('/assessments');
   this.get('/assessments/:id', getAssessment);
   this.get('/assessments/:assessmentId/next/:challengeId', getNextChallenge);
   this.get('/assessments/:assessmentId/next', getNextChallenge);
@@ -56,7 +56,7 @@ export default function() {
 
   //Courses
   this.get('/courses/:id', getCourse);
-  this.post('/certification-courses', postCertificationCourse);
+  this.post('/courses', postCertificationCourse);
 
   this.post('/authentications', postAuthentications);
   this.get('/users/me', getAuthenticatedUser);
@@ -72,6 +72,7 @@ export default function() {
 
   this.post('/followers');
   this.post('/users');
+  this.post('/assessment-ratings');
 
   this.post('/password-reset-demands', (schema, request) => {
     const attrs = JSON.parse(request.requestBody);
