@@ -21,7 +21,6 @@ export default function(schema, request) {
     'user-name': 'Jane Doe',
     'user-email': 'jane@acme.com',
     'certification-number': 'certification-number',
-    courseId
   };
 
   const assessment = _.find(assessments, { id: courseId });
@@ -32,6 +31,7 @@ export default function(schema, request) {
     return refAssessment;
   } else if (!_.startsWith(courseId, 'rec')) {
     newAssessment.type = 'CERTIFICATION';
+    newAssessment.courseId = 'certification-number';
   }
   return schema.assessments.create(newAssessment);
 }

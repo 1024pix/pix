@@ -51,9 +51,14 @@ export default function(server) {
     code: 'SUP003',
   });
 
+  server.create('course', {
+    id: 'certification-number',
+    nbChallenges : 3,
+    type : 'CERTIFICATION'
+  });
+
   prescriber.organization = company;
   company.user = prescriber;
-  server.create('assessment', {});
 
   const snapshots = server.createList('snapshot', 3, { organization: company });
   company.snapshots = snapshots;
