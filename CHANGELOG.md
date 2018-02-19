@@ -1,5 +1,18 @@
 # Pix Changelog
 
+## v1.39.0 (19/02/2018) 
+
+- [#678](https://github.com/betagouv/pix/pull/678) [CLEANUP] Suppression de la table 'scenarios' qui n'était plus utilisée (US-1089).
+- [#681](https://github.com/betagouv/pix/pull/681) [FEATURE] Ajouter le code campagne lors du partage d'un profil avec une organisation PRO (US-1085).
+- [#686](https://github.com/betagouv/pix/pull/686) [CLEANUP] Suppression de routes et API endpoints obsolètes (US-1090).
+- [#688](https://github.com/betagouv/pix/pull/688) [CLEANUP] Suppression des imports de fonctions Mocha inutiles dans les tests de l'API (US-1096).
+- [#683](https://github.com/betagouv/pix/pull/683) [CLEANUP] Remise en place de test front skippés (US-1093).
+- [#684](https://github.com/betagouv/pix/pull/684) [FEATURE] Changement du texte dans le partage de profil pour les PRO (US-1086).
+- [#677](https://github.com/betagouv/pix/pull/677) [FEATURE] Utilisation de la nouvelle table Airtable des acquis (US-1025).
+- [#676](https://github.com/betagouv/pix/pull/676) [CLEANUP] Nettoyage de l'algo CAT (US-1074).
+- [#673](https://github.com/betagouv/pix/pull/673) [FEATURE] Ajout d'un endpoint de création de session (US-1028).
+- [#671](https://github.com/betagouv/pix/pull/671) [FEATURE] Récupérer les date de début et de fin de certification dans le CSV des résultats (US-1027).
+
 ## v1.38.0 (07/02/2018) 
 
 - [#670](https://github.com/betagouv/pix/pull/670) [FEATURE] Mise à jour du Texte pour l'engagement et à mise à jour logo marianne sur le pied de page (US-1050).
