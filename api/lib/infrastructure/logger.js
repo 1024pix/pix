@@ -8,19 +8,8 @@ if (settings.logging.enabled) {
   logger.addStream({
     name: 'standard-output',
     stream: process.stdout,
-    level: 'info'
+    level: 'debug'
   });
-
-  logger.addStream({
-    name: 'file-output',
-    path: settings.logging.path,
-    level: 'info',
-    type: 'rotating-file',
-    period: '1d',
-    count: 5
-  });
-
 }
 
 module.exports = logger;
-
