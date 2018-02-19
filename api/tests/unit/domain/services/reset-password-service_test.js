@@ -1,5 +1,5 @@
 const jsonwebtoken = require('jsonwebtoken');
-const { describe, it, sinon, beforeEach, afterEach } = require('../../../test-helper');
+const { sinon } = require('../../../test-helper');
 const settings = require('../../../../lib/settings');
 const resetPasswordService = require('../../../../lib/domain/services/reset-password-service');
 const resetPasswordRepository = require('../../../../lib/infrastructure/repositories/reset-password-demands-repository');

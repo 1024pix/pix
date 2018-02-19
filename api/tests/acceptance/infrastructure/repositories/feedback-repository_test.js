@@ -1,4 +1,4 @@
-const { describe, it, beforeEach, afterEach, expect, knex } = require('../../../test-helper');
+const { expect, knex } = require('../../../test-helper');
 const feedbackRepository = require('../../../../lib/infrastructure/repositories/feedback-repository');
 
 describe('Acceptance | Infrastructure | Repositories | feedback-repository', () => {

@@ -1,6 +1,6 @@
 const faker = require('faker');
 const bcrypt = require('bcrypt');
-const { describe, it, after, before, expect, afterEach, beforeEach, knex, sinon } = require('../../test-helper');
+const { expect, knex, sinon } = require('../../test-helper');
 const authorizationToken = require('../../../lib/infrastructure/validators/jsonwebtoken-verify');
 const profileService = require('../../../lib/domain/services/profile-service');
 const User = require('../../../lib/infrastructure/data/user');

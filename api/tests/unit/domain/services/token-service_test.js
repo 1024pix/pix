@@ -1,4 +1,4 @@
-const { describe, it, expect } = require('../../../test-helper');
+const { expect } = require('../../../test-helper');
 const tokenService = require('../../../../lib/domain/services/token-service');
 const User = require('../../../../lib/infrastructure/data/user');
 const { InvalidTemporaryKeyError } = require('../../../../lib/domain/errors');

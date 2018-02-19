@@ -1,4 +1,4 @@
-const { expect, describe, afterEach, it, knex } = require('../../../test-helper');
+const { expect, knex } = require('../../../test-helper');
 
 const Mark = require('../../../../lib/domain/models/Mark');
 const MarkRepository = require('../../../../lib/infrastructure/repositories/mark-repository');

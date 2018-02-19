@@ -1,5 +1,5 @@
 const jwt = require('jsonwebtoken');
-const { describe, it, after, expect, afterEach, knex } = require('../../test-helper');
+const { expect, knex } = require('../../test-helper');
 const server = require('../../../server');
 const settings = require('../../../lib/settings');
 

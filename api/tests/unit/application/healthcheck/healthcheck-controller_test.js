@@ -1,4 +1,4 @@
-const { describe, it, expect, sinon } = require('../../../test-helper');
+const { expect, sinon } = require('../../../test-helper');
 const healthcheckRepository = require('../../../../lib/infrastructure/repositories/healthcheck-repository');
 
 const healthcheckController = require('../../../../lib/application/healthcheck/healthcheck-controller');

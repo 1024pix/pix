@@ -1,4 +1,4 @@
-const { describe, it, expect } = require('../../../test-helper');
+const { expect } = require('../../../test-helper');
 const qmailValidationService = require('../../../../lib/domain/services/qmail-validation-service');
 
 describe('Unit | Service | QMail Validation', function() {

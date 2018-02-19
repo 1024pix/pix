@@ -1,4 +1,4 @@
-const { describe, it, before, afterEach, expect, knex, sinon } = require('../../../test-helper');
+const { expect, knex, sinon } = require('../../../test-helper');
 const Hapi = require('hapi');
 const Answer = require('../../../../lib/infrastructure/data/answer');
 const solutionRepository = require('../../../../lib/infrastructure/repositories/solution-repository');

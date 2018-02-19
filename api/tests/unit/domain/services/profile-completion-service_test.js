@@ -1,4 +1,4 @@
-const { describe, it, expect } = require('../../../test-helper');
+const { expect } = require('../../../test-helper');
 const { getNumberOfFinishedTests } = require('../../../../lib/domain/services/profile-completion-service');
 
 describe('Unit | Service | profile number of finished tests service', function() {

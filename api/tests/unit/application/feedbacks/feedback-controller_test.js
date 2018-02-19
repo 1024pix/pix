@@ -1,4 +1,4 @@
-const { describe, it, before, after, expect, sinon } = require('../../../test-helper');
+const { expect, sinon } = require('../../../test-helper');
 const Hapi = require('hapi');
 const _ = require('lodash');
 const Feedback = require('../../../../lib/infrastructure/data/feedback');

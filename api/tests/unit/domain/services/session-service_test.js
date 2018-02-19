@@ -1,4 +1,4 @@
-const { describe, context, it, expect, sinon, afterEach } = require('../../../test-helper');
+const { expect, sinon } = require('../../../test-helper');
 const session = require('../../../../lib/domain/services/session-service');
 
 describe('Unit | Service | session', () => {

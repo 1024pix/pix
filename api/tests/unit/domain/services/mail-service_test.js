@@ -1,4 +1,4 @@
-const { describe, it, beforeEach, afterEach, sinon, expect } = require('../../../test-helper');
+const { sinon, expect } = require('../../../test-helper');
 const _ = require('lodash');
 const mailJet = require('../../../../lib/infrastructure/mailjet');
 const mailService = require('../../../../lib/domain/services/mail-service');

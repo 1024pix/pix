@@ -1,4 +1,4 @@
-const { describe, it, beforeEach, afterEach, sinon, expect } = require('../../test-helper');
+const { sinon, expect } = require('../../test-helper');
 const Mailjet = require('../../../lib/infrastructure/mailjet');
 
 const nodeMailjet = require('node-mailjet');

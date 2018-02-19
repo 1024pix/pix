@@ -1,4 +1,4 @@
-const { describe, it, expect, sinon } = require('../../../test-helper');
+const { expect, sinon } = require('../../../test-helper');
 const service = require('../../../../lib/domain/services/solution-service');
 const serviceQcu = require('../../../../lib/domain/services/solution-service-qcu');
 const serviceQcm = require('../../../../lib/domain/services/solution-service-qcm');

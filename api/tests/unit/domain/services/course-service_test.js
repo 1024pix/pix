@@ -5,7 +5,7 @@ const { NotFoundError } = require('../../../../lib/domain/errors');
 
 const courseRepository = require('../../../../lib/infrastructure/repositories/course-repository');
 const certificationCourseRepository = require('../../../../lib/infrastructure/repositories/certification-course-repository');
-const { describe, it, expect, beforeEach, afterEach, sinon } = require('../../../test-helper');
+const { expect, sinon } = require('../../../test-helper');
 
 describe('Unit | Service | Course Service', () => {
 
