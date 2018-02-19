@@ -1,9 +1,9 @@
-const { describe, it, after, afterEach, expect, knex } = require('../../test-helper');
+const { expect, knex } = require('../../test-helper');
 const server = require('../../../server');
-const BookshelfAssessment = require('../../../lib/domain/models/data/assessment');
+const BookshelfAssessment = require('../../../lib/infrastructure/data/assessment');
 
 const tokenService = require('../../../lib/domain/services/token-service');
-const User = require('../../../lib/domain/models/data/user');
+const User = require('../../../lib/infrastructure/data/user');
 
 describe('Acceptance | API | Assessments POST', function() {
 

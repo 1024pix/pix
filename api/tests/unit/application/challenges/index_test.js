@@ -1,4 +1,4 @@
-const { describe, it, before, after, beforeEach, expect, sinon } = require('../../../test-helper');
+const { expect, sinon } = require('../../../test-helper');
 const Hapi = require('hapi');
 const ChallengeController = require('../../../../lib/application/challenges/challenge-controller');
 
@@ -18,21 +18,6 @@ describe('Unit | Router | challenge-router', function() {
       done();
     });
   }
-
-  describe('GET /api/challenges', function() {
-
-    before(function() {
-      sinon.stub(ChallengeController, 'list').callsFake((request, reply) => reply('ok'));
-    });
-
-    after(function() {
-      ChallengeController.list.restore();
-    });
-
-    it('should exist', function(done) {
-      expectRouteToExist({ method: 'GET', url: '/api/challenges' }, done);
-    });
-  });
 
   describe('GET /api/challenges/{id}', function() {
 

@@ -78,8 +78,6 @@ function getAssessmentNextChallengeId(assessment, currentChallengeId) {
 
 async function fetchAssessment(assessmentId) {
 
-  let skills;
-
   const [assessmentPix, answers] = await Promise.all([
     assessmentRepository.get(assessmentId),
     answerRepository.findByAssessment(assessmentId)
@@ -94,7 +92,7 @@ async function fetchAssessment(assessmentId) {
   assessmentPix.successRate = answerService.getAnswersSuccessRate(answers);
 
   if (_isNonScoredAssessment(assessmentPix)) {
-    return Promise.resolve({ assessmentPix, skills });
+    return Promise.resolve({ assessmentPix });
   }
 
   return courseRepository.get(assessmentPix.courseId)
@@ -113,11 +111,13 @@ async function fetchAssessment(assessmentId) {
     })
     .then((skillsAndChallenges) => {
 
-      if (skillsAndChallenges) {
-        const [skillNames, challengesPix] = skillsAndChallenges;
-        const catAssessment = assessmentAdapter.getAdaptedAssessment(answers, challengesPix, skillNames);
+      let skillsReport;
 
-        skills = {
+      if (skillsAndChallenges) {
+        const [skills, challengesPix] = skillsAndChallenges;
+        const catAssessment = assessmentAdapter.getAdaptedAssessment(answers, challengesPix, skills);
+
+        skillsReport = {
           assessmentId,
           validatedSkills: catAssessment.validatedSkills,
           failedSkills: catAssessment.failedSkills
@@ -127,7 +127,7 @@ async function fetchAssessment(assessmentId) {
         assessmentPix.pixScore = catAssessment.displayedPixScore;
       }
 
-      return Promise.resolve({ assessmentPix, skills });
+      return Promise.resolve({ assessmentPix, skills: skillsReport });
     });
 }
 

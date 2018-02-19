@@ -2,10 +2,12 @@
 
 const request = require('request-promise-native');
 const json2csv = require('json2csv');
+const moment = require('moment-timezone');
+
 // request.debug = true;
 const DESTFILE = '/tmp/certificationResults.csv';
 const HEADERS = [
-  'Numero certification', 'Date', 'Note Pix',
+  'Numero certification', 'Date de début', 'Date de fin', 'Note Pix',
   '1.1', '1.2', '1.3',
   '2.1', '2.2', '2.3', '2.4',
   '3.1', '3.2', '3.3', '3.4',
@@ -14,13 +16,13 @@ const HEADERS = [
 ];
 
 function parseArgs(argv) {
-  const [_a, _b, ...args] = argv;
+  const [_a, _b, _c, ...args] = argv;
   return args;
 }
 
-function buildRequestObject(certificationId) {
+function buildRequestObject(baseUrl, certificationId) {
   return {
-    baseUrl: 'https://pix.beta.gouv.fr',
+    baseUrl: baseUrl,
     url: `/api/certification-courses/${certificationId}/result`,
     json: true,
     transform: (body) => {
@@ -39,11 +41,18 @@ function findCompetence(profile, competenceName) {
   return (result || { level: '' }).level;
 }
 
+
 function toCSVRow(rowJSON) {
   const res = {};
-  const [idColumn, dateColumn, noteColumn, ...competencesColumns] = HEADERS;
+  const [idColumn, dateStartColumn, dateEndColumn, noteColumn, ...competencesColumns] = HEADERS;
   res[idColumn] = rowJSON.certificationId;
-  res[dateColumn] = rowJSON.createdAt;
+  res[dateStartColumn] = moment.utc(rowJSON.createdAt).tz('Europe/Paris').format('DD/MM/YYYY HH:mm:ss');
+  if (rowJSON.completedAt) {
+    res[dateEndColumn] = moment(rowJSON.completedAt).tz('Europe/Paris').format('DD/MM/YYYY HH:mm:ss');
+  } else {
+    res[dateEndColumn] = '';
+  }
+
   res[noteColumn] = rowJSON.totalScore;
   competencesColumns.forEach(column => {
     res[column] = findCompetence(rowJSON.listCertifiedCompetences, column);
@@ -51,24 +60,11 @@ function toCSVRow(rowJSON) {
   return res;
 }
 
-function writeToFile(filename, fileContent) {
-  const fs = require('fs');
-  fs.writeFileSync(filename, fileContent);
-  return fileContent;
-}
-
-function syncInstruction() {
-  const os = require('os');
-  const hostname = os.hostname();
-
-  const helpText = `Deconnectez vous puis téléchargez le fichier avec :\n\t rsync --progress --remove-source-files deploy@${hostname}:${DESTFILE} .`;
-  console.log(helpText);
-}
-
 function main() {
+  const baseUrl = process.argv[2];
   const ids = parseArgs(process.argv);
   const requests = Promise.all(
-    ids.map(id => buildRequestObject(id))
+    ids.map(id => buildRequestObject(baseUrl, id))
       .map(requestObject => makeRequest(requestObject))
   );
 
@@ -78,9 +74,7 @@ function main() {
       fieldNames: HEADERS,
       del: ';',
     }))
-    .then(csv => { console.log(`\n\n${csv}\n\n`); return csv; })
-    .then(csv => writeToFile(DESTFILE, csv))
-    .then(() => syncInstruction());
+    .then(csv => { console.log(`\n\n${csv}\n\n`); return csv; });
 }
 
 /*=================== tests =============================*/
@@ -94,7 +88,7 @@ if (process.env.NODE_ENV !== 'test') {
     describe('parseArgs', () => {
       it('should return an array', () => {
         // given
-        const args = ['/usr/bin/node', '/path/to/script.js', '1', '2', '3'];
+        const args = ['/usr/bin/node', '/path/to/script.js', 'http://localhost:3000', '1', '2', '3'];
         // when
         const result = parseArgs(args);
         // then
@@ -108,8 +102,9 @@ if (process.env.NODE_ENV !== 'test') {
       it('should take an id and return a request object', () => {
         // given
         const courseId = 12;
+        const baseUrl = 'http://localhost:3000';
         // when
-        const result = buildRequestObject(courseId);
+        const result = buildRequestObject(baseUrl, courseId);
         // then
         expect(result).to.have.property('json', true);
         expect(result).to.have.property('url','/api/certification-courses/12/result');
@@ -117,7 +112,8 @@ if (process.env.NODE_ENV !== 'test') {
 
       it('should add certificationId to API response when the object is transform after the request', () => {
         // given
-        const requestObject = buildRequestObject(12);
+        const baseUrl = 'http://localhost:3000';
+        const requestObject = buildRequestObject(baseUrl,12);
         // when
         const result = requestObject.transform({});
         // then
@@ -137,13 +133,14 @@ if (process.env.NODE_ENV !== 'test') {
 
       it('should extract certificationId, date, and pix score', () => {
         // given
-        const object = { certificationId: '1337', totalScore: 7331, createdAt: '2017-05-10', listCertifiedCompetences: [] };
+        const object = { certificationId: '1337', totalScore: 7331, createdAt: '2018-01-31 09:01', completedAt: '2018-01-31T09:29:16.394Z', listCertifiedCompetences: [] };
         // when
         const result = toCSVRow(object);
         // then
         expect(result[HEADERS[0]]).to.equals('1337');
-        expect(result[HEADERS[1]]).to.equals('2017-05-10');
-        expect(result[HEADERS[2]]).to.equals(7331);
+        expect(result[HEADERS[1]]).to.equals('31/01/2018 10:01:00');
+        expect(result[HEADERS[2]]).to.equals('31/01/2018 10:29:16');
+        expect(result[HEADERS[3]]).to.equals(7331);
       });
 
       it('should extract competences', () => {
@@ -152,7 +149,7 @@ if (process.env.NODE_ENV !== 'test') {
         // when
         const result = toCSVRow(object);
         // then
-        expect(result[HEADERS[3]]).to.equals('');
+        expect(result[HEADERS[4]]).to.equals('');
       });
 
       it('should extract competences 1.1', () => {

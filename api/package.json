@@ -1,6 +1,6 @@
 {
   "name": "pix-api",
-  "version": "1.38.0",
+  "version": "1.39.0",
   "description": "Plateforme d'évaluation et de certification des compétences numériques à l'usage de tous les citoyens francophones",
   "main": "server.js",
   "author": "SGMAP",
@@ -10,7 +10,7 @@
   },
   "homepage": "https://github.com/sgmap/pix-api#readme",
   "dependencies": {
-    "airtable": "^0.5.0",
+    "airtable": "^0.5.2",
     "bcrypt": "^1.0.3",
     "blipp": "^2.3.0",
     "bookshelf": "^0.10.4",
@@ -35,6 +35,7 @@
     "knex": "^0.13.0",
     "lodash": "^4.17.4",
     "moment": "^2.18.1",
+    "moment-timezone": "^0.5.14",
     "node-cache": "^4.1.1",
     "node-mailjet": "^3.2.1",
     "object-hash": "^1.2.0",

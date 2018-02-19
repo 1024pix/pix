@@ -1,10 +1,10 @@
-const { describe, it, expect, sinon, beforeEach, knex } = require('../../../test-helper');
-const Organization = require('../../../../lib/domain/models/data/organization');
+const { expect, sinon, knex } = require('../../../test-helper');
 const faker = require('faker');
 
+const BookshelfOrganization = require('../../../../lib/infrastructure/data/organization');
 const organizationService = require('../../../../lib/domain/services/organization-service');
 
-describe('Unit | Domain | Models | Organization', () => {
+describe('Unit | Infrastructure | Models | BookshelfOrganization', () => {
 
   describe('validation', () => {
 
@@ -23,7 +23,7 @@ describe('Unit | Domain | Models | Organization', () => {
       // Given
       rawData.name = '';
 
-      const organization = new Organization(rawData);
+      const organization = new BookshelfOrganization(rawData);
 
       // When
       const promise = organization.save();
@@ -45,7 +45,7 @@ describe('Unit | Domain | Models | Organization', () => {
         rawData.type = 'SUP';
         rawData.email = null;
 
-        const organization = new Organization(rawData);
+        const organization = new BookshelfOrganization(rawData);
 
         // When
         const promise = organization.save();
@@ -66,7 +66,7 @@ describe('Unit | Domain | Models | Organization', () => {
         rawData.type = 'SUP';
         rawData.email = '';
 
-        const organization = new Organization(rawData);
+        const organization = new BookshelfOrganization(rawData);
 
         // When
         const promise = organization.save();
@@ -92,7 +92,7 @@ describe('Unit | Domain | Models | Organization', () => {
 
       it('is required', () => {
         // Given
-        const organization = new Organization(rawData);
+        const organization = new BookshelfOrganization(rawData);
 
         // When
         const promise = organization.save();
@@ -108,7 +108,7 @@ describe('Unit | Domain | Models | Organization', () => {
       it('should only accept SUP, SCO, PRO values', () => {
         // Given
         rawData.type = 'FAK';
-        const organization = new Organization(rawData);
+        const organization = new BookshelfOrganization(rawData);
 
         // When
         const promise = organization.save();
@@ -126,7 +126,7 @@ describe('Unit | Domain | Models | Organization', () => {
         it(`should be saved when organisation type is ${organizationType}`, () => {
           // Given
           rawData.type = organizationType;
-          const organization = new Organization(rawData);
+          const organization = new BookshelfOrganization(rawData);
 
           // When
           const promise = organization.save();
@@ -146,7 +146,7 @@ describe('Unit | Domain | Models | Organization', () => {
       it('should match the AAAA99 pattern', () => {
         rawData.code = '';
 
-        const organization = new Organization(rawData);
+        const organization = new BookshelfOrganization(rawData);
 
         // When
         const promise = organization.save();

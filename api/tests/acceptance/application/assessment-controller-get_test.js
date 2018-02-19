@@ -1,5 +1,5 @@
 const jwt = require('jsonwebtoken');
-const { describe, it, after, before, beforeEach, afterEach, expect, knex, nock } = require('../../test-helper');
+const { expect, knex, nock } = require('../../test-helper');
 const cache = require('../../../lib/infrastructure/cache');
 const server = require('../../../server');
 const settings = require('../../../lib/settings');
@@ -33,8 +33,8 @@ describe('Acceptance | API | assessment-controller-get', function() {
       .reply(200, {
         'id': 'competence_id',
         'fields': {
-          'Référence': 'challenge-view',
-          'Titre': 'Mener une recherche et une veille d\'information',
+          'Référence': '1.1 Mener une recherche et une veille d’information',
+          'Titre': 'Mener une recherche et une veille d’information',
           'Sous-domaine': '1.1',
           'Domaine': '1. Information et données',
           'Statut': 'validé',
@@ -43,7 +43,7 @@ describe('Acceptance | API | assessment-controller-get', function() {
       });
     nock('https://api.airtable.com')
       .get('/v0/test-base/Epreuves')
-      .query({ view: 'challenge-view' })
+      .query({ view: '1.1 Mener une recherche et une veille d’information' })
       .times(3)
       .reply(200, {
         'records': [
@@ -102,6 +102,20 @@ describe('Acceptance | API | assessment-controller-get', function() {
           'competences': ['competence_id'],
           'acquis': ['@web4']
         },
+      });
+
+    nock('https://api.airtable.com')
+      .get('/v0/test-base/Acquis')
+      .query({
+        filterByFormula: 'FIND(\'1.1\', {Compétence})'
+      })
+      .reply(200, {
+        'records': [
+          { 'fields': { 'Nom': '@url1' } },
+          { 'fields': { 'Nom': '@web1' } },
+          { 'fields': { 'Nom': '@web4' } },
+          { 'fields': { 'Nom': '@web5' } }
+        ]
       });
 
     done();
@@ -178,8 +192,8 @@ describe('Acceptance | API | assessment-controller-get', function() {
             'estimated-level': 0,
             'pix-score': 0,
             'success-rate': null,
-            'type' : null,
-            'certification-number' : null
+            'type': null,
+            'certification-number': null
           },
           'relationships': {
             'course': { 'data': { 'type': 'courses', 'id': 'anyFromAirTable' } },
@@ -316,8 +330,8 @@ describe('Acceptance | API | assessment-controller-get', function() {
             'estimated-level': 1,
             'pix-score': 8,
             'success-rate': 50,
-            'type' : null,
-            'certification-number' : null
+            'type': null,
+            'certification-number': null
           },
           'relationships': {
             'course': { 'data': { 'type': 'courses', 'id': 'anyFromAirTable' } },

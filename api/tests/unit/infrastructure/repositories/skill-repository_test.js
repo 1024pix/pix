@@ -1,16 +1,12 @@
-const { describe, it, beforeEach, afterEach, expect, sinon } = require('../../../test-helper');
+const { expect, sinon } = require('../../../test-helper');
 const cache = require('../../../../lib/infrastructure/cache');
-const skillRepository = require('../../../../lib/infrastructure/repositories/skill-repository');
-const challengeRepository = require('../../../../lib/infrastructure/repositories/challenge-repository');
 const Bookshelf = require('../../../../lib/infrastructure/bookshelf');
 const DomainSkill = require('../../../../lib/domain/models/Skill');
+const airtable = require('../../../../lib/infrastructure/airtable');
+const AirtableRecord = require('airtable').Record;
 
-function _buildChallenge(id, instruction, proposals, competence, status, skillNames) {
-
-  const skills = skillNames.map((skillName) => new DomainSkill(skillName));
-
-  return { id, instruction, proposals, competence, status, skills };
-}
+const skillRepository = require('../../../../lib/infrastructure/repositories/skill-repository');
+const challengeRepository = require('../../../../lib/infrastructure/repositories/challenge-repository');
 
 describe('Unit | Repository | skill-repository', function() {
 
@@ -26,10 +22,6 @@ describe('Unit | Repository | skill-repository', function() {
     challengeRepository.findByCompetence.restore();
   });
 
-  /*
-   * #findByCompetence
-   */
-
   describe('#findByCompetence', function() {
 
     const competence = {
@@ -37,86 +29,37 @@ describe('Unit | Repository | skill-repository', function() {
       reference: 'X.Y Titre de la compétence'
     };
 
-    describe('when the skills has been cached', () => {
-
-      it('should resolve skills directly retrieved from the cache without calling Airtable when the challenge has been cached', () => {
-        // given
-        const cachedSkills = new Set(['web1', 'web2', 'web3']);
-        cache.get.returns(cachedSkills);
-
-        // when
-        const promise = skillRepository.findByCompetence(competence);
-
-        // then
-        return promise.then((skills) => {
-          expect(cache.get).to.have.been.calledWith(`skill-repository_find_by_competence_${competence.id}`);
-          expect(skills).to.deep.equal(cachedSkills);
-        });
-      });
-
+    beforeEach(() => {
+      const acquix1 = new AirtableRecord('Acquis', 'recAcquix1', { fields: { 'Nom': '@acquix1' } });
+      const acquix2 = new AirtableRecord('Acquis', 'recAcquix2', { fields: { 'Nom': '@acquix2' } });
+      sinon.stub(airtable, 'findRecords').resolves([acquix1, acquix2]);
     });
 
-    context('when skills have not been cached', function() {
+    afterEach(() => {
+      airtable.findRecords.restore();
+    });
 
-      const challenges = [
-        _buildChallenge('challenge_id_1', 'Instruction #1', 'Proposals #1', 'competence_id', 'validé', ['web2', 'web3']),
-        _buildChallenge('challenge_id_2', 'Instruction #2', 'Proposals #2', 'competence_id', 'validé', ['url1']),
-        _buildChallenge('challenge_id_3', 'Instruction #3', 'Proposals #3', 'competence_id', 'validé', ['web1'])
-      ];
+    it('should resolve skills Domain Object', function() {
+      // when
+      const promise = skillRepository.findByCompetence(competence);
 
-      beforeEach(() => {
-        cache.get.returns();
-        cache.set.returns();
-        challengeRepository.findByCompetence.resolves(challenges);
+      // then
+      return promise.then((skills) => {
+        expect(skills[0]).to.be.instanceof(DomainSkill);
       });
+    });
 
-      it('should resolve skills with the challenges fetched from Airtable', () => {
-        // when
-        const promise = skillRepository.findByCompetence(competence);
+    it('should resolve all skills from Airtable for one competence', function() {
+      //given
 
-        // then
-        return promise.then((skills) => {
-          const expectedSkills = [
-            new DomainSkill('web2'),
-            new DomainSkill('web3'),
-            new DomainSkill('url1'),
-            new DomainSkill('web1'),
-          ];
+      // when
+      const promise = skillRepository.findByCompetence(competence);
 
-          expect([...skills]).to.deep.equal(expectedSkills);
-        });
-      });
-
-      it('should cache the skills fetched from Airtable', () => {
-        // when
-        const promise = skillRepository.findByCompetence(competence);
-
-        // then
-        return promise.then((skills) => {
-          expect(cache.set).to.have.been.calledWith(`skill-repository_find_by_competence_${competence.id}`, skills);
-        });
-      });
-
-      it('should not return twice the same skill', () => {
-        // given
-        const challenges = [
-          _buildChallenge('challenge_id_1', 'Instruction #1', 'Proposals #1', 'competence_id', 'validé', ['web2', 'web3']),
-          _buildChallenge('challenge_id_3', 'Instruction #3', 'Proposals #3', 'competence_id', 'validé', ['web2']),
-        ];
-        challengeRepository.findByCompetence.resolves(challenges);
-
-        // when
-        const promise = skillRepository.findByCompetence(competence);
-
-        // then
-        return promise.then((skills) => {
-          const expectedSkills = [
-            new DomainSkill('web2'),
-            new DomainSkill('web3'),
-          ];
-
-          expect([...skills]).to.deep.equal(expectedSkills);
-        });
+      // then
+      return promise.then((skills) => {
+        expect(skills).to.have.lengthOf(2);
+        expect(skills[0]).to.be.deep.equal({ name: '@acquix1' });
+        expect(skills[1]).to.be.deep.equal({ name: '@acquix2' });
       });
     });
   });

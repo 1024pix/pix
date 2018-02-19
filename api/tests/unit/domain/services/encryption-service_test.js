@@ -1,4 +1,4 @@
-const { describe, it, sinon, expect } = require('../../../test-helper');
+const { sinon, expect } = require('../../../test-helper');
 
 const bcrypt = require('bcrypt');
 const encryptionService = require('../../../../lib/domain/services/encryption-service');

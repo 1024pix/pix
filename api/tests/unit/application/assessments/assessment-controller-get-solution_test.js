@@ -1,4 +1,4 @@
-const { describe, it, beforeEach, afterEach, sinon } = require('../../../test-helper');
+const { sinon } = require('../../../test-helper');
 
 const Boom = require('boom');
 const logger = require('../../../../lib/infrastructure/logger');
@@ -11,7 +11,7 @@ const solutionRepository = require('../../../../lib/infrastructure/repositories/
 const solutionSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/solution-serializer');
 
 const Assessment = require('../../../../lib/domain/models/Assessment');
-const Answer = require('../../../../lib/domain/models/data/answer');
+const Answer = require('../../../../lib/infrastructure/data/answer');
 const Solution = require('../../../../lib/domain/models/referential/solution');
 
 describe('Unit | Controller | assessment-controller', () => {

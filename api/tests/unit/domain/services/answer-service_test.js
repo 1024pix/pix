@@ -1,8 +1,8 @@
-const { describe, it, expect } = require('../../../test-helper');
+const { expect } = require('../../../test-helper');
 const answerService = require('../../../../lib/domain/services/answer-service');
 
 const Bookshelf = require('../../../../lib/infrastructure/bookshelf');
-const Answers = require('../../../../lib/domain/models/data/answer');
+const Answers = require('../../../../lib/infrastructure/data/answer');
 
 describe('Unit | Domain | Services | answer-service', function() {
 

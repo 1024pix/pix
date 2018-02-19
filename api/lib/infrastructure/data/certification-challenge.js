@@ -1,5 +1,4 @@
-const Bookshelf = require('../../../infrastructure/bookshelf');
-Bookshelf.plugin('registry');
+const Bookshelf = require('../bookshelf');
 
 module.exports = Bookshelf.model('CertificationChallenge', {
   tableName: 'certification-challenges',

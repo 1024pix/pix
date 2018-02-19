@@ -1,4 +1,4 @@
-const { describe, it, expect } = require('../../../test-helper');
+const { expect } = require('../../../test-helper');
 const Mark = require('../../../../lib/domain/models/Mark');
 
 describe('Unit | Domain | Models | Mark', () => {

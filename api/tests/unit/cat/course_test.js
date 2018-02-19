@@ -106,16 +106,14 @@ describe('Unit | Model | Course', function() {
     it('should return a mapping defined for each skill', function() {
       // given
       const skillNames = ['web1', 'chi1', 'fou1', 'mis1', 'web3', 'url3', 'web4', 'chi5', 'fou5', 'mis5'];
-      const skills = {};
-      skillNames.forEach(skillName => skills[skillName] = new Skill(skillName));
-      const competenceSkills = new Set(Object.values(skills));
+      const competenceSkills = skillNames.map(skillName => new Skill(skillName));
       const course = new Course([], competenceSkills);
 
       // when
       const pixScoreOfSkills = course.computePixScoreOfSkills();
 
       // then
-      expect(Object.keys(pixScoreOfSkills).length).to.equal(competenceSkills.size);
+      expect(pixScoreOfSkills.length).to.equal(competenceSkills.size);
       competenceSkills.forEach(skill => {
         expect(pixScoreOfSkills[skill.name]).to.not.equal(undefined);
       });
@@ -124,9 +122,8 @@ describe('Unit | Model | Course', function() {
     it('should return a mapping between skills and pix scores', function() {
       // given
       const skillNames = ['web1', 'chi1', 'fou1', 'mis1', 'web3', 'url3', 'web4', 'chi5', 'fou5', 'mis5'];
-      const skills = {};
-      skillNames.forEach(skillName => skills[skillName] = new Skill(skillName));
-      const competenceSkills = new Set(Object.values(skills));
+      const competenceSkills = skillNames.map(skillName => new Skill(skillName));
+
       const course = new Course([], competenceSkills);
 
       // when
@@ -142,9 +139,7 @@ describe('Unit | Model | Course', function() {
     it('the pix score of each skill should be 4 at most', function() {
       // given
       const skillNames = ['web1', 'chi1', 'fou1', 'mis1', 'web3', 'url3', 'web4', 'chi5', 'fou5', 'mis5'];
-      const skills = {};
-      skillNames.forEach(skillName => skills[skillName] = new Skill(skillName));
-      const competenceSkills = new Set(Object.values(skills));
+      const competenceSkills = skillNames.map(skillName => new Skill(skillName));
       const course = new Course([], competenceSkills);
 
       // when

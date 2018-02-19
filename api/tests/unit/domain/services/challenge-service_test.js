@@ -1,7 +1,7 @@
-const { describe, it, expect } = require('../../../test-helper');
+const { expect } = require('../../../test-helper');
 
 const service = require('../../../../lib/domain/services/challenge-service');
-const Answer = require('../../../../lib/domain/models/data/answer');
+const Answer = require('../../../../lib/infrastructure/data/answer');
 
 function _buildAnswer(result) {
   const answer = new Answer({ id: 'answer_id' });

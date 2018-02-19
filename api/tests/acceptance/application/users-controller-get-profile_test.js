@@ -1,9 +1,9 @@
-const { describe, it, expect, sinon } = require('../../test-helper');
+const { expect, sinon } = require('../../test-helper');
 const faker = require('faker');
 const server = require('../../../server');
 const authorizationToken = require('../../../lib/infrastructure/validators/jsonwebtoken-verify');
 const UserRepository = require('../../../lib/infrastructure/repositories/user-repository');
-const User = require('../../../lib/domain/models/data/user');
+const User = require('../../../lib/infrastructure/data/user');
 const Bookshelf = require('../../../lib/infrastructure/bookshelf');
 const profileService = require('../../../lib/domain/services/profile-service');
 const { InvalidTokenError } = require('../../../lib/domain/errors');

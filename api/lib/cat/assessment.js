@@ -1,25 +1,9 @@
 const AnswerStatus = require('../domain/models/AnswerStatus');
 
-Set.prototype.union = function(setB) {
-  const union = new Set(this);
-  for (const elem of setB) {
-    union.add(elem);
-  }
-  return union;
-};
-
-Set.prototype.difference = function(setB) {
-  const difference = new Set(this);
-
-  for (const elem of setB) {
-    difference.delete(elem);
-  }
-
-  return difference;
-};
-
 const MAX_REACHABLE_LEVEL = 5;
 const NB_PIX_BY_LEVEL = 8;
+const MAX_NUMBER_OF_CHALLENGES = 20;
+const LEVEL_FOR_FIRST_CHALLENGE = 2;
 
 class Assessment {
   constructor(course, answers) {
@@ -27,34 +11,7 @@ class Assessment {
     this.answers = answers;
   }
 
-  get validatedSkills() {
-    return this.answers
-      .filter(answer => AnswerStatus.isOK(answer.result))
-      .reduce((skills, answer) => {
-        answer.challenge.skills.forEach(skill => {
-          skill.getEasierWithin(this.course.tubes).forEach(validatedSkill => {
-            skills.add(validatedSkill);
-          });
-        });
-        return skills;
-      }, new Set());
-  }
-
-  get failedSkills() {
-    return this.answers
-      .filter(answer => AnswerStatus.isFailed(answer.result))
-      .reduce((failedSkills, answer) => {
-        // FIXME refactor !
-        // XXX we take the current failed skill and all the harder skills in
-        // its tube and mark them all as failed
-        answer.challenge.skills.forEach(skill => {
-          skill.getHarderWithin(this.course.tubes).forEach(failedSkill => {
-            failedSkills.add(failedSkill);
-          });
-        });
-        return failedSkills;
-      }, new Set());
-  }
+  _randomly()  { return 0.5 - Math.random(); }
 
   _probaOfCorrectAnswer(level, difficulty) {
     return 1 / (1 + Math.exp(-(level - difficulty)));
@@ -75,18 +32,13 @@ class Assessment {
     return -Math.abs(diffBetweenResultAndProbaToResolve.reduce((a, b) => a + b));
   }
 
-  _isAnActiveChallenge(challenge) {
-    const unactiveChallengeStatus = ['validé', 'validé sans test', 'pré-validé'];
-    return unactiveChallengeStatus.includes(challenge.status);
-  }
-
-  _isAnAnsweredChallenge(challenge, answeredChallenges) {
+  _isChallengeNotAnsweredYet(challenge, answeredChallenges) {
     return !answeredChallenges.includes(challenge);
   }
 
   _isAnAvailableChallenge(challenge) {
     const answeredChallenges = this.answers.map(answer => answer.challenge);
-    return this._isAnActiveChallenge(challenge) && this._isAnAnsweredChallenge(challenge, answeredChallenges);
+    return challenge.isActive && this._isChallengeNotAnsweredYet(challenge, answeredChallenges);
   }
 
   _isPreviousChallengeTimed() {
@@ -99,13 +51,77 @@ class Assessment {
     return availableChallenges.filter(challenge => challenge.timer === undefined);
   }
 
-  get predictedLevel() {
+  _skillNotKnownYet(skill) {
+    return !this.validatedSkills.includes(skill) && !this.failedSkills.includes(skill);
+  }
+
+  _getNewSkillsInfoIfChallengeSolved(challenge) {
+    return challenge.skills.reduce((extraValidatedSkills,skill) => {
+      skill.getEasierWithin(this.course.tubes).forEach(skill => {
+        if(this._skillNotKnownYet(skill)) {
+          extraValidatedSkills.push(skill);
+        }
+      });
+      return extraValidatedSkills;
+    }, []);
+  }
+
+  _getNewSkillsInfoIfChallengeUnsolved(challenge) {
+    return challenge.hardestSkill.getHarderWithin(this.course.tubes)
+      .reduce((extraFailedSkills, skill) => {
+        if(this._skillNotKnownYet(skill)) {
+          extraFailedSkills.push(skill);
+        }
+        return extraFailedSkills;
+      }, []);
+  }
+
+  _computeReward(challenge, predictedLevel) {
+    const proba = this._probaOfCorrectAnswer(predictedLevel, challenge.hardestSkill.difficulty);
+    const nbExtraSkillsIfSolved = this._getNewSkillsInfoIfChallengeSolved(challenge).length;
+    const nbFailedSkillsIfUnsolved = this._getNewSkillsInfoIfChallengeUnsolved(challenge).length;
+    return proba * nbExtraSkillsIfSolved + (1 - proba) * nbFailedSkillsIfUnsolved;
+  }
+
+  get validatedSkills() {
+    return this.answers
+      .filter(answer => AnswerStatus.isOK(answer.result))
+      .reduce((skills, answer) => {
+        answer.challenge.skills.forEach(skill => {
+          skill.getEasierWithin(this.course.tubes).forEach(validatedSkill => {
+            if(!skills.includes(validatedSkill))
+              skills.push(validatedSkill);
+          });
+        });
+        return skills;
+      }, []);
+  }
+
+  get failedSkills() {
+    return this.answers
+      .filter(answer => AnswerStatus.isFailed(answer.result))
+      .reduce((failedSkills, answer) => {
+        // FIXME refactor !
+        // XXX we take the current failed skill and all the harder skills in
+        // its tube and mark them all as failed
+        answer.challenge.skills.forEach(skill => {
+          skill.getHarderWithin(this.course.tubes).forEach(failedSkill => {
+            if(!failedSkills.includes(failedSkill))
+              failedSkills.push(failedSkill);
+          });
+        });
+        return failedSkills;
+      }, []);
+  }
+
+  _getPredictedLevel() {
     if (this.answers.length === 0) {
-      return 2;
+      return LEVEL_FOR_FIRST_CHALLENGE;
     }
     let maxLikelihood = -Infinity;
     let level = 0.5;
     let predictedLevel = 0.5;
+    // XXX : Question : why 8  when max level is 5 ?
     while (level < 8) {
       const likelihood = this._computeLikelihood(level, this.answers);
       if (likelihood > maxLikelihood) {
@@ -117,26 +133,6 @@ class Assessment {
     return predictedLevel;
   }
 
-  _extraValidatedSkillsIfSolved(challenge) {
-    let extraValidatedSkills = new Set();
-    challenge.skills.forEach(skill => {
-      extraValidatedSkills = extraValidatedSkills.union(skill.getEasierWithin(this.course.tubes));
-    });
-    return extraValidatedSkills.difference(this.validatedSkills).difference(this.failedSkills);
-  }
-
-  _extraFailedSkillsIfUnsolved(challenge) {
-    const extraFailedSkills = new Set(challenge.hardestSkill.getHarderWithin(this.course.tubes));
-    return extraFailedSkills.difference(this.validatedSkills).difference(this.failedSkills);
-  }
-
-  _computeReward(challenge) {
-    const proba = this._probaOfCorrectAnswer(this.predictedLevel, challenge.hardestSkill.difficulty);
-    const nbExtraSkillsIfSolved = this._extraValidatedSkillsIfSolved(challenge).size;
-    const nbFailedSkillsIfUnsolved = this._extraFailedSkillsIfUnsolved(challenge).size;
-    return proba * nbExtraSkillsIfSolved + (1 - proba) * nbFailedSkillsIfUnsolved;
-  }
-
   get filteredChallenges() {
     let availableChallenges = this.course.challenges.filter(challenge => this._isAnAvailableChallenge(challenge));
     availableChallenges = this._isPreviousChallengeTimed() ? this._extractNotTimedChallenge(availableChallenges) : availableChallenges;
@@ -145,9 +141,9 @@ class Assessment {
 
   get _firstChallenge() {
     const filteredFirstChallenges = this.filteredChallenges.filter(
-      challenge => (challenge.hardestSkill.difficulty === 2) && (challenge.timer === undefined)
+      challenge => (challenge.hardestSkill.difficulty === LEVEL_FOR_FIRST_CHALLENGE) && (challenge.timer === undefined)
     );
-    filteredFirstChallenges.sort(() => 0.5 - Math.random());
+    filteredFirstChallenges.sort(this._randomly);
     return filteredFirstChallenges[0];
   }
 
@@ -155,15 +151,14 @@ class Assessment {
     if (this.answers.length === 0) {
       return this._firstChallenge;
     }
-    if (this.answers.length >= 20) {
+    if (this.answers.length >= MAX_NUMBER_OF_CHALLENGES) {
       return null;
     }
 
     const byDescendingRewards = (a, b) => { return b.reward - a.reward; };
-    const randomly = () => { return 0.5 - Math.random(); };
-
+    const predictedLevel = this._getPredictedLevel();
     const challengesAndRewards = this.filteredChallenges.map(challenge => {
-      return { challenge: challenge, reward: this._computeReward(challenge) };
+      return { challenge: challenge, reward: this._computeReward(challenge, predictedLevel) };
     });
     const challengeWithMaxReward = challengesAndRewards.sort(byDescendingRewards)[0];
     const maxReward = challengeWithMaxReward.reward;
@@ -175,12 +170,12 @@ class Assessment {
     const bestChallenges = challengesAndRewards
       .filter(challengeAndReward => challengeAndReward.reward === maxReward)
       .map(challengeAndReward => challengeAndReward.challenge);
-    return bestChallenges.sort(randomly)[0];
+    return bestChallenges.sort(this._randomly)[0];
   }
 
   get pixScore() {
     const pixScoreOfSkills = this.course.computePixScoreOfSkills();
-    return [...this.validatedSkills]
+    return this.validatedSkills
       .map(skill => pixScoreOfSkills[skill.name] || 0)
       .reduce((a, b) => a + b, 0);
   }
