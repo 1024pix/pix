@@ -16,33 +16,6 @@ describe('Unit | Controller | challenge-controller', function() {
     server.register({ register: require('../../../../lib/application/challenges') });
   });
 
-  describe('#list', function() {
-
-    const challenges = [
-      new Challenge({ 'id': 'challenge_1' }),
-      new Challenge({ 'id': 'challenge_2' }),
-      new Challenge({ 'id': 'challenge_3' })
-    ];
-
-    it('should fetch and return all the challenges, serialized as JSONAPI', () => {
-      // given
-      sinon.stub(ChallengeRepository, 'list').resolves(challenges);
-      sinon.stub(ChallengeSerializer, 'serialize').callsFake(_ => challenges);
-
-      // when
-      return server.inject({ method: 'GET', url: '/api/challenges' })
-        .then(res => {
-
-        // then
-          expect(res.result).to.deep.equal(challenges);
-
-          // after
-          ChallengeRepository.list.restore();
-          ChallengeSerializer.serialize.restore();
-        });
-    });
-  });
-
   describe('#get', function() {
 
     const challenge = new Challenge({ 'id': 'challenge_id' });

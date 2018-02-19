@@ -8,17 +8,6 @@ const logger = require('../../infrastructure/logger');
 
 module.exports = {
 
-  list(request, reply) {
-
-    challengeRepository
-      .list()
-      .then((challenges) => reply(challengeSerializer.serialize(challenges)))
-      .catch((err) => {
-        logger.error(err);
-        reply(Boom.badImplementation(err));
-      });
-  },
-
   get(request, reply) {
 
     challengeRepository
