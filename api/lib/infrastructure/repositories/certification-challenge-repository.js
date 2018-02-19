@@ -1,4 +1,4 @@
-const CertificationChallengeBookshelf = require('../../domain/models/data/certification-challenge');
+const CertificationChallengeBookshelf = require('../data/certification-challenge');
 const CertificationChallenge = require('../../domain/models/CertificationChallenge');
 const { AssessmentEndedError } = require('../../domain/errors');
 const Bookshelf = require('../bookshelf');

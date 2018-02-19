@@ -1,7 +1,7 @@
-const { describe, it, expect, sinon, beforeEach, afterEach } = require('../../../test-helper');
+const { expect, sinon } = require('../../../test-helper');
 const AnswerRepository = require('../../../../lib/infrastructure/repositories/answer-repository');
 const SolutionRepository = require('../../../../lib/infrastructure/repositories/solution-repository');
-const Answer = require('../../../../lib/domain/models/data/answer');
+const Answer = require('../../../../lib/infrastructure/data/answer');
 const QmailController = require('../../../../lib/application/qmail/qmail-controller');
 const QmailValidationService = require('../../../../lib/domain/services/qmail-validation-service');
 const Boom = require('boom');

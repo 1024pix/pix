@@ -1,7 +1,7 @@
-const { describe, it, expect } = require('../../../test-helper');
+const { expect } = require('../../../test-helper');
 
 const service = require('../../../../lib/domain/services/solution-service-qcm');
-const Answer = require('../../../../lib/domain/models/data/answer');
+const Answer = require('../../../../lib/infrastructure/data/answer');
 const AnswerStatus = require('../../../../lib/domain/models/AnswerStatus');
 const Solution = require('../../../../lib/domain/models/referential/solution');
 const _ = require('../../../../lib/infrastructure/utils/lodash-utils');

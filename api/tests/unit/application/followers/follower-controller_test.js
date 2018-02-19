@@ -1,6 +1,6 @@
-const { describe, it, expect, sinon, beforeEach, afterEach } = require('../../../test-helper');
+const { expect, sinon } = require('../../../test-helper');
 const EmailValidator = require('../../../../lib/domain/services/email-validator');
-const Follower = require('../../../../lib/domain/models/data/follower');
+const Follower = require('../../../../lib/infrastructure/data/follower');
 const followerSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/follower-serializer');
 
 const followerController = require('../../../../lib/application/followers/follower-controller');

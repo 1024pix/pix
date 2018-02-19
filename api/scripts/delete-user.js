@@ -156,7 +156,6 @@ class ScriptQueryBuilder {
 if (process.env.NODE_ENV !== 'test') {
   main();
 } else {
-  const { describe, it, beforeEach } = require('mocha');
   const { expect } = require('chai');
   describe('Delete User Script', () => {
     describe('ScriptQueryBuilder', () => {

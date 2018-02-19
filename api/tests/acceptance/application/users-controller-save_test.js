@@ -1,8 +1,8 @@
-const { describe, it, after, beforeEach, before, expect, sinon } = require('../../test-helper');
+const { expect, sinon } = require('../../test-helper');
 const faker = require('faker');
 
 const server = require('../../../server');
-const User = require('../../../lib/domain/models/data/user');
+const User = require('../../../lib/infrastructure/data/user');
 
 const mailService = require('../../../lib/domain/services/mail-service');
 const logger = require('../../../lib/infrastructure/logger');

@@ -1,4 +1,4 @@
-const { describe, it, expect } = require('../../../test-helper');
+const { expect } = require('../../../test-helper');
 
 const Bookshelf = require('../../../../lib/infrastructure/bookshelf');
 const assessmentAdapter = require('../../../../lib/infrastructure/adapters/assessment-adapter');
@@ -7,7 +7,7 @@ const CatCourse = require('../../../../lib/cat/course');
 const CatSkill = require('../../../../lib/cat/skill');
 const CatChallenge = require('../../../../lib/cat/challenge');
 const CatAnswer = require('../../../../lib/cat/answer');
-const Answer = require('../../../../lib/domain/models/data/answer');
+const Answer = require('../../../../lib/infrastructure/data/answer');
 
 describe('Unit | Adapter | Assessment', () => {
 
@@ -39,9 +39,9 @@ describe('Unit | Adapter | Assessment', () => {
       expect(adaptedAssessment).to.have.property('course').and.to.be.an.instanceOf(CatCourse);
 
       const { course } = adaptedAssessment;
-      expect(course).to.have.property('competenceSkills').and.to.be.an.instanceOf(Set);
+      expect(course).to.have.property('competenceSkills').and.to.be.an.instanceOf(Array);
 
-      const expectedSetOfSkills = new Set([new CatSkill('web3')]);
+      const expectedSetOfSkills = [new CatSkill('web3')];
       expect(course.competenceSkills).to.deep.equal(expectedSetOfSkills);
     });
 

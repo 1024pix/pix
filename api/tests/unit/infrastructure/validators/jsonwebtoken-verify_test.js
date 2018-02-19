@@ -1,4 +1,4 @@
-const { describe, it, beforeEach, afterEach, sinon, expect } = require('../../../test-helper');
+const { sinon, expect } = require('../../../test-helper');
 const jsonwebtoken = require('jsonwebtoken');
 const settings = require('../../../../lib/settings');
 const { InvalidTokenError } = require('../../../../lib/domain/errors');

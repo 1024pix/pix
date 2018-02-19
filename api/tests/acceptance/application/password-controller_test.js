@@ -1,5 +1,5 @@
 const faker = require('faker');
-const { describe, it, before, after, expect, afterEach, beforeEach, knex, sinon } = require('../../test-helper');
+const { expect, knex, sinon } = require('../../test-helper');
 const mailjetService = require('../../../lib/domain/services/mail-service');
 const resetPasswordService = require('../../../lib/domain/services/reset-password-service');
 const resetPasswordDemandRepository = require('../../../lib/infrastructure/repositories/reset-password-demands-repository');

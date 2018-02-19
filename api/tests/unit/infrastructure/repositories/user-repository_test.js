@@ -1,8 +1,8 @@
-const { expect, knex, describe, before, beforeEach, afterEach, sinon, after, it } = require('../../../test-helper');
+const { expect, knex, sinon } = require('../../../test-helper');
 const faker = require('faker');
 const bcrypt = require('bcrypt');
 
-const User = require('../../../../lib/domain/models/data/user');
+const User = require('../../../../lib/infrastructure/data/user');
 const UserRepository = require('../../../../lib/infrastructure/repositories/user-repository');
 const { AlreadyRegisteredEmailError } = require('../../../../lib/domain/errors');
 const Bookshelf = require('../../../../lib/infrastructure/bookshelf');

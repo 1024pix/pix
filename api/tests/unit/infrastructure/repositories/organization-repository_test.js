@@ -1,8 +1,8 @@
-const { describe, it, before, after, expect, knex, sinon } = require('../../../test-helper');
+const { expect, knex, sinon } = require('../../../test-helper');
 const faker = require('faker');
 const bcrypt = require('bcrypt');
 
-const Organization = require('../../../../lib/domain/models/data/organization');
+const Organization = require('../../../../lib/infrastructure/data/organization');
 const OrganizationRepository = require('../../../../lib/infrastructure/repositories/organization-repository');
 
 describe('Unit | Repository | OrganizationRepository', function() {

@@ -1,5 +1,5 @@
 const Boom = require('boom');
-const Follower = require('../../domain/models/data/follower');
+const Follower = require('../../infrastructure/data/follower');
 const EmailValidator = require('../../domain/services/email-validator');
 const followerSerializer = require('../../infrastructure/serializers/jsonapi/follower-serializer');
 

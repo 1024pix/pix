@@ -1,4 +1,4 @@
-const { describe, it, expect, beforeEach, afterEach, sinon } = require('../../../test-helper');
+const { expect, sinon } = require('../../../test-helper');
 const Bookshelf = require('../../../../lib/infrastructure/bookshelf');
 const userRepository = require('../../../../lib/infrastructure/repositories/user-repository');
 const assessmentRepository = require('../../../../lib/infrastructure/repositories/assessment-repository');
@@ -9,7 +9,7 @@ const courseRepository = require('../../../../lib/infrastructure/repositories/co
 const userService = require('../../../../lib/domain/services/user-service');
 const { UserNotFoundError } = require('../../../../lib/domain/errors');
 
-const Answer = require('../../../../lib/domain/models/data/answer');
+const Answer = require('../../../../lib/infrastructure/data/answer');
 const Assessment = require('../../../../lib/domain/models/Assessment');
 const Skill = require('../../../../lib/domain/models/Skill');
 const Challenge = require('../../../../lib/domain/models/Challenge');
@@ -154,15 +154,15 @@ describe('Unit | Service | User Service', () => {
       return challenge;
     }
 
-    const skillCitation4 = new Skill('@citation4');
-    const skillCollaborer4 = new Skill('@collaborer4');
-    const skillMoteur3 = new Skill('@moteur3');
-    const skillRecherche4 = new Skill('@recherche4');
-    const skillRemplir2 = new Skill('@remplir2');
-    const skillRemplir4 = new Skill('@remplir4');
-    const skillUrl3 = new Skill('@url3');
-    const skillWeb1 = new Skill('@web1');
-    const skillWithoutChallenge = new Skill('@oldSKill8');
+    const skillCitation4 = new Skill({ name: '@citation4' });
+    const skillCollaborer4 = new Skill({ name: '@collaborer4' });
+    const skillMoteur3 = new Skill({ name: '@moteur3' });
+    const skillRecherche4 = new Skill({ name: '@recherche4' });
+    const skillRemplir2 = new Skill({ name: '@remplir2' });
+    const skillRemplir4 = new Skill({ name: '@remplir4' });
+    const skillUrl3 = new Skill({ name: '@url3' });
+    const skillWeb1 = new Skill({ name: '@web1' });
+    const skillWithoutChallenge = new Skill({ name: '@oldSKill8' });
 
     const competenceFlipper = _createCompetence('competenceRecordIdOne', '1.1', '1.1 Construire un flipper');
     const competenceDauphin = _createCompetence('competenceRecordIdTwo', '1.2', '1.2 Adopter un dauphin');
@@ -187,8 +187,8 @@ describe('Unit | Service | User Service', () => {
       sandbox = sinon.sandbox.create();
 
       sandbox.stub(courseRepository, 'getAdaptiveCourses').resolves([
-        { competences : ['competenceRecordIdOne'], id: 'courseId1' },
-        { competences : ['competenceRecordIdTwo'], id: 'courseId2' },
+        { competences: ['competenceRecordIdOne'], id: 'courseId1' },
+        { competences: ['competenceRecordIdTwo'], id: 'courseId2' },
       ]);
       sandbox.stub(assessmentRepository, 'findLastCompletedAssessmentsForEachCoursesByUser').resolves([
         assessment1, assessment2, assessment3

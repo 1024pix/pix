@@ -1,5 +1,5 @@
 const Mark = require('../../domain/models/Mark');
-const BookshelfMark = require('../../domain/models/data/mark');
+const BookshelfMark = require('../data/mark');
 
 function _toDomain(bookshelfModel) {
   return new Mark(bookshelfModel.toJSON());

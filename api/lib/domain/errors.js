@@ -133,6 +133,20 @@ class AssessmentEndedError extends Error {
   }
 }
 
+class WrongDateFormatError extends Error {
+  constructor() {
+    super();
+  }
+
+  getErrorMessage() {
+    return {
+      data: {
+        date: ['Veuillez renseigner une date de session au format (jj/mm/yyyy).']
+      }
+    };
+  }
+}
+
 module.exports = {
   NotFoundError,
   PasswordNotMatching,
@@ -147,5 +161,6 @@ module.exports = {
   UserNotAuthorizedToCertifyError,
   NotCompletedAssessmentError,
   AssessmentEndedError,
-  AlreadyRatedAssessmentError
+  AlreadyRatedAssessmentError,
+  WrongDateFormatError
 };

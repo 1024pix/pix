@@ -1,4 +1,4 @@
-const { describe, it, expect, sinon, beforeEach, afterEach } = require('../../../test-helper');
+const { expect, sinon } = require('../../../test-helper');
 const AssessmentAuhorization = require('../../../../lib/application/preHandlers/assessment-authorization');
 const tokenService = require('../../../../lib/domain/services/token-service');
 const assessmentRepository = require('../../../../lib/infrastructure/repositories/assessment-repository');

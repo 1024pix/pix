@@ -1,8 +1,8 @@
-const { describe, it, expect } = require('../../../../test-helper');
+const { expect } = require('../../../../test-helper');
 const serializer = require('../../../../../lib/infrastructure/serializers/jsonapi/profile-serializer');
-const Profile = require('../../../../../lib/domain/models/data/profile');
-const User = require('../../../../../lib/domain/models/data/user');
-const Organization = require('../../../../../lib/domain/models/data/organization');
+const Profile = require('../../../../../lib/domain/models/Profile');
+const User = require('../../../../../lib/infrastructure/data/user');
+const Organization = require('../../../../../lib/infrastructure/data/organization');
 const Assessment = require('../../../../../lib/domain/models/Assessment');
 const Area = require('../../../../../lib/domain/models/Area');
 

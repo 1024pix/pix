@@ -24,4 +24,24 @@ describe('Unit | Model | Challenge', function() {
       expect(challenge.hardestSkill).to.equal(web5);
     });
   });
+
+  describe('#isActive', function() {
+
+    it('should return true if the status is an active status', function() {
+      // given
+      const challenge = new Challenge('recXXX', 'validé', []);
+
+      // then
+      expect(challenge.isActive).to.equal(true);
+    });
+
+    it('should return false if the status is not an active status', function() {
+      // given
+      const challenge = new Challenge('recXXX', 'test', []);
+
+      // then
+      expect(challenge.isActive).to.equal(false);
+    });
+
+  });
 });

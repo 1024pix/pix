@@ -1,4 +1,4 @@
-const { describe, it, expect } = require('../../../test-helper');
+const { expect } = require('../../../test-helper');
 const snapshotsConverter = require('../../../../lib/infrastructure/converter/snapshots-csv-converter');
 
 describe('Unit | Serializer | CSV | snapshots-converter', () => {

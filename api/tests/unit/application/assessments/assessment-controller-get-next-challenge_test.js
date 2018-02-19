@@ -1,4 +1,4 @@
-const { describe, it, beforeEach, afterEach, sinon, expect } = require('../../../test-helper');
+const { sinon, expect } = require('../../../test-helper');
 const Boom = require('boom');
 
 const assessmentController = require('../../../../lib/application/assessments/assessment-controller');

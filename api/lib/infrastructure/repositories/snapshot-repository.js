@@ -1,4 +1,4 @@
-const Snapshot = require('../../domain/models/data/snapshot');
+const Snapshot = require('../data/snapshot');
 
 module.exports = {
   save(snapshotRawData) {

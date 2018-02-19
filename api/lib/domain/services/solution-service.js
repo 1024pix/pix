@@ -1,4 +1,4 @@
-const Answer = require('../../domain/models/data/answer');
+const Answer = require('../../infrastructure/data/answer');
 const AnswerStatus = require('../../domain/models/AnswerStatus');
 const AnswerStatusJsonApiAdapter = require('../../interfaces/serializer/json-api/AnswerStatusJsonApiAdapter');
 const _ = require('../../infrastructure/utils/lodash-utils');

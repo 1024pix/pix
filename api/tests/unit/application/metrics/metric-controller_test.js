@@ -1,4 +1,4 @@
-const { describe, it, expect } = require('../../../test-helper');
+const { expect } = require('../../../test-helper');
 
 const metricController = require('../../../../lib/application/metrics/metric-controller');
 

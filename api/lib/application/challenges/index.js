@@ -5,11 +5,6 @@ exports.register = function(server, options, next) {
   server.route([
     {
       method: 'GET',
-      path: '/api/challenges',
-      config: { handler: ChallengeController.list, tags: ['api'] }
-    },
-    {
-      method: 'GET',
       path: '/api/challenges/{id}',
       config: { handler: ChallengeController.get, tags: ['api'] }
     },

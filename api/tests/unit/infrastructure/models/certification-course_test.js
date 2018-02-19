@@ -1,7 +1,7 @@
-const { describe, it, expect, sinon, beforeEach } = require('../../../test-helper');
-const CertificationCourse = require('../../../../lib/domain/models/data/certification-course');
+const { expect, sinon } = require('../../../test-helper');
+const BookshelfCertificationCourse = require('../../../../lib/infrastructure/data/certification-course');
 
-describe('Unit | Domain | Models | CertificationCourse', () => {
+describe('Unit | Infrastructure | Models | BookshelfCertificationCourse', () => {
 
   describe('validation', () => {
 
@@ -16,7 +16,7 @@ describe('Unit | Domain | Models | CertificationCourse', () => {
     describe('the status field', () => {
       it('is required', () => {
         // Given
-        const certification = new CertificationCourse(rawData);
+        const certification = new BookshelfCertificationCourse(rawData);
 
         // When
         const promise = certification.save();
@@ -35,7 +35,7 @@ describe('Unit | Domain | Models | CertificationCourse', () => {
       it('should only accept specific values', () => {
         // Given
         rawData.status = 'not_a_correct_status';
-        const certification = new CertificationCourse(rawData);
+        const certification = new BookshelfCertificationCourse(rawData);
 
         // When
         const promise = certification.save();
@@ -55,7 +55,7 @@ describe('Unit | Domain | Models | CertificationCourse', () => {
         it(`should be saved when organisation type is ${organizationType}`, () => {
           // Given
           rawData.status = organizationType;
-          const certification = new CertificationCourse(rawData);
+          const certification = new BookshelfCertificationCourse(rawData);
 
           // When
           const promise = certification.save();

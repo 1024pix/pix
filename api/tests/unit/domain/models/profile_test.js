@@ -1,6 +1,6 @@
-const { describe, it, expect } = require('../../../test-helper');
-const User = require('../../../../lib/domain/models/data/user');
-const Profile = require('../../../../lib/domain/models/data/profile');
+const { expect } = require('../../../test-helper');
+const User = require('../../../../lib/infrastructure/data/user');
+const Profile = require('../../../../lib/domain/models/Profile');
 
 const faker = require('faker');
 

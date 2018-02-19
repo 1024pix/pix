@@ -1,10 +1,10 @@
-const { describe, it, after, beforeEach, before, knex, sinon, expect } = require('../../../test-helper');
+const { knex, sinon, expect } = require('../../../test-helper');
 
 const faker = require('faker');
 const server = require('../../../../server');
 
 const authenticationController = require('../../../../lib/application/authentication/authentication-controller');
-const User = require('../../../../lib/domain/models/data/user');
+const User = require('../../../../lib/infrastructure/data/user');
 
 describe('Unit | Controller | authentication-controller', () => {
 

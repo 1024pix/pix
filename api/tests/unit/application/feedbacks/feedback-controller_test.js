@@ -1,7 +1,7 @@
-const { describe, it, before, after, expect, sinon } = require('../../../test-helper');
+const { expect, sinon } = require('../../../test-helper');
 const Hapi = require('hapi');
 const _ = require('lodash');
-const Feedback = require('../../../../lib/domain/models/data/feedback');
+const Feedback = require('../../../../lib/infrastructure/data/feedback');
 const feedbackController = require('../../../../lib/application/feedbacks/feedback-controller');
 const feedbackRepository = require('../../../../lib/infrastructure/repositories/feedback-repository');
 const feedbackSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/feedback-serializer');

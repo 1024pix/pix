@@ -1,5 +1,5 @@
 const AnswerStatus = require('../domain/models/AnswerStatus');
-
+const BASE_DIFFICULTY = 2;
 class Answer {
   constructor(challenge, result) {
     this.challenge = this._getValidChallenge(challenge);
@@ -23,7 +23,8 @@ class Answer {
     if (difficulties.length > 0) {
       return Math.max(...difficulties);
     } else {
-      return 2;
+      // XXX : to avoid problem when challenge has no skill/ when we cannot get challenge
+      return BASE_DIFFICULTY;
     }
   }
 }

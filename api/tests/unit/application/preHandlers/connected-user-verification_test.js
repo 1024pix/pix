@@ -1,4 +1,4 @@
-const { describe, it, sinon, beforeEach, afterEach } = require('../../../test-helper');
+const { sinon } = require('../../../test-helper');
 const tokenService = require('../../../../lib/domain/services/token-service');
 const ConnectedUserVerification = require('../../../../lib/application/preHandlers/connected-user-verification');
 const validationErrorSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/validation-error-serializer');

@@ -99,15 +99,7 @@ describe('Unit | Model | Assessment', function() {
     });
   });
 
-  describe('#predictedLevel', function() {
-    it('should exist', function() {
-      // given
-      const course = new Course([]);
-      const assessment = new Assessment(course, []);
-
-      // then
-      expect(assessment.predictedLevel).to.exist;
-    });
+  describe('#_getPredictedLevel', function() {
 
     it('should return 2 if user did not provide any answers so far', function() {
       // given
@@ -115,7 +107,7 @@ describe('Unit | Model | Assessment', function() {
       const assessment = new Assessment(course, []);
 
       // then
-      expect(assessment.predictedLevel).to.be.equal(2);
+      expect(assessment._getPredictedLevel()).to.be.equal(2);
     });
 
     it('should return 4.5 if user answered correctly a question of maxDifficulty 4 but failed at 5', function() {
@@ -134,7 +126,7 @@ describe('Unit | Model | Assessment', function() {
       const assessment = new Assessment(course, answers);
 
       // when
-      const predictedLevel = assessment.predictedLevel;
+      const predictedLevel = assessment._getPredictedLevel();
 
       // then
       expect(predictedLevel).to.equal(4.5);
@@ -182,7 +174,7 @@ describe('Unit | Model | Assessment', function() {
       const assessment = new Assessment(course, [answer, answer2]);
 
       // then
-      expect([...assessment.validatedSkills]).to.be.deep.equal([web3forChallengeOne, url3]);
+      expect(assessment.validatedSkills).to.be.deep.equal([web3forChallengeOne, url3]);
     });
 
     it('should not try to add skill from undefined challenge', function() {
@@ -358,7 +350,7 @@ describe('Unit | Model | Assessment', function() {
       const assessment = new Assessment(course, []);
 
       // then
-      expect(assessment._computeReward(ch1)).to.equal(2);
+      expect(assessment._computeReward(ch1,2)).to.equal(2);
     });
 
     it('should be 2.73 if challenge requires url3 within url2-3-4-5 and no answer has been given yet', function() {
@@ -375,7 +367,7 @@ describe('Unit | Model | Assessment', function() {
       const assessment = new Assessment(course, []);
 
       // then
-      expect(assessment._computeReward(ch1)).to.equal(2.7310585786300052);
+      expect(assessment._computeReward(ch1,2)).to.equal(2.7310585786300052);
     });
   });
 
@@ -668,9 +660,8 @@ describe('Unit | Model | Assessment', function() {
     it('should be 0 if no skill has been validated', function() {
       // given
       const skillNames = ['web1', 'chi1', 'web2', 'web3', 'chi3', 'fou3', 'mis3'];
-      const skills = {};
-      skillNames.forEach(skillName => skills[skillName] = new Skill(skillName));
-      const competenceSkills = new Set(Object.values(skills));
+      const skills = [];
+      const competenceSkills = skillNames.map(skillName => skills[skillName] = new Skill(skillName));
       const ch1 = new Challenge('a', 'validé', [skills['web1'], skills['web2']]);
       const ch2 = new Challenge('b', 'validé', [skills['web3']]);
       const course = new Course([ch1, ch2], competenceSkills);
@@ -685,9 +676,8 @@ describe('Unit | Model | Assessment', function() {
     it('should be 8 if validated skills are web1 among 2 (4 pix), web2 (4 pix) but not web3 among 4 (2 pix)', () => {
       // given
       const skillNames = ['web1', 'chi1', 'web2', 'web3', 'chi3', 'fou3', 'mis3'];
-      const skills = {};
-      skillNames.forEach(skillName => skills[skillName] = new Skill(skillName));
-      const competenceSkills = new Set(Object.values(skills));
+      const skills = [];
+      const competenceSkills = skillNames.map(skillName => skills[skillName] = new Skill(skillName));
       const ch1 = new Challenge('a', 'validé', [skills['web1'], skills['web2']]);
       const ch2 = new Challenge('b', 'validé', [skills['web3']]);
       const course = new Course([ch1, ch2], competenceSkills);
@@ -703,8 +693,7 @@ describe('Unit | Model | Assessment', function() {
       // given
       const skillNames = ['web1', 'chi1', 'web2', 'web3', 'chi3', 'fou3', 'mis3'];
       const skills = {};
-      skillNames.forEach(skillName => skills[skillName] = new Skill(skillName));
-      const competenceSkills = new Set(Object.values(skills));
+      const competenceSkills = skillNames.map(skillName => skills[skillName] = new Skill(skillName));
       const ch1 = new Challenge('a', 'validé', [skills['web1']]);
       const ch2 = new Challenge('b', 'validé', [skills['web2']]);
       const ch3 = new Challenge('c', 'validé', [skills['fou3']]);
@@ -724,8 +713,7 @@ describe('Unit | Model | Assessment', function() {
         // given
         const skillNames = ['web1', 'web3', 'ch1', 'ch2', 'ch3', 'truc2'];
         const skills = {};
-        skillNames.forEach(skillName => skills[skillName] = new Skill(skillName));
-        const competenceSkills = new Set(Object.values(skills));
+        const competenceSkills = skillNames.map(skillName => skills[skillName] = new Skill(skillName));
         const web1Challenge = new Challenge('a', 'validé', [skills['web1']]);
         const web3Challege = new Challenge('c', 'validé', [skills['web3']]);
         const ch1Challenge = new Challenge('a', 'validé', [skills['ch1']]);
@@ -751,8 +739,7 @@ describe('Unit | Model | Assessment', function() {
         // given
         const skillNames = ['web1', 'web2', 'web3', 'ch1', 'ch2', 'ch3'];
         const skills = {};
-        skillNames.forEach(skillName => skills[skillName] = new Skill(skillName));
-        const competenceSkills = new Set(Object.values(skills));
+        const competenceSkills = skillNames.map(skillName => skills[skillName] = new Skill(skillName));
         const web1Challenge = new Challenge('a', 'validé', [skills['web1']]);
         const web2Challenge = new Challenge('a', 'validé', [skills['web2']]);
         const web3Challege = new Challenge('c', 'validé', [skills['web3']]);
@@ -827,42 +814,6 @@ describe('Unit | Model | Assessment', function() {
 
       // then
       expect(assessment.obtainedLevel).to.equal(5);
-    });
-
-  });
-
-  describe('Set', () => {
-
-    describe('#union', () => {
-
-      it('should concatenate two Set objects', () => {
-        // given
-        const setA = new Set([1, 2, 3]);
-        const setB = new Set([4, 5, 6]);
-
-        // when
-        const setC = setA.union(setB);
-
-        // then
-        const expectedSet = new Set([1, 2, 3, 4, 5, 6]);
-        expect(setC).to.deep.equal(expectedSet);
-      });
-    });
-
-    describe('#difference', () => {
-
-      it('should remove the Set values from another one', () => {
-        // given
-        const setA = new Set([1, 2, 3, 4, 5, 6]);
-        const setB = new Set([1, 3, 5, 7]);
-
-        // when
-        const setC = setA.difference(setB);
-
-        // then
-        const expectedSet = new Set([2, 4, 6]);
-        expect(setC).to.deep.equal(expectedSet);
-      });
     });
 
   });

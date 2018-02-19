@@ -1,4 +1,4 @@
-const { describe, it, beforeEach, afterEach, expect, sinon } = require('../../../test-helper');
+const { expect, sinon } = require('../../../test-helper');
 const cache = require('../../../../lib/infrastructure/cache');
 const airtable = require('../../../../lib/infrastructure/airtable');
 const courseRepository = require('../../../../lib/infrastructure/repositories/course-repository');

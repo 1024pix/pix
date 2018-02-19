@@ -5,7 +5,7 @@ const courseRepository = require('../../infrastructure/repositories/course-repos
 const assessmentRepository = require('../../infrastructure/repositories/assessment-repository');
 const organizationRepository = require('../../infrastructure/repositories/organization-repository');
 
-const Profile = require('../../domain/models/data/profile');
+const Profile = require('../models/Profile');
 
 // FIXME: A déplacer dans le competenceRepository pour qu'il ne renvoit plus des Challenges de Bookshelf (mais objets du domaine).
 function _initCompetenceLevel(competences) {

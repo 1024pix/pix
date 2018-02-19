@@ -1,6 +1,6 @@
-const { describe, it, after, beforeEach, afterEach, expect, knex } = require('../../test-helper');
+const { expect, knex } = require('../../test-helper');
 const server = require('../../../server');
-const Feedback = require('../../../lib/domain/models/data/feedback');
+const Feedback = require('../../../lib/infrastructure/data/feedback');
 
 describe('Acceptance | Controller | feedback-controller', function() {
 

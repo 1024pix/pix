@@ -1,4 +1,4 @@
-const { describe, it, expect } = require('../../../test-helper');
+const { expect } = require('../../../test-helper');
 const { _getSmallestLevenshteinDistance, t3 } = require('../../../../lib/domain/services/validation-comparison');
 
 describe('Unit | Service | Validation Comparison', function() {

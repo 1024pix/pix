@@ -8,6 +8,13 @@ exports.register = function(server, options, next) {
       config: {
         handler: sessionController.get, tags: ['api']
       }
+    },
+    {
+      method: 'POST',
+      path: '/api/sessions',
+      config: {
+        handler: sessionController.save, tags: ['api']
+      }
     }
   ]);
 

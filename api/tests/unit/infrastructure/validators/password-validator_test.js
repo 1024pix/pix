@@ -1,4 +1,4 @@
-const { describe, it, expect } = require('../../../test-helper');
+const { expect } = require('../../../test-helper');
 const isPasswordvalid = require('../../../../lib/infrastructure/validators/password-validator');
 
 describe('Unit | Validator | password-validator', function() {

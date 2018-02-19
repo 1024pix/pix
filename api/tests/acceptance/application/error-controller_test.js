@@ -1,4 +1,4 @@
-const { describe, it, after, expect } = require('../../test-helper');
+const { expect } = require('../../test-helper');
 const server = require('../../../server');
 
 describe('Acceptance | Controller | error-controller', function() {
