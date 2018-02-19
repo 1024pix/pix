@@ -33,7 +33,6 @@ if (config.environment === 'integration' || config.environment === 'staging' || 
 
 Router.map(function() {
   this.route('index', { path: '/' });
-  this.route('courses');
   this.route('placement-tests');
   this.route('project', { path: '/projet' });
   this.route('competences');
