@@ -11,12 +11,13 @@ describe('Unit | Repository | Certification Course', function() {
     let savedCertificationCourse;
 
     beforeEach(() => {
-      certificationCourse = new CertificationCourse({ id: 'certifId', userId: 1, status: 'completed', completedAt: null });
+      certificationCourse = new CertificationCourse({ id: 'certifId', userId: 1, status: 'completed', completedAt: null, createdAt: null });
       savedCertificationCourse = new CertificationCourse({
         id: 'certifId',
         userId: 1,
         status: 'completed',
         completedAt: null,
+        createdAt: null,
         type: 'CERTIFICATION',
         challenges: [],
         assessment: {}

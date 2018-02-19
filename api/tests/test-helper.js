@@ -1,3 +1,6 @@
+// Mocha
+const { describe, it, after, before, beforeEach, afterEach } = require('mocha');
+
 // Chai
 const chai = require('chai');
 const expect = chai.expect;
@@ -16,6 +19,12 @@ const nock = require('nock');
 nock.disableNetConnect();
 
 module.exports = {
+  describe,
+  it,
+  after,
+  before,
+  beforeEach,
+  afterEach,
   expect,
   sinon,
   knex,

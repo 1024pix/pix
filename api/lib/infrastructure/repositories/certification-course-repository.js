@@ -10,6 +10,7 @@ function _toDomain(model) {
     type: 'CERTIFICATION',
     assessment: model.related('assessment').toJSON(),
     challenges: model.related('challenges').toJSON(),
+    createdAt: model.get('createdAt'),
     completedAt: model.get('completedAt')
   });
 }

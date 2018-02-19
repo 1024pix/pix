@@ -5,6 +5,14 @@ exports.register = function(server, options, next) {
   server.route([
     {
       method: 'GET',
+      path: '/api/certification-courses/{id}/result/compute',
+      config: {
+        handler: certificationCourseController.computeResult,
+        tags: ['api']
+      }
+    },
+    {
+      method: 'GET',
       path: '/api/certification-courses/{id}/result',
       config: {
         handler: certificationCourseController.getResult,
