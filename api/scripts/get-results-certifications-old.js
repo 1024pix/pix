@@ -37,10 +37,12 @@ function makeRequest(config) {
 
 function findCompetence(profile, competenceName) {
   const result = profile.find(competence => competence.index === competenceName);
-  return (result || { level: '' }).level;
+  return (result || { obtainedLevel: '' }).obtainedLevel;
 }
 
 function toCSVRow(rowJSON) {
+  console.log(rowJSON)
+
   const res = {};
   const [idColumn, dateStartColumn, dateEndColumn, noteColumn, ...competencesColumns] = HEADERS;
   res[idColumn] = rowJSON.certificationId;
@@ -157,7 +159,7 @@ if (process.env.NODE_ENV !== 'test') {
             name: 'Sécuriser l\'environnement numérique',
             index: '1.1',
             id: 'rec',
-            level: 9001
+            obtainedLevel: 9001
           }
         ] };
         // when
@@ -173,13 +175,13 @@ if (process.env.NODE_ENV !== 'test') {
             name: 'Mener une recherche',
             index: '1.1',
             id: 'rec',
-            level: 4
+            obtainedLevel: 4
           },
           {
             name: 'Sécuriser l\'environnement numérique',
             index: '1.2',
             id: 'rec',
-            level: 6
+            obtainedLevel: 6
           }
         ] };
         // when
@@ -202,13 +204,13 @@ if (process.env.NODE_ENV !== 'test') {
         expect(result).to.be.equals('');
       });
 
-      it('should return competence level when found', () => {
+      it('should return competence obtainedLevel when found', () => {
         // given
         const profile = [{
           name: 'Sécuriser l\'environnement numérique',
           index: '1.1',
           id: 'rec',
-          level: 9
+          obtainedLevel: 9
         }];
         const competenceName = '1.1';
         // when

@@ -15,7 +15,7 @@ const certificationCourseRepository = require('../../../../lib/infrastructure/re
 const Assessment = require('../../../../lib/domain/models/Assessment');
 
 function _buildAnswer(challengeId, result) {
-  return new Answer({ id: 'answer_id', challengeId, result });
+  return new Answer({ id: 'answer_id', challengeId, result, value: 'something' });
 }
 
 function _buildCertificationChallenge(challengeId, competenceId) {
@@ -23,7 +23,7 @@ function _buildCertificationChallenge(challengeId, competenceId) {
 }
 
 function _buildChallenge(id, competence, type) {
-  return { id, competence, type };
+  return { id, competence, type, testedSkill: '@skill' };
 }
 
 function _buildCompetence(name, index, courseId, pixScore, estimatedLevel, challenges) {
@@ -163,7 +163,7 @@ describe('Unit | Service | Certification Service', function() {
     let sandbox;
 
     const certificationAssessement = new Assessment({ id: 'assessment_id', userId: 'user_id', courseId: 'course_id', createdAt: '2018-01-01' });
-    const certificationCourse = { id: 'course1', status: 'completed' };
+    const certificationCourse = { id: 'course1', status: 'completed', completedAt: '2018-01-01'  };
 
     const userProfile = competences;
 
@@ -249,26 +249,34 @@ describe('Unit | Service | Certification Service', function() {
           index: '1.1',
           id: 'competence_1',
           name: 'Mener une recherche',
-          level: UNCERTIFIED_LEVEL,
-          score: 0
+          obtainedLevel: UNCERTIFIED_LEVEL,
+          positionedLevel: 1,
+          positionedScore: 10,
+          obtainedScore: 0
         }, {
           index: '2.2',
           id: 'competence_2',
           name: 'Partager',
-          level: UNCERTIFIED_LEVEL,
-          score: 0
+          obtainedLevel: UNCERTIFIED_LEVEL,
+          positionedLevel: 2,
+          positionedScore: 20,
+          obtainedScore: 0
         }, {
           index: '3.3',
           id: 'competence_3',
           name: 'Adapter',
-          level: UNCERTIFIED_LEVEL,
-          score: 0
+          obtainedLevel: UNCERTIFIED_LEVEL,
+          positionedLevel: 3,
+          positionedScore: 30,
+          obtainedScore: 0
         }, {
           index: '4.4',
           id: 'competence_4',
           name: 'Résoudre',
-          level: UNCERTIFIED_LEVEL,
-          score: 0
+          obtainedLevel: UNCERTIFIED_LEVEL,
+          positionedLevel: 4,
+          positionedScore: 40,
+          obtainedScore: 0
         }];
 
         // when
@@ -305,26 +313,34 @@ describe('Unit | Service | Certification Service', function() {
             index: '1.1',
             id: 'competence_1',
             name: 'Mener une recherche',
-            level: 1,
-            score: pixForCompetence1
+            obtainedLevel: 1,
+            positionedLevel: 1,
+            positionedScore: 10,
+            obtainedScore: pixForCompetence1
           }, {
             index: '2.2',
             id: 'competence_2',
             name: 'Partager',
-            level: 2,
-            score: pixForCompetence2
+            obtainedLevel: 2,
+            positionedLevel: 2,
+            positionedScore: 20,
+            obtainedScore: pixForCompetence2
           }, {
             index: '3.3',
             id: 'competence_3',
             name: 'Adapter',
-            level: 3,
-            score: pixForCompetence3
+            obtainedLevel: 3,
+            positionedLevel: 3,
+            positionedScore: 30,
+            obtainedScore: pixForCompetence3
           }, {
             index: '4.4',
             id: 'competence_4',
             name: 'Résoudre',
-            level: 4,
-            score: pixForCompetence4
+            obtainedLevel: 4,
+            positionedLevel: 4,
+            positionedScore: 40,
+            obtainedScore: pixForCompetence4
           }
         ];
 
@@ -359,26 +375,35 @@ describe('Unit | Service | Certification Service', function() {
           index: '1.1',
           id: 'competence_1',
           name: 'Mener une recherche',
-          level: 1,
-          score: pixForCompetence1
+          obtainedLevel: 1,
+          positionedLevel: 1,
+          positionedScore: 10,
+          obtainedScore: pixForCompetence1
         }, {
           index: '2.2',
           id: 'competence_2',
           name: 'Partager',
-          level: 2,
-          score: pixForCompetence2
+          obtainedLevel: 2,
+          positionedLevel: 2,
+          positionedScore: 20,
+          obtainedScore: pixForCompetence2
         }, {
           index: '3.3',
           id: 'competence_3',
           name: 'Adapter',
-          level: 3,
-          score: pixForCompetence3
+          obtainedLevel: 3,
+          positionedLevel: 3,
+          positionedScore: 30,
+          obtainedScore: pixForCompetence3
         }, {
           index: '4.4',
           id: 'competence_4',
           name: 'Résoudre',
-          level: -1,
-          score: 0
+          obtainedLevel: UNCERTIFIED_LEVEL,
+
+          positionedLevel: 4,
+          positionedScore: 40,
+          obtainedScore: 0
         }];
 
         // when
@@ -418,26 +443,35 @@ describe('Unit | Service | Certification Service', function() {
           index: '1.1',
           id: 'competence_1',
           name: 'Mener une recherche',
-          level: 0,
-          score: pixForCompetence1 - malusForFalseAnswer
+          obtainedLevel: 0,
+          positionedLevel: 1,
+          positionedScore: 10,
+          obtainedScore: pixForCompetence1 - malusForFalseAnswer
         }, {
           index: '2.2',
           id: 'competence_2',
           name: 'Partager',
-          level: 2,
-          score: pixForCompetence2
+          obtainedLevel: 2,
+          positionedLevel: 2,
+          positionedScore: 20,
+          obtainedScore: pixForCompetence2
         }, {
           index: '3.3',
           id: 'competence_3',
           name: 'Adapter',
-          level: -1,
-          score: 0
+          obtainedLevel: UNCERTIFIED_LEVEL,
+
+          positionedLevel: 3,
+          positionedScore: 30,
+          obtainedScore: 0
         }, {
           index: '4.4',
           id: 'competence_4',
           name: 'Résoudre',
-          level: 3,
-          score: pixForCompetence4 - malusForFalseAnswer
+          obtainedLevel: 3,
+          positionedLevel: 4,
+          positionedScore: 40,
+          obtainedScore: pixForCompetence4 - malusForFalseAnswer
         }];
 
         // when
@@ -448,6 +482,152 @@ describe('Unit | Service | Certification Service', function() {
           expect(result.competencesWithMark).to.deep.equal(expectedCertifiedCompetences);
         });
       });
+
+      it('should return a object contains informations about competences and challenges', () => {
+        // given
+        const malusForFalseAnswer = 8;
+        const expectedCertifiedCompetences = [{
+          index: '1.1',
+          id: 'competence_1',
+          name: 'Mener une recherche',
+          obtainedLevel: 0,
+          positionedLevel: 1,
+          positionedScore: 10,
+          obtainedScore: pixForCompetence1 - malusForFalseAnswer
+        }, {
+          index: '2.2',
+          id: 'competence_2',
+          name: 'Partager',
+          obtainedLevel: 2,
+          positionedLevel: 2,
+          positionedScore: 20,
+          obtainedScore: pixForCompetence2
+        }, {
+          index: '3.3',
+          id: 'competence_3',
+          name: 'Adapter',
+          positionedLevel: 3,
+          positionedScore: 30,
+          obtainedLevel: UNCERTIFIED_LEVEL,
+
+          obtainedScore: 0
+        }, {
+          index: '4.4',
+          id: 'competence_4',
+          name: 'Résoudre',
+          obtainedLevel: 3,
+          positionedLevel: 4,
+          positionedScore: 40,
+          obtainedScore: pixForCompetence4 - malusForFalseAnswer
+        }];
+
+        const expectedChallenges = [
+          {
+            challengeId: 'challenge_A_for_competence_1',
+            competence: '1.1',
+            skill: '@skill',
+            result: 'ok',
+            value: 'something',
+          },
+          {
+            challengeId: 'challenge_B_for_competence_1',
+            competence: '1.1',
+            skill: '@skill',
+            result: 'ko',
+            value: 'something',
+          },
+          {
+            challengeId: 'challenge_C_for_competence_1',
+            competence: '1.1',
+            skill: '@skill',
+            result: 'ok',
+            value: 'something',
+          },
+          {
+            challengeId: 'challenge_D_for_competence_2',
+            competence: '2.2',
+            skill: '@skill',
+            result: 'ok',
+            value: 'something',
+          },
+          {
+            challengeId: 'challenge_E_for_competence_2',
+            competence: '2.2',
+            skill: '@skill',
+            result: 'ok',
+            value: 'something',
+          },
+          {
+            challengeId: 'challenge_F_for_competence_2',
+            competence: '2.2',
+            skill: '@skill',
+            result: 'ok',
+            value: 'something',
+          },
+          {
+            challengeId: 'challenge_G_for_competence_3',
+            competence: '3.3',
+            skill: '@skill',
+            result: 'ok',
+            value: 'something',
+          },
+          {
+            challengeId: 'challenge_H_for_competence_3',
+            competence: '3.3',
+            skill: '@skill',
+            result: 'ko',
+            value: 'something',
+          },
+          {
+            challengeId: 'challenge_I_for_competence_3',
+            competence: '3.3',
+            skill: '@skill',
+            result: 'ko',
+            value: 'something',
+          },
+          {
+            challengeId: 'challenge_J_for_competence_4',
+            competence: '4.4',
+            skill: '@skill',
+            result: 'ok',
+            value: 'something',
+          },
+          {
+            challengeId: 'challenge_K_for_competence_4',
+            competence: '4.4',
+            skill: '@skill',
+            result: 'ko',
+            value: 'something',
+          },
+          {
+            challengeId: 'challenge_L_for_competence_4',
+            competence: '4.4',
+            skill: '@skill',
+            result: 'ok',
+            value: 'something',
+          }
+
+        ];
+        const expectedResult = {
+          competencesWithMark: expectedCertifiedCompetences,
+          listChallengesAndAnswers: expectedChallenges,
+          percentageCorrectAnswers: 67,
+          status: 'completed',
+          totalScore: 54,
+          userId: 'user_id',
+          completedAt: '2018-01-01',
+          createdAt: '2018-01-01'
+        };
+
+        // when
+        const promise = certificationService.calculateCertificationResultByCertificationCourseId('course_id');
+
+        // then
+        return promise.then((result) => {
+          expect(result).to.deep.equal(expectedResult);
+        });
+      });
+
     });
   });
 
@@ -545,26 +725,38 @@ describe('Unit | Service | Certification Service', function() {
           index: '1.1',
           id: 'competence_1',
           name: 'Mener une recherche',
-          level: -1,
-          score: 0
+          obtainedLevel: UNCERTIFIED_LEVEL,
+
+          positionedLevel: 1,
+          positionedScore: 10,
+          obtainedScore: 0
         }, {
           index: '2.2',
           id: 'competence_2',
           name: 'Partager',
-          level: -1,
-          score: 0
+          obtainedLevel: UNCERTIFIED_LEVEL,
+
+          positionedLevel: 2,
+          positionedScore: 20,
+          obtainedScore: 0
         }, {
           index: '3.3',
           id: 'competence_3',
           name: 'Adapter',
-          level: -1,
-          score: 0
+          obtainedLevel: UNCERTIFIED_LEVEL,
+
+          positionedLevel: 3,
+          positionedScore: 30,
+          obtainedScore: 0
         }, {
           index: '4.4',
           id: 'competence_4',
           name: 'Résoudre',
-          level: -1,
-          score: 0
+          obtainedLevel: UNCERTIFIED_LEVEL,
+
+          positionedLevel: 4,
+          positionedScore: 40,
+          obtainedScore: 0
         }];
 
         // when
@@ -602,26 +794,34 @@ describe('Unit | Service | Certification Service', function() {
             index: '1.1',
             id: 'competence_1',
             name: 'Mener une recherche',
-            level: 1,
-            score: pixForCompetence1
+            obtainedLevel: 1,
+            positionedLevel: 1,
+            positionedScore: 10,
+            obtainedScore: pixForCompetence1
           }, {
             index: '2.2',
             id: 'competence_2',
             name: 'Partager',
-            level: 2,
-            score: pixForCompetence2
+            obtainedLevel: 2,
+            positionedLevel: 2,
+            positionedScore: 20,
+            obtainedScore: pixForCompetence2
           }, {
             index: '3.3',
             id: 'competence_3',
             name: 'Adapter',
-            level: 3,
-            score: pixForCompetence3
+            obtainedLevel: 3,
+            positionedLevel: 3,
+            positionedScore: 30,
+            obtainedScore: pixForCompetence3
           }, {
             index: '4.4',
             id: 'competence_4',
             name: 'Résoudre',
-            level: 4,
-            score: pixForCompetence4
+            obtainedLevel: 4,
+            positionedLevel: 4,
+            positionedScore: 40,
+            obtainedScore: pixForCompetence4
           }
         ];
 
@@ -656,26 +856,34 @@ describe('Unit | Service | Certification Service', function() {
           index: '1.1',
           id: 'competence_1',
           name: 'Mener une recherche',
-          level: 1,
-          score: pixForCompetence1
+          obtainedLevel: 1,
+          positionedLevel: 1,
+          positionedScore: 10,
+          obtainedScore: pixForCompetence1
         }, {
           index: '2.2',
           id: 'competence_2',
           name: 'Partager',
-          level: 2,
-          score: pixForCompetence2
+          obtainedLevel: 2,
+          positionedLevel: 2,
+          positionedScore: 20,
+          obtainedScore: pixForCompetence2
         }, {
           index: '3.3',
           id: 'competence_3',
           name: 'Adapter',
-          level: 3,
-          score: pixForCompetence3
+          obtainedLevel: 3,
+          positionedLevel: 3,
+          positionedScore: 30,
+          obtainedScore: pixForCompetence3
         }, {
           index: '4.4',
           id: 'competence_4',
           name: 'Résoudre',
-          level: UNCERTIFIED_LEVEL,
-          score: 0
+          obtainedLevel: UNCERTIFIED_LEVEL,
+          positionedLevel: 4,
+          positionedScore: 40,
+          obtainedScore: 0
         }];
 
         // when
@@ -716,26 +924,34 @@ describe('Unit | Service | Certification Service', function() {
           index: '1.1',
           id: 'competence_1',
           name: 'Mener une recherche',
-          level: 0,
-          score: pixForCompetence1 - malusForFalseAnswer
+          obtainedLevel: 0,
+          positionedLevel: 1,
+          positionedScore: 10,
+          obtainedScore: pixForCompetence1 - malusForFalseAnswer
         }, {
           index: '2.2',
           id: 'competence_2',
           name: 'Partager',
-          level: 2,
-          score: pixForCompetence2
+          obtainedLevel: 2,
+          positionedLevel: 2,
+          positionedScore: 20,
+          obtainedScore: pixForCompetence2
         }, {
           index: '3.3',
           id: 'competence_3',
           name: 'Adapter',
-          level: UNCERTIFIED_LEVEL,
-          score: 0
+          obtainedLevel: UNCERTIFIED_LEVEL,
+          positionedLevel: 3,
+          positionedScore: 30,
+          obtainedScore: 0
         }, {
           index: '4.4',
           id: 'competence_4',
           name: 'Résoudre',
-          level: 3,
-          score: pixForCompetence4 - malusForFalseAnswer
+          obtainedLevel: 3,
+          positionedLevel: 4,
+          positionedScore: 40,
+          obtainedScore: pixForCompetence4 - malusForFalseAnswer
         }];
 
         // when
@@ -788,14 +1004,18 @@ describe('Unit | Service | Certification Service', function() {
           index: '5.5',
           id: 'competence_5',
           name: 'Compétence à valider',
-          level: 5,
-          score: 50
+          obtainedLevel: 5,
+          positionedLevel: 5,
+          positionedScore: 50,
+          obtainedScore: 50
         }, {
           index: '6.6',
           id: 'competence_6',
           name: 'Compétence réussie moyennement',
-          level: UNCERTIFIED_LEVEL,
-          score: 0
+          obtainedLevel: UNCERTIFIED_LEVEL,
+          positionedLevel: 3,
+          positionedScore: 36,
+          obtainedScore: 0
         }];
 
         // when
@@ -821,14 +1041,18 @@ describe('Unit | Service | Certification Service', function() {
           index: '5.5',
           id: 'competence_5',
           name: 'Compétence à valider',
-          level: 4,
-          score: 42
+          obtainedLevel: 4,
+          positionedLevel: 5,
+          positionedScore: 50,
+          obtainedScore: 42
         }, {
           index: '6.6',
           id: 'competence_6',
           name: 'Compétence réussie moyennement',
-          level: 2,
-          score: 28
+          obtainedLevel: 2,
+          positionedLevel: 3,
+          positionedScore: 36,
+          obtainedScore: 28
         }];
 
         // when
