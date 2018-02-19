@@ -276,7 +276,7 @@ describe('Unit | Service | Certification Service', function() {
 
         // then
         return promise.then((result) => {
-          expect(result.listCertifiedCompetences).to.deep.equal(expectedCertifiedCompetences);
+          expect(result.competencesWithMark).to.deep.equal(expectedCertifiedCompetences);
         });
       });
     });
@@ -333,7 +333,7 @@ describe('Unit | Service | Certification Service', function() {
 
         // then
         return promise.then((result) => {
-          expect(result.listCertifiedCompetences).to.deep.equal(expectedCertifiedCompetences);
+          expect(result.competencesWithMark).to.deep.equal(expectedCertifiedCompetences);
         });
       });
 
@@ -386,7 +386,7 @@ describe('Unit | Service | Certification Service', function() {
 
         // then
         return promise.then((result) => {
-          expect(result.listCertifiedCompetences).to.deep.equal(expectedCertifiedCompetences);
+          expect(result.competencesWithMark).to.deep.equal(expectedCertifiedCompetences);
         });
       });
     });
@@ -445,7 +445,7 @@ describe('Unit | Service | Certification Service', function() {
 
         // then
         return promise.then((result) => {
-          expect(result.listCertifiedCompetences).to.deep.equal(expectedCertifiedCompetences);
+          expect(result.competencesWithMark).to.deep.equal(expectedCertifiedCompetences);
         });
       });
     });
@@ -572,7 +572,7 @@ describe('Unit | Service | Certification Service', function() {
 
         // then
         return promise.then((result) => {
-          expect(result.listCertifiedCompetences).to.deep.equal(expectedCertifiedCompetences);
+          expect(result.competencesWithMark).to.deep.equal(expectedCertifiedCompetences);
         });
       });
     });
@@ -630,7 +630,7 @@ describe('Unit | Service | Certification Service', function() {
 
         // then
         return promise.then((result) => {
-          expect(result.listCertifiedCompetences).to.deep.equal(expectedCertifiedCompetences);
+          expect(result.competencesWithMark).to.deep.equal(expectedCertifiedCompetences);
         });
       });
 
@@ -683,7 +683,7 @@ describe('Unit | Service | Certification Service', function() {
 
         // then
         return promise.then((result) => {
-          expect(result.listCertifiedCompetences).to.deep.equal(expectedCertifiedCompetences);
+          expect(result.competencesWithMark).to.deep.equal(expectedCertifiedCompetences);
         });
       });
     });
@@ -743,7 +743,7 @@ describe('Unit | Service | Certification Service', function() {
 
         // then
         return promise.then((result) => {
-          expect(result.listCertifiedCompetences).to.deep.equal(expectedCertifiedCompetences);
+          expect(result.competencesWithMark).to.deep.equal(expectedCertifiedCompetences);
         });
       });
 
@@ -803,7 +803,7 @@ describe('Unit | Service | Certification Service', function() {
 
         // then
         return promise.then((result) => {
-          expect(result.listCertifiedCompetences).to.deep.equal(expectedCertifiedCompetences);
+          expect(result.competencesWithMark).to.deep.equal(expectedCertifiedCompetences);
         });
       });
 
@@ -836,7 +836,7 @@ describe('Unit | Service | Certification Service', function() {
 
         // then
         return promise.then((result) => {
-          expect(result.listCertifiedCompetences).to.deep.equal(expectedCertifiedCompetences);
+          expect(result.competencesWithMark).to.deep.equal(expectedCertifiedCompetences);
         });
       });
     });
@@ -936,6 +936,55 @@ describe('Unit | Service | Certification Service', function() {
         sinon.assert.calledOnce(certificationChallengesService.saveChallenges);
         expect(certificationChallengesService.saveChallenges).to.have.been.calledWith(fiveCompetencesWithLevelHigherThan0, certificationCourse);
         expect(newCertification.nbChallenges).to.equal(3);
+      });
+    });
+  });
+
+  describe('#getCertificationResult', () => {
+    let sandbox;
+
+    beforeEach(() => {
+      sandbox = sinon.sandbox.create();
+      sandbox.stub(assessmentRepository, 'getByCertificationCourseId').resolves({
+        pixScore: 20,
+        marks: [
+          {
+            level:3,
+            competence_code: '2.1'
+          }
+        ]
+      });
+      sandbox.stub(certificationCourseRepository, 'get').resolves({
+        createdAt: '2017-12-23 15:23:12',
+        completedAt: '2017-12-23T16:23:12.232Z'
+      });
+    });
+
+    afterEach(() => {
+      sandbox.restore();
+    });
+
+    it('should return certification results with pix score, date and certified competences levels', () => {
+      // given
+      const certificationCourseId = 1;
+      const expectedCertificationResult = {
+        pixScore: 20,
+        createdAt: '2017-12-23 15:23:12',
+        completedAt: '2017-12-23T16:23:12.232Z',
+        competencesWithMark: [
+          {
+            level:3,
+            competence_code: '2.1'
+          }
+        ]
+      };
+
+      // when
+      const promise = certificationService.getCertificationResult(certificationCourseId);
+
+      // then
+      return promise.then(result => {
+        expect(result).to.deep.equal(expectedCertificationResult);
       });
     });
   });

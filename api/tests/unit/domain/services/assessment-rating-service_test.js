@@ -323,7 +323,7 @@ describe('Unit | Domain | Services | assessment-ratings', () => {
       let clock;
 
       const certificationResults = {
-        listCertifiedCompetences: [{
+        competencesWithMark: [{
           index: '1.1',
           id: 'competence_1',
           name: 'Mener une recherche',

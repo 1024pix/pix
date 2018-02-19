@@ -18,9 +18,9 @@ const { AlreadyRatedAssessmentError, NotFoundError } = require('../errors');
 function _getMarksToSaveForCertificationAssessment(assessmentId) {
   return Promise
     .all([competenceRepository.list(), certificationService.calculateCertificationResultByAssessmentId(assessmentId)])
-    .then(([competences, { listCertifiedCompetences }]) => {
+    .then(([competences, { competencesWithMark }]) => {
 
-      return listCertifiedCompetences.map((certifiedCompetence) => {
+      return competencesWithMark.map((certifiedCompetence) => {
 
         const area_code = _(competences).find((competence) => {
           return competence.index === certifiedCompetence.index;
