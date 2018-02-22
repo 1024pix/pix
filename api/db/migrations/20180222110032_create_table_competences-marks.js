@@ -1,15 +1,15 @@
-const TABLE_NAME = 'corrections';
+const TABLE_NAME = 'competence-marks';
 
 exports.up = (knex) => {
   return knex.schema
     .createTable(TABLE_NAME, (t) => {
       t.increments().primary();
-      t.dateTime('createdAt').notNullable().defaultTo(knex.fn.now());
       t.integer('level');
-      t.integer('pixScore').unsigned();
-      t.text('emitter').notNull();
-      t.text('comment').notNull();
-      t.integer('assessmentId').unsigned().references('assessments.id');
+      t.integer('score').unsigned();
+      t.text('area_code').notNull();
+      t.text('competence_code').notNull();
+      t.dateTime('createdAt').notNullable().defaultTo(knex.fn.now());
+      t.integer('correctionId').unsigned().references('corrections.id');
     })
     .then(() => {
       console.log(`${TABLE_NAME} table is created!`);

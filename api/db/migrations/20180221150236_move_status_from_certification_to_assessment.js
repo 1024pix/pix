@@ -5,7 +5,7 @@ const TABLE_NAME_ASSESSMENTS = 'assessments';
 exports.up = function(knex, Promise) {
   // Add Column
   return knex.schema.table(TABLE_NAME_ASSESSMENTS, function(table) {
-    table.integer('status');
+    table.text('status');
   }).then(() => {
 
     // Get certifications Status
@@ -58,7 +58,7 @@ exports.up = function(knex, Promise) {
 exports.down = function(knex, Promise) {
   // Add Column
   return knex.schema.table(TABLE_NAME_CERTIFICATION, function(table) {
-    table.integer('status');
+    table.text('status');
   }).then(() => {
 
     // Get certifications Status

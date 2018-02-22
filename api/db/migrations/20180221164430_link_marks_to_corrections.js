@@ -5,7 +5,8 @@ const TABLE_NAME_MARKS = 'marks';
 exports.up = function(knex, Promise) {
 
   return knex.schema.table(TABLE_NAME_MARKS, function(table) {
-    table.integer('correctionId').unsigned().references('corrections.id');
+    table.integer('correctionId').unsigned();
+    table.foreign('correctionId').references('corrections.id');
   }).then(() => {
     return knex(TABLE_NAME_CORRECTIONS)
       .select('id', 'assessmentId');

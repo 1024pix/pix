@@ -22,9 +22,6 @@ exports.up = function(knex, Promise) {
     }).then(() => {
       return knex.schema.table(TABLE_NAME_ASSESSMENTS, function (table) {
         table.dropColumn('pixScore');
-      });
-    }).then(() => {
-      return knex.schema.table(TABLE_NAME_ASSESSMENTS, function (table) {
         table.dropColumn('estimatedLevel');
       });
     });
@@ -33,14 +30,10 @@ exports.up = function(knex, Promise) {
 exports.down = function(knex, Promise) {
   return knex.schema.table(TABLE_NAME_ASSESSMENTS, function(table) {
     table.integer('pixScore');
-  }).then(() => {
-    return knex.schema.table(TABLE_NAME_ASSESSMENTS, function(table) {
-      table.integer('estimatedLevel');
-    });
+    table.integer('estimatedLevel');
   }).then(() => {
     return knex(TABLE_NAME_CORRECTIONS)
-      .select('id', 'assessmentId', 'pixScore', 'level')
-      .where('status', '!=', 'started');
+      .select('id', 'assessmentId', 'pixScore', 'level');
   }).then((allCorrections) => {
     const promises = allCorrections.map(correction => {
       return knex(TABLE_NAME_ASSESSMENTS)
