@@ -1,11 +1,23 @@
 const cache = require('../cache');
 const airtable = require('../airtable');
 const serializer = require('../serializers/airtable/competence-serializer');
+const Competence = require('../../domain/models/Competence');
 
 const AIRTABLE_TABLE_NAME = 'Competences';
 
+function _toDomain(airtableCompetence) {
+  return new Competence({
+    id: airtableCompetence.getId(),
+    name: airtableCompetence.get('Titre'),
+    index: airtableCompetence.get('Sous-domaine')
+  });
+}
+
 module.exports = {
 
+  /**
+   * @deprecated use method #find below
+   */
   list() {
     const cacheKey = 'competence-repository_list';
     const cachedCompetences = cache.get(cacheKey);
@@ -34,6 +46,16 @@ module.exports = {
       .then((competence) => {
         cache.set(cacheKey, competence);
         return competence;
+      });
+  },
+
+  find() {
+    const query = {
+      sort: [{ field: 'Sous-domaine', direction: 'asc' }]
+    };
+    return airtable.findRecords('Competences', query)
+      .then((competences) => {
+        return competences.map(_toDomain);
       });
   }
 

@@ -1,7 +1,7 @@
 const { expect, sinon } = require('../../../test-helper');
 
 const User = require('../../../../lib/infrastructure/data/user');
-const Organisation = require('../../../../lib/infrastructure/data/organization');
+const Organization = require('../../../../lib/infrastructure/data/organization');
 const organizationController = require('../../../../lib/application/organizations/organization-controller');
 const userRepository = require('../../../../lib/infrastructure/repositories/user-repository');
 const organisationRepository = require('../../../../lib/infrastructure/repositories/organization-repository');
@@ -12,7 +12,7 @@ const snapshotSerializer = require('../../../../lib/infrastructure/serializers/j
 const validationErrorSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/validation-error-serializer');
 const Snapshot = require('../../../../lib/infrastructure/data/snapshot');
 const bookshelfUtils = require('../../../../lib/infrastructure/utils/bookshelf-utils');
-const snapshotsCsvConverter = require('../../../../lib/infrastructure/converter/snapshots-csv-converter');
+const { NotFoundError } = require('../../../../lib/domain/errors');
 
 const logger = require('../../../../lib/infrastructure/logger');
 const { AlreadyRegisteredEmailError } = require('../../../../lib/domain/errors');
@@ -26,7 +26,7 @@ describe('Unit | Controller | organizationController', () => {
 
   describe('#create', () => {
 
-    const organization = new Organisation({ email: 'existing-email@example.net', type: 'PRO' });
+    const organization = new Organization({ email: 'existing-email@example.net', type: 'PRO' });
     const user = new User({ email: 'existing-email@example.net', id: 12 });
 
     beforeEach(() => {
@@ -294,7 +294,7 @@ describe('Unit | Controller | organizationController', () => {
     let replyStub;
     let codeStub;
     const arrayOfSerializedOrganization = [{}, {}];
-    const arrayOfOrganizations = [new Organisation(), new Organisation()];
+    const arrayOfOrganizations = [new Organization(), new Organization()];
 
     beforeEach(() => {
       codeStub = sinon.stub();
@@ -553,137 +553,44 @@ describe('Unit | Controller | organizationController', () => {
 
   });
 
-  describe('#exportedSharedSnapshots', () => {
-
-    let sandbox;
+  describe('#exportSharedSnapshotsAsCsv', () => {
 
     beforeEach(() => {
-      sandbox = sinon.sandbox.create();
-      sandbox.stub(logger, 'error');
-      sandbox.stub(snapshotRepository, 'getSnapshotsByOrganizationId');
-      sandbox.stub(snapshotSerializer, 'serialize');
-      sandbox.stub(validationErrorSerializer, 'serialize');
-      sandbox.stub(bookshelfUtils, 'mergeModelWithRelationship');
-      sandbox.stub(snapshotsCsvConverter, 'convertJsonToCsv');
+      sinon.stub(organizationService, 'getOrganizationSharedProfilesAsCsv').resolves();
+      sinon.stub(validationErrorSerializer, 'serialize');
     });
 
     afterEach(() => {
-      sandbox.restore();
+      organizationService.getOrganizationSharedProfilesAsCsv.restore();
+      validationErrorSerializer.serialize.restore();
     });
 
-    describe('Collaborations', function() {
+    it('should call the use case service that exports shared profile of an organization as CSV (and reply an HTTP response)', () => {
+      // given
+      const request = {
+        params: {
+          id: 7
+        }
+      };
+      const header = sinon.stub();
+      header.returns({ header }); // <--- "inception"... I'm sure you appreciate it ;-)
+      const response = { header };
+      const reply = () => response;
 
-      it('should call snapshot repository', () => {
-        // given
-        snapshotRepository.getSnapshotsByOrganizationId.resolves();
-        const request = {
-          params: {
-            id: 7
-          }
-        };
-        const reply = sinon.stub().returns({
-          code: () => {
-          }
-        });
-        // when
-        const promise = organizationController.exportedSharedSnapshots(request, reply);
+      // when
+      const promise = organizationController.exportSharedSnapshotsAsCsv(request, reply);
 
-        // then
-        return promise.then(() => {
-          sinon.assert.calledOnce(snapshotRepository.getSnapshotsByOrganizationId);
-          sinon.assert.calledWith(snapshotRepository.getSnapshotsByOrganizationId, 7);
-        });
+      // then
+      return promise.then(() => {
+        expect(response.header).to.have.been.calledTwice;
       });
-
-      it('should call snapshot converter', () => {
-        // given
-        const snapshots = [{
-          toJSON: () => {
-            return {};
-          }
-        }];
-        snapshotRepository.getSnapshotsByOrganizationId.resolves({});
-        bookshelfUtils.mergeModelWithRelationship.resolves(snapshots);
-        const request = {
-          params: {
-            id: 7
-          }
-        };
-        const reply = sinon.stub().returns({
-          code: () => {
-          }
-        });
-
-        // when
-        const promise = organizationController.exportedSharedSnapshots(request, reply);
-
-        // then
-        return promise.then(() => {
-          sinon.assert.calledOnce(snapshotsCsvConverter.convertJsonToCsv);
-          sinon.assert.calledWith(snapshotsCsvConverter.convertJsonToCsv, [{}]);
-        });
-      });
-
-      it('should call a reply function', () => {
-        // given
-        const snapshots = [];
-        const serializedSnapshots = { data: [] };
-        snapshotRepository.getSnapshotsByOrganizationId.resolves(snapshots);
-        snapshotSerializer.serialize.resolves(serializedSnapshots);
-        const request = {
-          params: {
-            id: 7
-          }
-        };
-
-        const reply = sinon.stub().returns({
-          code: () => {
-          }
-        });
-
-        // when
-        const promise = organizationController.exportedSharedSnapshots(request, reply);
-
-        // then
-        return promise.then(() => {
-          sinon.assert.calledOnce(reply);
-        });
-      });
-
     });
 
     describe('Error cases', () => {
 
-      it('should return an serialized NotFoundError, when no snapshot was found', () => {
+      it('should return a JSONAPI serialized NotFoundError, when expected organization does not exist', () => {
         // given
-        const error = Snapshot.NotFoundError;
-        snapshotRepository.getSnapshotsByOrganizationId.rejects(error);
-        const serializedError = { errors: [] };
-        validationErrorSerializer.serialize.returns(serializedError);
-        const request = {
-          params: {
-            id: 'unexisting id'
-          }
-        };
-        const replyStub = sinon.stub().returns({
-          code: () => {
-          }
-        });
-
-        // when
-        const promise = organizationController.exportedSharedSnapshots(request, replyStub);
-
-        // then
-        return promise.then(() => {
-          sinon.assert.calledWith(replyStub, serializedError);
-          sinon.assert.calledWith(codeStub, 500);
-        });
-      });
-
-      it('should log an error, when unknown error has occured', () => {
-        // given
-        const error = new Error();
-        snapshotRepository.getSnapshotsByOrganizationId.rejects(error);
+        organizationService.getOrganizationSharedProfilesAsCsv.rejects(NotFoundError);
         const serializedError = { errors: [] };
         validationErrorSerializer.serialize.returns(serializedError);
         const request = {
@@ -698,7 +605,34 @@ describe('Unit | Controller | organizationController', () => {
         });
 
         // when
-        const promise = organizationController.exportedSharedSnapshots(request, replyStub);
+        const promise = organizationController.exportSharedSnapshotsAsCsv(request, replyStub);
+
+        // then
+        return promise.then(() => {
+          sinon.assert.calledWith(replyStub, serializedError);
+          sinon.assert.calledWith(codeStub, 500);
+        });
+      });
+
+      it('should log an error, when unknown error has occured', () => {
+        // given
+        const error = new NotFoundError();
+        organizationService.getOrganizationSharedProfilesAsCsv.rejects(error);
+        const serializedError = { errors: [] };
+        validationErrorSerializer.serialize.returns(serializedError);
+        const request = {
+          params: {
+            id: 'unexisting id'
+          }
+        };
+        const codeStub = sinon.stub().callsFake(() => {
+        });
+        const replyStub = sinon.stub().returns({
+          code: codeStub
+        });
+
+        // when
+        const promise = organizationController.exportSharedSnapshotsAsCsv(request, replyStub);
 
         // then
         return promise.then(() => {

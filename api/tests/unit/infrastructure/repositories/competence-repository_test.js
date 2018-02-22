@@ -1,6 +1,8 @@
 const { expect, sinon } = require('../../../test-helper');
+const AirtableRecord = require('airtable').Record;
 const airtable = require('../../../../lib/infrastructure/airtable');
 const cache = require('../../../../lib/infrastructure/cache');
+const Competence = require('../../../../lib/domain/models/Competence');
 
 const competenceRepository = require('../../../../lib/infrastructure/repositories/competence-repository');
 
@@ -13,6 +15,7 @@ describe('Unit | Repository | competence-repository', function() {
     sandbox.stub(cache, 'set');
     sandbox.stub(airtable, 'getRecord');
     sandbox.stub(airtable, 'getRecords');
+    sandbox.stub(airtable, 'findRecords');
   });
 
   afterEach(() => {
@@ -178,6 +181,75 @@ describe('Unit | Repository | competence-repository', function() {
 
     });
 
+  });
+
+  describe('#find', () => {
+
+    const airtableCompetenceRecords = [
+      new AirtableRecord('Competence', 'recCompetence11', {
+        fields: {
+          'Titre': 'Mener une recherche et une veille d’information',
+          'Sous-domaine': '1.1'
+        }
+      }),
+      new AirtableRecord('Competence', 'recCompetence12', {
+        fields: {
+          'Titre': 'Gérer des données',
+          'Sous-domaine': '1.2'
+        }
+      }),
+      new AirtableRecord('Competence', 'recCompetence13', {
+        fields: {
+          'Titre': 'Traiter des données',
+          'Sous-domaine': '1.3'
+        }
+      })
+    ];
+
+    beforeEach(() => {
+      airtable.findRecords.resolves(airtableCompetenceRecords);
+    });
+
+    it('should fetch all Competence records from Airtable', () => {
+      // when
+      const promise = competenceRepository.find();
+
+      // then
+      return promise.then(() => {
+        expect(airtable.findRecords).to.have.been.calledOnce;
+      });
+    });
+
+    it('should fetch Competence records sorted by index (asc)', () => {
+      // when
+      const promise = competenceRepository.find();
+
+      // then
+      return promise.then(() => {
+        //
+        const expectedQuery = {
+          sort: [{ field: 'Sous-domaine', direction: 'asc' }]
+        };
+        expect(airtable.findRecords).to.have.been.calledWith('Competences', expectedQuery);
+      });
+    });
+
+    it('should resolves a list of Competence domain entities', () => {
+      // when
+      const promise = competenceRepository.find();
+
+      // then
+      return promise.then((competences) => {
+        expect(competences.length).to.equal(airtableCompetenceRecords.length);
+        const somCompetence = competences[0];
+        expect(somCompetence).to.be.an.instanceof(Competence);
+        expect(somCompetence).to.deep.equal({
+          id: 'recCompetence11',
+          name: 'Mener une recherche et une veille d’information',
+          index: '1.1'
+        });
+      });
+    });
   });
 
 });
