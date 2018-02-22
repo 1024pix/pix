@@ -26,7 +26,7 @@ exports.register = function(server, options, next) {
           method: snapshotsAuthorization.verify,
           assign: 'authorizationCheck'
         }],
-        handler: organisationController.exportedSharedSnapshots, tags: ['api']
+        handler: organisationController.exportSharedSnapshotsAsCsv, tags: ['api']
       }
     }
   ]);

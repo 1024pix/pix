@@ -1,8 +1,9 @@
 const { expect, knex, sinon } = require('../../../test-helper');
 const faker = require('faker');
 const bcrypt = require('bcrypt');
+const Organization = require('../../../../lib/domain/models/Organization');
 
-const Organization = require('../../../../lib/infrastructure/data/organization');
+const BookshelfOrganization = require('../../../../lib/infrastructure/data/organization');
 const OrganizationRepository = require('../../../../lib/infrastructure/repositories/organization-repository');
 
 describe('Unit | Repository | OrganizationRepository', function() {
@@ -33,7 +34,7 @@ describe('Unit | Repository | OrganizationRepository', function() {
 
     it('should save model in database', () => {
       // Given
-      const organization = new Organization({});
+      const organization = new BookshelfOrganization({});
       sinon.stub(organization, 'save').resolves();
 
       // When
@@ -172,25 +173,32 @@ describe('Unit | Repository | OrganizationRepository', function() {
     describe('success management', function() {
 
       it('should return a organization by provided id', function() {
+        // when
+        const promise = OrganizationRepository.get(existingId);
+
         // then
-        return OrganizationRepository.get(existingId)
-          .then((foundOrganization) => {
-            expect(foundOrganization).to.exist;
-            expect(foundOrganization).to.be.an('object');
-            expect(foundOrganization.attributes.email).to.equal(insertedOrganization.email);
-            expect(foundOrganization.attributes.type).to.equal(insertedOrganization.type);
-            expect(foundOrganization.attributes.name).to.equal(insertedOrganization.name);
-            expect(foundOrganization.attributes.userId).to.equal(insertedOrganization.userId);
-            expect(foundOrganization.attributes.id).to.equal(insertedOrganization.id);
-          });
+        return promise.then((foundOrganization) => {
+          expect(foundOrganization).to.be.an.instanceof(Organization);
+          expect(foundOrganization.email).to.equal(insertedOrganization.email);
+          expect(foundOrganization.type).to.equal(insertedOrganization.type);
+          expect(foundOrganization.name).to.equal(insertedOrganization.name);
+          expect(foundOrganization.id).to.equal(insertedOrganization.id);
+        });
       });
 
       it('should return a rejection when organization id is not found', function() {
+        // given
         const inexistenteId = 10083;
-        return OrganizationRepository.get(inexistenteId)
-          .catch((err) => {
-            expect(err.message).to.equal('EmptyResponse');
-          });
+
+        // when
+        const promise = OrganizationRepository.get(inexistenteId);
+
+        // then
+        return promise.then(() => {
+          expect.fail('Treatment did not throw an error as expected', 'Expected a "NotFoundError" to have been throwed');
+        }).catch((err) => {
+          expect(err.message).to.equal('Not found organization for ID 10083');
+        });
       });
 
     });
@@ -299,7 +307,7 @@ describe('Unit | Repository | OrganizationRepository', function() {
     it('should return Organization that matches filters', function() {
       // given
       const fetchStub = sinon.stub().resolves({ models: {} });
-      sinon.stub(Organization.prototype, 'where').returns({ fetchAll: fetchStub });
+      sinon.stub(BookshelfOrganization.prototype, 'where').returns({ fetchAll: fetchStub });
 
       // when
       const filters = { code: 1234 };
@@ -307,9 +315,9 @@ describe('Unit | Repository | OrganizationRepository', function() {
 
       // then
       return promise.then(() => {
-        sinon.assert.calledWith(Organization.prototype.where, filters);
-        sinon.assert.callOrder(Organization.prototype.where, fetchStub);
-        Organization.prototype.where.restore();
+        sinon.assert.calledWith(BookshelfOrganization.prototype.where, filters);
+        sinon.assert.callOrder(BookshelfOrganization.prototype.where, fetchStub);
+        BookshelfOrganization.prototype.where.restore();
       });
     });
 
