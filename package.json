@@ -18,7 +18,7 @@
     "npm-run-all": "^4.1.0"
   },
   "engines": {
-    "node": "^4.5 || 6.* || 7.* || >= 8.*",
+    "node": "8.6.0",
     "npm": "5.5.1"
   },
   "cacheDirectories": [
