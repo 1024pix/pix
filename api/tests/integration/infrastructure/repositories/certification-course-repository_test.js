@@ -37,6 +37,10 @@ describe('Integration | Repository | Certification Course', function() {
 
   describe('#updateStatus', () => {
 
+    before(() => {
+      return knex('certification-courses').delete();
+    });
+
     beforeEach(() => {
       return knex('certification-courses').insert(certificationCourse);
     });
@@ -104,7 +108,7 @@ describe('Integration | Repository | Certification Course', function() {
         });
       });
     });
-    
+
     context('When the certification course does not exist', () => {
       it('should retrieve a NotFoundError Error', function() {
         // when

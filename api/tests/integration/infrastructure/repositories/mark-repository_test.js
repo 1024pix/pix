@@ -6,6 +6,7 @@ const MarkRepository = require('../../../../lib/infrastructure/repositories/mark
 describe('Integration | Repository | Mark', function() {
 
   describe('#save', () => {
+    before(() => knex('marks').delete());
 
     afterEach(() => knex('marks').delete());
 

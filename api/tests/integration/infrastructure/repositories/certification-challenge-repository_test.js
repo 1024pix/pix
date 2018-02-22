@@ -19,6 +19,9 @@ describe('Integration | Repository | Certification Challenge', function() {
   }];
 
   describe('#findByCertificationCourseId', () => {
+    before(() => {
+      return knex('certification-challenges').delete();
+    });
 
     beforeEach(() => {
       return knex('certification-challenges').insert(certificationChallenges);
