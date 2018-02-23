@@ -2,6 +2,61 @@
 const TABLE_NAME_CERTIFICATION = 'certification-courses';
 const TABLE_NAME_ASSESSMENTS = 'assessments';
 
+/*function doRequests(queuedRequests, successAssessments, failedAssessments) {
+
+  if (queuedRequests.length === 0) {
+    printResult(successAssessments, failedAssessments);
+    return;
+  }
+
+  // unqueue 10 first available elements (may be less)
+  let requestConfigs = queuedRequests.splice(0, 10);
+
+  console.log(`\n* Starting batch of ${requestConfigs.length} requests (remaining ${queuedRequests.length})`);
+
+  let promises = requestConfigs.map(requestConfig => {
+
+    console.log(`Queueing ${requestConfig.requestConfig.uri} [${requestConfig.retryCount} time]`);
+
+    return request(requestConfig.requestConfig)
+      .then(handleThen(requestConfig, successAssessments))
+      .catch(handleCatch(requestConfig, queuedRequests, failedAssessments))
+      .finally(() => requestConfig.retryCount += 1)
+  });
+
+  promises.push(Promise.delay(1000));
+
+  return Promise
+    .all(promises)
+    .finally(() => doRequests(queuedRequests, successAssessments, failedAssessments));
+}*/
+
+const BATCH_SIZE = 20;
+
+function updateBatch(knex, assessmentIdsToUpdate) {
+
+  if(assessmentIdsToUpdate.length <= 0) {
+    return Promise.resolve();
+  }
+
+  console.log('STARTING - Batch');
+
+  const assessments = assessmentIdsToUpdate.splice(0, BATCH_SIZE);
+  const promises = assessments.map((assessment) => {
+    console.log(`Traitement - ${assessment.id}`);
+    const status = (assessment.pixScore === null) ? 'started' : 'completed';
+    return knex(TABLE_NAME_ASSESSMENTS)
+      .where('id', '=', assessment.id)
+      .update({
+        status: status,
+      });
+  });
+
+  return Promise
+    .all(promises)
+    .then(() => updateBatch(knex, assessmentIdsToUpdate));
+}
+
 exports.up = function(knex, Promise) {
   // Add Column
   return knex.schema.table(TABLE_NAME_ASSESSMENTS, function(table) {
@@ -29,21 +84,10 @@ exports.up = function(knex, Promise) {
     // Get assessment without status
 
     return knex(TABLE_NAME_ASSESSMENTS)
-      .select('id','status', 'pixScore')
+      .select('id', 'status', 'pixScore')
       .where('status', null);
   }).then((allAssessments) => {
-
-    // Add status to assessments
-
-    const promises = allAssessments.map(assessment => {
-      const status = (assessment.pixScore === null) ? 'started' : 'completed';
-      return knex(TABLE_NAME_ASSESSMENTS)
-        .where('id', '=', assessment.id)
-        .update({
-          status: status,
-        });
-    });
-    return Promise.all(promises);
+    return updateBatch(knex, allAssessments);
   }).then(() => {
 
     // Add status to assessments
@@ -52,7 +96,10 @@ exports.up = function(knex, Promise) {
       table.dropColumn('status');
       console.log('Column Status moved from Certification to Assessments');
     });
-  });
+  })
+    .then(() => {
+      // fail();
+    });
 };
 
 exports.down = function(knex, Promise) {
