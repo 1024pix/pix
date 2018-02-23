@@ -9,13 +9,13 @@ const certificationService = require('../../../../lib/domain/services/certificat
 const assessmentRepository = require('../../../../lib/infrastructure/repositories/assessment-repository');
 const courseRepository = require('../../../../lib/infrastructure/repositories/course-repository');
 const competenceRepository = require('../../../../lib/infrastructure/repositories/competence-repository');
-const markRepository = require('../../../../lib/infrastructure/repositories/mark-repository');
+const competenceMarkRepository = require('../../../../lib/infrastructure/repositories/competence-mark-repository');
 const certificationCourseRepository = require('../../../../lib/infrastructure/repositories/certification-course-repository');
 
 const Assessment = require('../../../../lib/domain/models/Assessment');
 const Area = require('../../../../lib/domain/models/Area');
 const Competence = require('../../../../lib/domain/models/referential/competence');
-const Mark = require('../../../../lib/domain/models/Mark');
+const CompetenceMark = require('../../../../lib/domain/models/CompetenceMark');
 const AirtableCourse = require('../../../../lib/domain/models/referential/course');
 const Skill = require('../../../../lib/cat/skill');
 
@@ -105,7 +105,7 @@ describe('Unit | Domain | Services | assessment-ratings', () => {
       sandbox.stub(courseRepository, 'get').resolves(course);
       sandbox.stub(competenceRepository, 'get').resolves(competence11);
       sandbox.stub(competenceRepository, 'list').resolves(listOfAllCompetences);
-      sandbox.stub(markRepository, 'save').resolves();
+      sandbox.stub(competenceCompetenceMarkRepository, 'save').resolves();
       sandbox.stub(certificationService, 'calculateCertificationResultByAssessmentId').resolves();
       sandbox.stub(certificationCourseRepository, 'updateStatus').resolves();
 
@@ -234,10 +234,10 @@ describe('Unit | Domain | Services | assessment-ratings', () => {
 
         // then
         return promise.then(() => {
-          expect(markRepository.save).to.have.been.called;
+          expect(competenceCompetenceMarkRepository.save).to.have.been.called;
 
-          const savedMark = markRepository.save.firstCall.args;
-          expect(savedMark[0]).to.deep.equal(new Mark({
+          const savedCompetenceMark = competenceCompetenceMarkRepository.save.firstCall.args;
+          expect(savedCompetenceMark[0]).to.deep.equal(new CompetenceMark({
             level: 2,
             score: 13,
             area_code: '1',
@@ -261,7 +261,7 @@ describe('Unit | Domain | Services | assessment-ratings', () => {
         it('should return the error', () => {
           // given
           const error = new Error();
-          markRepository.save.rejects(error);
+          competenceCompetenceMarkRepository.save.rejects(error);
 
           // when
           const promise = service.evaluateFromAssessmentId(assessmentId);
@@ -297,7 +297,7 @@ describe('Unit | Domain | Services | assessment-ratings', () => {
 
         // then
         return promise.then(() => {
-          expect(markRepository.save).not.to.have.been.called;
+          expect(competenceCompetenceMarkRepository.save).not.to.have.been.called;
         });
       });
     });
@@ -326,7 +326,7 @@ describe('Unit | Domain | Services | assessment-ratings', () => {
 
         // then
         return promise.then(() => {
-          expect(markRepository.save).not.to.have.been.called;
+          expect(competenceCompetenceMarkRepository.save).not.to.have.been.called;
         });
       });
 
@@ -346,7 +346,7 @@ describe('Unit | Domain | Services | assessment-ratings', () => {
       let clock;
 
       const certificationResults = {
-        competencesWithMark: [{
+        competencesWithCompetenceMark: [{
           index: '1.1',
           id: 'competence_1',
           name: 'Mener une recherche',
@@ -405,10 +405,10 @@ describe('Unit | Domain | Services | assessment-ratings', () => {
 
         // then
         return promise.then(() => {
-          expect(markRepository.save).to.have.been.calledThrice;
+          expect(competenceCompetenceMarkRepository.save).to.have.been.calledThrice;
 
-          const firstSavedMark = markRepository.save.firstCall.args;
-          expect(firstSavedMark[0]).to.deep.equal(new Mark({
+          const firstSavedCompetenceMark = competenceCompetenceMarkRepository.save.firstCall.args;
+          expect(firstSavedCompetenceMark[0]).to.deep.equal(new CompetenceMark({
             level: 0,
             score: 7,
             area_code: '1',
@@ -416,8 +416,8 @@ describe('Unit | Domain | Services | assessment-ratings', () => {
             assessmentId: assessmentId
           }));
 
-          const secondSavedMark = markRepository.save.secondCall.args;
-          expect(secondSavedMark[0]).to.deep.equal(new Mark({
+          const secondSavedCompetenceMark = competenceCompetenceMarkRepository.save.secondCall.args;
+          expect(secondSavedCompetenceMark[0]).to.deep.equal(new CompetenceMark({
             level: 2,
             score: 19,
             area_code: '2',
@@ -425,8 +425,8 @@ describe('Unit | Domain | Services | assessment-ratings', () => {
             assessmentId: assessmentId
           }));
 
-          const thirdSavedMark = markRepository.save.thirdCall.args;
-          expect(thirdSavedMark[0]).to.deep.equal(new Mark({
+          const thirdSavedCompetenceMark = competenceCompetenceMarkRepository.save.thirdCall.args;
+          expect(thirdSavedCompetenceMark[0]).to.deep.equal(new CompetenceMark({
             level: -1,
             score: 0,
             area_code: '2',

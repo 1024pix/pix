@@ -8,7 +8,6 @@ function _selectLastAssessmentForEachCourse(assessments) {
 }
 
 function _toDomain(bookshelfAssessment) {
-
   if(bookshelfAssessment !== null) {
     const modelObjectInJSON = bookshelfAssessment.toJSON();
     return new Assessment(modelObjectInJSON);
@@ -18,7 +17,7 @@ function _toDomain(bookshelfAssessment) {
 }
 
 function _adaptModelToDb(assessment) {
-  return _.omit(assessment, ['answers', 'successRate', 'marks']);
+  return _.omit(assessment, ['answers', 'successRate', 'corrections']);
 }
 
 module.exports = {
@@ -26,7 +25,7 @@ module.exports = {
   get(id) {
     return BookshelfAssessment
       .where('id', id)
-      .fetch({ withRelated: [{ answers: function(query) { query.orderBy('createdAt', 'ASC'); } }] })
+      .fetch({ withRelated: [{ answers: function(query) { query.orderBy('createdAt', 'ASC'); } }, 'corrections'] })
       .then(_toDomain);
   },
 
@@ -35,8 +34,7 @@ module.exports = {
       .query(qb => {
         qb.where({ userId });
         qb.whereNot('courseId', 'LIKE', 'null%');
-        qb.whereNotNull('estimatedLevel');
-        qb.whereNotNull('pixScore');
+        qb.where('status','=','completed');
         qb.andWhere(function() {
           this.where({ type: null })
             .orWhereNot({ type: 'CERTIFICATION' });
@@ -72,8 +70,7 @@ module.exports = {
       .query(qb => {
         qb.where({ userId })
           .where('createdAt', '<', limitDate)
-          .whereNotNull('estimatedLevel')
-          .whereNotNull('pixScore')
+          .where('status','=','completed')
           .andWhere(function() {
             this.where({ type: null })
               .orWhereNot({ type: 'CERTIFICATION' });
@@ -101,7 +98,7 @@ module.exports = {
   getByCertificationCourseId(certificationCourseId) {
     return BookshelfAssessment
       .where({ courseId: certificationCourseId })
-      .fetch({ withRelated: ['marks'] })
+      .fetch({ withRelated: ['corrections'] })
       .then(_toDomain);
   },
 

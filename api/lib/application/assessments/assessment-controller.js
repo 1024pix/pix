@@ -50,6 +50,7 @@ module.exports = {
   save(request, reply) {
 
     const assessment = assessmentSerializer.deserialize(request.payload);
+    assessment.status = 'started';
 
     if (request.headers.hasOwnProperty('authorization')) {
       const token = tokenService.extractTokenFromAuthChain(request.headers.authorization);

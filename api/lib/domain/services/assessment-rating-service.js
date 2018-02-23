@@ -1,7 +1,7 @@
 const _ = require('lodash');
 const moment = require('moment');
 
-const Mark = require('../../domain/models/Mark');
+const CompetenceMark = require('../../domain/models/CompetenceMark');
 
 const skillService = require('../../domain/services/skills-service');
 const assessmentService = require('../../domain/services/assessment-service');
@@ -10,23 +10,23 @@ const certificationService = require('../../domain/services/certification-servic
 const assessmentRepository = require('../../infrastructure/repositories/assessment-repository');
 const courseRepository = require('../../infrastructure/repositories/course-repository');
 const competenceRepository = require('../../infrastructure/repositories/competence-repository');
-const markRepository = require('../../infrastructure/repositories/mark-repository');
+const competenceMarkRepository = require('../../infrastructure/repositories/competence-mark-repository');
 const certificationCourseRepository = require('../../infrastructure/repositories/certification-course-repository');
 
 const { AlreadyRatedAssessmentError, NotFoundError } = require('../errors');
 
-function _getMarksToSaveForCertificationAssessment(assessmentId) {
+function _getCompetenceMarksToSaveForCertificationAssessment(assessmentId) {
   return Promise
     .all([competenceRepository.list(), certificationService.calculateCertificationResultByAssessmentId(assessmentId)])
-    .then(([competences, { competencesWithMark }]) => {
+    .then(([competences, { competencesWithCompetenceMark }]) => {
 
-      return competencesWithMark.map((certifiedCompetence) => {
+      return competencesWithCompetenceMark.map((certifiedCompetence) => {
 
         const area_code = _(competences).find((competence) => {
           return competence.index === certifiedCompetence.index;
         }).area.code;
 
-        return new Mark({
+        return new CompetenceMark({
           level: certifiedCompetence.obtainedLevel,
           score: certifiedCompetence.obtainedScore,
           area_code,
@@ -38,14 +38,14 @@ function _getMarksToSaveForCertificationAssessment(assessmentId) {
     });
 }
 
-function _getMarksToSaveForPlacementTest(assessmentWithScore) {
+function _getCompetenceMarksToSaveForPlacementTest(assessmentWithScore) {
   return courseRepository.get(assessmentWithScore.courseId)
     .then((course) => {
       return competenceRepository.get(course.competences[0]);
     })
     .then(competence => {
       return [
-        new Mark({
+        new CompetenceMark({
           level: assessmentWithScore.estimatedLevel,
           score: assessmentWithScore.pixScore,
           area_code: competence.area.code,
@@ -80,12 +80,12 @@ function evaluateFromAssessmentId(assessmentId) {
     .then(() => {
 
       if (assessmentService.isCertificationAssessment(assessmentWithScore)) {
-        return _getMarksToSaveForCertificationAssessment(assessmentWithScore.id);
+        return _getCompetenceMarksToSaveForCertificationAssessment(assessmentWithScore.id);
       } else if (assessmentService.isPlacementAssessment(assessmentWithScore)) {
-        return _getMarksToSaveForPlacementTest(assessmentWithScore);
+        return _getCompetenceMarksToSaveForPlacementTest(assessmentWithScore);
       } else {
-        const noMarksToSaveForPreviewAndDemo = [];
-        return noMarksToSaveForPreviewAndDemo;
+        const noCompetenceMarksToSaveForPreviewAndDemo = [];
+        return noCompetenceMarksToSaveForPreviewAndDemo;
       }
 
     })
@@ -94,13 +94,15 @@ function evaluateFromAssessmentId(assessmentId) {
         const totalPix = _(marks).map((mark) => mark.score).sum();
         assessmentWithScore.pixScore = totalPix;
       }
+      assessmentWithScore.status = 'completed';
+
       return Promise.all(marks.map((mark) => markRepository.save(mark)));
     })
     .then(() => skillService.saveAssessmentSkills(evaluatedSkillsInAssessment))
     .then(() => assessmentRepository.save(assessmentWithScore))
     .then(() => {
 
-      if(assessmentService.isCertificationAssessment(assessmentWithScore)) {
+      if(assessmentService.isCertificaionAssessment(assessmentWithScore)) {
         return certificationCourseRepository.updateStatus('completed',
           assessmentWithScore.courseId,
           moment().toISOString());

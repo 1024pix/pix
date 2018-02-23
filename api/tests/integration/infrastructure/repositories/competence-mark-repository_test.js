@@ -1,18 +1,18 @@
 const { expect, knex } = require('../../../test-helper');
 
-const Mark = require('../../../../lib/domain/models/Mark');
-const MarkRepository = require('../../../../lib/infrastructure/repositories/mark-repository');
+const CompetenceMark = require('../../../../lib/domain/models/CompetenceMark');
+const CompetenceMarkRepository = require('../../../../lib/infrastructure/repositories/competence-mark-repository');
 
-describe('Integration | Repository | Mark', function() {
+describe('Integration | Repository | CompetenceMark', function() {
 
   describe('#save', () => {
     before(() => knex('marks').delete());
 
-    afterEach(() => knex('marks').delete());
+    afterEach(() => knex('competence-marks').delete());
 
     it('should persist the mark in db', () => {
       // given
-      const mark = new Mark({
+      const mark = new CompetenceMark({
         score: 13,
         level: 1,
         area_code: '4',
@@ -20,10 +20,10 @@ describe('Integration | Repository | Mark', function() {
       });
 
       // when
-      const promise = MarkRepository.save(mark);
+      const promise = CompetenceMarkRepository.save(mark);
 
       // then
-      return promise.then(() => knex('marks').select())
+      return promise.then(() => knex('competence-marks').select())
         .then((marks) => {
           expect(marks).to.have.lengthOf(1);
         });
@@ -31,7 +31,7 @@ describe('Integration | Repository | Mark', function() {
 
     it('should return the saved mark', () => {
       // given
-      const mark = new Mark({
+      const mark = new CompetenceMark({
         score: 13,
         level: 1,
         area_code: '4',
@@ -39,11 +39,11 @@ describe('Integration | Repository | Mark', function() {
       });
 
       // when
-      const promise = MarkRepository.save(mark);
+      const promise = CompetenceMarkRepository.save(mark);
 
       // then
       return promise.then(mark => {
-        expect(mark).to.be.an.instanceOf(Mark);
+        expect(mark).to.be.an.instanceOf(CompetenceMark);
 
         expect(mark).to.have.property('id').and.not.to.be.null;
       });

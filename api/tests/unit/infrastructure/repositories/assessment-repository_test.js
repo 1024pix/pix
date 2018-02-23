@@ -13,43 +13,37 @@ describe('Unit | Repository | assessmentRepository', () => {
       id: 1,
       userId: JOHN,
       courseId: 'courseId1',
-      estimatedLevel: 1,
-      pixScore: 10,
+      status: 'completed',
       type: null
     }, {
       id: 2,
       userId: LAYLA,
       courseId: 'courseId1',
-      estimatedLevel: 2,
-      pixScore: 20,
+      status: 'completed',
       type: null
     }, {
       id: 3,
       userId: JOHN,
       courseId: 'courseId1',
-      estimatedLevel: 3,
-      pixScore: 30,
+      status: 'completed',
       type: null
     }, {
       id: 4,
       userId: JOHN,
       courseId: 'courseId2',
-      estimatedLevel: 3,
-      pixScore: 37,
+      status: 'completed',
       type: null
     }, {
       id: 5,
       userId: JOHN,
       courseId: 'courseId3',
-      estimatedLevel: 3,
-      pixScore: 37,
+      status: 'completed',
       type: 'CERTIFICATION'
     }, {
       id: 6,
       userId: LAYLA,
       courseId: 'nullAssessmentPreview',
-      estimatedLevel: 1,
-      pixScore: 1,
+      status: 'completed',
       type: null
     }];
 
@@ -113,14 +107,12 @@ describe('Unit | Repository | assessmentRepository', () => {
       id: 1,
       userId: 2,
       courseId: 'courseId1',
-      estimatedLevel: 1,
-      pixScore: 10
+      status: 'completed'
     }, {
       id: 2,
       userId: 3,
       courseId: 'courseId1',
-      estimatedLevel: 2,
-      pixScore: 20
+      status: 'completed'
     }];
 
     before(() => {
@@ -136,8 +128,7 @@ describe('Unit | Repository | assessmentRepository', () => {
     let fetchStub;
     let whereStub;
     let whereCreatedAtStub;
-    let whereEstimatedLevelNotNullStub;
-    let wherePixScoreNotNullStub;
+    let whereStatusIsCompleted;
     let orderByStub;
     let andWhere;
     const userId = 2;
@@ -148,15 +139,12 @@ describe('Unit | Repository | assessmentRepository', () => {
       andWhere = sandbox.stub().returns({
         orderBy: orderByStub
       });
-      wherePixScoreNotNullStub = sandbox.stub().returns({
-        andWhere: andWhere
-      });
-      whereEstimatedLevelNotNullStub = sandbox.stub().returns({
-        whereNotNull: wherePixScoreNotNullStub
+      whereStatusIsCompleted = sandbox.stub().returns({
+        where: andWhere
       });
 
       whereCreatedAtStub = sandbox.stub().returns({
-        whereNotNull: whereEstimatedLevelNotNullStub
+        whereNotNull: whereStatusIsCompleted
       });
 
       whereStub = sandbox.stub().returns({
@@ -191,11 +179,8 @@ describe('Unit | Repository | assessmentRepository', () => {
         sinon.assert.calledOnce(whereCreatedAtStub);
         sinon.assert.calledWith(whereCreatedAtStub, 'createdAt', '<', limitDate);
 
-        sinon.assert.calledOnce(whereEstimatedLevelNotNullStub);
-        sinon.assert.calledWith(whereEstimatedLevelNotNullStub, 'estimatedLevel');
-
-        sinon.assert.calledOnce(wherePixScoreNotNullStub);
-        sinon.assert.calledWith(wherePixScoreNotNullStub, 'pixScore');
+        sinon.assert.calledOnce(whereStatusIsCompleted);
+        sinon.assert.calledWith(whereStatusIsCompleted, 'status','=', 'completed');
 
         sinon.assert.calledOnce(orderByStub);
         sinon.assert.calledWith(orderByStub, 'createdAt', 'desc');
@@ -215,39 +200,33 @@ describe('Unit | Repository | assessmentRepository', () => {
       id: COMPLETED_ASSESSMENT_A_ID,
       userId: JOHN,
       courseId: 'courseId',
-      estimatedLevel: 1,
-      pixScore: 10
+      status: 'completed'
     }, {
       id: COMPLETED_ASSESSMENT_B_ID,
       userId: JOHN,
       courseId: 'courseId',
-      estimatedLevel: 3,
-      pixScore: 30
+      status: 'completed'
     }, {
       id: UNCOMPLETE_ASSESSMENT_ID,
       userId: JOHN,
       courseId: 'courseId',
-      estimatedLevel: null,
-      pixScore: null
+      status: 'started'
     }, {
       id: 4,
       userId: LAYLA,
       courseId: 'courseId',
-      estimatedLevel: 2,
-      pixScore: 20
+      status: 'completed'
     }, {
       id: 5,
       userId: JOHN,
       courseId: 'courseId',
-      estimatedLevel: 3,
-      pixScore: 30,
+      status: 'completed',
       type: 'CERTIFICATION'
     }, {
       id: 6,
       userId: LAYLA,
       courseId: 'nullAssessmentPreview',
-      estimatedLevel: 1,
-      pixScore: 1
+      status: 'completed'
     }];
 
     before(() => {
@@ -421,20 +400,17 @@ describe('Unit | Repository | assessmentRepository', () => {
       id: 1,
       userId: 2,
       courseId: 'courseId1',
-      estimatedLevel: 1,
-      pixScore: 10
+      status: 'completed'
     }, {
       id: 2,
       userId: 3,
       courseId: 'courseId1',
-      estimatedLevel: 2,
-      pixScore: 20
+      status: 'completed'
     }, {
       id: 3,
       userId: 3,
       courseId: 'courseId2',
-      estimatedLevel: 2,
-      pixScore: 20
+      status: 'completed'
     }];
 
     before(() => {
