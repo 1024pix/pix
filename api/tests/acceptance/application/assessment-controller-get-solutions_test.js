@@ -6,7 +6,6 @@ describe('Acceptance | API | assessment-controller-get-solutions', () => {
 
   before(() => {
     return knex.migrate.latest()
-      .then(() => knex.seed.run())
       .then(() => {
         nock('https://api.airtable.com')
           .get('/v0/test-base/Tests/non_adaptive_course_id')  // XXX cf. issue #204, there may be a conflict with course-controller_test
