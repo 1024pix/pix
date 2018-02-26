@@ -15,12 +15,9 @@ if [ -z "$TAR_INPUT_FILE" ]; then
 fi
 
 TODAY=$(date '+%Y-%m-%d_%H%M')
-DATABASE_URL=$(scalingo --app ${APP} env | grep  --perl-regexp --only-matching "(?<=POSTGRESQL_URL=).+$")
-DATABASE_PASSWORD=$(echo $DATABASE_URL | grep --perl-regexp --only-matching '[0-9A-z]+(?=@)')
-DATABASE_USERNAME=$(echo $DATABASE_URL | grep --perl-regexp --only-matching '(?<=//)[0-9A-z_]+(?=:)')
-DATABASE_NAME=$DATABASE_USERNAME
+DATABASE_URL=$(scalingo --app ${APP} env | grep  "POSTGRESQL_URL=" | cut -d = -f 2,3 | sed 's/@.*\//@localhost:10000\//')
 
 echo "Downloading the dump…"
-PGPASSWORD=$DATABASE_PASSWORD pg_restore --clean --if-exists --verbose --host 127.0.0.1 --port 10000 --username $DATABASE_USERNAME --no-owner --no-privileges --schema=public --dbname $DATABASE_NAME $TAR_INPUT_FILE
+pg_restore --clean --if-exists --verbose --host 127.0.0.1 --port 10000 --no-owner --no-privileges --schema=public --dbname $DATABASE_URL $TAR_INPUT_FILE
 
 echo "Done!"

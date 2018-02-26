@@ -8,7 +8,5 @@ then
   exit 1
 fi
 
-DATABASE_URL=$(scalingo --app ${APP} env | grep  --perl-regexp --only-matching "(?<=POSTGRESQL_URL=).+$")
-
 echo "Opening the tunnel…"
-scalingo --app ${APP} db-tunnel -p 10000 ${DATABASE_URL}
+scalingo --app ${APP} db-tunnel -p 10000 SCALINGO_POSTGRESQL_URL
