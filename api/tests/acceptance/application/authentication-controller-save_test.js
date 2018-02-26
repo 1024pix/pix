@@ -54,8 +54,7 @@ describe('Acceptance | Controller | authentication-controller', () => {
     return server.injectThen(options).then(response => {
 
       const expectedToken = jsonwebtoken.sign({
-        user_id: user.get('id'),
-        email: user.get('email')
+        user_id: user.get('id')
       }, settings.authentication.secret, { expiresIn: settings.authentication.tokenLifespan });
 
       const userId = user.get('id').toString();

@@ -66,7 +66,6 @@ describe('Acceptance | Controller | snapshot-controller', function() {
 
   before(() => {
     return knex.migrate.latest()
-      .then(() => knex.seed.run())
       .then(() => knex('users').insert(inserted_user))
       .then((result) => {
         userId = result.shift();

@@ -1,8 +1,10 @@
 const Bookshelf = require('../bookshelf');
+const DomainOrganization = require('../../domain/models/Organization');
 
 require('./user');
 
 module.exports = Bookshelf.model('Organization', {
+
   tableName: 'organizations',
 
   validations: {
@@ -27,5 +29,9 @@ module.exports = Bookshelf.model('Organization', {
 
   user() {
     return this.belongsTo('User', 'userId');
+  },
+
+  toDomainEntity() {
+    return new DomainOrganization(this.toJSON());
   }
 });

@@ -1,11 +1,39 @@
 const jwt = require('jsonwebtoken');
-const { expect, knex } = require('../../test-helper');
+const { expect, knex, nock } = require('../../test-helper');
 const server = require('../../../server');
 const settings = require('../../../lib/settings');
 
 describe('Acceptance | Controller | organization-controller', function() {
 
-  after(function(done) {
+  before(() => {
+    nock('https://api.airtable.com')
+      .get('/v0/test-base/Competences')
+      .query({
+        sort: [{
+          field: 'Sous-domaine',
+          direction: 'asc'
+        }]
+      })
+      .reply(200, {
+        'records': [{
+          'id': 'recNv8qhaY887jQb2',
+          'fields': {
+            'Sous-domaine': '1.3',
+            'Titre': 'Traiter des données',
+          }
+        }, {
+          'id': 'recofJCxg0NqTqTdP',
+          'fields': {
+            'Sous-domaine': '4.2',
+            'Titre': 'Protéger les données personnelles et la vie privée'
+          },
+        }]
+      }
+      );
+  });
+
+  after((done) => {
+    nock.cleanAll();
     server.stop(done);
   });
 
@@ -187,7 +215,8 @@ describe('Acceptance | Controller | organization-controller', function() {
     it('should return 200, when no snapshot was found', () => {
       // given
       const options = {
-        method: 'GET', url: '/api/organizations/unknownId/snapshots', payload: {} };
+        method: 'GET', url: '/api/organizations/unknownId/snapshots', payload: {}
+      };
 
       // when
       return server
@@ -230,8 +259,8 @@ describe('Acceptance | Controller | organization-controller', function() {
     it('should return 200 HTTP status code', () => {
       // given
       const url = `/api/organizations/${organizationId}/snapshots/export?userToken=${userToken}`;
-      const expectedCsvSnapshots = '"Nom";"Prenom";"Numero Etudiant";"Code Campagne";"Date";"Score Pix";' +
-        '"Tests Realises";"competence-name-1";"competence-name-2"\n' +
+      const expectedCsvSnapshots = '\uFEFF"Nom";"Prénom";"Numéro Étudiant";"Code Campagne";"Date";"Score Pix";' +
+        '"Tests Réalisés";"Traiter des données";"Protéger les données personnelles et la vie privée"\n' +
         '"Doe";"john";"";"";31/08/2017;15;="1/2";;8\n';
 
       const request = {
@@ -311,8 +340,8 @@ function _insertSnapshot(organizationId, userId) {
         type: 'competences',
         id: 'recCompA',
         attributes: {
-          name: 'competence-name-1',
-          index: '1.1',
+          name: 'Traiter des données',
+          index: '1.3',
           level: -1,
           'course-id': 'recBxPAuEPlTgt72q11'
         },
@@ -329,8 +358,8 @@ function _insertSnapshot(organizationId, userId) {
         type: 'competences',
         id: 'recCompB',
         attributes: {
-          name: 'competence-name-2',
-          index: '1.2',
+          name: 'Protéger les données personnelles et la vie privée',
+          index: '4.2',
           level: 8,
           'pix-score': 128,
           'course-id': 'recBxPAuEPlTgt72q99'

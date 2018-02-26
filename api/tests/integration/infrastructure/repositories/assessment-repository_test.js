@@ -1,4 +1,5 @@
-const { expect, knex } = require('../../../test-helper');
+const { describe, it, expect, knex, beforeEach, afterEach } = require('../../../test-helper');
+const _ = require('lodash');
 
 const assessmentRepository = require('../../../../lib/infrastructure/repositories/assessment-repository');
 const Assessment = require('../../../../lib/domain/models/Assessment');
@@ -344,15 +345,28 @@ describe('Integration | Infrastructure | Repositories | assessment-repository', 
       createdAt: '2016-10-27 08:44:25'
     };
 
+    const competenceMark = {
+      id: 2,
+      level: 4,
+      score: 35,
+      area_code: '2',
+      competence_code: '2.1',
+    };
+
     beforeEach(() => {
-      return knex('assessments').insert(assessmentInDb);
+      return knex('assessments').insert(assessmentInDb)
+        .then(assessmentIds => {
+          const assessmentId = _.first(assessmentIds);
+          competenceMark.assessmentId = assessmentId;
+          return knex('marks').insert(competenceMark);
+        });
     });
 
     afterEach(() => {
-      return knex('assessments').delete();
+      return Promise.all([knex('assessments').delete(), knex('marks').delete()]);
     });
 
-    it('should save new assessment if not already existing', () => {
+    it('should retrieve the assessment with its marks for the given certificationId', () => {
       // when
       const promise = assessmentRepository.getByCertificationCourseId('course_A');
 
@@ -361,6 +375,8 @@ describe('Integration | Infrastructure | Repositories | assessment-repository', 
         expect(assessmentReturned).to.be.an.instanceOf(Assessment);
         expect(assessmentReturned.courseId).to.equal('course_A');
         expect(assessmentReturned.pixScore).to.equal(assessmentInDb.pixScore);
+        expect(assessmentReturned.marks).to.have.lengthOf(1);
+        expect(assessmentReturned.marks[0]).to.deep.equal(competenceMark);
       });
     });
   });

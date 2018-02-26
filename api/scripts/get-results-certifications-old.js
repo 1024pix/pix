@@ -22,10 +22,10 @@ function parseArgs(argv) {
 function buildRequestObject(baseUrl, certificationId) {
   return {
     baseUrl: baseUrl,
-    url: `/api/certification-courses/${certificationId}/result`,
+    url: `/api/certification-courses/${certificationId}/result/compute`,
     json: true,
     transform: (body) => {
-      body.data.attributes.certificationId = certificationId;
+      body.certificationId = certificationId;
       return body;
     }
   };
@@ -36,25 +36,26 @@ function makeRequest(config) {
 }
 
 function findCompetence(profile, competenceName) {
-  const result = profile.find(competence => competence['competence-code'] === competenceName);
-  return (result || { level: '' }).level;
+  const result = profile.find(competence => competence.index === competenceName);
+  return (result || { obtainedLevel: '' }).obtainedLevel;
 }
 
 function toCSVRow(rowJSON) {
-  const certificationData = rowJSON.data.attributes;
+  console.log(rowJSON)
+
   const res = {};
   const [idColumn, dateStartColumn, dateEndColumn, noteColumn, ...competencesColumns] = HEADERS;
-  res[idColumn] = certificationData.certificationId;
-  res[dateStartColumn] = moment.utc(certificationData['created-at']).tz('Europe/Paris').format('DD/MM/YYYY HH:mm:ss');
-  if (certificationData['completed-at']) {
-    res[dateEndColumn] = moment(certificationData['completed-at']).tz('Europe/Paris').format('DD/MM/YYYY HH:mm:ss');
+  res[idColumn] = rowJSON.certificationId;
+  res[dateStartColumn] = moment.utc(rowJSON.createdAt).tz('Europe/Paris').format('DD/MM/YYYY HH:mm:ss');
+  if (rowJSON.completedAt) {
+    res[dateEndColumn] = moment(rowJSON.completedAt).tz('Europe/Paris').format('DD/MM/YYYY HH:mm:ss');
   } else {
     res[dateEndColumn] = '';
   }
 
-  res[noteColumn] = certificationData['pix-score'];
+  res[noteColumn] = rowJSON.totalScore;
   competencesColumns.forEach(column => {
-    res[column] = findCompetence(certificationData['competences-with-mark'], column);
+    res[column] = findCompetence(rowJSON.competencesWithMark, column);
   });
   return res;
 }
@@ -83,7 +84,7 @@ if (process.env.NODE_ENV !== 'test') {
 } else {
   const { describe, it } = require('mocha');
   const { expect } = require('chai');
-  describe('Get Result Certifications Script', () => {
+  describe('Get Result Certifications Script OLD', () => {
     describe('parseArgs', () => {
       it('should return an array', () => {
         // given
@@ -106,26 +107,24 @@ if (process.env.NODE_ENV !== 'test') {
         const result = buildRequestObject(baseUrl, courseId);
         // then
         expect(result).to.have.property('json', true);
-        expect(result).to.have.property('url','/api/certification-courses/12/result');
+        expect(result).to.have.property('url','/api/certification-courses/12/result/compute');
       });
 
       it('should add certificationId to API response when the object is transform after the request', () => {
         // given
         const baseUrl = 'http://localhost:3000';
         const requestObject = buildRequestObject(baseUrl,12);
-
         // when
-        const result = requestObject.transform({ data: { attributes: {} } });
-
+        const result = requestObject.transform({});
         // then
-        expect(result.data.attributes).to.have.property('certificationId', 12);
+        expect(result).to.have.property('certificationId', 12);
       });
     });
 
     describe('toCSVRow', () => {
       it('should normalize a JSON object', () => {
         // given
-        const object = { data: { attributes: { 'competences-with-mark': [] } } };
+        const object = { competencesWithMark: [] };
         // when
         const result = toCSVRow(object);
         // then
@@ -134,7 +133,7 @@ if (process.env.NODE_ENV !== 'test') {
 
       it('should extract certificationId, date, and pix score', () => {
         // given
-        const object = { data: { attributes: { certificationId: '1337', 'pix-score': 7331, 'created-at': '2018-01-31 09:01', 'completed-at': '2018-01-31T09:29:16.394Z', 'competences-with-mark': [] } } };
+        const object = { certificationId: '1337', totalScore: 7331, createdAt: '2018-01-31 09:01', completedAt: '2018-01-31T09:29:16.394Z', competencesWithMark: [] };
         // when
         const result = toCSVRow(object);
         // then
@@ -146,47 +145,47 @@ if (process.env.NODE_ENV !== 'test') {
 
       it('should extract competences', () => {
         // given
-        const object = { data: { attributes: { 'competences-with-mark' : [] } } };
-
+        const object = { competencesWithMark : [] };
         // when
         const result = toCSVRow(object);
-
         // then
         expect(result[HEADERS[4]]).to.equals('');
       });
 
       it('should extract competences 1.1', () => {
         // given
-        const object = { data: { attributes: { 'competences-with-mark': [
+        const object = { competencesWithMark: [
           {
-            'competence-code': '1.1',
-            level: 9001
+            name: 'Sécuriser l\'environnement numérique',
+            index: '1.1',
+            id: 'rec',
+            obtainedLevel: 9001
           }
-        ] } } };
-
+        ] };
         // when
         const result = toCSVRow(object);
-
         // then
         expect(result['1.1']).to.equals(9001);
       });
 
       it('should extract all competences', () => {
         // given
-        const object = { data: { attributes: { 'competences-with-mark': [
+        const object = { competencesWithMark: [
           {
-            'competence-code': '1.1',
-            level: 4
+            name: 'Mener une recherche',
+            index: '1.1',
+            id: 'rec',
+            obtainedLevel: 4
           },
           {
-            'competence-code': '1.2',
-            level: 6
+            name: 'Sécuriser l\'environnement numérique',
+            index: '1.2',
+            id: 'rec',
+            obtainedLevel: 6
           }
-        ] } } };
-
+        ] };
         // when
         const result = toCSVRow(object);
-
         // then
         expect(result['1.1']).to.equals(4);
         expect(result['1.2']).to.equals(6);
@@ -195,30 +194,27 @@ if (process.env.NODE_ENV !== 'test') {
     });
 
     describe('findCompetence', () => {
-
       it('should return empty string when not found', () => {
         // given
         const profile = [];
-        const competenceCode = '1.1';
-
+        const competenceName = '1.1';
         // when
-        const result = findCompetence(profile, competenceCode);
-
+        const result = findCompetence(profile, competenceName);
         // then
         expect(result).to.be.equals('');
       });
 
-      it('should return competence level when found', () => {
+      it('should return competence obtainedLevel when found', () => {
         // given
-        const competenceCode = '1.1';
         const profile = [{
-          'competence-code': competenceCode,
-          level: 9
+          name: 'Sécuriser l\'environnement numérique',
+          index: '1.1',
+          id: 'rec',
+          obtainedLevel: 9
         }];
-
+        const competenceName = '1.1';
         // when
-        const result = findCompetence(profile, competenceCode);
-
+        const result = findCompetence(profile, competenceName);
         // then
         expect(result).to.be.equals(9);
       });

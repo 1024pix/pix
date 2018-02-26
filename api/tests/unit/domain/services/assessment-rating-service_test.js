@@ -323,24 +323,24 @@ describe('Unit | Domain | Services | assessment-ratings', () => {
       let clock;
 
       const certificationResults = {
-        listCertifiedCompetences: [{
+        competencesWithMark: [{
           index: '1.1',
           id: 'competence_1',
           name: 'Mener une recherche',
-          level: 0,
-          score: 7
+          obtainedLevel: 0,
+          obtainedScore: 7
         }, {
           index: '2.1',
           id: 'competence_2',
           name: 'Partager',
-          level: 2,
-          score: 19
+          obtainedLevel: 2,
+          obtainedScore: 19
         }, {
           index: '2.2',
           id: 'competence_3',
           name: 'Adapter',
-          level: -1,
-          score: 0
+          obtainedLevel: -1,
+          obtainedScore: 0
         }],
         totalScore: 26
       };
