@@ -1,13 +1,12 @@
 # Pix Changelog
 
-## v1.40.0 (26/02/2018) 
+## v1.40.0 (26/02/2018)
 
-- [#678](https://github.com/betagouv/pix/pull/678) [CLEANUP] Suppression de la table 'scenarios' qui n'était plus utilisée (US-1089).
-- [#689](https://gituhb.com/betagouv/pix/pull/689) [TECH] Ajout de données pour les review-apps (US-1095).
-- [#687](https://gituhb.com/betagouv/pix/pull/687) [FEATURE] Adapter la colonne "Numero Etudiant" en fonction du type de l'organisation prescripteure ("SUP", "SCO", "PRO") (US-1087).
-- [#690](https://gituhb.com/betagouv/pix/pull/690) [CLEANUP] Suppression de l'email dans le jeton d'accès JWT (US-1098).
-- [#682](https://gituhb.com/betagouv/pix/pull/682) [FEATURE] Récupérer toutes les informations d'un certification (US-1068).
-- [#679](https://gituhb.com/betagouv/pix/pull/679) [BUGFIX] Amélioration du script récupérant les résultats de certification (US-1067).
+- [#682](https://github.com/betagouv/pix/pull/682) [FEATURE] Récupérer toutes les informations d'un certification (US-1068).
+- [#689](https://github.com/betagouv/pix/pull/689) [TECH] Ajout de données pour les review-apps (US-1095).
+- [#687](https://github.com/betagouv/pix/pull/687) [FEATURE] Adapter la colonne "Numero Etudiant" en fonction du type de l'organisation prescripteure ("SUP", "SCO", "PRO")  (US-1087).
+- [#690](https://github.com/betagouv/pix/pull/690) [CLEANUP] Suppression de l'email dans le jeton d'accès JWT (US-1098).
+- [#679](https://github.com/betagouv/pix/pull/679) [BUGFIX] Amélioration du script récupérant les résultats de certification (US-1067).
 
 ## v1.39.0 (19/02/2018) 
 
