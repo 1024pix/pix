@@ -3,7 +3,7 @@ const { batch } = require('../batchTreatment');
 const TABLE_NAME_CERTIFICATION = 'certification-courses';
 const TABLE_NAME_ASSESSMENTS = 'assessments';
 
-exports.up = function(knex, Promise) {
+exports.up = function(knex) {
 
   return knex.schema
     // Add Column
@@ -14,14 +14,15 @@ exports.up = function(knex, Promise) {
 
     // Put certification status in assessments.status
     .then((allCertificationStatus) => {
-      const promises = allCertificationStatus.map(certification => {
+
+      return batch(knex, allCertificationStatus, (certification) => {
         return knex(TABLE_NAME_ASSESSMENTS)
           .where('courseId', '=', certification.id)
           .update({
             status: certification.status,
           });
       });
-      return Promise.all(promises);
+
     })
     // Get assessment without status
     .then(() => knex(TABLE_NAME_ASSESSMENTS).select('id', 'status', 'pixScore').where('status', null))
@@ -61,15 +62,14 @@ exports.down = function(knex, Promise) {
   }).then((allAssessmentForCertification) => {
 
     // Put certification status in assessments.status
-
-    const promises = allAssessmentForCertification.map(assessment => {
+    return batch(knex, allAssessmentForCertification, (assessment) => {
       return knex(TABLE_NAME_CERTIFICATION)
         .where('id', '=', assessment.courseId)
         .update({
           status: assessment.status,
         });
     });
-    return Promise.all(promises);
+
   }).then(() => {
     return knex.schema.table(TABLE_NAME_ASSESSMENTS, function(table) {
       table.dropColumn('status');
