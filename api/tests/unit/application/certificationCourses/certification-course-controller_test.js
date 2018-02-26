@@ -13,7 +13,7 @@ describe('Unit | Controller | certification-course-controller', function() {
   let replyStub;
   let codeStub;
 
-  describe('#getResult', () => {
+  describe('#computeResult', () => {
 
     const certificationCourseId = 1245;
     const certificationScore = 156;
@@ -40,7 +40,7 @@ describe('Unit | Controller | certification-course-controller', function() {
 
     it('should call certification Service to compute score', () => {
       // when
-      const promise = CertificationCourseController.getResult(request, replyStub);
+      const promise = CertificationCourseController.computeResult(request, replyStub);
 
       // then
       return promise.then(() => {
@@ -51,7 +51,7 @@ describe('Unit | Controller | certification-course-controller', function() {
 
     it('should reply the score', () => {
       // when
-      const promise = CertificationCourseController.getResult(request, replyStub);
+      const promise = CertificationCourseController.computeResult(request, replyStub);
 
       // then
       return promise.then(() => {
@@ -67,7 +67,7 @@ describe('Unit | Controller | certification-course-controller', function() {
         certificationService.calculateCertificationResultByCertificationCourseId.rejects(error);
 
         // when
-        const promise = CertificationCourseController.getResult(request, replyStub);
+        const promise = CertificationCourseController.computeResult(request, replyStub);
 
         // then
         return promise.then(() => {
@@ -81,7 +81,7 @@ describe('Unit | Controller | certification-course-controller', function() {
         certificationService.calculateCertificationResultByCertificationCourseId.rejects(error);
 
         // when
-        const promise = CertificationCourseController.getResult(request, replyStub);
+        const promise = CertificationCourseController.computeResult(request, replyStub);
 
         // then
         return promise.then(() => {
@@ -143,6 +143,38 @@ describe('Unit | Controller | certification-course-controller', function() {
         expect(reply).to.have.been.calledOnce;
         expect(reply).to.have.been.calledWith(certificationSerialized);
       });
+    });
+  });
+
+  describe('#getResult', () => {
+    const certificationCourseId =1;
+    const request = {
+      params: {
+        id: certificationCourseId
+      }
+    };
+
+    beforeEach(() => {
+      replyStub = sinon.stub().returns({ code: codeStub });
+
+      sandbox = sinon.sandbox.create();
+      sandbox.stub(certificationService, 'getCertificationResult').resolves({});
+    });
+
+    afterEach(() => {
+      sandbox.restore();
+    });
+    it('should call certification-service to get certification result from database', () => {
+      // given
+      // when
+      const promise = CertificationCourseController.getResult(request, replyStub);
+
+      //then
+      return promise.then(()=> {
+        sinon.assert.calledOnce(certificationService.getCertificationResult);
+        sinon.assert.calledWith(certificationService.getCertificationResult, certificationCourseId);
+      });
+
     });
   });
 });

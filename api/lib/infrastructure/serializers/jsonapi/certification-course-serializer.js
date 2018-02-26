@@ -5,7 +5,7 @@ module.exports = {
   serialize(certificationCourse) {
 
     return new Serializer('course', {
-      attributes : ['userId', 'assessment', 'status', 'type', 'nbChallenges'],
+      attributes: ['userId', 'assessment', 'status', 'type', 'nbChallenges'],
       assessment: {
         ref: 'id',
       },
@@ -16,4 +16,10 @@ module.exports = {
       }
     }).serialize(certificationCourse);
   },
+
+  serializeResult(certificationCourseResult) {
+    return new Serializer('results', {
+      attributes: ['pixScore', 'createdAt', 'completedAt', 'competencesWithMark']
+    }).serialize(certificationCourseResult);
+  }
 };

@@ -1,4 +1,5 @@
 const Organization = require('../data/organization');
+const { NotFoundError } = require('../../domain/errors');
 
 module.exports = {
 
@@ -12,7 +13,7 @@ module.exports = {
       .fetch()
       .then(organizations => {
 
-        if(organizations) {
+        if (organizations) {
           return Promise.reject();
         }
 
@@ -29,8 +30,14 @@ module.exports = {
 
   get(id) {
     return Organization
-      .where({ id: id })
-      .fetch({ require: true });
+      .where({ id })
+      .fetch({ require: true })
+      .then(organization => organization.toDomainEntity())
+      .catch(err => {
+        if (err instanceof Organization.NotFoundError) {
+          throw new NotFoundError(`Not found organization for ID ${id}`);
+        }
+      });
   },
 
   findBy(filters) {
