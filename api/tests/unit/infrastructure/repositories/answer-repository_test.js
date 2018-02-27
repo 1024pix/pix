@@ -62,11 +62,13 @@ describe('Unit | Repository | AnswerRepository', () => {
       assessmentId: 1
     };
 
-    beforeEach(() =>
-      knex('answers').insert([wrongAnswer, correctAnswer, partiallyCorrectAnswer]));
+    beforeEach(() => {
+      return knex('answers').insert([wrongAnswer, correctAnswer, partiallyCorrectAnswer]);
+    });
 
-    afterEach(() =>
-      knex('answers').delete());
+    afterEach(() => {
+      return knex('answers').delete();
+    });
 
     it('should find the answer by challenge and assessment and return its in an object', () => {
       // when
@@ -106,9 +108,13 @@ describe('Unit | Repository | AnswerRepository', () => {
       assessmentId: 1
     };
 
-    beforeEach(() => knex('answers').insert([wrongAnswerForAssessment1234, wrongAnswerForAssessment1, timedOutAnswerForAssessement1]));
+    beforeEach(() => {
+      return knex('answers').insert([wrongAnswerForAssessment1234, wrongAnswerForAssessment1, timedOutAnswerForAssessement1]);
+    });
 
-    afterEach(() => knex('answers').delete());
+    afterEach(() => {
+      return knex('answers').delete();
+    });
 
     it('should find all answers by challenge id', () => {
       // when

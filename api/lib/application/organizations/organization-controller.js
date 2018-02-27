@@ -13,6 +13,8 @@ const snapshotsCsvConverter = require('../../infrastructure/converter/snapshots-
 const _ = require('lodash');
 const logger = require('../../infrastructure/logger');
 
+const User = require('../../domain/models/User');
+
 const { AlreadyRegisteredEmailError } = require('../../domain/errors');
 const exportCsvFileName = 'Pix - Export donnees partagees.csv';
 
@@ -20,9 +22,9 @@ module.exports = {
   create: (request, reply) => {
 
     const organization = organizationSerializer.deserialize(request.payload);
-    const userRawData = _extractUserInformation(request, organization);
+    const user = _extractUserInformation(request, organization);
 
-    const userValidationErrors = userRepository.validateData(userRawData);
+    const userValidationErrors = userRepository.validateData(user);
     const organizationValidationErrors = organization.validationErrors();
 
     if (userValidationErrors || organizationValidationErrors) {
@@ -31,13 +33,12 @@ module.exports = {
     }
 
     return userRepository
-      .isEmailAvailable(organization.get('email'))
+      .isEmailAvailable(user.email)
       .then(() => {
-        return userRepository.save(userRawData);
+        return userRepository.save(user);
       })
       .then((user) => {
         organization.set('userId', user.id);
-        organization.user = user;
       })
       .then(_generateUniqueOrganizationCode)
       .then((code) => {
@@ -49,7 +50,7 @@ module.exports = {
       })
       .catch((err) => {
         if (err instanceof AlreadyRegisteredEmailError) {
-          return reply(validationErrorSerializer.serialize(_buildAlreadyExistingEmailError(organization.get('email')))).code(400);
+          return reply(validationErrorSerializer.serialize(_buildAlreadyExistingEmailError(user.email))).code(400);
         }
 
         logger.error(err);
@@ -124,13 +125,13 @@ function _buildAlreadyExistingEmailError(email) {
 }
 
 function _extractUserInformation(request, organization) {
-  return {
+  return new User({
     firstName: request.payload.data.attributes['first-name'] || '',
     lastName: request.payload.data.attributes['last-name'] || '',
     email: organization.get('email') || '',
     cgu: true,
     password: request.payload.data.attributes['password'] || ''
-  };
+  });
 }
 
 function _generateUniqueOrganizationCode() {

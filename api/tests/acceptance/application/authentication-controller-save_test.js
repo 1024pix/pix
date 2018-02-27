@@ -1,11 +1,13 @@
 const { knex, expect } = require('../../test-helper');
 
 const faker = require('faker');
+const _ = require('lodash');
+
 const jsonwebtoken = require('jsonwebtoken');
 const settings = require('./../../../../api/lib/settings');
 
 const server = require('../../../server');
-const User = require('../../../lib/infrastructure/data/user');
+const BookshelfUser = require('../../../lib/infrastructure/data/user');
 
 describe('Acceptance | Controller | authentication-controller', () => {
 
@@ -13,13 +15,16 @@ describe('Acceptance | Controller | authentication-controller', () => {
   let attributes;
 
   let user;
+  const userEmail = 'emailWithSomeCamelCase@example.net';
+  const userEmailSavedInDb = _.toLower(userEmail);
+
   const userPassword = 'A124B2C3#!';
 
   before(() => {
-    return new User({
+    return new BookshelfUser({
       firstName: faker.name.firstName(),
       lastName: faker.name.lastName(),
-      email: faker.internet.email(),
+      email: userEmailSavedInDb,
       password: userPassword,
       cgu: true
     }).save().then((createdUser) => {
@@ -29,7 +34,7 @@ describe('Acceptance | Controller | authentication-controller', () => {
 
   beforeEach(() => {
     attributes = {
-      email: user.get('email'),
+      email: userEmail,
       password: userPassword
     };
 

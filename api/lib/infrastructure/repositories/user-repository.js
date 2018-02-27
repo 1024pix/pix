@@ -1,30 +1,39 @@
-const User = require('../data/user');
+const BookshelfUser = require('../../infrastructure/data/user');
+const User = require('../../domain/models/User');
 const { AlreadyRegisteredEmailError } = require('../../domain/errors');
+
+function _toDomain(bookshelfUser) {
+  const modelObjectInJSON = bookshelfUser.toJSON();
+  return new User(modelObjectInJSON);
+}
 
 module.exports = {
 
   findByEmail(email) {
-    return User
+    return BookshelfUser
       .where({ email })
-      .fetch({ require: true });
+      .fetch({ require: true })
+      .then(_toDomain);
   },
 
   findUserById(userId) {
-    return User
+    return BookshelfUser
       .where({ id: userId })
       .fetch({ require: true });
   },
 
   save(userRawData) {
-    return new User(userRawData).save();
+    return new BookshelfUser(userRawData)
+      .save()
+      .then(_toDomain);
   },
 
   validateData(userRawData) {
-    return new User(userRawData).validationErrors();
+    return new BookshelfUser(userRawData).validationErrors();
   },
 
   isEmailAvailable(email) {
-    return User
+    return BookshelfUser
       .where({ email })
       .fetch()
       .then(user => {
@@ -36,10 +45,12 @@ module.exports = {
       });
   },
 
-  updatePassword(id, password) {
-    return User.where({ id }).save({ password, cgu: true }, {
-      patch: true,
-      require: false
-    });
+  updatePassword(id, hashedPassword) {
+    return BookshelfUser.where({ id })
+      .save({ password: hashedPassword, cgu: true }, {
+        patch: true,
+        require: false
+      })
+      .then(_toDomain);
   }
 };

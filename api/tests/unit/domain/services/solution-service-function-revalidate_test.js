@@ -51,8 +51,8 @@ describe('Unit | Service | SolutionService', function() {
       });
     });
 
-    after(function(done) {
-      knex('answers').delete().then(() => {done();});
+    after(function() {
+      return knex('answers').delete();
     });
 
     it('If the answer is timedout, resolve to the answer itself, unchanged', function(done) {

@@ -9,7 +9,8 @@ const courseRepository = require('../../../../lib/infrastructure/repositories/co
 const userService = require('../../../../lib/domain/services/user-service');
 const { UserNotFoundError } = require('../../../../lib/domain/errors');
 
-const Answer = require('../../../../lib/infrastructure/data/answer');
+const BookshelfAnswer = require('../../../../lib/infrastructure/data/answer');
+const User = require('../../../../lib/domain/models/User');
 const Assessment = require('../../../../lib/domain/models/Assessment');
 const Skill = require('../../../../lib/domain/models/Skill');
 const Challenge = require('../../../../lib/domain/models/Challenge');
@@ -45,7 +46,7 @@ describe('Unit | Service | User Service', () => {
 
     it('should return true, when user is found', () => {
       // given
-      const foundUser = {};
+      const foundUser = new User({});
       userRepository.findByEmail.resolves(foundUser);
 
       // when
@@ -131,7 +132,7 @@ describe('Unit | Service | User Service', () => {
     const userId = 63731;
 
     const AnswerCollection = Bookshelf.Collection.extend({
-      model: Answer
+      model: BookshelfAnswer
     });
     const answerCollectionWithEmptyData = AnswerCollection.forge([]);
 
@@ -272,7 +273,7 @@ describe('Unit | Service | User Service', () => {
     context('when all informations needed are collected', () => {
       it('should assign skill to related competence', () => {
         // Given
-        const answerInstance = new Answer({ challengeId: challengeForSkillRemplir2.id, result: 'ok' });
+        const answerInstance = new BookshelfAnswer({ challengeId: challengeForSkillRemplir2.id, result: 'ok' });
         const answerCollectionWithOneAnswer = AnswerCollection.forge([answerInstance]);
 
         answerRepository.findCorrectAnswersByAssessment.withArgs(assessment1.id).resolves(answerCollectionWithEmptyData);
@@ -311,7 +312,7 @@ describe('Unit | Service | User Service', () => {
 
           it('should not return the skill', function() {
             // Given
-            const answerOfOldChallenge = new Answer({
+            const answerOfOldChallenge = new BookshelfAnswer({
               challengeId: oldChallengeWithAlreadyValidatedSkill.id,
               result: 'ok'
             });
@@ -350,7 +351,7 @@ describe('Unit | Service | User Service', () => {
         context('when only one challenge validate the skill', () => {
           it('should select the same challenge', () => {
             // Given
-            const answer = new Answer({ challengeId: challengeForSkillRemplir2.id, result: 'ok' });
+            const answer = new BookshelfAnswer({ challengeId: challengeForSkillRemplir2.id, result: 'ok' });
             const answerCollectionWithOneAnswer = AnswerCollection.forge([answer]);
 
             answerRepository.findCorrectAnswersByAssessment.withArgs(assessment1.id).resolves(answerCollectionWithEmptyData);
@@ -387,7 +388,7 @@ describe('Unit | Service | User Service', () => {
         context('when three challenges validate the same skill', () => {
           it('should select the unanswered challenge which is published', () => {
             // Given
-            const answer = new Answer({ challengeId: challengeForSkillCitation4.id, result: 'ok' });
+            const answer = new BookshelfAnswer({ challengeId: challengeForSkillCitation4.id, result: 'ok' });
             const answerCollectionWithOneAnswer = AnswerCollection.forge([answer]);
 
             answerRepository.findCorrectAnswersByAssessment.withArgs(assessment1.id).resolves(answerCollectionWithOneAnswer);
@@ -422,8 +423,8 @@ describe('Unit | Service | User Service', () => {
 
           it('should select a challenge for every skill', () => {
             // Given
-            const answer = new Answer({ challengeId: challengeForSkillRecherche4.id, result: 'ok' });
-            const answer2 = new Answer({ challengeId: challengeForSkillCitation4AndMoteur3.id, result: 'ok' });
+            const answer = new BookshelfAnswer({ challengeId: challengeForSkillRecherche4.id, result: 'ok' });
+            const answer2 = new BookshelfAnswer({ challengeId: challengeForSkillCitation4AndMoteur3.id, result: 'ok' });
             const answerCollectionWithTwoAnswers = AnswerCollection.forge([answer, answer2]);
 
             answerRepository.findCorrectAnswersByAssessment.withArgs(assessment1.id).resolves(answerCollectionWithTwoAnswers);
@@ -460,11 +461,11 @@ describe('Unit | Service | User Service', () => {
 
       it('should group skills by competence ', () => {
         // Given
-        const answerA1 = new Answer({ challengeId: challengeForSkillRecherche4.id, result: 'ok' });
+        const answerA1 = new BookshelfAnswer({ challengeId: challengeForSkillRecherche4.id, result: 'ok' });
         const answerCollectionA = AnswerCollection.forge([answerA1]);
 
-        const answerB1 = new Answer({ challengeId: challengeForSkillRemplir2.id, result: 'ok' });
-        const answerB2 = new Answer({ challengeId: challengeForSkillUrl3.id, result: 'ok' });
+        const answerB1 = new BookshelfAnswer({ challengeId: challengeForSkillRemplir2.id, result: 'ok' });
+        const answerB2 = new BookshelfAnswer({ challengeId: challengeForSkillUrl3.id, result: 'ok' });
         const answerCollectionB = AnswerCollection.forge([answerB1, answerB2]);
 
         answerRepository.findCorrectAnswersByAssessment.withArgs(assessment1.id).resolves(answerCollectionA);
@@ -499,9 +500,9 @@ describe('Unit | Service | User Service', () => {
 
       it('should sort in desc grouped skills by competence', () => {
         // Given
-        const answer1 = new Answer({ challengeId: challengeForSkillRemplir4.id, result: 'ok' });
-        const answer2 = new Answer({ challengeId: challengeForSkillRemplir2.id, result: 'ok' });
-        const answer3 = new Answer({ challengeId: challengeForSkillUrl3.id, result: 'ok' });
+        const answer1 = new BookshelfAnswer({ challengeId: challengeForSkillRemplir4.id, result: 'ok' });
+        const answer2 = new BookshelfAnswer({ challengeId: challengeForSkillRemplir2.id, result: 'ok' });
+        const answer3 = new BookshelfAnswer({ challengeId: challengeForSkillUrl3.id, result: 'ok' });
         const answerCollectionArray = AnswerCollection.forge([answer1, answer2, answer3]);
 
         answerRepository.findCorrectAnswersByAssessment.withArgs(assessment1.id).resolves(answerCollectionWithEmptyData);
@@ -537,10 +538,10 @@ describe('Unit | Service | User Service', () => {
 
       it('should return the three most difficult skills sorted in desc grouped by competence', () => {
         // Given
-        const answer1 = new Answer({ challengeId: challengeForSkillRemplir4.id, result: 'ok' });
-        const answer2 = new Answer({ challengeId: challengeForSkillRemplir2.id, result: 'ok' });
-        const answer3 = new Answer({ challengeId: challengeForSkillUrl3.id, result: 'ok' });
-        const answer4 = new Answer({ challengeId: challengeForSkillWeb1.id, result: 'ok' });
+        const answer1 = new BookshelfAnswer({ challengeId: challengeForSkillRemplir4.id, result: 'ok' });
+        const answer2 = new BookshelfAnswer({ challengeId: challengeForSkillRemplir2.id, result: 'ok' });
+        const answer3 = new BookshelfAnswer({ challengeId: challengeForSkillUrl3.id, result: 'ok' });
+        const answer4 = new BookshelfAnswer({ challengeId: challengeForSkillWeb1.id, result: 'ok' });
         const answerCollectionArray = AnswerCollection.forge([answer1, answer2, answer3, answer4]);
 
         answerRepository.findCorrectAnswersByAssessment.withArgs(assessment1.id).resolves(answerCollectionWithEmptyData);
@@ -576,7 +577,7 @@ describe('Unit | Service | User Service', () => {
 
       it('should not add a skill twice', () => {
         // Given
-        const answer = new Answer({ challengeId: challengeForSkillRemplir2.id, result: 'ok' });
+        const answer = new BookshelfAnswer({ challengeId: challengeForSkillRemplir2.id, result: 'ok' });
         const answerCollectionArray = AnswerCollection.forge([answer, answer]);
 
         answerRepository.findCorrectAnswersByAssessment.withArgs(assessment1.id).resolves(answerCollectionWithEmptyData);
@@ -611,7 +612,7 @@ describe('Unit | Service | User Service', () => {
 
       it('should not assign skill, when the challenge id is not found', () => {
         // Given
-        const answer = new Answer({ challengeId: 'challengeRecordIdThatDoesNotExist', result: 'ok' });
+        const answer = new BookshelfAnswer({ challengeId: 'challengeRecordIdThatDoesNotExist', result: 'ok' });
         const answerCollectionArray = AnswerCollection.forge(answer);
 
         answerRepository.findCorrectAnswersByAssessment.withArgs(assessment1.id).resolves(answerCollectionWithEmptyData);
@@ -646,7 +647,7 @@ describe('Unit | Service | User Service', () => {
 
       it('should not assign skill, when the competence is not found', () => {
         // Given
-        const answer = new Answer({ challengeId: 'challengeRecordIdThree', result: 'ok' });
+        const answer = new BookshelfAnswer({ challengeId: 'challengeRecordIdThree', result: 'ok' });
         const answerCollectionArray = AnswerCollection.forge(answer);
 
         answerRepository.findCorrectAnswersByAssessment.withArgs(assessment1.id).resolves(answerCollectionWithEmptyData);

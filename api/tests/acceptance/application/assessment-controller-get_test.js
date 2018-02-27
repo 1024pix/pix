@@ -144,10 +144,8 @@ describe('Acceptance | API | assessment-controller-get', function() {
       });
     });
 
-    afterEach((done) => {
-      knex('assessments').delete().then(() => {
-        done();
-      });
+    afterEach(() => {
+      return knex('assessments').delete();
     });
 
     it('should return 200 HTTP status code', function(done) {
@@ -229,10 +227,8 @@ describe('Acceptance | API | assessment-controller-get', function() {
       });
     });
 
-    afterEach((done) => {
-      knex('assessments').delete().then(() => {
-        done();
-      });
+    afterEach(() => {
+      return knex('assessments').delete();
     });
 
     it('should return 200 HTTP status code, when userId provided is linked to assessment', function() {
