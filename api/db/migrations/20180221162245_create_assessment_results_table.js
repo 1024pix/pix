@@ -1,4 +1,4 @@
-const TABLE_NAME = 'corrections';
+const TABLE_NAME = 'assessment-results';
 
 exports.up = (knex) => {
   return knex.schema

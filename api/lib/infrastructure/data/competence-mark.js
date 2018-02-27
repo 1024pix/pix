@@ -1,12 +1,12 @@
 const Bookshelf = require('../bookshelf');
 
-require('./correction');
+require('./assessment-results');
 
 module.exports = Bookshelf.model('CompetenceMark', {
 
   tableName: 'competence-marks',
 
-  correction() {
-    return this.belongsTo('Corrections');
+  assessmentResults() {
+    return this.belongsTo('AssessmentResults');
   }
 });

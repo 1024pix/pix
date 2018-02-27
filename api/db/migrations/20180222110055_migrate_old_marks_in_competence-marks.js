@@ -2,12 +2,12 @@ const { batch } = require('../batchTreatment');
 
 const TABLE_NAME_MARKS = 'marks';
 const TABLE_NAME_COMPETENCE_MARKS = 'competence-marks';
-const TABLE_NAME_CORRECTIONS = 'corrections';
+const TABLE_NAME_ASSESSMENT_RESULTS = 'assessment-results';
 
 exports.up = function(knex) {
 
   return knex(TABLE_NAME_MARKS)
-    .select('id', 'level', 'score', 'area_code', 'competence_code', 'correctionId')
+    .select('id','level', 'score', 'area_code', 'competence_code','assessmentResultId')
     .then((allMarks) => {
 
       return batch(knex, allMarks, (mark) => {
@@ -17,7 +17,7 @@ exports.up = function(knex) {
             score: mark.score,
             area_code: mark.area_code,
             competence_code: mark.competence_code,
-            correctionId: mark.correctionId
+            assessmentResultId: mark.assessmentResultId
           });
       });
 
@@ -37,7 +37,7 @@ exports.down = function(knex) {
       t.text('area_code').notNull();
       t.text('competence_code').notNull();
       t.integer('assessmentId').unsigned().references('assessments.id');
-      t.integer('correctionId').unsigned();
+      t.integer('assessmentResultId').unsigned();
     })
     .then(() => knex(TABLE_NAME_COMPETENCE_MARKS).select('id', 'level', 'score', 'area_code', 'competence_code', 'correctionId'))
     .then((allMarks) => {
@@ -49,19 +49,19 @@ exports.down = function(knex) {
             score: mark.score,
             area_code: mark.area_code,
             competence_code: mark.competence_code,
-            correctionId: mark.correctionId
+            assessmentResultId: mark.assessmentResultId
           });
       });
 
     })
-    .then(() => knex(TABLE_NAME_CORRECTIONS).select('id', 'assessmentId'))
-    .then((allCorrections) => {
+    .then(() => knex(TABLE_NAME_ASSESSMENT_RESULTS).select('id', 'assessmentId'))
+    .then((allAssessmentResults) => {
 
-      return batch(knex, allCorrections, (correction) => {
+      return batch(knex, allAssessmentResults, (result) => {
         return knex(TABLE_NAME_MARKS)
-          .where('correctionId', '=', correction.id)
+          .where('assessmentResultId', '=', result.id)
           .update({
-            assessmentId: correction.assessmentId
+            assessmentId: result.assessmentResultId
           });
       });
 

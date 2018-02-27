@@ -1,6 +1,6 @@
 const { batch } = require('../batchTreatment');
 
-const TABLE_NAME_CORRECTIONS = 'corrections';
+const TABLE_NAME_ASSESSMENT_RESULT = 'assessment-results';
 const TABLE_NAME_ASSESSMENTS = 'assessments';
 
 exports.up = function(knex) {
@@ -11,7 +11,7 @@ exports.up = function(knex) {
     .then((allAssessments) => {
 
       return batch(knex, allAssessments, (assessment) => {
-        return knex(TABLE_NAME_CORRECTIONS)
+        return knex(TABLE_NAME_ASSESSMENT_RESULT)
           .insert({
             createdAt: assessment.createdAt,
             level: assessment.estimatedLevel,
@@ -23,7 +23,7 @@ exports.up = function(knex) {
       });
 
     }).then(() => {
-      return knex.schema.table(TABLE_NAME_ASSESSMENTS, function(table) {
+      return knex.schema.table(TABLE_NAME_ASSESSMENTS, function (table) {
         table.dropColumn('pixScore');
         table.dropColumn('estimatedLevel');
       });
@@ -37,20 +37,20 @@ exports.down = function(knex) {
       table.integer('pixScore');
       table.integer('estimatedLevel');
     })
-    .then(() => knex(TABLE_NAME_CORRECTIONS).select('id', 'assessmentId', 'pixScore', 'level'))
-    .then((allCorrections) => {
+    .then(() => knex(TABLE_NAME_ASSESSMENT_RESULT).select('id', 'assessmentId', 'pixScore', 'level'))
+    .then((allAssessmentResults) => {
 
-      return batch(knex, allCorrections, (correction) => {
+      return batch(knex, allAssessmentResults, (result) => {
         return knex(TABLE_NAME_ASSESSMENTS)
-          .where('id', '=', correction.assessmentId)
+          .where('id', '=', result.assessmentId)
           .update({
-            estimatedLevel: correction.level,
-            pixScore: correction.pixScore,
+            estimatedLevel: result.level,
+            pixScore: result.pixScore,
           });
       });
 
     })
     .then(() => {
-      return knex(TABLE_NAME_CORRECTIONS).delete();
+      return knex(TABLE_NAME_ASSESSMENT_RESULT).delete();
     });
 };

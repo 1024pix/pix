@@ -17,7 +17,7 @@ function _toDomain(bookshelfAssessment) {
 }
 
 function _adaptModelToDb(assessment) {
-  return _.omit(assessment, ['answers', 'successRate', 'corrections']);
+  return _.omit(assessment, ['answers', 'successRate', 'assessmentResults']);
 }
 
 module.exports = {
@@ -25,7 +25,7 @@ module.exports = {
   get(id) {
     return BookshelfAssessment
       .where('id', id)
-      .fetch({ withRelated: [{ answers: function(query) { query.orderBy('createdAt', 'ASC'); } }, 'corrections'] })
+      .fetch({ withRelated: [{ answers: function(query) { query.orderBy('createdAt', 'ASC'); } }, 'assessmentResults'] })
       .then(_toDomain);
   },
 
@@ -98,7 +98,7 @@ module.exports = {
   getByCertificationCourseId(certificationCourseId) {
     return BookshelfAssessment
       .where({ courseId: certificationCourseId })
-      .fetch({ withRelated: ['corrections'] })
+      .fetch({ withRelated: ['assessmentResults'] })
       .then(_toDomain);
   },
 

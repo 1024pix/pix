@@ -9,7 +9,7 @@ exports.up = (knex) => {
       t.text('area_code').notNull();
       t.text('competence_code').notNull();
       t.dateTime('createdAt').notNullable().defaultTo(knex.fn.now());
-      t.integer('correctionId').unsigned().references('corrections.id');
+      t.integer('assessmentResultId').unsigned().references('assessment-results.id');
     })
     .then(() => {
       console.log(`${TABLE_NAME} table is created!`);
