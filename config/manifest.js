@@ -6,8 +6,8 @@ module.exports = function(/* environment, appConfig */) {
   // supported properties
 
   return {
-    name: "power-admin",
-    short_name: "power-admin",
+    name: "pix-admin",
+    short_name: "pix-admin",
     description: "Administrate the Pix platform",
     start_url: "/",
     display: "standalone",

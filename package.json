@@ -1,8 +1,8 @@
 {
-  "name": "power-admin",
+  "name": "pix-admin",
   "version": "0.0.0",
   "private": true,
-  "description": "Small description for power-admin goes here",
+  "description": "Small description for pix-admin goes here",
   "license": "MIT",
   "author": "",
   "directories": {

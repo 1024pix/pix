@@ -1,9 +1,14 @@
 <section class="page-section tab-container">
-  <h2 class="page-section__title">
-    <span class="title__user-id">#{{model.id}}</span>
-    <span class="title__user-name">{{model.firstName}} {{model.lastName}}</span>
-    <span class="title__user-email">- {{model.email}}</span>
-  </h2>
+  <header class="page-section-header">
+    <h2 class="page-section-header__title">
+      <span class="title__user-id">#{{model.id}}</span>
+      <span class="title__user-name">{{model.firstName}} {{model.lastName}}</span>
+      <span class="title__user-email">- {{model.email}}</span>
+    </h2>
+    <div class="page-section-header__actions">
+      {{#bs-button}}Modifier{{/bs-button}}
+    </div>
+  </header>
   {{#bs-tab as |tab|}}
     <!-- Profil de compétences -->
     {{#tab.pane title="Profil de compétences"}}
@@ -68,8 +73,7 @@
                 <th>Statut</th>
                 <th>Niveau</th>
                 <th>Score</th>
-                <th>Date de début</th>
-                <th>Date de fin</th>
+                <th>Date</th>
               </tr>
             </thead>
             {{#each model.placementTests as | placementTest |}}
@@ -81,7 +85,6 @@
                 <td>{{placementTest.level}}</td>
                 <td>{{placementTest.nbPix}}</td>
                 <td>{{placementTest.startDate}}</td>
-                <td>{{placementTest.endDate}}</td>
               </tr>
               </tbody>
             {{/each}}

@@ -2,7 +2,7 @@
 
 module.exports = function(environment) {
   let ENV = {
-    modulePrefix: 'power-admin',
+    modulePrefix: 'pix-admin',
     environment,
     rootURL: '/',
     locationType: 'auto',

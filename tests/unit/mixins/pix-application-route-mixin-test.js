@@ -1,5 +1,5 @@
 import EmberObject from '@ember/object';
-import PixApplicationRouteMixinMixin from 'power-admin/mixins/pix-application-route-mixin';
+import PixApplicationRouteMixinMixin from 'pix-admin/mixins/pix-application-route-mixin';
 import { module, test } from 'qunit';
 
 module('Unit | Mixin | pix application route mixin');

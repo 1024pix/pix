@@ -12,6 +12,7 @@
   font-weight: 500;
   padding: 0 12px;
   justify-content: space-between;
+  border-bottom: 1px solid #dee2e6;
 
   @include media-breakpoint-up(lg) {
     padding: 0 48px;
@@ -52,10 +53,20 @@
     padding: 48px;
   }
 
-  .page-section__title {
-    font-size: 20px;
-    font-weight: 500;
-    /*border-bottom: 1px solid #f5f8ff;*/
-    margin-bottom: 24px;
+  .page-section-header {
+    display: flex;
+    justify-content: space-between;
+
+    .page-section-header__title {
+      font-size: 20px;
+      font-weight: 500;
+      /*border-bottom: 1px solid #f5f8ff;*/
+      margin-bottom: 24px;
+    }
+
+    .page-section-header__actions {
+
+    }
   }
+
 }

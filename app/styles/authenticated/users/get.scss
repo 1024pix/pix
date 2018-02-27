@@ -10,13 +10,6 @@
   font-weight: 300;
 }
 
-.tab-container {
-  margin: 48px;
-}
-
-.tab-content {
-}
-
 .nav-tabs {
 
   .nav-link {
@@ -49,7 +42,7 @@
 
   .profile__panel {
     width: 100%;
-    padding: 24px 0;
+    padding: 24px;
     display: inline-block;
     box-sizing: border-box;
 
@@ -60,7 +53,6 @@
   }
 
   .profile__panel--areas {
-    width: 50%;
 
     .profile-area-list {
       list-style-type: none;
@@ -202,7 +194,6 @@
   }
 
   .profile__panel--placement-tests {
-    margin-left: 48px;
     line-height: 48px;
 
     .placement-tests {
