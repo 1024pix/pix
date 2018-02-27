@@ -1,5 +1,8 @@
 const { expect } = require('../../../../test-helper');
-const User = require('../../../../../lib/infrastructure/data/user');
+
+const BookshelfUser = require('../../../../../lib/infrastructure/data/user');
+const User = require('../../../../../lib/domain/models/User');
+
 const serializer = require('../../../../../lib/infrastructure/serializers/jsonapi/user-serializer');
 
 describe('Unit | Serializer | JSONAPI | user-serializer', () => {
@@ -21,29 +24,59 @@ describe('Unit | Serializer | JSONAPI | user-serializer', () => {
   });
 
   describe('#serialize', () => {
-    it('should serialize excluding email and password', () => {
-      // Given
-      const modelObject = new User({
-        id: '234567',
-        firstName: 'Luke',
-        lastName: 'Skywalker',
-        email: 'lskywalker@deathstar.empire',
-        password: ''
-      });
-
-      // When
-      const json = serializer.serialize(modelObject);
-
-      // Then
-      expect(json).to.be.deep.equal({
-        data: {
-          attributes: {
-            'first-name': 'Luke',
-            'last-name': 'Skywalker',
-          },
+    context('when the given parameter is a BookshelfUser', () => {
+      it('should serialize excluding email and password', () => {
+        // Given
+        const modelObject = new BookshelfUser({
           id: '234567',
-          type: 'users'
-        }
+          firstName: 'Luke',
+          lastName: 'Skywalker',
+          email: 'lskywalker@deathstar.empire',
+          password: ''
+        });
+
+        // When
+        const json = serializer.serialize(modelObject);
+
+        // Then
+        expect(json).to.be.deep.equal({
+          data: {
+            attributes: {
+              'first-name': 'Luke',
+              'last-name': 'Skywalker',
+            },
+            id: '234567',
+            type: 'users'
+          }
+        });
+      });
+    });
+
+    context('when the given parameter is a User', () => {
+      it('should serialize excluding email and password', () => {
+        // Given
+        const modelObject = new User({
+          id: '234567',
+          firstName: 'Luke',
+          lastName: 'Skywalker',
+          email: 'lskywalker@deathstar.empire',
+          password: ''
+        });
+
+        // When
+        const json = serializer.serialize(modelObject);
+
+        // Then
+        expect(json).to.be.deep.equal({
+          data: {
+            attributes: {
+              'first-name': 'Luke',
+              'last-name': 'Skywalker',
+            },
+            id: '234567',
+            type: 'users'
+          }
+        });
       });
     });
   });
@@ -55,10 +88,11 @@ describe('Unit | Serializer | JSONAPI | user-serializer', () => {
       const user = serializer.deserialize(jsonUser);
 
       // Then
-      expect(user.get('firstName')).to.equal('Luke');
-      expect(user.get('lastName')).to.equal('Skywalker');
-      expect(user.get('email')).to.equal('lskywalker@deathstar.empire');
-      expect(user.get('password')).to.equal('');
+      expect(user).to.be.an.instanceOf(User);
+      expect(user.firstName).to.equal('Luke');
+      expect(user.lastName).to.equal('Skywalker');
+      expect(user.email).to.equal('lskywalker@deathstar.empire');
+      expect(user.password).to.equal('');
     });
 
     it('should contain an ID attribute', () => {
@@ -68,7 +102,7 @@ describe('Unit | Serializer | JSONAPI | user-serializer', () => {
       const user = serializer.deserialize(jsonUser);
 
       // Then
-      expect(user.get('id')).to.equal('42');
+      expect(user.id).to.equal('42');
     });
 
     it('should not contain an ID attribute when not given', () => {
@@ -76,7 +110,7 @@ describe('Unit | Serializer | JSONAPI | user-serializer', () => {
       const user = serializer.deserialize(jsonUser);
 
       // Then
-      expect(user.get('id')).to.be.undefined;
+      expect(user.id).to.be.undefined;
     });
 
   });

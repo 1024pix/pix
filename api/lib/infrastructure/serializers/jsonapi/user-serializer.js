@@ -1,12 +1,16 @@
 const { Serializer } = require('jsonapi-serializer');
-const User = require('../../data/user');
+
+const User = require('../../../domain/models/User');
 
 module.exports = {
 
   serialize(users) {
     return new Serializer('user', {
       attributes: ['firstName', 'lastName'],
-      transform: (model) => model.toJSON()
+      transform: (model) => {
+        // FIXME: Used to make it work in both cases
+        return (model instanceof User) ? model : model.toJSON();
+      }
     }).serialize(users);
   },
 

@@ -4,6 +4,9 @@ const mailjetService = require('../../../lib/domain/services/mail-service');
 const resetPasswordService = require('../../../lib/domain/services/reset-password-service');
 const resetPasswordDemandRepository = require('../../../lib/infrastructure/repositories/reset-password-demands-repository');
 
+const User = require('../../../lib/domain/models/User');
+const userRepository = require('../../../lib/infrastructure/repositories/user-repository');
+
 const server = require('../../../server');
 
 describe('Acceptance | Controller | password-controller', function() {
@@ -19,7 +22,8 @@ describe('Acceptance | Controller | password-controller', function() {
 
     before(() => {
       fakeUserEmail = faker.internet.email();
-      _insertUser(fakeUserEmail);
+
+      return _insertUser(fakeUserEmail);
     });
 
     after(() => {
@@ -112,20 +116,24 @@ describe('Acceptance | Controller | password-controller', function() {
 
     describe('When temporaryKey is valid and linked to a password reset demand', () => {
 
+      let temporaryKey;
       beforeEach(() => {
+        temporaryKey = resetPasswordService.generateTemporaryKey();
+
         fakeUserEmail = faker.internet.email();
+
+        return _insertUser(fakeUserEmail)
+          .then((savedUser) => {
+            return _insertPasswordResetDemand(temporaryKey, savedUser.email);
+          });
       });
 
       afterEach(() => {
         return Promise.all([knex('users').delete(), knex('reset-password-demands').delete()]);
       });
 
-      it('should reply with 200 status code', async () => {
+      it('should reply with 200 status code', () => {
         // given
-        const temporaryKey = resetPasswordService.generateTemporaryKey();
-        await _insertUser(fakeUserEmail);
-        await _insertPasswordResetDemand(temporaryKey, fakeUserEmail);
-
         options = {
           method: 'GET',
           url: `/api/password-reset-demands/${temporaryKey}`
@@ -205,15 +213,19 @@ describe('Acceptance | Controller | password-controller', function() {
 
     describe('When temporaryKey is valid and linked to a password reset demand', () => {
 
-      const temporaryKey = resetPasswordService.generateTemporaryKey();
+      let temporaryKey;
+      beforeEach(() => {
+        temporaryKey = resetPasswordService.generateTemporaryKey();
 
-      before(() => {
         fakeUserEmail = faker.internet.email();
-        _insertUser(fakeUserEmail);
-        return _insertPasswordResetDemand(temporaryKey, fakeUserEmail);
+
+        return _insertUser(fakeUserEmail)
+          .then((savedUser) => {
+            return _insertPasswordResetDemand(temporaryKey, savedUser.email);
+          });
       });
 
-      after(() => {
+      afterEach(() => {
         return Promise.all([knex('users').delete(), knex('reset-password-demands').delete()]);
       });
 
@@ -234,15 +246,15 @@ describe('Acceptance | Controller | password-controller', function() {
 });
 
 function _insertUser(email) {
-  const userRaw = {
+  const userToCreate = new User({
     'firstName': faker.name.firstName(),
     'lastName': faker.name.lastName(),
     email,
-    password: 'Pix2017!'
-  };
+    password: 'Pix2017!',
+    cgu: true
+  });
 
-  return knex('users').insert(userRaw)
-    .then(user => user.shift());
+  return userRepository.save(userToCreate);
 }
 
 function _insertPasswordResetDemand(temporaryKey, email) {

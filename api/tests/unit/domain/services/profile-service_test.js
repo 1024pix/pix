@@ -11,7 +11,7 @@ const assessmentRepository = require('../../../../lib/infrastructure/repositorie
 const organizationRepository = require('../../../../lib/infrastructure/repositories/organization-repository');
 
 const Assessment = require('../../../../lib/domain/models/Assessment');
-const User = require('../../../../lib/infrastructure/data/user');
+const BookshelfUser = require('../../../../lib/infrastructure/data/user');
 
 describe('Unit | Service | Profil User Service', function() {
 
@@ -29,7 +29,7 @@ describe('Unit | Service | Profil User Service', function() {
     let fakeOrganizationsRecords;
 
     beforeEach(() => {
-      fakeUserRecord = new User({
+      fakeUserRecord = new BookshelfUser({
         'first-name': faker.name.findName(),
         'last-name': faker.name.findName()
       });

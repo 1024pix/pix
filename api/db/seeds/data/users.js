@@ -23,7 +23,7 @@ function createUser(id, firstName, lastName, email, password) {
 }
 
 module.exports = [
-  createUser(1,'Pix','Aile', 'userPix1@example.net','pix123'),
+  createUser(1,'Pix','Aile', 'userpix1@example.net','pix123'),
   createUser(2,'Daenerys','Targaryen', 'pro@example.net','pix123'),
   createUser(3,'Tyrion','Lannister', 'sup@example.net','pix123'),
   createUser(4,'John','Snow', 'sco@example.net','pix123')
