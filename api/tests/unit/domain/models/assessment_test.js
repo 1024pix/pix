@@ -5,9 +5,9 @@ describe('Unit | Domain | Models | Assessment', () => {
 
   describe('#isCompleted', () => {
 
-    it('should return true when pix score and estimated level are not null', () => {
+    it('should return true when its status is completed', () => {
       // given
-      const assessment = new Assessment({ pixScore: 100, estimatedLevel: 3 });
+      const assessment = new Assessment({ status: 'completed' });
 
       // when
       const isCompleted = assessment.isCompleted();
@@ -16,48 +16,15 @@ describe('Unit | Domain | Models | Assessment', () => {
       expect(isCompleted).to.be.true;
     });
 
-    it('should return false when pix score is null', () => {
+    it('should return false when its status is not completed', () => {
       // given
-      const assessment = new Assessment({ pixScore: null, estimatedLevel: 3 });
+      const assessment = new Assessment({ status: '' });
 
       // when
       const isCompleted = assessment.isCompleted();
 
       // then
       expect(isCompleted).to.be.false;
-    });
-
-    it('should return false when estimated level is null', () => {
-      // given
-      const assessment = new Assessment({ pixScore: 100, estimatedLevel: null });
-
-      // when
-      const isCompleted = assessment.isCompleted();
-
-      // then
-      expect(isCompleted).to.be.false;
-    });
-
-    it('should return true when estimated level is 0', () => {
-      // given
-      const assessment = new Assessment({ pixScore: 7, estimatedLevel: 0 });
-
-      // when
-      const isCompleted = assessment.isCompleted();
-
-      // then
-      expect(isCompleted).to.be.true;
-    });
-
-    it('should return true when pixScore is 0', () => {
-      // given
-      const assessment = new Assessment({ pixScore: 0, estimatedLevel: 1 });
-
-      // when
-      const isCompleted = assessment.isCompleted();
-
-      // then
-      expect(isCompleted).to.be.true;
     });
 
   });
