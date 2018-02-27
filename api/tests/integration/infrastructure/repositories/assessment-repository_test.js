@@ -346,7 +346,7 @@ describe('Integration | Infrastructure | Repositories | assessment-repository', 
       competence_code: '2.1',
     };
 
-    const correction = {
+    const result = {
       id: 12,
       level: 0,
       pixScore: 0,
@@ -359,14 +359,14 @@ describe('Integration | Infrastructure | Repositories | assessment-repository', 
       return knex('assessments').insert(assessmentInDb)
         .then(assessmentIds => {
           const assessmentId = _.first(assessmentIds);
-          correction.assessmentId = assessmentId;
+          result.assessmentId = assessmentId;
 
-          return knex('corrections').insert(correction);
+          return knex('assessment-results').insert(result);
         })
-        .then((correctionIds) => {
-          const correctionId = _.first(correctionIds);
+        .then((resultIds) => {
+          const resultId = _.first(resultIds);
 
-          competenceMark.correctionId = correctionId;
+          competenceMark.assessmentResultId = resultId;
           return knex('competence-marks').insert(competenceMark);
         });
     });
@@ -374,7 +374,7 @@ describe('Integration | Infrastructure | Repositories | assessment-repository', 
     afterEach(() => {
       return Promise.all([
         knex('assessments').delete(),
-        knex('corrections').delete(),
+        knex('assessment-results').delete(),
         knex('competence-marks').delete()
       ]);
     });
@@ -388,8 +388,8 @@ describe('Integration | Infrastructure | Repositories | assessment-repository', 
         expect(assessmentReturned).to.be.an.instanceOf(Assessment);
         expect(assessmentReturned.courseId).to.equal('course_A');
         expect(assessmentReturned.pixScore).to.equal(assessmentInDb.pixScore);
-        expect(assessmentReturned.corrections).to.have.lengthOf(1);
-        expect(assessmentReturned.corrections[0]).to.deep.equal(correction);
+        expect(assessmentReturned.assessmentResults).to.have.lengthOf(1);
+        expect(assessmentReturned.assessmentResults[0]).to.deep.equal(result);
       });
     });
   });

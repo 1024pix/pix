@@ -1,7 +1,7 @@
 const Bookshelf = require('../bookshelf');
 
 require('./answer');
-require('./assessment-results');
+require('./assessment-result');
 
 module.exports = Bookshelf.model('Assessment', {
 

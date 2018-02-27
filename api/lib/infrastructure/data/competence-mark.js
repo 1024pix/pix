@@ -1,6 +1,6 @@
 const Bookshelf = require('../bookshelf');
 
-require('./assessment-results');
+require('./assessment-result');
 
 module.exports = Bookshelf.model('CompetenceMark', {
 
