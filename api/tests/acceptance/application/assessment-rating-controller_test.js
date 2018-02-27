@@ -71,7 +71,7 @@ describe('Acceptance | Controller | assessment-ratings', () => {
         });
       });
 
-      it('should update the assessment score and estimatedLevel', () => {
+      it('should update the assessment status', () => {
         // when
         const promise = server.inject(options);
 
@@ -82,8 +82,7 @@ describe('Acceptance | Controller | assessment-ratings', () => {
             expect(assessments).to.have.lengthOf(1);
 
             const myAssessment = _.first(assessments);
-            expect(myAssessment.estimatedLevel).to.equal(0);
-            expect(myAssessment.pixScore).to.equal(0);
+            expect(myAssessment.status).to.equal('completed');
             expect(myAssessment.type).to.equal('PREVIEW');
           });
       });

@@ -3,16 +3,6 @@ const { expect } = require('../../../test-helper');
 
 describe('Unit | Domain | Models | Assessment', () => {
 
-  describe('#constructor', () => {
-    it('should have a list of marks by default', () => {
-      // when
-      const assessment = new Assessment({});
-
-      // then
-      expect(assessment).to.have.property('marks').and.to.be.an('array');
-    });
-  });
-
   describe('#isCompleted', () => {
 
     it('should return true when pix score and estimated level are not null', () => {

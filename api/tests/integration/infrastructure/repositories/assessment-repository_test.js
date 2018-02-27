@@ -340,24 +340,43 @@ describe('Integration | Infrastructure | Repositories | assessment-repository', 
     };
 
     const competenceMark = {
-      id: 2,
       level: 4,
       score: 35,
       area_code: '2',
       competence_code: '2.1',
     };
 
+    const correction = {
+      id: 12,
+      level: 0,
+      pixScore: 0,
+      emitter: 'PIX-ALGO',
+      comment: 'Computed',
+      createdAt: '2016-10-27 08:44:25'
+    };
+
     beforeEach(() => {
       return knex('assessments').insert(assessmentInDb)
         .then(assessmentIds => {
           const assessmentId = _.first(assessmentIds);
-          competenceMark.assessmentId = assessmentId;
-          return knex('marks').insert(competenceMark);
+          correction.assessmentId = assessmentId;
+
+          return knex('corrections').insert(correction);
+        })
+        .then((correctionIds) => {
+          const correctionId = _.first(correctionIds);
+
+          competenceMark.correctionId = correctionId;
+          return knex('competence-marks').insert(competenceMark);
         });
     });
 
     afterEach(() => {
-      return Promise.all([knex('assessments').delete(), knex('marks').delete()]);
+      return Promise.all([
+        knex('assessments').delete(),
+        knex('corrections').delete(),
+        knex('competence-marks').delete()
+      ]);
     });
 
     it('should retrieve the assessment with its marks for the given certificationId', () => {
@@ -369,8 +388,8 @@ describe('Integration | Infrastructure | Repositories | assessment-repository', 
         expect(assessmentReturned).to.be.an.instanceOf(Assessment);
         expect(assessmentReturned.courseId).to.equal('course_A');
         expect(assessmentReturned.pixScore).to.equal(assessmentInDb.pixScore);
-        expect(assessmentReturned.marks).to.have.lengthOf(1);
-        expect(assessmentReturned.marks[0]).to.deep.equal(competenceMark);
+        expect(assessmentReturned.corrections).to.have.lengthOf(1);
+        expect(assessmentReturned.corrections[0]).to.deep.equal(correction);
       });
     });
   });

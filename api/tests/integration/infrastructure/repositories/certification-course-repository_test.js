@@ -14,7 +14,6 @@ describe('Integration | Repository | Certification Course', function() {
   //TODO: 1088 - rejectionReason is not in certifCourse
   const certificationCourse = {
     id: 20,
-    status: 'started',
     userId: 1,
     completedAt: null,
     firstName: 'Timon',

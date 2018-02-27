@@ -164,6 +164,7 @@ describe('Unit | Repository | assessmentRepository', () => {
       sandbox.restore();
     });
 
+    // FIXME: Should be in the repository
     it('should correctly query Assessment conditions', () => {
       // when
       const limitDate = '2018-02-02T19:20:21.0';
