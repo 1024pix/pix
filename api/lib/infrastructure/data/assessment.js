@@ -12,7 +12,7 @@ module.exports = Bookshelf.model('Assessment', {
   },
 
   assessmentResults() {
-    return this.hasMany('AssessmentResult', 'assessmentId');
+    return this.hasMany('AssessmentResults', 'assessmentId');
   },
 
 });
