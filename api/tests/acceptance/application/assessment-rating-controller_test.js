@@ -14,8 +14,7 @@ describe('Acceptance | Controller | assessment-ratings', () => {
       beforeEach(() => {
         return knex('assessments').insert({
           courseId: 'nullCourseId_for_preview',
-          estimatedLevel: null,
-          pixScore: null,
+          status: 'started',
           type: 'PREVIEW'
         }).then((assessmentIds) => {
           savedAssessmentId = _.first(assessmentIds);

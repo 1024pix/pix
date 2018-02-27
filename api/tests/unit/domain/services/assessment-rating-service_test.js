@@ -279,8 +279,7 @@ describe('Unit | Domain | Services | assessment-ratings', () => {
         id: assessmentId,
         courseId: 'nullCourseId',
         userId: 5,
-        estimatedLevel: 2,
-        pixScore: 13,
+        status: 'completed',
         type: 'PREVIEW'
       });
 
