@@ -64,8 +64,6 @@ describe('Acceptance | API | Certification Course', () => {
         .then(() => {
           return knex('assessments').insert({
             courseId: courseId,
-            estimatedLevel: 0,
-            pixScore: 42,
             type: 'CERTIFICATION'
           }).then(assessmentIds => {
             assessmentId = _.first(assessmentIds);

@@ -102,7 +102,7 @@ function evaluateFromAssessmentId(assessmentId) {
     .then(() => assessmentRepository.save(assessmentWithScore))
     .then(() => {
 
-      if(assessmentService.isCertificaionAssessment(assessmentWithScore)) {
+      if(assessmentService.isCertificationAssessment(assessmentWithScore)) {
         return certificationCourseRepository.updateStatus('completed',
           assessmentWithScore.courseId,
           moment().toISOString());

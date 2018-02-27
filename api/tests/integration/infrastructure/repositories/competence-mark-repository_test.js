@@ -6,7 +6,7 @@ const CompetenceMarkRepository = require('../../../../lib/infrastructure/reposit
 describe('Integration | Repository | CompetenceMark', function() {
 
   describe('#save', () => {
-    before(() => knex('marks').delete());
+    before(() => knex('competence-marks').delete());
 
     afterEach(() => knex('competence-marks').delete());
 
