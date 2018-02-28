@@ -2,12 +2,14 @@ const _ = require('lodash');
 const moment = require('moment');
 
 const CompetenceMark = require('../../domain/models/CompetenceMark');
+const AssessmentResult = require('../../domain/models/AssessmentResult');
 
 const skillService = require('../../domain/services/skills-service');
 const assessmentService = require('../../domain/services/assessment-service');
 const certificationService = require('../../domain/services/certification-service');
 
 const assessmentRepository = require('../../infrastructure/repositories/assessment-repository');
+const assessmentResultRepository = require('../../infrastructure/repositories/assessment-result-repository');
 const courseRepository = require('../../infrastructure/repositories/course-repository');
 const competenceRepository = require('../../infrastructure/repositories/competence-repository');
 const competenceMarkRepository = require('../../infrastructure/repositories/competence-mark-repository');
@@ -15,98 +17,98 @@ const certificationCourseRepository = require('../../infrastructure/repositories
 
 const { AlreadyRatedAssessmentError, NotFoundError } = require('../errors');
 
-function _getCompetenceMarksToSaveForCertificationAssessment(assessmentId) {
-  return Promise
-    .all([competenceRepository.list(), certificationService.calculateCertificationResultByAssessmentId(assessmentId)])
-    .then(([competences, { competencesWithCompetenceMark }]) => {
-
-      return competencesWithCompetenceMark.map((certifiedCompetence) => {
-
-        const area_code = _(competences).find((competence) => {
-          return competence.index === certifiedCompetence.index;
-        }).area.code;
-
-        return new CompetenceMark({
-          level: certifiedCompetence.obtainedLevel,
-          score: certifiedCompetence.obtainedScore,
-          area_code,
-          competence_code: certifiedCompetence.index,
-          assessmentId: assessmentId
-        });
-
-      });
-    });
-}
-
-function _getCompetenceMarksToSaveForPlacementTest(assessmentWithScore) {
-  return courseRepository.get(assessmentWithScore.courseId)
-    .then((course) => {
-      return competenceRepository.get(course.competences[0]);
-    })
-    .then(competence => {
-      return [
-        new CompetenceMark({
-          level: assessmentWithScore.estimatedLevel,
-          score: assessmentWithScore.pixScore,
-          area_code: competence.area.code,
-          competence_code: competence.index,
-          assessmentId: assessmentWithScore.id
-        })
-      ];
-    });
-}
-
 function evaluateFromAssessmentId(assessmentId) {
 
-  let assessmentWithScore;
+  let assessment;
+  let assessmentWithResult;
   let evaluatedSkillsInAssessment;
+  let assessmentResult;
+  let assessmentResultId;
 
   return assessmentRepository.get(assessmentId)
-    .then((assessment) => {
+    .then((foundAssessment) => {
 
-      if(!assessment) {
+      assessment = foundAssessment;
+
+      if (!assessment) {
         throw new NotFoundError();
       }
 
-      if(assessment.isCompleted()) {
+      if (assessment.isCompleted()) {
         throw new AlreadyRatedAssessmentError();
       }
 
-      return assessmentService.fetchAssessment(assessmentId);
-    }).then(({ assessmentPix, skills }) => {
-      assessmentWithScore = assessmentPix;
-      evaluatedSkillsInAssessment = skills;
-    })
-    .then(() => {
+      return Promise.all([
+        assessmentService.getSkills(assessmentId),
+        assessmentService.getCompetenceMarks(assessment)
+      ]).then(([skills, marks]) => {
 
-      if (assessmentService.isCertificationAssessment(assessmentWithScore)) {
-        return _getCompetenceMarksToSaveForCertificationAssessment(assessmentWithScore.id);
-      } else if (assessmentService.isPlacementAssessment(assessmentWithScore)) {
-        return _getCompetenceMarksToSaveForPlacementTest(assessmentWithScore);
-      } else {
-        const noCompetenceMarksToSaveForPreviewAndDemo = [];
-        return noCompetenceMarksToSaveForPreviewAndDemo;
-      }
+        const pixScore = marks.reduce((totalPixScore, mark) => {
+          return totalPixScore + mark.score;
+        }, 0);
+        const level = Math.ceil(pixScore / 8);
+        const assessmentResult = new AssessmentResult({
+          emitter: 'PIX-ALGO',
+          comment: 'Computed',
+          level: pixScore,
+          pixScore: level,
+          assessmentId
+        });
+        assessment.status = 'completed';
 
-    })
-    .then((marks) => {
-      if(marks.length > 0) {
-        const totalPix = _(marks).map((mark) => mark.score).sum();
-        assessmentWithScore.pixScore = totalPix;
-      }
-      assessmentWithScore.status = 'completed';
+        return Promise.all([
+          skillService.saveAssessmentSkills(skills),
+          assessmentResultRepository.save(assessmentResult),
+          assessmentRepository.save(assessment),
+          marks
+        ]);
+      }).then(([skills, assessmentResult, assessment, marks]) => {
+        const assessmentResultId = assessmentResult.id;
 
-      return Promise.all(marks.map((mark) => markRepository.save(mark)));
-    })
-    .then(() => skillService.saveAssessmentSkills(evaluatedSkillsInAssessment))
-    .then(() => assessmentRepository.save(assessmentWithScore))
-    .then(() => {
+        marks = marks.map((mark) => {
+          mark.assessmentResultId = assessmentResultId;
+          return mark;
+        });
+        return Promise.all(marks.map((mark) => competenceMarkRepository.save(mark)));
+      }).then(() => {
 
-      if(assessmentService.isCertificationAssessment(assessmentWithScore)) {
-        return certificationCourseRepository.updateStatus('completed',
-          assessmentWithScore.courseId,
-          moment().toISOString());
-      }
+        if (assessmentService.isCertificationAssessment(assessment)) {
+          return certificationCourseRepository.changeCompletedDate(assessment.courseId,
+            moment().toISOString());
+        }
+      });
+
+
+      /* return assessmentService.getSkills(assessmentId);
+     }).then(({ assessmentPix, skills }) => {
+       assessmentWithResult = assessmentPix;
+       evaluatedSkillsInAssessment = skills;
+       assessment.status = 'completed';
+       assessmentResult = new AssessmentResult({
+         emitter: 'PIX-ALGO',
+         comment: 'Computed',
+         level: assessmentWithResult.estimatedLevel,
+         pixScore: assessmentWithResult.pixScore,
+         assessmentId
+       });
+     })
+     .then(() => assessmentResultRepository.save(assessmentResult))
+     .then((assessmentResult) => {
+       assessmentResultId = assessmentResult.id;
+       return assessmentService.getCompetenceMarks(assessment);
+     })
+     .then((marks) => {
+       return Promise.all(marks.map((mark) => competenceMarkRepository.save(mark)));
+     })
+     .then(() => skillService.saveAssessmentSkills(evaluatedSkillsInAssessment))
+     .then(() => assessmentRepository.save(assessment))
+     .then(() => {
+
+       if(assessmentService.isCertificationAssessment(assessment)) {
+         return certificationCourseRepository.changeCompletedDate(assessment.courseId,
+           moment().toISOString());
+       }
+     });*/
     });
 }
 

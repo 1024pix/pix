@@ -30,12 +30,8 @@ module.exports = {
       .then(_toDomain);
   },
 
-  updateStatus(status, certificationCourseId, completedAt = null) {
-    const certificationCourseBookshelf = new CertificationCourseBookshelf({
-      id: certificationCourseId,
-      status,
-      completedAt
-    });
+  changeCompletedDate(certificationCourseId, completedAt = null) {
+    const certificationCourseBookshelf = new CertificationCourseBookshelf({ id: certificationCourseId, completedAt });
     return certificationCourseBookshelf.save();
   },
 

@@ -7,6 +7,7 @@ const skillsService = require('../../../../lib/domain/services/skills-service');
 const certificationService = require('../../../../lib/domain/services/certification-service');
 
 const assessmentRepository = require('../../../../lib/infrastructure/repositories/assessment-repository');
+const assessmentResultRepository = require('../../../../lib/infrastructure/repositories/assessment-result-repository')
 const courseRepository = require('../../../../lib/infrastructure/repositories/course-repository');
 const competenceRepository = require('../../../../lib/infrastructure/repositories/competence-repository');
 const competenceMarkRepository = require('../../../../lib/infrastructure/repositories/competence-mark-repository');
@@ -16,6 +17,7 @@ const Assessment = require('../../../../lib/domain/models/Assessment');
 const Area = require('../../../../lib/domain/models/Area');
 const Competence = require('../../../../lib/domain/models/referential/competence');
 const CompetenceMark = require('../../../../lib/domain/models/CompetenceMark');
+const AssessmentResult = require('../../../../lib/domain/models/AssessmentResult');
 const AirtableCourse = require('../../../../lib/domain/models/referential/course');
 const Skill = require('../../../../lib/cat/skill');
 
@@ -24,17 +26,17 @@ const { NotFoundError, AlreadyRatedAssessmentError } = require('../../../../lib/
 function _buildCompetence(competence_code, area_code) {
   const competence = new Competence();
 
-  const defaultInfos = {
-    name : faker.random.uuid(),
-    index : `${area_code}.${competence_code}`,
-    areaId : ['recdmN2Exvq2oAPap'],
-    courseId : 'recvNIWtjJRyBCd0P',
-    reference : `${area_code}.${competence_code} bla bla bla`,
-    skills : undefined,
-    area : new Area({ id: 'recdmN2Exvq2oAPap', code: `${area_code}`, title: 'Information et données' })
+  const defaultCompetenceInfos = {
+    name: faker.random.uuid(),
+    index: `${area_code}.${competence_code}`,
+    areaId: ['recdmN2Exvq2oAPap'],
+    courseId: 'recvNIWtjJRyBCd0P',
+    reference: `${area_code}.${competence_code} bla bla bla`,
+    skills: undefined,
+    area: new Area({ id: 'recdmN2Exvq2oAPap', code: `${area_code}`, title: 'Information et données' })
   };
 
-  Object.assign(competence, defaultInfos);
+  Object.assign(competence, defaultCompetenceInfos);
 
   return competence;
 }
@@ -44,6 +46,8 @@ describe('Unit | Domain | Services | assessment-ratings', () => {
   describe('#evaluateFromAssessmentId', () => {
 
     const assessmentId = 1;
+    const assessmentResultId = 1;
+
     const assessmentCourseId = 'recHzEA6lN4PEs7LG';
     const competenceId = 'competenceId';
 
@@ -57,29 +61,51 @@ describe('Unit | Domain | Services | assessment-ratings', () => {
     let competence22;
     let listOfAllCompetences = [];
 
-    const assessmentWithScore = new Assessment({
-      id: assessmentId,
-      courseId: assessmentCourseId,
-      userId: 5,
-      estimatedLevel: 2,
-      pixScore: 13,
-      type: 'PLACEMENT'
-    });
+    let assessment;
 
-    const assessmentWithoutScore = new Assessment({
-      id: assessmentId,
-      courseId: assessmentCourseId,
-      userId: 5,
-      type: 'PLACEMENT'
-    });
+    let competenceMarksForCertification;
+    let competenceMarksForPlacement;
 
     beforeEach(() => {
+
+
+      assessment = new Assessment({
+        id: assessmentId,
+        courseId: assessmentCourseId,
+        userId: 5,
+        status: 'started',
+        type: 'PLACEMENT'
+      });
 
       evaluatedSkills = {
         assessmentId: assessmentId,
         validatedSkills: _generateValitedSkills(),
         failedSkills: _generateFailedSkills()
       };
+
+      competenceMarksForCertification = [{
+        competence_code: '1.1',
+        area_code: '1',
+        level: 0,
+        score: 7
+      }, {
+        competence_code: '2.1',
+        area_code: '2',
+        level: 2,
+        score: 19
+      }, {
+        competence_code: '2.2',
+        area_code: '2',
+        level: -1,
+        score: 0
+      }];
+
+      competenceMarksForPlacement = [{
+        competence_code: '1.1',
+        area_code: '1',
+        level: 3,
+        score: 18
+      }];
 
       competence11 = _buildCompetence('1', '1');
       competence12 = _buildCompetence('1', '2');
@@ -95,34 +121,23 @@ describe('Unit | Domain | Services | assessment-ratings', () => {
 
       sandbox = sinon.sandbox.create();
 
-      sandbox.stub(assessmentService, 'fetchAssessment').resolves({
-        assessmentPix: assessmentWithScore,
-        skills: evaluatedSkills
-      });
+      sandbox.stub(assessmentService, 'getSkills').resolves(evaluatedSkills);
+      sandbox.stub(assessmentService, 'getCompetenceMarks').resolves(competenceMarksForPlacement);
       sandbox.stub(assessmentRepository, 'save').resolves();
-      sandbox.stub(assessmentRepository, 'get').resolves(assessmentWithoutScore);
+      sandbox.stub(assessmentResultRepository, 'save').resolves({id: assessmentResultId});
+      sandbox.stub(assessmentRepository, 'get').resolves(assessment);
       sandbox.stub(skillsService, 'saveAssessmentSkills').resolves();
       sandbox.stub(courseRepository, 'get').resolves(course);
       sandbox.stub(competenceRepository, 'get').resolves(competence11);
       sandbox.stub(competenceRepository, 'list').resolves(listOfAllCompetences);
       sandbox.stub(competenceMarkRepository, 'save').resolves();
       sandbox.stub(certificationService, 'calculateCertificationResultByAssessmentId').resolves();
-      sandbox.stub(certificationCourseRepository, 'updateStatus').resolves();
+      sandbox.stub(certificationCourseRepository, 'changeCompletedDate').resolves();
 
     });
 
     afterEach(() => {
       sandbox.restore();
-    });
-
-    it('should retrieve assessment informations', () => {
-      // when
-      const promise = service.evaluateFromAssessmentId(assessmentId);
-
-      // then
-      return promise.then(() => {
-        expect(assessmentService.fetchAssessment).to.have.been.calledWith(assessmentId);
-      });
     });
 
     it('should reject with a NotFoundError when the assessment does not exist', () => {
@@ -141,7 +156,15 @@ describe('Unit | Domain | Services | assessment-ratings', () => {
 
       it('should reject an AlreadyRatedAssessmentError', () => {
         // given
-        assessmentRepository.get.resolves(assessmentWithScore);
+        const alreadyEvaluatedAssessment = new Assessment({
+          id: assessmentId,
+          courseId: assessmentCourseId,
+          userId: 5,
+          status: 'completed',
+          type: 'PLACEMENT'
+        });
+
+        assessmentRepository.get.resolves(alreadyEvaluatedAssessment);
 
         // when
         const promise = service.evaluateFromAssessmentId(assessmentId);
@@ -152,9 +175,9 @@ describe('Unit | Domain | Services | assessment-ratings', () => {
 
     });
 
-    it('should reject a not found error when the placement does not exists', () => {
+    it('should reject a not found error when we cannot have skills', () => {
       // given
-      assessmentService.fetchAssessment.rejects(new NotFoundError());
+      assessmentService.getSkills.rejects(new NotFoundError());
 
       // when
       const promise = service.evaluateFromAssessmentId(assessmentId);
@@ -163,13 +186,20 @@ describe('Unit | Domain | Services | assessment-ratings', () => {
       return expect(promise).to.have.been.rejectedWith(NotFoundError);
     });
 
-    it('should save the assessment score', () => {
+    it('should change the assessment status', () => {
       // when
       const promise = service.evaluateFromAssessmentId(assessmentId);
 
       // then
       return promise.then(() => {
-        expect(assessmentRepository.save).to.have.been.calledWith(assessmentWithScore);
+        const savedCompetenceMark = assessmentRepository.save.firstCall.args;
+        expect(savedCompetenceMark[0]).to.deep.equal(new Assessment({
+          id: assessmentId,
+          courseId: assessmentCourseId,
+          userId: 5,
+          status: 'completed',
+          type: 'PLACEMENT'
+        }));
       });
     });
 
@@ -206,25 +236,49 @@ describe('Unit | Domain | Services | assessment-ratings', () => {
       });
     });
 
+    it('should create a new assessment result', () => {
+      // given
+      const assessmentResult = new AssessmentResult({
+        level: 3,
+        pixScore: 18,
+        emitter: 'PIX-ALGO',
+        comment: 'Computed',
+        assessmentId: assessmentId
+      });
+
+      // when
+      const promise = service.evaluateFromAssessmentId(assessmentId);
+
+      // then
+      return promise.then(() => {
+        expect(assessmentResultRepository.save).to.have.been.calledWith(assessmentResult);
+      });
+    });
+
     context('when the assessment is a PLACEMENT', () => {
 
-      it('should retrieve the course', () => {
+      beforeEach(() => {
+        assessmentService.getCompetenceMarks.resolves(competenceMarksForPlacement);
+
+      });
+
+      it('should retrieve the skills', () => {
         // when
         const promise = service.evaluateFromAssessmentId(assessmentId);
 
         // then
         return promise.then(() => {
-          expect(courseRepository.get).to.have.been.calledWith(assessmentCourseId);
+          expect(assessmentService.getSkills).to.have.been.calledWith(assessmentId);
         });
       });
 
-      it('should load the competence details', () => {
+      it('should retrieve the competenceMarks', () => {
         // when
         const promise = service.evaluateFromAssessmentId(assessmentId);
 
         // then
         return promise.then(() => {
-          expect(competenceRepository.get).to.have.been.calledWith(competenceId);
+          expect(assessmentService.getCompetenceMarks).to.have.been.calledWith(assessment);
         });
       });
 
@@ -237,13 +291,13 @@ describe('Unit | Domain | Services | assessment-ratings', () => {
           expect(competenceMarkRepository.save).to.have.been.called;
 
           const savedCompetenceMark = competenceMarkRepository.save.firstCall.args;
-          expect(savedCompetenceMark[0]).to.deep.equal(new CompetenceMark({
-            level: 2,
-            score: 13,
+          expect(savedCompetenceMark[0]).to.deep.equal({
+            level: 3,
+            score: 18,
             area_code: '1',
             competence_code: '1.1',
-            assessmentId: assessmentId
-          }));
+            assessmentResultId: assessmentResultId
+          });
         });
       });
 
@@ -275,19 +329,17 @@ describe('Unit | Domain | Services | assessment-ratings', () => {
 
     context('when the assessment is a PREVIEW', () => {
 
-      const assessmentWithScore = new Assessment({
+      const previewAssessment = new Assessment({
         id: assessmentId,
         courseId: 'nullCourseId',
         userId: 5,
-        status: 'completed',
+        status: 'started',
         type: 'PREVIEW'
       });
 
       beforeEach(() => {
-        assessmentService.fetchAssessment.resolves({
-          assessmentPix: assessmentWithScore,
-          skills: evaluatedSkills
-        });
+        assessmentRepository.get.resolves(previewAssessment);
+        assessmentService.getCompetenceMarks.resolves([]);
       });
 
       it('should try to save the related marks', () => {
@@ -303,20 +355,31 @@ describe('Unit | Domain | Services | assessment-ratings', () => {
 
     context('when the assessment is a DEMO', () => {
 
-      const assessmentWithScore = new Assessment({
-        id: assessmentId,
-        courseId: 'nullCourseId',
-        userId: 5,
-        estimatedLevel: 0,
-        pixScore: 0,
-        type: 'DEMO'
-      });
+      let demoAssessment;
+      let assessmentWithScore;
 
       beforeEach(() => {
-        assessmentService.fetchAssessment.resolves({
-          assessmentPix: assessmentWithScore,
-          skills: evaluatedSkills
+
+        demoAssessment = new Assessment({
+          id: assessmentId,
+          courseId: 'nullCourseId',
+          userId: 5,
+          status: 'started',
+          type: 'DEMO'
         });
+
+        assessmentWithScore = new Assessment({
+          id: assessmentId,
+          courseId: 'nullCourseId',
+          userId: 5,
+          estimatedLevel: 0,
+          pixScore: 0,
+          status: 'started',
+          type: 'DEMO'
+        });
+
+        assessmentRepository.get.resolves(demoAssessment);
+        assessmentService.getCompetenceMarks.resolves([]);
       });
 
       it('should not try to save the related marks', () => {
@@ -335,7 +398,7 @@ describe('Unit | Domain | Services | assessment-ratings', () => {
 
         // then
         return promise.then(() => {
-          expect(certificationCourseRepository.updateStatus).not.to.have.been.called;
+          expect(certificationCourseRepository.changeCompletedDate).not.to.have.been.called;
         });
       });
     });
@@ -367,21 +430,34 @@ describe('Unit | Domain | Services | assessment-ratings', () => {
         totalScore: 26
       };
 
-      const assessmentWithScore = new Assessment({
-        id: assessmentId,
-        courseId: assessmentCourseId,
-        userId: 5,
-        estimatedLevel: 0,
-        pixScore: 0,
-        type: 'CERTIFICATION'
-      });
+      let assessment;
+      let assessmentWithScore;
 
       beforeEach(() => {
+        assessment = new Assessment({
+          id: assessmentId,
+          courseId: assessmentCourseId,
+          userId: 5,
+          type: 'CERTIFICATION',
+          status: 'started'
+        });
+
+        assessmentWithScore = new Assessment({
+          id: assessmentId,
+          courseId: assessmentCourseId,
+          userId: 5,
+          estimatedLevel: 2,
+          pixScore: 13,
+          type: 'CERTIFICATION',
+          status: 'started'
+        });
+        assessmentRepository.get.resolves(assessment);
         assessmentService.fetchAssessment.resolves({
           assessmentPix: assessmentWithScore,
           skills: evaluatedSkills
         });
         certificationService.calculateCertificationResultByAssessmentId.resolves(certificationResults);
+        assessmentService.getCompetenceMarks.resolves(competenceMarksForCertification);
 
         clock = sinon.useFakeTimers(new Date('2018-02-04T01:00:00.000+01:00'));
       });
@@ -412,7 +488,7 @@ describe('Unit | Domain | Services | assessment-ratings', () => {
             score: 7,
             area_code: '1',
             competence_code: '1.1',
-            assessmentId: assessmentId
+            assessmentResultId: assessmentResultId
           }));
 
           const secondSavedCompetenceMark = competenceMarkRepository.save.secondCall.args;
@@ -421,7 +497,7 @@ describe('Unit | Domain | Services | assessment-ratings', () => {
             score: 19,
             area_code: '2',
             competence_code: '2.1',
-            assessmentId: assessmentId
+            assessmentResultId: assessmentResultId
           }));
 
           const thirdSavedCompetenceMark = competenceMarkRepository.save.thirdCall.args;
@@ -430,18 +506,36 @@ describe('Unit | Domain | Services | assessment-ratings', () => {
             score: 0,
             area_code: '2',
             competence_code: '2.2',
-            assessmentId: assessmentId
+            assessmentResultId: assessmentResultId
           }));
         });
       });
 
-      it('should save total score', () => {
+      it('should create a new assessment result', () => {
+        // given
+        const assessmentResult = new AssessmentResult({
+          level: 2,
+          pixScore: 13,
+          emitter: 'PIX-ALGO',
+          comment: 'Computed',
+          assessmentId: assessmentId
+        });
+
+        // when
+        const promise = service.evaluateFromAssessmentId(assessmentId);
+
+        // then
+        return promise.then(() => {
+          expect(assessmentResultRepository.save).to.have.been.calledWith(assessmentResult);
+        });
+      });
+
+      it('should save assessment with status completed', () => {
         const expectedAssessment = new Assessment({
           id: assessmentId,
           courseId: assessmentCourseId,
           userId: 5,
-          estimatedLevel: 0,
-          pixScore: 26,
+          status: 'completed',
           type: 'CERTIFICATION'
         });
 
@@ -457,13 +551,14 @@ describe('Unit | Domain | Services | assessment-ratings', () => {
         });
       });
 
-      it('should update the certification course status', () => {
+      // TODO: Remove
+      it('should update the certification course date', () => {
         // when
         const promise = service.evaluateFromAssessmentId(assessmentId);
 
         // then
         return promise.then(() => {
-          expect(certificationCourseRepository.updateStatus).to.have.been.calledWith('completed', assessmentCourseId, '2018-02-04T00:00:00.000Z');
+          expect(certificationCourseRepository.changeCompletedDate).to.have.been.calledWith(assessmentCourseId, '2018-02-04T00:00:00.000Z');
         });
       });
 
@@ -471,7 +566,7 @@ describe('Unit | Domain | Services | assessment-ratings', () => {
         it('should return the raised error', () => {
           // given
           const error = new Error();
-          certificationCourseRepository.updateStatus.rejects(error);
+          certificationCourseRepository.changeCompletedDate.rejects(error);
 
           // when
           const promise = service.evaluateFromAssessmentId(assessmentId);
