@@ -7,7 +7,7 @@ const skillsService = require('../../../../lib/domain/services/skills-service');
 const certificationService = require('../../../../lib/domain/services/certification-service');
 
 const assessmentRepository = require('../../../../lib/infrastructure/repositories/assessment-repository');
-const assessmentResultRepository = require('../../../../lib/infrastructure/repositories/assessment-result-repository')
+const assessmentResultRepository = require('../../../../lib/infrastructure/repositories/assessment-result-repository');
 const courseRepository = require('../../../../lib/infrastructure/repositories/course-repository');
 const competenceRepository = require('../../../../lib/infrastructure/repositories/competence-repository');
 const competenceMarkRepository = require('../../../../lib/infrastructure/repositories/competence-mark-repository');
@@ -16,7 +16,6 @@ const certificationCourseRepository = require('../../../../lib/infrastructure/re
 const Assessment = require('../../../../lib/domain/models/Assessment');
 const Area = require('../../../../lib/domain/models/Area');
 const Competence = require('../../../../lib/domain/models/referential/competence');
-const CompetenceMark = require('../../../../lib/domain/models/CompetenceMark');
 const AssessmentResult = require('../../../../lib/domain/models/AssessmentResult');
 const AirtableCourse = require('../../../../lib/domain/models/referential/course');
 const Skill = require('../../../../lib/cat/skill');
@@ -67,7 +66,6 @@ describe('Unit | Domain | Services | assessment-ratings', () => {
     let competenceMarksForPlacement;
 
     beforeEach(() => {
-
 
       assessment = new Assessment({
         id: assessmentId,
@@ -124,7 +122,7 @@ describe('Unit | Domain | Services | assessment-ratings', () => {
       sandbox.stub(assessmentService, 'getSkills').resolves(evaluatedSkills);
       sandbox.stub(assessmentService, 'getCompetenceMarks').resolves(competenceMarksForPlacement);
       sandbox.stub(assessmentRepository, 'save').resolves();
-      sandbox.stub(assessmentResultRepository, 'save').resolves({id: assessmentResultId});
+      sandbox.stub(assessmentResultRepository, 'save').resolves({ id: assessmentResultId });
       sandbox.stub(assessmentRepository, 'get').resolves(assessment);
       sandbox.stub(skillsService, 'saveAssessmentSkills').resolves();
       sandbox.stub(courseRepository, 'get').resolves(course);
@@ -239,7 +237,7 @@ describe('Unit | Domain | Services | assessment-ratings', () => {
     it('should create a new assessment result', () => {
       // given
       const assessmentResult = new AssessmentResult({
-        level: 3,
+        level: 2,
         pixScore: 18,
         emitter: 'PIX-ALGO',
         comment: 'Computed',
@@ -356,7 +354,6 @@ describe('Unit | Domain | Services | assessment-ratings', () => {
     context('when the assessment is a DEMO', () => {
 
       let demoAssessment;
-      let assessmentWithScore;
 
       beforeEach(() => {
 
@@ -367,17 +364,6 @@ describe('Unit | Domain | Services | assessment-ratings', () => {
           status: 'started',
           type: 'DEMO'
         });
-
-        assessmentWithScore = new Assessment({
-          id: assessmentId,
-          courseId: 'nullCourseId',
-          userId: 5,
-          estimatedLevel: 0,
-          pixScore: 0,
-          status: 'started',
-          type: 'DEMO'
-        });
-
         assessmentRepository.get.resolves(demoAssessment);
         assessmentService.getCompetenceMarks.resolves([]);
       });
@@ -431,7 +417,6 @@ describe('Unit | Domain | Services | assessment-ratings', () => {
       };
 
       let assessment;
-      let assessmentWithScore;
 
       beforeEach(() => {
         assessment = new Assessment({
@@ -442,20 +427,7 @@ describe('Unit | Domain | Services | assessment-ratings', () => {
           status: 'started'
         });
 
-        assessmentWithScore = new Assessment({
-          id: assessmentId,
-          courseId: assessmentCourseId,
-          userId: 5,
-          estimatedLevel: 2,
-          pixScore: 13,
-          type: 'CERTIFICATION',
-          status: 'started'
-        });
         assessmentRepository.get.resolves(assessment);
-        assessmentService.fetchAssessment.resolves({
-          assessmentPix: assessmentWithScore,
-          skills: evaluatedSkills
-        });
         certificationService.calculateCertificationResultByAssessmentId.resolves(certificationResults);
         assessmentService.getCompetenceMarks.resolves(competenceMarksForCertification);
 
@@ -463,16 +435,6 @@ describe('Unit | Domain | Services | assessment-ratings', () => {
       });
 
       afterEach(() => clock.restore());
-
-      it('should retrieve all the evaluated competences', () => {
-        // when
-        const promise = service.evaluateFromAssessmentId(assessmentId);
-
-        // then
-        return promise.then(() => {
-          expect(certificationService.calculateCertificationResultByAssessmentId).to.have.been.calledWith(assessmentId);
-        });
-      });
 
       it('should persists a mark for each evaluated competence', () => {
         // when
@@ -483,39 +445,39 @@ describe('Unit | Domain | Services | assessment-ratings', () => {
           expect(competenceMarkRepository.save).to.have.been.calledThrice;
 
           const firstSavedCompetenceMark = competenceMarkRepository.save.firstCall.args;
-          expect(firstSavedCompetenceMark[0]).to.deep.equal(new CompetenceMark({
+          expect(firstSavedCompetenceMark[0]).to.deep.equal({
             level: 0,
             score: 7,
             area_code: '1',
             competence_code: '1.1',
             assessmentResultId: assessmentResultId
-          }));
+          });
 
           const secondSavedCompetenceMark = competenceMarkRepository.save.secondCall.args;
-          expect(secondSavedCompetenceMark[0]).to.deep.equal(new CompetenceMark({
+          expect(secondSavedCompetenceMark[0]).to.deep.equal({
             level: 2,
             score: 19,
             area_code: '2',
             competence_code: '2.1',
             assessmentResultId: assessmentResultId
-          }));
+          });
 
           const thirdSavedCompetenceMark = competenceMarkRepository.save.thirdCall.args;
-          expect(thirdSavedCompetenceMark[0]).to.deep.equal(new CompetenceMark({
+          expect(thirdSavedCompetenceMark[0]).to.deep.equal({
             level: -1,
             score: 0,
             area_code: '2',
             competence_code: '2.2',
             assessmentResultId: assessmentResultId
-          }));
+          });
         });
       });
 
       it('should create a new assessment result', () => {
         // given
         const assessmentResult = new AssessmentResult({
-          level: 2,
-          pixScore: 13,
+          level: 3,
+          pixScore: 26,
           emitter: 'PIX-ALGO',
           comment: 'Computed',
           assessmentId: assessmentId
