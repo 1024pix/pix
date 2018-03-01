@@ -6,6 +6,7 @@ class CompetenceMark {
     this.emitter = model.emitter;
     this.comment = model.comment;
     this.assessmentId = model.assessmentId;
+    this.createdAt = model.createdAt;
   }
 }
 
