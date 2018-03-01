@@ -1,13 +1,7 @@
-class CompetenceMark {
-  constructor(model) {
-    this.id = model.id;
-    this.level = model.level;
-    this.pixScore = model.pixScore;
-    this.emitter = model.emitter;
-    this.comment = model.comment;
-    this.assessmentId = model.assessmentId;
-    this.createdAt = model.createdAt;
+class AssessmentResult {
+  constructor(attributes) {
+    Object.assign(this, attributes);
   }
 }
 
-module.exports = CompetenceMark;
+module.exports = AssessmentResult;
