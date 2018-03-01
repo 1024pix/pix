@@ -1,7 +1,7 @@
 const { expect, knex } = require('../../test-helper');
 const server = require('../../../server');
 
-describe.only('Acceptance | Controller | assessment-results-controller', function() {
+describe('Acceptance | Controller | assessment-results-controller', function() {
 
   after(function(done) {
     server.stop(done);
