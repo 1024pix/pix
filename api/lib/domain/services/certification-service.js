@@ -16,7 +16,9 @@ const assessmentRepository = require('../../../lib/infrastructure/repositories/a
 const answersRepository = require('../../../lib/infrastructure/repositories/answer-repository');
 const certificationChallengesRepository = require('../../../lib/infrastructure/repositories/certification-challenge-repository');
 const certificationCourseRepository = require('../../infrastructure/repositories/certification-course-repository');
+
 const competenceRepository = require('../../infrastructure/repositories/competence-repository');
+const assessmentResultRepository = require('../../infrastructure/repositories/assessment-result-repository');
 
 function _enhanceAnswersWithCompetenceId(listAnswers, listChallenges) {
   return _.map(listAnswers, (answer) => {
@@ -208,21 +210,26 @@ module.exports = {
 
   getCertificationResult(certificationCourseId) {
     let assessment = {};
-    let assessmentLastResult = {};
+    let assessmentLastResult;
+    let certification = {};
     return assessmentRepository
       .getByCertificationCourseId(certificationCourseId)
       .then(foundAssessement => {
         assessment = foundAssessement;
         return certificationCourseRepository.get(certificationCourseId);
       })
-      .then(certification => {
+      .then(foundCertification => {
+        certification = foundCertification;
         assessmentLastResult = assessment.getLastAssessmentResult();
+        return assessmentResultRepository.get(assessmentLastResult.id);
+      })
+      .then(assessmentResult => {
         //TODO: 1088 - modify rejectionReason and add status
         return {
           pixScore: assessmentLastResult.pixScore,
           createdAt: certification.createdAt,
           completedAt: certification.completedAt,
-          competencesWithMark: assessmentLastResult.competenceMarks,
+          competencesWithMark: assessmentResult.competenceMarks,
           firstName: certification.firstName,
           lastName: certification.lastName,
           birthdate: certification.birthdate,
