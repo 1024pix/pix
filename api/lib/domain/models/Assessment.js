@@ -7,7 +7,7 @@ class Assessment {
     return this.status === 'completed';
   }
 
-  lastAssessmentResult() {
+  getLastAssessmentResult() {
     if(this.assessmentResults) {
       const sortedAssessmentResult = this.assessmentResults.sort((r1, r2) => r1.createdAt < r2.createdAt);
       return sortedAssessmentResult[0];
