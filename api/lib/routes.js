@@ -2,6 +2,7 @@ module.exports = [
   require('./application/answers'),
   require('./application/assessments'),
   require('./application/assessment-ratings'),
+  require('./application/assessment-results'),
   require('./application/authentication'),
   require('./application/cache'),
   require('./application/certificationCourses'),
