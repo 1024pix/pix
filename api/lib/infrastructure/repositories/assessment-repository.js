@@ -40,7 +40,7 @@ module.exports = {
             .orWhereNot({ type: 'CERTIFICATION' });
         });
       })
-      .fetchAll()
+      .fetchAll({ withRelated: ['assessmentResults'] })
       .then(assessments => assessments.models)
       .then((assessments) => _.map(assessments, (assessment) => _toDomain(assessment)));
   },
@@ -59,7 +59,7 @@ module.exports = {
           .whereNot('courseId', 'LIKE', 'null%')
           .orderBy('createdAt', 'desc');
       })
-      .fetch()
+      .fetch({ withRelated: ['assessmentResults'] })
       .then(_selectLastAssessmentForEachCourse)
       .then((assessments) => _.map(assessments, (assessment) => _toDomain(assessment)));
   },
@@ -77,7 +77,7 @@ module.exports = {
           })
           .orderBy('createdAt', 'desc');
       })
-      .fetch()
+      .fetch({ withRelated: ['assessmentResults'] })
       .then(_selectLastAssessmentForEachCourse)
       .then((assessments) => _.map(assessments, (assessment) => _toDomain(assessment)));
   },
