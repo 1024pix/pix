@@ -57,38 +57,54 @@ describe('Acceptance | API | Certification Course', () => {
       options = {
         method: 'GET',
         url: `/api/admin/certifications/${courseId}`,
-        headers: { authorization: generateValidRequestAuhorizationHeader() },
+        headers: {authorization: generateValidRequestAuhorizationHeader()},
       };
       let assessmentId;
+      let assessmentResultId;
+
       return insertUserWithRolePixMaster()
         .then(() => {
           return knex('assessments').insert({
             courseId: courseId,
+            status: 'completed',
             type: 'CERTIFICATION'
           }).then(assessmentIds => {
             assessmentId = _.first(assessmentIds);
-            return knex('marks').insert([
+            return knex('assessment-results').insert([
+              {
+                level: 2,
+                pixScore: 42,
+                emitter: 'PIX-ALGO',
+                comment: 'Computed',
+                assessmentId
+              }
+            ]);
+          }).then(assessmentResultIds => {
+            assessmentResultId = _.first(assessmentResultIds);
+            return knex('competence-marks').insert([
               {
                 level: 2,
                 score: 20,
                 area_code: 4,
                 competence_code: 4.3,
-                assessmentId
+                assessmentResultId
               },
               {
                 level: 4,
                 score: 35,
                 area_code: 2,
                 competence_code: 2.1,
-                assessmentId
+                assessmentResultId
               }
             ]);
           }).then(() => {
-            return knex('certification-courses').insert({
-              id: courseId,
-              createdAt: '2017-12-21 15:44:38',
-              completedAt: '2017-12-21T15:48:38.468Z'
-            });
+            return knex('certification-courses').insert(
+              {
+                id: courseId,
+                createdAt: '2017-12-21 15:44:38',
+                completedAt: '2017-12-21T15:48:38.468Z'
+              }
+            );
           });
         });
     });
