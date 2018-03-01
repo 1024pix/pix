@@ -186,18 +186,57 @@ async function getSkills(assessmentId) {
     });
 }
 
+
+function getScoreAndLevel(assessmentId) {
+  let estimatedLevel = 0;
+  let pixScore =0;
+
+  return Promise.all([
+    assessmentRepository.get(assessmentId),
+    answerRepository.findByAssessment(assessmentId)
+  ]).then(([assessmentPix, answers]) => {
+    return courseRepository.get(assessmentPix.courseId)
+      .then((course) => {
+
+        if (course.isAdaptive) {
+          return competenceRepository
+            .get(course.competences[0])
+            .then(competencePix => Promise.all([
+              skillRepository.findByCompetence(competencePix),
+              challengeRepository.findByCompetence(competencePix)
+            ]));
+        }
+
+        return null;
+      })
+      .then((skillsAndChallenges) => {
+        if (skillsAndChallenges) {
+          const [skills, challengesPix] = skillsAndChallenges;
+          const catAssessment = assessmentAdapter.getAdaptedAssessment(answers, challengesPix, skills);
+
+          estimatedLevel = catAssessment.obtainedLevel;
+          pixScore = catAssessment.displayedPixScore;
+        }
+
+        return Promise.resolve({estimatedLevel, pixScore});
+      });
+  });
+}
 function getCompetenceMarks(assessment) {
 
   if(this.isPlacementAssessment(assessment)) {
-    return courseRepository.get(assessment.courseId)
-      .then((course) => {
+    let result = {};
+    return this.getScoreAndLevel(assessment.id)
+      .then((resultCompute) =>{
+        result = resultCompute;
+        return courseRepository.get(assessment.courseId)
+      }).then((course) => {
         return competenceRepository.get(course.competences[0]);
-      })
-      .then(competence => {
+      }).then(competence => {
         return [
           new CompetenceMark({
-            level: assessment.estimatedLevel,
-            score: assessment.pixScore,
+            level: result.estimatedLevel,
+            score: result.pixScore,
             area_code: competence.area.code,
             competence_code: competence.index
           })
@@ -289,6 +328,7 @@ module.exports = {
   isPlacementAssessment,
   isDemoAssessment,
   isCertificationAssessment,
+  getScoreAndLevel,
   getSkills,
   getCompetenceMarks
 };
