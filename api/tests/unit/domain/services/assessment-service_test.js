@@ -19,7 +19,6 @@ const Course = require('../../../../lib/domain/models/Course');
 const Answer = require('../../../../lib/domain/models/Answer');
 const Challenge = require('../../../../lib/domain/models/Challenge');
 const CertificationChallenge = require('../../../../lib/domain/models/CertificationChallenge');
-const Competence = require('../../../../lib/domain/models/Competence');
 const CompetenceMark = require('../../../../lib/domain/models/CompetenceMark');
 
 const Skill = require('../../../../lib/domain/models/Skill');
@@ -478,9 +477,7 @@ describe('Unit | Domain | Services | assessment', () => {
 
     const COMPETENCE_ID = 'competence_id';
     const COMPETENCE = { id: COMPETENCE_ID };
-
     const ASSESSMENT_ID = 836;
-    const assessment = _buildAssessmentForCourse(COURSE_ID, ASSESSMENT_ID);
 
     const correctAnswerWeb1 = _buildAnswer('challenge_web_1', 'ok', ASSESSMENT_ID);
     const wrongAnswerWeb2 = _buildAnswer('challenge_web_2', 'ko', ASSESSMENT_ID);
@@ -605,7 +602,6 @@ describe('Unit | Domain | Services | assessment', () => {
           assessmentRepository.get.resolves(assessmentFromCertif);
         });
 
-
         it('should not try to get course details', () => {
           // when
           const promise = service.getSkills(ASSESSMENT_ID);
@@ -658,11 +654,9 @@ describe('Unit | Domain | Services | assessment', () => {
               });
           });
 
-
         });
 
         context('when the course is an adaptive one', () => {
-
           beforeEach(() => {
             courseRepository.get.resolves({
               challenges: ['challenge_web_1', 'challenge_web_2'],
