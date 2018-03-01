@@ -270,11 +270,7 @@ function isPlacementAssessment(assessment) {
 }
 
 function isAssessmentCompleted(assessment) {
-  if (_.isNil(assessment.estimatedLevel) || _.isNil(assessment.pixScore)) {
-    return false;
-  }
-
-  return true;
+  return assessment.status === 'completed';
 }
 
 function getNextChallengeForCertificationCourse(assessment) {

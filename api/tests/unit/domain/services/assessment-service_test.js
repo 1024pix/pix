@@ -808,7 +808,7 @@ describe('Unit | Domain | Services | assessment', () => {
     context('when assessment is a Placement', () => {
       const courseId = 'courseId';
       const assessment = new Assessment({ id: 1, type: 'PLACEMENT', courseId, estimatedLevel: 2, pixScore: 18 });
-      const competence = new Competence({ area: { code: 'comp_code' }, index: '1.1' });
+      const competence = { area: { code: 'comp_code' }, index: '1.1' };
 
       const sandbox = sinon.sandbox.create();
 
@@ -994,20 +994,20 @@ describe('Unit | Domain | Services | assessment', () => {
   });
 
   describe('#isAssessmentCompleted', () => {
-    it('should return true when the assessment has a pixScore and an estimatedLevel', () => {
+    it('should return true when the assessment has the status completed', () => {
       // given
-      const notCompletedAssessment = new Assessment({ id: '2752', estimatedLevel: 0, pixScore: 0 });
+      const completedAssessment = new Assessment({ id: '2752', status: 'completed' });
 
       // when
-      const isCompleted = service.isAssessmentCompleted(notCompletedAssessment);
+      const isCompleted = service.isAssessmentCompleted(completedAssessment);
 
       // then
       expect(isCompleted).to.equal(true);
     });
 
-    it('should return false when the assessment miss a pixScore', () => {
+    it('should return false when the assessment status is started', () => {
       // given
-      const notCompletedAssessment = new Assessment({ id: '2752', estimatedLevel: 0 });
+      const notCompletedAssessment = new Assessment({ id: '2752', status: 'started' });
 
       // when
       const isCompleted = service.isAssessmentCompleted(notCompletedAssessment);
@@ -1016,9 +1016,9 @@ describe('Unit | Domain | Services | assessment', () => {
       expect(isCompleted).to.equal(false);
     });
 
-    it('should return false when the assessment miss an estimatedLevel', () => {
+    it('should return false when the assessment status is undefined', () => {
       // given
-      const notCompletedAssessment = new Assessment({ id: '2752', pixScore: 0 });
+      const notCompletedAssessment = new Assessment({ id: '2752' });
 
       // when
       const isCompleted = service.isAssessmentCompleted(notCompletedAssessment);
