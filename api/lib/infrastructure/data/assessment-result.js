@@ -1,6 +1,7 @@
 const Bookshelf = require('../bookshelf');
 
 require('./assessment');
+require('./competence-mark');
 
 module.exports = Bookshelf.model('AssessmentResults', {
 
@@ -11,7 +12,7 @@ module.exports = Bookshelf.model('AssessmentResults', {
   },
 
   competenceMarks() {
-    return this.hasMany('CompetenceMarks', 'assessmentResultId');
+    return this.hasMany('CompetenceMark', 'assessmentResultId');
   }
 
 });

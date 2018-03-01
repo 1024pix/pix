@@ -7,6 +7,15 @@ function _toDomain(bookshelfModel) {
 
 module.exports = {
   save: (assessmentResult) => {
-    return new BookshelfAssessmentResult(assessmentResult).save().then(_toDomain);
+    return new BookshelfAssessmentResult(assessmentResult)
+      .save()
+      .then(_toDomain);
+  },
+
+  get(id) {
+    return BookshelfAssessmentResult
+      .where('id', id)
+      .fetch({ withRelated: ['competenceMarks'] })
+      .then(_toDomain);
   }
 };
