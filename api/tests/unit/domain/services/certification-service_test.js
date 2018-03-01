@@ -5,24 +5,37 @@ const CertificationChallenge = require('../../../../lib/domain/models/Certificat
 
 const AirtableCompetence = require('../../../../lib/domain/models/referential/competence');
 const Competence = require('../../../../lib/domain/models/Competence');
+const Assessment = require('../../../../lib/domain/models/Assessment');
+const AssessmentResult = require('../../../../lib/domain/models/AssessmentResult');
+const CompetenceMarks = require('../../../../lib/domain/models/CompetenceMark');
+
 const { UserNotAuthorizedToCertifyError } = require('../../../../lib/domain/errors');
 
 const userService = require('../../../../lib/domain/services/user-service');
 const certificationChallengesService = require('../../../../lib/domain/services/certification-challenges-service');
 const assessmentRepository = require('../../../../lib/infrastructure/repositories/assessment-repository');
+const assessmentResultRepository = require('../../../../lib/infrastructure/repositories/assessment-result-repository');
 const answersRepository = require('../../../../lib/infrastructure/repositories/answer-repository');
 const certificationChallengesRepository = require('../../../../lib/infrastructure/repositories/certification-challenge-repository');
 const certificationCourseRepository = require('../../../../lib/infrastructure/repositories/certification-course-repository');
+
 const competenceRepository = require('../../../../lib/infrastructure/repositories/competence-repository');
-const Assessment = require('../../../../lib/domain/models/Assessment');
-const AssessmentResult = require('../../../../lib/domain/models/AssessmentResult');
 
 function _buildAnswer(challengeId, result) {
   return new Answer({ id: 'answer_id', challengeId, result, value: 'something' });
 }
 
+function _buildCompetenceMarks(level, competence_code) {
+  return new CompetenceMarks({ level, competence_code });
+}
+
 function _buildAssessmentResult(pixScore, level) {
-  return new AssessmentResult({ id: 'assessment_result_id', pixScore, level, emitter: 'PIX-ALGO' });
+  return new AssessmentResult({
+    id: 'assessment_result_id',
+    pixScore,
+    level,
+    emitter: 'PIX-ALGO'
+  });
 }
 
 function _buildCertificationChallenge(challengeId, competenceId, associatedSkill) {
@@ -1243,6 +1256,7 @@ describe('Unit | Service | Certification Service', function() {
 
     beforeEach(() => {
       sandbox = sinon.sandbox.create();
+      const assessmentResult = _buildAssessmentResult(20,3);
       sandbox.stub(assessmentRepository, 'getByCertificationCourseId').resolves(new Assessment({
         status: 'completed',
         assessmentResults: [
@@ -1258,15 +1272,32 @@ describe('Unit | Service | Certification Service', function() {
         birthdate: '28/01/1992',
         sessionId: 'MoufMufassa'
       });
+
+      assessmentResult.competenceMarks = [_buildCompetenceMarks(3, '2.1')];
+      sandbox.stub(assessmentResultRepository, 'get').resolves(
+        assessmentResult
+      );
+
     });
 
     afterEach(() => {
       sandbox.restore();
     });
 
-    it('should return certification results with pix score, date and certified competences levels, and comments', () => {
+    it('should return certification results with pix score, date and certified competences levels', () => {
       // given
       const certificationCourseId = 1;
+      const expectedResult = {
+        pixScore: 20,
+        createdAt: '2017-12-23 15:23:12',
+        completedAt: '2017-12-23T16:23:12.232Z',
+        competencesWithMark: [
+          {
+            level: 3,
+            competence_code: '2.1'
+          }
+        ]
+      };
 
       // when
       const promise = certificationService.getCertificationResult(certificationCourseId);
