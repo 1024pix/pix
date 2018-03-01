@@ -1,7 +1,6 @@
 const { expect, knex } = require('../../../test-helper');
 
 const AssessmentResult = require('../../../../lib/domain/models/AssessmentResult');
-const CompetenceMark = require('../../../../lib/domain/models/CompetenceMark');
 const AssessmentResultRepository = require('../../../../lib/infrastructure/repositories/assessment-result-repository');
 
 describe('Integration | Repository | AssessmentResult', function() {

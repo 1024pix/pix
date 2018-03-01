@@ -45,25 +45,25 @@ describe('Acceptance | Controller | assessment-results-controller', function() {
     before(() => { return knex('certification-courses').delete()
       .then(() => knex('assessments').delete())
       .then(() => {
-      return knex('assessments')
-        .insert({
-          id: '1',
-          courseId: certificationId,
-          type: 'CERTIFICATION'
-        });
+        return knex('assessments')
+          .insert({
+            id: '1',
+            courseId: certificationId,
+            type: 'CERTIFICATION'
+          });
       })
       .then(() => {
         return knex('certification-courses')
-          .insert({ id: certificationId })
-      })
+          .insert({ id: certificationId });
+      });
     });
 
     afterEach(() => {
-      knex('competence-marks').delete().then(() => knex('assessment-results').delete())
+      knex('competence-marks').delete().then(() => knex('assessment-results').delete());
     });
 
     after(() => {
-      knex('certification-courses').delete().then(() => knex('assessments').delete())
+      knex('certification-courses').delete().then(() => knex('assessments').delete());
     });
 
     it('should return an OK status after saving in database', () => {
