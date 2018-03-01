@@ -4,6 +4,7 @@ const Profile = require('../../../../../lib/domain/models/Profile');
 const BookshelfUser = require('../../../../../lib/infrastructure/data/user');
 const Organization = require('../../../../../lib/infrastructure/data/organization');
 const Assessment = require('../../../../../lib/domain/models/Assessment');
+const AssessmentResult = require('../../../../../lib/domain/models/AssessmentResult');
 const Area = require('../../../../../lib/domain/models/Area');
 
 describe('Unit | Serializer | JSONAPI | profile-serializer', () => {
@@ -105,14 +106,16 @@ describe('Unit | Serializer | JSONAPI | profile-serializer', () => {
       finishedAssessment = new Assessment({
         id : 'assessmentID1',
         courseId: 'courseID1',
-        estimatedLevel: 8,
-        pixScore: 128
+        status: 'completed',
+        assessmentResults: [new AssessmentResult({
+          level: 8,
+          pixScore: 128
+        })]
       });
       nonFinishedAssessment = new Assessment({
         id : 'assessmentID2',
         courseId: 'courseID2',
-        estimatedLevel: null,
-        pixScore: null,
+        status: 'started'
       });
 
       lastAssessments = [finishedAssessment, nonFinishedAssessment];

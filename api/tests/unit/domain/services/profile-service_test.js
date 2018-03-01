@@ -11,6 +11,7 @@ const assessmentRepository = require('../../../../lib/infrastructure/repositorie
 const organizationRepository = require('../../../../lib/infrastructure/repositories/organization-repository');
 
 const Assessment = require('../../../../lib/domain/models/Assessment');
+const AssessmentResult = require('../../../../lib/domain/models/AssessmentResult');
 const BookshelfUser = require('../../../../lib/infrastructure/data/user');
 
 describe('Unit | Service | Profil User Service', function() {
@@ -60,7 +61,11 @@ describe('Unit | Service | Profil User Service', function() {
       fakeAssessmentRecords = [new Assessment({
         id: 'assessmentId1',
         courseId: 'courseId8',
-        status: 'completed'
+        status: 'completed',
+        assessmentResults: [new AssessmentResult({
+          pixScore: 10,
+          level: 1
+        })]
       })];
 
       fakeCoursesRecords = [{
