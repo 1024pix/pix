@@ -30,7 +30,7 @@ describe('Unit | Domain | Models | Assessment', () => {
 
   });
 
-  describe('#lastAssesmentResult', () => {
+  describe('#lastAssessmentResult', () => {
 
     it('should return the last assessment results', () => {
       // given
@@ -50,7 +50,7 @@ describe('Unit | Domain | Models | Assessment', () => {
       });
 
       // when
-      const lastResult = assessment.lastAssesmentResult();
+      const lastResult = assessment.lastAssessmentResult();
 
       // then
       expect(lastResult.id).to.be.equal(2);
@@ -62,7 +62,7 @@ describe('Unit | Domain | Models | Assessment', () => {
       const assessment = new Assessment({ status: '' });
 
       // when
-      const lastResult = assessment.lastAssesmentResult();
+      const lastResult = assessment.lastAssessmentResult();
 
       // then
       expect(lastResult).to.be.null;
