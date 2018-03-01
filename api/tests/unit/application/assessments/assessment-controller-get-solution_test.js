@@ -99,7 +99,7 @@ describe('Unit | Controller | assessment-controller', () => {
         // given
         const error = new Error('Database locked');
         answerRepository.get.rejects(error);
-        assessmentRepository.get.resolves(new Assessment({ id: 13465, estimatedLevel: 1, pixScore: 12 }));
+        assessmentRepository.get.resolves(new Assessment({ id: 13465, status: 'completed' }));
 
         // when
         const promise = assessmentController.getAssessmentSolution({ params: { id: 13465 } }, replyStub);
@@ -115,7 +115,7 @@ describe('Unit | Controller | assessment-controller', () => {
 
     context('when the assessment exists and is completed', () => {
       beforeEach(() => {
-        assessmentRepository.get.resolves(new Assessment({ id: 13465, estimatedLevel: 1, pixScore: 12 }));
+        assessmentRepository.get.resolves(new Assessment({ id: 13465, status: 'completed' }));
       });
 
       context('when the answer is not found', () => {

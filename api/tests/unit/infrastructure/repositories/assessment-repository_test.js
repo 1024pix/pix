@@ -140,11 +140,11 @@ describe('Unit | Repository | assessmentRepository', () => {
         orderBy: orderByStub
       });
       whereStatusIsCompleted = sandbox.stub().returns({
-        where: andWhere
+        andWhere: andWhere
       });
 
       whereCreatedAtStub = sandbox.stub().returns({
-        whereNotNull: whereStatusIsCompleted
+        where: whereStatusIsCompleted
       });
 
       whereStub = sandbox.stub().returns({
