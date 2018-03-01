@@ -20,7 +20,7 @@ class Profile {
       const course = this._getCourseById(courses, courseIdFromAssessment);
 
       if (assessment.isCompleted()) {
-        const assessmentResult = assessment.lastAssessmentResult();
+        const assessmentResult = assessment.getLastAssessmentResult();
         const competence = this.competences.find(competence => course.competences.includes(competence.id));
         competence.level = assessmentResult.level;
         competence.pixScore = assessmentResult.pixScore;
