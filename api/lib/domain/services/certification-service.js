@@ -208,6 +208,7 @@ module.exports = {
 
   getCertificationResult(certificationCourseId) {
     let assessment = {};
+    let assessmentLastResult = {};
     return assessmentRepository
       .getByCertificationCourseId(certificationCourseId)
       .then(foundAssessement => {
@@ -215,17 +216,17 @@ module.exports = {
         return certificationCourseRepository.get(certificationCourseId);
       })
       .then(certification => {
+        assessmentLastResult = assessment.getLastAssessmentResult();
         //TODO: 1088 - modify rejectionReason and add status
         return {
-          pixScore: assessment.pixScore,
+          pixScore: assessmentLastResult.pixScore,
           createdAt: certification.createdAt,
           completedAt: certification.completedAt,
-          competencesWithMark: assessment.marks,
+          competencesWithMark: assessmentLastResult.competenceMarks,
           firstName: certification.firstName,
           lastName: certification.lastName,
           birthdate: certification.birthdate,
           birthplace: certification.birthplace,
-          rejectionReason: certification.rejectionReason,
           sessionId: certification.sessionId,
         };
       });

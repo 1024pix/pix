@@ -15,9 +15,14 @@ const certificationChallengesRepository = require('../../../../lib/infrastructur
 const certificationCourseRepository = require('../../../../lib/infrastructure/repositories/certification-course-repository');
 const competenceRepository = require('../../../../lib/infrastructure/repositories/competence-repository');
 const Assessment = require('../../../../lib/domain/models/Assessment');
+const AssessmentResult = require('../../../../lib/domain/models/AssessmentResult');
 
 function _buildAnswer(challengeId, result) {
   return new Answer({ id: 'answer_id', challengeId, result, value: 'something' });
+}
+
+function _buildAssessmentResult(pixScore, level) {
+  return new AssessmentResult({ id: 'assessment_result_id', pixScore, level, emitter: 'PIX-ALGO' });
 }
 
 function _buildCertificationChallenge(challengeId, competenceId, associatedSkill) {
@@ -1238,15 +1243,12 @@ describe('Unit | Service | Certification Service', function() {
 
     beforeEach(() => {
       sandbox = sinon.sandbox.create();
-      sandbox.stub(assessmentRepository, 'getByCertificationCourseId').resolves({
-        pixScore: 20,
-        marks: [
-          {
-            level: 3,
-            competence_code: '2.1'
-          }
+      sandbox.stub(assessmentRepository, 'getByCertificationCourseId').resolves(new Assessment({
+        status: 'completed',
+        assessmentResults: [
+          _buildAssessmentResult(20, 3)
         ]
-      });
+      }));
       sandbox.stub(certificationCourseRepository, 'get').resolves({
         createdAt: '2017-12-23 15:23:12',
         completedAt: '2017-12-23T16:23:12.232Z',
@@ -1254,7 +1256,6 @@ describe('Unit | Service | Certification Service', function() {
         lastName: 'De La Savane',
         birthplace: 'Savane',
         birthdate: '28/01/1992',
-        rejectionReason: 'Chant durant la certification',
         sessionId: 'MoufMufassa'
       });
     });
