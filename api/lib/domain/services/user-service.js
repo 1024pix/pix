@@ -95,7 +95,7 @@ function _getChallengeById(challenges, challengeId) {
 }
 
 function _filterAssessmentWithEstimatedLevelGreaterThanZero(assessments) {
-  return _(assessments).filter(assessment => assessment.estimatedLevel >= 1).values();
+  return _(assessments).filter(assessment => assessment.getLastAssessmentResult().level >= 1).values();
 }
 
 module.exports = {
