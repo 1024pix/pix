@@ -516,7 +516,7 @@ describe('Unit | Service | Certification Service', function() {
         });
       });
 
-      it('should return a object contains informations about competences and challenges', () => {
+      it('should return a object contains information about competences and challenges', () => {
         // given
         const malusForFalseAnswer = 8;
         const expectedCertifiedCompetences = [{
@@ -721,7 +721,8 @@ describe('Unit | Service | Certification Service', function() {
       id: 'assessment_id',
       userId: 'user_id',
       createdAt: '2018-01-01',
-      courseId: 'course_id'
+      courseId: 'course_id',
+      status: 'completed'
     });
 
     const userProfile = competences;

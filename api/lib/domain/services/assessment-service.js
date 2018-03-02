@@ -186,7 +186,6 @@ async function getSkills(assessmentId) {
     });
 }
 
-
 function getScoreAndLevel(assessmentId) {
   let estimatedLevel = 0;
   let pixScore =0;
@@ -218,7 +217,7 @@ function getScoreAndLevel(assessmentId) {
           pixScore = catAssessment.displayedPixScore;
         }
 
-        return Promise.resolve({estimatedLevel, pixScore});
+        return Promise.resolve({ estimatedLevel, pixScore });
       });
   });
 }
@@ -229,7 +228,7 @@ function getCompetenceMarks(assessment) {
     return this.getScoreAndLevel(assessment.id)
       .then((resultCompute) =>{
         result = resultCompute;
-        return courseRepository.get(assessment.courseId)
+        return courseRepository.get(assessment.courseId);
       }).then((course) => {
         return competenceRepository.get(course.competences[0]);
       }).then(competence => {
@@ -247,9 +246,8 @@ function getCompetenceMarks(assessment) {
   if(this.isCertificationAssessment(assessment)) {
     return Promise
       .all([competenceRepository.list(), certificationService.calculateCertificationResultByAssessmentId(assessment.id)])
-      .then(([competences, { competencesWithCompetenceMark }]) => {
-
-        return competencesWithCompetenceMark.map((certifiedCompetence) => {
+      .then(([competences, { competencesWithMark }]) => {
+        return competencesWithMark.map((certifiedCompetence) => {
 
           const area_code = _(competences).find((competence) => {
             return competence.index === certifiedCompetence.index;

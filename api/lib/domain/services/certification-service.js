@@ -87,6 +87,7 @@ function _getCompetencesWithCertifiedLevelAndScore(answersWithCompetences, listC
   return listCompetences.map((competence) => {
     const numberOfCorrectAnswers = _numberOfCorrectAnswersPerCompetence(answersWithCompetences, competence);
     // TODO: Convertir ça en Mark ?
+
     return {
       name: competence.name,
       index: competence.index,
@@ -187,8 +188,9 @@ function _getCertificationResult(assessment) {
       // FIXME: Missing tests
       result.createdAt = startOfCertificationDate;
       result.userId = assessment.userId;
-      result.status = certificationCourse.status;
+      result.status = assessment.status;
       result.completedAt = certificationCourse.completedAt;
+
       result.listChallengesAndAnswers = _getChallengeInformation(listAnswers, certificationChallenges, competences);
       return result;
     });
