@@ -725,6 +725,189 @@ describe('Unit | Domain | Services | assessment', () => {
     });
   });
 
+  describe('#getScoreAndLevel', () => {
+
+    const COURSE_ID = 123;
+    const PREVIEW_COURSE_ID = 'nullfec89bd5-a706-419b-a6d2-f8805e708ace';
+
+    const COMPETENCE_ID = 'competence_id';
+    const COMPETENCE = { id: COMPETENCE_ID };
+
+    const ASSESSMENT_ID = 836;
+    const assessment = _buildAssessmentForCourse(COURSE_ID, ASSESSMENT_ID);
+
+    const correctAnswerWeb1 = _buildAnswer('challenge_web_1', 'ok', ASSESSMENT_ID);
+    const wrongAnswerWeb2 = _buildAnswer('challenge_web_2', 'ko', ASSESSMENT_ID);
+
+    const challenges = [
+      _buildChallenge('challenge_web_1', [new Skill({ name: '@web1' })]),
+      _buildChallenge('challenge_web_2', [new Skill({ name: '@web2' })])
+    ];
+
+    const sandbox = sinon.sandbox.create();
+
+    beforeEach(() => {
+      competenceRepository.get.resolves(COMPETENCE);
+      sandbox.stub(assessmentRepository, 'get').resolves(new Assessment({
+        id: ASSESSMENT_ID,
+        courseId: PREVIEW_COURSE_ID
+      }));
+      sandbox.stub(courseRepository, 'get').resolves({
+        challenges: ['challenge_web_2', 'challenge_web_1'],
+        competences: [COMPETENCE_ID]
+      });
+      sandbox.stub(challengeRepository, 'findByCompetence').resolves(challenges);
+      sandbox.stub(skillRepository, 'findByCompetence').resolves(new Set([new Skill({ name: '@web1' }), new Skill({ name: '@web2' })]));
+      sandbox.stub(assessmentAdapter, 'getAdaptedAssessment').returns({
+        obtainedLevel: 2,
+        displayedPixScore: 17
+      });
+      sandbox.stub(answerRepository, 'findByAssessment').resolves([wrongAnswerWeb2, correctAnswerWeb1]);
+    });
+
+    afterEach(() => {
+      sandbox.restore();
+    });
+
+    it('should retrieve assessment from repository', () => {
+      // when
+      const promise = service.getScoreAndLevel(ASSESSMENT_ID);
+
+      // then
+      return promise.then(() => {
+        expect(assessmentRepository.get).to.have.been.calledWith(ASSESSMENT_ID);
+      });
+    });
+
+    it('should rejects when acessing to the assessment is failing', () => {
+      // given
+      assessmentRepository.get.rejects(new Error('Access DB is failing'));
+
+      // when
+      const promise = service.getScoreAndLevel(ASSESSMENT_ID);
+
+      // then
+      return promise.then(() => {
+        sinon.assert.fail('Should not succeed');
+      }, (error) => {
+        expect(error.message).to.equal('Access DB is failing');
+      });
+    });
+
+    it('should return a level and pixScore', () => {
+      // when
+      const promise = service.getScoreAndLevel(ASSESSMENT_ID);
+
+      // then
+      return promise
+        .then(({ estimatedLevel, pixScore }) => {
+          expect(estimatedLevel).to.equal(0);
+          expect(pixScore).to.equal(0);
+        });
+    });
+
+      it('should load answers for the assessment', () => {
+        // when
+        const promise = service.getScoreAndLevel(ASSESSMENT_ID);
+
+        // then
+        return promise
+          .then(() => {
+            sinon.assert.calledOnce(answerRepository.findByAssessment);
+            sinon.assert.calledWithExactly(answerRepository.findByAssessment, ASSESSMENT_ID);
+          });
+      });
+
+      context('when the assessement is linked to a course', () => {
+        beforeEach(() => {
+          const assessmentFromPreview = new Assessment({ id: ASSESSMENT_ID, courseId: COURSE_ID });
+          assessmentRepository.get.resolves(assessmentFromPreview);
+        });
+
+        it('should load course details', () => {
+          // when
+          const promise = service.getScoreAndLevel(ASSESSMENT_ID);
+
+          // then
+          return promise.then(() => {
+            sinon.assert.calledWith(courseRepository.get, COURSE_ID);
+          });
+        });
+
+        context('when the course is not in adaptative mode', () => {
+          it('should not load data to evaluate level and score', () => {
+            // when
+            const promise = service.getScoreAndLevel(ASSESSMENT_ID);
+
+            // then
+            return promise
+              .then(() => {
+                sinon.assert.notCalled(challengeRepository.findByCompetence);
+                sinon.assert.notCalled(skillRepository.findByCompetence);
+              });
+          });
+
+          it('should not load the linked competence', () => {
+            // when
+            const promise = service.getScoreAndLevel(ASSESSMENT_ID);
+
+            // then
+            return promise
+              .then(() => {
+                expect(competenceRepository.get).not.to.have.been.called;
+              });
+          });
+
+          it('should return the level and a pix-score at 0', () => {
+            // when
+            const promise = service.getScoreAndLevel(ASSESSMENT_ID);
+
+            // then
+            return promise
+              .then(({ estimatedLevel, pixScore }) => {
+                expect(estimatedLevel).to.equal(0);
+                expect(pixScore).to.equal(0);
+              });
+          });
+        });
+
+        context('when the course is an adaptive one', () => {
+
+          beforeEach(() => {
+            courseRepository.get.resolves({
+              challenges: ['challenge_web_1', 'challenge_web_2'],
+              competences: [COMPETENCE_ID],
+              isAdaptive: true
+            });
+          });
+
+          it('should load skills and challenges for the course', () => {
+            // when
+            const promise = service.getScoreAndLevel(ASSESSMENT_ID);
+
+            // then
+            return promise
+              .then(() => {
+                sinon.assert.calledWith(challengeRepository.findByCompetence, COMPETENCE);
+                sinon.assert.calledWith(skillRepository.findByCompetence, COMPETENCE);
+              });
+          });
+
+          it('should resolve the level and the score', () => {
+            // when
+            const promise = service.getScoreAndLevel(ASSESSMENT_ID);
+
+            // then
+            return promise
+              .then(({ estimatedLevel, pixScore }) => {
+                expect(estimatedLevel).to.equal(2);
+                expect(pixScore).to.equal(17);
+              });
+          });
+        });
+    });
+  });
+
   describe('#getCompetenceMarks', () => {
 
     context('when assessment is a Certification', () => {
@@ -810,6 +993,9 @@ describe('Unit | Domain | Services | assessment', () => {
         sandbox.stub(courseRepository, 'get').resolves(new Course({
           competences: ['1.1'],
         }));
+        sandbox.stub(service, 'getScoreAndLevel').resolves({
+          estimatedLevel: 2, pixScore: 18
+        });
         competenceRepository.get.resolves(competence);
       });
 
