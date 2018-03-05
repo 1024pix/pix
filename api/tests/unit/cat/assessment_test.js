@@ -457,6 +457,27 @@ describe('Unit | Model | Assessment', function() {
       // then
       expect(assessment.nextChallenge).to.equal(ch5);
     });
+
+    it.only('should not return a challenge of level 7 if user got levels 2-3 ok but level 5 ko', function() {
+      // given
+      const web2 = new Skill('url2');
+      const url3 = new Skill('url3');
+      const rechInfo5 = new Skill('rechInfo5');
+      const rechInfo7 = new Skill('web7');
+      const ch2 = new Challenge('rec2', 'validé', [web2]);
+      const ch3 = new Challenge('rec3', 'validé', [url3]);
+      const ch5 = new Challenge('rec5', 'validé', [rechInfo5]);
+      const ch7 = new Challenge('rec7', 'validé', [rechInfo7]);
+      const course = new Course([ch2, ch3, ch5, ch7]);
+      const answer1 = new Answer(ch2, AnswerStatus.OK);
+      const answer2 = new Answer(ch3, AnswerStatus.OK);
+      const answer3 = new Answer(ch5, AnswerStatus.KO);
+      const assessment = new Assessment(course, [answer1, answer2, answer3]);
+
+      // then
+      expect(assessment.nextChallenge).to.equal(null);
+    });
+
     context('when one challenge (level3) has been archived', () => {
       const web1 = new Skill('web1');
       const web2 = new Skill('web2');
