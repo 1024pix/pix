@@ -7,8 +7,8 @@ const AssessmentResult = require('../models/AssessmentResult');
 module.exports = {
 
   save(assessmentResultInfo) {
-    const certificationId = assessmentResultInfo.certificationId;
-    const competenceMarks = assessmentResultInfo.competenceMarks;
+    const certificationId = assessmentResultInfo['certification-id'];
+    const competenceMarks = assessmentResultInfo['competences-with-mark'];
 
     return assessmentRepository.getByCertificationCourseId(certificationId)
       .then((assessment) => {
@@ -18,7 +18,7 @@ module.exports = {
           emitter: assessmentResultInfo.emitter,
           comment: assessmentResultInfo.comment,
           level: assessmentResultInfo.level,
-          pixScore: assessmentResultInfo.pixScore,
+          pixScore: assessmentResultInfo['pix-score'],
         };
         return assessmentResultRepository.save(new AssessmentResult(assessmentResult));
       })

@@ -10,12 +10,12 @@ describe('Unit | Domain | Services | assessment-result', function() {
   describe('#save', () => {
 
     const assessmentResult = {
-      certificationId: 1,
+      'certification-id': 1,
       level: 3,
-      pixScore: 27,
+      'pix-score': 27,
       emitter: 'Jury',
       comment: 'Envie de faire un nettoyage de printemps dans les notes',
-      competenceMarks : [
+      'competences-with-mark' : [
         {
           level: 2,
           score: 18,

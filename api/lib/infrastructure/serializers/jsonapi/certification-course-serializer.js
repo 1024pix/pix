@@ -23,7 +23,7 @@ module.exports = {
 
   serializeResult(certificationCourseResult) {
     return new Serializer('results', {
-      attributes: ['pixScore', 'createdAt', 'completedAt', 'emitter', 'comment', 'competencesWithMark', 'firstName', 'lastName', 'birthdate', 'birthplace', 'sessionId']
+      attributes: ['certificationId', 'level', 'pixScore', 'createdAt', 'completedAt', 'emitter', 'comment', 'competencesWithMark', 'firstName', 'lastName', 'birthdate', 'birthplace', 'sessionId']
     }).serialize(certificationCourseResult);
   },
 

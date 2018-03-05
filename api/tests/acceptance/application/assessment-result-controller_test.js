@@ -14,12 +14,12 @@ describe('Acceptance | Controller | assessment-results-controller', function() {
         data: {
           type: 'assessment-results',
           attributes: {
-            certificationId: certificationId,
+            'certification-id': certificationId,
             level: 3,
-            pixScore: 27,
+            'pix-score': 27,
             emitter: 'Jury',
             comment: 'Envie de faire un nettoyage de printemps dans les notes',
-            competenceMarks : [
+            'competences-with-mark' : [
               {
                 level: 2,
                 score: 18,

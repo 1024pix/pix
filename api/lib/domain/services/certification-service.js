@@ -228,6 +228,8 @@ module.exports = {
       .then(assessmentResult => {
         //TODO: 1088 - modify rejectionReason and add status
         return {
+          level: assessmentLastResult.level,
+          certificationId: certification.id,
           emitter: assessmentLastResult.emitter,
           comment: assessmentLastResult.comment,
           pixScore: assessmentLastResult.pixScore,
