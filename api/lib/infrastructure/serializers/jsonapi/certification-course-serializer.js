@@ -23,8 +23,7 @@ module.exports = {
 
   serializeResult(certificationCourseResult) {
     return new Serializer('results', {
-      //TODO: 1088 - rejectionReason do not exist anymore
-      attributes: ['firstName', 'lastName', 'birthdate', 'birthplace', 'pixScore', 'createdAt', 'completedAt', 'sessionId', 'competencesWithMark', 'rejectionReason']
+      attributes: ['pixScore', 'createdAt', 'completedAt', 'emitter', 'comment', 'competencesWithMark', 'firstName', 'lastName', 'birthdate', 'birthplace', 'sessionId']
     }).serialize(certificationCourseResult);
   },
 

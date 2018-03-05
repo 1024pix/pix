@@ -25,8 +25,15 @@ module.exports = {
       .then((assessmentResult) => {
 
         const competenceMarksSaved = competenceMarks.map((competenceMark) => {
-          competenceMark.assessmentResultId = assessmentResult.id;
-          return competenceMarkRepository.save(new CompetenceMark(competenceMark));
+          const competenceMarkSaved = {
+            level: competenceMark.level,
+            score: competenceMark.score,
+            area_code: competenceMark['area-code'],
+            competence_code: competenceMark['competence-code'],
+            assessmentResultId: assessmentResult.id
+          };
+
+          return competenceMarkRepository.save(new CompetenceMark(competenceMarkSaved));
         });
         return Promise.all(competenceMarksSaved);
       });

@@ -19,13 +19,13 @@ describe('Unit | Domain | Services | assessment-result', function() {
         {
           level: 2,
           score: 18,
-          area_code: 2,
-          competence_code: 2.1
+          'area-code': 2,
+          'competence-code': 2.1
         },{
           level: 3,
           score: 27,
-          area_code: 3,
-          competence_code: 3.2
+          'area-code': 3,
+          'competence-code': 3.2
         }
       ]
     };
