@@ -458,7 +458,7 @@ describe('Unit | Model | Assessment', function() {
       expect(assessment.nextChallenge).to.equal(ch5);
     });
 
-    it.only('should not return a challenge of level 7 if user got levels 2-3 ok but level 5 ko', function() {
+    it('should not return a challenge of level 7 if user got levels 2-3 ok but level 5 ko', function() {
       // given
       const web2 = new Skill('url2');
       const url3 = new Skill('url3');
