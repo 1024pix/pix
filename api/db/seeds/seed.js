@@ -1,10 +1,11 @@
 'use strict';
 const listSeeds = [
   'assessments',
+  'assessment-results',
   'answers',
   'certification-courses',
   'certification-challenges',
-  'marks',
+  'competence-marks',
   'organizations',
   'users',
   'snapshots',
