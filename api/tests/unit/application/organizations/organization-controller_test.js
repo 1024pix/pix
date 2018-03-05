@@ -1,8 +1,9 @@
 const { expect, sinon } = require('../../../test-helper');
 
 const User = require('../../../../lib/domain/models/User');
-const BookshelfOrganisation = require('../../../../lib/infrastructure/data/organization');
+const BookshelfOrganization = require('../../../../lib/infrastructure/data/organization');
 const BookshelfSnapshot = require('../../../../lib/infrastructure/data/snapshot');
+const Organization = require('../../../../lib/domain/models/Organization');
 
 const organizationController = require('../../../../lib/application/organizations/organization-controller');
 
@@ -30,7 +31,7 @@ describe('Unit | Controller | organizationController', () => {
 
   describe('#create', () => {
 
-    const organization = new BookshelfOrganisation({ email: 'existing-email@example.net', type: 'PRO' });
+    const organizationBookshelf = new BookshelfOrganization({ email: 'existing-email@example.net', type: 'PRO' });
     const userSaved = new User({ email: 'existing-email@example.net', id: 12 });
 
     beforeEach(() => {
@@ -41,11 +42,11 @@ describe('Unit | Controller | organizationController', () => {
 
       sandbox.stub(logger, 'error');
       sandbox.stub(userRepository, 'save').resolves(userSaved);
-      sandbox.stub(userRepository, 'isEmailAvailable');
+      sandbox.stub(userRepository, 'isEmailAvailable').resolves();
       sandbox.stub(organizationService, 'generateOrganizationCode').returns('ABCD12');
-      sandbox.stub(organisationRepository, 'saveFromModel').resolves(organization);
+      sandbox.stub(organisationRepository, 'saveFromModel').resolves(organizationBookshelf);
       sandbox.stub(organisationRepository, 'isCodeAvailable').resolves();
-      sandbox.spy(organizationSerializer, 'deserialize');
+      sandbox.stub(organizationSerializer, 'deserialize').returns(organizationBookshelf);
       sandbox.stub(organizationSerializer, 'serialize');
 
       request = {
@@ -104,7 +105,7 @@ describe('Unit | Controller | organizationController', () => {
         // Then
         return promise.then(() => {
           expect(userRepository.save).to.have.been.calledWithMatch({
-            email: 'my-email-with-capslock@example.net'
+            email: 'existing-email@example.net'
           });
         });
       });
@@ -143,7 +144,7 @@ describe('Unit | Controller | organizationController', () => {
 
           // Then
           return promise.then(() => {
-            expect(organizationSerializer.serialize).to.have.been.calledWith(organization);
+            expect(organizationSerializer.serialize).to.have.been.calledWith(organizationBookshelf.toJSON());
             expect(replyStub).to.have.been.calledWith(serializedOrganization);
           });
         });
@@ -303,8 +304,8 @@ describe('Unit | Controller | organizationController', () => {
     let sandbox;
     let replyStub;
     let codeStub;
-    const arrayOfSerializedOrganization = [{}, {}];
-    const arrayOfOrganizations = [new BookshelfOrganisation(), new BookshelfOrganisation()];
+    const arrayOfSerializedOrganization = [{ code: 'AAA111' }, { code: 'BBB222' }];
+    const arrayOfOrganizations = [new Organization({ code: 'AAA111' }), new Organization({ code: 'BBB222' })];
 
     beforeEach(() => {
       codeStub = sinon.stub();
@@ -312,7 +313,7 @@ describe('Unit | Controller | organizationController', () => {
       sandbox = sinon.sandbox.create();
 
       sandbox.stub(logger, 'error');
-      sandbox.stub(organisationRepository, 'findBy').resolves(arrayOfOrganizations);
+      sandbox.stub(organizationService, 'search').resolves(arrayOfOrganizations);
       sandbox.stub(organizationSerializer, 'serialize').returns(arrayOfSerializedOrganization);
     });
 
@@ -320,84 +321,69 @@ describe('Unit | Controller | organizationController', () => {
       sandbox.restore();
     });
 
-    describe('when no filters are given', () => {
-      it('should return an array', () => {
-        // when
-        const promise = organizationController.search({}, replyStub);
+    it('should retrieve organizations with one filter', () => {
+      // when
+      const promise = organizationController.search({ query: { 'filter[query]': 'my search' } }, replyStub);
 
-        // then
-        return promise.then(() => {
-          sinon.assert.calledWith(replyStub, arrayOfSerializedOrganization);
-        });
+      // then
+      return promise.then(() => {
+        sinon.assert.calledWith(organizationService.search, { query: 'my search' });
       });
     });
 
-    describe('when filters are given', () => {
-      it('should retrieve organizations with one filter', () => {
-        // when
-        const promise = organizationController.search({ query: { 'filter[query]': 'my search' } }, replyStub);
+    it('should retrieve organizations with two different filters', () => {
+      // when
+      const promise = organizationController.search({
+        query: {
+          'filter[query]': 'my search',
+          'filter[code]': 'with params'
+        }
+      }, replyStub);
 
-        // then
-        return promise.then(() => {
-          sinon.assert.calledWith(organisationRepository.findBy, { query: 'my search' });
-        });
+      // then
+      return promise.then(() => {
+        sinon.assert.calledWith(organizationService.search, { query: 'my search', code: 'with params' });
       });
+    });
 
-      it('should retrieve organizations with two different filters', () => {
-        // when
-        const promise = organizationController.search({
-          query: {
-            'filter[first]': 'my search',
-            'filter[second]': 'with params'
-          }
-        }, replyStub);
+    it('should log when there is an error', () => {
+      // given
+      const error = new Error('');
+      organizationService.search.rejects(error);
 
-        // then
-        return promise.then(() => {
-          sinon.assert.calledWith(organisationRepository.findBy, { first: 'my search', second: 'with params' });
-        });
+      // when
+      const promise = organizationController.search({ query: { 'filter[first]': 'with params' } }, replyStub);
+
+      // then
+      return promise.then(() => {
+        sinon.assert.calledWith(logger.error, error);
       });
+    });
 
-      it('should log when there is an error', () => {
-        // given
-        const error = new Error('');
-        organisationRepository.findBy.rejects(error);
+    it('should reply 500 while getting data is on error', () => {
+      // given
+      const error = new Error('');
+      organizationService.search.rejects(error);
 
-        // when
-        const promise = organizationController.search({ query: { 'filter[first]': 'with params' } }, replyStub);
+      // when
+      const promise = organizationController.search({ query: { 'filter[first]': 'with params' } }, replyStub);
 
-        // then
-        return promise.then(() => {
-          sinon.assert.calledWith(logger.error, error);
-        });
+      // then
+      return promise.then(() => {
+        sinon.assert.callOrder(organizationService.search, replyStub);
+        sinon.assert.calledWith(codeStub, 500);
       });
+    });
 
-      it('should reply 500 while getting data is on error', () => {
-        // given
-        const error = new Error('');
-        organisationRepository.findBy.rejects(error);
+    it('should serialize results', () => {
+      // when
+      const promise = organizationController.search({ query: { 'filter[first]': 'with params' } }, replyStub);
 
-        // when
-        const promise = organizationController.search({ query: { 'filter[first]': 'with params' } }, replyStub);
-
-        // then
-        return promise.then(() => {
-          sinon.assert.callOrder(organisationRepository.findBy, replyStub);
-          sinon.assert.calledWith(codeStub, 500);
-        });
+      // then
+      return promise.then(() => {
+        sinon.assert.calledWith(organizationSerializer.serialize, arrayOfOrganizations);
+        sinon.assert.calledWith(replyStub, arrayOfSerializedOrganization);
       });
-
-      it('should serialize results', () => {
-        // when
-        const promise = organizationController.search({ query: { 'filter[first]': 'with params' } }, replyStub);
-
-        // then
-        return promise.then(() => {
-          sinon.assert.calledWith(organizationSerializer.serialize, arrayOfOrganizations);
-          sinon.assert.calledWith(replyStub, arrayOfSerializedOrganization);
-        });
-      });
-
     });
 
   });

@@ -4,9 +4,9 @@ const bcrypt = require('bcrypt');
 const Organization = require('../../../../lib/domain/models/Organization');
 
 const BookshelfOrganization = require('../../../../lib/infrastructure/data/organization');
-const OrganizationRepository = require('../../../../lib/infrastructure/repositories/organization-repository');
+const organizationRepository = require('../../../../lib/infrastructure/repositories/organization-repository');
 
-describe('Unit | Repository | OrganizationRepository', function() {
+describe('Integration | Repository | Organization', function() {
 
   describe('#saveFromModel', () => {
 
@@ -27,24 +27,20 @@ describe('Unit | Repository | OrganizationRepository', function() {
       return knex('users').delete();
     });
 
-    it('should be a function', function() {
-      // then
-      expect(OrganizationRepository.saveFromModel).to.be.a('function');
-    });
-
     it('should save model in database', () => {
       // Given
-      const organization = new BookshelfOrganization({});
-      sinon.stub(organization, 'save').resolves();
+      const organization = new BookshelfOrganization({ code: 'AAAA99', name: 'Lycée Rousseau', type: 'SCO', email: 'a@b.fr' });
 
       // When
-      const promise = OrganizationRepository.saveFromModel(organization);
+      const promise = organizationRepository.saveFromModel(organization);
 
       // Then
-      return promise.then(() => {
-        sinon.assert.calledOnce(organization.save);
+      return promise.then((organizationSaved) => {
+        expect(organizationSaved).to.be.an.instanceof(BookshelfOrganization);
+        expect(organizationSaved.get('code')).to.equal('AAAA99');
       });
     });
+
   });
 
   describe('#isCodeAvailable', () => {
@@ -64,14 +60,9 @@ describe('Unit | Repository | OrganizationRepository', function() {
       return knex('organizations').delete();
     });
 
-    it('should be a function', () => {
-      // then
-      expect(OrganizationRepository.isCodeAvailable).to.be.a('function');
-    });
-
     it('should return the code when the code is not already used', () => {
       // When
-      const promise = OrganizationRepository.isCodeAvailable('ABCD02');
+      const promise = organizationRepository.isCodeAvailable('ABCD02');
 
       // Then
       return promise.then((code) => {
@@ -81,7 +72,7 @@ describe('Unit | Repository | OrganizationRepository', function() {
 
     it('should reject when the organization already exists', () => {
       // When
-      const promise = OrganizationRepository.isCodeAvailable('ABCD01');
+      const promise = organizationRepository.isCodeAvailable('ABCD01');
 
       // Then
       return promise
@@ -92,6 +83,7 @@ describe('Unit | Repository | OrganizationRepository', function() {
           expect(promise).to.be.rejected;
         });
     });
+
   });
 
   describe('#isOrganizationIdExist', () => {
@@ -117,14 +109,9 @@ describe('Unit | Repository | OrganizationRepository', function() {
       return knex('organizations').delete();
     });
 
-    it('should be a function', () => {
-      // then
-      expect(OrganizationRepository.isOrganizationIdExist).to.be.a('function');
-    });
-
     it('should return true when an organization id is found', () => {
       // When
-      const promise = OrganizationRepository.isOrganizationIdExist(organizationId);
+      const promise = organizationRepository.isOrganizationIdExist(organizationId);
 
       // Then
       return promise.then((result) => {
@@ -134,7 +121,7 @@ describe('Unit | Repository | OrganizationRepository', function() {
 
     it('should return false when the organization id is not found', () => {
       // When
-      const promise = OrganizationRepository.isOrganizationIdExist(6);
+      const promise = organizationRepository.isOrganizationIdExist(6);
 
       // Then
       return promise.then((result) => {
@@ -165,16 +152,11 @@ describe('Unit | Repository | OrganizationRepository', function() {
       return knex('organizations').delete();
     });
 
-    it('should be a function', function() {
-      // then
-      expect(OrganizationRepository.get).to.be.a('function');
-    });
-
     describe('success management', function() {
 
       it('should return a organization by provided id', function() {
         // when
-        const promise = OrganizationRepository.get(existingId);
+        const promise = organizationRepository.get(existingId);
 
         // then
         return promise.then((foundOrganization) => {
@@ -191,7 +173,7 @@ describe('Unit | Repository | OrganizationRepository', function() {
         const inexistenteId = 10083;
 
         // when
-        const promise = OrganizationRepository.get(inexistenteId);
+        const promise = organizationRepository.get(inexistenteId);
 
         // then
         return promise.then(() => {
@@ -246,11 +228,6 @@ describe('Unit | Repository | OrganizationRepository', function() {
       return knex('organizations').delete();
     });
 
-    it('should be a function', function() {
-      // then
-      expect(OrganizationRepository.getByUserId).to.be.a('function');
-    });
-
     describe('success management', function() {
 
       it('should return an organization by provided userId', function() {
@@ -258,7 +235,7 @@ describe('Unit | Repository | OrganizationRepository', function() {
         const userId = 2;
 
         // then
-        return OrganizationRepository.getByUserId(userId)
+        return organizationRepository.getByUserId(userId)
           .then((foundOrganization) => {
             expect(foundOrganization).to.exist;
             expect(foundOrganization).to.be.an('array');
@@ -276,7 +253,7 @@ describe('Unit | Repository | OrganizationRepository', function() {
         const userId = 1;
 
         // When
-        const promise = OrganizationRepository.getByUserId(userId);
+        const promise = organizationRepository.getByUserId(userId);
 
         // Then
         return promise.then(foundOrganizations => {
@@ -289,7 +266,7 @@ describe('Unit | Repository | OrganizationRepository', function() {
 
       it('should return an empty Array, when organization id is not found', function() {
         const userId = 10083;
-        return OrganizationRepository.getByUserId(userId)
+        return organizationRepository.getByUserId(userId)
           .then((organization) => {
             expect(organization).to.deep.equal([]);
           });
@@ -299,76 +276,63 @@ describe('Unit | Repository | OrganizationRepository', function() {
   });
 
   describe('#findBy', () => {
-    it('should be a function', function() {
-      // then
-      expect(OrganizationRepository.findBy).to.be.a('function');
+
+    const userPassword = bcrypt.hashSync('A124B2C3#!', 1);
+    const associatedUser = {
+      firstName: faker.name.firstName(),
+      lastName: faker.name.lastName(),
+      email: faker.internet.email(),
+      password: userPassword,
+      cgu: true
+    };
+
+    const insertedOrganization1 = {
+      email: faker.internet.email(),
+      type: 'PRO',
+      name: faker.name.firstName(),
+      code: 'ABCD01',
+    };
+    const insertedOrganization2 = {
+      email: faker.internet.email(),
+      type: 'SCO',
+      name: faker.name.firstName(),
+      code: 'ABCD02',
+    };
+
+    beforeEach(() => {
+      return knex('users').returning('id').insert(associatedUser)
+        .then(userIdArray => {
+          insertedOrganization1.userId = userIdArray[0];
+          insertedOrganization2.userId = userIdArray[0];
+          return knex('organizations').insert([insertedOrganization1, insertedOrganization2]);
+        });
     });
 
-    it('should return Organization that matches filters', function() {
+    afterEach(() => {
+      return knex('users').delete()
+        .then(() => {
+          return knex('organizations').delete();
+        });
+    });
+
+    it('should return the organizations that matches the filters', function() {
       // given
-      const fetchStub = sinon.stub().resolves({ models: {} });
-      sinon.stub(BookshelfOrganization.prototype, 'where').returns({ fetchAll: fetchStub });
+      const filters = { type: 'PRO' };
 
       // when
-      const filters = { code: 1234 };
-      const promise = OrganizationRepository.findBy(filters);
+      const promise = organizationRepository.findBy(filters);
 
       // then
-      return promise.then(() => {
-        sinon.assert.calledWith(BookshelfOrganization.prototype.where, filters);
-        sinon.assert.callOrder(BookshelfOrganization.prototype.where, fetchStub);
-        BookshelfOrganization.prototype.where.restore();
+      return promise.then(organizations => {
+        expect(organizations).to.have.lengthOf(1);
+
+        const foundOrganization = organizations[0];
+
+        expect(foundOrganization).to.be.an.instanceof(Organization);
+        expect(foundOrganization.code).to.equal(insertedOrganization1.code);
+        expect(foundOrganization.type).to.equal('PRO');
+        expect(foundOrganization.user).to.be.undefined;
       });
-    });
-
-    describe('should return associated user with organization', function() {
-
-      const userPassword = bcrypt.hashSync('A124B2C3#!', 1);
-      const associatedUser = {
-        firstName: faker.name.firstName(),
-        lastName: faker.name.lastName(),
-        email: faker.internet.email(),
-        password: userPassword,
-        cgu: true
-      };
-      const insertedOrganization = {
-        email: faker.internet.email(),
-        type: 'PRO',
-        name: faker.name.firstName(),
-        code: 'ABCD01',
-      };
-
-      beforeEach(() => {
-        return knex('users').returning('id').insert(associatedUser)
-          .then(userIdArray => {
-            insertedOrganization.userId = userIdArray[0];
-            return knex('organizations').insert(insertedOrganization);
-          });
-      });
-
-      afterEach(() => {
-        return knex('users').delete()
-          .then(() => {
-            return knex('organizations').delete();
-          });
-      });
-
-      it('should return found Organization with associated user', function() {
-        // given
-        const filters = { code: 'ABCD01' };
-
-        // when
-        const promise = OrganizationRepository.findBy(filters);
-
-        // then
-        return promise.then(organizations => {
-          const organization = organizations[0];
-
-          expect(organization.get('email')).to.equal(insertedOrganization.email);
-          expect(organization.related('user').get('email')).to.equal(associatedUser.email);
-        });
-      });
-
     });
 
   });

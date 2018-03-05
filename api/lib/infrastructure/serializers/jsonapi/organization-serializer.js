@@ -10,13 +10,11 @@ module.exports = {
         ref: 'id',
         attributes: ['firstName', 'lastName', 'email'],
         included: true,
-      },
-      transform(record) {
-        return Object.assign({}, record.toJSON());
       }
     }).serialize(organizations);
   },
 
+  // TODO Use domain object instead of bookshelf object
   deserialize(json) {
     return new Organization({
       email: json.data.attributes.email,
