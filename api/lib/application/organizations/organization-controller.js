@@ -19,6 +19,8 @@ const { AlreadyRegisteredEmailError } = require('../../domain/errors');
 const exportCsvFileName = 'Pix - Export donnees partagees.csv';
 
 module.exports = {
+
+  // TODO extract domain logic into service
   create: (request, reply) => {
 
     const organization = organizationSerializer.deserialize(request.payload);
@@ -45,8 +47,8 @@ module.exports = {
         organization.set('code', code);
         return organizationRepository.saveFromModel(organization);
       })
-      .then((organization) => {
-        reply(organizationSerializer.serialize(organization));
+      .then((savedOrganization) => {
+        reply(organizationSerializer.serialize(savedOrganization.toJSON()));
       })
       .catch((err) => {
         if (err instanceof AlreadyRegisteredEmailError) {
@@ -59,11 +61,9 @@ module.exports = {
   },
 
   search: (request, reply) => {
+    const filters = _extractFilters(request);
 
-    const params = _extractFilters(request);
-
-    return organizationRepository
-      .findBy(params)
+    return organizationService.search(filters)
       .then(organizations => reply(organizationSerializer.serialize(organizations)))
       .catch(err => {
         logger.error(err);
@@ -71,6 +71,7 @@ module.exports = {
       });
   },
 
+  // TODO extract domain logic into service
   getSharedProfiles: (request, reply) => {
     return _extractSnapshotsForOrganization(request.params.id)
       .then((jsonSnapshots) => snapshotSerializer.serialize(jsonSnapshots))
