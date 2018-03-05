@@ -37,7 +37,6 @@ class Assessment {
   }
 
   _isNotTooHardChallenge(challenge) {
-    console.error(this._getPredictedLevel())
     return challenge.hardestSkill.difficulty - this._getPredictedLevel() <= 2;
   }
 
