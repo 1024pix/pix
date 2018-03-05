@@ -27,18 +27,27 @@ describe('Integration | Infrastructure | Repositories | assessment-repository', 
               {
                 value: '1,4',
                 result: 'ko',
-                challengeId: 'challenge_1',
-                assessmentId: assessmentIdInDb
+                challengeId: 'challenge_1_4',
+                assessmentId: assessmentIdInDb,
+                createdAt: '2016-10-27 08:45:00'
               }, {
                 value: '2,8',
                 result: 'ko',
-                challengeId: 'challenge_2',
-                assessmentId: assessmentIdInDb
+                challengeId: 'challenge_2_8',
+                assessmentId: assessmentIdInDb,
+                createdAt: '2016-10-27 08:45:30'
+              }, {
+                value: '3,1',
+                result: 'ko',
+                challengeId: 'challenge_3_1',
+                assessmentId: assessmentIdInDb,
+                createdAt: '2016-10-27 08:44:00'
               },
               {
                 value: '5,2',
                 result: 'ko',
-                challengeId: 'challenge_3'
+                challengeId: 'challenge_4',
+                createdAt: '2016-10-27 08:45:50'
               }
             ]);
           });
@@ -49,7 +58,7 @@ describe('Integration | Infrastructure | Repositories | assessment-repository', 
           .then(() => knex('answers').delete());
       });
 
-      it('should return the assessment with the answers ', () => {
+      it('should return the assessment with the answers sorted by creation date ', () => {
         // when
         const promise = assessmentRepository.get(assessmentIdInDb);
 
@@ -59,9 +68,10 @@ describe('Integration | Infrastructure | Repositories | assessment-repository', 
           expect(assessment.id).to.equal(assessmentIdInDb);
           expect(assessment.courseId).to.equal('course_A');
 
-          expect(assessment.answers).to.have.lengthOf(2);
-          expect(assessment.answers[0].challengeId).to.equal('challenge_1');
-          expect(assessment.answers[1].challengeId).to.equal('challenge_2');
+          expect(assessment.answers).to.have.lengthOf(3);
+          expect(assessment.answers[0].challengeId).to.equal('challenge_3_1');
+          expect(assessment.answers[1].challengeId).to.equal('challenge_1_4');
+          expect(assessment.answers[2].challengeId).to.equal('challenge_2_8');
         });
       });
     });

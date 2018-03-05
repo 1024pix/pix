@@ -22,10 +22,11 @@ function _adaptModelToDb(assessment) {
 }
 
 module.exports = {
+
   get(id) {
     return BookshelfAssessment
       .where('id', id)
-      .fetch({ withRelated: ['answers'] })
+      .fetch({ withRelated: [{ answers: function(query) { query.orderBy('createdAt', 'ASC'); } }] })
       .then(_toDomain);
   },
 
