@@ -68,6 +68,17 @@ describe('Acceptance | Controller | organization-controller', function() {
       });
     });
 
+    it('should create and return the new organization', () => {
+      return server.inject(options).then((response) => {
+        const organizationInResponse = response.result.data.attributes;
+        expect(organizationInResponse.name).to.equal('The name of the organization');
+        expect(organizationInResponse.email).to.equal('organization@email.com');
+        expect(organizationInResponse.type).to.equal('PRO');
+        expect(organizationInResponse.code).not.to.be.empty;
+        expect(organizationInResponse.user).to.be.undefined;
+      });
+    });
+
     it('should return 400 HTTP status code when creating two organizations with the same email', () => {
       // Given
       const createFirstOrganization = server.inject(options);
@@ -86,6 +97,7 @@ describe('Acceptance | Controller | organization-controller', function() {
     });
 
     describe('when creating with a wrong payload', () => {
+
       it('should return 400 HTTP status code', () => {
         // Given
         payload.data.attributes.type = 'FAK';
@@ -229,6 +241,61 @@ describe('Acceptance | Controller | organization-controller', function() {
     });
   });
 
+  describe('GET /api/organizations', () => {
+    let userId;
+
+    before((done) => {
+      _insertUser()
+        .then((user_id) => {
+          userId = user_id;
+          return _insertOrganization(userId);
+        })
+        .then(() => done());
+    });
+
+    after(() => {
+      return Promise.all([knex('users').delete(), knex('organizations').delete()]);
+    });
+
+    const options = { method: 'GET', url: '/api/organizations?filter[code]=AAA111' };
+
+    it('should return 200 HTTP status code', function(done) {
+      // when
+      return server.inject(options, (response) => {
+
+        // then
+        expect(response.statusCode).to.equal(200);
+        done();
+      });
+    });
+
+    it('should return application/json', function(done) {
+      // when
+      return server.inject(options, (response) => {
+
+        // then
+        const contentType = response.headers['content-type'];
+        expect(contentType).to.contain('application/json');
+        done();
+      });
+    });
+
+    it('should return the expected organization with no email nor user', function(done) {
+      // when
+      return server.inject(options, (response) => {
+        // then
+        const organization = response.result.data[0];
+        expect(organization.attributes.name).to.equal('The name of the organization');
+        expect(organization.attributes.email).to.be.undefined;
+        expect(organization.attributes.type).to.equal('SUP');
+        expect(organization.attributes.code).to.equal('AAA111');
+        expect(organization.attributes.user).to.be.undefined;
+        done();
+      });
+    });
+
+  });
+
   describe('GET /api/organizations/{id}/snapshots/export?userToken={userToken}', () => {
     const payload = {};
     let organizationId;
@@ -282,6 +349,7 @@ function _insertOrganization(userId) {
     name: 'The name of the organization',
     email: 'organization@email.com',
     type: 'SUP',
+    code: 'AAA111',
     userId
   };
 

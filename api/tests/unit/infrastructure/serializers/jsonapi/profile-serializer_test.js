@@ -1,7 +1,7 @@
 const { expect } = require('../../../../test-helper');
 const serializer = require('../../../../../lib/infrastructure/serializers/jsonapi/profile-serializer');
 const Profile = require('../../../../../lib/domain/models/Profile');
-const User = require('../../../../../lib/infrastructure/data/user');
+const BookshelfUser = require('../../../../../lib/infrastructure/data/user');
 const Organization = require('../../../../../lib/infrastructure/data/organization');
 const Assessment = require('../../../../../lib/domain/models/Assessment');
 const Area = require('../../../../../lib/domain/models/Area');
@@ -33,7 +33,7 @@ describe('Unit | Serializer | JSONAPI | profile-serializer', () => {
       emptyCourses = [];
       emptyOrganizations = [];
 
-      user = new User({
+      user = new BookshelfUser({
         id: 'user_id',
         'firstName': 'Luke',
         'lastName': 'Skywalker',

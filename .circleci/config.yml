@@ -21,6 +21,10 @@
 # Workspace entries (lifetime = workflow):
 # - `~/pix/live/dist`                                      => `pix/live/dist` directory
 
+common_properties: &common_properties
+  docker:
+    - image: circleci/node:8
+  working_directory: ~/pix
 
 # Properties shared by all server-side jobs
 server_properties: &server_properties
@@ -52,6 +56,16 @@ jobs:
           key: v1-pix-{{ checksum ".circle-sha" }}
           paths:
             - ~/pix
+
+  add_review_app_url_to_trello_card:
+    <<: *common_properties
+    steps:
+      - run: echo $CIRCLE_SHA1 > .circle-sha
+      - restore_cache:
+          keys:
+            - v1-pix-{{ checksum ".circle-sha" }}
+      - run: sudo apt-get install -y jq
+      - run: ~/pix/scripts/trello/comment_with_review_app_url.sh
 
   # Server side
 
@@ -280,3 +294,17 @@ workflows:
               ignore:
                 - master
                 - gh-pages
+
+      - add_review_app_url_to_trello_card:
+          requires:
+            - deploy_client
+            - deploy_server
+          filters:
+            branches:
+              ignore:
+                - master
+                - dev
+                - gh-pages
+                - ghp
+                - preview
+                - maths

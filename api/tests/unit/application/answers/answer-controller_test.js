@@ -56,8 +56,8 @@ describe('Unit | Controller | answer-controller', function() {
     timeout: null
   });
 
-  afterEach((done) => {
-    knex('answers').delete().then(() => done());
+  afterEach(() => {
+    return knex('answers').delete();
   });
 
   describe('#save', function() {

@@ -4,6 +4,7 @@ const Competence = require('../../../../lib/domain/models/Competence');
 const { NotFoundError } = require('../../../../lib/domain/errors');
 
 const organizationService = require('../../../../lib/domain/services/organization-service');
+const organisationRepository = require('../../../../lib/infrastructure/repositories/organization-repository');
 
 describe('Unit | Service | OrganizationService', () => {
 
@@ -115,4 +116,62 @@ describe('Unit | Service | OrganizationService', () => {
       });
     });
   });
+
+  describe('#search', () => {
+
+    let sandbox;
+
+    beforeEach(() => {
+      sandbox = sinon.sandbox.create();
+    });
+
+    afterEach(() => {
+      sandbox.restore();
+    });
+
+    it('should return an empty list of organizations if no code given in filters', () => {
+      // given
+      const filters = { param1: 'param1' };
+
+      // when
+      const promise = organizationService.search(filters);
+
+      // then
+      return promise.then((organization) => {
+        expect(organization).to.be.an('array').that.is.empty;
+      });
+    });
+
+    it('should return an empty list of organizations if a code is given but is empty', () => {
+      // given
+      const filters = { code: ' ' };
+
+      // when
+      const promise = organizationService.search(filters);
+
+      // then
+      return promise.then((organization) => {
+        expect(organization).to.be.an('array').that.is.empty;
+      });
+    });
+
+    it('should return the organization found for the given filters, without the email', () => {
+      // given
+      const filters = { code: 'OE34RND', type: 'SCO' };
+      const organizationWithEmail = [new Organization({ type: 'SCO', name: 'Lycée des Tuileries', code: 'OE34RND', email: 'tuileries@sco.com' })];
+      const expectedReturnedOrganizationWithoutEmail = [new Organization({ type: 'SCO', name: 'Lycée des Tuileries', code: 'OE34RND' })];
+
+      sandbox.stub(organisationRepository, 'findBy').withArgs(filters).resolves(organizationWithEmail);
+
+      // when
+      const promise = organizationService.search(filters);
+
+      // then
+      return promise.then((organization) => {
+        expect(organization).to.deep.equal(expectedReturnedOrganizationWithoutEmail);
+      });
+    });
+
+  });
+
 });

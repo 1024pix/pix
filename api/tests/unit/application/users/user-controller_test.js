@@ -1,85 +1,71 @@
 const { sinon, expect } = require('../../../test-helper');
 
-const faker = require('faker');
-const User = require('../../../../lib/infrastructure/data/user');
 const Boom = require('boom');
+
+const BookshelfUser = require('../../../../lib/infrastructure/data/user');
+const User = require('../../../../lib/domain/models/User');
 
 const userController = require('../../../../lib/application/users/user-controller');
 const validationErrorSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/validation-error-serializer');
 const googleReCaptcha = require('../../../../lib/infrastructure/validators/grecaptcha-validator');
-const { InvalidRecaptchaTokenError } = require('../../../../lib/infrastructure/validators/errors');
 const logger = require('../../../../lib/infrastructure/logger');
 
 const mailService = require('../../../../lib/domain/services/mail-service');
 const userSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/user-serializer');
 const passwordResetService = require('../../../../lib/domain/services/reset-password-service');
 const encryptionService = require('../../../../lib/domain/services/encryption-service');
-const UserRepository = require('../../../../lib/infrastructure/repositories/user-repository');
+const userRepository = require('../../../../lib/infrastructure/repositories/user-repository');
 const userService = require('../../../../lib/domain/services/user-service');
 
 const { PasswordResetDemandNotFoundError, InternalError } = require('../../../../lib/domain/errors');
+const { InvalidRecaptchaTokenError } = require('../../../../lib/infrastructure/validators/errors');
 
 describe('Unit | Controller | user-controller', () => {
 
   describe('#save', () => {
 
     let boomBadRequestMock;
-    let validationErrorSerializerStub;
+
     let replyStub;
-    let loggerStub;
-    let googleReCaptchaStub;
+    let codeStub;
+
+    let sandbox;
+    const email = 'to-be-free@ozone.airplane';
+    const savedUser = new User({ email });
 
     beforeEach(() => {
+      sandbox = sinon.sandbox.create();
+
       boomBadRequestMock = sinon.mock(Boom);
-      validationErrorSerializerStub = sinon.stub(validationErrorSerializer, 'serialize');
-      replyStub = sinon.stub();
-      loggerStub = sinon.stub(logger, 'error').returns({});
-      googleReCaptchaStub = sinon.stub(googleReCaptcha, 'verify').returns(Promise.resolve());
+
+      codeStub = sinon.stub();
+      replyStub = sinon.stub().returns({
+        code: codeStub
+      });
+
+      sandbox.stub(logger, 'error').returns({});
+      sandbox.stub(googleReCaptcha, 'verify').returns(Promise.resolve());
+      sandbox.stub(userSerializer, 'deserialize').returns(new User({}));
+      sandbox.stub(userSerializer, 'serialize');
+      sandbox.stub(userRepository, 'save').resolves(savedUser);
+      sandbox.stub(validationErrorSerializer, 'serialize');
     });
 
     afterEach(() => {
-      validationErrorSerializerStub.restore();
       boomBadRequestMock.restore();
-      loggerStub.restore();
-      googleReCaptchaStub.restore();
+      sandbox.restore();
     });
 
     describe('when the account is created', () => {
 
-      let userSerializerStub;
-      let userSerializerDeserializeStub;
       let mailServiceMock;
-      let user;
-      let email;
 
       beforeEach(() => {
-
-        email = faker.internet.email();
-        user = new User({
-          email
-        });
-
         mailServiceMock = sinon.mock(mailService);
-        userSerializerStub = sinon.stub(userSerializer, 'serialize');
-        userSerializerDeserializeStub = sinon.stub(userSerializer, 'deserialize').returns({
-          save: _ => {
-            return Promise.resolve(user);
-          }
-        });
-
-        replyStub.returns({
-          code: _ => {
-          }
-        });
-      });
-
-      afterEach(() => {
-        userSerializerDeserializeStub.restore();
-        userSerializerStub.restore();
       });
 
       it('should call validator once', () => {
-        googleReCaptchaStub.returns(Promise.reject([]));
+        googleReCaptcha.verify.returns(Promise.reject([]));
         const request = {
           payload: {
             data: {
@@ -89,24 +75,19 @@ describe('Unit | Controller | user-controller', () => {
             }
           }
         };
-        const codeMethodStub = sinon.stub();
-        const replyStub = function() {
-          return { code: codeMethodStub };
-        };
 
         //when
         const promise = userController.save(request, replyStub);
 
         return promise.then(() => {
-          sinon.assert.calledOnce(googleReCaptchaStub);
+          sinon.assert.calledOnce(googleReCaptcha.verify);
         });
 
       });
 
       it('should call validator with good parameter', () => {
-        googleReCaptchaStub.returns(Promise.reject([]));
-
         //Given
+        googleReCaptcha.verify.returns(Promise.reject([]));
         const request = {
           payload: {
             data: {
@@ -117,19 +98,13 @@ describe('Unit | Controller | user-controller', () => {
           }
         };
 
-        const replyStub = function() {
-          return {
-            code: _ => {
-
-            }
-          };
-        };
-
+        // when
         const promise = userController.save(request, replyStub);
-        const expectedValue = 'a-random-token';
+
         // Then
+        const expectedValue = 'a-random-token';
         return promise.then(() => {
-          sinon.assert.calledWith(googleReCaptchaStub, expectedValue);
+          sinon.assert.calledWith(googleReCaptcha.verify, expectedValue);
         });
       });
 
@@ -160,7 +135,7 @@ describe('Unit | Controller | user-controller', () => {
       it('should return a serialized user', () => {
         // Given
         const expectedSerializedUser = { message: 'serialized user' };
-        userSerializerStub.returns(expectedSerializedUser);
+        userSerializer.serialize.returns(expectedSerializedUser);
         const sendAccountCreationEmail = sinon.stub(mailService, 'sendAccountCreationEmail');
         const request = {
           payload: {
@@ -179,7 +154,7 @@ describe('Unit | Controller | user-controller', () => {
 
         // Then
         return promise.then(() => {
-          sinon.assert.calledWith(userSerializerStub, user);
+          sinon.assert.calledWith(userSerializer.serialize, savedUser);
           sinon.assert.calledWith(replyStub, expectedSerializedUser);
 
           sendAccountCreationEmail.restore();
@@ -190,10 +165,10 @@ describe('Unit | Controller | user-controller', () => {
 
     it('should reply with a serialized error', () => {
       // Given
-      const codeSpy = sinon.spy();
+      userRepository.save.rejects();
+
       const expectedSerializedError = { errors: [] };
-      validationErrorSerializerStub.withArgs().returns(expectedSerializedError);
-      replyStub.returns({ code: codeSpy });
+      validationErrorSerializer.serialize.returns(expectedSerializedError);
 
       const request = {
         payload: {
@@ -212,14 +187,13 @@ describe('Unit | Controller | user-controller', () => {
       // Then
       return promise.then(() => {
         sinon.assert.calledWith(replyStub, expectedSerializedError);
-        sinon.assert.calledOnce(validationErrorSerializerStub);
-        sinon.assert.calledWith(codeSpy, 422);
+        sinon.assert.calledOnce(validationErrorSerializer.serialize);
+        sinon.assert.calledWith(codeStub, 422);
       });
     });
 
     describe('should return 422 Bad request', () => {
 
-      let userSerializerStub;
       const request = {
         payload: {
           data: {
@@ -231,33 +205,20 @@ describe('Unit | Controller | user-controller', () => {
         }
       };
 
-      beforeEach(() => {
-        userSerializerStub = sinon.stub(userSerializer, 'deserialize');
-        replyStub.returns({ code: sinon.spy() });
-      });
-
-      afterEach(() => {
-        userSerializerStub.restore();
-      });
-
       describe('when from Sqlite3', () => {
 
         it('should return an already registered email error message', () => {
           // Given
-          validationErrorSerializerStub.withArgs().returns({ errors: [] });
+          validationErrorSerializer.serialize.returns({ errors: [] });
           const sqliteConstraint = { code: 'SQLITE_CONSTRAINT' };
-          userSerializerStub.returns({
-            save: () => {
-              return Promise.reject(sqliteConstraint);
-            }
-          });
+          userRepository.save.rejects(sqliteConstraint);
 
           // When
           const promise = userController.save(request, replyStub);
 
           // Then
           return promise.then(() => {
-            sinon.assert.calledWith(validationErrorSerializerStub, {
+            sinon.assert.calledWith(validationErrorSerializer.serialize, {
               data: {
                 email: ['Cette adresse electronique est déjà enregistrée.']
               }
@@ -271,20 +232,17 @@ describe('Unit | Controller | user-controller', () => {
 
         it('should return an already registered email error message', () => {
           // Given
-          validationErrorSerializerStub.withArgs().returns({ errors: [] });
+          validationErrorSerializer.serialize.returns({ errors: [] });
+
           const sqliteConstraint = { code: '23505' };
-          userSerializerStub.returns({
-            save: () => {
-              return Promise.reject(sqliteConstraint);
-            }
-          });
+          userRepository.save.rejects(sqliteConstraint);
 
           // When
           const promise = userController.save(request, replyStub);
 
           // Then
           return promise.then(() => {
-            sinon.assert.calledWith(validationErrorSerializerStub, {
+            sinon.assert.calledWith(validationErrorSerializer.serialize, {
               data: {
                 email: ['Cette adresse electronique est déjà enregistrée.']
               }
@@ -337,7 +295,7 @@ describe('Unit | Controller | user-controller', () => {
       });
 
       describe('Error cases according to recaptcha', function() {
-        const user = new User({
+        const user = new BookshelfUser({
           email: 'shi@fu.me'
         });
         const request = {
@@ -349,26 +307,17 @@ describe('Unit | Controller | user-controller', () => {
         };
 
         beforeEach(function() {
-          userSerializerStub.returns(user);
-          googleReCaptchaStub.rejects(new InvalidRecaptchaTokenError());
-        });
-
-        afterEach(function() {
-          userSerializerStub.restore();
+          userSerializer.deserialize.returns(user);
+          googleReCaptcha.verify.rejects(new InvalidRecaptchaTokenError());
         });
 
         it('should return 422 Bad request, when captcha is not valid', () => {
-          // given
-          const codeMethodSpy = sinon.spy();
-          const replyErrorStub = function() {
-            return { code: codeMethodSpy };
-          };
           // When
-          const promise = userController.save(request, replyErrorStub);
+          const promise = userController.save(request, replyStub);
 
           // Then
           return promise.then(() => {
-            sinon.assert.calledWith(codeMethodSpy, 422);
+            sinon.assert.calledWith(codeStub, 422);
           });
         });
 
@@ -389,18 +338,13 @@ describe('Unit | Controller | user-controller', () => {
               meta: { field: 'cgu' }
             }]
           };
-          const replyErrorStub = sinon.stub();
-          replyErrorStub.returns({
-            code: () => {
-            }
-          });
 
           // When
-          const promise = userController.save(request, replyErrorStub);
+          const promise = userController.save(request, replyStub);
 
           // Then
           return promise.catch(() => {
-            sinon.assert.calledWith(replyErrorStub, expectedMergedErrors);
+            sinon.assert.calledWith(replyStub, expectedMergedErrors);
           });
         });
 
@@ -434,7 +378,7 @@ describe('Unit | Controller | user-controller', () => {
           }
         }
       };
-      const user = new User({
+      const user = new BookshelfUser({
         id: 7,
         email: 'maryz@acme.xh'
       });
@@ -445,8 +389,8 @@ describe('Unit | Controller | user-controller', () => {
         sandbox.stub(passwordResetService, 'hasUserAPasswordResetDemandInProgress');
         sandbox.stub(passwordResetService, 'invalidOldResetPasswordDemand');
         sandbox.stub(validationErrorSerializer, 'serialize');
-        sandbox.stub(UserRepository, 'updatePassword');
-        sandbox.stub(UserRepository, 'findUserById').resolves(user);
+        sandbox.stub(userRepository, 'updatePassword');
+        sandbox.stub(userRepository, 'findUserById').resolves(user);
         sandbox.stub(encryptionService, 'hashPassword');
         codeStub = sinon.stub();
         reply = sandbox.stub().returns({
@@ -468,8 +412,8 @@ describe('Unit | Controller | user-controller', () => {
 
         // then
         return promise.then(() => {
-          sinon.assert.calledOnce(UserRepository.findUserById);
-          sinon.assert.calledWith(UserRepository.findUserById, request.params.id);
+          sinon.assert.calledOnce(userRepository.findUserById);
+          sinon.assert.calledWith(userRepository.findUserById, request.params.id);
         });
       });
 
@@ -498,17 +442,17 @@ describe('Unit | Controller | user-controller', () => {
 
         // then
         return promise.then(() => {
-          sinon.assert.calledOnce(UserRepository.updatePassword);
+          sinon.assert.calledOnce(userRepository.updatePassword);
           sinon.assert.calledOnce(encryptionService.hashPassword);
           sinon.assert.calledWith(encryptionService.hashPassword, request.payload.data.attributes.password);
-          sinon.assert.calledWith(UserRepository.updatePassword, request.params.id, encryptedPassword);
+          sinon.assert.calledWith(userRepository.updatePassword, request.params.id, encryptedPassword);
         });
       });
 
       it('should invalidate current password reset demand (mark as being used)', () => {
         // given
         passwordResetService.hasUserAPasswordResetDemandInProgress.resolves();
-        UserRepository.updatePassword.resolves();
+        userRepository.updatePassword.resolves();
         passwordResetService.invalidOldResetPasswordDemand.resolves();
 
         // when
@@ -524,7 +468,7 @@ describe('Unit | Controller | user-controller', () => {
       it('should reply with no content', () => {
         // given
         passwordResetService.hasUserAPasswordResetDemandInProgress.resolves();
-        UserRepository.updatePassword.resolves();
+        userRepository.updatePassword.resolves();
         passwordResetService.invalidOldResetPasswordDemand.resolves();
 
         // when

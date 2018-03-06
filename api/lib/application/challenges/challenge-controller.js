@@ -24,6 +24,7 @@ module.exports = {
 
   },
 
+  // TODO: Déplacer ça dans le cache controller
   refresh(request, reply) {
 
     challengeRepository

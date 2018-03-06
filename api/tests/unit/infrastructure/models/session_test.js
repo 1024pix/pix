@@ -12,7 +12,7 @@ describe('Unit | Infrastructure | Models | BookshelfSession', () => {
       rawData = {
         certificationCenter: 'Univeristé Sophia Anti-polis',
         address: 'Nice',
-        examiner: 'Babar',
+        examiner: 'Babasr',
         room: '007',
         date: '2017-04-20',
         time: '22:32',
@@ -30,6 +30,9 @@ describe('Unit | Infrastructure | Models | BookshelfSession', () => {
 
       // Then
       return promise
+        .then(() => {
+          sinon.assert.fail();
+        })
         .catch((err) => {
           const certificationCenterError = err.data['certificationCenter'];
           expect(certificationCenterError).to.exist;
@@ -120,18 +123,6 @@ describe('Unit | Infrastructure | Models | BookshelfSession', () => {
 
           expect(dateError).to.deep.equal(['Veuillez renseigner une date de session au format (jj/mm/yyyy).']);
         });
-    });
-
-    it('should fail when the date is invalid', () => {
-      // Given
-      rawData.date = '2017-01-20';
-      const session = new BookshelfSession(rawData);
-
-      // When
-      const promise = session.save();
-
-      // Then
-      return expect(promise).not.to.be.rejected;
     });
 
     it('should fail when the time is empty or not in format (hh:mm)', () => {

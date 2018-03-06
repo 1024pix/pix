@@ -1,5 +1,11 @@
 # Pix Changelog
 
+## v1.41.0 (06/03/2018) 
+
+- [#691](https://github.com/betagouv/pix/pull/691) [FEATURE] Restriction des accès aux informations de l'endpoint API GET api/organizations (US-1091).
+- [#696](https://github.com/betagouv/pix/pull/696) [BUGFIX] Correction du bug des résultats pas affichés dans le bon ordre en production (US-1054).
+- [#680](https://github.com/betagouv/pix/pull/680) [BUGFIX] Gestion de la casse pour les emails (US-1069).
+
 ## v1.40.0 (26/02/2018)
 
 - [#682](https://github.com/betagouv/pix/pull/682) [FEATURE] Récupérer toutes les informations d'un certification (US-1068).

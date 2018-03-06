@@ -4,12 +4,12 @@ const mailService = require('../../../lib/domain/services/mail-service');
 
 describe('Acceptance | Controller | follower-controller', () => {
 
-  beforeEach((done) => {
-    knex('followers').delete().then(() => done());
+  beforeEach(() => {
+    return knex('followers').delete();
   });
 
-  afterEach((done) => {
-    knex('followers').delete().then(() => done());
+  afterEach(() => {
+    return knex('followers').delete();
   });
 
   describe('POST /api/followers', function() {

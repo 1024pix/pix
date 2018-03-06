@@ -1,16 +1,23 @@
-const { sinon } = require('../../../test-helper');
-const User = require('../../../../lib/infrastructure/data/user');
+const { sinon, expect } = require('../../../test-helper');
+const { UserNotFoundError, InternalError, InvalidTemporaryKeyError, PasswordResetDemandNotFoundError } = require('../../../../lib/domain/errors');
+
 const passwordController = require('../../../../lib/application/passwords/password-controller');
+
 const userService = require('../../../../lib/domain/services/user-service');
 const tokenService = require('../../../../lib/domain/services/token-service');
 const mailService = require('../../../../lib/domain/services/mail-service');
 const resetPasswordService = require('../../../../lib/domain/services/reset-password-service');
+
 const resetPasswordRepository = require('../../../../lib/infrastructure/repositories/reset-password-demands-repository');
 const UserRepository = require('../../../../lib/infrastructure/repositories/user-repository');
+
 const passwordResetSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/password-reset-serializer');
 const userSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/user-serializer');
 const errorSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/validation-error-serializer');
-const { UserNotFoundError, InternalError, InvalidTemporaryKeyError, PasswordResetDemandNotFoundError } = require('../../../../lib/domain/errors');
+
+const User = require('../../../../lib/domain/models/User');
+
+const logger = require('../../../../lib/infrastructure/logger');
 
 describe('Unit | Controller | PasswordController', () => {
 
@@ -18,11 +25,13 @@ describe('Unit | Controller | PasswordController', () => {
 
     describe('When payload has a good format: ', () => {
 
+      const userEmail = 'shi@fu.me';
+
       const request = {
         payload: {
           data: {
             attributes: {
-              email: 'shi@fu.me'
+              email: userEmail
             }
           }
         }
@@ -33,7 +42,7 @@ describe('Unit | Controller | PasswordController', () => {
 
       beforeEach(() => {
         sandbox = sinon.sandbox.create();
-        replyStub = sandbox.stub();
+
         sandbox.stub(userService, 'isUserExistingByEmail');
         sandbox.stub(mailService, 'sendResetPasswordDemandEmail');
         sandbox.stub(resetPasswordService, 'generateTemporaryKey');
@@ -41,6 +50,13 @@ describe('Unit | Controller | PasswordController', () => {
         sandbox.stub(resetPasswordRepository, 'create');
         sandbox.stub(errorSerializer, 'serialize');
         sandbox.stub(passwordResetSerializer, 'serialize');
+        sandbox.stub(logger, 'error');
+
+        replyStub = sandbox.stub();
+        replyStub.returns({
+          code: () => {
+          }
+        });
       });
 
       afterEach(() => {
@@ -52,10 +68,6 @@ describe('Unit | Controller | PasswordController', () => {
         it('should verify user existence (by email)', () => {
           // given
           userService.isUserExistingByEmail.resolves();
-          replyStub.returns({
-            code: () => {
-            }
-          });
 
           //when
           const promise = passwordController.createResetDemand(request, replyStub);
@@ -63,7 +75,34 @@ describe('Unit | Controller | PasswordController', () => {
           // then
           return promise.then(() => {
             sinon.assert.calledOnce(userService.isUserExistingByEmail);
-            sinon.assert.calledWith(userService.isUserExistingByEmail, request.payload.data.attributes.email);
+            sinon.assert.calledWith(userService.isUserExistingByEmail, userEmail);
+          });
+        });
+
+        it('should verify user existence without being case sensitive', () => {
+          // given
+          userService.isUserExistingByEmail.resolves();
+
+          const userEmailWithCamelCase = 'my_VERY_email@example.net';
+          const normalizedUserEmail = 'my_very_email@example.net';
+
+          const request = {
+            payload: {
+              data: {
+                attributes: {
+                  email: userEmailWithCamelCase
+                }
+              }
+            }
+          };
+
+          //when
+          const promise = passwordController.createResetDemand(request, replyStub);
+
+          // then
+          return promise.then(() => {
+            sinon.assert.calledOnce(userService.isUserExistingByEmail);
+            sinon.assert.calledWith(userService.isUserExistingByEmail, normalizedUserEmail);
           });
         });
 
@@ -74,10 +113,6 @@ describe('Unit | Controller | PasswordController', () => {
           const serializedError = {};
           errorSerializer.serialize.returns(serializedError);
           userService.isUserExistingByEmail.rejects(error);
-          replyStub.returns({
-            code: () => {
-            }
-          });
 
           //when
           const promise = passwordController.createResetDemand(request, replyStub);
@@ -91,16 +126,25 @@ describe('Unit | Controller | PasswordController', () => {
           });
         });
 
+        it('should log the error when something turns wrong', () => {
+          // given
+          const error = new Error();
+          userService.isUserExistingByEmail.rejects(error);
+
+          //when
+          const promise = passwordController.createResetDemand(request, replyStub);
+
+          // then
+          return promise.then(() => {
+            expect(logger.error).to.have.been.calledWith(error);
+          });
+        });
       });
 
       it('should invalid old reset password demand', () => {
         // given
         userService.isUserExistingByEmail.resolves();
         resetPasswordService.invalidOldResetPasswordDemand.resolves();
-        replyStub.returns({
-          code: () => {
-          }
-        });
 
         //when
         const promise = passwordController.createResetDemand(request, replyStub);
@@ -117,10 +161,6 @@ describe('Unit | Controller | PasswordController', () => {
         const generatedToken = 'token';
         userService.isUserExistingByEmail.resolves();
         resetPasswordService.generateTemporaryKey.returns(generatedToken);
-        replyStub.returns({
-          code: () => {
-          }
-        });
 
         //when
         const promise = passwordController.createResetDemand(request, replyStub);
@@ -138,10 +178,6 @@ describe('Unit | Controller | PasswordController', () => {
         userService.isUserExistingByEmail.resolves();
         resetPasswordService.generateTemporaryKey.returns(generatedToken);
         resetPasswordRepository.create.resolves();
-        replyStub.returns({
-          code: () => {
-          }
-        });
 
         //when
         const promise = passwordController.createResetDemand(request, replyStub);
@@ -167,10 +203,6 @@ describe('Unit | Controller | PasswordController', () => {
           }
         };
         resetPasswordRepository.create.resolves(resolvedPasswordReset);
-        replyStub.returns({
-          code: () => {
-          }
-        });
 
         //when
         const promise = passwordController.createResetDemand(request, replyStub);
@@ -196,10 +228,6 @@ describe('Unit | Controller | PasswordController', () => {
         };
         mailService.sendResetPasswordDemandEmail.resolves(resolvedPasswordReset);
         resetPasswordRepository.create.resolves(resolvedPasswordReset);
-        replyStub.returns({
-          code: () => {
-          }
-        });
         passwordResetSerializer.serialize.resolves();
 
         // when
@@ -220,13 +248,8 @@ describe('Unit | Controller | PasswordController', () => {
           const serializedError = {};
           errorSerializer.serialize.returns(serializedError);
           userService.isUserExistingByEmail.rejects(error);
-          replyStub.returns({
-            code: () => {
-            }
-          });
 
           //when
-
           const promise = passwordController.createResetDemand(request, replyStub);
 
           // then
@@ -253,6 +276,7 @@ describe('Unit | Controller | PasswordController', () => {
       id: 'user_id',
       email: 'email@lost-password.fr'
     });
+
     const fetchedPasswordResetDemand = {
       email: 'lost_pwd@email.fr'
     };

@@ -3,7 +3,9 @@ const faker = require('faker');
 const server = require('../../../server');
 const authorizationToken = require('../../../lib/infrastructure/validators/jsonwebtoken-verify');
 const UserRepository = require('../../../lib/infrastructure/repositories/user-repository');
-const User = require('../../../lib/infrastructure/data/user');
+
+const BookshelfUser = require('../../../lib/infrastructure/data/user');
+
 const Bookshelf = require('../../../lib/infrastructure/bookshelf');
 const profileService = require('../../../lib/domain/services/profile-service');
 const { InvalidTokenError } = require('../../../lib/domain/errors');
@@ -122,7 +124,7 @@ describe('Acceptance | Controller | users-controller-get-profile', function() {
       }
     ]
   };
-  const fakeUser = new User({
+  const fakeUser = new BookshelfUser({
     id: 'user_id',
     'firstName': firstName,
     'lastName': lastName,
@@ -225,7 +227,7 @@ describe('Acceptance | Controller | users-controller-get-profile', function() {
       let profileServiceStub;
       let authorizationTokenStub;
       let UserRepositoryStub;
-      const user = new User({
+      const user = new BookshelfUser({
         id: 'user_id',
         'first-name': faker.name.firstName(),
         'last-name': faker.name.lastName(),

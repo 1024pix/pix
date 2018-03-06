@@ -1,14 +1,15 @@
-const Organization = require('../data/organization');
 const { NotFoundError } = require('../../domain/errors');
+const BookshelfOrganization = require('../data/organization');
 
 module.exports = {
 
+  // TODO return domain object
   saveFromModel(organizationModel) {
     return organizationModel.save();
   },
 
   isCodeAvailable(code) {
-    return Organization
+    return BookshelfOrganization
       .where({ code })
       .fetch()
       .then(organizations => {
@@ -22,33 +23,34 @@ module.exports = {
   },
 
   isOrganizationIdExist(id) {
-    return Organization
+    return BookshelfOrganization
       .where({ id })
       .fetch()
       .then(organizations => !!organizations);
   },
 
   get(id) {
-    return Organization
+    return BookshelfOrganization
       .where({ id })
       .fetch({ require: true })
       .then(organization => organization.toDomainEntity())
       .catch(err => {
-        if (err instanceof Organization.NotFoundError) {
+        if (err instanceof BookshelfOrganization.NotFoundError) {
           throw new NotFoundError(`Not found organization for ID ${id}`);
         }
       });
   },
 
   findBy(filters) {
-    return Organization
+    return BookshelfOrganization
       .where(filters)
-      .fetchAll({ withRelated: ['user'] })
-      .then(organizations => organizations.models);
+      .fetchAll()
+      .then(organizations => organizations.models.map((organization) => organization.toDomainEntity()));
   },
 
+  // TODO return domain object
   getByUserId(userId) {
-    return Organization
+    return BookshelfOrganization
       .where({ userId })
       .fetchAll()
       .then(organizations => organizations.models);

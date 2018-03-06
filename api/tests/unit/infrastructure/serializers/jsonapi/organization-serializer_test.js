@@ -1,13 +1,16 @@
 const { expect } = require('../../../../test-helper');
 const serializer = require('../../../../../lib/infrastructure/serializers/jsonapi/organization-serializer');
-const Organization = require('../../../../../lib/infrastructure/data/organization');
+const BookshelfOrganization = require('../../../../../lib/infrastructure/data/organization');
+const Organization = require('../../../../../lib/domain/models/Organization');
 
 const faker = require('faker');
 
 describe('Unit | Serializer | organization-serializer', () => {
 
   describe('#serialize', () => {
+
     context('when user is defined', () => {
+
       it('should serialize organization with included user', () => {
         // Given
         const jsonOrganization = {
@@ -96,10 +99,10 @@ describe('Unit | Serializer | organization-serializer', () => {
           type: 'organizations',
           id: '1',
           attributes: {
-            name: organizationOne.get('name'),
-            type: organizationOne.get('type'),
-            email: organizationOne.get('email'),
-            code: organizationOne.get('code'),
+            name: organizationOne.name,
+            type: organizationOne.type,
+            email: organizationOne.email,
+            code: organizationOne.code,
           },
           relationships: {
             user: {
@@ -113,10 +116,10 @@ describe('Unit | Serializer | organization-serializer', () => {
           type: 'organizations',
           id: '2',
           attributes: {
-            name: organizationTwo.get('name'),
-            type: organizationTwo.get('type'),
-            email: organizationTwo.get('email'),
-            code: organizationTwo.get('code'),
+            name: organizationTwo.name,
+            type: organizationTwo.type,
+            email: organizationTwo.email,
+            code: organizationTwo.code,
           },
           relationships: {
             user: {
@@ -159,7 +162,7 @@ describe('Unit | Serializer | organization-serializer', () => {
   describe('#deserialize', () => {
 
     it('should convert JSON API data into a Organization model object', () => {
-      const expectedModelObject = new Organization({
+      const expectedModelObject = new BookshelfOrganization({
         name: 'The name of the organization',
         email: 'organization@email.com',
         type: 'SUP'
