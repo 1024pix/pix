@@ -1,5 +1,5 @@
 const { expect, sinon } = require('../../../test-helper');
-const User = require('../../../../lib/infrastructure/data/user');
+const BookshelfUser = require('../../../../lib/infrastructure/data/user');
 const userVerification = require('../../../../lib/application/preHandlers/user-existence-verification');
 const userRepository = require('../../../../lib/infrastructure/repositories/user-repository');
 const { UserNotFoundError } = require('../../../../lib/domain/errors');
@@ -67,7 +67,7 @@ describe('Unit | Pre-handler | User Verification', () => {
 
       it('should reply 404 status with a serialized error and takeOver the request', () => {
         // given
-        userRepository.findUserById.rejects(User.NotFoundError());
+        userRepository.findUserById.rejects(BookshelfUser.NotFoundError());
         const serializedError = {};
         errorSerializer.serialize.returns(serializedError);
 

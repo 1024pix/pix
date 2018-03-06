@@ -4,7 +4,7 @@ const settings = require('../../settings');
 
 function createTokenFromUser(user) {
   return jsonwebtoken.sign({
-    user_id: user.get('id'),
+    user_id: user.id
   }, settings.authentication.secret, { expiresIn: settings.authentication.tokenLifespan });
 }
 

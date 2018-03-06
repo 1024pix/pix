@@ -1,9 +1,9 @@
 const { expect, knex } = require('../../test-helper');
 const server = require('../../../server');
 const BookshelfAssessment = require('../../../lib/infrastructure/data/assessment');
+const BookshelfUser = require('../../../lib/infrastructure/data/user');
 
 const tokenService = require('../../../lib/domain/services/token-service');
-const User = require('../../../lib/infrastructure/data/user');
 
 describe('Acceptance | API | Assessments POST', function() {
 
@@ -68,7 +68,7 @@ describe('Acceptance | API | Assessments POST', function() {
 
       it('should save user_id in the database', () => {
         // Given
-        const user = new User({ id: 436357 });
+        const user = new BookshelfUser({ id: 436357 });
         const token = tokenService.createTokenFromUser(user);
         options.headers = {};
         options.headers['Authorization'] = `Bearer ${token}`;

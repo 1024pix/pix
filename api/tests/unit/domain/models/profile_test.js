@@ -1,5 +1,5 @@
 const { expect } = require('../../../test-helper');
-const User = require('../../../../lib/infrastructure/data/user');
+const BookshelfUser = require('../../../../lib/infrastructure/data/user');
 const Profile = require('../../../../lib/domain/models/Profile');
 
 const faker = require('faker');
@@ -19,7 +19,7 @@ describe('Unit | Domain | Models | Profile', () => {
     let competences;
 
     beforeEach(() => {
-      user = new User({
+      user = new BookshelfUser({
         'first-name': faker.name.findName(),
         'last-name': faker.name.findName()
       });
@@ -414,7 +414,7 @@ describe('Unit | Domain | Models | Profile', () => {
     describe('when calculating score', () => {
 
       beforeEach(() => {
-        user = new User({
+        user = new BookshelfUser({
           'first-name': 'Jean Michel',
           'last-name': 'PasDeChance'
         });
