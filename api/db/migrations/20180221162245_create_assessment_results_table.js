@@ -9,6 +9,7 @@ exports.up = (knex) => {
       t.integer('pixScore').unsigned();
       t.text('emitter').notNull();
       t.text('comment').notNull();
+      t.text('status').notNull();
       t.integer('assessmentId').unsigned().references('assessments.id');
     })
     .then(() => {
