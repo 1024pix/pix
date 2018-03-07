@@ -14,23 +14,6 @@ describe('Unit | Infrastructure | Models | BookshelfCertificationCourse', () => 
     });
 
     describe('the status field', () => {
-      it('is required', () => {
-        // Given
-        const certification = new BookshelfCertificationCourse(rawData);
-
-        // When
-        const promise = certification.save();
-
-        // Then
-        return promise
-          .then(() => {
-            sinon.assert.fail('Cannot succeed');
-          })
-          .catch((err) => {
-            const status = err.data['status'];
-            expect(status).to.deep.equal(['Le champ status doit être renseigné.']);
-          });
-      });
 
       it('should only accept specific values', () => {
         // Given

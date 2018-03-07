@@ -8,7 +8,6 @@ module.exports = Bookshelf.model('CertificationCourse', {
 
   validations: {
     status: [
-      { method: 'isRequired', error: 'Le champ status doit être renseigné.' },
       {
         method: 'isIn',
         error: 'Le status de la certification n\'est pas valide',

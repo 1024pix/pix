@@ -107,4 +107,85 @@ describe('Acceptance | API | Certification Course', function() {
       });
     });
   });
+
+  describe('PATCH /api/certification-courses/{id}', function() {
+
+    const courseId = '1';
+
+    const options = {
+      method: 'PATCH', url: `/api/certification-courses/${courseId}`, payload: {
+        data: {
+          type: 'certifications',
+          id: 1,
+          attributes: {
+            'status': 'rejected',
+            'first-name': 'Freezer',
+            'last-name': 'The all mighty',
+            'birthplace': 'Namek',
+            'birthdate': '24/10/1989',
+            'rejection-reason': 'Killed all citizens'
+          }
+        }
+      }
+    };
+
+    beforeEach(function() {
+      return knex('certification-courses').insert(
+        {
+          id: courseId,
+          createdAt: '2017-12-21 15:44:38',
+          completedAt: '2017-12-21T15:48:38.468Z',
+          firstName: 'Freezer'
+        }
+      );
+    });
+
+    afterEach(() => {
+      return knex('certification-courses').delete();
+    });
+
+    it('should update the certification course', function() {
+      // when
+      const promise = server.inject(options);
+
+      // then
+      return promise.then((response) => {
+        // then
+        const result = response.result.data;
+        expect(result.attributes['status']).to.equal('rejected');
+        expect(result.attributes['first-name']).to.equal('Freezer');
+        expect(result.attributes['last-name']).to.equal('The all mighty');
+        expect(result.attributes['birthplace']).to.equal('Namek');
+        expect(result.attributes['birthdate']).to.equal('1989-10-24');
+        expect(result.attributes['rejection-reason']).to.equal('Killed all citizens');
+      });
+    });
+
+    it('should return a Wrong Error Format when birthdate is false', function() {
+      // given
+      options.payload.data.attributes.birthdate = 'aaaaaaa';
+
+      // when
+      const promise = server.inject(options);
+
+      // then
+      return promise.then((err) => {
+        expect(err.statusCode).to.be.equal(400);
+      });
+    });
+
+    it('should return a Invalid Attribute error when status is different from [started, completed, validated, rejected]', function() {
+      // given
+      options.payload.data.attributes.status = 'aaaaaaa';
+
+      // when
+      const promise = server.inject(options);
+
+      // then
+      return promise.then((err) => {
+        expect(err.statusCode).to.be.equal(400);
+      });
+    });
+
+  });
 });

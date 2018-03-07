@@ -18,7 +18,16 @@ exports.register = function(server, options, next) {
         handler: certificationCourseController.getResult,
         tags: ['api']
       }
+    },
+    {
+      method: 'PATCH',
+      path: '/api/certification-courses/{id}',
+      config: {
+        handler: certificationCourseController.update,
+        tags: ['api']
+      }
     }
+
   ]);
 
   return next();

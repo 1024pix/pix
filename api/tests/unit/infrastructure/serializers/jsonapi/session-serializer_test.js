@@ -70,7 +70,7 @@ describe('UNIT | Seializer | JSONAPI | session-serializer', function() {
       expect(session.description).to.equal('');
     });
 
-    it('should', function() {
+    it('should return an error if date is in wrong format', function() {
       // given
       jsonSession.data.attributes.date = '12/14/2015';
 
