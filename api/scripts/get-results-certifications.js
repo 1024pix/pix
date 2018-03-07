@@ -22,7 +22,7 @@ function parseArgs(argv) {
 function buildRequestObject(baseUrl, certificationId) {
   return {
     baseUrl: baseUrl,
-    url: `/api/certification-courses/${certificationId}/result`,
+    url: `/api/admin/certifications/${certificationId}`,
     json: true,
     transform: (body) => {
       body.data.attributes.certificationId = certificationId;
@@ -106,7 +106,7 @@ if (process.env.NODE_ENV !== 'test') {
         const result = buildRequestObject(baseUrl, courseId);
         // then
         expect(result).to.have.property('json', true);
-        expect(result).to.have.property('url','/api/certification-courses/12/result');
+        expect(result).to.have.property('url','/api/admin/certifications/12');
       });
 
       it('should add certificationId to API response when the object is transform after the request', () => {

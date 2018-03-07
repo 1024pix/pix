@@ -8,10 +8,10 @@ describe('Acceptance | API | Certification Course', function() {
     server.stop(done);
   });
 
-  describe('GET /api/certification-courses/{id}/result', function() {
+  describe('GET /api/admin/certifications/{id}', function() {
 
     const courseId = '1';
-    const options = { method: 'GET', url: `/api/certification-courses/${courseId}/result` };
+    const options = { method: 'GET', url: `/api/admin/certifications/${courseId}` };
 
     beforeEach(function() {
       let assessmentId;
@@ -99,7 +99,7 @@ describe('Acceptance | API | Certification Course', function() {
 
     it('should return 404 HTTP status code if certification not found', function() {
       // when
-      const promise = server.inject({ method: 'GET', url: '/api/certification-courses/200/result' });
+      const promise = server.inject({ method: 'GET', url: '/api/admin/certifications/200' });
 
       // then
       return promise.then((response) => {
