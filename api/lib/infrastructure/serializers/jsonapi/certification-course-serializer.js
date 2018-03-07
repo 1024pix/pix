@@ -37,13 +37,11 @@ module.exports = {
       createdAt: json.data.attributes.createdAt,
       updatedAt: json.data.attributes.updatedAt,
       userId: json.data.attributes.userId,
-      status: json.data.attributes.status,
       completedAt: json.data.attributes.completedAt,
       firstName: json.data.attributes.firstName,
       lastName: json.data.attributes.lastName,
       birthdate: moment(json.data.attributes.birthdate, 'DD/MM/YYYY').format('YYYY-MM-DD'),
       birthplace: json.data.attributes.birthplace,
-      rejectionReason: json.data.attributes.rejectionReason
     });
   }
 };

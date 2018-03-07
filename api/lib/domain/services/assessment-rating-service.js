@@ -37,12 +37,18 @@ function evaluateFromAssessmentId(assessmentId) {
         const pixScore = marks.reduce((totalPixScore, mark) => {
           return totalPixScore + mark.score;
         }, 0);
-        const level = Math.floor(pixScore / 8);
+        let level = Math.floor(pixScore / 8);
+        let status = 'validated';
+        if(pixScore === 0) {
+          status = 'rejected';
+          level = -1;
+        }
         const assessmentResult = new AssessmentResult({
           emitter: 'PIX-ALGO',
           comment: 'Computed',
           level: level,
           pixScore: pixScore,
+          status,
           assessmentId
         });
         assessment.status = 'completed';

@@ -17,6 +17,7 @@ describe('Acceptance | Controller | assessment-results-controller', function() {
             'certification-id': certificationId,
             level: 3,
             'pix-score': 27,
+            status: 'validated',
             emitter: 'Jury',
             comment: 'Envie de faire un nettoyage de printemps dans les notes',
             'competences-with-mark' : [

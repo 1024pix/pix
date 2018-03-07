@@ -16,6 +16,7 @@ module.exports = {
         const assessmentResult = {
           assessmentId: assessment.id,
           emitter: assessmentResultInfo.emitter,
+          status: assessmentResultInfo.status,
           comment: assessmentResultInfo.comment,
           level: assessmentResultInfo.level,
           pixScore: assessmentResultInfo['pix-score'],

@@ -61,52 +61,51 @@ describe('Acceptance | API | Certification Course', () => {
       };
       let assessmentId;
       let assessmentResultId;
-
       return insertUserWithRolePixMaster()
         .then(() => {
-          return knex('assessments').insert({
+          knex('assessments').insert({
             courseId: courseId,
             status: 'completed',
             type: 'CERTIFICATION'
-          }).then(assessmentIds => {
-            assessmentId = _.first(assessmentIds);
-            return knex('assessment-results').insert([
-              {
-                level: 2,
-                pixScore: 42,
-                emitter: 'PIX-ALGO',
-                comment: 'Computed',
-                assessmentId
-              }
-            ]);
-          }).then(assessmentResultIds => {
-            assessmentResultId = _.first(assessmentResultIds);
-            return knex('competence-marks').insert([
-              {
-                level: 2,
-                score: 20,
-                area_code: 4,
-                competence_code: 4.3,
-                assessmentResultId
-              },
-              {
-                level: 4,
-                score: 35,
-                area_code: 2,
-                competence_code: 2.1,
-                assessmentResultId
-              }
-            ]);
-          }).then(() => {
-            return knex('certification-courses').insert(
-              {
-                id: courseId,
-                createdAt: '2017-12-21 15:44:38',
-                completedAt: '2017-12-21T15:48:38.468Z'
-              }
-            );
-          });
-        });
+      }).then(assessmentIds => {
+        assessmentId = _.first(assessmentIds);
+        return knex('assessment-results').insert([
+          {
+            level: 2,
+            pixScore: 42,
+            status: 'validated',
+            emitter: 'PIX-ALGO',
+            comment: 'Computed',
+            assessmentId
+          }
+        ]);
+      }).then(assessmentResultIds => {
+        assessmentResultId = _.first(assessmentResultIds);
+        return knex('competence-marks').insert([
+          {
+            level: 2,
+            score: 20,
+            area_code: 4,
+            competence_code: 4.3,
+            assessmentResultId
+          },
+          {
+            level: 4,
+            score: 35,
+            area_code: 2,
+            competence_code: 2.1,
+            assessmentResultId
+          }
+        ]);
+      }).then(() => {
+        return knex('certification-courses').insert(
+          {
+            id: courseId,
+            createdAt: '2017-12-21 15:44:38',
+            completedAt: '2017-12-21T15:48:38.468Z'
+          }
+        );
+      });
     });
 
     afterEach(() => {
@@ -228,12 +227,10 @@ describe('Acceptance | API | Certification Course', () => {
             type: 'certifications',
             id: 1,
             attributes: {
-              'status': 'rejected',
               'first-name': 'Freezer',
               'last-name': 'The all mighty',
               'birthplace': 'Namek',
-              'birthdate': '24/10/1989',
-              'rejection-reason': 'Killed all citizens'
+              'birthdate': '24/10/1989'
             }
           }
         }
@@ -261,12 +258,10 @@ describe('Acceptance | API | Certification Course', () => {
       return promise.then((response) => {
         // then
         const result = response.result.data;
-        expect(result.attributes['status']).to.equal('rejected');
         expect(result.attributes['first-name']).to.equal('Freezer');
         expect(result.attributes['last-name']).to.equal('The all mighty');
         expect(result.attributes['birthplace']).to.equal('Namek');
         expect(result.attributes['birthdate']).to.equal('1989-10-24');
-        expect(result.attributes['rejection-reason']).to.equal('Killed all citizens');
       });
     });
 

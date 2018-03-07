@@ -13,6 +13,7 @@ describe('Unit | Domain | Services | assessment-result', function() {
       'certification-id': 1,
       level: 3,
       'pix-score': 27,
+      status: 'validated',
       emitter: 'Jury',
       comment: 'Envie de faire un nettoyage de printemps dans les notes',
       'competences-with-mark' : [
@@ -53,6 +54,7 @@ describe('Unit | Domain | Services | assessment-result', function() {
           assessmentId: 'assessmentId',
           level: 3,
           pixScore: 27,
+          status: 'validated',
           emitter: 'Jury',
           comment: 'Envie de faire un nettoyage de printemps dans les notes'
         });

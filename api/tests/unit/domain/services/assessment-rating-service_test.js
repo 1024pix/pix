@@ -241,6 +241,7 @@ describe('Unit | Domain | Services | assessment-ratings', () => {
         pixScore: 18,
         emitter: 'PIX-ALGO',
         comment: 'Computed',
+        status: 'validated',
         assessmentId: assessmentId
       });
 
@@ -480,6 +481,7 @@ describe('Unit | Domain | Services | assessment-ratings', () => {
           pixScore: 26,
           emitter: 'PIX-ALGO',
           comment: 'Computed',
+          status: 'validated',
           assessmentId: assessmentId
         });
 

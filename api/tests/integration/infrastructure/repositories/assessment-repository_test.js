@@ -350,6 +350,7 @@ describe('Integration | Infrastructure | Repositories | assessment-repository', 
       id: 12,
       level: 0,
       pixScore: 0,
+      status: 'validated',
       emitter: 'PIX-ALGO',
       comment: 'Computed',
       createdAt: '2016-10-27 08:44:25'

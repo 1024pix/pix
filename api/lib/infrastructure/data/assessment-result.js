@@ -7,6 +7,16 @@ module.exports = Bookshelf.model('AssessmentResults', {
 
   tableName: 'assessment-results',
 
+  validations: {
+    status: [
+      {
+        method: 'isIn',
+        error: 'Le status de la certification n\'est pas valide',
+        args: ['validated', 'rejected']
+      },
+    ],
+  },
+
   assessment() {
     return this.belongsTo('Assessments');
   },

@@ -15,6 +15,7 @@ describe('Integration | Repository | AssessmentResult', function() {
       const result = new AssessmentResult({
         pixScore: 13,
         level: 1,
+        status: 'validated',
         emitter: 'SonGoku',
         comment: 'Parce que'
       });
@@ -34,6 +35,7 @@ describe('Integration | Repository | AssessmentResult', function() {
       const result = new AssessmentResult({
         pixScore: 13,
         level: 1,
+        status: 'validated',
         emitter: 'SonGoku',
         comment: 'Parce que'
       });
@@ -55,6 +57,7 @@ describe('Integration | Repository | AssessmentResult', function() {
     const assessmentResult = {
       level: 1,
       pixScore: 10,
+      status: 'validated',
       emitter: 'PIX-ALGO',
       comment: 'blabla'
     };
@@ -96,6 +99,7 @@ describe('Integration | Repository | AssessmentResult', function() {
         expect(result).to.be.an.instanceOf(AssessmentResult);
         expect(result.level).to.be.deep.equal(assessmentResult.level);
         expect(result.pixScore).to.be.deep.equal(assessmentResult.pixScore);
+        expect(result.status).to.be.deep.equal(assessmentResult.status);
         expect(result.comment).to.be.deep.equal(assessmentResult.comment);
         expect(result.emitter).to.be.deep.equal(assessmentResult.emitter);
       });
