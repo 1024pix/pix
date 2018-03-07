@@ -19,6 +19,11 @@ describe('Unit | Repository | Certification Course', function() {
         completedAt: null,
         createdAt: null,
         type: 'CERTIFICATION',
+        firstName: undefined,
+        lastName: undefined,
+        birthplace: undefined,
+        birthdate: undefined,
+        rejectionReason: undefined,
         challenges: [],
         assessment: {}
       });

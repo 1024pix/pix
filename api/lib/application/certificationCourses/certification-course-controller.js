@@ -1,9 +1,11 @@
 const Boom = require('boom');
 const logger = require('../../infrastructure/logger');
-const certificationCourseRepository = require('../../infrastructure/repositories/certification-course-repository');
+const errorSerializer = require('../../infrastructure/serializers/jsonapi/validation-error-serializer');
 const certificationService = require('../../domain/services/certification-service');
+const certificationCourseService = require('../../../lib/domain/services/certification-course-service');
+const certificationSerializer = require('../../infrastructure/serializers/jsonapi/certification-serializer');
 const certificationCourseSerializer = require('../../infrastructure/serializers/jsonapi/certification-course-serializer');
-const { NotFoundError } = require('../../domain/errors');
+const { NotFoundError, WrongDateFormatError } = require('../../domain/errors');
 
 module.exports = {
 
@@ -25,7 +27,7 @@ module.exports = {
         reply(certificationCourseSerializer.serializeResult(certificationResult));
       })
       .catch((err) => {
-        if(err instanceof NotFoundError) {
+        if (err instanceof NotFoundError) {
           return reply(Boom.notFound(err));
         }
         logger.error(err);
@@ -33,15 +35,23 @@ module.exports = {
       });
   },
 
-  get(request, reply) {
-    const certificationCourseId = request.params.id;
-    return certificationCourseRepository.get(certificationCourseId)
+  update(request, reply) {
+
+    return certificationSerializer.deserialize(request.payload)
       .then((certificationCourse) => {
-        reply(certificationCourseSerializer.serialize(certificationCourse));
+        return certificationCourseService.update(certificationCourse);
+      })
+      .then((savedCertificationCourse) => {
+        reply(certificationSerializer.serialize(savedCertificationCourse));
       })
       .catch((err) => {
-        logger.error(err);
-        reply(Boom.badImplementation(err));
+        if (err instanceof WrongDateFormatError) {
+          reply(errorSerializer.serialize(err.getErrorMessage())).code(400);
+        } else if (err.message === 'ValidationError') {
+          reply(errorSerializer.serialize(err)).code(400);
+        } else {
+          reply(Boom.notFound(err));
+        }
       });
   }
 

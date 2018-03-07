@@ -29,4 +29,22 @@ describe('Unit | Router | certification-course-router', function() {
       });
     });
   });
+
+  describe('PATCH /api/certification-courses/id', () => {
+
+    before(() => {
+      sinon.stub(certificationCoursesController, 'update').callsFake((request, reply) => reply('ok'));
+    });
+
+    after(() => {
+      certificationCoursesController.update.restore();
+    });
+
+    it('should exist', (done) => {
+      return server.inject({ method: 'PATCH', url: '/api/certification-courses/:id' }, (res) => {
+        expect(res.statusCode).to.equal(200);
+        done();
+      });
+    });
+  });
 });
