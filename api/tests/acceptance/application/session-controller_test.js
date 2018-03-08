@@ -7,6 +7,8 @@ describe('Acceptance | Controller | session-controller', function() {
     server.stop(done);
   });
 
+  afterEach(() => knex('sessions').delete());
+
   describe('GET /sessions', function() {
 
     const options = {
@@ -54,9 +56,6 @@ describe('Acceptance | Controller | session-controller', function() {
         }
       }
     };
-
-    before(() => knex('sessions').delete());
-    afterEach(() => knex('sessions').delete());
 
     it('should return an OK status after saving in database', () => {
       // when

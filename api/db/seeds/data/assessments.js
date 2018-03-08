@@ -6,4 +6,3 @@ module.exports = [
   { id:5, courseId: 'rec5gEPqhxYjz15eI', createdAt: '2018-02-15 15:07:02', updatedAt: '2018-02-15 15:07:02', userId: 1, estimatedLevel: 5, pixScore: 48, type:'PLACEMENT' },
   { id:6, courseId: '1', createdAt: '2018-02-15 15:14:46', updatedAt: '2018-02-15 15:14:46', userId: 1, estimatedLevel: 0, pixScore: 157 , type:'CERTIFICATION' },
 ];
-

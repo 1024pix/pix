@@ -90,10 +90,10 @@ function evaluateFromAssessmentId(assessmentId) {
 
     })
     .then((marks) => {
-
-      const totalPix = _(marks).map((mark) => mark.score).sum();
-      assessmentWithScore.pixScore = totalPix;
-
+      if(marks.length > 0) {
+        const totalPix = _(marks).map((mark) => mark.score).sum();
+        assessmentWithScore.pixScore = totalPix;
+      }
       return Promise.all(marks.map((mark) => markRepository.save(mark)));
     })
     .then(() => skillService.saveAssessmentSkills(evaluatedSkillsInAssessment))

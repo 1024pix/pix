@@ -12,7 +12,7 @@ describe('Unit | Router | certification-course-router', function() {
     server.register({ register: require('../../../../lib/application/certificationCourses') });
   });
 
-  describe('GET /api/certification-courses/id/result', () => {
+  describe('GET /api/admin/certifications/id', () => {
 
     before(() => {
       sinon.stub(certificationCoursesController, 'getResult').callsFake((request, reply) => reply('ok'));
@@ -23,7 +23,25 @@ describe('Unit | Router | certification-course-router', function() {
     });
 
     it('should exist', (done) => {
-      return server.inject({ method: 'GET', url: '/api/certification-courses/:id/result' }, (res) => {
+      return server.inject({ method: 'GET', url: '/api/admin/certifications/:id' }, (res) => {
+        expect(res.statusCode).to.equal(200);
+        done();
+      });
+    });
+  });
+
+  describe('PATCH /api/certification-courses/id', () => {
+
+    before(() => {
+      sinon.stub(certificationCoursesController, 'update').callsFake((request, reply) => reply('ok'));
+    });
+
+    after(() => {
+      certificationCoursesController.update.restore();
+    });
+
+    it('should exist', (done) => {
+      return server.inject({ method: 'PATCH', url: '/api/certification-courses/:id' }, (res) => {
         expect(res.statusCode).to.equal(200);
         done();
       });
