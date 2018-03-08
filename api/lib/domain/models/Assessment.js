@@ -7,7 +7,7 @@ class Assessment {
 
   isCompleted() {
     return Boolean(this.estimatedLevel && this.pixScore
-      || (this.estimatedLevel === 0));
+      || (this.estimatedLevel === 0)|| (this.pixScore === 0));
   }
 }
 
