@@ -11,7 +11,12 @@ function _toDomain(model) {
     assessment: model.related('assessment').toJSON(),
     challenges: model.related('challenges').toJSON(),
     createdAt: model.get('createdAt'),
-    completedAt: model.get('completedAt')
+    completedAt: model.get('completedAt'),
+    firstName: model.get('firstName'),
+    lastName: model.get('lastName'),
+    birthplace: model.get('birthplace'),
+    birthdate: model.get('birthdate'),
+    rejectionReason: model.get('rejectionReason')
   });
 }
 
@@ -24,7 +29,11 @@ module.exports = {
   },
 
   updateStatus(status, certificationCourseId, completedAt = null) {
-    const certificationCourseBookshelf = new CertificationCourseBookshelf({ id: certificationCourseId, status, completedAt });
+    const certificationCourseBookshelf = new CertificationCourseBookshelf({
+      id: certificationCourseId,
+      status,
+      completedAt
+    });
     return certificationCourseBookshelf.save();
   },
 
@@ -36,6 +45,19 @@ module.exports = {
       .catch(() => {
         return Promise.reject(new NotFoundError());
       });
+  },
+
+  update(certificationCourse) {
+    const certificationCourseBookshelf = new CertificationCourseBookshelf(certificationCourse);
+    return certificationCourseBookshelf.save()
+      .then(_toDomain)
+      .catch((err) => {
+        if (err instanceof CertificationCourseBookshelf.NoRowsUpdatedError) {
+          return Promise.reject(new NotFoundError());
+        }
+        return Promise.reject(err);
+      });
+
   }
 
 };
