@@ -211,29 +211,6 @@ describe('Unit | Domain | Services | assessment-ratings', () => {
       });
     });
 
-    it('should save all assessment information even if there is no marks to saved', () => {
-      // given
-      const assessmentWithScoreWithoutType = new Assessment({
-        id: assessmentId,
-        courseId: assessmentCourseId,
-        userId: 5,
-        estimatedLevel: 2,
-        pixScore: 13,
-      });
-      assessmentService.fetchAssessment.resolves({
-        assessmentPix: assessmentWithScoreWithoutType,
-        skills: []
-      });
-
-      // when
-      const promise = service.evaluateFromAssessmentId(assessmentId);
-
-      // then
-      return promise.then(() => {
-        expect(assessmentRepository.save).to.have.been.calledWith(assessmentWithScoreWithoutType);
-      });
-    });
-
     it('should create a new assessment result', () => {
       // given
       const assessmentResult = new AssessmentResult({
