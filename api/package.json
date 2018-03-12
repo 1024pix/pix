@@ -6,7 +6,8 @@
   "author": "SGMAP",
   "license": "AGPL-3.0",
   "engines": {
-    "node": "^4.5 || 6.* || 7.* || >= 8.*"
+    "node": "8.6.0",
+    "npm": "5.5.1"
   },
   "homepage": "https://github.com/sgmap/pix-api#readme",
   "dependencies": {
