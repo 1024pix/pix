@@ -8,7 +8,7 @@ if (settings.logging.enabled) {
   logger.addStream({
     name: 'standard-output',
     stream: process.stdout,
-    level: 'debug'
+    level: 'info'
   });
 }
 
