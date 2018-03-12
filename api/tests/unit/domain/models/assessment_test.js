@@ -6,9 +6,9 @@ describe('Unit | Domain | Models | Assessment', () => {
 
   describe('#isCompleted', () => {
 
-    it('should return true when its status is completed', () => {
+    it('should return true when its state is completed', () => {
       // given
-      const assessment = new Assessment({ status: 'completed' });
+      const assessment = new Assessment({ state: 'completed' });
 
       // when
       const isCompleted = assessment.isCompleted();
@@ -17,9 +17,9 @@ describe('Unit | Domain | Models | Assessment', () => {
       expect(isCompleted).to.be.true;
     });
 
-    it('should return false when its status is not completed', () => {
+    it('should return false when its state is not completed', () => {
       // given
-      const assessment = new Assessment({ status: '' });
+      const assessment = new Assessment({ state: '' });
 
       // when
       const isCompleted = assessment.isCompleted();

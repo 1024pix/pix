@@ -307,7 +307,7 @@ function isPlacementAssessment(assessment) {
 }
 
 function isAssessmentCompleted(assessment) {
-  return assessment.status === 'completed';
+  return assessment.state === 'completed';
 }
 
 function getNextChallengeForCertificationCourse(assessment) {

@@ -34,7 +34,7 @@ module.exports = {
       .query(qb => {
         qb.where({ userId });
         qb.whereNot('courseId', 'LIKE', 'null%');
-        qb.where('status','=','completed');
+        qb.where('state','=','completed');
         qb.andWhere(function() {
           this.where({ type: null })
             .orWhereNot({ type: 'CERTIFICATION' });
@@ -70,7 +70,7 @@ module.exports = {
       .query(qb => {
         qb.where({ userId })
           .where('createdAt', '<', limitDate)
-          .where('status','=','completed')
+          .where('state','=','completed')
           .andWhere(function() {
             this.where({ type: null })
               .orWhereNot({ type: 'CERTIFICATION' });

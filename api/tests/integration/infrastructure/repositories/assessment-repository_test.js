@@ -17,7 +17,7 @@ describe('Integration | Infrastructure | Repositories | assessment-repository', 
           .insert({
             userId: 1,
             courseId: 'course_A',
-            status:'completed',
+            state:'completed',
             createdAt: '2016-10-27 08:44:25'
           })
           .then((assessmentId) => {
@@ -95,31 +95,31 @@ describe('Integration | Infrastructure | Repositories | assessment-repository', 
         id: 1,
         userId: 1,
         courseId: 'course_A',
-        status:'started',
+        state:'started',
         createdAt: '2016-10-27 08:44:25'
       }, {
         id: 2,
         userId: 1,
         courseId: 'course_A',
-        status:'completed',
+        state:'completed',
         createdAt: '2017-10-27 08:44:25'
       }, {
         id: 3,
         userId: 1,
         courseId: 'course_A',
-        status: 'started',
+        state: 'started',
         createdAt: '2018-10-27 08:44:25'
       }, {
         id: 4,
         userId: 1,
         courseId: 'course_B',
-        status:'completed',
+        state:'completed',
         createdAt: '2017-10-27 08:44:25'
       }, {
         id: 5,
         userId: 1,
         courseId: 'course_B',
-        status:'completed',
+        state:'completed',
         createdAt: '2018-10-27 08:44:25'
       }]);
     });
@@ -227,37 +227,37 @@ describe('Integration | Infrastructure | Repositories | assessment-repository', 
       id: 1,
       userId: JOHN,
       courseId: 'courseId1',
-      status:'completed',
+      state:'completed',
       createdAt: '2017-11-08 11:47:38'
     }, {
       id: 2,
       userId: LAYLA,
       courseId: 'courseId1',
-      status:'completed',
+      state:'completed',
       createdAt: '2017-11-08 11:47:38'
     }, {
       id: 3,
       userId: JOHN,
       courseId: 'courseId1',
-      status:'completed',
+      state:'completed',
       createdAt: '2017-11-08 12:47:38'
     }, {
       id: 4,
       userId: JOHN,
       courseId: 'courseId2',
-      status:'completed',
+      state:'completed',
       createdAt: '2017-11-08 11:47:38'
     }, {
       id: 5,
       userId: JOHN,
       courseId: 'courseId3',
-      status: 'started',
+      state: 'started',
       createdAt: '2017-11-08 11:47:38'
     }, {
       id: 6,
       userId: JOHN,
       courseId: 'courseId1',
-      status:'completed',
+      state:'completed',
       createdAt: '2020-10-27 08:44:25'
     }
     ];
@@ -277,13 +277,13 @@ describe('Integration | Infrastructure | Repositories | assessment-repository', 
           id: 3,
           userId: JOHN,
           courseId: 'courseId1',
-          status:'completed'
+          state:'completed'
         }),
         new Assessment({
           id: 4,
           userId: JOHN,
           courseId: 'courseId2',
-          status:'completed'
+          state:'completed'
         })
       ];
 
@@ -309,7 +309,7 @@ describe('Integration | Infrastructure | Repositories | assessment-repository', 
     const assessmentToBeSaved = new Assessment({
       userId: JOHN,
       courseId: 'courseId1',
-      status:'completed',
+      state:'completed',
       createdAt: '2017-11-08 11:47:38'
     });
 
@@ -335,7 +335,7 @@ describe('Integration | Infrastructure | Repositories | assessment-repository', 
 
     const assessmentInDb = {
       courseId: 'course_A',
-      status:'completed',
+      state:'completed',
       createdAt: '2016-10-27 08:44:25'
     };
 

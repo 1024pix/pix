@@ -1175,7 +1175,7 @@ describe('Unit | Domain | Services | assessment', () => {
   describe('#isAssessmentCompleted', () => {
     it('should return true when the assessment has the status completed', () => {
       // given
-      const completedAssessment = new Assessment({ id: '2752', status: 'completed' });
+      const completedAssessment = new Assessment({ id: '2752', state: 'completed' });
 
       // when
       const isCompleted = service.isAssessmentCompleted(completedAssessment);
@@ -1186,7 +1186,7 @@ describe('Unit | Domain | Services | assessment', () => {
 
     it('should return false when the assessment status is started', () => {
       // given
-      const notCompletedAssessment = new Assessment({ id: '2752', status: 'started' });
+      const notCompletedAssessment = new Assessment({ id: '2752', state: 'started' });
 
       // when
       const isCompleted = service.isAssessmentCompleted(notCompletedAssessment);

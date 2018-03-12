@@ -9,7 +9,7 @@ module.exports = {
   serialize(certificationCourse) {
 
     return new Serializer('course', {
-      attributes: ['userId', 'assessment', 'status', 'type', 'nbChallenges'],
+      attributes: ['userId', 'assessment', 'type', 'nbChallenges'],
       assessment: {
         ref: 'id',
       },
@@ -23,7 +23,7 @@ module.exports = {
 
   serializeResult(certificationCourseResult) {
     return new Serializer('results', {
-      attributes: ['certificationId', 'level', 'pixScore', 'createdAt', 'completedAt', 'emitter', 'comment', 'competencesWithMark', 'firstName', 'lastName', 'birthdate', 'birthplace', 'sessionId']
+      attributes: ['certificationId', 'level', 'pixScore', 'createdAt', 'completedAt', 'status', 'emitter', 'comment', 'competencesWithMark', 'firstName', 'lastName', 'birthdate', 'birthplace', 'sessionId']
     }).serialize(certificationCourseResult);
   },
 

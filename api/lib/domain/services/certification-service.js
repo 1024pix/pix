@@ -232,6 +232,7 @@ module.exports = {
           certificationId: certification.id,
           emitter: assessmentLastResult.emitter,
           comment: assessmentLastResult.comment,
+          status: assessmentLastResult.status,
           pixScore: assessmentLastResult.pixScore,
           createdAt: certification.createdAt,
           completedAt: certification.completedAt,

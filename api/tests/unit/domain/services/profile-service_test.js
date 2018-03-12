@@ -61,7 +61,7 @@ describe('Unit | Service | Profil User Service', function() {
       fakeAssessmentRecords = [new Assessment({
         id: 'assessmentId1',
         courseId: 'courseId8',
-        status: 'completed',
+        state: 'completed',
         assessmentResults: [new AssessmentResult({
           pixScore: 10,
           level: 1

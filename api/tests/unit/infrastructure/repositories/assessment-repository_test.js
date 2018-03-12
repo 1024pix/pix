@@ -13,37 +13,37 @@ describe('Unit | Repository | assessmentRepository', () => {
       id: 1,
       userId: JOHN,
       courseId: 'courseId1',
-      status: 'completed',
+      state: 'completed',
       type: null
     }, {
       id: 2,
       userId: LAYLA,
       courseId: 'courseId1',
-      status: 'completed',
+      state: 'completed',
       type: null
     }, {
       id: 3,
       userId: JOHN,
       courseId: 'courseId1',
-      status: 'completed',
+      state: 'completed',
       type: null
     }, {
       id: 4,
       userId: JOHN,
       courseId: 'courseId2',
-      status: 'completed',
+      state: 'completed',
       type: null
     }, {
       id: 5,
       userId: JOHN,
       courseId: 'courseId3',
-      status: 'completed',
+      state: 'completed',
       type: 'CERTIFICATION'
     }, {
       id: 6,
       userId: LAYLA,
       courseId: 'nullAssessmentPreview',
-      status: 'completed',
+      state: 'completed',
       type: null
     }];
 
@@ -107,12 +107,12 @@ describe('Unit | Repository | assessmentRepository', () => {
       id: 1,
       userId: 2,
       courseId: 'courseId1',
-      status: 'completed'
+      state: 'completed'
     }, {
       id: 2,
       userId: 3,
       courseId: 'courseId1',
-      status: 'completed'
+      state: 'completed'
     }];
 
     before(() => {
@@ -181,7 +181,7 @@ describe('Unit | Repository | assessmentRepository', () => {
         sinon.assert.calledWith(whereCreatedAtStub, 'createdAt', '<', limitDate);
 
         sinon.assert.calledOnce(whereStatusIsCompleted);
-        sinon.assert.calledWith(whereStatusIsCompleted, 'status','=', 'completed');
+        sinon.assert.calledWith(whereStatusIsCompleted, 'state','=', 'completed');
 
         sinon.assert.calledOnce(orderByStub);
         sinon.assert.calledWith(orderByStub, 'createdAt', 'desc');
@@ -201,33 +201,33 @@ describe('Unit | Repository | assessmentRepository', () => {
       id: COMPLETED_ASSESSMENT_A_ID,
       userId: JOHN,
       courseId: 'courseId',
-      status: 'completed'
+      state: 'completed'
     }, {
       id: COMPLETED_ASSESSMENT_B_ID,
       userId: JOHN,
       courseId: 'courseId',
-      status: 'completed'
+      state: 'completed'
     }, {
       id: UNCOMPLETE_ASSESSMENT_ID,
       userId: JOHN,
       courseId: 'courseId',
-      status: 'started'
+      state: 'started'
     }, {
       id: 4,
       userId: LAYLA,
       courseId: 'courseId',
-      status: 'completed'
+      state: 'completed'
     }, {
       id: 5,
       userId: JOHN,
       courseId: 'courseId',
-      status: 'completed',
+      state: 'completed',
       type: 'CERTIFICATION'
     }, {
       id: 6,
       userId: LAYLA,
       courseId: 'nullAssessmentPreview',
-      status: 'completed'
+      state: 'completed'
     }];
 
     before(() => {
@@ -401,17 +401,17 @@ describe('Unit | Repository | assessmentRepository', () => {
       id: 1,
       userId: 2,
       courseId: 'courseId1',
-      status: 'completed'
+      state: 'completed'
     }, {
       id: 2,
       userId: 3,
       courseId: 'courseId1',
-      status: 'completed'
+      state: 'completed'
     }, {
       id: 3,
       userId: 3,
       courseId: 'courseId2',
-      status: 'completed'
+      state: 'completed'
     }];
 
     before(() => {

@@ -58,7 +58,7 @@ describe('Unit | Controller | assessment-controller-save', () => {
 
       it('should save an assessment with the type CERTIFICATION', function() {
         // given
-        const expected = { id: 42, courseId: '1', type: 'CERTIFICATION', status: 'started', userId: null };
+        const expected = { id: 42, courseId: '1', type: 'CERTIFICATION', state: 'started', userId: null };
 
         // when
         controller.save(request, replyStub);
@@ -99,7 +99,7 @@ describe('Unit | Controller | assessment-controller-save', () => {
 
       it('should save an assessment with type PREVIEW', function() {
         // given
-        const expected = { id: 42, courseId: 'null-preview-id', type: 'PREVIEW', userId: null, status: 'started' };
+        const expected = { id: 42, courseId: 'null-preview-id', type: 'PREVIEW', userId: null, state: 'started' };
 
         // when
         controller.save(request, replyStub);
@@ -139,7 +139,7 @@ describe('Unit | Controller | assessment-controller-save', () => {
       };
 
       const deserializedAssessment = { id: 42, courseId: 'recCourseId' };
-      const assessment = { id: 42, courseId: 'recCourseId', userId: 'userId', status: 'started' };
+      const assessment = { id: 42, courseId: 'recCourseId', userId: 'userId', state: 'started' };
       const serializedAssessment = {
         id: 42,
         attributes: {

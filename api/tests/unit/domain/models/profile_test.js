@@ -86,7 +86,7 @@ describe('Unit | Domain | Models | Profile', () => {
         id: 'assessmentId1',
         courseId: 'courseId8',
         assessmentResults: [new AssessmentResult({ pixScore:10, level: 1 })],
-        status: 'completed'
+        state: 'completed'
       })];
 
       const expectedCompetences = [
@@ -213,26 +213,26 @@ describe('Unit | Domain | Models | Profile', () => {
         assessmentsCompleted = [new Assessment({
           id: 'assessmentId1',
           assessmentResults: [new AssessmentResult({ pixScore:10, level: 1 })],
-          status: 'completed',
+          state: 'completed',
           courseId: 'courseId8'
         }),
         new Assessment({
           id: 'assessmentId2',
           assessmentResults: [new AssessmentResult({ pixScore:20, level: 2 })],
-          status: 'completed',
+          state: 'completed',
           courseId: 'courseId8'
         })];
 
         lastAssessments = [new Assessment({
           id: 'assessmentId1',
           assessmentResults: [new AssessmentResult({ pixScore:10, level: 1 })],
-          status: 'completed',
+          state: 'completed',
           courseId: 'courseId8'
         }),
         new Assessment({
           id: 'assessmentId2',
           assessmentResults: [new AssessmentResult({ pixScore:20, level: 2 })],
-          status: 'completed',
+          state: 'completed',
           courseId: 'courseId8'
         })];
 
@@ -275,7 +275,7 @@ describe('Unit | Domain | Models | Profile', () => {
         courses[0].competences = ['competenceId1'];
         lastAssessments = [new Assessment({
           id: 'assessmentId3',
-          status: 'started',
+          state: 'started',
           courseId: 'courseId8'
         })];
 
@@ -322,7 +322,7 @@ describe('Unit | Domain | Models | Profile', () => {
         assessmentsCompleted = [new Assessment({
           id: 'assessmentId1',
           assessmentResults: [new AssessmentResult({ pixScore:10, level: 1 })],
-          status: 'completed',
+          state: 'completed',
           courseId: 'courseId8'
         })];
 
@@ -366,11 +366,11 @@ describe('Unit | Domain | Models | Profile', () => {
         assessmentsCompleted = [new Assessment({
           id: 'assessmentId1',
           assessmentResults: [new AssessmentResult({ pixScore:10, level: 1 })],
-          status: 'completed',
+          state: 'completed',
           courseId: 'courseId8'
         }), new Assessment({
           id: 'assessmentId2',
-          status: 'started',
+          state: 'started',
           courseId: 'DemoCourse'
         })];
 
@@ -428,13 +428,13 @@ describe('Unit | Domain | Models | Profile', () => {
           new Assessment({
             id: 'assessmentId1',
             assessmentResults: [new AssessmentResult({ pixScore: 10, level: 1 })],
-            status: 'completed',
+            state: 'completed',
             courseId: 'courseId8'
           }),
           new Assessment({
             id: 'assessmentId2',
             assessmentResults: [new AssessmentResult({ pixScore: 15, level: 2 })],
-            status: 'completed',
+            state: 'completed',
             courseId: 'courseId9'
           })
         ];
@@ -459,7 +459,7 @@ describe('Unit | Domain | Models | Profile', () => {
           new Assessment({
             id: 'assessmentId1',
             assessmentResults: [new AssessmentResult({ pixScore: 10, level: 1 })],
-            status: 'completed',
+            state: 'completed',
             courseId: 'courseId8'
           })
         ];

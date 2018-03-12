@@ -14,7 +14,7 @@ describe('Acceptance | Controller | assessment-ratings', () => {
       beforeEach(() => {
         return knex('assessments').insert({
           courseId: 'nullCourseId_for_preview',
-          status: 'started',
+          state: 'started',
           type: 'PREVIEW'
         }).then((assessmentIds) => {
           savedAssessmentId = _.first(assessmentIds);
@@ -70,7 +70,7 @@ describe('Acceptance | Controller | assessment-ratings', () => {
         });
       });
 
-      it('should update the assessment status', () => {
+      it('should update the assessment state', () => {
         // when
         const promise = server.inject(options);
 
@@ -81,7 +81,7 @@ describe('Acceptance | Controller | assessment-ratings', () => {
             expect(assessments).to.have.lengthOf(1);
 
             const myAssessment = _.first(assessments);
-            expect(myAssessment.status).to.equal('completed');
+            expect(myAssessment.state).to.equal('completed');
             expect(myAssessment.type).to.equal('PREVIEW');
           });
       });

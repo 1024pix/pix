@@ -106,7 +106,7 @@ describe('Unit | Serializer | JSONAPI | profile-serializer', () => {
       finishedAssessment = new Assessment({
         id : 'assessmentID1',
         courseId: 'courseID1',
-        status: 'completed',
+        state: 'completed',
         assessmentResults: [new AssessmentResult({
           level: 8,
           pixScore: 128
@@ -115,7 +115,7 @@ describe('Unit | Serializer | JSONAPI | profile-serializer', () => {
       nonFinishedAssessment = new Assessment({
         id : 'assessmentID2',
         courseId: 'courseID2',
-        status: 'started'
+        state: 'started'
       });
 
       lastAssessments = [finishedAssessment, nonFinishedAssessment];

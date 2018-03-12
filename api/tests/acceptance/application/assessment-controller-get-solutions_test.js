@@ -149,7 +149,7 @@ describe('Acceptance | API | assessment-controller-get-solutions', () => {
 
     const insertedAssessment = {
       courseId: 'non_adaptive_course_id',
-      status: 'completed'
+      state: 'completed'
     };
 
     beforeEach(() => {
@@ -276,7 +276,7 @@ describe('Acceptance | API | assessment-controller-get-solutions', () => {
 
     const completedAssessment = {
       courseId: 'adaptive_course_id',
-      status: 'completed'
+      state: 'completed'
     };
 
     beforeEach(() => {

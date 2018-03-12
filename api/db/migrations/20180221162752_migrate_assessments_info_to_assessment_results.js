@@ -7,7 +7,7 @@ exports.up = function(knex) {
 
   return knex(TABLE_NAME_ASSESSMENTS)
     .select('id', 'type', 'createdAt', 'pixScore', 'estimatedLevel')
-    .where('status', '!=', 'started')
+    .where('state', '!=', 'started')
     .then((allAssessments) => {
 
       return batch(knex, allAssessments, (assessment) => {

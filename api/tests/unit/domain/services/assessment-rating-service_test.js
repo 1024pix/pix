@@ -71,7 +71,7 @@ describe('Unit | Domain | Services | assessment-ratings', () => {
         id: assessmentId,
         courseId: assessmentCourseId,
         userId: 5,
-        status: 'started',
+        state: 'started',
         type: 'PLACEMENT'
       });
 
@@ -158,7 +158,7 @@ describe('Unit | Domain | Services | assessment-ratings', () => {
           id: assessmentId,
           courseId: assessmentCourseId,
           userId: 5,
-          status: 'completed',
+          state: 'completed',
           type: 'PLACEMENT'
         });
 
@@ -195,7 +195,7 @@ describe('Unit | Domain | Services | assessment-ratings', () => {
           id: assessmentId,
           courseId: assessmentCourseId,
           userId: 5,
-          status: 'completed',
+          state: 'completed',
           type: 'PLACEMENT'
         }));
       });
@@ -339,7 +339,7 @@ describe('Unit | Domain | Services | assessment-ratings', () => {
           id: assessmentId,
           courseId: 'nullCourseId',
           userId: 5,
-          status: 'started',
+          state: 'started',
           type: 'DEMO'
         });
         assessmentRepository.get.resolves(demoAssessment);
@@ -402,7 +402,7 @@ describe('Unit | Domain | Services | assessment-ratings', () => {
           courseId: assessmentCourseId,
           userId: 5,
           type: 'CERTIFICATION',
-          status: 'started'
+          state: 'started'
         });
 
         assessmentRepository.get.resolves(assessment);
@@ -476,7 +476,7 @@ describe('Unit | Domain | Services | assessment-ratings', () => {
           id: assessmentId,
           courseId: assessmentCourseId,
           userId: 5,
-          status: 'completed',
+          state: 'completed',
           type: 'CERTIFICATION'
         });
 

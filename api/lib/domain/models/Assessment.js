@@ -4,7 +4,7 @@ class Assessment {
   }
 
   isCompleted() {
-    return this.status === 'completed';
+    return this.state === 'completed';
   }
 
   getLastAssessmentResult() {
