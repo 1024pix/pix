@@ -1,16 +1,16 @@
 const { Serializer } = require('jsonapi-serializer');
-const AssessmentRating = require('../../../domain/models/AssessmentRating');
+const AssessmentResult = require('../../../domain/models/AssessmentResult');
 
 module.exports = {
 
   serialize(assessmentRating) {
-    return new Serializer('assessment-ratings', {
+    return new Serializer('assessment-results', {
       attributes: ['estimatedLevel', 'pixScore'],
     }).serialize(assessmentRating);
   },
 
   deserialize(json) {
-    return new AssessmentRating({
+    return new AssessmentResult({
       id: json.data.id,
       assessmentId: json.data.relationships.assessment.data.id
     });

@@ -11,7 +11,7 @@ function buildRequestObject(baseUrl, assessmentId) {
   return {
     baseUrl: baseUrl,
     method: 'POST',
-    url: `/api/assessment-ratings/`,
+    url: `/api/assessment-results/`,
     json: true,
     body: {
       data: {
@@ -25,11 +25,11 @@ function buildRequestObject(baseUrl, assessmentId) {
               type: 'assessments',
               id: assessmentId
             }
-          }
-        },
-        type: 'assessment-ratings'
-      }
-    },
+          },
+          type: 'assessment-results'
+        }
+      },
+    }
   };
 }
 

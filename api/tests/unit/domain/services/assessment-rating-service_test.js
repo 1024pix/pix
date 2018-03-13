@@ -1,7 +1,7 @@
 const { expect, sinon } = require('../../../test-helper');
 const faker = require('faker');
 
-const service = require('../../../../lib/domain/services/assessment-rating-service');
+const service = require('../../../../lib/domain/services/assessment-result-service');
 const assessmentService = require('../../../../lib/domain/services/assessment-service');
 const skillsService = require('../../../../lib/domain/services/skills-service');
 const certificationService = require('../../../../lib/domain/services/certification-service');
@@ -40,7 +40,7 @@ function _buildCompetence(competence_code, area_code) {
   return competence;
 }
 
-describe('Unit | Domain | Services | assessment-ratings', () => {
+describe('Unit | Domain | Services | assessment-results', () => {
 
   describe('#evaluateFromAssessmentId', () => {
 

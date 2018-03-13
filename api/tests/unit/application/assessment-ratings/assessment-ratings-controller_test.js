@@ -2,15 +2,15 @@ const { sinon, expect } = require('../../../test-helper');
 
 const Boom = require('boom');
 
-const assessmentRatingController = require('../../../../lib/application/assessment-ratings/assessment-rating-controller');
-const assessmentRatingSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/assessment-rating-serializer');
-const assessmentRatingService = require('../../../../lib/domain/services/assessment-rating-service');
+const assessmentResultController = require('../../../../lib/application/assessment-results/assessment-result-controller');
+const assessmentRatingSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/assessment-result-serializer');
+const assessmentResultService = require('../../../../lib/domain/services/assessment-result-service');
 
 const { AlreadyRatedAssessmentError, NotFoundError } = require('../../../../lib/domain/errors');
 
 const logger = require('../../../../lib/infrastructure/logger');
 
-describe('Unit | Controller | assessment-ratings', () => {
+describe('Unit | Controller | assessment-results', () => {
 
   describe('#evaluate', () => {
 
@@ -32,7 +32,7 @@ describe('Unit | Controller | assessment-ratings', () => {
               }
             }
           },
-          type: 'assessment-ratings'
+          type: 'assessment-results'
         }
       }
     };
@@ -42,7 +42,7 @@ describe('Unit | Controller | assessment-ratings', () => {
 
       replyStub = sinon.stub();
       sandbox.stub(assessmentRatingSerializer, 'serialize');
-      sandbox.stub(assessmentRatingService, 'evaluateFromAssessmentId').resolves();
+      sandbox.stub(assessmentResultService, 'evaluateFromAssessmentId').resolves();
       sandbox.stub(Boom, 'notFound').returns({ message: 'NotFoundError' });
       sandbox.stub(Boom, 'badImplementation').returns({ message: 'badImplementation' });
       sandbox.stub(logger, 'error');
@@ -54,19 +54,19 @@ describe('Unit | Controller | assessment-ratings', () => {
 
     it('should evaluate the assessment', () => {
       // when
-      assessmentRatingController.evaluate(request, replyStub);
+      assessmentResultController.evaluate(request, replyStub);
 
       // then
-      expect(assessmentRatingService.evaluateFromAssessmentId).to.have.been.calledWith('22');
+      expect(assessmentResultService.evaluateFromAssessmentId).to.have.been.calledWith('22');
     });
 
     it('should return 404 when the assessment is not found', () => {
       // given
       const notFoundAssessmentError = new NotFoundError();
-      assessmentRatingService.evaluateFromAssessmentId.rejects(notFoundAssessmentError);
+      assessmentResultService.evaluateFromAssessmentId.rejects(notFoundAssessmentError);
 
       // when
-      const promise = assessmentRatingController.evaluate(request, replyStub);
+      const promise = assessmentResultController.evaluate(request, replyStub);
 
       // then
       return promise.then(() => {
@@ -79,10 +79,10 @@ describe('Unit | Controller | assessment-ratings', () => {
       it('should do nothing', () => {
         // given
         const alreadyRatedAssessmentError = new AlreadyRatedAssessmentError();
-        assessmentRatingService.evaluateFromAssessmentId.rejects(alreadyRatedAssessmentError);
+        assessmentResultService.evaluateFromAssessmentId.rejects(alreadyRatedAssessmentError);
 
         // when
-        const promise = assessmentRatingController.evaluate(request, replyStub);
+        const promise = assessmentResultController.evaluate(request, replyStub);
 
         // then
         return promise.then(() => {
@@ -96,10 +96,10 @@ describe('Unit | Controller | assessment-ratings', () => {
       it('should log the error', () => {
         // given
         const undefinedError = new Error();
-        assessmentRatingService.evaluateFromAssessmentId.rejects(undefinedError);
+        assessmentResultService.evaluateFromAssessmentId.rejects(undefinedError);
 
         // when
-        const promise = assessmentRatingController.evaluate(request, replyStub);
+        const promise = assessmentResultController.evaluate(request, replyStub);
 
         // then
         return promise.then(() => {
@@ -110,10 +110,10 @@ describe('Unit | Controller | assessment-ratings', () => {
       it('should reply with an internal error', () => {
         // given
         const undefinedError = new Error();
-        assessmentRatingService.evaluateFromAssessmentId.rejects(undefinedError);
+        assessmentResultService.evaluateFromAssessmentId.rejects(undefinedError);
 
         // when
-        const promise = assessmentRatingController.evaluate(request, replyStub);
+        const promise = assessmentResultController.evaluate(request, replyStub);
 
         // then
         return promise.then(() => {

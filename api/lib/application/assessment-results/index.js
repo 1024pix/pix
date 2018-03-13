@@ -5,9 +5,14 @@ exports.register = function(server, options, next) {
   server.route([
     {
       method: 'POST',
-      path: '/api/assessment-results',
+      path: '/api/admin/assessment-results',
       config: { handler: AssessmentResultController.save, tags: ['api'] }
     },
+    {
+      method: 'POST',
+      path: '/api/assessment-results',
+      config: { handler: AssessmentResultController.evaluate, tags: ['api'] }
+    }
   ]);
 
   return next();
