@@ -3,7 +3,8 @@ const certificationService = require('../../../../lib/domain/services/certificat
 const Answer = require('../../../../lib/infrastructure/data/answer');
 const CertificationChallenge = require('../../../../lib/domain/models/CertificationChallenge');
 
-const Competence = require('../../../../lib/domain/models/referential/competence');
+const AirtableCompetence = require('../../../../lib/domain/models/referential/competence');
+const Competence = require('../../../../lib/domain/models/Competence');
 const { UserNotAuthorizedToCertifyError } = require('../../../../lib/domain/errors');
 
 const userService = require('../../../../lib/domain/services/user-service');
@@ -12,14 +13,15 @@ const assessmentRepository = require('../../../../lib/infrastructure/repositorie
 const answersRepository = require('../../../../lib/infrastructure/repositories/answer-repository');
 const certificationChallengesRepository = require('../../../../lib/infrastructure/repositories/certification-challenge-repository');
 const certificationCourseRepository = require('../../../../lib/infrastructure/repositories/certification-course-repository');
+const competenceRepository = require('../../../../lib/infrastructure/repositories/competence-repository');
 const Assessment = require('../../../../lib/domain/models/Assessment');
 
 function _buildAnswer(challengeId, result) {
   return new Answer({ id: 'answer_id', challengeId, result, value: 'something' });
 }
 
-function _buildCertificationChallenge(challengeId, competenceId) {
-  return new CertificationChallenge({ challengeId, competenceId });
+function _buildCertificationChallenge(challengeId, competenceId, associatedSkill) {
+  return new CertificationChallenge({ challengeId, competenceId, associatedSkill });
 }
 
 function _buildChallenge(id, competence, type) {
@@ -27,7 +29,7 @@ function _buildChallenge(id, competence, type) {
 }
 
 function _buildCompetence(name, index, courseId, pixScore, estimatedLevel, challenges) {
-  const competence = new Competence();
+  const competence = new AirtableCompetence();
   competence.id = courseId;
   competence.pixScore = pixScore;
   competence.estimatedLevel = estimatedLevel;
@@ -65,18 +67,18 @@ const challengesCompetence4 = [
 ];
 
 const challenges = [
-  _buildCertificationChallenge('challenge_A_for_competence_1', 'competence_1'),
-  _buildCertificationChallenge('challenge_B_for_competence_1', 'competence_1'),
-  _buildCertificationChallenge('challenge_C_for_competence_1', 'competence_1'),
-  _buildCertificationChallenge('challenge_D_for_competence_2', 'competence_2'),
-  _buildCertificationChallenge('challenge_E_for_competence_2', 'competence_2'),
-  _buildCertificationChallenge('challenge_F_for_competence_2', 'competence_2'),
-  _buildCertificationChallenge('challenge_G_for_competence_3', 'competence_3'),
-  _buildCertificationChallenge('challenge_H_for_competence_3', 'competence_3'),
-  _buildCertificationChallenge('challenge_I_for_competence_3', 'competence_3'),
-  _buildCertificationChallenge('challenge_J_for_competence_4', 'competence_4'),
-  _buildCertificationChallenge('challenge_K_for_competence_4', 'competence_4'),
-  _buildCertificationChallenge('challenge_L_for_competence_4', 'competence_4'),
+  _buildCertificationChallenge('challenge_A_for_competence_1', 'competence_1', '@skillChallengeA_1'),
+  _buildCertificationChallenge('challenge_C_for_competence_1', 'competence_1', '@skillChallengeC_1'),
+  _buildCertificationChallenge('challenge_B_for_competence_1', 'competence_1', '@skillChallengeB_1'),
+  _buildCertificationChallenge('challenge_D_for_competence_2', 'competence_2', '@skillChallengeD_2'),
+  _buildCertificationChallenge('challenge_E_for_competence_2', 'competence_2', '@skillChallengeE_2'),
+  _buildCertificationChallenge('challenge_F_for_competence_2', 'competence_2', '@skillChallengeF_2'),
+  _buildCertificationChallenge('challenge_G_for_competence_3', 'competence_3', '@skillChallengeG_3'),
+  _buildCertificationChallenge('challenge_H_for_competence_3', 'competence_3', '@skillChallengeH_3'),
+  _buildCertificationChallenge('challenge_I_for_competence_3', 'competence_3', '@skillChallengeI_3'),
+  _buildCertificationChallenge('challenge_J_for_competence_4', 'competence_4', '@skillChallengeJ_4'),
+  _buildCertificationChallenge('challenge_K_for_competence_4', 'competence_4', '@skillChallengeK_4'),
+  _buildCertificationChallenge('challenge_L_for_competence_4', 'competence_4', '@skillChallengeL_4'),
 ];
 
 const competences = [
@@ -84,6 +86,13 @@ const competences = [
   _buildCompetence('Partager', '2.2', 'competence_2', pixForCompetence2, 2, challengesCompetence2),
   _buildCompetence('Adapter', '3.3', 'competence_3', pixForCompetence3, 3, challengesCompetence3),
   _buildCompetence('Résoudre', '4.4', 'competence_4', pixForCompetence4, 4, challengesCompetence4),
+];
+
+const competencesFromAirtable = [
+  new Competence({ id: 'competence_1', index: '1.1', name: 'Mener une recherche' }),
+  new Competence({ id: 'competence_2', index: '2.2', name: 'Partager' }),
+  new Competence({ id: 'competence_3', index: '3.3', name: 'Adapter' }),
+  new Competence({ id: 'competence_4', index: '4.4', name: 'Résoudre' })
 ];
 
 function _buildCorrectAnswersForAllChallenges() {
@@ -174,6 +183,7 @@ describe('Unit | Service | Certification Service', function() {
       sandbox.stub(certificationChallengesRepository, 'findByCertificationCourseId').resolves(challenges);
       sandbox.stub(userService, 'getProfileToCertify').resolves(userProfile);
       sandbox.stub(certificationCourseRepository, 'get').resolves(certificationCourse);
+      sandbox.stub(competenceRepository, 'find').resolves(competencesFromAirtable);
     });
 
     afterEach(() => {
@@ -525,84 +535,84 @@ describe('Unit | Service | Certification Service', function() {
           {
             challengeId: 'challenge_A_for_competence_1',
             competence: '1.1',
-            skill: '@skill',
+            skill: '@skillChallengeA_1',
             result: 'ok',
             value: 'something',
           },
           {
             challengeId: 'challenge_B_for_competence_1',
             competence: '1.1',
-            skill: '@skill',
+            skill: '@skillChallengeB_1',
             result: 'ko',
             value: 'something',
           },
           {
             challengeId: 'challenge_C_for_competence_1',
             competence: '1.1',
-            skill: '@skill',
+            skill: '@skillChallengeC_1',
             result: 'ok',
             value: 'something',
           },
           {
             challengeId: 'challenge_D_for_competence_2',
             competence: '2.2',
-            skill: '@skill',
+            skill: '@skillChallengeD_2',
             result: 'ok',
             value: 'something',
           },
           {
             challengeId: 'challenge_E_for_competence_2',
             competence: '2.2',
-            skill: '@skill',
+            skill: '@skillChallengeE_2',
             result: 'ok',
             value: 'something',
           },
           {
             challengeId: 'challenge_F_for_competence_2',
             competence: '2.2',
-            skill: '@skill',
+            skill: '@skillChallengeF_2',
             result: 'ok',
             value: 'something',
           },
           {
             challengeId: 'challenge_G_for_competence_3',
             competence: '3.3',
-            skill: '@skill',
+            skill: '@skillChallengeG_3',
             result: 'ok',
             value: 'something',
           },
           {
             challengeId: 'challenge_H_for_competence_3',
             competence: '3.3',
-            skill: '@skill',
+            skill: '@skillChallengeH_3',
             result: 'ko',
             value: 'something',
           },
           {
             challengeId: 'challenge_I_for_competence_3',
             competence: '3.3',
-            skill: '@skill',
+            skill: '@skillChallengeI_3',
             result: 'ko',
             value: 'something',
           },
           {
             challengeId: 'challenge_J_for_competence_4',
             competence: '4.4',
-            skill: '@skill',
+            skill: '@skillChallengeJ_4',
             result: 'ok',
             value: 'something',
           },
           {
             challengeId: 'challenge_K_for_competence_4',
             competence: '4.4',
-            skill: '@skill',
+            skill: '@skillChallengeK_4',
             result: 'ko',
             value: 'something',
           },
           {
             challengeId: 'challenge_L_for_competence_4',
             competence: '4.4',
-            skill: '@skill',
+            skill: '@skillChallengeL_4',
             result: 'ok',
             value: 'something',
           }
@@ -651,6 +661,7 @@ describe('Unit | Service | Certification Service', function() {
       sandbox.stub(certificationChallengesRepository, 'findByCertificationCourseId').resolves(challenges);
       sandbox.stub(userService, 'getProfileToCertify').resolves(userProfile);
       sandbox.stub(certificationCourseRepository, 'get').resolves(certificationCourse);
+      sandbox.stub(competenceRepository, 'find').resolves(competencesFromAirtable);
     });
 
     afterEach(() => {
@@ -979,11 +990,11 @@ describe('Unit | Service | Certification Service', function() {
           _buildCompetence('Compétence réussie moyennement', '6.6', 'competence_6', 36, 3, listChallengeComp6WithThreeChallenge)
         ];
         const challenges = [
-          _buildCertificationChallenge('challenge_A_for_competence_5', 'competence_5'),
-          _buildCertificationChallenge('challenge_B_for_competence_5', 'competence_5'),
-          _buildCertificationChallenge('challenge_A_for_competence_6', 'competence_6'),
-          _buildCertificationChallenge('challenge_B_for_competence_6', 'competence_6'),
-          _buildCertificationChallenge('challenge_C_for_competence_6', 'competence_6'),
+          _buildCertificationChallenge('challenge_A_for_competence_5', 'competence_5', '@skillChallengeA_5'),
+          _buildCertificationChallenge('challenge_B_for_competence_5', 'competence_5', '@skillChallengeB_5'),
+          _buildCertificationChallenge('challenge_A_for_competence_6', 'competence_6', '@skillChallengeA_6'),
+          _buildCertificationChallenge('challenge_B_for_competence_6', 'competence_6', '@skillChallengeB_6'),
+          _buildCertificationChallenge('challenge_C_for_competence_6', 'competence_6', '@skillChallengeC_6'),
         ];
         certificationChallengesRepository.findByCertificationCourseId.resolves(challenges);
         userService.getProfileToCertify.resolves(competences);
@@ -1104,9 +1115,9 @@ describe('Unit | Service | Certification Service', function() {
       { id: 'competence6', estimatedLevel: 6 }
     ];
 
-    [ { label: 'User Has No Competence', competences: noCompetences },
-      { label: 'User Has Only 1 Competence at Level 0', competences: oneCompetenceWithLevel0 },
-      { label: 'User Has Only 1 Competence at Level 5', competences: oneCompetenceWithLevel5 },
+    [ { label: 'User Has No AirtableCompetence', competences: noCompetences },
+      { label: 'User Has Only 1 AirtableCompetence at Level 0', competences: oneCompetenceWithLevel0 },
+      { label: 'User Has Only 1 AirtableCompetence at Level 5', competences: oneCompetenceWithLevel5 },
       { label: 'User Has 5 Competences with 1 at Level 0', competences: fiveCompetencesAndOneWithLevel0 }
     ].forEach(function(testCase) {
       it(`should not create a new certification if ${testCase.label}`, function() {
