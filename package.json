@@ -47,13 +47,9 @@
     "ember-load-initializers": "^1.0.0",
     "ember-models-table": "^2.3.1",
     "ember-resolver": "^4.0.0",
-    "ember-service-worker": "^0.6.9",
-    "ember-service-worker-asset-cache": "^0.6.2",
-    "ember-service-worker-cache-fallback": "^0.6.1",
     "ember-simple-auth": "^1.4.2",
     "ember-source": "~2.18.0",
     "ember-truth-helpers": "^2.0.0",
-    "ember-web-app": "^2.3.0",
     "eslint-plugin-ember": "^5.0.0",
     "loader.js": "^4.2.3",
     "popper.js": "^1.12.9"

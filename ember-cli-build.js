@@ -10,11 +10,6 @@ module.exports = function(defaults) {
       'importBootstrapCSS': false,
       'importBootstrapTheme': true
     },
-
-    'esw-cache-fallback': {
-      patterns: [ '/' ],
-      version: '1' // Changing the version will bust the cache
-    }
   });
 
   // Use `app.import` to add additional libraries to the generated
