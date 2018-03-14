@@ -80,6 +80,9 @@ function getAssessmentNextChallengeId(assessment, currentChallengeId) {
 }
 
 // FIXME: Devrait plutot 1) splitter entre les calculs des acquis 2) calcul du result
+/**
+ * @deprecated since getSkills and getCompetenceMarks
+ */
 async function fetchAssessment(assessmentId) {
 
   const [assessmentPix, answers] = await Promise.all([
