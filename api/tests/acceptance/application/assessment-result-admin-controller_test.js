@@ -60,11 +60,13 @@ describe('Acceptance | Controller | assessment-results-controller', function() {
     });
 
     afterEach(() => {
-      return knex('competence-marks').delete().then(() => knex('assessment-results').delete());
+      return knex('competence-marks').delete()
+        .then(() => knex('assessment-results').delete());
     });
 
     after(() => {
-      return knex('certification-courses').delete().then(() => knex('assessments').delete());
+      return knex('certification-courses').delete()
+        .then(() => knex('assessments').delete());
     });
 
     it('should return an OK status after saving in database', () => {

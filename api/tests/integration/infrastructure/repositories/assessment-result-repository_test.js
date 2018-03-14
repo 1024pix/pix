@@ -6,7 +6,6 @@ const AssessmentResultRepository = require('../../../../lib/infrastructure/repos
 describe('Integration | Repository | AssessmentResult', function() {
 
   describe('#save', () => {
-    before(() => knex('assessment-results').delete());
 
     afterEach(() => knex('assessment-results').delete());
 
