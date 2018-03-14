@@ -24,6 +24,7 @@ class Profile {
         const competence = this.competences.find(competence => course.competences.includes(competence.id));
         competence.level = assessmentResult.level;
         competence.pixScore = assessmentResult.pixScore;
+        // TODO: Standardiser l'usage de status pour une compétence
         if (competence.status === 'notCompleted') {
           competence.level = -1;
           delete competence.pixScore;

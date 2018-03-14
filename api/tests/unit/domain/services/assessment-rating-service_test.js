@@ -77,7 +77,7 @@ describe('Unit | Domain | Services | assessment-results', () => {
 
       evaluatedSkills = {
         assessmentId: assessmentId,
-        validatedSkills: _generateValitedSkills(),
+        validatedSkills: _generateValidatedSkills(),
         failedSkills: _generateFailedSkills()
       };
 
@@ -173,7 +173,7 @@ describe('Unit | Domain | Services | assessment-results', () => {
 
     });
 
-    it('should reject a not found error when we cannot have skills', () => {
+    it('should reject a not found error when getSkills raise a notFoundError because the assessment does not exist', () => {
       // given
       assessmentService.getSkills.rejects(new NotFoundError());
 
@@ -191,13 +191,7 @@ describe('Unit | Domain | Services | assessment-results', () => {
       // then
       return promise.then(() => {
         const savedCompetenceMark = assessmentRepository.save.firstCall.args;
-        expect(savedCompetenceMark[0]).to.deep.equal(new Assessment({
-          id: assessmentId,
-          courseId: assessmentCourseId,
-          userId: 5,
-          state: 'completed',
-          type: 'PLACEMENT'
-        }));
+        expect(savedCompetenceMark[0].state).to.deep.equal('completed');
       });
     });
 
@@ -492,7 +486,6 @@ describe('Unit | Domain | Services | assessment-results', () => {
         });
       });
 
-      // TODO: Remove
       it('should update the certification course date', () => {
         // when
         const promise = service.evaluateFromAssessmentId(assessmentId);
@@ -520,7 +513,7 @@ describe('Unit | Domain | Services | assessment-results', () => {
   });
 });
 
-function _generateValitedSkills() {
+function _generateValidatedSkills() {
   const url2 = new Skill('@url2');
   const web3 = new Skill('@web3');
   const skills = new Set();
