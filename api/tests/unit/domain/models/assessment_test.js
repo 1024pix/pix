@@ -44,9 +44,16 @@ describe('Unit | Domain | Models | Assessment', () => {
         createdAt: '2017-12-24',
         emitter: 'Michel'
       });
+
+      const assessmentResultJuryOld = new AssessmentResult({
+        id: 3,
+        createdAt: '2017-12-22',
+        emitter: 'Gerard'
+      });
+
       const assessment = new Assessment({
         status: 'completed',
-        assessmentResults: [assessmentResultComputed, assessmentResultJury]
+        assessmentResults: [assessmentResultComputed, assessmentResultJury, assessmentResultJuryOld]
       });
 
       // when

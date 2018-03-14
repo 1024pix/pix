@@ -1,3 +1,5 @@
+const _ = require('lodash');
+
 class Assessment {
   constructor(attributes) {
     Object.assign(this, attributes);
@@ -9,8 +11,7 @@ class Assessment {
 
   getLastAssessmentResult() {
     if(this.assessmentResults) {
-      const sortedAssessmentResult = this.assessmentResults.sort((r1, r2) => r1.createdAt < r2.createdAt);
-      return sortedAssessmentResult[0];
+      return _(this.assessmentResults).sortBy(['createdAt']).last();
     }
     return null;
   }
