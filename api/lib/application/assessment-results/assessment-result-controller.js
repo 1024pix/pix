@@ -14,7 +14,7 @@ module.exports = {
     const assessmentResult = request.payload.data.attributes;
 
     return assessmentResultService.save(assessmentResult)
-      .then(reply)
+      .then(() => reply())
       .catch((error) => {
         if(error instanceof NotFoundError) {
           return reply(Boom.notFound(error));
