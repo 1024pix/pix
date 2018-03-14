@@ -226,20 +226,20 @@ function getScoreAndLevel(assessmentId) {
 function getCompetenceMarks(assessment) {
 
   if(this.isPlacementAssessment(assessment)) {
-    let result = {};
-    return this.getScoreAndLevel(assessment.id)
-      .then((resultCompute) =>{
-        result = resultCompute;
-        return courseRepository.get(assessment.courseId);
-      }).then((course) => {
+    let competenceOfMark;
+    return courseRepository.get(assessment.courseId)
+      .then((course) => {
         return competenceRepository.get(course.competences[0]);
       }).then(competence => {
+        competenceOfMark = competence;
+        return this.getScoreAndLevel(assessment.id)
+      }).then(({estimatedLevel, pixScore}) =>{
         return [
           new CompetenceMark({
-            level: result.estimatedLevel,
-            score: result.pixScore,
-            area_code: competence.area.code,
-            competence_code: competence.index
+            level: estimatedLevel,
+            score: pixScore,
+            area_code: competenceOfMark.area.code,
+            competence_code: competenceOfMark.index
           })
         ];
       });
