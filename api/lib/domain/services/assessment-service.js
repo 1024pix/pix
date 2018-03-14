@@ -308,10 +308,6 @@ function isPlacementAssessment(assessment) {
   return assessment.type === 'PLACEMENT';
 }
 
-function isAssessmentCompleted(assessment) {
-  return assessment.state === 'completed';
-}
-
 function getNextChallengeForCertificationCourse(assessment) {
   return certificationChallengeRepository.getNonAnsweredChallengeByCourseId(
     assessment.id, assessment.courseId
@@ -322,7 +318,6 @@ module.exports = {
   getAssessmentNextChallengeId,
   getNextChallengeForCertificationCourse,
   fetchAssessment,
-  isAssessmentCompleted,
   findByFilters,
   isPreviewAssessment,
   isPlacementAssessment,

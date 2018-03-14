@@ -1152,41 +1152,6 @@ describe('Unit | Domain | Services | assessment', () => {
     });
   });
 
-  describe('#isAssessmentCompleted', () => {
-    it('should return true when the assessment has the status completed', () => {
-      // given
-      const completedAssessment = new Assessment({ id: '2752', state: 'completed' });
-
-      // when
-      const isCompleted = service.isAssessmentCompleted(completedAssessment);
-
-      // then
-      expect(isCompleted).to.equal(true);
-    });
-
-    it('should return false when the assessment status is started', () => {
-      // given
-      const notCompletedAssessment = new Assessment({ id: '2752', state: 'started' });
-
-      // when
-      const isCompleted = service.isAssessmentCompleted(notCompletedAssessment);
-
-      // then
-      expect(isCompleted).to.equal(false);
-    });
-
-    it('should return false when the assessment status is undefined', () => {
-      // given
-      const notCompletedAssessment = new Assessment({ id: '2752' });
-
-      // when
-      const isCompleted = service.isAssessmentCompleted(notCompletedAssessment);
-
-      // then
-      expect(isCompleted).to.equal(false);
-    });
-  });
-
   describe('#isCertificationAssessment', () => {
 
     context('if assessment type is \'CERTIFICATION\'', () => {
