@@ -1,5 +1,9 @@
 # Pix Changelog
 
+## v1.43.0 (14/03/2018) 
+
+- [#701](https://github.com/betagouv/pix/pull/701) [BUGFIX] Correction du bug de recalcul du résultat d'une certification (US-1101).
+
 ## v1.42.0 (08/03/2018) 
 
 - [#695](https://github.com/betagouv/pix/pull/695) [FEATURE] Mise à jour des informations utilisateur pour les certifications (US-1029).
