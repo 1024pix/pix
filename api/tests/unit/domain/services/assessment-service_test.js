@@ -647,7 +647,6 @@ describe('Unit | Domain | Services | assessment', () => {
             // when
             const promise = service.getSkills(assessmentFromPreview);
 
-
             // then
             return promise
               .then(() => {

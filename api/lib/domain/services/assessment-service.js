@@ -140,7 +140,7 @@ async function fetchAssessment(assessmentId) {
 
 async function getSkills(assessment) {
   if (assessment === null) {
-    return Promise.reject(new NotFoundError(`Unable to getSkills without assessment`));
+    return Promise.reject(new NotFoundError('Unable to getSkills without assessment'));
   }
 
   const assessmentId = assessment.id;
@@ -232,8 +232,8 @@ function getCompetenceMarks(assessment) {
         return competenceRepository.get(course.competences[0]);
       }).then(competence => {
         competenceOfMark = competence;
-        return this.getScoreAndLevel(assessment.id)
-      }).then(({estimatedLevel, pixScore}) =>{
+        return this.getScoreAndLevel(assessment.id);
+      }).then(({ estimatedLevel, pixScore }) =>{
         return [
           new CompetenceMark({
             level: estimatedLevel,

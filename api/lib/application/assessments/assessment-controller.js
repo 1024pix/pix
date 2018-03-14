@@ -20,7 +20,7 @@ function _doesAssessmentExistsAndIsCompleted(assessment) {
   if (!assessment)
     throw new NotFoundError();
 
-    const isAssessmentNotCompleted = !assessment.isCompleted();
+  const isAssessmentNotCompleted = !assessment.isCompleted();
 
   if (isAssessmentNotCompleted)
     throw new NotCompletedAssessmentError();

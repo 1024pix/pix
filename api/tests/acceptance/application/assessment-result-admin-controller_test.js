@@ -113,7 +113,7 @@ describe('Acceptance | Controller | assessment-results-controller', function() {
                 score: 0,
                 area_code: 2,
                 competence_code: 2.1
-              })
+              });
           });
       });
       it('should save a assessment-results and 3 marks', () => {
