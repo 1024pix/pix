@@ -95,5 +95,43 @@ describe('Acceptance | Controller | assessment-results-controller', function() {
           expect(marks).to.have.lengthOf(3);
         });
     });
+    context('when assessment has already the assessment-result compute', () => {
+      before(() => {
+        return knex('assessment-results')
+          .insert({
+            level: -1,
+            pixScore: 0,
+            status: 'rejected',
+            emitter: 'PIX-ALGO',
+            comment: 'Computed'
+          }).then((result) => {
+            const resultId = result[0].id;
+            return knex('competence-marks')
+              .insert({
+                assessmentResultId: resultId,
+                level: -1,
+                score: 0,
+                area_code: 2,
+                competence_code: 2.1
+              })
+          });
+      });
+      it('should save a assessment-results and 3 marks', () => {
+
+        // when
+        const promise = server.inject(options);
+
+        // then
+        return promise
+          .then(() => knex('assessment-results').select())
+          .then((result) => {
+            expect(result).to.have.lengthOf(2);
+          })
+          .then(() => knex('competence-marks').select())
+          .then((marks) => {
+            expect(marks).to.have.lengthOf(4);
+          });
+      });
+    });
   });
 });
