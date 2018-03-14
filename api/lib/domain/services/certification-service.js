@@ -188,7 +188,7 @@ function _getCertificationResult(assessment) {
       // FIXME: Missing tests
       result.createdAt = startOfCertificationDate;
       result.userId = assessment.userId;
-      result.status = assessment.status;
+      result.status = assessment.state;
       result.completedAt = certificationCourse.completedAt;
 
       result.listChallengesAndAnswers = _getChallengeInformation(listAnswers, certificationChallenges, competences);

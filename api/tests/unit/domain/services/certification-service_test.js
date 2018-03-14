@@ -189,12 +189,7 @@ describe('Unit | Service | Certification Service', function() {
 
     let sandbox;
 
-    const certificationAssessement = new Assessment({
-      id: 'assessment_id',
-      userId: 'user_id',
-      courseId: 'course_id',
-      createdAt: '2018-01-01'
-    });
+    const certificationAssessement = new Assessment({ id: 'assessment_id', userId: 'user_id', courseId: 'course_id', createdAt: '2018-01-01', state: 'completed' });
     const certificationCourse = { id: 'course1', status: 'completed', completedAt: '2018-01-01' };
 
     const userProfile = competences;
