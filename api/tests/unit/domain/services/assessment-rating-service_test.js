@@ -238,7 +238,7 @@ describe('Unit | Domain | Services | assessment-results', () => {
 
         // then
         return promise.then(() => {
-          expect(assessmentService.getSkills).to.have.been.calledWith(assessmentId);
+          expect(assessmentService.getSkills).to.have.been.calledWith(assessment);
         });
       });
 

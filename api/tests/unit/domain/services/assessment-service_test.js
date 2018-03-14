@@ -488,13 +488,13 @@ describe('Unit | Domain | Services | assessment', () => {
     ];
 
     const sandbox = sinon.sandbox.create();
-
+    let assessment;
     beforeEach(() => {
-      competenceRepository.get.resolves(COMPETENCE);
-      sandbox.stub(assessmentRepository, 'get').resolves(new Assessment({
+      assessment = new Assessment({
         id: ASSESSMENT_ID,
         courseId: PREVIEW_COURSE_ID
-      }));
+      });
+      competenceRepository.get.resolves(COMPETENCE);
       sandbox.stub(courseRepository, 'get').resolves({
         challenges: ['challenge_web_2', 'challenge_web_1'],
         competences: [COMPETENCE_ID]
@@ -514,50 +514,22 @@ describe('Unit | Domain | Services | assessment', () => {
       sandbox.restore();
     });
 
-    it('should retrieve assessment from repository', () => {
-      // when
-      const promise = service.getSkills(ASSESSMENT_ID);
-
-      // then
-      return promise.then(() => {
-        expect(assessmentRepository.get).to.have.been.calledWith(ASSESSMENT_ID);
-      });
-    });
-
     it('should return a rejected promise when the assessment does not exist', () => {
-      // given
-      assessmentRepository.get.resolves(null);
-
       // when
-      const promise = service.getSkills(ASSESSMENT_ID);
+      const promise = service.getSkills(null);
 
       // then
       return promise.then(() => {
         sinon.assert.fail('Should not succeed');
       }, (error) => {
-        expect(error.message).to.equal(`Unable to find assessment with ID ${ASSESSMENT_ID}`);
-      });
-    });
-
-    it('should rejects when accessing to the assessment is failing', () => {
-      // given
-      assessmentRepository.get.rejects(new Error('Access DB is failing'));
-
-      // when
-      const promise = service.getSkills(ASSESSMENT_ID);
-
-      // then
-      return promise.then(() => {
-        sinon.assert.fail('Should not succeed');
-      }, (error) => {
-        expect(error.message).to.equal('Access DB is failing');
+        expect(error.message).to.equal('Unable to getSkills without assessment');
       });
     });
 
     context('when the assessment is correctly retrieved', () => {
       it('should load answers for the assessment', () => {
         // when
-        const promise = service.getSkills(ASSESSMENT_ID);
+        const promise = service.getSkills(assessment);
 
         // then
         return promise
@@ -574,7 +546,7 @@ describe('Unit | Domain | Services | assessment', () => {
 
         it('should return an empty list of skills', () => {
           // when
-          const promise = service.getSkills(ASSESSMENT_ID);
+          const promise = service.getSkills(assessment);
 
           // then
           return promise
@@ -586,7 +558,7 @@ describe('Unit | Domain | Services | assessment', () => {
 
         it('should not try to get course details', () => {
           // when
-          const promise = service.getSkills(ASSESSMENT_ID);
+          const promise = service.getSkills(assessment);
 
           // then
           return promise.then(() => {
@@ -597,14 +569,13 @@ describe('Unit | Domain | Services | assessment', () => {
       });
 
       context('when the assessement is a certification', () => {
-        beforeEach(() => {
-          const assessmentFromCertif = new Assessment({ id: ASSESSMENT_ID, type: 'CERTIFICATION' });
-          assessmentRepository.get.resolves(assessmentFromCertif);
-        });
 
         it('should not try to get course details', () => {
+          // given
+          const assessmentFromCertif = new Assessment({ id: ASSESSMENT_ID, type: 'CERTIFICATION' });
+
           // when
-          const promise = service.getSkills(ASSESSMENT_ID);
+          const promise = service.getSkills(assessmentFromCertif);
 
           // then
           return promise.then(() => {
@@ -615,14 +586,12 @@ describe('Unit | Domain | Services | assessment', () => {
       });
 
       context('when the assessement is linked to a course', () => {
-        beforeEach(() => {
-          const assessmentFromPreview = new Assessment({ id: ASSESSMENT_ID, courseId: COURSE_ID });
-          assessmentRepository.get.resolves(assessmentFromPreview);
-        });
-
         it('should load course details', () => {
+          // given
+          const assessmentFromPreview = new Assessment({ id: ASSESSMENT_ID, courseId: COURSE_ID });
+
           // when
-          const promise = service.getSkills(ASSESSMENT_ID);
+          const promise = service.getSkills(assessmentFromPreview);
 
           // then
           return promise.then(() => {
@@ -632,8 +601,11 @@ describe('Unit | Domain | Services | assessment', () => {
 
         context('when the course is not in adaptative mode', () => {
           it('should not load data to evaluate level and score', () => {
+            // given
+            const assessmentFromPreview = new Assessment({ id: ASSESSMENT_ID, courseId: COURSE_ID });
+
             // when
-            const promise = service.getSkills(ASSESSMENT_ID);
+            const promise = service.getSkills(assessmentFromPreview);
 
             // then
             return promise
@@ -644,8 +616,11 @@ describe('Unit | Domain | Services | assessment', () => {
           });
 
           it('should not load the linked competence', () => {
+            // given
+            const assessmentFromPreview = new Assessment({ id: ASSESSMENT_ID, courseId: COURSE_ID });
+
             // when
-            const promise = service.getSkills(ASSESSMENT_ID);
+            const promise = service.getSkills(assessmentFromPreview);
 
             // then
             return promise
@@ -666,8 +641,12 @@ describe('Unit | Domain | Services | assessment', () => {
           });
 
           it('should load skills and challenges for the course', () => {
+            // given
+            const assessmentFromPreview = new Assessment({ id: ASSESSMENT_ID, courseId: COURSE_ID });
+
             // when
-            const promise = service.getSkills(ASSESSMENT_ID);
+            const promise = service.getSkills(assessmentFromPreview);
+
 
             // then
             return promise
@@ -678,8 +657,11 @@ describe('Unit | Domain | Services | assessment', () => {
           });
 
           it('should resolve the promise with skills calculated with assessmentAdapter', () => {
+            // given
+            const assessmentFromPreview = new Assessment({ id: ASSESSMENT_ID, courseId: COURSE_ID });
+
             // when
-            const promise = service.getSkills(ASSESSMENT_ID);
+            const promise = service.getSkills(assessmentFromPreview);
 
             // then
             return promise
@@ -698,10 +680,8 @@ describe('Unit | Domain | Services | assessment', () => {
         id: '1',
         courseId: PREVIEW_COURSE_ID
       });
-      assessmentRepository.get.resolves(assessmentFromPreview);
-
       // when
-      const promise = service.getSkills(ASSESSMENT_ID);
+      const promise = service.getSkills(assessmentFromPreview);
 
       // then
       return promise
@@ -715,7 +695,7 @@ describe('Unit | Domain | Services | assessment', () => {
 
     it('should load answers for the assessment', () => {
       // when
-      const promise = service.getSkills(ASSESSMENT_ID);
+      const promise = service.getSkills(assessment);
 
       // then
       return promise.then(() => {

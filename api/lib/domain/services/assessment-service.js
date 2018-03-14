@@ -135,25 +135,24 @@ async function fetchAssessment(assessmentId) {
     });
 }
 
-async function getSkills(assessmentId) {
+async function getSkills(assessment) {
+  if (assessment === null) {
+    return Promise.reject(new NotFoundError(`Unable to getSkills without assessment`));
+  }
 
-  const [assessmentPix, answers] = await Promise.all([
-    assessmentRepository.get(assessmentId),
+  const assessmentId = assessment.id;
+  const [answers] = await Promise.all([
     answerRepository.findByAssessment(assessmentId)
   ]);
 
-  if (assessmentPix === null) {
-    return Promise.reject(new NotFoundError(`Unable to find assessment with ID ${assessmentId}`));
-  }
-
-  if (_isNonScoredAssessment(assessmentPix)) {
+  if (_isNonScoredAssessment(assessment)) {
     return Promise.resolve({
       validatedSkills: [],
       failedSkills: []
     });
   }
 
-  return courseRepository.get(assessmentPix.courseId)
+  return courseRepository.get(assessment.courseId)
     .then((course) => {
 
       if (course.isAdaptive) {

@@ -31,7 +31,7 @@ function evaluateFromAssessmentId(assessmentId) {
       }
 
       return Promise.all([
-        assessmentService.getSkills(assessmentId),
+        assessmentService.getSkills(assessment),
         assessmentService.getCompetenceMarks(assessment)
       ]).then(([skills, marks]) => {
 
