@@ -42,7 +42,7 @@ describe('Integration | Repository | Certification Course', function() {
     }
   ];
 
-  describe('#changeCompletedDate', () => {
+  describe('#changeCompletionDate', () => {
 
     before(() => {
       return knex('certification-courses').delete();
@@ -58,7 +58,7 @@ describe('Integration | Repository | Certification Course', function() {
 
     it('should update completedAt of the certificationCourse if one date is passed', () => {
       // when
-      const promise = certificationCourseRepository.changeCompletedDate(20, '2018-01-01');
+      const promise = certificationCourseRepository.changeCompletionDate(20, '2018-01-01');
 
       // then
       return promise.then(() => knex('certification-courses').first('id', 'completedAt'))

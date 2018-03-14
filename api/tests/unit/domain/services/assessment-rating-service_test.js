@@ -130,7 +130,7 @@ describe('Unit | Domain | Services | assessment-results', () => {
       sandbox.stub(competenceRepository, 'list').resolves(listOfAllCompetences);
       sandbox.stub(competenceMarkRepository, 'save').resolves();
       sandbox.stub(certificationService, 'calculateCertificationResultByAssessmentId').resolves();
-      sandbox.stub(certificationCourseRepository, 'changeCompletedDate').resolves();
+      sandbox.stub(certificationCourseRepository, 'changeCompletionDate').resolves();
 
     });
 
@@ -356,7 +356,7 @@ describe('Unit | Domain | Services | assessment-results', () => {
 
         // then
         return promise.then(() => {
-          expect(certificationCourseRepository.changeCompletedDate).not.to.have.been.called;
+          expect(certificationCourseRepository.changeCompletionDate).not.to.have.been.called;
         });
       });
     });
@@ -492,7 +492,7 @@ describe('Unit | Domain | Services | assessment-results', () => {
 
         // then
         return promise.then(() => {
-          expect(certificationCourseRepository.changeCompletedDate).to.have.been.calledWith(assessmentCourseId, '2018-02-04T00:00:00.000Z');
+          expect(certificationCourseRepository.changeCompletionDate).to.have.been.calledWith(assessmentCourseId, '2018-02-04T00:00:00.000Z');
         });
       });
 
@@ -500,7 +500,7 @@ describe('Unit | Domain | Services | assessment-results', () => {
         it('should return the raised error', () => {
           // given
           const error = new Error();
-          certificationCourseRepository.changeCompletedDate.rejects(error);
+          certificationCourseRepository.changeCompletionDate.rejects(error);
 
           // when
           const promise = service.evaluateFromAssessmentId(assessmentId);

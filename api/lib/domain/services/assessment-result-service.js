@@ -71,7 +71,7 @@ function evaluateFromAssessmentId(assessmentId) {
       }).then(() => {
 
         if (assessmentService.isCertificationAssessment(assessment)) {
-          return certificationCourseRepository.changeCompletedDate(assessment.courseId,
+          return certificationCourseRepository.changeCompletionDate(assessment.courseId,
             moment().toISOString());
         }
       });
