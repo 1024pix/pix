@@ -230,6 +230,7 @@ module.exports = {
         return {
           level: assessmentLastResult.level,
           certificationId: certification.id,
+          assessmentId: assessment.id,
           emitter: assessmentLastResult.emitter,
           comment: assessmentLastResult.comment,
           status: assessmentLastResult.status,

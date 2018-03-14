@@ -1,7 +1,6 @@
 const moment = require('moment');
 
 const AssessmentResult = require('../../domain/models/AssessmentResult');
-const CompetenceMark = require('../models/CompetenceMark');
 
 const skillService = require('../../domain/services/skills-service');
 const assessmentService = require('../../domain/services/assessment-service');
@@ -78,41 +77,19 @@ function evaluateFromAssessmentId(assessmentId) {
     });
 }
 
-module.exports = {
-
-  save(assessmentResultInfo) {
-    const certificationId = assessmentResultInfo['certification-id'];
-    const competenceMarks = assessmentResultInfo['competences-with-mark'];
-
-    return assessmentRepository.getByCertificationCourseId(certificationId)
-      .then((assessment) => {
-
-        const assessmentResult = {
-          assessmentId: assessment.id,
-          emitter: assessmentResultInfo.emitter,
-          status: assessmentResultInfo.status,
-          comment: assessmentResultInfo.comment,
-          level: assessmentResultInfo.level,
-          pixScore: assessmentResultInfo['pix-score'],
-        };
-        return assessmentResultRepository.save(new AssessmentResult(assessmentResult));
-      })
-      .then((assessmentResult) => {
-
-        const competenceMarksSaved = competenceMarks.map((competenceMark) => {
-          const competenceMarkSaved = {
-            level: competenceMark.level,
-            score: competenceMark.score,
-            area_code: competenceMark['area-code'],
-            competence_code: competenceMark['competence-code'],
-            assessmentResultId: assessmentResult.id
-          };
-
-          return competenceMarkRepository.save(new CompetenceMark(competenceMarkSaved));
-        });
-        return Promise.all(competenceMarksSaved);
+function save(assessmentResult, competenceMarks) {
+  return assessmentResultRepository.save(assessmentResult)
+    .then((assessmentResult) => {
+      const competenceMarksSaved = competenceMarks.map((competenceMark) => {
+        competenceMark.assessmentResultId = assessmentResult.id;
+        return competenceMarkRepository.save(competenceMark);
       });
-  },
+      return Promise.all(competenceMarksSaved);
+    });
+}
+
+module.exports = {
+  save,
   evaluateFromAssessmentId
 
 };

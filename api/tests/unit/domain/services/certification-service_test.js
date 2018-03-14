@@ -25,8 +25,8 @@ function _buildAnswer(challengeId, result) {
   return new Answer({ id: 'answer_id', challengeId, result, value: 'something' });
 }
 
-function _buildCompetenceMarks(level, competence_code) {
-  return new CompetenceMarks({ level, competence_code });
+function _buildCompetenceMarks(level, score, area_code, competence_code) {
+  return new CompetenceMarks({ level, score, area_code, competence_code });
 }
 
 function _buildAssessmentResult(pixScore, level) {
@@ -1269,7 +1269,7 @@ describe('Unit | Service | Certification Service', function() {
         sessionId: 'MoufMufassa'
       });
 
-      assessmentResult.competenceMarks = [_buildCompetenceMarks(3, '2.1')];
+      assessmentResult.competenceMarks = [_buildCompetenceMarks(3, 27, '2.1', '2')];
       sandbox.stub(assessmentResultRepository, 'get').resolves(
         assessmentResult
       );
@@ -1289,8 +1289,10 @@ describe('Unit | Service | Certification Service', function() {
         completedAt: '2017-12-23T16:23:12.232Z',
         competencesWithMark: [
           {
-            level: 3,
-            competence_code: '2.1'
+            level:3,
+            score: 27,
+            competence_code: '2',
+            area_code: '2.1'
           }
         ]
       };
@@ -1304,7 +1306,6 @@ describe('Unit | Service | Certification Service', function() {
         expect(certification.createdAt).to.deep.equal('2017-12-23 15:23:12');
         expect(certification.completedAt).to.deep.equal('2017-12-23T16:23:12.232Z');
         expect(certification.competencesWithMark).to.deep.equal([{ level: 3, competence_code: '2.1' }]);
-        expect(certification.rejectionReason).to.deep.equal('Chant durant la certification');
         expect(certification.sessionId).to.deep.equal('MoufMufassa');
       });
     });

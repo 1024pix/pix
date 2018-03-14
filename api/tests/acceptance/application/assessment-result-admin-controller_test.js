@@ -14,6 +14,7 @@ describe('Acceptance | Controller | assessment-results-controller', function() {
         data: {
           type: 'assessment-results',
           attributes: {
+            'assessment-id': 1,
             'certification-id': certificationId,
             level: 3,
             'pix-score': 27,
