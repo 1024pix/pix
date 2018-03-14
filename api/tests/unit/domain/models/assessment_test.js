@@ -76,4 +76,22 @@ describe('Unit | Domain | Models | Assessment', () => {
     });
 
   });
+
+  describe('#setCompleted', () => {
+
+    it('should return the same object with state completed', () => {
+      // given
+      const assessment = new Assessment({ state: 'started', userId: 2 });
+
+      // when
+      assessment.setCompleted();
+
+      // then
+      expect(assessment.state).to.be.equal('completed');
+      expect(assessment.userId).to.be.equal(2);
+
+    });
+
+  });
+
 });

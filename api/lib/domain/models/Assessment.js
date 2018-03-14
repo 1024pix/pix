@@ -15,6 +15,10 @@ class Assessment {
     }
     return null;
   }
+
+  setCompleted() {
+    this.state = 'completed';
+  }
 }
 
 module.exports = Assessment;

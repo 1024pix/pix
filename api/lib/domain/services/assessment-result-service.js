@@ -52,7 +52,7 @@ function evaluateFromAssessmentId(assessmentId) {
           status,
           assessmentId
         });
-        assessment.state = 'completed';
+        assessment.setCompleted();
 
         return Promise.all([
           assessmentResultRepository.save(assessmentResult),
