@@ -12,7 +12,7 @@ module.exports = {
 
   save(request, reply) {
     const jsonResult = request.payload.data.attributes;
-    const { assessmentResult, competenceMarks } = assessmentResultsSerializer.deserializeResultsAdd(jsonResult);
+    const { assessmentResult, competenceMarks } = assessmentResultsSerializer.deserializeResultsAdd(jsonResult);
     return assessmentResultService.save(assessmentResult, competenceMarks)
       .then(() => reply())
       .catch((error) => {

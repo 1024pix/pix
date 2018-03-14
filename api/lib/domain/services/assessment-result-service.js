@@ -12,6 +12,19 @@ const certificationCourseRepository = require('../../infrastructure/repositories
 
 const { NotFoundError, AlreadyRatedAssessmentError } = require('../../domain/errors');
 
+function _getAssessmentResultEvaluations(marks, assessmentType) {
+  const pixScore = marks.reduce((totalPixScore, mark) => {
+    return totalPixScore + mark.score;
+  }, 0);
+  let level = Math.floor(pixScore / 8);
+  let status = 'validated';
+  if(pixScore === 0 && assessmentType === 'CERTIFICATION') {
+    status = 'rejected';
+    level = -1;
+  }
+  return { pixScore, level, status };
+}
+
 function evaluateFromAssessmentId(assessmentId) {
 
   let assessment;
@@ -33,16 +46,7 @@ function evaluateFromAssessmentId(assessmentId) {
         assessmentService.getSkills(assessment),
         assessmentService.getCompetenceMarks(assessment)
       ]).then(([skills, marks]) => {
-
-        const pixScore = marks.reduce((totalPixScore, mark) => {
-          return totalPixScore + mark.score;
-        }, 0);
-        let level = Math.floor(pixScore / 8);
-        let status = 'validated';
-        if(pixScore === 0) {
-          status = 'rejected';
-          level = -1;
-        }
+        const { pixScore, level, status } = _getAssessmentResultEvaluations(marks, assessment.type);
         const assessmentResult = new AssessmentResult({
           emitter: 'PIX-ALGO',
           comment: 'Computed',
