@@ -12,6 +12,7 @@ const certificationCourseRepository = require('../../infrastructure/repositories
 
 const { NotFoundError, AlreadyRatedAssessmentError } = require('../../domain/errors');
 
+// TODO: Should compute pixScore automatically in AssessmentResult + create an Utils to compute level/status everywhere
 function _getAssessmentResultEvaluations(marks, assessmentType) {
   const pixScore = marks.reduce((totalPixScore, mark) => {
     return totalPixScore + mark.score;
