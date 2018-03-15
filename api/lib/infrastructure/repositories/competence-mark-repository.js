@@ -7,6 +7,7 @@ function _toDomain(bookshelfModel) {
 
 module.exports = {
   save: (competenceMark) => {
-    return new BookshelfCompetenceMark(competenceMark).save().then(_toDomain);
+    return competenceMark.validate()
+      .then(() => new BookshelfCompetenceMark(competenceMark).save().then(_toDomain));
   }
 };

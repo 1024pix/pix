@@ -147,6 +147,10 @@ class WrongDateFormatError extends Error {
   }
 }
 
+class ValidationError extends Error {
+
+}
+
 module.exports = {
   NotFoundError,
   PasswordNotMatching,
@@ -162,5 +166,6 @@ module.exports = {
   NotCompletedAssessmentError,
   AssessmentEndedError,
   AlreadyRatedAssessmentError,
-  WrongDateFormatError
+  WrongDateFormatError,
+  ValidationError
 };

@@ -1,6 +1,6 @@
 const { expect } = require('../../../test-helper');
 const CompetenceMark = require('../../../../lib/domain/models/CompetenceMark');
-
+const { ValidationError } = require('../../../../lib/domain/errors');
 describe('Unit | Domain | Models | Competence Mark', () => {
 
   describe('constructor', () => {
@@ -78,4 +78,93 @@ describe('Unit | Domain | Models | Competence Mark', () => {
     });
 
   });
+
+  describe('validate', () => {
+
+
+    it('should return a resolved promise when the object is valide', () => {
+      // given
+      const rawData = {
+        level: 2,
+        score: 13,
+        area_code: '1',
+        competence_code: '1.1'
+      };
+      const competenceMark = new CompetenceMark(rawData);
+
+      // when
+      const promise = competenceMark.validate();
+
+      // then
+      return expect(promise).not.to.be.rejected;
+    });
+
+    it('should return an error if level is > 5', () => {
+      // given
+      const rawData = {
+        level: 7,
+        score: 13,
+        area_code: '1',
+        competence_code: '1.1'
+      };
+      const competenceMark = new CompetenceMark(rawData);
+
+      // when
+      const promise = competenceMark.validate();
+
+      // then
+
+      return promise
+        .catch((error) => {
+          expect(error.message).to.be.equal('ValidationError: child "level" fails because ["level" must be less than or equal to 5]');
+        });
+    });
+
+    it('should return an error if level is < -1', () => {
+      // given
+      const rawData = {
+        level: -2,
+        score: 13,
+        area_code: '1',
+        competence_code: '1.1'
+      };
+
+      const competenceMark = new CompetenceMark(rawData);
+
+      // when
+      const promise = competenceMark.validate();
+
+      // then
+
+      return promise
+        .catch((error) => {
+          expect(error.message).to.be.equal('ValidationError: child "level" fails because ["level" must be larger than or equal to -1]');
+        });
+    });
+
+    it('should return an error if score > 64', () => {
+      // given
+      const rawData = {
+        level: 5,
+        score: 65,
+        area_code: '1',
+        competence_code: '1.1'
+      };
+
+      const competenceMark = new CompetenceMark(rawData);
+
+      // when
+      const promise = competenceMark.validate();
+
+      // then
+
+      return promise
+        .catch((error) => {
+          expect(error.message).to.be.equal('ValidationError: child "score" fails because ["score" must be less than or equal to 64]');
+          expect(error).to.be.instanceOf(ValidationError);
+        });
+    });
+
+  });
+
 });

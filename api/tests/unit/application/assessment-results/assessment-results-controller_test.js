@@ -7,6 +7,8 @@ const assessmentRatingSerializer = require('../../../../lib/infrastructure/seria
 const assessmentResultService = require('../../../../lib/domain/services/assessment-result-service');
 
 const { AlreadyRatedAssessmentError, NotFoundError } = require('../../../../lib/domain/errors');
+const AssessmentResult = require('../../../../lib/domain/models/AssessmentResult');
+const CompetenceMark = require('../../../../lib/domain/models/CompetenceMark');
 
 const logger = require('../../../../lib/infrastructure/logger');
 
@@ -120,6 +122,91 @@ describe('Unit | Controller | assessment-results', () => {
           expect(Boom.badImplementation).to.have.been.calledWith(undefinedError);
           expect(replyStub).to.have.been.calledWith(Boom.badImplementation());
         });
+      });
+    });
+  });
+
+  describe('#save', () => {
+
+    const request = {
+      payload: {
+        data: {
+          attributes: {
+            'assessment-id': 2,
+            'certification-id': 1,
+            level: 3,
+            'pix-score': 27,
+            status: 'validated',
+            emitter: 'Jury',
+            comment: 'Envie de faire un nettoyage de printemps dans les notes',
+            'competences-with-mark': [
+              {
+                level: 2,
+                score: 18,
+                'area-code': 2,
+                'competence-code': 2.1
+              }, {
+                level: 3,
+                score: 27,
+                'area-code': 3,
+                'competence-code': 3.2
+              }, {
+                level: 1,
+                score: 9,
+                'area-code': 1,
+                'competence-code': 1.3
+              }
+            ]
+          },
+          type: 'assessment-results'
+        }
+      }
+    };
+
+    beforeEach(() => {
+      sinon.stub(assessmentResultService, 'save').resolves();
+    });
+
+    afterEach(() => {
+      assessmentResultService.save.restore();
+    });
+
+    it('should return a Assessment Result and an Array of Competence Marks', () => {
+      // given
+      const expectedAssessmentResult = new AssessmentResult({
+        assessmentId: 2,
+        level: 3,
+        pixScore: 27,
+        status: 'validated',
+        emitter: 'Jury',
+        comment: 'Envie de faire un nettoyage de printemps dans les notes'
+      });
+
+      const competenceMark1 = new CompetenceMark({
+        level: 2,
+        score: 18,
+        area_code: 2,
+        competence_code: 2.1
+      });
+      const competenceMark2 = new CompetenceMark({
+        level: 3,
+        score: 27,
+        area_code: 3,
+        competence_code: 3.2
+      });
+      const competenceMark3 = new CompetenceMark({
+        level: 1,
+        score: 9,
+        area_code: 1,
+        competence_code: 1.3
+      });
+
+      // when
+      const promise = assessmentResultController.save(request, sinon.stub());
+
+      // then
+      return promise.then(() => {
+        expect(assessmentResultService.save).to.have.been.calledWith(expectedAssessmentResult, [competenceMark1, competenceMark2, competenceMark3]);
       });
     });
   });

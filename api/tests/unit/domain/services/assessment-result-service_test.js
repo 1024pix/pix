@@ -1,9 +1,10 @@
-const { sinon } = require('../../../test-helper');
+const { sinon, expect } = require('../../../test-helper');
 const assessmentResultService = require('../../../../lib/domain/services/assessment-result-service');
 const assessmentResultRepository = require('../../../../lib/infrastructure/repositories/assessment-result-repository');
 const competenceMarkRepository = require('../../../../lib/infrastructure/repositories/competence-mark-repository');
 const CompetenceMark = require('../../../../lib/domain/models/CompetenceMark');
 const AssessmentResult = require('../../../../lib/domain/models/AssessmentResult');
+const { ValidationError } = require('../../../../lib/domain/errors');
 
 describe('Unit | Domain | Services | assessment-result', function() {
 
@@ -31,6 +32,7 @@ describe('Unit | Domain | Services | assessment-result', function() {
         competence_code: 3.2
       })
     ];
+
     const sandbox = sinon.sandbox.create();
 
     beforeEach(() => {
@@ -74,6 +76,45 @@ describe('Unit | Domain | Services | assessment-result', function() {
           area_code: 3,
           competence_code: 3.2
         }));
+      });
+    });
+
+    context('when one competence is not valided', () => {
+
+      const competenceMarksWithOneInvalid = [
+        new CompetenceMark({
+          level: 20,
+          score: 18,
+          area_code: 2,
+          competence_code: 2.1
+        }),
+        new CompetenceMark({
+          level: 3,
+          score: 27,
+          area_code: 3,
+          competence_code: 3.2
+        })
+      ];
+
+      it('should not saved assessmentResult and competenceMarks', () => {
+        // when
+        const promise = assessmentResultService.save(assessmentResult, competenceMarksWithOneInvalid);
+
+        // then
+        return promise.catch(() => {
+          expect(competenceMarkRepository.save).to.have.been.not.called;
+          expect(assessmentResultRepository.save).to.have.been.not.called;
+        });
+      });
+
+      it('should return a ValidationError', () => {
+        // when
+        const promise = assessmentResultService.save(assessmentResult, competenceMarksWithOneInvalid);
+
+        // then
+        return promise.catch((error) => {
+          expect(error).to.be.instanceOf(ValidationError);
+        });
       });
     });
   });

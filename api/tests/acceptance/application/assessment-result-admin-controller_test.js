@@ -96,6 +96,7 @@ describe('Acceptance | Controller | assessment-results-controller', function() {
           expect(marks).to.have.lengthOf(3);
         });
     });
+
     context('when assessment has already the assessment-result compute', () => {
       before(() => {
         return knex('assessment-results')
@@ -117,8 +118,8 @@ describe('Acceptance | Controller | assessment-results-controller', function() {
               });
           });
       });
-      it('should save a assessment-results and 3 marks', () => {
 
+      it('should save a assessment-results and 3 marks', () => {
         // when
         const promise = server.inject(options);
 
@@ -131,6 +132,61 @@ describe('Acceptance | Controller | assessment-results-controller', function() {
           .then(() => knex('competence-marks').select())
           .then((marks) => {
             expect(marks).to.have.lengthOf(4);
+          });
+      });
+    });
+
+    context('when the correction to be applied has a mistake', () => {
+      it('should return an OK status after saving in database', () => {
+        const wrongScore = 9999999999;
+
+        const options = {
+          method: 'POST', url: '/api/admin/assessment-results', payload: {
+            data: {
+              type: 'assessment-results',
+              attributes: {
+                'assessment-id': 1,
+                'certification-id': certificationId,
+                level: 3,
+                'pix-score': 27,
+                status: 'validated',
+                emitter: 'Jury',
+                comment: 'Envie de faire un nettoyage de printemps dans les notes',
+                'competences-with-mark' : [
+                  {
+                    level: 2,
+                    score: 18,
+                    'area-code': 2,
+                    'competence-code': 2.1
+                  },{
+                    level: 3,
+                    score: wrongScore,
+                    'area-code': 3,
+                    'competence-code': 3.2
+                  },{
+                    level: 1,
+                    score: 218158186,
+                    'area-code': 1,
+                    'competence-code': 1.3
+                  }
+                ]
+              }
+            }
+          }
+        };
+
+        // when
+        const promise = server.inject(options);
+
+        // then
+        return promise
+          .then((response) => {
+            expect(response.statusCode).to.equal(422);
+            expect(response.result).to.deep.equal({
+              'error': 'Unprocessable Entity',
+              'message': 'ValidationError: child "score" fails because ["score" must be less than or equal to 64]',
+              'statusCode': 422
+            });
           });
       });
     });

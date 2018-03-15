@@ -25,6 +25,10 @@ function _getAssessmentResultEvaluations(marks, assessmentType) {
   return { pixScore, level, status };
 }
 
+function _validatedDataForAllCompetenceMark(marks) {
+  return Promise.all(marks.map((mark) => mark.validate()));
+}
+
 function evaluateFromAssessmentId(assessmentId) {
 
   let assessment;
@@ -82,7 +86,9 @@ function evaluateFromAssessmentId(assessmentId) {
 }
 
 function save(assessmentResult, competenceMarks) {
-  return assessmentResultRepository.save(assessmentResult)
+
+  return _validatedDataForAllCompetenceMark(competenceMarks)
+    .then(() => assessmentResultRepository.save(assessmentResult))
     .then((assessmentResult) => {
       const competenceMarksSaved = competenceMarks.map((competenceMark) => {
         competenceMark.assessmentResultId = assessmentResult.id;

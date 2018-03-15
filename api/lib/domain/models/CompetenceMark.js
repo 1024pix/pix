@@ -1,4 +1,5 @@
 const Joi = require('joi');
+const { ValidationError } = require('../errors');
 
 const schemaValidateCompetenceMark = Joi.object().keys({
   id: Joi.number().optional(),
@@ -11,16 +12,15 @@ const schemaValidateCompetenceMark = Joi.object().keys({
 
 class CompetenceMark {
   constructor(model) {
-    const result =Joi.validate(model, schemaValidateCompetenceMark);
+    Object.assign(this, model);
+  }
+
+  validate() {
+    const result = Joi.validate(this, schemaValidateCompetenceMark);
     if(result.error === null) {
-      this.id = model.id;
-      this.level = model.level;
-      this.score = model.score;
-      this.area_code = model.area_code;
-      this.competence_code = model.competence_code;
-      this.assessmentResultId = model.assessmentResultId;
+      return Promise.resolve();
     } else {
-      throw new Error(result.error);
+      return Promise.reject(new ValidationError(result.error));
     }
   }
 }
