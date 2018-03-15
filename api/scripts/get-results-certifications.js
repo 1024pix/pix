@@ -67,7 +67,7 @@ function main() {
       .map(requestObject => makeRequest(requestObject))
   );
 
-  requests.then(certificationResults => certificationResults.map(toCSVRow))
+  return requests.then(certificationResults => certificationResults.map(toCSVRow))
     .then(res => json2csv({
       data: res,
       fieldNames: HEADERS,

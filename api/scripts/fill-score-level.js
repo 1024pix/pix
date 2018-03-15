@@ -14,22 +14,22 @@ function buildRequestObject(baseUrl, assessmentId) {
     url: `/api/assessment-ratings/`,
     json: true,
     body: {
-        data: {
-          attributes: {
-            'estimated-level': null,
-            'pix-score': null
-          },
-          relationships: {
-            assessment: {
-              data: {
-                type: 'assessments',
-                id: assessmentId
-              }
+      data: {
+        attributes: {
+          'estimated-level': null,
+          'pix-score': null
+        },
+        relationships: {
+          assessment: {
+            data: {
+              type: 'assessments',
+              id: assessmentId
             }
-          },
-          type: 'assessment-ratings'
-        }
-      },
+          }
+        },
+        type: 'assessment-ratings'
+      }
+    },
   };
 }
 
@@ -41,13 +41,11 @@ function main() {
       .map(requestObject => request(requestObject))
   );
 
-  requests.then(() => {
-    console.log('Update EstimatedLevel and PixScore for : '+ids);
+  return requests.then(() => {
+    console.log('Update EstimatedLevel and PixScore for : ' + ids);
   });
 }
 
-
-main();
 /*=================== tests =============================*/
 
 if (process.env.NODE_ENV !== 'test') {

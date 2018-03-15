@@ -6,7 +6,7 @@ describe('Unit | Serializer | JSONAPI | authentication-serializer', function() {
 
   const expectedJsonAnswer = {
     data: {
-      id: '8',
+      id: 8,
       type: 'authentications',
       attributes: {
         'user-id': '8',

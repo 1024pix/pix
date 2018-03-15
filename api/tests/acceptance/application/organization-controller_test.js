@@ -168,7 +168,7 @@ describe('Acceptance | Controller | organization-controller', function() {
           return _insertSnapshot(organizationId, userId);
         })
         .then((snapshot_id) => {
-          snapshotId = snapshot_id;
+          snapshotId = snapshot_id[0];
         })
         .then(() => done());
     });
@@ -184,7 +184,7 @@ describe('Acceptance | Controller | organization-controller', function() {
         data:
           [{
             type: 'snapshots',
-            id: snapshotId.toString(),
+            id: snapshotId,
             attributes: {
               score: '15',
               'tests-finished': '1',

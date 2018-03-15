@@ -4,7 +4,7 @@ const serializer = require('../../../../../lib/infrastructure/serializers/jsonap
 const Session = require('../../../../../lib/domain/models/Session');
 const { WrongDateFormatError } = require('../../../../../lib/domain/errors');
 
-describe('UNIT | Seializer | JSONAPI | session-serializer', function() {
+describe('Unit | Serializer | JSONAPI | session-serializer', function() {
 
   const modelSession = new Session({
     id: 12,
@@ -20,7 +20,7 @@ describe('UNIT | Seializer | JSONAPI | session-serializer', function() {
   const jsonSession = {
     data: {
       type: 'sessions',
-      id: '12',
+      id: 12,
       attributes: {
         'certification-center': 'Université de dressage de loutres',
         address: 'Nice',
@@ -60,7 +60,7 @@ describe('UNIT | Seializer | JSONAPI | session-serializer', function() {
       const session = serializer.deserialize(jsonSession);
 
       // then
-      expect(session.id).to.equal('12');
+      expect(session.id).to.equal(12);
       expect(session.certificationCenter).to.equal('Université de dressage de loutres');
       expect(session.address).to.equal('Nice');
       expect(session.room).to.equal('28D');

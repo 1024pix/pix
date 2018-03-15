@@ -136,7 +136,7 @@ describe('Acceptance | Controller | answer-controller', function() {
           .then(function(model) {
 
             // then
-            expect(answer.id).to.equal(model.id.toString());
+            expect(answer.id).to.equal(model.id);
             expect(answer.id).to.equal(response.result.data.id);
             expect(answer.attributes['value']).to.equal(model.get('value'));
             expect(answer.attributes['elapsed-time']).to.equal(model.get('elapsedTime'));
