@@ -293,10 +293,11 @@ describe('Unit | Model | Assessment', function() {
 
     it('should not return any timed challenge if previous challenge was timed', function() {
       // given
-      const ch1 = new Challenge('a', 'validé', [], undefined);
-      const ch2 = new Challenge('b', 'validé', [], 30);
-      const ch3 = new Challenge('c', 'validé', [], undefined);
-      const ch4 = new Challenge('d', 'validé', [], 30);
+      const web1 = new Skill('web1');
+      const ch1 = new Challenge('a', 'validé', [web1], undefined);
+      const ch2 = new Challenge('b', 'validé', [web1], 30);
+      const ch3 = new Challenge('c', 'validé', [web1], undefined);
+      const ch4 = new Challenge('d', 'validé', [web1], 30);
       const answerCh1 = new Answer(ch1, AnswerStatus.OK);
       const answerCh2 = new Answer(ch2, AnswerStatus.OK);
       const challenges = [ch1, ch2, ch3, ch4];
@@ -311,12 +312,13 @@ describe('Unit | Model | Assessment', function() {
 
     it('should return only challenges that are validated, prevalidated, or validated without test', function() {
       // given
-      const drop1 = new Challenge('a', 'poubelle', []);
-      const keep1 = new Challenge('b', 'validé', []);
-      const keep2 = new Challenge('c', 'pré-validé', []);
-      const drop2 = new Challenge('d', 'archive', []);
-      const drop3 = new Challenge('e', 'proposé', []);
-      const keep3 = new Challenge('f', 'validé sans test', []);
+      const web1 = new Skill('web1');
+      const drop1 = new Challenge('a', 'poubelle', [web1]);
+      const keep1 = new Challenge('b', 'validé', [web1]);
+      const keep2 = new Challenge('c', 'pré-validé', [web1]);
+      const drop2 = new Challenge('d', 'archive', [web1]);
+      const drop3 = new Challenge('e', 'proposé', [web1]);
+      const keep3 = new Challenge('f', 'validé sans test', [web1]);
       const course = new Course([keep1, keep2, keep3, drop1, drop2, drop3]);
 
       // when
