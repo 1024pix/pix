@@ -24,8 +24,8 @@ describe('Acceptance | Controller | answer-controller', function() {
 
     beforeEach(() => {
       return knex('answers').delete().then(() => {
-        return knex('answers').insert([inserted_answer]).then((id) => {
-          inserted_answer_id = id;
+        return knex('answers').insert([inserted_answer]).then((ids) => {
+          inserted_answer_id = ids[0];
         });
       });
     });
@@ -53,7 +53,7 @@ describe('Acceptance | Controller | answer-controller', function() {
       server.inject({ method: 'GET', url: queryUrl }, (response) => {
         const answer = response.result.data;
 
-        expect(answer.id.toString()).to.equal(inserted_answer_id.toString());
+        expect(answer.id).to.equal(inserted_answer_id);
         expect(answer.attributes.value.toString()).to.equal(inserted_answer.value.toString());
         expect(answer.attributes.result.toString()).to.equal(inserted_answer.result.toString());
         expect(answer.relationships.assessment.data.id.toString()).to.equal(inserted_answer.assessmentId.toString());

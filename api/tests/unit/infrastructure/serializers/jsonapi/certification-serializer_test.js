@@ -62,7 +62,7 @@ describe('Unit | Serializer | JSONAPI | certification-serializer', function() {
     const jsonCertificationCourse = {
       data: {
         type: 'certifications',
-        id: '1',
+        id: 1,
         attributes: {
           'status': 'rejected',
           'first-name': 'Freezer',
