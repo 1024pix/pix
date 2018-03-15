@@ -81,7 +81,6 @@ describe('Unit | Domain | Models | Competence Mark', () => {
 
   describe('validate', () => {
 
-
     it('should return a resolved promise when the object is valide', () => {
       // given
       const rawData = {

@@ -640,7 +640,7 @@ describe('Unit | Service | Certification Service', function() {
           competencesWithMark: expectedCertifiedCompetences,
           listChallengesAndAnswers: expectedChallenges,
           percentageCorrectAnswers: 67,
-          status: 'validated',
+          status: 'completed',
           totalScore: 54,
           userId: 'user_id',
           completedAt: '2018-01-01',

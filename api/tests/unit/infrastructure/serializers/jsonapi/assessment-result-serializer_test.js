@@ -1,6 +1,5 @@
 const { expect } = require('../../../../test-helper');
 const AssessmentResult = require('../../../../../lib/domain/models/AssessmentResult');
-const CompetenceMark = require('../../../../../lib/domain/models/CompetenceMark');
 const serializer = require('../../../../../lib/infrastructure/serializers/jsonapi/assessment-result-serializer');
 
 describe('Unit | Serializer | JSONAPI | assessment-result-serializer', () => {
