@@ -10,14 +10,14 @@ describe('Unit | Service | Encryption', () => {
   describe('#check', () => {
 
     it('should reject when passwords are not matching', () => {
-      // Given
+      // given
       const encryptedPassword = bcrypt.hashSync('my-real-password', 1);
       const password = 'my-expected-password';
 
-      // When
+      // when
       const promise = encryptionService.check(password, encryptedPassword);
 
-      // Then
+      // then
       return promise
         .then(() => {
           sinon.assert.fail('Should not succeed');
@@ -28,14 +28,14 @@ describe('Unit | Service | Encryption', () => {
     });
 
     it('should resolve when passwords are matching', () => {
-      // Given
+      // given
       const encryptedPassword = bcrypt.hashSync('my-real-password', 1);
       const password = 'my-real-password';
 
-      // When
+      // when
       const promise = encryptionService.check(password, encryptedPassword);
 
-      // Then
+      // then
       return promise.catch(_ => {
         sinon.assert.fail('Should not fail');
       });

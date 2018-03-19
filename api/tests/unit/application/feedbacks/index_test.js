@@ -1,51 +1,75 @@
 const { expect, sinon } = require('../../../test-helper');
 const Hapi = require('hapi');
+const securityController = require('../../../../lib/interfaces/controllers/security-controller');
 const feedbackController = require('../../../../lib/application/feedbacks/feedback-controller');
 
-describe('Unit | Router | feedback-router', function() {
+describe('Unit | Router | feedback-router', () => {
 
   let server;
 
-  beforeEach(function() {
-    server = this.server = new Hapi.Server();
+  beforeEach(() => {
+    server = new Hapi.Server();
     server.connection({ port: null });
     server.register({ register: require('../../../../lib/application/feedbacks') });
   });
 
-  function expectRouteToExist(routeOptions, done) {
-    server.inject(routeOptions, (res) => {
-      expect(res.statusCode).to.equal(200);
-      done();
-    });
-  }
+  describe('POST /api/feedbacks', () => {
 
-  describe('POST /api/feedbacks', function() {
-
-    before(function() {
+    before(() => {
       sinon.stub(feedbackController, 'save').callsFake((request, reply) => reply('ok'));
     });
 
-    after(function() {
+    after(() => {
       feedbackController.save.restore();
     });
 
-    it('should exist', function(done) {
-      expectRouteToExist({ method: 'POST', url: '/api/feedbacks' }, done);
+    it('should exist', () => {
+      // given
+      const options = {
+        method: 'POST',
+        url: '/api/feedbacks'
+      };
+
+      // when
+      const promise = server.inject(options);
+
+      // then
+      return promise.then((result) => {
+        expect(result.statusCode).to.equal(200);
+      });
     });
   });
 
   describe('GET /api/feedbacks', () => {
 
-    before(function() {
+    before(() => {
+      sinon.stub(securityController, 'checkUserIsAuthenticated').callsFake((request, reply) => {
+        reply.continue({ credentials: { accessToken: 'jwt.access.token' } });
+      });
+      sinon.stub(securityController, 'checkUserHasRolePixMaster').callsFake((request, reply) => reply(true));
       sinon.stub(feedbackController, 'find').callsFake((request, reply) => reply('ok'));
     });
 
-    after(function() {
+    after(() => {
+      securityController.checkUserIsAuthenticated.restore();
+      securityController.checkUserHasRolePixMaster.restore();
       feedbackController.find.restore();
     });
 
-    it('should exist', (done) => {
-      expectRouteToExist({ method: 'GET', url: '/api/feedbacks' }, done);
+    it('should exist', () => {
+      // given
+      const options = {
+        method: 'GET',
+        url: '/api/feedbacks'
+      };
+
+      // when
+      const promise = server.inject(options);
+
+      // then
+      return promise.then((result) => {
+        expect(result.statusCode).to.equal(200);
+      });
     });
   });
 

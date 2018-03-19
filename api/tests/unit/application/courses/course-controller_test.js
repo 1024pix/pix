@@ -6,32 +6,43 @@ const courseRepository = require('../../../../lib/infrastructure/repositories/co
 const courseSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/course-serializer');
 const cache = require('../../../../lib/infrastructure/cache');
 
+const securityController = require('../../../../lib/interfaces/controllers/security-controller');
 const courseController = require('../../../../lib/application/courses/course-controller');
-const CourseService = require('../../../../lib/domain/services/course-service');
+const courseService = require('../../../../lib/domain/services/course-service');
 const certificationService = require('../../../../lib/domain/services/certification-service');
 const certificationCourseSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/certification-course-serializer');
 const { NotFoundError } = require('../../../../lib/domain/errors');
 const { UserNotAuthorizedToCertifyError } = require('../../../../lib/domain/errors');
 
-describe('Unit | Controller | course-controller', function() {
+describe('Integration | Controller | course-controller', () => {
 
   let server;
+  let sandbox;
 
-  before(function() {
+  beforeEach(() => {
+    sandbox = sinon.sandbox.create();
+    sandbox.stub(courseService, 'getCourse');
+    sandbox.stub(courseSerializer, 'serialize');
+    sandbox.stub(securityController, 'checkUserHasRolePixMaster');
+    sandbox.stub(courseRepository, 'refreshAll');
+    sandbox.stub(courseRepository, 'getProgressionCourses');
+    sandbox.stub(courseRepository, 'getAdaptiveCourses');
+    sandbox.stub(courseRepository, 'getCoursesOfTheWeek');
+    sandbox.stub(certificationService, 'startNewCertification');
+    sandbox.stub(certificationCourseSerializer, 'serialize');
+    sandbox.stub(Boom, 'forbidden');
+
     server = this.server = new Hapi.Server();
     server.connection({ port: null });
     server.register({ register: require('../../../../lib/application/courses') });
   });
 
-  beforeEach(function() {
+  afterEach(() => {
     cache.flushAll();
+    sandbox.restore();
   });
 
-  afterEach(function() {
-    cache.flushAll();
-  });
-
-  describe('#list', function() {
+  describe('#list', () => {
 
     const courses = [
       new Course({ id: 'course_1' }),
@@ -41,166 +52,157 @@ describe('Unit | Controller | course-controller', function() {
 
     it('should fetch and return all the courses', () => {
       // given
-      sinon.stub(courseRepository, 'getProgressionCourses').resolves(courses);
-      sinon.stub(courseSerializer, 'serialize').callsFake(_ => courses);
+      const options = {
+        method: 'GET',
+        url: '/api/courses'
+      };
+      courseRepository.getProgressionCourses.resolves(courses);
+      courseSerializer.serialize.callsFake(_ => courses);
 
       // when
-      return server.inject({ method: 'GET', url: '/api/courses' })
-        .then(res => {
-          // then
-          expect(res.result).to.deep.equal(courses);
+      const promise = server.inject(options);
 
-          // after
-          courseRepository.getProgressionCourses.restore();
-          courseSerializer.serialize.restore();
-        });
+      // then
+      return promise.then(res => {
+        expect(res.result).to.deep.equal(courses);
+      });
     });
 
     it('should fetch and return all the adaptive courses', () => {
       // given
-      sinon.stub(courseRepository, 'getAdaptiveCourses').resolves(courses);
-      sinon.stub(courseSerializer, 'serialize').callsFake(_ => courses);
+      const options = {
+        method: 'GET',
+        url: '/api/courses?isAdaptive=true'
+      };
+      courseRepository.getAdaptiveCourses.resolves(courses);
+      courseSerializer.serialize.callsFake(_ => courses);
 
       // when
-      return server.inject({ method: 'GET', url: '/api/courses?isAdaptive=true' })
-        .then(res => {
-          // then
-          expect(res.result).to.deep.equal(courses);
+      const promise = server.inject(options);
 
-          // after
-          courseRepository.getAdaptiveCourses.restore();
-          courseSerializer.serialize.restore();
-        });
+      // then
+      return promise.then(res => {
+        expect(res.result).to.deep.equal(courses);
+      });
     });
 
     it('should fetch and return all the highlitghted courses of the week', () => {
       // given
-      sinon.stub(courseRepository, 'getCoursesOfTheWeek').resolves(courses);
-      sinon.stub(courseSerializer, 'serialize').callsFake(_ => courses);
+      const options = {
+        method: 'GET',
+        url: '/api/courses?isCourseOfTheWeek=true'
+      };
+      courseRepository.getCoursesOfTheWeek.resolves(courses);
+      courseSerializer.serialize.callsFake(_ => courses);
 
       // when
-      return server.inject({ method: 'GET', url: '/api/courses?isCourseOfTheWeek=true' })
-        .then(res => {
-          // then
-          expect(res.result).to.deep.equal(courses);
+      const promise = server.inject(options);
 
-          // after
-          courseRepository.getCoursesOfTheWeek.restore();
-          courseSerializer.serialize.restore();
-        });
+      // then
+      return promise.then(res => {
+        expect(res.result).to.deep.equal(courses);
+      });
     });
   });
 
-  describe('#get', function() {
+  describe('#get', () => {
 
-    let sandbox;
     let reply;
-    const course = new Course({ 'id': 'course_id' });
+    let course;
 
     beforeEach(() => {
-      sandbox = sinon.sandbox.create();
-      sandbox.stub(CourseService, 'getCourse');
-      sandbox.stub(courseSerializer, 'serialize');
-      reply = sandbox.stub();
-    });
-
-    afterEach(() => {
-      sandbox.restore();
+      course = new Course({ 'id': 'course_id' });
+      reply = sinon.stub();
     });
 
     it('should fetch and return the given course, serialized as JSONAPI', () => {
       // given
-      CourseService.getCourse.resolves(course);
-      courseSerializer.serialize.callsFake(_ => course);
-
+      courseService.getCourse.resolves(course);
+      courseSerializer.serialize.callsFake(() => course);
       const request = { params: { id: 'course_id' } };
-      const promise = courseController.get(request, reply);
 
       // when
+      const promise = courseController.get(request, reply);
+
+      // then
       return promise.then(() => {
-        // then
-        expect(CourseService.getCourse).to.have.been.called;
-        expect(CourseService.getCourse).to.have.been.calledWith('course_id');
+        expect(courseService.getCourse).to.have.been.called;
+        expect(courseService.getCourse).to.have.been.calledWith('course_id');
         expect(courseSerializer.serialize).to.have.been.called;
         expect(courseSerializer.serialize).to.have.been.calledWith(course);
-        expect(reply).to.have.been.called;
+        expect(reply).to.have.been.calledWith(course);
       });
     });
 
     it('should reply with error status code 404 if course not found', () => {
       // given
-      CourseService.getCourse.rejects(new NotFoundError());
+      const options = {
+        method: 'GET',
+        url: '/api/courses/unknown_id'
+      };
+      courseService.getCourse.rejects(new NotFoundError());
 
       // when
-      return server.inject({ method: 'GET', url: '/api/courses/unknown_id' })
-        .then(res => {
-          // then
-          expect(res.statusCode).to.equal(404);
-        });
+      const promise = server.inject(options);
+
+      // then
+      return promise.then(res => {
+        expect(res.statusCode).to.equal(404);
+      });
     });
   });
 
-  describe('#refreshAll', function() {
-
-    beforeEach(() => {
-      sinon.stub(courseRepository, 'refreshAll');
-    });
-
-    afterEach(() => {
-      courseRepository.refreshAll.restore();
-    });
+  describe('#refreshAll', () => {
 
     it('should return "Courses updated" when the refresh is successful', () => {
       // given
-      courseRepository.refreshAll.resolves(true);
+      courseRepository.refreshAll.resolves();
+      const request = {};
+      const reply = sinon.stub();
+
       // when
-      return server.inject({ method: 'PUT', url: '/api/courses' })
-        .then(res => {
-          // then
-          expect(res.statusCode).to.equal(200);
-          expect(res.result).to.equal('Courses updated');
-        });
+      const promise = courseController.refreshAll(request, reply);
+
+      // then
+      return promise.then(() => {
+        expect(reply).to.have.been.calledWith('Courses updated');
+      });
     });
 
     it('should return an internal error when the refresh is failing', () => {
       // given
-      const error = 'An internal server error occurred';
+      const error = new Error('An internal server error occurred');
       courseRepository.refreshAll.rejects(error);
+      const request = {};
+      const reply = sinon.stub();
 
       // when
-      return server.inject({ method: 'PUT', url: '/api/courses' })
-        .then(res => {
-          // then
-          expect(res.statusCode).to.equal(500);
-          expect(res.result.message).to.equal(error);
-        });
+      const promise = courseController.refreshAll(request, reply);
+
+      // then
+      return promise.then(() => {
+        expect(reply).to.have.been.calledWith(error);
+      });
     });
   });
 
-  describe('#save', function() {
+  describe('#save', () => {
 
-    let sandbox;
     let replyStub;
     let codeStub;
 
     const newlyCreatedCertificationCourse = { id: 'CertificationCourseId', nbChallenges: 3 };
-    const request = { pre: { userId: 'userId' } };
+    const request = { auth: { credentials: { accessToken: 'jwt.access.token', userId: 'userId' } } };
 
     beforeEach(() => {
       codeStub = sinon.stub();
       replyStub = sinon.stub().returns({ code: codeStub });
-
-      sandbox = sinon.sandbox.create();
     });
 
-    afterEach(() => {
-      sandbox.restore();
-    });
-
-    it('should reply the certification course serialized', function() {
+    it('should reply the certification course serialized', () => {
       // given
-      sandbox.stub(certificationService, 'startNewCertification').resolves(newlyCreatedCertificationCourse);
-      sandbox.stub(certificationCourseSerializer, 'serialize').resolves({});
+      certificationService.startNewCertification.resolves(newlyCreatedCertificationCourse);
+      certificationCourseSerializer.serialize.resolves({});
 
       // when
       const promise = courseController.save(request, replyStub);
@@ -215,11 +217,11 @@ describe('Unit | Controller | course-controller', function() {
       });
     });
 
-    it('should return 403 error if cannot start a new certification course', function() {
+    it('should return 403 error if cannot start a new certification course', () => {
       // given
       const error = new UserNotAuthorizedToCertifyError();
-      sandbox.stub(certificationService, 'startNewCertification').rejects(error);
-      sandbox.stub(Boom, 'forbidden').returns({ message: 'forbidden' });
+      certificationService.startNewCertification.rejects(error);
+      Boom.forbidden.returns({ message: 'forbidden' });
 
       // when
       const promise = courseController.save(request, replyStub);

@@ -55,10 +55,10 @@ describe('Unit | Service | QMail Validation', function() {
     };
 
     it('should validate the email when no rules defined', () => {
-      // When
+      // when
       const isEmailValid = qmailValidationService.validateEmail(emailSample, '');
 
-      // Then
+      // then
       expect(isEmailValid).to.be.true;
     });
 
@@ -68,43 +68,43 @@ describe('Unit | Service | QMail Validation', function() {
 
         describe('when the email field contains the given word', () => {
           it('should valid the email on subject', () => {
-            // Given
+            // given
             const rulesInYaml = '--- \n' +
               'SUJET: \n' +
               '  CONTIENT: commun\n';
 
-            // When
+            // when
             const isEmailValid = qmailValidationService.validateEmail(emailSample, rulesInYaml);
 
-            // Then
+            // then
             expect(isEmailValid).to.equal(true);
           });
         });
 
         describe('when the searched expression is not found', () => {
           it('should invalid the email\'s subject', () => {
-            // Given
+            // given
             const rulesInYaml = '--- \n' +
               'SUJET: \n' +
               '  CONTIENT: "pot commun"\n';
 
-            // When
+            // when
             const isEmailValid = qmailValidationService.validateEmail(emailSample, rulesInYaml);
 
-            // Then
+            // then
             expect(isEmailValid).to.equal(false);
           });
 
           it('should invalid the email\'s content', () => {
-            // Given
+            // given
             const rulesInYaml = '--- \n' +
               'CORPS: \n' +
               '  CONTIENT: commun\n';
 
-            // When
+            // when
             const isEmailValid = qmailValidationService.validateEmail(emailSample, rulesInYaml);
 
-            // Then
+            // then
             expect(isEmailValid).to.equal(false);
           });
 
@@ -114,15 +114,15 @@ describe('Unit | Service | QMail Validation', function() {
 
       describe('with EST keyword', () => {
         it('should valid the email when the email is as expected', () => {
-          // Given
+          // given
           const rulesInYaml = '--- \n' +
             'SUJET: \n' +
             '  EST: "Invitation - Ouverture du bar commun"\n';
 
-          // When
+          // when
           const isEmailValid = qmailValidationService.validateEmail(emailSample, rulesInYaml);
 
-          // Then
+          // then
           expect(isEmailValid).to.equal(true);
         });
 
@@ -133,23 +133,23 @@ describe('Unit | Service | QMail Validation', function() {
     describe('when using ET pre-condition', () => {
 
       it('should reject the email when the subject is different than expected', () => {
-        // Given
+        // given
         const rulesInYaml = '--- \n' +
           'ET: \n' +
           '  SUJET: \n' +
           '    EST: "recette de grand mère"\n';
 
-        // When
+        // when
         const isEmailValid = qmailValidationService.validateEmail(emailSample, rulesInYaml);
 
-        // Then
+        // then
         expect(isEmailValid).to.equal(false);
       });
 
       describe('on multiple fields', () => {
 
         it('should valid when both fields are validated', () => {
-          // Given
+          // given
           const rulesInYaml = '--- \n' +
             'ET: \n' +
             '  SUJET: \n' +
@@ -157,27 +157,27 @@ describe('Unit | Service | QMail Validation', function() {
             '  CORPS: \n' +
             '    CONTIENT: "Octobre"\n';
 
-          // When
+          // when
           const isEmailValid = qmailValidationService.validateEmail(emailSample, rulesInYaml);
 
-          // Then
+          // then
           expect(isEmailValid).to.equal(true);
         });
 
       });
 
       it('should work with AND if the ET is missing', () => {
-        // Given
+        // given
         const rulesInYaml = '--- \n' +
           'SUJET: \n' +
           '  CONTIENT: "Invitation"\n' +
           'CORPS: \n' +
           '  CONTIENT: "Octobre"\n';
 
-        // When
+        // when
         const isEmailValid = qmailValidationService.validateEmail(emailSample, rulesInYaml);
 
-        // Then
+        // then
         expect(isEmailValid).to.equal(true);
       });
 
@@ -185,7 +185,7 @@ describe('Unit | Service | QMail Validation', function() {
 
     describe('when using OU pre-condition', () => {
       it('should valid the email when both rules are validated', () => {
-        // Given
+        // given
         const rulesInYaml = '--- \n' +
           'OU: \n' +
           '  SUJET: \n' +
@@ -193,15 +193,15 @@ describe('Unit | Service | QMail Validation', function() {
           '  CORPS: \n' +
           '    CONTIENT: "Octobre"\n';
 
-        // When
+        // when
         const isEmailValid = qmailValidationService.validateEmail(emailSample, rulesInYaml);
 
-        // Then
+        // then
         expect(isEmailValid).to.equal(true);
       });
 
       it('should validate the email when at least one condition is OK', () => {
-        // Given
+        // given
         const rulesInYaml = '--- \n' +
           'OU: \n' +
           '  CORPS: \n' +
@@ -209,10 +209,10 @@ describe('Unit | Service | QMail Validation', function() {
           '  SUJET: \n' +
           '    EST: TOTO\n';
 
-        // When
+        // when
         const isEmailValid = qmailValidationService.validateEmail(emailSample, rulesInYaml);
 
-        // Then
+        // then
         expect(isEmailValid).to.equal(true);
       });
 
@@ -220,7 +220,7 @@ describe('Unit | Service | QMail Validation', function() {
 
     describe('ET logical condition', () => {
       it('should invalid the email when it rejects every condition', () => {
-        // Given
+        // given
         const rulesInYaml = '--- \n' +
           'CORPS: \n' +
           '  ET: \n' +
@@ -229,15 +229,15 @@ describe('Unit | Service | QMail Validation', function() {
           '    - \n' +
           '      CONTIENT: Chaussette\n';
 
-        // When
+        // when
         const isEmailValid = qmailValidationService.validateEmail(emailSample, rulesInYaml);
 
-        // Then
+        // then
         expect(isEmailValid).to.equal(false);
       });
 
       it('should invalid the email when at least one condition is rejected', () => {
-        // Given
+        // given
         const rulesInYaml = '--- \n' +
           'CORPS: \n' +
           '  ET: \n' +
@@ -246,15 +246,15 @@ describe('Unit | Service | QMail Validation', function() {
           '    - \n' +
           '      CONTIENT: bar\n';
 
-        // When
+        // when
         const isEmailValid = qmailValidationService.validateEmail(emailSample, rulesInYaml);
 
-        // Then
+        // then
         expect(isEmailValid).to.equal(false);
       });
 
       it('should validate the email when every condition is OK', () => {
-        // Given
+        // given
         const rulesInYaml = '--- \n' +
           'CORPS: \n' +
           '  ET: \n' +
@@ -263,28 +263,28 @@ describe('Unit | Service | QMail Validation', function() {
           '    - \n' +
           '      CONTIENT: "Soyez là"\n';
 
-        // When
+        // when
         const isEmailValid = qmailValidationService.validateEmail(emailSample, rulesInYaml);
 
-        // Then
+        // then
         expect(isEmailValid).to.equal(true);
       });
 
       it('should validate the email when no condition is given', () => {
-        // Given
+        // given
         const rulesInYaml = '--- \n' +
           'CORPS: \n' +
           '  ET: \n';
 
-        // When
+        // when
         const isEmailValid = qmailValidationService.validateEmail(emailSample, rulesInYaml);
 
-        // Then
+        // then
         expect(isEmailValid).to.equal(true);
       });
 
       it('shoud work on a multiple level', () => {
-        // Given
+        // given
         const rulesInYaml = '--- \n' +
           'CORPS: \n' +
           '  ET: \n' +
@@ -297,17 +297,17 @@ describe('Unit | Service | QMail Validation', function() {
           '        - \n' +
           '          CONTIENT: 12\n';
 
-        // When
+        // when
         const isEmailValid = qmailValidationService.validateEmail(emailSample, rulesInYaml);
 
-        // Then
+        // then
         expect(isEmailValid).to.equal(true);
       });
     });
 
     describe('OU logical condition', () => {
       it('should valid the email when the email\'s suject contains one of the given words', () => {
-        // Given
+        // given
         const rulesInYaml = '--- \n' +
           'SUJET: \n' +
           '  OU: \n' +
@@ -316,15 +316,15 @@ describe('Unit | Service | QMail Validation', function() {
           '    - \n' +
           '      CONTIENT: poisson\n';
 
-        // When
+        // when
         const isEmailValid = qmailValidationService.validateEmail(emailSample, rulesInYaml);
 
-        // Then
+        // then
         expect(isEmailValid).to.equal(true);
       });
 
       it('shoud work on a multiple level', () => {
-        // Given
+        // given
         const rulesInYaml = '--- \n' +
           'SUJET: \n' +
           '  OU: \n' +
@@ -339,10 +339,10 @@ describe('Unit | Service | QMail Validation', function() {
           '        - \n' +
           '          CONTIENT: Ouverture\n';
 
-        // When
+        // when
         const isEmailValid = qmailValidationService.validateEmail(emailSample, rulesInYaml);
 
-        // Then
+        // then
         expect(isEmailValid).to.equal(true);
       });
     });
@@ -350,7 +350,7 @@ describe('Unit | Service | QMail Validation', function() {
     describe('when making combination of multiple conditions', () => {
 
       it('should validate the email', () => {
-        // Given
+        // given
         const rulesInYaml = '--- \n' +
           'OU: \n' +
           '  SUJET: \n' +
@@ -362,15 +362,15 @@ describe('Unit | Service | QMail Validation', function() {
           '  CORPS: \n' +
           '    CONTIENT: Octobre\n';
 
-        // When
+        // when
         const isEmailValid = qmailValidationService.validateEmail(emailSample, rulesInYaml);
 
-        // Then
+        // then
         expect(isEmailValid).to.equal(true);
       });
 
       it('should work on a 5 level conditions', () => {
-        // Given
+        // given
         const rulesInYaml = '--- \n' +
           'OU: \n' +
           '  - \n' +
@@ -388,10 +388,10 @@ describe('Unit | Service | QMail Validation', function() {
           '      CORPS: \n' +
           '        CONTIENT: "Soyez là"\n';
 
-        // When
+        // when
         const isEmailValid = qmailValidationService.validateEmail(emailSample, rulesInYaml);
 
-        // Then
+        // then
         expect(isEmailValid).to.equal(true);
       });
     });

@@ -1,18 +1,18 @@
-const { expect, knex } = require('../../test-helper');
+const { expect, knex, generateValidRequestAuhorizationHeader, insertUserWithRolePixMaster, cleanupUsersAndPixRolesTables  } = require('../../test-helper');
 const server = require('../../../server');
 
-describe('Acceptance | Controller | session-controller', function() {
-
-  after(function(done) {
-    server.stop(done);
-  });
-
-  afterEach(() => knex('sessions').delete());
+describe('Acceptance | Controller | session-controller', () => {
 
   describe('GET /sessions', function() {
 
+    afterEach(() => {
+      return cleanupUsersAndPixRolesTables().then(() => knex('sessions').delete());
+    });
+
     const options = {
-      method: 'GET', url: '/api/sessions', payload: {}
+      method: 'GET',
+      url: '/api/sessions',
+      payload: {},
     };
 
     it('should return 200 HTTP status code', () => {
@@ -20,10 +20,9 @@ describe('Acceptance | Controller | session-controller', function() {
       const promise = server.inject(options);
 
       // then
-      return promise
-        .then((response) => {
-          expect(response.statusCode).to.equal(200);
-        });
+      return promise.then((response) => {
+        expect(response.statusCode).to.equal(200);
+      });
     });
 
     it('should return a session code', () => {
@@ -31,31 +30,43 @@ describe('Acceptance | Controller | session-controller', function() {
       const promise = server.inject(options);
 
       // then
-      return promise
-        .then((response) => {
-          const code = response.result;
-          expect(code).to.have.lengthOf(6);
-        });
+      return promise.then((response) => {
+        const code = response.result;
+        expect(code).to.have.lengthOf(6);
+      });
     });
   });
 
   describe('POST /sessions', () => {
-    const options = {
-      method: 'POST', url: '/api/sessions', payload: {
-        data: {
-          type: 'sessions',
-          attributes: {
-            'certification-center': 'Université de dressage de loutres',
-            address: 'Nice',
-            room: '28D',
-            examiner: 'Antoine Toutvenant',
-            date: '08/12/2017',
-            time: '14:30',
-            description: ''
+
+    let options;
+
+    beforeEach(() => {
+      options = {
+        method: 'POST',
+        url: '/api/sessions',
+        payload: {
+          data: {
+            type: 'sessions',
+            attributes: {
+              'certification-center': 'Université de dressage de loutres',
+              address: 'Nice',
+              room: '28D',
+              examiner: 'Antoine Toutvenant',
+              date: '08/12/2017',
+              time: '14:30',
+              description: ''
+            }
           }
-        }
-      }
-    };
+        },
+        headers: { authorization: generateValidRequestAuhorizationHeader() },
+      };
+      return insertUserWithRolePixMaster();
+    });
+
+    afterEach(() => {
+      return cleanupUsersAndPixRolesTables().then(() => knex('sessions').delete());
+    });
 
     it('should return an OK status after saving in database', () => {
       // when
@@ -89,10 +100,9 @@ describe('Acceptance | Controller | session-controller', function() {
           const promise = server.inject(options);
 
           // then
-          return promise
-            .then((response) => {
-              expect(response.statusCode).to.equal(400);
-            })
+          return promise.then((response) => {
+            expect(response.statusCode).to.equal(400);
+          })
             .then(() => knex('sessions').select())
             .then((sessions) => {
               expect(sessions).to.have.lengthOf(0);
@@ -121,10 +131,9 @@ describe('Acceptance | Controller | session-controller', function() {
           const promise = server.inject(options);
 
           // then
-          return promise
-            .then((response) => {
-              expect(response.result).to.deep.equal(expectedErrorRespond);
-            });
+          return promise.then((response) => {
+            expect(response.result).to.deep.equal(expectedErrorRespond);
+          });
         });
       });
 
@@ -143,10 +152,9 @@ describe('Acceptance | Controller | session-controller', function() {
           const promise = server.inject(options);
 
           // then
-          return promise
-            .then((response) => {
-              expect(response.statusCode).to.equal(400);
-            })
+          return promise.then((response) => {
+            expect(response.statusCode).to.equal(400);
+          })
             .then(() => knex('sessions').select())
             .then((sessions) => {
               expect(sessions).to.have.lengthOf(0);
@@ -175,12 +183,42 @@ describe('Acceptance | Controller | session-controller', function() {
           const promise = server.inject(options);
 
           // then
-          return promise
-            .then((response) => {
-              expect(response.result).to.deep.equal(expectedErrorRespond);
-            });
+          return promise.then((response) => {
+            expect(response.result).to.deep.equal(expectedErrorRespond);
+          });
         });
       });
     });
+
+    describe('Resource access management', () => {
+
+      it('should respond with a 401 - unauthorized access - if user is not authenticated', () => {
+        // given
+        options.headers.authorization = 'invalid.access.token';
+
+        // when
+        const promise = server.inject(options);
+
+        // then
+        return promise.then((response) => {
+          expect(response.statusCode).to.equal(401);
+        });
+      });
+
+      it('should respond with a 403 - forbidden access - if user has not role PIX_MASTER', () => {
+        // given
+        const nonPixMAsterUserId = 9999;
+        options.headers.authorization = generateValidRequestAuhorizationHeader(nonPixMAsterUserId);
+
+        // when
+        const promise = server.inject(options);
+
+        // then
+        return promise.then((response) => {
+          expect(response.statusCode).to.equal(403);
+        });
+      });
+    });
+
   });
 });

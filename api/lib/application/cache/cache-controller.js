@@ -3,9 +3,11 @@ const cache = require('../../infrastructure/cache');
 module.exports = {
 
   removeCacheEntry(request, reply) {
-    const deletedEntriesCount = cache.del(request.payload['cache-key']);
+    const cacheKey = request.payload['cache-key'];
 
-    if(!deletedEntriesCount) {
+    const deletedEntriesCount = cache.del(cacheKey);
+
+    if (!deletedEntriesCount) {
       return reply('Entry key is not found').code(404);
     }
 

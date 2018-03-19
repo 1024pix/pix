@@ -19,7 +19,7 @@ describe('Unit | Serializer | JSONAPI | authentication-serializer', function() {
   describe('#serialize()', function() {
 
     it('should format a login model object into JSON API data', function() {
-      // Given
+      // given
       const login = new Authentication(8, 'my-token');
 
       // when

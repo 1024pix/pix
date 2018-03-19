@@ -1,12 +1,12 @@
 const faker = require('faker');
 const bcrypt = require('bcrypt');
-const { expect, knex, sinon } = require('../../test-helper');
+const { expect, knex, sinon, generateValidRequestAuhorizationHeader } = require('../../test-helper');
 const authorizationToken = require('../../../lib/infrastructure/validators/jsonwebtoken-verify');
 const profileService = require('../../../lib/domain/services/profile-service');
 const BookshelfUser = require('../../../lib/infrastructure/data/user');
 const server = require('../../../server');
 
-describe('Acceptance | Controller | snapshot-controller', function() {
+describe('Acceptance | Controller | snapshot-controller', () => {
 
   let userId;
   let organizationId;
@@ -64,23 +64,21 @@ describe('Acceptance | Controller | snapshot-controller', function() {
     type: 'PRO'
   };
 
-  before(() => {
-    return knex.migrate.latest()
-      .then(() => knex('users').insert(inserted_user))
+  beforeEach(() => {
+    return knex('users').insert(inserted_user)
       .then((result) => {
         userId = result.shift();
         inserted_organization['userId'] = userId;
-        return knex('organizations').insert(inserted_organization);
-      }).then((organization) => {
-        organizationId = organization.shift();
-      });
+      })
+      .then(() => knex('organizations').insert(inserted_organization))
+      .then((organization) => organizationId = organization.shift());
   });
 
-  after(function(done) {
-    server.stop(done);
+  afterEach(() => {
+    return knex('users').delete();
   });
 
-  describe('POST /api/snapshots', function() {
+  describe('POST /api/snapshots', () => {
 
     let payload;
     let options;
@@ -102,10 +100,10 @@ describe('Acceptance | Controller | snapshot-controller', function() {
       options = {
         method: 'POST',
         url: '/api/snapshots',
-        payload
+        payload,
+        headers: { authorization: generateValidRequestAuhorizationHeader() },
       };
 
-      options['headers'] = { authorization: 'VALID_TOKEN' };
       sinon.stub(authorizationToken, 'verify').resolves(userId);
       sinon.stub(profileService, 'getByUserId').resolves(fakeBuildedProfile);
       injectPromise = server.inject(options);
@@ -114,13 +112,11 @@ describe('Acceptance | Controller | snapshot-controller', function() {
     afterEach(() => {
       authorizationToken.verify.restore();
       profileService.getByUserId.restore();
-      return knex('snapshots').delete();
     });
 
     it('should return 201 HTTP status code', () => {
-      // When
+      // then
       return injectPromise.then((response) => {
-        // then
         expect(response.statusCode).to.equal(201);
         expect(response.result.data.id).to.exist;
       });
@@ -129,20 +125,19 @@ describe('Acceptance | Controller | snapshot-controller', function() {
     context('when creating with a wrong payload', () => {
 
       it('should return 422 HTTP status code', () => {
-        // Given
+        // given
         payload.data.relationships.organization.data.id = null;
 
-        // Then
-        const creatingSnapshotWithWrongParams = server.inject(options);
+        // then
+        const promise = server.inject(options);
 
-        // Then
-        return creatingSnapshotWithWrongParams.then((response) => {
+        // then
+        return promise.then((response) => {
           const parsedResponse = JSON.parse(response.payload);
           expect(parsedResponse.errors[0].detail).to.equal('Cette organisation n’existe pas');
           expect(response.statusCode).to.equal(422);
         });
       });
-
     });
   });
 });

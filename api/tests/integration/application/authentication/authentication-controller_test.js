@@ -2,7 +2,7 @@ const { knex, sinon, expect } = require('../../../test-helper');
 
 const faker = require('faker');
 const server = require('../../../../server');
-const _ = require('lodash');
+const { toLower } = require('lodash');
 
 const authenticationController = require('../../../../lib/application/authentication/authentication-controller');
 const BookshelfUser = require('../../../../lib/infrastructure/data/user');
@@ -11,7 +11,7 @@ describe('Unit | Controller | authentication-controller', () => {
 
   const password = 'A124B2C3#!';
   const userEmail = 'emailWithSomeCamelCase@example.net';
-  const userEmailSavedInDb = _.toLower(userEmail);
+  const userEmailSavedInDb = toLower(userEmail);
   let replyStub;
   let codeStub;
   let user;
@@ -58,14 +58,14 @@ describe('Unit | Controller | authentication-controller', () => {
     }
 
     it('should return an 400 error when account does not exist', () => {
-      // Given
+      // given
       const email = 'email-that-does-not-exist@example.net';
       const request = _buildRequest(email, password);
 
-      // When
+      // when
       const promise = authenticationController.save(request, replyStub);
 
-      // Then
+      // then
       return promise.then(() => {
         sinon.assert.calledOnce(replyStub);
         sinon.assert.calledWith(codeStub, 400);
@@ -73,14 +73,14 @@ describe('Unit | Controller | authentication-controller', () => {
     });
 
     it('should return an error message', () => {
-      // Given
+      // given
       const email = 'email-that-does-not-exist@example.net';
       const request = _buildRequest(email, password);
 
-      // When
+      // when
       const promise = authenticationController.save(request, replyStub);
 
-      // Then
+      // then
       return promise.then(() => {
         sinon.assert.calledWith(codeStub, 400);
         expect(replyStub.getCall(0).args).to.deep.equal([{
@@ -97,14 +97,14 @@ describe('Unit | Controller | authentication-controller', () => {
     });
 
     it('should return an 201 when account exists', () => {
-      // Given
+      // given
       const password = 'A124B2C3#!';
       const request = _buildRequest(user.get('email'), password);
 
-      // When
+      // when
       const promise = authenticationController.save(request, replyStub);
 
-      // Then
+      // then
       return promise.then(() => {
         sinon.assert.calledOnce(replyStub);
         sinon.assert.calledOnce(codeStub);
@@ -113,14 +113,14 @@ describe('Unit | Controller | authentication-controller', () => {
     });
 
     it('should return an 400 error when account exists but wrong password', () => {
-      // Given
+      // given
       const password = 'BZU#!1344B2C3';
       const request = _buildRequest(user.get('email'), password);
 
-      // When
+      // when
       const promise = authenticationController.save(request, replyStub);
 
-      // Then
+      // then
       return promise.then(() => {
         sinon.assert.calledOnce(replyStub);
         sinon.assert.calledOnce(codeStub);

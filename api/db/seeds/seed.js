@@ -7,7 +7,10 @@ const listSeeds = [
   'marks',
   'organizations',
   'users',
-  'snapshots'];
+  'snapshots',
+  'pix_roles',
+  'users_pix_roles',
+];
 
 function addData(knex, table, data) {
   return Promise.all(data)

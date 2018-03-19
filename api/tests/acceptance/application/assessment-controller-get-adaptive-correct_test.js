@@ -4,7 +4,7 @@ const server = require('../../../server');
 
 describe('Acceptance | API | assessment-controller-get-adaptive-correct', () => {
 
-  before((done) => {
+  before(() => {
 
     nock.cleanAll();
 
@@ -19,6 +19,7 @@ describe('Acceptance | API | assessment-controller-get-adaptive-correct', () => 
           'Competence': ['competence_id']
         }
       });
+
     nock('https://api.airtable.com')
       .get('/v0/test-base/Competences/competence_id')
       .query(true)
@@ -33,6 +34,7 @@ describe('Acceptance | API | assessment-controller-get-adaptive-correct', () => 
           'Acquis': ['@web1']
         }
       });
+
     nock('https://api.airtable.com')
       .get('/v0/test-base/Epreuves')
       .query({ view: '1.1 Mener une recherche et une veille d’information' })
@@ -64,6 +66,7 @@ describe('Acceptance | API | assessment-controller-get-adaptive-correct', () => 
           }
         ]
       });
+
     nock('https://api.airtable.com')
       .get('/v0/test-base/Epreuves/w_first_challenge')
       .query(true)
@@ -75,6 +78,7 @@ describe('Acceptance | API | assessment-controller-get-adaptive-correct', () => 
           'acquis': ['@web2']
         }
       });
+
     nock('https://api.airtable.com')
       .get('/v0/test-base/Epreuves/w_second_challenge')
       .query(true)
@@ -86,6 +90,7 @@ describe('Acceptance | API | assessment-controller-get-adaptive-correct', () => 
           'acquis': ['@web3']
         }
       });
+
     nock('https://api.airtable.com')
       .get('/v0/test-base/Epreuves/w_third_challenge')
       .query(true)
@@ -106,14 +111,11 @@ describe('Acceptance | API | assessment-controller-get-adaptive-correct', () => 
       .reply(200, {
         'id': 'idAcquix'
       });
-
-    done();
   });
 
-  after((done) => {
+  after(() => {
     nock.cleanAll();
     cache.flushAll();
-    server.stop(done);
   });
 
   describe('(adaptive correct answer) GET /api/assessments/:assessment_id/next/:current_challenge_id', () => {
@@ -147,13 +149,16 @@ describe('Acceptance | API | assessment-controller-get-adaptive-correct', () => 
 
     it('should return the second challenge if the first answer is correct', () => {
       // given
-      const options = { method: 'GET', url: '/api/assessments/' + insertedAssessmentId + '/next/w_first_challenge' };
+      const options = {
+        method: 'GET',
+        url: '/api/assessments/' + insertedAssessmentId + '/next/w_first_challenge',
+      };
 
       // when
-      const request = server.injectThen(options);
+      const promise = server.inject(options);
 
       // then
-      return request.then((response) => {
+      return promise.then((response) => {
         expect(response.result.data.id).to.equal('w_second_challenge');
       });
     });
@@ -190,13 +195,16 @@ describe('Acceptance | API | assessment-controller-get-adaptive-correct', () => 
 
     it('should return the third challenge if the first answer is incorrect', () => {
       // given
-      const options = { method: 'GET', url: '/api/assessments/' + insertedAssessmentId + '/next/w_first_challenge' };
+      const options = {
+        method: 'GET',
+        url: '/api/assessments/' + insertedAssessmentId + '/next/w_first_challenge',
+      };
 
       // when
-      const request = server.injectThen(options);
+      const promise = server.inject(options);
 
       // then
-      return request.then((response) => {
+      return promise.then((response) => {
         expect(response.result.data.id).to.equal('w_third_challenge');
       });
     });
@@ -238,10 +246,13 @@ describe('Acceptance | API | assessment-controller-get-adaptive-correct', () => 
 
     it('should finish the test if there is no next challenge', () => {
       // given
-      const options = { method: 'GET', url: '/api/assessments/' + insertedAssessmentId + '/next/w_second_challenge' };
+      const options = {
+        method: 'GET',
+        url: '/api/assessments/' + insertedAssessmentId + '/next/w_second_challenge',
+      };
 
       // when
-      const promise = server.injectThen(options);
+      const promise = server.inject(options);
 
       // then
       return promise.then((response) => {
@@ -255,5 +266,4 @@ describe('Acceptance | API | assessment-controller-get-adaptive-correct', () => 
     });
   });
 
-})
-;
+});

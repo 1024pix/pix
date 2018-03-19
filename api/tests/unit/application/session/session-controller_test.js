@@ -50,7 +50,7 @@ describe('Unit | Controller | sessionController', () => {
     });
 
     it('should save the session', () => {
-      // Given
+      // given
       const expectedSession = new Session({
         certificationCenter: 'Université de dressage de loutres',
         address: 'Nice',
@@ -61,17 +61,17 @@ describe('Unit | Controller | sessionController', () => {
         description: ''
       });
 
-      // When
+      // when
       const promise = sessionController.save(request, replyStub);
 
-      // Then
+      // then
       return promise.then(() => {
         expect(sessionRepository.save).to.have.been.calledWith(expectedSession);
       });
     });
 
     it('return the saved session in JSON API', () => {
-      // Given
+      // given
       const jsonApiSession = {
         data: {
           type: 'sessions',
@@ -87,10 +87,10 @@ describe('Unit | Controller | sessionController', () => {
       sessionRepository.save.resolves(savedSession);
       sessionSerializer.serialize.returns(jsonApiSession);
 
-      // When
+      // when
       const promise = sessionController.save(request, replyStub);
 
-      // Then
+      // then
       return promise.then(() => {
         expect(replyStub).to.have.been.calledWith(jsonApiSession);
         expect(sessionSerializer.serialize).to.have.been.calledWith(savedSession);
@@ -108,30 +108,30 @@ describe('Unit | Controller | sessionController', () => {
       });
 
       it('should format an internal error from the error', () => {
-        // When
+        // when
         const promise = sessionController.save(request, replyStub);
 
-        // Then
+        // then
         return promise.then(() => {
           expect(Boom.badImplementation).to.have.been.calledWith(error);
         });
       });
 
       it('should return a 500 internal error', () => {
-        // When
+        // when
         const promise = sessionController.save(request, replyStub);
 
-        // Then
+        // then
         return promise.then(() => {
           expect(replyStub).to.have.been.calledWith(wellFormedError);
         });
       });
 
       it('should log the error', () => {
-        // When
+        // when
         const promise = sessionController.save(request, replyStub);
 
-        // Then
+        // then
         return promise.then(() => {
           expect(logger.error).to.have.been.calledWith(error);
         });

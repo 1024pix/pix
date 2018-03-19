@@ -1,5 +1,5 @@
-const CourseController = require('./course-controller');
-const connectedUserVerification = require('../../application/preHandlers/connected-user-verification');
+const courseController = require('./course-controller');
+const securityController = require('../../interfaces/controllers/security-controller');
 const accessSessionHandler = require('../../application/preHandlers/access-session');
 
 exports.register = function(server, options, next) {
@@ -8,32 +8,49 @@ exports.register = function(server, options, next) {
     {
       method: 'GET',
       path: '/api/courses',
-      config: { handler: CourseController.list, tags: ['api'] }
+      config: {
+        auth: false,
+        handler: courseController.list,
+        tags: ['api']
+      }
     },
     {
       method: 'PUT',
       path: '/api/courses',
-      config: { handler: CourseController.refreshAll, tags: ['api'] }
-    },  {
+      config: {
+        pre: [{
+          method: securityController.checkUserHasRolePixMaster,
+          assign: 'hasRolePixMaster'
+        }],
+        handler: courseController.refreshAll, tags: ['api']
+      }
+    }, {
       method: 'GET',
       path: '/api/courses/{id}',
-      config: { handler: CourseController.get, tags: ['api'] }
+      config: {
+        auth: false,
+        handler: courseController.get,
+        tags: ['api']
+      }
     }, {
       method: 'POST',
       path: '/api/courses/{id}',
-      config: { handler: CourseController.refresh, tags: ['api'] }
+      config: {
+        pre: [{
+          method: securityController.checkUserHasRolePixMaster,
+          assign: 'hasRolePixMaster'
+        }],
+        handler: courseController.refresh, tags: ['api']
+      }
     }, {
       method: 'POST',
       path: '/api/courses',
       config: {
         pre: [{
-          method: connectedUserVerification.verifyByToken,
-          assign: 'userId'
-        }, {
           method: accessSessionHandler.sessionIsOpened,
           assign: 'sessionOpened'
         }],
-        handler: CourseController.save,
+        handler: courseController.save,
         tags: ['api']
       }
     }

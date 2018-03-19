@@ -54,7 +54,6 @@
     "chai-as-promised": "^7.1.1",
     "eslint": "^4.8.0",
     "eslint-plugin-mocha": "^4.11.0",
-    "inject-then": "^2.0.9",
     "istanbul": "^0.4.5",
     "mocha": "^5.0.4",
     "nock": "^9.0.22",

@@ -79,7 +79,7 @@ describe('Unit | Domain | Models | Profile', () => {
     });
 
     it('should assign level of competence from assessment', () => {
-      // Given
+      // given
       courses[0].competences = ['competenceId1'];
       assessments = [new Assessment({
         id: 'assessmentId1',
@@ -110,10 +110,10 @@ describe('Unit | Domain | Models | Profile', () => {
           status: 'notEvaluated'
         }];
 
-      // When
+      // when
       const profile = new Profile(user, competences, areas, assessments, assessments, courses);
 
-      // Then
+      // then
       expect(profile).to.be.an.instanceof(Profile);
       expect(profile.user).to.be.equal(user);
       expect(profile.competences).to.be.deep.equal(expectedCompetences);
@@ -150,10 +150,10 @@ describe('Unit | Domain | Models | Profile', () => {
           status: 'notEvaluated'
         }];
 
-      // When
+      // when
       const profile = new Profile(user, competences, areas, lastAssessments, [],  courses);
 
-      // Then
+      // then
       expect(profile).to.be.an.instanceof(Profile);
       expect(profile.user).to.be.equal(user);
       expect(profile.competences).to.be.deep.equal(expectedCompetences);
@@ -195,10 +195,10 @@ describe('Unit | Domain | Models | Profile', () => {
           status: 'notCompleted'
         }];
 
-      // When
+      // when
       const profile = new Profile(user, competences, areas, lastAssessments, [],  courses);
 
-      // Then
+      // then
       expect(profile).to.be.an.instanceof(Profile);
       expect(profile.user).to.be.equal(user);
       expect(profile.competences).to.be.deep.equal(expectedCompetences);
@@ -207,7 +207,7 @@ describe('Unit | Domain | Models | Profile', () => {
 
     context('when one competence has two completed assessments', () => {
       it('should assign level of competence from assessment with status "replayed"', () => {
-        // Given
+        // given
         courses[0].competences = ['competenceId1'];
         assessmentsCompleted = [new Assessment({
           id: 'assessmentId1',
@@ -257,10 +257,10 @@ describe('Unit | Domain | Models | Profile', () => {
             courseId: 'courseId9'
           }];
 
-        // When
+        // when
         const profile = new Profile(user, competences, areas, lastAssessments, assessmentsCompleted, courses);
 
-        // Then
+        // then
         expect(profile).to.be.an.instanceof(Profile);
         expect(profile.user).to.be.equal(user);
         expect(profile.competences).to.be.deep.equal(expectedCompetences);
@@ -270,7 +270,7 @@ describe('Unit | Domain | Models | Profile', () => {
 
     context('when at least one competence is started but not finished', () => {
       it('should assign level of competence at -1 with status "notCompleted"', () => {
-        // Given
+        // given
         courses[0].competences = ['competenceId1'];
         lastAssessments = [new Assessment({
           id: 'assessmentId3',
@@ -300,10 +300,10 @@ describe('Unit | Domain | Models | Profile', () => {
             courseId: 'courseId9'
           }];
 
-        // When
+        // when
         const profile = new Profile(user, competences, areas, lastAssessments, [], courses);
 
-        // Then
+        // then
         expect(profile).to.be.an.instanceof(Profile);
         expect(profile.user).to.be.equal(user);
         expect(profile.competences).to.be.deep.equal(expectedCompetences);
@@ -311,7 +311,7 @@ describe('Unit | Domain | Models | Profile', () => {
       });
 
       it('should assign level of competence from last assessment with status "notCompleted"', () => {
-        // Given
+        // given
         courses[0].competences = ['competenceId1'];
         lastAssessments = [new Assessment({
           id: 'assessmentId2',
@@ -347,10 +347,10 @@ describe('Unit | Domain | Models | Profile', () => {
             courseId: 'courseId9'
           }];
 
-        // When
+        // when
         const profile = new Profile(user, competences, areas, lastAssessments, assessmentsCompleted, courses);
 
-        // Then
+        // then
         expect(profile).to.be.an.instanceof(Profile);
         expect(profile.user).to.be.equal(user);
         expect(profile.competences).to.be.deep.equal(expectedCompetences);
@@ -361,7 +361,7 @@ describe('Unit | Domain | Models | Profile', () => {
 
     context('when user has one assessment without competence linked to the courseId', () => {
       it('should return the profile only with competences linked to Competences', () => {
-        // Given
+        // given
         courses[0].competences = ['competenceId1'];
         assessmentsCompleted = [new Assessment({
           id: 'assessmentId1',
@@ -398,10 +398,10 @@ describe('Unit | Domain | Models | Profile', () => {
           }
         ];
 
-        // When
+        // when
         const profile = new Profile(user, competences, areas, assessmentsCompleted, assessmentsCompleted, courses);
 
-        // Then
+        // then
         expect(profile).to.be.an.instanceof(Profile);
         expect(profile.user).to.equal(user);
         expect(profile.competences).to.deep.equal(expectedCompetences);
@@ -423,7 +423,7 @@ describe('Unit | Domain | Models | Profile', () => {
       });
 
       it('should add the sum of won pix to the user', () => {
-        // Given
+        // given
         courses[1].competences = ['competenceId2'];
         assessments = [
           new Assessment({
@@ -446,16 +446,16 @@ describe('Unit | Domain | Models | Profile', () => {
           'pix-score': 25
         };
 
-        // When
+        // when
         const profile = new Profile(user, competences, areas, assessments, assessments, courses);
 
-        // Then
+        // then
         expect(profile).to.be.an.instanceof(Profile);
         expect(profile.user.toJSON()).to.deep.equal(expectedUser);
       });
 
       it('should add the sum of won pix to the user when a competence has no score', () => {
-        // Given
+        // given
         assessments = [
           new Assessment({
             id: 'assessmentId1',
@@ -471,25 +471,25 @@ describe('Unit | Domain | Models | Profile', () => {
           'pix-score': 10
         };
 
-        // When
+        // when
         const profile = new Profile(user, competences, areas, assessments, assessments, courses);
 
-        // Then
+        // then
         expect(profile).to.be.an.instanceof(Profile);
         expect(profile.user.toJSON()).to.deep.equal(expectedUser);
       });
 
       it('should not add a total score of pix if the user has no assessment with score', () => {
-        // Given
+        // given
         const expectedUser = {
           'first-name': 'Jean Michel',
           'last-name': 'PasDeChance',
         };
 
-        // When
+        // when
         const profile = new Profile(user, competences, areas, assessments, assessments, courses);
 
-        // Then
+        // then
         expect(profile).to.be.an.instanceof(Profile);
         expect(profile.user.toJSON()).to.deep.equal(expectedUser);
       });

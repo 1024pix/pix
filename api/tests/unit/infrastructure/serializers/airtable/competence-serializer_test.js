@@ -36,10 +36,10 @@ describe('Unit | Serializer | competence-serializer', function() {
       };
 
       it('should get a new competence Model object', () => {
-        // When
+        // when
         const competences = serializer.deserialize(airtableCompetencesRecord);
 
-        // Then
+        // then
         expect(competences.id).to.equal(airtableCompetencesRecord.id);
         expect(competences.name).to.equal(airtableCompetencesRecord.fields['Titre']);
         expect(competences.index).to.equal(airtableCompetencesRecord.fields['Sous-domaine']);
@@ -50,10 +50,10 @@ describe('Unit | Serializer | competence-serializer', function() {
       });
 
       it('should return a Competence model with an Area', () => {
-        // When
+        // when
         const competences = serializer.deserialize(airtableCompetencesRecord);
 
-        // Then
+        // then
         expect(competences.area).to.be.an.instanceOf(Area);
         expect(competences.area.id).to.equal('recvoGdo0z0z0pXWZ');
         expect(competences.area.title).to.equal('Information et données');
@@ -61,10 +61,10 @@ describe('Unit | Serializer | competence-serializer', function() {
       });
 
       it('should get a new competence Model even if there is no course associated', () => {
-        // When
+        // when
         const competences = serializer.deserialize(airtableCompetencesRecordWithNoCourseIdAssociated);
 
-        // Then
+        // then
         expect(competences.id).to.equal(airtableCompetencesRecordWithNoCourseIdAssociated.id);
         expect(competences.name).to.equal(airtableCompetencesRecordWithNoCourseIdAssociated.fields['Titre']);
         expect(competences.index).to.equal(airtableCompetencesRecordWithNoCourseIdAssociated.fields['Sous-domaine']);

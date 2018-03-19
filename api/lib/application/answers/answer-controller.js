@@ -94,14 +94,14 @@ module.exports = {
   },
 
   findByChallengeAndAssessment(request, reply) {
-    answerRepository
+    return answerRepository
       .findByChallengeAndAssessment(request.url.query.challenge, request.url.query.assessment)
       .then((answer) => {
         return reply(answerSerializer.serialize(answer)).code(200);
       })
       .catch(err => {
         logger.error(err);
-        reply(Boom.badImplementation(err));
+        return reply(Boom.badImplementation(err));
       });
   }
 

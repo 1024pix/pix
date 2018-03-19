@@ -1,13 +1,8 @@
 const { expect, knex } = require('../../test-helper');
 const server = require('../../../server');
-
 const _ = require('lodash');
 
-describe('Acceptance | Controller | assessment-ratings', function() {
-
-  after((done) => {
-    server.stop(done);
-  });
+describe('Acceptance | Controller | assessment-ratings', () => {
 
   describe('POST /api/assessment-ratings', () => {
 
@@ -44,7 +39,7 @@ describe('Acceptance | Controller | assessment-ratings', function() {
                 },
                 type: 'assessment-ratings'
               }
-            }
+            },
           };
         });
       });
@@ -55,20 +50,33 @@ describe('Acceptance | Controller | assessment-ratings', function() {
 
       it('should return a 200 when everything is fine', () => {
         // when
-        const request = server.inject(options);
+        const promise = server.inject(options);
 
-        // Then
-        return request.then((response) => {
+        // then
+        return promise.then((response) => {
+          expect(response.statusCode).to.equal(200);
+        });
+      });
+
+      it('should return 200 HTTP status code when missing authorization header', () => {
+        // given
+        options.headers = {};
+
+        // when
+        const promise = server.inject(options);
+
+        // given
+        return promise.then((response) => {
           expect(response.statusCode).to.equal(200);
         });
       });
 
       it('should update the assessment score and estimatedLevel', () => {
         // when
-        const request = server.inject(options);
+        const promise = server.inject(options);
 
-        // Then
-        return request
+        // then
+        return promise
           .then(() => knex('assessments').select())
           .then((assessments) => {
             expect(assessments).to.have.lengthOf(1);

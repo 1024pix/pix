@@ -6,7 +6,11 @@ exports.register = function(server, options, next) {
     {
       method: 'POST',
       path: '/api/followers',
-      config: { handler: FollowerController.save, tags: ['api'] }
+      config: {
+        auth: false,
+        handler: FollowerController.save,
+        tags: ['api']
+      }
     }
   ]);
 

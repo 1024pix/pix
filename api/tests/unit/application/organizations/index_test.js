@@ -1,9 +1,9 @@
 const { expect, sinon } = require('../../../test-helper');
 const Hapi = require('hapi');
-
+const securityController = require('../../../../lib/interfaces/controllers/security-controller');
 const organisationController = require('../../../../lib/application/organizations/organization-controller');
 
-describe('Unit | Router | organization-router', () => {
+describe('Unit | Application | Organizations | Routes', () => {
 
   let server;
 
@@ -16,10 +16,12 @@ describe('Unit | Router | organization-router', () => {
   describe('POST /api/organizations', _ => {
 
     before(() => {
+      sinon.stub(securityController, 'checkUserHasRolePixMaster').callsFake((request, reply) => reply(true));
       sinon.stub(organisationController, 'create').callsFake((request, reply) => reply('ok'));
     });
 
     after(() => {
+      securityController.checkUserHasRolePixMaster.restore();
       organisationController.create.restore();
     });
 

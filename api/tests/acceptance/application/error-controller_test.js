@@ -1,23 +1,23 @@
 const { expect } = require('../../test-helper');
 const server = require('../../../server');
 
-describe('Acceptance | Controller | error-controller', function() {
+describe('Acceptance | Controller | error-controller', () => {
 
-  after(function(done) {
-    server.stop(done);
-  });
-
-  describe('GET /errors/500', function() {
+  describe('GET /errors/500', () => {
 
     const options = {
-      method: 'GET', url: '/errors/500', payload: {}
+      method: 'GET',
+      url: '/errors/500',
     };
 
     it('should return 500 HTTP status code', () => {
-      return server.injectThen(options)
-        .then((response) => {
-          expect(response.statusCode).to.equal(500);
-        });
+      // when
+      const promise = server.inject(options);
+
+      // then
+      return promise.then((response) => {
+        expect(response.statusCode).to.equal(500);
+      });
     });
   });
 });

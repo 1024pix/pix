@@ -132,10 +132,10 @@ describe('Unit | Repository | certification-challenge-repository', () => {
       it('should throw an error', function() {
         //Given
 
-        // When
+        // when
         const promise = certificationChallengeRepository.findChallengesByCertificationCourseId();
 
-        // Then
+        // then
         return expect(promise).to.be.rejected;
       });
     });
