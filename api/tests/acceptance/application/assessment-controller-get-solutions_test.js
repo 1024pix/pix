@@ -201,7 +201,7 @@ describe('Acceptance | API | assessment-controller-get-solutions', () => {
       });
     });
 
-    it('should return 401 HTTP status code when missing authorization header', () => {
+    it('should return 200 HTTP status code when missing authorization header', () => {
       // given
       const options = {
         method: 'GET',
@@ -214,7 +214,7 @@ describe('Acceptance | API | assessment-controller-get-solutions', () => {
 
       // given
       return promise.then((response) => {
-        expect(response.statusCode).to.equal(401);
+        expect(response.statusCode).to.equal(200);
       });
     });
   });
