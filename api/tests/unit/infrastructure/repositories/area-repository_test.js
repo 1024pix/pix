@@ -38,13 +38,13 @@ describe('Unit | Repository | area-repository', function() {
     });
 
     it('should query Airtable correctly', () => {
-      // Given
+      // given
       getRecordsStub.resolves({});
-      // When
+      // when
       const fetchedAreas = areaRepository.list();
 
       return fetchedAreas.then(() => {
-        // Then
+        // then
         expect(getRecordsStub.calledWith('Domaines', {}, areaSerializer)).to.be.true;
       });
     });
@@ -56,7 +56,7 @@ describe('Unit | Repository | area-repository', function() {
       });
 
       it('should fetch areas from Airtable', () => {
-        // When
+        // when
         const fetchedAreas = areaRepository.list();
 
         // then
@@ -64,7 +64,7 @@ describe('Unit | Repository | area-repository', function() {
       });
 
       it('should cached previously fetched areas', () => {
-        // When
+        // when
         const promiseFetched = areaRepository.list();
 
         return promiseFetched.then(() => {
@@ -81,15 +81,15 @@ describe('Unit | Repository | area-repository', function() {
     describe('When a record is already cached', () => {
 
       it('should retrieve record directly from cache', () => {
-        // Given
+        // given
         cache.set('area-repository_list', areas);
         const cacheSpy = sinon.spy(cache, 'get');
         getRecordsStub.resolves(true);
 
-        // When
+        // when
         const cachedAreas = areaRepository.list();
 
-        // Then
+        // then
         return cachedAreas.then((result) => {
           expect(result).to.deep.equal(areas);
           sinon.assert.calledOnce(cacheSpy);
@@ -111,10 +111,10 @@ describe('Unit | Repository | area-repository', function() {
       });
 
       it('should throw an error, when something going wrong from cache', () => {
-        // Given
+        // given
         cache.get.callsArgWith(1, new Error('Error on cache recuperation'));
 
-        // When
+        // when
         const cachedPromise = areaRepository.list();
 
         return cachedPromise.catch((err) => {
@@ -125,16 +125,16 @@ describe('Unit | Repository | area-repository', function() {
       });
 
       it('should throw an error, when something going wrong from airtable', () => {
-        // Given
+        // given
         cache.get.callsArgWith(1, null, null);
 
         getRecordsStub.rejects(new Error('Error on Airtable recuperation'));
 
-        // When
+        // when
         const cachedPromise = areaRepository.list();
 
         return cachedPromise.catch((err) => {
-          // Then
+          // then
           expect(cachedPromise).to.be.rejectedWith(Error);
           expect(err.message).to.be.equal('Error on Airtable recuperation');
         });

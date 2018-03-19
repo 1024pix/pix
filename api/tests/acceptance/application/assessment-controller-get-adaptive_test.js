@@ -2,9 +2,9 @@ const { expect, knex, nock } = require('../../test-helper');
 const cache = require('../../../lib/infrastructure/cache');
 const server = require('../../../server');
 
-describe('Acceptance | API | assessment-controller-get-adaptive', function() {
+describe('Acceptance | API | assessment-controller-get-adaptive', () => {
 
-  before((done) => {
+  before(() => {
 
     nock.cleanAll();
 
@@ -25,6 +25,7 @@ describe('Acceptance | API | assessment-controller-get-adaptive', function() {
           ],
         },
       });
+
     nock('https://api.airtable.com')
       .get('/v0/test-base/Competences/competence_id')
       .query(true)
@@ -39,6 +40,7 @@ describe('Acceptance | API | assessment-controller-get-adaptive', function() {
           'Acquis': ['@web1']
         }
       });
+
     nock('https://api.airtable.com')
       .get('/v0/test-base/Epreuves')
       .query({ view: '1.1 Mener une recherche et une veille d’information' })
@@ -61,6 +63,7 @@ describe('Acceptance | API | assessment-controller-get-adaptive', function() {
           'acquis': ['web3']
         }
       }]);
+
     nock('https://api.airtable.com')
       .get('/v0/test-base/Epreuves/z_first_challenge')
       .query(true)
@@ -72,6 +75,7 @@ describe('Acceptance | API | assessment-controller-get-adaptive', function() {
           'timer': undefined,
         },
       });
+
     nock('https://api.airtable.com')
       .get('/v0/test-base/Epreuves/z_second_challenge')
       .query(true)
@@ -82,6 +86,7 @@ describe('Acceptance | API | assessment-controller-get-adaptive', function() {
           'acquis': ['web2']
         },
       });
+
     nock('https://api.airtable.com')
       .get('/v0/test-base/Epreuves/z_third_challenge')
       .query(true)
@@ -101,17 +106,14 @@ describe('Acceptance | API | assessment-controller-get-adaptive', function() {
       .reply(200, {
         'id': 'idAcquix'
       });
-
-    done();
   });
 
-  after((done) => {
+  after(() => {
     nock.cleanAll();
     cache.flushAll();
-    server.stop(done);
   });
 
-  describe('(adaptive) GET /api/assessments/:assessment_id/next', function() {
+  describe('(adaptive) GET /api/assessments/:assessment_id/next', () => {
 
     let insertedAssessmentId = null;
 
@@ -131,10 +133,13 @@ describe('Acceptance | API | assessment-controller-get-adaptive', function() {
 
     it('should return HTTP status code 404 when there is not next challenge', () => {
       // given
-      const options = { method: 'GET', url: '/api/assessments/' + insertedAssessmentId + '/next' };
+      const options = {
+        method: 'GET',
+        url: '/api/assessments/' + insertedAssessmentId + '/next',
+      };
 
       // when
-      return server.injectThen(options).then((response) => {
+      return server.inject(options).then((response) => {
         expect(response.statusCode).to.equal(404);
       });
     });

@@ -19,14 +19,14 @@ describe('Unit | Domain | Models | BookshelfUser', () => {
     });
 
     it('should fail when the email is empty', () => {
-      // Given
+      // given
       rawData.email = '';
       const user = new BookshelfUser(rawData);
 
-      // When
+      // when
       const promise = user.save();
 
-      // Then
+      // then
       return promise.catch((err) => {
         const emailErrors = err.data['email'];
         expect(emailErrors).to.exist;
@@ -36,14 +36,14 @@ describe('Unit | Domain | Models | BookshelfUser', () => {
     });
 
     it('should have a first name', () => {
-      // Given
+      // given
       rawData.firstName = '';
       const user = new BookshelfUser(rawData);
 
-      // When
+      // when
       const promise = user.save();
 
-      // Then
+      // then
       return promise.then(() => {
         sinon.assert.fail('should not succeed');
       }).catch((err) => {
@@ -54,14 +54,14 @@ describe('Unit | Domain | Models | BookshelfUser', () => {
     });
 
     it('should have a lastname', () => {
-      // Given
+      // given
       rawData.lastName = '';
       const user = new BookshelfUser(rawData);
 
-      // When
+      // when
       const promise = user.save();
 
-      // Then
+      // then
       return promise.then(() => {
         sinon.assert.fail('should not succeed');
       }).catch((err) => {
@@ -73,14 +73,14 @@ describe('Unit | Domain | Models | BookshelfUser', () => {
 
     describe('the password field', () => {
       it('should have a minimum length', () => {
-        // Given
+        // given
         rawData.password = 'F26251J';
         const user = new BookshelfUser(rawData);
 
-        // When
+        // when
         const promise = user.save();
 
-        // Then
+        // then
         return promise.then(() => {
           sinon.assert.fail('should not succeed');
         }).catch((err) => {
@@ -91,14 +91,14 @@ describe('Unit | Domain | Models | BookshelfUser', () => {
       });
 
       it('should contains at least a letter', () => {
-        // Given
+        // given
         rawData.password = '000000000';
         const user = new BookshelfUser(rawData);
 
-        // When
+        // when
         const promise = user.save();
 
-        // Then
+        // then
         return promise.then(() => {
           sinon.assert.fail('should not succeed');
         }).catch((err) => {
@@ -109,14 +109,14 @@ describe('Unit | Domain | Models | BookshelfUser', () => {
       });
 
       it('should contains at least a figure', () => {
-        // Given
+        // given
         rawData.password = 'FFFFFFFF';
         const user = new BookshelfUser(rawData);
 
-        // When
+        // when
         const promise = user.save();
 
-        // Then
+        // then
         return promise.then(() => {
           sinon.assert.fail('should not succeed');
         }).catch((err) => {
@@ -127,14 +127,14 @@ describe('Unit | Domain | Models | BookshelfUser', () => {
       });
 
       it('should be invalid when cgu are false', () => {
-        // Given
+        // given
         rawData.cgu = false;
         const user = new BookshelfUser(rawData);
 
-        // When
+        // when
         const promise = user.save();
 
-        // Then
+        // then
         return promise.then(() => {
           sinon.assert.fail('should not succeed');
         }).catch((err) => {
@@ -145,28 +145,28 @@ describe('Unit | Domain | Models | BookshelfUser', () => {
       });
 
       it('should be valid when cgu are true', () => {
-        // Given
+        // given
         rawData.cgu = true;
         const user = new BookshelfUser(rawData);
 
-        // When
+        // when
         const promise = user.save();
 
-        // Then
+        // then
         return promise.then((user) => {
           expect(user.get('cgu')).to.be.true;
         });
       });
 
       it('should be invalid when cgu are empty', () => {
-        // Given
+        // given
         rawData.cgu = undefined;
         const user = new BookshelfUser(rawData);
 
-        // When
+        // when
         const promise = user.save();
 
-        // Then
+        // then
         return promise.then(() => {
           sinon.assert.fail('should not succeed');
         }).catch((err) => {
@@ -177,13 +177,13 @@ describe('Unit | Domain | Models | BookshelfUser', () => {
       });
 
       it('is valid when everything works', () => {
-        // Given
+        // given
         const user = new BookshelfUser(rawData);
 
-        // When
+        // when
         const promise = user.save();
 
-        // Then
+        // then
         return promise.catch(() => {
           sinon.assert.fail('should not succeed');
         });

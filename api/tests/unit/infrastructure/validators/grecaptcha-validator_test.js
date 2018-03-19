@@ -79,7 +79,7 @@ describe('Unit | Service | google-recaptcha-validator', () => {
         // when
         const promise = gRecaptcha.verify(INVALID_OR_UNKNOW_RECAPTCHA);
 
-        // Then
+        // then
         return promise.catch((err) => {
 
           expect(promise).to.be.rejected;

@@ -19,13 +19,13 @@ describe('Unit | Service | MailService', () => {
     });
 
     it('should use mailJet to send an email', () => {
-      // Given
+      // given
       const email = 'text@example.net';
 
-      // When
+      // when
       const promise = mailService.sendAccountCreationEmail(email);
 
-      // Then
+      // then
       return promise.then(() => {
         sinon.assert.calledWith(sendEmailStub, {
           to: email,
@@ -51,13 +51,13 @@ describe('Unit | Service | MailService', () => {
     });
 
     it('should use mailJet to send an email', () => {
-      // Given
+      // given
       const email = 'text@example.net';
 
-      // When
+      // when
       const promise = mailService.sendWelcomeEmail(email);
 
-      // Then
+      // then
       return promise.then(() => {
         sinon.assert.called(sendEmailStub);
         expect(sendEmailStub.firstCall.args[0]).to.deep.equal({
@@ -100,20 +100,20 @@ describe('Unit | Service | MailService', () => {
     });
 
     it('should randomly pick a contact list', () => {
-      // When
+      // when
       const promise = mailService.addEmailToRandomContactList(email);
 
-      // Then
+      // then
       return promise.then(() => {
         sinon.assert.calledWith(lodashSampleSpy, ['WEBPIX', 'TESTPIX', 'BETAPIX']);
       });
     });
 
     it('should retrieve contact list details', () => {
-      // When
+      // when
       const promise = mailService.addEmailToRandomContactList(email);
 
-      // Then
+      // then
       return promise.then(() => {
         const randomlyPickedContactList = lodashSampleSpy.firstCall.returnValue;
         sinon.assert.calledWith(getContactListByNameStub, randomlyPickedContactList);
@@ -121,38 +121,38 @@ describe('Unit | Service | MailService', () => {
     });
 
     it('should add email to contact list', () => {
-      // When
+      // when
       const promise = mailService.addEmailToRandomContactList(email);
 
-      // Then
+      // then
       return promise.then(() => {
         sinon.assert.calledWith(addEmailToContactListStub, email, contactListDetails.ID);
       });
     });
 
     it('should log error when unable to get contact list by name', () => {
-      // Given
+      // given
       const error = new Error('getContactListByName ERROR');
       getContactListByNameStub.rejects(error);
 
-      // When
+      // when
       const promise = mailService.addEmailToRandomContactList(email);
 
-      // Then
+      // then
       return promise.catch(() => {
         sinon.assert.calledWith(errorStub, error);
       });
     });
 
     it('should log error when unable to add email to contact list', () => {
-      // Given
+      // given
       const error = new Error('addEmailToContactList ERROR');
       addEmailToContactListStub.rejects(error);
 
-      // When
+      // when
       const promise = mailService.addEmailToRandomContactList(email);
 
-      // Then
+      // then
       return promise.catch(() => {
         sinon.assert.calledWith(errorStub, error);
       });
@@ -178,15 +178,15 @@ describe('Unit | Service | MailService', () => {
 
     describe('when provided passwordResetDemandBaseUrl is not production', () => {
       it('should call Mailjet with a sub-domain prefix', () => {
-        // Given
+        // given
         const email = 'text@example.net';
         const fakeTemporaryKey = 'token';
         const passwordResetDemandBaseUrl = 'http://dev.pix.beta.gouv.fr';
 
-        // When
+        // when
         const promise = mailService.sendResetPasswordDemandEmail(email, passwordResetDemandBaseUrl, fakeTemporaryKey);
 
-        // Then
+        // then
         return promise.then(() => {
           sinon.assert.calledWith(sendEmailStub, {
             to: email,

@@ -62,10 +62,10 @@ describe('Unit | Repository | assessmentRepository', () => {
     });
 
     it('should return the list of assessments (which are not Certifications) for each courses from JOHN', () => {
-      // When
+      // when
       const promise = assessmentRepository.findLastAssessmentsForEachCoursesByUser(JOHN);
 
-      // Then
+      // then
       return promise.then((assessments) => {
         expect(assessments).to.have.lengthOf(2);
 
@@ -78,10 +78,10 @@ describe('Unit | Repository | assessmentRepository', () => {
     });
 
     it('should not return preview assessments', () => {
-      // When
+      // when
       const promise = assessmentRepository.findLastAssessmentsForEachCoursesByUser(LAYLA);
 
-      // Then
+      // then
       return promise.then((assessments) => {
         expect(assessments).to.have.lengthOf(1);
       });
@@ -96,10 +96,10 @@ describe('Unit | Repository | assessmentRepository', () => {
         }
       });
 
-      // When
+      // when
       const promise = assessmentRepository.findLastAssessmentsForEachCoursesByUser(JOHN);
 
-      // Then
+      // then
       whereStub.restore();
       return promise
         .catch((err) => {
@@ -259,10 +259,10 @@ describe('Unit | Repository | assessmentRepository', () => {
     });
 
     it('should return the list of assessments (which are not Certifications) from JOHN', () => {
-      // When
+      // when
       const promise = assessmentRepository.findCompletedAssessmentsByUserId(JOHN);
 
-      // Then
+      // then
       return promise.then((assessments) => {
         expect(assessments).to.have.lengthOf(2);
 
@@ -275,10 +275,10 @@ describe('Unit | Repository | assessmentRepository', () => {
     });
 
     it('should not return preview assessments from LAYLA', () => {
-      // When
+      // when
       const promise = assessmentRepository.findCompletedAssessmentsByUserId(LAYLA);
 
-      // Then
+      // then
       return promise.then((assessments) => {
         expect(assessments).to.have.lengthOf(1);
       });
@@ -293,10 +293,10 @@ describe('Unit | Repository | assessmentRepository', () => {
         }
       });
 
-      // When
+      // when
       const promise = assessmentRepository.findLastAssessmentsForEachCoursesByUser(JOHN);
 
-      // Then
+      // then
       whereStub.restore();
       return promise
         .catch((err) => {

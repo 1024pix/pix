@@ -220,10 +220,10 @@ describe('Unit | Service | User Service', () => {
     });
 
     it('should load achieved assessments', () => {
-      // When
+      // when
       const promise = userService.getProfileToCertify(userId, '2020-10-27 08:44:25');
 
-      // Then
+      // then
       return promise.then(() => {
         sinon.assert.calledOnce(assessmentRepository.findLastCompletedAssessmentsForEachCoursesByUser);
         sinon.assert.calledWith(assessmentRepository.findLastCompletedAssessmentsForEachCoursesByUser, userId, '2020-10-27 08:44:25');
@@ -231,40 +231,40 @@ describe('Unit | Service | User Service', () => {
     });
 
     it('should list available challenges', () => {
-      // When
+      // when
       const promise = userService.getProfileToCertify(userId);
 
-      // Then
+      // then
       return promise.then(() => {
         sinon.assert.calledOnce(challengeRepository.list);
       });
     });
 
     it('should list right answers for every assessment fulfilled', () => {
-      // When
+      // when
       const promise = userService.getProfileToCertify(userId);
 
-      // Then
+      // then
       return promise.then(() => {
         sinon.assert.calledTwice(answerRepository.findCorrectAnswersByAssessment);
       });
     });
 
     it('should not list right answers for assessments that have an estimated level null or 1', () => {
-      // When
+      // when
       const promise = userService.getProfileToCertify(userId);
 
-      // Then
+      // then
       return promise.then(() => {
         sinon.assert.neverCalledWith(answerRepository.findCorrectAnswersByAssessment, assessment3.id);
       });
     });
 
     it('should list available competences', () => {
-      // When
+      // when
       const promise = userService.getProfileToCertify(userId);
 
-      // Then
+      // then
       return promise.then(() => {
         sinon.assert.calledOnce(competenceRepository.list);
       });
@@ -272,17 +272,17 @@ describe('Unit | Service | User Service', () => {
 
     context('when all informations needed are collected', () => {
       it('should assign skill to related competence', () => {
-        // Given
+        // given
         const answerInstance = new BookshelfAnswer({ challengeId: challengeForSkillRemplir2.id, result: 'ok' });
         const answerCollectionWithOneAnswer = AnswerCollection.forge([answerInstance]);
 
         answerRepository.findCorrectAnswersByAssessment.withArgs(assessment1.id).resolves(answerCollectionWithEmptyData);
         answerRepository.findCorrectAnswersByAssessment.withArgs(assessment2.id).resolves(answerCollectionWithOneAnswer);
 
-        // When
+        // when
         const promise = userService.getProfileToCertify(userId);
 
-        // Then
+        // then
         return promise.then((skillProfile) => {
           expect(skillProfile).to.deep.equal([
             {
@@ -311,7 +311,7 @@ describe('Unit | Service | User Service', () => {
         context('when no challenge validate the skill', () => {
 
           it('should not return the skill', function() {
-            // Given
+            // given
             const answerOfOldChallenge = new BookshelfAnswer({
               challengeId: oldChallengeWithAlreadyValidatedSkill.id,
               result: 'ok'
@@ -321,10 +321,10 @@ describe('Unit | Service | User Service', () => {
             answerRepository.findCorrectAnswersByAssessment.withArgs(assessment1.id).resolves(answerCollectionWithOneAnswer);
             answerRepository.findCorrectAnswersByAssessment.withArgs(assessment2.id).resolves(answerCollectionWithEmptyData);
 
-            // When
+            // when
             const promise = userService.getProfileToCertify(userId);
 
-            // Then
+            // then
             return promise.then((skillProfile) => {
               expect(skillProfile).to.deep.equal([{
                 id: 'competenceRecordIdOne',
@@ -350,17 +350,17 @@ describe('Unit | Service | User Service', () => {
 
         context('when only one challenge validate the skill', () => {
           it('should select the same challenge', () => {
-            // Given
+            // given
             const answer = new BookshelfAnswer({ challengeId: challengeForSkillRemplir2.id, result: 'ok' });
             const answerCollectionWithOneAnswer = AnswerCollection.forge([answer]);
 
             answerRepository.findCorrectAnswersByAssessment.withArgs(assessment1.id).resolves(answerCollectionWithEmptyData);
             answerRepository.findCorrectAnswersByAssessment.withArgs(assessment2.id).resolves(answerCollectionWithOneAnswer);
 
-            // When
+            // when
             const promise = userService.getProfileToCertify(userId);
 
-            // Then
+            // then
             return promise.then((skillProfile) => {
               expect(skillProfile).to.deep.equal([
                 {
@@ -387,17 +387,17 @@ describe('Unit | Service | User Service', () => {
 
         context('when three challenges validate the same skill', () => {
           it('should select the unanswered challenge which is published', () => {
-            // Given
+            // given
             const answer = new BookshelfAnswer({ challengeId: challengeForSkillCitation4.id, result: 'ok' });
             const answerCollectionWithOneAnswer = AnswerCollection.forge([answer]);
 
             answerRepository.findCorrectAnswersByAssessment.withArgs(assessment1.id).resolves(answerCollectionWithOneAnswer);
             answerRepository.findCorrectAnswersByAssessment.withArgs(assessment2.id).resolves(answerCollectionWithEmptyData);
 
-            // When
+            // when
             const promise = userService.getProfileToCertify(userId);
 
-            // Then
+            // then
             return promise.then((skillProfile) => {
               expect(skillProfile).to.deep.equal([
                 {
@@ -422,7 +422,7 @@ describe('Unit | Service | User Service', () => {
           });
 
           it('should select a challenge for every skill', () => {
-            // Given
+            // given
             const answer = new BookshelfAnswer({ challengeId: challengeForSkillRecherche4.id, result: 'ok' });
             const answer2 = new BookshelfAnswer({ challengeId: challengeForSkillCitation4AndMoteur3.id, result: 'ok' });
             const answerCollectionWithTwoAnswers = AnswerCollection.forge([answer, answer2]);
@@ -430,10 +430,10 @@ describe('Unit | Service | User Service', () => {
             answerRepository.findCorrectAnswersByAssessment.withArgs(assessment1.id).resolves(answerCollectionWithTwoAnswers);
             answerRepository.findCorrectAnswersByAssessment.withArgs(assessment2.id).resolves(answerCollectionWithEmptyData);
 
-            // When
+            // when
             const promise = userService.getProfileToCertify(userId);
 
-            // Then
+            // then
             return promise.then((skillProfile) => {
               expect(skillProfile).to.deep.equal([
                 {
@@ -460,7 +460,7 @@ describe('Unit | Service | User Service', () => {
       });
 
       it('should group skills by competence ', () => {
-        // Given
+        // given
         const answerA1 = new BookshelfAnswer({ challengeId: challengeForSkillRecherche4.id, result: 'ok' });
         const answerCollectionA = AnswerCollection.forge([answerA1]);
 
@@ -471,10 +471,10 @@ describe('Unit | Service | User Service', () => {
         answerRepository.findCorrectAnswersByAssessment.withArgs(assessment1.id).resolves(answerCollectionA);
         answerRepository.findCorrectAnswersByAssessment.withArgs(assessment2.id).resolves(answerCollectionB);
 
-        // When
+        // when
         const promise = userService.getProfileToCertify(userId);
 
-        // Then
+        // then
         return promise.then((skillProfile) => {
           expect(skillProfile).to.deep.equal([
             {
@@ -499,7 +499,7 @@ describe('Unit | Service | User Service', () => {
       });
 
       it('should sort in desc grouped skills by competence', () => {
-        // Given
+        // given
         const answer1 = new BookshelfAnswer({ challengeId: challengeForSkillRemplir4.id, result: 'ok' });
         const answer2 = new BookshelfAnswer({ challengeId: challengeForSkillRemplir2.id, result: 'ok' });
         const answer3 = new BookshelfAnswer({ challengeId: challengeForSkillUrl3.id, result: 'ok' });
@@ -508,10 +508,10 @@ describe('Unit | Service | User Service', () => {
         answerRepository.findCorrectAnswersByAssessment.withArgs(assessment1.id).resolves(answerCollectionWithEmptyData);
         answerRepository.findCorrectAnswersByAssessment.withArgs(assessment2.id).resolves(answerCollectionArray);
 
-        // When
+        // when
         const promise = userService.getProfileToCertify(userId);
 
-        // Then
+        // then
         return promise.then((skillProfile) => {
           expect(skillProfile).to.deep.equal([
             {
@@ -537,7 +537,7 @@ describe('Unit | Service | User Service', () => {
       });
 
       it('should return the three most difficult skills sorted in desc grouped by competence', () => {
-        // Given
+        // given
         const answer1 = new BookshelfAnswer({ challengeId: challengeForSkillRemplir4.id, result: 'ok' });
         const answer2 = new BookshelfAnswer({ challengeId: challengeForSkillRemplir2.id, result: 'ok' });
         const answer3 = new BookshelfAnswer({ challengeId: challengeForSkillUrl3.id, result: 'ok' });
@@ -547,10 +547,10 @@ describe('Unit | Service | User Service', () => {
         answerRepository.findCorrectAnswersByAssessment.withArgs(assessment1.id).resolves(answerCollectionWithEmptyData);
         answerRepository.findCorrectAnswersByAssessment.withArgs(assessment2.id).resolves(answerCollectionArray);
 
-        // When
+        // when
         const promise = userService.getProfileToCertify(userId);
 
-        // Then
+        // then
         return promise.then((skillProfile) => {
           expect(skillProfile).to.deep.equal([
             {
@@ -576,17 +576,17 @@ describe('Unit | Service | User Service', () => {
       });
 
       it('should not add a skill twice', () => {
-        // Given
+        // given
         const answer = new BookshelfAnswer({ challengeId: challengeForSkillRemplir2.id, result: 'ok' });
         const answerCollectionArray = AnswerCollection.forge([answer, answer]);
 
         answerRepository.findCorrectAnswersByAssessment.withArgs(assessment1.id).resolves(answerCollectionWithEmptyData);
         answerRepository.findCorrectAnswersByAssessment.withArgs(assessment2.id).resolves(answerCollectionArray);
 
-        // When
+        // when
         const promise = userService.getProfileToCertify(userId);
 
-        // Then
+        // then
         return promise.then((skillProfile) => {
           expect(skillProfile).to.deep.equal([
             {
@@ -611,17 +611,17 @@ describe('Unit | Service | User Service', () => {
       });
 
       it('should not assign skill, when the challenge id is not found', () => {
-        // Given
+        // given
         const answer = new BookshelfAnswer({ challengeId: 'challengeRecordIdThatDoesNotExist', result: 'ok' });
         const answerCollectionArray = AnswerCollection.forge(answer);
 
         answerRepository.findCorrectAnswersByAssessment.withArgs(assessment1.id).resolves(answerCollectionWithEmptyData);
         answerRepository.findCorrectAnswersByAssessment.withArgs(assessment2.id).resolves(answerCollectionArray);
 
-        // When
+        // when
         const promise = userService.getProfileToCertify(userId);
 
-        // Then
+        // then
         return promise.then((skillProfile) => {
           expect(skillProfile).to.deep.equal([
             {
@@ -646,17 +646,17 @@ describe('Unit | Service | User Service', () => {
       });
 
       it('should not assign skill, when the competence is not found', () => {
-        // Given
+        // given
         const answer = new BookshelfAnswer({ challengeId: 'challengeRecordIdThree', result: 'ok' });
         const answerCollectionArray = AnswerCollection.forge(answer);
 
         answerRepository.findCorrectAnswersByAssessment.withArgs(assessment1.id).resolves(answerCollectionWithEmptyData);
         answerRepository.findCorrectAnswersByAssessment.withArgs(assessment2.id).resolves(answerCollectionArray);
 
-        // When
+        // when
         const promise = userService.getProfileToCertify(userId);
 
-        // Then
+        // then
         return promise.then((skillProfile) => {
           expect(skillProfile).to.deep.equal([
             {

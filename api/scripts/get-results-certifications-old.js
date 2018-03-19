@@ -19,8 +19,11 @@ function parseArgs(argv) {
   return args;
 }
 
-function buildRequestObject(baseUrl, certificationId) {
+function buildRequestObject(baseUrl, authToken, certificationId) {
   return {
+    headers: {
+      authorization: 'Bearer ' + authToken
+    },
     baseUrl: baseUrl,
     url: `/api/admin/certifications/${certificationId}/details`,
     json: true,
@@ -60,9 +63,10 @@ function toCSVRow(rowJSON) {
 
 function main() {
   const baseUrl = process.argv[2];
-  const ids = parseArgs(process.argv);
+  const authToken = process.argv[3];
+  const ids = parseArgs(process.argv.slice(4));
   const requests = Promise.all(
-    ids.map(id => buildRequestObject(baseUrl, id))
+    ids.map(id => buildRequestObject(baseUrl, authToken, id))
       .map(requestObject => makeRequest(requestObject))
   );
 
@@ -72,7 +76,10 @@ function main() {
       fieldNames: HEADERS,
       del: ';',
     }))
-    .then(csv => { console.log(`\n\n${csv}\n\n`); return csv; });
+    .then(csv => {
+      console.log(`\n\n${csv}\n\n`);
+      return csv;
+    });
 }
 
 /*=================== tests =============================*/
@@ -80,7 +87,7 @@ function main() {
 if (process.env.NODE_ENV !== 'test') {
   main();
 } else {
-  const { describe, it } = require('mocha');
+
   const { expect } = require('chai');
   describe('Get Result Certifications Script OLD', () => {
     describe('parseArgs', () => {
@@ -101,17 +108,20 @@ if (process.env.NODE_ENV !== 'test') {
         // given
         const courseId = 12;
         const baseUrl = 'http://localhost:3000';
+        const authToken = 'jwt.tokken';
+
         // when
-        const result = buildRequestObject(baseUrl, courseId);
+        const result = buildRequestObject(baseUrl, authToken, courseId);
         // then
         expect(result).to.have.property('json', true);
-        expect(result).to.have.property('url','/api/admin/certifications/12/details');
+        expect(result).to.have.property('url', '/api/admin/certifications/12/details');
+        expect(result.headers).to.have.property('authorization', 'Bearer jwt.tokken');
       });
 
       it('should add certificationId to API response when the object is transform after the request', () => {
         // given
         const baseUrl = 'http://localhost:3000';
-        const requestObject = buildRequestObject(baseUrl,12);
+        const requestObject = buildRequestObject(baseUrl, '', 12);
         // when
         const result = requestObject.transform({});
         // then
@@ -131,7 +141,13 @@ if (process.env.NODE_ENV !== 'test') {
 
       it('should extract certificationId, date, and pix score', () => {
         // given
-        const object = { certificationId: '1337', totalScore: 7331, createdAt: '2018-01-31 09:01', completedAt: '2018-01-31T09:29:16.394Z', competencesWithMark: [] };
+        const object = {
+          certificationId: '1337',
+          totalScore: 7331,
+          createdAt: '2018-01-31 09:01',
+          completedAt: '2018-01-31T09:29:16.394Z',
+          competencesWithMark: []
+        };
         // when
         const result = toCSVRow(object);
         // then
@@ -143,7 +159,7 @@ if (process.env.NODE_ENV !== 'test') {
 
       it('should extract competences', () => {
         // given
-        const object = { competencesWithMark : [] };
+        const object = { competencesWithMark: [] };
         // when
         const result = toCSVRow(object);
         // then
@@ -152,14 +168,16 @@ if (process.env.NODE_ENV !== 'test') {
 
       it('should extract competences 1.1', () => {
         // given
-        const object = { competencesWithMark: [
-          {
-            name: 'Sécuriser l\'environnement numérique',
-            index: '1.1',
-            id: 'rec',
-            obtainedLevel: 9001
-          }
-        ] };
+        const object = {
+          competencesWithMark: [
+            {
+              name: 'Sécuriser l\'environnement numérique',
+              index: '1.1',
+              id: 'rec',
+              obtainedLevel: 9001
+            }
+          ]
+        };
         // when
         const result = toCSVRow(object);
         // then
@@ -168,20 +186,22 @@ if (process.env.NODE_ENV !== 'test') {
 
       it('should extract all competences', () => {
         // given
-        const object = { competencesWithMark: [
-          {
-            name: 'Mener une recherche',
-            index: '1.1',
-            id: 'rec',
-            obtainedLevel: 4
-          },
-          {
-            name: 'Sécuriser l\'environnement numérique',
-            index: '1.2',
-            id: 'rec',
-            obtainedLevel: 6
-          }
-        ] };
+        const object = {
+          competencesWithMark: [
+            {
+              name: 'Mener une recherche',
+              index: '1.1',
+              id: 'rec',
+              obtainedLevel: 4
+            },
+            {
+              name: 'Sécuriser l\'environnement numérique',
+              index: '1.2',
+              id: 'rec',
+              obtainedLevel: 6
+            }
+          ]
+        };
         // when
         const result = toCSVRow(object);
         // then

@@ -23,11 +23,11 @@ function _fetchCourses(query) {
 module.exports = {
 
   list(request, reply) {
-    _fetchCourses(request.query)
+    return _fetchCourses(request.query)
       .then(courses => reply(courseSerializer.serialize(courses)))
       .catch((err) => {
         logger.error(err);
-        reply(Boom.badImplementation(err));
+        return reply(Boom.badImplementation(err));
       });
   },
 
@@ -49,24 +49,24 @@ module.exports = {
   },
 
   refresh(request, reply) {
-    courseRepository
+    return courseRepository
       .refresh(request.params.id)
       .then(course => reply(courseSerializer.serialize(course)))
       .catch((err) => {
         logger.error(err);
-        reply(Boom.badImplementation(err));
+        return reply(Boom.badImplementation(err));
       });
   },
 
   refreshAll(request, reply) {
-    courseRepository
+    return courseRepository
       .refreshAll()
       .then(() => reply('Courses updated'))
       .catch(reply);
   },
 
   save(request, reply) {
-    const userId = request.pre.userId;
+    const userId = request.auth.credentials.userId;
 
     return certificationService.startNewCertification(userId)
       .then(certificationCourse => reply(certificationCourseSerializer.serialize(certificationCourse)).code(201))
@@ -75,7 +75,7 @@ module.exports = {
           return reply(Boom.forbidden(err));
         }
         logger.error(err);
-        reply(Boom.badImplementation(err));
+        return reply(Boom.badImplementation(err));
       });
   }
 

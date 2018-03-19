@@ -1,3 +1,4 @@
+const securityController = require('../../interfaces/controllers/security-controller');
 const CacheController = require('./cache-controller');
 
 exports.register = function(server, options, next) {
@@ -5,7 +6,14 @@ exports.register = function(server, options, next) {
   server.route([{
     method: 'DELETE',
     path: '/api/cache',
-    config: { handler: CacheController.removeCacheEntry, tags: ['api'] }
+    config: {
+      pre: [{
+        method: securityController.checkUserHasRolePixMaster,
+        assign: 'hasRolePixMaster'
+      }],
+      handler: CacheController.removeCacheEntry,
+      tags: ['api']
+    }
   }
   ]);
 

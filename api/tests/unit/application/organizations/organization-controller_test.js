@@ -80,10 +80,10 @@ describe('Unit | Controller | organizationController', () => {
       });
 
       it('should try to register a new user', () => {
-        // When
+        // when
         const promise = organizationController.create(request, replyStub);
 
-        // Then
+        // then
         return promise.then(() => {
           expect(userRepository.save).to.have.been.calledWithMatch({
             email: 'existing-email@example.net',
@@ -99,10 +99,10 @@ describe('Unit | Controller | organizationController', () => {
         // given
         request.payload.data.attributes.email = 'MY-EMAIL-WITH-CAPSLOCK@EXAMPLE.NET';
 
-        // When
+        // when
         const promise = organizationController.create(request, replyStub);
 
-        // Then
+        // then
         return promise.then(() => {
           expect(userRepository.save).to.have.been.calledWithMatch({
             email: 'existing-email@example.net'
@@ -112,20 +112,20 @@ describe('Unit | Controller | organizationController', () => {
 
       context('when the user account has been created', () => {
         it('should deserialize an organization', () => {
-          // When
+          // when
           const promise = organizationController.create(request, replyStub);
 
-          // Then
+          // then
           return promise.then(() => {
             sinon.assert.calledOnce(organizationSerializer.deserialize);
           });
         });
 
         it('should persist the organisation with the userID', () => {
-          // When
+          // when
           const promise = organizationController.create(request, replyStub);
 
-          // Then
+          // then
           return promise.then(() => {
             sinon.assert.calledOnce(organisationRepository.saveFromModel);
 
@@ -135,14 +135,14 @@ describe('Unit | Controller | organizationController', () => {
         });
 
         it('should serialize the response', () => {
-          // Given
+          // given
           const serializedOrganization = { message: 'serialized organization' };
           organizationSerializer.serialize.returns(serializedOrganization);
 
-          // When
+          // when
           const promise = organizationController.create(request, replyStub);
 
-          // Then
+          // then
           return promise.then(() => {
             expect(organizationSerializer.serialize).to.have.been.calledWith(organizationBookshelf.toJSON());
             expect(replyStub).to.have.been.calledWith(serializedOrganization);
@@ -151,27 +151,27 @@ describe('Unit | Controller | organizationController', () => {
 
         context('generating a code for the organization', () => {
           it('should generate a code', () => {
-            // When
+            // when
             const promise = organizationController.create(request, replyStub);
 
-            // Then
+            // then
             return promise.then(() => {
               sinon.assert.calledOnce(organizationService.generateOrganizationCode);
             });
           });
 
           it('should verify if the code is unique', () => {
-            // Then
+            // then
             const promise = organizationController.create(request, replyStub);
 
-            // When
+            // when
             return promise.then(() => {
               sinon.assert.calledWith(organisationRepository.isCodeAvailable, 'ABCD12');
             });
           });
 
           it('should generate a code as many times as necessary to find a unique one', () => {
-            // Given
+            // given
             organizationService.generateOrganizationCode.onFirstCall().returns('CODE01');
             organizationService.generateOrganizationCode.onSecondCall().returns('CODE02');
             organizationService.generateOrganizationCode.onThirdCall().returns('CODE03');
@@ -180,25 +180,25 @@ describe('Unit | Controller | organizationController', () => {
             organisationRepository.isCodeAvailable.withArgs('CODE02').rejects();
             organisationRepository.isCodeAvailable.withArgs('CODE03').resolves('CODE03');
 
-            // Then
+            // then
             const promise = organizationController.create(request, replyStub);
 
-            // When
+            // when
             return promise.then(() => {
               sinon.assert.calledThrice(organisationRepository.isCodeAvailable);
             });
           });
 
           it('should persist the organization with its code', () => {
-            // Given
+            // given
             const code = 'CODE01';
             organizationService.generateOrganizationCode.resolves(code);
             organisationRepository.isCodeAvailable.resolves(code);
 
-            // Then
+            // then
             const promise = organizationController.create(request, replyStub);
 
-            // When
+            // when
             return promise.then(() => {
               const callArguments = organisationRepository.saveFromModel.firstCall.args[0];
               expect(callArguments.get('code')).to.equal(code);
@@ -209,10 +209,10 @@ describe('Unit | Controller | organizationController', () => {
 
         context('when the organization payload is invalid', () => {
           it('should reply 400', () => {
-            // When
+            // when
             const promise = organizationController.create(request, replyStub);
 
-            // Then
+            // then
             return promise.catch(() => {
               sinon.assert.calledWith(replyStub, {
                 'errors': [
@@ -241,10 +241,10 @@ describe('Unit | Controller | organizationController', () => {
       });
 
       it('should reply 400', () => {
-        // When
+        // when
         const promise = organizationController.create(request, replyStub);
 
-        // Then
+        // then
         return promise.then(() => {
           sinon.assert.calledWith(codeStub, 400);
           sinon.assert.calledWith(replyStub, {
@@ -268,14 +268,14 @@ describe('Unit | Controller | organizationController', () => {
 
     describe('when unable to save something in the database', () => {
       it('should return 500', () => {
-        // Given
+        // given
         const error = new Error();
         userRepository.isEmailAvailable.rejects(error);
 
-        // When
+        // when
         const promise = organizationController.create(request, replyStub);
 
-        // Then
+        // then
         return promise.then(() => {
           sinon.assert.calledWith(codeStub, 500);
           sinon.assert.calledOnce(replyStub);
@@ -283,14 +283,14 @@ describe('Unit | Controller | organizationController', () => {
       });
 
       it('should log any error', () => {
-        // Given
+        // given
         const error = new Error();
         userRepository.isEmailAvailable.rejects(error);
 
-        // When
+        // when
         const promise = organizationController.create(request, replyStub);
 
-        // Then
+        // then
         return promise.then(() => {
           sinon.assert.calledWith(logger.error, error);
         });

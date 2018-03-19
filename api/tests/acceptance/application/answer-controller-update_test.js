@@ -2,13 +2,9 @@ const { expect, knex, nock } = require('../../test-helper');
 const server = require('../../../server');
 const Answer = require('../../../lib/infrastructure/data/answer');
 
-describe('Acceptance | Controller | answer-controller', function() {
+describe('Acceptance | Controller | answer-controller', () => {
 
-  after((done) => {
-    server.stop(done);
-  });
-
-  describe('PATCH /api/answers/:id', function() {
+  describe('PATCH /api/answers/:id', () => {
 
     let options;
     let insertedAnswerId;
@@ -30,9 +26,22 @@ describe('Acceptance | Controller | answer-controller', function() {
       'result-details': null
     };
 
+    before(() => {
+      nock('https://api.airtable.com')
+        .get(`/v0/test-base/Epreuves/${insertedAnswer.challengeId}?`)
+        .times(5)
+        .reply(200, {
+          'id': 'recLt9uwa2dR3IYpi',
+          'fields': {
+            'Type d\'épreuve': 'QCU',
+            'Bonnes réponses': '1'
+            //other fields not represented
+          }
+        });
+    });
+
     beforeEach(() => {
-      return knex('answers').delete()
-        .then(() => knex('answers').insert([insertedAnswer]))
+      return knex('answers').insert([insertedAnswer])
         .then((id) => {
           insertedAnswerId = id;
           options = {
@@ -58,27 +67,13 @@ describe('Acceptance | Controller | answer-controller', function() {
                   }
                 }
               }
-            }
+            },
           };
         });
     });
 
     afterEach(() => {
       return knex('answers').delete();
-    });
-
-    before(() => {
-      nock('https://api.airtable.com')
-        .get(`/v0/test-base/Epreuves/${insertedAnswer.challengeId}?`)
-        .times(5)
-        .reply(200, {
-          'id': 'recLt9uwa2dR3IYpi',
-          'fields': {
-            'Type d\'épreuve': 'QCU',
-            'Bonnes réponses': '1'
-            //other fields not represented
-          }
-        });
     });
 
     it('should return 200 HTTP status code', (done) => {

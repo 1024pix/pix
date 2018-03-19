@@ -16,7 +16,7 @@ describe('Unit | Class | Mailjet', function() {
   describe('#sendEmail', () => {
 
     it('should create an instance of mailJet', () => {
-      // Given
+      // given
       nodeMailjet.connect.returns({
         post: () => {
           return {
@@ -26,36 +26,36 @@ describe('Unit | Class | Mailjet', function() {
         }
       });
 
-      // When
+      // when
       Mailjet.sendEmail();
 
-      // Then
+      // then
       sinon.assert.calledWith(nodeMailjet.connect, 'test-api-ket', 'test-api-secret');
     });
 
     it('should post a send instruction', () => {
-      // Given
+      // given
       const postStub = sinon.stub().returns({ request: _ => Promise.resolve() });
       nodeMailjet.connect.returns({ post: postStub });
 
-      // When
+      // when
       const result = Mailjet.sendEmail();
 
-      // Then
+      // then
       return result.then(() => {
         sinon.assert.calledWith(postStub, 'send');
       });
     });
 
     it('should request with a payload', () => {
-      // Given
+      // given
       const from = 'no-reply@example.net';
       const email = 'test@example.net';
       const requestStub = sinon.stub().returns(Promise.resolve());
       const postStub = sinon.stub().returns({ request: requestStub });
       nodeMailjet.connect.returns({ post: postStub });
 
-      // When
+      // when
       const result = Mailjet.sendEmail({
         from,
         to: email,
@@ -64,7 +64,7 @@ describe('Unit | Class | Mailjet', function() {
         template: '129291'
       });
 
-      // Then
+      // then
       return result.then(() => {
         sinon.assert.calledWith(requestStub, {
           'FromEmail': 'no-reply@example.net',
@@ -78,16 +78,16 @@ describe('Unit | Class | Mailjet', function() {
     });
 
     it('should have default values', () => {
-      // Given
+      // given
       const email = 'test@example.net';
       const requestStub = sinon.stub().returns(Promise.resolve());
       const postStub = sinon.stub().returns({ request: requestStub });
       nodeMailjet.connect.returns({ post: postStub });
 
-      // When
+      // when
       const result = Mailjet.sendEmail({ template: '129291', to: email });
 
-      // Then
+      // then
       return result.then(() => {
         sinon.assert.calledWith(requestStub, {
           'FromEmail': 'communaute@pix.beta.gouv.fr',
@@ -101,17 +101,17 @@ describe('Unit | Class | Mailjet', function() {
     });
 
     it('should set variables in values', () => {
-      // Given
+      // given
       const email = 'test@example.net';
       const requestStub = sinon.stub().returns(Promise.resolve());
       const postStub = sinon.stub().returns({ request: requestStub });
       const variables = { resetUrl: 'token' };
       nodeMailjet.connect.returns({ post: postStub });
 
-      // When
+      // when
       const result = Mailjet.sendEmail({ template: '129291', to: email, variables });
 
-      // Then
+      // then
       return result.then(() => {
         sinon.assert.calledWith(requestStub, {
           'FromEmail': 'communaute@pix.beta.gouv.fr',
@@ -169,40 +169,40 @@ describe('Unit | Class | Mailjet', function() {
     });
 
     it('should connect to MailJet', () => {
-      // When
+      // when
       Mailjet.getContactListByName();
 
-      // Then
+      // then
       sinon.assert.calledWith(nodeMailjet.connect, 'test-api-ket', 'test-api-secret');
     });
 
     it('should retrieve contact list', () => {
-      // When
+      // when
       Mailjet.getContactListByName();
 
-      // Then
+      // then
       sinon.assert.calledWith(getStub, 'contactslist');
     });
 
     it('should retrieve a specific ', () => {
-      // Given
+      // given
       const name = 'CONTACT-LIST-NAME';
 
-      // When
+      // when
       Mailjet.getContactListByName(name);
 
-      // Then
+      // then
       sinon.assert.calledWith(requestStub, { Name: name });
     });
 
     it('should extract information from the payload', () => {
-      // Given
+      // given
       const name = 'CONTACT-LIST-NAME';
 
-      // When
+      // when
       const promise = Mailjet.getContactListByName(name);
 
-      // Then
+      // then
       return promise.then((contactDetails) => {
         expect(contactDetails).to.deep.equal(contactListDetails);
       });
@@ -233,18 +233,18 @@ describe('Unit | Class | Mailjet', function() {
     });
 
     it('should connect to mailjet', () => {
-      // When
+      // when
       Mailjet.addEmailToContactList(email, contactListID);
 
-      // Then
+      // then
       sinon.assert.calledWith(nodeMailjet.connect, 'test-api-ket', 'test-api-secret');
     });
 
     it('should add email to a contact list', () => {
-      // When
+      // when
       const promise = Mailjet.addEmailToContactList(email, contactListID);
 
-      // Then
+      // then
       return promise.then(() => {
         sinon.assert.calledWith(postStub, 'contactslist');
         sinon.assert.calledWith(idStub, contactListID);

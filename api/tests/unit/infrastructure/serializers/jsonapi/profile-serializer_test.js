@@ -126,7 +126,7 @@ describe('Unit | Serializer | JSONAPI | profile-serializer', () => {
     });
 
     it('should serialize a Profile into JSON:API data of type "users"', function() {
-      // Given
+      // given
       const profile = new Profile(user, competences, areas, lastAssessments, assessmentsCompleted, courses, emptyOrganizations);
       const expectedJson = {
         data: {
@@ -227,26 +227,26 @@ describe('Unit | Serializer | JSONAPI | profile-serializer', () => {
         ]
       };
 
-      // When
+      // when
       const userSerialized = serializer.serialize(profile);
 
-      // Then
+      // then
       expect(userSerialized).to.be.deep.equal(expectedJson);
     });
 
     it('should not serialize "total-pix-score" user attribute when no assessments', function() {
-      // Given
+      // given
       const profile = new Profile(user, competences, areas, emptyAssessments, emptyAssessments, emptyCourses, emptyOrganizations);
 
-      // When
+      // when
       const userSerialized = serializer.serialize(profile);
 
-      // Then
+      // then
       expect(userSerialized.data.attributes).not.to.have.property('total-pix-score');
     });
 
     it('should serialize organizations if user is admin of some organizations', function() {
-      // Given
+      // given
       const profile = new Profile(user, emptyCompetences, emptyAreas, emptyAssessments, emptyAssessments, emptyCourses, organizations);
       const expectedJsonWithOrganisations = {
         data: {
@@ -304,10 +304,10 @@ describe('Unit | Serializer | JSONAPI | profile-serializer', () => {
         ]
       };
 
-      // When
+      // when
       const userSerialized = serializer.serialize(profile);
 
-      // Then
+      // then
       expect(userSerialized).to.be.deep.equal(expectedJsonWithOrganisations);
     });
 

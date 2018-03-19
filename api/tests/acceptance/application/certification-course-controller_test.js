@@ -1,84 +1,138 @@
-const { describe, it, after, expect, knex } = require('../../test-helper');
+const { expect, knex, generateValidRequestAuhorizationHeader, insertUserWithRolePixMaster, cleanupUsersAndPixRolesTables } = require('../../test-helper');
 const server = require('../../../server');
-const _ = require('lodash');
+const _  = require('lodash');
 
-describe('Acceptance | API | Certification Course', function() {
+describe('Acceptance | API | Certification Course', () => {
 
-  after(function(done) {
-    server.stop(done);
-  });
+  describe('GET /api/admin/certifications/{id}/details', () => {
 
-  describe('GET /api/admin/certifications/{id}', function() {
+    let options;
 
-    const courseId = '1';
-    const options = { method: 'GET', url: `/api/admin/certifications/${courseId}` };
+    beforeEach(() => {
+      options = {
+        method: 'GET',
+        url: '/api/admin/certifications/1234/details',
+        headers: {}
+      };
+    });
 
-    beforeEach(function() {
-      let assessmentId;
-      return knex('assessments').insert({
-        courseId: courseId,
-        estimatedLevel: 0,
-        pixScore: 42,
-        type: 'CERTIFICATION'
-      }).then(assessmentIds => {
-        assessmentId = _.first(assessmentIds);
-        return knex('marks').insert([
-          {
-            level: 2,
-            score: 20,
-            area_code: 4,
-            competence_code: 4.3,
-            assessmentId
-          },
-          {
-            level: 4,
-            score: 35,
-            area_code: 2,
-            competence_code: 2.1,
-            assessmentId
-          }
-        ]);
-      }).then(() => {
-        return knex('certification-courses').insert(
-          {
-            id: courseId,
-            createdAt: '2017-12-21 15:44:38',
-            completedAt: '2017-12-21T15:48:38.468Z'
-          }
-        );
+    describe('Resource access management', () => {
+
+      it('should respond with a 401 - unauthorized access - if user is not authenticated', () => {
+        // given
+        options.headers.authorization = 'invalid.access.token';
+
+        // when
+        const promise = server.inject(options);
+
+        // then
+        return promise.then((response) => {
+          expect(response.statusCode).to.equal(401);
+        });
+      });
+
+      it('should respond with a 403 - forbidden access - if user has not role PIX_MASTER', () => {
+        // given
+        const nonPixMAsterUserId = 9999;
+        options.headers.authorization = generateValidRequestAuhorizationHeader(nonPixMAsterUserId);
+
+        // when
+        const promise = server.inject(options);
+
+        // then
+        return promise.then((response) => {
+          expect(response.statusCode).to.equal(403);
+        });
       });
     });
 
-    afterEach(() => {
-      return Promise.all([knex('assessments').delete(), knex('marks').delete(), knex('certification-courses').delete()]);
+  });
+
+  describe('GET /api/admin/certifications/{id}', () => {
+
+    const courseId = '1';
+    let options;
+
+    beforeEach(() => {
+      options = {
+        method: 'GET',
+        url: `/api/admin/certifications/${courseId}`,
+        headers: { authorization: generateValidRequestAuhorizationHeader() },
+      };
+      let assessmentId;
+      return insertUserWithRolePixMaster()
+        .then(() => {
+          return knex('assessments').insert({
+            courseId: courseId,
+            estimatedLevel: 0,
+            pixScore: 42,
+            type: 'CERTIFICATION'
+          }).then(assessmentIds => {
+            assessmentId = _.first(assessmentIds);
+            return knex('marks').insert([
+              {
+                level: 2,
+                score: 20,
+                area_code: 4,
+                competence_code: 4.3,
+                assessmentId
+              },
+              {
+                level: 4,
+                score: 35,
+                area_code: 2,
+                competence_code: 2.1,
+                assessmentId
+              }
+            ]);
+          }).then(() => {
+            return knex('certification-courses').insert({
+              id: courseId,
+              createdAt: '2017-12-21 15:44:38',
+              completedAt: '2017-12-21T15:48:38.468Z'
+            });
+          });
+        });
     });
 
-    it('should return 200 HTTP status code', function() {
-      // given
+    afterEach(() => {
+      return cleanupUsersAndPixRolesTables()
+        .then(() => {
+          return Promise.all([
+            knex('assessments').delete(),
+            knex('marks').delete(),
+            knex('certification-courses').delete()]);
+        });
+
+    });
+
+    it('should return 200 HTTP status code', () => {
+      // when
       const promise = server.inject(options);
 
       // then
       return promise.then((response) => {
-        // then
         expect(response.statusCode).to.equal(200);
       });
     });
 
-    it('should return application/json', function() {
-      // given
+    it('should return application/json', () => {
+      // when
       const promise = server.inject(options);
 
       // then
       return promise.then((response) => {
-        // then
         const contentType = response.headers['content-type'];
         expect(contentType).to.contain('application/json');
       });
     });
 
-    it('should retrieve the certification total pix score and certified competences levels', function(done) {
+    it('should retrieve the certification total pix score and certified competences levels', () => {
       // when
-      server.inject(options, (response) => {
+      const promise = server.inject(options);
+
+      // then
+      return promise.then(response => {
         // then
         const result = response.result.data;
         expect(result.attributes['pix-score']).to.equal(42);
@@ -93,43 +147,82 @@ describe('Acceptance | API | Certification Course', function() {
         const secondCertifiedCompetence = result.attributes['competences-with-mark'][1];
         expect(secondCertifiedCompetence.level).to.equal(4);
         expect(secondCertifiedCompetence['competence-code']).to.equal('2.1');
-        done();
       });
     });
 
-    it('should return 404 HTTP status code if certification not found', function() {
+    it('should return 404 HTTP status code if certification not found', () => {
+      // given
+      const options = {
+        method: 'GET',
+        url: '/api/admin/certifications/200',
+        headers: { authorization: generateValidRequestAuhorizationHeader() },
+      };
+
       // when
-      const promise = server.inject({ method: 'GET', url: '/api/admin/certifications/200' });
+      const promise = server.inject(options);
 
       // then
       return promise.then((response) => {
         expect(response.statusCode).to.equal(404);
       });
     });
+
+    describe('Resource access management', () => {
+
+      it('should respond with a 401 - unauthorized access - if user is not authenticated', () => {
+        // given
+        options.headers.authorization = 'invalid.access.token';
+
+        // when
+        const promise = server.inject(options);
+
+        // then
+        return promise.then((response) => {
+          expect(response.statusCode).to.equal(401);
+        });
+      });
+
+      it('should respond with a 403 - forbidden access - if user has not role PIX_MASTER', () => {
+        // given
+        const nonPixMAsterUserId = 9999;
+        options.headers.authorization = generateValidRequestAuhorizationHeader(nonPixMAsterUserId);
+
+        // when
+        const promise = server.inject(options);
+
+        // then
+        return promise.then((response) => {
+          expect(response.statusCode).to.equal(403);
+        });
+      });
+    });
   });
 
-  describe('PATCH /api/certification-courses/{id}', function() {
+  describe('PATCH /api/certification-courses/{id}', () => {
 
     const courseId = '1';
 
-    const options = {
-      method: 'PATCH', url: `/api/certification-courses/${courseId}`, payload: {
-        data: {
-          type: 'certifications',
-          id: 1,
-          attributes: {
-            'status': 'rejected',
-            'first-name': 'Freezer',
-            'last-name': 'The all mighty',
-            'birthplace': 'Namek',
-            'birthdate': '24/10/1989',
-            'rejection-reason': 'Killed all citizens'
+    let options;
+
+    beforeEach(() => {
+      options = {
+        headers: { authorization: generateValidRequestAuhorizationHeader() },
+        method: 'PATCH', url: `/api/certification-courses/${courseId}`, payload: {
+          data: {
+            type: 'certifications',
+            id: 1,
+            attributes: {
+              'status': 'rejected',
+              'first-name': 'Freezer',
+              'last-name': 'The all mighty',
+              'birthplace': 'Namek',
+              'birthdate': '24/10/1989',
+              'rejection-reason': 'Killed all citizens'
+            }
           }
         }
-      }
-    };
+      };
 
-    beforeEach(function() {
       return knex('certification-courses').insert(
         {
           id: courseId,

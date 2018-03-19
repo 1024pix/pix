@@ -101,7 +101,7 @@ describe('Unit | Controller | user-controller', () => {
         // when
         const promise = userController.save(request, replyStub);
 
-        // Then
+        // then
         const expectedValue = 'a-random-token';
         return promise.then(() => {
           sinon.assert.calledWith(googleReCaptcha.verify, expectedValue);
@@ -109,7 +109,7 @@ describe('Unit | Controller | user-controller', () => {
       });
 
       it('should send an email', () => {
-        // Given
+        // given
         const request = {
           payload: {
             data: {
@@ -123,17 +123,17 @@ describe('Unit | Controller | user-controller', () => {
         };
         mailServiceMock.expects('sendAccountCreationEmail').once().withArgs(email);
 
-        // When
+        // when
         const promise = userController.save(request, replyStub);
 
-        // Then
+        // then
         return promise.then(() => {
           mailServiceMock.verify();
         });
       });
 
       it('should return a serialized user', () => {
-        // Given
+        // given
         const expectedSerializedUser = { message: 'serialized user' };
         userSerializer.serialize.returns(expectedSerializedUser);
         const sendAccountCreationEmail = sinon.stub(mailService, 'sendAccountCreationEmail');
@@ -149,10 +149,10 @@ describe('Unit | Controller | user-controller', () => {
           }
         };
 
-        // When
+        // when
         const promise = userController.save(request, replyStub);
 
-        // Then
+        // then
         return promise.then(() => {
           sinon.assert.calledWith(userSerializer.serialize, savedUser);
           sinon.assert.calledWith(replyStub, expectedSerializedUser);
@@ -164,7 +164,7 @@ describe('Unit | Controller | user-controller', () => {
     });
 
     it('should reply with a serialized error', () => {
-      // Given
+      // given
       userRepository.save.rejects();
 
       const expectedSerializedError = { errors: [] };
@@ -181,10 +181,10 @@ describe('Unit | Controller | user-controller', () => {
         }
       };
 
-      // When
+      // when
       const promise = userController.save(request, replyStub);
 
-      // Then
+      // then
       return promise.then(() => {
         sinon.assert.calledWith(replyStub, expectedSerializedError);
         sinon.assert.calledOnce(validationErrorSerializer.serialize);
@@ -208,15 +208,15 @@ describe('Unit | Controller | user-controller', () => {
       describe('when from Sqlite3', () => {
 
         it('should return an already registered email error message', () => {
-          // Given
+          // given
           validationErrorSerializer.serialize.returns({ errors: [] });
           const sqliteConstraint = { code: 'SQLITE_CONSTRAINT' };
           userRepository.save.rejects(sqliteConstraint);
 
-          // When
+          // when
           const promise = userController.save(request, replyStub);
 
-          // Then
+          // then
           return promise.then(() => {
             sinon.assert.calledWith(validationErrorSerializer.serialize, {
               data: {
@@ -231,16 +231,16 @@ describe('Unit | Controller | user-controller', () => {
       describe('when from Postgresql', () => {
 
         it('should return an already registered email error message', () => {
-          // Given
+          // given
           validationErrorSerializer.serialize.returns({ errors: [] });
 
           const sqliteConstraint = { code: '23505' };
           userRepository.save.rejects(sqliteConstraint);
 
-          // When
+          // when
           const promise = userController.save(request, replyStub);
 
-          // Then
+          // then
           return promise.then(() => {
             sinon.assert.calledWith(validationErrorSerializer.serialize, {
               data: {
@@ -253,33 +253,33 @@ describe('Unit | Controller | user-controller', () => {
       });
 
       it('when there is not payload', () => {
-        // Given
+        // given
         const request = {};
         boomBadRequestMock.expects('badRequest').exactly(1);
 
-        // When
+        // when
         userController.save(request, replyStub);
 
-        // Then
+        // then
         boomBadRequestMock.verify();
       });
 
       it('when there is an empty payload', () => {
-        // Given
+        // given
         const request = {
           payload: {}
         };
         boomBadRequestMock.expects('badRequest').exactly(1);
 
-        // When
+        // when
         userController.save(request, replyStub);
 
-        // Then
+        // then
         boomBadRequestMock.verify();
       });
 
       it('when there is an payload with empty data', () => {
-        // Given
+        // given
         const request = {
           payload: {
             data: {}
@@ -287,10 +287,10 @@ describe('Unit | Controller | user-controller', () => {
         };
         boomBadRequestMock.expects('badRequest').exactly(1);
 
-        // When
+        // when
         userController.save(request, replyStub);
 
-        // Then
+        // then
         boomBadRequestMock.verify();
       });
 
@@ -312,10 +312,10 @@ describe('Unit | Controller | user-controller', () => {
         });
 
         it('should return 422 Bad request, when captcha is not valid', () => {
-          // When
+          // when
           const promise = userController.save(request, replyStub);
 
-          // Then
+          // then
           return promise.then(() => {
             sinon.assert.calledWith(codeStub, 422);
           });
@@ -339,10 +339,10 @@ describe('Unit | Controller | user-controller', () => {
             }]
           };
 
-          // When
+          // when
           const promise = userController.save(request, replyStub);
 
-          // Then
+          // then
           return promise.catch(() => {
             sinon.assert.calledWith(replyStub, expectedMergedErrors);
           });
@@ -559,14 +559,14 @@ describe('Unit | Controller | user-controller', () => {
 
     context('when loading user competences fails', () => {
       it('should reply with an INTERNAL error', () => {
-        // Given
+        // given
         const anyErrorFromProfileBuilding = new Error();
         userService.getProfileToCertify.rejects(anyErrorFromProfileBuilding);
 
-        // When
+        // when
         const promise = userController.getProfileToCertify(request, replyStub);
 
-        // Then
+        // then
         return promise.then(() => {
           sinon.assert.calledOnce(replyStub);
 
@@ -577,14 +577,14 @@ describe('Unit | Controller | user-controller', () => {
       });
 
       it('should log the error', () => {
-        // Given
+        // given
         const anyErrorFromProfileBuilding = new Error();
         userService.getProfileToCertify.rejects(anyErrorFromProfileBuilding);
 
-        // When
+        // when
         const promise = userController.getProfileToCertify(request, replyStub);
 
-        // Then
+        // then
         return promise.then(() => {
           sinon.assert.calledOnce(logger.error);
           sinon.assert.calledWith(logger.error, anyErrorFromProfileBuilding);
@@ -605,10 +605,10 @@ describe('Unit | Controller | user-controller', () => {
       });
 
       it('should load his current achieved assessments', () => {
-        // When
+        // when
         const promise = userController.getProfileToCertify(request, replyStub);
 
-        // Then
+        // then
         return promise.then(() => {
           sinon.assert.calledOnce(userService.getProfileToCertify);
           sinon.assert.calledWith(userService.getProfileToCertify, 1, '1970-01-01T00:00:00.000Z');
@@ -616,10 +616,10 @@ describe('Unit | Controller | user-controller', () => {
       });
 
       it('should reply the skillProfile', () => {
-        // When
+        // when
         const promise = userController.getProfileToCertify(request, replyStub);
 
-        // Then
+        // then
         return promise.then(() => {
           sinon.assert.calledWith(replyStub, []);
         });

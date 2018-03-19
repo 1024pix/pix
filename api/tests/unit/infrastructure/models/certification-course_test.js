@@ -16,14 +16,14 @@ describe('Unit | Infrastructure | Models | BookshelfCertificationCourse', () => 
     describe('the status field', () => {
 
       it('should only accept specific values', () => {
-        // Given
+        // given
         rawData.status = 'not_a_correct_status';
         const certification = new BookshelfCertificationCourse(rawData);
 
-        // When
+        // when
         const promise = certification.save();
 
-        // Then
+        // then
         return promise
           .then(() => {
             sinon.assert.fail('Cannot succeed');
@@ -35,19 +35,18 @@ describe('Unit | Infrastructure | Models | BookshelfCertificationCourse', () => 
       });
 
       ['started', 'completed', 'validated', 'rejected'].forEach((organizationType) => {
-        it(`should be saved when organisation type is ${organizationType}`, () => {
-          // Given
+        it('should be saved when organisation type is ${organizationType}', () => {
+          // given
           rawData.status = organizationType;
           const certification = new BookshelfCertificationCourse(rawData);
 
-          // When
+          // when
           const promise = certification.save();
 
-          // Then
-          return promise
-            .catch(_ => {
-              sinon.assert.fail(new Error(`Should not fail with ${organizationType} type`));
-            });
+          // then
+          return promise.catch(_ => {
+            sinon.assert.fail(new Error(`Should not fail with ${organizationType} type`));
+          });
         });
       });
     });

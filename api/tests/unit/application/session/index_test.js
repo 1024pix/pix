@@ -1,12 +1,13 @@
 const { expect, sinon } = require('../../../test-helper');
 const Hapi = require('hapi');
-const SessionController = require('../../../../lib/application/sessions/session-controller');
+const securityController = require('../../../../lib/interfaces/controllers/security-controller');
+const sessionController = require('../../../../lib/application/sessions/session-controller');
 
-describe('Unit | Route | session-router', function() {
+describe('Unit | Application | Sessions | Routes', () => {
 
   let server;
 
-  beforeEach(function() {
+  beforeEach(() => {
     server = this.server = new Hapi.Server();
     server.connection({ port: null });
     server.register({ register: require('../../../../lib/application/sessions') });
@@ -19,32 +20,36 @@ describe('Unit | Route | session-router', function() {
     });
   }
 
-  describe('GET /api/session', function() {
+  describe('GET /api/session', () => {
 
-    before(function() {
-      sinon.stub(SessionController, 'get').callsFake((request, reply) => reply('ok'));
+    before(() => {
+      sinon.stub(securityController, 'checkUserHasRolePixMaster').callsFake((request, reply) => reply(true));
+      sinon.stub(sessionController, 'get').callsFake((request, reply) => reply('ok'));
     });
 
-    after(function() {
-      SessionController.get.restore();
+    after(() => {
+      securityController.checkUserHasRolePixMaster.restore();
+      sessionController.get.restore();
     });
 
-    it('should exist', function(done) {
+    it('should exist', (done) => {
       expectRouteToExist({ method: 'GET', url: '/api/sessions' }, done);
     });
   });
 
-  describe('POST /api/session', function() {
+  describe('POST /api/session', () => {
 
-    before(function() {
-      sinon.stub(SessionController, 'save').callsFake((request, reply) => reply('ok'));
+    before(() => {
+      sinon.stub(securityController, 'checkUserHasRolePixMaster').callsFake((request, reply) => reply(true));
+      sinon.stub(sessionController, 'save').callsFake((request, reply) => reply('ok'));
     });
 
-    after(function() {
-      SessionController.save.restore();
+    after(() => {
+      securityController.checkUserHasRolePixMaster.restore();
+      sessionController.save.restore();
     });
 
-    it('should exist', function(done) {
+    it('should exist', (done) => {
       expectRouteToExist({ method: 'POST', url: '/api/sessions' }, done);
     });
   });

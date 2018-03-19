@@ -4,16 +4,9 @@ const mailjetService = require('../../../lib/domain/services/mail-service');
 const resetPasswordService = require('../../../lib/domain/services/reset-password-service');
 const resetPasswordDemandRepository = require('../../../lib/infrastructure/repositories/reset-password-demands-repository');
 
-const User = require('../../../lib/domain/models/User');
-const userRepository = require('../../../lib/infrastructure/repositories/user-repository');
-
 const server = require('../../../server');
 
-describe('Acceptance | Controller | password-controller', function() {
-
-  after(function(done) {
-    server.stop(done);
-  });
+describe('Acceptance | Controller | password-controller', () => {
 
   describe('POST /api/password-reset-demands', () => {
 
@@ -21,13 +14,15 @@ describe('Acceptance | Controller | password-controller', function() {
     let options;
 
     before(() => {
-      fakeUserEmail = faker.internet.email();
-
+      fakeUserEmail = faker.internet.email().toLowerCase();
       return _insertUser(fakeUserEmail);
     });
 
     after(() => {
-      return Promise.all([knex('users').delete(), knex('reset-password-demands').delete()]);
+      return Promise.all([
+        knex('users').delete(),
+        knex('reset-password-demands').delete()
+      ]);
     });
 
     describe('when email provided is unknown', () => {
@@ -47,8 +42,10 @@ describe('Acceptance | Controller | password-controller', function() {
 
       it('should reply with 404', () => {
         // when
-        return server.inject(options).then((response) => {
-          // then
+        const promise = server.inject(options);
+
+        // then
+        return promise.then((response) => {
           expect(response.statusCode).to.equal(404);
         });
       });
@@ -77,8 +74,10 @@ describe('Acceptance | Controller | password-controller', function() {
 
       it('should reply with 201', () => {
         // when
-        return server.inject(options).then((response) => {
-          // then
+        const promise = server.inject(options);
+
+        // then
+        return promise.then((response) => {
           expect(response.statusCode).to.equal(201);
         });
       });
@@ -107,8 +106,10 @@ describe('Acceptance | Controller | password-controller', function() {
 
       it('should reply with 500', () => {
         // when
-        return server.inject(options).then((response) => {
-          // then
+        const promise = server.inject(options);
+
+        // then
+        return promise.then((response) => {
           expect(response.statusCode).to.equal(500);
         });
       });
@@ -116,24 +117,23 @@ describe('Acceptance | Controller | password-controller', function() {
 
     describe('When temporaryKey is valid and linked to a password reset demand', () => {
 
-      let temporaryKey;
       beforeEach(() => {
-        temporaryKey = resetPasswordService.generateTemporaryKey();
-
         fakeUserEmail = faker.internet.email();
-
-        return _insertUser(fakeUserEmail)
-          .then((savedUser) => {
-            return _insertPasswordResetDemand(temporaryKey, savedUser.email);
-          });
       });
 
       afterEach(() => {
-        return Promise.all([knex('users').delete(), knex('reset-password-demands').delete()]);
+        return Promise.all([
+          knex('users').delete(),
+          knex('reset-password-demands').delete()
+        ]);
       });
 
-      it('should reply with 200 status code', () => {
+      it('should reply with 200 status code', async () => {
         // given
+        const temporaryKey = resetPasswordService.generateTemporaryKey();
+        await _insertUser(fakeUserEmail);
+        await _insertPasswordResetDemand(temporaryKey, fakeUserEmail);
+
         options = {
           method: 'GET',
           url: `/api/password-reset-demands/${temporaryKey}`
@@ -143,10 +143,9 @@ describe('Acceptance | Controller | password-controller', function() {
         const promise = server.inject(options);
 
         // then
-        return promise
-          .then((response) => {
-            expect(response.statusCode).to.equal(200);
-          });
+        return promise.then((response) => {
+          expect(response.statusCode).to.equal(200);
+        });
       });
     });
 
@@ -159,13 +158,17 @@ describe('Acceptance | Controller | password-controller', function() {
     describe('When temporaryKey is not valid', () => {
 
       it('should reply with 401 status code', () => {
-        // when
+        // given
         options = {
           method: 'GET',
           url: '/api/password-reset-demands/invalid-temporary-key'
         };
-        return server.inject(options).then((response) => {
-          // then
+
+        // when
+        const promise = server.inject(options);
+
+        // then
+        return promise.then((response) => {
           expect(response.statusCode).to.equal(401);
         });
       });
@@ -174,14 +177,18 @@ describe('Acceptance | Controller | password-controller', function() {
     describe('When temporaryKey is valid but not linked to a password reset demand', () => {
 
       it('should reply with 404 status code', () => {
-        // when
+        // given
         const temporaryKey = resetPasswordService.generateTemporaryKey();
         options = {
           method: 'GET',
           url: `/api/password-reset-demands/${temporaryKey}`
         };
-        return server.inject(options).then((response) => {
-          // then
+
+        // when
+        const promise = server.inject(options);
+
+        // then
+        return promise.then((response) => {
           expect(response.statusCode).to.equal(404);
         });
       });
@@ -198,14 +205,18 @@ describe('Acceptance | Controller | password-controller', function() {
       });
 
       it('should reply with 500 status code', () => {
-        // when
+        // given
         const temporaryKey = resetPasswordService.generateTemporaryKey();
         options = {
           method: 'GET',
           url: `/api/password-reset-demands/${temporaryKey}`
         };
-        return server.inject(options).then((response) => {
-          // then
+
+        // when
+        const promise = server.inject(options);
+
+        // then
+        return promise.then((response) => {
           expect(response.statusCode).to.equal(500);
         });
       });
@@ -213,30 +224,33 @@ describe('Acceptance | Controller | password-controller', function() {
 
     describe('When temporaryKey is valid and linked to a password reset demand', () => {
 
-      let temporaryKey;
-      beforeEach(() => {
-        temporaryKey = resetPasswordService.generateTemporaryKey();
+      const temporaryKey = resetPasswordService.generateTemporaryKey();
 
+      before(() => {
         fakeUserEmail = faker.internet.email();
-
         return _insertUser(fakeUserEmail)
-          .then((savedUser) => {
-            return _insertPasswordResetDemand(temporaryKey, savedUser.email);
-          });
+          .then(() => _insertPasswordResetDemand(temporaryKey, fakeUserEmail));
       });
 
-      afterEach(() => {
-        return Promise.all([knex('users').delete(), knex('reset-password-demands').delete()]);
+      after(() => {
+        return Promise.all([
+          knex('users').delete(),
+          knex('reset-password-demands').delete()
+        ]);
       });
 
       it('should reply with 200 status code', () => {
-        // when
+        // given
         options = {
           method: 'GET',
           url: `/api/password-reset-demands/${temporaryKey}`
         };
-        return server.inject(options).then((response) => {
-          // then
+
+        // when
+        const promise = server.inject(options);
+
+        // then
+        return promise.then((response) => {
           expect(response.statusCode).to.equal(200);
         });
       });
@@ -246,15 +260,15 @@ describe('Acceptance | Controller | password-controller', function() {
 });
 
 function _insertUser(email) {
-  const userToCreate = new User({
+  const userRaw = {
     'firstName': faker.name.firstName(),
     'lastName': faker.name.lastName(),
     email,
-    password: 'Pix2017!',
-    cgu: true
-  });
+    password: 'Pix2017!'
+  };
 
-  return userRepository.save(userToCreate);
+  return knex('users').insert(userRaw)
+    .then(user => user.shift());
 }
 
 function _insertPasswordResetDemand(temporaryKey, email) {

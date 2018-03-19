@@ -21,15 +21,15 @@ describe('Unit | Infrastructure | Models | BookshelfOrganization', () => {
     });
 
     it('is required and cannot be empty', () => {
-      // Given
+      // given
       rawData.name = '';
 
       const organization = new BookshelfOrganization(rawData);
 
-      // When
+      // when
       const promise = organization.save();
 
-      // Then
+      // then
       return promise
         .then(() => {
           sinon.assert.fail('Cannot succeed');
@@ -42,16 +42,16 @@ describe('Unit | Infrastructure | Models | BookshelfOrganization', () => {
 
     describe('the email field', () => {
       it('is required', () => {
-        // Given
+        // given
         rawData.type = 'SUP';
         rawData.email = null;
 
         const organization = new BookshelfOrganization(rawData);
 
-        // When
+        // when
         const promise = organization.save();
 
-        // Then
+        // then
         return promise
           .then(() => {
             sinon.assert.fail('Cannot succeed');
@@ -63,16 +63,16 @@ describe('Unit | Infrastructure | Models | BookshelfOrganization', () => {
       });
 
       it('is required and cannot be empty', () => {
-        // Given
+        // given
         rawData.type = 'SUP';
         rawData.email = '';
 
         const organization = new BookshelfOrganization(rawData);
 
-        // When
+        // when
         const promise = organization.save();
 
-        // Then
+        // then
         return promise
           .then(() => {
             sinon.assert.fail('Cannot succeed');
@@ -92,13 +92,13 @@ describe('Unit | Infrastructure | Models | BookshelfOrganization', () => {
       });
 
       it('is required', () => {
-        // Given
+        // given
         const organization = new BookshelfOrganization(rawData);
 
-        // When
+        // when
         const promise = organization.save();
 
-        // Then
+        // then
         return promise
           .catch((err) => {
             const type = err.data['type'];
@@ -107,14 +107,14 @@ describe('Unit | Infrastructure | Models | BookshelfOrganization', () => {
       });
 
       it('should only accept SUP, SCO, PRO values', () => {
-        // Given
+        // given
         rawData.type = 'FAK';
         const organization = new BookshelfOrganization(rawData);
 
-        // When
+        // when
         const promise = organization.save();
 
-        // Then
+        // then
         return promise
           .catch((err) => {
             const type = err.data['type'];
@@ -125,14 +125,14 @@ describe('Unit | Infrastructure | Models | BookshelfOrganization', () => {
 
       ['SCO', 'SUP', 'PRO'].forEach((organizationType) => {
         it(`should be saved when organisation type is ${organizationType}`, () => {
-          // Given
+          // given
           rawData.type = organizationType;
           const organization = new BookshelfOrganization(rawData);
 
-          // When
+          // when
           const promise = organization.save();
 
-          // Then
+          // then
           return promise
             .catch(_ => {
               sinon.assert.fail(new Error(`Should not fail with ${organizationType} type`));
@@ -149,10 +149,10 @@ describe('Unit | Infrastructure | Models | BookshelfOrganization', () => {
 
         const organization = new BookshelfOrganization(rawData);
 
-        // When
+        // when
         const promise = organization.save();
 
-        // Then
+        // then
         return promise
           .then(() => {
             sinon.assert.fail('Cannot succeed');

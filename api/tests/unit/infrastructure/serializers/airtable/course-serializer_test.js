@@ -42,10 +42,10 @@ describe('Unit | Serializer | course-serializer', function() {
     });
 
     it('should convert record into a Course', () => {
-      // When
+      // when
       const course = serializer.deserialize(airtableRecord);
 
-      // Then
+      // then
       expect(course).to.deep.equal({
         'challenges': [
           'recPHXe5p4ip95Bc6',
@@ -63,13 +63,13 @@ describe('Unit | Serializer | course-serializer', function() {
     });
 
     it('should add an empty array if no competences defined', () => {
-      // Given
+      // given
       delete airtableRecord.fields.Competence;
 
-      // When
+      // when
       const course = serializer.deserialize(airtableRecord);
 
-      // Then
+      // then
       expect(course).to.deep.equal({
         'challenges': [
           'recPHXe5p4ip95Bc6',

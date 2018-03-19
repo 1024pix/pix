@@ -7,25 +7,25 @@ describe('Unit | Domain | Models | Challenge', () => {
   describe('#hasSkill', () => {
 
     it('should return false when the skill is not known', () => {
-      // Given
+      // given
       const challenge = new Challenge();
 
-      // When
+      // when
       const result = challenge.hasSkill(new Skill('@recherche1'));
 
-      // Then
+      // then
       expect(result).to.be.false;
     });
 
     it('should return true when the skill is known', () => {
-      // Given
+      // given
       const challenge = new Challenge();
       challenge.skills.push(new Skill('@recherche1'));
 
-      // When
+      // when
       const result = challenge.hasSkill(new Skill('@recherche1'));
 
-      // Then
+      // then
       expect(result).to.be.true;
     });
   });

@@ -57,7 +57,7 @@ describe('Unit | Controller | qmailController', () => {
     });
 
     it('should fetch the validation rules', () => {
-      // When
+      // when
       const promise = QmailController.validate({ payload: emailSample }, replyStub);
 
       return promise.then(() => {
@@ -82,10 +82,10 @@ describe('Unit | Controller | qmailController', () => {
       });
 
       it('should return a Bad Request', () => {
-        // When
+        // when
         const promise = QmailController.validate({ payload: emailSample }, replyStub);
 
-        // Then
+        // then
         return promise.then(() => {
           sinon.assert.calledWith(boomBadRequestStub, `Le challenge ${challengeId} n'existe pas.`);
           sinon.assert.calledOnce(replyStub);
@@ -110,10 +110,10 @@ describe('Unit | Controller | qmailController', () => {
         });
 
         it('should return a Bad Request', () => {
-          // When
+          // when
           const promise = QmailController.validate({ payload: emailSample }, replyStub);
 
-          // Then
+          // then
           return promise.then(() => {
             sinon.assert.calledWith(boomBadRequestStub, `Le challenge ${challengeId} n'est pas elligible à une validation QMAIL`);
             sinon.assert.calledOnce(replyStub);
@@ -123,12 +123,12 @@ describe('Unit | Controller | qmailController', () => {
       });
 
       it('should load the answer', () => {
-        // When
+        // when
         const promise = QmailController.validate({
           payload: emailSample
         }, replyStub);
 
-        // Then
+        // then
         return promise.then(() => {
           sinon.assert.calledOnce(AnswerRepository.findByChallengeAndAssessment);
           sinon.assert.calledWith(AnswerRepository.findByChallengeAndAssessment, challengeId, assessmentId);
@@ -138,10 +138,10 @@ describe('Unit | Controller | qmailController', () => {
       context('when analysing the email', () => {
 
         it('should change answer result when the email is validated', () => {
-          // When
+          // when
           const promise = QmailController.validate({ payload: emailSample }, replyStub);
 
-          // Then
+          // then
           return promise.then(() => {
             sinon.assert.calledOnce(answer.save);
             expect(answer.get('result')).to.equal('ok');
@@ -149,13 +149,13 @@ describe('Unit | Controller | qmailController', () => {
         });
 
         it('should invalid the answer when the given email is wrong', () => {
-          // Given
+          // given
           QmailValidationService.validateEmail.returns(false);
 
-          // When
+          // when
           const promise = QmailController.validate({ payload: emailSample }, replyStub);
 
-          // Then
+          // then
           return promise.then(() => {
             sinon.assert.calledOnce(answer.save);
             expect(answer.get('result')).to.equal('ko');
@@ -163,10 +163,10 @@ describe('Unit | Controller | qmailController', () => {
         });
 
         it('should save the answer once the email has been checked', () => {
-          // When
+          // when
           const promise = QmailController.validate({ payload: emailSample }, replyStub);
 
-          // Then
+          // then
           return promise.then(() => {
             sinon.assert.calledOnce(QmailValidationService.validateEmail);
             sinon.assert.callOrder(
@@ -181,10 +181,10 @@ describe('Unit | Controller | qmailController', () => {
       });
 
       it('should reply OK after validating the answer', () => {
-        // When
+        // when
         const promise = QmailController.validate({ payload: emailSample }, replyStub);
 
-        // Then
+        // then
         return promise.then(() => {
           sinon.assert.callOrder(
             AnswerRepository.findByChallengeAndAssessment,
@@ -209,14 +209,14 @@ describe('Unit | Controller | qmailController', () => {
       });
 
       it('should return INTERNAL_ERROR when finding the answer is failing', () => {
-        // Given
+        // given
         const error = new Error();
         AnswerRepository.findByChallengeAndAssessment.rejects(error);
 
-        // When
+        // when
         const promise = QmailController.validate({ payload: emailSample }, replyStub);
 
-        // Then
+        // then
         return promise.then(() => {
           sinon.assert.calledOnce(boomBadImplementationStub);
           sinon.assert.calledWith(boomBadImplementationStub, error);
@@ -226,14 +226,14 @@ describe('Unit | Controller | qmailController', () => {
       });
 
       it('should return INTERNAL_ERROR when saving is failing', () => {
-        // Given
+        // given
         const error = new Error();
         answer.save.rejects(error);
 
-        // When
+        // when
         const promise = QmailController.validate({ payload: emailSample }, replyStub);
 
-        // Then
+        // then
         return promise.then(() => {
           sinon.assert.calledOnce(boomBadImplementationStub);
           sinon.assert.calledWith(boomBadImplementationStub, error);
