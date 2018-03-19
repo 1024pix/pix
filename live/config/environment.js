@@ -95,6 +95,7 @@ module.exports = function(environment) {
     ENV.APP.isTimerCountdownEnabled = false;
     ENV.APP.isMessageStatusTogglingEnabled = false;
     ENV.APP.LOAD_EXTERNAL_SCRIPT = false;
+    ENV.APP.autoboot = false;
   }
 
   if (environment === 'integration') {

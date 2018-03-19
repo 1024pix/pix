@@ -39,8 +39,11 @@ export default function proposalsAsBlocks(proposals) {
   const lines = proposals.split(/[\r|\n]+/);
   lines.forEach((line, index) => {
     const parts = line.split(/\s*(\${)|}\s*/);
+    let lastIsOpening = false;
     for (let j = 0; j < parts.length; j += 1) {
-      const { lastIsOpening, block } = parseInput((lastIsOpening || false), parts[j]);
+      const parsedInput = parseInput((lastIsOpening), parts[j]);
+      const block = parsedInput.block;
+      lastIsOpening = parsedInput.lastIsOpening;
       if (!block) {
         continue;
       }
