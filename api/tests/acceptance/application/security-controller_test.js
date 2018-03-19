@@ -50,7 +50,7 @@ describe('Acceptance | Interface | Controller | SecurityController', function() 
           errors: [{
             code: 403,
             title: 'Forbidden access',
-            detail: 'Unauthenticated user or missing role PIX_MASTER.'
+            detail: 'Missing or insufficient permissions.'
           }]
         };
         expect(response.statusCode).to.equal(403);

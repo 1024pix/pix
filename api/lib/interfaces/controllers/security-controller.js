@@ -25,7 +25,7 @@ function _replyWithAuthorizationError(reply) {
     const jsonApiError = new JSONAPIError({
       code: errorHttpStatusCode,
       title: 'Forbidden access',
-      detail: 'Unauthenticated user or missing role PIX_MASTER.'
+      detail: 'Missing or insufficient permissions.'
     });
 
     return reply(jsonApiError).code(errorHttpStatusCode).takeover();
