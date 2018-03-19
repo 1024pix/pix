@@ -2,7 +2,6 @@ import { expect } from 'chai';
 import { describe, it } from 'mocha';
 import { setupComponentTest } from 'ember-mocha';
 import hbs from 'htmlbars-inline-precompile';
-import { click } from '@ember/test-helpers';
 
 describe('Integration | Component | signin form', function() {
 
@@ -31,7 +30,7 @@ describe('Integration | Component | signin form', function() {
     this.$('button[type=submit]').click();
   });
 
-  it('should also use action on submit', function(done) {
+  it('should also use action on submit', async function(done) {
     // Expect
     this.on('onSubmitAction', (email, password) => {
       expect(email).to.equal(expectedEmail);
@@ -44,10 +43,10 @@ describe('Integration | Component | signin form', function() {
     _fillSigninForm(this, expectedEmail, expectedPassword);
 
     // When
-    this.$('.signin-form__form form').submit();
+    await this.$('.signin-form__form form').submit();
   });
 
-  it('should display an error', function() {
+  it('should display an error', async function() {
     // Expect
     this.on('onSubmitAction', () => {
       return Promise.resolve();
@@ -57,7 +56,7 @@ describe('Integration | Component | signin form', function() {
     _fillSigninForm(this, expectedEmail, expectedPassword);
 
     // When
-    this.$('.signin-form__form form').submit();
+    await this.$('.signin-form__form form').submit();
 
     // Then
     expect(this.$('.signin-form__errors')).to.have.lengthOf(0);
@@ -74,7 +73,7 @@ describe('Integration | Component | signin form', function() {
     _fillSigninForm(this, expectedEmail, expectedPassword);
 
     // When
-    await click(this.element.querySelector('.signin-form__form form'));
+    await this.$('.signin-form__form form').submit();
 
     // Then
     expect(this.$('.signin-form__errors')).to.have.lengthOf(0);
