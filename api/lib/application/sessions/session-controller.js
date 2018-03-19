@@ -4,7 +4,7 @@ const logger = require('../../infrastructure/logger');
 const sessionService = require('../../domain/services/session-service');
 const sessionRepository = require('../../infrastructure/repositories/session-repository');
 const serializer = require('../../infrastructure/serializers/jsonapi/session-serializer');
-const { ValidationError } = require('bookshelf-validate/lib/errors');
+const { ValidationError: BookshelfValidationError } = require('bookshelf-validate/lib/errors');
 const validationErrorSerializer = require('../../infrastructure/serializers/jsonapi/validation-error-serializer');
 const errorSerializer = require('../../../lib/infrastructure/serializers/jsonapi/validation-error-serializer');
 
@@ -21,7 +21,7 @@ module.exports = {
         .then(reply)
         .catch((err) => {
 
-          if (err instanceof ValidationError) {
+          if (err instanceof BookshelfValidationError) {
             return reply(validationErrorSerializer.serialize(err)).code(400);
           }
 
