@@ -28,19 +28,18 @@ describe('Integration | Repository | Organization', function() {
     });
 
     it('should save model in database', () => {
-      // Given
+      // given
       const organization = new BookshelfOrganization({ code: 'AAAA99', name: 'Lycée Rousseau', type: 'SCO', email: 'a@b.fr' });
 
-      // When
+      // when
       const promise = organizationRepository.saveFromModel(organization);
 
-      // Then
+      // then
       return promise.then((organizationSaved) => {
         expect(organizationSaved).to.be.an.instanceof(BookshelfOrganization);
         expect(organizationSaved.get('code')).to.equal('AAAA99');
       });
     });
-
   });
 
   describe('#isCodeAvailable', () => {
@@ -61,20 +60,20 @@ describe('Integration | Repository | Organization', function() {
     });
 
     it('should return the code when the code is not already used', () => {
-      // When
+      // when
       const promise = organizationRepository.isCodeAvailable('ABCD02');
 
-      // Then
+      // then
       return promise.then((code) => {
         expect(code).to.equal('ABCD02');
       });
     });
 
     it('should reject when the organization already exists', () => {
-      // When
+      // when
       const promise = organizationRepository.isCodeAvailable('ABCD01');
 
-      // Then
+      // then
       return promise
         .then(() => {
           sinon.assert.fail('Should not be a success');
@@ -83,7 +82,6 @@ describe('Integration | Repository | Organization', function() {
           expect(promise).to.be.rejected;
         });
     });
-
   });
 
   describe('#isOrganizationIdExist', () => {
@@ -110,20 +108,20 @@ describe('Integration | Repository | Organization', function() {
     });
 
     it('should return true when an organization id is found', () => {
-      // When
+      // when
       const promise = organizationRepository.isOrganizationIdExist(organizationId);
 
-      // Then
+      // then
       return promise.then((result) => {
         expect(result).to.be.true;
       });
     });
 
     it('should return false when the organization id is not found', () => {
-      // When
+      // when
       const promise = organizationRepository.isOrganizationIdExist(6);
 
-      // Then
+      // then
       return promise.then((result) => {
         expect(result).to.be.false;
       });
@@ -231,7 +229,7 @@ describe('Integration | Repository | Organization', function() {
     describe('success management', function() {
 
       it('should return an organization by provided userId', function() {
-        // Given
+        // given
         const userId = 2;
 
         // then
@@ -249,13 +247,13 @@ describe('Integration | Repository | Organization', function() {
       });
 
       it('should return all organizations when provided userId has multiple organizations', function() {
-        // Given
+        // given
         const userId = 1;
 
-        // When
+        // when
         const promise = organizationRepository.getByUserId(userId);
 
-        // Then
+        // then
         return promise.then(foundOrganizations => {
           expect(foundOrganizations).to.exist;
           expect(foundOrganizations).to.be.an('array');

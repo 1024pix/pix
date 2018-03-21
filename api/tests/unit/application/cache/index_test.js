@@ -22,9 +22,9 @@ describe('Unit | Router | cache-router', () => {
     });
 
     it('should exist', () => {
-      // When
+      // when
       return server.inject({ method: 'DELETE', url: '/api/cache' }, (res) => {
-        // Then
+        // then
         expect(res.statusCode).to.equal(200);
       });
     });

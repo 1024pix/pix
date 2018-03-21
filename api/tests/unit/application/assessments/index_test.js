@@ -1,107 +1,107 @@
 const { expect, sinon } = require('../../../test-helper');
 const Hapi = require('hapi');
-const AssessmentController = require('../../../../lib/application/assessments/assessment-controller');
-const AssessmentAuthorization = require('../../../../lib/application/preHandlers/assessment-authorization');
+const assessmentController = require('../../../../lib/application/assessments/assessment-controller');
+const assessmentAuthorization = require('../../../../lib/application/preHandlers/assessment-authorization');
 
-describe('Unit | Router | assessment-router', function() {
+describe('Integration | Route | AssessmentRoute', () => {
 
+  let sandbox;
   let server;
 
-  beforeEach(function() {
+  function _expectRouteToExist(routeOptions) {
+    return server.inject(routeOptions, (res) => {
+      expect(res.statusCode).to.equal(200);
+    });
+  }
+
+  beforeEach(() => {
+    // stub dependencies
+    sandbox = sinon.sandbox.create();
+    sandbox.stub(assessmentController, 'save');
+    sandbox.stub(assessmentController, 'getNextChallenge');
+    sandbox.stub(assessmentController, 'findByFilters');
+    sandbox.stub(assessmentController, 'get');
+    sandbox.stub(assessmentAuthorization, 'verify');
+
+    // instance server
     server = this.server = new Hapi.Server();
     server.connection({ port: null });
     server.register({ register: require('../../../../lib/application/assessments') });
   });
 
-  function expectRouteToExist(routeOptions, done) {
-    server.inject(routeOptions, (res) => {
-      expect(res.statusCode).to.equal(200);
-      done();
-    });
-  }
+  afterEach(() => {
+    sandbox.restore();
+  });
 
-  describe('POST /api/assessments', function() {
+  describe('POST /api/assessments', () => {
 
-    before(function() {
-      sinon.stub(AssessmentController, 'save').callsFake((request, reply) => reply('ok'));
+    beforeEach(() => {
+      assessmentController.save.callsFake((request, reply) => reply('ok'));
     });
 
-    after(function() {
-      AssessmentController.save.restore();
-    });
-
-    it('should exist', function(done) {
-      expectRouteToExist({ method: 'POST', url: '/api/assessments' }, done);
+    it('should exist', () => {
+      return _expectRouteToExist({ method: 'POST', url: '/api/assessments' });
     });
   });
 
-  describe('GET /api/assessments/assessment_id/next', function() {
+  describe('GET /api/assessments/assessment_id/next', () => {
 
-    before(function() {
-      sinon.stub(AssessmentController, 'getNextChallenge').callsFake((request, reply) => reply('ok'));
+    beforeEach(() => {
+      assessmentController.getNextChallenge.callsFake((request, reply) => reply('ok'));
     });
 
-    after(function() {
-      AssessmentController.getNextChallenge.restore();
-    });
-
-    it('should exist', function(done) {
-      expectRouteToExist({ method: 'GET', url: '/api/assessments/assessment_id/next' }, done);
+    it('should exist', () => {
+      return _expectRouteToExist({ method: 'GET', url: '/api/assessments/assessment_id/next' });
     });
   });
 
-  describe('GET /api/assessments/assessment_id/next/challenge_id', function() {
+  describe('GET /api/assessments/assessment_id/next/challenge_id', () => {
 
-    before(function() {
-      sinon.stub(AssessmentController, 'getNextChallenge').callsFake((request, reply) => reply('ok'));
+    beforeEach(() => {
+      assessmentController.getNextChallenge.callsFake((request, reply) => reply('ok'));
     });
 
-    after(function() {
-      AssessmentController.getNextChallenge.restore();
-    });
-
-    it('should exist', function(done) {
-      expectRouteToExist({ method: 'GET', url: '/api/assessments/assessment_id/next/challenge_id' }, done);
+    it('should exist', () => {
+      return _expectRouteToExist({ method: 'GET', url: '/api/assessments/assessment_id/next/challenge_id' });
     });
   });
 
-  describe('GET /api/assessments', function() {
+  describe('GET /api/assessments', () => {
 
-    before(function() {
-      sinon.stub(AssessmentController, 'findByFilters').callsFake((request, reply) => reply('ok'));
+    beforeEach(() => {
+      assessmentController.findByFilters.callsFake((request, reply) => reply('ok'));
     });
 
-    after(function() {
-      AssessmentController.findByFilters.restore();
-    });
-
-    it('should exist', function(done) {
-      expectRouteToExist({ method: 'GET', url: '/api/assessments' }, done);
+    it('should exist', () => {
+      return _expectRouteToExist({ method: 'GET', url: '/api/assessments' });
     });
   });
 
-  describe('GET /api/assessments/assessment_id', function() {
+  describe('GET /api/assessments/{id}', () => {
 
-    let sandbox;
+    let options;
 
-    before(function() {
-      sandbox = sinon.sandbox.create();
-      sandbox.stub(AssessmentController, 'get').callsFake((request, reply) => reply('ok'));
-      sandbox.stub(AssessmentAuthorization, 'verify').callsFake((request, reply) => reply('userId'));
+    beforeEach(() => {
+      options = {
+        method: 'GET',
+        url: '/api/assessments/assessment_id'
+      };
+
+      assessmentController.get.callsFake((request, reply) => reply('ok'));
+      assessmentAuthorization.verify.callsFake((request, reply) => reply('userId'));
     });
 
-    after(function() {
-      sandbox.restore();
+    it('should exist', () => {
+      return _expectRouteToExist(options);
     });
 
-    it('should exist', function(done) {
-      expectRouteToExist({ method: 'GET', url: '/api/assessments/assessment_id' }, done);
-    });
+    it('should call pre-handler', () => {
+      // when
+      const promise = server.inject(options);
 
-    it('should call pre-handler', (done) => {
-      return server.inject({ method: 'GET', url: '/api/assessments/assessment_id' }, () => {
-        sinon.assert.called(AssessmentAuthorization.verify);
-        done();
+      // then
+      return promise.then(() => {
+        sinon.assert.called(assessmentAuthorization.verify);
       });
     });
   });

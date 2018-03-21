@@ -92,10 +92,10 @@ describe('Unit | Controller | assessment-controller-get-next-challenge', () => {
       });
 
       it('should return a 404 code directly', () => {
-        // When
+        // when
         const promise = assessmentController.getNextChallenge({ params: { id: PREVIEW_ASSESSMENT_ID } }, replyStub);
 
-        // Then
+        // then
         return promise.then(() => {
           expect(replyStub).to.have.been.calledOnce;
           expect(replyStub).to.have.been.calledWith({ message: 'NotFoundError' });
@@ -115,10 +115,10 @@ describe('Unit | Controller | assessment-controller-get-next-challenge', () => {
         const error = new Error();
         assessmentService.getAssessmentNextChallengeId.rejects(error);
 
-        // When
+        // when
         const promise = assessmentController.getNextChallenge({ params: { id: 7531 } }, replyStub);
 
-        // Then
+        // then
         return promise.then(() => {
           expect(Boom.badImplementation).to.have.been.calledWith(error);
           expect(replyStub).to.have.been.calledWith(Boom.badImplementation(error));
@@ -160,13 +160,13 @@ describe('Unit | Controller | assessment-controller-get-next-challenge', () => {
       });
 
       it('should reply with no content', () => {
-        // Given
+        // given
         skillService.saveAssessmentSkills.resolves({});
 
-        // When
+        // when
         const promise = assessmentController.getNextChallenge({ params: { id: 7531 } }, replyStub);
 
-        // Then
+        // then
         return promise.then(() => {
           expect(replyStub).to.have.been.calledOnce;
           expect(replyStub).to.have.been.calledWith({ message: 'NotFoundError' });
@@ -183,10 +183,10 @@ describe('Unit | Controller | assessment-controller-get-next-challenge', () => {
       });
 
       it('should not evaluate assessment score', () => {
-        // When
+        // when
         const promise = assessmentController.getNextChallenge({ params: { id: 7531 } }, replyStub);
 
-        // Then
+        // then
         return promise.then(() => {
           expect(assessmentService.fetchAssessment).not.to.have.been.called;
         });

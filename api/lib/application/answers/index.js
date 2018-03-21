@@ -1,4 +1,4 @@
-const AnswerController = require('./answer-controller');
+const answerController = require('./answer-controller');
 
 exports.register = function(server, options, next) {
 
@@ -6,22 +6,38 @@ exports.register = function(server, options, next) {
     {
       method: 'POST',
       path: '/api/answers',
-      config: { handler: AnswerController.save, tags: ['api'] }
+      config: {
+        auth: false,
+        handler: answerController.save,
+        tags: ['api']
+      }
     },
     {
       method: 'GET',
       path: '/api/answers/{id}',
-      config: { handler: AnswerController.get, tags: ['api'] }
+      config: {
+        auth: false,
+        handler: answerController.get,
+        tags: ['api']
+      }
     },
     {
       method: 'PATCH',
       path: '/api/answers/{id}',
-      config: { handler: AnswerController.update, tags: ['api'] }
+      config: {
+        auth: false,
+        handler: answerController.update,
+        tags: ['api']
+      }
     },
     {
       method: 'GET',
       path: '/api/answers',
-      config: { handler: AnswerController.findByChallengeAndAssessment, tags: ['api'] }
+      config: {
+        auth: false,
+        handler: answerController.findByChallengeAndAssessment,
+        tags: ['api']
+      }
     }
   ]);
 

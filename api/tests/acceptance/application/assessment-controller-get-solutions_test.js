@@ -1,4 +1,4 @@
-const { expect, knex, nock } = require('../../test-helper');
+const { expect, knex, nock, generateValidRequestAuhorizationHeader } = require('../../test-helper');
 const cache = require('../../../lib/infrastructure/cache');
 const server = require('../../../server');
 
@@ -132,13 +132,14 @@ describe('Acceptance | API | assessment-controller-get-solutions', () => {
       });
   });
 
-  after((done) => {
+  after(() => {
     nock.cleanAll();
     cache.flushAll();
-    server.stop(done);
   });
 
-  afterEach(() => knex('assessments').delete());
+  afterEach(() => {
+    return knex('assessments').delete();
+  });
 
   describe('(non-adaptive end of test) GET /api/assessments/:assessment_id/solutions/:answer_id', () => {
 
@@ -179,10 +180,11 @@ describe('Acceptance | API | assessment-controller-get-solutions', () => {
     });
 
     it('should return the solution if the user answered every challenge', () => {
-      // Given
+      // given
       const options = {
         method: 'GET',
-        url: '/api/assessments/' + insertedAssessmentId + '/solutions/' + insertedAnswerId
+        url: '/api/assessments/' + insertedAssessmentId + '/solutions/' + insertedAnswerId,
+        headers: { authorization: generateValidRequestAuhorizationHeader() },
       };
       const expectedSolution = {
         type: 'solutions',
@@ -190,12 +192,29 @@ describe('Acceptance | API | assessment-controller-get-solutions', () => {
         attributes: { value: 'truite' }
       };
 
-      // When
-      const promise = server.injectThen(options);
+      // when
+      const promise = server.inject(options);
 
-      // Then
+      // then
       return promise.then((response) => {
         expect(response.result.data).to.deep.equal(expectedSolution);
+      });
+    });
+
+    it('should return 200 HTTP status code when missing authorization header', () => {
+      // given
+      const options = {
+        method: 'GET',
+        url: '/api/assessments/' + insertedAssessmentId + '/solutions/' + insertedAnswerId,
+        headers: {},
+      };
+
+      // when
+      const promise = server.inject(options);
+
+      // given
+      return promise.then((response) => {
+        expect(response.statusCode).to.equal(200);
       });
     });
   });
@@ -211,7 +230,7 @@ describe('Acceptance | API | assessment-controller-get-solutions', () => {
     };
 
     beforeEach(() => {
-      return knex('assessments').insert([ notCompletedAssessment ]).then((rows) => {
+      return knex('assessments').insert([notCompletedAssessment]).then((rows) => {
         insertedAssessmentId = rows[0];
 
         const inserted_answer = {
@@ -229,16 +248,17 @@ describe('Acceptance | API | assessment-controller-get-solutions', () => {
     });
 
     it('should return null if the adaptive test is not over', () => {
-      // Given
+      // given
       const options = {
         method: 'GET',
-        url: '/api/assessments/' + insertedAssessmentId + '/solutions/' + insertedAnswerId
+        url: '/api/assessments/' + insertedAssessmentId + '/solutions/' + insertedAnswerId,
+        headers: { authorization: generateValidRequestAuhorizationHeader() },
       };
 
-      // When
+      // when
       const promise = server.inject(options);
 
-      // Then
+      // then
       return promise.then((response) => {
         expect(response.statusCode).to.equal(409);
         expect(response.result).to.deep.equal({
@@ -263,7 +283,7 @@ describe('Acceptance | API | assessment-controller-get-solutions', () => {
 
     beforeEach(() => {
       return knex('assessments')
-        .insert([ completedAssessment ])
+        .insert([completedAssessment])
         .then((rows) => {
 
           insertedAssessmentId = rows[0];
@@ -285,7 +305,8 @@ describe('Acceptance | API | assessment-controller-get-solutions', () => {
     it('should return a solution if user completed the adaptive test', () => {
       const options = {
         method: 'GET',
-        url: '/api/assessments/' + insertedAssessmentId + '/solutions/' + insertedAnswerId
+        url: '/api/assessments/' + insertedAssessmentId + '/solutions/' + insertedAnswerId,
+        headers: { authorization: generateValidRequestAuhorizationHeader() },
       };
       const expectedSolution = {
         type: 'solutions',
@@ -293,10 +314,10 @@ describe('Acceptance | API | assessment-controller-get-solutions', () => {
         attributes: { value: 'fromage' }
       };
 
-      // When
-      const promise = server.injectThen(options);
+      // when
+      const promise = server.inject(options);
 
-      // Then
+      // then
       return promise.then((response) => {
         expect(response.result.data).to.deep.equal(expectedSolution);
       });
@@ -313,7 +334,7 @@ describe('Acceptance | API | assessment-controller-get-solutions', () => {
     };
 
     beforeEach(() => {
-      return knex('assessments').insert([ notCompletedAssessment ])
+      return knex('assessments').insert([notCompletedAssessment])
         .then((rows) => {
           insertedAssessmentId = rows[0];
 
@@ -332,16 +353,17 @@ describe('Acceptance | API | assessment-controller-get-solutions', () => {
     });
 
     it('should return null if user did not complete the adaptive test', () => {
-      // Given
+      // given
       const options = {
         method: 'GET',
-        url: '/api/assessments/' + insertedAssessmentId + '/solutions/' + insertedAnswerId
+        url: '/api/assessments/' + insertedAssessmentId + '/solutions/' + insertedAnswerId,
+        headers: { authorization: generateValidRequestAuhorizationHeader() },
       };
 
-      // When
-      const promise = server.injectThen(options);
+      // when
+      const promise = server.inject(options);
 
-      // Then
+      // then
       return promise.then((response) => {
         expect(response.statusCode).to.equal(409);
         expect(response.result).to.deep.equal({

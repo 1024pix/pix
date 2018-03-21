@@ -155,7 +155,8 @@ describe('Integration | Repository | Certification Course', function() {
         lastName: 'The all mighty',
         birthplace: 'Namek',
         birthdate: '24/10/1989',
-        rejectionReason: ''
+        rejectionReason: '',
+        sessionId: null
       };
 
       // when

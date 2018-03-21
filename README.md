@@ -1,9 +1,5 @@
-PIX
+[![CircleCI](https://circleci.com/gh/betagouv/pix/tree/dev.svg?style=shield&circle-token=:circle-token)](https://circleci.com/gh/betagouv/pix) PIX
 ===
-
-[![CircleCI](https://circleci.com/gh/sgmap/pix/tree/dev.svg?style=shield&circle-token=:circle-token)](https://circleci.com/gh/sgmap/pix)
-[![Coverage Status](https://coveralls.io/repos/github/sgmap/pix/badge.svg)](https://coveralls.io/github/sgmap/pix)
-[![Code Climate](https://codeclimate.com/github/sgmap/pix/badges/gpa.svg)](https://codeclimate.com/github/sgmap/pix)
 
 Présentation
 ------------
@@ -34,7 +30,7 @@ Vous devez au préalable avoir correctement installé les logiciels suivants :
 **1/ Récupérer le code source**
 
 ```bash
-$ git clone git@github.com:sgmap/pix.git && cd pix
+$ git clone git@github.com:betagouv/pix.git && cd pix
 ```
 
 **2/ Lancer le script de configuration de l'environnement**
@@ -47,7 +43,7 @@ $ npm run configure
 
 **3/ Configurer les variables d'environnement dans le fichier `pix/api/.env`**
 
-Pour récupérer les différents identifiants / clés de connexion, s'adresser à un membre de [l'équipe PIX](https://github.com/orgs/sgmap/teams/pix).
+Pour récupérer les différents identifiants / clés de connexion, s'adresser à un membre de [l'équipe PIX](https://github.com/orgs/betagouv/teams/pix).
 
 
 **4/ Lancer l'application**
@@ -64,3 +60,4 @@ Licence
 -------
 
 Ce logiciel et son code source sont distribués sous [licence AGPL](https://www.gnu.org/licenses/why-affero-gpl.fr.html).
+

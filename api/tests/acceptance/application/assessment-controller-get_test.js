@@ -1,12 +1,10 @@
-const jwt = require('jsonwebtoken');
-const { expect, knex, nock } = require('../../test-helper');
+const { expect, knex, nock, generateValidRequestAuhorizationHeader } = require('../../test-helper');
 const cache = require('../../../lib/infrastructure/cache');
 const server = require('../../../server');
-const settings = require('../../../lib/settings');
 
-describe('Acceptance | API | assessment-controller-get', function() {
+describe('Acceptance | API | assessment-controller-get', () => {
 
-  before((done) => {
+  before(() => {
 
     nock.cleanAll();
 
@@ -27,6 +25,7 @@ describe('Acceptance | API | assessment-controller-get', function() {
           ],
         },
       });
+
     nock('https://api.airtable.com')
       .get('/v0/test-base/Competences/competence_id')
       .query(true)
@@ -41,6 +40,7 @@ describe('Acceptance | API | assessment-controller-get', function() {
           'Acquis': ['@web1']
         }
       });
+
     nock('https://api.airtable.com')
       .get('/v0/test-base/Epreuves')
       .query({ view: '1.1 Mener une recherche et une veille d’information' })
@@ -73,6 +73,7 @@ describe('Acceptance | API | assessment-controller-get', function() {
           }
         ]
       });
+
     nock('https://api.airtable.com')
       .get('/v0/test-base/Epreuves/y_first_challenge')
       .query(true)
@@ -83,6 +84,7 @@ describe('Acceptance | API | assessment-controller-get', function() {
           'acquis': ['@web5']
         },
       });
+
     nock('https://api.airtable.com')
       .get('/v0/test-base/Epreuves/y_second_challenge')
       .query(true)
@@ -93,6 +95,7 @@ describe('Acceptance | API | assessment-controller-get', function() {
           'acquis': ['@url1']
         },
       });
+
     nock('https://api.airtable.com')
       .get('/v0/test-base/Epreuves/y_third_challenge')
       .query(true)
@@ -117,30 +120,31 @@ describe('Acceptance | API | assessment-controller-get', function() {
           { 'fields': { 'Nom': '@web5' } }
         ]
       });
-
-    done();
   });
 
-  after((done) => {
+  after(() => {
     nock.cleanAll();
     cache.flushAll();
-    server.stop(done);
   });
 
-  describe('(no provided answer) GET /api/assessments/:id', function() {
+  describe('(no provided answer) GET /api/assessments/:id', () => {
 
     let options;
     let inserted_assessment_id;
 
     const inserted_assessment_with_user_null = {
       courseId: 'anyFromAirTable',
-      userId: null
+      userId: 1234
     };
 
-    beforeEach(function() {
+    beforeEach(() => {
       return knex('assessments').insert([inserted_assessment_with_user_null]).then((rows) => {
         inserted_assessment_id = rows[0];
-        options = { method: 'GET', url: `/api/assessments/${inserted_assessment_id}` };
+        options = {
+          method: 'GET',
+          url: `/api/assessments/${inserted_assessment_id}`,
+          headers: { authorization: generateValidRequestAuhorizationHeader() },
+        };
       });
     });
 
@@ -148,40 +152,38 @@ describe('Acceptance | API | assessment-controller-get', function() {
       return knex('assessments').delete();
     });
 
-    it('should return 200 HTTP status code', function(done) {
+    it('should return 200 HTTP status code', () => {
+      // when
+      const promise = server.inject(options);
 
-      knex.select('id')
-        .from('assessments')
-        .limit(1)
-        .then(function() {
-          server.inject(options, (response) => {
-            expect(response.statusCode).to.equal(200);
-            done();
-          });
-        });
-
+      // then
+      return promise.then(response => {
+        expect(response.statusCode).to.equal(200);
+      });
     });
 
-    it('should return application/json', function(done) {
-
-      knex.select('id')
+    it('should return application/json', () => {
+      return knex.select('id')
         .from('assessments')
         .limit(1)
-        .then(function() {
-          server.inject(options, (response) => {
+        .then(() => {
+          // when
+          const promise = server.inject(options);
+
+          // then
+          return promise.then(response => {
             const contentType = response.headers['content-type'];
             expect(contentType).to.contain('application/json');
-            done();
           });
         });
 
     });
 
-    it('should return the expected assessment', function() {
-      // When
-      const promise = server.injectThen(options);
+    it('should return the expected assessment', () => {
+      // when
+      const promise = server.inject(options);
 
-      // Then
+      // then
       return promise.then((response) => {
         const expectedAssessment = {
           'type': 'assessment',
@@ -204,7 +206,7 @@ describe('Acceptance | API | assessment-controller-get', function() {
     });
   });
 
-  describe('(when userId and assessmentId match) GET /api/assessments/:id', function() {
+  describe('(when userId and assessmentId match) GET /api/assessments/:id', () => {
     const inserted_assessment = {
       courseId: 'anyFromAirTable',
       userId: 1234
@@ -212,14 +214,14 @@ describe('Acceptance | API | assessment-controller-get', function() {
     let inserted_assessment_id;
     let options;
 
-    const token = createToken({ id: inserted_assessment.userId, email: 'shi@fu.me' });
+    const accessToken = generateValidRequestAuhorizationHeader();
 
     beforeEach(function() {
       return knex('assessments').insert([inserted_assessment]).then((rows) => {
         inserted_assessment_id = rows[0];
         options = {
           headers: {
-            authorization: `Bearer ${token}`
+            authorization: `Bearer ${accessToken}`
           },
           method: 'GET',
           url: `/api/assessments/${inserted_assessment_id}`
@@ -231,21 +233,26 @@ describe('Acceptance | API | assessment-controller-get', function() {
       return knex('assessments').delete();
     });
 
-    it('should return 200 HTTP status code, when userId provided is linked to assessment', function() {
-      return server.inject(options).then((response) => {
+    it('should return 200 HTTP status code, when userId provided is linked to assessment', () => {
+      // when
+      const promise = server.inject(options);
+
+      // then
+
+      return promise.then((response) => {
         expect(response.statusCode).to.equal(200);
       });
     });
   });
 
-  describe('(answers provided) GET /api/assessments/:id', function() {
+  describe('(answers provided) GET /api/assessments/:id', () => {
 
     let inserted_assessment_id = null;
     let inserted_answer_ids = null;
 
     const inserted_assessment_with_user_null = {
       courseId: 'anyFromAirTable',
-      userId: null
+      userId: 1234
     };
 
     beforeEach((done) => {
@@ -279,45 +286,71 @@ describe('Acceptance | API | assessment-controller-get', function() {
       });
     });
 
-    afterEach(async () => {
-      await knex('assessments').delete();
-      return knex('assessments').delete();
+    afterEach(() => {
+      return Promise.all([
+        knex('assessments').delete(),
+        knex('answers').delete(),
+      ]);
     });
 
-    it('should return 200 HTTP status code', function(done) {
-
-      knex.select('id')
+    it('should return 200 HTTP status code', () => {
+      return knex.select('id')
         .from('assessments')
         .limit(1)
-        .then(function() {
-          server.inject({ method: 'GET', url: `/api/assessments/${inserted_assessment_id}` }).then((response) => {
+        .then(() => {
+          // given
+          const options = {
+            method: 'GET',
+            url: `/api/assessments/${inserted_assessment_id}`,
+            headers: { authorization: generateValidRequestAuhorizationHeader() },
+          };
+
+          // when
+          const promise = server.inject(options);
+
+          // then
+          return promise.then((response) => {
             expect(response.statusCode).to.equal(200);
-            done();
           });
         });
-
     });
 
-    it('should return application/json', function(done) {
-
-      knex.select('id')
+    it('should return application/json', () => {
+      return knex.select('id')
         .from('assessments')
         .limit(1)
-        .then(function() {
-          server.inject({ method: 'GET', url: `/api/assessments/${inserted_assessment_id}` }).then((response) => {
+        .then(() => {
+          // given
+          const options = {
+            method: 'GET',
+            url: `/api/assessments/${inserted_assessment_id}`,
+            headers: { authorization: generateValidRequestAuhorizationHeader() },
+          };
+
+          // when
+          const promise = server.inject(options);
+
+          // then
+          return promise.then((response) => {
             const contentType = response.headers['content-type'];
             expect(contentType).to.contain('application/json');
-            done();
           });
         });
 
     });
 
-    it('should return the expected assessment', function() {
-      // When
-      const promise = server.injectThen({ method: 'GET', url: `/api/assessments/${inserted_assessment_id}` });
+    it('should return the expected assessment', () => {
+      // given
+      const options = {
+        method: 'GET',
+        url: `/api/assessments/${inserted_assessment_id}`,
+        headers: { authorization: generateValidRequestAuhorizationHeader() },
+      };
 
-      // Then
+      // when
+      const promise = server.inject(options);
+
+      // then
       return promise.then((response) => {
         const expectedAssessment = {
           'type': 'assessment',
@@ -345,10 +378,3 @@ describe('Acceptance | API | assessment-controller-get', function() {
     });
   });
 });
-
-function createToken(user) {
-  return jwt.sign({
-    user_id: user.id,
-    email: user.email
-  }, settings.authentication.secret, { expiresIn: settings.authentication.tokenLifespan });
-}

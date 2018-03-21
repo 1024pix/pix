@@ -27,15 +27,15 @@ describe('Unit | Controller | FollowerController', function() {
     });
 
     it('should return 400 status code when email provided is not valid', function() {
-      // Given
+      // given
       const follower = { 'email': 'testeur@follower.pix' };
       const emailValidatorStub = sinon.stub(EmailValidator, 'emailIsValid').returns(false);
       sinon.stub(followerSerializer, 'deserialize').callsFake(_ => new Follower(follower));
 
-      // When
-      const promise = server.injectThen({ method: 'POST', url: '/api/followers', payload: { 'email': 'INVALID_EMAIL' } });
+      // when
+      const promise = server.inject({ method: 'POST', url: '/api/followers', payload: { 'email': 'INVALID_EMAIL' } });
 
-      // Then
+      // then
       return promise.then((res) => {
         expect(res.statusCode).to.equal(400);
         emailValidatorStub.restore();
@@ -44,28 +44,28 @@ describe('Unit | Controller | FollowerController', function() {
     });
 
     it('should send a welcome email', function() {
-      // Given
-      const email = faker.internet.email();
+      // given
+      const email = faker.internet.email().toLowerCase();
       const request = { payload: { data: { attributes: { email } } } };
 
-      // When
+      // when
       const promise = followerController.save(request, sinon.spy());
 
-      // Then
+      // then
       return promise.then(() => {
         sinon.assert.calledWith(sendWelcomeEmail, email);
       });
     });
 
     it('should add the email into a random contact list', function() {
-      // Given
-      const email = faker.internet.email();
+      // given
+      const email = faker.internet.email().toLowerCase();
       const request = { payload: { data: { attributes: { email } } } };
 
-      // When
+      // when
       const promise = followerController.save(request, sinon.spy());
 
-      // Then
+      // then
       return promise.then(() => {
         sinon.assert.calledWith(addEmailToRandomContactListStub, email);
       });

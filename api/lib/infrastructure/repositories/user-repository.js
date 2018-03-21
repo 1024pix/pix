@@ -1,11 +1,7 @@
-const BookshelfUser = require('../../infrastructure/data/user');
-const User = require('../../domain/models/User');
+const _ = require('lodash');
+const BookshelfUser = require('../data/user');
 const { AlreadyRegisteredEmailError } = require('../../domain/errors');
-
-function _toDomain(bookshelfUser) {
-  const modelObjectInJSON = bookshelfUser.toJSON();
-  return new User(modelObjectInJSON);
-}
+const { NotFoundError } = require('../../domain/errors');
 
 module.exports = {
 
@@ -13,19 +9,42 @@ module.exports = {
     return BookshelfUser
       .where({ email })
       .fetch({ require: true })
-      .then(_toDomain);
+      .then(bookshelfUser => {
+        return bookshelfUser.toDomainEntity();
+      });
   },
 
+  /**
+   * @deprecated Please use #get(userId) that returns a domain User object
+   */
   findUserById(userId) {
     return BookshelfUser
       .where({ id: userId })
       .fetch({ require: true });
   },
 
-  save(userRawData) {
+  get(userId) {
+    return BookshelfUser
+      .where({ id: userId })
+      .fetch({
+        require: true,
+        withRelated: ['pixRoles']
+      })
+      .then(bookshelfUser => bookshelfUser.toDomainEntity())
+      .catch(err => {
+        if (err instanceof BookshelfUser.NotFoundError) {
+          throw new NotFoundError(`User not found for ID ${userId}`);
+        }
+        throw err;
+      });
+  },
+
+  save(domainUser) {
+    const userRawData = _.omit(domainUser, ['pixRoles']);
+
     return new BookshelfUser(userRawData)
       .save()
-      .then(_toDomain);
+      .then(bookshelfUser => bookshelfUser.toDomainEntity());
   },
 
   validateData(userRawData) {
@@ -51,6 +70,6 @@ module.exports = {
         patch: true,
         require: false
       })
-      .then(_toDomain);
+      .then(bookshelfUser => bookshelfUser.toDomainEntity());
   }
 };

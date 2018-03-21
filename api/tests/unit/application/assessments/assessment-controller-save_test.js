@@ -156,10 +156,10 @@ describe('Unit | Controller | assessment-controller-save', () => {
       });
 
       it('should de-serialize the payload', () => {
-        // When
+        // when
         controller.save(request, replyStub);
 
-        // Then
+        // then
         sinon.assert.calledWith(assessmentSerializer.deserialize, request.payload);
       });
 
@@ -173,29 +173,29 @@ describe('Unit | Controller | assessment-controller-save', () => {
       });
 
       it('should persist the deserializedAssessment', () => {
-        // When
+        // when
         controller.save(request, replyStub);
 
-        // Then
+        // then
         sinon.assert.calledOnce(assessmentRepository.save);
         sinon.assert.calledWith(assessmentRepository.save, assessment);
       });
 
       it('should serialize the deserializedAssessment after its creation', () => {
-        // When
+        // when
         const promise = controller.save(request, replyStub);
 
-        // Then
+        // then
         return promise.then(() => {
           sinon.assert.calledWith(assessmentSerializer.serialize, deserializedAssessment);
         });
       });
 
       it('should reply the serialized deserializedAssessment with code 201', () => {
-        // When
+        // when
         const promise = controller.save(request, replyStub);
 
-        // Then
+        // then
         return promise.then(() => {
           sinon.assert.calledWith(replyStub, serializedAssessment);
           sinon.assert.calledWith(codeStub, 201);
@@ -240,16 +240,16 @@ describe('Unit | Controller | assessment-controller-save', () => {
       });
 
       it('should return a badImplementationError', () => {
-        // Given
+        // given
         const badImplementationMessage = { message: 'Boom: Bad Implementation' };
         badImplementationStub.returns(badImplementationMessage);
         const rejectedError = new Error();
         assessmentRepository.save.rejects(rejectedError);
 
-        // When
+        // when
         const promise = controller.save(request, replyStub);
 
-        // Then
+        // then
         return promise.then(() => {
           sinon.assert.calledWith(badImplementationStub, rejectedError);
           sinon.assert.calledWith(replyStub, badImplementationMessage);

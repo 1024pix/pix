@@ -19,8 +19,11 @@ function parseArgs(argv) {
   return args;
 }
 
-function buildRequestObject(baseUrl, certificationId) {
+function buildRequestObject(baseUrl, authToken, certificationId) {
   return {
+    headers: {
+      authorization: 'Bearer ' + authToken
+    },
     baseUrl: baseUrl,
     url: `/api/admin/certifications/${certificationId}`,
     json: true,
@@ -61,167 +64,32 @@ function toCSVRow(rowJSON) {
 
 function main() {
   const baseUrl = process.argv[2];
-  const ids = parseArgs(process.argv);
+  const authToken = process.argv[3];
+  const ids = parseArgs(process.argv.slice(4));
   const requests = Promise.all(
-    ids.map(id => buildRequestObject(baseUrl, id))
+    ids.map(id => buildRequestObject(baseUrl, authToken, id))
       .map(requestObject => makeRequest(requestObject))
   );
 
-  requests.then(certificationResults => certificationResults.map(toCSVRow))
+  return requests.then(certificationResults => certificationResults.map(toCSVRow))
     .then(res => json2csv({
       data: res,
       fieldNames: HEADERS,
       del: ';',
     }))
-    .then(csv => { console.log(`\n\n${csv}\n\n`); return csv; });
+    .then(csv => {
+      console.log(`\n\n${csv}\n\n`);
+      return csv;
+    });
 }
-
-/*=================== tests =============================*/
 
 if (process.env.NODE_ENV !== 'test') {
   main();
-} else {
-  const { describe, it } = require('mocha');
-  const { expect } = require('chai');
-  describe('Get Result Certifications Script', () => {
-    describe('parseArgs', () => {
-      it('should return an array', () => {
-        // given
-        const args = ['/usr/bin/node', '/path/to/script.js', 'http://localhost:3000', '1', '2', '3'];
-        // when
-        const result = parseArgs(args);
-        // then
-        expect(result).to.be.an('array');
-        expect(result).to.deep.equals(['1', '2', '3']);
-      });
-    });
-
-    describe('buildRequestObject', () => {
-
-      it('should take an id and return a request object', () => {
-        // given
-        const courseId = 12;
-        const baseUrl = 'http://localhost:3000';
-        // when
-        const result = buildRequestObject(baseUrl, courseId);
-        // then
-        expect(result).to.have.property('json', true);
-        expect(result).to.have.property('url','/api/admin/certifications/12');
-      });
-
-      it('should add certificationId to API response when the object is transform after the request', () => {
-        // given
-        const baseUrl = 'http://localhost:3000';
-        const requestObject = buildRequestObject(baseUrl,12);
-
-        // when
-        const result = requestObject.transform({ data: { attributes: {} } });
-
-        // then
-        expect(result.data.attributes).to.have.property('certificationId', 12);
-      });
-    });
-
-    describe('toCSVRow', () => {
-      it('should normalize a JSON object', () => {
-        // given
-        const object = { data: { attributes: { 'competences-with-mark': [] } } };
-        // when
-        const result = toCSVRow(object);
-        // then
-        expect(result).to.have.all.keys(HEADERS);
-      });
-
-      it('should extract certificationId, date, and pix score', () => {
-        // given
-        const object = { data: { attributes: { certificationId: '1337', 'pix-score': 7331, 'created-at': '2018-01-31 09:01', 'completed-at': '2018-01-31T09:29:16.394Z', 'competences-with-mark': [] } } };
-        // when
-        const result = toCSVRow(object);
-        // then
-        expect(result[HEADERS[0]]).to.equals('1337');
-        expect(result[HEADERS[1]]).to.equals('31/01/2018 10:01:00');
-        expect(result[HEADERS[2]]).to.equals('31/01/2018 10:29:16');
-        expect(result[HEADERS[3]]).to.equals(7331);
-      });
-
-      it('should extract competences', () => {
-        // given
-        const object = { data: { attributes: { 'competences-with-mark' : [] } } };
-
-        // when
-        const result = toCSVRow(object);
-
-        // then
-        expect(result[HEADERS[4]]).to.equals('');
-      });
-
-      it('should extract competences 1.1', () => {
-        // given
-        const object = { data: { attributes: { 'competences-with-mark': [
-          {
-            'competence-code': '1.1',
-            level: 9001
-          }
-        ] } } };
-
-        // when
-        const result = toCSVRow(object);
-
-        // then
-        expect(result['1.1']).to.equals(9001);
-      });
-
-      it('should extract all competences', () => {
-        // given
-        const object = { data: { attributes: { 'competences-with-mark': [
-          {
-            'competence-code': '1.1',
-            level: 4
-          },
-          {
-            'competence-code': '1.2',
-            level: 6
-          }
-        ] } } };
-
-        // when
-        const result = toCSVRow(object);
-
-        // then
-        expect(result['1.1']).to.equals(4);
-        expect(result['1.2']).to.equals(6);
-      });
-
-    });
-
-    describe('findCompetence', () => {
-
-      it('should return empty string when not found', () => {
-        // given
-        const profile = [];
-        const competenceCode = '1.1';
-
-        // when
-        const result = findCompetence(profile, competenceCode);
-
-        // then
-        expect(result).to.be.equals('');
-      });
-
-      it('should return competence level when found', () => {
-        // given
-        const competenceCode = '1.1';
-        const profile = [{
-          'competence-code': competenceCode,
-          level: 9
-        }];
-
-        // when
-        const result = findCompetence(profile, competenceCode);
-
-        // then
-        expect(result).to.be.equals(9);
-      });
-    });
-  });
 }
+
+module.exports = {
+  parseArgs,
+  buildRequestObject,
+  toCSVRow,
+  findCompetence
+};

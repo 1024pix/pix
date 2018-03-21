@@ -1,112 +1,131 @@
-const { expect, sinon } = require('../../../test-helper');
+const { expect, sinon, generateValidRequestAuhorizationHeader } = require('../../../test-helper');
 const Hapi = require('hapi');
-const CourseController = require('../../../../lib/application/courses/course-controller');
+const securityController = require('../../../../lib/interfaces/controllers/security-controller');
+const courseController = require('../../../../lib/application/courses/course-controller');
 
-const connectedUserVerification = require('../../../../lib/application/preHandlers/connected-user-verification');
-const accessSessionHandler = require('../../../../lib/application/preHandlers/access-session');
+describe('Integration | Router | course-router', () => {
 
-describe('Unit | Router | course-router', function() {
-
+  let sandbox;
   let server;
 
-  beforeEach(function() {
+  beforeEach(() => {
+    sandbox = sinon.sandbox.create();
+    sandbox.stub(securityController, 'checkUserHasRolePixMaster').callsFake((request, reply) => reply(true));
+    sandbox.stub(courseController, 'list').callsFake((request, reply) => reply('ok'));
+    sandbox.stub(courseController, 'get').callsFake((request, reply) => reply('ok'));
+    sandbox.stub(courseController, 'refresh').callsFake((request, reply) => reply('ok'));
+    sandbox.stub(courseController, 'save').callsFake((request, reply) => reply('ok'));
+    sandbox.stub(courseController, 'refreshAll').callsFake((request, reply) => reply('ok'));
+
     server = this.server = new Hapi.Server();
     server.connection({ port: null });
     server.register({ register: require('../../../../lib/application/courses') });
   });
 
-  function expectRouteToExist(routeOptions, done) {
-    server.inject(routeOptions, (res) => {
-      expect(res.statusCode).to.equal(200);
-      done();
-    });
-  }
+  afterEach(() => {
+    sandbox.restore();
+  });
 
-  describe('GET /api/courses', function() {
+  describe('GET /api/courses', () => {
 
-    before(function() {
-      sinon.stub(CourseController, 'list').callsFake((request, reply) => reply('ok'));
-    });
+    it('should exist', () => {
+      // given
+      const options = {
+        method: 'GET',
+        url: '/api/courses'
+      };
 
-    after(function() {
-      CourseController.list.restore();
-    });
+      // when
+      const promise = server.inject(options);
 
-    it('should exist', function(done) {
-      expectRouteToExist({ method: 'GET', url: '/api/courses' }, done);
+      // then
+      return promise.then((res) => {
+        expect(res.statusCode).to.equal(200);
+      });
     });
   });
 
-  describe('GET /api/courses/{id}', function() {
+  describe('GET /api/courses/{id}', () => {
 
-    before(function() {
-      sinon.stub(CourseController, 'get').callsFake((request, reply) => reply('ok'));
-    });
+    it('should exist', () => {
+      // given
+      const options = {
+        method: 'GET',
+        url: '/api/courses/course_id'
+      };
 
-    after(function() {
-      CourseController.get.restore();
-    });
+      // when
+      const promise = server.inject(options);
 
-    it('should exist', function(done) {
-      expectRouteToExist({ method: 'GET', url: '/api/courses/course_id' }, done);
-    });
-  });
-
-  describe('POST /api/courses/{id}', function() {
-
-    before(function() {
-      sinon.stub(CourseController, 'refresh').callsFake((request, reply) => reply('ok'));
-    });
-
-    after(function() {
-      CourseController.refresh.restore();
-    });
-
-    it('should exist', function(done) {
-      expectRouteToExist({ method: 'POST', url: '/api/courses/course_id' }, done);
+      // then
+      return promise.then((res) => {
+        expect(res.statusCode).to.equal(200);
+      });
     });
   });
 
-  describe('PUT /api/courses', function() {
+  describe('POST /api/courses/{id}', () => {
 
-    before(function() {
-      sinon.stub(CourseController, 'refreshAll').callsFake((request, reply) => reply('ok'));
+    let options;
+
+    beforeEach(() => {
+      options = {
+        method: 'POST',
+        url: '/api/courses/1234',
+        headers: {}
+      };
+
     });
 
-    after(function() {
-      CourseController.refreshAll.restore();
+    it('should exist', () => {
+      // given
+      options.headers.authorization = generateValidRequestAuhorizationHeader();
+
+      // when
+      const promise = server.inject(options);
+
+      // then
+      return promise.then((res) => {
+        expect(res.statusCode).to.equal(200);
+      });
     });
 
-    it('should exist', function(done) {
-      expectRouteToExist({ method: 'PUT', url: '/api/courses' }, done);
+  });
+
+  describe('PUT /api/courses', () => {
+
+    it('should exist', () => {
+      // given
+      const options = {
+        method: 'GET',
+        url: '/api/courses'
+      };
+
+      // when
+      const promise = server.inject(options);
+
+      // then
+      return promise.then((res) => {
+        expect(res.statusCode).to.equal(200);
+      });
     });
   });
 
-  describe('POST /api/courses', function() {
+  describe('POST /api/courses', () => {
 
-    let sandbox;
+    it('should exist', () => {
+      // given
+      const options = {
+        method: 'POST',
+        url: '/api/courses'
+      };
 
-    before(() => {
-      sandbox = sinon.sandbox.create();
+      // when
+      const promise = server.inject(options);
 
-      sandbox.stub(connectedUserVerification, 'verifyByToken').callsFake((request, reply) => reply('decodedToken'));
-      sandbox.stub(accessSessionHandler, 'sessionIsOpened').callsFake((request, reply) => reply('decodedToken'));
-      sandbox.stub(CourseController, 'save').callsFake((request, reply) => reply('ok'));
-    });
-
-    after(() => {
-      sandbox.restore();
-    });
-
-    it('should exist', (done) => {
-      expectRouteToExist({ method: 'POST', url: '/api/courses' }, done);
-    });
-
-    it('should verify if user is connected and the certification session code is right', (done) => {
-      server.inject({ method: 'POST', url: '/api/courses' }, () => {
-        expect(connectedUserVerification.verifyByToken).to.have.been.called;
-        expect(accessSessionHandler.sessionIsOpened).to.have.been.called;
-        done();
+      // then
+      return promise.then((res) => {
+        expect(res.statusCode).to.equal(200);
       });
     });
   });

@@ -6,10 +6,6 @@ const passwordResetService = require('../../../lib/domain/services/reset-passwor
 
 describe('Acceptance | Controller | users-controller', function() {
 
-  after(function(done) {
-    server.stop(done);
-  });
-
   describe('Patch /api/users/{id}', () => {
     let fakeUserEmail;
     let userId;
@@ -22,7 +18,10 @@ describe('Acceptance | Controller | users-controller', function() {
     });
 
     afterEach(() => {
-      return Promise.all([knex('users').delete(), knex('reset-password-demands').delete()]);
+      return Promise.all([
+        knex('users').delete(),
+        knex('reset-password-demands').delete()
+      ]);
     });
 
     it('should reply with 204 status code, when password is updated', async () => {
@@ -42,8 +41,10 @@ describe('Acceptance | Controller | users-controller', function() {
       await _insertPasswordResetDemand(temporaryKey, fakeUserEmail);
 
       // when
-      return server.inject(options).then((response) => {
-        // then
+      const promise = server.inject(options);
+
+      // then
+      return promise.then(response => {
         expect(response.statusCode).to.equal(204);
       });
     });
@@ -63,8 +64,10 @@ describe('Acceptance | Controller | users-controller', function() {
       };
 
       // when
-      return server.inject(options).then((response) => {
-        // then
+      const promise = server.inject(options);
+
+      // then
+      return promise.then(response => {
         expect(response.statusCode).to.equal(404);
       });
     });

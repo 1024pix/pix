@@ -55,7 +55,7 @@ describe('Unit | Pre-handler | Assessment Authorization', () => {
 
     describe('When assessment is linked to userId (userId exist)', () => {
 
-      it('should reply with assessment', (done) => {
+      it('should reply with assessment', () => {
         // given
         const fetchedAssessment = {};
         const extractedUserId = 'userId';
@@ -66,19 +66,18 @@ describe('Unit | Pre-handler | Assessment Authorization', () => {
         const promise = AssessmentAuhorization.verify(request, replyStub);
 
         // then
-        promise.then(() => {
+        return promise.then(() => {
           sinon.assert.calledOnce(assessmentRepository.getByUserIdAndAssessmentId);
           sinon.assert.calledWith(assessmentRepository.getByUserIdAndAssessmentId, request.params.id, extractedUserId);
           sinon.assert.calledOnce(replyStub);
           sinon.assert.calledWith(replyStub, fetchedAssessment);
-          done();
         });
       });
     });
 
     describe('When assessment is linked a null userId', () => {
 
-      it('should reply with assessment', (done) => {
+      it('should reply with assessment', () => {
         // given
         const fetchedAssessment = {};
         const extractedUserId = null;
@@ -89,12 +88,11 @@ describe('Unit | Pre-handler | Assessment Authorization', () => {
         const promise = AssessmentAuhorization.verify(request, replyStub);
 
         // then
-        promise.then(() => {
+        return promise.then(() => {
           sinon.assert.calledOnce(assessmentRepository.getByUserIdAndAssessmentId);
           sinon.assert.calledWith(assessmentRepository.getByUserIdAndAssessmentId, request.params.id, extractedUserId);
           sinon.assert.calledOnce(replyStub);
           sinon.assert.calledWith(replyStub, fetchedAssessment);
-          done();
         });
       });
     });

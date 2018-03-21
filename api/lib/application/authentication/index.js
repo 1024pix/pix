@@ -6,7 +6,11 @@ exports.register = function(server, options, next) {
     {
       method: 'POST',
       path: '/api/authentications',
-      config: { handler: AuthenticationController.save, tags: ['api'] }
+      config: {
+        auth: false,
+        handler: AuthenticationController.save,
+        tags: ['api']
+      }
     }
   ]);
 

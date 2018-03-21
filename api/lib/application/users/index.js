@@ -10,12 +10,19 @@ exports.register = function(server, options, next) {
     {
       method: 'POST',
       path: '/api/users',
-      config: { handler: UserController.save, tags: ['api'] }
+      config: {
+        auth: false,
+        handler: UserController.save,
+        tags: ['api']
+      }
     },
     {
       method: 'GET',
       path: '/api/users/me',
-      config: { handler: UserController.getAuthenticatedUserProfile, tags: ['api'] }
+      config: {
+        handler: UserController.getAuthenticatedUserProfile,
+        tags: ['api']
+      }
     },
     {
       method: 'GET',
@@ -33,6 +40,7 @@ exports.register = function(server, options, next) {
       method: 'PATCH',
       path: '/api/users/{id}',
       config: {
+        auth: false,
         pre: [{
           method: userVerification.verifyById,
           assign: 'user'

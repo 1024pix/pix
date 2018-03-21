@@ -4,6 +4,7 @@ const validationErrorSerializer = require('../../infrastructure/serializers/json
 
 module.exports = {
   verify(request, reply) {
+    // FIXME: This validation should be part of the use case, as it is a rule of business
     const token = tokenService.extractTokenFromAuthChain(request.headers.authorization);
     const userId = tokenService.extractUserId(token);
     const assessmentId = request.params.id;

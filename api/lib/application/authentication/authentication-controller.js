@@ -1,14 +1,21 @@
 const encrypt = require('../../domain/services/encryption-service');
 const tokenService = require('../../domain/services/token-service');
-
 const validationErrorSerializer = require('../../infrastructure/serializers/jsonapi/validation-error-serializer');
-
 const Authentication = require('../../domain/models/Authentication');
 const authenticationSerializer = require('../../infrastructure/serializers/jsonapi/authentication-serializer');
 const userRepository = require('../../infrastructure/repositories/user-repository');
 const userSerializer = require('../../infrastructure/serializers/jsonapi/user-serializer');
 
+function _buildError() {
+  return {
+    data: {
+      '': [ 'L\'adresse e-mail et/ou le mot de passe saisi(s) sont incorrects.' ]
+    }
+  };
+}
+
 module.exports = {
+
   save(request, reply) {
 
     const userFromRequest = userSerializer.deserialize((request.payload));
@@ -36,11 +43,3 @@ module.exports = {
       });
   }
 };
-
-function _buildError() {
-  return {
-    data: {
-      '': [ 'L\'adresse e-mail et/ou le mot de passe saisi(s) sont incorrects.' ]
-    }
-  };
-}

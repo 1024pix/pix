@@ -109,7 +109,7 @@ describe('Unit | Service | Profil User Service', function() {
       });
 
       it('should add a default level and status to competences', () => {
-        // Given
+        // given
         assessmentRepository.findLastAssessmentsForEachCoursesByUser.resolves([]);
         assessmentRepository.findCompletedAssessmentsByUserId.resolves([]);
 
@@ -134,17 +134,17 @@ describe('Unit | Service | Profil User Service', function() {
           organizations: fakeOrganizationsRecords
         };
 
-        // When
+        // when
         const promise = profileService.getByUserId('user-id');
 
-        // Then
+        // then
         return promise.then((enhancedUser) => {
           expect(enhancedUser).to.deep.equal(expectedUser);
         });
       });
 
       it('should return an enhanced user with all competences and area', () => {
-        // Given
+        // given
         const expectedUser = {
           user: fakeUserRecord,
           competences: [
@@ -168,20 +168,20 @@ describe('Unit | Service | Profil User Service', function() {
           organizations: fakeOrganizationsRecords
         };
 
-        // When
+        // when
         const promise = profileService.getByUserId('user-id');
 
-        // Then
+        // then
         return promise.then((enhancedUser) => {
           expect(enhancedUser).to.deep.equal(expectedUser);
         });
       });
 
       it('should call course repository to get adaptive courses', () => {
-        // When
+        // when
         const promise = profileService.getByUserId('user-id');
 
-        // Then
+        // then
         return promise.then(() => {
           sinon.assert.called(courseRepository.getAdaptiveCourses);
         });
@@ -190,10 +190,10 @@ describe('Unit | Service | Profil User Service', function() {
 
       it('should call assessment repository to get all assessments from the current user', () => {
 
-        // When
+        // when
         const promise = profileService.getByUserId('user-id');
 
-        // Then
+        // then
         return promise.then(() => {
           sinon.assert.called(assessmentRepository.findLastAssessmentsForEachCoursesByUser);
           sinon.assert.calledWith(assessmentRepository.findLastAssessmentsForEachCoursesByUser, 'user-id');
@@ -202,10 +202,10 @@ describe('Unit | Service | Profil User Service', function() {
 
       it('should call organization repository to get all organizations from the current user', () => {
 
-        // When
+        // when
         const promise = profileService.getByUserId('user-id');
 
-        // Then
+        // then
         return promise.then(() => {
           sinon.assert.called(organizationRepository.getByUserId);
           sinon.assert.calledWith(organizationRepository.getByUserId, 'user-id');

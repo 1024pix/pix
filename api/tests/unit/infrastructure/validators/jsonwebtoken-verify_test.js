@@ -22,10 +22,10 @@ describe('Unit | Validator | json-web-token-verify', function() {
         null
       ].forEach((token) => {
         it(`should reject a promise, when authorization is non-valid (${token})`, () => {
-          // When
+          // when
           const promise = authorizationToken.verify(token);
           return promise.catch((result) => {
-            // Then
+            // then
             expect(result.name).to.be.equal('Error');
             expect(result instanceof InvalidTokenError).to.be.true;
           });
@@ -48,21 +48,21 @@ describe('Unit | Validator | json-web-token-verify', function() {
       });
 
       it('should reject a promise, when token is valid but has not key word bearer', () => {
-        // When
+        // when
         const promise = authorizationToken.verify('VALID_TOKEN');
 
         return promise.catch(_ => {
-          // Then
+          // then
           expect(promise).to.be.rejected;
         });
       });
 
       it('should resolve a promise, when token is valid', () => {
-        // When
+        // when
         const promise = authorizationToken.verify('Bearer VALID_TOKEN');
 
         return promise.then((result) => {
-          // Then
+          // then
           expect(promise).to.be.fulfilled;
           expect(result).to.be.equal(1);
           expect(jsonwebtokenStub.getCall(0).args[0]).to.be.equal('VALID_TOKEN');
