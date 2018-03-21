@@ -12,8 +12,8 @@
   "devDependencies": {
     "codeclimate-test-reporter": "^0.5.0",
     "coveralls": "^3.0.0",
-    "eslint": "^4.9.0",
-    "eslint-plugin-mocha": "^4.11.0",
+    "eslint": "^4.18.2",
+    "eslint-plugin-mocha": "^4.12.1",
     "lcov-result-merger": "^1.2.0",
     "npm-run-all": "^4.1.0"
   },

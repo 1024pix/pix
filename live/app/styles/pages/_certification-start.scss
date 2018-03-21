@@ -1,0 +1,46 @@
+.certification-start-page {
+  display: flex;
+  flex-flow: column wrap;
+  align-self: center;
+  background-color: $alabaster-grey;
+  color: $charcoal-grey;
+  text-rendering: optimizeLegibility;
+  min-height: calc(100VH - 140px - #{$footer-height});
+
+}
+
+.certification-start-page__ribbon {
+  height: 180px;
+  position: absolute;
+  top: 120px;
+  @include device-is('desktop') {
+    top: 140px;
+  }
+}
+
+.certification-start-page__panel {
+  margin-left: 10px;
+  margin-right: 10px;
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 50px;
+  padding: 20px;
+  margin-top: 50px;
+  z-index: 1;
+  align-self: center;
+
+  @include device-is('desktop') {
+    width: 940px;
+    padding: 50px 70px 40px;
+  }
+}
+
+.certification-start-page__title {
+
+  color: $charcoal-grey;
+  font-family: $font-raleway;
+  font-size: 36px;
+  text-align: center;
+  font-weight: bold;
+  line-height: 42px;
+}

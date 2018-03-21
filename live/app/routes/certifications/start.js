@@ -4,23 +4,17 @@ import AuthenticatedRouteMixin from 'ember-simple-auth/mixins/authenticated-rout
 export default Route.extend(AuthenticatedRouteMixin, {
 
   authenticationRoute: '/connexion',
-
-  model(params) {
-    return this.get('store').createRecord('course', { sessionCode: params.code }).save();
-  },
-
-  redirect(certificationCourse) {
-    return this.replaceWith('courses.create-assessment', certificationCourse);
-  },
-
   actions: {
     error(error) {
       if (error.errors[0].status === '403') {
-        return true;
+        return this.render('certifications.start-error');
       } else {
         this.transitionTo('index');
       }
+    },
+
+    submit(certificationCourse) {
+      return this.replaceWith('courses.create-assessment', certificationCourse.id);
     }
   }
-
 });
