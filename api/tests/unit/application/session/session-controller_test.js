@@ -6,7 +6,7 @@ const sessionSerializer = require('../../../../lib/infrastructure/serializers/js
 const sessionController = require('../../../../lib/application/sessions/session-controller');
 const Session = require('../../../../lib/domain/models/Session');
 
-const sessionRepository = require('../../../../lib/infrastructure/repositories/session-repository');
+const sessionService = require('../../../../lib/domain/services/session-service');
 
 describe('Unit | Controller | sessionController', () => {
 
@@ -14,17 +14,30 @@ describe('Unit | Controller | sessionController', () => {
   let codeStub;
   let request;
   let replyStub;
+  let expectedSession;
 
   describe('#create', () => {
 
     beforeEach(() => {
+      expectedSession = new Session({
+        certificationCenter: 'Université de dressage de loutres',
+        address: 'Nice',
+        room: '28D',
+        examiner: 'Antoine Toutvenant',
+        date: '2017-12-08',
+        time: '14:30',
+        description: 'ahah',
+        accessCode: 'ABCD12'
+      });
+
       codeStub = sinon.stub();
       replyStub = sinon.stub().returns({ code: codeStub });
 
       sandbox = sinon.sandbox.create();
-      sandbox.stub(sessionRepository, 'save').resolves();
+      sandbox.stub(sessionService, 'save').resolves();
       sandbox.stub(Boom, 'badImplementation');
       sandbox.stub(logger, 'error');
+      sandbox.stub(sessionSerializer, 'deserialize').resolves(expectedSession);
       sandbox.stub(sessionSerializer, 'serialize');
 
       request = {
@@ -38,7 +51,7 @@ describe('Unit | Controller | sessionController', () => {
               examiner: 'Antoine Toutvenant',
               date: '08/12/2017',
               time: '14:30',
-              description: ''
+              description: 'ahah'
             }
           }
         }
@@ -50,28 +63,18 @@ describe('Unit | Controller | sessionController', () => {
     });
 
     it('should save the session', () => {
-      // Given
-      const expectedSession = new Session({
-        certificationCenter: 'Université de dressage de loutres',
-        address: 'Nice',
-        room: '28D',
-        examiner: 'Antoine Toutvenant',
-        date: '2017-12-08',
-        time: '14:30',
-        description: ''
-      });
-
-      // When
+      // when
       const promise = sessionController.save(request, replyStub);
 
-      // Then
+      // then
       return promise.then(() => {
-        expect(sessionRepository.save).to.have.been.calledWith(expectedSession);
+        expect(sessionService.save).to.have.been.calledWith(expectedSession);
       });
     });
 
     it('return the saved session in JSON API', () => {
-      // Given
+
+      // given
       const jsonApiSession = {
         data: {
           type: 'sessions',
@@ -84,13 +87,13 @@ describe('Unit | Controller | sessionController', () => {
         certificationCenter: 'Université de dressage de loutres'
       });
 
-      sessionRepository.save.resolves(savedSession);
+      sessionService.save.resolves(savedSession);
       sessionSerializer.serialize.returns(jsonApiSession);
 
-      // When
+      // when
       const promise = sessionController.save(request, replyStub);
 
-      // Then
+      // then
       return promise.then(() => {
         expect(replyStub).to.have.been.calledWith(jsonApiSession);
         expect(sessionSerializer.serialize).to.have.been.calledWith(savedSession);
@@ -103,35 +106,36 @@ describe('Unit | Controller | sessionController', () => {
       const wellFormedError = { message: 'Internal Error' };
 
       beforeEach(() => {
-        sessionRepository.save.rejects(error);
+
+        sessionService.save.rejects(error);
         Boom.badImplementation.returns(wellFormedError);
       });
 
       it('should format an internal error from the error', () => {
-        // When
+        // when
         const promise = sessionController.save(request, replyStub);
 
-        // Then
+        // then
         return promise.then(() => {
           expect(Boom.badImplementation).to.have.been.calledWith(error);
         });
       });
 
       it('should return a 500 internal error', () => {
-        // When
+        // when
         const promise = sessionController.save(request, replyStub);
 
-        // Then
+        // then
         return promise.then(() => {
           expect(replyStub).to.have.been.calledWith(wellFormedError);
         });
       });
 
       it('should log the error', () => {
-        // When
+        // when
         const promise = sessionController.save(request, replyStub);
 
-        // Then
+        // then
         return promise.then(() => {
           expect(logger.error).to.have.been.calledWith(error);
         });

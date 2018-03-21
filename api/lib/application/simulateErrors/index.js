@@ -6,7 +6,11 @@ exports.register = function(server, options, next) {
     {
       method: 'GET',
       path: '/errors/500',
-      config: { handler: errorController.simulateInternalError, tags: ['api'] }
+      config: {
+        auth: false,
+        handler: errorController.simulateInternalError,
+        tags: ['api']
+      }
     },
   ]);
 

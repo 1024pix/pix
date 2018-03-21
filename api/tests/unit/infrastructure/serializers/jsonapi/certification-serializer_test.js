@@ -1,4 +1,4 @@
-const { describe, it, expect } = require('../../../../test-helper');
+const { expect } = require('../../../../test-helper');
 const serializer = require('../../../../../lib/infrastructure/serializers/jsonapi/certification-serializer');
 
 const { WrongDateFormatError } = require('../../../../../lib/domain/errors');
@@ -62,7 +62,7 @@ describe('Unit | Serializer | JSONAPI | certification-serializer', function() {
     const jsonCertificationCourse = {
       data: {
         type: 'certifications',
-        id: '1',
+        id: 1,
         attributes: {
           'status': 'rejected',
           'first-name': 'Freezer',

@@ -6,9 +6,9 @@ const Hapi = require('hapi');
 
 const routes = require('./lib/routes');
 const plugins = require('./lib/plugins');
-
 const config = require('./lib/settings');
 const logger = require('./lib/infrastructure/logger');
+const security = require('./lib/infrastructure/security');
 
 const server = new Hapi.Server({
   connections: {
@@ -23,6 +23,10 @@ const server = new Hapi.Server({
 });
 
 server.connection({ port: config.port });
+
+server.auth.scheme('jwt-access-token', security.scheme);
+server.auth.strategy('default', 'jwt-access-token');
+server.auth.default('default');
 
 const configuration = [].concat(plugins, routes);
 

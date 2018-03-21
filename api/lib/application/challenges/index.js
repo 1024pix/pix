@@ -6,7 +6,11 @@ exports.register = function(server, options, next) {
     {
       method: 'GET',
       path: '/api/challenges/{id}',
-      config: { handler: ChallengeController.get, tags: ['api'] }
+      config: {
+        auth: false,
+        handler: ChallengeController.get,
+        tags: ['api']
+      }
     },
     {
       method: 'POST',

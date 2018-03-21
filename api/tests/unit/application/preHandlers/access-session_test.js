@@ -26,7 +26,7 @@ describe('Unit | Pre-handler | Session Access', () => {
       expect(AccessSession.sessionIsOpened).to.be.a('function');
     });
 
-    context('when session-code is not given', () => {
+    context('when access-code is not given', () => {
       it('should stop the request', () => {
         // given
         const request = { payload: { data: { attributes: {} } } };
@@ -41,10 +41,10 @@ describe('Unit | Pre-handler | Session Access', () => {
       });
     });
 
-    context('when session-code is wrong', () => {
+    context('when access-code is wrong', () => {
       it('should stop the request', () => {
         // given
-        const request = { payload: { data: { attributes: { id: '1245', 'session-code': 'WrongCode' } } } };
+        const request = { payload: { data: { attributes: { id: '1245', 'access-code': 'WrongCode' } } } };
 
         // when
         AccessSession.sessionIsOpened(request, reply);
@@ -55,10 +55,10 @@ describe('Unit | Pre-handler | Session Access', () => {
       });
     });
 
-    context('when session-code is correct', () => {
+    context('when access-code is correct', () => {
       it('should let the request continue', () => {
         // given
-        const request = { payload: { data: { attributes: { id: '1245', 'session-code': 'e24d32' } } } };
+        const request = { payload: { data: { attributes: { id: '1245', 'access-code': 'e24d32' } } } };
         const requestWithoutSessionCode = {
           payload: {
             data: {
@@ -78,4 +78,5 @@ describe('Unit | Pre-handler | Session Access', () => {
       });
     });
   });
+
 });

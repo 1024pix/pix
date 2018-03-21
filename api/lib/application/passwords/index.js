@@ -8,6 +8,7 @@ exports.register = function(server, options, next) {
       method: 'POST',
       path: '/api/password-reset-demands',
       config: {
+        auth: false,
         handler: passwordController.createResetDemand,
         validate: {
           payload: Joi.object().required().keys({
@@ -27,7 +28,9 @@ exports.register = function(server, options, next) {
       method: 'GET',
       path: '/api/password-reset-demands/{temporaryKey}',
       config: {
-        handler: passwordController.checkResetDemand, tags: ['api']
+        auth: false,
+        handler: passwordController.checkResetDemand,
+        tags: ['api']
       }
     }
   ]);

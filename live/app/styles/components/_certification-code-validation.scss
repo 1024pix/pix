@@ -1,0 +1,84 @@
+.certification-course-page {
+
+}
+
+.certification-course-page__order {
+  color: $charcoal-grey;
+  font-family: $font-raleway;
+  font-size: 22px;
+  line-height: 28px;
+  text-align: center;
+  margin-top: 15px;
+  margin-bottom: 20px;
+}
+
+.certification-course-page__cgu {
+  color: $charcoal-grey;
+  font-family: $font-lato;
+  font-size: 12px;
+  line-height: 18px;
+  text-align: justify;
+}
+
+.certification-course-page__session-code-input {
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+  margin-bottom: 20px;
+  align-items: center;
+}
+
+.certification-course-page__errors {
+  height: 1.7%;
+  color: $pure-orange;
+  font-family: $font-lato;
+  font-size: 14px;
+  line-height: 17px;
+  text-align: center;
+}
+
+#session-code {
+  padding: 0 5px;
+}
+
+.certification-course-page__field-button {
+  text-align: center;
+
+}
+
+.certification-course-page__submit_button {
+  align-items: center;
+
+  color: $white;
+  font-size: 13px;
+  text-transform: uppercase;
+  width: 170px;
+  height: 46px;
+  border-radius: 23px;
+  border: solid 1px $pix-blue;
+  background-color: $pix-blue;
+
+  padding: 10px 30px;
+}
+
+.certification-course-page__field-button__action-validate {
+  width: 170px;
+  height: 46px;
+  border-radius: 23px;
+  background: $pix-blue;
+  text-align: center;
+  margin: auto;
+
+
+  align-items: center;
+  padding: 10px 30px;
+}
+
+.certification-course-page__field-button__loader-bar {
+  background: url('/images/loader-white.svg');
+  background-size: 64px 55px;
+  margin: auto;
+  height: 50px;
+  width: 64px;
+  margin-top: -15px;
+}

@@ -24,7 +24,7 @@ describe('Unit | Serializer | JSONAPI | validation-error-serializer', () => {
     });
 
     it('should format a validation error into a JSON spec', () => {
-      // Given
+      // given
       const invalidObject = new DummyObject({
         email: 'testThatIsNotAnEmail'
       });
@@ -42,10 +42,10 @@ describe('Unit | Serializer | JSONAPI | validation-error-serializer', () => {
         ]
       };
 
-      // When
+      // when
       const promise = invalidObject.save();
 
-      // Then
+      // then
       return promise.catch((validationErrors) => {
         const formattedJSON = serializer.serialize(validationErrors);
 
@@ -54,7 +54,7 @@ describe('Unit | Serializer | JSONAPI | validation-error-serializer', () => {
     });
 
     it('should format a validation error into a JSON:API spec with kebab-case on source pointer', () => {
-      // Given
+      // given
       const validationErrors = {
         data: {
           firstName: ['Error message']
@@ -74,15 +74,15 @@ describe('Unit | Serializer | JSONAPI | validation-error-serializer', () => {
         ]
       };
 
-      // When
+      // when
       const formattedJSON = serializer.serialize(validationErrors);
 
-      // Then
+      // then
       expect(formattedJSON).to.deep.equal(expectedFormattedJSON);
     });
 
     it('should return several messages for one field if they exist', () => {
-      // Given
+      // given
       const validationErrors = {
         data: {
           field: ['Error message #1', 'Error message #2', 'Error message #3']
@@ -118,15 +118,15 @@ describe('Unit | Serializer | JSONAPI | validation-error-serializer', () => {
         ]
       };
 
-      // When
+      // when
       const formattedJSON = serializer.serialize(validationErrors);
 
-      // Then
+      // then
       expect(formattedJSON).to.deep.equal(expectedFormattedJSON);
     });
 
     it('should format a validation error into a JSON spec when multiple errors', () => {
-      // Given
+      // given
       const invalidObject = new DummyObject({
         email: 'test@example.net',
         age: '200'
@@ -155,10 +155,10 @@ describe('Unit | Serializer | JSONAPI | validation-error-serializer', () => {
         ]
       };
 
-      // When
+      // when
       const promise = invalidObject.save();
 
-      // Then
+      // then
       return promise.catch((validationErrors) => {
         const formattedJSON = serializer.serialize(validationErrors);
 
@@ -197,7 +197,7 @@ describe('Unit | Serializer | JSONAPI | validation-error-serializer', () => {
     });
 
     it('should format a validation error into a JSON spec when generic error', () => {
-      // Given
+      // given
       const errors = {
         data: {
           '': [ 'L\'adresse e-mail et/ou le mot de passe saisi(s) sont incorrects.' ]
@@ -215,10 +215,10 @@ describe('Unit | Serializer | JSONAPI | validation-error-serializer', () => {
         ]
       };
 
-      // When
+      // when
       const formattedJSON = serializer.serialize(errors);
 
-      // Then
+      // then
       expect(formattedJSON).to.deep.equal(expectedFormattedJSON);
     });
   });

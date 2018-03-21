@@ -10,7 +10,7 @@ describe('Unit | Serializer | area-serializer', function() {
     });
 
     it('should return a new Area Model object', () => {
-      // Given
+      // given
       const airtableAreaRecord = {
         id: 'recsvLDFHShyfDXXXXX',
         fields: {
@@ -18,10 +18,10 @@ describe('Unit | Serializer | area-serializer', function() {
         }
       };
 
-      // When
+      // when
       const area = serializer.deserialize(airtableAreaRecord);
 
-      // Then
+      // then
       expect(area).to.be.an.instanceOf(Area);
       expect(area.id).to.be.equal(airtableAreaRecord.id);
       expect(area.name).to.be.equal(airtableAreaRecord.fields['Nom']);

@@ -1,16 +1,13 @@
 const { expect, nock } = require('../../test-helper');
 const server = require('../../../server');
 
-describe('Acceptance | API | ChallengeController', function() {
+describe('Acceptance | API | ChallengeController', () => {
 
-  after(function(done) {
-    server.stop(done);
-  });
+  describe('GET /api/challenges/:challenge_id', () => {
 
-  describe('GET /api/challenges/:challenge_id', function() {
-
-    before(function(done) {
+    before(() => {
       nock.cleanAll();
+
       nock('https://api.airtable.com')
         .get('/v0/test-base/Epreuves/recLt9uwa2dR3IYpi')
         .query(true)
@@ -54,43 +51,51 @@ describe('Acceptance | API | ChallengeController', function() {
           },
           'createdTime': '2016-08-09T09:08:57.000Z'
         });
-      done();
     });
 
-    after(function(done) {
+    after(() => {
       nock.cleanAll();
-      done();
     });
 
-    const options = { method: 'GET', url: '/api/challenges/recLt9uwa2dR3IYpi' };
+    const options = {
+      method: 'GET',
+      url: '/api/challenges/recLt9uwa2dR3IYpi',
+    };
 
-    it('should return 200 HTTP status code', function(done) {
-      server.inject(options, (response) => {
+    it('should return 200 HTTP status code', () => {
+      // when
+      const promise = server.inject(options);
+
+      // then
+      return promise.then((response) => {
         expect(response.statusCode).to.equal(200);
-        done();
       });
     });
 
-    it('should return application/json', function(done) {
-      server.inject(options, (response) => {
+    it('should return application/json', () => {
+      // when
+      const promise = server.inject(options);
+
+      // then
+      return promise.then((response) => {
         const contentType = response.headers['content-type'];
         expect(contentType).to.contain('application/json');
-        done();
       });
     });
 
-    it('should return the expected challenge', function(done) {
-      server.inject(options, (response) => {
+    it('should return the expected challenge', () => {
+      // when
+      const promise = server.inject(options);
+
+      // then
+      return promise.then((response) => {
         const challenge = response.result.data;
         expect(challenge.id).to.equal('recLt9uwa2dR3IYpi');
         expect(challenge.attributes.instruction).to.equal('Que peut-on dire des œufs de catégorie A ?\n');
         expect(challenge.attributes.proposals).to.equal('- Ils sont bio.\n- Ils pèsent plus de 63 grammes.\n- Ce sont des oeufs frais.\n- Ils sont destinés aux consommateurs.\n- Ils ne sont pas lavés.\n');
         expect(challenge.attributes.type).to.equal('QCM');
         expect(challenge.attributes['hasnt-internet-allowed']).to.equal(true);
-        done();
       });
     });
-
   });
-
 });

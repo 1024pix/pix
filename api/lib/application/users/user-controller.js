@@ -1,13 +1,12 @@
 const Boom = require('boom');
 const moment = require('moment');
 const _ = require('../../infrastructure/utils/lodash-utils');
-const authorizationToken = require('../../../lib/infrastructure/validators/jsonwebtoken-verify');
 
 const userSerializer = require('../../infrastructure/serializers/jsonapi/user-serializer');
 const validationErrorSerializer = require('../../infrastructure/serializers/jsonapi/validation-error-serializer');
 const mailService = require('../../domain/services/mail-service');
 const userService = require('../../domain/services/user-service');
-const UserRepository = require('../../../lib/infrastructure/repositories/user-repository');
+const userRepository = require('../../../lib/infrastructure/repositories/user-repository');
 const profileService = require('../../domain/services/profile-service');
 const profileSerializer = require('../../infrastructure/serializers/jsonapi/profile-serializer');
 const googleReCaptcha = require('../../../lib/infrastructure/validators/grecaptcha-validator');
@@ -15,6 +14,7 @@ const { InvalidRecaptchaTokenError } = require('../../../lib/infrastructure/vali
 const bookshelfUtils = require('../../infrastructure/utils/bookshelf-utils');
 const passwordResetDemandService = require('../../domain/services/reset-password-service');
 const encryptionService = require('../../domain/services/encryption-service');
+const tokenService = require('../../domain/services/token-service');
 
 const Bookshelf = require('../../infrastructure/bookshelf');
 
@@ -33,11 +33,12 @@ module.exports = {
     const recaptchaToken = request.payload.data.attributes['recaptcha-token'];
 
     return googleReCaptcha.verify(recaptchaToken)
-      .then(() => UserRepository.save(user))
+      .then(() => userRepository.save(user))
       .then((savedUser) => {
         mailService.sendAccountCreationEmail(savedUser.email);
         reply(userSerializer.serialize(savedUser)).code(201);
       }).catch((err) => {
+        logger.error(err);
 
         if (err instanceof InvalidRecaptchaTokenError) {
           const userValidationErrors = user.validationErrors();
@@ -52,11 +53,11 @@ module.exports = {
       });
   },
 
+  // FIXME: Pas de tests ?!
   getAuthenticatedUserProfile(request, reply) {
-    const token = request.headers.authorization;
-    return authorizationToken
-      .verify(token)
-      .then(UserRepository.findUserById)
+    const token = tokenService.extractTokenFromAuthChain(request.headers.authorization);
+    const userId = tokenService.extractUserId(token);
+    return userRepository.findUserById(userId)
       .then((foundUser) => {
         return profileService.getByUserId(foundUser.id);
       })
@@ -82,12 +83,12 @@ module.exports = {
   async updatePassword(request, reply) {
     const { password } = request.payload.data.attributes;
     const hashedPassword = await encryptionService.hashPassword(password);
-    let user = await UserRepository.findUserById(request.params.id);
+    let user = await userRepository.findUserById(request.params.id);
     user = user.toJSON();
 
     return passwordResetDemandService
       .hasUserAPasswordResetDemandInProgress(user.email)
-      .then(() => UserRepository.updatePassword(user.id, hashedPassword))
+      .then(() => userRepository.updatePassword(user.id, hashedPassword))
       .then(() => passwordResetDemandService.invalidOldResetPasswordDemand(user.email))
       .then(() => reply().code(204))
       .catch((err) => {

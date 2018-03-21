@@ -12,7 +12,7 @@ describe('Unit | Serializer | organization-serializer', () => {
     context('when user is defined', () => {
 
       it('should serialize organization with included user', () => {
-        // Given
+        // given
         const jsonOrganization = {
           id: 12,
           name: 'LexCorp',
@@ -29,14 +29,14 @@ describe('Unit | Serializer | organization-serializer', () => {
         };
         const organization = new Organization(jsonOrganization);
 
-        // When
+        // when
         const serializedOrganization = serializer.serialize(organization);
 
-        // Then
+        // then
         expect(serializedOrganization).to.deep.equal({
           data: {
             type: 'organizations',
-            id: '12',
+            id: 12,
             attributes: {
               name: 'LexCorp',
               email: 'lex@lexcorp.com',
@@ -67,7 +67,7 @@ describe('Unit | Serializer | organization-serializer', () => {
       const organizationOne = new Organization({
         id: 1,
         name: faker.name.firstName(),
-        email: faker.internet.email(),
+        email: faker.internet.email().toLowerCase(),
         type: 'PRO',
         code: 'ABCD12',
         userId: 3,
@@ -82,7 +82,7 @@ describe('Unit | Serializer | organization-serializer', () => {
       const organizationTwo = new Organization({
         id: 2,
         name: faker.name.firstName(),
-        email: faker.internet.email(),
+        email: faker.internet.email().toLowerCase(),
         type: 'PRO',
         code: 'EFGH54',
         userId: 4,
@@ -97,7 +97,7 @@ describe('Unit | Serializer | organization-serializer', () => {
       const expectedJsonApi = {
         data: [{
           type: 'organizations',
-          id: '1',
+          id: 1,
           attributes: {
             name: organizationOne.name,
             type: organizationOne.type,
@@ -114,7 +114,7 @@ describe('Unit | Serializer | organization-serializer', () => {
           }
         }, {
           type: 'organizations',
-          id: '2',
+          id: 2,
           attributes: {
             name: organizationTwo.name,
             type: organizationTwo.type,

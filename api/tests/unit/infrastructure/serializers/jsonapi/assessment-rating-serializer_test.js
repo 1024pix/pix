@@ -27,17 +27,17 @@ describe('Unit | Serializer | JSONAPI | assessment-rating-serializer', () => {
 
   describe('#serialize', () => {
     it('should serialize the assessment rating object to jsonapi object excluding email and password', () => {
-      // Given
+      // given
       const modelObject = new AssessmentRating({
         id: '234567',
         estimatedLevel: 7,
         pixScore: 526
       });
 
-      // When
+      // when
       const json = serializer.serialize(modelObject);
 
-      // Then
+      // then
       expect(json).to.be.deep.equal({
         data: {
           attributes: {
@@ -54,36 +54,36 @@ describe('Unit | Serializer | JSONAPI | assessment-rating-serializer', () => {
   describe('#deserialize', () => {
 
     it('should convert JSON API data into an Assessment Rating model object', () => {
-      // When
+      // when
       const assessmentRating = serializer.deserialize(jsonAssessmentRating);
 
-      // Then
+      // then
       expect(assessmentRating).to.be.an.instanceOf(AssessmentRating);
     });
 
     it('should contain an ID attribute', () => {
       jsonAssessmentRating.data.id = '42';
 
-      // When
+      // when
       const assessmentRating = serializer.deserialize(jsonAssessmentRating);
 
-      // Then
+      // then
       expect(assessmentRating.id).to.equal('42');
     });
 
     it('should not contain an ID attribute when not given', () => {
-      // When
+      // when
       const assessmentRating = serializer.deserialize(jsonAssessmentRating);
 
-      // Then
+      // then
       expect(assessmentRating.id).to.be.undefined;
     });
 
     it('should attach the assessment id', () => {
-      // When
+      // when
       const assessmentRating = serializer.deserialize(jsonAssessmentRating);
 
-      // Then
+      // then
       expect(assessmentRating.assessmentId).to.equal('22');
     });
 

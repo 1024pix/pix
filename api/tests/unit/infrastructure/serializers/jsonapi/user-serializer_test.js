@@ -26,7 +26,7 @@ describe('Unit | Serializer | JSONAPI | user-serializer', () => {
   describe('#serialize', () => {
     context('when the given parameter is a BookshelfUser', () => {
       it('should serialize excluding email and password', () => {
-        // Given
+        // given
         const modelObject = new BookshelfUser({
           id: '234567',
           firstName: 'Luke',
@@ -35,10 +35,10 @@ describe('Unit | Serializer | JSONAPI | user-serializer', () => {
           password: ''
         });
 
-        // When
+        // when
         const json = serializer.serialize(modelObject);
 
-        // Then
+        // then
         expect(json).to.be.deep.equal({
           data: {
             attributes: {
@@ -54,7 +54,7 @@ describe('Unit | Serializer | JSONAPI | user-serializer', () => {
 
     context('when the given parameter is a User', () => {
       it('should serialize excluding email and password', () => {
-        // Given
+        // given
         const modelObject = new User({
           id: '234567',
           firstName: 'Luke',
@@ -63,10 +63,10 @@ describe('Unit | Serializer | JSONAPI | user-serializer', () => {
           password: ''
         });
 
-        // When
+        // when
         const json = serializer.serialize(modelObject);
 
-        // Then
+        // then
         expect(json).to.be.deep.equal({
           data: {
             attributes: {
@@ -84,10 +84,10 @@ describe('Unit | Serializer | JSONAPI | user-serializer', () => {
   describe('#deserialize()', () => {
 
     it('should convert JSON API data into an User model object', () => {
-      // When
+      // when
       const user = serializer.deserialize(jsonUser);
 
-      // Then
+      // then
       expect(user).to.be.an.instanceOf(User);
       expect(user.firstName).to.equal('Luke');
       expect(user.lastName).to.equal('Skywalker');
@@ -98,18 +98,18 @@ describe('Unit | Serializer | JSONAPI | user-serializer', () => {
     it('should contain an ID attribute', () => {
       jsonUser.data.id = '42';
 
-      // When
+      // when
       const user = serializer.deserialize(jsonUser);
 
-      // Then
+      // then
       expect(user.id).to.equal('42');
     });
 
     it('should not contain an ID attribute when not given', () => {
-      // When
+      // when
       const user = serializer.deserialize(jsonUser);
 
-      // Then
+      // then
       expect(user.id).to.be.undefined;
     });
 

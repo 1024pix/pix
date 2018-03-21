@@ -1,3 +1,4 @@
+const securityController = require('../../interfaces/controllers/security-controller');
 const certificationCourseController = require('./certification-course-controller');
 
 exports.register = function(server, options, next) {
@@ -7,6 +8,10 @@ exports.register = function(server, options, next) {
       method: 'GET',
       path: '/api/admin/certifications/{id}/details',
       config: {
+        pre: [{
+          method: securityController.checkUserHasRolePixMaster,
+          assign: 'hasRolePixMaster'
+        }],
         handler: certificationCourseController.computeResult,
         tags: ['api']
       }
@@ -15,6 +20,10 @@ exports.register = function(server, options, next) {
       method: 'GET',
       path: '/api/admin/certifications/{id}',
       config: {
+        pre: [{
+          method: securityController.checkUserHasRolePixMaster,
+          assign: 'hasRolePixMaster'
+        }],
         handler: certificationCourseController.getResult,
         tags: ['api']
       }

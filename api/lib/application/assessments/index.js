@@ -1,5 +1,5 @@
-const AssessmentController = require('./assessment-controller');
-const AssessmentAuthorization = require('../preHandlers/assessment-authorization');
+const assessmentController = require('./assessment-controller');
+const assessmentAuthorization = require('../preHandlers/assessment-authorization');
 exports.register = function(server, options, next) {
 
   server.route([
@@ -7,32 +7,48 @@ exports.register = function(server, options, next) {
     {
       method: 'POST',
       path: '/api/assessments',
-      config: { handler: AssessmentController.save, tags: ['api'] }
+      config: {
+        auth: false,
+        handler: assessmentController.save,
+        tags: ['api']
+      }
     },
     {
       method: 'GET',
       path: '/api/assessments',
-      config: { handler: AssessmentController.findByFilters, tags: ['api'] }
+      config: {
+        handler: assessmentController.findByFilters,
+        tags: ['api']
+      }
     },
     {
       method: 'GET',
       path: '/api/assessments/{id}/next',
-      config: { handler: AssessmentController.getNextChallenge, tags: ['api'] }
+      config: {
+        auth: false,
+        handler: assessmentController.getNextChallenge,
+        tags: ['api']
+      }
     },
     {
       method: 'GET',
       path: '/api/assessments/{id}/next/{challengeId}',
-      config: { handler: AssessmentController.getNextChallenge, tags: ['api'] }
+      config: {
+        auth: false,
+        handler: assessmentController.getNextChallenge,
+        tags: ['api']
+      }
     },
     {
       method: 'GET',
       path: '/api/assessments/{id}',
       config: {
+        auth: false,
         pre: [{
-          method: AssessmentAuthorization.verify,
+          method: assessmentAuthorization.verify,
           assign: 'authorizationCheck'
         }],
-        handler: AssessmentController.get,
+        handler: assessmentController.get,
         tags: ['api']
       }
     },
@@ -40,7 +56,9 @@ exports.register = function(server, options, next) {
       method: 'GET',
       path: '/api/assessments/{id}/solutions/{answerId}',
       config: {
-        handler: AssessmentController.getAssessmentSolution, tags: ['api']
+        auth: false,
+        handler: assessmentController.getAssessmentSolution,
+        tags: ['api']
       }
     }
   ]);

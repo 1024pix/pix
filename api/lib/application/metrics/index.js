@@ -1,4 +1,3 @@
-
 const metricController = require('./metric-controller');
 
 exports.register = function(server, options, next) {
@@ -7,7 +6,10 @@ exports.register = function(server, options, next) {
     {
       method: 'GET',
       path: '/metrics',
-      config: { handler: metricController.get, tags: ['api'] }
+      config: {
+        auth: false,
+        handler: metricController.get,
+        tags: ['api'] }
     }
   ]);
 

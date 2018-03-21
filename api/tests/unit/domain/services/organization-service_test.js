@@ -15,10 +15,10 @@ describe('Unit | Service | OrganizationService', () => {
     });
 
     it('should generate a code', () => {
-      // When
+      // when
       const code = organizationService.generateOrganizationCode();
 
-      // Then
+      // then
       expect(code).to.match(/[A-Z]{4}\d{2}/);
     });
   });

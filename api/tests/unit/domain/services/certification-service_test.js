@@ -1085,6 +1085,7 @@ describe('Unit | Service | Certification Service', function() {
 
     const certificationCourse = { id: 'newlyCreatedCertificationCourse' };
     const certificationCourseWithNbOfChallenges = { id: 'certificationCourseWithChallenges', nbChallenges: 3 };
+    const sessionId = 23;
 
     beforeEach(() => {
       clock = sinon.useFakeTimers(new Date('2018-02-04T01:00:00.000+01:00'));
@@ -1127,7 +1128,7 @@ describe('Unit | Service | Certification Service', function() {
         sandbox.stub(certificationCourseRepository, 'save');
 
         // when
-        const createNewCertificationPromise = certificationService.startNewCertification(userId);
+        const createNewCertificationPromise = certificationService.startNewCertification(userId, sessionId);
 
         // then
         return createNewCertificationPromise.catch((error) => {
@@ -1145,12 +1146,12 @@ describe('Unit | Service | Certification Service', function() {
       sandbox.stub(certificationChallengesService, 'saveChallenges').resolves(certificationCourseWithNbOfChallenges);
 
       // when
-      const promise = certificationService.startNewCertification(userId);
+      const promise = certificationService.startNewCertification(userId, sessionId);
 
       // then
       return promise.then((newCertification) => {
         sinon.assert.calledOnce(certificationCourseRepository.save);
-        expect(certificationCourseRepository.save).to.have.been.calledWith({ userId: userId, status: 'started' });
+        expect(certificationCourseRepository.save).to.have.been.calledWith({ userId: userId, status: 'started', sessionId });
         expect(newCertification.id).to.equal('certificationCourseWithChallenges');
       });
     });

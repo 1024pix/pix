@@ -4,9 +4,9 @@ const server = require('../../../server');
 
 describe('Acceptance | API | assessment-controller-get-nonadaptive', function() {
 
-  before((done) => {
-
+  before(() => {
     nock.cleanAll();
+
     nock('https://api.airtable.com')
       .get('/v0/test-base/Tests/a_non_adaptive_course_id')
       .query(true)
@@ -23,6 +23,7 @@ describe('Acceptance | API | assessment-controller-get-nonadaptive', function() 
           ],
         },
       });
+
     nock('https://api.airtable.com')
       .get('/v0/test-base/Competences/competence_id')
       .query(true)
@@ -37,6 +38,7 @@ describe('Acceptance | API | assessment-controller-get-nonadaptive', function() 
           'Acquis': ['@web1']
         }
       });
+
     nock('https://api.airtable.com')
       .get('/v0/test-base/Epreuves')
       .query({ view: 'challenge-view' })
@@ -59,6 +61,7 @@ describe('Acceptance | API | assessment-controller-get-nonadaptive', function() 
           'acquis': ['web3']
         }
       }]);
+
     nock('https://api.airtable.com')
       .get('/v0/test-base/Epreuves/first_challenge')
       .query(true)
@@ -69,6 +72,7 @@ describe('Acceptance | API | assessment-controller-get-nonadaptive', function() 
           // a bunch of fields
         },
       });
+
     nock('https://api.airtable.com')
       .get('/v0/test-base/Epreuves/second_challenge')
       .query(true)
@@ -79,6 +83,7 @@ describe('Acceptance | API | assessment-controller-get-nonadaptive', function() 
           // a bunch of fields
         },
       });
+
     nock('https://api.airtable.com')
       .get('/v0/test-base/Epreuves/third_challenge')
       .query(true)
@@ -89,17 +94,14 @@ describe('Acceptance | API | assessment-controller-get-nonadaptive', function() 
           // a bunch of fields
         },
       });
-
-    done();
   });
 
-  after((done) => {
+  after(() => {
     nock.cleanAll();
     cache.flushAll();
-    server.stop(done);
   });
 
-  describe('(non-adaptive) GET /api/assessments/:assessment_id/next', function() {
+  describe('(non-adaptive) GET /api/assessments/:assessment_id/next', () => {
 
     let insertedAssessmentId = null;
 
@@ -107,12 +109,8 @@ describe('Acceptance | API | assessment-controller-get-nonadaptive', function() 
       courseId: 'a_non_adaptive_course_id'
     };
 
-    before(function() {
-      return knex('assessments')
-        .delete()
-        .then(() => {
-          return knex('assessments').insert([insertedAssessment]);
-        })
+    before(() => {
+      return knex('assessments').insert([insertedAssessment])
         .then((rows) => {
           insertedAssessmentId = rows[0];
         });
@@ -122,53 +120,80 @@ describe('Acceptance | API | assessment-controller-get-nonadaptive', function() 
       return knex('assessments').delete();
     });
 
-    it('should return 200 HTTP status code', function() {
-      // Given
-      const options = { method: 'GET', url: '/api/assessments/' + insertedAssessmentId + '/next' };
+    it('should return 200 HTTP status code', () => {
+      // given
+      const options = {
+        method: 'GET',
+        url: '/api/assessments/' + insertedAssessmentId + '/next',
+      };
 
-      // When
-      return server.injectThen(options).then((response) => {
+      // when
+      return server.inject(options).then((response) => {
         expect(response.statusCode).to.equal(200);
       });
     });
 
-    it('should return application/json', function() {
-      // Given
-      const options = { method: 'GET', url: '/api/assessments/' + insertedAssessmentId + '/next' };
+    it('should return application/json', () => {
+      // given
+      const options = {
+        method: 'GET',
+        url: '/api/assessments/' + insertedAssessmentId + '/next',
+      };
 
-      // When
-      return server.injectThen(options).then((response) => {
+      // when
+      const promise = server.inject(options);
+
+      // then
+      return promise.then((response) => {
         const contentType = response.headers['content-type'];
         expect(contentType).to.contain('application/json');
       });
     });
 
-    it('should return the first challenge if no challenge specified', function() {
-      // Given
-      const options = { method: 'GET', url: '/api/assessments/' + insertedAssessmentId + '/next' };
+    it('should return the first challenge if no challenge specified', () => {
+      // given
+      const options = {
+        method: 'GET',
+        url: '/api/assessments/' + insertedAssessmentId + '/next',
+      };
 
-      // When
-      return server.injectThen(options).then((response) => {
+      // when
+      const promise = server.inject(options);
+
+      // then
+      return promise.then((response) => {
         expect(response.result.data.id).to.equal('first_challenge');
       });
     });
 
-    it('should return the next challenge otherwise', function() {
-      // Given
-      const options = { method: 'GET', url: '/api/assessments/' + insertedAssessmentId + '/next/first_challenge' };
+    it('should return the next challenge otherwise', () => {
+      // given
+      const options = {
+        method: 'GET',
+        url: '/api/assessments/' + insertedAssessmentId + '/next/first_challenge',
+      };
 
-      // When
-      return server.injectThen(options).then((response) => {
+      // when
+      const promise = server.inject(options);
+
+      // then
+      return promise.then((response) => {
         expect(response.result.data.id).to.equal('second_challenge');
       });
     });
 
-    it('should return null if reached the last challenge of the course', function() {
-      // Given
-      const options = { method: 'GET', url: '/api/assessments/' + insertedAssessmentId + '/next/second_challenge' };
+    it('should return null if reached the last challenge of the course', () => {
+      // given
+      const options = {
+        method: 'GET',
+        url: '/api/assessments/' + insertedAssessmentId + '/next/second_challenge',
+      };
 
-      // When
-      return server.injectThen(options).then((response) => {
+      // when
+      const promise = server.inject(options);
+
+      // then
+      return promise.then((response) => {
         expect(response.statusCode).to.equal(404);
         expect(response.result).to.deep.equal({
           error: 'Not Found',
@@ -177,7 +202,5 @@ describe('Acceptance | API | assessment-controller-get-nonadaptive', function() 
         });
       });
     });
-
   });
-
 });

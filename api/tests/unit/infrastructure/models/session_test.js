@@ -21,14 +21,14 @@ describe('Unit | Infrastructure | Models | BookshelfSession', () => {
     });
 
     it('should fail when the certificationCenter is empty', () => {
-      // Given
+      // given
       rawData.certificationCenter = '';
       const session = new BookshelfSession(rawData);
 
-      // When
+      // when
       const promise = session.save();
 
-      // Then
+      // then
       return promise
         .then(() => {
           sinon.assert.fail();
@@ -42,14 +42,14 @@ describe('Unit | Infrastructure | Models | BookshelfSession', () => {
     });
 
     it('should fail when the address is empty', () => {
-      // Given
+      // given
       rawData.address = '';
       const session = new BookshelfSession(rawData);
 
-      // When
+      // when
       const promise = session.save();
 
-      // Then
+      // then
       return promise
         .then(() => {
           sinon.assert.fail();
@@ -63,14 +63,14 @@ describe('Unit | Infrastructure | Models | BookshelfSession', () => {
     });
 
     it('should fail when the examiner is empty', () => {
-      // Given
+      // given
       rawData.examiner = '';
       const session = new BookshelfSession(rawData);
 
-      // When
+      // when
       const promise = session.save();
 
-      // Then
+      // then
       return promise
         .then(() => {
           sinon.assert.fail();
@@ -84,14 +84,14 @@ describe('Unit | Infrastructure | Models | BookshelfSession', () => {
     });
 
     it('should fail when the room is empty', () => {
-      // Given
+      // given
       rawData.room = '';
       const session = new BookshelfSession(rawData);
 
-      // When
+      // when
       const promise = session.save();
 
-      // Then
+      // then
       return promise
         .then(() => {
           sinon.assert.fail();
@@ -105,14 +105,14 @@ describe('Unit | Infrastructure | Models | BookshelfSession', () => {
     });
 
     it('should fail when the date is empty or not in format (jj/mm/yyyy)', () => {
-      // Given
+      // given
       rawData.date = '';
       const session = new BookshelfSession(rawData);
 
-      // When
+      // when
       const promise = session.save();
 
-      // Then
+      // then
       return promise
         .then(() => {
           sinon.assert.fail();
@@ -126,14 +126,14 @@ describe('Unit | Infrastructure | Models | BookshelfSession', () => {
     });
 
     it('should fail when the time is empty or not in format (hh:mm)', () => {
-      // Given
+      // given
       rawData.time = '';
       const session = new BookshelfSession(rawData);
 
-      // When
+      // when
       const promise = session.save();
 
-      // Then
+      // then
       return promise
         .then(() => {
           sinon.assert.fail();

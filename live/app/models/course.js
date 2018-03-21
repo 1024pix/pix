@@ -11,6 +11,6 @@ export default Model.extend({
   isAdaptive: attr('boolean'),
   nbChallenges: attr('number'),
   type: attr('string'),
-  sessionCode : attr('string')
+  accessCode : attr('string')
 
 });
