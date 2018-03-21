@@ -46,7 +46,6 @@ Router.map(function() {
   this.route('assessments.results', { path: '/assessments/:assessment_id/results' });
   this.route('assessments.comparison', { path: '/assessments/:assessment_id/results/compare/:answer_id/:index' });
   this.route('assessments.rating', { path: '/assessments/:assessment_id/rating' });
-  this.route('certifications.results', { path: '/certifications/:certification_number/results' });
   this.route('login', { path: '/connexion' });
   this.route('logout', { path: '/deconnexion' });
   this.route('board');
@@ -55,8 +54,11 @@ Router.map(function() {
   this.route('reset-password', { path: '/changer-mot-de-passe/:temporaryKey' });
   this.route('password-reset-demand', { path: '/mot-de-passe-oublie' });
   this.route('not-found', { path: '/*path' });
-  this.route('certification-course', { path: '/certifications' });
-  this.route('certifications.resume', { path: '/certifications/:certification_course_id' });
+  this.route('certifications', function() {
+    this.route('start', { path: '/' });
+    this.route('resume', { path: '/:certification_course_id' });
+    this.route('results', { path: '/:certification_number/results' });
+  });
 });
 
 export default Router;

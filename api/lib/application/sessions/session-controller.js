@@ -2,7 +2,6 @@ const Boom = require('boom');
 
 const logger = require('../../infrastructure/logger');
 const sessionService = require('../../domain/services/session-service');
-const sessionRepository = require('../../infrastructure/repositories/session-repository');
 const serializer = require('../../infrastructure/serializers/jsonapi/session-serializer');
 const { ValidationError: BookshelfValidationError } = require('bookshelf-validate/lib/errors');
 const validationErrorSerializer = require('../../infrastructure/serializers/jsonapi/validation-error-serializer');
@@ -15,8 +14,8 @@ module.exports = {
 
   save(request, reply) {
     try {
-      const sessionModel = serializer.deserialize(request.payload);
-      return sessionRepository.save(sessionModel)
+      return serializer.deserialize(request.payload)
+        .then((sessionModel) => sessionService.save(sessionModel))
         .then((session) => serializer.serialize(session))
         .then(reply)
         .catch((err) => {

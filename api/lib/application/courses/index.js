@@ -1,6 +1,5 @@
 const courseController = require('./course-controller');
 const securityController = require('../../interfaces/controllers/security-controller');
-const accessSessionHandler = require('../../application/preHandlers/access-session');
 
 exports.register = function(server, options, next) {
 
@@ -46,10 +45,6 @@ exports.register = function(server, options, next) {
       method: 'POST',
       path: '/api/courses',
       config: {
-        pre: [{
-          method: accessSessionHandler.sessionIsOpened,
-          assign: 'sessionOpened'
-        }],
         handler: courseController.save,
         tags: ['api']
       }

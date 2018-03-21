@@ -2,7 +2,6 @@ const { expect, sinon, generateValidRequestAuhorizationHeader } = require('../..
 const Hapi = require('hapi');
 const securityController = require('../../../../lib/interfaces/controllers/security-controller');
 const courseController = require('../../../../lib/application/courses/course-controller');
-const accessSessionHandler = require('../../../../lib/application/preHandlers/access-session');
 
 describe('Integration | Router | course-router', () => {
 
@@ -17,7 +16,6 @@ describe('Integration | Router | course-router', () => {
     sandbox.stub(courseController, 'refresh').callsFake((request, reply) => reply('ok'));
     sandbox.stub(courseController, 'save').callsFake((request, reply) => reply('ok'));
     sandbox.stub(courseController, 'refreshAll').callsFake((request, reply) => reply('ok'));
-    sandbox.stub(accessSessionHandler, 'sessionIsOpened').callsFake((request, reply) => reply('decodedToken'));
 
     server = this.server = new Hapi.Server();
     server.connection({ port: null });
@@ -128,22 +126,6 @@ describe('Integration | Router | course-router', () => {
       // then
       return promise.then((res) => {
         expect(res.statusCode).to.equal(200);
-      });
-    });
-
-    it('should verify if user is connected and the certification session code is right', () => {
-      // given
-      const options = {
-        method: 'POST',
-        url: '/api/courses'
-      };
-
-      // when
-      const promise = server.inject(options);
-
-      // then
-      return promise.then(() => {
-        expect(accessSessionHandler.sessionIsOpened).to.have.been.called;
       });
     });
   });

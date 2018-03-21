@@ -1,7 +1,7 @@
 const { expect, knex } = require('../../../test-helper');
 
 const Session = require('../../../../lib/domain/models/Session');
-const SessionRepository = require('../../../../lib/infrastructure/repositories/session-repository');
+const sessionRepository = require('../../../../lib/infrastructure/repositories/session-repository');
 
 describe('Integration | Repository | Session', function() {
 
@@ -22,7 +22,7 @@ describe('Integration | Repository | Session', function() {
       });
 
       // when
-      const promise = SessionRepository.save(sessionToBeSaved);
+      const promise = sessionRepository.save(sessionToBeSaved);
 
       // then
       return promise.then(() => knex('sessions').select())
@@ -44,7 +44,7 @@ describe('Integration | Repository | Session', function() {
       });
 
       // when
-      const promise = SessionRepository.save(session);
+      const promise = sessionRepository.save(session);
 
       // then
       return promise.then(savedSession => {
@@ -55,5 +55,93 @@ describe('Integration | Repository | Session', function() {
       });
     });
   });
+
+  describe('#isSessionCodeAvailable', () => {
+    beforeEach(() => knex('sessions').insert({
+      certificationCenter: 'Paris',
+      address: 'Paris',
+      room: 'The lost room',
+      examiner: 'Bernard',
+      date: '23/02/2018',
+      time: '12:00',
+      description: 'The lost examen',
+      accessCode: 'ABC123'
+    }));
+
+    afterEach(() => knex('sessions').delete());
+
+    it('should return true if the accessCode is not in database', () => {
+      // given
+      const accessCode = 'DEF123';
+
+      // when
+      const promise = sessionRepository.isSessionCodeAvailable(accessCode);
+
+      // then
+      return promise.then((result) => {
+        expect(result).to.be.equal(true);
+      });
+    });
+
+    it('should return false if the accessCode is in database', () => {
+      // given
+      const accessCode = 'ABC123';
+
+      // when
+      const promise = sessionRepository.isSessionCodeAvailable(accessCode);
+
+      // then
+      return promise.then((result) => {
+        expect(result).to.be.equal(false);
+      });
+
+    });
+  });
+
+  describe('#getByAccessCode', () => {
+    const session = {
+      certificationCenter: 'Paris',
+      address: 'Paris',
+      room: 'The lost room',
+      examiner: 'Bernard',
+      date: '23/02/2018',
+      time: '12:00',
+      description: 'The lost examen',
+      accessCode: 'ABC123'
+    };
+
+    beforeEach(() => knex('sessions').insert(session));
+
+    afterEach(() => knex('sessions').delete());
+
+    it('should return the object by accessCode', () => {
+      // given
+      const accessCode = 'ABC123';
+
+      // when
+      const promise = sessionRepository.getByAccessCode(accessCode);
+
+      // then
+      return promise.then((result) => {
+        expect(result.description).to.be.equal(session.description);
+        expect(result.accessCode).to.be.equal(session.accessCode);
+      });
+    });
+
+    it('should return null when the accessCode do not correspond to a session', () => {
+      // given
+      const accessCode = 'DEE123';
+
+      // when
+      const promise = sessionRepository.getByAccessCode(accessCode);
+
+      // then
+      return promise.then((result) => {
+        expect(result).to.be.equal(null);
+      });
+
+    });
+  });
+
 });
 
