@@ -1,5 +1,15 @@
 # Pix Changelog
 
+## v1.44.0 (21/03/2018) 
+
+- [#693](https://github.com/betagouv/pix/pull/693) [FEATURE] Sécurisation par défaut des ressources API (US-1094).
+- [#715](https://github.com/betagouv/pix/pull/715) [FEATURE] Code départ pour les certifications (US-1117).
+- [#708](https://github.com/betagouv/pix/pull/708) [TECH] Mise à jour de la version de momentJS (US-1124).
+- [#716](https://github.com/betagouv/pix/pull/716) [BUGFIX] Changement du nom de la table sessions dans la migration (US-1117).
+- [#714](https://github.com/betagouv/pix/pull/714) [BUGFIX] Amélioration du message d'erreur en cas de droits manquants (US-1151).
+- [#713](https://github.com/betagouv/pix/pull/713) [BUGFIX] Ouverture de la route /api/assessments/{id}/solutions/{answerId} nécessaire pour les tests de démo (US-1150).
+- [#705](https://github.com/betagouv/pix/pull/705) [BUGFIX] Réparation du script de suppression des utilisateurs (US-1120).
+
 ## v1.43.0 (14/03/2018) 
 
 - [#701](https://github.com/betagouv/pix/pull/701) [BUGFIX] Correction du bug de recalcul du résultat d'une certification (US-1101).
