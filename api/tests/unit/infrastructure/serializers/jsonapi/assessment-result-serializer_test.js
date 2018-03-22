@@ -28,7 +28,7 @@ describe('Unit | Serializer | JSONAPI | assessment-result-serializer', () => {
   describe('#serialize', () => {
     it('should serialize the assessment rating object to jsonapi object excluding email and password', () => {
       // given
-      const modelObject = new AssessmentRating({
+      const modelObject = new AssessmentResult({
         id: '234567',
         estimatedLevel: 7,
         pixScore: 526

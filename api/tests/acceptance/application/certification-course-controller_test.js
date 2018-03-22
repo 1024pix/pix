@@ -57,7 +57,7 @@ describe('Acceptance | API | Certification Course', () => {
       options = {
         method: 'GET',
         url: `/api/admin/certifications/${courseId}`,
-        headers: {authorization: generateValidRequestAuhorizationHeader()},
+        headers: { authorization: generateValidRequestAuhorizationHeader() },
       };
       let assessmentId;
       let assessmentResultId;
@@ -65,55 +65,56 @@ describe('Acceptance | API | Certification Course', () => {
         .then(() => {
           knex('assessments').insert({
             courseId: courseId,
-            status: 'completed',
+            state: 'completed',
             type: 'CERTIFICATION'
-      }).then(assessmentIds => {
-        assessmentId = _.first(assessmentIds);
-        return knex('assessment-results').insert([
-          {
-            level: 2,
-            pixScore: 42,
-            status: 'validated',
-            emitter: 'PIX-ALGO',
-            comment: 'Computed',
-            assessmentId
-          }
-        ]);
-      }).then(assessmentResultIds => {
-        assessmentResultId = _.first(assessmentResultIds);
-        return knex('competence-marks').insert([
-          {
-            level: 2,
-            score: 20,
-            area_code: 4,
-            competence_code: 4.3,
-            assessmentResultId
-          },
-          {
-            level: 4,
-            score: 35,
-            area_code: 2,
-            competence_code: 2.1,
-            assessmentResultId
-          }
-        ]);
-      }).then(() => {
-        return knex('certification-courses').insert(
-          {
-            id: courseId,
-            createdAt: '2017-12-21 15:44:38',
-            completedAt: '2017-12-21T15:48:38.468Z'
-          }
-        );
-      });
+          }).then(assessmentIds => {
+            assessmentId = _.first(assessmentIds);
+            return knex('assessment-results').insert([
+              {
+                level: 2,
+                pixScore: 42,
+                status: 'validated',
+                emitter: 'PIX-ALGO',
+                comment: 'Computed',
+                assessmentId
+              }
+            ]);
+          }).then(assessmentResultIds => {
+            assessmentResultId = _.first(assessmentResultIds);
+            return knex('competence-marks').insert([
+              {
+                level: 2,
+                score: 20,
+                area_code: 4,
+                competence_code: 4.3,
+                assessmentResultId
+              },
+              {
+                level: 4,
+                score: 35,
+                area_code: 2,
+                competence_code: 2.1,
+                assessmentResultId
+              }
+            ]);
+          }).then(() => {
+            return knex('certification-courses').insert(
+              {
+                id: courseId,
+                createdAt: '2017-12-21 15:44:38',
+                completedAt: '2017-12-21T15:48:38.468Z'
+              }
+            );
+          });
+        });
     });
-
     afterEach(() => {
       return cleanupUsersAndPixRolesTables()
         .then(() => {
           return Promise.all([
             knex('assessments').delete(),
-            knex('marks').delete(),
+            knex('assessment-results').delete(),
+            knex('competence-marks').delete(),
             knex('certification-courses').delete()]);
         });
 
@@ -250,7 +251,7 @@ describe('Acceptance | API | Certification Course', () => {
       return knex('certification-courses').delete();
     });
 
-    it('should update the certification course', function() {
+    it('should update the certification course', () => {
       // when
       const promise = server.inject(options);
 
@@ -265,7 +266,7 @@ describe('Acceptance | API | Certification Course', () => {
       });
     });
 
-    it('should return a Wrong Error Format when birthdate is false', function() {
+    it('should return a Wrong Error Format when birthdate is false', () => {
       // given
       options.payload.data.attributes.birthdate = 'aaaaaaa';
 
@@ -277,19 +278,5 @@ describe('Acceptance | API | Certification Course', () => {
         expect(err.statusCode).to.be.equal(400);
       });
     });
-
-    it('should return a Invalid Attribute error when status is different from [started, completed, validated, rejected]', function() {
-      // given
-      options.payload.data.attributes.status = 'aaaaaaa';
-
-      // when
-      const promise = server.inject(options);
-
-      // then
-      return promise.then((err) => {
-        expect(err.statusCode).to.be.equal(400);
-      });
-    });
-
   });
 });

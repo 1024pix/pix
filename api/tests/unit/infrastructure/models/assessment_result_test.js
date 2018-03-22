@@ -40,14 +40,14 @@ describe('Unit | Infrastructure | Models | BookshelfAssessmentResult', () => {
         it('should be saved when organisation type is ${organizationType}', () => {
           // given
           rawData.status = status;
-          const certification = new BookshelfCertificationCourse(rawData);
+          const certification = new BookshelfAssessmentResults(rawData);
 
           // when
           const promise = certification.save();
 
           // then
           return promise.catch(_ => {
-            sinon.assert.fail(new Error(`Should not fail with ${organizationType} type`));
+            sinon.assert.fail(new Error(`Should not fail with ${status} type`));
           });
         });
       });

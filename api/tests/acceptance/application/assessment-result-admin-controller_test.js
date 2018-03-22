@@ -1,4 +1,4 @@
-const { expect, knex } = require('../../test-helper');
+const { expect, knex, generateValidRequestAuhorizationHeader } = require('../../test-helper');
 const server = require('../../../server');
 
 describe('Acceptance | Controller | assessment-results-controller', function() {
@@ -10,7 +10,9 @@ describe('Acceptance | Controller | assessment-results-controller', function() {
   describe('POST /admin/assessment-results', () => {
     const certificationId = 2;
     const options = {
-      method: 'POST', url: '/api/admin/assessment-results', payload: {
+      method: 'POST', url: '/api/admin/assessment-results',
+      headers: { authorization: generateValidRequestAuhorizationHeader() },
+      payload: {
         data: {
           type: 'assessment-results',
           attributes: {
@@ -141,7 +143,9 @@ describe('Acceptance | Controller | assessment-results-controller', function() {
         const wrongScore = 9999999999;
 
         const options = {
-          method: 'POST', url: '/api/admin/assessment-results', payload: {
+          method: 'POST', url: '/api/admin/assessment-results',
+          headers: { authorization: generateValidRequestAuhorizationHeader() },
+          payload: {
             data: {
               type: 'assessment-results',
               attributes: {

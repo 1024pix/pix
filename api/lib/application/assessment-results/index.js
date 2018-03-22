@@ -11,7 +11,11 @@ exports.register = function(server, options, next) {
     {
       method: 'POST',
       path: '/api/assessment-results',
-      config: { handler: AssessmentResultController.evaluate, tags: ['api'] }
+      config: {
+        auth: false,
+        handler: AssessmentResultController.evaluate,
+        tags: ['api']
+      }
     }
   ]);
 
