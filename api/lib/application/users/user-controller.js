@@ -20,12 +20,18 @@ const Bookshelf = require('../../infrastructure/bookshelf');
 
 const logger = require('../../infrastructure/logger');
 const { PasswordResetDemandNotFoundError, InternalError, InvalidTokenError } = require('../../domain/errors');
+const { ValidationError: BookshelfValidationError } = require('bookshelf-validate/lib/errors');
+
+function _isRequestWronglyFormatted(request) {
+  return !_.has(request, 'payload') || !_.has(request, 'payload.data.attributes');
+}
 
 module.exports = {
 
   save(request, reply) {
 
-    if (!_.has(request, 'payload') || !_.has(request, 'payload.data.attributes')) {
+    if (_isRequestWronglyFormatted(request)) {
+      // FIXME: Should return a promise to be consistent
       return reply(Boom.badRequest());
     }
 
@@ -38,18 +44,25 @@ module.exports = {
         mailService.sendAccountCreationEmail(savedUser.email);
         reply(userSerializer.serialize(savedUser)).code(201);
       }).catch((err) => {
-        logger.error(err);
+
+        if (err instanceof BookshelfValidationError) {
+          return reply(validationErrorSerializer.serialize(err)).code(422);
+        }
 
         if (err instanceof InvalidRecaptchaTokenError) {
-          const userValidationErrors = user.validationErrors();
-          err = _buildErrorWhenRecaptchaTokenInvalid(userValidationErrors);
+          const userValidationErrors =  userRepository.validateData(user);
+          err = _addUserErrorsWhenRecaptchaTokenInvalid(userValidationErrors);
+
+          return reply(validationErrorSerializer.serialize(err)).code(422);
         }
 
         if (bookshelfUtils.isUniqConstraintViolated(err)) {
           err = _buildErrorWhenUniquEmail();
+          return reply(validationErrorSerializer.serialize(err)).code(422);
         }
 
-        reply(validationErrorSerializer.serialize(err)).code(422);
+        logger.error(err);
+        return reply(Boom.badImplementation(err));
       });
   },
 
@@ -116,8 +129,8 @@ const _replyErrorWithMessage = function(reply, errorMessage, statusCode) {
   reply(validationErrorSerializer.serialize(_handleWhenInvalidAuthorization(errorMessage))).code(statusCode);
 };
 
-function _buildErrorWhenRecaptchaTokenInvalid(validationErrors) {
-  const captchaError = { recaptchaToken: ['Vous devez cliquer ci-dessous.'] };
+function _addUserErrorsWhenRecaptchaTokenInvalid(validationErrors) {
+  const captchaError = { recaptchaToken: ['Merci de cocher la case ci-dessous :'] };
   const mergedErrors = Object.assign(captchaError, validationErrors);
   return {
     data: mergedErrors
