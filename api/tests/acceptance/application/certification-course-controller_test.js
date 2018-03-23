@@ -242,7 +242,6 @@ describe('Acceptance | API | Certification Course', () => {
           id: courseId,
           createdAt: '2017-12-21 15:44:38',
           completedAt: '2017-12-21T15:48:38.468Z',
-          firstName: 'Freezer'
         }
       );
     });
