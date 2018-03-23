@@ -10,7 +10,6 @@ describe('Unit | Infrastructure | Models | BookshelfAssessmentResult', () => {
     beforeEach(() => {
       rawData = {
         emitter: '',
-        comment: '',
         status: null
       };
     });

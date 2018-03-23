@@ -22,7 +22,9 @@ describe('Acceptance | Controller | assessment-results-controller', function() {
             'pix-score': 27,
             status: 'validated',
             emitter: 'Jury',
-            comment: 'Envie de faire un nettoyage de printemps dans les notes',
+            'comment-jury': 'Parce que',
+            'comment-orga': 'Et puis',
+            'comment-user': 'Voilà',
             'competences-with-mark' : [
               {
                 level: 2,
@@ -107,7 +109,8 @@ describe('Acceptance | Controller | assessment-results-controller', function() {
             pixScore: 0,
             status: 'rejected',
             emitter: 'PIX-ALGO',
-            comment: 'Computed'
+            commentJury: 'Computed',
+            commentOrga: 'Computed by PIX'
           }).then((result) => {
             const resultId = result[0].id;
             return knex('competence-marks')
@@ -155,7 +158,9 @@ describe('Acceptance | Controller | assessment-results-controller', function() {
                 'pix-score': 27,
                 status: 'validated',
                 emitter: 'Jury',
-                comment: 'Envie de faire un nettoyage de printemps dans les notes',
+                'comment-jury': 'Parce que',
+                'comment-orga': 'Et puis',
+                'comment-user': 'Voilà',
                 'competences-with-mark' : [
                   {
                     level: 2,

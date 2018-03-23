@@ -54,7 +54,8 @@ function evaluateFromAssessmentId(assessmentId) {
         const { pixScore, level, status } = _getAssessmentResultEvaluations(marks, assessment.type);
         const assessmentResult = new AssessmentResult({
           emitter: 'PIX-ALGO',
-          comment: 'Computed',
+          commentJury: 'Computed',
+          commentOrga: 'Computed by PIX',
           level: level,
           pixScore: pixScore,
           status,

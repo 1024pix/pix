@@ -8,7 +8,9 @@ exports.up = (knex) => {
       t.integer('level');
       t.integer('pixScore').unsigned();
       t.text('emitter').notNull();
-      t.text('comment').notNull();
+      t.text('commentJury');
+      t.text('commentOrga');
+      t.text('commentUser');
       t.text('status').notNull();
       t.integer('assessmentId').unsigned().references('assessments.id');
     })

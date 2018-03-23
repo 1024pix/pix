@@ -76,7 +76,8 @@ describe('Acceptance | API | Certification Course', () => {
                 createdAt: '2017-12-21 16:44:38',
                 status: 'validated',
                 emitter: 'PIX-ALGO',
-                comment: 'Computed',
+                commentJury: 'Computed',
+                commentOrga: 'Computed by PIX',
                 assessmentId
               }
             ]);
