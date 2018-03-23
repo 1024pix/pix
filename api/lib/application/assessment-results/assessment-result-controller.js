@@ -37,7 +37,9 @@ module.exports = {
 
   save(request, reply) {
     const jsonResult = request.payload.data.attributes;
+
     const { assessmentResult, competenceMarks } = _deserializeResultsAdd(jsonResult);
+    assessmentResult.juryId = request.auth.credentials.userId;
     return assessmentResultService.save(assessmentResult, competenceMarks)
       .then(() => reply())
       .catch((error) => {

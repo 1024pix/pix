@@ -34,6 +34,7 @@ module.exports = {
         'completedAt',
         'emitter',
         'commentForJury',
+        'juryId',
         'commentForCandidate',
         'competencesWithMark',
         'firstName',

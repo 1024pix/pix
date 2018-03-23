@@ -11,6 +11,7 @@ exports.up = (knex) => {
       t.text('commentForJury');
       t.text('commentForCandidate');
       t.text('status').notNull();
+      t.integer('juryId').unsigned().references('users.id');
       t.integer('assessmentId').unsigned().references('assessments.id');
     })
     .then(() => {

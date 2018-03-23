@@ -161,6 +161,11 @@ describe('Unit | Controller | assessment-results', () => {
           },
           type: 'assessment-results'
         }
+      },
+      auth: {
+        credentials: {
+          userId: 1
+        }
       }
     };
 
@@ -182,6 +187,7 @@ describe('Unit | Controller | assessment-results', () => {
         emitter: 'Jury',
         commentForJury: 'Envie de faire un nettoyage de printemps dans les notes',
         commentForCandidate: 'Tada',
+        juryId: 1
       });
 
       const competenceMark1 = new CompetenceMark({
