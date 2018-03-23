@@ -236,6 +236,7 @@ module.exports = {
           status: assessmentLastResult.status,
           pixScore: assessmentLastResult.pixScore,
           createdAt: certification.createdAt,
+          resultCreatedAt: assessmentLastResult.createdAt,
           completedAt: certification.completedAt,
           competencesWithMark: assessmentResult.competenceMarks,
           firstName: certification.firstName,

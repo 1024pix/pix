@@ -73,6 +73,7 @@ describe('Acceptance | API | Certification Course', () => {
               {
                 level: 2,
                 pixScore: 42,
+                createdAt: '2017-12-21 16:44:38',
                 status: 'validated',
                 emitter: 'PIX-ALGO',
                 comment: 'Computed',
@@ -151,6 +152,7 @@ describe('Acceptance | API | Certification Course', () => {
         const result = response.result.data;
         expect(result.attributes['pix-score']).to.equal(42);
         expect(result.attributes['created-at']).to.equal('2017-12-21 15:44:38');
+        expect(result.attributes['result-created-at']).to.equal('2017-12-21 16:44:38');
         expect(result.attributes['completed-at']).to.equal('2017-12-21T15:48:38.468Z');
         expect(result.attributes['competences-with-mark']).to.have.lengthOf(2);
 
