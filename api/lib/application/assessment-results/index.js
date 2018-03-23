@@ -1,4 +1,5 @@
 const AssessmentResultController = require('./assessment-result-controller');
+const securityController = require('../../interfaces/controllers/security-controller');
 
 exports.register = function(server, options, next) {
 
@@ -12,7 +13,10 @@ exports.register = function(server, options, next) {
       method: 'POST',
       path: '/api/assessment-results',
       config: {
-        auth: false,
+        pre: [{
+          method: securityController.checkUserHasRolePixMaster,
+          assign: 'hasRolePixMaster'
+        }],
         handler: AssessmentResultController.evaluate,
         tags: ['api']
       }
