@@ -15,6 +15,9 @@ describe('Acceptance | API | Certification Course', () => {
         headers: {}
       };
     });
+    afterEach(() => {
+      return knex('certification-courses').delete();
+    });
 
     describe('Resource access management', () => {
 
@@ -50,7 +53,7 @@ describe('Acceptance | API | Certification Course', () => {
 
   describe('GET /api/admin/certifications/{id}', () => {
 
-    const courseId = '1';
+    const courseId = 1;
     let options;
 
     beforeEach(() => {
@@ -64,7 +67,7 @@ describe('Acceptance | API | Certification Course', () => {
       return insertUserWithRolePixMaster()
         .then(() => {
           knex('assessments').insert({
-            courseId: courseId,
+            courseId: courseId.toString(),
             state: 'completed',
             type: 'CERTIFICATION'
           }).then(assessmentIds => {
@@ -216,36 +219,34 @@ describe('Acceptance | API | Certification Course', () => {
 
   describe('PATCH /api/certification-courses/{id}', () => {
 
-    const courseId = '1';
-
     let options;
 
     beforeEach(() => {
-      options = {
-        headers: { authorization: generateValidRequestAuhorizationHeader() },
-        method: 'PATCH',
-        url: `/api/certification-courses/${courseId}`,
-        payload: {
-          data: {
-            type: 'certifications',
-            id: 1,
-            attributes: {
-              'first-name': 'Freezer',
-              'last-name': 'The all mighty',
-              'birthplace': 'Namek',
-              'birthdate': '24/10/1989'
-            }
-          }
-        }
-      };
-
       return knex('certification-courses').insert(
         {
-          id: courseId,
-          createdAt: '2017-12-21 15:44:38',
+          createdAt: '2019-12-21 15:44:38',
           completedAt: '2017-12-21T15:48:38.468Z',
         }
-      );
+      ).then((certification) => {
+
+        options = {
+          headers: { authorization: generateValidRequestAuhorizationHeader() },
+          method: 'PATCH',
+          url: `/api/certification-courses/${certification.id}`, payload: {
+            data: {
+              type: 'certifications',
+              id: certification.id,
+              attributes: {
+                'first-name': 'Freezer',
+                'last-name': 'The all mighty',
+                'birthplace': 'Namek',
+                'birthdate': '24/10/1989'
+              }
+            }
+          }
+        };
+
+      });
     });
 
     afterEach(() => {
