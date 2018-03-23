@@ -16,9 +16,8 @@ function _deserializeResultsAdd(json) {
     assessmentId: json['assessment-id'],
     emitter: json.emitter,
     status: json.status,
-    commentJury: json['comment-jury'],
-    commentOrga: json['comment-orga'],
-    commentUser: json['comment-user'],
+    commentForJury: json['comment-for-jury'],
+    commentForCandidate: json['comment-for-candidate'],
     level: json.level,
     pixScore: json['pix-score'],
   });

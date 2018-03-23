@@ -352,9 +352,8 @@ describe('Integration | Infrastructure | Repositories | assessment-repository', 
       pixScore: 0,
       status: 'validated',
       emitter: 'PIX-ALGO',
-      commentJury: 'Computed',
-      commentOrga: 'Computed by PIX',
-      commentUser: 'Votre certification a été validé par Pix',
+      commentForJury: 'Computed',
+      commentForCandidate: 'Votre certification a été validé par Pix',
       createdAt: '2016-10-27 08:44:25'
     };
 

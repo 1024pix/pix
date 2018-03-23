@@ -138,9 +138,8 @@ describe('Unit | Controller | assessment-results', () => {
             'pix-score': 27,
             status: 'validated',
             emitter: 'Jury',
-            'comment-jury': 'Envie de faire un nettoyage de printemps dans les notes',
-            'comment-orga': 'On est gentil avec votre élève',
-            'comment-user': 'Tada',
+            'comment-for-jury': 'Envie de faire un nettoyage de printemps dans les notes',
+            'comment-for-candidate': 'Tada',
             'competences-with-mark': [
               {
                 level: 2,
@@ -181,9 +180,8 @@ describe('Unit | Controller | assessment-results', () => {
         pixScore: 27,
         status: 'validated',
         emitter: 'Jury',
-        commentJury: 'Envie de faire un nettoyage de printemps dans les notes',
-        commentOrga: 'On est gentil avec votre élève',
-        commentUser: 'Tada',
+        commentForJury: 'Envie de faire un nettoyage de printemps dans les notes',
+        commentForCandidate: 'Tada',
       });
 
       const competenceMark1 = new CompetenceMark({

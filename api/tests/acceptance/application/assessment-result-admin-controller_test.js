@@ -22,9 +22,8 @@ describe('Acceptance | Controller | assessment-results-controller', function() {
             'pix-score': 27,
             status: 'validated',
             emitter: 'Jury',
-            'comment-jury': 'Parce que',
-            'comment-orga': 'Et puis',
-            'comment-user': 'Voilà',
+            'comment-for-jury': 'Parce que',
+            'comment-for-candidate': 'Voilà',
             'competences-with-mark' : [
               {
                 level: 2,
@@ -109,8 +108,7 @@ describe('Acceptance | Controller | assessment-results-controller', function() {
             pixScore: 0,
             status: 'rejected',
             emitter: 'PIX-ALGO',
-            commentJury: 'Computed',
-            commentOrga: 'Computed by PIX'
+            commentForJury: 'Computed'
           }).then((result) => {
             const resultId = result[0].id;
             return knex('competence-marks')
@@ -158,9 +156,8 @@ describe('Acceptance | Controller | assessment-results-controller', function() {
                 'pix-score': 27,
                 status: 'validated',
                 emitter: 'Jury',
-                'comment-jury': 'Parce que',
-                'comment-orga': 'Et puis',
-                'comment-user': 'Voilà',
+                'comment-for-jury': 'Parce que',
+                'comment-for-candidate': 'Voilà',
                 'competences-with-mark' : [
                   {
                     level: 2,

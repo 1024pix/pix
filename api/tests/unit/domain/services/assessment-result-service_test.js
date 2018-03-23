@@ -212,8 +212,7 @@ describe('Unit | Domain | Services | assessment-results', () => {
         level: 2,
         pixScore: 18,
         emitter: 'PIX-ALGO',
-        commentJury: 'Computed',
-        commentOrga: 'Computed by PIX',
+        commentForJury: 'Computed',
         status: 'validated',
         assessmentId: assessmentId
       });
@@ -453,8 +452,7 @@ describe('Unit | Domain | Services | assessment-results', () => {
           level: 3,
           pixScore: 26,
           emitter: 'PIX-ALGO',
-          commentJury: 'Computed',
-          commentOrga: 'Computed by PIX',
+          commentForJury: 'Computed',
           status: 'validated',
           assessmentId: assessmentId
         });
@@ -522,9 +520,8 @@ describe('Unit | Domain | Services | assessment-results', () => {
       pixScore: 27,
       status: 'validated',
       emitter: 'Jury',
-      commentJury: 'Parce que',
-      commentOrga: 'Et puis',
-      commentUser: 'Voilà'
+      commentForJury: 'Parce que',
+      commentForCandidate: 'Voilà'
     });
     const competenceMarks = [
       new CompetenceMark({

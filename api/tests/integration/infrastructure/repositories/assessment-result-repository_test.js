@@ -16,9 +16,8 @@ describe('Integration | Repository | AssessmentResult', function() {
         level: 1,
         status: 'validated',
         emitter: 'SonGoku',
-        commentJury: 'Parce que',
-        commentOrga: 'Et puis',
-        commentUser: 'Voilà'
+        commentForJury: 'Parce que',
+        commentForCandidate: 'Voilà'
       });
 
       // when
@@ -38,9 +37,8 @@ describe('Integration | Repository | AssessmentResult', function() {
         level: 1,
         status: 'validated',
         emitter: 'SonGoku',
-        commentJury: 'Parce que',
-        commentOrga: 'Et puis',
-        commentUser: 'Voilà'
+        commentForJury: 'Parce que',
+        commentForCandidate: 'Voilà'
       });
 
       // when
@@ -62,9 +60,8 @@ describe('Integration | Repository | AssessmentResult', function() {
       pixScore: 10,
       status: 'validated',
       emitter: 'PIX-ALGO',
-      commentJury: 'Parce que',
-      commentOrga: 'Et puis',
-      commentUser: 'Voilà'
+      commentForJury: 'Parce que',
+      commentForCandidate: 'Voilà'
     };
 
     const competenceMarks1 = {
@@ -105,9 +102,8 @@ describe('Integration | Repository | AssessmentResult', function() {
         expect(result.level).to.be.deep.equal(assessmentResult.level);
         expect(result.pixScore).to.be.deep.equal(assessmentResult.pixScore);
         expect(result.status).to.be.deep.equal(assessmentResult.status);
-        expect(result.commentJury).to.be.deep.equal(assessmentResult.commentJury);
-        expect(result.commentOrga).to.be.deep.equal(assessmentResult.commentOrga);
-        expect(result.commentUser).to.be.deep.equal(assessmentResult.commentUser);
+        expect(result.commentForJury).to.be.deep.equal(assessmentResult.commentForJury);
+        expect(result.commentForCandidate).to.be.deep.equal(assessmentResult.commentForCandidate);
         expect(result.emitter).to.be.deep.equal(assessmentResult.emitter);
       });
     });

@@ -17,8 +17,7 @@ exports.up = function(knex) {
             level: assessment.estimatedLevel,
             pixScore: assessment.pixScore,
             emitter: 'PIX-ALGO',
-            commentJury: 'Computed',
-            commentOrga: 'Computed by PIX',
+            commentForJury: 'Computed',
             assessmentId: assessment.id
           });
       });
