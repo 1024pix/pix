@@ -237,6 +237,7 @@ module.exports = {
           status: assessmentLastResult.status,
           pixScore: assessmentLastResult.pixScore,
           createdAt: certification.createdAt,
+          juryId: assessmentLastResult.juryId,
           resultCreatedAt: assessmentLastResult.createdAt,
           completedAt: certification.completedAt,
           competencesWithMark: assessmentResult.competenceMarks,
@@ -251,7 +252,7 @@ module.exports = {
 
   startNewCertification(userId, sessionId) {
     let userCompetencesToCertify;
-    const newCertificationCourse = new CertificationCourse({ userId, status: 'started', sessionId });
+    const newCertificationCourse = new CertificationCourse({ userId, sessionId });
 
     return userService.getProfileToCertify(userId, moment().toISOString())
       .then(userCompetences => {
