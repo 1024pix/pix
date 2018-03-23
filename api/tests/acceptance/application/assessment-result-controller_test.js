@@ -1,4 +1,4 @@
-const { expect, knex, generateValidRequestAuhorizationHeader, insertUserWithRolePixMaster, cleanupUsersAndPixRolesTables } = require('../../test-helper');
+const { expect, knex } = require('../../test-helper');
 const server = require('../../../server');
 
 const _ = require('lodash');
@@ -15,13 +15,6 @@ describe('Acceptance | Controller | assessment-results', function() {
 
       let options;
       let savedAssessmentId;
-      beforeEach(() => {
-        return insertUserWithRolePixMaster();
-      });
-
-      afterEach(() => {
-        return cleanupUsersAndPixRolesTables();
-      });
 
       beforeEach(() => {
         return knex('assessments').insert({
@@ -33,7 +26,6 @@ describe('Acceptance | Controller | assessment-results', function() {
 
           options = {
             method: 'POST',
-            headers: { authorization: generateValidRequestAuhorizationHeader() },
             url: '/api/assessment-results',
             payload: {
               data: {
@@ -58,20 +50,6 @@ describe('Acceptance | Controller | assessment-results', function() {
 
       afterEach(() => {
         return knex('assessments').delete();
-      });
-
-      it('should respond with a 403 - forbidden access - if user has not role PIX_MASTER', () => {
-        // given
-        const nonPixMAsterUserId = 9999;
-        options.headers.authorization = generateValidRequestAuhorizationHeader(nonPixMAsterUserId);
-
-        // when
-        const promise = server.inject(options);
-
-        // then
-        return promise.then((response) => {
-          expect(response.statusCode).to.equal(403);
-        });
       });
 
       it('should return a 200 when everything is fine', () => {

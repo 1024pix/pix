@@ -7,16 +7,20 @@ exports.register = function(server, options, next) {
     {
       method: 'POST',
       path: '/api/admin/assessment-results',
-      config: { handler: AssessmentResultController.save, tags: ['api'] }
-    },
-    {
-      method: 'POST',
-      path: '/api/assessment-results',
       config: {
         pre: [{
           method: securityController.checkUserHasRolePixMaster,
           assign: 'hasRolePixMaster'
         }],
+        handler: AssessmentResultController.save,
+        tags: ['api']
+      }
+    },
+    {
+      method: 'POST',
+      path: '/api/assessment-results',
+      config: {
+        auth: false,
         handler: AssessmentResultController.evaluate,
         tags: ['api']
       }

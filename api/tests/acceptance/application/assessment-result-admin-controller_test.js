@@ -1,4 +1,4 @@
-const { expect, knex, generateValidRequestAuhorizationHeader } = require('../../test-helper');
+const { expect, knex,  generateValidRequestAuhorizationHeader, insertUserWithRolePixMaster, cleanupUsersAndPixRolesTables } = require('../../test-helper');
 const server = require('../../../server');
 
 describe('Acceptance | Controller | assessment-results-controller', function() {
@@ -9,43 +9,55 @@ describe('Acceptance | Controller | assessment-results-controller', function() {
 
   describe('POST /admin/assessment-results', () => {
     const certificationId = 2;
-    const options = {
-      method: 'POST', url: '/api/admin/assessment-results',
-      headers: { authorization: generateValidRequestAuhorizationHeader() },
-      payload: {
-        data: {
-          type: 'assessment-results',
-          attributes: {
-            'assessment-id': 1,
-            'certification-id': certificationId,
-            level: 3,
-            'pix-score': 27,
-            status: 'validated',
-            emitter: 'Jury',
-            'comment-for-jury': 'Parce que',
-            'comment-for-candidate': 'Voilà',
-            'competences-with-mark' : [
-              {
-                level: 2,
-                score: 18,
-                'area-code': 2,
-                'competence-code': 2.1
-              },{
-                level: 3,
-                score: 27,
-                'area-code': 3,
-                'competence-code': 3.2
-              },{
-                level: 1,
-                score: 9,
-                'area-code': 1,
-                'competence-code': 1.3
-              }
-            ]
+    let options;
+
+    beforeEach(() => {
+
+      options = {
+        method: 'POST', url: '/api/admin/assessment-results',
+        headers: { authorization: generateValidRequestAuhorizationHeader() },
+        payload: {
+          data: {
+            type: 'assessment-results',
+            attributes: {
+              'assessment-id': 1,
+              'certification-id': certificationId,
+              level: 3,
+              'pix-score': 27,
+              status: 'validated',
+              emitter: 'Jury',
+              'comment-for-jury': 'Parce que',
+              'comment-for-candidate': 'Voilà',
+              'competences-with-mark' : [
+                {
+                  level: 2,
+                  score: 18,
+                  'area-code': 2,
+                  'competence-code': 2.1
+                },{
+                  level: 3,
+                  score: 27,
+                  'area-code': 3,
+                  'competence-code': 3.2
+                },{
+                  level: 1,
+                  score: 9,
+                  'area-code': 1,
+                  'competence-code': 1.3
+                }
+              ]
+            }
           }
         }
-      }
-    };
+      };
+      return insertUserWithRolePixMaster();
+    });
+
+    afterEach(() => {
+      return knex('competence-marks').delete()
+        .then(() => knex('assessment-results').delete())
+        .then(() => cleanupUsersAndPixRolesTables());
+    });
 
     before(() => { return knex('certification-courses').delete()
       .then(() => knex('assessments').delete())
@@ -63,14 +75,23 @@ describe('Acceptance | Controller | assessment-results-controller', function() {
       });
     });
 
-    afterEach(() => {
-      return knex('competence-marks').delete()
-        .then(() => knex('assessment-results').delete());
-    });
-
     after(() => {
       return knex('certification-courses').delete()
         .then(() => knex('assessments').delete());
+    });
+
+    it('should respond with a 403 - forbidden access - if user has not role PIX_MASTER', () => {
+      // given
+      const nonPixMAsterUserId = 9999;
+      options.headers.authorization = generateValidRequestAuhorizationHeader(nonPixMAsterUserId);
+
+      // when
+      const promise = server.inject(options);
+
+      // then
+      return promise.then((response) => {
+        expect(response.statusCode).to.equal(403);
+      });
     });
 
     it('should return an OK status after saving in database', () => {
