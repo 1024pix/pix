@@ -142,18 +142,19 @@ async function getSkills(assessment) {
   if (assessment === null) {
     return Promise.reject(new NotFoundError('Unable to getSkills without assessment'));
   }
+  let skillsReport = {
+    validatedSkills: [],
+    failedSkills: []
+  };
+
+  if (_isNonScoredAssessment(assessment)) {
+    return Promise.resolve(skillsReport);
+  }
 
   const assessmentId = assessment.id;
   const [answers] = await Promise.all([
     answerRepository.findByAssessment(assessmentId)
   ]);
-
-  if (_isNonScoredAssessment(assessment)) {
-    return Promise.resolve({
-      validatedSkills: [],
-      failedSkills: []
-    });
-  }
 
   return courseRepository.get(assessment.courseId)
     .then((course) => {
@@ -170,10 +171,6 @@ async function getSkills(assessment) {
     })
     .then((skillsAndChallenges) => {
 
-      let skillsReport = {
-        validatedSkills: [],
-        failedSkills: []
-      };
       if (skillsAndChallenges) {
         const [skills, challengesPix] = skillsAndChallenges;
         const catAssessment = assessmentAdapter.getAdaptedAssessment(answers, challengesPix, skills);

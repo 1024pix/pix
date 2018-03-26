@@ -527,17 +527,6 @@ describe('Unit | Domain | Services | assessment', () => {
     });
 
     context('when the assessment is correctly retrieved', () => {
-      it('should load answers for the assessment', () => {
-        // when
-        const promise = service.getSkills(assessment);
-
-        // then
-        return promise
-          .then(() => {
-            sinon.assert.calledOnce(answerRepository.findByAssessment);
-            sinon.assert.calledWithExactly(answerRepository.findByAssessment, ASSESSMENT_ID);
-          });
-      });
 
       context('when the assessement is a preview', () => {
         beforeEach(() => {
@@ -685,23 +674,13 @@ describe('Unit | Domain | Services | assessment', () => {
       // then
       return promise
         .then(() => {
-          sinon.assert.calledOnce(answerRepository.findByAssessment);
+          sinon.assert.notCalled(answerRepository.findByAssessment);
           sinon.assert.notCalled(courseRepository.get);
           sinon.assert.notCalled(challengeRepository.findByCompetence);
           sinon.assert.notCalled(skillRepository.findByCompetence);
         });
     });
 
-    it('should load answers for the assessment', () => {
-      // when
-      const promise = service.getSkills(assessment);
-
-      // then
-      return promise.then(() => {
-        expect(answerRepository.findByAssessment).to.have.been.calledOnce;
-        expect(answerRepository.findByAssessment).to.have.been.calledWithExactly(ASSESSMENT_ID);
-      });
-    });
   });
 
   describe('#getScoreAndLevel', () => {

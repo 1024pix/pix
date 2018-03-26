@@ -5,15 +5,16 @@ const CertificationCourse = require('../../../../lib/domain/models/Certification
 
 describe('Integration | Repository | Certification Course', function() {
 
+  const courseId = 20;
   const associatedAssessment = {
     id: 7,
-    courseId: 20,
+    courseId: courseId,
     userId: 1
   };
 
   //TODO: 1088 - rejectionReason is not in certifCourse
   const certificationCourse = {
-    id: 20,
+    id: courseId,
     userId: 1,
     completedAt: null,
     firstName: 'Timon',
@@ -27,12 +28,12 @@ describe('Integration | Repository | Certification Course', function() {
   const certificationChallenges = [
     {
       id: 1,
-      courseId: 20,
+      courseId: courseId,
       challengeId: 'recChallenge1'
     },
     {
       id: 2,
-      courseId: 20,
+      courseId: courseId,
       challengeId: 'recChallenge2'
     },
     {
@@ -58,7 +59,7 @@ describe('Integration | Repository | Certification Course', function() {
 
     it('should update completedAt of the certificationCourse if one date is passed', () => {
       // when
-      const promise = certificationCourseRepository.changeCompletionDate(20, '2018-01-01');
+      const promise = certificationCourseRepository.changeCompletionDate(courseId, '2018-01-01');
 
       // then
       return promise.then(() => knex('certification-courses').first('id', 'completedAt'))
@@ -89,11 +90,11 @@ describe('Integration | Repository | Certification Course', function() {
     context('When the certification course exists', () => {
       it('should retrieve certification course informations', function() {
         // when
-        const promise = certificationCourseRepository.get(20);
+        const promise = certificationCourseRepository.get(courseId);
 
         // then
         return promise.then((certificationCourse) => {
-          expect(certificationCourse.id).to.equal(20);
+          expect(certificationCourse.id).to.equal(courseId);
           expect(certificationCourse.type).to.equal('CERTIFICATION');
           expect(certificationCourse.completedAt).to.equal(null);
           expect(certificationCourse.firstName).to.equal('Timon');

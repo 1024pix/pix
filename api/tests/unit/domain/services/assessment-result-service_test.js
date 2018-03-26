@@ -256,19 +256,20 @@ describe('Unit | Domain | Services | assessment-results', () => {
       it('should save the evaluated competence', () => {
         // when
         const promise = service.evaluateFromAssessmentId(assessmentId);
+        const expectedSavedCompetenceMark = {
+          level: 3,
+          score: 18,
+          area_code: '1',
+          competence_code: '1.1',
+          assessmentResultId: assessmentResultId
+        };
 
         // then
         return promise.then(() => {
           expect(competenceMarkRepository.save).to.have.been.called;
 
           const savedCompetenceMark = competenceMarkRepository.save.firstCall.args;
-          expect(savedCompetenceMark[0]).to.deep.equal({
-            level: 3,
-            score: 18,
-            area_code: '1',
-            competence_code: '1.1',
-            assessmentResultId: assessmentResultId
-          });
+          expect(savedCompetenceMark[0]).to.deep.equal(expectedSavedCompetenceMark);
         });
       });
 
