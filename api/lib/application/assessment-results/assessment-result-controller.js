@@ -6,7 +6,7 @@ const assessmentResultService = require('../../domain/services/assessment-result
 
 const assessmentResultsSerializer = require('../../infrastructure/serializers/jsonapi/assessment-result-serializer');
 
-const { NotFoundError, AlreadyRatedAssessmentError, ValidationError } = require('../../domain/errors');
+const { NotFoundError, AlreadyRatedAssessmentError, ObjectValidationError } = require('../../domain/errors');
 
 const logger = require('../../infrastructure/logger');
 
@@ -47,7 +47,7 @@ module.exports = {
           return reply(Boom.notFound(error));
         }
 
-        if(error instanceof ValidationError) {
+        if(error instanceof ObjectValidationError) {
           return reply(Boom.badData(error));
         }
 

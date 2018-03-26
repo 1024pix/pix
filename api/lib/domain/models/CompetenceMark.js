@@ -1,5 +1,5 @@
 const Joi = require('joi');
-const { ValidationError } = require('../errors');
+const { ObjectValidationError } = require('../errors');
 
 const schemaValidateCompetenceMark = Joi.object().keys({
   id: Joi.number().optional(),
@@ -20,7 +20,7 @@ class CompetenceMark {
     if(result.error === null) {
       return Promise.resolve();
     } else {
-      return Promise.reject(new ValidationError(result.error));
+      return Promise.reject(new ObjectValidationError(result.error));
     }
   }
 }

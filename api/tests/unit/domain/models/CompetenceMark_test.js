@@ -1,6 +1,6 @@
 const { expect } = require('../../../test-helper');
 const CompetenceMark = require('../../../../lib/domain/models/CompetenceMark');
-const { ValidationError } = require('../../../../lib/domain/errors');
+const { ObjectValidationError } = require('../../../../lib/domain/errors');
 describe('Unit | Domain | Models | Competence Mark', () => {
 
   describe('constructor', () => {
@@ -160,7 +160,7 @@ describe('Unit | Domain | Models | Competence Mark', () => {
       return promise
         .catch((error) => {
           expect(error.message).to.be.equal('ValidationError: child "score" fails because ["score" must be less than or equal to 64]');
-          expect(error).to.be.instanceOf(ValidationError);
+          expect(error).to.be.instanceOf(ObjectValidationError);
         });
     });
 

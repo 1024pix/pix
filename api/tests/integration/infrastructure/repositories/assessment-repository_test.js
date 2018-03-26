@@ -382,7 +382,7 @@ describe('Integration | Infrastructure | Repositories | assessment-repository', 
       ]);
     });
 
-    it('should retrieve the assessment with its marks for the given certificationId', () => {
+    it('should returns assessment results for the given certificationId', () => {
       // when
       const promise = assessmentRepository.getByCertificationCourseId('course_A');
 

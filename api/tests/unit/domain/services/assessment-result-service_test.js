@@ -21,7 +21,7 @@ const AirtableCourse = require('../../../../lib/domain/models/referential/course
 const Skill = require('../../../../lib/cat/skill');
 const CompetenceMark = require('../../../../lib/domain/models/CompetenceMark');
 
-const { NotFoundError, AlreadyRatedAssessmentError, ValidationError } = require('../../../../lib/domain/errors');
+const { NotFoundError, AlreadyRatedAssessmentError, ObjectValidationError } = require('../../../../lib/domain/errors');
 
 function _buildCompetence(competence_code, area_code) {
   const competence = new Competence();
@@ -613,13 +613,13 @@ describe('Unit | Domain | Services | assessment-results', () => {
         });
       });
 
-      it('should return a ValidationError', () => {
+      it('should return a ObjectValidationError', () => {
         // when
         const promise = service.save(assessmentResult, competenceMarksWithOneInvalid);
 
         // then
         return promise.catch((error) => {
-          expect(error).to.be.instanceOf(ValidationError);
+          expect(error).to.be.instanceOf(ObjectValidationError);
         });
       });
     });

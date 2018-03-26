@@ -147,7 +147,7 @@ class WrongDateFormatError extends Error {
   }
 }
 
-class ValidationError extends Error {
+class ObjectValidationError extends Error {
 
 }
 
@@ -167,5 +167,5 @@ module.exports = {
   AssessmentEndedError,
   AlreadyRatedAssessmentError,
   WrongDateFormatError,
-  ValidationError
+  ObjectValidationError
 };
