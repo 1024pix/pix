@@ -1,5 +1,9 @@
 # Pix Changelog
 
+## v1.44.1 (27/03/2018) 
+
+- [#710](https://github.com/betagouv/pix/pull/710) [BUGFIX] Correction des erreurs de validation à la création de compte (US-1128).
+
 ## v1.44.0 (21/03/2018) 
 
 - [#693](https://github.com/betagouv/pix/pull/693) [FEATURE] Sécurisation par défaut des ressources API (US-1094).
