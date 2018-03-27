@@ -77,6 +77,90 @@ describe('Unit | Domain | Models | Assessment', () => {
 
   });
 
+  describe('#getPixScore', () => {
+
+    it('should return the pixScore of last assessment results', () => {
+      // given
+      const assessmentResultComputed = new AssessmentResult({
+        id: 1,
+        createdAt: '2017-12-20',
+        pixScore: 12,
+        emitter: 'PIX-ALGO'
+      });
+      const assessmentResultJury = new AssessmentResult({
+        id: 2,
+        createdAt: '2017-12-24',
+        pixScore: 18,
+        emitter: 'Michel'
+      });
+
+      const assessment = new Assessment({
+        status: 'completed',
+        assessmentResults: [assessmentResultComputed, assessmentResultJury]
+      });
+
+      // when
+      const pixScore = assessment.getPixScore();
+
+      // then
+      expect(pixScore).to.be.equal(18);
+    });
+
+    it('should return null when assessment has no result', () => {
+      // given
+      const assessment = new Assessment({ status: '' });
+
+      // when
+      const pixScore = assessment.getPixScore();
+
+      // then
+      expect(pixScore).to.be.null;
+    });
+
+  });
+
+  describe('#getLevel', () => {
+
+    it('should return the pixScore of last assessment results', () => {
+      // given
+      const assessmentResultComputed = new AssessmentResult({
+        id: 1,
+        createdAt: '2017-12-20',
+        level: 1,
+        emitter: 'PIX-ALGO'
+      });
+      const assessmentResultJury = new AssessmentResult({
+        id: 2,
+        createdAt: '2017-12-24',
+        level: 5,
+        emitter: 'Michel'
+      });
+
+      const assessment = new Assessment({
+        status: 'completed',
+        assessmentResults: [assessmentResultComputed, assessmentResultJury]
+      });
+
+      // when
+      const level = assessment.getLevel();
+
+      // then
+      expect(level).to.be.equal(5);
+    });
+
+    it('should return null when assessment has no result', () => {
+      // given
+      const assessment = new Assessment({ status: '' });
+
+      // when
+      const level = assessment.getLevel();
+
+      // then
+      expect(level).to.be.null;
+    });
+
+  });
+
   describe('#setCompleted', () => {
 
     it('should return the same object with state completed', () => {
@@ -91,7 +175,6 @@ describe('Unit | Domain | Models | Assessment', () => {
       expect(assessment.userId).to.be.equal(2);
 
     });
-
   });
 
 });

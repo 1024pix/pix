@@ -16,6 +16,20 @@ class Assessment {
     return null;
   }
 
+  getPixScore() {
+    if(this.getLastAssessmentResult()) {
+      return this.getLastAssessmentResult().pixScore;
+    }
+    return null;
+  }
+
+  getLevel() {
+    if(this.getLastAssessmentResult()) {
+      return this.getLastAssessmentResult().level;
+    }
+    return null;
+  }
+
   setCompleted() {
     this.state = 'completed';
   }
