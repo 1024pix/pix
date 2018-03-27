@@ -5,6 +5,7 @@ const AssessmentResult = require('../../domain/models/AssessmentResult');
 const assessmentResultService = require('../../domain/services/assessment-result-service');
 
 const assessmentResultsSerializer = require('../../infrastructure/serializers/jsonapi/assessment-result-serializer');
+const JSONAPIError = require('jsonapi-serializer').Error;
 
 const { NotFoundError, AlreadyRatedAssessmentError, ObjectValidationError } = require('../../domain/errors');
 
@@ -68,7 +69,13 @@ module.exports = {
         if(error instanceof NotFoundError) {
           return reply(Boom.notFound(error));
         } else if (error instanceof AlreadyRatedAssessmentError) {
-          return reply();
+          const errorHttpStatusCode = 412;
+          const jsonApiError = new JSONAPIError({
+            status: errorHttpStatusCode.toString(),
+            title: 'Assessment is already rated',
+            detail: 'The assessment given has already a result.'
+          });
+          return reply(jsonApiError).code(errorHttpStatusCode);
         }
 
         logger.error(error);

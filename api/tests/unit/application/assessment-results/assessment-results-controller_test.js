@@ -95,19 +95,6 @@ describe('Unit | Controller | assessment-results', () => {
     });
 
     context('when the database is fail', () => {
-      it('should log the error', () => {
-        // given
-        const undefinedError = new Error();
-        assessmentResultService.evaluateFromAssessmentId.rejects(undefinedError);
-
-        // when
-        const promise = assessmentResultController.evaluate(request, replyStub);
-
-        // then
-        return promise.then(() => {
-          expect(logger.error).to.have.been.calledWith(undefinedError);
-        });
-      });
 
       it('should reply with an internal error', () => {
         // given
