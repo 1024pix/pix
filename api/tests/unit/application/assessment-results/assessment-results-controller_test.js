@@ -1,6 +1,7 @@
 const { sinon, expect } = require('../../../test-helper');
 
 const Boom = require('boom');
+const JSONAPIError = require('jsonapi-serializer').Error;
 
 const assessmentResultController = require('../../../../lib/application/assessment-results/assessment-result-controller');
 const assessmentRatingSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/assessment-result-serializer');
@@ -42,7 +43,7 @@ describe('Unit | Controller | assessment-results', () => {
     beforeEach(() => {
       sandbox = sinon.sandbox.create();
 
-      replyStub = sinon.stub();
+      replyStub = sinon.stub().returns({ code: sinon.stub()});
       sandbox.stub(assessmentRatingSerializer, 'serialize');
       sandbox.stub(assessmentResultService, 'evaluateFromAssessmentId').resolves();
       sandbox.stub(Boom, 'notFound').returns({ message: 'NotFoundError' });
@@ -82,14 +83,19 @@ describe('Unit | Controller | assessment-results', () => {
         // given
         const alreadyRatedAssessmentError = new AlreadyRatedAssessmentError();
         assessmentResultService.evaluateFromAssessmentId.rejects(alreadyRatedAssessmentError);
+        const jsonApiError = new JSONAPIError({
+          status: '412',
+          title: 'Assessment is already rated',
+          detail: 'The assessment given has already a result.'
+        });
 
         // when
         const promise = assessmentResultController.evaluate(request, replyStub);
 
         // then
         return promise.then(() => {
-          expect(Boom.notFound).not.to.have.been.called;
           expect(replyStub).to.have.been.called;
+          expect(replyStub).to.have.been.calledWith(jsonApiError);
         });
       });
     });
