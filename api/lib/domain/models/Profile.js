@@ -20,10 +20,9 @@ class Profile {
       const course = this._getCourseById(courses, courseIdFromAssessment);
 
       if (assessment.isCompleted()) {
-        const assessmentResult = assessment.getLastAssessmentResult();
         const competence = this.competences.find(competence => course.competences.includes(competence.id));
-        competence.level = assessmentResult.level;
-        competence.pixScore = assessmentResult.pixScore;
+        competence.level = assessment.getLevel();
+        competence.pixScore = assessment.getPixScore();
         // TODO: Standardiser l'usage de status pour une compétence
         if (competence.status === 'notCompleted') {
           competence.level = -1;

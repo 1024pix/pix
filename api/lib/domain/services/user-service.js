@@ -60,8 +60,8 @@ function _addCourseIdAndPixToCompetence(competences, courses, assessments) {
     const currentCourse =  courses.find(course => course.competences[0] === competence.id);
     const assessment = assessments.find(assessment => currentCourse.id === assessment.courseId);
     if (assessment) {
-      competence.pixScore = assessment.getLastAssessmentResult().pixScore;
-      competence.estimatedLevel = assessment.getLastAssessmentResult().level;
+      competence.pixScore = assessment.getPixScore();
+      competence.estimatedLevel = assessment.getLevel();
     } else {
       competence.pixScore = 0;
       competence.estimatedLevel = 0;
