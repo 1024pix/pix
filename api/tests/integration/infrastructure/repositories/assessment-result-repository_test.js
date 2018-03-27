@@ -9,7 +9,7 @@ describe('Integration | Repository | AssessmentResult', function() {
 
     afterEach(() => knex('assessment-results').delete());
 
-    it('should persist the mark in db', () => {
+    it('should persist the assessment result in db', () => {
       // given
       const result = new AssessmentResult({
         pixScore: 13,
@@ -30,7 +30,7 @@ describe('Integration | Repository | AssessmentResult', function() {
         });
     });
 
-    it('should return the saved mark', () => {
+    it('should return the saved assessment result', () => {
       // given
       const result = new AssessmentResult({
         pixScore: 13,
