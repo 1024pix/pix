@@ -2,6 +2,7 @@ const _ = require('lodash');
 
 class Assessment {
   constructor(attributes) {
+    this.marks = [];
     Object.assign(this, attributes);
   }
 
