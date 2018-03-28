@@ -14,7 +14,7 @@ const solutionRepository = require('../../infrastructure/repositories/solution-r
 const queryParamsUtils = require('../../infrastructure/utils/query-params-utils');
 const logger = require('../../infrastructure/logger');
 
-const { NotFoundError, NotCompletedAssessmentError, AssessmentEndedError } = require('../../domain/errors');
+const { NotFoundError, NotCompletedAssessmentError, AssessmentEndedError, ObjectValidationError } = require('../../domain/errors');
 
 function _doesAssessmentExistsAndIsCompleted(assessment) {
   if (!assessment)
@@ -64,6 +64,9 @@ module.exports = {
         reply(assessmentSerializer.serialize(assessment)).code(201);
       })
       .catch((err) => {
+        if (err instanceof ObjectValidationError) {
+          return reply(Boom.badData(err));
+        }
         logger.error(err);
         reply(Boom.badImplementation(err));
       });
