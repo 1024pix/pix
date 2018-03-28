@@ -90,9 +90,10 @@ module.exports = {
   },
 
   save(assessment) {
-    const assessmentBookshelf = new BookshelfAssessment(_adaptModelToDb(assessment));
-
-    return assessmentBookshelf.save().then(_toDomain);
+    return assessment.validate()
+      .then(() => new BookshelfAssessment(_adaptModelToDb(assessment)))
+      .then((assessmentBookshelf) => assessmentBookshelf.save())
+      .then(_toDomain);
   },
 
   getByCertificationCourseId(certificationCourseId) {

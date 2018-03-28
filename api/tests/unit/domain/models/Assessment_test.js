@@ -71,4 +71,75 @@ describe('Unit | Domain | Models | Assessment', () => {
     });
 
   });
+
+  describe('#validate', () => {
+
+    let assessment;
+    beforeEach(() => {
+      assessment = new Assessment({ id: 1, courseId: 'rec123', userId: 3, type: 'DEMO' });
+    });
+
+    it('should return resolved promise when object is valid', () => {
+      // when
+      const promise = assessment.validate();
+
+      // then
+      return expect(promise).to.be.fulfilled;
+    });
+
+    context('when assessment is a Placement and has no userId', () => {
+      it('should return rejected promise', () => {
+        // given
+        assessment.userId = null;
+        assessment.type = 'PLACEMENT';
+
+        // when
+        const promise = assessment.validate();
+
+        // then
+        return expect(promise).to.be.rejected;
+      });
+    });
+
+    context('when assessment is a Placement and has an userId', () => {
+      it('should return resolves promise', () => {
+        // given
+        assessment.type = 'PLACEMENT';
+
+        // when
+        const promise = assessment.validate();
+
+        // then
+        return expect(promise).to.be.fulfilled;
+      });
+    });
+
+    context('when assessment is a Certification and has no userId', () => {
+      it('should return rejected promise', () => {
+        // given
+        assessment.userId = null;
+        assessment.type = 'CERTIFICATION';
+
+        // when
+        const promise = assessment.validate();
+
+        // then
+        return expect(promise).to.be.rejected;
+      });
+    });
+
+    context('when assessment is a Certification and has an userId', () => {
+      it('should return resolves promise', () => {
+        // given
+        assessment.type = 'CERTIFICATION';
+
+        // when
+        const promise = assessment.validate();
+
+        // then
+        return expect(promise).to.be.fulfilled;
+      });
+    });
+
+  });
 });

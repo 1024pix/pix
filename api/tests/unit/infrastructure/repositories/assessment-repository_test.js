@@ -331,37 +331,68 @@ describe('Unit | Repository | assessmentRepository', () => {
 
   describe('#save', function() {
 
-    const assessment = new Assessment({ id: '1', type: 'CERTIFICATION' });
-    const assessmentBookshelf = new BookshelfAssessment(assessment);
-
-    beforeEach(() => {
-      sinon.stub(BookshelfAssessment.prototype, 'save').resolves(assessmentBookshelf);
-    });
+    let assessment;
 
     afterEach(() => {
       BookshelfAssessment.prototype.save.restore();
     });
 
-    it('should save a new assessment', function() {
-      // when
-      const promise = assessmentRepository.save(assessment);
+    context('when assessment is valid', () => {
+      beforeEach(() => {
+        assessment = new Assessment({ id: '1', type: 'CERTIFICATION', userId: 2 });
+        const assessmentBookshelf = new BookshelfAssessment(assessment);
+        sinon.stub(BookshelfAssessment.prototype, 'save').resolves(assessmentBookshelf);
+      });
 
-      // then
-      return promise.then(() => {
-        sinon.assert.calledOnce(BookshelfAssessment.prototype.save);
+      it('should save a new assessment', function() {
+        // when
+        const promise = assessmentRepository.save(assessment);
+
+        // then
+        return promise.then(() => {
+          sinon.assert.calledOnce(BookshelfAssessment.prototype.save);
+        });
+      });
+
+      it('should return the Assessment', function() {
+        // when
+        const promise = assessmentRepository.save(assessment);
+
+        // then
+        return promise.then((savedAssessment) => {
+          expect(savedAssessment).to.be.an.instanceOf(Assessment);
+          expect(savedAssessment).to.deep.equal(assessment);
+        });
       });
     });
 
-    it('should return the Assessment', function() {
-      // when
-      const promise = assessmentRepository.save(assessment);
-
-      // then
-      return promise.then((savedAssessment) => {
-        expect(savedAssessment).to.be.an.instanceOf(Assessment);
-        expect(savedAssessment).to.deep.equal(assessment);
+    context('when assessment is not valid', () => {
+      beforeEach(() => {
+        assessment = new Assessment({ id: '1', type: 'CERTIFICATION', userId: undefined });
+        const assessmentBookshelf = new BookshelfAssessment(assessment);
+        sinon.stub(BookshelfAssessment.prototype, 'save').resolves(assessmentBookshelf);
       });
+
+      it('should not save a new assessment', function() {
+        // when
+        const promise = assessmentRepository.save(assessment);
+
+        // then
+        return promise.catch(() => {
+          sinon.assert.notCalled(BookshelfAssessment.prototype.save);
+        });
+      });
+
+      it('should reject', function() {
+        // when
+        const promise = assessmentRepository.save(assessment);
+
+        // then
+        return expect(promise).to.be.rejected;
+      });
+
     });
+
   });
 
   describe('#getByCertificationCourseId', () => {

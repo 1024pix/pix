@@ -309,6 +309,7 @@ describe('Integration | Infrastructure | Repositories | assessment-repository', 
     const assessmentToBeSaved = new Assessment({
       userId: JOHN,
       courseId: 'courseId1',
+      type: 'CERTIFICATION',
       state:'completed',
       createdAt: '2017-11-08 11:47:38'
     });
