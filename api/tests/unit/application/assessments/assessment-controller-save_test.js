@@ -7,6 +7,7 @@ const assessmentSerializer = require('../../../../lib/infrastructure/serializers
 const assessmentRepository = require('../../../../lib/infrastructure/repositories/assessment-repository');
 const tokenService = require('../../../../lib/domain/services/token-service');
 const Assessment = require('../../../../lib/domain/models/Assessment');
+const { ObjectValidationError } = require('../../../../lib/domain/errors');
 
 describe('Unit | Controller | assessment-controller-save', () => {
 
@@ -67,6 +68,29 @@ describe('Unit | Controller | assessment-controller-save', () => {
         // then
         sinon.assert.calledOnce(assessmentRepository.save);
         return expect(assessmentRepository.save).to.have.been.calledWith(expected);
+      });
+      context('where there is no UserId', () => {
+        let badDataStub;
+        beforeEach(() => {
+          badDataStub = sinon.stub(Boom, 'badData');
+        });
+
+        afterEach(() => {
+          badDataStub.restore();
+        });
+
+        it('should return a ObjectValidationError', () => {
+          const rejectedError = new ObjectValidationError('The Assessment CERTIFICATION needs UserId');
+          assessmentRepository.save.rejects(rejectedError);
+
+          // when
+          const promise = controller.save(request, replyStub);
+
+          // then
+          return promise.catch(() => {
+            sinon.assert.calledWith(replyStub, badDataStub);
+          });
+        });
       });
     });
 
@@ -202,7 +226,7 @@ describe('Unit | Controller | assessment-controller-save', () => {
 
     });
 
-    describe('when the deserializedAssessment can not be saved', () => {
+    context('when the deserializedAssessment can not be saved', () => {
 
       let badImplementationStub;
 
