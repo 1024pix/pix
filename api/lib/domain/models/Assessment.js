@@ -1,5 +1,6 @@
 const _ = require('lodash');
 const TYPES_OF_ASSESSMENT_NEEDING_USER = ['PLACEMENT', 'CERTIFICATION'];
+const { ObjectValidationError } = require('../errors');
 
 class Assessment {
   constructor(attributes) {
@@ -38,7 +39,7 @@ class Assessment {
 
   validate() {
     if(TYPES_OF_ASSESSMENT_NEEDING_USER.includes(this.type) && typeof this.userId !== 'number') {
-      return Promise.reject();
+      return Promise.reject(new ObjectValidationError(`Assessment ${this.type} needs an User Id`));
     }
     return Promise.resolve();
   }

@@ -1,4 +1,5 @@
 const Assessment = require('../../../../lib/domain/models/Assessment');
+const { ObjectValidationError } = require('../../../../lib/domain/errors');
 const { expect } = require('../../../test-helper');
 
 describe('Unit | Domain | Models | Assessment', () => {
@@ -124,8 +125,9 @@ describe('Unit | Domain | Models | Assessment', () => {
         const promise = assessment.validate();
 
         // then
-        return expect(promise).to.be.rejected;
+        return expect(promise).to.be.rejectedWith(ObjectValidationError, 'Assessment CERTIFICATION needs an User Id');
       });
+
     });
 
     context('when assessment is a Certification and has an userId', () => {
