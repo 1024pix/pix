@@ -1,4 +1,5 @@
 const _ = require('lodash');
+const TYPES_OF_ASSESSMENT_NEEDING_USER = ['PLACEMENT', 'CERTIFICATION'];
 
 class Assessment {
   constructor(attributes) {
@@ -33,6 +34,13 @@ class Assessment {
 
   setCompleted() {
     this.state = 'completed';
+  }
+
+  validate() {
+    if(TYPES_OF_ASSESSMENT_NEEDING_USER.includes(this.type) && typeof this.userId !== 'number') {
+      return Promise.reject();
+    }
+    return Promise.resolve();
   }
 }
 
