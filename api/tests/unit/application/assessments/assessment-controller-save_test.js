@@ -6,6 +6,7 @@ const controller = require('../../../../lib/application/assessments/assessment-c
 const assessmentSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/assessment-serializer');
 const assessmentRepository = require('../../../../lib/infrastructure/repositories/assessment-repository');
 const tokenService = require('../../../../lib/domain/services/token-service');
+const Assessment = require('../../../../lib/domain/models/Assessment');
 
 describe('Unit | Controller | assessment-controller-save', () => {
 
@@ -58,7 +59,7 @@ describe('Unit | Controller | assessment-controller-save', () => {
 
       it('should save an assessment with the type CERTIFICATION', function() {
         // given
-        const expected = { id: 42, courseId: '1', type: 'CERTIFICATION', state: 'started', userId: null };
+        const expected = new Assessment({ id: 42, courseId: '1', type: 'CERTIFICATION', state: 'started', userId: null });
 
         // when
         controller.save(request, replyStub);
@@ -99,7 +100,7 @@ describe('Unit | Controller | assessment-controller-save', () => {
 
       it('should save an assessment with type PREVIEW', function() {
         // given
-        const expected = { id: 42, courseId: 'null-preview-id', type: 'PREVIEW', userId: null, state: 'started' };
+        const expected = new Assessment({ id: 42, courseId: 'null-preview-id', type: 'PREVIEW', userId: null, state: 'started' });
 
         // when
         controller.save(request, replyStub);

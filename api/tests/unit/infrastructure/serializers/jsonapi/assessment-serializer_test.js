@@ -1,6 +1,7 @@
 const { expect } = require('../../../../test-helper');
 const serializer = require('../../../../../lib/infrastructure/serializers/jsonapi/assessment-serializer');
-const Assessment = require('../../../../../lib/infrastructure/data/assessment');
+const BookshelfAssessment = require('../../../../../lib/infrastructure/data/assessment');
+const Assessment = require('../../../../../lib/domain/models/Assessment');
 
 describe('Unit | Serializer | JSONAPI | assessment-serializer', function() {
 
@@ -15,7 +16,7 @@ describe('Unit | Serializer | JSONAPI | assessment-serializer', function() {
       name: 'PIX EST FORMIDABLE'
     };
 
-    modelObject = new Assessment({
+    modelObject = new BookshelfAssessment({
       id: 'assessment_id',
       courseId: 'course_id',
       successRate: 24,
@@ -69,11 +70,12 @@ describe('Unit | Serializer | JSONAPI | assessment-serializer', function() {
 
   describe('#deserialize()', () => {
 
-    it('should convert JSON API data into an Assessment js object', () => {
+    it('should convert JSON API data into an Assessment object', () => {
       // when
       const assessment = serializer.deserialize(jsonAssessment);
 
       // then
+      expect(assessment).to.be.instanceOf(Assessment);
       expect(assessment.id).to.equal(jsonAssessment.data.id);
       expect(assessment.courseId).to.equal(jsonAssessment.data.relationships.course.data.id);
     });
