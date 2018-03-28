@@ -210,7 +210,13 @@ module.exports = {
           pixScore: assessment.pixScore,
           createdAt: certification.createdAt,
           completedAt: certification.completedAt,
-          competencesWithMark: assessment.marks
+          competencesWithMark: assessment.marks,
+          firstName: certification.firstName,
+          lastName: certification.lastName,
+          birthdate: certification.birthdate,
+          birthplace: certification.birthplace,
+          rejectionReason: certification.rejectionReason,
+          sessionId: certification.sessionId,
         };
       });
   },
