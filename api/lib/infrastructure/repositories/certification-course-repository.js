@@ -4,6 +4,7 @@ const { NotFoundError } = require('../../domain/errors');
 
 function _toDomain(model) {
   return new CertificationCourse({
+    //TODO: 1088 modify rejectionReason in assessment-result and not in certifCourse anymore
     id: model.get('id'),
     userId: model.get('userId'),
     status: model.get('status'),

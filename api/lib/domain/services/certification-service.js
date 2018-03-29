@@ -206,6 +206,7 @@ module.exports = {
         return certificationCourseRepository.get(certificationCourseId);
       })
       .then(certification => {
+        //TODO: 1088 - modify rejectionReason and add status
         return {
           pixScore: assessment.pixScore,
           createdAt: certification.createdAt,
