@@ -2,7 +2,7 @@
 const { expect } = require('chai');
 const getResultsCertifications = require('../../../../api/scripts/get-results-certifications');
 
-describe('Unit | Script | GET results-certification', () => {
+describe('Unit | Scripts | get-results-certifications.js', () => {
 
   const HEADERS = [
     'Numero certification', 'Date de début', 'Date de fin', 'Note Pix',
