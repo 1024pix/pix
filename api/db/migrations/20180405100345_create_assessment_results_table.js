@@ -14,6 +14,7 @@ exports.up = (knex) => {
       t.text('status').notNull();
       t.integer('juryId').unsigned().references('users.id');
       t.integer('assessmentId').unsigned().references('assessments.id');
+      t.index('assessmentId');
     })
     .then(() => {
       console.log(`${TABLE_NAME} table is created!`);

@@ -8,6 +8,7 @@ exports.up = function(knex) {
   return knex.schema.table(TABLE_NAME_MARKS, function(table) {
     table.integer('assessmentResultId').unsigned();
     table.foreign('assessmentResultId').references('assessment-results.id');
+    table.index('assessmentResultId');
   }).then(() => {
     return knex(TABLE_NAME_ASSESSMENT_RESULTS)
       .select('id', 'assessmentId');

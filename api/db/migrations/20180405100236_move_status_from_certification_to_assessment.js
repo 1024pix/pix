@@ -9,6 +9,7 @@ exports.up = function(knex) {
     // Add Column
     .table(TABLE_NAME_ASSESSMENTS, function(table) {
       table.text('state');
+      table.index('state');
     })
     .then(() => knex(TABLE_NAME_CERTIFICATION).select('id', 'status'))
 
