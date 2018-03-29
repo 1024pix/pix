@@ -20,29 +20,34 @@ const competenceRepository = require('../../infrastructure/repositories/competen
 
 function _enhanceAnswersWithCompetenceId(listAnswers, listChallenges) {
   return _.map(listAnswers, (answer) => {
-    const competence = listChallenges.find((challenge) => challenge.challengeId === answer.get('challengeId'));
+    const competence = listChallenges.find((challenge) => challenge.challengeId === answer.challengeId);
 
-    answer.set('competenceId', competence.competenceId);
+    answer.competenceId = competence.competenceId;
     return answer;
   });
 }
 
-function _getChallengeType(challengeId, listOfChallenges) {
-  const challenge =_.find(listOfChallenges, challenge => challenge.id === challengeId);
-  return challenge ? challenge.type : '';
+function _isQROCMdepOk(challenge, answer) {
+  const challengeType = challenge ? challenge.type : '';
+  return challengeType === qrocmDepChallenge && answer.isOk(); // TODO check challengeType in real Challenge Domain Object
+}
+
+function _isQROCMdepPartially(challenge, answer) {
+  const challengeType = challenge ? challenge.type : '';
+  return challengeType === qrocmDepChallenge && answer.isPartially();
 }
 
 function _numberOfCorrectAnswersPerCompetence(answersWithCompetences, competence) {
-  const answerForCompetence = _.filter(answersWithCompetences, answer => answer.get('competenceId') === competence.id);
+  const answerForCompetence = _.filter(answersWithCompetences, answer => answer.competenceId === competence.id);
 
   let nbOfCorrectAnswers = 0;
   answerForCompetence.forEach(answer => {
-    const challengeType = _getChallengeType(answer.get('challengeId'), competence.challenges);
-    const answerResult = answer.get('result');
+    const challenge = _.find(competence.challenges, challenge => challenge.id === answer.challengeId);
+    const answerResult = answer.result;
 
-    if (challengeType === qrocmDepChallenge && AnswerStatus.isOK(answerResult)) {
+    if (competence.challenges.length < 3 && _isQROCMdepOk(challenge, answer)) {
       nbOfCorrectAnswers += 2;
-    } else if (challengeType === qrocmDepChallenge && AnswerStatus.isPARTIALLY(answerResult)) {
+    } else if (competence.challenges.length < 3 && _isQROCMdepPartially(challenge, answer)) {
       nbOfCorrectAnswers++;
     } else if (AnswerStatus.isOK(answerResult)) {
       nbOfCorrectAnswers++;
@@ -113,14 +118,18 @@ function _checkIfUserCanStartACertification(userCompetences) {
     .filter(competence => competence.estimatedLevel > 0)
     .length;
 
-  if(nbCompetencesWithEstimatedLevelHigherThan0 < 5)
+  if (nbCompetencesWithEstimatedLevelHigherThan0 < 5)
     throw new UserNotAuthorizedToCertifyError();
 }
 
 function _getResult(listAnswers, listChallenges, listCompetences) {
   const reproductibilityRate = Math.round(answerServices.getAnswersSuccessRate(listAnswers));
   if (reproductibilityRate < minimumReproductibilityRateToBeCertified) {
-    return { competencesWithMark: _getCompetenceWithFailedLevel(listCompetences), totalScore: 0, percentageCorrectAnswers: reproductibilityRate };
+    return {
+      competencesWithMark: _getCompetenceWithFailedLevel(listCompetences),
+      totalScore: 0,
+      percentageCorrectAnswers: reproductibilityRate
+    };
   }
 
   const answersWithCompetences = _enhanceAnswersWithCompetenceId(listAnswers, listChallenges);
@@ -134,15 +143,15 @@ function _getChallengeInformation(listAnswers, certificationChallenges, competen
   return listAnswers.map((answer) => {
 
     const certificationChallengeRelatedToAnswer = certificationChallenges.find(
-      certificationChallenge => certificationChallenge.challengeId === answer.get('challengeId')
+      certificationChallenge => certificationChallenge.challengeId === answer.challengeId
     ) || {};
 
     const competenceValidatedByCertifChallenge = competences.find(competence => competence.id === certificationChallengeRelatedToAnswer.competenceId) || {};
 
     return {
-      result: answer.get('result'),
-      value: answer.get('value'),
-      challengeId: answer.get('challengeId'),
+      result: answer.result.status,
+      value: answer.value,
+      challengeId: answer.challengeId,
       competence: competenceValidatedByCertifChallenge.index || '',
       skill: certificationChallengeRelatedToAnswer.associatedSkill || ''
     };
