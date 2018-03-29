@@ -13,6 +13,6 @@ export default BaseRoute.extend({
       .then(challenge => this.replaceWith('assessments.challenge', { assessment, challenge }))
       .catch(() => {
         this.replaceWith('logout');
-    });
+      });
   }
 });

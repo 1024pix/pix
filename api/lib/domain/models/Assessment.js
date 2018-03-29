@@ -3,6 +3,7 @@ const TYPES_OF_ASSESSMENT_NEEDING_USER = ['PLACEMENT', 'CERTIFICATION'];
 const { ObjectValidationError } = require('../errors');
 
 class Assessment {
+
   constructor(attributes) {
     this.marks = [];
     Object.assign(this, attributes);
