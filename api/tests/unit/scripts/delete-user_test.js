@@ -3,6 +3,7 @@ const { expect, sinon } = require('../../test-helper');
 const { ScriptQueryBuilder, ClientQueryAdapter, UserEraser } = require('../../../scripts/delete-user');
 
 describe('Delete User Script', () => {
+
   describe('ScriptQueryBuilder', () => {
     let subject;
 
