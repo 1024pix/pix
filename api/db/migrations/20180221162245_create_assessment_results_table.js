@@ -9,6 +9,7 @@ exports.up = (knex) => {
       t.integer('pixScore').unsigned();
       t.text('emitter').notNull();
       t.text('commentForJury');
+      t.text('commentForOrganization');
       t.text('commentForCandidate');
       t.text('status').notNull();
       t.integer('juryId').unsigned().references('users.id');

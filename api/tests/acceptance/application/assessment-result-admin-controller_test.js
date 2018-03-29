@@ -28,6 +28,7 @@ describe('Acceptance | Controller | assessment-results-controller', function() {
               emitter: 'Jury',
               'comment-for-jury': 'Parce que',
               'comment-for-candidate': 'Voilà',
+              'comment-for-organization': 'Je suis sûr que vous etes ok avec nous',
               'competences-with-mark' : [
                 {
                   level: 2,
@@ -179,6 +180,7 @@ describe('Acceptance | Controller | assessment-results-controller', function() {
                 emitter: 'Jury',
                 'comment-for-jury': 'Parce que',
                 'comment-for-candidate': 'Voilà',
+                'comment-for-organization': 'Je suis sûr que vous etes ok avec nous',
                 'competences-with-mark' : [
                   {
                     level: 2,

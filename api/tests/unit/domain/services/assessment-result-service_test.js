@@ -522,7 +522,8 @@ describe('Unit | Domain | Services | assessment-results', () => {
       status: 'validated',
       emitter: 'Jury',
       commentForJury: 'Parce que',
-      commentForCandidate: 'Voilà'
+      commentForCandidate: 'Voilà',
+      commentForOrganization: 'Truc'
     });
     const competenceMarks = [
       new CompetenceMark({

@@ -234,6 +234,7 @@ module.exports = {
           emitter: assessmentLastResult.emitter,
           commentForJury: assessmentLastResult.commentForJury,
           commentForCandidate: assessmentLastResult.commentForCandidate,
+          commentForOrganization: assessmentLastResult.commentForOrganization,
           status: assessmentLastResult.status,
           pixScore: assessmentLastResult.pixScore,
           createdAt: certification.createdAt,

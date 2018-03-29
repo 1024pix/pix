@@ -17,7 +17,8 @@ describe('Integration | Repository | AssessmentResult', function() {
         status: 'validated',
         emitter: 'SonGoku',
         commentForJury: 'Parce que',
-        commentForCandidate: 'Voilà'
+        commentForCandidate: 'Voilà',
+        commentForOrganization: 'Commentaire pour l\'orga'
       });
 
       // when
@@ -38,7 +39,8 @@ describe('Integration | Repository | AssessmentResult', function() {
         status: 'validated',
         emitter: 'SonGoku',
         commentForJury: 'Parce que',
-        commentForCandidate: 'Voilà'
+        commentForCandidate: 'Voilà',
+        commentForOrganization: 'Commentaire pour l\'orga'
       });
 
       // when
@@ -61,7 +63,8 @@ describe('Integration | Repository | AssessmentResult', function() {
       status: 'validated',
       emitter: 'PIX-ALGO',
       commentForJury: 'Parce que',
-      commentForCandidate: 'Voilà'
+      commentForCandidate: 'Voilà',
+      commentForOrganization: 'Commentaire pour l\'orga'
     };
 
     const competenceMarks1 = {
@@ -103,6 +106,7 @@ describe('Integration | Repository | AssessmentResult', function() {
         expect(result.pixScore).to.be.deep.equal(assessmentResult.pixScore);
         expect(result.status).to.be.deep.equal(assessmentResult.status);
         expect(result.commentForJury).to.be.deep.equal(assessmentResult.commentForJury);
+        expect(result.commentForOrganization).to.be.deep.equal(assessmentResult.commentForOrganization);
         expect(result.commentForCandidate).to.be.deep.equal(assessmentResult.commentForCandidate);
         expect(result.emitter).to.be.deep.equal(assessmentResult.emitter);
       });

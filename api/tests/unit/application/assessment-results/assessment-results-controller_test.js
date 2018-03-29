@@ -133,6 +133,7 @@ describe('Unit | Controller | assessment-results', () => {
             emitter: 'Jury',
             'comment-for-jury': 'Envie de faire un nettoyage de printemps dans les notes',
             'comment-for-candidate': 'Tada',
+            'comment-for-organization': 'Je suis sûr que vous etes ok avec nous',
             'competences-with-mark': [
               {
                 level: 2,
@@ -180,6 +181,7 @@ describe('Unit | Controller | assessment-results', () => {
         emitter: 'Jury',
         commentForJury: 'Envie de faire un nettoyage de printemps dans les notes',
         commentForCandidate: 'Tada',
+        commentForOrganization: 'Je suis sûr que vous etes ok avec nous',
         juryId: 1
       });
 

@@ -19,6 +19,7 @@ function _deserializeResultsAdd(json) {
     status: json.status,
     commentForJury: json['comment-for-jury'],
     commentForCandidate: json['comment-for-candidate'],
+    commentForOrganization: json['comment-for-organization'],
     level: json.level,
     pixScore: json['pix-score'],
   });
