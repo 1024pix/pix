@@ -1,17 +1,17 @@
 const { expect } = require('../../../test-helper');
 
-const Bookshelf = require('../../../../lib/infrastructure/bookshelf');
 const assessmentAdapter = require('../../../../lib/infrastructure/adapters/assessment-adapter');
 const CatAssessment = require('../../../../lib/cat/assessment');
 const CatCourse = require('../../../../lib/cat/course');
 const CatSkill = require('../../../../lib/cat/skill');
 const CatChallenge = require('../../../../lib/cat/challenge');
 const CatAnswer = require('../../../../lib/cat/answer');
-const Answer = require('../../../../lib/infrastructure/data/answer');
+const Answer = require('../../../../lib/domain/models/Answer');
 
 describe('Unit | Adapter | Assessment', () => {
 
   describe('#getAdaptedAssessment', () => {
+
     it('should return an Assessment from the Cat repository', () => {
       // given
       const skills = [];
@@ -46,6 +46,7 @@ describe('Unit | Adapter | Assessment', () => {
     });
 
     describe('the assessment\'s course ', () => {
+
       it('should have an array of challenges', () => {
         // given
         const skills = [];
@@ -107,10 +108,6 @@ describe('Unit | Adapter | Assessment', () => {
 
     describe('the assessment\'s answers', () => {
 
-      const AnswerCollection = Bookshelf.Collection.extend({
-        model: Answer
-      });
-
       it('should have an array of challenges', () => {
         // given
         const skills = [];
@@ -121,11 +118,7 @@ describe('Unit | Adapter | Assessment', () => {
           timer: 26
         }];
 
-        const answersGiven = AnswerCollection.forge([new Answer({
-          id: 42,
-          challengeId: 256,
-          result: '#ABAND#'
-        })]);
+        const answersGiven = [new Answer({ id: 42, challengeId: 256, result: '#ABAND#' })];
 
         // when
         const adaptedAssessment = assessmentAdapter.getAdaptedAssessment(answersGiven, challenges, skills);

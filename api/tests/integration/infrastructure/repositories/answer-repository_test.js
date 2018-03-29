@@ -1,9 +1,9 @@
-const { expect, knex, sinon } = require('../../../test-helper');
+const { expect, knex } = require('../../../test-helper');
+const Answer = require('../../../../lib/domain/models/Answer');
 
 const AnswerRepository = require('../../../../lib/infrastructure/repositories/answer-repository');
-const Answer = require('../../../../lib/infrastructure/data/answer');
 
-describe('Unit | Repository | AnswerRepository', () => {
+describe('Integration | Repository | AnswerRepository', () => {
 
   describe('#get', () => {
     let answerId;
@@ -136,36 +136,6 @@ describe('Unit | Repository | AnswerRepository', () => {
     });
   });
 
-  describe('#findCorrectAnswersByAssessment', () => {
-    let fetchAllStub;
-
-    beforeEach(() => {
-      sinon.stub(Answer.prototype, 'where');
-      fetchAllStub = sinon.stub();
-    });
-
-    afterEach(() => Answer.prototype.where.restore());
-
-    it('should retrieve answers with ok status from assessment id provided', () => {
-      // given
-      const assessmentId = 'assessment_id';
-      fetchAllStub.resolves({});
-      Answer.prototype.where.returns({
-        fetchAll: fetchAllStub
-      });
-
-      // when
-      const promise = AnswerRepository.findCorrectAnswersByAssessment(assessmentId);
-
-      // then
-      return promise.then(() => {
-        sinon.assert.calledOnce(Answer.prototype.where);
-        sinon.assert.calledWith(Answer.prototype.where, { assessmentId, result: 'ok' });
-        sinon.assert.calledOnce(fetchAllStub);
-      });
-    });
-  });
-
   describe('#findByAssessment', () => {
 
     const answer1 = {
@@ -189,11 +159,11 @@ describe('Unit | Repository | AnswerRepository', () => {
       assessmentId: 2
     };
 
-    before(() => {
-      return knex('answers').insert([answer1, answer2, answer3]);
+    beforeEach(() => {
+      return knex('answers').delete().then(() => knex('answers').insert([answer1, answer2, answer3]));
     });
 
-    after(() => {
+    afterEach(() => {
       return knex('answers').delete();
     });
 
@@ -205,11 +175,77 @@ describe('Unit | Repository | AnswerRepository', () => {
       const promise = AnswerRepository.findByAssessment(assessmentId);
 
       // then
-      return promise.then((result) => {
-        expect(result.length).to.be.equal(2);
-        expect(result[0].get('assessmentId')).to.be.equal(2);
-        expect(result[1].get('assessmentId')).to.be.equal(2);
+      return promise.then((answers) => {
+        expect(answers.length).to.be.equal(2);
+        expect(answers[0].assessmentId).to.be.equal(2);
+        expect(answers[1].assessmentId).to.be.equal(2);
+      });
+    });
+
+    it('should returns answers as domain objects', () => {
+      // given
+      const assessmentId = 2;
+
+      // when
+      const promise = AnswerRepository.findByAssessment(assessmentId);
+
+      // then
+      return promise.then((answers) => {
+        expect(answers[0]).to.be.instanceof(Answer);
+        expect(answers[1]).to.be.instanceof(Answer);
       });
     });
   });
+
+  describe('#findCorrectAnswersByAssessment', () => {
+
+    const answer1 = {
+      value: 'Un pancake Tabernacle',
+      result: 'ok',
+      challengeId: 'challenge_tabernacle',
+      assessmentId: 2
+    };
+
+    const answer2 = {
+      value: 'Qu\'est ce qu\'il fout ce pancake Tabernacle',
+      result: 'ok',
+      challengeId: 'challenge_tabernacle',
+      assessmentId: 1
+    };
+
+    const answer3 = {
+      value: 'la réponse D',
+      result: 'ko',
+      challengeId: 'challenge_D',
+      assessmentId: 1
+    };
+
+    beforeEach(() => {
+      return knex('answers').delete().then(() => knex('answers').insert([answer1, answer2, answer3]));
+    });
+
+    afterEach(() => {
+      return knex('answers').delete();
+    });
+
+    it('should retrieve answers with ok status from assessment id provided', () => {
+      // given
+      const assessmentId = 1;
+
+      // when
+      const promise = AnswerRepository.findCorrectAnswersByAssessment(assessmentId);
+
+      // then
+      return promise.then((answers) => {
+        expect(answers).to.exist;
+        expect(answers).to.have.length.of(1);
+
+        const foundAnswer = answers.models[0];
+
+        expect(foundAnswer.get('assessmentId')).to.be.equal(1);
+        expect(foundAnswer.get('result')).to.be.equal('ok');
+      });
+    });
+  });
+
 });
