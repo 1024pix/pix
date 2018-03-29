@@ -38,12 +38,8 @@ module.exports = {
   update(request, reply) {
 
     return certificationSerializer.deserialize(request.payload)
-      .then((certificationCourse) => {
-        return certificationCourseService.update(certificationCourse);
-      })
-      .then((savedCertificationCourse) => {
-        reply(certificationSerializer.serialize(savedCertificationCourse));
-      })
+      .then((certificationCourse) => certificationCourseService.update(certificationCourse))
+      .then((savedCertificationCourse) => reply(certificationSerializer.serialize(savedCertificationCourse)))
       .catch((err) => {
         if (err instanceof WrongDateFormatError) {
           reply(errorSerializer.serialize(err.getErrorMessage())).code(400);
