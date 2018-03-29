@@ -275,14 +275,14 @@ describe('Delete User Script', () => {
     });
   });
 
-  describe('UserEraser', () => {
+  describe('AssessmentEraser', () => {
     let subject;
     let queryBuilderMock;
     let clientStub;
 
     beforeEach(() => {
       const queryBuilder = new ScriptQueryBuilder();
-      clientStub = { logged_query: sinon.stub() };
+      clientStub = { query_and_log: sinon.stub() };
 
       queryBuilderMock = sinon.mock(queryBuilder);
       const clientQueryAdapter = new ClientQueryAdapter();
@@ -295,7 +295,7 @@ describe('Delete User Script', () => {
         // given
         const userId = 5186;
         subject.userId = userId;
-        clientStub.logged_query.resolves({
+        clientStub.query_and_log.resolves({
           rows: [{ count: 0 }]
         });
 
@@ -314,7 +314,7 @@ describe('Delete User Script', () => {
         // given
         const userId = 5186;
         subject.userId = userId;
-        clientStub.logged_query.resolves({
+        clientStub.query_and_log.resolves({
           rows: [{ count: 1 }]
         });
 
@@ -329,67 +329,22 @@ describe('Delete User Script', () => {
 
     describe('#delete_dependent_data_from_fetched_assessment_ids', () => {
 
-      it('should delete feedbacks', () => {
+      it('should delete feedbacks, skills, marks and answers', () => {
         // given
         const ids = [123, 456];
         subject.assessmentIds = ids;
-
-        queryBuilderMock.expects('delete_feedbacks_from_assessment_ids').once().withArgs(ids);
 
         // when
         const promise = subject.delete_dependent_data_from_fetched_assessment_ids();
 
         // then
         return promise.then(() => {
-          queryBuilderMock.verify();
-        });
-      });
+          sinon.assert.callCount(clientStub.query_and_log, 4);
 
-      it('should delete skills for every assessments', () => {
-        // given
-        const ids = [123, 456];
-        subject.assessmentIds = ids;
-
-        queryBuilderMock.expects('delete_skills_from_assessment_ids').once().withArgs(ids);
-
-        // when
-        const promise = subject.delete_dependent_data_from_fetched_assessment_ids();
-
-        // then
-        return promise.then(() => {
-          queryBuilderMock.verify();
-        });
-      });
-
-      it('should delete answer for every assessments', () => {
-        // given
-        const ids = [123, 456];
-        subject.assessmentIds = ids;
-
-        queryBuilderMock.expects('delete_answers_from_assessment_ids').once().withArgs(ids);
-
-        // when
-        const promise = subject.delete_dependent_data_from_fetched_assessment_ids();
-
-        // then
-        return promise.then(() => {
-          queryBuilderMock.verify();
-        });
-      });
-
-      it('should delete marks_ for every assessments', () => {
-        // given
-        const ids = [123, 456];
-        subject.assessmentIds = ids;
-
-        queryBuilderMock.expects('delete_marks_from_assessment_ids').once().withArgs(ids);
-
-        // when
-        const promise = subject.delete_dependent_data_from_fetched_assessment_ids();
-
-        // then
-        return promise.then(() => {
-          queryBuilderMock.verify();
+          expect(clientStub.query_and_log).to.have.been.calledWith('DELETE FROM feedbacks WHERE "assessmentId" IN (123,456)');
+          expect(clientStub.query_and_log).to.have.been.calledWith('DELETE FROM skills WHERE "assessmentId" IN (123,456)');
+          expect(clientStub.query_and_log).to.have.been.calledWith('DELETE FROM answers WHERE "assessmentId" IN (123,456)');
+          expect(clientStub.query_and_log).to.have.been.calledWith('DELETE FROM marks WHERE "assessmentId" IN (123,456)');
         });
       });
 
@@ -409,20 +364,6 @@ describe('Delete User Script', () => {
         // then
         return promise.then(() => {
           queryBuilderMock.verify();
-        });
-      });
-
-      it('should execute every query', () => {
-        // given
-        const ids = [123, 456];
-        subject.assessmentIds = ids;
-
-        // when
-        const promise = subject.delete_dependent_data_from_fetched_assessment_ids();
-
-        // then
-        return promise.then(() => {
-          sinon.assert.callCount(clientStub.logged_query, 4);
         });
       });
     });
