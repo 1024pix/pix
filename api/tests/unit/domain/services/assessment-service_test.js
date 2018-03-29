@@ -15,10 +15,10 @@ const competenceRepository = require('../../../../lib/infrastructure/repositorie
 const AssessmentBookshelf = require('../../../../lib/infrastructure/data/assessment');
 const Assessment = require('../../../../lib/domain/models/Assessment');
 const Course = require('../../../../lib/domain/models/Course');
+const Answer = require('../../../../lib/domain/models/Answer');
 const Challenge = require('../../../../lib/domain/models/Challenge');
 const CertificationChallenge = require('../../../../lib/domain/models/CertificationChallenge');
 
-const Answer = require('../../../../lib/infrastructure/data/answer');
 const Skill = require('../../../../lib/domain/models/Skill');
 const { AssessmentEndedError } = require('../../../../lib/domain/errors');
 
@@ -38,11 +38,12 @@ function _buildAssessmentForCourse(courseId, assessmentId = 'assessment_id') {
 }
 
 function _buildAnswer(challengeId, result, assessmentId = 1) {
-  const answer = new Answer({ id: 'answer_id' });
-  answer.set('challengeId', challengeId);
-  answer.set('assessmentId', assessmentId);
-  answer.set('result', result);
-  return answer;
+  return new Answer({
+    id: 'answer_id',
+    challengeId: challengeId,
+    assessmentId: assessmentId,
+    result: result
+  });
 }
 
 describe('Unit | Domain | Services | assessment', () => {
