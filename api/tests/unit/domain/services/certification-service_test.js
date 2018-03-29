@@ -1284,17 +1284,6 @@ describe('Unit | Service | Certification Service', function() {
     it('should return certified user informations', function() {
       // given
       const certificationCourseId = 1;
-      const expectedCertificationResult = {
-        pixScore: 20,
-        createdAt: '2017-12-23 15:23:12',
-        completedAt: '2017-12-23T16:23:12.232Z',
-        competencesWithMark: [
-          {
-            level: 3,
-            competence_code: '2.1'
-          }
-        ]
-      };
 
       // when
       const promise = certificationService.getCertificationResult(certificationCourseId);
