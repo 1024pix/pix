@@ -21,8 +21,8 @@ function getAdaptedAssessment(answersPix, challengesPix, skills) {
   const course = new CatCourse(challenges, catSkills);
 
   const answers = answersPix.map(answer => {
-    const challengeOfTheAnswer = challenges.find((challenge) => challenge.id === answer.get('challengeId'));
-    return new CatAnswer(challengeOfTheAnswer, answer.get('result'));
+    const challengeOfTheAnswer = challenges.find((challenge) => challenge.id === answer.challengeId);
+    return new CatAnswer(challengeOfTheAnswer, answer.result.status);
   });
 
   return new CatAssessment(course, answers);

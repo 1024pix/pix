@@ -1,16 +1,14 @@
-const _ = require('lodash');
-const AnswerStatus = require('../models/AnswerStatus');
-
 module.exports = {
-  getAnswersSuccessRate: (answers) => {
 
-    const countOfAnswers = answers.length;
+  getAnswersSuccessRate: (answers = []) => {
+    const numberOfAnswers = answers.length;
 
-    if(countOfAnswers === 0) {
+    if(numberOfAnswers === 0) {
       return null;
     }
 
-    const countOfValidAnswers = _(answers).filter(answer => AnswerStatus.isOK(answer.get('result'))).size();
-    return (countOfValidAnswers % 100 / countOfAnswers) * 100;
+    const numberOfValidAnswers = answers.filter(answer => answer.isOk()).length;
+
+    return (numberOfValidAnswers % 100 / numberOfAnswers) * 100;
   }
 };
