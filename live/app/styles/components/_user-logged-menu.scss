@@ -113,7 +113,7 @@
   text-transform: capitalize;
 }
 
-.user-menu__item--logout {
+.user-menu-item__logout {
   display: flex;
   align-items: center;
   height: 65px;
@@ -122,16 +122,7 @@
   }
 }
 
-.logged-user-menu__item-logout {
-  height: 16px;
-  opacity: 0.7;
-  font-family: $font-lato;
-  font-size: 13px;
-  letter-spacing: 1px;
-  color: $slate-grey;
-  text-transform: uppercase;
-
-  &:hover {
-    color: $charcoal-grey;
-  }
+.logout__button {
+  height: 36px;
+  width: 150px;
 }
