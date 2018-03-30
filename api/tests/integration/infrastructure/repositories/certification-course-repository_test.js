@@ -11,11 +11,18 @@ describe('Integration | Repository | Certification Course', function() {
     userId: 1
   };
 
+  //TODO: 1088 - rejectionReason is not in certifCourse
   const certificationCourse = {
     id: 20,
     status: 'started',
     userId: 1,
-    completedAt: null
+    completedAt: null,
+    firstName: 'Timon',
+    lastName: 'De La Havane',
+    birthdate: '14/08/1993',
+    birthplace: 'Cuba',
+    rejectionReason: null,
+    sessionId: 'HakunaMatata'
   };
 
   const certificationChallenges = [
@@ -94,7 +101,7 @@ describe('Integration | Repository | Certification Course', function() {
     });
 
     context('When the certification course exists', () => {
-      it('should retrieve associated assessment with the certification course', function() {
+      it('should retrieve certification course informations', function() {
         // when
         const promise = certificationCourseRepository.get(20);
 
@@ -104,6 +111,22 @@ describe('Integration | Repository | Certification Course', function() {
           expect(certificationCourse.status).to.equal('started');
           expect(certificationCourse.type).to.equal('CERTIFICATION');
           expect(certificationCourse.completedAt).to.equal(null);
+          expect(certificationCourse.firstName).to.equal('Timon');
+          expect(certificationCourse.lastName).to.equal('De La Havane');
+          expect(certificationCourse.birthdate).to.equal('14/08/1993');
+          expect(certificationCourse.birthplace).to.equal('Cuba');
+          //TODO: 1088 rejectionReason is not here anymore
+          expect(certificationCourse.rejectionReason).to.equal(null);
+          expect(certificationCourse.sessionId).to.equal('HakunaMatata');
+        });
+      });
+
+      it('should retrieve associated assessment and challenges with the certification course', function() {
+        // when
+        const promise = certificationCourseRepository.get(20);
+
+        // then
+        return promise.then((certificationCourse) => {
           expect(certificationCourse.assessment.id).to.equal(7);
           expect(certificationCourse.challenges.length).to.equal(2);
         });

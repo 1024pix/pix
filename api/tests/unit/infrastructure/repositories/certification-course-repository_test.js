@@ -11,7 +11,20 @@ describe('Unit | Repository | Certification Course', function() {
     let savedCertificationCourse;
 
     beforeEach(() => {
-      certificationCourse = new CertificationCourse({ id: 'certifId', userId: 1, status: 'completed', completedAt: null, createdAt: null });
+      //TODO: 1088 rejectionReason is not in certifCourse anymore
+      certificationCourse = new CertificationCourse({
+        id: 'certifId',
+        userId: 1,
+        status: 'completed',
+        completedAt: null,
+        createdAt: null,
+        firstName: 'Antoine',
+        lastName: 'Griezmann',
+        birthplace: 'Macon',
+        birthdate: '21/03/1991',
+        rejectionReason: 'Il est trop fort',
+        sessionId: 'EURO2016'
+      });
       savedCertificationCourse = new CertificationCourse({
         id: 'certifId',
         userId: 1,
@@ -19,13 +32,14 @@ describe('Unit | Repository | Certification Course', function() {
         completedAt: null,
         createdAt: null,
         type: 'CERTIFICATION',
-        firstName: undefined,
-        lastName: undefined,
-        birthplace: undefined,
-        birthdate: undefined,
-        rejectionReason: undefined,
+        firstName: 'Antoine',
+        lastName: 'Griezmann',
+        birthplace: 'Macon',
+        birthdate: '21/03/1991',
+        rejectionReason: 'Il est trop fort',
         challenges: [],
-        assessment: {}
+        assessment: {},
+        sessionId: 'EURO2016'
       });
 
       const certificationCourseBookshelf = new CertificationCourseBookshelf(certificationCourse);
