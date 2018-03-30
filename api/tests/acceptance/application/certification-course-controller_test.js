@@ -1,6 +1,6 @@
 const { expect, knex, generateValidRequestAuhorizationHeader, insertUserWithRolePixMaster, cleanupUsersAndPixRolesTables } = require('../../test-helper');
 const server = require('../../../server');
-const _  = require('lodash');
+const _ = require('lodash');
 
 describe('Acceptance | API | Certification Course', () => {
 
@@ -207,7 +207,9 @@ describe('Acceptance | API | Certification Course', () => {
     beforeEach(() => {
       options = {
         headers: { authorization: generateValidRequestAuhorizationHeader() },
-        method: 'PATCH', url: `/api/certification-courses/${courseId}`, payload: {
+        method: 'PATCH',
+        url: `/api/certification-courses/${courseId}`,
+        payload: {
           data: {
             type: 'certifications',
             id: 1,

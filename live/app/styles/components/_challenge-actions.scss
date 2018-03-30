@@ -20,9 +20,7 @@
   margin-right: 15px;
   width: 150px;
   height: 46px;
-  transition: background .25s ease-in-out;
-  -moz-transition: background .25s ease-in-out;
-  -webkit-transition: background .25s ease-in-out;
+  @include button-background-transition();
   border-radius: 23px;
   &:hover {
     background-color: $silver-grey;
@@ -68,9 +66,7 @@
   border-radius: 23px;
   background-color: $jade;
   color: $white;
-  transition: background .25s ease-in-out;
-  -moz-transition: background .25s ease-in-out;
-  -webkit-transition: background .25s ease-in-out;
+  @include button-background-transition();
   text-decoration: none;
   &:hover{
     background: $eucalyptus;
