@@ -206,11 +206,18 @@ module.exports = {
         return certificationCourseRepository.get(certificationCourseId);
       })
       .then(certification => {
+        //TODO: 1088 - modify rejectionReason and add status
         return {
           pixScore: assessment.pixScore,
           createdAt: certification.createdAt,
           completedAt: certification.completedAt,
-          competencesWithMark: assessment.marks
+          competencesWithMark: assessment.marks,
+          firstName: certification.firstName,
+          lastName: certification.lastName,
+          birthdate: certification.birthdate,
+          birthplace: certification.birthplace,
+          rejectionReason: certification.rejectionReason,
+          sessionId: certification.sessionId,
         };
       });
   },
