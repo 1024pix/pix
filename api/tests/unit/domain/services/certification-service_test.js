@@ -171,8 +171,13 @@ describe('Unit | Service | Certification Service', function() {
 
     let sandbox;
 
-    const certificationAssessement = new Assessment({ id: 'assessment_id', userId: 'user_id', courseId: 'course_id', createdAt: '2018-01-01' });
-    const certificationCourse = { id: 'course1', status: 'completed', completedAt: '2018-01-01'  };
+    const certificationAssessement = new Assessment({
+      id: 'assessment_id',
+      userId: 'user_id',
+      courseId: 'course_id',
+      createdAt: '2018-01-01'
+    });
+    const certificationCourse = { id: 'course1', status: 'completed', completedAt: '2018-01-01' };
 
     const userProfile = competences;
 
@@ -1098,8 +1103,8 @@ describe('Unit | Service | Certification Service', function() {
     });
 
     const noCompetences = [];
-    const oneCompetenceWithLevel0 = [ { id: 'competence1', estimatedLevel: 0 } ];
-    const oneCompetenceWithLevel5 = [ { id: 'competence1', estimatedLevel: 5 } ];
+    const oneCompetenceWithLevel0 = [{ id: 'competence1', estimatedLevel: 0 }];
+    const oneCompetenceWithLevel5 = [{ id: 'competence1', estimatedLevel: 5 }];
     const fiveCompetencesAndOneWithLevel0 = [
       { id: 'competence1', estimatedLevel: 1 },
       { id: 'competence2', estimatedLevel: 2 },
@@ -1116,7 +1121,7 @@ describe('Unit | Service | Certification Service', function() {
       { id: 'competence6', estimatedLevel: 6 }
     ];
 
-    [ { label: 'User Has No AirtableCompetence', competences: noCompetences },
+    [{ label: 'User Has No AirtableCompetence', competences: noCompetences },
       { label: 'User Has Only 1 AirtableCompetence at Level 0', competences: oneCompetenceWithLevel0 },
       { label: 'User Has Only 1 AirtableCompetence at Level 5', competences: oneCompetenceWithLevel5 },
       { label: 'User Has 5 Competences with 1 at Level 0', competences: fiveCompetencesAndOneWithLevel0 }
@@ -1151,7 +1156,11 @@ describe('Unit | Service | Certification Service', function() {
       // then
       return promise.then((newCertification) => {
         sinon.assert.calledOnce(certificationCourseRepository.save);
-        expect(certificationCourseRepository.save).to.have.been.calledWith({ userId: userId, status: 'started', sessionId });
+        expect(certificationCourseRepository.save).to.have.been.calledWith({
+          userId: userId,
+          status: 'started',
+          sessionId
+        });
         expect(newCertification.id).to.equal('certificationCourseWithChallenges');
       });
     });
@@ -1185,14 +1194,20 @@ describe('Unit | Service | Certification Service', function() {
         pixScore: 20,
         marks: [
           {
-            level:3,
+            level: 3,
             competence_code: '2.1'
           }
         ]
       });
       sandbox.stub(certificationCourseRepository, 'get').resolves({
         createdAt: '2017-12-23 15:23:12',
-        completedAt: '2017-12-23T16:23:12.232Z'
+        completedAt: '2017-12-23T16:23:12.232Z',
+        firstName: 'Pumba',
+        lastName: 'De La Savane',
+        birthplace: 'Savane',
+        birthdate: '28/01/1992',
+        rejectionReason: 'Chant durant la certification',
+        sessionId: 'MoufMufassa'
       });
     });
 
@@ -1200,27 +1215,37 @@ describe('Unit | Service | Certification Service', function() {
       sandbox.restore();
     });
 
-    it('should return certification results with pix score, date and certified competences levels', () => {
+    it('should return certification results with pix score, date and certified competences levels, and comments', () => {
       // given
       const certificationCourseId = 1;
-      const expectedCertificationResult = {
-        pixScore: 20,
-        createdAt: '2017-12-23 15:23:12',
-        completedAt: '2017-12-23T16:23:12.232Z',
-        competencesWithMark: [
-          {
-            level:3,
-            competence_code: '2.1'
-          }
-        ]
-      };
 
       // when
       const promise = certificationService.getCertificationResult(certificationCourseId);
 
       // then
-      return promise.then(result => {
-        expect(result).to.deep.equal(expectedCertificationResult);
+      return promise.then(certification => {
+        expect(certification.pixScore).to.deep.equal(20);
+        expect(certification.createdAt).to.deep.equal('2017-12-23 15:23:12');
+        expect(certification.completedAt).to.deep.equal('2017-12-23T16:23:12.232Z');
+        expect(certification.competencesWithMark).to.deep.equal([{ level: 3, competence_code: '2.1' }]);
+        expect(certification.rejectionReason).to.deep.equal('Chant durant la certification');
+        expect(certification.sessionId).to.deep.equal('MoufMufassa');
+      });
+    });
+
+    it('should return certified user informations', function() {
+      // given
+      const certificationCourseId = 1;
+
+      // when
+      const promise = certificationService.getCertificationResult(certificationCourseId);
+
+      // then
+      return promise.then(certification => {
+        expect(certification.firstName).to.deep.equal('Pumba');
+        expect(certification.lastName).to.deep.equal('De La Savane');
+        expect(certification.birthplace).to.deep.equal('Savane');
+        expect(certification.birthdate).to.deep.equal('28/01/1992');
       });
     });
   });
