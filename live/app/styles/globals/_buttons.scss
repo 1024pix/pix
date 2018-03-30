@@ -1,0 +1,24 @@
+@mixin button-background-transition() {
+  transition: background .25s ease-in-out;
+  -moz-transition: background .25s ease-in-out;
+  -webkit-transition: background .25s ease-in-out;
+}
+
+.grey-hover-button {
+  border-radius: 4px;
+  border: none;
+  background: $gallery-grey;
+  @include button-background-transition();
+
+  &:hover, &:focus {
+    background-color: $alto-grey;
+  }
+}
+
+.grey-hover-button__label {
+  font-family: $font-lato;
+  font-size: 13px;
+  color: $slate-grey;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+}

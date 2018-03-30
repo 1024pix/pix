@@ -4,7 +4,7 @@ const faker = require('faker');
 const server = require('../../../server');
 const passwordResetService = require('../../../lib/domain/services/reset-password-service');
 
-describe('Acceptance | Controller | users-controller', function() {
+describe('Acceptance | Controller | users-controller', () => {
 
   describe('Patch /api/users/{id}', () => {
     let fakeUserEmail;

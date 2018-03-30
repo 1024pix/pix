@@ -73,6 +73,23 @@ describe('Acceptance | Controller | users-controller', () => {
     });
   });
 
+  it('should return 422 HTTP status code when firstName is missing', function() {
+    // Given
+    options.payload.data.attributes['first-name'] = '';
+    options.payload.data.attributes['email'] = 'test@example.net';
+    const firstRegistration = server.inject(options);
+
+    // When
+    const secondRegistration = firstRegistration.then(_ => {
+      return server.inject(options);
+    });
+
+    // Then
+    return secondRegistration.then((response) => {
+      expect(response.statusCode).to.equal(422);
+    });
+  });
+
   it('should return 422 HTTP status code when email already exists', () => {
     // given
     const firstRegistration = server.inject(options);
