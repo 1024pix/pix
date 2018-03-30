@@ -1,10 +1,21 @@
 # Pix Changelog
 
-## v1.44.1 (27/03/2018) 
+## v1.45.0 (30/03/2018)
+
+- [#717](https://github.com/betagouv/pix/pull/717) [FEATURE] Importation des données de certifications à partir d'un csv (US-1052).
+- [#719](https://github.com/betagouv/pix/pull/719) [FEATURE] Ajout des infos utilisateurs dans l'endpoint api/admin/certifications/:id (US-1103).
+- [#709](https://github.com/betagouv/pix/pull/709) [Bugfix] Ne poste pas de commentaire Trello sur une branche de release (US-1130).
+- [#726](https://github.com/betagouv/pix/pull/726) Ajout d'une fiche de poste (US-1188).
+- [#724](https://github.com/betagouv/pix/pull/724) Amélioration du style du bouton Se Déconnecter (US-1139).
+- [#718](https://github.com/betagouv/pix/pull/718) Correction du bug sur le calcul des résultats de certification (US-1131).
+- [#720](https://github.com/betagouv/pix/pull/720) [TECH] Ajout d'un script de suppression d'évaluation (US-1174).
+- [#722](https://github.com/betagouv/pix/pull/722) [TECH] Ajout d'index sur les tables (US-1180).
+
+## v1.44.1 (27/03/2018)
 
 - [#710](https://github.com/betagouv/pix/pull/710) [BUGFIX] Correction des erreurs de validation à la création de compte (US-1128).
 
-## v1.44.0 (21/03/2018) 
+## v1.44.0 (21/03/2018)
 
 - [#693](https://github.com/betagouv/pix/pull/693) [FEATURE] Sécurisation par défaut des ressources API (US-1094).
 - [#715](https://github.com/betagouv/pix/pull/715) [FEATURE] Code départ pour les certifications (US-1117).
@@ -14,17 +25,17 @@
 - [#713](https://github.com/betagouv/pix/pull/713) [BUGFIX] Ouverture de la route /api/assessments/{id}/solutions/{answerId} nécessaire pour les tests de démo (US-1150).
 - [#705](https://github.com/betagouv/pix/pull/705) [BUGFIX] Réparation du script de suppression des utilisateurs (US-1120).
 
-## v1.43.0 (14/03/2018) 
+## v1.43.0 (14/03/2018)
 
 - [#701](https://github.com/betagouv/pix/pull/701) [BUGFIX] Correction du bug de recalcul du résultat d'une certification (US-1101).
 
-## v1.42.0 (08/03/2018) 
+## v1.42.0 (08/03/2018)
 
 - [#695](https://github.com/betagouv/pix/pull/695) [FEATURE] Mise à jour des informations utilisateur pour les certifications (US-1029).
 - [#702](https://github.com/betagouv/pix/pull/702) [BUGFIX] Correction des anciens assessments avec un pixScore à 0 (US-1115).
 - [#700](https://github.com/betagouv/pix/pull/700) [TECH] Renommage des routes d'administration des certifications (US-1116).
 
-## v1.41.0 (06/03/2018) 
+## v1.41.0 (06/03/2018)
 
 - [#691](https://github.com/betagouv/pix/pull/691) [FEATURE] Restriction des accès aux informations de l'endpoint API GET api/organizations (US-1091).
 - [#696](https://github.com/betagouv/pix/pull/696) [BUGFIX] Correction du bug des résultats pas affichés dans le bon ordre en production (US-1054).
@@ -38,7 +49,7 @@
 - [#690](https://github.com/betagouv/pix/pull/690) [CLEANUP] Suppression de l'email dans le jeton d'accès JWT (US-1098).
 - [#679](https://github.com/betagouv/pix/pull/679) [BUGFIX] Amélioration du script récupérant les résultats de certification (US-1067).
 
-## v1.39.0 (19/02/2018) 
+## v1.39.0 (19/02/2018)
 
 - [#678](https://github.com/betagouv/pix/pull/678) [CLEANUP] Suppression de la table 'scenarios' qui n'était plus utilisée (US-1089).
 - [#681](https://github.com/betagouv/pix/pull/681) [FEATURE] Ajouter le code campagne lors du partage d'un profil avec une organisation PRO (US-1085).
@@ -51,7 +62,7 @@
 - [#673](https://github.com/betagouv/pix/pull/673) [FEATURE] Ajout d'un endpoint de création de session (US-1028).
 - [#671](https://github.com/betagouv/pix/pull/671) [FEATURE] Récupérer les date de début et de fin de certification dans le CSV des résultats (US-1027).
 
-## v1.38.0 (07/02/2018) 
+## v1.38.0 (07/02/2018)
 
 - [#670](https://github.com/betagouv/pix/pull/670) [FEATURE] Mise à jour du Texte pour l'engagement et à mise à jour logo marianne sur le pied de page (US-1050).
 - [#675](https://github.com/betagouv/pix/pull/675) [FEATURE] Certification impossible si le profil n'est pas suffisamment rempli pour être certifié (US-1012).
@@ -59,7 +70,7 @@
 - [#672](https://github.com/betagouv/pix/pull/672) [BUGFIX] Vérification que l'on trouve bien un Test d'après le courseId dans le profil (US-1047).
 - [#667](https://github.com/betagouv/pix/pull/667) [BUGFIX] Résolution du bug sur les niveaux des compétences, certifiés sur deux challenges (dont 1 QROCM-dep) uniquement (US-1022).
 
-## 1.37.0 (31/01/2018) 
+## 1.37.0 (31/01/2018)
 
 - [#638](https://github.com/betagouv/pix/pull/638) [FEATURE] Afficher une barre de progression sur les pages de test de certification (US-910).
 - [#658](https://github.com/betagouv/pix/pull/658) [FEATURE] Affichage des tests réalisés sur le /board au lieu du % (US-946).
@@ -112,16 +123,16 @@
 - [#620](https://github.com/sgmap/pix/pulls/620) [FEATURE] Création d'une route /test-de-certification/id pour reprendre un test (US-997).
 - [#618](https://github.com/sgmap/pix/pulls/618) [FEATURE] Reprise d'une certification qui fonctionne (US-981).
 - [#615](https://github.com/sgmap/pix/pulls/615) [FEATURE] Sauvegarde du userId associé au test de certification en base de données (US-960).
-- [#612](https://github.com/sgmap/pix/pulls/612) [BUGFIX] Réparation du lancement des tests de positionnement (US-1002). 
+- [#612](https://github.com/sgmap/pix/pulls/612) [BUGFIX] Réparation du lancement des tests de positionnement (US-1002).
 - [#614](https://github.com/sgmap/pix/pulls/614) [TECH] Diminution du temps de chargement de la première épreuve d'un test de positionnement (US-928).
 
 ## 1.31.0 (05/12/2017)
 
-- [#610](https://github.com/sgmap/pix/pulls/610) [FEATURE] Calculer le score d'une certification (US-886). 
+- [#610](https://github.com/sgmap/pix/pulls/610) [FEATURE] Calculer le score d'une certification (US-886).
 - [#605](https://github.com/sgmap/pix/pulls/605) [FEATURE] Création d'un burger menu (US-692).
-- [#617](https://github.com/sgmap/pix/pulls/617) [BUGFIX] Redirection vers la page de résultats à la fin d'une preview de challenge et plus sur la page de fin de certification (US-945). 
+- [#617](https://github.com/sgmap/pix/pulls/617) [BUGFIX] Redirection vers la page de résultats à la fin d'une preview de challenge et plus sur la page de fin de certification (US-945).
 - [#616](https://github.com/sgmap/pix/pulls/616) [BUGFIX] Correction du calcul de score (US-994).
-- [#608](https://github.com/sgmap/pix/pulls/608) [TECH] Correction du déploiement de preview (US-977). 
+- [#608](https://github.com/sgmap/pix/pulls/608) [TECH] Correction du déploiement de preview (US-977).
 
 ## 1.30.0 (04/12/2017)
 
@@ -147,7 +158,7 @@
 - [#588](https://github.com/sgmap/pix/pull/588) [FEATURE] Création du test de certification depuis le front (US-870).
 - [#596](https://github.com/sgmap/pix/pull/596) [FEATURE] Ajouter des favicons pour Pix (US-953).
 - [#589](https://github.com/sgmap/pix/pull/589) [FEATURE] Création d'un page statique pour les résultats d'une évaluation de type certification (US-893).
-- [#601](https://github.com/sgmap/pix/pull/601) [FEATURE] Désactiver les couleurs dans les logs de l'API en production (US-954). 
+- [#601](https://github.com/sgmap/pix/pull/601) [FEATURE] Désactiver les couleurs dans les logs de l'API en production (US-954).
 - [#19](https://github.com/pix-fr/infra/pull/19) [FEATURE] Accroissement du nombre d'instance d'API par server.
 - [#599](https://github.com/sgmap/pix/pull/599) [TECH] Mise en place de métric sur les temps de réponse API (US-955).
 - [#595](https://github.com/sgmap/pix/pull/595) [HOTFIX] Correction du scroll vers le profil lorsque l'utilisateur clic sur le bouton "choisir un test" depuis sa page de profil (US-951).
