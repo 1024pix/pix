@@ -323,9 +323,10 @@ describe('Integration | Infrastructure | Repositories | assessment-repository', 
 
       // then
       return promise.then((assessmentReturned) =>
-        knex('assessments').where('id', assessmentReturned.id).first('id', 'userId'))
+        knex('assessments').where('id', assessmentReturned.id).first('id', 'userId', 'pixScore'))
         .then((assessmentsInDb) => {
           expect(assessmentsInDb.userId).to.equal(JOHN);
+          expect(assessmentsInDb.pixScore).to.equal(assessmentToBeSaved.pixScore);
         });
     });
   });

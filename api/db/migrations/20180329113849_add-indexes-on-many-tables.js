@@ -1,6 +1,6 @@
 const indexes = {
   answers : ['assessmentId'],
-  assessments : ['type'],
+  assessments : ['userId', 'type'],
   'certification-challenges' : ['courseId'],
   feedbacks : ['assessmentId'],
   marks : ['assessmentId'],
