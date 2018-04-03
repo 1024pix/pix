@@ -5,7 +5,6 @@ const { ObjectValidationError } = require('../errors');
 class Assessment {
 
   constructor(attributes) {
-    this.marks = [];
     Object.assign(this, attributes);
   }
 
