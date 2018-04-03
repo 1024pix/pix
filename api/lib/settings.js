@@ -24,7 +24,6 @@ module.exports = (function() {
 
     logging: {
       enabled: process.env.LOG_ENABLED,
-      path: process.env.LOG_PATH || '/var/log/pix.log',
       colorEnabled: ('development' === process.env.NODE_ENV)
     },
 

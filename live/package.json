@@ -4,8 +4,7 @@
   "description": "Plateforme d'évaluation et de certification des compétences numériques à l'usage de tous les citoyens francophones.",
   "license": "AGPL-3.0",
   "engines": {
-    "node": "8.6.0",
-    "npm": "5.5.1"
+    "node": ">=7.10 <9"
   },
   "author": "SGMAP",
   "directories": {
