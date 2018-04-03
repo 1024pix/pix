@@ -1220,7 +1220,6 @@ describe('Unit | Service | Certification Service', function() {
         sinon.assert.calledOnce(certificationCourseRepository.save);
         expect(certificationCourseRepository.save).to.have.been.calledWith({
           userId: userId,
-          status: 'started',
           sessionId
         });
         expect(newCertification.id).to.equal('certificationCourseWithChallenges');
@@ -1269,7 +1268,7 @@ describe('Unit | Service | Certification Service', function() {
         sessionId: 'MoufMufassa'
       });
 
-      assessmentResult.competenceMarks = [_buildCompetenceMarks(3, 27, '2.1', '2')];
+      assessmentResult.competenceMarks = [_buildCompetenceMarks(3, 27, '2', '2.1')];
       sandbox.stub(assessmentResultRepository, 'get').resolves(
         assessmentResult
       );
@@ -1283,19 +1282,6 @@ describe('Unit | Service | Certification Service', function() {
     it('should return certification results with pix score, date and certified competences levels', () => {
       // given
       const certificationCourseId = 1;
-      const expectedResult = {
-        pixScore: 20,
-        createdAt: '2017-12-23 15:23:12',
-        completedAt: '2017-12-23T16:23:12.232Z',
-        competencesWithMark: [
-          {
-            level:3,
-            score: 27,
-            competence_code: '2',
-            area_code: '2.1'
-          }
-        ]
-      };
 
       // when
       const promise = certificationService.getCertificationResult(certificationCourseId);
@@ -1305,7 +1291,12 @@ describe('Unit | Service | Certification Service', function() {
         expect(certification.pixScore).to.deep.equal(20);
         expect(certification.createdAt).to.deep.equal('2017-12-23 15:23:12');
         expect(certification.completedAt).to.deep.equal('2017-12-23T16:23:12.232Z');
-        expect(certification.competencesWithMark).to.deep.equal([{ level: 3, competence_code: '2.1' }]);
+        expect(certification.competencesWithMark).to.deep.equal([{
+          level: 3,
+          competence_code: '2.1',
+          area_code: '2',
+          score: 27
+        }]);
         expect(certification.sessionId).to.deep.equal('MoufMufassa');
       });
     });

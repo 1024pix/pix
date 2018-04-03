@@ -61,7 +61,6 @@ describe('Unit | Serializer | JSONAPI | certification-course-serializer', functi
         lastName: 'De Homem Christo',
         birthdate: '08/02/1974',
         birthplace: 'Neuilly-Sur-Seine',
-        rejectionReason: '',
         sessionId: '#DaftPunk',
       });
 
@@ -81,7 +80,6 @@ describe('Unit | Serializer | JSONAPI | certification-course-serializer', functi
             'last-name': 'De Homem Christo',
             'birthdate': '08/02/1974',
             'birthplace': 'Neuilly-Sur-Seine',
-            'rejection-reason': '',
             'session-id': '#DaftPunk',
           },
         }

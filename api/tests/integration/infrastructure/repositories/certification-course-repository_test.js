@@ -12,7 +12,6 @@ describe('Integration | Repository | Certification Course', function() {
     userId: 1
   };
 
-  //TODO: 1088 - rejectionReason is not in certifCourse
   const certificationCourse = {
     id: courseId,
     userId: 1,
@@ -21,7 +20,6 @@ describe('Integration | Repository | Certification Course', function() {
     lastName: 'De La Havane',
     birthdate: '14/08/1993',
     birthplace: 'Cuba',
-    rejectionReason: null,
     sessionId: 'HakunaMatata'
   };
 
@@ -101,8 +99,6 @@ describe('Integration | Repository | Certification Course', function() {
           expect(certificationCourse.lastName).to.equal('De La Havane');
           expect(certificationCourse.birthdate).to.equal('14/08/1993');
           expect(certificationCourse.birthplace).to.equal('Cuba');
-          //TODO: 1088 rejectionReason is not here anymore
-          expect(certificationCourse.rejectionReason).to.equal(null);
           expect(certificationCourse.sessionId).to.equal('HakunaMatata');
         });
       });

@@ -11,7 +11,6 @@ describe('Unit | Repository | Certification Course', function() {
     let savedCertificationCourse;
 
     beforeEach(() => {
-      //TODO: 1088 rejectionReason is not in certifCourse anymore
       certificationCourse = new CertificationCourse({
         id: 'certifId',
         userId: 1,

@@ -226,7 +226,6 @@ module.exports = {
         return assessmentResultRepository.get(assessmentLastResult.id);
       })
       .then(assessmentResult => {
-        //TODO: 1088 - modify rejectionReason and add status
         return {
           level: assessmentLastResult.level,
           certificationId: certification.id,
