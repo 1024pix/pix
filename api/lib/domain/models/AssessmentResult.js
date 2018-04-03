@@ -1,7 +1,7 @@
-class AssessmentRating {
+class AssessmentResult {
   constructor(attributes) {
     Object.assign(this, attributes);
   }
 }
 
-module.exports = AssessmentRating;
+module.exports = AssessmentResult;

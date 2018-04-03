@@ -77,7 +77,7 @@ describe('Unit | Route | assessments.rating', function() {
       route.afterModel(assessment);
 
       // then
-      sinon.assert.calledWith(createRecordStub, 'assessment-rating', { assessment });
+      sinon.assert.calledWith(createRecordStub, 'assessment-result', { assessment });
       sinon.assert.called(assessmentRating.save);
     });
   });
