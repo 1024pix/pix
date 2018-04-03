@@ -8,6 +8,7 @@ const listSeeds = [
   'competence-marks',
   'organizations',
   'users',
+  'sessions',
   'snapshots',
   'pix_roles',
   'users_pix_roles',
