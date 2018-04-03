@@ -7,7 +7,7 @@ module.exports = {
 
   serialize(certificationCourse) {
     return new Serializer('certifications', {
-      attributes: ['status', 'firstName', 'lastName', 'birthplace', 'birthdate', 'rejectionReason']
+      attributes: ['firstName', 'lastName', 'birthplace', 'birthdate']
     }).serialize(certificationCourse);
   },
 
