@@ -39,7 +39,7 @@ module.exports = (function() {
 
     authentication: {
       secret: process.env.AUTH_SECRET,
-      tokenLifespan: '7d'
+      tokenLifespan: '20s'
     },
 
     temporaryKey: {
