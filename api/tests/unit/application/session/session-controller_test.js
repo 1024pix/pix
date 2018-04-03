@@ -4,9 +4,10 @@ const logger = require('../../../../lib/infrastructure/logger');
 
 const sessionSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/session-serializer');
 const sessionController = require('../../../../lib/application/sessions/session-controller');
+const sessionService = require('../../../../lib/domain/services/session-service');
 const Session = require('../../../../lib/domain/models/Session');
 
-const sessionService = require('../../../../lib/domain/services/session-service');
+const CertificationCourse = require('../../../../lib/domain/models/CertificationCourse');
 
 describe('Unit | Controller | sessionController', () => {
 
@@ -143,5 +144,75 @@ describe('Unit | Controller | sessionController', () => {
 
     });
 
+  });
+
+  describe('#get', function() {
+
+    beforeEach(() => {
+      sandbox = sinon.sandbox.create();
+      sandbox.stub(sessionService, 'get');
+      sandbox.stub(sessionSerializer, 'serialize');
+      request = {
+        params: {
+          id: 'sessionId'
+        }
+      };
+      replyStub = sinon.stub().returns({ code: codeStub });
+    });
+
+    afterEach(() => {
+      sandbox.restore();
+    });
+
+    it('should get session informations with certifications associated', function() {
+      // given
+      sessionService.get.resolves();
+
+      // when
+      const promise = sessionController.get(request, replyStub);
+
+      // then
+      return promise.then(() => {
+        expect(sessionService.get).to.have.been.calledWith('sessionId');
+      });
+    });
+
+    it('should serialize session informations', function() {
+      // given
+      const certification = new CertificationCourse({ id: 'certifId', sessionId: 'grèveSNCF' });
+      const session = new Session({
+        id: 'grèveSNCF',
+        certifications: [certification]
+      });
+      sessionService.get.resolves(session);
+
+      // when
+      const promise = sessionController.get(request, replyStub);
+
+      // then
+      return promise.then(() => {
+        expect(sessionSerializer.serialize).to.have.been.calledWith(session);
+      });
+    });
+
+    it('should reply serialized session informations', function() {
+      // given
+      const serializedSession = {
+        data: {
+          type: 'sessions',
+          id: 'id',
+        }
+      };
+      sessionSerializer.serialize.resolves(serializedSession);
+      sessionService.get.resolves();
+
+      // when
+      const promise = sessionController.get(request, replyStub);
+
+      // then
+      return promise.then(() => {
+        expect(replyStub).to.have.been.calledWith(serializedSession);
+      });
+    });
   });
 });

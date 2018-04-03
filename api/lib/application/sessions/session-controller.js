@@ -9,7 +9,10 @@ const errorSerializer = require('../../../lib/infrastructure/serializers/jsonapi
 
 module.exports = {
   get(request, reply) {
-    reply(sessionService.getCurrentCode());
+    const sessionId = request.params.id;
+    return sessionService.get(sessionId)
+      .then(serializer.serialize)
+      .then(reply);
   },
 
   save(request, reply) {
