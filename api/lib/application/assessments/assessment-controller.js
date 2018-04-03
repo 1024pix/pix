@@ -20,7 +20,7 @@ function _doesAssessmentExistsAndIsCompleted(assessment) {
   if (!assessment)
     throw new NotFoundError();
 
-  const isAssessmentNotCompleted = !assessmentService.isAssessmentCompleted(assessment);
+  const isAssessmentNotCompleted = !assessment.isCompleted();
 
   if (isAssessmentNotCompleted)
     throw new NotCompletedAssessmentError();
@@ -50,6 +50,7 @@ module.exports = {
   save(request, reply) {
 
     const assessment = assessmentSerializer.deserialize(request.payload);
+    assessment.state = 'started';
 
     if (request.headers.hasOwnProperty('authorization')) {
       const token = tokenService.extractTokenFromAuthChain(request.headers.authorization);

@@ -149,8 +149,7 @@ describe('Acceptance | API | assessment-controller-get-solutions', () => {
 
     const insertedAssessment = {
       courseId: 'non_adaptive_course_id',
-      estimatedLevel: 0,
-      pixScore: 5
+      state: 'completed'
     };
 
     beforeEach(() => {
@@ -277,8 +276,7 @@ describe('Acceptance | API | assessment-controller-get-solutions', () => {
 
     const completedAssessment = {
       courseId: 'adaptive_course_id',
-      estimatedLevel: 1,
-      pixScore: 9
+      state: 'completed'
     };
 
     beforeEach(() => {

@@ -1,10 +1,15 @@
 const { expect, knex } = require('../../test-helper');
 const server = require('../../../server');
+
 const _ = require('lodash');
 
-describe('Acceptance | Controller | assessment-ratings', () => {
+describe('Acceptance | Controller | assessment-results', function() {
 
-  describe('POST /api/assessment-ratings', () => {
+  after((done) => {
+    server.stop(done);
+  });
+
+  describe('POST /api/assessment-results', () => {
 
     context('when the assessment is a PREVIEW', () => {
 
@@ -14,15 +19,14 @@ describe('Acceptance | Controller | assessment-ratings', () => {
       beforeEach(() => {
         return knex('assessments').insert({
           courseId: 'nullCourseId_for_preview',
-          estimatedLevel: null,
-          pixScore: null,
+          state: 'started',
           type: 'PREVIEW'
         }).then((assessmentIds) => {
           savedAssessmentId = _.first(assessmentIds);
 
           options = {
             method: 'POST',
-            url: '/api/assessment-ratings',
+            url: '/api/assessment-results',
             payload: {
               data: {
                 attributes: {
@@ -37,9 +41,9 @@ describe('Acceptance | Controller | assessment-ratings', () => {
                     }
                   }
                 },
-                type: 'assessment-ratings'
+                type: 'assessment-results'
               }
-            },
+            }
           };
         });
       });
@@ -50,40 +54,26 @@ describe('Acceptance | Controller | assessment-ratings', () => {
 
       it('should return a 200 when everything is fine', () => {
         // when
-        const promise = server.inject(options);
+        const request = server.inject(options);
 
-        // then
-        return promise.then((response) => {
+        // Then
+        return request.then((response) => {
           expect(response.statusCode).to.equal(200);
         });
       });
 
-      it('should return 200 HTTP status code when missing authorization header', () => {
-        // given
-        options.headers = {};
-
+      it('should update the assessment state', () => {
         // when
-        const promise = server.inject(options);
+        const request = server.inject(options);
 
-        // given
-        return promise.then((response) => {
-          expect(response.statusCode).to.equal(200);
-        });
-      });
-
-      it('should update the assessment score and estimatedLevel', () => {
-        // when
-        const promise = server.inject(options);
-
-        // then
-        return promise
+        // Then
+        return request
           .then(() => knex('assessments').select())
           .then((assessments) => {
             expect(assessments).to.have.lengthOf(1);
 
             const myAssessment = _.first(assessments);
-            expect(myAssessment.estimatedLevel).to.equal(0);
-            expect(myAssessment.pixScore).to.equal(0);
+            expect(myAssessment.state).to.equal('completed');
             expect(myAssessment.type).to.equal('PREVIEW');
           });
       });
