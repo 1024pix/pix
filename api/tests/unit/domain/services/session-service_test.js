@@ -2,6 +2,7 @@ const { expect, sinon } = require('../../../test-helper');
 const sessionService = require('../../../../lib/domain/services/session-service');
 const sessionCodeService = require('../../../../lib/domain/services/session-code-service');
 const { NotFoundError } = require('../../../../lib/domain/errors');
+const sessionRepository = require('../../../../lib/infrastructure/repositories/session-repository');
 
 describe('Unit | Service | session', () => {
   describe('#getCurrentCode', () => {
@@ -117,4 +118,20 @@ describe('Unit | Service | session', () => {
     });
   });
 
+  describe('#get', () => {
+
+    it('should get session informations with related certifications', () => {
+      // given
+      const sessionId = 'grève SNCF';
+      sinon.stub(sessionRepository, 'get').resolves();
+
+      // when
+      const promise = sessionService.get(sessionId);
+
+      // then
+      promise.then(() => {
+        expect(sessionRepository.get).to.have.been.calledWith('grève SNCF');
+      });
+    });
+  });
 });

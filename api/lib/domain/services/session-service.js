@@ -5,6 +5,10 @@ const { NotFoundError } = require('../errors');
 const sessionRepository = require('../../infrastructure/repositories/session-repository');
 
 module.exports = {
+  get(sessionId) {
+    return sessionRepository.get(sessionId);
+  },
+
   getCurrentCode() {
     const date = moment().utc().format('YYYY-MM-DD HH');
 
