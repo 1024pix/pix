@@ -11,6 +11,7 @@ exports.up = function(knex) {
     .then((allAssessments) => {
 
       return batch(knex, allAssessments, (assessment) => {
+
         return knex(TABLE_NAME_ASSESSMENT_RESULT)
           .insert({
             createdAt: assessment.createdAt,
@@ -18,7 +19,8 @@ exports.up = function(knex) {
             pixScore: assessment.pixScore,
             emitter: 'PIX-ALGO',
             commentForJury: 'Computed',
-            assessmentId: assessment.id
+            assessmentId: assessment.id,
+            status: 'validated'
           });
       });
 
