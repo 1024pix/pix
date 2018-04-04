@@ -3,21 +3,33 @@ const server = require('../../../server');
 
 describe('Acceptance | Controller | session-controller', () => {
 
-  describe('GET /sessions', function() {
+  describe('GET /sessions/{id}', function() {
+
+    beforeEach(() => {
+      return knex('sessions').insert({
+        id: 1,
+        certificationCenter: 'Université de dressage de loutres',
+        address: 'Nice',
+        room: '28D',
+        examiner: 'Antoine Toutvenant',
+        date: '2017-12-08',
+        time: '14:30',
+        description: 'ahah',
+        accessCode: 'ABCD12'
+      });
+    });
 
     afterEach(() => {
       return cleanupUsersAndPixRolesTables().then(() => knex('sessions').delete());
     });
 
-    const options = {
-      method: 'GET',
-      url: '/api/sessions',
-      payload: {},
-    };
-
     it('should return 200 HTTP status code', () => {
       // when
-      const promise = server.inject(options);
+      const promise = server.inject({
+        method: 'GET',
+        url: '/api/sessions/1',
+        payload: {},
+      });
 
       // then
       return promise.then((response) => {
