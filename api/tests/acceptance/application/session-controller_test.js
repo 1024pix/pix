@@ -37,16 +37,20 @@ describe('Acceptance | Controller | session-controller', () => {
       });
     });
 
-    it('should return a session code', () => {
+    it('should return 404 HTTP status code when session does not exist', () => {
       // when
-      const promise = server.inject(options);
+      const promise = server.inject({
+        method: 'GET',
+        url: '/api/sessions/2',
+        payload: {},
+      });
 
       // then
       return promise.then((response) => {
-        const code = response.result;
-        expect(code).to.have.lengthOf(6);
+        expect(response.statusCode).to.equal(404);
       });
     });
+
   });
 
   describe('POST /sessions', () => {
