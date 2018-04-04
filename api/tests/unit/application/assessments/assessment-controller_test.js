@@ -5,79 +5,84 @@ const assessmentController = require('../../../../lib/application/assessments/as
 const assessmentService = require('../../../../lib/domain/services/assessment-service');
 const assessmentSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/assessment-serializer');
 
-describe('Unit | Controller | findByFilters', function() {
+describe('Unit | Controller | assessment-controller', function () {
 
-  let sandbox;
+  describe('#findByFilters', () => {
 
-  let codeStub;
-  let replyStub;
 
-  const assessments = [{ id: 1 }, { id: 2 }];
-  const assessmentsInJSONAPI = [
-    {
-      id: 1,
-      type: 'assessments',
-      attributes: { pixScore: 12 }
-    }, {
-      id: 1,
-      type: 'assessments',
-      attributes: { pixScore: 12 }
-    }];
+    let sandbox;
 
-  beforeEach(() => {
-    sandbox = sinon.sandbox.create();
+    let codeStub;
+    let replyStub;
 
-    codeStub = sinon.stub();
-    replyStub = sinon.stub().returns({ code: codeStub });
-    sandbox.stub(assessmentService, 'findByFilters').resolves();
-    sandbox.stub(assessmentSerializer, 'serializeArray').resolves();
-  });
+    const assessments = [{ id: 1 }, { id: 2 }];
+    const assessmentsInJSONAPI = [
+      {
+        id: 1,
+        type: 'assessments',
+        attributes: { pixScore: 12 }
+      }, {
+        id: 1,
+        type: 'assessments',
+        attributes: { pixScore: 12 }
+      }];
 
-  afterEach(() => {
-    sandbox.restore();
-  });
+    beforeEach(() => {
+      sandbox = sinon.sandbox.create();
 
-  describe('GET assessments with filters', function() {
-
-    const request = { query: { 'filter[courseId]': 'courseId' } };
-
-    it('should call assessment service with query filters', function() {
-      // when
-      const promise = assessmentController.findByFilters(request, replyStub);
-
-      // then
-      return promise.then(() => {
-        expect(assessmentService.findByFilters).to.have.been.called;
-        expect(assessmentService.findByFilters).to.have.been.calledWith({ courseId: 'courseId' });
-      });
+      codeStub = sinon.stub();
+      replyStub = sinon.stub().returns({ code: codeStub });
+      sandbox.stub(assessmentService, 'findByFilters').resolves();
+      sandbox.stub(assessmentSerializer, 'serializeArray').resolves();
     });
 
-    it('should serialize assessment to JSON API', function() {
-      // given
-      assessmentService.findByFilters.resolves(assessments);
-
-      // when
-      const promise = assessmentController.findByFilters(request, replyStub);
-
-      // then
-      return promise.then(() => {
-        expect(assessmentSerializer.serializeArray).to.have.been.called;
-        expect(assessmentSerializer.serializeArray).to.have.been.calledWith(assessments);
-      });
+    afterEach(() => {
+      sandbox.restore();
     });
 
-    it('should reply the serialized assessments', function() {
-      // given
-      assessmentSerializer.serializeArray.returns(assessmentsInJSONAPI);
+    describe('GET assessments with filters', function () {
 
-      // when
-      const promise = assessmentController.findByFilters(request, replyStub);
+      const request = { query: { 'filter[courseId]': 'courseId' } };
 
-      // then
-      return promise.then(() => {
-        expect(replyStub).to.have.been.called;
-        expect(replyStub).to.have.been.calledWith(assessmentsInJSONAPI);
+      it('should call assessment service with query filters', function () {
+        // when
+        const promise = assessmentController.findByFilters(request, replyStub);
+
+        // then
+        return promise.then(() => {
+          expect(assessmentService.findByFilters).to.have.been.called;
+          expect(assessmentService.findByFilters).to.have.been.calledWith({ courseId: 'courseId' });
+        });
       });
+
+      it('should serialize assessment to JSON API', function () {
+        // given
+        assessmentService.findByFilters.resolves(assessments);
+
+        // when
+        const promise = assessmentController.findByFilters(request, replyStub);
+
+        // then
+        return promise.then(() => {
+          expect(assessmentSerializer.serializeArray).to.have.been.called;
+          expect(assessmentSerializer.serializeArray).to.have.been.calledWith(assessments);
+        });
+      });
+
+      it('should reply the serialized assessments', function () {
+        // given
+        assessmentSerializer.serializeArray.returns(assessmentsInJSONAPI);
+
+        // when
+        const promise = assessmentController.findByFilters(request, replyStub);
+
+        // then
+        return promise.then(() => {
+          expect(replyStub).to.have.been.called;
+          expect(replyStub).to.have.been.calledWith(assessmentsInJSONAPI);
+        });
+      });
+
     });
 
   });
