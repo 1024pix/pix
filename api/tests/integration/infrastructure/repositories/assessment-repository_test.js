@@ -17,8 +17,7 @@ describe('Integration | Infrastructure | Repositories | assessment-repository', 
           .insert({
             userId: 1,
             courseId: 'course_A',
-            pixScore: null,
-            estimatedLevel: null,
+            state:'completed',
             createdAt: '2016-10-27 08:44:25'
           })
           .then((assessmentId) => {
@@ -96,36 +95,31 @@ describe('Integration | Infrastructure | Repositories | assessment-repository', 
         id: 1,
         userId: 1,
         courseId: 'course_A',
-        pixScore: null,
-        estimatedLevel: null,
+        state:'started',
         createdAt: '2016-10-27 08:44:25'
       }, {
         id: 2,
         userId: 1,
         courseId: 'course_A',
-        pixScore: 26,
-        estimatedLevel: 4,
+        state:'completed',
         createdAt: '2017-10-27 08:44:25'
       }, {
         id: 3,
         userId: 1,
         courseId: 'course_A',
-        pixScore: null,
-        estimatedLevel: null,
+        state: 'started',
         createdAt: '2018-10-27 08:44:25'
       }, {
         id: 4,
         userId: 1,
         courseId: 'course_B',
-        pixScore: 46,
-        estimatedLevel: 5,
+        state:'completed',
         createdAt: '2017-10-27 08:44:25'
       }, {
         id: 5,
         userId: 1,
         courseId: 'course_B',
-        pixScore: null,
-        estimatedLevel: 5,
+        state:'completed',
         createdAt: '2018-10-27 08:44:25'
       }]);
     });
@@ -233,43 +227,37 @@ describe('Integration | Infrastructure | Repositories | assessment-repository', 
       id: 1,
       userId: JOHN,
       courseId: 'courseId1',
-      estimatedLevel: 1,
-      pixScore: 10,
+      state:'completed',
       createdAt: '2017-11-08 11:47:38'
     }, {
       id: 2,
       userId: LAYLA,
       courseId: 'courseId1',
-      estimatedLevel: 2,
-      pixScore: 20,
+      state:'completed',
       createdAt: '2017-11-08 11:47:38'
     }, {
       id: 3,
       userId: JOHN,
       courseId: 'courseId1',
-      estimatedLevel: 3,
-      pixScore: 30,
+      state:'completed',
       createdAt: '2017-11-08 12:47:38'
     }, {
       id: 4,
       userId: JOHN,
       courseId: 'courseId2',
-      estimatedLevel: 3,
-      pixScore: 37,
+      state:'completed',
       createdAt: '2017-11-08 11:47:38'
     }, {
       id: 5,
       userId: JOHN,
       courseId: 'courseId3',
-      estimatedLevel: null,
-      pixScore: null,
+      state: 'started',
       createdAt: '2017-11-08 11:47:38'
     }, {
       id: 6,
       userId: JOHN,
       courseId: 'courseId1',
-      pixScore: 2,
-      estimatedLevel: 5,
+      state:'completed',
       createdAt: '2020-10-27 08:44:25'
     }
     ];
@@ -289,15 +277,13 @@ describe('Integration | Infrastructure | Repositories | assessment-repository', 
           id: 3,
           userId: JOHN,
           courseId: 'courseId1',
-          estimatedLevel: 3,
-          pixScore: 30,
+          state:'completed'
         }),
         new Assessment({
           id: 4,
           userId: JOHN,
           courseId: 'courseId2',
-          estimatedLevel: 3,
-          pixScore: 37
+          state:'completed'
         })
       ];
 
@@ -323,8 +309,7 @@ describe('Integration | Infrastructure | Repositories | assessment-repository', 
     const assessmentToBeSaved = new Assessment({
       userId: JOHN,
       courseId: 'courseId1',
-      estimatedLevel: 1,
-      pixScore: 10,
+      state:'completed',
       createdAt: '2017-11-08 11:47:38'
     });
 
@@ -338,10 +323,9 @@ describe('Integration | Infrastructure | Repositories | assessment-repository', 
 
       // then
       return promise.then((assessmentReturned) =>
-        knex('assessments').where('id', assessmentReturned.id).first('id', 'userId', 'pixScore'))
+        knex('assessments').where('id', assessmentReturned.id).first('id', 'userId'))
         .then((assessmentsInDb) => {
           expect(assessmentsInDb.userId).to.equal(JOHN);
-          expect(assessmentsInDb.pixScore).to.equal(assessmentToBeSaved.pixScore);
         });
     });
   });
@@ -350,33 +334,55 @@ describe('Integration | Infrastructure | Repositories | assessment-repository', 
 
     const assessmentInDb = {
       courseId: 'course_A',
-      pixScore: 363,
-      estimatedLevel: 6,
+      state:'completed',
       createdAt: '2016-10-27 08:44:25'
     };
 
     const competenceMark = {
-      id: 2,
       level: 4,
       score: 35,
       area_code: '2',
       competence_code: '2.1',
     };
 
+    const result = {
+      id: 12,
+      level: 0,
+      pixScore: 0,
+      status: 'validated',
+      emitter: 'PIX-ALGO',
+      juryId: 1,
+      commentForJury: 'Computed',
+      commentForCandidate: 'Votre certification a été validé par Pix',
+      commentForOrganization: 'Sa certification a été validé par Pix',
+      createdAt: '2016-10-27 08:44:25'
+    };
+
     beforeEach(() => {
       return knex('assessments').insert(assessmentInDb)
         .then(assessmentIds => {
           const assessmentId = _.first(assessmentIds);
-          competenceMark.assessmentId = assessmentId;
-          return knex('marks').insert(competenceMark);
+          result.assessmentId = assessmentId;
+
+          return knex('assessment-results').insert(result);
+        })
+        .then((resultIds) => {
+          const resultId = _.first(resultIds);
+
+          competenceMark.assessmentResultId = resultId;
+          return knex('competence-marks').insert(competenceMark);
         });
     });
 
     afterEach(() => {
-      return Promise.all([knex('assessments').delete(), knex('marks').delete()]);
+      return Promise.all([
+        knex('assessments').delete(),
+        knex('assessment-results').delete(),
+        knex('competence-marks').delete()
+      ]);
     });
 
-    it('should retrieve the assessment with its marks for the given certificationId', () => {
+    it('should returns assessment results for the given certificationId', () => {
       // when
       const promise = assessmentRepository.getByCertificationCourseId('course_A');
 
@@ -385,8 +391,8 @@ describe('Integration | Infrastructure | Repositories | assessment-repository', 
         expect(assessmentReturned).to.be.an.instanceOf(Assessment);
         expect(assessmentReturned.courseId).to.equal('course_A');
         expect(assessmentReturned.pixScore).to.equal(assessmentInDb.pixScore);
-        expect(assessmentReturned.marks).to.have.lengthOf(1);
-        expect(assessmentReturned.marks[0]).to.deep.equal(competenceMark);
+        expect(assessmentReturned.assessmentResults).to.have.lengthOf(1);
+        expect(assessmentReturned.assessmentResults[0]).to.deep.equal(result);
       });
     });
   });

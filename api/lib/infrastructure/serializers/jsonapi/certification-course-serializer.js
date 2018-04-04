@@ -9,7 +9,7 @@ module.exports = {
   serialize(certificationCourse) {
 
     return new Serializer('course', {
-      attributes: ['userId', 'assessment', 'status', 'type', 'nbChallenges'],
+      attributes: ['userId', 'assessment', 'type', 'nbChallenges'],
       assessment: {
         ref: 'id',
       },
@@ -23,8 +23,26 @@ module.exports = {
 
   serializeResult(certificationCourseResult) {
     return new Serializer('results', {
-      //TODO: 1088 - rejectionReason do not exist anymore
-      attributes: ['firstName', 'lastName', 'birthdate', 'birthplace', 'pixScore', 'createdAt', 'completedAt', 'sessionId', 'competencesWithMark', 'rejectionReason']
+      attributes: [
+        'certificationId',
+        'assessmentId',
+        'level',
+        'pixScore',
+        'createdAt',
+        'resultCreatedAt',
+        'status',
+        'completedAt',
+        'emitter',
+        'juryId',
+        'commentForCandidate',
+        'commentForOrganization',
+        'commentForJury',
+        'competencesWithMark',
+        'firstName',
+        'lastName',
+        'birthdate',
+        'birthplace',
+        'sessionId']
     }).serialize(certificationCourseResult);
   },
 
@@ -38,13 +56,11 @@ module.exports = {
       createdAt: json.data.attributes.createdAt,
       updatedAt: json.data.attributes.updatedAt,
       userId: json.data.attributes.userId,
-      status: json.data.attributes.status,
       completedAt: json.data.attributes.completedAt,
       firstName: json.data.attributes.firstName,
       lastName: json.data.attributes.lastName,
       birthdate: moment(json.data.attributes.birthdate, 'DD/MM/YYYY').format('YYYY-MM-DD'),
       birthplace: json.data.attributes.birthplace,
-      rejectionReason: json.data.attributes.rejectionReason
     });
   }
 };

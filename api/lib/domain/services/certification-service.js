@@ -16,7 +16,9 @@ const assessmentRepository = require('../../../lib/infrastructure/repositories/a
 const answersRepository = require('../../../lib/infrastructure/repositories/answer-repository');
 const certificationChallengesRepository = require('../../../lib/infrastructure/repositories/certification-challenge-repository');
 const certificationCourseRepository = require('../../infrastructure/repositories/certification-course-repository');
+
 const competenceRepository = require('../../infrastructure/repositories/competence-repository');
+const assessmentResultRepository = require('../../infrastructure/repositories/assessment-result-repository');
 
 function _enhanceAnswersWithCompetenceId(listAnswers, listChallenges) {
   return _.map(listAnswers, (answer) => {
@@ -85,6 +87,7 @@ function _getCompetencesWithCertifiedLevelAndScore(answersWithCompetences, listC
   return listCompetences.map((competence) => {
     const numberOfCorrectAnswers = _numberOfCorrectAnswersPerCompetence(answersWithCompetences, competence);
     // TODO: Convertir ça en Mark ?
+
     return {
       name: competence.name,
       index: competence.index,
@@ -185,8 +188,9 @@ function _getCertificationResult(assessment) {
       // FIXME: Missing tests
       result.createdAt = startOfCertificationDate;
       result.userId = assessment.userId;
-      result.status = certificationCourse.status;
+      result.status = assessment.state;
       result.completedAt = certificationCourse.completedAt;
+
       result.listChallengesAndAnswers = _getChallengeInformation(listAnswers, certificationChallenges, competences);
       return result;
     });
@@ -208,24 +212,39 @@ module.exports = {
 
   getCertificationResult(certificationCourseId) {
     let assessment = {};
+    let assessmentLastResult;
+    let certification = {};
     return assessmentRepository
       .getByCertificationCourseId(certificationCourseId)
       .then(foundAssessement => {
         assessment = foundAssessement;
         return certificationCourseRepository.get(certificationCourseId);
       })
-      .then(certification => {
-        //TODO: 1088 - modify rejectionReason and add status
+      .then(foundCertification => {
+        certification = foundCertification;
+        assessmentLastResult = assessment.getLastAssessmentResult();
+        return assessmentResultRepository.get(assessmentLastResult.id);
+      })
+      .then(assessmentResult => {
         return {
-          pixScore: assessment.pixScore,
+          level: assessmentLastResult.level,
+          certificationId: certification.id,
+          assessmentId: assessment.id,
+          emitter: assessmentLastResult.emitter,
+          commentForJury: assessmentLastResult.commentForJury,
+          commentForCandidate: assessmentLastResult.commentForCandidate,
+          commentForOrganization: assessmentLastResult.commentForOrganization,
+          status: assessmentLastResult.status,
+          pixScore: assessmentLastResult.pixScore,
           createdAt: certification.createdAt,
+          juryId: assessmentLastResult.juryId,
+          resultCreatedAt: assessmentLastResult.createdAt,
           completedAt: certification.completedAt,
-          competencesWithMark: assessment.marks,
+          competencesWithMark: assessmentResult.competenceMarks,
           firstName: certification.firstName,
           lastName: certification.lastName,
           birthdate: certification.birthdate,
           birthplace: certification.birthplace,
-          rejectionReason: certification.rejectionReason,
           sessionId: certification.sessionId,
         };
       });
@@ -233,7 +252,7 @@ module.exports = {
 
   startNewCertification(userId, sessionId) {
     let userCompetencesToCertify;
-    const newCertificationCourse = new CertificationCourse({ userId, status: 'started', sessionId });
+    const newCertificationCourse = new CertificationCourse({ userId, sessionId });
 
     return userService.getProfileToCertify(userId, moment().toISOString())
       .then(userCompetences => {

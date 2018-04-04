@@ -1,13 +1,37 @@
+const _ = require('lodash');
+
 class Assessment {
   constructor(attributes) {
-    // TODO: estimatedLevel et pixScore pourrait être renommé en totalLevel et totalScore ?
-    this.marks = [];
     Object.assign(this, attributes);
   }
 
   isCompleted() {
-    return Boolean(this.estimatedLevel && this.pixScore
-      || (this.estimatedLevel === 0)|| (this.pixScore === 0));
+    return this.state === 'completed';
+  }
+
+  getLastAssessmentResult() {
+    if(this.assessmentResults) {
+      return _(this.assessmentResults).sortBy(['createdAt']).last();
+    }
+    return null;
+  }
+
+  getPixScore() {
+    if(this.getLastAssessmentResult()) {
+      return this.getLastAssessmentResult().pixScore;
+    }
+    return null;
+  }
+
+  getLevel() {
+    if(this.getLastAssessmentResult()) {
+      return this.getLastAssessmentResult().level;
+    }
+    return null;
+  }
+
+  setCompleted() {
+    this.state = 'completed';
   }
 }
 
