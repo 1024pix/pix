@@ -5,7 +5,7 @@ export default Route.extend(AuthenticatedRouteMixin, {
 
   beforeModel() {
     this._super(...arguments);
-    this.transitionTo('authenticated.users');
+    this.transitionTo('authenticated.certifications');
   }
 
 });

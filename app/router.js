@@ -25,6 +25,7 @@ Router.map(function() {
     this.route('organizations');
     this.route('certifications');
     this.route('operating');
+    this.route('assessments');
   });
 });
 

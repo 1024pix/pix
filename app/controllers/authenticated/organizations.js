@@ -1,9 +1,10 @@
 import Controller from '@ember/controller';
+import { debug } from '@ember/debug';
 
 export default Controller.extend({
   actions: {
     addOrganization() {
-      console.log('Add organization');
+      debug('Add organization');
     }
   }
 });
