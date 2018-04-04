@@ -38,6 +38,9 @@ class Assessment {
   }
 
   validate() {
+    console.log('Type of userId');
+    console.log(typeof this.userId);
+    console.log(this.userId);
     if(TYPES_OF_ASSESSMENT_NEEDING_USER.includes(this.type) && typeof this.userId !== 'number') {
       return Promise.reject(new ObjectValidationError(`Assessment ${this.type} needs an User Id`));
     }
