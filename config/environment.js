@@ -23,7 +23,7 @@ module.exports = function(environment) {
     },
 
     fastboot: {
-      hostWhitelist: ['pix-admin.herokuapp.com', /^localhost:\d+$/]
+      hostWhitelist: ['pix-admin.herokuapp.com', 'pix-admin.scalingo.io', 'admin.pix.fr', /^localhost:\d+$/]
     },
 
     googleFonts: [
