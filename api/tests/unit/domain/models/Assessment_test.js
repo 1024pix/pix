@@ -178,16 +178,50 @@ describe('Unit | Domain | Models | Assessment', () => {
   });
   describe('#validate', () => {
     let assessment;
-    beforeEach(() => {
-      assessment = new Assessment({ id: 1, courseId: 'rec123', userId: 3, type: 'DEMO' });
-    });
 
     it('should return resolved promise when object is valid', () => {
+      // given
+      assessment = new Assessment({ id: 1, courseId: 'rec123', userId: 3, type: 'DEMO' });
+
       // when
       const promise = assessment.validate();
 
       // then
       return expect(promise).to.be.fulfilled;
     });
+
+    it('should return resolved promise when Placement assessment is valid', () => {
+      //given
+      assessment = new Assessment({ id: 1, courseId: 'rec123', userId: 3, type: 'PLACEMENT' });
+
+      // when
+      const promise = assessment.validate();
+
+      // then
+      return expect(promise).to.be.fulfilled;
+    });
+
+    it('should return rejected promise when Placement assessment has no userId', () => {
+      //given
+      assessment = new Assessment({ id: 1, courseId: 'rec123', type: 'PLACEMENT' });
+
+      // when
+      const promise = assessment.validate();
+
+      // then
+      return expect(promise).to.be.rejected;
+    });
+
+    it('should return rejected promise when userId is null for placement', () => {
+      //given
+      assessment = new Assessment({ id: 1, courseId: 'rec123', userId: null, type: 'PLACEMENT' });
+
+      // when
+      const promise = assessment.validate();
+
+      // then
+      return expect(promise).to.be.rejected;
+    });
+
   });
 });
