@@ -214,7 +214,7 @@ describe('Unit | Domain | Models | Assessment', () => {
 
     it('should return rejected promise when userId is null for placement', () => {
       //given
-      assessment = new Assessment({ type: 'PLACEMENT' });
+      assessment = new Assessment({ userId: null, type: 'PLACEMENT' });
 
       // when
       const promise = assessment.validate();
