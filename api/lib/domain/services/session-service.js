@@ -9,12 +9,6 @@ module.exports = {
     return sessionRepository.get(sessionId);
   },
 
-  getCurrentCode() {
-    const date = moment().utc().format('YYYY-MM-DD HH');
-
-    return hash(date).slice(0, 6);
-  },
-
   sessionExists(accessCode) {
     return sessionCodeService.getSessionByAccessCode(accessCode)
       .then(session => {
