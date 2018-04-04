@@ -1,4 +1,4 @@
-[![CircleCI](https://circleci.com/gh/betagouv/pix/tree/dev.svg?style=shield&circle-token=:circle-token)](https://circleci.com/gh/betagouv/pix) PIX
+[![CircleCI](https://circleci.com/gh/1024pix/pix/tree/dev.svg?style=shield&circle-token=:circle-token)](https://circleci.com/gh/1024pix/pix) PIX
 ===
 
 Présentation
@@ -30,7 +30,7 @@ Vous devez au préalable avoir correctement installé les logiciels suivants :
 **1/ Récupérer le code source**
 
 ```bash
-$ git clone git@github.com:betagouv/pix.git && cd pix
+$ git clone git@github.com:1024pix/pix.git && cd pix
 ```
 
 **2/ Lancer le script de configuration de l'environnement**
@@ -43,7 +43,7 @@ $ npm run configure
 
 **3/ Configurer les variables d'environnement dans le fichier `pix/api/.env`**
 
-Pour récupérer les différents identifiants / clés de connexion, s'adresser à un membre de [l'équipe PIX](https://github.com/orgs/betagouv/teams/pix).
+Pour récupérer les différents identifiants / clés de connexion, s'adresser à un membre de [l'équipe PIX](https://github.com/orgs/1024pix/teams/pix).
 
 
 **4/ Lancer l'application**
