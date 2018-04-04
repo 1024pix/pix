@@ -181,7 +181,7 @@ describe('Unit | Domain | Models | Assessment', () => {
 
     it('should return resolved promise when object is valid', () => {
       // given
-      assessment = new Assessment({ id: 1, courseId: 'rec123', userId: 3, type: 'DEMO' });
+      assessment = new Assessment({ type: 'DEMO' });
 
       // when
       const promise = assessment.validate();
@@ -192,7 +192,7 @@ describe('Unit | Domain | Models | Assessment', () => {
 
     it('should return resolved promise when Placement assessment is valid', () => {
       //given
-      assessment = new Assessment({ id: 1, courseId: 'rec123', userId: 3, type: 'PLACEMENT' });
+      assessment = new Assessment({ userId: 3, type: 'PLACEMENT' });
 
       // when
       const promise = assessment.validate();
@@ -203,7 +203,7 @@ describe('Unit | Domain | Models | Assessment', () => {
 
     it('should return rejected promise when Placement assessment has no userId', () => {
       //given
-      assessment = new Assessment({ id: 1, courseId: 'rec123', type: 'PLACEMENT' });
+      assessment = new Assessment({ type: 'PLACEMENT' });
 
       // when
       const promise = assessment.validate();
@@ -214,7 +214,7 @@ describe('Unit | Domain | Models | Assessment', () => {
 
     it('should return rejected promise when userId is null for placement', () => {
       //given
-      assessment = new Assessment({ id: 1, courseId: 'rec123', userId: null, type: 'PLACEMENT' });
+      assessment = new Assessment({ type: 'PLACEMENT' });
 
       // when
       const promise = assessment.validate();
