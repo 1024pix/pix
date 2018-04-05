@@ -4,7 +4,6 @@ const Session = require('../../../../lib/domain/models/Session');
 const sessionRepository = require('../../../../lib/infrastructure/repositories/session-repository');
 const { NotFoundError } = require('../../../../lib/domain/errors');
 
-
 describe('Integration | Repository | Session', function() {
 
   describe('#save', () => {
@@ -229,4 +228,3 @@ describe('Integration | Repository | Session', function() {
     });
   });
 });
-

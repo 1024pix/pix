@@ -1,5 +1,3 @@
-const hash = require('object-hash');
-const moment = require('moment');
 const sessionCodeService = require('./session-code-service');
 const { NotFoundError } = require('../errors');
 const sessionRepository = require('../../infrastructure/repositories/session-repository');
