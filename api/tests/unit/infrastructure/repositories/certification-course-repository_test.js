@@ -11,24 +11,20 @@ describe('Unit | Repository | Certification Course', function() {
     let savedCertificationCourse;
 
     beforeEach(() => {
-      //TODO: 1088 rejectionReason is not in certifCourse anymore
       certificationCourse = new CertificationCourse({
         id: 'certifId',
         userId: 1,
-        status: 'completed',
         completedAt: null,
         createdAt: null,
         firstName: 'Antoine',
         lastName: 'Griezmann',
         birthplace: 'Macon',
         birthdate: '21/03/1991',
-        rejectionReason: 'Il est trop fort',
         sessionId: 'EURO2016'
       });
       savedCertificationCourse = new CertificationCourse({
         id: 'certifId',
         userId: 1,
-        status: 'completed',
         completedAt: null,
         createdAt: null,
         type: 'CERTIFICATION',
@@ -36,7 +32,6 @@ describe('Unit | Repository | Certification Course', function() {
         lastName: 'Griezmann',
         birthplace: 'Macon',
         birthdate: '21/03/1991',
-        rejectionReason: 'Il est trop fort',
         challenges: [],
         assessment: {},
         sessionId: 'EURO2016'

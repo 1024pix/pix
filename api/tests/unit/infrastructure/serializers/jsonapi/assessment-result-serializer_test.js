@@ -1,8 +1,8 @@
 const { expect } = require('../../../../test-helper');
-const AssessmentRating = require('../../../../../lib/domain/models/AssessmentRating');
-const serializer = require('../../../../../lib/infrastructure/serializers/jsonapi/assessment-rating-serializer');
+const AssessmentResult = require('../../../../../lib/domain/models/AssessmentResult');
+const serializer = require('../../../../../lib/infrastructure/serializers/jsonapi/assessment-result-serializer');
 
-describe('Unit | Serializer | JSONAPI | assessment-rating-serializer', () => {
+describe('Unit | Serializer | JSONAPI | assessment-result-serializer', () => {
   let jsonAssessmentRating;
 
   beforeEach(() => {
@@ -20,7 +20,7 @@ describe('Unit | Serializer | JSONAPI | assessment-rating-serializer', () => {
             }
           }
         },
-        type: 'assessment-ratings'
+        type: 'assessment-results'
       }
     };
   });
@@ -28,7 +28,7 @@ describe('Unit | Serializer | JSONAPI | assessment-rating-serializer', () => {
   describe('#serialize', () => {
     it('should serialize the assessment rating object to jsonapi object excluding email and password', () => {
       // given
-      const modelObject = new AssessmentRating({
+      const modelObject = new AssessmentResult({
         id: '234567',
         estimatedLevel: 7,
         pixScore: 526
@@ -45,7 +45,7 @@ describe('Unit | Serializer | JSONAPI | assessment-rating-serializer', () => {
             'pix-score': 526,
           },
           id: '234567',
-          type: 'assessment-ratings'
+          type: 'assessment-results'
         }
       });
     });
@@ -58,7 +58,7 @@ describe('Unit | Serializer | JSONAPI | assessment-rating-serializer', () => {
       const assessmentRating = serializer.deserialize(jsonAssessmentRating);
 
       // then
-      expect(assessmentRating).to.be.an.instanceOf(AssessmentRating);
+      expect(assessmentRating).to.be.an.instanceOf(AssessmentResult);
     });
 
     it('should contain an ID attribute', () => {
@@ -88,4 +88,5 @@ describe('Unit | Serializer | JSONAPI | assessment-rating-serializer', () => {
     });
 
   });
+
 });

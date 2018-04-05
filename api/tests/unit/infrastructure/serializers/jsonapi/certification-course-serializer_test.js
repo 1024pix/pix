@@ -15,8 +15,7 @@ describe('Unit | Serializer | JSONAPI | certification-course-serializer', functi
 
       const certificationCourse = new CertificationCourse({
         id: 'certification_id',
-        userId: 2,
-        status: 'completed',
+        userId : 2,
         assessment: assessment,
         nbChallenges: 3
       });
@@ -27,8 +26,7 @@ describe('Unit | Serializer | JSONAPI | certification-course-serializer', functi
           id: 'certification_id',
           attributes: {
             'user-id': '2',
-            'status': 'completed',
-            'type': 'CERTIFICATION',
+            'type' : 'CERTIFICATION',
             'nb-challenges': 3
           },
           relationships: {
@@ -63,7 +61,6 @@ describe('Unit | Serializer | JSONAPI | certification-course-serializer', functi
         lastName: 'De Homem Christo',
         birthdate: '08/02/1974',
         birthplace: 'Neuilly-Sur-Seine',
-        rejectionReason: '',
         sessionId: '#DaftPunk',
       });
 
@@ -83,7 +80,6 @@ describe('Unit | Serializer | JSONAPI | certification-course-serializer', functi
             'last-name': 'De Homem Christo',
             'birthdate': '08/02/1974',
             'birthplace': 'Neuilly-Sur-Seine',
-            'rejection-reason': '',
             'session-id': '#DaftPunk',
           },
         }

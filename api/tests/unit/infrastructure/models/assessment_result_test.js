@@ -1,7 +1,7 @@
 const { expect, sinon } = require('../../../test-helper');
-const BookshelfCertificationCourse = require('../../../../lib/infrastructure/data/certification-course');
+const BookshelfAssessmentResults = require('../../../../lib/infrastructure/data/assessment-result');
 
-describe('Unit | Infrastructure | Models | BookshelfCertificationCourse', () => {
+describe('Unit | Infrastructure | Models | BookshelfAssessmentResult', () => {
 
   describe('validation', () => {
 
@@ -9,6 +9,7 @@ describe('Unit | Infrastructure | Models | BookshelfCertificationCourse', () => 
 
     beforeEach(() => {
       rawData = {
+        emitter: '',
         status: null
       };
     });
@@ -18,7 +19,7 @@ describe('Unit | Infrastructure | Models | BookshelfCertificationCourse', () => 
       it('should only accept specific values', () => {
         // given
         rawData.status = 'not_a_correct_status';
-        const certification = new BookshelfCertificationCourse(rawData);
+        const certification = new BookshelfAssessmentResults(rawData);
 
         // when
         const promise = certification.save();
@@ -34,18 +35,18 @@ describe('Unit | Infrastructure | Models | BookshelfCertificationCourse', () => 
           });
       });
 
-      ['started', 'completed', 'validated', 'rejected'].forEach((organizationType) => {
+      ['validated', 'rejected'].forEach((status) => {
         it('should be saved when organisation type is ${organizationType}', () => {
           // given
-          rawData.status = organizationType;
-          const certification = new BookshelfCertificationCourse(rawData);
+          rawData.status = status;
+          const certification = new BookshelfAssessmentResults(rawData);
 
           // when
           const promise = certification.save();
 
           // then
           return promise.catch(_ => {
-            sinon.assert.fail(new Error(`Should not fail with ${organizationType} type`));
+            sinon.assert.fail(new Error(`Should not fail with ${status} type`));
           });
         });
       });

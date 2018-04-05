@@ -12,6 +12,7 @@ const { UserNotFoundError } = require('../../../../lib/domain/errors');
 const BookshelfAnswer = require('../../../../lib/infrastructure/data/answer');
 const User = require('../../../../lib/domain/models/User');
 const Assessment = require('../../../../lib/domain/models/Assessment');
+const AssessmentResult = require('../../../../lib/domain/models/AssessmentResult');
 const Skill = require('../../../../lib/domain/models/Skill');
 const Challenge = require('../../../../lib/domain/models/Challenge');
 const Competence = require('../../../../lib/domain/models/referential/competence');
@@ -180,9 +181,12 @@ describe('Unit | Service | User Service', () => {
     const archivedChallengeForSkillCitation4 = _createChallenge('challengeRecordIdTen', competenceFlipper.id, [skillCitation4], '@citation4', 'archive');
     const oldChallengeWithAlreadyValidatedSkill = _createChallenge('challengeRecordIdEleven', competenceFlipper.id, [skillWithoutChallenge], '@oldSkill8', 'proposé');
 
-    const assessment1 = new Assessment({ id: 13, estimatedLevel: 1, pixScore: 12, courseId: 'courseId1' });
-    const assessment2 = new Assessment({ id: 1637, estimatedLevel: 2, pixScore: 23, courseId: 'courseId2' });
-    const assessment3 = new Assessment({ id: 145, estimatedLevel: 0, pixScore: 2, courseId: 'courseId3' });
+    const assessmentResult1 = new AssessmentResult({ level: 1, pixScore: 12 });
+    const assessmentResult2 = new AssessmentResult({ level: 2, pixScore: 23 });
+    const assessmentResult3 = new AssessmentResult({ level: 0, pixScore: 2 });
+    const assessment1 = new Assessment({ id: 13, status: 'completed', courseId: 'courseId1', assessmentResults: [assessmentResult1] });
+    const assessment2 = new Assessment({ id: 1637, status: 'completed', courseId: 'courseId2', assessmentResults: [assessmentResult2] });
+    const assessment3 = new Assessment({ id: 145, status: 'completed', courseId: 'courseId3', assessmentResults: [assessmentResult3] });
 
     beforeEach(() => {
       sandbox = sinon.sandbox.create();

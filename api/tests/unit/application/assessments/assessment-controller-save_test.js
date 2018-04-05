@@ -1,4 +1,4 @@
-const { sinon } = require('../../../test-helper');
+const { sinon, expect } = require('../../../test-helper');
 const Boom = require('boom');
 
 const controller = require('../../../../lib/application/assessments/assessment-controller');
@@ -6,6 +6,8 @@ const controller = require('../../../../lib/application/assessments/assessment-c
 const assessmentSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/assessment-serializer');
 const assessmentRepository = require('../../../../lib/infrastructure/repositories/assessment-repository');
 const tokenService = require('../../../../lib/domain/services/token-service');
+const Assessment = require('../../../../lib/domain/models/Assessment');
+const { ObjectValidationError } = require('../../../../lib/domain/errors');
 
 describe('Unit | Controller | assessment-controller-save', () => {
 
@@ -58,14 +60,37 @@ describe('Unit | Controller | assessment-controller-save', () => {
 
       it('should save an assessment with the type CERTIFICATION', function() {
         // given
-        const expected = { id: 42, courseId: '1', type: 'CERTIFICATION', userId: null };
+        const expected = new Assessment({ id: 42, courseId: '1', type: 'CERTIFICATION', state: 'started', userId: null });
 
         // when
         controller.save(request, replyStub);
 
         // then
         sinon.assert.calledOnce(assessmentRepository.save);
-        sinon.assert.calledWith(assessmentRepository.save, expected);
+        return expect(assessmentRepository.save).to.have.been.calledWith(expected);
+      });
+      context('where there is no UserId', () => {
+        let badDataStub;
+        beforeEach(() => {
+          badDataStub = sinon.stub(Boom, 'badData');
+        });
+
+        afterEach(() => {
+          badDataStub.restore();
+        });
+
+        it('should return a ObjectValidationError', () => {
+          const rejectedError = new ObjectValidationError('The Assessment CERTIFICATION needs UserId');
+          assessmentRepository.save.rejects(rejectedError);
+
+          // when
+          const promise = controller.save(request, replyStub);
+
+          // then
+          return promise.catch(() => {
+            sinon.assert.calledWith(replyStub, badDataStub);
+          });
+        });
       });
     });
 
@@ -99,14 +124,13 @@ describe('Unit | Controller | assessment-controller-save', () => {
 
       it('should save an assessment with type PREVIEW', function() {
         // given
-        const expected = { id: 42, courseId: 'null-preview-id', type: 'PREVIEW', userId: null };
+        const expected = new Assessment({ id: 42, courseId: 'null-preview-id', type: 'PREVIEW', userId: null, state: 'started' });
 
         // when
         controller.save(request, replyStub);
 
         // then
-        sinon.assert.calledOnce(assessmentRepository.save);
-        sinon.assert.calledWith(assessmentRepository.save, expected);
+        expect(assessmentRepository.save).to.have.been.calledWith(expected);
       });
     });
 
@@ -140,7 +164,7 @@ describe('Unit | Controller | assessment-controller-save', () => {
       };
 
       const deserializedAssessment = { id: 42, courseId: 'recCourseId' };
-      const assessment = { id: 42, courseId: 'recCourseId', userId: 'userId' };
+      const assessment = { id: 42, courseId: 'recCourseId', userId: 'userId', state: 'started' };
       const serializedAssessment = {
         id: 42,
         attributes: {
@@ -168,8 +192,7 @@ describe('Unit | Controller | assessment-controller-save', () => {
         controller.save(request, replyStub);
 
         //Then
-        sinon.assert.calledOnce(tokenService.extractUserId);
-        sinon.assert.calledWith(tokenService.extractUserId, 'my-token');
+        expect(tokenService.extractUserId).to.have.been.calledWith('my-token');
       });
 
       it('should persist the deserializedAssessment', () => {
@@ -177,8 +200,7 @@ describe('Unit | Controller | assessment-controller-save', () => {
         controller.save(request, replyStub);
 
         // then
-        sinon.assert.calledOnce(assessmentRepository.save);
-        sinon.assert.calledWith(assessmentRepository.save, assessment);
+        expect(assessmentRepository.save).to.have.been.calledWith(assessment);
       });
 
       it('should serialize the deserializedAssessment after its creation', () => {
@@ -187,7 +209,7 @@ describe('Unit | Controller | assessment-controller-save', () => {
 
         // then
         return promise.then(() => {
-          sinon.assert.calledWith(assessmentSerializer.serialize, deserializedAssessment);
+          expect(assessmentSerializer.serialize).to.have.been.calledWith(deserializedAssessment);
         });
       });
 
@@ -204,7 +226,7 @@ describe('Unit | Controller | assessment-controller-save', () => {
 
     });
 
-    describe('when the deserializedAssessment can not be saved', () => {
+    context('when the deserializedAssessment can not be saved', () => {
 
       let badImplementationStub;
 

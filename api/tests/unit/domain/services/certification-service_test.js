@@ -5,19 +5,37 @@ const CertificationChallenge = require('../../../../lib/domain/models/Certificat
 
 const AirtableCompetence = require('../../../../lib/domain/models/referential/competence');
 const Competence = require('../../../../lib/domain/models/Competence');
+const Assessment = require('../../../../lib/domain/models/Assessment');
+const AssessmentResult = require('../../../../lib/domain/models/AssessmentResult');
+const CompetenceMarks = require('../../../../lib/domain/models/CompetenceMark');
+
 const { UserNotAuthorizedToCertifyError } = require('../../../../lib/domain/errors');
 
 const userService = require('../../../../lib/domain/services/user-service');
 const certificationChallengesService = require('../../../../lib/domain/services/certification-challenges-service');
 const assessmentRepository = require('../../../../lib/infrastructure/repositories/assessment-repository');
+const assessmentResultRepository = require('../../../../lib/infrastructure/repositories/assessment-result-repository');
 const answersRepository = require('../../../../lib/infrastructure/repositories/answer-repository');
 const certificationChallengesRepository = require('../../../../lib/infrastructure/repositories/certification-challenge-repository');
 const certificationCourseRepository = require('../../../../lib/infrastructure/repositories/certification-course-repository');
+
 const competenceRepository = require('../../../../lib/infrastructure/repositories/competence-repository');
-const Assessment = require('../../../../lib/domain/models/Assessment');
 
 function _buildAnswer(challengeId, result) {
   return new Answer({ id: 'answer_id', challengeId, result, value: 'something' });
+}
+
+function _buildCompetenceMarks(level, score, area_code, competence_code) {
+  return new CompetenceMarks({ level, score, area_code, competence_code });
+}
+
+function _buildAssessmentResult(pixScore, level) {
+  return new AssessmentResult({
+    id: 'assessment_result_id',
+    pixScore,
+    level,
+    emitter: 'PIX-ALGO'
+  });
 }
 
 function _buildCertificationChallenge(challengeId, competenceId, associatedSkill) {
@@ -171,12 +189,7 @@ describe('Unit | Service | Certification Service', function() {
 
     let sandbox;
 
-    const certificationAssessement = new Assessment({
-      id: 'assessment_id',
-      userId: 'user_id',
-      courseId: 'course_id',
-      createdAt: '2018-01-01'
-    });
+    const certificationAssessement = new Assessment({ id: 'assessment_id', userId: 'user_id', courseId: 'course_id', createdAt: '2018-01-01', state: 'completed' });
     const certificationCourse = { id: 'course1', status: 'completed', completedAt: '2018-01-01' };
 
     const userProfile = competences;
@@ -498,7 +511,7 @@ describe('Unit | Service | Certification Service', function() {
         });
       });
 
-      it('should return a object contains informations about competences and challenges', () => {
+      it('should return a object contains information about competences and challenges', () => {
         // given
         const malusForFalseAnswer = 8;
         const expectedCertifiedCompetences = [{
@@ -703,7 +716,8 @@ describe('Unit | Service | Certification Service', function() {
       id: 'assessment_id',
       userId: 'user_id',
       createdAt: '2018-01-01',
-      courseId: 'course_id'
+      courseId: 'course_id',
+      status: 'completed'
     });
 
     const userProfile = competences;
@@ -1206,7 +1220,6 @@ describe('Unit | Service | Certification Service', function() {
         sinon.assert.calledOnce(certificationCourseRepository.save);
         expect(certificationCourseRepository.save).to.have.been.calledWith({
           userId: userId,
-          status: 'started',
           sessionId
         });
         expect(newCertification.id).to.equal('certificationCourseWithChallenges');
@@ -1238,15 +1251,13 @@ describe('Unit | Service | Certification Service', function() {
 
     beforeEach(() => {
       sandbox = sinon.sandbox.create();
-      sandbox.stub(assessmentRepository, 'getByCertificationCourseId').resolves({
-        pixScore: 20,
-        marks: [
-          {
-            level: 3,
-            competence_code: '2.1'
-          }
+      const assessmentResult = _buildAssessmentResult(20,3);
+      sandbox.stub(assessmentRepository, 'getByCertificationCourseId').resolves(new Assessment({
+        status: 'completed',
+        assessmentResults: [
+          _buildAssessmentResult(20, 3)
         ]
-      });
+      }));
       sandbox.stub(certificationCourseRepository, 'get').resolves({
         createdAt: '2017-12-23 15:23:12',
         completedAt: '2017-12-23T16:23:12.232Z',
@@ -1254,16 +1265,21 @@ describe('Unit | Service | Certification Service', function() {
         lastName: 'De La Savane',
         birthplace: 'Savane',
         birthdate: '28/01/1992',
-        rejectionReason: 'Chant durant la certification',
         sessionId: 'MoufMufassa'
       });
+
+      assessmentResult.competenceMarks = [_buildCompetenceMarks(3, 27, '2', '2.1')];
+      sandbox.stub(assessmentResultRepository, 'get').resolves(
+        assessmentResult
+      );
+
     });
 
     afterEach(() => {
       sandbox.restore();
     });
 
-    it('should return certification results with pix score, date and certified competences levels, and comments', () => {
+    it('should return certification results with pix score, date and certified competences levels', () => {
       // given
       const certificationCourseId = 1;
 
@@ -1275,8 +1291,12 @@ describe('Unit | Service | Certification Service', function() {
         expect(certification.pixScore).to.deep.equal(20);
         expect(certification.createdAt).to.deep.equal('2017-12-23 15:23:12');
         expect(certification.completedAt).to.deep.equal('2017-12-23T16:23:12.232Z');
-        expect(certification.competencesWithMark).to.deep.equal([{ level: 3, competence_code: '2.1' }]);
-        expect(certification.rejectionReason).to.deep.equal('Chant durant la certification');
+        expect(certification.competencesWithMark).to.deep.equal([{
+          level: 3,
+          competence_code: '2.1',
+          area_code: '2',
+          score: 27
+        }]);
         expect(certification.sessionId).to.deep.equal('MoufMufassa');
       });
     });

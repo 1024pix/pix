@@ -72,7 +72,7 @@ export default function() {
 
   this.post('/followers');
   this.post('/users');
-  this.post('/assessment-ratings');
+  this.post('/assessment-results');
 
   this.post('/password-reset-demands', (schema, request) => {
     const attrs = JSON.parse(request.requestBody);
