@@ -34,8 +34,8 @@
   </li>
 </ul>
 <footer class="menu-bar__logout">
-  <a href="#" {{action 'logout'}} class="menu-bar__link" title="Déconnexion">
+  {{#link-to "logout" class="menu-bar__link"}}
     {{fa-icon "power-off"}}
     {{#bs-tooltip placement="right"}}Déconnexion{{/bs-tooltip}}
-  </a>
+  {{/link-to}}
 </footer>
