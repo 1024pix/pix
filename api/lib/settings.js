@@ -7,7 +7,7 @@ module.exports = (function() {
 
     port: parseInt(process.env.PORT, 10) || 3000,
 
-    environment: process.env.NODE_ENV || 'development',
+    environment: (process.env.NODE_ENV || 'development'),
 
     hapi: {
       options: {}
@@ -39,7 +39,7 @@ module.exports = (function() {
 
     authentication: {
       secret: process.env.AUTH_SECRET,
-      tokenLifespan: '7d'
+      tokenLifespan: (process.env.TOKEN_LIFE_SPAN || '7d')
     },
 
     temporaryKey: {
