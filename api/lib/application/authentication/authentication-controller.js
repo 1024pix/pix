@@ -6,6 +6,7 @@ const authenticationSerializer = require('../../infrastructure/serializers/jsona
 const userRepository = require('../../infrastructure/repositories/user-repository');
 const userSerializer = require('../../infrastructure/serializers/jsonapi/user-serializer');
 const checkUserCredentialsAndGenerateAccessToken = require('../usecases/checkUserCredentialsAndGenerateAccessToken');
+const JSONAPIError = require('jsonapi-serializer').Error;
 
 function _buildError() {
   return {
@@ -65,7 +66,7 @@ module.exports = {
       .catch(() => {
         const errorStatusCode = 403;
         const jsonApiError = new JSONAPIError({
-          code: `${errorStatusCode}`,
+          code: errorStatusCode.toString(),
           title: 'Forbidden',
           detail: 'Bad credentials'
         });

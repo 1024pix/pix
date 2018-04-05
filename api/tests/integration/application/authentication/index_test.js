@@ -176,7 +176,6 @@ describe('Integration | Application | Route | AuthenticationRouter', () => {
 
     let options;
     let server;
-    let useCaseResult;
 
     beforeEach(() => {
       // configure a request (valid by default)

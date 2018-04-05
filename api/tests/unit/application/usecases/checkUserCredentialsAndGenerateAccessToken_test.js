@@ -33,7 +33,7 @@ describe('Unit | Application | Use Case | CheckUserCredentialsAndGenerateAccessT
   it('should resolves a valid JWT access token when authentication succeeded', () => {
     // given
     const userEmail = 'user@example.net';
-    let accessToken = 'jwt.access.token';
+    const accessToken = 'jwt.access.token';
     const user = new User({ email: userEmail, password: 'user_password' });
     userRepository.findByEmail.resolves(user);
     encryptionService.check.resolves();
@@ -77,7 +77,4 @@ describe('Unit | Application | Use Case | CheckUserCredentialsAndGenerateAccessT
   });
 
 });
-
-
-
 
