@@ -205,19 +205,18 @@ describe('Integration | Repository | Session', function() {
       });
     });
 
-
     it('should return associated certifications', function() {
       // when
       const promise = sessionRepository.get(1);
 
       // then
       return promise.then((session) => {
-        expect(session.certificationCourses).to.be.instanceOf(Array);
-        expect(session.certificationCourses.length).to.be.equal(2);
-        expect(session.certificationCourses[0].id).to.be.equal(1);
-        expect(session.certificationCourses[0].userId).to.be.equal(1);
-        expect(session.certificationCourses[1].id).to.be.equal(2);
-        expect(session.certificationCourses[1].userId).to.be.equal(2);
+        expect(session.certifications).to.be.instanceOf(Array);
+        expect(session.certifications.length).to.be.equal(2);
+        expect(session.certifications[0].id).to.be.equal(1);
+        expect(session.certifications[0].userId).to.be.equal(1);
+        expect(session.certifications[1].id).to.be.equal(2);
+        expect(session.certifications[1].userId).to.be.equal(2);
       });
     });
 

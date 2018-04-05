@@ -7,8 +7,7 @@ const { NotFoundError } = require('../../domain/errors');
 function _toDomain(bookshelfSession) {
   if (bookshelfSession) {
     const sessionReturned = bookshelfSession.toJSON();
-    const certificationCourses = bookshelfSession.related('certificationCourses').toJSON();
-    sessionReturned.certificationCourses = certificationCourses;
+    sessionReturned.certifications = bookshelfSession.related('certificationCourses').toJSON();
     return new Session(sessionReturned);
   }
   return null;
@@ -16,7 +15,7 @@ function _toDomain(bookshelfSession) {
 
 module.exports = {
   save: (sessionToBeSaved) => {
-    sessionToBeSaved = _.omit(sessionToBeSaved, ['certificationCourses'])
+    sessionToBeSaved = _.omit(sessionToBeSaved, ['certifications']);
 
     return new BookshelfSession(sessionToBeSaved)
       .save()

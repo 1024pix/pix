@@ -11,7 +11,7 @@ class Session {
     this.description = model.description;
     this.accessCode = model.accessCode;
 
-    this.certificationCourses = model.certificationCourses;
+    this.certifications = model.certifications;
   }
 }
 
