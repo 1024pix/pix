@@ -16,7 +16,7 @@
 PR_NUMBER=`echo $CI_PULL_REQUEST | grep -Po '(?<=pix/pull/)(\d+)'`
 
 curl -u twickham:$GITHUB_TOKEN --verbose \
-	-X POST "https://api.github.com/repos/sgmap/pix/issues/${PR_NUMBER}/comments" \
+	-X POST "https://api.github.com/repos/1024pix/pix/issues/${PR_NUMBER}/comments" \
 	--data "{\"body\":\"I've deployed this PR to http://${CIRCLE_BRANCH}.pix.beta.gouv.fr. Please check it out\"}"
 
 
