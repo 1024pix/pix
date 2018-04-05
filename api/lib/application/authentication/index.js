@@ -17,7 +17,7 @@ exports.register = (server, options, next) => {
 
     {
       method: 'POST',
-      path: '/token',
+      path: '/api/token',
       config: {
         auth: false,
         payload: {
@@ -50,7 +50,7 @@ exports.register = (server, options, next) => {
      */
     {
       method: 'POST',
-      path: '/revoke',
+      path: '/api/revoke',
       config: {
         auth: false,
         payload: {

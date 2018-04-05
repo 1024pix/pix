@@ -56,7 +56,7 @@ describe('Integration | Application | Route | AuthenticationRouter', () => {
     });
   });
 
-  describe('POST /token', () => {
+  describe('POST /api/token', () => {
 
     let options;
     let server;
@@ -66,7 +66,7 @@ describe('Integration | Application | Route | AuthenticationRouter', () => {
       // configure a request (valid by default)
       options = {
         method: 'POST',
-        url: '/token',
+        url: '/api/token',
         headers: {
           'content-type': 'application/x-www-form-urlencoded'
         },
@@ -182,7 +182,7 @@ describe('Integration | Application | Route | AuthenticationRouter', () => {
       // configure a request (valid by default)
       options = {
         method: 'POST',
-        url: '/revoke',
+        url: '/api/revoke',
         headers: {
           'content-type': 'application/x-www-form-urlencoded'
         },
