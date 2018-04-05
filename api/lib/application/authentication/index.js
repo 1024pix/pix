@@ -44,6 +44,38 @@ exports.register = (server, options, next) => {
       }
     },
 
+    /**
+     * This endpoint does nothing and exists only because it is required by
+     * Ember Simpl Auth addon, for OAuth 2 "Password Grant" strategy.
+     */
+    {
+      method: 'POST',
+      path: '/revoke',
+      config: {
+        auth: false,
+        payload: {
+          allow: 'application/x-www-form-urlencoded'
+        },
+        validate: {
+          payload: Joi.object().required().keys({
+            token: Joi.string().required(),
+            token_type_hint: 'access_token'
+          }),
+          failAction: (request, reply) => {
+            const errorHttpStatusCode = 400;
+            const jsonApiError = new JSONAPIError({
+              code: errorHttpStatusCode.toString(),
+              title: 'Bad request',
+              detail: 'The server could not understand the request due to invalid syntax.',
+            });
+            return reply(jsonApiError).code(errorHttpStatusCode);
+          }
+        },
+        handler: (request, reply) => reply(),
+        tags: ['api']
+      }
+    },
+
   ]);
 
   return next();

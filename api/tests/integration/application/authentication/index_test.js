@@ -172,4 +172,96 @@ describe('Integration | Application | Route | AuthenticationRouter', () => {
     });
   });
 
+  describe('POST /revoke', () => {
+
+    let options;
+    let server;
+    let useCaseResult;
+
+    beforeEach(() => {
+      // configure a request (valid by default)
+      options = {
+        method: 'POST',
+        url: '/revoke',
+        headers: {
+          'content-type': 'application/x-www-form-urlencoded'
+        },
+        payload: querystring.stringify({
+          token: 'jwt.access.token',
+          token_type_hint: 'access_token',
+        })
+      };
+
+      // instance new Hapi.js server with minimal config to test route
+      server = new Hapi.Server();
+      server.connection({ port: null });
+      server.register({ register: require('../../../../lib/application/authentication') });
+    });
+
+    it('should return a response with HTTP status code 200 when route handler (a.k.a. controller) is successful', () => {
+      // when
+      const promise = server.inject(options);
+
+      // then
+      return promise.then(response => {
+        expect(response.statusCode).to.equal(200);
+      });
+    });
+
+    it('should return a "Bad request error" (400) formatted as JSON API when grant type is not "access_token" nor "refresh_token"', () => {
+      // given
+      options.payload = querystring.stringify({
+        token: 'jwt.access.token',
+        token_type_hint: 'not_standard_token_type',
+      });
+
+      // when
+      const promise = server.inject(options);
+
+      // then
+      return _expectBadRequestResponse(promise);
+    });
+
+    it('should return a "Bad request error" (400) formatted as JSON API when token is missing', () => {
+      // given
+      options.payload = querystring.stringify({
+        token_type_hint: 'access_token',
+      });
+
+      // when
+      const promise = server.inject(options);
+
+      // then
+      return _expectBadRequestResponse(promise);
+    });
+
+    it('should return a response with HTTP status code 200 even when token type hint is missing', () => {
+      // given
+      options.payload = querystring.stringify({
+        token: 'jwt.access.token',
+      });
+
+      // when
+      const promise = server.inject(options);
+
+      // then
+      return promise.then(response => {
+        expect(response.statusCode).to.equal(200);
+      });
+    });
+
+    it('should return a JSON API error (415) when request "Content-Type" header is not "application/x-www-form-urlencoded"', () => {
+      // given
+      options.headers['content-type'] = 'text/html';
+
+      // when
+      const promise = server.inject(options);
+
+      // then
+      return promise.then(response => {
+        expect(response.statusCode).to.equal(415);
+      });
+    });
+  });
+
 });
