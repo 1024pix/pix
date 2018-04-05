@@ -22,8 +22,10 @@ module.exports = function(environment) {
       // when it is created
     },
 
+    apiHost: 'http://localhost:3000/api',
+
     fastboot: {
-      hostWhitelist: ['pix-admin.herokuapp.com', 'pix-admin.scalingo.io', 'admin.pix.fr', /^localhost:\d+$/]
+      hostWhitelist: [/^localhost:\d+$/]
     },
 
     googleFonts: [
@@ -35,7 +37,8 @@ module.exports = function(environment) {
     contentSecurityPolicy: {
       'font-src': "'self' fonts.gstatic.com",
       'style-src': "'self' fonts.googleapis.com"
-    }
+    },
+
   };
 
   if (environment === 'development') {
@@ -63,6 +66,10 @@ module.exports = function(environment) {
 
   if (environment === 'production') {
     // here you can enable a production-specific feature
+    ENV.fastboot = {
+      hostWhitelist: ['pix-admin.scalingo.io', 'admin.pix.fr']
+    };
+    ENV.apiHost = 'https://pix.beta.gouv.fr/api';
   }
 
   return ENV;

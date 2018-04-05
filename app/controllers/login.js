@@ -12,13 +12,13 @@ export default Controller.extend({
           const firstError = response.errors[0];
           switch (firstError.code) {
             case '403':
-              this.set('errorMessage', 'Identifiants de connexion invalides');
+              this.set('errorMessage', 'Identifiants de connexion invalides.');
               break;
             case '400':
-              this.set('errorMessage', 'Syntaxe (de requête) invalide');
+              this.set('errorMessage', 'Syntaxe (de requête) invalide.');
               break;
             default:
-              this.set('errorMessage', 'Un problème est survenu');
+              this.set('errorMessage', 'Un problème est survenu.');
               break;
           }
         }

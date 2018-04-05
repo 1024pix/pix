@@ -34,7 +34,11 @@
 }
 
 .login-form__error {
-
+  background-color: #f04124;
+  border-color: #f04124;
+  color: #FFFFFF;
+  border-radius: 3px;
+  padding: 8px;
 }
 
 .login-form__control {

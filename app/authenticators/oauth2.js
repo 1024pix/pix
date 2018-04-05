@@ -1,6 +1,7 @@
 import OAuth2PasswordGrant from 'ember-simple-auth/authenticators/oauth2-password-grant';
+import ENV from 'pix-admin/config/environment';
 
 export default OAuth2PasswordGrant.extend({
-  serverTokenEndpoint: 'http://localhost:3000/token',
-  serverTokenRevocationEndpoint: 'http://localhost:3000/revoke'
+  serverTokenEndpoint: `${ENV.apiHost}/token`,
+  serverTokenRevocationEndpoint: `${ENV.apiHost}/revoke`
 });
