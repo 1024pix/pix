@@ -12,24 +12,20 @@ describe('Unit | Serializer | JSONAPI | certification-serializer', function() {
         type: 'certifications',
         id: 1,
         attributes: {
-          'status': 'rejected',
           'first-name': 'Freezer',
           'last-name': 'The all mighty',
           'birthplace': 'Namek',
           'birthdate': '24/10/1989',
-          'rejection-reason': 'Killed all citizens'
         }
       }
     };
 
     const certificationCourseObject = {
       id: 1,
-      status: 'rejected',
       firstName: 'Freezer',
       lastName: 'The all mighty',
       birthplace: 'Namek',
       birthdate: '1989-10-24',
-      rejectionReason: 'Killed all citizens'
     };
 
     it('should convert a JSON API data into a Certification Course object', function() {
@@ -64,24 +60,20 @@ describe('Unit | Serializer | JSONAPI | certification-serializer', function() {
         type: 'certifications',
         id: 1,
         attributes: {
-          'status': 'rejected',
           'first-name': 'Freezer',
           'last-name': 'The all mighty',
           'birthplace': 'Namek',
           'birthdate': '24/10/1989',
-          'rejection-reason': 'Killed all citizens'
         }
       }
     };
 
     const certificationCourse = {
       id: 1,
-      status: 'rejected',
       firstName: 'Freezer',
       lastName: 'The all mighty',
       birthplace: 'Namek',
       birthdate: '24/10/1989',
-      rejectionReason: 'Killed all citizens'
     };
 
     it('should serialize', function() {

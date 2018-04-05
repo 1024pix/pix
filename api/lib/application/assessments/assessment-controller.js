@@ -14,13 +14,13 @@ const solutionRepository = require('../../infrastructure/repositories/solution-r
 const queryParamsUtils = require('../../infrastructure/utils/query-params-utils');
 const logger = require('../../infrastructure/logger');
 
-const { NotFoundError, NotCompletedAssessmentError, AssessmentEndedError } = require('../../domain/errors');
+const { NotFoundError, NotCompletedAssessmentError, AssessmentEndedError, ObjectValidationError } = require('../../domain/errors');
 
 function _doesAssessmentExistsAndIsCompleted(assessment) {
   if (!assessment)
     throw new NotFoundError();
 
-  const isAssessmentNotCompleted = !assessmentService.isAssessmentCompleted(assessment);
+  const isAssessmentNotCompleted = !assessment.isCompleted();
 
   if (isAssessmentNotCompleted)
     throw new NotCompletedAssessmentError();
@@ -50,6 +50,7 @@ module.exports = {
   save(request, reply) {
 
     const assessment = assessmentSerializer.deserialize(request.payload);
+    assessment.state = 'started';
 
     if (request.headers.hasOwnProperty('authorization')) {
       const token = tokenService.extractTokenFromAuthChain(request.headers.authorization);
@@ -63,6 +64,9 @@ module.exports = {
         reply(assessmentSerializer.serialize(assessment)).code(201);
       })
       .catch((err) => {
+        if (err instanceof ObjectValidationError) {
+          return reply(Boom.badData(err));
+        }
         logger.error(err);
         reply(Boom.badImplementation(err));
       });

@@ -1,5 +1,6 @@
 const JSONAPISerializer = require('./jsonapi-serializer');
 const Bookshelf = require('../../../infrastructure/bookshelf');
+const Assessment = require('../../../domain/models/Assessment');
 
 class AssessmentSerializer extends JSONAPISerializer {
 
@@ -85,11 +86,11 @@ class AssessmentSerializer extends JSONAPISerializer {
   }
 
   deserialize(json) {
-    return {
+    return new Assessment({
       id: json.data.id,
       type : json.data.attributes.type,
       courseId: json.data.relationships.course.data.id
-    };
+    });
   }
 
 }

@@ -19,12 +19,10 @@ describe('Unit | Service | Certification Course Service', function() {
   describe('#updatedCertifcationCourse', () => {
 
     const certificationCourse = new CertificationCourse({
-      status: 'rejected',
       firstName: 'Freezer',
       lastName: 'The all mighty',
       birthplace: 'Namek',
       birthdate: '24/10/1989',
-      rejectionReason: 'Killed all citizens'
     });
 
     it('should save certification course', () => {

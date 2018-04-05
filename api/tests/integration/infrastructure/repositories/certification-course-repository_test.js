@@ -5,35 +5,33 @@ const CertificationCourse = require('../../../../lib/domain/models/Certification
 
 describe('Integration | Repository | Certification Course', function() {
 
+  const courseId = 20;
   const associatedAssessment = {
     id: 7,
-    courseId: 20,
+    courseId: courseId,
     userId: 1
   };
 
-  //TODO: 1088 - rejectionReason is not in certifCourse
   const certificationCourse = {
-    id: 20,
-    status: 'started',
+    id: courseId,
     userId: 1,
     completedAt: null,
     firstName: 'Timon',
     lastName: 'De La Havane',
     birthdate: '14/08/1993',
     birthplace: 'Cuba',
-    rejectionReason: null,
     sessionId: 'HakunaMatata'
   };
 
   const certificationChallenges = [
     {
       id: 1,
-      courseId: 20,
+      courseId: courseId,
       challengeId: 'recChallenge1'
     },
     {
       id: 2,
-      courseId: 20,
+      courseId: courseId,
       challengeId: 'recChallenge2'
     },
     {
@@ -43,7 +41,7 @@ describe('Integration | Repository | Certification Course', function() {
     }
   ];
 
-  describe('#updateStatus', () => {
+  describe('#changeCompletionDate', () => {
 
     before(() => {
       return knex('certification-courses').delete();
@@ -57,26 +55,13 @@ describe('Integration | Repository | Certification Course', function() {
       return knex('certification-courses').delete();
     });
 
-    it('should update status of the certificationCourse (and not completedAt if any date is passed)', () => {
+    it('should update completedAt of the certificationCourse if one date is passed', () => {
       // when
-      const promise = certificationCourseRepository.updateStatus('completed', 20);
+      const promise = certificationCourseRepository.changeCompletionDate(courseId, '2018-01-01');
 
       // then
-      return promise.then(() => knex('certification-courses').first('id', 'status', 'completedAt'))
+      return promise.then(() => knex('certification-courses').first('id', 'completedAt'))
         .then((certificationCourse) => {
-          expect(certificationCourse.status).to.equal('completed');
-          expect(certificationCourse.completedAt).to.equal(null);
-        });
-    });
-
-    it('should update status and completedAt of the certificationCourse if one date is passed', () => {
-      // when
-      const promise = certificationCourseRepository.updateStatus('completed', 20, '2018-01-01');
-
-      // then
-      return promise.then(() => knex('certification-courses').first('id', 'status', 'completedAt'))
-        .then((certificationCourse) => {
-          expect(certificationCourse.status).to.equal('completed');
           expect(certificationCourse.completedAt).to.equal('2018-01-01');
         });
     });
@@ -103,20 +88,17 @@ describe('Integration | Repository | Certification Course', function() {
     context('When the certification course exists', () => {
       it('should retrieve certification course informations', function() {
         // when
-        const promise = certificationCourseRepository.get(20);
+        const promise = certificationCourseRepository.get(courseId);
 
         // then
         return promise.then((certificationCourse) => {
-          expect(certificationCourse.id).to.equal(20);
-          expect(certificationCourse.status).to.equal('started');
+          expect(certificationCourse.id).to.equal(courseId);
           expect(certificationCourse.type).to.equal('CERTIFICATION');
           expect(certificationCourse.completedAt).to.equal(null);
           expect(certificationCourse.firstName).to.equal('Timon');
           expect(certificationCourse.lastName).to.equal('De La Havane');
           expect(certificationCourse.birthdate).to.equal('14/08/1993');
           expect(certificationCourse.birthplace).to.equal('Cuba');
-          //TODO: 1088 rejectionReason is not here anymore
-          expect(certificationCourse.rejectionReason).to.equal(null);
           expect(certificationCourse.sessionId).to.equal('HakunaMatata');
         });
       });
@@ -149,12 +131,10 @@ describe('Integration | Repository | Certification Course', function() {
 
     const certificationCourse = {
       id: 1,
-      status: 'rejected',
       firstName: 'Freezer',
       lastName: 'The all mighty',
       birthplace: 'Namek',
       birthdate: '24/10/1989',
-      rejectionReason: 'Killed all citizens'
     };
 
     beforeEach(() => {
@@ -173,12 +153,10 @@ describe('Integration | Repository | Certification Course', function() {
         createdAt: '2018-03-07 14:33:49',
         updatedAt: '2018-03-07 14:38:11',
         userId: null,
-        status: 'completed',
         firstName: 'Freezer',
         lastName: 'The all mighty',
         birthplace: 'Namek',
         birthdate: '24/10/1989',
-        rejectionReason: '',
         sessionId: null
       };
 
@@ -196,12 +174,10 @@ describe('Integration | Repository | Certification Course', function() {
       // given
       const modifiedCertifcationCourse = {
         id: 1,
-        status: 'completed',
         firstName: 'Freezer',
         lastName: 'The all mighty',
         birthplace: 'Namek',
         birthdate: '24/10/1989',
-        rejectionReason: ''
       };
 
       // when
@@ -211,12 +187,10 @@ describe('Integration | Repository | Certification Course', function() {
       return promise.then((certificationCourseUpdated) => {
         expect(certificationCourseUpdated).to.be.instanceOf(CertificationCourse);
         expect(certificationCourseUpdated.id).to.equal(1);
-        expect(certificationCourseUpdated.status).to.equal('completed');
         expect(certificationCourseUpdated.firstName).to.equal('Freezer');
         expect(certificationCourseUpdated.lastName).to.equal('The all mighty');
         expect(certificationCourseUpdated.birthplace).to.equal('Namek');
         expect(certificationCourseUpdated.birthdate).to.equal('24/10/1989');
-        expect(certificationCourseUpdated.rejectionReason).to.equal('');
       });
     });
 
@@ -224,12 +198,10 @@ describe('Integration | Repository | Certification Course', function() {
       // given
       const modifiedCertifcationCourse = {
         id: 2,
-        status: 'completed',
         firstName: 'Freezer',
         lastName: 'The all mighty',
         birthplace: 'Namek',
         birthdate: '24/10/1989',
-        rejectionReason: ''
       };
 
       // when

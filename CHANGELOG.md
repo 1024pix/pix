@@ -1,5 +1,14 @@
 # Pix Changelog
 
+## v1.46.0 (05/04/2018) 
+
+- [#699](https://github.com/betagouv/pix/pull/699) [FEATURE] Ajout d'une route pour modifier les résultats d'une certification (US-1088).
+- [#2](https://github.com/1024pix/pix/pull/2) [FEATURE] La notation "Partager" en remplacer par "Envoyer" (US-1171).
+- [#729](https://github.com/betagouv/pix/pull/729) [BUGFIX] Correction des migrations sur staging (US-1191).
+- [#727](https://github.com/betagouv/pix/pull/727) [BUGFIX]Correction de staging (US-1191).
+- [#9](https://github.com/1024pix/pix/pull/9) [BUGFIX] Correction des assessments sur staging (US-1194).
+- [#5](https://github.com/1024pix/pix/pull/5) [BUGFIX]Correction de staging (US-1191).
+
 ## v1.45.0 (30/03/2018)
 
 - [#717](https://github.com/betagouv/pix/pull/717) [FEATURE] Importation des données de certifications à partir d'un csv (US-1052).
