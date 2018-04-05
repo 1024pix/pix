@@ -1284,11 +1284,11 @@ describe('Unit | Domain | Services | assessment', () => {
           obtainedLevel: 2,
           obtainedScore: 18,
         },
-          {
-            index: '1.2',
-            obtainedLevel: 3,
-            obtainedScore: 28,
-          }]
+        {
+          index: '1.2',
+          obtainedLevel: 3,
+          obtainedScore: 28,
+        }]
       });
 
       sandbox.stub(competenceMarkRepository, 'save').resolves(competenceMark1, competenceMark2);
