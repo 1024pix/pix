@@ -1,23 +1,23 @@
 #! /usr/bin/env node
 
+const fileSystem = require('fs');
+
 const request = require('request-promise-native');
 const json2csv = require('json2csv');
 const moment = require('moment-timezone');
 
 // request.debug = true;
 const HEADERS = [
-  'Numero certification', 'Date de début', 'Date de fin', 'Note Pix',
+  'Numero certification', 'Numero de session', 'Date de début', 'Date de fin',
+  'Status de la session', 'Note Pix',
+  'Prénom', 'Nom', 'Date de naissance', 'Lieu de naissance',
+  'Commentaire pour le candidat', 'Commentaire pour l\'organisation', 'Commentaire du jury',
   '1.1', '1.2', '1.3',
   '2.1', '2.2', '2.3', '2.4',
   '3.1', '3.2', '3.3', '3.4',
   '4.1', '4.2', '4.3',
-  '5.1', '5.2',
+  '5.1', '5.2'
 ];
-
-function parseArgs(argv) {
-  const [_a, _b, _c, ...args] = argv;
-  return args;
-}
 
 function buildRequestObject(baseUrl, authToken, certificationId) {
   return {
@@ -46,8 +46,25 @@ function findCompetence(profile, competenceName) {
 function toCSVRow(rowJSON) {
   const certificationData = rowJSON.data.attributes;
   const res = {};
-  const [idColumn, dateStartColumn, dateEndColumn, noteColumn, ...competencesColumns] = HEADERS;
-  res[idColumn] = certificationData.certificationId;
+
+  const [idColumn,
+    sessionNumberColumn,
+    dateStartColumn,
+    dateEndColumn,
+    status,
+    noteColumn,
+    firstname,
+    lastname,
+    birthdate,
+    birthplace,
+    commentCandidateColumn,
+    commentOrganizationColumn,
+    commentJuryColumn,
+    ...competencesColumns] = HEADERS;
+
+  res[idColumn] = certificationData['certification-id'];
+  res[sessionNumberColumn] = certificationData['session-id'];
+
   res[dateStartColumn] = moment.utc(certificationData['created-at']).tz('Europe/Paris').format('DD/MM/YYYY HH:mm:ss');
   if (certificationData['completed-at']) {
     res[dateEndColumn] = moment(certificationData['completed-at']).tz('Europe/Paris').format('DD/MM/YYYY HH:mm:ss');
@@ -55,17 +72,36 @@ function toCSVRow(rowJSON) {
     res[dateEndColumn] = '';
   }
 
+  res[status] = certificationData['status'];
   res[noteColumn] = certificationData['pix-score'];
+  res[firstname] = certificationData['first-name'];
+  res[lastname] = certificationData['last-name'];
+  res[birthdate] = certificationData['birthdate'];
+  res[birthplace] = certificationData['birthplace'];
+  res[commentCandidateColumn] = certificationData['comment-for-candidate'];
+  res[commentOrganizationColumn] = certificationData['comment-for-organization'];
+  res[commentJuryColumn] = certificationData['comment-for-jury'];
+
   competencesColumns.forEach(column => {
     res[column] = findCompetence(certificationData['competences-with-mark'], column);
   });
+
   return res;
+}
+
+function saveInFile(csv) {
+  const filepath = moment().format('DD-MM-YYYY_HH-mm') + '.csv';
+  const csvData = '\uFEFF' + csv;
+  fileSystem.writeFile(filepath, csvData, (err) => {
+    if (err) throw err;
+    console.log('Les données de certifications sont dans le fichier :' + filepath);
+  });
 }
 
 function main() {
   const baseUrl = process.argv[2];
   const authToken = process.argv[3];
-  const ids = parseArgs(process.argv.slice(4));
+  const ids = process.argv.slice(4);
   const requests = Promise.all(
     ids.map(id => buildRequestObject(baseUrl, authToken, id))
       .map(requestObject => makeRequest(requestObject))
@@ -78,6 +114,7 @@ function main() {
       del: ';',
     }))
     .then(csv => {
+      saveInFile(csv);
       console.log(`\n\n${csv}\n\n`);
       return csv;
     });
@@ -88,7 +125,6 @@ if (process.env.NODE_ENV !== 'test') {
 }
 
 module.exports = {
-  parseArgs,
   buildRequestObject,
   toCSVRow,
   findCompetence
