@@ -16,18 +16,6 @@ describe('Unit | Scripts | get-results-certifications.js', () => {
     '5.1', '5.2'
   ];
 
-  describe('parseArgs', () => {
-    it('should return an array', () => {
-      // given
-      const args = ['/usr/bin/node', '/path/to/script.js', 'http://localhost:3000', '1', '2', '3'];
-      // when
-      const result = getResultsCertifications.parseArgs(args);
-      // then
-      expect(result).to.be.an('array');
-      expect(result).to.deep.equals(['1', '2', '3']);
-    });
-  });
-
   describe('buildRequestObject', () => {
 
     it('should take an id and return a request object', () => {
