@@ -4,7 +4,7 @@ const moment = require('moment');
 
 function buildRequestObject() {
   return {
-    baseUrl: 'https://api.github.com/repos/betagouv/pix',
+    baseUrl: 'https://api.github.com/repos/1024pix/pix',
     url: '/pulls?state=closed&sort=updated&direction=desc',
     headers: {
       'User-Agent': 'jbuget'
