@@ -115,9 +115,6 @@ jobs:
       - restore_cache:
           keys:
             - v1-server-dependencies-{{ checksum "package.json" }}
-      - add-ssh-keys:
-         fingerprints:
-           - "35:db:1e:4a:c2:e7:10:6f:6d:c4:35:75:7e:90:78:8a"
       - run: |
           mkdir -p ~/.ssh
           touch ~/.ssh/known_hosts
@@ -229,9 +226,6 @@ jobs:
             - v1-client-dependencies-{{ checksum "package.json" }}
       - attach_workspace:
           at: ~/pix/live
-      - add-ssh-keys:
-         fingerprints:
-           - "c3:0d:1b:26:62:f1:89:98:d8:8c:f2:6c:b1:25:7b:6b"
       - run: |
           mkdir -p ~/.ssh
           touch ~/.ssh/known_hosts
