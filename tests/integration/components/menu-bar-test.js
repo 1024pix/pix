@@ -1,24 +1,57 @@
-import { moduleForComponent, test } from 'ember-qunit';
+import { module, test } from 'qunit';
+import { setupRenderingTest } from 'ember-qunit';
+import { render } from '@ember/test-helpers';
 import hbs from 'htmlbars-inline-precompile';
 
-moduleForComponent('menu-bar', 'Integration | Component | menu bar', {
-  integration: true
-});
+module('Integration | Component | menu-bar', function(hooks) {
+  setupRenderingTest(hooks);
 
-test('it renders', function(assert) {
-  // Set any properties with this.set('myProperty', 'value');
-  // Handle any actions with this.on('myAction', function(val) { ... });
+  test('should contain the application logo', async function(assert) {
+    // when
+    await render(hbs`{{menu-bar}}`);
 
-  this.render(hbs`{{menu-bar}}`);
+    // then
+    assert.dom('img.menu-bar__logo-image').exists();
+    assert.dom('img.menu-bar__logo-image').hasAttribute('src', '/logo-pix.png');
+  });
 
-  assert.equal(this.$().text().trim(), '');
+  test('should contain link to "users" management page', async function(assert) {
+    // when
+    await render(hbs`{{menu-bar}}`);
 
-  // Template block usage:
-  this.render(hbs`
-    {{#menu-bar}}
-      template block text
-    {{/menu-bar}}
-  `);
+    // then
+    assert.dom('a.menu-bar__link--users').exists();
+  });
 
-  assert.equal(this.$().text().trim(), 'template block text');
+  test('should contain link to "organizations" management page', async function(assert) {
+    // when
+    await render(hbs`{{menu-bar}}`);
+
+    // then
+    assert.dom('a.menu-bar__link--organizations').exists();
+  });
+
+  test('should contain link to "assessments" management page', async function(assert) {
+    // when
+    await render(hbs`{{menu-bar}}`);
+
+    // then
+    assert.dom('a.menu-bar__link--assessments').exists();
+  });
+
+  test('should contain link to "certifications" management page', async function(assert) {
+    // when
+    await render(hbs`{{menu-bar}}`);
+
+    // then
+    assert.dom('a.menu-bar__link--certifications').exists();
+  });
+
+  test('should contain link to "logout"', async function(assert) {
+    // when
+    await render(hbs`{{menu-bar}}`);
+
+    // then
+    assert.dom('a.menu-bar__link--logout').exists();
+  });
 });

@@ -53,7 +53,8 @@
     "ember-truth-helpers": "^2.0.0",
     "eslint-plugin-ember": "^5.1.0",
     "loader.js": "^4.6.0",
-    "popper.js": "^1.14.3"
+    "popper.js": "^1.14.3",
+    "qunit-dom": "^0.6.0"
   },
   "engines": {
     "node": "^4.5 || 6.* || >= 7.*"
