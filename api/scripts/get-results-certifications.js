@@ -42,42 +42,42 @@ function toCSVRow(rowJSON) {
   const certificationData = rowJSON.data.attributes;
   const res = {};
 
-  const [idColumn,
-    sessionNumberColumn,
-    dateStartColumn,
-    dateEndColumn,
+  const [id,
+    sessionNumber,
+    dateStart,
+    dateEnd,
     status,
-    noteColumn,
+    note,
     firstname,
     lastname,
     birthdate,
     birthplace,
-    commentCandidateColumn,
-    commentOrganizationColumn,
-    commentJuryColumn,
-    ...competencesColumns] = HEADERS;
+    commentCandidate,
+    commentOrganization,
+    commentJury,
+    ...competencess] = HEADERS;
 
-  res[idColumn] = certificationData['certification-id'];
-  res[sessionNumberColumn] = certificationData['session-id'];
+  res[id] = certificationData['certification-id'];
+  res[sessionNumber] = certificationData['session-id'];
 
-  res[dateStartColumn] = moment.utc(certificationData['created-at']).tz('Europe/Paris').format('DD/MM/YYYY HH:mm:ss');
+  res[dateStart] = moment.utc(certificationData['created-at']).tz('Europe/Paris').format('DD/MM/YYYY HH:mm:ss');
   if (certificationData['completed-at']) {
-    res[dateEndColumn] = moment(certificationData['completed-at']).tz('Europe/Paris').format('DD/MM/YYYY HH:mm:ss');
+    res[dateEnd] = moment(certificationData['completed-at']).tz('Europe/Paris').format('DD/MM/YYYY HH:mm:ss');
   } else {
-    res[dateEndColumn] = '';
+    res[dateEnd] = '';
   }
 
   res[status] = certificationData['status'];
-  res[noteColumn] = certificationData['pix-score'];
+  res[note] = certificationData['pix-score'];
   res[firstname] = certificationData['first-name'];
   res[lastname] = certificationData['last-name'];
   res[birthdate] = certificationData['birthdate'];
   res[birthplace] = certificationData['birthplace'];
-  res[commentCandidateColumn] = certificationData['comment-for-candidate'];
-  res[commentOrganizationColumn] = certificationData['comment-for-organization'];
-  res[commentJuryColumn] = certificationData['comment-for-jury'];
+  res[commentCandidate] = certificationData['comment-for-candidate'];
+  res[commentOrganization] = certificationData['comment-for-organization'];
+  res[commentJury] = certificationData['comment-for-jury'];
 
-  competencesColumns.forEach(column => {
+  competencess.forEach(column => {
     res[column] = findCompetence(certificationData['competences-with-mark'], column);
   });
 
