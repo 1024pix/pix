@@ -6,7 +6,6 @@ const request = require('request-promise-native');
 const json2csv = require('json2csv');
 const moment = require('moment-timezone');
 
-// request.debug = true;
 const HEADERS = [
   'Numero certification', 'Numero de session', 'Date de début', 'Date de fin',
   'Status de la session', 'Note Pix',
@@ -32,10 +31,6 @@ function buildRequestObject(baseUrl, authToken, certificationId) {
       return body;
     }
   };
-}
-
-function makeRequest(config) {
-  return request(config);
 }
 
 function findCompetence(profile, competenceName) {
@@ -104,7 +99,7 @@ function main() {
   const ids = process.argv.slice(4);
   const requests = Promise.all(
     ids.map(id => buildRequestObject(baseUrl, authToken, id))
-      .map(requestObject => makeRequest(requestObject))
+      .map(requestObject => request(requestObject))
   );
 
   return requests.then(certificationResults => certificationResults.map(toCSVRow))

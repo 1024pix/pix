@@ -71,7 +71,7 @@ describe('Unit | Scripts | get-results-certifications.js', () => {
             'first-name': 'Goku',
             'last-name': 'Son',
             'birthdate': '20/11/1984',
-            'birthplace': 'Tokyo',
+            'birthplace': 'Vegeta',
             'session-id': 1
           }
         }
@@ -79,19 +79,19 @@ describe('Unit | Scripts | get-results-certifications.js', () => {
       // when
       const result = getResultsCertifications.toCSVRow(object);
       // then
-      expect(result[HEADERS[0]]).to.equals('1337');
-      expect(result[HEADERS[1]]).to.equals(1);
-      expect(result[HEADERS[2]]).to.equals('31/01/2018 10:01:00');
-      expect(result[HEADERS[3]]).to.equals('31/01/2018 10:29:16');
-      expect(result[HEADERS[4]]).to.equals('validated');
-      expect(result[HEADERS[5]]).to.equals(7331);
-      expect(result[HEADERS[6]]).to.equals('Goku');
-      expect(result[HEADERS[7]]).to.equals('Son');
-      expect(result[HEADERS[8]]).to.equals('20/11/1984');
-      expect(result[HEADERS[9]]).to.equals('Tokyo');
-      expect(result[HEADERS[10]]).to.equals('GG');
-      expect(result[HEADERS[11]]).to.equals('Too bad');
-      expect(result[HEADERS[12]]).to.equals('You get it');
+      expect(result[HEADERS[0]]).to.equal('1337');
+      expect(result[HEADERS[1]]).to.equal(1);
+      expect(result[HEADERS[2]]).to.equal('31/01/2018 10:01:00');
+      expect(result[HEADERS[3]]).to.equal('31/01/2018 10:29:16');
+      expect(result[HEADERS[4]]).to.equal('validated');
+      expect(result[HEADERS[5]]).to.equal(7331);
+      expect(result[HEADERS[6]]).to.equal('Goku');
+      expect(result[HEADERS[7]]).to.equal('Son');
+      expect(result[HEADERS[8]]).to.equal('20/11/1984');
+      expect(result[HEADERS[9]]).to.equal('Vegeta');
+      expect(result[HEADERS[10]]).to.equal('GG');
+      expect(result[HEADERS[11]]).to.equal('Too bad');
+      expect(result[HEADERS[12]]).to.equal('You get it');
     });
 
     it('should extract competences', () => {
@@ -102,7 +102,7 @@ describe('Unit | Scripts | get-results-certifications.js', () => {
       const result = getResultsCertifications.toCSVRow(object);
 
       // then
-      expect(result[HEADERS[13]]).to.equals('');
+      expect(result[HEADERS[13]]).to.equal('');
     });
 
     it('should extract competences 1.1', () => {
@@ -124,7 +124,7 @@ describe('Unit | Scripts | get-results-certifications.js', () => {
       const result = getResultsCertifications.toCSVRow(object);
 
       // then
-      expect(result['1.1']).to.equals(9001);
+      expect(result['1.1']).to.equal(9001);
     });
 
     it('should extract all competences', () => {
@@ -150,8 +150,8 @@ describe('Unit | Scripts | get-results-certifications.js', () => {
       const result = getResultsCertifications.toCSVRow(object);
 
       // then
-      expect(result['1.1']).to.equals(4);
-      expect(result['1.2']).to.equals(6);
+      expect(result['1.1']).to.equal(4);
+      expect(result['1.2']).to.equal(6);
     });
 
   });
@@ -182,7 +182,7 @@ describe('Unit | Scripts | get-results-certifications.js', () => {
       const result = getResultsCertifications.findCompetence(profile, competenceCode);
 
       // then
-      expect(result).to.be.equals(9);
+      expect(result).to.be.equal(9);
     });
   });
 });
