@@ -5,25 +5,16 @@ const getResultsCertifications = require('../../../../api/scripts/get-results-ce
 describe('Unit | Scripts | get-results-certifications.js', () => {
 
   const HEADERS = [
-    'Numero certification', 'Date de début', 'Date de fin', 'Note Pix',
+    'Numero certification', 'Numero de session', 'Date de début', 'Date de fin',
+    'Status de la session', 'Note Pix',
+    'Prénom', 'Nom', 'Date de naissance', 'Lieu de naissance',
+    'Commentaire pour le candidat', 'Commentaire pour l\'organisation', 'Commentaire du jury',
     '1.1', '1.2', '1.3',
     '2.1', '2.2', '2.3', '2.4',
     '3.1', '3.2', '3.3', '3.4',
     '4.1', '4.2', '4.3',
-    '5.1', '5.2',
+    '5.1', '5.2'
   ];
-
-  describe('parseArgs', () => {
-    it('should return an array', () => {
-      // given
-      const args = ['/usr/bin/node', '/path/to/script.js', 'http://localhost:3000', '1', '2', '3'];
-      // when
-      const result = getResultsCertifications.parseArgs(args);
-      // then
-      expect(result).to.be.an('array');
-      expect(result).to.deep.equals(['1', '2', '3']);
-    });
-  });
 
   describe('buildRequestObject', () => {
 
@@ -40,17 +31,6 @@ describe('Unit | Scripts | get-results-certifications.js', () => {
       expect(result.headers).to.have.property('authorization', 'Bearer jwt.tokken');
     });
 
-    it('should add certificationId to API response when the object is transform after the request', () => {
-      // given
-      const baseUrl = 'http://localhost:3000';
-      const requestObject = getResultsCertifications.buildRequestObject(baseUrl, '', 12);
-
-      // when
-      const result = requestObject.transform({ data: { attributes: {} } });
-
-      // then
-      expect(result.data.attributes).to.have.property('certificationId', 12);
-    });
   });
 
   describe('toCSVRow', () => {
@@ -63,26 +43,44 @@ describe('Unit | Scripts | get-results-certifications.js', () => {
       expect(result).to.have.all.keys(HEADERS);
     });
 
-    it('should extract certificationId, date, and pix score', () => {
+    it('should extract all the informations of the certification', () => {
       // given
       const object = {
         data: {
           attributes: {
-            certificationId: '1337',
+            'certification-id': '1337',
             'pix-score': 7331,
             'created-at': '2018-01-31 09:01',
             'completed-at': '2018-01-31T09:29:16.394Z',
-            'competences-with-mark': []
+            'competences-with-mark': [],
+            'status': 'validated',
+            'comment-for-candidate': 'GG',
+            'comment-for-organization': 'Too bad',
+            'comment-for-jury': 'You get it',
+            'first-name': 'Goku',
+            'last-name': 'Son',
+            'birthdate': '20/11/737',
+            'birthplace': 'Vegeta',
+            'session-id': 1
           }
         }
       };
       // when
       const result = getResultsCertifications.toCSVRow(object);
       // then
-      expect(result[HEADERS[0]]).to.equals('1337');
-      expect(result[HEADERS[1]]).to.equals('31/01/2018 10:01:00');
-      expect(result[HEADERS[2]]).to.equals('31/01/2018 10:29:16');
-      expect(result[HEADERS[3]]).to.equals(7331);
+      expect(result[HEADERS[0]]).to.equal('1337');
+      expect(result[HEADERS[1]]).to.equal(1);
+      expect(result[HEADERS[2]]).to.equal('31/01/2018 10:01:00');
+      expect(result[HEADERS[3]]).to.equal('31/01/2018 10:29:16');
+      expect(result[HEADERS[4]]).to.equal('validated');
+      expect(result[HEADERS[5]]).to.equal(7331);
+      expect(result[HEADERS[6]]).to.equal('Goku');
+      expect(result[HEADERS[7]]).to.equal('Son');
+      expect(result[HEADERS[8]]).to.equal('20/11/737');
+      expect(result[HEADERS[9]]).to.equal('Vegeta');
+      expect(result[HEADERS[10]]).to.equal('GG');
+      expect(result[HEADERS[11]]).to.equal('Too bad');
+      expect(result[HEADERS[12]]).to.equal('You get it');
     });
 
     it('should extract competences', () => {
@@ -93,7 +91,7 @@ describe('Unit | Scripts | get-results-certifications.js', () => {
       const result = getResultsCertifications.toCSVRow(object);
 
       // then
-      expect(result[HEADERS[4]]).to.equals('');
+      expect(result[HEADERS[13]]).to.equal('');
     });
 
     it('should extract competences 1.1', () => {
@@ -115,7 +113,7 @@ describe('Unit | Scripts | get-results-certifications.js', () => {
       const result = getResultsCertifications.toCSVRow(object);
 
       // then
-      expect(result['1.1']).to.equals(9001);
+      expect(result['1.1']).to.equal(9001);
     });
 
     it('should extract all competences', () => {
@@ -141,8 +139,8 @@ describe('Unit | Scripts | get-results-certifications.js', () => {
       const result = getResultsCertifications.toCSVRow(object);
 
       // then
-      expect(result['1.1']).to.equals(4);
-      expect(result['1.2']).to.equals(6);
+      expect(result['1.1']).to.equal(4);
+      expect(result['1.2']).to.equal(6);
     });
 
   });
@@ -173,7 +171,7 @@ describe('Unit | Scripts | get-results-certifications.js', () => {
       const result = getResultsCertifications.findCompetence(profile, competenceCode);
 
       // then
-      expect(result).to.be.equals(9);
+      expect(result).to.be.equal(9);
     });
   });
 });
