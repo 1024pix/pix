@@ -31,17 +31,6 @@ describe('Unit | Scripts | get-results-certifications.js', () => {
       expect(result.headers).to.have.property('authorization', 'Bearer jwt.tokken');
     });
 
-    it('should add certificationId to API response when the object is transform after the request', () => {
-      // given
-      const baseUrl = 'http://localhost:3000';
-      const requestObject = getResultsCertifications.buildRequestObject(baseUrl, '', 12);
-
-      // when
-      const result = requestObject.transform({ data: { attributes: {} } });
-
-      // then
-      expect(result.data.attributes).to.have.property('certificationId', 12);
-    });
   });
 
   describe('toCSVRow', () => {
