@@ -15,7 +15,8 @@ function _toDomain(model) {
     lastName: model.get('lastName'),
     birthplace: model.get('birthplace'),
     birthdate: model.get('birthdate'),
-    sessionId: model.get('sessionId')
+    sessionId: model.get('sessionId'),
+    externalId: model.get('externalId')
   });
 }
 

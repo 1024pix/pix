@@ -240,7 +240,8 @@ describe('Acceptance | API | Certification Course', () => {
                 'first-name': 'Freezer',
                 'last-name': 'The all mighty',
                 'birthplace': 'Namek',
-                'birthdate': '24/10/1989'
+                'birthdate': '24/10/1989',
+                'external-id': 'xenoverse2'
               }
             }
           }
@@ -265,6 +266,7 @@ describe('Acceptance | API | Certification Course', () => {
         expect(result.attributes['last-name']).to.equal('The all mighty');
         expect(result.attributes['birthplace']).to.equal('Namek');
         expect(result.attributes['birthdate']).to.equal('1989-10-24');
+        expect(result.attributes['external-id']).to.equal('xenoverse2');
       });
     });
 
