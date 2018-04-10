@@ -13,7 +13,10 @@ const security = require('./lib/infrastructure/security');
 const server = new Hapi.Server({
   connections: {
     routes: {
-      cors: true
+      cors: {
+        origin: ['*'],
+        additionalHeaders:['X-Requested-With']
+      }
     },
     router: {
       isCaseSensitive: false,

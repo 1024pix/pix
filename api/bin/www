@@ -5,5 +5,5 @@ const logger = require('../lib/infrastructure/logger');
 
 server.start((err) => {
   if (err) throw err;
-  logger.info('Server running at %s:%s', server.info.address, server.info.port)
+  logger.info('Server running at %s:%s', server.info.address, server.info.port);
 });
