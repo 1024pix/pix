@@ -26,10 +26,7 @@ function buildRequestObject(baseUrl, authToken, certificationId) {
     baseUrl: baseUrl,
     url: `/api/admin/certifications/${certificationId}`,
     json: true,
-    transform: (body) => {
-      body.data.attributes.certificationId = certificationId;
-      return body;
-    }
+    simple: false
   };
 }
 
@@ -39,6 +36,9 @@ function findCompetence(profile, competenceName) {
 }
 
 function toCSVRow(rowJSON) {
+  if(!rowJSON.data) {
+    return {};
+  }
   const certificationData = rowJSON.data.attributes;
   const res = {};
 
