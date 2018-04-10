@@ -6,29 +6,7 @@
     </header>
 
     <section class="login-page__section login-page__section--login-form">
-      <form class="login-form" {{action 'authenticate' on='submit'}}>
-        <!-- Error message -->
-        {{#if errorMessage}}
-          <div class="login-form__control">
-            <p class="login-form__error">{{errorMessage}}</p>
-          </div>
-        {{/if}}
-
-        <!-- Field "identification" -->
-        <div class="login-form__control">
-          {{input class="login-form__field login-form__field--identification" id='identification' placeholder='Enter Login' value=identification}}
-        </div>
-
-        <!-- Field "password" -->
-        <div class="login-form__control">
-          {{input class="login-form__field login-form__field--password" id='password' placeholder='Enter Password' type='password' value=password}}
-        </div>
-
-        <!-- Form submit button -->
-        <div class="login-form__control">
-          <button class="btn btn-primary login-form__button" type="submit">Connexion</button>
-        </div>
-      </form>
+      {{login-form}}
     </section>
 
     <footer class="login-page__footer">

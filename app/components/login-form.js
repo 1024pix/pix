@@ -1,11 +1,19 @@
-import Controller from '@ember/controller';
+import Component from '@ember/component';
 import { inject as service } from '@ember/service';
 
-export default Controller.extend({
+export default Component.extend({
+
+  // dependencies
   session: service(),
 
-  actions: {
-    authenticate() {
+  // properties
+  identification: null,
+  password: null,
+  errorMessage: null,
+
+  // interactions
+  actions:{
+    authenticateUser() {
       let { identification, password } = this.getProperties('identification', 'password');
       this.get('session').authenticate('authenticator:oauth2', identification, password).catch((response) => {
         if (response && response.errors && response.errors.length > 0) {
@@ -24,5 +32,7 @@ export default Controller.extend({
         }
       });
     }
+
   }
+
 });
