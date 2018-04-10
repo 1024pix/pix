@@ -1,3 +1,0 @@
----
-home_app: "{{ home }}/app/"
-home_vars_app: "{{ home }}/vars/"
