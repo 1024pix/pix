@@ -77,6 +77,21 @@ module('Integration | Component | login-form', function(hooks) {
       // then
       assert.equal(this.get('errorMessage'), 'Syntaxe (de requête) invalide.');
     });
+
+    test('should display good error message when an undefined error occurred', async function(assert) {
+      // given
+      const errorResponse = {errors: [{code: '500'}]};
+      sessionStub.prototype.authenticate = () => reject(errorResponse);
+
+      this.set('errorMessage', null);
+      await render(hbs`{{login-form errorMessage=errorMessage}}`);
+
+      // when
+      await click('button.login-form__button');
+
+      // then
+      assert.equal(this.get('errorMessage'), 'Un problème est survenu.');
+    });
   });
 
 });
