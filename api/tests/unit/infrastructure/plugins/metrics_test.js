@@ -118,12 +118,12 @@ describe('Unit | Plugins | Metrics', () => {
 
     it('should increment on successful response event', () => {
       // when
-      serverStub.emit('response', new ResponseStub({ statusCode: 200 }, defaultInfo, defaultRoute));
+      serverStub.emit('response', new ResponseStub({ statusCode: 200 }, defaultInfo, { path: '/api/other/{id}' }));
 
       // then
       const prometheusMetrics = Metrics.prometheusClient.metrics();
-      const result = _extractNumericValueFromSingleMetric(prometheusMetrics, 'api_request_success');
-      expect(result).to.equals('1');
+      const expectedCountFromSpecificPath = _extractCountFromSpecificPath(prometheusMetrics, 'api_request_success', '/api/other/{id}');
+      expect(expectedCountFromSpecificPath).to.equal('1');
     });
 
     it('should not increment on error response event', () => {

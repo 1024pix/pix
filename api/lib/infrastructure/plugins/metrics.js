@@ -39,7 +39,7 @@ const Metrics = {
       const { statusCode } = request.response;
 
       if (statusCode < 400) {
-        metrics.request.success.inc();
+        metrics.request.success.inc({ 'path': request.route.path });
       }
 
       if (statusCode >= 400 && statusCode < 500) {
