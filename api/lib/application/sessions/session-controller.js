@@ -18,6 +18,7 @@ module.exports = {
         if (error instanceof NotFoundError) {
           return reply(Boom.notFound(error));
         }
+        logger.error(error);
         reply(Boom.badImplementation(error));
       });
   },
