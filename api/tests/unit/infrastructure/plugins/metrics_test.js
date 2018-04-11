@@ -66,8 +66,8 @@ describe('Unit | Plugins | Metrics', () => {
       .split('\n')
       .find((line) => line.match(new RegExp(`${metric}.*path="${path}"`)));
 
-    if (metricLine === undefined) {
-      throw new Error(`Expected metric ${metric} to be found in:\n${allMetrics}`);
+    if (!metricLine) {
+      return '0';
     }
 
     const matches = /(\d+)\s*$/.exec(metricLine);
@@ -133,8 +133,8 @@ describe('Unit | Plugins | Metrics', () => {
 
       // then
       const prometheusMetrics = Metrics.prometheusClient.metrics();
-      const result = _extractNumericValueFromSingleMetric(prometheusMetrics, 'api_request_success');
-      expect(result).to.equals('0');
+      const expectedCountFromSpecificPath = _extractCountFromSpecificPath(prometheusMetrics, 'api_request_success', defaultRoute.path);
+      expect(expectedCountFromSpecificPath).to.equal('0');
     });
   });
 
@@ -158,8 +158,8 @@ describe('Unit | Plugins | Metrics', () => {
 
       // then
       const prometheusMetrics = Metrics.prometheusClient.metrics();
-      const result = _extractNumericValueFromSingleMetric(prometheusMetrics, 'api_request_server_error');
-      expect(result).to.equals('0');
+      const expectedCountFromSpecificPath = _extractCountFromSpecificPath(prometheusMetrics, 'api_request_server_error', defaultRoute.path);
+      expect(expectedCountFromSpecificPath).to.equal('0');
     });
 
     it('should increment on error response event', () => {
@@ -202,8 +202,8 @@ describe('Unit | Plugins | Metrics', () => {
 
       // then
       const prometheusMetrics = Metrics.prometheusClient.metrics();
-      const result = _extractNumericValueFromSingleMetric(prometheusMetrics, 'api_request_client_error');
-      expect(result).to.equals('0');
+      const expectedCountFromSpecificPath = _extractCountFromSpecificPath(prometheusMetrics, 'api_request_client_error', defaultRoute.path);
+      expect(expectedCountFromSpecificPath).to.equal('0');
     });
   });
 
