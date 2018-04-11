@@ -5,6 +5,7 @@
 @import 'misc/global';
 @import 'misc/page';
 @import 'misc/button';
+@import 'misc/form';
 
 /* pages */
 @import 'login';
@@ -14,4 +15,5 @@
 /* components */
 @import 'components/menu-bar';
 
-
+@import 'ember-power-select/themes/bootstrap';
+@import "ember-power-select";

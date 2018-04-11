@@ -1,42 +1,49 @@
-<form class="organization-form" {{action "submitOrganization" on='submit'}}>
+<form class="form organization-form" {{action "submitOrganization" on='submit'}}>
 
   <section class="form-section form-section--organization">
     <!-- Organization name -->
-    <div class="form-field">
-      <label class="form-field__label" for="organizationName">Nom : </label>
-      {{input class="form-field__text" id="organizationName" value=organization.name required=true}}
+    <div class="form-group">
+      <label for="organizationName">Nom : </label>
+      {{input class="form-control" id="organizationName" value=organization.name required=true}}
     </div>
 
     <!-- Organization type -->
-    <div class="form-field">
-      <label class="form-field__label" for="organizationType">Type : </label>
-      {{input class="form-field__text" id="organizationType" value=organization.type required=true}}
+    <div class="form-group">
+      <label for="organizationType">Type : </label>
+      {{#power-select
+        options=organizationTypes
+        selected=selectedOrganizationType
+        searchEnabled=false
+        onchange=(action "selectOrganizationType")
+      as |organizationType|}}
+        {{organizationType.label}}
+      {{/power-select}}
     </div>
   </section>
 
   <section class="form-section form-section--contact">
     <!-- Contact first name -->
-    <div class="form-field">
-      <label class="form-field__label" for="contactFirstName">Prénom : </label>
-      {{input class="form-field__text" id="contactFirstName" value=contact.firstName required=true}}
+    <div class="form-group">
+      <label for="contactFirstName">Prénom : </label>
+      {{input class="form-control" id="contactFirstName" value=contact.firstName required=true}}
     </div>
 
     <!-- Contact last name -->
-    <div class="form-field">
-      <label class="form-field__label" for="contactLastName">Nom : </label>
-      {{input class="form-field__text" id="contactLastName" value=contact.lastName required=true}}
+    <div class="form-group">
+      <label for="contactLastName">Nom : </label>
+      {{input class="form-control" id="contactLastName" value=contact.lastName required=true}}
     </div>
 
     <!-- Contact email -->
-    <div class="form-field">
-      <label class="form-field__label" for="contactEmail">Email : </label>
-      {{input class="form-field__text" id="contactEmail" value=contact.email required=true}}
+    <div class="form-group">
+      <label for="contactEmail">Email : </label>
+      {{input class="form-control" id="contactEmail" value=contact.email required=true}}
     </div>
 
     <!-- Contact password -->
-    <div class="form-field">
-      <label class="form-field__label" for="contactPassword">Mot de passe : </label>
-      {{input class="form-field__text" id="contactPassword" value=contact.password required=true}}
+    <div class="form-group">
+      <label for="contactPassword">Mot de passe : </label>
+      {{input class="form-control" id="contactPassword" type="password" value=contact.password required=true}}
     </div>
   </section>
 

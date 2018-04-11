@@ -1,9 +1,23 @@
 import Component from '@ember/component';
 
+const organizationTypes = [
+  {
+    label: 'Organisation professionnelle',
+    value: 'PRO'
+  }, {
+    label: 'Établissement scolaire',
+    value: 'SCO'
+
+  }, {
+    label: 'Établissement supérieur',
+    value: 'SUP'
+  }
+];
+
 export default Component.extend({
 
-  organization: null,
-  contact: null,
+  organizationTypes,
+  selectedOrganizationType: null,
 
   init() {
     this._super(...arguments);
@@ -21,9 +35,15 @@ export default Component.extend({
 
   actions: {
     submitOrganization() {
+      this.set('organization.type', this.get('selectedOrganizationType.value'));
       const organization = this.get('organization');
       const contact = this.get('contact');
       return this.get('onSubmitOrganization')(organization, contact);
+    },
+
+    selectOrganizationType(organizationType) {
+      this.set('selectedOrganizationType', organizationType);
+      this.set('organization.type', organizationType.value);
     }
   }
 });
