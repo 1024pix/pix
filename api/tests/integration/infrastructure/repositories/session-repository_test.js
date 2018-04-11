@@ -163,13 +163,13 @@ describe('Integration | Repository | Session', function() {
     beforeEach(() => {
       return knex('sessions').insert({
         id: 1,
-        certificationCenter: 'Parc des Princes',
-        address: 'Boulbi',
-        room: 'Hall Pauleta',
-        examiner: 'Neymar Jr',
+        certificationCenter: 'Tour Gamma',
+        address: 'rue de Bercy',
+        room: 'Salle A',
+        examiner: 'Monsieur Examinateur',
         date: '23/02/2018',
         time: '12:00',
-        description: 'La Champions League est pour nous cette fois',
+        description: 'CertificationPix pour les jeunes',
         accessCode: 'NJR10'
       }).then(() => {
         return knex('certification-courses').insert(certifications);
@@ -193,13 +193,13 @@ describe('Integration | Repository | Session', function() {
       return promise.then((session) => {
         expect(session).to.be.instanceOf(Session);
         expect(session.id).to.be.equal(1);
-        expect(session.certificationCenter).to.be.equal('Parc des Princes');
-        expect(session.address).to.be.equal('Boulbi');
-        expect(session.room).to.be.equal('Hall Pauleta');
-        expect(session.examiner).to.be.equal('Neymar Jr');
+        expect(session.certificationCenter).to.be.equal('Tour Gamma');
+        expect(session.address).to.be.equal('rue de Bercy');
+        expect(session.room).to.be.equal('Salle A');
+        expect(session.examiner).to.be.equal('Monsieur Examinateur');
         expect(session.date).to.be.equal('23/02/2018');
         expect(session.time).to.be.equal('12:00');
-        expect(session.description).to.be.equal('La Champions League est pour nous cette fois');
+        expect(session.description).to.be.equal('CertificationPix pour les jeunes');
         expect(session.accessCode).to.be.equal('NJR10');
       });
     });
@@ -212,10 +212,10 @@ describe('Integration | Repository | Session', function() {
       return promise.then((session) => {
         expect(session.certifications).to.be.instanceOf(Array);
         expect(session.certifications.length).to.be.equal(2);
-        expect(session.certifications[0].id).to.be.equal(1);
-        expect(session.certifications[0].userId).to.be.equal(1);
-        expect(session.certifications[1].id).to.be.equal(2);
-        expect(session.certifications[1].userId).to.be.equal(2);
+        expect(session.certifications[0].attributes.id).to.be.equal(1);
+        expect(session.certifications[0].attributes.userId).to.be.equal(1);
+        expect(session.certifications[1].attributes.id).to.be.equal(2);
+        expect(session.certifications[1].attributes.userId).to.be.equal(2);
       });
     });
 

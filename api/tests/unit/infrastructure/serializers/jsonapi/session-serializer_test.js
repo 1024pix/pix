@@ -2,6 +2,7 @@ const { expect, sinon } = require('../../../../test-helper');
 const serializer = require('../../../../../lib/infrastructure/serializers/jsonapi/session-serializer');
 
 const Session = require('../../../../../lib/domain/models/Session');
+const CertificationCourse = require('../../../../../lib/domain/models/CertificationCourse');
 const sessionCodeService = require('../../../../../lib/domain/services/session-code-service');
 const { WrongDateFormatError } = require('../../../../../lib/domain/errors');
 
@@ -53,8 +54,8 @@ describe('Unit | Serializer | JSONAPI | session-serializer', function() {
 
     it('should convert certifications relationships into JSON API relationships', () => {
       // given
-      const certification1 = { id: 1 };
-      const certification2 = { id: 2 };
+      const certification1 = new CertificationCourse({ id: 1 });
+      const certification2 = new CertificationCourse({ id: 2 });
       const associatedCertifications = [certification1, certification2];
       const session = new Session({
         id: '12',

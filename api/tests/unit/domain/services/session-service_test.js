@@ -66,15 +66,15 @@ describe('Unit | Service | session', () => {
 
     it('should get session informations with related certifications', () => {
       // given
-      const sessionId = 'grève SNCF';
+      const sessionId = 'sessionId';
       sinon.stub(sessionRepository, 'get').resolves();
 
       // when
       const promise = sessionService.get(sessionId);
 
       // then
-      promise.then(() => {
-        expect(sessionRepository.get).to.have.been.calledWith('grève SNCF');
+      return promise.then(() => {
+        expect(sessionRepository.get).to.have.been.calledWith('sessionId');
       });
     });
   });

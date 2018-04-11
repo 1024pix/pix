@@ -18,7 +18,7 @@ describe('Acceptance | Controller | session-controller', () => {
     };
 
     beforeEach(() => {
-      return knex('sessions').insert(session);
+      return insertUserWithRolePixMaster().then(() =>knex('sessions').insert(session));
     });
 
     afterEach(() => {

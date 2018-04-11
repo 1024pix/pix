@@ -182,9 +182,9 @@ describe('Unit | Controller | sessionController', () => {
 
       it('should serialize session informations', function() {
         // given
-        const certification = new CertificationCourse({ id: 'certifId', sessionId: 'grèveSNCF' });
+        const certification = new CertificationCourse({ id: 'certifId', sessionId: 'sessionId' });
         const session = new Session({
-          id: 'grèveSNCF',
+          id: 'sessionId',
           certifications: [certification]
         });
         sessionService.get.resolves(session);
@@ -228,6 +228,7 @@ describe('Unit | Controller | sessionController', () => {
         const wellFormedError = { message: 'Not Found Error' };
         sessionService.get.rejects(notFoundError);
         sandbox.stub(Boom, 'notFound').returns(wellFormedError);
+        sandbox.stub(logger, 'error').returns();
 
         // when
         const promise = sessionController.get(request, replyStub);
