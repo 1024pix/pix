@@ -5,7 +5,7 @@
   margin-bottom: 23px;
 }
 
-.tutorial-panel__box-container {
+.tutorial-panel__default-message-container {
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -16,7 +16,7 @@
   padding: 36px 0 28px;
 }
 
-.tutorial-panel__box-title {
+.tutorial-panel__default-message-title {
   font-family: $font-raleway;
   font-size: 17px;
   text-align: center;
@@ -30,10 +30,62 @@
   }
 }
 
-.tutorial-panel__separator {
-  height: 2px;
+.tutorial-panel__hint-container-body {
+  display: flex;
+  align-items: center;
+}
+
+.tutorial-panel__hint-container {
+  display: flex;
+  flex-direction: column;
+  //align-items: center;
+  max-width: 991px;
   width: 100%;
-  max-width: 990px;
-  border: 1px solid $gainsboro;
-  margin-top: 23px;
+  border-radius: 5px;
+  padding: 36px 0 28px;
+}
+
+.tutorial-panel__hint-title {
+  font-family: $font-raleway;
+  font-size: 24px;
+  text-align: center;
+  color: $charcoal-grey;
+  font-weight: $font-semi-bold;
+  margin-bottom: 40px;
+
+  // XXX Inspired from https://codepen.io/ericrasch/pen/Irlpm
+  position: relative;
+  z-index: 1;
+
+  &:before {
+    border-top: 2px solid #dfdfdf;
+    content:"";
+    margin: 0 auto;
+    position: absolute;
+    top: 50%; left: 0; right: 0; bottom: 0;
+    width: 100%;
+    z-index: -1;
+  }
+
+  span {
+    background: $porcelain-grey;
+    padding: 0 15px;
+  }
+
+  @include device-is('desktop') {
+    font-size: 22px;
+    line-height: 26px;
+  }
+}
+
+.tutorial-panel__hint-content {
+  font-size: 20px;
+}
+
+.tutorial-panel__hint-picto-container {
+  vertical-align: middle;
+}
+
+.tutorial-panel__hint-picto {
+  padding: 0 20px;
 }
