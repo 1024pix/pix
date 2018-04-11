@@ -95,8 +95,8 @@ function toCSVRow(rowJSON) {
   return res;
 }
 
-function saveInFile(csv) {
-  const filepath = moment().format('DD-MM-YYYY_HH-mm') + '.csv';
+function saveInFile(csv, sessionId) {
+  const filepath = `session_${sessionId}_export_${moment().format('DD-MM-YYYY_HH-mm')}.csv`;
   const csvData = '\uFEFF' + csv;
   fileSystem.writeFile(filepath, csvData, (err) => {
     if (err) throw err;
@@ -133,7 +133,7 @@ function main() {
           del: ';',
         }))
         .then(csv => {
-          saveInFile(csv);
+          saveInFile(csv, sessionId);
           console.log(`\n\n${csv}\n\n`);
           return csv;
         });
