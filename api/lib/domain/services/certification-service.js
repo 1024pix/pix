@@ -246,6 +246,7 @@ module.exports = {
           birthdate: certification.birthdate,
           birthplace: certification.birthplace,
           sessionId: certification.sessionId,
+          externalId: certification.externalId,
         };
       });
   },
