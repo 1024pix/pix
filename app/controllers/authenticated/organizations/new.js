@@ -3,8 +3,8 @@ import { debug } from '@ember/debug';
 
 export default Controller.extend({
   actions: {
-    addUser() {
-      debug('Add user');
+    addOrganization() {
+      debug('Add organization');
     }
   }
 

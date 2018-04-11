@@ -1,10 +1,7 @@
 <header class="page-header">
   <h1 class="page-header__title">{{fa-icon "building"}} Organisations</h1>
-  <div class="page-header__actions">
-    {{#bs-button type="primary" onClick=(action "addOrganization")}}{{fa-icon "plus"}} Ajouter une organisation{{/bs-button}}
-  </div>
 </header>
 
 <div class="page-body page-body__organizations">
-  <p>En construction</p>
+  {{outlet}}
 </div>

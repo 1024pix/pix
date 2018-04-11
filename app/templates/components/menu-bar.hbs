@@ -2,18 +2,21 @@
   <img class="menu-bar__logo-image" src="/logo-pix.png">
 </header>
 <ul class="menu-bar__entries">
+<!--
   <li class="menu-bar__entry">
     {{#link-to "authenticated.users" class="menu-bar__link menu-bar__link--users"}}
       {{fa-icon "user-plus"}}
       {{#bs-tooltip placement="right"}}Utilisateurs{{/bs-tooltip}}
     {{/link-to}}
   </li>
+-->
   <li class="menu-bar__entry">
     {{#link-to "authenticated.organizations" class="menu-bar__link menu-bar__link--organizations"}}
       {{fa-icon "building"}}
       {{#bs-tooltip placement="right"}}Organisations{{/bs-tooltip}}
     {{/link-to}}
   </li>
+<!--
   <li class="menu-bar__entry">
     {{#link-to "authenticated.assessments" class="menu-bar__link menu-bar__link--assessments"}}
       {{fa-icon "wpforms"}}
@@ -32,6 +35,7 @@
       {{#bs-tooltip placement="right"}}Exploitation{{/bs-tooltip}}
     {{/link-to}}
   </li>
+-->
 </ul>
 <footer class="menu-bar__logout">
   {{#link-to "logout" class="menu-bar__link menu-bar__link--logout"}}
