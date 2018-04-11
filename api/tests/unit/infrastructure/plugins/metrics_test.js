@@ -9,7 +9,7 @@ describe('Unit | Plugins | Metrics', () => {
 
   let serverStub;
 
-  const defaultRoute = {};
+  const defaultRoute = { path: '/api/other/{id}' };
   const defaultInfo = { responded: 2, received: 1 };
 
   class ResponseStub {
@@ -118,11 +118,11 @@ describe('Unit | Plugins | Metrics', () => {
 
     it('should increment on successful response event', () => {
       // when
-      serverStub.emit('response', new ResponseStub({ statusCode: 200 }, defaultInfo, { path: '/api/other/{id}' }));
+      serverStub.emit('response', new ResponseStub({ statusCode: 200 }, defaultInfo, defaultRoute));
 
       // then
       const prometheusMetrics = Metrics.prometheusClient.metrics();
-      const expectedCountFromSpecificPath = _extractCountFromSpecificPath(prometheusMetrics, 'api_request_success', '/api/other/{id}');
+      const expectedCountFromSpecificPath = _extractCountFromSpecificPath(prometheusMetrics, 'api_request_success', defaultRoute.path);
       expect(expectedCountFromSpecificPath).to.equal('1');
     });
 
@@ -164,11 +164,11 @@ describe('Unit | Plugins | Metrics', () => {
 
     it('should increment on error response event', () => {
       // when
-      serverStub.emit('response', new ResponseStub({ statusCode: 500 }, defaultInfo, { path: '/api/other/{id}' }));
+      serverStub.emit('response', new ResponseStub({ statusCode: 500 }, defaultInfo, defaultRoute));
 
       // then
       const prometheusMetrics = Metrics.prometheusClient.metrics();
-      const expectedCountFromSpecificPath = _extractCountFromSpecificPath(prometheusMetrics, 'api_request_server_error', '/api/other/{id}');
+      const expectedCountFromSpecificPath = _extractCountFromSpecificPath(prometheusMetrics, 'api_request_server_error', defaultRoute.path);
       expect(expectedCountFromSpecificPath).to.equal('1');
     });
   });
@@ -188,11 +188,11 @@ describe('Unit | Plugins | Metrics', () => {
 
     it('should increment on response with statusCode 400', () => {
       // when
-      serverStub.emit('response', new ResponseStub({ statusCode: 400 }, defaultInfo, { path: '/api/other/{id}' }));
+      serverStub.emit('response', new ResponseStub({ statusCode: 400 }, defaultInfo, defaultRoute));
 
       // then
       const prometheusMetrics = Metrics.prometheusClient.metrics();
-      const expectedCountFromSpecificPath = _extractCountFromSpecificPath(prometheusMetrics, 'api_request_client_error', '/api/other/{id}');
+      const expectedCountFromSpecificPath = _extractCountFromSpecificPath(prometheusMetrics, 'api_request_client_error', defaultRoute.path);
       expect(expectedCountFromSpecificPath).to.equal('1');
     });
 
