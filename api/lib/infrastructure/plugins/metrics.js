@@ -43,11 +43,11 @@ const Metrics = {
       }
 
       if (statusCode >= 400 && statusCode < 500) {
-        metrics.request.client_error.inc();
+        metrics.request.client_error.inc({ 'path': request.route.path });
       }
 
       if (statusCode >= 500) {
-        metrics.request.server_error.inc();
+        metrics.request.server_error.inc({ 'path': request.route.path });
       }
     });
 
