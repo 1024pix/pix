@@ -9,7 +9,7 @@ function _toDomain(bookshelfSession) {
   if (bookshelfSession) {
     const sessionReturned = bookshelfSession.toJSON();
     sessionReturned.certifications = bookshelfSession.related('certificationCourses').map(certificationCourse => {
-      return new CertificationCourse(certificationCourse)
+      return new CertificationCourse(certificationCourse);
     });
     return new Session(sessionReturned);
   }
@@ -45,7 +45,7 @@ module.exports = {
       .fetch({ require: true, withRelated: ['certificationCourses'] })
       .then(_toDomain)
       .catch((error) => {
-        if(error.message === 'EmptyResponse'){
+        if(error.message === 'EmptyResponse') {
           return Promise.reject(new NotFoundError());
         }
         return Promise.reject();
