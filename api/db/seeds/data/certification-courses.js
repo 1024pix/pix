@@ -8,6 +8,7 @@ module.exports = [
     lastName: 'Réno',
     birthdate: '12/12/1960',
     birthplace: 'Paris',
-    sessionId: 1
+    sessionId: 1,
+    externalId: 'Hubert'
   }
 ];
