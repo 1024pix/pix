@@ -67,6 +67,15 @@ jobs:
       - run: sudo apt-get install -y jq
       - run: ~/pix/scripts/trello/comment_with_review_app_url.sh
 
+  signal_pr_deployment_to_github:
+    <<: *common_properties
+    steps:
+      - run: echo $CIRCLE_SHA1 > .circle-sha
+      - restore_cache:
+          keys:
+            - v1-pix-{{ checksum ".circle-sha" }}
+      - run: ~/pix/live/scripts/signal_deploy_to_pr.sh
+
   # Server side
 
   install_server_dependencies:
@@ -294,6 +303,21 @@ workflows:
                 - gh-pages
 
       - add_review_app_url_to_trello_card:
+          requires:
+            - deploy_client
+            - deploy_server
+          filters:
+            branches:
+              ignore:
+                - master
+                - dev
+                - gh-pages
+                - ghp
+                - preview
+                - maths
+                - /release-.*/
+
+      - signal_pr_deployment_to_github:
           requires:
             - deploy_client
             - deploy_server
