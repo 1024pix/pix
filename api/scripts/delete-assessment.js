@@ -52,13 +52,15 @@ class AssessmentEraser {
         this.queryBuilder.delete_feedbacks_from_assessment_ids(this.assessment_id),
         this.queryBuilder.delete_skills_from_assessment_ids(this.assessment_id),
         this.queryBuilder.delete_answers_from_assessment_ids(this.assessment_id),
-        this.queryBuilder.delete_marks_from_assessment_ids(this.assessment_id)
+        this.queryBuilder.delete_competence_marks_from_assessment_ids(this.assessment_id),
       ])
       .then((queries) => Promise.all(
         queries.map((query) => {
           this.client.query_and_log(query);
         })
-      ));
+      ))
+      .then(() => this.queryBuilder.delete_assessment_results_from_assessment_ids(this.assessment_id))
+      .then((query) => this.client.query_and_log(query));
   }
 
   delete_assessment_from_id() {
@@ -82,8 +84,12 @@ class ScriptQueryBuilder {
     return `DELETE FROM feedbacks WHERE "assessmentId" = ${assessment_id}`;
   }
 
-  delete_marks_from_assessment_ids(assessment_id) {
-    return `DELETE FROM marks WHERE "assessmentId" = ${assessment_id}`;
+  delete_competence_marks_from_assessment_ids(assessment_id) {
+    return `DELETE FROM "competence-marks" WHERE "assessmentResultId" IN ( SELECT id from "assessment-results" WHERE "assessmentId" = ${assessment_id} )`;
+  }
+
+  delete_assessment_results_from_assessment_ids(assessment_id) {
+    return `DELETE FROM "assessment-results" WHERE "assessmentId" = ${assessment_id}`;
   }
 
   delete_assessment_from_id(id) {
