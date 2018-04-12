@@ -73,12 +73,9 @@
   display: flex;
   flex-direction: column;
   justify-content: center;
-  height: 110px;
+  height: 80px;
   background-color: $porcelain-grey;
 
-  @include device-is('tablet') {
-    height: 120px;
-  }
 }
 
 .user-menu-item__details-firstname {
@@ -113,13 +110,17 @@
   text-transform: capitalize;
 }
 
+.user-menu-item__certification-link {
+  background-color: white;
+  font-size: 13px;
+  line-height: 16px;
+  height: 50px;
+}
+
 .user-menu-item__logout {
   display: flex;
   align-items: center;
   height: 65px;
-  @include device-is('tablet') {
-    height: 95.5px;
-  }
 }
 
 .logout__button {

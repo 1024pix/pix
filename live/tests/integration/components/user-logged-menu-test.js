@@ -72,6 +72,18 @@ describe('Integration | Component | user logged menu', function() {
       });
     });
 
+    it('should display link to user certifications', function() {
+      // when
+      this.render(hbs`{{user-logged-menu _canDisplayMenu=true}}`);
+
+      return wait().then(() => {
+        // then
+        expect(this.$('.logged-user-menu')).to.have.lengthOf(1);
+        expect(this.$('.user-menu-item__certification-link')).to.have.lengthOf(1);
+        expect(this.$('.user-menu-item__certification-link').text()).to.contains('MES COMPETENCES');
+      });
+    });
+
     it('should hide user menu, when it was previously open and user-name is clicked one more time', function() {
       // when
       this.render(hbs`{{user-logged-menu}}`);
