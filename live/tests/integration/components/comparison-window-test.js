@@ -119,7 +119,7 @@ describe('Integration | Component | comparison-window', function() {
       { status: 'aband' },
       { status: 'partially' },
       { status: 'timedout' },
-      { status: 'default' },
+      { status: 'default' }
     ].forEach(function(data) {
 
       it(`should display the good icon in title when answer's result is "${data.status}"`, function() {
@@ -136,12 +136,16 @@ describe('Integration | Component | comparison-window', function() {
       });
     });
 
-    it('should render a tutorial panel before feedback panel', function() {
+    it('should render a tutorial panel with a hint', function() {
+      // given
+      this.set('answer', { result: { status: 'ko' } });
+      this.set('solution', { hint: 'Conseil : mangez des épinards.' });
+
       // when
-      this.render(hbs`{{comparison-window}}`);
+      this.render(hbs`{{comparison-window answer=answer solution=solution}}`);
 
       // then
-      expect(this.$('.tutorial-panel')).to.have.lengthOf(1);
+      expect(this.$('.tutorial-panel').text()).to.contain('Conseil : mangez des épinards.');
     });
 
   });
