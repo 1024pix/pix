@@ -3,6 +3,26 @@ const Pack = require('../package');
 const Metrics = require('./infrastructure/plugins/metrics');
 const settings = require('./settings');
 
+const consoleReporters = [
+  {
+    module: 'good-squeeze',
+    name: 'Squeeze',
+    args: [{
+      response: '*',
+      log: '*'
+    }]
+  }, {
+    module: 'good-console',
+    args: [{
+      color: settings.logging.colorEnabled
+    }]
+  }
+];
+
+if (settings.logging.enabled) {
+  consoleReporters.push('stdout');
+}
+
 const plugins = [
   Metrics,
   require('inert'),
@@ -22,19 +42,7 @@ const plugins = [
     register: require('good'),
     options: {
       reporters: {
-        console: [{
-          module: 'good-squeeze',
-          name: 'Squeeze',
-          args: [{
-            response: '*',
-            log: '*'
-          }]
-        }, {
-          module: 'good-console',
-          args: [{
-            color: settings.logging.colorEnabled
-          }]
-        }, 'stdout']
+        console: consoleReporters,
       }
     }
   }
