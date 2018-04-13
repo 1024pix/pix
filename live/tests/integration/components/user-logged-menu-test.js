@@ -80,7 +80,7 @@ describe('Integration | Component | user logged menu', function() {
         // then
         expect(this.$('.logged-user-menu')).to.have.lengthOf(1);
         expect(this.$('.user-menu-item__certification-link')).to.have.lengthOf(1);
-        expect(this.$('.user-menu-item__certification-link').text()).to.contains('MES COMPETENCES');
+        expect(this.$('.user-menu-item__certification-link').text()).to.contains('MES CERTIFICATIONS');
       });
     });
 
