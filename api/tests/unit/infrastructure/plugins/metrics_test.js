@@ -9,7 +9,7 @@ describe('Unit | Plugins | Metrics', () => {
 
   let serverStub;
 
-  const defaultRoute = {};
+  const defaultRoute = { path: '/api/other/{id}' };
   const defaultInfo = { responded: 2, received: 1 };
 
   class ResponseStub {
@@ -61,13 +61,13 @@ describe('Unit | Plugins | Metrics', () => {
     return matches[1];
   }
 
-  function _extractCountPerEndpoint(allMetrics, path) {
+  function _extractCountFromSpecificPath(allMetrics, metric, path) {
     const metricLine = allMetrics
       .split('\n')
-      .find((line) => line.match(new RegExp(`api_request_duration_count.*path="${path}"`)));
+      .find((line) => line.match(new RegExp(`${metric}.*path="${path}"`)));
 
-    if (metricLine === undefined) {
-      throw new Error(`Expected metric api_request_duration_count to be found in:\n${allMetrics}`);
+    if (!metricLine) {
+      return '0';
     }
 
     const matches = /(\d+)\s*$/.exec(metricLine);
@@ -122,8 +122,8 @@ describe('Unit | Plugins | Metrics', () => {
 
       // then
       const prometheusMetrics = Metrics.prometheusClient.metrics();
-      const result = _extractNumericValueFromSingleMetric(prometheusMetrics, 'api_request_success');
-      expect(result).to.equals('1');
+      const expectedCountFromSpecificPath = _extractCountFromSpecificPath(prometheusMetrics, 'api_request_success', defaultRoute.path);
+      expect(expectedCountFromSpecificPath).to.equal('1');
     });
 
     it('should not increment on error response event', () => {
@@ -133,8 +133,8 @@ describe('Unit | Plugins | Metrics', () => {
 
       // then
       const prometheusMetrics = Metrics.prometheusClient.metrics();
-      const result = _extractNumericValueFromSingleMetric(prometheusMetrics, 'api_request_success');
-      expect(result).to.equals('0');
+      const expectedCountFromSpecificPath = _extractCountFromSpecificPath(prometheusMetrics, 'api_request_success', defaultRoute.path);
+      expect(expectedCountFromSpecificPath).to.equal('0');
     });
   });
 
@@ -158,8 +158,8 @@ describe('Unit | Plugins | Metrics', () => {
 
       // then
       const prometheusMetrics = Metrics.prometheusClient.metrics();
-      const result = _extractNumericValueFromSingleMetric(prometheusMetrics, 'api_request_server_error');
-      expect(result).to.equals('0');
+      const expectedCountFromSpecificPath = _extractCountFromSpecificPath(prometheusMetrics, 'api_request_server_error', defaultRoute.path);
+      expect(expectedCountFromSpecificPath).to.equal('0');
     });
 
     it('should increment on error response event', () => {
@@ -168,8 +168,8 @@ describe('Unit | Plugins | Metrics', () => {
 
       // then
       const prometheusMetrics = Metrics.prometheusClient.metrics();
-      const result = _extractNumericValueFromSingleMetric(prometheusMetrics, 'api_request_server_error');
-      expect(result).to.equals('1');
+      const expectedCountFromSpecificPath = _extractCountFromSpecificPath(prometheusMetrics, 'api_request_server_error', defaultRoute.path);
+      expect(expectedCountFromSpecificPath).to.equal('1');
     });
   });
 
@@ -192,8 +192,8 @@ describe('Unit | Plugins | Metrics', () => {
 
       // then
       const prometheusMetrics = Metrics.prometheusClient.metrics();
-      const result = _extractNumericValueFromSingleMetric(prometheusMetrics, 'api_request_client_error');
-      expect(result).to.equals('1');
+      const expectedCountFromSpecificPath = _extractCountFromSpecificPath(prometheusMetrics, 'api_request_client_error', defaultRoute.path);
+      expect(expectedCountFromSpecificPath).to.equal('1');
     });
 
     it('should NOT increment on response event with statusCode 200 or 500', () => {
@@ -202,8 +202,8 @@ describe('Unit | Plugins | Metrics', () => {
 
       // then
       const prometheusMetrics = Metrics.prometheusClient.metrics();
-      const result = _extractNumericValueFromSingleMetric(prometheusMetrics, 'api_request_client_error');
-      expect(result).to.equals('0');
+      const expectedCountFromSpecificPath = _extractCountFromSpecificPath(prometheusMetrics, 'api_request_client_error', defaultRoute.path);
+      expect(expectedCountFromSpecificPath).to.equal('0');
     });
   });
 
@@ -244,10 +244,10 @@ describe('Unit | Plugins | Metrics', () => {
       // then
       const prometheusMetrics = Metrics.prometheusClient.metrics();
 
-      const expectedCountForEndpointToto = _extractCountPerEndpoint(prometheusMetrics, '/api/toto/{id}');
+      const expectedCountForEndpointToto = _extractCountFromSpecificPath(prometheusMetrics, 'api_request_duration_count', '/api/toto/{id}');
       expect(expectedCountForEndpointToto).to.equal('2');
 
-      const expectedCountForEndpointOther = _extractCountPerEndpoint(prometheusMetrics, '/api/other/{id}');
+      const expectedCountForEndpointOther = _extractCountFromSpecificPath(prometheusMetrics, 'api_request_duration_count', '/api/other/{id}');
       expect(expectedCountForEndpointOther).to.equal('1');
     });
   });
