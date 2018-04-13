@@ -151,6 +151,12 @@ class ObjectValidationError extends Error {
 
 }
 
+class MissingOrInvalidCredentialsError extends Error {
+  constructor() {
+    super('Missing or invalid credentials');
+  }
+}
+
 module.exports = {
   NotFoundError,
   PasswordNotMatching,
@@ -167,5 +173,6 @@ module.exports = {
   AssessmentEndedError,
   AlreadyRatedAssessmentError,
   WrongDateFormatError,
-  ObjectValidationError
+  ObjectValidationError,
+  MissingOrInvalidCredentialsError
 };
