@@ -42,7 +42,8 @@ module.exports = {
         'lastName',
         'birthdate',
         'birthplace',
-        'sessionId']
+        'sessionId',
+        'externalId']
     }).serialize(certificationCourseResult);
   },
 
