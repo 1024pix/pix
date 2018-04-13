@@ -4,6 +4,19 @@ const { ObjectValidationError } = require('../errors');
 
 class Assessment {
 
+/*
+ * TODO: changer the Object.assign en quelque chose de plus expressif
+ * Complétez la liste des attributs de la classe Assessment
+ *
+ * id: String,
+ * course : associatedCourse (Class Course)
+ * createdAt: number ?
+ * updatedAt: number ?
+ * user: ? (class User ?)
+ * successRate: 24, ?? Je ne sais pas ce que c'est
+ * type: 'charade', String ?
+ * state: String
+ */
   constructor(attributes) {
     Object.assign(this, attributes);
   }
