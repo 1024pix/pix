@@ -1,10 +1,9 @@
 class Session {
 
-  // TODO: @Brandone est ce que c'est utile de stocker les deactivations, est ce que cela ne se recalcule pas avec
-  // les enabledTreatments ?
+  // TODO: @Brandone est ce que c'est utile de stocker les deactivations, est ce que cela ne se recalcule pas avec les enabledTreatments ?
   constructor({
-                id, type, value, enabledTreatments, deactivations, scoring
-              } = {}) {
+    id, type, value, enabledTreatments, deactivations, scoring
+  } = {}) {
     this.id = id;
     this.type = type;
     this.value = value;
