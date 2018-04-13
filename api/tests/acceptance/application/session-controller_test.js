@@ -3,21 +3,35 @@ const server = require('../../../server');
 
 describe('Acceptance | Controller | session-controller', () => {
 
-  describe('GET /sessions', function() {
+  describe('GET /sessions/{id}', function() {
+
+    const session = {
+      id: 1,
+      certificationCenter: 'Université de dressage de loutres',
+      address: 'Nice',
+      room: '28D',
+      examiner: 'Antoine Toutvenant',
+      date: '2017-12-08',
+      time: '14:30',
+      description: 'ahah',
+      accessCode: 'ABCD12'
+    };
+
+    beforeEach(() => {
+      return insertUserWithRolePixMaster().then(() =>knex('sessions').insert(session));
+    });
 
     afterEach(() => {
       return cleanupUsersAndPixRolesTables().then(() => knex('sessions').delete());
     });
 
-    const options = {
-      method: 'GET',
-      url: '/api/sessions',
-      payload: {},
-    };
-
     it('should return 200 HTTP status code', () => {
       // when
-      const promise = server.inject(options);
+      const promise = server.inject({
+        method: 'GET',
+        url: '/api/sessions/1',
+        payload: {},
+      });
 
       // then
       return promise.then((response) => {
@@ -25,14 +39,51 @@ describe('Acceptance | Controller | session-controller', () => {
       });
     });
 
-    it('should return a session code', () => {
+    it('should return 404 HTTP status code when session does not exist', () => {
       // when
-      const promise = server.inject(options);
+      const promise = server.inject({
+        method: 'GET',
+        url: '/api/sessions/2',
+        payload: {},
+      });
 
       // then
       return promise.then((response) => {
-        const code = response.result;
-        expect(code).to.have.lengthOf(6);
+        expect(response.statusCode).to.equal(404);
+      });
+    });
+    context('when session have certification associated', () => {
+      beforeEach(() => {
+        return knex('certification-courses').insert({
+          id: 3,
+          sessionId: 1
+        });
+      });
+
+      afterEach(() => {
+        return knex('certification-courses').delete();
+      });
+
+      it('should return sessions information with related certification', () => {
+        // when
+        const promise = server.inject({
+          method: 'GET',
+          url: '/api/sessions/1',
+          payload: {},
+        });
+
+        // then
+        return promise.then((response) => {
+          expect(response.result.data.attributes['access-code']).to.deep.equal(session.accessCode);
+          expect(response.result.data.relationships.certifications).to.deep.equal({
+            'data': [
+              {
+                'id': '3',
+                'type': 'certifications'
+              }
+            ]
+          });
+        });
       });
     });
   });

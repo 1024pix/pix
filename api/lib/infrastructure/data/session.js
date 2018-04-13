@@ -1,4 +1,5 @@
 const Bookshelf = require('../bookshelf');
+require('./certification-course');
 
 module.exports = Bookshelf.model('Session', {
   tableName: 'sessions',
@@ -33,5 +34,9 @@ module.exports = Bookshelf.model('Session', {
       error: 'Veuillez renseigner une heure de session au format (hh:mm).',
       args: /^([0-9]|0[0-9]|1[0-9]|2[0-3]):[0-5][0-9]$/
     }]
-  }
+  },
+
+  certificationCourses() {
+    return this.hasMany('CertificationCourse', 'sessionId');
+  },
 });
