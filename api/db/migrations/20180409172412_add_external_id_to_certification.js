@@ -1,17 +1,13 @@
 const TABLE_NAME = 'certification-courses';
 
-exports.up = function(knex, Promise) {
-  return Promise.all([
-    knex.schema.table(TABLE_NAME, function(table){
-      table.string('externalId');
-    })
-  ]);
+exports.up = (knex) => {
+  return knex.schema.table(TABLE_NAME, (table) => {
+    table.string('externalId');
+  });
 };
 
-exports.down = function(knex, Promise) {
-  return Promise.all([
-    knex.schema.table(TABLE_NAME, function(table){
-      table.dropColumn('externalId');
-    })
-  ]);
+exports.down = (knex) => {
+  return knex.schema.table(TABLE_NAME, (table) => {
+    table.dropColumn('externalId');
+  });
 };
