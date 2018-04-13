@@ -23,7 +23,7 @@ module.exports = (function() {
     },
 
     logging: {
-      enabled: process.env.LOG_ENABLED,
+      enabled: (process.env.LOG_ENABLED || process.env.NODE_ENV != 'test'),
       colorEnabled: ('development' === process.env.NODE_ENV)
     },
 
