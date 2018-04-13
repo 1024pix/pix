@@ -1,4 +1,5 @@
 const AnswerStatus = require('../domain/models/AnswerStatus');
+const _ = require('lodash');
 
 const MAX_REACHABLE_LEVEL = 5;
 const NB_PIX_BY_LEVEL = 8;
@@ -121,8 +122,7 @@ class Assessment {
     let maxLikelihood = -Infinity;
     let level = 0.5;
     let predictedLevel = 0.5;
-    // XXX : Question : why 8  when max level is 5 ?
-    while (level < 8) {
+    while (level < 8) {  // Even if max level is 5, predicted level can be 7.5
       const likelihood = this._computeLikelihood(level, this.answers);
       if (likelihood > maxLikelihood) {
         maxLikelihood = likelihood;
@@ -136,7 +136,21 @@ class Assessment {
   get filteredChallenges() {
     let availableChallenges = this.course.challenges.filter(challenge => this._isAnAvailableChallenge(challenge));
     availableChallenges = this._isPreviousChallengeTimed() ? this._extractNotTimedChallenge(availableChallenges) : availableChallenges;
-    return availableChallenges;
+    // Easier tubes have higher priority
+    const courseTubes = this.course.tubes;
+
+    if (availableChallenges.length === 0) {
+      return [];
+    }
+
+    const challengesWithTubeDifficulty = availableChallenges.map(challenge => {
+      return { challenge: challenge, tubeDifficulty: _.last(courseTubes[challenge.hardestSkill.tubeName]).difficulty }
+    });
+    const minTubeDifficulty = _.minBy(challengesWithTubeDifficulty, 'tubeDifficulty').tubeDifficulty;
+
+    return challengesWithTubeDifficulty
+      .filter(challengeWithTubeDifficulty => challengeWithTubeDifficulty.tubeDifficulty === minTubeDifficulty)
+      .map(challengeWithTubeDifficulty => challengeWithTubeDifficulty.challenge);
   }
 
   get _firstChallenge() {
@@ -155,13 +169,11 @@ class Assessment {
       return null;
     }
 
-    const byDescendingRewards = (a, b) => { return b.reward - a.reward; };
     const predictedLevel = this._getPredictedLevel();
     const challengesAndRewards = this.filteredChallenges.map(challenge => {
       return { challenge: challenge, reward: this._computeReward(challenge, predictedLevel) };
     });
-    const challengeWithMaxReward = challengesAndRewards.sort(byDescendingRewards)[0];
-    const maxReward = challengeWithMaxReward.reward;
+    const maxReward = _.maxBy(challengesAndRewards, 'reward').reward;
 
     if (maxReward === 0) {
       return null;

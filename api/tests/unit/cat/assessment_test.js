@@ -293,10 +293,11 @@ describe('Unit | Model | Assessment', function() {
 
     it('should not return any timed challenge if previous challenge was timed', function() {
       // given
-      const ch1 = new Challenge('a', 'validé', [], undefined);
-      const ch2 = new Challenge('b', 'validé', [], 30);
-      const ch3 = new Challenge('c', 'validé', [], undefined);
-      const ch4 = new Challenge('d', 'validé', [], 30);
+      const web1 = new Skill('web1');
+      const ch1 = new Challenge('a', 'validé', [web1], undefined);
+      const ch2 = new Challenge('b', 'validé', [web1], 30);
+      const ch3 = new Challenge('c', 'validé', [web1], undefined);
+      const ch4 = new Challenge('d', 'validé', [web1], 30);
       const answerCh1 = new Answer(ch1, AnswerStatus.OK);
       const answerCh2 = new Answer(ch2, AnswerStatus.OK);
       const challenges = [ch1, ch2, ch3, ch4];
@@ -311,12 +312,13 @@ describe('Unit | Model | Assessment', function() {
 
     it('should return only challenges that are validated, prevalidated, or validated without test', function() {
       // given
-      const drop1 = new Challenge('a', 'poubelle', []);
-      const keep1 = new Challenge('b', 'validé', []);
-      const keep2 = new Challenge('c', 'pré-validé', []);
-      const drop2 = new Challenge('d', 'archive', []);
-      const drop3 = new Challenge('e', 'proposé', []);
-      const keep3 = new Challenge('f', 'validé sans test', []);
+      const web1 = new Skill('web1');
+      const drop1 = new Challenge('a', 'poubelle', [web1]);
+      const keep1 = new Challenge('b', 'validé', [web1]);
+      const keep2 = new Challenge('c', 'pré-validé', [web1]);
+      const drop2 = new Challenge('d', 'archive', [web1]);
+      const drop3 = new Challenge('e', 'proposé', [web1]);
+      const keep3 = new Challenge('f', 'validé sans test', [web1]);
       const course = new Course([keep1, keep2, keep3, drop1, drop2, drop3]);
 
       // when
@@ -324,6 +326,25 @@ describe('Unit | Model | Assessment', function() {
 
       // then
       expect(assessment.filteredChallenges).to.deep.equal([keep1, keep2, keep3]);
+    });
+
+    it('should return only challenges targeting easy tubes if they exist', function() {
+      // given
+      const web1 = new Skill('web1');
+      const web2 = new Skill('web2');
+      const url1 = new Skill('url1');
+      const url4 = new Skill('url4');
+      const keep1 = new Challenge('a', 'validé', [web1]);
+      const keep2 = new Challenge('b', 'validé', [web2]);
+      const drop1 = new Challenge('c', 'validé', [url1]);
+      const drop2 = new Challenge('d', 'validé', [url4]);
+      const course = new Course([keep1, keep2, drop1, drop2]);
+
+      // when
+      const assessment = new Assessment(course, []);
+
+      // then
+      expect(assessment.filteredChallenges).to.deep.equal([keep1, keep2]);
     });
   });
 
@@ -438,14 +459,14 @@ describe('Unit | Model | Assessment', function() {
       const web2 = new Skill('web2');
       const url3 = new Skill('url3');
       const url4 = new Skill('url4');
-      const rechInfo5 = new Skill('rechInfo5');
+      const web5 = new Skill('web5');
       const url6 = new Skill('url6');
       const rechInfo7 = new Skill('rechInfo7');
       const ch1 = new Challenge('recEasy', 'validé', [web1]);
       const ch2 = new Challenge('rec2', 'validé', [web2]);
       const ch3 = new Challenge('rec3', 'validé', [url3]);
       const ch4 = new Challenge('rec4', 'validé', [url4]);
-      const ch5 = new Challenge('rec5', 'validé', [rechInfo5]);
+      const ch5 = new Challenge('rec5', 'validé', [web5]);
       const ch6 = new Challenge('rec6', 'validé', [url6]);
       const ch7 = new Challenge('rec7', 'validé', [rechInfo7]);
       const course = new Course([ch1, ch2, ch3, ch4, ch5, ch6, ch7]);
@@ -621,6 +642,48 @@ describe('Unit | Model | Assessment', function() {
 
       // then
       expect(assessment.nextChallenge.skills[0].difficulty).not.to.be.equal(6);
+    });
+
+    it('should not return a question that involves a skill already acquired', function() {
+      // given
+      const web1 = new Skill('web1');
+      const url1 = new Skill('url1');
+      const ch1 = new Challenge('web1a', 'validé', [web1]);
+      const ch2 = new Challenge('web1b', 'validé', [web1]);
+      const ch3 = new Challenge('url1', 'validé', [url1]);
+      const challenges = [ch1, ch2, ch3];
+      const course = new Course(challenges);
+      const answer1 = new Answer(ch1, AnswerStatus.OK);
+      const answer2 = new Answer(ch3, AnswerStatus.OK);
+      const answers = [answer1, answer2];
+      const assessment = new Assessment(course, answers);
+
+      // then
+      expect(assessment.nextChallenge).not.to.be.equal(ch2);
+    });
+
+    it('should return a question that targets an easy tube in priority', function() {
+      // given
+      const web1 = new Skill('web1');
+      const web2 = new Skill('web2');
+      const web3 = new Skill('web3');
+      const web4 = new Skill('web4');
+      const web5 = new Skill('web5');
+      const url1 = new Skill('url1');
+      const url2 = new Skill('url2');
+      const info1 = new Skill('info1');
+      const info2 = new Skill('info2');
+      const ch1 = new Challenge('web2', 'validé', [web1, web2]);
+      const ch2 = new Challenge('web5', 'validé', [web3, web4, web5]);
+      const ch3 = new Challenge('url2', 'validé', [url1, url2]);
+      const ch4 = new Challenge('info2', 'validé', [info1, info2]);
+      const challenges = [ch1, ch2, ch3, ch4];
+      const answer = new Answer(ch3, AnswerStatus.OK);
+      const course = new Course(challenges);
+      const assessment = new Assessment(course, [answer]);
+
+      // then
+      expect(assessment.nextChallenge).to.be.equal(ch4);
     });
 
     it('should return a challenge of difficulty 7 if challenge of difficulty 6 is correctly answered', function() {

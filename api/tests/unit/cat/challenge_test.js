@@ -26,7 +26,6 @@ describe('Unit | Model | Challenge', function() {
   });
 
   describe('#isActive', function() {
-
     it('should return true if the status is an active status', function() {
       // given
       const challenge = new Challenge('recXXX', 'validé', []);
@@ -42,6 +41,5 @@ describe('Unit | Model | Challenge', function() {
       // then
       expect(challenge.isActive).to.equal(false);
     });
-
   });
 });
