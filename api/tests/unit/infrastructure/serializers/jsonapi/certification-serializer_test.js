@@ -16,6 +16,7 @@ describe('Unit | Serializer | JSONAPI | certification-serializer', function() {
           'last-name': 'The all mighty',
           'birthplace': 'Namek',
           'birthdate': '24/10/1989',
+          'external-id': 'xenoverse2'
         }
       }
     };
@@ -26,6 +27,7 @@ describe('Unit | Serializer | JSONAPI | certification-serializer', function() {
       lastName: 'The all mighty',
       birthplace: 'Namek',
       birthdate: '1989-10-24',
+      externalId: 'xenoverse2'
     };
 
     it('should convert a JSON API data into a Certification Course object', function() {
@@ -64,6 +66,7 @@ describe('Unit | Serializer | JSONAPI | certification-serializer', function() {
           'last-name': 'The all mighty',
           'birthplace': 'Namek',
           'birthdate': '24/10/1989',
+          'external-id': 'xenoverse2',
         }
       }
     };
@@ -74,6 +77,7 @@ describe('Unit | Serializer | JSONAPI | certification-serializer', function() {
       lastName: 'The all mighty',
       birthplace: 'Namek',
       birthdate: '24/10/1989',
+      externalId: 'xenoverse2',
     };
 
     it('should serialize', function() {

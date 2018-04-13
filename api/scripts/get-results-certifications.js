@@ -10,7 +10,7 @@ const HEADERS = [
   'Numero certification', 'Numero de session', 'Date de début', 'Date de fin',
   'Status de la session', 'Note Pix',
   'Prénom', 'Nom', 'Date de naissance', 'Lieu de naissance',
-  'Commentaire pour le candidat', 'Commentaire pour l\'organisation', 'Commentaire du jury',
+  'Commentaire pour le candidat', 'Commentaire pour l\'organisation', 'Commentaire du jury', 'Identifiant Externe',
   '1.1', '1.2', '1.3',
   '2.1', '2.2', '2.3', '2.4',
   '3.1', '3.2', '3.3', '3.4',
@@ -66,6 +66,7 @@ function toCSVRow(rowJSON) {
     commentCandidate,
     commentOrganization,
     commentJury,
+    externalId,
     ...competencess] = HEADERS;
 
   res[id] = certificationData['certification-id'];
@@ -87,6 +88,7 @@ function toCSVRow(rowJSON) {
   res[commentCandidate] = certificationData['comment-for-candidate'];
   res[commentOrganization] = certificationData['comment-for-organization'];
   res[commentJury] = certificationData['comment-for-jury'];
+  res[externalId] = certificationData['external-id'];
 
   competencess.forEach(column => {
     res[column] = findCompetence(certificationData['competences-with-mark'], column);

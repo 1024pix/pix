@@ -8,7 +8,7 @@ describe('Unit | Scripts | get-results-certifications.js', () => {
     'Numero certification', 'Numero de session', 'Date de début', 'Date de fin',
     'Status de la session', 'Note Pix',
     'Prénom', 'Nom', 'Date de naissance', 'Lieu de naissance',
-    'Commentaire pour le candidat', 'Commentaire pour l\'organisation', 'Commentaire du jury',
+    'Commentaire pour le candidat', 'Commentaire pour l\'organisation', 'Commentaire du jury', 'Identifiant Externe',
     '1.1', '1.2', '1.3',
     '2.1', '2.2', '2.3', '2.4',
     '3.1', '3.2', '3.3', '3.4',
@@ -77,7 +77,8 @@ describe('Unit | Scripts | get-results-certifications.js', () => {
             'last-name': 'Son',
             'birthdate': '20/11/737',
             'birthplace': 'Vegeta',
-            'session-id': 1
+            'session-id': 1,
+            'external-id': 'Kakarot'
           }
         }
       };
@@ -97,6 +98,7 @@ describe('Unit | Scripts | get-results-certifications.js', () => {
       expect(result[HEADERS[10]]).to.equal('GG');
       expect(result[HEADERS[11]]).to.equal('Too bad');
       expect(result[HEADERS[12]]).to.equal('You get it');
+      expect(result[HEADERS[13]]).to.equal('Kakarot');
     });
 
     it('should extract competences', () => {
@@ -107,7 +109,7 @@ describe('Unit | Scripts | get-results-certifications.js', () => {
       const result = getResultsCertifications.toCSVRow(object);
 
       // then
-      expect(result[HEADERS[13]]).to.equal('');
+      expect(result[HEADERS[14]]).to.equal('');
     });
 
     it('should extract competences 1.1', () => {
