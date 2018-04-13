@@ -7,11 +7,10 @@ const { expect, sinon } = require('../../../test-helper');
 
 describe('Unit | UseCase | getSolutionForAnswerWhenAssessmentEnded', () => {
 
-  let assessmentRepository = {};
-  let answerRepository = {};
-  let solutionRepository = {};
-  let assessmentId;
-  let answerId;
+  const assessmentRepository = {};
+  const answerRepository = {};
+  const solutionRepository = {};
+  let sandbox;
 
   beforeEach(() => {
     sandbox = sinon.sandbox.create();
@@ -43,26 +42,25 @@ describe('Unit | UseCase | getSolutionForAnswerWhenAssessmentEnded', () => {
       });
 
       // then
-      let error = {};
-      await promise.catch((err) => error = err);
-
-      expect(error).to.be.an.instanceof(NotCompletedAssessmentError);
-      expect(assessmentRepository.get).to.have.been.calledWith(1);
-      expect(answerRepository.get).to.not.have.been.called;
-      expect(solutionRepository.getForChallengeId).to.not.have.been.called;
+      return expect(promise).to.be.rejectedWith(NotCompletedAssessmentError)
+        .then(() => {
+          expect(assessmentRepository.get).to.have.been.calledWith(1);
+          expect(answerRepository.get).to.not.have.been.called;
+          expect(solutionRepository.getForChallengeId).to.not.have.been.called;
+        });
     });
   });
 
   context('when assessment is completed', () => {
 
-    it('should return with the solution', async () => {
+    it('should return with the solution', () => {
       // given
       const assessment = new Assessment({ state: 'completed' });
       const answer = new Answer({ challengeId: 12 });
       const solution = new Solution({ id: 123 });
       sandbox.stub(assessmentRepository, 'get').resolves(assessment);
       sandbox.stub(answerRepository, 'get').resolves(answer);
-      sandbox.stub(solutionRepository, 'getForChallengeId').resolves(solution);;
+      sandbox.stub(solutionRepository, 'getForChallengeId').resolves(solution);
 
       // when
       const promise = getSolutionForAnswerWhenAssessmentEnded({
@@ -74,12 +72,12 @@ describe('Unit | UseCase | getSolutionForAnswerWhenAssessmentEnded', () => {
       });
 
       // then
-      const responseSolution = await promise;
-
-      expect(assessmentRepository.get).to.have.been.calledWith(1);
-      expect(answerRepository.get).to.have.been.calledWith(2);
-      expect(solutionRepository.getForChallengeId).to.have.been.calledWith(12);
-      expect(responseSolution).to.deep.equal(new Solution({ id: 123 }));
+      return promise.then((responseSolution) => {
+        expect(assessmentRepository.get).to.have.been.calledWith(1);
+        expect(answerRepository.get).to.have.been.calledWith(2);
+        expect(solutionRepository.getForChallengeId).to.have.been.calledWith(12);
+        expect(responseSolution).to.deep.equal(new Solution({ id: 123 }));
+      });
     });
   });
 });
