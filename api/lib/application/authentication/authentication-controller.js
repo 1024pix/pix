@@ -5,11 +5,13 @@ const Authentication = require('../../domain/models/Authentication');
 const authenticationSerializer = require('../../infrastructure/serializers/jsonapi/authentication-serializer');
 const userRepository = require('../../infrastructure/repositories/user-repository');
 const userSerializer = require('../../infrastructure/serializers/jsonapi/user-serializer');
+const checkUserCredentialsAndGenerateAccessToken = require('../usecases/checkUserCredentialsAndGenerateAccessToken');
+const JSONAPIError = require('jsonapi-serializer').Error;
 
 function _buildError() {
   return {
     data: {
-      '': [ 'L\'adresse e-mail et/ou le mot de passe saisi(s) sont incorrects.' ]
+      '': ['L\'adresse e-mail et/ou le mot de passe saisi(s) sont incorrects.']
     }
   };
 }
@@ -41,5 +43,35 @@ module.exports = {
         const message = validationErrorSerializer.serialize(_buildError());
         reply(message).code(400);
       });
-  }
+  },
+
+  /**
+   * @see https://tools.ietf.org/html/rfc6749#section-4.3
+   */
+  authenticateUser(request, reply) {
+    const { username, password } = request.payload;
+
+    return checkUserCredentialsAndGenerateAccessToken.execute(username, password)
+      .then(accessToken => {
+        return reply({
+          token_type: 'bearer',
+          expires_in: 3600,
+          access_token: accessToken
+        })
+          .code(200)
+          .header('Content-Type', 'application/json;charset=UTF-8')
+          .header('Cache-Control', 'no-store')
+          .header('Pragma', 'no-cache');
+      })
+      .catch(() => {
+        const errorStatusCode = 403;
+        const jsonApiError = new JSONAPIError({
+          code: errorStatusCode.toString(),
+          title: 'Forbidden',
+          detail: 'Bad credentials'
+        });
+        return reply(jsonApiError).code(errorStatusCode);
+      });
+  },
+
 };
