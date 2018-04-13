@@ -6,7 +6,19 @@ const courseSerializer = require('../../../../lib/infrastructure/serializers/air
 const Course = require('../../../../lib/domain/models/Course');
 
 function _buildCourse(id, name, description) {
-  return { id, name, description };
+  return {
+    id,
+    name,
+    description,
+
+    assessment: undefined,
+    challenges: [],
+    competences: undefined,
+    imageUrl: undefined,
+    isAdaptive: undefined,
+    nbChallenges: 0,
+    type: undefined,
+  };
 }
 
 describe('Unit | Repository | course-repository', function() {
@@ -36,7 +48,7 @@ describe('Unit | Repository | course-repository', function() {
     const cacheKey = `course-repository_get_${courseId}`;
     const course = { foo: 'bar' };
 
-    it('should resolve with the course directly retrieved from the cache without calling airtable when the course has been cached', function(done) {
+    it('should resolve with the course directly retrieved from the cache without calling airtable when the course has been cached', () => {
       // given
       getRecord.resolves(true);
       cache.set(cacheKey, course);
@@ -46,11 +58,10 @@ describe('Unit | Repository | course-repository', function() {
 
       // then
       expect(getRecord.notCalled).to.be.true;
-      expect(result).to.eventually.deep.equal(course);
-      done();
+      return expect(result).to.eventually.deep.equal(course);
     });
 
-    it('should reject with an error when the cache throw an error', function(done) {
+    it('should reject with an error when the cache throw an error', () => {
       // given
       const cacheErrorMessage = 'Cache error';
       sinon.stub(cache, 'get').callsFake((key, callback) => {
@@ -62,8 +73,7 @@ describe('Unit | Repository | course-repository', function() {
 
       // then
       cache.get.restore();
-      expect(result).to.eventually.be.rejectedWith(cacheErrorMessage);
-      done();
+      return expect(result).to.eventually.be.rejectedWith(cacheErrorMessage);
     });
 
     describe('when the course was not previously cached', function() {
@@ -72,16 +82,15 @@ describe('Unit | Repository | course-repository', function() {
         getRecord.resolves(course);
       });
 
-      it('should resolve with the courses fetched from Airtable', function(done) {
+      it('should resolve with the courses fetched from Airtable', () => {
         // when
         const result = courseRepository.get(courseId);
 
         // then
-        expect(result).to.eventually.deep.equal(course);
-        done();
+        return expect(result).to.eventually.deep.equal(course);
       });
 
-      it('should cache the course fetched from Airtable', function(done) {
+      it('should cache the course fetched from Airtable', done => {
         // when
         courseRepository.get(courseId).then(() => {
 
@@ -93,7 +102,7 @@ describe('Unit | Repository | course-repository', function() {
         });
       });
 
-      it('should query correctly airtable', function(done) {
+      it('should query correctly airtable', done => {
         // when
         courseRepository.get(courseId).then(() => {
 
@@ -114,7 +123,7 @@ describe('Unit | Repository | course-repository', function() {
     const courseId = 'course_id';
     const cacheKey = `course-repository_get_${courseId}`;
 
-    it('should reject with an error when the cache throw an error', function(done) {
+    it('should reject with an error when the cache throw an error', () => {
       // given
       const cacheErrorMessage = 'Cache error';
       sinon.stub(cache, 'del').callsFake((key, callback) => {
@@ -126,11 +135,10 @@ describe('Unit | Repository | course-repository', function() {
 
       // then
       cache.del.restore();
-      expect(result).to.eventually.be.rejectedWith(cacheErrorMessage);
-      done();
+      return expect(result).to.eventually.be.rejectedWith(cacheErrorMessage);
     });
 
-    it('should resolve with the course fetched from airtable when the course was not previously cached', function(done) {
+    it('should resolve with the course fetched from airtable when the course was not previously cached', () => {
       // given
       const course = {
         id: courseId,
@@ -143,11 +151,10 @@ describe('Unit | Repository | course-repository', function() {
       const result = courseRepository.refresh(courseId);
 
       // then
-      expect(result).to.eventually.deep.equal(course);
-      done();
+      return expect(result).to.eventually.deep.equal(course);
     });
 
-    it('should replace the old course by the new one in cache', function() {
+    it('should replace the old course by the new one in cache', done => {
       // given
       const oldCourse = {
         id: courseId,
@@ -168,6 +175,7 @@ describe('Unit | Repository | course-repository', function() {
         // then
         cache.get(cacheKey, (err, cachedValue) => {
           expect(cachedValue).to.deep.equal(newCourse);
+          done();
         });
       });
     });
@@ -186,7 +194,7 @@ describe('Unit | Repository | course-repository', function() {
       _buildCourse('course_id_3', 'Course #3', 'Desc. #3')
     ];
 
-    it('should reject with an error when the cache throw an error', function(done) {
+    it('should reject with an error when the cache throw an error', function() {
       // given
       const cacheErrorMessage = 'Cache error';
       sinon.stub(cache, 'get').callsFake((key, callback) => {
@@ -198,11 +206,10 @@ describe('Unit | Repository | course-repository', function() {
 
       // then
       cache.get.restore();
-      expect(result).to.eventually.be.rejectedWith(cacheErrorMessage);
-      done();
+      return expect(result).to.eventually.be.rejectedWith(cacheErrorMessage);
     });
 
-    it('should resolve with the course directly retrieved from the cache without calling airtable when the course has been cached', function(done) {
+    it('should resolve with the course directly retrieved from the cache without calling airtable when the course has been cached', function() {
       // given
       getRecords.resolves(true);
       cache.set(cacheKey, courses);
@@ -212,8 +219,7 @@ describe('Unit | Repository | course-repository', function() {
 
       // then
       expect(getRecords.notCalled).to.be.true;
-      expect(result).to.eventually.deep.equal(courses);
-      done();
+      return expect(result).to.eventually.deep.equal(courses);
     });
 
     describe('when courses have not been previsously cached', function() {
@@ -234,16 +240,15 @@ describe('Unit | Repository | course-repository', function() {
         });
       });
 
-      it('should resolve with the courses fetched from Airtable', function(done) {
+      it('should resolve with the courses fetched from Airtable', function() {
         // when
         const result = courseRepository.getProgressionCourses();
 
         // then
-        expect(result).to.eventually.deep.equal(courses);
-        done();
+        return expect(result).to.eventually.deep.equal(courses);
       });
 
-      it('should cache the course fetched from Airtable', function(done) {
+      it('should cache the course fetched from Airtable', done => {
         // when
         courseRepository.getProgressionCourses().then(() => {
 
@@ -255,7 +260,7 @@ describe('Unit | Repository | course-repository', function() {
         });
       });
 
-      it('should query correctly airtable', function(done) {
+      it('should query correctly airtable', () => {
         // given
         const expectedQuery = {
           filterByFormula: '{Statut} = "Publié"',
@@ -263,11 +268,10 @@ describe('Unit | Repository | course-repository', function() {
         };
 
         // when
-        courseRepository.getProgressionCourses().then(() => {
+        return courseRepository.getProgressionCourses().then(() => {
 
           // then
           expect(getRecords.calledWith('Tests', expectedQuery, courseSerializer)).to.be.true;
-          done();
         });
       });
     });
@@ -287,7 +291,7 @@ describe('Unit | Repository | course-repository', function() {
       _buildCourse('course_id_3', 'Course #3', 'Desc. #3')
     ];
 
-    it('should reject with an error when the cache throw an error', function(done) {
+    it('should reject with an error when the cache throw an error', () => {
       // given
       const cacheErrorMessage = 'Cache error';
       sinon.stub(cache, 'get').callsFake((key, callback) => {
@@ -299,11 +303,10 @@ describe('Unit | Repository | course-repository', function() {
 
       // then
       cache.get.restore();
-      expect(result).to.eventually.be.rejectedWith(cacheErrorMessage);
-      done();
+      return expect(result).to.eventually.be.rejectedWith(cacheErrorMessage);
     });
 
-    it('should resolve with the courses directly retrieved from the cache without calling airtable when the course has been cached', function(done) {
+    it('should resolve with the courses directly retrieved from the cache without calling airtable when the course has been cached', () => {
       // given
       getRecords.resolves(true);
       cache.set(cacheKey, courses);
@@ -313,8 +316,7 @@ describe('Unit | Repository | course-repository', function() {
 
       // then
       expect(getRecords.notCalled).to.be.true;
-      expect(result).to.eventually.deep.equal(courses);
-      done();
+      return expect(result).to.eventually.deep.equal(courses);
     });
 
     describe('when courses have not been previsously cached', function() {
@@ -323,16 +325,15 @@ describe('Unit | Repository | course-repository', function() {
         getRecords.resolves(courses);
       });
 
-      it('should resolve with the courses fetched from Airtable', function(done) {
+      it('should resolve with the courses fetched from Airtable', () => {
         // when
         const result = courseRepository.getCoursesOfTheWeek();
 
         // then
-        expect(result).to.eventually.deep.equal(courses);
-        done();
+        return expect(result).to.eventually.deep.equal(courses);
       });
 
-      it('should cache the course fetched from Airtable', function(done) {
+      it('should cache the course fetched from Airtable', done => {
         // when
         courseRepository.getCoursesOfTheWeek().then(() => {
 
@@ -344,7 +345,7 @@ describe('Unit | Repository | course-repository', function() {
         });
       });
 
-      it('should query correctly airtable', function(done) {
+      it('should query correctly airtable', () => {
         // given
         const expectedQuery = {
           filterByFormula: '{Statut} = "Publié"',
@@ -355,8 +356,7 @@ describe('Unit | Repository | course-repository', function() {
         courseRepository.getCoursesOfTheWeek().then(() => {
 
           // then
-          expect(getRecords.calledWith('Tests', expectedQuery, courseSerializer)).to.be.true;
-          done();
+          return expect(getRecords.calledWith('Tests', expectedQuery, courseSerializer)).to.be.true;
         });
       });
     });
@@ -376,7 +376,7 @@ describe('Unit | Repository | course-repository', function() {
       _buildCourse('course_id_3', 'Course #3', 'Desc. #3')
     ];
 
-    it('should reject with an error when the cache throw an error', function(done) {
+    it('should reject with an error when the cache throw an error', () => {
       // given
       const cacheErrorMessage = 'Cache error';
       sinon.stub(cache, 'get').callsFake((key, callback) => {
@@ -388,11 +388,10 @@ describe('Unit | Repository | course-repository', function() {
 
       // then
       cache.get.restore();
-      expect(result).to.eventually.be.rejectedWith(cacheErrorMessage);
-      done();
+      return expect(result).to.eventually.be.rejectedWith(cacheErrorMessage);
     });
 
-    it('should resolve with the courses directly retrieved from the cache without calling airtable when the course has been cached', function(done) {
+    it('should resolve with the courses directly retrieved from the cache without calling airtable when the course has been cached', () => {
       // given
       getRecords.resolves(true);
       cache.set(cacheKey, courses);
@@ -402,26 +401,24 @@ describe('Unit | Repository | course-repository', function() {
 
       // then
       expect(getRecords.notCalled).to.be.true;
-      expect(result).to.eventually.deep.equal(courses);
-      done();
+      return expect(result).to.eventually.deep.equal(courses);
     });
 
-    describe('when courses have not been previsously cached', function() {
+    describe('when courses have not been previsously cached', () => {
 
       beforeEach(function() {
         getRecords.resolves(courses);
       });
 
-      it('should resolve with the courses fetched from Airtable', function(done) {
+      it('should resolve with the courses fetched from Airtable', () => {
         // when
         const result = courseRepository.getAdaptiveCourses();
 
         // then
-        expect(result).to.eventually.deep.equal(courses);
-        done();
+        return expect(result).to.eventually.deep.equal(courses);
       });
 
-      it('should cache the course fetched from Airtable', function(done) {
+      it('should cache the course fetched from Airtable', done => {
         // when
         courseRepository.getAdaptiveCourses().then(() => {
 
@@ -433,7 +430,7 @@ describe('Unit | Repository | course-repository', function() {
         });
       });
 
-      it('should query correctly airtable', function(done) {
+      it('should query correctly airtable', () => {
         // given
         const expectedQuery = {
           filterByFormula: '{Statut} = "Publié"',
@@ -441,11 +438,9 @@ describe('Unit | Repository | course-repository', function() {
         };
 
         // when
-        courseRepository.getAdaptiveCourses().then(() => {
-
+        return courseRepository.getAdaptiveCourses().then(() => {
           // then
           expect(getRecords.calledWith('Tests', expectedQuery, courseSerializer)).to.be.true;
-          done();
         });
       });
     });
@@ -457,7 +452,7 @@ describe('Unit | Repository | course-repository', function() {
 
   describe('#refreshAll', function() {
 
-    it('should resolve with true when the clean succeeds', function(done) {
+    it('should resolve with true when the clean succeeds', done => {
       // given
       sinon.stub(cache, 'del').callsFake((key, callback) => {
         callback();
@@ -475,5 +470,4 @@ describe('Unit | Repository | course-repository', function() {
       });
     });
   });
-
 });
