@@ -84,16 +84,16 @@ describe('Delete User Script', () => {
       });
     });
 
-    describe('#delete_marks_from_assessment_ids', () => {
+    describe('#delete_competence_marks_from_assessment_ids', () => {
       it('should return the correct query', () => {
         // given
         const assessment_ids = [123];
 
         // when
-        const query = subject.delete_marks_from_assessment_ids(assessment_ids);
+        const query = subject.delete_competence_marks_from_assessment_ids(assessment_ids);
 
         // then
-        expect(query).to.equal('DELETE FROM marks WHERE "assessmentId" IN (123)');
+        expect(query).to.equal('DELETE FROM "competence-marks" WHERE "assessmentResultId" IN ( SELECT id from "assessment-results" WHERE "assessmentId" IN (123) )');
       });
 
       it('should return the correct query with comma as separator when many assessment ids', () => {
@@ -101,10 +101,10 @@ describe('Delete User Script', () => {
         const assessment_ids = [123, 456];
 
         // when
-        const query = subject.delete_marks_from_assessment_ids(assessment_ids);
+        const query = subject.delete_competence_marks_from_assessment_ids(assessment_ids);
 
         // then
-        expect(query).to.equal('DELETE FROM marks WHERE "assessmentId" IN (123,456)');
+        expect(query).to.equal('DELETE FROM "competence-marks" WHERE "assessmentResultId" IN ( SELECT id from "assessment-results" WHERE "assessmentId" IN (123,456) )');
       });
 
       it('should return neutral query when assessmentIds is an empty array', () => {
@@ -112,7 +112,39 @@ describe('Delete User Script', () => {
         const assessment_ids = [];
 
         // when
-        expect(() => subject.delete_marks_from_assessment_ids(assessment_ids)).to.throw(Error);
+        expect(() => subject.delete_competence_marks_from_assessment_ids(assessment_ids)).to.throw(Error);
+      });
+    });
+
+    describe('#delete_assessment_results_from_assessment_ids', () => {
+      it('should return the correct query', () => {
+        // given
+        const assessment_ids = [123];
+
+        // when
+        const query = subject.delete_assessment_results_from_assessment_ids(assessment_ids);
+
+        // then
+        expect(query).to.equal('DELETE FROM "assessment-results" WHERE "assessmentId" IN (123)');
+      });
+
+      it('should return the correct query with comma as separator when many assessment ids', () => {
+        // given
+        const assessment_ids = [123, 456];
+
+        // when
+        const query = subject.delete_assessment_results_from_assessment_ids(assessment_ids);
+
+        // then
+        expect(query).to.equal('DELETE FROM "assessment-results" WHERE "assessmentId" IN (123,456)');
+      });
+
+      it('should return neutral query when assessmentIds is an empty array', () => {
+        // given
+        const assessment_ids = [];
+
+        // when
+        expect(() => subject.delete_assessment_results_from_assessment_ids(assessment_ids)).to.throw(Error);
       });
     });
 
@@ -192,6 +224,7 @@ describe('Delete User Script', () => {
         expect(query).to.equal(`DELETE FROM assessments WHERE "userId" = '${user_id}'`);
       });
     });
+
     describe('#delete_user_from_user_id', () => {
       it('should return the correct query', () => {
         // given
@@ -329,7 +362,7 @@ describe('Delete User Script', () => {
 
     describe('#delete_dependent_data_from_fetched_assessment_ids', () => {
 
-      it('should delete feedbacks, skills, marks and answers', () => {
+      it('should delete feedbacks, skills, answers, competence-marks and assessment-results', () => {
         // given
         const ids = [123, 456];
         subject.assessmentIds = ids;
@@ -339,12 +372,13 @@ describe('Delete User Script', () => {
 
         // then
         return promise.then(() => {
-          sinon.assert.callCount(clientStub.query_and_log, 4);
+          sinon.assert.callCount(clientStub.query_and_log, 5);
 
           expect(clientStub.query_and_log).to.have.been.calledWith('DELETE FROM feedbacks WHERE "assessmentId" IN (123,456)');
           expect(clientStub.query_and_log).to.have.been.calledWith('DELETE FROM skills WHERE "assessmentId" IN (123,456)');
           expect(clientStub.query_and_log).to.have.been.calledWith('DELETE FROM answers WHERE "assessmentId" IN (123,456)');
-          expect(clientStub.query_and_log).to.have.been.calledWith('DELETE FROM marks WHERE "assessmentId" IN (123,456)');
+          expect(clientStub.query_and_log).to.have.been.calledWith('DELETE FROM "competence-marks" WHERE "assessmentResultId" IN ( SELECT id from "assessment-results" WHERE "assessmentId" IN (123,456) )');
+          expect(clientStub.query_and_log).to.have.been.calledWith('DELETE FROM "assessment-results" WHERE "assessmentId" IN (123,456)');
         });
       });
 
@@ -356,7 +390,8 @@ describe('Delete User Script', () => {
         queryBuilderMock.expects('delete_feedbacks_from_assessment_ids').never();
         queryBuilderMock.expects('delete_skills_from_assessment_ids').never();
         queryBuilderMock.expects('delete_answers_from_assessment_ids').never();
-        queryBuilderMock.expects('delete_marks_from_assessment_ids').never();
+        queryBuilderMock.expects('delete_competence_marks_from_assessment_ids').never();
+        queryBuilderMock.expects('delete_assessment_results_from_assessment_ids').never();
 
         // when
         const promise = subject.delete_dependent_data_from_fetched_assessment_ids();
