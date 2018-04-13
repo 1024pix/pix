@@ -37,8 +37,11 @@ module.exports = {
       .where({ id })
       .fetch({ require: true, withRelated: ['assessment', 'challenges'] })
       .then(_toDomain)
-      .catch(() => {
-        return Promise.reject(new NotFoundError());
+      .catch(bookshelfError => {
+        if (bookshelfError instanceof CertificationCourseBookshelf.NotFoundError) {
+          return Promise.reject(new NotFoundError());
+        }
+        return Promise.reject(bookshelfError);
       });
   },
 
