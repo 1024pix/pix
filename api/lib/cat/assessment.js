@@ -144,7 +144,7 @@ class Assessment {
     }
 
     const challengesWithTubeDifficulty = availableChallenges.map(challenge => {
-      return { challenge: challenge, tubeDifficulty: _.last(courseTubes[challenge.hardestSkill.tubeName]).difficulty }
+      return { challenge: challenge, tubeDifficulty: _.last(courseTubes[challenge.hardestSkill.tubeName]).difficulty };
     });
     const minTubeDifficulty = _.minBy(challengesWithTubeDifficulty, 'tubeDifficulty').tubeDifficulty;
 
