@@ -1,14 +1,10 @@
-const hash = require('object-hash');
-const moment = require('moment');
 const sessionCodeService = require('./session-code-service');
 const { NotFoundError } = require('../errors');
 const sessionRepository = require('../../infrastructure/repositories/session-repository');
 
 module.exports = {
-  getCurrentCode() {
-    const date = moment().utc().format('YYYY-MM-DD HH');
-
-    return hash(date).slice(0, 6);
+  get(sessionId) {
+    return sessionRepository.get(sessionId);
   },
 
   sessionExists(accessCode) {

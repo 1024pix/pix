@@ -18,7 +18,18 @@ const HEADERS = [
   '5.1', '5.2'
 ];
 
-function buildRequestObject(baseUrl, authToken, certificationId) {
+function buildSessionRequest(baseUrl, authToken, sessionId) {
+  return {
+    headers: {
+      authorization: 'Bearer ' + authToken
+    },
+    baseUrl: baseUrl,
+    url: `/api/sessions/${sessionId}`,
+    json: true
+  };
+}
+
+function buildCertificationRequest(baseUrl, authToken, certificationId) {
   return {
     headers: {
       authorization: 'Bearer ' + authToken
@@ -84,8 +95,8 @@ function toCSVRow(rowJSON) {
   return res;
 }
 
-function saveInFile(csv) {
-  const filepath = moment().format('DD-MM-YYYY_HH-mm') + '.csv';
+function saveInFile(csv, sessionId) {
+  const filepath = `session_${sessionId}_export_${moment().format('DD-MM-YYYY_HH-mm')}.csv`;
   const csvData = '\uFEFF' + csv;
   fileSystem.writeFile(filepath, csvData, (err) => {
     if (err) throw err;
@@ -96,23 +107,41 @@ function saveInFile(csv) {
 function main() {
   const baseUrl = process.argv[2];
   const authToken = process.argv[3];
-  const ids = process.argv.slice(4);
-  const requests = Promise.all(
-    ids.map(id => buildRequestObject(baseUrl, authToken, id))
-      .map(requestObject => request(requestObject))
-  );
+  const sessionId = process.argv[4];
+  const sessionRequest = buildSessionRequest(baseUrl, authToken, sessionId);
+  return request(sessionRequest)
+    .then((session) => {
+      return session.data.relationships.certifications.data.map((certification) => {
+        return certification.id;
+      });
+    })
+    .catch((err) => {
+      if (err.statusCode === 404) {
+        throw new Error(`L'id session n'existe pas`);
+      }
+    })
+    .then((certificationIds) => {
+      const certificationsRequests = Promise.all(
+        certificationIds.map(certificationId => buildCertificationRequest(baseUrl, authToken, certificationId))
+          .map(requestObject => request(requestObject))
+      );
 
-  return requests.then(certificationResults => certificationResults.map(toCSVRow))
-    .then(res => json2csv({
-      data: res,
-      fieldNames: HEADERS,
-      del: ';',
-    }))
-    .then(csv => {
-      saveInFile(csv);
-      console.log(`\n\n${csv}\n\n`);
-      return csv;
+      return certificationsRequests.then(certificationResults => certificationResults.map(toCSVRow))
+        .then(certificationResult => json2csv({
+          data: certificationResult,
+          fieldNames: HEADERS,
+          del: ';',
+        }))
+        .then(csv => {
+          saveInFile(csv, sessionId);
+          console.log(`\n\n${csv}\n\n`);
+          return csv;
+        });
+    })
+    .catch((err) => {
+      console.log(err.message);
     });
+
 }
 
 if (process.env.NODE_ENV !== 'test') {
@@ -120,7 +149,8 @@ if (process.env.NODE_ENV !== 'test') {
 }
 
 module.exports = {
-  buildRequestObject,
+  buildCertificationRequest,
   toCSVRow,
-  findCompetence
+  findCompetence,
+  buildSessionRequest
 };

@@ -6,7 +6,7 @@ exports.register = (server, options, next) => {
   server.route([
     {
       method: 'GET',
-      path: '/api/sessions',
+      path: '/api/sessions/{id}',
       config: {
         auth: false,
         handler: sessionController.get,

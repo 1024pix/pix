@@ -20,7 +20,7 @@ describe('Unit | Application | Sessions | Routes', () => {
     });
   }
 
-  describe('GET /api/session', () => {
+  describe('GET /api/sessions/{id}', () => {
 
     before(() => {
       sinon.stub(securityController, 'checkUserHasRolePixMaster').callsFake((request, reply) => reply(true));
@@ -33,7 +33,7 @@ describe('Unit | Application | Sessions | Routes', () => {
     });
 
     it('should exist', (done) => {
-      expectRouteToExist({ method: 'GET', url: '/api/sessions' }, done);
+      expectRouteToExist({ method: 'GET', url: '/api/sessions/{id}' }, done);
     });
   });
 
