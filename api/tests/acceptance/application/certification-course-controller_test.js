@@ -53,65 +53,66 @@ describe('Acceptance | API | Certification Course', () => {
 
   describe('GET /api/admin/certifications/{id}', () => {
 
-    const courseId = 1;
     let options;
 
     beforeEach(() => {
-      options = {
-        method: 'GET',
-        url: `/api/admin/certifications/${courseId}`,
-        headers: { authorization: generateValidRequestAuhorizationHeader() },
-      };
-      let assessmentId;
-      let assessmentResultId;
+      let certificationCourseId;
       return insertUserWithRolePixMaster()
         .then(() => {
-          knex('assessments').insert({
-            courseId: courseId.toString(),
+          return knex('certification-courses').insert({
+            createdAt: '2017-12-21 15:44:38',
+            completedAt: '2017-12-21T15:48:38.468Z'
+          }
+          );
+        })
+        .then((insertedModelIds) => (certificationCourseId = _.first(insertedModelIds)))
+        .then(() => {
+          return knex('assessments').insert({
+            courseId: certificationCourseId.toString(),
             state: 'completed',
             type: 'CERTIFICATION'
-          }).then(assessmentIds => {
-            assessmentId = _.first(assessmentIds);
-            return knex('assessment-results').insert([
-              {
-                level: 2,
-                pixScore: 42,
-                createdAt: '2017-12-21 16:44:38',
-                status: 'validated',
-                emitter: 'PIX-ALGO',
-                commentForJury: 'Computed',
-                assessmentId
-              }
-            ]);
-          }).then(assessmentResultIds => {
-            assessmentResultId = _.first(assessmentResultIds);
-            return knex('competence-marks').insert([
-              {
-                level: 2,
-                score: 20,
-                area_code: 4,
-                competence_code: 4.3,
-                assessmentResultId
-              },
-              {
-                level: 4,
-                score: 35,
-                area_code: 2,
-                competence_code: 2.1,
-                assessmentResultId
-              }
-            ]);
-          }).then(() => {
-            return knex('certification-courses').insert(
-              {
-                id: courseId,
-                createdAt: '2017-12-21 15:44:38',
-                completedAt: '2017-12-21T15:48:38.468Z'
-              }
-            );
           });
+        })
+        .then(insertedModelIds => {
+          const assessmentId = _.first(insertedModelIds);
+          return knex('assessment-results').insert([
+            {
+              level: 2,
+              pixScore: 42,
+              createdAt: '2017-12-21 16:44:38',
+              status: 'validated',
+              emitter: 'PIX-ALGO',
+              commentForJury: 'Computed',
+              assessmentId
+            }
+          ]);
+        })
+        .then(insertedModelIds => {
+          const assessmentResultId = _.first(insertedModelIds);
+          return knex('competence-marks').insert([{
+            level: 2,
+            score: 20,
+            area_code: 4,
+            competence_code: 4.3,
+            assessmentResultId
+          }, {
+            level: 4,
+            score: 35,
+            area_code: 2,
+            competence_code: 2.1,
+            assessmentResultId
+          }
+          ]);
+        })
+        .then(() => {
+          options = {
+            method: 'GET',
+            url: `/api/admin/certifications/${certificationCourseId}`,
+            headers: { authorization: generateValidRequestAuhorizationHeader() },
+          };
         });
     });
+
     afterEach(() => {
       return cleanupUsersAndPixRolesTables()
         .then(() => {
@@ -119,7 +120,8 @@ describe('Acceptance | API | Certification Course', () => {
             knex('assessments').delete(),
             knex('assessment-results').delete(),
             knex('competence-marks').delete(),
-            knex('certification-courses').delete()]);
+            knex('certification-courses').delete()
+          ]);
         });
 
     });
