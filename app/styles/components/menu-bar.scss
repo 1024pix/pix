@@ -1,74 +1,46 @@
-$menu-bar-width: 80px;
-
-.page-wrapper__sidebar {
-  min-width: $menu-bar-width;
-}
-
 .menu-bar {
-  width: $menu-bar-width;
   height: 100%;
-  background: #456AF6;
+  width: 100%;
+  background: #333;
   color: #FFFFFF;
-  position: fixed;
-}
 
-.menu-bar__logo {
-  padding: 10px;
-  text-align: center;
-}
+  .menu-bar__entries {
+    margin: 0;
+    list-style-type: none;
+    padding: 0;
 
-.menu-bar__logo-image {
-  border-radius: 5px;
-  padding: 5px;
-  background: #ffffff;
-  width: 60px;
-}
+    .menu-bar__entry {
+      margin: 0;
+      padding: 0;
 
-.menu-bar__entries {
-  margin: 0;
-  list-style-type: none;
-  padding: 10px 0;
-}
+      .menu-bar__link {
+        color: inherit !important;
+        display: block;
+        line-height: 60px;
+        padding: 0;
+        border-left: 10px solid #333;
+        cursor: pointer;
+        font-size: 1rem;
 
-.menu-bar__entry {
-  margin: 0;
-  padding: 0;
-}
+        i.fa {
+          margin: 0 10px;
+          width: 25px;
+          text-align: right;
+        }
 
-.menu-bar__link {
-  color: inherit !important;
-  display: block;
-  line-height: 50px;
-  text-align: center;
-  padding: 0 12px;
-  cursor: pointer;
-  font-size: 20px;
+        &:hover {
+          background-color: #3F3F3F;
+          border-left-color: #ffbe00;
+          text-decoration: none;
+        }
 
-  &:hover {
-    text-decoration: none;
-    background-color: #1D4BF2;
-    margin: 0 10px;
-    border-radius: 5px;
-  }
-
-  &.active {
-    background-color: #0838E6;
-    margin: 0 10px;
-    border-radius: 5px;
+        &.active {
+          font-weight: 600;
+          border-left: 10px solid #3d68ff;
+          background-color: #3F3F3F;
+        }
+      }
+    }
   }
 }
 
-.menu-bar__logout {
-  position: fixed;
-  bottom: 10px;
-  width: $menu-bar-width;
-}
-
-.tooltip-inner {
-  background-color: #1D4BF2!important;
-  padding: 8px 14px!important;
-}
-
-.tooltip.bs-tooltip-auto[x-placement^=right] .arrow::before, .tooltip.bs-tooltip-right .arrow::before {
-  border-right-color: #1D4BF2;
-}

@@ -1,72 +1,30 @@
-.page-header {
-  height: 68px;
-  line-height: 68px;
-  width: 100%;
-  background-color: #FFFFFF;
-  display: flex;
-  align-items: center;
-  box-shadow: 0 2px 4px 0 rgba(42,76,133,0.15);
-  /*color: #3e4676;*/
-  color: #333;
-  font-size: 16px;
-  font-weight: 500;
-  padding: 0 12px;
-  justify-content: space-between;
-  border-bottom: 1px solid #dee2e6;
+.page {
+  padding: 52px 80px 80px;
 
-  @include media-breakpoint-up(lg) {
-    padding: 0 48px;
+  .page-title {
+    margin-bottom: 20px;
   }
 
-  .page-header__title {
-    margin: 0;
-    font-size: 20px;
-    font-weight: 600;
+  .page-section {
+    background: #FFFFFF;
+    padding: 12px;
+    border-radius: 5px;
+    border: 1px solid $grey-border;
 
-    .fa {
-      @include media-breakpoint-up(lg) {
-        margin-right: 10px;
+    @include media-breakpoint-up(lg) {
+      padding: 48px;
+    }
+
+    .page-section-header {
+      display: flex;
+      justify-content: space-between;
+
+      .page-section-header__title {
+        font-size: 20px;
+        font-weight: 500;
+        margin-bottom: 24px;
       }
     }
   }
-
-  .page-header__actions {
-    display: flex;
-    align-items: center;
-  }
-
 }
 
-.page-body {
-
-}
-
-.page-section {
-  background: #FFFFFF;
-  margin: 12px;
-  padding: 12px;
-  border-radius: 5px;
-  box-shadow: 0 2px 4px 0 rgba(42, 76, 133, 0.15);
-
-  @include media-breakpoint-up(lg) {
-    margin: 48px;
-    padding: 48px;
-  }
-
-  .page-section-header {
-    display: flex;
-    justify-content: space-between;
-
-    .page-section-header__title {
-      font-size: 20px;
-      font-weight: 500;
-      /*border-bottom: 1px solid #f5f8ff;*/
-      margin-bottom: 24px;
-    }
-
-    .page-section-header__actions {
-
-    }
-  }
-
-}

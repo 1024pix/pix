@@ -1,10 +1,31 @@
-<div class="page-wrapper">
+<div class="app-container">
 
-  <aside class="page-wrapper__sidebar">
+  <aside class="app-sidebar">
+    <header class="app-logo">
+      {{#link-to "authenticated.index" class="app-logo__link"}}
+        <strong>Pix</strong><em>Admin</em>
+      {{/link-to}}
+    </header>
     {{menu-bar}}
   </aside>
 
-  <main class="page-wrapper__body">
-    {{outlet}}
-  </main>
+  <div class="app-body">
+    <header class="app-header">
+      <div class="app-search-bar input-group">
+        <div class="input-group-prepend">
+          <span class="input-group-text" id="basic-addon1">{{fa-icon "search"}}</span>
+        </div>
+        <input type="text" class="form-control">
+      </div>
+      <div class="app-actions">
+        {{#link-to "logout" class="app-action app-action__logout"}}
+          {{fa-icon "power-off"}}
+        {{/link-to}}
+      </div>
+    </header>
+    <main class="app-page">
+      {{outlet}}
+    </main>
+  </div>
+
 </div>

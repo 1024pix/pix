@@ -1,6 +1,14 @@
 <form class="form organization-form" {{action "submitOrganization" on='submit'}}>
 
+  {{#if errorMessages}}
+    <div class="error-messages-panel">
+      coucouc
+    </div>
+  {{/if}}
+
   <section class="form-section form-section--organization">
+    <h3>Organisation</h3>
+
     <!-- Organization name -->
     <div class="form-group">
       <label for="organizationName">Nom : </label>
@@ -22,6 +30,8 @@
   </section>
 
   <section class="form-section form-section--contact">
+    <h3>Contact</h3>
+
     <!-- Contact first name -->
     <div class="form-group">
       <label for="contactFirstName">Prénom : </label>
@@ -30,7 +40,7 @@
 
     <!-- Contact last name -->
     <div class="form-group">
-      <label for="contactLastName">Nom : </label>
+      <label for="contactLastName">Nom de famille : </label>
       {{input class="form-control" id="contactLastName" value=contact.lastName required=true}}
     </div>
 
@@ -48,7 +58,7 @@
   </section>
 
   <!-- Form submit button -->
-  <div class="organization-form__control">
+  <div>
     <button class="btn btn-primary" type="submit">Ajouter</button>
   </div>
 </form>

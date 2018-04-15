@@ -1,45 +1,29 @@
-<header class="menu-bar__logo">
-  <img class="menu-bar__logo-image" src="/logo-pix.png">
-</header>
-<ul class="menu-bar__entries">
-<!--
-  <li class="menu-bar__entry">
-    {{#link-to "authenticated.users" class="menu-bar__link menu-bar__link--users"}}
-      {{fa-icon "user-plus"}}
-      {{#bs-tooltip placement="right"}}Utilisateurs{{/bs-tooltip}}
-    {{/link-to}}
-  </li>
--->
-  <li class="menu-bar__entry">
-    {{#link-to "authenticated.organizations" class="menu-bar__link menu-bar__link--organizations"}}
-      {{fa-icon "building"}}
-      {{#bs-tooltip placement="right"}}Organisations{{/bs-tooltip}}
-    {{/link-to}}
-  </li>
-<!--
-  <li class="menu-bar__entry">
-    {{#link-to "authenticated.assessments" class="menu-bar__link menu-bar__link--assessments"}}
-      {{fa-icon "wpforms"}}
-      {{#bs-tooltip placement="right"}}Évaluations{{/bs-tooltip}}
-    {{/link-to}}
-  </li>
-  <li class="menu-bar__entry">
-    {{#link-to "authenticated.certifications" class="menu-bar__link menu-bar__link--certifications"}}
-      {{fa-icon "graduation-cap"}}
-      {{#bs-tooltip placement="right"}}Certifications{{/bs-tooltip}}
-    {{/link-to}}
-  </li>
-  <li class="menu-bar__entry">
-    {{#link-to "authenticated.operating" class="menu-bar__link menu-bar__link--operating"}}
-      {{fa-icon "wrench"}}
-      {{#bs-tooltip placement="right"}}Exploitation{{/bs-tooltip}}
-    {{/link-to}}
-  </li>
--->
-</ul>
-<footer class="menu-bar__logout">
-  {{#link-to "logout" class="menu-bar__link menu-bar__link--logout"}}
-    {{fa-icon "power-off"}}
-    {{#bs-tooltip placement="right"}}Déconnexion{{/bs-tooltip}}
-  {{/link-to}}
-</footer>
+<div class="menu-bar">
+
+  <ul class="menu-bar__entries">
+    <li class="menu-bar__entry">
+      {{#link-to "authenticated.organizations.new" class="menu-bar__link menu-bar__link--organizations"}}
+        {{fa-icon "building"}}
+        <span>Organisations</span>
+      {{/link-to}}
+    </li>
+    <li class="menu-bar__entry">
+      {{#link-to "about" class="menu-bar__link menu-bar__link--organizations"}}
+        {{fa-icon "users"}}
+        <span>Utilisateurs</span>
+      {{/link-to}}
+    </li>
+    <li class="menu-bar__entry">
+      {{#link-to "about" class="menu-bar__link menu-bar__link--organizations"}}
+        {{fa-icon "graduation-cap"}}
+        <span>Certifications</span>
+      {{/link-to}}
+    </li>
+    <li class="menu-bar__entry">
+      {{#link-to "about" class="menu-bar__link menu-bar__link--organizations"}}
+        {{fa-icon "wrench"}}
+        <span>Exploitation</span>
+      {{/link-to}}
+    </li>
+  </ul>
+</div>
