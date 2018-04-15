@@ -1,7 +1,17 @@
 .form {
 
+
   .form-section {
-    margin-bottom: 40px;
+    padding: 0 40px 40px;
+
+    &:first-child {
+      padding: 40px;
+    }
+  }
+
+  .form-section--actions {
+    border-top: 1px solid $grey-border;
+    padding: 40px;
   }
 
   .form-field {

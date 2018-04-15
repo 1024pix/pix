@@ -1,5 +1,9 @@
 .page {
-  padding: 52px 80px 80px;
+  padding: 12px 20px 20px;
+
+  @include media-breakpoint-up(lg) {
+    padding: 52px 80px 80px;
+  }
 
   .page-title {
     margin-bottom: 20px;
@@ -7,12 +11,10 @@
 
   .page-section {
     background: #FFFFFF;
-    padding: 12px;
     border-radius: 5px;
     border: 1px solid $grey-border;
 
     @include media-breakpoint-up(lg) {
-      padding: 48px;
     }
 
     .page-section-header {

@@ -1,4 +1,5 @@
-$app-sidebar-width: 280px;
+$app-sidebar-width-sm: 80px;
+$app-sidebar-width-lg: 280px;
 $app-header-height: 80px;
 
 body > div.ember-view {
@@ -10,9 +11,14 @@ body > div.ember-view {
   height: 100%;
 
   .app-sidebar {
-    width: $app-sidebar-width;
+    width: $app-sidebar-width-sm;
+    min-width: $app-sidebar-width-sm;
     height: 100%;
     background-color: #333;
+
+    @include media-breakpoint-up(lg) {
+      width: $app-sidebar-width-lg;
+    }
 
     .app-logo {
       text-align: center;

@@ -3,7 +3,7 @@
   <aside class="app-sidebar">
     <header class="app-logo">
       {{#link-to "authenticated.index" class="app-logo__link"}}
-        <strong>Pix</strong><em>Admin</em>
+        <strong>Pix</strong> <em>Admin</em>
       {{/link-to}}
     </header>
     {{menu-bar}}
@@ -15,7 +15,7 @@
         <div class="input-group-prepend">
           <span class="input-group-text" id="basic-addon1">{{fa-icon "search"}}</span>
         </div>
-        <input type="text" class="form-control">
+        <input type="text" class="form-control" disabled>
       </div>
       <div class="app-actions">
         {{#link-to "logout" class="app-action app-action__logout"}}
