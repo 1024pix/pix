@@ -11,17 +11,6 @@ exports.register = function(server, options, next) {
         handler: ChallengeController.get,
         tags: ['api']
       }
-    },
-    {
-      method: 'POST',
-      path: '/api/challenges/{id}',
-      config: { handler: ChallengeController.refresh, tags: ['api'] }
-    },
-    {
-      method: 'POST',
-      path: '/api/challenges/{id}/solution',
-      config: { handler: ChallengeController.refreshSolution, tags: ['api'] }
-
     }
   ]);
 
