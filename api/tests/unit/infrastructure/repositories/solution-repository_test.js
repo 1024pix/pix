@@ -96,4 +96,23 @@ describe('Unit | Repository | solution-repository', function() {
     });
   });
 
+  describe('#getByChallengeId', function() {
+
+    it('should call airtable with the challenge Id to get solution', function() {
+      // given
+      const tableName = 'Epreuves';
+      const recordId = 'rec-challengeId';
+      airtable.newGetRecord.resolves({ id: 'rec-challengeId' });
+
+      // when
+      const promise = solutionRepository.getByChallengeId(recordId);
+
+      // then
+      return promise.then((result) => {
+        expect(airtable.newGetRecord).to.have.been.calledWith(tableName, recordId);
+        expect(result).to.be.an.instanceof(Solution);
+        expect(result).to.deep.equal(new Solution({ id: 'rec-challengeId' }));
+      });
+    });
+  });
 });

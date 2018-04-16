@@ -16,7 +16,7 @@ describe('Unit | UseCase | getSolutionForAnswerWhenAssessmentEnded', () => {
     sandbox = sinon.sandbox.create();
     assessmentRepository.get = () => undefined;
     answerRepository.get = () => undefined;
-    solutionRepository.getForChallengeId = () => undefined;
+    solutionRepository.getByChallengeId = () => undefined;
   });
 
   afterEach(() => {
@@ -30,7 +30,7 @@ describe('Unit | UseCase | getSolutionForAnswerWhenAssessmentEnded', () => {
       const assessment = new Assessment({ state: 'not completed' });
       sandbox.stub(assessmentRepository, 'get').resolves(assessment);
       sandbox.stub(answerRepository, 'get');
-      sandbox.stub(solutionRepository, 'getForChallengeId');
+      sandbox.stub(solutionRepository, 'getByChallengeId');
 
       // when
       const promise = getSolutionForAnswerWhenAssessmentEnded({
@@ -46,7 +46,7 @@ describe('Unit | UseCase | getSolutionForAnswerWhenAssessmentEnded', () => {
         .then(() => {
           expect(assessmentRepository.get).to.have.been.calledWith(1);
           expect(answerRepository.get).to.not.have.been.called;
-          expect(solutionRepository.getForChallengeId).to.not.have.been.called;
+          expect(solutionRepository.getByChallengeId).to.not.have.been.called;
         });
     });
   });
@@ -60,7 +60,7 @@ describe('Unit | UseCase | getSolutionForAnswerWhenAssessmentEnded', () => {
       const solution = new Solution({ id: 123 });
       sandbox.stub(assessmentRepository, 'get').resolves(assessment);
       sandbox.stub(answerRepository, 'get').resolves(answer);
-      sandbox.stub(solutionRepository, 'getForChallengeId').resolves(solution);
+      sandbox.stub(solutionRepository, 'getByChallengeId').resolves(solution);
 
       // when
       const promise = getSolutionForAnswerWhenAssessmentEnded({
@@ -75,7 +75,7 @@ describe('Unit | UseCase | getSolutionForAnswerWhenAssessmentEnded', () => {
       return promise.then((responseSolution) => {
         expect(assessmentRepository.get).to.have.been.calledWith(1);
         expect(answerRepository.get).to.have.been.calledWith(2);
-        expect(solutionRepository.getForChallengeId).to.have.been.calledWith(12);
+        expect(solutionRepository.getByChallengeId).to.have.been.calledWith(12);
         expect(responseSolution).to.deep.equal(new Solution({ id: 123 }));
       });
     });

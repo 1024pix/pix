@@ -10,7 +10,7 @@ module.exports = function({
   return assessmentRepository.get(assessmentId)
     .then(_validateAssessmentIsCompleted)
     .then(() => answerRepository.get(answerId))
-    .then(answer => solutionRepository.getForChallengeId(answer.challengeId));
+    .then(answer => solutionRepository.getByChallengeId(answer.challengeId));
 };
 
 function _validateAssessmentIsCompleted(assessment) {
