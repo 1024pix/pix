@@ -1,16 +1,26 @@
-class Session {
+class Solution {
 
-  // TODO: @Brandone est ce que c'est utile de stocker les deactivations, est ce que cela ne se recalcule pas avec les enabledTreatments ?
   constructor({
-    id, type, value, enabledTreatments, deactivations, scoring
+    id, type, value, enabledTreatments, scoring
   } = {}) {
     this.id = id;
     this.type = type;
     this.value = value;
     this.enabledTreatments = enabledTreatments;
-    this.deactivations = deactivations;
     this.scoring = scoring;
+  }
+
+  // TODO: delete when deactivation object is correctly deleted everywhere
+  /**
+   * @deprecated use the enabledTreatments property
+   */
+  get deactivations() {
+    return {
+      t1: !this.enabledTreatments.includes('t1'),
+      t2: !this.enabledTreatments.includes('t2'),
+      t3: !this.enabledTreatments.includes('t3')
+    };
   }
 }
 
-module.exports = Session;
+module.exports = Solution;
