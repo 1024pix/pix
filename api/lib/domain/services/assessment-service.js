@@ -6,6 +6,7 @@ const certificationChallengeRepository = require('../../infrastructure/repositor
 const challengeRepository = require('../../infrastructure/repositories/challenge-repository');
 const skillRepository = require('../../infrastructure/repositories/skill-repository');
 const competenceRepository = require('../../infrastructure/repositories/competence-repository');
+const competenceMarkRepository = require('../../infrastructure/repositories/competence-mark-repository');
 const assessmentAdapter = require('../../infrastructure/adapters/assessment-adapter');
 const answerService = require('../services/answer-service');
 const certificationService = require('../services/certification-service');
@@ -266,6 +267,32 @@ function getCompetenceMarks(assessment) {
   return [];
 }
 
+function computeMarks(assessmentId, assessmentResultId) {
+
+  return Promise
+    .all([competenceRepository.list(), certificationService.calculateCertificationResultByAssessmentId(assessmentId)])
+    .then(([competences, { competencesWithMark }]) => {
+      const savedMarks = competencesWithMark.map((certifiedCompetence) => {
+
+        const area_code = _(competences).find((competence) => {
+          return competence.index === certifiedCompetence.index;
+        }).area.code;
+
+        const mark = new CompetenceMark({
+          level: certifiedCompetence.obtainedLevel,
+          score: certifiedCompetence.obtainedScore,
+          area_code,
+          competence_code: certifiedCompetence.index,
+          assessmentResultId: assessmentResultId
+        });
+
+        return competenceMarkRepository.save(mark);
+      });
+
+      return Promise.all(savedMarks);
+    });
+}
+
 function findByFilters(filters) {
   return assessmentRepository.findByFilters(filters)
     .then((assessments) => {
@@ -285,6 +312,7 @@ function findByFilters(filters) {
     });
 }
 
+// TODO Move the below functions into Assessment
 function _isNonScoredAssessment(assessment) {
   return isPreviewAssessment(assessment) || isCertificationAssessment(assessment);
 }
@@ -322,5 +350,6 @@ module.exports = {
   isCertificationAssessment,
   getScoreAndLevel,
   getSkills,
-  getCompetenceMarks
+  getCompetenceMarks,
+  computeMarks
 };
