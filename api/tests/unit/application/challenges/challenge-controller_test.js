@@ -3,8 +3,6 @@ const Hapi = require('hapi');
 const Challenge = require('../../../../lib/domain/models/Challenge');
 const ChallengeRepository = require('../../../../lib/infrastructure/repositories/challenge-repository');
 const ChallengeSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/challenge-serializer');
-const Solution = require('../../../../lib/domain/models/referential/solution');
-const SolutionRepository = require('../../../../lib/infrastructure/repositories/solution-repository');
 
 describe('Unit | Controller | challenge-controller', function() {
 

@@ -7,7 +7,7 @@ const serviceQrocmInd = require('../../../../lib/domain/services/solution-servic
 const serviceQrocmDep = require('../../../../lib/domain/services/solution-service-qrocm-dep');
 const Answer = require('../../../../lib/infrastructure/data/answer');
 const AnswerStatus = require('../../../../lib/domain/models/AnswerStatus');
-const Solution = require('../../../../lib/domain/models/referential/solution');
+const Solution = require('../../../../lib/domain/models/Solution');
 const _ = require('../../../../lib/infrastructure/utils/lodash-utils');
 
 const ANSWER_OK = 'ok';
@@ -17,12 +17,11 @@ const ANSWER_UNIMPLEMENTED = 'unimplemented';
 
 describe('Unit | Service | SolutionService', function() {
 
-  function buildSolution(type, value, scoring, deactivations, enabledTreatments) {
+  function buildSolution(type, value, scoring, enabledTreatments) {
     const solution = new Solution({ id: 'solution_id' });
     solution.type = type;
     solution.value = value;
     solution.scoring = _.ensureString(scoring).replace(/@/g, '');
-    solution.deactivations = deactivations;
     solution.enabledTreatments = enabledTreatments;
     return solution;
   }
@@ -138,7 +137,7 @@ describe('Unit | Service | SolutionService', function() {
 
         // given
         const answer = buildAnswer('qrocAnswer');
-        const solution = buildSolution('QROC', 'qrocSolution', null, { t1: true });
+        const solution = buildSolution('QROC', 'qrocSolution', null, ['t2', 't3']);
 
         const serviceQrocMatch = sinon.stub(serviceQroc, 'match');
 
@@ -151,7 +150,11 @@ describe('Unit | Service | SolutionService', function() {
         serviceQroc.match.restore();
 
         sinon.assert.calledOnce(serviceQrocMatch);
-        sinon.assert.calledWithExactly(serviceQrocMatch, 'qrocAnswer', 'qrocSolution', { t1: true });
+        sinon.assert.calledWithExactly(serviceQrocMatch, 'qrocAnswer', 'qrocSolution', {
+          t1: true,
+          t2: false,
+          t3: false
+        });
         expect(result).to.deep.equal({ result: ANSWER_OK, resultDetails: null });
       });
 
@@ -159,7 +162,7 @@ describe('Unit | Service | SolutionService', function() {
 
         // given
         const answer = buildAnswer('qrocAnswer', -15);
-        const solution = buildSolution('QROC', 'qrocSolution', null, { t1: true });
+        const solution = buildSolution('QROC', 'qrocSolution', null, ['t2', 't3']);
         const serviceQrocMatch = sinon.stub(serviceQroc, 'match');
 
         serviceQrocMatch.returns(AnswerStatus.OK);
@@ -171,7 +174,11 @@ describe('Unit | Service | SolutionService', function() {
         serviceQroc.match.restore();
 
         sinon.assert.calledOnce(serviceQrocMatch);
-        sinon.assert.calledWithExactly(serviceQrocMatch, 'qrocAnswer', 'qrocSolution', { t1: true });
+        sinon.assert.calledWithExactly(serviceQrocMatch, 'qrocAnswer', 'qrocSolution', {
+          t1: true,
+          t2: false,
+          t3: false
+        });
 
         expect(result).to.deep.equal({ result: ANSWER_TIMEDOUT, resultDetails: null });
       });
@@ -179,16 +186,6 @@ describe('Unit | Service | SolutionService', function() {
     });
 
     describe('if solution type is QROCM-ind', function() {
-
-      //TODO : FIX ME When refacto of qrocm-dep and qroc done delete deactivations in parameters of buildSolution and delete this one
-      function buildSolutionQROCMind(type, value, scoring, enabledTreatments) {
-        const solution = new Solution({ id: 'solution_id' });
-        solution.type = type;
-        solution.value = value;
-        solution.scoring = _.ensureString(scoring).replace(/@/g, '');
-        solution.enabledTreatments = enabledTreatments;
-        return solution;
-      }
 
       it('Should return "aband" if answer is #ABAND#', function() {
         const answer = buildAnswer('#ABAND#');
@@ -201,7 +198,7 @@ describe('Unit | Service | SolutionService', function() {
 
         // given
         const answer = buildAnswer('qrocmIndAnswer');
-        const solution = buildSolutionQROCMind('QROCM-ind', 'qrocmIndSolution', null, ['t2', 't3']);
+        const solution = buildSolution('QROCM-ind', 'qrocmIndSolution', null, ['t2', 't3']);
         const serviceQrocmInd$match = sinon.stub(serviceQrocmInd, 'match');
 
         serviceQrocmInd$match.returns({ result: AnswerStatus.OK, resultDetails: { shi: true, fu: false, mi: true } });
@@ -222,7 +219,7 @@ describe('Unit | Service | SolutionService', function() {
 
         // given
         const answer = buildAnswer('qrocmIndAnswer', -15);
-        const solution = buildSolutionQROCMind('QROCM-ind', 'qrocmIndSolution', null, ['t2', 't3']);
+        const solution = buildSolution('QROCM-ind', 'qrocmIndSolution', null, ['t2', 't3']);
         const serviceQrocmInd$match = sinon.stub(serviceQrocmInd, 'match');
 
         serviceQrocmInd$match.returns({ result: AnswerStatus.OK, resultDetails: { shi: true, fu: false, mi: true } });
@@ -254,7 +251,7 @@ describe('Unit | Service | SolutionService', function() {
 
         // given
         const answer = buildAnswer('qrocmDepAnswer');
-        const solution = buildSolution('QROCM-dep', 'qrocmDepSolution', 'anyScoring', { t1: true });
+        const solution = buildSolution('QROCM-dep', 'qrocmDepSolution', 'anyScoring', ['t2', 't3']);
         const serviceQrocmDep$match = sinon.stub(serviceQrocmDep, 'match');
 
         serviceQrocmDep$match.returns(AnswerStatus.OK);
@@ -266,7 +263,11 @@ describe('Unit | Service | SolutionService', function() {
         serviceQrocmDep.match.restore();
 
         sinon.assert.calledOnce(serviceQrocmDep$match);
-        sinon.assert.calledWithExactly(serviceQrocmDep$match, 'qrocmDepAnswer', 'qrocmDepSolution', 'anyScoring', { t1: true });
+        sinon.assert.calledWithExactly(serviceQrocmDep$match, 'qrocmDepAnswer', 'qrocmDepSolution', 'anyScoring', {
+          t1: true,
+          t2: false,
+          t3: false
+        });
         expect(result).to.deep.equal({ result: ANSWER_OK, resultDetails: null });
       });
 
@@ -274,7 +275,7 @@ describe('Unit | Service | SolutionService', function() {
 
         // given
         const answer = buildAnswer('qrocmDepAnswer', -15);
-        const solution = buildSolution('QROCM-dep', 'qrocmDepSolution', 'anyScoring', { t1: true });
+        const solution = buildSolution('QROCM-dep', 'qrocmDepSolution', 'anyScoring', ['t2', 't3']);
         const serviceQrocmDep$match = sinon.stub(serviceQrocmDep, 'match');
 
         serviceQrocmDep$match.returns(AnswerStatus.OK);
@@ -286,7 +287,11 @@ describe('Unit | Service | SolutionService', function() {
         serviceQrocmDep.match.restore();
 
         sinon.assert.calledOnce(serviceQrocmDep$match);
-        sinon.assert.calledWithExactly(serviceQrocmDep$match, 'qrocmDepAnswer', 'qrocmDepSolution', 'anyScoring', { t1: true });
+        sinon.assert.calledWithExactly(serviceQrocmDep$match, 'qrocmDepAnswer', 'qrocmDepSolution', 'anyScoring', {
+          t1: true,
+          t2: false,
+          t3: false
+        });
 
         expect(result).to.deep.equal({ result: ANSWER_TIMEDOUT, resultDetails: null });
       });

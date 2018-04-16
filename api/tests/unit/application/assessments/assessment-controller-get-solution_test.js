@@ -12,7 +12,7 @@ const solutionSerializer = require('../../../../lib/infrastructure/serializers/j
 
 const Assessment = require('../../../../lib/domain/models/Assessment');
 const Answer = require('../../../../lib/infrastructure/data/answer');
-const Solution = require('../../../../lib/domain/models/referential/solution');
+const Solution = require('../../../../lib/domain/models/Solution');
 
 describe('Unit | Controller | assessment-controller', () => {
 

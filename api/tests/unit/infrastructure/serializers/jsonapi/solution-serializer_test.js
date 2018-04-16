@@ -1,6 +1,6 @@
 const { expect } = require('../../../../test-helper');
 const serializer = require('../../../../../lib/infrastructure/serializers/jsonapi/solution-serializer');
-const Solution = require('../../../../../lib/domain/models/referential/solution');
+const Solution = require('../../../../../lib/domain/models/Solution');
 
 describe('Unit | Serializer | JSONAPI | solution-serializer', function() {
 
@@ -8,9 +8,10 @@ describe('Unit | Serializer | JSONAPI | solution-serializer', function() {
 
     it('should convert a Solution model object into JSON API data', function() {
 
-      const solution = new Solution();
-      solution.id = 'solution_id';
-      solution.value = 'Solution value';
+      const solution = new Solution({
+        id: 'solution_id',
+        value: 'Solution value'
+      });
 
       // when
       const json = serializer.serialize(solution);
