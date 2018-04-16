@@ -139,5 +139,17 @@ module.exports = {
       .then(answer => solutionRepository.get(answer.get('challengeId')))
       .then(solution => reply(solutionSerializer.serialize(solution)))
       .catch(error => _replyWithError(reply, error));
+  },
+
+  computeCompetenceMarksForAssessmentResult(request, reply) {
+    const { assessmentId, assessmentResultId } = request.params;
+
+    return assessmentService.computeMarks(assessmentId, assessmentResultId).then(() => {
+      reply();
+    }).catch(error => {
+      logger.error(error);
+      reply(Boom.teapot(error));
+    });
   }
+
 };
