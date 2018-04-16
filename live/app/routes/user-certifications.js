@@ -11,7 +11,7 @@ export default Route.extend(AuthenticatedRouteMixin, {
     const store = this.get('store');
     return store.findRecord('user', this.get('session.data.authenticated.userId'), { reload: true })
       .then(user => {
-        return user;
+        return user.get('certifications');
       })
       .catch(_ => {
         this.transitionTo('logout');
