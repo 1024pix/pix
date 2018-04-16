@@ -2,7 +2,7 @@ class InfrastructureError extends Error {
   constructor(message) {
     super(message);
     this.title = 'Error';
-    this.code = '500';
+    this.code = 500;
   }
 }
 
@@ -11,7 +11,7 @@ class MissingQueryParamError extends InfrastructureError {
     const message = `Missing ${missingParamName} query parameter.`;
     super(message);
     this.title = 'Missing Query Parameter';
-    this.code = '400';
+    this.code = 400;
   }
 }
 

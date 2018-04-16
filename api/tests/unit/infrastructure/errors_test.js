@@ -12,7 +12,7 @@ describe('Unit | Domain | Errors', () => {
       // given
       const expectedTitle = 'Error';
       const expectedMessage = 'Boom...';
-      const expectedErrorCode = '500';
+      const expectedErrorCode = 500;
 
       // when
       const infrastructureError = new errors.InfrastructureError('Boom...');
@@ -41,7 +41,7 @@ describe('Unit | Domain | Errors', () => {
       // given
       const expectedTitle = 'Missing Query Parameter';
       const expectedMessage = 'Missing assessmentId query parameter.';
-      const expectedErrorCode = '400';
+      const expectedErrorCode = 400;
 
       // when
       const missingQueryParamError = new errors.MissingQueryParamError('assessmentId');

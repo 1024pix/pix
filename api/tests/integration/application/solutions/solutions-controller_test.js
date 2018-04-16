@@ -1,8 +1,5 @@
-const { knex, sinon, expect } = require('../../../test-helper');
-
-const faker = require('faker');
-const server = require('../../../../server');
-const { toLower } = require('lodash');
+const { sinon } = require('../../../test-helper');
+const JSONAPIError = require('jsonapi-serializer').Error;
 
 const solutionsController = require('../../../../lib/application/solutions/solutions-controller');
 
@@ -32,13 +29,18 @@ describe('Unit | Controller | solutions-controller', () => {
     it('should return an 400 error when query param assessmentId is missing', () => {
       // given
       const request = _buildRequest(undefined, '213');
+      const expectedError = JSONAPIError({
+        code: '400',
+        title: 'Missing Query Parameter',
+        detail: 'Missing assessmentId query parameter.'
+      });
 
       // when
       const promise = solutionsController.find(request, replyStub);
 
       // then
       return promise.then(() => {
-        sinon.assert.calledOnce(replyStub);
+        sinon.assert.calledWith(replyStub, expectedError);
         sinon.assert.calledWith(codeStub, 400);
       });
     });
@@ -46,13 +48,18 @@ describe('Unit | Controller | solutions-controller', () => {
     it('should return an 400 error when query param answerId is missing', () => {
       // given
       const request = _buildRequest('213', undefined);
+      const expectedError = JSONAPIError({
+        code: '400',
+        title: 'Missing Query Parameter',
+        detail: 'Missing answerId query parameter.'
+      });
 
       // when
       const promise = solutionsController.find(request, replyStub);
 
       // then
       return promise.then(() => {
-        sinon.assert.calledOnce(replyStub);
+        sinon.assert.calledWith(replyStub, expectedError);
         sinon.assert.calledWith(codeStub, 400);
       });
     });
