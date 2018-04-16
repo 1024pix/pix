@@ -62,6 +62,10 @@ module.exports = {
     });
   },
 
+  // TODO: delete
+  /**
+   * @deprecated use the generic refresh endpoint
+   */
   refresh(id) {
     return new Promise((resolve, reject) => {
       const cacheKey = `challenge-repository_get_${id}`;
