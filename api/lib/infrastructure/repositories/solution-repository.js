@@ -26,14 +26,6 @@ module.exports = {
     });
   },
 
-  refresh(challengeId) {
-    return new Promise((resolve, reject) => {
-      const cacheKey = `solution-repository_get_${challengeId}`;
-      cache.del(cacheKey, (err) => {
-        if (err) return reject(err);
-        return _fetchSolution(challengeId, cacheKey, resolve, reject);
-      });
-    });
   }
 
 };

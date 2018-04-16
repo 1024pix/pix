@@ -3,27 +3,25 @@ const airtable = require('../../../../lib/infrastructure/airtable');
 const cache = require('../../../../lib/infrastructure/cache');
 const solutionRepository = require('../../../../lib/infrastructure/repositories/solution-repository');
 const solutionSerializer = require('../../../../lib/infrastructure/serializers/airtable/solution-serializer');
+const Solution = require('../../../../lib/domain/models/Solution');
 
 describe('Unit | Repository | solution-repository', function() {
 
-  let getRecord;
-  let getRecords;
+  let sandbox;
 
   beforeEach(function() {
     cache.flushAll();
-    getRecord = sinon.stub(airtable, 'getRecord');
-    getRecords = sinon.stub(airtable, 'getRecords');
+
+    sandbox = sinon.sandbox.create();
+    sandbox.stub(airtable, 'getRecord');
+    sandbox.stub(airtable, 'getRecords');
+    sandbox.stub(airtable, 'newGetRecord');
   });
 
   afterEach(function() {
+    sandbox.restore();
     cache.flushAll();
-    getRecord.restore();
-    getRecords.restore();
   });
-
-  /*
-   * #get
-   */
 
   describe('#get', function() {
 
@@ -33,14 +31,14 @@ describe('Unit | Repository | solution-repository', function() {
 
     it('should resolve with the solution directly retrieved from the cache without calling airtable when the solution has been cached', function() {
       // given
-      getRecord.resolves(true);
+      airtable.getRecord.resolves(true);
       cache.set(cacheKey, solution);
 
       // when
       const result = solutionRepository.get(challengeId);
 
       // then
-      expect(getRecord.notCalled).to.be.true;
+      expect(airtable.getRecord.notCalled).to.be.true;
       return expect(result).to.eventually.deep.equal(solution);
     });
 
@@ -62,7 +60,7 @@ describe('Unit | Repository | solution-repository', function() {
     describe('when the solution was not previously cached', function() {
 
       beforeEach(function() {
-        getRecord.resolves(solution);
+        airtable.getRecord.resolves(solution);
       });
 
       it('should resolve with the challenges fetched from airtable', function(done) {
@@ -91,75 +89,7 @@ describe('Unit | Repository | solution-repository', function() {
         solutionRepository.get(challengeId).then(() => {
 
           // then
-          expect(getRecord.calledWith('Epreuves', challengeId, solutionSerializer)).to.be.true;
-          done();
-        });
-      });
-    });
-  });
-
-  /*
-   * #refresh
-   */
-
-  describe('#refresh', function() {
-
-    const challengeId = 'challenge_id';
-    const cacheKey = `solution-repository_get_${challengeId}`;
-
-    it('should reject with an error when the cache throw an error', function(done) {
-      // given
-      const cacheErrorMessage = 'Cache error';
-      sinon.stub(cache, 'del').callsFake((key, callback) => {
-        callback(new Error(cacheErrorMessage));
-      });
-
-      // when
-      const result = solutionRepository.refresh(challengeId);
-
-      // then
-      cache.del.restore();
-      expect(result).to.eventually.be.rejectedWith(cacheErrorMessage);
-      done();
-    });
-
-    it('should resolve with the solution fetched from airtable when the solution was not previously cached', function(done) {
-      // given
-      const solution = {
-        id: challengeId,
-        value: 'Solution value'
-      };
-      getRecord.resolves(solution);
-
-      // when
-      const result = solutionRepository.refresh(challengeId);
-
-      // then
-      expect(result).to.eventually.deep.equal(solution);
-      done();
-    });
-
-    it('should replace the old solution by the new one in cache', function(done) {
-      // given
-      const oldCourse = {
-        id: challengeId,
-        name: 'Old solution',
-        description: 'Old description of the solution'
-      };
-      cache.set(cacheKey, oldCourse);
-      const newCourse = {
-        id: challengeId,
-        name: 'New solution',
-        description: 'new description of the solution'
-      };
-      getRecord.resolves(newCourse);
-
-      // when
-      solutionRepository.refresh(challengeId).then(() => {
-
-        // then
-        cache.get(cacheKey, (err, cachedValue) => {
-          expect(cachedValue).to.deep.equal(newCourse);
+          expect(airtable.getRecord.calledWith('Epreuves', challengeId, solutionSerializer)).to.be.true;
           done();
         });
       });
