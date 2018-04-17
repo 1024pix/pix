@@ -2,6 +2,7 @@ const { expect, sinon } = require('../../../test-helper');
 const Hapi = require('hapi');
 const assessmentController = require('../../../../lib/application/assessments/assessment-controller');
 const assessmentAuthorization = require('../../../../lib/application/preHandlers/assessment-authorization');
+const securityController = require('../../../../lib/interfaces/controllers/security-controller');
 
 describe('Integration | Route | AssessmentRoute', () => {
 
@@ -9,7 +10,11 @@ describe('Integration | Route | AssessmentRoute', () => {
   let server;
 
   function _expectRouteToExist(routeOptions) {
-    return server.inject(routeOptions, (res) => {
+    // when
+    const promise = server.inject(routeOptions);
+
+    // then
+    return promise.then((res) => {
       expect(res.statusCode).to.equal(200);
     });
   }
@@ -22,6 +27,8 @@ describe('Integration | Route | AssessmentRoute', () => {
     sandbox.stub(assessmentController, 'findByFilters');
     sandbox.stub(assessmentController, 'get');
     sandbox.stub(assessmentAuthorization, 'verify');
+    sandbox.stub(assessmentController, 'computeCompetenceMarksForAssessmentResult');
+    sandbox.stub(securityController, 'checkUserHasRolePixMaster');
 
     // instance server
     server = this.server = new Hapi.Server();
@@ -105,4 +112,34 @@ describe('Integration | Route | AssessmentRoute', () => {
       });
     });
   });
+
+  describe('POST /api/assessments/{assessmentId}/{assessmentResultId}', () => {
+
+    beforeEach(() => {
+      assessmentController.computeCompetenceMarksForAssessmentResult.callsFake((request, reply) => reply('ok'));
+    });
+
+    it('should exist', () => {
+      // given
+      securityController.checkUserHasRolePixMaster.callsFake((request, reply) => reply(true));
+
+      // when/then
+      return _expectRouteToExist({ method: 'POST', url: '/api/assessments/135/531' });
+    });
+
+    it('should fail if user has not right user role', () => {
+      // given
+      securityController.checkUserHasRolePixMaster.callsFake((request, reply) => reply({ code: 401 }).code(401).takeover());
+
+      // when
+      const promise = server.inject({ method: 'POST', url: '/api/assessments/135/531' });
+
+      // then
+      return promise.then((res) => {
+        expect(res.statusCode).to.equal(401);
+      });
+    });
+
+  });
+
 });

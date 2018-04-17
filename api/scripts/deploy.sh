@@ -3,11 +3,12 @@
 BUILD_ENV=$1
 APP="undefined"
 
-GIT_CURRENT_BRANCH=`git rev-parse --abbrev-ref HEAD | tr -d "\n"`
+GIT_CURRENT_BRANCH=$(git rev-parse --abbrev-ref HEAD | tr -d "\n")
 
-# default env: production
 [ -z $BUILD_ENV ] && {
-  BUILD_ENV="production"
+  echo '$BUILD_ENV is unset, which usually means push to api-production on dokku. We don t do that anymore.'
+  echo 'exiting'
+  exit 0
 }
 
 case $BUILD_ENV in
@@ -18,12 +19,9 @@ case $BUILD_ENV in
   "staging")
     APP="api-staging"
   ;;
-  "production")
-    APP="api-production"
-  ;;
 esac
 
-tmpdir=`mktemp -d`
+tmpdir=$(mktemp -d)
 cd ..
 git clone . $tmpdir
 pushd $tmpdir
@@ -32,7 +30,7 @@ git filter-branch --prune-empty --subdirectory-filter api HEAD
 # Create un fichier d'overidde de la conf API
 
 # Do we have the remote locally ?
-`git remote | grep $APP` || {
+$(git remote | grep $APP) || {
     # nope, add it
     git remote add $APP dokku@pix-app.ovh:${APP}
 } && true

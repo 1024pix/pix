@@ -1,8 +1,11 @@
 {
   "name": "pix-live",
-  "version": "1.46.0",
+  "version": "1.47.0",
   "description": "Plateforme d'évaluation et de certification des compétences numériques à l'usage de tous les citoyens francophones.",
   "license": "AGPL-3.0",
+  "engines": {
+    "node": ">=7.10 <9"
+  },
   "author": "SGMAP",
   "directories": {
     "doc": "doc",
@@ -20,8 +23,8 @@
     "coverage:convert": "node scripts/lcov-path-converter",
     "coverage:rename": "mv coverage/lcov.info ../coverage/live_lcov.info",
     "coverage": "npm run coverage:check && npm run coverage:convert && npm run coverage:rename",
-    "test:watch": "ember exam --serve",
-    "ci:test": "COVERAGE=true ember test",
+    "test:watch": "ember exam --serve --reporter dot",
+    "ci:test": "COVERAGE=true ember test --reporter dot",
     "deploy:integration": "./scripts/deploy.sh integration",
     "deploy:staging": "./scripts/deploy.sh staging",
     "deploy:production": "./scripts/deploy.sh production"
@@ -87,9 +90,6 @@
     "js-yaml": "^3.10.0",
     "loader.js": "^4.6.0",
     "showdown": "^1.8.6"
-  },
-  "engines": {
-    "node": "^4.5 || 6.* || 7.* || >= 8.*"
   },
   "private": true
 }

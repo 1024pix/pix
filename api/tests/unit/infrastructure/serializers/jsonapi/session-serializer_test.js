@@ -2,6 +2,7 @@ const { expect, sinon } = require('../../../../test-helper');
 const serializer = require('../../../../../lib/infrastructure/serializers/jsonapi/session-serializer');
 
 const Session = require('../../../../../lib/domain/models/Session');
+const CertificationCourse = require('../../../../../lib/domain/models/CertificationCourse');
 const sessionCodeService = require('../../../../../lib/domain/services/session-code-service');
 const { WrongDateFormatError } = require('../../../../../lib/domain/errors');
 
@@ -32,6 +33,11 @@ describe('Unit | Serializer | JSONAPI | session-serializer', function() {
         date: '20/01/2017',
         time: '14:30',
         description: ''
+      },
+      relationships: {
+        certifications: {
+          data: null
+        }
       }
     }
   };
@@ -44,6 +50,55 @@ describe('Unit | Serializer | JSONAPI | session-serializer', function() {
 
       // then
       expect(json).to.deep.equal(jsonSession);
+    });
+
+    it('should convert certifications relationships into JSON API relationships', () => {
+      // given
+      const certification1 = new CertificationCourse({ id: 1 });
+      const certification2 = new CertificationCourse({ id: 2 });
+      const associatedCertifications = [certification1, certification2];
+      const session = new Session({
+        id: '12',
+        certificationCenter: 'Université de dressage de loutres',
+        address: 'Nice',
+        room: '28D',
+        examiner: 'Antoine Toutvenant',
+        date: '20/01/2017',
+        time: '14:30',
+        description: '',
+        accessCode: '',
+        certifications: associatedCertifications
+      });
+
+      // when
+      const JSONAPISession = serializer.serialize(session);
+
+      // then
+      return expect(JSONAPISession).to.deep.equal({
+        data: {
+          id: '12',
+          type: 'sessions',
+          attributes: {
+            'certification-center': 'Université de dressage de loutres',
+            address: 'Nice',
+            room: '28D',
+            'access-code': '',
+            examiner: 'Antoine Toutvenant',
+            date: '20/01/2017',
+            time: '14:30',
+            description: ''
+          },
+          relationships: {
+            certifications: {
+              data: [
+                { type: 'certifications', id: '1' },
+                { type: 'certifications', id: '2' }
+              ]
+            }
+          }
+        }
+      });
+
     });
 
   });

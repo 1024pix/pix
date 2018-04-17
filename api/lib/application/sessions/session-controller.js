@@ -2,6 +2,7 @@ const Boom = require('boom');
 
 const logger = require('../../infrastructure/logger');
 const sessionService = require('../../domain/services/session-service');
+const { NotFoundError } = require('../../domain/errors');
 const serializer = require('../../infrastructure/serializers/jsonapi/session-serializer');
 const { ValidationError: BookshelfValidationError } = require('bookshelf-validate/lib/errors');
 const validationErrorSerializer = require('../../infrastructure/serializers/jsonapi/validation-error-serializer');
@@ -9,7 +10,17 @@ const errorSerializer = require('../../../lib/infrastructure/serializers/jsonapi
 
 module.exports = {
   get(request, reply) {
-    reply(sessionService.getCurrentCode());
+    const sessionId = request.params.id;
+    return sessionService.get(sessionId)
+      .then(serializer.serialize)
+      .then(reply)
+      .catch((error) => {
+        if (error instanceof NotFoundError) {
+          return reply(Boom.notFound(error));
+        }
+        logger.error(error);
+        reply(Boom.badImplementation(error));
+      });
   },
 
   save(request, reply) {

@@ -1,12 +1,12 @@
 {
   "name": "pix",
-  "version": "1.46.0",
+  "version": "1.47.0",
   "description": "Plateforme d'évaluation et de certification des compétences numériques des citoyens francophones.",
   "author": "Team PIX",
   "license": "AGPL-3.0",
-  "homepage": "https://github.com/sgmap/pix#readme",
+  "homepage": "https://github.com/1024pix/pix#readme",
   "bugs": {
-    "url": "https://github.com/sgmap/pix/issues"
+    "url": "https://github.com/1024pix/pix/issues"
   },
   "main": "index.js",
   "devDependencies": {
@@ -18,11 +18,16 @@
     "npm-run-all": "^4.1.0"
   },
   "engines": {
-    "node": "^4.5 || 6.* || 7.* || >= 8.*"
+    "node": ">=7.10 <9"
   },
+  "cacheDirectories": [
+    "node_modules/",
+    "api/node_modules/",
+    "live/node_modules/"
+  ],
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/sgmap/pix.git"
+    "url": "git+https://github.com/1024pix/pix.git"
   },
   "scripts": {
     "clean:root": "rm -rf node_modules && rm -rf tmp",
@@ -33,9 +38,8 @@
     "lint": "npm run lint:api && npm run lint:live",
     "lint:api": "cd api/ && npm run lint",
     "lint:live": "cd live/ && npm run lint",
-    "configure:dotenv": "cp scripts/configure/sample.env api/.env",
     "configure:api": "(cd api && npm run db:migrate)",
-    "configure": "npm install && npm test && npm run configure:dotenv && npm run configure:api",
+    "configure": "npm install && npm test && npm run configure:api",
     "install:api": "cd api && npm install",
     "install:live": "cd live && npm install",
     "postinstall": "npm run install:api && npm run install:live",

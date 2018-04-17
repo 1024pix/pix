@@ -135,6 +135,7 @@ describe('Integration | Repository | Certification Course', function() {
       lastName: 'The all mighty',
       birthplace: 'Namek',
       birthdate: '24/10/1989',
+      externalId: 'xenoverse2'
     };
 
     beforeEach(() => {
@@ -157,7 +158,8 @@ describe('Integration | Repository | Certification Course', function() {
         lastName: 'The all mighty',
         birthplace: 'Namek',
         birthdate: '24/10/1989',
-        sessionId: null
+        sessionId: null,
+        externalId: ''
       };
 
       // when
@@ -178,6 +180,7 @@ describe('Integration | Repository | Certification Course', function() {
         lastName: 'The all mighty',
         birthplace: 'Namek',
         birthdate: '24/10/1989',
+        externalId: 'Death Beam'
       };
 
       // when
@@ -191,6 +194,7 @@ describe('Integration | Repository | Certification Course', function() {
         expect(certificationCourseUpdated.lastName).to.equal('The all mighty');
         expect(certificationCourseUpdated.birthplace).to.equal('Namek');
         expect(certificationCourseUpdated.birthdate).to.equal('24/10/1989');
+        expect(certificationCourseUpdated.externalId).to.equal('Death Beam');
       });
     });
 

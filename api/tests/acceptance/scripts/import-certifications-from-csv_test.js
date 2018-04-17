@@ -58,21 +58,24 @@ describe('Acceptance | Scripts | import-certifications-from-csv.js', () => {
           'Prénom du candidat': 'Tony',
           'Nom du candidat': 'Stark',
           'Date de naissance du candidat': '29/05/1970',
-          'Lieu de naissance du candidat': 'Long Island, New York'
+          'Lieu de naissance du candidat': 'Long Island, New York',
+          'Identifiant externe' : ''
         }, {
           'ID de certification': '2',
           'ID de session de certification': '1000',
           'Prénom du candidat': 'Steven',
           'Nom du candidat': 'Rogers',
           'Date de naissance du candidat': '04/07/1918',
-          'Lieu de naissance du candidat': 'New York, New York'
+          'Lieu de naissance du candidat': 'New York, New York',
+          'Identifiant externe' : 'GendarmeId'
         }, {
           'ID de certification': '3',
           'ID de session de certification': '1000',
           'Prénom du candidat': 'James',
           'Nom du candidat': 'Howlett',
           'Date de naissance du candidat': '17/04/1882',
-          'Lieu de naissance du candidat': 'Alberta'
+          'Lieu de naissance du candidat': 'Alberta',
+          'Identifiant externe' : 'numero eleve'
         }]
       };
       const expectedCertifications = [{
@@ -80,19 +83,22 @@ describe('Acceptance | Scripts | import-certifications-from-csv.js', () => {
         firstName: 'Tony',
         lastName: 'Stark',
         birthdate: '29/05/1970',
-        birthplace: 'Long Island, New York'
+        birthplace: 'Long Island, New York',
+        externalId : ''
       }, {
         id: 2,
         firstName: 'Steven',
         lastName: 'Rogers',
         birthdate: '04/07/1918',
-        birthplace: 'New York, New York'
+        birthplace: 'New York, New York',
+        externalId : 'GendarmeId'
       }, {
         id: 3,
         firstName: 'James',
         lastName: 'Howlett',
         birthdate: '17/04/1882',
-        birthplace: 'Alberta'
+        birthplace: 'Alberta',
+        externalId : 'numero eleve'
       }];
 
       // when
@@ -140,7 +146,8 @@ describe('Acceptance | Scripts | import-certifications-from-csv.js', () => {
                 'first-name': 'Tony',
                 'last-name': 'Stark',
                 birthplace: 'Long Island, New York',
-                birthdate: '29/05/1970'
+                birthdate: '29/05/1970',
+                'external-id': 'unIdExterne'
               }
           }
       };
@@ -151,6 +158,7 @@ describe('Acceptance | Scripts | import-certifications-from-csv.js', () => {
         lastName: 'Stark',
         birthdate: '29/05/1970',
         birthplace: 'Long Island, New York',
+        externalId: 'unIdExterne'
       }];
 
       const nockStub = nock('http://localhost:3000', {
@@ -182,7 +190,8 @@ describe('Acceptance | Scripts | import-certifications-from-csv.js', () => {
                 'first-name': 'Tony',
                 'last-name': 'Stark',
                 birthplace: 'Long Island, New York',
-                birthdate: '29/05/1970'
+                birthdate: '29/05/1970',
+                'external-id': 'Id_super_heros'
               }
           }
       };
@@ -196,7 +205,8 @@ describe('Acceptance | Scripts | import-certifications-from-csv.js', () => {
                 'first-name': 'Booby',
                 'last-name': 'Gros',
                 birthplace: 'Wherever, whatever',
-                birthdate: '30/09/1998'
+                birthdate: '30/09/1998',
+                'external-id': ''
               }
           }
       };
@@ -210,7 +220,8 @@ describe('Acceptance | Scripts | import-certifications-from-csv.js', () => {
                 'first-name': 'Jean',
                 'last-name': 'Jean',
                 birthplace: 'Calais, Haut de France',
-                birthdate: '11/11/1900'
+                birthdate: '11/11/1900',
+                'external-id': '5'
               }
           }
       };
@@ -221,18 +232,21 @@ describe('Acceptance | Scripts | import-certifications-from-csv.js', () => {
         lastName: 'Stark',
         birthdate: '29/05/1970',
         birthplace: 'Long Island, New York',
+        externalId: 'Id_super_heros'
       }, {
         id: 2,
         firstName: 'Booby',
         lastName: 'Gros',
         birthdate: '30/09/1998',
         birthplace: 'Wherever, whatever',
+        externalId: ''
       }, {
         id: 3,
         firstName: 'Jean',
         lastName: 'Jean',
         birthdate: '11/11/1900',
         birthplace: 'Calais, Haut de France',
+        externalId: '5'
       }];
 
       const nockStub1 = nock('http://localhost:3000', {
@@ -280,7 +294,8 @@ describe('Acceptance | Scripts | import-certifications-from-csv.js', () => {
                 'first-name': 'Tony',
                 'last-name': 'Stark',
                 birthplace: 'Long Island, New York',
-                birthdate: '29/05/1970'
+                birthdate: '29/05/1970',
+                'external-id': 'Id_super_heros'
               }
           }
       };
@@ -294,7 +309,8 @@ describe('Acceptance | Scripts | import-certifications-from-csv.js', () => {
                 'first-name': 'Booby',
                 'last-name': 'Gros',
                 birthplace: 'Wherever, whatever',
-                birthdate: '30/09/1998'
+                birthdate: '30/09/1998',
+                'external-id': ''
               }
           }
       };
@@ -308,7 +324,8 @@ describe('Acceptance | Scripts | import-certifications-from-csv.js', () => {
                 'first-name': 'Jean',
                 'last-name': 'Jean',
                 birthplace: 'Calais, Haut de France',
-                birthdate: '11/11/1900'
+                birthdate: '11/11/1900',
+                'external-id': '5'
               }
           }
       };
@@ -319,18 +336,21 @@ describe('Acceptance | Scripts | import-certifications-from-csv.js', () => {
         lastName: 'Stark',
         birthdate: '29/05/1970',
         birthplace: 'Long Island, New York',
+        externalId: 'Id_super_heros'
       }, {
         id: 2,
         firstName: 'Booby',
         lastName: 'Gros',
         birthdate: '30/09/1998',
         birthplace: 'Wherever, whatever',
+        externalId: ''
       }, {
         id: 3,
         firstName: 'Jean',
         lastName: 'Jean',
         birthdate: '11/11/1900',
         birthplace: 'Calais, Haut de France',
+        externalId: '5'
       }];
 
       const nockStub1 = nock('http://localhost:3000', {
@@ -382,7 +402,8 @@ describe('Acceptance | Scripts | import-certifications-from-csv.js', () => {
                 'first-name': 'Tony',
                 'last-name': 'Stark',
                 birthplace: 'Long Island, New York',
-                birthdate: '29/05/1970'
+                birthdate: '29/05/1970',
+                'external-id': 'Id_super_heros'
               }
           }
       };
@@ -396,7 +417,8 @@ describe('Acceptance | Scripts | import-certifications-from-csv.js', () => {
                 'first-name': 'Booby',
                 'last-name': 'Gros',
                 birthplace: 'Wherever, whatever',
-                birthdate: '30/09/1998'
+                birthdate: '30/09/1998',
+                'external-id': ''
               }
           }
       };
@@ -410,7 +432,8 @@ describe('Acceptance | Scripts | import-certifications-from-csv.js', () => {
                 'first-name': 'Jean',
                 'last-name': 'Jean',
                 birthplace: 'Calais, Haut de France',
-                birthdate: '11/11/1900'
+                birthdate: '11/11/1900',
+                'external-id': '5'
               }
           }
       };
@@ -423,6 +446,7 @@ describe('Acceptance | Scripts | import-certifications-from-csv.js', () => {
             lastName: 'Stark',
             birthdate: '29/05/1970',
             birthplace: 'Long Island, New York',
+            externalId: 'Id_super_heros'
           }
         },
         {
@@ -433,6 +457,7 @@ describe('Acceptance | Scripts | import-certifications-from-csv.js', () => {
             lastName: 'Gros',
             birthdate: '30/09/1998',
             birthplace: 'Wherever, whatever',
+            externalId: ''
           }
         }
       ];
@@ -443,18 +468,21 @@ describe('Acceptance | Scripts | import-certifications-from-csv.js', () => {
         lastName: 'Stark',
         birthdate: '29/05/1970',
         birthplace: 'Long Island, New York',
+        externalId: 'Id_super_heros'
       }, {
         id: 2,
         firstName: 'Booby',
         lastName: 'Gros',
         birthdate: '30/09/1998',
         birthplace: 'Wherever, whatever',
+        externalId: ''
       }, {
         id: 3,
         firstName: 'Jean',
         lastName: 'Jean',
         birthdate: '11/11/1900',
         birthplace: 'Calais, Haut de France',
+        externalId: '5'
       }];
 
       nock('http://localhost:3000', {

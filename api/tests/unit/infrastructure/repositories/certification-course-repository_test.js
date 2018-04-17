@@ -20,7 +20,8 @@ describe('Unit | Repository | Certification Course', function() {
         lastName: 'Griezmann',
         birthplace: 'Macon',
         birthdate: '21/03/1991',
-        sessionId: 'EURO2016'
+        sessionId: 'EURO2016',
+        externalId: 'xenoverse2'
       });
       savedCertificationCourse = new CertificationCourse({
         id: 'certifId',
@@ -34,7 +35,8 @@ describe('Unit | Repository | Certification Course', function() {
         birthdate: '21/03/1991',
         challenges: [],
         assessment: {},
-        sessionId: 'EURO2016'
+        sessionId: 'EURO2016',
+        externalId: 'xenoverse2'
       });
 
       const certificationCourseBookshelf = new CertificationCourseBookshelf(certificationCourse);

@@ -62,6 +62,7 @@ describe('Unit | Serializer | JSONAPI | certification-course-serializer', functi
         birthdate: '08/02/1974',
         birthplace: 'Neuilly-Sur-Seine',
         sessionId: '#DaftPunk',
+        externalId: 'Grammys2016'
       });
 
       // when
@@ -81,6 +82,7 @@ describe('Unit | Serializer | JSONAPI | certification-course-serializer', functi
             'birthdate': '08/02/1974',
             'birthplace': 'Neuilly-Sur-Seine',
             'session-id': '#DaftPunk',
+            'external-id': 'Grammys2016'
           },
         }
       });
