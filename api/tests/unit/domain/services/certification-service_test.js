@@ -1265,7 +1265,8 @@ describe('Unit | Service | Certification Service', function() {
         lastName: 'De La Savane',
         birthplace: 'Savane',
         birthdate: '28/01/1992',
-        sessionId: 'MoufMufassa'
+        sessionId: 'MoufMufassa',
+        externalId: 'TimonsFriend'
       });
 
       assessmentResult.competenceMarks = [_buildCompetenceMarks(3, 27, '2', '2.1')];
@@ -1314,6 +1315,7 @@ describe('Unit | Service | Certification Service', function() {
         expect(certification.lastName).to.deep.equal('De La Savane');
         expect(certification.birthplace).to.deep.equal('Savane');
         expect(certification.birthdate).to.deep.equal('28/01/1992');
+        expect(certification.externalId).to.deep.equal('TimonsFriend');
       });
     });
   });

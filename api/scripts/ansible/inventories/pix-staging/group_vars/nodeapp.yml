@@ -1,4 +1,0 @@
-deploy_user: 'deploy'
-home: '/home/deploy'
-branch: 'dev'
-run_test: yes

@@ -10,17 +10,6 @@ if (settings.logging.enabled) {
     stream: process.stdout,
     level: 'info'
   });
-
-  logger.addStream({
-    name: 'file-output',
-    path: settings.logging.path,
-    level: 'info',
-    type: 'rotating-file',
-    period: '1d',
-    count: 5
-  });
-
 }
 
 module.exports = logger;
-

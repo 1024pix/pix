@@ -8,7 +8,8 @@ const CSV_HEADERS = {
   FIRST_NAME: 'Prénom du candidat',
   LAST_NAME: 'Nom du candidat',
   BIRTHDATE: 'Date de naissance du candidat',
-  BIRTHPLACE: 'Lieu de naissance du candidat'
+  BIRTHPLACE: 'Lieu de naissance du candidat',
+  EXTERNAL_ID: 'Identifiant externe'
 };
 
 function assertFileValidity(filePath) {
@@ -33,7 +34,8 @@ function convertDataRowsIntoCertifications(csvParsingResult) {
       firstName: dataRow[CSV_HEADERS.FIRST_NAME],
       lastName: dataRow[CSV_HEADERS.LAST_NAME],
       birthdate: dataRow[CSV_HEADERS.BIRTHDATE],
-      birthplace: dataRow[CSV_HEADERS.BIRTHPLACE]
+      birthplace: dataRow[CSV_HEADERS.BIRTHPLACE],
+      externalId: dataRow[CSV_HEADERS.EXTERNAL_ID]
     };
     certifications.push(certification);
     return certifications;
@@ -55,7 +57,8 @@ function _buildRequestObject(baseUrl, accessToken, certification) {
           'first-name': certification.firstName,
           'last-name': certification.lastName,
           'birthplace': certification.birthplace,
-          'birthdate': certification.birthdate
+          'birthdate': certification.birthdate,
+          'external-id': certification.externalId
         }
       }
     }

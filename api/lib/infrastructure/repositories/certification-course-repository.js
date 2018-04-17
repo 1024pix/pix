@@ -15,7 +15,8 @@ function _toDomain(model) {
     lastName: model.get('lastName'),
     birthplace: model.get('birthplace'),
     birthdate: model.get('birthdate'),
-    sessionId: model.get('sessionId')
+    sessionId: model.get('sessionId'),
+    externalId: model.get('externalId')
   });
 }
 
@@ -37,8 +38,11 @@ module.exports = {
       .where({ id })
       .fetch({ require: true, withRelated: ['assessment', 'challenges'] })
       .then(_toDomain)
-      .catch(() => {
-        return Promise.reject(new NotFoundError());
+      .catch(bookshelfError => {
+        if (bookshelfError instanceof CertificationCourseBookshelf.NotFoundError) {
+          return Promise.reject(new NotFoundError());
+        }
+        return Promise.reject(bookshelfError);
       });
   },
 

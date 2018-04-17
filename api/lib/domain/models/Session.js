@@ -10,6 +10,8 @@ class Session {
     this.time = model.time;
     this.description = model.description;
     this.accessCode = model.accessCode;
+
+    this.certifications = model.certifications;
   }
 }
 

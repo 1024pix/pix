@@ -4,9 +4,11 @@ const logger = require('../../../../lib/infrastructure/logger');
 
 const sessionSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/session-serializer');
 const sessionController = require('../../../../lib/application/sessions/session-controller');
-const Session = require('../../../../lib/domain/models/Session');
-
 const sessionService = require('../../../../lib/domain/services/session-service');
+const Session = require('../../../../lib/domain/models/Session');
+const { NotFoundError } = require('../../../../lib/domain/errors');
+
+const CertificationCourse = require('../../../../lib/domain/models/CertificationCourse');
 
 describe('Unit | Controller | sessionController', () => {
 
@@ -143,5 +145,102 @@ describe('Unit | Controller | sessionController', () => {
 
     });
 
+  });
+
+  describe('#get', function() {
+
+    beforeEach(() => {
+      sandbox = sinon.sandbox.create();
+      sandbox.stub(sessionService, 'get');
+      sandbox.stub(sessionSerializer, 'serialize');
+      request = {
+        params: {
+          id: 'sessionId'
+        }
+      };
+      replyStub = sinon.stub().returns({ code: codeStub });
+    });
+
+    afterEach(() => {
+      sandbox.restore();
+    });
+
+    context('when session exists', () => {
+
+      it('should get session informations with certifications associated', function() {
+        // given
+        sessionService.get.resolves();
+
+        // when
+        const promise = sessionController.get(request, replyStub);
+
+        // then
+        return promise.then(() => {
+          expect(sessionService.get).to.have.been.calledWith('sessionId');
+        });
+      });
+
+      it('should serialize session informations', function() {
+        // given
+        const certification = new CertificationCourse({ id: 'certifId', sessionId: 'sessionId' });
+        const session = new Session({
+          id: 'sessionId',
+          certifications: [certification]
+        });
+        sessionService.get.resolves(session);
+
+        // when
+        const promise = sessionController.get(request, replyStub);
+
+        // then
+        return promise.then(() => {
+          expect(sessionSerializer.serialize).to.have.been.calledWith(session);
+        });
+      });
+
+      it('should reply serialized session informations', function() {
+        // given
+        const serializedSession = {
+          data: {
+            type: 'sessions',
+            id: 'id',
+          }
+        };
+        sessionSerializer.serialize.resolves(serializedSession);
+        sessionService.get.resolves();
+
+        // when
+        const promise = sessionController.get(request, replyStub);
+
+        // then
+        return promise.then(() => {
+          expect(replyStub).to.have.been.calledWith(serializedSession);
+        });
+      });
+
+    });
+
+    context('when session does not exist', () => {
+
+      it('should reply with Not Found Error', function() {
+        // given
+        const notFoundError = new NotFoundError();
+        const wellFormedError = { message: 'Not Found Error' };
+        sessionService.get.rejects(notFoundError);
+        sandbox.stub(Boom, 'notFound').returns(wellFormedError);
+        sandbox.stub(logger, 'error').returns();
+
+        // when
+        const promise = sessionController.get(request, replyStub);
+
+        // then
+        return promise.then(() => {
+          expect(replyStub).to.have.been.calledWith(wellFormedError);
+          expect(Boom.notFound).to.have.been.calledWith(notFoundError);
+        });
+
+      });
+
+    });
   });
 });

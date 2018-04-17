@@ -17,8 +17,12 @@ module.exports = {
         'date',
         'time',
         'description',
-        'accessCode'
-      ]
+        'accessCode',
+        'certifications'
+      ],
+      certifications : {
+        ref: ['id']
+      }
     }).serialize(modelSession);
   },
 

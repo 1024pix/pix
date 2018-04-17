@@ -7,7 +7,7 @@ const _ = require('lodash');
 const moment = require('moment');
 const AnswerStatus = require('../models/AnswerStatus');
 const CertificationCourse = require('../../domain/models/CertificationCourse');
-const { UserNotAuthorizedToCertifyError } = require('../../../lib/domain/errors');
+const { UserNotAuthorizedToCertifyError, NotCompletedAssessmentError } = require('../../../lib/domain/errors');
 
 const userService = require('../../../lib/domain/services/user-service');
 const certificationChallengesService = require('../../../lib/domain/services/certification-challenges-service');
@@ -216,12 +216,16 @@ module.exports = {
     let certification = {};
     return assessmentRepository
       .getByCertificationCourseId(certificationCourseId)
-      .then(foundAssessement => {
-        assessment = foundAssessement;
-        return certificationCourseRepository.get(certificationCourseId);
+      .then(foundAssessment => {
+        certification = certificationCourseRepository.get(certificationCourseId);
+        assessment = foundAssessment;
+        return certification;
       })
       .then(foundCertification => {
         certification = foundCertification;
+        if (assessment == null) {
+          throw new NotCompletedAssessmentError();
+        }
         assessmentLastResult = assessment.getLastAssessmentResult();
         return assessmentResultRepository.get(assessmentLastResult.id);
       })
@@ -246,6 +250,7 @@ module.exports = {
           birthdate: certification.birthdate,
           birthplace: certification.birthplace,
           sessionId: certification.sessionId,
+          externalId: certification.externalId,
         };
       });
   },
