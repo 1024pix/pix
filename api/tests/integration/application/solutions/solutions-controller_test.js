@@ -1,5 +1,12 @@
-const { sinon } = require('../../../test-helper');
+const { sinon, expect } = require('../../../test-helper');
 const JSONAPIError = require('jsonapi-serializer').Error;
+const usecases = require('../../../../lib/domain/usecases');
+const Solution = require('../../../../lib/domain/models/Solution');
+const { NotFoundError, NotCompletedAssessmentError } = require('../../../../lib/domain/errors');
+
+const assessmentRepository = require('../../../../lib/infrastructure/repositories/assessment-repository');
+const answerRepository = require('../../../../lib/infrastructure/repositories/answer-repository');
+const solutionRepository = require('../../../../lib/infrastructure/repositories/solution-repository');
 
 const solutionsController = require('../../../../lib/application/solutions/solutions-controller');
 
@@ -7,12 +14,19 @@ describe('Unit | Controller | solutions-controller', () => {
 
   let replyStub;
   let codeStub;
+  let sandbox;
 
   beforeEach(() => {
+    sandbox = sinon.sandbox.create();
     codeStub = sinon.stub();
     replyStub = sinon.stub().returns({
       code: codeStub
     });
+    sandbox.stub(usecases, 'getSolutionForAnswerWhenAssessmentEnded');
+  });
+
+  afterEach(() => {
+    sandbox.restore();
   });
 
   describe('#find', () => {
@@ -64,60 +78,83 @@ describe('Unit | Controller | solutions-controller', () => {
       });
     });
 
-    // it('should return an error message', () => {
-    //   // given
-    //   const email = 'email-that-does-not-exist@example.net';
-    //   const request = _buildRequest(email, password);
-    //
-    //   // when
-    //   const promise = solutionsController.save(request, replyStub);
-    //
-    //   // then
-    //   return promise.then(() => {
-    //     sinon.assert.calledWith(codeStub, 400);
-    //     expect(replyStub.getCall(0).args).to.deep.equal([ {
-    //       errors: [ {
-    //         'status': '400',
-    //         'title': 'Invalid Payload',
-    //         'detail': 'L\'adresse e-mail et/ou le mot de passe saisi(s) sont incorrects.',
-    //         'source': {
-    //           'pointer': '/data/attributes'
-    //         }
-    //       } ]
-    //     } ]);
-    //   });
-    // });
-    //
-    // it('should return an 201 when account exists', () => {
-    //   // given
-    //   const password = 'A124B2C3#!';
-    //   const request = _buildRequest(user.get('email'), password);
-    //
-    //   // when
-    //   const promise = solutionsController.save(request, replyStub);
-    //
-    //   // then
-    //   return promise.then(() => {
-    //     sinon.assert.calledOnce(replyStub);
-    //     sinon.assert.calledOnce(codeStub);
-    //     sinon.assert.calledWith(codeStub, 201);
-    //   });
-    // });
-    //
-    // it('should return an 400 error when account exists but wrong password', () => {
-    //   // given
-    //   const password = 'BZU#!1344B2C3';
-    //   const request = _buildRequest(user.get('email'), password);
-    //
-    //   // when
-    //   const promise = solutionsController.save(request, replyStub);
-    //
-    //   // then
-    //   return promise.then(() => {
-    //     sinon.assert.calledOnce(replyStub);
-    //     sinon.assert.calledOnce(codeStub);
-    //     sinon.assert.calledWith(codeStub, 400);
-    //   });
-    // });
+    it('should return a serialized solution when usecase returns a solution', () => {
+      // given
+      const responseSolution = new Solution({
+        id: '234',
+        value: 'This is a solution.'
+      });
+      usecases.getSolutionForAnswerWhenAssessmentEnded.resolves(responseSolution);
+      const request = _buildRequest('213', '234');
+      const expectedResponse = {
+        data: {
+          type: 'solutions',
+          id: '234',
+          attributes: {
+            value: 'This is a solution.'
+          }
+        }
+      };
+
+      // when
+      const promise = solutionsController.find(request, replyStub);
+
+      // then
+      return promise.then(() => {
+        sinon.assert.calledWith(replyStub, expectedResponse);
+        sinon.assert.calledWith(codeStub, 200);
+        expect(usecases.getSolutionForAnswerWhenAssessmentEnded).to.have.been.calledWith({
+          assessmentRepository,
+          answerRepository,
+          solutionRepository,
+          assessmentId: '213',
+          answerId: '234'
+        });
+      });
+    });
+
+    it('should return a 404 error if no answer found', () => {
+      // given
+      const request = _buildRequest('213', '234');
+      const responseError = new NotFoundError('Not found answer for ID 234');
+      const expectedError = JSONAPIError({
+        code: '404',
+        title: 'Not Found Error',
+        detail: 'Not found answer for ID 234'
+      });
+
+      usecases.getSolutionForAnswerWhenAssessmentEnded.rejects(responseError);
+
+      // when
+      const promise = solutionsController.find(request, replyStub);
+
+      // then
+      return promise.then(() => {
+        sinon.assert.calledWith(replyStub, expectedError);
+        sinon.assert.calledWith(codeStub, 404);
+      });
+    });
+
+    it('should return a 409 conflict error if assessment not finished', () => {
+      // given
+      const request = _buildRequest('213', '234');
+      const responseError = new NotCompletedAssessmentError();
+      const expectedError = JSONAPIError({
+        code: '409',
+        title: 'Assessment Not Completed Error',
+        detail: 'Cette évaluation n\'est pas terminée.'
+      });
+
+      usecases.getSolutionForAnswerWhenAssessmentEnded.rejects(responseError);
+
+      // when
+      const promise = solutionsController.find(request, replyStub);
+
+      // then
+      return promise.then(() => {
+        sinon.assert.calledWith(replyStub, expectedError);
+        sinon.assert.calledWith(codeStub, 409);
+      });
+    });
   });
 });
