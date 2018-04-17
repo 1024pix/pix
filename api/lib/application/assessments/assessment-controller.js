@@ -6,44 +6,11 @@ const assessmentService = require('../../domain/services/assessment-service');
 const tokenService = require('../../domain/services/token-service');
 const challengeRepository = require('../../infrastructure/repositories/challenge-repository');
 const challengeSerializer = require('../../infrastructure/serializers/jsonapi/challenge-serializer');
-const solutionSerializer = require('../../infrastructure/serializers/jsonapi/solution-serializer');
-
-const answerRepository = require('../../infrastructure/repositories/answer-repository');
-const solutionRepository = require('../../infrastructure/repositories/solution-repository');
 
 const queryParamsUtils = require('../../infrastructure/utils/query-params-utils');
 const logger = require('../../infrastructure/logger');
 
-const { NotFoundError, NotCompletedAssessmentError, AssessmentEndedError, ObjectValidationError } = require('../../domain/errors');
-
-function _doesAssessmentExistsAndIsCompleted(assessment) {
-  if (!assessment)
-    throw new NotFoundError();
-
-  const isAssessmentNotCompleted = !assessment.isCompleted();
-
-  if (isAssessmentNotCompleted)
-    throw new NotCompletedAssessmentError();
-}
-
-function _doesAnswerExists(answer) {
-  if (answer)
-    return answer;
-
-  throw new NotFoundError();
-}
-
-function _replyWithError(reply, error) {
-  if (error instanceof NotFoundError)
-    return reply(Boom.notFound());
-
-  if (error instanceof NotCompletedAssessmentError)
-    return reply(Boom.conflict(error.message));
-
-  logger.error(error);
-
-  reply(Boom.badImplementation());
-}
+const { NotFoundError, AssessmentEndedError, ObjectValidationError } = require('../../domain/errors');
 
 module.exports = {
 
@@ -129,18 +96,6 @@ module.exports = {
       });
   },
 
-  getAssessmentSolution(request, reply) {
-
-    return assessmentRepository
-      .get(request.params.id)
-      .then(_doesAssessmentExistsAndIsCompleted)
-      .then(() => answerRepository.get(request.params.answerId))
-      .then(_doesAnswerExists)
-      .then(answer => solutionRepository.get(answer.get('challengeId')))
-      .then(solution => reply(solutionSerializer.serialize(solution)))
-      .catch(error => _replyWithError(reply, error));
-  },
-
   computeCompetenceMarksForAssessmentResult(request, reply) {
     const { assessmentId, assessmentResultId } = request.params;
 
@@ -151,5 +106,4 @@ module.exports = {
       reply(Boom.teapot(error));
     });
   }
-
 };
