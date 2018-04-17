@@ -35,7 +35,8 @@ module.exports = {
           answerId: request.query.answerId
         });
       })
-      .then((solution) => reply(solutionSerializer.serialize(solution)).code(200))
+      .then((solution) => Array.of(solution))
+      .then((solutions) => reply(solutionSerializer.serialize(solutions)).code(200))
       .catch((error) => {
         if (error instanceof infraErrors.InfrastructureError) {
           return reply(errorSerializer.serialize(error)).code(error.code);

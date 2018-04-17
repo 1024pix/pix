@@ -60,20 +60,20 @@ describe('Acceptance | Controller | solution-controller', () => {
       return knex('assessments').delete();
     });
 
-    it('should not necessitate auth and return 200 HTTP status', () => {
+    it('should not necessitate auth and return 200 HTTP status with an array of one solution', () => {
       // given
       const options = {
         method: 'GET',
         url: `/api/solutions?assessmentId=${insertedAssessmentId}&answerId=${insertedAnswerId}`
       };
       const expectedBody = {
-        'data': {
+        'data': [{
           'attributes': {
             'value': 'fromage'
           },
           'id': 'q_first_challenge',
           'type': 'solutions'
-        }
+        }]
       };
 
       // when

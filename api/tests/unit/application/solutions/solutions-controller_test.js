@@ -78,7 +78,7 @@ describe('Unit | Controller | solutions-controller', () => {
       });
     });
 
-    it('should return a serialized solution when usecase returns a solution', () => {
+    it('should return a serialized solution when usecase returns an array of one solution', () => {
       // given
       const responseSolution = new Solution({
         id: '234',
@@ -87,13 +87,13 @@ describe('Unit | Controller | solutions-controller', () => {
       usecases.getSolutionForAnswerWhenAssessmentEnded.resolves(responseSolution);
       const request = _buildRequest('213', '234');
       const expectedResponse = {
-        data: {
+        data: [{
           type: 'solutions',
           id: '234',
           attributes: {
             value: 'This is a solution.'
           }
-        }
+        }]
       };
 
       // when
