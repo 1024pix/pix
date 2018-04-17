@@ -16,9 +16,8 @@ export default BaseRoute.extend(ModalRouteMixin, {
     return RSVP.hash({
       index,
       answer,
-      solution: store.queryRecord('solution', { assessmentId, answerId }),
+      solution: store.query('solution', { assessmentId, answerId }).then(solutions => solutions.get('firstObject')),
       challenge: answer.then((foundAnswer) => store.findRecord('challenge', foundAnswer.get('challenge.id')))
     });
-  },
-
+  }
 });

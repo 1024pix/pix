@@ -11,6 +11,7 @@ import getCoursesOfTheWeek from './routes/get-courses-of-the-week';
 import getNextChallenge from './routes/get-next-challenge';
 import getOrganizations from './routes/get-organizations';
 import getSnapshots from './routes/get-snapshots';
+import getSolutions from './routes/get-solutions';
 import patchAnswer from './routes/patch-answer';
 import postAnswers from './routes/post-answers';
 import postAssessments from './routes/post-assessments';
@@ -65,6 +66,8 @@ export default function() {
   this.get('/organizations/:id');
 
   this.get('/organizations', getOrganizations);
+
+  this.get('/solutions', getSolutions);
 
   this.post('/snapshots');
   this.get('/snapshots/:id');
