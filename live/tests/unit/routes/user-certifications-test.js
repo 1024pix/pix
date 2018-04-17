@@ -2,8 +2,8 @@ import { expect } from 'chai';
 import { describe, it } from 'mocha';
 import { setupTest } from 'ember-mocha';
 import sinon from 'sinon';
-import Service from '@ember/service';
 import EmberObject from '@ember/object';
+import Service from '@ember/service';
 
 describe('Unit | Route | user certifications', function() {
   setupTest('route:user-certifications', {
@@ -11,25 +11,19 @@ describe('Unit | Route | user certifications', function() {
   });
 
   let route;
-  const findRecord = sinon.stub();
+  const findAll = sinon.stub();
 
   beforeEach(function() {
 
     this.register('service:store', Service.extend({
-      findRecord: findRecord
+      findAll: findAll
     }));
     this.inject.service('store', { as: 'store' });
-    this.register('service:session', Service.extend({
-      data: { authenticated: { userId: 12, token: 'VALID-TOKEN' } }
-    }));
 
-    this.inject.service('session', { as: 'session' });
     route = this.subject();
-    route.transitionTo = sinon.spy();
   });
 
   it('exists', function() {
-    route = this.subject();
     expect(route).to.be.ok;
   });
 
@@ -38,8 +32,7 @@ describe('Unit | Route | user certifications', function() {
     const certifications = [
       EmberObject.create({ id: 1 })
     ];
-    const user = EmberObject.create({ id: 1, certifications: certifications });
-    findRecord.resolves(user);
+    findAll.resolves(certifications);
 
     // when
     const result = route.model();

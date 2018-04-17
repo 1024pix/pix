@@ -70,7 +70,7 @@ describe('Acceptance | User certifications page', function() {
       await visit('/mes-certifications');
 
       // then
-      findWithAssert('.certifications-list');
+      findWithAssert('.user-certifications-panel');
     });
 
     it('should render the app footer', async function() {
