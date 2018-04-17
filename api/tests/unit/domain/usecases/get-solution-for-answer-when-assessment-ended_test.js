@@ -25,7 +25,7 @@ describe('Unit | UseCase | getSolutionForAnswerWhenAssessmentEnded', () => {
 
   context('when assessment is not completed', () => {
 
-    it('should reject with a assessment not completed error', async () => {
+    it('should reject with a assessment not completed error', () => {
       // given
       const assessment = new Assessment({ state: 'not completed' });
       sandbox.stub(assessmentRepository, 'get').resolves(assessment);
