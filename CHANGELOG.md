@@ -1,5 +1,28 @@
 # Pix Changelog
 
+## v1.47.0 (17/04/2018) 
+
+- [#14](https://github.com/1024pix/pix/pull/14) [FEATURE] Ajout de nouveaux endpoints d'authentification OAuth 2 (US-1205).
+- [#23](https://github.com/1024pix/pix/pull/23) [FEATURE] Ajout d'un identifiant externe sur les certifications (US-1190).
+- [#1](https://github.com/1024pix/pix/pull/1) [FEATURE] Ajout des infos utilisateurs dans l'endpoint api/admin/certifications/:id (US-1103).
+- [#11](https://github.com/1024pix/pix/pull/11) [FEATURE] Génération de CSV de résultats certifications à partir d'un id de session (US-1182).
+- [#16](https://github.com/1024pix/pix/pull/16) [FEATURE] Ajout de toutes les informations dans le CSV d'export (US-1181).
+- [#25](https://github.com/1024pix/pix/pull/25) [BUGFIX] Script de récupération de seconde chance (US-1228).
+- [#33](https://github.com/1024pix/pix/pull/33) [BUGFIX] Script de suppression de compte (US-1233).
+- [#30](https://github.com/1024pix/pix/pull/30) [TECH] Jette une erreur métier lorsqu’on charge les détails d'une certification qui n’est pas complétée (US-1230).
+- [#20](https://github.com/1024pix/pix/pull/20) [TECH] JV un commentaire Github après un deploy (US-1224).
+- [#21](https://github.com/1024pix/pix/pull/21) [CLEANUP] Calcul des marks pour les anciennes certifications (US-1051).
+- [#29](https://github.com/1024pix/pix/pull/29) [TECH] Corriger la suite de tests (US-1232).
+- [#28](https://github.com/1024pix/pix/pull/28) [TECH] rapport de tests en Piti points (US-1231).
+- [#12](https://github.com/1024pix/pix/pull/12) [TECH] Faire pointer le script de generation de changelog vers le repo 1024pix (US-1208).
+- [#15](https://github.com/1024pix/pix/pull/15) [TECH] Mise à jour des fingerprints SSH (US-1210).
+- [#22](https://github.com/1024pix/pix/pull/22) [TECH] Les métriques de /metrics exposent le path dans les compteurs api_request (US-1202).
+- [#17](https://github.com/1024pix/pix/pull/17) [TECH] Corriger le problème de CORS (US-1216).
+- [#18](https://github.com/1024pix/pix/pull/18) [TECH] Ne pas pousser sur dokku api-production lors des MEP (US-1201).
+- [#6](https://github.com/1024pix/pix/pull/6) [TECH] Modifications pour Scalingo (US-1189).
+- [#10](https://github.com/1024pix/pix/pull/10) [TECH]Changer les URL du README pour pointer vers le nouveau repo (US-1110).
+- [#13](https://github.com/1024pix/pix/pull/13) [BSR] Supprimer les références vers les vieux repositories (US-1212).
+
 ## v1.46.0 (05/04/2018) 
 
 - [#699](https://github.com/betagouv/pix/pull/699) [FEATURE] Ajout d'une route pour modifier les résultats d'une certification (US-1088).
