@@ -28,8 +28,9 @@ describe('Unit | UseCase | getSolutionForAnswerWhenAssessmentEnded', () => {
     it('should reject with a assessment not completed error', () => {
       // given
       const assessment = new Assessment({ state: 'not completed' });
+      const answer = new Answer({ assessmentId: 1, challengeId: 12 });
       sandbox.stub(assessmentRepository, 'get').resolves(assessment);
-      sandbox.stub(answerRepository, 'get');
+      sandbox.stub(answerRepository, 'get').resolves(answer);
       sandbox.stub(solutionRepository, 'getByChallengeId');
 
       // when
@@ -37,7 +38,6 @@ describe('Unit | UseCase | getSolutionForAnswerWhenAssessmentEnded', () => {
         assessmentRepository,
         answerRepository,
         solutionRepository,
-        assessmentId: 1,
         answerId: 2
       });
 
@@ -45,7 +45,7 @@ describe('Unit | UseCase | getSolutionForAnswerWhenAssessmentEnded', () => {
       return expect(promise).to.be.rejectedWith(NotCompletedAssessmentError)
         .then(() => {
           expect(assessmentRepository.get).to.have.been.calledWith(1);
-          expect(answerRepository.get).to.not.have.been.called;
+          expect(answerRepository.get).to.have.been.calledWith(2);
           expect(solutionRepository.getByChallengeId).to.not.have.been.called;
         });
     });
@@ -56,7 +56,7 @@ describe('Unit | UseCase | getSolutionForAnswerWhenAssessmentEnded', () => {
     it('should return with the solution', () => {
       // given
       const assessment = new Assessment({ state: 'completed' });
-      const answer = new Answer({ challengeId: 12 });
+      const answer = new Answer({ assessmentId: 1, challengeId: 12 });
       const solution = new Solution({ id: 123 });
       sandbox.stub(assessmentRepository, 'get').resolves(assessment);
       sandbox.stub(answerRepository, 'get').resolves(answer);
@@ -67,7 +67,6 @@ describe('Unit | UseCase | getSolutionForAnswerWhenAssessmentEnded', () => {
         assessmentRepository,
         answerRepository,
         solutionRepository,
-        assessmentId: 1,
         answerId: 2
       });
 

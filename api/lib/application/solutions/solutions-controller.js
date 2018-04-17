@@ -15,14 +15,15 @@ const solutionSerializer = require('../../infrastructure/serializers/jsonapi/sol
 
 function _validateQueryParams(query) {
   return new Promise((resolve, reject) => {
-    if (typeof query.assessmentId === 'undefined')
-      reject(new infraErrors.MissingQueryParamError('assessmentId'));
     if (typeof query.answerId === 'undefined')
       reject(new infraErrors.MissingQueryParamError('answerId'));
     resolve();
   });
 }
 
+/*
+ * This endpoint should probably not exist as solutions should be included as needed into the answers.
+ */
 module.exports = {
   find(request, reply) {
     return _validateQueryParams(request.query)
@@ -31,7 +32,6 @@ module.exports = {
           assessmentRepository,
           answerRepository,
           solutionRepository,
-          assessmentId: request.query.assessmentId,
           answerId: request.query.answerId
         });
       })
