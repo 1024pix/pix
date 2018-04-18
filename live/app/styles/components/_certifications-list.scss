@@ -1,0 +1,58 @@
+.certifications-list {
+  padding: 10px;
+
+  background-color: transparent;
+  justify-content: space-around;
+  font-size: 9px;
+  color: $charcoal-grey;
+  font-family: $font-raleway;
+
+  @include device-is('tablet') {
+    margin: 0 50px;
+    font-size: 14px;
+  }
+
+  @include device-is('desktop') {
+    margin: 0 100px;
+  }
+}
+
+.certifications-list__table {
+  width: 100%;
+}
+
+.certifications-list__table-header tr {
+  height: 20px;
+  font-weight: $font-bold;
+
+  @include device-is('tablet') {
+    height: 30px;
+  }
+}
+
+.certifications-list__table-header-cell {
+  text-align: center;
+}
+
+.certifications-list__table-body {
+  border-radius: 5px;
+  background-color: white;
+  box-shadow: 0 2px 6px 0 rgba(51, 51, 51, 0.1), 0 1px 3px 0 rgba(0, 0, 0, 0.08);
+  border: 1px solid $alto-grey;
+}
+
+.certifications-list__certification-item {
+  border-bottom: 1px solid $gainsboro;
+  height: 30px;
+
+  @include device-is('tablet') {
+    height: 60px;
+    font-size: 14px;
+  }
+}
+
+.certifications-list__certification-item-cell {
+  padding: 5px;
+  text-align: center;
+
+}

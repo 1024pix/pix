@@ -23,6 +23,7 @@
 @import 'components/challenge-statement';
 @import 'components/challenge-stay';
 @import 'components/certification-banner';
+@import 'components/certifications-list';
 @import 'components/comparison-window';
 @import 'components/competence-by-area-item';
 @import 'components/competence-level-progress-bar';
@@ -38,6 +39,7 @@
 @import 'components/modal-mobile';
 @import 'components/medal-item';
 @import 'components/navbar-header';
+@import 'components/no-certification-panel';
 @import 'components/pix-logo';
 @import 'components/password-reset-form';
 @import 'components/qroc-solution-panel';
@@ -89,6 +91,7 @@
 @import 'pages/password-reset-demand';
 @import 'pages/certification-course-error';
 @import 'pages/certification-start';
+@import 'pages/user-certifications';
 
 body {
   font-family: $font-lato;

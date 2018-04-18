@@ -1,0 +1,26 @@
+<div class="certifications-list">
+  <table class="certifications-list__table">
+    <thead class="certifications-list__table-header">
+    <tr>
+      <td class="certifications-list__table-header-cell">DATE</td>
+      <td class="certifications-list__table-header-cell">STATUT</td>
+      <td class="certifications-list__table-header-cell">SCORE PIX</td>
+      <td class="certifications-list__table-header-cell">CENTRE DE CERTIFICATION</td>
+      <td class="certifications-list__table-header-cell"></td>
+    </tr>
+    </thead>
+
+    <tbody class="certifications-list__table-body">
+    {{#each certifications as |certification|}}
+      <tr class="certifications-list__certification-item">
+        <td class="certifications-list__certification-item-cell">{{certification.date}}</td>
+        <td class="certifications-list__certification-item-cell">{{certification.status}}</td>
+        <td class="certifications-list__certification-item-cell">{{certification.score}}</td>
+        <td class="certifications-list__certification-item-cell">{{certification.certificationCenter}}</td>
+      </tr>
+    {{/each}}
+
+    </tbody>
+  </table>
+</div>
+

@@ -64,7 +64,7 @@ describe('Acceptance | User certifications page', function() {
       findWithAssert('.user-certifications-page__title');
     });
 
-    it('should render the list of certifications of the connected user', async function() {
+    it('should render the panel which contains informations about certifications of the connected user', async function() {
       // when
       await authenticateAsSimpleUser();
       await visit('/mes-certifications');
