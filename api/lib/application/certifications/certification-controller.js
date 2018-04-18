@@ -1,5 +1,12 @@
+const usecases = require('../../domain/usecases');
+const certificationSerializer = require('../../infrastructure/serializers/jsonapi/certification-serializer');
+
 module.exports = {
   findUserCertifications(request, reply) {
-    return reply().code(200);
+    const userId = request.auth.credentials.userId;
+    return usecases.findCompletedUserCertifications({userId})
+      .then(certifications => {
+        reply(certificationSerializer.serializeCertification(certifications)).code(200);
+      });
   }
-};
+}
