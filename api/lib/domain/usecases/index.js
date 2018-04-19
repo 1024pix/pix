@@ -1,5 +1,5 @@
-const getSolutionForAnswerWhenAssessmentEnded = require('./get-solution-for-answer-when-assessment-ended');
+const getCorrectionForAnswerWhenAssessmentEnded = require('./get-correction-for-answer-when-assessment-ended');
 
 module.exports = {
-  getSolutionForAnswerWhenAssessmentEnded
+  getCorrectionForAnswerWhenAssessmentEnded
 };

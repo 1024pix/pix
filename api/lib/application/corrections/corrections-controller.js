@@ -28,7 +28,7 @@ module.exports = {
   find(request, reply) {
     return _validateQueryParams(request.query)
       .then(() => {
-        return usecases.getSolutionForAnswerWhenAssessmentEnded({
+        return usecases.getCorrectionForAnswerWhenAssessmentEnded({
           assessmentRepository,
           answerRepository,
           solutionRepository,

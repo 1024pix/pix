@@ -1,14 +1,14 @@
-const solutionsController = require('./solutions-controller');
+const correctionsController = require('./corrections-controller');
 
 exports.register = function(server, options, next) {
 
   server.route([
     {
       method: 'GET',
-      path: '/api/solutions',
+      path: '/api/corrections',
       config: {
         auth: false,
-        handler: solutionsController.find,
+        handler: correctionsController.find,
         tags: ['api']
       }
     }
@@ -18,6 +18,6 @@ exports.register = function(server, options, next) {
 };
 
 exports.register.attributes = {
-  name: 'solutions-api',
+  name: 'corrections-api',
   version: '1.0.0'
 };

@@ -1,33 +1,33 @@
 const { expect, sinon } = require('../../../test-helper');
 const Hapi = require('hapi');
-const solutionsController= require('../../../../lib/application/solutions/solutions-controller');
+const correctionsController= require('../../../../lib/application/corrections/corrections-controller');
 
-describe('Integration | Application | Route | Solutions', () => {
+describe('Integration | Application | Route | Corrections ', () => {
 
   let server;
 
   beforeEach(() => {
     // stub dependencies
-    sinon.stub(solutionsController, 'find').callsFake((request, reply) => reply('ok'));
+    sinon.stub(correctionsController, 'find').callsFake((request, reply) => reply('ok'));
 
     // configure and start server
     server = new Hapi.Server();
     server.connection({ port: null });
-    server.register({ register: require('../../../../lib/application/solutions') });
+    server.register({ register: require('../../../../lib/application/corrections') });
   });
 
   afterEach(() => {
     server.stop();
-    solutionsController.find.restore();
+    correctionsController.find.restore();
   });
 
-  describe('GET /api/solutions?assessmentId=23&answerId=234', () => {
+  describe('GET /api/corrections?answerId=234', () => {
 
     it('should exist', () => {
       // given
       const options = {
         method: 'GET',
-        url: '/api/solutions?assessmentId=23&answerId=234'
+        url: '/api/corrections?answerId=234'
       };
 
       // when

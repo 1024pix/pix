@@ -2,9 +2,9 @@ const { expect, knex, nock } = require('../../../test-helper');
 const server = require('../../../../server');
 const cache = require('../../../../lib/infrastructure/cache');
 
-describe('Acceptance | Controller | solution-controller', () => {
+describe('Acceptance | Controller | correction-controller', () => {
 
-  describe('GET /api/solutions', function() {
+  describe('GET /api/corrections', function() {
 
     let insertedAssessmentId = null;
     let insertedAnswerId = null;
@@ -64,7 +64,7 @@ describe('Acceptance | Controller | solution-controller', () => {
       // given
       const options = {
         method: 'GET',
-        url: `/api/solutions?assessmentId=${insertedAssessmentId}&answerId=${insertedAnswerId}`
+        url: `/api/corrections?answerId=${insertedAnswerId}`
       };
       const expectedBody = {
         'data': [{

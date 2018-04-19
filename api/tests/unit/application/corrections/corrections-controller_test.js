@@ -8,9 +8,9 @@ const assessmentRepository = require('../../../../lib/infrastructure/repositorie
 const answerRepository = require('../../../../lib/infrastructure/repositories/answer-repository');
 const solutionRepository = require('../../../../lib/infrastructure/repositories/solution-repository');
 
-const solutionsController = require('../../../../lib/application/solutions/solutions-controller');
+const correctionsController = require('../../../../lib/application/corrections/corrections-controller');
 
-describe('Unit | Controller | solutions-controller', () => {
+describe('Unit | Controller | corrections-controller', () => {
 
   let replyStub;
   let codeStub;
@@ -22,7 +22,7 @@ describe('Unit | Controller | solutions-controller', () => {
     replyStub = sinon.stub().returns({
       code: codeStub
     });
-    sandbox.stub(usecases, 'getSolutionForAnswerWhenAssessmentEnded');
+    sandbox.stub(usecases, 'getCorrectionForAnswerWhenAssessmentEnded');
   });
 
   afterEach(() => {
@@ -49,7 +49,7 @@ describe('Unit | Controller | solutions-controller', () => {
       });
 
       // when
-      const promise = solutionsController.find(request, replyStub);
+      const promise = correctionsController.find(request, replyStub);
 
       // then
       return promise.then(() => {
@@ -64,7 +64,7 @@ describe('Unit | Controller | solutions-controller', () => {
         id: '234',
         value: 'This is a solution.'
       });
-      usecases.getSolutionForAnswerWhenAssessmentEnded.resolves(responseSolution);
+      usecases.getCorrectionForAnswerWhenAssessmentEnded.resolves(responseSolution);
       const request = _buildRequest('234');
       const expectedResponse = {
         data: [{
@@ -77,13 +77,13 @@ describe('Unit | Controller | solutions-controller', () => {
       };
 
       // when
-      const promise = solutionsController.find(request, replyStub);
+      const promise = correctionsController.find(request, replyStub);
 
       // then
       return promise.then(() => {
         sinon.assert.calledWith(replyStub, expectedResponse);
         sinon.assert.calledWith(codeStub, 200);
-        expect(usecases.getSolutionForAnswerWhenAssessmentEnded).to.have.been.calledWith({
+        expect(usecases.getCorrectionForAnswerWhenAssessmentEnded).to.have.been.calledWith({
           assessmentRepository,
           answerRepository,
           solutionRepository,
@@ -102,10 +102,10 @@ describe('Unit | Controller | solutions-controller', () => {
         detail: 'Not found answer for ID 234'
       });
 
-      usecases.getSolutionForAnswerWhenAssessmentEnded.rejects(responseError);
+      usecases.getCorrectionForAnswerWhenAssessmentEnded.rejects(responseError);
 
       // when
-      const promise = solutionsController.find(request, replyStub);
+      const promise = correctionsController.find(request, replyStub);
 
       // then
       return promise.then(() => {
@@ -124,10 +124,10 @@ describe('Unit | Controller | solutions-controller', () => {
         detail: 'Cette évaluation n\'est pas terminée.'
       });
 
-      usecases.getSolutionForAnswerWhenAssessmentEnded.rejects(responseError);
+      usecases.getCorrectionForAnswerWhenAssessmentEnded.rejects(responseError);
 
       // when
-      const promise = solutionsController.find(request, replyStub);
+      const promise = correctionsController.find(request, replyStub);
 
       // then
       return promise.then(() => {

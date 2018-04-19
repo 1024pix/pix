@@ -1,4 +1,4 @@
-const getSolutionForAnswerWhenAssessmentEnded = require('../../../../lib/domain/usecases/get-solution-for-answer-when-assessment-ended');
+const getSolutionForAnswerWhenAssessmentEnded = require('../../../../lib/domain/usecases/get-correction-for-answer-when-assessment-ended');
 const Assessment = require('../../../../lib/domain/models/Assessment');
 const Answer = require('../../../../lib/domain/models/Answer');
 const Solution = require('../../../../lib/domain/models/Solution');
