@@ -1,3 +1,3 @@
-module.exports = function({ userId }) {
-
+module.exports = function({ userId, certificationRepository }) {
+  return certificationRepository.findByUserId(userId)
 };
