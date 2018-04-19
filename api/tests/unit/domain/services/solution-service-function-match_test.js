@@ -22,7 +22,11 @@ describe('Unit | Service | SolutionService', function() {
     solution.type = type;
     solution.value = value;
     solution.scoring = _.ensureString(scoring).replace(/@/g, '');
-    solution.enabledTreatments = enabledTreatments;
+    if (enabledTreatments) {
+      solution.isT1Enabled = enabledTreatments.includes('t1');
+      solution.isT2Enabled = enabledTreatments.includes('t2');
+      solution.isT3Enabled = enabledTreatments.includes('t3');
+    }
     return solution;
   }
 

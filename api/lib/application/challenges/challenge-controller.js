@@ -2,7 +2,6 @@ const Boom = require('boom');
 
 const challengeRepository = require('../../infrastructure/repositories/challenge-repository');
 const challengeSerializer = require('../../infrastructure/serializers/jsonapi/challenge-serializer');
-const solutionRepository = require('../../infrastructure/repositories/solution-repository');
 
 const logger = require('../../infrastructure/logger');
 
