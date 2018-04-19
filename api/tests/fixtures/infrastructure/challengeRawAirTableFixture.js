@@ -57,7 +57,7 @@ module.exports = {
     'Internet et outils': 'Oui',
     'Accessibilité': 'Non',
     'T1 - Espaces, casse & accents': 'Activé',
-    'T2 - Ponctuation': 'Activé',
+    'T2 - Ponctuation': 'Désactivé',
     'T3 - Distance d\'édition': 'Activé',
     'competences': [
       'recsvLz0W2ShyfD63'

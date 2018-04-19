@@ -3,7 +3,9 @@ const airtable = require('../../../../lib/infrastructure/airtable');
 const cache = require('../../../../lib/infrastructure/cache');
 const solutionRepository = require('../../../../lib/infrastructure/repositories/solution-repository');
 const solutionSerializer = require('../../../../lib/infrastructure/serializers/airtable/solution-serializer');
+const challengeDatasource = require('../../../../lib/infrastructure/datasources/airtable/challenge-datasource');
 const Solution = require('../../../../lib/domain/models/Solution');
+const ChallengeAirtableDataModelFixture = require('../../../fixtures/infrastructure/ChallengeAirtableDataModelFixture');
 
 describe('Unit | Repository | solution-repository', function() {
 
@@ -15,7 +17,7 @@ describe('Unit | Repository | solution-repository', function() {
     sandbox = sinon.sandbox.create();
     sandbox.stub(airtable, 'getRecord');
     sandbox.stub(airtable, 'getRecords');
-    sandbox.stub(airtable, 'newGetRecord');
+    sandbox.stub(challengeDatasource, 'get');
   });
 
   afterEach(function() {
@@ -98,20 +100,28 @@ describe('Unit | Repository | solution-repository', function() {
 
   describe('#getByChallengeId', function() {
 
-    it('should call airtable with the challenge Id to get solution', function() {
+    it('should call the challenge datasource with the challenge Id to compose the get solution', function() {
       // given
-      const tableName = 'Epreuves';
       const recordId = 'rec-challengeId';
-      airtable.newGetRecord.resolves({ id: 'rec-challengeId' });
+      const explectedSolution = new Solution({
+        id: 'recwWzTquPlvIl4So',
+        isT1Enabled: true,
+        isT2Enabled: false,
+        isT3Enabled: true,
+        scoring: '1: outilsTexte2\n2: outilsTexte4',
+        type: 'QCM',
+        value: '1, 5'
+      });
+      challengeDatasource.get.resolves(ChallengeAirtableDataModelFixture);
 
       // when
       const promise = solutionRepository.getByChallengeId(recordId);
 
       // then
       return promise.then((result) => {
-        expect(airtable.newGetRecord).to.have.been.calledWith(tableName, recordId);
+        expect(challengeDatasource.get).to.have.been.calledWith(recordId);
         expect(result).to.be.an.instanceof(Solution);
-        expect(result).to.deep.equal(new Solution({ id: 'rec-challengeId' }));
+        expect(result).to.deep.equal(explectedSolution);
       });
     });
   });

@@ -15,7 +15,7 @@ describe('Unit | Infrastructure | Datasource | Airtable | Model | Challenge', ()
         type: 'QCM',
         solution: '1, 5',
         t1Status: 'Activé',
-        t2Status: 'Activé',
+        t2Status: 'Désactivé',
         t3Status: 'Activé',
         scoring: '1: @outilsTexte2\n2: @outilsTexte4',
         status: 'validé',
