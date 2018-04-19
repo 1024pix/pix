@@ -3,7 +3,7 @@ const { NotCompletedAssessmentError } = require('../errors');
 module.exports = function({
   assessmentRepository,
   answerRepository,
-  solutionRepository,
+  correctionRepository,
   answerId
 }) {
   let answer;
@@ -13,7 +13,7 @@ module.exports = function({
     })
     .then(() => assessmentRepository.get(answer.assessmentId))
     .then(_validateAssessmentIsCompleted)
-    .then(() => solutionRepository.getByChallengeId(answer.challengeId));
+    .then(() => correctionRepository.getByChallengeId(answer.challengeId));
 };
 
 function _validateAssessmentIsCompleted(assessment) {

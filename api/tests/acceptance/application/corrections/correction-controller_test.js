@@ -69,10 +69,10 @@ describe('Acceptance | Controller | correction-controller', () => {
       const expectedBody = {
         'data': [{
           'attributes': {
-            'value': 'fromage'
+            'solution': 'fromage'
           },
           'id': 'q_first_challenge',
-          'type': 'solutions'
+          'type': 'corrections'
         }]
       };
 

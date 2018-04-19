@@ -1,12 +1,12 @@
 const { sinon, expect } = require('../../../test-helper');
 const JSONAPIError = require('jsonapi-serializer').Error;
 const usecases = require('../../../../lib/domain/usecases');
-const Solution = require('../../../../lib/domain/models/Solution');
+const Correction = require('../../../../lib/domain/models/Correction');
 const { NotFoundError, NotCompletedAssessmentError } = require('../../../../lib/domain/errors');
 
 const assessmentRepository = require('../../../../lib/infrastructure/repositories/assessment-repository');
 const answerRepository = require('../../../../lib/infrastructure/repositories/answer-repository');
-const solutionRepository = require('../../../../lib/infrastructure/repositories/solution-repository');
+const correctionRepository = require('../../../../lib/infrastructure/repositories/correction-repository');
 
 const correctionsController = require('../../../../lib/application/corrections/corrections-controller');
 
@@ -58,20 +58,20 @@ describe('Unit | Controller | corrections-controller', () => {
       });
     });
 
-    it('should return a serialized solution when usecase returns an array of one solution', () => {
+    it('should return a serialized correction when usecase returns an array of one correction', () => {
       // given
-      const responseSolution = new Solution({
+      const responseCorrection = new Correction({
         id: '234',
-        value: 'This is a solution.'
+        solution: 'This is a correction.'
       });
-      usecases.getCorrectionForAnswerWhenAssessmentEnded.resolves(responseSolution);
+      usecases.getCorrectionForAnswerWhenAssessmentEnded.resolves(responseCorrection);
       const request = _buildRequest('234');
       const expectedResponse = {
         data: [{
-          type: 'solutions',
+          type: 'corrections',
           id: '234',
           attributes: {
-            value: 'This is a solution.'
+            solution: 'This is a correction.'
           }
         }]
       };
@@ -86,7 +86,7 @@ describe('Unit | Controller | corrections-controller', () => {
         expect(usecases.getCorrectionForAnswerWhenAssessmentEnded).to.have.been.calledWith({
           assessmentRepository,
           answerRepository,
-          solutionRepository,
+          correctionRepository,
           answerId: '234'
         });
       });

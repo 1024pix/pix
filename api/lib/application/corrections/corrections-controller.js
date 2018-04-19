@@ -9,9 +9,9 @@ const usecases = require('../../domain/usecases');
 
 const assessmentRepository = require('../../infrastructure/repositories/assessment-repository');
 const answerRepository = require('../../infrastructure/repositories/answer-repository');
-const solutionRepository = require('../../infrastructure/repositories/solution-repository');
+const correctionRepository = require('../../infrastructure/repositories/correction-repository');
 
-const solutionSerializer = require('../../infrastructure/serializers/jsonapi/solution-serializer');
+const correctionSerializer = require('../../infrastructure/serializers/jsonapi/correction-serializer');
 
 function _validateQueryParams(query) {
   return new Promise((resolve, reject) => {
@@ -21,9 +21,6 @@ function _validateQueryParams(query) {
   });
 }
 
-/*
- * This endpoint should probably not exist as solutions should be included as needed into the answers.
- */
 module.exports = {
   find(request, reply) {
     return _validateQueryParams(request.query)
@@ -31,12 +28,12 @@ module.exports = {
         return usecases.getCorrectionForAnswerWhenAssessmentEnded({
           assessmentRepository,
           answerRepository,
-          solutionRepository,
+          correctionRepository,
           answerId: request.query.answerId
         });
       })
-      .then((solution) => Array.of(solution))
-      .then((solutions) => reply(solutionSerializer.serialize(solutions)).code(200))
+      .then((correction) => Array.of(correction))
+      .then((corrections) => reply(correctionSerializer.serialize(corrections)).code(200))
       .catch((error) => {
         if (error instanceof infraErrors.InfrastructureError) {
           return reply(errorSerializer.serialize(error)).code(error.code);
