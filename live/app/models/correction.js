@@ -4,6 +4,7 @@ const { Model, attr } = DS;
 
 export default Model.extend({
 
-  value: attr('string')
+  solution: attr('string'),
+  hint: attr('string')
 
 });

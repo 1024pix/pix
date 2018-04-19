@@ -1,7 +1,6 @@
 import getAnswer from './routes/get-answer';
 import getAnswerByChallengeAndAssessment from './routes/get-answer-by-challenge-and-assessment';
 import getAssessment from './routes/get-assessment';
-import getAssessmentSolutions from './routes/get-assessment-solutions';
 import getAuthenticatedUser from './routes/get-user-me';
 import getChallenge from './routes/get-challenge';
 import getChallenges from './routes/get-challenges';
@@ -11,7 +10,7 @@ import getCoursesOfTheWeek from './routes/get-courses-of-the-week';
 import getNextChallenge from './routes/get-next-challenge';
 import getOrganizations from './routes/get-organizations';
 import getSnapshots from './routes/get-snapshots';
-import getSolutions from './routes/get-solutions';
+import getCorrections from './routes/get-corrections';
 import patchAnswer from './routes/patch-answer';
 import postAnswers from './routes/post-answers';
 import postAssessments from './routes/post-assessments';
@@ -44,7 +43,6 @@ export default function() {
   this.get('/assessments/:id', getAssessment);
   this.get('/assessments/:assessmentId/next/:challengeId', getNextChallenge);
   this.get('/assessments/:assessmentId/next', getNextChallenge);
-  this.get('/assessments/:assessmentId/solutions/:answerId', getAssessmentSolutions);
 
   this.post('/answers', postAnswers);
   this.get('/answers/:id', getAnswer);
@@ -67,7 +65,7 @@ export default function() {
 
   this.get('/organizations', getOrganizations);
 
-  this.get('/solutions', getSolutions);
+  this.get('/corrections', getCorrections);
 
   this.post('/snapshots');
   this.get('/snapshots/:id');

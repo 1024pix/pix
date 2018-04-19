@@ -54,7 +54,7 @@ export default Component.extend(EKMixin, FocusableComponent, {
 
   answer: null,
   challenge: null,
-  solution: null,
+  correction: null,
   index: null,
 
   focusNode: '.routable-modal--close-button',

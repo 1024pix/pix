@@ -1,3 +1,3 @@
 export default function(schema) {
-  return schema.solutions.all();
+  return schema.corrections.all();
 }

@@ -1,7 +1,10 @@
 import { Factory } from 'ember-cli-mirage';
 
 export default Factory.extend({
-  value(i) {
-    return `Solution number ${i}`;
+  solution() {
+    return '2';
+  },
+  hint(i) {
+    return `Hint number ${i}`;
   }
 });

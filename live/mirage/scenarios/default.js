@@ -57,7 +57,7 @@ export default function(server) {
     type : 'CERTIFICATION'
   });
 
-  server.create('solution');
+  server.create('correction');
 
   prescriber.organization = company;
   company.user = prescriber;
