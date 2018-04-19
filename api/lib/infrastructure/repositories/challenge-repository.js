@@ -5,6 +5,7 @@ const serializer = require('../serializers/airtable/challenge-serializer');
 const AIRTABLE_TABLE_NAME = 'Epreuves';
 
 function _fetchChallenge(id, cacheKey, resolve, reject) {
+  // TODO: use the ChallengeDataSource and not directly airtable
   airtable.getRecord(AIRTABLE_TABLE_NAME, id, serializer)
     .then(challenge => {
       cache.set(cacheKey, challenge);
@@ -14,6 +15,7 @@ function _fetchChallenge(id, cacheKey, resolve, reject) {
 }
 
 function _fetchChallenges(cacheKey, resolve, reject, filterFunction) {
+  // TODO: use the ChallengeDataSource and not directly airtable
   airtable.getRecords(AIRTABLE_TABLE_NAME, {}, serializer)
     .then(challenges => {
       const filteredChallenges = challenges.filter(filterFunction);
@@ -44,6 +46,7 @@ module.exports = {
       return Promise.resolve(cachedChallenges);
     }
 
+    // TODO: use the ChallengeDataSource and not directly airtable
     return airtable.getRecords(AIRTABLE_TABLE_NAME, { view: competence.reference }, serializer)
       .then(fetchedChallenges => {
         cache.set(cacheKey, fetchedChallenges);
