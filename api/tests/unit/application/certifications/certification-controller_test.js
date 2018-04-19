@@ -1,5 +1,6 @@
 const { expect, sinon } = require('../../../test-helper');
 const certificationController = require('../../../../lib/application/certifications/certification-controller');
+const certificationRepository = require('../../../../lib/infrastructure/repositories/certification-repository');
 const usecases = require('../../../../lib/domain/usecases');
 const certificationSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/certification-serializer');
 
@@ -25,13 +26,14 @@ describe('Unit | Controller | certifications-controller', () => {
       });
       sinon.stub(usecases, 'findCompletedUserCertifications').resolves(retrievedCertifications);
       sinon.stub(certificationSerializer, 'serializeCertification').returns(serializedCertifications);
+      sinon.stub(certificationRepository);
 
       // when
       const promise = certificationController.findUserCertifications(request, replyStub);
 
       // then
       return promise.then(() => {
-        expect(usecases.findCompletedUserCertifications).to.have.been.calledWith({userId});
+        expect(usecases.findCompletedUserCertifications).to.have.been.calledWith({userId, certificationRepository});
         expect(certificationSerializer.serializeCertification).to.have.been.calledWith(retrievedCertifications);
         expect(replyStub).to.have.been.calledWith(serializedCertifications);
         expect(codeStub).to.have.been.calledWith(200);
