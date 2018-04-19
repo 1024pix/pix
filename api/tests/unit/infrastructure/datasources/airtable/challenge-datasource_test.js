@@ -31,6 +31,7 @@ describe('Unit | Infrastructure | Datasource | Airtable | ChallengeDatasource', 
 
         expect(challenge).to.be.an.instanceof(airTableDataModels.Challenge);
         expect(challenge.id).to.equal('recwWzTquPlvIl4So');
+        expect(challenge.type).to.equal('QCM');
       });
     });
   });
