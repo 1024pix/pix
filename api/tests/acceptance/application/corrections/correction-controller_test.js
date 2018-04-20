@@ -93,7 +93,6 @@ describe('Acceptance | Controller | correction-controller', () => {
       // when
       const promise = server.inject(options);
 
-
       // then
       return promise.then((response) => {
         expect(response.statusCode).to.equal(200);
