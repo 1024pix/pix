@@ -9,19 +9,34 @@ const organizationTypes = [
 
 export default Component.extend({
 
+  // Dependencies
+
   notifications: service('notification-messages'),
+
+  // Attributes
 
   organizationTypes,
 
+  // CPs
+
+  // Hooks
+
   init() {
     this._super(...arguments);
-    this.organization = this._newEmptyOrganization();
+    this.organization = this.organization || this._newEmptyOrganization();
     this.contact = this._newEmptyOrganization();
   },
 
+  // Actions
+
   actions: {
+
+    selectOrganizationType(organizationType) {
+      this.set('selectedOrganizationType', organizationType);
+      this.set('organization.type', organizationType.value);
+    },
+
     submitOrganization() {
-      this.set('organization.type', this.get('selectedOrganizationType.value'));
       const organization = this.get('organization');
       const contact = this.get('contact');
       return this.get('onSubmitOrganization')(organization, contact)
@@ -33,12 +48,9 @@ export default Component.extend({
           this.get('notifications').error('Une erreur est survenue.')
         });
     },
-
-    selectOrganizationType(organizationType) {
-      this.set('selectedOrganizationType', organizationType);
-      this.set('organization.type', organizationType.value);
-    }
   },
+
+  // Methods
 
   _newEmptyOrganization() {
     return { name: null, type: null };

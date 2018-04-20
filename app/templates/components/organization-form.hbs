@@ -12,14 +12,17 @@
     <!-- Organization type -->
     <div class="form-group">
       <label for="organizationType">Type : </label>
-      {{#power-select
-        options=organizationTypes
-        selected=selectedOrganizationType
-        searchEnabled=false
-        onchange=(action "selectOrganizationType")
-      as |organizationType|}}
-        {{organizationType.label}}
-      {{/power-select}}
+      <div id="organizationTypeSelector">
+        {{#power-select
+          options=organizationTypes
+          selected=selectedOrganizationType
+          required=true
+          searchEnabled=false
+          onchange=(action "selectOrganizationType")
+        as |organizationType|}}
+          {{organizationType.label}}
+        {{/power-select}}
+      </div>
     </div>
   </section>
 
@@ -53,6 +56,6 @@
 
   <!-- Form submit button -->
   <section class="form-section form-section--actions">
-    <button class="btn btn-primary" type="submit">Ajouter</button>
+    <button class="form-action form-action--submit btn btn-primary" type="submit">Ajouter</button>
   </section>
 </form>

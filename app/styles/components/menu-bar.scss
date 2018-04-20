@@ -45,13 +45,13 @@
 
         &:hover {
           background-color: #3F3F3F;
-          border-left-color: #ffbe00;
+          border-left: 10px solid #3d68ff;
           text-decoration: none;
         }
 
         &.active {
           font-weight: 600;
-          border-left: 10px solid #3d68ff;
+          border-left-color: #ffbe00;
           background-color: #3F3F3F;
         }
       }

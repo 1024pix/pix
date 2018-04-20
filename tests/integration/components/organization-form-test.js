@@ -1,7 +1,9 @@
 import { module, test, only } from 'qunit';
 import { setupRenderingTest } from 'ember-qunit';
-import { render } from '@ember/test-helpers';
+import { click, fillIn, render } from '@ember/test-helpers';
 import hbs from 'htmlbars-inline-precompile';
+import EmberObject from '@ember/object';
+import { selectChoose } from 'ember-power-select/test-support/helpers';
 
 module('Integration | Component | organization-form', function(hooks) {
   setupRenderingTest(hooks);
@@ -14,15 +16,41 @@ module('Integration | Component | organization-form', function(hooks) {
     assert.dom('.organization-form').exists();
   });
 
-  only('should display error messages panel when one or multiple errors occurred', async function(assert) {
-    // given
-    const errorMessages = ['Erreur A', 'Erreur B', 'Erreur C'];
-    this.set('errorMessages', errorMessages);
+/*
+  module('#submitOrganization', function(hooks) {
 
-    // when
-    await render(hbs`{{organization-form errorMessages=errorMessages}}`);
+    only('', async function(assert) {
+      // given
+      this.set();
+      await render(hbs`{{organization-form}}`);
+      await fillIn('#organizationName', '');
 
-    // then
-    assert.dom('.error-messages-panel').exists();
+      // when
+      await click('.form-action--submit');
+
+      // then
+
+    });
   });
+*/
+
+  module('#selectOrganizationType', function(hooks) {
+
+    test('should update attribute organization.type', async function(assert) {
+      // given
+      let selectedOrganizationType = null;
+      let  organization = EmberObject.create({ type: null });
+      this.set('selectedOrganizationType',selectedOrganizationType);
+      this.set('organization', organization);
+      await render(hbs`{{organization-form selectedOrganizationType=selectedOrganizationType organization=organization}}`);
+
+      // when
+      await selectChoose('#organizationTypeSelector', 'Établissement scolaire');
+
+      // then
+      assert.equal(this.get('selectedOrganizationType.value'), 'SCO');
+      assert.equal(this.get('organization.type'), 'SCO');
+    });
+  });
+
 });
