@@ -8,9 +8,14 @@ module.exports = {
       .where({ userId })
       .fetch({ withRelated: ['session'] })
       .then((certificationCourseBookshelf) => {
+
+        if(!certificationCourseBookshelf) {
+          return [];
+        }
+
         return Promise.resolve([new Certification({
           date: certificationCourseBookshelf.get('completedAt'),
-          certificationCenter: certificationCourseBookshelf.related('session').toJSON().certificationCenter
+          certificationCenter: certificationCourseBookshelf.related('session').get('certificationCenter')
         })]);
       });
   }

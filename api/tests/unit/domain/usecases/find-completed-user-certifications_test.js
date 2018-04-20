@@ -4,15 +4,10 @@ const usecases = require('../../../../lib/domain/usecases');
 
 describe('Unit | UseCase | find-completed-user-certifications', () => {
 
-  let sandbox;
   const certificationRepository = {};
 
   beforeEach(() => {
     certificationRepository.findByUserId = sinon.stub();
-  });
-
-  afterEach(() => {
-
   });
 
   it('should return all the needed informations about certifications', function() {

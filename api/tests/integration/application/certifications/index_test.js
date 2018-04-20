@@ -15,6 +15,7 @@ describe('Integration | Application | Route | Certifications', function() {
   });
 
   afterEach(() => {
+    certificationController.findUserCertifications.restore();
     server.stop();
   });
 
