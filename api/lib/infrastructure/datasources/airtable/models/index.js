@@ -1,3 +1,4 @@
 const Challenge = require('./Challenge');
+const Skill = require('./Skill');
 
-module.exports = { Challenge };
+module.exports = { Challenge, Skill };
