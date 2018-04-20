@@ -10,7 +10,7 @@ class Challenge {
     t3Status,
     scoring,
     status,
-    skillIds
+    skillIds = []
   }) {
     this.id = id;
     this.instruction = instruction;
