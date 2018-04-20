@@ -17,6 +17,10 @@ function _getSkillDataModels(challengeDataModel) {
   return Promise.all(skillDataModelPromises);
 }
 
+function _selectSkillDataModelsWithValidatedHint(skillDataModels) {
+  return skillDataModels.filter((skillDataModel) => skillDataModel.hintStatus === 'Validé');
+}
+
 module.exports = {
 
   getByChallengeId(challengeId) {
@@ -24,6 +28,7 @@ module.exports = {
       .then((challengeDataModel) => {
 
         return _getSkillDataModels(challengeDataModel)
+          .then(_selectSkillDataModelsWithValidatedHint)
           .then(_convertSkillDataModelsToHints)
           .then((hints) => {
             return new Correction({

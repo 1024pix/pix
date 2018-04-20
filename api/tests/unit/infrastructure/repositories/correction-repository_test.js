@@ -39,15 +39,21 @@ describe('Unit | Repository | correction-repository', function() {
     beforeEach(() => {
       // given
       const challengeDataModel = ChallengeAirtableDataModelFixture();
-      challengeDataModel.skillIds = ['recIdSkill001', 'recIdSkill002'];
+      challengeDataModel.skillIds = ['recIdSkill001', 'recIdSkill002', 'recIdSkill003'];
       const skillDataModel1 = SkillAirtableDataModelFixture();
       skillDataModel1.name = '@web3';
+      skillDataModel1.hintStatus = 'Validé';
       const skillDataModel2 = SkillAirtableDataModelFixture();
       skillDataModel2.name = '@web2';
+      skillDataModel2.hintStatus = 'Validé';
+      const skillDataModel3 = SkillAirtableDataModelFixture();
+      skillDataModel3.name = '@web1';
+      skillDataModel3.hintStatus = 'Proposé';
 
       challengeDatasource.get.resolves(challengeDataModel);
       skillDatasource.get.onFirstCall().resolves(skillDataModel1);
       skillDatasource.get.onSecondCall().resolves(skillDataModel2);
+      skillDatasource.get.onThirdCall().resolves(skillDataModel3);
 
       // when
       promise = correctionRepository.getByChallengeId(recordId);
@@ -62,12 +68,11 @@ describe('Unit | Repository | correction-repository', function() {
       });
     });
 
-    it('should return the correction with hints', function() {
+    it('should return the correction with hints that are validated', function() {
       // then
       return promise.then((result) => {
         result.hints.forEach((hint) => expect(hint).to.be.an.instanceof(Hint));
         expect(result.hints).to.deep.equal(expectedHints);
-
       });
     });
   });
