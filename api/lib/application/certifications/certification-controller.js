@@ -5,9 +5,12 @@ const certificationRepository = require('../../infrastructure/repositories/certi
 module.exports = {
   findUserCertifications(request, reply) {
     const userId = request.auth.credentials.userId;
-    return usecases.findCompletedUserCertifications({userId, certificationRepository})
+    return usecases.findCompletedUserCertifications({ userId, certificationRepository })
       .then(certifications => {
         reply(certificationSerializer.serializeCertification(certifications)).code(200);
+      })
+      .catch(err => {
+        console.log(err);
       });
   }
-}
+};

@@ -33,7 +33,7 @@ describe('Unit | Controller | certifications-controller', () => {
 
       // then
       return promise.then(() => {
-        expect(usecases.findCompletedUserCertifications).to.have.been.calledWith({userId, certificationRepository});
+        expect(usecases.findCompletedUserCertifications).to.have.been.calledWith({ userId, certificationRepository });
         expect(certificationSerializer.serializeCertification).to.have.been.calledWith(retrievedCertifications);
         expect(replyStub).to.have.been.calledWith(serializedCertifications);
         expect(codeStub).to.have.been.calledWith(200);

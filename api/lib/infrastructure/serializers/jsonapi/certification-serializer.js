@@ -11,8 +11,10 @@ module.exports = {
     }).serialize(certificationCourse);
   },
 
-  serializeCertification() {
-    return {};
+  serializeCertification(certificationsList) {
+    return new Serializer('certifications', {
+      attributes: ['certificationCenter', 'date']
+    }).serialize(certificationsList);
   },
 
   deserialize(json) {

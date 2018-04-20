@@ -9,8 +9,8 @@ module.exports = {
       .fetch({ withRelated: ['session'] })
       .then((certificationCourseBookshelf) => {
         return Promise.resolve([new Certification({
-          date : certificationCourseBookshelf.get('completedAt'),
-          certificationCenter : certificationCourseBookshelf.related('session').toJSON().certificationCenter
+          date: certificationCourseBookshelf.get('completedAt'),
+          certificationCenter: certificationCourseBookshelf.related('session').toJSON().certificationCenter
         })]);
       });
   }

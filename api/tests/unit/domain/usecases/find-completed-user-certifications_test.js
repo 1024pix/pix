@@ -5,7 +5,7 @@ const usecases = require('../../../../lib/domain/usecases');
 describe('Unit | UseCase | find-completed-user-certifications', () => {
 
   let sandbox;
-  let certificationRepository = {};
+  const certificationRepository = {};
 
   beforeEach(() => {
     certificationRepository.findByUserId = sinon.stub();
@@ -18,7 +18,7 @@ describe('Unit | UseCase | find-completed-user-certifications', () => {
   it('should return all the needed informations about certifications', function() {
     // given
     const userId = 1;
-    const certification = new Certification({ date: '14/08/2018', certificationCenter: 'Université du Pix'});
+    const certification = new Certification({ date: '14/08/2018', certificationCenter: 'Université du Pix' });
     certificationRepository.findByUserId.resolves([certification]);
 
     // when

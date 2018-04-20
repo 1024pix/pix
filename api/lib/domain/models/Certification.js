@@ -1,6 +1,6 @@
 class Certification {
 
-  constructor({ date, certificationCenter} = {}) {
+  constructor({ date, certificationCenter } = {}) {
     this.date = date;
     this.certificationCenter = certificationCenter;
   }

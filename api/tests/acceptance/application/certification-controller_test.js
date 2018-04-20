@@ -1,6 +1,5 @@
 const { expect, generateValidRequestAuhorizationHeader } = require('../../test-helper');
 const server = require('../../../server');
-const _ = require('lodash');
 
 describe('Acceptance | API | Certifications', () => {
 
@@ -22,7 +21,6 @@ describe('Acceptance | API | Certifications', () => {
         expect(response.statusCode).to.equal(200);
       });
     });
-
 
     it('should return 401 HTTP status code if certification not found', () => {
       // given
