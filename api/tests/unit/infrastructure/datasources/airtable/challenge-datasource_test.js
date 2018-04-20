@@ -20,7 +20,7 @@ describe('Unit | Infrastructure | Datasource | Airtable | ChallengeDatasource', 
 
     it('should call airtable on Epreuves table with the id and return a datamodel Challenge object', () => {
       // given
-      sandbox.stub(airtable, 'newGetRecord').resolves(challengeRawAirTableFixture);
+      sandbox.stub(airtable, 'newGetRecord').resolves(challengeRawAirTableFixture());
 
       // when
       const promise = challengeDatasource.get('243');

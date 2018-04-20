@@ -31,7 +31,7 @@ describe('Unit | Repository | solution-repository', function() {
         type: 'QCM',
         value: '1, 5'
       });
-      challengeDatasource.get.resolves(ChallengeAirtableDataModelFixture);
+      challengeDatasource.get.resolves(ChallengeAirtableDataModelFixture());
 
       // when
       const promise = solutionRepository.getByChallengeId(recordId);
