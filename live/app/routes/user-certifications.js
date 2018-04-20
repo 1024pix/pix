@@ -13,7 +13,7 @@ export default Route.extend(AuthenticatedRouteMixin, {
   },
 
   actions: {
-    error() {
+    error(err) {
       this.transitionTo('compte');
     }
   }

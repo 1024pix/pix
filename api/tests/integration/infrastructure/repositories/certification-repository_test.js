@@ -77,6 +77,7 @@ describe('Integration | Repository | Certification ', function() {
           expect(certifications).to.be.an('array');
           expect(certifications.length).to.equal(1);
           expect(certifications[0]).to.be.an.instanceOf(Certification);
+          expect(certifications[0].id).not.to.be.undefined;
           expect(certifications[0].certificationCenter).to.equal('Université du Pix');
           expect(certifications[0].date).to.equal('01/02/2004');
         });

@@ -14,6 +14,7 @@ module.exports = {
         }
 
         return Promise.resolve([new Certification({
+          id: certificationCourseBookshelf.get('id'),
           date: certificationCourseBookshelf.get('completedAt'),
           certificationCenter: certificationCourseBookshelf.related('session').get('certificationCenter')
         })]);
