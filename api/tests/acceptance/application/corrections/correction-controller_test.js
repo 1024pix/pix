@@ -22,7 +22,20 @@ describe('Acceptance | Controller | correction-controller', () => {
                 'Statut': 'validé',
                 'competences': ['competence_id'],
                 'acquis': ['@web3'],
-                'Bonnes réponses': 'fromage'
+                'Bonnes réponses': 'fromage',
+                'Acquix': ['q_first_acquis']
+              }
+            });
+          nock('https://api.airtable.com')
+            .get('/v0/test-base/Acquis/q_first_acquis')
+            .query(true)
+            .times(2)
+            .reply(200, {
+              'id': 'q_first_acquis',
+              'fields': {
+                'Nom': '@web3',
+                'Indice': 'Indice web3',
+                'Statut de l\'indice': 'Validé'
               }
             });
         });
@@ -69,7 +82,8 @@ describe('Acceptance | Controller | correction-controller', () => {
       const expectedBody = {
         'data': [{
           'attributes': {
-            'solution': 'fromage'
+            'solution': 'fromage',
+            'hint': 'Indice web3'
           },
           'id': 'q_first_challenge',
           'type': 'corrections'
@@ -78,6 +92,7 @@ describe('Acceptance | Controller | correction-controller', () => {
 
       // when
       const promise = server.inject(options);
+
 
       // then
       return promise.then((response) => {

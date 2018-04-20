@@ -2,6 +2,7 @@ const { sinon, expect } = require('../../../test-helper');
 const JSONAPIError = require('jsonapi-serializer').Error;
 const usecases = require('../../../../lib/domain/usecases');
 const Correction = require('../../../../lib/domain/models/Correction');
+const Hint = require('../../../../lib/domain/models/Hint');
 const { NotFoundError, NotCompletedAssessmentError } = require('../../../../lib/domain/errors');
 
 const assessmentRepository = require('../../../../lib/infrastructure/repositories/assessment-repository');
@@ -62,7 +63,10 @@ describe('Unit | Controller | corrections-controller', () => {
       // given
       const responseCorrection = new Correction({
         id: '234',
-        solution: 'This is a correction.'
+        solution: 'This is a correction.',
+        hints: [
+          new Hint({ skillName: '@test1', value: 'Indice Facile' })
+        ]
       });
       usecases.getCorrectionForAnswerWhenAssessmentEnded.resolves(responseCorrection);
       const request = _buildRequest('234');
@@ -71,7 +75,8 @@ describe('Unit | Controller | corrections-controller', () => {
           type: 'corrections',
           id: '234',
           attributes: {
-            solution: 'This is a correction.'
+            solution: 'This is a correction.',
+            hint: 'Indice Facile'
           }
         }]
       };

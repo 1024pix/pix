@@ -1,6 +1,7 @@
 const { expect } = require('../../../../test-helper');
 const serializer = require('../../../../../lib/infrastructure/serializers/jsonapi/correction-serializer');
 const Correction = require('../../../../../lib/domain/models/Correction');
+const Hint = require('../../../../../lib/domain/models/Hint');
 
 describe('Unit | Serializer | JSONAPI | correction-serializer', function() {
 
@@ -10,7 +11,11 @@ describe('Unit | Serializer | JSONAPI | correction-serializer', function() {
 
       const correction = new Correction({
         id: 'correction_id',
-        solution: 'Correction value'
+        solution: 'Correction value',
+        hints: [
+          new Hint({ skillName: '@test2', value: 'Indice moins Facile' }),
+          new Hint({ skillName: '@test1', value: 'Indice Facile' })
+        ]
       });
 
       // when
@@ -20,14 +25,13 @@ describe('Unit | Serializer | JSONAPI | correction-serializer', function() {
       expect(json).to.deep.equal({
         data: {
           type: 'corrections',
-          id: correction.id,
+          id: 'correction_id',
           attributes: {
-            solution: correction.solution
+            solution: 'Correction value',
+            hint: 'Indice Facile'
           }
         }
       });
     });
-
   });
-
 });
