@@ -4,12 +4,6 @@ const _ = require('../../../lib/infrastructure/utils/lodash-utils');
 
 module.exports = {
 
-  // TODO: delete Or replace by get(solutionId) --> same behaviour than getByChallengeId
-  /**
-   * @deprecated use getByChallengeId function instead
-   */
-  get: this.getByChallengeId,
-
   getByChallengeId(challengeId) {
     return challengeDatasource.get(challengeId)
       .then((challengeDataModel) => {
