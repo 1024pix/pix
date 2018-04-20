@@ -124,9 +124,10 @@ jobs:
       - restore_cache:
           keys:
             - v1-server-dependencies-{{ checksum "package.json" }}
+      - add_ssh_keys:
+          fingerprints:
+            - "77:2f:5f:ff:39:d2:c5:1d:89:69:be:4c:0b:ef:33:34"
       - run: |
-          mkdir -p ~/.ssh
-          touch ~/.ssh/known_hosts
           ssh-keyscan pix-app.ovh >> ~/.ssh/known_hosts
           git config user.email "jbuget@gmail.com"
           git config user.name "Jérémy Buget"
@@ -235,9 +236,10 @@ jobs:
             - v1-client-dependencies-{{ checksum "package.json" }}
       - attach_workspace:
           at: ~/pix/live
+      - add_ssh_keys:
+          fingerprints:
+            - "7b:e6:22:38:43:3e:e5:32:6c:e1:25:41:0e:28:a7:7e"
       - run: |
-          mkdir -p ~/.ssh
-          touch ~/.ssh/known_hosts
           ssh-keyscan github.com >> ~/.ssh/known_hosts
           git config user.email "jbuget@gmail.com"
           git config user.name "Jérémy Buget"
