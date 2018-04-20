@@ -1,10 +1,9 @@
 class Correction {
 
-  constructor({
-    id, solution
-  } = {}) {
+  constructor({ id, solution, hints = [] } = {}) {
     this.id = id;
     this.solution = solution;
+    this.hints = hints;
   }
 }
 

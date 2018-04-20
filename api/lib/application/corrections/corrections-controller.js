@@ -22,6 +22,7 @@ function _validateQueryParams(query) {
 }
 
 module.exports = {
+
   find(request, reply) {
     return _validateQueryParams(request.query)
       .then(() => {
