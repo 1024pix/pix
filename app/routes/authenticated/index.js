@@ -5,7 +5,7 @@ export default Route.extend(AuthenticatedRouteMixin, {
 
   beforeModel() {
     this._super(...arguments);
-    this.transitionTo('authenticated.organizations.new');
+    this.transitionTo('authenticated.organizations.list');
   }
 
 });
