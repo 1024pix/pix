@@ -23,8 +23,8 @@ export default Component.extend({
 
   init() {
     this._super(...arguments);
-    this.organization = this.organization || this._newEmptyOrganization();
-    this.contact = this._newEmptyOrganization();
+    this.organization = this.organization || {};
+    this.contact = this.contact || {};
   },
 
   // Actions
@@ -52,17 +52,9 @@ export default Component.extend({
 
   // Methods
 
-  _newEmptyOrganization() {
-    return { name: null, type: null };
-  },
-
-  _newEmptyContact() {
-    return { firstName: null, lastName: null, email: null, password: null };
-  },
-
   _resetFields() {
-    this.set('organization', this._newEmptyOrganization());
-    this.set('contact', this._newEmptyContact());
+    this.set('organization', {});
+    this.set('contact', {});
     this.set('selectedOrganizationType', null);
   }
 
