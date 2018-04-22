@@ -1,5 +1,7 @@
-<ul>
-  {{#each model as |organization|}}
-    <li>{{organization.name}} {{organization.email}} {{organization.type}} {{organization.code}}</li>
-  {{/each}}
-</ul>
+<h1 class="page-title">Organisations</h1>
+<section class="page-section">
+  {{organization-list organizations=model}}
+</section>
+
+
+
