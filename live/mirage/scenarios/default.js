@@ -59,7 +59,7 @@ export default function(server) {
 
   server.create('certification', {
     id: '1',
-    date: '14/08/1993',
+    date: new Date('2018-02-15T15:15:52.504Z'),
     status: 'completed',
     score: '3789',
     certificationCenter: 'Université de Paris',
@@ -67,7 +67,7 @@ export default function(server) {
 
   server.create('certification', {
     id: '2',
-    date: '11/07/2000',
+    date: new Date('2018-02-15T15:15:52.504Z'),
     status: 'completed',
     score: '3789101',
     certificationCenter: 'Université de Lyon',

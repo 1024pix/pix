@@ -118,6 +118,13 @@
   height: 50px;
 }
 
+.user-menu-item__certification-link a{
+  color: $dove-gray;
+  font-family: $font-lato;
+  font-size: 13px;
+}
+
+
 .user-menu-item__logout {
   display: flex;
   align-items: center;

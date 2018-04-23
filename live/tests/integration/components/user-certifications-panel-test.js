@@ -31,16 +31,14 @@ describe('Integration | Component | user certifications panel', function() {
       // given
       const certification1 = EmberObject.create({
         id: 1,
-        date: '14/08/2018',
+        date: '2018-02-15T15:15:52.504Z',
         status: 'completed',
-        score: '123',
         certificationCenter: 'Université de Paris'
       });
       const certification2 = EmberObject.create({
         id: 2,
-        date: '11/07/2017',
+        date: '2018-02-15T15:15:52.504Z',
         status: 'completed',
-        score: '456',
         certificationCenter: 'Université de Lyon'
       });
       const certifications = [certification1, certification2];
