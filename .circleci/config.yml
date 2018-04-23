@@ -114,7 +114,7 @@ jobs:
           npm run lint
           npm test
 
-  deploy_server:
+  deploy_server_on_dokku:
     <<: *server_properties
     steps:
       - run: echo $CIRCLE_SHA1 > .circle-sha
@@ -132,12 +132,27 @@ jobs:
           git config user.email "jbuget@gmail.com"
           git config user.name "Jérémy Buget"
       - deploy:
-          command: |
-            if [ "${CIRCLE_BRANCH}" == "dev" ]; then
-              npm run deploy:staging
-            else
-              npm run deploy:integration
-            fi
+          command: npm run deploy:integration $CIRCLE_BRANCH
+
+  deploy_server_on_scalingo:
+    <<: *server_properties
+    steps:
+      - run: echo $CIRCLE_SHA1 > .circle-sha
+      - restore_cache:
+          keys:
+            - v1-pix-{{ checksum ".circle-sha" }}
+      - restore_cache:
+          keys:
+            - v1-server-dependencies-{{ checksum "package.json" }}
+      - add_ssh_keys:
+          fingerprints:
+            - "d8:07:94:de:70:24:96:32:7f:e0:ac:e6:80:dd:0e:9a"
+      - run: |
+          ssh-keyscan scalingo.com >> ~/.ssh/known_hosts
+          git config user.email "jbuget@gmail.com"
+          git config user.name "Jérémy Buget"
+      - deploy:
+          command: npm run deploy:staging
 
   # Client side
 
@@ -268,14 +283,22 @@ workflows:
       - test_server:
           requires:
             - build_server
-      - deploy_server:
+      - deploy_server_on_dokku:
           requires:
             - test_server
           filters:
             branches:
               ignore:
                 - master
+                - dev
                 - gh-pages
+      - deploy_server_on_scalingo:
+          requires:
+            - test_server
+          filters:
+            branches:
+              only:
+                - dev
 
       # Client side
       - install_client_dependencies:
@@ -307,7 +330,8 @@ workflows:
       - add_review_app_url_to_trello_card:
           requires:
             - deploy_client
-            - deploy_server
+            - deploy_server_on_dokku
+            - deploy_server_on_scalingo
           filters:
             branches:
               ignore:
@@ -322,7 +346,8 @@ workflows:
       - signal_pr_deployment_to_github:
           requires:
             - deploy_client
-            - deploy_server
+            - deploy_server_on_dokku
+            - deploy_server_on_scalingo
           filters:
             branches:
               ignore:
