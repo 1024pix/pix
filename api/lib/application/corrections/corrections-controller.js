@@ -44,7 +44,7 @@ module.exports = {
         if (error instanceof domainErrors.NotFoundError) {
           const jsonApiError = new JSONAPIError({
             code: '404',
-            title: 'Not Found Error',
+            title: 'Not Found',
             detail: error.message
           });
           return reply(jsonApiError).code(404);
@@ -52,7 +52,7 @@ module.exports = {
         if (error instanceof domainErrors.NotCompletedAssessmentError) {
           const jsonApiError = new JSONAPIError({
             code: '409',
-            title: 'Assessment Not Completed Error',
+            title: 'Assessment Not Completed',
             detail: error.message
           });
           return reply(jsonApiError).code(409);
