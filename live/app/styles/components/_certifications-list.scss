@@ -3,7 +3,7 @@
 
   background-color: transparent;
   justify-content: space-around;
-  font-size: 9px;
+  font-size: 10px;
   color: $charcoal-grey;
   font-family: $font-raleway;
 
@@ -44,15 +44,25 @@
 .certifications-list__certification-item {
   border-bottom: 1px solid $gainsboro;
   height: 30px;
+  color:$gray;
 
   @include device-is('tablet') {
     height: 60px;
-    font-size: 14px;
+    font-size: 16px;
+  }
+}
+
+.certifications-list__certification-item-cell__hourglass-img {
+  height: 8px;
+  margin-bottom: 1px;
+
+  @include device-is('tablet') {
+    height: 12px;
+    margin-bottom: 3px;
   }
 }
 
 .certifications-list__certification-item-cell {
   padding: 5px;
   text-align: center;
-
 }
