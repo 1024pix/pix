@@ -30,7 +30,7 @@ describe('Unit | Controller | corrections-controller', () => {
     sandbox.restore();
   });
 
-  describe('#find', () => {
+  describe('#findByAnswerId', () => {
 
     function _buildRequest(answerId) {
       return {
@@ -50,7 +50,7 @@ describe('Unit | Controller | corrections-controller', () => {
       });
 
       // when
-      const promise = correctionsController.find(request, replyStub);
+      const promise = correctionsController.findByAnswerId(request, replyStub);
 
       // then
       return promise.then(() => {
@@ -82,7 +82,7 @@ describe('Unit | Controller | corrections-controller', () => {
       };
 
       // when
-      const promise = correctionsController.find(request, replyStub);
+      const promise = correctionsController.findByAnswerId(request, replyStub);
 
       // then
       return promise.then(() => {
@@ -110,7 +110,7 @@ describe('Unit | Controller | corrections-controller', () => {
       usecases.getCorrectionForAnswerWhenAssessmentEnded.rejects(responseError);
 
       // when
-      const promise = correctionsController.find(request, replyStub);
+      const promise = correctionsController.findByAnswerId(request, replyStub);
 
       // then
       return promise.then(() => {
@@ -132,7 +132,7 @@ describe('Unit | Controller | corrections-controller', () => {
       usecases.getCorrectionForAnswerWhenAssessmentEnded.rejects(responseError);
 
       // when
-      const promise = correctionsController.find(request, replyStub);
+      const promise = correctionsController.findByAnswerId(request, replyStub);
 
       // then
       return promise.then(() => {

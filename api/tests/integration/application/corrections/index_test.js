@@ -8,7 +8,7 @@ describe('Integration | Application | Route | Corrections ', () => {
 
   beforeEach(() => {
     // stub dependencies
-    sinon.stub(correctionsController, 'find').callsFake((request, reply) => reply('ok'));
+    sinon.stub(correctionsController, 'findByAnswerId').callsFake((request, reply) => reply('ok'));
 
     // configure and start server
     server = new Hapi.Server();
@@ -18,7 +18,7 @@ describe('Integration | Application | Route | Corrections ', () => {
 
   afterEach(() => {
     server.stop();
-    correctionsController.find.restore();
+    correctionsController.findByAnswerId.restore();
   });
 
   describe('GET /api/corrections?answerId=234', () => {

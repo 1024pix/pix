@@ -8,7 +8,7 @@ exports.register = function(server, options, next) {
       path: '/api/corrections',
       config: {
         auth: false,
-        handler: correctionsController.find,
+        handler: correctionsController.findByAnswerId,
         tags: ['api']
       }
     }

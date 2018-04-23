@@ -14,16 +14,17 @@ const correctionRepository = require('../../infrastructure/repositories/correcti
 const correctionSerializer = require('../../infrastructure/serializers/jsonapi/correction-serializer');
 
 function _validateQueryParams(query) {
-  return new Promise((resolve, reject) => {
-    if (typeof query.answerId === 'undefined')
-      reject(new infraErrors.MissingQueryParamError('answerId'));
+  return new Promise((resolve) => {
+    if (typeof query.answerId === 'undefined') {
+      throw new infraErrors.MissingQueryParamError('answerId');
+    }
     resolve();
   });
 }
 
 module.exports = {
 
-  find(request, reply) {
+  findByAnswerId(request, reply) {
     return _validateQueryParams(request.query)
       .then(() => {
         return usecases.getCorrectionForAnswerWhenAssessmentEnded({
@@ -36,6 +37,7 @@ module.exports = {
       .then((correction) => Array.of(correction))
       .then((corrections) => reply(correctionSerializer.serialize(corrections)).code(200))
       .catch((error) => {
+        // TODO: factoriser la gestion des erreurs
         if (error instanceof infraErrors.InfrastructureError) {
           return reply(errorSerializer.serialize(error)).code(error.code);
         }
