@@ -19,9 +19,7 @@
       <div class="tutorial-panel__hint-picto-container">
         <img src="{{rootURL}}/images/comparison-window/icon-lampe.svg" alt="" class="tutorial-panel__hint-picto">
       </div>
-      <div class="tutorial-panel__hint-content">
-        {{hint}}
-      </div>
+      {{markdown-to-html class="tutorial-panel__hint-content" markdown=hint}}
     </div>
   </div>
 {{/if}}
