@@ -6,18 +6,26 @@ module.exports = {
   findByUserId(userId) {
     return CertificationCourseBookshelf
       .where({ userId })
-      .fetch({ withRelated: ['session'] })
-      .then((certificationCourseBookshelf) => {
+      .fetchAll({ withRelated: ['session', 'assessment'] })
+      .then((certificationCoursesBookshelf) => {
 
-        if(!certificationCourseBookshelf) {
+        if (!certificationCoursesBookshelf) {
           return [];
         }
 
-        return Promise.resolve([new Certification({
-          id: certificationCourseBookshelf.get('id'),
-          date: certificationCourseBookshelf.get('completedAt'),
-          certificationCenter: certificationCourseBookshelf.related('session').get('certificationCenter')
-        })]);
+        const certifications = [];
+
+        certificationCoursesBookshelf.map((certificationCourseBookshelf) => {
+          if (certificationCourseBookshelf.related('assessment').get('state') === 'completed') {
+            certifications.push(new Certification({
+              id: certificationCourseBookshelf.get('id'),
+              date: certificationCourseBookshelf.get('completedAt'),
+              certificationCenter: certificationCourseBookshelf.related('session').get('certificationCenter')
+            }));
+          }
+        });
+
+        return Promise.resolve(certifications);
       });
   }
 };
