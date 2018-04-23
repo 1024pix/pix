@@ -5,7 +5,7 @@ const papa = require('papaparse');
 
 const CSV_HEADERS = {
   ID: 'ID de certification',
-  FIRST_NAME: 'Prénom du candidat',
+  FIRST_NAME: 'Prenom du candidat',
   LAST_NAME: 'Nom du candidat',
   BIRTHDATE: 'Date de naissance du candidat',
   BIRTHPLACE: 'Lieu de naissance du candidat',

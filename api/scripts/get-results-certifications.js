@@ -7,10 +7,10 @@ const json2csv = require('json2csv');
 const moment = require('moment-timezone');
 
 const HEADERS = [
-  'Numero certification', 'Numero de session', 'Date de début', 'Date de fin',
-  'Status de la session', 'Note Pix',
-  'Prénom', 'Nom', 'Date de naissance', 'Lieu de naissance',
-  'Commentaire pour le candidat', 'Commentaire pour l\'organisation', 'Commentaire du jury', 'Identifiant Externe',
+  'ID de certification',
+  'Prenom du candidat', 'Nom du candidat', 'Date de naissance du candidat', 'Lieu de naissance du candidat', 'Identifiant Externe',
+  'Statut de la certification', 'ID de session', 'Date de debut', 'Date de fin',
+  'Commentaire pour le candidat', 'Commentaire pour l\'organisation', 'Commentaire pour le jury', 'Note Pix',
   '1.1', '1.2', '1.3',
   '2.1', '2.2', '2.3', '2.4',
   '3.1', '3.2', '3.3', '3.4',
@@ -54,22 +54,29 @@ function toCSVRow(rowJSON) {
   const res = {};
 
   const [id,
-    sessionNumber,
-    dateStart,
-    dateEnd,
-    status,
-    note,
     firstname,
     lastname,
     birthdate,
     birthplace,
+    externalId,
+    status,
+    sessionNumber,
+    dateStart,
+    dateEnd,
     commentCandidate,
     commentOrganization,
     commentJury,
-    externalId,
+    note,
     ...competencess] = HEADERS;
 
   res[id] = certificationData['certification-id'];
+  res[firstname] = certificationData['first-name'];
+  res[lastname] = certificationData['last-name'];
+  res[birthdate] = certificationData['birthdate'];
+  res[birthplace] = certificationData['birthplace'];
+  res[externalId] = certificationData['external-id'];
+  res[status] = certificationData['status'];
+
   res[sessionNumber] = certificationData['session-id'];
 
   res[dateStart] = moment.utc(certificationData['created-at']).tz('Europe/Paris').format('DD/MM/YYYY HH:mm:ss');
@@ -79,16 +86,11 @@ function toCSVRow(rowJSON) {
     res[dateEnd] = '';
   }
 
-  res[status] = certificationData['status'];
-  res[note] = certificationData['pix-score'];
-  res[firstname] = certificationData['first-name'];
-  res[lastname] = certificationData['last-name'];
-  res[birthdate] = certificationData['birthdate'];
-  res[birthplace] = certificationData['birthplace'];
   res[commentCandidate] = certificationData['comment-for-candidate'];
   res[commentOrganization] = certificationData['comment-for-organization'];
   res[commentJury] = certificationData['comment-for-jury'];
-  res[externalId] = certificationData['external-id'];
+
+  res[note] = certificationData['pix-score'];
 
   competencess.forEach(column => {
     res[column] = findCompetence(certificationData['competences-with-mark'], column);
@@ -119,6 +121,7 @@ function main() {
     })
     .catch((err) => {
       if (err.statusCode === 404) {
+        console.log(err);
         throw new Error(`L'id session n'existe pas`);
       }
     })
