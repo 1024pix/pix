@@ -17,14 +17,14 @@ import postAssessments from './routes/post-assessments';
 import postAuthentications from './routes/post-authentications';
 import postCertificationCourse from './routes/post-certification-course';
 import postFeedbacks from './routes/post-feedbacks';
-import postRefreshSolution from './routes/post-refresh-solution';
 
 import { Response } from 'ember-cli-mirage';
 
 export default function() {
   this.logging = false;
   this.passthrough('/write-coverage');
-  this.post('https://fonts.googleapis.com/**', () => {});
+  this.post('https://fonts.googleapis.com/**', () => {
+  });
 
   this.urlPrefix = 'http://localhost:3000';
   this.namespace = '/api';
@@ -35,8 +35,6 @@ export default function() {
 
   this.get('/challenges', getChallenges);
   this.get('/challenges/:id', getChallenge);
-
-  this.post('/challenges/:challengeId/solution', postRefreshSolution);
 
   this.post('/assessments', postAssessments);
   this.get('/assessments');
@@ -74,6 +72,8 @@ export default function() {
   this.post('/followers');
   this.post('/users');
   this.post('/assessment-results');
+
+  this.del('/cache');
 
   this.post('/password-reset-demands', (schema, request) => {
     const attrs = JSON.parse(request.requestBody);
