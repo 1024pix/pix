@@ -75,11 +75,13 @@ module.exports = {
       .then((assessment) => {
 
         if (assessmentService.isCertificationAssessment(assessment)) {
+          console.log('Controller - if isCertificationAssessment(assessment)');
           return assessmentService
             .getNextChallengeForCertificationCourse(assessment)
             .then((challenge) => challenge.challengeId);
         }
 
+        console.log('Controller - If Demo / Placement / Preview');
         return assessmentService.getAssessmentNextChallengeId(assessment, request.params.challengeId);
       })
       .then(challengeRepository.get)

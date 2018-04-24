@@ -21,6 +21,7 @@ const { NotFoundError, AssessmentEndedError } = require('../../domain/errors');
 
 function _selectNextInAdaptiveMode(assessment, course) {
 
+  // FIXME: Extraire dans une méthode dédiée aux tests adaptatifs
   let answers, challenges, competence;
 
   return answerRepository.findByAssessment(assessment.id)
@@ -34,6 +35,8 @@ function _selectNextInAdaptiveMode(assessment, course) {
 }
 
 function _selectNextInNormalMode(currentChallengeId, challenges) {
+
+  // FIXME: Extraire dans une méthode dédiée aux tests "COURSE"
 
   /*
    * example : - if challenges is ["1st_challenge", "2nd_challenge", "3rd_challenge", "4th_challenge"]
@@ -51,19 +54,23 @@ function _selectNextChallengeId(course, currentChallengeId, assessment) {
   const challenges = course.challenges;
 
   if (course.isAdaptive) {
+    console.log('service - if isAdaptive');
     return Promise.resolve(_selectNextInAdaptiveMode(assessment, course));
   }
 
   if (!currentChallengeId) { // no currentChallengeId means the test has not yet started
+    console.log('service - DEMO - if no currentChallengeId');
     return Promise.resolve(challenges[0]);
   }
 
+  console.log('service - DEMO - if normalMode');
   return Promise.resolve(_selectNextInNormalMode(currentChallengeId, challenges));
 }
 
 function getAssessmentNextChallengeId(assessment, currentChallengeId) {
 
   if (isPreviewAssessment(assessment)) {
+    console.log('service - PREVIEW');
     return Promise.reject(new AssessmentEndedError());
   }
 
@@ -334,6 +341,7 @@ function isPlacementAssessment(assessment) {
 }
 
 function getNextChallengeForCertificationCourse(assessment) {
+  console.log('service - getNextChallengeForCertificationCourse');
   return certificationChallengeRepository.getNonAnsweredChallengeByCourseId(
     assessment.id, assessment.courseId
   );
