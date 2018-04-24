@@ -2,6 +2,7 @@ const usecases = require('../../domain/usecases');
 const certificationSerializer = require('../../infrastructure/serializers/jsonapi/certification-serializer');
 const certificationRepository = require('../../infrastructure/repositories/certification-repository');
 const logger = require('../../infrastructure/logger');
+const Boom = require('boom');
 
 module.exports = {
   findUserCertifications(request, reply) {
@@ -12,6 +13,7 @@ module.exports = {
       })
       .catch(err => {
         logger.error(err);
+        reply(Boom.badImplementation(err));
       });
   }
 };
