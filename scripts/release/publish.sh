@@ -1,74 +1,37 @@
 #!/usr/bin/env bash
 
-set -e # https://www.gnu.org/software/bash/manual/bashref.html#The-Set-Builtin
+set -e
 set -o pipefail
+source $(dirname $0)/common.sh
 
-# Set colors
-RESET_COLOR="$(tput sgr0)"
-BOLD=$(tput smso)
-OFFBOLD=$(tput rmso)
+PACKAGE_VERSION=$(get_package_version)
 
-# Colors (bold)
-RED="$(tput bold ; tput setaf 1)"
-GREEN="$(tput bold ; tput setaf 2)"
-YELLOW="$(tput bold ; tput setaf 3)"
-BLUE="$(tput bold ; tput setaf 4)"
-CYAN="$(tput bold ; tput setaf 6)"
+function push_commit_to_remote_dev {
+    git push origin dev
+}
 
-# Creates new release branch
-# https://gist.github.com/DarrenN/8c6a5b969481725a4413
-PACKAGE_VERSION=$(cat package.json \
-  | grep version \
-  | head -1 \
-  | awk -F: '{ print $2 }' \
-  | sed 's/[",]//g' \
-  | tr -d '[[:space:]]')
+function checkout_master {
+    git checkout master >> /dev/null 2>&1
+}
 
-echo -e "Beginning release pulication for version ${GREEN}$PACKAGE_VERSION${RESET_COLOR}.\n"
+function create_a_merge_commit_of_dev_into_master_and_tag_it {
+    git merge dev --no-edit
+    git tag --annotate "v${PACKAGE_VERSION}" --message "v${PACKAGE_VERSION}"
+}
 
-# Checks that current branch is a 'release' one
-CURRENT_BRANCH=$(git rev-parse --abbrev-ref HEAD)
-if [[ "$CURRENT_BRANCH" != release-* ]];
-then
-  echo "${RED}Wrong branch!${RESET_COLOR} You must be on a release branch as ${GREEN}release-x.y.z${RESET_COLOR} in order to perform the release but your current one is ${RED}${CURRENT_BRANCH}${RESET_COLOR}."
-  exit 1
-fi
+function push_commit_and_tag_to_remote_master {
+    git push origin master
+    git push origin "v${PACKAGE_VERSION}"
+}
 
-# Checks we have no uncommited changes
-if [ -n "$(git status --porcelain)" ];
-then
-    echo -e "${RED}You have uncommitted changes!${RESET_COLOR} Please commit or stash your changes first.\n"
-    git status
-    exit 1
-fi
+echo -e "Beginning release pulication for version ${GREEN}${PACKAGE_VERSION}${RESET_COLOR}.\n"
 
-# Merge 'release' branch on 'dev'
-git checkout dev
-git merge $CURRENT_BRANCH --no-edit
-git push origin dev
-echo -e "You are now on branch ${YELLOW}dev${RESET_COLOR}.\n"
-
-# Fetches all last changes
-git fetch --all
-
-git checkout master
-git pull --rebase
-
-echo -e "You are now on branch ${YELLOW}master${RESET_COLOR}.\n"
-
-# Merge 'dev' branch on 'master'
-git merge dev --no-edit
-git push origin master
-git tag -a "v${PACKAGE_VERSION}" --force
-git push origin "v$PACKAGE_VERSION" --force
-
-# Remove local branch 'gh-pages' if exists, then fetch it from remote
-GH_PAGES_BRANCH="gh-pages"
-if git rev-parse --quiet --verify $GH_PAGES_BRANCH > /dev/null;
-then
-    git branch -D $GH_PAGES_BRANCH
-fi
-git checkout dev
-echo -e "You are now on branch ${YELLOW}dev${RESET_COLOR}.\n"
+push_commit_to_remote_dev
+checkout_master
+fetch_and_rebase
+create_a_merge_commit_of_dev_into_master_and_tag_it
+push_commit_and_tag_to_remote_master
+checkout_dev
 
 echo -e "Release publication ${GREEN}succeeded${RESET_COLOR}."
+echo -e "You can check the deployment progression at : https://circleci.com/gh/1024pix/workflows/pix/tree/master"
