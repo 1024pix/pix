@@ -6,11 +6,12 @@ const assessmentService = require('../../domain/services/assessment-service');
 const tokenService = require('../../domain/services/token-service');
 const challengeRepository = require('../../infrastructure/repositories/challenge-repository');
 const challengeSerializer = require('../../infrastructure/serializers/jsonapi/challenge-serializer');
+const certificationChallengeRepository = require('../../infrastructure/repositories/certification-challenge-repository');
 
 const queryParamsUtils = require('../../infrastructure/utils/query-params-utils');
 const logger = require('../../infrastructure/logger');
 
-const useCases  = require('../../domain/usecases');
+const useCases = require('../../domain/usecases');
 
 const { NotFoundError, AssessmentEndedError, ObjectValidationError } = require('../../domain/errors');
 
@@ -76,21 +77,22 @@ module.exports = {
       .get(request.params.id)
       .then((assessment) => {
 
-        if(assessmentService.isPreviewAssessment(assessment)) {
+        if (assessmentService.isPreviewAssessment(assessment)) {
           return useCases.getNextChallengeForPreview({});
         }
 
         if (assessmentService.isCertificationAssessment(assessment)) {
-          console.log('Controller - if isCertificationAssessment(assessment)');
-          return assessmentService
-            .getNextChallengeForCertificationCourse(assessment)
-            .then((challenge) => challenge.challengeId);
+          return useCases.getNextChallengeForCertification({
+            certificationChallengeRepository,
+            challengeRepository,
+            assessment
+          });
         }
 
         console.log('Controller - If Demo / Placement');
-        return assessmentService.getAssessmentNextChallengeId(assessment, request.params.challengeId);
+        return assessmentService.getAssessmentNextChallengeId(assessment, request.params.challengeId)
+          .then(challengeRepository.get);
       })
-      .then(challengeRepository.get)
       .then((challenge) => {
         reply(challengeSerializer.serialize(challenge));
       })

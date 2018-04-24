@@ -5,7 +5,6 @@ const certificationService = require('../../../../lib/domain/services/certificat
 const assessmentAdapter = require('../../../../lib/infrastructure/adapters/assessment-adapter');
 
 const assessmentRepository = require('../../../../lib/infrastructure/repositories/assessment-repository');
-const certificationChallengeRepository = require('../../../../lib/infrastructure/repositories/certification-challenge-repository');
 const courseRepository = require('../../../../lib/infrastructure/repositories/course-repository');
 const certificationCourseRepository = require('../../../../lib/infrastructure/repositories/certification-course-repository');
 const challengeRepository = require('../../../../lib/infrastructure/repositories/challenge-repository');
@@ -14,12 +13,10 @@ const skillRepository = require('../../../../lib/infrastructure/repositories/ski
 const competenceRepository = require('../../../../lib/infrastructure/repositories/competence-repository');
 const competenceMarkRepository = require('../../../../lib/infrastructure/repositories/competence-mark-repository');
 
-const AssessmentBookshelf = require('../../../../lib/infrastructure/data/assessment');
 const Assessment = require('../../../../lib/domain/models/Assessment');
 const Course = require('../../../../lib/domain/models/Course');
 const Answer = require('../../../../lib/domain/models/Answer');
 const Challenge = require('../../../../lib/domain/models/Challenge');
-const CertificationChallenge = require('../../../../lib/domain/models/CertificationChallenge');
 const CompetenceMark = require('../../../../lib/domain/models/CompetenceMark');
 
 const Skill = require('../../../../lib/domain/models/Skill');
@@ -1146,49 +1143,6 @@ describe('Unit | Domain | Services | assessment', () => {
         expect(result).to.be.false;
       });
     });
-  });
-
-  describe('#getNextChallengeForCertificationCourse', () => {
-
-    let sandbox;
-
-    beforeEach(() => {
-      sandbox = sinon.sandbox.create();
-      sandbox.stub(certificationChallengeRepository, 'getNonAnsweredChallengeByCourseId');
-    });
-
-    afterEach(() => {
-      sandbox.restore();
-    });
-
-    it('should return a challenge which was not answered (challenge with no associated answer)', function() {
-      // given
-      const assessment = new AssessmentBookshelf({ id: 'assessmentId', courseId: 'certifCourseId' });
-      const challenge = new CertificationChallenge({ id: '1', challengeId: 'recA' });
-      certificationChallengeRepository.getNonAnsweredChallengeByCourseId.resolves(challenge);
-
-      // when
-      const promise = service.getNextChallengeForCertificationCourse(assessment);
-
-      // then
-      return promise.then((nextChallenge) => {
-        expect(nextChallenge).to.be.instanceOf(CertificationChallenge);
-      });
-
-    });
-
-    it('should reject when there is no challenges to give anymore', function() {
-      // given
-      const assessment = new AssessmentBookshelf({ id: 'assessmentId', courseId: 'certifCourseId' });
-      certificationChallengeRepository.getNonAnsweredChallengeByCourseId.rejects();
-
-      // when
-      const promise = service.getNextChallengeForCertificationCourse(assessment);
-
-      // then
-      expect(promise).to.be.rejected;
-    });
-
   });
 
   describe('#isDemoAssessment', () => {

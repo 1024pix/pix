@@ -2,7 +2,6 @@ const courseRepository = require('../../infrastructure/repositories/course-repos
 const certificationCourseRepository = require('../../infrastructure/repositories/certification-course-repository');
 const answerRepository = require('../../infrastructure/repositories/answer-repository');
 const assessmentRepository = require('../../infrastructure/repositories/assessment-repository');
-const certificationChallengeRepository = require('../../infrastructure/repositories/certification-challenge-repository');
 const challengeRepository = require('../../infrastructure/repositories/challenge-repository');
 const skillRepository = require('../../infrastructure/repositories/skill-repository');
 const competenceRepository = require('../../infrastructure/repositories/competence-repository');
@@ -335,16 +334,8 @@ function isPlacementAssessment(assessment) {
   return assessment.type === 'PLACEMENT';
 }
 
-function getNextChallengeForCertificationCourse(assessment) {
-  console.log('service - getNextChallengeForCertificationCourse');
-  return certificationChallengeRepository.getNonAnsweredChallengeByCourseId(
-    assessment.id, assessment.courseId
-  );
-}
-
 module.exports = {
   getAssessmentNextChallengeId,
-  getNextChallengeForCertificationCourse,
   fetchAssessment,
   findByFilters,
   isPreviewAssessment,

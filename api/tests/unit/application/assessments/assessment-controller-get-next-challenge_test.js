@@ -7,11 +7,13 @@ const skillService = require('../../../../lib/domain/services/skills-service');
 const assessmentRepository = require('../../../../lib/infrastructure/repositories/assessment-repository');
 const challengeRepository = require('../../../../lib/infrastructure/repositories/challenge-repository');
 const certificationCourseRepository = require('../../../../lib/infrastructure/repositories/certification-course-repository');
+const certificationChallengeRepository = require('../../../../lib/infrastructure/repositories/certification-challenge-repository');
+
+const usecases = require('../../../../lib/domain/usecases');
 
 const { AssessmentEndedError } = require('../../../../lib/domain/errors');
 
 const Assessment = require('../../../../lib/domain/models/Assessment');
-const CertificationChallenge = require('../../../../lib/domain/models/CertificationChallenge');
 const Skill = require('../../../../lib/cat/skill');
 
 describe('Unit | Controller | assessment-controller-get-next-challenge', () => {
@@ -59,13 +61,15 @@ describe('Unit | Controller | assessment-controller-get-next-challenge', () => {
       sandbox.stub(assessmentService, 'fetchAssessment').resolves(scoredAsssessment);
       sandbox.stub(skillService, 'saveAssessmentSkills').resolves();
       sandbox.stub(assessmentService, 'getAssessmentNextChallengeId');
-      sandbox.stub(assessmentService, 'getNextChallengeForCertificationCourse');
       sandbox.stub(assessmentRepository, 'get');
       sandbox.stub(assessmentRepository, 'save');
       sandbox.stub(Boom, 'notFound').returns({ message: 'NotFoundError' });
       sandbox.stub(Boom, 'badImplementation').returns({ message: 'BadImplementation' });
       sandbox.stub(challengeRepository, 'get').resolves({});
       sandbox.stub(certificationCourseRepository, 'changeCompletionDate').resolves();
+
+      sandbox.stub(usecases, 'getNextChallengeForCertification').resolves();
+      sandbox.stub(certificationChallengeRepository, 'getNonAnsweredChallengeByCourseId').resolves();
     });
 
     afterEach(() => {
@@ -131,7 +135,7 @@ describe('Unit | Controller | assessment-controller-get-next-challenge', () => {
 
       beforeEach(() => {
         assessmentService.getAssessmentNextChallengeId.rejects(new AssessmentEndedError());
-        assessmentService.getNextChallengeForCertificationCourse.rejects(new AssessmentEndedError());
+        usecases.getNextChallengeForCertification.rejects(new AssessmentEndedError());
         assessmentRepository.get.resolves(assessmentWithoutScore);
         assessmentService.fetchAssessment.resolves(scoredAsssessment);
       });
@@ -207,21 +211,25 @@ describe('Unit | Controller | assessment-controller-get-next-challenge', () => {
 
       it('should call getNextChallengeForCertificationCourse in assessmentService', function() {
         // given
-        assessmentService.getNextChallengeForCertificationCourse.resolves();
+        usecases.getNextChallengeForCertification.resolves();
 
         // when
         const promise = assessmentController.getNextChallenge({ params: { id: 12 } }, replyStub);
 
         // then
         return promise.then(() => {
-          expect(assessmentService.getNextChallengeForCertificationCourse).to.have.been.calledOnce;
-          expect(assessmentService.getNextChallengeForCertificationCourse).to.have.been.calledWith(certificationAssessment);
+          expect(usecases.getNextChallengeForCertification).to.have.been.calledOnce;
+          expect(usecases.getNextChallengeForCertification).to.have.been.calledWith({
+            assessment: certificationAssessment,
+            certificationChallengeRepository,
+            challengeRepository
+          });
         });
       });
 
       it('should reply 404 when unable to find the next challenge', () => {
         // given
-        assessmentService.getNextChallengeForCertificationCourse.rejects(new AssessmentEndedError());
+        usecases.getNextChallengeForCertification.rejects(new AssessmentEndedError());
 
         // when
         const promise = assessmentController.getNextChallenge({ params: { id: 12 } }, replyStub);
@@ -230,20 +238,6 @@ describe('Unit | Controller | assessment-controller-get-next-challenge', () => {
         return promise.then(() => {
           expect(replyStub).to.have.been.calledOnce
             .and.to.have.been.calledWith(Boom.notFound());
-        });
-      });
-
-      it('should provide the correct challengeId to the next layer', function() {
-        // given
-        const challenge = new CertificationChallenge({ challengeId: 'idea' });
-        assessmentService.getNextChallengeForCertificationCourse.resolves(challenge);
-
-        // when
-        const promise = assessmentController.getNextChallenge({ params: { id: 12 } }, replyStub);
-
-        // then
-        return promise.then(() => {
-          expect(challengeRepository.get).to.have.been.calledWith(challenge.challengeId);
         });
       });
     });
