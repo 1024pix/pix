@@ -46,10 +46,12 @@ describe('Unit | Controller | user-controller', () => {
 
       sandbox.stub(logger, 'error').returns({});
       sandbox.stub(googleReCaptcha, 'verify').returns(Promise.resolve());
-      sandbox.stub(userSerializer, 'deserialize').returns(new User({}));
+      sandbox.stub(userSerializer, 'deserialize').returns(new User({ password: 'password_1234' }));
       sandbox.stub(userSerializer, 'serialize');
       sandbox.stub(userRepository, 'save').resolves(savedUser);
       sandbox.stub(validationErrorSerializer, 'serialize');
+      sandbox.stub(encryptionService, 'hashPassword');
+      sandbox.stub(mailService, 'sendAccountCreationEmail');
     });
 
     afterEach(() => {
@@ -58,12 +60,6 @@ describe('Unit | Controller | user-controller', () => {
     });
 
     describe('when the account is created', () => {
-
-      let mailServiceMock;
-
-      beforeEach(() => {
-        mailServiceMock = sinon.mock(mailService);
-      });
 
       it('should call validator once', () => {
         googleReCaptcha.verify.returns(Promise.reject([]));
@@ -109,6 +105,35 @@ describe('Unit | Controller | user-controller', () => {
         });
       });
 
+      it('should update user password with a hashed password', () => {
+        // given
+        const request = {
+          payload: {
+            data: {
+              attributes: {
+                firstName: '',
+                lastName: '',
+                password: 'password_1234',
+                email
+              }
+            }
+          }
+        };
+        const encryptedPassword = '$2a$05$jJnoQ/YCvAChJmYW9AoQXe/k17mx2l2MqJBgXVo/R/ju4HblB2iAe';
+        encryptionService.hashPassword.resolves(encryptedPassword);
+        mailService.sendAccountCreationEmail.resolves();
+
+        // when
+        const promise = userController.save(request, replyStub);
+
+        // then
+        return promise.then(() => {
+          sinon.assert.calledOnce(encryptionService.hashPassword);
+          sinon.assert.calledWith(encryptionService.hashPassword, request.payload.data.attributes.password);
+
+        });
+      });
+
       it('should send an email', () => {
         // given
         const request = {
@@ -122,22 +147,23 @@ describe('Unit | Controller | user-controller', () => {
             }
           }
         };
-        mailServiceMock.expects('sendAccountCreationEmail').once().withArgs(email);
+
+        mailService.sendAccountCreationEmail.resolves();
 
         // when
         const promise = userController.save(request, replyStub);
 
         // then
         return promise.then(() => {
-          mailServiceMock.verify();
+          sinon.assert.calledWith(mailService.sendAccountCreationEmail, email);
         });
       });
 
       it('should return a serialized user', () => {
         // given
+        encryptionService.hashPassword.resolves();
         const expectedSerializedUser = { message: 'serialized user' };
         userSerializer.serialize.returns(expectedSerializedUser);
-        const sendAccountCreationEmail = sinon.stub(mailService, 'sendAccountCreationEmail');
         const request = {
           payload: {
             data: {
@@ -157,8 +183,6 @@ describe('Unit | Controller | user-controller', () => {
         return promise.then(() => {
           sinon.assert.calledWith(userSerializer.serialize, savedUser);
           sinon.assert.calledWith(replyStub, expectedSerializedUser);
-
-          sendAccountCreationEmail.restore();
         });
       });
     });
@@ -167,6 +191,7 @@ describe('Unit | Controller | user-controller', () => {
       // given
       userRepository.save.rejects(new BookshelfValidationError());
 
+      encryptionService.hashPassword.resolves();
       const expectedSerializedError = { errors: [] };
       validationErrorSerializer.serialize.returns(expectedSerializedError);
 

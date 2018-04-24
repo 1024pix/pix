@@ -39,6 +39,8 @@ module.exports = {
     const recaptchaToken = request.payload.data.attributes['recaptcha-token'];
 
     return googleReCaptcha.verify(recaptchaToken)
+      .then(() => encryptionService.hashPassword(user.password))
+      .then((encryptedPassword) => user.password = encryptedPassword)
       .then(() => userRepository.save(user))
       .then((savedUser) => {
         mailService.sendAccountCreationEmail(savedUser.email);
