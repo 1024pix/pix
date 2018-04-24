@@ -103,7 +103,7 @@ describe('Unit | Controller | corrections-controller', () => {
       const responseError = new NotFoundError('Not found answer for ID 234');
       const expectedError = JSONAPIError({
         code: '404',
-        title: 'Not Found Error',
+        title: 'Not Found',
         detail: 'Not found answer for ID 234'
       });
 
@@ -125,7 +125,7 @@ describe('Unit | Controller | corrections-controller', () => {
       const responseError = new NotCompletedAssessmentError();
       const expectedError = JSONAPIError({
         code: '409',
-        title: 'Assessment Not Completed Error',
+        title: 'Assessment Not Completed',
         detail: 'Cette évaluation n\'est pas terminée.'
       });
 
