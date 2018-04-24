@@ -69,11 +69,6 @@ function _selectNextChallengeId(course, currentChallengeId, assessment) {
 
 function getAssessmentNextChallengeId(assessment, currentChallengeId) {
 
-  if (isPreviewAssessment(assessment)) {
-    console.log('service - PREVIEW');
-    return Promise.reject(new AssessmentEndedError());
-  }
-
   const courseId = assessment.courseId;
 
   return courseRepository.get(courseId)

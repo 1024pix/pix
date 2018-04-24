@@ -107,18 +107,6 @@ describe('Unit | Domain | Services | assessment', () => {
       return expect(promise).to.be.rejectedWith(AssessmentEndedError);
     });
 
-    it('Should reject with a AssessmentEndedError when the course is a preview', () => {
-      // given
-      const assessment = _buildAssessmentForCourse('null22');
-      assessment.type = 'PREVIEW';
-
-      // when
-      const promise = service.getAssessmentNextChallengeId(assessment, '1st_challenge');
-
-      // then
-      expect(courseRepository.get).not.to.have.been.called;
-      return expect(promise).to.be.rejectedWith(AssessmentEndedError);
-    });
   });
 
   describe('#fetchAssessment', () => {
