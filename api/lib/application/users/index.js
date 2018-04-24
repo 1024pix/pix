@@ -13,6 +13,18 @@ exports.register = function(server, options, next) {
       config: {
         auth: false,
         handler: UserController.save,
+        validate: {
+          options: {
+            allowUnknown: true
+          },
+          payload: {
+            data: {
+              attributes: {
+                password: Joi.string().regex(XRegExp(passwordValidationPattern)).required()
+              }
+            }
+          }
+        },
         tags: ['api']
       }
     },
