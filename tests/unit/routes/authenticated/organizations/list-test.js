@@ -8,4 +8,5 @@ module('Unit | Route | authenticated/organizations/list', function(hooks) {
     let route = this.owner.lookup('route:authenticated/organizations/list');
     assert.ok(route);
   });
+
 });
