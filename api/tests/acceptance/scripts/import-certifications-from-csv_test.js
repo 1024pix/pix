@@ -47,7 +47,7 @@ describe('Acceptance | Scripts | import-certifications-from-csv.js', () => {
     });
   });
 
-  describe('#convertDataRowsIntoCertifications', () => {
+  describe('#convertCSVDataIntoCertifications', () => {
 
     it('should return an array of certifications (JSON) object', () => {
       // given
@@ -102,7 +102,7 @@ describe('Acceptance | Scripts | import-certifications-from-csv.js', () => {
       }];
 
       // when
-      const certifications = script.convertDataRowsIntoCertifications(csvParsingResult);
+      const certifications = script.convertCSVDataIntoCertifications(csvParsingResult);
 
       // then
       expect(certifications).to.deep.equal(expectedCertifications);

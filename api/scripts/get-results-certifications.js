@@ -72,7 +72,13 @@ function toCSVRow(rowJSON) {
   res[id] = certificationData['certification-id'];
   res[firstname] = certificationData['first-name'];
   res[lastname] = certificationData['last-name'];
-  res[birthdate] = certificationData['birthdate'];
+
+  if (certificationData['birthdate']) {
+    res[birthdate] = moment.utc(certificationData['birthdate'], 'DD-MM-YYYY').tz('Europe/Paris').format('DD/MM/YYYY');
+  } else {
+    res[birthdate] = '';
+  }
+
   res[birthplace] = certificationData['birthplace'];
   res[externalId] = certificationData['external-id'];
   res[status] = certificationData['status'];
@@ -101,8 +107,7 @@ function toCSVRow(rowJSON) {
 
 function saveInFile(csv, sessionId) {
   const filepath = `session_${sessionId}_export_${moment().format('DD-MM-YYYY_HH-mm')}.csv`;
-  const csvData = '\uFEFF' + csv;
-  fileSystem.writeFile(filepath, csvData, (err) => {
+  fileSystem.writeFile(filepath, csv, (err) => {
     if (err) throw err;
     console.log('Les données de certifications sont dans le fichier :' + filepath);
   });
@@ -136,6 +141,7 @@ function main() {
           data: certificationResult,
           fieldNames: HEADERS,
           del: ';',
+          withBOM: true,
         }))
         .then(csv => {
           saveInFile(csv, sessionId);

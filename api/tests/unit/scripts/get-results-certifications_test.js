@@ -75,7 +75,7 @@ describe('Unit | Scripts | get-results-certifications.js', () => {
             'comment-for-jury': 'You get it',
             'first-name': 'Goku',
             'last-name': 'Son',
-            'birthdate': '20/11/737',
+            'birthdate': '20-11-1737',
             'birthplace': 'Namek',
             'session-id': 1,
             'external-id': 'Kakarot'
@@ -88,7 +88,7 @@ describe('Unit | Scripts | get-results-certifications.js', () => {
       expect(result[HEADERS[0]]).to.equal('1337');
       expect(result[HEADERS[1]]).to.equal('Goku');
       expect(result[HEADERS[2]]).to.equal('Son');
-      expect(result[HEADERS[3]]).to.equal('20/11/737');
+      expect(result[HEADERS[3]]).to.equal('20/11/1737');
       expect(result[HEADERS[4]]).to.equal('Namek');
       expect(result[HEADERS[5]]).to.equal('Kakarot');
       expect(result[HEADERS[6]]).to.equal('validated');
