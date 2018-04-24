@@ -1,5 +1,4 @@
 import ApplicationAdapter from './application';
-import { resolve } from 'rsvp';
 
 export default ApplicationAdapter.extend({
 
