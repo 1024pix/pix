@@ -3,7 +3,7 @@ const { expect, sinon } = require('../../../test-helper');
 const BookshelfUser = require('../../../../lib/infrastructure/data/user');
 const userRepository = require('../../../../lib/infrastructure/repositories/user-repository');
 const DomainUser = require('../../../../lib/domain/models/User');
-const { NotFoundError, UserNotFoundError } = require('../../../../lib/domain/errors');
+const { NotFoundError } = require('../../../../lib/domain/errors');
 
 describe('Unit | Infrastructure | Repository | UserRepository', () => {
 
