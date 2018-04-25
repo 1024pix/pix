@@ -29,7 +29,7 @@ describe('Unit | Controller | certifications-controller', () => {
       sandbox = sinon.sandbox.create();
       sandbox.stub(usecases, 'findCompletedUserCertifications');
       sandbox.stub(certificationSerializer, 'serializeCertification').returns(serializedCertifications);
-      sandbox.stub(certificationRepository, 'findByUserId').resolves();
+      sandbox.stub(certificationRepository, 'findCompletedCertificationsByUserId').resolves();
       sandbox.stub(Boom, 'badImplementation').returns(jsonAPI500error);
       sandbox.stub(logger, 'error');
     });

@@ -4,7 +4,7 @@ const Certification = require('../../../../lib/domain/models/Certification');
 
 describe('Integration | Repository | Certification ', function() {
 
-  describe('#findByUserId', function() {
+  describe('#findCompletedCertificationsByUserId', function() {
 
     const JOHN_USERID = 1;
     const JANE_USERID = 2;
@@ -16,7 +16,7 @@ describe('Integration | Repository | Certification ', function() {
 
       it('should return an empty list', function() {
         // when
-        const promise = certificationRepository.findByUserId(JANE_USERID);
+        const promise = certificationRepository.findCompletedCertificationsByUserId(JANE_USERID);
 
         // then
         return promise.then((certifications) => {
@@ -114,7 +114,7 @@ describe('Integration | Repository | Certification ', function() {
 
       it('should return a list of Certification for the specified user', function() {
         // when
-        const promise = certificationRepository.findByUserId(JOHN_USERID);
+        const promise = certificationRepository.findCompletedCertificationsByUserId(JOHN_USERID);
 
         // then
         return promise.then((certifications) => {
@@ -129,7 +129,7 @@ describe('Integration | Repository | Certification ', function() {
 
       it('should return a list of completed Certification', function() {
         // when
-        const promise = certificationRepository.findByUserId(JANE_USERID);
+        const promise = certificationRepository.findCompletedCertificationsByUserId(JANE_USERID);
 
         // then
         return promise.then((certifications) => {
