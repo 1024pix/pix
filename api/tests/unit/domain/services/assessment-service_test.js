@@ -30,7 +30,7 @@ function _buildChallenge(challengeId, skills) {
 }
 
 function _buildAssessmentForCourse(courseId, assessmentId = 'assessment_id') {
-  const assessment = new Assessment({ id: assessmentId });
+  const assessment = new Assessment({ id: assessmentId, type: 'PLACEMENT' });
   if (courseId) {
     assessment.courseId = courseId;
   }
@@ -54,56 +54,6 @@ describe('Unit | Domain | Services | assessment', () => {
 
   afterEach(() => {
     competenceRepository.get.restore();
-  });
-
-  describe('#getAssessmentNextChallengeId', () => {
-
-    beforeEach(() => {
-      sinon.stub(courseRepository, 'get').resolves();
-    });
-
-    afterEach(() => {
-      courseRepository.get.restore();
-    });
-
-    it('Should return the first challenge if no currentChallengeId is given', () => {
-      // given
-      courseRepository.get.resolves({ challenges: ['the_first_challenge'] });
-
-      // when
-      const promise = service.getAssessmentNextChallengeId(_buildAssessmentForCourse('22'), null);
-
-      // then
-      return promise.then((result) => {
-        expect(result).to.equal('the_first_challenge');
-      });
-    });
-
-    it('Should return the next challenge if currentChallengeId is given', () => {
-      // given
-      courseRepository.get.resolves({ challenges: ['1st_challenge', '2nd_challenge'] });
-
-      // when
-      const promise = service.getAssessmentNextChallengeId(_buildAssessmentForCourse('22'), '1st_challenge');
-
-      // then
-      return promise.then((result) => {
-        expect(result).to.equal('2nd_challenge');
-      });
-
-    });
-
-    it('Should throw a AssessmentEndedError when there are no more challenges to ask', () => {
-      // given
-      courseRepository.get.resolves({ challenges: ['1st_challenge', '2nd_challenge'] });
-
-      // when
-      const promise = service.getAssessmentNextChallengeId(_buildAssessmentForCourse('22'), '2nd_challenge');
-
-      // then
-      return expect(promise).to.be.rejectedWith(AssessmentEndedError);
-    });
-
   });
 
   describe('#fetchAssessment', () => {

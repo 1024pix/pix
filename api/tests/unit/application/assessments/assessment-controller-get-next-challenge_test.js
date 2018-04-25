@@ -41,7 +41,8 @@ describe('Unit | Controller | assessment-controller-get-next-challenge', () => {
       assessmentWithoutScore = new Assessment({
         id: 1,
         courseId: 'recHzEA6lN4PEs7LG',
-        userId: 5
+        userId: 5,
+        type: 'DEMO'
       });
 
       assessmentWithScore = new Assessment({
@@ -69,6 +70,7 @@ describe('Unit | Controller | assessment-controller-get-next-challenge', () => {
       sandbox.stub(certificationCourseRepository, 'changeCompletionDate').resolves();
 
       sandbox.stub(usecases, 'getNextChallengeForCertification').resolves();
+      sandbox.stub(usecases, 'getNextChallengeForDemo').resolves();
       sandbox.stub(certificationChallengeRepository, 'getNonAnsweredChallengeByCourseId').resolves();
     });
 
@@ -114,10 +116,10 @@ describe('Unit | Controller | assessment-controller-get-next-challenge', () => {
         assessmentRepository.get.resolves(assessmentWithoutScore);
       });
 
-      it('should call fetchAssessment', () => {
+      it('should reply with 500 failing', () => {
         // given
         const error = new Error();
-        assessmentService.getAssessmentNextChallengeId.rejects(error);
+        usecases.getNextChallengeForDemo.rejects(error);
 
         // when
         const promise = assessmentController.getNextChallenge({ params: { id: 7531 } }, replyStub);
@@ -136,12 +138,12 @@ describe('Unit | Controller | assessment-controller-get-next-challenge', () => {
       beforeEach(() => {
         assessmentService.getAssessmentNextChallengeId.rejects(new AssessmentEndedError());
         usecases.getNextChallengeForCertification.rejects(new AssessmentEndedError());
+        usecases.getNextChallengeForDemo.rejects(new AssessmentEndedError());
         assessmentRepository.get.resolves(assessmentWithoutScore);
         assessmentService.fetchAssessment.resolves(scoredAsssessment);
       });
 
-      context('when the assessment is a not certification', () => {
-
+      context('when the assessment is a PLACEMENT', () => {
         it('should not update the certification course status', () => {
           // given
           const certificationAssessment = new Assessment({
@@ -163,18 +165,17 @@ describe('Unit | Controller | assessment-controller-get-next-challenge', () => {
         });
       });
 
-      it('should reply with no content', () => {
-        // given
-        skillService.saveAssessmentSkills.resolves({});
+      context('when the assessment is a DEMO', () => {
+        it('should reply with not found', () => {
+          // when
+          const promise = assessmentController.getNextChallenge({ params: { id: 7531 } }, replyStub);
 
-        // when
-        const promise = assessmentController.getNextChallenge({ params: { id: 7531 } }, replyStub);
-
-        // then
-        return promise.then(() => {
-          expect(replyStub).to.have.been.calledOnce;
-          expect(replyStub).to.have.been.calledWith({ message: 'NotFoundError' });
-          expect(Boom.notFound).to.have.been.calledOnce;
+          // then
+          return promise.then(() => {
+            expect(replyStub).to.have.been.calledOnce;
+            expect(replyStub).to.have.been.calledWith({ message: 'NotFoundError' });
+            expect(Boom.notFound).to.have.been.calledOnce;
+          });
         });
       });
     });

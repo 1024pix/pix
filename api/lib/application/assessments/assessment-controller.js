@@ -6,6 +6,7 @@ const assessmentService = require('../../domain/services/assessment-service');
 const tokenService = require('../../domain/services/token-service');
 const challengeRepository = require('../../infrastructure/repositories/challenge-repository');
 const challengeSerializer = require('../../infrastructure/serializers/jsonapi/challenge-serializer');
+const courseRepository = require('../../infrastructure/repositories/course-repository');
 const certificationChallengeRepository = require('../../infrastructure/repositories/certification-challenge-repository');
 
 const queryParamsUtils = require('../../infrastructure/utils/query-params-utils');
@@ -89,9 +90,20 @@ module.exports = {
           });
         }
 
-        console.log('Controller - If Demo / Placement');
-        return assessmentService.getAssessmentNextChallengeId(assessment, request.params.challengeId)
-          .then(challengeRepository.get);
+        if (assessmentService.isDemoAssessment(assessment)) {
+          return useCases.getNextChallengeForDemo({
+            assessment, challengeId:
+            request.params.challengeId,
+            courseRepository,
+            challengeRepository
+          });
+        }
+
+        if (assessmentService.isPlacementAssessment(assessment)) {
+          console.log('Controller - If Placement');
+          return assessmentService.getAssessmentNextChallengeId(assessment)
+            .then(challengeRepository.get);
+        }
       })
       .then((challenge) => {
         reply(challengeSerializer.serialize(challenge));
