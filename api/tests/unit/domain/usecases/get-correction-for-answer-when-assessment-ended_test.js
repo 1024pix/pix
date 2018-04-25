@@ -7,16 +7,16 @@ const { expect, sinon } = require('../../../test-helper');
 
 describe('Unit | UseCase | getCorrectionForAnswerWhenAssessmentEnded', () => {
 
-  const assessmentRepository = {};
-  const answerRepository = {};
-  const correctionRepository = {};
+  const assessmentRepository = { get: () => undefined };
+  const answerRepository = { get: () => undefined };
+  const correctionRepository = { getByChallengeId: () => undefined };
   let sandbox;
 
   beforeEach(() => {
     sandbox = sinon.sandbox.create();
-    assessmentRepository.get = () => undefined;
-    answerRepository.get = () => undefined;
-    correctionRepository.getByChallengeId = () => undefined;
+    sandbox.stub(assessmentRepository, 'get');
+    sandbox.stub(answerRepository, 'get');
+    sandbox.stub(correctionRepository, 'getByChallengeId');
   });
 
   afterEach(() => {
@@ -27,11 +27,10 @@ describe('Unit | UseCase | getCorrectionForAnswerWhenAssessmentEnded', () => {
 
     it('should reject with a assessment not completed error', () => {
       // given
-      const assessment = new Assessment({ state: 'not completed' });
+      const assessment = new Assessment({ state: 'started' });
       const answer = new Answer({ assessmentId: 1, challengeId: 12 });
-      sandbox.stub(assessmentRepository, 'get').resolves(assessment);
-      sandbox.stub(answerRepository, 'get').resolves(answer);
-      sandbox.stub(correctionRepository, 'getByChallengeId');
+      assessmentRepository.get.resolves(assessment);
+      answerRepository.get.resolves(answer);
 
       // when
       const promise = getCorrectionForAnswerWhenAssessmentEnded({
@@ -58,9 +57,9 @@ describe('Unit | UseCase | getCorrectionForAnswerWhenAssessmentEnded', () => {
       const assessment = new Assessment({ state: 'completed' });
       const answer = new Answer({ assessmentId: 1, challengeId: 12 });
       const correction = new Correction({ id: 123 });
-      sandbox.stub(assessmentRepository, 'get').resolves(assessment);
-      sandbox.stub(answerRepository, 'get').resolves(answer);
-      sandbox.stub(correctionRepository, 'getByChallengeId').resolves(correction);
+      assessmentRepository.get.resolves(assessment);
+      answerRepository.get.resolves(answer);
+      correctionRepository.getByChallengeId.resolves(correction);
 
       // when
       const promise = getCorrectionForAnswerWhenAssessmentEnded({

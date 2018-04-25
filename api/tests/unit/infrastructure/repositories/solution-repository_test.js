@@ -22,7 +22,7 @@ describe('Unit | Repository | solution-repository', function() {
     it('should call the challenge datasource with the challenge Id to compose the get solution', function() {
       // given
       const recordId = 'rec-challengeId';
-      const explectedSolution = new Solution({
+      const expectedSolution = new Solution({
         id: 'recwWzTquPlvIl4So',
         isT1Enabled: true,
         isT2Enabled: false,
@@ -40,7 +40,7 @@ describe('Unit | Repository | solution-repository', function() {
       return promise.then((result) => {
         expect(challengeDatasource.get).to.have.been.calledWith(recordId);
         expect(result).to.be.an.instanceof(Solution);
-        expect(result).to.deep.equal(explectedSolution);
+        expect(result).to.deep.equal(expectedSolution);
       });
     });
   });

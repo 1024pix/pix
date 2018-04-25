@@ -11,10 +11,6 @@ describe('Integration | Repository | AnswerRepository', () => {
 
     context('when there are no answers', () => {
 
-      afterEach(() => {
-        return knex('answers').delete();
-      });
-
       it('should reject an error if nothing is found', () => {
         // when
         const promise = AnswerRepository.get(100);

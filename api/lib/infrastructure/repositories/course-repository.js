@@ -70,7 +70,7 @@ module.exports = {
 
   // TODO: delete
   /**
-   * @deprecated use the generic refresh endpoint
+   * @deprecated use the generic refresh endpoint: the removeCacheEntry controller
    */
   refresh(id) {
     return new Promise((resolve, reject) => {
@@ -84,7 +84,7 @@ module.exports = {
 
   // TODO: delete
   /**
-   * @deprecated use the generic refresh endpoint
+   * @deprecated use the generic refresh endpoint: the removeCacheEntry controller
    */
   refreshAll() {
     return new Promise((resolve, reject) => {
@@ -100,5 +100,4 @@ module.exports = {
       });
     });
   }
-
 };
