@@ -25,7 +25,7 @@ describe('Integration | Repository | Certification ', function() {
       });
     });
 
-    context('when there are certifications for user', () => {
+    context('when there are certifications in different states and for multiple users', () => {
 
       const john_certificationCourse = {
         id: JOHN_CERTIFICATION_ID,
@@ -64,21 +64,21 @@ describe('Integration | Repository | Certification ', function() {
         courseId: JOHN_CERTIFICATION_ID,
         userId: JOHN_USERID,
         type: 'CERTIFICATION',
-        state: 'completed',
+        state: 'completed'
       };
 
       const jane_completedAssessment = {
         courseId: JANE_COMPLETED_CERTIFICATION_ID,
         userId: JANE_USERID,
         type: 'CERTIFICATION',
-        state: 'completed',
+        state: 'completed'
       };
 
       const jane_notCompletedAssessment = {
         courseId: JANE_NOT_COMPLETED_CERTIFICATION_ID,
         userId: JANE_USERID,
         type: 'CERTIFICATION',
-        state: 'started',
+        state: 'started'
       };
 
       const session = {
@@ -112,22 +112,7 @@ describe('Integration | Repository | Certification ', function() {
           });
       });
 
-      it('should return a list of Certification for the specified user', function() {
-        // when
-        const promise = certificationRepository.findCompletedCertificationsByUserId(JOHN_USERID);
-
-        // then
-        return promise.then((certifications) => {
-          expect(certifications).to.be.an('array');
-          expect(certifications.length).to.equal(1);
-          expect(certifications[0]).to.be.an.instanceOf(Certification);
-          expect(certifications[0].id).not.to.be.undefined;
-          expect(certifications[0].certificationCenter).to.equal('Université du Pix');
-          expect(certifications[0].date).to.equal('01/02/2003');
-        });
-      });
-
-      it('should return a list of completed Certification', function() {
+      it('should return a list of the completed Certifications for the specified user', function() {
         // when
         const promise = certificationRepository.findCompletedCertificationsByUserId(JANE_USERID);
 
@@ -141,7 +126,6 @@ describe('Integration | Repository | Certification ', function() {
           expect(certifications[0].date).to.equal('01/02/2004');
         });
       });
-
     });
   });
 });

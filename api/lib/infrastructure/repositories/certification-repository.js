@@ -1,3 +1,4 @@
+const Assessment = require('../../../lib/domain/models/Assessment');
 const Certification = require('../../../lib/domain/models/Certification');
 const CertificationCourseBookshelf = require('../../../lib/infrastructure/data/certification-course');
 
@@ -15,7 +16,7 @@ module.exports = {
     return CertificationCourseBookshelf
       .query((qb) => {
         qb.innerJoin('assessments', 'certification-courses.id', 'assessments.courseId');
-        qb.where('assessments.state', '=', 'completed');
+        qb.where('assessments.state', '=', Assessment.states.COMPLETED);
         qb.where('certification-courses.userId', '=', userId);
       })
       .fetchAll({ withRelated: ['session', 'assessment'] })
