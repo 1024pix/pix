@@ -1,5 +1,6 @@
 const Boom = require('boom');
 const moment = require('moment');
+const JSONAPIError = require('jsonapi-serializer').Error;
 const _ = require('../../infrastructure/utils/lodash-utils');
 
 const userSerializer = require('../../infrastructure/serializers/jsonapi/user-serializer');
@@ -15,11 +16,12 @@ const bookshelfUtils = require('../../infrastructure/utils/bookshelf-utils');
 const passwordResetDemandService = require('../../domain/services/reset-password-service');
 const encryptionService = require('../../domain/services/encryption-service');
 const tokenService = require('../../domain/services/token-service');
+const userCreationValidator = require('../../domain/validators/user-creation-validator');
 
 const Bookshelf = require('../../infrastructure/bookshelf');
 
 const logger = require('../../infrastructure/logger');
-const { PasswordResetDemandNotFoundError, InternalError, InvalidTokenError } = require('../../domain/errors');
+const { PasswordResetDemandNotFoundError, InternalError, InvalidTokenError, UserValidationErrors } = require('../../domain/errors');
 const { ValidationError: BookshelfValidationError } = require('bookshelf-validate/lib/errors');
 
 module.exports = {
@@ -29,7 +31,7 @@ module.exports = {
     const user = userSerializer.deserialize(request.payload);
     const recaptchaToken = request.payload.data.attributes['recaptcha-token'];
 
-    return googleReCaptcha.verify(recaptchaToken)
+    return userCreationValidator.validate(user, recaptchaToken)
       .then(() => encryptionService.hashPassword(user.password))
       .then((encryptedPassword) => user.password = encryptedPassword)
       .then(() => userRepository.create(user))
@@ -37,6 +39,10 @@ module.exports = {
         mailService.sendAccountCreationEmail(savedUser.email);
         reply(userSerializer.serialize(savedUser)).code(201);
       }).catch((err) => {
+
+        if(err instanceof UserValidationErrors) {
+          return reply(new JSONAPIError(err.errors)).code(422);
+        }
 
         if (err instanceof BookshelfValidationError) {
           return reply(validationErrorSerializer.serialize(err)).code(422);
