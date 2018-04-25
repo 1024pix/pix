@@ -1,5 +1,18 @@
 class Solution {
 
+  /**
+   *
+   * @param id: id de la ligne Epreuve AirTable dont est extraite l'information de la Solution
+   * @param type: type de l'épreuve
+   * @param value: Bonne réponse attendue.
+   * @param isT1Enabled: T1 - Espaces, casse & accents
+   * @param isT2Enabled: T2 - Ponctuation
+   * @param isT3Enabled: T3 - Distance d'édition
+   * @param scoring: ??
+   *
+   * Les traitements T1, T2 et T3 sont les traitements qu'il est possible d'utiliser pour valider une réponse.
+   * Pour plus d'informations, ne pas hésiter à se reporter aux explications présentes dans AirTable.
+   */
   constructor({
     id, type, value, isT1Enabled = false, isT2Enabled = false, isT3Enabled = false, scoring
   } = {}) {

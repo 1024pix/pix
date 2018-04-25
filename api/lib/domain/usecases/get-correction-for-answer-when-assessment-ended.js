@@ -5,7 +5,7 @@ module.exports = function({
   answerRepository,
   correctionRepository,
   answerId
-}) {
+} = {}) {
   let answer;
   return answerRepository.get(answerId)
     .then((answerFromRepo) => {
@@ -17,6 +17,7 @@ module.exports = function({
 };
 
 function _validateAssessmentIsCompleted(assessment) {
-  if (!assessment.isCompleted())
+  if (!assessment.isCompleted()) {
     throw new NotCompletedAssessmentError();
+  }
 }

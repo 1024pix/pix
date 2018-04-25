@@ -10,8 +10,8 @@ class Assessment {
  *
  * id: String,
  * course : associatedCourse (Class Course)
- * createdAt: number ?
- * updatedAt: number ?
+ * createdAt: Date
+ * updatedAt: Date
  * user: ? (class User ?)
  * successRate: 24, ?? Je ne sais pas ce que c'est
  * type: 'charade', String ?

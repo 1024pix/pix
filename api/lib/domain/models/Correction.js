@@ -11,7 +11,7 @@ class Correction {
   }
 
   get relevantHint() {
-    const hintsToSort = this.hints.slice();
+    const hintsToSort = Array.from(this.hints);
     return hintsToSort.sort(_byLowestSkillName)[0];
   }
 }
