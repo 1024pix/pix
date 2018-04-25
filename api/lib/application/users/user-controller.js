@@ -41,7 +41,7 @@ module.exports = {
     return googleReCaptcha.verify(recaptchaToken)
       .then(() => encryptionService.hashPassword(user.password))
       .then((encryptedPassword) => user.password = encryptedPassword)
-      .then(() => userRepository.save(user))
+      .then(() => userRepository.create(user))
       .then((savedUser) => {
         mailService.sendAccountCreationEmail(savedUser.email);
         reply(userSerializer.serialize(savedUser)).code(201);

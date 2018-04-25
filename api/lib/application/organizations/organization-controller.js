@@ -37,7 +37,7 @@ module.exports = {
     return userRepository
       .isEmailAvailable(user.email)
       .then(() => {
-        return userRepository.save(user);
+        return userRepository.create(user);
       })
       .then((user) => {
         organization.set('userId', user.id);

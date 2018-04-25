@@ -41,7 +41,7 @@ describe('Unit | Controller | organizationController', () => {
       sandbox = sinon.sandbox.create();
 
       sandbox.stub(logger, 'error');
-      sandbox.stub(userRepository, 'save').resolves(userSaved);
+      sandbox.stub(userRepository, 'create').resolves(userSaved);
       sandbox.stub(userRepository, 'isEmailAvailable').resolves();
       sandbox.stub(organizationService, 'generateOrganizationCode').returns('ABCD12');
       sandbox.stub(organisationRepository, 'saveFromModel').resolves(organizationBookshelf);
@@ -76,7 +76,7 @@ describe('Unit | Controller | organizationController', () => {
 
       beforeEach(() => {
         userRepository.isEmailAvailable.resolves();
-        userRepository.save.resolves(userSaved);
+        userRepository.create.resolves(userSaved);
       });
 
       it('should try to register a new user', () => {
@@ -85,7 +85,7 @@ describe('Unit | Controller | organizationController', () => {
 
         // then
         return promise.then(() => {
-          expect(userRepository.save).to.have.been.calledWithMatch({
+          expect(userRepository.create).to.have.been.calledWithMatch({
             email: 'existing-email@example.net',
             firstName: 'Tom',
             lastName: 'Hanks',
@@ -104,7 +104,7 @@ describe('Unit | Controller | organizationController', () => {
 
         // then
         return promise.then(() => {
-          expect(userRepository.save).to.have.been.calledWithMatch({
+          expect(userRepository.create).to.have.been.calledWithMatch({
             email: 'existing-email@example.net'
           });
         });

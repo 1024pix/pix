@@ -48,7 +48,7 @@ describe('Unit | Controller | user-controller', () => {
       sandbox.stub(googleReCaptcha, 'verify').returns(Promise.resolve());
       sandbox.stub(userSerializer, 'deserialize').returns(new User({ password: 'password_1234' }));
       sandbox.stub(userSerializer, 'serialize');
-      sandbox.stub(userRepository, 'save').resolves(savedUser);
+      sandbox.stub(userRepository, 'create').resolves(savedUser);
       sandbox.stub(validationErrorSerializer, 'serialize');
       sandbox.stub(encryptionService, 'hashPassword');
       sandbox.stub(mailService, 'sendAccountCreationEmail');
@@ -189,7 +189,7 @@ describe('Unit | Controller | user-controller', () => {
 
     it('should reply with a serialized error', () => {
       // given
-      userRepository.save.rejects(new BookshelfValidationError());
+      userRepository.create.rejects(new BookshelfValidationError());
 
       encryptionService.hashPassword.resolves();
       const expectedSerializedError = { errors: [] };
@@ -236,7 +236,7 @@ describe('Unit | Controller | user-controller', () => {
           // given
           validationErrorSerializer.serialize.returns({ errors: [] });
           const sqliteConstraint = { code: 'SQLITE_CONSTRAINT' };
-          userRepository.save.rejects(sqliteConstraint);
+          userRepository.create.rejects(sqliteConstraint);
 
           // when
           const promise = userController.save(request, replyStub);
@@ -260,7 +260,7 @@ describe('Unit | Controller | user-controller', () => {
           validationErrorSerializer.serialize.returns({ errors: [] });
 
           const sqliteConstraint = { code: '23505' };
-          userRepository.save.rejects(sqliteConstraint);
+          userRepository.create.rejects(sqliteConstraint);
 
           // when
           const promise = userController.save(request, replyStub);
@@ -397,7 +397,7 @@ describe('Unit | Controller | user-controller', () => {
 
       beforeEach(() => {
         raisedError = new Error('Something wrong is going on in Gotham City');
-        userRepository.save.rejects(raisedError);
+        userRepository.create.rejects(raisedError);
       });
 
       it('should format a badImplementation', () => {
