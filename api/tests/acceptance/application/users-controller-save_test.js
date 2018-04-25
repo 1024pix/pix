@@ -8,7 +8,7 @@ const mailService = require('../../../lib/domain/services/mail-service');
 const logger = require('../../../lib/infrastructure/logger');
 const gRecaptcha = require('../../../lib/infrastructure/validators/grecaptcha-validator');
 
-describe('Acceptance | Controller | users-controller', () => {
+describe('Acceptance | Controller | users-controller-save', () => {
 
   let options;
   let attributes;
@@ -57,19 +57,6 @@ describe('Acceptance | Controller | users-controller', () => {
     // then
     return promise.then((response) => {
       expect(response.statusCode).to.equal(201);
-    });
-  });
-
-  it('should return 400 HTTP status code when no payload', () => {
-    // given
-    options.payload = {};
-
-    // when
-    const promise = server.inject(options);
-
-    // then
-    return promise.then((response) => {
-      expect(response.statusCode).to.equal(400);
     });
   });
 

@@ -277,48 +277,6 @@ describe('Unit | Controller | user-controller', () => {
 
       });
 
-      it('when there is not payload', () => {
-        // given
-        const request = {};
-        boomBadRequestMock.expects('badRequest').exactly(1);
-
-        // when
-        userController.save(request, replyStub);
-
-        // then
-        boomBadRequestMock.verify();
-      });
-
-      it('when there is an empty payload', () => {
-        // given
-        const request = {
-          payload: {}
-        };
-        boomBadRequestMock.expects('badRequest').exactly(1);
-
-        // when
-        userController.save(request, replyStub);
-
-        // then
-        boomBadRequestMock.verify();
-      });
-
-      it('when there is an payload with empty data', () => {
-        // given
-        const request = {
-          payload: {
-            data: {}
-          }
-        };
-        boomBadRequestMock.expects('badRequest').exactly(1);
-
-        // when
-        userController.save(request, replyStub);
-
-        // then
-        boomBadRequestMock.verify();
-      });
-
       describe('Error cases according to recaptcha', function() {
         const user = new User({
           email: 'shi@fu.me'

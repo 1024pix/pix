@@ -22,18 +22,9 @@ const logger = require('../../infrastructure/logger');
 const { PasswordResetDemandNotFoundError, InternalError, InvalidTokenError } = require('../../domain/errors');
 const { ValidationError: BookshelfValidationError } = require('bookshelf-validate/lib/errors');
 
-function _isRequestWronglyFormatted(request) {
-  return !_.has(request, 'payload') || !_.has(request, 'payload.data.attributes');
-}
-
 module.exports = {
 
   save(request, reply) {
-
-    if (_isRequestWronglyFormatted(request)) {
-      // FIXME: Should return a promise to be consistent
-      return reply(Boom.badRequest());
-    }
 
     const user = userSerializer.deserialize(request.payload);
     const recaptchaToken = request.payload.data.attributes['recaptcha-token'];
