@@ -4,72 +4,66 @@ const faker = require('faker');
 const _ = require('lodash');
 
 const jsonwebtoken = require('jsonwebtoken');
-const settings = require('./../../../../api/lib/settings');
+const settings = require('./../../../lib/settings');
+const encrypt = require('../../../lib/domain/services/encryption-service');
 
 const server = require('../../../server');
-const BookshelfUser = require('../../../lib/infrastructure/data/user');
 
 describe('Acceptance | Controller | authentication-controller', () => {
 
   describe('POST /api/authentications', () => {
 
     let options;
-    let attributes;
-
-    let user;
+    let userId;
     const userEmail = 'emailWithSomeCamelCase@example.net';
     const userEmailSavedInDb = _.toLower(userEmail);
-
     const userPassword = 'A124B2C3#!';
 
-    before(() => {
-      return new BookshelfUser({
-        firstName: faker.name.firstName(),
-        lastName: faker.name.lastName(),
-        email: userEmailSavedInDb,
-        password: userPassword,
-        cgu: true
-      }).save().then((createdUser) => {
-        user = createdUser.toDomainEntity();
-      });
-    });
-
     beforeEach(() => {
-      attributes = {
-        email: userEmail,
-        password: userPassword
-      };
-
-      options = {
-        method: 'POST',
-        url: '/api/authentications',
-        payload: {
-          data: {
-            type: 'user',
-            attributes,
-            relationships: {}
-          }
-        },
-        headers: { authorization: generateValidRequestAuhorizationHeader(user.id) },
-      };
+      return encrypt.hashPassword(userPassword)
+        .then((encryptedPassword) => knex('users').insert({
+            firstName: faker.name.firstName(),
+            lastName: faker.name.lastName(),
+            email: userEmailSavedInDb,
+            password: encryptedPassword,
+            cgu: true
+          })
+        )
+        .then((userIds) => userId = userIds[0])
+        .then(() => {
+          options = {
+            method: 'POST',
+            url: '/api/authentications',
+            payload: {
+              data: {
+                type: 'user',
+                attributes: {
+                  email: userEmail,
+                  password: userPassword,
+                },
+                relationships: {}
+              }
+            },
+            headers: { authorization: generateValidRequestAuhorizationHeader(userId) },
+          };
+        });
     });
 
-    after(() => {
+    afterEach(() => {
       return knex('users').delete();
     });
 
     it('should return 201 HTTP status code', () => {
+      // given
+      const expectedToken = jsonwebtoken.sign({
+        user_id: userId
+      }, settings.authentication.secret, { expiresIn: settings.authentication.tokenLifespan });
+
       // when
       const promise = server.inject(options);
 
       // then
       return promise.then(response => {
-
-        const expectedToken = jsonwebtoken.sign({
-          user_id: user.id
-        }, settings.authentication.secret, { expiresIn: settings.authentication.tokenLifespan });
-
-        const userId = user.id;
         expect(response.statusCode).to.equal(201);
         expect(response.result).to.deep.equal({
           data: {
@@ -99,4 +93,5 @@ describe('Acceptance | Controller | authentication-controller', () => {
     });
   });
 
-});
+})
+;

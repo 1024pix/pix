@@ -15,11 +15,6 @@ validator.isPassword = passwordValidator;
 module.exports = Bookshelf.model('User', {
   tableName: 'users',
 
-  initialize() {
-    Bookshelf.Model.prototype.initialize.apply(this, arguments);
-    this.on('creating', this.hashPassword, this);
-  },
-
   validations: {
     firstName: [{
       method: 'isLength',
@@ -44,14 +39,6 @@ module.exports = Bookshelf.model('User', {
       method: 'isTrue',
       error: 'Vous devez accepter les conditions d\'utilisation de Pix pour créer un compte.'
     }]
-  },
-
-  hashPassword: (model) => {
-    return encrypt
-      .hashPassword(model.attributes.password)
-      .then((hash) => {
-        model.set('password', hash);
-      });
   },
 
   assessments() {
