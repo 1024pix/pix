@@ -1,46 +1,40 @@
 const { knex, sinon, expect } = require('../../../test-helper');
 
 const faker = require('faker');
-const server = require('../../../../server');
-const { toLower } = require('lodash');
+const _ = require('lodash');
 
 const authenticationController = require('../../../../lib/application/authentication/authentication-controller');
-const BookshelfUser = require('../../../../lib/infrastructure/data/user');
+const encrypt = require('../../../../lib/domain/services/encryption-service');
 
-describe('Unit | Controller | authentication-controller', () => {
+describe('Integration | Controller | authentication-controller', () => {
 
-  const password = 'A124B2C3#!';
+  let userId;
+  const userPassword = 'A124B2C3#!';
   const userEmail = 'emailWithSomeCamelCase@example.net';
-  const userEmailSavedInDb = toLower(userEmail);
+  const userEmailSavedInDb = _.toLower(userEmail);
   let replyStub;
   let codeStub;
-  let user;
-
-  before(() => {
-    return new BookshelfUser({
-      firstName: faker.name.firstName(),
-      lastName: faker.name.lastName(),
-      email: userEmailSavedInDb,
-      password,
-      cgu: true
-    }).save().then((createdUser) => {
-      user = createdUser;
-    });
-  });
-
-  after(() => {
-    return knex('users').delete();
-  });
 
   beforeEach(() => {
     codeStub = sinon.stub();
     replyStub = sinon.stub().returns({
       code: codeStub
     });
+
+    return encrypt.hashPassword(userPassword)
+      .then((encryptedPassword) => knex('users').insert({
+          firstName: faker.name.firstName(),
+          lastName: faker.name.lastName(),
+          email: userEmailSavedInDb,
+          password: encryptedPassword,
+          cgu: true
+        })
+      )
+      .then((userIds) => userId = userIds[0])
   });
 
-  after((done) => {
-    server.stop(done);
+  afterEach(() => {
+    return knex('users').delete();
   });
 
   describe('#save', () => {
@@ -57,10 +51,9 @@ describe('Unit | Controller | authentication-controller', () => {
       };
     }
 
-    it('should return an 400 error when account does not exist', () => {
+    it('should return an 201 when account exists', () => {
       // given
-      const email = 'email-that-does-not-exist@example.net';
-      const request = _buildRequest(email, password);
+      const request = _buildRequest(userEmail, userPassword);
 
       // when
       const promise = authenticationController.save(request, replyStub);
@@ -68,20 +61,22 @@ describe('Unit | Controller | authentication-controller', () => {
       // then
       return promise.then(() => {
         sinon.assert.calledOnce(replyStub);
-        sinon.assert.calledWith(codeStub, 400);
+        sinon.assert.calledOnce(codeStub);
+        sinon.assert.calledWith(codeStub, 201);
       });
     });
 
-    it('should return an error message', () => {
+    it('should return an error 400 with error message when account does not exist', () => {
       // given
-      const email = 'email-that-does-not-exist@example.net';
-      const request = _buildRequest(email, password);
+      const badEmail = 'email-that-does-not-exist@example.net';
+      const request = _buildRequest(badEmail, userPassword);
 
       // when
       const promise = authenticationController.save(request, replyStub);
 
       // then
       return promise.then(() => {
+        sinon.assert.calledOnce(replyStub);
         sinon.assert.calledWith(codeStub, 400);
         expect(replyStub.getCall(0).args).to.deep.equal([{
           errors: [{
@@ -96,26 +91,10 @@ describe('Unit | Controller | authentication-controller', () => {
       });
     });
 
-    it('should return an 201 when account exists', () => {
-      // given
-      const password = 'A124B2C3#!';
-      const request = _buildRequest(user.get('email'), password);
-
-      // when
-      const promise = authenticationController.save(request, replyStub);
-
-      // then
-      return promise.then(() => {
-        sinon.assert.calledOnce(replyStub);
-        sinon.assert.calledOnce(codeStub);
-        sinon.assert.calledWith(codeStub, 201);
-      });
-    });
-
     it('should return an 400 error when account exists but wrong password', () => {
       // given
-      const password = 'BZU#!1344B2C3';
-      const request = _buildRequest(user.get('email'), password);
+      const badPassword = 'BZU#!1344B2C3';
+      const request = _buildRequest(userEmail, badPassword);
 
       // when
       const promise = authenticationController.save(request, replyStub);
