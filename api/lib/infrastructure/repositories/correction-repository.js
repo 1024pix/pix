@@ -24,19 +24,22 @@ function _selectSkillDataObjectsWithValidatedHint(skillDataObjects) {
 module.exports = {
 
   getByChallengeId(challengeId) {
-    return challengeDatasource.get(challengeId)
-      .then((challengeDataObject) => {
+    let challengeDataObject;
 
-        return _getSkillDataObjects(challengeDataObject)
-          .then(_selectSkillDataObjectsWithValidatedHint)
-          .then(_convertSkillDataObjectsToHints)
-          .then((hints) => {
-            return new Correction({
-              id: challengeDataObject.id,
-              solution: challengeDataObject.solution,
-              hints: hints
-            });
-          });
+    return challengeDatasource.get(challengeId)
+      .then((retrievedChallengeDataObject) => {
+        challengeDataObject = retrievedChallengeDataObject;
+        return retrievedChallengeDataObject;
+      })
+      .then(_getSkillDataObjects)
+      .then(_selectSkillDataObjectsWithValidatedHint)
+      .then(_convertSkillDataObjectsToHints)
+      .then((hints) => {
+        return new Correction({
+          id: challengeDataObject.id,
+          solution: challengeDataObject.solution,
+          hints: hints
+        });
       });
   }
 };
