@@ -3,37 +3,37 @@ const Hint = require('../../domain/models/Hint');
 const challengeDatasource = require('../datasources/airtable/challenge-datasource');
 const skillDatasource = require('../datasources/airtable/skill-datasource');
 
-function _convertSkillDataModelsToHints(skillDataModels) {
-  return skillDataModels.map((skillDataModel) => {
+function _convertSkillDataObjectsToHints(skillDataObjects) {
+  return skillDataObjects.map((skillDataObject) => {
     return new Hint({
-      skillName: skillDataModel.name,
-      value: skillDataModel.hint
+      skillName: skillDataObject.name,
+      value: skillDataObject.hint
     });
   });
 }
 
-function _getSkillDataModels(challengeDataModel) {
-  const skillDataModelPromises = challengeDataModel.skillIds.map(skillDatasource.get);
-  return Promise.all(skillDataModelPromises);
+function _getSkillDataObjects(challengeDataObject) {
+  const skillDataObjectPromises = challengeDataObject.skillIds.map(skillDatasource.get);
+  return Promise.all(skillDataObjectPromises);
 }
 
-function _selectSkillDataModelsWithValidatedHint(skillDataModels) {
-  return skillDataModels.filter((skillDataModel) => skillDataModel.hintStatus === 'Validé');
+function _selectSkillDataObjectsWithValidatedHint(skillDataObjects) {
+  return skillDataObjects.filter((skillDataObject) => skillDataObject.hintStatus === 'Validé');
 }
 
 module.exports = {
 
   getByChallengeId(challengeId) {
     return challengeDatasource.get(challengeId)
-      .then((challengeDataModel) => {
+      .then((challengeDataObject) => {
 
-        return _getSkillDataModels(challengeDataModel)
-          .then(_selectSkillDataModelsWithValidatedHint)
-          .then(_convertSkillDataModelsToHints)
+        return _getSkillDataObjects(challengeDataObject)
+          .then(_selectSkillDataObjectsWithValidatedHint)
+          .then(_convertSkillDataObjectsToHints)
           .then((hints) => {
             return new Correction({
-              id: challengeDataModel.id,
-              solution: challengeDataModel.solution,
+              id: challengeDataObject.id,
+              solution: challengeDataObject.solution,
               hints: hints
             });
           });

@@ -2,7 +2,7 @@ const { expect, sinon } = require('../../../test-helper');
 const solutionRepository = require('../../../../lib/infrastructure/repositories/solution-repository');
 const challengeDatasource = require('../../../../lib/infrastructure/datasources/airtable/challenge-datasource');
 const Solution = require('../../../../lib/domain/models/Solution');
-const ChallengeAirtableDataModelFixture = require('../../../fixtures/infrastructure/ChallengeAirtableDataModelFixture');
+const ChallengeAirtableDataObjectFixture = require('../../../fixtures/infrastructure/ChallengeAirtableDataObjectFixture');
 
 describe('Unit | Repository | solution-repository', function() {
 
@@ -31,7 +31,7 @@ describe('Unit | Repository | solution-repository', function() {
         type: 'QCM',
         value: '1, 5'
       });
-      challengeDatasource.get.resolves(ChallengeAirtableDataModelFixture());
+      challengeDatasource.get.resolves(ChallengeAirtableDataObjectFixture());
 
       // when
       const promise = solutionRepository.getByChallengeId(recordId);

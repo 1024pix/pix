@@ -1,4 +1,4 @@
-const dataModels = require('../../../lib/infrastructure/datasources/airtable/models');
+const dataModels = require('../../../lib/infrastructure/datasources/airtable/objects');
 
 module.exports = function() {
   return new dataModels.Challenge({

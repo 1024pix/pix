@@ -6,16 +6,16 @@ module.exports = {
 
   getByChallengeId(challengeId) {
     return challengeDatasource.get(challengeId)
-      .then((challengeDataModel) => {
-        const scoring = _.ensureString(challengeDataModel.scoring).replace(/@/g, ''); // XXX YAML ne supporte pas @
+      .then((challengeDataObject) => {
+        const scoring = _.ensureString(challengeDataObject.scoring).replace(/@/g, ''); // XXX YAML ne supporte pas @
 
         return new Solution({
-          id: challengeDataModel.id,
-          isT1Enabled: challengeDataModel.t1Status !== 'Désactivé',
-          isT2Enabled: challengeDataModel.t2Status !== 'Désactivé',
-          isT3Enabled: challengeDataModel.t3Status !== 'Désactivé',
-          type: challengeDataModel.type,
-          value: challengeDataModel.solution,
+          id: challengeDataObject.id,
+          isT1Enabled: challengeDataObject.t1Status !== 'Désactivé',
+          isT2Enabled: challengeDataObject.t2Status !== 'Désactivé',
+          isT3Enabled: challengeDataObject.t3Status !== 'Désactivé',
+          type: challengeDataObject.type,
+          value: challengeDataObject.solution,
           scoring
         });
       });

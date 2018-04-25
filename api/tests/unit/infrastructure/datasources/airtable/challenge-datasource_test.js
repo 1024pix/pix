@@ -2,7 +2,7 @@ const { expect, sinon } = require('../../../../test-helper');
 const airtable = require('../../../../../lib/infrastructure/airtable');
 const challengeDatasource = require('../../../../../lib/infrastructure/datasources/airtable/challenge-datasource');
 const challengeRawAirTableFixture = require('../../../../fixtures/infrastructure/challengeRawAirTableFixture');
-const airTableDataModels = require('../../../../../lib/infrastructure/datasources/airtable/models');
+const airTableDataModels = require('../../../../../lib/infrastructure/datasources/airtable/objects');
 
 describe('Unit | Infrastructure | Datasource | Airtable | ChallengeDatasource', () => {
 

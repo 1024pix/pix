@@ -4,8 +4,8 @@ const challengeDatasource = require('../../../../lib/infrastructure/datasources/
 const skillDatasource = require('../../../../lib/infrastructure/datasources/airtable/skill-datasource');
 const Correction = require('../../../../lib/domain/models/Correction');
 const Hint = require('../../../../lib/domain/models/Hint');
-const ChallengeAirtableDataModelFixture = require('../../../fixtures/infrastructure/ChallengeAirtableDataModelFixture');
-const SkillAirtableDataModelFixture = require('../../../fixtures/infrastructure/SkillAirtableDataModelFixture');
+const ChallengeAirtableDataObjectFixture = require('../../../fixtures/infrastructure/ChallengeAirtableDataObjectFixture');
+const SkillAirtableDataObjectFixture = require('../../../fixtures/infrastructure/SkillAirtableDataObjectFixture');
 
 describe('Unit | Repository | correction-repository', function() {
 
@@ -38,22 +38,22 @@ describe('Unit | Repository | correction-repository', function() {
 
     beforeEach(() => {
       // given
-      const challengeDataModel = ChallengeAirtableDataModelFixture();
-      challengeDataModel.skillIds = ['recIdSkill001', 'recIdSkill002', 'recIdSkill003'];
-      const skillDataModel1 = SkillAirtableDataModelFixture();
-      skillDataModel1.name = '@web3';
-      skillDataModel1.hintStatus = 'Validé';
-      const skillDataModel2 = SkillAirtableDataModelFixture();
-      skillDataModel2.name = '@web2';
-      skillDataModel2.hintStatus = 'Validé';
-      const skillDataModel3 = SkillAirtableDataModelFixture();
-      skillDataModel3.name = '@web1';
-      skillDataModel3.hintStatus = 'Proposé';
+      const challengeDataObject = ChallengeAirtableDataObjectFixture();
+      challengeDataObject.skillIds = ['recIdSkill001', 'recIdSkill002', 'recIdSkill003'];
+      const skillDataObject1 = SkillAirtableDataObjectFixture();
+      skillDataObject1.name = '@web3';
+      skillDataObject1.hintStatus = 'Validé';
+      const skillDataObject2 = SkillAirtableDataObjectFixture();
+      skillDataObject2.name = '@web2';
+      skillDataObject2.hintStatus = 'Validé';
+      const skillDataObject3 = SkillAirtableDataObjectFixture();
+      skillDataObject3.name = '@web1';
+      skillDataObject3.hintStatus = 'Proposé';
 
-      challengeDatasource.get.resolves(challengeDataModel);
-      skillDatasource.get.onFirstCall().resolves(skillDataModel1);
-      skillDatasource.get.onSecondCall().resolves(skillDataModel2);
-      skillDatasource.get.onThirdCall().resolves(skillDataModel3);
+      challengeDatasource.get.resolves(challengeDataObject);
+      skillDatasource.get.onFirstCall().resolves(skillDataObject1);
+      skillDatasource.get.onSecondCall().resolves(skillDataObject2);
+      skillDatasource.get.onThirdCall().resolves(skillDataObject3);
 
       // when
       promise = correctionRepository.getByChallengeId(recordId);
