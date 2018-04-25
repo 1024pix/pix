@@ -152,7 +152,12 @@ jobs:
           git config user.email "jbuget@gmail.com"
           git config user.name "Jérémy Buget"
       - deploy:
-          command: npm run deploy:staging
+          command: |
+            if [ "${CIRCLE_BRANCH}" == "dev" ]; then
+              npm run deploy:staging
+            elif [ "${CIRCLE_BRANCH}" == "master" ]; then
+              npm run deploy:production
+            fi
 
   # Client side
 
@@ -262,6 +267,8 @@ jobs:
           command: |
             if [ "${CIRCLE_BRANCH}" == "dev" ]; then
               npm run deploy:staging
+            elif [ "${CIRCLE_BRANCH}" == "master" ]; then
+              npm run deploy:production
             else
               npm run deploy:integration
             fi
@@ -298,6 +305,7 @@ workflows:
           filters:
             branches:
               only:
+                - master
                 - dev
 
       # Client side

@@ -18,4 +18,8 @@ case $BUILD_ENV in
     git remote add scalingo git@scalingo.com:pix-api-staging.git
     git push --force scalingo dev:master
   ;;
+  "production")
+    git remote add scalingo git@scalingo.com:pix-api-production.git
+    git push scalingo master:master
+  ;;
 esac

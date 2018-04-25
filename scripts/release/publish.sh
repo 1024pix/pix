@@ -68,12 +68,6 @@ if git rev-parse --quiet --verify $GH_PAGES_BRANCH > /dev/null;
 then
     git branch -D $GH_PAGES_BRANCH
 fi
-git checkout master
-echo -e "You are now on branch ${YELLOW}master${RESET_COLOR}.\n"
-
-# Deploy the application into production
-npm run deploy:production
-
 git checkout dev
 echo -e "You are now on branch ${YELLOW}dev${RESET_COLOR}.\n"
 
