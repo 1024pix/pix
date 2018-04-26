@@ -98,9 +98,9 @@ describe('Unit | Domain | Validators | user-creation-validator', function() {
       it('should reject with well formatted error when reCAPTCHA validation is false', () => {
         // given
         const expectedError = {
-          source: '/data/attributes/recaptcha-token',
+          source: { pointer: '/data/attributes/recaptcha-token' },
           title: 'Invalid reCAPTCHA token',
-          details: 'Merci de cocher la case ci-dessous :',
+          detail: 'Merci de cocher la case ci-dessous :',
           meta: {
             field: 'recaptchaToken'
           }
@@ -137,9 +137,9 @@ describe('Unit | Domain | Validators | user-creation-validator', function() {
       it('should reject with error on field "first name" when first name is missing', () => {
         // given
         const expectedError = {
-          source: '/data/attributes/first-name',
+          source: { pointer: '/data/attributes/first-name' },
           title: 'Invalid user data attribute "firstName"',
-          details: 'Votre prénom n’est pas renseigné.',
+          detail: 'Votre prénom n’est pas renseigné.',
           meta: {
             field: 'firstName'
           }
@@ -158,9 +158,9 @@ describe('Unit | Domain | Validators | user-creation-validator', function() {
       it('should reject with error on field "last name" when last name is missing', () => {
         // given
         const expectedError = {
-          source: '/data/attributes/last-name',
+          source: { pointer: '/data/attributes/last-name' },
           title: 'Invalid user data attribute "lastName"',
-          details: 'Votre nom n’est pas renseigné.',
+          detail: 'Votre nom n’est pas renseigné.',
           meta: {
             field: 'lastName'
           }
@@ -179,9 +179,9 @@ describe('Unit | Domain | Validators | user-creation-validator', function() {
       it('should reject with error on field "email" when email is missing', () => {
         // given
         const expectedError = {
-          source: '/data/attributes/email',
+          source: { pointer: '/data/attributes/email' },
           title: 'Invalid user data attribute "email"',
-          details: 'Votre adresse électronique n’est pas renseignée.',
+          detail: 'Votre adresse électronique n’est pas renseignée.',
           meta: {
             field: 'email'
           }
@@ -200,9 +200,9 @@ describe('Unit | Domain | Validators | user-creation-validator', function() {
       it('should reject with error on field "email" when email is invalid', () => {
         // given
         const expectedError = {
-          source: '/data/attributes/email',
+          source: { pointer: '/data/attributes/email' },
           title: 'Invalid user data attribute "email"',
-          details: 'Votre adresse électronique n’est pas correcte.',
+          detail: 'Votre adresse électronique n’est pas correcte.',
           meta: {
             field: 'email'
           }
@@ -221,9 +221,9 @@ describe('Unit | Domain | Validators | user-creation-validator', function() {
       it('should reject with error on field "password" when password is missing', () => {
         // given
         const expectedError = {
-          source: '/data/attributes/password',
+          source: { pointer: '/data/attributes/password' },
           title: 'Invalid user data attribute "password"',
-          details: 'Votre mot de passe n’est pas renseigné.',
+          detail: 'Votre mot de passe n’est pas renseigné.',
           meta: {
             field: 'password'
           }
@@ -242,9 +242,9 @@ describe('Unit | Domain | Validators | user-creation-validator', function() {
       it('should reject with error on field "password" when password is invalid', () => {
         // given
         const expectedError = {
-          source: '/data/attributes/password',
+          source: { pointer: '/data/attributes/password' },
           title: 'Invalid user data attribute "password"',
-          details: 'Votre mot de passe doit comporter au moins une lettre, un chiffre et 8 caractères.',
+          detail: 'Votre mot de passe doit comporter au moins une lettre, un chiffre et 8 caractères.',
           meta: {
             field: 'password'
           }
@@ -263,9 +263,9 @@ describe('Unit | Domain | Validators | user-creation-validator', function() {
       it('should reject with error on field "cgu" when cgu is false', () => {
         // given
         const expectedError = {
-          source: '/data/attributes/cgu',
+          source: { pointer: '/data/attributes/cgu' },
           title: 'Invalid user data attribute "cgu"',
-          details: 'Vous devez accepter les conditions d’utilisation de Pix pour créer un compte.',
+          detail: 'Vous devez accepter les conditions d’utilisation de Pix pour créer un compte.',
           meta: {
             field: 'cgu'
           }

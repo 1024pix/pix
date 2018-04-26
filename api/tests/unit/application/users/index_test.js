@@ -49,44 +49,6 @@ describe('Unit | Router | user-router', () => {
       });
     });
 
-    describe('Payload schema validation (password attribute in payload)', () => {
-
-      it('should have a payload', () => {
-        // given
-        const options = { method: 'POST', url: '/api/users' };
-
-        // when
-        const promise = server.inject(options);
-
-        // then
-        return promise.then((res) => {
-          expect(res.statusCode).to.equal(400);
-        });
-      });
-
-      it('should have a valid password format in payload', () => {
-        // given
-        const options = {
-          method: 'POST',
-          url: '/api/users',
-          payload: {
-            data: {
-              attributes: {
-                password: 'Mot de passe invalide'
-              }
-            }
-          }
-        };
-
-        // when
-        const promise = server.inject(options);
-
-        // then
-        return promise.then((res) => {
-          expect(res.statusCode).to.equal(400);
-        });
-      });
-    });
   });
 
   describe('GET /api/users/me', function() {

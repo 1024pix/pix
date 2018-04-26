@@ -59,9 +59,11 @@ function _verifyReCaptcha(reCaptchaToken) {
   return googleReCaptcha.verify(reCaptchaToken).catch(error => {
     if (error instanceof InvalidRecaptchaTokenError) {
       return {
-        source: '/data/attributes/recaptcha-token',
+        source: {
+          pointer: '/data/attributes/recaptcha-token'
+        },
         title: 'Invalid reCAPTCHA token',
-        details: 'Merci de cocher la case ci-dessous :',
+        detail: 'Merci de cocher la case ci-dessous :',
         meta: {
           field: 'recaptchaToken'
         }
@@ -73,13 +75,16 @@ function _verifyReCaptcha(reCaptchaToken) {
 }
 
 function _validateUserData(userData) {
-  return Joi.validate(userData, schemaValidateUser, { abortEarly: false }).catch(error => {
+  const validationConfiguration = { abortEarly: false, allowUnknown: true };
+  return Joi.validate(userData, schemaValidateUser, validationConfiguration).catch(error => {
     if (error.name === JOI_VALIDATION_ERROR) {
       const userDataErrors = error.details.map(joiError => {
         return {
-          source: `/data/attributes/${_.kebabCase(joiError.context.key)}`,
+          source: {
+            pointer: `/data/attributes/${_.kebabCase(joiError.context.key)}`
+          },
           title: `Invalid user data attribute "${joiError.context.key}"`,
-          details: joiError.message,
+          detail: joiError.message,
           meta: {
             field: joiError.context.key
           }
@@ -105,7 +110,7 @@ function _concatErrors(recaptchaError, userDataErrors) {
 // FIXME move it in the "future" Use Case that creates a User
 module.exports = {
 
-  validate(userData, recaptchaToken) {
+  validate(userData, recaptchaToken, recaptchaTokenRequired) {
     return Promise.all([
       _verifyReCaptcha(recaptchaToken),
       _validateUserData(userData),
