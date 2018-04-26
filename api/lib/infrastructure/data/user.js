@@ -1,6 +1,5 @@
 const validator = require('validator');
 const Bookshelf = require('../bookshelf');
-const encrypt = require('../../domain/services/encryption-service');
 const passwordValidator = require('../validators/password-validator');
 const DomainUser = require('../../domain/models/User');
 const DomainPixRole = require('../../domain/models/PixRole');

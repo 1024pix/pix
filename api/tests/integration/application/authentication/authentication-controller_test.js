@@ -8,7 +8,6 @@ const encrypt = require('../../../../lib/domain/services/encryption-service');
 
 describe('Integration | Controller | authentication-controller', () => {
 
-  let userId;
   const userPassword = 'A124B2C3#!';
   const userEmail = 'emailWithSomeCamelCase@example.net';
   const userEmailSavedInDb = _.toLower(userEmail);
@@ -23,14 +22,13 @@ describe('Integration | Controller | authentication-controller', () => {
 
     return encrypt.hashPassword(userPassword)
       .then((encryptedPassword) => knex('users').insert({
-          firstName: faker.name.firstName(),
-          lastName: faker.name.lastName(),
-          email: userEmailSavedInDb,
-          password: encryptedPassword,
-          cgu: true
-        })
-      )
-      .then((userIds) => userId = userIds[0])
+        firstName: faker.name.firstName(),
+        lastName: faker.name.lastName(),
+        email: userEmailSavedInDb,
+        password: encryptedPassword,
+        cgu: true
+      })
+      );
   });
 
   afterEach(() => {

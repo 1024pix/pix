@@ -11,25 +11,28 @@ function _assertErrorMatchesWithExpectedOne(err, expectedError) {
   expect(err).to.be.an.instanceof(UserValidationErrors);
   expect(err.errors).to.have.lengthOf(1);
   expect(err.errors[0]).to.deep.equal(expectedError);
-
 }
 
 describe('Unit | Domain | Validators | user-creation-validator', function() {
+
+  let sandbox;
+
+  beforeEach(() => {
+    sandbox = sinon.sandbox.create();
+    sandbox.stub(googleReCaptcha, 'verify');
+  });
+
+  afterEach(() => {
+    sandbox.restore();
+  });
 
   describe('#validate', () => {
 
     context('when validation is successful', () => {
 
-      let sandbox;
-
       beforeEach(() => {
-        sandbox = sinon.sandbox.create();
-        sandbox.stub(googleReCaptcha, 'verify').resolves();
+        googleReCaptcha.verify.resolves();
         sandbox.stub(Joi, 'validate').resolves();
-      });
-
-      afterEach(() => {
-        sandbox.restore();
       });
 
       it('should resolve (with no value) when validation is successful', () => {
@@ -39,7 +42,8 @@ describe('Unit | Domain | Validators | user-creation-validator', function() {
           firstName: 'John',
           lastName: 'Doe',
           email: 'john.doe@example.net',
-          password: 'password1234'
+          password: 'password1234',
+          cgu: true,
         };
 
         // when
@@ -52,16 +56,16 @@ describe('Unit | Domain | Validators | user-creation-validator', function() {
 
     context('when reCAPTCHA validation fails', () => {
 
-      let sandbox;
+      const userData = {
+        firstName: 'John',
+        lastName: 'Doe',
+        email: 'john.doe@example.net',
+        password: 'password1234',
+        cgu: true,
+      };
 
       beforeEach(() => {
-        sandbox = sinon.sandbox.create();
-        sandbox.stub(googleReCaptcha, 'verify');
         sandbox.stub(Joi, 'validate').resolves();
-      });
-
-      afterEach(() => {
-        sandbox.restore();
       });
 
       it('should resolve when reCAPTCHA validation is true', () => {
@@ -69,7 +73,7 @@ describe('Unit | Domain | Validators | user-creation-validator', function() {
         googleReCaptcha.verify.resolves();
 
         // when
-        const promise = userCreationValidator.validate('invalid_recaptcha_token');
+        const promise = userCreationValidator.validate(userData, 'invalid_recaptcha_token');
 
         // then
         return expect(promise).to.be.fulfilled;
@@ -81,7 +85,7 @@ describe('Unit | Domain | Validators | user-creation-validator', function() {
         googleReCaptcha.verify.rejects(someNetworkError);
 
         // when
-        const promise = userCreationValidator.validate('recaptcha_token');
+        const promise = userCreationValidator.validate(userData, 'recaptcha_token');
 
         // then
         return promise
@@ -104,7 +108,7 @@ describe('Unit | Domain | Validators | user-creation-validator', function() {
         googleReCaptcha.verify.rejects(new InvalidRecaptchaTokenError());
 
         // when
-        const promise = userCreationValidator.validate('invalid_recaptcha_token');
+        const promise = userCreationValidator.validate(userData, 'invalid_recaptcha_token');
 
         // then
         return promise
@@ -115,7 +119,6 @@ describe('Unit | Domain | Validators | user-creation-validator', function() {
 
     context('when user data validation fails', () => {
 
-      let sandbox;
       let userData;
       let recaptchaToken;
 
@@ -128,13 +131,7 @@ describe('Unit | Domain | Validators | user-creation-validator', function() {
           password: 'à1      ',
           cgu: true,
         };
-
-        sandbox = sinon.sandbox.create();
-        sandbox.stub(googleReCaptcha, 'verify').resolves();
-      });
-
-      afterEach(() => {
-        sandbox.restore();
+        googleReCaptcha.verify.resolves();
       });
 
       it('should reject with error on field "first name" when first name is missing', () => {
@@ -252,7 +249,7 @@ describe('Unit | Domain | Validators | user-creation-validator', function() {
             field: 'password'
           }
         };
-        userData.password = 'badpass';
+        userData.password = 'invalid';
 
         // when
         const promise = userCreationValidator.validate(userData, recaptchaToken);
@@ -284,7 +281,7 @@ describe('Unit | Domain | Validators | user-creation-validator', function() {
           .catch((err) => _assertErrorMatchesWithExpectedOne(err, expectedError));
       });
 
-      it('should reject with errors on all fields when all fields are missing', () => {
+      it('should reject with errors on all fields (but only once by field) when all fields are missing', () => {
         // given
         userData = {
           firstName: '',
@@ -304,9 +301,6 @@ describe('Unit | Domain | Validators | user-creation-validator', function() {
             expect(err.errors).to.have.lengthOf(5);
           });
       });
-
     });
-
   });
-
 });
