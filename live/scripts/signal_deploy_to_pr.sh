@@ -1,7 +1,12 @@
 #!/bin/bash
 
-[ -z $GITHUB_TOKEN ] && {
-	echo 'FATAL: $GITHUB_TOKEN is absent'
+[ -z $GITHUB_USER ] && {
+	echo 'FATAL: $GITHUB_USER is absent'
+	exit 1
+}
+
+[ -z $GITHUB_USER_TOKEN ] && {
+	echo 'FATAL: $GITHUB_USER_TOKEN is absent'
 	exit 1
 }
 [ -z $CIRCLE_BRANCH ] && {
@@ -15,8 +20,8 @@
 
 PR_NUMBER=`echo $CI_PULL_REQUEST | grep -Po '(?<=pix/pull/)(\d+)'`
 
-curl -u mackwic:$GITHUB_TOKEN --verbose \
+curl -u $GITHUB_USER:$GITHUB_USER_TOKEN --verbose \
 	-X POST "https://api.github.com/repos/1024pix/pix/issues/${PR_NUMBER}/comments" \
-	--data "{\"body\":\"I've deployed this PR to http://${CIRCLE_BRANCH}.pix-dev.ovh . Please check it out\"}"
+	--data "{\"body\":\"I've deployed this PR to http://${CIRCLE_BRANCH}.integration.pix.fr . Please check it out\"}"
 
 
