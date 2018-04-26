@@ -53,8 +53,24 @@ export default function(server) {
 
   server.create('course', {
     id: 'certification-number',
-    nbChallenges : 3,
-    type : 'CERTIFICATION'
+    nbChallenges: 3,
+    type: 'CERTIFICATION'
+  });
+
+  server.create('certification', {
+    id: '1',
+    date: new Date('2018-02-15T15:15:52.504Z'),
+    status: 'completed',
+    score: '3789',
+    certificationCenter: 'Université de Paris',
+  });
+
+  server.create('certification', {
+    id: '2',
+    date: new Date('2018-02-15T15:15:52.504Z'),
+    status: 'completed',
+    score: '3789101',
+    certificationCenter: 'Université de Lyon',
   });
 
   server.create('correction');
