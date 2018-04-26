@@ -27,7 +27,7 @@ const schemaValidateUser = Joi.object().keys({
     }
     return { message: 'Votre mot de passe doit comporter au moins une lettre, un chiffre et 8 caractères.' };
   }),
-  cgu: Joi.boolean().truthy('true').error(() => {
+  cgu: Joi.boolean().required().valid(true).truthy('true').error(() => {
     return { message: 'Vous devez accepter les conditions d’utilisation de Pix pour créer un compte.' };
   }),
 });

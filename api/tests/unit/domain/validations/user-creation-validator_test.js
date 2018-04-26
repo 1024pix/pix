@@ -273,7 +273,7 @@ describe('Unit | Domain | Validators | user-creation-validator', function() {
             field: 'cgu'
           }
         };
-        userData.cgu = false;
+        userData.cgu = 'false';
 
         // when
         const promise = userCreationValidator.validate(userData, recaptchaToken);
@@ -291,7 +291,6 @@ describe('Unit | Domain | Validators | user-creation-validator', function() {
           lastName: '',
           email: '',
           password: '',
-          cgu: false,
         };
 
         // when
