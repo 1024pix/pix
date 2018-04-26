@@ -57,9 +57,12 @@ export default function(server) {
     type : 'CERTIFICATION'
   });
 
+  server.create('correction');
+
   prescriber.organization = company;
   company.user = prescriber;
 
   const snapshots = server.createList('snapshot', 3, { organization: company });
+
   company.snapshots = snapshots;
 }

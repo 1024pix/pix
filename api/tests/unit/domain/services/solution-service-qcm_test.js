@@ -3,7 +3,7 @@ const { expect } = require('../../../test-helper');
 const service = require('../../../../lib/domain/services/solution-service-qcm');
 const Answer = require('../../../../lib/infrastructure/data/answer');
 const AnswerStatus = require('../../../../lib/domain/models/AnswerStatus');
-const Solution = require('../../../../lib/domain/models/referential/solution');
+const Solution = require('../../../../lib/domain/models/Solution');
 const _ = require('../../../../lib/infrastructure/utils/lodash-utils');
 
 describe('Unit | Service | SolutionServiceQCM ', function() {
@@ -59,7 +59,5 @@ describe('Unit | Service | SolutionServiceQCM ', function() {
         expect(AnswerStatus.isKO(result)).to.be.true;
       });
     });
-
   });
-
 });

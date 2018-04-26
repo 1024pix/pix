@@ -2,9 +2,9 @@ import { expect } from 'chai';
 import { describe, it } from 'mocha';
 import { setupTest } from 'ember-mocha';
 
-describe('Unit | Adapters | solution', function() {
+describe('Unit | Adapters | correction', function() {
 
-  setupTest('adapter:solution', {
+  setupTest('adapter:correction', {
     needs: ['service:session']
   });
 

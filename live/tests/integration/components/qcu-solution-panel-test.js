@@ -59,9 +59,7 @@ describe('Integration | Component | qcu-solution-panel.js', function() {
           type: 'QCM'
         });
 
-        solution = EmberObject.create({
-          id: 'solution_id', value: '2'
-        });
+        solution = '2';
 
         answer = EmberObject.create(correctAnswer);
       });
@@ -131,7 +129,6 @@ describe('Integration | Component | qcu-solution-panel.js', function() {
         expect($(RADIO_INCORRECT_AND_CHECKED).hasClass('radio-on')).to.equal(true);
         expect(charCount($(LABEL_INCORRECT_AND_CHECKED).text())).to.be.above(0);
         expect($(LABEL_INCORRECT_AND_CHECKED).css('text-decoration')).to.contain(CSS_LINETHROUGH_ON);
-
       });
 
       it('Aucune case à cocher n\'est cliquable', function() {
@@ -149,9 +146,6 @@ describe('Integration | Component | qcu-solution-panel.js', function() {
           expect($('.comparison-window .qcu-panel__proposal-radio:eq(' + index + ')').is(':disabled')).to.equal(true);
         });
       });
-
     });
-
   });
-
 });

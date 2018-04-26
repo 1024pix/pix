@@ -47,27 +47,27 @@
       </div>
 
       {{#if isAssessmentChallengeTypeQcm}}
-        {{qcm-solution-panel challenge=challenge answer=answer solution=solution}}
+        {{qcm-solution-panel challenge=challenge answer=answer solution=correction.solution}}
       {{/if}}
 
 
       {{#if isAssessmentChallengeTypeQcu}}
-        {{qcu-solution-panel challenge=challenge answer=answer solution=solution}}
+        {{qcu-solution-panel challenge=challenge answer=answer solution=correction.solution}}
       {{/if}}
 
       {{#if isAssessmentChallengeTypeQroc}}
         <div class="comparison-window__corrected-answers comparison-window__corrected-answers--qroc">
-          {{qroc-solution-panel answer=answer solution=solution}}
+          {{qroc-solution-panel answer=answer solution=correction.solution}}
         </div>
       {{/if}}
 
       {{#if isAssessmentChallengeTypeQrocmInd}}
         <div class="comparison-window__corrected-answers comparison-window__corrected-answers--qrocm">
-          {{qrocm-ind-solution-panel answer=answer solution=solution challenge=challenge}}
+          {{qrocm-ind-solution-panel answer=answer solution=correction.solution challenge=challenge}}
         </div>
       {{/if}}
 
-      {{tutorial-panel}}
+      {{tutorial-panel resultItemStatus=resultItem.status hint=correction.hint}}
     </div>
 
     <div class="routable-modal--footer">

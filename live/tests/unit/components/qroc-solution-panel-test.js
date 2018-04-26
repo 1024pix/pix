@@ -7,7 +7,6 @@ describe('Unit | Component | qroc-solution-panel', function() {
   setupTest('component:qroc-solution-panel', {});
   const rightAnswer = { result: 'ok' };
   const wrongAnswer = { result: 'ko' };
-  //const noAnswer = { result: 'aband' };
 
   describe('#isResultOk', function() {
 
@@ -66,9 +65,7 @@ describe('Unit | Component | qroc-solution-panel', function() {
 
     it('should return the first solution if the solution has some variants', function() {
       // given
-      const solution = {
-        value: 'Reponse\nreponse\nréponse'
-      };
+      const solution = 'Reponse\nreponse\nréponse';
       const component = this.subject();
       component.set('solution', solution);
       // when
@@ -79,9 +76,7 @@ describe('Unit | Component | qroc-solution-panel', function() {
 
     it('should return the solution', function() {
       // given
-      const solution = {
-        value: 'Reponse'
-      };
+      const solution = 'Reponse';
       const component = this.subject();
       component.set('solution', solution);
       // when
@@ -92,9 +87,7 @@ describe('Unit | Component | qroc-solution-panel', function() {
 
     it('should return an empty string if the solution is null', function() {
       // given
-      const emptySolution = {
-        value: ''
-      };
+      const emptySolution = '';
       const component = this.subject();
       component.set('solution', emptySolution);
       // when
@@ -105,9 +98,7 @@ describe('Unit | Component | qroc-solution-panel', function() {
 
     it('should return an empty string if the solution is an empty String', function() {
       // given
-      const solutionNull = {
-        value: null
-      };
+      const solutionNull = null;
       const component = this.subject();
       component.set('solution', solutionNull);
       // when

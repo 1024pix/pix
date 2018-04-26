@@ -57,9 +57,7 @@ describe('Integration | Component | qcm-solution-panel.js', function() {
           type: 'QCM'
         });
 
-        solution = EmberObject.create({
-          id: 'solution_id', value: '2,3'
-        });
+        solution = '2,3';
 
         answer = EmberObject.create(correctAnswer);
       });

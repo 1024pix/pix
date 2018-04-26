@@ -3,8 +3,6 @@ const Hapi = require('hapi');
 const Challenge = require('../../../../lib/domain/models/Challenge');
 const ChallengeRepository = require('../../../../lib/infrastructure/repositories/challenge-repository');
 const ChallengeSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/challenge-serializer');
-const Solution = require('../../../../lib/domain/models/referential/solution');
-const SolutionRepository = require('../../../../lib/infrastructure/repositories/solution-repository');
 
 describe('Unit | Controller | challenge-controller', function() {
 
@@ -57,31 +55,5 @@ describe('Unit | Controller | challenge-controller', function() {
           ChallengeRepository.get.restore();
         });
     });
-  });
-
-  describe('#refreshSolution', function() {
-
-    it('should refresh all the given challenge solutions', () => {
-      // given
-      const solution = new Solution({
-        id: 1,
-        type: 'solution_type',
-        value: 'solution_yaml_solution',
-        scoring: 'solution_scoring'
-      });
-      sinon.stub(SolutionRepository, 'refresh').resolves(solution);
-
-      // when
-      return server.inject({ method: 'POST', url: '/api/challenges/challenge_id/solution' })
-        .then(res => {
-          // then
-          expect(res.result).to.equal('ok');
-          sinon.assert.calledOnce(SolutionRepository.refresh);
-
-          // after
-          SolutionRepository.refresh.restore();
-        });
-    });
-
   });
 });

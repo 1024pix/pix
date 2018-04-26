@@ -14,12 +14,12 @@ export default BaseRoute.extend({
     // creates a fake course
     const course = store.createRecord('course', { id: 'null' + _.guid(), type: 'PREVIEW', challenges: [challenge] });
     const assessment = store.createRecord('assessment', { course, type: course.get('type') });
-    const solutionAdapter = store.adapterFor('solution');
 
-    solutionAdapter.refreshRecord('solution', { challengeId: challenge.get('id') });
+    const correctionAdapter = store.adapterFor('correction');
+
+    correctionAdapter.refreshRecord('correction', { challengeId: challenge.get('id') });
     return assessment.save().then(() => {
       return that.transitionTo('assessments.challenge', { assessment, challenge });
     });
   }
-
 });
