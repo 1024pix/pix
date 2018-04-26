@@ -91,7 +91,7 @@ export default Component.extend({
   },
 
   _updateInputsStatus() {
-    const errors = this.get('user.errors.content');
+    const errors = this.get('user.errors');
     errors.forEach(({ attribute, message }) => {
       this._updateValidationStatus(attribute, 'error', message);
     });

@@ -9,7 +9,6 @@ const userService = require('../../domain/services/user-service');
 const userRepository = require('../../../lib/infrastructure/repositories/user-repository');
 const profileService = require('../../domain/services/profile-service');
 const profileSerializer = require('../../infrastructure/serializers/jsonapi/profile-serializer');
-const { InvalidRecaptchaTokenError } = require('../../../lib/infrastructure/validators/errors');
 const bookshelfUtils = require('../../infrastructure/utils/bookshelf-utils');
 const passwordResetDemandService = require('../../domain/services/reset-password-service');
 const encryptionService = require('../../domain/services/encryption-service');
@@ -20,7 +19,6 @@ const Bookshelf = require('../../infrastructure/bookshelf');
 
 const logger = require('../../infrastructure/logger');
 const { PasswordResetDemandNotFoundError, InternalError, InvalidTokenError, UserValidationErrors } = require('../../domain/errors');
-const { ValidationError: BookshelfValidationError } = require('bookshelf-validate/lib/errors');
 
 module.exports = {
 
@@ -39,18 +37,8 @@ module.exports = {
       }).catch((err) => {
 
         if(err instanceof UserValidationErrors) {
-          return reply(new JSONAPIError(err.errors)).code(422);
-        }
-
-        if (err instanceof BookshelfValidationError) {
-          return reply(validationErrorSerializer.serialize(err)).code(422);
-        }
-
-        if (err instanceof InvalidRecaptchaTokenError) {
-          const userValidationErrors =  userRepository.validateData(user);
-          err = _addUserErrorsWhenRecaptchaTokenInvalid(userValidationErrors);
-
-          return reply(validationErrorSerializer.serialize(err)).code(422);
+          const serializedErrors = new JSONAPIError(err.errors);
+          return reply(serializedErrors).code(422);
         }
 
         if (bookshelfUtils.isUniqConstraintViolated(err)) {
