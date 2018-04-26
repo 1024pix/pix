@@ -15,5 +15,18 @@ module.exports = {
         logger.error(err);
         reply(Boom.badImplementation(err));
       });
+  },
+
+  updateCertification(request, reply) {
+    return usecases.updateCertification({
+      certificationId: request.params.id,
+      attributesToUpdate: request.data.attributes,
+      certificationRepository
+    })
+      .then(() => reply().code(204))
+      .catch(err => {
+        logger.error(err);
+        reply(Boom.badImplementation(err));
+      });
   }
 };

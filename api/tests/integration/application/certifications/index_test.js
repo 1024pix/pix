@@ -8,6 +8,7 @@ describe('Integration | Application | Route | Certifications', function() {
 
   beforeEach(() => {
     sinon.stub(certificationController, 'findUserCertifications').callsFake((request, reply) => reply('ok'));
+    sinon.stub(certificationController, 'updateCertification').callsFake((request, reply) => reply('ok').code(204));
 
     server = new Hapi.Server();
     server.connection({ port: null });
@@ -16,10 +17,11 @@ describe('Integration | Application | Route | Certifications', function() {
 
   afterEach(() => {
     certificationController.findUserCertifications.restore();
+    certificationController.updateCertification.restore();
     server.stop();
   });
 
-  describe('GET /api/certifications', function() {
+  describe('GET /api/certifications', () => {
 
     it('should exist', function() {
       // given
@@ -35,7 +37,25 @@ describe('Integration | Application | Route | Certifications', function() {
       return promise.then(response => {
         expect(response.statusCode).to.equal(200);
       });
+    });
+  });
 
+  describe('PATCH /api/certifications/:id', () => {
+
+    it('should exist', function() {
+      // given
+      const options = {
+        method: 'PATCH',
+        url: '/api/certifications/1'
+      };
+
+      // when
+      const promise = server.inject(options);
+
+      // then
+      return promise.then(response => {
+        expect(response.statusCode).to.equal(204);
+      });
     });
   });
 });
