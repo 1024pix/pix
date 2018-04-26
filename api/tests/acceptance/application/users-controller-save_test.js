@@ -5,8 +5,12 @@ const server = require('../../../server');
 const User = require('../../../lib/infrastructure/data/user');
 
 const mailService = require('../../../lib/domain/services/mail-service');
+const userCreationValidator = require('../../../lib/domain/validators/user-creation-validator');
+const { UserValidationErrors } = require('../../../lib/domain/errors');
+
 const logger = require('../../../lib/infrastructure/logger');
 const gRecaptcha = require('../../../lib/infrastructure/validators/grecaptcha-validator');
+
 
 describe('Acceptance | Controller | users-controller-save', () => {
 
@@ -15,14 +19,14 @@ describe('Acceptance | Controller | users-controller-save', () => {
   let sendAccountCreationEmailStub;
   let loggerStub;
   let recaptchaVerifyStub;
+  let userCreationValidatorStub;
 
-  before(() => {
+  beforeEach(() => {
     sendAccountCreationEmailStub = sinon.stub(mailService, 'sendAccountCreationEmail');
     loggerStub = sinon.stub(logger, 'error').returns({});
     recaptchaVerifyStub = sinon.stub(gRecaptcha, 'verify').resolves();
-  });
+    userCreationValidatorStub = sinon.stub(userCreationValidator, 'validate');
 
-  beforeEach(() => {
     attributes = {
       'first-name': faker.name.firstName(),
       'last-name': faker.name.lastName(),
@@ -44,13 +48,17 @@ describe('Acceptance | Controller | users-controller-save', () => {
     };
   });
 
-  after(() => {
+  afterEach(() => {
     sendAccountCreationEmailStub.restore();
     loggerStub.restore();
     recaptchaVerifyStub.restore();
+    userCreationValidatorStub.restore();
   });
 
   it('should return 201 HTTP status code', () => {
+    // given
+    userCreationValidatorStub.resolves();
+
     // when
     const promise = server.inject(options);
 
@@ -60,11 +68,11 @@ describe('Acceptance | Controller | users-controller-save', () => {
     });
   });
 
-  it('should return 422 HTTP status code when firstName is missing', function() {
+  it('should return 422 HTTP status code when there are user validation errors', function() {
     // Given
-    options.payload.data.attributes['first-name'] = '';
-    options.payload.data.attributes['email'] = 'test@example.net';
     const firstRegistration = server.inject(options);
+
+    userCreationValidatorStub.rejects(new UserValidationErrors([]));
 
     // When
     const secondRegistration = firstRegistration.then(_ => {
@@ -77,24 +85,10 @@ describe('Acceptance | Controller | users-controller-save', () => {
     });
   });
 
-  it('should return 422 HTTP status code when email already exists', () => {
-    // given
-    const firstRegistration = server.inject(options);
-
-    // when
-    const secondRegistration = firstRegistration.then(_ => {
-      return server.inject(options);
-    });
-
-    // then
-    return secondRegistration.then((response) => {
-      expect(response.statusCode).to.equal(422);
-    });
-  });
-
   it('should save the user in the database', () => {
     // when
     const promise = server.inject(options);
+    userCreationValidatorStub.resolves();
 
     // then
     return promise.then(() => {
@@ -109,6 +103,7 @@ describe('Acceptance | Controller | users-controller-save', () => {
   it('should crypt user password', () => {
     // given
     options.payload.data.attributes.password = 'my-123-password';
+    userCreationValidatorStub.resolves();
 
     // when
     const promise = server.inject(options);
@@ -120,22 +115,6 @@ describe('Acceptance | Controller | users-controller-save', () => {
           expect(user.get('password')).not.to.equal('my-123-password');
         });
     });
-  });
-
-  describe('should return 422 HTTP status code', () => {
-    it('when the email is not valid', () => {
-      // given
-      options.payload.data.attributes.email = 'invalid.email@';
-
-      // when
-      const promise = server.inject(options);
-
-      // then
-      return promise.then(response => {
-        expect(response.statusCode).to.equal(422);
-      });
-    });
-
   });
 
 });

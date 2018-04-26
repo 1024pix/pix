@@ -10,7 +10,6 @@ const userService = require('../../domain/services/user-service');
 const userRepository = require('../../../lib/infrastructure/repositories/user-repository');
 const profileService = require('../../domain/services/profile-service');
 const profileSerializer = require('../../infrastructure/serializers/jsonapi/profile-serializer');
-const googleReCaptcha = require('../../../lib/infrastructure/validators/grecaptcha-validator');
 const { InvalidRecaptchaTokenError } = require('../../../lib/infrastructure/validators/errors');
 const bookshelfUtils = require('../../infrastructure/utils/bookshelf-utils');
 const passwordResetDemandService = require('../../domain/services/reset-password-service');
