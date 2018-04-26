@@ -12,11 +12,13 @@ describe('Unit | Route | user certifications', function() {
 
   let route;
   const findAll = sinon.stub();
+  const unloadAll = sinon.stub();
 
   beforeEach(function() {
 
     this.register('service:store', Service.extend({
-      findAll: findAll
+      findAll: findAll,
+      unloadAll: unloadAll
     }));
     this.inject.service('store', { as: 'store' });
 
