@@ -10,7 +10,7 @@ const logger = require('../../infrastructure/logger');
 
 function _updateExistingAnswer(existingAnswer, newAnswer, reply) {
   solutionRepository
-    .get(existingAnswer.get('challengeId'))
+    .getByChallengeId(existingAnswer.get('challengeId'))
     .then((solution) => {
       const answerCorrectness = solutionService.validate(newAnswer, solution);
       new Answer({ id: existingAnswer.id })
@@ -35,7 +35,7 @@ function _updateExistingAnswer(existingAnswer, newAnswer, reply) {
 
 function _saveNewAnswer(newAnswer, reply) {
   solutionRepository
-    .get(newAnswer.get('challengeId'))
+    .getByChallengeId(newAnswer.get('challengeId'))
     .then((solution) => {
       const answerCorrectness = solutionService.validate(newAnswer, solution);
       newAnswer.save({

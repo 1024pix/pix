@@ -30,7 +30,9 @@ describe('Integration | Component | qrocm solution panel', function() {
     assessment,
     challenge
   });
-  const solution = EmberObject.create({ value: 'key1:\n- rightAnswer1\nkey2:\n- rightAnswer20\n- rightAnswer21\nkey3 :\n- rightAnswer3' });
+  const solution = 'key1:\n- rightAnswer1\nkey2:\n- rightAnswer20\n-' +
+    ' rightAnswer21\nkey3 :\n-' +
+    ' rightAnswer3' ;
 
   beforeEach(function() {
     this.set('answer', answer);

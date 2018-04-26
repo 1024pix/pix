@@ -1,6 +1,6 @@
 class Skill {
-  constructor(model = {}) {
-    this.name = model.name;
+  constructor({ name } = {}) {
+    this.name = name;
   }
 
   get difficulty() {

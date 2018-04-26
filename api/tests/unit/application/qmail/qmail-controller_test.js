@@ -1,6 +1,6 @@
 const { expect, sinon } = require('../../../test-helper');
 const AnswerRepository = require('../../../../lib/infrastructure/repositories/answer-repository');
-const SolutionRepository = require('../../../../lib/infrastructure/repositories/solution-repository');
+const solutionRepository = require('../../../../lib/infrastructure/repositories/solution-repository');
 const Answer = require('../../../../lib/infrastructure/data/answer');
 const QmailController = require('../../../../lib/application/qmail/qmail-controller');
 const QmailValidationService = require('../../../../lib/domain/services/qmail-validation-service');
@@ -48,7 +48,7 @@ describe('Unit | Controller | qmailController', () => {
       sinon.stub(answer, 'save').resolves();
 
       sandbox.stub(AnswerRepository, 'findByChallengeAndAssessment').resolves(answer);
-      sandbox.stub(SolutionRepository, 'get').resolves(challengeToEvaluate);
+      sandbox.stub(solutionRepository, 'getByChallengeId').resolves(challengeToEvaluate);
       sandbox.stub(QmailValidationService, 'validateEmail').returns(true);
     });
 
@@ -61,8 +61,8 @@ describe('Unit | Controller | qmailController', () => {
       const promise = QmailController.validate({ payload: emailSample }, replyStub);
 
       return promise.then(() => {
-        sinon.assert.calledOnce(SolutionRepository.get);
-        sinon.assert.calledWith(SolutionRepository.get, challengeId);
+        sinon.assert.calledOnce(solutionRepository.getByChallengeId);
+        sinon.assert.calledWith(solutionRepository.getByChallengeId, challengeId);
       });
     });
 
@@ -73,7 +73,7 @@ describe('Unit | Controller | qmailController', () => {
       const notFoundError = new NotFoundError('Damn, an error');
 
       beforeEach(() => {
-        SolutionRepository.get.rejects(notFoundError);
+        solutionRepository.getByChallengeId.rejects(notFoundError);
         boomBadRequestStub = sinon.stub(Boom, 'badRequest').returns(boomError);
       });
 
@@ -101,7 +101,7 @@ describe('Unit | Controller | qmailController', () => {
         const boomError = {};
 
         beforeEach(() => {
-          SolutionRepository.get.resolves({ type: 'QCU' });
+          solutionRepository.getByChallengeId.resolves({ type: 'QCU' });
           boomBadRequestStub = sinon.stub(Boom, 'badRequest').returns(boomError);
         });
 
@@ -170,7 +170,7 @@ describe('Unit | Controller | qmailController', () => {
           return promise.then(() => {
             sinon.assert.calledOnce(QmailValidationService.validateEmail);
             sinon.assert.callOrder(
-              SolutionRepository.get,
+              solutionRepository.getByChallengeId,
               AnswerRepository.findByChallengeAndAssessment,
               QmailValidationService.validateEmail,
               answer.save

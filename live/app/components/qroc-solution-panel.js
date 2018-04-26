@@ -28,8 +28,8 @@ export default Component.extend({
     return answer;
   }),
 
-  solutionToDisplay: computed('solution.value', function() {
-    const solutionVariants = this.get('solution.value');
+  solutionToDisplay: computed('solution', function() {
+    const solutionVariants = this.get('solution');
     if (!solutionVariants) {
       return '';
     }

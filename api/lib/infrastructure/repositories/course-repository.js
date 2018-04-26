@@ -68,6 +68,10 @@ module.exports = {
     });
   },
 
+  // TODO: delete
+  /**
+   * @deprecated use the generic refresh endpoint: the removeCacheEntry controller
+   */
   refresh(id) {
     return new Promise((resolve, reject) => {
       const cacheKey = `course-repository_get_${id}`;
@@ -78,6 +82,10 @@ module.exports = {
     });
   },
 
+  // TODO: delete
+  /**
+   * @deprecated use the generic refresh endpoint: the removeCacheEntry controller
+   */
   refreshAll() {
     return new Promise((resolve, reject) => {
       cache.del(CACHE_KEY_GET_PROGRESSION_COURSES, (err) => {
@@ -92,5 +100,4 @@ module.exports = {
       });
     });
   }
-
 };

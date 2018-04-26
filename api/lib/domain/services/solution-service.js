@@ -35,7 +35,7 @@ module.exports = {
       return Promise.resolve(existingAnswer);
     }
     return solutionRepository
-      .get(existingAnswer.get('challengeId'))
+      .getByChallengeId(existingAnswer.get('challengeId'))
       .then((solution) => {
         const answerCorrectness = this.validate(existingAnswer, solution);
         return new Answer({
