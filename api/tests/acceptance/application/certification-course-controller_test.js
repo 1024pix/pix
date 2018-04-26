@@ -15,6 +15,7 @@ describe('Acceptance | API | Certification Course', () => {
         headers: {}
       };
     });
+
     afterEach(() => {
       return knex('certification-courses').delete();
     });
