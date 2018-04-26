@@ -9,7 +9,6 @@ export default BaseRoute.extend(AuthenticatedRouteMixin, {
 
   model() {
     const store = this.get('store');
-
     store.unloadAll('certification');
     return store.findAll('certification');
   },
