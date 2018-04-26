@@ -1,7 +1,6 @@
 const { sinon, expect } = require('../../../test-helper');
 
 const Boom = require('boom');
-const JSONAPIError = require('jsonapi-serializer').Error;
 
 const BookshelfUser = require('../../../../lib/infrastructure/data/user');
 const User = require('../../../../lib/domain/models/User');
@@ -19,7 +18,6 @@ const userService = require('../../../../lib/domain/services/user-service');
 const userCreationValidator = require('../../../../lib/domain/validators/user-creation-validator');
 
 const { PasswordResetDemandNotFoundError, InternalError, UserValidationErrors } = require('../../../../lib/domain/errors');
-const { ValidationError: BookshelfValidationError } = require('bookshelf-validate/lib/errors');
 
 describe('Unit | Controller | user-controller', () => {
 

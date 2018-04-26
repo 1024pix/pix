@@ -22,12 +22,12 @@ describe('Acceptance | Controller | authentication-controller', () => {
     beforeEach(() => {
       return encrypt.hashPassword(userPassword)
         .then((encryptedPassword) => knex('users').insert({
-            firstName: faker.name.firstName(),
-            lastName: faker.name.lastName(),
-            email: userEmailSavedInDb,
-            password: encryptedPassword,
-            cgu: true
-          })
+          firstName: faker.name.firstName(),
+          lastName: faker.name.lastName(),
+          email: userEmailSavedInDb,
+          password: encryptedPassword,
+          cgu: true
+        })
         )
         .then((userIds) => userId = userIds[0])
         .then(() => {
