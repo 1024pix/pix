@@ -38,7 +38,6 @@ module.exports = {
   },
 
   getNonAnsweredChallengeByCourseId(assessmentId, courseId) {
-    console.log('repo - getNonAnsweredChallengeByCourseId');
     const answeredChallengeIds = Bookshelf.knex('answers')
       .select('challengeId')
       .where({ assessmentId });

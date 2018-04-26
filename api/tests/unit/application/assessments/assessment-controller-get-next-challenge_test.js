@@ -61,7 +61,6 @@ describe('Unit | Controller | assessment-controller-get-next-challenge', () => {
 
       sandbox.stub(assessmentService, 'fetchAssessment').resolves(scoredAsssessment);
       sandbox.stub(skillService, 'saveAssessmentSkills').resolves();
-      sandbox.stub(assessmentService, 'getAssessmentNextChallengeId');
       sandbox.stub(assessmentRepository, 'get');
       sandbox.stub(assessmentRepository, 'save');
       sandbox.stub(Boom, 'notFound').returns({ message: 'NotFoundError' });
@@ -93,8 +92,6 @@ describe('Unit | Controller | assessment-controller-get-next-challenge', () => {
           pixScore: 0,
           type: 'PREVIEW'
         }));
-
-        assessmentService.getAssessmentNextChallengeId.rejects(new AssessmentEndedError());
       });
 
       it('should return a 404 code directly', () => {
@@ -136,7 +133,6 @@ describe('Unit | Controller | assessment-controller-get-next-challenge', () => {
     describe('when the assessment is over', () => {
 
       beforeEach(() => {
-        assessmentService.getAssessmentNextChallengeId.rejects(new AssessmentEndedError());
         usecases.getNextChallengeForCertification.rejects(new AssessmentEndedError());
         usecases.getNextChallengeForDemo.rejects(new AssessmentEndedError());
         assessmentRepository.get.resolves(assessmentWithoutScore);
@@ -183,7 +179,6 @@ describe('Unit | Controller | assessment-controller-get-next-challenge', () => {
     describe('when the assessment is not over yet', () => {
 
       beforeEach(() => {
-        assessmentService.getAssessmentNextChallengeId.resolves({});
         assessmentRepository.get.resolves(assessmentWithoutScore);
       });
 

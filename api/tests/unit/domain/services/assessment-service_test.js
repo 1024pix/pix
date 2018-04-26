@@ -20,7 +20,6 @@ const Challenge = require('../../../../lib/domain/models/Challenge');
 const CompetenceMark = require('../../../../lib/domain/models/CompetenceMark');
 
 const Skill = require('../../../../lib/domain/models/Skill');
-const { AssessmentEndedError } = require('../../../../lib/domain/errors');
 
 function _buildChallenge(challengeId, skills) {
   const challenge = new Challenge();

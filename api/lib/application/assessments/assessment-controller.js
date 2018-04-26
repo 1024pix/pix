@@ -6,6 +6,10 @@ const assessmentService = require('../../domain/services/assessment-service');
 const tokenService = require('../../domain/services/token-service');
 const challengeRepository = require('../../infrastructure/repositories/challenge-repository');
 const challengeSerializer = require('../../infrastructure/serializers/jsonapi/challenge-serializer');
+
+const skillRepository = require('../../infrastructure/repositories/skill-repository');
+const competenceRepository = require('../../infrastructure/repositories/competence-repository');
+const answerRepository = require('../../infrastructure/repositories/answer-repository');
 const courseRepository = require('../../infrastructure/repositories/course-repository');
 const certificationChallengeRepository = require('../../infrastructure/repositories/certification-challenge-repository');
 
@@ -100,9 +104,14 @@ module.exports = {
         }
 
         if (assessmentService.isPlacementAssessment(assessment)) {
-          console.log('Controller - If Placement');
-          return assessmentService.getAssessmentNextChallengeId(assessment)
-            .then(challengeRepository.get);
+          return useCases.getNextChallengeForPlacement({
+            assessment,
+            courseRepository,
+            answerRepository,
+            challengeRepository,
+            skillRepository,
+            competenceRepository
+          });
         }
       })
       .then((challenge) => {

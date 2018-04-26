@@ -3,6 +3,7 @@ const getCorrectionForAnswerWhenAssessmentEnded = require('./get-correction-for-
 const getNextChallengeForPreview = require('./get-next-challenge-for-preview');
 const getNextChallengeForCertification = require('./get-next-challenge-for-certification');
 const getNextChallengeForDemo = require('./get-next-challenge-for-demo');
+const getNextChallengeForPlacement = require('./get-next-challenge-for-placement');
 const findCompletedUserCertifications = require('./find-completed-user-certifications');
 
 module.exports = {
@@ -11,5 +12,6 @@ module.exports = {
   getCorrectionForAnswerWhenAssessmentEnded,
   getNextChallengeForPreview,
   getNextChallengeForCertification,
-  getNextChallengeForDemo
+  getNextChallengeForDemo,
+  getNextChallengeForPlacement
 };
