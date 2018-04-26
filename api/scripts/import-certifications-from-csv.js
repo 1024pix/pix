@@ -145,6 +145,6 @@ if (process.env.NODE_ENV !== 'test') {
 
 module.exports = {
   assertFileValidity,
-  convertCSVDataIntoCertifications: convertCSVDataIntoCertifications,
+  convertCSVDataIntoCertifications,
   saveCertifications
 };
