@@ -6,11 +6,12 @@ function _byDate(assessmentResultA, assessmentResultB) {
 
 class Certification {
 
-  constructor({ id, date, certificationCenter, isPublished, assessmentResults = [] } = {}) {
+  constructor({ id, date, certificationCenter, isPublished, assessmentState, assessmentResults = [] } = {}) {
     this.id = id;
     this.date = date;
     this.certificationCenter = certificationCenter;
     this.isPublished = isPublished;
+    this.assessmentState = assessmentState;
 
     const assessmentResultsCopy = Array.from(assessmentResults);
     const mostRecentAssessment = assessmentResultsCopy.sort(_byDate)[0];
