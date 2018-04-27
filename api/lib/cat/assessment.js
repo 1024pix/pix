@@ -36,9 +36,13 @@ class Assessment {
     return !answeredChallenges.includes(challenge);
   }
 
+  _isNotTooHardChallenge(challenge) {
+    return challenge.hardestSkill.difficulty - this._getPredictedLevel() <= 2;
+  }
+
   _isAnAvailableChallenge(challenge) {
     const answeredChallenges = this.answers.map(answer => answer.challenge);
-    return challenge.isActive && this._isChallengeNotAnsweredYet(challenge, answeredChallenges);
+    return challenge.isActive && this._isChallengeNotAnsweredYet(challenge, answeredChallenges) && this._isNotTooHardChallenge(challenge);
   }
 
   _isPreviousChallengeTimed() {
@@ -160,6 +164,11 @@ class Assessment {
     const challengesAndRewards = this.filteredChallenges.map(challenge => {
       return { challenge: challenge, reward: this._computeReward(challenge, predictedLevel) };
     });
+    
+    if (challengesAndRewards.length == 0) {
+      return null;
+    }
+
     const challengeWithMaxReward = challengesAndRewards.sort(byDescendingRewards)[0];
     const maxReward = challengeWithMaxReward.reward;
 
