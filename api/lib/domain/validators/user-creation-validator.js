@@ -43,9 +43,9 @@ module.exports = {
     ])
       .then(values => {
         const recaptchaError = values[0];
-        const userDataErrors = values[1] || {};
+        const userDataErrors = values[1];
 
-        const validationErrors = _concatErrors(recaptchaError, userDataErrors.errors);
+        const validationErrors = _concatErrors(recaptchaError, userDataErrors);
 
         if (validationErrors.length > 0) {
           return Promise.reject(new UserValidationErrors(validationErrors));

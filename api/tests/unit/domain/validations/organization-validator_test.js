@@ -1,13 +1,11 @@
 const { expect } = require('../../../test-helper');
 const organizationValidator = require('../../../../lib/domain/validators/organization-validator');
-const { OrganizationValidationErrors } = require('../../../../lib/domain/errors');
 
 const MISSING_VALUE = '';
 
-function _assertErrorMatchesWithExpectedOne(err, expectedError) {
-  expect(err).to.be.an.instanceof(OrganizationValidationErrors);
-  expect(err.errors).to.have.lengthOf(1);
-  expect(err.errors[0]).to.deep.equal(expectedError);
+function _assertErrorMatchesWithExpectedOne(errors, expectedError) {
+  expect(errors).to.have.lengthOf(1);
+  expect(errors[0]).to.deep.equal(expectedError);
 }
 
 describe('Unit | Domain | Validators | organization-validator', function() {
@@ -57,8 +55,8 @@ describe('Unit | Domain | Validators | organization-validator', function() {
 
           // then
           return promise
-            .then(() => expect.fail('Expected rejection with OrganizationValidationErrors'))
-            .catch((err) => _assertErrorMatchesWithExpectedOne(err, expectedError));
+            .then(() => expect.fail('Expected rejection with errors'))
+            .catch((errors) => _assertErrorMatchesWithExpectedOne(errors, expectedError));
         });
 
         it('should reject with error when code has wrong format', () => {
@@ -78,8 +76,8 @@ describe('Unit | Domain | Validators | organization-validator', function() {
 
           // then
           return promise
-            .then(() => expect.fail('Expected rejection with OrganizationValidationErrors'))
-            .catch((err) => _assertErrorMatchesWithExpectedOne(err, expectedError));
+            .then(() => expect.fail('Expected rejection with errors'))
+            .catch((errors) => _assertErrorMatchesWithExpectedOne(errors, expectedError));
         });
 
       });
@@ -103,8 +101,8 @@ describe('Unit | Domain | Validators | organization-validator', function() {
 
           // then
           return promise
-            .then(() => expect.fail('Expected rejection with OrganizationValidationErrors'))
-            .catch((err) => _assertErrorMatchesWithExpectedOne(err, expectedError));
+            .then(() => expect.fail('Expected rejection with errors'))
+            .catch((errors) => _assertErrorMatchesWithExpectedOne(errors, expectedError));
         });
 
       });
@@ -128,8 +126,8 @@ describe('Unit | Domain | Validators | organization-validator', function() {
 
           // then
           return promise
-            .then(() => expect.fail('Expected rejection with OrganisationValidationErrors'))
-            .catch((err) => _assertErrorMatchesWithExpectedOne(err, expectedError));
+            .then(() => expect.fail('Expected rejection erros'))
+            .catch((errors) => _assertErrorMatchesWithExpectedOne(errors, expectedError));
         });
 
         it('should reject with error when email is invalid', () => {
@@ -149,8 +147,8 @@ describe('Unit | Domain | Validators | organization-validator', function() {
 
           // then
           return promise
-            .then(() => expect.fail('Expected rejection with OrganizationValidationErrors'))
-            .catch((err) => _assertErrorMatchesWithExpectedOne(err, expectedError));
+            .then(() => expect.fail('Expected rejection with errors'))
+            .catch((errors) => _assertErrorMatchesWithExpectedOne(errors, expectedError));
         });
 
       });
@@ -174,8 +172,8 @@ describe('Unit | Domain | Validators | organization-validator', function() {
 
           // then
           return promise
-            .then(() => expect.fail('Expected rejection with OrganizationValidationErrors'))
-            .catch((err) => _assertErrorMatchesWithExpectedOne(err, expectedError));
+            .then(() => expect.fail('Expected rejection with errors'))
+            .catch((errors) => _assertErrorMatchesWithExpectedOne(errors, expectedError));
         });
 
         it('should reject with error when type value is not SUP, SCO or PRO', () => {
@@ -195,8 +193,8 @@ describe('Unit | Domain | Validators | organization-validator', function() {
 
           // then
           return promise
-            .then(() => expect.fail('Expected rejection with OrganizationValidationErrors'))
-            .catch((err) => _assertErrorMatchesWithExpectedOne(err, expectedError));
+            .then(() => expect.fail('Expected rejection with errors'))
+            .catch((errors) => _assertErrorMatchesWithExpectedOne(errors, expectedError));
         });
 
         [
@@ -232,10 +230,9 @@ describe('Unit | Domain | Validators | organization-validator', function() {
 
         // then
         return promise
-          .then(() => expect.fail('Expected rejection with UserValidationErrors'))
-          .catch((err) => {
-            expect(err).to.be.an.instanceof(OrganizationValidationErrors);
-            expect(err.errors).to.have.lengthOf(4);
+          .then(() => expect.fail('Expected rejection with errors'))
+          .catch((errors) => {
+            expect(errors).to.have.lengthOf(4);
           });
       });
     });

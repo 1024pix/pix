@@ -112,7 +112,7 @@ describe('Unit | Domain | Validators | user-creation-validator', function() {
         };
 
         googleReCaptcha.verify.resolves();
-        userValidator.validate.rejects(new UserValidationErrors([expectedError]));
+        userValidator.validate.rejects([expectedError]);
 
         // when
         const promise = userCreationValidator.validate(userData, recaptchaToken);
@@ -147,7 +147,7 @@ describe('Unit | Domain | Validators | user-creation-validator', function() {
         };
 
         googleReCaptcha.verify.rejects(new InvalidRecaptchaTokenError());
-        userValidator.validate.rejects(new UserValidationErrors([expectedUserError]));
+        userValidator.validate.rejects([expectedUserError]);
 
         // when
         const promise = userCreationValidator.validate(userData, recaptchaToken);

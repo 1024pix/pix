@@ -1,7 +1,6 @@
 const _ = require('lodash');
 const Joi = require('joi');
 const validatePassword = require('../../infrastructure/validators/password-validator');
-const { UserValidationErrors } = require('../../domain/errors');
 
 const JOI_VALIDATION_ERROR = 'ValidationError';
 const validationConfiguration = { abortEarly: false, allowUnknown: true };
@@ -72,7 +71,7 @@ module.exports = {
   validate(userData) {
     return Joi.validate(userData, userValidationJoiSchema, validationConfiguration).catch(error => {
       if (error.name === JOI_VALIDATION_ERROR) {
-        return Promise.reject(new UserValidationErrors(error.details.map(_formatJoiValidationError)));
+        return Promise.reject(error.details.map(_formatJoiValidationError));
       }
       throw error;
     });
