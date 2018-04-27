@@ -176,7 +176,7 @@ describe('Acceptance | API | Certifications', () => {
       return promise
         .then((response) => expect(response.statusCode).to.equal(204))
         .then(() => knex('certification-courses').where('id', JOHN_CERTIFICATION_ID))
-        .then((certification) => expect(certification.isPublished).to.be.true);
+        .then((foundCertification) => expect(foundCertification[0].isPublished).to.be.equal(1));
     });
 
     it('should return unauthorized 403 HTTP status code when user is not pixMaster', () => {

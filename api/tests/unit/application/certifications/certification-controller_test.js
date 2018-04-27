@@ -84,11 +84,13 @@ describe('Unit | Controller | certifications-controller', () => {
       params: {
         id: certificationId
       },
-      data: {
-        type: 'certification',
-        id: certificationId,
-        attributes: {
-          isPublished: true
+      payload: {
+        data: {
+          type: 'certification',
+          id: certificationId,
+          attributes: {
+            isPublished: true
+          }
         }
       }
     };

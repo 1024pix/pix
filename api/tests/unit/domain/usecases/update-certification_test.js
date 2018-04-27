@@ -1,5 +1,4 @@
 const { expect, sinon } = require('../../../test-helper');
-const Certification = require('../../../../lib/domain/models/Certification');
 const usecases = require('../../../../lib/domain/usecases');
 
 describe('Unit | UseCase | update-certification', () => {
@@ -27,7 +26,10 @@ describe('Unit | UseCase | update-certification', () => {
 
     // then
     return promise.then(() => {
-      expect(certificationRepository.updateCertification).to.have.been.calledWith({ id: '23', isPublished: true });
+      expect(certificationRepository.updateCertification).to.have.been.calledWith({
+        id: '23',
+        attributes: { isPublished: true }
+      });
     });
   });
 });

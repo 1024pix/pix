@@ -20,7 +20,7 @@ module.exports = {
   updateCertification(request, reply) {
     return usecases.updateCertification({
       certificationId: request.params.id,
-      attributesToUpdate: request.data.attributes,
+      attributesToUpdate: request.payload.data.attributes,
       certificationRepository
     })
       .then(() => reply().code(204))

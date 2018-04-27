@@ -5,6 +5,6 @@ module.exports = function({
 }) {
   return certificationRepository.updateCertification({
     id: certificationId,
-    isPublished
+    attributes: { isPublished }
   });
 };

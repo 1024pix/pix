@@ -1,14 +1,16 @@
 const { expect, sinon } = require('../../../test-helper');
 const Hapi = require('hapi');
+const securityController = require('../../../../lib/interfaces/controllers/security-controller');
 const certificationController = require('../../../../lib/application/certifications/certification-controller');
 
-describe('Integration | Application | Route | Certifications', function() {
+describe('Integration | Application | Route | Certifications', () => {
 
   let server;
 
   beforeEach(() => {
     sinon.stub(certificationController, 'findUserCertifications').callsFake((request, reply) => reply('ok'));
     sinon.stub(certificationController, 'updateCertification').callsFake((request, reply) => reply('ok').code(204));
+    sinon.stub(securityController, 'checkUserHasRolePixMaster').callsFake((request, reply) => reply(true));
 
     server = new Hapi.Server();
     server.connection({ port: null });
@@ -18,6 +20,8 @@ describe('Integration | Application | Route | Certifications', function() {
   afterEach(() => {
     certificationController.findUserCertifications.restore();
     certificationController.updateCertification.restore();
+    securityController.checkUserHasRolePixMaster.restore();
+
     server.stop();
   });
 
@@ -42,7 +46,7 @@ describe('Integration | Application | Route | Certifications', function() {
 
   describe('PATCH /api/certifications/:id', () => {
 
-    it('should exist', function() {
+    it('should exist', () => {
       // given
       const options = {
         method: 'PATCH',
