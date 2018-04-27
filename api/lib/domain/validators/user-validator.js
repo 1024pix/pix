@@ -1,6 +1,8 @@
 const _ = require('lodash');
 const Joi = require('joi');
 const validatePassword = require('../../infrastructure/validators/password-validator');
+const userRepository = require('../../infrastructure/repositories/user-repository');
+const { AlreadyRegisteredEmailError } = require('../../domain/errors');
 
 const JOI_VALIDATION_ERROR = 'ValidationError';
 const validationConfiguration = { abortEarly: false, allowUnknown: true };
@@ -18,7 +20,7 @@ const joiWithPasswordValidation = Joi.extend((joi) => ({
         }
         return value;
       }
-    },
+    }
   ]
 }));
 
@@ -53,15 +55,15 @@ const userValidationJoiSchema = Joi.object().keys({
   }),
 });
 
-function _formatJoiValidationError(joiError) {
+function _formatValidationError(key, message) {
   return {
     source: {
-      pointer: `/data/attributes/${_.kebabCase(joiError.context.key)}`
+      pointer: `/data/attributes/${_.kebabCase(key)}`
     },
-    title: `Invalid user data attribute "${joiError.context.key}"`,
-    detail: joiError.message,
+    title: `Invalid user data attribute "${key}"`,
+    detail: message,
     meta: {
-      field: joiError.context.key
+      field: key
     }
   };
 }
@@ -69,12 +71,30 @@ function _formatJoiValidationError(joiError) {
 module.exports = {
 
   validate(userData) {
-    return Joi.validate(userData, userValidationJoiSchema, validationConfiguration).catch(error => {
-      if (error.name === JOI_VALIDATION_ERROR) {
-        return Promise.reject(error.details.map(_formatJoiValidationError));
-      }
-      throw error;
-    });
+    return Promise.all([
+      Joi.validate(userData, userValidationJoiSchema, validationConfiguration).catch((errors) => errors),
+      userRepository.isEmailAvailable(userData.email).catch((error) => error),
+    ])
+      .then((values) => {
+        const joiErrors = values[0];
+        const emailAvailabilityError = values[1];
+        const validationErrors = [];
+
+        if (joiErrors.name === JOI_VALIDATION_ERROR) {
+          validationErrors.push(...joiErrors.details.map((joiError) => _formatValidationError(joiError.context.key, joiError.message)));
+        }
+
+        const joiEmailError = validationErrors.find((validationError) => validationError.meta.field === 'email');
+        if (emailAvailabilityError && ! joiEmailError) {
+          validationErrors.push(_formatValidationError('email', 'L’adresse électronique est déjà utilisée.'));
+        }
+
+        if (validationErrors.length > 0) {
+          return Promise.reject(validationErrors);
+        }
+
+        return Promise.resolve();
+      });
   }
 
 };
