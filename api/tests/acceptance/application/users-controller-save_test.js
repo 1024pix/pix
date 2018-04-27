@@ -11,7 +11,6 @@ const { UserValidationErrors } = require('../../../lib/domain/errors');
 const logger = require('../../../lib/infrastructure/logger');
 const gRecaptcha = require('../../../lib/infrastructure/validators/grecaptcha-validator');
 
-
 describe('Acceptance | Controller | users-controller-save', () => {
 
   let options;
