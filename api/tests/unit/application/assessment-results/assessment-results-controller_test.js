@@ -44,7 +44,6 @@ describe('Unit | Controller | assessment-results', () => {
       sandbox = sinon.sandbox.create();
 
       replyStub = sinon.stub().returns({ code: sinon.stub() });
-      sandbox.stub(assessmentRatingSerializer, 'serialize');
       sandbox.stub(assessmentResultService, 'evaluateFromAssessmentId').resolves();
       sandbox.stub(Boom, 'notFound').returns({ message: 'NotFoundError' });
       sandbox.stub(Boom, 'badImplementation').returns({ message: 'badImplementation' });

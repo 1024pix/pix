@@ -6,8 +6,30 @@ function _toDomain(bookshelfModel) {
 }
 
 module.exports = {
-  save: (assessmentResult) => {
-    return new BookshelfAssessmentResult(assessmentResult)
+  save: ({
+    pixScore,
+    level,
+    status,
+    emitter,
+    commentForJury,
+    commentForCandidate,
+    commentForOrganization,
+    id,
+    juryId,
+    assessmentId,
+  }) => {
+    return new BookshelfAssessmentResult({
+      pixScore,
+      level,
+      status,
+      emitter,
+      commentForJury,
+      commentForCandidate,
+      commentForOrganization,
+      id,
+      juryId,
+      assessmentId,
+    })
       .save()
       .then(_toDomain);
   },
