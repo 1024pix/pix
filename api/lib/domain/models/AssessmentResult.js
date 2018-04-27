@@ -1,6 +1,30 @@
 class AssessmentResult {
-  constructor(attributes) {
-    Object.assign(this, attributes);
+  constructor({
+    pixScore,
+    level,
+    status,
+    emitter,
+    commentForJury,
+    commentForCandidate,
+    commentForOrganization,
+    id,
+    createdAt,
+    juryId,
+    assessmentId,
+    competenceMarks,
+  }) {
+    this.pixScore = pixScore;
+    this.level = level;
+    this.status = status;
+    this.emitter = emitter;
+    this.commentForJury = commentForJury;
+    this.commentForCandidate = commentForCandidate;
+    this.commentForOrganization = commentForOrganization;
+    this.id = id;
+    this.createdAt = createdAt;
+    this.juryId = juryId;
+    this.assessmentId = assessmentId;
+    this.competenceMarks = competenceMarks;
   }
 }
 
