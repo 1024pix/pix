@@ -1,5 +1,5 @@
 const { Serializer } = require('jsonapi-serializer');
-const Organization = require('../../data/organization');
+const Organization = require('../../../domain/models/Organization');
 
 module.exports = {
 
@@ -14,7 +14,6 @@ module.exports = {
     }).serialize(organizations);
   },
 
-  // TODO Use domain object instead of bookshelf object
   deserialize(json) {
     return new Organization({
       email: json.data.attributes.email,

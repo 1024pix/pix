@@ -24,8 +24,8 @@ module.exports = {
 
   save(request, reply) {
 
-    const user = userSerializer.deserialize(request.payload);
     const recaptchaToken = request.payload.data.attributes['recaptcha-token'];
+    const user = userSerializer.deserialize(request.payload);
 
     return userCreationValidator.validate(user, recaptchaToken)
       .then(() => encryptionService.hashPassword(user.password))

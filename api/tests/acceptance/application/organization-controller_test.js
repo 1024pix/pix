@@ -233,7 +233,7 @@ describe('Acceptance | Application | Controller | Organization', () => {
       });
     });
 
-    describe('when creating with a wrong payload', () => {
+    describe('when creating with a wrong payload (ex: organization type is wrong)', () => {
 
       it('should return 400 HTTP status code', () => {
         // given
@@ -245,15 +245,15 @@ describe('Acceptance | Application | Controller | Organization', () => {
         // then
         return creatingOrganizationOnFailure.then((response) => {
           const parsedResponse = JSON.parse(response.payload);
-          expect(parsedResponse.errors[0].detail).to.equal('Le type d\'organisation doit être l\'une des valeurs suivantes: SCO, SUP, PRO.');
+          expect(parsedResponse.errors[0].detail).to.equal('Le type d’organisation doit être l’une des valeurs suivantes: SCO, SUP, PRO.');
           expect(response.statusCode).to.equal(400);
         });
       });
 
       it('should return both User and Organization errors at the same time', () => {
         // given
-        payload.data.attributes.type = 'FAK';
         payload.data.attributes.password = 'invalid-password';
+        payload.data.attributes.type = 'FAK';
 
         // then
         const creatingOrganizationOnFailure = server.inject(options);
@@ -264,7 +264,7 @@ describe('Acceptance | Application | Controller | Organization', () => {
             const parsedResponse = JSON.parse(response.payload);
 
             expect(parsedResponse.errors).to.have.lengthOf(2);
-            expect(parsedResponse.errors[1].detail).to.equal('Le type d\'organisation doit être l\'une des valeurs suivantes: SCO, SUP, PRO.');
+            expect(parsedResponse.errors[1].detail).to.equal('Le type d’organisation doit être l’une des valeurs suivantes: SCO, SUP, PRO.');
             expect(parsedResponse.errors[0].detail).to.equal('Votre mot de passe doit comporter au moins une lettre, un chiffre et 8 caractères.');
           });
       });
