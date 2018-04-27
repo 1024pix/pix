@@ -114,14 +114,6 @@ const _replyErrorWithMessage = function(reply, errorMessage, statusCode) {
   reply(validationErrorSerializer.serialize(_handleWhenInvalidAuthorization(errorMessage))).code(statusCode);
 };
 
-function _addUserErrorsWhenRecaptchaTokenInvalid(validationErrors) {
-  const captchaError = { recaptchaToken: ['Merci de cocher la case ci-dessous :'] };
-  const mergedErrors = Object.assign(captchaError, validationErrors);
-  return {
-    data: mergedErrors
-  };
-}
-
 function _buildErrorWhenUniquEmail() {
   return {
     data: {
