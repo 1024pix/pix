@@ -170,6 +170,13 @@ class UserValidationErrors extends Error {
   }
 }
 
+class OrganizationValidationErrors extends Error {
+  constructor(errors) {
+    super();
+    this.errors = errors;
+  }
+}
+
 module.exports = {
   NotFoundError,
   PasswordNotMatching,
@@ -190,4 +197,5 @@ module.exports = {
   ObjectValidationError,
   MissingOrInvalidCredentialsError,
   UserValidationErrors,
+  OrganizationValidationErrors
 };

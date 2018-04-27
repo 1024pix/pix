@@ -39,7 +39,7 @@ module.exports = {
   validate(userData, recaptchaToken) {
     return Promise.all([
       _verifyReCaptcha(recaptchaToken),
-      userValidator.validate(userData).catch((error) => error),
+      userValidator.validate(userData).catch((errors) => errors),
     ])
       .then(values => {
         const recaptchaError = values[0];
