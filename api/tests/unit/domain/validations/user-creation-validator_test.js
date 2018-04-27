@@ -1,11 +1,9 @@
-const Joi = require('joi');
 const { expect, sinon } = require('../../../test-helper');
 const userCreationValidator = require('../../../../lib/domain/validators/user-creation-validator');
+const userValidator = require('../../../../lib/domain/validators/user-validator');
 const googleReCaptcha = require('../../../../lib/infrastructure/validators/grecaptcha-validator');
 const { UserValidationErrors } = require('../../../../lib/domain/errors');
 const { InvalidRecaptchaTokenError } = require('../../../../lib/infrastructure/validators/errors');
-
-const MISSING_VALUE = '';
 
 function _assertErrorMatchesWithExpectedOne(err, expectedError) {
   expect(err).to.be.an.instanceof(UserValidationErrors);
@@ -16,10 +14,22 @@ function _assertErrorMatchesWithExpectedOne(err, expectedError) {
 describe('Unit | Domain | Validators | user-creation-validator', function() {
 
   let sandbox;
+  let userData;
+  let recaptchaToken;
 
   beforeEach(() => {
+    userData = {
+      firstName: 'John',
+      lastName: 'Doe',
+      email: 'john.doe@example.net',
+      password: 'password1234',
+      cgu: true,
+    };
+    recaptchaToken = 'recaptcha_token';
+
     sandbox = sinon.sandbox.create();
     sandbox.stub(googleReCaptcha, 'verify');
+    sandbox.stub(userValidator, 'validate');
   });
 
   afterEach(() => {
@@ -32,20 +42,10 @@ describe('Unit | Domain | Validators | user-creation-validator', function() {
 
       beforeEach(() => {
         googleReCaptcha.verify.resolves();
-        sandbox.stub(Joi, 'validate').resolves();
+        userValidator.validate.resolves();
       });
 
       it('should resolve (with no value) when validation is successful', () => {
-        // given
-        const recaptchaToken = 'recaptcha_token';
-        const userData = {
-          firstName: 'John',
-          lastName: 'Doe',
-          email: 'john.doe@example.net',
-          password: 'password1234',
-          cgu: true,
-        };
-
         // when
         const promise = userCreationValidator.validate(userData, recaptchaToken);
 
@@ -56,27 +56,8 @@ describe('Unit | Domain | Validators | user-creation-validator', function() {
 
     context('when reCAPTCHA validation fails', () => {
 
-      const userData = {
-        firstName: 'John',
-        lastName: 'Doe',
-        email: 'john.doe@example.net',
-        password: 'password1234',
-        cgu: true,
-      };
-
       beforeEach(() => {
-        sandbox.stub(Joi, 'validate').resolves();
-      });
-
-      it('should resolve when reCAPTCHA validation is true', () => {
-        // given
-        googleReCaptcha.verify.resolves();
-
-        // when
-        const promise = userCreationValidator.validate(userData, 'invalid_recaptcha_token');
-
-        // then
-        return expect(promise).to.be.fulfilled;
+        userValidator.validate.resolves();
       });
 
       it('should reject with well formatted error when an error occurs during reCAPTCHA validation', () => {
@@ -85,7 +66,7 @@ describe('Unit | Domain | Validators | user-creation-validator', function() {
         googleReCaptcha.verify.rejects(someNetworkError);
 
         // when
-        const promise = userCreationValidator.validate(userData, 'recaptcha_token');
+        const promise = userCreationValidator.validate(userData, recaptchaToken);
 
         // then
         return promise
@@ -108,7 +89,7 @@ describe('Unit | Domain | Validators | user-creation-validator', function() {
         googleReCaptcha.verify.rejects(new InvalidRecaptchaTokenError());
 
         // when
-        const promise = userCreationValidator.validate(userData, 'invalid_recaptcha_token');
+        const promise = userCreationValidator.validate(userData, recaptchaToken);
 
         // then
         return promise
@@ -117,24 +98,9 @@ describe('Unit | Domain | Validators | user-creation-validator', function() {
       });
     });
 
-    context('when user data validation fails', () => {
+    context('when user validation fails', () => {
 
-      let userData;
-      let recaptchaToken;
-
-      beforeEach(() => {
-        recaptchaToken = 'recaptcha_token';
-        userData = {
-          firstName: 'John',
-          lastName: 'Doe',
-          email: 'john.doe@example.net',
-          password: 'à1      ',
-          cgu: true,
-        };
-        googleReCaptcha.verify.resolves();
-      });
-
-      it('should reject with error on field "first name" when first name is missing', () => {
+      it('should reject with the errors from user validation', () => {
         // given
         const expectedError = {
           source: { pointer: '/data/attributes/first-name' },
@@ -144,7 +110,9 @@ describe('Unit | Domain | Validators | user-creation-validator', function() {
             field: 'firstName'
           }
         };
-        userData.firstName = MISSING_VALUE;
+
+        googleReCaptcha.verify.resolves();
+        userValidator.validate.rejects(new UserValidationErrors([expectedError]));
 
         // when
         const promise = userCreationValidator.validate(userData, recaptchaToken);
@@ -155,140 +123,31 @@ describe('Unit | Domain | Validators | user-creation-validator', function() {
           .catch((err) => _assertErrorMatchesWithExpectedOne(err, expectedError));
       });
 
-      it('should reject with error on field "last name" when last name is missing', () => {
+    });
+
+    context('when both user and reCAPTCHA validations fail', () => {
+
+      it('should reject with the errors from user validation and reCAPTCHA', () => {
         // given
-        const expectedError = {
-          source: { pointer: '/data/attributes/last-name' },
-          title: 'Invalid user data attribute "lastName"',
-          detail: 'Votre nom n’est pas renseigné.',
+        const expectedReCAPTCHAError = {
+          source: { pointer: '/data/attributes/recaptcha-token' },
+          title: 'Invalid reCAPTCHA token',
+          detail: 'Merci de cocher la case ci-dessous :',
           meta: {
-            field: 'lastName'
+            field: 'recaptchaToken'
           }
         };
-        userData.lastName = MISSING_VALUE;
-
-        // when
-        const promise = userCreationValidator.validate(userData, recaptchaToken);
-
-        // then
-        return promise
-          .then(() => expect.fail('Expected rejection with UserValidationErrors'))
-          .catch((err) => _assertErrorMatchesWithExpectedOne(err, expectedError));
-      });
-
-      it('should reject with error on field "email" when email is missing', () => {
-        // given
-        const expectedError = {
-          source: { pointer: '/data/attributes/email' },
-          title: 'Invalid user data attribute "email"',
-          detail: 'Votre adresse électronique n’est pas renseignée.',
+        const expectedUserError = {
+          source: { pointer: '/data/attributes/first-name' },
+          title: 'Invalid user data attribute "firstName"',
+          detail: 'Votre prénom n’est pas renseigné.',
           meta: {
-            field: 'email'
+            field: 'firstName'
           }
         };
-        userData.email = MISSING_VALUE;
 
-        // when
-        const promise = userCreationValidator.validate(userData, recaptchaToken);
-
-        // then
-        return promise
-          .then(() => expect.fail('Expected rejection with UserValidationErrors'))
-          .catch((err) => _assertErrorMatchesWithExpectedOne(err, expectedError));
-      });
-
-      it('should reject with error on field "email" when email is invalid', () => {
-        // given
-        const expectedError = {
-          source: { pointer: '/data/attributes/email' },
-          title: 'Invalid user data attribute "email"',
-          detail: 'Votre adresse électronique n’est pas correcte.',
-          meta: {
-            field: 'email'
-          }
-        };
-        userData.email = 'invalid_email';
-
-        // when
-        const promise = userCreationValidator.validate(userData, recaptchaToken);
-
-        // then
-        return promise
-          .then(() => expect.fail('Expected rejection with UserValidationErrors'))
-          .catch((err) => _assertErrorMatchesWithExpectedOne(err, expectedError));
-      });
-
-      it('should reject with error on field "password" when password is missing', () => {
-        // given
-        const expectedError = {
-          source: { pointer: '/data/attributes/password' },
-          title: 'Invalid user data attribute "password"',
-          detail: 'Votre mot de passe n’est pas renseigné.',
-          meta: {
-            field: 'password'
-          }
-        };
-        userData.password = MISSING_VALUE;
-
-        // when
-        const promise = userCreationValidator.validate(userData, recaptchaToken);
-
-        // then
-        return promise
-          .then(() => expect.fail('Expected rejection with UserValidationErrors'))
-          .catch((err) => _assertErrorMatchesWithExpectedOne(err, expectedError));
-      });
-
-      it('should reject with error on field "password" when password is invalid', () => {
-        // given
-        const expectedError = {
-          source: { pointer: '/data/attributes/password' },
-          title: 'Invalid user data attribute "password"',
-          detail: 'Votre mot de passe doit comporter au moins une lettre, un chiffre et 8 caractères.',
-          meta: {
-            field: 'password'
-          }
-        };
-        userData.password = 'invalid';
-
-        // when
-        const promise = userCreationValidator.validate(userData, recaptchaToken);
-
-        // then
-        return promise
-          .then(() => expect.fail('Expected rejection with UserValidationErrors'))
-          .catch((err) => _assertErrorMatchesWithExpectedOne(err, expectedError));
-      });
-
-      it('should reject with error on field "cgu" when cgu is false', () => {
-        // given
-        const expectedError = {
-          source: { pointer: '/data/attributes/cgu' },
-          title: 'Invalid user data attribute "cgu"',
-          detail: 'Vous devez accepter les conditions d’utilisation de Pix pour créer un compte.',
-          meta: {
-            field: 'cgu'
-          }
-        };
-        userData.cgu = 'false';
-
-        // when
-        const promise = userCreationValidator.validate(userData, recaptchaToken);
-
-        // then
-        return promise
-          .then(() => expect.fail('Expected rejection with UserValidationErrors'))
-          .catch((err) => _assertErrorMatchesWithExpectedOne(err, expectedError));
-      });
-
-      it('should reject with errors on all fields (but only once by field) when all fields are missing', () => {
-        // given
-        userData = {
-          firstName: '',
-          lastName: '',
-          email: '',
-          password: '',
-        };
+        googleReCaptcha.verify.rejects(new InvalidRecaptchaTokenError());
+        userValidator.validate.rejects(new UserValidationErrors([expectedUserError]));
 
         // when
         const promise = userCreationValidator.validate(userData, recaptchaToken);
@@ -298,9 +157,12 @@ describe('Unit | Domain | Validators | user-creation-validator', function() {
           .then(() => expect.fail('Expected rejection with UserValidationErrors'))
           .catch((err) => {
             expect(err).to.be.an.instanceof(UserValidationErrors);
-            expect(err.errors).to.have.lengthOf(5);
+            expect(err.errors).to.have.lengthOf(2);
+            expect(err.errors[0]).to.deep.equal(expectedReCAPTCHAError);
+            expect(err.errors[1]).to.deep.equal(expectedUserError);
           });
       });
+
     });
   });
 });
