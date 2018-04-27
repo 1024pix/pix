@@ -1,14 +1,13 @@
-
 const { expect } = require('chai');
 const getResultsCertifications = require('../../../../api/scripts/get-results-certifications');
 
 describe('Unit | Scripts | get-results-certifications.js', () => {
 
   const HEADERS = [
-    'Numero certification', 'Numero de session', 'Date de début', 'Date de fin',
-    'Status de la session', 'Note Pix',
-    'Prénom', 'Nom', 'Date de naissance', 'Lieu de naissance',
-    'Commentaire pour le candidat', 'Commentaire pour l\'organisation', 'Commentaire du jury', 'Identifiant Externe',
+    'ID de certification',
+    'Prenom du candidat', 'Nom du candidat', 'Date de naissance du candidat', 'Lieu de naissance du candidat', 'Identifiant Externe',
+    'Statut de la certification', 'ID de session', 'Date de debut', 'Date de fin',
+    'Commentaire pour le candidat', 'Commentaire pour l\'organisation', 'Commentaire pour le jury', 'Note Pix',
     '1.1', '1.2', '1.3',
     '2.1', '2.2', '2.3', '2.4',
     '3.1', '3.2', '3.3', '3.4',
@@ -75,8 +74,8 @@ describe('Unit | Scripts | get-results-certifications.js', () => {
             'comment-for-jury': 'You get it',
             'first-name': 'Goku',
             'last-name': 'Son',
-            'birthdate': '20/11/737',
-            'birthplace': 'Vegeta',
+            'birthdate': '20-11-1737',
+            'birthplace': 'Namek',
             'session-id': 1,
             'external-id': 'Kakarot'
           }
@@ -86,19 +85,19 @@ describe('Unit | Scripts | get-results-certifications.js', () => {
       const result = getResultsCertifications.toCSVRow(object);
       // then
       expect(result[HEADERS[0]]).to.equal('1337');
-      expect(result[HEADERS[1]]).to.equal(1);
-      expect(result[HEADERS[2]]).to.equal('31/01/2018 10:01:00');
-      expect(result[HEADERS[3]]).to.equal('31/01/2018 10:29:16');
-      expect(result[HEADERS[4]]).to.equal('validated');
-      expect(result[HEADERS[5]]).to.equal(7331);
-      expect(result[HEADERS[6]]).to.equal('Goku');
-      expect(result[HEADERS[7]]).to.equal('Son');
-      expect(result[HEADERS[8]]).to.equal('20/11/737');
-      expect(result[HEADERS[9]]).to.equal('Vegeta');
+      expect(result[HEADERS[1]]).to.equal('Goku');
+      expect(result[HEADERS[2]]).to.equal('Son');
+      expect(result[HEADERS[3]]).to.equal('20/11/1737');
+      expect(result[HEADERS[4]]).to.equal('Namek');
+      expect(result[HEADERS[5]]).to.equal('Kakarot');
+      expect(result[HEADERS[6]]).to.equal('validated');
+      expect(result[HEADERS[7]]).to.equal(1);
+      expect(result[HEADERS[8]]).to.equal('31/01/2018 10:01:00');
+      expect(result[HEADERS[9]]).to.equal('31/01/2018 10:29:16');
       expect(result[HEADERS[10]]).to.equal('GG');
       expect(result[HEADERS[11]]).to.equal('Too bad');
       expect(result[HEADERS[12]]).to.equal('You get it');
-      expect(result[HEADERS[13]]).to.equal('Kakarot');
+      expect(result[HEADERS[13]]).to.equal(7331);
     });
 
     it('should extract competences', () => {
