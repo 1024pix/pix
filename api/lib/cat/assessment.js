@@ -52,6 +52,23 @@ class Assessment {
     return availableChallenges.filter(challenge => challenge.timer === undefined);
   }
 
+  _keepChallengesFromEasiestTubes(availableChallenges) {
+    const orderedSkillsByTubeName = this.course.tubes;
+
+    const challengesWithTubeMaxLevel = availableChallenges.map(challenge => {
+      const tubeOfChallenge = challenge.hardestSkill.tubeName;
+      return {
+        challenge: challenge,
+        tubeMaxLevel: _.last(orderedSkillsByTubeName[tubeOfChallenge]).difficulty
+      };
+    });
+    const levelOfEasiestTubes = _.minBy(challengesWithTubeMaxLevel, 'tubeMaxLevel').tubeMaxLevel;
+
+    return challengesWithTubeMaxLevel
+      .filter(challengeWithTubeMaxLevel => challengeWithTubeMaxLevel.tubeMaxLevel === levelOfEasiestTubes)
+      .map(challengeWithTubeMaxLevel => challengeWithTubeMaxLevel.challenge);
+  }
+
   _skillNotKnownYet(skill) {
     return !this.validatedSkills.includes(skill) && !this.failedSkills.includes(skill);
   }
@@ -136,21 +153,13 @@ class Assessment {
   get filteredChallenges() {
     let availableChallenges = this.course.challenges.filter(challenge => this._isAnAvailableChallenge(challenge));
     availableChallenges = this._isPreviousChallengeTimed() ? this._extractNotTimedChallenge(availableChallenges) : availableChallenges;
-    // Easier tubes have higher priority
-    const courseTubes = this.course.tubes;
 
     if (availableChallenges.length === 0) {
       return [];
     }
 
-    const challengesWithTubeDifficulty = availableChallenges.map(challenge => {
-      return { challenge: challenge, tubeDifficulty: _.last(courseTubes[challenge.hardestSkill.tubeName]).difficulty };
-    });
-    const minTubeDifficulty = _.minBy(challengesWithTubeDifficulty, 'tubeDifficulty').tubeDifficulty;
-
-    return challengesWithTubeDifficulty
-      .filter(challengeWithTubeDifficulty => challengeWithTubeDifficulty.tubeDifficulty === minTubeDifficulty)
-      .map(challengeWithTubeDifficulty => challengeWithTubeDifficulty.challenge);
+    availableChallenges = this._keepChallengesFromEasiestTubes(availableChallenges);
+    return availableChallenges;
   }
 
   get _firstChallenge() {

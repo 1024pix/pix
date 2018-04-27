@@ -679,6 +679,8 @@ describe('Unit | Model | Assessment', function() {
       const answer1 = new Answer(ch1, AnswerStatus.OK);
       const answer2 = new Answer(ch3, AnswerStatus.OK);
       const answers = [answer1, answer2];
+
+      // when
       const assessment = new Assessment(course, answers);
 
       // then
@@ -703,6 +705,8 @@ describe('Unit | Model | Assessment', function() {
       const challenges = [ch1, ch2, ch3, ch4];
       const answer = new Answer(ch3, AnswerStatus.OK);
       const course = new Course(challenges);
+
+      // when
       const assessment = new Assessment(course, [answer]);
 
       // then
