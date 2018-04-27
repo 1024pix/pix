@@ -1,4 +1,3 @@
-
 const { expect } = require('chai');
 const getResultsCertifications = require('../../../../api/scripts/get-results-certifications');
 

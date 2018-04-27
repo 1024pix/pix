@@ -126,7 +126,7 @@ function main() {
     })
     .catch((err) => {
       if (err.statusCode === 404) {
-        console.log(err);
+        console.error(err);
         throw new Error(`L'id session n'existe pas`);
       }
     })
