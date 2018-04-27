@@ -328,7 +328,7 @@ describe('Unit | Model | Assessment', function() {
       expect(assessment.filteredChallenges).to.deep.equal([keep1, keep2, keep3]);
     });
 
-    it('should return only challenges targeting easy tubes if they exist', function() {
+    it('should return only challenges targeting easy tubes if there is one of them', function() {
       // given
       const web1 = new Skill('web1');
       const web2 = new Skill('web2');
@@ -345,6 +345,29 @@ describe('Unit | Model | Assessment', function() {
 
       // then
       expect(assessment.filteredChallenges).to.deep.equal([keep1, keep2]);
+    });
+
+    it('should return only challenges targeting easy tubes if there are several of them', function() {
+      // given
+      const web1 = new Skill('web1');
+      const web2 = new Skill('web2');
+      const rechInfo1 = new Skill('rechInfo1');
+      const rechInfo2 = new Skill('rechInfo2');
+      const url1 = new Skill('url1');
+      const url4 = new Skill('url4');
+      const keep1 = new Challenge('a', 'validé', [web1]);
+      const keep2 = new Challenge('b', 'validé', [web2]);
+      const keep3 = new Challenge('a', 'validé', [rechInfo1]);
+      const keep4 = new Challenge('b', 'validé', [rechInfo2]);
+      const drop1 = new Challenge('c', 'validé', [url1]);
+      const drop2 = new Challenge('d', 'validé', [url4]);
+      const course = new Course([keep1, keep2, keep3, keep4, drop1, drop2]);
+
+      // when
+      const assessment = new Assessment(course, []);
+
+      // then
+      expect(assessment.filteredChallenges).to.deep.equal([keep1, keep2, keep3, keep4]);
     });
   });
 
