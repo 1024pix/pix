@@ -1,4 +1,5 @@
 const AnswerStatus = require('../domain/models/AnswerStatus');
+const _ = require('lodash');
 
 const MAX_REACHABLE_LEVEL = 5;
 const NB_PIX_BY_LEVEL = 8;
@@ -152,6 +153,7 @@ class Assessment {
   }
 
   get nextChallenge() {
+
     if (this.answers.length === 0) {
       return this._firstChallenge;
     }
@@ -159,17 +161,21 @@ class Assessment {
       return null;
     }
 
-    const byDescendingRewards = (a, b) => { return b.reward - a.reward; };
-    const predictedLevel = this._getPredictedLevel();
-    const challengesAndRewards = this.filteredChallenges.map(challenge => {
-      return { challenge: challenge, reward: this._computeReward(challenge, predictedLevel) };
-    });
-    
-    if (challengesAndRewards.length == 0) {
+    const availableChallenges = this.filteredChallenges;
+    if (availableChallenges.length === 0) {
       return null;
     }
 
-    const challengeWithMaxReward = challengesAndRewards.sort(byDescendingRewards)[0];
+    const predictedLevel = this._getPredictedLevel();
+
+    const challengesAndRewards = availableChallenges.map(challenge => {
+      return {
+        challenge: challenge,
+        reward: this._computeReward(challenge, predictedLevel)
+      };
+    });
+
+    const challengeWithMaxReward = _.maxBy(challengesAndRewards, 'reward');
     const maxReward = challengeWithMaxReward.reward;
 
     if (maxReward === 0) {
