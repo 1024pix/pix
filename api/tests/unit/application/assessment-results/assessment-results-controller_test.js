@@ -4,7 +4,6 @@ const Boom = require('boom');
 const JSONAPIError = require('jsonapi-serializer').Error;
 
 const assessmentResultController = require('../../../../lib/application/assessment-results/assessment-result-controller');
-const assessmentRatingSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/assessment-result-serializer');
 const assessmentResultService = require('../../../../lib/domain/services/assessment-result-service');
 
 const { AlreadyRatedAssessmentError, NotFoundError } = require('../../../../lib/domain/errors');

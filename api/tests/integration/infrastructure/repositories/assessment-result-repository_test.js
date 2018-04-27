@@ -80,9 +80,9 @@ describe('Integration | Repository | AssessmentResult', function() {
       competence_code: '1.2'
     };
 
-    beforeEach(() =>  {
+    beforeEach(() => {
       return knex('assessment-results')
-        .insert([ assessmentResult ])
+        .insert([assessmentResult])
         .then((rows) => {
           assessmentResultId = rows[0];
 

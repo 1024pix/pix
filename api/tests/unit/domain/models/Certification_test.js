@@ -1,49 +1,52 @@
-const Correction = require('../../../../lib/domain/models/Correction');
-const Hint = require('../../../../lib/domain/models/Hint');
+const Certification = require('../../../../lib/domain/models/Certification');
+const AssessmentResult = require('../../../../lib/domain/models/AssessmentResult');
 const { expect } = require('../../../test-helper');
 
-describe('Unit | Domain | Models | Correction', () => {
+describe('Unit | Domain | Models | Certification', () => {
 
-  describe('#relevantHint', () => {
+  describe('#constructor', () => {
 
-    it('should return undefined when there is no hint', () => {
-      // given
-      const correction = new Correction({ hints: [] });
-
+    it('should set pix score at undefined when there are assessment results', () => {
       // when
-      const relevantHint = correction.relevantHint;
+      const certification = new Certification({
+        id: 1,
+        date: 'date',
+        certificationCenter: 'certificationCenter',
+        isPublished: 'isPublished',
+        assessmentResults: []
+      });
 
       // then
-      expect(relevantHint).to.be.undefined;
+      expect(certification.pixScore).to.be.undefined;
+      expect(certification.status).to.be.undefined;
     });
 
-    it('should select the hint when there is only one hint', () => {
+    it('should return the pixScore and status of the last AssessmentResult', () => {
       // given
-      const expectedHint = new Hint({ skillName: '@test', value: 'Indice' });
-      const correction = new Correction({ hints: [new Hint({ skillName: '@test', value: 'Indice' })] });
-
-      // when
-      const relevantHint = correction.relevantHint;
-
-      // then
-      expect(relevantHint).to.deep.equal(expectedHint);
-    });
-
-    it('should select the hint of the least developed skill when more than one hint is present', () => {
-      // given
-      const expectedHint = new Hint({ skillName: '@test1', value: 'Indice Facile' });
-      const correction = new Correction({
-        hints: [
-          new Hint({ skillName: '@test2', value: 'Indice moins Facile' }),
-          new Hint({ skillName: '@test1', value: 'Indice Facile' })
-        ]
+      const assessmentResult1 = new AssessmentResult({
+        pixScore : 35,
+        status: 'validated',
+        createdAt: '2017-02-15 14:59:35'
+      });
+      const assessmentResult2 = new AssessmentResult({
+        pixScore : 20,
+        status: 'validated',
+        createdAt: '2018-02-15 14:59:35'
       });
 
       // when
-      const relevantHint = correction.relevantHint;
+      const certification = new Certification({
+        id: 1,
+        date: '12/01/2018',
+        certificationCenter: 'certificationCenter',
+        isPublished: 'isPublished',
+        assessmentResults: [assessmentResult1, assessmentResult2]
+      });
 
       // then
-      expect(relevantHint).to.deep.equal(expectedHint);
+      expect(certification.pixScore).to.equal(20);
+      expect(certification.status).to.equal('validated');
     });
+
   });
 });
