@@ -24,7 +24,7 @@ fi
 
 CARD_ID=$(echo $RESPONSE | jq .id | tr -d '"')
 CARD_COMMENTS=$(curl "$API_URL/cards/$CARD_ID/actions?$CREDENTIALS" | jq '.[].data.text')
-REVIEW_APP_URL="http://$CIRCLE_BRANCH.pix-dev.ovh"
+REVIEW_APP_URL="http://$CIRCLE_BRANCH.integration.pix.fr"
 if [[ $CARD_COMMENTS =~ .*$REVIEW_APP_URL.* ]]
 then
     echo "Review app url already found in card comments. No need to add it again"
