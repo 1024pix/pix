@@ -30,21 +30,8 @@ module.exports = {
       });
   },
 
-  updateCertification({ id, attributes }) {
-    return CertificationCourseBookshelf
-      .where({ id })
-      .save(attributes, {
-        patch: true,
-        method: 'update',
-        require: true
-      })
-      .catch(err => {
-        if (err instanceof CertificationCourseBookshelf.NoRowsUpdatedError) {
-          throw new NotFoundError(`Not found certification for ID ${id}`);
-        } else {
-          throw err;
-        }
-      });
+  findCertificationsByUserId(userId) {
+    return Promise.resolve([]);
   },
 
   updateCertification({ id, attributes }) {

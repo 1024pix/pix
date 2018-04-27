@@ -126,6 +126,90 @@ describe('Integration | Repository | Certification ', () => {
     });
   });
 
+  describe('#findCertificationbyUserId', function() {
+
+    const USER_ID = 1;
+
+    const certificationCourse = {
+      id: 123,
+      userId: USER_ID,
+      firstName: 'Jane',
+      lastName: 'Kalamity',
+      birthplace: 'Earth',
+      birthdate: '24/10/1989',
+      completedAt: '01/02/2004',
+      sessionId: 321
+    };
+
+    const assessmentResult = {
+      level: 1,
+      pixScore: 62,
+      emitter: 'PIX-ALGO',
+      status: 'validated'
+    };
+
+    const assessment = {
+      courseId: 123,
+      userId: USER_ID,
+      type: 'CERTIFICATION',
+      state: 'completed'
+    };
+
+    const session = {
+      id: 321,
+      certificationCenter: 'Université du Pix',
+      address: '137 avenue de Bercy',
+      room: 'La grande',
+      examiner: 'Serge le Mala',
+      date: '24/10/1989',
+      time: '21:30',
+      accessCode: 'ABCD12'
+    };
+
+    beforeEach(() => {
+      return knex('sessions').insert(session)
+        .then(() => knex('certification-courses').insert(certificationCourse))
+        .then(() => knex('assessments').insert(assessment))
+        .then(() => knex('assessment-results').insert(assessmentResult));
+    });
+
+    afterEach(() => {
+      return knex('assessment-results').delete()
+        .then(() => {
+          return knex('assessments').delete();
+        })
+        .then(() => {
+          return knex('certification-courses').delete();
+        })
+        .then(() => {
+          return knex('sessions').delete();
+        });
+    });
+
+    it('should return an array of Certification with needed informations', function() {
+      // given
+      const expectedCertifications = [
+        new Certification({
+          id: 2,
+          certificationCenter: 'Université des chocolats',
+          date: '12/02/1993',
+          isPublished: true,
+          status: 'rejected',
+          pixScore: 23
+        })
+      ];
+
+      // when
+      const promise = certificationRepository.findCertificationsByUserId(USER_ID);
+
+      // then
+      return promise.then((certifications) => {
+        expect(certifications).to.be.an(expectedCertifications);
+      });
+
+    });
+  });
+
   describe('#updateCertification', () => {
 
     const CERTIFICATION_ID = 1;
