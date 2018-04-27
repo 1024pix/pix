@@ -1,13 +1,11 @@
 const { expect } = require('../../../test-helper');
 const userValidator = require('../../../../lib/domain/validators/user-validator');
-const { UserValidationErrors } = require('../../../../lib/domain/errors');
 
 const MISSING_VALUE = '';
 
-function _assertErrorMatchesWithExpectedOne(err, expectedError) {
-  expect(err).to.be.an.instanceof(UserValidationErrors);
-  expect(err.errors).to.have.lengthOf(1);
-  expect(err.errors[0]).to.deep.equal(expectedError);
+function _assertErrorMatchesWithExpectedOne(errors, expectedError) {
+  expect(errors).to.have.lengthOf(1);
+  expect(errors[0]).to.deep.equal(expectedError);
 }
 
 describe('Unit | Domain | Validators | user-validator', function() {
@@ -57,7 +55,7 @@ describe('Unit | Domain | Validators | user-validator', function() {
         // then
         return promise
           .then(() => expect.fail('Expected rejection with UserValidationErrors'))
-          .catch((err) => _assertErrorMatchesWithExpectedOne(err, expectedError));
+          .catch((errors) => _assertErrorMatchesWithExpectedOne(errors, expectedError));
       });
 
       it('should reject with error on field "last name" when last name is missing', () => {
@@ -77,8 +75,8 @@ describe('Unit | Domain | Validators | user-validator', function() {
 
         // then
         return promise
-          .then(() => expect.fail('Expected rejection with UserValidationErrors'))
-          .catch((err) => _assertErrorMatchesWithExpectedOne(err, expectedError));
+          .then(() => expect.fail('Expected rejection with errors'))
+          .catch((errors) => _assertErrorMatchesWithExpectedOne(errors, expectedError));
       });
 
       it('should reject with error on field "email" when email is missing', () => {
@@ -98,8 +96,8 @@ describe('Unit | Domain | Validators | user-validator', function() {
 
         // then
         return promise
-          .then(() => expect.fail('Expected rejection with UserValidationErrors'))
-          .catch((err) => _assertErrorMatchesWithExpectedOne(err, expectedError));
+          .then(() => expect.fail('Expected rejection with errors'))
+          .catch((errors) => _assertErrorMatchesWithExpectedOne(errors, expectedError));
       });
 
       it('should reject with error on field "email" when email is invalid', () => {
@@ -119,8 +117,8 @@ describe('Unit | Domain | Validators | user-validator', function() {
 
         // then
         return promise
-          .then(() => expect.fail('Expected rejection with UserValidationErrors'))
-          .catch((err) => _assertErrorMatchesWithExpectedOne(err, expectedError));
+          .then(() => expect.fail('Expected rejection with errors'))
+          .catch((errors) => _assertErrorMatchesWithExpectedOne(errors, expectedError));
       });
 
       it('should reject with error on field "password" when password is missing', () => {
@@ -140,8 +138,8 @@ describe('Unit | Domain | Validators | user-validator', function() {
 
         // then
         return promise
-          .then(() => expect.fail('Expected rejection with UserValidationErrors'))
-          .catch((err) => _assertErrorMatchesWithExpectedOne(err, expectedError));
+          .then(() => expect.fail('Expected rejection with errors'))
+          .catch((errors) => _assertErrorMatchesWithExpectedOne(errors, expectedError));
       });
 
       it('should reject with error on field "password" when password is invalid', () => {
@@ -161,8 +159,8 @@ describe('Unit | Domain | Validators | user-validator', function() {
 
         // then
         return promise
-          .then(() => expect.fail('Expected rejection with UserValidationErrors'))
-          .catch((err) => _assertErrorMatchesWithExpectedOne(err, expectedError));
+          .then(() => expect.fail('Expected rejection with errors'))
+          .catch((errors) => _assertErrorMatchesWithExpectedOne(errors, expectedError));
       });
 
       it('should reject with error on field "cgu" when cgu is false', () => {
@@ -182,8 +180,8 @@ describe('Unit | Domain | Validators | user-validator', function() {
 
         // then
         return promise
-          .then(() => expect.fail('Expected rejection with UserValidationErrors'))
-          .catch((err) => _assertErrorMatchesWithExpectedOne(err, expectedError));
+          .then(() => expect.fail('Expected rejection with errors'))
+          .catch((errors) => _assertErrorMatchesWithExpectedOne(errors, expectedError));
       });
 
       it('should reject with errors on all fields (but only once by field) when all fields are missing', () => {
@@ -200,10 +198,9 @@ describe('Unit | Domain | Validators | user-validator', function() {
 
         // then
         return promise
-          .then(() => expect.fail('Expected rejection with UserValidationErrors'))
-          .catch((err) => {
-            expect(err).to.be.an.instanceof(UserValidationErrors);
-            expect(err.errors).to.have.lengthOf(5);
+          .then(() => expect.fail('Expected rejection with errors'))
+          .catch((errors) => {
+            expect(errors).to.have.lengthOf(5);
           });
       });
     });

@@ -1,6 +1,5 @@
 const _ = require('lodash');
 const Joi = require('joi');
-const { OrganizationValidationErrors } = require('../../domain/errors');
 
 const JOI_VALIDATION_ERROR = 'ValidationError';
 const validationConfiguration = { abortEarly: false, allowUnknown: true };
@@ -54,7 +53,7 @@ module.exports = {
   validate(organizationData) {
     return Joi.validate(organizationData, organizationValidationJoiSchema, validationConfiguration).catch(error => {
       if (error.name === JOI_VALIDATION_ERROR) {
-        return Promise.reject(new OrganizationValidationErrors(error.details.map(_formatJoiValidationError)));
+        return Promise.reject(error.details.map(_formatJoiValidationError));
       }
       throw error;
     });
