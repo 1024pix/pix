@@ -84,9 +84,11 @@ module.exports = {
           validationErrors.push(...joiErrors.details.map((joiError) => _formatValidationError(joiError.context.key, joiError.message)));
         }
 
-        const joiEmailError = validationErrors.find((validationError) => validationError.meta.field === 'email');
-        if (emailAvailabilityError && ! joiEmailError) {
-          validationErrors.push(_formatValidationError('email', 'L’adresse électronique est déjà utilisée.'));
+        if (emailAvailabilityError instanceof AlreadyRegisteredEmailError) {
+          const joiEmailError = validationErrors.find((validationError) => validationError.meta.field === 'email');
+          if (!joiEmailError) {
+            validationErrors.push(_formatValidationError('email', 'L’adresse électronique est déjà utilisée.'));
+          }
         }
 
         if (validationErrors.length > 0) {

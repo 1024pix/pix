@@ -163,14 +163,14 @@ class MissingOrInvalidCredentialsError extends Error {
   }
 }
 
-class UserValidationErrors extends Error {
+class UserCreationValidationErrors extends Error {
   constructor(errors) {
     super();
     this.errors = errors;
   }
 }
 
-class OrganizationValidationErrors extends Error {
+class OrganizationCreationValidationErrors extends Error {
   constructor(errors) {
     super();
     this.errors = errors;
@@ -196,6 +196,6 @@ module.exports = {
   WrongDateFormatError,
   ObjectValidationError,
   MissingOrInvalidCredentialsError,
-  UserValidationErrors,
-  OrganizationValidationErrors
+  UserCreationValidationErrors,
+  OrganizationCreationValidationErrors
 };

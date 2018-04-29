@@ -73,7 +73,7 @@ describe('Unit | Domain | Validators | user-validator', function() {
 
           // then
           return promise
-            .then(() => expect.fail('Expected rejection with UserValidationErrors'))
+            .then(() => expect.fail('Expected rejection with UserCreationValidationErrors'))
             .catch((errors) => _assertErrorMatchesWithExpectedOne(errors, expectedError));
         });
 

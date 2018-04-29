@@ -1,6 +1,6 @@
 const userValidator = require('./user-validator');
 const organizationValidator = require('./organization-validator');
-const { OrganizationValidationErrors } = require('../../domain/errors');
+const { OrganizationCreationValidationErrors } = require('../../domain/errors');
 
 function _concatErrors(userDataErrors, organizationDataErrors) {
   const validationErrors = [];
@@ -28,7 +28,7 @@ module.exports = {
         const validationErrors = _concatErrors(userDataErrors, organizationErrors);
 
         if (validationErrors.length > 0) {
-          return Promise.reject(new OrganizationValidationErrors(validationErrors));
+          return Promise.reject(new OrganizationCreationValidationErrors(validationErrors));
         }
 
         return Promise.resolve();

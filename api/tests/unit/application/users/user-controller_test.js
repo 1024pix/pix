@@ -17,7 +17,7 @@ const userRepository = require('../../../../lib/infrastructure/repositories/user
 const userService = require('../../../../lib/domain/services/user-service');
 const userCreationValidator = require('../../../../lib/domain/validators/user-creation-validator');
 
-const { PasswordResetDemandNotFoundError, InternalError, UserValidationErrors } = require('../../../../lib/domain/errors');
+const { PasswordResetDemandNotFoundError, InternalError, UserCreationValidationErrors } = require('../../../../lib/domain/errors');
 
 describe('Unit | Controller | user-controller', () => {
 
@@ -207,7 +207,7 @@ describe('Unit | Controller | user-controller', () => {
 
       it('should reply with code 422 when a validation error occurs', () => {
         // given
-        const validationErrors = new UserValidationErrors([
+        const validationErrors = new UserCreationValidationErrors([
           {
             'source': { 'pointer': '/data/attributes/first-name' },
             'title': 'Invalid Attribute',

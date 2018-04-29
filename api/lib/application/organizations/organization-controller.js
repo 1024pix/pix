@@ -1,6 +1,7 @@
 const _ = require('lodash');
 const JSONAPIError = require('jsonapi-serializer').Error;
 
+const userRepository = require('../../infrastructure/repositories/user-repository');
 const organizationRepository = require('../../infrastructure/repositories/organization-repository');
 const competenceRepository = require('../../infrastructure/repositories/competence-repository');
 const snapshotRepository = require('../../infrastructure/repositories/snapshot-repository');
@@ -16,7 +17,7 @@ const logger = require('../../infrastructure/logger');
 const User = require('../../domain/models/User');
 const Organization = require('../../domain/models/Organization');
 const exportCsvFileName = 'Pix - Export donnees partagees.csv';
-const { OrganizationValidationErrors } = require('../../domain/errors');
+const { OrganizationCreationValidationErrors } = require('../../domain/errors');
 
 module.exports = {
 
@@ -27,46 +28,21 @@ module.exports = {
     const organization = _extractOrganization(request);
 
     return organizationCreationValidator.validate(user, organization)
-      .catch((err) => {
-
-        if (err instanceof OrganizationValidationErrors) {
-          const serializedErrors = new JSONAPIError(err.errors);
+      .then(() => userRepository.create(user))
+      .then((user) => organization.userId = user.id)
+      .then(_generateUniqueOrganizationCode)
+      .then((code) => organization.code = code)
+      .then(() => organizationRepository.create(organization))
+      .then((savedOrganization) => organizationSerializer.serialize(savedOrganization))
+      .then((serializedOrganization) => reply(serializedOrganization))
+      .catch((error) => {
+        if (error instanceof OrganizationCreationValidationErrors) {
+          const serializedErrors = new JSONAPIError(error.errors);
           return reply(serializedErrors).code(422);
         }
-
-        logger.error(err);
-        return new JSONAPIError().code(500);
+        logger.error(error);
+        return reply(new JSONAPIError({ status: '500', title: 'Une erreur serveur est survenue.', meta: error })).code(500);
       });
-
-
-    /*
-        const userValidationErrors = userRepository.validateData(user);
-        const organizationValidationErrors = organization.validationErrors();
-
-        if (userValidationErrors || organizationValidationErrors) {
-          const errors = _.merge(userValidationErrors, organizationValidationErrors);
-          return reply(validationErrorSerializer.serialize({ data: errors })).code(400);
-        }
-
-        return userRepository
-          .isEmailAvailable(user.email)
-          .then(() => userRepository.create(user))
-          .then((user) => organization.userId = user.id)
-          .then(_generateUniqueOrganizationCode)
-          .then((code) => organization.code = code)
-          .then(() => organizationRepository.saveFromModel(organization))
-          .then((savedOrganization) => {
-            reply(organizationSerializer.serialize(savedOrganization.toJSON()));
-          })
-          .catch((err) => {
-            if (err instanceof AlreadyRegisteredEmailError) {
-              return reply(validationErrorSerializer.serialize(_buildAlreadyExistingEmailError(user.email))).code(400);
-            }
-
-            logger.error(err);
-            reply().code(500);
-          });
-    */
   },
 
   search: (request, reply) => {
@@ -106,10 +82,10 @@ module.exports = {
 
     return organizationService.getOrganizationSharedProfilesAsCsv(dependencies, organizationId)
       .then((snapshotsTextCsv) => {
-          return reply(snapshotsTextCsv)
-            .header('Content-Type', 'text/csv;charset=utf-8')
-            .header('Content-Disposition', `attachment; filename=${exportCsvFileName}`);
-        }
+        return reply(snapshotsTextCsv)
+          .header('Content-Type', 'text/csv;charset=utf-8')
+          .header('Content-Disposition', `attachment; filename=${exportCsvFileName}`);
+      }
       )
       .catch((err) => {
         logger.error(err);
@@ -127,12 +103,6 @@ function _extractSnapshotsForOrganization(organizationId) {
     .then((snapshotsWithRelatedUsers) => {
       return snapshotsWithRelatedUsers.map((snapshot) => snapshot.toJSON());
     });
-}
-
-function _buildAlreadyExistingEmailError(email) {
-  return {
-    data: { email: [`L'adresse ${email} est déjà associée à un utilisateur.`] }
-  };
 }
 
 function _extractUser(request) {
@@ -155,11 +125,8 @@ function _extractOrganization(request) {
 
 function _generateUniqueOrganizationCode() {
   const code = organizationService.generateOrganizationCode();
-
   return organizationRepository.isCodeAvailable(code)
-    .then((code) => {
-      return code;
-    })
+    .then(() => code)
     .catch(_generateUniqueOrganizationCode);
 }
 

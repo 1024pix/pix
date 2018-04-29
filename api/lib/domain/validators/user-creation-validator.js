@@ -1,6 +1,6 @@
 const googleReCaptcha = require('../../infrastructure/validators/grecaptcha-validator');
 const userValidator = require('./user-validator');
-const { UserValidationErrors } = require('../../domain/errors');
+const { UserCreationValidationErrors } = require('../../domain/errors');
 const { InvalidRecaptchaTokenError } = require('../../infrastructure/validators/errors');
 
 function _verifyReCaptcha(reCaptchaToken) {
@@ -48,7 +48,7 @@ module.exports = {
         const validationErrors = _concatErrors(recaptchaError, userDataErrors);
 
         if (validationErrors.length > 0) {
-          return Promise.reject(new UserValidationErrors(validationErrors));
+          return Promise.reject(new UserCreationValidationErrors(validationErrors));
         }
 
         return Promise.resolve();

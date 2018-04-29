@@ -18,7 +18,7 @@ const userCreationValidator = require('../../domain/validators/user-creation-val
 const Bookshelf = require('../../infrastructure/bookshelf');
 
 const logger = require('../../infrastructure/logger');
-const { PasswordResetDemandNotFoundError, InternalError, InvalidTokenError, UserValidationErrors } = require('../../domain/errors');
+const { PasswordResetDemandNotFoundError, InternalError, InvalidTokenError, UserCreationValidationErrors } = require('../../domain/errors');
 
 module.exports = {
 
@@ -36,7 +36,7 @@ module.exports = {
         reply(userSerializer.serialize(savedUser)).code(201);
       }).catch((err) => {
 
-        if(err instanceof UserValidationErrors) {
+        if(err instanceof UserCreationValidationErrors) {
           const serializedErrors = new JSONAPIError(err.errors);
           return reply(serializedErrors).code(422);
         }

@@ -121,7 +121,7 @@ function _createToken(user) {
   }, settings.authentication.secret, { expiresIn: settings.authentication.tokenLifespan });
 }
 
-describe('Acceptance | Application | Controller | Organization', () => {
+describe('Acceptance | Application | Controller | organization-controller', () => {
 
   before(() => {
     nock('https://api.airtable.com')
@@ -172,7 +172,7 @@ describe('Acceptance | Application | Controller | Organization', () => {
           type: 'organizations',
           attributes: {
             name: 'The name of the organization',
-            email: 'organization@email.com',
+            email: 'organization@example.com',
             type: 'PRO',
             'first-name': 'Steve',
             'last-name': 'Travail',
@@ -206,36 +206,23 @@ describe('Acceptance | Application | Controller | Organization', () => {
     });
 
     it('should create and return the new organization', () => {
-      return server.inject(options).then((response) => {
-        const organizationInResponse = response.result.data.attributes;
-        expect(organizationInResponse.name).to.equal('The name of the organization');
-        expect(organizationInResponse.email).to.equal('organization@email.com');
-        expect(organizationInResponse.type).to.equal('PRO');
-        expect(organizationInResponse.code).not.to.be.empty;
-        expect(organizationInResponse.user).to.be.undefined;
-      });
-    });
-
-    it('should return 400 HTTP status code when creating two organizations with the same email', () => {
-      // given
-      const createFirstOrganization = server.inject(options);
+      // when
+      const promise = server.inject(options);
 
       // then
-      const secondOrganizationOnFailure = createFirstOrganization.then(() => {
-        return server.inject(options);
-      });
-
-      // then
-      return secondOrganizationOnFailure.then((response) => {
-        const parsedResponse = JSON.parse(response.payload);
-        expect(parsedResponse.errors[0].detail).to.equal('L\'adresse organization@email.com est déjà associée à un utilisateur.');
-        expect(response.statusCode).to.equal(400);
+      return promise.then((response) => {
+        const createdOrganization = response.result.data.attributes;
+        expect(createdOrganization.name).to.equal('The name of the organization');
+        expect(createdOrganization.email).to.equal('organization@example.com');
+        expect(createdOrganization.type).to.equal('PRO');
+        expect(createdOrganization.code).not.to.be.empty;
+        expect(createdOrganization.user).to.be.undefined;
       });
     });
 
     describe('when creating with a wrong payload (ex: organization type is wrong)', () => {
 
-      it('should return 400 HTTP status code', () => {
+      it('should return 422 HTTP status code', () => {
         // given
         payload.data.attributes.type = 'FAK';
 
@@ -244,29 +231,8 @@ describe('Acceptance | Application | Controller | Organization', () => {
 
         // then
         return creatingOrganizationOnFailure.then((response) => {
-          const parsedResponse = JSON.parse(response.payload);
-          expect(parsedResponse.errors[0].detail).to.equal('Le type d’organisation doit être l’une des valeurs suivantes: SCO, SUP, PRO.');
-          expect(response.statusCode).to.equal(400);
+          expect(response.statusCode).to.equal(422);
         });
-      });
-
-      it('should return both User and Organization errors at the same time', () => {
-        // given
-        payload.data.attributes.password = 'invalid-password';
-        payload.data.attributes.type = 'FAK';
-
-        // then
-        const creatingOrganizationOnFailure = server.inject(options);
-
-        // then
-        return creatingOrganizationOnFailure
-          .then((response) => {
-            const parsedResponse = JSON.parse(response.payload);
-
-            expect(parsedResponse.errors).to.have.lengthOf(2);
-            expect(parsedResponse.errors[1].detail).to.equal('Le type d’organisation doit être l’une des valeurs suivantes: SCO, SUP, PRO.');
-            expect(parsedResponse.errors[0].detail).to.equal('Votre mot de passe doit comporter au moins une lettre, un chiffre et 8 caractères.');
-          });
       });
 
       it('should not keep the user in the database', () => {

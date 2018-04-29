@@ -2,13 +2,11 @@ const { expect, knex, sinon } = require('../../../test-helper');
 const faker = require('faker');
 const bcrypt = require('bcrypt');
 const Organization = require('../../../../lib/domain/models/Organization');
-
-const BookshelfOrganization = require('../../../../lib/infrastructure/data/organization');
 const organizationRepository = require('../../../../lib/infrastructure/repositories/organization-repository');
 
 describe('Integration | Repository | Organization', function() {
 
-  describe('#saveFromModel', () => {
+  describe('#create', () => {
 
     const userPassword = bcrypt.hashSync('A124B2C3#!', 1);
     const inserted_user = {
@@ -29,20 +27,15 @@ describe('Integration | Repository | Organization', function() {
 
     it('should save model in database', () => {
       // given
-      const organization = new BookshelfOrganization({
-        code: 'AAAA99',
-        name: 'Lycée Rousseau',
-        type: 'SCO',
-        email: 'a@b.fr'
-      });
+      const organization = new Organization({ code: 'AAAA99', name: 'Lycée Rousseau', type: 'SCO', email: 'a@b.fr' });
 
       // when
-      const promise = organizationRepository.saveFromModel(organization);
+      const promise = organizationRepository.create(organization);
 
       // then
       return promise.then((organizationSaved) => {
-        expect(organizationSaved).to.be.an.instanceof(BookshelfOrganization);
-        expect(organizationSaved.get('code')).to.equal('AAAA99');
+        expect(organizationSaved).to.be.an.instanceof(Organization);
+        expect(organizationSaved.code).to.equal('AAAA99');
       });
     });
   });
