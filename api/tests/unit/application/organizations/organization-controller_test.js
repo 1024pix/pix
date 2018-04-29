@@ -4,25 +4,20 @@ const User = require('../../../../lib/domain/models/User');
 const BookshelfOrganization = require('../../../../lib/infrastructure/data/organization');
 const BookshelfSnapshot = require('../../../../lib/infrastructure/data/snapshot');
 const Organization = require('../../../../lib/domain/models/Organization');
-
 const organizationController = require('../../../../lib/application/organizations/organization-controller');
-
-const organisationRepository = require('../../../../lib/infrastructure/repositories/organization-repository');
+const organizationRepository = require('../../../../lib/infrastructure/repositories/organization-repository');
 const userRepository = require('../../../../lib/infrastructure/repositories/user-repository');
 const snapshotRepository = require('../../../../lib/infrastructure/repositories/snapshot-repository');
-
 const organizationSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/organization-serializer');
 const organizationService = require('../../../../lib/domain/services/organization-service');
 const snapshotSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/snapshot-serializer');
 const validationErrorSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/validation-error-serializer');
-
 const bookshelfUtils = require('../../../../lib/infrastructure/utils/bookshelf-utils');
-const { NotFoundError } = require('../../../../lib/domain/errors');
-
+const { OrganizationCreationValidationErrors, NotFoundError } = require('../../../../lib/domain/errors');
 const logger = require('../../../../lib/infrastructure/logger');
-const { AlreadyRegisteredEmailError } = require('../../../../lib/domain/errors');
+const organizationCreationValidator = require('../../../../lib/domain/validators/organization-creation-validator');
 
-describe('Unit | Controller | organizationController', () => {
+describe('Unit | Application | Organizations | organization-controller', () => {
 
   let sandbox;
   let codeStub;
@@ -44,10 +39,10 @@ describe('Unit | Controller | organizationController', () => {
       sandbox.stub(userRepository, 'create').resolves(userSaved);
       sandbox.stub(userRepository, 'isEmailAvailable').resolves();
       sandbox.stub(organizationService, 'generateOrganizationCode').returns('ABCD12');
-      sandbox.stub(organisationRepository, 'saveFromModel').resolves(organizationBookshelf);
-      sandbox.stub(organisationRepository, 'isCodeAvailable').resolves();
-      sandbox.stub(organizationSerializer, 'deserialize').returns(organizationBookshelf);
+      sandbox.stub(organizationRepository, 'create').resolves(organizationBookshelf);
+      sandbox.stub(organizationRepository, 'isCodeAvailable');
       sandbox.stub(organizationSerializer, 'serialize');
+      sandbox.stub(organizationCreationValidator, 'validate');
 
       request = {
         payload: {
@@ -68,235 +63,297 @@ describe('Unit | Controller | organizationController', () => {
       sandbox.restore();
     });
 
-    it('should provide get method', () => {
-      expect(organizationController.create).to.exist;
-    });
+    context('successful case', () => {
 
-    context('when the email is available', () => {
+      let savedOrganization;
+      let serializedOrganization;
 
       beforeEach(() => {
-        userRepository.isEmailAvailable.resolves();
-        userRepository.create.resolves(userSaved);
+
+        const generatedOrganizationCode = 'ABCD12';
+        const user = new User({ id: 1234 });
+        savedOrganization = { titi: 'toto' };
+        serializedOrganization = { foo: 'bar' };
+
+        organizationCreationValidator.validate.resolves();
+        userRepository.create.resolves(user);
+        organizationService.generateOrganizationCode.returns(generatedOrganizationCode);
+        organizationRepository.isCodeAvailable.withArgs(generatedOrganizationCode).resolves();
+        organizationRepository.create.resolves(savedOrganization);
+        organizationSerializer.serialize.withArgs(savedOrganization).returns(serializedOrganization);
       });
 
-      it('should try to register a new user', () => {
+      it('should create a user', () => {
         // when
         const promise = organizationController.create(request, replyStub);
 
         // then
         return promise.then(() => {
-          expect(userRepository.create).to.have.been.calledWithMatch({
-            email: 'existing-email@example.net',
-            firstName: 'Tom',
-            lastName: 'Hanks',
-            cgu: true,
-            password: 'Pix2048#-DamnItEvolved'
-          });
+          expect(userRepository.create).to.have.been.calledOnce;
         });
       });
 
-      it('should register the new user using a normalized email', () => {
-        // given
-        request.payload.data.attributes.email = 'MY-EMAIL-WITH-CAPSLOCK@EXAMPLE.NET';
-
+      it('should generate a unique randomized organization code', () => {
         // when
         const promise = organizationController.create(request, replyStub);
 
         // then
         return promise.then(() => {
-          expect(userRepository.create).to.have.been.calledWithMatch({
-            email: 'existing-email@example.net'
+          expect(organizationService.generateOrganizationCode).to.have.been.calledOnce;
+        });
+      });
+
+      it('should create an organization', () => {
+        // when
+        const promise = organizationController.create(request, replyStub);
+
+        // then
+        return promise.then(() => {
+          expect(organizationRepository.create).to.have.been.calledOnce;
+        });
+      });
+
+      it('should serialized organization into JSON:API', () => {
+        // when
+        const promise = organizationController.create(request, replyStub);
+
+        // then
+        return promise.then(() => {
+          expect(organizationSerializer.serialize).to.have.been.calledOnce;
+          expect(organizationSerializer.serialize).to.have.been.calledWith(savedOrganization);
+        });
+      });
+
+      it('should return the serialized organization', () => {
+        // when
+        const promise = organizationController.create(request, replyStub);
+
+        // then
+        return promise.then(() => {
+          expect(replyStub).to.have.been.calledWith(serializedOrganization);
+        });
+      });
+
+    });
+
+    context('error cases', () => {
+
+      let error;
+
+      context('when an input params validation error occurred', () => {
+
+        beforeEach(() => {
+          const validationErrors = [];
+          error = new OrganizationCreationValidationErrors(validationErrors);
+          organizationCreationValidator.validate.rejects(error);
+        });
+
+        it('should return an error with HTTP status code 422 when a validation error occurred', () => {
+          // when
+          const promise = organizationController.create(request, replyStub);
+
+          // then
+          return promise.then(() => {
+            expect(replyStub).to.have.been.calledWith({ errors: [] });
+            expect(codeStub).to.have.been.calledWith(422);
           });
         });
       });
 
-      context('when the user account has been created', () => {
-        it('should deserialize an organization', () => {
-          // when
-          const promise = organizationController.create(request, replyStub);
+      context('when a treatment error occurred (other than validation)', () => {
 
-          // then
-          return promise.then(() => {
-            sinon.assert.calledOnce(organizationSerializer.deserialize);
-          });
+        beforeEach(() => {
+          organizationCreationValidator.validate.resolves();
+          error = new Error('Some error');
+          userRepository.create.rejects(error);
         });
 
-        it('should persist the organisation with the userID', () => {
-          // when
-          const promise = organizationController.create(request, replyStub);
-
-          // then
-          return promise.then(() => {
-            sinon.assert.calledOnce(organisationRepository.saveFromModel);
-
-            const callArguments = organisationRepository.saveFromModel.firstCall.args[0];
-            expect(callArguments.get('userId')).to.equal(12);
-          });
-        });
-
-        it('should serialize the response', () => {
+        it('should return an error with HTTP status code 500', () => {
           // given
-          const serializedOrganization = { message: 'serialized organization' };
-          organizationSerializer.serialize.returns(serializedOrganization);
+          const expectedResponseContent = {
+            status: '500',
+            title: 'Une erreur serveur est survenue.',
+            meta: error,
+          };
 
           // when
           const promise = organizationController.create(request, replyStub);
 
           // then
           return promise.then(() => {
-            expect(organizationSerializer.serialize).to.have.been.calledWith(organizationBookshelf.toJSON());
-            expect(replyStub).to.have.been.calledWith(serializedOrganization);
+            expect(replyStub).to.have.been.calledWith({ errors: [expectedResponseContent] });
+            expect(codeStub).to.have.been.calledWith(500);
           });
         });
 
-        context('generating a code for the organization', () => {
-          it('should generate a code', () => {
-            // when
-            const promise = organizationController.create(request, replyStub);
+        it('should log the error', () => {
+          // when
+          const promise = organizationController.create(request, replyStub);
 
-            // then
-            return promise.then(() => {
-              sinon.assert.calledOnce(organizationService.generateOrganizationCode);
-            });
+          // then
+          return promise.then(() => {
+            expect(logger.error).to.have.been.calledWith(error);
           });
-
-          it('should verify if the code is unique', () => {
-            // then
-            const promise = organizationController.create(request, replyStub);
-
-            // when
-            return promise.then(() => {
-              sinon.assert.calledWith(organisationRepository.isCodeAvailable, 'ABCD12');
-            });
-          });
-
-          it('should generate a code as many times as necessary to find a unique one', () => {
-            // given
-            organizationService.generateOrganizationCode.onFirstCall().returns('CODE01');
-            organizationService.generateOrganizationCode.onSecondCall().returns('CODE02');
-            organizationService.generateOrganizationCode.onThirdCall().returns('CODE03');
-
-            organisationRepository.isCodeAvailable.withArgs('CODE01').rejects();
-            organisationRepository.isCodeAvailable.withArgs('CODE02').rejects();
-            organisationRepository.isCodeAvailable.withArgs('CODE03').resolves('CODE03');
-
-            // then
-            const promise = organizationController.create(request, replyStub);
-
-            // when
-            return promise.then(() => {
-              sinon.assert.calledThrice(organisationRepository.isCodeAvailable);
-            });
-          });
-
-          it('should persist the organization with its code', () => {
-            // given
-            const code = 'CODE01';
-            organizationService.generateOrganizationCode.resolves(code);
-            organisationRepository.isCodeAvailable.resolves(code);
-
-            // then
-            const promise = organizationController.create(request, replyStub);
-
-            // when
-            return promise.then(() => {
-              const callArguments = organisationRepository.saveFromModel.firstCall.args[0];
-              expect(callArguments.get('code')).to.equal(code);
-            });
-          });
-
         });
 
-        context('when the organization payload is invalid', () => {
-          it('should reply 400', () => {
+      });
+
+    });
+
+    /*
+        context('when the email is available', () => {
+
+          beforeEach(() => {
+            userRepository.isEmailAvailable.resolves();
+            userRepository.create.resolves(userSaved);
+          });
+
+          it('should try to register a new user', () => {
             // when
             const promise = organizationController.create(request, replyStub);
 
             // then
-            return promise.catch(() => {
-              sinon.assert.calledWith(replyStub, {
-                'errors': [
-                  {
-                    'detail': 'L\'adresse existing-email@example.net est déjà associée à un utilisateur.',
-                    'meta': {
-                      'field': 'email'
-                    },
-                    'source': {
-                      'pointer': '/data/attributes/email'
-                    },
-                    'status': '400',
-                    'title': 'Invalid Attribute'
-                  }
-                ]
+            return promise.then(() => {
+              expect(userRepository.create).to.have.been.calledWithMatch({
+                email: 'existing-email@example.net',
+                firstName: 'Tom',
+                lastName: 'Hanks',
+                cgu: true,
+                password: 'Pix2048#-DamnItEvolved'
+              });
+            });
+          });
+
+          it('should register the new user using a normalized email', () => {
+            // given
+            request.payload.data.attributes.email = 'MY-EMAIL-WITH-CAPSLOCK@EXAMPLE.NET';
+
+            // when
+            const promise = organizationController.create(request, replyStub);
+
+            // then
+            return promise.then(() => {
+              expect(userRepository.create).to.have.been.calledWithMatch({
+                email: 'existing-email@example.net'
+              });
+            });
+          });
+
+          context('when the user account has been created', () => {
+            it('should persist the organisation with the userID', () => {
+              // when
+              const promise = organizationController.create(request, replyStub);
+
+              // then
+              return promise.then(() => {
+                sinon.assert.calledOnce(organisationRepository.create);
+
+                const callArguments = organisationRepository.create.firstCall.args[0];
+                expect(callArguments.get('userId')).to.equal(12);
+              });
+            });
+
+            it('should serialize the response', () => {
+              // given
+              const serializedOrganization = { message: 'serialized organization' };
+              organizationSerializer.serialize.returns(serializedOrganization);
+
+              // when
+              const promise = organizationController.create(request, replyStub);
+
+              // then
+              return promise.then(() => {
+                expect(organizationSerializer.serialize).to.have.been.calledWith(organizationBookshelf.toJSON());
+                expect(replyStub).to.have.been.calledWith(serializedOrganization);
+              });
+            });
+
+            context('generating a code for the organization', () => {
+              it('should generate a code', () => {
+                // when
+                const promise = organizationController.create(request, replyStub);
+
+                // then
+                return promise.then(() => {
+                  sinon.assert.calledOnce(organizationService.generateOrganizationCode);
+                });
+              });
+
+              it('should verify if the code is unique', () => {
+                // then
+                const promise = organizationController.create(request, replyStub);
+
+                // when
+                return promise.then(() => {
+                  sinon.assert.calledWith(organisationRepository.isCodeAvailable, 'ABCD12');
+                });
+              });
+
+              it('should generate a code as many times as necessary to find a unique one', () => {
+                // given
+                organizationService.generateOrganizationCode.onFirstCall().returns('CODE01');
+                organizationService.generateOrganizationCode.onSecondCall().returns('CODE02');
+                organizationService.generateOrganizationCode.onThirdCall().returns('CODE03');
+
+                organisationRepository.isCodeAvailable.withArgs('CODE01').rejects();
+                organisationRepository.isCodeAvailable.withArgs('CODE02').rejects();
+                organisationRepository.isCodeAvailable.withArgs('CODE03').resolves('CODE03');
+
+                // then
+                const promise = organizationController.create(request, replyStub);
+
+                // when
+                return promise.then(() => {
+                  sinon.assert.calledThrice(organisationRepository.isCodeAvailable);
+                });
+              });
+
+              it('should persist the organization with its code', () => {
+                // given
+                const code = 'CODE01';
+                organizationService.generateOrganizationCode.resolves(code);
+                organisationRepository.isCodeAvailable.resolves(code);
+
+                // then
+                const promise = organizationController.create(request, replyStub);
+
+                // when
+                return promise.then(() => {
+                  const callArguments = organisationRepository.create.firstCall.args[0];
+                  expect(callArguments.get('code')).to.equal(code);
+                });
+              });
+
+            });
+
+            context('when the organization payload is invalid', () => {
+              it('should reply 422', () => {
+                // when
+                const promise = organizationController.create(request, replyStub);
+
+                // then
+                return promise.catch(() => {
+                  sinon.assert.calledWith(replyStub, {
+                    'errors': [
+                      {
+                        'detail': 'L’adresse électronique est déjà utilisée.',
+                        'meta': {
+                          'field': 'email'
+                        },
+                        'source': {
+                          'pointer': '/data/attributes/email'
+                        },
+                        'status': '422',
+                        'title': 'Invalid user data attribute "email"'
+                      }
+                    ]
+                  });
+                });
               });
             });
           });
         });
-      });
-    });
-
-    describe('when unable to create an account', () => {
-      beforeEach(() => {
-        userRepository.isEmailAvailable.rejects(new AlreadyRegisteredEmailError());
-      });
-
-      it('should reply 400', () => {
-        // when
-        const promise = organizationController.create(request, replyStub);
-
-        // then
-        return promise.then(() => {
-          sinon.assert.calledWith(codeStub, 400);
-          sinon.assert.calledWith(replyStub, {
-            'errors': [
-              {
-                'detail': 'L\'adresse existing-email@example.net est déjà associée à un utilisateur.',
-                'meta': {
-                  'field': 'email'
-                },
-                'source': {
-                  'pointer': '/data/attributes/email'
-                },
-                'status': '400',
-                'title': 'Invalid Attribute'
-              }
-            ]
-          });
-        });
-      });
-    });
-
-    describe('when unable to save something in the database', () => {
-      it('should return 500', () => {
-        // given
-        const error = new Error();
-        userRepository.isEmailAvailable.rejects(error);
-
-        // when
-        const promise = organizationController.create(request, replyStub);
-
-        // then
-        return promise.then(() => {
-          sinon.assert.calledWith(codeStub, 500);
-          sinon.assert.calledOnce(replyStub);
-        });
-      });
-
-      it('should log any error', () => {
-        // given
-        const error = new Error();
-        userRepository.isEmailAvailable.rejects(error);
-
-        // when
-        const promise = organizationController.create(request, replyStub);
-
-        // then
-        return promise.then(() => {
-          sinon.assert.calledWith(logger.error, error);
-        });
-      });
-
-    });
+    */
   });
 
   describe('#search', () => {
@@ -667,4 +724,5 @@ describe('Unit | Controller | organizationController', () => {
     });
 
   });
-});
+})
+;

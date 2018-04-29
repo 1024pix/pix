@@ -2,11 +2,11 @@ const { expect, sinon } = require('../../../test-helper');
 const userCreationValidator = require('../../../../lib/domain/validators/user-creation-validator');
 const userValidator = require('../../../../lib/domain/validators/user-validator');
 const googleReCaptcha = require('../../../../lib/infrastructure/validators/grecaptcha-validator');
-const { UserValidationErrors } = require('../../../../lib/domain/errors');
+const { UserCreationValidationErrors } = require('../../../../lib/domain/errors');
 const { InvalidRecaptchaTokenError } = require('../../../../lib/infrastructure/validators/errors');
 
 function _assertErrorMatchesWithExpectedOne(err, expectedError) {
-  expect(err).to.be.an.instanceof(UserValidationErrors);
+  expect(err).to.be.an.instanceof(UserCreationValidationErrors);
   expect(err.errors).to.have.lengthOf(1);
   expect(err.errors[0]).to.deep.equal(expectedError);
 }
@@ -93,7 +93,7 @@ describe('Unit | Domain | Validators | user-creation-validator', function() {
 
         // then
         return promise
-          .then(() => expect.fail('Expected rejection with UserValidationErrors'))
+          .then(() => expect.fail('Expected rejection with UserCreationValidationErrors'))
           .catch((err) => _assertErrorMatchesWithExpectedOne(err, expectedError));
       });
     });
@@ -119,7 +119,7 @@ describe('Unit | Domain | Validators | user-creation-validator', function() {
 
         // then
         return promise
-          .then(() => expect.fail('Expected rejection with UserValidationErrors'))
+          .then(() => expect.fail('Expected rejection with UserCreationValidationErrors'))
           .catch((err) => _assertErrorMatchesWithExpectedOne(err, expectedError));
       });
 
@@ -154,9 +154,9 @@ describe('Unit | Domain | Validators | user-creation-validator', function() {
 
         // then
         return promise
-          .then(() => expect.fail('Expected rejection with UserValidationErrors'))
+          .then(() => expect.fail('Expected rejection with UserCreationValidationErrors'))
           .catch((err) => {
-            expect(err).to.be.an.instanceof(UserValidationErrors);
+            expect(err).to.be.an.instanceof(UserCreationValidationErrors);
             expect(err.errors).to.have.lengthOf(2);
             expect(err.errors[0]).to.deep.equal(expectedReCAPTCHAError);
             expect(err.errors[1]).to.deep.equal(expectedUserError);

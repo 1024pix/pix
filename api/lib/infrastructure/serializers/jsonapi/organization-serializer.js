@@ -1,5 +1,4 @@
 const { Serializer } = require('jsonapi-serializer');
-const Organization = require('../../../domain/models/Organization');
 
 module.exports = {
 
@@ -13,13 +12,5 @@ module.exports = {
       }
     }).serialize(organizations);
   },
-
-  deserialize(json) {
-    return new Organization({
-      email: json.data.attributes.email,
-      type: json.data.attributes.type,
-      name: json.data.attributes.name,
-    });
-  }
 
 };

@@ -2,15 +2,15 @@ const { expect, sinon } = require('../../../test-helper');
 const organizationCreationValidator = require('../../../../lib/domain/validators/organization-creation-validator');
 const userValidator = require('../../../../lib/domain/validators/user-validator');
 const organizationValidator = require('../../../../lib/domain/validators/organization-validator');
-const { OrganizationValidationErrors } = require('../../../../lib/domain/errors');
+const { OrganizationCreationValidationErrors } = require('../../../../lib/domain/errors');
 
 function _assertErrorMatchesWithExpectedOne(err, expectedError) {
-  expect(err).to.be.an.instanceof(OrganizationValidationErrors);
+  expect(err).to.be.an.instanceof(OrganizationCreationValidationErrors);
   expect(err.errors).to.have.lengthOf(1);
   expect(err.errors[0]).to.deep.equal(expectedError);
 }
 
-describe('Unit | Domain | Validators | organization-creation-validator', function () {
+describe('Unit | Domain | Validators | organization-creation-validator', function() {
 
   let sandbox;
   let userData;
@@ -78,7 +78,7 @@ describe('Unit | Domain | Validators | organization-creation-validator', functio
 
         // then
         return promise
-          .then(() => expect.fail('Expected rejection with OrganizationValidationErrors'))
+          .then(() => expect.fail('Expected rejection with OrganizationCreationValidationErrors'))
           .catch((err) => _assertErrorMatchesWithExpectedOne(err, expectedError));
       });
 
@@ -113,9 +113,9 @@ describe('Unit | Domain | Validators | organization-creation-validator', functio
 
         // then
         return promise
-          .then(() => expect.fail('Expected rejection with OrganizationValidationErrors'))
+          .then(() => expect.fail('Expected rejection with OrganizationCreationValidationErrors'))
           .catch((err) => {
-            expect(err).to.be.an.instanceof(OrganizationValidationErrors);
+            expect(err).to.be.an.instanceof(OrganizationCreationValidationErrors);
             expect(err.errors).to.have.lengthOf(2);
             expect(err.errors[0]).to.deep.equal(expectedUserError);
             expect(err.errors[1]).to.deep.equal(expectedOrganizationError);

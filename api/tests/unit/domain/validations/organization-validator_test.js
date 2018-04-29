@@ -14,7 +14,6 @@ describe('Unit | Domain | Validators | organization-validator', function() {
 
   beforeEach(() => {
     organizationData = {
-      code: 'AZER42',
       name: 'Lycée des Rosiers',
       type: 'SUP',
       email: 'lycee.des.rosiers@example.net'
@@ -35,52 +34,6 @@ describe('Unit | Domain | Validators | organization-validator', function() {
     });
 
     context('when organization data validation fails', () => {
-
-      context('on code attribute', () => {
-
-        it('should reject with error when code is missing', () => {
-          // given
-          const expectedError = {
-            source: { pointer: '/data/attributes/code' },
-            title: 'Invalid organization data attribute "code"',
-            detail: 'Le code n’est pas renseigné.',
-            meta: {
-              field: 'code'
-            }
-          };
-          organizationData.code = MISSING_VALUE;
-
-          // when
-          const promise = organizationValidator.validate(organizationData);
-
-          // then
-          return promise
-            .then(() => expect.fail('Expected rejection with errors'))
-            .catch((errors) => _assertErrorMatchesWithExpectedOne(errors, expectedError));
-        });
-
-        it('should reject with error when code has wrong format', () => {
-          // given
-          const expectedError = {
-            source: { pointer: '/data/attributes/code' },
-            title: 'Invalid organization data attribute "code"',
-            detail: 'Le code doit respecter le format AAAA99.',
-            meta: {
-              field: 'code'
-            }
-          };
-          organizationData.code = 'AZ32RET22';
-
-          // when
-          const promise = organizationValidator.validate(organizationData);
-
-          // then
-          return promise
-            .then(() => expect.fail('Expected rejection with errors'))
-            .catch((errors) => _assertErrorMatchesWithExpectedOne(errors, expectedError));
-        });
-
-      });
 
       context('on name attribute', () => {
 
@@ -181,7 +134,7 @@ describe('Unit | Domain | Validators | organization-validator', function() {
           const expectedError = {
             source: { pointer: '/data/attributes/type' },
             title: 'Invalid organization data attribute "type"',
-            detail: 'Le type doit avoir l’une des valeurs suivantes: SCO, SUP, PRO.',
+            detail: 'Le type de l’organisation doit avoir l’une des valeurs suivantes: SCO, SUP, PRO.',
             meta: {
               field: 'type'
             }
@@ -201,7 +154,7 @@ describe('Unit | Domain | Validators | organization-validator', function() {
           'SUP',
           'SCO',
           'PRO'
-        ].forEach(function(type) {
+        ].forEach((type) => {
           it(`should accept ${type} as type`, function() {
             // given
             organizationData.type = type;
@@ -219,7 +172,6 @@ describe('Unit | Domain | Validators | organization-validator', function() {
       it('should reject with errors on all fields (but only once by field) when all fields are missing', () => {
         // given
         organizationData = {
-          code: '',
           name: '',
           email: '',
           type: '',
@@ -232,7 +184,7 @@ describe('Unit | Domain | Validators | organization-validator', function() {
         return promise
           .then(() => expect.fail('Expected rejection with errors'))
           .catch((errors) => {
-            expect(errors).to.have.lengthOf(4);
+            expect(errors).to.have.lengthOf(3);
           });
       });
     });

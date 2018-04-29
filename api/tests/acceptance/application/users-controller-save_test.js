@@ -6,7 +6,7 @@ const User = require('../../../lib/infrastructure/data/user');
 
 const mailService = require('../../../lib/domain/services/mail-service');
 const userCreationValidator = require('../../../lib/domain/validators/user-creation-validator');
-const { UserValidationErrors } = require('../../../lib/domain/errors');
+const { UserCreationValidationErrors } = require('../../../lib/domain/errors');
 
 const logger = require('../../../lib/infrastructure/logger');
 const gRecaptcha = require('../../../lib/infrastructure/validators/grecaptcha-validator');
@@ -71,7 +71,7 @@ describe('Acceptance | Controller | users-controller-save', () => {
     // Given
     const firstRegistration = server.inject(options);
 
-    userCreationValidatorStub.rejects(new UserValidationErrors([]));
+    userCreationValidatorStub.rejects(new UserCreationValidationErrors([]));
 
     // When
     const secondRegistration = firstRegistration.then(_ => {

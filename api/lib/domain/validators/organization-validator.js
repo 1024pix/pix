@@ -6,14 +6,6 @@ const validationConfiguration = { abortEarly: false, allowUnknown: true };
 
 const organizationValidationJoiSchema = Joi.object().keys({
 
-  code: Joi.string().regex(/[A-Z]{4}\d{2}/).required().error((errors) => {
-    const error = errors[0];
-    if (error.type === 'any.empty') {
-      return { message: 'Le code n’est pas renseigné.' };
-    }
-    return { message: 'Le code doit respecter le format AAAA99.' };
-  }),
-
   name: Joi.string().required().error(() => {
     return { message: 'Le nom n’est pas renseigné.' };
   }),
@@ -23,7 +15,7 @@ const organizationValidationJoiSchema = Joi.object().keys({
     if (error.type === 'any.empty') {
       return { message: 'Le type n’est pas renseigné.' };
     }
-    return { message: 'Le type doit avoir l’une des valeurs suivantes: SCO, SUP, PRO.' };
+    return { message: 'Le type de l’organisation doit avoir l’une des valeurs suivantes: SCO, SUP, PRO.' };
   }),
 
   email: Joi.string().email().required().error((errors) => {

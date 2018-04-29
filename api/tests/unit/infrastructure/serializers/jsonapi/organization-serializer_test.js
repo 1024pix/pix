@@ -1,6 +1,5 @@
 const { expect } = require('../../../../test-helper');
 const serializer = require('../../../../../lib/infrastructure/serializers/jsonapi/organization-serializer');
-const BookshelfOrganization = require('../../../../../lib/infrastructure/data/organization');
 const Organization = require('../../../../../lib/domain/models/Organization');
 
 const faker = require('faker');
@@ -155,36 +154,6 @@ describe('Unit | Serializer | organization-serializer', () => {
 
       // then
       expect(serializedArray).to.deep.equal(expectedJsonApi);
-    });
-
-  });
-
-  describe('#deserialize', () => {
-
-    it('should convert JSON API data into a Organization model object', () => {
-      const expectedModelObject = new BookshelfOrganization({
-        name: 'The name of the organization',
-        email: 'organization@email.com',
-        type: 'SUP'
-      });
-      const jsonOrganization = {
-        data: {
-          attributes: {
-            name: 'The name of the organization',
-            email: 'organization@email.com',
-            type: 'SUP',
-            'first-name': 'Daft',
-            'last-name': 'Punk'
-          },
-          type: 'organizations'
-        }
-      };
-
-      // when
-      const deserializedObject = serializer.deserialize(jsonOrganization);
-
-      // then
-      expect(deserializedObject.toJSON()).to.deep.equal(expectedModelObject.toJSON());
     });
 
   });
