@@ -2,13 +2,13 @@ const userValidator = require('./user-validator');
 const organizationValidator = require('./organization-validator');
 const { OrganizationCreationValidationErrors } = require('../../domain/errors');
 
-function _concatErrors(userDataErrors, organizationDataErrors) {
+function _concatErrors(userValidationErrors, organizationValidationErrors) {
   const validationErrors = [];
-  if (userDataErrors instanceof Array) {
-    validationErrors.push(...userDataErrors);
+  if (userValidationErrors instanceof Array) {
+    validationErrors.push(...userValidationErrors);
   }
-  if (organizationDataErrors instanceof Array) {
-    validationErrors.push(...organizationDataErrors);
+  if (organizationValidationErrors instanceof Array) {
+    validationErrors.push(...organizationValidationErrors);
   }
   return validationErrors;
 }
@@ -16,16 +16,16 @@ function _concatErrors(userDataErrors, organizationDataErrors) {
 // FIXME move it in the "future" Use Case that creates a User
 module.exports = {
 
-  validate(userData, organizationData) {
+  validate(user, organization) {
     return Promise.all([
-      userValidator.validate(userData).catch((errors) => errors),
-      organizationValidator.validate(organizationData).catch((errors) => errors),
+      userValidator.validate(user).catch((errors) => errors),
+      organizationValidator.validate(organization).catch((errors) => errors),
     ])
       .then(values => {
-        const userDataErrors = values[0];
-        const organizationErrors = values[1];
+        const userValidationErrors = values[0];
+        const organizationValidationErrors = values[1];
 
-        const validationErrors = _concatErrors(userDataErrors, organizationErrors);
+        const validationErrors = _concatErrors(userValidationErrors, organizationValidationErrors);
 
         if (validationErrors.length > 0) {
           return Promise.reject(new OrganizationCreationValidationErrors(validationErrors));

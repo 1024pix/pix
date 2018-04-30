@@ -70,10 +70,10 @@ function _formatValidationError(key, message) {
 
 module.exports = {
 
-  validate(userData) {
+  validate(user) {
     return Promise.all([
-      Joi.validate(userData, userValidationJoiSchema, validationConfiguration).catch((errors) => errors),
-      userRepository.isEmailAvailable(userData.email).catch((error) => error),
+      Joi.validate(user, userValidationJoiSchema, validationConfiguration).catch((errors) => errors),
+      userRepository.isEmailAvailable(user.email).catch((error) => error),
     ])
       .then((values) => {
         const joiErrors = values[0];

@@ -2,6 +2,7 @@ const { expect, sinon } = require('../../../test-helper');
 const userCreationValidator = require('../../../../lib/domain/validators/user-creation-validator');
 const userValidator = require('../../../../lib/domain/validators/user-validator');
 const googleReCaptcha = require('../../../../lib/infrastructure/validators/grecaptcha-validator');
+const User = require('../../../../lib/domain/models/User');
 const { UserCreationValidationErrors } = require('../../../../lib/domain/errors');
 const { InvalidRecaptchaTokenError } = require('../../../../lib/infrastructure/validators/errors');
 
@@ -14,17 +15,17 @@ function _assertErrorMatchesWithExpectedOne(err, expectedError) {
 describe('Unit | Domain | Validators | user-creation-validator', function() {
 
   let sandbox;
-  let userData;
+  let user;
   let recaptchaToken;
 
   beforeEach(() => {
-    userData = {
+    user = new User({
       firstName: 'John',
       lastName: 'Doe',
       email: 'john.doe@example.net',
       password: 'password1234',
       cgu: true,
-    };
+    });
     recaptchaToken = 'recaptcha_token';
 
     sandbox = sinon.sandbox.create();
@@ -47,7 +48,7 @@ describe('Unit | Domain | Validators | user-creation-validator', function() {
 
       it('should resolve (with no value) when validation is successful', () => {
         // when
-        const promise = userCreationValidator.validate(userData, recaptchaToken);
+        const promise = userCreationValidator.validate(user, recaptchaToken);
 
         // then
         return expect(promise).to.be.fulfilled;
@@ -66,7 +67,7 @@ describe('Unit | Domain | Validators | user-creation-validator', function() {
         googleReCaptcha.verify.rejects(someNetworkError);
 
         // when
-        const promise = userCreationValidator.validate(userData, recaptchaToken);
+        const promise = userCreationValidator.validate(user, recaptchaToken);
 
         // then
         return promise
@@ -89,7 +90,7 @@ describe('Unit | Domain | Validators | user-creation-validator', function() {
         googleReCaptcha.verify.rejects(new InvalidRecaptchaTokenError());
 
         // when
-        const promise = userCreationValidator.validate(userData, recaptchaToken);
+        const promise = userCreationValidator.validate(user, recaptchaToken);
 
         // then
         return promise
@@ -115,7 +116,7 @@ describe('Unit | Domain | Validators | user-creation-validator', function() {
         userValidator.validate.rejects([expectedError]);
 
         // when
-        const promise = userCreationValidator.validate(userData, recaptchaToken);
+        const promise = userCreationValidator.validate(user, recaptchaToken);
 
         // then
         return promise
@@ -150,7 +151,7 @@ describe('Unit | Domain | Validators | user-creation-validator', function() {
         userValidator.validate.rejects([expectedUserError]);
 
         // when
-        const promise = userCreationValidator.validate(userData, recaptchaToken);
+        const promise = userCreationValidator.validate(user, recaptchaToken);
 
         // then
         return promise

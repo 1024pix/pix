@@ -22,13 +22,13 @@ function _verifyReCaptcha(reCaptchaToken) {
   });
 }
 
-function _concatErrors(recaptchaError, userDataErrors) {
+function _concatErrors(recaptchaError, userValidationErrors) {
   const validationErrors = [];
   if (recaptchaError) {
     validationErrors.push(recaptchaError);
   }
-  if (userDataErrors instanceof Array) {
-    validationErrors.push(...userDataErrors);
+  if (userValidationErrors instanceof Array) {
+    validationErrors.push(...userValidationErrors);
   }
   return validationErrors;
 }
@@ -36,16 +36,16 @@ function _concatErrors(recaptchaError, userDataErrors) {
 // FIXME move it in the "future" Use Case that creates a User
 module.exports = {
 
-  validate(userData, recaptchaToken) {
+  validate(user, recaptchaToken) {
     return Promise.all([
       _verifyReCaptcha(recaptchaToken),
-      userValidator.validate(userData).catch((errors) => errors),
+      userValidator.validate(user).catch((errors) => errors),
     ])
       .then(values => {
         const recaptchaError = values[0];
-        const userDataErrors = values[1];
+        const userValidationErrors = values[1];
 
-        const validationErrors = _concatErrors(recaptchaError, userDataErrors);
+        const validationErrors = _concatErrors(recaptchaError, userValidationErrors);
 
         if (validationErrors.length > 0) {
           return Promise.reject(new UserCreationValidationErrors(validationErrors));

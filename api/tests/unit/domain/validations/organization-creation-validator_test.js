@@ -2,6 +2,8 @@ const { expect, sinon } = require('../../../test-helper');
 const organizationCreationValidator = require('../../../../lib/domain/validators/organization-creation-validator');
 const userValidator = require('../../../../lib/domain/validators/user-validator');
 const organizationValidator = require('../../../../lib/domain/validators/organization-validator');
+const User = require('../../../../lib/domain/models/User');
+const Organization = require('../../../../lib/domain/models/Organization');
 const { OrganizationCreationValidationErrors } = require('../../../../lib/domain/errors');
 
 function _assertErrorMatchesWithExpectedOne(err, expectedError) {
@@ -13,22 +15,22 @@ function _assertErrorMatchesWithExpectedOne(err, expectedError) {
 describe('Unit | Domain | Validators | organization-creation-validator', function() {
 
   let sandbox;
-  let userData;
-  let organizationData;
+  let user;
+  let organization;
 
   beforeEach(() => {
-    userData = {
+    user = new User({
       firstName: 'John',
       lastName: 'Doe',
       email: 'john.doe@example.net',
       password: 'password1234',
       cgu: true,
-    };
-    organizationData = {
+    });
+    organization = new Organization({
       name: 'Acme',
       type: 'PRO',
-      email: userData.email,
-    };
+      email: user.email,
+    });
 
     sandbox = sinon.sandbox.create();
     sandbox.stub(userValidator, 'validate');
@@ -50,7 +52,7 @@ describe('Unit | Domain | Validators | organization-creation-validator', functio
 
       it('should resolve (with no value) when validation is successful', () => {
         // when
-        const promise = organizationCreationValidator.validate(userData, organizationData);
+        const promise = organizationCreationValidator.validate(user, organization);
 
         // then
         return expect(promise).to.be.fulfilled;
@@ -74,7 +76,7 @@ describe('Unit | Domain | Validators | organization-creation-validator', functio
         organizationValidator.validate.resolves();
 
         // when
-        const promise = organizationCreationValidator.validate(userData, organizationData);
+        const promise = organizationCreationValidator.validate(user, organization);
 
         // then
         return promise
@@ -109,7 +111,7 @@ describe('Unit | Domain | Validators | organization-creation-validator', functio
         organizationValidator.validate.rejects([expectedOrganizationError]);
 
         // when
-        const promise = organizationCreationValidator.validate(userData, organizationData);
+        const promise = organizationCreationValidator.validate(user, organization);
 
         // then
         return promise
