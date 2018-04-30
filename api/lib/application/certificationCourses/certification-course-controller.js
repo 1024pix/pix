@@ -15,7 +15,7 @@ module.exports = {
     return certificationService.calculateCertificationResultByCertificationCourseId(certificationCourseId)
       .then(reply)
       .catch((err) => {
-        logger.error(err);
+        logger.error(err); 
         reply(Boom.badImplementation(err));
       });
   },
