@@ -1,5 +1,6 @@
 const { expect, knex } = require('../../../test-helper');
 const certificationRepository = require('../../../../lib/infrastructure/repositories/certification-repository');
+const AssessmentResult = require('../../../../lib/domain/models/AssessmentResult');
 const Certification = require('../../../../lib/domain/models/Certification');
 const { NotFoundError } = require('../../../../lib/domain/errors');
 
@@ -126,7 +127,7 @@ describe('Integration | Repository | Certification ', () => {
     });
   });
 
-  describe('#findCertificationbyUserId', function() {
+  describe('#findCertificationbyUserId', () => {
 
     const USER_ID = 1;
 
@@ -137,18 +138,21 @@ describe('Integration | Repository | Certification ', () => {
       lastName: 'Kalamity',
       birthplace: 'Earth',
       birthdate: '24/10/1989',
-      completedAt: '01/02/2004',
-      sessionId: 321
+      completedAt: '12/02/2000',
+      sessionId: 321,
+      isPublished: true
     };
 
     const assessmentResult = {
       level: 1,
-      pixScore: 62,
+      pixScore: 23,
       emitter: 'PIX-ALGO',
-      status: 'validated'
+      status: 'rejected',
+      assessmentId: 1000
     };
 
     const assessment = {
+      id: 1000,
       courseId: 123,
       userId: USER_ID,
       type: 'CERTIFICATION',
@@ -157,11 +161,11 @@ describe('Integration | Repository | Certification ', () => {
 
     const session = {
       id: 321,
-      certificationCenter: 'Université du Pix',
+      certificationCenter: 'Université des chocolats',
       address: '137 avenue de Bercy',
       room: 'La grande',
       examiner: 'Serge le Mala',
-      date: '24/10/1989',
+      date: '12/02/2000',
       time: '21:30',
       accessCode: 'ABCD12'
     };
@@ -186,16 +190,24 @@ describe('Integration | Repository | Certification ', () => {
         });
     });
 
-    it('should return an array of Certification with needed informations', function() {
+    it('should return an array of Certification with needed informations', () => {
       // given
+      const assessmentResult = new AssessmentResult({
+        level: 1,
+        pixScore: 23,
+        emitter: 'PIX-ALGO',
+        status: 'rejected'
+      });
       const expectedCertifications = [
         new Certification({
-          id: 2,
+          id: 123,
           certificationCenter: 'Université des chocolats',
-          date: '12/02/1993',
+          date: '12/02/2000',
           isPublished: true,
-          status: 'rejected',
-          pixScore: 23
+          assessmentState: 'completed',
+          status: 'rejected_',
+          pixScore: 23,
+          assessmentResults: [assessmentResult]
         })
       ];
 
@@ -204,9 +216,8 @@ describe('Integration | Repository | Certification ', () => {
 
       // then
       return promise.then((certifications) => {
-        expect(certifications).to.be.an(expectedCertifications);
+        expect(certifications).to.deep.equal(expectedCertifications);
       });
-
     });
   });
 
