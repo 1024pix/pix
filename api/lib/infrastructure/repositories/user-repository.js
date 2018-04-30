@@ -46,10 +46,6 @@ module.exports = {
       .then(bookshelfUser => bookshelfUser.toDomainEntity());
   },
 
-  validateData(userRawData) {
-    return new BookshelfUser(userRawData).validationErrors();
-  },
-
   isEmailAvailable(email) {
     return BookshelfUser
       .where({ email })
