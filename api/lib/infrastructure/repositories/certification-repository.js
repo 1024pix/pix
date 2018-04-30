@@ -9,20 +9,20 @@ module.exports = {
       .fetchAll({ withRelated: ['session', 'assessment'] })
       .then((certificationCoursesBookshelf) => {
 
-        if (!certificationCoursesBookshelf) {
-          return [];
-        }
-
         const certifications = [];
 
-        certificationCoursesBookshelf.map((certificationCourseBookshelf) => {
-          if (certificationCourseBookshelf.related('assessment').get('state') === 'completed') {
-            certifications.push(new Certification({
-              id: certificationCourseBookshelf.get('id'),
-              date: certificationCourseBookshelf.get('completedAt'),
-              certificationCenter: certificationCourseBookshelf.related('session').get('certificationCenter')
-            }));
+        certificationCoursesBookshelf.forEach((certificationCourseBookshelf) => {
+          if (certificationCourseBookshelf.related('assessment').get('state') !== 'completed') {
+            return;
           }
+
+          const certification = new Certification({
+            id: certificationCourseBookshelf.get('id'),
+            date: certificationCourseBookshelf.get('completedAt'),
+            certificationCenter: certificationCourseBookshelf.related('session').get('certificationCenter')
+          });
+
+          certifications.push(certification);
         });
 
         return Promise.resolve(certifications);
