@@ -5,16 +5,21 @@ const moment = require('moment-timezone');
 
 module.exports = {
 
+  // TODO: use only one merged function for both (admin and front) uses
+  /**
+   * @deprecated use serializeCertification instead.
+   * It is used in api/admin endpoint for now.
+   */
   serialize(certificationCourse) {
     return new Serializer('certifications', {
       attributes: ['firstName', 'lastName', 'birthplace', 'birthdate', 'externalId']
     }).serialize(certificationCourse);
   },
 
-  serializeCertification(certificationsList) {
+  serializeCertification(certification) {
     return new Serializer('certifications', {
-      attributes: ['certificationCenter', 'date']
-    }).serialize(certificationsList);
+      attributes: ['certificationCenter', 'date', 'isPublished', 'status', 'pixScore']
+    }).serialize(certification);
   },
 
   deserialize(json) {

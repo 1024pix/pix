@@ -26,7 +26,6 @@ function _createCertificationDomainModel({ certificationCourseBookshelf, assessm
 
 module.exports = {
   findCertificationsByUserId(userId) {
-
     return CertificationCourseBookshelf
       .where({ userId })
       .fetchAll({
