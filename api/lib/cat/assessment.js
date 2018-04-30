@@ -1,4 +1,5 @@
 const AnswerStatus = require('../domain/models/AnswerStatus');
+const _ = require('lodash');
 
 const MAX_REACHABLE_LEVEL = 5;
 const NB_PIX_BY_LEVEL = 8;
@@ -36,9 +37,13 @@ class Assessment {
     return !answeredChallenges.includes(challenge);
   }
 
+  _isNotTooHardChallenge(challenge) {
+    return challenge.hardestSkill.difficulty - this._getPredictedLevel() <= 2;
+  }
+
   _isAnAvailableChallenge(challenge) {
     const answeredChallenges = this.answers.map(answer => answer.challenge);
-    return challenge.isActive && this._isChallengeNotAnsweredYet(challenge, answeredChallenges);
+    return challenge.isActive && this._isChallengeNotAnsweredYet(challenge, answeredChallenges) && this._isNotTooHardChallenge(challenge);
   }
 
   _isPreviousChallengeTimed() {
@@ -148,6 +153,7 @@ class Assessment {
   }
 
   get nextChallenge() {
+
     if (this.answers.length === 0) {
       return this._firstChallenge;
     }
@@ -155,12 +161,21 @@ class Assessment {
       return null;
     }
 
-    const byDescendingRewards = (a, b) => { return b.reward - a.reward; };
+    const availableChallenges = this.filteredChallenges;
+    if (availableChallenges.length === 0) {
+      return null;
+    }
+
     const predictedLevel = this._getPredictedLevel();
-    const challengesAndRewards = this.filteredChallenges.map(challenge => {
-      return { challenge: challenge, reward: this._computeReward(challenge, predictedLevel) };
+
+    const challengesAndRewards = availableChallenges.map(challenge => {
+      return {
+        challenge: challenge,
+        reward: this._computeReward(challenge, predictedLevel)
+      };
     });
-    const challengeWithMaxReward = challengesAndRewards.sort(byDescendingRewards)[0];
+
+    const challengeWithMaxReward = _.maxBy(challengesAndRewards, 'reward');
     const maxReward = challengeWithMaxReward.reward;
 
     if (maxReward === 0) {
