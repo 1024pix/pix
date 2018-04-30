@@ -15,10 +15,10 @@ module('Acceptance | routes protection', function(hooks) {
   });
 
   //
-  // route /organizations
+  // route /organizations/new
   //
 
-  test('guest users are redirected to login page when visiting /organizations', async function(assert) {
+  test('guest users are redirected to login page when visiting /organizations/new', async function(assert) {
     // when
     await visit('/organizations/new');
 
@@ -38,6 +38,18 @@ module('Acceptance | routes protection', function(hooks) {
 
     // then
     assert.equal(currentURL(), '/organizations/new');
+  });
+
+  //
+  // route /organizations/list
+  //
+
+  test('guest users are redirected to login page when visiting /organizations/list', async function(assert) {
+    // when
+    await visit('/organizations/list');
+
+    // then
+    assert.equal(currentURL(), '/login');
   });
 
 });

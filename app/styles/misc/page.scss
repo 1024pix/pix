@@ -5,8 +5,13 @@
     padding: 52px 80px 80px;
   }
 
-  .page-title {
-    margin-bottom: 20px;
+  .page-header {
+    display: flex;
+    justify-content: space-between;
+
+    .page-title {
+      margin-bottom: 20px;
+    }
   }
 
   .page-section {
