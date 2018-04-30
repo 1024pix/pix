@@ -1,6 +1,7 @@
 const { expect } = require('../../../../test-helper');
+const AssessmentResult = require('../../../../../lib/domain/models/AssessmentResult');
+const Certification = require('../../../../../lib/domain/models/Certification');
 const serializer = require('../../../../../lib/infrastructure/serializers/jsonapi/certification-serializer');
-
 const { WrongDateFormatError } = require('../../../../../lib/domain/errors');
 
 describe('Unit | Serializer | JSONAPI | certification-serializer', function() {
@@ -66,7 +67,7 @@ describe('Unit | Serializer | JSONAPI | certification-serializer', function() {
           'last-name': 'The all mighty',
           'birthplace': 'Namek',
           'birthdate': '24/10/1989',
-          'external-id': 'xenoverse2',
+          'external-id': 'xenoverse2'
         }
       }
     };
@@ -77,7 +78,7 @@ describe('Unit | Serializer | JSONAPI | certification-serializer', function() {
       lastName: 'The all mighty',
       birthplace: 'Namek',
       birthdate: '24/10/1989',
-      externalId: 'xenoverse2',
+      externalId: 'xenoverse2'
     };
 
     it('should serialize', function() {
@@ -92,29 +93,33 @@ describe('Unit | Serializer | JSONAPI | certification-serializer', function() {
 
   describe('#serializeCertification', () => {
 
-    const receivedCertifications = [{
-      certificationCenter: 'Université du Pix',
-      date: '01/02/2004'
-    }, {
-      certificationCenter: 'Université du Pix',
-      date: '10/03/2005'
-    }];
+    const assessmentResult = new AssessmentResult({
+      pixScore: 23,
+      status: 'rejected'
+    });
+    const receivedCertifications = [
+      new Certification({
+        id: 123,
+        certificationCenter: 'Université des chocolats',
+        date: '01/02/2004',
+        isPublished: true,
+        assessmentState: 'completed',
+        assessmentResults: [assessmentResult]
+      })
+    ];
 
     const JsonCertificationList = {
       data: [
         {
           attributes: {
-            'certification-center': 'Université du Pix',
-            date: '01/02/2004'
+            'certification-center': 'Université des chocolats',
+            'date': '01/02/2004',
+            'is-published': true,
+            'status': 'rejected',
+            'pix-score': 23
           },
-          type: 'certifications'
-        },
-        {
-          'attributes': {
-            'certification-center': 'Université du Pix',
-            date: '10/03/2005'
-          },
-          type: 'certifications'
+          'type': 'certifications',
+          'id': 123
         }
       ]
     };

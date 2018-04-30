@@ -26,6 +26,7 @@ describe('Acceptance | API | Certifications', () => {
     const certificationCourse = {
       userId: authenticatedUserID,
       completedAt: '2018-02-15T15:15:52.504Z',
+      isPublished: true,
       firstName: 'Bro',
       lastName: 'Ther',
       birthdate: '14/08/1993',
@@ -38,6 +39,13 @@ describe('Acceptance | API | Certifications', () => {
       state: 'completed'
     };
 
+    const assessmentResult = {
+      level: 1,
+      pixScore: 23,
+      emitter: 'PIX-ALGO',
+      status: 'rejected'
+    };
+
     beforeEach(() => {
       return knex('sessions').insert(session)
         .then((sessionId) => {
@@ -48,12 +56,18 @@ describe('Acceptance | API | Certifications', () => {
           certificationId = certificationCourseId[0];
           assessment.courseId = certificationCourseId[0];
           return knex('assessments').insert(assessment);
+        })
+        .then((assessmentIds) => {
+          const assessmentId = assessmentIds[0];
+          assessmentResult.assessmentId = assessmentId;
+          return knex('assessment-results').insert(assessmentResult);
         });
     });
 
     afterEach(() => {
       return Promise.all([
         knex('sessions').delete(),
+        knex('assessment-results').delete(),
         knex('assessments').delete(),
         knex('certification-courses').delete()
       ]);
@@ -76,7 +90,10 @@ describe('Acceptance | API | Certifications', () => {
           id: certificationId,
           attributes: {
             'certification-center': 'Université du Pix',
-            'date': '2018-02-15T15:15:52.504Z'
+            'date': '2018-02-15T15:15:52.504Z',
+            'is-published': true,
+            'pix-score': 23,
+            'status': 'rejected'
           }
         }]);
       });
