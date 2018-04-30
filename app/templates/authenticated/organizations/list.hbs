@@ -1,0 +1,14 @@
+<header class="page-header">
+  <h1 class="page-title">Organisations</h1>
+  <div class="page-actions">
+    {{#link-to "authenticated.organizations.new" class="btn btn-primary"}}
+      <span>Ajouter</span>
+    {{/link-to}}
+  </div>
+</header>
+<section class="page-section">
+  {{organization-list organizations=model}}
+</section>
+
+
+

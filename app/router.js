@@ -18,6 +18,7 @@ Router.map(function() {
     // all routes that require the session to be authenticated
     this.route('organizations', function() {
       this.route('new');
+      this.route('list');
     });
   });
   this.route('logout');
