@@ -9,7 +9,7 @@ exports.register = function(server, options, next) {
       config: {
         auth: false,
         handler: metricController.get,
-        tags: ['api'] }
+        tags: ['api', 'metrics'] }
     }
   ]);
 

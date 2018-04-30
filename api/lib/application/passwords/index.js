@@ -21,7 +21,10 @@ exports.register = function(server, options, next) {
             })
           })
         },
-        tags: ['api']
+        notes: ['Route publique',
+          'Faire une demande de réinitialisation de mot de passe'
+        ],
+        tags: ['api', 'passwords']
       }
     },
     {
@@ -30,7 +33,7 @@ exports.register = function(server, options, next) {
       config: {
         auth: false,
         handler: passwordController.checkResetDemand,
-        tags: ['api']
+        tags: ['api', 'passwords']
       }
     }
   ]);
