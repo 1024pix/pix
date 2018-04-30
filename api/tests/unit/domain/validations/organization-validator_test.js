@@ -1,5 +1,6 @@
 const { expect } = require('../../../test-helper');
 const organizationValidator = require('../../../../lib/domain/validators/organization-validator');
+const Organization = require('../../../../lib/domain/models/Organization');
 
 const MISSING_VALUE = '';
 
@@ -10,14 +11,14 @@ function _assertErrorMatchesWithExpectedOne(errors, expectedError) {
 
 describe('Unit | Domain | Validators | organization-validator', function() {
 
-  let organizationData;
+  let organization;
 
   beforeEach(() => {
-    organizationData = {
+    organization = new Organization({
       name: 'Lycée des Rosiers',
       type: 'SUP',
       email: 'lycee.des.rosiers@example.net'
-    };
+    });
   });
 
   describe('#validate', () => {
@@ -26,7 +27,7 @@ describe('Unit | Domain | Validators | organization-validator', function() {
 
       it('should resolve (with no value) when validation is successful', () => {
         // when
-        const promise = organizationValidator.validate(organizationData);
+        const promise = organizationValidator.validate(organization);
 
         // then
         return expect(promise).to.be.fulfilled;
@@ -47,10 +48,10 @@ describe('Unit | Domain | Validators | organization-validator', function() {
               field: 'name'
             }
           };
-          organizationData.name = MISSING_VALUE;
+          organization.name = MISSING_VALUE;
 
           // when
-          const promise = organizationValidator.validate(organizationData);
+          const promise = organizationValidator.validate(organization);
 
           // then
           return promise
@@ -72,10 +73,10 @@ describe('Unit | Domain | Validators | organization-validator', function() {
               field: 'email'
             }
           };
-          organizationData.email = MISSING_VALUE;
+          organization.email = MISSING_VALUE;
 
           // when
-          const promise = organizationValidator.validate(organizationData);
+          const promise = organizationValidator.validate(organization);
 
           // then
           return promise
@@ -93,10 +94,10 @@ describe('Unit | Domain | Validators | organization-validator', function() {
               field: 'email'
             }
           };
-          organizationData.email = 'invalid_email';
+          organization.email = 'invalid_email';
 
           // when
-          const promise = organizationValidator.validate(organizationData);
+          const promise = organizationValidator.validate(organization);
 
           // then
           return promise
@@ -118,10 +119,10 @@ describe('Unit | Domain | Validators | organization-validator', function() {
               field: 'type'
             }
           };
-          organizationData.type = MISSING_VALUE;
+          organization.type = MISSING_VALUE;
 
           // when
-          const promise = organizationValidator.validate(organizationData);
+          const promise = organizationValidator.validate(organization);
 
           // then
           return promise
@@ -139,10 +140,10 @@ describe('Unit | Domain | Validators | organization-validator', function() {
               field: 'type'
             }
           };
-          organizationData.type = 'PTT';
+          organization.type = 'PTT';
 
           // when
-          const promise = organizationValidator.validate(organizationData);
+          const promise = organizationValidator.validate(organization);
 
           // then
           return promise
@@ -157,10 +158,10 @@ describe('Unit | Domain | Validators | organization-validator', function() {
         ].forEach((type) => {
           it(`should accept ${type} as type`, function() {
             // given
-            organizationData.type = type;
+            organization.type = type;
 
             // when
-            const promise = organizationValidator.validate(organizationData);
+            const promise = organizationValidator.validate(organization);
 
             // then
             return expect(promise).to.be.fulfilled;
@@ -171,14 +172,14 @@ describe('Unit | Domain | Validators | organization-validator', function() {
 
       it('should reject with errors on all fields (but only once by field) when all fields are missing', () => {
         // given
-        organizationData = {
+        organization = {
           name: '',
           email: '',
           type: '',
         };
 
         // when
-        const promise = organizationValidator.validate(organizationData);
+        const promise = organizationValidator.validate(organization);
 
         // then
         return promise

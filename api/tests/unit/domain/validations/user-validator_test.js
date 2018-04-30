@@ -1,6 +1,7 @@
 const { expect, sinon } = require('../../../test-helper');
 const userValidator = require('../../../../lib/domain/validators/user-validator');
 const userRepository = require('../../../../lib/infrastructure/repositories/user-repository');
+const User = require('../../../../lib/domain/models/User');
 const { AlreadyRegisteredEmailError } = require('../../../../lib/domain/errors');
 
 const MISSING_VALUE = '';
@@ -13,16 +14,16 @@ function _assertErrorMatchesWithExpectedOne(errors, expectedError) {
 describe('Unit | Domain | Validators | user-validator', function() {
 
   let sandbox;
-  let userData;
+  let user;
 
   beforeEach(() => {
-    userData = {
+    user = new User({
       firstName: 'John',
       lastName: 'Doe',
       email: 'john.doe@example.net',
       password: 'password1234',
       cgu: true,
-    };
+    });
 
     sandbox = sinon.sandbox.create();
     sandbox.stub(userRepository, 'isEmailAvailable');
@@ -41,7 +42,7 @@ describe('Unit | Domain | Validators | user-validator', function() {
         userRepository.isEmailAvailable.resolves();
 
         // when
-        const promise = userValidator.validate(userData);
+        const promise = userValidator.validate(user);
 
         // then
         return expect(promise).to.be.fulfilled;
@@ -66,10 +67,10 @@ describe('Unit | Domain | Validators | user-validator', function() {
               field: 'firstName'
             }
           };
-          userData.firstName = MISSING_VALUE;
+          user.firstName = MISSING_VALUE;
 
           // when
-          const promise = userValidator.validate(userData);
+          const promise = userValidator.validate(user);
 
           // then
           return promise
@@ -87,10 +88,10 @@ describe('Unit | Domain | Validators | user-validator', function() {
               field: 'lastName'
             }
           };
-          userData.lastName = MISSING_VALUE;
+          user.lastName = MISSING_VALUE;
 
           // when
-          const promise = userValidator.validate(userData);
+          const promise = userValidator.validate(user);
 
           // then
           return promise
@@ -108,10 +109,10 @@ describe('Unit | Domain | Validators | user-validator', function() {
               field: 'password'
             }
           };
-          userData.password = MISSING_VALUE;
+          user.password = MISSING_VALUE;
 
           // when
-          const promise = userValidator.validate(userData);
+          const promise = userValidator.validate(user);
 
           // then
           return promise
@@ -129,10 +130,10 @@ describe('Unit | Domain | Validators | user-validator', function() {
               field: 'password'
             }
           };
-          userData.password = 'invalid';
+          user.password = 'invalid';
 
           // when
-          const promise = userValidator.validate(userData);
+          const promise = userValidator.validate(user);
 
           // then
           return promise
@@ -150,10 +151,10 @@ describe('Unit | Domain | Validators | user-validator', function() {
               field: 'cgu'
             }
           };
-          userData.cgu = 'false';
+          user.cgu = 'false';
 
           // when
-          const promise = userValidator.validate(userData);
+          const promise = userValidator.validate(user);
 
           // then
           return promise
@@ -174,11 +175,11 @@ describe('Unit | Domain | Validators | user-validator', function() {
               field: 'email'
             }
           };
-          userData.email = MISSING_VALUE;
+          user.email = MISSING_VALUE;
           userRepository.isEmailAvailable.resolves();
 
           // when
-          const promise = userValidator.validate(userData);
+          const promise = userValidator.validate(user);
 
           // then
           return promise
@@ -196,11 +197,11 @@ describe('Unit | Domain | Validators | user-validator', function() {
               field: 'email'
             }
           };
-          userData.email = 'invalid_email';
+          user.email = 'invalid_email';
           userRepository.isEmailAvailable.resolves();
 
           // when
-          const promise = userValidator.validate(userData);
+          const promise = userValidator.validate(user);
 
           // then
           return promise
@@ -218,11 +219,11 @@ describe('Unit | Domain | Validators | user-validator', function() {
               field: 'email'
             }
           };
-          userData.email = 'existing-email@example.net';
+          user.email = 'existing-email@example.net';
           userRepository.isEmailAvailable.rejects(new AlreadyRegisteredEmailError());
 
           // when
-          const promise = userValidator.validate(userData);
+          const promise = userValidator.validate(user);
 
           // then
           return promise
@@ -234,7 +235,7 @@ describe('Unit | Domain | Validators | user-validator', function() {
 
       it('should reject with errors on all fields (but only once by field) when all fields are missing', () => {
         // given
-        userData = {
+        user = {
           firstName: '',
           lastName: '',
           email: '',
@@ -243,7 +244,7 @@ describe('Unit | Domain | Validators | user-validator', function() {
         userRepository.isEmailAvailable.resolves();
 
         // when
-        const promise = userValidator.validate(userData);
+        const promise = userValidator.validate(user);
 
         // then
         return promise

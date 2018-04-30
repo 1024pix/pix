@@ -42,8 +42,8 @@ function _formatJoiValidationError(joiError) {
 
 module.exports = {
 
-  validate(organizationData) {
-    return Joi.validate(organizationData, organizationValidationJoiSchema, validationConfiguration).catch(error => {
+  validate(organization) {
+    return Joi.validate(organization, organizationValidationJoiSchema, validationConfiguration).catch(error => {
       if (error.name === JOI_VALIDATION_ERROR) {
         return Promise.reject(error.details.map(_formatJoiValidationError));
       }
