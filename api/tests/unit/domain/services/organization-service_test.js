@@ -118,7 +118,7 @@ describe('Unit | Service | OrganizationService', () => {
     });
   });
 
-  describe('#search(userId, filters)', () => {
+  describe('#search', () => {
 
     let sandbox;
     const userId = 1234;
