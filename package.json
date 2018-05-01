@@ -16,7 +16,7 @@
     "lint:js": "eslint ./*.js app config lib server tests",
     "start": "ember serve --environment production --liveReload false",
     "api": "(cd api && npm start)",
-    "test": "ember test",
+    "test": "ember exam",
     "coverage": "COVERAGE=true ember test"
   },
   "devDependencies": {
@@ -44,6 +44,7 @@
     "ember-cli-uglify": "^2.1.0",
     "ember-composable-helpers": "^2.1.0",
     "ember-data": "~3.1.1",
+    "ember-exam": "^1.0.0",
     "ember-export-application-global": "^2.0.0",
     "ember-fetch": "^3.4.5",
     "ember-font-awesome": "^4.0.0-rc.3",
