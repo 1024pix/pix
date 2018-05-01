@@ -39,6 +39,11 @@ module.exports = function(environment) {
       'style-src': "'self' fonts.googleapis.com"
     },
 
+    'ember-cli-notifications': {
+      autoClear: true,
+      includeFontAwesome: true,
+    }
+
   };
 
   if (environment === 'development') {
