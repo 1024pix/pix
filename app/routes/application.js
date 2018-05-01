@@ -5,9 +5,4 @@ import { inject as service } from '@ember/service';
 export default Route.extend(ApplicationRouteMixin, {
   notifications: service('notification-messages'),
   routeAfterAuthentication: 'authenticated.organizations.list',
-
-  init() {
-    this._super(...arguments);
-    this.get('notifications').setDefaultAutoClear(true);
-  }
 });
