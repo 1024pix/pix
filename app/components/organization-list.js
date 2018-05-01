@@ -9,9 +9,6 @@ const columns = [
     "title": "Nom",
   },
   {
-    "propertyName": "email",
-  },
-  {
     "propertyName": "type"
   },
   {
