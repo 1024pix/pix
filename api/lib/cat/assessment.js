@@ -162,8 +162,7 @@ class Assessment {
     if (availableChallenges.length === 0) {
       return [];
     }
-
-
+    
     availableChallenges = this._keepChallengesFromEasiestTubes(availableChallenges);
     return availableChallenges;
   }
