@@ -5,7 +5,14 @@ const CertificationCourseBookshelf = require('../../../lib/infrastructure/data/c
 
 function _assessmentResultToDomain(assessmentResultBookshelf) {
   return new AssessmentResult({
+    id: assessmentResultBookshelf.get('id'),
+    commentForCandidate: assessmentResultBookshelf.get('commentForCandidate'),
+    commentForJury: assessmentResultBookshelf.get('commentForJury'),
+    commentForOrganization: assessmentResultBookshelf.get('commentForOrganization'),
+    createdAt: assessmentResultBookshelf.get('createdAt'),
+    emitter: assessmentResultBookshelf.get('emitter'),
     level: assessmentResultBookshelf.get('level'),
+    juryId: assessmentResultBookshelf.get('juryId'),
     pixScore: assessmentResultBookshelf.get('pixScore'),
     status: assessmentResultBookshelf.get('status')
   });
@@ -14,11 +21,11 @@ function _assessmentResultToDomain(assessmentResultBookshelf) {
 function _createCertificationDomainModel({ certificationCourseBookshelf, assessmentResults }) {
   return new Certification({
     id: certificationCourseBookshelf.get('id'),
-    date: certificationCourseBookshelf.get('completedAt'),
-    certificationCenter: certificationCourseBookshelf.related('session').get('certificationCenter'),
-    isPublished: Boolean(certificationCourseBookshelf.get('isPublished')),
     assessmentState: certificationCourseBookshelf.related('assessment').get('state'),
-    assessmentResults: assessmentResults
+    assessmentResults: assessmentResults,
+    certificationCenter: certificationCourseBookshelf.related('session').get('certificationCenter'),
+    date: certificationCourseBookshelf.get('completedAt'),
+    isPublished: Boolean(certificationCourseBookshelf.get('isPublished'))
   });
 }
 
