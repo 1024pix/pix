@@ -30,6 +30,10 @@
   }
 }
 
+.certifications-list__table-header td:nth-child(2) {
+  padding-left: 10px;
+}
+
 .certifications-list__table-header-cell {
   text-align: center;
 }
@@ -41,10 +45,11 @@
   border: 1px solid $alto-grey;
 }
 
-.certifications-list__certification-item {
+.certifications-list__table-body tr {
   border-bottom: 1px solid $gainsboro;
   height: 30px;
-  color:$gray;
+  padding: 5px;
+  text-align: center;
 
   @include device-is('tablet') {
     height: 60px;
@@ -52,17 +57,6 @@
   }
 }
 
-.certifications-list__certification-item-cell__hourglass-img {
-  height: 8px;
-  margin-bottom: 1px;
-
-  @include device-is('tablet') {
-    height: 12px;
-    margin-bottom: 3px;
-  }
-}
-
-.certifications-list__certification-item-cell {
-  padding: 5px;
-  text-align: center;
+td:nth-child(2) {
+  text-align: left;
 }
