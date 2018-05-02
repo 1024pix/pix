@@ -154,9 +154,15 @@ class Assessment {
     let availableChallenges = this.course.challenges.filter(challenge => this._isAnAvailableChallenge(challenge));
     availableChallenges = this._isPreviousChallengeTimed() ? this._extractNotTimedChallenge(availableChallenges) : availableChallenges;
 
+    const predictedLevel = this._getPredictedLevel();
+    availableChallenges = availableChallenges.filter((challenge) => {
+      return this._computeReward(challenge, predictedLevel) > 0;
+    });
+
     if (availableChallenges.length === 0) {
       return [];
     }
+
 
     availableChallenges = this._keepChallengesFromEasiestTubes(availableChallenges);
     return availableChallenges;
@@ -182,6 +188,10 @@ class Assessment {
     const challengesAndRewards = this.filteredChallenges.map(challenge => {
       return { challenge: challenge, reward: this._computeReward(challenge, predictedLevel) };
     });
+
+    if(challengesAndRewards.length <= 0) {
+      return null;
+    }
     const maxReward = _.maxBy(challengesAndRewards, 'reward').reward;
 
     if (maxReward === 0) {
