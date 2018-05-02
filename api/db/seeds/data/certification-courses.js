@@ -4,24 +4,26 @@ module.exports = [
     userId: 1,
     completedAt: '2018-02-15T15:15:52.504Z',
     createdAt: '2018-02-15 15:14:46',
-    firstName: 'Jean',
-    lastName: 'Réno',
+    firstName: 'Pix',
+    lastName: 'Aile',
     birthdate: '12/12/1960',
     birthplace: 'Paris',
     sessionId: 1,
-    externalId: 'Hubert'
+    externalId: 'NumeroEtudiantHubert',
+    isPublished: true
   },
   {
     id: 2,
     userId: 1,
     completedAt: '2018-04-27T10:11:02.504Z',
     createdAt: '2018-04-27T10:10:52.504Z',
-    firstName: 'Kevin',
-    lastName: 'Ducobu',
+    firstName: 'Pix',
+    lastName: 'Aile',
     birthdate: '01/04/1994',
     birthplace: 'Bruxelles',
     sessionId: 2,
-    externalId: 'L\'élève'
+    externalId: 'L\'élève',
+    isPublished: false
   },
   {
     id: 3,
@@ -33,6 +35,7 @@ module.exports = [
     birthdate: '12/12/1964',
     birthplace: 'Paris <- Et oui !',
     sessionId: 2,
-    externalId: 'NumeroEtudiant'
+    externalId: 'NumeroEtudiant',
+    isPublished: true
   }
 ];
