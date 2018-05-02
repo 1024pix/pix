@@ -1,6 +1,4 @@
 const AssessmentResult = require('../../../lib/domain/models/AssessmentResult');
-const Assessment = require('../../../lib/domain/models/Assessment');
-
 const Certification = require('../../../lib/domain/models/Certification');
 const { NotFoundError } = require('../../../lib/domain/errors');
 const CertificationCourseBookshelf = require('../../../lib/infrastructure/data/certification-course');
