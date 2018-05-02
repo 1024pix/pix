@@ -9,7 +9,11 @@ exports.register = function(server, options, next) {
       path: '/api/certifications',
       config: {
         handler: certificationController.findUserCertifications,
-        tags: ['api']
+        notes: [
+          '- **Route nécessitant une authentification**\n' +
+          '- Récupération de toutes les certifications complétées de l\'utilisateur courant'
+        ],
+        tags: ['api', 'certifications']
       }
     },
     {
@@ -21,7 +25,7 @@ exports.register = function(server, options, next) {
           assign: 'hasRolePixMaster'
         }],
         handler: certificationController.updateCertification,
-        tags: ['api']
+        tags: ['api', 'certifications']
       }
     }
   ]);
