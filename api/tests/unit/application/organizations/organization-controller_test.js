@@ -322,27 +322,39 @@ describe('Unit | Controller | organizationController', () => {
     });
 
     it('should retrieve organizations with one filter', () => {
+      // given
+      const userId = 1234;
+      const request = {
+        auth: { credentials: { userId: 1234 } },
+        query: { 'filter[query]': 'my search' }
+      };
+
       // when
-      const promise = organizationController.search({ query: { 'filter[query]': 'my search' } }, replyStub);
+      const promise = organizationController.search(request, replyStub);
 
       // then
       return promise.then(() => {
-        sinon.assert.calledWith(organizationService.search, { query: 'my search' });
+        sinon.assert.calledWith(organizationService.search, userId, { query: 'my search' });
       });
     });
 
     it('should retrieve organizations with two different filters', () => {
-      // when
-      const promise = organizationController.search({
+      // given
+      const userId = 1234;
+      const request = {
+        auth: { credentials: { userId } },
         query: {
           'filter[query]': 'my search',
           'filter[code]': 'with params'
         }
-      }, replyStub);
+      };
+
+      // when
+      const promise = organizationController.search(request, replyStub);
 
       // then
       return promise.then(() => {
-        sinon.assert.calledWith(organizationService.search, { query: 'my search', code: 'with params' });
+        sinon.assert.calledWith(organizationService.search, userId, { query: 'my search', code: 'with params' });
       });
     });
 
@@ -350,9 +362,13 @@ describe('Unit | Controller | organizationController', () => {
       // given
       const error = new Error('');
       organizationService.search.rejects(error);
+      const request = {
+        auth: { credentials: { userId: 1234 } },
+        query: { 'filter[first]': 'with params' }
+      };
 
       // when
-      const promise = organizationController.search({ query: { 'filter[first]': 'with params' } }, replyStub);
+      const promise = organizationController.search(request, replyStub);
 
       // then
       return promise.then(() => {
@@ -364,9 +380,13 @@ describe('Unit | Controller | organizationController', () => {
       // given
       const error = new Error('');
       organizationService.search.rejects(error);
+      const request = {
+        auth: { credentials: { userId: 1234 } },
+        query: { 'filter[first]': 'with params' }
+      };
 
       // when
-      const promise = organizationController.search({ query: { 'filter[first]': 'with params' } }, replyStub);
+      const promise = organizationController.search(request, replyStub);
 
       // then
       return promise.then(() => {
@@ -376,8 +396,14 @@ describe('Unit | Controller | organizationController', () => {
     });
 
     it('should serialize results', () => {
+      // given
+      const request = {
+        auth: { credentials: { userId: 1234 } },
+        query: { 'filter[first]': 'with params' }
+      };
+
       // when
-      const promise = organizationController.search({ query: { 'filter[first]': 'with params' } }, replyStub);
+      const promise = organizationController.search(request, replyStub);
 
       // then
       return promise.then(() => {

@@ -19,7 +19,14 @@ exports.register = (server, options, next) => {
     {
       method: 'GET',
       path: '/api/organizations',
-      config: { handler: organisationController.search, tags: ['api'] }
+      config: {
+        handler: organisationController.search,
+        tags: ['api'],
+        notes: [
+          'Cette route est restreinte aux utilisateurs authentifiés',
+          'Elle peut être utilisée dans 3 cas : \n- un usager qui souhaite partager son profil de compétences avec une organisation (retourne un tableau vide)\n- à la connexion d’un prescripteur (pour détecter qu’il est bien prescripteur (retourne un tableau avec 1 seul élément)\n- un Pix master qui souhaite consulter la liste de toutes les organisations (retourne un tableau avec n éléments)',
+        ]
+      }
     },
     {
       method: 'GET',

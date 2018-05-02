@@ -54,6 +54,6 @@ module.exports = {
       .where({ userId })
       .fetchAll()
       .then(organizations => organizations.models);
-  }
+  },
 };
 
