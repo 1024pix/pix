@@ -19,16 +19,18 @@ describe('Integration | Component | certifications list', function() {
     const certification1 = EmberObject.create({
       id: 1,
       date: '2018-02-15T15:15:52.504Z',
-      status: 'completed',
-      score: '123',
-      certificationCenter: 'Université de Paris'
+      status: 'validated',
+      certificationCenter: 'Université de Paris',
+      isPublished: true,
+      pixScore: 231
     });
     const certification2 = EmberObject.create({
       id: 2,
       date: '2018-02-15T15:15:52.504Z',
-      status: 'completed',
-      score: '456',
-      certificationCenter: 'Université de Lyon'
+      status: 'rejected',
+      certificationCenter: 'Université de Lyon',
+      isPublished: true,
+      pixScore: 231
     });
 
     it('should render two certification items when there is 2 completed certifications', function() {
@@ -39,9 +41,7 @@ describe('Integration | Component | certifications list', function() {
       this.render(hbs`{{certifications-list certifications=certifications}}`);
 
       // then
-      expect(this.$('.certifications-list__certification-item')).to.have.lengthOf(2);
+      expect(this.$('.certifications-list__table-body tr')).to.have.lengthOf(2);
     });
-
   });
-
 });

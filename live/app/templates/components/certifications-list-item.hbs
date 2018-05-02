@@ -1,0 +1,37 @@
+{{#unless certification.isPublished}}
+  <td>
+    {{moment-format certification.date 'DD/MM/YYYY' allow-empty=true}}</td>
+  <td>
+    <img src="/images/sablier.svg" alt="" class="certifications-list-item__hourglass-img">
+    En attente du résultat
+  </td>
+  <td></td>
+  <td>{{certification.certificationCenter}}</td>
+
+{{else unless isValidated}}
+  <td>
+    {{moment-format certification.date 'DD/MM/YYYY' allow-empty=true}}</td>
+  <td>
+    <img src="/images/icons/icon-croix.svg" alt="" class="certifications-list-item__cross-img">
+    Certification non obtenue
+  </td>
+  <td></td>
+  <td>{{certification.certificationCenter}}</td>
+
+{{else}}
+  <td>
+    {{moment-format certification.date 'DD/MM/YYYY' allow-empty=true}}</td>
+  <td>
+    <img src="/images/icons/icon-check-vert.svg" alt="" class="certifications-list-item__green-check-img">
+    Certification obtenue
+  </td>
+  <td>
+    <div class="certifications-list-item__pix-score">
+      {{ certification.pixScore }}
+    </div>
+  </td>
+  <td>
+    {{certification.certificationCenter}}
+  </td>
+
+{{/unless}}
