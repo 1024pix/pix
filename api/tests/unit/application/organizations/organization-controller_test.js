@@ -103,11 +103,16 @@ describe('Unit | Application | Organizations | organization-controller', () => {
 
       it('should create a user', () => {
         // when
+        const encryptedPassword = '$2a$05$jJnoQ/YCvAChJmYW9AoQXe/k17mx2l2MqJBgXVo/R/ju4HblB2iAe';
+        encryptionService.hashPassword.resolves(encryptedPassword);
         const promise = organizationController.create(request, replyStub);
+
+        const userToCreate = new User({ firstName: 'Tom', lastName: 'Hanks',  email: 'existing-email@example.net', password: encryptedPassword, cgu: true });
 
         // then
         return promise.then(() => {
           expect(userRepository.create).to.have.been.calledOnce;
+          expect(userRepository.create).to.have.been.calledWith(userToCreate);
         });
       });
 
