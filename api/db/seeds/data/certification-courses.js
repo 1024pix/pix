@@ -10,5 +10,18 @@ module.exports = [
     birthplace: 'Paris',
     sessionId: 1,
     externalId: 'Hubert'
+  },
+  {
+    id:2,
+    userId: 1,
+    completedAt: '2018-04-27T10:11:02.504Z',
+    createdAt: '2018-04-27T10:10:52.504Z',
+    firstName: 'Kevin',
+    lastName: 'Ducobu',
+    birthdate: '01/04/1994',
+    birthplace: 'Bruxelles',
+    sessionId: 2,
+    externalId: 'L\'élève'
   }
+
 ];
