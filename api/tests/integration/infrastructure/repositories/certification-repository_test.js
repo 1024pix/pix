@@ -1,10 +1,11 @@
 const { expect, knex } = require('../../../test-helper');
 const certificationRepository = require('../../../../lib/infrastructure/repositories/certification-repository');
 const Certification = require('../../../../lib/domain/models/Certification');
+const { NotFoundError } = require('../../../../lib/domain/errors');
 
-describe('Integration | Repository | Certification ', function() {
+describe('Integration | Repository | Certification ', () => {
 
-  describe('#findCompletedCertificationsByUserId', function() {
+  describe('#findCompletedCertificationsByUserId', () => {
 
     const JOHN_USERID = 1;
     const JANE_USERID = 2;
@@ -14,7 +15,7 @@ describe('Integration | Repository | Certification ', function() {
 
     context('when there are no certification to return', () => {
 
-      it('should return an empty list', function() {
+      it('should return an empty list', () => {
         // when
         const promise = certificationRepository.findCompletedCertificationsByUserId(JANE_USERID);
 
@@ -94,12 +95,8 @@ describe('Integration | Repository | Certification ', function() {
 
       beforeEach(() => {
         return knex('sessions').insert(session)
-          .then(() => {
-            return knex('certification-courses').insert([john_certificationCourse, jane_certificationCourseCompleted, jane_certificationCourseNotCompleted]);
-          })
-          .then(() => {
-            return knex('assessments').insert([john_completedAssessment, jane_completedAssessment, jane_notCompletedAssessment]);
-          });
+          .then(() => knex('certification-courses').insert([john_certificationCourse, jane_certificationCourseCompleted, jane_certificationCourseNotCompleted]))
+          .then(() => knex('assessments').insert([john_completedAssessment, jane_completedAssessment, jane_notCompletedAssessment]));
       });
 
       afterEach(() => {
@@ -112,7 +109,7 @@ describe('Integration | Repository | Certification ', function() {
           });
       });
 
-      it('should return a list of the completed Certifications for the specified user', function() {
+      it('should return a list of the completed Certifications for the specified user', () => {
         // when
         const promise = certificationRepository.findCompletedCertificationsByUserId(JANE_USERID);
 
@@ -125,6 +122,65 @@ describe('Integration | Repository | Certification ', function() {
           expect(certifications[0].certificationCenter).to.equal('Université du Pix');
           expect(certifications[0].date).to.equal('01/02/2004');
         });
+      });
+    });
+  });
+
+  describe('#updateCertification', () => {
+
+    const CERTIFICATION_ID = 1;
+    const certificationCourse = {
+      id: CERTIFICATION_ID,
+      userId: 1,
+      firstName: 'John',
+      lastName: 'Doe',
+      birthplace: 'Earth',
+      birthdate: '24/10/1989',
+      completedAt: '01/02/2003',
+      sessionId: 1,
+      isPublished: false
+    };
+
+    beforeEach(() => {
+      return knex('certification-courses').insert([certificationCourse]);
+    });
+
+    afterEach(() => {
+      return knex('certification-courses').delete();
+    });
+
+    context('the certification does not exist', () => {
+
+      it('should return a NotFoundError', () => {
+        // given
+        const NON_EXISITNG_CERTIFICATION_ID = 123;
+
+        // when
+        const promise = certificationRepository.updateCertification({
+          id: NON_EXISITNG_CERTIFICATION_ID,
+          attributes: { isPublished: true }
+        });
+
+        // then
+        return expect(promise).to.be.rejectedWith(NotFoundError)
+          .then(() => knex('certification-courses').where('id', NON_EXISITNG_CERTIFICATION_ID))
+          .then((foundCertifications) => expect(foundCertifications).to.be.empty);
+      });
+    });
+
+    context('the certification does exist', () => {
+
+      it('should update the certification', () => {
+        // when
+        const promise = certificationRepository.updateCertification({
+          id: CERTIFICATION_ID,
+          attributes: { isPublished: true }
+        });
+
+        // then
+        return promise
+          .then(() => knex('certification-courses').where('id', CERTIFICATION_ID))
+          .then((foundCertifications) => expect(foundCertifications[0].isPublished).to.be.equal(1));
       });
     });
   });

@@ -1,4 +1,5 @@
 const certificationController = require('./certification-controller');
+const securityController = require('../../interfaces/controllers/security-controller');
 
 exports.register = function(server, options, next) {
 
@@ -8,6 +9,18 @@ exports.register = function(server, options, next) {
       path: '/api/certifications',
       config: {
         handler: certificationController.findUserCertifications,
+        tags: ['api']
+      }
+    },
+    {
+      method: 'PATCH',
+      path: '/api/certifications/{id}',
+      config: {
+        pre: [{
+          method: securityController.checkUserHasRolePixMaster,
+          assign: 'hasRolePixMaster'
+        }],
+        handler: certificationController.updateCertification,
         tags: ['api']
       }
     }

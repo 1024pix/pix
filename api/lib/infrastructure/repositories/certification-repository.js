@@ -1,4 +1,5 @@
 const Certification = require('../../../lib/domain/models/Certification');
+const { NotFoundError } = require('../../../lib/domain/errors');
 const CertificationCourseBookshelf = require('../../../lib/infrastructure/data/certification-course');
 
 module.exports = {
@@ -26,6 +27,23 @@ module.exports = {
         });
 
         return Promise.resolve(certifications);
+      });
+  },
+
+  updateCertification({ id, attributes }) {
+    return CertificationCourseBookshelf
+      .where({ id })
+      .save(attributes, {
+        patch: true,
+        method: 'update',
+        require: true
+      })
+      .catch(err => {
+        if (err instanceof CertificationCourseBookshelf.NoRowsUpdatedError) {
+          throw new NotFoundError(`Not found certification for ID ${id}`);
+        } else {
+          throw err;
+        }
       });
   }
 };

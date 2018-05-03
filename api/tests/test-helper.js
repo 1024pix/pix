@@ -37,6 +37,12 @@ function insertUserWithRolePixMaster() {
   ]);
 }
 
+function insertUserWithStandardRole() {
+  return Promise.all([
+    knex('users').insert({ id: 4444, firstName: 'Classic', lastName: 'Papa', email: 'classic.papa@ho.me', password: 'abcd1234' }),
+  ]);
+}
+
 function cleanupUsersAndPixRolesTables() {
   return Promise.all([
     knex('users').delete(),
@@ -52,5 +58,6 @@ module.exports = {
   nock,
   generateValidRequestAuhorizationHeader,
   insertUserWithRolePixMaster,
+  insertUserWithStandardRole,
   cleanupUsersAndPixRolesTables
 };
