@@ -23,7 +23,9 @@ module.exports = {
       attributesToUpdate: request.payload.data.attributes,
       certificationRepository
     })
-      .then(() => reply().code(204))
+      .then(certification => {
+        return reply(certificationSerializer.serializeCertification(certification)).code(200);
+      })
       .catch(err => {
         logger.error(err);
         reply(Boom.badImplementation(err));

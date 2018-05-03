@@ -98,32 +98,67 @@ describe('Integration | Repository | Certification ', () => {
 
   describe('#updateCertification', () => {
 
-    const CERTIFICATION_ID = 1;
+    const USER_ID = 1;
+    const CERTIFICATION_ID = 123;
+
     const certificationCourse = {
       id: CERTIFICATION_ID,
-      userId: 1,
-      firstName: 'John',
-      lastName: 'Doe',
+      userId: USER_ID,
+      firstName: 'Jane',
+      lastName: 'Kalamity',
       birthplace: 'Earth',
       birthdate: '24/10/1989',
-      completedAt: '01/02/2003',
-      sessionId: 1,
-      isPublished: false
+      completedAt: '12/02/2000',
+      sessionId: 321,
+      isPublished: true
+    };
+
+    const assessmentResult = {
+      level: 1,
+      pixScore: 23,
+      emitter: 'PIX-ALGO',
+      status: 'rejected',
+      assessmentId: 1000
+    };
+
+    const assessment = {
+      id: 1000,
+      courseId: CERTIFICATION_ID,
+      userId: USER_ID,
+      type: 'CERTIFICATION',
+      state: 'completed'
+    };
+
+    const session = {
+      id: 321,
+      certificationCenter: 'Université des chocolats',
+      address: '137 avenue de Bercy',
+      room: 'La grande',
+      examiner: 'Serge le Mala',
+      date: '12/02/2000',
+      time: '21:30',
+      accessCode: 'ABCD12'
     };
 
     beforeEach(() => {
-      return knex('certification-courses').insert([certificationCourse]);
+      return knex('sessions').insert(session)
+        .then(() => knex('certification-courses').insert(certificationCourse))
+        .then(() => knex('assessments').insert(assessment))
+        .then(() => knex('assessment-results').insert(assessmentResult));
     });
 
     afterEach(() => {
-      return knex('certification-courses').delete();
+      return knex('assessment-results').delete()
+        .then(() => knex('assessments').delete())
+        .then(() => knex('certification-courses').delete())
+        .then(() => knex('sessions').delete());
     });
 
     context('the certification does not exist', () => {
 
       it('should return a NotFoundError', () => {
         // given
-        const NON_EXISITNG_CERTIFICATION_ID = 123;
+        const NON_EXISITNG_CERTIFICATION_ID = 1203;
 
         // when
         const promise = certificationRepository.updateCertification({
@@ -140,17 +175,43 @@ describe('Integration | Repository | Certification ', () => {
 
     context('the certification does exist', () => {
 
-      it('should update the certification', () => {
-        // when
-        const promise = certificationRepository.updateCertification({
+      let promise;
+
+      beforeEach(() => {
+        promise = certificationRepository.updateCertification({
           id: CERTIFICATION_ID,
           attributes: { isPublished: true }
         });
+      });
 
-        // then
+      // then
+      it('should update the certification', () => {
+
         return promise
           .then(() => knex('certification-courses').where('id', CERTIFICATION_ID))
           .then((foundCertifications) => expect(foundCertifications[0].isPublished).to.be.equal(1));
+      });
+
+      it('should return the updated certification', () => {
+
+        const assessmentResult = new AssessmentResult({
+          pixScore: 23,
+          status: 'rejected'
+        });
+        const expectedCertification = new Certification({
+          id: 123,
+          certificationCenter: 'Université des chocolats',
+          date: '12/02/2000',
+          isPublished: true,
+          assessmentState: 'completed',
+          assessmentResults: [assessmentResult]
+        });
+
+        return promise
+          .then((certification) => {
+            expect(certification).to.be.an.instanceOf(Certification);
+            expect(certification).to.be.deep.equal(expectedCertification);
+          });
       });
     });
   });

@@ -61,6 +61,26 @@ module.exports = {
         method: 'update',
         require: true
       })
+      .then(() => {
+        return CertificationCourseBookshelf
+          .where({ id })
+          .fetch({
+            withRelated: [
+              'session',
+              'assessment',
+              'assessment.assessmentResults'
+            ]
+          });
+      })
+      .then((certificationCourseBookshelf) => {
+        const assessmentResultsBookshelf = certificationCourseBookshelf
+          .related('assessment')
+          .related('assessmentResults');
+
+        const assessmentResults = assessmentResultsBookshelf.map(_assessmentResultToDomain);
+
+        return _createCertificationDomainModel({ certificationCourseBookshelf, assessmentResults });
+      })
       .catch(err => {
         if (err instanceof CertificationCourseBookshelf.NoRowsUpdatedError) {
           throw new NotFoundError(`Not found certification for ID ${id}`);
