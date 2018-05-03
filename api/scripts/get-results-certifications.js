@@ -74,7 +74,7 @@ function toCSVRow(rowJSON) {
   res[lastname] = certificationData['last-name'];
 
   if (certificationData['birthdate']) {
-    res[birthdate] = moment.utc(certificationData['birthdate'], 'DD-MM-YYYY').tz('Europe/Paris').format('DD/MM/YYYY');
+    res[birthdate] = moment.utc(certificationData['birthdate'], 'YYYY-MM-DD').tz('Europe/Paris').format('DD/MM/YYYY');
   } else {
     res[birthdate] = '';
   }
