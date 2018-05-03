@@ -16,3 +16,27 @@
 .certifications-list-item__published-item {
   color: $grayish-grey;
 }
+
+.certifications-list-item__pix-score {
+  width: 36px;
+  height: 40px;
+  margin: 0 auto;
+
+  background: url('/images/hexa-pix.svg') no-repeat center center;
+  background-size: cover;
+
+  text-align: center;
+  display: table;
+
+  span {
+    display: table-cell;
+    vertical-align: middle;
+    line-height: normal;
+
+    font-family: $font-lato;
+    font-size: 14px;
+    font-weight: 500;
+    letter-spacing: -1px;
+    color: $tundora-grey;
+  }
+}
