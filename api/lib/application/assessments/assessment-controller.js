@@ -7,8 +7,16 @@ const tokenService = require('../../domain/services/token-service');
 const challengeRepository = require('../../infrastructure/repositories/challenge-repository');
 const challengeSerializer = require('../../infrastructure/serializers/jsonapi/challenge-serializer');
 
+const skillRepository = require('../../infrastructure/repositories/skill-repository');
+const competenceRepository = require('../../infrastructure/repositories/competence-repository');
+const answerRepository = require('../../infrastructure/repositories/answer-repository');
+const courseRepository = require('../../infrastructure/repositories/course-repository');
+const certificationChallengeRepository = require('../../infrastructure/repositories/certification-challenge-repository');
+
 const queryParamsUtils = require('../../infrastructure/utils/query-params-utils');
 const logger = require('../../infrastructure/logger');
+
+const useCases = require('../../domain/usecases');
 
 const { NotFoundError, AssessmentEndedError, ObjectValidationError } = require('../../domain/errors');
 
@@ -74,15 +82,38 @@ module.exports = {
       .get(request.params.id)
       .then((assessment) => {
 
-        if (assessmentService.isCertificationAssessment(assessment)) {
-          return assessmentService
-            .getNextChallengeForCertificationCourse(assessment)
-            .then((challenge) => challenge.challengeId);
+        if (assessmentService.isPreviewAssessment(assessment)) {
+          return useCases.getNextChallengeForPreview({});
         }
 
-        return assessmentService.getAssessmentNextChallengeId(assessment, request.params.challengeId);
+        if (assessmentService.isCertificationAssessment(assessment)) {
+          return useCases.getNextChallengeForCertification({
+            certificationChallengeRepository,
+            challengeRepository,
+            assessment
+          });
+        }
+
+        if (assessmentService.isDemoAssessment(assessment)) {
+          return useCases.getNextChallengeForDemo({
+            assessment, challengeId:
+            request.params.challengeId,
+            courseRepository,
+            challengeRepository
+          });
+        }
+
+        if (assessmentService.isPlacementAssessment(assessment)) {
+          return useCases.getNextChallengeForPlacement({
+            assessment,
+            courseRepository,
+            answerRepository,
+            challengeRepository,
+            skillRepository,
+            competenceRepository
+          });
+        }
       })
-      .then(challengeRepository.get)
       .then((challenge) => {
         reply(challengeSerializer.serialize(challenge));
       })

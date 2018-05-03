@@ -76,7 +76,6 @@
     "test:api": "NODE_ENV=test npm run db:migrate && NODE_ENV=test ./node_modules/.bin/mocha --recursive --exit --reporter dot tests",
     "test:api:watch": "NODE_ENV=test ./node_modules/.bin/mocha --recursive tests --watch --reporter dot",
     "test:scripts": "NODE_ENV=test ./node_modules/.bin/mocha --recursive --reporter dot ./tests/unit/scripts",
-    "test:watch": "npm test -- --watch",
     "lint": "./node_modules/.bin/eslint lib tests",
     "lint:fix": "./node_modules/.bin/eslint lib tests --fix",
     "coverage:check": "NODE_ENV=test npm run db:migrate && NODE_ENV=test ./node_modules/.bin/istanbul cover --dir '../coverage' _mocha -- --recursive tests",
