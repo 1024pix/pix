@@ -9,8 +9,7 @@ module.exports = [
     birthdate: '12/12/1960',
     birthplace: 'Paris',
     sessionId: 1,
-    externalId: 'Hubert',
-    isPublished: true
+    externalId: 'Hubert'
   },
   {
     id: 2,
@@ -22,8 +21,7 @@ module.exports = [
     birthdate: '01/04/1994',
     birthplace: 'Bruxelles',
     sessionId: 2,
-    externalId: 'L\'élève',
-    isPublished: false
+    externalId: 'L\'élève'
   },
   {
     id: 3,
@@ -35,7 +33,6 @@ module.exports = [
     birthdate: '12/12/1964',
     birthplace: 'Paris <- Et oui !',
     sessionId: 2,
-    externalId: 'NumeroEtudiant',
-    isPublished: true
+    externalId: 'NumeroEtudiant'
   }
 ];
