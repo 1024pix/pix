@@ -5,6 +5,7 @@ const MAX_REACHABLE_LEVEL = 5;
 const NB_PIX_BY_LEVEL = 8;
 const MAX_NUMBER_OF_CHALLENGES = 20;
 const LEVEL_FOR_FIRST_CHALLENGE = 2;
+const LIMIT_LEVEL_TO_SELECT_EASIEST_TUBE_IN_PRIORITY = 3;
 
 class Assessment {
   constructor(course, answers) {
@@ -12,7 +13,9 @@ class Assessment {
     this.answers = answers;
   }
 
-  _randomly()  { return 0.5 - Math.random(); }
+  _randomly() {
+    return 0.5 - Math.random();
+  }
 
   _probaOfCorrectAnswer(level, difficulty) {
     return 1 / (1 + Math.exp(-(level - difficulty)));
@@ -62,6 +65,11 @@ class Assessment {
         tubeMaxLevel: _.last(orderedSkillsByTubeName[tubeOfChallenge]).difficulty
       };
     });
+
+    if(challengesWithTubeMaxLevel.length <= 0) {
+      return [];
+    }
+
     const levelOfEasiestTubes = _.minBy(challengesWithTubeMaxLevel, 'tubeMaxLevel').tubeMaxLevel;
 
     return challengesWithTubeMaxLevel
@@ -74,9 +82,9 @@ class Assessment {
   }
 
   _getNewSkillsInfoIfChallengeSolved(challenge) {
-    return challenge.skills.reduce((extraValidatedSkills,skill) => {
+    return challenge.skills.reduce((extraValidatedSkills, skill) => {
       skill.getEasierWithin(this.course.tubes).forEach(skill => {
-        if(this._skillNotKnownYet(skill)) {
+        if (this._skillNotKnownYet(skill)) {
           extraValidatedSkills.push(skill);
         }
       });
@@ -87,7 +95,7 @@ class Assessment {
   _getNewSkillsInfoIfChallengeUnsolved(challenge) {
     return challenge.hardestSkill.getHarderWithin(this.course.tubes)
       .reduce((extraFailedSkills, skill) => {
-        if(this._skillNotKnownYet(skill)) {
+        if (this._skillNotKnownYet(skill)) {
           extraFailedSkills.push(skill);
         }
         return extraFailedSkills;
@@ -107,7 +115,7 @@ class Assessment {
       .reduce((skills, answer) => {
         answer.challenge.skills.forEach(skill => {
           skill.getEasierWithin(this.course.tubes).forEach(validatedSkill => {
-            if(!skills.includes(validatedSkill))
+            if (!skills.includes(validatedSkill))
               skills.push(validatedSkill);
           });
         });
@@ -124,7 +132,7 @@ class Assessment {
         // its tube and mark them all as failed
         answer.challenge.skills.forEach(skill => {
           skill.getHarderWithin(this.course.tubes).forEach(failedSkill => {
-            if(!failedSkills.includes(failedSkill))
+            if (!failedSkills.includes(failedSkill))
               failedSkills.push(failedSkill);
           });
         });
@@ -151,19 +159,20 @@ class Assessment {
   }
 
   get filteredChallenges() {
-    let availableChallenges = this.course.challenges.filter(challenge => this._isAnAvailableChallenge(challenge));
-    availableChallenges = this._isPreviousChallengeTimed() ? this._extractNotTimedChallenge(availableChallenges) : availableChallenges;
-
     const predictedLevel = this._getPredictedLevel();
+    const isPreviousChallengeTimed = this._isPreviousChallengeTimed();
+
+    let availableChallenges = this.course.challenges.filter(challenge => this._isAnAvailableChallenge(challenge));
+    availableChallenges = isPreviousChallengeTimed ? this._extractNotTimedChallenge(availableChallenges) : availableChallenges;
+
     availableChallenges = availableChallenges.filter((challenge) => {
       return this._computeReward(challenge, predictedLevel) > 0;
     });
 
-    if (availableChallenges.length === 0) {
-      return [];
+    if (predictedLevel <= LIMIT_LEVEL_TO_SELECT_EASIEST_TUBE_IN_PRIORITY) {
+      availableChallenges = this._keepChallengesFromEasiestTubes(availableChallenges);
     }
-    
-    availableChallenges = this._keepChallengesFromEasiestTubes(availableChallenges);
+
     return availableChallenges;
   }
 
@@ -188,7 +197,7 @@ class Assessment {
       return { challenge: challenge, reward: this._computeReward(challenge, predictedLevel) };
     });
 
-    if(challengesAndRewards.length <= 0) {
+    if (challengesAndRewards.length <= 0) {
       return null;
     }
     const maxReward = _.maxBy(challengesAndRewards, 'reward').reward;
