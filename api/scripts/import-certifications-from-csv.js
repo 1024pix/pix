@@ -9,7 +9,7 @@ const CSV_HEADERS = {
   LAST_NAME: 'Nom du candidat',
   BIRTHDATE: 'Date de naissance du candidat',
   BIRTHPLACE: 'Lieu de naissance du candidat',
-  EXTERNAL_ID: 'Identifiant externe'
+  EXTERNAL_ID: 'Identifiant Externe'
 };
 
 function assertFileValidity(filePath) {

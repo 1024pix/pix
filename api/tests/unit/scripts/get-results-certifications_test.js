@@ -74,7 +74,7 @@ describe('Unit | Scripts | get-results-certifications.js', () => {
             'comment-for-jury': 'You get it',
             'first-name': 'Goku',
             'last-name': 'Son',
-            'birthdate': '20-11-1737',
+            'birthdate': '1737-11-20',
             'birthplace': 'Namek',
             'session-id': 1,
             'external-id': 'Kakarot'
