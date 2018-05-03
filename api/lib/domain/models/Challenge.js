@@ -1,7 +1,7 @@
 class Challenge {
 
-  constructor(model = {}) {
-    this.skills = model.skills || [];
+  constructor({ skills = [] } = {}) {
+    this.skills = skills;
   }
 
   addSkill(skill) {

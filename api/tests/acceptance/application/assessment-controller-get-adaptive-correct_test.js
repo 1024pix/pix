@@ -123,7 +123,8 @@ describe('Acceptance | API | assessment-controller-get-adaptive-correct', () => 
     let insertedAssessmentId = null;
 
     const insertedAssessment = {
-      courseId: 'w_adaptive_course_id'
+      courseId: 'w_adaptive_course_id',
+      type: 'PLACEMENT'
     };
 
     beforeEach(() => {
@@ -169,7 +170,8 @@ describe('Acceptance | API | assessment-controller-get-adaptive-correct', () => 
     let insertedAssessmentId = null;
 
     const insertedAssessment = {
-      courseId: 'w_adaptive_course_id'
+      courseId: 'w_adaptive_course_id',
+      type: 'PLACEMENT'
     };
 
     beforeEach(() => {
@@ -215,7 +217,8 @@ describe('Acceptance | API | assessment-controller-get-adaptive-correct', () => 
     let insertedAssessmentId = null;
 
     const insertedAssessment = {
-      courseId: 'w_adaptive_course_id'
+      courseId: 'w_adaptive_course_id',
+      type: 'PLACEMENT'
     };
 
     beforeEach(() => {

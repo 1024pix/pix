@@ -106,7 +106,8 @@ describe('Acceptance | API | assessment-controller-get-nonadaptive', function() 
     let insertedAssessmentId = null;
 
     const insertedAssessment = {
-      courseId: 'a_non_adaptive_course_id'
+      courseId: 'a_non_adaptive_course_id',
+      type: 'DEMO'
     };
 
     before(() => {
