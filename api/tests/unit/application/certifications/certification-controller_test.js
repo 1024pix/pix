@@ -79,6 +79,8 @@ describe('Unit | Controller | certifications-controller', () => {
     const attributesToUpdate = {
       isPublished: true
     };
+    const updatedCertification = {};
+    const serializedCertification = {};
 
     const request = {
       params: {
@@ -100,13 +102,15 @@ describe('Unit | Controller | certifications-controller', () => {
 
     beforeEach(() => {
       sandbox.stub(usecases, 'updateCertification');
+      sandbox.stub(certificationSerializer, 'serializeCertification');
       sandbox.stub(Boom, 'badImplementation').returns(boomError);
       sandbox.stub(logger, 'error');
     });
 
-    it('should return a serialized certifications array when use case return a array of Certifications', () => {
+    it('should return a serialized certification when update was successful', () => {
       // given
-      usecases.updateCertification.resolves();
+      usecases.updateCertification.resolves(updatedCertification);
+      certificationSerializer.serializeCertification.returns(serializedCertification);
 
       // when
       const promise = certificationController.updateCertification(request, replyStub);
@@ -116,7 +120,9 @@ describe('Unit | Controller | certifications-controller', () => {
         expect(usecases.updateCertification).to.have.been.calledWith({
           certificationId, attributesToUpdate, certificationRepository
         });
-        expect(codeStub).to.have.been.calledWith(204);
+        expect(certificationSerializer.serializeCertification).to.have.been.calledWith(updatedCertification);
+        expect(replyStub).to.have.been.calledWith(serializedCertification);
+        expect(codeStub).to.have.been.calledWith(200);
       });
     });
 

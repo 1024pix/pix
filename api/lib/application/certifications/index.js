@@ -25,6 +25,10 @@ exports.register = function(server, options, next) {
           assign: 'hasRolePixMaster'
         }],
         handler: certificationController.updateCertification,
+        notes: [
+          '- **Route nécessitant une authentification**\n' +
+          '- Mise à jour d\'une certification'
+        ],
         tags: ['api', 'certifications']
       }
     }
