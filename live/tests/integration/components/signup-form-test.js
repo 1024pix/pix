@@ -1,3 +1,4 @@
+import ArrayProxy from '@ember/array/proxy';
 import { resolve, reject } from 'rsvp';
 import Component from '@ember/component';
 import EmberObject from '@ember/object';
@@ -262,15 +263,16 @@ describe('Integration | Component | signup form', function() {
         // given
         const userWithCguNotAccepted = EmberObject.create({
           cgu: false,
-          errors: {
+          errors: ArrayProxy.create({
             content: [{
               attribute: 'cgu',
               message: UNCHECKED_CHECKBOX_CGU_ERROR,
             }],
             cgu: [{
+              attribute: 'cgu',
               message: UNCHECKED_CHECKBOX_CGU_ERROR
             }]
-          },
+          }),
           save() {
             return new reject();
           }
@@ -290,12 +292,12 @@ describe('Integration | Component | signup form', function() {
 
       it('should not display success notification message when an error occurred during the form submission', function() {
         const userThatThrowAnErrorDuringSaving = EmberObject.create({
-          errors: {
+          errors: ArrayProxy.create({
             content: [{
               attribute: 'email',
               message: 'An error concerning the email thrown by the API',
             }]
-          },
+          }),
           save() {
             return new reject();
           }
@@ -318,7 +320,7 @@ describe('Integration | Component | signup form', function() {
         const userWithCaptchaNotValid = EmberObject.create({
           cgu: true,
           recaptchaToken: null,
-          errors: {
+          errors: ArrayProxy.create({
             content: [{
               attribute: 'recaptchaToken',
               message: UNCHECKED_CHECKBOX_RECAPTCHA_ERROR,
@@ -326,7 +328,7 @@ describe('Integration | Component | signup form', function() {
             recaptchaToken: [{
               message: UNCHECKED_CHECKBOX_RECAPTCHA_ERROR
             }]
-          },
+          }),
           save() {
             return new reject();
           }
