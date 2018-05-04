@@ -61,9 +61,10 @@ module.exports = {
   },
 
   search: (request, reply) => {
+    const userId = request.auth.credentials.userId;
     const filters = _extractFilters(request);
 
-    return organizationService.search(filters)
+    return organizationService.search(userId, filters)
       .then(organizations => reply(organizationSerializer.serialize(organizations)))
       .catch(err => {
         logger.error(err);

@@ -5,7 +5,6 @@ const certificationService = require('../../../../lib/domain/services/certificat
 const assessmentAdapter = require('../../../../lib/infrastructure/adapters/assessment-adapter');
 
 const assessmentRepository = require('../../../../lib/infrastructure/repositories/assessment-repository');
-const certificationChallengeRepository = require('../../../../lib/infrastructure/repositories/certification-challenge-repository');
 const courseRepository = require('../../../../lib/infrastructure/repositories/course-repository');
 const certificationCourseRepository = require('../../../../lib/infrastructure/repositories/certification-course-repository');
 const challengeRepository = require('../../../../lib/infrastructure/repositories/challenge-repository');
@@ -14,16 +13,13 @@ const skillRepository = require('../../../../lib/infrastructure/repositories/ski
 const competenceRepository = require('../../../../lib/infrastructure/repositories/competence-repository');
 const competenceMarkRepository = require('../../../../lib/infrastructure/repositories/competence-mark-repository');
 
-const AssessmentBookshelf = require('../../../../lib/infrastructure/data/assessment');
 const Assessment = require('../../../../lib/domain/models/Assessment');
 const Course = require('../../../../lib/domain/models/Course');
 const Answer = require('../../../../lib/domain/models/Answer');
 const Challenge = require('../../../../lib/domain/models/Challenge');
-const CertificationChallenge = require('../../../../lib/domain/models/CertificationChallenge');
 const CompetenceMark = require('../../../../lib/domain/models/CompetenceMark');
 
 const Skill = require('../../../../lib/domain/models/Skill');
-const { AssessmentEndedError } = require('../../../../lib/domain/errors');
 
 function _buildChallenge(challengeId, skills) {
   const challenge = new Challenge();
@@ -33,7 +29,7 @@ function _buildChallenge(challengeId, skills) {
 }
 
 function _buildAssessmentForCourse(courseId, assessmentId = 'assessment_id') {
-  const assessment = new Assessment({ id: assessmentId });
+  const assessment = new Assessment({ id: assessmentId, type: 'PLACEMENT' });
   if (courseId) {
     assessment.courseId = courseId;
   }
@@ -57,68 +53,6 @@ describe('Unit | Domain | Services | assessment', () => {
 
   afterEach(() => {
     competenceRepository.get.restore();
-  });
-
-  describe('#getAssessmentNextChallengeId', () => {
-
-    beforeEach(() => {
-      sinon.stub(courseRepository, 'get').resolves();
-    });
-
-    afterEach(() => {
-      courseRepository.get.restore();
-    });
-
-    it('Should return the first challenge if no currentChallengeId is given', () => {
-      // given
-      courseRepository.get.resolves({ challenges: ['the_first_challenge'] });
-
-      // when
-      const promise = service.getAssessmentNextChallengeId(_buildAssessmentForCourse('22'), null);
-
-      // then
-      return promise.then((result) => {
-        expect(result).to.equal('the_first_challenge');
-      });
-    });
-
-    it('Should return the next challenge if currentChallengeId is given', () => {
-      // given
-      courseRepository.get.resolves({ challenges: ['1st_challenge', '2nd_challenge'] });
-
-      // when
-      const promise = service.getAssessmentNextChallengeId(_buildAssessmentForCourse('22'), '1st_challenge');
-
-      // then
-      return promise.then((result) => {
-        expect(result).to.equal('2nd_challenge');
-      });
-
-    });
-
-    it('Should throw a AssessmentEndedError when there are no more challenges to ask', () => {
-      // given
-      courseRepository.get.resolves({ challenges: ['1st_challenge', '2nd_challenge'] });
-
-      // when
-      const promise = service.getAssessmentNextChallengeId(_buildAssessmentForCourse('22'), '2nd_challenge');
-
-      // then
-      return expect(promise).to.be.rejectedWith(AssessmentEndedError);
-    });
-
-    it('Should reject with a AssessmentEndedError when the course is a preview', () => {
-      // given
-      const assessment = _buildAssessmentForCourse('null22');
-      assessment.type = 'PREVIEW';
-
-      // when
-      const promise = service.getAssessmentNextChallengeId(assessment, '1st_challenge');
-
-      // then
-      expect(courseRepository.get).not.to.have.been.called;
-      return expect(promise).to.be.rejectedWith(AssessmentEndedError);
-    });
   });
 
   describe('#fetchAssessment', () => {
@@ -1158,49 +1092,6 @@ describe('Unit | Domain | Services | assessment', () => {
         expect(result).to.be.false;
       });
     });
-  });
-
-  describe('#getNextChallengeForCertificationCourse', () => {
-
-    let sandbox;
-
-    beforeEach(() => {
-      sandbox = sinon.sandbox.create();
-      sandbox.stub(certificationChallengeRepository, 'getNonAnsweredChallengeByCourseId');
-    });
-
-    afterEach(() => {
-      sandbox.restore();
-    });
-
-    it('should return a challenge which was not answered (challenge with no associated answer)', function() {
-      // given
-      const assessment = new AssessmentBookshelf({ id: 'assessmentId', courseId: 'certifCourseId' });
-      const challenge = new CertificationChallenge({ id: '1', challengeId: 'recA' });
-      certificationChallengeRepository.getNonAnsweredChallengeByCourseId.resolves(challenge);
-
-      // when
-      const promise = service.getNextChallengeForCertificationCourse(assessment);
-
-      // then
-      return promise.then((nextChallenge) => {
-        expect(nextChallenge).to.be.instanceOf(CertificationChallenge);
-      });
-
-    });
-
-    it('should reject when there is no challenges to give anymore', function() {
-      // given
-      const assessment = new AssessmentBookshelf({ id: 'assessmentId', courseId: 'certifCourseId' });
-      certificationChallengeRepository.getNonAnsweredChallengeByCourseId.rejects();
-
-      // when
-      const promise = service.getNextChallengeForCertificationCourse(assessment);
-
-      // then
-      expect(promise).to.be.rejected;
-    });
-
   });
 
   describe('#isDemoAssessment', () => {

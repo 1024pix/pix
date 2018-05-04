@@ -4,7 +4,7 @@ const AnswerStatus = require('../../domain/models/AnswerStatus');
 const AnswerStatusDatabaseAdapter = require('../../interfaces/storage/database/AnswerStatusDatabaseAdapter');
 
 const AnswerRepository = require('../../infrastructure/repositories/answer-repository');
-const SolutionRepository = require('../../infrastructure/repositories/solution-repository');
+const solutionRepository = require('../../infrastructure/repositories/solution-repository');
 const qmailService = require('../../domain/services/qmail-service');
 const qmailValidationService = require('../../domain/services/qmail-validation-service');
 const { NotFoundError, NotElligibleToQmailError } = require('../../domain/errors');
@@ -32,8 +32,8 @@ module.exports = {
     const emailRecipient = request.payload.mail.to.text;
     const { challengeId, assessmentId } = qmailService.extractChallengeIdAndAssessmentFromEmail(emailRecipient);
 
-    return SolutionRepository
-      .get(challengeId)
+    return solutionRepository
+      .getByChallengeId(challengeId)
       .then((foundSolution) => challengeSolution = foundSolution)
       .then(_checkThatChallengeIsQMAIL)
       .then(() => AnswerRepository.findByChallengeAndAssessment(challengeId, assessmentId))

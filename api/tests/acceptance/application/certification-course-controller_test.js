@@ -15,6 +15,7 @@ describe('Acceptance | API | Certification Course', () => {
         headers: {}
       };
     });
+
     afterEach(() => {
       return knex('certification-courses').delete();
     });
@@ -48,7 +49,6 @@ describe('Acceptance | API | Certification Course', () => {
         });
       });
     });
-
   });
 
   describe('GET /api/admin/certifications/{id}', () => {
@@ -62,8 +62,7 @@ describe('Acceptance | API | Certification Course', () => {
           return knex('certification-courses').insert({
             createdAt: '2017-12-21 15:44:38',
             completedAt: '2017-12-21T15:48:38.468Z'
-          }
-          );
+          });
         })
         .then((insertedModelIds) => (certificationCourseId = _.first(insertedModelIds)))
         .then(() => {
@@ -108,7 +107,9 @@ describe('Acceptance | API | Certification Course', () => {
           options = {
             method: 'GET',
             url: `/api/admin/certifications/${certificationCourseId}`,
-            headers: { authorization: generateValidRequestAuhorizationHeader() },
+            headers: {
+              authorization: generateValidRequestAuhorizationHeader()
+            }
           };
         });
     });
@@ -176,7 +177,7 @@ describe('Acceptance | API | Certification Course', () => {
       const options = {
         method: 'GET',
         url: '/api/admin/certifications/200',
-        headers: { authorization: generateValidRequestAuhorizationHeader() },
+        headers: { authorization: generateValidRequestAuhorizationHeader() }
       };
 
       // when
@@ -227,7 +228,7 @@ describe('Acceptance | API | Certification Course', () => {
       return knex('certification-courses').insert(
         {
           createdAt: '2019-12-21 15:44:38',
-          completedAt: '2017-12-21T15:48:38.468Z',
+          completedAt: '2017-12-21T15:48:38.468Z'
         }
       ).then((certification) => {
 
@@ -248,7 +249,6 @@ describe('Acceptance | API | Certification Course', () => {
             }
           }
         };
-
       });
     });
 

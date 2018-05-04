@@ -1,9 +1,27 @@
-<div class="tutorial-panel__box-container">
-  <div class="tutorial-panel__box-picto-container">
-    <img src="{{rootURL}}/images/comparison-window/icon-tuto.svg"
-         alt="tuto bientôt disponible"
-         class="tutorial-panel__box-picto"></div>
-  <div class="tutorial-panel__box-title">Bientôt ici des tutoriels pour vous aider à réussir ce type d'épreuves !!</div>
-</div>
+{{#if shouldDisplayDefaultMessage}}
+  <div class="tutorial-panel__default-message-container">
+    <div class="tutorial-panel__default-message-picto-container">
+      <img src="{{rootURL}}/images/comparison-window/icon-tuto.svg"
+           alt=""
+           class="tutorial-panel__default-message-picto"></div>
+    <div class="tutorial-panel__default-message-title">Bientôt ici des tutoriels pour vous aider à réussir ce type
+      d'épreuves !!
+    </div>
+  </div>
+{{/if}}
 
-<div class="tutorial-panel__separator"></div>
+{{#if shouldDisplayHint}}
+  <div class="tutorial-panel__hint-container">
+    <header class="tutorial-panel__hint-container-header">
+      <h3 class="tutorial-panel__hint-title"><span>Pour réussir la prochaine fois</span></h3>
+    </header>
+    <div class="tutorial-panel__hint-container-body">
+      <div class="tutorial-panel__hint-picto-container">
+        <img src="{{rootURL}}/images/comparison-window/icon-lampe.svg"
+             alt=""
+             class="tutorial-panel__hint-picto">
+      </div>
+      {{markdown-to-html class="tutorial-panel__hint-content" markdown=hint}}
+    </div>
+  </div>
+{{/if}}

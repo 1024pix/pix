@@ -71,5 +71,11 @@ module.exports = {
         require: false
       })
       .then(bookshelfUser => bookshelfUser.toDomainEntity());
+  },
+
+  hasRolePixMaster(userId) {
+    return this.get(userId)
+      .then(user => user.hasRolePixMaster);
   }
+
 };

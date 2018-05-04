@@ -118,7 +118,8 @@ describe('Acceptance | API | assessment-controller-get-adaptive', () => {
     let insertedAssessmentId = null;
 
     const inserted_assessment = {
-      courseId: 'the_adaptive_course_id'
+      courseId: 'the_adaptive_course_id',
+      type: 'PLACEMENT'
     };
 
     beforeEach(() => {

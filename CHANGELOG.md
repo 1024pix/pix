@@ -1,5 +1,21 @@
 # Pix Changelog
 
+## v1.48.0 (04/05/2018) 
+
+- [#36](https://github.com/1024pix/pix/pull/36) [FEATURE] Affichage d'un indice à la fin du test lorsque l'utilisateur a donné une mauvaise réponse (US-1105).
+- [#48](https://github.com/1024pix/pix/pull/48) [FEATURE] Publier une certification (PF-12).
+- [#49](https://github.com/1024pix/pix/pull/49) [FEATURE] Ajout et mise à jour des des informations légales (PF-66).
+- [#40](https://github.com/1024pix/pix/pull/40) [FEATURE] Mise à jour des entêtes du CSV contenant l'export des résultats de certifications (US-1238).
+- [#41](https://github.com/1024pix/pix/pull/41) [FEATURE] Modification de la route GET /organizations pour permettre à un Pix Master de récupérer la liste de toutes les organisations de façon sécurisée (US-1248).
+- [#37](https://github.com/1024pix/pix/pull/37) [FEATURE] Afficher la liste des certifications des utilisateurs (US-1134).
+- [#53](https://github.com/1024pix/pix/pull/53) [BUGFIX] Résolution du bug sur staging pour récupérer les certifications (US-1134).
+- [#54](https://github.com/1024pix/pix/pull/54) [TECH] Ajout d'un jeu d'exemples pour une certification rejeté par l'algo (PF-98).
+- [#52](https://github.com/1024pix/pix/pull/52) [TECH] Configuration de Swagger (documentation de l'API).
+- [#45](https://github.com/1024pix/pix/pull/45) [TECH] Déploiement automatique de preview et maths avec la PROD (PI-6).
+- [#42](https://github.com/1024pix/pix/pull/42) [TECH] BSR des scripts de release et suppression du commit de merge (PI-10).
+- [#44](https://github.com/1024pix/pix/pull/44) [TECH] Refactoring de l'endpoint de choix de la prochaine question (PF-100).
+- [#46](https://github.com/1024pix/pix/pull/46) [BSR] Pointer l'URL d'intégration vers integration.pix.fr.
+
 ## v1.47.0 (17/04/2018) 
 
 - [#14](https://github.com/1024pix/pix/pull/14) [FEATURE] Ajout de nouveaux endpoints d'authentification OAuth 2 (US-1205).

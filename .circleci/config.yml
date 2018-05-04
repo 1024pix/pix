@@ -114,7 +114,7 @@ jobs:
           npm run lint
           npm test
 
-  deploy_server:
+  deploy_server_on_dokku:
     <<: *server_properties
     steps:
       - run: echo $CIRCLE_SHA1 > .circle-sha
@@ -124,18 +124,39 @@ jobs:
       - restore_cache:
           keys:
             - v1-server-dependencies-{{ checksum "package.json" }}
+      - add_ssh_keys:
+          fingerprints:
+            - "77:2f:5f:ff:39:d2:c5:1d:89:69:be:4c:0b:ef:33:34"
       - run: |
-          mkdir -p ~/.ssh
-          touch ~/.ssh/known_hosts
           ssh-keyscan pix-app.ovh >> ~/.ssh/known_hosts
+          git config user.email "jbuget@gmail.com"
+          git config user.name "Jérémy Buget"
+      - deploy:
+          command: npm run deploy:integration $CIRCLE_BRANCH
+
+  deploy_server_on_scalingo:
+    <<: *server_properties
+    steps:
+      - run: echo $CIRCLE_SHA1 > .circle-sha
+      - restore_cache:
+          keys:
+            - v1-pix-{{ checksum ".circle-sha" }}
+      - restore_cache:
+          keys:
+            - v1-server-dependencies-{{ checksum "package.json" }}
+      - add_ssh_keys:
+          fingerprints:
+            - "d8:07:94:de:70:24:96:32:7f:e0:ac:e6:80:dd:0e:9a"
+      - run: |
+          ssh-keyscan scalingo.com >> ~/.ssh/known_hosts
           git config user.email "jbuget@gmail.com"
           git config user.name "Jérémy Buget"
       - deploy:
           command: |
             if [ "${CIRCLE_BRANCH}" == "dev" ]; then
               npm run deploy:staging
-            else
-              npm run deploy:integration
+            elif [ "${CIRCLE_BRANCH}" == "master" ]; then
+              npm run deploy:production
             fi
 
   # Client side
@@ -235,9 +256,10 @@ jobs:
             - v1-client-dependencies-{{ checksum "package.json" }}
       - attach_workspace:
           at: ~/pix/live
+      - add_ssh_keys:
+          fingerprints:
+            - "7b:e6:22:38:43:3e:e5:32:6c:e1:25:41:0e:28:a7:7e"
       - run: |
-          mkdir -p ~/.ssh
-          touch ~/.ssh/known_hosts
           ssh-keyscan github.com >> ~/.ssh/known_hosts
           git config user.email "jbuget@gmail.com"
           git config user.name "Jérémy Buget"
@@ -245,6 +267,8 @@ jobs:
           command: |
             if [ "${CIRCLE_BRANCH}" == "dev" ]; then
               npm run deploy:staging
+            elif [ "${CIRCLE_BRANCH}" == "master" ]; then
+              npm run deploy:production
             else
               npm run deploy:integration
             fi
@@ -266,14 +290,23 @@ workflows:
       - test_server:
           requires:
             - build_server
-      - deploy_server:
+      - deploy_server_on_dokku:
           requires:
             - test_server
           filters:
             branches:
               ignore:
                 - master
+                - dev
                 - gh-pages
+      - deploy_server_on_scalingo:
+          requires:
+            - test_server
+          filters:
+            branches:
+              only:
+                - master
+                - dev
 
       # Client side
       - install_client_dependencies:
@@ -305,7 +338,8 @@ workflows:
       - add_review_app_url_to_trello_card:
           requires:
             - deploy_client
-            - deploy_server
+            - deploy_server_on_dokku
+            - deploy_server_on_scalingo
           filters:
             branches:
               ignore:
@@ -320,7 +354,8 @@ workflows:
       - signal_pr_deployment_to_github:
           requires:
             - deploy_client
-            - deploy_server
+            - deploy_server_on_dokku
+            - deploy_server_on_scalingo
           filters:
             branches:
               ignore:

@@ -1,21 +1,30 @@
-const Answer = require('../data/answer');
+const BookshelfAnswer = require('../data/answer');
+const { NotFoundError } = require('../../domain/errors');
 
 module.exports = {
 
-  // TODO return domain object
   get(answerId) {
-    return Answer.where('id', answerId).fetch();
+    return BookshelfAnswer.where('id', answerId)
+      .fetch({ require: true })
+      .then(answer => answer.toDomainEntity())
+      .catch(err => {
+        if (err instanceof BookshelfAnswer.NotFoundError) {
+          throw new NotFoundError(`Not found answer for ID ${answerId}`);
+        } else {
+          throw err;
+        }
+      });
   },
 
   // TODO return domain object
   findByChallengeAndAssessment(challengeId, assessmentId) {
-    return Answer
+    return BookshelfAnswer
       .where({ challengeId, assessmentId })
       .fetch();
   },
 
   findByAssessment(assessmentId) {
-    return Answer
+    return BookshelfAnswer
       .where({ assessmentId })
       .orderBy('createdAt')
       .fetchAll()
@@ -24,7 +33,7 @@ module.exports = {
 
   // TODO return domain object
   findByChallenge(challengeId) {
-    return Answer
+    return BookshelfAnswer
       .where({ challengeId })
       .fetchAll()
       .then(answers => answers.models);
@@ -32,7 +41,7 @@ module.exports = {
 
   // TODO return domain object
   findCorrectAnswersByAssessment(assessmentId) {
-    return Answer
+    return BookshelfAnswer
       .where({ assessmentId, result: 'ok' })
       .fetchAll();
   }

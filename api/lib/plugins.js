@@ -31,6 +31,8 @@ const plugins = [
   {
     register: HapiSwagger,
     options: {
+      basePath: '/api',
+      grouping: 'tags',
       info: {
         'title': 'PIX API Documentation',
         'version': Pack.version

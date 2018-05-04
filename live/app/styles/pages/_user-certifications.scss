@@ -1,0 +1,16 @@
+.user-certifications-page__title {
+  display: flex;
+  justify-content: center;
+
+  color: $charcoal-grey;
+  font-family: $font-raleway;
+  font-size: 28px;
+  font-weight: $font-medium;
+  line-height: 33px;
+  margin-top:40px;
+
+  @include device-is('desktop') {
+    justify-content: flex-start;
+    margin-left: 100px;
+  }
+}

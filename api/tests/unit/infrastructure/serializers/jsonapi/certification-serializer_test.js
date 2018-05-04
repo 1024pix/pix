@@ -89,4 +89,43 @@ describe('Unit | Serializer | JSONAPI | certification-serializer', function() {
     });
 
   });
+
+  describe('#serializeCertification', () => {
+
+    const receivedCertifications = [{
+      certificationCenter: 'Université du Pix',
+      date: '01/02/2004'
+    }, {
+      certificationCenter: 'Université du Pix',
+      date: '10/03/2005'
+    }];
+
+    const JsonCertificationList = {
+      data: [
+        {
+          attributes: {
+            'certification-center': 'Université du Pix',
+            date: '01/02/2004'
+          },
+          type: 'certifications'
+        },
+        {
+          'attributes': {
+            'certification-center': 'Université du Pix',
+            date: '10/03/2005'
+          },
+          type: 'certifications'
+        }
+      ]
+    };
+
+    it('should serialize user certifications to JSON', () => {
+      // when
+      const serializedCertifications = serializer.serializeCertification(receivedCertifications);
+
+      // then
+      expect(serializedCertifications).to.deep.equal(JsonCertificationList);
+    });
+
+  });
 });

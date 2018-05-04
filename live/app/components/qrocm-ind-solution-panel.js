@@ -25,11 +25,11 @@ function _computeInputClass(answerOutcome) {
 
 const QrocmIndSolutionPanel = Component.extend({
 
-  inputFields: computed('challenge.proposals', 'answer.value', 'solution.value', function() {
+  inputFields: computed('challenge.proposals', 'answer.value', 'solution', function() {
 
     const labels = labelsAsObject(this.get('challenge.proposals'));
     const answers = answersAsObject(this.get('answer.value'), _.keys(labels));
-    const solutions = solutionsAsObject(this.get('solution.value'));
+    const solutions = solutionsAsObject(this.get('solution'));
     const resultDetails = resultDetailsAsObject(this.get('answer.resultDetails'));
 
     const inputFields = [];
