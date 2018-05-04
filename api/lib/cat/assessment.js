@@ -43,7 +43,7 @@ class Assessment {
 
   _isAnAvailableChallenge(challenge) {
     const answeredChallenges = this.answers.map(answer => answer.challenge);
-    return challenge.isActive && this._isChallengeNotAnsweredYet(challenge, answeredChallenges) && this._isNotTooHardChallenge(challenge);
+    return challenge.isActive && this._isChallengeNotAnsweredYet(challenge, answeredChallenges);
   }
 
   _isPreviousChallengeTimed() {
@@ -141,6 +141,9 @@ class Assessment {
   get filteredChallenges() {
     let availableChallenges = this.course.challenges.filter(challenge => this._isAnAvailableChallenge(challenge));
     availableChallenges = this._isPreviousChallengeTimed() ? this._extractNotTimedChallenge(availableChallenges) : availableChallenges;
+
+    availableChallenges = availableChallenges.filter(challenge => this._isNotTooHardChallenge(challenge));
+
     return availableChallenges;
   }
 

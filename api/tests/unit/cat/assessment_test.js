@@ -670,6 +670,23 @@ describe('Unit | Model | Assessment', function() {
       // then
       expect(assessment.nextChallenge.skills).to.be.deep.equal([web7]);
     });
+
+    it('should not select a challenge that is more than 2 levels above the predicted level', function() {
+      // given
+      const web2 = new Skill('web2');
+      const url7 = new Skill('url7');
+      const challengeWeb2 = new Challenge('rec2', 'validé', [web2]);
+      const challengeUrl7 = new Challenge('rec7', 'validé', [url7]);
+      const course = new Course([challengeWeb2, challengeUrl7]);
+      const answer1 = new Answer(challengeWeb2, AnswerStatus.OK);
+
+      // when
+      const assessment = new Assessment(course, [answer1]);
+
+      // then
+      expect(assessment.nextChallenge).to.equal(null);
+    });
+
   });
 
   describe('#pixScore', function() {
