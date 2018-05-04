@@ -8,13 +8,23 @@ const snapshotService = require('../../../lib/domain/services/snapshot-service')
 const profileService = require('../../domain/services/profile-service');
 const profileCompletionService = require('../../domain/services/profile-completion-service');
 const logger = require('../../../lib/infrastructure/logger');
-const { InvalidTokenError, NotFoundError, InvaliOrganizationIdError } = require('../../domain/errors');
+const { InvalidTokenError, NotFoundError, InvaliOrganizationIdError, InvalidSnapshotCode } = require('../../domain/errors');
+const MAX_CODE_LENGTH = 255;
 
 function _assertThatOrganizationExists(organizationId) {
   return organizationRepository.isOrganizationIdExist(organizationId)
     .then((isOrganizationExist) => {
       if (!isOrganizationExist) {
         throw new InvaliOrganizationIdError();
+      }
+    });
+}
+
+function _validateSnapshotCode(snapshot) {
+  return Promise.resolve()
+    .then(() => {
+      if (snapshot.studentCode.length > MAX_CODE_LENGTH || snapshot.campaignCode.length > MAX_CODE_LENGTH) {
+        throw new InvalidSnapshotCode();
       }
     });
 }
@@ -47,6 +57,11 @@ function _replyError(err, reply) {
   if (err instanceof InvaliOrganizationIdError) {
     return _replyErrorWithMessage(reply, 'Cette organisation n’existe pas', 422);
   }
+
+  if (err instanceof InvalidSnapshotCode) {
+    return _replyErrorWithMessage(reply, 'Les codes de partage du profil sont trop long', 422);
+  }
+
   logger.error(err);
   return _replyErrorWithMessage(reply, 'Une erreur est survenue lors de la création de l’instantané', 500);
 }
@@ -67,6 +82,7 @@ function create(request, reply) {
     .then((foundUser) => user = foundUser)
     .then(() => snapshotSerializer.deserialize(request.payload))
     .then(deserializedSnapshot => (snapshot = deserializedSnapshot))
+    .then(() => _validateSnapshotCode(snapshot))
     .then(() => _assertThatOrganizationExists(snapshot.organization.id))
     .then(() => profileService.getByUserId(user.id))
     .then((profile) => profileSerializer.serialize(profile))

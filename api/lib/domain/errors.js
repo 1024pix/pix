@@ -10,6 +10,12 @@ class InvaliOrganizationIdError extends Error {
   }
 }
 
+class InvalidSnapshotCode extends Error {
+  constructor(message) {
+    super(message);
+  }
+}
+
 class InvalidTokenError extends Error {
   constructor(message) {
     super(message);
@@ -163,6 +169,7 @@ module.exports = {
   InvalidTokenError,
   AlreadyRegisteredEmailError,
   InvaliOrganizationIdError,
+  InvalidSnapshotCode,
   UserNotFoundError,
   InternalError,
   PasswordResetDemandNotFoundError,

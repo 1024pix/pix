@@ -75,18 +75,24 @@ describe('Acceptance | Controller | snapshot-controller', () => {
   });
 
   afterEach(() => {
-    return knex('users').delete();
+    return knex('users').delete()
+      .then(() => {
+        return knex('organizations').delete();
+      });
   });
 
   describe('POST /api/snapshots', () => {
 
     let payload;
     let options;
-    let injectPromise;
 
     beforeEach(() => {
       payload = {
         data: {
+          attributes: {
+            'student-code': 'Code Etudiant',
+            'campaign-code': 'Code Campagne'
+          },
           relationships: {
             organization: {
               data: {
@@ -106,7 +112,6 @@ describe('Acceptance | Controller | snapshot-controller', () => {
 
       sinon.stub(authorizationToken, 'verify').resolves(userId);
       sinon.stub(profileService, 'getByUserId').resolves(fakeBuildedProfile);
-      injectPromise = server.inject(options);
     });
 
     afterEach(() => {
@@ -115,8 +120,11 @@ describe('Acceptance | Controller | snapshot-controller', () => {
     });
 
     it('should return 201 HTTP status code', () => {
+      // when
+      const promise = server.inject(options);
+
       // then
-      return injectPromise.then((response) => {
+      return promise.then((response) => {
         expect(response.statusCode).to.equal(201);
         expect(response.result.data.id).to.exist;
       });
@@ -124,7 +132,7 @@ describe('Acceptance | Controller | snapshot-controller', () => {
 
     context('when creating with a wrong payload', () => {
 
-      it('should return 422 HTTP status code', () => {
+      it('should return 422 HTTP status code when organisationId is invalid ', () => {
         // given
         payload.data.relationships.organization.data.id = null;
 
@@ -135,6 +143,36 @@ describe('Acceptance | Controller | snapshot-controller', () => {
         return promise.then((response) => {
           const parsedResponse = JSON.parse(response.payload);
           expect(parsedResponse.errors[0].detail).to.equal('Cette organisation n’existe pas');
+          expect(response.statusCode).to.equal(422);
+        });
+      });
+
+      it('should return 422 HTTP status code when student code is too long', () => {
+        // given
+        payload.data.attributes['student-code'] = 'Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec quam felis, ultricies nec, pellentesque eu, pretium quis, sem. Nulla consequat massa quis enim. Donec.';
+
+        // when
+        const promise = server.inject(options);
+
+        // then
+        return promise.then((response) => {
+          const parsedResponse = JSON.parse(response.payload);
+          expect(parsedResponse.errors[0].detail).to.equal('Les codes de partage du profil sont trop long');
+          expect(response.statusCode).to.equal(422);
+        });
+      });
+
+      it('should return 422 HTTP status code when campaign code is too long', () => {
+        // given
+        payload.data.attributes['campaign-code'] = 'Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec quam felis, ultricies nec, pellentesque eu, pretium quis, sem. Nulla consequat massa quis enim. Donec.';
+
+        // when
+        const promise = server.inject(options);
+
+        // then
+        return promise.then((response) => {
+          const parsedResponse = JSON.parse(response.payload);
+          expect(parsedResponse.errors[0].detail).to.equal('Les codes de partage du profil sont trop long');
           expect(response.statusCode).to.equal(422);
         });
       });
