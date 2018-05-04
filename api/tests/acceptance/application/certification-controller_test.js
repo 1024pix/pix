@@ -188,7 +188,7 @@ describe('Acceptance | API | Certifications', () => {
         headers: { authorization: generateValidRequestAuhorizationHeader(1234) },
         payload: {
           data: {
-            type: 'certification',
+            type: 'certifications',
             id: JOHN_CERTIFICATION_ID,
             attributes: {
               isPublished: true
