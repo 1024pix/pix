@@ -33,6 +33,10 @@ describe('Unit | Controller | snapshot-controller', () => {
       },
       payload: {
         data: {
+          attributes: {
+            'student-code': 'Code Etudiant',
+            'campaign-code': 'Code Campagne'
+          },
           relationships: {
             organization: {
               data: {
@@ -42,6 +46,12 @@ describe('Unit | Controller | snapshot-controller', () => {
           }
         }
       }
+    };
+
+    const deserializedSnapshot = {
+      studentCode: 'Code Etudiant',
+      campaignCode: 'Code Campagne',
+      organization: { id: ORGANIZATION_ID }
     };
 
     beforeEach(() => {
@@ -83,7 +93,7 @@ describe('Unit | Controller | snapshot-controller', () => {
         sandbox.stub(organizationRepository, 'isOrganizationIdExist');
         sandbox.stub(snapshotService, 'create');
         sandbox.stub(profileSerializer, 'serialize');
-        sandbox.stub(profileCompletionService,'getNumberOfFinishedTests');
+        sandbox.stub(profileCompletionService, 'getNumberOfFinishedTests');
         sandbox.stub(snapshotSerializer, 'serialize');
         sandbox.stub(logger, 'error');
       });
@@ -142,7 +152,7 @@ describe('Unit | Controller | snapshot-controller', () => {
           // given
           authorizationToken.verify.resolves();
           userRepository.findUserById.resolves();
-          snapshotSerializer.deserialize.resolves({ organization: { id: ORGANIZATION_ID } });
+          snapshotSerializer.deserialize.resolves(deserializedSnapshot);
 
           // when
           const promise = snapshotController.create(request, replyStub);
@@ -158,7 +168,7 @@ describe('Unit | Controller | snapshot-controller', () => {
           // given
           authorizationToken.verify.resolves();
           userRepository.findUserById.resolves(user);
-          snapshotSerializer.deserialize.resolves({ organization: { id: ORGANIZATION_ID } });
+          snapshotSerializer.deserialize.resolves(deserializedSnapshot);
           organizationRepository.isOrganizationIdExist.resolves({ organization: 'a_valid_organization' });
 
           // when
@@ -175,7 +185,7 @@ describe('Unit | Controller | snapshot-controller', () => {
           // given
           authorizationToken.verify.resolves();
           userRepository.findUserById.resolves(user);
-          snapshotSerializer.deserialize.resolves({ organization: { id: ORGANIZATION_ID } });
+          snapshotSerializer.deserialize.resolves(deserializedSnapshot);
           organizationRepository.isOrganizationIdExist.resolves({ organization: 'a_valid_organization' });
           profileService.getByUserId.resolves({ profile: 'a_valid_profile' });
 
@@ -193,7 +203,7 @@ describe('Unit | Controller | snapshot-controller', () => {
           // given
           authorizationToken.verify.resolves();
           userRepository.findUserById.resolves(user);
-          snapshotSerializer.deserialize.resolves({ organization: { id: ORGANIZATION_ID } });
+          snapshotSerializer.deserialize.resolves(deserializedSnapshot);
           organizationRepository.isOrganizationIdExist.resolves({ organization: 'a_valid_organization' });
           profileService.getByUserId.resolves();
           profileSerializer.serialize.resolves({ profile: 'a_valid_profile' });
@@ -210,12 +220,11 @@ describe('Unit | Controller | snapshot-controller', () => {
 
         it('should create & save a Snapshot entity into the repository', () => {
           // given
-          const snapshot = { organization: { id: ORGANIZATION_ID } };
           const serializedProfile = { profile: 'a_valid_profile' };
 
           authorizationToken.verify.resolves();
           userRepository.findUserById.resolves(user);
-          snapshotSerializer.deserialize.resolves(snapshot);
+          snapshotSerializer.deserialize.resolves(deserializedSnapshot);
           organizationRepository.isOrganizationIdExist.resolves({ organization: 'a_valid_organization' });
           profileService.getByUserId.resolves();
           profileSerializer.serialize.resolves(serializedProfile);
@@ -227,18 +236,17 @@ describe('Unit | Controller | snapshot-controller', () => {
           // then
           return promise.then(() => {
             sinon.assert.calledOnce(snapshotService.create);
-            sinon.assert.calledWith(snapshotService.create, snapshot, user, serializedProfile);
+            sinon.assert.calledWith(snapshotService.create, deserializedSnapshot, user, serializedProfile);
           });
         });
 
         it('should serialize the response payload', () => {
           // given
-          const snapshot = { organization: { id: ORGANIZATION_ID } };
           const serializedProfile = { profile: 'a_valid_profile' };
 
           authorizationToken.verify.resolves();
           userRepository.findUserById.resolves(user);
-          snapshotSerializer.deserialize.resolves(snapshot);
+          snapshotSerializer.deserialize.resolves(deserializedSnapshot);
           organizationRepository.isOrganizationIdExist.resolves({ organization: 'a_valid_organization' });
           profileService.getByUserId.resolves();
           profileSerializer.serialize.resolves(serializedProfile);
@@ -300,9 +308,11 @@ describe('Unit | Controller | snapshot-controller', () => {
 
         it('should return an error, when organisation is not found', () => {
           // given
+          deserializedSnapshot.organization = { id: 'unknnown_organization_id' };
+
           authorizationToken.verify.resolves();
           userRepository.findUserById.resolves();
-          snapshotSerializer.deserialize.resolves({ organization: { id: 'unknnown_organization_id' } });
+          snapshotSerializer.deserialize.resolves(deserializedSnapshot);
           organizationRepository.isOrganizationIdExist.resolves(false);
 
           const expectedSerializeArg = {
