@@ -21,12 +21,10 @@ function _assertThatOrganizationExists(organizationId) {
 }
 
 function _validateSnapshotCode(snapshot) {
-  return Promise.resolve()
-    .then(() => {
-      if (snapshot.studentCode.length > MAX_CODE_LENGTH || snapshot.campaignCode.length > MAX_CODE_LENGTH) {
-        throw new InvalidSnapshotCode();
-      }
-    });
+  if (snapshot.studentCode.length > MAX_CODE_LENGTH || snapshot.campaignCode.length > MAX_CODE_LENGTH) {
+    return Promise.reject(new InvalidSnapshotCode());
+  }
+  return Promise.resolve();
 }
 
 const _replyErrorWithMessage = function(reply, errorMessage, statusCode) {
@@ -95,4 +93,4 @@ function create(request, reply) {
     .catch((err) => _replyError(err, reply));
 }
 
-module.exports = { create };
+module.exports = { create, _validateSnapshotCode };
