@@ -15,7 +15,7 @@ describe('Unit | Component | qrocm-solution-panel', function() {
     beforeEach(function() {
       challenge = {};
       answer = {};
-      solution = {};
+      solution = '';
     });
 
     function _getComponentInputFields(context) {
@@ -30,7 +30,7 @@ describe('Unit | Component | qrocm-solution-panel', function() {
       //Given
       challenge = { proposals: 'content : ${smiley1}\n\ntriste : ${smiley2}' };
       answer = { value: 'smiley1: \':)\' smiley2: \':(\'', resultDetails: 'smiley1: true\nsmiley2: true' };
-      solution = { value: 'smiley1: \n - :-)\n - :)\n - :-D\n - :D\n - :))\n\nsmiley2:\n - :-(\n - :(\n - :((' };
+      solution = 'smiley1: \n - :-)\n - :)\n - :-D\n - :D\n - :))\n\nsmiley2:\n - :-(\n - :(\n - :((';
 
       const expectedFieldsData = [{
         label: 'content : ',
@@ -57,7 +57,7 @@ describe('Unit | Component | qrocm-solution-panel', function() {
       //Given
       challenge = { proposals: 'Clé USB : ${num1}\n\nCarte mémoire (SD) : ${num2}' };
       answer = { value: 'num1: \'1\' num2: \'2\'', resultDetails: 'num1: false\nnum2: false' };
-      solution = { value: 'num1: \n - 2\n\nnum2:\n - 1' };
+      solution = 'num1: \n - 2\n\nnum2:\n - 1';
       const result = [{
         label: 'Clé USB : ',
         answer: '1',
@@ -84,7 +84,7 @@ describe('Unit | Component | qrocm-solution-panel', function() {
       //Given
       challenge = { proposals: 'Clé USB : ${num1}\n\nCarte mémoire (SD) : ${num2}' };
       answer = { value: 'num1: \'\' num2: \'2\'', resultDetails: 'num1: false\nnum2: false' };
-      solution = { value: 'num1: \n - 2\n\nnum2:\n - 1' };
+      solution = 'num1: \n - 2\n\nnum2:\n - 1';
 
       const result = [{
         label: 'Clé USB : ',
@@ -114,7 +114,7 @@ describe('Unit | Component | qrocm-solution-panel', function() {
         value: 'num1: \'1\' num2: \'2\' num3: \'3\' num4: \'4\' num5: \'5\' num6: \'6\'',
         resultDetails: 'num1: false\nnum2: false\nnum3: false\nnum4: false\nnum5: true\nnum6: false'
       };
-      solution = { value: 'num1: \n - 2\n\nnum2:\n - 3\n - 4\n\nnum3:\n - 6\n\nnum4:\n - 1\n\nnum5:\n - 5\n\nnum6:\n - 2' };
+      solution = 'num1: \n - 2\n\nnum2:\n - 3\n - 4\n\nnum3:\n - 6\n\nnum4:\n - 1\n\nnum5:\n - 5\n\nnum6:\n - 2';
 
       const result = [{
         label: '- alain@pix.fr : ',
@@ -165,7 +165,7 @@ describe('Unit | Component | qrocm-solution-panel', function() {
       // given
       challenge = { proposals: '- Combien le dossier "projet PIX" contient-il de dossiers ? ${Num1}\n\n- Combien le dossier "images" contient-il de fichiers ? ${Num2}' };
       answer = { value: 'Num1: \'2\' Num2: \'3\'', resultDetails: 'Num1: false\nNum2: false' };
-      solution = { value: 'Num1:\n - 1\n\nNum2:\n - 6' };
+      solution = 'Num1:\n - 1\n\nNum2:\n - 6';
 
       const result = [{
         label: '- Combien le dossier "projet PIX" contient-il de dossiers ? ',
@@ -192,7 +192,7 @@ describe('Unit | Component | qrocm-solution-panel', function() {
       // given
       challenge = { proposals: 'Clé USB : ${num1}\n\nCarte mémoire (SD) : ${num2}' };
       answer = { value: '#ABAND#', resultDetails: 'num1: false\nnum2: false' };
-      solution = { value: 'num1: \n - 2\n\nnum2:\n - 1' };
+      solution = 'num1: \n - 2\n\nnum2:\n - 1';
 
       const result = [{
         label: 'Clé USB : ',
@@ -223,7 +223,7 @@ describe('Unit | Component | qrocm-solution-panel', function() {
       // given
       challenge = { proposals: 'Clé USB : ${num1}' };
       answer = { value: 'num1: \'2\'', resultDetails: 'num1: true' };
-      solution = { value: 'num1: \n - 2' };
+      solution = 'num1: \n - 2';
 
       const result = [{
         label: 'Clé USB : ',

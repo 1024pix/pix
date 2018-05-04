@@ -1,5 +1,6 @@
 const { expect, knex } = require('../../../test-helper');
 const Answer = require('../../../../lib/domain/models/Answer');
+const { NotFoundError } = require('../../../../lib/domain/errors');
 
 const AnswerRepository = require('../../../../lib/infrastructure/repositories/answer-repository');
 
@@ -8,30 +9,45 @@ describe('Integration | Repository | AnswerRepository', () => {
   describe('#get', () => {
     let answerId;
 
-    beforeEach(() => {
-      return knex('answers')
-        .insert({
-          value: '1,2',
-          result: 'ko',
-          challengeId: 'challenge_1234',
-          assessmentId: 353
-        })
-        .then((createdAnswer) => {
-          answerId = createdAnswer[0];
+    context('when there are no answers', () => {
+
+      it('should reject an error if nothing is found', () => {
+        // when
+        const promise = AnswerRepository.get(100);
+
+        // then
+        return expect(promise).to.be.rejectedWith(NotFoundError);
+      });
+    });
+
+    context('when there is an answer', () => {
+
+      beforeEach(() => {
+        return knex('answers')
+          .insert({
+            value: '1,2',
+            result: 'ko',
+            challengeId: 'challenge_1234',
+            assessmentId: 353
+          })
+          .then((createdAnswer) => {
+            answerId = createdAnswer[0];
+          });
+      });
+
+      afterEach(() => {
+        return knex('answers').delete();
+      });
+
+      it('should retrieve an answer from its id', () => {
+        // when
+        const promise = AnswerRepository.get(answerId);
+
+        // then
+        return promise.then(foundAnswer => {
+          expect(foundAnswer).to.be.an.instanceof(Answer);
+          expect(foundAnswer.id).to.equal(answerId);
         });
-    });
-
-    afterEach(() => {
-      return knex('answers').delete();
-    });
-
-    it('should retrieve an answer from its id', () => {
-      // when
-      const promise = AnswerRepository.get(answerId);
-
-      // then
-      return promise.then(foundAnswer => {
-        expect(foundAnswer.get('id')).to.deep.equal(answerId);
       });
     });
   });

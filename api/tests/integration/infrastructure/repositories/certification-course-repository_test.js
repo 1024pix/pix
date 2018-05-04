@@ -159,6 +159,7 @@ describe('Integration | Repository | Certification Course', function() {
         birthplace: 'Namek',
         birthdate: '24/10/1989',
         sessionId: null,
+        isPublished: 0,
         externalId: ''
       };
 

@@ -10,6 +10,7 @@ module.exports = {
   },
 
   /**
+   * @deprecated Use newGetRecord instead
    * Fetches from Airtable and deserializes a given record.
    *
    * @param {string} tableName - The name of the table in Airtable.
@@ -25,6 +26,7 @@ module.exports = {
   },
 
   /**
+   * @deprecated Use findRecords instead
    * Fetches from Airtable and deserializes a collection of records.
    *
    * @param {string} tableName - The name of the table in Airtable.

@@ -5,6 +5,7 @@ const { NotFoundError } = require('../../../../lib/domain/errors');
 
 const organizationService = require('../../../../lib/domain/services/organization-service');
 const organisationRepository = require('../../../../lib/infrastructure/repositories/organization-repository');
+const userRepository = require('../../../../lib/infrastructure/repositories/user-repository');
 
 describe('Unit | Service | OrganizationService', () => {
 
@@ -120,58 +121,104 @@ describe('Unit | Service | OrganizationService', () => {
   describe('#search', () => {
 
     let sandbox;
+    const userId = 1234;
 
     beforeEach(() => {
       sandbox = sinon.sandbox.create();
+      sandbox.stub(userRepository, 'hasRolePixMaster');
+      sandbox.stub(organisationRepository, 'findBy');
     });
 
     afterEach(() => {
       sandbox.restore();
     });
 
-    it('should return an empty list of organizations if no code given in filters', () => {
-      // given
-      const filters = { param1: 'param1' };
+    context('when user has role PIX_MASTER', () => {
 
-      // when
-      const promise = organizationService.search(filters);
-
-      // then
-      return promise.then((organization) => {
-        expect(organization).to.be.an('array').that.is.empty;
+      beforeEach(() => {
+        userRepository.hasRolePixMaster.resolves(true);
       });
+
+      it('should return all the existing organizations', () => {
+        // given
+        const filters = {};
+        const organizations = [
+          new Organization({ name: 'organization_1', type: 'PRO', code: 'ORGA1' }),
+          new Organization({ name: 'organization_2', type: 'SCO', code: 'ORGA2' }),
+          new Organization({ name: 'organization_3', type: 'SUP', code: 'ORGA3' }),
+        ];
+        organisationRepository.findBy.withArgs(filters).resolves(organizations);
+
+        // when
+        const promise = organizationService.search(userId, filters);
+
+        // then
+        return promise.then((organizations) => {
+          expect(organizations).to.be.an('array');
+          expect(organizations).to.have.lengthOf(3);
+        });
+      });
+
     });
 
-    it('should return an empty list of organizations if a code is given but is empty', () => {
-      // given
-      const filters = { code: ' ' };
+    context('when user does not have role PIX_MASTER', () => {
 
-      // when
-      const promise = organizationService.search(filters);
+      beforeEach(() => {
+        userRepository.hasRolePixMaster.resolves(false);
+      });
 
-      // then
-      return promise.then((organization) => {
-        expect(organization).to.be.an('array').that.is.empty;
+      it('should return an empty list of organizations if no code given in filters', () => {
+        // given
+        const filters = { param1: 'param1' };
+
+        // when
+        const promise = organizationService.search(userId, filters);
+
+        // then
+        return promise.then((organization) => {
+          expect(organization).to.be.an('array').that.is.empty;
+        });
+      });
+
+      it('should return an empty list of organizations if a code is given but is empty', () => {
+        // given
+        const filters = { code: ' ' };
+
+        // when
+        const promise = organizationService.search(userId, filters);
+
+        // then
+        return promise.then((organization) => {
+          expect(organization).to.be.an('array').that.is.empty;
+        });
+      });
+
+      it('should return the organization found for the given filters, without the email', () => {
+        // given
+        const filters = { code: 'OE34RND', type: 'SCO' };
+        const organizationWithEmail = [new Organization({
+          type: 'SCO',
+          name: 'Lycée des Tuileries',
+          code: 'OE34RND',
+          email: 'tuileries@sco.com'
+        })];
+        const expectedReturnedOrganizationWithoutEmail = [new Organization({
+          type: 'SCO',
+          name: 'Lycée des Tuileries',
+          code: 'OE34RND'
+        })];
+
+        organisationRepository.findBy.withArgs(filters).resolves(organizationWithEmail);
+
+        // when
+        const promise = organizationService.search(userId, filters);
+
+        // then
+        return promise.then((organization) => {
+          expect(organization).to.deep.equal(expectedReturnedOrganizationWithoutEmail);
+        });
       });
     });
-
-    it('should return the organization found for the given filters, without the email', () => {
-      // given
-      const filters = { code: 'OE34RND', type: 'SCO' };
-      const organizationWithEmail = [new Organization({ type: 'SCO', name: 'Lycée des Tuileries', code: 'OE34RND', email: 'tuileries@sco.com' })];
-      const expectedReturnedOrganizationWithoutEmail = [new Organization({ type: 'SCO', name: 'Lycée des Tuileries', code: 'OE34RND' })];
-
-      sandbox.stub(organisationRepository, 'findBy').withArgs(filters).resolves(organizationWithEmail);
-
-      // when
-      const promise = organizationService.search(filters);
-
-      // then
-      return promise.then((organization) => {
-        expect(organization).to.deep.equal(expectedReturnedOrganizationWithoutEmail);
-      });
-    });
-
   });
 
 });

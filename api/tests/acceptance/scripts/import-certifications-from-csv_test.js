@@ -47,35 +47,35 @@ describe('Acceptance | Scripts | import-certifications-from-csv.js', () => {
     });
   });
 
-  describe('#convertDataRowsIntoCertifications', () => {
+  describe('#convertCSVDataIntoCertifications', () => {
 
     it('should return an array of certifications (JSON) object', () => {
       // given
       const csvParsingResult = {
         data: [{
           'ID de certification': '1',
-          'ID de session de certification': '1000',
-          'Prénom du candidat': 'Tony',
+          'ID de session': '1000',
+          'Prenom du candidat': 'Tony',
           'Nom du candidat': 'Stark',
           'Date de naissance du candidat': '29/05/1970',
           'Lieu de naissance du candidat': 'Long Island, New York',
-          'Identifiant externe' : ''
+          'Identifiant Externe' : ''
         }, {
           'ID de certification': '2',
-          'ID de session de certification': '1000',
-          'Prénom du candidat': 'Steven',
+          'ID de session': '1000',
+          'Prenom du candidat': 'Steven',
           'Nom du candidat': 'Rogers',
           'Date de naissance du candidat': '04/07/1918',
           'Lieu de naissance du candidat': 'New York, New York',
-          'Identifiant externe' : 'GendarmeId'
+          'Identifiant Externe' : 'GendarmeId'
         }, {
           'ID de certification': '3',
-          'ID de session de certification': '1000',
-          'Prénom du candidat': 'James',
+          'ID de session': '1000',
+          'Prenom du candidat': 'James',
           'Nom du candidat': 'Howlett',
           'Date de naissance du candidat': '17/04/1882',
           'Lieu de naissance du candidat': 'Alberta',
-          'Identifiant externe' : 'numero eleve'
+          'Identifiant Externe' : 'numero eleve'
         }]
       };
       const expectedCertifications = [{
@@ -102,7 +102,7 @@ describe('Acceptance | Scripts | import-certifications-from-csv.js', () => {
       }];
 
       // when
-      const certifications = script.convertDataRowsIntoCertifications(csvParsingResult);
+      const certifications = script.convertCSVDataIntoCertifications(csvParsingResult);
 
       // then
       expect(certifications).to.deep.equal(expectedCertifications);

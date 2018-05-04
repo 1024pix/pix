@@ -59,6 +59,7 @@ Router.map(function() {
     this.route('resume', { path: '/:certification_course_id' });
     this.route('results', { path: '/:certification_number/results' });
   });
+  this.route('user-certifications', { path: 'mes-certifications' });
 });
 
 export default Router;

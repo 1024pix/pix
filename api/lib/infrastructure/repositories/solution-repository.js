@@ -1,40 +1,24 @@
-const cache = require('../cache');
-const airtable = require('../airtable');
-const serializer = require('../serializers/airtable/solution-serializer');
-
-const AIRTABLE_TABLE_NAME = 'Epreuves';
-
-function _fetchSolution(id, cacheKey, resolve, reject) {
-  return airtable.getRecord(AIRTABLE_TABLE_NAME, id, serializer)
-    .then(challenge => {
-      cache.set(cacheKey, challenge);
-      return resolve(challenge);
-    })
-    .catch(reject);
-}
+const Solution = require('../../domain/models/Solution');
+const challengeDatasource = require('../datasources/airtable/challenge-datasource');
+const _ = require('../../../lib/infrastructure/utils/lodash-utils');
 
 module.exports = {
 
-  get(challengeId) {
-    return new Promise((resolve, reject) => {
-      const cacheKey = `solution-repository_get_${challengeId}`;
-      cache.get(cacheKey, (err, cachedValue) => {
-        if (err) return reject(err);
-        if (cachedValue) return resolve(cachedValue);
-        return _fetchSolution(challengeId, cacheKey, resolve, reject);
-      });
-    });
-  },
+  getByChallengeId(challengeId) {
+    return challengeDatasource.get(challengeId)
+      .then((challengeDataObject) => {
+        const scoring = _.ensureString(challengeDataObject.scoring).replace(/@/g, ''); // XXX YAML ne supporte pas @
 
-  refresh(challengeId) {
-    return new Promise((resolve, reject) => {
-      const cacheKey = `solution-repository_get_${challengeId}`;
-      cache.del(cacheKey, (err) => {
-        if (err) return reject(err);
-        return _fetchSolution(challengeId, cacheKey, resolve, reject);
+        return new Solution({
+          id: challengeDataObject.id,
+          isT1Enabled: challengeDataObject.t1Status !== 'Désactivé',
+          isT2Enabled: challengeDataObject.t2Status !== 'Désactivé',
+          isT3Enabled: challengeDataObject.t3Status !== 'Désactivé',
+          type: challengeDataObject.type,
+          value: challengeDataObject.solution,
+          scoring
+        });
       });
-    });
   }
-
 };
 

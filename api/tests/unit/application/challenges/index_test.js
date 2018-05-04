@@ -33,35 +33,4 @@ describe('Unit | Router | challenge-router', function() {
       expectRouteToExist({ method: 'GET', url: '/api/challenges/challenge_id' }, done);
     });
   });
-
-  describe('POST /api/challenges/{id}', function() {
-
-    before(function() {
-      sinon.stub(ChallengeController, 'refresh').callsFake((request, reply) => reply('ok'));
-    });
-
-    after(function() {
-      ChallengeController.refresh.restore();
-    });
-
-    it('should exist', function(done) {
-      expectRouteToExist({ method: 'POST', url: '/api/challenges/challenge_id' }, done);
-    });
-  });
-
-  describe('POST /api/challenges/{id}/solution', function() {
-
-    before(function() {
-      sinon.stub(ChallengeController, 'refreshSolution').callsFake((request, reply) => reply('ok'));
-    });
-
-    after(function() {
-      ChallengeController.refreshSolution.restore();
-    });
-
-    it('should exist', function(done) {
-      expectRouteToExist({ method: 'POST', url: '/api/challenges/challenge_id/solution' }, done);
-    });
-  });
-
 });

@@ -13,6 +13,7 @@ export default Model.extend({
   competences: hasMany('competence'),
   totalPixScore: attr('number'),
   organizations: hasMany('organization'),
+  certifications: hasMany('certification'),
 
   competenceAreas: computed('competences', function() {
     return this.get('competences').then(competences => {

@@ -4,6 +4,7 @@ module.exports = [
   require('./application/assessment-results'),
   require('./application/authentication'),
   require('./application/cache'),
+  require('./application/certifications'),
   require('./application/certificationCourses'),
   require('./application/challenges'),
   require('./application/courses'),
@@ -17,5 +18,6 @@ module.exports = [
   require('./application/users'),
   require('./application/passwords'),
   require('./application/qmail'),
-  require('./application/sessions')
+  require('./application/sessions'),
+  require('./application/corrections')
 ];

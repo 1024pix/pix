@@ -1,5 +1,6 @@
 const { sampleSize, random } = require('lodash');
 const organisationRepository = require('../../infrastructure/repositories/organization-repository');
+const userRepository = require('../../infrastructure/repositories/user-repository');
 
 function _randomLetters(count) {
   const letters = 'ABCDEFGHIJKLMNOPQRSTUVWXZ'.split('');
@@ -48,12 +49,18 @@ module.exports = {
       .then(jsonSnapshots => snapshotsCsvConverter.convertJsonToCsv(organization, competences, jsonSnapshots));
   },
 
-  search(filters = {}) {
-    if(_noCodeGivenIn(filters)) return Promise.resolve([]);
+  search(userId, filters = {}) {
+    return userRepository
+      .hasRolePixMaster(userId)
+      .then(isUserPixMaster => {
+        if (!isUserPixMaster && _noCodeGivenIn(filters)) {
+          return [];
+        }
+        return organisationRepository
+          .findBy(filters)
+          .then((organizations) => organizations.map(_organizationWithoutEmail));
+      });
 
-    return organisationRepository
-      .findBy(filters)
-      .then((organizations) => organizations.map(_organizationWithoutEmail));
   }
 
 };

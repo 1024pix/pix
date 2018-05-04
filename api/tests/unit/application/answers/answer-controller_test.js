@@ -65,7 +65,7 @@ describe('Unit | Controller | answer-controller', function() {
     it('should return a successful response with HTTP code 201 when answer was created', function(done) {
       // given
       sinon.stub(answerRepository, 'findByChallengeAndAssessment').resolves(null);
-      sinon.stub(solutionRepository, 'get').resolves(null);
+      sinon.stub(solutionRepository, 'getByChallengeId').resolves(null);
       sinon.stub(solutionService, 'validate').returns({ result : 'ok', resultDetails : { NumA : true, NumB : true, NumC : true, NumD : true } });
 
       // when
@@ -75,7 +75,7 @@ describe('Unit | Controller | answer-controller', function() {
 
         // after
         answerRepository.findByChallengeAndAssessment.restore();
-        solutionRepository.get.restore();
+        solutionRepository.getByChallengeId.restore();
         solutionService.validate.restore();
         done();
       });
@@ -83,7 +83,7 @@ describe('Unit | Controller | answer-controller', function() {
 
     it('should return the field "resultDetails"', function(done) {
       // given
-      sinon.stub(solutionRepository, 'get').resolves(null);
+      sinon.stub(solutionRepository, 'getByChallengeId').resolves(null);
       sinon.stub(solutionService, 'validate').returns({ result : 'ok', resultDetails : { NumA : true, NumB : true, NumC : true, NumD : true } });
 
       // when
@@ -92,7 +92,7 @@ describe('Unit | Controller | answer-controller', function() {
         expect(res.result.data.attributes['result-details']).to.equal(persistedAnswer.get('resultDetails'));
 
         // after
-        solutionRepository.get.restore();
+        solutionRepository.getByChallengeId.restore();
         solutionService.validate.restore();
         done();
       });

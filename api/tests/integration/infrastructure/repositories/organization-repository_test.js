@@ -29,7 +29,12 @@ describe('Integration | Repository | Organization', function() {
 
     it('should save model in database', () => {
       // given
-      const organization = new BookshelfOrganization({ code: 'AAAA99', name: 'Lycée Rousseau', type: 'SCO', email: 'a@b.fr' });
+      const organization = new BookshelfOrganization({
+        code: 'AAAA99',
+        name: 'Lycée Rousseau',
+        type: 'SCO',
+        email: 'a@b.fr'
+      });
 
       // when
       const promise = organizationRepository.saveFromModel(organization);
