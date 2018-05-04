@@ -332,7 +332,6 @@ workflows:
           filters:
             branches:
               ignore:
-                - master
                 - gh-pages
 
       - add_review_app_url_to_trello_card:
