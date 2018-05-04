@@ -11,7 +11,7 @@ exports.register = function(server, options, next) {
         handler: certificationController.findUserCertifications,
         notes: [
           '- **Route nécessitant une authentification**\n' +
-          '- Récupération de toutes les certifications complétées de l\'utilisateur courant'
+          '- Récupération de toutes les certifications complétées de l’utilisateur courant'
         ],
         tags: ['api', 'certifications']
       }
@@ -27,7 +27,7 @@ exports.register = function(server, options, next) {
         handler: certificationController.updateCertification,
         notes: [
           '- **Route nécessitant une authentification**\n' +
-          '- Mise à jour d\'une certification'
+          '- Mise à jour d’une certification'
         ],
         tags: ['api', 'certifications']
       }

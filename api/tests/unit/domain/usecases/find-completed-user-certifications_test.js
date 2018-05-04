@@ -42,7 +42,7 @@ describe('Unit | UseCase | find-completed-user-certifications', () => {
     // then
     return promise.then((certifications) => {
       expect(certificationRepository.findCertificationsByUserId).to.have.been.calledWith(userId);
-      expect(certifications).to.have.length(1);
+      expect(certifications).to.have.lengthOf(1);
       expect(certifications[0].id).to.equal(1000);
     });
   });
