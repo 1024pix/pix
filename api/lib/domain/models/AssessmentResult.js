@@ -1,4 +1,5 @@
 class AssessmentResult {
+  // FIXME: assessmentId && juryId to replace by assessment && jury domain objects
   constructor({
     pixScore,
     level,
@@ -11,7 +12,7 @@ class AssessmentResult {
     createdAt,
     juryId,
     assessmentId,
-    competenceMarks,
+    competenceMarks = [],
   }) {
     this.pixScore = pixScore;
     this.level = level;

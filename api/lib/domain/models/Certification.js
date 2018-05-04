@@ -16,7 +16,7 @@ class Certification {
     const assessmentResultsCopy = Array.from(assessmentResults);
     const mostRecentAssessment = assessmentResultsCopy.sort(_byDate)[0];
 
-    if (typeof mostRecentAssessment !== 'undefined') {
+    if (mostRecentAssessment) {
       this.pixScore = mostRecentAssessment.pixScore;
       this.status = mostRecentAssessment.status;
     }
