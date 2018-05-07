@@ -191,7 +191,7 @@ describe('Acceptance | API | Certifications', () => {
             type: 'certifications',
             id: JOHN_CERTIFICATION_ID,
             attributes: {
-              isPublished: true
+              'is-published': true
             }
           }
         }
@@ -229,7 +229,7 @@ describe('Acceptance | API | Certifications', () => {
         payload: {
           data: {
             attributes: {
-              isPublished: true
+              'is-published': true
             }
           }
         }

@@ -3,6 +3,7 @@ const certificationSerializer = require('../../infrastructure/serializers/jsonap
 const certificationRepository = require('../../infrastructure/repositories/certification-repository');
 const logger = require('../../infrastructure/logger');
 const Boom = require('boom');
+const { Deserializer } = require('jsonapi-serializer');
 
 module.exports = {
   findUserCertifications(request, reply) {
@@ -18,11 +19,16 @@ module.exports = {
   },
 
   updateCertification(request, reply) {
-    return usecases.updateCertification({
-      certificationId: request.params.id,
-      attributesToUpdate: request.payload.data.attributes,
-      certificationRepository
-    })
+
+    return new Deserializer({ keyForAttribute: 'camelCase' })
+      .deserialize(request.payload)
+      .then((payload) => {
+        return usecases.updateCertification({
+          certificationId: request.params.id,
+          attributesToUpdate: payload,
+          certificationRepository
+        });
+      })
       .then(certification => {
         return reply(certificationSerializer.serializeCertification(certification)).code(200);
       })

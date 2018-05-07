@@ -77,6 +77,7 @@ describe('Unit | Controller | certifications-controller', () => {
 
     const certificationId = '28';
     const attributesToUpdate = {
+      id: '28',
       isPublished: true
     };
     const updatedCertification = {};
@@ -91,7 +92,7 @@ describe('Unit | Controller | certifications-controller', () => {
           type: 'certification',
           id: certificationId,
           attributes: {
-            isPublished: true
+            'is-published': true
           }
         }
       }
