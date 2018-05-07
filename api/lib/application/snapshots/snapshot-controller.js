@@ -1,5 +1,4 @@
 const authorizationToken = require('../../../lib/infrastructure/validators/jsonwebtoken-verify');
-const validationErrorSerializer = require('../../infrastructure/serializers/jsonapi/validation-error-serializer');
 const userRepository = require('../../../lib/infrastructure/repositories/user-repository');
 const organizationRepository = require('../../../lib/infrastructure/repositories/organization-repository');
 const snapshotSerializer = require('../../../lib/infrastructure/serializers/jsonapi/snapshot-serializer');
@@ -8,6 +7,7 @@ const snapshotService = require('../../../lib/domain/services/snapshot-service')
 const profileService = require('../../domain/services/profile-service');
 const profileCompletionService = require('../../domain/services/profile-completion-service');
 const logger = require('../../../lib/infrastructure/logger');
+const JSONAPIError = require('jsonapi-serializer').Error;
 const { InvalidTokenError, NotFoundError, InvaliOrganizationIdError, InvalidSnapshotCode } = require('../../domain/errors');
 const MAX_CODE_LENGTH = 255;
 
@@ -27,47 +27,59 @@ function _validateSnapshotCode(snapshot) {
   return Promise.resolve();
 }
 
-const _replyErrorWithMessage = function(reply, errorMessage, statusCode) {
-  reply(validationErrorSerializer.serialize(_handleWhenInvalidAuthorization(errorMessage))).code(statusCode);
-};
-
-function _handleWhenInvalidAuthorization(errorMessage) {
-  return {
-    data: {
-      authorization: [errorMessage]
-    }
-  };
-}
-
 function _hasAnAtuhorizationHeaders(request) {
   return request && request.hasOwnProperty('headers') && request.headers.hasOwnProperty('authorization');
 }
 
 function _replyError(err, reply) {
   if (err instanceof InvalidTokenError) {
-    return _replyErrorWithMessage(reply, 'Le token n’est pas valide', 401);
+    return reply(new JSONAPIError({
+      code: '401',
+      title: 'Unauthorized',
+      detail: 'Le token n’est pas valide'
+    })).code(401);
   }
 
   if (err instanceof NotFoundError) {
-    return _replyErrorWithMessage(reply, 'Cet utilisateur est introuvable', 422);
+    return reply(new JSONAPIError({
+      code: '422',
+      title: 'Unprocessable entity',
+      detail: 'Cet utilisateur est introuvable'
+    })).code(422);
   }
 
   if (err instanceof InvaliOrganizationIdError) {
-    return _replyErrorWithMessage(reply, 'Cette organisation n’existe pas', 422);
+    return reply(new JSONAPIError({
+      code: '422',
+      title: 'Unprocessable entity',
+      detail: 'Cette organisation n’existe pas'
+    })).code(422);
   }
 
   if (err instanceof InvalidSnapshotCode) {
-    return _replyErrorWithMessage(reply, 'Les codes de partage du profil sont trop long', 422);
+    return reply(new JSONAPIError({
+      code: '422',
+      title: 'Unprocessable entity',
+      detail: 'Les codes de partage du profil sont trop long'
+    })).code(422);
   }
 
   logger.error(err);
-  return _replyErrorWithMessage(reply, 'Une erreur est survenue lors de la création de l’instantané', 500);
+  return reply(new JSONAPIError({
+    code: '500',
+    title: 'Internal Server Error',
+    detail: 'Une erreur est survenue lors de la création de l’instantané'
+  })).code(422);
 }
 
 function create(request, reply) {
 
   if (!_hasAnAtuhorizationHeaders(request)) {
-    return _replyErrorWithMessage(reply, 'Le token n’est pas valide', 401);
+    return reply(new JSONAPIError({
+      code: '401',
+      title: 'Unauthorized',
+      detail: 'Le token n’est pas valide'
+    })).code(401);
   }
 
   const token = request.headers.authorization;
@@ -93,4 +105,4 @@ function create(request, reply) {
     .catch((err) => _replyError(err, reply));
 }
 
-module.exports = { create, _validateSnapshotCode };
+module.exports = { create };
