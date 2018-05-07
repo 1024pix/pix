@@ -2,6 +2,7 @@ const { sinon } = require('../../../test-helper');
 const certificationCourseController = require('../../../../lib/application/certificationCourses/certification-course-controller');
 const certificationService = require('../../../../lib/domain/services/certification-service');
 const certificationCourseService = require('../../../../lib/domain/services/certification-course-service');
+const certificationCourseSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/certification-course-serializer');
 const certificationSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/certification-serializer');
 const { NotFoundError } = require('../../../../lib/domain/errors');
 const CertificationCourse = require('../../../../lib/domain/models/CertificationCourse');
@@ -147,7 +148,7 @@ describe('Unit | Controller | certification-course-controller', function() {
       replyStub = sandbox.stub().returns({ code: codeStub });
 
       sandbox.stub(certificationSerializer, 'deserialize').resolves();
-      sandbox.stub(certificationSerializer, 'serialize').returns(JsonAPISavedCertificationCourse);
+      sandbox.stub(certificationCourseSerializer, 'serializeAsCertification').returns(JsonAPISavedCertificationCourse);
       sandbox.stub(Boom, 'notFound');
     });
 
@@ -202,8 +203,8 @@ describe('Unit | Controller | certification-course-controller', function() {
 
         // then
         return promise.then(() => {
-          sinon.assert.calledOnce(certificationSerializer.serialize);
-          sinon.assert.calledWith(certificationSerializer.serialize, updatedCertificationCourse);
+          sinon.assert.calledOnce(certificationCourseSerializer.serializeAsCertification);
+          sinon.assert.calledWith(certificationCourseSerializer.serializeAsCertification, updatedCertificationCourse);
         });
       });
 
