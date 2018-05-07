@@ -1,3 +1,19 @@
+@import "certifications-list";
+
+.certifications-list-item {
+  @extend .certifications-list__table-row;
+
+  border-bottom: 1px solid $gainsboro;
+  height: 30px;
+  padding: 5px;
+  text-align: center;
+
+  @include device-is('tablet') {
+    height: 60px;
+    font-size: 16px;
+  }
+}
+
 .certifications-list-item img {
   width: 8px;
   margin-bottom: 1px;
@@ -9,6 +25,10 @@
   }
 }
 
+.certifications-list-item__cell {
+  @extend .certifications-list__table-row-item
+}
+
 .certifications-list-item__unpublished-item {
   color: $gray;
 }
@@ -17,12 +37,22 @@
   color: $grayish-grey;
 }
 
-.certifications-list-item__pix-score {
-  width: 36px;
-  height: 40px;
-  margin: 0 auto;
+.certifications-list-item__cell-pix-score {
+  @extend .certifications-list-item__cell
+}
 
-  background: url('/images/hexa-pix.svg') no-repeat center center;
+.certifications-list-item__pix-score {
+  width: 18px;
+  height: 20px;
+
+  @include device-is('tablet') {
+    width: 36px;
+    height: 40px;
+  }
+
+  margin-left: 10%;
+
+  background: url('/images/hexa-pix.svg') no-repeat;
   background-size: cover;
 
   text-align: center;
@@ -34,9 +64,21 @@
     line-height: normal;
 
     font-family: $font-lato;
-    font-size: 14px;
-    font-weight: 500;
     letter-spacing: -1px;
     color: $tundora-grey;
+
+    font-size: 8px;
+    font-weight: 300;
+
+    @include device-is('tablet') {
+      font-size: 14px;
+      font-weight: 500;
+    }
   }
+}
+
+.certifications-list-item__cell-certification-center {
+  @extend .certifications-list-item__cell;
+
+  justify-content: center;
 }
