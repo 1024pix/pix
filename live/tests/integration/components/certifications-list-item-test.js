@@ -41,7 +41,7 @@ describe('Integration | Component | certifications list item', function() {
 
     it('should show en attente de résultat', function() {
       expect(this.$('img.certifications-list-item__hourglass-img')).to.have.lengthOf(1);
-      expect(this.$('tr').text()).to.include('En attente du résultat');
+      expect(this.$('.certifications-list-item').text()).to.include('En attente du résultat');
     });
   });
 
@@ -70,7 +70,7 @@ describe('Integration | Component | certifications list item', function() {
 
     it('should show Certification non obtenue', function() {
       expect(this.$('img.certifications-list-item__cross-img')).to.have.lengthOf(1);
-      expect(this.$('tr').text()).to.include('Certification non obtenue');
+      expect(this.$('.certifications-list-item').text()).to.include('Certification non obtenue');
     });
   });
 
@@ -99,7 +99,7 @@ describe('Integration | Component | certifications list item', function() {
 
     it('should show Certification obtenue', function() {
       expect(this.$('img.certifications-list-item__green-check-img')).to.have.lengthOf(1);
-      expect(this.$('tr').text()).to.include('Certification obtenue');
+      expect(this.$('.certifications-list-item').text()).to.include('Certification obtenue');
     });
 
     it('should show the Pix Score', function() {
