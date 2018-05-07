@@ -37,7 +37,7 @@ describe('Unit | Controller | certifications-controller', () => {
 
     beforeEach(() => {
       sandbox.stub(usecases, 'findCompletedUserCertifications');
-      sandbox.stub(certificationSerializer, 'serializeCertification').returns(serializedCertifications);
+      sandbox.stub(certificationSerializer, 'serialize').returns(serializedCertifications);
       sandbox.stub(Boom, 'badImplementation').returns(jsonAPI500error);
       sandbox.stub(logger, 'error');
     });
@@ -52,7 +52,7 @@ describe('Unit | Controller | certifications-controller', () => {
       // then
       return promise.then(() => {
         expect(usecases.findCompletedUserCertifications).to.have.been.calledWith({ userId, certificationRepository });
-        expect(certificationSerializer.serializeCertification).to.have.been.calledWith(retrievedCertifications);
+        expect(certificationSerializer.serialize).to.have.been.calledWith(retrievedCertifications);
         expect(replyStub).to.have.been.calledWith(serializedCertifications);
         expect(codeStub).to.have.been.calledWith(200);
       });
@@ -103,7 +103,7 @@ describe('Unit | Controller | certifications-controller', () => {
 
     beforeEach(() => {
       sandbox.stub(usecases, 'updateCertification');
-      sandbox.stub(certificationSerializer, 'serializeCertification');
+      sandbox.stub(certificationSerializer, 'serialize');
       sandbox.stub(Boom, 'badImplementation').returns(boomError);
       sandbox.stub(logger, 'error');
     });
@@ -111,7 +111,7 @@ describe('Unit | Controller | certifications-controller', () => {
     it('should return a serialized certification when update was successful', () => {
       // given
       usecases.updateCertification.resolves(updatedCertification);
-      certificationSerializer.serializeCertification.returns(serializedCertification);
+      certificationSerializer.serialize.returns(serializedCertification);
 
       // when
       const promise = certificationController.updateCertification(request, replyStub);
@@ -121,7 +121,7 @@ describe('Unit | Controller | certifications-controller', () => {
         expect(usecases.updateCertification).to.have.been.calledWith({
           certificationId, attributesToUpdate, certificationRepository
         });
-        expect(certificationSerializer.serializeCertification).to.have.been.calledWith(updatedCertification);
+        expect(certificationSerializer.serialize).to.have.been.calledWith(updatedCertification);
         expect(replyStub).to.have.been.calledWith(serializedCertification);
         expect(codeStub).to.have.been.calledWith(200);
       });

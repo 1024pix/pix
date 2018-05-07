@@ -56,7 +56,7 @@ describe('Unit | Serializer | JSONAPI | certification-serializer', () => {
     });
   });
 
-  describe('#serializeCertification', () => {
+  describe('#serialize', () => {
 
     context('the entry data is an array of certifications', () => {
 
@@ -93,7 +93,7 @@ describe('Unit | Serializer | JSONAPI | certification-serializer', () => {
 
       it('should serialize user certifications to JSON', () => {
         // when
-        const serializedCertifications = serializer.serializeCertification(receivedCertifications);
+        const serializedCertifications = serializer.serialize(receivedCertifications);
 
         // then
         expect(serializedCertifications).to.deep.equal(JsonCertificationList);
@@ -131,7 +131,7 @@ describe('Unit | Serializer | JSONAPI | certification-serializer', () => {
 
       it('should serialize user certifications to JSON', () => {
         // when
-        const serializedCertifications = serializer.serializeCertification(receivedCertification);
+        const serializedCertifications = serializer.serialize(receivedCertification);
 
         // then
         expect(serializedCertifications).to.deep.equal(JsonCertification);
