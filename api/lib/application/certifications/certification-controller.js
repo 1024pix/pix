@@ -20,6 +20,7 @@ module.exports = {
 
   updateCertification(request, reply) {
 
+    // TODO: What does a Deserializer do ? Does it returns a Domain object ? Then do we need a generic deserializer ?
     return new Deserializer({ keyForAttribute: 'camelCase' })
       .deserialize(request.payload)
       .then((payload) => {
