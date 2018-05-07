@@ -41,7 +41,7 @@ describe('Integration | Component | certifications list', function() {
       this.render(hbs`{{certifications-list certifications=certifications}}`);
 
       // then
-      expect(this.$('.certifications-list__table-body tr')).to.have.lengthOf(2);
+      expect(this.$('.certifications-list__table-body .certifications-list-item')).to.have.lengthOf(2);
     });
   });
 });
