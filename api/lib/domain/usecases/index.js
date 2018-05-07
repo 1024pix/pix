@@ -6,6 +6,7 @@ const getNextChallengeForDemo = require('./get-next-challenge-for-demo');
 const getNextChallengeForPlacement = require('./get-next-challenge-for-placement');
 const getNextChallengeForSmartPlacement = require('./get-next-challenge-for-smart-placement');
 const findCompletedUserCertifications = require('./find-completed-user-certifications');
+const createUser = require('./create-user');
 
 module.exports = {
   updateCertification,
@@ -15,5 +16,6 @@ module.exports = {
   getNextChallengeForCertification,
   getNextChallengeForDemo,
   getNextChallengeForPlacement,
-  getNextChallengeForSmartPlacement
+  getNextChallengeForSmartPlacement,
+  createUser
 };

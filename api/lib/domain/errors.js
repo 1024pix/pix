@@ -164,7 +164,9 @@ class EntityValidationErrors extends Error {
   }
 
   static fromJoiErrors(joiErrors) {
-    const formattedErrors = joiErrors.map((errorDetails) => { return { attribute: errorDetails.context.key, message: errorDetails.message }; });
+    const formattedErrors = joiErrors.map((errorDetails) => {
+      return { attribute: errorDetails.context.key, message: errorDetails.message };
+    });
     return new EntityValidationErrors(formattedErrors);
   }
 
@@ -190,6 +192,13 @@ class OrganizationCreationValidationErrors extends Error {
   }
 }
 
+class FormValidationError extends Error {
+  constructor(errors = []) {
+    super();
+    this.errors = Array.from(errors);
+  }
+}
+
 module.exports = {
   NotFoundError,
   PasswordNotMatching,
@@ -211,5 +220,6 @@ module.exports = {
   EntityValidationErrors,
   MissingOrInvalidCredentialsError,
   UserCreationValidationErrors,
-  OrganizationCreationValidationErrors
+  OrganizationCreationValidationErrors,
+  FormValidationError,
 };
