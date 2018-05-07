@@ -1,12 +1,14 @@
 const { expect } = require('../../../test-helper');
 const userValidator = require('../../../../lib/domain/validators/user-validator');
+const { EntityValidationErrors } = require('../../../../lib/domain/errors');
 const User = require('../../../../lib/domain/models/User');
 
 const MISSING_VALUE = '';
 
-function _assertErrorMatchesWithExpectedOne(errors, expectedError) {
-  expect(errors).to.have.lengthOf(1);
-  expect(errors[0]).to.deep.equal(expectedError);
+function _assertErrorMatchesWithExpectedOne(entityValidationErrors, expectedError) {
+  expect(entityValidationErrors).to.be.instanceOf(EntityValidationErrors);
+  expect(entityValidationErrors.errors).to.have.lengthOf(1);
+  expect(entityValidationErrors.errors[0]).to.deep.equal(expectedError);
 }
 
 describe('Unit | Domain | Validators | user-validator', function() {
@@ -41,12 +43,8 @@ describe('Unit | Domain | Validators | user-validator', function() {
       it('should reject with error on field "first name" when first name is missing', () => {
         // given
         const expectedError = {
-          source: { pointer: '/data/attributes/first-name' },
-          title: 'Invalid user data attribute "firstName"',
-          detail: 'Votre prénom n’est pas renseigné.',
-          meta: {
-            field: 'firstName'
-          }
+          attribute: 'firstName',
+          message: 'Votre prénom n’est pas renseigné.'
         };
         user.firstName = MISSING_VALUE;
 
@@ -55,19 +53,15 @@ describe('Unit | Domain | Validators | user-validator', function() {
 
         // then
         return promise
-          .then(() => expect.fail('Expected rejection with UserCreationValidationErrors'))
-          .catch((errors) => _assertErrorMatchesWithExpectedOne(errors, expectedError));
+          .then(() => expect.fail('Expected rejection with errors'))
+          .catch((entityValidationErrors) => _assertErrorMatchesWithExpectedOne(entityValidationErrors, expectedError));
       });
 
       it('should reject with error on field "last name" when last name is missing', () => {
         // given
         const expectedError = {
-          source: { pointer: '/data/attributes/last-name' },
-          title: 'Invalid user data attribute "lastName"',
-          detail: 'Votre nom n’est pas renseigné.',
-          meta: {
-            field: 'lastName'
-          }
+          attribute: 'lastName' ,
+          message: 'Votre nom n’est pas renseigné.'
         };
         user.lastName = MISSING_VALUE;
 
@@ -77,18 +71,14 @@ describe('Unit | Domain | Validators | user-validator', function() {
         // then
         return promise
           .then(() => expect.fail('Expected rejection with errors'))
-          .catch((errors) => _assertErrorMatchesWithExpectedOne(errors, expectedError));
+          .catch((entityValidationErrors) => _assertErrorMatchesWithExpectedOne(entityValidationErrors, expectedError));
       });
 
       it('should reject with error on field "password" when password is missing', () => {
         // given
         const expectedError = {
-          source: { pointer: '/data/attributes/password' },
-          title: 'Invalid user data attribute "password"',
-          detail: 'Votre mot de passe n’est pas renseigné.',
-          meta: {
-            field: 'password'
-          }
+          attribute: 'password',
+          message: 'Votre mot de passe n’est pas renseigné.'
         };
         user.password = MISSING_VALUE;
 
@@ -98,18 +88,14 @@ describe('Unit | Domain | Validators | user-validator', function() {
         // then
         return promise
           .then(() => expect.fail('Expected rejection with errors'))
-          .catch((errors) => _assertErrorMatchesWithExpectedOne(errors, expectedError));
+          .catch((entityValidationErrors) => _assertErrorMatchesWithExpectedOne(entityValidationErrors, expectedError));
       });
 
       it('should reject with error on field "password" when password is invalid', () => {
         // given
         const expectedError = {
-          source: { pointer: '/data/attributes/password' },
-          title: 'Invalid user data attribute "password"',
-          detail: 'Votre mot de passe doit comporter au moins une lettre, un chiffre et 8 caractères.',
-          meta: {
-            field: 'password'
-          }
+          attribute: 'password',
+          message: 'Votre mot de passe doit comporter au moins une lettre, un chiffre et 8 caractères.'
         };
         user.password = 'invalid';
 
@@ -119,18 +105,14 @@ describe('Unit | Domain | Validators | user-validator', function() {
         // then
         return promise
           .then(() => expect.fail('Expected rejection with errors'))
-          .catch((errors) => _assertErrorMatchesWithExpectedOne(errors, expectedError));
+          .catch((entityValidationErrors) => _assertErrorMatchesWithExpectedOne(entityValidationErrors, expectedError));
       });
 
       it('should reject with error on field "cgu" when cgu is false', () => {
         // given
         const expectedError = {
-          source: { pointer: '/data/attributes/cgu' },
-          title: 'Invalid user data attribute "cgu"',
-          detail: 'Vous devez accepter les conditions d’utilisation de Pix pour créer un compte.',
-          meta: {
-            field: 'cgu'
-          }
+          attribute: 'cgu',
+          message: 'Vous devez accepter les conditions d’utilisation de Pix pour créer un compte.'
         };
         user.cgu = 'false';
 
@@ -140,18 +122,14 @@ describe('Unit | Domain | Validators | user-validator', function() {
         // then
         return promise
           .then(() => expect.fail('Expected rejection with errors'))
-          .catch((errors) => _assertErrorMatchesWithExpectedOne(errors, expectedError));
+          .catch((entityValidationErrors) => _assertErrorMatchesWithExpectedOne(entityValidationErrors, expectedError));
       });
 
       it('should reject with error on field "email" when email is missing', () => {
         // given
         const expectedError = {
-          source: { pointer: '/data/attributes/email' },
-          title: 'Invalid user data attribute "email"',
-          detail: 'Votre adresse électronique n’est pas renseignée.',
-          meta: {
-            field: 'email'
-          }
+          attribute: 'email',
+          message: 'Votre adresse électronique n’est pas renseignée.'
         };
         user.email = MISSING_VALUE;
 
@@ -161,18 +139,14 @@ describe('Unit | Domain | Validators | user-validator', function() {
         // then
         return promise
           .then(() => expect.fail('Expected rejection with errors'))
-          .catch((errors) => _assertErrorMatchesWithExpectedOne(errors, expectedError));
+          .catch((entityValidationErrors) => _assertErrorMatchesWithExpectedOne(entityValidationErrors, expectedError));
       });
 
       it('should reject with error on field "email" when email is invalid', () => {
         // given
         const expectedError = {
-          source: { pointer: '/data/attributes/email' },
-          title: 'Invalid user data attribute "email"',
-          detail: 'Votre adresse électronique n’est pas correcte.',
-          meta: {
-            field: 'email'
-          }
+          attribute: 'email',
+          message: 'Votre adresse électronique n’est pas correcte.'
         };
         user.email = 'invalid_email';
 
@@ -182,7 +156,7 @@ describe('Unit | Domain | Validators | user-validator', function() {
         // then
         return promise
           .then(() => expect.fail('Expected rejection with errors'))
-          .catch((errors) => _assertErrorMatchesWithExpectedOne(errors, expectedError));
+          .catch((entityValidationErrors) => _assertErrorMatchesWithExpectedOne(entityValidationErrors, expectedError));
       });
 
       it('should reject with errors on all fields (but only once by field) when all fields are missing', () => {
@@ -200,8 +174,8 @@ describe('Unit | Domain | Validators | user-validator', function() {
         // then
         return promise
           .then(() => expect.fail('Expected rejection with errors'))
-          .catch((errors) => {
-            expect(errors).to.have.lengthOf(5);
+          .catch((entityValidationErrors) => {
+            expect(entityValidationErrors.errors).to.have.lengthOf(5);
           });
       });
     });

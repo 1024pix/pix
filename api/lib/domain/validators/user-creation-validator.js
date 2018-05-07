@@ -53,6 +53,8 @@ function _concatErrors(recaptchaError, emailAvailabilityError, userValidationErr
 module.exports = {
 
   validate(user, recaptchaToken) {
+
+    // TODO Formater les nouvelles erreurs de validation de user en JSONAPIError
     return Promise.all([
       _verifyReCaptcha(recaptchaToken),
       userRepository.isEmailAvailable(user.email).catch((error) => error),

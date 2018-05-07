@@ -1,8 +1,8 @@
 const _ = require('lodash');
 const Joi = require('joi');
 const validatePassword = require('../../infrastructure/validators/password-validator');
+const { EntityValidationErrors } = require('../errors');
 
-const JOI_VALIDATION_ERROR = 'ValidationError';
 const validationConfiguration = { abortEarly: false, allowUnknown: true };
 
 const joiWithPasswordValidation = Joi.extend((joi) => ({
@@ -53,31 +53,16 @@ const userValidationJoiSchema = Joi.object().keys({
   }),
 });
 
-function _formatValidationError(joiError) {
-  return {
-    source: {
-      pointer: `/data/attributes/${_.kebabCase(joiError.context.key)}`
-    },
-    title: `Invalid user data attribute "${joiError.context.key}"`,
-    detail: joiError.message,
-    meta: {
-      field: joiError.context.key
-    }
-  };
-}
-
 module.exports = {
 
   validate(user) {
-    return Joi.validate(user, userValidationJoiSchema, validationConfiguration)
-      .catch((error) => {
 
-        if (error.name === JOI_VALIDATION_ERROR) {
-          return Promise.reject(error.details.map(_formatValidationError));
-        }
-
-        throw error;
-      });
+    const joiValidationResults = Joi.validate(user, userValidationJoiSchema, validationConfiguration);
+    if(joiValidationResults.error === null) {
+      return Promise.resolve();
+    } else {
+      return Promise.reject(EntityValidationErrors.fromJoiErrors(joiValidationResults.error.details));
+    }
   }
 
 };
