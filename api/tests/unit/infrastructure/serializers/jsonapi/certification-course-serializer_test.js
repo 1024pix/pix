@@ -10,14 +10,14 @@ describe('Unit | Serializer | JSONAPI | certification-course-serializer', functi
     it('should convert a Certification Course model object into JSON API data', function() {
       // given
       const assessment = new Assessment({
-        'id': '2'
+        'id': '2',
       });
 
       const certificationCourse = new CertificationCourse({
         id: 'certification_id',
-        userId : 2,
+        userId: 2,
         assessment: assessment,
-        nbChallenges: 3
+        nbChallenges: 3,
       });
 
       const jsonCertificationCourseWithAssessment = {
@@ -26,18 +26,18 @@ describe('Unit | Serializer | JSONAPI | certification-course-serializer', functi
           id: 'certification_id',
           attributes: {
             'user-id': '2',
-            'type' : 'CERTIFICATION',
-            'nb-challenges': 3
+            'type': 'CERTIFICATION',
+            'nb-challenges': 3,
           },
           relationships: {
             assessment: {
               data: {
                 id: '2',
-                type: 'assessments'
-              }
-            }
-          }
-        }
+                type: 'assessments',
+              },
+            },
+          },
+        },
       };
 
       // when
@@ -62,7 +62,7 @@ describe('Unit | Serializer | JSONAPI | certification-course-serializer', functi
         birthdate: '08/02/1974',
         birthplace: 'Neuilly-Sur-Seine',
         sessionId: '#DaftPunk',
-        externalId: 'Grammys2016'
+        externalId: 'Grammys2016',
       });
 
       // when
@@ -82,10 +82,43 @@ describe('Unit | Serializer | JSONAPI | certification-course-serializer', functi
             'birthdate': '08/02/1974',
             'birthplace': 'Neuilly-Sur-Seine',
             'session-id': '#DaftPunk',
-            'external-id': 'Grammys2016'
+            'external-id': 'Grammys2016',
           },
-        }
+        },
       });
+    });
+  });
+
+  describe('#serializeAsCertification', function() {
+
+    const jsonCertificationCourse = {
+      data: {
+        type: 'certifications',
+        id: 1,
+        attributes: {
+          'first-name': 'Freezer',
+          'last-name': 'The all mighty',
+          'birthplace': 'Namek',
+          'birthdate': '24/10/1989',
+          'external-id': 'xenoverse2',
+        },
+      },
+    };
+
+    const certificationCourse = {
+      id: 1,
+      firstName: 'Freezer',
+      lastName: 'The all mighty',
+      birthplace: 'Namek',
+      birthdate: '24/10/1989',
+      externalId: 'xenoverse2',
+    };
+
+    it('should serialize', function() {
+      // when
+      const serializedCertificationCourse = serializer.serializeAsCertification(certificationCourse);
+      // then
+      expect(serializedCertificationCourse).to.deep.equal(jsonCertificationCourse);
     });
   });
 });

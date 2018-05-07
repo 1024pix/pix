@@ -56,41 +56,6 @@ describe('Unit | Serializer | JSONAPI | certification-serializer', () => {
     });
   });
 
-  describe('#serialize', function() {
-
-    const jsonCertificationCourse = {
-      data: {
-        type: 'certifications',
-        id: 1,
-        attributes: {
-          'first-name': 'Freezer',
-          'last-name': 'The all mighty',
-          'birthplace': 'Namek',
-          'birthdate': '24/10/1989',
-          'external-id': 'xenoverse2'
-        }
-      }
-    };
-
-    const certificationCourse = {
-      id: 1,
-      firstName: 'Freezer',
-      lastName: 'The all mighty',
-      birthplace: 'Namek',
-      birthdate: '24/10/1989',
-      externalId: 'xenoverse2'
-    };
-
-    it('should serialize', function() {
-      // when
-      const serializedCertificationCourse = serializer.serialize(certificationCourse);
-      // then
-      expect(serializedCertificationCourse).to.deep.equal(jsonCertificationCourse);
-
-    });
-
-  });
-
   describe('#serializeCertification', () => {
 
     context('the entry data is an array of certifications', () => {
