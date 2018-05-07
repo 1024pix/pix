@@ -2,9 +2,11 @@ const { expect, sinon } = require('../../../test-helper');
 const userCreationValidator = require('../../../../lib/domain/validators/user-creation-validator');
 const userValidator = require('../../../../lib/domain/validators/user-validator');
 const googleReCaptcha = require('../../../../lib/infrastructure/validators/grecaptcha-validator');
+const userRepository = require('../../../../lib/infrastructure/repositories/user-repository');
 const User = require('../../../../lib/domain/models/User');
 const { UserCreationValidationErrors } = require('../../../../lib/domain/errors');
 const { InvalidRecaptchaTokenError } = require('../../../../lib/infrastructure/validators/errors');
+const { AlreadyRegisteredEmailError } = require('../../../../lib/domain/errors');
 
 function _assertErrorMatchesWithExpectedOne(err, expectedError) {
   expect(err).to.be.an.instanceof(UserCreationValidationErrors);
@@ -31,6 +33,7 @@ describe('Unit | Domain | Validators | user-creation-validator', function() {
     sandbox = sinon.sandbox.create();
     sandbox.stub(googleReCaptcha, 'verify');
     sandbox.stub(userValidator, 'validate');
+    sandbox.stub(userRepository, 'isEmailAvailable');
   });
 
   afterEach(() => {
@@ -44,6 +47,7 @@ describe('Unit | Domain | Validators | user-creation-validator', function() {
       beforeEach(() => {
         googleReCaptcha.verify.resolves();
         userValidator.validate.resolves();
+        userRepository.isEmailAvailable.resolves();
       });
 
       it('should resolve (with no value) when validation is successful', () => {
@@ -59,6 +63,7 @@ describe('Unit | Domain | Validators | user-creation-validator', function() {
 
       beforeEach(() => {
         userValidator.validate.resolves();
+        userRepository.isEmailAvailable.resolves();
       });
 
       it('should reject with well formatted error when an error occurs during reCAPTCHA validation', () => {
@@ -81,7 +86,7 @@ describe('Unit | Domain | Validators | user-creation-validator', function() {
         // given
         const expectedError = {
           source: { pointer: '/data/attributes/recaptcha-token' },
-          title: 'Invalid reCAPTCHA token',
+          title: 'Invalid user data attribute "recaptchaToken"',
           detail: 'Merci de cocher la case ci-dessous :',
           meta: {
             field: 'recaptchaToken'
@@ -113,6 +118,7 @@ describe('Unit | Domain | Validators | user-creation-validator', function() {
         };
 
         googleReCaptcha.verify.resolves();
+        userRepository.isEmailAvailable.resolves();
         userValidator.validate.rejects([expectedError]);
 
         // when
@@ -126,16 +132,77 @@ describe('Unit | Domain | Validators | user-creation-validator', function() {
 
     });
 
-    context('when both user and reCAPTCHA validations fail', () => {
+    context('when email availability fails', () => {
+
+      it('should reject with the errors from email availability validation', () => {
+        // given
+        const expectedError = {
+          source: { pointer: '/data/attributes/email' },
+          title: 'Invalid user data attribute "email"',
+          detail: 'L’adresse électronique est déjà utilisée.',
+          meta: {
+            field: 'email'
+          }
+        };
+
+        googleReCaptcha.verify.resolves();
+        userValidator.validate.resolves();
+        userRepository.isEmailAvailable.rejects(new AlreadyRegisteredEmailError());
+
+        // when
+        const promise = userCreationValidator.validate(user, recaptchaToken);
+
+        // then
+        return promise
+          .then(() => expect.fail('Expected rejection with UserCreationValidationErrors'))
+          .catch((err) => _assertErrorMatchesWithExpectedOne(err, expectedError));
+      });
+
+      it('should reject with only email joi errors if both email availability error and email joi errors', () => {
+        // given
+        // given
+        const expectedEmailValidationError = {
+          source: { pointer: '/data/attributes/email' },
+          title: 'Invalid user data attribute "email"',
+          detail: 'Email validation error',
+          meta: {
+            field: 'email'
+          }
+        };
+
+        googleReCaptcha.verify.resolves();
+        userValidator.validate.rejects([expectedEmailValidationError]);
+        userRepository.isEmailAvailable.rejects(new AlreadyRegisteredEmailError());
+
+        // when
+        const promise = userCreationValidator.validate(user, recaptchaToken);
+
+        // then
+        return promise
+          .then(() => expect.fail('Expected rejection with UserCreationValidationErrors'))
+          .catch((err) => _assertErrorMatchesWithExpectedOne(err, expectedEmailValidationError));
+      });
+
+    });
+
+    context('when both user, email and reCAPTCHA validations fail', () => {
 
       it('should reject with the errors from user validation and reCAPTCHA', () => {
         // given
         const expectedReCAPTCHAError = {
           source: { pointer: '/data/attributes/recaptcha-token' },
-          title: 'Invalid reCAPTCHA token',
+          title: 'Invalid user data attribute "recaptchaToken"',
           detail: 'Merci de cocher la case ci-dessous :',
           meta: {
             field: 'recaptchaToken'
+          }
+        };
+        const expectedEmailError = {
+          source: { pointer: '/data/attributes/email' },
+          title: 'Invalid user data attribute "email"',
+          detail: 'L’adresse électronique est déjà utilisée.',
+          meta: {
+            field: 'email'
           }
         };
         const expectedUserError = {
@@ -148,6 +215,7 @@ describe('Unit | Domain | Validators | user-creation-validator', function() {
         };
 
         googleReCaptcha.verify.rejects(new InvalidRecaptchaTokenError());
+        userRepository.isEmailAvailable.rejects(new AlreadyRegisteredEmailError());
         userValidator.validate.rejects([expectedUserError]);
 
         // when
@@ -158,12 +226,14 @@ describe('Unit | Domain | Validators | user-creation-validator', function() {
           .then(() => expect.fail('Expected rejection with UserCreationValidationErrors'))
           .catch((err) => {
             expect(err).to.be.an.instanceof(UserCreationValidationErrors);
-            expect(err.errors).to.have.lengthOf(2);
+            expect(err.errors).to.have.lengthOf(3);
             expect(err.errors[0]).to.deep.equal(expectedReCAPTCHAError);
             expect(err.errors[1]).to.deep.equal(expectedUserError);
+            expect(err.errors[2]).to.deep.equal(expectedEmailError);
           });
       });
 
     });
+
   });
 });
