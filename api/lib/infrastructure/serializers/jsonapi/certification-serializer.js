@@ -5,7 +5,6 @@ const moment = require('moment-timezone');
 
 module.exports = {
 
-  // FIXME: rename as serialize
   serialize(certification) {
     return new Serializer('certifications', {
       attributes: ['certificationCenter', 'date', 'isPublished', 'status', 'pixScore'],
