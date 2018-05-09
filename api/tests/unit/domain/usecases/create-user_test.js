@@ -12,10 +12,12 @@ describe('Unit | UseCase | create-user', () => {
   const userValidator = { validate: () => undefined };
   const encryptionService = { hashPassword: () => undefined };
   const mailService = { sendAccountCreationEmail: () => undefined };
+  const reCaptchaValidator = { verify: () => undefined };
 
   const userId = 123;
   const userEmail = 'test@example.net';
   const password = 'PASSWORD';
+  const reCaptchaToken = 'ReCaptchaToken';
   const user = new User({ email: userEmail, password });
   const encryptedPassword = '3ncrypt3dP@$$w@rd';
   const savedUser = new User({ id: userId, email: userEmail });
@@ -29,12 +31,14 @@ describe('Unit | UseCase | create-user', () => {
     sandbox.stub(userValidator, 'validate');
     sandbox.stub(encryptionService, 'hashPassword');
     sandbox.stub(mailService, 'sendAccountCreationEmail');
+    sandbox.stub(reCaptchaValidator, 'verify');
 
     userRepository.isEmailAvailable.resolves();
     userRepository.save.resolves(savedUser);
     userValidator.validate.resolves();
     encryptionService.hashPassword.resolves(encryptedPassword);
     mailService.sendAccountCreationEmail.resolves();
+    reCaptchaValidator.verify.resolves();
   });
 
   afterEach(() => {
@@ -55,8 +59,10 @@ describe('Unit | UseCase | create-user', () => {
         // when
         promise = usecases.createUser({
           user,
+          reCaptchaToken,
           userRepository,
           userValidator,
+          reCaptchaValidator,
           encryptionService,
           mailService,
         });
@@ -100,8 +106,10 @@ describe('Unit | UseCase | create-user', () => {
         // when
         promise = usecases.createUser({
           user,
+          reCaptchaToken,
           userRepository,
           userValidator,
+          reCaptchaValidator,
           encryptionService,
           mailService,
         });
@@ -126,37 +134,31 @@ describe('Unit | UseCase | create-user', () => {
 
     context('when reCAPTCHA token is not valid', () => {
 
+      const invalidReCaptchaTokenError = new errors.InvalidRecaptchaTokenError('Invalid reCaptcha token');
+
       let promise;
-      const entityValidationError = new errors.EntityValidationErrors([
-        {
-          attribute: 'firstName',
-          message: 'Votre prénom n’est pas renseigné.',
-        },
-        {
-          attribute: 'password',
-          message: 'Votre mot de passe n’est pas renseigné.',
-        },
-      ]);
 
       beforeEach(() => {
         // given
-        userValidator.validate.rejects(entityValidationError);
+        reCaptchaValidator.verify.rejects(invalidReCaptchaTokenError);
 
         // when
         promise = usecases.createUser({
           user,
+          reCaptchaToken,
           userRepository,
           userValidator,
+          reCaptchaValidator,
           encryptionService,
           mailService,
         });
       });
 
-      it('should validate the user', () => {
+      it('should validate the token', () => {
         //then
         return promise
           .catch(() => {
-            expect(userValidator.validate).to.have.been.calledWith(user);
+            expect(reCaptchaValidator.verify).to.have.been.calledWith(reCaptchaToken);
           });
       });
 
@@ -164,12 +166,12 @@ describe('Unit | UseCase | create-user', () => {
         //then
         return Promise.all([
           expect(promise).to.be.rejectedWith(errors.FormValidationError),
-          promise.catch((error) => expect(error.errors).to.deep.equal([entityValidationError])),
+          promise.catch((error) => expect(error.errors).to.deep.equal([invalidReCaptchaTokenError])),
         ]);
       });
     });
 
-    context('when user email is already in use and user validator fails', () => {
+    context('when user email is already in use, user validator fails and invalid captcha token', () => {
 
       let promise;
       const entityValidationError = new errors.EntityValidationErrors([
@@ -183,17 +185,21 @@ describe('Unit | UseCase | create-user', () => {
         },
       ]);
       const emailExistError = new errors.AlreadyRegisteredEmailError('email already exists');
+      const invalidReCaptchaTokenError = new errors.InvalidRecaptchaTokenError('Invalid reCaptcha token');
 
       it('should reject with an error FormValidationError containing the entityValidationError and the AlreadyRegisteredEmailError', () => {
         // given
         userRepository.isEmailAvailable.rejects(emailExistError);
         userValidator.validate.rejects(entityValidationError);
+        reCaptchaValidator.verify.rejects(invalidReCaptchaTokenError);
 
         // when
         promise = usecases.createUser({
           user,
+          reCaptchaToken,
           userRepository,
           userValidator,
+          reCaptchaValidator,
           encryptionService,
           mailService,
         });
@@ -201,7 +207,7 @@ describe('Unit | UseCase | create-user', () => {
         // then
         return Promise.all([
           expect(promise).to.be.rejectedWith(errors.FormValidationError),
-          promise.catch((error) => expect(error.errors).to.deep.equal([emailExistError, entityValidationError])),
+          promise.catch((error) => expect(error.errors).to.deep.equal([emailExistError, entityValidationError, invalidReCaptchaTokenError])),
         ]);
       });
     });
@@ -219,8 +225,10 @@ describe('Unit | UseCase | create-user', () => {
         // when
         promise = usecases.createUser({
           user,
+          reCaptchaToken,
           userRepository,
           userValidator,
+          reCaptchaValidator,
           encryptionService,
           mailService,
         });
@@ -253,8 +261,10 @@ describe('Unit | UseCase | create-user', () => {
         // when
         promise = usecases.createUser({
           user,
+          reCaptchaToken,
           userRepository,
           userValidator,
+          reCaptchaValidator,
           encryptionService,
           mailService,
         });
@@ -273,8 +283,10 @@ describe('Unit | UseCase | create-user', () => {
       // when
       const promise = usecases.createUser({
         user,
+        reCaptchaToken,
         userRepository,
         userValidator,
+        reCaptchaValidator,
         encryptionService,
         mailService,
       });
