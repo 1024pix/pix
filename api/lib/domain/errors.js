@@ -60,8 +60,8 @@ class UserNotFoundError extends Error {
   getErrorMessage() {
     return {
       data: {
-        id: ['Ce compte est introuvable.']
-      }
+        id: ['Ce compte est introuvable.'],
+      },
     };
   }
 }
@@ -70,15 +70,15 @@ class InternalError extends Error {
   constructor() {
     super();
     this.errorStack = [
-      'Une erreur interne est survenue.'
+      'Une erreur interne est survenue.',
     ];
   }
 
   getErrorMessage() {
     return {
       data: {
-        error: this.errorStack
-      }
+        error: this.errorStack,
+      },
     };
   }
 }
@@ -91,8 +91,8 @@ class PasswordResetDemandNotFoundError extends Error {
   getErrorMessage() {
     return {
       data: {
-        temporaryKey: ['Cette demande de réinitialisation n’existe pas.']
-      }
+        temporaryKey: ['Cette demande de réinitialisation n’existe pas.'],
+      },
     };
   }
 }
@@ -105,8 +105,8 @@ class InvalidTemporaryKeyError extends Error {
   getErrorMessage() {
     return {
       data: {
-        temporaryKey: ['Cette demande de réinitialisation n’est pas valide.']
-      }
+        temporaryKey: ['Cette demande de réinitialisation n’est pas valide.'],
+      },
     };
   }
 }
@@ -119,8 +119,8 @@ class UserNotAuthorizedToCertifyError extends Error {
   getErrorMessage() {
     return {
       data: {
-        authorization: ['Vous n’êtes pas autorisé à passer un test de certification.']
-      }
+        authorization: ['Vous n’êtes pas autorisé à passer un test de certification.'],
+      },
     };
   }
 }
@@ -133,8 +133,8 @@ class AssessmentEndedError extends Error {
   getErrorMessage() {
     return {
       data: {
-        error: ['L\'évaluation est terminée. Nous n\'avons plus de questions à vous poser.']
-      }
+        error: ['L\'évaluation est terminée. Nous n\'avons plus de questions à vous poser.'],
+      },
     };
   }
 }
@@ -147,8 +147,8 @@ class WrongDateFormatError extends Error {
   getErrorMessage() {
     return {
       data: {
-        date: ['Veuillez renseigner une date de session au format (jj/mm/yyyy).']
-      }
+        date: ['Veuillez renseigner une date de session au format (jj/mm/yyyy).'],
+      },
     };
   }
 }
@@ -199,6 +199,12 @@ class FormValidationError extends Error {
   }
 }
 
+class InvalidRecaptchaTokenError extends Error {
+  constructor(message) {
+    super(message);
+  }
+}
+
 module.exports = {
   NotFoundError,
   PasswordNotMatching,
@@ -222,4 +228,5 @@ module.exports = {
   UserCreationValidationErrors,
   OrganizationCreationValidationErrors,
   FormValidationError,
+  InvalidRecaptchaTokenError,
 };

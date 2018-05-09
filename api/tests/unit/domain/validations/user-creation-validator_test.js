@@ -4,9 +4,7 @@ const userValidator = require('../../../../lib/domain/validators/user-validator'
 const googleReCaptcha = require('../../../../lib/infrastructure/validators/grecaptcha-validator');
 const userRepository = require('../../../../lib/infrastructure/repositories/user-repository');
 const User = require('../../../../lib/domain/models/User');
-const { UserCreationValidationErrors } = require('../../../../lib/domain/errors');
-const { InvalidRecaptchaTokenError } = require('../../../../lib/infrastructure/validators/errors');
-const { AlreadyRegisteredEmailError } = require('../../../../lib/domain/errors');
+const { AlreadyRegisteredEmailError, UserCreationValidationErrors, InvalidRecaptchaTokenError } = require('../../../../lib/domain/errors');
 
 function _assertErrorMatchesWithExpectedOne(err, expectedError) {
   expect(err).to.be.an.instanceof(UserCreationValidationErrors);
