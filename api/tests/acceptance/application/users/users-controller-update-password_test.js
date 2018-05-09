@@ -1,8 +1,8 @@
-const { expect, knex } = require('../../test-helper');
+const { expect, knex } = require('../../../test-helper');
 const faker = require('faker');
 
-const server = require('../../../server');
-const passwordResetService = require('../../../lib/domain/services/reset-password-service');
+const server = require('../../../../server');
+const passwordResetService = require('../../../../lib/domain/services/reset-password-service');
 
 describe('Acceptance | Controller | users-controller', () => {
 
