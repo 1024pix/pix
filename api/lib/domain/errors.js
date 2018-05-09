@@ -205,6 +205,30 @@ class InvalidRecaptchaTokenError extends Error {
   }
 }
 
+class EntityValidationError extends Error {
+  constructor({ invalidAttributes }) {
+    super();
+    this.invalidAttributes = invalidAttributes;
+  }
+
+  static fromJoiErrors(joiErrors) {
+    const invalidAttributes = joiErrors.map((error) => {
+      return { attribute: error.context.key, message: error.message };
+    });
+    return new EntityValidationError({ invalidAttributes });
+  }
+
+  static fromEntityValidationErrors(entityValidationErrors) {
+    const invalidAttributes = entityValidationErrors.reduce(
+      (invalidAttributes, entityValidationError) => {
+        invalidAttributes.push(...entityValidationError.invalidAttributes);
+        return invalidAttributes;
+      },
+      []);
+    return new EntityValidationError({ invalidAttributes });
+  }
+}
+
 module.exports = {
   NotFoundError,
   PasswordNotMatching,
@@ -223,7 +247,9 @@ module.exports = {
   AlreadyRatedAssessmentError,
   WrongDateFormatError,
   ObjectValidationError,
+  // deprecated
   EntityValidationErrors,
+  EntityValidationError,
   MissingOrInvalidCredentialsError,
   UserCreationValidationErrors,
   OrganizationCreationValidationErrors,
