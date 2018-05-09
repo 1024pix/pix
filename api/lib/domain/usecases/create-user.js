@@ -3,14 +3,17 @@ const User = require('../models/User');
 
 module.exports = function({
   user,
+  reCaptchaToken,
   userRepository,
   userValidator,
+  reCaptchaValidator,
   encryptionService,
   mailService,
 }) {
   return Promise.all([
-    userRepository.isEmailAvailable(user.email).catch(error => error),
-    userValidator.validate(user).catch(error => error),
+    userRepository.isEmailAvailable(user.email).catch((error) => error),
+    userValidator.validate(user).catch((error) => error),
+    reCaptchaValidator.verify(reCaptchaToken).catch((error) => error)
   ])
     .then((errors) => {
       // Promise.all returns the return value of all promises, even if the return value is undefined
