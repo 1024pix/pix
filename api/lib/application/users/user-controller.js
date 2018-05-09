@@ -15,6 +15,11 @@ const encryptionService = require('../../domain/services/encryption-service');
 const tokenService = require('../../domain/services/token-service');
 const userCreationValidator = require('../../domain/validators/user-creation-validator');
 
+const usecases = require('../../domain/usecases');
+const userValidator = require('../../domain/validators/user-validator');
+const reCaptchaValidator = require('../../infrastructure/validators/grecaptcha-validator');
+
+
 const Bookshelf = require('../../infrastructure/bookshelf');
 
 const logger = require('../../infrastructure/logger');
@@ -24,26 +29,26 @@ module.exports = {
 
   save(request, reply) {
 
-    const recaptchaToken = request.payload.data.attributes['recaptcha-token'];
+    const reCaptchaToken = request.payload.data.attributes['recaptcha-token'];
     const user = userSerializer.deserialize(request.payload);
 
-    return userCreationValidator.validate(user, recaptchaToken)
-      .then(() => encryptionService.hashPassword(user.password))
-      .then((encryptedPassword) => user.password = encryptedPassword)
-      .then(() => userRepository.create(user))
+    return usecases.createUser({
+      user,
+      reCaptchaToken,
+      userRepository,
+      userValidator,
+      reCaptchaValidator,
+      encryptionService,
+      mailService,
+    })
       .then((savedUser) => {
-        mailService.sendAccountCreationEmail(savedUser.email);
         reply(userSerializer.serialize(savedUser)).code(201);
-      }).catch((err) => {
+      })
+      .catch((err) => {
 
-        if(err instanceof UserCreationValidationErrors) {
+        if (err instanceof UserCreationValidationErrors) {
           const serializedErrors = new JSONAPIError(err.errors);
           return reply(serializedErrors).code(422);
-        }
-
-        if (bookshelfUtils.isUniqConstraintViolated(err)) {
-          err = _buildErrorWhenUniquEmail();
-          return reply(validationErrorSerializer.serialize(err)).code(422);
         }
 
         logger.error(err);
@@ -99,7 +104,7 @@ module.exports = {
 
   getProfileToCertify(request, reply) {
     const userId = request.params.id;
-    const currentDate =  moment().toISOString();
+    const currentDate = moment().toISOString();
 
     return userService.getProfileToCertify(userId, currentDate)
       .then(reply)
@@ -107,7 +112,7 @@ module.exports = {
         logger.error(err);
         reply(Boom.badImplementation(err));
       });
-  }
+  },
 };
 
 const _replyErrorWithMessage = function(reply, errorMessage, statusCode) {
@@ -117,16 +122,16 @@ const _replyErrorWithMessage = function(reply, errorMessage, statusCode) {
 function _buildErrorWhenUniquEmail() {
   return {
     data: {
-      email: ['Cette adresse electronique est déjà enregistrée.']
-    }
+      email: ['Cette adresse electronique est déjà enregistrée.'],
+    },
   };
 }
 
 function _handleWhenInvalidAuthorization(errorMessage) {
   return {
     data: {
-      authorization: [errorMessage]
-    }
+      authorization: [errorMessage],
+    },
   };
 }
 

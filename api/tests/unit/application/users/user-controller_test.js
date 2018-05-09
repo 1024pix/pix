@@ -16,8 +16,11 @@ const encryptionService = require('../../../../lib/domain/services/encryption-se
 const userRepository = require('../../../../lib/infrastructure/repositories/user-repository');
 const userService = require('../../../../lib/domain/services/user-service');
 const userCreationValidator = require('../../../../lib/domain/validators/user-creation-validator');
+const reCaptchaValidator = require('../../../../lib/infrastructure/validators/grecaptcha-validator');
+const userValidator = require('../../../../lib/domain/validators/user-validator');
+const usecases = require('../../../../lib/domain/usecases');
 
-const { PasswordResetDemandNotFoundError, InternalError, UserCreationValidationErrors } = require('../../../../lib/domain/errors');
+const { PasswordResetDemandNotFoundError, InternalError, FormValidationError } = require('../../../../lib/domain/errors');
 
 describe('Unit | Controller | user-controller', () => {
 
@@ -30,6 +33,7 @@ describe('Unit | Controller | user-controller', () => {
 
     let sandbox;
     const email = 'to-be-free@ozone.airplane';
+    const deserializedUser = new User({ password: 'password_1234' });
     const savedUser = new User({ email });
 
     beforeEach(() => {
@@ -39,17 +43,18 @@ describe('Unit | Controller | user-controller', () => {
 
       codeStub = sinon.stub();
       replyStub = sinon.stub().returns({
-        code: codeStub
+        code: codeStub,
       });
 
       sandbox.stub(logger, 'error').returns({});
-      sandbox.stub(userSerializer, 'deserialize').returns(new User({ password: 'password_1234' }));
+      sandbox.stub(userSerializer, 'deserialize').returns(deserializedUser);
       sandbox.stub(userSerializer, 'serialize');
       sandbox.stub(userRepository, 'create').resolves(savedUser);
       sandbox.stub(validationErrorSerializer, 'serialize');
       sandbox.stub(encryptionService, 'hashPassword');
       sandbox.stub(mailService, 'sendAccountCreationEmail');
       sandbox.stub(userCreationValidator, 'validate');
+      sandbox.stub(usecases, 'createUser');
     });
 
     afterEach(() => {
@@ -57,81 +62,54 @@ describe('Unit | Controller | user-controller', () => {
       sandbox.restore();
     });
 
-    describe('when the account is created', () => {
+    describe('when request is valid', () => {
+
+      const request = {
+        payload: {
+          data: {
+            attributes: {
+              'first-name': 'John',
+              'last-name': 'DoDoe',
+              'email': 'john.dodoe@example.net',
+              'password': 'A124B2C3#!',
+              'cgu': true,
+              'recaptcha-token': 'reCAPTCHAToken',
+            },
+          },
+        },
+      };
 
       beforeEach(() => {
-        userCreationValidator.validate.resolves();
+        usecases.createUser.resolves(savedUser);
       });
 
-      it('should update user password with a hashed password', () => {
+      it('should return a serialized user and a 201 status code', () => {
         // given
-        const request = {
-          payload: {
-            data: {
-              attributes: {
-                firstName: '',
-                lastName: '',
-                password: 'password_1234',
-                email
-              }
-            }
-          }
-        };
-        const encryptedPassword = '$2a$05$jJnoQ/YCvAChJmYW9AoQXe/k17mx2l2MqJBgXVo/R/ju4HblB2iAe';
-        encryptionService.hashPassword.resolves(encryptedPassword);
-        mailService.sendAccountCreationEmail.resolves();
-
-        // when
-        const promise = userController.save(request, replyStub);
-
-        // then
-        return promise.then(() => {
-          sinon.assert.calledOnce(encryptionService.hashPassword);
-          sinon.assert.calledWith(encryptionService.hashPassword, request.payload.data.attributes.password);
-
-        });
-      });
-
-      it('should send an email', () => {
-        // given
-        const request = {
-          payload: {
-            data: {
-              attributes: {
-                firstName: '',
-                lastName: '',
-                email
-              }
-            }
-          }
-        };
-
-        mailService.sendAccountCreationEmail.resolves();
-
-        // when
-        const promise = userController.save(request, replyStub);
-
-        // then
-        return promise.then(() => {
-          sinon.assert.calledWith(mailService.sendAccountCreationEmail, email);
-        });
-      });
-
-      it('should return a serialized user', () => {
-        // given
-        encryptionService.hashPassword.resolves();
         const expectedSerializedUser = { message: 'serialized user' };
         userSerializer.serialize.returns(expectedSerializedUser);
-        const request = {
-          payload: {
-            data: {
-              attributes: {
-                firstName: '',
-                lastName: '',
-                email
-              }
-            }
-          }
+
+        // when
+        const promise = userController.save(request, replyStub);
+
+        // then
+        return promise.then(() => {
+          expect(userSerializer.serialize).to.have.been.calledWith(savedUser);
+          expect(replyStub).to.have.been.calledWith(expectedSerializedUser);
+          expect(codeStub).to.have.been.calledWith(201);
+        });
+      });
+
+      it('should call the user creation usecase', () => {
+        // given
+        const reCaptchaToken = 'reCAPTCHAToken';
+        const useCaseParameters = {
+          user: deserializedUser,
+          reCaptchaToken,
+          userRepository,
+          userValidator,
+          reCaptchaValidator,
+          encryptionService,
+          mailService,
         };
 
         // when
@@ -139,92 +117,59 @@ describe('Unit | Controller | user-controller', () => {
 
         // then
         return promise.then(() => {
-          sinon.assert.calledWith(userSerializer.serialize, savedUser);
-          sinon.assert.calledWith(replyStub, expectedSerializedUser);
+          expect(usecases.createUser).to.have.been.calledWith(useCaseParameters);
         });
       });
     });
 
-    describe('should return 422 Bad request', () => {
+    describe('when request is invalid', () => {
 
       const request = {
         payload: {
           data: {
             attributes: {
               firstName: '',
-              lastName: ''
-            }
-          }
-        }
+              lastName: '',
+            },
+          },
+        },
       };
-
-      context('when an error occured during saving entity from SQLite3', () => {
-
-        it('should return an already registered email error message', () => {
-          // given
-          validationErrorSerializer.serialize.returns({ errors: [] });
-          const sqliteConstraint = { code: 'SQLITE_CONSTRAINT' };
-          userRepository.create.rejects(sqliteConstraint);
-          userCreationValidator.validate.resolves();
-
-          // when
-          const promise = userController.save(request, replyStub);
-
-          // then
-          return promise.then(() => {
-            sinon.assert.calledWith(validationErrorSerializer.serialize, {
-              data: {
-                email: ['Cette adresse electronique est déjà enregistrée.']
-              }
-            });
-          });
-        });
-      });
-
-      context('when an error occured during saving entity from PostgreSQL', () => {
-
-        it('should return an already registered email error message', () => {
-          // given
-          validationErrorSerializer.serialize.returns({ errors: [] });
-          userCreationValidator.validate.resolves();
-
-          const sqliteConstraint = { code: '23505' };
-          userRepository.create.rejects(sqliteConstraint);
-
-          // when
-          const promise = userController.save(request, replyStub);
-
-          // then
-          return promise.then(() => {
-            sinon.assert.calledWith(validationErrorSerializer.serialize, {
-              data: {
-                email: ['Cette adresse electronique est déjà enregistrée.']
-              }
-            });
-          });
-        });
-      });
 
       it('should reply with code 422 when a validation error occurs', () => {
         // given
-        const validationErrors = new UserCreationValidationErrors([
-          {
-            'source': { 'pointer': '/data/attributes/first-name' },
-            'title': 'Invalid Attribute',
-            'detail': 'Shi'
-          },
-          {
-            'source': { 'pointer': '/data/attributes/password' },
-            'title': 'Invalid Attribute',
-            'detail': 'Fu'
-          },
-          {
-            'source': { 'pointer': '/data/attributes/recaptcha-token' },
-            'title': 'Invalid Attribute',
-            'detail': 'Mi'
-          },
-        ]);
-        userCreationValidator.validate.rejects(validationErrors);
+        const createUserValidationErrors = new FormValidationError({
+          errors: [
+            {
+              attribute: 'firstName',
+              message: 'Votre prénom n’est pas renseigné.'
+            },
+            {
+              attribute: 'password',
+              message: 'Votre prénom n’est pas renseigné.'
+            },
+          ]
+        });
+
+        const jsonApiValidationErrors = {
+          errors : [
+            {
+              source: { 'pointer': '/data/attributes/first-name' },
+              title: 'Invalid user data attribute "firstName"',
+              detail: 'Votre prénom n’est pas renseigné.'
+            },
+            {
+              source: { 'pointer': '/data/attributes/password' },
+              title: 'Invalid user data attribute "password"',
+              detail: 'Votre mot de passe n’est pas renseigné.'
+            },
+            {
+              source: { 'pointer': '/data/attributes/recaptcha-token' },
+              title: 'Invalid user data attribute "recaptchaToken"',
+              detail: 'Merci de cocher la case ci-dessous :'
+            },
+          ]
+        };
+        usecases.createUser.rejects(createUserValidationErrors);
 
         // when
         const promise = userController.save(request, replyStub);
@@ -232,7 +177,7 @@ describe('Unit | Controller | user-controller', () => {
         // then
         return promise.then(() => {
           sinon.assert.calledWith(codeStub, 422);
-          sinon.assert.calledWith(replyStub, { errors: validationErrors.errors });
+          sinon.assert.calledWith(replyStub, { errors: jsonApiValidationErrors });
         });
       });
     });
@@ -243,9 +188,9 @@ describe('Unit | Controller | user-controller', () => {
       const request = {
         payload: {
           data: {
-            attributes: {}
-          }
-        }
+            attributes: {},
+          },
+        },
       };
 
       beforeEach(() => {
@@ -316,19 +261,19 @@ describe('Unit | Controller | user-controller', () => {
       let reply;
       const request = {
         params: {
-          id: 7
+          id: 7,
         },
         payload: {
           data: {
             attributes: {
-              password: 'Pix2017!'
-            }
-          }
-        }
+              password: 'Pix2017!',
+            },
+          },
+        },
       };
       const user = new BookshelfUser({
         id: 7,
-        email: 'maryz@acme.xh'
+        email: 'maryz@acme.xh',
       });
       let codeStub;
 
@@ -343,7 +288,7 @@ describe('Unit | Controller | user-controller', () => {
         codeStub = sinon.stub();
         reply = sandbox.stub().returns({
           code: () => {
-          }
+          },
         });
       });
 
@@ -454,7 +399,7 @@ describe('Unit | Controller | user-controller', () => {
           // given
           const error = new InternalError();
           reply.returns({
-            code: codeStub
+            code: codeStub,
           });
           const serializedError = {};
           validationErrorSerializer.serialize.returns(serializedError);
