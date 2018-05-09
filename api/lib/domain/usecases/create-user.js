@@ -14,7 +14,7 @@ module.exports = function({
   ])
     .then((errors) => {
       // Promise.all returns the return value of all promises, even if the return value is undefined
-      const relevantErrors = errors.filter((x) => x ? true : false);
+      const relevantErrors = errors.filter((error) => error instanceof Error);
       if (relevantErrors.length > 0) {
         throw new FormValidationError(relevantErrors);
       }
