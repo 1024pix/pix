@@ -2,9 +2,7 @@ const _ = require('lodash');
 const googleReCaptcha = require('../../infrastructure/validators/grecaptcha-validator');
 const userRepository = require('../../infrastructure/repositories/user-repository');
 const userValidator = require('./user-validator');
-const { UserCreationValidationErrors } = require('../../domain/errors');
-const { InvalidRecaptchaTokenError } = require('../../infrastructure/validators/errors');
-const { AlreadyRegisteredEmailError } = require('../../domain/errors');
+const { AlreadyRegisteredEmailError, InvalidRecaptchaTokenError, UserCreationValidationErrors } = require('../../domain/errors');
 
 function _verifyReCaptcha(reCaptchaToken) {
   return googleReCaptcha.verify(reCaptchaToken).catch(error => {
@@ -19,13 +17,13 @@ function _verifyReCaptcha(reCaptchaToken) {
 function _formatValidationError(key, message) {
   return {
     source: {
-      pointer: `/data/attributes/${_.kebabCase(key)}`
+      pointer: `/data/attributes/${_.kebabCase(key)}`,
     },
     title: `Invalid user data attribute "${key}"`,
     detail: message,
     meta: {
-      field: key
-    }
+      field: key,
+    },
   };
 }
 
@@ -73,6 +71,6 @@ module.exports = {
 
         return Promise.resolve();
       });
-  }
+  },
 
 };

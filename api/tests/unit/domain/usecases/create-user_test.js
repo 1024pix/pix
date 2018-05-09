@@ -124,6 +124,51 @@ describe('Unit | UseCase | create-user', () => {
       });
     });
 
+    context('when reCAPTCHA token is not valid', () => {
+
+      let promise;
+      const entityValidationError = new errors.EntityValidationErrors([
+        {
+          attribute: 'firstName',
+          message: 'Votre prénom n’est pas renseigné.',
+        },
+        {
+          attribute: 'password',
+          message: 'Votre mot de passe n’est pas renseigné.',
+        },
+      ]);
+
+      beforeEach(() => {
+        // given
+        userValidator.validate.rejects(entityValidationError);
+
+        // when
+        promise = usecases.createUser({
+          user,
+          userRepository,
+          userValidator,
+          encryptionService,
+          mailService,
+        });
+      });
+
+      it('should validate the user', () => {
+        //then
+        return promise
+          .catch(() => {
+            expect(userValidator.validate).to.have.been.calledWith(user);
+          });
+      });
+
+      it('should reject with an error FormValidationError containing the entityValidationError', () => {
+        //then
+        return Promise.all([
+          expect(promise).to.be.rejectedWith(errors.FormValidationError),
+          promise.catch((error) => expect(error.errors).to.deep.equal([entityValidationError])),
+        ]);
+      });
+    });
+
     context('when user email is already in use and user validator fails', () => {
 
       let promise;
