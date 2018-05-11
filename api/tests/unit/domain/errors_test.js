@@ -173,7 +173,7 @@ describe('Unit | Domain | Errors', () => {
       });
     });
 
-    context('#fromEntityValidationErrors', () => {
+    context('#fromEntityValidationError', () => {
 
       it('should populate the invalidAttributes key', () => {
         //given

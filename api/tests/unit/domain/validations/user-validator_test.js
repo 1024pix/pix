@@ -1,14 +1,14 @@
 const { expect } = require('../../../test-helper');
 const userValidator = require('../../../../lib/domain/validators/user-validator');
-const { EntityValidationErrors } = require('../../../../lib/domain/errors');
+const { EntityValidationError } = require('../../../../lib/domain/errors');
 const User = require('../../../../lib/domain/models/User');
 
 const MISSING_VALUE = '';
 
 function _assertErrorMatchesWithExpectedOne(entityValidationErrors, expectedError) {
-  expect(entityValidationErrors).to.be.instanceOf(EntityValidationErrors);
-  expect(entityValidationErrors.errors).to.have.lengthOf(1);
-  expect(entityValidationErrors.errors[0]).to.deep.equal(expectedError);
+  expect(entityValidationErrors).to.be.instanceOf(EntityValidationError);
+  expect(entityValidationErrors.invalidAttributes).to.have.lengthOf(1);
+  expect(entityValidationErrors.invalidAttributes[0]).to.deep.equal(expectedError);
 }
 
 describe('Unit | Domain | Validators | user-validator', function() {
@@ -175,7 +175,7 @@ describe('Unit | Domain | Validators | user-validator', function() {
         return promise
           .then(() => expect.fail('Expected rejection with errors'))
           .catch((entityValidationErrors) => {
-            expect(entityValidationErrors.errors).to.have.lengthOf(5);
+            expect(entityValidationErrors.invalidAttributes).to.have.lengthOf(5);
           });
       });
     });

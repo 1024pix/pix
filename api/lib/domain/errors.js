@@ -157,21 +157,6 @@ class ObjectValidationError extends Error {
 
 }
 
-class EntityValidationErrors extends Error {
-  constructor(errors) {
-    super();
-    this.errors = errors;
-  }
-
-  static fromJoiErrors(joiErrors) {
-    const formattedErrors = joiErrors.map((errorDetails) => {
-      return { attribute: errorDetails.context.key, message: errorDetails.message };
-    });
-    return new EntityValidationErrors(formattedErrors);
-  }
-
-}
-
 class MissingOrInvalidCredentialsError extends Error {
   constructor() {
     super('Missing or invalid credentials');
@@ -248,7 +233,6 @@ module.exports = {
   WrongDateFormatError,
   ObjectValidationError,
   // deprecated
-  EntityValidationErrors,
   EntityValidationError,
   MissingOrInvalidCredentialsError,
   UserCreationValidationErrors,
