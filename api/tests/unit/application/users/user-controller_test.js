@@ -149,7 +149,7 @@ describe('Unit | Controller | user-controller', () => {
         });
 
         const jsonApiValidationErrors = {
-          errors : [
+          errors: [
             {
               source: { 'pointer': '/data/attributes/first-name' },
               title: 'Invalid user data attribute "firstName"',
@@ -191,24 +191,17 @@ describe('Unit | Controller | user-controller', () => {
         usecases.createUser.rejects(raisedError);
       });
 
-      it('should format a badImplementation', () => {
-        // given
-        boomBadRequestMock.expects('badImplementation').exactly(1).withArgs(raisedError);
-
-        // when
-        const promise = userController.save(request, replyStub);
-
-        // then
-        return promise
-          .then(() => {
-            boomBadRequestMock.verify();
-          });
-      });
-
       it('should reply with a badImplementation', () => {
         // given
-        const boomError = { message: 'BadImplementation' };
-        boomBadRequestMock.expects('badImplementation').returns(boomError);
+        const expectedError = {
+          errors: [
+            {
+              code: '500',
+              title: 'Internal Server Error',
+              detail: 'Une erreur est survenue lors de la création de l’utilisateur'
+            }
+          ]
+        };
 
         // when
         const promise = userController.save(request, replyStub);
@@ -216,7 +209,7 @@ describe('Unit | Controller | user-controller', () => {
         // then
         return promise
           .then(() => {
-            expect(replyStub).to.have.been.calledWith(boomError);
+            expect(replyStub).to.have.been.calledWith(expectedError);
           });
       });
 

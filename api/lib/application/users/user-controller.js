@@ -50,7 +50,11 @@ module.exports = {
         }
 
         logger.error(error);
-        return reply(Boom.badImplementation(error));
+        return reply(new JSONAPIError({
+          code: '500',
+          title: 'Internal Server Error',
+          detail: 'Une erreur est survenue lors de la création de l’utilisateur'
+        }));
       });
   },
 
