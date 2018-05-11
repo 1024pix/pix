@@ -50,7 +50,7 @@ module.exports = function({
       userWithEncryptedPassword.password = encryptedPassword;
       return userWithEncryptedPassword;
     })
-    .then(userRepository.save)
+    .then(userRepository.create)
     .then((savedUser) => {
       mailService.sendAccountCreationEmail(savedUser.email);
       return savedUser;

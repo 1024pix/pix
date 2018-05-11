@@ -7,7 +7,7 @@ describe('Unit | UseCase | create-user', () => {
 
   const userRepository = {
     isEmailAvailable: () => undefined,
-    save: () => undefined,
+    create: () => undefined,
   };
   const userValidator = { validate: () => undefined };
   const encryptionService = { hashPassword: () => undefined };
@@ -27,14 +27,14 @@ describe('Unit | UseCase | create-user', () => {
   beforeEach(() => {
     sandbox = sinon.sandbox.create();
     sandbox.stub(userRepository, 'isEmailAvailable');
-    sandbox.stub(userRepository, 'save');
+    sandbox.stub(userRepository, 'create');
     sandbox.stub(userValidator, 'validate');
     sandbox.stub(encryptionService, 'hashPassword');
     sandbox.stub(mailService, 'sendAccountCreationEmail');
     sandbox.stub(reCaptchaValidator, 'verify');
 
     userRepository.isEmailAvailable.resolves();
-    userRepository.save.resolves(savedUser);
+    userRepository.create.resolves(savedUser);
     userValidator.validate.resolves();
     encryptionService.hashPassword.resolves(encryptedPassword);
     mailService.sendAccountCreationEmail.resolves();
@@ -257,7 +257,7 @@ describe('Unit | UseCase | create-user', () => {
         // then
         return promise
           .then(() => {
-            expect(userRepository.save).to.have.been.calledWith(userWithEncryptedPassword);
+            expect(userRepository.create).to.have.been.calledWith(userWithEncryptedPassword);
           });
       });
     });
