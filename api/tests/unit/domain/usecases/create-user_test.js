@@ -88,7 +88,7 @@ describe('Unit | UseCase | create-user', () => {
     context('when user validator fails', () => {
 
       let promise;
-      const entityValidationError = new errors.EntityValidationErrors([
+      const entityValidationError = new errors.EntityValidationError([
         {
           attribute: 'firstName',
           message: 'Votre prénom n’est pas renseigné.',
@@ -174,7 +174,7 @@ describe('Unit | UseCase | create-user', () => {
     context('when user email is already in use, user validator fails and invalid captcha token', () => {
 
       let promise;
-      const entityValidationError = new errors.EntityValidationErrors([
+      const entityValidationError = new errors.EntityValidationError([
         {
           attribute: 'firstName',
           message: 'Votre prénom n’est pas renseigné.',

@@ -9,16 +9,13 @@ const userService = require('../../domain/services/user-service');
 const userRepository = require('../../../lib/infrastructure/repositories/user-repository');
 const profileService = require('../../domain/services/profile-service');
 const profileSerializer = require('../../infrastructure/serializers/jsonapi/profile-serializer');
-const bookshelfUtils = require('../../infrastructure/utils/bookshelf-utils');
 const passwordResetDemandService = require('../../domain/services/reset-password-service');
 const encryptionService = require('../../domain/services/encryption-service');
 const tokenService = require('../../domain/services/token-service');
-const userCreationValidator = require('../../domain/validators/user-creation-validator');
 
 const usecases = require('../../domain/usecases');
 const userValidator = require('../../domain/validators/user-validator');
 const reCaptchaValidator = require('../../infrastructure/validators/grecaptcha-validator');
-
 
 const Bookshelf = require('../../infrastructure/bookshelf');
 
@@ -118,14 +115,6 @@ module.exports = {
 const _replyErrorWithMessage = function(reply, errorMessage, statusCode) {
   reply(validationErrorSerializer.serialize(_handleWhenInvalidAuthorization(errorMessage))).code(statusCode);
 };
-
-function _buildErrorWhenUniquEmail() {
-  return {
-    data: {
-      email: ['Cette adresse electronique est déjà enregistrée.'],
-    },
-  };
-}
 
 function _handleWhenInvalidAuthorization(errorMessage) {
   return {

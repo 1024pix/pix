@@ -1,6 +1,14 @@
 const { FormValidationError } = require('../errors');
 const User = require('../models/User');
 
+// function _buildErrorWhenUniquEmail() {
+//   return {
+//     data: {
+//       email: ['Cette adresse electronique est déjà enregistrée.'],
+//     },
+//   };
+// }
+
 module.exports = function({
   user,
   reCaptchaToken,

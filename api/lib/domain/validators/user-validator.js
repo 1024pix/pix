@@ -1,7 +1,6 @@
-const _ = require('lodash');
 const Joi = require('joi');
 const validatePassword = require('../../infrastructure/validators/password-validator');
-const { EntityValidationErrors } = require('../errors');
+const { EntityValidationError } = require('../errors');
 
 const validationConfiguration = { abortEarly: false, allowUnknown: true };
 
@@ -61,7 +60,7 @@ module.exports = {
     if(joiValidationResults.error === null) {
       return Promise.resolve();
     } else {
-      return Promise.reject(EntityValidationErrors.fromJoiErrors(joiValidationResults.error.details));
+      return Promise.reject(EntityValidationError.fromJoiErrors(joiValidationResults.error.details));
     }
   }
 
