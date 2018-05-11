@@ -49,26 +49,15 @@ describe('Unit | UseCase | create-user', () => {
 
     context('when user email is already in use', () => {
 
-      let promise;
-      const emailExistError = new errors.AlreadyRegisteredEmailError('email already exists');
-
-      beforeEach(() => {
+      it('should check the non existence of email in UserRepository', () => {
         // given
-        userRepository.isEmailAvailable.rejects(emailExistError);
+        userRepository.isEmailAvailable.resolves();
 
         // when
-        promise = usecases.createUser({
-          user,
-          reCaptchaToken,
-          userRepository,
-          userValidator,
-          reCaptchaValidator,
-          encryptionService,
-          mailService,
+        const promise = usecases.createUser({
+          user, reCaptchaToken, userRepository, userValidator, reCaptchaValidator, encryptionService, mailService
         });
-      });
 
-      it('should check the non existence of email in UserRepository', () => {
         // then
         return promise
           .catch(() => {
@@ -76,46 +65,45 @@ describe('Unit | UseCase | create-user', () => {
           });
       });
 
-      it('should reject with an error FormValidationError containing an AlreadyRegisteredEmailError', () => {
+      it('should reject with an error EntityValidationError on email already registered', () => {
+        // given
+        const emailExistError = new errors.AlreadyRegisteredEmailError('email already exists');
+        const expectedValidationError = new errors.EntityValidationError({
+          invalidAttributes: [
+            {
+              attribute: 'email',
+              message: 'Cette adresse electronique est déjà enregistrée.',
+            }
+          ]
+        });
+
+        userRepository.isEmailAvailable.rejects(emailExistError);
+
+        // when
+        const promise = usecases.createUser({
+          user, reCaptchaToken, userRepository, userValidator, reCaptchaValidator, encryptionService, mailService
+        });
+
         // then
-        return Promise.all([
-          expect(promise).to.be.rejectedWith(errors.FormValidationError),
-          promise.catch((error) => expect(error.errors).to.deep.equal([emailExistError])),
-        ]);
+        return promise
+          .catch((error) => {
+            expect(error).to.be.instanceOf(errors.EntityValidationError);
+            expect(error.invalidAttributes).to.deep.equal(expectedValidationError.invalidAttributes);
+          });
       });
     });
 
     context('when user validator fails', () => {
 
-      let promise;
-      const entityValidationError = new errors.EntityValidationError([
-        {
-          attribute: 'firstName',
-          message: 'Votre prénom n’est pas renseigné.',
-        },
-        {
-          attribute: 'password',
-          message: 'Votre mot de passe n’est pas renseigné.',
-        },
-      ]);
-
-      beforeEach(() => {
+      it('should validate the user', () => {
         // given
-        userValidator.validate.rejects(entityValidationError);
+        userValidator.validate.resolves();
 
         // when
-        promise = usecases.createUser({
-          user,
-          reCaptchaToken,
-          userRepository,
-          userValidator,
-          reCaptchaValidator,
-          encryptionService,
-          mailService,
+        const promise = usecases.createUser({
+          user, reCaptchaToken, userRepository, userValidator, reCaptchaValidator, encryptionService, mailService
         });
-      });
 
-      it('should validate the user', () => {
         //then
         return promise
           .catch(() => {
@@ -123,38 +111,45 @@ describe('Unit | UseCase | create-user', () => {
           });
       });
 
-      it('should reject with an error FormValidationError containing the entityValidationError', () => {
+      it('should reject with an error EntityValidationError containing the entityValidationError', () => {
+        // given
+        const expectedValidationError = new errors.EntityValidationError({
+          invalidAttributes: [
+            {
+              attribute: 'firstName',
+              message: 'Votre prénom n’est pas renseigné.',
+            },
+            {
+              attribute: 'password',
+              message: 'Votre mot de passe n’est pas renseigné.',
+            },
+          ]
+        });
+
+        userValidator.validate.rejects(expectedValidationError);
+
+        // when
+        const promise = usecases.createUser({
+          user, reCaptchaToken, userRepository, userValidator, reCaptchaValidator, encryptionService, mailService
+        });
+
         //then
-        return Promise.all([
-          expect(promise).to.be.rejectedWith(errors.FormValidationError),
-          promise.catch((error) => expect(error.errors).to.deep.equal([entityValidationError])),
-        ]);
+        return promise
+          .catch((error) => {
+            expect(error).to.be.instanceOf(errors.EntityValidationError);
+            expect(error.invalidAttributes).to.deep.equal(expectedValidationError.invalidAttributes);
+          });
       });
     });
 
     context('when reCAPTCHA token is not valid', () => {
 
-      const invalidReCaptchaTokenError = new errors.InvalidRecaptchaTokenError('Invalid reCaptcha token');
-
-      let promise;
-
-      beforeEach(() => {
-        // given
-        reCaptchaValidator.verify.rejects(invalidReCaptchaTokenError);
-
-        // when
-        promise = usecases.createUser({
-          user,
-          reCaptchaToken,
-          userRepository,
-          userValidator,
-          reCaptchaValidator,
-          encryptionService,
-          mailService,
-        });
-      });
-
       it('should validate the token', () => {
+        // when
+        const promise = usecases.createUser({
+          user, reCaptchaToken, userRepository, userValidator, reCaptchaValidator, encryptionService, mailService
+        });
+
         //then
         return promise
           .catch(() => {
@@ -162,32 +157,53 @@ describe('Unit | UseCase | create-user', () => {
           });
       });
 
-      it('should reject with an error FormValidationError containing the entityValidationError', () => {
+      it('should reject with an error EntityValidationError containing the entityValidationError', () => {
+        // given
+        const invalidReCaptchaTokenError = new errors.InvalidRecaptchaTokenError('Invalid reCaptcha token');
+        const expectedValidationError = new errors.EntityValidationError({
+          invalidAttributes: [
+            {
+              attribute: 'recaptchaToken',
+              message: 'Merci de cocher la case ci-dessous :'
+            }
+          ]
+        });
+
+        reCaptchaValidator.verify.rejects(invalidReCaptchaTokenError);
+
+        // when
+        const promise = usecases.createUser({
+          user, reCaptchaToken, userRepository, userValidator, reCaptchaValidator, encryptionService, mailService
+        });
+
         //then
-        return Promise.all([
-          expect(promise).to.be.rejectedWith(errors.FormValidationError),
-          promise.catch((error) => expect(error.errors).to.deep.equal([invalidReCaptchaTokenError])),
-        ]);
+        return promise
+          .catch((error) => {
+            expect(error).to.be.instanceOf(errors.EntityValidationError);
+            expect(error.invalidAttributes).to.deep.equal(expectedValidationError.invalidAttributes);
+          });
       });
     });
 
     context('when user email is already in use, user validator fails and invalid captcha token', () => {
 
       let promise;
-      const entityValidationError = new errors.EntityValidationError([
-        {
-          attribute: 'firstName',
-          message: 'Votre prénom n’est pas renseigné.',
-        },
-        {
-          attribute: 'password',
-          message: 'Votre mot de passe n’est pas renseigné.',
-        },
-      ]);
+      const entityValidationError = new errors.EntityValidationError({
+        invalidAttributes: [
+          {
+            attribute: 'firstName',
+            message: 'Votre prénom n’est pas renseigné.',
+          },
+          {
+            attribute: 'password',
+            message: 'Votre mot de passe n’est pas renseigné.',
+          }
+        ]
+      });
       const emailExistError = new errors.AlreadyRegisteredEmailError('email already exists');
       const invalidReCaptchaTokenError = new errors.InvalidRecaptchaTokenError('Invalid reCaptcha token');
 
-      it('should reject with an error FormValidationError containing the entityValidationError and the AlreadyRegisteredEmailError', () => {
+      it('should reject with an error EntityValidationError containing the entityValidationError and the AlreadyRegisteredEmailError', () => {
         // given
         userRepository.isEmailAvailable.rejects(emailExistError);
         userValidator.validate.rejects(entityValidationError);
@@ -195,20 +211,15 @@ describe('Unit | UseCase | create-user', () => {
 
         // when
         promise = usecases.createUser({
-          user,
-          reCaptchaToken,
-          userRepository,
-          userValidator,
-          reCaptchaValidator,
-          encryptionService,
-          mailService,
+          user, reCaptchaToken, userRepository, userValidator, reCaptchaValidator, encryptionService, mailService
         });
 
         // then
-        return Promise.all([
-          expect(promise).to.be.rejectedWith(errors.FormValidationError),
-          promise.catch((error) => expect(error.errors).to.deep.equal([emailExistError, entityValidationError, invalidReCaptchaTokenError])),
-        ]);
+        return promise
+          .catch((error) => {
+            expect(error).to.be.instanceOf(errors.EntityValidationError);
+            expect(error.invalidAttributes).to.have.lengthOf(4);
+          });
       });
     });
   });
