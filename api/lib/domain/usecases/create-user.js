@@ -2,40 +2,24 @@ const errors = require('../errors');
 const User = require('../models/User');
 
 function  _manageEmailAvailabilityError(error) {
-  if(error instanceof errors.AlreadyRegisteredEmailError) {
-    return new errors.EntityValidationError({
-      invalidAttributes: [
-        {
-          attribute: 'email',
-          message: 'Cette adresse electronique est déjà enregistrée.',
-        }
-      ]
-    });
-  }
+  return _manageError(error, errors.AlreadyRegisteredEmailError, 'email', 'Cette adresse electronique est déjà enregistrée.');
 }
 
 function  _manageReCaptchaTokenError(error) {
-  if(error instanceof errors.InvalidRecaptchaTokenError) {
-    return new errors.EntityValidationError({
-      invalidAttributes: [
-        {
-          attribute: 'recaptchaToken',
-          message: 'Merci de cocher la case ci-dessous :',
-        }
-      ]
-    });
-  }
+  return _manageError(error, errors.InvalidRecaptchaTokenError, 'recaptchaToken', 'Merci de cocher la case ci-dessous :');
 }
 
-module.exports = function({
-  user,
-  reCaptchaToken,
-  userRepository,
-  userValidator,
-  reCaptchaValidator,
-  encryptionService,
-  mailService,
-}) {
+function _manageError(error, errorType, attribute, message) {
+  if(error instanceof errorType) {
+    return new errors.EntityValidationError({
+      invalidAttributes: [{ attribute, message }]
+    });
+  }
+
+  throw error;
+}
+
+function _validateData(user, reCaptchaToken, userRepository, userValidator, reCaptchaValidator) {
   return Promise.all([
     userRepository.isEmailAvailable(user.email).catch(_manageEmailAvailabilityError),
     userValidator.validate(user).catch((error) => error),
@@ -47,7 +31,19 @@ module.exports = function({
       if (relevantErrors.length > 0) {
         throw errors.EntityValidationError.fromEntityValidationErrors(relevantErrors);
       }
-    })
+    });
+}
+
+module.exports = function({
+  user,
+  reCaptchaToken,
+  userRepository,
+  userValidator,
+  reCaptchaValidator,
+  encryptionService,
+  mailService,
+}) {
+  return _validateData(user, reCaptchaToken, userRepository, userValidator, reCaptchaValidator)
     .then(() => encryptionService.hashPassword(user.password))
     .then((encryptedPassword) => {
       const userWithEncryptedPassword = new User(user);
