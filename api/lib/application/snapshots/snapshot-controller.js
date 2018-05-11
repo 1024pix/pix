@@ -69,7 +69,7 @@ function _replyError(err, reply) {
     code: '500',
     title: 'Internal Server Error',
     detail: 'Une erreur est survenue lors de la création de l’instantané'
-  })).code(422);
+  })).code(500);
 }
 
 function create(request, reply) {
