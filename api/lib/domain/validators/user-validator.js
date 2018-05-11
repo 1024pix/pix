@@ -4,6 +4,7 @@ const { EntityValidationError } = require('../errors');
 
 const validationConfiguration = { abortEarly: false, allowUnknown: true };
 
+// TODO this check on password format should be done in create user use case and not user validation
 const joiWithPasswordValidation = Joi.extend((joi) => ({
   name: 'string',
   base: joi.string(),

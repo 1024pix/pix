@@ -47,23 +47,52 @@ describe('Unit | UseCase | create-user', () => {
 
   context('step validation of user', () => {
 
-    context('when user email is already in use', () => {
+    it('should check the non existence of email in UserRepository', () => {
+      // given
+      userRepository.isEmailAvailable.resolves();
 
-      it('should check the non existence of email in UserRepository', () => {
-        // given
-        userRepository.isEmailAvailable.resolves();
-
-        // when
-        const promise = usecases.createUser({
-          user, reCaptchaToken, userRepository, userValidator, reCaptchaValidator, encryptionService, mailService
-        });
-
-        // then
-        return promise
-          .catch(() => {
-            expect(userRepository.isEmailAvailable).to.have.been.calledWith(userEmail);
-          });
+      // when
+      const promise = usecases.createUser({
+        user, reCaptchaToken, userRepository, userValidator, reCaptchaValidator, encryptionService, mailService
       });
+
+      // then
+      return promise
+        .catch(() => {
+          expect(userRepository.isEmailAvailable).to.have.been.calledWith(userEmail);
+        });
+    });
+
+    it('should validate the user', () => {
+      // given
+      userValidator.validate.resolves();
+
+      // when
+      const promise = usecases.createUser({
+        user, reCaptchaToken, userRepository, userValidator, reCaptchaValidator, encryptionService, mailService
+      });
+
+      //then
+      return promise
+        .catch(() => {
+          expect(userValidator.validate).to.have.been.calledWith(user);
+        });
+    });
+
+    it('should validate the token', () => {
+      // when
+      const promise = usecases.createUser({
+        user, reCaptchaToken, userRepository, userValidator, reCaptchaValidator, encryptionService, mailService
+      });
+
+      //then
+      return promise
+        .catch(() => {
+          expect(reCaptchaValidator.verify).to.have.been.calledWith(reCaptchaToken);
+        });
+    });
+
+    context('when user email is already used', () => {
 
       it('should reject with an error EntityValidationError on email already registered', () => {
         // given
@@ -91,25 +120,10 @@ describe('Unit | UseCase | create-user', () => {
             expect(error.invalidAttributes).to.deep.equal(expectedValidationError.invalidAttributes);
           });
       });
+
     });
 
     context('when user validator fails', () => {
-
-      it('should validate the user', () => {
-        // given
-        userValidator.validate.resolves();
-
-        // when
-        const promise = usecases.createUser({
-          user, reCaptchaToken, userRepository, userValidator, reCaptchaValidator, encryptionService, mailService
-        });
-
-        //then
-        return promise
-          .catch(() => {
-            expect(userValidator.validate).to.have.been.calledWith(user);
-          });
-      });
 
       it('should reject with an error EntityValidationError containing the entityValidationError', () => {
         // given
@@ -140,22 +154,10 @@ describe('Unit | UseCase | create-user', () => {
             expect(error.invalidAttributes).to.deep.equal(expectedValidationError.invalidAttributes);
           });
       });
+
     });
 
     context('when reCAPTCHA token is not valid', () => {
-
-      it('should validate the token', () => {
-        // when
-        const promise = usecases.createUser({
-          user, reCaptchaToken, userRepository, userValidator, reCaptchaValidator, encryptionService, mailService
-        });
-
-        //then
-        return promise
-          .catch(() => {
-            expect(reCaptchaValidator.verify).to.have.been.calledWith(reCaptchaToken);
-          });
-      });
 
       it('should reject with an error EntityValidationError containing the entityValidationError', () => {
         // given
@@ -183,6 +185,7 @@ describe('Unit | UseCase | create-user', () => {
             expect(error.invalidAttributes).to.deep.equal(expectedValidationError.invalidAttributes);
           });
       });
+
     });
 
     context('when user email is already in use, user validator fails and invalid captcha token', () => {

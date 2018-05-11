@@ -163,24 +163,10 @@ class MissingOrInvalidCredentialsError extends Error {
   }
 }
 
-class UserCreationValidationErrors extends Error {
-  constructor(errors) {
-    super();
-    this.errors = errors;
-  }
-}
-
 class OrganizationCreationValidationErrors extends Error {
   constructor(errors) {
     super();
     this.errors = errors;
-  }
-}
-
-class FormValidationError extends Error {
-  constructor(errors = []) {
-    super();
-    this.errors = Array.from(errors);
   }
 }
 
@@ -234,8 +220,6 @@ module.exports = {
   ObjectValidationError,
   EntityValidationError,
   MissingOrInvalidCredentialsError,
-  UserCreationValidationErrors,
   OrganizationCreationValidationErrors,
-  FormValidationError,
   InvalidRecaptchaTokenError,
 };
