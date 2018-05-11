@@ -1,13 +1,31 @@
-const { FormValidationError } = require('../errors');
+const errors = require('../errors');
 const User = require('../models/User');
 
-// function _buildErrorWhenUniquEmail() {
-//   return {
-//     data: {
-//       email: ['Cette adresse electronique est déjà enregistrée.'],
-//     },
-//   };
-// }
+function  _manageEmailAvailabilityError(error) {
+  if(error instanceof errors.AlreadyRegisteredEmailError) {
+    return new errors.EntityValidationError({
+      invalidAttributes: [
+        {
+          attribute: 'email',
+          message: 'Cette adresse electronique est déjà enregistrée.',
+        }
+      ]
+    });
+  }
+}
+
+function  _manageReCaptchaTokenError(error) {
+  if(error instanceof errors.InvalidRecaptchaTokenError) {
+    return new errors.EntityValidationError({
+      invalidAttributes: [
+        {
+          attribute: 'recaptchaToken',
+          message: 'Merci de cocher la case ci-dessous :',
+        }
+      ]
+    });
+  }
+}
 
 module.exports = function({
   user,
@@ -19,15 +37,15 @@ module.exports = function({
   mailService,
 }) {
   return Promise.all([
-    userRepository.isEmailAvailable(user.email).catch((error) => error),
+    userRepository.isEmailAvailable(user.email).catch(_manageEmailAvailabilityError),
     userValidator.validate(user).catch((error) => error),
-    reCaptchaValidator.verify(reCaptchaToken).catch((error) => error)
+    reCaptchaValidator.verify(reCaptchaToken).catch(_manageReCaptchaTokenError)
   ])
-    .then((errors) => {
+    .then((validationErrors) => {
       // Promise.all returns the return value of all promises, even if the return value is undefined
-      const relevantErrors = errors.filter((error) => error instanceof Error);
+      const relevantErrors = validationErrors.filter((error) => error instanceof Error);
       if (relevantErrors.length > 0) {
-        throw new FormValidationError(relevantErrors);
+        throw errors.EntityValidationError.fromEntityValidationErrors(relevantErrors);
       }
     })
     .then(() => encryptionService.hashPassword(user.password))

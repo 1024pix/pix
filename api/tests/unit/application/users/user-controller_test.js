@@ -15,7 +15,6 @@ const passwordResetService = require('../../../../lib/domain/services/reset-pass
 const encryptionService = require('../../../../lib/domain/services/encryption-service');
 const userRepository = require('../../../../lib/infrastructure/repositories/user-repository');
 const userService = require('../../../../lib/domain/services/user-service');
-const userCreationValidator = require('../../../../lib/domain/validators/user-creation-validator');
 const reCaptchaValidator = require('../../../../lib/infrastructure/validators/grecaptcha-validator');
 const userValidator = require('../../../../lib/domain/validators/user-validator');
 const usecases = require('../../../../lib/domain/usecases');
@@ -53,7 +52,6 @@ describe('Unit | Controller | user-controller', () => {
       sandbox.stub(validationErrorSerializer, 'serialize');
       sandbox.stub(encryptionService, 'hashPassword');
       sandbox.stub(mailService, 'sendAccountCreationEmail');
-      sandbox.stub(userCreationValidator, 'validate');
       sandbox.stub(usecases, 'createUser');
     });
 
@@ -196,7 +194,6 @@ describe('Unit | Controller | user-controller', () => {
       beforeEach(() => {
         raisedError = new Error('Something wrong is going on in Gotham City');
         userRepository.create.rejects(raisedError);
-        userCreationValidator.validate.resolves();
       });
 
       it('should format a badImplementation', () => {

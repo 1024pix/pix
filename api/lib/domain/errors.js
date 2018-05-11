@@ -232,7 +232,6 @@ module.exports = {
   AlreadyRatedAssessmentError,
   WrongDateFormatError,
   ObjectValidationError,
-  // deprecated
   EntityValidationError,
   MissingOrInvalidCredentialsError,
   UserCreationValidationErrors,
