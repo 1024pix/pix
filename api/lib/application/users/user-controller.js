@@ -1,6 +1,7 @@
 const Boom = require('boom');
 const moment = require('moment');
 const JSONAPIError = require('jsonapi-serializer').Error;
+const _ = require('lodash');
 
 const userSerializer = require('../../infrastructure/serializers/jsonapi/user-serializer');
 const validationErrorSerializer = require('../../infrastructure/serializers/jsonapi/validation-error-serializer');
@@ -20,7 +21,7 @@ const reCaptchaValidator = require('../../infrastructure/validators/grecaptcha-v
 const Bookshelf = require('../../infrastructure/bookshelf');
 
 const logger = require('../../infrastructure/logger');
-const { PasswordResetDemandNotFoundError, InternalError, InvalidTokenError, UserCreationValidationErrors } = require('../../domain/errors');
+const { PasswordResetDemandNotFoundError, InternalError, InvalidTokenError, EntityValidationError } = require('../../domain/errors');
 
 module.exports = {
 
@@ -41,15 +42,15 @@ module.exports = {
       .then((savedUser) => {
         reply(userSerializer.serialize(savedUser)).code(201);
       })
-      .catch((err) => {
+      .catch((error) => {
 
-        if (err instanceof UserCreationValidationErrors) {
-          const serializedErrors = new JSONAPIError(err.errors);
+        if (error instanceof EntityValidationError) {
+          const serializedErrors = new JSONAPIError(error.invalidAttributes.map(_formatValidationError));
           return reply(serializedErrors).code(422);
         }
 
-        logger.error(err);
-        return reply(Boom.badImplementation(err));
+        logger.error(error);
+        return reply(Boom.badImplementation(error));
       });
   },
 
@@ -124,3 +125,12 @@ function _handleWhenInvalidAuthorization(errorMessage) {
   };
 }
 
+function _formatValidationError({ attribute, message }) {
+  return {
+    source: {
+      pointer: `/data/attributes/${ _.kebabCase(attribute) }`,
+    },
+    title: `Invalid user data attribute "${ attribute }"`,
+    detail: message
+  };
+}

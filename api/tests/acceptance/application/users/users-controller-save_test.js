@@ -87,8 +87,9 @@ describe('Acceptance | Controller | users-controller', () => {
 
         // then
         return promise
-          .then((response) => knex('users').where('id', response.result.data.id))
+          .then(() => knex('users').select())
           .then((users) => {
+            expect(users).to.have.lengthOf(1);
             expect(users[0]).to.include(expectedUserWithNoPasswordNorId);
             expect(users[0].password).to.exist;
           });

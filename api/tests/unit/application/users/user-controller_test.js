@@ -19,7 +19,7 @@ const reCaptchaValidator = require('../../../../lib/infrastructure/validators/gr
 const userValidator = require('../../../../lib/domain/validators/user-validator');
 const usecases = require('../../../../lib/domain/usecases');
 
-const { PasswordResetDemandNotFoundError, InternalError, FormValidationError } = require('../../../../lib/domain/errors');
+const { PasswordResetDemandNotFoundError, InternalError, EntityValidationError } = require('../../../../lib/domain/errors');
 
 describe('Unit | Controller | user-controller', () => {
 
@@ -135,15 +135,15 @@ describe('Unit | Controller | user-controller', () => {
 
       it('should reply with code 422 when a validation error occurs', () => {
         // given
-        const createUserValidationErrors = new FormValidationError({
-          errors: [
+        const expectedValidationError = new EntityValidationError({
+          invalidAttributes: [
             {
               attribute: 'firstName',
-              message: 'Votre prénom n’est pas renseigné.'
+              message: 'Votre prénom n’est pas renseigné.',
             },
             {
               attribute: 'password',
-              message: 'Votre prénom n’est pas renseigné.'
+              message: 'Votre mot de passe n’est pas renseigné.',
             },
           ]
         });
@@ -159,15 +159,10 @@ describe('Unit | Controller | user-controller', () => {
               source: { 'pointer': '/data/attributes/password' },
               title: 'Invalid user data attribute "password"',
               detail: 'Votre mot de passe n’est pas renseigné.'
-            },
-            {
-              source: { 'pointer': '/data/attributes/recaptcha-token' },
-              title: 'Invalid user data attribute "recaptchaToken"',
-              detail: 'Merci de cocher la case ci-dessous :'
-            },
+            }
           ]
         };
-        usecases.createUser.rejects(createUserValidationErrors);
+        usecases.createUser.rejects(expectedValidationError);
 
         // when
         const promise = userController.save(request, replyStub);
@@ -175,7 +170,7 @@ describe('Unit | Controller | user-controller', () => {
         // then
         return promise.then(() => {
           sinon.assert.calledWith(codeStub, 422);
-          sinon.assert.calledWith(replyStub, { errors: jsonApiValidationErrors });
+          sinon.assert.calledWith(replyStub, jsonApiValidationErrors);
         });
       });
     });
@@ -193,7 +188,7 @@ describe('Unit | Controller | user-controller', () => {
 
       beforeEach(() => {
         raisedError = new Error('Something wrong is going on in Gotham City');
-        userRepository.create.rejects(raisedError);
+        usecases.createUser.rejects(raisedError);
       });
 
       it('should format a badImplementation', () => {
