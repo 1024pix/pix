@@ -50,6 +50,7 @@ module.exports = {
         }
 
         logger.error(error);
+        // TODO extract the formatting into a common error formatter
         return reply(new JSONAPIError({
           code: '500',
           title: 'Internal Server Error',
@@ -129,6 +130,7 @@ function _handleWhenInvalidAuthorization(errorMessage) {
   };
 }
 
+// TODO extract this into a common error formatter
 function _formatValidationError({ attribute, message }) {
   return {
     source: {
