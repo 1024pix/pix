@@ -1,7 +1,7 @@
 const _ = require('lodash');
 const Joi = require('joi');
+const { EntityValidationError } = require('../errors');
 
-const JOI_VALIDATION_ERROR = 'ValidationError';
 const validationConfiguration = { abortEarly: false, allowUnknown: true };
 
 const organizationValidationJoiSchema = Joi.object().keys({
@@ -27,28 +27,16 @@ const organizationValidationJoiSchema = Joi.object().keys({
   })
 });
 
-function _formatJoiValidationError(joiError) {
-  return {
-    source: {
-      pointer: `/data/attributes/${_.kebabCase(joiError.context.key)}`
-    },
-    title: `Invalid organization data attribute "${joiError.context.key}"`,
-    detail: joiError.message,
-    meta: {
-      field: joiError.context.key
-    }
-  };
-}
-
 module.exports = {
 
   validate(organization) {
-    return Joi.validate(organization, organizationValidationJoiSchema, validationConfiguration).catch(error => {
-      if (error.name === JOI_VALIDATION_ERROR) {
-        return Promise.reject(error.details.map(_formatJoiValidationError));
-      }
-      throw error;
-    });
+
+    const joiValidationResults = Joi.validate(organization, organizationValidationJoiSchema, validationConfiguration);
+    if(joiValidationResults.error === null) {
+      return Promise.resolve();
+    } else {
+      return Promise.reject(EntityValidationError.fromJoiErrors(joiValidationResults.error.details));
+    }
   }
 
 };

@@ -13,7 +13,7 @@ function _concatErrors(userValidationErrors, organizationValidationErrors) {
   return validationErrors;
 }
 
-// FIXME move it in the "future" Use Case that creates a User
+// FIXME move it in the "future" Use Case that creates an organization, like create user
 module.exports = {
 
   validate(user, organization) {
