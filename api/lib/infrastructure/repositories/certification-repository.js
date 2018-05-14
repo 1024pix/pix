@@ -14,8 +14,18 @@ function _assessmentResultToDomain(assessmentResultBookshelf) {
     level: assessmentResultBookshelf.get('level'),
     juryId: assessmentResultBookshelf.get('juryId'),
     pixScore: assessmentResultBookshelf.get('pixScore'),
-    status: assessmentResultBookshelf.get('status')
+    status: assessmentResultBookshelf.get('status'),
   });
+}
+
+function _certificationToDomain(certificationCourseBookshelf) {
+  const assessmentResultsBookshelf = certificationCourseBookshelf
+    .related('assessment')
+    .related('assessmentResults');
+
+  const assessmentResults = assessmentResultsBookshelf.map(_assessmentResultToDomain);
+
+  return _createCertificationDomainModel({ certificationCourseBookshelf, assessmentResults });
 }
 
 function _createCertificationDomainModel({ certificationCourseBookshelf, assessmentResults }) {
@@ -25,7 +35,7 @@ function _createCertificationDomainModel({ certificationCourseBookshelf, assessm
     assessmentResults: assessmentResults,
     certificationCenter: certificationCourseBookshelf.related('session').get('certificationCenter'),
     date: certificationCourseBookshelf.get('completedAt'),
-    isPublished: Boolean(certificationCourseBookshelf.get('isPublished'))
+    isPublished: Boolean(certificationCourseBookshelf.get('isPublished')),
   });
 }
 
@@ -37,19 +47,11 @@ module.exports = {
         withRelated: [
           'session',
           'assessment',
-          'assessment.assessmentResults'
-        ]
+          'assessment.assessmentResults',
+        ],
       })
       .then((certificationCoursesBookshelf) => {
-        return certificationCoursesBookshelf.map((certificationCourseBookshelf) => {
-          const assessmentResultsBookshelf = certificationCourseBookshelf
-            .related('assessment')
-            .related('assessmentResults');
-
-          const assessmentResults = assessmentResultsBookshelf.map(_assessmentResultToDomain);
-
-          return _createCertificationDomainModel({ certificationCourseBookshelf, assessmentResults });
-        });
+        return certificationCoursesBookshelf.map(_certificationToDomain);
       });
   },
 
@@ -59,7 +61,7 @@ module.exports = {
       .save(attributes, {
         patch: true,
         method: 'update',
-        require: true
+        require: true,
       })
       .then(() => {
         return CertificationCourseBookshelf
@@ -68,19 +70,11 @@ module.exports = {
             withRelated: [
               'session',
               'assessment',
-              'assessment.assessmentResults'
-            ]
+              'assessment.assessmentResults',
+            ],
           });
       })
-      .then((certificationCourseBookshelf) => {
-        const assessmentResultsBookshelf = certificationCourseBookshelf
-          .related('assessment')
-          .related('assessmentResults');
-
-        const assessmentResults = assessmentResultsBookshelf.map(_assessmentResultToDomain);
-
-        return _createCertificationDomainModel({ certificationCourseBookshelf, assessmentResults });
-      })
+      .then(_certificationToDomain)
       .catch(err => {
         if (err instanceof CertificationCourseBookshelf.NoRowsUpdatedError) {
           throw new NotFoundError(`Not found certification for ID ${id}`);
@@ -88,5 +82,5 @@ module.exports = {
           throw err;
         }
       });
-  }
+  },
 };

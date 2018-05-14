@@ -6,7 +6,5 @@ export default Component.extend({
   classNames: ['certifications-list-item'],
   classNameBindings: ['certification.isPublished:certifications-list-item__published-item:certifications-list-item__unpublished-item'],
 
-  isValidated: computed('certification', function() {
-    return this.get('certification.status') === 'validated';
-  }),
+  isValidated: computed.equal('certification.status', 'validated'),
 });
