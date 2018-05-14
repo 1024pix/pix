@@ -2,6 +2,7 @@ const { expect, sinon } = require('../../../test-helper');
 const usecases = require('../../../../lib/domain/usecases');
 const errors = require('../../../../lib/domain/errors');
 const User = require('../../../../lib/domain/models/User');
+const userValidator = require('../../../../lib/domain/validators/user-validator');
 
 describe('Unit | UseCase | create-user', () => {
 
@@ -9,7 +10,6 @@ describe('Unit | UseCase | create-user', () => {
     isEmailAvailable: () => undefined,
     create: () => undefined,
   };
-  const userValidator = { validate: () => undefined };
   const encryptionService = { hashPassword: () => undefined };
   const mailService = { sendAccountCreationEmail: () => undefined };
   const reCaptchaValidator = { verify: () => undefined };
@@ -53,7 +53,7 @@ describe('Unit | UseCase | create-user', () => {
 
       // when
       const promise = usecases.createUser({
-        user, reCaptchaToken, userRepository, userValidator, reCaptchaValidator, encryptionService, mailService
+        user, reCaptchaToken, userRepository, reCaptchaValidator, encryptionService, mailService
       });
 
       // then
@@ -69,7 +69,7 @@ describe('Unit | UseCase | create-user', () => {
 
       // when
       const promise = usecases.createUser({
-        user, reCaptchaToken, userRepository, userValidator, reCaptchaValidator, encryptionService, mailService
+        user, reCaptchaToken, userRepository, reCaptchaValidator, encryptionService, mailService
       });
 
       //then
@@ -82,7 +82,7 @@ describe('Unit | UseCase | create-user', () => {
     it('should validate the token', () => {
       // when
       const promise = usecases.createUser({
-        user, reCaptchaToken, userRepository, userValidator, reCaptchaValidator, encryptionService, mailService
+        user, reCaptchaToken, userRepository, reCaptchaValidator, encryptionService, mailService
       });
 
       //then
@@ -110,7 +110,7 @@ describe('Unit | UseCase | create-user', () => {
 
         // when
         const promise = usecases.createUser({
-          user, reCaptchaToken, userRepository, userValidator, reCaptchaValidator, encryptionService, mailService
+          user, reCaptchaToken, userRepository, reCaptchaValidator, encryptionService, mailService
         });
 
         // then
@@ -144,7 +144,7 @@ describe('Unit | UseCase | create-user', () => {
 
         // when
         const promise = usecases.createUser({
-          user, reCaptchaToken, userRepository, userValidator, reCaptchaValidator, encryptionService, mailService
+          user, reCaptchaToken, userRepository, reCaptchaValidator, encryptionService, mailService
         });
 
         //then
@@ -214,7 +214,7 @@ describe('Unit | UseCase | create-user', () => {
 
         // when
         promise = usecases.createUser({
-          user, reCaptchaToken, userRepository, userValidator, reCaptchaValidator, encryptionService, mailService
+          user, reCaptchaToken, userRepository, reCaptchaValidator, encryptionService, mailService
         });
 
         // then
@@ -241,7 +241,6 @@ describe('Unit | UseCase | create-user', () => {
           user,
           reCaptchaToken,
           userRepository,
-          userValidator,
           reCaptchaValidator,
           encryptionService,
           mailService,
@@ -277,7 +276,6 @@ describe('Unit | UseCase | create-user', () => {
           user,
           reCaptchaToken,
           userRepository,
-          userValidator,
           reCaptchaValidator,
           encryptionService,
           mailService,
@@ -299,7 +297,6 @@ describe('Unit | UseCase | create-user', () => {
         user,
         reCaptchaToken,
         userRepository,
-        userValidator,
         reCaptchaValidator,
         encryptionService,
         mailService,

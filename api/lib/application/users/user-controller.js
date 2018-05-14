@@ -15,7 +15,6 @@ const encryptionService = require('../../domain/services/encryption-service');
 const tokenService = require('../../domain/services/token-service');
 
 const usecases = require('../../domain/usecases');
-const userValidator = require('../../domain/validators/user-validator');
 const reCaptchaValidator = require('../../infrastructure/validators/grecaptcha-validator');
 
 const Bookshelf = require('../../infrastructure/bookshelf');
@@ -34,7 +33,6 @@ module.exports = {
       user,
       reCaptchaToken,
       userRepository,
-      userValidator,
       reCaptchaValidator,
       encryptionService,
       mailService,

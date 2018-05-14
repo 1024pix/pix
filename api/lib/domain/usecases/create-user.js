@@ -1,6 +1,8 @@
 const errors = require('../errors');
 const User = require('../models/User');
 
+const userValidator = require('../validators/user-validator');
+
 function  _manageEmailAvailabilityError(error) {
   return _manageError(error, errors.AlreadyRegisteredEmailError, 'email', 'Cette adresse electronique est déjà enregistrée.');
 }
@@ -38,7 +40,6 @@ module.exports = function({
   user,
   reCaptchaToken,
   userRepository,
-  userValidator,
   reCaptchaValidator,
   encryptionService,
   mailService,

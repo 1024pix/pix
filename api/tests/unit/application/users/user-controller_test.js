@@ -16,7 +16,6 @@ const encryptionService = require('../../../../lib/domain/services/encryption-se
 const userRepository = require('../../../../lib/infrastructure/repositories/user-repository');
 const userService = require('../../../../lib/domain/services/user-service');
 const reCaptchaValidator = require('../../../../lib/infrastructure/validators/grecaptcha-validator');
-const userValidator = require('../../../../lib/domain/validators/user-validator');
 const usecases = require('../../../../lib/domain/usecases');
 
 const { PasswordResetDemandNotFoundError, InternalError, EntityValidationError } = require('../../../../lib/domain/errors');
@@ -104,7 +103,6 @@ describe('Unit | Controller | user-controller', () => {
           user: deserializedUser,
           reCaptchaToken,
           userRepository,
-          userValidator,
           reCaptchaValidator,
           encryptionService,
           mailService,
