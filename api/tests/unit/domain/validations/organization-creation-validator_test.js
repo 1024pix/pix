@@ -4,13 +4,7 @@ const userValidator = require('../../../../lib/domain/validators/user-validator'
 const organizationValidator = require('../../../../lib/domain/validators/organization-validator');
 const User = require('../../../../lib/domain/models/User');
 const Organization = require('../../../../lib/domain/models/Organization');
-const { OrganizationCreationValidationErrors } = require('../../../../lib/domain/errors');
-
-function _assertErrorMatchesWithExpectedOne(err, expectedError) {
-  expect(err).to.be.an.instanceof(OrganizationCreationValidationErrors);
-  expect(err.errors).to.have.lengthOf(1);
-  expect(err.errors[0]).to.deep.equal(expectedError);
-}
+const errors = require('../../../../lib/domain/errors');
 
 describe('Unit | Domain | Validators | organization-creation-validator', function() {
 
@@ -63,16 +57,20 @@ describe('Unit | Domain | Validators | organization-creation-validator', functio
 
       it('should reject with the errors from user validation', () => {
         // given
-        const expectedError = {
-          source: { pointer: '/data/attributes/first-name' },
-          title: 'Invalid user data attribute "firstName"',
-          detail: 'Votre prénom n’est pas renseigné.',
-          meta: {
-            field: 'firstName'
-          }
-        };
+        const expectedValidationError = new errors.EntityValidationError({
+          invalidAttributes: [
+            {
+              attribute: 'firstName',
+              message: 'Votre prénom n’est pas renseigné.',
+            },
+            {
+              attribute: 'password',
+              message: 'Votre mot de passe n’est pas renseigné.',
+            },
+          ]
+        });
 
-        userValidator.validate.rejects([expectedError]);
+        userValidator.validate.rejects(expectedValidationError);
         organizationValidator.validate.resolves();
 
         // when
@@ -80,8 +78,39 @@ describe('Unit | Domain | Validators | organization-creation-validator', functio
 
         // then
         return promise
-          .then(() => expect.fail('Expected rejection with OrganizationCreationValidationErrors'))
-          .catch((err) => _assertErrorMatchesWithExpectedOne(err, expectedError));
+          .catch((error) => {
+            expect(error).to.be.instanceOf(errors.EntityValidationError);
+            expect(error.invalidAttributes).to.deep.equal(expectedValidationError.invalidAttributes);
+          });
+      });
+
+    });
+
+    context('when organization validation fails', () => {
+
+      it('should reject with the errors from organization validation', () => {
+        // given
+        const expectedValidationError = new errors.EntityValidationError({
+          invalidAttributes: [
+            {
+              attribute: 'type',
+              message: 'Le type n‘est pas renseigné.',
+            }
+          ]
+        });
+
+        organizationValidator.validate.rejects(expectedValidationError);
+        userValidator.validate.resolves();
+
+        // when
+        const promise = organizationCreationValidator.validate(user, organization);
+
+        // then
+        return promise
+          .catch((error) => {
+            expect(error).to.be.instanceOf(errors.EntityValidationError);
+            expect(error.invalidAttributes).to.deep.equal(expectedValidationError.invalidAttributes);
+          });
       });
 
     });
@@ -90,37 +119,34 @@ describe('Unit | Domain | Validators | organization-creation-validator', functio
 
       it('should reject with the errors from user and organization validations', () => {
         // given
-        const expectedUserError = {
-          source: { pointer: '/data/attributes/first-name' },
-          title: 'Invalid user data attribute "firstName"',
-          detail: 'Votre prénom n’est pas renseigné.',
-          meta: {
-            field: 'firstName'
-          }
-        };
-        const expectedOrganizationError = {
-          source: { pointer: '/data/attributes/type' },
-          title: 'Invalid type',
-          detail: 'Le type n’est pas renseigné.',
-          meta: {
-            field: 'type'
-          }
-        };
+        const expectedUserValidationError = new errors.EntityValidationError({
+          invalidAttributes: [
+            {
+              attribute: 'firstName',
+              message: 'Votre prénom n’est pas renseigné.',
+            }
+          ]
+        });
+        const expectedOrgaValidationError = new errors.EntityValidationError({
+          invalidAttributes: [
+            {
+              attribute: 'type',
+              message: 'Le type de l’organisation doit avoir l’une des valeurs suivantes: SCO, SUP, PRO.',
+            }
+          ]
+        });
 
-        userValidator.validate.rejects([expectedUserError]);
-        organizationValidator.validate.rejects([expectedOrganizationError]);
+        userValidator.validate.rejects(expectedUserValidationError);
+        organizationValidator.validate.rejects(expectedOrgaValidationError);
 
         // when
         const promise = organizationCreationValidator.validate(user, organization);
 
         // then
         return promise
-          .then(() => expect.fail('Expected rejection with OrganizationCreationValidationErrors'))
-          .catch((err) => {
-            expect(err).to.be.an.instanceof(OrganizationCreationValidationErrors);
-            expect(err.errors).to.have.lengthOf(2);
-            expect(err.errors[0]).to.deep.equal(expectedUserError);
-            expect(err.errors[1]).to.deep.equal(expectedOrganizationError);
+          .catch((error) => {
+            expect(error).to.be.instanceOf(errors.EntityValidationError);
+            expect(error.invalidAttributes).to.have.lengthOf(2);
           });
       });
 

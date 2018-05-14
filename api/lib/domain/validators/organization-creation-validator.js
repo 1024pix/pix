@@ -1,17 +1,6 @@
 const userValidator = require('./user-validator');
 const organizationValidator = require('./organization-validator');
-const { OrganizationCreationValidationErrors } = require('../../domain/errors');
-
-function _concatErrors(userValidationErrors, organizationValidationErrors) {
-  const validationErrors = [];
-  if (userValidationErrors instanceof Array) {
-    validationErrors.push(...userValidationErrors);
-  }
-  if (organizationValidationErrors instanceof Array) {
-    validationErrors.push(...organizationValidationErrors);
-  }
-  return validationErrors;
-}
+const errors = require('../../domain/errors');
 
 // FIXME move it in the "future" Use Case that creates an organization, like create user
 module.exports = {
@@ -21,17 +10,12 @@ module.exports = {
       userValidator.validate(user).catch((errors) => errors),
       organizationValidator.validate(organization).catch((errors) => errors),
     ])
-      .then(values => {
-        const userValidationErrors = values[0];
-        const organizationValidationErrors = values[1];
-
-        const validationErrors = _concatErrors(userValidationErrors, organizationValidationErrors);
-
-        if (validationErrors.length > 0) {
-          return Promise.reject(new OrganizationCreationValidationErrors(validationErrors));
+      .then((validationErrors) => {
+        // Promise.all returns the return value of all promises, even if the return value is undefined
+        const relevantErrors = validationErrors.filter((error) => error instanceof Error);
+        if (relevantErrors.length > 0) {
+          throw errors.EntityValidationError.fromEntityValidationErrors(relevantErrors);
         }
-
-        return Promise.resolve();
       });
   }
 
