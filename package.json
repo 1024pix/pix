@@ -59,11 +59,7 @@
     "coverage": "npm run coverage:clean && npm run coverage:api && npm run coverage:live && npm run coverage:merge && npm run coverage:coveralls && npm run coverage:codeclimate",
     "release:prepare": "./scripts/release/prepare.sh",
     "release:perform": "./scripts/release/perform.sh",
-    "release:publish": "./scripts/release/publish.sh"
-  },
-  "husky": {
-    "hooks": {
-      "commit-msg": "./scripts/git-hook/prepend-commit-message.js"
-    }
+    "release:publish": "./scripts/release/publish.sh",
+    "commitmsg": "node ./scripts/git-hook/prepend-commit-message.js"
   }
 }
