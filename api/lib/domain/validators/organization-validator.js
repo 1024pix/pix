@@ -1,4 +1,3 @@
-const _ = require('lodash');
 const Joi = require('joi');
 const { EntityValidationError } = require('../errors');
 
