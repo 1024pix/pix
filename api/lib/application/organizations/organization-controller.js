@@ -18,7 +18,7 @@ const logger = require('../../infrastructure/logger');
 const User = require('../../domain/models/User');
 const Organization = require('../../domain/models/Organization');
 const exportCsvFileName = 'Pix - Export donnees partagees.csv';
-const { OrganizationCreationValidationErrors } = require('../../domain/errors');
+const { EntityValidationError } = require('../../domain/errors');
 
 module.exports = {
 
@@ -39,10 +39,12 @@ module.exports = {
       .then((savedOrganization) => organizationSerializer.serialize(savedOrganization))
       .then((serializedOrganization) => reply(serializedOrganization))
       .catch((error) => {
-        if (error instanceof OrganizationCreationValidationErrors) {
-          const serializedErrors = new JSONAPIError(error.errors);
+
+        if (error instanceof EntityValidationError) {
+          const serializedErrors = new JSONAPIError(error.invalidAttributes.map(_formatValidationError));
           return reply(serializedErrors).code(422);
         }
+
         logger.error(error);
         return reply(new JSONAPIError({ status: '500', title: 'Une erreur serveur est survenue.', meta: error })).code(500);
       });
@@ -148,5 +150,16 @@ function _buildErrorMessage(errorMessage) {
     data: {
       authorization: [errorMessage]
     }
+  };
+}
+
+// TODO extract this into a common error formatter
+function _formatValidationError({ attribute, message }) {
+  return {
+    source: {
+      pointer: `/data/attributes/${ _.kebabCase(attribute) }`,
+    },
+    title: `Invalid user data attribute "${ attribute }"`,
+    detail: message
   };
 }

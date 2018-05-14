@@ -14,7 +14,7 @@ const encryptionService = require('../../../../lib/domain/services/encryption-se
 const snapshotSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/snapshot-serializer');
 const validationErrorSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/validation-error-serializer');
 const bookshelfUtils = require('../../../../lib/infrastructure/utils/bookshelf-utils');
-const { OrganizationCreationValidationErrors, NotFoundError } = require('../../../../lib/domain/errors');
+const { EntityValidationError, NotFoundError } = require('../../../../lib/domain/errors');
 const logger = require('../../../../lib/infrastructure/logger');
 const organizationCreationValidator = require('../../../../lib/domain/validators/organization-creation-validator');
 
@@ -166,19 +166,47 @@ describe('Unit | Application | Organizations | organization-controller', () => {
       context('when an input params validation error occurred', () => {
 
         beforeEach(() => {
-          const validationErrors = [];
-          error = new OrganizationCreationValidationErrors(validationErrors);
+          const expectedValidationError = new EntityValidationError({
+            invalidAttributes: [
+              {
+                attribute: 'name',
+                message: 'Le nom n’est pas renseigné.',
+              },
+              {
+                attribute: 'type',
+                message: 'Le type n’est pas renseigné.',
+              },
+            ]
+          });
+
+          error = new EntityValidationError(expectedValidationError);
           organizationCreationValidator.validate.rejects(error);
         });
 
         it('should return an error with HTTP status code 422 when a validation error occurred', () => {
+          // given
+          const jsonApiValidationErrors = {
+            errors: [
+              {
+                source: { 'pointer': '/data/attributes/name' },
+                title: 'Invalid user data attribute "name"',
+                detail: 'Le nom n’est pas renseigné.'
+              },
+              {
+                source: { 'pointer': '/data/attributes/type' },
+                title: 'Invalid user data attribute "type"',
+                detail: 'Le type n’est pas renseigné.'
+              }
+            ]
+          };
+
           // when
           const promise = organizationController.create(request, replyStub);
 
           // then
           return promise.then(() => {
-            expect(replyStub).to.have.been.calledWith({ errors: [] });
-            expect(codeStub).to.have.been.calledWith(422);
+            sinon.assert.calledWith(codeStub, 422);
+            sinon.assert.calledWith(replyStub, jsonApiValidationErrors);
           });
         });
       });
