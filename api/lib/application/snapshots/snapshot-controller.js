@@ -60,7 +60,7 @@ function _replyError(err, reply) {
     return reply(new JSONAPIError({
       code: '422',
       title: 'Unprocessable entity',
-      detail: 'Les codes de partage du profil sont trop long'
+      detail: 'Les codes de partage du profil sont trop longs'
     })).code(422);
   }
 
