@@ -37,7 +37,7 @@ describe('Unit | Controller | certifications-controller', () => {
 
     beforeEach(() => {
       sandbox.stub(usecases, 'findCompletedUserCertifications');
-      sandbox.stub(certificationSerializer, 'serializeCertification').returns(serializedCertifications);
+      sandbox.stub(certificationSerializer, 'serialize').returns(serializedCertifications);
       sandbox.stub(Boom, 'badImplementation').returns(jsonAPI500error);
       sandbox.stub(logger, 'error');
     });
@@ -52,7 +52,7 @@ describe('Unit | Controller | certifications-controller', () => {
       // then
       return promise.then(() => {
         expect(usecases.findCompletedUserCertifications).to.have.been.calledWith({ userId, certificationRepository });
-        expect(certificationSerializer.serializeCertification).to.have.been.calledWith(retrievedCertifications);
+        expect(certificationSerializer.serialize).to.have.been.calledWith(retrievedCertifications);
         expect(replyStub).to.have.been.calledWith(serializedCertifications);
         expect(codeStub).to.have.been.calledWith(200);
       });
@@ -77,8 +77,11 @@ describe('Unit | Controller | certifications-controller', () => {
 
     const certificationId = '28';
     const attributesToUpdate = {
+      id: certificationId,
       isPublished: true
     };
+    const updatedCertification = {};
+    const serializedCertification = {};
 
     const request = {
       params: {
@@ -89,7 +92,7 @@ describe('Unit | Controller | certifications-controller', () => {
           type: 'certification',
           id: certificationId,
           attributes: {
-            isPublished: true
+            'is-published': true
           }
         }
       }
@@ -100,13 +103,15 @@ describe('Unit | Controller | certifications-controller', () => {
 
     beforeEach(() => {
       sandbox.stub(usecases, 'updateCertification');
+      sandbox.stub(certificationSerializer, 'serialize');
       sandbox.stub(Boom, 'badImplementation').returns(boomError);
       sandbox.stub(logger, 'error');
     });
 
-    it('should return a serialized certifications array when use case return a array of Certifications', () => {
+    it('should return a serialized certification when update was successful', () => {
       // given
-      usecases.updateCertification.resolves();
+      usecases.updateCertification.resolves(updatedCertification);
+      certificationSerializer.serialize.returns(serializedCertification);
 
       // when
       const promise = certificationController.updateCertification(request, replyStub);
@@ -116,7 +121,9 @@ describe('Unit | Controller | certifications-controller', () => {
         expect(usecases.updateCertification).to.have.been.calledWith({
           certificationId, attributesToUpdate, certificationRepository
         });
-        expect(codeStub).to.have.been.calledWith(204);
+        expect(certificationSerializer.serialize).to.have.been.calledWith(updatedCertification);
+        expect(replyStub).to.have.been.calledWith(serializedCertification);
+        expect(codeStub).to.have.been.calledWith(200);
       });
     });
 

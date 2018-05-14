@@ -5,16 +5,16 @@ const moment = require('moment-timezone');
 
 module.exports = {
 
-  serialize(certificationCourse) {
+  serialize(certification) {
     return new Serializer('certifications', {
-      attributes: ['firstName', 'lastName', 'birthplace', 'birthdate', 'externalId']
-    }).serialize(certificationCourse);
+      attributes: ['certificationCenter', 'date', 'isPublished', 'status', 'pixScore'],
+    }).serialize(certification);
   },
 
-  serializeCertification(certificationsList) {
+  serializeFromCertificationCourse(certificationCourse) {
     return new Serializer('certifications', {
-      attributes: ['certificationCenter', 'date']
-    }).serialize(certificationsList);
+      attributes: ['firstName', 'lastName', 'birthplace', 'birthdate', 'externalId'],
+    }).serialize(certificationCourse);
   },
 
   deserialize(json) {
@@ -31,6 +31,5 @@ module.exports = {
         }
         return certifications;
       }));
-
-  }
+  },
 };

@@ -17,7 +17,7 @@ module.exports = {
         record.userId = record.userId.toString();
         record.type = 'CERTIFICATION';
         return record;
-      }
+      },
     }).serialize(certificationCourse);
   },
 
@@ -43,7 +43,7 @@ module.exports = {
         'birthdate',
         'birthplace',
         'sessionId',
-        'externalId']
+        'externalId'],
     }).serialize(certificationCourseResult);
   },
 
@@ -63,5 +63,5 @@ module.exports = {
       birthdate: moment(json.data.attributes.birthdate, 'DD/MM/YYYY').format('YYYY-MM-DD'),
       birthplace: json.data.attributes.birthplace,
     });
-  }
+  },
 };

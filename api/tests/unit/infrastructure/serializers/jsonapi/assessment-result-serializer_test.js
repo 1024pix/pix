@@ -25,32 +25,6 @@ describe('Unit | Serializer | JSONAPI | assessment-result-serializer', () => {
     };
   });
 
-  describe('#serialize', () => {
-    it('should serialize the assessment rating object to jsonapi object excluding email and password', () => {
-      // given
-      const modelObject = new AssessmentResult({
-        id: '234567',
-        estimatedLevel: 7,
-        pixScore: 526
-      });
-
-      // when
-      const json = serializer.serialize(modelObject);
-
-      // then
-      expect(json).to.be.deep.equal({
-        data: {
-          attributes: {
-            'estimated-level': 7,
-            'pix-score': 526,
-          },
-          id: '234567',
-          type: 'assessment-results'
-        }
-      });
-    });
-  });
-
   describe('#deserialize', () => {
 
     it('should convert JSON API data into an Assessment Rating model object', () => {
