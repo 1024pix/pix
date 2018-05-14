@@ -157,7 +157,7 @@ describe('Acceptance | Controller | snapshot-controller', () => {
         // then
         return promise.then((response) => {
           const parsedResponse = JSON.parse(response.payload);
-          expect(parsedResponse.errors[0].detail).to.equal('Les codes de partage du profil sont trop long');
+          expect(parsedResponse.errors[0].detail).to.equal('Les codes de partage du profil sont trop longs');
           expect(response.statusCode).to.equal(422);
         });
       });
