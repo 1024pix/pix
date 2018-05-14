@@ -1,0 +1,34 @@
+<div class="certifications-list-item__cell">
+  {{moment-format certification.date 'DD/MM/YYYY' allow-empty=true}}
+</div>
+
+{{#unless certification.isPublished}}
+  <div class="certifications-list-item__cell">
+    <img src="/images/sablier.svg" alt="" class="certifications-list-item__hourglass-img">
+    En attente du résultat
+  </div>
+  <div class="certifications-list-item__cell-pix-score"></div>
+
+{{else unless isValidated}}
+  <div class="certifications-list-item__cell">
+    <img src="/images/icons/icon-croix.svg" alt="" class="certifications-list-item__cross-img">
+    Certification non obtenue
+  </div>
+  <div class="certifications-list-item__cell-pix-score"></div>
+
+{{else}}
+  <div class="certifications-list-item__cell">
+    <img src="/images/icons/icon-check-vert.svg" alt="" class="certifications-list-item__green-check-img">
+    Certification obtenue
+  </div>
+  <div class="certifications-list-item__cell-pix-score">
+    <div class="certifications-list-item__pix-score">
+      <span>{{ certification.pixScore }}</span>
+    </div>
+  </div>
+
+{{/unless}}
+
+<div class="certifications-list-item__cell-certification-center">
+  {{certification.certificationCenter}}
+</div>

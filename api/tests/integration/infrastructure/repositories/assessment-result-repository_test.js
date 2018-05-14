@@ -80,9 +80,9 @@ describe('Integration | Repository | AssessmentResult', function() {
       competence_code: '1.2'
     };
 
-    beforeEach(() =>  {
+    beforeEach(() => {
       return knex('assessment-results')
-        .insert([ assessmentResult ])
+        .insert([assessmentResult])
         .then((rows) => {
           assessmentResultId = rows[0];
 
@@ -93,7 +93,7 @@ describe('Integration | Repository | AssessmentResult', function() {
         });
     });
 
-    afterEach(() => knex('competence-marks').delete().then(()=> knex('assessment-results').delete()));
+    afterEach(() => knex('competence-marks').delete().then(() => knex('assessment-results').delete()));
 
     it('should return the assessmentResult', () => {
       // when
@@ -131,7 +131,6 @@ describe('Integration | Repository | AssessmentResult', function() {
 
       });
     });
-
   });
 });
 

@@ -4,7 +4,6 @@ const Boom = require('boom');
 const JSONAPIError = require('jsonapi-serializer').Error;
 
 const assessmentResultController = require('../../../../lib/application/assessment-results/assessment-result-controller');
-const assessmentRatingSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/assessment-result-serializer');
 const assessmentResultService = require('../../../../lib/domain/services/assessment-result-service');
 
 const { AlreadyRatedAssessmentError, NotFoundError } = require('../../../../lib/domain/errors');
@@ -44,7 +43,6 @@ describe('Unit | Controller | assessment-results', () => {
       sandbox = sinon.sandbox.create();
 
       replyStub = sinon.stub().returns({ code: sinon.stub() });
-      sandbox.stub(assessmentRatingSerializer, 'serialize');
       sandbox.stub(assessmentResultService, 'evaluateFromAssessmentId').resolves();
       sandbox.stub(Boom, 'notFound').returns({ message: 'NotFoundError' });
       sandbox.stub(Boom, 'badImplementation').returns({ message: 'badImplementation' });

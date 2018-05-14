@@ -1,9 +1,10 @@
 const { expect } = require('../../../../test-helper');
+const AssessmentResult = require('../../../../../lib/domain/models/AssessmentResult');
+const Certification = require('../../../../../lib/domain/models/Certification');
 const serializer = require('../../../../../lib/infrastructure/serializers/jsonapi/certification-serializer');
-
 const { WrongDateFormatError } = require('../../../../../lib/domain/errors');
 
-describe('Unit | Serializer | JSONAPI | certification-serializer', function() {
+describe('Unit | Serializer | JSONAPI | certification-serializer', () => {
 
   describe('#deserialize', function() {
 
@@ -55,9 +56,92 @@ describe('Unit | Serializer | JSONAPI | certification-serializer', function() {
     });
   });
 
-  describe('#serialize', function() {
+  describe('#serialize', () => {
 
-    const jsonCertificationCourse = {
+    context('the entry data is an array of certifications', () => {
+
+      const assessmentResult = new AssessmentResult({
+        pixScore: 23,
+        status: 'rejected'
+      });
+      const receivedCertifications = [
+        new Certification({
+          id: 123,
+          certificationCenter: 'Université des chocolats',
+          date: '01/02/2004',
+          isPublished: true,
+          assessmentState: 'completed',
+          assessmentResults: [assessmentResult]
+        })
+      ];
+
+      const JsonCertificationList = {
+        data: [
+          {
+            attributes: {
+              'certification-center': 'Université des chocolats',
+              'date': '01/02/2004',
+              'is-published': true,
+              'status': 'rejected',
+              'pix-score': 23
+            },
+            'type': 'certifications',
+            'id': 123
+          }
+        ]
+      };
+
+      it('should serialize user certifications to JSON', () => {
+        // when
+        const serializedCertifications = serializer.serialize(receivedCertifications);
+
+        // then
+        expect(serializedCertifications).to.deep.equal(JsonCertificationList);
+      });
+    });
+
+    context('the entry data is one certification', () => {
+
+      const assessmentResult = new AssessmentResult({
+        pixScore: 23,
+        status: 'rejected'
+      });
+      const receivedCertification = new Certification({
+        id: 123,
+        certificationCenter: 'Université des chocolats',
+        date: '01/02/2004',
+        isPublished: true,
+        assessmentState: 'completed',
+        assessmentResults: [assessmentResult]
+      });
+      const JsonCertification =
+        {
+          data: {
+            attributes: {
+              'certification-center': 'Université des chocolats',
+              'date': '01/02/2004',
+              'is-published': true,
+              'status': 'rejected',
+              'pix-score': 23
+            },
+            'type': 'certifications',
+            'id': 123
+          }
+        };
+
+      it('should serialize user certifications to JSON', () => {
+        // when
+        const serializedCertifications = serializer.serialize(receivedCertification);
+
+        // then
+        expect(serializedCertifications).to.deep.equal(JsonCertification);
+      });
+    });
+  });
+
+  describe('#serializeFromCertificationCourse', () => {
+
+    const jsonCertification = {
       data: {
         type: 'certifications',
         id: 1,
@@ -67,8 +151,8 @@ describe('Unit | Serializer | JSONAPI | certification-serializer', function() {
           'birthplace': 'Namek',
           'birthdate': '24/10/1989',
           'external-id': 'xenoverse2',
-        }
-      }
+        },
+      },
     };
 
     const certificationCourse = {
@@ -80,52 +164,11 @@ describe('Unit | Serializer | JSONAPI | certification-serializer', function() {
       externalId: 'xenoverse2',
     };
 
-    it('should serialize', function() {
+    it('should serialize', () => {
       // when
-      const serializedCertificationCourse = serializer.serialize(certificationCourse);
+      const serializedCertification = serializer.serializeFromCertificationCourse(certificationCourse);
       // then
-      expect(serializedCertificationCourse).to.deep.equal(jsonCertificationCourse);
-
+      expect(serializedCertification).to.deep.equal(jsonCertification);
     });
-
-  });
-
-  describe('#serializeCertification', () => {
-
-    const receivedCertifications = [{
-      certificationCenter: 'Université du Pix',
-      date: '01/02/2004'
-    }, {
-      certificationCenter: 'Université du Pix',
-      date: '10/03/2005'
-    }];
-
-    const JsonCertificationList = {
-      data: [
-        {
-          attributes: {
-            'certification-center': 'Université du Pix',
-            date: '01/02/2004'
-          },
-          type: 'certifications'
-        },
-        {
-          'attributes': {
-            'certification-center': 'Université du Pix',
-            date: '10/03/2005'
-          },
-          type: 'certifications'
-        }
-      ]
-    };
-
-    it('should serialize user certifications to JSON', () => {
-      // when
-      const serializedCertifications = serializer.serializeCertification(receivedCertifications);
-
-      // then
-      expect(serializedCertifications).to.deep.equal(JsonCertificationList);
-    });
-
   });
 });

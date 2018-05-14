@@ -5,19 +5,19 @@ const CertificationCourse = require('../../../../../lib/domain/models/Certificat
 
 describe('Unit | Serializer | JSONAPI | certification-course-serializer', function() {
 
-  describe('#serialize()', function() {
+  describe('#serialize', function() {
 
     it('should convert a Certification Course model object into JSON API data', function() {
       // given
       const assessment = new Assessment({
-        'id': '2'
+        'id': '2',
       });
 
       const certificationCourse = new CertificationCourse({
         id: 'certification_id',
-        userId : 2,
+        userId: 2,
         assessment: assessment,
-        nbChallenges: 3
+        nbChallenges: 3,
       });
 
       const jsonCertificationCourseWithAssessment = {
@@ -26,18 +26,18 @@ describe('Unit | Serializer | JSONAPI | certification-course-serializer', functi
           id: 'certification_id',
           attributes: {
             'user-id': '2',
-            'type' : 'CERTIFICATION',
-            'nb-challenges': 3
+            'type': 'CERTIFICATION',
+            'nb-challenges': 3,
           },
           relationships: {
             assessment: {
               data: {
                 id: '2',
-                type: 'assessments'
-              }
-            }
-          }
-        }
+                type: 'assessments',
+              },
+            },
+          },
+        },
       };
 
       // when
@@ -62,7 +62,7 @@ describe('Unit | Serializer | JSONAPI | certification-course-serializer', functi
         birthdate: '08/02/1974',
         birthplace: 'Neuilly-Sur-Seine',
         sessionId: '#DaftPunk',
-        externalId: 'Grammys2016'
+        externalId: 'Grammys2016',
       });
 
       // when
@@ -82,9 +82,9 @@ describe('Unit | Serializer | JSONAPI | certification-course-serializer', functi
             'birthdate': '08/02/1974',
             'birthplace': 'Neuilly-Sur-Seine',
             'session-id': '#DaftPunk',
-            'external-id': 'Grammys2016'
+            'external-id': 'Grammys2016',
           },
-        }
+        },
       });
     });
   });

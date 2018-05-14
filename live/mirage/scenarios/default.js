@@ -60,16 +60,18 @@ export default function(server) {
   server.create('certification', {
     id: '1',
     date: new Date('2018-02-15T15:15:52.504Z'),
-    status: 'completed',
-    score: '3789',
+    status: 'validated',
+    pixScore: '3789',
+    isPublished: true,
     certificationCenter: 'Université de Paris',
   });
 
   server.create('certification', {
     id: '2',
     date: new Date('2018-02-15T15:15:52.504Z'),
-    status: 'completed',
-    score: '3789101',
+    status: 'rejected',
+    pixScore: '6546',
+    isPublished: false,
     certificationCenter: 'Université de Lyon',
   });
 
