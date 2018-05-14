@@ -37,7 +37,7 @@ class Assessment {
     return !answeredChallenges.includes(challenge);
   }
 
-  _isNotTooHardChallenge(challenge) {
+  _isChallengeNotTooHard(challenge) {
     return challenge.hardestSkill.difficulty - this._getPredictedLevel() <= 2;
   }
 
@@ -142,7 +142,7 @@ class Assessment {
     let availableChallenges = this.course.challenges.filter(challenge => this._isAnAvailableChallenge(challenge));
     availableChallenges = this._isPreviousChallengeTimed() ? this._extractNotTimedChallenge(availableChallenges) : availableChallenges;
 
-    availableChallenges = availableChallenges.filter(challenge => this._isNotTooHardChallenge(challenge));
+    availableChallenges = availableChallenges.filter(challenge => this._isChallengeNotTooHard(challenge));
 
     return availableChallenges;
   }
