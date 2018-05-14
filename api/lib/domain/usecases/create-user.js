@@ -36,6 +36,14 @@ function _validateData(user, reCaptchaToken, userRepository, userValidator, reCa
     });
 }
 
+function _checkEncryptedPassword(userPassword, encryptedPassword) {
+  if(encryptedPassword === userPassword) {
+    throw new Error('Erreur lors de l‘encryption du mot passe de l‘utilisateur');
+  }
+
+  return encryptedPassword;
+}
+
 module.exports = function({
   user,
   reCaptchaToken,
@@ -46,6 +54,7 @@ module.exports = function({
 }) {
   return _validateData(user, reCaptchaToken, userRepository, userValidator, reCaptchaValidator)
     .then(() => encryptionService.hashPassword(user.password))
+    .then((encryptedPassword) => _checkEncryptedPassword(user.password, encryptedPassword))
     .then((encryptedPassword) => {
       const userWithEncryptedPassword = new User(user);
       userWithEncryptedPassword.password = encryptedPassword;

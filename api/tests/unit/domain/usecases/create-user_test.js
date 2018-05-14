@@ -255,6 +255,19 @@ describe('Unit | UseCase | create-user', () => {
           });
       });
 
+      it('should check if the password has been correctly encrypted, because we have a bug on this', () => {
+        // when
+        encryptionService.hashPassword.resolves(password);
+
+        // then
+        return promise
+          .catch((error) => {
+            expect(error).to.be.instanceOf(Error);
+            expect(error.message).to.equal('Erreur lors de l‘encryption du mot passe de l‘utilisateur');
+
+          });
+      });
+
       it('should save the user with a properly encrypted password', () => {
         // then
         return promise
