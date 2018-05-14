@@ -5,6 +5,7 @@ const MAX_REACHABLE_LEVEL = 5;
 const NB_PIX_BY_LEVEL = 8;
 const MAX_NUMBER_OF_CHALLENGES = 20;
 const LEVEL_FOR_FIRST_CHALLENGE = 2;
+const LEVEL_LIMIT_TO_THREE = 3;
 
 class Assessment {
   constructor(course, answers) {
@@ -138,11 +139,56 @@ class Assessment {
     return predictedLevel;
   }
 
+  _skillsToTargetInPrority() {
+    let listOfTubesWithMaxLevelBelow3 = [];
+
+    for(const tube in this.course.tubes) {
+      const listOfSkillsForThisTube = this.course.tubes[tube];
+
+      const mostDifficultSkill = listOfSkillsForThisTube.sort((a, b) => a.difficulty < b.difficulty)[0];
+
+      if(mostDifficultSkill.difficulty <= LEVEL_LIMIT_TO_THREE) {
+
+        const totalOfSkillsInTheTube = listOfSkillsForThisTube.length;
+        const countOfUnkownKnownSkills = listOfSkillsForThisTube.filter((skill) => {
+          return this._skillNotKnownYet(skill);
+        }).length;
+
+        if(totalOfSkillsInTheTube === countOfUnkownKnownSkills) {
+          listOfTubesWithMaxLevelBelow3 = listOfTubesWithMaxLevelBelow3.concat(this.course.tubes[tube]);
+        }
+      }
+    }
+
+    return listOfTubesWithMaxLevelBelow3;
+  }
+
   get filteredChallenges() {
     let availableChallenges = this.course.challenges.filter(challenge => this._isAnAvailableChallenge(challenge));
-    availableChallenges = this._isPreviousChallengeTimed() ? this._extractNotTimedChallenge(availableChallenges) : availableChallenges;
+
+    if (this._isPreviousChallengeTimed()) {
+      availableChallenges = this._extractNotTimedChallenge(availableChallenges);
+    }
 
     availableChallenges = availableChallenges.filter(challenge => this._isChallengeNotTooHard(challenge));
+
+
+    const listOfSkillsToTargetInPriority = this._skillsToTargetInPrority();
+    if(listOfSkillsToTargetInPriority.length > 0) {
+      availableChallenges = availableChallenges.filter(function(challenge) {
+
+        let challengeContainsTargetedSkill = false;
+
+        listOfSkillsToTargetInPriority.map((skill) => skill.name).forEach(function(skillName) {
+          const challengeHasSkill = challenge.skills.map((skill) => skill.name).includes(skillName);
+          if(challengeHasSkill) {
+            challengeContainsTargetedSkill = true;
+          }
+        });
+
+        return challengeContainsTargetedSkill;
+      });
+    }
 
     return availableChallenges;
   }
@@ -160,6 +206,7 @@ class Assessment {
     if (this.answers.length === 0) {
       return this._firstChallenge;
     }
+
     if (this.answers.length >= MAX_NUMBER_OF_CHALLENGES) {
       return null;
     }
@@ -170,7 +217,6 @@ class Assessment {
     }
 
     const predictedLevel = this._getPredictedLevel();
-
     const challengesAndRewards = availableChallenges.map(challenge => {
       return {
         challenge: challenge,
