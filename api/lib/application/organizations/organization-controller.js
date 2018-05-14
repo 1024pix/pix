@@ -22,7 +22,7 @@ const { OrganizationCreationValidationErrors } = require('../../domain/errors');
 
 module.exports = {
 
-  // TODO extract domain logic into service
+  // TODO extract domain logic into use case, like create user
   create: (request, reply) => {
 
     const user = _extractUser(request);

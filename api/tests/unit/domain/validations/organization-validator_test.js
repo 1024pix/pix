@@ -1,12 +1,14 @@
 const { expect } = require('../../../test-helper');
 const organizationValidator = require('../../../../lib/domain/validators/organization-validator');
+const { EntityValidationError } = require('../../../../lib/domain/errors');
 const Organization = require('../../../../lib/domain/models/Organization');
 
 const MISSING_VALUE = '';
 
-function _assertErrorMatchesWithExpectedOne(errors, expectedError) {
-  expect(errors).to.have.lengthOf(1);
-  expect(errors[0]).to.deep.equal(expectedError);
+function _assertErrorMatchesWithExpectedOne(entityValidationErrors, expectedError) {
+  expect(entityValidationErrors).to.be.instanceOf(EntityValidationError);
+  expect(entityValidationErrors.invalidAttributes).to.have.lengthOf(1);
+  expect(entityValidationErrors.invalidAttributes[0]).to.deep.equal(expectedError);
 }
 
 describe('Unit | Domain | Validators | organization-validator', function() {
@@ -41,12 +43,8 @@ describe('Unit | Domain | Validators | organization-validator', function() {
         it('should reject with error when name is missing', () => {
           // given
           const expectedError = {
-            source: { pointer: '/data/attributes/name' },
-            title: 'Invalid organization data attribute "name"',
-            detail: 'Le nom n’est pas renseigné.',
-            meta: {
-              field: 'name'
-            }
+            attribute: 'name',
+            message: 'Le nom n’est pas renseigné.'
           };
           organization.name = MISSING_VALUE;
 
@@ -66,12 +64,8 @@ describe('Unit | Domain | Validators | organization-validator', function() {
         it('should reject with error when email is missing', () => {
           // given
           const expectedError = {
-            source: { pointer: '/data/attributes/email' },
-            title: 'Invalid organization data attribute "email"',
-            detail: 'L’adresse électronique n’est pas renseignée.',
-            meta: {
-              field: 'email'
-            }
+            attribute: 'email',
+            message: 'L’adresse électronique n’est pas renseignée.'
           };
           organization.email = MISSING_VALUE;
 
@@ -87,12 +81,8 @@ describe('Unit | Domain | Validators | organization-validator', function() {
         it('should reject with error when email is invalid', () => {
           // given
           const expectedError = {
-            source: { pointer: '/data/attributes/email' },
-            title: 'Invalid organization data attribute "email"',
-            detail: 'L’adresse électronique n’est pas correcte.',
-            meta: {
-              field: 'email'
-            }
+            attribute: 'email',
+            message: 'L’adresse électronique n’est pas correcte.'
           };
           organization.email = 'invalid_email';
 
@@ -112,12 +102,8 @@ describe('Unit | Domain | Validators | organization-validator', function() {
         it('should reject with error when type is missing', () => {
           // given
           const expectedError = {
-            source: { pointer: '/data/attributes/type' },
-            title: 'Invalid organization data attribute "type"',
-            detail: 'Le type n’est pas renseigné.',
-            meta: {
-              field: 'type'
-            }
+            attribute: 'type',
+            message: 'Le type n’est pas renseigné.'
           };
           organization.type = MISSING_VALUE;
 
@@ -133,12 +119,8 @@ describe('Unit | Domain | Validators | organization-validator', function() {
         it('should reject with error when type value is not SUP, SCO or PRO', () => {
           // given
           const expectedError = {
-            source: { pointer: '/data/attributes/type' },
-            title: 'Invalid organization data attribute "type"',
-            detail: 'Le type de l’organisation doit avoir l’une des valeurs suivantes: SCO, SUP, PRO.',
-            meta: {
-              field: 'type'
-            }
+            attribute: 'type',
+            message: 'Le type de l’organisation doit avoir l’une des valeurs suivantes: SCO, SUP, PRO.'
           };
           organization.type = 'PTT';
 
@@ -184,8 +166,8 @@ describe('Unit | Domain | Validators | organization-validator', function() {
         // then
         return promise
           .then(() => expect.fail('Expected rejection with errors'))
-          .catch((errors) => {
-            expect(errors).to.have.lengthOf(3);
+          .catch((entityValidationErrors) => {
+            expect(entityValidationErrors.invalidAttributes).to.have.lengthOf(3);
           });
       });
     });
