@@ -5,7 +5,7 @@ const CertificationCourse = require('../../../../../lib/domain/models/Certificat
 
 describe('Unit | Serializer | JSONAPI | certification-course-serializer', function() {
 
-  describe('#serialize()', function() {
+  describe('#serialize', function() {
 
     it('should convert a Certification Course model object into JSON API data', function() {
       // given
@@ -86,39 +86,6 @@ describe('Unit | Serializer | JSONAPI | certification-course-serializer', functi
           },
         },
       });
-    });
-  });
-
-  describe('#serializeAsCertification', function() {
-
-    const jsonCertificationCourse = {
-      data: {
-        type: 'certifications',
-        id: 1,
-        attributes: {
-          'first-name': 'Freezer',
-          'last-name': 'The all mighty',
-          'birthplace': 'Namek',
-          'birthdate': '24/10/1989',
-          'external-id': 'xenoverse2',
-        },
-      },
-    };
-
-    const certificationCourse = {
-      id: 1,
-      firstName: 'Freezer',
-      lastName: 'The all mighty',
-      birthplace: 'Namek',
-      birthdate: '24/10/1989',
-      externalId: 'xenoverse2',
-    };
-
-    it('should serialize', function() {
-      // when
-      const serializedCertificationCourse = serializer.serializeAsCertification(certificationCourse);
-      // then
-      expect(serializedCertificationCourse).to.deep.equal(jsonCertificationCourse);
     });
   });
 });

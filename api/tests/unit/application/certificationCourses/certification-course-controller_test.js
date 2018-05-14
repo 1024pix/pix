@@ -2,7 +2,6 @@ const { sinon } = require('../../../test-helper');
 const certificationCourseController = require('../../../../lib/application/certificationCourses/certification-course-controller');
 const certificationService = require('../../../../lib/domain/services/certification-service');
 const certificationCourseService = require('../../../../lib/domain/services/certification-course-service');
-const certificationCourseSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/certification-course-serializer');
 const certificationSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/certification-serializer');
 const { NotFoundError } = require('../../../../lib/domain/errors');
 const CertificationCourse = require('../../../../lib/domain/models/CertificationCourse');
@@ -10,7 +9,7 @@ const CertificationCourse = require('../../../../lib/domain/models/Certification
 const logger = require('../../../../lib/infrastructure/logger');
 const Boom = require('boom');
 
-describe('Unit | Controller | certification-course-controller', function() {
+describe('Unit | Controller | certification-course-controller', () => {
 
   let sandbox;
   let replyStub;
@@ -133,7 +132,7 @@ describe('Unit | Controller | certification-course-controller', function() {
 
     const updatedCertificationCourse = new CertificationCourse();
 
-    const JsonAPISavedCertificationCourse = {
+    const JsonAPISavedCertification = {
       data: {
         type: 'certification',
         attributes: {
@@ -148,7 +147,7 @@ describe('Unit | Controller | certification-course-controller', function() {
       replyStub = sandbox.stub().returns({ code: codeStub });
 
       sandbox.stub(certificationSerializer, 'deserialize').resolves();
-      sandbox.stub(certificationCourseSerializer, 'serializeAsCertification').returns(JsonAPISavedCertificationCourse);
+      sandbox.stub(certificationSerializer, 'serializeFromCertificationCourse').returns(JsonAPISavedCertification);
       sandbox.stub(Boom, 'notFound');
     });
 
@@ -197,29 +196,27 @@ describe('Unit | Controller | certification-course-controller', function() {
         sandbox.stub(certificationCourseService, 'update').resolves(updatedCertificationCourse);
       });
 
-      it('should serialize saved certification course', function() {
+      it('should serialize saved certification course', () => {
         // when
         const promise = certificationCourseController.update(options, replyStub);
 
         // then
         return promise.then(() => {
-          sinon.assert.calledOnce(certificationCourseSerializer.serializeAsCertification);
-          sinon.assert.calledWith(certificationCourseSerializer.serializeAsCertification, updatedCertificationCourse);
+          sinon.assert.calledOnce(certificationSerializer.serializeFromCertificationCourse);
+          sinon.assert.calledWith(certificationSerializer.serializeFromCertificationCourse, updatedCertificationCourse);
         });
       });
 
-      it('should reply serialized certification course', function() {
+      it('should reply serialized certification course', () => {
         // when
         const promise = certificationCourseController.update(options, replyStub);
 
         // then
         return promise.then(() => {
           sinon.assert.calledOnce(replyStub);
-          sinon.assert.calledWith(replyStub, JsonAPISavedCertificationCourse);
+          sinon.assert.calledWith(replyStub, JsonAPISavedCertification);
         });
-
       });
-
     });
 
     context('When certification course was not modified', () => {
@@ -239,6 +236,5 @@ describe('Unit | Controller | certification-course-controller', function() {
         });
       });
     });
-
   });
 });
