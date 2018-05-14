@@ -138,4 +138,37 @@ describe('Unit | Serializer | JSONAPI | certification-serializer', () => {
       });
     });
   });
+
+  describe('#serializeFromCertificationCourse', () => {
+
+    const jsonCertification = {
+      data: {
+        type: 'certifications',
+        id: 1,
+        attributes: {
+          'first-name': 'Freezer',
+          'last-name': 'The all mighty',
+          'birthplace': 'Namek',
+          'birthdate': '24/10/1989',
+          'external-id': 'xenoverse2',
+        },
+      },
+    };
+
+    const certificationCourse = {
+      id: 1,
+      firstName: 'Freezer',
+      lastName: 'The all mighty',
+      birthplace: 'Namek',
+      birthdate: '24/10/1989',
+      externalId: 'xenoverse2',
+    };
+
+    it('should serialize', () => {
+      // when
+      const serializedCertification = serializer.serializeFromCertificationCourse(certificationCourse);
+      // then
+      expect(serializedCertification).to.deep.equal(jsonCertification);
+    });
+  });
 });

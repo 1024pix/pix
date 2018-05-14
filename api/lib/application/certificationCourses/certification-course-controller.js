@@ -39,7 +39,9 @@ module.exports = {
 
     return certificationSerializer.deserialize(request.payload)
       .then((certificationCourse) => certificationCourseService.update(certificationCourse))
-      .then((savedCertificationCourse) => reply(certificationCourseSerializer.serializeAsCertification(savedCertificationCourse)))
+      .then((savedCertificationCourse) => {
+        return reply(certificationSerializer.serializeFromCertificationCourse(savedCertificationCourse));
+      })
       .catch((err) => {
         if (err instanceof WrongDateFormatError) {
           reply(errorSerializer.serialize(err.getErrorMessage())).code(400);
@@ -49,6 +51,5 @@ module.exports = {
           reply(Boom.notFound(err));
         }
       });
-  }
-
+  },
 };

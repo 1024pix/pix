@@ -11,6 +11,12 @@ module.exports = {
     }).serialize(certification);
   },
 
+  serializeFromCertificationCourse(certificationCourse) {
+    return new Serializer('certifications', {
+      attributes: ['firstName', 'lastName', 'birthplace', 'birthdate', 'externalId'],
+    }).serialize(certificationCourse);
+  },
+
   deserialize(json) {
     const birthdate = json.data.attributes.birthdate;
 

@@ -64,10 +64,4 @@ module.exports = {
       birthplace: json.data.attributes.birthplace,
     });
   },
-
-  serializeAsCertification(certificationCourse) {
-    return new Serializer('certifications', {
-      attributes: ['firstName', 'lastName', 'birthplace', 'birthdate', 'externalId'],
-    }).serialize(certificationCourse);
-  },
 };
