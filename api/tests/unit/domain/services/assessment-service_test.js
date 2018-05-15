@@ -1131,7 +1131,7 @@ describe('Unit | Domain | Services | assessment', () => {
       expect(isPlacementAssessment).to.be.true;
     });
 
-    it('should return true when the assessment is not defined', () => {
+    it('should return false when the assessment is not defined', () => {
       // given
       const assessment = new Assessment({ type: '' });
 
@@ -1140,6 +1140,42 @@ describe('Unit | Domain | Services | assessment', () => {
 
       // then
       expect(isPlacementTest).to.be.false;
+    });
+
+  });
+
+  describe('#isSmartPlacementAssessment', () => {
+    it('should return true when the assessment is a SMART_PLACEMENT', () => {
+      // given
+      const assessment = new Assessment({ type: 'SMART_PLACEMENT' });
+
+      // when
+      const isSmartPlacementAssessment = service.isSmartPlacementAssessment(assessment);
+
+      // then
+      expect(isSmartPlacementAssessment).to.be.true;
+    });
+
+    it('should return false when the assessment is not a SMART_PLACEMENT', () => {
+      // given
+      const assessment = new Assessment({ type: 'PLACEMENT' });
+
+      // when
+      const isSmartPlacementAssessment = service.isSmartPlacementAssessment(assessment);
+
+      // then
+      expect(isSmartPlacementAssessment).to.be.false;
+    });
+
+    it('should return false when the assessment has no type', () => {
+      // given
+      const assessment = new Assessment({});
+
+      // when
+      const isSmartPlacementAssessment = service.isSmartPlacementAssessment(assessment);
+
+      // then
+      expect(isSmartPlacementAssessment).to.be.false;
     });
 
   });
