@@ -27,6 +27,10 @@ module.exports = {
     const assessment = assessmentSerializer.deserialize(request.payload);
     assessment.state = 'started';
 
+    if(assessment.type === 'SMART_PLACEMENT') {
+      assessment.courseId = 'recNPB7dTNt5krlMA';
+    }
+
     if (request.headers.hasOwnProperty('authorization')) {
       const token = tokenService.extractTokenFromAuthChain(request.headers.authorization);
       const userId = tokenService.extractUserId(token);
@@ -113,6 +117,18 @@ module.exports = {
             competenceRepository
           });
         }
+
+        if (assessmentService.isSmartPlacementAssessment(assessment)) {
+          return useCases.getNextChallengeForSmartPlacement({
+            assessment,
+            courseRepository,
+            answerRepository,
+            challengeRepository,
+            skillRepository,
+            competenceRepository
+          });
+        }
+
       })
       .then((challenge) => {
         reply(challengeSerializer.serialize(challenge));
