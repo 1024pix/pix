@@ -1,4 +1,5 @@
 const AnswerStatus = require('../domain/models/AnswerStatus');
+const _ = require('lodash');
 
 const MAX_REACHABLE_LEVEL = 5;
 const NB_PIX_BY_LEVEL = 8;
@@ -34,6 +35,10 @@ class Assessment {
 
   _isChallengeNotAnsweredYet(challenge, answeredChallenges) {
     return !answeredChallenges.includes(challenge);
+  }
+
+  _isChallengeNotTooHard(challenge) {
+    return challenge.hardestSkill.difficulty - this._getPredictedLevel() <= 2;
   }
 
   _isAnAvailableChallenge(challenge) {
@@ -136,6 +141,9 @@ class Assessment {
   get filteredChallenges() {
     let availableChallenges = this.course.challenges.filter(challenge => this._isAnAvailableChallenge(challenge));
     availableChallenges = this._isPreviousChallengeTimed() ? this._extractNotTimedChallenge(availableChallenges) : availableChallenges;
+
+    availableChallenges = availableChallenges.filter(challenge => this._isChallengeNotTooHard(challenge));
+
     return availableChallenges;
   }
 
@@ -148,6 +156,7 @@ class Assessment {
   }
 
   get nextChallenge() {
+
     if (this.answers.length === 0) {
       return this._firstChallenge;
     }
@@ -155,12 +164,21 @@ class Assessment {
       return null;
     }
 
-    const byDescendingRewards = (a, b) => { return b.reward - a.reward; };
+    const availableChallenges = this.filteredChallenges;
+    if (availableChallenges.length === 0) {
+      return null;
+    }
+
     const predictedLevel = this._getPredictedLevel();
-    const challengesAndRewards = this.filteredChallenges.map(challenge => {
-      return { challenge: challenge, reward: this._computeReward(challenge, predictedLevel) };
+
+    const challengesAndRewards = availableChallenges.map(challenge => {
+      return {
+        challenge: challenge,
+        reward: this._computeReward(challenge, predictedLevel)
+      };
     });
-    const challengeWithMaxReward = challengesAndRewards.sort(byDescendingRewards)[0];
+
+    const challengeWithMaxReward = _.maxBy(challengesAndRewards, 'reward');
     const maxReward = challengeWithMaxReward.reward;
 
     if (maxReward === 0) {
