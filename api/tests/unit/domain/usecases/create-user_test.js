@@ -115,6 +115,7 @@ describe('Unit | UseCase | create-user', () => {
 
         // then
         return promise
+          .then(() => expect.fail('Expected rejection with errors'))
           .catch((error) => {
             expect(error).to.be.instanceOf(errors.EntityValidationError);
             expect(error.invalidAttributes).to.deep.equal(expectedValidationError.invalidAttributes);
@@ -149,6 +150,7 @@ describe('Unit | UseCase | create-user', () => {
 
         //then
         return promise
+          .then(() => expect.fail('Expected rejection with errors'))
           .catch((error) => {
             expect(error).to.be.instanceOf(errors.EntityValidationError);
             expect(error.invalidAttributes).to.deep.equal(expectedValidationError.invalidAttributes);
@@ -180,6 +182,7 @@ describe('Unit | UseCase | create-user', () => {
 
         //then
         return promise
+          .then(() => expect.fail('Expected rejection with errors'))
           .catch((error) => {
             expect(error).to.be.instanceOf(errors.EntityValidationError);
             expect(error.invalidAttributes).to.deep.equal(expectedValidationError.invalidAttributes);
@@ -219,6 +222,7 @@ describe('Unit | UseCase | create-user', () => {
 
         // then
         return promise
+          .then(() => expect.fail('Expected rejection with errors'))
           .catch((error) => {
             expect(error).to.be.instanceOf(errors.EntityValidationError);
             expect(error.invalidAttributes).to.have.lengthOf(4);

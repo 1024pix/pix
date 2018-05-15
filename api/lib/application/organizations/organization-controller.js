@@ -28,7 +28,7 @@ module.exports = {
     const user = _extractUser(request);
     const organization = _extractOrganization(request);
 
-    return organizationCreationValidator.validate(user, organization)
+    return organizationCreationValidator.validate(user, organization, userRepository)
       .then(() => encryptionService.hashPassword(user.password))
       .then((encryptedPassword) => user.password = encryptedPassword)
       .then(() => userRepository.create(user))
