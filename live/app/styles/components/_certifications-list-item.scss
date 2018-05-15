@@ -1,17 +1,9 @@
 @import "certifications-list";
 
 .certifications-list-item {
-  @extend .certifications-list__table-row;
-
-  border-bottom: 1px solid $gainsboro;
-  height: 30px;
-  padding: 5px;
+  border-bottom: 1px solid $alto-grey;
   text-align: center;
-
-  @include device-is('tablet') {
-    height: 60px;
-    font-size: 16px;
-  }
+  padding: 5px;
 }
 
 .certifications-list-item img {
@@ -23,6 +15,50 @@
     width: 12px;
     margin-bottom: 3px;
   }
+}
+
+.certifications-list-item__published-item:hover {
+  background-color: whitesmoke;
+}
+
+.certifications-list-item__row {
+  @extend .certifications-list__table-row;
+}
+
+.certifications-list-item__row-presentation {
+  @extend .certifications-list-item__row;
+  height: 30px;
+
+  @include device-is('tablet') {
+    height: 60px;
+    font-size: 16px;
+  }
+}
+
+.certifications-list-item__row-presentation.cp-Panel-toggle:link {
+  text-decoration: none;
+  color: inherit;
+}
+
+.certifications-list-item__row-comment {
+  @extend .certifications-list-item__row;
+
+  padding: 0 2%;
+
+  .cp-Panel-body-inner {
+    width: 100%;
+  }
+}
+
+.certifications-list-item__row-comment-cell {
+  @extend .certifications-list-item__cell;
+
+  padding: 10px 0;
+  border-top: 1px solid $gainsboro;
+
+  font-size: 16px;
+  color: $dove-gray;
+  text-align: left;
 }
 
 .certifications-list-item__cell {
@@ -81,4 +117,18 @@
   @extend .certifications-list-item__cell;
 
   justify-content: center;
+}
+
+.certifications-list-item__cell-detail {
+  @extend .certifications-list-item__cell;
+
+  flex-flow: row-reverse nowrap;
+  justify-content: left;
+
+  .certifications-list-item__cell-detail-button {
+    font-size: 13px;
+    color: $pix-blue;
+    border: none;
+    background: none;
+  }
 }
