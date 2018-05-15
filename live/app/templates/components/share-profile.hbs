@@ -52,13 +52,13 @@
           {{#if isOrganizationHasTypeSupOrPro}}
             <div class="share-profile__row share-profile__row--student-code">
               <p>{{organizationLabels.personalCode}}</p>
-              {{input class="pix-modal__input share-profile__student-code-input" value=_studentCode}}
+              {{input class="pix-modal__input share-profile__student-code-input" value=_studentCode maxlength=255}}
             </div>
           {{/if}}
 
           <div class="share-profile__row share-profile__row--campaign-code">
             <p>Précisez le code campagne s'il vous a été fourni :</p>
-            {{input class="pix-modal__input share-profile__campaign-code-input" value=_campaignCode}}
+            {{input class="pix-modal__input share-profile__campaign-code-input" value=_campaignCode maxlength=255}}
           </div>
 
           <div class="share-profile__row share-profile__row--disclaimer">

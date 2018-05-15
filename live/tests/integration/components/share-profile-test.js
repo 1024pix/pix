@@ -256,6 +256,30 @@ describe('Integration | Component | share profile', function() {
       expectToBeOnSuccessNotificationView();
     });
 
+    it('should limit the lenght of the campainCode to 255 characters', function() {
+      // given
+      this.set('organization', EmberObject.create({ name: 'Pix' }));
+
+      // when
+      this.render(hbs`{{share-profile _showingModal=true _view="sharing-confirmation" _organization=organization}}`);
+
+      // then
+      expect(document.querySelector('.share-profile__campaign-code-input').getAttribute('maxlength')).to.equal('255');
+
+    });
+
+    it('should limit the lenght of the studentCode to 255 characters', function() {
+      // given
+      this.set('organization', EmberObject.create({ name: 'Pix', type: 'SUP' }));
+
+      // when
+      this.render(hbs`{{share-profile _showingModal=true _view="sharing-confirmation" _organization=organization}}`);
+
+      // then
+      expect(document.querySelector('.share-profile__student-code-input').getAttribute('maxlength')).to.equal('255');
+
+    });
+
   });
 
   describe('Step 3 - "Success notification" view', function() {
