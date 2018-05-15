@@ -1,6 +1,6 @@
 const {
   expect, generateValidRequestAuhorizationHeader, cleanupUsersAndPixRolesTables,
-  insertUserWithRolePixMaster, insertUserWithStandardRole, knex
+  insertUserWithRolePixMaster, insertUserWithStandardRole, knex,
 } = require('../../test-helper');
 const server = require('../../../server');
 
@@ -20,7 +20,7 @@ describe('Acceptance | API | Certifications', () => {
       date: '14/08',
       time: '11:00',
       description: '',
-      accessCode: 'PIX123'
+      accessCode: 'PIX123',
     };
 
     const certificationCourse = {
@@ -30,20 +30,20 @@ describe('Acceptance | API | Certifications', () => {
       firstName: 'Bro',
       lastName: 'Ther',
       birthdate: '14/08/1993',
-      birthplace: 'Asnières IZI'
+      birthplace: 'Asnières IZI',
     };
 
     const assessment = {
       userId: authenticatedUserID,
       type: 'CERTIFICATION',
-      state: 'completed'
+      state: 'completed',
     };
 
     const assessmentResult = {
       level: 1,
       pixScore: 23,
       emitter: 'PIX-ALGO',
-      status: 'rejected'
+      status: 'rejected',
     };
 
     beforeEach(() => {
@@ -69,7 +69,7 @@ describe('Acceptance | API | Certifications', () => {
         knex('sessions').delete(),
         knex('assessment-results').delete(),
         knex('assessments').delete(),
-        knex('certification-courses').delete()
+        knex('certification-courses').delete(),
       ]);
     });
 
@@ -77,7 +77,7 @@ describe('Acceptance | API | Certifications', () => {
       options = {
         method: 'GET',
         url: '/api/certifications',
-        headers: { authorization: generateValidRequestAuhorizationHeader() }
+        headers: { authorization: generateValidRequestAuhorizationHeader() },
       };
       // when
       const promise = server.inject(options);
@@ -90,11 +90,12 @@ describe('Acceptance | API | Certifications', () => {
           id: certificationId,
           attributes: {
             'certification-center': 'Université du Pix',
+            'comment-for-candidate': null,
             'date': '2018-02-15T15:15:52.504Z',
             'is-published': true,
             'pix-score': 23,
-            'status': 'rejected'
-          }
+            'status': 'rejected',
+          },
         }]);
       });
     });
@@ -103,7 +104,7 @@ describe('Acceptance | API | Certifications', () => {
       // given
       const options = {
         method: 'GET',
-        url: '/api/certifications'
+        url: '/api/certifications',
       };
 
       // when
@@ -132,19 +133,19 @@ describe('Acceptance | API | Certifications', () => {
       birthdate: '24/10/1989',
       completedAt: '01/02/2003',
       sessionId: 1,
-      isPublished: false
+      isPublished: false,
     };
     const john_completedAssessment = {
       courseId: JOHN_CERTIFICATION_ID,
       userId: JOHN_USERID,
       type: 'CERTIFICATION',
-      state: 'completed'
+      state: 'completed',
     };
     const assessmentResult = {
       level: 1,
       pixScore: 23,
       emitter: 'PIX-ALGO',
-      status: 'rejected'
+      status: 'rejected',
     };
     const session = {
       id: 1,
@@ -154,7 +155,7 @@ describe('Acceptance | API | Certifications', () => {
       examiner: 'Serge le Mala',
       date: '24/10/1989',
       time: '21:30',
-      accessCode: 'ABCD12'
+      accessCode: 'ABCD12',
     };
 
     beforeEach(() => {
@@ -176,7 +177,7 @@ describe('Acceptance | API | Certifications', () => {
         knex('assessments').delete(),
         knex('assessment-results').delete(),
         knex('certification-courses').delete(),
-        cleanupUsersAndPixRolesTables()
+        cleanupUsersAndPixRolesTables(),
       ]);
     });
 
@@ -191,10 +192,10 @@ describe('Acceptance | API | Certifications', () => {
             type: 'certifications',
             id: JOHN_CERTIFICATION_ID,
             attributes: {
-              'is-published': true
-            }
-          }
-        }
+              'is-published': true,
+            },
+          },
+        },
       };
 
       // when
@@ -209,11 +210,12 @@ describe('Acceptance | API | Certifications', () => {
             id: JOHN_CERTIFICATION_ID,
             attributes: {
               'certification-center': 'Université du Pix',
+              'comment-for-candidate': null,
               'date': '01/02/2003',
               'is-published': true,
               'pix-score': 23,
-              'status': 'rejected'
-            }
+              'status': 'rejected',
+            },
           });
         })
         .then(() => knex('certification-courses').where('id', JOHN_CERTIFICATION_ID))
@@ -229,10 +231,10 @@ describe('Acceptance | API | Certifications', () => {
         payload: {
           data: {
             attributes: {
-              'is-published': true
-            }
-          }
-        }
+              'is-published': true,
+            },
+          },
+        },
       };
 
       // when
