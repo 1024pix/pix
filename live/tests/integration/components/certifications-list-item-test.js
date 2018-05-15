@@ -1,10 +1,11 @@
 import { expect } from 'chai';
 import { describe, it, beforeEach } from 'mocha';
+import { run } from '@ember/runloop';
 import { setupComponentTest } from 'ember-mocha';
 import hbs from 'htmlbars-inline-precompile';
 import EmberObject from '@ember/object';
 
-describe.only('Integration | Component | certifications list item', function() {
+describe('Integration | Component | certifications list item', function() {
   setupComponentTest('certifications-list-item', {
     integration: true,
   });
@@ -75,12 +76,22 @@ describe.only('Integration | Component | certifications list item', function() {
         expect(this.$('.certifications-list-item').text()).to.include('Certification non obtenue');
       });
 
-      it('should show not show Détail in last column', function() {
+      it('should not show Détail in last column', function() {
         expect(this.$('.certifications-list-item__cell-detail-button')).to.have.lengthOf(0);
+      });
+
+      it('should not show comment for candidate panel when clicked on row', async function() {
+
+        run(() => document.querySelector(('.certifications-list-item__cell')).click());
+
+        expect(this.$('.certifications-list-item__row-comment-cell')).to.have.lengthOf(0);
       });
     });
 
     context('with a commentForCandidate', function() {
+
+      const commentForCandidate = 'Commentaire pour le candidat';
+
       beforeEach(function() {
         // given
         certification = EmberObject.create({
@@ -90,7 +101,7 @@ describe.only('Integration | Component | certifications list item', function() {
           certificationCenter: 'Université de Paris',
           isPublished: true,
           pixScore: 231,
-          commentForCandidate: 'Commentaire pour le candidat',
+          commentForCandidate: commentForCandidate,
         });
         this.set('certification', certification);
 
@@ -111,6 +122,14 @@ describe.only('Integration | Component | certifications list item', function() {
       it('should show Détail in last column', function() {
         expect(this.$('.certifications-list-item__cell-detail-button')).to.have.lengthOf(1);
         expect(this.$('.certifications-list-item__cell-detail-button').text()).to.include('DÉTAIL');
+      });
+
+      it('should show comment for candidate panel when clicked on row', async function() {
+
+        run(() => document.querySelector(('.certifications-list-item__cell')).click());
+
+        expect(this.$('.certifications-list-item__row-comment-cell')).to.have.lengthOf(1);
+        expect(this.$('.certifications-list-item__row-comment-cell').text()).to.include(commentForCandidate);
       });
     });
   });
