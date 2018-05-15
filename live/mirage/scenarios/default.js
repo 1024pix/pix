@@ -14,7 +14,7 @@ export default function(server) {
     cgu: true,
     recaptchaToken: 'recaptcha-token-xxxxxx',
     totalPixScore: 456,
-    competenceIds: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16]
+    competenceIds: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16],
   });
 
   const prescriber = server.create('user', {
@@ -24,7 +24,7 @@ export default function(server) {
     email: 'john@acme.com',
     password: 'John1234',
     cgu: true,
-    recaptchaToken: 'recaptcha-token-xxxxxx'
+    recaptchaToken: 'recaptcha-token-xxxxxx',
   });
 
   const company = server.create('organization', {
@@ -54,16 +54,17 @@ export default function(server) {
   server.create('course', {
     id: 'certification-number',
     nbChallenges: 3,
-    type: 'CERTIFICATION'
+    type: 'CERTIFICATION',
   });
 
   server.create('certification', {
     id: '1',
     date: new Date('2018-02-15T15:15:52.504Z'),
-    status: 'validated',
+    status: 'rejected',
     pixScore: '3789',
     isPublished: true,
     certificationCenter: 'Université de Paris',
+    commentForCandidate: 'Ceci est un commentaire jury à destination du candidat.',
   });
 
   server.create('certification', {
