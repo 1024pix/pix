@@ -78,6 +78,7 @@ module.exports = {
       });
   },
 
+  // TODO: Bascule vers le nouveau getRecord
   get(id) {
     return new Promise((resolve, reject) => {
       const cacheKey = `challenge-repository_get_${id}`;
