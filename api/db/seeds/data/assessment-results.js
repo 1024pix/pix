@@ -22,7 +22,7 @@ module.exports = [
     commentForCandidate: 'Ceci est un commentaire jury à destination du candidat. Le Lorem Ipsum est simplement du faux ' +
     'texte employé dans la composition et la mise en page avant impression. Le Lorem Ipsum est le faux texte standard de ' +
     'l\'imprimerie depuis les années 1500, quand un peintre anonyme assembla ensemble des morceaux de texte pour ' +
-    'réaliser un livre spécimen de polices de texte.x',
+    'réaliser un livre spécimen de polices de texte.',
     status: 'rejected',
     assessmentId: 8,
     level: -1,
