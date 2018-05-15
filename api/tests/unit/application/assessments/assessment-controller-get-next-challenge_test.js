@@ -70,6 +70,7 @@ describe('Unit | Controller | assessment-controller-get-next-challenge', () => {
 
       sandbox.stub(usecases, 'getNextChallengeForCertification').resolves();
       sandbox.stub(usecases, 'getNextChallengeForDemo').resolves();
+      sandbox.stub(usecases, 'getNextChallengeForSmartPlacement').resolves();
       sandbox.stub(certificationChallengeRepository, 'getNonAnsweredChallengeByCourseId').resolves();
     });
 
@@ -234,6 +235,27 @@ describe('Unit | Controller | assessment-controller-get-next-challenge', () => {
         return promise.then(() => {
           expect(replyStub).to.have.been.calledOnce
             .and.to.have.been.calledWith(Boom.notFound());
+        });
+      });
+    });
+
+    describe('when the assessment is a smart placement assessment', () => {
+      beforeEach(() => {
+        assessmentRepository.get.resolves(new Assessment({
+          id: 1,
+          courseId: 'courseId',
+          userId: 5,
+          type: 'SMART_PLACEMENT'
+        }));
+      });
+
+      it('should call the usecase getNextChallengeForSmartPlacement', () => {
+        // when
+        const promise = assessmentController.getNextChallenge({ params: { id: 1 } }, replyStub);
+
+        // then
+        return promise.then(() => {
+          expect(usecases.getNextChallengeForSmartPlacement).to.have.been.calledOnce;
         });
       });
     });

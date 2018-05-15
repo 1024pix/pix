@@ -113,6 +113,18 @@ module.exports = {
             competenceRepository
           });
         }
+
+        if (assessmentService.isSmartPlacementAssessment(assessment)) {
+          return useCases.getNextChallengeForSmartPlacement({
+            assessment,
+            courseRepository,
+            answerRepository,
+            challengeRepository,
+            skillRepository,
+            competenceRepository
+          });
+        }
+
       })
       .then((challenge) => {
         reply(challengeSerializer.serialize(challenge));
