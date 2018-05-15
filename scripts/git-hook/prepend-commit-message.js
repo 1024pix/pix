@@ -11,6 +11,11 @@ const { execSync } = require('child_process');
  *
  * AND
  * > branch name starts with AA-XXX-something (e.g. pi-123-branch-description)
+ * > branch name is not:
+ * > - dev
+ * > - master
+ * > - gh-pages
+ * > - release-xxx
  *
  * THEN
  * > prepend the issue tag to the commit message
@@ -31,6 +36,16 @@ const isCommitMessageToBePrepended = (str) =>
   !startsWithMergePR(str) &&
   !startsWithHash(str);
 
+const branchesNotToModifiy = [
+  'dev',
+  'master',
+  'gh-pages',
+];
+
+const isBranchRelease = (branchName) => branchName.indexOf('release') === 0;
+
+const isBranchModifiable = (branchName) => !branchesNotToModifiy.includes(branchName) || !isBranchRelease(branchName);
+
 const tagMatcher = new RegExp('^(..-\\d+)', 'i');
 
 const getIssueTagFromBranchName = (str) => {
@@ -40,15 +55,16 @@ const getIssueTagFromBranchName = (str) => {
   }
 };
 
+const branchName = execSync('git rev-parse --abbrev-ref HEAD', { encoding: 'utf-8' }).split('\n')[0];
+
 const messageFile = process.env.GIT_PARAMS;
 const message = fs.readFileSync(messageFile, { encoding: 'utf-8' });
 
 const messageTitle = message.split('\n')[0];
 
-const branchName = execSync('git rev-parse --abbrev-ref HEAD', { encoding: 'utf-8' }).split('\n')[0];
 const issueTag = getIssueTagFromBranchName(branchName);
 
-if (issueTag && isCommitMessageToBePrepended(messageTitle)) {
+if (issueTag && isCommitMessageToBePrepended(messageTitle) && isBranchModifiable(branchName)) {
 
   // Apply the issue tag to message title
   const messageLines = message.split('\n');
