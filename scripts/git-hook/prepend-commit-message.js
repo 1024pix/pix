@@ -36,15 +36,13 @@ const isCommitMessageToBePrepended = (str) =>
   !startsWithMergePR(str) &&
   !startsWithHash(str);
 
-const branchesNotToModifiy = [
+const branchesNotToModify = [
   'dev',
   'master',
   'gh-pages',
 ];
 
-const isBranchRelease = (branchName) => branchName.indexOf('release') === 0;
-
-const isBranchModifiable = (branchName) => !branchesNotToModifiy.includes(branchName) || !isBranchRelease(branchName);
+const isBranchModifiable = (branchName) => !branchesNotToModify.includes(branchName);
 
 const tagMatcher = new RegExp('^(..-\\d+)', 'i');
 
