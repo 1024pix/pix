@@ -42,13 +42,15 @@
         </div>
       {{/if}}
     </div>
-
   {{/panel.toggle}}
 
-  {{#panel.body class="certifications-list-item__row-comment"}}
-    <div class="certifications-list-item__row-comment-cell">
-      LOREN ipsum
-    </div>
-  {{/panel.body}}
+  {{#if hasComment}}
+    {{#panel.body class="certifications-list-item__row-comment"}}
+      <div class="certifications-list-item__row-comment-cell">
+        {{certification.commentForCandidate}}
+      </div>
+    {{/panel.body}}
+  {{/if}}
+
 {{/cp-panel}}
 

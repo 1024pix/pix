@@ -17,8 +17,12 @@
   }
 }
 
-.certifications-list-item__published-item:hover {
+.certifications-list-item__has-comment:hover {
   background-color: whitesmoke;
+}
+
+.certifications-list-item__no-comment a {
+  cursor: default;
 }
 
 .certifications-list-item__row {
@@ -131,4 +135,20 @@
     border: none;
     background: none;
   }
+}
+
+@mixin arrow-button() {
+  vertical-align: middle;
+  display: inline-flex;
+  margin-left: 8px;
+}
+
+.certifications-list-item__has-comment .cp-is-open .certifications-list-item__cell-detail::before {
+  @include arrow-button();
+  content: url("/images/icons/icon-arrow-down.svg");
+}
+
+.certifications-list-item__has-comment .cp-is-closed .certifications-list-item__cell-detail::before {
+  @include arrow-button();
+  content: url("/images/icons/icon-arrow-up.svg")
 }
