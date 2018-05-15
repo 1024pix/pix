@@ -907,57 +907,80 @@ describe('Unit | Model | Assessment', function() {
 
   });
 
-  context('#_skillsToTargetInPrority', () => {
-    context('when the first question is correctly answered', () => {
+  context('#_skillsToTargetInPriority', () => {
 
-      function _buildValidatedChallenge(skillName) {
-        const skill = new Skill(skillName);
+    function _buildValidatedChallenge(skillName) {
+      const skill = new Skill(skillName);
 
-        return new Challenge(`recChallengeFor${skill}`, 'validé', [skill]);
-      }
+      return new Challenge(`recChallengeFor${skill}`, 'validé', [skill]);
+    }
 
-      it('should select in priority a challenge in the unexplored tubes with level below level 3', function() {
-        // given
-        const challengeUrl4 = _buildValidatedChallenge('url4');
-        const challengeUrl5 = _buildValidatedChallenge('url5');
-        const challengeWeb3 = _buildValidatedChallenge('web3');
-        const challengeInfo2 = _buildValidatedChallenge('info2');
+    it('should select in priority a challenge in the unexplored tubes with level below level 3', function() {
+      // given
+      const challengeUrl4 = _buildValidatedChallenge('url4');
+      const challengeUrl5 = _buildValidatedChallenge('url5');
+      const challengeWeb3 = _buildValidatedChallenge('web3');
+      const challengeInfo2 = _buildValidatedChallenge('info2');
 
-        const challenges = [challengeUrl4, challengeUrl5, challengeInfo2, challengeWeb3];
+      const challenges = [challengeUrl4, challengeUrl5, challengeInfo2, challengeWeb3];
 
-        const answer1 = new Answer(challengeInfo2, AnswerStatus.OK);
+      const answer1 = new Answer(challengeInfo2, AnswerStatus.OK);
 
-        const course = new Course(challenges);
-        const assessment = new Assessment(course, [answer1]);
+      const course = new Course(challenges);
+      const assessment = new Assessment(course, [answer1]);
 
-        // when
-        const skillToTarget = assessment._skillsToTargetInPrority();
+      // when
+      const skillsToTarget = assessment._skillsToTargetInPriority();
 
-        // then
-        expect(skillToTarget).to.deep.equal(challengeWeb3.skills);
-      });
-
-      it('should nevertheless target any tubes when there is no easy tube', function() {
-        // given
-        const challengeUrl4 = _buildValidatedChallenge('url4');
-        const challengeUrl5 = _buildValidatedChallenge('url5');
-        const challengeInfo2 = _buildValidatedChallenge('info2');
-
-        const challenges = [challengeUrl4, challengeUrl5, challengeInfo2];
-
-        const answer1 = new Answer(challengeInfo2, AnswerStatus.OK);
-
-        const course = new Course(challenges);
-        const assessment = new Assessment(course, [answer1]);
-
-        // when
-        const skillToTarget = assessment._skillsToTargetInPrority();
-
-        // then
-        expect(skillToTarget).to.deep.equal([]);
-      });
-
+      // then
+      expect(skillsToTarget).to.deep.equal(challengeWeb3.skills);
     });
+
+    it('should make sure that every skill in easy tubes are evaluated', function() {
+      // given
+      const challengeUrl4 = _buildValidatedChallenge('url4');
+      const challengeUrl5 = _buildValidatedChallenge('url5');
+      const challengeWeb3 = _buildValidatedChallenge('web3');
+      const challengeInfo1 = _buildValidatedChallenge('info1');
+      const challengeInfo2 = _buildValidatedChallenge('info2');
+      const challengeInfo3 = _buildValidatedChallenge('info3');
+
+      const challenges = [challengeUrl4, challengeUrl5, challengeInfo1, challengeInfo2, challengeInfo3, challengeWeb3];
+
+      const answer1 = new Answer(challengeInfo2, AnswerStatus.OK);
+      const answer2 = new Answer(challengeWeb3, AnswerStatus.OK);
+
+      const course = new Course(challenges);
+      const assessment = new Assessment(course, [answer1, answer2]);
+
+      // when
+      const skillsToTarget = assessment._skillsToTargetInPriority();
+
+      // then
+      const expectedListOfSkills = [].concat(challengeInfo3.skills, challengeInfo2.skills, challengeInfo1.skills);
+      expect(skillsToTarget).to.deep.equal(expectedListOfSkills);
+    });
+
+    it('should nevertheless target any tubes when there is no easy tube', function() {
+      // given
+      const challengeUrl4 = _buildValidatedChallenge('url4');
+      const challengeUrl5 = _buildValidatedChallenge('url5');
+      const challengeInfo2 = _buildValidatedChallenge('info2');
+
+      const challenges = [challengeUrl4, challengeUrl5, challengeInfo2];
+
+      const answer1 = new Answer(challengeInfo2, AnswerStatus.OK);
+
+      const course = new Course(challenges);
+      const assessment = new Assessment(course, [answer1]);
+
+      // when
+      const skillsToTarget = assessment._skillsToTargetInPriority();
+
+      // then
+      expect(skillsToTarget).to.deep.equal([]);
+    });
+
   });
 
 });
