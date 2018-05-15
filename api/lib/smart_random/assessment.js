@@ -2,7 +2,7 @@ const AnswerStatus = require('../domain/models/AnswerStatus');
 
 const MAX_REACHABLE_LEVEL = 5;
 const NB_PIX_BY_LEVEL = 8;
-const MAX_NUMBER_OF_CHALLENGES = 20;
+const MAX_NUMBER_OF_CHALLENGES = 5;
 const LEVEL_FOR_FIRST_CHALLENGE = 2;
 
 class Assessment {
