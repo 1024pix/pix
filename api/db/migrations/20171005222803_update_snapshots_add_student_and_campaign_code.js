@@ -1,7 +1,7 @@
 exports.up = (knex) => {
   return knex.schema.table('snapshots', (table) => {
-    table.string('studentCode', 20);
-    table.string('campaignCode', 20);
+    table.string('studentCode');
+    table.string('campaignCode');
   });
 };
 

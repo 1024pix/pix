@@ -1,5 +1,4 @@
 const authorizationToken = require('../../../lib/infrastructure/validators/jsonwebtoken-verify');
-const validationErrorSerializer = require('../../infrastructure/serializers/jsonapi/validation-error-serializer');
 const userRepository = require('../../../lib/infrastructure/repositories/user-repository');
 const organizationRepository = require('../../../lib/infrastructure/repositories/organization-repository');
 const snapshotSerializer = require('../../../lib/infrastructure/serializers/jsonapi/snapshot-serializer');
@@ -8,7 +7,9 @@ const snapshotService = require('../../../lib/domain/services/snapshot-service')
 const profileService = require('../../domain/services/profile-service');
 const profileCompletionService = require('../../domain/services/profile-completion-service');
 const logger = require('../../../lib/infrastructure/logger');
-const { InvalidTokenError, NotFoundError, InvaliOrganizationIdError } = require('../../domain/errors');
+const JSONAPIError = require('jsonapi-serializer').Error;
+const { InvalidTokenError, NotFoundError, InvaliOrganizationIdError, InvalidSnapshotCode } = require('../../domain/errors');
+const MAX_CODE_LENGTH = 255;
 
 function _assertThatOrganizationExists(organizationId) {
   return organizationRepository.isOrganizationIdExist(organizationId)
@@ -19,16 +20,11 @@ function _assertThatOrganizationExists(organizationId) {
     });
 }
 
-const _replyErrorWithMessage = function(reply, errorMessage, statusCode) {
-  reply(validationErrorSerializer.serialize(_handleWhenInvalidAuthorization(errorMessage))).code(statusCode);
-};
-
-function _handleWhenInvalidAuthorization(errorMessage) {
-  return {
-    data: {
-      authorization: [errorMessage]
-    }
-  };
+function _validateSnapshotCode(snapshot) {
+  if (snapshot.studentCode.length > MAX_CODE_LENGTH || snapshot.campaignCode.length > MAX_CODE_LENGTH) {
+    return Promise.reject(new InvalidSnapshotCode());
+  }
+  return Promise.resolve();
 }
 
 function _hasAnAtuhorizationHeaders(request) {
@@ -37,24 +33,53 @@ function _hasAnAtuhorizationHeaders(request) {
 
 function _replyError(err, reply) {
   if (err instanceof InvalidTokenError) {
-    return _replyErrorWithMessage(reply, 'Le token n’est pas valide', 401);
+    return reply(new JSONAPIError({
+      code: '401',
+      title: 'Unauthorized',
+      detail: 'Le token n’est pas valide'
+    })).code(401);
   }
 
   if (err instanceof NotFoundError) {
-    return _replyErrorWithMessage(reply, 'Cet utilisateur est introuvable', 422);
+    return reply(new JSONAPIError({
+      code: '422',
+      title: 'Unprocessable entity',
+      detail: 'Cet utilisateur est introuvable'
+    })).code(422);
   }
 
   if (err instanceof InvaliOrganizationIdError) {
-    return _replyErrorWithMessage(reply, 'Cette organisation n’existe pas', 422);
+    return reply(new JSONAPIError({
+      code: '422',
+      title: 'Unprocessable entity',
+      detail: 'Cette organisation n’existe pas'
+    })).code(422);
   }
+
+  if (err instanceof InvalidSnapshotCode) {
+    return reply(new JSONAPIError({
+      code: '422',
+      title: 'Unprocessable entity',
+      detail: 'Les codes de partage du profil sont trop longs'
+    })).code(422);
+  }
+
   logger.error(err);
-  return _replyErrorWithMessage(reply, 'Une erreur est survenue lors de la création de l’instantané', 500);
+  return reply(new JSONAPIError({
+    code: '500',
+    title: 'Internal Server Error',
+    detail: 'Une erreur est survenue lors de la création de l’instantané'
+  })).code(500);
 }
 
 function create(request, reply) {
 
   if (!_hasAnAtuhorizationHeaders(request)) {
-    return _replyErrorWithMessage(reply, 'Le token n’est pas valide', 401);
+    return reply(new JSONAPIError({
+      code: '401',
+      title: 'Unauthorized',
+      detail: 'Le token n’est pas valide'
+    })).code(401);
   }
 
   const token = request.headers.authorization;
@@ -67,6 +92,7 @@ function create(request, reply) {
     .then((foundUser) => user = foundUser)
     .then(() => snapshotSerializer.deserialize(request.payload))
     .then(deserializedSnapshot => (snapshot = deserializedSnapshot))
+    .then(() => _validateSnapshotCode(snapshot))
     .then(() => _assertThatOrganizationExists(snapshot.organization.id))
     .then(() => profileService.getByUserId(user.id))
     .then((profile) => profileSerializer.serialize(profile))

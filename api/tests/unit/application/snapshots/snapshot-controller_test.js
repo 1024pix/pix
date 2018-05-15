@@ -5,7 +5,7 @@ const snapshotService = require('../../../../lib/domain/services/snapshot-servic
 const profileCompletionService = require('../../../../lib/domain/services/profile-completion-service');
 const snapshotController = require('../../../../lib/application/snapshots/snapshot-controller');
 const authorizationToken = require('../../../../lib/infrastructure/validators/jsonwebtoken-verify');
-const validationErrorSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/validation-error-serializer');
+const JSONAPIError = require('jsonapi-serializer').Error;
 const organizationRepository = require('../../../../lib/infrastructure/repositories/organization-repository');
 const profileSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/profile-serializer');
 const snapshotSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/snapshot-serializer');
@@ -33,6 +33,10 @@ describe('Unit | Controller | snapshot-controller', () => {
       },
       payload: {
         data: {
+          attributes: {
+            'student-code': 'Code Etudiant',
+            'campaign-code': 'Code Campagne'
+          },
           relationships: {
             organization: {
               data: {
@@ -44,27 +48,11 @@ describe('Unit | Controller | snapshot-controller', () => {
       }
     };
 
-    beforeEach(() => {
-      sinon.stub(validationErrorSerializer, 'serialize');
-    });
-
-    afterEach(() => {
-      validationErrorSerializer.serialize.restore();
-    });
-
-    it('should have a request with Authorization header', () => {
-      // given
-      const replyStub = sinon.stub().returns({
-        code: () => {
-        }
-      });
-
-      // when
-      snapshotController.create(null, replyStub);
-
-      // then
-      sinon.assert.calledOnce(validationErrorSerializer.serialize);
-    });
+    const deserializedSnapshot = {
+      studentCode: 'Code Etudiant',
+      campaignCode: 'Code Campagne',
+      organization: { id: ORGANIZATION_ID }
+    };
 
     describe('Behavior', () => {
 
@@ -83,7 +71,7 @@ describe('Unit | Controller | snapshot-controller', () => {
         sandbox.stub(organizationRepository, 'isOrganizationIdExist');
         sandbox.stub(snapshotService, 'create');
         sandbox.stub(profileSerializer, 'serialize');
-        sandbox.stub(profileCompletionService,'getNumberOfFinishedTests');
+        sandbox.stub(profileCompletionService, 'getNumberOfFinishedTests');
         sandbox.stub(snapshotSerializer, 'serialize');
         sandbox.stub(logger, 'error');
       });
@@ -142,7 +130,7 @@ describe('Unit | Controller | snapshot-controller', () => {
           // given
           authorizationToken.verify.resolves();
           userRepository.findUserById.resolves();
-          snapshotSerializer.deserialize.resolves({ organization: { id: ORGANIZATION_ID } });
+          snapshotSerializer.deserialize.resolves(deserializedSnapshot);
 
           // when
           const promise = snapshotController.create(request, replyStub);
@@ -158,7 +146,7 @@ describe('Unit | Controller | snapshot-controller', () => {
           // given
           authorizationToken.verify.resolves();
           userRepository.findUserById.resolves(user);
-          snapshotSerializer.deserialize.resolves({ organization: { id: ORGANIZATION_ID } });
+          snapshotSerializer.deserialize.resolves(deserializedSnapshot);
           organizationRepository.isOrganizationIdExist.resolves({ organization: 'a_valid_organization' });
 
           // when
@@ -175,7 +163,7 @@ describe('Unit | Controller | snapshot-controller', () => {
           // given
           authorizationToken.verify.resolves();
           userRepository.findUserById.resolves(user);
-          snapshotSerializer.deserialize.resolves({ organization: { id: ORGANIZATION_ID } });
+          snapshotSerializer.deserialize.resolves(deserializedSnapshot);
           organizationRepository.isOrganizationIdExist.resolves({ organization: 'a_valid_organization' });
           profileService.getByUserId.resolves({ profile: 'a_valid_profile' });
 
@@ -193,7 +181,7 @@ describe('Unit | Controller | snapshot-controller', () => {
           // given
           authorizationToken.verify.resolves();
           userRepository.findUserById.resolves(user);
-          snapshotSerializer.deserialize.resolves({ organization: { id: ORGANIZATION_ID } });
+          snapshotSerializer.deserialize.resolves(deserializedSnapshot);
           organizationRepository.isOrganizationIdExist.resolves({ organization: 'a_valid_organization' });
           profileService.getByUserId.resolves();
           profileSerializer.serialize.resolves({ profile: 'a_valid_profile' });
@@ -210,12 +198,11 @@ describe('Unit | Controller | snapshot-controller', () => {
 
         it('should create & save a Snapshot entity into the repository', () => {
           // given
-          const snapshot = { organization: { id: ORGANIZATION_ID } };
           const serializedProfile = { profile: 'a_valid_profile' };
 
           authorizationToken.verify.resolves();
           userRepository.findUserById.resolves(user);
-          snapshotSerializer.deserialize.resolves(snapshot);
+          snapshotSerializer.deserialize.resolves(deserializedSnapshot);
           organizationRepository.isOrganizationIdExist.resolves({ organization: 'a_valid_organization' });
           profileService.getByUserId.resolves();
           profileSerializer.serialize.resolves(serializedProfile);
@@ -227,18 +214,17 @@ describe('Unit | Controller | snapshot-controller', () => {
           // then
           return promise.then(() => {
             sinon.assert.calledOnce(snapshotService.create);
-            sinon.assert.calledWith(snapshotService.create, snapshot, user, serializedProfile);
+            sinon.assert.calledWith(snapshotService.create, deserializedSnapshot, user, serializedProfile);
           });
         });
 
         it('should serialize the response payload', () => {
           // given
-          const snapshot = { organization: { id: ORGANIZATION_ID } };
           const serializedProfile = { profile: 'a_valid_profile' };
 
           authorizationToken.verify.resolves();
           userRepository.findUserById.resolves(user);
-          snapshotSerializer.deserialize.resolves(snapshot);
+          snapshotSerializer.deserialize.resolves(deserializedSnapshot);
           organizationRepository.isOrganizationIdExist.resolves({ organization: 'a_valid_organization' });
           profileService.getByUserId.resolves();
           profileSerializer.serialize.resolves(serializedProfile);
@@ -259,69 +245,68 @@ describe('Unit | Controller | snapshot-controller', () => {
 
       describe('Errors cases', () => {
 
-        it('should return an error, when token is not valid', () => {
+        it('should return a specific error JsonApi, when token is invalid', () => {
           // given
           authorizationToken.verify.rejects(new InvalidTokenError());
-          const expectedSerializeArg = {
-            data: {
-              authorization: ['Le token n’est pas valide']
-            }
-          };
+          const exepectedErr = new JSONAPIError({
+            code: '401',
+            title: 'Unauthorized',
+            detail: 'Le token n’est pas valide'
+          });
 
           // when
           const promise = snapshotController.create(request, replyStub);
 
           // then
           return promise.then(() => {
-            sinon.assert.calledOnce(validationErrorSerializer.serialize);
-            sinon.assert.calledWith(validationErrorSerializer.serialize, expectedSerializeArg);
+            sinon.assert.calledWith(replyStub, exepectedErr);
           });
         });
 
-        it('should return an error, when user is not found', () => {
+        it('should return a specific error JsonApi, when user is not found', () => {
           // given
           authorizationToken.verify.resolves();
           userRepository.findUserById.rejects(new NotFoundError());
-          const expectedSerializeArg = {
-            data: {
-              authorization: ['Cet utilisateur est introuvable']
-            }
-          };
+          const exepectedErr = new JSONAPIError({
+            code: '422',
+            title: 'Unprocessable entity',
+            detail: 'Cet utilisateur est introuvable'
+          });
 
           // when
           const promise = snapshotController.create(request, replyStub);
 
           // then
           return promise.then(() => {
-            sinon.assert.calledOnce(validationErrorSerializer.serialize);
-            sinon.assert.calledWith(validationErrorSerializer.serialize, expectedSerializeArg);
+            sinon.assert.calledWith(replyStub, exepectedErr);
           });
         });
 
-        it('should return an error, when organisation is not found', () => {
+        it('should return a specific error JsonApi, when organisation is not found', () => {
           // given
+          deserializedSnapshot.organization = { id: 'unknnown_organization_id' };
+
           authorizationToken.verify.resolves();
           userRepository.findUserById.resolves();
-          snapshotSerializer.deserialize.resolves({ organization: { id: 'unknnown_organization_id' } });
+          snapshotSerializer.deserialize.resolves(deserializedSnapshot);
           organizationRepository.isOrganizationIdExist.resolves(false);
 
-          const expectedSerializeArg = {
-            data: {
-              authorization: ['Cette organisation n’existe pas']
-            }
-          };
+          const exepectedErr = new JSONAPIError({
+            code: '422',
+            title: 'Unprocessable entity',
+            detail: 'Cette organisation n’existe pas'
+          });
 
           // when
           const promise = snapshotController.create(request, replyStub);
 
           // then
           return promise.then(() => {
-            sinon.assert.calledOnce(validationErrorSerializer.serialize);
-            sinon.assert.calledWith(validationErrorSerializer.serialize, expectedSerializeArg);
+            sinon.assert.calledWith(replyStub, exepectedErr);
           });
         });
 
-        it('should return an error, when snapshot saving fails', () => {
+        it('should return a specific error JsonApi, when snapshot saving fails', () => {
           // given
           authorizationToken.verify.resolves();
           userRepository.findUserById.resolves();
@@ -330,17 +315,18 @@ describe('Unit | Controller | snapshot-controller', () => {
           profileSerializer.serialize.resolves();
           snapshotService.create.rejects(new Error());
 
-          const expectedSerializeArg = {
-            data: {
-              authorization: ['Une erreur est survenue lors de la création de l’instantané']
-            }
-          };
+          const exepectedErr = new JSONAPIError({
+            code: '500',
+            title: 'Internal Server Error',
+            detail: 'Une erreur est survenue lors de la création de l’instantané'
+          });
+
           // when
           const promise = snapshotController.create(request, replyStub);
+
           // then
           return promise.then(() => {
-            sinon.assert.calledOnce(validationErrorSerializer.serialize);
-            sinon.assert.calledWith(validationErrorSerializer.serialize, expectedSerializeArg);
+            sinon.assert.calledWith(replyStub, exepectedErr);
           });
         });
 
