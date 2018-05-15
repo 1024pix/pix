@@ -8,6 +8,8 @@ const errors = require('../../../../lib/domain/errors');
 
 describe('Unit | Domain | Validators | organization-creation-validator', function() {
 
+  const userRepository = { isEmailAvailable: () => undefined };
+
   let sandbox;
   let user;
   let organization;
@@ -29,6 +31,9 @@ describe('Unit | Domain | Validators | organization-creation-validator', functio
     sandbox = sinon.sandbox.create();
     sandbox.stub(userValidator, 'validate');
     sandbox.stub(organizationValidator, 'validate');
+    sandbox.stub(userRepository, 'isEmailAvailable');
+
+    userRepository.isEmailAvailable.resolves();
   });
 
   afterEach(() => {
@@ -46,11 +51,43 @@ describe('Unit | Domain | Validators | organization-creation-validator', functio
 
       it('should resolve (with no value) when validation is successful', () => {
         // when
-        const promise = organizationCreationValidator.validate(user, organization);
+        const promise = organizationCreationValidator.validate(user, organization, userRepository);
 
         // then
         return expect(promise).to.be.fulfilled;
       });
+    });
+
+    context('when user email is already used', () => {
+
+      it('should reject with an error EntityValidationError on email already registered', () => {
+        // given
+        const emailExistError = new errors.AlreadyRegisteredEmailError('email already exists');
+        const expectedValidationError = new errors.EntityValidationError({
+          invalidAttributes: [
+            {
+              attribute: 'email',
+              message: 'Cette adresse electronique est déjà enregistrée.',
+            }
+          ]
+        });
+
+        userRepository.isEmailAvailable.rejects(emailExistError);
+        userValidator.validate.resolves();
+        organizationValidator.validate.resolves();
+
+        // when
+        const promise = organizationCreationValidator.validate(user, organization, userRepository);
+
+        // then
+        return promise
+          .then(() => expect.fail('Expected rejection with errors'))
+          .catch((error) => {
+            expect(error).to.be.instanceOf(errors.EntityValidationError);
+            expect(error.invalidAttributes).to.deep.equal(expectedValidationError.invalidAttributes);
+          });
+      });
+
     });
 
     context('when user validation fails', () => {
@@ -74,10 +111,11 @@ describe('Unit | Domain | Validators | organization-creation-validator', functio
         organizationValidator.validate.resolves();
 
         // when
-        const promise = organizationCreationValidator.validate(user, organization);
+        const promise = organizationCreationValidator.validate(user, organization, userRepository);
 
         // then
         return promise
+          .then(() => expect.fail('Expected rejection with errors'))
           .catch((error) => {
             expect(error).to.be.instanceOf(errors.EntityValidationError);
             expect(error.invalidAttributes).to.deep.equal(expectedValidationError.invalidAttributes);
@@ -103,10 +141,11 @@ describe('Unit | Domain | Validators | organization-creation-validator', functio
         userValidator.validate.resolves();
 
         // when
-        const promise = organizationCreationValidator.validate(user, organization);
+        const promise = organizationCreationValidator.validate(user, organization, userRepository);
 
         // then
         return promise
+          .then(() => expect.fail('Expected rejection with errors'))
           .catch((error) => {
             expect(error).to.be.instanceOf(errors.EntityValidationError);
             expect(error.invalidAttributes).to.deep.equal(expectedValidationError.invalidAttributes);
@@ -140,7 +179,7 @@ describe('Unit | Domain | Validators | organization-creation-validator', functio
         organizationValidator.validate.rejects(expectedOrgaValidationError);
 
         // when
-        const promise = organizationCreationValidator.validate(user, organization);
+        const promise = organizationCreationValidator.validate(user, organization, userRepository);
 
         // then
         return promise
