@@ -339,8 +339,9 @@ describe('Unit | Model | Assessment', function() {
       expect(assessment._computeReward).to.exist;
     });
 
-    it('should be 2 if challenge requires web2 within web1-2-3 and no answer has been given yet', function() {
+    it('should have a reward of 2 if challenge requires web2 within web1-2-3 and no answer has been given yet', function() {
       // given
+      const predictedLevel = 2;
       const web1 = new Skill('web1');
       const web2 = new Skill('web2');
       const web3 = new Skill('web3');
@@ -352,11 +353,13 @@ describe('Unit | Model | Assessment', function() {
       const assessment = new Assessment(course, []);
 
       // then
-      expect(assessment._computeReward(ch1, 2)).to.equal(2);
+      const expectedReward = 2;
+      expect(assessment._computeReward(ch1, predictedLevel)).to.equal(expectedReward);
     });
 
     it('should be 2.73 if challenge requires url3 within url2-3-4-5 and no answer has been given yet', function() {
       // given
+      const predictedLevel = 2;
       const url2 = new Skill('url2');
       const url3 = new Skill('url3');
       const url4 = new Skill('url4');
@@ -369,7 +372,7 @@ describe('Unit | Model | Assessment', function() {
       const assessment = new Assessment(course, []);
 
       // then
-      expect(assessment._computeReward(ch1, 2)).to.equal(2.7310585786300052);
+      expect(assessment._computeReward(ch1, predictedLevel)).to.equal(2.7310585786300052);
     });
   });
 

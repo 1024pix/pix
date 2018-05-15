@@ -5,7 +5,7 @@ const MAX_REACHABLE_LEVEL = 5;
 const NB_PIX_BY_LEVEL = 8;
 const MAX_NUMBER_OF_CHALLENGES = 20;
 const LEVEL_FOR_FIRST_CHALLENGE = 2;
-const LEVEL_LIMIT_TO_THREE = 3;
+const LEVEL_MAX_TO_BE_AN_EASY_TUBE = 3;
 
 class Assessment {
   constructor(course, answers) {
@@ -150,7 +150,7 @@ class Assessment {
 
       const mostDifficultSkill = listOfSkillsForThisTube.sort((a, b) => a.difficulty < b.difficulty)[0];
 
-      if (mostDifficultSkill.difficulty <= LEVEL_LIMIT_TO_THREE) {
+      if (mostDifficultSkill.difficulty <= LEVEL_MAX_TO_BE_AN_EASY_TUBE) {
 
         const nbSkillsNotEvaluated = listOfSkillsForThisTube.filter((skill) => {
           return this._skillNotKnownYet(skill);
@@ -173,7 +173,6 @@ class Assessment {
     }
 
     availableChallenges = availableChallenges.filter(challenge => this._isChallengeNotTooHard(challenge));
-
 
     const listOfSkillsToTargetInPriority = this._skillsToTargetInPriority();
     if (listOfSkillsToTargetInPriority.length > 0) {
