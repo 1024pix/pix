@@ -1,6 +1,4 @@
 const { expect } = require('../../../../test-helper');
-const AssessmentResult = require('../../../../../lib/domain/models/AssessmentResult');
-const Certification = require('../../../../../lib/domain/models/Certification');
 const serializer = require('../../../../../lib/infrastructure/serializers/jsonapi/certification-serializer');
 const { WrongDateFormatError } = require('../../../../../lib/domain/errors');
 const factory = require('../../../../factory');

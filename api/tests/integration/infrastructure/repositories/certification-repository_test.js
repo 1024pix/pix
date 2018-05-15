@@ -1,6 +1,5 @@
 const { expect, knex } = require('../../../test-helper');
 const certificationRepository = require('../../../../lib/infrastructure/repositories/certification-repository');
-const AssessmentResult = require('../../../../lib/domain/models/AssessmentResult');
 const Certification = require('../../../../lib/domain/models/Certification');
 const { NotFoundError } = require('../../../../lib/domain/errors');
 const factory = require('../../../factory');
