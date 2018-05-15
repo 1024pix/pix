@@ -138,9 +138,8 @@
 }
 
 @mixin arrow-button() {
-  vertical-align: middle;
-  display: inline-flex;
   margin-left: 8px;
+  margin-bottom: 2%;
 }
 
 .certifications-list-item__has-comment .cp-is-open .certifications-list-item__cell-detail::before {
