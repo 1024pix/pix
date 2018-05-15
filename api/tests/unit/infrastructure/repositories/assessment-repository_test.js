@@ -14,25 +14,25 @@ describe('Unit | Repository | assessmentRepository', () => {
       userId: JOHN,
       courseId: 'courseId1',
       state: 'completed',
-      type: null
+      type: 'PLACEMENT'
     }, {
       id: 2,
       userId: LAYLA,
       courseId: 'courseId1',
       state: 'completed',
-      type: null
+      type: 'PLACEMENT'
     }, {
       id: 3,
       userId: JOHN,
       courseId: 'courseId1',
       state: 'completed',
-      type: null
+      type: 'PLACEMENT'
     }, {
       id: 4,
       userId: JOHN,
       courseId: 'courseId2',
       state: 'completed',
-      type: null
+      type: 'PLACEMENT'
     }, {
       id: 5,
       userId: JOHN,
@@ -44,7 +44,7 @@ describe('Unit | Repository | assessmentRepository', () => {
       userId: LAYLA,
       courseId: 'nullAssessmentPreview',
       state: 'completed',
-      type: null
+      type: 'DEMO'
     }];
 
     before(() => {
@@ -201,22 +201,26 @@ describe('Unit | Repository | assessmentRepository', () => {
       id: COMPLETED_ASSESSMENT_A_ID,
       userId: JOHN,
       courseId: 'courseId',
-      state: 'completed'
+      state: 'completed',
+      type: 'PLACEMENT'
     }, {
       id: COMPLETED_ASSESSMENT_B_ID,
       userId: JOHN,
       courseId: 'courseId',
-      state: 'completed'
+      state: 'completed',
+      type: 'PLACEMENT'
     }, {
       id: UNCOMPLETE_ASSESSMENT_ID,
       userId: JOHN,
       courseId: 'courseId',
-      state: 'started'
+      state: 'started',
+      type: 'PLACEMENT'
     }, {
       id: 4,
       userId: LAYLA,
       courseId: 'courseId',
-      state: 'completed'
+      state: 'completed',
+      type: 'PLACEMENT'
     }, {
       id: 5,
       userId: JOHN,
@@ -227,7 +231,8 @@ describe('Unit | Repository | assessmentRepository', () => {
       id: 6,
       userId: LAYLA,
       courseId: 'nullAssessmentPreview',
-      state: 'completed'
+      state: 'completed',
+      type: 'DEMO'
     }];
 
     before(() => {
