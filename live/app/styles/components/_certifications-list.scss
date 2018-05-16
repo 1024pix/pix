@@ -41,21 +41,23 @@
 .certifications-list__table-header {
   @extend .certifications-list__table-row;
 
-  height: 20px;
   font-weight: $font-bold;
-
-  @include device-is('tablet') {
-    height: 30px;
-  }
 }
 
 .certifications-list__table-header-cell {
   @extend .certifications-list__table-row-item;
+
   padding: 5px 3%;
 }
 
-.certifications-list__table-header-cell-certification-center {
+.certifications-list__table-header-cell-double-width {
   @extend .certifications-list__table-header-cell;
+
+  flex-grow: 2;
+}
+
+.certifications-list__table-header-cell-certification-center {
+  @extend .certifications-list__table-header-cell-double-width;
   justify-content: center;
 }
 
