@@ -20,6 +20,10 @@ Router.map(function() {
       this.route('new');
       this.route('list');
     });
+    this.route('certifications', function() {
+      this.route('jury');
+      this.route('menu');
+    });
   });
   this.route('logout');
 });
