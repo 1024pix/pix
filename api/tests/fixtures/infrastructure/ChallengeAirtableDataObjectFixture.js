@@ -13,6 +13,14 @@ module.exports = function() {
     scoring: '1: @outilsTexte2\n2: @outilsTexte4',
     status: 'validé',
     skillIds: ['recUDrCWD76fp5MsE'],
-    skills: ['@modèleEco3']
+    skills: ['@modèleEco3'],
+    hasntInternetAllowed: false,
+    timer: 1234,
+    illustrationUrl: 'https://dl.airtable.com/2MGErxGTQl2g2KiqlYgV_venise4.png',
+    attachments: [
+      'https://dl.airtable.com/nHWKNZZ7SQeOKsOvVykV_navigationdiaporama5.pptx',
+      'https://dl.airtable.com/rsXNJrSPuepuJQDByFVA_navigationdiaporama5.odp'
+    ],
+    competenceId: 'recsvLz0W2ShyfD63'
   });
 };

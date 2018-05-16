@@ -48,13 +48,6 @@ describe('Unit | Domain | Models | Challenge', () => {
   });
 
   describe('#isPublished', () => {
-
-    let challenge;
-
-    beforeEach(() => {
-      challenge = Challenge.fromAttributes();
-    });
-
     [
       { status: 'validé', expectedResult: true },
       { status: 'validé sans test', expectedResult: true },
@@ -64,7 +57,7 @@ describe('Unit | Domain | Models | Challenge', () => {
     ].forEach((testCase) => {
       it(`should return ${testCase.expectedResult} when the status is "${testCase.status}"`, () => {
         // given
-        challenge.status = testCase.status;
+        const challenge = new Challenge({ status: testCase.status });
 
         // when
         const result = challenge.isPublished();

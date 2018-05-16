@@ -1,5 +1,7 @@
+const AirtableRecord = require('airtable').Record;
+
 module.exports = function() {
-  return {
+  return new AirtableRecord('Epreuves', 'recwWzTquPlvIl4So', {
     'id': 'recwWzTquPlvIl4So',
     'fields': {
       'Consigne': 'Les moteurs de recherche affichent certains liens en raison d\'un accord commercial.\n\nDans quels encadrés se trouvent ces liens ?',
@@ -45,6 +47,34 @@ module.exports = function() {
       ],
       '_Preview Temp': 'https://docs.google.com/presentation/d/12lnGYXethPtmGkjP_DymgW1lINs2XyFi4jQRbZy_cpo/edit#slide=id.g16ce321c21_0_0',
       '_Statut': 'validé (beta)',
+      'Pièce jointe': [
+        {
+          'id': 'attrGPZKd1Ji8jqwn',
+          'url': 'https://dl.airtable.com/rsXNJrSPuepuJQDByFVA_navigationdiaporama5.odp',
+          'filename': 'navigationdiaporama5.odp',
+          'size': 64957,
+          'type': 'application/vnd.oasis.opendocument.presentation'
+        },
+        {
+          'id': 'att4DuFUC0sSBk7N7',
+          'url': 'https://dl.airtable.com/nHWKNZZ7SQeOKsOvVykV_navigationdiaporama5.pptx',
+          'filename': 'navigationdiaporama5.pptx',
+          'size': 67111,
+          'type': 'application/vnd.openxmlformats-officedocument.presentationml.presentation',
+          'thumbnails': {
+            'small': {
+              'url': 'https://dl.airtable.com/att4DuFUC0sSBk7N7-ef71b3e171b28e96-36x20.png',
+              'width': 36,
+              'height': 20
+            },
+            'large': {
+              'url': 'https://dl.airtable.com/att4DuFUC0sSBk7N7-f80b48806ae3d0e3-512x288.png',
+              'width': 512,
+              'height': 288
+            }
+          }
+        }
+      ],
       'Bonnes réponses': '1, 5',
       '_Niveau': [
         '3'
@@ -53,6 +83,7 @@ module.exports = function() {
       'Auteur': [
         'SPS'
       ],
+      'Timer': 1234,
       'Licence image': 'écran libre',
       'Déclinable': 'facilement',
       'Internet et outils': 'Oui',
@@ -79,5 +110,5 @@ module.exports = function() {
       ]
     },
     'createdTime': '2016-08-24T11:59:02.000Z'
-  };
+  });
 };

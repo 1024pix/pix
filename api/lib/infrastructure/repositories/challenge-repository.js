@@ -1,9 +1,13 @@
 const cache = require('../cache');
 const airtable = require('../airtable');
 const serializer = require('../serializers/airtable/challenge-serializer');
-const challengeDatasource = require('../datasources/airtable/challenge-datasource');
 const Challenge = require('../../domain/models/Challenge');
 const Skill = require('../../domain/models/Skill');
+
+const challengeDatasource = require('../datasources/airtable/challenge-datasource');
+const skillDatasource = require('../datasources/airtable/skill-datasource');
+const airtableDatasourceObjects = require('../datasources/airtable/objects');
+const { NotFoundError } = require('../../domain/errors');
 
 const AIRTABLE_TABLE_NAME = 'Epreuves';
 
@@ -26,6 +30,11 @@ function _fetchChallenges(cacheKey, resolve, reject, filterFunction) {
       return resolve(filteredChallenges);
     })
     .catch(reject);
+}
+
+function _getSkillDataObjects(challengeDataObject) {
+  const skillDataObjectPromises = challengeDataObject.skillIds.map(skillDatasource.get);
+  return Promise.all(skillDataObjectPromises);
 }
 
 module.exports = {
@@ -80,14 +89,37 @@ module.exports = {
 
   // TODO: Bascule vers le nouveau getRecord
   get(id) {
-    return new Promise((resolve, reject) => {
-      const cacheKey = `challenge-repository_get_${id}`;
-      cache.get(cacheKey, (err, cachedValue) => {
-        if (err) return reject(err);
-        if (cachedValue) return resolve(cachedValue);
-        return _fetchChallenge(id, cacheKey, resolve, reject);
+
+    let challengeDataObject;
+
+    return challengeDatasource.get(id)
+      .then((result) => challengeDataObject = result)
+      // TODO: Il manque le trigger d'une airtableDatasourceObjects.AirtableResourceNotFound
+      .then(_getSkillDataObjects)
+      .then((skillDataObjects) => {
+
+        const skills = skillDataObjects.map((skillDataObject) => new Skill(skillDataObject));
+
+        return new Challenge({
+          id: challengeDataObject.id,
+          type: challengeDataObject.type,
+          instruction: challengeDataObject.instruction,
+          competence: challengeDataObject.competence,
+          proposals: challengeDataObject.proposals,
+          hasntInternetAllowed: challengeDataObject.hasntInternetAllowed,
+          timer: challengeDataObject.timer,
+          illustrationUrl: challengeDataObject.illustrationUrl,
+          attachments: challengeDataObject.attachments,
+          skills
+        });
+      })
+      .catch(error => {
+        if(error instanceof airtableDatasourceObjects.AirtableResourceNotFound) {
+          throw new NotFoundError();
+        }
+
+        throw error;
       });
-    });
   },
 
   // TODO: delete
