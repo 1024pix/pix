@@ -5,8 +5,17 @@ const challengeRepository = require('../../../../lib/infrastructure/repositories
 const challengeSerializer = require('../../../../lib/infrastructure/serializers/airtable/challenge-serializer');
 const challengeDatasource = require('../../../../lib/infrastructure/datasources/airtable/challenge-datasource');
 const ChallengeAirtableDataObjectFixture = require('../../../../tests/fixtures/infrastructure/ChallengeAirtableDataObjectFixture');
+
 const Challenge = require('../../../../lib/domain/models/Challenge');
 const Skill = require('../../../../lib/domain/models/Skill');
+
+const ChallengeAirtableDataObject = require('../../../../lib/infrastructure/datasources/airtable/objects/Challenge');
+const SkillAirtableDataObject = require('../../../../lib/infrastructure/datasources/airtable/objects/Skill');
+const AirtableResourceNotFound = require('../../../../lib/infrastructure/datasources/airtable/objects/AirtableResourceNotFound');
+const { NotFoundError } = require('../../../../lib/domain/errors');
+
+const challengeDataSource = require('../../../../lib/infrastructure/datasources/airtable/challenge-datasource');
+const skillDatasource = require('../../../../lib/infrastructure/datasources/airtable/skill-datasource');
 
 function _buildChallenge(id, instruction, proposals) {
   return { id, instruction, proposals };
@@ -20,17 +29,21 @@ describe('Unit | Repository | challenge-repository', () => {
 
   let getRecord;
   let getRecords;
+  let challengeDataSourceGet;
 
   beforeEach(() => {
     cache.flushAll();
+
     getRecord = sinon.stub(airtable, 'getRecord');
     getRecords = sinon.stub(airtable, 'getRecords');
+    challengeDataSourceGet = sinon.stub(challengeDataSource, 'get');
   });
 
   afterEach(() => {
     cache.flushAll();
     getRecord.restore();
     getRecords.restore();
+    challengeDataSourceGet.restore();
   });
 
   describe('#list', () => {
@@ -189,73 +202,95 @@ describe('Unit | Repository | challenge-repository', () => {
 
   describe('#get', () => {
 
-    const challengeId = 'challengeId';
-    const cacheKey = `challenge-repository_get_${challengeId}`;
-    const challenge = { foo: 'bar' };
-
-    it('should resolve with the challenge directly retrieved from the cache without calling airtable when the challenge has been cached', () => {
-      // given
-      getRecord.resolves(true);
-      cache.set(cacheKey, challenge);
-
-      // when
-      const result = challengeRepository.get(challengeId);
-
-      // then
-      expect(getRecord.notCalled).to.be.true;
-      return expect(result).to.eventually.deep.equal(challenge);
+    beforeEach(() => {
+      sinon.stub(skillDatasource, 'get').resolves();
     });
 
-    it('should reject with an error when the cache throw an error', () => {
-      // given
-      const cacheErrorMessage = 'Cache error';
-      sinon.stub(cache, 'get').callsFake((key, callback) => {
-        callback(new Error(cacheErrorMessage));
-      });
-
-      // when
-      const result = challengeRepository.get(challengeId);
-
-      // then
-      cache.get.restore();
-      return expect(result).to.eventually.be.rejectedWith(cacheErrorMessage);
+    afterEach(() => {
+      skillDatasource.get.restore();
     });
 
-    describe('when the challenge was not previously cached', () => {
+    it('should resolve a Challenge domain object when the challenge exists', () => {
+      // given
+      const challengeRecordId = 'rec_challenge_id';
+      challengeDataSourceGet.withArgs(challengeRecordId).resolves(new ChallengeAirtableDataObject({
+        id: challengeRecordId,
+        type: 'QCU'
+      }));
 
-      beforeEach(() => {
-        getRecord.resolves(challenge);
+      // when
+      const promise = challengeRepository.get(challengeRecordId);
+
+      // then
+      return promise.then((challenge) => {
+        expect(challenge).to.be.an.instanceOf(Challenge);
+        expect(challenge.id).to.equal(challengeRecordId);
+        expect(challenge.type).to.equal('QCU');
       });
+    });
 
-      it('should resolve with the challenges fetched from airtable', function(done) {
+    it('should load skills', () => {
+      // given
+      const challengeRecordId = 'rec_challenge_id';
+      challengeDataSourceGet.resolves(new ChallengeAirtableDataObject({
+        skillIds: ['skillId_1', 'skillId_2']
+      }));
+
+      // when
+      const promise = challengeRepository.get(challengeRecordId);
+
+      // then
+      return promise.then(() => {
+        expect(skillDatasource.get).to.have.been.calledWith('skillId_1');
+        expect(skillDatasource.get).to.have.been.calledWith('skillId_2');
+      });
+    });
+
+    it('should load skills in the challenge', () => {
+      // given
+      const challengeRecordId = 'rec_challenge_id';
+      challengeDataSourceGet.resolves(new ChallengeAirtableDataObject({
+        skillIds: ['123', '456']
+      }));
+      skillDatasource.get.withArgs('123').resolves(new SkillAirtableDataObject({ name: '@web1' }));
+      skillDatasource.get.withArgs('456').resolves(new SkillAirtableDataObject({ name: '@url2' }));
+
+      // when
+      const promise = challengeRepository.get(challengeRecordId);
+
+      // then
+      return promise.then((challenge) => {
+        expect(challenge.skills).to.have.lengthOf(2);
+        expect(challenge.skills[0]).to.deep.equal(new Skill({ name: '@web1' }));
+        expect(challenge.skills[1]).to.deep.equal(new Skill({ name: '@url2' }));
+      });
+    });
+
+    context('when the datasource is on error', () => {
+      it('should return a NotFoundError if the challenge is not found', () => {
+        // given
+        const challengeRecordId = 'rec_challenge_id';
+        const error = new AirtableResourceNotFound();
+        challengeDataSourceGet.rejects(error);
+
         // when
-        const result = challengeRepository.get(challengeId);
+        const promise = challengeRepository.get(challengeRecordId);
 
         // then
-        expect(result).to.eventually.deep.equal(challenge);
-        done();
+        return expect(promise).to.have.been.rejectedWith(NotFoundError);
       });
 
-      it('should cache the challenge fetched from airtable', function(done) {
+      it('should transfer the error', () => {
+        // given
+        const challengeRecordId = 'rec_challenge_id';
+        const error = new Error();
+        challengeDataSourceGet.rejects(error);
+
         // when
-        challengeRepository.get(challengeId).then(() => {
+        const promise = challengeRepository.get(challengeRecordId);
 
-          // then
-          cache.get(cacheKey, (err, cachedValue) => {
-            expect(cachedValue).to.exist;
-            done();
-          });
-        });
-      });
-
-      it('should query correctly airtable', function(done) {
-        // when
-        challengeRepository.get(challengeId).then(() => {
-
-          // then
-          expect(getRecord.calledWith('Epreuves', challengeId, challengeSerializer)).to.be.true;
-          done();
-        });
+        // then
+        return expect(promise).to.have.been.rejectedWith(error);
       });
     });
   });
