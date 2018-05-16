@@ -1,10 +1,17 @@
 import { computed } from '@ember/object';
 import Component from '@ember/component';
 
+const { and, not, equal } = computed;
+
 export default Component.extend({
   certification: null,
   classNames: ['certifications-list-item'],
-  classNameBindings: ['certification.isPublished:certifications-list-item__published-item:certifications-list-item__unpublished-item'],
+  classNameBindings: [
+    'certification.isPublished:certifications-list-item__published-item:certifications-list-item__unpublished-item',
+    'shouldDisplayComment:certifications-list-item__has-comment:certifications-list-item__no-comment'
+  ],
 
-  isValidated: computed.equal('certification.status', 'validated'),
+  isValidated: equal('certification.status', 'validated'),
+  isNotValidated: not('isValidated'),
+  shouldDisplayComment: and('isNotValidated', 'certification.{isPublished,commentForCandidate}'),
 });

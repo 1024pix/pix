@@ -1,8 +1,7 @@
 const { expect } = require('../../../../test-helper');
-const AssessmentResult = require('../../../../../lib/domain/models/AssessmentResult');
-const Certification = require('../../../../../lib/domain/models/Certification');
 const serializer = require('../../../../../lib/infrastructure/serializers/jsonapi/certification-serializer');
 const { WrongDateFormatError } = require('../../../../../lib/domain/errors');
+const factory = require('../../../../factory');
 
 describe('Unit | Serializer | JSONAPI | certification-serializer', () => {
 
@@ -17,9 +16,9 @@ describe('Unit | Serializer | JSONAPI | certification-serializer', () => {
           'last-name': 'The all mighty',
           'birthplace': 'Namek',
           'birthdate': '24/10/1989',
-          'external-id': 'xenoverse2'
-        }
-      }
+          'external-id': 'xenoverse2',
+        },
+      },
     };
 
     const certificationCourseObject = {
@@ -28,7 +27,7 @@ describe('Unit | Serializer | JSONAPI | certification-serializer', () => {
       lastName: 'The all mighty',
       birthplace: 'Namek',
       birthdate: '1989-10-24',
-      externalId: 'xenoverse2'
+      externalId: 'xenoverse2',
     };
 
     it('should convert a JSON API data into a Certification Course object', function() {
@@ -60,35 +59,29 @@ describe('Unit | Serializer | JSONAPI | certification-serializer', () => {
 
     context('the entry data is an array of certifications', () => {
 
-      const assessmentResult = new AssessmentResult({
-        pixScore: 23,
-        status: 'rejected'
-      });
       const receivedCertifications = [
-        new Certification({
-          id: 123,
-          certificationCenter: 'Université des chocolats',
-          date: '01/02/2004',
-          isPublished: true,
-          assessmentState: 'completed',
-          assessmentResults: [assessmentResult]
-        })
+        factory.buildCertification({
+          pixScore: 23,
+          status: 'rejected',
+          commentForCandidate: 'Vous auriez dû travailler plus.',
+        }),
       ];
 
       const JsonCertificationList = {
         data: [
           {
             attributes: {
-              'certification-center': 'Université des chocolats',
-              'date': '01/02/2004',
+              'certification-center': 'L’univeristé du Pix',
+              'date': '12/01/2018',
               'is-published': true,
               'status': 'rejected',
-              'pix-score': 23
+              'pix-score': 23,
+              'comment-for-candidate': 'Vous auriez dû travailler plus.',
             },
             'type': 'certifications',
-            'id': 123
-          }
-        ]
+            'id': 1,
+          },
+        ],
       };
 
       it('should serialize user certifications to JSON', () => {
@@ -102,31 +95,26 @@ describe('Unit | Serializer | JSONAPI | certification-serializer', () => {
 
     context('the entry data is one certification', () => {
 
-      const assessmentResult = new AssessmentResult({
+      const receivedCertification = factory.buildCertification({
         pixScore: 23,
-        status: 'rejected'
+        status: 'rejected',
+        commentForCandidate: 'Vous auriez dû travailler plus.',
       });
-      const receivedCertification = new Certification({
-        id: 123,
-        certificationCenter: 'Université des chocolats',
-        date: '01/02/2004',
-        isPublished: true,
-        assessmentState: 'completed',
-        assessmentResults: [assessmentResult]
-      });
+
       const JsonCertification =
         {
           data: {
             attributes: {
-              'certification-center': 'Université des chocolats',
-              'date': '01/02/2004',
+              'certification-center': 'L’univeristé du Pix',
+              'date': '12/01/2018',
               'is-published': true,
               'status': 'rejected',
-              'pix-score': 23
+              'pix-score': 23,
+              'comment-for-candidate': 'Vous auriez dû travailler plus.',
             },
             'type': 'certifications',
-            'id': 123
-          }
+            'id': 1,
+          },
         };
 
       it('should serialize user certifications to JSON', () => {

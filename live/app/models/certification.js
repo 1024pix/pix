@@ -9,4 +9,5 @@ export default Model.extend({
   pixScore: attr('number'),
   status: attr('string'),
   user: belongsTo('user'),
+  commentForCandidate: attr('string'),
 });

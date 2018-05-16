@@ -1,8 +1,8 @@
 const { expect, knex } = require('../../../test-helper');
 const certificationRepository = require('../../../../lib/infrastructure/repositories/certification-repository');
-const AssessmentResult = require('../../../../lib/domain/models/AssessmentResult');
 const Certification = require('../../../../lib/domain/models/Certification');
 const { NotFoundError } = require('../../../../lib/domain/errors');
+const factory = require('../../../factory');
 
 describe('Integration | Repository | Certification ', () => {
 
@@ -19,7 +19,7 @@ describe('Integration | Repository | Certification ', () => {
       birthdate: '24/10/1989',
       completedAt: '12/02/2000',
       sessionId: 321,
-      isPublished: true
+      isPublished: true,
     };
 
     const assessmentResult = {
@@ -27,7 +27,8 @@ describe('Integration | Repository | Certification ', () => {
       pixScore: 23,
       emitter: 'PIX-ALGO',
       status: 'rejected',
-      assessmentId: 1000
+      assessmentId: 1000,
+      commentForCandidate: 'Comment for candidate'
     };
 
     const assessment = {
@@ -35,7 +36,7 @@ describe('Integration | Repository | Certification ', () => {
       courseId: 123,
       userId: USER_ID,
       type: 'CERTIFICATION',
-      state: 'completed'
+      state: 'completed',
     };
 
     const session = {
@@ -46,7 +47,7 @@ describe('Integration | Repository | Certification ', () => {
       examiner: 'Serge le Mala',
       date: '12/02/2000',
       time: '21:30',
-      accessCode: 'ABCD12'
+      accessCode: 'ABCD12',
     };
 
     beforeEach(() => {
@@ -71,20 +72,16 @@ describe('Integration | Repository | Certification ', () => {
 
     it('should return an array of Certification with needed informations', () => {
       // given
-      const assessmentResult = new AssessmentResult({
+      const expectedCertifications = [factory.buildCertification({
+        id: 123,
+        certificationCenter: 'Université des chocolats',
+        date: '12/02/2000',
+        isPublished: true,
+        assessmentState: 'completed',
         pixScore: 23,
-        status: 'rejected'
-      });
-      const expectedCertifications = [
-        new Certification({
-          id: 123,
-          certificationCenter: 'Université des chocolats',
-          date: '12/02/2000',
-          isPublished: true,
-          assessmentState: 'completed',
-          assessmentResults: [assessmentResult]
-        })
-      ];
+        status: 'rejected',
+        commentForCandidate: 'Comment for candidate',
+      })];
 
       // when
       const promise = certificationRepository.findCertificationsByUserId(USER_ID);
@@ -110,7 +107,7 @@ describe('Integration | Repository | Certification ', () => {
       birthdate: '24/10/1989',
       completedAt: '12/02/2000',
       sessionId: 321,
-      isPublished: true
+      isPublished: true,
     };
 
     const assessmentResult = {
@@ -118,7 +115,7 @@ describe('Integration | Repository | Certification ', () => {
       pixScore: 23,
       emitter: 'PIX-ALGO',
       status: 'rejected',
-      assessmentId: 1000
+      assessmentId: 1000,
     };
 
     const assessment = {
@@ -126,7 +123,7 @@ describe('Integration | Repository | Certification ', () => {
       courseId: CERTIFICATION_ID,
       userId: USER_ID,
       type: 'CERTIFICATION',
-      state: 'completed'
+      state: 'completed',
     };
 
     const session = {
@@ -137,7 +134,7 @@ describe('Integration | Repository | Certification ', () => {
       examiner: 'Serge le Mala',
       date: '12/02/2000',
       time: '21:30',
-      accessCode: 'ABCD12'
+      accessCode: 'ABCD12',
     };
 
     beforeEach(() => {
@@ -163,7 +160,7 @@ describe('Integration | Repository | Certification ', () => {
         // when
         const promise = certificationRepository.updateCertification({
           id: NON_EXISITNG_CERTIFICATION_ID,
-          attributes: { isPublished: true }
+          attributes: { isPublished: true },
         });
 
         // then
@@ -180,7 +177,7 @@ describe('Integration | Repository | Certification ', () => {
       beforeEach(() => {
         promise = certificationRepository.updateCertification({
           id: CERTIFICATION_ID,
-          attributes: { isPublished: true }
+          attributes: { isPublished: true },
         });
       });
 
@@ -194,17 +191,15 @@ describe('Integration | Repository | Certification ', () => {
 
       it('should return the updated certification', () => {
 
-        const assessmentResult = new AssessmentResult({
-          pixScore: 23,
-          status: 'rejected'
-        });
-        const expectedCertification = new Certification({
-          id: 123,
+        const expectedCertification = factory.buildCertification({
+          assessmentState: 'completed',
           certificationCenter: 'Université des chocolats',
           date: '12/02/2000',
+          id: 123,
           isPublished: true,
-          assessmentState: 'completed',
-          assessmentResults: [assessmentResult]
+          pixScore: 23,
+          status: 'rejected',
+          commentForCandidate: null,
         });
 
         return promise
