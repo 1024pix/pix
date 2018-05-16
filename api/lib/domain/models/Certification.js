@@ -14,12 +14,12 @@ class Certification {
     this.assessmentState = assessmentState;
 
     const assessmentResultsCopy = Array.from(assessmentResults);
-    const mostRecentAssessment = assessmentResultsCopy.sort(_byDate)[0];
+    const mostRecentAssessmentResult = assessmentResultsCopy.sort(_byDate)[0];
 
-    if (mostRecentAssessment) {
-      this.pixScore = mostRecentAssessment.pixScore;
-      this.status = mostRecentAssessment.status;
-      this.commentForCandidate = mostRecentAssessment.commentForCandidate;
+    if (mostRecentAssessmentResult) {
+      this.pixScore = mostRecentAssessmentResult.pixScore;
+      this.status = mostRecentAssessmentResult.status;
+      this.commentForCandidate = mostRecentAssessmentResult.commentForCandidate;
     }
   }
 }

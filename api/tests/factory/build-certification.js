@@ -1,4 +1,5 @@
 const Certification = require('../../lib/domain/models/Certification');
+const buildAssessementResult = require('./build-assessment-result');
 
 module.exports = function({
   id = 1,
@@ -6,7 +7,7 @@ module.exports = function({
   certificationCenter = 'L’univeristé du Pix',
   isPublished = true,
   assessmentState = 'completed',
-  assessmentResults = [],
+  assessmentResults = [buildAssessementResult()],
   // set to overried computed properties
   pixScore,
   status,

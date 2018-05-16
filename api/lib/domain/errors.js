@@ -193,25 +193,32 @@ class EntityValidationError extends Error {
   }
 }
 
+class UserNotAuthorizedToAccessEntity extends Error {
+  constructor() {
+    super('User is not authorized to access ressource');
+  }
+}
+
 module.exports = {
-  NotFoundError,
-  PasswordNotMatching,
-  InvalidTokenError,
-  AlreadyRegisteredEmailError,
-  InvaliOrganizationIdError,
-  InvalidSnapshotCode,
-  UserNotFoundError,
-  InternalError,
-  PasswordResetDemandNotFoundError,
-  InvalidTemporaryKeyError,
-  NotElligibleToQmailError,
-  UserNotAuthorizedToCertifyError,
-  NotCompletedAssessmentError,
-  AssessmentEndedError,
   AlreadyRatedAssessmentError,
-  WrongDateFormatError,
-  ObjectValidationError,
+  AlreadyRegisteredEmailError,
+  AssessmentEndedError,
   EntityValidationError,
-  MissingOrInvalidCredentialsError,
+  InternalError,
   InvalidRecaptchaTokenError,
+  InvalidSnapshotCode,
+  InvalidTemporaryKeyError,
+  InvalidTokenError,
+  InvaliOrganizationIdError,
+  MissingOrInvalidCredentialsError,
+  NotCompletedAssessmentError,
+  NotElligibleToQmailError,
+  NotFoundError,
+  ObjectValidationError,
+  PasswordNotMatching,
+  PasswordResetDemandNotFoundError,
+  UserNotAuthorizedToAccessEntity,
+  UserNotAuthorizedToCertifyError,
+  UserNotFoundError,
+  WrongDateFormatError,
 };
