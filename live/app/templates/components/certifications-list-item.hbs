@@ -1,5 +1,5 @@
 {{#cp-panel as |panel|}}
-  {{#panel.toggle class="certifications-list-item__row-presentation"}}
+  {{#panel.toggle class="certifications-list-item__row-presentation" role="tab"}}
     <div class="certifications-list-item__cell">
       {{moment-format certification.date 'DD/MM/YYYY' allow-empty=true}}
     </div>
@@ -45,7 +45,7 @@
   {{/panel.toggle}}
 
   {{#if shouldDisplayComment}}
-    {{#panel.body class="certifications-list-item__row-comment"}}
+    {{#panel.body class="certifications-list-item__row-comment" role="tabpanel"}}
       <div class="certifications-list-item__row-comment-cell">
         {{certification.commentForCandidate}}
       </div>
