@@ -61,13 +61,15 @@ module.exports = function(environment) {
     },
 
     sentry: {
-      dsn: 'https://4b60c9f39a844832956f840b9d0d1359@sentry.io/99479',
-      development: true
+      dsn: process.env.SENTRY_DSN,
+      tags: {
+        source: 'live'
+      },
     },
 
     moment: {
-      includeLocales: ['fr']
-    }
+      includeLocales: ['fr'],
+    },
   };
 
   if (environment === 'development') {
@@ -140,7 +142,6 @@ module.exports = function(environment) {
         }
       }
     ];
-    ENV.sentry.development = false;
   }
 
   return ENV;

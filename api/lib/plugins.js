@@ -50,7 +50,10 @@ const plugins = [
   {
     register: require('hapi-raven'),
     options: {
-      dsn: process.env.SENTRY_DSN
+      dsn: process.env.SENTRY_DSN,
+      tags: {
+        source: 'api'
+      }
     }
   }
 ];
