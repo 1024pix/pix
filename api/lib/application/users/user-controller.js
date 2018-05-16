@@ -50,7 +50,7 @@ module.exports = {
         logger.error(error);
         // TODO extract the formatting into a common error formatter
         return reply(new JSONAPIError({
-          code: '500',
+          status: '500',
           title: 'Internal Server Error',
           detail: 'Une erreur est survenue lors de la création de l’utilisateur'
         }));
@@ -131,6 +131,7 @@ function _handleWhenInvalidAuthorization(errorMessage) {
 // TODO extract this into a common error formatter
 function _formatValidationError({ attribute, message }) {
   return {
+    status: '422',
     source: {
       pointer: `/data/attributes/${ _.kebabCase(attribute) }`,
     },

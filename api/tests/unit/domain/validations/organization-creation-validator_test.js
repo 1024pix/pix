@@ -4,7 +4,7 @@ const userValidator = require('../../../../lib/domain/validators/user-validator'
 const organizationValidator = require('../../../../lib/domain/validators/organization-validator');
 const User = require('../../../../lib/domain/models/User');
 const Organization = require('../../../../lib/domain/models/Organization');
-const errors = require('../../../../lib/domain/errors');
+const { AlreadyRegisteredEmailError, EntityValidationError } = require('../../../../lib/domain/errors');
 
 describe('Unit | Domain | Validators | organization-creation-validator', function() {
 
@@ -62,8 +62,8 @@ describe('Unit | Domain | Validators | organization-creation-validator', functio
 
       it('should reject with an error EntityValidationError on email already registered', () => {
         // given
-        const emailExistError = new errors.AlreadyRegisteredEmailError('email already exists');
-        const expectedValidationError = new errors.EntityValidationError({
+        const emailExistError = new AlreadyRegisteredEmailError('email already exists');
+        const expectedValidationError = new EntityValidationError({
           invalidAttributes: [
             {
               attribute: 'email',
@@ -83,7 +83,7 @@ describe('Unit | Domain | Validators | organization-creation-validator', functio
         return promise
           .then(() => expect.fail('Expected rejection with errors'))
           .catch((error) => {
-            expect(error).to.be.instanceOf(errors.EntityValidationError);
+            expect(error).to.be.instanceOf(EntityValidationError);
             expect(error.invalidAttributes).to.deep.equal(expectedValidationError.invalidAttributes);
           });
       });
@@ -94,7 +94,7 @@ describe('Unit | Domain | Validators | organization-creation-validator', functio
 
       it('should reject with the errors from user validation', () => {
         // given
-        const expectedValidationError = new errors.EntityValidationError({
+        const expectedValidationError = new EntityValidationError({
           invalidAttributes: [
             {
               attribute: 'firstName',
@@ -117,7 +117,7 @@ describe('Unit | Domain | Validators | organization-creation-validator', functio
         return promise
           .then(() => expect.fail('Expected rejection with errors'))
           .catch((error) => {
-            expect(error).to.be.instanceOf(errors.EntityValidationError);
+            expect(error).to.be.instanceOf(EntityValidationError);
             expect(error.invalidAttributes).to.deep.equal(expectedValidationError.invalidAttributes);
           });
       });
@@ -128,7 +128,7 @@ describe('Unit | Domain | Validators | organization-creation-validator', functio
 
       it('should reject with the errors from organization validation', () => {
         // given
-        const expectedValidationError = new errors.EntityValidationError({
+        const expectedValidationError = new EntityValidationError({
           invalidAttributes: [
             {
               attribute: 'type',
@@ -147,7 +147,7 @@ describe('Unit | Domain | Validators | organization-creation-validator', functio
         return promise
           .then(() => expect.fail('Expected rejection with errors'))
           .catch((error) => {
-            expect(error).to.be.instanceOf(errors.EntityValidationError);
+            expect(error).to.be.instanceOf(EntityValidationError);
             expect(error.invalidAttributes).to.deep.equal(expectedValidationError.invalidAttributes);
           });
       });
@@ -158,7 +158,7 @@ describe('Unit | Domain | Validators | organization-creation-validator', functio
 
       it('should reject with the errors from user and organization validations', () => {
         // given
-        const expectedUserValidationError = new errors.EntityValidationError({
+        const expectedUserValidationError = new EntityValidationError({
           invalidAttributes: [
             {
               attribute: 'firstName',
@@ -166,7 +166,7 @@ describe('Unit | Domain | Validators | organization-creation-validator', functio
             }
           ]
         });
-        const expectedOrgaValidationError = new errors.EntityValidationError({
+        const expectedOrgaValidationError = new EntityValidationError({
           invalidAttributes: [
             {
               attribute: 'type',
@@ -184,7 +184,7 @@ describe('Unit | Domain | Validators | organization-creation-validator', functio
         // then
         return promise
           .catch((error) => {
-            expect(error).to.be.instanceOf(errors.EntityValidationError);
+            expect(error).to.be.instanceOf(EntityValidationError);
             expect(error.invalidAttributes).to.have.lengthOf(2);
           });
       });

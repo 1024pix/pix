@@ -46,7 +46,11 @@ module.exports = {
         }
 
         logger.error(error);
-        return reply(new JSONAPIError({ status: '500', title: 'Une erreur serveur est survenue.', meta: error })).code(500);
+        return reply(new JSONAPIError({
+          status: '500',
+          title: 'Internal Server Error',
+          detail: 'Une erreur est survenue lors de la création de l’organisation'
+        })).code(500);
       });
   },
 
@@ -156,6 +160,7 @@ function _buildErrorMessage(errorMessage) {
 // TODO extract this into a common error formatter
 function _formatValidationError({ attribute, message }) {
   return {
+    status: '422',
     source: {
       pointer: `/data/attributes/${ _.kebabCase(attribute) }`,
     },
