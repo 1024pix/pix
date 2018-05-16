@@ -8,20 +8,21 @@ describe('Unit | Serializer | JSONAPI | challenge-serializer', function() {
 
     it('should convert a Challenge model object into JSON API data', function() {
       // given
-      const challenge = new Challenge();
-      challenge.id = 'challenge_id';
-      challenge.instruction = 'Que peut-on dire des œufs de catégorie A ?';
-      challenge.proposals = '- Ils sont bio.\n- Ils pèsent plus de 63 grammes.\n- Ce sont des oeufs frais.\n- Ils sont destinés aux consommateurs.\n- Ils ne sont pas lavés.\n';
-      challenge.type = 'QCM';
-      challenge.illustrationUrl = 'http://challenge.illustration.url';
-      challenge.hasntInternetAllowed = false;
-      challenge.timer = 300;
-      challenge.competence = ['competence_id'];
-      challenge.attachments = [
-        'http://challenge.attachement.url.docx',
-        'http://challenge.attachement.url.odt',
-        'http://challenge.attachement.url.fuck'
-      ];
+      const challenge = new Challenge({
+        id: 'challenge_id',
+        instruction: 'Que peut-on dire des œufs de catégorie A ?',
+        proposals: '- Ils sont bio.\n- Ils pèsent plus de 63 grammes.\n- Ce sont des oeufs frais.\n- Ils sont destinés aux consommateurs.\n- Ils ne sont pas lavés.\n',
+        type: 'QCM',
+        illustrationUrl: 'http://illustration.url',
+        hasntInternetAllowed: false,
+        timer: 300,
+        competence: 'competence_id',
+        attachments: [
+          'http://challenge.attachement.url.docx',
+          'http://challenge.attachement.url.odt',
+          'http://challenge.attachement.url.fuck'
+        ]
+      });
 
       // when
       const json = serializer.serialize(challenge);
@@ -38,7 +39,7 @@ describe('Unit | Serializer | JSONAPI | challenge-serializer', function() {
             'illustration-url': challenge.illustrationUrl,
             'hasnt-internet-allowed': challenge.hasntInternetAllowed,
             timer: challenge.timer,
-            competence: challenge.competence[0],
+            competence: challenge.competence,
             attachments: [
               challenge.attachments[0],
               challenge.attachments[1],
@@ -55,7 +56,7 @@ describe('Unit | Serializer | JSONAPI | challenge-serializer', function() {
         // given
         const challenge = new Challenge();
         challenge.id = 1;
-        challenge.competence = ['competence_id'];
+        challenge.competence = 'competence_id';
 
         // when
         const json = serializer.serialize(challenge);

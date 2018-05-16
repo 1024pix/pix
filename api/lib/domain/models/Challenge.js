@@ -1,7 +1,29 @@
 class Challenge {
 
-  constructor({ skills = [] } = {}) {
+  constructor({
+    id,
+    type,
+    instruction,
+    competence,
+    proposals,
+    hasntInternetAllowed,
+    timer,
+    illustrationUrl,
+    attachments,
+    answer,
+    skills = []
+  } = {}) {
     this.skills = skills;
+    this.id = id;
+    this.type = type;
+    this.instruction = instruction;
+    this.competence = competence;
+    this.proposals = proposals;
+    this.hasntInternetAllowed = hasntInternetAllowed;
+    this.timer = timer;
+    this.illustrationUrl = illustrationUrl;
+    this.attachments = attachments;
+    this.answer = answer;
   }
 
   addSkill(skill) {
