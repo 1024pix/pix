@@ -36,6 +36,7 @@ function _createCertificationDomainModel({ certificationCourseBookshelf, assessm
     certificationCenter: certificationCourseBookshelf.related('session').get('certificationCenter'),
     date: certificationCourseBookshelf.get('completedAt'),
     isPublished: Boolean(certificationCourseBookshelf.get('isPublished')),
+    userId: certificationCourseBookshelf.get('userId'),
   });
 }
 

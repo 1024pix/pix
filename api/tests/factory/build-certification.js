@@ -3,24 +3,26 @@ const buildAssessementResult = require('./build-assessment-result');
 
 module.exports = function({
   id = 1,
-  date = '2018-12-01',
-  certificationCenter = 'L’univeristé du Pix',
-  isPublished = true,
-  assessmentState = 'completed',
   assessmentResults = [buildAssessementResult()],
+  assessmentState = 'completed',
+  certificationCenter = 'L’univeristé du Pix',
+  date = '2018-12-01',
+  isPublished = true,
+  userId = 1,
   // set to overried computed properties
+  commentForCandidate,
   pixScore,
   status,
-  commentForCandidate,
 } = {}) {
 
   const certification = new Certification({
     id,
-    date,
-    certificationCenter,
-    isPublished,
     assessmentState,
     assessmentResults,
+    certificationCenter,
+    date,
+    isPublished,
+    userId,
   });
 
   if (pixScore !== undefined) {
