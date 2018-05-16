@@ -11,10 +11,23 @@ exports.register = function(server, options, next) {
         handler: certificationController.findUserCertifications,
         notes: [
           '- **Route nécessitant une authentification**\n' +
-          '- Récupération de toutes les certifications complétées de l’utilisateur courant'
+          '- Récupération de toutes les certifications complétées de l’utilisateur courant',
         ],
-        tags: ['api', 'certifications']
-      }
+        tags: ['api', 'certifications'],
+      },
+    },
+    {
+      method: 'GET',
+      path: '/api/certifications/{id}',
+      config: {
+        handler: certificationController.getCertification,
+        notes: [
+          '- **Route nécessitant une authentification**\n' +
+          '- Seules les certifications de l’utilisateur authentifié sont accessibles\n' +
+          '- Récupération des informations d’une certification d’un utilisateur',
+        ],
+        tags: ['api', 'certifications'],
+      },
     },
     {
       method: 'PATCH',
@@ -22,16 +35,16 @@ exports.register = function(server, options, next) {
       config: {
         pre: [{
           method: securityController.checkUserHasRolePixMaster,
-          assign: 'hasRolePixMaster'
+          assign: 'hasRolePixMaster',
         }],
         handler: certificationController.updateCertification,
         notes: [
-          '- **Route nécessitant une authentification**\n' +
-          '- Mise à jour d’une certification'
+          '- **Route nécessitant une authentification Pix Master**\n' +
+          '- Mise à jour d’une certification',
         ],
-        tags: ['api', 'certifications']
-      }
-    }
+        tags: ['api', 'certifications'],
+      },
+    },
   ]);
 
   return next();
@@ -39,5 +52,5 @@ exports.register = function(server, options, next) {
 
 exports.register.attributes = {
   name: 'certifications-api',
-  version: '1.0.0'
+  version: '1.0.0',
 };
