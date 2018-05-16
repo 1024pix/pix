@@ -1,0 +1,41 @@
+<div class="card-body">
+  <div class="card-title">{{competence.index}} {{competence.name}}</div>
+  <div class="card-text">
+    <div class="container">
+      <div class="row">
+        <div class="col-3">Positionné :</div>
+        <div class="col">
+          <div class="progress">
+            <div class="progress-bar" role="progressbar" aria-valuenow="{{ competence.positionedLevel }}" aria-valuemin="0" aria-valuemax="8" style = {{positionedWidth}}>{{ competence.positionedLevel }}</div>
+          </div>
+        </div>
+        <div class="col-2">{{competence.positionedScore}} Pix</div>
+      </div>
+      <div class="row">
+        <div class="col-3">Certifié :</div>
+        <div class="col">
+          <div class="progress">
+            <div class="progress-bar certificate" role="progressbar" aria-valuenow="{{ competence.obtainedLevel }}" aria-valuemin="0" aria-valuemax="8" style = {{certifiedWidth}}>{{ competence.obtainedLevel }}</div>
+          </div>
+        </div>
+        <div class="col-2 certificate">{{competence.obtainedScore}} Pix</div>
+      </div>
+      {{#if competenceJury}}
+      <div class="row jury">
+        <div class="col-3">Corrigé :</div>
+        <div class="col">
+          <div class="progress">
+            <div class="progress-bar jury" role="progressbar" aria-valuenow="{{ juryLevel }}" aria-valuemin="0" aria-valuemax="8" style = {{competence.juryWidth}}>{{ competence.juryLevel }}</div>
+          </div>
+        </div>
+        <div class="col-2 jury">{{competence.juryScore}} Pix</div>
+      </div>
+      {{/if}}
+      <div class="card-deck">
+      {{#each answers as |answer|}}
+        {{certification-details-answer answer=answer updateCompetence=(action "updateCompetence")}}
+      {{/each}}
+      </div>
+    </div>
+  </div>
+</div>
