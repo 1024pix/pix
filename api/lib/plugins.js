@@ -1,4 +1,3 @@
-const HapiSwagger = require('hapi-swagger');
 const Pack = require('../package');
 const Metrics = require('./infrastructure/plugins/metrics');
 const settings = require('./settings');
@@ -29,7 +28,7 @@ const plugins = [
   require('vision'),
   require('blipp'),
   {
-    register: HapiSwagger,
+    register: require('hapi-swagger'),
     options: {
       basePath: '/api',
       grouping: 'tags',
@@ -46,6 +45,12 @@ const plugins = [
       reporters: {
         console: consoleReporters,
       }
+    }
+  },
+  {
+    register: require('hapi-raven'),
+    options: {
+      dsn: process.env.SENTRY_DSN
     }
   }
 ];
