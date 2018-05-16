@@ -2,7 +2,7 @@ const Certification = require('../../lib/domain/models/Certification');
 
 module.exports = function({
   id = 1,
-  date = '12/01/2018',
+  date = '2018-12-01',
   certificationCenter = 'L’univeristé du Pix',
   isPublished = true,
   assessmentState = 'completed',
