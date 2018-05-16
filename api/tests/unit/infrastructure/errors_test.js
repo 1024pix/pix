@@ -1,7 +1,7 @@
 const { expect } = require('../../test-helper');
 const errors = require('../../../lib/infrastructure/errors');
 
-describe('Unit | Domain | Errors', () => {
+describe('Unit | Infrastructure | Errors', () => {
 
   describe('#InfrastructureError', () => {
     it('should export an InfrastructureError', () => {
@@ -10,7 +10,7 @@ describe('Unit | Domain | Errors', () => {
 
     it('should have a title, message, and errorCode property', () => {
       // given
-      const expectedTitle = 'Error';
+      const expectedTitle = 'Internal Server Error';
       const expectedMessage = 'Boom...';
       const expectedErrorCode = 500;
 
