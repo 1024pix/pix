@@ -1,9 +1,13 @@
 const usecases = require('../../domain/usecases');
+const { UserNotAuthorizedToAccessEntity } = require('../../domain/errors');
 const certificationSerializer = require('../../infrastructure/serializers/jsonapi/certification-serializer');
 const certificationRepository = require('../../infrastructure/repositories/certification-repository');
 const logger = require('../../infrastructure/logger');
 const Boom = require('boom');
 const { Deserializer } = require('jsonapi-serializer');
+const JSONAPIError = require('jsonapi-serializer').Error;
+const infraErrors = require('../../infrastructure/errors');
+const errorSerializer = require('../../infrastructure/serializers/jsonapi/error-serializer');
 
 function _deserializePayload(payload) {
   const deserializer = new Deserializer({
@@ -26,9 +30,33 @@ module.exports = {
       });
   },
 
+  getCertification(request, reply) {
+    const userId = request.auth.credentials.userId;
+    const certificationId = request.params.id;
+
+    return usecases.getUserCertification({ userId, certificationId })
+      .then((certification) => {
+        return reply(certificationSerializer.serialize(certification)).code(200);
+      })
+      .catch((error) => {
+        if (error instanceof UserNotAuthorizedToAccessEntity) {
+
+          const jsonAPIError = new JSONAPIError({
+            status: '403',
+            title: 'Unauthorized Access',
+            detail: 'Vous n’avez pas accès à cette certification',
+          });
+          return reply(jsonAPIError).code(403);
+        }
+
+        logger.error(error);
+        const infraError = new infraErrors.InfrastructureError(error.message);
+        return reply(errorSerializer.serialize(infraError)).code(infraError.code);
+      });
+  },
+
   updateCertification(request, reply) {
 
-    // TODO: What does a Deserializer do ? Does it returns a Domain object ? Then do we need a generic deserializer ?
     return Promise.resolve(request.payload)
       .then(_deserializePayload)
       .then((payload) => {

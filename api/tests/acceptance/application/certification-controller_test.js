@@ -117,6 +117,121 @@ describe('Acceptance | API | Certifications', () => {
     });
   });
 
+  describe('GET /api/certifications/:id', () => {
+
+    let options;
+
+    const JOHN_USERID = 1;
+    const JOHN_CERTIFICATION_ID = 2;
+
+    const john_certificationCourse = {
+      id: JOHN_CERTIFICATION_ID,
+      userId: JOHN_USERID,
+      firstName: 'John',
+      lastName: 'Doe',
+      birthplace: 'Earth',
+      birthdate: '1989-10-24',
+      completedAt: '2003-02-01',
+      sessionId: 1,
+      isPublished: false,
+    };
+    const john_completedAssessment = {
+      courseId: JOHN_CERTIFICATION_ID,
+      userId: JOHN_USERID,
+      type: 'CERTIFICATION',
+      state: 'completed',
+    };
+    const assessmentResult = {
+      level: 1,
+      pixScore: 23,
+      emitter: 'PIX-ALGO',
+      status: 'rejected',
+    };
+    const session = {
+      id: 1,
+      certificationCenter: 'Université du Pix',
+      address: '137 avenue de Bercy',
+      room: 'La grande',
+      examiner: 'Serge le Mala',
+      date: '24/10/1989',
+      time: '21:30',
+      accessCode: 'ABCD12',
+    };
+
+    beforeEach(() => {
+      return knex('sessions').insert(session)
+        .then(() => knex('certification-courses').insert([john_certificationCourse]))
+        .then(() => knex('assessments').insert([john_completedAssessment]))
+        .then((assessmentIds) => {
+          const assessmentId = assessmentIds[0];
+          assessmentResult.assessmentId = assessmentId;
+          return knex('assessment-results').insert(assessmentResult);
+        })
+        .then(insertUserWithRolePixMaster)
+        .then(insertUserWithStandardRole);
+    });
+
+    afterEach(() => {
+      return Promise.all([
+        knex('sessions').delete(),
+        knex('assessments').delete(),
+        knex('assessment-results').delete(),
+        knex('certification-courses').delete(),
+        cleanupUsersAndPixRolesTables(),
+      ]);
+    });
+
+    it('should return 200 HTTP status code and the certification', () => {
+      // given
+      options = {
+        method: 'GET',
+        url: `/api/certifications/${JOHN_CERTIFICATION_ID}`,
+        headers: { authorization: generateValidRequestAuhorizationHeader(JOHN_USERID) },
+      };
+
+      // when
+      const promise = server.inject(options);
+
+      // then
+      return promise
+        .then((response) => {
+          expect(response.statusCode).to.equal(200);
+          expect(response.result.data).to.deep.equal({
+            type: 'certifications',
+            id: JOHN_CERTIFICATION_ID,
+            attributes: {
+              'birthdate': '1989-10-24',
+              'certification-center': 'Université du Pix',
+              'comment-for-candidate': null,
+              'date': '2003-02-01',
+              'first-name': 'John',
+              'is-published': false,
+              'last-name': 'Doe',
+              'pix-score': 23,
+              'status': 'rejected',
+            },
+          });
+        });
+    });
+
+    it('should return unauthorized 403 HTTP status code when user is not owner of the certification', () => {
+      // given
+      const NOT_JOHN_USERID = JOHN_USERID + 1;
+      options = {
+        method: 'GET',
+        url: `/api/certifications/${JOHN_CERTIFICATION_ID}`,
+        headers: { authorization: generateValidRequestAuhorizationHeader(NOT_JOHN_USERID) },
+      };
+
+      // when
+      const promise = server.inject(options);
+
+      // then
+      return promise
+        .then((response) => expect(response.statusCode).to.equal(403));
+    });
+  });
+
   describe('PATCH /api/certifications/:id', () => {
 
     let options;

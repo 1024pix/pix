@@ -2,9 +2,11 @@ const { expect, sinon } = require('../../../test-helper');
 const certificationController = require('../../../../lib/application/certifications/certification-controller');
 const certificationRepository = require('../../../../lib/infrastructure/repositories/certification-repository');
 const usecases = require('../../../../lib/domain/usecases');
+const errors = require('../../../../lib/domain/errors');
 const certificationSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/certification-serializer');
 const Boom = require('boom');
 const logger = require('../../../../lib/infrastructure/logger');
+const factory = require('../../../factory');
 
 describe('Unit | Controller | certifications-controller', () => {
 
@@ -16,7 +18,7 @@ describe('Unit | Controller | certifications-controller', () => {
     sandbox = sinon.sandbox.create();
     codeStub = sinon.stub();
     replyStub = sinon.stub().returns({
-      code: codeStub
+      code: codeStub,
     });
   });
 
@@ -73,29 +75,107 @@ describe('Unit | Controller | certifications-controller', () => {
     });
   });
 
+  describe('#getCertification', () => {
+
+    const certification = factory.buildCertification();
+    const serializedCertification = '{JSON}';
+    const userId = 1;
+
+    const request = {
+      auth: { credentials: { userId } },
+      params: { id: certification.id },
+    };
+
+    beforeEach(() => {
+      sandbox.stub(usecases, 'getUserCertification');
+      sandbox.stub(certificationSerializer, 'serialize').returns(serializedCertification);
+      sandbox.stub(logger, 'error');
+    });
+
+    it('should return a serialized certification when use case returns a certification', () => {
+      // given
+      usecases.getUserCertification.resolves(certification);
+
+      // when
+      const promise = certificationController.getCertification(request, replyStub);
+
+      // then
+      return promise.then(() => {
+        expect(usecases.getUserCertification).to.have.been.calledWith({ userId, certificationId: certification.id });
+        expect(certificationSerializer.serialize).to.have.been.calledWith(certification);
+        expect(replyStub).to.have.been.calledWith(serializedCertification);
+        expect(codeStub).to.have.been.calledWith(200);
+      });
+    });
+
+    it('should return a 403 unauthorized when use case returns a user not authorized to access ressource error', () => {
+      // given
+      const jsonAPIError = {
+        errors: [{
+          detail: 'Vous n’avez pas accès à cette certification',
+          status: '403',
+          title: 'Unauthorized Access',
+        }],
+      };
+      usecases.getUserCertification.rejects(new errors.UserNotAuthorizedToAccessEntity());
+
+      // when
+      const promise = certificationController.getCertification(request, replyStub);
+
+      // then
+      return promise.then(() => {
+        expect(usecases.getUserCertification).to.have.been.calledWith({ userId, certificationId: certification.id });
+        expect(replyStub).to.have.been.calledWith(jsonAPIError);
+        expect(codeStub).to.have.been.calledWith(403);
+      });
+    });
+
+    it('should reply a 500 error when something went wrong', () => {
+      // given
+      const error = new Error('Oh no...');
+      const jsonAPIError = {
+        errors: [{
+          code: '500',
+          detail: 'Oh no...',
+          title: 'Internal Server Error',
+        }],
+      };
+      usecases.getUserCertification.rejects(error);
+
+      // when
+      const promise = certificationController.getCertification(request, replyStub);
+
+      // then
+      return promise.then(() => {
+        expect(replyStub).to.have.been.calledWith(jsonAPIError);
+        expect(logger.error).to.have.been.calledWith(error);
+      });
+    });
+  });
+
   describe('#updateCertification', () => {
 
     const certificationId = '28';
     const attributesToUpdate = {
       id: certificationId,
-      isPublished: true
+      isPublished: true,
     };
     const updatedCertification = {};
     const serializedCertification = {};
 
     const request = {
       params: {
-        id: certificationId
+        id: certificationId,
       },
       payload: {
         data: {
           type: 'certification',
           id: certificationId,
           attributes: {
-            'is-published': true
-          }
-        }
-      }
+            'is-published': true,
+          },
+        },
+      },
     };
 
     const usecaseError = new Error('This is a critical error.');
@@ -119,7 +199,7 @@ describe('Unit | Controller | certifications-controller', () => {
       // then
       return promise.then(() => {
         expect(usecases.updateCertification).to.have.been.calledWith({
-          certificationId, attributesToUpdate, certificationRepository
+          certificationId, attributesToUpdate, certificationRepository,
         });
         expect(certificationSerializer.serialize).to.have.been.calledWith(updatedCertification);
         expect(replyStub).to.have.been.calledWith(serializedCertification);
