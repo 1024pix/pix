@@ -1,5 +1,4 @@
 const usecases = require('../../domain/usecases');
-const { UserNotAuthorizedToAccessEntity } = require('../../domain/errors');
 const certificationSerializer = require('../../infrastructure/serializers/jsonapi/certification-serializer');
 const certificationRepository = require('../../infrastructure/repositories/certification-repository');
 const logger = require('../../infrastructure/logger');
@@ -7,6 +6,7 @@ const Boom = require('boom');
 const { Deserializer } = require('jsonapi-serializer');
 const JSONAPIError = require('jsonapi-serializer').Error;
 const infraErrors = require('../../infrastructure/errors');
+const domainErrors = require('../../domain/errors');
 const errorSerializer = require('../../infrastructure/serializers/jsonapi/error-serializer');
 
 function _deserializePayload(payload) {
@@ -34,19 +34,28 @@ module.exports = {
     const userId = request.auth.credentials.userId;
     const certificationId = request.params.id;
 
-    return usecases.getUserCertification({ userId, certificationId })
+    return usecases.getUserCertification({ userId, certificationId, certificationRepository })
       .then((certification) => {
         return reply(certificationSerializer.serialize(certification)).code(200);
       })
       .catch((error) => {
-        if (error instanceof UserNotAuthorizedToAccessEntity) {
 
+        if (error instanceof domainErrors.UserNotAuthorizedToAccessEntity) {
           const jsonAPIError = new JSONAPIError({
-            status: '403',
+            code: '403',
             title: 'Unauthorized Access',
             detail: 'Vous n’avez pas accès à cette certification',
           });
           return reply(jsonAPIError).code(403);
+        }
+
+        if (error instanceof domainErrors.NotFoundError) {
+          const jsonApiError = new JSONAPIError({
+            code: '404',
+            title: 'Not Found',
+            detail: error.message,
+          });
+          return reply(jsonApiError).code(404);
         }
 
         logger.error(error);

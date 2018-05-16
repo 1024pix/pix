@@ -124,29 +124,6 @@ describe('Acceptance | API | Certifications', () => {
     const JOHN_USERID = 1;
     const JOHN_CERTIFICATION_ID = 2;
 
-    const john_certificationCourse = {
-      id: JOHN_CERTIFICATION_ID,
-      userId: JOHN_USERID,
-      firstName: 'John',
-      lastName: 'Doe',
-      birthplace: 'Earth',
-      birthdate: '1989-10-24',
-      completedAt: '2003-02-01',
-      sessionId: 1,
-      isPublished: false,
-    };
-    const john_completedAssessment = {
-      courseId: JOHN_CERTIFICATION_ID,
-      userId: JOHN_USERID,
-      type: 'CERTIFICATION',
-      state: 'completed',
-    };
-    const assessmentResult = {
-      level: 1,
-      pixScore: 23,
-      emitter: 'PIX-ALGO',
-      status: 'rejected',
-    };
     const session = {
       id: 1,
       certificationCenter: 'Université du Pix',
@@ -157,16 +134,37 @@ describe('Acceptance | API | Certifications', () => {
       time: '21:30',
       accessCode: 'ABCD12',
     };
+    const john_certificationCourse = {
+      id: JOHN_CERTIFICATION_ID,
+      userId: JOHN_USERID,
+      firstName: 'John',
+      lastName: 'Doe',
+      birthplace: 'Earth',
+      birthdate: '1989-10-24',
+      completedAt: '2003-02-01',
+      sessionId: session.id,
+      isPublished: false,
+    };
+    const john_completedAssessment = {
+      id: 1000,
+      courseId: JOHN_CERTIFICATION_ID,
+      userId: JOHN_USERID,
+      type: 'CERTIFICATION',
+      state: 'completed',
+    };
+    const assessmentResult = {
+      level: 1,
+      pixScore: 23,
+      emitter: 'PIX-ALGO',
+      status: 'rejected',
+      assessmentId: john_completedAssessment.id,
+    };
 
     beforeEach(() => {
       return knex('sessions').insert(session)
-        .then(() => knex('certification-courses').insert([john_certificationCourse]))
-        .then(() => knex('assessments').insert([john_completedAssessment]))
-        .then((assessmentIds) => {
-          const assessmentId = assessmentIds[0];
-          assessmentResult.assessmentId = assessmentId;
-          return knex('assessment-results').insert(assessmentResult);
-        })
+        .then(() => knex('certification-courses').insert(john_certificationCourse))
+        .then(() => knex('assessments').insert(john_completedAssessment))
+        .then(() => knex('assessment-results').insert(assessmentResult))
         .then(insertUserWithRolePixMaster)
         .then(insertUserWithStandardRole);
     });

@@ -42,7 +42,7 @@ function _createCertificationDomainModel({ certificationCourseBookshelf, assessm
 
 module.exports = {
 
-  getCertification(id) {
+  getCertification({ id }) {
     return CertificationCourseBookshelf
       .where({ id })
       .fetch({

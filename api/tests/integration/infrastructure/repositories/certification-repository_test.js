@@ -36,7 +36,7 @@ describe('Integration | Repository | Certification ', () => {
 
     const assessment = {
       id: 1000,
-      courseId: 123,
+      courseId: CERTIFICATION_ID,
       userId: USER_ID,
       type: 'CERTIFICATION',
       state: 'completed',
@@ -85,7 +85,7 @@ describe('Integration | Repository | Certification ', () => {
       });
 
       // when
-      const promise = certificationRepository.getCertification(CERTIFICATION_ID);
+      const promise = certificationRepository.getCertification({ id: CERTIFICATION_ID });
 
       // then
       return promise.then((certification) => {
@@ -98,7 +98,7 @@ describe('Integration | Repository | Certification ', () => {
       const NO_CERTIFICATION_ID = 999;
 
       // when
-      const promise = certificationRepository.getCertification(NO_CERTIFICATION_ID);
+      const promise = certificationRepository.getCertification({ id: NO_CERTIFICATION_ID });
 
       // then
       return expect(promise).to.be.rejectedWith(NotFoundError);

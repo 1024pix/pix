@@ -101,7 +101,7 @@ describe('Unit | Controller | certifications-controller', () => {
 
       // then
       return promise.then(() => {
-        expect(usecases.getUserCertification).to.have.been.calledWith({ userId, certificationId: certification.id });
+        expect(usecases.getUserCertification).to.have.been.calledWith({ userId, certificationId: certification.id, certificationRepository });
         expect(certificationSerializer.serialize).to.have.been.calledWith(certification);
         expect(replyStub).to.have.been.calledWith(serializedCertification);
         expect(codeStub).to.have.been.calledWith(200);
@@ -113,7 +113,7 @@ describe('Unit | Controller | certifications-controller', () => {
       const jsonAPIError = {
         errors: [{
           detail: 'Vous n’avez pas accès à cette certification',
-          status: '403',
+          code: '403',
           title: 'Unauthorized Access',
         }],
       };
@@ -124,9 +124,34 @@ describe('Unit | Controller | certifications-controller', () => {
 
       // then
       return promise.then(() => {
-        expect(usecases.getUserCertification).to.have.been.calledWith({ userId, certificationId: certification.id });
         expect(replyStub).to.have.been.calledWith(jsonAPIError);
         expect(codeStub).to.have.been.calledWith(403);
+      });
+    });
+
+    it('should return a 404 not found when use case returns a not found error', () => {
+      // given
+      const certificationID = '666';
+      const request = {
+        auth: { credentials: { userId } },
+        params: { id: certificationID },
+      };
+      const jsonAPIError = {
+        errors: [{
+          detail: `Not found certification for ID ${certificationID}`,
+          code: '404',
+          title: 'Not Found',
+        }],
+      };
+      usecases.getUserCertification.rejects(new errors.NotFoundError(`Not found certification for ID ${certificationID}`));
+
+      // when
+      const promise = certificationController.getCertification(request, replyStub);
+
+      // then
+      return promise.then(() => {
+        expect(replyStub).to.have.been.calledWith(jsonAPIError);
+        expect(codeStub).to.have.been.calledWith(404);
       });
     });
 
