@@ -1,10 +1,10 @@
 const userValidator = require('./user-validator');
 const organizationValidator = require('./organization-validator');
-const errors = require('../../domain/errors');
+const { AlreadyRegisteredEmailError, EntityValidationError } = require('../../domain/errors');
 
 function _manageEmailAvailabilityError(error) {
-  if(error instanceof errors.AlreadyRegisteredEmailError) {
-    return new errors.EntityValidationError({
+  if(error instanceof AlreadyRegisteredEmailError) {
+    return new EntityValidationError({
       invalidAttributes: [{ attribute: 'email', message: 'Cette adresse electronique est déjà enregistrée.' }]
     });
   }
@@ -21,11 +21,12 @@ module.exports = {
       userValidator.validate(user).catch((errors) => errors),
       organizationValidator.validate(organization).catch((errors) => errors),
     ])
-      .then((validationErrors) => {
+      .then((results) => {
         // Promise.all returns the return value of all promises, even if the return value is undefined
-        const relevantErrors = validationErrors.filter((error) => error instanceof Error);
-        if (relevantErrors.length > 0) {
-          throw errors.EntityValidationError.fromEntityValidationErrors(relevantErrors);
+        return results.filter((result) => result instanceof Error);
+      }).then((validationErrors) => {
+        if (validationErrors.length > 0) {
+          throw EntityValidationError.fromMultipleEntityValidationErrors(validationErrors);
         }
       });
   }

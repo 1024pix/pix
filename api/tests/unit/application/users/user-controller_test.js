@@ -149,11 +149,13 @@ describe('Unit | Controller | user-controller', () => {
         const jsonApiValidationErrors = {
           errors: [
             {
+              status: '422',
               source: { 'pointer': '/data/attributes/first-name' },
               title: 'Invalid user data attribute "firstName"',
               detail: 'Votre prénom n’est pas renseigné.'
             },
             {
+              status: '422',
               source: { 'pointer': '/data/attributes/password' },
               title: 'Invalid user data attribute "password"',
               detail: 'Votre mot de passe n’est pas renseigné.'
@@ -194,7 +196,7 @@ describe('Unit | Controller | user-controller', () => {
         const expectedError = {
           errors: [
             {
-              code: '500',
+              status: '500',
               title: 'Internal Server Error',
               detail: 'Une erreur est survenue lors de la création de l’utilisateur'
             }

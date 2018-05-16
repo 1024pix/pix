@@ -163,13 +163,6 @@ class MissingOrInvalidCredentialsError extends Error {
   }
 }
 
-class OrganizationCreationValidationErrors extends Error {
-  constructor(errors) {
-    super();
-    this.errors = errors;
-  }
-}
-
 class InvalidRecaptchaTokenError extends Error {
   constructor(message) {
     super(message);
@@ -189,7 +182,7 @@ class EntityValidationError extends Error {
     return new EntityValidationError({ invalidAttributes });
   }
 
-  static fromEntityValidationErrors(entityValidationErrors) {
+  static fromMultipleEntityValidationErrors(entityValidationErrors) {
     const invalidAttributes = entityValidationErrors.reduce(
       (invalidAttributes, entityValidationError) => {
         invalidAttributes.push(...entityValidationError.invalidAttributes);
@@ -220,6 +213,5 @@ module.exports = {
   ObjectValidationError,
   EntityValidationError,
   MissingOrInvalidCredentialsError,
-  OrganizationCreationValidationErrors,
   InvalidRecaptchaTokenError,
 };

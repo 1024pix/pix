@@ -188,11 +188,13 @@ describe('Unit | Application | Organizations | organization-controller', () => {
           const jsonApiValidationErrors = {
             errors: [
               {
+                status: '422',
                 source: { 'pointer': '/data/attributes/name' },
                 title: 'Invalid user data attribute "name"',
                 detail: 'Le nom n’est pas renseigné.'
               },
               {
+                status: '422',
                 source: { 'pointer': '/data/attributes/type' },
                 title: 'Invalid user data attribute "type"',
                 detail: 'Le type n’est pas renseigné.'
@@ -223,8 +225,8 @@ describe('Unit | Application | Organizations | organization-controller', () => {
           // given
           const expectedResponseContent = {
             status: '500',
-            title: 'Une erreur serveur est survenue.',
-            meta: error,
+            title: 'Internal Server Error',
+            detail: 'Une erreur est survenue lors de la création de l’organisation'
           };
 
           // when

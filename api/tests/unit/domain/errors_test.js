@@ -203,7 +203,7 @@ describe('Unit | Domain | Errors', () => {
         });
 
         // when
-        const error = errors.EntityValidationError.fromEntityValidationErrors([error1, error2]);
+        const error = errors.EntityValidationError.fromMultipleEntityValidationErrors([error1, error2]);
 
         // then
         expect(error.invalidAttributes).to.deep.equal([

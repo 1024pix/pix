@@ -1,19 +1,19 @@
-const errors = require('../errors');
+const { AlreadyRegisteredEmailError, InvalidRecaptchaTokenError, EntityValidationError } = require('../errors');
 const User = require('../models/User');
 
 const userValidator = require('../validators/user-validator');
 
 function  _manageEmailAvailabilityError(error) {
-  return _manageError(error, errors.AlreadyRegisteredEmailError, 'email', 'Cette adresse electronique est déjà enregistrée.');
+  return _manageError(error, AlreadyRegisteredEmailError, 'email', 'Cette adresse electronique est déjà enregistrée.');
 }
 
 function  _manageReCaptchaTokenError(error) {
-  return _manageError(error, errors.InvalidRecaptchaTokenError, 'recaptchaToken', 'Merci de cocher la case ci-dessous :');
+  return _manageError(error, InvalidRecaptchaTokenError, 'recaptchaToken', 'Merci de cocher la case ci-dessous :');
 }
 
 function _manageError(error, errorType, attribute, message) {
   if(error instanceof errorType) {
-    return new errors.EntityValidationError({
+    return new EntityValidationError({
       invalidAttributes: [{ attribute, message }]
     });
   }
@@ -31,7 +31,7 @@ function _validateData(user, reCaptchaToken, userRepository, userValidator, reCa
       // Promise.all returns the return value of all promises, even if the return value is undefined
       const relevantErrors = validationErrors.filter((error) => error instanceof Error);
       if (relevantErrors.length > 0) {
-        throw errors.EntityValidationError.fromEntityValidationErrors(relevantErrors);
+        throw EntityValidationError.fromMultipleEntityValidationErrors(relevantErrors);
       }
     });
 }
