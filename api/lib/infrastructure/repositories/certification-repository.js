@@ -41,6 +41,28 @@ function _createCertificationDomainModel({ certificationCourseBookshelf, assessm
 }
 
 module.exports = {
+
+  getCertification(id) {
+    return CertificationCourseBookshelf
+      .where({ id })
+      .fetch({
+        require: true,
+        withRelated: [
+          'session',
+          'assessment',
+          'assessment.assessmentResults',
+        ],
+      })
+      .then(_certificationToDomain)
+      .catch(err => {
+        if (err instanceof CertificationCourseBookshelf.NotFoundError) {
+          throw new NotFoundError(`Not found certification for ID ${id}`);
+        } else {
+          throw err;
+        }
+      });
+  },
+
   findCertificationsByUserId(userId) {
     return CertificationCourseBookshelf
       .where({ userId })
