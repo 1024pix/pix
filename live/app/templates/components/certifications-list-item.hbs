@@ -36,7 +36,7 @@
     </div>
 
     <div class="certifications-list-item__cell-detail">
-      {{#if hasComment}}
+      {{#if shouldDisplayComment}}
         <div class="certifications-list-item__cell-detail-button">
           DÉTAIL
         </div>
@@ -44,7 +44,7 @@
     </div>
   {{/panel.toggle}}
 
-  {{#if hasComment}}
+  {{#if shouldDisplayComment}}
     {{#panel.body class="certifications-list-item__row-comment"}}
       <div class="certifications-list-item__row-comment-cell">
         {{certification.commentForCandidate}}
