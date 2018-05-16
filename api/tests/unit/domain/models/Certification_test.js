@@ -13,25 +13,28 @@ describe('Unit | Domain | Models | Certification', () => {
         date: 'date',
         certificationCenter: 'certificationCenter',
         isPublished: 'isPublished',
-        assessmentResults: []
+        assessmentResults: [],
       });
 
       // then
       expect(certification.pixScore).to.be.undefined;
       expect(certification.status).to.be.undefined;
+      expect(certification.commentForCandidate).to.be.undefined;
     });
 
     it('should return the pixScore and status of the last AssessmentResult', () => {
       // given
       const assessmentResult1 = new AssessmentResult({
-        pixScore : 35,
+        pixScore: 35,
         status: 'validated',
-        createdAt: '2017-02-15 14:59:35'
+        createdAt: '2017-02-15 14:59:35',
+        commentForCandidate: 'Vous auriez dû travailler plus.',
       });
       const assessmentResult2 = new AssessmentResult({
-        pixScore : 20,
+        pixScore: 20,
         status: 'validated',
-        createdAt: '2018-02-15 14:59:35'
+        createdAt: '2018-02-15 14:59:35',
+        commentForCandidate: 'Vous auriez vraiment dû travailler plus.',
       });
 
       // when
@@ -40,12 +43,13 @@ describe('Unit | Domain | Models | Certification', () => {
         date: '12/01/2018',
         certificationCenter: 'certificationCenter',
         isPublished: 'isPublished',
-        assessmentResults: [assessmentResult1, assessmentResult2]
+        assessmentResults: [assessmentResult1, assessmentResult2],
       });
 
       // then
       expect(certification.pixScore).to.equal(20);
       expect(certification.status).to.equal('validated');
+      expect(certification.commentForCandidate).to.equal('Vous auriez vraiment dû travailler plus.');
     });
 
   });

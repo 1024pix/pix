@@ -1,17 +1,9 @@
 @import "certifications-list";
 
 .certifications-list-item {
-  @extend .certifications-list__table-row;
-
-  border-bottom: 1px solid $gainsboro;
-  height: 30px;
-  padding: 5px;
+  border-bottom: 1px solid $alto-grey;
   text-align: center;
-
-  @include device-is('tablet') {
-    height: 60px;
-    font-size: 16px;
-  }
+  padding: 5px;
 }
 
 .certifications-list-item img {
@@ -25,8 +17,62 @@
   }
 }
 
+.certifications-list-item__has-comment:hover {
+  background-color: $porcelain-grey;
+}
+
+.certifications-list-item__no-comment a {
+  cursor: default;
+}
+
+.certifications-list-item__row {
+  @extend .certifications-list__table-row;
+}
+
+.certifications-list-item__row-presentation {
+  @extend .certifications-list-item__row;
+  height: 30px;
+
+  @include device-is('tablet') {
+    height: 60px;
+    font-size: 16px;
+  }
+}
+
+.certifications-list-item__row-presentation.cp-Panel-toggle:link {
+  text-decoration: none;
+  color: inherit;
+}
+
+.certifications-list-item__row-comment {
+  @extend .certifications-list-item__row;
+
+  padding: 0 2%;
+
+  .cp-Panel-body-inner {
+    width: 100%;
+  }
+}
+
+.certifications-list-item__row-comment-cell {
+  @extend .certifications-list-item__cell;
+
+  padding: 10px 0;
+  border-top: 1px solid $gainsboro;
+
+  font-size: 16px;
+  color: $dove-gray;
+  text-align: left;
+}
+
 .certifications-list-item__cell {
-  @extend .certifications-list__table-row-item
+  @extend .certifications-list__table-row-item;
+}
+
+.certifications-list-item__cell-double-width {
+  @extend .certifications-list-item__cell;
+
+  flex-grow: 2;
 }
 
 .certifications-list-item__unpublished-item {
@@ -78,7 +124,36 @@
 }
 
 .certifications-list-item__cell-certification-center {
-  @extend .certifications-list-item__cell;
+  @extend .certifications-list-item__cell-double-width;
 
   justify-content: center;
+}
+
+.certifications-list-item__cell-detail {
+  @extend .certifications-list-item__cell;
+
+  flex-flow: row-reverse nowrap;
+  justify-content: left;
+
+  .certifications-list-item__cell-detail-button {
+    font-size: 13px;
+    color: $pix-blue;
+    border: none;
+    background: none;
+  }
+}
+
+@mixin arrow-button() {
+  margin-left: 8px;
+  margin-bottom: 2%;
+}
+
+.certifications-list-item__has-comment .cp-is-open .certifications-list-item__cell-detail::before {
+  @include arrow-button();
+  content: url("/images/icons/icon-arrow-down.svg");
+}
+
+.certifications-list-item__has-comment .cp-is-closed .certifications-list-item__cell-detail::before {
+  @include arrow-button();
+  content: url("/images/icons/icon-arrow-up.svg")
 }

@@ -19,6 +19,7 @@ class Certification {
     if (mostRecentAssessment) {
       this.pixScore = mostRecentAssessment.pixScore;
       this.status = mostRecentAssessment.status;
+      this.commentForCandidate = mostRecentAssessment.commentForCandidate;
     }
   }
 }
