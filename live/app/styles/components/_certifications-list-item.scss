@@ -66,7 +66,13 @@
 }
 
 .certifications-list-item__cell {
-  @extend .certifications-list__table-row-item
+  @extend .certifications-list__table-row-item;
+}
+
+.certifications-list-item__cell-double-width {
+  @extend .certifications-list-item__cell;
+
+  flex-grow: 2;
 }
 
 .certifications-list-item__unpublished-item {
@@ -118,7 +124,7 @@
 }
 
 .certifications-list-item__cell-certification-center {
-  @extend .certifications-list-item__cell;
+  @extend .certifications-list-item__cell-double-width;
 
   justify-content: center;
 }
