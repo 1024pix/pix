@@ -1,0 +1,30 @@
+.certification-details-competence {
+
+  margin-bottom:20px;
+
+  .jury {
+    color:#ff0000;
+  }
+
+  .card-deck {
+    margin-top:10px;
+  }
+
+  .competence-name {
+    font-weight:bold;
+    margin-top:1em;
+  }
+
+  .progress-bar {
+    &.certificate {
+      background-color:#ff9900;
+      color:#ffffff;
+    }
+
+    &.jury {
+      background-color:#ff0000;
+      color:#ffffff;
+    }
+  }
+
+}
