@@ -1,11 +1,11 @@
 const JSONAPIError = require('jsonapi-serializer').Error;
 
 module.exports = {
-  serialize(error) {
+  serialize(infrastructureError) {
     return JSONAPIError({
-      code: `${error.code}`,
-      title: error.title,
-      detail: error.message
+      code: `${infrastructureError.code}`,
+      title: infrastructureError.title,
+      detail: infrastructureError.message
     });
   }
 };
