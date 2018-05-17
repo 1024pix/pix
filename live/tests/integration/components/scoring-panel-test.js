@@ -98,17 +98,4 @@ describe('Integration | Component | scoring panel', function() {
       expect(this.$('.scoring-panel__congrats-beta')).to.have.lengthOf(1);
     });
   });
-
-  describe('Display the BackToHome button', function() {
-
-    beforeEach(function() {
-      this.set('assessment', assessmentWithTrophy);
-      this.render(hbs`{{scoring-panel assessment=assessment}}`);
-    });
-
-    it('should not have a blue border when the user clicks on its', function() {
-      // then
-      expect(this.$('.scoring-panel__index-link__element').css('outline')).to.equal('rgb(255, 255, 255) none 0px');
-    });
-  });
 });
