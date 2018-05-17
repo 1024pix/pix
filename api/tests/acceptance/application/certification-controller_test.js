@@ -25,11 +25,11 @@ describe('Acceptance | API | Certifications', () => {
 
     const certificationCourse = {
       userId: authenticatedUserID,
-      completedAt: '2018-02-15T15:15:52.504Z',
+      completedAt: new Date('2018-02-15T15:15:52.504Z'),
       isPublished: true,
       firstName: 'Bro',
       lastName: 'Ther',
-      birthdate: '14/08/1993',
+      birthdate: new Date('1993-12-08'),
       birthplace: 'Asnières IZI',
     };
 
@@ -89,10 +89,13 @@ describe('Acceptance | API | Certifications', () => {
           type: 'certifications',
           id: certificationId,
           attributes: {
+            'birthdate': new Date('1993-12-08'),
             'certification-center': 'Université du Pix',
             'comment-for-candidate': null,
             'date': new Date('2018-02-15T15:15:52.504Z'),
+            'first-name': 'Bro',
             'is-published': true,
+            'last-name': 'Ther',
             'pix-score': 23,
             'status': 'rejected',
           },
@@ -130,7 +133,7 @@ describe('Acceptance | API | Certifications', () => {
       address: '137 avenue de Bercy',
       room: 'La grande',
       examiner: 'Serge le Mala',
-      date: '24/10/1989',
+      date: new Date('1989-10-24'),
       time: '21:30',
       accessCode: 'ABCD12',
     };
@@ -322,10 +325,13 @@ describe('Acceptance | API | Certifications', () => {
             type: 'certifications',
             id: JOHN_CERTIFICATION_ID,
             attributes: {
+              'birthdate': new Date('1989-10-24'),
               'certification-center': 'Université du Pix',
               'comment-for-candidate': null,
               'date': new Date('2003-01-02'),
+              'first-name': 'John',
               'is-published': true,
+              'last-name': 'Doe',
               'pix-score': 23,
               'status': 'rejected',
             },
