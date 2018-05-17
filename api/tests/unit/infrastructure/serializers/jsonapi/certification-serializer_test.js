@@ -72,7 +72,7 @@ describe('Unit | Serializer | JSONAPI | certification-serializer', () => {
           {
             attributes: {
               'certification-center': 'L’univeristé du Pix',
-              'date': '2018-12-01',
+              'date': new Date('2018-12-01'),
               'is-published': true,
               'status': 'rejected',
               'pix-score': 23,
@@ -106,7 +106,7 @@ describe('Unit | Serializer | JSONAPI | certification-serializer', () => {
           data: {
             attributes: {
               'certification-center': 'L’univeristé du Pix',
-              'date': '2018-12-01',
+              'date': new Date('2018-12-01'),
               'is-published': true,
               'status': 'rejected',
               'pix-score': 23,

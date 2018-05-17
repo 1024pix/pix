@@ -5,9 +5,12 @@ module.exports = function({
   id = 1,
   assessmentResults = [buildAssessementResult()],
   assessmentState = 'completed',
+  birthdate = new Date('1992-06-12'),
   certificationCenter = 'L’univeristé du Pix',
-  date = '2018-12-01',
+  date = new Date('2018-12-01'),
+  firstName = 'Jean',
   isPublished = true,
+  lastName = 'Bon',
   userId = 1,
   // set to overried computed properties
   commentForCandidate,
@@ -19,9 +22,12 @@ module.exports = function({
     id,
     assessmentState,
     assessmentResults,
+    birthdate,
     certificationCenter,
     date,
+    firstName,
     isPublished,
+    lastName,
     userId,
   });
 
