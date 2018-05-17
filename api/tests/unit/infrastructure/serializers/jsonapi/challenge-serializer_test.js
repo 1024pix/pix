@@ -21,7 +21,10 @@ describe('Unit | Serializer | JSONAPI | challenge-serializer', function() {
           'http://challenge.attachement.url.docx',
           'http://challenge.attachement.url.odt',
           'http://challenge.attachement.url.fuck'
-        ]
+        ],
+        embedUrl: 'https://github.io/page/epreuve.html',
+        embedTitle: 'Epreuve de selection de dossier',
+        embedHeight: 500,
       });
 
       // when
@@ -44,7 +47,10 @@ describe('Unit | Serializer | JSONAPI | challenge-serializer', function() {
               challenge.attachments[0],
               challenge.attachments[1],
               challenge.attachments[2]
-            ]
+            ],
+            'embed-url': 'https://github.io/page/epreuve.html',
+            'embed-title': 'Epreuve de selection de dossier',
+            'embed-height': 500,
           }
         }
       });

@@ -12,7 +12,10 @@ class Challenge {
     attachments,
     answer,
     skills = [],
-    status
+    status,
+    embedUrl,
+    embedTitle,
+    embedHeight,
   } = {}) {
     this.skills = skills;
     this.id = id;
@@ -26,6 +29,9 @@ class Challenge {
     this.attachments = attachments;
     this.answer = answer;
     this.status = status;
+    this.embedUrl = embedUrl;
+    this.embedTitle = embedTitle;
+    this.embedHeight = embedHeight;
   }
 
   /**

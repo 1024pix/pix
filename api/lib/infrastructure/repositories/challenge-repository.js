@@ -110,7 +110,10 @@ module.exports = {
           timer: challengeDataObject.timer,
           illustrationUrl: challengeDataObject.illustrationUrl,
           attachments: challengeDataObject.attachments,
-          skills
+          skills,
+          embedUrl: challengeDataObject.embedUrl,
+          embedTitle: challengeDataObject.embedTitle,
+          embedHeight: challengeDataObject.embedHeight,
         });
       })
       .catch(error => {
