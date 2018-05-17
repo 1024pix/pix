@@ -75,7 +75,7 @@ export default function() {
   this.post('/users');
   this.post('/assessment-results');
 
-  this.del('/cache');
+  this.del('/cache', () => null, 204);
 
   this.post('/password-reset-demands', (schema, request) => {
     const attrs = JSON.parse(request.requestBody);

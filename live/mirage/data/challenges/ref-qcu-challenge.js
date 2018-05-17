@@ -13,7 +13,10 @@ export default {
       '- 1ere possibilite\n ' +
       '- 2eme possibilite\n ' +
       '- 3eme possibilite\n' +
-      '- 4eme possibilite'
+      '- 4eme possibilite',
+      'embed-url': 'https://1024pix.github.io/dessin.html',
+      'embed-title': 'Notre premier embed',
+      'embed-height': 600
     }
   }
 };
