@@ -1,6 +1,8 @@
 const _ = require('lodash');
-const TYPES_OF_ASSESSMENT_NEEDING_USER = ['PLACEMENT', 'CERTIFICATION'];
+const AnswerStatus = require('./AnswerStatus');
 const { ObjectValidationError } = require('../errors');
+
+const TYPES_OF_ASSESSMENT_NEEDING_USER = ['PLACEMENT', 'CERTIFICATION'];
 
 const states = {
   COMPLETED: 'completed',
@@ -72,6 +74,54 @@ class Assessment {
 
   isSmartPlacementAssessment() {
     return this.type === type.SMARTPLACEMENT;
+  }
+
+  addAnswersWithTheirChallenge(answers, challenges) {
+    this.answers = answers;
+    this.answers.forEach(answer => {
+      answer.challenge = challenges.filter(challenge => challenge.id === answer.challengeId)[0];
+    });
+  }
+
+  getValidatedSkills() {
+    return this.answers
+      .filter(answer => AnswerStatus.isOK(answer.result))
+      .reduce((skills, answer) => {
+        answer.challenge.skills.forEach(skill => {
+          skill.getEasierWithin(this.course.tubes).forEach(validatedSkill => {
+            if (!skills.includes(validatedSkill))
+              skills.push(validatedSkill);
+          });
+        });
+        return skills;
+      }, []);
+  }
+
+  getFailedSkills() {
+    return this.answers
+      .filter(answer => AnswerStatus.isFailed(answer.result))
+      .reduce((failedSkills, answer) => {
+        // FIXME refactor !
+        // XXX we take the current failed skill and all the harder skills in
+        // its tube and mark them all as failed
+        answer.challenge.skills.forEach(skill => {
+          skill.getHarderWithin(this.course.tubes).forEach(failedSkill => {
+            if (!failedSkills.includes(failedSkill))
+              failedSkills.push(failedSkill);
+          });
+        });
+        return failedSkills;
+      }, []);
+  }
+
+  computePixScore() {
+    const skillsEvaluated = this.course.competenceSkills;
+    const pixScoreBySkill = [];
+
+    skillsEvaluated.forEach(skill => pixScoreBySkill[skill.name] = skill.computePixScore(skillsEvaluated));
+    return this.getValidatedSkills()
+      .map(skill => pixScoreBySkill[skill.name] || 0)
+      .reduce((a, b) => a + b, 0);
   }
 
 }
