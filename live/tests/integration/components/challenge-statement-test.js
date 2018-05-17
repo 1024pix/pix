@@ -258,4 +258,16 @@ describe('Integration | Component | ChallengeStatement', function() {
 
   });
 
+  /*
+   * Embed
+   * ------------------------------------------------
+   */
+  describe('Embed section:', function () {
+    it('should be displayed when the challenge has an embed URL');
+    it('should not be displayed when the embed URL is missing');
+
+    it('should not be displayed when the embed title is missing');
+    it('should not be displayed when the embed height is missing');
+    it('should be displayed when the challenge has an embed URL');
+  });
 });

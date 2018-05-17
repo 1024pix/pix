@@ -3,7 +3,7 @@ import { expect } from 'chai';
 import { describe, it } from 'mocha';
 import { setupModelTest } from 'ember-mocha';
 
-describe('Unit | Model | Challenge', function() {
+describe.only('Unit | Model | Challenge', function() {
 
   setupModelTest('challenge', {
     needs: ['model:course']
@@ -13,6 +13,49 @@ describe('Unit | Model | Challenge', function() {
     const model = this.subject();
     expect(model).to.be.ok;
   });
+
+  describe('Computed property #hasValidEmbed', function() {
+
+    it('should be false when embed URL is missing', function() {
+      // given
+      const challenge = this.subject();
+
+      // when
+      const hasValidEmbed = challenge.get('hasValidEmbed');
+
+      // then
+      expect(hasValidEmbed).to.be.false;
+    });
+
+    it('should be true when everything is OK', function() {
+      // given
+      const challenge = this.subject({ embedUrl: 'toto' });
+
+      // when
+      const hasValidEmbed = challenge.get('hasValidEmbed');
+
+      // then
+      expect(hasValidEmbed).to.be.false;
+    });
+
+/*
+    it('', function() {
+      run(() => {
+        // given
+        const store = this.store();
+        const challenge = store.createRecord('challenge', { attachments: [] });
+
+        // when
+        const hasAttachment = challenge.get('hasAttachment');
+
+        // then
+        expect(hasAttachment).to.be.false;
+      });
+    });
+*/
+
+  });
+
 
   describe('Computed property #hasAttachment', function() {
 
