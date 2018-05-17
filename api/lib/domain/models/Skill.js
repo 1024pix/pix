@@ -1,3 +1,4 @@
+const _ = require('lodash');
 class Skill {
   constructor({ name } = {}) {
     this.name = name;
@@ -17,6 +18,12 @@ class Skill {
 
   getHarderWithin(tubes) {
     return tubes[this.tubeName].filter(skill => skill.difficulty >= this.difficulty);
+  }
+
+  computePixScore(competenceSkills) {
+    const numberOfSkillsByDifficulty= _.filter(competenceSkills, skill => skill.difficulty === this.difficulty).length;
+
+    return Math.min(4, 8 / numberOfSkillsByDifficulty);
   }
 
 }
