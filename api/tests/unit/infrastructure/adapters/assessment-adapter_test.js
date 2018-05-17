@@ -136,7 +136,7 @@ describe('Unit | Adapter | Assessment', () => {
   });
   describe('#getSmartAssessment', () => {
 
-    it('should return an Assessment from the Smart repository', () => {
+    it('should return an Assessment of SmartRandom Algo', () => {
       // given
       const skills = [];
       const challenges = [];
@@ -169,7 +169,7 @@ describe('Unit | Adapter | Assessment', () => {
       expect(course.competenceSkills).to.deep.equal(expectedSetOfSkills);
     });
 
-    describe('the assessment\'s course ', () => {
+    describe('the assessment’s course ', () => {
 
       it('should have an array of challenges', () => {
         // given
