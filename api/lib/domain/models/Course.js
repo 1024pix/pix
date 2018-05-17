@@ -1,3 +1,4 @@
+const _ = require('lodash');
 class Course {
 
   constructor(model = {}) {
@@ -16,6 +17,27 @@ class Course {
 
     // transformed
     this.nbChallenges = this.challenges.length;
+  }
+
+  addCompetenceSkills(competenceSkills) {
+    this.competenceSkills = competenceSkills;
+  }
+
+  getTubes(listSkills) {
+    const tubes = {};
+
+    listSkills.forEach(skill => {
+      const tubeName = skill.tubeName;
+
+      if(!tubes[tubeName]) tubes[tubeName] = [];
+
+      if(!_.find(tubes[tubeName], skill)) tubes[tubeName].push(skill);
+    });
+
+    Object.keys(tubes).forEach(tubeName =>  {
+      tubes[tubeName] = _.sortBy(tubes[tubeName], ['difficulty']);
+    });
+    return tubes;
   }
 }
 
