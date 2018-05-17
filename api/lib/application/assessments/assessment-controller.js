@@ -27,7 +27,7 @@ module.exports = {
     const assessment = assessmentSerializer.deserialize(request.payload);
     assessment.state = 'started';
 
-    if(assessment.type === 'SMART_PLACEMENT') {
+    if(assessment.isSmartPlacementAssessment()) {
       assessment.courseId = 'recNPB7dTNt5krlMA';
     }
 
@@ -118,7 +118,7 @@ module.exports = {
           });
         }
 
-        if (assessmentService.isSmartPlacementAssessment(assessment)) {
+        if (assessment.isSmartPlacementAssessment()) {
           return useCases.getNextChallengeForSmartPlacement({
             assessment,
             courseRepository,

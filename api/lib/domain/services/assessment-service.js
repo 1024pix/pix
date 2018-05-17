@@ -270,10 +270,6 @@ function isPlacementAssessment(assessment) {
   return assessment.type === 'PLACEMENT';
 }
 
-function isSmartPlacementAssessment(assessment) {
-  return assessment.type === 'SMART_PLACEMENT';
-}
-
 module.exports = {
   fetchAssessment,
   findByFilters,
@@ -281,7 +277,6 @@ module.exports = {
   isPlacementAssessment,
   isDemoAssessment,
   isCertificationAssessment,
-  isSmartPlacementAssessment,
   getScoreAndLevel,
   getSkills,
   getCompetenceMarks,
