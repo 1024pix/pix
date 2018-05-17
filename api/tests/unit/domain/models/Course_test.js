@@ -36,7 +36,7 @@ describe('Unit | Domain | Models | Course', () => {
     });
   });
 
-  describe('#getTubes', function() {
+  describe('#computeTubes', function() {
     it('should return a dictionary of tubes when all challenges require only one skill', function() {
       // given
       const web4 = new Skill({ name: '@web4' });
@@ -46,11 +46,11 @@ describe('Unit | Domain | Models | Course', () => {
       const course = new Course();
 
       // when
-      const tubes = course.getTubes(listSkills);
+      course.computeTubes(listSkills);
 
       // then
       const expectedTubes = { 'web': [web4, web5], 'url': [url1] };
-      expect(tubes).to.deep.equal(expectedTubes);
+      expect(course.tubes).to.deep.equal(expectedTubes);
     });
 
     it('should not add the same skill twice in a tube', function() {
@@ -63,10 +63,10 @@ describe('Unit | Domain | Models | Course', () => {
       const course = new Course();
 
       // when
-      const tubes = course.getTubes(listSkills);
+      course.computeTubes(listSkills);
       // then
       const expectedTubes = { 'web': [web4, web5], 'url': [url1] };
-      expect(tubes).to.deep.equal(expectedTubes);
+      expect(course.tubes).to.deep.equal(expectedTubes);
     });
 
   });

@@ -23,7 +23,7 @@ class Course {
     this.competenceSkills = competenceSkills;
   }
 
-  getTubes(listSkills) {
+  computeTubes(listSkills) {
     const tubes = {};
 
     listSkills.forEach(skill => {
@@ -37,6 +37,7 @@ class Course {
     Object.keys(tubes).forEach(tubeName =>  {
       tubes[tubeName] = _.sortBy(tubes[tubeName], ['difficulty']);
     });
+    this.tubes = tubes;
     return tubes;
   }
 }
