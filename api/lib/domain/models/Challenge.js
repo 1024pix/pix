@@ -1,7 +1,10 @@
 class Challenge {
 
-  constructor({ skills = [] } = {}) {
-    this.skills = skills;
+  constructor(attributes) {
+    Object.assign(this, attributes);
+    if(!this.skills) {
+      this.skills = [];
+    }
   }
 
   addSkill(skill) {
