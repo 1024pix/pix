@@ -11,10 +11,16 @@ export default Model.extend({
   timer: attr('number'),
   illustrationUrl: attr('string'),
   type: attr('string'),
+  embedUrl: attr('string'),
+  embedTitle: attr('string'),
+  embedHeight: attr('string'),
 
   attachments: attr('array'),
   answer: belongsTo('answer'),
 
+  hasValidEmbed: computed('embedUrl', function() {
+    return this.get('embedUrl');
+  }),
   hasAttachment: notEmpty('attachments'),
   hasSingleAttachment: equal('attachments.length', 1),
   hasMultipleAttachments: gt('attachments.length', 1),
