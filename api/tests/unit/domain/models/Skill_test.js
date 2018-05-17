@@ -90,7 +90,7 @@ describe('Unit | Domain | Models | Skill', () => {
     it('should return the pixScore gained by the skill', function() {
       // given
       const skillNames = ['@web1', '@chi1', '@fou1', '@mis1', '@web3', '@url3', '@web4', '@chi5', '@fou5', '@mis5'];
-      const competenceSkills = skillNames.map(skillName => new Skill({ name: skillName }));
+      const competenceSkills = skillNames.map(skillName => new Skill({ name: skillName }));
       const skillWeb1 = new Skill({ name: '@web1' });
       const skillWeb3 = new Skill({ name: '@web3' });
       const skillWeb4 = new Skill({ name: '@web4' });
