@@ -8,7 +8,7 @@ export default Component.extend({
 
   mailGenerator: service(),
 
-  classNames: ['rounded-panel', 'challenge-statement'],
+  classNames: ['challenge-statement'],
 
   attributeBindings: ['tabindex'],
   tabindex: -1,
