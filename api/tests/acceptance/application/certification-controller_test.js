@@ -91,7 +91,7 @@ describe('Acceptance | API | Certifications', () => {
           attributes: {
             'certification-center': 'Université du Pix',
             'comment-for-candidate': null,
-            'date': '2018-02-15T15:15:52.504Z',
+            'date': new Date('2018-02-15T15:15:52.504Z'),
             'is-published': true,
             'pix-score': 23,
             'status': 'rejected',
@@ -140,8 +140,8 @@ describe('Acceptance | API | Certifications', () => {
       firstName: 'John',
       lastName: 'Doe',
       birthplace: 'Earth',
-      birthdate: '1989-10-24',
-      completedAt: '2003-02-01',
+      birthdate: new Date('1989-10-24'),
+      completedAt: new Date('2003-02-01'),
       sessionId: session.id,
       isPublished: false,
     };
@@ -198,10 +198,10 @@ describe('Acceptance | API | Certifications', () => {
             type: 'certifications',
             id: JOHN_CERTIFICATION_ID,
             attributes: {
-              'birthdate': '1989-10-24',
+              'birthdate': new Date('1989-10-24'),
               'certification-center': 'Université du Pix',
               'comment-for-candidate': null,
-              'date': '2003-02-01',
+              'date': new Date('2003-02-01'),
               'first-name': 'John',
               'is-published': false,
               'last-name': 'Doe',
@@ -243,8 +243,8 @@ describe('Acceptance | API | Certifications', () => {
       firstName: 'John',
       lastName: 'Doe',
       birthplace: 'Earth',
-      birthdate: '24/10/1989',
-      completedAt: '01/02/2003',
+      birthdate: new Date('1989-10-24'),
+      completedAt: new Date('2003-01-02'),
       sessionId: 1,
       isPublished: false,
     };
@@ -324,7 +324,7 @@ describe('Acceptance | API | Certifications', () => {
             attributes: {
               'certification-center': 'Université du Pix',
               'comment-for-candidate': null,
-              'date': '01/02/2003',
+              'date': new Date('2003-01-02'),
               'is-published': true,
               'pix-score': 23,
               'status': 'rejected',
