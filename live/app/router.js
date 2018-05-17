@@ -6,7 +6,7 @@ import { get } from '@ember/object';
 
 const Router = EmberRouter.extend({
   location: config.locationType,
-  rootURL: config.rootURL
+  rootURL: config.rootURL,
 });
 
 // XXX https://github.com/poteto/ember-metrics/issues/43#issuecomment-252081256
@@ -27,7 +27,7 @@ if (config.environment === 'integration' || config.environment === 'staging' || 
         const title = this.getWithDefault('currentRouteName', 'unknown');
         get(this, 'metrics').trackPage({ page, title });
       });
-    }
+    },
   });
 }
 
@@ -59,9 +59,10 @@ Router.map(function() {
     this.route('resume', { path: '/:certification_course_id' });
     this.route('results', { path: '/:certification_number/results' });
   });
-  this.route('user-certifications', { path: 'mes-certifications' });
   this.route('campaigns.create-assessment', { path: '/campagnes/codecampagnepix' });
-
+  this.route('user-certifications', { path: 'mes-certifications' }, function() {
+    this.route('get', { path: '/:id' });
+  });
 });
 
 export default Router;
