@@ -11,7 +11,10 @@ class Challenge {
     illustrationUrl,
     attachments,
     answer,
-    skills = []
+    skills = [],
+    embedUrl,
+    embedTitle,
+    embedHeight,
   } = {}) {
     this.skills = skills;
     this.id = id;
@@ -24,6 +27,9 @@ class Challenge {
     this.illustrationUrl = illustrationUrl;
     this.attachments = attachments;
     this.answer = answer;
+    this.embedUrl = embedUrl;
+    this.embedTitle = embedTitle;
+    this.embedHeight = embedHeight;
   }
 
   addSkill(skill) {

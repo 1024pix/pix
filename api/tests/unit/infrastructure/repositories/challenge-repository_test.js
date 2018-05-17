@@ -7,6 +7,7 @@ const challengeSerializer = require('../../../../lib/infrastructure/serializers/
 const Challenge = require('../../../../lib/domain/models/Challenge');
 const Skill = require('../../../../lib/domain/models/Skill');
 
+const ChallengeAirtableDataObjectFixture = require('../../../../tests/fixtures/infrastructure/ChallengeAirtableDataObjectFixture');
 const ChallengeAirtableDataObject = require('../../../../lib/infrastructure/datasources/airtable/objects/Challenge');
 const SkillAirtableDataObject = require('../../../../lib/infrastructure/datasources/airtable/objects/Skill');
 const AirtableResourceNotFound = require('../../../../lib/infrastructure/datasources/airtable/objects/AirtableResourceNotFound');
@@ -224,6 +225,23 @@ describe('Unit | Repository | challenge-repository', () => {
         expect(challenge).to.be.an.instanceOf(Challenge);
         expect(challenge.id).to.equal(challengeRecordId);
         expect(challenge.type).to.equal('QCU');
+      });
+    });
+
+    it('should have embed properties', () => {
+      // given
+      const challengeRecordId = 'rec_challenge_id';
+      challengeDataSourceGet.withArgs(challengeRecordId).resolves(ChallengeAirtableDataObjectFixture());
+
+      // when
+      const promise = challengeRepository.get(challengeRecordId);
+
+      // then
+      return promise.then((challenge) => {
+        expect(challenge).to.be.an.instanceOf(Challenge);
+        expect(challenge.embedUrl).to.equal('https://github.io/page/epreuve.html');
+        expect(challenge.embedTitle).to.equal('Epreuve de selection de dossier');
+        expect(challenge.embedHeight).to.equal(500);
       });
     });
 
