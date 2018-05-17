@@ -28,7 +28,10 @@ describe('Unit | Infrastructure | Datasource | Airtable | Model | Challenge', ()
           'https://dl.airtable.com/nHWKNZZ7SQeOKsOvVykV_navigationdiaporama5.pptx',
           'https://dl.airtable.com/rsXNJrSPuepuJQDByFVA_navigationdiaporama5.odp'
         ],
-        competenceId: 'recsvLz0W2ShyfD63'
+        competenceId: 'recsvLz0W2ShyfD63',
+        embedUrl: 'https://github.page.io/pages/mon-epreuve.html',
+        embedTitle: 'Epreuve de selection d’imprimante',
+        embedHeight: 400,
       };
 
       // when
@@ -118,5 +121,5 @@ describe('Unit | Infrastructure | Datasource | Airtable | Model | Challenge', ()
       expect(challenge).to.be.an.instanceof(dataModels.Challenge);
       expect(challenge.competenceId).to.be.undefined;
     });
-  });
+ });
 });

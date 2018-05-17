@@ -97,6 +97,9 @@ module.exports = function() {
       'Généalogie': 'Prototype 1',
       'Statut': 'validé',
       'Scoring': '1: @outilsTexte2\n2: @outilsTexte4',
+      'Embed URL': 'https://github.io/page/epreuve.html',
+      'Embed title': 'Epreuve de selection de dossier',
+      'Embed height': 500,
       'Acquix': [
         'recUDrCWD76fp5MsE'
       ],

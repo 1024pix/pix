@@ -16,6 +16,9 @@ class Challenge {
     illustrationUrl,
     attachments,
     competenceId,
+    embedUrl,
+    embedTitle,
+    embedHeight,
   }) {
     this.id = id;
     this.instruction = instruction;
@@ -33,6 +36,9 @@ class Challenge {
     this.illustrationUrl = illustrationUrl;
     this.attachments = attachments;
     this.competenceId = competenceId;
+    this.embedUrl = embedUrl;
+    this.embedTitle = embedTitle;
+    this.embedHeight = embedHeight;
   }
 
   static fromAirTableObject(airtableEpreuveObject) {
@@ -74,6 +80,9 @@ class Challenge {
       scoring: airtableEpreuveObject.get('Scoring'),
       status: airtableEpreuveObject.get('Statut'),
       skillIds: airtableEpreuveObject.get('Acquix'),
+      embedUrl: airtableEpreuveObject.get('Embed URL'),
+      embedTitle: airtableEpreuveObject.get('Embed title'),
+      embedHeight: airtableEpreuveObject.get('Embed height'),
       timer,
       hasntInternetAllowed,
       illustrationUrl,
