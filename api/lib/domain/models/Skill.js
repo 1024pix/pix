@@ -25,7 +25,6 @@ class Skill {
 
     return Math.min(4, 8 / numberOfSkillsByDifficulty);
   }
-
 }
 
 module.exports = Skill;
