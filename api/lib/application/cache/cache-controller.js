@@ -1,4 +1,4 @@
-const cache = require('../../infrastructure/cache');
+const cache = require('../../infrastructure/caches/cache');
 
 module.exports = {
 

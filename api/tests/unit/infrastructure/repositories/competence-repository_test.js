@@ -1,7 +1,7 @@
 const { expect, sinon } = require('../../../test-helper');
 const AirtableRecord = require('airtable').Record;
 const airtable = require('../../../../lib/infrastructure/airtable');
-const cache = require('../../../../lib/infrastructure/cache');
+const cache = require('../../../../lib/infrastructure/caches/cache');
 const Competence = require('../../../../lib/domain/models/Competence');
 
 const competenceRepository = require('../../../../lib/infrastructure/repositories/competence-repository');

@@ -1,5 +1,5 @@
 const { expect, sinon } = require('../../../test-helper');
-const cache = require('../../../../lib/infrastructure/cache');
+const cache = require('../../../../lib/infrastructure/caches/cache');
 const CacheController = require('../../../../lib/application/cache/cache-controller');
 
 describe('Unit | Controller | CacheController', () => {

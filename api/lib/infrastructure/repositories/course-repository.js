@@ -1,4 +1,4 @@
-const cache = require('../cache');
+const cache = require('../caches/cache');
 const airtable = require('../airtable');
 const serializer = require('../serializers/airtable/course-serializer');
 const Course = require('../../domain/models/Course');

@@ -1,6 +1,6 @@
 const { expect, sinon } = require('../../../test-helper');
 const airtable = require('../../../../lib/infrastructure/airtable');
-const cache = require('../../../../lib/infrastructure/cache');
+const cache = require('../../../../lib/infrastructure/caches/cache');
 
 const areaRepository = require('../../../../lib/infrastructure/repositories/area-repository');
 const areaSerializer = require('../../../../lib/infrastructure/serializers/airtable/area-serializer');
