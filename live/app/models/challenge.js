@@ -1,3 +1,4 @@
+import { computed } from '@ember/object';
 import { notEmpty, equal, gt } from '@ember/object/computed';
 import DS from 'ember-data';
 
@@ -19,7 +20,9 @@ export default Model.extend({
   answer: belongsTo('answer'),
 
   hasValidEmbed: computed('embedUrl', function() {
-    return this.get('embedUrl');
+    return !!this.get('embedUrl')
+      && !!this.get('embedTitle')
+      && !!this.get('embedHeight');
   }),
   hasAttachment: notEmpty('attachments'),
   hasSingleAttachment: equal('attachments.length', 1),

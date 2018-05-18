@@ -3,7 +3,7 @@ import { expect } from 'chai';
 import { describe, it } from 'mocha';
 import { setupModelTest } from 'ember-mocha';
 
-describe.only('Unit | Model | Challenge', function() {
+describe('Unit | Model | Challenge', function() {
 
   setupModelTest('challenge', {
     needs: ['model:course']
@@ -13,49 +13,6 @@ describe.only('Unit | Model | Challenge', function() {
     const model = this.subject();
     expect(model).to.be.ok;
   });
-
-  describe('Computed property #hasValidEmbed', function() {
-
-    it('should be false when embed URL is missing', function() {
-      // given
-      const challenge = this.subject();
-
-      // when
-      const hasValidEmbed = challenge.get('hasValidEmbed');
-
-      // then
-      expect(hasValidEmbed).to.be.false;
-    });
-
-    it('should be true when everything is OK', function() {
-      // given
-      const challenge = this.subject({ embedUrl: 'toto' });
-
-      // when
-      const hasValidEmbed = challenge.get('hasValidEmbed');
-
-      // then
-      expect(hasValidEmbed).to.be.false;
-    });
-
-/*
-    it('', function() {
-      run(() => {
-        // given
-        const store = this.store();
-        const challenge = store.createRecord('challenge', { attachments: [] });
-
-        // when
-        const hasAttachment = challenge.get('hasAttachment');
-
-        // then
-        expect(hasAttachment).to.be.false;
-      });
-    });
-*/
-
-  });
-
 
   describe('Computed property #hasAttachment', function() {
 
@@ -171,4 +128,63 @@ describe.only('Unit | Model | Challenge', function() {
 
   });
 
+  describe('Computed property #hasValidEmbed', function() {
+
+    let embedOptions;
+
+    beforeEach(() => {
+      embedOptions = {
+        embedUrl: 'http://embed.url',
+        embedTitle: 'Embed title',
+        embedHeight: '600'
+      };
+    });
+
+    it('should be true when embed data (URL, title and height) are defined', function() {
+      // given
+      const challenge = this.subject(embedOptions);
+
+      // when
+      const hasValidEmbed = challenge.get('hasValidEmbed');
+
+      // then
+      expect(hasValidEmbed).to.be.true;
+    });
+
+    it('should be false when embed URL is missing', function() {
+      // given
+      delete embedOptions.embedUrl;
+      const challenge = this.subject(embedOptions);
+
+      // when
+      const hasValidEmbed = challenge.get('hasValidEmbed');
+
+      // then
+      expect(hasValidEmbed).to.be.false;
+    });
+
+    it('should be false when embed title is missing', function() {
+      // given
+      delete embedOptions.embedTitle;
+      const challenge = this.subject(embedOptions);
+
+      // when
+      const hasValidEmbed = challenge.get('hasValidEmbed');
+
+      // then
+      expect(hasValidEmbed).to.be.false;
+    });
+
+    it('should be false when embed height', function() {
+      // given
+      delete embedOptions.embedHeight;
+      const challenge = this.subject(embedOptions);
+
+      // when
+      const hasValidEmbed = challenge.get('hasValidEmbed');
+
+      // then
+      expect(hasValidEmbed).to.be.false;
+    });
+  });
 });
