@@ -264,7 +264,27 @@ describe('Integration | Component | ChallengeStatement', function() {
    */
 
   describe('Embed section:', function() {
-    it('should be displayed when the challenge has an embed URL');
-    it('should not be displayed when the embed URL is missing');
+
+    it('should be displayed when the challenge has a valid Embed object', function() {
+      // given
+      addChallengeToContext(this, { hasValidEmbedDocument: true });
+
+      // when
+      renderChallengeStatement(this);
+
+      // then
+      expect(this.$('.challenge-statement-embed-panel')).to.have.lengthOf(1);
+    });
+
+    it('should not be displayed when the challenge does not have a valid Embed object', function() {
+      // given
+      addChallengeToContext(this, { hasValidEmbedDocument: false });
+
+      // when
+      renderChallengeStatement(this);
+
+      // then
+      expect(this.$('.challenge-statement-embed-panel')).to.have.lengthOf(0);
+    });
   });
 });
