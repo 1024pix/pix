@@ -89,8 +89,8 @@ describe('Acceptance | Controller | snapshot-controller', () => {
       payload = {
         data: {
           attributes: {
-            'student-code': 'Code Etudiant',
-            'campaign-code': 'Code Campagne'
+            'student-code': null,
+            'campaign-code': null
           },
           relationships: {
             organization: {
@@ -118,7 +118,7 @@ describe('Acceptance | Controller | snapshot-controller', () => {
       profileService.getByUserId.restore();
     });
 
-    context('When creating with a right payload', () => {
+    context('When creating with a correct payload', () => {
 
       it('should return 201 HTTP status code', () => {
         // when
@@ -130,23 +130,6 @@ describe('Acceptance | Controller | snapshot-controller', () => {
           expect(response.result.data.id).to.exist;
         });
       });
-
-      it('should return 201 HTTP status code, even if snapshot code are null', () => {
-        // given
-        payload.data.attributes['student-code'] = null;
-        payload.data.attributes['campaign-code'] = null;
-
-        // when
-        const promise = server.inject(options);
-
-        // then
-        return promise.then((response) => {
-          expect(response.statusCode).to.equal(201);
-          expect(response.result.data.id).to.exist;
-        });
-
-      });
-
     });
 
     context('when creating with a wrong payload', () => {
