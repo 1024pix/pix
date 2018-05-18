@@ -1,7 +1,14 @@
 const NodeCache = require('node-cache');
+const RedisCache = require('./redis-cache');
 
-const ONE_DAY = 60 * 60 * 24;
+let cache;
 
-const cache = new NodeCache({ stdTTL: ONE_DAY }); // in seconds
+// TODO Discuter des différences entre NodeCache et RedisCache
+// Redis sur les ReviewApps ?
+if (process.env.REDIS_URL) {
+  cache = new RedisCache(process.env.REDIS_URL);
+} else {
+  cache = new NodeCache();
+}
 
 module.exports = cache;
