@@ -45,6 +45,7 @@
     "path": "^0.12.7",
     "pg": "^7.4.1",
     "prom-client": "^10.2.3",
+    "redis": "^2.8.0",
     "request": "^2.85.0",
     "request-promise-native": "^1.0.5",
     "sqlite3": "^3.1.13",
