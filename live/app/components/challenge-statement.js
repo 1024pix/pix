@@ -24,6 +24,16 @@ export default Component.extend({
     return instruction.replace('${EMAIL}', this._formattedEmailForInstruction());
   }),
 
+  challengeEmbedDocument: computed('challenge.hasValidEmbedDocument', function() {
+    if (this.get('challenge.hasValidEmbedDocument')) {
+      return {
+        url: this.get('challenge.embedUrl'),
+        title: this.get('challenge.embedTitle'),
+        height: this.get('challenge.embedHeight')
+      };
+    }
+  }),
+
   init() {
     this._super(...arguments);
     this.id = 'challenge_statement_' + this.get('challenge.id');

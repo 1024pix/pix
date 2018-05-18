@@ -19,7 +19,7 @@ export default Model.extend({
   attachments: attr('array'),
   answer: belongsTo('answer'),
 
-  hasValidEmbed: computed('embedUrl', function() {
+  hasValidEmbedDocument: computed('embedUrl', 'embedTitle', 'embedHeight', function() {
     return !!this.get('embedUrl')
       && !!this.get('embedTitle')
       && !!this.get('embedHeight');
