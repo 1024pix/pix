@@ -5,7 +5,7 @@ import { expect } from 'chai';
 import { describe, it } from 'mocha';
 import { setupTest } from 'ember-mocha';
 
-describe('Unit | Route | user certifications/get', function() {
+describe ('Unit | Route | user certifications/get', function() {
   setupTest('route:user-certifications/get', {
     needs: ['service:session', 'service:current-routed-modal']
   });
@@ -28,7 +28,7 @@ describe('Unit | Route | user certifications/get', function() {
 
     // instance route object
     route = this.subject();
-    route.transitionTo = sinon.stub();
+    route.transitionTo = sinon.stub().resolves();
   });
 
   it('exists', function() {
@@ -51,6 +51,74 @@ describe('Unit | Route | user certifications/get', function() {
       return promise.then(() => {
         sinon.assert.calledOnce(findRecordStub);
         sinon.assert.calledWith(findRecordStub, 'certification', certificationId);
+      });
+    });
+
+    it('should not return to /mes-certifications when the certification is published and validated', function() {
+      // given
+      const params = { id: certificationId };
+      const retreivedCertification = EmberObject.create({
+        id: 2,
+        date: '2018-02-15T15:15:52.504Z',
+        status: 'validated',
+        certificationCenter: 'Université de Lyon',
+        isPublished: true,
+        pixScore: 231
+      });
+      route.get('store').findRecord.resolves(retreivedCertification);
+
+      // when
+      const promise = route.model(params);
+
+      // then
+      return promise.then(() => {
+        expect(route.transitionTo).to.not.have.been.called;
+      });
+    });
+
+    it('should return to /mes-certifications when the certification is not published', function() {
+      // given
+      const params = { id: certificationId };
+      const retreivedCertification = EmberObject.create({
+        id: 2,
+        date: '2018-02-15T15:15:52.504Z',
+        status: 'validated',
+        certificationCenter: 'Université de Lyon',
+        isPublished: false,
+        pixScore: 231
+      });
+      route.get('store').findRecord.resolves(retreivedCertification);
+
+      // when
+      const promise = route.model(params);
+
+      // then
+      return promise.then(() => {
+        sinon.assert.calledOnce(route.transitionTo);
+        sinon.assert.calledWith(route.transitionTo, '/mes-certifications');
+      });
+    });
+
+    it('should return to /mes-certifications when the certification is not validated', function() {
+      // given
+      const params = { id: certificationId };
+      const retreivedCertification = EmberObject.create({
+        id: 3,
+        date: '2018-02-15T15:15:52.504Z',
+        status: 'rejected',
+        certificationCenter: 'Université de Lyon',
+        isPublished: true,
+        pixScore: 231
+      });
+      route.get('store').findRecord.resolves(retreivedCertification);
+
+      // when
+      const promise = route.model(params);
+
+      // then
+      return promise.then(() => {
+        sinon.assert.calledOnce(route.transitionTo);
+        sinon.assert.calledWith(route.transitionTo, '/mes-certifications');
       });
     });
   });
