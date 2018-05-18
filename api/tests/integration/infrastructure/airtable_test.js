@@ -1,7 +1,7 @@
 const Airtable = require('airtable');
 const hash = require('object-hash');
 const { expect, sinon } = require('../../test-helper');
-const cache = require('../../../lib/infrastructure/cache');
+const cache = require('../../../lib/infrastructure/caches/cache');
 const airtable = require('../../../lib/infrastructure/airtable');
 
 describe('Integration | Class | airtable', function() {

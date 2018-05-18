@@ -1,6 +1,6 @@
 const Airtable = require('airtable');
 const airtableConfig = require('../settings').airtable;
-const cache = require('./cache');
+const cache = require('./caches/cache');
 const hash = require('object-hash');
 
 module.exports = {
