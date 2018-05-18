@@ -128,7 +128,7 @@ describe('Unit | Model | Challenge', function() {
 
   });
 
-  describe('Computed property #hasValidEmbed', function() {
+  describe('Computed property #hasValidEmbedDocument', function() {
 
     let embedOptions;
 
@@ -145,10 +145,10 @@ describe('Unit | Model | Challenge', function() {
       const challenge = this.subject(embedOptions);
 
       // when
-      const hasValidEmbed = challenge.get('hasValidEmbed');
+      const hasValidEmbedDocument = challenge.get('hasValidEmbedDocument');
 
       // then
-      expect(hasValidEmbed).to.be.true;
+      expect(hasValidEmbedDocument).to.be.true;
     });
 
     it('should be false when embed URL is missing', function() {
@@ -157,10 +157,10 @@ describe('Unit | Model | Challenge', function() {
       const challenge = this.subject(embedOptions);
 
       // when
-      const hasValidEmbed = challenge.get('hasValidEmbed');
+      const hasValidEmbedDocument = challenge.get('hasValidEmbedDocument');
 
       // then
-      expect(hasValidEmbed).to.be.false;
+      expect(hasValidEmbedDocument).to.be.false;
     });
 
     it('should be false when embed title is missing', function() {
@@ -169,10 +169,10 @@ describe('Unit | Model | Challenge', function() {
       const challenge = this.subject(embedOptions);
 
       // when
-      const hasValidEmbed = challenge.get('hasValidEmbed');
+      const hasValidEmbedDocument = challenge.get('hasValidEmbedDocument');
 
       // then
-      expect(hasValidEmbed).to.be.false;
+      expect(hasValidEmbedDocument).to.be.false;
     });
 
     it('should be false when embed height', function() {
@@ -181,10 +181,10 @@ describe('Unit | Model | Challenge', function() {
       const challenge = this.subject(embedOptions);
 
       // when
-      const hasValidEmbed = challenge.get('hasValidEmbed');
+      const hasValidEmbedDocument = challenge.get('hasValidEmbedDocument');
 
       // then
-      expect(hasValidEmbed).to.be.false;
+      expect(hasValidEmbedDocument).to.be.false;
     });
   });
 });

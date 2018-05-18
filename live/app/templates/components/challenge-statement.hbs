@@ -71,6 +71,6 @@
 
 </div>
 
-<div class="rounded-panel">
-  {{!--{{challenge-statement-embed vhzllenge}}--}}
-</div>
+{{#if challenge.hasValidEmbedDocument}}
+  {{challenge-statement-embed-panel embedDocument=challengeEmbedDocument}}
+{{/if}}
