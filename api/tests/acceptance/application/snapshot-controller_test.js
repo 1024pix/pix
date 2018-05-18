@@ -44,7 +44,6 @@ describe('Acceptance | Controller | snapshot-controller', () => {
         id: 'recAreaB',
         name: 'area-name-2'
       }
-
     }],
     areas: [{ id: 'recAreaA', name: 'domaine-name-1' }, { id: 'recAreaB', name: 'domaine-name-2' }],
     organizations: []
@@ -90,8 +89,8 @@ describe('Acceptance | Controller | snapshot-controller', () => {
       payload = {
         data: {
           attributes: {
-            'student-code': 'Code Etudiant',
-            'campaign-code': 'Code Campagne'
+            'student-code': null,
+            'campaign-code': null
           },
           relationships: {
             organization: {
@@ -119,14 +118,17 @@ describe('Acceptance | Controller | snapshot-controller', () => {
       profileService.getByUserId.restore();
     });
 
-    it('should return 201 HTTP status code', () => {
-      // when
-      const promise = server.inject(options);
+    context('When creating with a correct payload', () => {
 
-      // then
-      return promise.then((response) => {
-        expect(response.statusCode).to.equal(201);
-        expect(response.result.data.id).to.exist;
+      it('should return 201 HTTP status code', () => {
+        // when
+        const promise = server.inject(options);
+
+        // then
+        return promise.then((response) => {
+          expect(response.statusCode).to.equal(201);
+          expect(response.result.data.id).to.exist;
+        });
       });
     });
 
