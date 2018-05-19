@@ -8,16 +8,7 @@ describe('Unit | Component | challenge statement', function() {
     needs: ['service:mailGenerator']
   });
 
-  it('renders', function() {
-    // creates the component instance
-    const component = this.subject();
-    // renders the component on the page
-    this.render();
-    expect(component).to.be.ok;
-    expect(this.$()).to.have.length(1);
-  });
-
-  describe.only('CP #challengeEmbedDocument', function() {
+  describe('[CP] #challengeEmbedDocument', function() {
     it('should return a JSON object with the challenge embedded document when the challenge has a valid one', function() {
       // given
       const component = this.subject({
