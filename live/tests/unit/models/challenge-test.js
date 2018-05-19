@@ -134,7 +134,7 @@ describe('Unit | Model | Challenge', function() {
 
     beforeEach(() => {
       embedOptions = {
-        embedUrl: 'http://embed.url',
+        embedUrl: 'https://embed.url',
         embedTitle: 'Embed title',
         embedHeight: '600'
       };
@@ -154,6 +154,18 @@ describe('Unit | Model | Challenge', function() {
     it('should be false when embed URL is missing', function() {
       // given
       delete embedOptions.embedUrl;
+      const challenge = this.subject(embedOptions);
+
+      // when
+      const hasValidEmbedDocument = challenge.get('hasValidEmbedDocument');
+
+      // then
+      expect(hasValidEmbedDocument).to.be.false;
+    });
+
+    it('should be false when embed URL is not secured (HTTPS)', function() {
+      // given
+      embedOptions.embedUrl = 'http://unsecured.url';
       const challenge = this.subject(embedOptions);
 
       // when

@@ -19,9 +19,11 @@ export default Model.extend({
   answer: belongsTo('answer'),
 
   hasValidEmbedDocument: computed('embedUrl', 'embedTitle', 'embedHeight', function() {
-    return !!this.get('embedUrl')
+    const embedUrl = this.get('embedUrl');
+    return !!embedUrl
       && !!this.get('embedTitle')
-      && !!this.get('embedHeight');
+      && !!this.get('embedHeight')
+      && embedUrl.toLowerCase().startsWith('https://');
   }),
   hasAttachment: notEmpty('attachments'),
   hasSingleAttachment: equal('attachments.length', 1),
