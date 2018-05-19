@@ -1,12 +1,19 @@
 import Component from '@ember/component';
+import { computed } from '@ember/object';
 
 export default Component.extend({
 
   // Element
   classNames: ['challenge-embed-simulator rounded-panel'],
+  attributeBindings: ['embedDocumentHeightStyle:style'],
 
   // Data props
   embedDocument: null,
+
+  // CPs
+  embedDocumentHeightStyle: computed('embedDocument.height', function() {
+    return `height: ${this.get('embedDocument.height')}px`;
+  }),
 
   // Actions
   actions: {
