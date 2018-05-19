@@ -120,55 +120,5 @@ describe('Unit | Serializer | challenge-serializer', function() {
       expect(challenge.attachments[0]).to.equal(attachment_1.url);
       expect(challenge.attachments[1]).to.equal(attachment_2.url);
     });
-
-    // XXX : Pay attention to boolean negation : hasntInternetAllowed, instead of hasInternetAllowed,
-    // it is because the nominal case is : user is allowed to use internet.
-    // we need a boolean to detect the corner case where internet is NOT allowed. Currently Internet and tools are allowed
-    describe('should convert field "Internet et outils" into \'hasntInternetAllowed\' boolean property', function() {
-
-      it('should return true if  field "Internet et outils" equal to "Non"', function() {
-        // given
-        const airtableRecord = {
-          fields: {
-            'Internet et outils': 'Non'
-          }
-        };
-
-        // when
-        const challenge = serializer.deserialize(airtableRecord);
-
-        // then
-        expect(challenge.hasntInternetAllowed).to.equal(true);
-      });
-
-      it('should return false if  field "Internet et outils" equal to "Oui"', function() {
-        // given
-        const airtableRecord = {
-          fields: {
-            'Internet et outils': 'Oui'
-          }
-        };
-
-        // when
-        const challenge = serializer.deserialize(airtableRecord);
-
-        // then
-        expect(challenge.hasntInternetAllowed).to.equal(false);
-      });
-
-      it('should not be defined if field "Internet et outils" is not defined', function() {
-        // given
-        const airtableRecord = {
-          fields: {}
-        };
-
-        // when
-        const challenge = serializer.deserialize(airtableRecord);
-
-        // then
-        expect(challenge.hasntInternetAllowed).to.equal(undefined);
-      });
-
-    });
   });
 });

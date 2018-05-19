@@ -84,19 +84,6 @@ describe('Unit | Infrastructure | Datasource | Airtable | Model | Challenge', ()
       expect(challenge.timer).to.be.undefined;
     });
 
-    it('should deal with a missing Internet et outils', () => {
-      // given
-      const airtableEpreuveObject = challengeRawAirTableFixture();
-      airtableEpreuveObject.set('Internet et outils', undefined);
-
-      // when
-      const challenge = dataModels.Challenge.fromAirTableObject(airtableEpreuveObject);
-
-      // then
-      expect(challenge).to.be.an.instanceof(dataModels.Challenge);
-      expect(challenge.hasntInternetAllowed).to.equal(false);
-    });
-
     it('should deal with a missing Pièce jointe', () => {
       // given
       const airtableEpreuveObject = challengeRawAirTableFixture();

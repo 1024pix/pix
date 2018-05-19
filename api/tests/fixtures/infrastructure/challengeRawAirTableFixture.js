@@ -86,7 +86,6 @@ module.exports = function() {
       'Timer': 1234,
       'Licence image': 'écran libre',
       'Déclinable': 'facilement',
-      'Internet et outils': 'Oui',
       'Accessibilité': 'Non',
       'T1 - Espaces, casse & accents': 'Activé',
       'T2 - Ponctuation': 'Désactivé',

@@ -45,11 +45,6 @@ class Challenge {
 
   static fromAirTableObject(airtableEpreuveObject) {
 
-    let hasntInternetAllowed = false;
-    if (airtableEpreuveObject.get('Internet et outils')) {
-      hasntInternetAllowed = airtableEpreuveObject.get('Internet et outils').toUpperCase() === 'NON';
-    }
-
     let illustrationUrl;
     if (airtableEpreuveObject.get('Illustration de la consigne')) {
       illustrationUrl = airtableEpreuveObject.get('Illustration de la consigne')[0].url;
@@ -87,7 +82,6 @@ class Challenge {
       embedTitle: airtableEpreuveObject.get('Embed title'),
       embedHeight: airtableEpreuveObject.get('Embed height'),
       timer,
-      hasntInternetAllowed,
       illustrationUrl,
       attachments,
       competenceId
