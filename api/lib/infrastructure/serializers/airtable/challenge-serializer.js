@@ -29,10 +29,6 @@ class ChallengeSerializer extends AirtableSerializer {
         challenge.timer = _.defaultTo(_.parseInt(fields['Timer']), undefined);
       }
 
-      if (fields['Internet et outils']) {
-        challenge.hasntInternetAllowed = fields['Internet et outils'].toUpperCase() === 'NON';
-      }
-
       if (fields['Illustration de la consigne']) {
         challenge.illustrationUrl = fields['Illustration de la consigne'][0].url;
       }

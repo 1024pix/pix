@@ -13,7 +13,6 @@ describe('Unit | Domain | Models | Challenge', () => {
         instruction: 'Les moteurs de recherche affichent certains liens en raison d\'un accord commercial.\n\nDans quels encadrés se trouvent ces liens ?',
         competence: 'recsvLz0W2ShyfD63',
         proposals: '- 1\n- 2\n- 3\n- 4\n- 5',
-        hasntInternetAllowed: false,
         timer: 1234,
         illustrationUrl: 'https://dl.airtable.com/2MGErxGTQl2g2KiqlYgV_venise4.png',
         attachments: [
