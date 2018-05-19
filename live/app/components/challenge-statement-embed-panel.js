@@ -12,6 +12,7 @@ export default Component.extend({
   actions: {
     launchSimulator() {
       this.toggleProperty('_isSimulatorNotYetLaunched');
+      this._unblurSimulator();
     },
 
     reloadSimulator() {
@@ -22,10 +23,14 @@ export default Component.extend({
   // Internals
   _isSimulatorNotYetLaunched: true,
 
-  /* This method is extracted in order to test action binding easily */
+  /* This method is not tested because it would be too difficult (add an observer on a complicated stubbed DOM API element!) */
   _reloadSimulator() {
-    const $simulatorIframe = this.element.getElementsByClassName('challenge-statement-embed-panel__simulator').item(0);
+    const $simulatorIframe = this.element.getElementsByClassName('challenge-statement-embed-panel__iframe').item(0);
     $simulatorIframe.src = $simulatorIframe.src;
-  }
+  },
 
+  _unblurSimulator() {
+    const $simulatorPanel = this.element.getElementsByClassName('challenge-statement-embed-panel__simulator').item(0);
+    $simulatorPanel.classList.remove('blurred');
+  }
 });

@@ -1,5 +1,49 @@
+.challenge-statement-embed-panel {
+  position: relative;
+}
+
+.challenge-statement-embed-panel__aknowledgment-overlay {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0,0,0,0.25);
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.challenge-statement-embed-panel__launch-simulator-button {
+  background-color: #3D68FF;
+  color: #ffffff;
+  box-shadow: 0 2px 6px 0 rgba(12,22,58,0.11), 0 1px 3px 0 rgba(0,0,0,0.08);
+  border: none;
+  border-radius: 5px;
+  font-family: Lato, Arial, sans-serif;
+  font-size: 15px;
+  font-weight: bold;
+  line-height: 18px;
+  text-align: center;
+  text-transform: uppercase;
+  height: 56px;
+  padding: 0 36px;
+}
+
+.challenge-statement-embed-panel__simulator {
+  &.blurred {
+    filter: blur(5px);
+  }
+}
 .challenge-statement-embed-panel__iframe {
+  position: relative;
   width: 100%;
   height: 500px; /* default value if no one is defined by the challenges producers */
   border: none;
+
 }
+
