@@ -1,5 +1,5 @@
 import { expect } from 'chai';
-import { describe, it } from 'mocha';
+import { describe, it, beforeEach } from 'mocha';
 import { setupComponentTest } from 'ember-mocha';
 import hbs from 'htmlbars-inline-precompile';
 import sinon from 'sinon';
@@ -102,4 +102,36 @@ describe('Integration | Component | challenge embed simulator', function() {
       expect($simulator.classList.contains('blurred')).to.be.false;
     });
   });
+
+  describe('Embed simulator', function() {
+
+    const embedDocument = {
+      url: 'http://embed-simulator.url',
+      title: 'Embed simulator',
+      height: 200
+    };
+
+    beforeEach(function() {
+      // given
+      this.set('embedDocument', embedDocument);
+
+      // when
+      this.render(hbs`{{challenge-embed-simulator embedDocument=embedDocument}}`);
+
+      // then
+    });
+
+    it('should have an height that is the one defined in the referential', function() {
+      expect(this.$('.challenge-embed-simulator')[0].style.cssText).to.equal('height: 200px;');
+    });
+
+    it('should define a title attribute on the iframe element that is the one defined in the referential for field "Embed title"', function() {
+      expect(this.$('.challenge-embed-simulator__iframe')[0].title).to.equal('Embed simulator');
+    });
+
+    it('should define a src attribute on the iframe element that is the one defined in the referential for field "Embed URL"', function() {
+      expect(this.$('.challenge-embed-simulator__iframe')[0].src).to.equal('http://embed-simulator.url/');
+    });
+  });
+
 });
