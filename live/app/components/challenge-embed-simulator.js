@@ -1,5 +1,6 @@
 import Component from '@ember/component';
 import { computed } from '@ember/object';
+import { htmlSafe } from '@ember/string';
 
 export default Component.extend({
 
@@ -12,7 +13,7 @@ export default Component.extend({
 
   // CPs
   embedDocumentHeightStyle: computed('embedDocument.height', function() {
-    return `height: ${this.get('embedDocument.height')}px`;
+    return htmlSafe(`height: ${this.get('embedDocument.height')}px`);
   }),
 
   // Actions
