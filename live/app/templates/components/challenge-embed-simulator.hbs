@@ -1,0 +1,14 @@
+{{#if _isSimulatorNotYetLaunched}}
+  <div class="challenge-embed-simulator__aknowledgment-overlay">
+    <button class="challenge-embed-simulator__launch-simulator-button" {{action "launchSimulator"}}>Je lance le simulateur</button>
+  </div>
+{{/if}}
+
+<div class="challenge-embed-simulator__simulator blurred">
+  <iframe class="challenge-embed-simulator__iframe"
+          src="{{embedDocument.url}}"
+          alt="{{embedDocument.title}}"
+          height="{{embedDocument.height}}">
+  </iframe>
+  <button class="challenge-embed-simulator__reload-button" {{action "reloadSimulator"}}>Recharger le simulateur</button>
+</div>

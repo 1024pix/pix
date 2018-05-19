@@ -1,8 +1,8 @@
-.challenge-statement-embed-panel {
+.challenge-embed-simulator {
   position: relative;
 }
 
-.challenge-statement-embed-panel__aknowledgment-overlay {
+.challenge-embed-simulator__aknowledgment-overlay {
   position: absolute;
   width: 100%;
   height: 100%;
@@ -18,7 +18,7 @@
   justify-content: center;
 }
 
-.challenge-statement-embed-panel__launch-simulator-button {
+.challenge-embed-simulator__launch-simulator-button {
   background-color: #3D68FF;
   color: #ffffff;
   box-shadow: 0 2px 6px 0 rgba(12,22,58,0.11), 0 1px 3px 0 rgba(0,0,0,0.08);
@@ -33,19 +33,19 @@
   padding: 0 36px;
 }
 
-.challenge-statement-embed-panel__simulator {
+.challenge-embed-simulator__simulator {
   &.blurred {
     filter: blur(5px);
   }
 }
-.challenge-statement-embed-panel__iframe {
+.challenge-embed-simulator__iframe {
   position: relative;
   width: 100%;
   height: 500px; /* default value if no one is defined by the challenges producers */
   border: none;
 }
 
-.challenge-statement-embed-panel__reload-button {
+.challenge-embed-simulator__reload-button {
   position: absolute;
   bottom: 20px;
   right: 20px;
