@@ -10,17 +10,22 @@ export default Component.extend({
 
   // Actions
   actions: {
-    reloadIframe() {
-      this._reloadIframe();
+    launchSimulator() {
+      this.toggleProperty('_isSimulatorNotYetLaunched');
+    },
+
+    reloadSimulator() {
+      this._reloadSimulator();
     }
   },
 
-  // Methods
+  // Internals
+  _isSimulatorNotYetLaunched: true,
 
   /* This method is extracted in order to test action binding easily */
-  _reloadIframe() {
-    const $iframe = this.element.getElementsByClassName('challenge-statement-embed-panel__iframe').item(0);
-    $iframe.src = $iframe.src;
+  _reloadSimulator() {
+    const $simulatorIframe = this.element.getElementsByClassName('challenge-statement-embed-panel__simulator').item(0);
+    $simulatorIframe.src = $simulatorIframe.src;
   }
 
 });
