@@ -5,9 +5,9 @@ import hbs from 'htmlbars-inline-precompile';
 import sinon from 'sinon';
 import { run } from '@ember/runloop';
 
-describe('Integration | Component | challenge statement embed panel', function() {
+describe('Integration | Component | challenge embed simulator', function() {
 
-  setupComponentTest('challenge-statement-embed-panel', {
+  setupComponentTest('challenge-embed-simulator', {
     integration: true
   });
 
@@ -15,18 +15,18 @@ describe('Integration | Component | challenge statement embed panel', function()
 
     it('should be displayed when component has just been rendered', function() {
       // when
-      this.render(hbs`{{challenge-statement-embed-panel}}`);
+      this.render(hbs`{{challenge-embed-simulator}}`);
 
       // then
-      expect(this.$('.challenge-statement-embed-panel__aknowledgment-overlay')).to.have.lengthOf(1);
+      expect(this.$('.challenge-embed-simulator__aknowledgment-overlay')).to.have.lengthOf(1);
     });
 
     it('should contain a button to launch the simulator', function() {
       // when
-      this.render(hbs`{{challenge-statement-embed-panel}}`);
+      this.render(hbs`{{challenge-embed-simulator}}`);
 
       // then
-      const $launchSimulatorButton = this.$('.challenge-statement-embed-panel__aknowledgment-overlay .challenge-statement-embed-panel__launch-simulator-button');
+      const $launchSimulatorButton = this.$('.challenge-embed-simulator__aknowledgment-overlay .challenge-embed-simulator__launch-simulator-button');
       expect($launchSimulatorButton).to.have.lengthOf(1);
     });
   });
@@ -35,22 +35,22 @@ describe('Integration | Component | challenge statement embed panel', function()
 
     it('should have text "Je lance le simulateur"', function() {
       // when
-      this.render(hbs`{{challenge-statement-embed-panel}}`);
+      this.render(hbs`{{challenge-embed-simulator}}`);
 
       // then
-      const $launchSimulatorButton = this.$('.challenge-statement-embed-panel__aknowledgment-overlay .challenge-statement-embed-panel__launch-simulator-button');
+      const $launchSimulatorButton = this.$('.challenge-embed-simulator__aknowledgment-overlay .challenge-embed-simulator__launch-simulator-button');
       expect($launchSimulatorButton.text().trim()).to.equal('Je lance le simulateur');
     });
 
     it('should close the aknowledgment overlay when clicked', async function() {
       // given
-      this.render(hbs`{{challenge-statement-embed-panel}}`);
+      this.render(hbs`{{challenge-embed-simulator}}`);
 
       // when
-      run(() => document.querySelector('.challenge-statement-embed-panel__launch-simulator-button').click());
+      run(() => document.querySelector('.challenge-embed-simulator__launch-simulator-button').click());
 
       // then
-      expect(this.$('.challenge-statement-embed-panel__aknowledgment-overlay')).to.have.lengthOf(0);
+      expect(this.$('.challenge-embed-simulator__aknowledgment-overlay')).to.have.lengthOf(0);
     });
   });
 
@@ -58,10 +58,10 @@ describe('Integration | Component | challenge statement embed panel', function()
 
     it('should have text "Recharger le simulateur"', function() {
       // when
-      this.render(hbs`{{challenge-statement-embed-panel}}`);
+      this.render(hbs`{{challenge-embed-simulator}}`);
 
       // then
-      const $reloadSimulatorButton = this.$('.challenge-statement-embed-panel__reload-button');
+      const $reloadSimulatorButton = this.$('.challenge-embed-simulator__reload-button');
       expect($reloadSimulatorButton.text().trim()).to.equal('Recharger le simulateur');
     });
 
@@ -69,10 +69,10 @@ describe('Integration | Component | challenge statement embed panel', function()
       // given
       const stubReloadSimulator = sinon.stub();
       this.set('stubReloadSimulator', stubReloadSimulator);
-      this.render(hbs`{{challenge-statement-embed-panel _reloadSimulator=stubReloadSimulator}}`);
+      this.render(hbs`{{challenge-embed-simulator _reloadSimulator=stubReloadSimulator}}`);
 
       // when
-      run(() => document.querySelector('.challenge-statement-embed-panel__reload-button').click());
+      run(() => document.querySelector('.challenge-embed-simulator__reload-button').click());
 
       // then
       sinon.assert.calledOnce(stubReloadSimulator);
@@ -83,22 +83,22 @@ describe('Integration | Component | challenge statement embed panel', function()
 
     it('should be active when component is first rendered', function() {
       // when
-      this.render(hbs`{{challenge-statement-embed-panel}}`);
+      this.render(hbs`{{challenge-embed-simulator}}`);
 
       // then
-      const $simulator = this.$('.challenge-statement-embed-panel__simulator')[0];
+      const $simulator = this.$('.challenge-embed-simulator__simulator')[0];
       expect($simulator.classList.contains('blurred')).to.be.true;
     });
 
     it('should be removed when simulator was launched', function() {
       // given
-      this.render(hbs`{{challenge-statement-embed-panel}}`);
+      this.render(hbs`{{challenge-embed-simulator}}`);
 
       // when
-      run(() => document.querySelector('.challenge-statement-embed-panel__launch-simulator-button').click());
+      run(() => document.querySelector('.challenge-embed-simulator__launch-simulator-button').click());
 
       // then
-      const $simulator = this.$('.challenge-statement-embed-panel__simulator')[0];
+      const $simulator = this.$('.challenge-embed-simulator__simulator')[0];
       expect($simulator.classList.contains('blurred')).to.be.false;
     });
   });
