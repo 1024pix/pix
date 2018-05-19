@@ -8,7 +8,7 @@ export default Component.extend({
 
   mailGenerator: service(),
 
-  classNames: ['rounded-panel', 'challenge-statement'],
+  classNames: ['challenge-statement'],
 
   attributeBindings: ['tabindex'],
   tabindex: -1,
@@ -22,6 +22,16 @@ export default Component.extend({
       return null;
     }
     return instruction.replace('${EMAIL}', this._formattedEmailForInstruction());
+  }),
+
+  challengeEmbedDocument: computed('challenge.hasValidEmbedDocument', function() {
+    if (this.get('challenge.hasValidEmbedDocument')) {
+      return {
+        url: this.get('challenge.embedUrl'),
+        title: this.get('challenge.embedTitle'),
+        height: this.get('challenge.embedHeight')
+      };
+    }
   }),
 
   init() {

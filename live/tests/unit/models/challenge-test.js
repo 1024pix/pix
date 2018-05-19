@@ -128,4 +128,63 @@ describe('Unit | Model | Challenge', function() {
 
   });
 
+  describe('Computed property #hasValidEmbedDocument', function() {
+
+    let embedOptions;
+
+    beforeEach(() => {
+      embedOptions = {
+        embedUrl: 'http://embed.url',
+        embedTitle: 'Embed title',
+        embedHeight: '600'
+      };
+    });
+
+    it('should be true when embed data (URL, title and height) are defined', function() {
+      // given
+      const challenge = this.subject(embedOptions);
+
+      // when
+      const hasValidEmbedDocument = challenge.get('hasValidEmbedDocument');
+
+      // then
+      expect(hasValidEmbedDocument).to.be.true;
+    });
+
+    it('should be false when embed URL is missing', function() {
+      // given
+      delete embedOptions.embedUrl;
+      const challenge = this.subject(embedOptions);
+
+      // when
+      const hasValidEmbedDocument = challenge.get('hasValidEmbedDocument');
+
+      // then
+      expect(hasValidEmbedDocument).to.be.false;
+    });
+
+    it('should be false when embed title is missing', function() {
+      // given
+      delete embedOptions.embedTitle;
+      const challenge = this.subject(embedOptions);
+
+      // when
+      const hasValidEmbedDocument = challenge.get('hasValidEmbedDocument');
+
+      // then
+      expect(hasValidEmbedDocument).to.be.false;
+    });
+
+    it('should be false when embed height', function() {
+      // given
+      delete embedOptions.embedHeight;
+      const challenge = this.subject(embedOptions);
+
+      // when
+      const hasValidEmbedDocument = challenge.get('hasValidEmbedDocument');
+
+      // then
+      expect(hasValidEmbedDocument).to.be.false;
+    });
+  });
 });

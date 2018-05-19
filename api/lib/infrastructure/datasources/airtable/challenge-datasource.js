@@ -6,7 +6,13 @@ const AIRTABLE_TABLE_NAME = 'Epreuves';
 module.exports = {
   get(id) {
     return airtable.newGetRecord(AIRTABLE_TABLE_NAME, id)
-      .then(airtableRawObject => airTableDataObjects.Challenge.fromAirTableObject(airtableRawObject));
+      .then(airtableRawObject => airTableDataObjects.Challenge.fromAirTableObject(airtableRawObject))
+      .catch((err) => {
+        if(err.error === 'NOT_FOUND') {
+          throw new airTableDataObjects.AirtableResourceNotFound();
+        }
+        throw err;
+      });
   }
 };
 
