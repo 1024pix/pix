@@ -14,7 +14,6 @@ describe('Unit | Serializer | JSONAPI | challenge-serializer', function() {
         proposals: '- Ils sont bio.\n- Ils pèsent plus de 63 grammes.\n- Ce sont des oeufs frais.\n- Ils sont destinés aux consommateurs.\n- Ils ne sont pas lavés.\n',
         type: 'QCM',
         illustrationUrl: 'http://illustration.url',
-        hasntInternetAllowed: false,
         timer: 300,
         competence: 'competence_id',
         attachments: [
@@ -40,7 +39,6 @@ describe('Unit | Serializer | JSONAPI | challenge-serializer', function() {
             proposals: challenge.proposals,
             type: challenge.type,
             'illustration-url': challenge.illustrationUrl,
-            'hasnt-internet-allowed': challenge.hasntInternetAllowed,
             timer: challenge.timer,
             competence: challenge.competence,
             attachments: [

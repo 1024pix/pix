@@ -21,7 +21,6 @@ describe('Unit | Infrastructure | Datasource | Airtable | Model | Challenge', ()
         scoring: '1: @outilsTexte2\n2: @outilsTexte4',
         status: 'validé',
         skillIds: ['recUDrCWD76fp5MsE'],
-        hasntInternetAllowed: false,
         timer: 1234,
         illustrationUrl: 'https://dl.airtable.com/2MGErxGTQl2g2KiqlYgV_venise4.png',
         attachments: [
@@ -81,19 +80,6 @@ describe('Unit | Infrastructure | Datasource | Airtable | Model | Challenge', ()
       // then
       expect(challenge).to.be.an.instanceof(dataModels.Challenge);
       expect(challenge.timer).to.be.undefined;
-    });
-
-    it('should deal with a missing Internet et outils', () => {
-      // given
-      const airtableEpreuveObject = challengeRawAirTableFixture();
-      airtableEpreuveObject.set('Internet et outils', undefined);
-
-      // when
-      const challenge = dataModels.Challenge.fromAirTableObject(airtableEpreuveObject);
-
-      // then
-      expect(challenge).to.be.an.instanceof(dataModels.Challenge);
-      expect(challenge.hasntInternetAllowed).to.equal(false);
     });
 
     it('should deal with a missing Pièce jointe', () => {

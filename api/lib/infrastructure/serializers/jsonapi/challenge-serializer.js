@@ -5,7 +5,7 @@ module.exports = {
 
   serialize(challenges) {
     return new Serializer('challenge', {
-      attributes: ['type', 'instruction', 'competence', 'proposals', 'hasntInternetAllowed', 'timer', 'illustrationUrl', 'attachments', 'competence', 'embedUrl', 'embedTitle', 'embedHeight'],
+      attributes: ['type', 'instruction', 'competence', 'proposals', 'timer', 'illustrationUrl', 'attachments', 'competence', 'embedUrl', 'embedTitle', 'embedHeight'],
       transform: (record) => {
         const challenge = _.pickBy(record, (value) => !_.isUndefined(value));
 

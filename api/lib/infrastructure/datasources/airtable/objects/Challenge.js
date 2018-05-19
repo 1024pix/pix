@@ -11,7 +11,6 @@ class Challenge {
     scoring,
     status,
     skillIds = [],
-    hasntInternetAllowed,
     timer,
     illustrationUrl,
     attachments,
@@ -31,7 +30,6 @@ class Challenge {
     this.scoring = scoring;
     this.status = status;
     this.skillIds = skillIds;
-    this.hasntInternetAllowed = hasntInternetAllowed;
     this.timer = timer;
     this.illustrationUrl = illustrationUrl;
     this.attachments = attachments;
@@ -42,11 +40,6 @@ class Challenge {
   }
 
   static fromAirTableObject(airtableEpreuveObject) {
-
-    let hasntInternetAllowed = false;
-    if (airtableEpreuveObject.get('Internet et outils')) {
-      hasntInternetAllowed = airtableEpreuveObject.get('Internet et outils').toUpperCase() === 'NON';
-    }
 
     let illustrationUrl;
     if (airtableEpreuveObject.get('Illustration de la consigne')) {
@@ -84,7 +77,6 @@ class Challenge {
       embedTitle: airtableEpreuveObject.get('Embed title'),
       embedHeight: airtableEpreuveObject.get('Embed height'),
       timer,
-      hasntInternetAllowed,
       illustrationUrl,
       attachments,
       competenceId

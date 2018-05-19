@@ -85,7 +85,6 @@ module.exports = {
           instruction: challengeDataObject.instruction,
           competence: challengeDataObject.competence,
           proposals: challengeDataObject.proposals,
-          hasntInternetAllowed: challengeDataObject.hasntInternetAllowed,
           timer: challengeDataObject.timer,
           illustrationUrl: challengeDataObject.illustrationUrl,
           attachments: challengeDataObject.attachments,

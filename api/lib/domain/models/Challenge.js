@@ -6,7 +6,6 @@ class Challenge {
     instruction,
     competence,
     proposals,
-    hasntInternetAllowed,
     timer,
     illustrationUrl,
     attachments,
@@ -22,7 +21,6 @@ class Challenge {
     this.instruction = instruction;
     this.competence = competence;
     this.proposals = proposals;
-    this.hasntInternetAllowed = hasntInternetAllowed;
     this.timer = timer;
     this.illustrationUrl = illustrationUrl;
     this.attachments = attachments;
