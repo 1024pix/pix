@@ -259,11 +259,11 @@ describe('Integration | Component | ChallengeStatement', function() {
   });
 
   /*
-   * Embed
+   * Embed simulator
    * ------------------------------------------------
    */
 
-  describe('Embed section:', function() {
+  describe('Embed simulator section:', function() {
 
     it('should be displayed when the challenge has a valid Embed object', function() {
       // given
