@@ -26,20 +26,20 @@ describe('Integration | Component | challenge statement embed panel', function()
       this.render(hbs`{{challenge-statement-embed-panel}}`);
 
       // then
-      const $launchSimulatorButton = this.$('.challenge-statement-embed-panel__aknowledgment-overlay .challenge-statement-embed-panel__lunch-simulator-button');
+      const $launchSimulatorButton = this.$('.challenge-statement-embed-panel__aknowledgment-overlay .challenge-statement-embed-panel__launch-simulator-button');
       expect($launchSimulatorButton).to.have.lengthOf(1);
     });
   });
 
   describe('Launch simulator button', () => {
 
-    it('should have text "Lancer le simulateur"', function() {
+    it('should have text "Je lance le simulateur"', function() {
       // when
       this.render(hbs`{{challenge-statement-embed-panel}}`);
 
       // then
-      const $launchSimulatorButton = this.$('.challenge-statement-embed-panel__aknowledgment-overlay .challenge-statement-embed-panel__lunch-simulator-button');
-      expect($launchSimulatorButton.text().trim()).to.equal('Lancer le simulateur');
+      const $launchSimulatorButton = this.$('.challenge-statement-embed-panel__aknowledgment-overlay .challenge-statement-embed-panel__launch-simulator-button');
+      expect($launchSimulatorButton.text().trim()).to.equal('Je lance le simulateur');
     });
 
     it('should close the aknowledgment overlay when clicked', async function() {
@@ -47,7 +47,7 @@ describe('Integration | Component | challenge statement embed panel', function()
       this.render(hbs`{{challenge-statement-embed-panel}}`);
 
       // when
-      run(() => document.querySelector('.challenge-statement-embed-panel__lunch-simulator-button').click());
+      run(() => document.querySelector('.challenge-statement-embed-panel__launch-simulator-button').click());
 
       // then
       expect(this.$('.challenge-statement-embed-panel__aknowledgment-overlay')).to.have.lengthOf(0);
@@ -76,6 +76,30 @@ describe('Integration | Component | challenge statement embed panel', function()
 
       // then
       sinon.assert.calledOnce(stubReloadSimulator);
+    });
+  });
+
+  describe('Blur effect on simulator panel', function() {
+
+    it('should be active when component is first rendered', function() {
+      // when
+      this.render(hbs`{{challenge-statement-embed-panel}}`);
+
+      // then
+      const $simulator = this.$('.challenge-statement-embed-panel__simulator')[0];
+      expect($simulator.classList.contains('blurred')).to.be.true;
+    });
+
+    it('should be removed when simulator was launched', function() {
+      // given
+      this.render(hbs`{{challenge-statement-embed-panel}}`);
+
+      // when
+      run(() => document.querySelector('.challenge-statement-embed-panel__launch-simulator-button').click());
+
+      // then
+      const $simulator = this.$('.challenge-statement-embed-panel__simulator')[0];
+      expect($simulator.classList.contains('blurred')).to.be.false;
     });
   });
 });
