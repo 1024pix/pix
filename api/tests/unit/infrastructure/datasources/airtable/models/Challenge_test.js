@@ -122,5 +122,5 @@ describe('Unit | Infrastructure | Datasource | Airtable | Model | Challenge', ()
       expect(challenge).to.be.an.instanceof(dataModels.Challenge);
       expect(challenge.competenceId).to.be.undefined;
     });
- });
+  });
 });
