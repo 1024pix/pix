@@ -27,7 +27,6 @@
   font-family: Lato, Arial, sans-serif;
   font-size: 15px;
   font-weight: bold;
-  line-height: 18px;
   text-align: center;
   text-transform: uppercase;
   height: 56px;
@@ -44,6 +43,20 @@
   width: 100%;
   height: 500px; /* default value if no one is defined by the challenges producers */
   border: none;
+}
 
+.challenge-statement-embed-panel__reload-button {
+  position: absolute;
+  bottom: 20px;
+  right: 20px;
+  background-color: $white;
+  box-shadow: 0 2px 6px 0 rgba(12,22,58,0.11), 0 1px 3px 0 rgba(0,0,0,0.08);
+  border-radius: 5px;
+  font-family: Lato, Arial, sans-serif;
+  font-size: 15px;
+  font-weight: bold;
+  text-align: center;
+  height: 46px;
+  padding: 0 36px;
 }
 
