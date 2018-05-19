@@ -34,15 +34,17 @@
 }
 
 .challenge-embed-simulator__simulator {
+  height: 100%;
+
   &.blurred {
     filter: blur(5px);
   }
 }
 .challenge-embed-simulator__iframe {
   position: relative;
-  width: 100%;
-  height: 500px; /* default value if no one is defined by the challenges producers */
   border: none;
+  width: 100%;
+  height: 100%;
 }
 
 .challenge-embed-simulator__reload-button {
