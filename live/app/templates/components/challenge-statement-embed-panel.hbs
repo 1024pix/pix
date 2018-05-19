@@ -1,6 +1,13 @@
-<iframe class="challenge-statement-embed-panel__iframe"
+{{#if _isSimulatorNotYetLaunched}}
+  <div class="challenge-statement-embed-panel__aknowledgment-overlay">
+    <button class="challenge-statement-embed-panel__lunch-simulator-button" {{action "launchSimulator"}}>Lancer le simulateur</button>
+  </div>
+{{/if}}
+
+<iframe class="challenge-statement-embed-panel__simulator"
         src="{{embedDocument.url}}"
         alt="{{embedDocument.title}}"
         height="{{embedDocument.height}}">
 </iframe>
-<button class="challenge-statement-embed-panel__reload-button" {{action "reloadIframe"}}>Recharger</button>
+
+<button class="challenge-statement-embed-panel__reload-button" {{action "reloadSimulator"}}>Recharger le simulateur</button>
