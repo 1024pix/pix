@@ -12,7 +12,7 @@ export default BaseRoute.extend(AuthenticatedRouteMixin, {
           return this.transitionTo('/mes-certifications');
         }
 
-        return certification;
+        return { certification };
       });
   },
 });
