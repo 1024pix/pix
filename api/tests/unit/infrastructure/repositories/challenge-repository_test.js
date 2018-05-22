@@ -332,9 +332,9 @@ describe('Unit | Repository | challenge-repository', () => {
       challengeDatasource.findBySkills.restore();
     });
 
-    it('should', () => {
+    it('should call challengeDatasource with list of skills name and return challenges', () => {
       // given
-      const skills = [new Skill('@element1'), new Skill('@element2')];
+      const skills = [new Skill({ name: '@element1' }), new Skill({ name: '@element2' })];
 
       // when
       const promise = challengeRepository.findBySkills(skills);

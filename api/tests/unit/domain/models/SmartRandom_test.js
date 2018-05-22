@@ -5,7 +5,7 @@ const Course = require('../../../../lib/domain/models/Course');
 const Assessment = require('../../../../lib/domain/models/Assessment');
 const Answer = require('../../../../lib/domain/models/Answer');
 const AnswerStatus = require('../../../../lib/domain/models/AnswerStatus');
-const SmartRandom = require('../../../../lib/domain/models/SmartRando');
+const SmartRandom = require('../../../../lib/domain/models/SmartRandom');
 
 describe('Unit | Domain | Models | SmartRandom', () => {
 
@@ -32,7 +32,6 @@ describe('Unit | Domain | Models | SmartRandom', () => {
     });
 
     context('when the first question is correctly answered', () => {
-
 
       it('should select in priority a challenge in the unexplored tubes with level below level 3', function() {
         // given
