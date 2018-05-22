@@ -61,9 +61,9 @@ describe('Unit | Domain | Models | SmartRandom', () => {
 
       it.skip('should nevertheless target any tubes when there is no easy tube', function() {
         // given
-        const challengeUrl4 = _buildValidatedChallenge('url4');
-        const challengeUrl6 = _buildValidatedChallenge('url6');
-        const challengeInfo2 = _buildValidatedChallenge('info2');
+        const challengeUrl4 = new Skill({ name: 'url4' });
+        const challengeUrl6 = new Skill({ name: 'url6' });
+        const challengeInfo2 = new Skill({ name: 'info2' });
 
         const challenges = [challengeUrl4, challengeUrl6, challengeInfo2];
 
@@ -229,11 +229,9 @@ describe('Unit | Domain | Models | SmartRandom', () => {
       const course = new Course(challenges);
       const answers = [];
       const assessment = new Assessment(course, answers);
-      const firstChallengeStub = sinon.stub(assessment, '_firstChallenge').get(() => firstChallenge);
 
       // then
       expect(assessment.nextChallenge).to.be.equal(firstChallenge);
-      firstChallengeStub.restore();
     });
 
     it.skip('should return an easier challenge if user skipped previous challenge', function() {
