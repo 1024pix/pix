@@ -9,10 +9,10 @@ export default BaseRoute.extend(AuthenticatedRouteMixin, {
       .then((certification) => {
 
         if (!certification.get('isPublished') || certification.get('status') !== 'validated') {
-          return this.transitionTo('/mes-certifications');
+          return this.replaceWith('/mes-certifications');
         }
 
-        return { certification };
+        return certification;
       });
   },
 });

@@ -41,6 +41,10 @@
           DÉTAIL
         </div>
       {{/if}}
+      {{#if shouldDisplayLinkToDetail}}
+        {{#link-to 'user-certifications.get' certification class='certifications-list-item__cell-detail-link'}}VOIR LES
+          RÉSULTATS{{/link-to}}
+      {{/if}}
     </div>
   {{/panel.toggle}}
 

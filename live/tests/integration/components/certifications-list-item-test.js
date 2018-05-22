@@ -166,5 +166,10 @@ describe('Integration | Component | certifications list item', function() {
       expect(this.$('.certifications-list-item__pix-score')).to.have.lengthOf(1);
       expect(this.$('.certifications-list-item__pix-score').text()).to.include('231');
     });
+
+    it('should show link to certification page in last column', function() {
+      expect(this.$('.certifications-list-item__cell-detail-link')).to.have.lengthOf(1);
+      expect(this.$('.certifications-list-item__cell-detail-link').text()).to.include('RÉSULTATS');
+    });
   });
 });

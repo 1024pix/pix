@@ -28,7 +28,7 @@ describe ('Unit | Route | user certifications/get', function() {
 
     // instance route object
     route = this.subject();
-    route.transitionTo = sinon.stub().resolves();
+    route.replaceWith = sinon.stub().resolves();
   });
 
   it('exists', function() {
@@ -72,7 +72,7 @@ describe ('Unit | Route | user certifications/get', function() {
 
       // then
       return promise.then(() => {
-        expect(route.transitionTo).to.not.have.been.called;
+        expect(route.replaceWith).to.not.have.been.called;
       });
     });
 
@@ -94,8 +94,8 @@ describe ('Unit | Route | user certifications/get', function() {
 
       // then
       return promise.then(() => {
-        sinon.assert.calledOnce(route.transitionTo);
-        sinon.assert.calledWith(route.transitionTo, '/mes-certifications');
+        sinon.assert.calledOnce(route.replaceWith);
+        sinon.assert.calledWith(route.replaceWith, '/mes-certifications');
       });
     });
 
@@ -117,8 +117,8 @@ describe ('Unit | Route | user certifications/get', function() {
 
       // then
       return promise.then(() => {
-        sinon.assert.calledOnce(route.transitionTo);
-        sinon.assert.calledWith(route.transitionTo, '/mes-certifications');
+        sinon.assert.calledOnce(route.replaceWith);
+        sinon.assert.calledWith(route.replaceWith, '/mes-certifications');
       });
     });
   });

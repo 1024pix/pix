@@ -141,6 +141,13 @@
     border: none;
     background: none;
   }
+
+  .certifications-list-item__cell-detail-link {
+    font-size: 13px;
+    color: $pix-blue;
+    border: none;
+    background: none;
+  }
 }
 
 @mixin arrow-button() {

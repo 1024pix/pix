@@ -14,4 +14,5 @@ export default Component.extend({
   isValidated: equal('certification.status', 'validated'),
   isNotValidated: not('isValidated'),
   shouldDisplayComment: and('isNotValidated', 'certification.{isPublished,commentForCandidate}'),
+  shouldDisplayLinkToDetail: and('isValidated', 'certification.isPublished'),
 });
