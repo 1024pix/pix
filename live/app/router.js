@@ -41,11 +41,14 @@ Router.map(function() {
   this.route('enrollment', { path: '/rejoindre' });
   this.route('challenge-preview', { path: '/challenges/:challenge_id/preview' });
   this.route('courses.create-assessment', { path: '/courses/:course_id' });
+
   this.route('assessments.challenge', { path: '/assessments/:assessment_id/challenges/:challenge_id' });
   this.route('assessments.resume', { path: '/assessments/:assessment_id' });
   this.route('assessments.results', { path: '/assessments/:assessment_id/results' });
   this.route('assessments.comparison', { path: '/assessments/:assessment_id/results/compare/:answer_id/:index' });
   this.route('assessments.rating', { path: '/assessments/:assessment_id/rating' });
+  this.route('assessments.checkpoint', { path: '/assessments/:assessment_id/checkpoint' });
+
   this.route('login', { path: '/connexion' });
   this.route('logout', { path: '/deconnexion' });
   this.route('board');
