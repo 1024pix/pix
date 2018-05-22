@@ -112,4 +112,13 @@ describe('Unit | Domain | Models | Skill', () => {
 
   });
 
+  describe('#tubeNameWithAt', () => {
+    it('should have a property fromListOfSkill', () => {
+      // when
+      const skill = new Skill({ name: '@web3' });
+
+      // then
+      expect(skill.tubeNameWithAt).to.equal('@web');
+    });
+  });
 });
