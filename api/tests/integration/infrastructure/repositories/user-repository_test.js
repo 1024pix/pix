@@ -146,7 +146,7 @@ describe('Integration | Infrastructure | Repository | UserRepository', () => {
       });
 
       // when
-      const promise = userRepository.save(user);
+      const promise = userRepository.create(user);
 
       // then
       return promise
@@ -168,7 +168,7 @@ describe('Integration | Infrastructure | Repository | UserRepository', () => {
       });
 
       // when
-      const promise = userRepository.save(user);
+      const promise = userRepository.create(user);
 
       // then
       return promise.then((userSaved) => {
@@ -194,7 +194,7 @@ describe('Integration | Infrastructure | Repository | UserRepository', () => {
         cgu: true,
       });
 
-      return userRepository.save(userToSave)
+      return userRepository.create(userToSave)
         .then((savedUser) => {
           user = savedUser;
         });

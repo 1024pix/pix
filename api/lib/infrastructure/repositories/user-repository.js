@@ -39,16 +39,11 @@ module.exports = {
       });
   },
 
-  save(domainUser) {
+  create(domainUser) {
     const userRawData = _.omit(domainUser, ['pixRoles']);
-
     return new BookshelfUser(userRawData)
       .save()
       .then(bookshelfUser => bookshelfUser.toDomainEntity());
-  },
-
-  validateData(userRawData) {
-    return new BookshelfUser(userRawData).validationErrors();
   },
 
   isEmailAvailable(email) {

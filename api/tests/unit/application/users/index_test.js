@@ -13,13 +13,6 @@ describe('Unit | Router | user-router', () => {
     server.register({ register: require('../../../../lib/application/users') });
   });
 
-  function expectRouteToExist(routeOptions, done) {
-    server.inject(routeOptions, (res) => {
-      expect(res.statusCode).to.equal(200);
-      done();
-    });
-  }
-
   describe('POST /api/users', () => {
 
     before(() => {
@@ -30,9 +23,32 @@ describe('Unit | Router | user-router', () => {
       UserController.save.restore();
     });
 
-    it('should exist', (done) => {
-      return expectRouteToExist({ method: 'POST', url: '/api/users' }, done);
+    it('should exist', () => {
+      // given
+      const options = {
+        method: 'POST',
+        url: '/api/users',
+        payload: {
+          data: {
+            attributes: {
+              'first-name': 'Edouard',
+              'last-name': 'Doux',
+              email: 'doux.doudou@example.net',
+              password: 'password_1234'
+            }
+          }
+        }
+      };
+
+      // when
+      const promise = server.inject(options);
+
+      // then
+      return promise.then((response) => {
+        expect(response.statusCode).to.equal(200);
+      });
     });
+
   });
 
   describe('GET /api/users/me', function() {
@@ -43,9 +59,17 @@ describe('Unit | Router | user-router', () => {
     after(() => {
       UserController.getAuthenticatedUserProfile.restore();
     });
+    it('should exist', () => {
+      // given
+      const options = { method: 'GET', url: '/api/users/me' };
 
-    it('should exist', (done) => {
-      return expectRouteToExist({ method: 'GET', url: '/api/users/me' }, done);
+      // when
+      const promise = server.inject(options);
+
+      // then
+      return promise.then((response) => {
+        expect(response.statusCode).to.equal(200);
+      });
     });
   });
 

@@ -24,8 +24,8 @@ describe('Unit | Domain | Errors', () => {
       // given
       const expectedErrorMessage = {
         data: {
-          id: ['Ce compte est introuvable.']
-        }
+          id: ['Ce compte est introuvable.'],
+        },
       };
 
       // then
@@ -44,8 +44,8 @@ describe('Unit | Domain | Errors', () => {
       // given
       const expectedErrorMessage = {
         data: {
-          error: ['Une erreur interne est survenue.']
-        }
+          error: ['Une erreur interne est survenue.'],
+        },
       };
 
       // then
@@ -64,8 +64,8 @@ describe('Unit | Domain | Errors', () => {
       // given
       const expectedErrorMessage = {
         data: {
-          temporaryKey: ['Cette demande de réinitialisation n’existe pas.']
-        }
+          temporaryKey: ['Cette demande de réinitialisation n’existe pas.'],
+        },
       };
 
       // then
@@ -84,8 +84,8 @@ describe('Unit | Domain | Errors', () => {
       // given
       const expectedErrorMessage = {
         data: {
-          temporaryKey: ['Cette demande de réinitialisation n’est pas valide.']
-        }
+          temporaryKey: ['Cette demande de réinitialisation n’est pas valide.'],
+        },
       };
 
       // then
@@ -104,8 +104,8 @@ describe('Unit | Domain | Errors', () => {
       // given
       const expectedErrorMessage = {
         data: {
-          authorization: ['Vous n’êtes pas autorisé à passer un test de certification.']
-        }
+          authorization: ['Vous n’êtes pas autorisé à passer un test de certification.'],
+        },
       };
 
       // then
@@ -124,8 +124,8 @@ describe('Unit | Domain | Errors', () => {
       // given
       const expectedErrorMessage = {
         data: {
-          error: ['L\'évaluation est terminée. Nous n\'avons plus de questions à vous poser.']
-        }
+          error: ['L\'évaluation est terminée. Nous n\'avons plus de questions à vous poser.'],
+        },
       };
 
       // then
@@ -135,4 +135,96 @@ describe('Unit | Domain | Errors', () => {
     });
   });
 
+  describe('EntityValidationError', () => {
+
+    context('#fromJoiErrors', () => {
+
+      it('should populate the invalidAttributes key', () => {
+        //given
+        const joiErrors = [
+          {
+            context: {
+              key: 'name',
+            },
+            message: 'name should not be empty',
+          },
+          {
+            context: {
+              key: 'email',
+            },
+            message: 'email is not a valid email address',
+          },
+        ];
+
+        // when
+        const error = errors.EntityValidationError.fromJoiErrors(joiErrors);
+
+        // then
+        expect(error.invalidAttributes).to.deep.equal([
+          {
+            attribute: 'name',
+            message: 'name should not be empty',
+          },
+          {
+            attribute: 'email',
+            message: 'email is not a valid email address',
+          },
+        ]);
+      });
+    });
+
+    context('#fromEntityValidationError', () => {
+
+      it('should populate the invalidAttributes key', () => {
+        //given
+        const error1 = new errors.EntityValidationError({
+          invalidAttributes: [
+            {
+              attribute: 'name',
+              message: 'name should not be empty',
+            },
+            {
+              attribute: 'email',
+              message: 'email is not a valid email address',
+            },
+          ],
+        });
+        const error2 = new errors.EntityValidationError({
+          invalidAttributes: [
+            {
+              attribute: 'card',
+              message: 'card should have money on it',
+            },
+            {
+              attribute: 'token',
+              message: 'token should be valid',
+            },
+          ],
+        });
+
+        // when
+        const error = errors.EntityValidationError.fromMultipleEntityValidationErrors([error1, error2]);
+
+        // then
+        expect(error.invalidAttributes).to.deep.equal([
+          {
+            attribute: 'name',
+            message: 'name should not be empty',
+          },
+          {
+            attribute: 'email',
+            message: 'email is not a valid email address',
+          },
+          {
+            attribute: 'card',
+            message: 'card should have money on it',
+          },
+          {
+            attribute: 'token',
+            message: 'token should be valid',
+          },
+        ]);
+      });
+    });
+  });
 });
