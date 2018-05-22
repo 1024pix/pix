@@ -1,0 +1,19 @@
+<img src="{{rootURL}}/images/icons/icon-certification.svg"
+     alt=""
+     class="user-certifications-detail-header__icon">
+
+<div class="user-certifications-detail-header__data-box">
+  <p class="user-certifications-detail-header__data-box-title">
+    <span class="user-certifications-detail-header__data-box-title-big">CERTIFICAT</span>
+    obtenu le {{moment-format certification.date 'LL' locale='fr'}}
+  </p>
+  {{#if certification.lastName}}
+    <p>{{certification.firstName}} {{certification.lastName}}</p>
+  {{/if}}
+  {{#if certification.birthdate}}
+    <p>Né le {{moment-format certification.birthdate 'LL' locale='fr'}}</p>
+  {{/if}}
+  {{#if certification.certificationCenter}}
+    <p>{{certification.certificationCenter}}</p>
+  {{/if}}
+</div>
