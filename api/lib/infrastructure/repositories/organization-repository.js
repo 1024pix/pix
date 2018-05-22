@@ -1,11 +1,14 @@
+const _ = require('lodash');
 const { NotFoundError } = require('../../domain/errors');
 const BookshelfOrganization = require('../data/organization');
 
 module.exports = {
 
-  // TODO return domain object
-  saveFromModel(organizationModel) {
-    return organizationModel.save();
+  create(domainOrganization) {
+    const organizationRawData = _.omit(domainOrganization, ['user']);
+    return new BookshelfOrganization(organizationRawData)
+      .save()
+      .then(bookshelfOrganization => bookshelfOrganization.toDomainEntity());
   },
 
   isCodeAvailable(code) {

@@ -1,62 +1,56 @@
-const userRepository = require('../../infrastructure/repositories/user-repository');
+const _ = require('lodash');
+const JSONAPIError = require('jsonapi-serializer').Error;
 
+const userRepository = require('../../infrastructure/repositories/user-repository');
 const organizationRepository = require('../../infrastructure/repositories/organization-repository');
 const competenceRepository = require('../../infrastructure/repositories/competence-repository');
 const snapshotRepository = require('../../infrastructure/repositories/snapshot-repository');
 const organizationSerializer = require('../../infrastructure/serializers/jsonapi/organization-serializer');
 const snapshotSerializer = require('../../infrastructure/serializers/jsonapi/snapshot-serializer');
 const organizationService = require('../../domain/services/organization-service');
+const encryptionService = require('../../domain/services/encryption-service');
 const bookshelfUtils = require('../../../lib/infrastructure/utils/bookshelf-utils');
 const validationErrorSerializer = require('../../infrastructure/serializers/jsonapi/validation-error-serializer');
 const snapshotsCsvConverter = require('../../infrastructure/converter/snapshots-csv-converter');
+const organizationCreationValidator = require('../../domain/validators/organization-creation-validator');
 
-const _ = require('lodash');
 const logger = require('../../infrastructure/logger');
-
 const User = require('../../domain/models/User');
-
-const { AlreadyRegisteredEmailError } = require('../../domain/errors');
+const Organization = require('../../domain/models/Organization');
 const exportCsvFileName = 'Pix - Export donnees partagees.csv';
+const { EntityValidationError } = require('../../domain/errors');
 
 module.exports = {
 
-  // TODO extract domain logic into service
+  // TODO extract domain logic into use case, like create user
   create: (request, reply) => {
 
-    const organization = organizationSerializer.deserialize(request.payload);
-    const user = _extractUserInformation(request, organization);
+    const user = _extractUser(request);
+    const organization = _extractOrganization(request);
 
-    const userValidationErrors = userRepository.validateData(user);
-    const organizationValidationErrors = organization.validationErrors();
-
-    if (userValidationErrors || organizationValidationErrors) {
-      const errors = _.merge(userValidationErrors, organizationValidationErrors);
-      return reply(validationErrorSerializer.serialize({ data: errors })).code(400);
-    }
-
-    return userRepository
-      .isEmailAvailable(user.email)
-      .then(() => {
-        return userRepository.save(user);
-      })
-      .then((user) => {
-        organization.set('userId', user.id);
-      })
+    return organizationCreationValidator.validate(user, organization, userRepository)
+      .then(() => encryptionService.hashPassword(user.password))
+      .then((encryptedPassword) => user.password = encryptedPassword)
+      .then(() => userRepository.create(user))
+      .then((user) => organization.userId = user.id)
       .then(_generateUniqueOrganizationCode)
-      .then((code) => {
-        organization.set('code', code);
-        return organizationRepository.saveFromModel(organization);
-      })
-      .then((savedOrganization) => {
-        reply(organizationSerializer.serialize(savedOrganization.toJSON()));
-      })
-      .catch((err) => {
-        if (err instanceof AlreadyRegisteredEmailError) {
-          return reply(validationErrorSerializer.serialize(_buildAlreadyExistingEmailError(user.email))).code(400);
+      .then((code) => organization.code = code)
+      .then(() => organizationRepository.create(organization))
+      .then((savedOrganization) => organizationSerializer.serialize(savedOrganization))
+      .then((serializedOrganization) => reply(serializedOrganization))
+      .catch((error) => {
+
+        if (error instanceof EntityValidationError) {
+          const serializedErrors = new JSONAPIError(error.invalidAttributes.map(_formatValidationError));
+          return reply(serializedErrors).code(422);
         }
 
-        logger.error(err);
-        reply().code(500);
+        logger.error(error);
+        return reply(new JSONAPIError({
+          status: '500',
+          title: 'Internal Server Error',
+          detail: 'Une erreur est survenue lors de la création de l’organisation'
+        })).code(500);
       });
   },
 
@@ -120,29 +114,28 @@ function _extractSnapshotsForOrganization(organizationId) {
     });
 }
 
-function _buildAlreadyExistingEmailError(email) {
-  return {
-    data: { email: [`L'adresse ${email} est déjà associée à un utilisateur.`] }
-  };
-}
-
-function _extractUserInformation(request, organization) {
+function _extractUser(request) {
   return new User({
     firstName: request.payload.data.attributes['first-name'] || '',
     lastName: request.payload.data.attributes['last-name'] || '',
-    email: organization.get('email') || '',
+    email: request.payload.data.attributes['email'] || '',
+    password: request.payload.data.attributes['password'] || '',
     cgu: true,
-    password: request.payload.data.attributes['password'] || ''
+  });
+}
+
+function _extractOrganization(request) {
+  return new Organization({
+    name: request.payload.data.attributes['name'] || '',
+    type: request.payload.data.attributes['type'] || '',
+    email: request.payload.data.attributes['email'] || '',
   });
 }
 
 function _generateUniqueOrganizationCode() {
   const code = organizationService.generateOrganizationCode();
-
   return organizationRepository.isCodeAvailable(code)
-    .then((code) => {
-      return code;
-    })
+    .then(() => code)
     .catch(_generateUniqueOrganizationCode);
 }
 
@@ -161,5 +154,17 @@ function _buildErrorMessage(errorMessage) {
     data: {
       authorization: [errorMessage]
     }
+  };
+}
+
+// TODO extract this into a common error formatter
+function _formatValidationError({ attribute, message }) {
+  return {
+    status: '422',
+    source: {
+      pointer: `/data/attributes/${ _.kebabCase(attribute) }`,
+    },
+    title: `Invalid user data attribute "${ attribute }"`,
+    detail: message
   };
 }

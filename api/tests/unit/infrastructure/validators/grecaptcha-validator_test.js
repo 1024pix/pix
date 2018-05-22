@@ -1,6 +1,6 @@
 const { expect, sinon } = require('../../../test-helper');
 const gRecaptcha = require('../../../../lib/infrastructure/validators/grecaptcha-validator');
-const { InvalidRecaptchaTokenError } = require('../../../../lib/infrastructure/validators/errors');
+const { InvalidRecaptchaTokenError } = require('../../../../lib/domain/errors');
 const request = require('request');
 const logger = require('../../../../lib/infrastructure/logger');
 const { googleReCaptcha } = require('../../../../lib/settings');

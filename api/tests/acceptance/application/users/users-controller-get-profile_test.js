@@ -1,10 +1,10 @@
-const { expect, sinon, generateValidRequestAuhorizationHeader } = require('../../test-helper');
+const { expect, sinon, generateValidRequestAuhorizationHeader } = require('../../../test-helper');
 const faker = require('faker');
-const server = require('../../../server');
-const userRepository = require('../../../lib/infrastructure/repositories/user-repository');
-const User = require('../../../lib/infrastructure/data/user');
-const Bookshelf = require('../../../lib/infrastructure/bookshelf');
-const profileService = require('../../../lib/domain/services/profile-service');
+const server = require('../../../../server');
+const userRepository = require('../../../../lib/infrastructure/repositories/user-repository');
+const User = require('../../../../lib/infrastructure/data/user');
+const Bookshelf = require('../../../../lib/infrastructure/bookshelf');
+const profileService = require('../../../../lib/domain/services/profile-service');
 
 const expectedResultUserNotFounded = {
   errors: [{

@@ -7,7 +7,6 @@ const User = require('../../../../lib/domain/models/User');
 
 const userController = require('../../../../lib/application/users/user-controller');
 const validationErrorSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/validation-error-serializer');
-const googleReCaptcha = require('../../../../lib/infrastructure/validators/grecaptcha-validator');
 const logger = require('../../../../lib/infrastructure/logger');
 
 const mailService = require('../../../../lib/domain/services/mail-service');
@@ -16,10 +15,10 @@ const passwordResetService = require('../../../../lib/domain/services/reset-pass
 const encryptionService = require('../../../../lib/domain/services/encryption-service');
 const userRepository = require('../../../../lib/infrastructure/repositories/user-repository');
 const userService = require('../../../../lib/domain/services/user-service');
+const reCaptchaValidator = require('../../../../lib/infrastructure/validators/grecaptcha-validator');
+const usecases = require('../../../../lib/domain/usecases');
 
-const { PasswordResetDemandNotFoundError, InternalError } = require('../../../../lib/domain/errors');
-const { InvalidRecaptchaTokenError } = require('../../../../lib/infrastructure/validators/errors');
-const { ValidationError: BookshelfValidationError } = require('bookshelf-validate/lib/errors');
+const { PasswordResetDemandNotFoundError, InternalError, EntityValidationError } = require('../../../../lib/domain/errors');
 
 describe('Unit | Controller | user-controller', () => {
 
@@ -32,6 +31,7 @@ describe('Unit | Controller | user-controller', () => {
 
     let sandbox;
     const email = 'to-be-free@ozone.airplane';
+    const deserializedUser = new User({ password: 'password_1234' });
     const savedUser = new User({ email });
 
     beforeEach(() => {
@@ -41,15 +41,17 @@ describe('Unit | Controller | user-controller', () => {
 
       codeStub = sinon.stub();
       replyStub = sinon.stub().returns({
-        code: codeStub
+        code: codeStub,
       });
 
       sandbox.stub(logger, 'error').returns({});
-      sandbox.stub(googleReCaptcha, 'verify').returns(Promise.resolve());
-      sandbox.stub(userSerializer, 'deserialize').returns(new User({}));
+      sandbox.stub(userSerializer, 'deserialize').returns(deserializedUser);
       sandbox.stub(userSerializer, 'serialize');
-      sandbox.stub(userRepository, 'save').resolves(savedUser);
+      sandbox.stub(userRepository, 'create').resolves(savedUser);
       sandbox.stub(validationErrorSerializer, 'serialize');
+      sandbox.stub(encryptionService, 'hashPassword');
+      sandbox.stub(mailService, 'sendAccountCreationEmail');
+      sandbox.stub(usecases, 'createUser');
     });
 
     afterEach(() => {
@@ -57,97 +59,53 @@ describe('Unit | Controller | user-controller', () => {
       sandbox.restore();
     });
 
-    describe('when the account is created', () => {
+    describe('when request is valid', () => {
 
-      let mailServiceMock;
+      const request = {
+        payload: {
+          data: {
+            attributes: {
+              'first-name': 'John',
+              'last-name': 'DoDoe',
+              'email': 'john.dodoe@example.net',
+              'password': 'A124B2C3#!',
+              'cgu': true,
+              'recaptcha-token': 'reCAPTCHAToken',
+            },
+          },
+        },
+      };
 
       beforeEach(() => {
-        mailServiceMock = sinon.mock(mailService);
+        usecases.createUser.resolves(savedUser);
       });
 
-      it('should call validator once', () => {
-        googleReCaptcha.verify.returns(Promise.reject([]));
-        const request = {
-          payload: {
-            data: {
-              attributes: {
-                recaptchaToken: 'a-random-token'
-              }
-            }
-          }
-        };
-
-        //when
-        const promise = userController.save(request, replyStub);
-
-        return promise.then(() => {
-          sinon.assert.calledOnce(googleReCaptcha.verify);
-        });
-
-      });
-
-      it('should call validator with good parameter', () => {
-        //Given
-        googleReCaptcha.verify.returns(Promise.reject([]));
-        const request = {
-          payload: {
-            data: {
-              attributes: {
-                'recaptcha-token': 'a-random-token'
-              }
-            }
-          }
-        };
-
-        // when
-        const promise = userController.save(request, replyStub);
-
-        // then
-        const expectedValue = 'a-random-token';
-        return promise.then(() => {
-          sinon.assert.calledWith(googleReCaptcha.verify, expectedValue);
-        });
-      });
-
-      it('should send an email', () => {
-        // given
-        const request = {
-          payload: {
-            data: {
-              attributes: {
-                firstName: '',
-                lastName: '',
-                email
-              }
-            }
-          }
-        };
-        mailServiceMock.expects('sendAccountCreationEmail').once().withArgs(email);
-
-        // when
-        const promise = userController.save(request, replyStub);
-
-        // then
-        return promise.then(() => {
-          mailServiceMock.verify();
-        });
-      });
-
-      it('should return a serialized user', () => {
+      it('should return a serialized user and a 201 status code', () => {
         // given
         const expectedSerializedUser = { message: 'serialized user' };
         userSerializer.serialize.returns(expectedSerializedUser);
-        const sendAccountCreationEmail = sinon.stub(mailService, 'sendAccountCreationEmail');
-        const request = {
-          payload: {
-            data: {
-              attributes: {
-                firstName: '',
-                lastName: '',
-                email
-              }
-            }
-          }
+
+        // when
+        const promise = userController.save(request, replyStub);
+
+        // then
+        return promise.then(() => {
+          expect(userSerializer.serialize).to.have.been.calledWith(savedUser);
+          expect(replyStub).to.have.been.calledWith(expectedSerializedUser);
+          expect(codeStub).to.have.been.calledWith(201);
+        });
+      });
+
+      it('should call the user creation usecase', () => {
+        // given
+        const reCaptchaToken = 'reCAPTCHAToken';
+        const useCaseParameters = {
+          user: deserializedUser,
+          reCaptchaToken,
+          userRepository,
+          reCaptchaValidator,
+          encryptionService,
+          mailService,
         };
 
         // when
@@ -155,207 +113,65 @@ describe('Unit | Controller | user-controller', () => {
 
         // then
         return promise.then(() => {
-          sinon.assert.calledWith(userSerializer.serialize, savedUser);
-          sinon.assert.calledWith(replyStub, expectedSerializedUser);
-
-          sendAccountCreationEmail.restore();
+          expect(usecases.createUser).to.have.been.calledWith(useCaseParameters);
         });
       });
     });
 
-    it('should reply with a serialized error', () => {
-      // given
-      userRepository.save.rejects(new BookshelfValidationError());
-
-      const expectedSerializedError = { errors: [] };
-      validationErrorSerializer.serialize.returns(expectedSerializedError);
+    describe('when request is invalid', () => {
 
       const request = {
         payload: {
           data: {
             attributes: {
               firstName: '',
-              lastName: ''
-            }
-          }
-        }
+              lastName: '',
+            },
+          },
+        },
       };
 
-      // when
-      const promise = userController.save(request, replyStub);
+      it('should reply with code 422 when a validation error occurs', () => {
+        // given
+        const expectedValidationError = new EntityValidationError({
+          invalidAttributes: [
+            {
+              attribute: 'firstName',
+              message: 'Votre prénom n’est pas renseigné.',
+            },
+            {
+              attribute: 'password',
+              message: 'Votre mot de passe n’est pas renseigné.',
+            },
+          ]
+        });
 
-      // then
-      return promise.then(() => {
-        sinon.assert.calledWith(replyStub, expectedSerializedError);
-        sinon.assert.calledOnce(validationErrorSerializer.serialize);
-        sinon.assert.calledWith(codeStub, 422);
-      });
-    });
-
-    describe('should return 422 Bad request', () => {
-
-      const request = {
-        payload: {
-          data: {
-            attributes: {
-              firstName: '',
-              lastName: ''
+        const jsonApiValidationErrors = {
+          errors: [
+            {
+              status: '422',
+              source: { 'pointer': '/data/attributes/first-name' },
+              title: 'Invalid user data attribute "firstName"',
+              detail: 'Votre prénom n’est pas renseigné.'
+            },
+            {
+              status: '422',
+              source: { 'pointer': '/data/attributes/password' },
+              title: 'Invalid user data attribute "password"',
+              detail: 'Votre mot de passe n’est pas renseigné.'
             }
-          }
-        }
-      };
-
-      describe('when from Sqlite3', () => {
-
-        it('should return an already registered email error message', () => {
-          // given
-          validationErrorSerializer.serialize.returns({ errors: [] });
-          const sqliteConstraint = { code: 'SQLITE_CONSTRAINT' };
-          userRepository.save.rejects(sqliteConstraint);
-
-          // when
-          const promise = userController.save(request, replyStub);
-
-          // then
-          return promise.then(() => {
-            sinon.assert.calledWith(validationErrorSerializer.serialize, {
-              data: {
-                email: ['Cette adresse electronique est déjà enregistrée.']
-              }
-            });
-          });
-        });
-
-      });
-
-      describe('when from Postgresql', () => {
-
-        it('should return an already registered email error message', () => {
-          // given
-          validationErrorSerializer.serialize.returns({ errors: [] });
-
-          const sqliteConstraint = { code: '23505' };
-          userRepository.save.rejects(sqliteConstraint);
-
-          // when
-          const promise = userController.save(request, replyStub);
-
-          // then
-          return promise.then(() => {
-            sinon.assert.calledWith(validationErrorSerializer.serialize, {
-              data: {
-                email: ['Cette adresse electronique est déjà enregistrée.']
-              }
-            });
-          });
-        });
-
-      });
-
-      it('when there is not payload', () => {
-        // given
-        const request = {};
-        boomBadRequestMock.expects('badRequest').exactly(1);
+          ]
+        };
+        usecases.createUser.rejects(expectedValidationError);
 
         // when
-        userController.save(request, replyStub);
+        const promise = userController.save(request, replyStub);
 
         // then
-        boomBadRequestMock.verify();
-      });
-
-      it('when there is an empty payload', () => {
-        // given
-        const request = {
-          payload: {}
-        };
-        boomBadRequestMock.expects('badRequest').exactly(1);
-
-        // when
-        userController.save(request, replyStub);
-
-        // then
-        boomBadRequestMock.verify();
-      });
-
-      it('when there is an payload with empty data', () => {
-        // given
-        const request = {
-          payload: {
-            data: {}
-          }
-        };
-        boomBadRequestMock.expects('badRequest').exactly(1);
-
-        // when
-        userController.save(request, replyStub);
-
-        // then
-        boomBadRequestMock.verify();
-      });
-
-      describe('Error cases according to recaptcha', function() {
-        const user = new User({
-          email: 'shi@fu.me'
+        return promise.then(() => {
+          sinon.assert.calledWith(codeStub, 422);
+          sinon.assert.calledWith(replyStub, jsonApiValidationErrors);
         });
-        const request = {
-          payload: {
-            data: {
-              attributes: {}
-            }
-          }
-        };
-
-        beforeEach(function() {
-          userSerializer.deserialize.returns(user);
-          googleReCaptcha.verify.rejects(new InvalidRecaptchaTokenError());
-        });
-
-        it('should return 422 Bad request, when captcha is not valid', () => {
-          // when
-          const promise = userController.save(request, replyStub);
-
-          // then
-          return promise.then(() => {
-            sinon.assert.calledWith(codeStub, 422);
-            expect(validationErrorSerializer.serialize).to.have.been.calledWith(
-              {
-                data: {
-                  cgu: ['Le champ CGU doit être renseigné.'],
-                  recaptchaToken: ['Merci de cocher la case ci-dessous :']
-                }
-              }
-            );
-          });
-        });
-
-        it('should return handle bookshelf model validation, when captcha is not valid', () => {
-          // given
-          const expectedMergedErrors = {
-            errors: [{
-              status: '400',
-              title: 'Invalid Attribute',
-              detail: 'Vous devez cliquer ci-dessous.',
-              source: { pointer: '/data/attributes/recaptcha-token' },
-              meta: { field: 'recaptchaToken' }
-            }, {
-              status: '400',
-              title: 'Invalid Attribute',
-              detail: 'Le champ CGU doit être renseigné.',
-              source: { pointer: '/data/attributes/cgu' },
-              meta: { field: 'cgu' }
-            }]
-          };
-
-          // when
-          const promise = userController.save(request, replyStub);
-
-          // then
-          return promise.catch(() => {
-            sinon.assert.calledWith(replyStub, expectedMergedErrors);
-          });
-        });
-
       });
     });
 
@@ -365,34 +181,27 @@ describe('Unit | Controller | user-controller', () => {
       const request = {
         payload: {
           data: {
-            attributes: {}
-          }
-        }
+            attributes: {},
+          },
+        },
       };
 
       beforeEach(() => {
         raisedError = new Error('Something wrong is going on in Gotham City');
-        userRepository.save.rejects(raisedError);
-      });
-
-      it('should format a badImplementation', () => {
-        // given
-        boomBadRequestMock.expects('badImplementation').exactly(1).withArgs(raisedError);
-
-        // when
-        const promise = userController.save(request, replyStub);
-
-        // then
-        return promise
-          .then(() => {
-            boomBadRequestMock.verify();
-          });
+        usecases.createUser.rejects(raisedError);
       });
 
       it('should reply with a badImplementation', () => {
         // given
-        const boomError = { message: 'BadImplementation' };
-        boomBadRequestMock.expects('badImplementation').returns(boomError);
+        const expectedError = {
+          errors: [
+            {
+              status: '500',
+              title: 'Internal Server Error',
+              detail: 'Une erreur est survenue lors de la création de l’utilisateur'
+            }
+          ]
+        };
 
         // when
         const promise = userController.save(request, replyStub);
@@ -400,7 +209,7 @@ describe('Unit | Controller | user-controller', () => {
         // then
         return promise
           .then(() => {
-            expect(replyStub).to.have.been.calledWith(boomError);
+            expect(replyStub).to.have.been.calledWith(expectedError);
           });
       });
 
@@ -437,19 +246,19 @@ describe('Unit | Controller | user-controller', () => {
       let reply;
       const request = {
         params: {
-          id: 7
+          id: 7,
         },
         payload: {
           data: {
             attributes: {
-              password: 'Pix2017!'
-            }
-          }
-        }
+              password: 'Pix2017!',
+            },
+          },
+        },
       };
       const user = new BookshelfUser({
         id: 7,
-        email: 'maryz@acme.xh'
+        email: 'maryz@acme.xh',
       });
       let codeStub;
 
@@ -464,7 +273,7 @@ describe('Unit | Controller | user-controller', () => {
         codeStub = sinon.stub();
         reply = sandbox.stub().returns({
           code: () => {
-          }
+          },
         });
       });
 
@@ -500,7 +309,7 @@ describe('Unit | Controller | user-controller', () => {
         });
       });
 
-      it('should update user password with a hashed password', async() => {
+      it('should update user password with a hashed password', async () => {
         // given
         passwordResetService.hasUserAPasswordResetDemandInProgress.resolves();
         const encryptedPassword = '$2a$05$jJnoQ/YCvAChJmYW9AoQXe/k17mx2l2MqJBgXVo/R/ju4HblB2iAe';
@@ -575,7 +384,7 @@ describe('Unit | Controller | user-controller', () => {
           // given
           const error = new InternalError();
           reply.returns({
-            code: codeStub
+            code: codeStub,
           });
           const serializedError = {};
           validationErrorSerializer.serialize.returns(serializedError);
