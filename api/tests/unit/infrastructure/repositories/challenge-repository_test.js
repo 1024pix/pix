@@ -346,5 +346,21 @@ describe('Unit | Repository | challenge-repository', () => {
         expect(challenges[0]).to.be.an.instanceOf(Challenge);
       });
     });
+
+    it('should return Challenge with skills', () => {
+      // given
+      const skills = [new Skill({ name: '@modèleEco3' })];
+
+      // when
+      const promise = challengeRepository.findBySkills(skills);
+
+      // then
+      return promise.then((challenges) => {
+        expect(challenges[0]).to.be.an.instanceOf(Challenge);
+        expect(challenges[0].skills).to.be.an('array').and.to.have.lengthOf(1);
+        expect(challenges[0].skills[0].name).to.be.equal('@modèleEco3');
+      });
+    });
+
   });
 });
