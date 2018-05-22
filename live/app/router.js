@@ -60,6 +60,8 @@ Router.map(function() {
     this.route('results', { path: '/:certification_number/results' });
   });
   this.route('user-certifications', { path: 'mes-certifications' });
+  this.route('campaigns.create-assessment', { path: '/campagnes/codecampagnepix' });
+
 });
 
 export default Router;

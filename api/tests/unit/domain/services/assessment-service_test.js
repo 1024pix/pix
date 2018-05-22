@@ -1131,7 +1131,7 @@ describe('Unit | Domain | Services | assessment', () => {
       expect(isPlacementAssessment).to.be.true;
     });
 
-    it('should return true when the assessment is not defined', () => {
+    it('should return false when the assessment is not defined', () => {
       // given
       const assessment = new Assessment({ type: '' });
 
@@ -1210,3 +1210,4 @@ describe('Unit | Domain | Services | assessment', () => {
   });
 
 });
+

@@ -7,6 +7,7 @@ describe('Unit | Serializer | JSONAPI | assessment-serializer', function() {
 
   let modelObject;
   let jsonAssessment;
+  let jsonAssessmentSmartPlacement;
 
   beforeEach(() => {
     const associatedCourse = {
@@ -54,6 +55,21 @@ describe('Unit | Serializer | JSONAPI | assessment-serializer', function() {
         }
       }]
     };
+
+    jsonAssessmentSmartPlacement = {
+      data: {
+        type: 'assessment',
+        id: 'assessment_id',
+        attributes: {
+          'estimated-level': undefined,
+          'pix-score': undefined,
+          'success-rate': 24,
+          'type': 'SMART_PLACEMENT',
+          'certification-number': null
+        }
+      }
+    };
+
   });
 
   describe('#serialize()', function() {
@@ -80,17 +96,30 @@ describe('Unit | Serializer | JSONAPI | assessment-serializer', function() {
       expect(assessment.courseId).to.equal(jsonAssessment.data.relationships.course.data.id);
     });
 
+    context('when the assessment is a SMART_PLACEMENT assessment', () => {
+      it('should convert JSON API data into an Assessment object with courseId null', () => {
+        // when
+        const assessment = serializer.deserialize(jsonAssessmentSmartPlacement);
+
+        // then
+        expect(assessment).to.be.instanceOf(Assessment);
+        expect(assessment.id).to.equal(jsonAssessment.data.id);
+        expect(assessment.type).to.equal('SMART_PLACEMENT');
+        expect(assessment.courseId).to.equal(null);
+      });
+    });
+
     describe('field "type"', () => {
 
       it('should set "type" attribute value when it is present', () => {
         // given
-        jsonAssessment.data.attributes.type = 'URITROTTOIR';
+        jsonAssessment.data.attributes.type = 'PLACEMENT';
 
         // when
         const assessment = serializer.deserialize(jsonAssessment);
 
         // then
-        expect(assessment.type).to.equal('URITROTTOIR'); //
+        expect(assessment.type).to.equal('PLACEMENT');
       });
     });
   });

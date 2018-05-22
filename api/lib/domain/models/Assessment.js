@@ -7,6 +7,14 @@ const states = {
   STARTED: 'started'
 };
 
+const type = {
+  PLACEMENT: 'PLACEMENT',
+  SMARTPLACEMENT: 'SMART_PLACEMENT',
+  CERTIFICATION: 'CERTIFICATION',
+  DEMO: 'DEMO',
+  PREVIEW: 'PREVIEW',
+};
+
 class Assessment {
 
 /*
@@ -61,6 +69,11 @@ class Assessment {
     }
     return Promise.resolve();
   }
+
+  isSmartPlacementAssessment() {
+    return this.type === type.SMARTPLACEMENT;
+  }
+
 }
 
 Assessment.states = states;
