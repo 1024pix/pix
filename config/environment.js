@@ -42,6 +42,10 @@ module.exports = function(environment) {
     'ember-cli-notifications': {
       autoClear: true,
       includeFontAwesome: true,
+    },
+
+    authentication: {
+      cookieDomain: 'pix.fr'
     }
 
   };
@@ -52,6 +56,7 @@ module.exports = function(environment) {
     // ENV.APP.LOG_TRANSITIONS = true;
     // ENV.APP.LOG_TRANSITIONS_INTERNAL = true;
     // ENV.APP.LOG_VIEW_LOOKUPS = true;
+    ENV.authentication.cookieDomain = 'localhost';
   }
 
   if (environment === 'test') {
