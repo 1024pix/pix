@@ -54,6 +54,10 @@ module.exports = {
       });
   },
 
+  findBySkills() {
+    return Promise.resolve();
+  },
+
   get(id) {
     return new Promise((resolve, reject) => {
       const cacheKey = `challenge-repository_get_${id}`;

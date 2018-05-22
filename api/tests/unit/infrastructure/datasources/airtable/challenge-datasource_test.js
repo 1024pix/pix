@@ -10,6 +10,7 @@ describe('Unit | Infrastructure | Datasource | Airtable | ChallengeDatasource', 
 
   beforeEach(() => {
     sandbox = sinon.sandbox.create();
+    sandbox.stub(airtable, 'findRecords').resolves([challengeRawAirTableFixture(), challengeRawAirTableFixture()]);
   });
 
   afterEach(() => {
@@ -34,5 +35,40 @@ describe('Unit | Infrastructure | Datasource | Airtable | ChallengeDatasource', 
         expect(challenge.type).to.equal('QCM');
       });
     });
+  });
+
+  describe('#findBySkills', () => {
+
+    it('should query Airtable challenges with skills', () => {
+      // given
+      const skills = ['@web1', '@web2'];
+
+      // when
+      const promise = challengeDatasource.findBySkills(skills);
+
+      // then
+      return promise.then(() => {
+        expect(airtable.findRecords).to.have.been.calledWith('Epreuves', {
+          filterByFormula: 'OR({acquis} = "@web1", {acquis} = "@web2")'
+        });
+      });
+
+    });
+
+    it('should', () => {
+      // given
+      const skills = ['@web1', '@web2'];
+
+      // when
+      const promise = challengeDatasource.findBySkills(skills);
+
+      // then
+      return promise.then((result) => {
+        expect(result).to.be.an('array').and.to.have.lengthOf(2);
+        expect(result[0]).to.be.an.instanceOf(airTableDataModels.Challenge);
+      });
+
+    });
+
   });
 });
