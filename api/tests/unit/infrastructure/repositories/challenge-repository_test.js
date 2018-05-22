@@ -3,6 +3,10 @@ const airtable = require('../../../../lib/infrastructure/airtable');
 const cache = require('../../../../lib/infrastructure/cache');
 const challengeRepository = require('../../../../lib/infrastructure/repositories/challenge-repository');
 const challengeSerializer = require('../../../../lib/infrastructure/serializers/airtable/challenge-serializer');
+const challengeDatasource = require('../../../../lib/infrastructure/datasources/airtable/challenge-datasource');
+const ChallengeAirtableDataObjectFixture = require('../../../../tests/fixtures/infrastructure/ChallengeAirtableDataObjectFixture');
+const Challenge = require('../../../../lib/domain/models/Challenge');
+const Skill = require('../../../../lib/domain/models/Skill');
 
 function _buildChallenge(id, instruction, proposals) {
   return { id, instruction, proposals };
@@ -314,6 +318,32 @@ describe('Unit | Repository | challenge-repository', () => {
         cache.get(cacheKey, (err, cachedValue) => {
           expect(cachedValue).to.deep.equal(newCourse);
         });
+      });
+    });
+  });
+
+  describe('#findBySkills', () => {
+
+    beforeEach(() => {
+      sinon.stub(challengeDatasource, 'findBySkills').resolves([ChallengeAirtableDataObjectFixture(), ChallengeAirtableDataObjectFixture()]);
+    });
+
+    afterEach(() => {
+      challengeDatasource.findBySkills.restore();
+    });
+
+    it('should', () => {
+      // given
+      const skills = [new Skill('@element1'), new Skill('@element2')];
+
+      // when
+      const promise = challengeRepository.findBySkills(skills);
+
+      // then
+      return promise.then((challenges) => {
+        expect(challengeDatasource.findBySkills).to.have.been.calledWith(['@element1', '@element2']);
+        expect(challenges).to.be.an('array').and.to.have.lengthOf(2);
+        expect(challenges[0]).to.be.an.instanceOf(Challenge);
       });
     });
   });

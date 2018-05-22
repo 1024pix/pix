@@ -7,6 +7,20 @@ module.exports = {
   get(id) {
     return airtable.newGetRecord(AIRTABLE_TABLE_NAME, id)
       .then(airtableRawObject => airTableDataObjects.Challenge.fromAirTableObject(airtableRawObject));
+  },
+
+  findBySkills(listOfSkillNames) {
+
+    const listOfFilters = [];
+    listOfSkillNames.forEach((skillName) => {
+      listOfFilters.push(`{acquis} = "${skillName}"`);
+    });
+
+    const query = { filterByFormula: `OR(${listOfFilters.join(', ')})` };
+
+    return airtable.findRecords(AIRTABLE_TABLE_NAME, query)
+      .then((airtableRawObject) => airtableRawObject.map((airTableChallenge) => airTableDataObjects.Challenge.fromAirTableObject(airTableChallenge)));
   }
+
 };
 
