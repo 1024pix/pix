@@ -1,7 +1,10 @@
+const _ = require('lodash');
 const cache = require('../cache');
 const airtable = require('../airtable');
 const serializer = require('../serializers/airtable/challenge-serializer');
 const challengeDatasource = require('../datasources/airtable/challenge-datasource');
+const Challenge = require('../../domain/models/Challenge');
+const Skill = require('../../domain/models/Skill');
 
 const AIRTABLE_TABLE_NAME = 'Epreuves';
 
@@ -61,7 +64,18 @@ module.exports = {
     });
     return challengeDatasource.findBySkills(skills)
       .then((fetchedChallenges) => {
-        return fetchedChallenges.map((challenge) => serializer.deserialize(challenge));
+        return fetchedChallenges.map((challenge) => {
+          return new Challenge({
+            id: challenge.id,
+            instruction: challenge.instruction,
+            status: challenge.status,
+            proposals: challenge.proposals,
+            timer: challenge.timer,
+            skills: challenge.skills.map((acquis) => {
+              return new Skill({ name: acquis });
+            })
+          });
+        });
       });
   },
 
