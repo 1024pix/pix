@@ -176,6 +176,7 @@ describe('Unit | Domain | Models | Assessment', () => {
 
     });
   });
+
   describe('#validate', () => {
     let assessment;
 
@@ -223,5 +224,40 @@ describe('Unit | Domain | Models | Assessment', () => {
       return expect(promise).to.be.rejected;
     });
 
+  });
+
+  describe('#isSmartPlacementAssessment', () => {
+    it('should return true when the assessment is a SMART_PLACEMENT', () => {
+      // given
+      const assessment = new Assessment({ type: 'SMART_PLACEMENT' });
+
+      // when
+      const isSmartPlacementAssessment = assessment.isSmartPlacementAssessment();
+
+      // then
+      expect(isSmartPlacementAssessment).to.be.true;
+    });
+
+    it('should return false when the assessment is not a SMART_PLACEMENT', () => {
+      // given
+      const assessment = new Assessment({ type: 'PLACEMENT' });
+
+      // when
+      const isSmartPlacementAssessment = assessment.isSmartPlacementAssessment();
+
+      // then
+      expect(isSmartPlacementAssessment).to.be.false;
+    });
+
+    it('should return false when the assessment has no type', () => {
+      // given
+      const assessment = new Assessment({});
+
+      // when
+      const isSmartPlacementAssessment = assessment.isSmartPlacementAssessment();
+
+      // then
+      expect(isSmartPlacementAssessment).to.be.false;
+    });
   });
 });

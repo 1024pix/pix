@@ -4,6 +4,7 @@ const getNextChallengeForPreview = require('./get-next-challenge-for-preview');
 const getNextChallengeForCertification = require('./get-next-challenge-for-certification');
 const getNextChallengeForDemo = require('./get-next-challenge-for-demo');
 const getNextChallengeForPlacement = require('./get-next-challenge-for-placement');
+const getNextChallengeForSmartPlacement = require('./get-next-challenge-for-smart-placement');
 const findCompletedUserCertifications = require('./find-completed-user-certifications');
 
 module.exports = {
@@ -13,5 +14,6 @@ module.exports = {
   getNextChallengeForPreview,
   getNextChallengeForCertification,
   getNextChallengeForDemo,
-  getNextChallengeForPlacement
+  getNextChallengeForPlacement,
+  getNextChallengeForSmartPlacement
 };

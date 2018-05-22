@@ -86,13 +86,18 @@ class AssessmentSerializer extends JSONAPISerializer {
   }
 
   deserialize(json) {
+    let courseId;
+    if (json.data.attributes.type === 'SMART_PLACEMENT') {
+      courseId = null;
+    } else {
+      courseId = json.data.relationships.course.data.id;
+    }
     return new Assessment({
       id: json.data.id,
-      type : json.data.attributes.type,
-      courseId: json.data.relationships.course.data.id
+      type: json.data.attributes.type,
+      courseId
     });
   }
-
 }
 
 module.exports = new AssessmentSerializer();

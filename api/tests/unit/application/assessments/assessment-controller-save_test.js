@@ -29,6 +29,39 @@ describe('Unit | Controller | assessment-controller-save', () => {
       sandbox.restore();
     });
 
+    context('when the assessment saved is a smart placement', () => {
+
+      const request = {
+        headers: {
+          authorization: 'Bearer my-token'
+        },
+        payload: {
+          data: {
+            id: 42,
+            attributes: {
+              'type' : 'SMART_PLACEMENT'
+            }
+          }
+        }
+      };
+
+      beforeEach(() => {
+        sandbox.stub(assessmentRepository, 'save').resolves();
+      });
+
+      it('should save an assessment with the type SMART_PLACEMENT and the courseId of 1.1', function() {
+        // given
+        const expected = new Assessment({ id: 42, courseId: 'recNPB7dTNt5krlMA', type: 'SMART_PLACEMENT', state: 'started', userId: null });
+
+        // when
+        controller.save(request, replyStub);
+
+        // then
+        sinon.assert.calledOnce(assessmentRepository.save);
+        return expect(assessmentRepository.save).to.have.been.calledWith(expected);
+      });
+    });
+
     context('when the assessment saved is a certification test', () => {
 
       const request = {
@@ -163,8 +196,8 @@ describe('Unit | Controller | assessment-controller-save', () => {
         }
       };
 
-      const deserializedAssessment = { id: 42, courseId: 'recCourseId' };
-      const assessment = { id: 42, courseId: 'recCourseId', userId: 'userId', state: 'started' };
+      const deserializedAssessment = new Assessment({ id: 42, courseId: 'recCourseId', type: 'PLACEMENT' });
+      const assessment = { id: 42, courseId: 'recCourseId', userId: 'userId', state: 'started',  type: 'PLACEMENT' };
       const serializedAssessment = {
         id: 42,
         attributes: {

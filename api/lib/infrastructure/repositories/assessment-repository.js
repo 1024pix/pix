@@ -2,13 +2,15 @@ const BookshelfAssessment = require('../data/assessment');
 const Assessment = require('../../domain/models/Assessment');
 const { groupBy, map, head, _ } = require('lodash');
 
+const LIST_NOT_PLACEMENT = ['CERTIFICATION', 'DEMO', 'SMART_PLACEMENT', 'PREVIEW'];
+
 function _selectLastAssessmentForEachCourse(assessments) {
   const assessmentsGroupedByCourse = groupBy(assessments.models, (assessment) => assessment.get('courseId'));
   return map(assessmentsGroupedByCourse, head);
 }
 
 function _toDomain(bookshelfAssessment) {
-  if(bookshelfAssessment !== null) {
+  if (bookshelfAssessment !== null) {
     const modelObjectInJSON = bookshelfAssessment.toJSON();
     return new Assessment(modelObjectInJSON);
   }
@@ -25,7 +27,13 @@ module.exports = {
   get(id) {
     return BookshelfAssessment
       .where('id', id)
-      .fetch({ withRelated: [{ answers: function(query) { query.orderBy('createdAt', 'ASC'); } }, 'assessmentResults'] })
+      .fetch({
+        withRelated: [{
+          answers: function(query) {
+            query.orderBy('createdAt', 'ASC');
+          }
+        }, 'assessmentResults']
+      })
       .then(_toDomain);
   },
 
@@ -33,11 +41,10 @@ module.exports = {
     return BookshelfAssessment
       .query(qb => {
         qb.where({ userId });
-        qb.whereNot('courseId', 'LIKE', 'null%');
-        qb.where('state','=','completed');
+        qb.where('state', '=', 'completed');
         qb.andWhere(function() {
           this.where({ type: null })
-            .orWhereNot({ type: 'CERTIFICATION' });
+            .orWhereNotIn('type', LIST_NOT_PLACEMENT);
         });
       })
       .fetchAll({ withRelated: ['assessmentResults'] })
@@ -54,9 +61,8 @@ module.exports = {
           .where({ userId })
           .andWhere(function() {
             this.where({ type: null })
-              .orWhereNot({ type: 'CERTIFICATION' });
+              .orWhereNotIn('type', LIST_NOT_PLACEMENT);
           })
-          .whereNot('courseId', 'LIKE', 'null%')
           .orderBy('createdAt', 'desc');
       })
       .fetch({ withRelated: ['assessmentResults'] })
@@ -70,10 +76,10 @@ module.exports = {
       .query(qb => {
         qb.where({ userId })
           .where('createdAt', '<', limitDate)
-          .where('state','=','completed')
+          .where('state', '=', 'completed')
           .andWhere(function() {
             this.where({ type: null })
-              .orWhereNot({ type: 'CERTIFICATION' });
+              .orWhereNotIn('type', LIST_NOT_PLACEMENT);
           })
           .orderBy('createdAt', 'desc');
       })
