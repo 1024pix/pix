@@ -13,7 +13,7 @@ module.exports = {
 
     const listOfFilters = [];
     listOfSkillNames.forEach((skillName) => {
-      listOfFilters.push(`{acquis} = "${skillName}"`);
+      listOfFilters.push(`FIND("${skillName}", {acquis})`);
     });
 
     const query = { filterByFormula: `OR(${listOfFilters.join(', ')})` };

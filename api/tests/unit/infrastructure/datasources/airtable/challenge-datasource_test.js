@@ -49,13 +49,13 @@ describe('Unit | Infrastructure | Datasource | Airtable | ChallengeDatasource', 
       // then
       return promise.then(() => {
         expect(airtable.findRecords).to.have.been.calledWith('Epreuves', {
-          filterByFormula: 'OR({acquis} = "@web1", {acquis} = "@web2")'
+          filterByFormula: 'OR(FIND("@web1", {acquis}), FIND("@web2", {acquis}))'
         });
       });
 
     });
 
-    it('should', () => {
+    it('should resolve an array of Challenge from airTable', () => {
       // given
       const skills = ['@web1', '@web2'];
 
