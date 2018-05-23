@@ -33,7 +33,9 @@ module.exports = function(environment) {
       isMessageStatusTogglingEnabled: true,
       LOAD_EXTERNAL_SCRIPT: true,
       GOOGLE_RECAPTCHA_KEY: '6LdPdiIUAAAAADhuSc8524XPDWVynfmcmHjaoSRO',
-      SCROLL_DURATION: 800
+      SCROLL_DURATION: 800,
+
+      NUMBER_OF_CHALLENGE_BETWEEN_TWO_CHECKPOINTS_IN_SMART_PLACEMENT: 5
     },
 
     googleFonts: [

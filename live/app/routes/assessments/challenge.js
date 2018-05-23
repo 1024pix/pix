@@ -1,6 +1,7 @@
 import { inject as service } from '@ember/service';
 import RSVP from 'rsvp';
 import BaseRoute from 'pix-live/routes/base-route';
+import ENV from 'pix-live/config/environment';
 
 export default BaseRoute.extend({
 
@@ -54,7 +55,9 @@ export default BaseRoute.extend({
   _navigateToNextView(challenge, assessment) {
     return this.get('store')
       .queryRecord('challenge', { assessmentId: assessment.get('id'), challengeId: challenge.get('id') })
-      .then((nextChallenge) => this.transitionTo('assessments.challenge', { assessment, challenge: nextChallenge }))
+      .then((nextChallenge) => {
+        this.transitionTo('assessments.challenge', { assessment, challenge: nextChallenge });
+      })
       .catch(() => {
         this.transitionTo('assessments.rating', assessment.get('id'));
       });
@@ -72,7 +75,9 @@ export default BaseRoute.extend({
 
       return answer.save()
         .then(() => {
-          if(assessment.get('hasCheckpoints') && assessment.get('answers.length') % 5  === 0) {
+          if(
+            assessment.get('hasCheckpoints')
+            && assessment.get('answers.length') % ENV.APP.NUMBER_OF_CHALLENGE_BETWEEN_TWO_CHECKPOINTS_IN_SMART_PLACEMENT  === 0) {
             this.transitionTo('assessments.checkpoint', assessment.get('id'));
           } else {
             return this._navigateToNextView(challenge, assessment);
