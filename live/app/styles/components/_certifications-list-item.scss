@@ -17,11 +17,19 @@
   }
 }
 
-.certifications-list-item__has-comment:hover {
-  background-color: $porcelain-grey;
+.certifications-list-item__clickable {
+  a {
+    color: inherit;
+    text-decoration: none;
+  }
 }
 
-.certifications-list-item__no-comment a {
+.certifications-list-item__clickable:hover {
+  background-color: $porcelain-grey;
+  color: inherit;
+}
+
+.certifications-list-item__not-clickable a {
   cursor: default;
 }
 
