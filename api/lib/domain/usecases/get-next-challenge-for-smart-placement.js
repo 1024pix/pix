@@ -31,7 +31,7 @@ module.exports = function({
     .then(() => getNextChallengeInSmartRandom(answers, challenges, targetedSkills.skills))
     .then((nextChallenge) => {
       if (nextChallenge) {
-        return nextChallenge;x
+        return nextChallenge;
       }
       throw new AssessmentEndedError();
     })

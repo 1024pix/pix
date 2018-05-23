@@ -1,4 +1,3 @@
-const _ = require('lodash');
 const cache = require('../cache');
 const airtable = require('../airtable');
 const serializer = require('../serializers/airtable/challenge-serializer');
