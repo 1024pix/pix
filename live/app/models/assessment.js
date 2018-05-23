@@ -18,6 +18,15 @@ export default Model.extend({
   isCertification: equal('type', 'CERTIFICATION'),
 
   hasCheckpoints: equal('type', 'SMART_PLACEMENT'),
+  answersSinceLastCheckpoints: computed('answers.[]', function() {
+
+    const NUMBER_OF_CHALLENGES_IN_A_ROW = 5;
+
+    const howManyAnswersSinceTheLastCheckpoint = this.get('answers.length') % NUMBER_OF_CHALLENGES_IN_A_ROW;
+    const sliceAnsersFrom = (howManyAnswersSinceTheLastCheckpoint === 0) ? -NUMBER_OF_CHALLENGES_IN_A_ROW: -howManyAnswersSinceTheLastCheckpoint;
+
+    return this.get('answers').slice(sliceAnsersFrom);
+  }),
 
   result: belongsTo('assessment-result'),
 
