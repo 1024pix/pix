@@ -17,6 +17,48 @@ describe('Unit | Domain | Models | SmartRandom', () => {
     return new Answer({ challengeId, result });
   }
 
+  describe('#constructor', () => {
+    it('should create a course with tubes', () => {
+      // given
+      const web1 = _newSkill('web1');
+      const web2 = _newSkill('web2');
+      const web3 = _newSkill('web3');
+      const challenge1 = _newChallenge('recWeb1', [web1]);
+      const challenge2 = _newChallenge('recWeb2', [web2]);
+      const challenge3 = _newChallenge('recWeb3', [web3]);
+
+      const challenges = [challenge1, challenge2, challenge3];
+      const skills = [web1, web2, web3];
+      const expectedTubes = {
+        'web': [web1, web2, web3]
+      };
+      // when
+      const smartRandom = new SmartRandom([], challenges, skills);
+
+      // then
+      expect(smartRandom.course.tubes).to.be.deep.equal(expectedTubes);
+    });
+
+    it('should create a course with tubes contains only skills with challenges', () => {
+      // given
+      const web1 = _newSkill('web1');
+      const web2 = _newSkill('web2');
+      const web3 = _newSkill('web3');
+      const challenge1 = _newChallenge('recWeb1', [web1]);
+      const challenge2 = _newChallenge('recWeb2', [web2]);
+
+      const challenges = [challenge1, challenge2];
+      const skills = [web1, web2, web3];
+      const expectedTubes = {
+        'web': [web1, web2]
+      };
+      // when
+      const smartRandom = new SmartRandom([], challenges, skills);
+
+      // then
+      expect(smartRandom.course.tubes).to.be.deep.equal(expectedTubes);
+    });
+  });
   describe('#nextChallenge', function() {
 
     it('should return a challenge that requires web2 if web1-2-3 is the tube and no answer has been given so far', function() {

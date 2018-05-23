@@ -2,10 +2,19 @@ const Assessment = require('./Assessment');
 const Course = require('./Course');
 const _ = require('lodash');
 
-const MAX_NUMBER_OF_CHALLENGES = 5;
+const MAX_NUMBER_OF_CHALLENGES = 20;
 const LEVEL_FOR_FIRST_CHALLENGE = 2;
 const LEVEL_MAX_TO_BE_AN_EASY_TUBE = 3;
 
+function _filterSkillsByChallenges(skills, challenges) {
+  const skillsWithChallenges = skills.filter(skill => {
+    return challenges.find(challenge => {
+      return challenge.skills.find(challengeSkill => skill.name === challengeSkill.name);
+    });
+  });
+
+  return skillsWithChallenges;
+}
 class SmartRandom {
 
   constructor(answers, challenges, skills) {
@@ -13,8 +22,9 @@ class SmartRandom {
     this.skills = skills;
 
     this.course = new Course();
-    this.course.competenceSkills = skills;
-    this.course.computeTubes(skills);
+    const listSkillsWithChallenges = _filterSkillsByChallenges(skills, challenges);
+    this.course.competenceSkills = listSkillsWithChallenges;
+    this.course.computeTubes(listSkillsWithChallenges);
 
     this.assessment = new Assessment();
     this.assessment.addAnswersWithTheirChallenge(answers, challenges);
