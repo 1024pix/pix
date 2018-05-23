@@ -4,9 +4,9 @@ const Skill = require('../models/Skill');
 const SmartRandom = require('../models/SmartRandom');
 const _ = require('lodash');
 const listSkills = ['@accesDonnées2',
-  '@collecteDonnée2',
+  '@collecteDonnées2',
   '@infosPerso4',
-  '@traceslocales3',
+  '@tracesLocales3',
   '@tracesPratiques6',
   '@archive4',
   '@fichier1',
