@@ -3,7 +3,7 @@ const certificationService = require('../../../../lib/domain/services/certificat
 const Answer = require('../../../../lib/domain/models/Answer');
 const CertificationChallenge = require('../../../../lib/domain/models/CertificationChallenge');
 
-const AirtableCompetence = require('../../../../lib/domain/models/referential/competence');
+const AirtableCompetence = require('../../../../lib/domain/models/Competence');
 const Competence = require('../../../../lib/domain/models/Competence');
 const Assessment = require('../../../../lib/domain/models/Assessment');
 const AssessmentResult = require('../../../../lib/domain/models/AssessmentResult');
