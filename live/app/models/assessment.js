@@ -1,6 +1,7 @@
 import { alias, equal } from '@ember/object/computed';
 import { computed } from '@ember/object';
 import DS from 'ember-data';
+import ENV from 'pix-live/config/environment';
 
 const { attr, Model, belongsTo, hasMany } = DS;
 
@@ -20,10 +21,10 @@ export default Model.extend({
   hasCheckpoints: equal('type', 'SMART_PLACEMENT'),
   answersSinceLastCheckpoints: computed('answers.[]', function() {
 
-    const NUMBER_OF_CHALLENGES_IN_A_ROW = 5;
-
-    const howManyAnswersSinceTheLastCheckpoint = this.get('answers.length') % NUMBER_OF_CHALLENGES_IN_A_ROW;
-    const sliceAnsersFrom = (howManyAnswersSinceTheLastCheckpoint === 0) ? -NUMBER_OF_CHALLENGES_IN_A_ROW: -howManyAnswersSinceTheLastCheckpoint;
+    const howManyAnswersSinceTheLastCheckpoint = this.get('answers.length') % ENV.APP.NUMBER_OF_CHALLENGE_BETWEEN_TWO_CHECKPOINTS_IN_SMART_PLACEMENT;
+    const sliceAnsersFrom = (howManyAnswersSinceTheLastCheckpoint === 0)
+      ? -ENV.APP.NUMBER_OF_CHALLENGE_BETWEEN_TWO_CHECKPOINTS_IN_SMART_PLACEMENT
+      : -howManyAnswersSinceTheLastCheckpoint;
 
     return this.get('answers').slice(sliceAnsersFrom);
   }),
