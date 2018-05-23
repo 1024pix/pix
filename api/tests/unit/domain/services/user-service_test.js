@@ -15,7 +15,7 @@ const Assessment = require('../../../../lib/domain/models/Assessment');
 const AssessmentResult = require('../../../../lib/domain/models/AssessmentResult');
 const Skill = require('../../../../lib/domain/models/Skill');
 const Challenge = require('../../../../lib/domain/models/Challenge');
-const Competence = require('../../../../lib/domain/models/referential/competence');
+const Competence = require('../../../../lib/domain/models/Competence');
 
 describe('Unit | Service | User Service', () => {
 

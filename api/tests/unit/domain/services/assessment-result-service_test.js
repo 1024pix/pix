@@ -15,7 +15,7 @@ const certificationCourseRepository = require('../../../../lib/infrastructure/re
 
 const Assessment = require('../../../../lib/domain/models/Assessment');
 const Area = require('../../../../lib/domain/models/Area');
-const Competence = require('../../../../lib/domain/models/referential/competence');
+const Competence = require('../../../../lib/domain/models/Competence');
 const AssessmentResult = require('../../../../lib/domain/models/AssessmentResult');
 const AirtableCourse = require('../../../../lib/domain/models/referential/course');
 const Skill = require('../../../../lib/cat/skill');
