@@ -52,12 +52,13 @@ function cleanupUsersAndPixRolesTables() {
 }
 
 module.exports = {
+  cleanupUsersAndPixRolesTables,
   expect,
-  sinon,
-  knex,
-  nock,
+  factory: require('./factory'),
   generateValidRequestAuhorizationHeader,
   insertUserWithRolePixMaster,
   insertUserWithStandardRole,
-  cleanupUsersAndPixRolesTables
+  knex,
+  nock,
+  sinon,
 };

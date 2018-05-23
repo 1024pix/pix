@@ -41,7 +41,7 @@ class Assessment {
   }
 
   _isAnAvailableChallenge(challenge) {
-    return challenge.isActive && !challenge.skillsFullyIncludedIn(this.assessedSkills);
+    return challenge.isActive && challenge.testsAtLeastOneNewSkill(this.assessedSkills);
   }
 
   _isPreviousChallengeTimed() {
