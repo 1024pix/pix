@@ -3,11 +3,6 @@ const CatChallenge = require('../../cat/challenge');
 const CatCourse = require('../../cat/course');
 const CatAnswer = require('../../cat/answer');
 const CatAssessment = require('../../cat/assessment');
-const SmartSkill = require('../../smart_random/skill');
-const SmartChallenge = require('../../smart_random/challenge');
-const SmartCourse = require('../../smart_random/course');
-const SmartAnswer = require('../../smart_random/answer');
-const SmartAssessment = require('../../smart_random/assessment');
 
 // TODO: Déclencher une erreur quand pas de skill ?
 
@@ -33,29 +28,6 @@ function getAdaptedAssessment(answersPix, challengesPix, skills) {
   return new CatAssessment(course, answers);
 }
 
-function getSmartAssessment(answersPix, challengesPix, skills) {
-  const challenges = [];
-
-  challengesPix.forEach(challengePix => {
-    if(challengePix.skills) {
-      const challengeSmartSkills = challengePix.skills.map(skill => new SmartSkill(skill.name));
-      const challenge = new SmartChallenge(challengePix.id, challengePix.status, challengeSmartSkills, challengePix.timer);
-      challenges.push(challenge);
-    }
-  });
-
-  const catSkills = skills.map(skill => new SmartSkill(skill.name));
-  const course = new SmartCourse(challenges, catSkills);
-
-  const answers = answersPix.map(answer => {
-    const challengeOfTheAnswer = challenges.find((challenge) => challenge.id === answer.challengeId);
-    return new SmartAnswer(challengeOfTheAnswer, answer.result.status);
-  });
-
-  return new SmartAssessment(course, answers);
-}
-
 module.exports = {
   getAdaptedAssessment,
-  getSmartAssessment
 };
