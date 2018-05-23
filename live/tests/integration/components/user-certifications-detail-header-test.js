@@ -49,15 +49,17 @@ describe('Integration | Component | user certifications detail header', function
     });
 
     it('should show the certification user full name', function() {
-      expect(this.$('.user-certifications-detail-header__data-box').text()).to.include('Jean Bon');
+      expect(this.$('.user-certifications-detail-header__data-box').text()).to.include('Nom : Jean Bon');
     });
 
     it('should show the certification user birthdate', function() {
-      expect(this.$('.user-certifications-detail-header__data-box').text()).to.include('Né le 22 janvier 2000');
+      expect(this.$('.user-certifications-detail-header__data-box').text()).to.include('Date de naissance : 22' +
+        ' janvier 2000');
     });
 
     it('should show the certification center', function() {
-      expect(this.$('.user-certifications-detail-header__data-box').text()).to.include('Université de Lyon');
+      expect(this.$('.user-certifications-detail-header__data-box').text()).to.include('Centre de' +
+        ' certification : Université de Lyon');
     });
   });
 
