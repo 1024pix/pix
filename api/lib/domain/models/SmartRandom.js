@@ -133,7 +133,8 @@ class SmartRandom {
   _isPreviousChallengeTimed() {
     const answeredChallenges = this.answers.map(answer => answer.challenge);
     const lastAnswer = this.answers[answeredChallenges.length - 1];
-    return lastAnswer && lastAnswer.challenge.timer !== undefined;
+    if(!lastAnswer || !lastAnswer.challenge) return false;
+    return lastAnswer && (lastAnswer.challenge.timer !== undefined);
   }
 
   _extractNotTimedChallenge(availableChallenges) {
