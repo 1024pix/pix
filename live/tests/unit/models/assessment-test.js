@@ -47,4 +47,96 @@ describe('Unit | Model | Assessment', function() {
 
   });
 
+  describe('Computed property #answersSinceLastCheckpoints', function() {
+
+    it('should be an array', function() {
+      run(() => {
+        // given
+        const store = this.store();
+        const assessment = store.createRecord('assessment', { type: 'SMART_PLACEMENT' });
+
+        // when
+        const answersSinceLastCheckpoints = assessment.get('answersSinceLastCheckpoints');
+
+        // then
+        expect(answersSinceLastCheckpoints).to.deep.equal([]);
+      });
+
+    });
+
+    it('should return answers', function() {
+      run(() => {
+        // given
+        const store = this.store();
+        const answer = store.createRecord('answer', {});
+        const assessment = store.createRecord('assessment', { type: 'SMART_PLACEMENT', answers: [answer] });
+
+        // when
+        const answersSinceLastCheckpoints = assessment.get('answersSinceLastCheckpoints');
+
+        // then
+        expect(answersSinceLastCheckpoints).to.deep.equal([answer]);
+      });
+    });
+
+    it('should only return the last answers', function() {
+      run(() => {
+        // given
+        const store = this.store();
+        const answer1 = store.createRecord('answer', {});
+        const answer2 = store.createRecord('answer', {});
+        const answer3 = store.createRecord('answer', {});
+        const answer4 = store.createRecord('answer', {});
+        const answer5 = store.createRecord('answer', {});
+        const answer6 = store.createRecord('answer', {});
+        const answer7 = store.createRecord('answer', {});
+        const assessment = store.createRecord('assessment', {
+          type: 'SMART_PLACEMENT', answers: [
+            answer1,
+            answer2,
+            answer3,
+            answer4,
+            answer5,
+            answer6,
+            answer7]
+        });
+
+        // when
+        const answersSinceLastCheckpoints = assessment.get('answersSinceLastCheckpoints');
+
+        // then
+        expect(answersSinceLastCheckpoints).to.deep.equal([answer6, answer7]);
+      });
+    });
+
+    it('should only return the last 5 answers', function() {
+      run(() => {
+        // given
+        const store = this.store();
+        const answer1 = store.createRecord('answer', {});
+        const answer2 = store.createRecord('answer', {});
+        const answer3 = store.createRecord('answer', {});
+        const answer4 = store.createRecord('answer', {});
+        const answer5 = store.createRecord('answer', {});
+        const answer6 = store.createRecord('answer', {});
+        const answer7 = store.createRecord('answer', {});
+        const answer8 = store.createRecord('answer', {});
+        const answer9 = store.createRecord('answer', {});
+        const answer10 = store.createRecord('answer', {});
+        const assessment = store.createRecord('assessment', {
+          type: 'SMART_PLACEMENT', answers: [
+            answer1, answer2, answer3, answer4,
+            answer5, answer6, answer7, answer8,
+            answer9, answer10
+          ]
+        });
+
+        // when
+        const answersSinceLastCheckpoints = assessment.get('answersSinceLastCheckpoints');
+
+        // then
+        expect(answersSinceLastCheckpoints).to.deep.equal([answer6, answer7, answer8, answer9, answer10]);
+      });
+    });
+  });
 });

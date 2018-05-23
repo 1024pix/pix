@@ -131,5 +131,6 @@ class Assessment {
 }
 
 Assessment.states = states;
+Assessment.types = type;
 
 module.exports = Assessment;
