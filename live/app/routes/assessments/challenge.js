@@ -71,7 +71,13 @@ export default BaseRoute.extend({
       });
 
       return answer.save()
-        .then(() => this._navigateToNextView(challenge, assessment));
+        .then(() => {
+          if(assessment.get('hasCheckpoints') && assessment.get('answers.length') % 5  === 0) {
+            this.transitionTo('assessments.checkpoint', assessment.get('id'));
+          } else {
+            return this._navigateToNextView(challenge, assessment);
+          }
+        });
     }
   }
 

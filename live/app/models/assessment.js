@@ -17,6 +17,8 @@ export default Model.extend({
   certificationNumber: attr('string'),
   isCertification: equal('type', 'CERTIFICATION'),
 
+  hasCheckpoints: equal('type', 'SMART_PLACEMENT'),
+
   result: belongsTo('assessment-result'),
 
   progress: computed('answers', 'course', function() {
