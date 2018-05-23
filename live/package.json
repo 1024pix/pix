@@ -15,6 +15,7 @@
     "build": "ember build",
     "clean": "rm -rf tmp dist node_modules",
     "start": "ember server",
+    "start:dev": "ember server --proxy",
     "test": "ember test --reporter dot",
     "lint": "./node_modules/.bin/eslint app mirage tests",
     "lint:fix": "npm run lint --fix",
