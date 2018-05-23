@@ -59,6 +59,7 @@ describe('Unit | Domain | Models | SmartRandom', () => {
       expect(smartRandom.course.tubes).to.be.deep.equal(expectedTubes);
     });
   });
+
   describe('#nextChallenge', function() {
 
     it('should return a challenge that requires web2 if web1-2-3 is the tube and no answer has been given so far', function() {
@@ -289,18 +290,20 @@ describe('Unit | Domain | Models | SmartRandom', () => {
       expect(nextChallenge).to.be.equal(null);
     });
 
-    it('should return null if 5 challenges have been answered so far', function() {
+    it('should return null if 20 challenges have been answered so far', function() {
       // given
       const web1 = _newSkill('web1');
       const web2 = _newSkill('web2');
       const skills = [web1, web2];
       const challenges = [];
       const answers = [];
-      for (let i = 0; i < 5; i++) {
+      for (let i = 0; i < 20; i++) {
         const challengeId = 'rec'+i;
         challenges.push(_newChallenge(challengeId, [web1]));
         answers.push(_newAnswer(challengeId, AnswerStatus.OK));
       }
+      challenges.push(_newChallenge('rec21', [web1]));
+
       // when
       const smartRandom = new SmartRandom(answers, challenges, skills);
       const nextChallenge = smartRandom.getNextChallenge();

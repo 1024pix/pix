@@ -15,6 +15,151 @@ function _filterSkillsByChallenges(skills, challenges) {
 
   return skillsWithChallenges;
 }
+
+function _randomly() {
+  return 0.5 - Math.random();
+}
+
+function _probaOfCorrectAnswer(level, difficulty) {
+  return 1 / (1 + Math.exp(-(level - difficulty)));
+}
+
+function _computeLikelihood(level, answers) {
+  const extraAnswers = answers.map(answer => {
+    return { binaryOutcome: answer.binaryOutcome, maxDifficulty: answer.maxDifficulty() };
+  });
+
+  const answerThatAnyoneCanSolve = { maxDifficulty: 0, binaryOutcome: 1 };
+  const answerThatNobodyCanSolve = { maxDifficulty: 7, binaryOutcome: 0 };
+  extraAnswers.push(answerThatAnyoneCanSolve, answerThatNobodyCanSolve);
+
+  const diffBetweenResultAndProbaToResolve = extraAnswers.map(answer =>
+    answer.binaryOutcome - _probaOfCorrectAnswer(level, answer.maxDifficulty));
+
+  return -Math.abs(diffBetweenResultAndProbaToResolve.reduce((a, b) => a + b));
+}
+
+function _isChallengeNotAnsweredYet(challenge, answeredChallenges) {
+  return !answeredChallenges.includes(challenge);
+}
+
+function _skillsToTargetInPriority(courseTubes, validatedSkills, failedSkills) {
+  let skillsToTargetInPriority = [];
+
+  for (const tube in courseTubes) {
+    const listOfSkillsForThisTube = courseTubes[tube];
+
+    const mostDifficultSkill = listOfSkillsForThisTube.sort((a, b) => a.difficulty < b.difficulty)[0];
+
+    if (mostDifficultSkill.difficulty <= LEVEL_MAX_TO_BE_AN_EASY_TUBE) {
+
+      const nbSkillsNotEvaluated = listOfSkillsForThisTube.filter((skill) => {
+        return _skillNotKnownYet(skill, validatedSkills, failedSkills);
+      }).length;
+
+      if (nbSkillsNotEvaluated !== 0) {
+        skillsToTargetInPriority = skillsToTargetInPriority.concat(courseTubes[tube]);
+      }
+    }
+  }
+
+  return skillsToTargetInPriority;
+}
+
+function _isChallengeNotTooHard(challenge, predictedLevel) {
+  return challenge.hardestSkill.difficulty - predictedLevel <= 2;
+}
+
+function _isAnAvailableChallenge(challenge, answers) {
+  const answeredChallenges = answers.map(answer => answer.challenge);
+  return challenge.isPublished() && _isChallengeNotAnsweredYet(challenge, answeredChallenges);
+}
+
+function _isPreviousChallengeTimed(answers) {
+  const answeredChallenges = answers.map(answer => answer.challenge);
+  const lastAnswer = answers[answeredChallenges.length - 1];
+  if(!lastAnswer || !lastAnswer.challenge) return false;
+  return lastAnswer && (lastAnswer.challenge.timer !== undefined);
+}
+
+function _extractNotTimedChallenge(availableChallenges) {
+  return availableChallenges.filter(challenge => challenge.timer === undefined);
+}
+
+function _skillNotKnownYet(skill, validatedSkills, failedSkills) {
+  return !validatedSkills.includes(skill) && !failedSkills.includes(skill);
+}
+
+function _filteredChallenges(challenges, answers, tubes, validatedSkills, failedSkills, predictedLevel) {
+  let availableChallenges = challenges.filter(challenge => _isAnAvailableChallenge(challenge, answers));
+
+  if (_isPreviousChallengeTimed(answers)) {
+    availableChallenges = _extractNotTimedChallenge(availableChallenges);
+  }
+
+  availableChallenges = availableChallenges.filter(challenge => _isChallengeNotTooHard(challenge, predictedLevel));
+
+  const listOfSkillsToTargetInPriority = _skillsToTargetInPriority(tubes, validatedSkills, failedSkills);
+  if (listOfSkillsToTargetInPriority.length > 0) {
+    availableChallenges = _filterChallengesBySkills(availableChallenges, listOfSkillsToTargetInPriority);
+  }
+
+  return availableChallenges;
+}
+
+function _filterChallengesBySkills(listOfChallenges, listOfRequiredSkills) {
+  return listOfChallenges.filter((challenge) => {
+
+    let challengeContainsTargetedSkill = false;
+
+    listOfRequiredSkills.map((skill) => skill.name).forEach((skillName) => {
+      const challengeHasSkill = challenge.skills.map((skill) => skill.name).includes(skillName);
+      if (challengeHasSkill) {
+        challengeContainsTargetedSkill = true;
+      }
+    });
+
+    return challengeContainsTargetedSkill;
+  });
+}
+
+function _getNewSkillsInfoIfChallengeSolved(challenge, tubes, validatedSkills, failedSkills) {
+  return challenge.skills.reduce((extraValidatedSkills, skill) => {
+    skill.getEasierWithin(tubes).forEach(skill => {
+      if (_skillNotKnownYet(skill, validatedSkills, failedSkills)) {
+        extraValidatedSkills.push(skill);
+      }
+    });
+    return extraValidatedSkills;
+  }, []);
+}
+
+function _getNewSkillsInfoIfChallengeUnsolved(challenge, tubes, validatedSkills, failedSkills) {
+  return challenge.hardestSkill.getHarderWithin(tubes)
+    .reduce((extraFailedSkills, skill) => {
+      if (_skillNotKnownYet(skill, validatedSkills, failedSkills)) {
+        extraFailedSkills.push(skill);
+      }
+      return extraFailedSkills;
+    }, []);
+}
+
+function _computeReward(challenge, predictedLevel, tubes, validatedSkills, failedSkills) {
+  const proba = _probaOfCorrectAnswer(predictedLevel, challenge.hardestSkill.difficulty);
+  const nbExtraSkillsIfSolved = _getNewSkillsInfoIfChallengeSolved(challenge, tubes, validatedSkills, failedSkills).length;
+  const nbFailedSkillsIfUnsolved = _getNewSkillsInfoIfChallengeUnsolved(challenge, tubes, validatedSkills, failedSkills).length;
+
+  return proba * nbExtraSkillsIfSolved + (1 - proba) * nbFailedSkillsIfUnsolved;
+}
+
+function _firstChallenge(challenges, answers, tubes, validatedSkills, failedSkills, predictedLevel) {
+  const filteredFirstChallenges = _filteredChallenges(challenges, answers, tubes, validatedSkills, failedSkills, predictedLevel).filter(
+    challenge => (challenge.hardestSkill.difficulty === LEVEL_FOR_FIRST_CHALLENGE) && (challenge.timer === undefined)
+  );
+  filteredFirstChallenges.sort(_randomly);
+  return filteredFirstChallenges[0];
+}
+
 class SmartRandom {
 
   constructor(answers, challenges, skills) {
@@ -36,14 +181,26 @@ class SmartRandom {
   getNextChallenge() {
 
     if (this.answers.length === 0) {
-      return this._firstChallenge();
+      return _firstChallenge(
+        this.challenges,
+        this.answers,
+        this.course.tubes,
+        this.validatedSkills,
+        this.failedSkills,
+        this.getPredictedLevel());
     }
 
     if (this.answers.length >= MAX_NUMBER_OF_CHALLENGES) {
       return null;
     }
 
-    const availableChallenges = this._filteredChallenges();
+    const availableChallenges = _filteredChallenges(
+      this.challenges,
+      this.answers,
+      this.course.tubes,
+      this.validatedSkills,
+      this.failedSkills,
+      this.getPredictedLevel());
     if (availableChallenges.length === 0) {
       return null;
     }
@@ -52,7 +209,12 @@ class SmartRandom {
     const challengesAndRewards = availableChallenges.map(challenge => {
       return {
         challenge: challenge,
-        reward: this._computeReward(challenge, predictedLevel)
+        reward: _computeReward(
+          challenge,
+          predictedLevel,
+          this.course.tubes,
+          this.validatedSkills,
+          this.failedSkills)
       };
     });
 
@@ -66,7 +228,7 @@ class SmartRandom {
     const bestChallenges = challengesAndRewards
       .filter(challengeAndReward => challengeAndReward.reward === maxReward)
       .map(challengeAndReward => challengeAndReward.challenge);
-    return bestChallenges.sort(this._randomly)[0];
+    return bestChallenges.sort(_randomly)[0];
   }
 
   get score() {
@@ -82,7 +244,7 @@ class SmartRandom {
   }
 
   get testedSkills() {
-    return _.union(this.valitatedSkills, this.rejectedSkills);
+    return _.union(this.validatedSkills, this.failedSkills);
   }
 
   getPredictedLevel() {
@@ -94,7 +256,7 @@ class SmartRandom {
     let predictedLevel = 0.5;
     // XXX : Question : why 8  when max level is 5 ?
     while (level < 8) {
-      const likelihood = this._computeLikelihood(level, this.answers);
+      const likelihood = _computeLikelihood(level, this.answers);
       if (likelihood > maxLikelihood) {
         maxLikelihood = likelihood;
         predictedLevel = level;
@@ -103,152 +265,6 @@ class SmartRandom {
     }
     return predictedLevel;
   }
-
-  _randomly() {
-    return 0.5 - Math.random();
-  }
-
-  _probaOfCorrectAnswer(level, difficulty) {
-    return 1 / (1 + Math.exp(-(level - difficulty)));
-  }
-
-  _computeLikelihood(level, answers) {
-    const extraAnswers = answers.map(answer => {
-      return { binaryOutcome: answer.binaryOutcome, maxDifficulty: answer.maxDifficulty() };
-    });
-
-    const answerThatAnyoneCanSolve = { maxDifficulty: 0, binaryOutcome: 1 };
-    const answerThatNobodyCanSolve = { maxDifficulty: 7, binaryOutcome: 0 };
-    extraAnswers.push(answerThatAnyoneCanSolve, answerThatNobodyCanSolve);
-
-    const diffBetweenResultAndProbaToResolve = extraAnswers.map(answer =>
-      answer.binaryOutcome - this._probaOfCorrectAnswer(level, answer.maxDifficulty));
-
-    return -Math.abs(diffBetweenResultAndProbaToResolve.reduce((a, b) => a + b));
-  }
-
-  _isChallengeNotAnsweredYet(challenge, answeredChallenges) {
-    return !answeredChallenges.includes(challenge);
-  }
-
-  _isChallengeNotTooHard(challenge) {
-    return challenge.hardestSkill.difficulty - this.getPredictedLevel() <= 2;
-  }
-
-  _isAnAvailableChallenge(challenge) {
-    const answeredChallenges = this.answers.map(answer => answer.challenge);
-    return challenge.isPublished() && this._isChallengeNotAnsweredYet(challenge, answeredChallenges);
-  }
-
-  _isPreviousChallengeTimed() {
-    const answeredChallenges = this.answers.map(answer => answer.challenge);
-    const lastAnswer = this.answers[answeredChallenges.length - 1];
-    if(!lastAnswer || !lastAnswer.challenge) return false;
-    return lastAnswer && (lastAnswer.challenge.timer !== undefined);
-  }
-
-  _extractNotTimedChallenge(availableChallenges) {
-    return availableChallenges.filter(challenge => challenge.timer === undefined);
-  }
-
-  _skillNotKnownYet(skill) {
-    return !this.validatedSkills.includes(skill) && !this.failedSkills.includes(skill);
-  }
-
-  _filteredChallenges() {
-    let availableChallenges = this.challenges.filter(challenge => this._isAnAvailableChallenge(challenge));
-
-    if (this._isPreviousChallengeTimed()) {
-      availableChallenges = this._extractNotTimedChallenge(availableChallenges);
-    }
-
-    availableChallenges = availableChallenges.filter(challenge => this._isChallengeNotTooHard(challenge));
-
-    const listOfSkillsToTargetInPriority = this._skillsToTargetInPriority();
-    if (listOfSkillsToTargetInPriority.length > 0) {
-      availableChallenges = this._filterChallengesBySkills(availableChallenges, listOfSkillsToTargetInPriority);
-    }
-
-    return availableChallenges;
-  }
-
-  _filterChallengesBySkills(listOfChallenges, listOfRequiredSkills) {
-    return listOfChallenges.filter((challenge) => {
-
-      let challengeContainsTargetedSkill = false;
-
-      listOfRequiredSkills.map((skill) => skill.name).forEach((skillName) => {
-        const challengeHasSkill = challenge.skills.map((skill) => skill.name).includes(skillName);
-        if (challengeHasSkill) {
-          challengeContainsTargetedSkill = true;
-        }
-      });
-
-      return challengeContainsTargetedSkill;
-    });
-  }
-
-  _getNewSkillsInfoIfChallengeSolved(challenge) {
-    return challenge.skills.reduce((extraValidatedSkills, skill) => {
-      skill.getEasierWithin(this.course.tubes).forEach(skill => {
-        if (this._skillNotKnownYet(skill)) {
-          extraValidatedSkills.push(skill);
-        }
-      });
-      return extraValidatedSkills;
-    }, []);
-  }
-
-  _getNewSkillsInfoIfChallengeUnsolved(challenge) {
-    return challenge.hardestSkill.getHarderWithin(this.course.tubes)
-      .reduce((extraFailedSkills, skill) => {
-        if (this._skillNotKnownYet(skill)) {
-          extraFailedSkills.push(skill);
-        }
-        return extraFailedSkills;
-      }, []);
-  }
-
-  _computeReward(challenge, predictedLevel) {
-    const proba = this._probaOfCorrectAnswer(predictedLevel, challenge.hardestSkill.difficulty);
-    const nbExtraSkillsIfSolved = this._getNewSkillsInfoIfChallengeSolved(challenge).length;
-    const nbFailedSkillsIfUnsolved = this._getNewSkillsInfoIfChallengeUnsolved(challenge).length;
-
-    return proba * nbExtraSkillsIfSolved + (1 - proba) * nbFailedSkillsIfUnsolved;
-  }
-
-  _skillsToTargetInPriority() {
-    const courseTubes = this.course.tubes;
-    let skillsToTargetInPriority = [];
-
-    for (const tube in courseTubes) {
-      const listOfSkillsForThisTube = courseTubes[tube];
-
-      const mostDifficultSkill = listOfSkillsForThisTube.sort((a, b) => a.difficulty < b.difficulty)[0];
-
-      if (mostDifficultSkill.difficulty <= LEVEL_MAX_TO_BE_AN_EASY_TUBE) {
-
-        const nbSkillsNotEvaluated = listOfSkillsForThisTube.filter((skill) => {
-          return this._skillNotKnownYet(skill);
-        }).length;
-
-        if (nbSkillsNotEvaluated !== 0) {
-          skillsToTargetInPriority = skillsToTargetInPriority.concat(courseTubes[tube]);
-        }
-      }
-    }
-
-    return skillsToTargetInPriority;
-  }
-
-  _firstChallenge() {
-    const filteredFirstChallenges = this._filteredChallenges().filter(
-      challenge => (challenge.hardestSkill.difficulty === LEVEL_FOR_FIRST_CHALLENGE) && (challenge.timer === undefined)
-    );
-    filteredFirstChallenges.sort(this._randomly);
-    return filteredFirstChallenges[0];
-  }
-
 }
 
 module.exports = SmartRandom;
