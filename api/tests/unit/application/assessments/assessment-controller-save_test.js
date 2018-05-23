@@ -49,9 +49,9 @@ describe('Unit | Controller | assessment-controller-save', () => {
         sandbox.stub(assessmentRepository, 'save').resolves();
       });
 
-      it('should save an assessment with the type SMART_PLACEMENT and the courseId of 1.1', function() {
+      it('should save an assessment with the type SMART_PLACEMENT and the courseId CampagnePix', function() {
         // given
-        const expected = new Assessment({ id: 42, courseId: 'recNPB7dTNt5krlMA', type: 'SMART_PLACEMENT', state: 'started', userId: null });
+        const expected = new Assessment({ id: 42, courseId: 'CampagnePix', type: 'SMART_PLACEMENT', state: 'started', userId: null });
 
         // when
         controller.save(request, replyStub);

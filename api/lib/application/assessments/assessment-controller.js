@@ -28,7 +28,7 @@ module.exports = {
     assessment.state = 'started';
 
     if(assessment.isSmartPlacementAssessment()) {
-      assessment.courseId = 'recNPB7dTNt5krlMA';
+      assessment.courseId = 'CampagnePix';
     }
 
     if (request.headers.hasOwnProperty('authorization')) {
