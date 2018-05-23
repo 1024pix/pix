@@ -1,4 +1,5 @@
 const { expect, sinon } = require('../../test-helper');
+const factory = require('../../factory');
 const Course = require('../../../lib/cat/course');
 const Assessment = require('../../../lib/cat/assessment');
 const Answer = require('../../../lib/cat/answer');
@@ -251,6 +252,18 @@ describe('Unit | Model | Assessment', function() {
 
   });
 
+  describe('#assessedSkills', function() {
+    /*
+      1) OK: []    KO: []     => []
+      2) OK: [s2], KO: []     => [s1, s2]
+      3) OK: [s2], KO: [s3]   => [s1, s2, s3, s4, ...]
+      4) OK: [],   KO: [s3]   => [s3, s4, ...]
+      5) OK: [s2], KO: [sk3]  => [s1, s2, sk3, sk4, ...]
+    */
+
+    it('should respect the spec just above');
+  });
+
   describe('#filteredChallenges', function() {
     it('should exist', function() {
       // given
@@ -352,7 +365,30 @@ describe('Unit | Model | Assessment', function() {
         challegeWithNonPrioritySkill2]);
     });
 
+    it('should not ask a question that targets a skill already validated', function() {
+      // given
+      const rechinfo1 = new Skill('rechinfo1');
+      const rechinfo2 = new Skill('rechinfo2');
+      const rechinfo3 = new Skill('rechinfo3');
+
+      const ch1 = factory.buildCatChallenge({ skills: [rechinfo1] });
+      const ch2 = factory.buildCatChallenge({ skills: [rechinfo2] });
+      const ch3 = factory.buildCatChallenge({ skills: [rechinfo2] });
+      const ch4 = factory.buildCatChallenge({ skills: [rechinfo3] });
+
+      const answerCh1 = new Answer(ch1, AnswerStatus.OK);
+      const answerCh2 = new Answer(ch2, AnswerStatus.OK);
+      const challenges = [ch1, ch2, ch3, ch4];
+      const course = new Course(challenges);
+      const assessment = new Assessment(course, [answerCh1, answerCh2]);
+
+      // then
+      expect(assessment.filteredChallenges).to.deep.equal([ch4]);
+    });
+
   });
+
+  it('should not ask a question that targets a skill already failed');
 
   describe('#_computeReward()', function() {
     it('should exist', function() {
