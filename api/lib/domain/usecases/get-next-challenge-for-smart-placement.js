@@ -28,10 +28,10 @@ module.exports = function({
     .then(fetchedAnswers => (answers = fetchedAnswers))
     .then(() => challengeRepository.findBySkills(targetedSkills.skills))
     .then(fetchedChallenges => (challenges = fetchedChallenges))
-    .then(() => getNextChallengeInAdaptiveCourse(answers, challenges, targetedSkills.skills))
+    .then(() => getNextChallengeInSmartRandom(answers, challenges, targetedSkills.skills))
     .then((nextChallenge) => {
       if (nextChallenge) {
-        return nextChallenge;
+        return nextChallenge;x
       }
       throw new AssessmentEndedError();
     })
@@ -39,7 +39,7 @@ module.exports = function({
 
 };
 
-function getNextChallengeInAdaptiveCourse(answersPix, challengesPix, skills) {
+function getNextChallengeInSmartRandom(answersPix, challengesPix, skills) {
   const smartRandom = new SmartRandom (answersPix, challengesPix, skills);
   const nextChallenge = smartRandom.getNextChallenge();
   return _.get(nextChallenge, 'id', null);

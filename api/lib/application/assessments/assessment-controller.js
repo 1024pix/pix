@@ -121,11 +121,8 @@ module.exports = {
         if (assessment.isSmartPlacementAssessment()) {
           return useCases.getNextChallengeForSmartPlacement({
             assessment,
-            courseRepository,
             answerRepository,
             challengeRepository,
-            skillRepository,
-            competenceRepository
           });
         }
 

@@ -1,117 +1,154 @@
-const { expect, sinon, knex, nock } = require('../../../test-helper');
-const XRegExp = require('xregexp');
-const mailJet = require('../../../../lib/infrastructure/mailjet');
+const { expect, sinon } = require('../../../test-helper');
+const faker = require('faker');
+
 const server = require('../../../../server');
+const User = require('../../../../lib/infrastructure/data/user');
+
+const mailService = require('../../../../lib/domain/services/mail-service');
+const logger = require('../../../../lib/infrastructure/logger');
+const gRecaptcha = require('../../../../lib/infrastructure/validators/grecaptcha-validator');
 
 describe('Acceptance | Controller | users-controller', () => {
 
-  describe('save', () => {
+  let options;
+  let attributes;
+  let sendAccountCreationEmailStub;
+  let loggerStub;
+  let recaptchaVerifyStub;
 
-    context('user is valid', () => {
+  before(() => {
+    sendAccountCreationEmailStub = sinon.stub(mailService, 'sendAccountCreationEmail');
+    loggerStub = sinon.stub(logger, 'error').returns({});
+    recaptchaVerifyStub = sinon.stub(gRecaptcha, 'verify').resolves();
+  });
 
-      const options = {
-        method: 'POST',
-        url: '/api/users',
-        payload: {
-          data: {
-            type: 'users',
-            attributes: {
-              'first-name': 'John',
-              'last-name': 'DoDoe',
-              'email': 'john.dodoe@example.net',
-              'password': 'A124B2C3#!',
-              'cgu': true,
-              'recaptcha-token': 'reCAPTCHAToken',
-            },
-            relationships: {},
-          },
-        },
-      };
+  beforeEach(() => {
+    attributes = {
+      'first-name': faker.name.firstName(),
+      'last-name': faker.name.lastName(),
+      email: faker.internet.email().toLowerCase(),
+      password: 'A124B2C3#!',
+      cgu: true
+    };
 
-      let sandbox;
+    options = {
+      method: 'POST',
+      url: '/api/users',
+      payload: {
+        data: {
+          type: 'user',
+          attributes,
+          relationships: {}
+        }
+      }
+    };
+  });
 
-      beforeEach(() => {
-        sandbox = sinon.sandbox.create();
-        sandbox.stub(mailJet, 'sendEmail');
+  after(() => {
+    sendAccountCreationEmailStub.restore();
+    loggerStub.restore();
+    recaptchaVerifyStub.restore();
+  });
 
-        nock('https://www.google.com')
-          .post('/recaptcha/api/siteverify')
-          .query(true)
-          .reply(200, {
-            'success': true,
-          });
-      });
+  it('should return 201 HTTP status code', () => {
+    // when
+    const promise = server.inject(options);
 
-      afterEach(() => {
-        nock.cleanAll();
-        sandbox.restore();
-        return knex('users').delete();
-      });
-
-      it('should return status 201 with user', () => {
-        // given
-        const payloadRegExp = XRegExp(
-          '{' +
-          '"data":{' +
-          '"type":"users",' +
-          '"id":(\\d+),' +
-          '"attributes":{' +
-          '"first-name":"John",' +
-          '"last-name":"DoDoe"' +
-          '}' +
-          '}' +
-          '}',
-        );
-
-        // when
-        const promise = server.inject(options);
-
-        // then
-        return promise.then((response) => {
-          expect(response.statusCode).to.equal(201);
-          expect(response.payload).to.match(payloadRegExp);
-        });
-      });
-
-      it('should create user in Database', () => {
-        // given
-        const expectedUserWithNoPasswordNorId = {
-          firstName: 'John',
-          lastName: 'DoDoe',
-          email: 'john.dodoe@example.net',
-          cgu: 1,
-        };
-
-        // when
-        const promise = server.inject(options);
-
-        // then
-        return promise
-          .then(() => knex('users').select())
-          .then((users) => {
-            expect(users).to.have.lengthOf(1);
-            expect(users[0]).to.include(expectedUserWithNoPasswordNorId);
-            expect(users[0].password).to.exist;
-          });
-      });
-
-      it('should send account creation email to user', () => {
-        // given
-        const expectedMail = {
-          from: 'ne-pas-repondre@pix.beta.gouv.fr',
-          fromName: 'PIX - Ne pas répondre',
-          subject: 'Création de votre compte PIX',
-          template: '143620',
-          to: 'john.dodoe@example.net',
-        };
-
-        // when
-        const promise = server.inject(options);
-
-        // then
-        return promise
-          .then(() => expect(mailJet.sendEmail).to.have.been.calledWith(expectedMail));
-      });
+    // then
+    return promise.then((response) => {
+      expect(response.statusCode).to.equal(201);
     });
   });
+
+  it('should return 400 HTTP status code when no payload', () => {
+    // given
+    options.payload = {};
+
+    // when
+    const promise = server.inject(options);
+
+    // then
+    return promise.then((response) => {
+      expect(response.statusCode).to.equal(400);
+    });
+  });
+
+  it('should return 422 HTTP status code when firstName is missing', function() {
+    // Given
+    options.payload.data.attributes['first-name'] = '';
+    options.payload.data.attributes['email'] = 'test@example.net';
+    const firstRegistration = server.inject(options);
+
+    // When
+    const secondRegistration = firstRegistration.then(_ => {
+      return server.inject(options);
+    });
+
+    // Then
+    return secondRegistration.then((response) => {
+      expect(response.statusCode).to.equal(422);
+    });
+  });
+
+  it('should return 422 HTTP status code when email already exists', () => {
+    // given
+    const firstRegistration = server.inject(options);
+
+    // when
+    const secondRegistration = firstRegistration.then(_ => {
+      return server.inject(options);
+    });
+
+    // then
+    return secondRegistration.then((response) => {
+      expect(response.statusCode).to.equal(422);
+    });
+  });
+
+  it('should save the user in the database', () => {
+    // when
+    const promise = server.inject(options);
+
+    // then
+    return promise.then(() => {
+      return new User({ email: attributes.email }).fetch()
+        .then(user => {
+          expect(attributes['first-name']).to.equal(user.get('firstName'));
+          expect(attributes['last-name']).to.equal(user.get('lastName'));
+        });
+    });
+  });
+
+  it('should crypt user password', () => {
+    // given
+    options.payload.data.attributes.password = 'my-123-password';
+
+    // when
+    const promise = server.inject(options);
+
+    // then
+    return promise.then(() => {
+      return new User({ email: attributes.email }).fetch()
+        .then((user) => {
+          expect(user.get('password')).not.to.equal('my-123-password');
+        });
+    });
+  });
+
+  describe('should return 422 HTTP status code', () => {
+    it('when the email is not valid', () => {
+      // given
+      options.payload.data.attributes.email = 'invalid.email@';
+
+      // when
+      const promise = server.inject(options);
+
+      // then
+      return promise.then(response => {
+        expect(response.statusCode).to.equal(422);
+      });
+    });
+
+  });
+
 });

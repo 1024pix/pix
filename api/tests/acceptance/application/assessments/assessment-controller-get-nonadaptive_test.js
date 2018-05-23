@@ -1,6 +1,6 @@
-const { expect, knex, nock } = require('../../test-helper');
-const cache = require('../../../lib/infrastructure/cache');
-const server = require('../../../server');
+const { expect, knex, nock } = require('../../../test-helper');
+const cache = require('../../../../lib/infrastructure/cache');
+const server = require('../../../../server');
 
 describe('Acceptance | API | assessment-controller-get-nonadaptive', function() {
 

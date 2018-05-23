@@ -1,5 +1,5 @@
-const { expect, knex } = require('../../test-helper');
-const server = require('../../../server');
+const { expect, knex } = require('../../../test-helper');
+const server = require('../../../../server');
 
 const _ = require('lodash');
 
