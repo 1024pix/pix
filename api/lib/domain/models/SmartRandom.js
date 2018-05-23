@@ -2,7 +2,6 @@ const Assessment = require('./Assessment');
 const Course = require('./Course');
 const _ = require('lodash');
 
-const MAX_NUMBER_OF_CHALLENGES = 20;
 const LEVEL_FOR_FIRST_CHALLENGE = 2;
 const LEVEL_MAX_TO_BE_AN_EASY_TUBE = 3;
 
@@ -188,10 +187,6 @@ class SmartRandom {
         this.validatedSkills,
         this.failedSkills,
         this.getPredictedLevel());
-    }
-
-    if (this.answers.length >= MAX_NUMBER_OF_CHALLENGES) {
-      return null;
     }
 
     const availableChallenges = _filteredChallenges(
