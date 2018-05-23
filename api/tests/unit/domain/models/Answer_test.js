@@ -80,7 +80,7 @@ describe('Unit | Domain | Models | Answer', () => {
       // given
       const challenge = new Challenge();
       const answer = new Answer({ result: 'ko' });
-      answer.challengeObject = challenge;
+      answer.challenge = challenge;
       // then
       expect(answer.maxDifficulty).to.exist;
     });
@@ -93,7 +93,7 @@ describe('Unit | Domain | Models | Answer', () => {
       challenge.addSkill(web5);
       challenge.addSkill(url1);
       const answer = new Answer({ result: 'ko' });
-      answer.challengeObject = challenge;
+      answer.challenge = challenge;
 
       // when
       const maxDifficulty = answer.maxDifficulty();

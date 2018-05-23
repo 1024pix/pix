@@ -86,6 +86,7 @@ class Assessment {
   getValidatedSkills() {
     return this.answers
       .filter(answer => AnswerStatus.isOK(answer.result))
+      .filter(answer => answer.challenge)
       .reduce((skills, answer) => {
         answer.challenge.skills.forEach(skill => {
           skill.getEasierWithin(this.course.tubes).forEach(validatedSkill => {

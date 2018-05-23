@@ -28,8 +28,8 @@ class Answer {
   }
 
   maxDifficulty(baseDifficulty = 2) {
-    if (this.challengeObject) {
-      const difficulties = this.challengeObject.skills.map(skill => skill.difficulty);
+    if (this.challenge) {
+      const difficulties = this.challenge.skills.map(skill => skill.difficulty);
       if (difficulties.length > 0) {
         return Math.max(...difficulties);
       }
