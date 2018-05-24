@@ -11,29 +11,15 @@ class RedisCache {
 
   get(key, callback) {
     this.client.get(key, (error, value) => {
+      try {
+        return callback(error, JSON.parse(value));
 
-      if (callback) {
-        try {
-          return callback(error, JSON.parse(value));
-
-        } catch (err) {
-          // if JSON.parse fails it gives a SyntaxError
-          if (err instanceof SyntaxError) {
-            return callback(error, value);
-          }
-          throw err;
+      } catch (err) {
+        // if JSON.parse fails it gives a SyntaxError
+        if (err instanceof SyntaxError) {
+          return callback(error, value);
         }
-      } else {
-        try {
-          return JSON.parse(value);
-
-        } catch (err) {
-          // if JSON.parse fails it gives a SyntaxError
-          if (err instanceof SyntaxError) {
-            return value;
-          }
-          throw err;
-        }
+        throw err;
       }
     });
   }
