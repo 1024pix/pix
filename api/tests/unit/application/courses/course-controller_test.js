@@ -25,7 +25,6 @@ describe('Integration | Controller | course-controller', () => {
     sandbox.stub(courseService, 'getCourse');
     sandbox.stub(courseSerializer, 'serialize');
     sandbox.stub(securityController, 'checkUserHasRolePixMaster');
-    sandbox.stub(courseRepository, 'refreshAll');
     sandbox.stub(courseRepository, 'getProgressionCourses');
     sandbox.stub(courseRepository, 'getAdaptiveCourses');
     sandbox.stub(courseRepository, 'getCoursesOfTheWeek');
@@ -150,40 +149,6 @@ describe('Integration | Controller | course-controller', () => {
       // then
       return promise.then(res => {
         expect(res.statusCode).to.equal(404);
-      });
-    });
-  });
-
-  describe('#refreshAll', () => {
-
-    it('should return "Courses updated" when the refresh is successful', () => {
-      // given
-      courseRepository.refreshAll.resolves();
-      const request = {};
-      const reply = sinon.stub();
-
-      // when
-      const promise = courseController.refreshAll(request, reply);
-
-      // then
-      return promise.then(() => {
-        expect(reply).to.have.been.calledWith('Courses updated');
-      });
-    });
-
-    it('should return an internal error when the refresh is failing', () => {
-      // given
-      const error = new Error('An internal server error occurred');
-      courseRepository.refreshAll.rejects(error);
-      const request = {};
-      const reply = sinon.stub();
-
-      // when
-      const promise = courseController.refreshAll(request, reply);
-
-      // then
-      return promise.then(() => {
-        expect(reply).to.have.been.calledWith(error);
       });
     });
   });
