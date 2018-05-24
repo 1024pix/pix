@@ -500,10 +500,10 @@ describe('Unit | Model | Assessment', function() {
 
   describe('#_firstChallenge', function() {
 
-    let _, url2, url3, url5, challenge1, challenge2, challenge3, challenge4, challenge5, course, assessment;
+    let url2, url3, url5, challenge1, challenge2, challenge3, challenge4, challenge5, course, assessment;
 
     beforeEach(() => {
-      [url2, url3, _, url5] = factory.buildCatTube({ min: 2, max: 5 });
+      [url2, url3,  , url5] = factory.buildCatTube({ min: 2, max: 5 });
       challenge1 = new CatChallenge('b', 'validé', [url2], 30);
       challenge2 = new CatChallenge('c', 'validé', [url2], undefined);
       challenge3 = new CatChallenge('f', 'validé sans test', [url3], 60);
