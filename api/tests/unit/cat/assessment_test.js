@@ -328,19 +328,28 @@ describe('Unit | Model | Assessment', function() {
       expect(assessment.filteredChallenges).to.deep.equal([keep1, keep2, keep3]);
     });
 
-    it('should not filtered by priority skill with maxDifficulty less than 3 when there is no answers', function() {
+    it('should not filtered by priority skill when there is no answers', function() {
       // given
-      const web3 = new Skill('web3');
-      const web4 = new Skill('web4');
-      const keep1 = new Challenge('b', 'validé', [web3]);
-      const keep2 = new Challenge('c', 'pré-validé', [web4]);
-      const course = new Course([keep1, keep2]);
+      const prioritySkill = new Skill('url1');
+      const nonPrioritySkill1 = new Skill('web3');
+      const nonPrioritySkill2 = new Skill('web4');
+      const challegeWithPrioritySkill = new Challenge('b', 'validé', [prioritySkill]);
+      const challegeWithNonPrioritySkill1 = new Challenge('b', 'validé', [nonPrioritySkill1]);
+      const challegeWithNonPrioritySkill2 = new Challenge('c', 'pré-validé', [nonPrioritySkill2]);
+      const course = new Course([
+        challegeWithPrioritySkill,
+        challegeWithNonPrioritySkill1,
+        challegeWithNonPrioritySkill2
+      ]);
 
       // when
       const assessment = new Assessment(course, []);
 
       // then
-      expect(assessment.filteredChallenges).to.deep.equal([keep1, keep2]);
+      expect(assessment.filteredChallenges).to.deep.equal([
+        challegeWithPrioritySkill,
+        challegeWithNonPrioritySkill1,
+        challegeWithNonPrioritySkill2]);
     });
 
   });
