@@ -1,5 +1,6 @@
 const { expect } = require('../../../test-helper');
 const Challenge = require('../../../../lib/domain/models/Challenge');
+const Competence = require('../../../../lib/domain/models/Competence');
 const Course = require('../../../../lib/domain/models/Course');
 const Skill = require('../../../../lib/domain/models/Skill');
 const Tube = require('../../../../lib/domain/models/Tube');
@@ -34,6 +35,52 @@ describe('Unit | Domain | Models | Course', () => {
 
       // then
       expect(result).to.deep.equal(challenges);
+    });
+
+    it('should set @competences relationships property to empty array by default', () => {
+      // given
+      const course = new Course({});
+
+      // when
+      const result = course.competences;
+
+      // then
+      expect(result).to.exist;
+      expect(result).to.have.lengthOf(0);
+    });
+
+    it('should set @competences relationships property to the one given in params', () => {
+      // given
+      const competences = [
+        new Competence(),
+        new Competence(),
+        new Competence(),
+      ];
+      const course = new Course({ competences });
+
+      // when
+      const result = course.competences;
+
+      // then
+      expect(result).to.deep.equal(competences);
+    });
+  });
+
+  describe('#nbChallenges', () => {
+
+    it('should return the number of challenges', () => {
+      // given
+      const challenges = [
+        new Challenge(),
+        new Challenge()
+      ];
+      const course = new Course({ challenges });
+
+      // when
+      const result = course.nbChallenges;
+
+      // then
+      expect(result).to.equal(2);
     });
   });
 
@@ -91,5 +138,4 @@ describe('Unit | Domain | Models | Course', () => {
       expect(tube).to.deep.equal(tubeUrl);
     });
   });
-
 });

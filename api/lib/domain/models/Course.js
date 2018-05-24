@@ -3,19 +3,19 @@ const Tube = require('./Tube');
 
 class Course {
 
-  constructor(model = {}) {
+  constructor({ id, name, description, imageUrl, isAdaptive, type, competences = [], challenges = [], assessment } = {}) {
     // properties
-    this.id = model.id;
-    this.name = model.name;
-    this.description = model.description;
-    this.imageUrl = model.imageUrl;
-    this.isAdaptive = model.isAdaptive;
-    this.type = model.type;
+    this.id = id;
+    this.name = name;
+    this.description = description;
+    this.imageUrl = imageUrl;
+    this.isAdaptive = isAdaptive;
+    this.type = type;
 
     // relationships
-    this.competences = model.competences;
-    this.challenges = model.challenges || [];
-    this.assessment = model.assessment;
+    this.competences = competences; // Array of Record IDs
+    this.challenges = challenges; // Array of Record IDs
+    this.assessment = assessment;
   }
 
   get nbChallenges() {
