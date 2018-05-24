@@ -72,7 +72,7 @@ describe('Integration | Component | user certifications detail header', function
         birthdate: null,
         firstName: null,
         lastName: null,
-        date: new Date('2018-02-15T15:15:52.504Z'),
+        date: null,
         certificationCenter: null,
         isPublished: true,
         pixScore: 654,
@@ -86,8 +86,21 @@ describe('Integration | Component | user certifications detail header', function
     });
 
     // then
-    it('should not show the certification date not the name not the birthdate not the certification center', function() {
-      expect(this.$('.user-certifications-detail-header__data-box p')).to.have.lengthOf(1);
+    it('should not show the certification date', function() {
+      expect(this.$('.user-certifications-detail-header__data-box').text()).to.not.include('obtenue le');
+    });
+
+    it('should not  show the certification user full name', function() {
+      expect(this.$('.user-certifications-detail-header__data-box').text()).to.not.include('Nom :');
+    });
+
+    it('should not  show the certification user birthdate', function() {
+      expect(this.$('.user-certifications-detail-header__data-box').text()).to.not.include('Date de naissance :');
+    });
+
+    it('should not show the certification center', function() {
+      expect(this.$('.user-certifications-detail-header__data-box').text()).to.not.include('Centre de' +
+        ' certification :');
     });
   });
 });

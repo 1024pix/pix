@@ -194,24 +194,25 @@ describe('Acceptance | API | Certifications', () => {
       const promise = server.inject(options);
 
       // then
+      const expectedBody = {
+        type: 'certifications',
+        id: JOHN_CERTIFICATION_ID,
+        attributes: {
+          'birthdate': new Date('1989-10-24'),
+          'certification-center': 'Université du Pix',
+          'comment-for-candidate': null,
+          'date': new Date('2003-02-01'),
+          'first-name': 'John',
+          'is-published': false,
+          'last-name': 'Doe',
+          'pix-score': 23,
+          'status': 'rejected',
+        },
+      };
       return promise
         .then((response) => {
           expect(response.statusCode).to.equal(200);
-          expect(response.result.data).to.deep.equal({
-            type: 'certifications',
-            id: JOHN_CERTIFICATION_ID,
-            attributes: {
-              'birthdate': new Date('1989-10-24'),
-              'certification-center': 'Université du Pix',
-              'comment-for-candidate': null,
-              'date': new Date('2003-02-01'),
-              'first-name': 'John',
-              'is-published': false,
-              'last-name': 'Doe',
-              'pix-score': 23,
-              'status': 'rejected',
-            },
-          });
+          expect(response.result.data).to.deep.equal(expectedBody);
         });
     });
 

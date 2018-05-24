@@ -1,5 +1,5 @@
 .user-certifications-detail-header {
-  font-family: Lato;
+  font-family: $font-lato;
 
   display: flex;
   flex-flow: row;
@@ -33,7 +33,7 @@
 }
 
 .user-certifications-detail-header__data-box-title-big {
-  font-family: Raleway;
+  font-family: $font-raleway;
 
   line-height: 3.2rem;
   font-size: 2.8rem;
