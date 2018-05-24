@@ -31,7 +31,7 @@ module.exports = {
   },
 
   get(recordId) {
-    return airtable.newGetRecord(AIRTABLE_TABLE_NAME, recordId)
+    return airtable.getRecord(AIRTABLE_TABLE_NAME, recordId)
       .then(_toDomain);
   },
 

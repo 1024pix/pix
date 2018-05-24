@@ -32,7 +32,7 @@ describe('Integration | Class | airtable', function() {
     Airtable.prototype.base.restore();
   });
 
-  describe('#newGetRecord', () => {
+  describe('#getRecord', () => {
 
     const tableName = 'Tests';
     const recordId = 'recNPB7dTNt5krlMA';
@@ -46,7 +46,7 @@ describe('Integration | Class | airtable', function() {
         cache.set(cacheKey, airtableRecord);
 
         // when
-        const promise = airtable.newGetRecord(tableName, recordId);
+        const promise = airtable.getRecord(tableName, recordId);
 
         // then
         return promise.then(record => {
@@ -63,7 +63,7 @@ describe('Integration | Class | airtable', function() {
         findStub.resolves(airtableRecord);
 
         // when
-        const promise = airtable.newGetRecord(tableName, recordId);
+        const promise = airtable.getRecord(tableName, recordId);
 
         // then
         return promise.then(record => {

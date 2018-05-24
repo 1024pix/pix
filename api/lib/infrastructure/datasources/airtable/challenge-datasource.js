@@ -7,7 +7,7 @@ const VALIDATED_CHALLENGES = ['validé', 'validé sans test', 'pré-validé'];
 module.exports = {
 
   get(id) {
-    return airtable.newGetRecord(AIRTABLE_TABLE_NAME, id)
+    return airtable.getRecord(AIRTABLE_TABLE_NAME, id)
       .then(airtableRawObject => airTableDataObjects.Challenge.fromAirTableObject(airtableRawObject))
       .catch((err) => {
         if (err.error === 'NOT_FOUND') {
