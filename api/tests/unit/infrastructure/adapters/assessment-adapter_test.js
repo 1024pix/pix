@@ -1,11 +1,8 @@
 const { expect, factory } = require('../../../test-helper');
-
-
 const assessmentAdapter = require('../../../../lib/infrastructure/adapters/assessment-adapter');
 const CatAssessment = require('../../../../lib/cat/assessment');
 const CatCourse = require('../../../../lib/cat/course');
 const CatSkill = require('../../../../lib/cat/skill');
-const CatChallenge = require('../../../../lib/cat/challenge');
 const CatAnswer = require('../../../../lib/cat/answer');
 const SmartSkill = require('../../../../lib/smart_random/skill');
 const SmartChallenge = require('../../../../lib/smart_random/challenge');
@@ -25,7 +22,11 @@ describe('Unit | Adapter | Assessment', () => {
     timer: 26,
   };
   const defaultCatSkill = new CatSkill(defaultRawSkillAttrs.name);
-  const defaultCatChallenge = factory.buildCatChallenge({...defaultRawChallengeAttrs, skills: [defaultCatSkill]});
+  const defaultCatChallenge = factory.buildCatChallenge(
+    Object.assign({}, defaultRawChallengeAttrs, {
+      skills: [defaultCatSkill]
+    })
+  );
 
   describe('#getAdaptedAssessment', () => {
 
@@ -102,10 +103,11 @@ describe('Unit | Adapter | Assessment', () => {
       it('should have challenges with skills', () => {
         // given
         const skills = [];
-        const challenges = [ {
-          ...defaultRawChallengeAttrs,
-          skills: [{ name: 'url6' }],
-        }];
+        const challenges = [
+          Object.assign({}, defaultRawChallengeAttrs, {
+            skills: [{ name: 'url6' }],
+          })
+        ];
         const answers = [];
 
         // when
@@ -122,7 +124,7 @@ describe('Unit | Adapter | Assessment', () => {
       it('should have an array of challenges', () => {
         // given
         const skills = defaultRawSkillCollection;
-        const challenge = {...defaultRawChallengeAttrs, skills};
+        const challenge = Object.assign({}, defaultRawChallengeAttrs, { skills });
         const expectedChallenge = defaultCatChallenge;
 
         const answersGiven = [new Answer({ id: 42, challengeId: challenge.id, result: '#ABAND#' })];
