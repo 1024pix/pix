@@ -40,7 +40,7 @@ describe('Unit | Repository | course-repository', function() {
     const recordId = 'recTest1';
 
     beforeEach(() => {
-      sandbox.stub(airtable, 'newGetRecord').resolves(course1);
+      sandbox.stub(airtable, 'getRecord').resolves(course1);
     });
 
     it('should fetch a course record from Airtable "Tests"', () => {
@@ -49,7 +49,7 @@ describe('Unit | Repository | course-repository', function() {
 
       // then
       return promise.then(() => {
-        expect(airtable.newGetRecord).to.have.been.calledWith('Tests', recordId);
+        expect(airtable.getRecord).to.have.been.calledWith('Tests', recordId);
       });
     });
 

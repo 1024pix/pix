@@ -68,7 +68,7 @@ describe('Unit | Repository | competence-repository', () => {
   describe('#get', () => {
 
     beforeEach(() => {
-      sandbox.stub(airtable, 'newGetRecord').resolves(competence1);
+      sandbox.stub(airtable, 'getRecord').resolves(competence1);
     });
 
     it('should fetch all competence records from Airtable "Competences" table', () => {
@@ -80,7 +80,7 @@ describe('Unit | Repository | competence-repository', () => {
 
       // then
       return fetchedCompetence.then(() => {
-        expect(airtable.newGetRecord).to.have.been.calledWith('Competences', recordId);
+        expect(airtable.getRecord).to.have.been.calledWith('Competences', recordId);
       });
     });
 

@@ -31,7 +31,7 @@ module.exports = {
   },
 
   get(id) {
-    return airtable.newGetRecord(AIRTABLE_TABLE_NAME, id)
+    return airtable.getRecord(AIRTABLE_TABLE_NAME, id)
       .then(serializer.deserialize);
   },
 

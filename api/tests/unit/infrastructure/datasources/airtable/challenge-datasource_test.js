@@ -23,14 +23,14 @@ describe('Unit | Infrastructure | Datasource | Airtable | ChallengeDatasource', 
 
     it('should call airtable on Epreuves table with the id and return a datamodel Challenge object', () => {
       // given
-      sandbox.stub(airtable, 'newGetRecord').resolves(challengeRawAirTableFixture());
+      sandbox.stub(airtable, 'getRecord').resolves(challengeRawAirTableFixture());
 
       // when
       const promise = challengeDatasource.get('243');
 
       // then
       return promise.then((challenge) => {
-        expect(airtable.newGetRecord).to.have.been.calledWith('Epreuves', '243');
+        expect(airtable.getRecord).to.have.been.calledWith('Epreuves', '243');
 
         expect(challenge).to.be.an.instanceof(airTableDataModels.Challenge);
         expect(challenge.id).to.equal('recwWzTquPlvIl4So');
