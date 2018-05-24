@@ -327,6 +327,22 @@ describe('Unit | Model | Assessment', function() {
       // then
       expect(assessment.filteredChallenges).to.deep.equal([keep1, keep2, keep3]);
     });
+
+    it('should not filtered by priority skill with maxDifficulty less than 3 when there is no answers', function() {
+      // given
+      const web3 = new Skill('web3');
+      const web4 = new Skill('web4');
+      const keep1 = new Challenge('b', 'validé', [web3]);
+      const keep2 = new Challenge('c', 'pré-validé', [web4]);
+      const course = new Course([keep1, keep2]);
+
+      // when
+      const assessment = new Assessment(course, []);
+
+      // then
+      expect(assessment.filteredChallenges).to.deep.equal([keep1, keep2]);
+    });
+
   });
 
   describe('#_computeReward()', function() {

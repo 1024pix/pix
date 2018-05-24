@@ -175,7 +175,7 @@ class Assessment {
     availableChallenges = availableChallenges.filter(challenge => this._isChallengeNotTooHard(challenge));
 
     const listOfSkillsToTargetInPriority = this._skillsToTargetInPriority();
-    if (listOfSkillsToTargetInPriority.length > 0) {
+    if (listOfSkillsToTargetInPriority.length > 0 && this.answers.length > 0) {
       availableChallenges = this._filterChallengesBySkills(availableChallenges, listOfSkillsToTargetInPriority);
     }
 
