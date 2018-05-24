@@ -4,15 +4,18 @@ const { expect, sinon } = require('../../test-helper');
 const cache = require('../../../lib/infrastructure/caches/cache');
 const airtable = require('../../../lib/infrastructure/airtable');
 
-describe('Integration | Class | airtable', function() {
+describe('Integration | Class | airtable', () => {
 
-  const findStub = sinon.stub();
-  const allStub = sinon.stub();
+  const sandbox = sinon.sandbox.create();
+
+  const findStub = sandbox.stub();
+  const allStub = sandbox.stub();
 
   beforeEach(() => {
-    cache.flushAll();
-    sinon.stub(Airtable.prototype, 'init').returns();
-    sinon.stub(Airtable.prototype, 'base').returns({
+    sandbox.stub(cache, 'get');
+    sandbox.stub(cache, 'set');
+    sandbox.stub(Airtable.prototype, 'init').returns();
+    sandbox.stub(Airtable.prototype, 'base').returns({
       table() {
         return {
           find: findStub,
@@ -27,9 +30,7 @@ describe('Integration | Class | airtable', function() {
   });
 
   afterEach(() => {
-    cache.flushAll();
-    Airtable.prototype.init.restore();
-    Airtable.prototype.base.restore();
+    sandbox.restore();
   });
 
   describe('#getRecord', () => {
@@ -43,7 +44,10 @@ describe('Integration | Class | airtable', function() {
 
       it('should resolve with cached value', () => {
         // given
-        cache.set(cacheKey, airtableRecord);
+        const error = undefined;
+        const cachedValue = airtableRecord;
+        cache.get.yields(error, cachedValue);
+        cache.set.returns();
 
         // when
         const promise = airtable.getRecord(tableName, recordId);
@@ -60,6 +64,9 @@ describe('Integration | Class | airtable', function() {
 
       it('should resolve Airtable fetched record and store it in cache', () => {
         // given
+        const error = undefined;
+        const cachedValue = null;
+        cache.get.yields(error, cachedValue);
         findStub.resolves(airtableRecord);
 
         // when
@@ -68,11 +75,26 @@ describe('Integration | Class | airtable', function() {
         // then
         return promise.then(record => {
           expect(record).to.deep.equal(airtableRecord);
-          expect(cache.get(cacheKey)).to.deep.equal(airtableRecord);
+          expect(cache.set).to.have.been.calledWith(cacheKey, airtableRecord);
         });
       });
     });
 
+    context('when the cache throws an error', () => {
+
+      it('should reject the error', () => {
+        // given
+        const error = new Error('cache error');
+        const cachedValue = null;
+        cache.get.yields(error, cachedValue);
+
+        // when
+        const promise = airtable.getRecord(tableName, recordId);
+
+        // then
+        return expect(promise).to.have.been.rejectedWith(error);
+      });
+    });
   });
 
   describe('#findRecords', () => {
@@ -86,7 +108,10 @@ describe('Integration | Class | airtable', function() {
 
       it('should resolve with cached value', () => {
         // given
-        cache.set(cacheKey, airtableRecords);
+        const error = undefined;
+        const cachedValue = airtableRecords;
+        cache.get.yields(error, cachedValue);
+        cache.set.returns();
 
         // when
         const promise = airtable.findRecords(tableName, query);
@@ -103,6 +128,9 @@ describe('Integration | Class | airtable', function() {
 
       it('should resolve Airtable fetched record and store it in cache', () => {
         // given
+        const error = undefined;
+        const cachedValue = null;
+        cache.get.yields(error, cachedValue);
         allStub.resolves(airtableRecords);
 
         // when
@@ -111,11 +139,26 @@ describe('Integration | Class | airtable', function() {
         // then
         return promise.then(record => {
           expect(record).to.deep.equal(airtableRecords);
-          expect(cache.get(cacheKey)).to.deep.equal(airtableRecords);
+          expect(cache.set).to.have.been.calledWith(cacheKey, airtableRecords);
         });
       });
     });
-  });
 
+    context('when the cache throws an error', () => {
+
+      it('should reject the error', () => {
+        // given
+        const error = new Error('cache error');
+        const cachedValue = null;
+        cache.get.yields(error, cachedValue);
+
+        // when
+        const promise = airtable.findRecords(tableName, query);
+
+        // then
+        return expect(promise).to.have.been.rejectedWith(error);
+      });
+    });
+  });
 });
 

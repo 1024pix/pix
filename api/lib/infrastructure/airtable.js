@@ -10,34 +10,40 @@ module.exports = {
   },
 
   getRecord(tableName, recordId) {
-    const cacheKey = `${tableName}_${recordId}`;
-    const cachedValue = cache.get(cacheKey);
-    if (cachedValue) {
-      return Promise.resolve(cache.get(cacheKey));
-    }
-    return this._base()
-      .table(tableName)
-      .find(recordId)
-      .then(record => {
-        cache.set(cacheKey, record);
-        return record;
+    return new Promise((resolve, reject) => {
+      const cacheKey = `${tableName}_${recordId}`;
+      cache.get(cacheKey, (error, cachedValue) => {
+        if (error) return reject(error);
+        if (cachedValue) return resolve(cachedValue);
+
+        this._base()
+          .table(tableName)
+          .find(recordId)
+          .then(record => {
+            cache.set(cacheKey, record);
+            resolve(record);
+          });
       });
+    });
   },
 
   findRecords(tableName, query) {
-    const cacheKey = `${tableName}_${hash(query)}`;
-    const cachedValue = cache.get(cacheKey);
-    if (cachedValue) {
-      return Promise.resolve(cache.get(cacheKey));
-    }
-    return this._base()
-      .table(tableName)
-      .select(query)
-      .all()
-      .then(records => {
-        cache.set(cacheKey, records);
-        return records;
+    return new Promise((resolve, reject) => {
+      const cacheKey = `${tableName}_${hash(query)}`;
+      cache.get(cacheKey, (error, cachedValue) => {
+        if (error) return reject(error);
+        if (cachedValue) return resolve(cachedValue);
+
+        this._base()
+          .table(tableName)
+          .select(query)
+          .all()
+          .then(records => {
+            cache.set(cacheKey, records);
+            resolve(records);
+          });
       });
+    });
   }
 
 };
