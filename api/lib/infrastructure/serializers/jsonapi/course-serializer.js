@@ -4,7 +4,7 @@ module.exports = {
 
   serialize(courses) {
     return new Serializer('course', {
-      attributes: ['name', 'description', 'duration', 'isAdaptive', 'nbChallenges', 'type', 'imageUrl', 'assessment'],
+      attributes: ['name', 'description', 'isAdaptive', 'nbChallenges', 'type', 'imageUrl', 'assessment'],
       assessment: {
         ref: 'id',
       }
