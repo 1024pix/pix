@@ -4,7 +4,6 @@ const Boom = require('boom');
 const Course = require('../../../../lib/domain/models/Course');
 const courseRepository = require('../../../../lib/infrastructure/repositories/course-repository');
 const courseSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/course-serializer');
-const cache = require('../../../../lib/infrastructure/caches/cache');
 
 const securityController = require('../../../../lib/interfaces/controllers/security-controller');
 const courseController = require('../../../../lib/application/courses/course-controller');
@@ -39,7 +38,6 @@ describe('Integration | Controller | course-controller', () => {
   });
 
   afterEach(() => {
-    cache.flushAll();
     sandbox.restore();
   });
 

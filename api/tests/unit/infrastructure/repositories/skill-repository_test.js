@@ -1,5 +1,4 @@
 const { expect, sinon } = require('../../../test-helper');
-const cache = require('../../../../lib/infrastructure/caches/cache');
 const Bookshelf = require('../../../../lib/infrastructure/bookshelf');
 const DomainSkill = require('../../../../lib/domain/models/Skill');
 const airtable = require('../../../../lib/infrastructure/airtable');
@@ -11,14 +10,10 @@ const challengeRepository = require('../../../../lib/infrastructure/repositories
 describe('Unit | Repository | skill-repository', function() {
 
   beforeEach(() => {
-    sinon.stub(cache, 'get');
-    sinon.stub(cache, 'set');
     sinon.stub(challengeRepository, 'findByCompetence');
   });
 
   afterEach(() => {
-    cache.get.restore();
-    cache.set.restore();
     challengeRepository.findByCompetence.restore();
   });
 
