@@ -1,4 +1,5 @@
 const updateCertification = require('./update-certification');
+const getUserCertification = require('./get-user-certification');
 const getCorrectionForAnswerWhenAssessmentEnded = require('./get-correction-for-answer-when-assessment-ended');
 const getNextChallengeForPreview = require('./get-next-challenge-for-preview');
 const getNextChallengeForCertification = require('./get-next-challenge-for-certification');
@@ -10,6 +11,7 @@ const createUser = require('./create-user');
 
 module.exports = {
   updateCertification,
+  getUserCertification,
   findCompletedUserCertifications,
   getCorrectionForAnswerWhenAssessmentEnded,
   getNextChallengeForPreview,

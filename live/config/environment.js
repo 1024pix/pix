@@ -61,6 +61,10 @@ module.exports = function(environment) {
     sentry: {
       dsn: 'https://4b60c9f39a844832956f840b9d0d1359@sentry.io/99479',
       development: true
+    },
+
+    moment: {
+      includeLocales: ['fr']
     }
   };
 

@@ -1,3 +1,11 @@
+.user-certifications-page__container {
+  max-width: 1200px;
+  min-height: 500px;
+  margin: 0 auto;
+
+  margin-bottom: 40px;
+}
+
 .user-certifications-page__title {
   display: flex;
   justify-content: center;
@@ -7,10 +15,12 @@
   font-size: 28px;
   font-weight: $font-medium;
   line-height: 33px;
-  margin-top:40px;
+
+  padding-top: 60px;
+  padding-bottom: 40px;
+  margin: 0;
 
   @include device-is('desktop') {
     justify-content: flex-start;
-    margin-left: 100px;
   }
 }

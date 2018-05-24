@@ -64,6 +64,7 @@
 @import 'components/snapshot-list';
 @import 'components/profile-panel';
 @import 'components/user-logged-menu';
+@import 'components/user-certifications-detail-header';
 @import 'components/partners-enrollment-panel';
 @import 'components/share-profile';
 @import 'components/logged-user-profile-banner';
@@ -93,6 +94,7 @@
 @import 'pages/certification-course-error';
 @import 'pages/certification-start';
 @import 'pages/user-certifications';
+@import 'pages/user-certifications-get';
 
 body {
   font-family: $font-lato;

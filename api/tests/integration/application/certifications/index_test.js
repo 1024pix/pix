@@ -10,6 +10,7 @@ describe('Integration | Application | Route | Certifications', () => {
   beforeEach(() => {
     sinon.stub(certificationController, 'findUserCertifications').callsFake((request, reply) => reply('ok'));
     sinon.stub(certificationController, 'updateCertification').callsFake((request, reply) => reply('ok').code(204));
+    sinon.stub(certificationController, 'getCertification').callsFake((request, reply) => reply('ok').code(200));
     sinon.stub(securityController, 'checkUserHasRolePixMaster').callsFake((request, reply) => reply(true));
 
     server = new Hapi.Server();
@@ -20,6 +21,7 @@ describe('Integration | Application | Route | Certifications', () => {
   afterEach(() => {
     certificationController.findUserCertifications.restore();
     certificationController.updateCertification.restore();
+    certificationController.getCertification.restore();
     securityController.checkUserHasRolePixMaster.restore();
 
     server.stop();
@@ -31,7 +33,26 @@ describe('Integration | Application | Route | Certifications', () => {
       // given
       const options = {
         method: 'GET',
-        url: '/api/certifications'
+        url: '/api/certifications',
+      };
+
+      // when
+      const promise = server.inject(options);
+
+      // then
+      return promise.then(response => {
+        expect(response.statusCode).to.equal(200);
+      });
+    });
+  });
+
+  describe('GET /api/certifications/:id', () => {
+
+    it('should exist', function() {
+      // given
+      const options = {
+        method: 'GET',
+        url: '/api/certifications/1',
       };
 
       // when
@@ -50,7 +71,7 @@ describe('Integration | Application | Route | Certifications', () => {
       // given
       const options = {
         method: 'PATCH',
-        url: '/api/certifications/1'
+        url: '/api/certifications/1',
       };
 
       // when

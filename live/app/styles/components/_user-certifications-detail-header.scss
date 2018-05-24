@@ -1,0 +1,41 @@
+.user-certifications-detail-header {
+  font-family: $font-lato;
+
+  display: flex;
+  flex-flow: row;
+  flex-wrap: wrap;
+  justify-content: center;
+
+  padding-top: 5rem;
+  @include device-is('desktop') {
+    justify-content: flex-start;
+  }
+}
+
+.user-certifications-detail-header__data-box {
+  padding-left: 3.2rem;
+  color: $charcoal-grey;
+
+  font-size: 1.8rem;
+  line-height: 2rem;
+
+  p {
+    margin-bottom: 0rem;
+    padding-bottom: 0.5rem;
+  }
+}
+
+.user-certifications-detail-header__data-box-title {
+  line-height: 2.4rem;
+  font-size: 2rem;
+  font-weight: normal;
+  padding-bottom: 0.6rem;
+}
+
+.user-certifications-detail-header__data-box-title-big {
+  font-family: $font-raleway;
+
+  line-height: 3.2rem;
+  font-size: 2.8rem;
+  font-weight: 600;
+}
