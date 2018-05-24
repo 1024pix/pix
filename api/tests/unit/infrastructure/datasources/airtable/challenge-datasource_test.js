@@ -49,7 +49,8 @@ describe('Unit | Infrastructure | Datasource | Airtable | ChallengeDatasource', 
       // then
       return promise.then(() => {
         expect(airtable.findRecords).to.have.been.calledWith('Epreuves', {
-          filterByFormula: 'OR(FIND("@web1", {acquis}), FIND("@web2", {acquis}))'
+          filterByFormula: 'AND(OR(FIND("@web1", {acquis}), FIND("@web2", {acquis})), ' +
+          'OR({Statut}="validé",{Statut}="validé sans test",{Statut}="pré-validé"))'
         });
       });
 

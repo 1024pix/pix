@@ -2,6 +2,7 @@ const airtable = require('../../airtable');
 const airTableDataObjects = require('./objects');
 
 const AIRTABLE_TABLE_NAME = 'Epreuves';
+const VALIDATED_CHALLENGES = ['validé', 'validé sans test', 'pré-validé'];
 
 module.exports = {
   get(id) {
@@ -15,8 +16,9 @@ module.exports = {
     listOfSkillNames.forEach((skillName) => {
       listOfFilters.push(`FIND("${skillName}", {acquis})`);
     });
+    const statutsValidated = VALIDATED_CHALLENGES.map(validatedStatut => `{Statut}="${validatedStatut}"`);
 
-    const query = { filterByFormula: `OR(${listOfFilters.join(', ')})` };
+    const query = { filterByFormula: `AND(OR(${listOfFilters.join(', ')}), OR(${statutsValidated.join(',')}))` };
 
     return airtable.findRecords(AIRTABLE_TABLE_NAME, query)
       .then((airtableRawObject) => airtableRawObject.map((airTableChallenge) => airTableDataObjects.Challenge.fromAirTableObject(airTableChallenge)));
