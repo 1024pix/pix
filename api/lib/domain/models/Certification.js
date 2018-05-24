@@ -6,20 +6,35 @@ function _byDate(assessmentResultA, assessmentResultB) {
 
 class Certification {
 
-  constructor({ id, date, certificationCenter, isPublished, assessmentState, assessmentResults = [] } = {}) {
+  constructor({
+    id,
+    assessmentState,
+    assessmentResults = [],
+    birthdate,
+    certificationCenter,
+    date,
+    firstName,
+    isPublished,
+    lastName,
+    userId,
+  } = {}) {
     this.id = id;
-    this.date = date;
-    this.certificationCenter = certificationCenter;
-    this.isPublished = isPublished;
     this.assessmentState = assessmentState;
+    this.birthdate = birthdate;
+    this.certificationCenter = certificationCenter;
+    this.date = date;
+    this.firstName = firstName;
+    this.isPublished = isPublished;
+    this.lastName = lastName;
+    this.userId = userId;
 
     const assessmentResultsCopy = Array.from(assessmentResults);
-    const mostRecentAssessment = assessmentResultsCopy.sort(_byDate)[0];
+    const mostRecentAssessmentResult = assessmentResultsCopy.sort(_byDate)[0];
 
-    if (mostRecentAssessment) {
-      this.pixScore = mostRecentAssessment.pixScore;
-      this.status = mostRecentAssessment.status;
-      this.commentForCandidate = mostRecentAssessment.commentForCandidate;
+    if (mostRecentAssessmentResult) {
+      this.pixScore = mostRecentAssessmentResult.pixScore;
+      this.status = mostRecentAssessmentResult.status;
+      this.commentForCandidate = mostRecentAssessmentResult.commentForCandidate;
     }
   }
 }

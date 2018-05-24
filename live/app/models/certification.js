@@ -3,7 +3,10 @@ import DS from 'ember-data';
 const { Model, attr, belongsTo } = DS;
 
 export default Model.extend({
-  date: attr('string'),
+  birthdate: attr('date'),
+  firstName: attr('string'),
+  lastName: attr('string'),
+  date: attr('date'),
   certificationCenter: attr('string'),
   isPublished: attr('boolean'),
   pixScore: attr('number'),

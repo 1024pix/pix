@@ -70,6 +70,9 @@ export default function(server) {
   server.create('certification', {
     id: '2',
     date: new Date('2018-02-15T15:15:52.504Z'),
+    birthdate: new Date('1994-07-10'),
+    firstName:'Jean',
+    lastName:'Bon',
     status: 'rejected',
     pixScore: '6546',
     isPublished: false,

@@ -5,8 +5,8 @@ import sinon from 'sinon';
 import EmberObject from '@ember/object';
 import Service from '@ember/service';
 
-describe('Unit | Route | user certifications', function() {
-  setupTest('route:user-certifications', {
+describe('Unit | Route | user certifications/index', function() {
+  setupTest('route:user-certifications/index', {
     needs: ['service:session', 'service:current-routed-modal']
   });
 

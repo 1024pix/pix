@@ -153,8 +153,8 @@ describe('Integration | Component | certifications list item', function() {
     });
 
     // then
-    it('should render a certifications-list-item__published-item div', function() {
-      expect(this.$('.certifications-list-item__published-item')).to.have.lengthOf(1);
+    it('should render certifications-list-item__published-item with a link inside', function() {
+      expect(this.$('.certifications-list-item__published-item a')).to.have.lengthOf(1);
     });
 
     it('should show Certification obtenue', function() {
@@ -165,6 +165,11 @@ describe('Integration | Component | certifications list item', function() {
     it('should show the Pix Score', function() {
       expect(this.$('.certifications-list-item__pix-score')).to.have.lengthOf(1);
       expect(this.$('.certifications-list-item__pix-score').text()).to.include('231');
+    });
+
+    it('should show link to certification page in last column', function() {
+      expect(this.$('.certifications-list-item__cell-detail-link')).to.have.lengthOf(1);
+      expect(this.$('.certifications-list-item__cell-detail-link').text()).to.include('RÉSULTATS');
     });
   });
 });

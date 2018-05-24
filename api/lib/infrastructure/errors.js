@@ -1,7 +1,7 @@
 class InfrastructureError extends Error {
   constructor(message) {
     super(message);
-    this.title = 'Error';
+    this.title = 'Internal Server Error';
     this.code = 500;
   }
 }

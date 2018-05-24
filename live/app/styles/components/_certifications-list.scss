@@ -1,5 +1,4 @@
 .certifications-list {
-  padding: 10px;
 
   background-color: transparent;
   justify-content: space-around;
@@ -8,12 +7,7 @@
   font-family: $font-raleway;
 
   @include device-is('tablet') {
-    margin: 0 50px;
     font-size: 14px;
-  }
-
-  @include device-is('desktop') {
-    margin: 0 100px;
   }
 }
 

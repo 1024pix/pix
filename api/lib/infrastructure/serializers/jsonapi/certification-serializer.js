@@ -7,7 +7,17 @@ module.exports = {
 
   serialize(certification) {
     return new Serializer('certifications', {
-      attributes: ['certificationCenter', 'date', 'isPublished', 'status', 'pixScore', 'commentForCandidate'],
+      attributes: [
+        'certificationCenter',
+        'birthdate',
+        'date',
+        'firstName',
+        'isPublished',
+        'lastName',
+        'status',
+        'pixScore',
+        'commentForCandidate'
+      ],
     }).serialize(certification);
   },
 
