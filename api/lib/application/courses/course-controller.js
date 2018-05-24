@@ -50,23 +50,6 @@ module.exports = {
       });
   },
 
-  refresh(request, reply) {
-    return courseRepository
-      .refresh(request.params.id)
-      .then(course => reply(courseSerializer.serialize(course)))
-      .catch((err) => {
-        logger.error(err);
-        return reply(Boom.badImplementation(err));
-      });
-  },
-
-  refreshAll(request, reply) {
-    return courseRepository
-      .refreshAll()
-      .then(() => reply('Courses updated'))
-      .catch(reply);
-  },
-
   save(request, reply) {
     const userId = request.auth.credentials.userId;
     const accessCode = request.payload.data.attributes['access-code'];
