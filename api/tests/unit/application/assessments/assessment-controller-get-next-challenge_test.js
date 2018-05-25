@@ -140,28 +140,6 @@ describe('Unit | Controller | assessment-controller-get-next-challenge', () => {
         assessmentService.fetchAssessment.resolves(scoredAsssessment);
       });
 
-      context('when the assessment is a PLACEMENT', () => {
-        it('should not update the certification course status', () => {
-          // given
-          const certificationAssessment = Assessment.fromAttributes({
-            id: 7531,
-            courseId: '356',
-            userId: 5,
-            type: 'PLACEMENT'
-          });
-          assessmentRepository.get.resolves(certificationAssessment);
-          assessmentService.fetchAssessment.resolves({ assessmentPix: certificationAssessment });
-
-          // when
-          const promise = assessmentController.getNextChallenge({ params: { id: 7531 } }, replyStub);
-
-          // then
-          return promise.then(() => {
-            expect(certificationCourseRepository.changeCompletionDate).to.not.have.been.called;
-          });
-        });
-      });
-
       context('when the assessment is a DEMO', () => {
         it('should reply with not found', () => {
           // when
