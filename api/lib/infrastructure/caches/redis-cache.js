@@ -11,15 +11,12 @@ class RedisCache {
 
   get(key, callback) {
     this.client.get(key, (error, value) => {
-      try {
-        return callback(error, JSON.parse(value));
+      if (error) return callback(error);
 
-      } catch (err) {
-        // if JSON.parse fails it gives a SyntaxError
-        if (err instanceof SyntaxError) {
-          return callback(error, value);
-        }
-        throw err;
+      try {
+        return callback(null, JSON.parse(value));
+      } catch (error) {
+        return callback(error);
       }
     });
   }
