@@ -34,7 +34,7 @@
 **/.env
 
 # CircleCI
-*.circle-sha
+*.circle-cache-key
 
 # ember-try
 **/.node_modules.ember-try/
