@@ -1,5 +1,17 @@
 # Pix Changelog
 
+## v1.49.0 (25/05/2018) 
+
+- [#43](https://github.com/1024pix/pix/pull/43) [HOTFIX] Amélioration de la sécurité lors de la création d'un compte utilisateur (PF-103).
+- [#61](https://github.com/1024pix/pix/pull/61) [FEATURE] Ajout du commentaire du jury sur la liste des certifications (PF-13).
+- [#71](https://github.com/1024pix/pix/pull/71) [FEATURE] Création de la page de détail d'une certification (PF-5).
+- [#56](https://github.com/1024pix/pix/pull/56) [FEATURE] Afficher le statut d'une certification (PF-14).
+- [#63](https://github.com/1024pix/pix/pull/63) [FEATURE] Ajout d'une URL pour lancer un test de campagne avec l'algo Smart Random (PF-57).
+- [#60](https://github.com/1024pix/pix/pull/60) [FEATURE] L'algo doit parcourir les tubes "facile" en priorité (PF-149).
+- [#59](https://github.com/1024pix/pix/pull/59) [TECH] Le message de commit sera automatiquement préfixé avec le numero de l‘US de la branche.
+- [#73](https://github.com/1024pix/pix/pull/73) [BUGFIX] L'algorithme de positionnement ne filtre pas la première question par acquis prioritaire (PF-176).
+- [#58](https://github.com/1024pix/pix/pull/58) [BUGFIX] Gestion des erreurs 500 lors du partage d'un profil de compétence (PF-140).
+
 ## v1.48.0 (04/05/2018) 
 
 - [#36](https://github.com/1024pix/pix/pull/36) [FEATURE] Affichage d'un indice à la fin du test lorsque l'utilisateur a donné une mauvaise réponse (US-1105).
