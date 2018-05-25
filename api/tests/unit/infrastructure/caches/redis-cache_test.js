@@ -1,9 +1,9 @@
-const {expect, sinon} = require('../../../test-helper');
-const factory = require('../../../factory');
+const { expect, sinon } = require('../../../test-helper');
+const factory = require('../../../factory/index');
 const redis = require('redis');
 const RedisCache = require('../../../../lib/infrastructure/caches/redis-cache');
 
-describe('Integration | Infrastructure | Cache', () => {
+describe('Unit | Infrastructure | Cache', () => {
 
   const stubbedClient = {
     set: () => undefined,
@@ -28,15 +28,18 @@ describe('Integration | Infrastructure | Cache', () => {
     stubbedClient.flushall.restore();
   });
 
-  it('should create redis client with redis url', () => {
-    // given
-    const redisUrl = 'redis_url';
+  describe('#constructor', () => {
 
-    // when
-    new RedisCache(redisUrl);
+    it('should create redis client with redis url', () => {
+      // given
+      const redisUrl = 'redis_url';
 
-    // then
-    expect(redis.createClient).to.have.been.calledWith(redisUrl);
+      // when
+      new RedisCache(redisUrl);
+
+      // then
+      expect(redis.createClient).to.have.been.calledWith(redisUrl);
+    });
   });
 
   describe('#get', () => {
