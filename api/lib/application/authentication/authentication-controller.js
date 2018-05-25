@@ -18,6 +18,7 @@ function _buildError() {
 
 module.exports = {
 
+  // TODO to remove, now we use Oauth2 with endpoint token
   save(request, reply) {
 
     const userFromRequest = userSerializer.deserialize((request.payload));
