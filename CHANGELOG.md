@@ -1,5 +1,9 @@
 # Pix Changelog
 
+## v1.49.3 (25/05/2018)
+
+- [BUGFIX] Add .circle-cache-key to .gitignore.
+
 ## v1.49.2 (25/05/2018)
 
 - [BUGFIX] fix circleci cache key.
