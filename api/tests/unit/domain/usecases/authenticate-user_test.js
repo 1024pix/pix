@@ -3,8 +3,6 @@ const usecases = require('../../../../lib/domain/usecases');
 const User = require('../../../../lib/domain/models/User');
 const { MissingOrInvalidCredentialsError, PasswordNotMatching } = require('../../../../lib/domain/errors');
 const encryptionService = require('../../../../lib/domain/services/encryption-service');
-const tokenService = require('../../../../lib/domain/services/token-service');
-const userRepository = require('../../../../lib/infrastructure/repositories/user-repository');
 
 function _expectTreatmentToFailWithMissingOrInvalidCredentialsError(promise) {
   return promise
@@ -16,31 +14,35 @@ function _expectTreatmentToFailWithMissingOrInvalidCredentialsError(promise) {
     });
 }
 
-describe('Unit | Application | Use Case | CheckUserCredentialsAndGenerateAccessToken', () => {
+describe('Unit | Application | Use Case | authenticate-user', () => {
+
+  let sandbox;
+  let userRepository;
+  let tokenService;
 
   beforeEach(() => {
-    sinon.stub(userRepository, 'findByEmail');
-    sinon.stub(encryptionService, 'check');
-    sinon.stub(tokenService, 'createTokenFromUser');
+    sandbox = sinon.sandbox.create();
+    userRepository = { findByEmail: sandbox.stub() };
+    tokenService = { createTokenFromUser: sandbox.stub() };
+    sandbox.stub(encryptionService, 'check');
   });
 
   afterEach(() => {
-    userRepository.findByEmail.restore();
-    encryptionService.check.restore();
-    tokenService.createTokenFromUser.restore();
+    sandbox.restore();
   });
 
   it('should resolves a valid JWT access token when authentication succeeded', () => {
     // given
     const userEmail = 'user@example.net';
     const accessToken = 'jwt.access.token';
-    const user = new User({ email: userEmail, password: 'user_password' });
+    const userPassword = 'user_password';
+    const user = new User({ email: userEmail, password: userPassword });
     userRepository.findByEmail.resolves(user);
     encryptionService.check.resolves();
     tokenService.createTokenFromUser.returns(accessToken);
 
     // when
-    const promise = usecases.authenticateUser(userEmail, 'user_password');
+    const promise = usecases.authenticateUser({ userEmail, userPassword, userRepository, tokenService});
 
     // then
     return promise.then(accessToken => {
@@ -52,11 +54,13 @@ describe('Unit | Application | Use Case | CheckUserCredentialsAndGenerateAccessT
 
   it('should rejects an error when given username (email) does not match an existing one', () => {
     // given
+    const userEmail = 'unknown_user_email@example.net';
+    const userPassword = 'some_password';
     const error = new Error('Simulates BookshelfUser.NotFoundError');
     userRepository.findByEmail.rejects(error);
 
     // when
-    const promise = usecases.authenticateUser('unknown_user_email@example.net', 'some_password');
+    const promise = usecases.authenticateUser({ userEmail, userPassword, userRepository, tokenService });
 
     // then
     return _expectTreatmentToFailWithMissingOrInvalidCredentialsError(promise);
@@ -65,12 +69,13 @@ describe('Unit | Application | Use Case | CheckUserCredentialsAndGenerateAccessT
   it('should rejects an error when given password does not match the found user’s one', () => {
     // given
     const userEmail = 'user@example.net';
+    const userPassword = 'wrong_password';
     const user = new User({ email: userEmail, password: 'user_password' });
     userRepository.findByEmail.resolves(user);
     encryptionService.check.rejects(new PasswordNotMatching());
 
     // when
-    const promise = usecases.authenticateUser(userEmail, 'wrong_password');
+    const promise = usecases.authenticateUser({ userEmail, userPassword, userRepository, tokenService });
 
     // then
     return _expectTreatmentToFailWithMissingOrInvalidCredentialsError(promise);

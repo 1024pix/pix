@@ -1,11 +1,13 @@
 const encrypt = require('../../domain/services/encryption-service');
 const tokenService = require('../../domain/services/token-service');
-const validationErrorSerializer = require('../../infrastructure/serializers/jsonapi/validation-error-serializer');
-const Authentication = require('../../domain/models/Authentication');
-const authenticationSerializer = require('../../infrastructure/serializers/jsonapi/authentication-serializer');
 const userRepository = require('../../infrastructure/repositories/user-repository');
+const validationErrorSerializer = require('../../infrastructure/serializers/jsonapi/validation-error-serializer');
+const authenticationSerializer = require('../../infrastructure/serializers/jsonapi/authentication-serializer');
 const userSerializer = require('../../infrastructure/serializers/jsonapi/user-serializer');
+
 const usecases = require('../../domain/usecases');
+
+const Authentication = require('../../domain/models/Authentication');
 const JSONAPIError = require('jsonapi-serializer').Error;
 
 function _buildError() {
@@ -52,7 +54,7 @@ module.exports = {
   authenticateUser(request, reply) {
     const { username, password } = request.payload;
 
-    return usecases.authenticateUser(username, password)
+    return usecases.authenticateUser({ userEmail: username, password, userRepository, tokenService })
       .then(accessToken => {
         return reply({
           token_type: 'bearer',

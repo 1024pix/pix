@@ -2,6 +2,8 @@ const { sinon, expect } = require('../../../test-helper');
 
 const authenticationController = require('../../../../lib/application/authentication/authentication-controller');
 const usecases = require('../../../../lib/domain/usecases');
+const tokenService = require('../../../../lib/domain/services/token-service');
+const userRepository = require('../../../../lib/infrastructure/repositories/user-repository');
 
 describe('Unit | Application | Controller | Authentication', () => {
 
@@ -35,12 +37,21 @@ describe('Unit | Application | Controller | Authentication', () => {
     });
 
     it('should check user credentials', () => {
+      // given
+      const userEmail = 'user@email.com';
+      const password = 'user_password';
+
       // when
       const promise = authenticationController.authenticateUser(request, reply);
 
       // then
       return promise.then(() => {
-        expect(usecases.authenticateUser).to.have.been.calledWith('user@email.com', 'user_password');
+        expect(usecases.authenticateUser).to.have.been.calledWith({
+          userEmail,
+          password,
+          userRepository,
+          tokenService,
+        });
       });
     });
 
