@@ -73,7 +73,8 @@ describe('Integration | Application | Route | AuthenticationRouter', () => {
         payload: querystring.stringify({
           grant_type: 'password',
           username: 'user@email.com',
-          password: 'user_password'
+          password: 'user_password',
+          scope: 'pix-orga'
         })
       };
 
@@ -91,6 +92,24 @@ describe('Integration | Application | Route | AuthenticationRouter', () => {
     });
 
     it('should return a response with HTTP status code 200 when route handler (a.k.a. controller) is successful', () => {
+      // when
+      const promise = server.inject(options);
+
+      // then
+      return promise.then(response => {
+        expect(response.statusCode).to.equal(200);
+      });
+    });
+
+
+    it('should return a response with HTTP status code 200 even if there is no scope in the request', () => {
+      // given
+      options.payload = querystring.stringify({
+        grant_type: 'password',
+        username: 'user@email.com',
+        password: 'user_password'
+      });
+
       // when
       const promise = server.inject(options);
 
