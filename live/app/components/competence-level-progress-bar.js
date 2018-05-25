@@ -16,14 +16,19 @@ export default Component.extend({
   name: null,
   status: null,
 
+  limitedLevel: computed('level', function() {
+    const level = this.get('level');
+    return Math.min(level, this.get('_LIMIT_LEVEL'));
+  }),
+
   hasLevel: computed('level', function() {
     const level = this.get('level');
     return isPresent(this.get('level')) && level !== -1;
   }),
 
-  widthOfProgressBar: computed('level', function() {
+  widthOfProgressBar: computed('limitedLevel', function() {
 
-    const level = this.get('level');
+    const level = this.get('limitedLevel');
     const maxLevel = this.get('_MAX_LEVEL');
     let progressBarWidth;
 
