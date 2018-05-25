@@ -13,7 +13,14 @@
     </div>
 
     <div class="assessment-challenge__continue-wrapper">
-      <button {{action "resumeAssessment" model}} class="assessment-checkpoint__continue-button">Je continue</button>
+      <button {{action "resumeAssessment" model}} class="assessment-checkpoint__continue-button">
+        Je continue
+        <img src="{{rootURL}}/images/button-continue/button-continue-next.png" srcset="
+           {{rootURL}}/images/button-continue/button-continue-next@2x.png 2x,
+					 {{rootURL}}/images/button-continue/button-continue-next@3x.png 3x"
+             alt="" class="assessment-checkpoint__continue-button__image" />
+
+      </button>
     </div>
   </div>
 </div>
