@@ -5,7 +5,7 @@ const Authentication = require('../../domain/models/Authentication');
 const authenticationSerializer = require('../../infrastructure/serializers/jsonapi/authentication-serializer');
 const userRepository = require('../../infrastructure/repositories/user-repository');
 const userSerializer = require('../../infrastructure/serializers/jsonapi/user-serializer');
-const checkUserCredentialsAndGenerateAccessToken = require('../usecases/checkUserCredentialsAndGenerateAccessToken');
+const usecases = require('../../domain/usecases');
 const JSONAPIError = require('jsonapi-serializer').Error;
 
 function _buildError() {
@@ -52,7 +52,7 @@ module.exports = {
   authenticateUser(request, reply) {
     const { username, password } = request.payload;
 
-    return checkUserCredentialsAndGenerateAccessToken.execute(username, password)
+    return usecases.authenticateUser(username, password)
       .then(accessToken => {
         return reply({
           token_type: 'bearer',

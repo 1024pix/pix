@@ -1,5 +1,5 @@
 const { expect, sinon } = require('../../../test-helper');
-const useCase = require('../../../../lib/application/usecases/checkUserCredentialsAndGenerateAccessToken');
+const usecases = require('../../../../lib/domain/usecases');
 const User = require('../../../../lib/domain/models/User');
 const { MissingOrInvalidCredentialsError, PasswordNotMatching } = require('../../../../lib/domain/errors');
 const encryptionService = require('../../../../lib/domain/services/encryption-service');
@@ -40,7 +40,7 @@ describe('Unit | Application | Use Case | CheckUserCredentialsAndGenerateAccessT
     tokenService.createTokenFromUser.returns(accessToken);
 
     // when
-    const promise = useCase.execute(userEmail, 'user_password');
+    const promise = usecases.authenticateUser(userEmail, 'user_password');
 
     // then
     return promise.then(accessToken => {
@@ -56,7 +56,7 @@ describe('Unit | Application | Use Case | CheckUserCredentialsAndGenerateAccessT
     userRepository.findByEmail.rejects(error);
 
     // when
-    const promise = useCase.execute('unknown_user_email@example.net', 'some_password');
+    const promise = usecases.authenticateUser('unknown_user_email@example.net', 'some_password');
 
     // then
     return _expectTreatmentToFailWithMissingOrInvalidCredentialsError(promise);
@@ -70,7 +70,7 @@ describe('Unit | Application | Use Case | CheckUserCredentialsAndGenerateAccessT
     encryptionService.check.rejects(new PasswordNotMatching());
 
     // when
-    const promise = useCase.execute(userEmail, 'wrong_password');
+    const promise = usecases.authenticateUser(userEmail, 'wrong_password');
 
     // then
     return _expectTreatmentToFailWithMissingOrInvalidCredentialsError(promise);
