@@ -1,11 +1,9 @@
-const userRepository = require('../../infrastructure/repositories/user-repository');
 const encryptionService = require('../../domain/services/encryption-service');
-const tokenService = require('../../domain/services/token-service');
 const { MissingOrInvalidCredentialsError } = require('../../domain/errors');
 
-module.exports = function(username, password) {
+module.exports = function({ userEmail, password, userRepository, tokenService }) {
   let user;
-  return userRepository.findByEmail(username)
+  return userRepository.findByEmail(userEmail)
     .then(foundUser => (user = foundUser))
     .then(() => encryptionService.check(password, user.password))
     .then(() => tokenService.createTokenFromUser(user))
