@@ -1,5 +1,9 @@
 # Pix Changelog
 
+## v1.49.2 (25/05/2018)
+
+- [BUGFIX] fix circleci cache key.
+
 ## v1.49.1 (25/05/2018)
 
 - [BUGFIX] Checkout the right branch on CircleCi.
