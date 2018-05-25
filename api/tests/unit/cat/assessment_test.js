@@ -328,7 +328,7 @@ describe('Unit | Model | Assessment', function() {
       expect(assessment.filteredChallenges).to.deep.equal([keep1, keep2, keep3]);
     });
 
-    it('should not filtered by priority skill when there is no answers', function() {
+    it('should not filter by priority skill when there is no answers', function() {
       // given
       const prioritySkill = new Skill('url1');
       const nonPrioritySkill1 = new Skill('web3');
