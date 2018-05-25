@@ -52,9 +52,9 @@ module.exports = {
    * @see https://tools.ietf.org/html/rfc6749#section-4.3
    */
   authenticateUser(request, reply) {
-    const { username, password } = request.payload;
+    const { username, password, scope } = request.payload;
 
-    return usecases.authenticateUser({ userEmail: username, password, userRepository, tokenService })
+    return usecases.authenticateUser({ userEmail: username, password, scope, userRepository, tokenService })
       .then(accessToken => {
         return reply({
           token_type: 'bearer',

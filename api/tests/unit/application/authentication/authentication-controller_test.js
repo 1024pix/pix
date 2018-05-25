@@ -22,7 +22,8 @@ describe('Unit | Application | Controller | Authentication', () => {
         payload: {
           grant_type: 'password',
           username: 'user@email.com',
-          password: 'user_password'
+          password: 'user_password',
+          scope: 'pix-orga'
         }
       };
       sinon.stub(usecases, 'authenticateUser').resolves('jwt.access.token');
@@ -40,6 +41,7 @@ describe('Unit | Application | Controller | Authentication', () => {
       // given
       const userEmail = 'user@email.com';
       const password = 'user_password';
+      const scope = 'pix-orga';
 
       // when
       const promise = authenticationController.authenticateUser(request, reply);
@@ -49,6 +51,7 @@ describe('Unit | Application | Controller | Authentication', () => {
         expect(usecases.authenticateUser).to.have.been.calledWith({
           userEmail,
           password,
+          scope,
           userRepository,
           tokenService,
         });
