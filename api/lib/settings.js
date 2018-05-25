@@ -47,7 +47,9 @@ module.exports = (function() {
       payload: 'PixResetPassword'
     },
 
-    passwordValidationPattern: '^(?=.*\\p{L})(?=.*\\d).{8,}$'
+    passwordValidationPattern: '^(?=.*\\p{L})(?=.*\\d).{8,}$',
+
+    redisUrl: process.env.REDIS_URL
 
   };
 
@@ -79,6 +81,8 @@ module.exports = (function() {
     config.temporaryKey = {
       secret: 'test-jwt-key'
     };
+
+    config.redisUrl = null;
   }
 
   return config;
