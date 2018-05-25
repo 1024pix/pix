@@ -175,7 +175,10 @@ class Assessment {
     availableChallenges = availableChallenges.filter(challenge => this._isChallengeNotTooHard(challenge));
 
     const listOfSkillsToTargetInPriority = this._skillsToTargetInPriority();
-    if (listOfSkillsToTargetInPriority.length > 0) {
+    const thereAreSkillsToTargetInPriority = listOfSkillsToTargetInPriority.length > 0;
+    const itIsTheFirstChallenge = this.answers.length > 0;
+
+    if (thereAreSkillsToTargetInPriority && itIsTheFirstChallenge) {
       availableChallenges = this._filterChallengesBySkills(availableChallenges, listOfSkillsToTargetInPriority);
     }
 
