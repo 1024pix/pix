@@ -1,5 +1,9 @@
 # Pix Changelog
 
+## v1.49.1 (25/05/2018)
+
+- [BUGFIX] Checkout the right branch on CircleCi.
+
 ## v1.49.0 (25/05/2018) 
 
 - [#43](https://github.com/1024pix/pix/pull/43) [HOTFIX] Amélioration de la sécurité lors de la création d'un compte utilisateur (PF-103).
