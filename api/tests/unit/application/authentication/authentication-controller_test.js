@@ -1,7 +1,7 @@
 const { sinon, expect } = require('../../../test-helper');
 
 const authenticationController = require('../../../../lib/application/authentication/authentication-controller');
-const checkUserCredentialsAndGenerateAccessToken = require('../../../../lib/application/usecases/checkUserCredentialsAndGenerateAccessToken');
+const usecases = require('../../../../lib/domain/usecases');
 
 describe('Unit | Application | Controller | Authentication', () => {
 
@@ -23,7 +23,7 @@ describe('Unit | Application | Controller | Authentication', () => {
           password: 'user_password'
         }
       };
-      sinon.stub(checkUserCredentialsAndGenerateAccessToken, 'execute').resolves('jwt.access.token');
+      sinon.stub(usecases, 'authenticateUser').resolves('jwt.access.token');
       stubHeader = sinon.stub();
       stubHeader.returns({ header: stubHeader });
       stubCode = sinon.stub().returns({ header: stubHeader });
@@ -31,7 +31,7 @@ describe('Unit | Application | Controller | Authentication', () => {
     });
 
     afterEach(() => {
-      checkUserCredentialsAndGenerateAccessToken.execute.restore();
+      usecases.authenticateUser.restore();
     });
 
     it('should check user credentials', () => {
@@ -40,7 +40,7 @@ describe('Unit | Application | Controller | Authentication', () => {
 
       // then
       return promise.then(() => {
-        expect(checkUserCredentialsAndGenerateAccessToken.execute).to.have.been.calledWith('user@email.com', 'user_password');
+        expect(usecases.authenticateUser).to.have.been.calledWith('user@email.com', 'user_password');
       });
     });
 
