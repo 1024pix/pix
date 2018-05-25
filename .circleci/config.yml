@@ -8,13 +8,13 @@
 #
 # Things to know:
 # - every job is a container
-# - the file `.circle-sha` is used to have a common key between different containers of same build
+# - the file `.circle-cache-key` is used to have a common key between different containers of same build
 # - we need cache, everywhere for everything
 # - cache is immutable. Sometimes we need to flush the cache, but we can't. That's why there is this
-# `v1-` at the beginning. Increment it to `v2-` when you need to change the cache content
+# `v1-` at the beginning. Increment it to `v1-` when you need to change the cache content
 #
 # Cached entries (lifetime = months):
-# - `v1-pix-{{ checksum ".circle-sha" }}`                  => the source code
+# - `v1-pix-{{ checksum ".circle-cache-key" }}`                  => the source code
 # - `v1-server-dependencies-{{ checksum "package.json" }}` => `pix/api/node_modules` directory
 # - `v1-client-dependencies-{{ checksum "package.json" }}` => `pix/live/{node_modules, bower_components}` directories
 #
@@ -51,32 +51,29 @@ jobs:
     working_directory: ~/pix
     steps:
       - checkout
-      - run: git checkout $CIRCLE_BRANCH
-      - run: echo $CIRCLE_SHA1 > .circle-sha
+      - run: echo "${CIRCLE_BRANCH}_${CIRCLE_SHA1}" > .circle-cache-key
       - save_cache:
-          key: v2-pix-{{ checksum ".circle-sha" }}
+          key: v3-pix-{{ checksum ".circle-cache-key" }}
           paths:
             - ~/pix
 
   add_review_app_url_to_trello_card:
     <<: *common_properties
     steps:
-      - run: echo $CIRCLE_SHA1 > .circle-sha
+      - run: echo "${CIRCLE_BRANCH}_${CIRCLE_SHA1}" > .circle-cache-key
       - restore_cache:
           keys:
-            - v2-pix-{{ checksum ".circle-sha" }}
-      - run: git checkout $CIRCLE_BRANCH
+            - v3-pix-{{ checksum ".circle-cache-key" }}
       - run: sudo apt-get install -y jq
       - run: ~/pix/scripts/trello/comment_with_review_app_url.sh
 
   signal_pr_deployment_to_github:
     <<: *common_properties
     steps:
-      - run: echo $CIRCLE_SHA1 > .circle-sha
+      - run: echo "${CIRCLE_BRANCH}_${CIRCLE_SHA1}" > .circle-cache-key
       - restore_cache:
           keys:
-            - v2-pix-{{ checksum ".circle-sha" }}
-      - run: git checkout $CIRCLE_BRANCH
+            - v3-pix-{{ checksum ".circle-cache-key" }}
       - run: ~/pix/live/scripts/signal_deploy_to_pr.sh
 
   # Server side
@@ -84,17 +81,16 @@ jobs:
   install_server_dependencies:
     <<: *server_properties
     steps:
-      - run: echo $CIRCLE_SHA1 > .circle-sha
+      - run: echo "${CIRCLE_BRANCH}_${CIRCLE_SHA1}" > .circle-cache-key
       - restore_cache:
           keys:
-            - v2-pix-{{ checksum ".circle-sha" }}
+            - v3-pix-{{ checksum ".circle-cache-key" }}
       - restore_cache:
           keys:
-            - v2-server-dependencies-{{ checksum "package.json" }}
-      - run: git checkout $CIRCLE_BRANCH
+            - v3-server-dependencies-{{ checksum "package.json" }}
       - run: npm install
       - save_cache:
-          key: v2-server-dependencies-{{ checksum "package.json" }}
+          key: v3-server-dependencies-{{ checksum "package.json" }}
           paths:
             - ~/pix/api/node_modules
             - ~/pix/.npm
@@ -107,14 +103,13 @@ jobs:
   test_server:
     <<: *server_properties
     steps:
-      - run: echo $CIRCLE_SHA1 > .circle-sha
+      - run: echo "${CIRCLE_BRANCH}_${CIRCLE_SHA1}" > .circle-cache-key
       - restore_cache:
           keys:
-            - v2-pix-{{ checksum ".circle-sha" }}
+            - v3-pix-{{ checksum ".circle-cache-key" }}
       - restore_cache:
           keys:
-            - v2-server-dependencies-{{ checksum "package.json" }}
-      - run: git checkout $CIRCLE_BRANCH
+            - v3-server-dependencies-{{ checksum "package.json" }}
       - run: |
           npm run lint
           npm test
@@ -122,14 +117,13 @@ jobs:
   deploy_server_on_dokku:
     <<: *server_properties
     steps:
-      - run: echo $CIRCLE_SHA1 > .circle-sha
+      - run: echo "${CIRCLE_BRANCH}_${CIRCLE_SHA1}" > .circle-cache-key
       - restore_cache:
           keys:
-            - v2-pix-{{ checksum ".circle-sha" }}
+            - v3-pix-{{ checksum ".circle-cache-key" }}
       - restore_cache:
           keys:
-            - v2-server-dependencies-{{ checksum "package.json" }}
-      - run: git checkout $CIRCLE_BRANCH
+            - v3-server-dependencies-{{ checksum "package.json" }}
       - add_ssh_keys:
           fingerprints:
             - "77:2f:5f:ff:39:d2:c5:1d:89:69:be:4c:0b:ef:33:34"
@@ -143,14 +137,13 @@ jobs:
   deploy_server_on_scalingo:
     <<: *server_properties
     steps:
-      - run: echo $CIRCLE_SHA1 > .circle-sha
+      - run: echo "${CIRCLE_BRANCH}_${CIRCLE_SHA1}" > .circle-cache-key
       - restore_cache:
           keys:
-            - v2-pix-{{ checksum ".circle-sha" }}
+            - v3-pix-{{ checksum ".circle-cache-key" }}
       - restore_cache:
           keys:
-            - v2-server-dependencies-{{ checksum "package.json" }}
-      - run: git checkout $CIRCLE_BRANCH
+            - v3-server-dependencies-{{ checksum "package.json" }}
       - add_ssh_keys:
           fingerprints:
             - "d8:07:94:de:70:24:96:32:7f:e0:ac:e6:80:dd:0e:9a"
@@ -174,17 +167,16 @@ jobs:
       - run:
           name: Downgrade npm from 5.6.0 to 5.5.1 (because there is a bug)
           command: 'sudo npm install -g npm@5.5.1'
-      - run: echo $CIRCLE_SHA1 > .circle-sha
+      - run: echo "${CIRCLE_BRANCH}_${CIRCLE_SHA1}" > .circle-cache-key
       - restore_cache:
           keys:
-            - v2-pix-{{ checksum ".circle-sha" }}
+            - v3-pix-{{ checksum ".circle-cache-key" }}
       - restore_cache:
           keys:
-            - v2-client-dependencies-{{ checksum "package.json" }}
-      - run: git checkout $CIRCLE_BRANCH
+            - v3-client-dependencies-{{ checksum "package.json" }}
       - run: npm install
       - save_cache:
-          key: v2-client-dependencies-{{ checksum "package.json" }}
+          key: v3-client-dependencies-{{ checksum "package.json" }}
           paths:
             - ~/pix/live/node_modules
             - ~/.npm
@@ -192,14 +184,13 @@ jobs:
   build_client:
     <<: *client_properties
     steps:
-      - run: echo $CIRCLE_SHA1 > .circle-sha
+      - run: echo "${CIRCLE_BRANCH}_${CIRCLE_SHA1}" > .circle-cache-key
       - restore_cache:
           keys:
-            - v2-pix-{{ checksum ".circle-sha" }}
+            - v3-pix-{{ checksum ".circle-cache-key" }}
       - restore_cache:
           keys:
-            - v2-client-dependencies-{{ checksum "package.json" }}
-      - run: git checkout $CIRCLE_BRANCH
+            - v3-client-dependencies-{{ checksum "package.json" }}
       - run: |
           if [ "${CIRCLE_BRANCH}" == "dev" ]; then
             ./node_modules/.bin/ember build --environment staging
@@ -214,14 +205,13 @@ jobs:
   test_client_1:
     <<: *client_properties
     steps:
-      - run: echo $CIRCLE_SHA1 > .circle-sha
+      - run: echo "${CIRCLE_BRANCH}_${CIRCLE_SHA1}" > .circle-cache-key
       - restore_cache:
           keys:
-            - v2-pix-{{ checksum ".circle-sha" }}
+            - v3-pix-{{ checksum ".circle-cache-key" }}
       - restore_cache:
           keys:
-            - v2-client-dependencies-{{ checksum "package.json" }}
-      - run: git checkout $CIRCLE_BRANCH
+            - v3-client-dependencies-{{ checksum "package.json" }}
       - attach_workspace:
           at: ~/pix/live
       - run: ./node_modules/.bin/ember exam --path dist --split=3 --partition=1 --reporter dot
@@ -229,14 +219,13 @@ jobs:
   test_client_2:
     <<: *client_properties
     steps:
-      - run: echo $CIRCLE_SHA1 > .circle-sha
+      - run: echo "${CIRCLE_BRANCH}_${CIRCLE_SHA1}" > .circle-cache-key
       - restore_cache:
           keys:
-            - v2-pix-{{ checksum ".circle-sha" }}
+            - v3-pix-{{ checksum ".circle-cache-key" }}
       - restore_cache:
           keys:
-            - v2-client-dependencies-{{ checksum "package.json" }}
-      - run: git checkout $CIRCLE_BRANCH
+            - v3-client-dependencies-{{ checksum "package.json" }}
       - attach_workspace:
           at: ~/pix/live
       - run: ./node_modules/.bin/ember exam --path dist --split=3 --partition=2 --reporter dot
@@ -244,14 +233,13 @@ jobs:
   test_client_3:
     <<: *client_properties
     steps:
-      - run: echo $CIRCLE_SHA1 > .circle-sha
+      - run: echo "${CIRCLE_BRANCH}_${CIRCLE_SHA1}" > .circle-cache-key
       - restore_cache:
           keys:
-            - v2-pix-{{ checksum ".circle-sha" }}
+            - v3-pix-{{ checksum ".circle-cache-key" }}
       - restore_cache:
           keys:
-            - v2-client-dependencies-{{ checksum "package.json" }}
-      - run: git checkout $CIRCLE_BRANCH
+            - v3-client-dependencies-{{ checksum "package.json" }}
       - attach_workspace:
           at: ~/pix/live
       - run: ./node_modules/.bin/ember exam --path dist --split=3 --partition=3 --reporter dot
@@ -259,14 +247,13 @@ jobs:
   deploy_client:
     <<: *client_properties
     steps:
-      - run: echo $CIRCLE_SHA1 > .circle-sha
+      - run: echo "${CIRCLE_BRANCH}_${CIRCLE_SHA1}" > .circle-cache-key
       - restore_cache:
           keys:
-            - v2-pix-{{ checksum ".circle-sha" }}
+            - v3-pix-{{ checksum ".circle-cache-key" }}
       - restore_cache:
           keys:
-            - v2-client-dependencies-{{ checksum "package.json" }}
-      - run: git checkout $CIRCLE_BRANCH
+            - v3-client-dependencies-{{ checksum "package.json" }}
       - attach_workspace:
           at: ~/pix/live
       - add_ssh_keys:
@@ -305,9 +292,6 @@ workflows:
             - build_server
       - deploy_server_on_dokku:
           requires:
-            - test_client_1
-            - test_client_2
-            - test_client_3
             - test_server
           filters:
             branches:
@@ -317,9 +301,6 @@ workflows:
                 - gh-pages
       - deploy_server_on_scalingo:
           requires:
-            - test_client_1
-            - test_client_2
-            - test_client_3
             - test_server
           filters:
             branches:
@@ -348,7 +329,6 @@ workflows:
             - test_client_1
             - test_client_2
             - test_client_3
-            - test_server
           filters:
             branches:
               ignore:
