@@ -5,6 +5,7 @@ const buildCatChallenge = require('./build-cat-challenge');
 const buildCatCourse= require('./build-cat-course');
 const buildCatTube = require('./build-cat-tube');
 const buildCertification = require('./build-certification');
+const buildCompetenceMark = require('./build-competence-mark');
 
 module.exports = {
   buildAssessementResult,
@@ -14,4 +15,5 @@ module.exports = {
   buildCatCourse,
   buildCatTube,
   buildCertification,
+  buildCompetenceMark,
 };
