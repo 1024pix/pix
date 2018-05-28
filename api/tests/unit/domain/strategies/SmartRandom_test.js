@@ -3,7 +3,8 @@ const Challenge = require('../../../../lib/domain/models/Challenge');
 const Skill = require('../../../../lib/domain/models/Skill');
 const Answer = require('../../../../lib/domain/models/Answer');
 const AnswerStatus = require('../../../../lib/domain/models/AnswerStatus');
-const SmartRandom = require('../../../../lib/domain/models/SmartRandom');
+const Tube = require('../../../../lib/domain/models/Tube');
+const SmartRandom = require('../../../../lib/domain/strategies/SmartRandom');
 
 describe('Unit | Domain | Models | SmartRandom', () => {
 
@@ -29,14 +30,12 @@ describe('Unit | Domain | Models | SmartRandom', () => {
 
       const challenges = [challenge1, challenge2, challenge3];
       const skills = [web1, web2, web3];
-      const expectedTubes = {
-        'web': [web1, web2, web3]
-      };
+      const expectedTubes = new Tube({ skills: [web1, web2, web3] });
       // when
       const smartRandom = new SmartRandom([], challenges, skills);
 
       // then
-      expect(smartRandom.course.tubes).to.be.deep.equal(expectedTubes);
+      expect(smartRandom.course.tubes).to.be.deep.equal([expectedTubes]);
     });
 
     it('should create a course with tubes contains only skills with challenges', () => {
@@ -49,14 +48,13 @@ describe('Unit | Domain | Models | SmartRandom', () => {
 
       const challenges = [challenge1, challenge2];
       const skills = [web1, web2, web3];
-      const expectedTubes = {
-        'web': [web1, web2]
-      };
+      const expectedTubes = new Tube({ skills: [web1, web2] });
+
       // when
       const smartRandom = new SmartRandom([], challenges, skills);
 
       // then
-      expect(smartRandom.course.tubes).to.be.deep.equal(expectedTubes);
+      expect(smartRandom.course.tubes).to.be.deep.equal([expectedTubes]);
     });
   });
 

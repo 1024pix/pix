@@ -1,4 +1,6 @@
 const _ = require('lodash');
+const Tube = require('./Tube');
+
 class Course {
 
   constructor(model = {}) {
@@ -23,19 +25,28 @@ class Course {
     this.competenceSkills = competenceSkills;
   }
 
+  findTube(tubeName) {
+    return this.tubes.find(tube => tube.name === tubeName);
+  }
+
   computeTubes(listSkills) {
-    const tubes = {};
+    const tubes = [];
 
     listSkills.forEach(skill => {
-      const tubeName = skill.tubeName;
+      const tubeNameOfSkill = skill.tubeName;
 
-      if(!tubes[tubeName]) tubes[tubeName] = [];
+      if(!tubes.find((tube) => tube.name === tubeNameOfSkill)) {
+        tubes.push(new Tube({ skills: [skill] }));
+      } else {
+        const tube = this.findTube(tubeNameOfSkill);
+        tube.addSkill(skill);
+      }
+      this.tubes = tubes;
 
-      if(!_.find(tubes[tubeName], skill)) tubes[tubeName].push(skill);
     });
 
-    Object.keys(tubes).forEach(tubeName =>  {
-      tubes[tubeName] = _.sortBy(tubes[tubeName], ['difficulty']);
+    tubes.forEach(tube =>  {
+      tube.skills = _.sortBy(tube.skills, ['difficulty']);
     });
     this.tubes = tubes;
     return tubes;
