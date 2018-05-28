@@ -39,7 +39,7 @@ describe('Integration | Component | challenge embed simulator', function() {
 
       // then
       const $launchSimulatorButton = this.$('.challenge-embed-simulator__aknowledgment-overlay .challenge-embed-simulator__launch-simulator-button');
-      expect($launchSimulatorButton.text().trim()).to.equal('Je lance le simulateur');
+      expect($launchSimulatorButton.text().trim()).to.equal('Je lance l’application');
     });
 
     it('should close the aknowledgment overlay when clicked', async function() {
@@ -62,7 +62,7 @@ describe('Integration | Component | challenge embed simulator', function() {
 
       // then
       const $reloadSimulatorButton = this.$('.challenge-embed-simulator__reload-button');
-      expect($reloadSimulatorButton.text().trim()).to.equal('Recharger le simulateur');
+      expect($reloadSimulatorButton.text().trim()).to.equal('Recharger l’application');
     });
 
     it('should reload simulator when user clicked on button reload', async function() {
