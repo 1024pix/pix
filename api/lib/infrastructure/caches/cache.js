@@ -22,15 +22,18 @@ class Cache {
   }
 
   set(key, object) {
-    this._cache.set(key, object);
+    const promisifiedSet = util.promisify(this._cache.set);
+    return promisifiedSet(key, object);
   }
 
   del(key) {
-    this._cache.del(key);
+    const promisifiedDel = util.promisify(this._cache.del);
+    return promisifiedDel(key);
   }
 
   flushAll() {
-    this._cache.flushAll();
+    const promisifiedFlushAll = util.promisify(this._cache.flushAll);
+    return promisifiedFlushAll();
   }
 
 }

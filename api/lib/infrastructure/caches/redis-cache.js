@@ -5,8 +5,8 @@ class RedisCache {
     this.client = redis.createClient(redis_url);
   }
 
-  set(key, object) {
-    this.client.set(key, JSON.stringify(object));
+  set(key, object, callback) {
+    this.client.set(key, JSON.stringify(object), callback);
   }
 
   get(key, callback) {

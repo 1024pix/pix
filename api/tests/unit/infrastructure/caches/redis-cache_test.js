@@ -6,10 +6,10 @@ const RedisCache = require('../../../../lib/infrastructure/caches/redis-cache');
 describe('Unit | Infrastructure | Cache', () => {
 
   const stubbedClient = {
-    set: () => undefined,
-    get: () => undefined,
-    del: () => undefined,
-    flushall: () => undefined,
+    set: () => true,
+    get: () => true,
+    del: () => true,
+    flushall: () => true,
   };
 
   beforeEach(() => {
@@ -48,7 +48,7 @@ describe('Unit | Infrastructure | Cache', () => {
       // given
       const redisCache = new RedisCache('redis_url');
       const certificationCacheKey = 'certification_cache_key';
-      const callback = () => undefined;
+      const callback = () => true;
 
       // when
       redisCache.get(certificationCacheKey, callback);
@@ -60,7 +60,7 @@ describe('Unit | Infrastructure | Cache', () => {
     it('should call callback with object after retrieving it if no error', () => {
       const redisCache = new RedisCache('redis_url');
       const certificationCacheKey = 'certification_cache_key';
-      const error = undefined;
+      const error = null;
       const callback = sinon.stub();
       const expectedCertification = factory.buildCertification();
 
@@ -84,7 +84,7 @@ describe('Unit | Infrastructure | Cache', () => {
       const callback = sinon.stub();
 
       stubbedClient.get.callsFake((key, callback) => {
-        const value = undefined;
+        const value = null;
         callback(error, value);
       });
 
@@ -98,18 +98,19 @@ describe('Unit | Infrastructure | Cache', () => {
 
   describe('#set', () => {
 
-    it('should call redis-cache lib with key and stringified object', () => {
+    it('should call redis-cache lib with key, stringified object and callback', () => {
       // given
       const redisCache = new RedisCache('redis_url');
       const certificationCacheKey = 'certification_cache_key';
       const certificationToCache = factory.buildCertification();
       const stringifiedCertification = JSON.stringify(certificationToCache);
+      const callback = () => true;
 
       // when
-      redisCache.set(certificationCacheKey, certificationToCache);
+      redisCache.set(certificationCacheKey, certificationToCache, callback);
 
       // then
-      expect(stubbedClient.set).to.have.been.calledWith(certificationCacheKey, stringifiedCertification);
+      expect(stubbedClient.set).to.have.been.calledWith(certificationCacheKey, stringifiedCertification, callback);
     });
   });
 
@@ -119,7 +120,7 @@ describe('Unit | Infrastructure | Cache', () => {
       // given
       const redisCache = new RedisCache('redis_url');
       const certificationCacheKey = 'certification_cache_key';
-      const callback = () => undefined;
+      const callback = () => true;
 
       // when
       redisCache.del(certificationCacheKey, callback);
