@@ -102,6 +102,7 @@ class Assessment {
   getFailedSkills() {
     return this.answers
       .filter(answer => AnswerStatus.isFailed(answer.result))
+      .filter(answer => answer.challenge)
       .reduce((failedSkills, answer) => {
         // FIXME refactor !
         // XXX we take the current failed skill and all the harder skills in
