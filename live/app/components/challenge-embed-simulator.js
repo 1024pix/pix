@@ -33,8 +33,13 @@ export default Component.extend({
 
   /* This method is not tested because it would be too difficult (add an observer on a complicated stubbed DOM API element!) */
   _reloadSimulator() {
-    const $simulatorIframe = this.element.getElementsByClassName('challenge-embed-simulator__iframe').item(0);
-    $simulatorIframe.src = $simulatorIframe.src;
+    const iframe = this.element.getElementsByClassName('challenge-embed-simulator__iframe').item(0);
+    const tmpSrc = iframe.src;
+    iframe.onload = function() {
+      iframe.onload = '';
+      iframe.src = tmpSrc;
+    };
+    iframe.src = '';
   },
 
   _unblurSimulator() {
