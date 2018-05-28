@@ -3,9 +3,10 @@ const NB_PIX_BY_LEVEL = 8;
 
 class Score {
 
-  constructor(pixScore) {
+  constructor({ pixScore }) {
     this.pixScore = pixScore;
   }
+
   get displayedPixScore() {
     return Math.floor(this.pixScore);
   }

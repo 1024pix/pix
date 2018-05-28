@@ -2,6 +2,7 @@ const { expect } = require('../../../test-helper');
 const Challenge = require('../../../../lib/domain/models/Challenge');
 const Course = require('../../../../lib/domain/models/Course');
 const Skill = require('../../../../lib/domain/models/Skill');
+const Tube = require('../../../../lib/domain/models/Tube');
 
 describe('Unit | Domain | Models | Course', () => {
 
@@ -37,19 +38,21 @@ describe('Unit | Domain | Models | Course', () => {
   });
 
   describe('#computeTubes', function() {
-    it('should return a dictionary of tubes when all challenges require only one skill', function() {
+    it('should return an array of tubes when all challenges require only one skill', function() {
       // given
       const web4 = new Skill({ name: '@web4' });
       const web5 = new Skill({ name: '@web5' });
       const url1 = new Skill({ name: '@url1' });
       const listSkills = [web4, web5, url1];
       const course = new Course();
+      const tubeWeb = new Tube({ skills: [web4, web5] });
+      const tubeUrl = new Tube({ skills: [url1] });
 
       // when
       course.computeTubes(listSkills);
 
       // then
-      const expectedTubes = { 'web': [web4, web5], 'url': [url1] };
+      const expectedTubes = [tubeWeb, tubeUrl];
       expect(course.tubes).to.deep.equal(expectedTubes);
     });
 
@@ -59,16 +62,34 @@ describe('Unit | Domain | Models | Course', () => {
       const web5 = new Skill({ name: '@web5' });
       const url1 = new Skill({ name: '@url1' });
       const listSkills = [web5, web4, url1, url1];
-
       const course = new Course();
+      const tubeWeb = new Tube({ skills: [web4, web5] });
+      const tubeUrl = new Tube({ skills: [url1] });
 
       // when
       course.computeTubes(listSkills);
+
       // then
-      const expectedTubes = { 'web': [web4, web5], 'url': [url1] };
+      const expectedTubes = [tubeWeb, tubeUrl];
       expect(course.tubes).to.deep.equal(expectedTubes);
     });
 
+  });
+
+  describe('#findTube', function() {
+    it('should return the tube with the required name', function() {
+      // given
+      const url1 = new Skill({ name: '@url1' });
+      const course = new Course();
+      const tubeUrl = new Tube({ skills: [url1] });
+      course.tubes = [tubeUrl];
+
+      // when
+      const tube = course.findTube('url');
+
+      // then
+      expect(tube).to.deep.equal(tubeUrl);
+    });
   });
 
 });

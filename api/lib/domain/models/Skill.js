@@ -16,14 +16,6 @@ class Skill {
     return this.name.slice(0, -1);
   }
 
-  getEasierWithin(tubes) {
-    return tubes[this.tubeName].filter(skill => skill.difficulty <= this.difficulty);
-  }
-
-  getHarderWithin(tubes) {
-    return tubes[this.tubeName].filter(skill => skill.difficulty >= this.difficulty);
-  }
-
   computePixScore(competenceSkills) {
     const numberOfSkillsByDifficulty= _.filter(competenceSkills, skill => skill.difficulty === this.difficulty).length;
 

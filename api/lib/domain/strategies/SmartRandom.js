@@ -1,5 +1,5 @@
-const Assessment = require('./Assessment');
-const Course = require('./Course');
+const Assessment = require('../models/Assessment');
+const Course = require('../models/Course');
 const _ = require('lodash');
 
 const LEVEL_FOR_FIRST_CHALLENGE = 2;
@@ -46,7 +46,7 @@ function _skillsToTargetInPriority(courseTubes, validatedSkills, failedSkills) {
   let skillsToTargetInPriority = [];
 
   for (const tube in courseTubes) {
-    const listOfSkillsForThisTube = courseTubes[tube];
+    const listOfSkillsForThisTube = courseTubes[tube].skills;
 
     const mostDifficultSkill = listOfSkillsForThisTube.sort((a, b) => a.difficulty < b.difficulty)[0];
 
@@ -57,7 +57,7 @@ function _skillsToTargetInPriority(courseTubes, validatedSkills, failedSkills) {
       }).length;
 
       if (nbSkillsNotEvaluated !== 0) {
-        skillsToTargetInPriority = skillsToTargetInPriority.concat(courseTubes[tube]);
+        skillsToTargetInPriority = skillsToTargetInPriority.concat(courseTubes[tube].skills);
       }
     }
   }
@@ -90,6 +90,7 @@ function _skillNotKnownYet(skill, validatedSkills, failedSkills) {
 }
 
 function _filteredChallenges(challenges, answers, tubes, validatedSkills, failedSkills, predictedLevel) {
+
   let availableChallenges = challenges.filter(challenge => _isAnAvailableChallenge(challenge, answers));
 
   if (_isPreviousChallengeTimed(answers)) {
@@ -107,24 +108,25 @@ function _filteredChallenges(challenges, answers, tubes, validatedSkills, failed
 }
 
 function _filterChallengesBySkills(listOfChallenges, listOfRequiredSkills) {
+
   return listOfChallenges.filter((challenge) => {
 
-    let challengeContainsTargetedSkill = false;
+    let challengeContainsSkillsProfile = false;
 
     listOfRequiredSkills.map((skill) => skill.name).forEach((skillName) => {
       const challengeHasSkill = challenge.skills.map((skill) => skill.name).includes(skillName);
       if (challengeHasSkill) {
-        challengeContainsTargetedSkill = true;
+        challengeContainsSkillsProfile = true;
       }
     });
 
-    return challengeContainsTargetedSkill;
+    return challengeContainsSkillsProfile;
   });
 }
 
-function _getNewSkillsInfoIfChallengeSolved(challenge, tubes, validatedSkills, failedSkills) {
+function _getNewSkillsInfoIfChallengeSolved(challenge, course, validatedSkills, failedSkills) {
   return challenge.skills.reduce((extraValidatedSkills, skill) => {
-    skill.getEasierWithin(tubes).forEach(skill => {
+    course.findTube(skill.tubeName).getEasierWithin(skill).forEach(skill => {
       if (_skillNotKnownYet(skill, validatedSkills, failedSkills)) {
         extraValidatedSkills.push(skill);
       }
@@ -133,8 +135,8 @@ function _getNewSkillsInfoIfChallengeSolved(challenge, tubes, validatedSkills, f
   }, []);
 }
 
-function _getNewSkillsInfoIfChallengeUnsolved(challenge, tubes, validatedSkills, failedSkills) {
-  return challenge.hardestSkill.getHarderWithin(tubes)
+function _getNewSkillsInfoIfChallengeUnsolved(challenge, course, validatedSkills, failedSkills) {
+  return course.findTube(challenge.hardestSkill.tubeName).getHarderWithin(challenge.hardestSkill)
     .reduce((extraFailedSkills, skill) => {
       if (_skillNotKnownYet(skill, validatedSkills, failedSkills)) {
         extraFailedSkills.push(skill);
@@ -143,10 +145,10 @@ function _getNewSkillsInfoIfChallengeUnsolved(challenge, tubes, validatedSkills,
     }, []);
 }
 
-function _computeReward(challenge, predictedLevel, tubes, validatedSkills, failedSkills) {
+function _computeReward(challenge, predictedLevel, course, validatedSkills, failedSkills) {
   const proba = _probaOfCorrectAnswer(predictedLevel, challenge.hardestSkill.difficulty);
-  const nbExtraSkillsIfSolved = _getNewSkillsInfoIfChallengeSolved(challenge, tubes, validatedSkills, failedSkills).length;
-  const nbFailedSkillsIfUnsolved = _getNewSkillsInfoIfChallengeUnsolved(challenge, tubes, validatedSkills, failedSkills).length;
+  const nbExtraSkillsIfSolved = _getNewSkillsInfoIfChallengeSolved(challenge, course, validatedSkills, failedSkills).length;
+  const nbFailedSkillsIfUnsolved = _getNewSkillsInfoIfChallengeUnsolved(challenge, course, validatedSkills, failedSkills).length;
 
   return proba * nbExtraSkillsIfSolved + (1 - proba) * nbFailedSkillsIfUnsolved;
 }
@@ -207,7 +209,7 @@ class SmartRandom {
         reward: _computeReward(
           challenge,
           predictedLevel,
-          this.course.tubes,
+          this.course,
           this.validatedSkills,
           this.failedSkills)
       };

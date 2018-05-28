@@ -1,7 +1,7 @@
 const _ = require('lodash');
 const Skill = require('./Skill');
 
-class TargetedSkill {
+class SkillsProfile {
   constructor({ skills }) {
     this.skills = skills;
   }
@@ -17,8 +17,8 @@ class TargetedSkill {
     });
     const listOfUniqueSkills =_.uniqWith(completeListOfSkills, _.isEqual);
 
-    return new TargetedSkill({ skills: listOfUniqueSkills });
+    return new SkillsProfile({ skills: listOfUniqueSkills });
   }
 }
 
-module.exports = TargetedSkill;
+module.exports = SkillsProfile;

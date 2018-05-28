@@ -5,7 +5,23 @@ const Skill = require('../../../../lib/domain/models/Skill');
 const Course = require('../../../../lib/domain/models/Course');
 const AnswerStatus = require('../../../../lib/domain/models/AnswerStatus');
 const AssessmentResult = require('../../../../lib/domain/models/AssessmentResult');
+const Tube = require('../../../../lib/domain/models/Tube');
 const { expect } = require('../../../test-helper');
+function _newChallenge(skill) {
+  const ch = new Challenge();
+  ch.addSkill(skill);
+  return ch;
+}
+
+function _newAnswer(result, challenge) {
+  const answer = new Answer({ result });
+  answer.challenge = challenge;
+  return answer;
+}
+
+function _newTube(skills) {
+  return new Tube({ skills });
+}
 
 describe('Unit | Domain | Models | Assessment', () => {
 
@@ -296,17 +312,6 @@ describe('Unit | Domain | Models | Assessment', () => {
   });
 
   describe('#computePixScore', () => {
-    function _newChallenge(skill) {
-      const ch = new Challenge();
-      ch.addSkill(skill);
-      return ch;
-    }
-
-    function _newAnswer(result, challenge) {
-      const answer = new Answer({ result });
-      answer.challenge = challenge;
-      return answer;
-    }
 
     it('should be 0 if no skill has been validated', function() {
       // given
@@ -315,11 +320,12 @@ describe('Unit | Domain | Models | Assessment', () => {
       const competenceSkills = skillNames.map(skillName => skills[skillName] = new Skill({ name: skillName }));
       const ch2 = _newChallenge(skills['@web2']);
       const course = new Course([ch2], competenceSkills);
-      course.tubes = {
-        'web': [skills['@web1'], skills['@web2'], skills['@web3']],
-        'chi': [skills['@chi1'], skills['@chi3']],
-        'fou': [skills['@fou3']]
-      };
+      course.tubes = [
+        _newTube([skills['@web1'], skills['@web2'], skills['@web3']]),
+        _newTube([skills['@chi1'], skills['@chi3']]),
+        _newTube([skills['@fou3']])
+      ];
+
       course.competenceSkills = competenceSkills;
       const answer2 = _newAnswer(AnswerStatus.KO, ch2);
       const assessment = new Assessment();
@@ -342,12 +348,13 @@ describe('Unit | Domain | Models | Assessment', () => {
       ch1.addSkill(skills['@web2']);
       const ch2 = _newChallenge(skills['@web3']);
       const course = new Course([ch1, ch2], competenceSkills);
-      course.tubes = {
-        'web': [skills['@web1'], skills['@web2'], skills['@web3']],
-        'chi': [skills['@chi1'], skills['@chi3']],
-        'fou': [skills['@fou3']],
-        'mis': [skills['@mis3']]
-      };
+
+      course.tubes = [
+        _newTube([skills['@web1'], skills['@web2'], skills['@web3']]),
+        _newTube([skills['@chi1'], skills['@chi3']]),
+        _newTube([skills['@fou3']]),
+        _newTube([skills['@mis3']])
+      ];
       course.competenceSkills = competenceSkills;
       const answer1 = _newAnswer(AnswerStatus.OK, ch1);
       const answer2 = _newAnswer(AnswerStatus.KO, ch2);
@@ -372,12 +379,12 @@ describe('Unit | Domain | Models | Assessment', () => {
       const ch2 = _newChallenge(skills['@web2']);
       const ch3 = _newChallenge(skills['@fou3']);
       const course = new Course([ch1, ch2], competenceSkills);
-      course.tubes = {
-        'web': [skills['@web1'], skills['@web2'], skills['@web3']],
-        'chi': [skills['@chi1'], skills['@chi3']],
-        'fou': [skills['@fou3']],
-        'mis': [skills['@mis3']]
-      };
+      course.tubes = [
+        _newTube([skills['@web1'], skills['@web2'], skills['@web3']]),
+        _newTube([skills['@chi1'], skills['@chi3']]),
+        _newTube([skills['@fou3']]),
+        _newTube([skills['@mis3']])
+      ];
       course.competenceSkills = competenceSkills;
       const answer1 = _newAnswer(AnswerStatus.OK, ch1);
       const answer2 = _newAnswer(AnswerStatus.KO, ch2);
@@ -409,11 +416,11 @@ describe('Unit | Domain | Models | Assessment', () => {
         const ch3Challege = _newChallenge(skills['@ch3']);
         const truc2Challege = _newChallenge(skills['@truc2']);
         const course = new Course([web1Challenge, web3Challege, ch1Challenge, ch2Challenge, ch3Challege, truc2Challege], competenceSkills);
-        course.tubes = {
-          'web': [skills['@web1'], skills['@web3']],
-          'ch': [skills['@ch1'], skills['@ch2'], skills['@ch3']],
-          'truc': [skills['@truc2']]
-        };
+        course.tubes = [
+          _newTube([skills['@web1'], skills['@web3']]),
+          _newTube([skills['@ch1'], skills['@ch2'], skills['@ch3']]),
+          _newTube([skills['@truc2']]),
+        ];
         course.competenceSkills = competenceSkills;
 
         const answer1 = _newAnswer(AnswerStatus.OK, web1Challenge);
@@ -448,10 +455,10 @@ describe('Unit | Domain | Models | Assessment', () => {
         ch2Challenge.status = 'archived';
         const ch3Challege = _newChallenge(skills['@ch3']);
         const course = new Course([web1Challenge, web2Challenge, web3Challege, ch1Challenge, ch2Challenge, ch3Challege], competenceSkills);
-        course.tubes = {
-          'web': [skills['@web1'], skills['@web2'], skills['@web3']],
-          'ch': [skills['@ch1'], skills['@ch2'], skills['@ch3']]
-        };
+        course.tubes = [
+          _newTube([skills['@web1'], skills['@web2'], skills['@web3']]),
+          _newTube([skills['@ch1'], skills['@ch2'], skills['@ch3']]),
+        ];
         course.competenceSkills = competenceSkills;
 
         const answer1 = _newAnswer(AnswerStatus.OK, web1Challenge);
@@ -485,11 +492,11 @@ describe('Unit | Domain | Models | Assessment', () => {
       const ch2 = new Challenge();
       ch2.addSkill(skills['@web2']);
       const course = new Course([ch2], competenceSkills);
-      course.tubes = {
-        'web': [skills['@web1'], skills['@web2'], skills['@web3']],
-        'chi': [skills['@chi1'], skills['@chi3']],
-        'fou': [skills['@fou3']]
-      };
+      course.tubes = [
+        _newTube([skills['@web1'], skills['@web2'], skills['@web3']]),
+        _newTube([skills['@chi1'], skills['@chi3']]),
+        _newTube([skills['@fou3']])
+      ];
       const answer1 = new Answer({ result: AnswerStatus.KO });
       answer1.challenge = ch1;
       const answer2 = new Answer({ result: AnswerStatus.OK });
@@ -515,11 +522,12 @@ describe('Unit | Domain | Models | Assessment', () => {
       const ch2 = new Challenge();
       ch2.addSkill(skills['@web2']);
       const course = new Course([ch2], competenceSkills);
-      course.tubes = {
-        'web': [skills['@web1'], skills['@web2'], skills['@web3']],
-        'chi': [skills['@chi1'], skills['@chi3']],
-        'fou': [skills['@fou3']]
-      };
+      course.tubes = [
+        _newTube([skills['@web1'], skills['@web2'], skills['@web3']]),
+        _newTube([skills['@chi1'], skills['@chi3']]),
+        _newTube([skills['@fou3']])
+      ];
+
       const answer1 = new Answer({ result: AnswerStatus.OK });
       answer1.challenge = ch1;
       const answer2 = new Answer({ result: AnswerStatus.OK });
@@ -548,7 +556,7 @@ describe('Unit | Domain | Models | Assessment', () => {
       const ch1 = new Challenge();
       ch1.addSkill(skills['@web1']);
       const course = new Course([ch1], competenceSkills);
-      course.tubes = { 'web': [skills['@web1'], skills['@web2'], skills['@web3']] };
+      course.tubes = [_newTube([skills['@web1'], skills['@web2'], skills['@web3']])];
       const answer1 = new Answer({ result: AnswerStatus.KO });
       answer1.challenge = ch1;
       const assessment = new Assessment();
