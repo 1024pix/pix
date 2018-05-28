@@ -199,11 +199,18 @@ class UserNotAuthorizedToAccessEntity extends Error {
   }
 }
 
+class ForbiddenAccess extends Error {
+  constructor(message) {
+    super(message);
+  }
+}
+
 module.exports = {
   AlreadyRatedAssessmentError,
   AlreadyRegisteredEmailError,
   AssessmentEndedError,
   EntityValidationError,
+  ForbiddenAccess,
   InternalError,
   InvalidRecaptchaTokenError,
   InvalidSnapshotCode,
