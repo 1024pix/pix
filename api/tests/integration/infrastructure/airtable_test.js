@@ -44,10 +44,9 @@ describe('Integration | Class | airtable', () => {
 
       it('should resolve with cached value', () => {
         // given
-        const error = undefined;
         const cachedValue = airtableRecord;
-        cache.get.yields(error, cachedValue);
-        cache.set.returns();
+        cache.get.resolves(cachedValue);
+        cache.set.resolves();
 
         // when
         const promise = airtable.getRecord(tableName, recordId);
@@ -64,9 +63,9 @@ describe('Integration | Class | airtable', () => {
 
       it('should resolve Airtable fetched record and store it in cache', () => {
         // given
-        const error = undefined;
         const cachedValue = null;
-        cache.get.yields(error, cachedValue);
+        cache.get.resolves(cachedValue);
+        cache.set.resolves();
         findStub.resolves(airtableRecord);
 
         // when
@@ -85,8 +84,7 @@ describe('Integration | Class | airtable', () => {
       it('should reject the error', () => {
         // given
         const error = new Error('cache error');
-        const cachedValue = null;
-        cache.get.yields(error, cachedValue);
+        cache.get.rejects(error);
 
         // when
         const promise = airtable.getRecord(tableName, recordId);
@@ -108,10 +106,9 @@ describe('Integration | Class | airtable', () => {
 
       it('should resolve with cached value', () => {
         // given
-        const error = undefined;
         const cachedValue = airtableRecords;
-        cache.get.yields(error, cachedValue);
-        cache.set.returns();
+        cache.get.resolves(cachedValue);
+        cache.set.resolves();
 
         // when
         const promise = airtable.findRecords(tableName, query);
@@ -128,9 +125,9 @@ describe('Integration | Class | airtable', () => {
 
       it('should resolve Airtable fetched record and store it in cache', () => {
         // given
-        const error = undefined;
         const cachedValue = null;
-        cache.get.yields(error, cachedValue);
+        cache.get.resolves(cachedValue);
+        cache.set.resolves();
         allStub.resolves(airtableRecords);
 
         // when
@@ -149,8 +146,7 @@ describe('Integration | Class | airtable', () => {
       it('should reject the error', () => {
         // given
         const error = new Error('cache error');
-        const cachedValue = null;
-        cache.get.yields(error, cachedValue);
+        cache.get.rejects(error);
 
         // when
         const promise = airtable.findRecords(tableName, query);
