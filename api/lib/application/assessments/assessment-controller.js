@@ -27,8 +27,9 @@ module.exports = {
     const assessment = assessmentSerializer.deserialize(request.payload);
     assessment.state = 'started';
 
+    // XXX Fake name, waiting for campaign
     if(assessment.isSmartPlacementAssessment()) {
-      assessment.courseId = 'CampagnePix';
+      assessment.courseId = 'Smart Placement Tests CourseId Not Used';
     }
 
     if (request.headers.hasOwnProperty('authorization')) {
