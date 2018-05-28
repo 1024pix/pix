@@ -341,7 +341,9 @@ describe('Unit | Route | Assessments.ChallengeRoute', function() {
         return promise.then(function() {
           sinon.assert.callOrder(answerToChallengeOne.save, route.transitionTo);
           sinon.assert.calledOnce(route.transitionTo);
-          sinon.assert.calledWith(route.transitionTo, 'assessments.checkpoint', 947);
+          sinon.assert.calledWith(route.transitionTo, 'assessments.checkpoint', assessment, {
+            queryParams: { finalCheckpoint: true }
+          });
         });
       });
     });
