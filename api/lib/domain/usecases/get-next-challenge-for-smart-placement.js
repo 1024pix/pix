@@ -16,6 +16,12 @@ const listSkills = [
   '@unite2',
 ];
 
+function getNextChallengeInSmartRandom(answersPix, challengesPix, skills) {
+  const smartRandom = new SmartRandom (answersPix, challengesPix, skills);
+  const nextChallenge = smartRandom.getNextChallenge();
+  return _.get(nextChallenge, 'id', null);
+}
+
 module.exports = function({
   assessment,
   answerRepository,
@@ -40,10 +46,3 @@ module.exports = function({
     .then(challengeRepository.get);
 
 };
-
-function getNextChallengeInSmartRandom(answersPix, challengesPix, skills) {
-  const smartRandom = new SmartRandom (answersPix, challengesPix, skills);
-  const nextChallenge = smartRandom.getNextChallenge();
-  return _.get(nextChallenge, 'id', null);
-}
-

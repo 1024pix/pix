@@ -21,8 +21,11 @@ module.exports = {
     const query = { filterByFormula: `AND(OR(${listOfFilters.join(', ')}), OR(${statutsValidated.join(',')}))` };
 
     return airtable.findRecords(AIRTABLE_TABLE_NAME, query)
-      .then((airtableRawObject) => airtableRawObject.map((airTableChallenge) => airTableDataObjects.Challenge.fromAirTableObject(airTableChallenge)));
+      .then((airtableRawObject) => {
+        return airtableRawObject.map((airTableChallenge) => {
+          return airTableDataObjects.Challenge.fromAirTableObject(airTableChallenge);
+        });
+      });
   }
-
 };
 

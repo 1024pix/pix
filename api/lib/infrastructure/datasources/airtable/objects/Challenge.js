@@ -11,7 +11,7 @@ class Challenge {
     scoring,
     status,
     skillIds = [],
-    skills = []
+    skills = [],
   }) {
     this.id = id;
     this.instruction = instruction;
@@ -41,7 +41,7 @@ class Challenge {
       status: airtableEpreuveObject['fields']['Statut'],
       skillIds: airtableEpreuveObject['fields']['Acquix'],
       skills: airtableEpreuveObject['fields']['acquis'],
-      timer: airtableEpreuveObject['fields']['Timer']
+      timer: airtableEpreuveObject['fields']['Timer'],
     });
   }
 }
