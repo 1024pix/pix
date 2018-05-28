@@ -46,7 +46,7 @@ describe('Unit | Model | Challenge', function() {
 
   });
 
-  describe('#skillsFullyIncludedIn', function() {
+  describe('#testsAtLeastOneNewSkill', function() {
 
     it('returns true if the challenge is not already assessed', function() {
       // given
