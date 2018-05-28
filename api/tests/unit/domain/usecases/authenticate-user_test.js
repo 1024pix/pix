@@ -1,7 +1,7 @@
 const { expect, sinon } = require('../../../test-helper');
 const usecases = require('../../../../lib/domain/usecases');
 const User = require('../../../../lib/domain/models/User');
-const { MissingOrInvalidCredentialsError, PasswordNotMatching } = require('../../../../lib/domain/errors');
+const { MissingOrInvalidCredentialsError, PasswordNotMatching, ForbiddenAccess } = require('../../../../lib/domain/errors');
 const encryptionService = require('../../../../lib/domain/services/encryption-service');
 
 function _expectTreatmentToFailWithMissingOrInvalidCredentialsError(promise) {
@@ -42,7 +42,7 @@ describe('Unit | Application | Use Case | authenticate-user', () => {
     tokenService.createTokenFromUser.returns(accessToken);
 
     // when
-    const promise = usecases.authenticateUser({ userEmail, userPassword, userRepository, tokenService});
+    const promise = usecases.authenticateUser({ userEmail, userPassword, userRepository, tokenService });
 
     // then
     return promise.then(accessToken => {
@@ -79,6 +79,29 @@ describe('Unit | Application | Use Case | authenticate-user', () => {
 
     // then
     return _expectTreatmentToFailWithMissingOrInvalidCredentialsError(promise);
+  });
+
+  context('scope access', () => {
+
+    it('rejects an error when scope is pix-orga and user is not linked to any organizations', function () {
+      // given
+      const userEmail = 'user@example.net';
+      const userPassword = 'wrong_password';
+      const scope = 'pix-orga';
+      const user = new User({ email: userEmail, password: 'user_password', organizationRoles: [] });
+      userRepository.findByEmail.resolves(user);
+
+      // when
+      const promise = usecases.authenticateUser({ userEmail, userPassword, scope, userRepository, tokenService });
+
+      // then
+      return promise
+        .then(() => expect.fail('Expected ForbiddenAccess to be thrown'))
+        .catch(error => {
+          expect(error).to.be.an.instanceof(ForbiddenAccess);
+          expect(error.message).to.equal('User is not allowed to access this area');
+        });
+    });
   });
 
 });

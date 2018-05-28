@@ -40,7 +40,7 @@ module.exports = {
   },
 
   create(domainUser) {
-    const userRawData = _.omit(domainUser, ['pixRoles']);
+    const userRawData = _.omit(domainUser, ['pixRoles', 'organizationRoles']);
     return new BookshelfUser(userRawData)
       .save()
       .then(bookshelfUser => bookshelfUser.toDomainEntity());
