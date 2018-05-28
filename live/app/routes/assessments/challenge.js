@@ -83,7 +83,9 @@ export default BaseRoute.extend({
         })
         .catch(() => {
           if(assessment.get('hasCheckpoints')) {
-            return this.transitionTo('assessments.checkpoint', assessment.get('id'));
+            return this.transitionTo('assessments.checkpoint', assessment, {
+              queryParams: { finalCheckpoint: true }
+            });
           }
 
           this.transitionTo('assessments.rating', assessment.get('id'));

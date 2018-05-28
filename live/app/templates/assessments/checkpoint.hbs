@@ -14,7 +14,9 @@
 
     <div class="assessment-challenge__continue-wrapper">
       <button {{action "resumeAssessment" model}} class="assessment-checkpoint__continue-button">
-        Je continue
+
+        {{buttonText}}
+
         <img src="{{rootURL}}/images/button-continue/button-continue-next.png" srcset="
            {{rootURL}}/images/button-continue/button-continue-next@2x.png 2x,
 					 {{rootURL}}/images/button-continue/button-continue-next@3x.png 3x"
