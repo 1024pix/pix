@@ -1,16 +1,12 @@
-const expect = require('chai').expect;
-const Answer = require('../../../lib/cat/answer');
-const Skill = require('../../../lib/cat/skill');
-const Challenge = require('../../../lib/cat/challenge');
+const { expect, factory } = require('../../test-helper');
+const CatAnswer = require('../../../lib/cat/answer');
 
 describe('Unit | Model | Answer', function() {
 
   describe('#maxDifficulty', function() {
     it('should exist', function() {
       // given
-      const url1 = new Skill('url1');
-      const challenge = new Challenge('recXXX', 'validé', [url1]);
-      const answer = new Answer(challenge, 'ko');
+      const answer = factory.buildCatAnswer();
 
       // then
       expect(answer.maxDifficulty).to.exist;
@@ -18,21 +14,23 @@ describe('Unit | Model | Answer', function() {
 
     it('should return the maximal skill difficulty of a challenge', function() {
       // given
-      const web5 = new Skill('web5');
-      const url1 = new Skill('url1');
-      const challenge = new Challenge('recXXX', 'validé', [url1, web5]);
-      const answer = new Answer(challenge, 'ok');
+      const givenMaxDifficulty = 5;
+      const answer = factory.buildCatAnswer({
+        challenge: factory.buildCatChallenge({
+          skills: factory.buildCatTube({ max: givenMaxDifficulty })
+        })
+      });
 
       // when
-      const maxDifficulty = answer.maxDifficulty;
+      const result = answer.maxDifficulty;
 
       // then
-      expect(maxDifficulty).to.equal(5);
+      expect(result).to.equal(givenMaxDifficulty);
     });
 
     it('should return 2 if the challenge is undefined', function() {
       // given
-      const answer = new Answer(undefined, 'ok');
+      const answer = new CatAnswer(undefined, 'ok');
 
       // when
       const maxDifficulty = answer.maxDifficulty;
@@ -45,8 +43,7 @@ describe('Unit | Model | Answer', function() {
   describe('#binaryOutcome', function() {
     it('should exist', function() {
       // given
-      const challenge = new Challenge('recXXX', 'validé', []);
-      const answer = new Answer(challenge, 'ko');
+      const answer = factory.buildCatAnswer();
 
       // then
       expect(answer.binaryOutcome).to.exist;
@@ -54,26 +51,24 @@ describe('Unit | Model | Answer', function() {
 
     it('should return 1 if answer is correct', function() {
       // given
-      const challenge = new Challenge('recXXX', 'validé', []);
-      const answer = new Answer(challenge, 'ok');
+      const answer = factory.buildCatAnswer({ result: 'ok' });
 
       // when
-      const maxDifficulty = answer.binaryOutcome;
+      const binaryOutcome = answer.binaryOutcome;
 
       // then
-      expect(maxDifficulty).to.equal(1);
+      expect(binaryOutcome).to.equal(1);
     });
 
     it('should return 0 if answer is not correct', function() {
       // given
-      const challenge = new Challenge('recXXX', 'validé', []);
-      const answer = new Answer(challenge, 'partial');
+      const answer = factory.buildCatAnswer({ result: 'ko' });
 
       // when
-      const maxDifficulty = answer.binaryOutcome;
+      const binaryOutcome = answer.binaryOutcome;
 
       // then
-      expect(maxDifficulty).to.equal(0);
+      expect(binaryOutcome).to.equal(0);
     });
   });
 

@@ -7,7 +7,7 @@ exports.up = (knex) => {
   });
 };
 
-exports.down = function (knex) {
+exports.down = function(knex) {
 
   knex.schema.alterTable(TABLE_NAME, (t) => {
     t.text('string').alter();

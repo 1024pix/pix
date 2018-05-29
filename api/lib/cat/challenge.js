@@ -1,3 +1,5 @@
+const _ = require('lodash');
+
 class Challenge {
 
   constructor(id, status, skills, timer) {
@@ -14,6 +16,10 @@ class Challenge {
 
   get hardestSkill() {
     return this.skills.reduce((s1, s2) => (s1.difficulty > s2.difficulty) ? s1 : s2);
+  }
+
+  testsAtLeastOneNewSkill(assessedSkills) {
+    return _(this.skills).difference(assessedSkills).size() > 0;
   }
 }
 

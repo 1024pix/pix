@@ -1,10 +1,8 @@
-const { expect } = require('../../../test-helper');
-
+const { expect, factory } = require('../../../test-helper');
 const assessmentAdapter = require('../../../../lib/infrastructure/adapters/assessment-adapter');
 const CatAssessment = require('../../../../lib/cat/assessment');
 const CatCourse = require('../../../../lib/cat/course');
 const CatSkill = require('../../../../lib/cat/skill');
-const CatChallenge = require('../../../../lib/cat/challenge');
 const CatAnswer = require('../../../../lib/cat/answer');
 const SmartSkill = require('../../../../lib/smart_random/skill');
 const SmartChallenge = require('../../../../lib/smart_random/challenge');
@@ -15,11 +13,26 @@ const Answer = require('../../../../lib/domain/models/Answer');
 
 describe('Unit | Adapter | Assessment', () => {
 
+  const defaultRawSkillAttrs = { name: '@web1' };
+  const defaultRawSkillCollection = [ defaultRawSkillAttrs ];
+  const defaultRawChallengeAttrs = {
+    id: 12,
+    status: 'validé',
+    skills: defaultRawSkillCollection,
+    timer: 26,
+  };
+  const defaultCatSkill = new CatSkill(defaultRawSkillAttrs.name);
+  const defaultCatChallenge = factory.buildCatChallenge(
+    Object.assign({}, defaultRawChallengeAttrs, {
+      skills: [defaultCatSkill]
+    })
+  );
+
   describe('#getAdaptedAssessment', () => {
 
     it('should return an Assessment from the Cat repository', () => {
       // given
-      const skills = [];
+      const skills = defaultRawSkillCollection;
       const challenges = [];
       const answers = [];
 
@@ -55,13 +68,9 @@ describe('Unit | Adapter | Assessment', () => {
       it('should have an array of challenges', () => {
         // given
         const skills = [];
-        const challenges = [{
-          id: 256,
-          status: 'validé',
-          skills: [],
-          timer: 26
-        }];
+        const challenges = [ defaultRawChallengeAttrs ];
         const answers = [];
+        const expectedChallenge = defaultCatChallenge;
 
         // when
         const adaptedAssessment = assessmentAdapter.getAdaptedAssessment(answers, challenges, skills);
@@ -69,7 +78,7 @@ describe('Unit | Adapter | Assessment', () => {
         // then
         const { course } = adaptedAssessment;
         expect(course).to.have.property('challenges');
-        expect(course.challenges[0]).to.deep.equal(new CatChallenge(256, 'validé', [], 26));
+        expect(course.challenges[0]).to.deep.equal(expectedChallenge);
       });
 
       it('should not select challenges without skills', () => {
@@ -94,12 +103,11 @@ describe('Unit | Adapter | Assessment', () => {
       it('should have challenges with skills', () => {
         // given
         const skills = [];
-        const challenges = [{
-          id: 256,
-          status: 'validé',
-          skills: [{ name: 'url6' }],
-          timer: 26
-        }];
+        const challenges = [
+          Object.assign({}, defaultRawChallengeAttrs, {
+            skills: [{ name: 'url6' }],
+          })
+        ];
         const answers = [];
 
         // when
@@ -115,22 +123,18 @@ describe('Unit | Adapter | Assessment', () => {
 
       it('should have an array of challenges', () => {
         // given
-        const skills = [];
-        const challenges = [{
-          id: 256,
-          status: 'validé',
-          skills: [],
-          timer: 26
-        }];
+        const skills = defaultRawSkillCollection;
+        const challenge = Object.assign({}, defaultRawChallengeAttrs, { skills });
+        const expectedChallenge = defaultCatChallenge;
 
-        const answersGiven = [new Answer({ id: 42, challengeId: 256, result: '#ABAND#' })];
+        const answersGiven = [new Answer({ id: 42, challengeId: challenge.id, result: '#ABAND#' })];
 
         // when
-        const adaptedAssessment = assessmentAdapter.getAdaptedAssessment(answersGiven, challenges, skills);
+        const adaptedAssessment = assessmentAdapter.getAdaptedAssessment(answersGiven, [challenge], skills);
 
         // then
         const { answers } = adaptedAssessment;
-        expect(answers).to.deep.equal([new CatAnswer(new CatChallenge(256, 'validé', [], 26), '#ABAND#')]);
+        expect(answers).to.deep.equal([new CatAnswer(expectedChallenge, '#ABAND#')]);
       });
     });
   });
