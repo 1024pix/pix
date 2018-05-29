@@ -22,7 +22,7 @@ describe('Unit | Domain | Use Cases | get-next-challenge-for-demo', () => {
     beforeEach(() => {
       courseId = 18415;
       course = new Course({ id: courseId, challenges: ['first_challenge', 'second_challenge'] });
-      assessment = new Assessment({ id: 1165, courseId });
+      assessment = Assessment.fromAttributes({ id: 1165, courseId });
 
       courseRepository = { get: sinon.stub().resolves(course) };
       challengeRepository = { get: sinon.stub().resolves() };
