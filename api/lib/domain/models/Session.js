@@ -1,17 +1,17 @@
 class Session {
 
-  constructor(model = {}) {
-    this.id = model.id;
-    this.certificationCenter = model.certificationCenter;
-    this.address = model.address;
-    this.room = model.room;
-    this.examiner = model.examiner;
-    this.date = model.date;
-    this.time = model.time;
-    this.description = model.description;
-    this.accessCode = model.accessCode;
+  constructor({ id, certificationCenter, address, room, examiner, date, time, description, accessCode, certifications } = {}) {
+    this.id = id;
+    this.certificationCenter = certificationCenter;
+    this.address = address;
+    this.room = room;
+    this.examiner = examiner;
+    this.date = date;
+    this.time = time;
+    this.description = description;
+    this.accessCode = accessCode;
 
-    this.certifications = model.certifications;
+    this.certifications = certifications;
   }
 }
 
