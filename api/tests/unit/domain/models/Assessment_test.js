@@ -7,10 +7,11 @@ const AnswerStatus = require('../../../../lib/domain/models/AnswerStatus');
 const AssessmentResult = require('../../../../lib/domain/models/AssessmentResult');
 const Tube = require('../../../../lib/domain/models/Tube');
 const { expect } = require('../../../test-helper');
+
 function _newChallenge(skill) {
-  const ch = new Challenge();
-  ch.addSkill(skill);
-  return ch;
+  const challenge = new Challenge();
+  challenge.addSkill(skill);
+  return challenge;
 }
 
 function _newAnswer(result, challenge) {

@@ -90,7 +90,7 @@ class Assessment {
       .reduce((skills, answer) => {
         answer.challenge.skills.forEach(skill => {
           const tube = this.course.findTube(skill.tubeName);
-          tube.getEasierWithin(skill).forEach(validatedSkill => {
+          tube.getEasierThan(skill).forEach(validatedSkill => {
             if (!skills.includes(validatedSkill))
               skills.push(validatedSkill);
           });
@@ -109,7 +109,7 @@ class Assessment {
         // its tube and mark them all as failed
         answer.challenge.skills.forEach(skill => {
           const tube = this.course.findTube(skill.tubeName);
-          tube.getHarderWithin(skill).forEach(failedSkill => {
+          tube.getHarderThan(skill).forEach(failedSkill => {
             if (!failedSkills.includes(failedSkill))
               failedSkills.push(failedSkill);
           });

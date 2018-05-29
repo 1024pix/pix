@@ -26,9 +26,18 @@ describe('Unit | Domain | Models | Tube', () => {
       // then
       expect(tube.name).to.equal('web');
     });
+
+    it('should create the tube without skills', () => {
+      // when
+      const tube = new Tube({});
+
+      // then
+      expect(tube.name).to.equal('');
+    });
+
   });
 
-  describe('#getEasierWithin()', () => {
+  describe('#getEasierThan()', () => {
 
     it('should return the skill itself if it is alone within its tube', () => {
       // given
@@ -37,7 +46,7 @@ describe('Unit | Domain | Models | Tube', () => {
       const tube = new Tube({ skills });
 
       // when
-      const easierSkills = tube.getEasierWithin(skill);
+      const easierSkills = tube.getEasierThan(skill);
 
       // then
       expect(easierSkills).to.be.deep.equal(skills);
@@ -52,14 +61,14 @@ describe('Unit | Domain | Models | Tube', () => {
       const tube = new Tube({ skills });
 
       // when
-      const easierSkills = tube.getEasierWithin(url3);
+      const easierSkills = tube.getEasierThan(url3);
 
       // then
       expect(easierSkills).to.be.deep.equal([url1, url3]);
     });
   });
 
-  describe('#getHarderWithin()', () => {
+  describe('#getHarderThan()', () => {
 
     it('should return the skill itself if it is alone within its tube', function() {
       // given
@@ -68,7 +77,7 @@ describe('Unit | Domain | Models | Tube', () => {
       const tube = new Tube({ skills });
 
       // when
-      const easierSkills = tube.getHarderWithin(skill);
+      const easierSkills = tube.getHarderThan(skill);
 
       // then
       expect(easierSkills).to.be.deep.equal(skills);
@@ -83,7 +92,7 @@ describe('Unit | Domain | Models | Tube', () => {
       const tube = new Tube({ skills });
 
       // when
-      const easierSkills = tube.getHarderWithin(url3);
+      const easierSkills = tube.getHarderThan(url3);
 
       // then
       expect(easierSkills).to.be.deep.equal([url3, url5]);

@@ -1,21 +1,21 @@
 class Tube {
 
-  constructor({ skills }) {
+  constructor({ skills = [] }) {
     this.skills = skills;
-    this.name = skills[0].tubeName;
+    this.name = (skills.length > 0) ? skills[0].tubeName : '';
   }
 
-  addSkill(skill) {
-    if(!this.skills.find(skillTube => skillTube.name === skill.name)) {
-      this.skills.push(skill);
+  addSkill(skillToAdd) {
+    if(!this.skills.find(skill => skill.name === skillToAdd.name)) {
+      this.skills.push(skillToAdd);
     }
   }
 
-  getEasierWithin(skill) {
+  getEasierThan(skill) {
     return this.skills.filter(tubeSkill => tubeSkill.difficulty <= skill.difficulty);
   }
 
-  getHarderWithin(skill) {
+  getHarderThan(skill) {
     return this.skills.filter(tubeSkill => tubeSkill.difficulty >= skill.difficulty);
   }
 

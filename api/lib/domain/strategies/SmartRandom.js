@@ -126,7 +126,7 @@ function _filterChallengesBySkills(listOfChallenges, listOfRequiredSkills) {
 
 function _getNewSkillsInfoIfChallengeSolved(challenge, course, validatedSkills, failedSkills) {
   return challenge.skills.reduce((extraValidatedSkills, skill) => {
-    course.findTube(skill.tubeName).getEasierWithin(skill).forEach(skill => {
+    course.findTube(skill.tubeName).getEasierThan(skill).forEach(skill => {
       if (_skillNotKnownYet(skill, validatedSkills, failedSkills)) {
         extraValidatedSkills.push(skill);
       }
@@ -136,7 +136,7 @@ function _getNewSkillsInfoIfChallengeSolved(challenge, course, validatedSkills, 
 }
 
 function _getNewSkillsInfoIfChallengeUnsolved(challenge, course, validatedSkills, failedSkills) {
-  return course.findTube(challenge.hardestSkill.tubeName).getHarderWithin(challenge.hardestSkill)
+  return course.findTube(challenge.hardestSkill.tubeName).getHarderThan(challenge.hardestSkill)
     .reduce((extraFailedSkills, skill) => {
       if (_skillNotKnownYet(skill, validatedSkills, failedSkills)) {
         extraFailedSkills.push(skill);
