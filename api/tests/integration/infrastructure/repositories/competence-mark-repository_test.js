@@ -55,6 +55,7 @@ describe('Integration | Repository | CompetenceMark', function() {
       it('should return an error', () => {
         // given
         const markWithLevelGreaterThanEight = factory.buildCompetenceMark({
+          score: 13,
           level: 10,
         });
 
@@ -70,6 +71,7 @@ describe('Integration | Repository | CompetenceMark', function() {
       it('should not saved the competenceMark', () => {
         // given
         const markWithLevelGreaterThanEight = factory.buildCompetenceMark({
+          score: 13,
           level: 10,
         });
 
