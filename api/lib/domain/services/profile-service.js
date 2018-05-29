@@ -35,8 +35,16 @@ const profileService = {
 
         const competencesWithDefaultLevelAndStatus = _initCompetenceLevel(competences);
 
-        return new Profile(user, competencesWithDefaultLevelAndStatus, areas, lastAssessments, assessmentsCompleted, adaptiveCourses, organizations);
+        return new Profile({
+          user,
+          competences: competencesWithDefaultLevelAndStatus,
+          areas,
+          lastAssessments,
+          assessmentsCompleted,
+          courses: adaptiveCourses,
+          organizations,
+        });
       });
-  }
+  },
 };
 module.exports = profileService;
