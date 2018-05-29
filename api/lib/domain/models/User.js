@@ -1,14 +1,15 @@
-const _  = require('lodash');
+const _ = require('lodash');
+
 class User {
 
-  constructor(model = {}) {
-    this.id = model.id;
-    this.firstName = model.firstName;
-    this.lastName = model.lastName;
-    this.email = _.toLower(model.email);
-    this.password = model.password;
-    this.cgu = model.cgu;
-    this.pixRoles = model.pixRoles || [];
+  constructor({ id, firstName, lastName, email, password, cgu, pixRoles = [] } = {}) {
+    this.id = id;
+    this.firstName = firstName;
+    this.lastName = lastName;
+    this.email = _.toLower(email);
+    this.password = password;
+    this.cgu = cgu;
+    this.pixRoles = pixRoles;
   }
 
   get hasRolePixMaster() {
