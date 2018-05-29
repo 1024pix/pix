@@ -33,7 +33,7 @@ function _buildCompetence(competence_code, area_code) {
     courseId: 'recvNIWtjJRyBCd0P',
     reference: `${area_code}.${competence_code} bla bla bla`,
     skills: undefined,
-    area: new Area({ id: 'recdmN2Exvq2oAPap', code: `${area_code}`, title: 'Information et données' }),
+    area: Area.fromAttributes({ id: 'recdmN2Exvq2oAPap', code: `${area_code}`, title: 'Information et données' }),
   };
 
   Object.assign(competence, defaultCompetenceInfos);
