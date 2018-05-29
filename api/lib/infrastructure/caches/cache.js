@@ -1,10 +1,6 @@
-const util = require('util');
 const NodeCache = require('node-cache');
 const RedisCache = require('./redis-cache');
 const settings = require('../../settings');
-
-// TODO Discuter des différences entre NodeCache et RedisCache
-// Redis sur les ReviewApps ?
 
 class Cache {
 
@@ -17,23 +13,39 @@ class Cache {
   }
 
   get(key) {
-    const promisifiedGet = util.promisify(this._cache.get);
-    return promisifiedGet(key);
+    return new Promise((resolve, reject) => {
+      this._cache.get(key, (error, value) => {
+        if (error) return reject(error);
+        return resolve(value);
+      });
+    });
   }
 
   set(key, object) {
-    const promisifiedSet = util.promisify(this._cache.set);
-    return promisifiedSet(key, object);
+    return new Promise((resolve, reject) => {
+      this._cache.set(key, object, (error, value) => {
+        if (error) return reject(error);
+        return resolve(value);
+      });
+    });
   }
 
   del(key) {
-    const promisifiedDel = util.promisify(this._cache.del);
-    return promisifiedDel(key);
+    return new Promise((resolve, reject) => {
+      this._cache.del(key, (error) => {
+        if (error) return reject(error);
+        return resolve();
+      });
+    });
   }
 
   flushAll() {
-    const promisifiedFlushAll = util.promisify(this._cache.flushAll);
-    return promisifiedFlushAll();
+    return new Promise((resolve, reject) => {
+      this._cache.flushAll((error) => {
+        if (error) return reject(error);
+        return resolve();
+      });
+    });
   }
 
 }
