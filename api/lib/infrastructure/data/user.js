@@ -6,6 +6,7 @@ const BookshelfUserPixRole = require('./BookshelfUserPixRole');
 
 require('./assessment');
 require('./organization');
+require('./organization-access');
 
 module.exports = Bookshelf.model('User', {
   tableName: 'users',
@@ -14,12 +15,20 @@ module.exports = Bookshelf.model('User', {
     return this.hasMany('Assessment');
   },
 
+  /**
+   * @deprecated Please use #organizationsAccesses() which also manages the access rights
+   */
+  // TODO Remove
   organizations() {
     return this.hasMany('Organization');
   },
 
   pixRoles() {
     return this.belongsToMany(BookshelfPixRole).through(BookshelfUserPixRole);
+  },
+
+  organizationsAccesses() {
+    return this.hasMany('OrganizationAccess', 'userId');
   },
 
   toDomainEntity() {
