@@ -32,8 +32,15 @@ class Assessment {
  * type: 'charade', String ?
  * state: String
  */
-  constructor(attributes) {
-    Object.assign(this, attributes);
+  constructor(_ = {}) {
+  }
+
+  /**
+   * @deprecated
+   */
+  static fromAttributes(attributes) {
+    const area = new Assessment();
+    return Object.assign(area, attributes);
   }
 
   isCompleted() {

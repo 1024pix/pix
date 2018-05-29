@@ -12,7 +12,7 @@ function _selectLastAssessmentForEachCourse(assessments) {
 function _toDomain(bookshelfAssessment) {
   if (bookshelfAssessment !== null) {
     const modelObjectInJSON = bookshelfAssessment.toJSON();
-    return new Assessment(modelObjectInJSON);
+    return Assessment.fromAttributes(modelObjectInJSON);
   }
 
   return null;

@@ -92,7 +92,7 @@ class AssessmentSerializer extends JSONAPISerializer {
     } else {
       courseId = json.data.relationships.course.data.id;
     }
-    return new Assessment({
+    return Assessment.fromAttributes({
       id: json.data.id,
       type: json.data.attributes.type,
       courseId

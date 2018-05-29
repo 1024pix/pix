@@ -82,7 +82,7 @@ describe('Unit | Domain | Models | Profile', () => {
     it('should assign level of competence from assessment', () => {
       // given
       courses[0].competences = ['competenceId1'];
-      assessments = [new Assessment({
+      assessments = [Assessment.fromAttributes({
         id: 'assessmentId1',
         courseId: 'courseId8',
         assessmentResults: [new AssessmentResult({ pixScore:10, level: 1 })],
@@ -124,7 +124,7 @@ describe('Unit | Domain | Models | Profile', () => {
     it('should not assign pixScore and estimatedLevel to user competence if assessment is not completed', function() {
       courses[0].competences = ['competenceId1'];
       lastAssessments = [
-        new Assessment({
+        Assessment.fromAttributes({
           id: 'assessmentId1',
           courseId: 'courseId8'
         })
@@ -164,11 +164,11 @@ describe('Unit | Domain | Models | Profile', () => {
     it('should assign assessment id to competence', function() {
       courses[0].competences = ['competenceId1'];
       courses[1].competences = ['competenceId2'];
-      const assessmentA = new Assessment({
+      const assessmentA = Assessment.fromAttributes({
         id: 'assessment_A',
         courseId: 'courseId8'
       });
-      const assessmentB = new Assessment({
+      const assessmentB = Assessment.fromAttributes({
         id: 'assessment_B',
         courseId: 'courseId9'
       });
@@ -210,26 +210,26 @@ describe('Unit | Domain | Models | Profile', () => {
       it('should assign level of competence from assessment with status "replayed"', () => {
         // given
         courses[0].competences = ['competenceId1'];
-        assessmentsCompleted = [new Assessment({
+        assessmentsCompleted = [Assessment.fromAttributes({
           id: 'assessmentId1',
           assessmentResults: [new AssessmentResult({ pixScore:10, level: 1 })],
           state: 'completed',
           courseId: 'courseId8'
         }),
-        new Assessment({
+        Assessment.fromAttributes({
           id: 'assessmentId2',
           assessmentResults: [new AssessmentResult({ pixScore:20, level: 2 })],
           state: 'completed',
           courseId: 'courseId8'
         })];
 
-        lastAssessments = [new Assessment({
+        lastAssessments = [Assessment.fromAttributes({
           id: 'assessmentId1',
           assessmentResults: [new AssessmentResult({ pixScore:10, level: 1 })],
           state: 'completed',
           courseId: 'courseId8'
         }),
-        new Assessment({
+        Assessment.fromAttributes({
           id: 'assessmentId2',
           assessmentResults: [new AssessmentResult({ pixScore:20, level: 2 })],
           state: 'completed',
@@ -273,7 +273,7 @@ describe('Unit | Domain | Models | Profile', () => {
       it('should assign level of competence at -1 with status "notCompleted"', () => {
         // given
         courses[0].competences = ['competenceId1'];
-        lastAssessments = [new Assessment({
+        lastAssessments = [Assessment.fromAttributes({
           id: 'assessmentId3',
           state: 'started',
           courseId: 'courseId8'
@@ -313,13 +313,13 @@ describe('Unit | Domain | Models | Profile', () => {
       it('should assign level of competence from last assessment with status "notCompleted"', () => {
         // given
         courses[0].competences = ['competenceId1'];
-        lastAssessments = [new Assessment({
+        lastAssessments = [Assessment.fromAttributes({
           id: 'assessmentId2',
           pixScore: null,
           estimatedLevel: null,
           courseId: 'courseId8'
         })];
-        assessmentsCompleted = [new Assessment({
+        assessmentsCompleted = [Assessment.fromAttributes({
           id: 'assessmentId1',
           assessmentResults: [new AssessmentResult({ pixScore:10, level: 1 })],
           state: 'completed',
@@ -363,12 +363,12 @@ describe('Unit | Domain | Models | Profile', () => {
       it('should return the profile only with competences linked to Competences', () => {
         // given
         courses[0].competences = ['competenceId1'];
-        assessmentsCompleted = [new Assessment({
+        assessmentsCompleted = [Assessment.fromAttributes({
           id: 'assessmentId1',
           assessmentResults: [new AssessmentResult({ pixScore:10, level: 1 })],
           state: 'completed',
           courseId: 'courseId8'
-        }), new Assessment({
+        }), Assessment.fromAttributes({
           id: 'assessmentId2',
           state: 'started',
           courseId: 'DemoCourse'
@@ -425,13 +425,13 @@ describe('Unit | Domain | Models | Profile', () => {
         // given
         courses[1].competences = ['competenceId2'];
         assessments = [
-          new Assessment({
+          Assessment.fromAttributes({
             id: 'assessmentId1',
             assessmentResults: [new AssessmentResult({ pixScore: 10, level: 1 })],
             state: 'completed',
             courseId: 'courseId8'
           }),
-          new Assessment({
+          Assessment.fromAttributes({
             id: 'assessmentId2',
             assessmentResults: [new AssessmentResult({ pixScore: 15, level: 2 })],
             state: 'completed',
@@ -456,7 +456,7 @@ describe('Unit | Domain | Models | Profile', () => {
       it('should add the sum of won pix to the user when a competence has no score', () => {
         // given
         assessments = [
-          new Assessment({
+          Assessment.fromAttributes({
             id: 'assessmentId1',
             assessmentResults: [new AssessmentResult({ pixScore: 10, level: 1 })],
             state: 'completed',
