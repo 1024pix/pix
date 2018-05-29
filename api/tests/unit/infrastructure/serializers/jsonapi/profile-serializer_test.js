@@ -42,11 +42,11 @@ describe('Unit | Serializer | JSONAPI | profile-serializer', () => {
       });
 
       areas = [
-        new Area({
+        Area.fromAttributes({
           id: 'recAreaA',
           name: 'area-name-1'
         }),
-        new Area({
+        Area.fromAttributes({
           id: 'recAreaB',
           name: 'area-name-2'
         })
@@ -62,7 +62,7 @@ describe('Unit | Serializer | JSONAPI | profile-serializer', () => {
           assessmentId : 'assessmentId1',
           level: -1,
           status: 'notEvaluated',
-          area: new Area({ id: 'recAreaA' })
+          area: Area.fromAttributes({ id: 'recAreaA' })
         },
         {
           id: 'recCompB',
@@ -73,7 +73,7 @@ describe('Unit | Serializer | JSONAPI | profile-serializer', () => {
           assessmentId : 'assessmentId2',
           level: -1,
           status: 'notEvaluated',
-          area: new Area({ id: 'recAreaB' })
+          area: Area.fromAttributes({ id: 'recAreaB' })
         },
         {
           id: 'recCompC',
@@ -83,7 +83,7 @@ describe('Unit | Serializer | JSONAPI | profile-serializer', () => {
           courseId: 'courseID3',
           level: -1,
           status: 'notEvaluated',
-          area: new Area({ id: 'recAreaB' })
+          area: Area.fromAttributes({ id: 'recAreaB' })
         }];
 
       organizations = [
