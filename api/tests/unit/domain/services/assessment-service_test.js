@@ -558,7 +558,6 @@ describe('Unit | Domain | Services | assessment', () => {
                 expect(competenceRepository.get).not.to.have.been.called;
               });
           });
-
         });
 
         context('when the course is an adaptive one', () => {
@@ -819,16 +818,18 @@ describe('Unit | Domain | Services | assessment', () => {
           { index: '1.2', area: { code: 'area_2' } },
         ]);
         sandbox.stub(certificationService, 'calculateCertificationResultByAssessmentId').resolves({
-          competencesWithMark: [{
-            index: '1.1',
-            obtainedLevel: 2,
-            obtainedScore: 18,
-          },
+          competencesWithMark: [
+            {
+              index: '1.1',
+              obtainedLevel: 2,
+              obtainedScore: 18,
+            },
             {
               index: '1.2',
               obtainedLevel: 3,
               obtainedScore: 28,
-            }],
+            },
+          ],
         });
       });
 
@@ -916,7 +917,6 @@ describe('Unit | Domain | Services | assessment', () => {
           expect(courseRepository.get).to.have.been.calledOnce;
           expect(courseRepository.get).to.have.been.calledWithExactly(courseId);
         });
-
       });
 
       it('should get competence tested by assessment', () => {
@@ -929,7 +929,6 @@ describe('Unit | Domain | Services | assessment', () => {
           expect(competenceRepository.get).to.have.been.calledOnce;
           expect(competenceRepository.get).to.have.been.calledWithExactly('1.1');
         });
-
       });
 
       it('should return a Competence Marks with level, score, area and competence code', () => {
@@ -962,7 +961,6 @@ describe('Unit | Domain | Services | assessment', () => {
         expect(result).to.deep.equal([]);
       });
     });
-
   });
 
   describe('#findByFilters', function() {
@@ -1043,10 +1041,9 @@ describe('Unit | Domain | Services | assessment', () => {
         // given
         const filters = { userId: 1 };
         const retrievedAssessments = [
-            Assessment.fromAttributes({ id: 1, type: Assessment.types.CERTIFICATION, courseId: '2' }),
-            Assessment.fromAttributes({ id: 2, type: Assessment.types.DEMO, courseId: 'recCourseId' }),
-          ]
-        ;
+          Assessment.fromAttributes({ id: 1, type: Assessment.types.CERTIFICATION, courseId: '2' }),
+          Assessment.fromAttributes({ id: 2, type: Assessment.types.DEMO, courseId: 'recCourseId' }),
+        ];
         assessmentRepository.findByFilters.resolves(retrievedAssessments);
 
         // when
@@ -1063,10 +1060,9 @@ describe('Unit | Domain | Services | assessment', () => {
         // given
         const filters = { userId: 1 };
         const retrievedAssessments = [
-            Assessment.fromAttributes({ id: 1, type: Assessment.types.CERTIFICATION, courseId: '2' }),
-            Assessment.fromAttributes({ id: 2, type: Assessment.types.DEMO, courseId: 'recCourseId' }),
-          ]
-        ;
+          Assessment.fromAttributes({ id: 1, type: Assessment.types.CERTIFICATION, courseId: '2' }),
+          Assessment.fromAttributes({ id: 2, type: Assessment.types.DEMO, courseId: 'recCourseId' }),
+        ];
         assessmentRepository.findByFilters.resolves(retrievedAssessments);
         certificationCourseRepository.get.resolves({ id: 'courseId', status: 'started' });
 
