@@ -19,18 +19,22 @@ describe('Unit | Domain | Models | Answer', () => {
         assessmentId: 82
       };
 
+      const expectedAnswer = {
+        id: 2,
+        value: 'Avast, Norton',
+        result: { status: 'ok' },
+        resultDetails: 'champs1 : ok \n champs2 : ko',
+        elapsedTime: 100,
+        timeout: 0,
+        challengeId: 'redRecordId',
+        assessmentId: 82
+      };
+
       // when
       const answer = new Answer(rawData);
 
       // then
-      expect(answer.id).to.equal(rawData.id);
-      expect(answer.value).to.equal(rawData.value);
-      expect(answer.result.status).to.equal(rawData.result);
-      expect(answer.resultDetails).to.equal(rawData.resultDetails);
-      expect(answer.elapsedTime).to.equal(rawData.elapsedTime);
-      expect(answer.timeout).to.equal(rawData.timeout);
-      expect(answer.challengeId).to.equal(rawData.challengeId);
-      expect(answer.assessmentId).to.equal(rawData.assessmentId);
+      expect(answer).to.deep.equal(expectedAnswer);
     });
 
   });
