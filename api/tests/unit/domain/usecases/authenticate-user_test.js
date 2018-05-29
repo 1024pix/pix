@@ -88,7 +88,7 @@ describe('Unit | Application | Use Case | authenticate-user', () => {
       const userEmail = 'user@example.net';
       const userPassword = 'wrong_password';
       const scope = 'pix-orga';
-      const user = new User({ email: userEmail, password: 'user_password', organizationRoles: [] });
+      const user = new User({ email: userEmail, password: 'user_password', organizationsAccesses: [] });
       userRepository.findByEmail.resolves(user);
 
       // when

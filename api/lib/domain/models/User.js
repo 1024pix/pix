@@ -18,7 +18,7 @@ class User {
   }
 
   isLinkedToOrganizations() {
-    return this.organizationRoles.length > 0;
+    return this.organizationsAccesses.length > 0;
   }
 
 }

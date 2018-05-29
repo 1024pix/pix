@@ -77,7 +77,7 @@ describe('Unit | Domain | Models | User', () => {
 
     it('should be true is user has a role in an organization', () => {
       // given
-      const user = new User({ organizationRoles: [{ name: 'ORGA_MEMBER', organization: { name: 'My Little Organization'} }] });
+      const user = new User({ organizationsAccesses: [{ name: 'ORGA_MEMBER', organization: { name: 'My Little Organization' } }] });
 
       // when/then
       expect(user.isLinkedToOrganizations()).to.be.true;
