@@ -1,6 +1,7 @@
 const redis = require('redis');
 
 class RedisCache {
+
   constructor(redis_url) {
     this.client = redis.createClient(redis_url);
   }
