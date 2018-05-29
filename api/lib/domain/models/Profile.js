@@ -2,7 +2,7 @@ const _ = require('lodash');
 
 // FIXME: Cet objet a trop de responsabilité (modification des compétences)
 class Profile {
-  constructor(user, competences, areas, lastAssessments, assessmentsCompleted, courses, organizations) {
+  constructor({ user, competences, areas, lastAssessments, assessmentsCompleted, courses, organizations } = {}) {
     this.user = user;
     this.competences = competences;
     this.areas = areas;
@@ -39,14 +39,14 @@ class Profile {
       if (lastAssessmentByCompetenceId.length === 0) {
         competence.status = 'notEvaluated';
       } else {
-        competence.status = this._getCompetenceStatus(lastAssessmentByCompetenceId,assessmentsCompletedByCompetenceId);
+        competence.status = this._getCompetenceStatus(lastAssessmentByCompetenceId, assessmentsCompletedByCompetenceId);
       }
     });
   }
 
   _getCompetenceStatus(lastAssessmentByCompetenceId, assessmentsCompletedByCompetenceId) {
     let status;
-    if(!lastAssessmentByCompetenceId[0].isCompleted()) {
+    if (!lastAssessmentByCompetenceId[0].isCompleted()) {
       status = 'notCompleted';
     } else if (assessmentsCompletedByCompetenceId.length === 1) {
       status = 'evaluated';
@@ -61,7 +61,7 @@ class Profile {
     assessments.forEach(assessment => {
       const courseIdFromAssessment = assessment.courseId;
       const course = this._getCourseById(courses, courseIdFromAssessment);
-      if(course) {
+      if (course) {
         const competence = this.competences.find(competence => course.competences.includes(competence.id));
         competence.assessmentId = assessment.id;
       }
