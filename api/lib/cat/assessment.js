@@ -36,17 +36,12 @@ class Assessment {
     return -Math.abs(diffBetweenResultAndProbaToResolve.reduce((a, b) => a + b));
   }
 
-  _isChallengeNotAnsweredYet(challenge, answeredChallenges) {
-    return !answeredChallenges.includes(challenge);
-  }
-
   _isChallengeNotTooHard(challenge) {
     return challenge.hardestSkill.difficulty - this._getPredictedLevel() <= 2;
   }
 
   _isAnAvailableChallenge(challenge) {
-    const answeredChallenges = this.answers.map(answer => answer.challenge);
-    return challenge.isActive && this._isChallengeNotAnsweredYet(challenge, answeredChallenges);
+    return challenge.isActive && challenge.testsAtLeastOneNewSkill(this.assessedSkills);
   }
 
   _isPreviousChallengeTimed() {
@@ -89,6 +84,10 @@ class Assessment {
     const nbExtraSkillsIfSolved = this._getNewSkillsInfoIfChallengeSolved(challenge).length;
     const nbFailedSkillsIfUnsolved = this._getNewSkillsInfoIfChallengeUnsolved(challenge).length;
     return proba * nbExtraSkillsIfSolved + (1 - proba) * nbFailedSkillsIfUnsolved;
+  }
+
+  get assessedSkills() {
+    return _.union(this.validatedSkills, this.failedSkills);
   }
 
   get validatedSkills() {
