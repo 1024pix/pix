@@ -103,7 +103,7 @@ describe('Unit | Serializer | JSONAPI | profile-serializer', () => {
         })
       ];
 
-      finishedAssessment = new Assessment({
+      finishedAssessment = Assessment.fromAttributes({
         id : 'assessmentID1',
         courseId: 'courseID1',
         state: 'completed',
@@ -112,7 +112,7 @@ describe('Unit | Serializer | JSONAPI | profile-serializer', () => {
           pixScore: 128
         })]
       });
-      nonFinishedAssessment = new Assessment({
+      nonFinishedAssessment = Assessment.fromAttributes({
         id : 'assessmentID2',
         courseId: 'courseID2',
         state: 'started'

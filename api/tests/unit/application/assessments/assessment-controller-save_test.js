@@ -33,16 +33,16 @@ describe('Unit | Controller | assessment-controller-save', () => {
 
       const request = {
         headers: {
-          authorization: 'Bearer my-token'
+          authorization: 'Bearer my-token',
         },
         payload: {
           data: {
             id: 42,
             attributes: {
-              'type' : 'SMART_PLACEMENT'
-            }
-          }
-        }
+              'type': 'SMART_PLACEMENT',
+            },
+          },
+        },
       };
 
       beforeEach(() => {
@@ -51,7 +51,13 @@ describe('Unit | Controller | assessment-controller-save', () => {
 
       it('should save an assessment with the type SMART_PLACEMENT and with a fake courseId', function() {
         // given
-        const expected = new Assessment({ id: 42, courseId: 'Smart Placement Tests CourseId Not Used', type: 'SMART_PLACEMENT', state: 'started', userId: null });
+        const expected = Assessment.fromAttributes({
+          id: 42,
+          courseId: 'Smart Placement Tests CourseId Not Used',
+          type: 'SMART_PLACEMENT',
+          state: 'started',
+          userId: null,
+        });
 
         // when
         controller.save(request, replyStub);
@@ -66,7 +72,7 @@ describe('Unit | Controller | assessment-controller-save', () => {
 
       const request = {
         headers: {
-          authorization: 'Bearer my-token'
+          authorization: 'Bearer my-token',
         },
         payload: {
           data: {
@@ -74,17 +80,17 @@ describe('Unit | Controller | assessment-controller-save', () => {
             attributes: {
               'estimated-level': 4,
               'pix-score': 4,
-              'type' : 'CERTIFICATION'
+              'type': 'CERTIFICATION',
             },
             relationships: {
               course: {
                 data: {
-                  id: '1'
-                }
-              }
-            }
-          }
-        }
+                  id: '1',
+                },
+              },
+            },
+          },
+        },
       };
 
       beforeEach(() => {
@@ -93,7 +99,13 @@ describe('Unit | Controller | assessment-controller-save', () => {
 
       it('should save an assessment with the type CERTIFICATION', function() {
         // given
-        const expected = new Assessment({ id: 42, courseId: '1', type: Assessment.types.CERTIFICATION, state: 'started', userId: null });
+        const expected = Assessment.fromAttributes({
+          id: 42,
+          courseId: '1',
+          type: Assessment.types.CERTIFICATION,
+          state: 'started',
+          userId: null,
+        });
 
         // when
         controller.save(request, replyStub);
@@ -130,7 +142,7 @@ describe('Unit | Controller | assessment-controller-save', () => {
     context('when the assessment saved is a preview test', () => {
       const request = {
         headers: {
-          authorization: 'Bearer my-token'
+          authorization: 'Bearer my-token',
         },
         payload: {
           data: {
@@ -138,17 +150,17 @@ describe('Unit | Controller | assessment-controller-save', () => {
             attributes: {
               'estimated-level': 4,
               'pix-score': 4,
-              'type' : 'PREVIEW'
+              'type': 'PREVIEW',
             },
             relationships: {
               course: {
                 data: {
-                  id: 'null-preview-id'
-                }
-              }
-            }
-          }
-        }
+                  id: 'null-preview-id',
+                },
+              },
+            },
+          },
+        },
       };
 
       beforeEach(() => {
@@ -157,7 +169,13 @@ describe('Unit | Controller | assessment-controller-save', () => {
 
       it('should save an assessment with type PREVIEW', function() {
         // given
-        const expected = new Assessment({ id: 42, courseId: 'null-preview-id', type: 'PREVIEW', userId: null, state: 'started' });
+        const expected = Assessment.fromAttributes({
+          id: 42,
+          courseId: 'null-preview-id',
+          type: 'PREVIEW',
+          userId: null,
+          state: 'started',
+        });
 
         // when
         controller.save(request, replyStub);
@@ -171,38 +189,38 @@ describe('Unit | Controller | assessment-controller-save', () => {
 
       const request = {
         headers: {
-          authorization: 'Bearer my-token'
+          authorization: 'Bearer my-token',
         },
         payload: {
           data: {
             id: 256,
             attributes: {
               'estimated-level': 4,
-              'pix-score': 4
+              'pix-score': 4,
             },
             relationships: {
               user: {
                 data: {
-                  id: 42657
-                }
+                  id: 42657,
+                },
               },
               course: {
                 data: {
-                  id: 'recCourseId'
-                }
-              }
-            }
-          }
-        }
+                  id: 'recCourseId',
+                },
+              },
+            },
+          },
+        },
       };
 
-      const deserializedAssessment = new Assessment({ id: 42, courseId: 'recCourseId', type: 'PLACEMENT' });
-      const assessment = { id: 42, courseId: 'recCourseId', userId: 'userId', state: 'started',  type: 'PLACEMENT' };
+      const deserializedAssessment = Assessment.fromAttributes({ id: 42, courseId: 'recCourseId', type: 'PLACEMENT' });
+      const assessment = { id: 42, courseId: 'recCourseId', userId: 'userId', state: 'started', type: 'PLACEMENT' };
       const serializedAssessment = {
         id: 42,
         attributes: {
-          'estimated-level': 4
-        }
+          'estimated-level': 4,
+        },
       };
 
       beforeEach(() => {
@@ -265,24 +283,24 @@ describe('Unit | Controller | assessment-controller-save', () => {
 
       const request = {
         headers: {
-          authorization: 'Bearer my-token'
+          authorization: 'Bearer my-token',
         },
         payload: {
           data: {
             id: 256,
             attributes: {
               'estimated-level': 4,
-              'pix-score': 4
+              'pix-score': 4,
             },
             relationships: {
               course: {
                 data: {
-                  id: 'recCourseId'
-                }
-              }
-            }
-          }
-        }
+                  id: 'recCourseId',
+                },
+              },
+            },
+          },
+        },
       };
 
       beforeEach(() => {

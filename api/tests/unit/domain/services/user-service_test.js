@@ -184,9 +184,9 @@ describe('Unit | Service | User Service', () => {
     const assessmentResult1 = new AssessmentResult({ level: 1, pixScore: 12 });
     const assessmentResult2 = new AssessmentResult({ level: 2, pixScore: 23 });
     const assessmentResult3 = new AssessmentResult({ level: 0, pixScore: 2 });
-    const assessment1 = new Assessment({ id: 13, status: 'completed', courseId: 'courseId1', assessmentResults: [assessmentResult1] });
-    const assessment2 = new Assessment({ id: 1637, status: 'completed', courseId: 'courseId2', assessmentResults: [assessmentResult2] });
-    const assessment3 = new Assessment({ id: 145, status: 'completed', courseId: 'courseId3', assessmentResults: [assessmentResult3] });
+    const assessment1 = Assessment.fromAttributes({ id: 13, status: 'completed', courseId: 'courseId1', assessmentResults: [assessmentResult1] });
+    const assessment2 = Assessment.fromAttributes({ id: 1637, status: 'completed', courseId: 'courseId2', assessmentResults: [assessmentResult2] });
+    const assessment3 = Assessment.fromAttributes({ id: 145, status: 'completed', courseId: 'courseId3', assessmentResults: [assessmentResult3] });
 
     beforeEach(() => {
       sandbox = sinon.sandbox.create();

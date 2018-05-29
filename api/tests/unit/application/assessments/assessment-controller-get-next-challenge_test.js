@@ -38,14 +38,14 @@ describe('Unit | Controller | assessment-controller-get-next-challenge', () => {
       codeStub = sinon.stub();
       replyStub = sinon.stub().returns({ code: codeStub });
 
-      assessmentWithoutScore = new Assessment({
+      assessmentWithoutScore = Assessment.fromAttributes({
         id: 1,
         courseId: 'recHzEA6lN4PEs7LG',
         userId: 5,
         type: 'DEMO'
       });
 
-      assessmentWithScore = new Assessment({
+      assessmentWithScore = Assessment.fromAttributes({
         id: 1,
         courseId: 'recHzEA6lN4PEs7LG', userId: 5,
         estimatedLevel: 0,
@@ -85,7 +85,7 @@ describe('Unit | Controller | assessment-controller-get-next-challenge', () => {
       const PREVIEW_ASSESSMENT_ID = 245;
 
       beforeEach(() => {
-        assessmentRepository.get.resolves(new Assessment({
+        assessmentRepository.get.resolves(Assessment.fromAttributes({
           id: 1,
           courseId: 'null2356871',
           userId: 5,
@@ -143,7 +143,7 @@ describe('Unit | Controller | assessment-controller-get-next-challenge', () => {
       context('when the assessment is a PLACEMENT', () => {
         it('should not update the certification course status', () => {
           // given
-          const certificationAssessment = new Assessment({
+          const certificationAssessment = Assessment.fromAttributes({
             id: 7531,
             courseId: '356',
             userId: 5,
@@ -197,7 +197,7 @@ describe('Unit | Controller | assessment-controller-get-next-challenge', () => {
 
     describe('when the assessment is a certification assessment', function() {
 
-      const certificationAssessment = new Assessment({
+      const certificationAssessment = Assessment.fromAttributes({
         id: 'assessmentId',
         type: Assessment.types.CERTIFICATION
       });
@@ -241,7 +241,7 @@ describe('Unit | Controller | assessment-controller-get-next-challenge', () => {
 
     describe('when the assessment is a smart placement assessment', () => {
       beforeEach(() => {
-        assessmentRepository.get.resolves(new Assessment({
+        assessmentRepository.get.resolves(Assessment.fromAttributes({
           id: 1,
           courseId: 'courseId',
           userId: 5,
