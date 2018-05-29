@@ -11,8 +11,8 @@ const JSONAPIError = require('jsonapi-serializer').Error;
 function _buildError() {
   return {
     data: {
-      '': ['L\'adresse e-mail et/ou le mot de passe saisi(s) sont incorrects.']
-    }
+      '': ['L\'adresse e-mail et/ou le mot de passe saisi(s) sont incorrects.'],
+    },
   };
 }
 
@@ -36,7 +36,7 @@ module.exports = {
       .then(_ => {
         const token = tokenService.createTokenFromUser(user);
 
-        const authentication = new Authentication(user.id, token);
+        const authentication = new Authentication({ userId: user.id, token });
         return reply(authenticationSerializer.serialize(authentication)).code(201);
       })
       .catch(() => {
@@ -56,7 +56,7 @@ module.exports = {
         return reply({
           token_type: 'bearer',
           expires_in: 3600,
-          access_token: accessToken
+          access_token: accessToken,
         })
           .code(200)
           .header('Content-Type', 'application/json;charset=UTF-8')
@@ -68,7 +68,7 @@ module.exports = {
         const jsonApiError = new JSONAPIError({
           code: errorStatusCode.toString(),
           title: 'Forbidden',
-          detail: 'Bad credentials'
+          detail: 'Bad credentials',
         });
         return reply(jsonApiError).code(errorStatusCode);
       });

@@ -11,16 +11,16 @@ describe('Unit | Serializer | JSONAPI | authentication-serializer', function() {
       attributes: {
         'user-id': '8',
         token: 'my-token',
-        password: ''
-      }
-    }
+        password: '',
+      },
+    },
   };
 
   describe('#serialize()', function() {
 
     it('should format a login model object into JSON API data', function() {
       // given
-      const login = new Authentication(8, 'my-token');
+      const login = new Authentication({ userId: 8, token: 'my-token' });
 
       // when
       const json = serializer.serialize(login);
@@ -28,6 +28,5 @@ describe('Unit | Serializer | JSONAPI | authentication-serializer', function() {
       // then
       expect(json).to.deep.equal(expectedJsonAnswer);
     });
-
   });
 });
