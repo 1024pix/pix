@@ -39,8 +39,8 @@ class Assessment {
    * @deprecated
    */
   static fromAttributes(attributes) {
-    const area = new Assessment();
-    return Object.assign(area, attributes);
+    const assessment = new Assessment();
+    return Object.assign(assessment, attributes);
   }
 
   isCompleted() {
