@@ -187,7 +187,7 @@ describe('Unit | Model | Challenge', function() {
       expect(hasValidEmbedDocument).to.be.false;
     });
 
-    it('should be false when embed height', function() {
+    it('should be false when embed height is missing', function() {
       // given
       delete embedOptions.embedHeight;
       const challenge = this.subject(embedOptions);

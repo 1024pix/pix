@@ -214,7 +214,7 @@ describe('Unit | Repository | challenge-repository', () => {
     it('should resolve a Challenge domain object when the challenge exists', () => {
       // given
       const challengeRecordId = 'rec_challenge_id';
-      challengeDataSourceGet.withArgs(challengeRecordId).resolves(new ChallengeAirtableDataObject({
+      challengeDataSource.get.withArgs(challengeRecordId).resolves(new ChallengeAirtableDataObject({
         id: challengeRecordId,
         type: 'QCU'
       }));
@@ -233,7 +233,7 @@ describe('Unit | Repository | challenge-repository', () => {
     it('should have embed properties', () => {
       // given
       const challengeRecordId = 'rec_challenge_id';
-      challengeDataSourceGet.withArgs(challengeRecordId).resolves(ChallengeAirtableDataObjectFixture());
+      challengeDataSource.get.withArgs(challengeRecordId).resolves(ChallengeAirtableDataObjectFixture());
 
       // when
       const promise = challengeRepository.get(challengeRecordId);
@@ -250,7 +250,7 @@ describe('Unit | Repository | challenge-repository', () => {
     it('should load skills', () => {
       // given
       const challengeRecordId = 'rec_challenge_id';
-      challengeDataSourceGet.resolves(new ChallengeAirtableDataObject({
+      challengeDataSource.get.resolves(new ChallengeAirtableDataObject({
         skillIds: ['skillId_1', 'skillId_2']
       }));
 
@@ -267,7 +267,7 @@ describe('Unit | Repository | challenge-repository', () => {
     it('should load skills in the challenge', () => {
       // given
       const challengeRecordId = 'rec_challenge_id';
-      challengeDataSourceGet.resolves(new ChallengeAirtableDataObject({
+      challengeDataSource.get.resolves(new ChallengeAirtableDataObject({
         skillIds: ['123', '456']
       }));
       skillDatasource.get.withArgs('123').resolves(new SkillAirtableDataObject({ name: '@web1' }));
@@ -289,7 +289,7 @@ describe('Unit | Repository | challenge-repository', () => {
         // given
         const challengeRecordId = 'rec_challenge_id';
         const error = new AirtableResourceNotFound();
-        challengeDataSourceGet.rejects(error);
+        challengeDataSource.get.rejects(error);
 
         // when
         const promise = challengeRepository.get(challengeRecordId);
@@ -302,7 +302,7 @@ describe('Unit | Repository | challenge-repository', () => {
         // given
         const challengeRecordId = 'rec_challenge_id';
         const error = new Error();
-        challengeDataSourceGet.rejects(error);
+        challengeDataSource.get.rejects(error);
 
         // when
         const promise = challengeRepository.get(challengeRecordId);

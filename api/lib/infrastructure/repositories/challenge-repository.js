@@ -94,7 +94,6 @@ module.exports = {
 
     return challengeDatasource.get(id)
       .then((result) => challengeDataObject = result)
-      // TODO: Il manque le trigger d'une airtableDatasourceObjects.AirtableResourceNotFound
       .then(_getSkillDataObjects)
       .then((skillDataObjects) => {
 
