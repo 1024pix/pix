@@ -101,7 +101,6 @@ describe('Integration | Application | Route | AuthenticationRouter', () => {
       });
     });
 
-
     it('should return a response with HTTP status code 200 even if there is no scope in the request', () => {
       // given
       options.payload = querystring.stringify({

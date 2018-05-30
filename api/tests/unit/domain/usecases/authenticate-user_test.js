@@ -20,6 +20,9 @@ describe('Unit | Application | Use Case | authenticate-user', () => {
   let userRepository;
   let tokenService;
 
+  const userEmail = 'user@example.net';
+  const userPassword = 'user_password';
+
   beforeEach(() => {
     sandbox = sinon.sandbox.create();
     userRepository = { findByEmailWithRoles: sandbox.stub() };
@@ -33,9 +36,7 @@ describe('Unit | Application | Use Case | authenticate-user', () => {
 
   it('should resolves a valid JWT access token when authentication succeeded', () => {
     // given
-    const userEmail = 'user@example.net';
     const accessToken = 'jwt.access.token';
-    const userPassword = 'user_password';
     const user = new User({ email: userEmail, password: userPassword });
     userRepository.findByEmailWithRoles.resolves(user);
     encryptionService.check.resolves();
@@ -52,15 +53,29 @@ describe('Unit | Application | Use Case | authenticate-user', () => {
     });
   });
 
+  it('should verify user existence with email in lowercase', () => {
+    // given
+    const emailCamelCase = 'uSeR@example.net';
+    const user = new User({ email: userEmail, password: userPassword });
+    userRepository.findByEmailWithRoles.resolves(user);
+
+    // when
+    const promise = usecases.authenticateUser({ userEmail: emailCamelCase, userPassword, userRepository, tokenService });
+
+    // then
+    return promise.then(() =>
+      expect(userRepository.findByEmailWithRoles).to.have.been.calledWithExactly(userEmail)
+    );
+  });
+
   it('should rejects an error when given username (email) does not match an existing one', () => {
     // given
-    const userEmail = 'unknown_user_email@example.net';
-    const userPassword = 'some_password';
+    const unknownUserEmail = 'unknown_user_email@example.net';
     const error = new Error('Simulates BookshelfUser.NotFoundError');
     userRepository.findByEmailWithRoles.rejects(error);
 
     // when
-    const promise = usecases.authenticateUser({ userEmail, userPassword, userRepository, tokenService });
+    const promise = usecases.authenticateUser({ userEmail: unknownUserEmail, userPassword, userRepository, tokenService });
 
     // then
     return _expectTreatmentToFailWithMissingOrInvalidCredentialsError(promise);
@@ -68,9 +83,7 @@ describe('Unit | Application | Use Case | authenticate-user', () => {
 
   it('should rejects an error when given password does not match the found user’s one', () => {
     // given
-    const userEmail = 'user@example.net';
-    const userPassword = 'wrong_password';
-    const user = new User({ email: userEmail, password: 'user_password' });
+    const user = new User({ email: userEmail, password: userPassword });
     userRepository.findByEmailWithRoles.resolves(user);
     encryptionService.check.rejects(new PasswordNotMatching());
 
@@ -83,16 +96,15 @@ describe('Unit | Application | Use Case | authenticate-user', () => {
 
   context('scope access', () => {
 
-    it('rejects an error when scope is pix-orga and user is not linked to any organizations', function () {
+    it('rejects an error when scope is pix-orga and user is not linked to any organizations', function() {
       // given
-      const userEmail = 'user@example.net';
-      const userPassword = 'wrong_password';
+      const wrongUserPassword = 'wrong_password';
       const scope = 'pix-orga';
-      const user = new User({ email: userEmail, password: 'user_password', organizationsAccesses: [] });
+      const user = new User({ email: userEmail, password: userPassword, organizationsAccesses: [] });
       userRepository.findByEmailWithRoles.resolves(user);
 
       // when
-      const promise = usecases.authenticateUser({ userEmail, userPassword, scope, userRepository, tokenService });
+      const promise = usecases.authenticateUser({ userEmail, wrongUserPassword, scope, userRepository, tokenService });
 
       // then
       return promise
