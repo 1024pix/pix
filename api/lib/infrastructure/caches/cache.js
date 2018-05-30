@@ -1,4 +1,4 @@
-const NodeCache = require('node-cache');
+const InMemoryCache = require('./in-memory-cache');
 const RedisCache = require('./redis-cache');
 const settings = require('../../settings');
 
@@ -8,44 +8,24 @@ class Cache {
     if (settings.redisUrl) {
       this._cache = new RedisCache(settings.redisUrl);
     } else {
-      this._cache = new NodeCache();
+      this._cache = new InMemoryCache();
     }
   }
 
   get(key) {
-    return new Promise((resolve, reject) => {
-      this._cache.get(key, (error, value) => {
-        if (error) return reject(error);
-        return resolve(value);
-      });
-    });
+    return this._cache.get(key);
   }
 
   set(key, object) {
-    return new Promise((resolve, reject) => {
-      this._cache.set(key, object, (error, value) => {
-        if (error) return reject(error);
-        return resolve(value);
-      });
-    });
+    return this._cache.set(key, object);
   }
 
   del(key) {
-    return new Promise((resolve, reject) => {
-      this._cache.del(key, (error) => {
-        if (error) return reject(error);
-        return resolve();
-      });
-    });
+    return this._cache.del(key);
   }
 
   flushAll() {
-    return new Promise((resolve, reject) => {
-      this._cache.flushAll((error) => {
-        if (error) return reject(error);
-        return resolve();
-      });
-    });
+    return this._cache.flushAll();
   }
 
 }

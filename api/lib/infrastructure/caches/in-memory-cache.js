@@ -1,23 +1,23 @@
-const redis = require('redis');
+const NodeCache = require('node-cache');
 
-class RedisCache {
+class InMemoryCache {
 
-  constructor(redis_url) {
-    this._client = redis.createClient(redis_url);
+  constructor() {
+    this._cache = new NodeCache();
   }
 
   get(key) {
     return new Promise((resolve, reject) => {
-      this._client.get(key, (error, value) => {
+      this._cache.get(key, (error, value) => {
         if (error) return reject(error);
-        return resolve(JSON.parse(value));
+        return resolve(value);
       });
     });
   }
 
   set(key, object) {
     return new Promise((resolve, reject) => {
-      this._client.set(key, JSON.stringify(object), (error) => {
+      this._cache.set(key, object, (error) => {
         if (error) return reject(error);
         return resolve(object);
       });
@@ -26,7 +26,7 @@ class RedisCache {
 
   del(key) {
     return new Promise((resolve, reject) => {
-      this._client.del(key, (error) => {
+      this._cache.del(key, (error) => {
         if (error) return reject(error);
         return resolve();
       });
@@ -35,7 +35,7 @@ class RedisCache {
 
   flushAll() {
     return new Promise((resolve, reject) => {
-      this._client.flushAll((error) => {
+      this._cache.flushAll((error) => {
         if (error) return reject(error);
         return resolve();
       });
@@ -43,4 +43,4 @@ class RedisCache {
   }
 }
 
-module.exports = RedisCache;
+module.exports = InMemoryCache;

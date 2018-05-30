@@ -1,146 +1,191 @@
 const { expect, sinon } = require('../../../test-helper');
-const factory = require('../../../factory/index');
 const redis = require('redis');
 const RedisCache = require('../../../../lib/infrastructure/caches/redis-cache');
 
-describe('Unit | Infrastructure | Cache', () => {
+describe('Unit | Infrastructure | Cache | redis-cache', () => {
 
-  const stubbedClient = {
-    set: () => true,
-    get: () => true,
-    del: () => true,
-    flushall: () => true,
-  };
+  let stubbedClient;
+  let redisCache;
+
+  const REDIS_URL = 'redis_url';
+  const CACHE_KEY = 'cache_key';
+  const NO_ERROR = null;
+  const REDIS_CLIENT_ERROR = new Error('A Redis client error');
 
   beforeEach(() => {
+    stubbedClient = {};
     sinon.stub(redis, 'createClient').returns(stubbedClient);
-    sinon.stub(stubbedClient, 'set');
-    sinon.stub(stubbedClient, 'get');
-    sinon.stub(stubbedClient, 'del');
-    sinon.stub(stubbedClient, 'flushall');
+    redisCache = new RedisCache(REDIS_URL);
   });
 
   afterEach(() => {
     redis.createClient.restore();
-    stubbedClient.set.restore();
-    stubbedClient.get.restore();
-    stubbedClient.del.restore();
-    stubbedClient.flushall.restore();
   });
 
   describe('#constructor', () => {
 
     it('should create redis client with redis url', () => {
-      // given
-      const redisUrl = 'redis_url';
-
       // when
-      new RedisCache(redisUrl);
+      new RedisCache(REDIS_URL);
 
       // then
-      expect(redis.createClient).to.have.been.calledWith(redisUrl);
+      expect(redis.createClient).to.have.been.calledWith(REDIS_URL);
     });
   });
 
   describe('#get', () => {
 
-    it('should call redis-cache lib with key', () => {
-      // given
-      const redisCache = new RedisCache('redis_url');
-      const certificationCacheKey = 'certification_cache_key';
-      const callback = () => true;
-
-      // when
-      redisCache.get(certificationCacheKey, callback);
-
-      // then
-      expect(stubbedClient.get).to.have.been.calledWith(certificationCacheKey);
+    beforeEach(() => {
+      stubbedClient.get = sinon.stub();
     });
 
-    it('should call callback with object after retrieving it if no error', () => {
-      const redisCache = new RedisCache('redis_url');
-      const certificationCacheKey = 'certification_cache_key';
-      const error = null;
-      const callback = sinon.stub();
-      const expectedCertification = factory.buildCertification();
-
-      stubbedClient.get.callsFake((key, callback) => {
-        const value = JSON.stringify(expectedCertification);
-        callback(error, value);
-      });
+    it('should resolve with the previously cached value when it exists', () => {
+      // given
+      const cachedObject = { foo: 'bar' };
+      const redisCachedValue = JSON.stringify(cachedObject);
+      stubbedClient.get.yields(NO_ERROR, redisCachedValue);
 
       // when
-      redisCache.get(certificationCacheKey, callback);
+      const promise = redisCache.get(CACHE_KEY);
 
       // then
-      expect(callback).to.have.been.calledWith(error, expectedCertification);
+      return expect(promise).to.have.been.fulfilled
+        .then(result => {
+          expect(result).to.deep.equal(cachedObject);
+          expect(stubbedClient.get).to.have.been.calledWith(CACHE_KEY);
+        });
     });
 
-    it('should call callback with error if error', () => {
+    it('should resolve with null when no object was previously cached for given key', () => {
       // given
-      const redisCache = new RedisCache('redis_url');
-      const certificationCacheKey = 'certification_cache_key';
-      const error = new Error();
-      const callback = sinon.stub();
-
-      stubbedClient.get.callsFake((key, callback) => {
-        const value = null;
-        callback(error, value);
-      });
+      const noRedisCachedValue = 'null';
+      stubbedClient.get.yields(NO_ERROR, noRedisCachedValue);
 
       // when
-      redisCache.get(certificationCacheKey, callback);
+      const promise = redisCache.get(CACHE_KEY);
 
       // then
-      expect(callback).to.have.been.calledWith(error);
+      return expect(promise).to.have.been.fulfilled
+        .then(result => {
+          expect(result).to.deep.equal(null);
+        });
+    });
+
+    it('should reject when the Redis cache client throws an error', () => {
+      // given
+
+      stubbedClient.get.yields(REDIS_CLIENT_ERROR);
+
+      // when
+      const promise = redisCache.get(CACHE_KEY);
+
+      // then
+      return expect(promise).to.have.been.rejectedWith(REDIS_CLIENT_ERROR);
+    });
+
+    it('should reject when the previously cached value can not be parsed as JSON', () => {
+      // given
+      const redisCachedValue = 'Unprocessable JSON object';
+      stubbedClient.get.yields(NO_ERROR, redisCachedValue);
+
+      // when
+      const promise = redisCache.get(CACHE_KEY);
+
+      // then
+      return expect(promise).to.have.been.rejectedWith(SyntaxError);
     });
   });
 
   describe('#set', () => {
 
-    it('should call redis-cache lib with key, stringified object and callback', () => {
+    const objectToCache = { foo: 'bar' };
+
+    beforeEach(() => {
+      stubbedClient.set = sinon.stub();
+    });
+
+    it('should resolve with the object to cache', () => {
       // given
-      const redisCache = new RedisCache('redis_url');
-      const certificationCacheKey = 'certification_cache_key';
-      const certificationToCache = factory.buildCertification();
-      const stringifiedCertification = JSON.stringify(certificationToCache);
-      const callback = () => true;
+      stubbedClient.set.yields(NO_ERROR);
 
       // when
-      redisCache.set(certificationCacheKey, certificationToCache, callback);
+      const promise = redisCache.set(CACHE_KEY, objectToCache);
 
       // then
-      expect(stubbedClient.set).to.have.been.calledWith(certificationCacheKey, stringifiedCertification, callback);
+      return expect(promise).to.have.been.fulfilled
+        .then(result => {
+          expect(result).to.deep.equal(objectToCache);
+          expect(stubbedClient.set).to.have.been.calledWith(CACHE_KEY, JSON.stringify(objectToCache));
+        });
+    });
+
+    it('should reject when the Redis cache client throws an error', () => {
+      // given
+      stubbedClient.set.yields(REDIS_CLIENT_ERROR);
+
+      // when
+      const promise = redisCache.set(CACHE_KEY, objectToCache);
+
+      // then
+      return expect(promise).to.have.been.rejectedWith(REDIS_CLIENT_ERROR);
     });
   });
 
   describe('#del', () => {
 
-    it('should call redis-cache lib with key and callback', () => {
+    beforeEach(() => {
+      stubbedClient.del = sinon.stub();
+    });
+
+    it('should resolve', () => {
       // given
-      const redisCache = new RedisCache('redis_url');
-      const certificationCacheKey = 'certification_cache_key';
-      const callback = () => true;
+      stubbedClient.del.yields(NO_ERROR);
 
       // when
-      redisCache.del(certificationCacheKey, callback);
+      const promise = redisCache.del(CACHE_KEY);
 
       // then
-      expect(stubbedClient.del).to.have.been.calledWith(certificationCacheKey, callback);
+      return expect(promise).to.have.been.fulfilled;
+    });
+
+    it('should reject when the Redis cache client throws an error', () => {
+      // given
+      stubbedClient.del.yields(REDIS_CLIENT_ERROR);
+
+      // when
+      const promise = redisCache.del(CACHE_KEY);
+
+      // then
+      return expect(promise).to.have.been.rejectedWith(REDIS_CLIENT_ERROR);
     });
   });
 
-  describe('#flushall', () => {
+  describe('#flushAll', () => {
 
-    it('should call redis-cache flushall', () => {
+    beforeEach(() => {
+      stubbedClient.flushAll = sinon.stub();
+    });
+
+    it('should resolve', () => {
       // given
-      const redisCache = new RedisCache('redis_url');
+      stubbedClient.flushAll.yields(NO_ERROR);
 
       // when
-      redisCache.flushAll();
+      const promise = redisCache.flushAll();
 
       // then
-      expect(stubbedClient.flushall).to.have.been.called;
+      return expect(promise).to.have.been.fulfilled;
+    });
+
+    it('should reject when the Redis cache client throws an error', () => {
+      // given
+      stubbedClient.flushAll.yields(REDIS_CLIENT_ERROR);
+
+      // when
+      const promise = redisCache.flushAll();
+
+      // then
+      return expect(promise).to.have.been.rejectedWith(REDIS_CLIENT_ERROR);
     });
   });
 });
