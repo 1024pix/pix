@@ -198,6 +198,7 @@ class SmartRandom {
       this.validatedSkills,
       this.failedSkills,
       this.getPredictedLevel());
+
     if (availableChallenges.length === 0) {
       return null;
     }
@@ -251,7 +252,7 @@ class SmartRandom {
     let maxLikelihood = -Infinity;
     let level = 0.5;
     let predictedLevel = 0.5;
-    // XXX : Question : why 8  when max level is 5 ?
+
     while (level < 8) {
       const likelihood = _computeLikelihood(level, this.answers);
       if (likelihood > maxLikelihood) {

@@ -3,7 +3,7 @@ const { expect } = require('../../../test-helper');
 
 describe('Unit | Domain | Models | Skill', () => {
 
-  describe('#get Difficulty', function() {
+  describe('#Difficulty', function() {
     it('should return the difficulty of the skill', function() {
       // given
       const url1 = new Skill({ name: '@url1' });
@@ -13,7 +13,7 @@ describe('Unit | Domain | Models | Skill', () => {
     });
   });
 
-  describe('#get TubeName', function() {
+  describe('#TubeName', function() {
     it('should return the name of the tube', function() {
       // given
       const url1 = new Skill({ name: '@url1' });

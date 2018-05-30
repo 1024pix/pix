@@ -79,7 +79,7 @@ class Assessment {
   addAnswersWithTheirChallenge(answers, challenges) {
     this.answers = answers;
     this.answers.forEach(answer => {
-      answer.challenge = challenges.filter(challenge => challenge.id === answer.challengeId)[0];
+      answer.challenge = challenges.find(challenge => challenge.id === answer.challengeId);
     });
   }
 
@@ -87,15 +87,15 @@ class Assessment {
     return this.answers
       .filter(answer => AnswerStatus.isOK(answer.result))
       .filter(answer => answer.challenge)
-      .reduce((skills, answer) => {
+      .reduce((validatedSkills, answer) => {
         answer.challenge.skills.forEach(skill => {
           const tube = this.course.findTube(skill.tubeName);
-          tube.getEasierThan(skill).forEach(validatedSkill => {
-            if (!skills.includes(validatedSkill))
-              skills.push(validatedSkill);
+          tube.getEasierThan(skill).forEach(easierSkill => {
+            if (!validatedSkills.includes(easierSkill))
+              validatedSkills.push(easierSkill);
           });
         });
-        return skills;
+        return validatedSkills;
       }, []);
   }
 
@@ -109,9 +109,9 @@ class Assessment {
         // its tube and mark them all as failed
         answer.challenge.skills.forEach(skill => {
           const tube = this.course.findTube(skill.tubeName);
-          tube.getHarderThan(skill).forEach(failedSkill => {
-            if (!failedSkills.includes(failedSkill))
-              failedSkills.push(failedSkill);
+          tube.getHarderThan(skill).forEach(harderSkill => {
+            if (!failedSkills.includes(harderSkill))
+              failedSkills.push(harderSkill);
           });
         });
         return failedSkills;
