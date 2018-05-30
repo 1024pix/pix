@@ -12,12 +12,12 @@ module.exports = function({
       answer = answerFromRepo;
     })
     .then(() => assessmentRepository.get(answer.assessmentId))
-    .then(_validateAssessmentIsCompleted)
+    .then(_validateCorrectionIsAccessible)
     .then(() => correctionRepository.getByChallengeId(answer.challengeId));
 };
 
-function _validateAssessmentIsCompleted(assessment) {
-  if (!assessment.isCompleted()) {
+function _validateCorrectionIsAccessible(assessment) {
+  if (!assessment.isCompleted() && !assessment.isSmartPlacementAssessment()) {
     throw new NotCompletedAssessmentError();
   }
 }

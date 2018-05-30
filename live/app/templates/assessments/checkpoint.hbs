@@ -1,0 +1,28 @@
+<div class="assessment-challenge">
+
+  <div class="assessment-challenge__course-banner">
+      {{course-banner course=model.course withHomeLink=true}}
+  </div>
+
+  <div class="assessment-challenge__content">
+    <h1>Vos réponses :</h1>
+    <div class="assessment-results__list">
+      {{#each model.answersSinceLastCheckpoints as |answer index|}}
+        {{result-item answer=answer index=index openComparison="openComparison" a11y-focus-id=(concat "open-comparison_" (add index 1))}}
+      {{/each}}
+    </div>
+
+    <div class="assessment-challenge__continue-wrapper">
+      <button {{action "resumeAssessment" model}} class="assessment-checkpoint__continue-button">
+
+        {{buttonText}}
+
+        <img src="{{rootURL}}/images/button-continue/button-continue-next.png" srcset="
+           {{rootURL}}/images/button-continue/button-continue-next@2x.png 2x,
+					 {{rootURL}}/images/button-continue/button-continue-next@3x.png 3x"
+             alt="" class="assessment-checkpoint__continue-button__image" />
+
+      </button>
+    </div>
+  </div>
+</div>

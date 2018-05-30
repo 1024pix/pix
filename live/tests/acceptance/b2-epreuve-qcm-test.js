@@ -110,7 +110,7 @@ describe('Acceptance | b2 - Afficher un QCM | ', function() {
     });
   });
 
-  it('b2.11 L\'alerte n\'est pas affichée si l\'utilisateur valide sans avoir coché de réponse puis coche sur une réponse', async function() {
+  it('b2.11 L’alerte n’est pas affichée si l’utilisateur valide sans avoir coché de réponse puis coche sur une réponse', async function() {
     // given
     await click('.challenge-actions__action-validate');
 

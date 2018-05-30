@@ -38,24 +38,6 @@ describe('Unit | Route | resume', function() {
     expect(route).to.be.ok;
   });
 
-  describe('#model', function() {
-
-    it('should fetch an assessment', function() {
-      // given
-      const params = { assessment_id: 123 };
-      route.get('store').findRecord.resolves();
-
-      // when
-      const promise = route.model(params);
-
-      // then
-      return promise.then(() => {
-        sinon.assert.calledOnce(findRecordStub);
-        sinon.assert.calledWith(findRecordStub, 'assessment', 123);
-      });
-    });
-  });
-
   describe('#afterModel', function() {
 
     const assessment = EmberObject.create({ id: 123 });

@@ -1,6 +1,7 @@
 import { inject as service } from '@ember/service';
 import RSVP from 'rsvp';
 import BaseRoute from 'pix-live/routes/base-route';
+import ENV from 'pix-live/config/environment';
 
 export default BaseRoute.extend({
 
@@ -51,13 +52,13 @@ export default BaseRoute.extend({
     return answer;
   },
 
-  _navigateToNextView(challenge, assessment) {
+  _getNextChallenge(assessment, challenge) {
     return this.get('store')
-      .queryRecord('challenge', { assessmentId: assessment.get('id'), challengeId: challenge.get('id') })
-      .then((nextChallenge) => this.transitionTo('assessments.challenge', { assessment, challenge: nextChallenge }))
-      .catch(() => {
-        this.transitionTo('assessments.rating', assessment.get('id'));
-      });
+      .queryRecord('challenge', { assessmentId: assessment.get('id'), challengeId: challenge.get('id') });
+  },
+
+  _hasReachedCheckpoint: function(assessment) {
+    return assessment.get('answers.length') % ENV.APP.NUMBER_OF_CHALLENGE_BETWEEN_TWO_CHECKPOINTS_IN_SMART_PLACEMENT === 0;
   },
 
   actions: {
@@ -71,7 +72,24 @@ export default BaseRoute.extend({
       });
 
       return answer.save()
-        .then(() => this._navigateToNextView(challenge, assessment));
+        .then(() => this._getNextChallenge(assessment, challenge))
+        .then((nextChallenge) => {
+
+          if(assessment.get('hasCheckpoints') && this._hasReachedCheckpoint(assessment)) {
+            return this.transitionTo('assessments.checkpoint', assessment.get('id'));
+          }
+
+          this.transitionTo('assessments.challenge', { assessment, challenge: nextChallenge });
+        })
+        .catch(() => {
+          if(assessment.get('hasCheckpoints')) {
+            return this.transitionTo('assessments.checkpoint', assessment, {
+              queryParams: { finalCheckpoint: true }
+            });
+          }
+
+          this.transitionTo('assessments.rating', assessment.get('id'));
+        });
     }
   }
 
