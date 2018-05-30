@@ -22,7 +22,6 @@ describe('Unit | Infrastructure | Datasource | Airtable | Model | Challenge', ()
         status: 'validé',
         skillIds: ['recUDrCWD76fp5MsE'],
         skills: ['@modèleEco3'],
-        hasntInternetAllowed: false,
         timer: 1234,
         illustrationUrl: 'https://dl.airtable.com/2MGErxGTQl2g2KiqlYgV_venise4.png',
         attachments: [

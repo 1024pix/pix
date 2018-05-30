@@ -12,7 +12,6 @@ class Challenge {
     status,
     skillIds = [],
     skills = [],
-    hasntInternetAllowed,
     timer,
     illustrationUrl,
     attachments,
@@ -33,7 +32,6 @@ class Challenge {
     this.status = status;
     this.skillIds = skillIds;
     this.skills = skills;
-    this.hasntInternetAllowed = hasntInternetAllowed;
     this.timer = timer;
     this.illustrationUrl = illustrationUrl;
     this.attachments = attachments;
