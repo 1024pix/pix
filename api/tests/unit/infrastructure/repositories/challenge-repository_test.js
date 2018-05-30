@@ -4,7 +4,6 @@ const cache = require('../../../../lib/infrastructure/cache');
 const challengeRepository = require('../../../../lib/infrastructure/repositories/challenge-repository');
 const challengeSerializer = require('../../../../lib/infrastructure/serializers/airtable/challenge-serializer');
 const challengeDatasource = require('../../../../lib/infrastructure/datasources/airtable/challenge-datasource');
-const ChallengeAirtableDataObjectFixture = require('../../../../tests/fixtures/infrastructure/ChallengeAirtableDataObjectFixture');
 
 const Challenge = require('../../../../lib/domain/models/Challenge');
 const Skill = require('../../../../lib/domain/models/Skill');

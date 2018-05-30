@@ -23,7 +23,8 @@ describe('Unit | Domain | Models | Challenge', () => {
         answer: [],
         embedUrl: 'https://github.page.io/pages/mon-epreuve.html',
         embedTitle: 'Epreuve de selection d’imprimante',
-        embedHeight: 400
+        embedHeight: 400,
+        status: 'validé'
       };
 
       // when
