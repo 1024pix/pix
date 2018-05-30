@@ -3,7 +3,6 @@ const certificationCourseRepository = require('../../../../lib/infrastructure/re
 const { NotFoundError } = require('../../../../lib/domain/errors');
 
 const CertificationCourse = require('../../../../lib/domain/models/CertificationCourse');
-const Assessment = require('../../../../lib/domain/models/Assessment');
 
 describe('Integration | Repository | Certification Course', function() {
 
