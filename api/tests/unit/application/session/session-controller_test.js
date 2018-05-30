@@ -182,7 +182,7 @@ describe('Unit | Controller | sessionController', () => {
 
       it('should serialize session informations', function() {
         // given
-        const certification = new CertificationCourse({ id: 'certifId', sessionId: 'sessionId' });
+        const certification = CertificationCourse.fromAttributes({ id: 'certifId', sessionId: 'sessionId' });
         const session = new Session({
           id: 'sessionId',
           certifications: [certification]

@@ -54,8 +54,8 @@ describe('Unit | Serializer | JSONAPI | session-serializer', function() {
 
     it('should convert certifications relationships into JSON API relationships', () => {
       // given
-      const certification1 = new CertificationCourse({ id: 1 });
-      const certification2 = new CertificationCourse({ id: 2 });
+      const certification1 = CertificationCourse.fromAttributes({ id: 1 });
+      const certification2 = CertificationCourse.fromAttributes({ id: 2 });
       const associatedCertifications = [certification1, certification2];
       const session = new Session({
         id: '12',
