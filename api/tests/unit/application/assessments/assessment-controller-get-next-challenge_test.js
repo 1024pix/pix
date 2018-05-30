@@ -199,7 +199,7 @@ describe('Unit | Controller | assessment-controller-get-next-challenge', () => {
 
       const certificationAssessment = new Assessment({
         id: 'assessmentId',
-        type: 'CERTIFICATION'
+        type: Assessment.types.CERTIFICATION
       });
 
       beforeEach(() => {

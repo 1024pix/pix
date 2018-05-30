@@ -2,6 +2,7 @@ const { expect, knex } = require('../../../test-helper');
 
 const CompetenceMark = require('../../../../lib/domain/models/CompetenceMark');
 const CompetenceMarkRepository = require('../../../../lib/infrastructure/repositories/competence-mark-repository');
+const factory = require('../../../factory');
 
 describe('Integration | Repository | CompetenceMark', function() {
 
@@ -12,11 +13,11 @@ describe('Integration | Repository | CompetenceMark', function() {
 
     it('should persist the mark in db', () => {
       // given
-      const mark = new CompetenceMark({
+      const mark = factory.buildCompetenceMark({
         score: 13,
         level: 1,
         area_code: '4',
-        competence_code: '4.2'
+        competence_code: '4.2',
       });
 
       // when
@@ -31,11 +32,11 @@ describe('Integration | Repository | CompetenceMark', function() {
 
     it('should return the saved mark', () => {
       // given
-      const mark = new CompetenceMark({
+      const mark = factory.buildCompetenceMark({
         score: 13,
         level: 1,
         area_code: '4',
-        competence_code: '4.2'
+        competence_code: '4.2',
       });
 
       // when
@@ -53,33 +54,27 @@ describe('Integration | Repository | CompetenceMark', function() {
     context('when competenceMark is not validated', () => {
       it('should return an error', () => {
         // given
-        const markWithLevelSupAtFive = new CompetenceMark({
-          score: 13,
+        const markWithLevelGreaterThanEight = factory.buildCompetenceMark({
           level: 10,
-          area_code: '4',
-          competence_code: '4.2'
         });
 
         // when
-        const promise = CompetenceMarkRepository.save(markWithLevelSupAtFive);
+        const promise = CompetenceMarkRepository.save(markWithLevelGreaterThanEight);
 
         // then
         return promise.catch((error) => {
-          expect(error.message).to.be.equal('ValidationError: child "level" fails because ["level" must be less than or equal to 5]');
+          expect(error.message).to.be.equal('ValidationError: child "level" fails because ["level" must be less than or equal to 8]');
         });
       });
 
       it('should not saved the competenceMark', () => {
         // given
-        const markWithLevelSupAtFive = new CompetenceMark({
-          score: 13,
+        const markWithLevelGreaterThanEight = factory.buildCompetenceMark({
           level: 10,
-          area_code: '4',
-          competence_code: '4.2'
         });
 
         // when
-        const promise = CompetenceMarkRepository.save(markWithLevelSupAtFive);
+        const promise = CompetenceMarkRepository.save(markWithLevelGreaterThanEight);
 
         // then
         return promise.catch(() => knex('competence-marks').select())

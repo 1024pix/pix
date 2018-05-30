@@ -4,7 +4,9 @@ const certificationService = require('../../../../lib/domain/services/certificat
 const certificationCourseService = require('../../../../lib/domain/services/certification-course-service');
 const certificationSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/certification-serializer');
 const { NotFoundError } = require('../../../../lib/domain/errors');
+
 const CertificationCourse = require('../../../../lib/domain/models/CertificationCourse');
+const Assessment = require('../../../../lib/domain/models/Assessment');
 
 const logger = require('../../../../lib/infrastructure/logger');
 const Boom = require('boom');
@@ -134,7 +136,7 @@ describe('Unit | Controller | certification-course-controller', () => {
 
     const JsonAPISavedCertification = {
       data: {
-        type: 'certification',
+        type: Assessment.types.CERTIFICATION,
         attributes: {
           id: '1',
           firstName: 'Phil',

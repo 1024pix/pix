@@ -93,7 +93,7 @@ describe('Unit | Controller | assessment-controller-save', () => {
 
       it('should save an assessment with the type CERTIFICATION', function() {
         // given
-        const expected = new Assessment({ id: 42, courseId: '1', type: 'CERTIFICATION', state: 'started', userId: null });
+        const expected = new Assessment({ id: 42, courseId: '1', type: Assessment.types.CERTIFICATION, state: 'started', userId: null });
 
         // when
         controller.save(request, replyStub);

@@ -1,6 +1,8 @@
 const { expect, knex,  generateValidRequestAuhorizationHeader, insertUserWithRolePixMaster, cleanupUsersAndPixRolesTables } = require('../../../test-helper');
 const server = require('../../../../server');
 
+const Assessment = require('../../../../lib/domain/models/Assessment');
+
 describe('Acceptance | Controller | assessment-results-controller', function() {
 
   after(function(done) {
@@ -67,7 +69,7 @@ describe('Acceptance | Controller | assessment-results-controller', function() {
           .insert({
             id: '1',
             courseId: certificationId,
-            type: 'CERTIFICATION'
+            type: Assessment.types.CERTIFICATION
           });
       })
       .then(() => {

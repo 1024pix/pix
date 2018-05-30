@@ -1,8 +1,10 @@
 const { expect, knex } = require('../../../test-helper');
 const certificationRepository = require('../../../../lib/infrastructure/repositories/certification-repository');
-const Certification = require('../../../../lib/domain/models/Certification');
 const { NotFoundError } = require('../../../../lib/domain/errors');
 const factory = require('../../../factory');
+
+const Certification = require('../../../../lib/domain/models/Certification');
+const Assessment = require('../../../../lib/domain/models/Assessment');
 
 describe('Integration | Repository | Certification ', () => {
 
@@ -38,7 +40,7 @@ describe('Integration | Repository | Certification ', () => {
       id: 1000,
       courseId: CERTIFICATION_ID,
       userId: USER_ID,
-      type: 'CERTIFICATION',
+      type: Assessment.types.CERTIFICATION,
       state: 'completed',
     };
 
@@ -137,7 +139,7 @@ describe('Integration | Repository | Certification ', () => {
       id: 1000,
       courseId: 123,
       userId: USER_ID,
-      type: 'CERTIFICATION',
+      type: Assessment.types.CERTIFICATION,
       state: 'completed',
     };
 
@@ -227,7 +229,7 @@ describe('Integration | Repository | Certification ', () => {
       id: 1000,
       courseId: CERTIFICATION_ID,
       userId: USER_ID,
-      type: 'CERTIFICATION',
+      type: Assessment.types.CERTIFICATION,
       state: 'completed',
     };
 

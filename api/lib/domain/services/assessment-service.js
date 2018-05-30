@@ -9,7 +9,9 @@ const competenceMarkRepository = require('../../infrastructure/repositories/comp
 const assessmentAdapter = require('../../infrastructure/adapters/assessment-adapter');
 const answerService = require('../services/answer-service');
 const certificationService = require('../services/certification-service');
+
 const CompetenceMark = require('../../domain/models/CompetenceMark');
+const Assessment = require('../../domain/models/Assessment');
 
 const _ = require('../../infrastructure/utils/lodash-utils');
 
@@ -235,7 +237,7 @@ function findByFilters(filters) {
     .then((assessments) => {
       const assessmentsWithAssociatedCourse = assessments.map((assessment) => {
         // TODO REFACTO DE LA MAGIC STRING
-        if (assessment.type === 'CERTIFICATION') {
+        if (assessment.type === Assessment.types.CERTIFICATION) {
           return certificationCourseRepository.get(assessment.courseId)
             .then((certificationCourse) => {
               assessment.course = new Course(certificationCourse);
@@ -261,15 +263,15 @@ function isPreviewAssessment(assessment) {
 }
 
 function isDemoAssessment(assessment) {
-  return assessment.type === 'DEMO';
+  return assessment.type === Assessment.types.DEMO;
 }
 
 function isCertificationAssessment(assessment) {
-  return assessment.type === 'CERTIFICATION';
+  return assessment.type === Assessment.types.CERTIFICATION;
 }
 
 function isPlacementAssessment(assessment) {
-  return assessment.type === 'PLACEMENT';
+  return assessment.type === Assessment.types.PLACEMENT;
 }
 
 module.exports = {

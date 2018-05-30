@@ -33,7 +33,7 @@ function _buildCompetence(competence_code, area_code) {
     courseId: 'recvNIWtjJRyBCd0P',
     reference: `${area_code}.${competence_code} bla bla bla`,
     skills: undefined,
-    area: new Area({ id: 'recdmN2Exvq2oAPap', code: `${area_code}`, title: 'Information et données' })
+    area: new Area({ id: 'recdmN2Exvq2oAPap', code: `${area_code}`, title: 'Information et données' }),
   };
 
   Object.assign(competence, defaultCompetenceInfos);
@@ -59,6 +59,7 @@ describe('Unit | Domain | Services | assessment-results', () => {
     let competence12;
     let competence21;
     let competence22;
+    let competence31;
     let listOfAllCompetences = [];
 
     let assessment;
@@ -73,45 +74,54 @@ describe('Unit | Domain | Services | assessment-results', () => {
         courseId: assessmentCourseId,
         userId: 5,
         state: 'started',
-        type: 'PLACEMENT'
+        type: 'PLACEMENT',
       });
 
       evaluatedSkills = {
         assessmentId: assessmentId,
         validatedSkills: _generateValidatedSkills(),
-        failedSkills: _generateFailedSkills()
+        failedSkills: _generateFailedSkills(),
       };
 
-      competenceMarksForCertification = [{
-        competence_code: '1.1',
-        area_code: '1',
-        level: 0,
-        score: 7
-      }, {
-        competence_code: '2.1',
-        area_code: '2',
-        level: 2,
-        score: 19
-      }, {
-        competence_code: '2.2',
-        area_code: '2',
-        level: -1,
-        score: 0
-      }];
+      competenceMarksForCertification = [
+        {
+          competence_code: '1.1',
+          area_code: '1',
+          level: 0,
+          score: 7,
+        }, {
+          competence_code: '2.1',
+          area_code: '2',
+          level: 2,
+          score: 19,
+        }, {
+          competence_code: '2.2',
+          area_code: '2',
+          level: -1,
+          score: 0,
+        },
+        {
+          competence_code: '3.1',
+          area_code: '3',
+          level: 6,
+          score: 52,
+        },
+      ];
 
       competenceMarksForPlacement = [{
         competence_code: '1.1',
         area_code: '1',
         level: 3,
-        score: 18
+        score: 18,
       }];
 
       competence11 = _buildCompetence('1', '1');
       competence12 = _buildCompetence('1', '2');
       competence21 = _buildCompetence('2', '1');
       competence22 = _buildCompetence('2', '2');
+      competence31 = _buildCompetence('3', '1');
 
-      listOfAllCompetences = [competence11, competence12, competence21, competence22];
+      listOfAllCompetences = [competence11, competence12, competence21, competence22, competence31];
 
       course = new AirtableCourse();
       course.id = assessmentCourseId;
@@ -160,7 +170,7 @@ describe('Unit | Domain | Services | assessment-results', () => {
           courseId: assessmentCourseId,
           userId: 5,
           state: 'completed',
-          type: 'PLACEMENT'
+          type: 'PLACEMENT',
         });
 
         assessmentRepository.get.resolves(alreadyEvaluatedAssessment);
@@ -214,7 +224,7 @@ describe('Unit | Domain | Services | assessment-results', () => {
         emitter: 'PIX-ALGO',
         commentForJury: 'Computed',
         status: 'validated',
-        assessmentId: assessmentId
+        assessmentId: assessmentId,
       });
 
       // when
@@ -261,7 +271,7 @@ describe('Unit | Domain | Services | assessment-results', () => {
           score: 18,
           area_code: '1',
           competence_code: '1.1',
-          assessmentResultId: assessmentResultId
+          assessmentResultId: assessmentResultId,
         };
 
         // then
@@ -306,7 +316,7 @@ describe('Unit | Domain | Services | assessment-results', () => {
         courseId: 'nullCourseId',
         userId: 5,
         status: 'started',
-        type: 'PREVIEW'
+        type: 'PREVIEW',
       });
 
       beforeEach(() => {
@@ -336,7 +346,7 @@ describe('Unit | Domain | Services | assessment-results', () => {
           courseId: 'nullCourseId',
           userId: 5,
           state: 'started',
-          type: 'DEMO'
+          type: 'DEMO',
         });
         assessmentRepository.get.resolves(demoAssessment);
         assessmentService.getCompetenceMarks.resolves([]);
@@ -368,26 +378,35 @@ describe('Unit | Domain | Services | assessment-results', () => {
       let clock;
 
       const certificationResults = {
-        competencesWithCompetenceMark: [{
-          index: '1.1',
-          id: 'competence_1',
-          name: 'Mener une recherche',
-          obtainedLevel: 0,
-          obtainedScore: 7
-        }, {
-          index: '2.1',
-          id: 'competence_2',
-          name: 'Partager',
-          obtainedLevel: 2,
-          obtainedScore: 19
-        }, {
-          index: '2.2',
-          id: 'competence_3',
-          name: 'Adapter',
-          obtainedLevel: -1,
-          obtainedScore: 0
-        }],
-        totalScore: 26
+        competencesWithCompetenceMark: [
+          {
+            index: '1.1',
+            id: 'competence_1',
+            name: 'Mener une recherche',
+            obtainedLevel: 0,
+            obtainedScore: 7,
+          }, {
+            index: '2.1',
+            id: 'competence_2',
+            name: 'Partager',
+            obtainedLevel: 2,
+            obtainedScore: 19,
+          }, {
+            index: '2.2',
+            id: 'competence_3',
+            name: 'Adapter',
+            obtainedLevel: -1,
+            obtainedScore: 0,
+          },
+          {
+            index: '3.1',
+            id: 'competence_4',
+            name: 'Va savoir',
+            obtainedLevel: 6,
+            obtainedScore: 52,
+          },
+        ],
+        totalScore: 78,
       };
 
       let assessment;
@@ -397,8 +416,8 @@ describe('Unit | Domain | Services | assessment-results', () => {
           id: assessmentId,
           courseId: assessmentCourseId,
           userId: 5,
-          type: 'CERTIFICATION',
-          state: 'started'
+          type: Assessment.types.CERTIFICATION,
+          state: 'started',
         });
 
         assessmentRepository.get.resolves(assessment);
@@ -416,46 +435,58 @@ describe('Unit | Domain | Services | assessment-results', () => {
 
         // then
         return promise.then(() => {
-          expect(competenceMarkRepository.save).to.have.been.calledThrice;
+          expect(competenceMarkRepository.save.callCount).to.equal(4);
 
-          const firstSavedCompetenceMark = competenceMarkRepository.save.firstCall.args;
+          const firstSavedCompetenceMark = competenceMarkRepository.save.getCall(0).args;
           expect(firstSavedCompetenceMark[0]).to.deep.equal({
             level: 0,
             score: 7,
             area_code: '1',
             competence_code: '1.1',
-            assessmentResultId: assessmentResultId
+            assessmentResultId: assessmentResultId,
           });
 
-          const secondSavedCompetenceMark = competenceMarkRepository.save.secondCall.args;
+          const secondSavedCompetenceMark = competenceMarkRepository.save.getCall(1).args;
           expect(secondSavedCompetenceMark[0]).to.deep.equal({
             level: 2,
             score: 19,
             area_code: '2',
             competence_code: '2.1',
-            assessmentResultId: assessmentResultId
+            assessmentResultId: assessmentResultId,
           });
 
-          const thirdSavedCompetenceMark = competenceMarkRepository.save.thirdCall.args;
+          const thirdSavedCompetenceMark = competenceMarkRepository.save.getCall(2).args;
           expect(thirdSavedCompetenceMark[0]).to.deep.equal({
             level: -1,
             score: 0,
             area_code: '2',
             competence_code: '2.2',
-            assessmentResultId: assessmentResultId
+            assessmentResultId: assessmentResultId,
+          });
+
+          const forthSavedCompetenceMark = competenceMarkRepository.save.getCall(3).args;
+          expect(forthSavedCompetenceMark[0]).to.deep.equal({
+            area_code: '3',
+            assessmentResultId: assessmentResultId,
+            competence_code: '3.1',
+            level: 5,
+            score: 52,
           });
         });
       });
 
       it('should create a new assessment result', () => {
         // given
+        const sumOfCompetenceMarksScores = competenceMarksForCertification.reduce((sum, competenceMark) => {
+          return sum + competenceMark.score;
+        }, 0);
         const assessmentResult = new AssessmentResult({
-          level: 3,
-          pixScore: 26,
+          level: Math.floor(sumOfCompetenceMarksScores / 8),
+          pixScore: sumOfCompetenceMarksScores,
           emitter: 'PIX-ALGO',
           commentForJury: 'Computed',
           status: 'validated',
-          assessmentId: assessmentId
+          assessmentId: assessmentId,
         });
 
         // when
@@ -473,7 +504,7 @@ describe('Unit | Domain | Services | assessment-results', () => {
           courseId: assessmentCourseId,
           userId: 5,
           state: 'completed',
-          type: 'CERTIFICATION'
+          type: Assessment.types.CERTIFICATION,
         });
 
         // when
@@ -499,6 +530,7 @@ describe('Unit | Domain | Services | assessment-results', () => {
       });
 
       context('when updating the certification course status is failing', () => {
+
         it('should return the raised error', () => {
           // given
           const error = new Error();
@@ -513,6 +545,7 @@ describe('Unit | Domain | Services | assessment-results', () => {
       });
     });
   });
+
   describe('#save', () => {
 
     const assessmentResult = new AssessmentResult({
@@ -523,27 +556,27 @@ describe('Unit | Domain | Services | assessment-results', () => {
       emitter: 'Jury',
       commentForJury: 'Parce que',
       commentForCandidate: 'Voilà',
-      commentForOrganization: 'Truc'
+      commentForOrganization: 'Truc',
     });
     const competenceMarks = [
       new CompetenceMark({
         level: 2,
         score: 18,
         area_code: 2,
-        competence_code: 2.1
+        competence_code: 2.1,
       }),
       new CompetenceMark({
         level: 3,
         score: 27,
         area_code: 3,
-        competence_code: 3.2
-      })
+        competence_code: 3.2,
+      }),
     ];
 
     const sandbox = sinon.sandbox.create();
 
     beforeEach(() => {
-      sandbox.stub(assessmentResultRepository,'save').resolves({ id: 1 });
+      sandbox.stub(assessmentResultRepository, 'save').resolves({ id: 1 });
       sandbox.stub(competenceMarkRepository, 'save').resolves();
     });
 
@@ -574,14 +607,14 @@ describe('Unit | Domain | Services | assessment-results', () => {
           level: 2,
           score: 18,
           area_code: 2,
-          competence_code: 2.1
+          competence_code: 2.1,
         }));
         sinon.assert.calledWith(competenceMarkRepository.save, new CompetenceMark({
           assessmentResultId: 1,
           level: 3,
           score: 27,
           area_code: 3,
-          competence_code: 3.2
+          competence_code: 3.2,
         }));
       });
     });
@@ -593,14 +626,14 @@ describe('Unit | Domain | Services | assessment-results', () => {
           level: 20,
           score: 18,
           area_code: 2,
-          competence_code: 2.1
+          competence_code: 2.1,
         }),
         new CompetenceMark({
           level: 3,
           score: 27,
           area_code: 3,
-          competence_code: 3.2
-        })
+          competence_code: 3.2,
+        }),
       ];
 
       it('should not saved assessmentResult and competenceMarks', () => {
@@ -625,7 +658,6 @@ describe('Unit | Domain | Services | assessment-results', () => {
       });
     });
   });
-
 });
 
 function _generateValidatedSkills() {

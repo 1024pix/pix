@@ -1,12 +1,13 @@
 const CertificationCourseBookshelf = require('../data/certification-course');
 const CertificationCourse = require('../../domain/models/CertificationCourse');
+const Assessment = require('../../domain/models/Assessment');
 const { NotFoundError } = require('../../domain/errors');
 
 function _toDomain(model) {
   return new CertificationCourse({
     id: model.get('id'),
     userId: model.get('userId'),
-    type: 'CERTIFICATION',
+    type: Assessment.types.CERTIFICATION,
     assessment: model.related('assessment').toJSON(),
     challenges: model.related('challenges').toJSON(),
     createdAt: model.get('createdAt'),

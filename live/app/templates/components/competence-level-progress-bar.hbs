@@ -2,7 +2,7 @@
   <div class="competence-level-progress-bar__background">
     <div class="competence-level-progress-bar__background-level-limit">
       <div class="competence-level-progress-bar__background-level-limit-indicator">
-        {{_LIMIT_LEVEL}}
+        {{_MAX_REACHABLE_LEVEL}}
       </div>
     </div>
     <div class="competence-level-progress-bar__background-available-soon-text">Disponible Prochainement</div>
@@ -21,7 +21,7 @@
 
   <div class="competence-level-progress-bar__level" style={{widthOfProgressBar}}>
     <div class="competence-level-progress-bar__level-indicator">
-      {{level}}
+      {{limitedLevel}}
     </div>
   </div>
 {{/if}}

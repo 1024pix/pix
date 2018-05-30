@@ -197,7 +197,7 @@ describe('Unit | Domain | Services | assessment', () => {
 
       context('when the assessement is a certification', () => {
         beforeEach(() => {
-          const assessmentFromCertif = new Assessment({ id: ASSESSMENT_ID, type: 'CERTIFICATION' });
+          const assessmentFromCertif = new Assessment({ id: ASSESSMENT_ID, type: Assessment.types.CERTIFICATION });
           assessmentRepository.get.resolves(assessmentFromCertif);
         });
         it('should return an assessment with an estimated level of 0 and a pix-score of 0', () => {
@@ -496,7 +496,7 @@ describe('Unit | Domain | Services | assessment', () => {
 
         it('should not try to get course details', () => {
           // given
-          const assessmentFromCertif = new Assessment({ id: ASSESSMENT_ID, type: 'CERTIFICATION' });
+          const assessmentFromCertif = new Assessment({ id: ASSESSMENT_ID, type: Assessment.types.CERTIFICATION });
 
           // when
           const promise = service.getSkills(assessmentFromCertif);
@@ -803,7 +803,7 @@ describe('Unit | Domain | Services | assessment', () => {
   describe('#getCompetenceMarks', () => {
 
     context('when assessment is a Certification', () => {
-      const assessment = new Assessment({ id: 1, type: 'CERTIFICATION' });
+      const assessment = new Assessment({ id: 1, type: Assessment.types.CERTIFICATION });
 
       const sandbox = sinon.sandbox.create();
 
@@ -986,7 +986,7 @@ describe('Unit | Domain | Services | assessment', () => {
       it('should get the course associated to each assessment ', function() {
         // given
         const filters = { courseId: 'courseId' };
-        const retrievedAssessments = [new Assessment({ id: 1, type: 'CERTIFICATION', courseId: 'courseId' })];
+        const retrievedAssessments = [new Assessment({ id: 1, type: Assessment.types.CERTIFICATION, courseId: 'courseId' })];
         assessmentRepository.findByFilters.resolves(retrievedAssessments);
 
         // when
@@ -1002,7 +1002,7 @@ describe('Unit | Domain | Services | assessment', () => {
       it('should return one assessment with corresponding course', function() {
         // given
         const filters = { courseId: 'courseId' };
-        const retrievedAssessments = [new Assessment({ id: 1, type: 'CERTIFICATION', courseId: 'courseId' })];
+        const retrievedAssessments = [new Assessment({ id: 1, type: Assessment.types.CERTIFICATION, courseId: 'courseId' })];
         assessmentRepository.findByFilters.resolves(retrievedAssessments);
         certificationCourseRepository.get.resolves({ id: 'courseId', status: 'started' });
         // when
@@ -1023,7 +1023,7 @@ describe('Unit | Domain | Services | assessment', () => {
         // given
         const filters = { userId: 1 };
         const retrievedAssessments = [
-          new Assessment({ id: 1, type: 'CERTIFICATION', courseId: '2' }),
+          new Assessment({ id: 1, type: Assessment.types.CERTIFICATION, courseId: '2' }),
           new Assessment({ id: 2, type: 'DEMO', courseId: 'recCourseId' })
         ];
         assessmentRepository.findByFilters.resolves(retrievedAssessments);
@@ -1042,7 +1042,7 @@ describe('Unit | Domain | Services | assessment', () => {
         // given
         const filters = { userId: 1 };
         const retrievedAssessments = [
-          new Assessment({ id: 1, type: 'CERTIFICATION', courseId: '2' }),
+          new Assessment({ id: 1, type: Assessment.types.CERTIFICATION, courseId: '2' }),
           new Assessment({ id: 2, type: 'DEMO', courseId: 'recCourseId' })
         ];
         assessmentRepository.findByFilters.resolves(retrievedAssessments);
@@ -1070,7 +1070,7 @@ describe('Unit | Domain | Services | assessment', () => {
     context('if assessment type is \'CERTIFICATION\'', () => {
       it('should return true', () => {
         // given
-        const assessment = new Assessment({ type: 'CERTIFICATION' });
+        const assessment = new Assessment({ type: Assessment.types.CERTIFICATION });
 
         // when
         const result = service.isCertificationAssessment(assessment);
