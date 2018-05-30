@@ -26,7 +26,7 @@ function _buildAnswer(challengeId, result) {
 }
 
 function _buildCompetenceMarks(level, score, area_code, competence_code) {
-  return CompetenceMarks.fromAttributes({ level, score, area_code, competence_code });
+  return new CompetenceMarks({ level, score, area_code, competence_code });
 }
 
 function _buildAssessmentResult(pixScore, level) {
