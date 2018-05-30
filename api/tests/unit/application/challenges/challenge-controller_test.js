@@ -16,7 +16,7 @@ describe('Unit | Controller | challenge-controller', function() {
 
   describe('#get', function() {
 
-    const challenge = new Challenge({ 'id': 'challenge_id' });
+    const challenge = Challenge.fromAttributes({ 'id': 'challenge_id' });
 
     it('should fetch and return the given challenge, serialized as JSONAPI', () => {
       // given
