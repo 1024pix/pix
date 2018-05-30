@@ -9,7 +9,7 @@ const Tube = require('../../../../lib/domain/models/Tube');
 const { expect } = require('../../../test-helper');
 
 function _newChallenge(skill) {
-  const challenge = new Challenge();
+  const challenge = Challenge.fromAttributes();
   challenge.addSkill(skill);
   return challenge;
 }
@@ -30,7 +30,7 @@ describe('Unit | Domain | Models | Assessment', () => {
 
     it('should return true when its state is completed', () => {
       // given
-      const assessment = new Assessment({ state: 'completed' });
+      const assessment = Assessment.fromAttributes({ state: 'completed' });
 
       // when
       const isCompleted = assessment.isCompleted();
@@ -41,7 +41,7 @@ describe('Unit | Domain | Models | Assessment', () => {
 
     it('should return false when its state is not completed', () => {
       // given
-      const assessment = new Assessment({ state: '' });
+      const assessment = Assessment.fromAttributes({ state: '' });
 
       // when
       const isCompleted = assessment.isCompleted();
@@ -73,7 +73,7 @@ describe('Unit | Domain | Models | Assessment', () => {
         emitter: 'Gerard'
       });
 
-      const assessment = new Assessment({
+      const assessment = Assessment.fromAttributes({
         status: 'completed',
         assessmentResults: [assessmentResultComputed, assessmentResultJury, assessmentResultJuryOld]
       });
@@ -88,7 +88,7 @@ describe('Unit | Domain | Models | Assessment', () => {
 
     it('should return null when assessment has no result', () => {
       // given
-      const assessment = new Assessment({ status: '' });
+      const assessment = Assessment.fromAttributes({ status: '' });
 
       // when
       const lastResult = assessment.getLastAssessmentResult();
@@ -116,7 +116,7 @@ describe('Unit | Domain | Models | Assessment', () => {
         emitter: 'Michel'
       });
 
-      const assessment = new Assessment({
+      const assessment = Assessment.fromAttributes({
         status: 'completed',
         assessmentResults: [assessmentResultComputed, assessmentResultJury]
       });
@@ -130,7 +130,7 @@ describe('Unit | Domain | Models | Assessment', () => {
 
     it('should return null when assessment has no result', () => {
       // given
-      const assessment = new Assessment({ status: '' });
+      const assessment = Assessment.fromAttributes({ status: '' });
 
       // when
       const pixScore = assessment.getPixScore();
@@ -158,7 +158,7 @@ describe('Unit | Domain | Models | Assessment', () => {
         emitter: 'Michel'
       });
 
-      const assessment = new Assessment({
+      const assessment = Assessment.fromAttributes({
         status: 'completed',
         assessmentResults: [assessmentResultComputed, assessmentResultJury]
       });
@@ -172,7 +172,7 @@ describe('Unit | Domain | Models | Assessment', () => {
 
     it('should return null when assessment has no result', () => {
       // given
-      const assessment = new Assessment({ status: '' });
+      const assessment = Assessment.fromAttributes({ status: '' });
 
       // when
       const level = assessment.getLevel();
@@ -187,7 +187,7 @@ describe('Unit | Domain | Models | Assessment', () => {
 
     it('should return the same object with state completed', () => {
       // given
-      const assessment = new Assessment({ state: 'started', userId: 2 });
+      const assessment = Assessment.fromAttributes({ state: 'started', userId: 2 });
 
       // when
       assessment.setCompleted();
@@ -204,7 +204,7 @@ describe('Unit | Domain | Models | Assessment', () => {
 
     it('should return resolved promise when object is valid', () => {
       // given
-      assessment = new Assessment({ type: 'DEMO' });
+      assessment = Assessment.fromAttributes({ type: 'DEMO' });
 
       // when
       const promise = assessment.validate();
@@ -215,7 +215,7 @@ describe('Unit | Domain | Models | Assessment', () => {
 
     it('should return resolved promise when Placement assessment is valid', () => {
       //given
-      assessment = new Assessment({ userId: 3, type: 'PLACEMENT' });
+      assessment = Assessment.fromAttributes({ userId: 3, type: 'PLACEMENT' });
 
       // when
       const promise = assessment.validate();
@@ -226,7 +226,7 @@ describe('Unit | Domain | Models | Assessment', () => {
 
     it('should return rejected promise when Placement assessment has no userId', () => {
       //given
-      assessment = new Assessment({ type: 'PLACEMENT' });
+      assessment = Assessment.fromAttributes({ type: 'PLACEMENT' });
 
       // when
       const promise = assessment.validate();
@@ -237,7 +237,7 @@ describe('Unit | Domain | Models | Assessment', () => {
 
     it('should return rejected promise when userId is null for placement', () => {
       //given
-      assessment = new Assessment({ userId: null, type: 'PLACEMENT' });
+      assessment = Assessment.fromAttributes({ userId: null, type: 'PLACEMENT' });
 
       // when
       const promise = assessment.validate();
@@ -251,7 +251,7 @@ describe('Unit | Domain | Models | Assessment', () => {
   describe('#isSmartPlacementAssessment', () => {
     it('should return true when the assessment is a SMART_PLACEMENT', () => {
       // given
-      const assessment = new Assessment({ type: 'SMART_PLACEMENT' });
+      const assessment = Assessment.fromAttributes({ type: 'SMART_PLACEMENT' });
 
       // when
       const isSmartPlacementAssessment = assessment.isSmartPlacementAssessment();
@@ -262,7 +262,7 @@ describe('Unit | Domain | Models | Assessment', () => {
 
     it('should return false when the assessment is not a SMART_PLACEMENT', () => {
       // given
-      const assessment = new Assessment({ type: 'PLACEMENT' });
+      const assessment = Assessment.fromAttributes({ type: 'PLACEMENT' });
 
       // when
       const isSmartPlacementAssessment = assessment.isSmartPlacementAssessment();
@@ -273,7 +273,7 @@ describe('Unit | Domain | Models | Assessment', () => {
 
     it('should return false when the assessment has no type', () => {
       // given
-      const assessment = new Assessment({});
+      const assessment = Assessment.fromAttributes({});
 
       // when
       const isSmartPlacementAssessment = assessment.isSmartPlacementAssessment();
@@ -291,9 +291,9 @@ describe('Unit | Domain | Models | Assessment', () => {
         new Answer({ challengeId: 1, value: 'truc' }),
         new Answer({ challengeId: 2, value: 'machin' })
       ];
-      const challenge1 = new Challenge();
+      const challenge1 = Challenge.fromAttributes();
       challenge1.id = 1;
-      const challenge2 = new Challenge();
+      const challenge2 = Challenge.fromAttributes();
       challenge2.id = 2;
       const challengeList = [
         challenge1,
@@ -488,9 +488,9 @@ describe('Unit | Domain | Models | Assessment', () => {
       const skillNames = ['@web1', '@chi1', '@web2', '@web3', '@chi3', '@fou3'];
       const skills = [];
       const competenceSkills = skillNames.map(skillName => skills[skillName] = new Skill({ name: skillName }));
-      const ch1 = new Challenge();
+      const ch1 = Challenge.fromAttributes();
       ch1.addSkill(skills['@web3']);
-      const ch2 = new Challenge();
+      const ch2 = Challenge.fromAttributes();
       ch2.addSkill(skills['@web2']);
       const course = new Course([ch2], competenceSkills);
       course.tubes = [
@@ -518,9 +518,9 @@ describe('Unit | Domain | Models | Assessment', () => {
       const skillNames = ['@web1', '@chi1', '@web2', '@web3', '@chi3', '@fou3'];
       const skills = [];
       const competenceSkills = skillNames.map(skillName => skills[skillName] = new Skill({ name: skillName }));
-      const ch1 = new Challenge();
+      const ch1 = Challenge.fromAttributes();
       ch1.addSkill(skills['@web1']);
-      const ch2 = new Challenge();
+      const ch2 = Challenge.fromAttributes();
       ch2.addSkill(skills['@web2']);
       const course = new Course([ch2], competenceSkills);
       course.tubes = [
@@ -554,7 +554,7 @@ describe('Unit | Domain | Models | Assessment', () => {
       const skillNames = ['@web1', '@web2', '@web3'];
       const skills = [];
       const competenceSkills = skillNames.map(skillName => skills[skillName] = new Skill({ name: skillName }));
-      const ch1 = new Challenge();
+      const ch1 = Challenge.fromAttributes();
       ch1.addSkill(skills['@web1']);
       const course = new Course([ch1], competenceSkills);
       course.tubes = [_newTube([skills['@web1'], skills['@web2'], skills['@web3']])];

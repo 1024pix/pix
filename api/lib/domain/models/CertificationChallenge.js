@@ -1,6 +1,13 @@
 class CertificationChallenge {
-  constructor(attributes) {
-    Object.assign(this, attributes);
+  constructor(_ = {}) {
+  }
+
+  /**
+   * @deprecated
+   */
+  static fromAttributes(attributes) {
+    const certificationChallenge = new CertificationChallenge();
+    return Object.assign(certificationChallenge, attributes);
   }
 }
 

@@ -1,15 +1,14 @@
 class Competence {
 
-  constructor(model = {}) {
-    this.id = model.id;
-    this.name = model.name;
-    this.index = model.index;
+  constructor({ id, name, index } = {}) {
+    this.id = id;
+    this.name = name;
+    this.index = index;
   }
 
   get reference() {
     return `${this.index} ${this.name}`;
   }
-
 }
 
 module.exports = Competence;

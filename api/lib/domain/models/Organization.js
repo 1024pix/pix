@@ -1,15 +1,15 @@
 class Organization {
 
-  constructor(model = {}) {
+  constructor({ id, code, name, type, email, user } = {}) {
     // properties
-    this.id = model.id;
-    this.code = model.code;
-    this.name = model.name;
-    this.type = model.type;
-    this.email = model.email;
+    this.id = id;
+    this.code = code;
+    this.name = name;
+    this.type = type;
+    this.email = email;
 
     // relationships
-    this.user = model.user;
+    this.user = user;
   }
 }
 

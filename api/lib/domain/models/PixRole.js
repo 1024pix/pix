@@ -1,10 +1,9 @@
 class PixRole {
 
-  constructor(model = {}) {
-    this.id = model.id;
-    this.name = model.name;
+  constructor({ id, name } = {}) {
+    this.id = id;
+    this.name = name;
   }
-
 }
 
 module.exports = PixRole;

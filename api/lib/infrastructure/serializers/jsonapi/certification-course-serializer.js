@@ -52,7 +52,7 @@ module.exports = {
       throw new WrongDateFormatError();
     }
 
-    return new CertificationCourse({
+    return CertificationCourse.fromAttributes({
       id: json.data.id,
       createdAt: json.data.attributes.createdAt,
       updatedAt: json.data.attributes.updatedAt,

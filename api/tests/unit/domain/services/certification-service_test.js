@@ -39,7 +39,7 @@ function _buildAssessmentResult(pixScore, level) {
 }
 
 function _buildCertificationChallenge(challengeId, competenceId, associatedSkill) {
-  return new CertificationChallenge({ challengeId, competenceId, associatedSkill });
+  return CertificationChallenge.fromAttributes({ challengeId, competenceId, associatedSkill });
 }
 
 function _buildChallenge(id, competence, type) {
@@ -188,14 +188,14 @@ describe('Unit | Service | Certification Service', function() {
   describe('#calculateCertificationResultByCertificationCourseId', () => {
 
     let sandbox;
-
-    const certificationAssessement = new Assessment({
+    const certificationAssessement = Assessment.fromAttributes({
       id: 'assessment_id',
       userId: 'user_id',
       courseId: 'course_id',
       createdAt: '2018-01-01',
       state: 'completed',
     });
+
     const certificationCourse = { id: 'course1', status: 'completed', completedAt: '2018-01-01' };
 
     const userProfile = competences;
@@ -718,7 +718,7 @@ describe('Unit | Service | Certification Service', function() {
     let sandbox;
     const certificationCourse = { id: 'course1', status: 'completed' };
 
-    const certificationAssessement = new Assessment({
+    const certificationAssessement = Assessment.fromAttributes({
       id: 'assessment_id',
       userId: 'user_id',
       createdAt: '2018-01-01',
@@ -1258,7 +1258,7 @@ describe('Unit | Service | Certification Service', function() {
     beforeEach(() => {
       sandbox = sinon.sandbox.create();
       const assessmentResult = _buildAssessmentResult(20, 3);
-      sandbox.stub(assessmentRepository, 'getByCertificationCourseId').resolves(new Assessment({
+      sandbox.stub(assessmentRepository, 'getByCertificationCourseId').resolves(Assessment.fromAttributes({
         status: 'completed',
         assessmentResults: [
           _buildAssessmentResult(20, 3),
@@ -1279,7 +1279,6 @@ describe('Unit | Service | Certification Service', function() {
       sandbox.stub(assessmentResultRepository, 'get').resolves(
         assessmentResult,
       );
-
     });
 
     afterEach(() => {
@@ -1327,5 +1326,4 @@ describe('Unit | Service | Certification Service', function() {
       });
     });
   });
-
 });

@@ -14,37 +14,37 @@ describe('Unit | Repository | assessmentRepository', () => {
       userId: JOHN,
       courseId: 'courseId1',
       state: 'completed',
-      type: 'PLACEMENT'
+      type: 'PLACEMENT',
     }, {
       id: 2,
       userId: LAYLA,
       courseId: 'courseId1',
       state: 'completed',
-      type: 'PLACEMENT'
+      type: 'PLACEMENT',
     }, {
       id: 3,
       userId: JOHN,
       courseId: 'courseId1',
       state: 'completed',
-      type: 'PLACEMENT'
+      type: 'PLACEMENT',
     }, {
       id: 4,
       userId: JOHN,
       courseId: 'courseId2',
       state: 'completed',
-      type: 'PLACEMENT'
+      type: 'PLACEMENT',
     }, {
       id: 5,
       userId: JOHN,
       courseId: 'courseId3',
       state: 'completed',
-      type: Assessment.types.CERTIFICATION
+      type: Assessment.types.CERTIFICATION,
     }, {
       id: 6,
       userId: LAYLA,
       courseId: 'nullAssessmentPreview',
       state: 'completed',
-      type: 'DEMO'
+      type: 'DEMO',
     }];
 
     before(() => {
@@ -87,7 +87,7 @@ describe('Unit | Repository | assessmentRepository', () => {
       const whereStub = sinon.stub(BookshelfAssessment, 'where').returns({
         fetchAll: () => {
           return Promise.reject(error);
-        }
+        },
       });
 
       // when
@@ -107,12 +107,12 @@ describe('Unit | Repository | assessmentRepository', () => {
       id: 1,
       userId: 2,
       courseId: 'courseId1',
-      state: 'completed'
+      state: 'completed',
     }, {
       id: 2,
       userId: 3,
       courseId: 'courseId1',
-      state: 'completed'
+      state: 'completed',
     }];
 
     before(() => {
@@ -137,26 +137,26 @@ describe('Unit | Repository | assessmentRepository', () => {
       sandbox = sinon.sandbox.create();
       orderByStub = sandbox.stub();
       andWhere = sandbox.stub().returns({
-        orderBy: orderByStub
+        orderBy: orderByStub,
       });
       whereStatusIsCompleted = sandbox.stub().returns({
-        andWhere: andWhere
+        andWhere: andWhere,
       });
 
       whereCreatedAtStub = sandbox.stub().returns({
-        where: whereStatusIsCompleted
+        where: whereStatusIsCompleted,
       });
 
       whereStub = sandbox.stub().returns({
-        where: whereCreatedAtStub
+        where: whereCreatedAtStub,
       });
 
       fetchStub = sandbox.stub().resolves({ models: {} });
       queryStub = sandbox.stub().yields({ where: whereStub }).returns({
-        fetch: fetchStub
+        fetch: fetchStub,
       });
       sandbox.stub(BookshelfAssessment, 'collection').returns({
-        query: queryStub
+        query: queryStub,
       });
     });
 
@@ -168,7 +168,7 @@ describe('Unit | Repository | assessmentRepository', () => {
     it('should correctly query Assessment conditions', () => {
       // when
       const limitDate = '2018-02-02T19:20:21.0';
-      const promise = assessmentRepository.findLastCompletedAssessmentsForEachCoursesByUser(userId,limitDate);
+      const promise = assessmentRepository.findLastCompletedAssessmentsForEachCoursesByUser(userId, limitDate);
 
       // then
       return promise.then(() => {
@@ -181,7 +181,7 @@ describe('Unit | Repository | assessmentRepository', () => {
         sinon.assert.calledWith(whereCreatedAtStub, 'createdAt', '<', limitDate);
 
         sinon.assert.calledOnce(whereStatusIsCompleted);
-        sinon.assert.calledWith(whereStatusIsCompleted, 'state','=', 'completed');
+        sinon.assert.calledWith(whereStatusIsCompleted, 'state', '=', 'completed');
 
         sinon.assert.calledOnce(orderByStub);
         sinon.assert.calledWith(orderByStub, 'createdAt', 'desc');
@@ -202,37 +202,37 @@ describe('Unit | Repository | assessmentRepository', () => {
       userId: JOHN,
       courseId: 'courseId',
       state: 'completed',
-      type: 'PLACEMENT'
+      type: 'PLACEMENT',
     }, {
       id: COMPLETED_ASSESSMENT_B_ID,
       userId: JOHN,
       courseId: 'courseId',
       state: 'completed',
-      type: 'PLACEMENT'
+      type: 'PLACEMENT',
     }, {
       id: UNCOMPLETE_ASSESSMENT_ID,
       userId: JOHN,
       courseId: 'courseId',
       state: 'started',
-      type: 'PLACEMENT'
+      type: 'PLACEMENT',
     }, {
       id: 4,
       userId: LAYLA,
       courseId: 'courseId',
       state: 'completed',
-      type: 'PLACEMENT'
+      type: 'PLACEMENT',
     }, {
       id: 5,
       userId: JOHN,
       courseId: 'courseId',
       state: 'completed',
-      type: Assessment.types.CERTIFICATION
+      type: Assessment.types.CERTIFICATION,
     }, {
       id: 6,
       userId: LAYLA,
       courseId: 'nullAssessmentPreview',
       state: 'completed',
-      type: 'DEMO'
+      type: 'DEMO',
     }];
 
     before(() => {
@@ -275,7 +275,7 @@ describe('Unit | Repository | assessmentRepository', () => {
       const whereStub = sinon.stub(BookshelfAssessment, 'where').returns({
         fetchAll: () => {
           return Promise.reject(error);
-        }
+        },
       });
 
       // when
@@ -303,7 +303,7 @@ describe('Unit | Repository | assessmentRepository', () => {
       beforeEach(() => {
         fetchStub = sinon.stub().resolves(new BookshelfAssessment());
         sinon.stub(BookshelfAssessment, 'query').returns({
-          fetch: fetchStub
+          fetch: fetchStub,
         });
       });
 
@@ -317,7 +317,7 @@ describe('Unit | Repository | assessmentRepository', () => {
         const fakeAssessmentId = 2;
         const expectedParams = {
           where: { id: fakeAssessmentId },
-          andWhere: { userId: fakeUserId }
+          andWhere: { userId: fakeUserId },
         };
 
         // when
@@ -344,7 +344,7 @@ describe('Unit | Repository | assessmentRepository', () => {
 
     context('when assessment is valid', () => {
       beforeEach(() => {
-        assessment = new Assessment({ id: '1', type: Assessment.types.CERTIFICATION, userId: 2 });
+        assessment = Assessment.fromAttributes({ id: '1', type: Assessment.types.CERTIFICATION, userId: 2 });
         const assessmentBookshelf = new BookshelfAssessment(assessment);
         sinon.stub(BookshelfAssessment.prototype, 'save').resolves(assessmentBookshelf);
       });
@@ -373,7 +373,7 @@ describe('Unit | Repository | assessmentRepository', () => {
 
     context('when assessment is not valid', () => {
       beforeEach(() => {
-        assessment = new Assessment({ id: '1', type: Assessment.types.CERTIFICATION, userId: undefined });
+        assessment = Assessment.fromAttributes({ id: '1', type: Assessment.types.CERTIFICATION, userId: undefined });
         const assessmentBookshelf = new BookshelfAssessment(assessment);
         sinon.stub(BookshelfAssessment.prototype, 'save').resolves(assessmentBookshelf);
       });
@@ -407,7 +407,7 @@ describe('Unit | Repository | assessmentRepository', () => {
     beforeEach(() => {
       fetchStub = sinon.stub().resolves(new BookshelfAssessment());
       sinon.stub(BookshelfAssessment, 'where').returns({
-        fetch: fetchStub
+        fetch: fetchStub,
       });
     });
 
@@ -437,17 +437,17 @@ describe('Unit | Repository | assessmentRepository', () => {
       id: 1,
       userId: 2,
       courseId: 'courseId1',
-      state: 'completed'
+      state: 'completed',
     }, {
       id: 2,
       userId: 3,
       courseId: 'courseId1',
-      state: 'completed'
+      state: 'completed',
     }, {
       id: 3,
       userId: 3,
       courseId: 'courseId2',
-      state: 'completed'
+      state: 'completed',
     }];
 
     before(() => {

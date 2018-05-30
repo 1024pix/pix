@@ -33,7 +33,7 @@ function _buildCompetence(competence_code, area_code) {
     courseId: 'recvNIWtjJRyBCd0P',
     reference: `${area_code}.${competence_code} bla bla bla`,
     skills: undefined,
-    area: new Area({ id: 'recdmN2Exvq2oAPap', code: `${area_code}`, title: 'Information et données' }),
+    area: Area.fromAttributes({ id: 'recdmN2Exvq2oAPap', code: `${area_code}`, title: 'Information et données' }),
   };
 
   Object.assign(competence, defaultCompetenceInfos);
@@ -69,7 +69,7 @@ describe('Unit | Domain | Services | assessment-results', () => {
 
     beforeEach(() => {
 
-      assessment = new Assessment({
+      assessment = Assessment.fromAttributes({
         id: assessmentId,
         courseId: assessmentCourseId,
         userId: 5,
@@ -165,7 +165,7 @@ describe('Unit | Domain | Services | assessment-results', () => {
 
       it('should reject an AlreadyRatedAssessmentError', () => {
         // given
-        const alreadyEvaluatedAssessment = new Assessment({
+        const alreadyEvaluatedAssessment = Assessment.fromAttributes({
           id: assessmentId,
           courseId: assessmentCourseId,
           userId: 5,
@@ -311,7 +311,7 @@ describe('Unit | Domain | Services | assessment-results', () => {
 
     context('when the assessment is a PREVIEW', () => {
 
-      const previewAssessment = new Assessment({
+      const previewAssessment = Assessment.fromAttributes({
         id: assessmentId,
         courseId: 'nullCourseId',
         userId: 5,
@@ -341,7 +341,7 @@ describe('Unit | Domain | Services | assessment-results', () => {
 
       beforeEach(() => {
 
-        demoAssessment = new Assessment({
+        demoAssessment = Assessment.fromAttributes({
           id: assessmentId,
           courseId: 'nullCourseId',
           userId: 5,
@@ -412,7 +412,7 @@ describe('Unit | Domain | Services | assessment-results', () => {
       let assessment;
 
       beforeEach(() => {
-        assessment = new Assessment({
+        assessment = Assessment.fromAttributes({
           id: assessmentId,
           courseId: assessmentCourseId,
           userId: 5,
@@ -499,7 +499,7 @@ describe('Unit | Domain | Services | assessment-results', () => {
       });
 
       it('should save assessment with status completed', () => {
-        const expectedAssessment = new Assessment({
+        const expectedAssessment = Assessment.fromAttributes({
           id: assessmentId,
           courseId: assessmentCourseId,
           userId: 5,

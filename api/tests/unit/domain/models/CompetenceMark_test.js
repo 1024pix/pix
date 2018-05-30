@@ -82,7 +82,5 @@ describe('Unit | Domain | Models | Competence Mark', () => {
           expect(error).to.be.instanceOf(ObjectValidationError);
         });
     });
-
   });
-
 });

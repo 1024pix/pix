@@ -8,7 +8,7 @@ describe('Unit | Domain | Models | Challenge', () => {
 
     it('should return false when the skill is not known', () => {
       // given
-      const challenge = new Challenge();
+      const challenge = Challenge.fromAttributes();
 
       // when
       const result = challenge.hasSkill(new Skill('@recherche1'));
@@ -19,7 +19,7 @@ describe('Unit | Domain | Models | Challenge', () => {
 
     it('should return true when the skill is known', () => {
       // given
-      const challenge = new Challenge();
+      const challenge = Challenge.fromAttributes();
       challenge.skills.push(new Skill('@recherche1'));
 
       // when
@@ -35,7 +35,7 @@ describe('Unit | Domain | Models | Challenge', () => {
     it('should add a skill', () => {
       // given
       const skill = new Skill('@web3');
-      const challenge = new Challenge();
+      const challenge = Challenge.fromAttributes();
 
       // when
       challenge.addSkill(skill);
@@ -52,7 +52,7 @@ describe('Unit | Domain | Models | Challenge', () => {
     let challenge;
 
     beforeEach(() => {
-      challenge = new Challenge();
+      challenge = Challenge.fromAttributes();
     });
 
     [
@@ -79,7 +79,7 @@ describe('Unit | Domain | Models | Challenge', () => {
     it('should exist', function() {
       // given
       const url1 = new Skill({ name: '@url1' });
-      const challenge = new Challenge();
+      const challenge = Challenge.fromAttributes();
       challenge.addSkill(url1);
 
       // then
@@ -90,7 +90,7 @@ describe('Unit | Domain | Models | Challenge', () => {
       // given
       const web5 = new Skill({ name: '@web5' });
       const url1 = new Skill({ name: '@url1' });
-      const challenge = new Challenge();
+      const challenge = Challenge.fromAttributes();
       challenge.addSkill(url1);
       challenge.addSkill(web5);
 
