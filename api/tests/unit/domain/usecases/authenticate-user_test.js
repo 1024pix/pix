@@ -22,7 +22,7 @@ describe('Unit | Application | Use Case | authenticate-user', () => {
 
   beforeEach(() => {
     sandbox = sinon.sandbox.create();
-    userRepository = { findByEmail: sandbox.stub() };
+    userRepository = { findByEmailWithRoles: sandbox.stub() };
     tokenService = { createTokenFromUser: sandbox.stub() };
     sandbox.stub(encryptionService, 'check');
   });
@@ -37,7 +37,7 @@ describe('Unit | Application | Use Case | authenticate-user', () => {
     const accessToken = 'jwt.access.token';
     const userPassword = 'user_password';
     const user = new User({ email: userEmail, password: userPassword });
-    userRepository.findByEmail.resolves(user);
+    userRepository.findByEmailWithRoles.resolves(user);
     encryptionService.check.resolves();
     tokenService.createTokenFromUser.returns(accessToken);
 
@@ -46,7 +46,7 @@ describe('Unit | Application | Use Case | authenticate-user', () => {
 
     // then
     return promise.then(accessToken => {
-      expect(userRepository.findByEmail).to.have.been.calledWithExactly(userEmail);
+      expect(userRepository.findByEmailWithRoles).to.have.been.calledWithExactly(userEmail);
       expect(tokenService.createTokenFromUser).to.have.been.calledWithExactly(user);
       expect(accessToken).to.equal(accessToken);
     });
@@ -57,7 +57,7 @@ describe('Unit | Application | Use Case | authenticate-user', () => {
     const userEmail = 'unknown_user_email@example.net';
     const userPassword = 'some_password';
     const error = new Error('Simulates BookshelfUser.NotFoundError');
-    userRepository.findByEmail.rejects(error);
+    userRepository.findByEmailWithRoles.rejects(error);
 
     // when
     const promise = usecases.authenticateUser({ userEmail, userPassword, userRepository, tokenService });
@@ -71,7 +71,7 @@ describe('Unit | Application | Use Case | authenticate-user', () => {
     const userEmail = 'user@example.net';
     const userPassword = 'wrong_password';
     const user = new User({ email: userEmail, password: 'user_password' });
-    userRepository.findByEmail.resolves(user);
+    userRepository.findByEmailWithRoles.resolves(user);
     encryptionService.check.rejects(new PasswordNotMatching());
 
     // when
@@ -89,7 +89,7 @@ describe('Unit | Application | Use Case | authenticate-user', () => {
       const userPassword = 'wrong_password';
       const scope = 'pix-orga';
       const user = new User({ email: userEmail, password: 'user_password', organizationsAccesses: [] });
-      userRepository.findByEmail.resolves(user);
+      userRepository.findByEmailWithRoles.resolves(user);
 
       // when
       const promise = usecases.authenticateUser({ userEmail, userPassword, scope, userRepository, tokenService });

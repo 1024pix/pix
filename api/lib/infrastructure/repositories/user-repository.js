@@ -52,7 +52,7 @@ module.exports = {
   findByEmailWithRoles(email) {
     return BookshelfUser
       .where({ email })
-      .fetch({ withRelated: ['organizationsAccesses', 'organizationsAccesses.organization', 'organizationsAccesses.organizationRole'] })
+      .fetch({ require: true, withRelated: ['organizationsAccesses', 'organizationsAccesses.organization', 'organizationsAccesses.organizationRole'] })
       .then((foundUser) => {
         return _toDomain(foundUser);
       });
