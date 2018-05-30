@@ -9,7 +9,7 @@ const SmartRandom = require('../../../../lib/domain/strategies/SmartRandom');
 describe('Unit | Domain | Models | SmartRandom', () => {
 
   function _newChallenge(id, skills, status = 'validé') {
-    return new Challenge({ id, skills, status });
+    return Challenge.fromAttributes({ id, skills, status });
   }
   function _newSkill(name) {
     return new Skill({ name: '@'+name });

@@ -8,7 +8,7 @@ describe('Unit | Serializer | JSONAPI | challenge-serializer', function() {
 
     it('should convert a Challenge model object into JSON API data', function() {
       // given
-      const challenge = new Challenge();
+      const challenge = Challenge.fromAttributes();
       challenge.id = 'challenge_id';
       challenge.instruction = 'Que peut-on dire des œufs de catégorie A ?';
       challenge.proposals = '- Ils sont bio.\n- Ils pèsent plus de 63 grammes.\n- Ce sont des oeufs frais.\n- Ils sont destinés aux consommateurs.\n- Ils ne sont pas lavés.\n';
@@ -53,7 +53,7 @@ describe('Unit | Serializer | JSONAPI | challenge-serializer', function() {
 
       it('should be the the first associated to the challenge when it exists', () => {
         // given
-        const challenge = new Challenge();
+        const challenge = Challenge.fromAttributes();
         challenge.id = 1;
         challenge.competence = ['competence_id'];
 
@@ -74,7 +74,7 @@ describe('Unit | Serializer | JSONAPI | challenge-serializer', function() {
 
       it('should be null when no competence is associated to the challenge (ex: DEMO course)', () => {
         // given
-        const challenge = new Challenge();
+        const challenge = Challenge.fromAttributes();
         challenge.id = 1;
 
         // when

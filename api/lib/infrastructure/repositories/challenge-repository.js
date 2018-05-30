@@ -64,7 +64,7 @@ module.exports = {
     return challengeDatasource.findBySkills(skills)
       .then((fetchedChallenges) => {
         return fetchedChallenges.map((challenge) => {
-          return new Challenge({
+          return Challenge.fromAttributes({
             id: challenge.id,
             instruction: challenge.instruction,
             status: challenge.status,

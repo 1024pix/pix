@@ -22,7 +22,7 @@ const CompetenceMark = require('../../../../lib/domain/models/CompetenceMark');
 const Skill = require('../../../../lib/domain/models/Skill');
 
 function _buildChallenge(challengeId, skills) {
-  const challenge = new Challenge();
+  const challenge = Challenge.fromAttributes();
   challenge.id = challengeId;
   challenge.skills = skills;
   return challenge;

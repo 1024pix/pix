@@ -23,9 +23,9 @@ describe('Unit | Domain | Models | Course', () => {
     it('should set @challenges relationships property to the one given in params', () => {
       // given
       const challenges = [
-        new Challenge(),
-        new Challenge(),
-        new Challenge(),
+        Challenge.fromAttributes(),
+        Challenge.fromAttributes(),
+        Challenge.fromAttributes(),
       ];
       const course = new Course({ challenges });
 

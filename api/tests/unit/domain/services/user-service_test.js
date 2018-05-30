@@ -147,7 +147,7 @@ describe('Unit | Service | User Service', () => {
     }
 
     function _createChallenge(id, competence, skills, testedSkill, status = 'validé') {
-      const challenge = new Challenge();
+      const challenge = Challenge.fromAttributes();
       challenge.id = id;
       challenge.skills = skills;
       challenge.competence = competence;

@@ -9,7 +9,7 @@ const Tube = require('../../../../lib/domain/models/Tube');
 const { expect } = require('../../../test-helper');
 
 function _newChallenge(skill) {
-  const challenge = new Challenge();
+  const challenge = Challenge.fromAttributes();
   challenge.addSkill(skill);
   return challenge;
 }
@@ -291,9 +291,9 @@ describe('Unit | Domain | Models | Assessment', () => {
         new Answer({ challengeId: 1, value: 'truc' }),
         new Answer({ challengeId: 2, value: 'machin' })
       ];
-      const challenge1 = new Challenge();
+      const challenge1 = Challenge.fromAttributes();
       challenge1.id = 1;
-      const challenge2 = new Challenge();
+      const challenge2 = Challenge.fromAttributes();
       challenge2.id = 2;
       const challengeList = [
         challenge1,
@@ -488,9 +488,9 @@ describe('Unit | Domain | Models | Assessment', () => {
       const skillNames = ['@web1', '@chi1', '@web2', '@web3', '@chi3', '@fou3'];
       const skills = [];
       const competenceSkills = skillNames.map(skillName => skills[skillName] = new Skill({ name: skillName }));
-      const ch1 = new Challenge();
+      const ch1 = Challenge.fromAttributes();
       ch1.addSkill(skills['@web3']);
-      const ch2 = new Challenge();
+      const ch2 = Challenge.fromAttributes();
       ch2.addSkill(skills['@web2']);
       const course = new Course([ch2], competenceSkills);
       course.tubes = [
@@ -518,9 +518,9 @@ describe('Unit | Domain | Models | Assessment', () => {
       const skillNames = ['@web1', '@chi1', '@web2', '@web3', '@chi3', '@fou3'];
       const skills = [];
       const competenceSkills = skillNames.map(skillName => skills[skillName] = new Skill({ name: skillName }));
-      const ch1 = new Challenge();
+      const ch1 = Challenge.fromAttributes();
       ch1.addSkill(skills['@web1']);
-      const ch2 = new Challenge();
+      const ch2 = Challenge.fromAttributes();
       ch2.addSkill(skills['@web2']);
       const course = new Course([ch2], competenceSkills);
       course.tubes = [
@@ -554,7 +554,7 @@ describe('Unit | Domain | Models | Assessment', () => {
       const skillNames = ['@web1', '@web2', '@web3'];
       const skills = [];
       const competenceSkills = skillNames.map(skillName => skills[skillName] = new Skill({ name: skillName }));
-      const ch1 = new Challenge();
+      const ch1 = Challenge.fromAttributes();
       ch1.addSkill(skills['@web1']);
       const course = new Course([ch1], competenceSkills);
       course.tubes = [_newTube([skills['@web1'], skills['@web2'], skills['@web3']])];

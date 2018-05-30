@@ -30,9 +30,9 @@ describe('Unit | Domain | Use Cases | get-next-challenge-for-demo', () => {
 
     it('should return the first challenge if no currentChallengeId is given', () => {
       // given
-      const expectedChallenge = new Challenge({ skills: ['@url2'] });
+      const expectedChallenge = Challenge.fromAttributes({ skills: ['@url2'] });
       challengeRepository.get.withArgs('first_challenge').resolves(expectedChallenge);
-      challengeRepository.get.withArgs('second_challenge').resolves(new Challenge({ skills: ['@cnil5'] }));
+      challengeRepository.get.withArgs('second_challenge').resolves(Challenge.fromAttributes({ skills: ['@cnil5'] }));
 
       // when
       const promise = getNextChallengeForDemo({ courseRepository, challengeRepository, assessment, challengeId: null });
@@ -45,8 +45,8 @@ describe('Unit | Domain | Use Cases | get-next-challenge-for-demo', () => {
 
     it('should return the second challenge if the challenge id given is first_challenge', () => {
       // given
-      const expectedChallenge = new Challenge({ skills: ['@cnil5'] });
-      challengeRepository.get.withArgs('first_challenge').resolves(new Challenge({ skills: ['@url2'] }));
+      const expectedChallenge = Challenge.fromAttributes({ skills: ['@cnil5'] });
+      challengeRepository.get.withArgs('first_challenge').resolves(Challenge.fromAttributes({ skills: ['@url2'] }));
       challengeRepository.get.withArgs('second_challenge').resolves(expectedChallenge);
 
       // when
