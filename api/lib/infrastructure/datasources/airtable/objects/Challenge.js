@@ -10,7 +10,8 @@ class Challenge {
     t3Status,
     scoring,
     status,
-    skillIds = []
+    skillIds = [],
+    skills = [],
   }) {
     this.id = id;
     this.instruction = instruction;
@@ -23,6 +24,7 @@ class Challenge {
     this.scoring = scoring;
     this.status = status;
     this.skillIds = skillIds;
+    this.skills = skills;
   }
 
   static fromAirTableObject(airtableEpreuveObject) {
@@ -37,7 +39,9 @@ class Challenge {
       t3Status: airtableEpreuveObject['fields']['T3 - Distance d\'édition'],
       scoring: airtableEpreuveObject['fields']['Scoring'],
       status: airtableEpreuveObject['fields']['Statut'],
-      skillIds: airtableEpreuveObject['fields']['Acquix']
+      skillIds: airtableEpreuveObject['fields']['Acquix'],
+      skills: airtableEpreuveObject['fields']['acquis'],
+      timer: airtableEpreuveObject['fields']['Timer'],
     });
   }
 }

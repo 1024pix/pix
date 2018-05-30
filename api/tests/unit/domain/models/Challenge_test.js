@@ -75,4 +75,28 @@ describe('Unit | Domain | Models | Challenge', () => {
     });
   });
 
+  describe('#hardestSkill', function() {
+    it('should exist', function() {
+      // given
+      const url1 = new Skill({ name: '@url1' });
+      const challenge = new Challenge();
+      challenge.addSkill(url1);
+
+      // then
+      expect(challenge.hardestSkill).to.exist;
+    });
+
+    it('should be web5 if challenge requires url1 and web5', function() {
+      // given
+      const web5 = new Skill({ name: '@web5' });
+      const url1 = new Skill({ name: '@url1' });
+      const challenge = new Challenge();
+      challenge.addSkill(url1);
+      challenge.addSkill(web5);
+
+      // then
+      expect(challenge.hardestSkill).to.equal(web5);
+    });
+  });
+
 });

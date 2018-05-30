@@ -27,8 +27,9 @@ module.exports = {
     const assessment = assessmentSerializer.deserialize(request.payload);
     assessment.state = 'started';
 
+    // XXX Fake name, waiting for campaign
     if(assessment.isSmartPlacementAssessment()) {
-      assessment.courseId = 'recNPB7dTNt5krlMA';
+      assessment.courseId = 'Smart Placement Tests CourseId Not Used';
     }
 
     if (request.headers.hasOwnProperty('authorization')) {
@@ -121,11 +122,8 @@ module.exports = {
         if (assessment.isSmartPlacementAssessment()) {
           return useCases.getNextChallengeForSmartPlacement({
             assessment,
-            courseRepository,
             answerRepository,
             challengeRepository,
-            skillRepository,
-            competenceRepository
           });
         }
 

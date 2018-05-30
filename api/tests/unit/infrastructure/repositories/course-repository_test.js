@@ -16,7 +16,6 @@ function _buildCourse(id, name, description) {
     competences: undefined,
     imageUrl: undefined,
     isAdaptive: undefined,
-    nbChallenges: 0,
     type: undefined,
   };
 }

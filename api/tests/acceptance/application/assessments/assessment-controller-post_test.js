@@ -1,8 +1,8 @@
-const { expect, knex, generateValidRequestAuhorizationHeader } = require('../../test-helper');
-const server = require('../../../server');
-const BookshelfAssessment = require('../../../lib/infrastructure/data/assessment');
+const { expect, knex, generateValidRequestAuhorizationHeader } = require('../../../test-helper');
+const server = require('../../../../server');
+const BookshelfAssessment = require('../../../../lib/infrastructure/data/assessment');
 
-const User = require('../../../lib/infrastructure/data/user');
+const User = require('../../../../lib/infrastructure/data/user');
 
 describe('Acceptance | API | Assessments POST', () => {
 

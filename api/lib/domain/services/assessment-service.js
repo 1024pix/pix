@@ -251,7 +251,9 @@ function findByFilters(filters) {
 
 // TODO Move the below functions into Assessment
 function _isNonScoredAssessment(assessment) {
-  return isPreviewAssessment(assessment) || isCertificationAssessment(assessment);
+  return isPreviewAssessment(assessment)
+    || isCertificationAssessment(assessment)
+    || assessment.isSmartPlacementAssessment();
 }
 
 function isPreviewAssessment(assessment) {

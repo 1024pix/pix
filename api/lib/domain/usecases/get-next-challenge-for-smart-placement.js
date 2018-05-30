@@ -1,43 +1,48 @@
 const { AssessmentEndedError } = require('../errors');
-
-const assessmentAdapter = require('../../infrastructure/adapters/assessment-adapter');
+const SkillsProfile = require('../models/SkillsProfile');
+const Skill = require('../models/Skill');
+const SmartRandom = require('../strategies/SmartRandom');
 const _ = require('lodash');
+const listSkills = [
+  '@accesDonnées2',
+  '@collecteDonnées2',
+  '@infosPerso4',
+  '@tracesLocales3',
+  '@tracesPratiques6',
+  '@archive4',
+  '@fichier1',
+  '@propFichier3',
+  '@sauvegarde6',
+  '@unite2',
+];
+
+function getNextChallengeInSmartRandom(answersPix, challengesPix, skills) {
+  const smartRandom = new SmartRandom (answersPix, challengesPix, skills);
+  const nextChallenge = smartRandom.getNextChallenge();
+  return _.get(nextChallenge, 'id', null);
+}
 
 module.exports = function({
   assessment,
-  courseRepository,
   answerRepository,
   challengeRepository,
-  skillRepository,
-  competenceRepository
 } = {}) {
 
-  const courseId = assessment.courseId;
-  let answers, challenges, competence, course;
+  let answers, challenges;
 
-  return courseRepository.get(courseId)
-    .then(fetchedCourse => (course = fetchedCourse))
-    .then(() => answerRepository.findByAssessment(assessment.id))
+  const skillsProfile = SkillsProfile.fromListOfSkill(listSkills.map(skill => new Skill({ name: skill })));
+
+  return answerRepository.findByAssessment(assessment.id)
     .then(fetchedAnswers => (answers = fetchedAnswers))
-    .then(() => competenceRepository.get(course.competences[0]))
-    .then((fetchedCompetence) => (competence = fetchedCompetence))
-    .then(() => challengeRepository.findByCompetence(competence))
+    .then(() => challengeRepository.findBySkills(skillsProfile.skills))
     .then(fetchedChallenges => (challenges = fetchedChallenges))
-    .then(() => skillRepository.findByCompetence(competence))
-    .then(skills => getNextChallengeInAdaptiveCourse(answers, challenges, skills))
+    .then(() => getNextChallengeInSmartRandom(answers, challenges, skillsProfile.skills))
     .then((nextChallenge) => {
       if (nextChallenge) {
         return nextChallenge;
       }
-
       throw new AssessmentEndedError();
     })
     .then(challengeRepository.get);
 
 };
-
-function getNextChallengeInAdaptiveCourse(answersPix, challengesPix, skills) {
-  const assessment = assessmentAdapter.getSmartAssessment(answersPix, challengesPix, skills);
-  return _.get(assessment, 'nextChallenge.id', null);
-}
-
