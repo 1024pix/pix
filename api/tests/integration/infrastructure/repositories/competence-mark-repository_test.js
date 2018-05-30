@@ -54,12 +54,12 @@ describe('Integration | Repository | CompetenceMark', function() {
     context('when competenceMark is not validated', () => {
       it('should return an error', () => {
         // given
-        const markWithLevelSupAtEight = factory.buildCompetenceMark({
+        const markWithLevelGreaterThanEight = factory.buildCompetenceMark({
           level: 10,
         });
 
         // when
-        const promise = CompetenceMarkRepository.save(markWithLevelSupAtEight);
+        const promise = CompetenceMarkRepository.save(markWithLevelGreaterThanEight);
 
         // then
         return promise.catch((error) => {
@@ -69,12 +69,12 @@ describe('Integration | Repository | CompetenceMark', function() {
 
       it('should not saved the competenceMark', () => {
         // given
-        const markWithLevelSupAtEight = factory.buildCompetenceMark({
+        const markWithLevelGreaterThanEight = factory.buildCompetenceMark({
           level: 10,
         });
 
         // when
-        const promise = CompetenceMarkRepository.save(markWithLevelSupAtEight);
+        const promise = CompetenceMarkRepository.save(markWithLevelGreaterThanEight);
 
         // then
         return promise.catch(() => knex('competence-marks').select())

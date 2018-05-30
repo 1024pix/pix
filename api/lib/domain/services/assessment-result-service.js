@@ -17,12 +17,6 @@ const CERTIFICATION_MAX_LEVEL = 5;
 // TODO: Should compute pixScore automatically in AssessmentResult + create an Utils to compute level/status everywhere
 function _getAssessmentResultEvaluations(marks, assessmentType) {
 
-  // FIXME Limiter le level à 5 pour les certifications
-  // FIXME clarifier avec le PO a quoi correspond le level d'une certification et d'un assessment-result
-  //
-  // dans le cas d'une certification, l'assessment Result level devrait être à 0 car non utilisé.
-  // dans le cas d'une certification, les competenceMarks devraient avoir un niveau limité à 5.
-
   const pixScore = marks.reduce((totalPixScore, mark) => {
     return totalPixScore + mark.score;
   }, 0);
@@ -87,7 +81,11 @@ function evaluateFromAssessmentId(assessmentId) {
         mark.assessmentResultId = assessmentResultId;
         return mark;
       }).map((mark) => {
-        /// XXX une certification ne peut pas avoir une compétence en base au dessus de niveau 5
+        /*
+         * XXX une certification ne peut pas avoir une compétence en base au dessus de niveau 5;
+         * par contre le reste de l'algorithme peut avoir des niveaux au dessus, et l'on ne plafonnera pas pour les
+         * autres Assessments (par exemple Placements).
+         */
         if (assessment.type === 'CERTIFICATION') {
           mark.level = Math.min(mark.level, CERTIFICATION_MAX_LEVEL);
         }
