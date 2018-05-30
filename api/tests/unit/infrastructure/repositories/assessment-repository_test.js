@@ -38,7 +38,7 @@ describe('Unit | Repository | assessmentRepository', () => {
       userId: JOHN,
       courseId: 'courseId3',
       state: 'completed',
-      type: 'CERTIFICATION'
+      type: Assessment.types.CERTIFICATION
     }, {
       id: 6,
       userId: LAYLA,
@@ -226,7 +226,7 @@ describe('Unit | Repository | assessmentRepository', () => {
       userId: JOHN,
       courseId: 'courseId',
       state: 'completed',
-      type: 'CERTIFICATION'
+      type: Assessment.types.CERTIFICATION
     }, {
       id: 6,
       userId: LAYLA,
@@ -344,7 +344,7 @@ describe('Unit | Repository | assessmentRepository', () => {
 
     context('when assessment is valid', () => {
       beforeEach(() => {
-        assessment = new Assessment({ id: '1', type: 'CERTIFICATION', userId: 2 });
+        assessment = new Assessment({ id: '1', type: Assessment.types.CERTIFICATION, userId: 2 });
         const assessmentBookshelf = new BookshelfAssessment(assessment);
         sinon.stub(BookshelfAssessment.prototype, 'save').resolves(assessmentBookshelf);
       });
@@ -373,7 +373,7 @@ describe('Unit | Repository | assessmentRepository', () => {
 
     context('when assessment is not valid', () => {
       beforeEach(() => {
-        assessment = new Assessment({ id: '1', type: 'CERTIFICATION', userId: undefined });
+        assessment = new Assessment({ id: '1', type: Assessment.types.CERTIFICATION, userId: undefined });
         const assessmentBookshelf = new BookshelfAssessment(assessment);
         sinon.stub(BookshelfAssessment.prototype, 'save').resolves(assessmentBookshelf);
       });

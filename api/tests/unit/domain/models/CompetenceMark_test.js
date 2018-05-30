@@ -1,16 +1,19 @@
 const { expect } = require('../../../test-helper');
 const CompetenceMark = require('../../../../lib/domain/models/CompetenceMark');
 const { ObjectValidationError } = require('../../../../lib/domain/errors');
+const factory = require('../../../factory');
+
 describe('Unit | Domain | Models | Competence Mark', () => {
 
   describe('constructor', () => {
+
     it('should build a Competence Mark from raw JSON', () => {
       // given
       const rawData = {
         level: 2,
         score: 13,
         area_code: '1',
-        competence_code: '1.1'
+        competence_code: '1.1',
       };
 
       // when
@@ -22,74 +25,13 @@ describe('Unit | Domain | Models | Competence Mark', () => {
       expect(competenceMark.area_code).to.equal('1');
       expect(competenceMark.competence_code).to.equal('1.1');
     });
-
-    it('should return an error if level is > 5', () => {
-      // given
-      const rawData = {
-        level: 7,
-        score: 13,
-        area_code: '1',
-        competence_code: '1.1'
-      };
-
-      // when
-      try {
-        new CompetenceMark(rawData);
-      } catch (error) {
-        // then
-        expect(error.message).to.be.equal('ValidationError: child "level" fails because ["level" must be less than or equal to 5]');
-      }
-    });
-
-    it('should return an error if level is < -1', () => {
-      // given
-      const rawData = {
-        level: -2,
-        score: 13,
-        area_code: '1',
-        competence_code: '1.1'
-      };
-
-      // when
-      try {
-        new CompetenceMark(rawData);
-      } catch (error) {
-        // then
-        expect(error.message).to.be.equal('ValidationError: child "level" fails because ["level" must be larger than or equal to -1]');
-      }
-    });
-
-    it('should return an error if score > 64', () => {
-      // given
-      const rawData = {
-        level: 5,
-        score: 65,
-        area_code: '1',
-        competence_code: '1.1'
-      };
-
-      // when
-      try {
-        new CompetenceMark(rawData);
-      } catch (error) {
-        // then
-        expect(error.message).to.be.equal('ValidationError: child "score" fails because ["score" must be less than or equal to 64]');
-      }
-    });
-
   });
 
   describe('validate', () => {
 
     it('should return a resolved promise when the object is valide', () => {
       // given
-      const rawData = {
-        level: 2,
-        score: 13,
-        area_code: '1',
-        competence_code: '1.1'
-      };
-      const competenceMark = new CompetenceMark(rawData);
+      const competenceMark = factory.buildCompetenceMark();
 
       // when
       const promise = competenceMark.validate();
@@ -98,43 +40,28 @@ describe('Unit | Domain | Models | Competence Mark', () => {
       return expect(promise).not.to.be.rejected;
     });
 
-    it('should return an error if level is > 5', () => {
+    it('should return an error if level is > 8', () => {
       // given
-      const rawData = {
-        level: 7,
-        score: 13,
-        area_code: '1',
-        competence_code: '1.1'
-      };
-      const competenceMark = new CompetenceMark(rawData);
+      const competenceMark = factory.buildCompetenceMark({ level: 10 });
 
       // when
       const promise = competenceMark.validate();
 
       // then
-
       return promise
         .catch((error) => {
-          expect(error.message).to.be.equal('ValidationError: child "level" fails because ["level" must be less than or equal to 5]');
+          expect(error.message).to.be.equal('ValidationError: child "level" fails because ["level" must be less than or equal to 8]');
         });
     });
 
     it('should return an error if level is < -1', () => {
       // given
-      const rawData = {
-        level: -2,
-        score: 13,
-        area_code: '1',
-        competence_code: '1.1'
-      };
-
-      const competenceMark = new CompetenceMark(rawData);
+      const competenceMark = factory.buildCompetenceMark({ level: -2 });
 
       // when
       const promise = competenceMark.validate();
 
       // then
-
       return promise
         .catch((error) => {
           expect(error.message).to.be.equal('ValidationError: child "level" fails because ["level" must be larger than or equal to -1]');
@@ -143,20 +70,12 @@ describe('Unit | Domain | Models | Competence Mark', () => {
 
     it('should return an error if score > 64', () => {
       // given
-      const rawData = {
-        level: 5,
-        score: 65,
-        area_code: '1',
-        competence_code: '1.1'
-      };
-
-      const competenceMark = new CompetenceMark(rawData);
+      const competenceMark = factory.buildCompetenceMark({ score: 65 });
 
       // when
       const promise = competenceMark.validate();
 
       // then
-
       return promise
         .catch((error) => {
           expect(error.message).to.be.equal('ValidationError: child "score" fails because ["score" must be less than or equal to 64]');

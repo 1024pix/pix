@@ -4,6 +4,8 @@ const {
 } = require('../../test-helper');
 const server = require('../../../server');
 
+const Assessment = require('../../../lib/domain/models/Assessment');
+
 describe('Acceptance | API | Certifications', () => {
 
   describe('GET /api/certifications', () => {
@@ -35,7 +37,7 @@ describe('Acceptance | API | Certifications', () => {
 
     const assessment = {
       userId: authenticatedUserID,
-      type: 'CERTIFICATION',
+      type: Assessment.types.CERTIFICATION,
       state: 'completed',
     };
 
@@ -152,7 +154,7 @@ describe('Acceptance | API | Certifications', () => {
       id: 1000,
       courseId: JOHN_CERTIFICATION_ID,
       userId: JOHN_USERID,
-      type: 'CERTIFICATION',
+      type: Assessment.types.CERTIFICATION,
       state: 'completed',
     };
     const assessmentResult = {
@@ -255,7 +257,7 @@ describe('Acceptance | API | Certifications', () => {
     const john_completedAssessment = {
       courseId: JOHN_CERTIFICATION_ID,
       userId: JOHN_USERID,
-      type: 'CERTIFICATION',
+      type: Assessment.types.CERTIFICATION,
       state: 'completed',
     };
     const assessmentResult = {
