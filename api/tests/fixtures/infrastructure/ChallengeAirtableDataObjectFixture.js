@@ -12,6 +12,7 @@ module.exports = function() {
     t3Status: 'Activé',
     scoring: '1: @outilsTexte2\n2: @outilsTexte4',
     status: 'validé',
-    skillIds: ['recUDrCWD76fp5MsE']
+    skillIds: ['recUDrCWD76fp5MsE'],
+    skills: ['@modèleEco3']
   });
 };

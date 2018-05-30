@@ -3,6 +3,10 @@ const airtable = require('../../../../lib/infrastructure/airtable');
 const cache = require('../../../../lib/infrastructure/cache');
 const challengeRepository = require('../../../../lib/infrastructure/repositories/challenge-repository');
 const challengeSerializer = require('../../../../lib/infrastructure/serializers/airtable/challenge-serializer');
+const challengeDatasource = require('../../../../lib/infrastructure/datasources/airtable/challenge-datasource');
+const ChallengeAirtableDataObjectFixture = require('../../../../tests/fixtures/infrastructure/ChallengeAirtableDataObjectFixture');
+const Challenge = require('../../../../lib/domain/models/Challenge');
+const Skill = require('../../../../lib/domain/models/Skill');
 
 function _buildChallenge(id, instruction, proposals) {
   return { id, instruction, proposals };
@@ -316,5 +320,47 @@ describe('Unit | Repository | challenge-repository', () => {
         });
       });
     });
+  });
+
+  describe('#findBySkills', () => {
+
+    beforeEach(() => {
+      sinon.stub(challengeDatasource, 'findBySkills').resolves([ChallengeAirtableDataObjectFixture(), ChallengeAirtableDataObjectFixture()]);
+    });
+
+    afterEach(() => {
+      challengeDatasource.findBySkills.restore();
+    });
+
+    it('should call challengeDatasource with list of skills name and return challenges', () => {
+      // given
+      const skills = [new Skill({ name: '@element1' }), new Skill({ name: '@element2' })];
+
+      // when
+      const promise = challengeRepository.findBySkills(skills);
+
+      // then
+      return promise.then((challenges) => {
+        expect(challengeDatasource.findBySkills).to.have.been.calledWith(['@element1', '@element2']);
+        expect(challenges).to.be.an('array').and.to.have.lengthOf(2);
+        expect(challenges[0]).to.be.an.instanceOf(Challenge);
+      });
+    });
+
+    it('should return Challenge with skills', () => {
+      // given
+      const skills = [new Skill({ name: '@modèleEco3' })];
+
+      // when
+      const promise = challengeRepository.findBySkills(skills);
+
+      // then
+      return promise.then((challenges) => {
+        expect(challenges[0]).to.be.an.instanceOf(Challenge);
+        expect(challenges[0].skills).to.be.an('array').and.to.have.lengthOf(1);
+        expect(challenges[0].skills[0].name).to.be.equal('@modèleEco3');
+      });
+    });
+
   });
 });

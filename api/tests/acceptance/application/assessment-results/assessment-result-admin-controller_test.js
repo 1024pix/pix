@@ -1,5 +1,5 @@
-const { expect, knex,  generateValidRequestAuhorizationHeader, insertUserWithRolePixMaster, cleanupUsersAndPixRolesTables } = require('../../test-helper');
-const server = require('../../../server');
+const { expect, knex,  generateValidRequestAuhorizationHeader, insertUserWithRolePixMaster, cleanupUsersAndPixRolesTables } = require('../../../test-helper');
+const server = require('../../../../server');
 
 describe('Acceptance | Controller | assessment-results-controller', function() {
 
