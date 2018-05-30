@@ -8,6 +8,8 @@ const Boom = require('boom');
 const logger = require('../../../../lib/infrastructure/logger');
 const factory = require('../../../factory');
 
+const Assessment = require('../../../../lib/domain/models/Assessment');
+
 describe('Unit | Controller | certifications-controller', () => {
 
   let replyStub;
@@ -194,7 +196,7 @@ describe('Unit | Controller | certifications-controller', () => {
       },
       payload: {
         data: {
-          type: 'certification',
+          type: Assessment.types.CERTIFICATION,
           id: certificationId,
           attributes: {
             'is-published': true,

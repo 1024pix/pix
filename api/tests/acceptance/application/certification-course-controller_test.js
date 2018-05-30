@@ -2,6 +2,8 @@ const { expect, knex, generateValidRequestAuhorizationHeader, insertUserWithRole
 const server = require('../../../server');
 const _ = require('lodash');
 
+const Assessment = require('../../../lib/domain/models/Assessment');
+
 describe('Acceptance | API | Certification Course', () => {
 
   describe('GET /api/admin/certifications/{id}/details', () => {
@@ -69,7 +71,7 @@ describe('Acceptance | API | Certification Course', () => {
           return knex('assessments').insert({
             courseId: certificationCourseId.toString(),
             state: 'completed',
-            type: 'CERTIFICATION'
+            type: Assessment.types.CERTIFICATION
           });
         })
         .then(insertedModelIds => {
