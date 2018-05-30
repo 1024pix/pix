@@ -9,7 +9,7 @@ function _toDomain(bookshelfSession) {
   if (bookshelfSession) {
     const sessionReturned = bookshelfSession.toJSON();
     sessionReturned.certifications = bookshelfSession.related('certificationCourses').map(certificationCourse => {
-      return new CertificationCourse(certificationCourse);
+      return CertificationCourse.fromAttributes(certificationCourse);
     });
     return new Session(sessionReturned);
   }

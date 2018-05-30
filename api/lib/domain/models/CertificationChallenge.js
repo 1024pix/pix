@@ -9,7 +9,6 @@ class CertificationChallenge {
     const certificationChallenge = new CertificationChallenge();
     return Object.assign(certificationChallenge, attributes);
   }
-
 }
 
 module.exports = CertificationChallenge;

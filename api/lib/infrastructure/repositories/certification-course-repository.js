@@ -4,7 +4,7 @@ const Assessment = require('../../domain/models/Assessment');
 const { NotFoundError } = require('../../domain/errors');
 
 function _toDomain(model) {
-  return new CertificationCourse({
+  return CertificationCourse.fromAttributes({
     id: model.get('id'),
     userId: model.get('userId'),
     type: Assessment.types.CERTIFICATION,
