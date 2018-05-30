@@ -7,7 +7,7 @@ export default Component.extend({
 
   classNames: ['competence-level-progress-bar'],
 
-  _LIMIT_LEVEL: 5,
+  _MAX_REACHABLE_LEVEL: 5,
   _MAX_LEVEL: 8,
 
   level: null,
@@ -18,7 +18,7 @@ export default Component.extend({
 
   limitedLevel: computed('level', function() {
     const level = this.get('level');
-    return Math.min(level, this.get('_LIMIT_LEVEL'));
+    return Math.min(level, this.get('_MAX_REACHABLE_LEVEL'));
   }),
 
   hasLevel: computed('level', function() {
