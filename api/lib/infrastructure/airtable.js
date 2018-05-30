@@ -13,11 +13,9 @@ module.exports = {
   getRecord(tableName, recordId) {
     const cacheKey = `${tableName}_${recordId}`;
     return cache.get(cacheKey)
-      .then(cachedValue => {
-
-        if (cachedValue) {
-          const rawJson = cachedValue;
-          return new AirtableRecord(tableName, rawJson.id, rawJson);
+      .then(cachedRawJson => {
+        if (cachedRawJson) {
+          return new AirtableRecord(tableName, cachedRawJson.id, cachedRawJson);
         }
 
         return this._base()
@@ -33,11 +31,9 @@ module.exports = {
   findRecords(tableName, query) {
     const cacheKey = `${tableName}_${hash(query)}`;
     return cache.get(cacheKey)
-      .then(cachedValue => {
-
-        if (cachedValue) {
-          const arrayOfRawJson = cachedValue;
-          return arrayOfRawJson.map(rawJson => new AirtableRecord(tableName, rawJson.id, rawJson));
+      .then(cachedArrayOfRawJson => {
+        if (cachedArrayOfRawJson) {
+          return cachedArrayOfRawJson.map(rawJson => new AirtableRecord(tableName, rawJson.id, rawJson));
         }
 
         return this._base()

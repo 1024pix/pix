@@ -12,19 +12,14 @@ describe('Unit | Infrastructure | Cache', () => {
     };
   });
 
-  describe('#constructor', () => {
-
-  });
-
   describe('#get', () => {
 
     const cacheKey = 'cache_key';
     const cachedValue = 'cached_value';
 
-    it('should resolves the entry in the cache', () => {
+    it('should fetch key from the cache', () => {
       // given
-      const cacheError = null;
-      cache._cache.get.withArgs(cacheKey).yields(cacheError, cachedValue);
+      cache._cache.get.withArgs(cacheKey).resolves(cachedValue);
 
       // when
       const promise = cache.get(cacheKey);
@@ -35,24 +30,6 @@ describe('Unit | Infrastructure | Cache', () => {
           expect(result).to.equal(cachedValue);
         });
     });
-
-    context('when cache yields an error', () => {
-
-      it('should rejects with the cache error', () => {
-        // given
-        const cacheError = 'cache_error';
-        cache._cache.get.withArgs(cacheKey).yields(cacheError, cachedValue);
-
-        // when
-        const promise = cache.get(cacheKey);
-
-        // then
-        return expect(promise).to.have.been.rejected
-          .then((error) => {
-            expect(error).to.equal(cacheError);
-          });
-      });
-    });
   });
 
   describe('#set', () => {
@@ -60,34 +37,18 @@ describe('Unit | Infrastructure | Cache', () => {
     const cacheKey = 'cache_key';
     const valueToCache = 'value_to_cache';
 
-    it('should resolves', () => {
+    it('should add an entry to the cache', () => {
       // given
-      const cacheError = null;
-      cache._cache.set.withArgs(cacheKey, valueToCache).yields(cacheError);
+      cache._cache.set.withArgs(cacheKey, valueToCache).resolves(valueToCache);
 
       // when
       const promise = cache.set(cacheKey, valueToCache);
 
       // then
-      return expect(promise).to.have.been.fulfilled;
-    });
-
-    context('when cache yields an error', () => {
-
-      it('should rejects with the cache error', () => {
-        // given
-        const cacheError = 'cache_error';
-        cache._cache.set.withArgs(cacheKey, valueToCache).yields(cacheError);
-
-        // when
-        const promise = cache.set(cacheKey, valueToCache);
-
-        // then
-        return expect(promise).to.have.been.rejected
-          .then((error) => {
-            expect(error).to.equal(cacheError);
-          });
-      });
+      return expect(promise).to.have.been.fulfilled
+        .then((result) => {
+          expect(result).to.equal(valueToCache);
+        });
     });
   });
 
@@ -95,48 +56,35 @@ describe('Unit | Infrastructure | Cache', () => {
 
     const cacheKey = 'cache_key';
 
-    it('should resolves', () => {
+    it('should delete an entry from the cache', () => {
       // given
-      const cacheError = null;
-      cache._cache.del.withArgs(cacheKey).yields(cacheError);
+      cache._cache.del.withArgs(cacheKey).resolves();
 
       // when
       const promise = cache.del(cacheKey);
 
       // then
-      return expect(promise).to.have.been.fulfilled;
-    });
-
-    context('when cache yields an error', () => {
-
-      it('should rejects with the cache error', () => {
-        // given
-        const cacheError = 'cache_error';
-        cache._cache.del.withArgs(cacheKey).yields(cacheError);
-
-        // when
-        const promise = cache.del(cacheKey);
-
-        // then
-        return expect(promise).to.have.been.rejected
-          .then((error) => {
-            expect(error).to.equal(cacheError);
-          });
-      });
+      return expect(promise).to.have.been.fulfilled
+        .then((result) => {
+          expect(result).to.be.undefined;
+        });
     });
   });
 
   describe('#flushAll', () => {
 
-    it('should resolves', () => {
+    it('should delete all entries from the cache', () => {
       // given
-      cache._cache.flushAll.yields();
+      cache._cache.flushAll.resolves();
 
       // when
       const promise = cache.flushAll();
 
       // then
-      return expect(promise).to.have.been.fulfilled;
+      return expect(promise).to.have.been.fulfilled
+        .then((result) => {
+          expect(result).to.be.undefined;
+        });
     });
   });
 });
