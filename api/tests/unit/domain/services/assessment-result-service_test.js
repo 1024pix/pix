@@ -416,7 +416,7 @@ describe('Unit | Domain | Services | assessment-results', () => {
           id: assessmentId,
           courseId: assessmentCourseId,
           userId: 5,
-          type: 'CERTIFICATION',
+          type: Assessment.types.CERTIFICATION,
           state: 'started',
         });
 
@@ -504,7 +504,7 @@ describe('Unit | Domain | Services | assessment-results', () => {
           courseId: assessmentCourseId,
           userId: 5,
           state: 'completed',
-          type: 'CERTIFICATION',
+          type: Assessment.types.CERTIFICATION,
         });
 
         // when
