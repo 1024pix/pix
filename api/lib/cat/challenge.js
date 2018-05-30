@@ -1,4 +1,5 @@
 const _ = require('lodash');
+const CatSkill = require('./skill');
 
 class Challenge {
 
@@ -19,7 +20,7 @@ class Challenge {
   }
 
   testsAtLeastOneNewSkill(assessedSkills) {
-    return _(this.skills).difference(assessedSkills).size() > 0;
+    return _(this.skills).differenceWith(assessedSkills, CatSkill.areEqual).size() > 0;
   }
 }
 
