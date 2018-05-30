@@ -10,7 +10,7 @@ function _canUserAccessScope(scope, user) {
 
 module.exports = function({ userEmail, password, scope, userRepository, tokenService }) {
   let user;
-  return userRepository.findByEmailWithRoles(userEmail)
+  return userRepository.findByEmailWithRoles(userEmail.toLowerCase())
     .then(foundUser => (user = foundUser))
     .then(() => _canUserAccessScope(scope, user))
     .then(() => encryptionService.check(password, user.password))
