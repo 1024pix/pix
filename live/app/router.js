@@ -49,11 +49,6 @@ Router.map(function() {
   this.route('assessments.comparison', { path: '/assessments/:assessment_id/results/compare/:answer_id/:index' });
   this.route('assessments.rating', { path: '/assessments/:assessment_id/rating' });
   this.route('assessments.checkpoint', { path: '/assessments/:assessment_id/checkpoint' });
-  /*
-    this.route('assessments', { path: '/assessments/:assessment_id' }, function() {
-      this.route('checkpoint');
-    });
-  */
   this.route('login', { path: '/connexion' });
   this.route('logout', { path: '/deconnexion' });
   this.route('board');

@@ -79,7 +79,6 @@ export default Component.extend({
       const index = this.get('index') + 1;
 
       this.sendAction('openComparison', assessmentId, answerId, index);
-      //this.transitionTo('assessments.comparison', assessmentId, answerId, index);
     }
   }
 });

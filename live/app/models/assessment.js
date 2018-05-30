@@ -22,11 +22,11 @@ export default Model.extend({
   answersSinceLastCheckpoints: computed('answers.[]', function() {
 
     const howManyAnswersSinceTheLastCheckpoint = this.get('answers.length') % ENV.APP.NUMBER_OF_CHALLENGE_BETWEEN_TWO_CHECKPOINTS_IN_SMART_PLACEMENT;
-    const sliceAnsersFrom = (howManyAnswersSinceTheLastCheckpoint === 0)
+    const sliceAnswersFrom = (howManyAnswersSinceTheLastCheckpoint === 0)
       ? -ENV.APP.NUMBER_OF_CHALLENGE_BETWEEN_TWO_CHECKPOINTS_IN_SMART_PLACEMENT
       : -howManyAnswersSinceTheLastCheckpoint;
 
-    return this.get('answers').slice(sliceAnsersFrom);
+    return this.get('answers').slice(sliceAnswersFrom);
   }),
 
   result: belongsTo('assessment-result'),
