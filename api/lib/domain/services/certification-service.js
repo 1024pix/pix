@@ -1,7 +1,7 @@
-const minimumReproductibilityRateToBeCertified = 50;
-const minimumReproductibilityRateToBeTrusted = 80;
-const numberOfPixForOneLevel = 8;
-const uncertifiedLevel = -1;
+const MINIMUM_REPRODUCTIBILITY_RATE_TO_BE_CERTIFIED = 50;
+const MINIMUM_REPRODUCTIBILITY_RATE_TO_BE_TRUSTED = 80;
+const NUMBER_OF_PIX_FOR_ONE_LEVEL = 8;
+const UNCERTIFIED_LEVEL = -1;
 const qrocmDepChallenge = 'QROCM-dep';
 const _ = require('lodash');
 const moment = require('moment');
@@ -63,17 +63,17 @@ function _computedPixToRemovePerCompetence(numberOfCorrectAnswers, competence, r
   if (numberOfCorrectAnswers < 2) {
     return competence.pixScore;
   }
-  if (reproductibilityRate < minimumReproductibilityRateToBeTrusted && numberOfCorrectAnswers === 2) {
-    return numberOfPixForOneLevel;
+  if (reproductibilityRate < MINIMUM_REPRODUCTIBILITY_RATE_TO_BE_TRUSTED && numberOfCorrectAnswers === 2) {
+    return NUMBER_OF_PIX_FOR_ONE_LEVEL;
   }
   return 0;
 }
 
 function _getCertifiedLevel(numberOfCorrectAnswers, competence, reproductibilityRate) {
   if (numberOfCorrectAnswers < 2) {
-    return uncertifiedLevel;
+    return UNCERTIFIED_LEVEL;
   }
-  if (reproductibilityRate < minimumReproductibilityRateToBeTrusted && numberOfCorrectAnswers === 2) {
+  if (reproductibilityRate < MINIMUM_REPRODUCTIBILITY_RATE_TO_BE_TRUSTED && numberOfCorrectAnswers === 2) {
     return competence.estimatedLevel - 1;
   }
   return competence.estimatedLevel;
@@ -96,7 +96,7 @@ function _getCompetencesWithCertifiedLevelAndScore(answersWithCompetences, listC
       positionedScore: competence.pixScore,
       obtainedLevel: _getCertifiedLevel(numberOfCorrectAnswers, competence, reproductibilityRate),
       obtainedScore: competence.pixScore - _computedPixToRemovePerCompetence(numberOfCorrectAnswers, competence,
-        reproductibilityRate)
+        reproductibilityRate),
     };
   });
 }
@@ -110,8 +110,8 @@ function _getCompetenceWithFailedLevel(listCompetences) {
       id: competence.id,
       positionedLevel: competence.estimatedLevel,
       positionedScore: competence.pixScore,
-      obtainedLevel: uncertifiedLevel,
-      obtainedScore: 0
+      obtainedLevel: UNCERTIFIED_LEVEL,
+      obtainedScore: 0,
     };
   });
 }
@@ -127,11 +127,11 @@ function _checkIfUserCanStartACertification(userCompetences) {
 
 function _getResult(listAnswers, listChallenges, listCompetences) {
   const reproductibilityRate = Math.round(answerServices.getAnswersSuccessRate(listAnswers));
-  if (reproductibilityRate < minimumReproductibilityRateToBeCertified) {
+  if (reproductibilityRate < MINIMUM_REPRODUCTIBILITY_RATE_TO_BE_CERTIFIED) {
     return {
       competencesWithMark: _getCompetenceWithFailedLevel(listCompetences),
       totalScore: 0,
-      percentageCorrectAnswers: reproductibilityRate
+      percentageCorrectAnswers: reproductibilityRate,
     };
   }
 
@@ -146,7 +146,7 @@ function _getChallengeInformation(listAnswers, certificationChallenges, competen
   return listAnswers.map((answer) => {
 
     const certificationChallengeRelatedToAnswer = certificationChallenges.find(
-      certificationChallenge => certificationChallenge.challengeId === answer.challengeId
+      certificationChallenge => certificationChallenge.challengeId === answer.challengeId,
     ) || {};
 
     const competenceValidatedByCertifChallenge = competences.find(competence => competence.id === certificationChallengeRelatedToAnswer.competenceId) || {};
@@ -156,7 +156,7 @@ function _getChallengeInformation(listAnswers, certificationChallenges, competen
       value: answer.value,
       challengeId: answer.challengeId,
       competence: competenceValidatedByCertifChallenge.index || '',
-      skill: certificationChallengeRelatedToAnswer.associatedSkill || ''
+      skill: certificationChallengeRelatedToAnswer.associatedSkill || '',
     };
   });
 }
@@ -164,24 +164,23 @@ function _getChallengeInformation(listAnswers, certificationChallenges, competen
 function _getCertificationResult(assessment) {
   let startOfCertificationDate;
 
-  return Promise.all([assessment, answersRepository.findByAssessment(assessment.id)])
-    .then(([assessment, answersByAssessments]) => {
+  return answersRepository.findByAssessment(assessment.id)
+    .then((answersByAssessments) => {
       startOfCertificationDate = assessment.createdAt;
-      return Promise.all([assessment, answersByAssessments, certificationChallengesRepository.findByCertificationCourseId(assessment.courseId)]);
+      return Promise.all([answersByAssessments, certificationChallengesRepository.findByCertificationCourseId(assessment.courseId)]);
     })
-    .then(([assessment, answersByAssessments, certificationChallenges]) => {
+    .then(([answersByAssessments, certificationChallenges]) => {
       const userId = assessment.userId;
 
       return Promise.all([
-        assessment,
         answersByAssessments,
         certificationChallenges,
         userService.getProfileToCertify(userId, startOfCertificationDate),
         certificationCourseRepository.get(assessment.courseId),
-        competenceRepository.find()
+        competenceRepository.find(),
       ]);
     })
-    .then(([assessment, listAnswers, certificationChallenges, listCompetences, certificationCourse, competences]) => {
+    .then(([listAnswers, certificationChallenges, listCompetences, certificationCourse, competences]) => {
       const testedCompetences = listCompetences.filter(competence => competence.challenges.length > 0);
 
       const result = _getResult(listAnswers, certificationChallenges, testedCompetences);
@@ -266,5 +265,5 @@ module.exports = {
       })
       .then(() => certificationCourseRepository.save(newCertificationCourse))
       .then(savedCertificationCourse => certificationChallengesService.saveChallenges(userCompetencesToCertify, savedCertificationCourse));
-  }
+  },
 };

@@ -1,6 +1,7 @@
 const moment = require('moment');
 
 const AssessmentResult = require('../../domain/models/AssessmentResult');
+const Assessment = require('../../domain/models/Assessment');
 
 const skillService = require('../../domain/services/skills-service');
 const assessmentService = require('../../domain/services/assessment-service');
@@ -22,7 +23,7 @@ function _getAssessmentResultEvaluations(marks, assessmentType) {
   }, 0);
   let level = Math.floor(pixScore / 8);
   let status = 'validated';
-  if (pixScore === 0 && assessmentType === 'CERTIFICATION') {
+  if (pixScore === 0 && assessmentType === Assessment.types.CERTIFICATION) {
     status = 'rejected';
     level = -1;
   }
@@ -86,7 +87,7 @@ function evaluateFromAssessmentId(assessmentId) {
          * par contre le reste de l'algorithme peut avoir des niveaux au dessus, et l'on ne plafonnera pas pour les
          * autres Assessments (par exemple Placements).
          */
-        if (assessment.type === 'CERTIFICATION') {
+        if (assessment.type === Assessment.types.CERTIFICATION) {
           mark.level = Math.min(mark.level, CERTIFICATION_MAX_LEVEL);
         }
         return mark;
