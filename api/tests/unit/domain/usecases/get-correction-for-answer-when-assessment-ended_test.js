@@ -25,28 +25,60 @@ describe('Unit | UseCase | getCorrectionForAnswerWhenAssessmentEnded', () => {
 
   context('when assessment is not completed', () => {
 
-    it('should reject with a assessment not completed error', () => {
-      // given
-      const assessment = new Assessment({ state: 'started' });
-      const answer = new Answer({ assessmentId: 1, challengeId: 12 });
-      assessmentRepository.get.resolves(assessment);
-      answerRepository.get.resolves(answer);
+    context('and when the assessment is not a SMART_PLACEMENT', () => {
+      it('should reject with a assessment not completed error', () => {
+        // given
+        const assessment = new Assessment({ state: 'started' });
+        const answer = new Answer({ assessmentId: 1, challengeId: 12 });
+        assessmentRepository.get.resolves(assessment);
+        answerRepository.get.resolves(answer);
 
-      // when
-      const promise = getCorrectionForAnswerWhenAssessmentEnded({
-        assessmentRepository,
-        answerRepository,
-        correctionRepository,
-        answerId: 2
-      });
-
-      // then
-      return expect(promise).to.be.rejectedWith(NotCompletedAssessmentError)
-        .then(() => {
-          expect(assessmentRepository.get).to.have.been.calledWith(1);
-          expect(answerRepository.get).to.have.been.calledWith(2);
-          expect(correctionRepository.getByChallengeId).to.not.have.been.called;
+        // when
+        const promise = getCorrectionForAnswerWhenAssessmentEnded({
+          assessmentRepository,
+          answerRepository,
+          correctionRepository,
+          answerId: 2
         });
+
+        // then
+        return expect(promise).to.be.rejectedWith(NotCompletedAssessmentError)
+          .then(() => {
+            expect(assessmentRepository.get).to.have.been.calledWith(1);
+            expect(answerRepository.get).to.have.been.calledWith(2);
+            expect(correctionRepository.getByChallengeId).to.not.have.been.called;
+          });
+      });
+    });
+
+    context('and when the assessment is SMART_PLACEMENT', () => {
+      it('should return the content', () => {
+        // given
+        const assessmentId = 1;
+        const challengeId = 12;
+        const assessment = new Assessment({ state: 'started', type: Assessment.types.SMARTPLACEMENT });
+        const answer = new Answer({ assessmentId, challengeId });
+        const correction = new Correction({ id: 123 });
+        assessmentRepository.get.resolves(assessment);
+        answerRepository.get.resolves(answer);
+        correctionRepository.getByChallengeId.resolves(correction);
+
+        // when
+        const promise = getCorrectionForAnswerWhenAssessmentEnded({
+          assessmentRepository,
+          answerRepository,
+          correctionRepository,
+          answerId: 2
+        });
+
+        // then
+        return promise.then((responseSolution) => {
+          expect(assessmentRepository.get).to.have.been.calledWith(assessmentId);
+          expect(answerRepository.get).to.have.been.calledWith(2);
+          expect(correctionRepository.getByChallengeId).to.have.been.calledWith(challengeId);
+          expect(responseSolution).to.deep.equal(new Correction({ id: 123 }));
+        });
+      });
     });
   });
 
@@ -54,8 +86,10 @@ describe('Unit | UseCase | getCorrectionForAnswerWhenAssessmentEnded', () => {
 
     it('should return with the correction', () => {
       // given
+      const assessmentId = 1;
+      const challengeId = 12;
       const assessment = new Assessment({ state: 'completed' });
-      const answer = new Answer({ assessmentId: 1, challengeId: 12 });
+      const answer = new Answer({ assessmentId, challengeId });
       const correction = new Correction({ id: 123 });
       assessmentRepository.get.resolves(assessment);
       answerRepository.get.resolves(answer);
@@ -71,9 +105,9 @@ describe('Unit | UseCase | getCorrectionForAnswerWhenAssessmentEnded', () => {
 
       // then
       return promise.then((responseSolution) => {
-        expect(assessmentRepository.get).to.have.been.calledWith(1);
+        expect(assessmentRepository.get).to.have.been.calledWith(assessmentId);
         expect(answerRepository.get).to.have.been.calledWith(2);
-        expect(correctionRepository.getByChallengeId).to.have.been.calledWith(12);
+        expect(correctionRepository.getByChallengeId).to.have.been.calledWith(challengeId);
         expect(responseSolution).to.deep.equal(new Correction({ id: 123 }));
       });
     });
