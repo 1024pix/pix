@@ -14,9 +14,9 @@ describe('Unit | Model | Assessment', function() {
     expect(model).to.be.ok;
   });
 
-  describe('Computed property #hasAttachment', function() {
+  describe('Computed property #hasCheckpoints', function() {
 
-    it('Should be true when challenge has at least one attachment file', function() {
+    it('Should be true when challenge is a SMART_PLACEMENT', function() {
       run(() => {
         // given
         const store = this.store();
@@ -31,7 +31,7 @@ describe('Unit | Model | Assessment', function() {
 
     });
 
-    it('Should be false when assessment has multiple attachment files', function() {
+    it('Should be true when challenge is NOT a SMART_PLACEMENT', function() {
       run(() => {
         // given
         const store = this.store();
