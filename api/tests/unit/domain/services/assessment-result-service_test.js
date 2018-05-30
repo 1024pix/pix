@@ -31,7 +31,6 @@ function _buildCompetence(competence_code, area_code) {
     index: `${area_code}.${competence_code}`,
     areaId: ['recdmN2Exvq2oAPap'],
     courseId: 'recvNIWtjJRyBCd0P',
-    reference: `${area_code}.${competence_code} bla bla bla`,
     skills: undefined,
     area: Area.fromAttributes({ id: 'recdmN2Exvq2oAPap', code: `${area_code}`, title: 'Information et données' }),
   };
