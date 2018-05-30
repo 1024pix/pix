@@ -481,7 +481,7 @@ describe('Unit | Domain | Models | Assessment', () => {
     });
   });
 
-  describe('#validatedSkills', function() {
+  describe('#getValidatedSkills', function() {
 
     it('should return [web1, web2] if the user answered correctly a question that requires web2', function() {
       // given
@@ -547,7 +547,7 @@ describe('Unit | Domain | Models | Assessment', () => {
 
   });
 
-  describe('#failedSkills', function() {
+  describe('#getFailedSkills', function() {
 
     it('should return [web1, web2, web3] if the user fails a question that requires web1', function() {
       // given

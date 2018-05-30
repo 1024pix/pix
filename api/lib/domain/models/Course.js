@@ -16,9 +16,10 @@ class Course {
     this.competences = model.competences;
     this.challenges = model.challenges || [];
     this.assessment = model.assessment;
+  }
 
-    // transformed
-    this.nbChallenges = this.challenges.length;
+  get nbChallenges() {
+    return this.challenges.length;
   }
 
   addCompetenceSkills(competenceSkills) {
