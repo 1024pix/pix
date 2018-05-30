@@ -185,6 +185,19 @@ describe('Integration | Infrastructure | Repository | UserRepository', () => {
         expect(associatedRole.name).to.equal(organizationRole.name);
       });
     });
+
+    it('should throw an error when no user was found with this email', () => {
+      // given
+      const unusedEmail = 'kikou@pix.fr';
+
+      // when
+      const promise = userRepository.findByEmailWithRoles(unusedEmail);
+
+      // then
+      return promise.catch((error) => {
+        expect(error).to.be.an.instanceof(Bookshelf.Model.NotFoundError);
+      });
+    });
   });
 
   describe('#isEmailAvailable', () => {

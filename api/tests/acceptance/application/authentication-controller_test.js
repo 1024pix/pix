@@ -2,6 +2,7 @@ const { knex, expect, generateValidRequestAuhorizationHeader } = require('../../
 
 const faker = require('faker');
 const _ = require('lodash');
+const querystring = require('querystring');
 
 const jsonwebtoken = require('jsonwebtoken');
 const settings = require('./../../../lib/settings');
@@ -91,6 +92,79 @@ describe('Acceptance | Controller | authentication-controller', () => {
         expect(response.statusCode).to.equal(201);
       });
     });
+  });
+
+  describe('POST /api/token', () => {
+
+    const userPassword = 'A124B2C3#!';
+    const userEmail = 'emailWithSomeCamelCase@example.net';
+    const userEmailSavedInDb = _.toLower(userEmail);
+
+    beforeEach(() => {
+      const organizationAccess = {};
+
+      return encrypt.hashPassword(userPassword)
+        .then((encryptedPassword) => knex('users').insert({
+          firstName: faker.name.firstName(),
+          lastName: faker.name.lastName(),
+          email: userEmailSavedInDb,
+          password: encryptedPassword,
+          cgu: true
+        })
+          .then((insertedUser) => {
+            organizationAccess.userId = insertedUser[0];
+            return knex('organizations').insert({ email: userEmail, type: 'PRO', name: 'Mon Entreprise', code: 'ABCD12' });
+          }).then((insertedOrganization) => {
+            organizationAccess.organizationId = insertedOrganization[0];
+            return knex('organization-roles').insert({ name: 'ADMIN' });
+          })
+          .then((insertedOrganizationRole) => {
+            organizationAccess.organizationRoleId = insertedOrganizationRole[0];
+            return knex('organizations-accesses').insert(organizationAccess);
+          }));
+    });
+
+    afterEach(() => {
+      return knex('organizations-accesses').delete()
+        .then(() => {
+          return Promise.all([
+            knex('organizations').delete(),
+            knex('users').delete(),
+            knex('organization-roles').delete()
+          ]);
+        });
+    });
+
+    it('should return an 200 with accessToken when authentication is ok', () => {
+      // given
+      const options = {
+        method: 'POST',
+        url: '/api/token',
+        headers: {
+          'content-type': 'application/x-www-form-urlencoded'
+        },
+        payload: querystring.stringify({
+          grant_type: 'password',
+          username: userEmailSavedInDb,
+          password: userPassword,
+          scope: 'pix-orga'
+        })
+      };
+
+      // when
+      const promise = server.inject(options);
+
+      // then
+      return promise.then((response) => {
+        expect(response.statusCode).to.equal(200);
+
+        const result = response.result;
+        expect(result.token_type).to.equal('bearer');
+        expect(result.expires_in).to.equal(3600);
+        expect(result.access_token).to.exist;
+      });
+    });
+
   });
 
 })
