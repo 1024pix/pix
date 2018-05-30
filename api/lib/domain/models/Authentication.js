@@ -1,14 +1,14 @@
 class Authentication {
 
-  constructor(user_id, token) {
-    this.user_id = user_id;
+  constructor({ userId, token }) {
+    this.userId = userId;
     this.token = token;
   }
 
   toJSON() {
     return {
-      user_id: this.user_id,
-      token: this.token
+      user_id: this.userId,
+      token: this.token,
     };
   }
 

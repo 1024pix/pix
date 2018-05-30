@@ -13,8 +13,8 @@ describe('Unit | Domain | Use Cases | get-next-challenge-for-smart-placement', 
     let challengeRepository;
 
     const skill = new Skill({ name: '@unite2' });
-    const challenge = new Challenge({ status: 'validé', id: 'challenge_ID', skills: [skill] });
-    const assessment = new Assessment({ id: 'assessment_ID' });
+    const challenge = Challenge.fromAttributes({ status: 'validé', id: 'challenge_ID', skills: [skill] });
+    const assessment = Assessment.fromAttributes({ id: 'assessment_ID' });
 
     beforeEach(() => {
       answerRepository = { findByAssessment: sinon.stub().resolves([]) };
@@ -41,5 +41,4 @@ describe('Unit | Domain | Use Cases | get-next-challenge-for-smart-placement', 
       });
     });
   });
-
 });

@@ -13,7 +13,7 @@ describe('Unit | Repository | Certification Course', function() {
     let savedCertificationCourse;
 
     beforeEach(() => {
-      certificationCourse = new CertificationCourse({
+      certificationCourse = CertificationCourse.fromAttributes({
         id: 'certifId',
         userId: 1,
         completedAt: null,
@@ -25,7 +25,7 @@ describe('Unit | Repository | Certification Course', function() {
         sessionId: 'EURO2016',
         externalId: 'xenoverse2'
       });
-      savedCertificationCourse = new CertificationCourse({
+      savedCertificationCourse = CertificationCourse.fromAttributes({
         id: 'certifId',
         userId: 1,
         completedAt: null,

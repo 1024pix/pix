@@ -13,7 +13,7 @@ class AreaSerializer extends AirtableSerializer {
       areaAttributes.name = airtableRecord.fields['Nom'];
     }
 
-    return new Area(areaAttributes);
+    return Area.fromAttributes(areaAttributes);
   }
 
 }

@@ -4,7 +4,7 @@ const { AssessmentEndedError } = require('../../domain/errors');
 const Bookshelf = require('../bookshelf');
 
 function _toDomain(model) {
-  return new CertificationChallenge({
+  return CertificationChallenge.fromAttributes({
     id: model.get('id'),
     challengeId: model.get('challengeId'),
     competenceId: model.get('competenceId'),

@@ -58,7 +58,7 @@ describe('Unit | Service | Profil User Service', function() {
         }
       ];
 
-      fakeAssessmentRecords = [new Assessment({
+      fakeAssessmentRecords = [Assessment.fromAttributes({
         id: 'assessmentId1',
         courseId: 'courseId8',
         state: 'completed',

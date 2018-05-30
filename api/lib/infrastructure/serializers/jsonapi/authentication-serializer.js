@@ -8,8 +8,8 @@ module.exports = {
       attributes: ['token', 'user_id', 'password'],
       transform(model) {
         const authentication = Object.assign({}, model.toJSON());
-        authentication.user_id = model.user_id.toString();
-        authentication.id = model.user_id;
+        authentication.user_id = model.userId.toString();
+        authentication.id = model.userId;
         authentication.password = '';
         return authentication;
       }

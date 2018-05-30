@@ -19,8 +19,8 @@ describe('Unit | Domain | Use Cases | get-next-challenge-for-preview', () => {
 
     it('should use the assessmentService to select the next CertificationChallenge', () => {
       // given
-      const nextChallenge = new CertificationChallenge({ skills : [] });
-      const assessment = new Assessment({ id: 156, courseId: 54516 });
+      const nextChallenge = CertificationChallenge.fromAttributes({ skills : [] });
+      const assessment = Assessment.fromAttributes({ id: 156, courseId: 54516 });
 
       certificationChallengeRepository.getNonAnsweredChallengeByCourseId.resolves(nextChallenge);
 
@@ -36,9 +36,9 @@ describe('Unit | Domain | Use Cases | get-next-challenge-for-preview', () => {
     it('should return the next Challenge', () => {
       // given
       const challengeId = 15167432;
-      const nextChallengeToAnswer = new Challenge({ challengeId, skills : [] });
-      const nextCertificationChallenge = new CertificationChallenge({ challengeId, skills : [] });
-      const assessment = new Assessment({ id: 156, courseId: 54516 });
+      const nextChallengeToAnswer = Challenge.fromAttributes({ challengeId, skills : [] });
+      const nextCertificationChallenge = CertificationChallenge.fromAttributes({ challengeId, skills : [] });
+      const assessment = Assessment.fromAttributes({ id: 156, courseId: 54516 });
 
       certificationChallengeRepository.getNonAnsweredChallengeByCourseId.resolves(nextCertificationChallenge);
       challengeRepository.get.resolves(nextChallengeToAnswer);

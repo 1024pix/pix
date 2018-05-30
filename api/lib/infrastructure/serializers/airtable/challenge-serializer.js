@@ -7,7 +7,7 @@ class ChallengeSerializer extends AirtableSerializer {
 
   deserialize(airtableRecord) {
 
-    const challenge = new Challenge();
+    const challenge = Challenge.fromAttributes();
 
     challenge.id = airtableRecord.id;
 

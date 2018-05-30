@@ -9,11 +9,11 @@ describe('Unit | Serializer | JSONAPI | certification-course-serializer', functi
 
     it('should convert a Certification Course model object into JSON API data', function() {
       // given
-      const assessment = new Assessment({
+      const assessment = Assessment.fromAttributes({
         'id': '2',
       });
 
-      const certificationCourse = new CertificationCourse({
+      const certificationCourse = CertificationCourse.fromAttributes({
         id: 'certification_id',
         userId: 2,
         assessment: assessment,
@@ -52,7 +52,7 @@ describe('Unit | Serializer | JSONAPI | certification-course-serializer', functi
 
     it('should serialize results of a certification', function() {
       // given
-      const certificationCourse = new CertificationCourse({
+      const certificationCourse = CertificationCourse.fromAttributes({
         pixScore: 30,
         createdAt: '20/02/2017',
         completedAt: '20/02/2017',

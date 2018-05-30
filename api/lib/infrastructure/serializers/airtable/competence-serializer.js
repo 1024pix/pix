@@ -20,7 +20,7 @@ class CompetenceSerializer extends AirtableSerializer {
     competence.reference = fields['Référence'];
     competence.skills = fields['Acquis'];
 
-    competence.area = new Area({
+    competence.area = Area.fromAttributes({
       id: _.first(fields['Domaine']),
       code: _.first(fields['Domaine Code']),
       title: _.first(fields['Domaine Titre'])

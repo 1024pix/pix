@@ -1,10 +1,18 @@
 class Challenge {
 
-  constructor(attributes) {
-    Object.assign(this, attributes);
-    if(!this.skills) {
-      this.skills = [];
+  constructor(_ = {}) {
+  }
+
+  /**
+   * @deprecated
+   */
+  static fromAttributes(attributes) {
+    const challenge = new Challenge();
+    Object.assign(challenge, attributes);
+    if(!challenge.skills) {
+      challenge.skills = [];
     }
+    return challenge;
   }
 
   addSkill(skill) {

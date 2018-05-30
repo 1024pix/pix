@@ -2,17 +2,15 @@ const AnswerStatus = require('./AnswerStatus');
 
 class Answer {
 
-  constructor(model = {}) {
-    this.id = model.id;
-    this.value = model.value;
-    this.result = AnswerStatus.from(model.result);
-    this.timeout = model.timeout;
-    this.elapsedTime = model.elapsedTime;
-    this.resultDetails = model.resultDetails;
-
-    // TODO create real relations
-    this.assessmentId = model.assessmentId;
-    this.challengeId = model.challengeId;
+  constructor({ id, value, result, timeout, elapsedTime, resultDetails, assessmentId, challengeId } = {}) {
+    this.id = id;
+    this.value = value;
+    this.result = AnswerStatus.from(result);
+    this.timeout = timeout;
+    this.elapsedTime = elapsedTime;
+    this.resultDetails = resultDetails;
+    this.assessmentId = assessmentId;
+    this.challengeId = challengeId;
   }
 
   isOk() {

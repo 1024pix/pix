@@ -82,7 +82,7 @@ describe('Unit | Domain | Models | Answer', () => {
   describe('#maxDifficulty', function() {
     it('should exist', function() {
       // given
-      const challenge = new Challenge();
+      const challenge = Challenge.fromAttributes();
       const answer = new Answer({ result: 'ko' });
       answer.challenge = challenge;
       // then
@@ -93,7 +93,7 @@ describe('Unit | Domain | Models | Answer', () => {
       // given
       const web5 = new Skill({ name: '@web5' });
       const url1 = new Skill({ name: '@url1' });
-      const challenge = new Challenge();
+      const challenge = Challenge.fromAttributes();
       challenge.addSkill(web5);
       challenge.addSkill(url1);
       const answer = new Answer({ result: 'ko' });

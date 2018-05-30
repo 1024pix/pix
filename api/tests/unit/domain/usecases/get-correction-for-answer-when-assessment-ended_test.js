@@ -28,7 +28,7 @@ describe('Unit | UseCase | getCorrectionForAnswerWhenAssessmentEnded', () => {
     context('and when the assessment is not a SMART_PLACEMENT', () => {
       it('should reject with a assessment not completed error', () => {
         // given
-        const assessment = new Assessment({ state: 'started' });
+        const assessment = Assessment.fromAttributes({ state: 'started' });
         const answer = new Answer({ assessmentId: 1, challengeId: 12 });
         assessmentRepository.get.resolves(assessment);
         answerRepository.get.resolves(answer);
@@ -38,7 +38,7 @@ describe('Unit | UseCase | getCorrectionForAnswerWhenAssessmentEnded', () => {
           assessmentRepository,
           answerRepository,
           correctionRepository,
-          answerId: 2
+          answerId: 2,
         });
 
         // then
@@ -56,7 +56,7 @@ describe('Unit | UseCase | getCorrectionForAnswerWhenAssessmentEnded', () => {
         // given
         const assessmentId = 1;
         const challengeId = 12;
-        const assessment = new Assessment({ state: 'started', type: Assessment.types.SMARTPLACEMENT });
+        const assessment = Assessment.fromAttributes({ state: 'started', type: Assessment.types.SMARTPLACEMENT });
         const answer = new Answer({ assessmentId, challengeId });
         const correction = new Correction({ id: 123 });
         assessmentRepository.get.resolves(assessment);
@@ -68,7 +68,7 @@ describe('Unit | UseCase | getCorrectionForAnswerWhenAssessmentEnded', () => {
           assessmentRepository,
           answerRepository,
           correctionRepository,
-          answerId: 2
+          answerId: 2,
         });
 
         // then
@@ -88,7 +88,7 @@ describe('Unit | UseCase | getCorrectionForAnswerWhenAssessmentEnded', () => {
       // given
       const assessmentId = 1;
       const challengeId = 12;
-      const assessment = new Assessment({ state: 'completed' });
+      const assessment = Assessment.fromAttributes({ state: 'completed' });
       const answer = new Answer({ assessmentId, challengeId });
       const correction = new Correction({ id: 123 });
       assessmentRepository.get.resolves(assessment);
@@ -100,7 +100,7 @@ describe('Unit | UseCase | getCorrectionForAnswerWhenAssessmentEnded', () => {
         assessmentRepository,
         answerRepository,
         correctionRepository,
-        answerId: 2
+        answerId: 2,
       });
 
       // then

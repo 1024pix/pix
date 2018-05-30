@@ -273,13 +273,13 @@ describe('Integration | Infrastructure | Repositories | assessment-repository', 
     it('should correctly query Assessment conditions', () => {
       // given
       const expectedAssessments = [
-        new Assessment({
+        Assessment.fromAttributes({
           id: 3,
           userId: JOHN,
           courseId: 'courseId1',
           state:'completed'
         }),
-        new Assessment({
+        Assessment.fromAttributes({
           id: 4,
           userId: JOHN,
           courseId: 'courseId2',
@@ -306,7 +306,7 @@ describe('Integration | Infrastructure | Repositories | assessment-repository', 
   describe('#save', () => {
 
     const JOHN = 2;
-    const assessmentToBeSaved = new Assessment({
+    const assessmentToBeSaved = Assessment.fromAttributes({
       userId: JOHN,
       courseId: 'courseId1',
       type: Assessment.types.CERTIFICATION,

@@ -22,14 +22,14 @@ const CompetenceMark = require('../../../../lib/domain/models/CompetenceMark');
 const Skill = require('../../../../lib/domain/models/Skill');
 
 function _buildChallenge(challengeId, skills) {
-  const challenge = new Challenge();
+  const challenge = Challenge.fromAttributes();
   challenge.id = challengeId;
   challenge.skills = skills;
   return challenge;
 }
 
 function _buildAssessmentForCourse(courseId, assessmentId = 'assessment_id') {
-  const assessment = new Assessment({ id: assessmentId, type: 'PLACEMENT' });
+  const assessment = Assessment.fromAttributes({ id: assessmentId, type: 'PLACEMENT' });
   if (courseId) {
     assessment.courseId = courseId;
   }
@@ -41,7 +41,7 @@ function _buildAnswer(challengeId, result, assessmentId = 1) {
     id: 'answer_id',
     challengeId: challengeId,
     assessmentId: assessmentId,
-    result: result
+    result: result,
   });
 }
 
@@ -71,26 +71,26 @@ describe('Unit | Domain | Services | assessment', () => {
 
     const challenges = [
       _buildChallenge('challenge_web_1', [new Skill({ name: '@web1' })]),
-      _buildChallenge('challenge_web_2', [new Skill({ name: '@web2' })])
+      _buildChallenge('challenge_web_2', [new Skill({ name: '@web2' })]),
     ];
 
     const sandbox = sinon.sandbox.create();
 
     beforeEach(() => {
       competenceRepository.get.resolves(COMPETENCE);
-      sandbox.stub(assessmentRepository, 'get').resolves(new Assessment({
+      sandbox.stub(assessmentRepository, 'get').resolves(Assessment.fromAttributes({
         id: ASSESSMENT_ID,
-        courseId: PREVIEW_COURSE_ID
+        courseId: PREVIEW_COURSE_ID,
       }));
       sandbox.stub(courseRepository, 'get').resolves({
         challenges: ['challenge_web_2', 'challenge_web_1'],
-        competences: [COMPETENCE_ID]
+        competences: [COMPETENCE_ID],
       });
       sandbox.stub(challengeRepository, 'findByCompetence').resolves(challenges);
       sandbox.stub(skillRepository, 'findByCompetence').resolves(new Set([new Skill({ name: '@web1' }), new Skill({ name: '@web2' })]));
       sandbox.stub(assessmentAdapter, 'getAdaptedAssessment').returns({
         obtainedLevel: 2,
-        displayedPixScore: 17
+        displayedPixScore: 17,
       });
       sandbox.stub(answerRepository, 'findByAssessment').resolves([wrongAnswerWeb2, correctAnswerWeb1]);
     });
@@ -197,7 +197,10 @@ describe('Unit | Domain | Services | assessment', () => {
 
       context('when the assessement is a certification', () => {
         beforeEach(() => {
-          const assessmentFromCertif = new Assessment({ id: ASSESSMENT_ID, type: Assessment.types.CERTIFICATION });
+          const assessmentFromCertif = Assessment.fromAttributes({
+            id: ASSESSMENT_ID,
+            type: Assessment.types.CERTIFICATION,
+          });
           assessmentRepository.get.resolves(assessmentFromCertif);
         });
         it('should return an assessment with an estimated level of 0 and a pix-score of 0', () => {
@@ -227,7 +230,7 @@ describe('Unit | Domain | Services | assessment', () => {
 
       context('when the assessement is linked to a course', () => {
         beforeEach(() => {
-          const assessmentFromPreview = new Assessment({ id: ASSESSMENT_ID, courseId: COURSE_ID });
+          const assessmentFromPreview = Assessment.fromAttributes({ id: ASSESSMENT_ID, courseId: COURSE_ID });
           assessmentRepository.get.resolves(assessmentFromPreview);
         });
 
@@ -286,7 +289,7 @@ describe('Unit | Domain | Services | assessment', () => {
             courseRepository.get.resolves({
               challenges: ['challenge_web_1', 'challenge_web_2'],
               competences: [COMPETENCE_ID],
-              isAdaptive: true
+              isAdaptive: true,
             });
           });
 
@@ -321,9 +324,9 @@ describe('Unit | Domain | Services | assessment', () => {
 
     it('should detect Assessment created for preview Challenge and do not evaluate score', () => {
       // given
-      const assessmentFromPreview = new Assessment({
+      const assessmentFromPreview = Assessment.fromAttributes({
         id: '1',
-        courseId: PREVIEW_COURSE_ID
+        courseId: PREVIEW_COURSE_ID,
       });
       assessmentRepository.get.resolves(assessmentFromPreview);
 
@@ -419,20 +422,20 @@ describe('Unit | Domain | Services | assessment', () => {
 
     const challenges = [
       _buildChallenge('challenge_web_1', [new Skill({ name: '@web1' })]),
-      _buildChallenge('challenge_web_2', [new Skill({ name: '@web2' })])
+      _buildChallenge('challenge_web_2', [new Skill({ name: '@web2' })]),
     ];
 
     const sandbox = sinon.sandbox.create();
     let assessment;
     beforeEach(() => {
-      assessment = new Assessment({
+      assessment = Assessment.fromAttributes({
         id: ASSESSMENT_ID,
-        courseId: PREVIEW_COURSE_ID
+        courseId: PREVIEW_COURSE_ID,
       });
       competenceRepository.get.resolves(COMPETENCE);
       sandbox.stub(courseRepository, 'get').resolves({
         challenges: ['challenge_web_2', 'challenge_web_1'],
-        competences: [COMPETENCE_ID]
+        competences: [COMPETENCE_ID],
       });
       sandbox.stub(challengeRepository, 'findByCompetence').resolves(challenges);
       sandbox.stub(skillRepository, 'findByCompetence').resolves(new Set([new Skill({ name: '@web1' }), new Skill({ name: '@web2' })]));
@@ -440,7 +443,7 @@ describe('Unit | Domain | Services | assessment', () => {
         obtainedLevel: 2,
         displayedPixScore: 17,
         validatedSkills: ['@web1'],
-        failedSkills: ['@web2']
+        failedSkills: ['@web2'],
       });
       sandbox.stub(answerRepository, 'findByAssessment').resolves([wrongAnswerWeb2, correctAnswerWeb1]);
     });
@@ -496,7 +499,10 @@ describe('Unit | Domain | Services | assessment', () => {
 
         it('should not try to get course details', () => {
           // given
-          const assessmentFromCertif = new Assessment({ id: ASSESSMENT_ID, type: Assessment.types.CERTIFICATION });
+          const assessmentFromCertif = Assessment.fromAttributes({
+            id: ASSESSMENT_ID,
+            type: Assessment.types.CERTIFICATION,
+          });
 
           // when
           const promise = service.getSkills(assessmentFromCertif);
@@ -512,7 +518,7 @@ describe('Unit | Domain | Services | assessment', () => {
       context('when the assessement is linked to a course', () => {
         it('should load course details', () => {
           // given
-          const assessmentFromPreview = new Assessment({ id: ASSESSMENT_ID, courseId: COURSE_ID });
+          const assessmentFromPreview = Assessment.fromAttributes({ id: ASSESSMENT_ID, courseId: COURSE_ID });
 
           // when
           const promise = service.getSkills(assessmentFromPreview);
@@ -526,7 +532,7 @@ describe('Unit | Domain | Services | assessment', () => {
         context('when the course is not in adaptative mode', () => {
           it('should not load data to evaluate level and score', () => {
             // given
-            const assessmentFromPreview = new Assessment({ id: ASSESSMENT_ID, courseId: COURSE_ID });
+            const assessmentFromPreview = Assessment.fromAttributes({ id: ASSESSMENT_ID, courseId: COURSE_ID });
 
             // when
             const promise = service.getSkills(assessmentFromPreview);
@@ -541,7 +547,7 @@ describe('Unit | Domain | Services | assessment', () => {
 
           it('should not load the linked competence', () => {
             // given
-            const assessmentFromPreview = new Assessment({ id: ASSESSMENT_ID, courseId: COURSE_ID });
+            const assessmentFromPreview = Assessment.fromAttributes({ id: ASSESSMENT_ID, courseId: COURSE_ID });
 
             // when
             const promise = service.getSkills(assessmentFromPreview);
@@ -552,7 +558,6 @@ describe('Unit | Domain | Services | assessment', () => {
                 expect(competenceRepository.get).not.to.have.been.called;
               });
           });
-
         });
 
         context('when the course is an adaptive one', () => {
@@ -560,13 +565,13 @@ describe('Unit | Domain | Services | assessment', () => {
             courseRepository.get.resolves({
               challenges: ['challenge_web_1', 'challenge_web_2'],
               competences: [COMPETENCE_ID],
-              isAdaptive: true
+              isAdaptive: true,
             });
           });
 
           it('should load skills and challenges for the course', () => {
             // given
-            const assessmentFromPreview = new Assessment({ id: ASSESSMENT_ID, courseId: COURSE_ID });
+            const assessmentFromPreview = Assessment.fromAttributes({ id: ASSESSMENT_ID, courseId: COURSE_ID });
 
             // when
             const promise = service.getSkills(assessmentFromPreview);
@@ -581,7 +586,7 @@ describe('Unit | Domain | Services | assessment', () => {
 
           it('should resolve the promise with skills calculated with assessmentAdapter', () => {
             // given
-            const assessmentFromPreview = new Assessment({ id: ASSESSMENT_ID, courseId: COURSE_ID });
+            const assessmentFromPreview = Assessment.fromAttributes({ id: ASSESSMENT_ID, courseId: COURSE_ID });
 
             // when
             const promise = service.getSkills(assessmentFromPreview);
@@ -599,9 +604,9 @@ describe('Unit | Domain | Services | assessment', () => {
 
     it('should detect Assessment created for preview Challenge and do not search for course, challenges or skills', () => {
       // given
-      const assessmentFromPreview = new Assessment({
+      const assessmentFromPreview = Assessment.fromAttributes({
         id: '1',
-        courseId: PREVIEW_COURSE_ID
+        courseId: PREVIEW_COURSE_ID,
       });
       // when
       const promise = service.getSkills(assessmentFromPreview);
@@ -633,26 +638,26 @@ describe('Unit | Domain | Services | assessment', () => {
 
     const challenges = [
       _buildChallenge('challenge_web_1', [new Skill({ name: '@web1' })]),
-      _buildChallenge('challenge_web_2', [new Skill({ name: '@web2' })])
+      _buildChallenge('challenge_web_2', [new Skill({ name: '@web2' })]),
     ];
 
     const sandbox = sinon.sandbox.create();
 
     beforeEach(() => {
       competenceRepository.get.resolves(COMPETENCE);
-      sandbox.stub(assessmentRepository, 'get').resolves(new Assessment({
+      sandbox.stub(assessmentRepository, 'get').resolves(Assessment.fromAttributes({
         id: ASSESSMENT_ID,
-        courseId: PREVIEW_COURSE_ID
+        courseId: PREVIEW_COURSE_ID,
       }));
       sandbox.stub(courseRepository, 'get').resolves({
         challenges: ['challenge_web_2', 'challenge_web_1'],
-        competences: [COMPETENCE_ID]
+        competences: [COMPETENCE_ID],
       });
       sandbox.stub(challengeRepository, 'findByCompetence').resolves(challenges);
       sandbox.stub(skillRepository, 'findByCompetence').resolves(new Set([new Skill({ name: '@web1' }), new Skill({ name: '@web2' })]));
       sandbox.stub(assessmentAdapter, 'getAdaptedAssessment').returns({
         obtainedLevel: 2,
-        displayedPixScore: 17
+        displayedPixScore: 17,
       });
       sandbox.stub(answerRepository, 'findByAssessment').resolves([wrongAnswerWeb2, correctAnswerWeb1]);
     });
@@ -712,7 +717,7 @@ describe('Unit | Domain | Services | assessment', () => {
 
     context('when the assessement is linked to a course', () => {
       beforeEach(() => {
-        const assessmentFromPreview = new Assessment({ id: ASSESSMENT_ID, courseId: COURSE_ID });
+        const assessmentFromPreview = Assessment.fromAttributes({ id: ASSESSMENT_ID, courseId: COURSE_ID });
         assessmentRepository.get.resolves(assessmentFromPreview);
       });
 
@@ -769,7 +774,7 @@ describe('Unit | Domain | Services | assessment', () => {
           courseRepository.get.resolves({
             challenges: ['challenge_web_1', 'challenge_web_2'],
             competences: [COMPETENCE_ID],
-            isAdaptive: true
+            isAdaptive: true,
           });
         });
 
@@ -803,26 +808,28 @@ describe('Unit | Domain | Services | assessment', () => {
   describe('#getCompetenceMarks', () => {
 
     context('when assessment is a Certification', () => {
-      const assessment = new Assessment({ id: 1, type: Assessment.types.CERTIFICATION });
+      const assessment = Assessment.fromAttributes({ id: 1, type: Assessment.types.CERTIFICATION });
 
       const sandbox = sinon.sandbox.create();
 
       beforeEach(() => {
         sandbox.stub(competenceRepository, 'list').resolves([
-          { index:'1.1', area: { code: 'area_1' } },
-          { index:'1.2', area: { code: 'area_2' } }
+          { index: '1.1', area: { code: 'area_1' } },
+          { index: '1.2', area: { code: 'area_2' } },
         ]);
         sandbox.stub(certificationService, 'calculateCertificationResultByAssessmentId').resolves({
-          competencesWithMark: [{
-            index: '1.1',
-            obtainedLevel: 2,
-            obtainedScore: 18,
-          },
-          {
-            index: '1.2',
-            obtainedLevel: 3,
-            obtainedScore: 28,
-          }]
+          competencesWithMark: [
+            {
+              index: '1.1',
+              obtainedLevel: 2,
+              obtainedScore: 18,
+            },
+            {
+              index: '1.2',
+              obtainedLevel: 3,
+              obtainedScore: 28,
+            },
+          ],
         });
       });
 
@@ -876,7 +883,13 @@ describe('Unit | Domain | Services | assessment', () => {
 
     context('when assessment is a Placement', () => {
       const courseId = 'courseId';
-      const assessment = new Assessment({ id: 1, type: 'PLACEMENT', courseId, estimatedLevel: 2, pixScore: 18 });
+      const assessment = Assessment.fromAttributes({
+        id: 1,
+        type: 'PLACEMENT',
+        courseId,
+        estimatedLevel: 2,
+        pixScore: 18,
+      });
       const competence = { area: { code: 'comp_code' }, index: '1.1' };
 
       const sandbox = sinon.sandbox.create();
@@ -886,7 +899,7 @@ describe('Unit | Domain | Services | assessment', () => {
           competences: ['1.1'],
         }));
         sandbox.stub(service, 'getScoreAndLevel').resolves({
-          estimatedLevel: 2, pixScore: 18
+          estimatedLevel: 2, pixScore: 18,
         });
         competenceRepository.get.resolves(competence);
       });
@@ -904,7 +917,6 @@ describe('Unit | Domain | Services | assessment', () => {
           expect(courseRepository.get).to.have.been.calledOnce;
           expect(courseRepository.get).to.have.been.calledWithExactly(courseId);
         });
-
       });
 
       it('should get competence tested by assessment', () => {
@@ -917,7 +929,6 @@ describe('Unit | Domain | Services | assessment', () => {
           expect(competenceRepository.get).to.have.been.calledOnce;
           expect(competenceRepository.get).to.have.been.calledWithExactly('1.1');
         });
-
       });
 
       it('should return a Competence Marks with level, score, area and competence code', () => {
@@ -941,7 +952,7 @@ describe('Unit | Domain | Services | assessment', () => {
 
       it('should return an empty list', () => {
         // given
-        const assessment = new Assessment({ id: 1, type: 'DEMO' });
+        const assessment = Assessment.fromAttributes({ id: 1, type: 'DEMO' });
 
         // when
         const result = service.getCompetenceMarks(assessment);
@@ -950,7 +961,6 @@ describe('Unit | Domain | Services | assessment', () => {
         expect(result).to.deep.equal([]);
       });
     });
-
   });
 
   describe('#findByFilters', function() {
@@ -986,7 +996,11 @@ describe('Unit | Domain | Services | assessment', () => {
       it('should get the course associated to each assessment ', function() {
         // given
         const filters = { courseId: 'courseId' };
-        const retrievedAssessments = [new Assessment({ id: 1, type: Assessment.types.CERTIFICATION, courseId: 'courseId' })];
+        const retrievedAssessments = [Assessment.fromAttributes({
+          id: 1,
+          type: Assessment.types.CERTIFICATION,
+          courseId: 'courseId',
+        })];
         assessmentRepository.findByFilters.resolves(retrievedAssessments);
 
         // when
@@ -1002,7 +1016,11 @@ describe('Unit | Domain | Services | assessment', () => {
       it('should return one assessment with corresponding course', function() {
         // given
         const filters = { courseId: 'courseId' };
-        const retrievedAssessments = [new Assessment({ id: 1, type: Assessment.types.CERTIFICATION, courseId: 'courseId' })];
+        const retrievedAssessments = [Assessment.fromAttributes({
+          id: 1,
+          type: Assessment.types.CERTIFICATION,
+          courseId: 'courseId',
+        })];
         assessmentRepository.findByFilters.resolves(retrievedAssessments);
         certificationCourseRepository.get.resolves({ id: 'courseId', status: 'started' });
         // when
@@ -1023,8 +1041,8 @@ describe('Unit | Domain | Services | assessment', () => {
         // given
         const filters = { userId: 1 };
         const retrievedAssessments = [
-          new Assessment({ id: 1, type: Assessment.types.CERTIFICATION, courseId: '2' }),
-          new Assessment({ id: 2, type: 'DEMO', courseId: 'recCourseId' })
+          Assessment.fromAttributes({ id: 1, type: Assessment.types.CERTIFICATION, courseId: '2' }),
+          Assessment.fromAttributes({ id: 2, type: Assessment.types.DEMO, courseId: 'recCourseId' }),
         ];
         assessmentRepository.findByFilters.resolves(retrievedAssessments);
 
@@ -1042,8 +1060,8 @@ describe('Unit | Domain | Services | assessment', () => {
         // given
         const filters = { userId: 1 };
         const retrievedAssessments = [
-          new Assessment({ id: 1, type: Assessment.types.CERTIFICATION, courseId: '2' }),
-          new Assessment({ id: 2, type: 'DEMO', courseId: 'recCourseId' })
+          Assessment.fromAttributes({ id: 1, type: Assessment.types.CERTIFICATION, courseId: '2' }),
+          Assessment.fromAttributes({ id: 2, type: Assessment.types.DEMO, courseId: 'recCourseId' }),
         ];
         assessmentRepository.findByFilters.resolves(retrievedAssessments);
         certificationCourseRepository.get.resolves({ id: 'courseId', status: 'started' });
@@ -1070,7 +1088,7 @@ describe('Unit | Domain | Services | assessment', () => {
     context('if assessment type is \'CERTIFICATION\'', () => {
       it('should return true', () => {
         // given
-        const assessment = new Assessment({ type: Assessment.types.CERTIFICATION });
+        const assessment = Assessment.fromAttributes({ type: Assessment.types.CERTIFICATION });
 
         // when
         const result = service.isCertificationAssessment(assessment);
@@ -1083,7 +1101,7 @@ describe('Unit | Domain | Services | assessment', () => {
     context('if assessment type is different of \'CERTIFICATION\'', () => {
       it('should return false', () => {
         // given
-        const assessment = new Assessment({ type: 'BRANDONE EST FORMIDABLE' });
+        const assessment = Assessment.fromAttributes({ type: 'BRANDONE EST FORMIDABLE' });
 
         // when
         const result = service.isCertificationAssessment(assessment);
@@ -1097,7 +1115,7 @@ describe('Unit | Domain | Services | assessment', () => {
   describe('#isDemoAssessment', () => {
     it('should return true when the assessment is a DEMO', () => {
       // given
-      const assessment = new Assessment({ type: 'DEMO' });
+      const assessment = Assessment.fromAttributes({ type: 'DEMO' });
 
       // when
       const isDemoAssessment = service.isDemoAssessment(assessment);
@@ -1108,7 +1126,7 @@ describe('Unit | Domain | Services | assessment', () => {
 
     it('should return true when the assessment is not defined', () => {
       // given
-      const assessment = new Assessment({ type: '' });
+      const assessment = Assessment.fromAttributes({ type: '' });
 
       // when
       const isDemoAssessment = service.isDemoAssessment(assessment);
@@ -1122,7 +1140,7 @@ describe('Unit | Domain | Services | assessment', () => {
   describe('#isPlacementAssessment', () => {
     it('should return true when the assessment is a PLACEMENT', () => {
       // given
-      const assessment = new Assessment({ type: 'PLACEMENT' });
+      const assessment = Assessment.fromAttributes({ type: 'PLACEMENT' });
 
       // when
       const isPlacementAssessment = service.isPlacementAssessment(assessment);
@@ -1133,7 +1151,7 @@ describe('Unit | Domain | Services | assessment', () => {
 
     it('should return false when the assessment is not defined', () => {
       // given
-      const assessment = new Assessment({ type: '' });
+      const assessment = Assessment.fromAttributes({ type: '' });
 
       // when
       const isPlacementTest = service.isPlacementAssessment(assessment);
@@ -1153,33 +1171,35 @@ describe('Unit | Domain | Services | assessment', () => {
       score: 18,
       area_code: 'area_1',
       competence_code: '1.1',
-      assessmentResultId: assessmentResultId
+      assessmentResultId: assessmentResultId,
     });
     const competenceMark2 = new CompetenceMark({
       level: 3,
       score: 28,
       area_code: 'area_2',
       competence_code: '1.2',
-      assessmentResultId: assessmentResultId
+      assessmentResultId: assessmentResultId,
     });
 
     beforeEach(() => {
       sandbox.stub(competenceRepository, 'list').resolves([
-        { index:'1.1', area: { code: 'area_1' } },
-        { index:'1.2', area: { code: 'area_2' } }
+        { index: '1.1', area: { code: 'area_1' } },
+        { index: '1.2', area: { code: 'area_2' } },
       ]);
 
       sandbox.stub(certificationService, 'calculateCertificationResultByAssessmentId').resolves({
-        competencesWithMark: [{
-          index: '1.1',
-          obtainedLevel: 2,
-          obtainedScore: 18,
-        },
-        {
-          index: '1.2',
-          obtainedLevel: 3,
-          obtainedScore: 28,
-        }]
+        competencesWithMark: [
+          {
+            index: '1.1',
+            obtainedLevel: 2,
+            obtainedScore: 18,
+          },
+          {
+            index: '1.2',
+            obtainedLevel: 3,
+            obtainedScore: 28,
+          },
+        ],
       });
 
       sandbox.stub(competenceMarkRepository, 'save').resolves(competenceMark1, competenceMark2);
@@ -1206,8 +1226,5 @@ describe('Unit | Domain | Services | assessment', () => {
         expect(competenceMarkRepository.save.secondCall.args[0]).to.deep.equal(competenceMark2);
       });
     });
-
   });
-
 });
-
