@@ -16,11 +16,9 @@ function _addMarksOnCompetences(allCompetences, competencesEvaluated) {
 class CertifiedProfile {
 
   constructor({
-    id = 0,
     allCompetences = [],
     competencesEvaluated = [],
   } = {}) {
-    this.id = id;
     this.competencesWithMark = _addMarksOnCompetences(allCompetences, competencesEvaluated);
   }
 }

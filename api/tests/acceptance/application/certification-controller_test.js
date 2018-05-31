@@ -100,6 +100,7 @@ describe('Acceptance | API | Certifications', () => {
             'last-name': 'Ther',
             'pix-score': 23,
             'status': 'rejected',
+            'certified-profile': null
           },
         }]);
       });
@@ -186,7 +187,7 @@ describe('Acceptance | API | Certifications', () => {
             'fields': {
               'Sous-domaine': '2.1',
               'Titre': 'Truc 2',
-              'Domaine Code':'2',
+              'Domaine Code': '2',
               'Domaine Titre': ['Collaborer']
             }
           }, {
@@ -252,24 +253,24 @@ describe('Acceptance | API | Certifications', () => {
           'last-name': 'Doe',
           'pix-score': 23,
           'status': 'rejected',
-        },
-        relationships: {
-          'competences': [
-            {
-              'level': 3,
-              'competence-code': '2.1',
-              'area-code': '2',
-              'competence-name': 'Blabla',
-              'area-name': 'Informations et truc',
-            },
-            {
-              'level': -1,
-              'competence-code': '2.2',
-              'area-code': '2',
-              'competence-name': 'Blablaaaa',
-              'area-name': 'Informations et truc',
-            },
-          ]
+          'certified-profile': {
+            'competencesWithMark': [
+              {
+                'areaIndex': '2',
+                'areaName': 'Collaborer',
+                'competenceIndex': '2.1',
+                'competenceName': 'Truc 2',
+                'level': 3,
+              },
+              {
+                'areaIndex': '3',
+                'areaName': 'Création de contenu',
+                'competenceIndex': '3.1',
+                'competenceName': 'Truc 3',
+                'level': -1,
+              }
+            ]
+          }
         }
       };
       return promise
@@ -398,6 +399,7 @@ describe('Acceptance | API | Certifications', () => {
               'last-name': 'Doe',
               'pix-score': 23,
               'status': 'rejected',
+              'certified-profile': null
             },
           });
         })

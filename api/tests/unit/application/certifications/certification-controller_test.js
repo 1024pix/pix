@@ -126,7 +126,7 @@ describe('Unit | Controller | certifications-controller', () => {
           certificationId: certification.id,
           certificationRepository
         });
-        expect(certificationSerializer.serialize).to.have.been.calledWith(certification, certifiedProfile);
+        expect(certificationSerializer.serialize).to.have.been.calledWith(certification);
         expect(replyStub).to.have.been.calledWith(serializedCertification);
         expect(codeStub).to.have.been.calledWith(200);
       });
