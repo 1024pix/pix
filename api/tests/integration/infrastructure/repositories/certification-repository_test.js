@@ -87,6 +87,7 @@ describe('Integration | Repository | Certification ', () => {
         pixScore: 23,
         status: 'rejected',
         commentForCandidate: 'Comment for candidate',
+        certifiedProfile: null
       });
 
       // when
@@ -188,6 +189,7 @@ describe('Integration | Repository | Certification ', () => {
         pixScore: 23,
         status: 'rejected',
         commentForCandidate: 'Comment for candidate',
+        certifiedProfile: null,
       })];
 
       // when
@@ -310,6 +312,7 @@ describe('Integration | Repository | Certification ', () => {
           pixScore: 23,
           status: 'rejected',
           commentForCandidate: null,
+          certifiedProfile: null,
         });
 
         return promise
