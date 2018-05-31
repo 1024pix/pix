@@ -64,6 +64,7 @@ describe('Unit | Serializer | JSONAPI | certification-serializer', () => {
           pixScore: 23,
           status: 'rejected',
           commentForCandidate: 'Vous auriez dû travailler plus.',
+          certifiedProfile: null
         }),
       ];
 
@@ -80,6 +81,7 @@ describe('Unit | Serializer | JSONAPI | certification-serializer', () => {
               'status': 'rejected',
               'pix-score': 23,
               'comment-for-candidate': 'Vous auriez dû travailler plus.',
+              'certified-profile': null
             },
             'type': 'certifications',
             'id': 1,
@@ -101,6 +103,7 @@ describe('Unit | Serializer | JSONAPI | certification-serializer', () => {
       const receivedCertification = factory.buildCertification({
         pixScore: 23,
         status: 'rejected',
+        certifiedProfile: null,
         commentForCandidate: 'Vous auriez dû travailler plus.',
       });
 
@@ -117,6 +120,7 @@ describe('Unit | Serializer | JSONAPI | certification-serializer', () => {
               'status': 'rejected',
               'pix-score': 23,
               'comment-for-candidate': 'Vous auriez dû travailler plus.',
+              'certified-profile': null,
             },
             'type': 'certifications',
             'id': 1,
@@ -171,10 +175,8 @@ describe('Unit | Serializer | JSONAPI | certification-serializer', () => {
                     'competenceName': 'Interagir',
                     'level': 2,
                   }
-                ],
-                'id': 0
+                ]
               }
-
             },
             'id': 1,
             'type': 'certifications'

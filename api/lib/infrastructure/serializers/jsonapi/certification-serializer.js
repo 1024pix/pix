@@ -17,7 +17,7 @@ module.exports = {
         'status',
         'pixScore',
         'commentForCandidate',
-        'certifiedProfile'
+        'certifiedProfile',
       ],
     }).serialize(certification);
   },

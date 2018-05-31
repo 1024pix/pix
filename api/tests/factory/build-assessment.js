@@ -11,7 +11,7 @@ module.exports = function({
   state = 'completed',
 } = {}) {
 
-  const assessment = new Assessment({
+  const assessment = Assessment.fromAttributes({
     id,
     assessmentResults,
     courseId,
