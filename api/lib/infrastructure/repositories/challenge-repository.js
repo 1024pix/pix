@@ -19,12 +19,12 @@ module.exports = {
 
   list() {
     return airtable.findRecords(AIRTABLE_TABLE_NAME, {})
-      .then(challenges => challenges.map(serializer.deserialize));
+      .then(airtableChallenges => airtableChallenges.map(serializer.deserialize));
   },
 
   findByCompetence(competence) {
     return airtable.findRecords(AIRTABLE_TABLE_NAME, { view: competence.reference })
-      .then(challenges => challenges.map(serializer.deserialize));
+      .then(airtableChallenges => airtableChallenges.map(serializer.deserialize));
   },
 
   findBySkills(skills) {

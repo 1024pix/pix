@@ -1,17 +1,10 @@
 const airtable = require('../airtable');
-const Area = require('../../domain/models/Area');
-
-function _toDomain(airtableArea) {
-  return new Area({
-    id : airtableArea.getId(),
-    name: airtableArea.get('Nom')
-  });
-}
+const areaSerializer = require('../../infrastructure/serializers/airtable/area-serializer');
 
 module.exports = {
 
   list() {
     return airtable.findRecords('Domaines', {})
-      .then((areas) => areas.map(_toDomain));
+      .then(airtableAreas => airtableAreas.map(areaSerializer.deserialize));
   }
 };
