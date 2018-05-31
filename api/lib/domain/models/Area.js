@@ -6,14 +6,6 @@ class Area {
     this.code = code;
     this.title = title;
   }
-
-  /**
-   * @deprecated
-   */
-  static fromAttributes(attributes) {
-    const area = new Area();
-    return Object.assign(area, attributes);
-  }
 }
 
 module.exports = Area;
