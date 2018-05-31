@@ -8,6 +8,7 @@ const getNextChallengeForPlacement = require('./get-next-challenge-for-placement
 const getNextChallengeForPreview = require('./get-next-challenge-for-preview');
 const getNextChallengeForSmartPlacement = require('./get-next-challenge-for-smart-placement');
 const getUserCertification = require('./get-user-certification');
+const getUserCertifiedProfile = require('./get-user-certified-profile');
 const preloadCacheEntries = require('./preload-cache-entries');
 const removeAllCacheEntries = require('./remove-all-cache-entries');
 const removeCacheEntry = require('./remove-cache-entry');
@@ -25,6 +26,7 @@ module.exports = {
   getNextChallengeForPreview,
   getNextChallengeForSmartPlacement,
   getUserCertification,
+  getUserCertifiedProfile,
   preloadCacheEntries,
   removeAllCacheEntries,
   removeCacheEntry,
