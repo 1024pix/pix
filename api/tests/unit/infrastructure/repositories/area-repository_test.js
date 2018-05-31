@@ -5,7 +5,7 @@ const AirtableRecord = require('airtable').Record;
 const Area = require('../../../../lib/domain/models/Area');
 const areaRepository = require('../../../../lib/infrastructure/repositories/area-repository');
 
-describe('Unit | Repository | area-repository', function () {
+describe('Unit | Repository | area-repository', function() {
 
   beforeEach(() => {
     sinon.stub(airtable, 'findRecords');
