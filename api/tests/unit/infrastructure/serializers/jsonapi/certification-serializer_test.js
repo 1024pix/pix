@@ -131,6 +131,68 @@ describe('Unit | Serializer | JSONAPI | certification-serializer', () => {
         expect(serializedCertifications).to.deep.equal(JsonCertification);
       });
     });
+
+    context('the entry data is one certification and its certifiedProfile', () => {
+
+      const receivedCertifications = [
+        factory.buildCertification({
+          pixScore: 23,
+          status: 'rejected',
+          commentForCandidate: 'Vous auriez dû travailler plus.',
+        }),
+      ];
+
+      const JsonCertificationList = {
+        data: [
+          {
+            attributes: {
+              'birthdate': new Date('1992-06-12'),
+              'certification-center': 'L’univeristé du Pix',
+              'date': new Date('2018-12-01'),
+              'first-name': 'Jean',
+              'is-published': true,
+              'last-name': 'Bon',
+              'status': 'rejected',
+              'pix-score': 23,
+              'comment-for-candidate': 'Vous auriez dû travailler plus.',
+              'certified-profile': {
+                'competencesWithMark': [
+                  {
+                    'areaIndex': '4',
+                    'areaName': 'Protection',
+                    'competenceIndex': '4.1',
+                    'competenceName': 'Sécuriser',
+                    'level': -1,
+                  },
+                  {
+                    'areaIndex': '2',
+                    'areaName': 'Communiquer et collaborer',
+                    'competenceIndex': '2.1',
+                    'competenceName': 'Interagir',
+                    'level': 2,
+                  }
+                ],
+                'id': 0
+              }
+
+            },
+            'id': 1,
+            'type': 'certifications'
+          }
+        ],
+      };
+
+      it('should serialize to JSON with relationship', () => {
+        // given
+        receivedCertifications.certifiedProfile = factory.buildCertifiedProfile({});
+
+        // when
+        const serializedCertifications = serializer.serialize(receivedCertifications);
+
+        // then
+        expect(serializedCertifications).to.deep.equal(JsonCertificationList);
+      });
+    });
   });
 
   describe('#serializeFromCertificationCourse', () => {

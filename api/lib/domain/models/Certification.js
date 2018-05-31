@@ -17,6 +17,7 @@ class Certification {
     isPublished,
     lastName,
     userId,
+    certifiedProfile = null,
   } = {}) {
     this.id = id;
     this.assessmentState = assessmentState;
@@ -27,6 +28,7 @@ class Certification {
     this.isPublished = isPublished;
     this.lastName = lastName;
     this.userId = userId;
+    this.certifiedProfile = certifiedProfile;
 
     const assessmentResultsCopy = Array.from(assessmentResults);
     const mostRecentAssessmentResult = assessmentResultsCopy.sort(_byDate)[0];

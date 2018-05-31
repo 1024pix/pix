@@ -16,7 +16,8 @@ module.exports = {
         'lastName',
         'status',
         'pixScore',
-        'commentForCandidate'
+        'commentForCandidate',
+        'certifiedProfile'
       ],
     }).serialize(certification);
   },
