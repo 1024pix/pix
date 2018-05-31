@@ -1,5 +1,6 @@
 const Certification = require('../../lib/domain/models/Certification');
 const buildAssessementResult = require('./build-assessment-result');
+const buildCertifiedProfile = require('./build-certifiedProfile');
 
 module.exports = function buildCertification({
   id = 1,
@@ -16,6 +17,7 @@ module.exports = function buildCertification({
   commentForCandidate,
   pixScore,
   status,
+  certifiedProfile = buildCertifiedProfile({}),
 } = {}) {
 
   const certification = new Certification({
@@ -29,6 +31,7 @@ module.exports = function buildCertification({
     isPublished,
     lastName,
     userId,
+    certifiedProfile,
   });
 
   if (pixScore !== undefined) {
@@ -36,6 +39,9 @@ module.exports = function buildCertification({
   }
   if (status !== undefined) {
     certification.status = status;
+  }
+  if (commentForCandidate !== undefined) {
+    certification.commentForCandidate = commentForCandidate;
   }
   if (commentForCandidate !== undefined) {
     certification.commentForCandidate = commentForCandidate;
