@@ -1,5 +1,13 @@
 # Pix Changelog
 
+## v1.50.0 (31/05/2018) 
+
+- [#75](https://github.com/1024pix/pix/pull/75) [FEATURE] Ajout d'une page de résultats intermédiaires pour le smart random (PF-59).
+- [#65](https://github.com/1024pix/pix/pull/65) [FEATURE] Ajout des tests trans-competence a l'algo SmartRandom (PF-91).
+- [#79](https://github.com/1024pix/pix/pull/79) [TECH] Extraction du Object.assign des constructeurs du Domain (Pf-189).
+- [#74](https://github.com/1024pix/pix/pull/74) [BUGFIX] L'algorithme de positionnement propose plusieurs déclinaisons du même acquis dans certains cas (PF-154).
+- [#76](https://github.com/1024pix/pix/pull/76) [BUGFIX] Correction des bogues sur la gestion de la fin d'un test (PF-170).
+
 ## v1.49.3 (25/05/2018)
 
 - [BUGFIX] Add .circle-cache-key to .gitignore.
