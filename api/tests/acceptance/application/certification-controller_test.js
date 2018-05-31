@@ -1,6 +1,6 @@
 const {
   expect, generateValidRequestAuhorizationHeader, cleanupUsersAndPixRolesTables,
-  insertUserWithRolePixMaster, insertUserWithStandardRole, knex,
+  insertUserWithRolePixMaster, insertUserWithStandardRole, knex, nock
 } = require('../../test-helper');
 const server = require('../../../server');
 
@@ -158,18 +158,60 @@ describe('Acceptance | API | Certifications', () => {
       state: 'completed',
     };
     const assessmentResult = {
+      id: 45,
       level: 1,
       pixScore: 23,
       emitter: 'PIX-ALGO',
       status: 'rejected',
       assessmentId: john_completedAssessment.id,
     };
+    const competenceMark = {
+      level: 3,
+      score: 23,
+      'area_code': '2',
+      'competence_code': '2.1',
+      assessmentResultId: assessmentResult.id
+    };
+
+    before(() => {
+      nock.cleanAll();
+
+      nock('https://api.airtable.com')
+        .get('/v0/test-base/Competences')
+        .query(true)
+        .times(3)
+        .reply(200, {
+          'records': [{
+            'id': 'competence_1',
+            'fields': {
+              'Sous-domaine': '2.1',
+              'Titre': 'Truc 2',
+              'Domaine Code':'2',
+              'Domaine Titre': ['Collaborer']
+            }
+          }, {
+            'id': 'competence_2',
+            'fields': {
+              'Sous-domaine': '3.1',
+              'Titre': 'Truc 3',
+              'Domaine Code': '3',
+              'Domaine Titre': ['Création de contenu']
+            },
+          },
+          ]
+        });
+    });
+
+    after(() => {
+      nock.cleanAll();
+    });
 
     beforeEach(() => {
       return knex('sessions').insert(session)
         .then(() => knex('certification-courses').insert(john_certificationCourse))
         .then(() => knex('assessments').insert(john_completedAssessment))
         .then(() => knex('assessment-results').insert(assessmentResult))
+        .then(() => knex('competence-marks').insert(competenceMark))
         .then(insertUserWithRolePixMaster)
         .then(insertUserWithStandardRole);
     });
@@ -179,6 +221,7 @@ describe('Acceptance | API | Certifications', () => {
         knex('sessions').delete(),
         knex('assessments').delete(),
         knex('assessment-results').delete(),
+        knex('competence-marks').delete(),
         knex('certification-courses').delete(),
         cleanupUsersAndPixRolesTables(),
       ]);
@@ -210,6 +253,24 @@ describe('Acceptance | API | Certifications', () => {
           'pix-score': 23,
           'status': 'rejected',
         },
+        relationships: {
+          'competences': [
+            {
+              'level': 3,
+              'competence-code': '2.1',
+              'area-code': '2',
+              'competence-name': 'Blabla',
+              'area-name': 'Informations et truc',
+            },
+            {
+              'level': -1,
+              'competence-code': '2.2',
+              'area-code': '2',
+              'competence-name': 'Blablaaaa',
+              'area-name': 'Informations et truc',
+            },
+          ]
+        }
       };
       return promise
         .then((response) => {

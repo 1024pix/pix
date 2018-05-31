@@ -80,6 +80,22 @@ describe('Unit | Controller | certifications-controller', () => {
   describe('#getCertification', () => {
 
     const certification = factory.buildCertification();
+    const certifiedProfile = [
+      {
+        competenceName: 'Sécuriser',
+        competenceIndex: '4.1',
+        level: -1,
+        areaIndex: '4',
+        areaName: 'Protection',
+      },
+      {
+        competenceName: 'Interagir',
+        competenceIndex: '2.1',
+        level: 2,
+        areaIndex: '2',
+        areaName: 'Communiquer et collaborer',
+      },
+    ];
     const serializedCertification = '{JSON}';
     const userId = 1;
 
@@ -90,6 +106,7 @@ describe('Unit | Controller | certifications-controller', () => {
 
     beforeEach(() => {
       sandbox.stub(usecases, 'getUserCertification');
+      sandbox.stub(usecases, 'getUserCertifiedProfile');
       sandbox.stub(certificationSerializer, 'serialize').returns(serializedCertification);
       sandbox.stub(logger, 'error');
     });
@@ -97,14 +114,19 @@ describe('Unit | Controller | certifications-controller', () => {
     it('should return a serialized certification when use case returns a certification', () => {
       // given
       usecases.getUserCertification.resolves(certification);
+      usecases.getUserCertifiedProfile.resolves(certifiedProfile);
 
       // when
       const promise = certificationController.getCertification(request, replyStub);
 
       // then
       return promise.then(() => {
-        expect(usecases.getUserCertification).to.have.been.calledWith({ userId, certificationId: certification.id, certificationRepository });
-        expect(certificationSerializer.serialize).to.have.been.calledWith(certification);
+        expect(usecases.getUserCertification).to.have.been.calledWith({
+          userId,
+          certificationId: certification.id,
+          certificationRepository
+        });
+        expect(certificationSerializer.serialize).to.have.been.calledWith(certification, certifiedProfile);
         expect(replyStub).to.have.been.calledWith(serializedCertification);
         expect(codeStub).to.have.been.calledWith(200);
       });
