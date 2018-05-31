@@ -24,6 +24,13 @@ const CompetenceMark = require('../../../../lib/domain/models/CompetenceMark');
 const { NotFoundError, AlreadyRatedAssessmentError, ObjectValidationError } = require('../../../../lib/domain/errors');
 
 function _buildCompetence(competence_code, area_code) {
+
+  const area = new Area({
+    id: 'recdmN2Exvq2oAPap',
+    name: `${area_code}. Information et données`,
+    code: `${area_code}`,
+    title: 'Information et données'
+  });
   const competence = new Competence();
 
   const defaultCompetenceInfos = {
@@ -32,7 +39,7 @@ function _buildCompetence(competence_code, area_code) {
     areaId: ['recdmN2Exvq2oAPap'],
     courseId: 'recvNIWtjJRyBCd0P',
     skills: undefined,
-    area: Area.fromAttributes({ id: 'recdmN2Exvq2oAPap', code: `${area_code}`, title: 'Information et données' }),
+    area,
   };
 
   Object.assign(competence, defaultCompetenceInfos);
