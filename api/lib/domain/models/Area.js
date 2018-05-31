@@ -1,5 +1,10 @@
 class Area {
-  constructor(_ = {}) {
+
+  constructor({ id, name, code, title } = {}) {
+    this.id = id;
+    this.name = name;
+    this.code = code;
+    this.title = title;
   }
 
   /**
