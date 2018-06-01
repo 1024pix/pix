@@ -1,6 +1,35 @@
 class Challenge {
 
-  constructor(_ = {}) {
+  constructor({
+    id,
+    type,
+    instruction,
+    competence,
+    proposals,
+    timer,
+    illustrationUrl,
+    attachments,
+    answer,
+    skills = [],
+    status,
+    embedUrl,
+    embedTitle,
+    embedHeight,
+  } = {}) {
+    this.skills = skills;
+    this.id = id;
+    this.type = type;
+    this.instruction = instruction;
+    this.competence = competence;
+    this.proposals = proposals;
+    this.timer = timer;
+    this.illustrationUrl = illustrationUrl;
+    this.attachments = attachments;
+    this.answer = answer;
+    this.status = status;
+    this.embedUrl = embedUrl;
+    this.embedTitle = embedTitle;
+    this.embedHeight = embedHeight;
   }
 
   /**
