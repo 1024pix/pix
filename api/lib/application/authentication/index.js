@@ -28,7 +28,7 @@ exports.register = (server, options, next) => {
             grant_type: 'password',
             username: Joi.string().email().required(),
             password: Joi.string().required(),
-            scope: Joi.string()
+            scope: Joi.string(),
           }),
           failAction: (request, reply) => {
             const errorHttpStatusCode = 400;

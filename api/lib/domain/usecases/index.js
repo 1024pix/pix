@@ -11,8 +11,9 @@ const createUser = require('./create-user');
 const authenticateUser = require('./authenticate-user');
 
 module.exports = {
-  updateCertification,
-  getUserCertification,
+  // Thx to list the use cases in alphabetical order :)
+  authenticateUser,
+  createUser,
   findCompletedUserCertifications,
   getCorrectionForAnswerWhenAssessmentEnded,
   getNextChallengeForPreview,
@@ -20,6 +21,6 @@ module.exports = {
   getNextChallengeForDemo,
   getNextChallengeForPlacement,
   getNextChallengeForSmartPlacement,
-  createUser,
-  authenticateUser
+  getUserCertification,
+  updateCertification,
 };
