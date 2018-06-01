@@ -5,7 +5,7 @@ const bcrypt = require('bcrypt');
 const Bookshelf = require('../../../../lib/infrastructure/bookshelf');
 const BookshelfUser = require('../../../../lib/infrastructure/data/user');
 const userRepository = require('../../../../lib/infrastructure/repositories/user-repository');
-const { AlreadyRegisteredEmailError } = require('../../../../lib/domain/errors');
+const { AlreadyRegisteredEmailError, UserNotFoundError } = require('../../../../lib/domain/errors');
 const User = require('../../../../lib/domain/models/User');
 const OrganizationAccess = require('../../../../lib/domain/models/OrganizationAccess');
 const Organization = require('../../../../lib/domain/models/Organization');
@@ -186,7 +186,7 @@ describe('Integration | Infrastructure | Repository | UserRepository', () => {
       });
     });
 
-    it('should throw an error when no user was found with this email', () => {
+    it('should reject with a UserNotFound error when no user was found with this email', () => {
       // given
       const unusedEmail = 'kikou@pix.fr';
 
@@ -194,9 +194,7 @@ describe('Integration | Infrastructure | Repository | UserRepository', () => {
       const promise = userRepository.findByEmailWithRoles(unusedEmail);
 
       // then
-      return promise.catch((error) => {
-        expect(error).to.be.an.instanceof(Bookshelf.Model.NotFoundError);
-      });
+      return expect(promise).to.be.rejectedWith(UserNotFoundError);
     });
   });
 
