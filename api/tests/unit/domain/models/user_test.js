@@ -1,4 +1,4 @@
-const { expect } = require('../../../test-helper');
+const { expect, factory } = require('../../../test-helper');
 const User = require('../../../../lib/domain/models/User');
 
 describe('Unit | Domain | Models | User', () => {
@@ -75,9 +75,9 @@ describe('Unit | Domain | Models | User', () => {
 
   describe('isLinkedToOrganizations', () => {
 
-    it('should be true is user has a role in an organization', () => {
+    it('should be true if user has a role in an organization', () => {
       // given
-      const user = new User({ organizationsAccesses: [{ name: 'ORGA_MEMBER', organization: { name: 'My Little Organization' } }] });
+      const user = factory.buildUser();
 
       // when/then
       expect(user.isLinkedToOrganizations()).to.be.true;

@@ -1,4 +1,4 @@
-const { expect, sinon } = require('../../../test-helper');
+const { expect, sinon, factory } = require('../../../test-helper');
 const usecases = require('../../../../lib/domain/usecases');
 const User = require('../../../../lib/domain/models/User');
 const { MissingOrInvalidCredentialsError, PasswordNotMatching, ForbiddenAccess } = require('../../../../lib/domain/errors');
@@ -37,7 +37,7 @@ describe('Unit | Application | Use Case | authenticate-user', () => {
   it('should resolves a valid JWT access token when authentication succeeded', () => {
     // given
     const accessToken = 'jwt.access.token';
-    const user = new User({ email: userEmail, password: userPassword });
+    const user = factory.buildUser({ email: userEmail, password: userPassword });
     userRepository.findByEmailWithRoles.resolves(user);
     encryptionService.check.resolves();
     tokenService.createTokenFromUser.returns(accessToken);
