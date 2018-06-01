@@ -60,7 +60,8 @@
     "release:prepare": "./scripts/release/prepare.sh",
     "release:perform": "./scripts/release/perform.sh",
     "release:publish": "./scripts/release/publish.sh",
-    "commitmsg": "node ./scripts/git-hook/prepend-commit-message.js"
+    "commitmsg": "node ./scripts/git-hook/prepend-commit-message.js",
+    "prepush": "npm run lint"
   },
   "dependencies": {
     "eslint-plugin-ember": "^5.2.0"
