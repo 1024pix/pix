@@ -5,13 +5,7 @@ const { MissingOrInvalidCredentialsError, PasswordNotMatching, ForbiddenAccess }
 const encryptionService = require('../../../../lib/domain/services/encryption-service');
 
 function _expectTreatmentToFailWithMissingOrInvalidCredentialsError(promise) {
-  return promise
-    .then(() => {
-      expect.fail('Expected an error to be thrown');
-    }).catch(err => {
-      expect(err).to.be.an.instanceof(MissingOrInvalidCredentialsError);
-      expect(err.message).to.equal('Missing or invalid credentials');
-    });
+  return expect(promise).to.be.an.rejectedWith(MissingOrInvalidCredentialsError, 'Missing or invalid credentials');
 }
 
 describe('Unit | Application | Use Case | authenticate-user', () => {
@@ -107,12 +101,7 @@ describe('Unit | Application | Use Case | authenticate-user', () => {
       const promise = usecases.authenticateUser({ userEmail, wrongUserPassword, scope, userRepository, tokenService });
 
       // then
-      return promise
-        .then(() => expect.fail('Expected ForbiddenAccess to be thrown'))
-        .catch(error => {
-          expect(error).to.be.an.instanceof(ForbiddenAccess);
-          expect(error.message).to.equal('User is not allowed to access this area');
-        });
+      return expect(promise).to.be.rejectedWith(ForbiddenAccess, 'User is not allowed to access this area');
     });
   });
 
