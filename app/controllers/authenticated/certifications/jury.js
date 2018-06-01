@@ -53,7 +53,7 @@ export default Controller.extend({
         return data;
       }, {count:0, good:0});
       let newScore = competences.reduce((value,competence) => {
-        value += (competence.juryScore !== false)?competence.juryScore:competence.obtainedScore;
+        value += (competence.juryScore && competence.juryScore !== false)?competence.juryScore:competence.obtainedScore;
         return value;
       }, 0);
       if (newScore !== score) {
