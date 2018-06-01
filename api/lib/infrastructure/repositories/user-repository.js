@@ -1,7 +1,7 @@
 const _ = require('lodash');
 const BookshelfUser = require('../data/user');
 const { AlreadyRegisteredEmailError } = require('../../domain/errors');
-const { NotFoundError } = require('../../domain/errors');
+const { NotFoundError, UserNotFoundError } = require('../../domain/errors');
 const User = require('../../domain/models/User');
 const OrganizationAccess = require('../../domain/models/OrganizationAccess');
 const Organization = require('../../domain/models/Organization');
@@ -40,6 +40,7 @@ function _toDomain(userBookshelf) {
 
 module.exports = {
 
+  // TODO use _toDomain()
   findByEmail(email) {
     return BookshelfUser
       .where({ email })
@@ -52,8 +53,13 @@ module.exports = {
   findByEmailWithRoles(email) {
     return BookshelfUser
       .where({ email })
-      .fetch({ require: true, withRelated: ['organizationsAccesses', 'organizationsAccesses.organization', 'organizationsAccesses.organizationRole'] })
+      .fetch({
+        withRelated: ['organizationsAccesses', 'organizationsAccesses.organization', 'organizationsAccesses.organizationRole']
+      })
       .then((foundUser) => {
+        if(foundUser === null) {
+          return Promise.reject(new UserNotFoundError());
+        }
         return _toDomain(foundUser);
       });
   },
