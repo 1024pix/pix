@@ -22,14 +22,11 @@ class ChallengeSerializer extends AirtableSerializer {
       });
 
       challenge.status = fields['Statut'];
+      challenge.type = fields['Type d\'épreuve'];
       challenge.competence = (fields['competences']) ? fields['competences'][0] : undefined;
 
       if (fields['Timer']) {
         challenge.timer = _.defaultTo(_.parseInt(fields['Timer']), undefined);
-      }
-      challenge.type = fields['Type d\'épreuve'];
-      if (fields['Internet et outils']) {
-        challenge.hasntInternetAllowed = fields['Internet et outils'].toUpperCase() === 'NON';
       }
 
       if (fields['Illustration de la consigne']) {

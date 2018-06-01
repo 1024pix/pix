@@ -4,6 +4,38 @@ const Skill = require('../../../../lib/domain/models/Skill');
 
 describe('Unit | Domain | Models | Challenge', () => {
 
+  describe('#constructor', () => {
+    it('should construct a model Challenge from attributes', () => {
+      // given
+      const challengeRawData = {
+        id: 'recwWzTquPlvIl4So',
+        type: 'QCM',
+        instruction: 'Les moteurs de recherche affichent certains liens en raison d\'un accord commercial.\n\nDans quels encadrés se trouvent ces liens ?',
+        competence: 'recsvLz0W2ShyfD63',
+        proposals: '- 1\n- 2\n- 3\n- 4\n- 5',
+        timer: 1234,
+        illustrationUrl: 'https://dl.airtable.com/2MGErxGTQl2g2KiqlYgV_venise4.png',
+        attachments: [
+          'https://dl.airtable.com/nHWKNZZ7SQeOKsOvVykV_navigationdiaporama5.pptx',
+          'https://dl.airtable.com/rsXNJrSPuepuJQDByFVA_navigationdiaporama5.odp'
+        ],
+        skills: [new Skill('recUDrCWD76fp5MsE')],
+        answer: [],
+        embedUrl: 'https://github.page.io/pages/mon-epreuve.html',
+        embedTitle: 'Epreuve de selection d’imprimante',
+        embedHeight: 400,
+        status: 'validé'
+      };
+
+      // when
+      const challengeDataObject = new Challenge(challengeRawData);
+
+      // then
+      expect(challengeDataObject).to.be.an.instanceof(Challenge);
+      expect(challengeDataObject).to.deep.equal(challengeRawData);
+    });
+  });
+
   describe('#hasSkill', () => {
 
     it('should return false when the skill is not known', () => {
@@ -48,13 +80,6 @@ describe('Unit | Domain | Models | Challenge', () => {
   });
 
   describe('#isPublished', () => {
-
-    let challenge;
-
-    beforeEach(() => {
-      challenge = Challenge.fromAttributes();
-    });
-
     [
       { status: 'validé', expectedResult: true },
       { status: 'validé sans test', expectedResult: true },
@@ -64,7 +89,7 @@ describe('Unit | Domain | Models | Challenge', () => {
     ].forEach((testCase) => {
       it(`should return ${testCase.expectedResult} when the status is "${testCase.status}"`, () => {
         // given
-        challenge.status = testCase.status;
+        const challenge = new Challenge({ status: testCase.status });
 
         // when
         const result = challenge.isPublished();

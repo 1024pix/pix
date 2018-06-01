@@ -18,7 +18,6 @@ export default [
     instruction: 'Un QCU propose plusieurs choix, l\'utilisateur peut en choisir [un seul](http://link.unseul.url)',
     attachments: ['file.docx', 'file.odt'],
     'illustration-url': 'http://fakeimg.pl/350x200/?text=QCU',
-    'hasnt-internet-allowed': true,
     proposals: '- 1ere possibilite\n ' +
     '- 2eme possibilite\n ' +
     '- 3eme possibilite\n' +
