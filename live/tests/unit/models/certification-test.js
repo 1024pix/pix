@@ -4,8 +4,7 @@ import { setupModelTest } from 'ember-mocha';
 
 describe('Unit | Model | certification', function() {
   setupModelTest('certification', {
-    // Specify the other units that are required for this test.
-    needs: []
+    needs: ['model:user']
   });
 
   // Replace this with your real tests.
