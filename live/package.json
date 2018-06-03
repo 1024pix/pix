@@ -64,7 +64,7 @@
     "ember-click-outside": "^0.1.11",
     "ember-collapsible-panel": "^2.1.1",
     "ember-component-focus": "^0.2.3",
-    "ember-data": "~2.18.0",
+    "ember-data": "~3.1.1",
     "ember-exam": "^1.0.0",
     "ember-export-application-global": "^2.0.0",
     "ember-group-by": "^0.0.4",
