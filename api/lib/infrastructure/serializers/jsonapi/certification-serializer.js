@@ -6,6 +6,7 @@ const moment = require('moment-timezone');
 module.exports = {
 
   serialize(certification) {
+
     return new Serializer('certifications', {
       attributes: [
         'certificationCenter',
@@ -19,6 +20,12 @@ module.exports = {
         'commentForCandidate',
         'certifiedProfile',
       ],
+      transform: (record) => {
+        const certification = Object.assign({}, record);
+        certification.certifiedProfile = (certification.certifiedProfile) ?
+          certification.certifiedProfile.organizeCompetences() : null;
+        return certification;
+      }
     }).serialize(certification);
   },
 
