@@ -42,7 +42,7 @@ describe('Unit | Infrastructure | Datasource | Airtable | ChallengeDatasource', 
 
       it('should reject with a specific error when resource not found', () => {
         // given
-        sandbox.stub(airtable, 'newGetRecord').rejects(new AirtableError('NOT_FOUND'));
+        sandbox.stub(airtable, 'getRecord').rejects(new AirtableError('NOT_FOUND'));
 
         // when
         const promise = challengeDatasource.get('243');
@@ -53,7 +53,7 @@ describe('Unit | Infrastructure | Datasource | Airtable | ChallengeDatasource', 
 
       it('should reject with the original error in any other case', () => {
         // given
-        sandbox.stub(airtable, 'newGetRecord').rejects(new AirtableError('SERVICE_UNAVAILABLE'));
+        sandbox.stub(airtable, 'getRecord').rejects(new AirtableError('SERVICE_UNAVAILABLE'));
 
         // when
         const promise = challengeDatasource.get('243');
