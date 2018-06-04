@@ -7,16 +7,13 @@ export default Controller.extend({
   finalCheckpoint: false,
 
   buttonText: computed('finalCheckpoint', function() {
-    return (this.get('finalCheckpoint')) ? 'Voir mes résultats' : 'Je continue';
+    return this.get('finalCheckpoint') ? 'Voir mes résultats' : 'Je continue';
   }),
 
   actions: {
     resumeAssessment(assessment) {
-      if(this.get('finalCheckpoint')) {
-        return this.transitionToRoute('assessments.rating', assessment);
-      } else {
-        return this.transitionToRoute('assessments.resume', assessment);
-      }
+      const nextRoute = this.get('finalCheckpoint') ? 'assessments.rating' : 'assessments.resume';
+      return this.transitionToRoute(nextRoute, assessment);
     }
   }
 
