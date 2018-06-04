@@ -8,9 +8,9 @@ exports.up = (knex) => {
     .then(() => {
       return knex.schema.createTable('organizations-accesses', (table) => {
         table.increments('id').primary();
-        table.bigInteger('userId').references('users.id');
-        table.bigInteger('organizationRoleId').references('organization-roles.id');
-        table.bigInteger('organizationId').references('organizations.id');
+        table.bigInteger('userId').references('users.id').index();
+        table.bigInteger('organizationRoleId').references('organization-roles.id').index();
+        table.bigInteger('organizationId').references('organizations.id').index();
       });
     })
     .then(() => {
