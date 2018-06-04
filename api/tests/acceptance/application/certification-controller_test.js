@@ -186,17 +186,17 @@ describe('Acceptance | API | Certifications', () => {
             'id': 'competence_1',
             'fields': {
               'Sous-domaine': '2.1',
-              'Titre': 'Truc 2',
+              'Titre': 'Interagir',
               'Domaine Code': '2',
-              'Domaine Titre': ['Collaborer']
+              'Domaine Titre': ['Communiquer et collaborer']
             }
           }, {
             'id': 'competence_2',
             'fields': {
-              'Sous-domaine': '3.1',
-              'Titre': 'Truc 3',
-              'Domaine Code': '3',
-              'Domaine Titre': ['Création de contenu']
+              'Sous-domaine': '4.1',
+              'Titre': 'Sécuriser',
+              'Domaine Code': '4',
+              'Domaine Titre': ['Protection']
             },
           },
           ]
@@ -253,24 +253,30 @@ describe('Acceptance | API | Certifications', () => {
           'last-name': 'Doe',
           'pix-score': 23,
           'status': 'rejected',
-          'certified-profile': {
-            'competencesWithMark': [
-              {
-                'areaIndex': '2',
-                'areaName': 'Collaborer',
-                'competenceIndex': '2.1',
-                'competenceName': 'Truc 2',
-                'level': 3,
-              },
-              {
-                'areaIndex': '3',
-                'areaName': 'Création de contenu',
-                'competenceIndex': '3.1',
-                'competenceName': 'Truc 3',
-                'level': -1,
-              }
-            ]
-          }
+          'certified-profile': [
+            {
+              'area-index': '2',
+              'area-name': 'Communiquer et collaborer',
+              'competences': [
+                {
+                  'competenceIndex': '2.1',
+                  'competenceName': 'Interagir',
+                  'level': 3,
+                },
+              ],
+            },
+            {
+              'area-index': '4',
+              'area-name': 'Protection',
+              'competences': [
+                {
+                  'competenceIndex': '4.1',
+                  'competenceName': 'Sécuriser',
+                  'level': -1,
+                }
+              ]
+            }
+          ]
         }
       };
       return promise

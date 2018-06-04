@@ -159,24 +159,30 @@ describe('Unit | Serializer | JSONAPI | certification-serializer', () => {
               'status': 'rejected',
               'pix-score': 23,
               'comment-for-candidate': 'Vous auriez dû travailler plus.',
-              'certified-profile': {
-                'competencesWithMark': [
-                  {
-                    'areaIndex': '4',
-                    'areaName': 'Protection',
-                    'competenceIndex': '4.1',
-                    'competenceName': 'Sécuriser',
-                    'level': -1,
-                  },
-                  {
-                    'areaIndex': '2',
-                    'areaName': 'Communiquer et collaborer',
-                    'competenceIndex': '2.1',
-                    'competenceName': 'Interagir',
-                    'level': 2,
-                  }
-                ]
-              }
+              'certified-profile': [
+                {
+                  'area-index': '2',
+                  'area-name': 'Communiquer et collaborer',
+                  'competences': [
+                    {
+                      'competenceIndex': '2.1',
+                      'competenceName': 'Interagir',
+                      'level': 2,
+                    },
+                  ],
+                },
+                {
+                  'area-index': '4',
+                  'area-name': 'Protection',
+                  'competences': [
+                    {
+                      'competenceIndex': '4.1',
+                      'competenceName': 'Sécuriser',
+                      'level': -1,
+                    }
+                  ]
+                }
+              ]
             },
             'id': 1,
             'type': 'certifications'
