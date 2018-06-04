@@ -7,7 +7,6 @@ export default BaseRoute.extend(AuthenticatedRouteMixin, {
 
     return this.get('store').findRecord('certification', params.id)
       .then((certification) => {
-
         if (!certification.get('isPublished') || certification.get('status') !== 'validated') {
           return this.replaceWith('/mes-certifications');
         }

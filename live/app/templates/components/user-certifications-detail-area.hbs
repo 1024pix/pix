@@ -1,0 +1,10 @@
+<div>
+  <b>{{area.area-name}}</b>
+
+  {{#each area.competences as |competence index|}}
+
+    {{user-certifications-detail-competence competence=competence}}
+
+  {{/each}}
+
+</div>
