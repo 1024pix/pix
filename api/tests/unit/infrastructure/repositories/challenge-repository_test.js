@@ -109,7 +109,7 @@ describe('Unit | Repository | challenge-repository', () => {
     // });
 
     beforeEach(() => {
-      sandbox.stub(airtable, 'newGetRecord').resolves(challenge1);
+      sandbox.stub(airtable, 'getRecord').resolves(challenge1);
       sandbox.stub(challengeDataSource, 'get');
       sandbox.stub(skillDatasource, 'get').resolves();
     });
