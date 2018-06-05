@@ -18,7 +18,6 @@ module.exports = Bookshelf.model('User', {
   /**
    * @deprecated Please use #organizationsAccesses() which also manages the access rights
    */
-  // TODO Remove
   organizations() {
     return this.hasMany('Organization');
   },

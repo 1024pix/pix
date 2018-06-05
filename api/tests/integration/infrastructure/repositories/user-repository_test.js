@@ -11,7 +11,8 @@ const OrganizationAccess = require('../../../../lib/domain/models/OrganizationAc
 const Organization = require('../../../../lib/domain/models/Organization');
 const OrganizationRole = require('../../../../lib/domain/models/OrganizationRole');
 
-describe('Integration | Infrastructure | Repository | UserRepository', () => {
+describe('Integration' +
+  ' | Infrastructure | Repository | UserRepository', () => {
 
   let userId;
   const email = faker.internet.email().toLowerCase();
@@ -139,7 +140,7 @@ describe('Integration | Infrastructure | Repository | UserRepository', () => {
         });
     });
 
-    it('should return a the user with the given email', () => {
+    it('should return user informations for the given email', () => {
       // given
       const expectedUser = new User(inserted_user);
 

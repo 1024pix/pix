@@ -21,6 +21,9 @@ function _buildError() {
 module.exports = {
 
   // TODO to remove, now we use Oauth2 with endpoint token
+  /**
+   * @deprecated We use OAuth2 => the endpoint to use is /token and not /authentication
+   */
   save(request, reply) {
 
     const userFromRequest = userSerializer.deserialize((request.payload));
