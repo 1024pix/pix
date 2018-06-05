@@ -1,0 +1,93 @@
+.user-certifications-detail-result {
+  font-family: $font-lato;
+  display: flex;
+  flex-direct: column;
+
+  margin-top: 30px;
+  background-color: $white;
+  padding: 20px;
+  display: flex;
+  flex-flow: row;
+  flex-wrap: wrap;
+  justify-content: center;
+
+  padding-top: 5rem;
+  @include device-is('desktop') {
+    justify-content: flex-start;
+    width: 30%;
+
+  }
+}
+
+.user-certifications-detail-result__pix-score{
+  margin-bottom: 20px;
+  width: 250px;
+}
+
+
+.user-certifications-detail-result__badge-pix-score{
+  width: 80px;
+  height: 80px;
+  margin-left: 10%;
+  padding-top:25px;
+  float: left;
+
+  background: url('/images/hexa-pix.svg') no-repeat;
+  background-size: cover;
+
+  text-align: center;
+  display: table;
+
+  span {
+    height: 28px;
+    width: 45px;
+    color: $tundora-grey;
+    font-family: $font-lato;
+    font-size: 27.65px;
+    font-weight: bold;
+    letter-spacing: -0.86px;
+    line-height: 33px;
+    text-align: center;
+
+  }
+}
+
+.user-certifications-detail-result__pix-certified {
+  color: #4A4A4A;
+  font-family: $font-lato;
+  margin-top: 25px;
+  font-size: 23.04px;
+  font-weight: bold;
+  line-height: 28px;
+  text-align: center;
+}
+
+.user-certifications-detail-result__separation{
+  clear: both;
+  position: absolute;
+  height: 110px;
+  width : 3px;
+  background: black;
+}
+
+.user-certifications-detail-result__text-pix-certified {
+  height: 110px;	width: 294.6px;	color: #3E4149;	font-family: Lato;	font-size: 16px;	line-height: 22px;
+  margin-left: 20px;
+
+}
+
+
+.user-certifications-detail-result__title-comment-jury {
+  color: #7D808A;
+  font-family: Raleway;
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 16px;
+}
+
+.user-certifications-detail-result__comment-jury{
+  color: #3E4149;
+  font-family: Lato;
+  font-size: 16px;
+  line-height: 22px;
+}
