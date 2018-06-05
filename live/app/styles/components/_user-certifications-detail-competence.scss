@@ -1,0 +1,53 @@
+.user-certifications-detail-competence {
+  height: 50px;
+  margin-top: 20px;
+
+  padding-left: 36px;
+  padding-right: 36px;
+  width: 100%;
+  @include device-is('desktop') {
+    justify-content: flex-start;
+  }
+}
+
+.user-certifications-detail-competence__box-name {
+  color: $charcoal-grey;
+  font-family: $font-lato;
+  font-size: 16px;
+  letter-spacing: 0.5px;
+  line-height: 19px;
+}
+
+.user-certifications-detail-competence__box-level {
+  height: 25px;
+  float: right;
+  width: 25px;
+  float: right;
+  text-align: center;
+  color: $charcoal-grey;
+  font-family: $font-lato;
+  font-size: 20px;
+  font-weight: bold;
+  line-height: 24px;
+}
+
+.user-certifications-detail-competence__levels-bar-block {
+  margin-top: 10px;
+  display: block;
+}
+
+.user-certifications-detail-competence__level-bar {
+  margin: 2px;
+  float: left;
+  width: 10.5%;
+  height: 5px;
+}
+
+
+.user-certifications-detail-competence__validate-level {
+  background: $amber-orange;
+}
+
+.user-certifications-detail-competence__not-validate-level {
+  background: $gainsboro;
+}
