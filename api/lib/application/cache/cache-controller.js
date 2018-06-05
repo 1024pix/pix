@@ -3,14 +3,16 @@ const cache = require('../../infrastructure/caches/cache');
 module.exports = {
 
   removeCacheEntry(request, reply) {
-    const cacheKey = request.payload['cache-key'];
+    const cacheKey = request.params.cachekey;
 
-    const deletedEntriesCount = cache.del(cacheKey);
+    return cache.del(cacheKey)
+      .then(() => reply('Entry successfully deleted').code(200))
+      .catch(() => reply('Entry key is not found').code(404));
+  },
 
-    if (!deletedEntriesCount) {
-      return reply('Entry key is not found').code(404);
-    }
-
-    return reply('Entry successfully deleted').code(200);
+  removeAllCacheEntries(request, reply) {
+    return cache.flushAll()
+      .then(() => reply('Entries successfully deleted').code(200))
+      .catch(() => reply('Something went wrong').code(500));
   }
 };

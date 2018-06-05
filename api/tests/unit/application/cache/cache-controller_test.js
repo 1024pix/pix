@@ -4,66 +4,117 @@ const CacheController = require('../../../../lib/application/cache/cache-control
 
 describe('Unit | Controller | CacheController', () => {
 
+  const replyStub = sinon.stub();
+  const codeSpy = sinon.spy();
+
+  beforeEach(() => {
+    replyStub.returns({
+      code: codeSpy
+    });
+  });
+
+  afterEach(() => {
+    replyStub.reset();
+    codeSpy.resetHistory();
+  });
+
   describe('#removeCacheEntry', () => {
     const request = {
-      headers: { authorization: 'INVALID_TOKEN' },
-      payload: {
-        'cache-key': 'test-cache-key'
+      params: {
+        cachekey: 'test-cache-key'
       }
     };
 
-    const replyStub = sinon.stub();
-    const codeSpy = sinon.spy();
-
     beforeEach(() => {
       sinon.stub(cache, 'del');
-      replyStub.returns({
-        code: codeSpy
-      });
     });
 
     afterEach(() => {
       cache.del.restore();
-      replyStub.reset();
     });
 
-    it('should call reply', () => {
-      // when
-      CacheController.removeCacheEntry(request, replyStub);
-      // then
-      sinon.assert.calledOnce(replyStub);
-    });
+    context('when cache deletion succeed', () => {
 
-    describe('Success cases', () => {
-
-      it('should delete cache entry with key provided', () => {
+      it('should reply with success', () => {
         // given
-        const countOfDeletedEntries = 1;
-        cache.del.returns(countOfDeletedEntries);
-        // when
-        CacheController.removeCacheEntry(request, replyStub);
+        cache.del.resolves();
 
-        // then
-        sinon.assert.calledWith(codeSpy, 200);
-        sinon.assert.calledWith(cache.del, 'test-cache-key');
-        expect(replyStub.getCall(0).args[0]).to.be.equal('Entry successfully deleted');
+        // when
+        const promise = CacheController.removeCacheEntry(request, replyStub);
+
+        // Then
+        return expect(promise).to.have.been.fulfilled
+          .then(() => {
+            expect(replyStub).to.have.been.calledWith('Entry successfully deleted');
+            expect(codeSpy).to.have.been.calledWith(200);
+          });
       });
-
     });
 
-    describe('Error cases', () => {
+    context('when cache deletion fails', () => {
 
-      it('should reply with Error, when cache key is not found', () => {
+      it('should reply with error', () => {
         // given
-        const noDeletedEntries = 0;
-        cache.del.returns(noDeletedEntries);
+        cache.del.rejects();
 
         // when
-        CacheController.removeCacheEntry(request, replyStub);
+        const promise = CacheController.removeCacheEntry(request, replyStub);
 
-        // The
-        expect(replyStub.getCall(0).args[0]).to.be.equal('Entry key is not found');
-        sinon.assert.calledWith(codeSpy, 404);
+        // Then
+        return expect(promise).to.have.been.fulfilled
+          .then(() => {
+            expect(replyStub).to.have.been.calledWith('Entry key is not found');
+            expect(codeSpy).to.have.been.calledWith(404);
+          });
+      });
+    });
+
+  });
+
+  describe('#removeAllCacheEntries', () => {
+    const request = {};
+
+    beforeEach(() => {
+      sinon.stub(cache, 'flushAll');
+    });
+
+    afterEach(() => {
+      cache.flushAll.restore();
+    });
+
+    context('when cache deletion succeed', () => {
+
+      it('should reply with success', () => {
+        // given
+        cache.flushAll.resolves();
+
+        // when
+        const promise = CacheController.removeAllCacheEntries(request, replyStub);
+
+        // Then
+        return expect(promise).to.have.been.fulfilled
+          .then(() => {
+            expect(replyStub).to.have.been.calledWith('Entries successfully deleted');
+            expect(codeSpy).to.have.been.calledWith(200);
+          });
+      });
+    });
+
+    context('when cache deletion fails', () => {
+
+      it('should reply with server error', () => {
+        // given
+        cache.flushAll.rejects();
+
+        // when
+        const promise = CacheController.removeAllCacheEntries(request, replyStub);
+
+        // Then
+        return expect(promise).to.have.been.fulfilled
+          .then(() => {
+            expect(replyStub).to.have.been.calledWith('Something went wrong');
+            expect(codeSpy).to.have.been.calledWith(500);
+          });
       });
     });
 
