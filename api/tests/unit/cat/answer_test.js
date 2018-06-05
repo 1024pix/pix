@@ -17,7 +17,7 @@ describe('Unit | Model | Answer', function() {
       const givenMaxDifficulty = 5;
       const answer = factory.buildCatAnswer({
         challenge: factory.buildCatChallenge({
-          skills: factory.buildCatTube({ max: givenMaxDifficulty })
+          skills: factory.buildCatTube({ maxLevel: givenMaxDifficulty })
         })
       });
 
