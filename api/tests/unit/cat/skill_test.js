@@ -65,8 +65,8 @@ describe('Unit | Model | Skill', function() {
     });
   });
 
-  describe('Skill.compare()', function() {
-    it('should take two skills and compare them', () => {
+  describe('#compare()', function() {
+    it('should return false when two skills are not the same', () => {
       // given
       const [skill1, skill2] = factory.buildCatTube();
       // when

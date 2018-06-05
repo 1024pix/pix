@@ -1,6 +1,6 @@
 const AssessmentResult = require('../../lib/domain/models/AssessmentResult');
 
-module.exports = function({
+module.exports = function buildAssessmentResult({
   pixScore = 31,
   level = 3,
   status = 'validated',
@@ -30,4 +30,3 @@ module.exports = function({
     competenceMarks,
   });
 };
-

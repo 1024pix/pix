@@ -1,10 +1,10 @@
 const faker = require('faker');
 const Challenge = require('../../lib/domain/models/Challenge');
-const BuildSkillCollection = require('./build-skill-collection');
+const buildSkillCollection = require('./build-skill-collection');
 
-module.exports = function BuildChallenge({
+module.exports = function buildChallenge({
   id = faker.random.uuid(),
-  skills = BuildSkillCollection(),
+  skills = buildSkillCollection(),
   status = 'validé'
 } = {}) {
   return Challenge.fromAttributes({ id, skills, status });
