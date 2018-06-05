@@ -4,6 +4,8 @@ import { describe, it } from 'mocha';
 import { setupModelTest } from 'ember-mocha';
 import { isArray } from '@ember/array';
 
+const SMART_PLACEMENT_TYPE = 'SMART_PLACEMENT';
+
 describe('Unit | Model | Assessment', function() {
 
   setupModelTest('assessment', {
@@ -20,8 +22,8 @@ describe('Unit | Model | Assessment', function() {
     it('Should be true when challenge is a SMART_PLACEMENT', function() {
       run(() => {
         // given
-        const assessment = this.subject();
-        assessment.set('type', 'SMART_PLACEMENT');
+        const store = this.store();
+        const assessment = store.createRecord('assessment', { type: SMART_PLACEMENT_TYPE });
 
         // when
         const hasCheckpoints = assessment.get('hasCheckpoints');
@@ -52,8 +54,8 @@ describe('Unit | Model | Assessment', function() {
     it('should be an array', function() {
       run(() => {
         // given
-        const assessment = this.subject();
-        assessment.set('type', 'SMART_PLACEMENT');
+        const store = this.store();
+        const assessment = store.createRecord('assessment', { type: SMART_PLACEMENT_TYPE });
 
         // when
         const answersSinceLastCheckpoints = assessment.get('answersSinceLastCheckpoints');
@@ -68,7 +70,7 @@ describe('Unit | Model | Assessment', function() {
       run(() => {
         const store = this.store();
         const answer = store.createRecord('answer', {});
-        const assessment = store.createRecord('assessment', { type: 'SMART_PLACEMENT', answers: [answer] });
+        const assessment = store.createRecord('assessment', { type: SMART_PLACEMENT_TYPE, answers: [answer] });
 
         // when
         const answersSinceLastCheckpoints = assessment.get('answersSinceLastCheckpoints');
@@ -90,7 +92,7 @@ describe('Unit | Model | Assessment', function() {
         const answer6 = store.createRecord('answer', {});
         const answer7 = store.createRecord('answer', {});
         const assessment = store.createRecord('assessment', {
-          type: 'SMART_PLACEMENT', answers: [
+          type: SMART_PLACEMENT_TYPE, answers: [
             answer1,
             answer2,
             answer3,
@@ -123,7 +125,7 @@ describe('Unit | Model | Assessment', function() {
         const answer9 = store.createRecord('answer', {});
         const answer10 = store.createRecord('answer', {});
         const assessment = store.createRecord('assessment', {
-          type: 'SMART_PLACEMENT', answers: [
+          type: SMART_PLACEMENT_TYPE, answers: [
             answer1, answer2, answer3, answer4,
             answer5, answer6, answer7, answer8,
             answer9, answer10
@@ -214,7 +216,7 @@ describe('Unit | Model | Assessment', function() {
           run(() => {
             // given
             const store = this.store();
-            const assessment = store.createRecord('assessment', { type: 'SMART_PLACEMENT' });
+            const assessment = store.createRecord('assessment', { type: SMART_PLACEMENT_TYPE });
 
             // when
             const result = assessment.get('progress');
