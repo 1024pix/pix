@@ -1,6 +1,6 @@
 import DS from 'ember-data';
 
-const { Model, attr, belongsTo, hasMany } = DS;
+const { Model, attr, belongsTo } = DS;
 
 export default Model.extend({
   birthdate: attr('date'),
