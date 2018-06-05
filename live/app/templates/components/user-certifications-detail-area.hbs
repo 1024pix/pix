@@ -1,6 +1,7 @@
 <div>
-  <b>{{area.area-name}}</b>
-
+  <div class="user-certifications-detail-area__box-name">
+    {{area.area-name}}
+  </div>
   {{#each area.competences as |competence index|}}
 
     {{user-certifications-detail-competence competence=competence}}
