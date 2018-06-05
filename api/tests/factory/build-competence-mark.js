@@ -1,6 +1,6 @@
 const CompetenceMark = require('../../lib/domain/models/CompetenceMark');
 
-module.exports = function({
+module.exports = function buildCompetenceMark({
   id,
   level = 2,
   score = 13,
@@ -18,4 +18,3 @@ module.exports = function({
     assessmentResultId,
   });
 };
-
