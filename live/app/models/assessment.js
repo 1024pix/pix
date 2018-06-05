@@ -32,7 +32,14 @@ export default Model.extend({
   result: belongsTo('assessment-result'),
 
   progress: computed('answers', 'course', function() {
-    const maxStep = this.get('course.nbChallenges');
+
+    let maxStep;
+    if (this.get('type') === 'SMART_PLACEMENT') {
+      maxStep = 5;
+    } else {
+      maxStep = this.get('course.nbChallenges');
+    }
+
     const answersCount = this.get('answers.length');
     const currentStep = _getCurrentStep(answersCount, maxStep);
     const stepPercentage = currentStep / maxStep * 100;
