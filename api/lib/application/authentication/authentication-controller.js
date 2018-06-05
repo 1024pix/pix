@@ -1,11 +1,13 @@
 const encrypt = require('../../domain/services/encryption-service');
 const tokenService = require('../../domain/services/token-service');
-const validationErrorSerializer = require('../../infrastructure/serializers/jsonapi/validation-error-serializer');
-const Authentication = require('../../domain/models/Authentication');
-const authenticationSerializer = require('../../infrastructure/serializers/jsonapi/authentication-serializer');
 const userRepository = require('../../infrastructure/repositories/user-repository');
+const validationErrorSerializer = require('../../infrastructure/serializers/jsonapi/validation-error-serializer');
+const authenticationSerializer = require('../../infrastructure/serializers/jsonapi/authentication-serializer');
 const userSerializer = require('../../infrastructure/serializers/jsonapi/user-serializer');
-const checkUserCredentialsAndGenerateAccessToken = require('../usecases/checkUserCredentialsAndGenerateAccessToken');
+
+const usecases = require('../../domain/usecases');
+
+const Authentication = require('../../domain/models/Authentication');
 const JSONAPIError = require('jsonapi-serializer').Error;
 
 function _buildError() {
@@ -18,6 +20,10 @@ function _buildError() {
 
 module.exports = {
 
+  // TODO to remove, now we use Oauth2 with endpoint token
+  /**
+   * @deprecated We use OAuth2 => the endpoint to use is /token and not /authentication
+   */
   save(request, reply) {
 
     const userFromRequest = userSerializer.deserialize((request.payload));
@@ -49,9 +55,9 @@ module.exports = {
    * @see https://tools.ietf.org/html/rfc6749#section-4.3
    */
   authenticateUser(request, reply) {
-    const { username, password } = request.payload;
+    const { username, password, scope } = request.payload;
 
-    return checkUserCredentialsAndGenerateAccessToken.execute(username, password)
+    return usecases.authenticateUser({ userEmail: username, password, scope, userRepository, tokenService })
       .then(accessToken => {
         return reply({
           token_type: 'bearer',

@@ -5,10 +5,14 @@ const bcrypt = require('bcrypt');
 const Bookshelf = require('../../../../lib/infrastructure/bookshelf');
 const BookshelfUser = require('../../../../lib/infrastructure/data/user');
 const userRepository = require('../../../../lib/infrastructure/repositories/user-repository');
-const { AlreadyRegisteredEmailError } = require('../../../../lib/domain/errors');
+const { AlreadyRegisteredEmailError, UserNotFoundError } = require('../../../../lib/domain/errors');
 const User = require('../../../../lib/domain/models/User');
+const OrganizationAccess = require('../../../../lib/domain/models/OrganizationAccess');
+const Organization = require('../../../../lib/domain/models/Organization');
+const OrganizationRole = require('../../../../lib/domain/models/OrganizationRole');
 
-describe('Integration | Infrastructure | Repository | UserRepository', () => {
+describe('Integration' +
+  ' | Infrastructure | Repository | UserRepository', () => {
 
   let userId;
   const email = faker.internet.email().toLowerCase();
@@ -91,6 +95,107 @@ describe('Integration | Infrastructure | Repository | UserRepository', () => {
       return promise.then((user) => {
         expect(user.email).to.equal(email);
       });
+    });
+  });
+
+  describe('#findByEmailWithRoles', () => {
+    const organization = { email, type: 'PRO', name: 'Mon Entreprise', code: 'ABCD12' };
+    const organizationRole = { name: 'ADMIN' };
+    const organizationAccess = {};
+
+    beforeEach(() => {
+      let organizationId, organizationRoleId;
+      return knex('users').insert(inserted_user)
+        .then((insertedUser) => {
+          userId = insertedUser[0];
+          inserted_user.id = userId;
+          organizationAccess.userId = userId;
+          return knex('organizations').insert(organization);
+        })
+        .then((insertedOrganization) => {
+          organizationId = insertedOrganization[0];
+          organization.id = organizationId;
+          organizationAccess.organizationId = organizationId;
+          return knex('organization-roles').insert(organizationRole);
+        })
+        .then((insertedOrganizationRole) => {
+          organizationRoleId = insertedOrganizationRole[0];
+          organizationRole.id = organizationRoleId;
+          organizationAccess.organizationRoleId = organizationRoleId;
+          return knex('organizations-accesses').insert(organizationAccess);
+        })
+        .then((insertedOrganizationAccess) => {
+          organizationAccess.id = insertedOrganizationAccess[0];
+        });
+    });
+
+    afterEach(() => {
+      return knex('organizations-accesses').delete()
+        .then(() => {
+          return Promise.all([
+            knex('organizations').delete(),
+            knex('users').delete(),
+            knex('organization-roles').delete()
+          ]);
+        });
+    });
+
+    it('should return user informations for the given email', () => {
+      // given
+      const expectedUser = new User(inserted_user);
+
+      // when
+      const promise = userRepository.findByEmailWithRoles(email);
+
+      // then
+      return promise.then((user) => {
+        expect(user).to.be.an.instanceof(User);
+        expect(user.id).to.equal(expectedUser.id);
+        expect(user.firstName).to.equal(expectedUser.firstName);
+        expect(user.lastName).to.equal(expectedUser.lastName);
+        expect(user.email).to.equal(expectedUser.email);
+        expect(user.password).to.equal(expectedUser.password);
+        expect(user.cgu).to.equal(expectedUser.cgu);
+      });
+    });
+
+    it('should return organization access associated to the user', () => {
+      // when
+      const promise = userRepository.findByEmailWithRoles(email);
+
+      // then
+      return promise.then((user) => {
+
+        expect(user.organizationsAccesses).to.be.an('array');
+
+        const firstOrganizationAccess = user.organizationsAccesses[0];
+        expect(firstOrganizationAccess).to.be.an.instanceof(OrganizationAccess);
+        expect(firstOrganizationAccess.id).to.equal(organizationAccess.id);
+
+        const accessibleOrganization = firstOrganizationAccess.organization;
+        expect(accessibleOrganization).to.be.an.instanceof(Organization);
+        expect(accessibleOrganization.id).to.equal(organization.id);
+        expect(accessibleOrganization.code).to.equal(organization.code);
+        expect(accessibleOrganization.name).to.equal(organization.name);
+        expect(accessibleOrganization.type).to.equal(organization.type);
+        expect(accessibleOrganization.email).to.equal(organization.email);
+
+        const associatedRole = firstOrganizationAccess.organizationRole;
+        expect(associatedRole).to.be.an.instanceof(OrganizationRole);
+        expect(associatedRole.id).to.equal(organizationRole.id);
+        expect(associatedRole.name).to.equal(organizationRole.name);
+      });
+    });
+
+    it('should reject with a UserNotFound error when no user was found with this email', () => {
+      // given
+      const unusedEmail = 'kikou@pix.fr';
+
+      // when
+      const promise = userRepository.findByEmailWithRoles(unusedEmail);
+
+      // then
+      return expect(promise).to.be.rejectedWith(UserNotFoundError);
     });
   });
 

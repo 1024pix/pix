@@ -1,16 +1,66 @@
 const _ = require('lodash');
 const BookshelfUser = require('../data/user');
 const { AlreadyRegisteredEmailError } = require('../../domain/errors');
-const { NotFoundError } = require('../../domain/errors');
+const { NotFoundError, UserNotFoundError } = require('../../domain/errors');
+const User = require('../../domain/models/User');
+const OrganizationAccess = require('../../domain/models/OrganizationAccess');
+const Organization = require('../../domain/models/Organization');
+const OrganizationRole = require('../../domain/models/OrganizationRole');
+
+function _toOrganizationsAccessesDomain(organizationAccessesBookshelf) {
+  return organizationAccessesBookshelf.map((organizationAccessBookshelf) => {
+    return new OrganizationAccess({
+      id: organizationAccessBookshelf.get('id'),
+      organization: new Organization({
+        id: organizationAccessBookshelf.related('organization').get('id'),
+        code: organizationAccessBookshelf.related('organization').get('code'),
+        name: organizationAccessBookshelf.related('organization').get('name'),
+        type: organizationAccessBookshelf.related('organization').get('type'),
+        email: organizationAccessBookshelf.related('organization').get('email')
+      }),
+      organizationRole: new OrganizationRole({
+        id: organizationAccessBookshelf.related('organizationRole').get('id'),
+        name: organizationAccessBookshelf.related('organizationRole').get('name')
+      })
+    });
+  });
+}
+
+function _toDomain(userBookshelf) {
+  return new User({
+    id: userBookshelf.get('id'),
+    firstName: userBookshelf.get('firstName'),
+    lastName: userBookshelf.get('lastName'),
+    email: userBookshelf.get('email'),
+    password: userBookshelf.get('password'),
+    cgu: Boolean(userBookshelf.get('cgu')),
+    organizationsAccesses: _toOrganizationsAccessesDomain(userBookshelf.related('organizationsAccesses'))
+  });
+}
 
 module.exports = {
 
+  // TODO use _toDomain()
   findByEmail(email) {
     return BookshelfUser
       .where({ email })
       .fetch({ require: true })
       .then(bookshelfUser => {
         return bookshelfUser.toDomainEntity();
+      });
+  },
+
+  findByEmailWithRoles(email) {
+    return BookshelfUser
+      .where({ email })
+      .fetch({
+        withRelated: ['organizationsAccesses', 'organizationsAccesses.organization', 'organizationsAccesses.organizationRole']
+      })
+      .then((foundUser) => {
+        if(foundUser === null) {
+          return Promise.reject(new UserNotFoundError());
+        }
+        return _toDomain(foundUser);
       });
   },
 
@@ -40,7 +90,7 @@ module.exports = {
   },
 
   create(domainUser) {
-    const userRawData = _.omit(domainUser, ['pixRoles']);
+    const userRawData = _.omit(domainUser, ['pixRoles', 'organizationsAccesses']);
     return new BookshelfUser(userRawData)
       .save()
       .then(bookshelfUser => bookshelfUser.toDomainEntity());

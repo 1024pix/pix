@@ -1,23 +1,26 @@
-const updateCertification = require('./update-certification');
-const getUserCertification = require('./get-user-certification');
+const authenticateUser = require('./authenticate-user');
+const createUser = require('./create-user');
+const findCompletedUserCertifications = require('./find-completed-user-certifications');
 const getCorrectionForAnswerWhenAssessmentEnded = require('./get-correction-for-answer-when-assessment-ended');
-const getNextChallengeForPreview = require('./get-next-challenge-for-preview');
 const getNextChallengeForCertification = require('./get-next-challenge-for-certification');
 const getNextChallengeForDemo = require('./get-next-challenge-for-demo');
 const getNextChallengeForPlacement = require('./get-next-challenge-for-placement');
+const getNextChallengeForPreview = require('./get-next-challenge-for-preview');
 const getNextChallengeForSmartPlacement = require('./get-next-challenge-for-smart-placement');
-const findCompletedUserCertifications = require('./find-completed-user-certifications');
-const createUser = require('./create-user');
+const getUserCertification = require('./get-user-certification');
+const updateCertification = require('./update-certification');
 
 module.exports = {
-  updateCertification,
-  getUserCertification,
+  // Thx to list the use cases in alphabetical order :)
+  authenticateUser,
+  createUser,
   findCompletedUserCertifications,
   getCorrectionForAnswerWhenAssessmentEnded,
-  getNextChallengeForPreview,
   getNextChallengeForCertification,
   getNextChallengeForDemo,
   getNextChallengeForPlacement,
+  getNextChallengeForPreview,
   getNextChallengeForSmartPlacement,
-  createUser
+  getUserCertification,
+  updateCertification,
 };
