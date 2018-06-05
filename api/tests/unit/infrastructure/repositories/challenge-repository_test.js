@@ -104,44 +104,12 @@ describe('Unit | Repository | challenge-repository', () => {
   });
 
   describe('#get', () => {
-    // afterEach(() => {
-    //   skillDatasource.get.restore();
-    // });
 
     beforeEach(() => {
       sandbox.stub(airtable, 'getRecord').resolves(challenge1);
       sandbox.stub(challengeDataSource, 'get');
       sandbox.stub(skillDatasource, 'get').resolves();
     });
-
-    // TODO Move in Datasource
-
-    // it('should fetch a challenge record from Airtable "Epreuves" table', () => {
-    //   // given
-    //   const recordId = 'recChallenge1';
-    //
-    //   // when
-    //   const fetchedChallenge = challengeRepository.get(recordId);
-    //
-    //   // then
-    //   return fetchedChallenge.then(() => {
-    //     expect(airtable.newGetRecord).to.have.been.calledWith('Epreuves', recordId);
-    //   });
-    // });
-    //
-    // it('should return a domain Challenge object', () => {
-    //   // given
-    //   const recordId = 'recChallenge1';
-    //
-    //   // when
-    //   const fetchedChallenge = challengeRepository.get(recordId);
-    //
-    //   // then
-    //   return fetchedChallenge.then((challenge) => {
-    //     expect(challenge).to.exist;
-    //     expect(challenge).to.be.an.instanceOf(Challenge);
-    //   });
-    // });
 
     it('should resolve a Challenge domain object when the challenge exists', () => {
       // given
@@ -159,6 +127,27 @@ describe('Unit | Repository | challenge-repository', () => {
         expect(challenge).to.be.an.instanceOf(Challenge);
         expect(challenge.id).to.equal(challengeRecordId);
         expect(challenge.type).to.equal('QCU');
+      });
+    });
+
+    it('should have basic properties', () => {
+      // given
+      const challengeRecordId = 'rec_challenge_id';
+      challengeDataSource.get.withArgs(challengeRecordId).resolves(ChallengeAirtableDataObjectFixture());
+
+      // when
+      const promise = challengeRepository.get(challengeRecordId);
+
+      // then
+      return promise.then((challenge) => {
+        expect(challenge.instruction).to.equal('Les moteurs de recherche affichent certains liens en raison d\'un accord commercial.\n\nDans quels encadrés se trouvent ces liens ?');
+        expect(challenge.proposals).to.equal('- 1\n- 2\n- 3\n- 4\n- 5');
+        expect(challenge.timer).to.equal(1234);
+        expect(challenge.illustrationUrl).to.equal('https://dl.airtable.com/2MGErxGTQl2g2KiqlYgV_venise4.png');
+        expect(challenge.attachments).to.deep.equal([
+          'https://dl.airtable.com/nHWKNZZ7SQeOKsOvVykV_navigationdiaporama5.pptx',
+          'https://dl.airtable.com/rsXNJrSPuepuJQDByFVA_navigationdiaporama5.odp'
+        ]);
       });
     });
 

@@ -61,7 +61,6 @@ module.exports = {
           id: challengeDataObject.id,
           type: challengeDataObject.type,
           instruction: challengeDataObject.instruction,
-          competence: challengeDataObject.competence,
           proposals: challengeDataObject.proposals,
           timer: challengeDataObject.timer,
           illustrationUrl: challengeDataObject.illustrationUrl,
