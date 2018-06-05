@@ -8,8 +8,13 @@ const buildCatCourse= require('./build-cat-course');
 const buildCatTube = require('./build-cat-tube');
 const buildCertification = require('./build-certification');
 const buildCompetenceMark = require('./build-competence-mark');
+const buildOrganization = require('./build-organization');
+const buildOrganizationAccess = require('./build-organization-access');
+const buildOrganizationRole = require('./build-organization-role');
+const buildPixRole = require('./build-pix-role');
 const buildSkill = require('./build-skill');
 const buildSkillCollection = require('./build-skill-collection');
+const buildUser = require('./build-user');
 
 module.exports = {
   buildAnswer,
@@ -22,6 +27,11 @@ module.exports = {
   buildCatTube,
   buildCertification,
   buildCompetenceMark,
+  buildOrganization,
+  buildOrganizationAccess,
+  buildOrganizationRole,
+  buildPixRole,
   buildSkill,
   buildSkillCollection,
+  buildUser,
 };

@@ -7,6 +7,7 @@ module.exports = Bookshelf.model('Organization', {
 
   tableName: 'organizations',
 
+  // TODO Remove this link, now use organization-access
   user() {
     return this.belongsTo('User', 'userId');
   },

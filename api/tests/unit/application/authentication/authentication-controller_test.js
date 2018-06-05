@@ -1,7 +1,9 @@
 const { sinon, expect } = require('../../../test-helper');
 
 const authenticationController = require('../../../../lib/application/authentication/authentication-controller');
-const checkUserCredentialsAndGenerateAccessToken = require('../../../../lib/application/usecases/checkUserCredentialsAndGenerateAccessToken');
+const usecases = require('../../../../lib/domain/usecases');
+const tokenService = require('../../../../lib/domain/services/token-service');
+const userRepository = require('../../../../lib/infrastructure/repositories/user-repository');
 
 describe('Unit | Application | Controller | Authentication', () => {
 
@@ -20,10 +22,11 @@ describe('Unit | Application | Controller | Authentication', () => {
         payload: {
           grant_type: 'password',
           username: 'user@email.com',
-          password: 'user_password'
+          password: 'user_password',
+          scope: 'pix-orga'
         }
       };
-      sinon.stub(checkUserCredentialsAndGenerateAccessToken, 'execute').resolves('jwt.access.token');
+      sinon.stub(usecases, 'authenticateUser').resolves('jwt.access.token');
       stubHeader = sinon.stub();
       stubHeader.returns({ header: stubHeader });
       stubCode = sinon.stub().returns({ header: stubHeader });
@@ -31,16 +34,27 @@ describe('Unit | Application | Controller | Authentication', () => {
     });
 
     afterEach(() => {
-      checkUserCredentialsAndGenerateAccessToken.execute.restore();
+      usecases.authenticateUser.restore();
     });
 
     it('should check user credentials', () => {
+      // given
+      const userEmail = 'user@email.com';
+      const password = 'user_password';
+      const scope = 'pix-orga';
+
       // when
       const promise = authenticationController.authenticateUser(request, reply);
 
       // then
       return promise.then(() => {
-        expect(checkUserCredentialsAndGenerateAccessToken.execute).to.have.been.calledWith('user@email.com', 'user_password');
+        expect(usecases.authenticateUser).to.have.been.calledWith({
+          userEmail,
+          password,
+          scope,
+          userRepository,
+          tokenService,
+        });
       });
     });
 
