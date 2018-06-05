@@ -70,9 +70,20 @@ describe('Unit | Model | Challenge', function() {
       expect(response).to.be.false;
     });
 
-    it('should return true if the challenge has a skill not assessed', function() {
+    it('should return true if the challenge has a unique skill not assessed', function() {
       // given
-      const [s1, s2, s3] = factory.buildCatTube({ max: 3 });
+      const [s1, s2, s3] = factory.buildCatTube({ maxLevel: 3 });
+      const challenge = factory.buildCatChallenge({ skills: [s3] });
+      const assessedSkills = [s1, s2];
+      // when
+      const response = challenge.testsAtLeastOneNewSkill(assessedSkills);
+      // then
+      expect(response).to.be.true;
+    });
+
+    it('should return true if the challenge has at least a skill not assessed', function() {
+      // given
+      const [s1, s2, s3] = factory.buildCatTube({ maxLevel: 3 });
       const challenge = factory.buildCatChallenge({ skills: [s2, s3] });
       const assessedSkills = [s1, s2];
       // when
@@ -81,9 +92,20 @@ describe('Unit | Model | Challenge', function() {
       expect(response).to.be.true;
     });
 
+    it('should return false if the challenge has a skill assessed of the same name (but different object)', function() {
+      // given
+      const skill = new CatSkill('@skill1');
+      const sameSkill = new CatSkill('@skill1');
+      const challenge = factory.buildCatChallenge({ skills: [skill] });
+      // when
+      const response = challenge.testsAtLeastOneNewSkill([sameSkill]);
+      // then
+      expect(response).to.be.false;
+    });
+
     it('should return false if the challenge has only one skill and is already assessed', function() {
       // given
-      const [s1, s2] = factory.buildCatTube({ max: 3 });
+      const [s1, s2] = factory.buildCatTube({ maxLevel: 3 });
       const challenge = factory.buildCatChallenge({ skills: [s2] });
       const assessedSkills = [s1, s2];
       // when

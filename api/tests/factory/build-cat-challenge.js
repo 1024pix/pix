@@ -6,7 +6,7 @@ module.exports = function buildCatChallenge({
   id = faker.random.uuid(),
   status = 'validé',
   timer = undefined,
-  skills = buildCatTube({ min: 4, max: 4 })
+  skills = buildCatTube({ minLevel: 4, maxLevel: 4 })
 } = {}) {
   return new CatChallenge(id, status, skills, timer);
 };

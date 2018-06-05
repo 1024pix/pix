@@ -1,7 +1,7 @@
 const Certification = require('../../lib/domain/models/Certification');
 const buildAssessementResult = require('./build-assessment-result');
 
-module.exports = function({
+module.exports = function buildCertification({
   id = 1,
   assessmentResults = [buildAssessementResult()],
   assessmentState = 'completed',
@@ -43,4 +43,3 @@ module.exports = function({
 
   return certification;
 };
-

@@ -269,7 +269,7 @@ describe('Unit | Model | Assessment', function() {
       // given
       // XXX currently tubes are computed from the skills of the challenges,
       // we need a challenge with skill level 1 so that it appears in `assessment.assessedSkills`
-      const [s1, s2] = factory.buildCatTube({ max: 2 });
+      const [s1, s2] = factory.buildCatTube({ maxLevel: 2 });
       const ch1 = factory.buildCatChallenge({
         skills: [s1],
       });
@@ -294,8 +294,8 @@ describe('Unit | Model | Assessment', function() {
     it('should return the union of failed and validated skills', function() {
       // given
       let tube1, tube2;
-      const [s1, s2] = tube1 = factory.buildCatTube({ max: 3 });
-      const [t1, t2, t3] = tube2 = factory.buildCatTube({ max: 3 });
+      const [s1, s2] = tube1 = factory.buildCatTube({ maxLevel: 3 });
+      const [t1, t2, t3] = tube2 = factory.buildCatTube({ maxLevel: 3 });
       const ch1 = factory.buildCatChallenge({ skills: [s1] });
       const ch2 = factory.buildCatChallenge({ skills: [s2] });
       const ch3 = factory.buildCatChallenge({ skills: [t1] });
@@ -398,10 +398,10 @@ describe('Unit | Model | Assessment', function() {
 
     it('should not filer available challenges by priority skills (level <= 3) when there is no answers', function() {
       // given
-      const lowLevelChallege = factory.buildCatChallenge({ skills: factory.buildCatTube({ min: 1, max: 1 }) });
-      const midLevelChallege = factory.buildCatChallenge({ skills: factory.buildCatTube({ min: 3, max: 3 }) });
-      const highLevelChallege = factory.buildCatChallenge({ skills: factory.buildCatTube({ min: 4, max: 4 }) });
-      const highestLevelChallege = factory.buildCatChallenge({ skills: factory.buildCatTube({ min: 5, max: 5 }) });
+      const lowLevelChallege = factory.buildCatChallenge({ skills: factory.buildCatTube({ minLevel: 1, maxLevel: 1 }) });
+      const midLevelChallege = factory.buildCatChallenge({ skills: factory.buildCatTube({ minLevel: 3, maxLevel: 3 }) });
+      const highLevelChallege = factory.buildCatChallenge({ skills: factory.buildCatTube({ minLevel: 4, maxLevel: 4 }) });
+      const highestLevelChallege = factory.buildCatChallenge({ skills: factory.buildCatTube({ minLevel: 5, maxLevel: 5 }) });
 
       const course = factory.buildCatCourse({
         challenges: [
@@ -503,7 +503,7 @@ describe('Unit | Model | Assessment', function() {
     let url2, url3, url5, challenge1, challenge2, challenge3, challenge4, challenge5, course, assessment;
 
     beforeEach(() => {
-      [url2, url3,  , url5] = factory.buildCatTube({ min: 2, max: 5 });
+      [url2, url3,  , url5] = factory.buildCatTube({ minLevel: 2, maxLevel: 5 });
       challenge1 = new CatChallenge('b', 'validé', [url2], 30);
       challenge2 = new CatChallenge('c', 'validé', [url2], undefined);
       challenge3 = new CatChallenge('f', 'validé sans test', [url3], 60);
