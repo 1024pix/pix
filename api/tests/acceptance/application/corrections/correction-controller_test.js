@@ -1,6 +1,6 @@
 const { expect, knex, nock } = require('../../../test-helper');
 const server = require('../../../../server');
-const cache = require('../../../../lib/infrastructure/cache');
+const cache = require('../../../../lib/infrastructure/caches/cache');
 
 describe('Acceptance | Controller | correction-controller', () => {
 

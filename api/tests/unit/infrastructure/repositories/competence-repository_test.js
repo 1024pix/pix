@@ -1,21 +1,36 @@
 const { expect, sinon } = require('../../../test-helper');
 const AirtableRecord = require('airtable').Record;
 const airtable = require('../../../../lib/infrastructure/airtable');
-const cache = require('../../../../lib/infrastructure/cache');
+const Area = require('../../../../lib/domain/models/Area');
 const Competence = require('../../../../lib/domain/models/Competence');
-
 const competenceRepository = require('../../../../lib/infrastructure/repositories/competence-repository');
 
-describe('Unit | Repository | competence-repository', function() {
+describe('Unit | Repository | competence-repository', () => {
 
   const sandbox = sinon.sandbox.create();
 
-  beforeEach(() => {
-    sandbox.stub(cache, 'get');
-    sandbox.stub(cache, 'set');
-    sandbox.stub(airtable, 'getRecord');
-    sandbox.stub(airtable, 'getRecords');
-    sandbox.stub(airtable, 'findRecords');
+  const competence1 = new AirtableRecord('Competences', 'recCompetence1', {
+    fields: {
+      'Titre': 'Mener une recherche d’information',
+      'Sous-domaine': '1.1',
+      'Tests Record ID': ['recAY0W7x9urA11OLZJJ'],
+      'Acquis': ['@url2', '@url5', '@utiliserserv6'],
+      'Domaine': ['recArea'],
+      'Domaine Code': ['1'],
+      'Domaine Titre': ['Information et données'],
+    }
+  });
+
+  const competence2 = new AirtableRecord('Competences', 'recCompetence2', {
+    fields: {
+      'Titre': 'Gérer des données',
+      'Sous-domaine': '1.2',
+      'Tests Record ID': ['recAY0W7x9urA11OLZJJ'],
+      'Acquis': ['@url2', '@url5', '@utiliserserv6'],
+      'Domaine': ['recArea'],
+      'Domaine Code': ['1'],
+      'Domaine Titre': ['Information et données'],
+    }
   });
 
   afterEach(() => {
@@ -24,230 +39,125 @@ describe('Unit | Repository | competence-repository', function() {
 
   describe('#list', () => {
 
-    const competenceRecords = [{
-      id: 'recsvLDFHShyfDXXXXX',
-      name: '1.1 Mener une recherche d’information',
-      areaId: 'recvoGdo0z0z0pXWZ',
-      courseId: 'Test de positionnement 1.1'
-    }, {
-      id: 'recsvLDFHShyfDXXXXX',
-      name: '1.1 Mener une recherche d’information',
-      areaId: 'recvoGdo0z0z0pXWZ',
-      courseId: 'Test de positionnement 1.2'
-    }];
-
-    context('when records have not been cached', () => {
-
-      beforeEach(() => {
-        cache.get.returns();
-        cache.set.returns();
-      });
-
-      it('should fetch Competences from Airtable', () => {
-        // given
-        airtable.getRecords.resolves(competenceRecords);
-
-        // when
-        const promise = competenceRepository.list();
-
-        // then
-        return promise.then((competencesFetched) => {
-          expect(competencesFetched).to.deep.equal(competenceRecords);
-        });
-      });
-
-      it('should set in cache the fetched Competences', () => {
-        // given
-        airtable.getRecords.resolves(competenceRecords);
-
-        // when
-        const promise = competenceRepository.list();
-
-        // then
-        return promise.then(() => {
-          expect(cache.set).to.have.been.calledWith('competence-repository_list', competenceRecords);
-        });
-      });
-
-      it('should throw an error when Airtable call fails', (done) => {
-        // given
-        airtable.getRecords.rejects(new Error('some error'));
-
-        // when
-        const promise = competenceRepository.list();
-
-        // then
-        promise.catch(err => {
-          expect(err).to.exist;
-          done();
-        });
-      });
-
+    beforeEach(() => {
+      sandbox.stub(airtable, 'findRecords').resolves([competence1, competence2]);
     });
 
-    context('when records have been cached', () => {
+    it('should fetch all competence records from Airtable "Competences" table', () => {
+      // when
+      const fetchedCompetences = competenceRepository.list();
 
-      it('should retrieve records directly from the cache', () => {
-        // given
-        cache.get.returns(competenceRecords);
-
-        // when
-        const promise = competenceRepository.list();
-
-        return promise.then((competencesFetched) => {
-          // then
-          expect(competencesFetched).to.equal(competenceRecords);
-          expect(cache.get).to.have.been.calledWith('competence-repository_list');
-        });
+      // then
+      return fetchedCompetences.then(() => {
+        expect(airtable.findRecords).to.have.been.calledWith('Competences', {});
       });
-
     });
 
+    it('should return domain Competence objects', () => {
+      // when
+      const fetchedCompetences = competenceRepository.list();
+
+      // then
+      return fetchedCompetences.then((competences) => {
+        expect(competences).to.have.lengthOf(2);
+        expect(competences[0]).to.be.an.instanceOf(Competence);
+      });
+    });
   });
 
   describe('#get', () => {
 
-    const competence = {
-      id: 'recsvLz0W2ShyfD63',
-      name: '1.1 Mener une recherche d’information',
-      areaId: 'recvoGdo0z0z0pXWZ',
-      courseId: 'Test de positionnement 1.1'
-    };
-
-    context('when record has not been cached', () => {
-
-      beforeEach(() => {
-        cache.get.returns();
-        cache.set.returns();
-      });
-
-      it('should fetch Competence from Airtable filtered by its Record ID', () => {
-        // given
-        airtable.getRecord.resolves(competence);
-
-        // when
-        const promise = competenceRepository.get(competence.id);
-
-        // then
-        return promise.then((fetchedCompetence) => {
-          expect(airtable.getRecord).to.have.been.calledWith('Competences', competence.id);
-          expect(fetchedCompetence).to.deep.equal(competence);
-        });
-      });
-
-      it('should set in cache the fetched Competence', () => {
-        // given
-        airtable.getRecord.resolves(competence);
-
-        // when
-        const promise = competenceRepository.get(competence.id);
-
-        // then
-        return promise.then((fetchedCompetence) => {
-          expect(cache.set).to.have.been.calledWith(`competence-repository_get_${competence.id}`, fetchedCompetence);
-        });
-      });
-
-      it('should throw an error when Airtable call fails', (done) => {
-        // given
-        airtable.getRecord.rejects(new Error('some error'));
-
-        // when
-        const promise = competenceRepository.get(competence.id);
-
-        // then
-        promise.catch(err => {
-          expect(err).to.exist;
-          done();
-        });
-      });
-
+    beforeEach(() => {
+      sandbox.stub(airtable, 'getRecord').resolves(competence1);
     });
 
-    context('when record has been cached', () => {
+    it('should fetch all competence records from Airtable "Competences" table', () => {
+      // given
+      const recordId = 'recCompetence1';
 
-      it('should retrieve records directly from the cache', () => {
-        // given
-        cache.get.returns(competence);
+      // when
+      const fetchedCompetence = competenceRepository.get(recordId);
 
-        // when
-        const promise = competenceRepository.get(competence.id);
-
-        // then
-        return promise.then((fetchedCompetence) => {
-          expect(fetchedCompetence).to.deep.equal(competence);
-        });
+      // then
+      return fetchedCompetence.then(() => {
+        expect(airtable.getRecord).to.have.been.calledWith('Competences', recordId);
       });
-
     });
 
+    it('should return a domain Competence object', () => {
+      // given
+      const recordId = 'recCompetence1';
+
+      // when
+      const fetchedCompetence = competenceRepository.get(recordId);
+
+      // then
+      return fetchedCompetence.then((competence) => {
+        expect(competence).to.exist;
+        expect(competence).to.be.an.instanceOf(Competence);
+      });
+    });
   });
 
   describe('#find', () => {
 
-    const airtableCompetenceRecords = [
-      new AirtableRecord('Competence', 'recCompetence11', {
-        fields: {
-          'Titre': 'Mener une recherche et une veille d’information',
-          'Sous-domaine': '1.1'
-        }
-      }),
-      new AirtableRecord('Competence', 'recCompetence12', {
-        fields: {
-          'Titre': 'Gérer des données',
-          'Sous-domaine': '1.2'
-        }
-      }),
-      new AirtableRecord('Competence', 'recCompetence13', {
-        fields: {
-          'Titre': 'Traiter des données',
-          'Sous-domaine': '1.3'
-        }
-      })
-    ];
-
     beforeEach(() => {
-      airtable.findRecords.resolves(airtableCompetenceRecords);
+      sandbox.stub(airtable, 'findRecords').resolves([competence1, competence2]);
     });
 
-    it('should fetch all Competence records from Airtable', () => {
+    it('should fetch all competence records from Airtable "Competences" table sorted by index', () => {
+      // given
+      const expectedQuery = { sort: [{ field: 'Sous-domaine', direction: 'asc' }] };
+
       // when
       const promise = competenceRepository.find();
 
       // then
       return promise.then(() => {
-        expect(airtable.findRecords).to.have.been.calledOnce;
-      });
-    });
-
-    it('should fetch Competence records sorted by index (asc)', () => {
-      // when
-      const promise = competenceRepository.find();
-
-      // then
-      return promise.then(() => {
-        //
-        const expectedQuery = {
-          sort: [{ field: 'Sous-domaine', direction: 'asc' }]
-        };
         expect(airtable.findRecords).to.have.been.calledWith('Competences', expectedQuery);
       });
     });
 
-    it('should resolves a list of Competence domain entities', () => {
+    it('should return Competence domain objects', () => {
       // when
       const promise = competenceRepository.find();
 
       // then
       return promise.then((competences) => {
-        expect(competences.length).to.equal(airtableCompetenceRecords.length);
-        const somCompetence = competences[0];
-        expect(somCompetence).to.be.an.instanceof(Competence);
-        expect(somCompetence).to.deep.equal({
-          id: 'recCompetence11',
-          name: 'Mener une recherche et une veille d’information',
-          index: '1.1'
-        });
+        expect(competences).to.have.lengthOf(2);
+        expect(competences[0]).to.be.an.instanceOf(Competence);
+      });
+    });
+  });
+
+  describe('#_toDomain', () => {
+
+    it('should match Competence domain object content', () => {
+      // given
+      sandbox.stub(airtable, 'findRecords').resolves([competence1]);
+
+      const expectedArea = new Area({
+        id: 'recArea',
+        code: '1',
+        title: 'Information et données'
+      });
+
+      const expectedCompetence = new Competence({
+        id: 'recCompetence1',
+        index: '1.1',
+        name: 'Mener une recherche d’information',
+        courseId: 'recAY0W7x9urA11OLZJJ',
+        skills: ['@url2', '@url5', '@utiliserserv6'],
+        area: expectedArea
+      });
+
+      // when
+      const promise = competenceRepository.find();
+
+      // then
+      return promise.then((competences) => {
+        expect(competences[0]).to.be.an.instanceOf(Competence);
+        expect(competences[0]).to.deep.equal(expectedCompetence);
       });
     });
   });

@@ -4,7 +4,6 @@ const Boom = require('boom');
 const Course = require('../../../../lib/domain/models/Course');
 const courseRepository = require('../../../../lib/infrastructure/repositories/course-repository');
 const courseSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/course-serializer');
-const cache = require('../../../../lib/infrastructure/cache');
 
 const securityController = require('../../../../lib/interfaces/controllers/security-controller');
 const courseController = require('../../../../lib/application/courses/course-controller');
@@ -25,7 +24,6 @@ describe('Integration | Controller | course-controller', () => {
     sandbox.stub(courseService, 'getCourse');
     sandbox.stub(courseSerializer, 'serialize');
     sandbox.stub(securityController, 'checkUserHasRolePixMaster');
-    sandbox.stub(courseRepository, 'refreshAll');
     sandbox.stub(courseRepository, 'getProgressionCourses');
     sandbox.stub(courseRepository, 'getAdaptiveCourses');
     sandbox.stub(courseRepository, 'getCoursesOfTheWeek');
@@ -40,7 +38,6 @@ describe('Integration | Controller | course-controller', () => {
   });
 
   afterEach(() => {
-    cache.flushAll();
     sandbox.restore();
   });
 
@@ -150,40 +147,6 @@ describe('Integration | Controller | course-controller', () => {
       // then
       return promise.then(res => {
         expect(res.statusCode).to.equal(404);
-      });
-    });
-  });
-
-  describe('#refreshAll', () => {
-
-    it('should return "Courses updated" when the refresh is successful', () => {
-      // given
-      courseRepository.refreshAll.resolves();
-      const request = {};
-      const reply = sinon.stub();
-
-      // when
-      const promise = courseController.refreshAll(request, reply);
-
-      // then
-      return promise.then(() => {
-        expect(reply).to.have.been.calledWith('Courses updated');
-      });
-    });
-
-    it('should return an internal error when the refresh is failing', () => {
-      // given
-      const error = new Error('An internal server error occurred');
-      courseRepository.refreshAll.rejects(error);
-      const request = {};
-      const reply = sinon.stub();
-
-      // when
-      const promise = courseController.refreshAll(request, reply);
-
-      // then
-      return promise.then(() => {
-        expect(reply).to.have.been.calledWith(error);
       });
     });
   });

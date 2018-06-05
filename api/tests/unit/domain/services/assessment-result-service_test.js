@@ -15,7 +15,7 @@ const certificationCourseRepository = require('../../../../lib/infrastructure/re
 
 const Assessment = require('../../../../lib/domain/models/Assessment');
 const Area = require('../../../../lib/domain/models/Area');
-const Competence = require('../../../../lib/domain/models/referential/competence');
+const Competence = require('../../../../lib/domain/models/Competence');
 const AssessmentResult = require('../../../../lib/domain/models/AssessmentResult');
 const AirtableCourse = require('../../../../lib/domain/models/referential/course');
 const Skill = require('../../../../lib/cat/skill');
@@ -24,6 +24,13 @@ const CompetenceMark = require('../../../../lib/domain/models/CompetenceMark');
 const { NotFoundError, AlreadyRatedAssessmentError, ObjectValidationError } = require('../../../../lib/domain/errors');
 
 function _buildCompetence(competence_code, area_code) {
+
+  const area = new Area({
+    id: 'recdmN2Exvq2oAPap',
+    name: `${area_code}. Information et données`,
+    code: `${area_code}`,
+    title: 'Information et données'
+  });
   const competence = new Competence();
 
   const defaultCompetenceInfos = {
@@ -31,9 +38,8 @@ function _buildCompetence(competence_code, area_code) {
     index: `${area_code}.${competence_code}`,
     areaId: ['recdmN2Exvq2oAPap'],
     courseId: 'recvNIWtjJRyBCd0P',
-    reference: `${area_code}.${competence_code} bla bla bla`,
     skills: undefined,
-    area: Area.fromAttributes({ id: 'recdmN2Exvq2oAPap', code: `${area_code}`, title: 'Information et données' }),
+    area,
   };
 
   Object.assign(competence, defaultCompetenceInfos);

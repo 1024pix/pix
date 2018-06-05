@@ -1,12 +1,6 @@
 const { expect, sinon } = require('../../../test-helper');
+const AirtableRecord = require('airtable').Record;
 const airtable = require('../../../../lib/infrastructure/airtable');
-const cache = require('../../../../lib/infrastructure/cache');
-const challengeRepository = require('../../../../lib/infrastructure/repositories/challenge-repository');
-const challengeSerializer = require('../../../../lib/infrastructure/serializers/airtable/challenge-serializer');
-const challengeDatasource = require('../../../../lib/infrastructure/datasources/airtable/challenge-datasource');
-
-const Challenge = require('../../../../lib/domain/models/Challenge');
-const Skill = require('../../../../lib/domain/models/Skill');
 
 const ChallengeAirtableDataObjectFixture = require('../../../../tests/fixtures/infrastructure/ChallengeAirtableDataObjectFixture');
 const ChallengeAirtableDataObject = require('../../../../lib/infrastructure/datasources/airtable/objects/Challenge');
@@ -14,200 +8,107 @@ const SkillAirtableDataObject = require('../../../../lib/infrastructure/datasour
 const AirtableResourceNotFound = require('../../../../lib/infrastructure/datasources/airtable/objects/AirtableResourceNotFound');
 const { NotFoundError } = require('../../../../lib/domain/errors');
 
+const Challenge = require('../../../../lib/domain/models/Challenge');
+const Competence = require('../../../../lib/domain/models/Competence');
+const Skill = require('../../../../lib/domain/models/Skill');
+const challengeDatasource = require('../../../../lib/infrastructure/datasources/airtable/challenge-datasource');
+const challengeRepository = require('../../../../lib/infrastructure/repositories/challenge-repository');
 const challengeDataSource = require('../../../../lib/infrastructure/datasources/airtable/challenge-datasource');
 const skillDatasource = require('../../../../lib/infrastructure/datasources/airtable/skill-datasource');
 
-function _buildChallenge(id, instruction, proposals) {
-  return { id, instruction, proposals };
-}
-
-function _buildChallengeWithCompetence(id, instruction, proposals, competence, status) {
-  return { id, instruction, proposals, competence, status };
-}
-
 describe('Unit | Repository | challenge-repository', () => {
 
-  let getRecord;
-  let getRecords;
-  let challengeDataSourceGet;
+  const sandbox = sinon.sandbox.create();
 
-  beforeEach(() => {
-    cache.flushAll();
+  const challenge1 = new AirtableRecord('Epreuves', 'recChallenge1', {
+    fields: {
+      'Consigne': 'Instruction #1',
+      'Propositions': 'Proposal #1',
+      'Statut': 'validé'
+    }
+  });
 
-    getRecord = sinon.stub(airtable, 'getRecord');
-    getRecords = sinon.stub(airtable, 'getRecords');
-    challengeDataSourceGet = sinon.stub(challengeDataSource, 'get');
+  const challenge2 = new AirtableRecord('Epreuves', 'recChallenge2', {
+    fields: {
+      'Consigne': 'Instruction #2',
+      'Propositions': 'Proposal #2',
+      'Statut': 'pré-validé'
+    }
   });
 
   afterEach(() => {
-    cache.flushAll();
-    getRecord.restore();
-    getRecords.restore();
-    challengeDataSourceGet.restore();
+    sandbox.restore();
   });
 
   describe('#list', () => {
 
-    const cacheKey = 'challenge-repository_list';
-    const challenges = [
-      _buildChallenge('challenge_id_1', 'Instruction #1', 'Proposals #1'),
-      _buildChallenge('challenge_id_2', 'Instruction #2', 'Proposals #2'),
-      _buildChallenge('challenge_id_3', 'Instruction #3', 'Proposals #3')
-    ];
+    beforeEach(() => {
+      sandbox.stub(airtable, 'findRecords').resolves([challenge1, challenge2]);
+    });
 
-    it('should reject with an error when the cache throw an error', function(done) {
-      // given
-      const cacheErrorMessage = 'Cache error';
-      sinon.stub(cache, 'get').callsFake((key, callback) => {
-        callback(new Error(cacheErrorMessage));
-      });
-
+    it('should fetch all challenge records from Airtable "Epreuves" table', () => {
       // when
-      const result = challengeRepository.list();
+      const fetchedChallenges = challengeRepository.list();
 
       // then
-      cache.get.restore();
-      expect(result).to.eventually.be.rejectedWith(cacheErrorMessage);
-      done();
+      return fetchedChallenges.then(() => {
+        expect(airtable.findRecords).to.have.been.calledWith('Epreuves', {});
+      });
     });
 
-    it('should resolve with the challenges directly retrieved from the cache without calling airtable when the challenge has been cached', function(done) {
-      // given
-      getRecords.resolves(true);
-      cache.set(cacheKey, challenges);
-
+    it('should return domain Challenge objects', () => {
       // when
-      const result = challengeRepository.list();
+      const fetchedChallenges = challengeRepository.list();
 
       // then
-      expect(getRecords.notCalled).to.be.true;
-      expect(result).to.eventually.deep.equal(challenges);
-      done();
-    });
-
-    describe('when challenges have not been previously cached', () => {
-
-      beforeEach(() => {
-        getRecords.resolves(challenges);
-      });
-
-      it('should resolve with the challenges fetched from airtable', function(done) {
-        // when
-        const result = challengeRepository.list();
-
-        // then
-        expect(result).to.eventually.deep.equal(challenges);
-        done();
-      });
-
-      it('should cache the challenge fetched from airtable', function(done) {
-        // when
-        challengeRepository.list().then(() => {
-
-          // then
-          cache.get(cacheKey, (err, cachedValue) => {
-            expect(cachedValue).to.exist;
-            done();
-          });
-        });
-      });
-
-      it('should query correctly airtable', function(done) {
-        // given
-        const expectedQuery = {};
-
-        // when
-        challengeRepository.list().then(() => {
-
-          // then
-          expect(getRecords.calledWith('Epreuves', expectedQuery, challengeSerializer)).to.be.true;
-          done();
-        });
+      return fetchedChallenges.then((challenges) => {
+        expect(challenges).to.have.lengthOf(2);
+        expect(challenges[0]).to.be.an.instanceOf(Challenge);
       });
     });
-
   });
 
   describe('#findByCompetence', () => {
 
-    const competence = { id: 'recsvLz0W2ShyfD63', reference: '1.1 Mener une recherche et une veille d\'information' };
-    const cacheKey = `challenge-repository_find_by_competence_${competence.id}`;
-    const challenges = [
-      _buildChallengeWithCompetence('challenge_id_1', 'Instruction #1', 'Proposals #1', competence.id, 'validé'),
-      _buildChallengeWithCompetence('challenge_id_2', 'Instruction #2', 'Proposals #2', competence.id, 'validé sans test'),
-      _buildChallengeWithCompetence('challenge_id_3', 'Instruction #3', 'Proposals #3', competence.id, 'pre-validé')
-    ];
-
     beforeEach(() => {
-      sinon.stub(cache, 'get');
-      sinon.stub(cache, 'set');
+      sandbox.stub(airtable, 'findRecords').resolves([challenge1, challenge2]);
     });
 
-    afterEach(() => {
-      cache.get.restore();
-      cache.set.restore();
+    it('should fetch all challenge records from Airtable "Epreuves" table with given competence', () => {
+      // given
+      const competence = new Competence({
+        index: '1.1',
+        name: 'Mener une recherche et une veille d’informations'
+      });
+      const expectedQuery = { view: competence.reference };
+
+      // when
+      const fetchedChallenges = challengeRepository.findByCompetence(competence);
+
+      // then
+      return fetchedChallenges.then(() => {
+        expect(airtable.findRecords).to.have.been.calledWith('Epreuves', expectedQuery);
+      });
     });
 
-    context('when challenges have been cached', () => {
+    it('should return domain Challenge objects', () => {
+      // when
+      const fetchedChallenges = challengeRepository.list();
 
-      it('should resolve challenges directly retrieved from the cache without calling Airtable', () => {
-        // given
-        cache.get.returns(challenges);
-
-        // when
-        const promise = challengeRepository.findByCompetence(competence);
-
-        // then
-        return promise.then(fetchedChallenges => {
-          expect(fetchedChallenges).to.deep.equal(challenges);
-          expect(getRecords).to.not.have.been.called;
-          expect(cache.set).to.not.have.been.called;
-        });
+      // then
+      return fetchedChallenges.then((challenges) => {
+        expect(challenges).to.have.lengthOf(2);
+        expect(challenges[0]).to.be.an.instanceOf(Challenge);
       });
-
     });
-
-    context('when challenges have not been previously cached', function() {
-
-      beforeEach(() => {
-        getRecords.resolves(challenges);
-        cache.get.returns();
-        cache.set.returns();
-      });
-
-      it('should resolve with the challenges fetched from Airtable and filtered for this competence', () => {
-        // when
-        const promise = challengeRepository.findByCompetence(competence);
-
-        // then
-        return promise.then((fetchedChallenges) => {
-          expect(airtable.getRecords).to.have.been.calledWith('Epreuves', { view: competence.reference }, challengeSerializer);
-          expect(fetchedChallenges).to.deep.equal(challenges);
-        });
-      });
-
-      it('should cache the challenges fetched from Airtable', () => {
-        // when
-        const promise = challengeRepository.findByCompetence(competence);
-
-        // then
-        return promise.then((fetchedChallenges) => {
-          expect(cache.set).to.have.been.calledWith(cacheKey, fetchedChallenges);
-        });
-      });
-
-    });
-
   });
 
   describe('#get', () => {
 
     beforeEach(() => {
-      sinon.stub(skillDatasource, 'get').resolves();
-    });
-
-    afterEach(() => {
-      skillDatasource.get.restore();
+      sandbox.stub(airtable, 'getRecord').resolves(challenge1);
+      sandbox.stub(challengeDataSource, 'get');
+      sandbox.stub(skillDatasource, 'get').resolves();
     });
 
     it('should resolve a Challenge domain object when the challenge exists', () => {
@@ -226,6 +127,27 @@ describe('Unit | Repository | challenge-repository', () => {
         expect(challenge).to.be.an.instanceOf(Challenge);
         expect(challenge.id).to.equal(challengeRecordId);
         expect(challenge.type).to.equal('QCU');
+      });
+    });
+
+    it('should have basic properties', () => {
+      // given
+      const challengeRecordId = 'rec_challenge_id';
+      challengeDataSource.get.withArgs(challengeRecordId).resolves(ChallengeAirtableDataObjectFixture());
+
+      // when
+      const promise = challengeRepository.get(challengeRecordId);
+
+      // then
+      return promise.then((challenge) => {
+        expect(challenge.instruction).to.equal('Les moteurs de recherche affichent certains liens en raison d\'un accord commercial.\n\nDans quels encadrés se trouvent ces liens ?');
+        expect(challenge.proposals).to.equal('- 1\n- 2\n- 3\n- 4\n- 5');
+        expect(challenge.timer).to.equal(1234);
+        expect(challenge.illustrationUrl).to.equal('https://dl.airtable.com/2MGErxGTQl2g2KiqlYgV_venise4.png');
+        expect(challenge.attachments).to.deep.equal([
+          'https://dl.airtable.com/nHWKNZZ7SQeOKsOvVykV_navigationdiaporama5.pptx',
+          'https://dl.airtable.com/rsXNJrSPuepuJQDByFVA_navigationdiaporama5.odp'
+        ]);
       });
     });
 
@@ -310,68 +232,7 @@ describe('Unit | Repository | challenge-repository', () => {
         return expect(promise).to.have.been.rejectedWith(error);
       });
     });
-  });
 
-  describe('#refresh', () => {
-
-    const challengeId = 'challenge_id';
-    const cacheKey = `challenge-repository_get_${challengeId}`;
-
-    it('should reject with an error when the cache throw an error', () => {
-      // given
-      const cacheErrorMessage = 'Cache error';
-      sinon.stub(cache, 'del').callsFake((key, callback) => {
-        callback(new Error(cacheErrorMessage));
-      });
-
-      // when
-      const result = challengeRepository.refresh(challengeId);
-
-      // then
-      cache.del.restore();
-      return expect(result).to.eventually.be.rejectedWith(cacheErrorMessage);
-    });
-
-    it('should resolve with the challenge fetched from airtable when the challenge was not previously cached', () => {
-      // given
-      const challenge = {
-        id: challengeId,
-        instruction: 'Challenge instruction',
-        proposals: 'Challenge proposals'
-      };
-      getRecord.resolves(challenge);
-
-      // when
-      const result = challengeRepository.refresh(challengeId);
-
-      // then
-      return expect(result).to.eventually.deep.equal(challenge);
-    });
-
-    it('should replace the old challenge by the new one in cache', () => {
-      // given
-      const oldCourse = {
-        id: challengeId,
-        name: 'Old challenge',
-        description: 'Old description of the challenge'
-      };
-      cache.set(cacheKey, oldCourse);
-      const newCourse = {
-        id: challengeId,
-        name: 'New challenge',
-        description: 'new description of the challenge'
-      };
-      getRecord.resolves(newCourse);
-
-      // when
-      challengeRepository.refresh(challengeId).then(() => {
-
-        // then
-        cache.get(cacheKey, (err, cachedValue) => {
-          expect(cachedValue).to.deep.equal(newCourse);
-        });
-      });
-    });
   });
 
   describe('#findBySkills', () => {
@@ -415,4 +276,5 @@ describe('Unit | Repository | challenge-repository', () => {
     });
 
   });
+
 });
