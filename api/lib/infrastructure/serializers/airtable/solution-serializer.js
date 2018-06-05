@@ -1,12 +1,11 @@
 const _ = require('../../utils/lodash-utils');
 const Solution = require('../../../domain/models/Solution');
-const AirtableSerializer = require('./airtable-serializer');
 
 function isTreatmentDisable(fields, fieldName) {
   return (fields[fieldName]) && (fields[fieldName] === 'Désactivé');
 }
 
-class SolutionSerializer extends AirtableSerializer {
+class SolutionSerializer {
 
   deserialize(airtableRecord) {
 

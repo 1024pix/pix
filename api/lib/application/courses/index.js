@@ -1,5 +1,4 @@
 const courseController = require('./course-controller');
-const securityController = require('../../interfaces/controllers/security-controller');
 
 exports.register = function(server, options, next) {
 
@@ -12,17 +11,6 @@ exports.register = function(server, options, next) {
         handler: courseController.list,
         tags: ['api']
       }
-    },
-    {
-      method: 'PUT',
-      path: '/api/courses',
-      config: {
-        pre: [{
-          method: securityController.checkUserHasRolePixMaster,
-          assign: 'hasRolePixMaster'
-        }],
-        handler: courseController.refreshAll, tags: ['api']
-      }
     }, {
       method: 'GET',
       path: '/api/courses/{id}',
@@ -30,16 +18,6 @@ exports.register = function(server, options, next) {
         auth: false,
         handler: courseController.get,
         tags: ['api']
-      }
-    }, {
-      method: 'POST',
-      path: '/api/courses/{id}',
-      config: {
-        pre: [{
-          method: securityController.checkUserHasRolePixMaster,
-          assign: 'hasRolePixMaster'
-        }],
-        handler: courseController.refresh, tags: ['api']
       }
     }, {
       method: 'POST',

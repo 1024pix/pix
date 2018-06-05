@@ -20,14 +20,14 @@ describe('Unit | Infrastructure | Datasource | Airtable | SkillDatasource', () =
 
     it('should call airtable on Acquis table with the id and return a datamodel Skill object', () => {
       // given
-      sandbox.stub(airtable, 'newGetRecord').resolves(skillRawAirTableFixture());
+      sandbox.stub(airtable, 'getRecord').resolves(skillRawAirTableFixture());
 
       // when
       const promise = skillDatasource.get('243');
 
       // then
       return promise.then((skill) => {
-        expect(airtable.newGetRecord).to.have.been.calledWith('Acquis', '243');
+        expect(airtable.getRecord).to.have.been.calledWith('Acquis', '243');
 
         expect(skill).to.be.an.instanceof(airTableDataModels.Skill);
         expect(skill.id).to.equal('recTIddrkopID28Ep');

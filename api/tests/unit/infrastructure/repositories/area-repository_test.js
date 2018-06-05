@@ -1,146 +1,75 @@
 const { expect, sinon } = require('../../../test-helper');
 const airtable = require('../../../../lib/infrastructure/airtable');
-const cache = require('../../../../lib/infrastructure/cache');
+const AirtableRecord = require('airtable').Record;
 
+const Area = require('../../../../lib/domain/models/Area');
 const areaRepository = require('../../../../lib/infrastructure/repositories/area-repository');
-const areaSerializer = require('../../../../lib/infrastructure/serializers/airtable/area-serializer');
 
 describe('Unit | Repository | area-repository', function() {
 
-  let getRecordsStub;
-
-  beforeEach(function() {
-    cache.flushAll();
-    getRecordsStub = sinon.stub(airtable, 'getRecords');
+  beforeEach(() => {
+    sinon.stub(airtable, 'findRecords');
   });
 
-  afterEach(function() {
-    cache.flushAll();
-    getRecordsStub.restore();
+  afterEach(() => {
+    airtable.findRecords.restore();
   });
 
-  describe('#list', function() {
+  describe('#list', () => {
 
-    const cacheKey = 'area-repository_list';
-    const areas = [
-      {
-        id: 1,
-        name: 'Domaine 1'
-      },
-      {
-        id: 2,
-        name: 'Domaine 2'
-      }
-    ];
-
-    it('should be a method', () => {
-      expect(areaRepository.list).to.be.a('function');
+    beforeEach(() => {
+      const area1 = new AirtableRecord('Domaines', 'recDomaine1', {
+        fields: {
+          'Nom': '1. Domaine 1',
+          'Code': '1',
+          'Titre': 'Domaine 1'
+        }
+      });
+      const area2 = new AirtableRecord('Domaines', 'recDomaine2', {
+        fields: {
+          'Nom': '2. Domaine 2',
+          'Code': '2',
+          'Titre': 'Domaine 2'
+        }
+      });
+      airtable.findRecords.resolves([area1, area2]);
     });
 
-    it('should query Airtable correctly', () => {
-      // given
-      getRecordsStub.resolves({});
+    it('should fetch all area records from Airtable "Domaines" table', () => {
       // when
       const fetchedAreas = areaRepository.list();
 
+      // then
       return fetchedAreas.then(() => {
-        // then
-        expect(getRecordsStub.calledWith('Domaines', {}, areaSerializer)).to.be.true;
+        expect(airtable.findRecords).to.have.been.calledWith('Domaines', {});
       });
     });
 
-    describe('When a record haven’t been cached', () => {
+    it('should return domain Area objects', () => {
+      // given
+      const expectedAreas = [
+        new Area({
+          id: 'recDomaine1',
+          name: '1. Domaine 1',
+          code: '1',
+          title: 'Domaine 1',
+        }),
+        new Area({
+          id: 'recDomaine2',
+          name: '2. Domaine 2',
+          code: '2',
+          title: 'Domaine 2',
+        })
+      ];
 
-      beforeEach(() => {
-        getRecordsStub.resolves(areas);
+      // when
+      const fetchedAreas = areaRepository.list();
+
+      // then
+      return fetchedAreas.then((areas) => {
+        expect(areas).to.deep.equal(expectedAreas);
+        expect(areas[0]).to.be.an.instanceOf(Area);
       });
-
-      it('should fetch areas from Airtable', () => {
-        // when
-        const fetchedAreas = areaRepository.list();
-
-        // then
-        expect(fetchedAreas).to.eventually.equal(areas);
-      });
-
-      it('should cached previously fetched areas', () => {
-        // when
-        const promiseFetched = areaRepository.list();
-
-        return promiseFetched.then(() => {
-          // then
-          cache.get(cacheKey, (err, cachedValue) => {
-            expect(cachedValue).to.exist;
-          });
-        });
-
-      });
-
-    });
-
-    describe('When a record is already cached', () => {
-
-      it('should retrieve record directly from cache', () => {
-        // given
-        cache.set('area-repository_list', areas);
-        const cacheSpy = sinon.spy(cache, 'get');
-        getRecordsStub.resolves(true);
-
-        // when
-        const cachedAreas = areaRepository.list();
-
-        // then
-        return cachedAreas.then((result) => {
-          expect(result).to.deep.equal(areas);
-          sinon.assert.calledOnce(cacheSpy);
-          sinon.assert.calledWith(cacheSpy, 'area-repository_list');
-          cacheSpy.restore();
-        });
-
-      });
-
-    });
-
-    describe('Error occured cases: ', () => {
-
-      beforeEach(() => {
-        sinon.stub(cache, 'get');
-      });
-      afterEach(() => {
-        cache.get.restore();
-      });
-
-      it('should throw an error, when something going wrong from cache', () => {
-        // given
-        cache.get.callsArgWith(1, new Error('Error on cache recuperation'));
-
-        // when
-        const cachedPromise = areaRepository.list();
-
-        return cachedPromise.catch((err) => {
-          expect(cachedPromise).to.be.rejectedWith(Error);
-          expect(err.message).to.be.equal('Error on cache recuperation');
-        });
-
-      });
-
-      it('should throw an error, when something going wrong from airtable', () => {
-        // given
-        cache.get.callsArgWith(1, null, null);
-
-        getRecordsStub.rejects(new Error('Error on Airtable recuperation'));
-
-        // when
-        const cachedPromise = areaRepository.list();
-
-        return cachedPromise.catch((err) => {
-          // then
-          expect(cachedPromise).to.be.rejectedWith(Error);
-          expect(err.message).to.be.equal('Error on Airtable recuperation');
-        });
-      });
-
     });
   });
-
 });
