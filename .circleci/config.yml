@@ -57,7 +57,7 @@ jobs:
           paths:
             - ~/pix
 
-  add_review_app_url_to_trello_card:
+  add_review_app_url_to_jira_issue:
     <<: *common_properties
     steps:
       - run: echo "${CIRCLE_BRANCH}_${CIRCLE_SHA1}" > .circle-cache-key
@@ -65,7 +65,7 @@ jobs:
           keys:
             - v3-pix-{{ checksum ".circle-cache-key" }}
       - run: sudo apt-get install -y jq
-      - run: ~/pix/scripts/trello/comment_with_review_app_url.sh
+      - run: ~/pix/scripts/jira/comment_with_review_app_url.sh
 
   signal_pr_deployment_to_github:
     <<: *common_properties
@@ -334,7 +334,7 @@ workflows:
               ignore:
                 - gh-pages
 
-      - add_review_app_url_to_trello_card:
+      - add_review_app_url_to_jira_issue:
           requires:
             - deploy_client
             - deploy_server_on_dokku
