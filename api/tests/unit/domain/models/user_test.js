@@ -77,7 +77,9 @@ describe('Unit | Domain | Models | User', () => {
 
     it('should be true if user has a role in an organization', () => {
       // given
-      const user = factory.buildUser();
+      const user = factory.buildUser({
+        organizationsAccesses: [factory.buildOrganizationAccess()]
+      });
 
       // when/then
       expect(user.isLinkedToOrganizations()).to.be.true;
