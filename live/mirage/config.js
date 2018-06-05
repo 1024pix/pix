@@ -20,6 +20,7 @@ import postFeedbacks from './routes/post-feedbacks';
 
 import { Response } from 'ember-cli-mirage';
 
+/* eslint max-statements: off */
 export default function() {
   this.logging = false;
   this.passthrough('/write-coverage');
