@@ -34,12 +34,8 @@ class InMemoryCache {
   }
 
   flushAll() {
-    return new Promise((resolve, reject) => {
-      this._cache.flushAll((error) => {
-        if (error) return reject(error);
-        return resolve();
-      });
-    });
+    this._cache.flushAll();
+    return Promise.resolve();
   }
 }
 

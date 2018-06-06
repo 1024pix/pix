@@ -35,7 +35,7 @@ class RedisCache {
 
   flushAll() {
     return new Promise((resolve, reject) => {
-      this._client.flushAll((error) => {
+      this._client.flushall((error) => {
         if (error) return reject(error);
         return resolve();
       });

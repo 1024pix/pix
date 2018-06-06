@@ -164,12 +164,12 @@ describe('Unit | Infrastructure | Cache | redis-cache', () => {
   describe('#flushAll', () => {
 
     beforeEach(() => {
-      stubbedClient.flushAll = sinon.stub();
+      stubbedClient.flushall = sinon.stub();
     });
 
     it('should resolve', () => {
       // given
-      stubbedClient.flushAll.yields(NO_ERROR);
+      stubbedClient.flushall.yields(NO_ERROR);
 
       // when
       const promise = redisCache.flushAll();
@@ -180,7 +180,7 @@ describe('Unit | Infrastructure | Cache | redis-cache', () => {
 
     it('should reject when the Redis cache client throws an error', () => {
       // given
-      stubbedClient.flushAll.yields(REDIS_CLIENT_ERROR);
+      stubbedClient.flushall.yields(REDIS_CLIENT_ERROR);
 
       // when
       const promise = redisCache.flushAll();
