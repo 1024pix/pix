@@ -59,7 +59,7 @@ module.exports = {
 
   getAuthenticatedUser(request, reply) {
     const userId = request.auth.credentials.userId;
-    return usecases.getUser(userId)
+    return usecases.getUser({ userId, userRepository })
       .then((foundUser) => {
         return reply(userSerializer.serialize(foundUser)).code(200);
       })
