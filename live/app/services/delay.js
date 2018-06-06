@@ -5,7 +5,7 @@ import config from '../config/environment';
 export default Service.extend({
   ms(ms) {
     /* istanbul ignore if  */
-    if (config.EmberENV.useDelay) { //unreachable by tests
+    if (config.APP.useDelay) { //unreachable by tests
       return new RSVP.Promise((resolve) => {
         setTimeout(resolve, ms);
       });

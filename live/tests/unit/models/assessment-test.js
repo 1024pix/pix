@@ -2,11 +2,12 @@ import { run } from '@ember/runloop';
 import { expect } from 'chai';
 import { describe, it } from 'mocha';
 import { setupModelTest } from 'ember-mocha';
+import { isArray } from '@ember/array';
 
 describe('Unit | Model | Assessment', function() {
 
   setupModelTest('assessment', {
-    needs: ['model:course', 'model:answer']
+    needs: ['model:course', 'model:challenge', 'model:answer', 'model:assessment-result']
   });
 
   it('exists', function() {
@@ -19,8 +20,8 @@ describe('Unit | Model | Assessment', function() {
     it('Should be true when challenge is a SMART_PLACEMENT', function() {
       run(() => {
         // given
-        const store = this.store();
-        const assessment = store.createRecord('assessment', { type: 'SMART_PLACEMENT' });
+        const assessment = this.subject();
+        assessment.set('type', 'SMART_PLACEMENT');
 
         // when
         const hasCheckpoints = assessment.get('hasCheckpoints');
@@ -28,14 +29,13 @@ describe('Unit | Model | Assessment', function() {
         // then
         expect(hasCheckpoints).to.be.true;
       });
-
     });
 
     it('Should be true when challenge is NOT a SMART_PLACEMENT', function() {
       run(() => {
         // given
-        const store = this.store();
-        const assessment = store.createRecord('assessment', { type: 'DEMO' });
+        const assessment = this.subject();
+        assessment.set('type', 'DEMO');
 
         // when
         const hasCheckpoints = assessment.get('hasCheckpoints');
@@ -52,21 +52,20 @@ describe('Unit | Model | Assessment', function() {
     it('should be an array', function() {
       run(() => {
         // given
-        const store = this.store();
-        const assessment = store.createRecord('assessment', { type: 'SMART_PLACEMENT' });
+        const assessment = this.subject();
+        assessment.set('type', 'SMART_PLACEMENT');
 
         // when
         const answersSinceLastCheckpoints = assessment.get('answersSinceLastCheckpoints');
 
         // then
-        expect(answersSinceLastCheckpoints).to.deep.equal([]);
+        expect(isArray(answersSinceLastCheckpoints)).to.be.true;
       });
 
     });
 
     it('should return answers', function() {
       run(() => {
-        // given
         const store = this.store();
         const answer = store.createRecord('answer', {});
         const assessment = store.createRecord('assessment', { type: 'SMART_PLACEMENT', answers: [answer] });
@@ -139,4 +138,5 @@ describe('Unit | Model | Assessment', function() {
       });
     });
   });
-});
+})
+;

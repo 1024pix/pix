@@ -2,6 +2,7 @@ import { expect } from 'chai';
 import { describe, it } from 'mocha';
 import { setupComponentTest } from 'ember-mocha';
 import hbs from 'htmlbars-inline-precompile';
+import { run } from '@ember/runloop';
 
 describe('Integration | Component | signin form', function() {
 
@@ -9,81 +10,84 @@ describe('Integration | Component | signin form', function() {
     integration: true
   });
 
-  const expectedEmail = 'email@example.fr';
-  const expectedPassword = 'azerty';
+  describe('Rendering', function() {
 
-  it('should give email and password to action given in parameter', function(done) {
-    // Expect
-    this.on('onSubmitAction', (email, password) => {
-      expect(email).to.equal(expectedEmail);
-      expect(password).to.equal(expectedPassword);
-      done();
-      return Promise.resolve();
+    it('should display an input for email field', function() {
+      // when
+      this.render(hbs`{{signin-form}}`);
+
+      // then
+      expect(document.querySelector('input#pix-email')).to.exist;
     });
 
-    // Given
-    this.render(hbs`{{signin-form onSubmit=(action 'onSubmitAction')}}`);
+    it('should display an input for password field', function() {
+      // when
+      this.render(hbs`{{signin-form}}`);
 
-    _fillSigninForm(this, expectedEmail, expectedPassword);
-
-    // When
-    this.$('button[type=submit]').click();
-  });
-
-  it('should also use action on submit', function(done) {
-    // Expect
-    this.on('onSubmitAction', (email, password) => {
-      expect(email).to.equal(expectedEmail);
-      expect(password).to.equal(expectedPassword);
-      done();
-      return Promise.resolve();
+      // then
+      expect(document.querySelector('input#pix-password')).to.exist;
     });
 
-    this.render(hbs`{{signin-form onSubmit=(action 'onSubmitAction')}}`);
-    _fillSigninForm(this, expectedEmail, expectedPassword);
+    it('should display a submit button to authenticate', function() {
+      // when
+      this.render(hbs`{{signin-form}}`);
 
-    // When
-    this.$('.signin-form__form form').submit();
-  });
-
-  it('should display an error', function() {
-    // Expect
-    this.on('onSubmitAction', () => {
-      return Promise.resolve();
+      // then
+      expect(document.querySelector('button.signin-form__submit_button')).to.exist;
     });
 
-    this.render(hbs`{{signin-form onSubmit=(action 'onSubmitAction')}}`);
-    _fillSigninForm(this, expectedEmail, expectedPassword);
+    it('should display a link to password reset view', function() {
+      // when
+      this.render(hbs`{{signin-form}}`);
 
-    // When
-    this.$('.signin-form__form form').submit();
-
-    // Then
-    expect(this.$('.signin-form__errors')).to.have.lengthOf(0);
-  });
-
-  it('should hide the error message if it was previously displayed', function() {
-    // Expect
-    this.on('onSubmitAction', () => {
-      return Promise.resolve();
+      // then
+      expect(document.querySelector('a.signin-form__forgotten-password-link')).to.exist;
     });
-    this.render(hbs`{{signin-form onSubmit=(action 'onSubmitAction') displayErrorMessage='true'}}`);
 
-    expect(this.$('.signin-form__errors')).to.have.lengthOf(1);
-    _fillSigninForm(this, expectedEmail, expectedPassword);
+    it('should not display any error by default', function() {
+      // when
+      this.render(hbs`{{signin-form}}`);
 
-    // When
-    this.$('.signin-form__form form').submit();
+      // then
+      expect(document.querySelector('div.signin-form__errors')).to.not.exist;
+    });
 
-    // Then
-    expect(this.$('.signin-form__errors')).to.have.lengthOf(0);
+    it('should display an error if authentication failed', function() {
+      // given
+      this.set('displayErrorMessage', true);
+
+      // when
+      this.render(hbs`{{signin-form displayErrorMessage=displayErrorMessage}}`);
+
+      // then
+      expect(document.querySelector('div.signin-form__errors')).to.exist;
+    });
   });
 
-  function _fillSigninForm(context, email, password) {
-    context.$('#pix-email').val(email);
-    context.$('#pix-email').change();
+  describe('Behaviours', function() {
 
-    context.$('#pix-password').val(password);
-    context.$('#pix-password').change();
-  }
+    it('should authenticate user when she submitted sign-in form', function() {
+      // given
+      const expectedEmail = 'email@example.fr';
+      const expectedPassword = 'azerty';
+
+      this.on('onSubmitAction', function(email, password) {
+        // then
+        expect(email).to.equal(expectedEmail);
+        expect(password).to.equal(expectedPassword);
+        return Promise.resolve();
+      });
+
+      this.render(hbs`{{signin-form onSubmit=(action 'onSubmitAction')}}`);
+
+      this.$('input#pix-email').val(expectedEmail);
+      this.$('input#pix-email').change();
+      this.$('input#pix-password').val(expectedPassword);
+      this.$('input#pix-password').change();
+
+      // when
+      run(() => document.querySelector('button.signin-form__submit_button').click());
+    });
+
+  });
 });

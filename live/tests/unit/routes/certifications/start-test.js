@@ -1,24 +1,20 @@
-import { expect } from 'chai';
 import { describe, it } from 'mocha';
 import { setupTest } from 'ember-mocha';
 import sinon from 'sinon';
 
 describe('Unit | Route | certification test', function() {
+
   setupTest('route:certifications.start', {
     needs: ['service:current-routed-modal', 'service:session'],
   });
 
   let route;
 
-  it('exists', function() {
-    route = this.subject();
-    expect(route).to.be.ok;
-  });
-
   describe('#error', function() {
 
     it('should redirect to index if error is not 403', function() {
       // given
+      route = this.subject();
       route.transitionTo = sinon.stub();
       const error = { errors: [{ status: '404' }] };
 
@@ -31,9 +27,9 @@ describe('Unit | Route | certification test', function() {
     });
 
     it('should return the start-error page if error is 403', function() {
-      route.render = sinon.stub();
-
       // given
+      route = this.subject();
+      route.render = sinon.stub();
       route.transitionTo = sinon.stub();
       const error = { errors: [{ status: '403' }] };
 
@@ -51,6 +47,7 @@ describe('Unit | Route | certification test', function() {
 
     it('should replace current route with courses.create-assessment', function() {
       // given
+      route = this.subject();
       route.replaceWith = sinon.stub();
 
       // when
