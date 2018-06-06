@@ -25,3 +25,6 @@ package.json.ember-try
 # JetBrains
 .idea
 *.iml
+
+# CircleCI
+*.circle-cache-key
