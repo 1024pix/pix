@@ -139,7 +139,8 @@ describe('Unit | Infrastructure | Cache | redis-cache', () => {
 
     it('should resolve', () => {
       // given
-      stubbedClient.del.yields(NO_ERROR);
+      const numberOfDeletedKeys = 1;
+      stubbedClient.del.yields(NO_ERROR, numberOfDeletedKeys);
 
       // when
       const promise = redisCache.del(CACHE_KEY);
