@@ -13,9 +13,9 @@ exports.register = function(server, options, next) {
           assign: 'hasRolePixMaster'
         }],
         handler: CacheController.removeCacheEntry,
-        tags: ['api'],
+        tags: ['api', 'cache'],
         notes: [
-          'Cette route est restreinte aux utilisateurs authentifiés',
+          'Cette route est restreinte aux utilisateurs authentifiés avec le rôle Pix Master',
           'Elle permet de supprimer une entrée du cache de l’application\n' +
           'Attention : pour un état cohérent des objets stockés en cache, utiliser DELETE /api/cache'
         ]
@@ -29,10 +29,10 @@ exports.register = function(server, options, next) {
           assign: 'hasRolePixMaster'
         }],
         handler: CacheController.removeAllCacheEntries,
-        tags: ['api'],
+        tags: ['api', 'cache'],
         notes: [
-          'Cette route est restreinte aux utilisateurs authentifiés',
-          'Elle permet de supprimer toutes les entrées du cache de l’application\n',
+          'Cette route est restreinte aux utilisateurs authentifiés avec le rôle Pix Master',
+          'Elle permet de supprimer toutes les entrées du cache de l’application',
         ]
       }
     }
