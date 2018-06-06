@@ -52,6 +52,31 @@ describe('Unit | Router | user-router', () => {
   });
 
   describe('GET /api/users/me', function() {
+
+    before(() => {
+      sinon.stub(UserController, 'getAuthenticatedUser').callsFake((request, reply) => reply('ok'));
+    });
+
+    after(() => {
+      UserController.getAuthenticatedUser.restore();
+    });
+
+    it('should exist', () => {
+      // given
+      const options = { method: 'GET', url: '/api/users/me' };
+
+      // when
+      const promise = server.inject(options);
+
+      // then
+      return promise.then((response) => {
+        expect(response.statusCode).to.equal(200);
+      });
+    });
+  });
+
+  describe('GET /api/users/me/profile', function() {
+
     before(() => {
       sinon.stub(UserController, 'getAuthenticatedUserProfile').callsFake((request, reply) => reply('ok'));
     });
@@ -61,7 +86,7 @@ describe('Unit | Router | user-router', () => {
     });
     it('should exist', () => {
       // given
-      const options = { method: 'GET', url: '/api/users/me' };
+      const options = { method: 'GET', url: '/api/users/me/profile' };
 
       // when
       const promise = server.inject(options);
