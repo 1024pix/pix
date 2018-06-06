@@ -1,3 +1,3 @@
-module.exports = function() {
-  return Promise.resolve();
+module.exports = function({ userId, userRepository }) {
+  return userRepository.get(userId);
 };

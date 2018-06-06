@@ -540,7 +540,7 @@ describe('Unit | Controller | user-controller', () => {
 
       // then
       return promise.then(() => {
-        expect(usecases.getUser).to.have.been.calledWith(userId);
+        expect(usecases.getUser).to.have.been.calledWith({ userId, userRepository });
       });
     });
 

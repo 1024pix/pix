@@ -30,18 +30,6 @@ describe('Unit | Domain | Models | User', () => {
       expect(userObject.cgu).to.equal(userData.cgu);
     });
 
-    it('should normalize email', () => {
-      // given
-      const userData = {
-        email: 'TESTMAIL@gmail.com'
-      };
-
-      // when
-      const userObject = new User(userData);
-
-      // then
-      expect(userObject.email).to.equal('testmail@gmail.com');
-    });
   });
 
 });

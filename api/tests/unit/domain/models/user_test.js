@@ -95,4 +95,20 @@ describe('Unit | Domain | Models | User', () => {
 
   });
 
+  describe('#email', function() {
+
+    it('should normalize email', () => {
+      // given
+      const userData = {
+        email: 'TESTMAIL@gmail.com'
+      };
+
+      // when
+      const userObject = new User(userData);
+
+      // then
+      expect(userObject.email).to.equal('testmail@gmail.com');
+    });
+  });
+
 });

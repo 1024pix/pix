@@ -35,6 +35,7 @@ module.exports = Bookshelf.model('User', {
     if (model.pixRoles) {
       model.pixRoles = model.pixRoles.map(pixRoleJson => new DomainPixRole(pixRoleJson));
     }
+    model.cgu = Boolean(model.cgu);
     return new DomainUser(model);
   }
 
