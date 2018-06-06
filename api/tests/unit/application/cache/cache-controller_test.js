@@ -1,4 +1,5 @@
 const { expect, sinon } = require('../../../test-helper');
+const usecases = require('../../../../lib/domain/usecases');
 const cache = require('../../../../lib/infrastructure/caches/cache');
 const CacheController = require('../../../../lib/application/cache/cache-controller');
 
@@ -26,19 +27,20 @@ describe('Unit | Controller | CacheController', () => {
     };
 
     beforeEach(() => {
-      sinon.stub(cache, 'del');
+      sinon.stub(usecases, 'removeCacheEntry');
     });
 
     afterEach(() => {
-      cache.del.restore();
+      usecases.removeCacheEntry.restore();
     });
 
     context('when the cache key exists', () => {
 
       it('should reply with success', () => {
         // given
+        const cacheKey = request.params.cachekey;
         const numberOfDeletedKeys = 1;
-        cache.del.resolves(numberOfDeletedKeys);
+        usecases.removeCacheEntry.resolves(numberOfDeletedKeys);
 
         // when
         const promise = CacheController.removeCacheEntry(request, replyStub);
@@ -46,6 +48,7 @@ describe('Unit | Controller | CacheController', () => {
         // Then
         return expect(promise).to.have.been.fulfilled
           .then(() => {
+            expect(usecases.removeCacheEntry).to.have.been.calledWith({ cacheKey, cache });
             expect(replyStub).to.have.been.calledWith('Entry successfully deleted');
             expect(codeSpy).to.have.been.calledWith(200);
           });
@@ -57,7 +60,7 @@ describe('Unit | Controller | CacheController', () => {
       it('should reply with not found', () => {
         // given
         const numberOfDeletedKeys = 0;
-        cache.del.resolves(numberOfDeletedKeys);
+        usecases.removeCacheEntry.resolves(numberOfDeletedKeys);
 
         // when
         const promise = CacheController.removeCacheEntry(request, replyStub);
@@ -76,7 +79,7 @@ describe('Unit | Controller | CacheController', () => {
       it('should reply with error', () => {
         // given
         const cacheError = new Error('Cache Error');
-        cache.del.rejects(cacheError);
+        usecases.removeCacheEntry.rejects(cacheError);
 
         // when
         const promise = CacheController.removeCacheEntry(request, replyStub);
@@ -96,18 +99,18 @@ describe('Unit | Controller | CacheController', () => {
     const request = {};
 
     beforeEach(() => {
-      sinon.stub(cache, 'flushAll');
+      sinon.stub(usecases, 'removeAllCacheEntries');
     });
 
     afterEach(() => {
-      cache.flushAll.restore();
+      usecases.removeAllCacheEntries.restore();
     });
 
     context('when cache deletion succeed', () => {
 
       it('should reply with success', () => {
         // given
-        cache.flushAll.resolves();
+        usecases.removeAllCacheEntries.resolves();
 
         // when
         const promise = CacheController.removeAllCacheEntries(request, replyStub);
@@ -115,6 +118,7 @@ describe('Unit | Controller | CacheController', () => {
         // Then
         return expect(promise).to.have.been.fulfilled
           .then(() => {
+            expect(usecases.removeAllCacheEntries).to.have.been.calledWith({ cache });
             expect(replyStub).to.have.been.calledWith('Entries successfully deleted');
             expect(codeSpy).to.have.been.calledWith(200);
           });
@@ -126,7 +130,7 @@ describe('Unit | Controller | CacheController', () => {
       it('should reply with server error', () => {
         // given
         const cacheError = new Error('Cache Error');
-        cache.flushAll.rejects(cacheError);
+        usecases.removeAllCacheEntries.rejects(cacheError);
 
         // when
         const promise = CacheController.removeAllCacheEntries(request, replyStub);
