@@ -1,39 +1,70 @@
-# Javascript Node CircleCI 2.0 configuration file
-#
-# Check https://circleci.com/docs/2.0/language-javascript/ for more details
-#
+---
 version: 2
+
 jobs:
   build:
     docker:
-      # specify the version you desire here
       - image: circleci/node:7.10.1-browsers
-
-      # Specify service dependencies here if necessary
-      # CircleCI maintains a library of pre-built images
-      # documented at https://circleci.com/docs/2.0/circleci-images/
-      # - image: circleci/mongo:3.4.4
-
-    working_directory: ~/repo
-
+    working_directory: ~/admin
     steps:
       - checkout
-
-      # Download and cache dependencies
-      - restore_cache:
-          keys:
-          - v1-dependencies-{{ checksum "package.json" }}
-          # fallback to using the latest cache if no exact match is found
-          - v1-dependencies-
-
       - run: yarn install
-
+      - run: echo "${CIRCLE_BRANCH}_${CIRCLE_SHA1}" > .circle-cache-key
       - save_cache:
+          key: v1-pix-admin-{{ checksum ".circle-cache-key" }}
           paths:
-            - node_modules
-          key: v1-dependencies-{{ checksum "package.json" }}
+            - ~/admin
 
-      # run tests!
+  test:
+    docker:
+      - image: circleci/node:7.10.1-browsers
+    working_directory: ~/admin
+    steps:
+      - run: echo "${CIRCLE_BRANCH}_${CIRCLE_SHA1}" > .circle-cache-key
+      - restore_cache:
+          key: v1-pix-admin-{{ checksum ".circle-cache-key" }}
       - run: yarn test
 
+  deploy:
+    docker:
+      - image: circleci/node:7.10.1-browsers
+    working_directory: ~/admin
+    steps:
+      - run: echo "${CIRCLE_BRANCH}_${CIRCLE_SHA1}" > .circle-cache-key
+      - restore_cache:
+          key: v1-pix-admin-{{ checksum ".circle-cache-key" }}
+      - add_ssh_keys:
+          fingerprints:
+            - "d8:07:94:de:70:24:96:32:7f:e0:ac:e6:80:dd:0e:9a"
+      - run: |
+          mkdir ~/.ssh
+          ssh-keyscan scalingo.com > ~/.ssh/known_hosts
+      - run: |
+          git config user.email "$GITHUB_EMAIL"
+          git config user.name "$GITHUB_NAME"
+      - deploy:
+          command: |
+            if [ "${CIRCLE_BRANCH}" == "master" ]; then
+              git remote add scalingo git@scalingo.com:pix-admin.git
+              git push scalingo master:master
+            elif [ "${CIRCLE_BRANCH}" == "jury" ]; then
+              git remote add scalingo git@scalingo.com:pix-admin-jury.git
+              git push scalingo jury:master
+            fi
 
+workflows:
+  version: 2
+  build_test_and_deploy:
+    jobs:
+      - build
+      - test:
+          requires:
+            - build
+      - deploy:
+          requires:
+            - test
+          filters:
+            branches:
+              only:
+                - master
+                - jury
