@@ -26,9 +26,9 @@ class RedisCache {
 
   del(key) {
     return new Promise((resolve, reject) => {
-      this._client.del(key, (error) => {
+      this._client.del(key, (error, numberOfDeletedKeys) => {
         if (error) return reject(error);
-        return resolve();
+        return resolve(numberOfDeletedKeys);
       });
     });
   }

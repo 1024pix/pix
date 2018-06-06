@@ -33,11 +33,12 @@ describe('Unit | Controller | CacheController', () => {
       cache.del.restore();
     });
 
-    context('when cache deletion succeed', () => {
+    context('when the cache key exists', () => {
 
       it('should reply with success', () => {
         // given
-        cache.del.resolves();
+        const numberOfDeletedKeys = 1;
+        cache.del.resolves(numberOfDeletedKeys);
 
         // when
         const promise = CacheController.removeCacheEntry(request, replyStub);
@@ -51,11 +52,12 @@ describe('Unit | Controller | CacheController', () => {
       });
     });
 
-    context('when cache deletion fails', () => {
+    context('when the cache key does not exist', () => {
 
-      it('should reply with error', () => {
+      it('should reply with not found', () => {
         // given
-        cache.del.rejects();
+        const numberOfDeletedKeys = 0;
+        cache.del.resolves(numberOfDeletedKeys);
 
         // when
         const promise = CacheController.removeCacheEntry(request, replyStub);
@@ -63,8 +65,27 @@ describe('Unit | Controller | CacheController', () => {
         // Then
         return expect(promise).to.have.been.fulfilled
           .then(() => {
-            expect(replyStub).to.have.been.calledWith('Entry key is not found');
+            expect(replyStub).to.have.been.calledWith('Entry not found');
             expect(codeSpy).to.have.been.calledWith(404);
+          });
+      });
+    });
+
+    context('when cache deletion fails', () => {
+
+      it('should reply with error', () => {
+        // given
+        const cacheError = new Error('Cache Error');
+        cache.del.rejects(cacheError);
+
+        // when
+        const promise = CacheController.removeCacheEntry(request, replyStub);
+
+        // Then
+        return expect(promise).to.have.been.fulfilled
+          .then(() => {
+            expect(replyStub).to.have.been.calledWith(cacheError);
+            expect(codeSpy).to.have.been.calledWith(500);
           });
       });
     });
@@ -104,7 +125,8 @@ describe('Unit | Controller | CacheController', () => {
 
       it('should reply with server error', () => {
         // given
-        cache.flushAll.rejects();
+        const cacheError = new Error('Cache Error');
+        cache.flushAll.rejects(cacheError);
 
         // when
         const promise = CacheController.removeAllCacheEntries(request, replyStub);
@@ -112,7 +134,7 @@ describe('Unit | Controller | CacheController', () => {
         // Then
         return expect(promise).to.have.been.fulfilled
           .then(() => {
-            expect(replyStub).to.have.been.calledWith('Something went wrong');
+            expect(replyStub).to.have.been.calledWith(cacheError);
             expect(codeSpy).to.have.been.calledWith(500);
           });
       });
