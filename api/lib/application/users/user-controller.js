@@ -57,6 +57,18 @@ module.exports = {
       });
   },
 
+  getAuthenticatedUser(request, reply) {
+    const userId = request.auth.credentials.userId;
+    return usecases.getUser(userId)
+      .then((foundUser) => {
+        return reply(userSerializer.serialize(foundUser)).code(200);
+      })
+      .catch((err) => {
+        logger.error(err);
+        return _replyErrorWithMessage(reply, 'Une erreur est survenue lors de la récupération de l\'utilisateur courant', 500);
+      });
+  },
+
   // FIXME: Pas de tests ?!
   getAuthenticatedUserProfile(request, reply) {
     const token = tokenService.extractTokenFromAuthChain(request.headers.authorization);

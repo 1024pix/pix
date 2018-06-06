@@ -1,4 +1,4 @@
-const { sinon, expect } = require('../../../test-helper');
+const { sinon, expect, factory } = require('../../../test-helper');
 
 const Boom = require('boom');
 
@@ -503,5 +503,92 @@ describe('Unit | Controller | user-controller', () => {
         });
       });
     });
+  });
+
+  describe('#getAuthenticatedUser', () => {
+
+    let sandbox;
+    let userId;
+    let codeStub;
+    let replyStub;
+    let request;
+
+    beforeEach(() => {
+      userId = 72;
+      request = {
+        auth: {
+          credentials: {
+            userId
+          }
+        }
+      };
+
+      sandbox = sinon.sandbox.create();
+      codeStub = sandbox.stub();
+      replyStub = sandbox.stub().returns({ code: codeStub });
+      sandbox.stub(usecases, 'getUser').resolves();
+      sandbox.stub(userSerializer, 'serialize');
+    });
+
+    afterEach(() => {
+      sandbox.restore();
+    });
+
+    it('should retrieve user informations from user Id', () => {
+      // when
+      const promise = userController.getAuthenticatedUser(request, replyStub);
+
+      // then
+      return promise.then(() => {
+        expect(usecases.getUser).to.have.been.calledWith(userId);
+      });
+    });
+
+    it('should serialize the authenticated user', () => {
+      // given
+      const foundUser = factory.buildUser();
+      usecases.getUser.resolves(foundUser);
+
+      // when
+      const promise = userController.getAuthenticatedUser(request, replyStub);
+
+      // then
+      return promise.then(() => {
+        expect(userSerializer.serialize).to.have.been.calledWith(foundUser);
+      });
+    });
+
+    it('should reply a serialized user', () => {
+      // given
+      usecases.getUser.resolves(factory.buildUser({
+        id: 72,
+        firstName: 'Jeanne',
+        lastName: 'Bonnat',
+        email: 'jeanne.bonnat@gmail.com',
+        cgu: true,
+      }));
+      const serializedUser = {
+        data: {
+          type: 'users',
+          id: 72,
+          attributes: {
+            'first-name': 'Jeanne',
+            'last-name': 'Bonnat',
+            'email': 'jeanne.bonnat@gmail.com',
+            'cgu': true
+          }
+        }
+      };
+      userSerializer.serialize.returns(serializedUser);
+
+      // when
+      const promise = userController.getAuthenticatedUser(request, replyStub);
+
+      // then
+      return promise.then(() => {
+        expect(replyStub).to.have.been.calledWith(serializedUser);
+      });
+    });
+
   });
 });
