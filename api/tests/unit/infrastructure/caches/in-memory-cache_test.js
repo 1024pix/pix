@@ -149,25 +149,14 @@ describe('Unit | Infrastructure | Cache | in-memory-cache', () => {
     });
 
     it('should resolve', () => {
-      // given
-      cache.flushAll.yields(NO_ERROR);
-
       // when
       const promise = inMemoryCache.flushAll();
 
       // then
-      return expect(promise).to.have.been.fulfilled;
-    });
-
-    it('should reject when the Node cache throws an error', () => {
-      // given
-      cache.flushAll.yields(NODE_CACHE_ERROR);
-
-      // when
-      const promise = inMemoryCache.flushAll();
-
-      // then
-      return expect(promise).to.have.been.rejectedWith(NODE_CACHE_ERROR);
+      return expect(promise).to.have.been.fulfilled
+        .then(() => {
+          expect(cache.flushAll).to.have.been.called;
+        });
     });
   });
 });
