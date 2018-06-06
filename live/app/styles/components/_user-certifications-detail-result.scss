@@ -8,7 +8,12 @@
   display: flex;
   flex-wrap: wrap;
   flex-direct: column;
-  padding-top: 5rem;
+
+  color: $charcoal-grey;
+  font-family: $font-lato;
+  font-size: 16px;
+  line-height: 22px;
+
 
   @include device-is('desktop') {
     width: 30%;
@@ -48,7 +53,7 @@
 }
 
 .user-certifications-detail-result__pix-certified {
-  color: #4A4A4A;
+  color: $tundora-grey;
   font-family: $font-lato;
   margin-top: 25px;
   font-size: 23.04px;
@@ -67,11 +72,8 @@
 }
 
 .user-certifications-detail-result__text-pix-certified {
-  color: #3E4149;	font-family: Lato;	font-size: 16px;	line-height: 22px;
   margin-left: 20px;
-
 }
-
 
 .user-certifications-detail-result__title-comment-jury {
   color: #7D808A;
@@ -79,11 +81,4 @@
   font-size: 14px;
   font-weight: 500;
   line-height: 16px;
-}
-
-.user-certifications-detail-result__comment-jury{
-  color: #3E4149;
-  font-family: Lato;
-  font-size: 16px;
-  line-height: 22px;
 }
