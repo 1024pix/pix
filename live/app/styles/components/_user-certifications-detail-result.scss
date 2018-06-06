@@ -1,21 +1,17 @@
 .user-certifications-detail-result {
   font-family: $font-lato;
-  display: flex;
-  flex-direct: column;
+  background-color: $white;
 
   margin-top: 30px;
-  background-color: $white;
-  padding: 20px;
+  padding: 30px;
+
   display: flex;
-  flex-flow: row;
   flex-wrap: wrap;
-  justify-content: center;
-
+  flex-direct: column;
   padding-top: 5rem;
-  @include device-is('desktop') {
-    justify-content: flex-start;
-    width: 30%;
 
+  @include device-is('desktop') {
+    width: 30%;
   }
 }
 
@@ -23,7 +19,6 @@
   margin-bottom: 20px;
   width: 250px;
 }
-
 
 .user-certifications-detail-result__badge-pix-score{
   width: 80px;
@@ -65,13 +60,14 @@
 .user-certifications-detail-result__separation{
   clear: both;
   position: absolute;
-  height: 110px;
+  height: 105px;
+  margin-top: 5px;
   width : 3px;
   background: black;
 }
 
 .user-certifications-detail-result__text-pix-certified {
-  height: 110px;	width: 294.6px;	color: #3E4149;	font-family: Lato;	font-size: 16px;	line-height: 22px;
+  color: #3E4149;	font-family: Lato;	font-size: 16px;	line-height: 22px;
   margin-left: 20px;
 
 }
