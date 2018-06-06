@@ -4,6 +4,7 @@ import AuthenticatedRouteMixin from 'ember-simple-auth/mixins/authenticated-rout
 export default Route.extend(AuthenticatedRouteMixin, {
 
   authenticationRoute: '/connexion',
+
   actions: {
     error(error) {
       if (error.errors[0].status === '403') {

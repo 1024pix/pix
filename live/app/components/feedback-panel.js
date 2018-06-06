@@ -20,7 +20,7 @@ export default Component.extend({
   challenge: null,
   collapsible: true,
 
-  _status: null,
+  _status: FORM_CLOSED,
   _email: null,
   _content: null,
   _error: null,

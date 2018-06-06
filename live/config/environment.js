@@ -1,28 +1,23 @@
-/* eslint-env node */
 'use strict';
 
 module.exports = function(environment) {
-  const ENV = {
-
+  let ENV = {
     modulePrefix: 'pix-live',
     environment: environment,
     rootURL: '/',
     locationType: 'auto',
     EmberENV: {
-
-      // XXX because of a deprecation notice in the console
-      EXTEND_PROTOTYPES: {
-        Date: false
-      },
       FEATURES: {
         // Here you can enable experimental features on an ember canary build
         // e.g. 'with-controller': true
       },
-      useDelay: true
+      EXTEND_PROTOTYPES: {
+        // Prevent Ember Data from overriding Date.parse.
+        Date: false
+      }
     },
 
     APP: {
-
       // Here you can pass flags/options to your application instance
       // when it is created
       API_HOST: '',
@@ -34,7 +29,7 @@ module.exports = function(environment) {
       LOAD_EXTERNAL_SCRIPT: true,
       GOOGLE_RECAPTCHA_KEY: '6LdPdiIUAAAAADhuSc8524XPDWVynfmcmHjaoSRO',
       SCROLL_DURATION: 800,
-
+      useDelay: true,
       NUMBER_OF_CHALLENGE_BETWEEN_TWO_CHECKPOINTS_IN_SMART_PLACEMENT: 5
     },
 
@@ -73,7 +68,6 @@ module.exports = function(environment) {
   };
 
   if (environment === 'development') {
-    // LOG
     ENV.APP.LOG_RESOLVER = false;
     ENV.APP.LOG_ACTIVE_GENERATION = false;
     ENV.APP.LOG_TRANSITIONS = false;
@@ -85,8 +79,6 @@ module.exports = function(environment) {
   }
 
   if (environment === 'test') {
-    ENV.EmberENV.useDelay = false;
-
     // Testem prefers this...
     ENV.locationType = 'none';
 
@@ -95,6 +87,8 @@ module.exports = function(environment) {
     ENV.APP.LOG_VIEW_LOOKUPS = false;
 
     ENV.APP.rootElement = '#ember-testing';
+    ENV.APP.autoboot = false;
+
     ENV.googleFonts = null;
     ENV.APP.API_HOST = 'http://localhost:3000';
     ENV.APP.isChallengeTimerEnable = false;
@@ -103,6 +97,7 @@ module.exports = function(environment) {
     ENV.APP.isTimerCountdownEnabled = false;
     ENV.APP.isMessageStatusTogglingEnabled = false;
     ENV.APP.LOAD_EXTERNAL_SCRIPT = false;
+    ENV.APP.useDelay = false;
   }
 
   if (environment === 'integration') {
