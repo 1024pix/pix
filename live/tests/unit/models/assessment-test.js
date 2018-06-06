@@ -4,6 +4,8 @@ import { describe, it } from 'mocha';
 import { setupModelTest } from 'ember-mocha';
 import { isArray } from '@ember/array';
 
+import _ from 'lodash';
+
 const SMART_PLACEMENT_TYPE = 'SMART_PLACEMENT';
 
 describe('Unit | Model | Assessment', function() {
@@ -177,10 +179,7 @@ describe('Unit | Model | Assessment', function() {
         run(() => {
           // given
           const store = this.store();
-          const answers = [
-            store.createRecord('answer', {}),
-            store.createRecord('answer', {}),
-          ];
+          const answers = _.times(2, () => store.createRecord('answer', {}));
           const assessment = store.createRecord('assessment', { answers });
 
           // when
@@ -188,6 +187,21 @@ describe('Unit | Model | Assessment', function() {
 
           // then
           expect(result).to.have.property('currentStep', 3);
+        });
+      });
+
+      it('should reset to 1 at the 5th answer when the type is SMART_PLACEMENT', function() {
+        run(() => {
+          // given
+          const store = this.store();
+          const answers = _.times(5, () => store.createRecord('answer'));
+          const assessment = store.createRecord('assessment', { answers, type: SMART_PLACEMENT_TYPE });
+
+          // when
+          const result = assessment.get('progress');
+
+          // then
+          expect(result).to.have.property('currentStep', 1);
         });
       });
     });
@@ -232,10 +246,11 @@ describe('Unit | Model | Assessment', function() {
       it('should be the completion percentage of the two other properties', function() {
         run(() => {
           // given
+          const nbChallenges = 5;
           const store = this.store();
-          const course = store.createRecord('course', { nbChallenges: 5 });
+          const course = store.createRecord('course', { nbChallenges });
           const assessment = store.createRecord('assessment', { course });
-          const expectedCompletionPercentage = 1 / 5 * 100; // 20%
+          const expectedCompletionPercentage = 1 / nbChallenges * 100;
 
           // when
           const result = assessment.get('progress');

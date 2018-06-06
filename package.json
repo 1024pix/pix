@@ -48,6 +48,7 @@
     "start:live": "cd live && npx ember serve --proxy",
     "start": "run-p start:api start:live",
     "test:api": "cd api && npm run lint && npm test",
+    "test:api:debug": "cd api && npm run test:api:debug",
     "test:live": "cd live && npm test",
     "test": "npm run test:api && npm run test:live",
     "coverage:clean": "rm -rf ./coverage",
