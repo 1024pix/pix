@@ -26,20 +26,16 @@ class InMemoryCache {
 
   del(key) {
     return new Promise((resolve, reject) => {
-      this._cache.del(key, (error) => {
+      this._cache.del(key, (error, numberOfDeletedKeys) => {
         if (error) return reject(error);
-        return resolve();
+        return resolve(numberOfDeletedKeys);
       });
     });
   }
 
   flushAll() {
-    return new Promise((resolve, reject) => {
-      this._cache.flushAll((error) => {
-        if (error) return reject(error);
-        return resolve();
-      });
-    });
+    this._cache.flushAll();
+    return Promise.resolve();
   }
 }
 
