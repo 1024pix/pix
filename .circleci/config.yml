@@ -37,7 +37,6 @@ jobs:
           fingerprints:
             - "d8:07:94:de:70:24:96:32:7f:e0:ac:e6:80:dd:0e:9a"
       - run: |
-          mkdir ~/.ssh
           ssh-keyscan scalingo.com > ~/.ssh/known_hosts
       - run: |
           git config user.email "$GITHUB_EMAIL"
