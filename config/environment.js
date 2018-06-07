@@ -69,7 +69,7 @@ module.exports = function(environment) {
   if (environment === 'production') {
     // here you can enable a production-specific feature
     ENV.fastboot = {
-      hostWhitelist: ['pix-admin.scalingo.io', 'admin.pix.fr']
+      hostWhitelist: ['pix-admin-jury.scalingo.io', 'pix-admin.scalingo.io', 'admin.pix.fr']
     };
     ENV.apiHost = 'https://pix.beta.gouv.fr/api';
   }
