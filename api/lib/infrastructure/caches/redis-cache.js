@@ -26,16 +26,16 @@ class RedisCache {
 
   del(key) {
     return new Promise((resolve, reject) => {
-      this._client.del(key, (error) => {
+      this._client.del(key, (error, numberOfDeletedKeys) => {
         if (error) return reject(error);
-        return resolve();
+        return resolve(numberOfDeletedKeys);
       });
     });
   }
 
   flushAll() {
     return new Promise((resolve, reject) => {
-      this._client.flushAll((error) => {
+      this._client.flushall((error) => {
         if (error) return reject(error);
         return resolve();
       });

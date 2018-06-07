@@ -1,69 +1,143 @@
 const { expect, sinon } = require('../../../test-helper');
+const usecases = require('../../../../lib/domain/usecases');
 const cache = require('../../../../lib/infrastructure/caches/cache');
 const CacheController = require('../../../../lib/application/cache/cache-controller');
 
 describe('Unit | Controller | CacheController', () => {
 
+  const replyStub = sinon.stub();
+  const codeSpy = sinon.spy();
+
+  beforeEach(() => {
+    replyStub.returns({
+      code: codeSpy
+    });
+  });
+
+  afterEach(() => {
+    replyStub.reset();
+    codeSpy.resetHistory();
+  });
+
   describe('#removeCacheEntry', () => {
     const request = {
-      headers: { authorization: 'INVALID_TOKEN' },
-      payload: {
-        'cache-key': 'test-cache-key'
+      params: {
+        cachekey: 'test-cache-key'
       }
     };
 
-    const replyStub = sinon.stub();
-    const codeSpy = sinon.spy();
-
     beforeEach(() => {
-      sinon.stub(cache, 'del');
-      replyStub.returns({
-        code: codeSpy
-      });
+      sinon.stub(usecases, 'removeCacheEntry');
     });
 
     afterEach(() => {
-      cache.del.restore();
-      replyStub.reset();
+      usecases.removeCacheEntry.restore();
     });
 
-    it('should call reply', () => {
+    it('should reply with 204 when the cache key exists', () => {
+      // given
+      const cacheKey = request.params.cachekey;
+      const numberOfDeletedKeys = 1;
+      usecases.removeCacheEntry.resolves(numberOfDeletedKeys);
+
       // when
-      CacheController.removeCacheEntry(request, replyStub);
-      // then
-      sinon.assert.calledOnce(replyStub);
+      const promise = CacheController.removeCacheEntry(request, replyStub);
+
+      // Then
+      return expect(promise).to.have.been.fulfilled
+        .then(() => {
+          expect(usecases.removeCacheEntry).to.have.been.calledWith({ cacheKey, cache });
+          expect(replyStub).to.have.been.calledWith();
+          expect(codeSpy).to.have.been.calledWith(204);
+        });
     });
 
-    describe('Success cases', () => {
+    it('should reply with 204 when the cache key does not exist', () => {
+      // given
+      const numberOfDeletedKeys = 0;
+      usecases.removeCacheEntry.resolves(numberOfDeletedKeys);
 
-      it('should delete cache entry with key provided', () => {
+      // when
+      const promise = CacheController.removeCacheEntry(request, replyStub);
+
+      // Then
+      return expect(promise).to.have.been.fulfilled
+        .then(() => {
+          expect(replyStub).to.have.been.calledWith();
+          expect(codeSpy).to.have.been.calledWith(204);
+        });
+    });
+
+    context('when cache deletion fails', () => {
+
+      it('should reply with a JSON API error', () => {
         // given
-        const countOfDeletedEntries = 1;
-        cache.del.returns(countOfDeletedEntries);
-        // when
-        CacheController.removeCacheEntry(request, replyStub);
+        const cacheError = new Error('Cache Error');
+        usecases.removeCacheEntry.rejects(cacheError);
 
-        // then
-        sinon.assert.calledWith(codeSpy, 200);
-        sinon.assert.calledWith(cache.del, 'test-cache-key');
-        expect(replyStub.getCall(0).args[0]).to.be.equal('Entry successfully deleted');
+        // when
+        const promise = CacheController.removeCacheEntry(request, replyStub);
+
+        // Then
+        return expect(promise).to.have.been.fulfilled
+          .then(() => {
+            const expectedJsonApiError = {
+              errors: [{ code: '500', detail: 'Cache Error', title: 'Internal Server Error' }]
+            };
+            expect(replyStub).to.have.been.calledWith(expectedJsonApiError);
+            expect(codeSpy).to.have.been.calledWith(500);
+          });
       });
-
     });
 
-    describe('Error cases', () => {
+  });
 
-      it('should reply with Error, when cache key is not found', () => {
+  describe('#removeAllCacheEntries', () => {
+    const request = {};
+
+    beforeEach(() => {
+      sinon.stub(usecases, 'removeAllCacheEntries');
+    });
+
+    afterEach(() => {
+      usecases.removeAllCacheEntries.restore();
+    });
+
+    it('should reply with 204 when there is no error', () => {
+      // given
+      usecases.removeAllCacheEntries.resolves();
+
+      // when
+      const promise = CacheController.removeAllCacheEntries(request, replyStub);
+
+      // Then
+      return expect(promise).to.have.been.fulfilled
+        .then(() => {
+          expect(usecases.removeAllCacheEntries).to.have.been.calledWith({ cache });
+          expect(replyStub).to.have.been.calledWith();
+          expect(codeSpy).to.have.been.calledWith(204);
+        });
+    });
+
+    context('when cache deletion fails', () => {
+
+      it('should reply with server error', () => {
         // given
-        const noDeletedEntries = 0;
-        cache.del.returns(noDeletedEntries);
+        const cacheError = new Error('Cache Error');
+        usecases.removeAllCacheEntries.rejects(cacheError);
 
         // when
-        CacheController.removeCacheEntry(request, replyStub);
+        const promise = CacheController.removeAllCacheEntries(request, replyStub);
 
-        // The
-        expect(replyStub.getCall(0).args[0]).to.be.equal('Entry key is not found');
-        sinon.assert.calledWith(codeSpy, 404);
+        // Then
+        return expect(promise).to.have.been.fulfilled
+          .then(() => {
+            const expectedJsonApiError = {
+              errors: [{ code: '500', detail: 'Cache Error', title: 'Internal Server Error' }]
+            };
+            expect(replyStub).to.have.been.calledWith(expectedJsonApiError);
+            expect(codeSpy).to.have.been.calledWith(500);
+          });
       });
     });
 
