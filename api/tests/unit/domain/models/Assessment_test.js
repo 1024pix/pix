@@ -285,6 +285,41 @@ describe('Unit | Domain | Models | Assessment', () => {
     });
   });
 
+  describe('#isCertificationAssessment', () => {
+    it('should return true when the assessment is a CERTIFICATION', () => {
+      // given
+      const assessment = Assessment.fromAttributes({ type: 'CERTIFICATION' });
+
+      // when
+      const isCertificationAssessment = assessment.isCertificationAssessment();
+
+      // then
+      expect(isCertificationAssessment).to.be.true;
+    });
+
+    it('should return false when the assessment is not a CERTIFICATION', () => {
+      // given
+      const assessment = Assessment.fromAttributes({ type: 'PLACEMENT' });
+
+      // when
+      const isCertificationAssessment = assessment.isCertificationAssessment();
+
+      // then
+      expect(isCertificationAssessment).to.be.false;
+    });
+
+    it('should return false when the assessment has no type', () => {
+      // given
+      const assessment = Assessment.fromAttributes({});
+
+      // when
+      const isCertificationAssessment = assessment.isCertificationAssessment();
+
+      // then
+      expect(isCertificationAssessment).to.be.false;
+    });
+  });
+
   describe('#addAnswersWithTheirChallenge', () => {
     it('should add answers with their challenges at the assessment', () => {
       // given

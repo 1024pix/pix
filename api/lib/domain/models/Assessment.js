@@ -105,6 +105,10 @@ class Assessment {
     return this.type === type.SMARTPLACEMENT;
   }
 
+  isCertificationAssessment() {
+    return this.type === type.CERTIFICATION;
+  }
+
   addAnswersWithTheirChallenge(answers, challenges) {
     this.answers = answers;
     this.answers.forEach(answer => {
