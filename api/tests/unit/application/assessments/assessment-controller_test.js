@@ -3,6 +3,7 @@ const { sinon, expect } = require('../../../test-helper');
 const assessmentController = require('../../../../lib/application/assessments/assessment-controller');
 
 const assessmentService = require('../../../../lib/domain/services/assessment-service');
+const assessmentRepository = require('../../../../lib/infrastructure/repositories/assessment-repository');
 const assessmentSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/assessment-serializer');
 
 const logger = require('../../../../lib/infrastructure/logger');
@@ -90,24 +91,28 @@ describe('Unit | Controller | assessment-controller', function() {
 
   describe('#computeCompetenceMarksForAssessmentResult', () => {
 
+    const assessmentId = 256;
+
     beforeEach(() => {
       sinon.stub(assessmentService, 'computeMarks').resolves();
+      sinon.stub(assessmentRepository, 'getByCertificationCourseId').resolves({
+        id: assessmentId,
+        state: 'completed'
+      });
       sinon.stub(logger, 'error');
     });
 
     afterEach(() => {
       assessmentService.computeMarks.restore();
+      assessmentRepository.getByCertificationCourseId.restore();
       logger.error.restore();
     });
 
     it('should call the assessment service computing the competence marks for the given assessmentId and assessmentResultId', () => {
       // given
-      const assessmentId = 256;
-      const assessmentResultId = 367834;
       const request = {
         params: {
           assessmentId,
-          assessmentResultId
         }
       };
       const replyStub = sinon.stub();
@@ -117,7 +122,7 @@ describe('Unit | Controller | assessment-controller', function() {
 
       // then
       return promise.then(() => {
-        expect(assessmentService.computeMarks).to.have.been.calledWith(assessmentId, assessmentResultId);
+        expect(assessmentService.computeMarks).to.have.been.calledWith(assessmentId);
       });
     });
 
@@ -127,7 +132,6 @@ describe('Unit | Controller | assessment-controller', function() {
       const request = {
         params: {
           assessmentId: 10,
-          assessmentResultId: 20
         }
       };
 
@@ -146,7 +150,6 @@ describe('Unit | Controller | assessment-controller', function() {
       const request = {
         params: {
           assessmentId: 10,
-          assessmentResultId: 20
         }
       };
 
@@ -160,12 +163,9 @@ describe('Unit | Controller | assessment-controller', function() {
 
         // then
         return promise.then(() => {
-          expect(logger.error).to.have.been.calledWith(error);
           expect(replyStub).to.have.been.called;
         });
       });
-
     });
   });
-
 });

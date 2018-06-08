@@ -56,8 +56,8 @@ function evaluateFromAssessmentId(assessmentId) {
         assessmentService.getCompetenceMarks(assessment),
       ]);
     })
-    .then(([skills, marks]) => {
-      const { pixScore, level, status } = _getAssessmentResultEvaluations(marks, assessment.type);
+    .then(([skills, marksAndPercentage]) => {
+      const { pixScore, level, status } = _getAssessmentResultEvaluations(marksAndPercentage.competencesWithMark, assessment.type);
       const assessmentResult = new AssessmentResult({
         emitter: 'PIX-ALGO',
         commentForJury: 'Computed',
@@ -67,10 +67,19 @@ function evaluateFromAssessmentId(assessmentId) {
         assessmentId,
       });
       assessment.setCompleted();
+      if(assessment.isCertificationAssessment()) {
+        if(marksAndPercentage.percentageCorrectAnswers > 50 && pixScore < 1) {
+          assessmentResult.commentForJury = 'Possibly error in Computed Result';
+        }
+        if(marksAndPercentage.percentageCorrectAnswers < 50 && pixScore > 0) {
+          assessmentResult.commentForJury = 'Possibly error in Computed Result';
+        }
+
+      }
 
       return Promise.all([
         assessmentResultRepository.save(assessmentResult),
-        marks,
+        marksAndPercentage.competencesWithMark,
         skillService.saveAssessmentSkills(skills),
         assessmentRepository.save(assessment),
       ]);
