@@ -17,7 +17,7 @@ exports.register = function(server, options, next) {
     },
     {
       method: 'POST',
-      path: '/api/assessments/{assessmentId}/{assessmentResultId}',
+      path: '/api/assessments/{certificationId}',
       config: {
         pre: [{
           method: securityController.checkUserHasRolePixMaster,

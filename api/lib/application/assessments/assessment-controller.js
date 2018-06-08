@@ -142,13 +142,18 @@ module.exports = {
   },
 
   computeCompetenceMarksForAssessmentResult(request, reply) {
-    const { assessmentId, assessmentResultId } = request.params;
-
-    return assessmentService.computeMarks(assessmentId, assessmentResultId).then(() => {
-      reply();
-    }).catch(error => {
-      logger.error(error);
-      reply(Boom.teapot(error));
-    });
+    const { certificationId } = request.params;
+    return assessmentRepository.getByCertificationCourseId(certificationId)
+      .then((assessment) => {
+        if(assessment.state === 'completed') {
+          return assessmentService.computeMarks(assessment.id);
+        }
+        return Promise.resolve();
+      })
+      .then(() => {
+        reply('OK for '+certificationId);
+      }).catch(() => {
+        reply('ERROR FOR '+certificationId);
+      });
   }
 };

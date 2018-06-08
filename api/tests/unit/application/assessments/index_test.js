@@ -113,7 +113,7 @@ describe('Integration | Route | AssessmentRoute', () => {
     });
   });
 
-  describe('POST /api/assessments/{assessmentId}/{assessmentResultId}', () => {
+  describe('POST /api/assessments/{assessmentId}', () => {
 
     beforeEach(() => {
       assessmentController.computeCompetenceMarksForAssessmentResult.callsFake((request, reply) => reply('ok'));
@@ -124,7 +124,7 @@ describe('Integration | Route | AssessmentRoute', () => {
       securityController.checkUserHasRolePixMaster.callsFake((request, reply) => reply(true));
 
       // when/then
-      return _expectRouteToExist({ method: 'POST', url: '/api/assessments/135/531' });
+      return _expectRouteToExist({ method: 'POST', url: '/api/assessments/135' });
     });
 
     it('should fail if user has not right user role', () => {
@@ -132,7 +132,7 @@ describe('Integration | Route | AssessmentRoute', () => {
       securityController.checkUserHasRolePixMaster.callsFake((request, reply) => reply({ code: 401 }).code(401).takeover());
 
       // when
-      const promise = server.inject({ method: 'POST', url: '/api/assessments/135/531' });
+      const promise = server.inject({ method: 'POST', url: '/api/assessments/135' });
 
       // then
       return promise.then((res) => {

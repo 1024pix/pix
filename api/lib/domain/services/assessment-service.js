@@ -2,6 +2,7 @@ const courseRepository = require('../../infrastructure/repositories/course-repos
 const certificationCourseRepository = require('../../infrastructure/repositories/certification-course-repository');
 const answerRepository = require('../../infrastructure/repositories/answer-repository');
 const assessmentRepository = require('../../infrastructure/repositories/assessment-repository');
+const assessmentResultRepository = require('../../infrastructure/repositories/assessment-result-repository');
 const challengeRepository = require('../../infrastructure/repositories/challenge-repository');
 const skillRepository = require('../../infrastructure/repositories/skill-repository');
 const competenceRepository = require('../../infrastructure/repositories/competence-repository');
@@ -12,6 +13,7 @@ const certificationService = require('../services/certification-service');
 
 const CompetenceMark = require('../../domain/models/CompetenceMark');
 const Assessment = require('../../domain/models/Assessment');
+const AssessmentResult = require('../../domain/models/AssessmentResult');
 
 const _ = require('../../infrastructure/utils/lodash-utils');
 
@@ -171,22 +173,22 @@ function getCompetenceMarks(assessment) {
         competenceOfMark = competence;
         return this.getScoreAndLevel(assessment.id);
       }).then(({ estimatedLevel, pixScore }) =>{
-        return [
+        return { competencesWithMark: [
           new CompetenceMark({
             level: estimatedLevel,
             score: pixScore,
             area_code: competenceOfMark.area.code,
             competence_code: competenceOfMark.index
           })
-        ];
+        ] };
       });
   }
 
   if(this.isCertificationAssessment(assessment)) {
     return Promise
       .all([competenceRepository.list(), certificationService.calculateCertificationResultByAssessmentId(assessment.id)])
-      .then(([competences, { competencesWithMark }]) => {
-        return competencesWithMark.map((certifiedCompetence) => {
+      .then(([competences, { competencesWithMark, percentageCorrectAnswers }]) => {
+        const competencesWithMarkComputed = competencesWithMark.map((certifiedCompetence) => {
 
           const area_code = _(competences).find((competence) => {
             return competence.index === certifiedCompetence.index;
@@ -200,20 +202,41 @@ function getCompetenceMarks(assessment) {
           });
 
         });
+
+        return { competencesWithMark: competencesWithMarkComputed, percentageCorrectAnswers };
       });
   }
 
-  return [];
+  return { competencesWithMark: [] };
 }
 
-function computeMarks(assessmentId, assessmentResultId) {
-
+function computeMarks(assessmentIdForRecaculated) {
+  const assessmentId =assessmentIdForRecaculated;
+  let competencesAfterCalcul, competencesWithMarkAfterCalcul;
   return Promise
     .all([competenceRepository.list(), certificationService.calculateCertificationResultByAssessmentId(assessmentId)])
-    .then(([competences, { competencesWithMark }]) => {
-      const savedMarks = competencesWithMark.map((certifiedCompetence) => {
+    .then(([competences, { competencesWithMark, totalScore }]) => {
+      competencesAfterCalcul = competences;
+      competencesWithMarkAfterCalcul = competencesWithMark;
+      let status = 'validated';
+      if(totalScore < 1) {
+        status = 'rejected';
+      }
+      const assessmentResult = new AssessmentResult({
+        emitter: 'PIX-ALGO',
+        commentForJury: 'Re-Computed',
+        level: 0,
+        pixScore: totalScore,
+        status,
+        assessmentId,
+      });
 
-        const area_code = _(competences).find((competence) => {
+      return assessmentResultRepository.save(assessmentResult);
+    })
+    .then((assessmentResult) => {
+      const savedMarks = competencesWithMarkAfterCalcul.map((certifiedCompetence) => {
+
+        const area_code = _(competencesAfterCalcul).find((competence) => {
           return competence.index === certifiedCompetence.index;
         }).area.code;
 
@@ -222,7 +245,7 @@ function computeMarks(assessmentId, assessmentResultId) {
           score: certifiedCompetence.obtainedScore,
           area_code,
           competence_code: certifiedCompetence.index,
-          assessmentResultId: assessmentResultId
+          assessmentResultId: assessmentResult.id
         });
 
         return competenceMarkRepository.save(mark);

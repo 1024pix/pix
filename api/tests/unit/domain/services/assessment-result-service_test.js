@@ -137,7 +137,7 @@ describe('Unit | Domain | Services | assessment-results', () => {
       sandbox = sinon.sandbox.create();
 
       sandbox.stub(assessmentService, 'getSkills').resolves(evaluatedSkills);
-      sandbox.stub(assessmentService, 'getCompetenceMarks').resolves(competenceMarksForPlacement);
+      sandbox.stub(assessmentService, 'getCompetenceMarks').resolves({ competencesWithMark: competenceMarksForPlacement });
       sandbox.stub(assessmentRepository, 'save').resolves();
       sandbox.stub(assessmentResultRepository, 'save').resolves({ id: assessmentResultId });
       sandbox.stub(assessmentRepository, 'get').resolves(assessment);
@@ -245,7 +245,7 @@ describe('Unit | Domain | Services | assessment-results', () => {
     context('when the assessment is a PLACEMENT', () => {
 
       beforeEach(() => {
-        assessmentService.getCompetenceMarks.resolves(competenceMarksForPlacement);
+        assessmentService.getCompetenceMarks.resolves({ competencesWithMark: competenceMarksForPlacement });
 
       });
 
@@ -327,7 +327,7 @@ describe('Unit | Domain | Services | assessment-results', () => {
 
       beforeEach(() => {
         assessmentRepository.get.resolves(previewAssessment);
-        assessmentService.getCompetenceMarks.resolves([]);
+        assessmentService.getCompetenceMarks.resolves({ competencesWithMark:[] });
       });
 
       it('should try to save the related marks', () => {
@@ -355,7 +355,7 @@ describe('Unit | Domain | Services | assessment-results', () => {
           type: 'DEMO',
         });
         assessmentRepository.get.resolves(demoAssessment);
-        assessmentService.getCompetenceMarks.resolves([]);
+        assessmentService.getCompetenceMarks.resolves({ competencesWithMark:[] });
       });
 
       it('should not try to save the related marks', () => {
@@ -382,39 +382,6 @@ describe('Unit | Domain | Services | assessment-results', () => {
     context('when the assessment is a CERTIFICATION', () => {
 
       let clock;
-
-      const certificationResults = {
-        competencesWithCompetenceMark: [
-          {
-            index: '1.1',
-            id: 'competence_1',
-            name: 'Mener une recherche',
-            obtainedLevel: 0,
-            obtainedScore: 7,
-          }, {
-            index: '2.1',
-            id: 'competence_2',
-            name: 'Partager',
-            obtainedLevel: 2,
-            obtainedScore: 19,
-          }, {
-            index: '2.2',
-            id: 'competence_3',
-            name: 'Adapter',
-            obtainedLevel: -1,
-            obtainedScore: 0,
-          },
-          {
-            index: '3.1',
-            id: 'competence_4',
-            name: 'Va savoir',
-            obtainedLevel: 6,
-            obtainedScore: 52,
-          },
-        ],
-        totalScore: 78,
-      };
-
       let assessment;
 
       beforeEach(() => {
@@ -427,8 +394,7 @@ describe('Unit | Domain | Services | assessment-results', () => {
         });
 
         assessmentRepository.get.resolves(assessment);
-        certificationService.calculateCertificationResultByAssessmentId.resolves(certificationResults);
-        assessmentService.getCompetenceMarks.resolves(competenceMarksForCertification);
+        assessmentService.getCompetenceMarks.resolves({ competencesWithMark: competenceMarksForCertification });
 
         clock = sinon.useFakeTimers(new Date('2018-02-04T01:00:00.000+01:00'));
       });
@@ -549,6 +515,38 @@ describe('Unit | Domain | Services | assessment-results', () => {
           return expect(promise).to.be.rejectedWith(error);
         });
       });
+
+      context('when score is >1 and the percentage of correct answers is < 50%', () => {
+        it('should create a new assessment result with comment "Possibly error in Computed Result"', () => {
+          // given
+          assessmentService.getCompetenceMarks.resolves({
+            competencesWithMark: competenceMarksForCertification,
+            percentageCorrectAnswers: 20,
+          });
+
+          const sumOfCompetenceMarksScores = competenceMarksForCertification.reduce((sum, competenceMark) => {
+            return sum + competenceMark.score;
+          }, 0);
+          const assessmentResult = new AssessmentResult({
+            level: Math.floor(sumOfCompetenceMarksScores / 8),
+            pixScore: sumOfCompetenceMarksScores,
+            emitter: 'PIX-ALGO',
+            commentForJury: 'Possibly error in Computed Result',
+            status: 'validated',
+            assessmentId: assessmentId,
+          });
+
+          // when
+          const promise = service.evaluateFromAssessmentId(assessmentId);
+
+          // then
+          return promise.then(() => {
+            expect(assessmentResultRepository.save).to.have.been.calledWith(assessmentResult);
+          });
+        });
+
+      });
+
     });
   });
 
