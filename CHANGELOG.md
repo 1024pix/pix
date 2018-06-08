@@ -1,5 +1,17 @@
 # Pix Changelog
 
+## v1.51.0 (08/06/2018)
+
+- [#80](https://github.com/1024pix/pix/pull/80) [FEATURE] Implémentation de l'authentification sur pix-orga (api) (PO-18).
+- [#90](https://github.com/1024pix/pix/pull/90) [TECH] Ajout d'une fiche de poste (PF-229).
+- [#70](https://github.com/1024pix/pix/pull/70) [TECH] Mise en place d'un cache devant Airtable (PI-26).
+- [#84](https://github.com/1024pix/pix/pull/84) [TECH] Ajouter les RA en commentaire des issues Jira (PF-222).
+- [#88](https://github.com/1024pix/pix/pull/88) [TECH] Mise à jour des routes pour vider le cache (PF-226).
+- [#83](https://github.com/1024pix/pix/pull/83) [TECH] Montée de version de Ember.js de 2.18 vers 3.2 (PF-207).
+- [#81](https://github.com/1024pix/pix/pull/81) [TECH] Lance le linter avant chaque push (PF-205).
+- [#89](https://github.com/1024pix/pix/pull/89) [BUGFIX] Rétrogradation de Ember Data qui introduit une régression à partir de la version 3.1 (PF-207).
+- [#82](https://github.com/1024pix/pix/pull/82) [BUGFIX] Les skills doivent être comparés par noms (PF-103).
+
 ## v1.50.0 (31/05/2018) 
 
 - [#75](https://github.com/1024pix/pix/pull/75) [FEATURE] Ajout d'une page de résultats intermédiaires pour le smart random (PF-59).
