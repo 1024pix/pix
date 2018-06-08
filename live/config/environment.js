@@ -1,5 +1,6 @@
 'use strict';
 
+/* eslint max-statements: off */
 module.exports = function(environment) {
   let ENV = {
     modulePrefix: 'pix-live',

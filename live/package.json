@@ -17,6 +17,7 @@
     "start": "ember server",
     "dev": "ember server --proxy",
     "test": "ember test --reporter dot",
+    "test:watch": "ember test --reporter dot --serve",
     "lint": "./node_modules/.bin/eslint app mirage tests",
     "lint:fix": "npm run lint --fix",
     "lint:js": "eslint ./*.js app config lib server tests",
