@@ -11,8 +11,8 @@
 
   color: $charcoal-grey;
   font-family: $font-lato;
-  font-size: 16px;
-  line-height: 22px;
+  font-size: 2rem;
+  line-height: 3rem;
 
 
   @include device-is('desktop') {
@@ -26,13 +26,12 @@
 }
 
 .user-certifications-detail-result__badge-pix-score{
-  width: 80px;
-  height: 80px;
-  margin-left: 10%;
-  padding-top:25px;
+  width: 116px;
+  height: 116px;
+  padding-top: 38px;
   float: left;
 
-  background: url('/images/hexa-pix.svg') no-repeat;
+  background: url('/images/pix-pastille-certif.svg') no-repeat;
   background-size: cover;
 
   text-align: center;
@@ -43,7 +42,7 @@
     width: 45px;
     color: $tundora-grey;
     font-family: $font-lato;
-    font-size: 27.65px;
+    font-size: 3rem;
     font-weight: bold;
     letter-spacing: -0.86px;
     line-height: 33px;
@@ -55,11 +54,11 @@
 .user-certifications-detail-result__pix-certified {
   color: $tundora-grey;
   font-family: $font-lato;
-  margin-top: 25px;
-  font-size: 23.04px;
+  margin-top: 38px;
+  font-size: 2.5rem;
   font-weight: bold;
   line-height: 28px;
-  text-align: center;
+  text-align: right;
 }
 
 .user-certifications-detail-result__separation{
@@ -77,8 +76,8 @@
 
 .user-certifications-detail-result__title-comment-jury {
   color: #7D808A;
-  font-family: Raleway;
-  font-size: 14px;
+  font-family: $font-raleway;
+  font-size: 2rem;
   font-weight: 500;
-  line-height: 16px;
+  line-height: 2rem;
 }
