@@ -20,7 +20,7 @@ const reCaptchaValidator = require('../../infrastructure/validators/grecaptcha-v
 const Bookshelf = require('../../infrastructure/bookshelf');
 
 const logger = require('../../infrastructure/logger');
-const { PasswordResetDemandNotFoundError, InternalError, InvalidTokenError, EntityValidationError } = require('../../domain/errors');
+const { PasswordResetDemandNotFoundError, InternalError, InvalidTokenError, EntityValidationError, UserNotAuthorizedToAccessEntity } = require('../../domain/errors');
 
 module.exports = {
 
@@ -57,15 +57,27 @@ module.exports = {
       });
   },
 
-  getAuthenticatedUser(request, reply) {
-    const userId = request.auth.credentials.userId;
-    return usecases.getUser({ userId, userRepository })
+  getUser(request, reply) {
+    const requestedUserId = parseInt(request.params.id);
+    const authenticatedUserId = request.auth.credentials.userId;
+
+    return usecases.getUser({ authenticatedUserId, requestedUserId, userRepository })
       .then((foundUser) => {
         return reply(userSerializer.serialize(foundUser)).code(200);
       })
       .catch((err) => {
+
+        if (err instanceof UserNotAuthorizedToAccessEntity) {
+          const jsonAPIError = new JSONAPIError({
+            code: '403',
+            title: 'Forbidden Access',
+            detail: 'Vous n’avez pas accès à cet utilisateur',
+          });
+          return reply(jsonAPIError).code(403);
+        }
+
         logger.error(err);
-        return _replyErrorWithMessage(reply, 'Une erreur est survenue lors de la récupération de l\'utilisateur courant', 500);
+        return _replyErrorWithMessage(reply, 'Une erreur est survenue lors de la récupération de l\'utilisateur', 500);
       });
   },
 

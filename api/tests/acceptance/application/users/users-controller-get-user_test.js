@@ -2,15 +2,15 @@ const { expect, knex, generateValidRequestAuhorizationHeader } = require('../../
 const faker = require('faker');
 const server = require('../../../../server');
 
-describe('Acceptance | Controller | users-controller-get-authenticated-user', () => {
+describe('Acceptance | Controller | users-controller-get-user', () => {
 
   let options;
 
   beforeEach(() => {
     options = {
       method: 'GET',
-      url: '/api/users/me',
-      payload: {},
+      url: '/api/users/1234',
+      payload: { },
       headers: { authorization: generateValidRequestAuhorizationHeader() },
     };
   });

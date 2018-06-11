@@ -18,9 +18,9 @@ exports.register = function(server, options, next) {
     },
     {
       method: 'GET',
-      path: '/api/users/me',
+      path: '/api/users/{id}',
       config: {
-        handler: UserController.getAuthenticatedUser,
+        handler: UserController.getUser,
         tags: ['api']
       }
     },{
