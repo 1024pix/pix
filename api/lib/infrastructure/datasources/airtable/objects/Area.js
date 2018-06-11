@@ -5,7 +5,7 @@ class Area {
     name,
     title,
     competenceIds,
-  }) {
+  } = {}) {
     this.id = id;
     this.code = code;
     this.name = name;
