@@ -2,7 +2,6 @@ import { run } from '@ember/runloop';
 import { expect } from 'chai';
 import { describe, it } from 'mocha';
 import { setupModelTest } from 'ember-mocha';
-import { isArray } from '@ember/array';
 
 const SMART_PLACEMENT_TYPE = 'SMART_PLACEMENT';
 
