@@ -51,19 +51,19 @@ describe('Unit | Router | user-router', () => {
 
   });
 
-  describe('GET /api/users/me', function() {
+  describe('GET /api/users/{id}', function() {
 
     before(() => {
-      sinon.stub(UserController, 'getAuthenticatedUser').callsFake((request, reply) => reply('ok'));
+      sinon.stub(UserController, 'getUser').callsFake((request, reply) => reply('ok'));
     });
 
     after(() => {
-      UserController.getAuthenticatedUser.restore();
+      UserController.getUser.restore();
     });
 
     it('should exist', () => {
       // given
-      const options = { method: 'GET', url: '/api/users/me' };
+      const options = { method: 'GET', url: '/api/users/1234' };
 
       // when
       const promise = server.inject(options);

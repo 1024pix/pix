@@ -1,6 +1,7 @@
 const { expect, sinon, factory } = require('../../../test-helper');
 const usecases = require('../../../../lib/domain/usecases');
 const User = require('../../../../lib/domain/models/User');
+const { UserNotAuthorizedToAccessEntity } = require('../../../../lib/domain/errors');
 
 describe('Unit | Application | Use Case | get-user', () => {
 
@@ -18,9 +19,10 @@ describe('Unit | Application | Use Case | get-user', () => {
 
   it('should resolves with user when user is found', () => {
     // given
-    const userId = 1234;
+    const authenticatedUserId = 1234;
+    const requestedUserId = 1234;
     const foundUser = factory.buildUser({
-      id: userId,
+      id: requestedUserId,
       firstName: 'Dom',
       lastName: 'Juan',
       email: 'dom@juan.es',
@@ -29,7 +31,7 @@ describe('Unit | Application | Use Case | get-user', () => {
     userRepository.get.resolves(foundUser);
 
     // when
-    const promise = usecases.getUser({ userId, userRepository });
+    const promise = usecases.getUser({ authenticatedUserId, requestedUserId, userRepository });
 
     // then
     return promise.then((user) => {
@@ -40,6 +42,18 @@ describe('Unit | Application | Use Case | get-user', () => {
       expect(user.email).to.equal(foundUser.email);
       expect(user.cgu).to.equal(foundUser.cgu);
     });
+  });
+
+  it('should throw error if requested userId is different from authenticated userId', () => {
+    // given
+    const authenticatedUserId = 1234;
+    const requestedUserId = 4321;
+
+    // when
+    const promise = usecases.getUser({ authenticatedUserId, requestedUserId, userRepository });
+
+    // then
+    expect(promise).to.be.rejectedWith(UserNotAuthorizedToAccessEntity);
   });
 
 });

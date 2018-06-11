@@ -18,7 +18,7 @@ const userService = require('../../../../lib/domain/services/user-service');
 const reCaptchaValidator = require('../../../../lib/infrastructure/validators/grecaptcha-validator');
 const usecases = require('../../../../lib/domain/usecases');
 
-const { PasswordResetDemandNotFoundError, InternalError, EntityValidationError } = require('../../../../lib/domain/errors');
+const { PasswordResetDemandNotFoundError, InternalError, EntityValidationError, UserNotAuthorizedToAccessEntity } = require('../../../../lib/domain/errors');
 
 describe('Unit | Controller | user-controller', () => {
 
@@ -505,21 +505,25 @@ describe('Unit | Controller | user-controller', () => {
     });
   });
 
-  describe('#getAuthenticatedUser', () => {
+  describe('#getUser', () => {
 
     let sandbox;
-    let userId;
+    let requestedUserId;
+    let authenticatedUserId;
     let codeStub;
     let replyStub;
     let request;
 
     beforeEach(() => {
-      userId = 72;
+      authenticatedUserId = requestedUserId = 72;
       request = {
         auth: {
           credentials: {
-            userId
+            userId: authenticatedUserId
           }
+        },
+        params: {
+          id: requestedUserId
         }
       };
 
@@ -536,11 +540,11 @@ describe('Unit | Controller | user-controller', () => {
 
     it('should retrieve user informations from user Id', () => {
       // when
-      const promise = userController.getAuthenticatedUser(request, replyStub);
+      const promise = userController.getUser(request, replyStub);
 
       // then
       return promise.then(() => {
-        expect(usecases.getUser).to.have.been.calledWith({ userId, userRepository });
+        expect(usecases.getUser).to.have.been.calledWith({ authenticatedUserId, requestedUserId, userRepository });
       });
     });
 
@@ -550,11 +554,32 @@ describe('Unit | Controller | user-controller', () => {
       usecases.getUser.resolves(foundUser);
 
       // when
-      const promise = userController.getAuthenticatedUser(request, replyStub);
+      const promise = userController.getUser(request, replyStub);
 
       // then
       return promise.then(() => {
         expect(userSerializer.serialize).to.have.been.calledWith(foundUser);
+      });
+    });
+
+    it('should return 403 if authenticated user is not authorized to access requested user id', () => {
+      // given
+      const expectedError = {
+        errors: [{
+          code: '403',
+          detail: 'Vous n’avez pas accès à cet utilisateur',
+          title: 'Forbidden Access'
+        }]
+      };
+      usecases.getUser.rejects(new UserNotAuthorizedToAccessEntity());
+
+      // when
+      const promise = userController.getUser(request, replyStub);
+
+      // then
+      return promise.then(() => {
+        sinon.assert.calledWith(codeStub, 403);
+        sinon.assert.calledWith(replyStub, expectedError);
       });
     });
 
@@ -582,7 +607,7 @@ describe('Unit | Controller | user-controller', () => {
       userSerializer.serialize.returns(serializedUser);
 
       // when
-      const promise = userController.getAuthenticatedUser(request, replyStub);
+      const promise = userController.getUser(request, replyStub);
 
       // then
       return promise.then(() => {
