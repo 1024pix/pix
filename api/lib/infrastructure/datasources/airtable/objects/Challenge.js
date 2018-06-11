@@ -19,7 +19,7 @@ class Challenge {
     embedUrl,
     embedTitle,
     embedHeight,
-  }) {
+  } = {}) {
     this.id = id;
     this.instruction = instruction;
     this.proposals = proposals;
