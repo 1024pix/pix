@@ -12,7 +12,7 @@
 - [#83](https://github.com/1024pix/pix/pull/83) [TECH] Montée de version de Ember.js de 2.18 vers 3.2 (PF-207).
 - [#81](https://github.com/1024pix/pix/pull/81) [TECH] Lance le linter avant chaque push (PF-205).
 - [#89](https://github.com/1024pix/pix/pull/89) [BUGFIX] Rétrogradation de Ember Data qui introduit une régression à partir de la version 3.1 (PF-207).
-- [#82](https://github.com/1024pix/pix/pull/82) [BUGFIX] Les skills doivent être comparés par noms (PF-103).
+- [#82](https://github.com/1024pix/pix/pull/82) [BUGFIX] Les skills doivent être comparés par noms (PF-203).
 
 ## v1.50.0 (31/05/2018) 
 
