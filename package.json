@@ -45,7 +45,7 @@
     "install:live": "cd live && npm install",
     "postinstall": "npm run install:api && npm run install:live",
     "start:api": "cd api && npm run start:watch",
-    "start:live": "cd live && ember serve --proxy",
+    "start:live": "cd live && npx ember serve --proxy",
     "start": "run-p start:api start:live",
     "test:api": "cd api && npm run lint && npm test",
     "test:live": "cd live && npm test",
