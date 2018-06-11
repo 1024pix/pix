@@ -75,7 +75,7 @@ describe('Unit | Router | user-router', () => {
     });
   });
 
-  describe('GET /api/users/me/profile', function() {
+  describe('GET /api/users/me', function() {
 
     before(() => {
       sinon.stub(UserController, 'getAuthenticatedUserProfile').callsFake((request, reply) => reply('ok'));
@@ -86,7 +86,7 @@ describe('Unit | Router | user-router', () => {
     });
     it('should exist', () => {
       // given
-      const options = { method: 'GET', url: '/api/users/me/profile' };
+      const options = { method: 'GET', url: '/api/users/me' };
 
       // when
       const promise = server.inject(options);

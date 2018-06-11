@@ -36,7 +36,7 @@ describe('Acceptance | Controller | users-controller-get-profile', () => {
   beforeEach(() => {
     options = {
       method: 'GET',
-      url: '/api/users/me/profile',
+      url: '/api/users/me',
       payload: {},
       headers: { authorization: generateValidRequestAuhorizationHeader() },
     };
@@ -138,8 +138,7 @@ describe('Acceptance | Controller | users-controller-get-profile', () => {
         id: 'recAreaA',
         name: 'area-name-1'
       }
-    },
-    {
+    }, {
       id: 'recCompB',
       name: 'competence-name-2',
       index: '1.2',
@@ -250,5 +249,4 @@ describe('Acceptance | Controller | users-controller-get-profile', () => {
       });
     });
   });
-})
-;
+});
