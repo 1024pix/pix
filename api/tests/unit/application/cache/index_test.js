@@ -10,8 +10,9 @@ describe('Unit | Router | cache-router', () => {
 
   beforeEach(() => {
     sandbox = sinon.sandbox.create();
-    sandbox.stub(cacheController, 'removeCacheEntry').callsFake((request, reply) => reply('ok'));
-    sandbox.stub(cacheController, 'removeAllCacheEntries').callsFake((request, reply) => reply('ok'));
+    sandbox.stub(cacheController, 'removeCacheEntry').callsFake((request, reply) => reply().code(204));
+    sandbox.stub(cacheController, 'removeAllCacheEntries').callsFake((request, reply) => reply().code(204));
+    sandbox.stub(cacheController, 'preloadCacheEntries').callsFake((request, reply) => reply().code(204));
     sandbox.stub(securityController, 'checkUserHasRolePixMaster').callsFake((request, reply) => reply(true));
 
     server = new Hapi.Server();
@@ -37,7 +38,7 @@ describe('Unit | Router | cache-router', () => {
 
       // then
       return promise.then((res) => {
-        expect(res.statusCode).to.equal(200);
+        expect(res.statusCode).to.equal(204);
       });
     });
   });
@@ -56,7 +57,26 @@ describe('Unit | Router | cache-router', () => {
 
       // then
       return promise.then((res) => {
-        expect(res.statusCode).to.equal(200);
+        expect(res.statusCode).to.equal(204);
+      });
+    });
+  });
+
+  describe('PATCH /api/cache', function() {
+
+    it('should exist', () => {
+      // given
+      const options = {
+        method: 'PATCH',
+        url: '/api/cache'
+      };
+
+      // when
+      const promise = server.inject(options);
+
+      // then
+      return promise.then((res) => {
+        expect(res.statusCode).to.equal(204);
       });
     });
   });
