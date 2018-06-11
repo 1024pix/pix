@@ -1,9 +1,11 @@
 const { expect, sinon } = require('../../../test-helper');
 const usecases = require('../../../../lib/domain/usecases');
 const cache = require('../../../../lib/infrastructure/caches/cache');
-const CacheController = require('../../../../lib/application/cache/cache-controller');
+const preloader = require('../../../../lib/infrastructure/caches/preloader');
+const logger = require('../../../../lib/infrastructure/logger');
+const cacheController = require('../../../../lib/application/cache/cache-controller');
 
-describe('Unit | Controller | CacheController', () => {
+describe('Unit | Controller | cache-controller', () => {
 
   const replyStub = sinon.stub();
   const codeSpy = sinon.spy();
@@ -41,7 +43,7 @@ describe('Unit | Controller | CacheController', () => {
       usecases.removeCacheEntry.resolves(numberOfDeletedKeys);
 
       // when
-      const promise = CacheController.removeCacheEntry(request, replyStub);
+      const promise = cacheController.removeCacheEntry(request, replyStub);
 
       // Then
       return expect(promise).to.have.been.fulfilled
@@ -58,7 +60,7 @@ describe('Unit | Controller | CacheController', () => {
       usecases.removeCacheEntry.resolves(numberOfDeletedKeys);
 
       // when
-      const promise = CacheController.removeCacheEntry(request, replyStub);
+      const promise = cacheController.removeCacheEntry(request, replyStub);
 
       // Then
       return expect(promise).to.have.been.fulfilled
@@ -76,7 +78,7 @@ describe('Unit | Controller | CacheController', () => {
         usecases.removeCacheEntry.rejects(cacheError);
 
         // when
-        const promise = CacheController.removeCacheEntry(request, replyStub);
+        const promise = cacheController.removeCacheEntry(request, replyStub);
 
         // Then
         return expect(promise).to.have.been.fulfilled
@@ -108,7 +110,7 @@ describe('Unit | Controller | CacheController', () => {
       usecases.removeAllCacheEntries.resolves();
 
       // when
-      const promise = CacheController.removeAllCacheEntries(request, replyStub);
+      const promise = cacheController.removeAllCacheEntries(request, replyStub);
 
       // Then
       return expect(promise).to.have.been.fulfilled
@@ -127,7 +129,58 @@ describe('Unit | Controller | CacheController', () => {
         usecases.removeAllCacheEntries.rejects(cacheError);
 
         // when
-        const promise = CacheController.removeAllCacheEntries(request, replyStub);
+        const promise = cacheController.removeAllCacheEntries(request, replyStub);
+
+        // Then
+        return expect(promise).to.have.been.fulfilled
+          .then(() => {
+            const expectedJsonApiError = {
+              errors: [{ code: '500', detail: 'Cache Error', title: 'Internal Server Error' }]
+            };
+            expect(replyStub).to.have.been.calledWith(expectedJsonApiError);
+            expect(codeSpy).to.have.been.calledWith(500);
+          });
+      });
+    });
+
+  });
+
+  describe('#preloadCacheEntries', () => {
+    const request = {};
+
+    beforeEach(() => {
+      sinon.stub(usecases, 'preloadCacheEntries');
+    });
+
+    afterEach(() => {
+      usecases.preloadCacheEntries.restore();
+    });
+
+    it('should reply with 204 when there is no error', () => {
+      // given
+      usecases.preloadCacheEntries.resolves();
+
+      // when
+      const promise = cacheController.preloadCacheEntries(request, replyStub);
+
+      // Then
+      return expect(promise).to.have.been.fulfilled
+        .then(() => {
+          expect(usecases.preloadCacheEntries).to.have.been.calledWith({ preloader, logger });
+          expect(replyStub).to.have.been.calledWith();
+          expect(codeSpy).to.have.been.calledWith(204);
+        });
+    });
+
+    context('when cache preload fails', () => {
+
+      it('should reply with server error', () => {
+        // given
+        const cacheError = new Error('Cache Error');
+        usecases.preloadCacheEntries.rejects(cacheError);
+
+        // when
+        const promise = cacheController.preloadCacheEntries(request, replyStub);
 
         // Then
         return expect(promise).to.have.been.fulfilled
