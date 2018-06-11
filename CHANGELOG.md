@@ -6,6 +6,8 @@
 
 ## v1.51.0 (08/06/2018)
 
+
+- [#69](https://github.com/1024pix/pix/pull/69) [FEATURE] Ajout du simulateur embarqué pour les épreuves de type e-preuve (PF-38).
 - [#80](https://github.com/1024pix/pix/pull/80) [FEATURE] Implémentation de l'authentification sur pix-orga (api) (PO-18).
 - [#90](https://github.com/1024pix/pix/pull/90) [TECH] Ajout d'une fiche de poste (PF-229).
 - [#70](https://github.com/1024pix/pix/pull/70) [TECH] Mise en place d'un cache devant Airtable (PI-26).
