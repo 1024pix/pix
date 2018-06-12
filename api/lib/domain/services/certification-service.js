@@ -23,7 +23,7 @@ const assessmentResultRepository = require('../../infrastructure/repositories/as
 function _enhanceAnswersWithCompetenceId(listAnswers, listChallenges) {
   return _.map(listAnswers, (answer) => {
     const competence = listChallenges.find((challenge) => challenge.challengeId === answer.challengeId);
-
+    // DEBUG : et si on en trouve pas ???
     answer.competenceId = competence.competenceId;
     return answer;
   });
@@ -41,12 +41,12 @@ function _isQROCMdepPartially(challenge, answer) {
 
 function _numberOfCorrectAnswersPerCompetence(answersWithCompetences, competence) {
   const answerForCompetence = _.filter(answersWithCompetences, answer => answer.competenceId === competence.id);
-
+  // DEBUG : et si on ne trouve pas d'answers ???
   let nbOfCorrectAnswers = 0;
   answerForCompetence.forEach(answer => {
     const challenge = _.find(competence.challenges, challenge => challenge.id === answer.challengeId);
     const answerResult = answer.result;
-
+    // DEBUG : et si on le trouve pas ? Nombre de challenge dans competence.challenges
     if (competence.challenges.length < 3 && _isQROCMdepOk(challenge, answer)) {
       nbOfCorrectAnswers += 2;
     } else if (competence.challenges.length < 3 && _isQROCMdepPartially(challenge, answer)) {
@@ -75,7 +75,7 @@ function _getCertifiedLevel(numberOfCorrectAnswers, competence, reproductibility
   }
   if (reproductibilityRate < MINIMUM_REPRODUCTIBILITY_RATE_TO_BE_TRUSTED && numberOfCorrectAnswers === 2) {
     return competence.estimatedLevel - 1;
-  }
+  } // DEBUG : renforcer ici // DEBUG : ou est-ce qu'on gere quand on a 2 questions??
   return competence.estimatedLevel;
 }
 
@@ -135,6 +135,11 @@ function _getResult(listAnswers, listChallenges, listCompetences) {
     };
   }
 
+  const nbrChallengesFromProfile = listCompetences.reduce((value, competence) => value + competence.challenges.length, 0);
+  if(listChallenges.length != nbrChallengesFromProfile){
+    throw new Error('PostConditionFailed')
+  }
+
   const answersWithCompetences = _enhanceAnswersWithCompetenceId(listAnswers, listChallenges);
   const competencesWithMark = _getCompetencesWithCertifiedLevelAndScore(answersWithCompetences, listCompetences, reproductibilityRate);
   const scoreAfterRating = _getSumScoreFromCertifiedCompetences(competencesWithMark);
@@ -169,20 +174,21 @@ function _getCertificationResult(assessment) {
       startOfCertificationDate = assessment.createdAt;
       return Promise.all([answersByAssessments, certificationChallengesRepository.findByCertificationCourseId(assessment.courseId)]);
     })
-    .then(([answersByAssessments, certificationChallenges]) => {
+    .then(([answersByAssessments, certificationChallenges]) => { // TODO: vérif que les tableaux ont la même taille
       const userId = assessment.userId;
 
       return Promise.all([
         answersByAssessments,
         certificationChallenges,
-        userService.getProfileToCertify(userId, startOfCertificationDate),
+        userService.getProfileToCertify(userId, startOfCertificationDate), // TODO : une methode pour récup les AsseResultFinal avant une certaine date + recup challenges AirTable
         certificationCourseRepository.get(assessment.courseId),
         competenceRepository.find(),
       ]);
     })
     .then(([listAnswers, certificationChallenges, listCompetences, certificationCourse, competences]) => {
-      const testedCompetences = listCompetences.filter(competence => competence.challenges.length > 0);
-
+      const testedCompetences = listCompetences.filter(competence => competence.challenges.length > 0); // DEBUG : Doute ici si on vire pas des trucs
+      // TODO : On a les challenges par compétences, on peut vérifier ici qu'il y en a min deux à chaque fois + NE PAS UTILISER listcompetences pour les challenges
+      // DEBUG : Pas le meme nombre de challenge entre certificationChallenges et les challenges de listCompetences
       const result = _getResult(listAnswers, certificationChallenges, testedCompetences);
       // FIXME: Missing tests
       result.createdAt = startOfCertificationDate;

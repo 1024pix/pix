@@ -210,7 +210,7 @@ function getCompetenceMarks(assessment) {
   return { competencesWithMark: [] };
 }
 
-function computeMarks(assessmentIdForRecaculated) {
+function  computeMarks(assessmentIdForRecaculated) {
   const assessmentId =assessmentIdForRecaculated;
   let competencesAfterCalcul, competencesWithMarkAfterCalcul;
   return Promise
