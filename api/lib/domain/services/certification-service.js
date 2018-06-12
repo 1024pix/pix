@@ -136,8 +136,8 @@ function _getResult(listAnswers, listChallenges, listCompetences) {
   }
 
   const nbrChallengesFromProfile = listCompetences.reduce((value, competence) => value + competence.challenges.length, 0);
-  if(listChallenges.length != nbrChallengesFromProfile){
-    throw new Error('PostConditionFailed')
+  if(listChallenges.length != nbrChallengesFromProfile) {
+    throw new Error('PostConditionFailed');
   }
 
   const answersWithCompetences = _enhanceAnswersWithCompetenceId(listAnswers, listChallenges);
