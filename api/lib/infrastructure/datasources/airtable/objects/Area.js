@@ -21,8 +21,7 @@ class Area {
       title: airtableDomaineObject.get('Titre'),
       competenceIds: airtableDomaineObject.get('Competences (identifiants)'),
     });
-  };
-
+  }
 }
 
 module.exports = Area;
