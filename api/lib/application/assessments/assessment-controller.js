@@ -151,9 +151,13 @@ module.exports = {
         return Promise.resolve();
       })
       .then(() => {
-        reply('OK for '+certificationId);
-      }).catch(() => {
-        reply('ERROR FOR '+certificationId);
+        reply('OK for ' + certificationId);
+      }).catch((error) => {
+        if(error.message === 'PostConditionFailed') {
+          reply('Diff list challenges for ' + certificationId);
+        } else {
+          reply('ERROR FOR ' + certificationId + ': ' + error.message);
+        }
       });
   }
 };

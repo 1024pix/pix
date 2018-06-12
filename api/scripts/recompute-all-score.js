@@ -30,7 +30,7 @@ function main() {
       listCertif.map(id => buildRequestObject(baseUrl, authToken, id))
         .map(requestObject => request(requestObject)));
 
-    requests.then((result) => {console.log(result)})
+    requests.then((result) => {console.log(result.filter((result) => result.includes('Diff')))})
       .catch((err) => {
         console.log(err);
       });
