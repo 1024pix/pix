@@ -5,14 +5,9 @@ import _ from 'lodash';
 import ProgressWithCheckpoints from 'pix-live/models/behaviors/assessment-progression/ProgressWithCheckpoints';
 
 describe('Unit | Model | Behavior | assessment-progression | ProgressWithCheckpoints', function() {
-  it('should exists', function() {
-    const result = ProgressWithCheckpoints;
-    expect(result).to.be.ok;
-  });
-
   describe('#answersSinceLastCheckpoints(answers)', function() {
 
-    it('should be an array', function() {
+    it('should return an empty array when no answers has been given', function() {
       // given
       const answers = [];
 
@@ -23,7 +18,7 @@ describe('Unit | Model | Behavior | assessment-progression | ProgressWithCheckpo
       expect(answersSinceLastCheckpoints).to.deep.equal([]);
     });
 
-    it('should return answers', function() {
+    it('should return the one answer when only one answer has been given', function() {
       // given
       const answers = ['irrelevant content'];
 
@@ -34,7 +29,7 @@ describe('Unit | Model | Behavior | assessment-progression | ProgressWithCheckpo
       expect(answersSinceLastCheckpoints).to.deep.equal(answers);
     });
 
-    it('should only return the last answers', function() {
+    it('should return the last 2 answers when there is 7 answers', function() {
       // given
       const answers = _.times(7, () => 'irrelevant content');
       const [answer6, answer7] = answers.slice(5);
@@ -46,7 +41,7 @@ describe('Unit | Model | Behavior | assessment-progression | ProgressWithCheckpo
       expect(answersSinceLastCheckpoints).to.deep.equal([answer6, answer7]);
     });
 
-    it('should only return the last 5 answers', function() {
+    it('should return the last 5 answers when there is 10 answers', function() {
       // given
       const answers = _.times(10, () => 'irrelevant content');
       const [answer6, answer7, answer8, answer9, answer10] = answers.slice(5);
@@ -56,6 +51,18 @@ describe('Unit | Model | Behavior | assessment-progression | ProgressWithCheckpo
 
       // then
       expect(answersSinceLastCheckpoints).to.deep.equal([answer6, answer7, answer8, answer9, answer10]);
+    });
+
+    it('should return the last 1 answer when there is 11 answers', function() {
+      // given
+      const answers = _.times(11, () => 'irrelevant content');
+      const answer11 = answers[10];
+
+      // when
+      const answersSinceLastCheckpoints = ProgressWithCheckpoints.answersSinceLastCheckpoints(answers);
+
+      // then
+      expect(answersSinceLastCheckpoints).to.deep.equal([answer11]);
     });
   });
 
