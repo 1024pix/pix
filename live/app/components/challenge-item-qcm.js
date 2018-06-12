@@ -6,9 +6,7 @@ const ChallengeItemQcm = ChallengeItemGeneric.extend({
     return this._getAnswerValue().length < 1;
   },
 
-  // XXX : data is extracted from DOM of child component, breaking child encapsulation.
-  // This is not "the Ember way", however it makes code easier to read,
-  // and moreover, is a much more robust solution when you need to test it properly.
+  // FIXME refactor that
   _getAnswerValue() {
     return this.$('input[type=checkbox][id^=checkbox_]:checked').map(function() {return this.name; }).get().join(',');
   },
