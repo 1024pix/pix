@@ -9,6 +9,7 @@ function _countResult(about, desiredResult) {
 
 module.exports = {
 
+  /* eslint max-statements: off */
   getRevalidationStatistics(oldAnswers, newAnswers) {
 
     const oldAnswersResult = _.map(oldAnswers, (o) => {
