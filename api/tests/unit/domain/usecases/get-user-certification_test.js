@@ -8,8 +8,7 @@ describe('Unit | UseCase | get-user-certification', () => {
   const userId = '2';
   const certificationId = '23';
   const certificationRepository = {
-    getCertification() {
-    },
+    getCertification: () => undefined,
   };
 
   beforeEach(() => {
