@@ -53,7 +53,7 @@ jobs:
       - checkout
       - run: echo "${CIRCLE_BRANCH}_${CIRCLE_SHA1}" > .circle-cache-key
       - save_cache:
-          key: v3-pix-{{ checksum ".circle-cache-key" }}
+          key: v4-pix-{{ checksum ".circle-cache-key" }}
           paths:
             - ~/pix
 
@@ -63,7 +63,7 @@ jobs:
       - run: echo "${CIRCLE_BRANCH}_${CIRCLE_SHA1}" > .circle-cache-key
       - restore_cache:
           keys:
-            - v3-pix-{{ checksum ".circle-cache-key" }}
+            - v4-pix-{{ checksum ".circle-cache-key" }}
       - run: sudo apt-get install -y jq
       - run: ~/pix/scripts/jira/comment_with_review_app_url.sh
 
@@ -73,7 +73,7 @@ jobs:
       - run: echo "${CIRCLE_BRANCH}_${CIRCLE_SHA1}" > .circle-cache-key
       - restore_cache:
           keys:
-            - v3-pix-{{ checksum ".circle-cache-key" }}
+            - v4-pix-{{ checksum ".circle-cache-key" }}
       - run: ~/pix/live/scripts/signal_deploy_to_pr.sh
 
   # Server side
@@ -84,13 +84,13 @@ jobs:
       - run: echo "${CIRCLE_BRANCH}_${CIRCLE_SHA1}" > .circle-cache-key
       - restore_cache:
           keys:
-            - v3-pix-{{ checksum ".circle-cache-key" }}
+            - v4-pix-{{ checksum ".circle-cache-key" }}
       - restore_cache:
           keys:
-            - v3-server-dependencies-{{ checksum "package.json" }}
+            - v4-server-dependencies-{{ checksum "package.json" }}
       - run: npm install
       - save_cache:
-          key: v3-server-dependencies-{{ checksum "package.json" }}
+          key: v4-server-dependencies-{{ checksum "package.json" }}
           paths:
             - ~/pix/api/node_modules
             - ~/pix/.npm
@@ -106,10 +106,10 @@ jobs:
       - run: echo "${CIRCLE_BRANCH}_${CIRCLE_SHA1}" > .circle-cache-key
       - restore_cache:
           keys:
-            - v3-pix-{{ checksum ".circle-cache-key" }}
+            - v4-pix-{{ checksum ".circle-cache-key" }}
       - restore_cache:
           keys:
-            - v3-server-dependencies-{{ checksum "package.json" }}
+            - v4-server-dependencies-{{ checksum "package.json" }}
       - run: |
           npm run lint
           npm test
@@ -120,10 +120,10 @@ jobs:
       - run: echo "${CIRCLE_BRANCH}_${CIRCLE_SHA1}" > .circle-cache-key
       - restore_cache:
           keys:
-            - v3-pix-{{ checksum ".circle-cache-key" }}
+            - v4-pix-{{ checksum ".circle-cache-key" }}
       - restore_cache:
           keys:
-            - v3-server-dependencies-{{ checksum "package.json" }}
+            - v4-server-dependencies-{{ checksum "package.json" }}
       - add_ssh_keys:
           fingerprints:
             - "77:2f:5f:ff:39:d2:c5:1d:89:69:be:4c:0b:ef:33:34"
@@ -140,10 +140,10 @@ jobs:
       - run: echo "${CIRCLE_BRANCH}_${CIRCLE_SHA1}" > .circle-cache-key
       - restore_cache:
           keys:
-            - v3-pix-{{ checksum ".circle-cache-key" }}
+            - v4-pix-{{ checksum ".circle-cache-key" }}
       - restore_cache:
           keys:
-            - v3-server-dependencies-{{ checksum "package.json" }}
+            - v4-server-dependencies-{{ checksum "package.json" }}
       - add_ssh_keys:
           fingerprints:
             - "d8:07:94:de:70:24:96:32:7f:e0:ac:e6:80:dd:0e:9a"
@@ -167,7 +167,7 @@ jobs:
       - run: echo "${CIRCLE_BRANCH}_${CIRCLE_SHA1}" > .circle-cache-key
       - restore_cache:
           keys:
-            - v3-pix-{{ checksum ".circle-cache-key" }}
+            - v4-pix-{{ checksum ".circle-cache-key" }}
       - restore_cache:
           keys:
             - v5-client-dependencies-{{ checksum ".circle-cache-key" }}
@@ -185,7 +185,7 @@ jobs:
       - run: echo "${CIRCLE_BRANCH}_${CIRCLE_SHA1}" > .circle-cache-key
       - restore_cache:
           keys:
-            - v3-pix-{{ checksum ".circle-cache-key" }}
+            - v4-pix-{{ checksum ".circle-cache-key" }}
       - restore_cache:
           keys:
             - v5-client-dependencies-{{ checksum ".circle-cache-key" }}
@@ -206,7 +206,7 @@ jobs:
       - run: echo "${CIRCLE_BRANCH}_${CIRCLE_SHA1}" > .circle-cache-key
       - restore_cache:
           keys:
-            - v3-pix-{{ checksum ".circle-cache-key" }}
+            - v4-pix-{{ checksum ".circle-cache-key" }}
       - restore_cache:
           keys:
             - v5-client-dependencies-{{ checksum ".circle-cache-key" }}
@@ -220,7 +220,7 @@ jobs:
       - run: echo "${CIRCLE_BRANCH}_${CIRCLE_SHA1}" > .circle-cache-key
       - restore_cache:
           keys:
-            - v3-pix-{{ checksum ".circle-cache-key" }}
+            - v4-pix-{{ checksum ".circle-cache-key" }}
       - restore_cache:
           keys:
             - v5-client-dependencies-{{ checksum ".circle-cache-key" }}
@@ -234,7 +234,7 @@ jobs:
       - run: echo "${CIRCLE_BRANCH}_${CIRCLE_SHA1}" > .circle-cache-key
       - restore_cache:
           keys:
-            - v3-pix-{{ checksum ".circle-cache-key" }}
+            - v4-pix-{{ checksum ".circle-cache-key" }}
       - restore_cache:
           keys:
             - v5-client-dependencies-{{ checksum ".circle-cache-key" }}
@@ -248,7 +248,7 @@ jobs:
       - run: echo "${CIRCLE_BRANCH}_${CIRCLE_SHA1}" > .circle-cache-key
       - restore_cache:
           keys:
-            - v3-pix-{{ checksum ".circle-cache-key" }}
+            - v4-pix-{{ checksum ".circle-cache-key" }}
       - restore_cache:
           keys:
             - v5-client-dependencies-{{ checksum ".circle-cache-key" }}
