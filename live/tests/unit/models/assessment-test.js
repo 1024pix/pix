@@ -55,7 +55,7 @@ describe('Unit | Model | Assessment', function() {
         // when
         const assessment = store.createRecord('assessment');
         // then
-        expect(assessment.get('progressionBehavior')).to.be.ok;
+        expect(assessment._progressionBehavior).to.be.ok;
       });
     });
   });
