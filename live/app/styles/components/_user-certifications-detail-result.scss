@@ -2,8 +2,8 @@
   font-family: $font-lato;
   background-color: $white;
 
-  margin-top: 30px;
-  padding: 30px;
+  margin-top: 1.87rem;
+  padding: 1.87rem;
 
   display: flex;
   flex-wrap: wrap;
@@ -21,14 +21,14 @@
 }
 
 .user-certifications-detail-result__pix-score{
-  margin-bottom: 20px;
-  width: 250px;
+  margin-bottom: 1.25rem;
+  width: 27rem;
 }
 
 .user-certifications-detail-result__badge-pix-score{
-  width: 116px;
-  height: 116px;
-  padding-top: 38px;
+  width: 13rem;
+  height: 13rem;
+  padding-top: 4.7rem;
   float: left;
 
   background: url('/images/pix-pastille-certif.svg') no-repeat;
@@ -38,14 +38,13 @@
   display: table;
 
   span {
-    height: 28px;
-    width: 45px;
+    height: 1.75rem;
+    width: 2.81rem;
     color: $tundora-grey;
     font-family: $font-lato;
     font-size: 3rem;
     font-weight: bold;
-    letter-spacing: -0.86px;
-    line-height: 33px;
+    line-height: 2.06rem;
     text-align: center;
 
   }
@@ -54,24 +53,24 @@
 .user-certifications-detail-result__pix-certified {
   color: $tundora-grey;
   font-family: $font-lato;
-  margin-top: 38px;
   font-size: 2.5rem;
   font-weight: bold;
-  line-height: 28px;
+  line-height: 1.75rem;
+  margin-top: 4.8rem;
   text-align: right;
 }
 
 .user-certifications-detail-result__separation{
   clear: both;
   position: absolute;
-  height: 105px;
-  margin-top: 5px;
-  width : 3px;
+  height: 14rem;
+  margin-top: 0.8rem;
+  width : 0.25rem;
   background: black;
 }
 
 .user-certifications-detail-result__text-pix-certified {
-  margin-left: 20px;
+  margin-left: 1.25rem;
 }
 
 .user-certifications-detail-result__title-comment-jury {
