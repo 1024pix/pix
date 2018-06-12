@@ -6,8 +6,7 @@ class CompetenceTree {
   } = {}) {
     this.id = id;
     this.areas = areas;
-  };
-
+  }
 }
 
 module.exports = CompetenceTree;

@@ -3,8 +3,6 @@ const competenceTreeRepository = require('../../../../lib/infrastructure/reposit
 const competenceDatasource = require('../../../../lib/infrastructure/datasources/airtable/competence-datasource');
 const areaDatasource = require('../../../../lib/infrastructure/datasources/airtable/area-datasource');
 const CompetenceTree = require('../../../../lib/domain/models/CompetenceTree');
-const Competence = require('../../../../lib/domain/models/Competence');
-const Area = require('../../../../lib/domain/models/Area');
 const factory = require('../../../factory');
 
 describe('Unit | Repository | competence-tree-repository', () => {
