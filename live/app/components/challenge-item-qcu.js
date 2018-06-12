@@ -6,12 +6,11 @@ const ChallengeItemQcu = ChallengeItemGeneric.extend({
     return this._getAnswerValue().length < 1;
   },
 
-  // XXX : data is extracted from DOM of child component, breaking child encapsulation.
-  // This is not "the Ember way", however it makes code easier to read,
-  // and moreover, it is a much more robust solution when you need to test it properly.
+  // FIXME refactor this
   _getAnswerValue() {
+
     return this.$('.challenge-proposals input:radio:checked').map(function() {
-      return this.value;
+      return this.getAttribute('data-value');
     }).get().join('');
   },
 
