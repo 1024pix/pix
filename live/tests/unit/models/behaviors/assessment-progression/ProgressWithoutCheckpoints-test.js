@@ -6,11 +6,13 @@ import ProgressWithoutCheckpoints from 'pix-live/models/behaviors/assessment-pro
 describe('Unit | Model | Behavior | assessment-progression | ProgressWithoutCheckpoints', function() {
 
   describe('#answersSinceLastCheckpoints(answers)', function() {
-    it('should throw an error', function() {
+    it('should always throw an error as there is no checkpoints', function() {
       // given
 
       expect(() => {
+        // when
         ProgressWithoutCheckpoints.answersSinceLastCheckpoints();
+      // then
       }).to.throw;
     });
   });
