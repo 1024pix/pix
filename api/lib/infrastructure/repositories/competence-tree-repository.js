@@ -4,43 +4,53 @@ const CompetenceTree = require('../../domain/models/CompetenceTree');
 const Competence = require('../../domain/models/Competence');
 const Area = require('../../domain/models/Area');
 
+function _buildAreaFromDataObjectAndCompetences(areaDataObject) {
+  const partialConstructorForPromise = (competences) => {
+    return new Area({
+      id: areaDataObject.id,
+      code: areaDataObject.code,
+      name: areaDataObject.name,
+      title: areaDataObject.title,
+      competences,
+    });
+  };
+  return partialConstructorForPromise;
+}
+
+function _getCompetencesFromIds(competenceIds) {
+  return Promise.all(
+    competenceIds.map((competenceId) => {
+      return competenceDatasource.get(competenceId)
+        .then(_buildCompetenceFromDataObject);
+
+    }));
+}
+
+function _buildCompetenceFromDataObject(competenceDataObject) {
+  return new Competence({
+    id: competenceDataObject.id,
+    name: competenceDataObject.title,
+    index: competenceDataObject.competenceCode,
+  });
+}
+
 module.exports = {
 
   get() {
     return areaDatasource.list()
       .then((areaDataObjects) => {
 
-        return Promise.all(
-          areaDataObjects.map((areaDataObject) => {
+        const getAreasPromises = areaDataObjects.map((areaDataObject) => {
+          return _getCompetencesFromIds(areaDataObject.competenceIds)
+            .then(_buildAreaFromDataObjectAndCompetences(areaDataObject));
+        });
 
-            return Promise.all(
-              areaDataObject.competenceIds.map((competenceId) => {
-
-                return competenceDatasource.get(competenceId)
-                  .then((competenceDataObject) => {
-                    return new Competence({
-                      id: competenceDataObject.id,
-                      name: competenceDataObject.title,
-                      index: competenceDataObject.competenceCode,
-                    });
-                  });
-              }))
-              .then((competences) => {
-                return new Area({
-                  id: areaDataObject.id,
-                  code: areaDataObject.code,
-                  name: areaDataObject.name,
-                  title: areaDataObject.title,
-                  competences,
-                });
-              });
-          }));
+        return Promise.all(getAreasPromises);
       })
       .then((areas) => {
         return new CompetenceTree({
-          areas
+          areas,
         });
       });
   },
-
 };
