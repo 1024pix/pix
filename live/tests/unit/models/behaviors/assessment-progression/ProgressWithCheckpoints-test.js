@@ -1,11 +1,16 @@
 import { expect } from 'chai';
 import { describe, it } from 'mocha';
 import _ from 'lodash';
+import EmberObject from '@ember/object';
 
 import ProgressWithCheckpoints from 'pix-live/models/behaviors/assessment-progression/ProgressWithCheckpoints';
 
 describe('Unit | Model | Behavior | assessment-progression | ProgressWithCheckpoints', function() {
   describe('#answersSinceLastCheckpoints(answers)', function() {
+
+    function newAnswer() {
+      return EmberObject.create();
+    }
 
     it('should return an empty array when no answers has been given', function() {
       // given
@@ -20,7 +25,7 @@ describe('Unit | Model | Behavior | assessment-progression | ProgressWithCheckpo
 
     it('should return the one answer when only one answer has been given', function() {
       // given
-      const answers = ['irrelevant content'];
+      const answers = [newAnswer()];
 
       // when
       const answersSinceLastCheckpoints = ProgressWithCheckpoints.answersSinceLastCheckpoints(answers);
@@ -31,7 +36,7 @@ describe('Unit | Model | Behavior | assessment-progression | ProgressWithCheckpo
 
     it('should return the last 2 answers when there is 7 answers', function() {
       // given
-      const answers = _.times(7, () => 'irrelevant content');
+      const answers = _.times(7, newAnswer);
       const [answer6, answer7] = answers.slice(5);
 
       // when
@@ -43,7 +48,7 @@ describe('Unit | Model | Behavior | assessment-progression | ProgressWithCheckpo
 
     it('should return the last 5 answers when there is 10 answers', function() {
       // given
-      const answers = _.times(10, () => 'irrelevant content');
+      const answers = _.times(10, newAnswer);
       const [answer6, answer7, answer8, answer9, answer10] = answers.slice(5);
 
       // when
@@ -55,7 +60,7 @@ describe('Unit | Model | Behavior | assessment-progression | ProgressWithCheckpo
 
     it('should return the last 1 answer when there is 11 answers', function() {
       // given
-      const answers = _.times(11, () => 'irrelevant content');
+      const answers = _.times(11, newAnswer);
       const answer11 = answers[10];
 
       // when
