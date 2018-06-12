@@ -22,16 +22,16 @@ export default Model.extend({
   userEmail: attr('string'),
 
   ready() {
-    this.progressionBehavior = getProgressionBehaviorFromAssessmentType(this.get('type'));
+    this._progressionBehavior = getProgressionBehaviorFromAssessmentType(this.get('type'));
   },
 
   answersSinceLastCheckpoints: computed('answers.[]', function() {
     const answers = this.get('answers').toArray();
-    return this.progressionBehavior.answersSinceLastCheckpoints(answers);
+    return this._progressionBehavior.answersSinceLastCheckpoints(answers);
   }),
 
   progress: computed('answers', 'course', function() {
-    return this.progressionBehavior.progress(
+    return this._progressionBehavior.progress(
       this.get('answers.length'),
       this.get('course.nbChallenges'),
     );
