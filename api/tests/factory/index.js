@@ -9,16 +9,17 @@ const buildCatChallenge = require('./build-cat-challenge');
 const buildCatCourse = require('./build-cat-course');
 const buildCatTube = require('./build-cat-tube');
 const buildCertification = require('./build-certification');
+const buildCertificationWithCompetenceTree = require('./build-certification-with-competence-tree');
 const buildCompetence = require('./build-competence');
 const buildCompetenceAirtableDataObject = require('./build-competence-airtable-data-object');
 const buildCompetenceMark = require('./build-competence-mark');
 const buildCompetenceTree = require('./build-competence-tree');
 const buildAssessment = require('./build-assessment');
-const buildCertifiedProfile = require('./build-certifiedProfile');
 const buildOrganization = require('./build-organization');
 const buildOrganizationAccess = require('./build-organization-access');
 const buildOrganizationRole = require('./build-organization-role');
 const buildPixRole = require('./build-pix-role');
+const buildResultCompetenceTree = require('./build-result-competence-tree');
 const buildSkill = require('./build-skill');
 const buildSkillCollection = require('./build-skill-collection');
 const buildUser = require('./build-user');
@@ -36,7 +37,7 @@ module.exports = {
   buildCatCourse,
   buildCatTube,
   buildCertification,
-  buildCertifiedProfile,
+  buildCertificationWithCompetenceTree,
   buildCompetence,
   buildCompetenceAirtableDataObject,
   buildCompetenceMark,
@@ -44,6 +45,7 @@ module.exports = {
   buildOrganization,
   buildOrganizationAccess,
   buildOrganizationRole,
+  buildResultCompetenceTree,
   buildPixRole,
   buildSkill,
   buildSkillCollection,

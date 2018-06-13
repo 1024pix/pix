@@ -1,5 +1,6 @@
 const Certification = require('../../lib/domain/models/Certification');
 const buildAssessementResult = require('./build-assessment-result');
+const buildResultCompetenceTree = require('./build-result-competence-tree');
 
 module.exports = function buildCertification({
   id = 1,
@@ -12,12 +13,13 @@ module.exports = function buildCertification({
   isPublished = true,
   lastName = 'Bon',
   userId = 1,
-  resultCompetenceTree,
-
   // set to overried computed properties
   commentForCandidate,
   pixScore,
   status,
+
+  // the id of the ResultCompetenceTree should be with the most recent assessment result.
+  resultCompetenceTree = buildResultCompetenceTree({ id: `${id}-${assessmentResults[0].id}` }),
 } = {}) {
 
   const certification = new Certification({

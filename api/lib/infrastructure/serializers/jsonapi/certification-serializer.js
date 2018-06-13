@@ -18,14 +18,33 @@ module.exports = {
         'status',
         'pixScore',
         'commentForCandidate',
-        'certifiedProfile',
+        'resultCompetenceTree',
       ],
+
+      resultCompetenceTree: {
+        included: true,
+        ref: 'id',
+        // XXX: the jsonapi-serializer lib needs at least one attribute outside relationships
+        attributes: ['id','areas'],
+
+        areas: {
+          included: true,
+          ref: 'id',
+          attributes: ['code', 'name', 'title', 'competences'],
+
+          competences: {
+            included: true,
+            ref: 'id',
+            attributes: ['index', 'level', 'name', 'score'],
+          },
+        },
+      },
       transform: (record) => {
         const certification = Object.assign({}, record);
         certification.certifiedProfile = (certification.certifiedProfile) ?
           certification.certifiedProfile.organizeCompetences() : null;
         return certification;
-      }
+      },
     }).serialize(certification);
   },
 
