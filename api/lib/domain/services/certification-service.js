@@ -16,6 +16,7 @@ const assessmentRepository = require('../../../lib/infrastructure/repositories/a
 const answersRepository = require('../../../lib/infrastructure/repositories/answer-repository');
 const certificationChallengesRepository = require('../../../lib/infrastructure/repositories/certification-challenge-repository');
 const certificationCourseRepository = require('../../infrastructure/repositories/certification-course-repository');
+const challengeRepository = require('../../infrastructure/repositories/challenge-repository');
 
 const competenceRepository = require('../../infrastructure/repositories/competence-repository');
 const assessmentResultRepository = require('../../infrastructure/repositories/assessment-result-repository');
@@ -23,7 +24,9 @@ const assessmentResultRepository = require('../../infrastructure/repositories/as
 function _enhanceAnswersWithCompetenceId(listAnswers, listChallenges) {
   return _.map(listAnswers, (answer) => {
     const competence = listChallenges.find((challenge) => challenge.challengeId === answer.challengeId);
-    // DEBUG : et si on en trouve pas ???
+    if (competence == null) {
+      throw new Error('Pas de competences récupéré dans _enhanceAnswersWithCompetenceId');
+    }
     answer.competenceId = competence.competenceId;
     return answer;
   });
@@ -39,17 +42,29 @@ function _isQROCMdepPartially(challenge, answer) {
   return challengeType === qrocmDepChallenge && answer.isPartially();
 }
 
-function _numberOfCorrectAnswersPerCompetence(answersWithCompetences, competence) {
+function _numberOfCorrectAnswersPerCompetence(answersWithCompetences, competence, certificationChallenges) {
   const answerForCompetence = _.filter(answersWithCompetences, answer => answer.competenceId === competence.id);
-  // DEBUG : et si on ne trouve pas d'answers ???
+  const challengesForCompetence = _.filter(certificationChallenges, challenge => challenge.competenceId === competence.id);
+  if (challengesForCompetence < 2) {
+    throw new Error('Pas assez de challenges posés pour la compétence ' + competence.index);
+  }
+
+  if (answerForCompetence < 2) {
+    throw new Error('Pas assez de réponses pour la compétence ' + competence.index);
+  }
+
   let nbOfCorrectAnswers = 0;
   answerForCompetence.forEach(answer => {
-    const challenge = _.find(competence.challenges, challenge => challenge.id === answer.challengeId);
+    const challenge = _.find(certificationChallenges, challenge => challenge.challengeId === answer.challengeId);
+
+    if (_.isUndefined(challenge)) {
+      throw new Error('Pas de challenges récupéré dans _numberOfCorrectAnswersPerCompetence');
+    }
+
     const answerResult = answer.result;
-    // DEBUG : et si on le trouve pas ? Nombre de challenge dans competence.challenges
-    if (competence.challenges.length < 3 && _isQROCMdepOk(challenge, answer)) {
+    if (answerForCompetence.length < 3 && _isQROCMdepOk(challenge, answer)) {
       nbOfCorrectAnswers += 2;
-    } else if (competence.challenges.length < 3 && _isQROCMdepPartially(challenge, answer)) {
+    } else if (answerForCompetence.length < 3 && _isQROCMdepPartially(challenge, answer)) {
       nbOfCorrectAnswers++;
     } else if (AnswerStatus.isOK(answerResult)) {
       nbOfCorrectAnswers++;
@@ -75,7 +90,7 @@ function _getCertifiedLevel(numberOfCorrectAnswers, competence, reproductibility
   }
   if (reproductibilityRate < MINIMUM_REPRODUCTIBILITY_RATE_TO_BE_TRUSTED && numberOfCorrectAnswers === 2) {
     return competence.estimatedLevel - 1;
-  } // DEBUG : renforcer ici // DEBUG : ou est-ce qu'on gere quand on a 2 questions??
+  }
   return competence.estimatedLevel;
 }
 
@@ -83,9 +98,9 @@ function _getSumScoreFromCertifiedCompetences(listCompetences) {
   return _(listCompetences).map('obtainedScore').sum();
 }
 
-function _getCompetencesWithCertifiedLevelAndScore(answersWithCompetences, listCompetences, reproductibilityRate) {
+function _getCompetencesWithCertifiedLevelAndScore(answersWithCompetences, listCompetences, reproductibilityRate, certificationChallenges) {
   return listCompetences.map((competence) => {
-    const numberOfCorrectAnswers = _numberOfCorrectAnswersPerCompetence(answersWithCompetences, competence);
+    const numberOfCorrectAnswers = _numberOfCorrectAnswersPerCompetence(answersWithCompetences, competence, certificationChallenges);
     // TODO: Convertir ça en Mark ?
 
     return {
@@ -125,24 +140,27 @@ function _checkIfUserCanStartACertification(userCompetences) {
     throw new UserNotAuthorizedToCertifyError();
 }
 
-function _getResult(listAnswers, listChallenges, listCompetences) {
+function _getResult(listAnswers, certificationChallenges, testedCompetences) {
+
+  if (listAnswers.length < certificationChallenges.length) {
+    throw new Error('Pas assez de réponses dans _getResult - erreur attendu ');
+  }
   const reproductibilityRate = Math.round(answerServices.getAnswersSuccessRate(listAnswers));
   if (reproductibilityRate < MINIMUM_REPRODUCTIBILITY_RATE_TO_BE_CERTIFIED) {
     return {
-      competencesWithMark: _getCompetenceWithFailedLevel(listCompetences),
+      competencesWithMark: _getCompetenceWithFailedLevel(testedCompetences),
       totalScore: 0,
       percentageCorrectAnswers: reproductibilityRate,
     };
   }
 
-  const nbrChallengesFromProfile = listCompetences.reduce((value, competence) => value + competence.challenges.length, 0);
-  if(listChallenges.length != nbrChallengesFromProfile) {
-    throw new Error('PostConditionFailed');
-  }
-
-  const answersWithCompetences = _enhanceAnswersWithCompetenceId(listAnswers, listChallenges);
-  const competencesWithMark = _getCompetencesWithCertifiedLevelAndScore(answersWithCompetences, listCompetences, reproductibilityRate);
+  const answersWithCompetences = _enhanceAnswersWithCompetenceId(listAnswers, certificationChallenges);
+  const competencesWithMark = _getCompetencesWithCertifiedLevelAndScore(answersWithCompetences, testedCompetences, reproductibilityRate, certificationChallenges);
   const scoreAfterRating = _getSumScoreFromCertifiedCompetences(competencesWithMark);
+
+  if (scoreAfterRating < 1 && reproductibilityRate > 50) {
+    throw new Error('Faussement rejeté dans _getResult');
+  }
 
   return { competencesWithMark, totalScore: scoreAfterRating, percentageCorrectAnswers: reproductibilityRate };
 }
@@ -174,21 +192,36 @@ function _getCertificationResult(assessment) {
       startOfCertificationDate = assessment.createdAt;
       return Promise.all([answersByAssessments, certificationChallengesRepository.findByCertificationCourseId(assessment.courseId)]);
     })
-    .then(([answersByAssessments, certificationChallenges]) => { // TODO: vérif que les tableaux ont la même taille
+    .then(([answersByAssessments, certificationChallenges]) => {
       const userId = assessment.userId;
 
       return Promise.all([
         answersByAssessments,
         certificationChallenges,
-        userService.getProfileToCertify(userId, startOfCertificationDate), // TODO : une methode pour récup les AsseResultFinal avant une certaine date + recup challenges AirTable
+        assessmentRepository.findLastCompletedAssessmentsForEachCoursesByUser(userId, startOfCertificationDate),
         certificationCourseRepository.get(assessment.courseId),
         competenceRepository.find(),
+        challengeRepository.list(),
       ]);
     })
-    .then(([listAnswers, certificationChallenges, listCompetences, certificationCourse, competences]) => {
-      const testedCompetences = listCompetences.filter(competence => competence.challenges.length > 0); // DEBUG : Doute ici si on vire pas des trucs
-      // TODO : On a les challenges par compétences, on peut vérifier ici qu'il y en a min deux à chaque fois + NE PAS UTILISER listcompetences pour les challenges
-      // DEBUG : Pas le meme nombre de challenge entre certificationChallenges et les challenges de listCompetences
+    .then(([listAnswers, certificationChallenges, assessmentsPositioned, certificationCourse, competences, challengesList]) => {
+      const testedCompetences = assessmentsPositioned
+        .filter(assessment => assessment.getLastAssessmentResult().level >= 1)
+        .map(assessment => {
+          return {
+            id: _.find(competences, competence => competence.courseId === assessment.courseId).id,
+            index: _.find(competences, competence => competence.courseId === assessment.courseId).index,
+            name: _.find(competences, competence => competence.courseId === assessment.courseId).name,
+            estimatedLevel: assessment.getLastAssessmentResult().level,
+            pixScore: assessment.getLastAssessmentResult().pixScore,
+          };
+        });
+
+      certificationChallenges.forEach(certifChallenge => {
+        const challenge = _.find(challengesList, challengeFromAirtable => challengeFromAirtable.id === certifChallenge.challengeId);
+        certifChallenge.type = challenge.type || '';
+      });
+
       const result = _getResult(listAnswers, certificationChallenges, testedCompetences);
       // FIXME: Missing tests
       result.createdAt = startOfCertificationDate;

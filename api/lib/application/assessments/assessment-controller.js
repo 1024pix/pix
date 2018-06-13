@@ -28,7 +28,7 @@ module.exports = {
     assessment.state = 'started';
 
     // XXX Fake name, waiting for campaign
-    if(assessment.isSmartPlacementAssessment()) {
+    if (assessment.isSmartPlacementAssessment()) {
       assessment.courseId = 'Smart Placement Tests CourseId Not Used';
     }
 
@@ -145,7 +145,10 @@ module.exports = {
     const { certificationId } = request.params;
     return assessmentRepository.getByCertificationCourseId(certificationId)
       .then((assessment) => {
-        if(assessment.state === 'completed') {
+        if (assessment === null) {
+          throw new Error('Pas d\'assessment associé a cette certification');
+        }
+        if (assessment.state === 'completed') {
           return assessmentService.computeMarks(assessment.id);
         }
         return Promise.resolve();
@@ -153,11 +156,7 @@ module.exports = {
       .then(() => {
         reply('OK for ' + certificationId);
       }).catch((error) => {
-        if(error.message === 'PostConditionFailed') {
-          reply('Diff list challenges for ' + certificationId);
-        } else {
-          reply('ERROR FOR ' + certificationId + ': ' + error.message);
-        }
+        reply('ERROR FOR ' + certificationId + ': ' + error.message);
       });
   }
 };
