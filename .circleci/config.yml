@@ -173,10 +173,11 @@ jobs:
             - v3-pix-{{ checksum ".circle-cache-key" }}
       - restore_cache:
           keys:
-            - v3-client-dependencies-{{ checksum "package.json" }}
+            - v5-client-dependencies-{{ checksum ".circle-cache-key" }}
+            #- v5-client-dependencies-{{ checksum "package.json" }} # FIXME restore shared cache between builds
       - run: npm install
       - save_cache:
-          key: v3-client-dependencies-{{ checksum "package.json" }}
+          key: v5-client-dependencies-{{ checksum ".circle-cache-key" }}
           paths:
             - ~/pix/live/node_modules
             - ~/.npm
@@ -190,7 +191,7 @@ jobs:
             - v3-pix-{{ checksum ".circle-cache-key" }}
       - restore_cache:
           keys:
-            - v3-client-dependencies-{{ checksum "package.json" }}
+            - v5-client-dependencies-{{ checksum ".circle-cache-key" }}
       - run: |
           if [ "${CIRCLE_BRANCH}" == "dev" ]; then
             ./node_modules/.bin/ember build --environment staging
@@ -211,7 +212,7 @@ jobs:
             - v3-pix-{{ checksum ".circle-cache-key" }}
       - restore_cache:
           keys:
-            - v3-client-dependencies-{{ checksum "package.json" }}
+            - v5-client-dependencies-{{ checksum ".circle-cache-key" }}
       - attach_workspace:
           at: ~/pix/live
       - run: ./node_modules/.bin/ember exam --path dist --split=3 --partition=1 --reporter dot
@@ -225,7 +226,7 @@ jobs:
             - v3-pix-{{ checksum ".circle-cache-key" }}
       - restore_cache:
           keys:
-            - v3-client-dependencies-{{ checksum "package.json" }}
+            - v5-client-dependencies-{{ checksum ".circle-cache-key" }}
       - attach_workspace:
           at: ~/pix/live
       - run: ./node_modules/.bin/ember exam --path dist --split=3 --partition=2 --reporter dot
@@ -239,7 +240,7 @@ jobs:
             - v3-pix-{{ checksum ".circle-cache-key" }}
       - restore_cache:
           keys:
-            - v3-client-dependencies-{{ checksum "package.json" }}
+            - v5-client-dependencies-{{ checksum ".circle-cache-key" }}
       - attach_workspace:
           at: ~/pix/live
       - run: ./node_modules/.bin/ember exam --path dist --split=3 --partition=3 --reporter dot
@@ -253,7 +254,7 @@ jobs:
             - v3-pix-{{ checksum ".circle-cache-key" }}
       - restore_cache:
           keys:
-            - v3-client-dependencies-{{ checksum "package.json" }}
+            - v5-client-dependencies-{{ checksum ".circle-cache-key" }}
       - attach_workspace:
           at: ~/pix/live
       - add_ssh_keys:
