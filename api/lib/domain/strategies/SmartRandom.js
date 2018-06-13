@@ -88,16 +88,16 @@ function _filterChallengesBySkills(listOfChallenges, listOfRequiredSkills) {
 
   return listOfChallenges.filter((challenge) => {
 
-    let challengeContainsSkillsProfile = false;
+    let challengeContainsSkillsInTargetProfile = false;
 
     listOfRequiredSkills.map((skill) => skill.name).forEach((skillName) => {
       const challengeHasSkill = challenge.skills.map((skill) => skill.name).includes(skillName);
       if (challengeHasSkill) {
-        challengeContainsSkillsProfile = true;
+        challengeContainsSkillsInTargetProfile = true;
       }
     });
 
-    return challengeContainsSkillsProfile;
+    return challengeContainsSkillsInTargetProfile;
   });
 }
 
@@ -140,10 +140,10 @@ function _firstChallenge(challenges, answers, tubes, validatedSkills, failedSkil
 
 class SmartRandom {
 
-  constructor({ answers, challenges, skillsProfile } = {}) {
+  constructor({ answers, challenges, targetProfile } = {}) {
     this.challenges = challenges;
-    this.skillsProfile = skillsProfile;
-    this.skills = skillsProfile.skills;
+    this.targetProfile = targetProfile;
+    this.skills = targetProfile.skills;
 
     this.course = new Course();
     const listSkillsWithChallenges = _filterSkillsByChallenges(this.skills, challenges);

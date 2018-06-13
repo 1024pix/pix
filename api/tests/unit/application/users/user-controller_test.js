@@ -502,7 +502,7 @@ describe('Unit | Controller | user-controller', () => {
         });
       });
 
-      it('should reply the skillProfile', () => {
+      it('should reply the targetProfile', () => {
         // when
         const promise = userController.getProfileToCertify(request, replyStub);
 
