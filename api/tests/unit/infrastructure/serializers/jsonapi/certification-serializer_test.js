@@ -162,7 +162,7 @@ describe('Unit | Serializer | JSONAPI | certification-serializer', () => {
             'result-competence-tree': {
               'data': {
                 'id': '1-1',
-                'type': 'resultCompetenceTrees',
+                'type': 'result-competence-trees',
               },
             },
           },
@@ -242,7 +242,7 @@ describe('Unit | Serializer | JSONAPI | certification-serializer', () => {
                 ],
               },
             },
-            'type': 'resultCompetenceTrees',
+            'type': 'result-competence-trees',
           },
         ],
       };

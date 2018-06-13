@@ -8,6 +8,11 @@ module.exports = {
   serialize(certification) {
 
     return new Serializer('certifications', {
+      typeForAttribute(attribute) {
+        if (attribute === 'resultCompetenceTree') {
+          return 'result-competence-trees';
+        }
+      },
       attributes: [
         'certificationCenter',
         'birthdate',
@@ -25,7 +30,7 @@ module.exports = {
         included: true,
         ref: 'id',
         // XXX: the jsonapi-serializer lib needs at least one attribute outside relationships
-        attributes: ['id','areas'],
+        attributes: ['id', 'areas'],
 
         areas: {
           included: true,

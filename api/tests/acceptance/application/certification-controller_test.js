@@ -447,7 +447,7 @@ describe('Acceptance | API | Certifications', () => {
             'result-competence-tree': {
               'data': {
                 'id': '2-45',
-                'type': 'resultCompetenceTrees',
+                'type': 'result-competence-trees',
               },
             },
           },
@@ -526,7 +526,7 @@ describe('Acceptance | API | Certifications', () => {
                 ],
               },
             },
-            'type': 'resultCompetenceTrees',
+            'type': 'result-competence-trees',
           },
         ],
       };
