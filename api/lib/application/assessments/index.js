@@ -16,18 +16,6 @@ exports.register = function(server, options, next) {
       }
     },
     {
-      method: 'POST',
-      path: '/api/assessments/{certificationId}',
-      config: {
-        pre: [{
-          method: securityController.checkUserHasRolePixMaster,
-          assign: 'hasRolePixMaster'
-        }],
-        handler: assessmentController.computeCompetenceMarksForAssessmentResult,
-        tags: ['api']
-      }
-    },
-    {
       method: 'GET',
       path: '/api/assessments',
       config: {
