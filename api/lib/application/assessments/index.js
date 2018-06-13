@@ -1,6 +1,5 @@
 const assessmentController = require('./assessment-controller');
 const assessmentAuthorization = require('../preHandlers/assessment-authorization');
-const securityController = require('../../interfaces/controllers/security-controller');
 
 exports.register = function(server, options, next) {
 
