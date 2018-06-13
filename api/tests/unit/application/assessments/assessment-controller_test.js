@@ -3,10 +3,7 @@ const { sinon, expect } = require('../../../test-helper');
 const assessmentController = require('../../../../lib/application/assessments/assessment-controller');
 
 const assessmentService = require('../../../../lib/domain/services/assessment-service');
-const assessmentRepository = require('../../../../lib/infrastructure/repositories/assessment-repository');
 const assessmentSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/assessment-serializer');
-
-const logger = require('../../../../lib/infrastructure/logger');
 
 describe('Unit | Controller | assessment-controller', function() {
 
