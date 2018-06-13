@@ -1,4 +1,6 @@
 const cache = require('../../infrastructure/caches/cache');
+const preloader = require('../../infrastructure/caches/preloader');
+const logger = require('../../infrastructure/logger');
 const usecases = require('../../domain/usecases');
 const errorSerializer = require('../../infrastructure/serializers/jsonapi/error-serializer');
 const { InfrastructureError } = require('../../infrastructure/errors');
@@ -19,6 +21,12 @@ module.exports = {
 
   removeAllCacheEntries(request, reply) {
     return usecases.removeAllCacheEntries({ cache })
+      .then(() => reply().code(204))
+      .catch((error) => reply(_buildJsonApiInternalServerError(error)).code(500));
+  },
+
+  preloadCacheEntries(request, reply) {
+    return usecases.preloadCacheEntries({ preloader, logger })
       .then(() => reply().code(204))
       .catch((error) => reply(_buildJsonApiInternalServerError(error)).code(500));
   }

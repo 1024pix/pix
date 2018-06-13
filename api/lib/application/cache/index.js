@@ -35,6 +35,21 @@ exports.register = function(server, options, next) {
           'Elle permet de supprimer toutes les entrées du cache de l’application',
         ]
       }
+    },{
+      method: 'PATCH',
+      path: '/api/cache',
+      config: {
+        pre: [{
+          method: securityController.checkUserHasRolePixMaster,
+          assign: 'hasRolePixMaster'
+        }],
+        handler: CacheController.preloadCacheEntries,
+        tags: ['api', 'cache'],
+        notes: [
+          'Cette route est restreinte aux utilisateurs authentifiés avec le rôle Pix Master',
+          'Elle permet de précharger les entrées du cache de l’application (les requêtes les plus longues)',
+        ]
+      }
     }
   ]);
 
