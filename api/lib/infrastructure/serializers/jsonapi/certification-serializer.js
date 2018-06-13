@@ -39,12 +39,6 @@ module.exports = {
           },
         },
       },
-      transform: (record) => {
-        const certification = Object.assign({}, record);
-        certification.certifiedProfile = (certification.certifiedProfile) ?
-          certification.certifiedProfile.organizeCompetences() : null;
-        return certification;
-      },
     }).serialize(certification);
   },
 

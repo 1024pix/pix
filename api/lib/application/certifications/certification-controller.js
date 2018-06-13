@@ -3,7 +3,7 @@ const certificationSerializer = require('../../infrastructure/serializers/jsonap
 const certificationRepository = require('../../infrastructure/repositories/certification-repository');
 const assessmentRepository = require('../../infrastructure/repositories/assessment-repository');
 const competenceMarksRepository = require('../../infrastructure/repositories/competence-mark-repository');
-const competenceRepository = require('../../infrastructure/repositories/competence-repository');
+const competenceTreeRepository = require('../../infrastructure/repositories/competence-tree-repository');
 const logger = require('../../infrastructure/logger');
 const Boom = require('boom');
 const { Deserializer } = require('jsonapi-serializer');
@@ -36,14 +36,16 @@ module.exports = {
   getCertification(request, reply) {
     const userId = request.auth.credentials.userId;
     const certificationId = request.params.id;
-    let certification;
-    return usecases.getUserCertification({ userId, certificationId, certificationRepository })
-      .then(userCertifiation => {
-        certification = userCertifiation;
-        return usecases.getUserCertifiedProfile({ userId, certificationId, assessmentRepository, competenceMarksRepository, competenceRepository });
-      })
-      .then(certifiedProfile => {
-        certification.certifiedProfile = certifiedProfile;
+
+    return usecases.getUserCertificationWithResultTree({
+      userId,
+      certificationId,
+      certificationRepository,
+      assessmentRepository,
+      competenceMarksRepository,
+      competenceTreeRepository,
+    })
+      .then(certification => {
         return reply(certificationSerializer.serialize(certification)).code(200);
       })
       .catch((error) => {
