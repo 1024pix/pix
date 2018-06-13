@@ -139,24 +139,5 @@ module.exports = {
         logger.error(err);
         reply(Boom.badImplementation(err));
       });
-  },
-
-  computeCompetenceMarksForAssessmentResult(request, reply) {
-    const { certificationId } = request.params;
-    return assessmentRepository.getByCertificationCourseId(certificationId)
-      .then((assessment) => {
-        if (assessment === null) {
-          throw new Error('Pas d\'assessment associé a cette certification');
-        }
-        if (assessment.state === 'completed') {
-          return assessmentService.computeMarks(assessment.id);
-        }
-        return Promise.resolve();
-      })
-      .then(() => {
-        reply('OK for ' + certificationId);
-      }).catch((error) => {
-        reply('ERROR FOR ' + certificationId + ': ' + error.message);
-      });
   }
 };
