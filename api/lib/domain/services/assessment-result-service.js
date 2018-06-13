@@ -34,7 +34,7 @@ function _validatedDataForAllCompetenceMark(marks) {
   return Promise.all(marks.map((mark) => mark.validate()));
 }
 
-function evaluateFromAssessmentId(assessmentId) {
+function evaluateFromAssessmentId(assessmentId, parameters = {}) {
 
   let assessment;
 
@@ -47,7 +47,7 @@ function evaluateFromAssessmentId(assessmentId) {
         throw new NotFoundError();
       }
 
-      if (assessment.isCompleted()) {
+      if (assessment.isCompleted() && !parameters.recompute) {
         throw new AlreadyRatedAssessmentError();
       }
 
