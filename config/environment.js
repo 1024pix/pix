@@ -24,10 +24,6 @@ module.exports = function(environment) {
 
     apiHost: 'http://localhost:3000/api',
 
-    fastboot: {
-      hostWhitelist: [/^localhost:\d+$/]
-    },
-
     googleFonts: [
       'Raleway',
       'Open+Sans',
@@ -44,11 +40,7 @@ module.exports = function(environment) {
       includeFontAwesome: true,
     },
 
-    authentication: {
-      cookieDomain: 'pix.fr'
-    }
-
-  };
+};
 
   if (environment === 'development') {
     // ENV.APP.LOG_RESOLVER = true;
@@ -56,7 +48,6 @@ module.exports = function(environment) {
     // ENV.APP.LOG_TRANSITIONS = true;
     // ENV.APP.LOG_TRANSITIONS_INTERNAL = true;
     // ENV.APP.LOG_VIEW_LOOKUPS = true;
-    ENV.authentication.cookieDomain = 'localhost';
   }
 
   if (environment === 'test') {
@@ -73,10 +64,7 @@ module.exports = function(environment) {
 
   if (environment === 'production') {
     // here you can enable a production-specific feature
-    ENV.fastboot = {
-      hostWhitelist: ['pix-admin.scalingo.io', 'admin.pix.fr']
-    };
-    ENV.apiHost = 'https://pix.beta.gouv.fr/api';
+    ENV.apiHost = 'https://pix.fr/api';
   }
 
   return ENV;

@@ -11,13 +11,13 @@
   },
   "repository": "https://github.com/1024pix/admin",
   "scripts": {
-    "build": "ember build",
-    "dev": "ember serve",
+    "build": "npx ember build",
+    "dev": "npx ember serve",
     "lint:js": "eslint ./*.js app config lib server tests",
-    "start": "ember serve --environment production --liveReload false",
+    "start": "npx ember serve --environment production --liveReload false",
     "api": "(cd api && npm start)",
-    "test": "ember exam",
-    "coverage": "COVERAGE=true ember test"
+    "test": "npx ember exam",
+    "coverage": "COVERAGE=true npx ember test"
   },
   "devDependencies": {
     "body-parser": "^1.18.3",
@@ -45,7 +45,6 @@
     "ember-data": "~3.1.1",
     "ember-exam": "^1.0.0",
     "ember-export-application-global": "^2.0.0",
-    "ember-fetch": "^5.0.0",
     "ember-font-awesome": "^4.0.0-rc.4",
     "ember-load-initializers": "^1.1.0",
     "ember-maybe-import-regenerator": "^0.1.6",
