@@ -72,7 +72,7 @@ function _isAnAvailableChallenge(challenge, assessedSkills) {
 function _isPreviousChallengeTimed(answers) {
   const answeredChallenges = answers.map(answer => answer.challenge);
   const lastAnswer = answers[answeredChallenges.length - 1];
-  if(!lastAnswer || !lastAnswer.challenge) return false;
+  if (!lastAnswer || !lastAnswer.challenge) return false;
   return lastAnswer && (lastAnswer.challenge.timer !== undefined);
 }
 
@@ -140,12 +140,13 @@ function _firstChallenge(challenges, answers, tubes, validatedSkills, failedSkil
 
 class SmartRandom {
 
-  constructor(answers, challenges, skills) {
+  constructor({ answers, challenges, skillsProfile } = {}) {
     this.challenges = challenges;
-    this.skills = skills;
+    this.skillsProfile = skillsProfile;
+    this.skills = skillsProfile.skills;
 
     this.course = new Course();
-    const listSkillsWithChallenges = _filterSkillsByChallenges(skills, challenges);
+    const listSkillsWithChallenges = _filterSkillsByChallenges(this.skills, challenges);
     this.course.competenceSkills = listSkillsWithChallenges;
     this.course.computeTubes(listSkillsWithChallenges);
 
