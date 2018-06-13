@@ -64,7 +64,6 @@ describe('Unit | Serializer | JSONAPI | certification-serializer', () => {
           pixScore: 23,
           status: 'rejected',
           commentForCandidate: 'Vous auriez dû travailler plus.',
-          certifiedProfile: null
         }),
       ];
 
@@ -81,7 +80,11 @@ describe('Unit | Serializer | JSONAPI | certification-serializer', () => {
               'status': 'rejected',
               'pix-score': 23,
               'comment-for-candidate': 'Vous auriez dû travailler plus.',
-              'certified-profile': null
+            },
+            'relationships': {
+              'result-competence-tree': {
+                'data': null,
+              },
             },
             'type': 'certifications',
             'id': 1,
@@ -120,7 +123,11 @@ describe('Unit | Serializer | JSONAPI | certification-serializer', () => {
               'status': 'rejected',
               'pix-score': 23,
               'comment-for-candidate': 'Vous auriez dû travailler plus.',
-              'certified-profile': null,
+            },
+            'relationships': {
+              'result-competence-tree': {
+                'data': null,
+              },
             },
             'type': 'certifications',
             'id': 1,
@@ -136,66 +143,120 @@ describe('Unit | Serializer | JSONAPI | certification-serializer', () => {
       });
     });
 
-    context('the entry data is one certification and its certifiedProfile', () => {
-
-      const receivedCertifications = [
-        factory.buildCertification({
-          pixScore: 23,
-          status: 'rejected',
-          commentForCandidate: 'Vous auriez dû travailler plus.',
-        }),
-      ];
+    context('the entry data is one certification with a resultCompetenceTree set', () => {
 
       const JsonCertificationList = {
-        data: [
-          {
-            attributes: {
-              'birthdate': new Date('1992-06-12'),
-              'certification-center': 'L’univeristé du Pix',
-              'date': new Date('2018-12-01'),
-              'first-name': 'Jean',
-              'is-published': true,
-              'last-name': 'Bon',
-              'status': 'rejected',
-              'pix-score': 23,
-              'comment-for-candidate': 'Vous auriez dû travailler plus.',
-              'certified-profile': [
-                {
-                  'area-index': '2',
-                  'area-name': 'Communiquer et collaborer',
-                  'competences': [
-                    {
-                      'competenceIndex': '2.1',
-                      'competenceName': 'Interagir',
-                      'level': 2,
-                    },
-                  ],
-                },
-                {
-                  'area-index': '4',
-                  'area-name': 'Protection',
-                  'competences': [
-                    {
-                      'competenceIndex': '4.1',
-                      'competenceName': 'Sécuriser',
-                      'level': -1,
-                    }
-                  ]
-                }
-              ]
+        'data': {
+          'attributes': {
+            'birthdate': new Date('1992-06-12'),
+            'certification-center': 'L’univeristé du Pix',
+            'date': new Date('2018-12-01'),
+            'first-name': 'Jean',
+            'is-published': true,
+            'last-name': 'Bon',
+            'status': 'rejected',
+            'pix-score': 23,
+            'comment-for-candidate': 'Vous auriez dû travailler plus.',
+          },
+          'relationships': {
+            'result-competence-tree': {
+              'data': {
+                'id': '1-1',
+                'type': 'resultCompetenceTrees',
+              },
             },
-            'id': 1,
-            'type': 'certifications'
-          }
+          },
+          'id': 1,
+          'type': 'certifications',
+        },
+        'included': [
+          {
+            'attributes': {
+              'index': '1.1',
+              'level': 2,
+              'name': 'Mener une recherche et une veille d’information',
+              'score': 13,
+            },
+            'id': 'recsvLz0W2ShyfD63',
+            'type': 'competences',
+          },
+          {
+            'attributes': {
+              'index': '1.2',
+              'level': -1,
+              'name': 'Mener une recherche et une veille d’information',
+              'score': 0,
+            },
+            'id': 'recNv8qhaY887jQb2',
+            'type': 'competences',
+          },
+          {
+            'attributes': {
+              'index': '1.3',
+              'level': -1,
+              'name': 'Mener une recherche et une veille d’information',
+              'score': 0,
+            },
+            'id': 'recIkYm646lrGvLNT',
+            'type': 'competences',
+          },
+          {
+            'attributes': {
+              'code': '1',
+              'name': '1. Information et données',
+              'title': 'Information et données',
+            },
+            'id': 'recvoGdo7z2z7pXWa',
+            'relationships': {
+              'competences': {
+                'data': [
+                  {
+                    'id': 'recsvLz0W2ShyfD63',
+                    'type': 'competences',
+                  },
+                  {
+                    'id': 'recNv8qhaY887jQb2',
+                    'type': 'competences',
+                  },
+                  {
+                    'id': 'recIkYm646lrGvLNT',
+                    'type': 'competences',
+                  },
+                ],
+              },
+            },
+            'type': 'areas',
+          },
+          {
+            'attributes': {
+              'id': '1-1',
+            },
+            'id': '1-1',
+            'relationships': {
+              'areas': {
+                'data': [
+                  {
+                    'id': 'recvoGdo7z2z7pXWa',
+                    'type': 'areas',
+                  },
+                ],
+              },
+            },
+            'type': 'resultCompetenceTrees',
+          },
         ],
       };
 
-      it('should serialize to JSON with relationship', () => {
+      it('should serialize to JSON with included relationships', () => {
         // given
-        receivedCertifications.certifiedProfile = factory.buildCertifiedProfile({});
+        const receivedCertification = factory.buildCertificationWithCompetenceTree({
+          pixScore: 23,
+          status: 'rejected',
+          commentForCandidate: 'Vous auriez dû travailler plus.',
+        });
 
         // when
-        const serializedCertifications = serializer.serialize(receivedCertifications);
+        const serializedCertifications = serializer.serialize(receivedCertification);
 
         // then
         expect(serializedCertifications).to.deep.equal(JsonCertificationList);
