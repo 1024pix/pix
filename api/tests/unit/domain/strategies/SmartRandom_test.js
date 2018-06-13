@@ -2,7 +2,7 @@
 const { expect, factory } = require('../../../test-helper');
 const AnswerStatus = require('../../../../lib/domain/models/AnswerStatus');
 const Tube = require('../../../../lib/domain/models/Tube');
-const SkillsProfile = require('../../../../lib/domain/models/SkillsProfile');
+const TargetProfile = require('../../../../lib/domain/models/TargetProfile');
 const SmartRandom = require('../../../../lib/domain/strategies/SmartRandom');
 
 describe('Unit | Domain | Models | SmartRandom', () => {
@@ -19,12 +19,12 @@ describe('Unit | Domain | Models | SmartRandom', () => {
 
       const challenges = [challenge1, challenge2, challenge3];
       const skills = [web1, web2, web3];
-      const skillsProfile = SkillsProfile.fromListOfSkill(skills);
+      const targetProfile = TargetProfile.fromListOfSkill(skills);
       const expectedTubes = new Tube({ skills: [web1, web2, web3] });
       const answers = [];
 
       // when
-      const smartRandom = new SmartRandom({ answers, challenges, skillsProfile });
+      const smartRandom = new SmartRandom({ answers, challenges, targetProfile });
 
       // then
       expect(smartRandom.course.tubes).to.be.deep.equal([expectedTubes]);
@@ -40,12 +40,12 @@ describe('Unit | Domain | Models | SmartRandom', () => {
 
       const challenges = [challenge1, challenge2];
       const skills = [web1, web2, web3];
-      const skillsProfile = SkillsProfile.fromListOfSkill(skills);
+      const targetProfile = TargetProfile.fromListOfSkill(skills);
       const expectedTubes = new Tube({ skills: [web1, web2] });
       const answers = [];
 
       // when
-      const smartRandom = new SmartRandom({ answers, challenges, skillsProfile });
+      const smartRandom = new SmartRandom({ answers, challenges, targetProfile });
 
       // then
       expect(smartRandom.course.tubes).to.be.deep.equal([expectedTubes]);
@@ -65,11 +65,11 @@ describe('Unit | Domain | Models | SmartRandom', () => {
 
       const challenges = [challenge1, challenge2, challenge3];
       const skills = [web1, web2, web3];
-      const skillsProfile = SkillsProfile.fromListOfSkill(skills);
+      const targetProfile = TargetProfile.fromListOfSkill(skills);
       const answers = [];
 
       // when
-      const smartRandom = new SmartRandom({ answers, challenges, skillsProfile });
+      const smartRandom = new SmartRandom({ answers, challenges, targetProfile });
       const nextChallenge = smartRandom.getNextChallenge();
 
       // then
@@ -85,7 +85,7 @@ describe('Unit | Domain | Models | SmartRandom', () => {
         const web3 = factory.buildSkill({ name: 'web3' });
         const info2 = factory.buildSkill({ name: 'info2' });
         const skills = [url4, url5, web3, info2];
-        const skillsProfile = SkillsProfile.fromListOfSkill(skills);
+        const targetProfile = TargetProfile.fromListOfSkill(skills);
 
         const challengeUrl4 = factory.buildChallenge({ id: 'recUrl4', skills: [url4] });
         const challengeUrl5 = factory.buildChallenge({ id: 'recUrl5', skills: [url5] });
@@ -96,7 +96,7 @@ describe('Unit | Domain | Models | SmartRandom', () => {
         const answers = [factory.buildAnswer({ challengeId: 'recInfo2', result: AnswerStatus.OK })];
 
         // when
-        const smartRandom = new SmartRandom({ answers, challenges, skillsProfile });
+        const smartRandom = new SmartRandom({ answers, challenges, targetProfile });
         const nextChallenge = smartRandom.getNextChallenge();
 
         // then
@@ -109,7 +109,7 @@ describe('Unit | Domain | Models | SmartRandom', () => {
         const url6 = factory.buildSkill({ name: 'url6' });
         const info2 = factory.buildSkill({ name: 'info2' });
         const skills = [url4, url6, info2];
-        const skillsProfile = SkillsProfile.fromListOfSkill(skills);
+        const targetProfile = TargetProfile.fromListOfSkill(skills);
 
         const challengeUrl4 = factory.buildChallenge({ id: 'recUrl4', skills: [url4] });
         const challengeUrl6 = factory.buildChallenge({ id: 'recUrl6', skills: [url6] });
@@ -120,7 +120,7 @@ describe('Unit | Domain | Models | SmartRandom', () => {
         const answers = [factory.buildAnswer({ challengeId: 'recInfo2', result: AnswerStatus.OK })];
 
         // when
-        const smartRandom = new SmartRandom({ answers, challenges, skillsProfile });
+        const smartRandom = new SmartRandom({ answers, challenges, targetProfile });
         const nextChallenge = smartRandom.getNextChallenge();
 
         // then
@@ -139,7 +139,7 @@ describe('Unit | Domain | Models | SmartRandom', () => {
       const url6 = factory.buildSkill({ name: 'url6' });
       const rechInfo7 = factory.buildSkill({ name: 'rechInfo7' });
       const skills = [web1, web2, url3, url4, rechInfo5, rechInfo7, url6];
-      const skillsProfile = SkillsProfile.fromListOfSkill(skills);
+      const targetProfile = TargetProfile.fromListOfSkill(skills);
 
       const ch1 = factory.buildChallenge({ id: 'recEasy', skills: [web1] });
       const ch2 = factory.buildChallenge({ id: 'rec2', skills: [web2] });
@@ -157,7 +157,7 @@ describe('Unit | Domain | Models | SmartRandom', () => {
       ];
 
       // when
-      const smartRandom = new SmartRandom({ answers, challenges, skillsProfile });
+      const smartRandom = new SmartRandom({ answers, challenges, targetProfile });
       const nextChallenge = smartRandom.getNextChallenge();
 
       // then
@@ -171,7 +171,7 @@ describe('Unit | Domain | Models | SmartRandom', () => {
       const rechInfo5 = factory.buildSkill({ name: 'rechInfo5' });
       const web7 = factory.buildSkill({ name: 'web7' });
       const skills = [web2, url3, rechInfo5, web7];
-      const skillsProfile = SkillsProfile.fromListOfSkill(skills);
+      const targetProfile = TargetProfile.fromListOfSkill(skills);
 
       const ch2 = factory.buildChallenge({ id: 'rec2', skills: [web2] });
       const ch3 = factory.buildChallenge({ id: 'rec3', skills: [url3] });
@@ -186,7 +186,7 @@ describe('Unit | Domain | Models | SmartRandom', () => {
       ];
 
       // when
-      const smartRandom = new SmartRandom({ answers, challenges, skillsProfile });
+      const smartRandom = new SmartRandom({ answers, challenges, targetProfile });
       const nextChallenge = smartRandom.getNextChallenge();
 
       // then
@@ -201,7 +201,7 @@ describe('Unit | Domain | Models | SmartRandom', () => {
       const web4 = factory.buildSkill({ name: '@web4' });
       const web5 = factory.buildSkill({ name: '@web5' });
       const skills = [web1, web2, web3, web4, web5];
-      const skillsProfile = SkillsProfile.fromListOfSkill(skills);
+      const targetProfile = TargetProfile.fromListOfSkill(skills);
 
       const ch1 = factory.buildChallenge({ id: 'rec1', skills: [web1] });
       const ch2 = factory.buildChallenge({ id: 'rec2', skills: [web2] });
@@ -221,7 +221,7 @@ describe('Unit | Domain | Models | SmartRandom', () => {
         ];
 
         // when
-        const smartRandom = new SmartRandom({ answers, challenges, skillsProfile });
+        const smartRandom = new SmartRandom({ answers, challenges, targetProfile });
         const nextChallenge = smartRandom.getNextChallenge();
 
         // then
@@ -238,7 +238,7 @@ describe('Unit | Domain | Models | SmartRandom', () => {
         ];
 
         // when
-        const smartRandom = new SmartRandom({ answers, challenges, skillsProfile });
+        const smartRandom = new SmartRandom({ answers, challenges, targetProfile });
         const nextChallenge = smartRandom.getNextChallenge();
 
         // then
@@ -255,7 +255,7 @@ describe('Unit | Domain | Models | SmartRandom', () => {
         challenges = [ch1, ch2, ch3, ch3Bis, ch4];
 
         // when
-        const smartRandom = new SmartRandom({ answers, challenges, skillsProfile });
+        const smartRandom = new SmartRandom({ answers, challenges, targetProfile });
         const nextChallenge = smartRandom.getNextChallenge();
 
         // then
@@ -273,7 +273,7 @@ describe('Unit | Domain | Models | SmartRandom', () => {
         challenges = [ch1, ch2, ch3, ch3Bis];
 
         // when
-        const smartRandom = new SmartRandom({ answers, challenges, skillsProfile });
+        const smartRandom = new SmartRandom({ answers, challenges, targetProfile });
         const nextChallenge = smartRandom.getNextChallenge();
 
         // ass
@@ -286,7 +286,7 @@ describe('Unit | Domain | Models | SmartRandom', () => {
       const web1 = factory.buildSkill({ name: 'web1' });
       const web2 = factory.buildSkill({ name: 'web2' });
       const skills = [web1, web2];
-      const skillsProfile = SkillsProfile.fromListOfSkill(skills);
+      const targetProfile = TargetProfile.fromListOfSkill(skills);
 
       const ch1 = factory.buildChallenge({ id: 'rec1', skills: [web1] });
       const ch2 = factory.buildChallenge({ id: 'rec2', skills: [web2] });
@@ -297,7 +297,7 @@ describe('Unit | Domain | Models | SmartRandom', () => {
       ];
 
       // when
-      const smartRandom = new SmartRandom({ answers, challenges, skillsProfile });
+      const smartRandom = new SmartRandom({ answers, challenges, targetProfile });
       const nextChallenge = smartRandom.getNextChallenge();
 
       // then
@@ -307,14 +307,14 @@ describe('Unit | Domain | Models | SmartRandom', () => {
     it('should call _firstChallenge function if the assessment has no answer', function() {
       // given
       const url2 = factory.buildSkill({ name: '@url2' });
-      const skillsProfile = SkillsProfile.fromListOfSkill([url2]);
+      const targetProfile = TargetProfile.fromListOfSkill([url2]);
 
       const firstChallenge = factory.buildChallenge({ id: 'rec', skills: [url2] });
       const challenges = [firstChallenge];
       const answers = [];
 
       // when
-      const smartRandom = new SmartRandom({ answers, challenges, skillsProfile });
+      const smartRandom = new SmartRandom({ answers, challenges, targetProfile });
       const nextChallenge = smartRandom.getNextChallenge();
 
       // then
@@ -327,7 +327,7 @@ describe('Unit | Domain | Models | SmartRandom', () => {
       const web2 = factory.buildSkill({ name: 'web2' });
       const web3 = factory.buildSkill({ name: 'web3' });
       const skills = [web1, web2, web3];
-      const skillsProfile = SkillsProfile.fromListOfSkill(skills);
+      const targetProfile = TargetProfile.fromListOfSkill(skills);
 
       const ch1 = factory.buildChallenge({ id: 'rec1', skills: [web1] });
       const ch2a = factory.buildChallenge({ id: 'rec2a', skills: [web2] });
@@ -339,7 +339,7 @@ describe('Unit | Domain | Models | SmartRandom', () => {
       ];
 
       // when
-      const smartRandom = new SmartRandom({ answers, challenges, skillsProfile });
+      const smartRandom = new SmartRandom({ answers, challenges, targetProfile });
       const nextChallenge = smartRandom.getNextChallenge();
 
       // then
@@ -353,7 +353,7 @@ describe('Unit | Domain | Models | SmartRandom', () => {
       const web3 = factory.buildSkill({ name: 'web3' });
       const url3 = factory.buildSkill({ name: 'url3' });
       const skills = [web1, web2, web3, url3];
-      const skillsProfile = SkillsProfile.fromListOfSkill(skills);
+      const targetProfile = TargetProfile.fromListOfSkill(skills);
 
       const ch1 = factory.buildChallenge({ id: 'rec1', skills: [web1] });
       const ch2a = factory.buildChallenge({ id: 'rec2a', skills: [web2] });
@@ -366,7 +366,7 @@ describe('Unit | Domain | Models | SmartRandom', () => {
       ];
 
       // when
-      const smartRandom = new SmartRandom({ answers, challenges, skillsProfile });
+      const smartRandom = new SmartRandom({ answers, challenges, targetProfile });
       const nextChallenge = smartRandom.getNextChallenge();
 
       // then
@@ -380,7 +380,7 @@ describe('Unit | Domain | Models | SmartRandom', () => {
       const web4 = factory.buildSkill({ name: 'web4' });
       const web6 = factory.buildSkill({ name: 'web6' });
       const skills = [web1, web2, web4, web6];
-      const skillsProfile = SkillsProfile.fromListOfSkill(skills);
+      const targetProfile = TargetProfile.fromListOfSkill(skills);
 
       const ch1 = factory.buildChallenge({ id: 'rec1', skills: [web1] });
       const ch2 = factory.buildChallenge({ id: 'rec2', skills: [web2] });
@@ -392,7 +392,7 @@ describe('Unit | Domain | Models | SmartRandom', () => {
       ];
 
       // when
-      const smartRandom = new SmartRandom({ answers, challenges, skillsProfile });
+      const smartRandom = new SmartRandom({ answers, challenges, targetProfile });
       const nextChallenge = smartRandom.getNextChallenge();
 
       // then
@@ -407,7 +407,7 @@ describe('Unit | Domain | Models | SmartRandom', () => {
       const web6 = factory.buildSkill({ name: 'web6' });
       const web7 = factory.buildSkill({ name: 'web7' });
       const skills = [web1, web2, web4, web6, web7];
-      const skillsProfile = SkillsProfile.fromListOfSkill(skills);
+      const targetProfile = TargetProfile.fromListOfSkill(skills);
 
       const ch1 = factory.buildChallenge({ id: 'rec1', skills: [web1] });
       const ch2 = factory.buildChallenge({ id: 'rec2', skills: [web2] });
@@ -422,7 +422,7 @@ describe('Unit | Domain | Models | SmartRandom', () => {
       ];
 
       // when
-      const smartRandom = new SmartRandom({ answers, challenges, skillsProfile });
+      const smartRandom = new SmartRandom({ answers, challenges, targetProfile });
       const nextChallenge = smartRandom.getNextChallenge();
 
       // then
@@ -434,7 +434,7 @@ describe('Unit | Domain | Models | SmartRandom', () => {
       const web2 = factory.buildSkill({ name: 'web2' });
       const url7 = factory.buildSkill({ name: 'url7' });
       const skills = [web2, url7];
-      const skillsProfile = SkillsProfile.fromListOfSkill(skills);
+      const targetProfile = TargetProfile.fromListOfSkill(skills);
 
       const challengeWeb2 = factory.buildChallenge({ id: 'rec2', skills: [web2] });
       const challengeUrl7 = factory.buildChallenge({ id: 'rec7', skills: [url7] });
@@ -444,7 +444,7 @@ describe('Unit | Domain | Models | SmartRandom', () => {
       ];
 
       // when
-      const smartRandom = new SmartRandom({ answers, challenges, skillsProfile });
+      const smartRandom = new SmartRandom({ answers, challenges, targetProfile });
       const nextChallenge = smartRandom.getNextChallenge();
 
       // then
