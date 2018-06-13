@@ -1,5 +1,9 @@
 # Pix Changelog
 
+## v1.51.1 (13/06/2018)
+
+- [#95](https://github.com/1024pix/pix/pull/95) [EXPEDIT] Les boutons radio sous IE n'ont pas la valeur de la réponse (pf-242).
+
 ## v1.51.0 (08/06/2018)
 
 - [#80](https://github.com/1024pix/pix/pull/80) [FEATURE] Implémentation de l'authentification sur pix-orga (api) (PO-18).
@@ -12,7 +16,7 @@
 - [#89](https://github.com/1024pix/pix/pull/89) [BUGFIX] Rétrogradation de Ember Data qui introduit une régression à partir de la version 3.1 (PF-207).
 - [#82](https://github.com/1024pix/pix/pull/82) [BUGFIX] Les skills doivent être comparés par noms (PF-103).
 
-## v1.50.0 (31/05/2018) 
+## v1.50.0 (31/05/2018)
 
 - [#75](https://github.com/1024pix/pix/pull/75) [FEATURE] Ajout d'une page de résultats intermédiaires pour le smart random (PF-59).
 - [#65](https://github.com/1024pix/pix/pull/65) [FEATURE] Ajout des tests trans-competence a l'algo SmartRandom (PF-91).
@@ -32,7 +36,7 @@
 
 - [BUGFIX] Checkout the right branch on CircleCi.
 
-## v1.49.0 (25/05/2018) 
+## v1.49.0 (25/05/2018)
 
 - [#43](https://github.com/1024pix/pix/pull/43) [HOTFIX] Amélioration de la sécurité lors de la création d'un compte utilisateur (PF-103).
 - [#61](https://github.com/1024pix/pix/pull/61) [FEATURE] Ajout du commentaire du jury sur la liste des certifications (PF-13).
@@ -44,7 +48,7 @@
 - [#73](https://github.com/1024pix/pix/pull/73) [BUGFIX] L'algorithme de positionnement ne filtre pas la première question par acquis prioritaire (PF-176).
 - [#58](https://github.com/1024pix/pix/pull/58) [BUGFIX] Gestion des erreurs 500 lors du partage d'un profil de compétence (PF-140).
 
-## v1.48.0 (04/05/2018) 
+## v1.48.0 (04/05/2018)
 
 - [#36](https://github.com/1024pix/pix/pull/36) [FEATURE] Affichage d'un indice à la fin du test lorsque l'utilisateur a donné une mauvaise réponse (US-1105).
 - [#48](https://github.com/1024pix/pix/pull/48) [FEATURE] Publier une certification (PF-12).
@@ -60,7 +64,7 @@
 - [#44](https://github.com/1024pix/pix/pull/44) [TECH] Refactoring de l'endpoint de choix de la prochaine question (PF-100).
 - [#46](https://github.com/1024pix/pix/pull/46) [BSR] Pointer l'URL d'intégration vers integration.pix.fr.
 
-## v1.47.0 (17/04/2018) 
+## v1.47.0 (17/04/2018)
 
 - [#14](https://github.com/1024pix/pix/pull/14) [FEATURE] Ajout de nouveaux endpoints d'authentification OAuth 2 (US-1205).
 - [#23](https://github.com/1024pix/pix/pull/23) [FEATURE] Ajout d'un identifiant externe sur les certifications (US-1190).
@@ -83,7 +87,7 @@
 - [#10](https://github.com/1024pix/pix/pull/10) [TECH]Changer les URL du README pour pointer vers le nouveau repo (US-1110).
 - [#13](https://github.com/1024pix/pix/pull/13) [BSR] Supprimer les références vers les vieux repositories (US-1212).
 
-## v1.46.0 (05/04/2018) 
+## v1.46.0 (05/04/2018)
 
 - [#699](https://github.com/betagouv/pix/pull/699) [FEATURE] Ajout d'une route pour modifier les résultats d'une certification (US-1088).
 - [#2](https://github.com/1024pix/pix/pull/2) [FEATURE] La notation "Partager" en remplacer par "Envoyer" (US-1171).
