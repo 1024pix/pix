@@ -1,14 +1,20 @@
 const { expect, sinon } = require('../../../test-helper');
-const certificationController = require('../../../../lib/application/certifications/certification-controller');
-const certificationRepository = require('../../../../lib/infrastructure/repositories/certification-repository');
-const usecases = require('../../../../lib/domain/usecases');
-const errors = require('../../../../lib/domain/errors');
-const certificationSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/certification-serializer');
-const Boom = require('boom');
-const logger = require('../../../../lib/infrastructure/logger');
 const factory = require('../../../factory');
 
+const certificationController = require('../../../../lib/application/certifications/certification-controller');
+
+const errors = require('../../../../lib/domain/errors');
+const usecases = require('../../../../lib/domain/usecases');
 const Assessment = require('../../../../lib/domain/models/Assessment');
+
+const Boom = require('boom');
+const logger = require('../../../../lib/infrastructure/logger');
+const certificationSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/certification-serializer');
+
+const certificationRepository = require('../../../../lib/infrastructure/repositories/certification-repository');
+const assessmentRepository = require('../../../../lib/infrastructure/repositories/assessment-repository');
+const competenceMarksRepository = require('../../../../lib/infrastructure/repositories/competence-mark-repository');
+const competenceTreeRepository = require('../../../../lib/infrastructure/repositories/competence-tree-repository');
 
 describe('Unit | Controller | certifications-controller', () => {
 
@@ -79,23 +85,7 @@ describe('Unit | Controller | certifications-controller', () => {
 
   describe('#getCertification', () => {
 
-    const certification = factory.buildCertification();
-    const certifiedProfile = [
-      {
-        competenceName: 'Sécuriser',
-        competenceIndex: '4.1',
-        level: -1,
-        areaIndex: '4',
-        areaName: 'Protection',
-      },
-      {
-        competenceName: 'Interagir',
-        competenceIndex: '2.1',
-        level: 2,
-        areaIndex: '2',
-        areaName: 'Communiquer et collaborer',
-      },
-    ];
+    const certification = factory.buildCertificationWithCompetenceTree();
     const serializedCertification = '{JSON}';
     const userId = 1;
 
@@ -105,26 +95,27 @@ describe('Unit | Controller | certifications-controller', () => {
     };
 
     beforeEach(() => {
-      sandbox.stub(usecases, 'getUserCertification');
-      sandbox.stub(usecases, 'getUserCertifiedProfile');
+      sandbox.stub(usecases, 'getUserCertificationWithResultTree');
       sandbox.stub(certificationSerializer, 'serialize').returns(serializedCertification);
       sandbox.stub(logger, 'error');
     });
 
     it('should return a serialized certification when use case returns a certification', () => {
       // given
-      usecases.getUserCertification.resolves(certification);
-      usecases.getUserCertifiedProfile.resolves(certifiedProfile);
+      usecases.getUserCertificationWithResultTree.resolves(certification);
 
       // when
       const promise = certificationController.getCertification(request, replyStub);
 
       // then
       return promise.then(() => {
-        expect(usecases.getUserCertification).to.have.been.calledWith({
+        expect(usecases.getUserCertificationWithResultTree).to.have.been.calledWith({
           userId,
           certificationId: certification.id,
-          certificationRepository
+          certificationRepository,
+          assessmentRepository,
+          competenceMarksRepository,
+          competenceTreeRepository,
         });
         expect(certificationSerializer.serialize).to.have.been.calledWith(certification);
         expect(replyStub).to.have.been.calledWith(serializedCertification);
@@ -141,7 +132,7 @@ describe('Unit | Controller | certifications-controller', () => {
           title: 'Unauthorized Access',
         }],
       };
-      usecases.getUserCertification.rejects(new errors.UserNotAuthorizedToAccessEntity());
+      usecases.getUserCertificationWithResultTree.rejects(new errors.UserNotAuthorizedToAccessEntity());
 
       // when
       const promise = certificationController.getCertification(request, replyStub);
@@ -167,7 +158,7 @@ describe('Unit | Controller | certifications-controller', () => {
           title: 'Not Found',
         }],
       };
-      usecases.getUserCertification.rejects(new errors.NotFoundError(`Not found certification for ID ${certificationID}`));
+      usecases.getUserCertificationWithResultTree.rejects(new errors.NotFoundError(`Not found certification for ID ${certificationID}`));
 
       // when
       const promise = certificationController.getCertification(request, replyStub);
@@ -189,7 +180,7 @@ describe('Unit | Controller | certifications-controller', () => {
           title: 'Internal Server Error',
         }],
       };
-      usecases.getUserCertification.rejects(error);
+      usecases.getUserCertificationWithResultTree.rejects(error);
 
       // when
       const promise = certificationController.getCertification(request, replyStub);
