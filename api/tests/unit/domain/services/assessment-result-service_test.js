@@ -188,6 +188,25 @@ describe('Unit | Domain | Services | assessment-results', () => {
         return expect(promise).to.be.rejectedWith(AlreadyRatedAssessmentError);
       });
 
+      it('should not reject an AlreadyRatedAssessmentError if a parameters contains a recompute at true', () => {
+        // given
+        const alreadyEvaluatedAssessment = Assessment.fromAttributes({
+          id: assessmentId,
+          courseId: assessmentCourseId,
+          userId: 5,
+          state: 'completed',
+          type: 'PLACEMENT',
+        });
+
+        assessmentRepository.get.resolves(alreadyEvaluatedAssessment);
+
+        // when
+        const promise = service.evaluateFromAssessmentId(assessmentId, { recompute: true });
+
+        // then
+        return expect(promise).to.not.be.rejectedWith(AlreadyRatedAssessmentError);
+      });
+
     });
 
     it('should reject a not found error when getSkills raise a notFoundError because the assessment does not exist', () => {

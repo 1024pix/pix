@@ -61,8 +61,9 @@ module.exports = {
 
   evaluate(request, reply) {
     const assessmentRating = assessmentResultsSerializer.deserialize(request.payload);
+    const parameters = request.query;
 
-    return assessmentResultService.evaluateFromAssessmentId(assessmentRating.assessmentId)
+    return assessmentResultService.evaluateFromAssessmentId(assessmentRating.assessmentId, parameters)
       .then(() => {
         reply();
       })
