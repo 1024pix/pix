@@ -56,8 +56,8 @@ function evaluateFromAssessmentId(assessmentId, parameters = {}) {
         assessmentService.getCompetenceMarks(assessment),
       ]);
     })
-    .then(([skills, competencesWithMark]) => {
-      const { pixScore, level, status } = _getAssessmentResultEvaluations(competencesWithMark, assessment.type);
+    .then(([skills, mark]) => {
+      const { pixScore, level, status } = _getAssessmentResultEvaluations(mark, assessment.type);
       const assessmentResult = new AssessmentResult({
         emitter: 'PIX-ALGO',
         commentForJury: 'Computed',
@@ -70,7 +70,7 @@ function evaluateFromAssessmentId(assessmentId, parameters = {}) {
 
       return Promise.all([
         assessmentResultRepository.save(assessmentResult),
-        competencesWithMark,
+        mark,
         skillService.saveAssessmentSkills(skills),
         assessmentRepository.save(assessment),
       ]);

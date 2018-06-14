@@ -2,18 +2,15 @@ const courseRepository = require('../../infrastructure/repositories/course-repos
 const certificationCourseRepository = require('../../infrastructure/repositories/certification-course-repository');
 const answerRepository = require('../../infrastructure/repositories/answer-repository');
 const assessmentRepository = require('../../infrastructure/repositories/assessment-repository');
-const assessmentResultRepository = require('../../infrastructure/repositories/assessment-result-repository');
 const challengeRepository = require('../../infrastructure/repositories/challenge-repository');
 const skillRepository = require('../../infrastructure/repositories/skill-repository');
 const competenceRepository = require('../../infrastructure/repositories/competence-repository');
-const competenceMarkRepository = require('../../infrastructure/repositories/competence-mark-repository');
 const assessmentAdapter = require('../../infrastructure/adapters/assessment-adapter');
 const answerService = require('../services/answer-service');
 const certificationService = require('../services/certification-service');
 
 const CompetenceMark = require('../../domain/models/CompetenceMark');
 const Assessment = require('../../domain/models/Assessment');
-const AssessmentResult = require('../../domain/models/AssessmentResult');
 
 const _ = require('../../infrastructure/utils/lodash-utils');
 
@@ -208,50 +205,6 @@ function getCompetenceMarks(assessment) {
   return [];
 }
 
-function computeMarks(assessmentId) {
-  let competencesAfterCalcul, competencesWithMarkAfterCalcul;
-  return Promise
-    .all([competenceRepository.list(), certificationService.calculateCertificationResultByAssessmentId(assessmentId)])
-    .then(([competences, { competencesWithMark, totalScore }]) => {
-      competencesAfterCalcul = competences;
-      competencesWithMarkAfterCalcul = competencesWithMark;
-      let status = 'validated';
-      if(totalScore < 1) {
-        status = 'rejected';
-      }
-      const assessmentResult = new AssessmentResult({
-        emitter: 'PIX-ALGO',
-        commentForJury: 'Re-Computed',
-        level: 0,
-        pixScore: totalScore,
-        status,
-        assessmentId,
-      });
-
-      return assessmentResultRepository.save(assessmentResult);
-    })
-    .then((assessmentResult) => {
-      const savedMarks = competencesWithMarkAfterCalcul.map((certifiedCompetence) => {
-
-        const area_code = _(competencesAfterCalcul).find((competence) => {
-          return competence.index === certifiedCompetence.index;
-        }).area.code;
-
-        const mark = new CompetenceMark({
-          level: certifiedCompetence.obtainedLevel,
-          score: certifiedCompetence.obtainedScore,
-          area_code,
-          competence_code: certifiedCompetence.index,
-          assessmentResultId: assessmentResult.id
-        });
-
-        return competenceMarkRepository.save(mark);
-      });
-
-      return Promise.all(savedMarks);
-    });
-}
-
 function findByFilters(filters) {
   return assessmentRepository.findByFilters(filters)
     .then((assessments) => {
@@ -304,5 +257,4 @@ module.exports = {
   getScoreAndLevel,
   getSkills,
   getCompetenceMarks,
-  computeMarks
 };
