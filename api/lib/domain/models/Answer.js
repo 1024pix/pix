@@ -10,6 +10,7 @@ class Answer {
     this.elapsedTime = elapsedTime;
     this.resultDetails = resultDetails;
     this.assessmentId = assessmentId;
+    // TODO:
     this.challengeId = challengeId;
   }
 

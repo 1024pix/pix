@@ -25,6 +25,7 @@ const buildResultCompetenceTree = require('./build-result-competence-tree');
 const buildSkill = require('./build-skill');
 const buildSkillCollection = require('./build-skill-collection');
 const buildTube = require('./build-tube');
+const buildTargetProfile = require('./build-target-profile');
 const buildTutorial = require('./build-tutorial');
 const buildUser = require('./build-user');
 
@@ -56,6 +57,7 @@ module.exports = {
   buildSkill,
   buildSkillCollection,
   buildTube,
+  buildTargetProfile,
   buildTutorial,
   buildUser,
 };

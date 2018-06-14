@@ -1,17 +1,17 @@
-
 const faker = require('faker');
-
 const Course = require('../../lib/domain/models/Course');
 
 module.exports = function buildCourse({
-  id = faker.random.uuid(),
+  id = faker.random.number(),
+
   // attributes
-  description = 'some description',
-  imageUrl,
+  description = faker.lorem.sentence(),
+  imageUrl = faker.internet.url(),
   isAdaptive = true,
   name = faker.lorem.word(),
   type = 'PLACEMENT',
-  // relations
+
+  // relationships
   assessment,
   challenges = [],
   competences = [],
