@@ -1,12 +1,17 @@
 class SkillReview {
 
   constructor({ assessment, targetProfile } = {}) {
+    this.id = assessment.id;
     this.assessment = assessment;
     this.targetProfile = targetProfile;
   }
 
   get progressionRate() {
-    return 0;
+    const numberOfTargetedSkills = this.targetProfile.skills.length;
+    const numberOfValidatedSkills = this.assessment.getValidatedSkills().length;
+    const targetProfileHasSkills = numberOfTargetedSkills !== 0;
+
+    return targetProfileHasSkills ? (numberOfValidatedSkills / numberOfTargetedSkills) : 0;
   }
 
 }
