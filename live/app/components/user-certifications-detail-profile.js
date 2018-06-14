@@ -1,6 +1,11 @@
+import { computed } from '@ember/object';
 import Component from '@ember/component';
 
 export default Component.extend({
   classNames: ['user-certifications-detail-profile'],
-  certification: null,
+  resultCompetenceTree: null,
+
+  sortedAreas: computed('resultCompetenceTree.areas.[]', function() {
+    return this.get('resultCompetenceTree.areas').sortBy('code');
+  })
 });

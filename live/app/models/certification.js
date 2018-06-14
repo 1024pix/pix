@@ -13,5 +13,5 @@ export default Model.extend({
   status: attr('string'),
   user: belongsTo('user'),
   commentForCandidate: attr('string'),
-  certifiedProfile: attr(),
+  resultCompetenceTree: belongsTo('resultCompetenceTree'),
 });
