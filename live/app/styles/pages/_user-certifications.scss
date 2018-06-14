@@ -24,3 +24,14 @@
     justify-content: flex-start;
   }
 }
+
+.user-certifications-page__detail-content {
+  display: flex;
+  flex-direction: column;
+
+  @include device-is('desktop') {
+    flex-direction: row;
+    flex-wrap: nowrap;
+    align-content: flex-start;
+  }
+}

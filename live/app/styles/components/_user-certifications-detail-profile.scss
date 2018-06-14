@@ -1,8 +1,12 @@
 .user-certifications-detail-profile {
-  width: 95%;
-  margin-top: 30px;
+  width: 100%;
+
+  margin-top: 3rem;
+  padding: 0 0 0 1rem;
+
+  flex-shrink: 1;
+
   @include device-is('desktop') {
-    width: 60%;
     justify-content: flex-start;
   }
 }
