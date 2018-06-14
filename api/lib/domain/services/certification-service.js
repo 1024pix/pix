@@ -3,29 +3,30 @@ const MINIMUM_REPRODUCTIBILITY_RATE_TO_BE_TRUSTED = 80;
 const NUMBER_OF_PIX_FOR_ONE_LEVEL = 8;
 const UNCERTIFIED_LEVEL = -1;
 const qrocmDepChallenge = 'QROCM-dep';
+
 const _ = require('lodash');
 const moment = require('moment');
 const AnswerStatus = require('../models/AnswerStatus');
 const CertificationCourse = require('../../domain/models/CertificationCourse');
-const { UserNotAuthorizedToCertifyError, NotCompletedAssessmentError } = require('../../../lib/domain/errors');
+const { UserNotAuthorizedToCertifyError, NotCompletedAssessmentError, CertificationComputeError } = require('../../../lib/domain/errors');
 
-const userService = require('../../../lib/domain/services/user-service');
-const certificationChallengesService = require('../../../lib/domain/services/certification-challenges-service');
 const answerServices = require('./answer-service');
+const certificationChallengesService = require('../../../lib/domain/services/certification-challenges-service');
+const userService = require('../../../lib/domain/services/user-service');
+
+const assessmentResultRepository = require('../../infrastructure/repositories/assessment-result-repository');
 const assessmentRepository = require('../../../lib/infrastructure/repositories/assessment-repository');
 const answersRepository = require('../../../lib/infrastructure/repositories/answer-repository');
 const certificationChallengesRepository = require('../../../lib/infrastructure/repositories/certification-challenge-repository');
 const certificationCourseRepository = require('../../infrastructure/repositories/certification-course-repository');
 const challengeRepository = require('../../infrastructure/repositories/challenge-repository');
-
 const competenceRepository = require('../../infrastructure/repositories/competence-repository');
-const assessmentResultRepository = require('../../infrastructure/repositories/assessment-result-repository');
 
 function _enhanceAnswersWithCompetenceId(listAnswers, listChallenges) {
   return _.map(listAnswers, (answer) => {
     const competence = listChallenges.find((challenge) => challenge.challengeId === answer.challengeId);
     if (competence == null) {
-      throw new Error('Pas de competences récupéré dans _enhanceAnswersWithCompetenceId');
+      throw new CertificationComputeError('Problème de chargement de la compétence pour le challenge ' + answer.challengeId);
     }
     answer.competenceId = competence.competenceId;
     return answer;
@@ -46,11 +47,11 @@ function _numberOfCorrectAnswersPerCompetence(answersWithCompetences, competence
   const answerForCompetence = _.filter(answersWithCompetences, answer => answer.competenceId === competence.id);
   const challengesForCompetence = _.filter(certificationChallenges, challenge => challenge.competenceId === competence.id);
   if (challengesForCompetence < 2) {
-    throw new Error('Pas assez de challenges posés pour la compétence ' + competence.index);
+    throw new CertificationComputeError('Pas assez de challenges posés pour la compétence ' + competence.index);
   }
 
   if (answerForCompetence < 2) {
-    throw new Error('Pas assez de réponses pour la compétence ' + competence.index);
+    throw new CertificationComputeError('Pas assez de réponses pour la compétence ' + competence.index);
   }
 
   let nbOfCorrectAnswers = 0;
@@ -58,7 +59,7 @@ function _numberOfCorrectAnswersPerCompetence(answersWithCompetences, competence
     const challenge = _.find(certificationChallenges, challenge => challenge.challengeId === answer.challengeId);
 
     if (_.isUndefined(challenge)) {
-      throw new Error('Pas de challenges récupéré dans _numberOfCorrectAnswersPerCompetence');
+      throw new CertificationComputeError('Problème de chargement du challenge ' + answer.challengeId);
     }
 
     const answerResult = answer.result;
@@ -143,7 +144,7 @@ function _checkIfUserCanStartACertification(userCompetences) {
 function _getResult(listAnswers, certificationChallenges, testedCompetences) {
 
   if (listAnswers.length < certificationChallenges.length) {
-    throw new Error('Pas assez de réponses dans _getResult - erreur attendu ');
+    throw new CertificationComputeError('L’utilisateur n’a pas répondu à toutes les questions');
   }
   const reproductibilityRate = Math.round(answerServices.getAnswersSuccessRate(listAnswers));
   if (reproductibilityRate < MINIMUM_REPRODUCTIBILITY_RATE_TO_BE_CERTIFIED) {
@@ -159,7 +160,7 @@ function _getResult(listAnswers, certificationChallenges, testedCompetences) {
   const scoreAfterRating = _getSumScoreFromCertifiedCompetences(competencesWithMark);
 
   if (scoreAfterRating < 1 && reproductibilityRate > 50) {
-    throw new Error('Faussement rejeté dans _getResult');
+    throw new CertificationComputeError('Rejeté avec un taux de reproductibilité supérieur à 50');
   }
 
   return { competencesWithMark, totalScore: scoreAfterRating, percentageCorrectAnswers: reproductibilityRate };

@@ -96,7 +96,6 @@ function evaluateFromAssessmentId(assessmentId, parameters = {}) {
       return Promise.all(saveMarksPromises);
     })
     .then(() => {
-
       if (assessmentService.isCertificationAssessment(assessment)) {
         return certificationCourseRepository.changeCompletionDate(assessment.courseId,
           moment().toISOString());

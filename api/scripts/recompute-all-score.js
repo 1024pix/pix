@@ -2,7 +2,7 @@
 const request = require('request-promise-native');
 
 function buildRequestObject(baseUrl, authToken, certifId) {
-  const request=  {
+  const request = {
     method: 'POST',
     headers: {
       authorization: 'Bearer ' + authToken,
@@ -22,18 +22,20 @@ function main() {
   const min = parseInt(process.argv[4]);
   const max = parseInt(process.argv[5]);
 
-    const listCertif = [];
-    for (let i = min; i <= max; i++) {
-      listCertif.push(i);
-    }
-    const requests = Promise.all(
-      listCertif.map(id => buildRequestObject(baseUrl, authToken, id))
-        .map(requestObject => request(requestObject)));
+  const listCertif = [];
+  for (let i = min; i <= max; i++) {
+    listCertif.push(i);
+  }
+  const requests = Promise.all(
+    listCertif.map(id => buildRequestObject(baseUrl, authToken, id))
+      .map(requestObject => request(requestObject)));
 
-    requests.then((result) => {console.log(result.filter((result) => result.includes('Diff')))})
-      .catch((err) => {
-        console.log(err);
-      });
+  requests.then((result) => {
+    console.log(result.filter((result) => result.includes('ERROR')));
+  })
+    .catch((err) => {
+      console.log(err);
+    });
 }
 
 main();
