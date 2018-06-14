@@ -5,6 +5,7 @@ const certificationService = require('../../../../lib/domain/services/certificat
 const assessmentAdapter = require('../../../../lib/infrastructure/adapters/assessment-adapter');
 
 const assessmentRepository = require('../../../../lib/infrastructure/repositories/assessment-repository');
+const assessmentResultRepository = require('../../../../lib/infrastructure/repositories/assessment-result-repository');
 const courseRepository = require('../../../../lib/infrastructure/repositories/course-repository');
 const certificationCourseRepository = require('../../../../lib/infrastructure/repositories/certification-course-repository');
 const challengeRepository = require('../../../../lib/infrastructure/repositories/challenge-repository');
@@ -12,7 +13,6 @@ const answerRepository = require('../../../../lib/infrastructure/repositories/an
 const skillRepository = require('../../../../lib/infrastructure/repositories/skill-repository');
 const competenceRepository = require('../../../../lib/infrastructure/repositories/competence-repository');
 const competenceMarkRepository = require('../../../../lib/infrastructure/repositories/competence-mark-repository');
-const assessmentResultRepository = require('../../../../lib/infrastructure/repositories/assessment-result-repository');
 
 const Assessment = require('../../../../lib/domain/models/Assessment');
 const Course = require('../../../../lib/domain/models/Course');
@@ -831,7 +831,7 @@ describe('Unit | Domain | Services | assessment', () => {
               obtainedScore: 28,
             },
           ],
-          percentageCorrectAnswers: 80 });
+        });
       });
 
       afterEach(() => {
@@ -865,20 +865,19 @@ describe('Unit | Domain | Services | assessment', () => {
 
         // then
         return promise.then((result) => {
-          const competencesWithMark = result.competencesWithMark;
-          expect(competencesWithMark).to.have.lengthOf(2);
+          expect(result).to.have.lengthOf(2);
 
-          expect(competencesWithMark[0]).to.be.an.instanceOf(CompetenceMark);
-          expect(competencesWithMark[0].level).to.deep.equal(2);
-          expect(competencesWithMark[0].score).to.deep.equal(18);
-          expect(competencesWithMark[0].area_code).to.deep.equal('area_1');
-          expect(competencesWithMark[0].competence_code).to.deep.equal('1.1');
+          expect(result[0]).to.be.an.instanceOf(CompetenceMark);
+          expect(result[0].level).to.deep.equal(2);
+          expect(result[0].score).to.deep.equal(18);
+          expect(result[0].area_code).to.deep.equal('area_1');
+          expect(result[0].competence_code).to.deep.equal('1.1');
 
-          expect(competencesWithMark[1]).to.be.an.instanceOf(CompetenceMark);
-          expect(competencesWithMark[1].level).to.deep.equal(3);
-          expect(competencesWithMark[1].score).to.deep.equal(28);
-          expect(competencesWithMark[1].area_code).to.deep.equal('area_2');
-          expect(competencesWithMark[1].competence_code).to.deep.equal('1.2');
+          expect(result[1]).to.be.an.instanceOf(CompetenceMark);
+          expect(result[1].level).to.deep.equal(3);
+          expect(result[1].score).to.deep.equal(28);
+          expect(result[1].area_code).to.deep.equal('area_2');
+          expect(result[1].competence_code).to.deep.equal('1.2');
         });
       });
     });
@@ -939,13 +938,13 @@ describe('Unit | Domain | Services | assessment', () => {
 
         // then
         return promise.then((result) => {
-          const competenceWithMark = result.competencesWithMark;
-          expect(competenceWithMark[0]).to.be.an.instanceOf(CompetenceMark);
-          expect(competenceWithMark).to.have.lengthOf(1);
-          expect(competenceWithMark[0].level).to.deep.equal(2);
-          expect(competenceWithMark[0].score).to.deep.equal(18);
-          expect(competenceWithMark[0].area_code).to.deep.equal('comp_code');
-          expect(competenceWithMark[0].competence_code).to.deep.equal('1.1');
+
+          expect(result[0]).to.be.an.instanceOf(CompetenceMark);
+          expect(result).to.have.lengthOf(1);
+          expect(result[0].level).to.deep.equal(2);
+          expect(result[0].score).to.deep.equal(18);
+          expect(result[0].area_code).to.deep.equal('comp_code');
+          expect(result[0].competence_code).to.deep.equal('1.1');
         });
       });
     });
@@ -960,7 +959,7 @@ describe('Unit | Domain | Services | assessment', () => {
         const result = service.getCompetenceMarks(assessment);
 
         // then
-        expect(result.competencesWithMark).to.deep.equal([]);
+        expect(result).to.deep.equal([]);
       });
     });
   });
@@ -1167,7 +1166,7 @@ describe('Unit | Domain | Services | assessment', () => {
   describe('#computeMarks', () => {
 
     const sandbox = sinon.sandbox.create();
-    const assessmentResultId = '2413';
+    const assessmentResultId = 2413;
     const competenceMark1 = new CompetenceMark({
       level: 2,
       score: 18,
@@ -1203,8 +1202,11 @@ describe('Unit | Domain | Services | assessment', () => {
           },
         ],
       });
-      sandbox.stub(assessmentResultRepository, 'save').resolves({ id: assessmentResultId });
+
       sandbox.stub(competenceMarkRepository, 'save').resolves(competenceMark1, competenceMark2);
+      sandbox.stub(assessmentResultRepository, 'save').resolves({
+        id: assessmentResultId,
+      });
     });
 
     afterEach(() => {

@@ -173,22 +173,22 @@ function getCompetenceMarks(assessment) {
         competenceOfMark = competence;
         return this.getScoreAndLevel(assessment.id);
       }).then(({ estimatedLevel, pixScore }) =>{
-        return { competencesWithMark: [
+        return [
           new CompetenceMark({
             level: estimatedLevel,
             score: pixScore,
             area_code: competenceOfMark.area.code,
             competence_code: competenceOfMark.index
           })
-        ] };
+        ];
       });
   }
 
   if(this.isCertificationAssessment(assessment)) {
     return Promise
       .all([competenceRepository.list(), certificationService.calculateCertificationResultByAssessmentId(assessment.id)])
-      .then(([competences, { competencesWithMark, percentageCorrectAnswers }]) => {
-        const competencesWithMarkComputed = competencesWithMark.map((certifiedCompetence) => {
+      .then(([competences, { competencesWithMark }]) => {
+        return competencesWithMark.map((certifiedCompetence) => {
 
           const area_code = _(competences).find((competence) => {
             return competence.index === certifiedCompetence.index;
@@ -202,16 +202,13 @@ function getCompetenceMarks(assessment) {
           });
 
         });
-
-        return { competencesWithMark: competencesWithMarkComputed, percentageCorrectAnswers };
       });
   }
 
-  return { competencesWithMark: [] };
+  return [];
 }
 
-function  computeMarks(assessmentIdForRecaculated) {
-  const assessmentId =assessmentIdForRecaculated;
+function computeMarks(assessmentId) {
   let competencesAfterCalcul, competencesWithMarkAfterCalcul;
   return Promise
     .all([competenceRepository.list(), certificationService.calculateCertificationResultByAssessmentId(assessmentId)])
