@@ -11,7 +11,7 @@ const assessmentResultRepository = require('../../infrastructure/repositories/as
 const competenceMarkRepository = require('../../infrastructure/repositories/competence-mark-repository');
 const certificationCourseRepository = require('../../infrastructure/repositories/certification-course-repository');
 
-const { NotFoundError, AlreadyRatedAssessmentError } = require('../../domain/errors');
+const { NotFoundError, AlreadyRatedAssessmentError, CertificationComputeError } = require('../../domain/errors');
 
 const CERTIFICATION_MAX_LEVEL = 5;
 
@@ -34,47 +34,50 @@ function _validatedDataForAllCompetenceMark(marks) {
   return Promise.all(marks.map((mark) => mark.validate()));
 }
 
-function evaluateFromAssessmentId(assessmentId, parameters = {}) {
+function _saveResultAfterComputingError(error, assessment, assessmentId) {
+  if(error instanceof CertificationComputeError) {
+    const assessmentResult = new AssessmentResult({
+      emitter: 'PIX-ALGO',
+      commentForJury: error.message,
+      level: 0,
+      pixScore: 0,
+      status: 'error',
+      assessmentId,
+    });
+    assessment.setCompleted();
 
-  let assessment;
-
-  return assessmentRepository.get(assessmentId)
-    .then((foundAssessment) => {
-
-      assessment = foundAssessment;
-
-      if (!assessment) {
-        throw new NotFoundError();
+    return Promise.all([
+      assessmentResultRepository.save(assessmentResult),
+      assessmentRepository.save(assessment),
+    ]).then(() => {
+      if (assessmentService.isCertificationAssessment(assessment)) {
+        return certificationCourseRepository.changeCompletionDate(assessment.courseId,
+          moment().toISOString());
       }
+    });
+  } else {
+    return Promise.reject(error);
+  }
+}
 
-      if (assessment.isCompleted() && !parameters.recompute) {
-        throw new AlreadyRatedAssessmentError();
-      }
+function _saveCertificationResult(assessment, assessmentId, skills, mark) {
+  const { pixScore, level, status } = _getAssessmentResultEvaluations(mark, assessment.type);
+  const assessmentResult = new AssessmentResult({
+    emitter: 'PIX-ALGO',
+    commentForJury: 'Computed',
+    level: level,
+    pixScore: pixScore,
+    status,
+    assessmentId,
+  });
+  assessment.setCompleted();
 
-      return Promise.all([
-        assessmentService.getSkills(assessment),
-        assessmentService.getCompetenceMarks(assessment),
-      ]);
-    })
-    .then(([skills, mark]) => {
-      const { pixScore, level, status } = _getAssessmentResultEvaluations(mark, assessment.type);
-      const assessmentResult = new AssessmentResult({
-        emitter: 'PIX-ALGO',
-        commentForJury: 'Computed',
-        level: level,
-        pixScore: pixScore,
-        status,
-        assessmentId,
-      });
-      assessment.setCompleted();
-
-      return Promise.all([
-        assessmentResultRepository.save(assessmentResult),
-        mark,
-        skillService.saveAssessmentSkills(skills),
-        assessmentRepository.save(assessment),
-      ]);
-    })
+  return Promise.all([
+    assessmentResultRepository.save(assessmentResult),
+    mark,
+    skillService.saveAssessmentSkills(skills),
+    assessmentRepository.save(assessment),
+  ])
     .then(([assessmentResult, marks]) => {
       const assessmentResultId = assessmentResult.id;
 
@@ -103,6 +106,32 @@ function evaluateFromAssessmentId(assessmentId, parameters = {}) {
     });
 }
 
+function evaluateFromAssessmentId(assessmentId, parameters = {}) {
+
+  let assessment;
+
+  return assessmentRepository.get(assessmentId)
+    .then((foundAssessment) => {
+
+      assessment = foundAssessment;
+
+      if (!assessment) {
+        throw new NotFoundError();
+      }
+
+      if (assessment.isCompleted() && !parameters.recompute) {
+        throw new AlreadyRatedAssessmentError();
+      }
+
+      return Promise.all([
+        assessmentService.getSkills(assessment),
+        assessmentService.getCompetenceMarks(assessment),
+      ]);
+    })
+    .then(([skills, mark]) => _saveCertificationResult(assessment, assessmentId, skills, mark))
+    .catch((error) => _saveResultAfterComputingError(error, assessment, assessmentId));
+}
+
 function save(assessmentResult, competenceMarks) {
 
   return _validatedDataForAllCompetenceMark(competenceMarks)
@@ -119,5 +148,4 @@ function save(assessmentResult, competenceMarks) {
 module.exports = {
   save,
   evaluateFromAssessmentId,
-
 };
