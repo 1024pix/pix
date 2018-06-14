@@ -1,6 +1,10 @@
-{{#link-to 'user-certifications' class='user-certifications-page-get_link-to'}}‹‹ Retour à la liste{{/link-to}}
+{{#link-to 'user-certifications'    class='user-certifications-page-get_link-to'}}‹‹ Retour à la liste{{/link-to}}
 {{user-certifications-detail-header certification=model}}
 
-{{user-certifications-detail-result certification=model}}
+<div class="user-certifications-page__detail-content">
 
-{{user-certifications-detail-profile resultCompetenceTree=model.resultCompetenceTree}}
+  {{user-certifications-detail-result certification=model}}
+
+  {{user-certifications-detail-profile resultCompetenceTree=model.resultCompetenceTree}}
+
+</div>

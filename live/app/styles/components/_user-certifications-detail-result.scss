@@ -2,22 +2,22 @@
   font-family: $font-lato;
   background-color: $white;
 
-  margin-top: 1.87rem;
-  padding: 1.87rem;
+  margin-top: 4rem;
+  margin-left: 1rem;
+  padding: 0.3rem 0.3rem 2.5rem 0.3rem;
 
   display: flex;
+
+  flex-direction: column;
   flex-wrap: wrap;
-  flex-direct: column;
+  justify-content: flex-start;
+
+  flex-shrink: 3;
 
   color: $charcoal-grey;
   font-family: $font-lato;
-  font-size: 2rem;
-  line-height: 3rem;
-
-
-  @include device-is('desktop') {
-    width: 30%;
-  }
+  font-size: 1.8rem;
+  line-height: 2.6rem;
 }
 
 .user-certifications-detail-result__pix-score{
@@ -76,7 +76,7 @@
 .user-certifications-detail-result__title-comment-jury {
   color: #7D808A;
   font-family: $font-raleway;
-  font-size: 2rem;
+  font-size: 1.6rem;
   font-weight: 500;
-  line-height: 2rem;
+  line-height: 2.6rem;
 }
