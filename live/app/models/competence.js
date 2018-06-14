@@ -5,7 +5,7 @@ const { Model, attr, belongsTo } = DS;
 
 export default Model.extend({
   name: attr('string'),
-  area: belongsTo('area', { inverse: null }),
+  area: belongsTo('area'),
   user: belongsTo('user'),
   index: attr('number'),
   level: attr('number'),

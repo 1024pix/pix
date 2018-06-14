@@ -1,3 +1,4 @@
+import EmberObject from '@ember/object';
 import { expect } from 'chai';
 import { describe, it } from 'mocha';
 import { setupComponentTest } from 'ember-mocha';
@@ -10,7 +11,18 @@ describe('Integration | Component | user certifications detail competence', func
 
   let competence;
 
+  beforeEach(function() {
+    competence = EmberObject.create({
+      'index': 1.2,
+      'level': -1,
+      'name': 'Mener une recherche et une veille d’information',
+      'score': 0,
+    });
+  });
+
   it('renders', function() {
+    this.set('competence', competence);
+
     this.render(hbs`{{user-certifications-detail-competence competence=competence}}`);
     expect(this.$()).to.have.length(1);
   });
@@ -19,11 +31,6 @@ describe('Integration | Component | user certifications detail competence', func
 
     beforeEach(function() {
       // given
-      competence = {
-        'competenceName': 'Mener une recherche et une veille d’information',
-        'competenceIndex': '1.1',
-        'level': -1
-      };
       this.set('competence', competence);
 
       // when
@@ -36,7 +43,7 @@ describe('Integration | Component | user certifications detail competence', func
       const divOfName = '.user-certifications-detail-competence__box-name';
 
       // then
-      expect(this.$(divOfName).text()).to.include(competence.competenceName);
+      expect(this.$(divOfName).text()).to.include(competence.name);
     });
 
     it('should not show the level of competence', function() {
@@ -60,11 +67,12 @@ describe('Integration | Component | user certifications detail competence', func
 
     beforeEach(function() {
       // given
-      competence = {
-        'competenceName': 'Mener une recherche et une veille d’information',
-        'competenceIndex': '1.1',
-        'level': 0
-      };
+      competence = EmberObject.create({
+        'index': 1.2,
+        'level': 0,
+        'name': 'Mener une recherche et une veille d’information',
+        'score': 0,
+      });
       this.set('competence', competence);
 
       // when
@@ -77,7 +85,7 @@ describe('Integration | Component | user certifications detail competence', func
       const divOfName = '.user-certifications-detail-competence__box-name';
 
       // then
-      expect(this.$(divOfName).text()).to.include(competence.competenceName);
+      expect(this.$(divOfName).text()).to.include(competence.name);
     });
 
     it('should not show the level of competence', function() {
@@ -101,11 +109,12 @@ describe('Integration | Component | user certifications detail competence', func
 
     beforeEach(function() {
       // given
-      competence = {
-        'competenceName': 'Mener une recherche et une veille d’information',
-        'competenceIndex': '1.1',
-        'level': 5
-      };
+      competence = EmberObject.create({
+        'index': 1.2,
+        'level': 5,
+        'name': 'Mener une recherche et une veille d’information',
+        'score': 41,
+      });
       this.set('competence', competence);
 
       // when
@@ -118,7 +127,7 @@ describe('Integration | Component | user certifications detail competence', func
       const divOfName = '.user-certifications-detail-competence__box-name';
 
       // then
-      expect(this.$(divOfName).text()).to.include(competence.competenceName);
+      expect(this.$(divOfName).text()).to.include(competence.name);
     });
 
     it('should show the level of competence', function() {
@@ -141,5 +150,4 @@ describe('Integration | Component | user certifications detail competence', func
       expect(this.$(divOfBarUnvalidatedLevel)).to.have.lengthOf(3);
     });
   });
-
 });
