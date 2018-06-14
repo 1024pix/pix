@@ -1,3 +1,4 @@
+const faker = require('faker');
 const Assessment = require('../../lib/domain/models/Assessment');
 
 const buildAnswer = require('./build-answer');
@@ -5,13 +6,14 @@ const buildCourse = require('./build-course');
 const buildAssessmentResult = require('./build-assessment-result');
 
 module.exports = function({
-  id = 1,
+  id = faker.random.number(),
+  assessmentResults = [buildAssessementResult()],
   courseId = 'courseId',
   createdAt = new Date('1992-06-12'),
-  userId = 1,
+  userId = faker.random.number(),
+  type = Assessment.types.CERTIFICATION,
   state = Assessment.states.COMPLETED,
-  type = 'CERTIFICATION',
-  course = buildCourse(),
+  course = buildCourse({ id: 'courseId' }),
   answers = [buildAnswer()],
   assessmentResults = [buildAssessmentResult()],
 } = {}) {

@@ -26,7 +26,6 @@ class Assessment {
    * id: String,
    * course : associatedCourse (Class Course)
    * createdAt: Date
-   * updatedAt: Date
    * user: ? (class User ?)
    * successRate: 24, ?? Je ne sais pas ce que c'est
    * type: 'charade', String ?
@@ -38,8 +37,8 @@ class Assessment {
     courseId,
     createdAt,
     userId,
-    type,
     state,
+    type,
 
     // relationships
     answers = [],
@@ -47,8 +46,10 @@ class Assessment {
     course,
   } = {}) {
     this.id = id;
-    this.createdAt = createdAt;
+
+    this.assessmentResults = assessmentResults;
     this.courseId = courseId;
+    this.createdAt = createdAt;
     this.userId = userId;
     this.state = state;
     this.type = type;

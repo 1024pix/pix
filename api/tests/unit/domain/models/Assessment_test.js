@@ -525,23 +525,22 @@ describe('Unit | Domain | Models | Assessment', () => {
       const skillNames = ['@web1', '@chi1', '@web2', '@web3', '@chi3', '@fou3'];
       const skills = [];
       const competenceSkills = skillNames.map(skillName => skills[skillName] = new Skill({ name: skillName }));
-      const ch1 = Challenge.fromAttributes();
-      ch1.addSkill(skills['@web3']);
-      const ch2 = Challenge.fromAttributes();
-      ch2.addSkill(skills['@web2']);
-      const course = new Course([ch2], competenceSkills);
-      course.tubes = [
-        _newTube([skills['@web1'], skills['@web2'], skills['@web3']]),
-        _newTube([skills['@chi1'], skills['@chi3']]),
-        _newTube([skills['@fou3']])
-      ];
-      const answer1 = new Answer({ result: AnswerStatus.KO });
-      answer1.challenge = ch1;
-      const answer2 = new Answer({ result: AnswerStatus.OK });
-      answer2.challenge = ch2;
-      const assessment = new Assessment();
-      assessment.course = course;
-      assessment.answers = [answer1, answer2];
+
+      const challengeForWeb3 = Challenge.fromAttributes({ skills: [skills['@web3']] });
+      const challengeForWeb2 = Challenge.fromAttributes({ skills: [skills['@web2']] });
+
+      const course = new Course({ challenges: [challengeForWeb2, challengeForWeb3] });
+      course.computeTubes(competenceSkills);
+
+      const answerFailingWeb3 = new Answer({ result: AnswerStatus.KO });
+      answerFailingWeb3.challenge = challengeForWeb3;
+      const answerValidatingWeb2 = new Answer({ result: AnswerStatus.OK });
+      answerValidatingWeb2.challenge = challengeForWeb2;
+
+      const assessment = Assessment.fromAttributes({
+        course,
+        answers: [answerFailingWeb3, answerValidatingWeb2],
+      });
 
       // when
       const validatedSkills = assessment.getValidatedSkills();
@@ -555,6 +554,7 @@ describe('Unit | Domain | Models | Assessment', () => {
       const skillNames = ['@web1', '@chi1', '@web2', '@web3', '@chi3', '@fou3'];
       const skills = [];
       const competenceSkills = skillNames.map(skillName => skills[skillName] = new Skill({ name: skillName }));
+
       const ch1 = Challenge.fromAttributes();
       ch1.addSkill(skills['@web1']);
       const ch2 = Challenge.fromAttributes();
