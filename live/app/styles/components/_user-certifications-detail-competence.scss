@@ -2,9 +2,10 @@
   height: 50px;
   margin-top: 20px;
 
-  padding-left: 36px;
-  padding-right: 36px;
+  padding-left: 3.6rem;
+  padding-right: 3.6rem;
   width: 100%;
+
   @include device-is('desktop') {
     justify-content: flex-start;
   }
