@@ -16,7 +16,9 @@ class ResultCompetenceTree {
   }
 
   static generateTreeFromCompetenceMarks({ competenceTree, competenceMarks }) {
-    const areas = competenceTree.areas.map((area) => {
+
+    const areasWithResultCompetences = competenceTree.areas.map((area) => {
+
       const areaWithResultCompetences = new Area(area);
 
       areaWithResultCompetences.competences = area.competences.map((competence) => {
@@ -38,7 +40,7 @@ class ResultCompetenceTree {
       return areaWithResultCompetences;
     });
 
-    return new ResultCompetenceTree({ areas });
+    return new ResultCompetenceTree({ areas: areasWithResultCompetences });
   }
 }
 
