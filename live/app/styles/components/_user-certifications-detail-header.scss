@@ -1,14 +1,11 @@
 .user-certifications-detail-header {
   font-family: $font-lato;
-
   display: flex;
-  flex-flow: row;
-  flex-wrap: wrap;
-  justify-content: center;
+  flex-direction: row;
+  margin: 0 10px 40px;
 
-  padding-top: 5rem;
   @include device-is('desktop') {
-    justify-content: flex-start;
+    margin: 0 0 40px;
   }
 }
 
@@ -20,7 +17,7 @@
   line-height: 2rem;
 
   p {
-    margin-bottom: 0rem;
+    margin-bottom: 0;
     padding-bottom: 0.5rem;
   }
 }

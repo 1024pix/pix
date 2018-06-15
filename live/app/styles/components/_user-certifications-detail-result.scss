@@ -1,23 +1,20 @@
 .user-certifications-detail-result {
   font-family: $font-lato;
   background-color: $white;
-
-  margin-top: 4rem;
-  margin-left: 1rem;
-  padding: 1.5rem 3rem 2.5rem 3rem;
-
+  padding: 20px;
   display: flex;
-
   flex-direction: column;
   flex-wrap: wrap;
   justify-content: flex-start;
-
   flex-shrink: 3;
-
   color: $charcoal-grey;
-  font-family: $font-lato;
   font-size: 1.8rem;
   line-height: 2.6rem;
+  margin-bottom: 40px;
+
+  @include device-is('desktop') {
+    margin-right: 20px;
+  }
 }
 
 .user-certifications-detail-result__pix-score{

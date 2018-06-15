@@ -1,7 +1,16 @@
 .user-certifications-detail-area {
   background-color: $white;
-  margin: 1rem;
-  padding: 0.3rem;
+  margin-bottom: 10px;
+  padding: 2px 2px 20px;
+
+  &:first-child {
+    margin-top: 0;
+  }
+
+  &:last-child {
+    margin-bottom: 0;
+  }
+
   @include device-is('desktop') {
     justify-content: flex-start;
   }
@@ -16,7 +25,7 @@
   font-weight: 600;
   letter-spacing: 1px;
   line-height: 2.1rem;
-  padding: 1.9rem 0 1.9rem 3.6rem;
+  padding: 20px 40px;
 
   text-transform: uppercase;
   @include device-is('desktop') {
