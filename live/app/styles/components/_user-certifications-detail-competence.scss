@@ -1,14 +1,6 @@
 .user-certifications-detail-competence {
-  height: 50px;
-  margin-top: 20px;
-
-  padding-left: 3.6rem;
-  padding-right: 3.6rem;
+  padding: 20px 40px;
   width: 100%;
-
-  @include device-is('desktop') {
-    justify-content: flex-start;
-  }
 }
 
 .user-certifications-detail-competence__box-name {
@@ -17,13 +9,16 @@
   font-size: 16px;
   letter-spacing: 0.5px;
   line-height: 19px;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
 }
 
 .user-certifications-detail-competence__box-level {
   height: 25px;
   float: right;
   width: 25px;
-  float: right;
   text-align: center;
   color: $charcoal-grey;
   font-family: $font-lato;
@@ -33,8 +28,6 @@
 }
 
 .user-certifications-detail-competence__levels-bar-block {
-  margin-top: 10px;
-  display: block;
 }
 
 .user-certifications-detail-competence__level-bar {
@@ -42,6 +35,14 @@
   float: left;
   width: 11.7%;
   height: 5px;
+
+  &:first-child {
+    margin-left: 0;
+  }
+
+  &:last-child {
+    margin-right: 0;
+  }
 }
 
 

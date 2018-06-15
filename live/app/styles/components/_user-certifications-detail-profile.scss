@@ -1,10 +1,7 @@
 .user-certifications-detail-profile {
   width: 100%;
-
-  margin-top: 3rem;
-  padding: 0 0 0 1rem;
-
   flex-shrink: 1;
+  margin-bottom: 40px;
 
   @include device-is('desktop') {
     justify-content: flex-start;
