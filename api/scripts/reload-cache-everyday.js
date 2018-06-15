@@ -43,13 +43,15 @@ function cacheWarmupRequest(authToken) {
   };
 }
 
-const EVERYDAY_AT_3AM = '00 03 * * *';
-
-cron.schedule(EVERYDAY_AT_3AM, () => {
+cron.schedule(process.env.CACHE_RELOAD_TIME, () => {
   let authToken;
+
+  console.log('Starting daily cache reload');
 
   return request(authenticationTokenRequest())
     .then(response => authToken = response.data.attributes.token)
     .then(() => request(cacheFlushingRequest(authToken)))
-    .then(() => request(cacheWarmupRequest(authToken)));
+    .then(() => request(cacheWarmupRequest(authToken)))
+    .then(() => console.log('Daily cache reload done'))
+    .catch(console.log);
 });
