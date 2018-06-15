@@ -6,7 +6,7 @@ const TYPES_OF_ASSESSMENT_NEEDING_USER = ['PLACEMENT', 'CERTIFICATION'];
 
 const states = {
   COMPLETED: 'completed',
-  STARTED: 'started'
+  STARTED: 'started',
 };
 
 const type = {
@@ -19,20 +19,42 @@ const type = {
 
 class Assessment {
 
-/*
- * TODO: changer the Object.assign en quelque chose de plus expressif
- * Complétez la liste des attributs de la classe Assessment
- *
- * id: String,
- * course : associatedCourse (Class Course)
- * createdAt: Date
- * updatedAt: Date
- * user: ? (class User ?)
- * successRate: 24, ?? Je ne sais pas ce que c'est
- * type: 'charade', String ?
- * state: String
- */
-  constructor(_ = {}) {
+  /*
+   * TODO: changer the Object.assign en quelque chose de plus expressif
+   * Complétez la liste des attributs de la classe Assessment
+   *
+   * id: String,
+   * course : associatedCourse (Class Course)
+   * createdAt: Date
+   * updatedAt: Date
+   * user: ? (class User ?)
+   * successRate: 24, ?? Je ne sais pas ce que c'est
+   * type: 'charade', String ?
+   * state: String
+   */
+  constructor({
+    // attributes
+    id,
+    assessmentResults,
+    courseId,
+    createdAt,
+    userId,
+    type,
+    state,
+
+    // relationships
+    answers = [],
+    course,
+  } = {}) {
+    this.id = id;
+    this.assessmentResults = assessmentResults;
+    this.courseId = courseId;
+    this.createdAt = createdAt;
+    this.userId = userId;
+    this.type = type;
+    this.state = state;
+    this.answers = answers;
+    this.course = course;
   }
 
   /**
@@ -123,6 +145,10 @@ class Assessment {
         });
         return failedSkills;
       }, []);
+  }
+
+  getAssessedSkills() {
+    return _.union(this.getValidatedSkills(), this.getFailedSkills());
   }
 
   computePixScore() {

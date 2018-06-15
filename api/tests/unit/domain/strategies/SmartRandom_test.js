@@ -398,8 +398,36 @@ describe('Unit | Domain | Models | SmartRandom', () => {
 
       // then
       expect(nextChallenge).to.equal(null);
-
     });
+  });
 
+  describe('SmartRandom._filteredChallenges()', function() {
+    it('should not ask a question that targets a skill already assessed', function() {
+      // given
+      const [s1, s2, s3] = factory.buildSkillCollection();
+
+      const ch1 = factory.buildChallenge({ skills: [s1] });
+      const ch2 = factory.buildChallenge({ skills: [s2] });
+      const ch3 = factory.buildChallenge({ skills: [s2] });
+      const ch4 = factory.buildChallenge({ skills: [s3] });
+
+      const answerCh1 = factory.buildAnswer({ challengeId: ch1.id, result: AnswerStatus.OK });
+      const answerCh2 = factory.buildAnswer({ challengeId: ch2.id, result: AnswerStatus.OK });
+      const challenges = [ch1, ch2, ch3, ch4];
+
+      // when
+      const smartRandom = new SmartRandom([answerCh1, answerCh2], challenges, [s1, s2, s3]);
+      const result = SmartRandom._filteredChallenges(
+        smartRandom.challenges,
+        smartRandom.answers,
+        smartRandom.tubes,
+        smartRandom.validatedSkills,
+        smartRandom.failedSkills,
+        smartRandom.getPredictedLevel(),
+      );
+
+      // then
+      expect(result).to.deep.equal([ch4]);
+    });
   });
 });
