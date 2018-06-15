@@ -4,7 +4,7 @@ const faker = require('faker');
 const Course = require('../../lib/domain/models/Course');
 
 module.exports = function buildCourse({
-  id = `rec${faker.lorem.word()}`,
+  id = faker.random.uuid(),
   // attributes
   description = 'some description',
   imageUrl,

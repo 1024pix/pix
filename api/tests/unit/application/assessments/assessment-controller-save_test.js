@@ -215,7 +215,15 @@ describe('Unit | Controller | assessment-controller-save', () => {
       };
 
       const deserializedAssessment = Assessment.fromAttributes({ id: 42, courseId: 'recCourseId', type: 'PLACEMENT' });
-      const assessment = { id: 42, courseId: 'recCourseId', userId: 'userId', state: 'started', type: 'PLACEMENT' };
+      const assessment = {
+        id: 42,
+        courseId: 'recCourseId',
+        userId: 'userId',
+        state: 'started',
+        type: 'PLACEMENT',
+        answers: [],
+        course: undefined,
+      };
       const serializedAssessment = {
         id: 42,
         attributes: {
