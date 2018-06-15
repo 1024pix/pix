@@ -1,35 +1,42 @@
+const _ = require('lodash');
+const Skill = require('./Skill');
+
 class Challenge {
 
   constructor({
     id,
-    type,
-    instruction,
-    competence,
-    proposals,
-    timer,
-    illustrationUrl,
-    attachments,
+    // attributes
     answer,
-    skills = [],
-    status,
-    embedUrl,
-    embedTitle,
+    attachments,
+    competence,
     embedHeight,
+    embedTitle,
+    embedUrl,
+    illustrationUrl,
+    instruction,
+    proposals,
+    status,
+    timer,
+    type,
+    // relations
+    skills = [],
   } = {}) {
-    this.skills = skills;
     this.id = id;
-    this.type = type;
-    this.instruction = instruction;
+    // attributes
+    this.answer = answer;
+    this.attachments = attachments;
     this.competence = competence;
+    this.embedHeight = embedHeight;
+    this.embedTitle = embedTitle;
+    this.embedUrl = embedUrl;
+    this.illustrationUrl = illustrationUrl;
+    this.instruction = instruction;
     this.proposals = proposals;
     this.timer = timer;
-    this.illustrationUrl = illustrationUrl;
-    this.attachments = attachments;
-    this.answer = answer;
     this.status = status;
-    this.embedUrl = embedUrl;
-    this.embedTitle = embedTitle;
-    this.embedHeight = embedHeight;
+    this.type = type;
+    // relations
+    this.skills = skills;
   }
 
   /**
@@ -61,6 +68,9 @@ class Challenge {
     return this.skills.reduce((s1, s2) => (s1.difficulty > s2.difficulty) ? s1 : s2);
   }
 
+  testsAtLeastOneNewSkill(assessedSkills) {
+    return _(this.skills).differenceWith(assessedSkills, Skill.areEqual).size() > 0;
+  }
 }
 
 module.exports = Challenge;
