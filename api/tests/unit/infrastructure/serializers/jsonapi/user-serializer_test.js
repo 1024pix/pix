@@ -32,7 +32,8 @@ describe('Unit | Serializer | JSONAPI | user-serializer', () => {
           firstName: 'Luke',
           lastName: 'Skywalker',
           email: 'lskywalker@deathstar.empire',
-          password: ''
+          password: '',
+          cgu: true
         });
 
         // when
@@ -44,6 +45,8 @@ describe('Unit | Serializer | JSONAPI | user-serializer', () => {
             attributes: {
               'first-name': 'Luke',
               'last-name': 'Skywalker',
+              'email': 'lskywalker@deathstar.empire',
+              'cgu': true,
             },
             id: '234567',
             type: 'users'
@@ -60,6 +63,7 @@ describe('Unit | Serializer | JSONAPI | user-serializer', () => {
           firstName: 'Luke',
           lastName: 'Skywalker',
           email: 'lskywalker@deathstar.empire',
+          cgu: true,
           password: ''
         });
 
@@ -72,6 +76,8 @@ describe('Unit | Serializer | JSONAPI | user-serializer', () => {
             attributes: {
               'first-name': 'Luke',
               'last-name': 'Skywalker',
+              'email': 'lskywalker@deathstar.empire',
+              'cgu': true,
             },
             id: '234567',
             type: 'users'
