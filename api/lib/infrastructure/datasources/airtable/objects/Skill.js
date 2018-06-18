@@ -1,5 +1,5 @@
 class Skill {
-  constructor({ id, name, hint, hintStatus }) {
+  constructor({ id, name, hint, hintStatus } = {}) {
     this.id = id;
     this.name = name;
     this.hint = hint;
