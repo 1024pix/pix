@@ -1,4 +1,5 @@
 const { expect, sinon, factory } = require('../../../test-helper');
+const Assessment = require('../../../../lib/domain/models/Assessment');
 const usecases = require('../../../../lib/domain/usecases');
 const { NotFoundError, AlreadyRatedAssessmentError, CertificationComputeError } = require('../../../../lib/domain/errors');
 
@@ -136,7 +137,7 @@ describe('Unit | UseCase | create-assessment-result-for-completed-certification'
     course = factory.buildCourse({
       id: assessmentCourseId,
       name: 'Mener une recherche',
-      competence: [competenceId]
+      competence: [competenceId],
     });
 
     sandbox = sinon.sandbox.create();
@@ -166,452 +167,642 @@ describe('Unit | UseCase | create-assessment-result-for-completed-certification'
     assessmentRepository.get.resolves(null);
 
     // when
-    const promise = usecases.createAssessmentResultForCompletedCertification(assessmentIdThatDoesNotExist);
+    const promise = usecases.createAssessmentResultForCompletedCertification({
+      assessmentId: assessmentIdThatDoesNotExist,
+      assessmentResultRepository,
+      assessmentRepository,
+      assessmentService,
+      certificationCourseRepository,
+      competenceMarkRepository,
+      skillsService,
+    });
 
     // then
     return expect(promise).to.be.rejectedWith(NotFoundError);
   });
-  /*
-    context('when the assessment is already evaluated', () => {
+  context('when the assessment is already evaluated', () => {
 
-      it('should reject an AlreadyRatedAssessmentError', () => {
-        // given
-        const alreadyEvaluatedAssessment = Assessment.fromAttributes({
-          id: assessmentId,
-          courseId: assessmentCourseId,
-          userId: 5,
-          state: 'completed',
-          type: 'PLACEMENT',
-        });
-
-        assessmentRepository.get.resolves(alreadyEvaluatedAssessment);
-
-        // when
-        const promise = service.evaluateFromAssessmentId(assessmentId);
-
-        // then
-        return expect(promise).to.be.rejectedWith(AlreadyRatedAssessmentError);
-      });
-
-      it('should not reject an AlreadyRatedAssessmentError if a parameters contains a recompute at true', () => {
-        // given
-        const alreadyEvaluatedAssessment = Assessment.fromAttributes({
-          id: assessmentId,
-          courseId: assessmentCourseId,
-          userId: 5,
-          state: 'completed',
-          type: 'PLACEMENT',
-        });
-
-        assessmentRepository.get.resolves(alreadyEvaluatedAssessment);
-
-        // when
-        const promise = service.evaluateFromAssessmentId(assessmentId, { recompute: true });
-
-        // then
-        return expect(promise).to.not.be.rejectedWith(AlreadyRatedAssessmentError);
-      });
-
-    });
-
-    it('should reject a not found error when getSkills raise a notFoundError because the assessment does not exist', () => {
+    it('should reject an AlreadyRatedAssessmentError', () => {
       // given
-      assessmentService.getSkills.rejects(new NotFoundError());
-
-      // when
-      const promise = service.evaluateFromAssessmentId(assessmentId);
-
-      // then
-      return expect(promise).to.have.been.rejectedWith(NotFoundError);
-    });
-
-    it('should change the assessment status', () => {
-      // when
-      const promise = service.evaluateFromAssessmentId(assessmentId);
-
-      // then
-      return promise.then(() => {
-        const savedCompetenceMark = assessmentRepository.save.firstCall.args;
-        expect(savedCompetenceMark[0].state).to.deep.equal('completed');
+      const alreadyEvaluatedAssessment = factory.buildAssessement({
+        id: assessmentId,
+        courseId: assessmentCourseId,
+        userId: 5,
+        state: 'completed',
+        type: 'PLACEMENT',
       });
-    });
 
-    it('should save the evaluated skills', () => {
+      assessmentRepository.get.resolves(alreadyEvaluatedAssessment);
+
       // when
-      const promise = service.evaluateFromAssessmentId(assessmentId);
+      const promise = usecases.createAssessmentResultForCompletedCertification({
+        assessmentId,
+        assessmentResultRepository,
+        assessmentRepository,
+        assessmentService,
+        certificationCourseRepository,
+        competenceMarkRepository,
+        skillsService,
+      });
 
       // then
-      return promise.then(() => {
-        expect(skillsService.saveAssessmentSkills).to.have.been.calledWith(evaluatedSkills);
-      });
+      return expect(promise).to.be.rejectedWith(AlreadyRatedAssessmentError);
     });
 
-    it('should create a new assessment result', () => {
+    it('should not reject an AlreadyRatedAssessmentError if a parameters contains a recompute at true', () => {
       // given
-      const assessmentResult = new AssessmentResult({
-        level: 2,
-        pixScore: 18,
-        emitter: 'PIX-ALGO',
-        commentForJury: 'Computed',
-        status: 'validated',
-        assessmentId: assessmentId,
+      const alreadyEvaluatedAssessment = factory.buildAssessement({
+        id: assessmentId,
+        courseId: assessmentCourseId,
+        userId: 5,
+        state: 'completed',
+        type: 'PLACEMENT',
       });
 
+      assessmentRepository.get.resolves(alreadyEvaluatedAssessment);
+
       // when
-      const promise = service.evaluateFromAssessmentId(assessmentId);
+      const promise = usecases.createAssessmentResultForCompletedCertification({
+        assessmentId,
+        parameters: { recompute: true },
+        assessmentResultRepository,
+        assessmentRepository,
+        assessmentService,
+        certificationCourseRepository,
+        competenceMarkRepository,
+        skillsService,
+      });
+
+      // then
+      return expect(promise).to.not.be.rejectedWith(AlreadyRatedAssessmentError);
+    });
+
+  });
+
+  it('should reject a not found error when getSkills raise a notFoundError because the assessment does not exist', () => {
+    // given
+    assessmentService.getSkills.rejects(new NotFoundError());
+
+    // when
+    const promise = usecases.createAssessmentResultForCompletedCertification({
+      assessmentId,
+      assessmentResultRepository,
+      assessmentRepository,
+      assessmentService,
+      certificationCourseRepository,
+      competenceMarkRepository,
+      skillsService,
+    });
+
+    // then
+    return expect(promise).to.have.been.rejectedWith(NotFoundError);
+  });
+
+  it('should change the assessment status', () => {
+    // when
+    const promise = usecases.createAssessmentResultForCompletedCertification({
+      assessmentId,
+      assessmentResultRepository,
+      assessmentRepository,
+      assessmentService,
+      certificationCourseRepository,
+      competenceMarkRepository,
+      skillsService,
+    });
+
+    // then
+    return promise.then(() => {
+      const savedCompetenceMark = assessmentRepository.save.firstCall.args;
+      expect(savedCompetenceMark[0].state).to.deep.equal('completed');
+    });
+  });
+
+  it('should save the evaluated skills', () => {
+    // when
+    const promise = usecases.createAssessmentResultForCompletedCertification({
+      assessmentId,
+      assessmentResultRepository,
+      assessmentRepository,
+      assessmentService,
+      certificationCourseRepository,
+      competenceMarkRepository,
+      skillsService,
+    });
+
+    // then
+    return promise.then(() => {
+      expect(skillsService.saveAssessmentSkills).to.have.been.calledWith(evaluatedSkills);
+    });
+  });
+
+  it('should create a new assessment result', () => {
+    // given
+    const assessmentResult = factory.buildAssessementResult({
+      level: 2,
+      pixScore: 18,
+      emitter: 'PIX-ALGO',
+      commentForJury: 'Computed',
+      status: 'validated',
+      assessmentId: assessmentId,
+    });
+
+    // when
+    const promise = usecases.createAssessmentResultForCompletedCertification({
+      assessmentId,
+      assessmentResultRepository,
+      assessmentRepository,
+      assessmentService,
+      certificationCourseRepository,
+      competenceMarkRepository,
+      skillsService,
+    });
+
+    // then
+    return promise.then(() => {
+      expect(assessmentResultRepository.save).to.have.been.calledWith(assessmentResult);
+    });
+  });
+
+  context('when the assessment is a PLACEMENT', () => {
+
+    beforeEach(() => {
+      assessmentService.getCompetenceMarks.resolves(competenceMarksForPlacement);
+
+    });
+
+    it('should retrieve the skills', () => {
+      // when
+      const promise = usecases.createAssessmentResultForCompletedCertification({
+        assessmentId,
+        assessmentResultRepository,
+        assessmentRepository,
+        assessmentService,
+        certificationCourseRepository,
+        competenceMarkRepository,
+        skillsService,
+      });
 
       // then
       return promise.then(() => {
-        expect(assessmentResultRepository.save).to.have.been.calledWith(assessmentResult);
+        expect(assessmentService.getSkills).to.have.been.calledWith(assessment);
       });
     });
 
-    context('when the assessment is a PLACEMENT', () => {
-
-      beforeEach(() => {
-        assessmentService.getCompetenceMarks.resolves(competenceMarksForPlacement);
-
+    it('should retrieve the competenceMarks', () => {
+      // when
+      const promise = usecases.createAssessmentResultForCompletedCertification({
+        assessmentId,
+        assessmentResultRepository,
+        assessmentRepository,
+        assessmentService,
+        certificationCourseRepository,
+        competenceMarkRepository,
+        skillsService,
       });
 
-      it('should retrieve the skills', () => {
-        // when
-        const promise = service.evaluateFromAssessmentId(assessmentId);
-
-        // then
-        return promise.then(() => {
-          expect(assessmentService.getSkills).to.have.been.calledWith(assessment);
-        });
+      // then
+      return promise.then(() => {
+        expect(assessmentService.getCompetenceMarks).to.have.been.calledWith(assessment);
       });
-
-      it('should retrieve the competenceMarks', () => {
-        // when
-        const promise = service.evaluateFromAssessmentId(assessmentId);
-
-        // then
-        return promise.then(() => {
-          expect(assessmentService.getCompetenceMarks).to.have.been.calledWith(assessment);
-        });
-      });
-
-      it('should save the evaluated competence', () => {
-        // when
-        const promise = service.evaluateFromAssessmentId(assessmentId);
-        const expectedSavedCompetenceMark = {
-          level: 3,
-          score: 18,
-          area_code: '1',
-          competence_code: '1.1',
-          assessmentResultId: assessmentResultId,
-        };
-
-        // then
-        return promise.then(() => {
-          expect(competenceMarkRepository.save).to.have.been.called;
-
-          const savedCompetenceMark = competenceMarkRepository.save.firstCall.args;
-          expect(savedCompetenceMark[0]).to.deep.equal(expectedSavedCompetenceMark);
-        });
-      });
-
-      it('should not try to evaluate as a certification', () => {
-        // when
-        const promise = service.evaluateFromAssessmentId(assessmentId);
-
-        // then
-        return promise.then(() => {
-          expect(certificationService.calculateCertificationResultByAssessmentId).not.to.have.been.calledWith(assessmentId);
-        });
-      });
-
-      context('when the saving the mark is failing', () => {
-        it('should return the error', () => {
-          // given
-          const error = new Error();
-          competenceMarkRepository.save.rejects(error);
-
-          // when
-          const promise = service.evaluateFromAssessmentId(assessmentId);
-
-          // then
-          return expect(promise).to.be.rejected;
-        });
-      });
-
     });
 
-    context('when the assessment is a PREVIEW', () => {
+    it('should save the evaluated competence', () => {
+      // when
+      const promise = usecases.createAssessmentResultForCompletedCertification({
+        assessmentId,
+        assessmentResultRepository,
+        assessmentRepository,
+        assessmentService,
+        certificationCourseRepository,
+        competenceMarkRepository,
+        skillsService,
+      });
+      const expectedSavedCompetenceMark = {
+        level: 3,
+        score: 18,
+        area_code: '1',
+        competence_code: '1.1',
+        assessmentResultId: assessmentResultId,
+      };
 
-      const previewAssessment = Assessment.fromAttributes({
+      // then
+      return promise.then(() => {
+        expect(competenceMarkRepository.save).to.have.been.called;
+
+        const savedCompetenceMark = competenceMarkRepository.save.firstCall.args;
+        expect(savedCompetenceMark[0]).to.deep.equal(expectedSavedCompetenceMark);
+      });
+    });
+
+    it('should not try to evaluate as a certification', () => {
+      // when
+      const promise = usecases.createAssessmentResultForCompletedCertification({
+        assessmentId,
+        assessmentResultRepository,
+        assessmentRepository,
+        assessmentService,
+        certificationCourseRepository,
+        competenceMarkRepository,
+        skillsService,
+      });
+
+      // then
+      return promise.then(() => {
+        expect(certificationService.calculateCertificationResultByAssessmentId).not.to.have.been.calledWith(assessmentId);
+      });
+    });
+
+    context('when the saving the mark is failing', () => {
+      it('should return the error', () => {
+        // given
+        const error = new Error();
+        competenceMarkRepository.save.rejects(error);
+
+        // when
+        const promise = usecases.createAssessmentResultForCompletedCertification({
+          assessmentId,
+          assessmentResultRepository,
+          assessmentRepository,
+          assessmentService,
+          certificationCourseRepository,
+          competenceMarkRepository,
+          skillsService,
+        });
+
+        // then
+        return expect(promise).to.be.rejected;
+      });
+    });
+
+  });
+
+  context('when the assessment is a PREVIEW', () => {
+
+    const previewAssessment = factory.buildAssessement({
+      id: assessmentId,
+      courseId: 'nullCourseId',
+      userId: 5,
+      status: 'started',
+      type: 'PREVIEW',
+    });
+
+    beforeEach(() => {
+      assessmentRepository.get.resolves(previewAssessment);
+      assessmentService.getCompetenceMarks.resolves([]);
+    });
+
+    it('should try to save the related marks', () => {
+      // when
+      const promise = usecases.createAssessmentResultForCompletedCertification({
+        assessmentId,
+        assessmentResultRepository,
+        assessmentRepository,
+        assessmentService,
+        certificationCourseRepository,
+        competenceMarkRepository,
+        skillsService,
+      });
+
+      // then
+      return promise.then(() => {
+        expect(competenceMarkRepository.save).not.to.have.been.called;
+      });
+    });
+  });
+
+  context('when the assessment is a DEMO', () => {
+
+    let demoAssessment;
+
+    beforeEach(() => {
+
+      demoAssessment = factory.buildAssessement({
         id: assessmentId,
         courseId: 'nullCourseId',
         userId: 5,
-        status: 'started',
-        type: 'PREVIEW',
+        state: 'started',
+        type: 'DEMO',
+      });
+      assessmentRepository.get.resolves(demoAssessment);
+      assessmentService.getCompetenceMarks.resolves([]);
+    });
+
+    it('should not try to save the related marks', () => {
+      // when
+      const promise = usecases.createAssessmentResultForCompletedCertification({
+        assessmentId,
+        assessmentResultRepository,
+        assessmentRepository,
+        assessmentService,
+        certificationCourseRepository,
+        competenceMarkRepository,
+        skillsService,
       });
 
-      beforeEach(() => {
-        assessmentRepository.get.resolves(previewAssessment);
-        assessmentService.getCompetenceMarks.resolves([]);
-      });
-
-      it('should try to save the related marks', () => {
-        // when
-        const promise = service.evaluateFromAssessmentId(assessmentId);
-
-        // then
-        return promise.then(() => {
-          expect(competenceMarkRepository.save).not.to.have.been.called;
-        });
+      // then
+      return promise.then(() => {
+        expect(competenceMarkRepository.save).not.to.have.been.called;
       });
     });
 
-    context('when the assessment is a DEMO', () => {
-
-      let demoAssessment;
-
-      beforeEach(() => {
-
-        demoAssessment = Assessment.fromAttributes({
-          id: assessmentId,
-          courseId: 'nullCourseId',
-          userId: 5,
-          state: 'started',
-          type: 'DEMO',
-        });
-        assessmentRepository.get.resolves(demoAssessment);
-        assessmentService.getCompetenceMarks.resolves([]);
+    it('should not update the certification status', () => {
+      // when
+      const promise = usecases.createAssessmentResultForCompletedCertification({
+        assessmentId,
+        assessmentResultRepository,
+        assessmentRepository,
+        assessmentService,
+        certificationCourseRepository,
+        competenceMarkRepository,
+        skillsService,
       });
 
-      it('should not try to save the related marks', () => {
-        // when
-        const promise = service.evaluateFromAssessmentId(assessmentId);
-
-        // then
-        return promise.then(() => {
-          expect(competenceMarkRepository.save).not.to.have.been.called;
-        });
-      });
-
-      it('should not update the certification status', () => {
-        // when
-        const promise = service.evaluateFromAssessmentId(assessmentId);
-
-        // then
-        return promise.then(() => {
-          expect(certificationCourseRepository.changeCompletionDate).not.to.have.been.called;
-        });
+      // then
+      return promise.then(() => {
+        expect(certificationCourseRepository.changeCompletionDate).not.to.have.been.called;
       });
     });
+  });
 
-    context('when the assessment is a CERTIFICATION', () => {
+  context('when the assessment is a CERTIFICATION', () => {
 
-      let clock;
-      let assessment;
+    let clock;
+    let assessment;
 
-      beforeEach(() => {
-        assessment = Assessment.fromAttributes({
+    beforeEach(() => {
+      assessment = factory.buildAssessement({
+        id: assessmentId,
+        courseId: assessmentCourseId,
+        userId: 5,
+        type: Assessment.types.CERTIFICATION,
+        state: 'started',
+      });
+
+      assessmentRepository.get.resolves(assessment);
+      assessmentService.getCompetenceMarks.resolves(competenceMarksForCertification);
+
+      clock = sinon.useFakeTimers(new Date('2018-02-04T01:00:00.000+01:00'));
+    });
+
+    afterEach(() => clock.restore());
+    context('happy path', () => {
+
+      it('should persists a mark for each evaluated competence', () => {
+        // when
+        const promise = usecases.createAssessmentResultForCompletedCertification({
+          assessmentId,
+          assessmentResultRepository,
+          assessmentRepository,
+          assessmentService,
+          certificationCourseRepository,
+          competenceMarkRepository,
+          skillsService,
+        });
+
+        // then
+        return promise.then(() => {
+          expect(competenceMarkRepository.save.callCount).to.equal(4);
+
+          const firstSavedCompetenceMark = competenceMarkRepository.save.getCall(0).args;
+          expect(firstSavedCompetenceMark[0]).to.deep.equal({
+            level: 0,
+            score: 7,
+            area_code: '1',
+            competence_code: '1.1',
+            assessmentResultId: assessmentResultId,
+          });
+
+          const secondSavedCompetenceMark = competenceMarkRepository.save.getCall(1).args;
+          expect(secondSavedCompetenceMark[0]).to.deep.equal({
+            level: 2,
+            score: 19,
+            area_code: '2',
+            competence_code: '2.1',
+            assessmentResultId: assessmentResultId,
+          });
+
+          const thirdSavedCompetenceMark = competenceMarkRepository.save.getCall(2).args;
+          expect(thirdSavedCompetenceMark[0]).to.deep.equal({
+            level: -1,
+            score: 0,
+            area_code: '2',
+            competence_code: '2.2',
+            assessmentResultId: assessmentResultId,
+          });
+
+          const forthSavedCompetenceMark = competenceMarkRepository.save.getCall(3).args;
+          expect(forthSavedCompetenceMark[0]).to.deep.equal({
+            area_code: '3',
+            assessmentResultId: assessmentResultId,
+            competence_code: '3.1',
+            level: 5,
+            score: 52,
+          });
+        });
+      });
+
+      it('should create a new assessment result', () => {
+        // given
+        const sumOfCompetenceMarksScores = competenceMarksForCertification.reduce((sum, competenceMark) => {
+          return sum + competenceMark.score;
+        }, 0);
+        const assessmentResult = factory.buildAssessementResult({
+          level: Math.floor(sumOfCompetenceMarksScores / 8),
+          pixScore: sumOfCompetenceMarksScores,
+          emitter: 'PIX-ALGO',
+          commentForJury: 'Computed',
+          status: 'validated',
+          assessmentId: assessmentId,
+        });
+
+        // when
+        const promise = usecases.createAssessmentResultForCompletedCertification({
+          assessmentId,
+          assessmentResultRepository,
+          assessmentRepository,
+          assessmentService,
+          certificationCourseRepository,
+          competenceMarkRepository,
+          skillsService,
+        });
+
+        // then
+        return promise.then(() => {
+          expect(assessmentResultRepository.save).to.have.been.calledWith(assessmentResult);
+        });
+      });
+
+      it('should save assessment with status completed', () => {
+        const expectedAssessment = factory.buildAssessement({
           id: assessmentId,
           courseId: assessmentCourseId,
           userId: 5,
+          state: 'completed',
           type: Assessment.types.CERTIFICATION,
-          state: 'started',
         });
 
-        assessmentRepository.get.resolves(assessment);
-        assessmentService.getCompetenceMarks.resolves(competenceMarksForCertification);
+        // when
+        const promise = usecases.createAssessmentResultForCompletedCertification({
+          assessmentId,
+          assessmentResultRepository,
+          assessmentRepository,
+          assessmentService,
+          certificationCourseRepository,
+          competenceMarkRepository,
+          skillsService,
+        });
 
-        clock = sinon.useFakeTimers(new Date('2018-02-04T01:00:00.000+01:00'));
+        // then
+        return promise.then(() => {
+          expect(assessmentRepository.save).to.have.been.calledWith(expectedAssessment);
+
+          const savedAssessment = assessmentRepository.save.firstCall.args;
+          expect(savedAssessment[0]).to.deep.equal(expectedAssessment);
+        });
       });
 
-      afterEach(() => clock.restore());
-      context('happy path', () => {
-
-        it('should persists a mark for each evaluated competence', () => {
-          // when
-          const promise = service.evaluateFromAssessmentId(assessmentId);
-
-          // then
-          return promise.then(() => {
-            expect(competenceMarkRepository.save.callCount).to.equal(4);
-
-            const firstSavedCompetenceMark = competenceMarkRepository.save.getCall(0).args;
-            expect(firstSavedCompetenceMark[0]).to.deep.equal({
-              level: 0,
-              score: 7,
-              area_code: '1',
-              competence_code: '1.1',
-              assessmentResultId: assessmentResultId,
-            });
-
-            const secondSavedCompetenceMark = competenceMarkRepository.save.getCall(1).args;
-            expect(secondSavedCompetenceMark[0]).to.deep.equal({
-              level: 2,
-              score: 19,
-              area_code: '2',
-              competence_code: '2.1',
-              assessmentResultId: assessmentResultId,
-            });
-
-            const thirdSavedCompetenceMark = competenceMarkRepository.save.getCall(2).args;
-            expect(thirdSavedCompetenceMark[0]).to.deep.equal({
-              level: -1,
-              score: 0,
-              area_code: '2',
-              competence_code: '2.2',
-              assessmentResultId: assessmentResultId,
-            });
-
-            const forthSavedCompetenceMark = competenceMarkRepository.save.getCall(3).args;
-            expect(forthSavedCompetenceMark[0]).to.deep.equal({
-              area_code: '3',
-              assessmentResultId: assessmentResultId,
-              competence_code: '3.1',
-              level: 5,
-              score: 52,
-            });
-          });
+      it('should update the certification course date', () => {
+        // when
+        const promise = usecases.createAssessmentResultForCompletedCertification({
+          assessmentId,
+          assessmentResultRepository,
+          assessmentRepository,
+          assessmentService,
+          certificationCourseRepository,
+          competenceMarkRepository,
+          skillsService,
         });
 
-        it('should create a new assessment result', () => {
-          // given
-          const sumOfCompetenceMarksScores = competenceMarksForCertification.reduce((sum, competenceMark) => {
-            return sum + competenceMark.score;
-          }, 0);
-          const assessmentResult = new AssessmentResult({
-            level: Math.floor(sumOfCompetenceMarksScores / 8),
-            pixScore: sumOfCompetenceMarksScores,
-            emitter: 'PIX-ALGO',
-            commentForJury: 'Computed',
-            status: 'validated',
-            assessmentId: assessmentId,
-          });
-
-          // when
-          const promise = service.evaluateFromAssessmentId(assessmentId);
-
-          // then
-          return promise.then(() => {
-            expect(assessmentResultRepository.save).to.have.been.calledWith(assessmentResult);
-          });
-        });
-
-        it('should save assessment with status completed', () => {
-          const expectedAssessment = Assessment.fromAttributes({
-            id: assessmentId,
-            courseId: assessmentCourseId,
-            userId: 5,
-            state: 'completed',
-            type: Assessment.types.CERTIFICATION,
-          });
-
-          // when
-          const promise = service.evaluateFromAssessmentId(assessmentId);
-
-          // then
-          return promise.then(() => {
-            expect(assessmentRepository.save).to.have.been.calledWith(expectedAssessment);
-
-            const savedAssessment = assessmentRepository.save.firstCall.args;
-            expect(savedAssessment[0]).to.deep.equal(expectedAssessment);
-          });
-        });
-
-        it('should update the certification course date', () => {
-          // when
-          const promise = service.evaluateFromAssessmentId(assessmentId);
-
-          // then
-          return promise.then(() => {
-            expect(certificationCourseRepository.changeCompletionDate).to.have.been.calledWith(assessmentCourseId, '2018-02-04T00:00:00.000Z');
-          });
-        });
-
-      });
-
-      context('something goes wrong during the compute of the certification', () => {
-
-        beforeEach(() => {
-          assessmentService.getCompetenceMarks.throws(new CertificationComputeError('Erreur spécifique'));
-        });
-
-        it('should not persists a mark', () => {
-          // when
-          const promise = service.evaluateFromAssessmentId(assessmentId);
-
-          // then
-          return promise.then(() => {
-            sinon.assert.notCalled(competenceMarkRepository.save);
-          });
-        });
-
-        it('should create a new assessment result', () => {
-          // given
-          const assessmentResult = new AssessmentResult({
-            level: 0,
-            pixScore: 0,
-            emitter: 'PIX-ALGO',
-            commentForJury: 'Erreur spécifique',
-            status: 'error',
-            assessmentId: assessmentId,
-          });
-
-          // when
-          const promise = service.evaluateFromAssessmentId(assessmentId);
-
-          // then
-          return promise.then(() => {
-            expect(assessmentResultRepository.save).to.have.been.calledWith(assessmentResult);
-          });
-        });
-
-        it('should save assessment with status completed', () => {
-          const expectedAssessment = Assessment.fromAttributes({
-            id: assessmentId,
-            courseId: assessmentCourseId,
-            userId: 5,
-            state: 'completed',
-            type: Assessment.types.CERTIFICATION,
-          });
-
-          // when
-          const promise = service.evaluateFromAssessmentId(assessmentId);
-
-          // then
-          return promise.then(() => {
-            expect(assessmentRepository.save).to.have.been.calledWith(expectedAssessment);
-
-            const savedAssessment = assessmentRepository.save.firstCall.args;
-            expect(savedAssessment[0]).to.deep.equal(expectedAssessment);
-          });
-        });
-
-        it('should update the certification course date', () => {
-          // when
-          const promise = service.evaluateFromAssessmentId(assessmentId);
-
-          // then
-          return promise.then(() => {
-            expect(certificationCourseRepository.changeCompletionDate).to.have.been.calledWith(assessmentCourseId, '2018-02-04T00:00:00.000Z');
-          });
-        });
-
-      });
-
-      context('when updating the certification course status is failing', () => {
-
-        it('should return the raised error', () => {
-          // given
-          const error = new Error();
-          certificationCourseRepository.changeCompletionDate.rejects(error);
-
-          // when
-          const promise = service.evaluateFromAssessmentId(assessmentId);
-
-          // then
-          return expect(promise).to.be.rejectedWith(error);
+        // then
+        return promise.then(() => {
+          expect(certificationCourseRepository.changeCompletionDate).to.have.been.calledWith(assessmentCourseId, '2018-02-04T00:00:00.000Z');
         });
       });
 
     });
-  */
+
+    context('something goes wrong during the compute of the certification', () => {
+
+      beforeEach(() => {
+        assessmentService.getCompetenceMarks.throws(new CertificationComputeError('Erreur spécifique'));
+      });
+
+      it('should not persists a mark', () => {
+        // when
+        const promise = usecases.createAssessmentResultForCompletedCertification({
+          assessmentId,
+          assessmentResultRepository,
+          assessmentRepository,
+          assessmentService,
+          certificationCourseRepository,
+          competenceMarkRepository,
+          skillsService,
+        });
+
+        // then
+        return promise.then(() => {
+          sinon.assert.notCalled(competenceMarkRepository.save);
+        });
+      });
+
+      it('should create a new assessment result', () => {
+        // given
+        const assessmentResult = factory.buildAssessementResult({
+          level: 0,
+          pixScore: 0,
+          emitter: 'PIX-ALGO',
+          commentForJury: 'Erreur spécifique',
+          status: 'error',
+          assessmentId: assessmentId,
+        });
+
+        // when
+        const promise = usecases.createAssessmentResultForCompletedCertification({
+          assessmentId,
+          assessmentResultRepository,
+          assessmentRepository,
+          assessmentService,
+          certificationCourseRepository,
+          competenceMarkRepository,
+          skillsService,
+        });
+
+        // then
+        return promise.then(() => {
+          expect(assessmentResultRepository.save).to.have.been.calledWith(assessmentResult);
+        });
+      });
+
+      it('should save assessment with status completed', () => {
+        const expectedAssessment = factory.buildAssessement({
+          id: assessmentId,
+          courseId: assessmentCourseId,
+          userId: 5,
+          state: 'completed',
+          type: Assessment.types.CERTIFICATION,
+        });
+
+        // when
+        const promise = usecases.createAssessmentResultForCompletedCertification({
+          assessmentId,
+          assessmentResultRepository,
+          assessmentRepository,
+          assessmentService,
+          certificationCourseRepository,
+          competenceMarkRepository,
+          skillsService,
+        });
+
+        // then
+        return promise.then(() => {
+          expect(assessmentRepository.save).to.have.been.calledWith(expectedAssessment);
+
+          const savedAssessment = assessmentRepository.save.firstCall.args;
+          expect(savedAssessment[0]).to.deep.equal(expectedAssessment);
+        });
+      });
+
+      it('should update the certification course date', () => {
+        // when
+        const promise = usecases.createAssessmentResultForCompletedCertification({
+          assessmentId,
+          assessmentResultRepository,
+          assessmentRepository,
+          assessmentService,
+          certificationCourseRepository,
+          competenceMarkRepository,
+          skillsService,
+        });
+
+        // then
+        return promise.then(() => {
+          expect(certificationCourseRepository.changeCompletionDate).to.have.been.calledWith(assessmentCourseId, '2018-02-04T00:00:00.000Z');
+        });
+      });
+
+    });
+
+    context('when updating the certification course status is failing', () => {
+
+      it('should return the raised error', () => {
+        // given
+        const error = new Error();
+        certificationCourseRepository.changeCompletionDate.rejects(error);
+
+        // when
+        const promise = usecases.createAssessmentResultForCompletedCertification({
+          assessmentId,
+          assessmentResultRepository,
+          assessmentRepository,
+          assessmentService,
+          certificationCourseRepository,
+          competenceMarkRepository,
+          skillsService,
+        });
+
+        // then
+        return expect(promise).to.be.rejectedWith(error);
+      });
+    });
+  });
 });
