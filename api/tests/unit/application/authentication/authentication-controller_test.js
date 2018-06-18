@@ -27,6 +27,7 @@ describe('Unit | Application | Controller | Authentication', () => {
         }
       };
       sinon.stub(usecases, 'authenticateUser').resolves('jwt.access.token');
+      sinon.stub(tokenService, 'extractUserId').returns(1);
       stubHeader = sinon.stub();
       stubHeader.returns({ header: stubHeader });
       stubCode = sinon.stub().returns({ header: stubHeader });
@@ -35,6 +36,7 @@ describe('Unit | Application | Controller | Authentication', () => {
 
     afterEach(() => {
       usecases.authenticateUser.restore();
+      tokenService.extractUserId.restore();
     });
 
     it('should check user credentials', () => {
@@ -70,7 +72,8 @@ describe('Unit | Application | Controller | Authentication', () => {
         const expectedResponseResult = {
           token_type: 'bearer',
           expires_in: 3600,
-          access_token: 'jwt.access.token'
+          access_token: 'jwt.access.token',
+          user_id: 1
         };
         expect(reply).to.have.been.calledWithExactly(expectedResponseResult);
         expect(stubCode).to.have.been.calledWith(200);
