@@ -20,7 +20,6 @@ class Skill {
 
     return oneSkill.name === otherSkill.name;
   }
-
 }
 
 module.exports = Skill;

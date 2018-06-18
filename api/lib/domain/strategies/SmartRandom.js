@@ -38,10 +38,6 @@ function _computeLikelihood(level, answers) {
   return -Math.abs(diffBetweenResultAndProbaToResolve.reduce((a, b) => a + b));
 }
 
-function _isChallengeNotAnsweredYet(challenge, answeredChallenges) {
-  return !answeredChallenges.includes(challenge);
-}
-
 function _skillsToTargetInPriority(courseTubes, validatedSkills, failedSkills) {
   let skillsToTargetInPriority = [];
 
@@ -69,9 +65,8 @@ function _isChallengeNotTooHard(challenge, predictedLevel) {
   return challenge.hardestSkill.difficulty - predictedLevel <= 2;
 }
 
-function _isAnAvailableChallenge(challenge, answers) {
-  const answeredChallenges = answers.map(answer => answer.challenge);
-  return challenge.isPublished() && _isChallengeNotAnsweredYet(challenge, answeredChallenges);
+function _isAnAvailableChallenge(challenge, assessedSkills) {
+  return challenge.isPublished() && challenge.testsAtLeastOneNewSkill(assessedSkills);
 }
 
 function _isPreviousChallengeTimed(answers) {
@@ -87,24 +82,6 @@ function _extractNotTimedChallenge(availableChallenges) {
 
 function _skillNotKnownYet(skill, validatedSkills, failedSkills) {
   return !validatedSkills.includes(skill) && !failedSkills.includes(skill);
-}
-
-function _filteredChallenges(challenges, answers, tubes, validatedSkills, failedSkills, predictedLevel) {
-
-  let availableChallenges = challenges.filter(challenge => _isAnAvailableChallenge(challenge, answers));
-
-  if (_isPreviousChallengeTimed(answers)) {
-    availableChallenges = _extractNotTimedChallenge(availableChallenges);
-  }
-
-  availableChallenges = availableChallenges.filter(challenge => _isChallengeNotTooHard(challenge, predictedLevel));
-
-  const listOfSkillsToTargetInPriority = _skillsToTargetInPriority(tubes, validatedSkills, failedSkills);
-  if (listOfSkillsToTargetInPriority.length > 0) {
-    availableChallenges = _filterChallengesBySkills(availableChallenges, listOfSkillsToTargetInPriority);
-  }
-
-  return availableChallenges;
 }
 
 function _filterChallengesBySkills(listOfChallenges, listOfRequiredSkills) {
@@ -154,7 +131,7 @@ function _computeReward(challenge, predictedLevel, course, validatedSkills, fail
 }
 
 function _firstChallenge(challenges, answers, tubes, validatedSkills, failedSkills, predictedLevel) {
-  const filteredFirstChallenges = _filteredChallenges(challenges, answers, tubes, validatedSkills, failedSkills, predictedLevel).filter(
+  const filteredFirstChallenges = SmartRandom._filteredChallenges(challenges, answers, tubes, validatedSkills, failedSkills, predictedLevel).filter(
     challenge => (challenge.hardestSkill.difficulty === LEVEL_FOR_FIRST_CHALLENGE) && (challenge.timer === undefined)
   );
   filteredFirstChallenges.sort(_randomly);
@@ -191,7 +168,7 @@ class SmartRandom {
         this.getPredictedLevel());
     }
 
-    const availableChallenges = _filteredChallenges(
+    const availableChallenges = SmartRandom._filteredChallenges(
       this.challenges,
       this.answers,
       this.course.tubes,
@@ -241,10 +218,6 @@ class SmartRandom {
     return this.assessment.getFailedSkills();
   }
 
-  get testedSkills() {
-    return _.union(this.validatedSkills, this.failedSkills);
-  }
-
   getPredictedLevel() {
     if (this.answers.length === 0) {
       return LEVEL_FOR_FIRST_CHALLENGE;
@@ -263,7 +236,31 @@ class SmartRandom {
     }
     return predictedLevel;
   }
+
+  /**
+   * XXX: this is public only to be tested and thus ensure bug PF-231 is fixed. DO NOT USE.
+   *
+   * @private
+   * @deprecated
+   */
+  static _filteredChallenges(challenges, answers, tubes, validatedSkills, failedSkills, predictedLevel) {
+
+    const assessedSkills = _.union(validatedSkills, failedSkills);
+    let availableChallenges = challenges.filter(challenge => _isAnAvailableChallenge(challenge, assessedSkills));
+
+    if (_isPreviousChallengeTimed(answers)) {
+      availableChallenges = _extractNotTimedChallenge(availableChallenges);
+    }
+
+    availableChallenges = availableChallenges.filter(challenge => _isChallengeNotTooHard(challenge, predictedLevel));
+
+    const listOfSkillsToTargetInPriority = _skillsToTargetInPriority(tubes, validatedSkills, failedSkills);
+    if (listOfSkillsToTargetInPriority.length > 0) {
+      availableChallenges = _filterChallengesBySkills(availableChallenges, listOfSkillsToTargetInPriority);
+    }
+
+    return availableChallenges;
+  }
 }
 
 module.exports = SmartRandom;
-
