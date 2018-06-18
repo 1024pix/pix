@@ -16,7 +16,7 @@ module.exports = {
     return BookshelfCompetenceMark
       .where({ assessmentResultId })
       .fetchAll()
-      .then(challenges => challenges.models.map(_toDomain));
+      .then(competenceMarks => competenceMarks.models.map(_toDomain));
   },
 
 };
