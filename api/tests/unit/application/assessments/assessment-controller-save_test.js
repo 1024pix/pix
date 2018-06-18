@@ -114,6 +114,7 @@ describe('Unit | Controller | assessment-controller-save', () => {
         sinon.assert.calledOnce(assessmentRepository.save);
         return expect(assessmentRepository.save).to.have.been.calledWith(expected);
       });
+
       context('where there is no UserId', () => {
         let badDataStub;
         beforeEach(() => {
@@ -218,10 +219,12 @@ describe('Unit | Controller | assessment-controller-save', () => {
       const assessment = {
         id: 42,
         courseId: 'recCourseId',
+        createdAt: undefined,
         userId: 'userId',
         state: 'started',
         type: 'PLACEMENT',
         answers: [],
+        assessmentResults: [],
         course: undefined,
       };
       const serializedAssessment = {
@@ -282,7 +285,6 @@ describe('Unit | Controller | assessment-controller-save', () => {
           sinon.assert.calledWith(codeStub, 201);
         });
       });
-
     });
 
     context('when the deserializedAssessment can not be saved', () => {
@@ -337,7 +339,5 @@ describe('Unit | Controller | assessment-controller-save', () => {
         });
       });
     });
-
   });
-
 });

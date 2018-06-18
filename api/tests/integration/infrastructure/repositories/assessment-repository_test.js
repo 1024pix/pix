@@ -17,8 +17,8 @@ describe('Integration | Infrastructure | Repositories | assessment-repository', 
           .insert({
             userId: 1,
             courseId: 'course_A',
-            state:'completed',
-            createdAt: '2016-10-27 08:44:25'
+            state: 'completed',
+            createdAt: '2016-10-27 08:44:25',
           })
           .then((assessmentId) => {
             assessmentIdInDb = assessmentId[0];
@@ -28,26 +28,26 @@ describe('Integration | Infrastructure | Repositories | assessment-repository', 
                 result: 'ko',
                 challengeId: 'challenge_1_4',
                 assessmentId: assessmentIdInDb,
-                createdAt: '2016-10-27 08:45:00'
+                createdAt: '2016-10-27 08:45:00',
               }, {
                 value: '2,8',
                 result: 'ko',
                 challengeId: 'challenge_2_8',
                 assessmentId: assessmentIdInDb,
-                createdAt: '2016-10-27 08:45:30'
+                createdAt: '2016-10-27 08:45:30',
               }, {
                 value: '3,1',
                 result: 'ko',
                 challengeId: 'challenge_3_1',
                 assessmentId: assessmentIdInDb,
-                createdAt: '2016-10-27 08:44:00'
+                createdAt: '2016-10-27 08:44:00',
               },
               {
                 value: '5,2',
                 result: 'ko',
                 challengeId: 'challenge_4',
-                createdAt: '2016-10-27 08:45:50'
-              }
+                createdAt: '2016-10-27 08:45:50',
+              },
             ]);
           });
       });
@@ -95,32 +95,32 @@ describe('Integration | Infrastructure | Repositories | assessment-repository', 
         id: 1,
         userId: 1,
         courseId: 'course_A',
-        state:'started',
-        createdAt: '2016-10-27 08:44:25'
+        state: 'started',
+        createdAt: '2016-10-27 08:44:25',
       }, {
         id: 2,
         userId: 1,
         courseId: 'course_A',
-        state:'completed',
-        createdAt: '2017-10-27 08:44:25'
+        state: 'completed',
+        createdAt: '2017-10-27 08:44:25',
       }, {
         id: 3,
         userId: 1,
         courseId: 'course_A',
         state: 'started',
-        createdAt: '2018-10-27 08:44:25'
+        createdAt: '2018-10-27 08:44:25',
       }, {
         id: 4,
         userId: 1,
         courseId: 'course_B',
-        state:'completed',
-        createdAt: '2017-10-27 08:44:25'
+        state: 'completed',
+        createdAt: '2017-10-27 08:44:25',
       }, {
         id: 5,
         userId: 1,
         courseId: 'course_B',
-        state:'completed',
-        createdAt: '2018-10-27 08:44:25'
+        state: 'completed',
+        createdAt: '2018-10-27 08:44:25',
       }]);
     });
 
@@ -155,7 +155,7 @@ describe('Integration | Infrastructure | Repositories | assessment-repository', 
       const assessment =
         {
           userId: fakeUserId,
-          courseId: 'courseId'
+          courseId: 'courseId',
         };
 
       beforeEach(() => {
@@ -189,7 +189,7 @@ describe('Integration | Infrastructure | Repositories | assessment-repository', 
       const assessment =
         {
           userId: fakeUserId,
-          courseId: 'courseId'
+          courseId: 'courseId',
         };
 
       beforeEach(() => {
@@ -227,39 +227,39 @@ describe('Integration | Infrastructure | Repositories | assessment-repository', 
       id: 1,
       userId: JOHN,
       courseId: 'courseId1',
-      state:'completed',
-      createdAt: '2017-11-08 11:47:38'
+      state: 'completed',
+      createdAt: '2017-11-08 11:47:38',
     }, {
       id: 2,
       userId: LAYLA,
       courseId: 'courseId1',
-      state:'completed',
-      createdAt: '2017-11-08 11:47:38'
+      state: 'completed',
+      createdAt: '2017-11-08 11:47:38',
     }, {
       id: 3,
       userId: JOHN,
       courseId: 'courseId1',
-      state:'completed',
-      createdAt: '2017-11-08 12:47:38'
+      state: 'completed',
+      createdAt: '2017-11-08 12:47:38',
     }, {
       id: 4,
       userId: JOHN,
       courseId: 'courseId2',
-      state:'completed',
-      createdAt: '2017-11-08 11:47:38'
+      state: 'completed',
+      createdAt: '2017-11-08 11:47:38',
     }, {
       id: 5,
       userId: JOHN,
       courseId: 'courseId3',
       state: 'started',
-      createdAt: '2017-11-08 11:47:38'
+      createdAt: '2017-11-08 11:47:38',
     }, {
       id: 6,
       userId: JOHN,
       courseId: 'courseId1',
-      state:'completed',
-      createdAt: '2020-10-27 08:44:25'
-    }
+      state: 'completed',
+      createdAt: '2020-10-27 08:44:25',
+    },
     ];
 
     before(() => {
@@ -277,14 +277,18 @@ describe('Integration | Infrastructure | Repositories | assessment-repository', 
           id: 3,
           userId: JOHN,
           courseId: 'courseId1',
-          state:'completed'
+          state: 'completed',
+          createdAt: '2017-11-08 12:47:38',
+          type: null,
         }),
         Assessment.fromAttributes({
           id: 4,
           userId: JOHN,
           courseId: 'courseId2',
-          state:'completed'
-        })
+          state: 'completed',
+          createdAt: '2017-11-08 11:47:38',
+          type: null,
+        }),
       ];
 
       // when
@@ -310,8 +314,8 @@ describe('Integration | Infrastructure | Repositories | assessment-repository', 
       userId: JOHN,
       courseId: 'courseId1',
       type: Assessment.types.CERTIFICATION,
-      state:'completed',
-      createdAt: '2017-11-08 11:47:38'
+      state: 'completed',
+      createdAt: '2017-11-08 11:47:38',
     });
 
     afterEach(() => {
@@ -335,8 +339,8 @@ describe('Integration | Infrastructure | Repositories | assessment-repository', 
 
     const assessmentInDb = {
       courseId: 'course_A',
-      state:'completed',
-      createdAt: '2016-10-27 08:44:25'
+      state: 'completed',
+      createdAt: '2016-10-27 08:44:25',
     };
 
     const competenceMark = {
@@ -356,7 +360,7 @@ describe('Integration | Infrastructure | Repositories | assessment-repository', 
       commentForJury: 'Computed',
       commentForCandidate: 'Votre certification a été validé par Pix',
       commentForOrganization: 'Sa certification a été validé par Pix',
-      createdAt: '2016-10-27 08:44:25'
+      createdAt: '2016-10-27 08:44:25',
     };
 
     beforeEach(() => {
@@ -379,7 +383,7 @@ describe('Integration | Infrastructure | Repositories | assessment-repository', 
       return Promise.all([
         knex('assessments').delete(),
         knex('assessment-results').delete(),
-        knex('competence-marks').delete()
+        knex('competence-marks').delete(),
       ]);
     });
 
