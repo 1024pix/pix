@@ -35,7 +35,6 @@ class Assessment {
   constructor({
     // attributes
     id,
-    assessmentResults,
     courseId,
     createdAt,
     userId,
@@ -44,6 +43,7 @@ class Assessment {
 
     // relationships
     answers = [],
+    assessmentResults = [],
     course,
   } = {}) {
     this.id = id;
@@ -70,7 +70,7 @@ class Assessment {
   }
 
   getLastAssessmentResult() {
-    if (this.assessmentResults) {
+    if (this.assessmentResults && this.assessmentResults.length > 0) {
       return _(this.assessmentResults).sortBy(['createdAt']).last();
     }
     return null;
