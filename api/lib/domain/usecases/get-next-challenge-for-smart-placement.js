@@ -1,21 +1,7 @@
 const { AssessmentEndedError } = require('../errors');
 const TargetProfile = require('../models/TargetProfile');
-const Skill = require('../models/Skill');
 const SmartRandom = require('../strategies/SmartRandom');
 const _ = require('lodash');
-
-const listOfTargetedSkillNames = [
-  '@accesDonnées2',
-  '@collecteDonnées2',
-  '@infosPerso4',
-  '@tracesLocales3',
-  '@tracesPratiques6',
-  '@archive4',
-  '@fichier1',
-  '@propFichier3',
-  '@sauvegarde6',
-  '@unite2',
-];
 
 function getNextChallengeInSmartRandom(answersPix, challengesPix, targetProfile) {
   const smartRandom = new SmartRandom({
@@ -35,8 +21,7 @@ module.exports = function({
 
   let answers, challenges;
 
-  const listOfSkills = listOfTargetedSkillNames.map(skill => new Skill({ name: skill }));
-  const targetProfile = TargetProfile.fromListOfSkill(listOfSkills);
+  const targetProfile = TargetProfile.TEST_PROFIL;
 
   return answerRepository.findByAssessment(assessment.id)
     .then(fetchedAnswers => (answers = fetchedAnswers))
