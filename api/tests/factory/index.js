@@ -13,6 +13,7 @@ const buildCertification = require('./build-certification');
 const buildCertificationWithCompetenceTree = require('./build-certification-with-competence-tree');
 const buildCompetence = require('./build-competence');
 const buildCompetenceAirtableDataObject = require('./build-competence-airtable-data-object');
+const buildCompetence = require('./build-competence');
 const buildCompetenceMark = require('./build-competence-mark');
 const buildCompetenceTree = require('./build-competence-tree');
 const buildCourse = require('./build-course');
@@ -43,6 +44,7 @@ module.exports = {
   buildCompetenceAirtableDataObject,
   buildChallenge,
   buildCourse,
+  buildCompetence,
   buildCompetenceMark,
   buildCompetenceTree,
   buildOrganization,

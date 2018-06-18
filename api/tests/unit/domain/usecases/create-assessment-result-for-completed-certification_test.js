@@ -2,6 +2,22 @@ const { expect, sinon, factory } = require('../../../test-helper');
 const usecases = require('../../../../lib/domain/usecases');
 const { NotFoundError, AlreadyRatedAssessmentError, CertificationComputeError } = require('../../../../lib/domain/errors');
 
+function _buildCompetence(competenceCode, areaCode) {
+
+  const area = factory.buildArea({
+    code: areaCode,
+    name: `${areaCode} Information et données`,
+    title: 'Information et données',
+  });
+
+  const competence = factory.buildCompetence({
+    index: `${areaCode}.${competenceCode}`,
+    area,
+  });
+
+  return competence;
+}
+
 describe('Unit | UseCase | create-assessment-result-for-completed-certification', () => {
 
   const assessmentService = {
@@ -59,7 +75,6 @@ describe('Unit | UseCase | create-assessment-result-for-completed-certification'
 
   beforeEach(() => {
 
-
     assessment = factory.buildAssessement({
       id: assessmentId,
       courseId: assessmentCourseId,
@@ -70,8 +85,8 @@ describe('Unit | UseCase | create-assessment-result-for-completed-certification'
 
     evaluatedSkills = {
       assessmentId: assessmentId,
-      validatedSkills: _generateValidatedSkills(),
-      failedSkills: _generateFailedSkills(),
+      validatedSkills: [factory.buildSkill({ name: '@url2' }), factory.buildSkill({ name: '@web3' })],
+      failedSkills: [factory.buildSkill({ name: '@recherch2' }), factory.buildSkill({ name: '@securite3' })],
     };
 
     competenceMarksForCertification = [
@@ -118,10 +133,11 @@ describe('Unit | UseCase | create-assessment-result-for-completed-certification'
 
     listOfAllCompetences = [competence11, competence12, competence21, competence22, competence31];
 
-    course = new AirtableCourse();
-    course.id = assessmentCourseId;
-    course.name = 'Mener une recherche';
-    course.competences = [competenceId];
+    course = factory.buildCourse({
+      id: assessmentCourseId,
+      name: 'Mener une recherche',
+      competence: [competenceId]
+    });
 
     sandbox = sinon.sandbox.create();
 
