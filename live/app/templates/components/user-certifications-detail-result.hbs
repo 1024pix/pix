@@ -7,17 +7,14 @@
   </div>
 </div>
 
-<div>
-  <div class="user-certifications-detail-result__separation"></div>
-  <div class="user-certifications-detail-result__text-pix-certified">
-    Votre score certifié a été calculé en fonction de vos réponses lors du passage de la certification.
-    Il peut donc différer de votre nombre de Pix affiché dans votre profil.
-  </div>
+<div class="user-certifications-detail-result__text-pix-certified">
+  Votre score certifié a été calculé en fonction de vos réponses lors du passage de la certification.
+  Il peut donc différer de votre nombre de Pix affiché dans votre profil.
 </div>
 
 <div>
-  <hr/>
   {{#if certification.commentForCandidate}}
+    <hr/>
     <div class="user-certifications-detail-result__title-comment-jury">Intervention du jury</div>
     <div class="user-certifications-detail-result__comment-jury">
       {{certification.commentForCandidate}}

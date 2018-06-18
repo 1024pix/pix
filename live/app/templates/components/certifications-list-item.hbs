@@ -37,7 +37,7 @@
 {{/if}}
 
 {{#if isPublishedAndValidated}}
-  {{#link-to 'user-certifications.get' certification class='certifications-list-item__row-presentation'}}
+  {{#link-to 'user-certifications.get' certification.id class='certifications-list-item__row-presentation'}}
     <div class="certifications-list-item__cell">
       {{moment-format certification.date 'DD/MM/YYYY' allow-empty=true}}
     </div>

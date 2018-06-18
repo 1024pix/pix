@@ -86,5 +86,52 @@ describe('Integration | Repository | CompetenceMark', function() {
       });
     });
   });
+
+  describe('#findByAssessmentResultId', () => {
+    const assessmentResultId = 1;
+
+    const competenceMark1 = {
+      id: 1,
+      score: 13,
+      level: 2,
+      area_code: '4',
+      competence_code: '4.2',
+      assessmentResultId,
+    };
+
+    const competenceMark2 = {
+      id: 2,
+      score: 24,
+      level: 3,
+      area_code: '3',
+      competence_code: '3.1',
+      assessmentResultId,
+    };
+
+    const competenceMark3 = {
+      id: 3,
+      score: 10,
+      level: 1,
+      area_code: '3',
+      competence_code: '3.1',
+      assessmentResultId: 2,
+    };
+
+    before(() => knex('competence-marks').insert([competenceMark1, competenceMark2, competenceMark3]));
+
+    afterEach(() => knex('competence-marks').delete());
+
+    it('should return all competence-marks for one assessmentResult', () => {
+      // when
+      const promise = CompetenceMarkRepository.findByAssessmentResultId(assessmentResultId);
+
+      // then
+      return promise.then((competenceMarks) => {
+        expect(competenceMarks[0].id).to.equal(competenceMark1.id);
+        expect(competenceMarks[1].id).to.equal(competenceMark2.id);
+        expect(competenceMarks.length).to.equal(2);
+      });
+    });
+  });
 });
 

@@ -6,7 +6,13 @@ const moment = require('moment-timezone');
 module.exports = {
 
   serialize(certification) {
+
     return new Serializer('certifications', {
+      typeForAttribute(attribute) {
+        if (attribute === 'resultCompetenceTree') {
+          return 'result-competence-trees';
+        }
+      },
       attributes: [
         'certificationCenter',
         'birthdate',
@@ -16,8 +22,28 @@ module.exports = {
         'lastName',
         'status',
         'pixScore',
-        'commentForCandidate'
+        'commentForCandidate',
+        'resultCompetenceTree',
       ],
+
+      resultCompetenceTree: {
+        included: true,
+        ref: 'id',
+        // XXX: the jsonapi-serializer lib needs at least one attribute outside relationships
+        attributes: ['id', 'areas'],
+
+        areas: {
+          included: true,
+          ref: 'id',
+          attributes: ['code', 'name', 'title', 'competences'],
+
+          competences: {
+            included: true,
+            ref: 'id',
+            attributes: ['index', 'level', 'name', 'score'],
+          },
+        },
+      },
     }).serialize(certification);
   },
 

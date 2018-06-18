@@ -1,0 +1,17 @@
+<div class="user-certifications-detail-competence__box-name">
+  <span class="user-certifications-detail-competence__box-name-label">{{competence.name}}</span>
+  {{#if (gte competence.level 1)}}
+    <div class="user-certifications-detail-competence__box-level">{{competence.level}}</div>
+  {{/if}}
+
+</div>
+
+<div class="user-certifications-detail-competence__levels-bar-block">
+  {{#each levels as |level index|}}
+    {{#if (gte competence.level level)}}
+      <div class="user-certifications-detail-competence__validate-level user-certifications-detail-competence__level-bar"></div>
+    {{else}}
+      <div class="user-certifications-detail-competence__not-validate-level user-certifications-detail-competence__level-bar"></div>
+    {{/if}}
+  {{/each}}
+</div>
