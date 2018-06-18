@@ -104,7 +104,7 @@ describe('Unit | Route | Assessments.ChallengeRoute', function() {
       });
     });
 
-    it('should not call findRecord for user if assessement is not a certification', function() {
+    it('should not call findRecord for user if Assessment is not a certification', function() {
       // given
       model.assessment.get.withArgs('isCertification').returns(false);
       model.assessment.get.withArgs('course').returns({ getProgress: sinon.stub().returns('course') });

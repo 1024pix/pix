@@ -1,10 +1,10 @@
 const Certification = require('../../lib/domain/models/Certification');
-const buildAssessementResult = require('./build-assessment-result');
+const buildAssessmentResult = require('./build-assessment-result');
 const buildResultCompetenceTree = require('./build-result-competence-tree');
 
 module.exports = function buildCertification({
   id = 1,
-  assessmentResults = [buildAssessementResult()],
+  assessmentResults = [buildAssessmentResult()],
   assessmentState = 'completed',
   birthdate = new Date('1992-06-12'),
   certificationCenter = 'L’univeristé du Pix',

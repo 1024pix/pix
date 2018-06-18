@@ -181,7 +181,7 @@ describe('Unit | Service | Certification Service', function() {
   describe('#calculateCertificationResultByCertificationCourseId', () => {
 
     let sandbox;
-    const certificationAssessement = Assessment.fromAttributes({
+    const certificationAssessment = Assessment.fromAttributes({
       id: 'assessment_id',
       userId: 'user_id',
       courseId: 'course_id',
@@ -193,7 +193,7 @@ describe('Unit | Service | Certification Service', function() {
 
     beforeEach(() => {
       sandbox = sinon.sandbox.create();
-      sandbox.stub(assessmentRepository, 'getByCertificationCourseId').resolves(certificationAssessement);
+      sandbox.stub(assessmentRepository, 'getByCertificationCourseId').resolves(certificationAssessment);
       sandbox.stub(assessmentRepository, 'findLastCompletedAssessmentsForEachCoursesByUser').resolves(assessments);
       sandbox.stub(answersRepository, 'findByAssessment').resolves(_buildWrongAnswersForAllChallenges());
       sandbox.stub(certificationChallengesRepository, 'findByCertificationCourseId').resolves(challenges);
@@ -224,7 +224,7 @@ describe('Unit | Service | Certification Service', function() {
       // then
       return promise.then(() => {
         sinon.assert.calledOnce(answersRepository.findByAssessment);
-        sinon.assert.calledWith(answersRepository.findByAssessment, certificationAssessement.id);
+        sinon.assert.calledWith(answersRepository.findByAssessment, certificationAssessment.id);
       });
     });
 
@@ -256,7 +256,7 @@ describe('Unit | Service | Certification Service', function() {
       // then
       return promise.then(() => {
         sinon.assert.calledOnce(assessmentRepository.findLastCompletedAssessmentsForEachCoursesByUser);
-        sinon.assert.calledWith(assessmentRepository.findLastCompletedAssessmentsForEachCoursesByUser, certificationAssessement.userId, '2018-01-01');
+        sinon.assert.calledWith(assessmentRepository.findLastCompletedAssessmentsForEachCoursesByUser, certificationAssessment.userId, '2018-01-01');
       });
     });
 
@@ -715,7 +715,7 @@ describe('Unit | Service | Certification Service', function() {
     let sandbox;
     const certificationCourse = { id: 'course1', status: 'completed' };
 
-    const certificationAssessement = Assessment.fromAttributes({
+    const certificationAssessment = Assessment.fromAttributes({
       id: 'assessment_id',
       userId: 'user_id',
       createdAt: '2018-01-01',
@@ -725,7 +725,7 @@ describe('Unit | Service | Certification Service', function() {
 
     beforeEach(() => {
       sandbox = sinon.sandbox.create();
-      sandbox.stub(assessmentRepository, 'get').resolves(certificationAssessement);
+      sandbox.stub(assessmentRepository, 'get').resolves(certificationAssessment);
       sandbox.stub(assessmentRepository, 'findLastCompletedAssessmentsForEachCoursesByUser').resolves(assessments);
       sandbox.stub(answersRepository, 'findByAssessment').resolves(_buildWrongAnswersForAllChallenges());
       sandbox.stub(certificationChallengesRepository, 'findByCertificationCourseId').resolves(challenges);
@@ -756,7 +756,7 @@ describe('Unit | Service | Certification Service', function() {
       // then
       return promise.then(() => {
         sinon.assert.calledOnce(answersRepository.findByAssessment);
-        sinon.assert.calledWith(answersRepository.findByAssessment, certificationAssessement.id);
+        sinon.assert.calledWith(answersRepository.findByAssessment, certificationAssessment.id);
       });
     });
 
@@ -788,7 +788,7 @@ describe('Unit | Service | Certification Service', function() {
       // then
       return promise.then(() => {
         sinon.assert.calledOnce(assessmentRepository.findLastCompletedAssessmentsForEachCoursesByUser);
-        sinon.assert.calledWith(assessmentRepository.findLastCompletedAssessmentsForEachCoursesByUser, certificationAssessement.userId, '2018-01-01');
+        sinon.assert.calledWith(assessmentRepository.findLastCompletedAssessmentsForEachCoursesByUser, certificationAssessment.userId, '2018-01-01');
       });
     });
 

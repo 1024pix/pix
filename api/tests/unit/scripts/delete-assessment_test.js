@@ -110,10 +110,10 @@ describe('Delete Assessment Script', () => {
 
       it('should reject an error when no assessment given', () => {
         // given
-        const userEraserWithoutAssessement = new AssessmentEraser(clientStub, queryBuilder, null);
+        const userEraserWithoutAssessment = new AssessmentEraser(clientStub, queryBuilder, null);
 
         // when
-        const promise = userEraserWithoutAssessement.delete_dependent_data_from_assessment_id();
+        const promise = userEraserWithoutAssessment.delete_dependent_data_from_assessment_id();
 
         // then
         return expect(promise).to.be.rejectedWith(Error, 'Missing argument : an assessment id should be provided');

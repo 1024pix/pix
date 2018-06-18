@@ -40,7 +40,7 @@ describe('Unit | Controller | assessment-controller', () => {
       expect(assessmentController.get).to.exist;
     });
 
-    it('should call AssessementService#fetchAssessment with request param', () => {
+    it('should call AssessmentService#fetchAssessment with request param', () => {
       // given
       request = { params: { id: 1234567 } };
 
@@ -89,10 +89,10 @@ describe('Unit | Controller | assessment-controller', () => {
 
     it('should reply with the scored assessment', () => {
       // given
-      const serializedAssessment = { data: { type: 'assessement' } };
-      const scoredAssessement = { id: 'assessment_id' };
+      const serializedAssessment = { data: { type: 'Assessment' } };
+      const scoredAssessment = { id: 'assessment_id' };
       const expectedSerializerArgs = {
-        assessmentPix: scoredAssessement,
+        assessmentPix: scoredAssessment,
         skills: {}
       };
 
@@ -104,7 +104,7 @@ describe('Unit | Controller | assessment-controller', () => {
 
       // then
       return promise.then(() => {
-        sinon.assert.calledWithExactly(assessmentSerializer.serialize, scoredAssessement);
+        sinon.assert.calledWithExactly(assessmentSerializer.serialize, scoredAssessment);
         sinon.assert.calledWithExactly(reply, serializedAssessment);
       });
     });

@@ -76,7 +76,7 @@ describe('Unit | UseCase | create-assessment-result-for-completed-certification'
 
   beforeEach(() => {
 
-    assessment = factory.buildAssessement({
+    assessment = factory.buildAssessment({
       id: assessmentId,
       courseId: assessmentCourseId,
       userId: 5,
@@ -184,7 +184,7 @@ describe('Unit | UseCase | create-assessment-result-for-completed-certification'
 
     it('should reject an AlreadyRatedAssessmentError', () => {
       // given
-      const alreadyEvaluatedAssessment = factory.buildAssessement({
+      const alreadyEvaluatedAssessment = factory.buildAssessment({
         id: assessmentId,
         courseId: assessmentCourseId,
         userId: 5,
@@ -211,7 +211,7 @@ describe('Unit | UseCase | create-assessment-result-for-completed-certification'
 
     it('should not reject an AlreadyRatedAssessmentError if a parameters contains a recompute at true', () => {
       // given
-      const alreadyEvaluatedAssessment = factory.buildAssessement({
+      const alreadyEvaluatedAssessment = factory.buildAssessment({
         id: assessmentId,
         courseId: assessmentCourseId,
         userId: 5,
@@ -297,7 +297,7 @@ describe('Unit | UseCase | create-assessment-result-for-completed-certification'
 
   it('should create a new assessment result', () => {
     // given
-    const assessmentResult = factory.buildAssessementResult({
+    const assessmentResult = factory.buildAssessmentResult({
       level: 2,
       pixScore: 18,
       emitter: 'PIX-ALGO',
@@ -438,7 +438,7 @@ describe('Unit | UseCase | create-assessment-result-for-completed-certification'
 
   context('when the assessment is a PREVIEW', () => {
 
-    const previewAssessment = factory.buildAssessement({
+    const previewAssessment = factory.buildAssessment({
       id: assessmentId,
       courseId: 'nullCourseId',
       userId: 5,
@@ -476,7 +476,7 @@ describe('Unit | UseCase | create-assessment-result-for-completed-certification'
 
     beforeEach(() => {
 
-      demoAssessment = factory.buildAssessement({
+      demoAssessment = factory.buildAssessment({
         id: assessmentId,
         courseId: 'nullCourseId',
         userId: 5,
@@ -530,7 +530,7 @@ describe('Unit | UseCase | create-assessment-result-for-completed-certification'
     let assessment;
 
     beforeEach(() => {
-      assessment = factory.buildAssessement({
+      assessment = factory.buildAssessment({
         id: assessmentId,
         courseId: assessmentCourseId,
         userId: 5,
@@ -606,7 +606,7 @@ describe('Unit | UseCase | create-assessment-result-for-completed-certification'
         const sumOfCompetenceMarksScores = competenceMarksForCertification.reduce((sum, competenceMark) => {
           return sum + competenceMark.score;
         }, 0);
-        const assessmentResult = factory.buildAssessementResult({
+        const assessmentResult = factory.buildAssessmentResult({
           level: Math.floor(sumOfCompetenceMarksScores / 8),
           pixScore: sumOfCompetenceMarksScores,
           emitter: 'PIX-ALGO',
@@ -633,7 +633,7 @@ describe('Unit | UseCase | create-assessment-result-for-completed-certification'
       });
 
       it('should save assessment with status completed', () => {
-        const expectedAssessment = factory.buildAssessement({
+        const expectedAssessment = factory.buildAssessment({
           id: assessmentId,
           courseId: assessmentCourseId,
           userId: 5,
@@ -707,7 +707,7 @@ describe('Unit | UseCase | create-assessment-result-for-completed-certification'
 
       it('should create a new assessment result', () => {
         // given
-        const assessmentResult = factory.buildAssessementResult({
+        const assessmentResult = factory.buildAssessmentResult({
           level: 0,
           pixScore: 0,
           emitter: 'PIX-ALGO',
@@ -734,7 +734,7 @@ describe('Unit | UseCase | create-assessment-result-for-completed-certification'
       });
 
       it('should save assessment with status completed', () => {
-        const expectedAssessment = factory.buildAssessement({
+        const expectedAssessment = factory.buildAssessment({
           id: assessmentId,
           courseId: assessmentCourseId,
           userId: 5,
