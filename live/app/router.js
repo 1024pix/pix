@@ -61,9 +61,15 @@ Router.map(function() {
     this.route('resume', { path: '/:certification_course_id' });
     this.route('results', { path: '/:certification_number/results' });
   });
-  this.route('campaigns.create-assessment', { path: '/campagnes/codecampagnepix' });
+
   this.route('user-certifications', { path: 'mes-certifications' }, function() {
     this.route('get', { path: '/:id' });
+  });
+
+  //this.route('campaigns.create-assessment', { path: '/campagnes/codecampagnepix' });
+  this.route('campaigns', { path: '/campagnes' }, function() {
+    this.route('create-assessment', { path: '/codecampagnepix' });
+    this.route('skill-review', { path: '/codecampagnepix/resultats/:skill-review_id' });
   });
 });
 
