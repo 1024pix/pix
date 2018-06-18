@@ -83,11 +83,12 @@ export default function() {
     const sentEmail = attrs.data.attributes.email;
     const matchingAccount = schema.users.findBy({ email: sentEmail });
 
-    if (matchingAccount != null) {
+    if (matchingAccount !== null) {
       return schema.passwordResetDemands.create({ email: sentEmail });
     } else {
       return new Response(400);
     }
-
   });
+
+  this.get('/skill-reviews/:id');
 }
