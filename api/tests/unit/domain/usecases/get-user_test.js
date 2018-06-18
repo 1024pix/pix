@@ -1,6 +1,5 @@
 const { expect, sinon, factory } = require('../../../test-helper');
 const usecases = require('../../../../lib/domain/usecases');
-const User = require('../../../../lib/domain/models/User');
 const { UserNotAuthorizedToAccessEntity } = require('../../../../lib/domain/errors');
 
 describe('Unit | Application | Use Case | get-user', () => {
@@ -21,13 +20,7 @@ describe('Unit | Application | Use Case | get-user', () => {
     // given
     const authenticatedUserId = 1234;
     const requestedUserId = 1234;
-    const foundUser = factory.buildUser({
-      id: requestedUserId,
-      firstName: 'Dom',
-      lastName: 'Juan',
-      email: 'dom@juan.es',
-      cgu: true
-    });
+    const foundUser = factory.buildUser({ id: requestedUserId });
     userRepository.get.resolves(foundUser);
 
     // when
@@ -35,12 +28,7 @@ describe('Unit | Application | Use Case | get-user', () => {
 
     // then
     return promise.then((user) => {
-      expect(user).to.be.instanceOf(User);
-      expect(user.id).to.equal(foundUser.id);
-      expect(user.firstName).to.equal(foundUser.firstName);
-      expect(user.lastName).to.equal(foundUser.lastName);
-      expect(user.email).to.equal(foundUser.email);
-      expect(user.cgu).to.equal(foundUser.cgu);
+      expect(user).to.deep.equal(foundUser);
     });
   });
 

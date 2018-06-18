@@ -18,7 +18,12 @@ const userService = require('../../../../lib/domain/services/user-service');
 const reCaptchaValidator = require('../../../../lib/infrastructure/validators/grecaptcha-validator');
 const usecases = require('../../../../lib/domain/usecases');
 
-const { PasswordResetDemandNotFoundError, InternalError, EntityValidationError, UserNotAuthorizedToAccessEntity } = require('../../../../lib/domain/errors');
+const {
+  PasswordResetDemandNotFoundError,
+  InternalError,
+  EntityValidationError,
+  UserNotAuthorizedToAccessEntity
+} = require('../../../../lib/domain/errors');
 
 describe('Unit | Controller | user-controller', () => {
 
@@ -386,7 +391,13 @@ describe('Unit | Controller | user-controller', () => {
           reply.returns({
             code: codeStub,
           });
-          const serializedError = {};
+          const serializedError = {
+            errors: [{
+              detail: 'Une erreur interne est survenue.',
+              status: '500',
+              title: 'Internal Server Error'
+            }]
+          };
           validationErrorSerializer.serialize.returns(serializedError);
           passwordResetService.hasUserAPasswordResetDemandInProgress.rejects(error);
 
@@ -398,8 +409,6 @@ describe('Unit | Controller | user-controller', () => {
             sinon.assert.calledOnce(reply);
             sinon.assert.calledWith(reply, serializedError);
             sinon.assert.calledWith(codeStub, 500);
-            sinon.assert.calledOnce(validationErrorSerializer.serialize);
-            sinon.assert.calledWith(validationErrorSerializer.serialize, error.getErrorMessage());
           });
         });
       });
@@ -583,27 +592,22 @@ describe('Unit | Controller | user-controller', () => {
       });
     });
 
-    it('should reply a serialized user', () => {
+    it('should return the user found based on the given userId', () => {
       // given
-      usecases.getUser.resolves(factory.buildUser({
-        id: 72,
-        firstName: 'Jeanne',
-        lastName: 'Bonnat',
-        email: 'jeanne.bonnat@gmail.com',
-        cgu: true,
-      }));
+      const foundUser = factory.buildUser();
       const serializedUser = {
         data: {
           type: 'users',
-          id: 72,
+          id: foundUser.id,
           attributes: {
-            'first-name': 'Jeanne',
-            'last-name': 'Bonnat',
-            'email': 'jeanne.bonnat@gmail.com',
-            'cgu': true
+            'first-name': foundUser.firstName,
+            'last-name': foundUser.lastName,
+            'email': foundUser.email,
+            'cgu': foundUser.cgu
           }
         }
       };
+      usecases.getUser.resolves(foundUser);
       userSerializer.serialize.returns(serializedUser);
 
       // when
