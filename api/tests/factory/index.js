@@ -24,8 +24,9 @@ const buildPixRole = require('./build-pix-role');
 const buildResultCompetenceTree = require('./build-result-competence-tree');
 const buildSkill = require('./build-skill');
 const buildSkillCollection = require('./build-skill-collection');
-const buildTube = require('./build-tube');
+const buildSkillReview = require('./build-skill-review');
 const buildTargetProfile = require('./build-target-profile');
+const buildTube = require('./build-tube');
 const buildTutorial = require('./build-tutorial');
 const buildUser = require('./build-user');
 
@@ -56,8 +57,9 @@ module.exports = {
   buildPixRole,
   buildSkill,
   buildSkillCollection,
-  buildTube,
+  buildSkillReview,
   buildTargetProfile,
+  buildTube,
   buildTutorial,
   buildUser,
 };
