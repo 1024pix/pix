@@ -1,4 +1,4 @@
-const { expect } = require('../../../test-helper');
+const { expect, factory } = require('../../../test-helper');
 const Challenge = require('../../../../lib/domain/models/Challenge');
 const Skill = require('../../../../lib/domain/models/Skill');
 
@@ -124,4 +124,72 @@ describe('Unit | Domain | Models | Challenge', () => {
     });
   });
 
+  describe('#testsAtLeastOneNewSkill', function() {
+
+    it('returns true if the challenge is not already assessed', function() {
+      // given
+      const [s1] = factory.buildSkillCollection();
+      const challenge = factory.buildChallenge({ skills: [s1] });
+      const assessedSkills = [];
+      // whe
+      const response = challenge.testsAtLeastOneNewSkill(assessedSkills);
+      // then
+      expect(response).to.be.true;
+    });
+
+    it('should return false if the challenge\'s skill is already assessed', function() {
+      // given
+      const [s1] = factory.buildSkillCollection();
+      const challenge = factory.buildChallenge({ skills: [s1] });
+      const assessedSkills = [s1];
+      // when
+      const response = challenge.testsAtLeastOneNewSkill(assessedSkills);
+      // then
+      expect(response).to.be.false;
+    });
+
+    it('should return true if the challenge has a unique skill not assessed', function() {
+      // given
+      const [s1, s2, s3] = factory.buildSkillCollection({ minLevel: 1, maxLevel: 3 });
+      const challenge = factory.buildChallenge({ skills: [s3] });
+      const assessedSkills = [s1, s2];
+      // when
+      const response = challenge.testsAtLeastOneNewSkill(assessedSkills);
+      // then
+      expect(response).to.be.true;
+    });
+
+    it('should return true if the challenge has at least a skill not assessed', function() {
+      // given
+      const [s1, s2, s3] = factory.buildSkillCollection({ minLevel: 1, maxLevel: 3 });
+      const challenge = factory.buildChallenge({ skills: [s2, s3] });
+      const assessedSkills = [s1, s2];
+      // when
+      const response = challenge.testsAtLeastOneNewSkill(assessedSkills);
+      // then
+      expect(response).to.be.true;
+    });
+
+    it('should return false if the challenge has a skill assessed of the same name (but different object)', function() {
+      // given
+      const skill = factory.buildSkill({ name: '@skill1' });
+      const sameSkill = factory.buildSkill({ name: '@skill1' });
+      const challenge = factory.buildChallenge({ skills: [skill] });
+      // when
+      const response = challenge.testsAtLeastOneNewSkill([sameSkill]);
+      // then
+      expect(response).to.be.false;
+    });
+
+    it('should return false if the challenge has only one skill and is already assessed', function() {
+      // given
+      const [s1, s2] = factory.buildSkillCollection({ minLevel: 1, maxLevel: 3 });
+      const challenge = factory.buildChallenge({ skills: [s2] });
+      const assessedSkills = [s1, s2];
+      // when
+      const response = challenge.testsAtLeastOneNewSkill(assessedSkills);
+      // then
+      expect(response).to.be.false;
+    });
+  });
 });

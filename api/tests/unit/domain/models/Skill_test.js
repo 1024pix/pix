@@ -1,5 +1,5 @@
 const Skill = require('../../../../lib/domain/models/Skill');
-const { expect } = require('../../../test-helper');
+const { expect, factory } = require('../../../test-helper');
 
 describe('Unit | Domain | Models | Skill', () => {
 
@@ -57,6 +57,39 @@ describe('Unit | Domain | Models | Skill', () => {
 
       // then
       expect(skill.tubeNameWithAt).to.equal('@web');
+    });
+  });
+
+  describe('#areEqual()', function() {
+    it('should return false when two skills are not the same', () => {
+      // given
+      const [skill1, skill2] = factory.buildSkillCollection();
+      // when
+      const result = Skill.areEqual(skill1, skill2);
+      // then
+      expect(result).to.be.false;
+    });
+
+    it('should return true if two skills have the same name', () => {
+      // given
+      const skill = factory.buildSkill({ name:'@skill1' });
+      const otherSkill = factory.buildSkill({ name:'@skill1' });
+      // when
+      const result = Skill.areEqual(skill, otherSkill);
+      // then
+      expect(result).to.be.true;
+    });
+
+    it('should return false if either argument is undefined', () => {
+      // given
+      const skill = factory.buildSkill({ name:'@skill1' });
+      const otherSkill = undefined;
+      // when
+      const result1 = Skill.areEqual(skill, otherSkill);
+      const result2 = Skill.areEqual(otherSkill, skill);
+      // then
+      expect(result1).to.be.false;
+      expect(result2).to.be.false;
     });
   });
 });

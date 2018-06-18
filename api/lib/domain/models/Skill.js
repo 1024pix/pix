@@ -21,6 +21,14 @@ class Skill {
 
     return Math.min(4, 8 / numberOfSkillsByDifficulty);
   }
+
+  static areEqual(oneSkill, otherSkill) {
+    if (oneSkill == null || otherSkill == null) {
+      return false;
+    }
+
+    return oneSkill.name === otherSkill.name;
+  }
 }
 
 module.exports = Skill;

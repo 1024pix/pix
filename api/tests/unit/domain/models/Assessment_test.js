@@ -1,12 +1,14 @@
-const Assessment = require('../../../../lib/domain/models/Assessment');
-const Challenge = require('../../../../lib/domain/models/Challenge');
+const _ = require('lodash');
+const { expect, factory } = require('../../../test-helper');
+
 const Answer = require('../../../../lib/domain/models/Answer');
-const Skill = require('../../../../lib/domain/models/Skill');
-const Course = require('../../../../lib/domain/models/Course');
 const AnswerStatus = require('../../../../lib/domain/models/AnswerStatus');
+const Assessment = require('../../../../lib/domain/models/Assessment');
 const AssessmentResult = require('../../../../lib/domain/models/AssessmentResult');
+const Challenge = require('../../../../lib/domain/models/Challenge');
+const Course = require('../../../../lib/domain/models/Course');
+const Skill = require('../../../../lib/domain/models/Skill');
 const Tube = require('../../../../lib/domain/models/Tube');
-const { expect } = require('../../../test-helper');
 
 function _newChallenge(skill) {
   const challenge = Challenge.fromAttributes();
@@ -573,4 +575,108 @@ describe('Unit | Domain | Models | Assessment', () => {
     });
   });
 
+  describe('#getAssessedSkills()', function() {
+
+    it('should return empty array when no answers', function() {
+      // given
+      const assessment = factory.buildAssessment({ answers: [] });
+
+      // when
+      const result = assessment.getAssessedSkills();
+
+      // then
+      expect(result).to.be.empty;
+    });
+
+    it('should return a validated skill and easiers skills when we answered right', function() {
+      // given
+      // XXX currently tubes are computed from the skills of the challenges,
+      // we need a challenge with skill level 1 so that it appears in `assessment.getAssessedSkills()`
+      let skillCollection;
+      const [s1, s2] = skillCollection = factory.buildSkillCollection({ minLevel: 1, maxLevel: 2 });
+      const ch1 = factory.buildChallenge({ skills: [s1] });
+      const ch2 = factory.buildChallenge({ skills: [s2] });
+      const assessment = factory.buildAssessment({
+        course: factory.buildCourse({
+          challenges: [ch1, ch2],
+          competenceSkills: [s1, s2],
+          tubes: [factory.buildTube({ skills: skillCollection })],
+        }),
+        answers: [factory.buildAnswer({ challengeId: ch2.id, result: AnswerStatus.OK })],
+      });
+
+      // when
+      assessment.addAnswersWithTheirChallenge(assessment.answers, [ch1, ch2]);
+      const result = assessment.getAssessedSkills();
+
+      // then
+      expect(result).to.deep.equal([s1, s2]);
+    });
+
+    it('should return the union of failed and validated skills', function() {
+      // given
+      let skillCollection1, skillCollection2;
+      const [s1, s2] = skillCollection1 = factory.buildSkillCollection({ minLevel: 1, maxLevel: 2 });
+      const [t1, t2, t3] = skillCollection2 = factory.buildSkillCollection({ minLevel: 1, maxLevel: 3 });
+      const ch1 = factory.buildChallenge({ skills: [s1] });
+      const ch2 = factory.buildChallenge({ skills: [s2] });
+      const ch3 = factory.buildChallenge({ skills: [t1] });
+      const ch4 = factory.buildChallenge({ skills: [t2] });
+      const ch5 = factory.buildChallenge({ skills: [t3] });
+      const answerCh2 = factory.buildAnswer({ challengeId: ch2.id, result: AnswerStatus.OK });
+      const answerCh4 = factory.buildAnswer({ challengeId: ch4.id, result: AnswerStatus.KO });
+      const assessment = factory.buildAssessment({
+        course: factory.buildCourse({
+          challenges: [ch1, ch2, ch3, ch4, ch5],
+          competenceSkills: _.flatten([skillCollection1, skillCollection2]),
+          tubes: [
+            factory.buildTube({ skills: skillCollection1 }),
+            factory.buildTube({ skills: skillCollection2 })
+          ],
+        }),
+        answers: [answerCh2, answerCh4],
+      });
+      const expectedSkills = [s1, s2, t2, t3];
+
+      // when
+      assessment.addAnswersWithTheirChallenge(assessment.answers, [ch1, ch2, ch3, ch4, ch5]);
+      const result = assessment.getAssessedSkills();
+
+      // then
+      expect(result).to.be.deep.equal(expectedSkills);
+    });
+
+    it('should return the union of failed and validated skills without duplications in assessedSkill', function() {
+      // given
+      let skillCollection1, skillCollection2;
+      const [s1, s2] = skillCollection1 = factory.buildSkillCollection({ minLevel: 1, maxLevel: 2 });
+      const [t1, t2, t3] = skillCollection2 = factory.buildSkillCollection({ minLevel: 1, maxLevel: 3 });
+      const ch1 = factory.buildChallenge({ skills: [s1, s2] });
+      const ch2 = factory.buildChallenge({ skills: [s2] });
+      const ch3 = factory.buildChallenge({ skills: [t1] });
+      const ch4 = factory.buildChallenge({ skills: [t2] });
+      const ch5 = factory.buildChallenge({ skills: [t3] });
+      const answerCh2 = factory.buildAnswer({ challengeId: ch2.id, result: AnswerStatus.OK });
+      const answerCh4 = factory.buildAnswer({ challengeId: ch4.id, result: AnswerStatus.KO });
+      const assessment = factory.buildAssessment({
+        course: factory.buildCourse({
+          challenges: [ch1, ch2, ch3, ch4, ch5],
+          competenceSkills: _.flatten([skillCollection1, skillCollection2]),
+          tubes: [
+            factory.buildTube({ skills: skillCollection1 }),
+            factory.buildTube({ skills: skillCollection2 })
+          ],
+        }),
+        answers: [answerCh2, answerCh4],
+      });
+      const expectedSkills = [s1, s2, t2, t3];
+
+      // when
+      assessment.addAnswersWithTheirChallenge(assessment.answers, [ch1, ch2, ch3, ch4, ch5]);
+      const result = assessment.getAssessedSkills();
+
+      // then
+      expect(result).to.be.deep.equal(expectedSkills);
+    });
+  });
 });
