@@ -1,4 +1,4 @@
-const { sinon, expect } = require('../../../test-helper');
+const { sinon, expect, factory } = require('../../../test-helper');
 
 const Boom = require('boom');
 
@@ -18,7 +18,12 @@ const userService = require('../../../../lib/domain/services/user-service');
 const reCaptchaValidator = require('../../../../lib/infrastructure/validators/grecaptcha-validator');
 const usecases = require('../../../../lib/domain/usecases');
 
-const { PasswordResetDemandNotFoundError, InternalError, EntityValidationError } = require('../../../../lib/domain/errors');
+const {
+  PasswordResetDemandNotFoundError,
+  InternalError,
+  EntityValidationError,
+  UserNotAuthorizedToAccessEntity
+} = require('../../../../lib/domain/errors');
 
 describe('Unit | Controller | user-controller', () => {
 
@@ -386,7 +391,13 @@ describe('Unit | Controller | user-controller', () => {
           reply.returns({
             code: codeStub,
           });
-          const serializedError = {};
+          const serializedError = {
+            errors: [{
+              detail: 'Une erreur interne est survenue.',
+              status: '500',
+              title: 'Internal Server Error'
+            }]
+          };
           validationErrorSerializer.serialize.returns(serializedError);
           passwordResetService.hasUserAPasswordResetDemandInProgress.rejects(error);
 
@@ -398,8 +409,6 @@ describe('Unit | Controller | user-controller', () => {
             sinon.assert.calledOnce(reply);
             sinon.assert.calledWith(reply, serializedError);
             sinon.assert.calledWith(codeStub, 500);
-            sinon.assert.calledOnce(validationErrorSerializer.serialize);
-            sinon.assert.calledWith(validationErrorSerializer.serialize, error.getErrorMessage());
           });
         });
       });
@@ -503,5 +512,112 @@ describe('Unit | Controller | user-controller', () => {
         });
       });
     });
+  });
+
+  describe('#getUser', () => {
+
+    let sandbox;
+    let requestedUserId;
+    let authenticatedUserId;
+    let codeStub;
+    let replyStub;
+    let request;
+
+    beforeEach(() => {
+      authenticatedUserId = requestedUserId = 72;
+      request = {
+        auth: {
+          credentials: {
+            userId: authenticatedUserId
+          }
+        },
+        params: {
+          id: requestedUserId
+        }
+      };
+
+      sandbox = sinon.sandbox.create();
+      codeStub = sandbox.stub();
+      replyStub = sandbox.stub().returns({ code: codeStub });
+      sandbox.stub(usecases, 'getUser').resolves();
+      sandbox.stub(userSerializer, 'serialize');
+    });
+
+    afterEach(() => {
+      sandbox.restore();
+    });
+
+    it('should retrieve user informations from user Id', () => {
+      // when
+      const promise = userController.getUser(request, replyStub);
+
+      // then
+      return promise.then(() => {
+        expect(usecases.getUser).to.have.been.calledWith({ authenticatedUserId, requestedUserId, userRepository });
+      });
+    });
+
+    it('should serialize the authenticated user', () => {
+      // given
+      const foundUser = factory.buildUser();
+      usecases.getUser.resolves(foundUser);
+
+      // when
+      const promise = userController.getUser(request, replyStub);
+
+      // then
+      return promise.then(() => {
+        expect(userSerializer.serialize).to.have.been.calledWith(foundUser);
+      });
+    });
+
+    it('should return 403 if authenticated user is not authorized to access requested user id', () => {
+      // given
+      const expectedError = {
+        errors: [{
+          code: '403',
+          detail: 'Vous n’avez pas accès à cet utilisateur',
+          title: 'Forbidden Access'
+        }]
+      };
+      usecases.getUser.rejects(new UserNotAuthorizedToAccessEntity());
+
+      // when
+      const promise = userController.getUser(request, replyStub);
+
+      // then
+      return promise.then(() => {
+        sinon.assert.calledWith(codeStub, 403);
+        sinon.assert.calledWith(replyStub, expectedError);
+      });
+    });
+
+    it('should return the user found based on the given userId', () => {
+      // given
+      const foundUser = factory.buildUser();
+      const serializedUser = {
+        data: {
+          type: 'users',
+          id: foundUser.id,
+          attributes: {
+            'first-name': foundUser.firstName,
+            'last-name': foundUser.lastName,
+            'email': foundUser.email,
+            'cgu': foundUser.cgu
+          }
+        }
+      };
+      usecases.getUser.resolves(foundUser);
+      userSerializer.serialize.returns(serializedUser);
+
+      // when
+      const promise = userController.getUser(request, replyStub);
+
+      // then
+      return promise.then(() => {
+        expect(replyStub).to.have.been.calledWith(serializedUser);
+      });
+    });
+
   });
 });

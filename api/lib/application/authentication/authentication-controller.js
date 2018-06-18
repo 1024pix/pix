@@ -63,6 +63,7 @@ module.exports = {
           token_type: 'bearer',
           expires_in: 3600,
           access_token: accessToken,
+          user_id: tokenService.extractUserId(accessToken),
         })
           .code(200)
           .header('Content-Type', 'application/json;charset=UTF-8')

@@ -138,8 +138,7 @@ describe('Acceptance | Controller | users-controller-get-profile', () => {
         id: 'recAreaA',
         name: 'area-name-1'
       }
-    },
-    {
+    }, {
       id: 'recCompB',
       name: 'competence-name-2',
       index: '1.2',
@@ -157,7 +156,45 @@ describe('Acceptance | Controller | users-controller-get-profile', () => {
     organizations: []
   };
 
-  describe('GET /users', () => {
+  describe('GET /api/users/me', () => {
+
+    describe('Success cases:', () => {
+
+      let profileServiceStub;
+      let userRepositoryStub;
+      const user = new User({
+        id: 1234,
+        'first-name': faker.name.firstName(),
+        'last-name': faker.name.lastName(),
+        email: faker.internet.email(),
+        password: 'A124B2C3#!',
+        cgu: true
+      });
+
+      beforeEach(() => {
+        userRepositoryStub = sinon.stub(userRepository, 'findUserById').resolves(user);
+        profileServiceStub = sinon.stub(profileService, 'getByUserId');
+      });
+
+      afterEach(() => {
+        profileServiceStub.restore();
+        userRepositoryStub.restore();
+      });
+
+      it('should response with 201 HTTP status code, when authorization is valid and user is found', () => {
+        // given
+        profileServiceStub.resolves(fakeBuildedProfile);
+
+        // when
+        const promise = server.inject(options);
+
+        // then
+        return promise.then(response => {
+          expect(response.statusCode).to.equal(201);
+          expect(response.result).to.deep.equal(expectedSerializedProfile);
+        });
+      });
+    });
 
     describe('Errors case:', () => {
 
@@ -212,43 +249,5 @@ describe('Acceptance | Controller | users-controller-get-profile', () => {
 
     });
 
-    describe('Success cases:', () => {
-
-      let profileServiceStub;
-      let UserRepositoryStub;
-      const user = new User({
-        id: 1234,
-        'first-name': faker.name.firstName(),
-        'last-name': faker.name.lastName(),
-        email: faker.internet.email(),
-        password: 'A124B2C3#!',
-        cgu: true
-      });
-
-      beforeEach(() => {
-        UserRepositoryStub = sinon.stub(userRepository, 'findUserById').resolves(user);
-        profileServiceStub = sinon.stub(profileService, 'getByUserId');
-      });
-
-      afterEach(() => {
-        profileServiceStub.restore();
-        UserRepositoryStub.restore();
-      });
-
-      it('should response with 201 HTTP status code, when authorization is valid and user is found', () => {
-        // given
-        profileServiceStub.resolves(fakeBuildedProfile);
-
-        // when
-        const promise = server.inject(options);
-
-        // then
-        return promise.then(response => {
-          expect(response.statusCode).to.equal(201);
-          expect(response.result).to.deep.equal(expectedSerializedProfile);
-        });
-      });
-    });
   });
-})
-;
+});

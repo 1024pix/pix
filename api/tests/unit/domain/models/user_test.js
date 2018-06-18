@@ -5,7 +5,7 @@ describe('Unit | Domain | Models | User', () => {
 
   describe('constructor', () => {
 
-    it('should build an Organization from raw JSON', () => {
+    it('should build a user from raw JSON', () => {
       // given
       const rawData = {
         id: 1,
@@ -93,6 +93,22 @@ describe('Unit | Domain | Models | User', () => {
       expect(user.isLinkedToOrganizations()).to.be.false;
     });
 
+  });
+
+  describe('#email', function() {
+
+    it('should normalize email', () => {
+      // given
+      const userData = {
+        email: 'TESTMAIL@gmail.com'
+      };
+
+      // when
+      const userObject = new User(userData);
+
+      // then
+      expect(userObject.email).to.equal('testmail@gmail.com');
+    });
   });
 
 });

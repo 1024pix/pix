@@ -57,7 +57,9 @@ describe('Acceptance | Controller | users-controller', () => {
           '"id":(\\d+),' +
           '"attributes":{' +
           '"first-name":"John",' +
-          '"last-name":"DoDoe"' +
+          '"last-name":"DoDoe",' +
+          '"email":"john.dodoe@example.net",' +
+          '"cgu":true' +
           '}' +
           '}' +
           '}',

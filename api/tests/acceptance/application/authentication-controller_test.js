@@ -96,6 +96,7 @@ describe('Acceptance | Controller | authentication-controller', () => {
 
   describe('POST /api/token', () => {
 
+    let userId;
     const userPassword = 'A124B2C3#!';
     const userEmail = 'emailWithSomeCamelCase@example.net';
     const userEmailSavedInDb = _.toLower(userEmail);
@@ -112,7 +113,8 @@ describe('Acceptance | Controller | authentication-controller', () => {
           cgu: true
         })
           .then((insertedUser) => {
-            organizationAccess.userId = insertedUser[0];
+            userId = insertedUser[0];
+            organizationAccess.userId = userId;
             return knex('organizations').insert({ email: userEmail, type: 'PRO', name: 'Mon Entreprise', code: 'ABCD12' });
           }).then((insertedOrganization) => {
             organizationAccess.organizationId = insertedOrganization[0];
@@ -162,6 +164,7 @@ describe('Acceptance | Controller | authentication-controller', () => {
         expect(result.token_type).to.equal('bearer');
         expect(result.expires_in).to.equal(3600);
         expect(result.access_token).to.exist;
+        expect(result.user_id).to.equal(userId);
       });
     });
 

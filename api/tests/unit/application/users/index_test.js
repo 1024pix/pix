@@ -51,7 +51,32 @@ describe('Unit | Router | user-router', () => {
 
   });
 
+  describe('GET /api/users/{id}', function() {
+
+    before(() => {
+      sinon.stub(UserController, 'getUser').callsFake((request, reply) => reply('ok'));
+    });
+
+    after(() => {
+      UserController.getUser.restore();
+    });
+
+    it('should exist', () => {
+      // given
+      const options = { method: 'GET', url: '/api/users/1234' };
+
+      // when
+      const promise = server.inject(options);
+
+      // then
+      return promise.then((response) => {
+        expect(response.statusCode).to.equal(200);
+      });
+    });
+  });
+
   describe('GET /api/users/me', function() {
+
     before(() => {
       sinon.stub(UserController, 'getAuthenticatedUserProfile').callsFake((request, reply) => reply('ok'));
     });
