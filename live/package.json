@@ -18,6 +18,7 @@
     "dev": "npx ember server --proxy",
     "test": "npx ember test --reporter dot",
     "test:watch": "npx ember exam --serve --reporter dot",
+    "test:lint": "npm test && npm run lint",
     "lint": "npx eslint app mirage tests",
     "lint:fix": "npm run lint --fix",
     "lint:js": "npx eslint ./*.js app config lib server tests",
