@@ -43,9 +43,6 @@ module.exports = function buildCertification({
   if (commentForCandidate !== undefined) {
     certification.commentForCandidate = commentForCandidate;
   }
-  if (commentForCandidate !== undefined) {
-    certification.commentForCandidate = commentForCandidate;
-  }
 
   return certification;
 };

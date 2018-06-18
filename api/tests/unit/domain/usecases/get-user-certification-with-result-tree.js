@@ -118,7 +118,7 @@ describe('Unit | UseCase | getUserCertificatiWithResultTree', () => {
       });
     });
 
-    it('should return included into the certification the resultCompetenceTree', () => {
+    it('should return the certification with the resultCompetenceTree', () => {
       const expectedResultCompetenceTree = ResultCompetenceTree.generateTreeFromCompetenceMarks({
         competenceTree,
         competenceMarks,
