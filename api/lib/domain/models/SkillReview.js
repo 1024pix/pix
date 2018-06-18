@@ -6,7 +6,7 @@ class SkillReview {
     this.targetProfile = targetProfile;
   }
 
-  get progressionRate() {
+  get profileMastery() {
     const numberOfTargetedSkills = this.targetProfile.skills.length;
     const numberOfValidatedSkills = this.assessment.getValidatedSkills().length;
     const targetProfileHasSkills = numberOfTargetedSkills !== 0;

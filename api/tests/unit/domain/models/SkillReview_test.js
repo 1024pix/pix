@@ -44,10 +44,10 @@ describe('Unit | Domain | Models | SkillReview', () => {
 
   });
 
-  describe('#progressionRate', () => {
+  describe('#profileMastery', () => {
 
     context('when no answer given yet', () => {
-      it('should returns the progressionRate of 0 ', () => {
+      it('should returns the profileMastery of 0 ', () => {
         // Given
         const assessment = factory.buildAssessment({ course });
         const targetProfile = factory.buildTargetProfile({ skills });
@@ -56,7 +56,7 @@ describe('Unit | Domain | Models | SkillReview', () => {
         const skillReview = new SkillReview({ assessment, targetProfile });
 
         // Then
-        expect(skillReview.progressionRate).to.eq(0);
+        expect(skillReview.profileMastery).to.eq(0);
       });
     });
 
@@ -71,7 +71,7 @@ describe('Unit | Domain | Models | SkillReview', () => {
         const skillReview = new SkillReview({ assessment, targetProfile });
 
         // Then
-        expect(skillReview.progressionRate).to.eq(0.5);
+        expect(skillReview.profileMastery).to.eq(0.5);
       });
     });
 
@@ -85,7 +85,7 @@ describe('Unit | Domain | Models | SkillReview', () => {
         const skillReview = new SkillReview({ assessment, targetProfile });
 
         // Then
-        expect(skillReview.progressionRate).to.eq(0);
+        expect(skillReview.profileMastery).to.eq(0);
       });
     });
 
