@@ -163,7 +163,7 @@ describe('Unit | Domain | Services | assessment', () => {
           });
       });
 
-      context('when the assessement is a preview', () => {
+      context('when the Assessment is a preview', () => {
         beforeEach(() => {
           answerRepository.findByAssessment.returns([correctAnswerWeb1]);
         });
@@ -194,7 +194,7 @@ describe('Unit | Domain | Services | assessment', () => {
         });
       });
 
-      context('when the assessement is a certification', () => {
+      context('when the Assessment is a certification', () => {
         beforeEach(() => {
           const assessmentFromCertif = Assessment.fromAttributes({
             id: ASSESSMENT_ID,
@@ -227,7 +227,7 @@ describe('Unit | Domain | Services | assessment', () => {
         });
       });
 
-      context('when the assessement is linked to a course', () => {
+      context('when the Assessment is linked to a course', () => {
         beforeEach(() => {
           const assessmentFromPreview = Assessment.fromAttributes({ id: ASSESSMENT_ID, courseId: COURSE_ID });
           assessmentRepository.get.resolves(assessmentFromPreview);
@@ -465,7 +465,7 @@ describe('Unit | Domain | Services | assessment', () => {
 
     context('when the assessment is correctly retrieved', () => {
 
-      context('when the assessement is a preview', () => {
+      context('when the Assessment is a preview', () => {
         beforeEach(() => {
           answerRepository.findByAssessment.returns([correctAnswerWeb1]);
         });
@@ -494,7 +494,7 @@ describe('Unit | Domain | Services | assessment', () => {
         });
       });
 
-      context('when the assessement is a certification', () => {
+      context('when the Assessment is a certification', () => {
 
         it('should not try to get course details', () => {
           // given
@@ -514,7 +514,7 @@ describe('Unit | Domain | Services | assessment', () => {
         });
       });
 
-      context('when the assessement is linked to a course', () => {
+      context('when the Assessment is linked to a course', () => {
         it('should load course details', () => {
           // given
           const assessmentFromPreview = Assessment.fromAttributes({ id: ASSESSMENT_ID, courseId: COURSE_ID });
@@ -714,7 +714,7 @@ describe('Unit | Domain | Services | assessment', () => {
         });
     });
 
-    context('when the assessement is linked to a course', () => {
+    context('when the Assessment is linked to a course', () => {
       beforeEach(() => {
         const assessmentFromPreview = Assessment.fromAttributes({ id: ASSESSMENT_ID, courseId: COURSE_ID });
         assessmentRepository.get.resolves(assessmentFromPreview);

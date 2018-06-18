@@ -614,7 +614,7 @@ describe('Unit | Domain | Models | Assessment', () => {
 
     it('should return empty array when no answers', function() {
       // given
-      const assessment = factory.buildAssessement({ answers: [] });
+      const assessment = factory.buildAssessment({ answers: [] });
 
       // when
       const result = assessment.getAssessedSkills();
@@ -631,7 +631,7 @@ describe('Unit | Domain | Models | Assessment', () => {
       const [s1, s2] = skillCollection = factory.buildSkillCollection({ minLevel: 1, maxLevel: 2 });
       const ch1 = factory.buildChallenge({ skills: [s1] });
       const ch2 = factory.buildChallenge({ skills: [s2] });
-      const assessment = factory.buildAssessement({
+      const assessment = factory.buildAssessment({
         course: factory.buildCourse({
           challenges: [ch1, ch2],
           competenceSkills: [s1, s2],
@@ -660,7 +660,7 @@ describe('Unit | Domain | Models | Assessment', () => {
       const ch5 = factory.buildChallenge({ skills: [t3] });
       const answerCh2 = factory.buildAnswer({ challengeId: ch2.id, result: AnswerStatus.OK });
       const answerCh4 = factory.buildAnswer({ challengeId: ch4.id, result: AnswerStatus.KO });
-      const assessment = factory.buildAssessement({
+      const assessment = factory.buildAssessment({
         course: factory.buildCourse({
           challenges: [ch1, ch2, ch3, ch4, ch5],
           competenceSkills: _.flatten([skillCollection1, skillCollection2]),
@@ -693,7 +693,7 @@ describe('Unit | Domain | Models | Assessment', () => {
       const ch5 = factory.buildChallenge({ skills: [t3] });
       const answerCh2 = factory.buildAnswer({ challengeId: ch2.id, result: AnswerStatus.OK });
       const answerCh4 = factory.buildAnswer({ challengeId: ch4.id, result: AnswerStatus.KO });
-      const assessment = factory.buildAssessement({
+      const assessment = factory.buildAssessment({
         course: factory.buildCourse({
           challenges: [ch1, ch2, ch3, ch4, ch5],
           competenceSkills: _.flatten([skillCollection1, skillCollection2]),
