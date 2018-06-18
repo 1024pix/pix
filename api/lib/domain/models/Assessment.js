@@ -47,13 +47,15 @@ class Assessment {
     course,
   } = {}) {
     this.id = id;
-    this.assessmentResults = assessmentResults;
-    this.courseId = courseId;
     this.createdAt = createdAt;
+    this.courseId = courseId;
     this.userId = userId;
-    this.type = type;
     this.state = state;
+    this.type = type;
+
+    // relationships
     this.answers = answers;
+    this.assessmentResults = assessmentResults;
     this.course = course;
   }
 

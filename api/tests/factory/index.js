@@ -1,7 +1,7 @@
 const buildAnswer = require('./build-answer');
 const buildArea = require('./build-area');
 const buildAreaAirtableDataObject = require('./build-area-airtable-data-object');
-const buildAssessment = require('./build-assessment');
+const buildAssessement = require('./build-assessment');
 const buildAssessementResult = require('./build-assessment-result');
 const buildCatAnswer = require('./build-cat-answer');
 const buildCatAssessment = require('./build-cat-assessment');
@@ -30,7 +30,7 @@ module.exports = {
   buildAnswer,
   buildArea,
   buildAreaAirtableDataObject,
-  buildAssessment,
+  buildAssessement,
   buildAssessementResult,
   buildCatAnswer,
   buildCatAssessment,
