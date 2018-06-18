@@ -21,7 +21,12 @@ exports.register = function(server, options, next) {
       path: '/api/users/{id}',
       config: {
         handler: UserController.getUser,
-        tags: ['api']
+        notes: [
+          '- **Cette route est restreinte aux utilisateurs authentifiés**\n' +
+          '- Récupération de l‘utilisateur par id\n' +
+          '- L‘id demandé doit correspondre à celui de l‘utilisateur authentifié',
+        ],
+        tags: ['api', 'user'],
       }
     },{
       method: 'GET',

@@ -5,7 +5,7 @@ describe('Unit | Domain | Models | User', () => {
 
   describe('constructor', () => {
 
-    it('should build an Organization from raw JSON', () => {
+    it('should build a user from raw JSON', () => {
       // given
       const rawData = {
         id: 1,

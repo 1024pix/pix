@@ -15,12 +15,18 @@ const encryptionService = require('../../domain/services/encryption-service');
 const tokenService = require('../../domain/services/token-service');
 
 const usecases = require('../../domain/usecases');
+const JSONAPI = require('../../interfaces/jsonapi');
 const reCaptchaValidator = require('../../infrastructure/validators/grecaptcha-validator');
 
 const Bookshelf = require('../../infrastructure/bookshelf');
 
 const logger = require('../../infrastructure/logger');
-const { PasswordResetDemandNotFoundError, InternalError, InvalidTokenError, EntityValidationError, UserNotAuthorizedToAccessEntity } = require('../../domain/errors');
+const {
+  InvalidTokenError,
+  EntityValidationError,
+  PasswordResetDemandNotFoundError,
+  UserNotAuthorizedToAccessEntity,
+} = require('../../domain/errors');
 
 module.exports = {
 
@@ -49,16 +55,12 @@ module.exports = {
 
         logger.error(error);
         // TODO extract the formatting into a common error formatter
-        return reply(new JSONAPIError({
-          status: '500',
-          title: 'Internal Server Error',
-          detail: 'Une erreur est survenue lors de la création de l’utilisateur'
-        }));
+        return reply(JSONAPI.internalError('Une erreur est survenue lors de la création de l’utilisateur')).code(500);
       });
   },
 
   getUser(request, reply) {
-    const requestedUserId = parseInt(request.params.id);
+    const requestedUserId = parseInt(request.params.id, 10);
     const authenticatedUserId = request.auth.credentials.userId;
 
     return usecases.getUser({ authenticatedUserId, requestedUserId, userRepository })
@@ -77,7 +79,7 @@ module.exports = {
         }
 
         logger.error(err);
-        return _replyErrorWithMessage(reply, 'Une erreur est survenue lors de la récupération de l\'utilisateur', 500);
+        return reply(JSONAPI.internalError('Une erreur est survenue lors de la récupération de l’utilisateur')).code(500);
       });
   },
 
@@ -123,7 +125,7 @@ module.exports = {
         if (err instanceof PasswordResetDemandNotFoundError) {
           return reply(validationErrorSerializer.serialize(err.getErrorMessage())).code(404);
         }
-        return reply(validationErrorSerializer.serialize(new InternalError().getErrorMessage())).code(500);
+        return reply(JSONAPI.internalError('Une erreur interne est survenue.')).code(500);
       });
   },
 
@@ -140,6 +142,7 @@ module.exports = {
   },
 };
 
+// TODO refacto, extract and simplify
 const _replyErrorWithMessage = function(reply, errorMessage, statusCode) {
   reply(validationErrorSerializer.serialize(_handleWhenInvalidAuthorization(errorMessage))).code(statusCode);
 };

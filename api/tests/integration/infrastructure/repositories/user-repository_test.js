@@ -5,14 +5,13 @@ const bcrypt = require('bcrypt');
 const Bookshelf = require('../../../../lib/infrastructure/bookshelf');
 const BookshelfUser = require('../../../../lib/infrastructure/data/user');
 const userRepository = require('../../../../lib/infrastructure/repositories/user-repository');
-const { AlreadyRegisteredEmailError, UserNotFoundError } = require('../../../../lib/domain/errors');
+const { AlreadyRegisteredEmailError, UserNotFoundError, NotFoundError } = require('../../../../lib/domain/errors');
 const User = require('../../../../lib/domain/models/User');
 const OrganizationAccess = require('../../../../lib/domain/models/OrganizationAccess');
 const Organization = require('../../../../lib/domain/models/Organization');
 const OrganizationRole = require('../../../../lib/domain/models/OrganizationRole');
 
-describe('Integration' +
-  ' | Infrastructure | Repository | UserRepository', () => {
+describe('Integration | Infrastructure | Repository | UserRepository', () => {
 
   let userId;
   const email = faker.internet.email().toLowerCase();
@@ -22,7 +21,7 @@ describe('Integration' +
     lastName: faker.name.lastName(),
     email,
     password: userPassword,
-    cgu: true
+    cgu: true,
   };
 
   describe('#findUserById', () => {
@@ -322,6 +321,45 @@ describe('Integration' +
           expect(updatedUser).to.be.an.instanceOf(User);
           expect(updatedUser.password).to.equal(newPassword);
         });
+    });
+  });
+
+  describe('#get', () => {
+
+    beforeEach(() => {
+      return knex('users').insert(inserted_user)
+        .then((insertedIds) => (userId = insertedIds.shift()));
+    });
+
+    afterEach(() => {
+      return knex('users').delete();
+    });
+
+    it('should return the found user', () => {
+      // when
+      const promise = userRepository.get(userId);
+
+      // then
+      return promise.then((user) => {
+        expect(user).to.be.an.instanceOf(User);
+        expect(user.id).to.equal(userId);
+        expect(user.firstName).to.equal(inserted_user.firstName);
+        expect(user.lastName).to.equal(inserted_user.lastName);
+        expect(user.email).to.equal(inserted_user.email);
+        expect(user.cgu).to.be.true;
+        expect(user.pixRoles).to.be.an('array');
+      });
+    });
+
+    it('should return a NotFoundError if no user is found', () => {
+      // given
+      const nonExistentUserId = 678;
+
+      // when
+      const promise = userRepository.get(nonExistentUserId);
+
+      // then
+      return expect(promise).to.be.rejectedWith(NotFoundError);
     });
   });
 

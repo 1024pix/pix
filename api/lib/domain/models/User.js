@@ -2,7 +2,16 @@ const _ = require('lodash');
 
 class User {
 
-  constructor({ id, firstName, lastName, email, password, cgu, pixRoles = [], organizationsAccesses = [] } = {}) {
+  constructor({
+    id,
+    firstName,
+    lastName,
+    email,
+    password,
+    cgu,
+    pixRoles = [],
+    organizationsAccesses = []
+  } = {}) {
     this.id = id;
     this.firstName = firstName;
     this.lastName = lastName;
