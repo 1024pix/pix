@@ -218,10 +218,6 @@ class SmartRandom {
     return this.assessment.getFailedSkills();
   }
 
-  get testedSkills() {
-    return _.union(this.validatedSkills, this.failedSkills);
-  }
-
   getPredictedLevel() {
     if (this.answers.length === 0) {
       return LEVEL_FOR_FIRST_CHALLENGE;

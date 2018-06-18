@@ -68,8 +68,8 @@ class Challenge {
     return this.skills.reduce((s1, s2) => (s1.difficulty > s2.difficulty) ? s1 : s2);
   }
 
-  testsAtLeastOneNewSkill(assessedSkills) {
-    return _(this.skills).differenceWith(assessedSkills, Skill.areEqual).size() > 0;
+  testsAtLeastOneNewSkill(alreadyAssessedSkills) {
+    return _(this.skills).differenceWith(alreadyAssessedSkills, Skill.areEqual).size() > 0;
   }
 }
 
