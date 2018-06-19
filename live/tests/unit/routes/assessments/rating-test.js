@@ -46,13 +46,26 @@ describe('Unit | Route | assessments.rating', function() {
     context('when the assessment is a certification', function() {
       it('should redirect to the certification end page', function() {
         // given
-        const assessment = EmberObject.create({ type: 'CERTIFICATION', answers: [answerToChallengeOne] });
+        const assessment = EmberObject.create({ id: 12, type: 'CERTIFICATION', answers: [answerToChallengeOne] });
 
         // when
         route.afterModel(assessment);
 
         // then
         sinon.assert.calledWith(route.transitionTo, 'certifications.results');
+      });
+    });
+
+    context('when the assessment is a SMART_PLACEMENT', function() {
+      it('should redirect to the certification end page', function() {
+        // given
+        const assessment = EmberObject.create({ id: 12, type: 'SMART_PLACEMENT', answers: [answerToChallengeOne] });
+
+        // when
+        route.afterModel(assessment);
+
+        // then
+        sinon.assert.calledWith(route.transitionTo, 'campaigns.skill-review', { 'skill-review_id': assessment.get('id') });
       });
     });
 

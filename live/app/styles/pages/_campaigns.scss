@@ -1,0 +1,71 @@
+$campaign_height: 120px;
+
+.campaign__header {
+  height: $campaign_height;
+  box-shadow: 0 1px 2px 0 rgba(0,0,0,0.3);
+  background-color: $white;
+  padding: 20px;
+
+  display: flex;
+  flex-direction: row-reverse;
+}
+
+.campaign__header__links {
+  display: flex;
+  align-items: center;
+}
+
+.campaign__gradient {
+  background: linear-gradient(135.25deg, $pix-blue 0%, #985FFF 100%);
+  height: 400px;
+  width: 100%;
+
+  position: absolute;
+  top: $campaign_height;
+  z-index: -1;
+}
+
+.campaign__share__legal {
+  color: $dove-gray;
+  margin: auto;
+  text-align: center;
+
+  @include device-is('tablet') {
+    max-width: 500px;
+  }
+}
+
+.campaign__share__button {
+  background-color: $pix-blue;
+  color: $white;
+  padding: 10px 30px;
+  border-radius: 5px;
+  border: 0;
+
+  box-shadow: 0 2px 6px 0 rgba(red($grayish-grey), green($grayish-grey), blue($grayish-grey), 0.11) ;
+}
+
+.campaign__container {
+  max-width: 850px;
+  background-color: $white;
+  margin: 20px 10px;
+  padding: 20px;
+  border-radius: 5px;
+  box-shadow: 0 0 20px 0 rgba(12,22,58,0.1), 0 3px 6px 0 rgba(0,0,0,0.1);
+
+  @include device-is('tablet') {
+    margin: 20px auto;
+  }
+}
+
+.campaign__competence__title {
+  text-align: center;
+  font-family: $font-open-sans;
+  font-weight: 300;
+  font-size: 5rem;
+}
+
+.campaign__share_container {
+  text-align: center;
+  padding: 20px;
+}
