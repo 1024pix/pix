@@ -17,10 +17,6 @@ describe('Integration | Component | certification results template', function() 
     beforeEach(function() {
       this.set('user', user);
       this.set('certificationNumber', certificationNumber);
-      LinkComponent.reopen({
-        href: alias('qualifiedRouteName')
-      });
-
     });
 
     it('should also render a certification banner', function() {
@@ -54,6 +50,11 @@ describe('Integration | Component | certification results template', function() 
     });
 
     it('should have a button to logout at the end of certification', function() {
+      // given
+      LinkComponent.reopen({
+        href: alias('qualifiedRouteName')
+      });
+
       // when
       this.render(hbs`{{certification-results-page user=user certificationNumber=certificationNumber}}`);
       this.$('#validSupervisor').click();
@@ -61,6 +62,7 @@ describe('Integration | Component | certification results template', function() 
 
       // then
       expect(this.$('.result-content__logout-button')).to.have.lengthOf(1);
+      expect(this.$('.result-content__logout-button').text()).to.equal('Se déconnecter');
       expect(this.$('.result-content__logout-button').attr('href')).to.equal('logout');
     });
 

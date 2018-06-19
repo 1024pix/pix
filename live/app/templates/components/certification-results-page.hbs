@@ -17,7 +17,7 @@
     </div>
 
     <div class="result-content__warning-container">
-      {{input type="checkbox" id='validSupervisor' checked=validSupervisor class=""}}
+      {{input type="checkbox" id='validSupervisor' checked=validSupervisor alt="Le surveillant doit cliquer ici."}}
 
       <span class="result-content__warning-text">
         Le surveillant a bien vu cet écran.
@@ -44,10 +44,9 @@
         Si cet ordinateur n’est pas le vôtre, pensez à vous déconnecter.
       </div>
 
-      <div class="result-content__button result-content__validation-button">
-        {{#link-to "logout" class="result-content__logout-button"}}Se déconnecter{{/link-to}}
-      </div>
-    </div>
+      {{#link-to "logout" class="result-content__logout-button result-content__button"}}Se déconnecter{{/link-to}}
 
+    </div>
   {{/if}}
+
 </div>
