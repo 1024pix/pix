@@ -1,5 +1,6 @@
 const SkillReview = require('../../../lib/domain/models/SkillReview');
 const TargetProfile = require('../../../lib/domain/models/TargetProfile');
+const Course = require('../../../lib/domain/models/Course');
 const { NotFoundError, ForbiddenAccess } = require('../../../lib/domain/errors');
 
 module.exports = function({ skillReviewId, userId, assessmentRepository, answerRepository, challengeRepository }) {
@@ -10,6 +11,9 @@ module.exports = function({ skillReviewId, userId, assessmentRepository, answerR
   let answers;
   let assessment;
   let challenges;
+
+  const fakeCourseForSmartPlacement = new Course({});
+  fakeCourseForSmartPlacement.computeTubes(targetProfile.skills);
 
   return answerRepository.findByAssessment(assessmentId)
     .then(fetchedAnswers => answers = fetchedAnswers)
@@ -22,6 +26,7 @@ module.exports = function({ skillReviewId, userId, assessmentRepository, answerR
       if(fetchedAssessment.userId !== userId) throw new ForbiddenAccess();
 
       assessment = fetchedAssessment;
+      assessment.course = fakeCourseForSmartPlacement;
     })
     .then(() => assessment.addAnswersWithTheirChallenge(answers, challenges))
     .then(() => new SkillReview({ assessment, targetProfile }));
