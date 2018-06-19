@@ -17,11 +17,13 @@
     </div>
 
     <div class="result-content__warning-container">
-      {{input type="checkbox" id='validSupervisor' checked=validSupervisor alt="Le surveillant doit cliquer ici."}}
+      <div class="result-content__checked-supervisor">
+        {{input type="checkbox" id='validSupervisor' checked=validSupervisor alt="Le surveillant doit cliquer ici."}}
 
-      <span class="result-content__warning-text">
-        Le surveillant a bien vu cet écran.
-      </span>
+        <span class="result-content__warning-text">
+          Le surveillant a bien vu cet écran.
+        </span>
+      </div>
 
       {{#if validSupervisor}}
         <button class="result-content__button result-content__validation-button" {{action "validateBySupervisor"}}>Je confirme</button>

@@ -7,9 +7,7 @@
   width: 100%;
   margin: 50px auto;
   line-height: 3rem;
-  border-radius: 5px;
   background-color: $white;
-  box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.3);
 
   @include device-is('tablet') {
     padding: 41px 0;
@@ -39,28 +37,22 @@
   color: $charcoal-grey;
   font-family: $font-raleway;
   font-size: 2rem;
+  line-height: 3rem;
   text-align: center;
   margin-top: 21px;
   padding: 0 3px;
 
-  @include device-is('tablet') {
-    font-size: 22px;
-    line-height: 28px;
-  }
 }
 
 .result-content__panel-description-supervisor {
   color: $pure-orange;
-  font-family: $font-raleway;
+  font-family: $font-lato;
   font-size: 2rem;
+  font-weight: bold;
+  line-height: 3rem;
   text-align: center;
   margin-top: 21px;
   padding: 0 3px;
-
-  @include device-is('tablet') {
-    font-size: 22px;
-    line-height: 28px;
-  }
 }
 
 .result-content__warning-container {
@@ -75,11 +67,11 @@
   color: $charcoal-grey;
   line-height: normal;
   padding-left: 1rem;
+  padding-bottom: 30px;
+}
 
-  @include device-is('tablet') {
-    line-height: 28px;
-    font-size: 1.5rem;
-  }
+.result-content__checked-supervisor {
+  padding-bottom: 30px;
 }
 
 .result-content__button {
@@ -91,11 +83,12 @@
   font-weight: $font-bold;
   text-align: center;
   color: $white;
-  padding: 12px 25px;
+  padding: 6px 25px;
   background: $pix-blue;
   border-radius: 5px;
   margin: 12px auto;
-  max-width: 170px;
+  width: 170px;
+  height: 40px;
   text-decoration: none;
 
   &:hover {
