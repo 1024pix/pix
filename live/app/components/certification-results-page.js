@@ -10,8 +10,6 @@ export default Component.extend({
     validateBySupervisor: function() {
       if(this.get('validSupervisor')) {
         this.set('notFinishedYet', false);
-      } else {
-        this.set('errorMessage', true);
       }
     }
   }
