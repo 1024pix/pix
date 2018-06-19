@@ -1,8 +1,8 @@
 const SkillReview = require('../../../lib/domain/models/SkillReview');
 const TargetProfile = require('../../../lib/domain/models/TargetProfile');
-const { NotFoundError } = require('../../../lib/domain/errors');
+const { NotFoundError, ForbiddenAccess } = require('../../../lib/domain/errors');
 
-module.exports = function({ skillReviewId, assessmentRepository, answerRepository, challengeRepository }) {
+module.exports = function({ skillReviewId, userId, assessmentRepository, answerRepository, challengeRepository }) {
 
   const assessmentId = skillReviewId;
   const targetProfile = TargetProfile.TEST_PROFIL;
@@ -18,6 +18,8 @@ module.exports = function({ skillReviewId, assessmentRepository, answerRepositor
     .then(() => assessmentRepository.get(assessmentId))
     .then(fetchedAssessment => {
       if(!fetchedAssessment) throw new NotFoundError();
+
+      if(fetchedAssessment.userId !== userId) throw new ForbiddenAccess();
 
       assessment = fetchedAssessment;
     })
