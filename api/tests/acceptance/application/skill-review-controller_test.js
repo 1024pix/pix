@@ -14,15 +14,15 @@ describe('Acceptance | API | SkillReviews', () => {
     };
 
     let options;
-    let assessmentId;
+    let skillReviewId;
 
     beforeEach(() => {
       return knex('assessments').insert(inserted_assessment)
         .then(([createdAssessmentId]) => {
-          assessmentId = createdAssessmentId;
+          skillReviewId = createdAssessmentId;
           options = {
             method: 'GET',
-            url: `/api/skill-reviews/${assessmentId}`,
+            url: `/api/skill-reviews/${skillReviewId}`,
             headers: {}
           };
         });

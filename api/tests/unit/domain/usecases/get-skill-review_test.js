@@ -14,9 +14,9 @@ const Skill= require('../../../../lib/domain/models/Skill');
 const SkillReview = require('../../../../lib/domain/models/SkillReview');
 const { NotFoundError } = require('../../../../lib/domain/errors');
 
-describe('Unit | Domain | Use Cases | get-skill-review-from-assessment-id', () => {
+describe('Unit | Domain | Use Cases | get-skill-review', () => {
 
-  describe('#getSkillReviewFromAssessementId', () => {
+  describe('#getSkillReview', () => {
 
     const challengeAnswered = new Challenge({
       id: 'recChallengeAnswered',
@@ -67,6 +67,8 @@ describe('Unit | Domain | Use Cases | get-skill-review-from-assessment-id', () 
 
     context('when assessment if found', () => {
 
+      const skillReviewId = assessment.id;
+
       beforeEach(() => assessmentRepository.get.resolves(assessment));
 
       it('should use repositories to retrieve relevant informations', () => {
@@ -108,8 +110,8 @@ describe('Unit | Domain | Use Cases | get-skill-review-from-assessment-id', () 
         ];
 
         // when
-        const promise = useCase.getSkillReviewFromAssessmentId({
-          assessmentId: assessment.id,
+        const promise = useCase.getSkillReview({
+          skillReviewId,
           assessmentRepository,
           challengeRepository,
           answerRepository
@@ -117,15 +119,15 @@ describe('Unit | Domain | Use Cases | get-skill-review-from-assessment-id', () 
 
         // then
         return promise.then(() => {
-          expect(assessmentRepository.get).to.have.been.calledWith(assessment.id);
+          expect(assessmentRepository.get).to.have.been.calledWith(skillReviewId);
           expect(challengeRepository.findBySkills).to.have.been.calledWith(expectedSkillReviewSkills);
         });
       });
 
       it('should return a skill review associated to the assessment', () => {
         // when
-        const promise = useCase.getSkillReviewFromAssessmentId({
-          assessmentId: assessment.id,
+        const promise = useCase.getSkillReview({
+          skillReviewId,
           assessmentRepository,
           challengeRepository,
           answerRepository
@@ -143,12 +145,14 @@ describe('Unit | Domain | Use Cases | get-skill-review-from-assessment-id', () 
 
     context('when assessment does not exist', () => {
 
+      const skillReviewId = 'NonExistentId';
+
       beforeEach(() => assessmentRepository.get.resolves());
 
       it('should throw a Not Found error', () => {
         // when
-        const promise = useCase.getSkillReviewFromAssessmentId({
-          assessmentId: 'NonExistentId',
+        const promise = useCase.getSkillReview({
+          skillReviewId,
           assessmentRepository,
           challengeRepository,
           answerRepository
