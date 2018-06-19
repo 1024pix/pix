@@ -31,12 +31,12 @@ describe('Unit | Controller | skill-review-controller', () => {
     };
 
     beforeEach(() => {
-      sinon.stub(usecases, 'getSkillReviewFromAssessmentId');
+      sinon.stub(usecases, 'getSkillReview');
       sinon.stub(logger, 'error').returns();
     });
 
     afterEach(() => {
-      usecases.getSkillReviewFromAssessmentId.restore();
+      usecases.getSkillReview.restore();
       logger.error.restore();
     });
 
@@ -44,7 +44,8 @@ describe('Unit | Controller | skill-review-controller', () => {
 
       it('should return the serialized skillReview', () => {
         // given
-        const assessmentId = request.params.id;
+        const skillReviewId = request.params.id;
+        const assessmentId = skillReviewId;
         const assessment = factory.buildAssessment({ id: assessmentId });
         const skillReview = factory.buildSkillReview({ assessment });
         const serializedSkillReview = {
@@ -65,7 +66,7 @@ describe('Unit | Controller | skill-review-controller', () => {
           }
         };
 
-        usecases.getSkillReviewFromAssessmentId.resolves(skillReview);
+        usecases.getSkillReview.resolves(skillReview);
 
         // when
         const promise = skillReviewController.get(request, replyStub);
@@ -73,7 +74,7 @@ describe('Unit | Controller | skill-review-controller', () => {
         // Then
         return expect(promise).to.have.been.fulfilled
           .then(() => {
-            expect(usecases.getSkillReviewFromAssessmentId).to.have.been.calledWith({ assessmentId, assessmentRepository, answerRepository, challengeRepository });
+            expect(usecases.getSkillReview).to.have.been.calledWith({ skillReviewId, assessmentRepository, answerRepository, challengeRepository });
             expect(replyStub).to.have.been.calledWith(serializedSkillReview);
             expect(codeSpy).to.have.been.calledWith(200);
           });
@@ -85,7 +86,7 @@ describe('Unit | Controller | skill-review-controller', () => {
       it('should return a Not Found response', () => {
         // given
         const error = new NotFoundError();
-        usecases.getSkillReviewFromAssessmentId.rejects(error);
+        usecases.getSkillReview.rejects(error);
 
         // when
         const promise = skillReviewController.get(request, replyStub);
@@ -105,7 +106,7 @@ describe('Unit | Controller | skill-review-controller', () => {
       it('should reply with a 500', () => {
         // given
         const error = new Error('Error');
-        usecases.getSkillReviewFromAssessmentId.rejects(error);
+        usecases.getSkillReview.rejects(error);
 
         // when
         const promise = skillReviewController.get(request, replyStub);

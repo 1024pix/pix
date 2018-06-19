@@ -18,9 +18,8 @@ module.exports = {
 
   get(request, reply) {
     const skillReviewId = request.params.id;
-    const assessmentId = skillReviewId; // TODO change when several skillReview will come
 
-    return usecases.getSkillReviewFromAssessmentId({ assessmentId, assessmentRepository, answerRepository, challengeRepository })
+    return usecases.getSkillReview({ skillReviewId, assessmentRepository, answerRepository, challengeRepository })
       .then(skillReviewSerializer.serialize)
       .then(serializedSkillReview => reply(serializedSkillReview).code(200))
       .catch(error => {

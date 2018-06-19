@@ -2,8 +2,9 @@ const SkillReview = require('../../../lib/domain/models/SkillReview');
 const TargetProfile = require('../../../lib/domain/models/TargetProfile');
 const { NotFoundError } = require('../../../lib/domain/errors');
 
-module.exports = function({ assessmentId, assessmentRepository, answerRepository, challengeRepository }) {
+module.exports = function({ skillReviewId, assessmentRepository, answerRepository, challengeRepository }) {
 
+  const assessmentId = skillReviewId;
   const targetProfile = TargetProfile.TEST_PROFIL;
 
   let answers;
