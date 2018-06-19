@@ -30,7 +30,26 @@ describe('Integration | Component | certification results template', function() 
       expect(this.$('.certification-banner__container .certification-banner__certification-number').text().trim()).to.equal(`#${certificationNumber}`);
     });
 
-    it('should have a button to logout', function() {
+    it('should not be able to click on validation button when the verification is unchecked ', function() {
+      // when
+      this.render(hbs`{{certification-results-page user=user certificationNumber=certificationNumber}}`);
+
+      // then
+      expect(this.$('.result-content__validation-button')).to.have.lengthOf(0);
+      expect(this.$('.result-content__button-blocked')).to.have.lengthOf(1);
+    });
+
+    it('should be able to click on validation when we check to show the last message', function() {
+      // when
+      this.render(hbs`{{certification-results-page user=user certificationNumber=certificationNumber}}`);
+      this.$('#validSupervisor').click();
+      this.$('.result-content__validation-button').click();
+
+      // then
+      expect(this.$('.result-content__panel-description').text()).to.contains('Vos résultats seront prochainement disponibles depuis votre compte.');
+    });
+
+    it('should have a button to logout at the end of certification', function() {
       // given
       LinkComponent.reopen({
         href: alias('qualifiedRouteName')
@@ -38,10 +57,14 @@ describe('Integration | Component | certification results template', function() 
 
       // when
       this.render(hbs`{{certification-results-page user=user certificationNumber=certificationNumber}}`);
+      this.$('#validSupervisor').click();
+      this.$('.result-content__validation-button').click();
 
       // then
-      expect(this.$('.warning-logout-button')).to.have.lengthOf(1);
-      expect(this.$('.warning-logout-button').attr('href')).to.equal('logout');
+      expect(this.$('.result-content__logout-button')).to.have.lengthOf(1);
+      expect(this.$('.result-content__logout-button').text()).to.equal('Se déconnecter');
+      expect(this.$('.result-content__logout-button').attr('href')).to.equal('logout');
     });
+
   });
 });
