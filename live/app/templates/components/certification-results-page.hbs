@@ -3,10 +3,8 @@
 </div>
 
 <div class="certification-results__content result-content">
+  {{#if notFinishedYet}}
 
-{{#if notFinishedYet}}
-
-  <div class="result-content__panel">
     <div class="result-content__panel-picture">
       <img src="{{rootURL}}/images/flag.svg" alt="drapeau">
     </div>
@@ -21,7 +19,7 @@
     <div class="result-content__warning-container">
       {{input type="checkbox" id='validSupervisor' checked=validSupervisor class=""}}
 
-      <span class="result-content__warning-text-supervisor">
+      <span class="result-content__warning-text">
         Le surveillant a bien vu cet écran.
       </span>
 
@@ -31,11 +29,8 @@
         <button class="result-content__button result-content__button-blocked">Je confirme</button>
       {{/if}}
     </div>
-  </div>
 
-{{else}}
-
-  <div class="result-content__panel">
+  {{else}}
     <div class="result-content__panel-title">
       Bravo, c'est fini !
     </div>
@@ -53,8 +48,6 @@
         {{#link-to "logout" class="result-content__logout-button"}}Se déconnecter{{/link-to}}
       </div>
     </div>
-  </div>
 
-{{/if}}
-
+  {{/if}}
 </div>
