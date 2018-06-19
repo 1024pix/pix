@@ -1,5 +1,16 @@
 # Pix Changelog
 
+## 1.52.0 (19/06/2018)
+
+- [#85](https://github.com/1024pix/pix/pull/85) [FEATURE] Ajout des niveaux des compétences dans le résultat d'une certif (PF-11).
+- [#86](https://github.com/1024pix/pix/pull/86) [FEATURE] Barre de progression dans un test Smart Placement (PF-72).
+- [#87](https://github.com/1024pix/pix/pull/87) [FEATURE] Afficher le pixScore et le Commentaire du jury sur la page de résultat de certif (PF-20).
+- [#92](https://github.com/1024pix/pix/pull/92) [FEATURE] Creation du endpoint /api/users/{id} avec remontée de la validation des CGU de Pix-Orga (PO-106).
+- [#93](https://github.com/1024pix/pix/pull/93) [TECH] Export des profils partagés via un script (PF-235).
+- [#98](https://github.com/1024pix/pix/pull/98) [TECH] Suppression du lint avant le git push et création des scripts de tests combinés test:lint (pf-251).
+- [#96](https://github.com/1024pix/pix/pull/96) [BUGFIX] Exporte l'heure de rechargement du cache en variable d'environnement (PF-228).
+- [#97](https://github.com/1024pix/pix/pull/97) [BUGFIX] Retrofit PF-154 and PF-103 in SmartRandom + BSR (PF-231).
+
 ## v1.51.1 (13/06/2018)
 
 - [#95](https://github.com/1024pix/pix/pull/95) [EXPEDIT] Les boutons radio sous IE n'ont pas la valeur de la réponse (pf-242).
