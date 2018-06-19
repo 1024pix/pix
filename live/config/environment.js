@@ -36,7 +36,7 @@ module.exports = function(environment) {
 
     googleFonts: [
       'Lato:300,400,700,900', // main font, Challenge instructions
-      'Open+Sans', // used for ex. on buttons
+      'Open+Sans:300', // used for ex. on buttons
       'Raleway:100,300,400,600,700,800', // used for index page titles
       'Overpass' //used on the trophy
     ],

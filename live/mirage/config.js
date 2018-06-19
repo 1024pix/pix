@@ -22,7 +22,7 @@ import { Response } from 'ember-cli-mirage';
 
 /* eslint max-statements: off */
 export default function() {
-  this.logging = false;
+  this.logging = true;
   this.passthrough('/write-coverage');
   this.post('https://fonts.googleapis.com/**', () => {
   });
