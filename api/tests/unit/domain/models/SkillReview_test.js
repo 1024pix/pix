@@ -64,7 +64,8 @@ describe('Unit | Domain | Models | SkillReview', () => {
       it('should returns the progression rate of the targetProfile ', () => {
         // Given
         const answers = [ factory.buildAnswer({ challengeId: challengeForWeb1.id }) ];
-        const assessment = factory.buildAssessment({ answers, course, challenges });
+        const assessment = factory.buildAssessment({ answers: [], course });
+        assessment.addAnswersWithTheirChallenge(answers, challenges);
         const targetProfile = factory.buildTargetProfile({ skills });
 
         // When
