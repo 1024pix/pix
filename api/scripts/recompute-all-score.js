@@ -1,7 +1,7 @@
 #! /usr/bin/env node
 const request = require('request-promise-native');
 
-function buildRequestObject(baseUrl, authToken, certifId) {
+function buildRequestObject(baseUrl, authToken, assessmentId) {
   const request = {
     method: 'POST',
     headers: {
@@ -9,7 +9,21 @@ function buildRequestObject(baseUrl, authToken, certifId) {
       'Connection': 'keep-alive',
     },
     baseUrl: baseUrl,
-    url: `/api/assessments/${certifId}`,
+    body: {
+      "data": {
+        "attributes": {
+        },
+        "relationships": {
+          "assessment": {
+            "data":{
+              "id":assessmentId
+            }
+
+          }
+        }
+      }
+    },
+    url: `/api/assessment-results?recompute=true`,
     json: true
   };
   return request;
@@ -30,12 +44,9 @@ function main() {
     listCertif.map(id => buildRequestObject(baseUrl, authToken, id))
       .map(requestObject => request(requestObject)));
 
-  requests.then((result) => {
-    console.log(result.filter((result) => result.includes('ERROR')));
-  })
-    .catch((err) => {
-      console.log(err);
-    });
+  requests
+    .then((result) => console.log(result))
+    .catch((err) => console.log(err));
 }
 
 main();
