@@ -1,4 +1,4 @@
-const { expect, knex, generateValidRequestAuhorizationHeader } = require('../../test-helper');
+const { expect, knex } = require('../../test-helper');
 const server = require('../../../server');
 
 describe('Acceptance | API | SkillReviews', () => {
@@ -44,22 +44,6 @@ describe('Acceptance | API | SkillReviews', () => {
         // then
         return promise.then((response) => {
           expect(response.statusCode).to.equal(401);
-        });
-      });
-    });
-
-    context('with authorization token', () => {
-      beforeEach(() => {
-        options.headers.authorization = generateValidRequestAuhorizationHeader(nonPixMasterUserId);
-      });
-
-      it('should return 200 HTTP status code', () => {
-        // when
-        const promise = server.inject(options);
-
-        // then
-        return promise.then((response) => {
-          expect(response.statusCode).to.equal(200);
         });
       });
     });
