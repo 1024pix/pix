@@ -159,6 +159,7 @@ function getScoreAndLevel(assessmentId) {
       });
   });
 }
+
 function getCompetenceMarks(assessment) {
 
   if(this.isPlacementAssessment(assessment)) {
