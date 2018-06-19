@@ -57,6 +57,10 @@ export default function(server) {
     type: 'CERTIFICATION',
   });
 
+  server.create('skill-review', {
+    id: 12
+  });
+
   server.create('certification', {
     id: '1',
     date: new Date('2018-02-15T15:15:52.504Z'),
