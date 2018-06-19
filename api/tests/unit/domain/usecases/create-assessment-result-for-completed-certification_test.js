@@ -305,6 +305,11 @@ describe('Unit | UseCase | create-assessment-result-for-completed-certification'
       status: 'validated',
       assessmentId: assessmentId,
     });
+    assessmentResult.commentForCandidate = undefined;
+    assessmentResult.commentForOrganization = undefined;
+    assessmentResult.id = undefined;
+    assessmentResult.juryId = undefined;
+    assessmentResult.createdAt = undefined;
 
     // when
     const promise = usecases.createAssessmentResultForCompletedCertification({
@@ -378,6 +383,7 @@ describe('Unit | UseCase | create-assessment-result-for-completed-certification'
         skillsService,
       });
       const expectedSavedCompetenceMark = {
+        id: undefined,
         level: 3,
         score: 18,
         area_code: '1',
@@ -442,7 +448,7 @@ describe('Unit | UseCase | create-assessment-result-for-completed-certification'
       id: assessmentId,
       courseId: 'nullCourseId',
       userId: 5,
-      status: 'started',
+      state: Assessment.states.STARTED,
       type: 'PREVIEW',
     });
 
@@ -451,7 +457,7 @@ describe('Unit | UseCase | create-assessment-result-for-completed-certification'
       assessmentService.getCompetenceMarks.resolves([]);
     });
 
-    it('should try to save the related marks', () => {
+    it('should not try to save the related marks', () => {
       // when
       const promise = usecases.createAssessmentResultForCompletedCertification({
         assessmentId,
@@ -537,6 +543,9 @@ describe('Unit | UseCase | create-assessment-result-for-completed-certification'
         type: Assessment.types.CERTIFICATION,
         state: 'started',
       });
+      assessment.course = undefined;
+      assessment.answers = [];
+      assessment.assessmentResults = [];
 
       assessmentRepository.get.resolves(assessment);
       assessmentService.getCompetenceMarks.resolves(competenceMarksForCertification);
@@ -545,6 +554,7 @@ describe('Unit | UseCase | create-assessment-result-for-completed-certification'
     });
 
     afterEach(() => clock.restore());
+
     context('happy path', () => {
 
       it('should persists a mark for each evaluated competence', () => {
@@ -565,6 +575,7 @@ describe('Unit | UseCase | create-assessment-result-for-completed-certification'
 
           const firstSavedCompetenceMark = competenceMarkRepository.save.getCall(0).args;
           expect(firstSavedCompetenceMark[0]).to.deep.equal({
+            id: undefined,
             level: 0,
             score: 7,
             area_code: '1',
@@ -574,6 +585,7 @@ describe('Unit | UseCase | create-assessment-result-for-completed-certification'
 
           const secondSavedCompetenceMark = competenceMarkRepository.save.getCall(1).args;
           expect(secondSavedCompetenceMark[0]).to.deep.equal({
+            id: undefined,
             level: 2,
             score: 19,
             area_code: '2',
@@ -583,6 +595,7 @@ describe('Unit | UseCase | create-assessment-result-for-completed-certification'
 
           const thirdSavedCompetenceMark = competenceMarkRepository.save.getCall(2).args;
           expect(thirdSavedCompetenceMark[0]).to.deep.equal({
+            id: undefined,
             level: -1,
             score: 0,
             area_code: '2',
@@ -592,6 +605,7 @@ describe('Unit | UseCase | create-assessment-result-for-completed-certification'
 
           const forthSavedCompetenceMark = competenceMarkRepository.save.getCall(3).args;
           expect(forthSavedCompetenceMark[0]).to.deep.equal({
+            id: undefined,
             area_code: '3',
             assessmentResultId: assessmentResultId,
             competence_code: '3.1',
@@ -614,6 +628,11 @@ describe('Unit | UseCase | create-assessment-result-for-completed-certification'
           status: 'validated',
           assessmentId: assessmentId,
         });
+        assessmentResult.commentForCandidate = undefined;
+        assessmentResult.commentForOrganization = undefined;
+        assessmentResult.id = undefined;
+        assessmentResult.juryId = undefined;
+        assessmentResult.createdAt = undefined;
 
         // when
         const promise = usecases.createAssessmentResultForCompletedCertification({
@@ -640,6 +659,9 @@ describe('Unit | UseCase | create-assessment-result-for-completed-certification'
           state: 'completed',
           type: Assessment.types.CERTIFICATION,
         });
+        expectedAssessment.course = undefined;
+        expectedAssessment.answers = [];
+        expectedAssessment.assessmentResults = [];
 
         // when
         const promise = usecases.createAssessmentResultForCompletedCertification({
@@ -715,6 +737,11 @@ describe('Unit | UseCase | create-assessment-result-for-completed-certification'
           status: 'error',
           assessmentId: assessmentId,
         });
+        assessmentResult.commentForCandidate = undefined;
+        assessmentResult.commentForOrganization = undefined;
+        assessmentResult.id = undefined;
+        assessmentResult.juryId = undefined;
+        assessmentResult.createdAt = undefined;
 
         // when
         const promise = usecases.createAssessmentResultForCompletedCertification({
@@ -741,6 +768,9 @@ describe('Unit | UseCase | create-assessment-result-for-completed-certification'
           state: 'completed',
           type: Assessment.types.CERTIFICATION,
         });
+        expectedAssessment.course = undefined;
+        expectedAssessment.answers = [];
+        expectedAssessment.assessmentResults = [];
 
         // when
         const promise = usecases.createAssessmentResultForCompletedCertification({
