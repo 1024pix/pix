@@ -10,6 +10,7 @@ const AnswerStatus = require('../../../../lib/domain/models/AnswerStatus');
 const Assessment = require('../../../../lib/domain/models/Assessment');
 const Challenge = require('../../../../lib/domain/models/Challenge');
 const Course = require('../../../../lib/domain/models/Course');
+const TargetProfile = require('../../../../lib/domain/models/TargetProfile');
 const Skill= require('../../../../lib/domain/models/Skill');
 const SkillReview = require('../../../../lib/domain/models/SkillReview');
 const { NotFoundError, ForbiddenAccess } = require('../../../../lib/domain/errors');
@@ -34,16 +35,8 @@ describe('Unit | Domain | Use Cases | get-skill-review', () => {
     });
     const challenges = [challengeAnswered, challengeNotAnswered];
 
-    const course = new Course({
-      id: 'recCourse',
-      name: 'Some Course',
-      type: '',
-      challenges,
-    });
-
     const assessment = Assessment.fromAttributes({
       id: 'recAssessment',
-      courseId: course.id,
       state: Assessment.states.COMPLETED,
       type: Assessment.types.SMARTPLACEMENT,
       userId
@@ -144,6 +137,26 @@ describe('Unit | Domain | Use Cases | get-skill-review', () => {
           expect(skillReview.assessment).to.equal(assessment);
           expect(skillReview.assessment.answers).to.equal(answers);
           expect(skillReview.assessment.answers[0].challenge).to.equal(challengeAnswered);
+        });
+      });
+
+      it('should build a fake course using target profile skills', () => {
+        // given
+        const courseBuiltFromTargetProfile = new Course();
+        courseBuiltFromTargetProfile.computeTubes(TargetProfile.TEST_PROFIL.skills);
+
+        // when
+        const promise = useCase.getSkillReview({
+          skillReviewId: assessment.id,
+          userId,
+          assessmentRepository,
+          challengeRepository,
+          answerRepository
+        });
+
+        // then
+        return promise.then((skillReview) => {
+          expect(skillReview.assessment.course).to.deep.equal(courseBuiltFromTargetProfile);
         });
       });
 
