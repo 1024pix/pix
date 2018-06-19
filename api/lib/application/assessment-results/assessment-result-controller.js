@@ -3,9 +3,16 @@ const Boom = require('boom');
 const CompetenceMark = require('../../domain/models/CompetenceMark');
 const AssessmentResult = require('../../domain/models/AssessmentResult');
 const assessmentResultService = require('../../domain/services/assessment-result-service');
+const certificationCourseRepository = require('../../infrastructure/repositories/certification-course-repository');
+const assessmentRepository = require('../../infrastructure/repositories/assessment-repository');
+const skillsService = require('../../domain/services/skills-service');
+const assessmentService = require('../../domain/services/assessment-service');
+const assessmentResultRepository = require('../../infrastructure/repositories/assessment-result-repository');
+const competenceMarkRepository = require('../../infrastructure/repositories/competence-mark-repository');
 
 const assessmentResultsSerializer = require('../../infrastructure/serializers/jsonapi/assessment-result-serializer');
 const JSONAPIError = require('jsonapi-serializer').Error;
+const usecases = require('../../domain/usecases');
 
 const { NotFoundError, AlreadyRatedAssessmentError, ObjectValidationError } = require('../../domain/errors');
 
@@ -63,7 +70,16 @@ module.exports = {
     const assessmentRating = assessmentResultsSerializer.deserialize(request.payload);
     const parameters = request.query;
 
-    return assessmentResultService.evaluateFromAssessmentId(assessmentRating.assessmentId, parameters)
+    return usecases.createAssessmentResultForCompletedCertification({
+      assessmentId: assessmentRating.assessmentId,
+      parameters,
+      assessmentResultRepository,
+      assessmentRepository,
+      assessmentService,
+      certificationCourseRepository,
+      competenceMarkRepository,
+      skillsService,
+    })
       .then(() => {
         reply();
       })
