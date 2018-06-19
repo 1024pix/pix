@@ -455,19 +455,27 @@ describe('Unit | Domain | Models | SmartRandom', () => {
   describe('SmartRandom._filteredChallenges()', function() {
     it('should not ask a question that targets a skill already assessed', function() {
       // given
-      const [s1, s2, s3] = factory.buildSkillCollection();
+      const [skill1, skill2, skill3] = factory.buildSkillCollection();
 
-      const ch1 = factory.buildChallenge({ skills: [s1] });
-      const ch2 = factory.buildChallenge({ skills: [s2] });
-      const ch3 = factory.buildChallenge({ skills: [s2] });
-      const ch4 = factory.buildChallenge({ skills: [s3] });
+      const targetProfile = new TargetProfile({ skills: [skill1, skill2, skill3] });
 
-      const answerCh1 = factory.buildAnswer({ challengeId: ch1.id, result: AnswerStatus.OK });
-      const answerCh2 = factory.buildAnswer({ challengeId: ch2.id, result: AnswerStatus.OK });
-      const challenges = [ch1, ch2, ch3, ch4];
+      const challengeAssessingSkill1 = factory.buildChallenge({ skills: [skill1] });
+      const challengeAssessingSkill2 = factory.buildChallenge({ skills: [skill2] });
+      const anotherChallengeAssessingSkill2 = factory.buildChallenge({ skills: [skill2] });
+      const challengeAssessingSkill3 = factory.buildChallenge({ skills: [skill3] });
+
+      const answerCh1 = factory.buildAnswer({ challengeId: challengeAssessingSkill1.id, result: AnswerStatus.OK });
+      const answerCh2 = factory.buildAnswer({ challengeId: challengeAssessingSkill2.id, result: AnswerStatus.OK });
+      const answers = [answerCh1, answerCh2];
+      const challenges = [
+        challengeAssessingSkill1,
+        challengeAssessingSkill2,
+        anotherChallengeAssessingSkill2,
+        challengeAssessingSkill3,
+      ];
 
       // when
-      const smartRandom = new SmartRandom([answerCh1, answerCh2], challenges, [s1, s2, s3]);
+      const smartRandom = new SmartRandom({ answers, challenges, targetProfile });
       const result = SmartRandom._filteredChallenges(
         smartRandom.challenges,
         smartRandom.answers,
@@ -478,7 +486,7 @@ describe('Unit | Domain | Models | SmartRandom', () => {
       );
 
       // then
-      expect(result).to.deep.equal([ch4]);
+      expect(result).to.deep.equal([challengeAssessingSkill3]);
     });
   });
 });
