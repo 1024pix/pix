@@ -714,4 +714,48 @@ describe('Unit | Domain | Models | Assessment', () => {
       expect(result).to.be.deep.equal(expectedSkills);
     });
   });
+  describe('#isCertifiable', () => {
+
+    it('should return true when the last assessment has a level > 0', () => {
+      // given
+      const assessmentResultComputed = new AssessmentResult({
+        id: 3,
+        createdAt: '2017-12-22',
+        emitter: 'Gerard',
+        level: 3,
+      });
+
+      const assessment = Assessment.fromAttributes({
+        assessmentResults: [assessmentResultComputed]
+      });
+
+      // when
+      const isCompleted = assessment.isCertifiable();
+
+      // then
+      expect(isCompleted).to.be.true;
+    });
+
+    it('should return false when the last assessment has a level < 1', () => {
+      // given
+      const assessmentResultComputed = new AssessmentResult({
+        id: 3,
+        createdAt: '2017-12-22',
+        emitter: 'Gerard',
+        level: 0,
+      });
+
+      const assessment = Assessment.fromAttributes({
+        assessmentResults: [assessmentResultComputed]
+      });
+
+      // when
+      const isCompleted = assessment.isCertifiable();
+
+      // then
+      expect(isCompleted).to.be.false;
+    });
+
+  });
+
 });

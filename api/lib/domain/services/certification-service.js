@@ -51,11 +51,11 @@ function _isQROCMdepPartially(challenge, answer) {
 function _numberOfCorrectAnswersPerCompetence(answersWithCompetences, competence, certificationChallenges) {
   const answerForCompetence = _.filter(answersWithCompetences, answer => answer.competenceId === competence.id);
   const challengesForCompetence = _.filter(certificationChallenges, challenge => challenge.competenceId === competence.id);
-  if (challengesForCompetence < 2) {
+  if (challengesForCompetence.length < 2) {
     throw new CertificationComputeError('Pas assez de challenges posés pour la compétence ' + competence.index);
   }
 
-  if (answerForCompetence < 2) {
+  if (answerForCompetence.length < 2) {
     throw new CertificationComputeError('Pas assez de réponses pour la compétence ' + competence.index);
   }
 
@@ -212,7 +212,7 @@ function _getCertificationResult(assessment) {
     })
     .then(([listAnswers, certificationChallenges, assessmentsPositioned, certificationCourse, competences, challengesList]) => {
       const testedCompetences = assessmentsPositioned
-        .filter(assessment => assessment.getLastAssessmentResult().level >= 1)
+        .filter(assessment => assessment.isCertifiable())
         .map(assessment => {
           const competenceOfAssessment = _.find(competences, competence => competence.courseId === assessment.courseId);
           return {
