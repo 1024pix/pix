@@ -52,7 +52,7 @@ function _buildAssessment(courseId, pixScore, estimatedLevel) {
     pixScore,
     level: estimatedLevel,
     assessmentResults: [assessmentResult],
-    courseId});
+    courseId });
   return assessment;
 }
 

@@ -13,6 +13,34 @@ const CERTIFICATION_VALIDATED = 'validated';
 const CERTIFICATION_REJECTED = 'rejected';
 const NOT_VALIDATED_CERTIF_LEVEL = -1;
 
+function _setAssessmentResultIdOnMark(mark, assessmentResultId) {
+  mark.assessmentResultId = assessmentResultId;
+  return mark;
+}
+
+function _limitMarkLevel(mark, assessment) {
+  /*
+   * XXX une certification ne peut pas avoir une compétence en base au dessus de niveau 5;
+   * par contre le reste de l'algorithme peut avoir des niveaux au dessus, et l'on ne plafonnera pas pour les
+   * autres Assessments (par exemple Placements).
+   */
+  if (assessment.type === Assessment.types.CERTIFICATION) {
+    mark.level = Math.min(mark.level, CERTIFICATION_MAX_LEVEL);
+  }
+  return mark;
+}
+
+function _updateCompletedDateOfCertification(assessment, certificationCourseRepository) {
+  if (assessment.isCertificationAssessment()) {
+    return certificationCourseRepository.changeCompletionDate(
+      assessment.courseId,
+      moment().toISOString(),
+    );
+  } else {
+    return Promise.resolve();
+  }
+}
+
 function _getAssessmentResultEvaluations(marks, assessmentType) {
   const pixScore = _.sumBy(marks, 'score');
   let level = Math.floor(pixScore / 8);
@@ -46,32 +74,7 @@ function _saveResultAfterComputingError({
     assessmentResultRepository.save(assessmentResult),
     assessmentRepository.save(assessment),
   ])
-    .then(() => {
-      if (assessment.isCertificationAssessment()) {
-        return certificationCourseRepository.changeCompletionDate(
-          assessment.courseId,
-          moment().toISOString(),
-        );
-      }
-    });
-}
-
-
-function _setAssessmentResultIdOnMark(mark, assessmentResultId){
-  mark.assessmentResultId = assessmentResultId;
-  return mark;
-}
-
-function _limitMarkLevel(mark, assessment){
-  /*
-   * XXX une certification ne peut pas avoir une compétence en base au dessus de niveau 5;
-   * par contre le reste de l'algorithme peut avoir des niveaux au dessus, et l'on ne plafonnera pas pour les
-   * autres Assessments (par exemple Placements).
-   */
-  if (assessment.type === Assessment.types.CERTIFICATION) {
-    mark.level = Math.min(mark.level, CERTIFICATION_MAX_LEVEL);
-  }
-  return mark;
+    .then(() => _updateCompletedDateOfCertification(assessment, certificationCourseRepository));
 }
 
 function _saveCertificationResult({
@@ -112,14 +115,7 @@ function _saveCertificationResult({
 
       return Promise.all(saveMarksPromises);
     })
-    .then(() => {
-      if (assessment.isCertificationAssessment()) {
-        return certificationCourseRepository.changeCompletionDate(
-          assessment.courseId,
-          moment().toISOString()
-        );
-      }
-    });
+    .then(() => _updateCompletedDateOfCertification(assessment, certificationCourseRepository));
 }
 
 module.exports = function({

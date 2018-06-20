@@ -168,7 +168,7 @@ class Assessment {
   }
 
   isCertifiable() {
-    return this.getLastAssessmentResult().level >= 1
+    return this.getLastAssessmentResult().level >= 1;
   }
 
 }
