@@ -12,6 +12,6 @@
   ],
   "license": "AGPL-3.0",
   "devDependencies": {
-    "airtable": "^0.4.3"
+    "airtable": "^0.5.6"
   }
 }
