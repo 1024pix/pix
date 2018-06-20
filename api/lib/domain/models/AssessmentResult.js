@@ -38,6 +38,17 @@ class AssessmentResult {
       assessmentId,
     });
   }
+
+  static BuildStandardAssessmentResult(level, pixScore, status, assessmentId) {
+    return new AssessmentResult({
+      emitter: 'PIX-ALGO',
+      commentForJury: 'Computed',
+      level: level,
+      pixScore: pixScore,
+      status,
+      assessmentId,
+    });
+  }
 }
 
 module.exports = AssessmentResult;
