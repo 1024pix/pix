@@ -75,7 +75,7 @@
     "db:create": "npx knex --knexfile db/knexfile.js migrate:make $migrationname",
     "db:migrate": "npx knex --knexfile db/knexfile.js migrate:latest",
     "db:seed": "npx knex --knexfile db/knexfile.js seed:run",
-    "db:delete": "rm db/dev.sqlite3 ",
+    "db:delete": "rm -f db/dev.sqlite3",
     "db:reset": "npm run db:delete && npm run db:migrate && npm run db:seed",
     "test": "npm run test:api",
     "test:api": "NODE_ENV=test npm run db:migrate && NODE_ENV=test npx mocha --recursive --exit --reporter dot tests",
