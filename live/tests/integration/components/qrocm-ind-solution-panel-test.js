@@ -50,7 +50,7 @@ describe('Integration | Component | qrocm solution panel', function() {
     this.render(hbs`{{qrocm-ind-solution-panel answer=answer solution=solution challenge=challenge}}`);
     const input = this.$('input');
     // then
-    expect(input).to.be.disabled;
+    input.toArray().forEach((input) => expect(input.disabled).to.be.true);
   });
 
   it('should contains three labels', function() {

@@ -24,7 +24,7 @@ describe('Integration | Component | qroc solution panel', function() {
     this.render(hbs`{{qroc-solution-panel}}`);
     const input = this.$('input');
     // then
-    expect(input).to.be.disabled;
+    input.toArray().forEach((input) => expect(input.disabled).to.be.true);
   });
 
   describe('comparison when the answer is right', function() {
