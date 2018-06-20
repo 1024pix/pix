@@ -1,6 +1,6 @@
 export default [
-  { id: 1, name: 'Mener une recherche d\'information', level: -1, index: '1.1', areaId: 1, courseId: 'ref_course_id' },
-  { id: 2, name: 'Gérer des données', level: 0, index: '1.2', areaId: 1, courseId: 'ref_timed_challenge_course_id' },
+  { id: 1, name: 'Mener une recherche d\'information', level: -1, index: '1.1', areaId: 1, courseId: 'rec_course_id' },
+  { id: 2, name: 'Gérer des données', level: 0, index: '1.2', areaId: 1, courseId: 'rec_timed_challenge_course_id' },
   { id: 3, name: 'Traiter des données', level: 1, index: '1.3', areaId: 1 },
   { id: 4, name: 'Interagir', level: 2, index: '2.1', areaId: 2 },
   { id: 5, name: 'Partager et publier', level: 3, index: '2.2', areaId: 2 },
@@ -16,4 +16,3 @@ export default [
   { id: 15, name: 'Résoudre problèmes techniques', level: -1, index: '5.1', areaId: 5 },
   { id: 16, name: 'Construire un environnement numérique', level: -1, index: '5.2', areaId: 5 }
 ];
-

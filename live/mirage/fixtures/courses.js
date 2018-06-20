@@ -1,13 +1,13 @@
 export default [
   {
-    id: 'highligthed_course_id',
+    id: 'rec_highligthed_course_id',
     name: 'Traiter des données',
     description: 'Recherche d\'information, gestion et traitement de données.',
     'image-url': 'http://fakeimg.pl/350x200/?text=First%20Course',
     nbChallenges: 1,
     'is-adaptive': false
   }, {
-    id: 'ref_course_id',
+    id: 'rec_course_id',
     name: 'First Course',
     description: 'Contient toutes sortes d\'epreuves avec différentes caractéristiques couvrant tous les cas d\'usage.',
     duration: 10,
@@ -15,7 +15,7 @@ export default [
     nbChallenges: 4,
     'is-adaptive': false
   }, {
-    id: 'ref_timed_challenge_course_id',
+    id: 'rec_timed_challenge_course_id',
     name: 'Course with timed challenges',
     description: 'Contient uniquement des épreuves timées',
     duration: 10,

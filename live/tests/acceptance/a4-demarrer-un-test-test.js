@@ -27,7 +27,7 @@ describe('Acceptance | a4 - Démarrer un test |', function() {
   });
 
   it('a4.2 Je peux démarrer un test directement depuis la nouvelle url "courses/:course_id"', async function() {
-    await visit('/courses/ref_course_id');
+    await visit('/courses/rec_course_id');
 
     expect(currentURL()).to.be.equal('/assessments/ref_assessment_id/challenges/ref_qcm_challenge_id');
   });

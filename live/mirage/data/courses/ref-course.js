@@ -6,12 +6,13 @@ import refQrocmChallengeFull from '../challenges/ref-qrocm-challenge';
 export default {
   data: {
     type: 'courses',
-    id: 'ref_course_id',
+    id: 'rec_course_id',
     attributes: {
       name: 'First Course',
       description: 'Contient toutes sortes d\'epreuves avec différentes caractéristiques couvrant tous les cas d\'usage.',
       duration: 10,
-      'image-url': 'http://fakeimg.pl/350x200/?text=First%20Course'
+      'image-url': 'http://fakeimg.pl/350x200/?text=First%20Course',
+      type: 'DEMO',
     },
     relationships: {
       challenges: {
