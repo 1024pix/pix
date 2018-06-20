@@ -13,18 +13,11 @@ function _rememberThatUserIsNowAware() {
   localStorage.setItem('pix-mobile-warning', 'true');
 }
 
-function _storeCourseToDisplayAfterWarning(that, course) {
-  that.set('selectedCourse', course);
-}
-
-function _displayWarningModal() {
-  $('#js-modal-mobile').modal();
-}
-
 const CourseList = Component.extend({
 
   courses: null,
   selectedCourse: null,
+  displayWarningModal: false,
 
   classNames: ['course-list'],
 
@@ -71,11 +64,19 @@ const CourseList = Component.extend({
     startCourse(course) {
       if (_userNotAlreadyWarnedAboutMobileIncompleteSupport(this)) {
         _rememberThatUserIsNowAware();
-        _storeCourseToDisplayAfterWarning(this, course);
-        _displayWarningModal();
+        this.set('selectedCourse', course);
+        this.set('displayWarningModal', true);
       } else {
         this.sendAction('startCourse', course);
       }
+    },
+
+    dismissModal() {
+      this.set('displayWarningModal', false);
+    },
+
+    confirmModal() {
+      this.sendAction('startCourse', this.get('selectedCourse'));
     }
   }
 
