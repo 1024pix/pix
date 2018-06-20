@@ -70,11 +70,11 @@ module.exports = {
 
   evaluate(request, reply) {
     const assessmentRating = assessmentResultsSerializer.deserialize(request.payload);
-    const parameters = request.query;
+    const forceRecomputeResult = (request.query) ? request.query.recompute : false;
 
     return usecases.createAssessmentResultForCompletedCertification({
       assessmentId: assessmentRating.assessmentId,
-      parameters,
+      forceRecomputeResult,
       assessmentRepository,
       assessmentResultRepository,
       certificationCourseRepository,

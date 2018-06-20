@@ -67,9 +67,9 @@ describe('Unit | Controller | assessment-results', () => {
       // then
       expect(usecases.createAssessmentResultForCompletedCertification).to.have.been.calledWith({
         assessmentId: '22',
-        parameters: undefined,
-        assessmentResultRepository,
+        forceRecomputeResult: false,
         assessmentRepository,
+        assessmentResultRepository,
         assessmentService,
         certificationCourseRepository,
         competenceMarkRepository,

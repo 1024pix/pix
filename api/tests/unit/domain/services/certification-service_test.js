@@ -181,15 +181,16 @@ describe('Unit | Service | Certification Service', function() {
   describe('#calculateCertificationResultByCertificationCourseId', () => {
 
     let sandbox;
+    const dateCreationCertif = '2018-01-01';
     const certificationAssessment = Assessment.fromAttributes({
       id: 'assessment_id',
       userId: 'user_id',
       courseId: 'course_id',
-      createdAt: '2018-01-01',
+      createdAt: dateCreationCertif,
       state: 'completed',
     });
 
-    const certificationCourse = { id: 'course1', status: 'completed', completedAt: '2018-01-01' };
+    const certificationCourse = { id: 'course1', status: 'completed', completedAt: dateCreationCertif };
 
     beforeEach(() => {
       sandbox = sinon.sandbox.create();
@@ -256,7 +257,7 @@ describe('Unit | Service | Certification Service', function() {
       // then
       return promise.then(() => {
         sinon.assert.calledOnce(assessmentRepository.findLastCompletedAssessmentsForEachCoursesByUser);
-        sinon.assert.calledWith(assessmentRepository.findLastCompletedAssessmentsForEachCoursesByUser, certificationAssessment.userId, '2018-01-01');
+        sinon.assert.calledWith(assessmentRepository.findLastCompletedAssessmentsForEachCoursesByUser, certificationAssessment.userId, dateCreationCertif);
       });
     });
 
@@ -651,8 +652,8 @@ describe('Unit | Service | Certification Service', function() {
           status: 'completed',
           totalScore: 54,
           userId: 'user_id',
-          completedAt: '2018-01-01',
-          createdAt: '2018-01-01',
+          completedAt: dateCreationCertif,
+          createdAt: dateCreationCertif,
         };
 
         // when
@@ -714,11 +715,12 @@ describe('Unit | Service | Certification Service', function() {
 
     let sandbox;
     const certificationCourse = { id: 'course1', status: 'completed' };
+    const dateCreationCertif = '2018-02-02';
 
     const certificationAssessment = Assessment.fromAttributes({
       id: 'assessment_id',
       userId: 'user_id',
-      createdAt: '2018-01-01',
+      createdAt: dateCreationCertif,
       courseId: 'course_id',
       status: 'completed',
     });
@@ -788,7 +790,7 @@ describe('Unit | Service | Certification Service', function() {
       // then
       return promise.then(() => {
         sinon.assert.calledOnce(assessmentRepository.findLastCompletedAssessmentsForEachCoursesByUser);
-        sinon.assert.calledWith(assessmentRepository.findLastCompletedAssessmentsForEachCoursesByUser, certificationAssessment.userId, '2018-01-01');
+        sinon.assert.calledWith(assessmentRepository.findLastCompletedAssessmentsForEachCoursesByUser, certificationAssessment.userId, dateCreationCertif);
       });
     });
 

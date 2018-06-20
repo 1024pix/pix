@@ -1,3 +1,4 @@
+const _ = require('lodash');
 const moment = require('moment');
 
 const Assessment = require('../models/Assessment');
@@ -8,19 +9,22 @@ const { AlreadyRatedAssessmentError,
   NotFoundError } = require('../errors');
 
 const CERTIFICATION_MAX_LEVEL = 5;
+const CERTIFICATION_VALIDATED = 'validated';
+const CERTIFICATION_REJECTED = 'rejected';
+const CERTIFICATION_ERROR = 'error';
 
 function _getAssessmentResultEvaluations(marks, assessmentType) {
-
-  const pixScore = marks.reduce((totalPixScore, mark) => {
-    return totalPixScore + mark.score;
-  }, 0);
+  const pixScore = _.sumBy(marks, 'score');
   let level = Math.floor(pixScore / 8);
-  let status = 'validated';
+
   if (pixScore === 0 && assessmentType === Assessment.types.CERTIFICATION) {
-    status = 'rejected';
+    const status = CERTIFICATION_REJECTED;
     level = -1;
+    return { pixScore, level, status };
+  } else {
+    const status = CERTIFICATION_VALIDATED;
+    return { pixScore, level, status };
   }
-  return { pixScore, level, status };
 }
 
 function _saveResultAfterComputingError({
@@ -40,7 +44,7 @@ function _saveResultAfterComputingError({
     commentForJury: error.message,
     level: 0,
     pixScore: 0,
-    status: 'error',
+    status: CERTIFICATION_ERROR,
     assessmentId,
   });
   assessment.setCompleted();
@@ -122,7 +126,7 @@ function _saveCertificationResult({
 
 module.exports = function({
   assessmentId,
-  parameters = {},
+  forceRecomputeResult = false,
   assessmentRepository,
   assessmentResultRepository,
   certificationCourseRepository,
@@ -141,7 +145,7 @@ module.exports = function({
         throw new NotFoundError();
       }
 
-      if (assessment.isCompleted() && !parameters.recompute) {
+      if (assessment.isCompleted() && !forceRecomputeResult) {
         throw new AlreadyRatedAssessmentError();
       }
 
