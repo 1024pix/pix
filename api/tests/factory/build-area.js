@@ -3,11 +3,13 @@ const Area = require('../../lib/domain/models/Area');
 
 module.exports = function buildArea({
   id = faker.random.uuid(),
-  name = '1. Information et données',
-  code = '1',
-  title = 'Information et données',
+  code = faker.random.number(),
+  title = faker.lorem.words(),
   competences = [],
+  // optional
+  name
 } = {}) {
+  name = name || `${code}. ${title}`;
   return new Area({
     id,
     name,

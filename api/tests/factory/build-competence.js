@@ -7,7 +7,7 @@ module.exports = function buildCompetence({
   // attributes
   id = faker.random.uuid(),
   name = faker.random.word(),
-  index = '1.2',
+  index = `${faker.random.number()}.${faker.random.number()}`,
   courseId = faker.random.uuid(),
 
   // relationships

@@ -288,7 +288,7 @@ describe('Unit | Domain | Models | Assessment', () => {
   describe('#isCertificationAssessment', () => {
     it('should return true when the assessment is a CERTIFICATION', () => {
       // given
-      const assessment = Assessment.fromAttributes({ type: 'CERTIFICATION' });
+      const assessment = factory.buildAssessment({ type: 'CERTIFICATION' });
 
       // when
       const isCertificationAssessment = assessment.isCertificationAssessment();
@@ -299,7 +299,7 @@ describe('Unit | Domain | Models | Assessment', () => {
 
     it('should return false when the assessment is not a CERTIFICATION', () => {
       // given
-      const assessment = Assessment.fromAttributes({ type: 'PLACEMENT' });
+      const assessment = factory.buildAssessment({ type: 'PLACEMENT' });
 
       // when
       const isCertificationAssessment = assessment.isCertificationAssessment();
@@ -310,7 +310,7 @@ describe('Unit | Domain | Models | Assessment', () => {
 
     it('should return false when the assessment has no type', () => {
       // given
-      const assessment = Assessment.fromAttributes({});
+      const assessment = factory.buildAssessment({ type: null });
 
       // when
       const isCertificationAssessment = assessment.isCertificationAssessment();
