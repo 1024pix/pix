@@ -1,22 +1,24 @@
 const Boom = require('boom');
 
-const CompetenceMark = require('../../domain/models/CompetenceMark');
+const usecases = require('../../domain/usecases');
+const JSONAPIError = require('jsonapi-serializer').Error;
+const logger = require('../../infrastructure/logger');
+
 const AssessmentResult = require('../../domain/models/AssessmentResult');
-const assessmentResultService = require('../../domain/services/assessment-result-service');
-const certificationCourseRepository = require('../../infrastructure/repositories/certification-course-repository');
+const CompetenceMark = require('../../domain/models/CompetenceMark');
+
 const assessmentRepository = require('../../infrastructure/repositories/assessment-repository');
-const skillsService = require('../../domain/services/skills-service');
-const assessmentService = require('../../domain/services/assessment-service');
 const assessmentResultRepository = require('../../infrastructure/repositories/assessment-result-repository');
+const certificationCourseRepository = require('../../infrastructure/repositories/certification-course-repository');
 const competenceMarkRepository = require('../../infrastructure/repositories/competence-mark-repository');
 
+const assessmentResultService = require('../../domain/services/assessment-result-service');
+const assessmentService = require('../../domain/services/assessment-service');
+const skillsService = require('../../domain/services/skills-service');
+
 const assessmentResultsSerializer = require('../../infrastructure/serializers/jsonapi/assessment-result-serializer');
-const JSONAPIError = require('jsonapi-serializer').Error;
-const usecases = require('../../domain/usecases');
 
 const { NotFoundError, AlreadyRatedAssessmentError, ObjectValidationError } = require('../../domain/errors');
-
-const logger = require('../../infrastructure/logger');
 
 // TODO: Should be removed and replaced by a real serializer
 function _deserializeResultsAdd(json) {
@@ -73,11 +75,11 @@ module.exports = {
     return usecases.createAssessmentResultForCompletedCertification({
       assessmentId: assessmentRating.assessmentId,
       parameters,
-      assessmentResultRepository,
       assessmentRepository,
-      assessmentService,
+      assessmentResultRepository,
       certificationCourseRepository,
       competenceMarkRepository,
+      assessmentService,
       skillsService,
     })
       .then(() => {

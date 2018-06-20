@@ -6,17 +6,22 @@ const qrocmDepChallenge = 'QROCM-dep';
 
 const _ = require('lodash');
 const moment = require('moment');
+
 const AnswerStatus = require('../models/AnswerStatus');
 const CertificationCourse = require('../../domain/models/CertificationCourse');
-const { UserNotAuthorizedToCertifyError, NotCompletedAssessmentError, CertificationComputeError } = require('../../../lib/domain/errors');
+
+const {
+  CertificationComputeError,
+  NotCompletedAssessmentError,
+  UserNotAuthorizedToCertifyError } = require('../../../lib/domain/errors');
 
 const answerServices = require('./answer-service');
 const certificationChallengesService = require('../../../lib/domain/services/certification-challenges-service');
 const userService = require('../../../lib/domain/services/user-service');
 
-const assessmentResultRepository = require('../../infrastructure/repositories/assessment-result-repository');
-const assessmentRepository = require('../../../lib/infrastructure/repositories/assessment-repository');
 const answersRepository = require('../../../lib/infrastructure/repositories/answer-repository');
+const assessmentRepository = require('../../../lib/infrastructure/repositories/assessment-repository');
+const assessmentResultRepository = require('../../infrastructure/repositories/assessment-result-repository');
 const certificationChallengesRepository = require('../../../lib/infrastructure/repositories/certification-challenge-repository');
 const certificationCourseRepository = require('../../infrastructure/repositories/certification-course-repository');
 const challengeRepository = require('../../infrastructure/repositories/challenge-repository');

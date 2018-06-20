@@ -3,7 +3,9 @@ const moment = require('moment');
 const Assessment = require('../models/Assessment');
 const AssessmentResult = require('../models/AssessmentResult');
 
-const { CertificationComputeError, NotFoundError, AlreadyRatedAssessmentError } = require('../errors');
+const { AlreadyRatedAssessmentError,
+  CertificationComputeError,
+  NotFoundError } = require('../errors');
 
 const CERTIFICATION_MAX_LEVEL = 5;
 
@@ -22,12 +24,12 @@ function _getAssessmentResultEvaluations(marks, assessmentType) {
 }
 
 function _saveResultAfterComputingError({
-  error,
   assessment,
   assessmentId,
   assessmentRepository,
   assessmentResultRepository,
   certificationCourseRepository,
+  error,
 }) {
   if (!(error instanceof CertificationComputeError)) {
     return Promise.reject(error);
@@ -60,12 +62,12 @@ function _saveResultAfterComputingError({
 function _saveCertificationResult({
   assessment,
   assessmentId,
-  skills,
-  mark,
   assessmentRepository,
   assessmentResultRepository,
   certificationCourseRepository,
   competenceMarkRepository,
+  mark,
+  skills,
   skillsService,
 }) {
   const { pixScore, level, status } = _getAssessmentResultEvaluations(mark, assessment.type);
@@ -121,11 +123,11 @@ function _saveCertificationResult({
 module.exports = function({
   assessmentId,
   parameters = {},
-  assessmentResultRepository,
   assessmentRepository,
-  assessmentService,
+  assessmentResultRepository,
   certificationCourseRepository,
   competenceMarkRepository,
+  assessmentService,
   skillsService,
 }) {
   let assessment;
@@ -151,21 +153,21 @@ module.exports = function({
     .then(([skills, mark]) => _saveCertificationResult({
       assessment,
       assessmentId,
-      skills,
-      mark,
       assessmentRepository,
       assessmentResultRepository,
       certificationCourseRepository,
       competenceMarkRepository,
+      mark,
+      skills,
       skillsService,
     }))
     .catch((error) => _saveResultAfterComputingError({
-      error,
       assessment,
       assessmentId,
       assessmentRepository,
       assessmentResultRepository,
       certificationCourseRepository,
+      error,
     }));
 };
 

@@ -26,8 +26,8 @@ module.exports = function({
     state,
 
     // relationships
-    course,
     answers,
     assessmentResults,
+    course,
   });
 };
