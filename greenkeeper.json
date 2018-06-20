@@ -1,0 +1,12 @@
+{
+  "groups": {
+    "default": {
+      "packages": [
+        "api/package.json",
+        "live/package.json",
+        "package.json",
+        "scripts/backup/package.json"
+      ]
+    }
+  }
+}
