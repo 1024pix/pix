@@ -214,10 +214,11 @@ function _getCertificationResult(assessment) {
       const testedCompetences = assessmentsPositioned
         .filter(assessment => assessment.getLastAssessmentResult().level >= 1)
         .map(assessment => {
+          const competenceOfAssessment = _.find(competences, competence => competence.courseId === assessment.courseId);
           return {
-            id: _.find(competences, competence => competence.courseId === assessment.courseId).id,
-            index: _.find(competences, competence => competence.courseId === assessment.courseId).index,
-            name: _.find(competences, competence => competence.courseId === assessment.courseId).name,
+            id: competenceOfAssessment.id,
+            index: competenceOfAssessment.index,
+            name: competenceOfAssessment.name,
             estimatedLevel: assessment.getLastAssessmentResult().level,
             pixScore: assessment.getLastAssessmentResult().pixScore,
           };

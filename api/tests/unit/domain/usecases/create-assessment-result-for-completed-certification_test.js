@@ -209,7 +209,7 @@ describe('Unit | UseCase | create-assessment-result-for-completed-certification'
       return expect(promise).to.be.rejectedWith(AlreadyRatedAssessmentError);
     });
 
-    it('should not reject an AlreadyRatedAssessmentError if a parameters contains a recompute at true', () => {
+    it('should not reject an AlreadyRatedAssessmentError if forceRecomputeResult at true', () => {
       // given
       const alreadyEvaluatedAssessment = factory.buildAssessment({
         id: assessmentId,
@@ -218,13 +218,13 @@ describe('Unit | UseCase | create-assessment-result-for-completed-certification'
         state: 'completed',
         type: 'PLACEMENT',
       });
-
+      const forceRecomputeResult = true;
       assessmentRepository.get.resolves(alreadyEvaluatedAssessment);
 
       // when
       const promise = usecases.createAssessmentResultForCompletedCertification({
         assessmentId,
-        parameters: { recompute: true },
+        forceRecomputeResult,
         assessmentResultRepository,
         assessmentRepository,
         assessmentService,
