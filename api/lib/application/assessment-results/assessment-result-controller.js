@@ -73,12 +73,17 @@ module.exports = {
     const forceRecomputeResult = (request.query) ? request.query.recompute : false;
 
     return usecases.createAssessmentResultForCompletedCertification({
+      // Parameters
       assessmentId: assessmentRating.assessmentId,
       forceRecomputeResult,
+
+      // Repositories
       assessmentRepository,
       assessmentResultRepository,
       certificationCourseRepository,
       competenceMarkRepository,
+
+      // Services
       assessmentService,
       skillsService,
     })

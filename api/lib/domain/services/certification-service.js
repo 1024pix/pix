@@ -53,9 +53,9 @@ function _numberOfCorrectAnswersPerCompetence(answersWithCompetences, competence
   const answerForCompetence = _.filter(answersWithCompetences, answer => answer.competenceId === competence.id);
   const challengesForCompetence = _.filter(certificationChallenges, challenge => challenge.competenceId === competence.id);
 
-  CertificationContract.assertThatWeAskAtLeastTwoChallengesByCompetence(challengesForCompetence, competence.index);
+  CertificationContract.assertThatCompetenceHasEnoughChallenge(challengesForCompetence, competence.index);
 
-  CertificationContract.assertThatWeHaveAtLeastTwoAnswersByCompetence(answerForCompetence, competence.index);
+  CertificationContract.assertThatCompetenceHasEnoughChallenge(answerForCompetence, competence.index);
 
   let nbOfCorrectAnswers = 0;
   answerForCompetence.forEach(answer => {
@@ -161,7 +161,7 @@ function _getResult(listAnswers, certificationChallenges, testedCompetences) {
   const competencesWithMark = _getCompetencesWithCertifiedLevelAndScore(answersWithCompetences, testedCompetences, reproductibilityRate, certificationChallenges);
   const scoreAfterRating = _getSumScoreFromCertifiedCompetences(competencesWithMark);
 
-  CertificationContract.assertThatScoreIsPositifWhenRepoductibilityRateIsMoreThan50(scoreAfterRating,reproductibilityRate);
+  œ.assertThatScoreIsCoherentWithReproductibilityRate(scoreAfterRating,reproductibilityRate);
 
   return { competencesWithMark, totalScore: scoreAfterRating, percentageCorrectAnswers: reproductibilityRate };
 }

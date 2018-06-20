@@ -78,25 +78,21 @@ function _saveResultAfterComputingError({
 }
 
 function _saveCertificationResult({
+  // Parameters
   assessment,
   assessmentId,
+  mark,
+  skills,
+  // Repositories
   assessmentRepository,
   assessmentResultRepository,
   certificationCourseRepository,
   competenceMarkRepository,
-  mark,
-  skills,
+  // Services
   skillsService,
 }) {
   const { pixScore, level, status } = _getAssessmentResultEvaluations(mark, assessment.type);
-  const assessmentResult = new AssessmentResult({
-    emitter: 'PIX-ALGO',
-    commentForJury: 'Computed',
-    level: level,
-    pixScore: pixScore,
-    status,
-    assessmentId,
-  });
+  const assessmentResult = AssessmentResult.BuildStandardAssessmentResult(level, pixScore, status, assessmentId);
   assessment.setCompleted();
 
   return Promise.all([
@@ -119,12 +115,15 @@ function _saveCertificationResult({
 }
 
 module.exports = function({
+  // Parameters
   assessmentId,
   forceRecomputeResult = false,
+  // Repositories
   assessmentRepository,
   assessmentResultRepository,
   certificationCourseRepository,
   competenceMarkRepository,
+  // Services
   assessmentService,
   skillsService,
 }) {
@@ -151,12 +150,12 @@ module.exports = function({
     .then(([skills, mark]) => _saveCertificationResult({
       assessment,
       assessmentId,
+      mark,
+      skills,
       assessmentRepository,
       assessmentResultRepository,
       certificationCourseRepository,
       competenceMarkRepository,
-      mark,
-      skills,
       skillsService,
     }))
     .catch((error) => _saveResultAfterComputingError({
@@ -168,4 +167,3 @@ module.exports = function({
       error,
     }));
 };
-
