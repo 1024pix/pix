@@ -33,8 +33,8 @@ function main() {
 
   const baseUrl = process.argv[2];
   const authToken = process.argv[3];
-  const min = parseInt(process.argv[4]);
-  const max = parseInt(process.argv[5]);
+  const min = parseInt(process.argv[4], 10);
+  const max = parseInt(process.argv[5], 10);
 
   const listCertif = [];
   for (let i = min; i <= max; i++) {
@@ -46,7 +46,8 @@ function main() {
 
   requests
     .then((result) => console.log(result))
-    .catch((err) => console.log(err));
+    .catch((err) => console.error(err));
+  process.exit();
 }
 
 main();
