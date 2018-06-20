@@ -9,6 +9,7 @@ const moment = require('moment');
 
 const AnswerStatus = require('../models/AnswerStatus');
 const CertificationCourse = require('../../domain/models/CertificationCourse');
+const CertificationContract = require('../../domain/models/CertificationContract');
 
 const {
   CertificationComputeError,
@@ -51,13 +52,10 @@ function _isQROCMdepPartially(challenge, answer) {
 function _numberOfCorrectAnswersPerCompetence(answersWithCompetences, competence, certificationChallenges) {
   const answerForCompetence = _.filter(answersWithCompetences, answer => answer.competenceId === competence.id);
   const challengesForCompetence = _.filter(certificationChallenges, challenge => challenge.competenceId === competence.id);
-  if (challengesForCompetence.length < 2) {
-    throw new CertificationComputeError('Pas assez de challenges posés pour la compétence ' + competence.index);
-  }
 
-  if (answerForCompetence.length < 2) {
-    throw new CertificationComputeError('Pas assez de réponses pour la compétence ' + competence.index);
-  }
+  CertificationContract.assertThatWeAskAtLeastTwoChallengesByCompetence(challengesForCompetence, competence.index);
+
+  CertificationContract.assertThatWeHaveAtLeastTwoAnswersByCompetence(answerForCompetence, competence.index);
 
   let nbOfCorrectAnswers = 0;
   answerForCompetence.forEach(answer => {
@@ -148,9 +146,8 @@ function _checkIfUserCanStartACertification(userCompetences) {
 
 function _getResult(listAnswers, certificationChallenges, testedCompetences) {
 
-  if (listAnswers.length < certificationChallenges.length) {
-    throw new CertificationComputeError('L’utilisateur n’a pas répondu à toutes les questions');
-  }
+  CertificationContract.assertThatWeHaveEnoughAnswers(listAnswers, certificationChallenges);
+
   const reproductibilityRate = Math.round(answerServices.getAnswersSuccessRate(listAnswers));
   if (reproductibilityRate < MINIMUM_REPRODUCTIBILITY_RATE_TO_BE_CERTIFIED) {
     return {
@@ -164,9 +161,7 @@ function _getResult(listAnswers, certificationChallenges, testedCompetences) {
   const competencesWithMark = _getCompetencesWithCertifiedLevelAndScore(answersWithCompetences, testedCompetences, reproductibilityRate, certificationChallenges);
   const scoreAfterRating = _getSumScoreFromCertifiedCompetences(competencesWithMark);
 
-  if (scoreAfterRating < 1 && reproductibilityRate > 50) {
-    throw new CertificationComputeError('Rejeté avec un taux de reproductibilité supérieur à 50');
-  }
+  CertificationContract.assertThatScoreIsPositifWhenRepoductibilityRateIsMoreThan50(scoreAfterRating,reproductibilityRate);
 
   return { competencesWithMark, totalScore: scoreAfterRating, percentageCorrectAnswers: reproductibilityRate };
 }
