@@ -11,6 +11,7 @@ const { AlreadyRatedAssessmentError,
 const CERTIFICATION_MAX_LEVEL = 5;
 const CERTIFICATION_VALIDATED = 'validated';
 const CERTIFICATION_REJECTED = 'rejected';
+const NOT_VALIDATED_CERTIF_LEVEL = -1;
 
 function _getAssessmentResultEvaluations(marks, assessmentType) {
   const pixScore = _.sumBy(marks, 'score');
@@ -18,7 +19,7 @@ function _getAssessmentResultEvaluations(marks, assessmentType) {
 
   if (pixScore === 0 && assessmentType === Assessment.types.CERTIFICATION) {
     const status = CERTIFICATION_REJECTED;
-    level = -1;
+    level = NOT_VALIDATED_CERTIF_LEVEL;
     return { pixScore, level, status };
   } else {
     const status = CERTIFICATION_VALIDATED;
@@ -105,7 +106,7 @@ function _saveCertificationResult({
       const assessmentResultId = assessmentResult.id;
 
       const saveMarksPromises = marks
-        .map((mark) =>_setAssessmentResultIdOnMark(mark, assessmentResultId))
+        .map((mark) => _setAssessmentResultIdOnMark(mark, assessmentResultId))
         .map((mark) => _limitMarkLevel(mark, assessment))
         .map(competenceMarkRepository.save);
 

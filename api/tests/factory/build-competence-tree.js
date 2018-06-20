@@ -8,6 +8,9 @@ module.exports = function buildCompetenceTree({
   areas = [
     buildArea({
       id: 'recvoGdo7z2z7pXWa',
+      code: '1',
+      title: 'Information et données',
+      name: '1. Information et données',
       competences: [
         buildCompetence({
           name: 'Mener une recherche et une veille d’information',
