@@ -161,7 +161,7 @@ function _getResult(listAnswers, certificationChallenges, testedCompetences) {
   const competencesWithMark = _getCompetencesWithCertifiedLevelAndScore(answersWithCompetences, testedCompetences, reproductibilityRate, certificationChallenges);
   const scoreAfterRating = _getSumScoreFromCertifiedCompetences(competencesWithMark);
 
-  œ.assertThatScoreIsCoherentWithReproductibilityRate(scoreAfterRating,reproductibilityRate);
+  CertificationContract.assertThatScoreIsCoherentWithReproductibilityRate(scoreAfterRating,reproductibilityRate);
 
   return { competencesWithMark, totalScore: scoreAfterRating, percentageCorrectAnswers: reproductibilityRate };
 }
