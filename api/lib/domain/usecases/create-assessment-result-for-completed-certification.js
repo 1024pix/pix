@@ -11,7 +11,6 @@ const { AlreadyRatedAssessmentError,
 const CERTIFICATION_MAX_LEVEL = 5;
 const CERTIFICATION_VALIDATED = 'validated';
 const CERTIFICATION_REJECTED = 'rejected';
-const CERTIFICATION_ERROR = 'error';
 
 function _getAssessmentResultEvaluations(marks, assessmentType) {
   const pixScore = _.sumBy(marks, 'score');
@@ -39,14 +38,7 @@ function _saveResultAfterComputingError({
     return Promise.reject(error);
   }
 
-  const assessmentResult = new AssessmentResult({
-    emitter: 'PIX-ALGO',
-    commentForJury: error.message,
-    level: 0,
-    pixScore: 0,
-    status: CERTIFICATION_ERROR,
-    assessmentId,
-  });
+  const assessmentResult = AssessmentResult.BuildAlgoErrorResult(error, assessmentId);
   assessment.setCompleted();
 
   return Promise.all([
@@ -61,6 +53,24 @@ function _saveResultAfterComputingError({
         );
       }
     });
+}
+
+
+function _setAssessmentResultIdOnMark(mark, assessmentResultId){
+  mark.assessmentResultId = assessmentResultId;
+  return mark;
+}
+
+function _limitMarkLevel(mark, assessment){
+  /*
+   * XXX une certification ne peut pas avoir une compétence en base au dessus de niveau 5;
+   * par contre le reste de l'algorithme peut avoir des niveaux au dessus, et l'on ne plafonnera pas pour les
+   * autres Assessments (par exemple Placements).
+   */
+  if (assessment.type === Assessment.types.CERTIFICATION) {
+    mark.level = Math.min(mark.level, CERTIFICATION_MAX_LEVEL);
+  }
+  return mark;
 }
 
 function _saveCertificationResult({
@@ -95,21 +105,8 @@ function _saveCertificationResult({
       const assessmentResultId = assessmentResult.id;
 
       const saveMarksPromises = marks
-        .map((mark) => {
-          mark.assessmentResultId = assessmentResultId;
-          return mark;
-        })
-        .map((mark) => {
-          /*
-           * XXX une certification ne peut pas avoir une compétence en base au dessus de niveau 5;
-           * par contre le reste de l'algorithme peut avoir des niveaux au dessus, et l'on ne plafonnera pas pour les
-           * autres Assessments (par exemple Placements).
-           */
-          if (assessment.type === Assessment.types.CERTIFICATION) {
-            mark.level = Math.min(mark.level, CERTIFICATION_MAX_LEVEL);
-          }
-          return mark;
-        })
+        .map((mark) =>_setAssessmentResultIdOnMark(mark, assessmentResultId))
+        .map((mark) => _limitMarkLevel(mark, assessment))
         .map(competenceMarkRepository.save);
 
       return Promise.all(saveMarksPromises);
