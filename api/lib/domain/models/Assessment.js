@@ -167,6 +167,10 @@ class Assessment {
       .reduce((a, b) => a + b, 0);
   }
 
+  isCertifiable() {
+    return this.getLastAssessmentResult().level >= 1
+  }
+
 }
 
 Assessment.states = states;
