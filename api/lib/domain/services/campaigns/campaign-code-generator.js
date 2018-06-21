@@ -1,6 +1,6 @@
 const randomString = require('randomstring');
 
-function generate({ campaignRepository }) {
+function generate(campaignRepository) {
   const letters = randomString.generate({ length: 6, charset: 'alphabetic', capitalization: 'uppercase' });
   const numbers = randomString.generate({ length: 3, charset: 'numeric' });
 
@@ -11,7 +11,7 @@ function generate({ campaignRepository }) {
       if (isCodeAvailable) {
         return Promise.resolve(generatedCampaignCode);
       }
-      return generate({ campaignRepository });
+      return generate(campaignRepository);
     });
 }
 
