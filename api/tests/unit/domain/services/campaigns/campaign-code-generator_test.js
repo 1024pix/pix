@@ -20,7 +20,7 @@ describe('Unit | Domain | Services | campaign code generator', function() {
 
     it('should create a code with a length of 9 characters', () => {
       // when
-      const promise = campaignCodeGenerator.generate({ campaignRepository });
+      const promise = campaignCodeGenerator.generate(campaignRepository);
 
       // then
       return promise.then((code) => {
@@ -30,7 +30,7 @@ describe('Unit | Domain | Services | campaign code generator', function() {
 
     it('should create a code beginning with 6 letters', () => {
       // when
-      const promise = campaignCodeGenerator.generate({ campaignRepository });
+      const promise = campaignCodeGenerator.generate(campaignRepository);
 
       // then
       return promise.then((code) => {
@@ -41,7 +41,7 @@ describe('Unit | Domain | Services | campaign code generator', function() {
 
     it('should create a code finishing with 3 numbers', () => {
       // when
-      const promise = campaignCodeGenerator.generate({ campaignRepository });
+      const promise = campaignCodeGenerator.generate(campaignRepository);
 
       // then
       return promise.then((code) => {
@@ -56,11 +56,11 @@ describe('Unit | Domain | Services | campaign code generator', function() {
       campaignRepository.isCodeAvailable.onCall(1).resolves(true);
 
       // when
-      const promise = campaignCodeGenerator.generate({ campaignRepository });
+      const promise = campaignCodeGenerator.generate(campaignRepository);
 
       // then
       return promise.then((generatedCode) => {
-        sinon.assert.called(campaignRepository.isCodeAvailable);
+        expect(campaignRepository.isCodeAvailable).to.have.been.called;
 
         const existingCampaignCode = campaignRepository.isCodeAvailable.callsArg(0);
         expect(generatedCode).to.not.equal(existingCampaignCode);
