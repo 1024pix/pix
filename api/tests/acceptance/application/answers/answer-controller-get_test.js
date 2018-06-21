@@ -8,16 +8,24 @@ describe('Acceptance | Controller | answer-controller', () => {
     let options;
     let inserted_answer_id;
 
+    const inserted_assessment = {
+      userId: null,
+      courseId: 'rec'
+    };
+
     const inserted_answer = {
       value: '1,2',
       result: 'ok',
       challengeId: 'recLt9uwa2dR3IYpi',
-      assessmentId: '12345'
     };
 
     beforeEach(() => {
-      return knex('answers').insert([inserted_answer])
-        .then((ids) => (inserted_answer_id = ids[0]))
+      return knex('assessments').insert(inserted_assessment,'id')
+        .then(([id]) => {
+          inserted_answer.assessmentId = id;
+          return knex('answers').insert(inserted_answer,'id');
+        })
+        .then(([id]) => inserted_answer_id = id)
         .then(generateValidRequestAuhorizationHeader)
         .then((accessToken) => {
           options = {
@@ -29,7 +37,8 @@ describe('Acceptance | Controller | answer-controller', () => {
     });
 
     afterEach(() => {
-      return knex('answers').delete();
+      return knex('answers').delete()
+        .then(() => knex('assessments').delete());
     });
 
     it('should return 200 HTTP status code', () => {
