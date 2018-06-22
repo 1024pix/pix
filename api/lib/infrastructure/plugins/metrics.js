@@ -18,6 +18,9 @@ const metrics = {
 
 const Metrics = {
 
+  name: 'metrics-plugin',
+  version: '1.0.0',
+
   reset() {
     metrics.request.total.reset();
     metrics.request.success.reset();
@@ -55,10 +58,6 @@ const Metrics = {
   },
 
   prometheusClient: client.register,
-};
-
-Metrics.register.attributes = {
-  name: 'metrics-plugin'
 };
 
 module.exports = Metrics;
