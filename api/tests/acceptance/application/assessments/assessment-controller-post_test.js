@@ -2,9 +2,7 @@ const { expect, knex, generateValidRequestAuhorizationHeader } = require('../../
 const server = require('../../../../server');
 const BookshelfAssessment = require('../../../../lib/infrastructure/data/assessment');
 
-const User = require('../../../../lib/infrastructure/data/user');
-
-describe.only('Acceptance | API | Assessments POST', () => {
+describe('Acceptance | API | Assessments POST', () => {
 
   describe('POST /api/assessments', () => {
 
@@ -80,9 +78,11 @@ describe.only('Acceptance | API | Assessments POST', () => {
 
       it('should save user_id in the database', () => {
         // given
-        const user = new User({ id: 1234 });
+        const userId = 2;
+        options.payload.data.relationships.user.id = userId;
 
-        // when
+
+      // when
         const promise = server.inject(options);
 
         // then
@@ -90,7 +90,7 @@ describe.only('Acceptance | API | Assessments POST', () => {
           return new BookshelfAssessment({ id: response.result.data.id }).fetch();
         })
           .then(model => {
-            expect(model.get('userId')).to.equal(user.id);
+            expect(model.get('userId')).to.equal(userId);
           });
       });
 
