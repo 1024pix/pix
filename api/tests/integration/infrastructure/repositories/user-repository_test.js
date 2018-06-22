@@ -357,7 +357,7 @@ describe('Integration | Infrastructure | Repository | UserRepository', () => {
       });
     });
 
-    it('should return a NotFoundError if no user is found', () => {
+    it('should return a UserNotFoundError if no user is found', () => {
       // given
       const nonExistentUserId = 678;
 
@@ -365,7 +365,7 @@ describe('Integration | Infrastructure | Repository | UserRepository', () => {
       const promise = userRepository.get(nonExistentUserId);
 
       // then
-      return expect(promise).to.be.rejectedWith(NotFoundError);
+      return expect(promise).to.be.rejectedWith(UserNotFoundError);
     });
   });
 
