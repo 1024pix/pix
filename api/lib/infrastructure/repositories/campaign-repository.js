@@ -13,6 +13,12 @@ module.exports = {
 
         return Promise.resolve(true);
       });
+  },
+
+  save(campaignToSave) {
+    return new Campaign(campaignToSave)
+      .save()
+      .then(bookshelfCampaign => bookshelfCampaign.toDomainEntity());
   }
 
 };
