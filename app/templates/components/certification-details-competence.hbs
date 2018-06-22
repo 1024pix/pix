@@ -25,15 +25,15 @@
         <div class="col-3">Corrigé :</div>
         <div class="col">
           <div class="progress">
-            <div class="progress-bar jury" role="progressbar" aria-valuenow="{{ juryLevel }}" aria-valuemin="0" aria-valuemax="8" style = {{competence.juryWidth}}>{{ competence.juryLevel }}</div>
+            <div class="progress-bar jury" role="progressbar" aria-valuenow="{{ competenceJury.level }}" aria-valuemin="0" aria-valuemax="8" style = {{competenceJury.width}}>{{competenceJury.level}}</div>
           </div>
         </div>
-        <div class="col-2 jury">{{competence.juryScore}} Pix</div>
+        <div class="col-2 jury">{{competenceJury.score}} Pix</div>
       </div>
       {{/if}}
       <div class="card-deck">
       {{#each answers as |answer|}}
-        {{certification-details-answer answer=answer updateCompetence=(action "updateCompetence")}}
+        {{certification-details-answer answer=answer updateRate=(action updateRate)}}
       {{/each}}
       </div>
     </div>
