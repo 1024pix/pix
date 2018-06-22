@@ -10,6 +10,10 @@ module.exports = function(defaults) {
       'importBootstrapCSS': false,
       'importBootstrapTheme': true
     },
+
+    'ember-font-awesome': {
+      'includeFontFiles': false
+    }
   });
 
   // Use `app.import` to add additional libraries to the generated

@@ -24,10 +24,6 @@ module.exports = function(environment) {
 
     apiHost: 'http://localhost:3000/api',
 
-    fastboot: {
-      hostWhitelist: [/^localhost:\d+$/]
-    },
-
     googleFonts: [
       'Raleway',
       'Open+Sans',
@@ -42,9 +38,9 @@ module.exports = function(environment) {
     'ember-cli-notifications': {
       autoClear: true,
       includeFontAwesome: true,
-    }
+    },
 
-  };
+};
 
   if (environment === 'development') {
     // ENV.APP.LOG_RESOLVER = true;
@@ -68,10 +64,7 @@ module.exports = function(environment) {
 
   if (environment === 'production') {
     // here you can enable a production-specific feature
-    ENV.fastboot = {
-      hostWhitelist: ['pix-admin-jury.scalingo.io', 'pix-admin.scalingo.io', 'admin.pix.fr']
-    };
-    ENV.apiHost = 'https://pix.beta.gouv.fr/api';
+    ENV.apiHost = 'https://pix.fr/api';
   }
 
   return ENV;
