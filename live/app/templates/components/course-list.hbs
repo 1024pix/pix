@@ -11,4 +11,27 @@
   {{/if}}
 </ul>
 
-{{modal-mobile}}
+{{#if displayWarningModal}}
+  {{#modal-dialog hasOverlay=true
+                  translucentOverlay=true
+                  }}
+    <div class="modal-content" style="border: none">
+      <div class="modal-header">
+        <h4 class="modal-title">
+          <img class="modal-title__warning-icon" src="/images/icon-mobile-support-warning.svg" alt="Message d'alerte concernant le support des terminaux mobiles"/>
+        </h4>
+      </div>
+      <div class="modal-body">
+        <p>Certaines épreuves PIX peuvent être difficiles à réussir sur mobile. Pour une meilleure expérience, nous vous conseillons de passer ce test sur un ordinateur.</p>
+      </div>
+      <div class="modal-footer">
+        <div class="modal-button-container">
+          <button class="btn btn-primary modal-mobile__confirm-button" {{action "confirmModal"}}>Continuer</button>
+        </div>
+        <div class="modal-button-container">
+          <button class="modal-mobile__dismiss-link" {{action "dismissModal"}}>Revenir à l’accueil</button>
+        </div>
+      </div>
+    </div>
+  {{/modal-dialog}}
+{{/if}}

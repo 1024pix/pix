@@ -11,7 +11,7 @@ describe('Unit | Infrastructure | Datasource | Airtable | ChallengeDatasource', 
   let sandbox;
 
   beforeEach(() => {
-    sandbox = sinon.sandbox.create();
+    sandbox = sinon.createSandbox();
     sandbox.stub(airtable, 'findRecords').resolves([challengeRawAirTableFixture(), challengeRawAirTableFixture()]);
   });
 

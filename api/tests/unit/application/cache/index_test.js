@@ -9,7 +9,7 @@ describe('Unit | Router | cache-router', () => {
   let server;
 
   beforeEach(() => {
-    sandbox = sinon.sandbox.create();
+    sandbox = sinon.createSandbox();
     sandbox.stub(cacheController, 'removeCacheEntry').callsFake((request, reply) => reply().code(204));
     sandbox.stub(cacheController, 'removeAllCacheEntries').callsFake((request, reply) => reply().code(204));
     sandbox.stub(cacheController, 'preloadCacheEntries').callsFake((request, reply) => reply().code(204));

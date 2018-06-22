@@ -41,7 +41,7 @@ describe('Acceptance | d1 - Valider une épreuve |', function() {
 
   it('d1.0b La barre de progression commence à 1, si j\'accède directement à un course', async function() {
     // When
-    await visit('/courses/ref_course_id');
+    await visit('/courses/rec_course_id');
 
     // Then
     const $progressBar = findWithAssert(PROGRESS_BAR_SELECTOR);

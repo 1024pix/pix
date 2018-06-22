@@ -118,7 +118,7 @@ function _insertSnapshot(organizationId, userId) {
 function _createToken(user) {
   return jwt.sign({
     user_id: user,
-  }, settings.authentication.secret, { expiresIn: settings.authentication.tokenLifespan });
+  }, settings.authentication.secret, { expiresIn: settings.authentication.expiresIn });
 }
 
 describe('Acceptance | Application | Controller | organization-controller', () => {

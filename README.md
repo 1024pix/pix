@@ -1,4 +1,4 @@
-[![CircleCI](https://circleci.com/gh/1024pix/pix/tree/dev.svg?style=shield&circle-token=:circle-token)](https://circleci.com/gh/1024pix/pix) PIX
+[![CircleCI](https://circleci.com/gh/1024pix/pix/tree/dev.svg?style=shield&circle-token=:circle-token)](https://circleci.com/gh/1024pix/pix) [![Greenkeeper badge](https://badges.greenkeeper.io/1024pix/pix.svg)](https://greenkeeper.io/) PIX
 ===
 
 Présentation

@@ -134,7 +134,7 @@ describe('Unit | Domain | Services | assessment-results', () => {
       course.name = 'Mener une recherche';
       course.competences = [competenceId];
 
-      sandbox = sinon.sandbox.create();
+      sandbox = sinon.createSandbox();
 
       sandbox.stub(assessmentService, 'getSkills').resolves(evaluatedSkills);
       sandbox.stub(assessmentService, 'getCompetenceMarks').resolves(competenceMarksForPlacement);
@@ -579,7 +579,7 @@ describe('Unit | Domain | Services | assessment-results', () => {
       }),
     ];
 
-    const sandbox = sinon.sandbox.create();
+    const sandbox = sinon.createSandbox();
 
     beforeEach(() => {
       sandbox.stub(assessmentResultRepository, 'save').resolves({ id: 1 });

@@ -13,6 +13,9 @@
 /* 3rd-party */
 @import 'vendor/ember-routable-modal/core';
 @import 'vendor/ember-routable-modal/dialog';
+@import "ember-modal-dialog/ember-modal-structure";
+@import "ember-modal-dialog/ember-modal-appearance";
+@import "ember-side-menu";
 /* components */
 @import 'components/rounded-panel';
 @import 'components/app-footer';
@@ -78,7 +81,6 @@
 @import "components/navbar-desktop-menu";
 @import "components/_blue-ribbon.scss";
 @import "components/_certification-code-validation";
-@import "ember-side-menu";
 /* pages */
 @import 'pages/index';
 @import 'pages/project';

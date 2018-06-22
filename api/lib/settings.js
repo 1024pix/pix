@@ -38,12 +38,12 @@ module.exports = (function() {
 
     authentication: {
       secret: process.env.AUTH_SECRET,
-      tokenLifespan: (process.env.TOKEN_LIFE_SPAN || '7d')
+      expiresIn: (process.env.TOKEN_LIFE_SPAN || '7d')
     },
 
     temporaryKey: {
       secret: process.env.AUTH_SECRET,
-      tokenLifespan: '1d',
+      expiresIn: '1d',
       payload: 'PixResetPassword'
     },
 
@@ -76,10 +76,12 @@ module.exports = (function() {
 
     config.authentication = {
       secret: 'test-jwt-key',
+      expiresIn: '7d',
     };
 
     config.temporaryKey = {
-      secret: 'test-jwt-key'
+      secret: 'test-jwt-key',
+      expiresIn: '1d',
     };
 
     config.redisUrl = null;

@@ -8,7 +8,7 @@ describe('Unit | Application | Use Case | get-user', () => {
   let userRepository;
 
   beforeEach(() => {
-    sandbox = sinon.sandbox.create();
+    sandbox = sinon.createSandbox();
     userRepository = { get: sandbox.stub() };
   });
 
@@ -45,4 +45,3 @@ describe('Unit | Application | Use Case | get-user', () => {
   });
 
 });
-

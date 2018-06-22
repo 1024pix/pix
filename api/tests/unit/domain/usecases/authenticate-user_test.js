@@ -18,7 +18,7 @@ describe('Unit | Application | Use Case | authenticate-user', () => {
   const userPassword = 'user_password';
 
   beforeEach(() => {
-    sandbox = sinon.sandbox.create();
+    sandbox = sinon.createSandbox();
     userRepository = { findByEmailWithRoles: sandbox.stub() };
     tokenService = { createTokenFromUser: sandbox.stub() };
     sandbox.stub(encryptionService, 'check');
@@ -106,4 +106,3 @@ describe('Unit | Application | Use Case | authenticate-user', () => {
   });
 
 });
-

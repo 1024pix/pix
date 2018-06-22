@@ -9,7 +9,7 @@ describe('Unit | Infrastructure | Datasource | Airtable | SkillDatasource', () =
   let sandbox;
 
   beforeEach(() => {
-    sandbox = sinon.sandbox.create();
+    sandbox = sinon.createSandbox();
   });
 
   afterEach(() => {

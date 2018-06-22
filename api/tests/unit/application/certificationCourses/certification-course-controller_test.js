@@ -18,7 +18,7 @@ describe('Unit | Controller | certification-course-controller', () => {
   let codeStub;
 
   beforeEach(() => {
-    sandbox = sinon.sandbox.create();
+    sandbox = sinon.createSandbox();
   });
 
   afterEach(() => {
@@ -110,7 +110,7 @@ describe('Unit | Controller | certification-course-controller', () => {
     beforeEach(() => {
       replyStub = sinon.stub().returns({ code: codeStub });
 
-      sandbox = sinon.sandbox.create();
+      sandbox = sinon.createSandbox();
       sandbox.stub(certificationService, 'getCertificationResult').resolves({});
     });
 

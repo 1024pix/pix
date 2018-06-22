@@ -66,7 +66,7 @@ describe('Acceptance | Compte | competence profile', function() {
 
     // then
     return andThen(() => {
-      expect(find('.competence-level-progress-bar__link-start:first').attr('href')).to.be.equal('/courses/ref_course_id');
+      expect(find('.competence-level-progress-bar__link-start:first').attr('href')).to.be.equal('/courses/rec_course_id');
     });
   });
 

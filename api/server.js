@@ -7,34 +7,27 @@ const Hapi = require('hapi');
 const routes = require('./lib/routes');
 const plugins = require('./lib/plugins');
 const config = require('./lib/settings');
-const logger = require('./lib/infrastructure/logger');
 const security = require('./lib/infrastructure/security');
 
 const server = new Hapi.Server({
-  connections: {
-    routes: {
-      cors: {
-        origin: ['*'],
-        additionalHeaders:['X-Requested-With']
-      }
-    },
-    router: {
-      isCaseSensitive: false,
-      stripTrailingSlash: true
+  routes: {
+    cors: {
+      origin: ['*'],
+      additionalHeaders:['X-Requested-With']
     }
   },
+  router: {
+    isCaseSensitive: false,
+    stripTrailingSlash: true
+  },
+  port: config.port,
 });
-
-server.connection({ port: config.port });
 
 server.auth.scheme('jwt-access-token', security.scheme);
 server.auth.strategy('default', 'jwt-access-token');
 server.auth.default('default');
 
-const configuration = [].concat(plugins, routes);
-
-server.register(configuration, (err) => {
-  if (err) logger.error(err);
-});
+server.register(plugins);
+routes.forEach(route => route.register(server, config, () => null));
 
 module.exports = server;

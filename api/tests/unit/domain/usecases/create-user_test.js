@@ -25,7 +25,7 @@ describe('Unit | UseCase | create-user', () => {
   let sandbox;
 
   beforeEach(() => {
-    sandbox = sinon.sandbox.create();
+    sandbox = sinon.createSandbox();
     sandbox.stub(userRepository, 'isEmailAvailable');
     sandbox.stub(userRepository, 'create');
     sandbox.stub(userValidator, 'validate');

@@ -29,7 +29,7 @@ describe('Unit | Controller | assessment-controller', function() {
       }];
 
     beforeEach(() => {
-      sandbox = sinon.sandbox.create();
+      sandbox = sinon.createSandbox();
 
       codeStub = sinon.stub();
       replyStub = sinon.stub().returns({ code: codeStub });

@@ -189,7 +189,7 @@ describe('Unit | Service | User Service', () => {
     const assessment3 = Assessment.fromAttributes({ id: 145, status: 'completed', courseId: 'courseId3', assessmentResults: [assessmentResult3] });
 
     beforeEach(() => {
-      sandbox = sinon.sandbox.create();
+      sandbox = sinon.createSandbox();
 
       sandbox.stub(courseRepository, 'getAdaptiveCourses').resolves([
         { competences: ['competenceRecordIdOne'], id: 'courseId1' },
