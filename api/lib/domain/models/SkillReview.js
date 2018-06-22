@@ -3,20 +3,20 @@
  */
 class SkillReview {
 
-  constructor({ assessment, targetProfile } = {}) {
-    this.id = assessment.id;
-    this.assessment = assessment;
-    this.targetProfile = targetProfile;
+  constructor({ id, tragetedSkills, validatedSkills, failedSkills } = {}) {
+    this.id = id;
+    this.tragetedSkills = tragetedSkills;
+    this.validatedSkills = validatedSkills;
+    this.failedSkills = failedSkills;
   }
 
-  get profileMastery() {
-    const numberOfTargetedSkills = this.targetProfile.skills.length;
-    const numberOfValidatedSkills = this.assessment.getValidatedSkills().length;
+  get profileMasteryRate() {
+    const numberOfTargetedSkills = this.tragetedSkills.length;
+    const numberOfValidatedSkills = this.validatedSkills.length;
     const targetProfileHasSkills = numberOfTargetedSkills !== 0;
 
     return targetProfileHasSkills ? (numberOfValidatedSkills / numberOfTargetedSkills) : 0;
   }
-
 }
 
 module.exports = SkillReview;

@@ -3,92 +3,53 @@ const { expect, factory } = require('../../../test-helper');
 
 describe('Unit | Domain | Models | SkillReview', () => {
 
-  const skillWeb1 = factory.buildSkill({ name: '@web1' });
-  const skillWeb2 = factory.buildSkill({ name: '@web2' });
-  const skills = [skillWeb1, skillWeb2];
+  const [skillLevel1, skillLevel2, skillLevel3] = factory.buildSkillCollection();
 
-  const challengeForWeb1 = factory.buildChallenge({ skills: [skillWeb1] });
-  const challengeForWeb2 = factory.buildChallenge({ skills: [skillWeb2] });
-  const challenges = [challengeForWeb1, challengeForWeb2];
+  describe('#profileMasteryRate', () => {
 
-  const course = factory.buildCourse({ challenges });
-  course.computeTubes(skills);
-
-  describe('SkillReview', () => {
-
-    it('should be built from an Assessment and a TargetProfile', () => {
-      // Given
-      const assessment = factory.buildAssessment({ course });
-      const targetProfile = factory.buildTargetProfile({ skills });
-
-      // When
-      const skillReview = new SkillReview({ assessment, targetProfile });
-
-      // Then
-      expect(skillReview).to.have.property('assessment', assessment);
-      expect(skillReview).to.have.property('targetProfile', targetProfile);
-    });
-
-    it('should have an id built from its assessment', () => {
-      // Given
-      const assessment = factory.buildAssessment({ course });
-      const targetProfile = factory.buildTargetProfile({ skills });
-      const expectedId = assessment.id;
-
-      // When
-      const skillReview = new SkillReview({ assessment, targetProfile });
-
-      // Then
-      expect(skillReview).to.have.property('id', expectedId);
-    });
-
-  });
-
-  describe('#profileMastery', () => {
-
-    context('when no answer given yet', () => {
-      it('should returns the profileMastery of 0 ', () => {
+    context('when no skill are validated nor failed', () => {
+      it('should returns the profileMasteryRate of 0 ', () => {
         // Given
-        const assessment = factory.buildAssessment({ course });
-        const targetProfile = factory.buildTargetProfile({ skills });
+        const tragetedSkills = [skillLevel1, skillLevel2, skillLevel3];
+        const validatedSkills = [];
+        const failedSkills = [];
 
         // When
-        const skillReview = new SkillReview({ assessment, targetProfile });
+        const skillReview = new SkillReview({ tragetedSkills, validatedSkills, failedSkills });
 
         // Then
-        expect(skillReview.profileMastery).to.eq(0);
+        expect(skillReview.profileMasteryRate).to.eq(0);
       });
     });
 
     context('with an answer given', () => {
       it('should returns the progression rate of the targetProfile ', () => {
         // Given
-        const answers = [ factory.buildAnswer({ challengeId: challengeForWeb1.id }) ];
-        const assessment = factory.buildAssessment({ answers: [], course });
-        assessment.addAnswersWithTheirChallenge(answers, challenges);
-        const targetProfile = factory.buildTargetProfile({ skills });
+        const tragetedSkills = [skillLevel1, skillLevel2];
+        const validatedSkills = [skillLevel1];
+        const failedSkills = [];
 
         // When
-        const skillReview = new SkillReview({ assessment, targetProfile });
+        const skillReview = new SkillReview({ tragetedSkills, validatedSkills, failedSkills });
 
         // Then
-        expect(skillReview.profileMastery).to.eq(0.5);
+        expect(skillReview.profileMasteryRate).to.eq(0.5);
       });
     });
 
     context('with the skillProfile contains no skill', () => {
       it('should returns a progression rate of 0', () => {
         // Given
-        const assessment = factory.buildAssessment({ course, challenges });
-        const targetProfile = factory.buildTargetProfile();
+        const tragetedSkills = [];
+        const validatedSkills = [skillLevel1];
+        const failedSkills = [];
 
         // When
-        const skillReview = new SkillReview({ assessment, targetProfile });
+        const skillReview = new SkillReview({ tragetedSkills, validatedSkills, failedSkills });
 
         // Then
-        expect(skillReview.profileMastery).to.eq(0);
+        expect(skillReview.profileMasteryRate).to.eq(0);
       });
     });
-
   });
 });
