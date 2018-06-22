@@ -19,35 +19,14 @@ export default Component.extend({
     const competence = this.get('competence');
     return competence.answers;
   }),
-  actions: {
-    updateCompetence() {
-      this.set('competenceJury', this.updateScore());
-      this.get('updateDetails')();
-    }
-  },
-  updateScore: function() {
-    const juryRate = this.get('juryRate');
-    const rate = this.get('rate');
-    const competence = this.get('competence');
-    const score = competence.obtainedScore;
-    let newScore = this.computeScore((juryRate!==false)?juryRate:rate);
-    if (newScore.score != score) {
-      this.set('competence.juryScore', newScore.score);
-      this.set('competence.juryLevel', newScore.level);
-      this.set('competence.juryWidth', htmlSafe('width:'+Math.round((newScore.level / 8)*100)+'%'));
-      return true;
-    } else {
-      this.set('competence.juryScore', false);
-      return false;
-    }
-  },
   computeScore: function(rate) {
     if (rate < 50) {
       return {score:0, level:0};
     }
-    const score = this.get('competence').positionedScore;
-    const level = this.get('competence').positionedLevel;
-    const answers = this.get('competence').answers;
+    let competence = this.get('competence');
+    const score = competence.positionedScore;
+    const level = competence.positionedLevel;
+    const answers = competence.answers;
     let answersData = answers.reduce((data, answer) => {
       let value = answer.jury ? answer.jury:answer.result;
       if (value === 'ok') {
@@ -95,17 +74,24 @@ export default Component.extend({
         return {score:0, level:0};
     }
   },
-  competenceJury:computed('juryRate', {
-    get() {
-      const juryRate = this.get('juryRate');
-      if (juryRate !== false )  {
-        return this.updateScore();
-      } else {
-        return false;
-      }
-    },
-    set(key, value) {
-      return value;
+  competenceJury:computed('juryRate', function() {
+    const juryRate = this.get('juryRate');
+    if (juryRate === false )  {
+      return false;
     }
-  }),
+    const competence = this.get('competence');
+    const score = competence.obtainedScore;
+    let newScore = this.computeScore(juryRate);
+    if (newScore.score != score) {
+      competence.juryScore = newScore.score;
+      return ({
+        score:newScore.score,
+        level:newScore.level,
+        width:htmlSafe('width:'+Math.round((newScore.level / 8)*100)+'%')
+      });
+    } else {
+      competence.juryScore = false;
+      return false;
+    }
+  })
 });

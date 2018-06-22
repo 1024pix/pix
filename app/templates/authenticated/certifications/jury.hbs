@@ -53,7 +53,7 @@
     </div>
     <div class='col'>
       {{#each details.competences as |competence|}}
-        {{certification-details-competence competence=competence rate=rate juryRate=juryRate updateDetails=(action 'updateDetails') }}
+        {{certification-details-competence competence=competence rate=rate juryRate=juryRate updateRate=(action "updateRate") }}
       {{/each}}
     </div>
   </div>

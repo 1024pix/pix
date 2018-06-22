@@ -1,6 +1,7 @@
 import Controller from '@ember/controller';
 import { computed, observer } from '@ember/object';
 import { alias } from '@ember/object/computed';
+import { schedule } from '@ember/runloop';
 
 export default Controller.extend({
   juryRate: false,
@@ -29,9 +30,8 @@ export default Controller.extend({
     loadCertificationDetails() {
       this.set('certificationId', this.get('requestedId'));
     },
-    updateDetails() {
+    updateRate() {
       const competences = this.get('details.competences');
-      const score = this.get('score');
       let jury = false;
       let answersData = competences.reduce((data, competence) => {
         competence.answers.forEach((answer) => {
@@ -52,20 +52,24 @@ export default Controller.extend({
         });
         return data;
       }, {count:0, good:0});
-      let newScore = competences.reduce((value,competence) => {
-        value += (competence.juryScore && competence.juryScore !== false)?competence.juryScore:competence.obtainedScore;
-        return value;
-      }, 0);
-      if (newScore !== score) {
-        this.set('juryScore', newScore);
+      if (jury) {
+        this.set("juryRate", Math.round(answersData.good*10000/answersData.count)/100);
       } else {
-        this.set('juryScore', false);
+        this.set("juryRate", false);
       }
-      if (!jury) {
-        this.set('juryRate', false);
-      } else {
-        this.set('juryRate', Math.round(answersData.good*10000/answersData.count)/100);
-      }
+      schedule('afterRender', this, () => {
+        const score = this.get('score');
+        const competences = this.get('details.competences');
+        let newScore = competences.reduce((value,competence) => {
+          value += (typeof competence.juryScore !== "undefined" && competence.juryScore !== false)?competence.juryScore:competence.obtainedScore;
+          return value;
+        }, 0);
+        if (newScore !== score) {
+          this.set('juryScore', newScore);
+        } else {
+          this.set('juryScore', false);
+        }
+      });
     }
   }
 });
