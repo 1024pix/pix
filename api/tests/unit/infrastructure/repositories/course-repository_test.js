@@ -27,7 +27,7 @@ const course2 = new AirtableRecord('Tests', 'recTest2', {
   }
 });
 
-const sandbox = sinon.sandbox.create();
+const sandbox = sinon.createSandbox();
 
 afterEach(() => {
   sandbox.restore();

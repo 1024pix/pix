@@ -18,7 +18,7 @@ describe('Unit | Controller | corrections-controller', () => {
   let sandbox;
 
   beforeEach(() => {
-    sandbox = sinon.sandbox.create();
+    sandbox = sinon.createSandbox();
     codeStub = sinon.stub();
     replyStub = sinon.stub().returns({
       code: codeStub

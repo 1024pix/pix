@@ -124,7 +124,7 @@ describe('Unit | Service | OrganizationService', () => {
     const userId = 1234;
 
     beforeEach(() => {
-      sandbox = sinon.sandbox.create();
+      sandbox = sinon.createSandbox();
       sandbox.stub(userRepository, 'hasRolePixMaster');
       sandbox.stub(organisationRepository, 'findBy');
     });

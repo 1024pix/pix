@@ -18,7 +18,7 @@ describe('Unit | Pre-handler | Assessment Authorization', () => {
     };
 
     beforeEach(() => {
-      sandbox = sinon.sandbox.create();
+      sandbox = sinon.createSandbox();
       sandbox.stub(tokenService, 'extractTokenFromAuthChain');
       sandbox.stub(tokenService, 'extractUserId');
       sandbox.stub(assessmentRepository, 'getByUserIdAndAssessmentId');

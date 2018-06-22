@@ -13,7 +13,7 @@ describe('Unit | UseCase | getCorrectionForAnswerWhenAssessmentEnded', () => {
   let sandbox;
 
   beforeEach(() => {
-    sandbox = sinon.sandbox.create();
+    sandbox = sinon.createSandbox();
     sandbox.stub(assessmentRepository, 'get');
     sandbox.stub(answerRepository, 'get');
     sandbox.stub(correctionRepository, 'getByChallengeId');
@@ -113,4 +113,3 @@ describe('Unit | UseCase | getCorrectionForAnswerWhenAssessmentEnded', () => {
     });
   });
 });
-

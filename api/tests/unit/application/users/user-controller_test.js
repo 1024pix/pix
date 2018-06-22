@@ -40,7 +40,7 @@ describe('Unit | Controller | user-controller', () => {
     const savedUser = new User({ email });
 
     beforeEach(() => {
-      sandbox = sinon.sandbox.create();
+      sandbox = sinon.createSandbox();
 
       boomBadRequestMock = sinon.mock(Boom);
 
@@ -268,7 +268,7 @@ describe('Unit | Controller | user-controller', () => {
       let codeStub;
 
       beforeEach(() => {
-        sandbox = sinon.sandbox.create();
+        sandbox = sinon.createSandbox();
         sandbox.stub(passwordResetService, 'hasUserAPasswordResetDemandInProgress');
         sandbox.stub(passwordResetService, 'invalidOldResetPasswordDemand');
         sandbox.stub(validationErrorSerializer, 'serialize');
@@ -427,7 +427,7 @@ describe('Unit | Controller | user-controller', () => {
 
     beforeEach(() => {
       replyStub = sinon.stub();
-      sandbox = sinon.sandbox.create();
+      sandbox = sinon.createSandbox();
 
       sandbox.stub(userService, 'isUserExistingById').resolves(true);
       sandbox.stub(userService, 'getProfileToCertify').resolves([]);
@@ -536,7 +536,7 @@ describe('Unit | Controller | user-controller', () => {
         }
       };
 
-      sandbox = sinon.sandbox.create();
+      sandbox = sinon.createSandbox();
       codeStub = sandbox.stub();
       replyStub = sandbox.stub().returns({ code: codeStub });
       sandbox.stub(usecases, 'getUser').resolves();

@@ -23,7 +23,7 @@ describe('Unit | Controller | assessment-controller', () => {
     beforeEach(() => {
       request = { params: { id: ASSESSMENT_ID } };
 
-      sandbox = sinon.sandbox.create();
+      sandbox = sinon.createSandbox();
 
       sandbox.stub(assessmentService, 'fetchAssessment').resolves();
       sandbox.stub(assessmentSerializer, 'serialize');

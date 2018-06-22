@@ -18,7 +18,7 @@ const skillDatasource = require('../../../../lib/infrastructure/datasources/airt
 
 describe('Unit | Repository | challenge-repository', () => {
 
-  const sandbox = sinon.sandbox.create();
+  const sandbox = sinon.createSandbox();
 
   const challenge1 = new AirtableRecord('Epreuves', 'recChallenge1', {
     fields: {

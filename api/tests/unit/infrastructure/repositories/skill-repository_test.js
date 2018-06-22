@@ -65,7 +65,7 @@ describe('Unit | Repository | skill-repository', function() {
     let invokeStub;
 
     beforeEach(() => {
-      sandbox = sinon.sandbox.create();
+      sandbox = sinon.createSandbox();
       invokeStub = sandbox.stub().resolves();
       forgeStub = sandbox.stub().returns({
         invokeThen: invokeStub

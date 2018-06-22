@@ -41,7 +41,7 @@ describe('Unit | Controller | PasswordController', () => {
       let sandbox;
 
       beforeEach(() => {
-        sandbox = sinon.sandbox.create();
+        sandbox = sinon.createSandbox();
 
         sandbox.stub(userService, 'isUserExistingByEmail');
         sandbox.stub(mailService, 'sendResetPasswordDemandEmail');
@@ -282,7 +282,7 @@ describe('Unit | Controller | PasswordController', () => {
     };
 
     beforeEach(() => {
-      sandbox = sinon.sandbox.create();
+      sandbox = sinon.createSandbox();
       sandbox.stub(resetPasswordService, 'verifyDemand');
       sandbox.stub(tokenService, 'verifyValidity').resolves({});
       sandbox.stub(errorSerializer, 'serialize');

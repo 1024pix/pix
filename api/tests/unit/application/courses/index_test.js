@@ -9,7 +9,7 @@ describe('Integration | Router | course-router', () => {
   let server;
 
   beforeEach(() => {
-    sandbox = sinon.sandbox.create();
+    sandbox = sinon.createSandbox();
     sandbox.stub(securityController, 'checkUserHasRolePixMaster').callsFake((request, reply) => reply(true));
     sandbox.stub(courseController, 'list').callsFake((request, reply) => reply('ok'));
     sandbox.stub(courseController, 'get').callsFake((request, reply) => reply('ok'));

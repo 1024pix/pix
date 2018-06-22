@@ -105,7 +105,7 @@ describe('Unit | Controller | feedback-controller', function() {
 
     beforeEach(() => {
       reply = sinon.stub().returns(true);
-      sandbox = sinon.sandbox.create();
+      sandbox = sinon.createSandbox();
       sandbox.stub(feedbackRepository, 'find');
       sandbox.stub(feedbackSerializer, 'serialize');
     });

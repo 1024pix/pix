@@ -63,7 +63,7 @@ describe('Unit | Controller | snapshot-controller', () => {
       });
 
       beforeEach(() => {
-        sandbox = sinon.sandbox.create();
+        sandbox = sinon.createSandbox();
         sandbox.stub(authorizationToken, 'verify');
         sandbox.stub(userRepository, 'findUserById');
         sandbox.stub(snapshotSerializer, 'deserialize');

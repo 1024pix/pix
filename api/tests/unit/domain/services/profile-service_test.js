@@ -89,7 +89,7 @@ describe('Unit | Service | Profil User Service', function() {
 
       beforeEach(() => {
 
-        sandbox = sinon.sandbox.create();
+        sandbox = sinon.createSandbox();
 
         sandbox.stub(userRepository, 'findUserById').resolves(fakeUserRecord);
         sandbox.stub(competenceRepository, 'list').resolves(fakeCompetenceRecords);

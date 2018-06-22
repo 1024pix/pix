@@ -57,7 +57,7 @@ describe('Unit | Controller | assessment-controller-get-next-challenge', () => {
         skills: assessmentSkills
       };
 
-      sandbox = sinon.sandbox.create();
+      sandbox = sinon.createSandbox();
 
       sandbox.stub(assessmentService, 'fetchAssessment').resolves(scoredAsssessment);
       sandbox.stub(skillService, 'saveAssessmentSkills').resolves();
@@ -261,4 +261,3 @@ function _generateFailedSkills() {
 
   return skill;
 }
-

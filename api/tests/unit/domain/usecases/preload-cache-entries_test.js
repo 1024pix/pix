@@ -8,7 +8,7 @@ describe('Unit | UseCase | preload-cache-entries', () => {
   let sandbox;
 
   beforeEach(() => {
-    sandbox = sinon.sandbox.create();
+    sandbox = sinon.createSandbox();
     sandbox.stub(preloader, 'loadAreas').resolves();
     sandbox.stub(preloader, 'loadChallenges').resolves();
     sandbox.stub(preloader, 'loadCompetences').resolves();
@@ -46,4 +46,3 @@ describe('Unit | UseCase | preload-cache-entries', () => {
     });
   });
 });
-

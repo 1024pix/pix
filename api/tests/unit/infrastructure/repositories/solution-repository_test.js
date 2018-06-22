@@ -9,7 +9,7 @@ describe('Unit | Repository | solution-repository', function() {
   let sandbox;
 
   beforeEach(function() {
-    sandbox = sinon.sandbox.create();
+    sandbox = sinon.createSandbox();
     sandbox.stub(challengeDatasource, 'get');
   });
 

@@ -134,7 +134,7 @@ describe('Unit | Repository | assessmentRepository', () => {
     const userId = 2;
 
     beforeEach(() => {
-      sandbox = sinon.sandbox.create();
+      sandbox = sinon.createSandbox();
       orderByStub = sandbox.stub();
       andWhere = sandbox.stub().returns({
         orderBy: orderByStub,

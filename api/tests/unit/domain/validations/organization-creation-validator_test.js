@@ -28,7 +28,7 @@ describe('Unit | Domain | Validators | organization-creation-validator', functio
       email: user.email,
     });
 
-    sandbox = sinon.sandbox.create();
+    sandbox = sinon.createSandbox();
     sandbox.stub(userValidator, 'validate');
     sandbox.stub(organizationValidator, 'validate');
     sandbox.stub(userRepository, 'isEmailAvailable');

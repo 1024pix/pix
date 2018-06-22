@@ -74,7 +74,7 @@ describe('Unit | Domain | Services | assessment', () => {
       _buildChallenge('challenge_web_2', [new Skill({ name: '@web2' })]),
     ];
 
-    const sandbox = sinon.sandbox.create();
+    const sandbox = sinon.createSandbox();
 
     beforeEach(() => {
       competenceRepository.get.resolves(COMPETENCE);
@@ -425,7 +425,7 @@ describe('Unit | Domain | Services | assessment', () => {
       _buildChallenge('challenge_web_2', [new Skill({ name: '@web2' })]),
     ];
 
-    const sandbox = sinon.sandbox.create();
+    const sandbox = sinon.createSandbox();
     let assessment;
     beforeEach(() => {
       assessment = Assessment.fromAttributes({
@@ -641,7 +641,7 @@ describe('Unit | Domain | Services | assessment', () => {
       _buildChallenge('challenge_web_2', [new Skill({ name: '@web2' })]),
     ];
 
-    const sandbox = sinon.sandbox.create();
+    const sandbox = sinon.createSandbox();
 
     beforeEach(() => {
       competenceRepository.get.resolves(COMPETENCE);
@@ -810,7 +810,7 @@ describe('Unit | Domain | Services | assessment', () => {
     context('when assessment is a Certification', () => {
       const assessment = Assessment.fromAttributes({ id: 1, type: Assessment.types.CERTIFICATION });
 
-      const sandbox = sinon.sandbox.create();
+      const sandbox = sinon.createSandbox();
 
       beforeEach(() => {
         sandbox.stub(competenceRepository, 'list').resolves([
@@ -892,7 +892,7 @@ describe('Unit | Domain | Services | assessment', () => {
       });
       const competence = { area: { code: 'comp_code' }, index: '1.1' };
 
-      const sandbox = sinon.sandbox.create();
+      const sandbox = sinon.createSandbox();
 
       beforeEach(() => {
         sandbox.stub(courseRepository, 'get').resolves(new Course({
@@ -968,7 +968,7 @@ describe('Unit | Domain | Services | assessment', () => {
     let sandbox;
 
     beforeEach(() => {
-      sandbox = sinon.sandbox.create();
+      sandbox = sinon.createSandbox();
       sandbox.stub(assessmentRepository, 'findByFilters').resolves([]);
       sandbox.stub(certificationCourseRepository, 'get').resolves();
     });
@@ -1164,7 +1164,7 @@ describe('Unit | Domain | Services | assessment', () => {
 
   describe('#computeMarks', () => {
 
-    const sandbox = sinon.sandbox.create();
+    const sandbox = sinon.createSandbox();
     const assessmentResultId = '2413';
     const competenceMark1 = new CompetenceMark({
       level: 2,

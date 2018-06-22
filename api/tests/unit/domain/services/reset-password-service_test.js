@@ -21,7 +21,7 @@ describe('Unit | Service | Password Service', function() {
       const signParams = {
         payload: { data: settings.temporaryKey.payload },
         secret: settings.temporaryKey.secret,
-        expiration: { expiresIn: settings.temporaryKey.tokenLifespan }
+        expiration: { expiresIn: settings.temporaryKey.expiresIn }
       };
 
       // when

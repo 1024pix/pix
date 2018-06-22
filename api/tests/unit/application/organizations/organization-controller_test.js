@@ -34,7 +34,7 @@ describe('Unit | Application | Organizations | organization-controller', () => {
       codeStub = sinon.stub();
       replyStub = sinon.stub().returns({ code: codeStub });
 
-      sandbox = sinon.sandbox.create();
+      sandbox = sinon.createSandbox();
 
       sandbox.stub(logger, 'error');
       sandbox.stub(userRepository, 'create').resolves(userSaved);
@@ -265,7 +265,7 @@ describe('Unit | Application | Organizations | organization-controller', () => {
     beforeEach(() => {
       codeStub = sinon.stub();
       replyStub = sinon.stub().returns({ code: codeStub });
-      sandbox = sinon.sandbox.create();
+      sandbox = sinon.createSandbox();
 
       sandbox.stub(logger, 'error');
       sandbox.stub(organizationService, 'search').resolves(arrayOfOrganizations);
@@ -374,7 +374,7 @@ describe('Unit | Application | Organizations | organization-controller', () => {
     let sandbox;
 
     beforeEach(() => {
-      sandbox = sinon.sandbox.create();
+      sandbox = sinon.createSandbox();
       sandbox.stub(logger, 'error');
       sandbox.stub(snapshotRepository, 'getSnapshotsByOrganizationId');
       sandbox.stub(snapshotSerializer, 'serialize');

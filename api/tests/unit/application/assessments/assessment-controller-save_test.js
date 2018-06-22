@@ -19,7 +19,7 @@ describe('Unit | Controller | assessment-controller-save', () => {
     let replyStub;
 
     beforeEach(() => {
-      sandbox = sinon.sandbox.create();
+      sandbox = sinon.createSandbox();
 
       codeStub = sinon.stub();
       replyStub = sinon.stub().returns({ code: codeStub });

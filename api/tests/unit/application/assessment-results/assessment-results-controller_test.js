@@ -40,7 +40,7 @@ describe('Unit | Controller | assessment-results', () => {
     };
 
     beforeEach(() => {
-      sandbox = sinon.sandbox.create();
+      sandbox = sinon.createSandbox();
 
       replyStub = sinon.stub().returns({ code: sinon.stub() });
       sandbox.stub(assessmentResultService, 'evaluateFromAssessmentId').resolves();

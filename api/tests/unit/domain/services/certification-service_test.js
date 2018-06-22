@@ -201,7 +201,7 @@ describe('Unit | Service | Certification Service', function() {
     const userProfile = competences;
 
     beforeEach(() => {
-      sandbox = sinon.sandbox.create();
+      sandbox = sinon.createSandbox();
       sandbox.stub(assessmentRepository, 'getByCertificationCourseId').resolves(certificationAssessement);
       sandbox.stub(answersRepository, 'findByAssessment').resolves(_buildWrongAnswersForAllChallenges());
       sandbox.stub(certificationChallengesRepository, 'findByCertificationCourseId').resolves(challenges);
@@ -728,7 +728,7 @@ describe('Unit | Service | Certification Service', function() {
 
     const userProfile = competences;
     beforeEach(() => {
-      sandbox = sinon.sandbox.create();
+      sandbox = sinon.createSandbox();
       sandbox.stub(assessmentRepository, 'get').resolves(certificationAssessement);
       sandbox.stub(answersRepository, 'findByAssessment').resolves(_buildWrongAnswersForAllChallenges());
       sandbox.stub(certificationChallengesRepository, 'findByCertificationCourseId').resolves(challenges);
@@ -1162,7 +1162,7 @@ describe('Unit | Service | Certification Service', function() {
 
     beforeEach(() => {
       clock = sinon.useFakeTimers(new Date('2018-02-04T01:00:00.000+01:00'));
-      sandbox = sinon.sandbox.create();
+      sandbox = sinon.createSandbox();
     });
 
     afterEach(() => {
@@ -1256,7 +1256,7 @@ describe('Unit | Service | Certification Service', function() {
     let sandbox;
 
     beforeEach(() => {
-      sandbox = sinon.sandbox.create();
+      sandbox = sinon.createSandbox();
       const assessmentResult = _buildAssessmentResult(20, 3);
       sandbox.stub(assessmentRepository, 'getByCertificationCourseId').resolves(Assessment.fromAttributes({
         status: 'completed',

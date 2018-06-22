@@ -10,7 +10,7 @@ describe('Unit | Repository | competence-tree-repository', () => {
   let sandbox;
 
   beforeEach(() => {
-    sandbox = sinon.sandbox.create();
+    sandbox = sinon.createSandbox();
     sandbox.stub(areaDatasource, 'list');
     sandbox.stub(competenceDatasource, 'get');
   });

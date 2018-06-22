@@ -35,7 +35,7 @@ describe('Unit | Controller | sessionController', () => {
       codeStub = sinon.stub();
       replyStub = sinon.stub().returns({ code: codeStub });
 
-      sandbox = sinon.sandbox.create();
+      sandbox = sinon.createSandbox();
       sandbox.stub(sessionService, 'save').resolves();
       sandbox.stub(Boom, 'badImplementation');
       sandbox.stub(logger, 'error');
@@ -150,7 +150,7 @@ describe('Unit | Controller | sessionController', () => {
   describe('#get', function() {
 
     beforeEach(() => {
-      sandbox = sinon.sandbox.create();
+      sandbox = sinon.createSandbox();
       sandbox.stub(sessionService, 'get');
       sandbox.stub(sessionSerializer, 'serialize');
       request = {
