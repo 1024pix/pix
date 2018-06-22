@@ -172,7 +172,7 @@ class UserNotAuthorizedToCertifyError extends DomainError {
   }
 }
 
-class UserNotFoundError extends DomainError {
+class UserNotFoundError extends NotFoundError {
   constructor() {
     super();
   }
