@@ -133,8 +133,8 @@ describe('Acceptance | Controller | assessment-results-controller', function() {
             status: 'rejected',
             emitter: 'PIX-ALGO',
             commentForJury: 'Computed'
-          }).then((result) => {
-            const resultId = result[0].id;
+          }, 'id').then((result) => {
+            const resultId = result[0];
             return knex('competence-marks')
               .insert({
                 assessmentResultId: resultId,

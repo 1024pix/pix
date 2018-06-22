@@ -4,7 +4,7 @@ const BookshelfAssessment = require('../../../../lib/infrastructure/data/assessm
 
 const User = require('../../../../lib/infrastructure/data/user');
 
-describe('Acceptance | API | Assessments POST', () => {
+describe.only('Acceptance | API | Assessments POST', () => {
 
   describe('POST /api/assessments', () => {
 

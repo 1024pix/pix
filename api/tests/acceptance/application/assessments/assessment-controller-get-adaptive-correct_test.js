@@ -128,9 +128,9 @@ describe('Acceptance | API | assessment-controller-get-adaptive-correct', () => 
     };
 
     beforeEach(() => {
-      return knex('assessments').insert([insertedAssessment])
-        .then((rows) => {
-          insertedAssessmentId = rows[0];
+      return knex('assessments').insert([insertedAssessment], 'id')
+        .then((ids) => {
+          insertedAssessmentId = ids[0];
 
           return {
             value: 'any good answer',
@@ -145,7 +145,8 @@ describe('Acceptance | API | assessment-controller-get-adaptive-correct', () => 
     });
 
     afterEach(() => {
-      return knex('assessments').delete();
+      return knex('answers').delete()
+        .then(() => knex('assessments').delete());
     });
 
     it('should return the second challenge if the first answer is correct', () => {
@@ -175,9 +176,9 @@ describe('Acceptance | API | assessment-controller-get-adaptive-correct', () => 
     };
 
     beforeEach(() => {
-      return knex('assessments').insert([insertedAssessment])
-        .then((rows) => {
-          insertedAssessmentId = rows[0];
+      return knex('assessments').insert([insertedAssessment], 'id')
+        .then((ids) => {
+          insertedAssessmentId = ids[0];
 
           return {
             value: 'any bad answer',
@@ -192,7 +193,8 @@ describe('Acceptance | API | assessment-controller-get-adaptive-correct', () => 
     });
 
     afterEach(() => {
-      return knex('assessments').delete();
+      return knex('answers').delete()
+        .then(() => knex('assessments').delete());
     });
 
     it('should return the third challenge if the first answer is incorrect', () => {
@@ -222,9 +224,9 @@ describe('Acceptance | API | assessment-controller-get-adaptive-correct', () => 
     };
 
     beforeEach(() => {
-      return knex('assessments').insert([insertedAssessment])
-        .then((rows) => {
-          insertedAssessmentId = rows[0];
+      return knex('assessments').insert([insertedAssessment], 'id')
+        .then((ids) => {
+          insertedAssessmentId = ids[0];
 
           return [{
             value: 'any good answer',
@@ -244,7 +246,8 @@ describe('Acceptance | API | assessment-controller-get-adaptive-correct', () => 
     });
 
     afterEach(() => {
-      return knex('assessments').delete();
+      return knex('answers').delete()
+        .then(() => knex('assessments').delete());
     });
 
     it('should finish the test if there is no next challenge', () => {
