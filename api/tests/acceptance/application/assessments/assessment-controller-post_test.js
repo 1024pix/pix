@@ -1,4 +1,4 @@
-const { expect, knex, generateValidRequestAuhorizationHeader } = require('../../../test-helper');
+const { expect, knex, generateValidRequestAuhorizationHeader, insertUserWithStandardRole } = require('../../../test-helper');
 const server = require('../../../../server');
 const BookshelfAssessment = require('../../../../lib/infrastructure/data/assessment');
 
@@ -11,33 +11,44 @@ describe('Acceptance | API | Assessments POST', () => {
     });
 
     let options;
+    let userId;
 
     beforeEach(() => {
-      options = {
-        method: 'POST',
-        url: '/api/assessments',
-        payload: {
-          data: {
-            type: 'assessment',
-            attributes: {},
-            relationships: {
-              course: {
-                data: {
-                  type: 'course',
-                  id: 'non_adaptive_course_id'
-                }
-              },
-              user: {
-                data: {
-                  type: 'users',
-                  id: 0
+      return insertUserWithStandardRole()
+        .then((ids) => {
+          userId = ids[0];
+          options = {
+            method: 'POST',
+            url: '/api/assessments',
+            payload: {
+              data: {
+                type: 'assessment',
+                attributes: {
+                  type: 'DEMO',
+                },
+                relationships: {
+                  course: {
+                    data: {
+                      type: 'course',
+                      id: 'non_adaptive_course_id'
+                    }
+                  },
+                  user: {
+                    data: {
+                      type: 'users',
+                      id: userId
+                    }
+                  }
                 }
               }
-            }
-          }
-        },
-        headers: { authorization: generateValidRequestAuhorizationHeader() },
-      };
+            },
+            headers: { authorization: generateValidRequestAuhorizationHeader(userId) },
+          };
+        });
+    });
+
+    afterEach(() => {
+      return knex('users').delete();
     });
 
     it('should return 201 HTTP status code', () => {
@@ -78,11 +89,9 @@ describe('Acceptance | API | Assessments POST', () => {
 
       it('should save user_id in the database', () => {
         // given
-        const userId = 2;
         options.payload.data.relationships.user.id = userId;
 
-
-      // when
+        // when
         const promise = server.inject(options);
 
         // then
@@ -90,7 +99,7 @@ describe('Acceptance | API | Assessments POST', () => {
           return new BookshelfAssessment({ id: response.result.data.id }).fetch();
         })
           .then(model => {
-            expect(model.get('userId')).to.equal(userId);
+            expect(parseInt(model.get('userId'))).to.deep.equal(userId);
           });
       });
 
@@ -102,7 +111,7 @@ describe('Acceptance | API | Assessments POST', () => {
         return promise.then(() => {
           return BookshelfAssessment.count()
             .then((afterAssessmentsNumber) => {
-              expect(afterAssessmentsNumber).to.equal(1);
+              expect(parseInt(afterAssessmentsNumber, 10)).to.equal(1);
             });
         });
       });
