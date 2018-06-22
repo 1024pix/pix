@@ -17,4 +17,4 @@ function generate(campaignRepository) {
 
 module.exports = {
   generate,
-}
+};
