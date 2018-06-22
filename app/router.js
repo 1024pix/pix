@@ -7,10 +7,13 @@ const Router = EmberRouter.extend({
 });
 
 Router.map(function() {
+
   // authentication
   this.route('login');
+  this.route('logout');
 
   // public routes
+  this.route('index');
   this.route('about');
 
   // private routes
@@ -25,7 +28,6 @@ Router.map(function() {
       this.route('menu');
     });
   });
-  this.route('logout');
 });
 
 export default Router;

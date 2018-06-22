@@ -4,11 +4,11 @@ version: 2
 jobs:
   build:
     docker:
-      - image: circleci/node:7.10.1-browsers
+      - image: circleci/node:9-browsers
     working_directory: ~/admin
     steps:
       - checkout
-      - run: yarn install
+      - run: npm install
       - run: echo "${CIRCLE_BRANCH}_${CIRCLE_SHA1}" > .circle-cache-key
       - save_cache:
           key: v1-pix-admin-{{ checksum ".circle-cache-key" }}
@@ -17,17 +17,17 @@ jobs:
 
   test:
     docker:
-      - image: circleci/node:7.10.1-browsers
+      - image: circleci/node:9-browsers
     working_directory: ~/admin
     steps:
       - run: echo "${CIRCLE_BRANCH}_${CIRCLE_SHA1}" > .circle-cache-key
       - restore_cache:
           key: v1-pix-admin-{{ checksum ".circle-cache-key" }}
-      - run: yarn test
+      - run: npm test
 
   deploy:
     docker:
-      - image: circleci/node:7.10.1-browsers
+      - image: circleci/node:9-browsers
     working_directory: ~/admin
     steps:
       - run: echo "${CIRCLE_BRANCH}_${CIRCLE_SHA1}" > .circle-cache-key
@@ -36,8 +36,7 @@ jobs:
       - add_ssh_keys:
           fingerprints:
             - "d8:07:94:de:70:24:96:32:7f:e0:ac:e6:80:dd:0e:9a"
-      - run: |
-          ssh-keyscan scalingo.com > ~/.ssh/known_hosts
+      - run: ssh-keyscan scalingo.com > ~/.ssh/known_hosts
       - run: |
           git config user.email "$GITHUB_EMAIL"
           git config user.name "$GITHUB_NAME"
