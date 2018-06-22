@@ -138,8 +138,8 @@ describe('Acceptance | API | assessment-controller-get', () => {
     };
 
     beforeEach(() => {
-      return knex('assessments').insert([inserted_assessment_with_user_null]).then((rows) => {
-        inserted_assessment_id = rows[0];
+      return knex('assessments').insert([inserted_assessment_with_user_null], 'id').then((ids) => {
+        inserted_assessment_id = ids[0];
         options = {
           method: 'GET',
           url: `/api/assessments/${inserted_assessment_id}`,
@@ -217,8 +217,8 @@ describe('Acceptance | API | assessment-controller-get', () => {
     const accessToken = generateValidRequestAuhorizationHeader();
 
     beforeEach(function() {
-      return knex('assessments').insert([inserted_assessment]).then((rows) => {
-        inserted_assessment_id = rows[0];
+      return knex('assessments').insert([inserted_assessment], 'id').then(ids => {
+        inserted_assessment_id = ids[0];
         options = {
           headers: {
             authorization: `Bearer ${accessToken}`
@@ -258,8 +258,8 @@ describe('Acceptance | API | assessment-controller-get', () => {
     beforeEach((done) => {
       inserted_answer_ids = [];
 
-      knex('assessments').insert([inserted_assessment_with_user_null]).then((rows) => {
-        inserted_assessment_id = rows[0];
+      knex('assessments').insert([inserted_assessment_with_user_null], 'id').then((ids) => {
+        inserted_assessment_id = ids[0];
 
         const inserted_answers = [{
           value: 'any good answer',

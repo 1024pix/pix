@@ -3,7 +3,7 @@ const server = require('../../../../server');
 
 describe('Acceptance | Controller | answer-controller', () => {
 
-  describe('GET /api/answers?challengeId=Y&assessmentId=Z', () => {
+  describe('FIND /api/answers?challengeId=Y&assessmentId=Z', () => {
 
     let inserted_answer_id;
     let inserted_assessment_id;

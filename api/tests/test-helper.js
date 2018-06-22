@@ -30,11 +30,14 @@ function generateValidRequestAuhorizationHeader(userId = 1234) {
 }
 
 function insertUserWithRolePixMaster() {
-  return Promise.all([
-    knex('users').insert({ id: 1234, firstName: 'Super', lastName: 'Papa', email: 'super.papa@ho.me', password: 'abcd1234' }),
-    knex('pix_roles').insert({ id: 4567, name: 'PIX_MASTER' }),
-    knex('users_pix_roles').insert({ user_id: 1234, pix_role_id: 4567 }),
-  ]);
+  let userId;
+  return knex('users').insert({ id:1234, firstName: 'Super', lastName: 'Papa', email: 'super.papa@ho.me', password: 'abcd1234' }, 'id')
+    .then((insertUserId) => {
+      userId = insertUserId[0];
+      return knex('pix_roles').insert({ name: 'PIX_MASTER' }, 'id');
+    }).then((insertRoleId) => {
+      return knex('users_pix_roles').insert({ user_id: userId, pix_role_id: insertRoleId[0] });
+    });
 }
 
 function insertUserWithStandardRole() {
@@ -44,11 +47,11 @@ function insertUserWithStandardRole() {
 }
 
 function cleanupUsersAndPixRolesTables() {
-  return Promise.all([
-    knex('users').delete(),
-    knex('pix_roles').delete(),
-    knex('users_pix_roles').delete(),
-  ]);
+  return knex('users_pix_roles').delete()
+    .then(() => Promise.all([
+      knex('users').delete(),
+      knex('pix_roles').delete()
+    ]));
 }
 
 module.exports = {

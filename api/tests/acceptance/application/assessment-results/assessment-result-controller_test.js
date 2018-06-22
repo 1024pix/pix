@@ -21,9 +21,8 @@ describe('Acceptance | Controller | assessment-results', function() {
           courseId: 'nullCourseId_for_preview',
           state: 'started',
           type: 'PREVIEW'
-        }).then((assessmentIds) => {
+        }, 'id').then((assessmentIds) => {
           savedAssessmentId = _.first(assessmentIds);
-
           options = {
             method: 'POST',
             url: '/api/assessment-results',
@@ -49,7 +48,11 @@ describe('Acceptance | Controller | assessment-results', function() {
       });
 
       afterEach(() => {
-        return knex('assessments').delete();
+        return Promise.all[
+            knex('assessments').delete(),
+            knex('assessment-results').delete(),
+            knex('competence-marks').delete()
+          ];
       });
 
       it('should return a 200 when everything is fine', () => {
@@ -68,10 +71,8 @@ describe('Acceptance | Controller | assessment-results', function() {
 
         // Then
         return request
-          .then(() => knex('assessments').select())
+          .then(() => knex('assessments').select().where('id', savedAssessmentId))
           .then((assessments) => {
-            expect(assessments).to.have.lengthOf(1);
-
             const myAssessment = _.first(assessments);
             expect(myAssessment.state).to.equal('completed');
             expect(myAssessment.type).to.equal('PREVIEW');
