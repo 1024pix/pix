@@ -16,6 +16,8 @@ describe('Unit | Router | skill-review-router', () => {
 
   afterEach(() => {
     skillReviewController.get.restore();
+
+    server.stop();
   });
 
   describe('GET /api/skill-reviews/{id}', function() {
@@ -36,5 +38,4 @@ describe('Unit | Router | skill-review-router', () => {
       });
     });
   });
-
 });

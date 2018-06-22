@@ -9,7 +9,8 @@ exports.register = function(server, options, next) {
         handler: SkillReviewController.get,
         tags: ['api'],
         notes: [
-          'Cette route renvoie une évaluation des acquis utilisateur basée sur un profil cible'
+          '- **Route nécessitant une authentification**\n' +
+          '- Cette route renvoie une évaluation des acquis utilisateur basée sur un profil cible'
         ]
       }
     }

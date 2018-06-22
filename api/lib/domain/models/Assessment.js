@@ -17,6 +17,9 @@ const type = {
   PREVIEW: 'PREVIEW',
 };
 
+/*
+ * Traduction : Évaluation
+ */
 class Assessment {
 
   /*

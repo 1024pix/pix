@@ -1,3 +1,6 @@
+/*
+ * Traduction : Profil d'avancement
+ */
 class SkillReview {
 
   constructor({ assessment, targetProfile } = {}) {
