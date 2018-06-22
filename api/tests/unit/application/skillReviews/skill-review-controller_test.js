@@ -1,11 +1,11 @@
-const { expect, sinon, factory, generateValidRequestAuhorizationHeader } = require('../../../test-helper');
+const { expect, sinon, factory } = require('../../../test-helper');
 const assessmentRepository = require('../../../../lib/infrastructure/repositories/assessment-repository');
 const answerRepository = require('../../../../lib/infrastructure/repositories/answer-repository');
 const challengeRepository = require('../../../../lib/infrastructure/repositories/challenge-repository');
 const logger = require('../../../../lib/infrastructure/logger');
 const usecases = require('../../../../lib/domain/usecases');
 const skillReviewController = require('../../../../lib/application/skillReviews/skill-review-controller');
-const { NotFoundError, ForbiddenAccess } = require('../../../../lib/domain/errors');
+const { UserNotAuthorizedToAccessEntity, NotFoundError } = require('../../../../lib/domain/errors');
 
 describe('Unit | Controller | skill-review-controller', () => {
 
@@ -16,7 +16,7 @@ describe('Unit | Controller | skill-review-controller', () => {
 
   beforeEach(() => {
     replyStub.returns({
-      code: codeSpy
+      code: codeSpy,
     });
   });
 
@@ -26,13 +26,14 @@ describe('Unit | Controller | skill-review-controller', () => {
   });
 
   describe('#get', () => {
+
+    const skillReviewId = 'skillReviewId';
+
     const request = {
       params: {
-        id: 'recSkillReviewId'
+        id: skillReviewId,
       },
-      headers: {
-        authorization: generateValidRequestAuhorizationHeader(userId)
-      }
+      auth: { credentials: { userId } },
     };
 
     beforeEach(() => {
@@ -47,18 +48,17 @@ describe('Unit | Controller | skill-review-controller', () => {
 
     context('if assessment exists', () => {
 
-      const skillReviewId = request.params.id;
       const assessmentId = skillReviewId;
       const assessment = factory.buildAssessment({ id: assessmentId, userId });
       const skillReview = factory.buildSkillReview({ assessment });
 
-      context('that belongs to current user', () => {
+      context('and belongs to current user', () => {
 
         it('should return the serialized skillReview', () => {
           // given
           const serializedSkillReview = {
             data: {
-              id: 'recSkillReviewId',
+              id: skillReviewId,
               attributes: {
                 'profile-mastery': 0,
               },
@@ -66,12 +66,12 @@ describe('Unit | Controller | skill-review-controller', () => {
               relationships: {
                 assessment: {
                   data: {
-                    id: 'recSkillReviewId',
+                    id: assessmentId,
                     type: 'assessments',
-                  }
-                }
+                  },
+                },
               },
-            }
+            },
           };
           usecases.getSkillReview.resolves(skillReview);
 
@@ -81,15 +81,31 @@ describe('Unit | Controller | skill-review-controller', () => {
           // Then
           return expect(promise).to.have.been.fulfilled
             .then(() => {
-              expect(usecases.getSkillReview).to.have.been.calledWith({ skillReviewId, userId, assessmentRepository, answerRepository, challengeRepository });
+              expect(usecases.getSkillReview).to.have.been.calledWith({
+                skillReviewId,
+                userId,
+                assessmentRepository,
+                answerRepository,
+                challengeRepository,
+              });
               expect(replyStub).to.have.been.calledWith(serializedSkillReview);
               expect(codeSpy).to.have.been.calledWith(200);
             });
         });
+      });
+
+      context('and does not belong to current user', () => {
 
         it('should reply with a 403', () => {
           // given
-          const error = new ForbiddenAccess();
+          const expectedJsonAPIError = {
+            errors: [{
+              detail: 'Vous n’avez pas accès à ce profil d’avancement',
+              code: '403',
+              title: 'Unauthorized Access',
+            }],
+          };
+          const error = new UserNotAuthorizedToAccessEntity();
           usecases.getSkillReview.rejects(error);
 
           // when
@@ -98,19 +114,25 @@ describe('Unit | Controller | skill-review-controller', () => {
           // Then
           return expect(promise).to.have.been.fulfilled
             .then(() => {
-              expect(replyStub).to.have.been.calledWith();
+              expect(replyStub).to.have.been.calledWith(expectedJsonAPIError);
               expect(codeSpy).to.have.been.calledWith(403);
             });
         });
       });
-
     });
 
     context('if assessment does not exist', () => {
 
       it('should reply with a 404', () => {
         // given
-        const error = new NotFoundError();
+        const expectedJsonAPIError = {
+          errors: [{
+            code: '404',
+            detail: `Profil d’avancement introuvable pour l’id ${skillReviewId}`,
+            title: 'Not Found',
+          }],
+        };
+        const error = new NotFoundError(`Profil d'avancement introuvable pour l’id ${skillReviewId}`);
         usecases.getSkillReview.rejects(error);
 
         // when
@@ -119,7 +141,7 @@ describe('Unit | Controller | skill-review-controller', () => {
         // Then
         return expect(promise).to.have.been.fulfilled
           .then(() => {
-            expect(replyStub).to.have.been.calledWith();
+            expect(replyStub).to.have.been.calledWith(expectedJsonAPIError);
             expect(codeSpy).to.have.been.calledWith(404);
           });
       });
@@ -139,7 +161,11 @@ describe('Unit | Controller | skill-review-controller', () => {
         return expect(promise).to.have.been.fulfilled
           .then(() => {
             const expectedJsonApiError = {
-              errors: [{ code: '500', detail: 'Error', title: 'Internal Server Error' }]
+              errors: [{
+                code: '500',
+                detail: 'Error',
+                title: 'Internal Server Error',
+              }],
             };
             expect(logger.error).to.have.been.calledWith(error);
             expect(replyStub).to.have.been.calledWith(expectedJsonApiError);
@@ -147,7 +173,5 @@ describe('Unit | Controller | skill-review-controller', () => {
           });
       });
     });
-
   });
-
 });
