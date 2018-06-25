@@ -12,8 +12,7 @@ function _insertOrganization(userId) {
     userId
   };
 
-  return knex('organizations').insert(organizationRaw)
-    .then(organization => organization.shift());
+  return knex('organizations').insert(organizationRaw, 'id')
 }
 
 function _insertUser() {
@@ -24,8 +23,7 @@ function _insertUser() {
     password: 'Pix2017!'
   };
 
-  return knex('users').insert(userRaw)
-    .then(user => user.shift());
+  return knex('users').insert(userRaw, 'id');
 }
 
 function _insertSnapshot(organizationId, userId) {
@@ -111,8 +109,7 @@ function _insertSnapshot(organizationId, userId) {
     createdAt: '2017-08-31 15:57:06'
   };
 
-  return knex('snapshots')
-    .insert(snapshotRaw);
+  return knex('snapshots').insert(snapshotRaw, 'id');
 }
 
 function _createToken(user) {
@@ -189,10 +186,7 @@ describe('Acceptance | Application | Controller | organization-controller', () =
     });
 
     afterEach(() => {
-      return Promise.all([
-        knex('users').delete(),
-        knex('organizations').delete()
-      ]);
+      return knex('organizations').delete();
     });
 
     it('should return 200 HTTP status code', () => {
@@ -246,7 +240,7 @@ describe('Acceptance | Application | Controller | organization-controller', () =
         return creatingOrganizationOnFailure
           .then(() => {
             return knex('users').count('id as id').then((count) => {
-              expect(count[0].id).to.equal(1);
+              expect(count[0].id).to.equal('1');
             });
           });
       });
@@ -290,27 +284,18 @@ describe('Acceptance | Application | Controller | organization-controller', () =
     let userId;
     let snapshotId;
 
-    before(() => {
+    beforeEach(() => {
       return _insertUser()
-        .then((user_id) => {
-          userId = user_id;
-          return _insertOrganization(userId);
-        })
-        .then((organization_id) => {
-          organizationId = organization_id;
-          return _insertSnapshot(organizationId, userId);
-        })
-        .then((snapshot_id) => {
-          snapshotId = snapshot_id[0];
-        });
+        .then(([id]) => userId = id)
+        .then(() => _insertOrganization(userId))
+        .then(([id]) => organizationId = id)
+        .then(() => _insertSnapshot(organizationId, userId))
+        .then(([id]) => snapshotId = id);
     });
 
-    after(() => {
-      return Promise.all([
-        knex('users').delete(),
-        knex('organizations').delete(),
-        knex('snapshots').delete()
-      ]);
+    afterEach(() => {
+      return knex('snapshots').delete()
+        .then(() => knex('organizations').delete());
     });
 
     it('should return 200 HTTP status code', () => {
@@ -324,7 +309,7 @@ describe('Acceptance | Application | Controller | organization-controller', () =
             attributes: {
               score: '15',
               'tests-finished': '1',
-              'created-at': '2017-08-31 15:57:06',
+              'created-at': new Date('2017-08-31 15:57:06'),
               'student-code': null,
               'campaign-code': null
             },
@@ -352,7 +337,7 @@ describe('Acceptance | Application | Controller | organization-controller', () =
         method: 'GET',
         url,
         payload,
-        headers: { authorization: generateValidRequestAuhorizationHeader() },
+        headers: { authorization: generateValidRequestAuhorizationHeader(userId) },
       };
 
       // when
@@ -369,9 +354,9 @@ describe('Acceptance | Application | Controller | organization-controller', () =
       // given
       const options = {
         method: 'GET',
-        url: '/api/organizations/unknownId/snapshots',
+        url: `/api/organizations/${organizationId + 1}/snapshots`,
         payload: {},
-        headers: { authorization: generateValidRequestAuhorizationHeader() },
+        headers: { authorization: generateValidRequestAuhorizationHeader(userId) },
       };
 
       // when
@@ -379,32 +364,31 @@ describe('Acceptance | Application | Controller | organization-controller', () =
 
       // then
       return promise.then((response) => {
-        expect(response.result.data).to.have.lengthOf(0);
         expect(response.statusCode).to.equal(200);
+        expect(response.result.data).to.have.lengthOf(0);
       });
     });
   });
 
   describe('GET /api/organizations', () => {
     let userId;
-
-    before(() => {
-      return _insertUser()
-        .then((user_id) => {
-          userId = user_id;
-          return _insertOrganization(userId);
-        });
-    });
-
-    after(() => {
-      return Promise.all([knex('users').delete(), knex('organizations').delete()]);
-    });
-
     const options = {
       method: 'GET',
       url: '/api/organizations?filter[code]=AAA111',
-      headers: { authorization: generateValidRequestAuhorizationHeader() },
+      headers: {},
     };
+
+    beforeEach(() => {
+      return _insertUser()
+        .then(([id]) => userId = id)
+        .then(() => options.headers.authorization = generateValidRequestAuhorizationHeader(userId))
+        .then(() => _insertOrganization(userId));
+    });
+
+    afterEach(() => {
+      return knex('organizations').delete()
+        .then(() => knex('organizations').delete());
+    });
 
     it('should return 200 HTTP status code', () => {
       // when
@@ -451,26 +435,18 @@ describe('Acceptance | Application | Controller | organization-controller', () =
     let userToken;
     let userId;
 
-    before(() => {
+    beforeEach(() => {
       return _insertUser()
-        .then((user_id) => {
-          userId = user_id;
-          userToken = _createToken(user_id);
-
-          return _insertOrganization(userId);
-        })
-        .then((organization_id) => {
-          organizationId = organization_id;
-          return _insertSnapshot(organizationId, userId);
-        });
+        .then(([id]) => userId = id)
+        .then(() => userToken = _createToken(userId))
+        .then(() => _insertOrganization(userId))
+        .then(([id]) => organizationId = id)
+        .then(() => _insertSnapshot(organizationId, userId));
     });
 
-    after(() => {
-      return Promise.all([
-        knex('users').delete(),
-        knex('organizations').delete(),
-        knex('snapshots').delete()
-      ]);
+    afterEach(() => {
+      return knex('snapshots').delete()
+        .then(() => knex('organizations').delete());
     });
 
     it('should return 200 HTTP status code', () => {
