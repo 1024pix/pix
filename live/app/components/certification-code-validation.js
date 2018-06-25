@@ -11,20 +11,28 @@ export default Component.extend({
 
   actions: {
     submit() {
-      this.set('_loadingCertification', true);
-      return this.get('store').createRecord('course', { accessCode: this.get('accessCode') }).save()
-        .then((certificationCourse) => {
-          this.get('onSubmit')(certificationCourse);
-        })
-        .catch((error) => {
-          if (error.errors[0].status === '404') {
-            this.set('displayErrorMessage', true);
+      this.set('displayInvalidAccessCodeError', false);
+      this.set('displayMissingAccessCodeError', false);
+      const inputCode = this.get('accessCode');
+
+      if (inputCode.length > 0) {
+        this.set('_loadingCertification', true);
+        return this.get('store').createRecord('course', { accessCode: inputCode }).save()
+          .then((certificationCourse) => {
+            this.get('onSubmit')(certificationCourse);
+          })
+          .catch((error) => {
+            if (error.errors[0].status === '404') {
+              this.set('displayInvalidAccessCodeError', true);
+            } else {
+              this.get('error')(error);
+            }
             this.set('_loadingCertification', false);
-          } else {
-            this.set('_loadingCertification', false);
-            this.get('error')(error);
-          }
-        });
+          });
+      } else {
+        this.set('displayMissingAccessCodeError', true);
+      }
+
     }
   }
 });

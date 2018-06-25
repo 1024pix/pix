@@ -3,7 +3,10 @@
 </p>
 <div class="certification-course-page__session-code-input">
   {{input id="session-code" type="text" value=accessCode placeholder="Code d'accès"}}
-  {{#if displayErrorMessage}}
+  {{#if displayMissingAccessCodeError}}
+    <div class="certification-course-page__errors">Merci de saisir un code d'accès valide.</div>
+  {{/if}}
+  {{#if displayInvalidAccessCodeError}}
     <div class="certification-course-page__errors">Ce code n'existe pas ou n'est plus valide.</div>
   {{/if}}
 </div>
