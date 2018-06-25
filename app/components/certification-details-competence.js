@@ -27,19 +27,22 @@ export default Component.extend({
     const score = competence.positionedScore;
     const level = competence.positionedLevel;
     const answers = competence.answers;
-    let answersData = answers.reduce((data, answer) => {
-      let value = answer.jury ? answer.jury:answer.result;
-      if (value === 'ok') {
-        data.good++;
-      } else if (value === 'partially') {
-        data.partially++;
+    let answersData = {good:0, partially:0, count:0};
+    if (answers) {
+      answersData = answers.reduce((data, answer) => {
+        let value = answer.jury ? answer.jury:answer.result;
+        if (value === 'ok') {
+          data.good++;
+        } else if (value === 'partially') {
+          data.partially++;
+        }
+        if (value !== 'skip') {
+          data.count++;
+        }
+        return data;
       }
-      if (value !== 'skip') {
-        data.count++;
-      }
-      return data;
+      , answersData);
     }
-    , {good:0, partially:0, count:0});
     switch (answersData.count) {
       case 0:
         return {score:0, level:0};
