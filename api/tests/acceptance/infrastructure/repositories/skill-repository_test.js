@@ -5,8 +5,35 @@ const skillRepository = require('../../../../lib/infrastructure/repositories/ski
 describe('Acceptance | Infrastructure | Repositories | skill-repository', () => {
 
   describe('#save', () => {
+
+    beforeEach(() => {
+      return knex('assessments').insert([
+        {
+          id: 1,
+          userId: null,
+          courseId: 'rec'
+        },
+        {
+          id: 2,
+          userId: null,
+          courseId: 'rec'
+        },
+        {
+          id: 3,
+          userId: null,
+          courseId: 'rec'
+        },
+        {
+          id: 4,
+          userId: null,
+          courseId: 'rec'
+        }
+      ]);
+    });
+
     afterEach(() => {
-      return knex('skills').delete();
+      return knex('skills').delete()
+        .then(() => knex('assessments').delete());
     });
 
     it('should save provided skills', () => {
