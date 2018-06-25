@@ -8,9 +8,13 @@ exports.register = function(server, options, next) {
       method: 'POST',
       path: '/api/campaigns',
       config: {
-        auth: false,
         handler: campaignController.save,
-        tags: ['api']
+        notes: [
+          '- **Cette route est restreinte aux utilisateurs authentifiés**\n' +
+          '- Création d‘une nouvelle campagne\n' +
+          '- L‘utilisateur doit avoir les droits d‘accès à l‘organisation liée à la campagne à créer',
+        ],
+        tags: ['api', 'campaign']
       }
     },
 
