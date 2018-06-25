@@ -79,10 +79,11 @@ export default Component.extend({
   },
   competenceJury:computed('juryRate', function() {
     const juryRate = this.get('juryRate');
+    const competence = this.get('competence');
     if (juryRate === false )  {
+      competence.juryScore = false;
       return false;
     }
-    const competence = this.get('competence');
     const score = competence.obtainedScore;
     let newScore = this.computeScore(juryRate);
     if (newScore.score != score) {
