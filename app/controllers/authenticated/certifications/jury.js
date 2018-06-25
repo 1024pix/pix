@@ -34,22 +34,24 @@ export default Controller.extend({
       const competences = this.get('details.competences');
       let jury = false;
       let answersData = competences.reduce((data, competence) => {
-        competence.answers.forEach((answer) => {
-          if (answer.jury) {
-            if (answer.jury === 'ok') {
-              data.good++;
-            }
-            if (answer.jury !== 'skip') {
+        if (competence.answers) {
+          competence.answers.forEach((answer) => {
+            if (answer.jury) {
+              if (answer.jury === 'ok') {
+                data.good++;
+              }
+              if (answer.jury !== 'skip') {
+                data.count++;
+              }
+              jury = true;
+            } else {
               data.count++;
+              if (answer.result === 'ok') {
+                data.good++;
+              }
             }
-            jury = true;
-          } else {
-            data.count++;
-            if (answer.result === 'ok') {
-              data.good++;
-            }
-          }
-        });
+          });
+        }
         return data;
       }, {count:0, good:0});
       if (jury) {
