@@ -64,32 +64,28 @@ describe('Acceptance | API | Certification Course', () => {
           return knex('certification-courses').insert({
             createdAt: '2017-12-21 15:44:38',
             completedAt: '2017-12-21T15:48:38.468Z'
-          });
+          }, 'id');
         })
-        .then((insertedModelIds) => (certificationCourseId = _.first(insertedModelIds)))
+        .then(([id]) => certificationCourseId = id)
         .then(() => {
           return knex('assessments').insert({
             courseId: certificationCourseId.toString(),
             state: 'completed',
             type: Assessment.types.CERTIFICATION
-          });
+          }, 'id');
         })
-        .then(insertedModelIds => {
-          const assessmentId = _.first(insertedModelIds);
-          return knex('assessment-results').insert([
-            {
-              level: 2,
-              pixScore: 42,
-              createdAt: '2017-12-21 16:44:38',
-              status: 'validated',
-              emitter: 'PIX-ALGO',
-              commentForJury: 'Computed',
-              assessmentId
-            }
-          ]);
+        .then(([assessmentId]) => {
+          return knex('assessment-results').insert({
+            level: 2,
+            pixScore: 42,
+            createdAt: '2017-12-21 16:44:38',
+            status: 'validated',
+            emitter: 'PIX-ALGO',
+            commentForJury: 'Computed',
+            assessmentId
+          }, 'id');
         })
-        .then(insertedModelIds => {
-          const assessmentResultId = _.first(insertedModelIds);
+        .then(([assessmentResultId]) => {
           return knex('competence-marks').insert([{
             level: 2,
             score: 20,
@@ -118,15 +114,10 @@ describe('Acceptance | API | Certification Course', () => {
 
     afterEach(() => {
       return cleanupUsersAndPixRolesTables()
-        .then(() => {
-          return Promise.all([
-            knex('assessments').delete(),
-            knex('assessment-results').delete(),
-            knex('competence-marks').delete(),
-            knex('certification-courses').delete()
-          ]);
-        });
-
+        .then(() => knex('competence-marks').delete())
+        .then(() => knex('assessment-results').delete())
+        .then(() => knex('assessments').delete())
+        .then(() => knex('certification-courses').delete());
     });
 
     it('should return 200 HTTP status code', () => {
@@ -159,9 +150,10 @@ describe('Acceptance | API | Certification Course', () => {
         // then
         const result = response.result.data;
         expect(result.attributes['pix-score']).to.equal(42);
-        expect(result.attributes['created-at']).to.equal('2017-12-21 15:44:38');
-        expect(result.attributes['result-created-at']).to.equal('2017-12-21 16:44:38');
-        expect(result.attributes['completed-at']).to.equal('2017-12-21T15:48:38.468Z');
+        // TODO bug UTC
+        expect(result.attributes['created-at']).to.equal(new Date('2017-12-21 15:44:38'));
+        expect(result.attributes['result-created-at']).to.equal(new Date('2017-12-21 16:44:38'));
+        expect(result.attributes['completed-at']).to.equal(new Date('2017-12-21T15:48:38.468Z'));
         expect(result.attributes['competences-with-mark']).to.have.lengthOf(2);
 
         const firstCertifiedCompetence = result.attributes['competences-with-mark'][0];
