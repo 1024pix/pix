@@ -81,7 +81,7 @@ describe('Acceptance | Controller | users-controller', () => {
           firstName: 'John',
           lastName: 'DoDoe',
           email: 'john.dodoe@example.net',
-          cgu: 1,
+          cgu: true,
         };
 
         // when
