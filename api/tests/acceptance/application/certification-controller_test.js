@@ -11,15 +11,15 @@ describe('Acceptance | API | Certifications', () => {
   describe('GET /api/certifications', () => {
 
     let options;
-    const authenticatedUserID = 1234;
     let certificationId;
+    const authenticatedUserID = 1234;
 
     const session = {
       certificationCenter: 'Université du Pix',
       address: '1 rue de l\'educ',
       room: 'Salle Benjamin Marteau',
       examiner: '',
-      date: '14/08',
+      date: new Date('2018-08-14T00:00:00.000Z'),
       time: '11:00',
       description: '',
       accessCode: 'PIX123',
@@ -31,7 +31,7 @@ describe('Acceptance | API | Certifications', () => {
       isPublished: true,
       firstName: 'Bro',
       lastName: 'Ther',
-      birthdate: new Date('1993-12-08'),
+      birthdate: new Date('1993-12-08T00:00:00.000Z'),
       birthplace: 'Asnières IZI',
     };
 
@@ -49,30 +49,25 @@ describe('Acceptance | API | Certifications', () => {
     };
 
     beforeEach(() => {
-      return knex('sessions').insert(session)
-        .then((sessionId) => {
-          certificationCourse.sessionId = sessionId[0];
-          return knex('certification-courses').insert(certificationCourse);
+      return insertUserWithRolePixMaster()
+        .then(() => knex('sessions').insert(session, 'id'))
+        .then(([id]) => certificationCourse.sessionId = id)
+        .then(() => knex('certification-courses').insert(certificationCourse, 'id'))
+        .then(([id]) => {
+          certificationId = id;
+          assessment.courseId = id;
         })
-        .then((certificationCourseId) => {
-          certificationId = certificationCourseId[0];
-          assessment.courseId = certificationCourseId[0];
-          return knex('assessments').insert(assessment);
-        })
-        .then((assessmentIds) => {
-          const assessmentId = assessmentIds[0];
-          assessmentResult.assessmentId = assessmentId;
-          return knex('assessment-results').insert(assessmentResult);
-        });
+        .then(() => knex('assessments').insert(assessment, 'id'))
+        .then(([id]) => assessmentResult.assessmentId = id)
+        .then(() => knex('assessment-results').insert(assessmentResult));
     });
 
     afterEach(() => {
-      return Promise.all([
-        knex('sessions').delete(),
-        knex('assessment-results').delete(),
-        knex('assessments').delete(),
-        knex('certification-courses').delete(),
-      ]);
+      return knex('assessment-results').delete()
+        .then(() => knex('assessments').delete())
+        .then(() => knex('certification-courses').delete())
+        .then(() => knex('sessions').delete())
+        .then(cleanupUsersAndPixRolesTables);
     });
 
     it('should return 200 HTTP status code', () => {
@@ -92,6 +87,7 @@ describe('Acceptance | API | Certifications', () => {
             type: 'certifications',
             id: certificationId,
             attributes: {
+              // TODO Bug birthdate UTC+1
               'birthdate': new Date('1993-12-08'),
               'certification-center': 'Université du Pix',
               'comment-for-candidate': null,
@@ -133,7 +129,7 @@ describe('Acceptance | API | Certifications', () => {
 
     let options;
 
-    const JOHN_USERID = 1;
+    const JOHN_USERID = 1234;
     const JOHN_CERTIFICATION_ID = 2;
 
     const session = {
@@ -398,23 +394,21 @@ describe('Acceptance | API | Certifications', () => {
 
     beforeEach(() => {
       return knex('sessions').insert(session)
+        .then(insertUserWithRolePixMaster)
+        .then(insertUserWithStandardRole)
         .then(() => knex('certification-courses').insert(john_certificationCourse))
         .then(() => knex('assessments').insert(john_completedAssessment))
         .then(() => knex('assessment-results').insert(assessmentResult))
-        .then(() => knex('competence-marks').insert(competenceMark))
-        .then(insertUserWithRolePixMaster)
-        .then(insertUserWithStandardRole);
+        .then(() => knex('competence-marks').insert(competenceMark));
     });
 
     afterEach(() => {
-      return Promise.all([
-        knex('sessions').delete(),
-        knex('assessments').delete(),
-        knex('assessment-results').delete(),
-        knex('competence-marks').delete(),
-        knex('certification-courses').delete(),
-        cleanupUsersAndPixRolesTables(),
-      ]);
+      return knex('competence-marks').delete()
+        .then(() => knex('assessment-results').delete())
+        .then(() => knex('assessments').delete())
+        .then(() => knex('certification-courses').delete())
+        .then(() => knex('sessions').delete())
+        .then(cleanupUsersAndPixRolesTables);
     });
 
     it('should return 200 HTTP status code and the certification with the result competence tree included', () => {
@@ -432,6 +426,7 @@ describe('Acceptance | API | Certifications', () => {
       const expectedBody = {
         'data': {
           'attributes': {
+            // TODO Bug birthdate UTC+1
             'birthdate': new Date('1989-10-24T00:00:00.000Z'),
             'certification-center': 'Université du Pix',
             'comment-for-candidate': null,
@@ -559,7 +554,7 @@ describe('Acceptance | API | Certifications', () => {
 
     let options;
 
-    const JOHN_USERID = 1;
+    const JOHN_USERID = 1234;
     const JOHN_CERTIFICATION_ID = 2;
 
     const john_certificationCourse = {
@@ -568,18 +563,20 @@ describe('Acceptance | API | Certifications', () => {
       firstName: 'John',
       lastName: 'Doe',
       birthplace: 'Earth',
-      birthdate: new Date('1989-10-24'),
+      birthdate: new Date('1991-10-24'),
       completedAt: new Date('2003-01-02'),
       sessionId: 1,
       isPublished: false,
     };
     const john_completedAssessment = {
+      id: 1,
       courseId: JOHN_CERTIFICATION_ID,
       userId: JOHN_USERID,
       type: Assessment.types.CERTIFICATION,
       state: 'completed',
     };
     const assessmentResult = {
+      assessmentId: 1,
       level: 1,
       pixScore: 23,
       emitter: 'PIX-ALGO',
@@ -591,32 +588,26 @@ describe('Acceptance | API | Certifications', () => {
       address: '137 avenue de Bercy',
       room: 'La grande',
       examiner: 'Serge le Mala',
-      date: '24/10/1989',
+      date: new Date('1989-10-24'),
       time: '21:30',
       accessCode: 'ABCD12',
     };
 
     beforeEach(() => {
-      return knex('sessions').insert(session)
-        .then(() => knex('certification-courses').insert([john_certificationCourse]))
-        .then(() => knex('assessments').insert([john_completedAssessment]))
-        .then((assessmentIds) => {
-          const assessmentId = assessmentIds[0];
-          assessmentResult.assessmentId = assessmentId;
-          return knex('assessment-results').insert(assessmentResult);
-        })
+      return knex('sessions').insert(session, 'id')
         .then(insertUserWithRolePixMaster)
-        .then(insertUserWithStandardRole);
+        .then(insertUserWithStandardRole)
+        .then(() => knex('certification-courses').insert(john_certificationCourse))
+        .then(() => knex('assessments').insert(john_completedAssessment))
+        .then(() => knex('assessment-results').insert(assessmentResult));
     });
 
     afterEach(() => {
-      return Promise.all([
-        knex('sessions').delete(),
-        knex('assessments').delete(),
-        knex('assessment-results').delete(),
-        knex('certification-courses').delete(),
-        cleanupUsersAndPixRolesTables(),
-      ]);
+      return knex('assessment-results').delete()
+        .then(() => knex('assessments').delete())
+        .then(() => knex('certification-courses').delete())
+        .then(() => knex('sessions').delete())
+        .then(cleanupUsersAndPixRolesTables);
     });
 
     it('should return 200 HTTP status code and the updated certification', () => {
@@ -624,7 +615,7 @@ describe('Acceptance | API | Certifications', () => {
       options = {
         method: 'PATCH',
         url: `/api/certifications/${JOHN_CERTIFICATION_ID}`,
-        headers: { authorization: generateValidRequestAuhorizationHeader(1234) },
+        headers: { authorization: generateValidRequestAuhorizationHeader() },
         payload: {
           data: {
             type: 'certifications',
@@ -647,6 +638,7 @@ describe('Acceptance | API | Certifications', () => {
             type: 'certifications',
             id: JOHN_CERTIFICATION_ID,
             attributes: {
+              // TODO Bug birthdate UTC+1
               'birthdate': new Date('1989-10-24'),
               'certification-center': 'Université du Pix',
               'comment-for-candidate': null,
@@ -665,7 +657,7 @@ describe('Acceptance | API | Certifications', () => {
           });
         })
         .then(() => knex('certification-courses').where('id', JOHN_CERTIFICATION_ID))
-        .then((foundCertification) => expect(foundCertification[0].isPublished).to.be.equal(1));
+        .then((foundCertification) => expect(foundCertification[0].isPublished).to.be.true);
     });
 
     it('should return unauthorized 403 HTTP status code when user is not pixMaster', () => {
@@ -690,7 +682,7 @@ describe('Acceptance | API | Certifications', () => {
       return promise
         .then((response) => expect(response.statusCode).to.equal(403))
         .then(() => knex('certification-courses').where('id', JOHN_CERTIFICATION_ID))
-        .then((certifications) => expect(certifications[0].isPublished).to.equal(0));
+        .then((certifications) => expect(certifications[0].isPublished).to.be.false);
     });
   });
 });
