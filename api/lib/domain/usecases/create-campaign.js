@@ -1,5 +1,5 @@
 const campaignCodeGenerator = require('../services/campaigns/campaign-code-generator');
-const campaignValidator = require('../../domain/validators/campaign-validator');
+const campaignValidator = require('../validators/campaign-validator');
 const Campaign = require('../models/Campaign');
 const { UserNotAuthorizedToCreateCampaignError } = require('../errors');
 
