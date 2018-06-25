@@ -48,11 +48,9 @@ describe('Acceptance | Controller | assessment-results', function() {
       });
 
       afterEach(() => {
-        return Promise.all[
-            knex('assessments').delete(),
-            knex('assessment-results').delete(),
-            knex('competence-marks').delete()
-          ];
+        return knex('competence-marks').delete()
+          .then(() => knex('assessment-results').delete())
+          .then(() => knex('assessments').delete());
       });
 
       it('should return a 200 when everything is fine', () => {
