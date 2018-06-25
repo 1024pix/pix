@@ -93,7 +93,7 @@ module.exports = {
       });
   },
 
-  getWithOrganizationsAccesses(userId){
+  getWithOrganizationsAccesses(userId) {
     return BookshelfUser
       .where({ id: userId })
       .fetch({

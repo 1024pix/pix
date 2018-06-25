@@ -95,6 +95,41 @@ describe('Unit | Domain | Models | User', () => {
 
   });
 
+  describe('hasAccessToOrganization', () => {
+
+    it('should be false is user has no access to no organizations', () => {
+      // given
+      const user = new User();
+      const organizationId = 12345;
+
+      // when/then
+      expect(user.hasAccessToOrganization(organizationId)).to.be.false;
+    });
+
+    it('should be false is the user has access to many organizations, but not the one asked', () => {
+      // given
+      const organizationId = 12345;
+      const user = factory.buildUser();
+      user.organizationsAccesses.push(factory.buildOrganizationAccess());
+      user.organizationsAccesses[0].organization.id = 93472;
+      user.organizationsAccesses[1].organization.id = 74569;
+
+      // when/then
+      expect(user.hasAccessToOrganization(organizationId)).to.be.false;
+    });
+
+    it('should be true if the user has an access to the given organizationId', () => {
+      // given
+      const organizationId = 12345;
+      const user = factory.buildUser();
+      user.organizationsAccesses[0].organization.id = 12345;
+
+      // when/then
+      expect(user.hasAccessToOrganization(organizationId)).to.be.true;
+    });
+
+  });
+
   describe('#email', function() {
 
     it('should normalize email', () => {

@@ -36,6 +36,15 @@ class User {
     return this.organizationsAccesses.length > 0;
   }
 
+  hasAccessToOrganization(organizationId) {
+    if(this.isLinkedToOrganizations()) {
+      return this.organizationsAccesses
+        .map((organizationAccess) => organizationAccess.organization.id)
+        .includes(organizationId);
+    }
+    return false;
+  }
+
 }
 
 module.exports = User;
