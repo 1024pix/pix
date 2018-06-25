@@ -54,7 +54,11 @@ module.exports = {
     return BookshelfUser
       .where({ email })
       .fetch({
-        withRelated: ['organizationsAccesses', 'organizationsAccesses.organization', 'organizationsAccesses.organizationRole']
+        withRelated: [
+          'organizationsAccesses',
+          'organizationsAccesses.organization',
+          'organizationsAccesses.organizationRole',
+        ]
       })
       .then((foundUser) => {
         if(foundUser === null) {
@@ -86,6 +90,24 @@ module.exports = {
           throw new UserNotFoundError(`User not found for ID ${userId}`);
         }
         throw err;
+      });
+  },
+
+  getWithOrganizationsAccesses(userId){
+    return BookshelfUser
+      .where({ id: userId })
+      .fetch({
+        withRelated: [
+          'organizationsAccesses',
+          'organizationsAccesses.organization',
+          'organizationsAccesses.organizationRole',
+        ]
+      })
+      .then((foundUser) => {
+        if(foundUser === null) {
+          return Promise.reject(new UserNotFoundError(`User not found for ID ${userId}`));
+        }
+        return _toDomain(foundUser);
       });
   },
 
