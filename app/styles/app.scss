@@ -13,10 +13,14 @@
 @import 'login';
 @import 'authenticated';
 @import 'authenticated/organizations/new';
-@import 'authenticated/certifications/jury';
+@import 'authenticated/certifications/menu';
+@import 'authenticated/certifications/details';
+@import 'authenticated/certifications/single';
+@import 'authenticated/certifications/info';
 
 /* components */
 @import 'components/menu-bar';
 @import 'components/organization-list';
 @import 'components/certification-details-competence';
 @import 'components/certification-details-answer';
+@import 'components/certification-select';

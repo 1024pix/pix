@@ -1,0 +1,31 @@
+<header class="page-header">
+  <h1 class="page-title">Certification</h1>
+  <div class="page-actions">
+    {{certification-select id=(readonly certificationId) select=(action "loadCertification")}}
+  </div>
+</header>
+  {{#if certificationId}}
+    <ul class="nav nav-tabs">
+      <li class="nav-item">
+        {{#link-to "authenticated.certifications.single.info" certificationId class="nav-link"}}Informations{{/link-to}}
+      </li>
+      <li class="nav-item">
+        {{#link-to "authenticated.certifications.single.details" certificationId class="nav-link"}}Détails{{/link-to}}
+      </li>
+    </ul>
+  {{/if}}
+<section class="page-section">
+  {{#unless certificationId}}
+  <div class="single-no-id">
+    Choisissez un identifiant de certification
+  </div>
+  {{/unless}}
+  {{#if loading}}
+    <div class="single-loading">
+      <i class='fa fa-spinner fa-spin fa-lg'></i>
+      Chargement...
+    </div>
+  {{else}}
+    {{outlet}}
+  {{/if}}
+</section>

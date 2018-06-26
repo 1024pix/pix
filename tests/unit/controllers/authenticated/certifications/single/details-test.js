@@ -3,7 +3,7 @@ import { setupTest } from 'ember-qunit';
 import { run } from '@ember/runloop';
 import EmberObject from '@ember/object';
 
-module('Unit | Controller | authenticated/certifications/jury', function(hooks) {
+module('Unit | Controller | authenticated/certifications/single/details', function(hooks) {
   setupTest(hooks);
 
   let answer = (result) => {
@@ -31,16 +31,10 @@ module('Unit | Controller | authenticated/certifications/jury', function(hooks) 
 
   test('it computes jury rate correctly', function(assert) {
     // given
-    let controller = this.owner.lookup('controller:authenticated/certifications/jury');
-    controller.set("store", {
-      findRecord() {
-        // 14 answers, 11 right
-        return EmberObject.create( {
-          competences:[competence(false,"ok","ok","skip"), competence(false,"ok", "ko", "ok"), competence(false,"ok", "aband", "ok"), competence(false,"ok", "timedout", "ok"), competence(false,"ok", "ok", "ok")]
-        });
-      }
-    });
-    controller.set("certificationId", 1);
+    let controller = this.owner.lookup('controller:authenticated/certifications/single/details');
+    controller.set("model", EmberObject.create( {
+      competences:[competence(false,"ok","ok","skip"), competence(false,"ok", "ko", "ok"), competence(false,"ok", "aband", "ok"), competence(false,"ok", "timedout", "ok"), competence(false,"ok", "ok", "ok")]
+    }));
     run(function() {
       controller.send("updateRate");
     });
@@ -49,16 +43,10 @@ module('Unit | Controller | authenticated/certifications/jury', function(hooks) 
 
   test('it computes jury score correctly', function(assert) {
     // given
-    let controller = this.owner.lookup('controller:authenticated/certifications/jury');
-    controller.set("store", {
-      findRecord() {
-        // 14 answers, 11 right
-        return EmberObject.create( {
-          competences:[competence(true,"ok","ok","skip"), competence(false,"ok", "ko", "ok"), competence(true,"ok", "aband", "ok"), competence(false,"ok", "timedout", "ok"), competence(true,"ok", "ok", "ok")]
-        });
-      }
-    });
-    controller.set("certificationId", 1);
+    let controller = this.owner.lookup('controller:authenticated/certifications/single/details');
+    controller.set("model", EmberObject.create( {
+      competences:[competence(true,"ok","ok","skip"), competence(false,"ok", "ko", "ok"), competence(true,"ok", "aband", "ok"), competence(false,"ok", "timedout", "ok"), competence(true,"ok", "ok", "ok")]
+    }));
     run(function() {
       controller.send("updateRate");
     });
