@@ -1,0 +1,56 @@
+<div class="single-certification-info">
+  <div class='row'>
+    <div class='col'>Statut :</div><div class='col'>{{certification.status}}</div>
+  </div>
+  <div class='row'>
+    <div class='col'>Créée le :</div><div class='col'>{{certification.creationDate}}</div>
+  </div>
+  <div class='row'>
+    <div class='col'>Terminée le :</div><div class='col'>{{certification.completionDate}}</div>
+  </div>
+  <div class='row'>
+    <div class='col'>Session :</div><div class='col certificate'>{{certification.sessionId}}</div>
+  </div>
+  <div class='row'>
+    <div class='col'>Prénom :</div><div class='col certificate'>{{certification.firstName}}</div>
+  </div>
+  <div class='row'>
+    <div class='col'>Nom :</div><div class='col certificate'>{{certification.lastName}}</div>
+  </div>
+  <div class='row'>
+    <div class='col'>Date de naissance :</div><div class='col certificate'>{{certification.birthDate}}</div>
+  </div>
+  <div class='row'>
+    <div class='col'>Lieu de naissance :</div><div class='col certificate'>{{certification.birthPlace}}</div>
+  </div>
+  <div class='row'>
+    <div class='col'>Commentaire pour le candidat :</div><div class='col certificate'>{{certification.commentForCandidate}}</div>
+  </div>
+  <div class='row'>
+    <div class='col'>Commentaire pour l'organisation :</div><div class='col certificate'>{{certification.commentForOrganization}}</div>
+  </div>
+  <div class='row'>
+    <div class='col'>Commentaire pour le jury :</div><div class='col certificate'>{{certification.commentForJury}}</div>
+  </div>
+  <div class='row'>
+    <div class='col'>Identifiant jury :</div><div class='col certificate'>{{certification.juryId}}</div>
+  </div>
+  <div class='row'>
+    <div class='col'>Score :</div><div class='col certificate'>{{certification.pixScore}} Pix</div>
+  </div>
+  <div class='row'>
+    <div class='col'>Compétences :</div>
+    <div class='col certificate'>
+      {{#each certification.competences as |competence|}}
+      <div class="row">
+        <div class="col">
+          {{competence.index}}
+        </div>
+        <div class="col">
+          {{competence.level}}
+        </div>
+      </div>
+      {{/each}}
+    </div>
+  </div>
+</div>

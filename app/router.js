@@ -7,7 +7,6 @@ const Router = EmberRouter.extend({
 });
 
 Router.map(function() {
-
   // authentication
   this.route('login');
   this.route('logout');
@@ -24,8 +23,11 @@ Router.map(function() {
       this.route('list');
     });
     this.route('certifications', function() {
-      this.route('jury');
       this.route('menu');
+      this.route('single', function() {
+        this.route('info', {path:'/:certification_id'});
+        this.route('details', {path:'/:certification_id/details'});
+      });
     });
   });
 });

@@ -1,5 +1,5 @@
 import Controller from '@ember/controller';
-import { computed, observer } from '@ember/object';
+import { observer } from '@ember/object';
 import { alias } from '@ember/object/computed';
 import { schedule } from '@ember/runloop';
 
@@ -9,27 +9,12 @@ export default Controller.extend({
   requestedId:'',
   rate:alias('details.percentageCorrectAnswers'),
   score:alias('details.totalScore'),
-  loading:computed('details.isLoaded', function() {
-    return this.get('details')&&!this.get('details.isLoaded');
-  }),
-  details:computed('certificationId', function() {
-    let certificationId = this.get('certificationId');
-    if (certificationId) {
-      return this.get('store').findRecord('certificationDetails', certificationId);
-    } else {
-      return null;
-    }
-  }),
-  initJury:observer('loading', function() {
-    if (this.get('loading')) {
-      this.set('juryRate', false);
-      this.set('juryScore', false);
-    }
+  details:alias('model'),
+  initJury:observer('details', function() {
+    this.set('juryRate', false);
+    this.set('juryScore', false);
   }),
   actions: {
-    loadCertificationDetails() {
-      this.set('certificationId', this.get('requestedId'));
-    },
     updateRate() {
       const competences = this.get('details.competences');
       let jury = false;

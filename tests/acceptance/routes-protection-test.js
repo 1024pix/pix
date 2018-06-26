@@ -66,9 +66,9 @@ module('Acceptance | routes protection', function(hooks) {
   //
   // route /certifications/jury
   //
-  test('guest users are redirected to login page when visiting /certifications/jury', async function(assert) {
+  test('guest users are redirected to login page when visiting /certifications/single', async function(assert) {
     // when
-    await visit('/certifications/jury');
+    await visit('/certifications/single');
 
     // then
     assert.equal(currentURL(), '/login');
