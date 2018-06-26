@@ -2,29 +2,47 @@ import { inject as service } from '@ember/service';
 import Component from '@ember/component';
 
 export default Component.extend({
+
+  // Element
   classNames: ['certification-code-validation'],
 
+  // Dependency injection
   store: service(),
 
-  accessCode: '',
+  // Public props
+  onSubmit: null,
+  onError: null,
+
+  // Internal props
+  _accessCode: '',
+  _errorMessage: null,
   _loadingCertification: false,
 
   actions: {
+
     submit() {
-      this.set('_loadingCertification', true);
-      return this.get('store').createRecord('course', { accessCode: this.get('accessCode') }).save()
-        .then((certificationCourse) => {
-          this.get('onSubmit')(certificationCourse);
-        })
-        .catch((error) => {
-          if (error.errors[0].status === '404') {
-            this.set('displayErrorMessage', true);
+      this.set('_errorMessage', null);
+      const accessCode = this.get('_accessCode');
+      if (accessCode) {
+        this.set('_loadingCertification', true);
+        return this.get('store')
+          .createRecord('course', { accessCode })
+          .save()
+          .then((certificationCourse) => {
             this.set('_loadingCertification', false);
-          } else {
+            this.get('onSubmit')(certificationCourse);
+          })
+          .catch((error) => {
             this.set('_loadingCertification', false);
-            this.get('error')(error);
-          }
-        });
+            if (error.errors[0].status === '404') {
+              this.set('_errorMessage', 'Ce code n’existe pas ou n’est plus valide.');
+            } else {
+              this.get('onError')(error);
+            }
+          });
+      } else {
+        this.set('_errorMessage', 'Merci de saisir un code d’accès valide.');
+      }
     }
   }
 });

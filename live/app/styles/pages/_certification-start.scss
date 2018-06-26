@@ -19,15 +19,11 @@
 }
 
 .certification-start-page__panel {
-  margin-left: 10px;
-  margin-right: 10px;
   display: flex;
   flex-direction: column;
-  margin-bottom: 50px;
-  padding: 20px;
-  margin-top: 50px;
   z-index: 1;
   align-self: center;
+  margin: 50px 10px 50px 10px ;
 
   @include device-is('desktop') {
     width: 940px;
@@ -36,11 +32,10 @@
 }
 
 .certification-start-page__title {
-
   color: $charcoal-grey;
   font-family: $font-raleway;
-  font-size: 36px;
+  font-size: 3.5rem;
+  font-weight: 600;
   text-align: center;
-  font-weight: bold;
-  line-height: 42px;
+  margin-bottom: 45px;
 }
