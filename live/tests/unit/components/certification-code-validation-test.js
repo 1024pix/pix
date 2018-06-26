@@ -6,7 +6,9 @@ import sinon from 'sinon';
 describe('Unit | Component | certification-code-value', function() {
 
   setupTest('component:certification-code-validation', {});
+
   let component;
+
   beforeEach(function() {
     component = this.subject();
   });
@@ -31,7 +33,7 @@ describe('Unit | Component | certification-code-value', function() {
     it('should create and save a new course', function() {
       // given
       component.set('store', storeStub);
-      component.set('accessCode', 'ABCD12');
+      component.set('_accessCode', 'ABCD12');
 
       // when
       component.send('submit');
@@ -42,10 +44,10 @@ describe('Unit | Component | certification-code-value', function() {
       sinon.assert.called(storeSaveStub);
     });
 
-    it('should set loadingCertification at true', function() {
+    it('should set _loadingCertification at true', function() {
       // given
       component.set('store', storeStub);
-      component.set('accessCode', 'ABCD12');
+      component.set('_accessCode', 'ABCD12');
 
       // when
       component.send('submit');

@@ -5,73 +5,72 @@
 .certification-course-page__order {
   color: $charcoal-grey;
   font-family: $font-raleway;
-  font-size: 22px;
+  font-size: 2rem;
   line-height: 28px;
   text-align: center;
-  margin-top: 15px;
-  margin-bottom: 20px;
+  margin-top: 5px;
+  margin-bottom: 5px;
 }
 
 .certification-course-page__cgu {
   color: $charcoal-grey;
   font-family: $font-lato;
-  font-size: 12px;
+  font-size: 1.2rem;
   line-height: 18px;
   text-align: justify;
+  margin: 5px 30px 5px 30px;
 }
 
 .certification-course-page__session-code-input {
   display: flex;
   flex-direction: column;
   flex-grow: 1;
-  margin-bottom: 20px;
+  margin-top: 20px;
+  margin-bottom: 15px;
   align-items: center;
 }
 
-.certification-course-page__errors {
-  height: 1.7%;
-  color: $pure-orange;
-  font-family: $font-lato;
-  font-size: 14px;
-  line-height: 17px;
-  text-align: center;
+#session-code {
+  padding-left: 5px;
+  height: 45px;
+  border-radius: 4px;
+  border: 1px solid #6A6D76;
+  width: 220px;
 }
 
-#session-code {
-  padding: 0 5px;
+.certification-course-page__errors {
+  color: $pure-orange;
+  font-family: $font-lato;
+  font-size: 1.4rem;
+  text-align: center;
+  margin: 5px 5px 5px 5px;
 }
 
 .certification-course-page__field-button {
   text-align: center;
-
 }
 
 .certification-course-page__submit_button {
   align-items: center;
-
   color: $white;
-  font-size: 13px;
+  font-size: 1.4rem;
   text-transform: uppercase;
-  width: 170px;
-  height: 46px;
-  border-radius: 23px;
+  width: 160px;
+  height: 36px;
+  border-radius: 4px;
   border: solid 1px $pix-blue;
   background-color: $pix-blue;
-
-  padding: 10px 30px;
+  margin: 5px 5px 5px 5px;
 }
 
 .certification-course-page__field-button__action-validate {
-  width: 170px;
+  align-items: center;
+  width: 160px;
   height: 46px;
-  border-radius: 23px;
+  border-radius: 4px;
   background: $pix-blue;
   text-align: center;
   margin: auto;
-
-
-  align-items: center;
-  padding: 10px 30px;
 }
 
 .certification-course-page__field-button__loader-bar {
@@ -80,5 +79,4 @@
   margin: auto;
   height: 50px;
   width: 64px;
-  margin-top: -15px;
 }
