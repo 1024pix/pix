@@ -52,4 +52,26 @@ module('Acceptance | routes protection', function(hooks) {
     assert.equal(currentURL(), '/login');
   });
 
+  //
+  // route /certifications/menu
+  //
+  test('guest users are redirected to login page when visiting /certifications/menu', async function(assert) {
+    // when
+    await visit('/certifications/menu');
+
+    // then
+    assert.equal(currentURL(), '/login');
+  });
+
+  //
+  // route /certifications/jury
+  //
+  test('guest users are redirected to login page when visiting /certifications/jury', async function(assert) {
+    // when
+    await visit('/certifications/jury');
+
+    // then
+    assert.equal(currentURL(), '/login');
+  });
+
 });
