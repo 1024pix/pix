@@ -15,22 +15,12 @@ describe('Unit | Serializer | JSONAPI | skill-review-serializer', function() {
       expect(json).to.deep.equal({
         'data': {
           'type': 'skill-reviews',
-          'id': skillReview.assessment.id,
+          'id': skillReview.id,
           'attributes': {
-            'profile-mastery': skillReview.profileMastery,
+            'profile-mastery-rate': skillReview.profileMasteryRate,
           },
-          relationships: {
-            assessment: {
-              data: {
-                type: 'assessments',
-                id: skillReview.assessment.id.toString()
-              }
-            }
-          }
-        }
+        },
       });
     });
-
   });
-
 });
