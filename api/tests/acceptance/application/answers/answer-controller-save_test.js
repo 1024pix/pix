@@ -102,7 +102,7 @@ describe('Acceptance | Controller | answer-controller-save', () => {
         return promise
           .then(() => Answer.count())
           .then((afterAnswersNumber) => {
-            expect(afterAnswersNumber).to.equal('1');
+            expect(afterAnswersNumber).to.equal(1);
           });
       });
 
@@ -158,7 +158,7 @@ describe('Acceptance | Controller | answer-controller-save', () => {
         return promise
           .then(() => Answer.count())
           .then(afterAnswersNumber => {
-            expect(afterAnswersNumber).to.equal('1');
+            expect(afterAnswersNumber).to.equal(1);
           });
       });
     });

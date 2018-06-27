@@ -116,8 +116,8 @@ describe('Acceptance | Controller | answer-controller', () => {
 
       // then
       return promise.then(() => {
-        Answer.count().then((afterAnswersNumber) => {
-          expect(afterAnswersNumber).to.equal('1');
+        return Answer.count().then((afterAnswersNumber) => {
+          expect(afterAnswersNumber).to.equal(1);
         });
       });
     });

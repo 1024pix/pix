@@ -91,7 +91,7 @@ describe('Acceptance | Controller | feedback-controller', () => {
       // then
       return promise.then(() => {
         return Feedback.count().then((afterFeedbacksNumber) => {
-          expect(afterFeedbacksNumber).to.equal('1');
+          expect(afterFeedbacksNumber).to.equal(1);
         });
       });
     });
