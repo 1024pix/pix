@@ -2,10 +2,12 @@ const { expect, knex } = require('../../../test-helper');
 const _ = require('lodash');
 
 const assessmentRepository = require('../../../../lib/infrastructure/repositories/assessment-repository');
+const Answer = require('../../../../lib/domain/models/Answer');
 const Assessment = require('../../../../lib/domain/models/Assessment');
 
 describe('Integration | Infrastructure | Repositories | assessment-repository', () => {
 
+  // TODO: rajouter la verif de l'ajout du profile dans le cas du SMART_PLACEMENT
   describe('#get', () => {
 
     let assessmentIdInDb;
@@ -68,6 +70,7 @@ describe('Integration | Infrastructure | Repositories | assessment-repository', 
           expect(assessment.courseId).to.equal('course_A');
 
           expect(assessment.answers).to.have.lengthOf(3);
+          expect(assessment.answers[0]).to.be.an.instanceOf(Answer);
           expect(assessment.answers[0].challengeId).to.equal('challenge_3_1');
           expect(assessment.answers[1].challengeId).to.equal('challenge_1_4');
           expect(assessment.answers[2].challengeId).to.equal('challenge_2_8');
@@ -351,7 +354,7 @@ describe('Integration | Infrastructure | Repositories | assessment-repository', 
       competence_code: '2.1',
     };
 
-    const result = {
+    const expectedAssessmentResult = {
       id: 12,
       level: 0,
       pixScore: 0,
@@ -361,6 +364,7 @@ describe('Integration | Infrastructure | Repositories | assessment-repository', 
       commentForJury: 'Computed',
       commentForCandidate: 'Votre certification a été validé par Pix',
       commentForOrganization: 'Sa certification a été validé par Pix',
+      competenceMarks: [],
       createdAt: '2016-10-27 08:44:25',
     };
 
@@ -368,7 +372,20 @@ describe('Integration | Infrastructure | Repositories | assessment-repository', 
       return knex('assessments').insert(assessmentInDb)
         .then(assessmentIds => {
           const assessmentId = _.first(assessmentIds);
+          const result = {
+            id: 12,
+            level: 0,
+            pixScore: 0,
+            status: 'validated',
+            emitter: 'PIX-ALGO',
+            juryId: 1,
+            commentForJury: 'Computed',
+            commentForCandidate: 'Votre certification a été validé par Pix',
+            commentForOrganization: 'Sa certification a été validé par Pix',
+            createdAt: '2016-10-27 08:44:25',
+          };
           result.assessmentId = assessmentId;
+          expectedAssessmentResult.assessmentId = assessmentId;
 
           return knex('assessment-results').insert(result);
         })
@@ -390,6 +407,7 @@ describe('Integration | Infrastructure | Repositories | assessment-repository', 
 
     it('should returns assessment results for the given certificationId', () => {
       // when
+
       const promise = assessmentRepository.getByCertificationCourseId('course_A');
 
       // then
@@ -398,7 +416,7 @@ describe('Integration | Infrastructure | Repositories | assessment-repository', 
         expect(assessmentReturned.courseId).to.equal('course_A');
         expect(assessmentReturned.pixScore).to.equal(assessmentInDb.pixScore);
         expect(assessmentReturned.assessmentResults).to.have.lengthOf(1);
-        expect(assessmentReturned.assessmentResults[0]).to.deep.equal(result);
+        expect(assessmentReturned.assessmentResults[0]).to.deep.equal(expectedAssessmentResult);
       });
     });
   });
