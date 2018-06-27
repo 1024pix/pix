@@ -1,9 +1,17 @@
+const _ = require('lodash');
 const JSONAPIError = require('jsonapi-serializer').Error;
 
-module.exports = (errorMessage) => {
-  return new JSONAPIError({
+function _formatInvalidAttribute({ attribute, message }) {
+  return {
     status: '422',
-    title: 'Unprocessable Entity Error',
-    detail: errorMessage
-  });
+    source: {
+      pointer: `/data/attributes/${ _.kebabCase(attribute) }`,
+    },
+    title: `Invalid data attribute "${ attribute }"`,
+    detail: message
+  };
+}
+
+module.exports = (invalidAttributes) => {
+  return new JSONAPIError(invalidAttributes.map(_formatInvalidAttribute));
 };

@@ -3,7 +3,7 @@ const campaignRepository = require('../../infrastructure/repositories/campaign-r
 const userRepository = require('../../infrastructure/repositories/user-repository');
 const campaignSerializer = require('../../infrastructure/serializers/jsonapi/campaign-serializer');
 const Campaign = require('../../domain/models/Campaign');
-const { UserNotAuthorizedToCreateCampaignError } = require('../../domain/errors');
+const { UserNotAuthorizedToCreateCampaignError, EntityValidationError } = require('../../domain/errors');
 
 const JSONAPI = require('../../interfaces/jsonapi');
 const logger = require('../../infrastructure/logger');
@@ -22,7 +22,11 @@ module.exports = {
       })
       .catch((error) => {
         if(error instanceof UserNotAuthorizedToCreateCampaignError) {
-          reply(JSONAPI.unprocessableEntityError(error.message)).code(422);
+          reply(JSONAPI.forbiddenError(error.message)).code(403);
+        }
+
+        if (error instanceof EntityValidationError) {
+          reply(JSONAPI.unprocessableEntityError(error.invalidAttributes)).code(422);
         }
 
         logger.error(error);

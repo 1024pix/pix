@@ -5,7 +5,7 @@ const usecases = require('../../../../lib/domain/usecases');
 const campaignRepository = require('../../../../lib/infrastructure/repositories/campaign-repository');
 const userRepository = require('../../../../lib/infrastructure/repositories/user-repository');
 const campaignSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/campaign-serializer');
-const { UserNotAuthorizedToCreateCampaignError } = require('../../../../lib/domain/errors');
+const { UserNotAuthorizedToCreateCampaignError, EntityValidationError } = require('../../../../lib/domain/errors');
 
 describe('Unit | Application | Controller | Campaign', () => {
 
@@ -80,7 +80,7 @@ describe('Unit | Application | Controller | Campaign', () => {
       });
     });
 
-    it('should throw a 422 JSONAPI error if user is not authorized to create a campaign', () => {
+    it('should throw a 403 JSONAPI error if user is not authorized to create a campaign', () => {
       // given
       const request = { auth: { credentials: { userId: 51423 } } };
       const errorMessage = 'User is not authorized to create campaign';
@@ -89,8 +89,8 @@ describe('Unit | Application | Controller | Campaign', () => {
       const expectedUnprocessableEntityError = {
         errors: [{
           detail: errorMessage,
-          status: '422',
-          title: 'Unprocessable Entity Error'
+          status: '403',
+          title: 'Forbidden Error'
         }]
       };
 
@@ -99,8 +99,53 @@ describe('Unit | Application | Controller | Campaign', () => {
 
       // then
       return promise.then(() => {
-        expect(codeStub).to.have.been.calledWith(422);
+        expect(codeStub).to.have.been.calledWith(403);
         expect(replyStub).to.have.been.calledWith(expectedUnprocessableEntityError);
+
+      });
+    });
+
+    it('should throw a 422 JSONAPI error if user there is a validation error on the campaign', () => {
+      // given
+      const request = { auth: { credentials: { userId: 51423 } } };
+      const expectedValidationError = new EntityValidationError({
+        invalidAttributes: [
+          {
+            attribute: 'name',
+            message: 'Le nom n’est pas renseigné.',
+          },
+          {
+            attribute: 'organizationId',
+            message: 'L’id de l’organisation n’est pas renseigné.',
+          },
+        ]
+      });
+      usecases.createCampaign.rejects(expectedValidationError);
+
+      const jsonApiValidationErrors = {
+        errors: [
+          {
+            status: '422',
+            source: { 'pointer': '/data/attributes/name' },
+            title: 'Invalid data attribute "name"',
+            detail: 'Le nom n’est pas renseigné.'
+          },
+          {
+            status: '422',
+            source: { 'pointer': '/data/attributes/organization-id' },
+            title: 'Invalid data attribute "organizationId"',
+            detail: 'L’id de l’organisation n’est pas renseigné.'
+          }
+        ]
+      };
+
+      // when
+      const promise = campaignController.save(request, replyStub);
+
+      // then
+      return promise.then(() => {
+        expect(codeStub).to.have.been.calledWith(422);
+        expect(replyStub).to.have.been.calledWith(jsonApiValidationErrors);
 
       });
     });

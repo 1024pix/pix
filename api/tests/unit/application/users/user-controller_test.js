@@ -156,13 +156,13 @@ describe('Unit | Controller | user-controller', () => {
             {
               status: '422',
               source: { 'pointer': '/data/attributes/first-name' },
-              title: 'Invalid user data attribute "firstName"',
+              title: 'Invalid data attribute "firstName"',
               detail: 'Votre prénom n’est pas renseigné.'
             },
             {
               status: '422',
               source: { 'pointer': '/data/attributes/password' },
-              title: 'Invalid user data attribute "password"',
+              title: 'Invalid data attribute "password"',
               detail: 'Votre mot de passe n’est pas renseigné.'
             }
           ]
