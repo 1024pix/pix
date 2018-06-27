@@ -106,7 +106,6 @@ function _getCompetencesWithCertifiedLevelAndScore(answersWithCompetences, listC
   return listCompetences.map((competence) => {
     const numberOfCorrectAnswers = _numberOfCorrectAnswersPerCompetence(answersWithCompetences, competence, certificationChallenges);
     // TODO: Convertir ça en Mark ?
-
     return {
       name: competence.name,
       index: competence.index,
