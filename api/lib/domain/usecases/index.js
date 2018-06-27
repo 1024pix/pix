@@ -1,4 +1,5 @@
 const authenticateUser = require('./authenticate-user');
+const createAssessmentResultForCompletedCertification = require('./create-assessment-result-for-completed-certification');
 const createUser = require('./create-user');
 const findCompletedUserCertifications = require('./find-completed-user-certifications');
 const getCorrectionForAnswerWhenAssessmentEnded = require('./get-correction-for-answer-when-assessment-ended');
@@ -18,6 +19,7 @@ const updateCertification = require('./update-certification');
 module.exports = {
   // Thx to list the use cases in alphabetical order :)
   authenticateUser,
+  createAssessmentResultForCompletedCertification,
   createUser,
   findCompletedUserCertifications,
   getCorrectionForAnswerWhenAssessmentEnded,

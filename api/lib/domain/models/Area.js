@@ -5,7 +5,7 @@ class Area {
     code,
     name,
     title,
-    competences, // list of Competence domain objects
+    competences = [], // list of Competence domain objects
   } = {}) {
     this.id = id;
     this.code = code;

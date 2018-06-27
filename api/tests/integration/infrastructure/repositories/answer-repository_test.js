@@ -117,7 +117,7 @@ describe('Integration | Repository | AnswerRepository', () => {
     };
 
     //different challenge different assessment
-    const timedOutAnswerForAssessement1 = {
+    const timedOutAnswerForAssessment1 = {
       value: '1,2,3',
       result: 'timedout',
       challengeId: 'challenge_000',
@@ -125,7 +125,7 @@ describe('Integration | Repository | AnswerRepository', () => {
     };
 
     beforeEach(() => {
-      return knex('answers').insert([wrongAnswerForAssessment1234, wrongAnswerForAssessment1, timedOutAnswerForAssessement1]);
+      return knex('answers').insert([wrongAnswerForAssessment1234, wrongAnswerForAssessment1, timedOutAnswerForAssessment1]);
     });
 
     afterEach(() => {

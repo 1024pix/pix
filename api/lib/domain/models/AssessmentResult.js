@@ -27,6 +27,28 @@ class AssessmentResult {
     this.assessmentId = assessmentId;
     this.competenceMarks = competenceMarks;
   }
+
+  static BuildAlgoErrorResult(error, assessmentId) {
+    return new AssessmentResult({
+      emitter: 'PIX-ALGO',
+      commentForJury: error.message,
+      level: 0,
+      pixScore: 0,
+      status: 'error',
+      assessmentId,
+    });
+  }
+
+  static BuildStandardAssessmentResult(level, pixScore, status, assessmentId) {
+    return new AssessmentResult({
+      emitter: 'PIX-ALGO',
+      commentForJury: 'Computed',
+      level: level,
+      pixScore: pixScore,
+      status,
+      assessmentId,
+    });
+  }
 }
 
 module.exports = AssessmentResult;

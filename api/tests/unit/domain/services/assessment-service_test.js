@@ -11,7 +11,6 @@ const challengeRepository = require('../../../../lib/infrastructure/repositories
 const answerRepository = require('../../../../lib/infrastructure/repositories/answer-repository');
 const skillRepository = require('../../../../lib/infrastructure/repositories/skill-repository');
 const competenceRepository = require('../../../../lib/infrastructure/repositories/competence-repository');
-const competenceMarkRepository = require('../../../../lib/infrastructure/repositories/competence-mark-repository');
 
 const Assessment = require('../../../../lib/domain/models/Assessment');
 const Course = require('../../../../lib/domain/models/Course');
@@ -164,7 +163,7 @@ describe('Unit | Domain | Services | assessment', () => {
           });
       });
 
-      context('when the assessement is a preview', () => {
+      context('when the Assessment is a preview', () => {
         beforeEach(() => {
           answerRepository.findByAssessment.returns([correctAnswerWeb1]);
         });
@@ -195,7 +194,7 @@ describe('Unit | Domain | Services | assessment', () => {
         });
       });
 
-      context('when the assessement is a certification', () => {
+      context('when the Assessment is a certification', () => {
         beforeEach(() => {
           const assessmentFromCertif = Assessment.fromAttributes({
             id: ASSESSMENT_ID,
@@ -228,7 +227,7 @@ describe('Unit | Domain | Services | assessment', () => {
         });
       });
 
-      context('when the assessement is linked to a course', () => {
+      context('when the Assessment is linked to a course', () => {
         beforeEach(() => {
           const assessmentFromPreview = Assessment.fromAttributes({ id: ASSESSMENT_ID, courseId: COURSE_ID });
           assessmentRepository.get.resolves(assessmentFromPreview);
@@ -466,7 +465,7 @@ describe('Unit | Domain | Services | assessment', () => {
 
     context('when the assessment is correctly retrieved', () => {
 
-      context('when the assessement is a preview', () => {
+      context('when the Assessment is a preview', () => {
         beforeEach(() => {
           answerRepository.findByAssessment.returns([correctAnswerWeb1]);
         });
@@ -495,7 +494,7 @@ describe('Unit | Domain | Services | assessment', () => {
         });
       });
 
-      context('when the assessement is a certification', () => {
+      context('when the Assessment is a certification', () => {
 
         it('should not try to get course details', () => {
           // given
@@ -515,7 +514,7 @@ describe('Unit | Domain | Services | assessment', () => {
         });
       });
 
-      context('when the assessement is linked to a course', () => {
+      context('when the Assessment is linked to a course', () => {
         it('should load course details', () => {
           // given
           const assessmentFromPreview = Assessment.fromAttributes({ id: ASSESSMENT_ID, courseId: COURSE_ID });
@@ -715,7 +714,7 @@ describe('Unit | Domain | Services | assessment', () => {
         });
     });
 
-    context('when the assessement is linked to a course', () => {
+    context('when the Assessment is linked to a course', () => {
       beforeEach(() => {
         const assessmentFromPreview = Assessment.fromAttributes({ id: ASSESSMENT_ID, courseId: COURSE_ID });
         assessmentRepository.get.resolves(assessmentFromPreview);
@@ -1160,71 +1159,5 @@ describe('Unit | Domain | Services | assessment', () => {
       expect(isPlacementTest).to.be.false;
     });
 
-  });
-
-  describe('#computeMarks', () => {
-
-    const sandbox = sinon.sandbox.create();
-    const assessmentResultId = '2413';
-    const competenceMark1 = new CompetenceMark({
-      level: 2,
-      score: 18,
-      area_code: 'area_1',
-      competence_code: '1.1',
-      assessmentResultId: assessmentResultId,
-    });
-    const competenceMark2 = new CompetenceMark({
-      level: 3,
-      score: 28,
-      area_code: 'area_2',
-      competence_code: '1.2',
-      assessmentResultId: assessmentResultId,
-    });
-
-    beforeEach(() => {
-      sandbox.stub(competenceRepository, 'list').resolves([
-        { index: '1.1', area: { code: 'area_1' } },
-        { index: '1.2', area: { code: 'area_2' } },
-      ]);
-
-      sandbox.stub(certificationService, 'calculateCertificationResultByAssessmentId').resolves({
-        competencesWithMark: [
-          {
-            index: '1.1',
-            obtainedLevel: 2,
-            obtainedScore: 18,
-          },
-          {
-            index: '1.2',
-            obtainedLevel: 3,
-            obtainedScore: 28,
-          },
-        ],
-      });
-
-      sandbox.stub(competenceMarkRepository, 'save').resolves(competenceMark1, competenceMark2);
-    });
-
-    afterEach(() => {
-      sandbox.restore();
-    });
-
-    it('should create and saved the competence marks for one given assessment', () => {
-      // given
-      const assessmentId = '1342';
-
-      // when
-      const promise = service.computeMarks(assessmentId, assessmentResultId);
-
-      // then
-      return promise.then((savedMarks) => {
-        expect(competenceMarkRepository.save).to.have.been.calledTwice;
-        expect(savedMarks).to.have.lengthOf(2);
-        expect(savedMarks).to.contains(competenceMark1, competenceMark2);
-
-        expect(competenceMarkRepository.save.firstCall.args[0]).to.deep.equal(competenceMark1);
-        expect(competenceMarkRepository.save.secondCall.args[0]).to.deep.equal(competenceMark2);
-      });
-    });
   });
 });

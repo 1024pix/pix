@@ -285,6 +285,41 @@ describe('Unit | Domain | Models | Assessment', () => {
     });
   });
 
+  describe('#isCertificationAssessment', () => {
+    it('should return true when the assessment is a CERTIFICATION', () => {
+      // given
+      const assessment = factory.buildAssessment({ type: 'CERTIFICATION' });
+
+      // when
+      const isCertificationAssessment = assessment.isCertificationAssessment();
+
+      // then
+      expect(isCertificationAssessment).to.be.true;
+    });
+
+    it('should return false when the assessment is not a CERTIFICATION', () => {
+      // given
+      const assessment = factory.buildAssessment({ type: 'PLACEMENT' });
+
+      // when
+      const isCertificationAssessment = assessment.isCertificationAssessment();
+
+      // then
+      expect(isCertificationAssessment).to.be.false;
+    });
+
+    it('should return false when the assessment has no type', () => {
+      // given
+      const assessment = factory.buildAssessment({ type: null });
+
+      // when
+      const isCertificationAssessment = assessment.isCertificationAssessment();
+
+      // then
+      expect(isCertificationAssessment).to.be.false;
+    });
+  });
+
   describe('#addAnswersWithTheirChallenge', () => {
     it('should add answers with their challenges at the assessment', () => {
       // given
@@ -679,4 +714,48 @@ describe('Unit | Domain | Models | Assessment', () => {
       expect(result).to.be.deep.equal(expectedSkills);
     });
   });
+  describe('#isCertifiable', () => {
+
+    it('should return true when the last assessment has a level > 0', () => {
+      // given
+      const assessmentResultComputed = new AssessmentResult({
+        id: 3,
+        createdAt: '2017-12-22',
+        emitter: 'Gerard',
+        level: 3,
+      });
+
+      const assessment = Assessment.fromAttributes({
+        assessmentResults: [assessmentResultComputed]
+      });
+
+      // when
+      const isCompleted = assessment.isCertifiable();
+
+      // then
+      expect(isCompleted).to.be.true;
+    });
+
+    it('should return false when the last assessment has a level < 1', () => {
+      // given
+      const assessmentResultComputed = new AssessmentResult({
+        id: 3,
+        createdAt: '2017-12-22',
+        emitter: 'Gerard',
+        level: 0,
+      });
+
+      const assessment = Assessment.fromAttributes({
+        assessmentResults: [assessmentResultComputed]
+      });
+
+      // when
+      const isCompleted = assessment.isCertifiable();
+
+      // then
+      expect(isCompleted).to.be.false;
+    });
+
+  });
+
 });

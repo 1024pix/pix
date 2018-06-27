@@ -47,13 +47,15 @@ class Assessment {
     course,
   } = {}) {
     this.id = id;
-    this.assessmentResults = assessmentResults;
-    this.courseId = courseId;
     this.createdAt = createdAt;
+    this.courseId = courseId;
     this.userId = userId;
-    this.type = type;
     this.state = state;
+    this.type = type;
+
+    // relationships
     this.answers = answers;
+    this.assessmentResults = assessmentResults;
     this.course = course;
   }
 
@@ -103,6 +105,10 @@ class Assessment {
 
   isSmartPlacementAssessment() {
     return this.type === type.SMARTPLACEMENT;
+  }
+
+  isCertificationAssessment() {
+    return this.type === type.CERTIFICATION;
   }
 
   addAnswersWithTheirChallenge(answers, challenges) {
@@ -159,6 +165,10 @@ class Assessment {
     return this.getValidatedSkills()
       .map(skill => pixScoreBySkill[skill.name] || 0)
       .reduce((a, b) => a + b, 0);
+  }
+
+  isCertifiable() {
+    return this.getLastAssessmentResult().level >= 1;
   }
 
 }

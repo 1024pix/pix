@@ -3,27 +3,37 @@ const MINIMUM_REPRODUCTIBILITY_RATE_TO_BE_TRUSTED = 80;
 const NUMBER_OF_PIX_FOR_ONE_LEVEL = 8;
 const UNCERTIFIED_LEVEL = -1;
 const qrocmDepChallenge = 'QROCM-dep';
+
 const _ = require('lodash');
 const moment = require('moment');
+
 const AnswerStatus = require('../models/AnswerStatus');
 const CertificationCourse = require('../../domain/models/CertificationCourse');
-const { UserNotAuthorizedToCertifyError, NotCompletedAssessmentError } = require('../../../lib/domain/errors');
+const CertificationContract = require('../../domain/models/CertificationContract');
 
-const userService = require('../../../lib/domain/services/user-service');
-const certificationChallengesService = require('../../../lib/domain/services/certification-challenges-service');
+const {
+  CertificationComputeError,
+  NotCompletedAssessmentError,
+  UserNotAuthorizedToCertifyError } = require('../../../lib/domain/errors');
+
 const answerServices = require('./answer-service');
-const assessmentRepository = require('../../../lib/infrastructure/repositories/assessment-repository');
+const certificationChallengesService = require('../../../lib/domain/services/certification-challenges-service');
+const userService = require('../../../lib/domain/services/user-service');
+
 const answersRepository = require('../../../lib/infrastructure/repositories/answer-repository');
+const assessmentRepository = require('../../../lib/infrastructure/repositories/assessment-repository');
+const assessmentResultRepository = require('../../infrastructure/repositories/assessment-result-repository');
 const certificationChallengesRepository = require('../../../lib/infrastructure/repositories/certification-challenge-repository');
 const certificationCourseRepository = require('../../infrastructure/repositories/certification-course-repository');
-
+const challengeRepository = require('../../infrastructure/repositories/challenge-repository');
 const competenceRepository = require('../../infrastructure/repositories/competence-repository');
-const assessmentResultRepository = require('../../infrastructure/repositories/assessment-result-repository');
 
 function _enhanceAnswersWithCompetenceId(listAnswers, listChallenges) {
   return _.map(listAnswers, (answer) => {
     const competence = listChallenges.find((challenge) => challenge.challengeId === answer.challengeId);
-
+    if (competence == null) {
+      throw new CertificationComputeError('Problème de chargement de la compétence pour le challenge ' + answer.challengeId);
+    }
     answer.competenceId = competence.competenceId;
     return answer;
   });
@@ -39,17 +49,26 @@ function _isQROCMdepPartially(challenge, answer) {
   return challengeType === qrocmDepChallenge && answer.isPartially();
 }
 
-function _numberOfCorrectAnswersPerCompetence(answersWithCompetences, competence) {
+function _numberOfCorrectAnswersPerCompetence(answersWithCompetences, competence, certificationChallenges) {
   const answerForCompetence = _.filter(answersWithCompetences, answer => answer.competenceId === competence.id);
+  const challengesForCompetence = _.filter(certificationChallenges, challenge => challenge.competenceId === competence.id);
+
+  CertificationContract.assertThatCompetenceHasEnoughChallenge(challengesForCompetence, competence.index);
+
+  CertificationContract.assertThatCompetenceHasEnoughChallenge(answerForCompetence, competence.index);
 
   let nbOfCorrectAnswers = 0;
   answerForCompetence.forEach(answer => {
-    const challenge = _.find(competence.challenges, challenge => challenge.id === answer.challengeId);
-    const answerResult = answer.result;
+    const challenge = _.find(certificationChallenges, challenge => challenge.challengeId === answer.challengeId);
 
-    if (competence.challenges.length < 3 && _isQROCMdepOk(challenge, answer)) {
+    if (_.isUndefined(challenge)) {
+      throw new CertificationComputeError('Problème de chargement du challenge ' + answer.challengeId);
+    }
+
+    const answerResult = answer.result;
+    if (answerForCompetence.length < 3 && _isQROCMdepOk(challenge, answer)) {
       nbOfCorrectAnswers += 2;
-    } else if (competence.challenges.length < 3 && _isQROCMdepPartially(challenge, answer)) {
+    } else if (answerForCompetence.length < 3 && _isQROCMdepPartially(challenge, answer)) {
       nbOfCorrectAnswers++;
     } else if (AnswerStatus.isOK(answerResult)) {
       nbOfCorrectAnswers++;
@@ -83,11 +102,10 @@ function _getSumScoreFromCertifiedCompetences(listCompetences) {
   return _(listCompetences).map('obtainedScore').sum();
 }
 
-function _getCompetencesWithCertifiedLevelAndScore(answersWithCompetences, listCompetences, reproductibilityRate) {
+function _getCompetencesWithCertifiedLevelAndScore(answersWithCompetences, listCompetences, reproductibilityRate, certificationChallenges) {
   return listCompetences.map((competence) => {
-    const numberOfCorrectAnswers = _numberOfCorrectAnswersPerCompetence(answersWithCompetences, competence);
+    const numberOfCorrectAnswers = _numberOfCorrectAnswersPerCompetence(answersWithCompetences, competence, certificationChallenges);
     // TODO: Convertir ça en Mark ?
-
     return {
       name: competence.name,
       index: competence.index,
@@ -125,19 +143,24 @@ function _checkIfUserCanStartACertification(userCompetences) {
     throw new UserNotAuthorizedToCertifyError();
 }
 
-function _getResult(listAnswers, listChallenges, listCompetences) {
+function _getResult(listAnswers, certificationChallenges, testedCompetences) {
+
+  CertificationContract.assertThatWeHaveEnoughAnswers(listAnswers, certificationChallenges);
+
   const reproductibilityRate = Math.round(answerServices.getAnswersSuccessRate(listAnswers));
   if (reproductibilityRate < MINIMUM_REPRODUCTIBILITY_RATE_TO_BE_CERTIFIED) {
     return {
-      competencesWithMark: _getCompetenceWithFailedLevel(listCompetences),
+      competencesWithMark: _getCompetenceWithFailedLevel(testedCompetences),
       totalScore: 0,
       percentageCorrectAnswers: reproductibilityRate,
     };
   }
 
-  const answersWithCompetences = _enhanceAnswersWithCompetenceId(listAnswers, listChallenges);
-  const competencesWithMark = _getCompetencesWithCertifiedLevelAndScore(answersWithCompetences, listCompetences, reproductibilityRate);
+  const answersWithCompetences = _enhanceAnswersWithCompetenceId(listAnswers, certificationChallenges);
+  const competencesWithMark = _getCompetencesWithCertifiedLevelAndScore(answersWithCompetences, testedCompetences, reproductibilityRate, certificationChallenges);
   const scoreAfterRating = _getSumScoreFromCertifiedCompetences(competencesWithMark);
+
+  CertificationContract.assertThatScoreIsCoherentWithReproductibilityRate(scoreAfterRating,reproductibilityRate);
 
   return { competencesWithMark, totalScore: scoreAfterRating, percentageCorrectAnswers: reproductibilityRate };
 }
@@ -175,13 +198,30 @@ function _getCertificationResult(assessment) {
       return Promise.all([
         answersByAssessments,
         certificationChallenges,
-        userService.getProfileToCertify(userId, startOfCertificationDate),
+        assessmentRepository.findLastCompletedAssessmentsForEachCoursesByUser(userId, startOfCertificationDate),
         certificationCourseRepository.get(assessment.courseId),
         competenceRepository.find(),
+        challengeRepository.list(),
       ]);
     })
-    .then(([listAnswers, certificationChallenges, listCompetences, certificationCourse, competences]) => {
-      const testedCompetences = listCompetences.filter(competence => competence.challenges.length > 0);
+    .then(([listAnswers, certificationChallenges, assessmentsPositioned, certificationCourse, competences, challengesList]) => {
+      const testedCompetences = assessmentsPositioned
+        .filter(assessment => assessment.isCertifiable())
+        .map(assessment => {
+          const competenceOfAssessment = _.find(competences, competence => competence.courseId === assessment.courseId);
+          return {
+            id: competenceOfAssessment.id,
+            index: competenceOfAssessment.index,
+            name: competenceOfAssessment.name,
+            estimatedLevel: assessment.getLastAssessmentResult().level,
+            pixScore: assessment.getLastAssessmentResult().pixScore,
+          };
+        });
+
+      certificationChallenges.forEach(certifChallenge => {
+        const challenge = _.find(challengesList, challengeFromAirtable => challengeFromAirtable.id === certifChallenge.challengeId);
+        certifChallenge.type = challenge.type || '';
+      });
 
       const result = _getResult(listAnswers, certificationChallenges, testedCompetences);
       // FIXME: Missing tests
