@@ -8,9 +8,7 @@ const AssessmentResult = require('../../../../lib/domain/models/AssessmentResult
 const Challenge = require('../../../../lib/domain/models/Challenge');
 const Course = require('../../../../lib/domain/models/Course');
 const Skill = require('../../../../lib/domain/models/Skill');
-const SkillReview = require('../../../../lib/domain/models/SkillReview');
 const Tube = require('../../../../lib/domain/models/Tube');
-const { NoSkillReviewAvailableForAssessment } = require('../../../../lib/domain/errors');
 
 function _newChallenge(skill) {
   const challenge = Challenge.fromAttributes();
@@ -757,80 +755,6 @@ describe('Unit | Domain | Models | Assessment', () => {
 
       // then
       expect(isCompleted).to.be.false;
-    });
-  });
-
-  describe('#generateSkillReview', () => {
-
-    // TODO : undefined si pas smartPlacement
-    it('should return a skill review with the right parameters if type is smart placement', () => {
-      // given
-      let skillCollection1, skillCollection2;
-
-      const [s1, s2] = skillCollection1 = factory.buildSkillCollection({ minLevel: 1, maxLevel: 2 });
-      const [t1, t2, t3] = skillCollection2 = factory.buildSkillCollection({ minLevel: 1, maxLevel: 3 });
-      const ch1 = factory.buildChallenge({ skills: [s1] });
-      const ch2 = factory.buildChallenge({ skills: [s2] });
-      const ch3 = factory.buildChallenge({ skills: [t1] });
-      const ch4 = factory.buildChallenge({ skills: [t2] });
-      const ch5 = factory.buildChallenge({ skills: [t3] });
-      const answerCh2 = factory.buildAnswer({ challengeId: ch2.id, result: AnswerStatus.OK });
-      const answerCh4 = factory.buildAnswer({ challengeId: ch4.id, result: AnswerStatus.KO });
-
-      const assessment = factory.buildAssessment.ofTypeSmartPlacement({
-        course: factory.buildCourse({
-          challenges: [ch1, ch2, ch3, ch4, ch5],
-          competenceSkills: _.flatten([skillCollection1, skillCollection2]),
-          tubes: [
-            factory.buildTube({ skills: skillCollection1 }),
-            factory.buildTube({ skills: skillCollection2 }),
-          ],
-        }),
-        answers: [answerCh2, answerCh4],
-        targetProfile: factory.buildTargetProfile({ skills: [s1, s2, t1, t2, t3] }),
-      });
-      assessment.addAnswersWithTheirChallenge(assessment.answers, [ch1, ch2, ch3, ch4, ch5]);
-
-      // when
-      const skillReview = assessment.generateSkillReview();
-
-      // then
-      expect(skillReview).to.be.an.instanceof(SkillReview);
-      expect(skillReview.id).to.be.equal(`skill-review-${assessment.id}`);
-      expect(skillReview.targetedSkills).to.be.deep.equal(assessment.targetProfile.skills);
-      expect(skillReview.validatedSkills).to.be.deep.equal(assessment.getValidatedSkills());
-      expect(skillReview.failedSkills).to.be.deep.equal(assessment.getFailedSkills());
-    });
-
-    it('should return a skill review with the right parameters', () => {
-      // given
-      let skillCollection1, skillCollection2;
-
-      const [s1, s2] = skillCollection1 = factory.buildSkillCollection({ minLevel: 1, maxLevel: 2 });
-      const [t1, t2, t3] = skillCollection2 = factory.buildSkillCollection({ minLevel: 1, maxLevel: 3 });
-      const ch1 = factory.buildChallenge({ skills: [s1] });
-      const ch2 = factory.buildChallenge({ skills: [s2] });
-      const ch3 = factory.buildChallenge({ skills: [t1] });
-      const ch4 = factory.buildChallenge({ skills: [t2] });
-      const ch5 = factory.buildChallenge({ skills: [t3] });
-      const answerCh2 = factory.buildAnswer({ challengeId: ch2.id, result: AnswerStatus.OK });
-      const answerCh4 = factory.buildAnswer({ challengeId: ch4.id, result: AnswerStatus.KO });
-
-      const assessment = factory.buildAssessment({
-        course: factory.buildCourse({
-          challenges: [ch1, ch2, ch3, ch4, ch5],
-          competenceSkills: _.flatten([skillCollection1, skillCollection2]),
-          tubes: [
-            factory.buildTube({ skills: skillCollection1 }),
-            factory.buildTube({ skills: skillCollection2 }),
-          ],
-        }),
-        answers: [answerCh2, answerCh4],
-      });
-      assessment.addAnswersWithTheirChallenge(assessment.answers, [ch1, ch2, ch3, ch4, ch5]);
-
-      // then
-      expect(() => assessment.generateSkillReview()).to.throw(NoSkillReviewAvailableForAssessment);
     });
   });
 });
