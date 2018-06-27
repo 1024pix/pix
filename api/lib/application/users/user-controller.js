@@ -1,7 +1,6 @@
 const Boom = require('boom');
 const moment = require('moment');
 const JSONAPIError = require('jsonapi-serializer').Error;
-const _ = require('lodash');
 
 const userSerializer = require('../../infrastructure/serializers/jsonapi/user-serializer');
 const validationErrorSerializer = require('../../infrastructure/serializers/jsonapi/validation-error-serializer');
@@ -49,8 +48,7 @@ module.exports = {
       .catch((error) => {
 
         if (error instanceof EntityValidationError) {
-          const serializedErrors = new JSONAPIError(error.invalidAttributes.map(_formatValidationError));
-          return reply(serializedErrors).code(422);
+          return reply(JSONAPI.unprocessableEntityError(error.invalidAttributes)).code(422);
         }
 
         logger.error(error);
@@ -152,17 +150,5 @@ function _handleWhenInvalidAuthorization(errorMessage) {
     data: {
       authorization: [errorMessage],
     },
-  };
-}
-
-// TODO extract this into a common error formatter
-function _formatValidationError({ attribute, message }) {
-  return {
-    status: '422',
-    source: {
-      pointer: `/data/attributes/${ _.kebabCase(attribute) }`,
-    },
-    title: `Invalid user data attribute "${ attribute }"`,
-    detail: message
   };
 }
