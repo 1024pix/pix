@@ -639,7 +639,7 @@ describe('Acceptance | API | Certifications', () => {
             id: JOHN_CERTIFICATION_ID,
             attributes: {
               // TODO Bug birthdate UTC+1
-              'birthdate': new Date('1989-10-24'),
+              'birthdate': new Date('1991-10-24'),
               'certification-center': 'Université du Pix',
               'comment-for-candidate': null,
               'date': new Date('2003-01-02'),
