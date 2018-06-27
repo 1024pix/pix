@@ -1,0 +1,31 @@
+{{#if edition}}
+  {{#each competenceList as |competenceItem|}}
+    <div class='row form-group certification-info-field'>
+      <label class='col-sm-3 col-form-label' for={{competenceItem}}>{{competenceItem}}</label>
+      <div class='col-sm-2 certificate'>
+        {{input type="text" class="form-control" id=competenceItem}}
+      </div>
+      <div class='col-sm-1 certificate'>Pix</div>
+      <div class='col-sm-2 certificate text-right'>
+        Niveau :
+      </div>
+      <div class='col-sm-4 certificate'>
+         {{input type="text" class="form-control" }}
+      </div>
+    </div>
+  {{/each}}
+{{else}}
+  {{#each competences as |competence|}}
+  <div class="row">
+    <div class="col-sm-3">
+      {{competence.index}}
+    </div>
+    <div class="col-sm-2">
+      {{competence.score}} Pix
+    </div>
+    <div class="col-sm-7">
+      Niveau : {{competence.level}}
+    </div>
+  </div>
+  {{/each}}
+{{/if}}
