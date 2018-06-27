@@ -25,6 +25,9 @@ const buildResultCompetenceTree = require('./build-result-competence-tree');
 const buildSkill = require('./build-skill');
 const buildSkillCollection = require('./build-skill-collection');
 const buildSkillReview = require('./build-skill-review');
+const buildSmartPlacementAnswer = require('./build-smart-placement-answer');
+const buildSmartPlacementAssessment = require('./build-smart-placement-assessment');
+const buildSmartPlacementKnowledgeElement = require('./build-smart-placement-knowledge-element');
 const buildTargetProfile = require('./build-target-profile');
 const buildTube = require('./build-tube');
 const buildTutorial = require('./build-tutorial');
@@ -58,6 +61,9 @@ module.exports = {
   buildSkill,
   buildSkillCollection,
   buildSkillReview,
+  buildSmartPlacementAnswer,
+  buildSmartPlacementAssessment,
+  buildSmartPlacementKnowledgeElement,
   buildTargetProfile,
   buildTube,
   buildTutorial,
