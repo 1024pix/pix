@@ -5,10 +5,17 @@ const JSONAPIError = require('jsonapi-serializer').Error;
 
 const assessmentResultController = require('../../../../lib/application/assessment-results/assessment-result-controller');
 const assessmentResultService = require('../../../../lib/domain/services/assessment-result-service');
+const certificationCourseRepository = require('../../../../lib/infrastructure/repositories/certification-course-repository');
+const assessmentRepository = require('../../../../lib/infrastructure/repositories/assessment-repository');
+const skillsService = require('../../../../lib/domain/services/skills-service');
+const assessmentService = require('../../../../lib/domain/services/assessment-service');
+const assessmentResultRepository = require('../../../../lib/infrastructure/repositories/assessment-result-repository');
+const competenceMarkRepository = require('../../../../lib/infrastructure/repositories/competence-mark-repository');
 
 const { AlreadyRatedAssessmentError, NotFoundError } = require('../../../../lib/domain/errors');
 const AssessmentResult = require('../../../../lib/domain/models/AssessmentResult');
 const CompetenceMark = require('../../../../lib/domain/models/CompetenceMark');
+const usecases = require('../../../../lib/domain/usecases');
 
 const logger = require('../../../../lib/infrastructure/logger');
 
@@ -43,7 +50,7 @@ describe('Unit | Controller | assessment-results', () => {
       sandbox = sinon.sandbox.create();
 
       replyStub = sinon.stub().returns({ code: sinon.stub() });
-      sandbox.stub(assessmentResultService, 'evaluateFromAssessmentId').resolves();
+      sandbox.stub(usecases, 'createAssessmentResultForCompletedCertification').resolves();
       sandbox.stub(Boom, 'notFound').returns({ message: 'NotFoundError' });
       sandbox.stub(Boom, 'badImplementation').returns({ message: 'badImplementation' });
       sandbox.stub(logger, 'error');
@@ -58,13 +65,22 @@ describe('Unit | Controller | assessment-results', () => {
       assessmentResultController.evaluate(request, replyStub);
 
       // then
-      expect(assessmentResultService.evaluateFromAssessmentId).to.have.been.calledWith('22');
+      expect(usecases.createAssessmentResultForCompletedCertification).to.have.been.calledWith({
+        assessmentId: '22',
+        forceRecomputeResult: false,
+        assessmentRepository,
+        assessmentResultRepository,
+        assessmentService,
+        certificationCourseRepository,
+        competenceMarkRepository,
+        skillsService,
+      });
     });
 
     it('should return 404 when the assessment is not found', () => {
       // given
       const notFoundAssessmentError = new NotFoundError();
-      assessmentResultService.evaluateFromAssessmentId.rejects(notFoundAssessmentError);
+      usecases.createAssessmentResultForCompletedCertification.rejects(notFoundAssessmentError);
 
       // when
       const promise = assessmentResultController.evaluate(request, replyStub);
@@ -77,10 +93,11 @@ describe('Unit | Controller | assessment-results', () => {
     });
 
     context('when the assessment is already evaluated', () => {
+
       it('should do nothing', () => {
         // given
         const alreadyRatedAssessmentError = new AlreadyRatedAssessmentError();
-        assessmentResultService.evaluateFromAssessmentId.rejects(alreadyRatedAssessmentError);
+        usecases.createAssessmentResultForCompletedCertification.rejects(alreadyRatedAssessmentError);
         const jsonApiError = new JSONAPIError({
           status: '412',
           title: 'Assessment is already rated',
@@ -103,7 +120,7 @@ describe('Unit | Controller | assessment-results', () => {
       it('should reply with an internal error', () => {
         // given
         const undefinedError = new Error();
-        assessmentResultService.evaluateFromAssessmentId.rejects(undefinedError);
+        usecases.createAssessmentResultForCompletedCertification.rejects(undefinedError);
 
         // when
         const promise = assessmentResultController.evaluate(request, replyStub);

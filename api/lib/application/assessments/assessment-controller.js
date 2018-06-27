@@ -28,7 +28,7 @@ module.exports = {
     assessment.state = 'started';
 
     // XXX Fake name, waiting for campaign
-    if(assessment.isSmartPlacementAssessment()) {
+    if (assessment.isSmartPlacementAssessment()) {
       assessment.courseId = 'Smart Placement Tests CourseId Not Used';
     }
 
@@ -139,16 +139,5 @@ module.exports = {
         logger.error(err);
         reply(Boom.badImplementation(err));
       });
-  },
-
-  computeCompetenceMarksForAssessmentResult(request, reply) {
-    const { assessmentId, assessmentResultId } = request.params;
-
-    return assessmentService.computeMarks(assessmentId, assessmentResultId).then(() => {
-      reply();
-    }).catch(error => {
-      logger.error(error);
-      reply(Boom.teapot(error));
-    });
   }
 };

@@ -107,7 +107,7 @@ describe('Acceptance | API | Assessments POST', () => {
         });
       });
 
-      it('should return persisted assessement', () => {
+      it('should return persisted Assessment', () => {
         // when
         const promise = server.inject(options);
 

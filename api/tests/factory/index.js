@@ -2,7 +2,7 @@ const buildAnswer = require('./build-answer');
 const buildArea = require('./build-area');
 const buildAreaAirtableDataObject = require('./build-area-airtable-data-object');
 const buildAssessment = require('./build-assessment');
-const buildAssessementResult = require('./build-assessment-result');
+const buildAssessmentResult = require('./build-assessment-result');
 const buildCatAnswer = require('./build-cat-answer');
 const buildCatAssessment = require('./build-cat-assessment');
 const buildCatChallenge = require('./build-cat-challenge');
@@ -31,7 +31,7 @@ module.exports = {
   buildArea,
   buildAreaAirtableDataObject,
   buildAssessment,
-  buildAssessementResult,
+  buildAssessmentResult,
   buildCatAnswer,
   buildCatAssessment,
   buildCatChallenge,
@@ -39,10 +39,10 @@ module.exports = {
   buildCatTube,
   buildCertification,
   buildCertificationWithCompetenceTree,
-  buildCompetence,
   buildCompetenceAirtableDataObject,
   buildChallenge,
   buildCourse,
+  buildCompetence,
   buildCompetenceMark,
   buildCompetenceTree,
   buildOrganization,

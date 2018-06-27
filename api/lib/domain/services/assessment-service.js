@@ -5,7 +5,6 @@ const assessmentRepository = require('../../infrastructure/repositories/assessme
 const challengeRepository = require('../../infrastructure/repositories/challenge-repository');
 const skillRepository = require('../../infrastructure/repositories/skill-repository');
 const competenceRepository = require('../../infrastructure/repositories/competence-repository');
-const competenceMarkRepository = require('../../infrastructure/repositories/competence-mark-repository');
 const assessmentAdapter = require('../../infrastructure/adapters/assessment-adapter');
 const answerService = require('../services/answer-service');
 const certificationService = require('../services/certification-service');
@@ -160,6 +159,7 @@ function getScoreAndLevel(assessmentId) {
       });
   });
 }
+
 function getCompetenceMarks(assessment) {
 
   if(this.isPlacementAssessment(assessment)) {
@@ -204,32 +204,6 @@ function getCompetenceMarks(assessment) {
   }
 
   return [];
-}
-
-function computeMarks(assessmentId, assessmentResultId) {
-
-  return Promise
-    .all([competenceRepository.list(), certificationService.calculateCertificationResultByAssessmentId(assessmentId)])
-    .then(([competences, { competencesWithMark }]) => {
-      const savedMarks = competencesWithMark.map((certifiedCompetence) => {
-
-        const area_code = _(competences).find((competence) => {
-          return competence.index === certifiedCompetence.index;
-        }).area.code;
-
-        const mark = new CompetenceMark({
-          level: certifiedCompetence.obtainedLevel,
-          score: certifiedCompetence.obtainedScore,
-          area_code,
-          competence_code: certifiedCompetence.index,
-          assessmentResultId: assessmentResultId
-        });
-
-        return competenceMarkRepository.save(mark);
-      });
-
-      return Promise.all(savedMarks);
-    });
 }
 
 function findByFilters(filters) {
@@ -284,5 +258,4 @@ module.exports = {
   getScoreAndLevel,
   getSkills,
   getCompetenceMarks,
-  computeMarks
 };

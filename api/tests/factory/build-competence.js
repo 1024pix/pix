@@ -1,20 +1,29 @@
+const faker = require('faker');
+
 const Competence = require('../../lib/domain/models/Competence');
+const buildArea = require('./build-area');
 
 module.exports = function buildCompetence({
-  id = 'recsvLz0W2ShyfD63',
-  name = 'Mener une recherche et une veille d’information',
-  index = '1.1',
-  courseId = undefined,
+  // attributes
+  id = faker.random.uuid(),
+  name = faker.random.word(),
+  index = `${faker.random.number()}.${faker.random.number()}`,
+  courseId = faker.random.uuid(),
+
+  // relationships
+  area = buildArea(),
   skills = [],
-  area = undefined,
 } = {}) {
 
   return new Competence({
+    // attributes
     id,
     name,
     index,
     courseId,
-    skills,
+
+    // relationships
     area,
+    skills,
   });
 };

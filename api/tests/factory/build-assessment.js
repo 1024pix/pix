@@ -2,24 +2,23 @@ const Assessment = require('../../lib/domain/models/Assessment');
 
 const buildAnswer = require('./build-answer');
 const buildCourse = require('./build-course');
-const buildAssessementResult = require('./build-assessment-result');
+const buildAssessmentResult = require('./build-assessment-result');
 
 module.exports = function({
   id = 1,
-  assessmentResults = [buildAssessementResult()],
   courseId = 'courseId',
   createdAt = new Date('1992-06-12'),
   userId = 1,
+  state = Assessment.states.COMPLETED,
   type = 'CERTIFICATION',
-  state = 'completed',
   course = buildCourse(),
   answers = [buildAnswer()],
+  assessmentResults = [buildAssessmentResult()],
 } = {}) {
 
   return new Assessment({
     // attributes
     id,
-    assessmentResults,
     courseId,
     createdAt,
     userId,
@@ -27,7 +26,8 @@ module.exports = function({
     state,
 
     // relationships
+    answers,
+    assessmentResults,
     course,
-    answers
   });
 };

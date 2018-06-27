@@ -1,6 +1,5 @@
 const assessmentController = require('./assessment-controller');
 const assessmentAuthorization = require('../preHandlers/assessment-authorization');
-const securityController = require('../../interfaces/controllers/security-controller');
 
 exports.register = function(server, options, next) {
 
@@ -12,18 +11,6 @@ exports.register = function(server, options, next) {
       config: {
         auth: false,
         handler: assessmentController.save,
-        tags: ['api']
-      }
-    },
-    {
-      method: 'POST',
-      path: '/api/assessments/{assessmentId}/{assessmentResultId}',
-      config: {
-        pre: [{
-          method: securityController.checkUserHasRolePixMaster,
-          assign: 'hasRolePixMaster'
-        }],
-        handler: assessmentController.computeCompetenceMarksForAssessmentResult,
         tags: ['api']
       }
     },
