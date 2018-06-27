@@ -176,19 +176,6 @@ class Assessment {
   isCertifiable() {
     return this.getLastAssessmentResult().level >= 1;
   }
-
-  generateSkillReview() {
-    if (this.type !== Assessment.types.SMARTPLACEMENT) {
-      throw new NoSkillReviewAvailableForAssessment();
-    }
-
-    return new SkillReview({
-      id: SkillReview.generateIdFromAssessmentId(this.id),
-      targetedSkills: this.targetProfile.skills,
-      validatedSkills: this.getValidatedSkills(),
-      failedSkills: this.getFailedSkills(),
-    });
-  }
 }
 
 Assessment.states = states;
