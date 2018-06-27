@@ -31,7 +31,7 @@ export default DS.Model.extend({
       result[value.index] = value;
       return result;
     }, {});
-    return Object.keys(indexedCompetences).reduce((result, value) => {
+    return Object.keys(indexedCompetences).sort().reduce((result, value) => {
       result.push(indexedCompetences[value]);
       return result;
     },[]);
