@@ -657,7 +657,7 @@ describe('Acceptance | API | Certifications', () => {
           });
         })
         .then(() => knex('certification-courses').where('id', JOHN_CERTIFICATION_ID))
-        .then((foundCertification) => expect(foundCertification[0].isPublished).to.be.true);
+        .then((foundCertification) => expect(foundCertification[0].isPublished == true).to.be.true);
     });
 
     it('should return unauthorized 403 HTTP status code when user is not pixMaster', () => {
@@ -682,7 +682,7 @@ describe('Acceptance | API | Certifications', () => {
       return promise
         .then((response) => expect(response.statusCode).to.equal(403))
         .then(() => knex('certification-courses').where('id', JOHN_CERTIFICATION_ID))
-        .then((certifications) => expect(certifications[0].isPublished).to.be.false);
+        .then((certifications) => expect(certifications[0].isPublished == true).to.be.false);
     });
   });
 });
