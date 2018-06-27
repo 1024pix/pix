@@ -136,7 +136,7 @@ describe('Acceptance | API | assessment-controller-get', () => {
     return knex('answers').delete()
       .then(() => knex('assessments').delete())
       .then(() => knex('users').delete())
-      .then(() => knex('users').insert(inserted_user, 'id'))
+      .then(() => knex('users').insert(inserted_user).returning('id'))
       .then(([id]) => {
         userId = id;
         inserted_assessment.userId = userId;
@@ -155,7 +155,7 @@ describe('Acceptance | API | assessment-controller-get', () => {
     let inserted_assessment_id;
 
     beforeEach(() => {
-      return knex('assessments').insert(inserted_assessment, 'id').then(([id]) => {
+      return knex('assessments').insert(inserted_assessment).returning('id').then(([id]) => {
         inserted_assessment_id = id;
         options = {
           method: 'GET',
@@ -229,7 +229,7 @@ describe('Acceptance | API | assessment-controller-get', () => {
     let options;
 
     beforeEach(function() {
-      return knex('assessments').insert([inserted_assessment], 'id').then(([id]) => {
+      return knex('assessments').insert([inserted_assessment]).returning('id').then(([id]) => {
         inserted_assessment_id = id;
         options = {
           headers: {
@@ -264,7 +264,7 @@ describe('Acceptance | API | assessment-controller-get', () => {
     let inserted_bad_answer_id;
 
     beforeEach(() => {
-      return knex('assessments').insert([inserted_assessment], 'id').then(([id]) => {
+      return knex('assessments').insert([inserted_assessment]).returning('id').then(([id]) => {
         inserted_assessment_id = id;
 
         const inserted_good_answer = {
@@ -281,9 +281,9 @@ describe('Acceptance | API | assessment-controller-get', () => {
         };
 
         return knex('answers').delete()
-          .then(() => knex('answers').insert(inserted_good_answer, 'id'))
+          .then(() => knex('answers').insert(inserted_good_answer).returning('id'))
           .then(([id]) => inserted_good_answer_id = id)
-          .then(() => knex('answers').insert(inserted_bad_answer, 'id'))
+          .then(() => knex('answers').insert(inserted_bad_answer).returning('id'))
           .then(([id]) => inserted_bad_answer_id = id);
       });
     });

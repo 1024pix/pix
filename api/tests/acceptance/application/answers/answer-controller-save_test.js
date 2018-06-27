@@ -174,7 +174,7 @@ describe('Acceptance | Controller | answer-controller-save', () => {
           assessmentId: inserted_assessment_id
         };
 
-        return knex('answers').insert(existingAnswer, 'id')
+        return knex('answers').insert(existingAnswer).returning('id')
           .then(([id]) => {
             existingAnswerId = id;
             options = {

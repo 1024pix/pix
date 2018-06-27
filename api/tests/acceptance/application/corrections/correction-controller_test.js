@@ -49,7 +49,7 @@ describe('Acceptance | Controller | correction-controller', () => {
         state: 'completed'
       };
       return knex('assessments')
-        .insert(completedAssessment, 'id')
+        .insert(completedAssessment).returning('id')
         .then(([id]) => {
           insertedAssessmentId = id;
 
@@ -60,7 +60,7 @@ describe('Acceptance | Controller | correction-controller', () => {
             assessmentId: insertedAssessmentId
           };
 
-          return knex('answers').insert(inserted_answer, 'id');
+          return knex('answers').insert(inserted_answer).returning('id');
         }).then(([id]) => insertedAnswerId = id);
     });
 

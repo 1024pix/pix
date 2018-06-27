@@ -123,7 +123,7 @@ describe('Acceptance | API | assessment-controller-get-adaptive', () => {
     };
 
     beforeEach(() => {
-      return knex('assessments').insert([inserted_assessment], 'id').then((ids) => {
+      return knex('assessments').insert([inserted_assessment]).returning('id').then((ids) => {
         insertedAssessmentId = ids[0];
       });
     });

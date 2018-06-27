@@ -50,14 +50,14 @@ describe('Acceptance | API | Certifications', () => {
 
     beforeEach(() => {
       return insertUserWithRolePixMaster()
-        .then(() => knex('sessions').insert(session, 'id'))
+        .then(() => knex('sessions').insert(session).returning('id'))
         .then(([id]) => certificationCourse.sessionId = id)
-        .then(() => knex('certification-courses').insert(certificationCourse, 'id'))
+        .then(() => knex('certification-courses').insert(certificationCourse).returning('id'))
         .then(([id]) => {
           certificationId = id;
           assessment.courseId = id;
         })
-        .then(() => knex('assessments').insert(assessment, 'id'))
+        .then(() => knex('assessments').insert(assessment).returning('id'))
         .then(([id]) => assessmentResult.assessmentId = id)
         .then(() => knex('assessment-results').insert(assessmentResult));
     });
@@ -594,7 +594,7 @@ describe('Acceptance | API | Certifications', () => {
     };
 
     beforeEach(() => {
-      return knex('sessions').insert(session, 'id')
+      return knex('sessions').insert(session).returning('id')
         .then(insertUserWithRolePixMaster)
         .then(insertUserWithStandardRole)
         .then(() => knex('certification-courses').insert(john_certificationCourse))
