@@ -143,7 +143,8 @@ describe('Acceptance | API | Certification Course', () => {
     it('should retrieve the certification total pix score and certified competences levels', () => {
       // given
       const expectedCreatedAt = new Date('2017-12-21 15:44:38').toISOString();
-      const expectedCompletedAt = new Date('2017-12-21T15:48:38.468Z');
+      const expectedResultCreatedAt = new Date('2017-12-21 16:44:38').toISOString();
+      const expectedCompletedAt = new Date('2017-12-21T15:48:38.468Z').toISOString();
 
       // when
       const promise = server.inject(options);
@@ -158,7 +159,7 @@ describe('Acceptance | API | Certification Course', () => {
 
         expect(result.attributes['pix-score']).to.equal(42);
         expect(givenCreatedAt).to.equal(expectedCreatedAt);
-        expect(givenResultCreatedAt).to.equal(expectedCreatedAt);
+        expect(givenResultCreatedAt).to.equal(expectedResultCreatedAt);
         expect(givenCompletedAt).to.equal(expectedCompletedAt);
         expect(result.attributes['competences-with-mark']).to.have.lengthOf(2);
 

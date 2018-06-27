@@ -309,7 +309,7 @@ describe('Acceptance | Application | Controller | organization-controller', () =
             attributes: {
               score: '15',
               'tests-finished': '1',
-              'created-at': new Date('2017-08-31 15:57:06'),
+              'created-at': '2017-08-31 15:57:06',
               'student-code': null,
               'campaign-code': null
             },
