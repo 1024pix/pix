@@ -1,10 +1,11 @@
-const buildAssessment = require('./build-assessment');
-const TargetProfile = require('../../lib/domain/models/TargetProfile');
+const buildSkillCollection = require('./build-skill-collection');
 const SkillReview = require('../../lib/domain/models/SkillReview');
 
 module.exports = function buildSkillReview({
-  assessment = buildAssessment(),
-  targetProfile = TargetProfile.TEST_PROFIL,
+  id = 1234,
+  targetedSkills = buildSkillCollection(),
+  validatedSkills = [targetedSkills[0]],
+  failedSkills = [targetedSkills[1]],
 } = {}) {
-  return new SkillReview({ assessment, targetProfile });
+  return new SkillReview({ id, targetedSkills, validatedSkills, failedSkills });
 };
