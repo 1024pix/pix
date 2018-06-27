@@ -12,7 +12,7 @@ function _insertOrganization(userId) {
     userId
   };
 
-  return knex('organizations').insert(organizationRaw, 'id')
+  return knex('organizations').insert(organizationRaw, 'id');
 }
 
 function _insertUser() {

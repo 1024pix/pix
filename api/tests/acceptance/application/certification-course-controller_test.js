@@ -1,6 +1,5 @@
 const { expect, knex, generateValidRequestAuhorizationHeader, insertUserWithRolePixMaster, cleanupUsersAndPixRolesTables } = require('../../test-helper');
 const server = require('../../../server');
-const _ = require('lodash');
 
 const Assessment = require('../../../lib/domain/models/Assessment');
 
