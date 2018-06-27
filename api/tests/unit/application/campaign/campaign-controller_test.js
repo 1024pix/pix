@@ -5,6 +5,7 @@ const usecases = require('../../../../lib/domain/usecases');
 const campaignRepository = require('../../../../lib/infrastructure/repositories/campaign-repository');
 const userRepository = require('../../../../lib/infrastructure/repositories/user-repository');
 const campaignSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/campaign-serializer');
+const { UserNotAuthorizedToCreateCampaignError } = require('../../../../lib/domain/errors');
 
 describe('Unit | Application | Controller | Campaign', () => {
 
@@ -79,12 +80,52 @@ describe('Unit | Application | Controller | Campaign', () => {
       });
     });
 
-    it('should throw a 404 JSONAPI error if there has been a validation error', () => {
+    it('should throw a 422 JSONAPI error if user is not authorized to create a campaign', () => {
+      // given
+      const request = { auth: { credentials: { userId: 51423 } } };
+      const errorMessage = 'User is not authorized to create campaign';
+      usecases.createCampaign.rejects(new UserNotAuthorizedToCreateCampaignError(errorMessage));
 
+      const expectedUnprocessableEntityError = {
+        errors: [{
+          detail: errorMessage,
+          status: '422',
+          title: 'Unprocessable Entity Error'
+        }]
+      };
+
+      // when
+      const promise = campaignController.save(request, replyStub);
+
+      // then
+      return promise.then(() => {
+        expect(codeStub).to.have.been.calledWith(422);
+        expect(replyStub).to.have.been.calledWith(expectedUnprocessableEntityError);
+
+      });
     });
 
     it('should throw a 500 JSONAPI error if an unknown error occurs', () => {
+      // given
+      const request = { auth: { credentials: { userId: 51423 } } };
+      usecases.createCampaign.rejects(new Error());
 
+      const expectedInternalServerError = {
+        errors: [{
+          detail: 'Une erreur inattendue est survenue lors de la création de la campagne',
+          status: '500',
+          title: 'Internal Server Error'
+        }]
+      };
+
+      // when
+      const promise = campaignController.save(request, replyStub);
+
+      // then
+      return promise.then(() => {
+        expect(codeStub).to.have.been.calledWith(500);
+        expect(replyStub).to.have.been.calledWith(expectedInternalServerError);
+      });
     });
 
   });
