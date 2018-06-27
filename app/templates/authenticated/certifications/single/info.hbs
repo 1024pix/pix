@@ -1,56 +1,102 @@
 <div class="single-certification-info">
   <div class='row'>
-    <div class='col'>Statut :</div><div class='col'>{{certification.status}}</div>
-  </div>
-  <div class='row'>
-    <div class='col'>Créée le :</div><div class='col'>{{certification.creationDate}}</div>
-  </div>
-  <div class='row'>
-    <div class='col'>Terminée le :</div><div class='col'>{{certification.completionDate}}</div>
-  </div>
-  <div class='row'>
-    <div class='col'>Session :</div><div class='col certificate'>{{certification.sessionId}}</div>
-  </div>
-  <div class='row'>
-    <div class='col'>Prénom :</div><div class='col certificate'>{{certification.firstName}}</div>
-  </div>
-  <div class='row'>
-    <div class='col'>Nom :</div><div class='col certificate'>{{certification.lastName}}</div>
-  </div>
-  <div class='row'>
-    <div class='col'>Date de naissance :</div><div class='col certificate'>{{certification.birthDate}}</div>
-  </div>
-  <div class='row'>
-    <div class='col'>Lieu de naissance :</div><div class='col certificate'>{{certification.birthPlace}}</div>
-  </div>
-  <div class='row'>
-    <div class='col'>Commentaire pour le candidat :</div><div class='col certificate'>{{certification.commentForCandidate}}</div>
-  </div>
-  <div class='row'>
-    <div class='col'>Commentaire pour l'organisation :</div><div class='col certificate'>{{certification.commentForOrganization}}</div>
-  </div>
-  <div class='row'>
-    <div class='col'>Commentaire pour le jury :</div><div class='col certificate'>{{certification.commentForJury}}</div>
-  </div>
-  <div class='row'>
-    <div class='col'>Identifiant jury :</div><div class='col certificate'>{{certification.juryId}}</div>
-  </div>
-  <div class='row'>
-    <div class='col'>Score :</div><div class='col certificate'>{{certification.pixScore}} Pix</div>
-  </div>
-  <div class='row'>
-    <div class='col'>Compétences :</div>
-    <div class='col certificate'>
-      {{#each certification.competences as |competence|}}
-      <div class="row">
-        <div class="col">
-          {{competence.index}}
-        </div>
-        <div class="col">
-          {{competence.level}}
+    <div class="col">
+      <div class="card">
+        <div class="card-body">
+          <h5 class="card-title">État</h5>
+          <div class="card-text">
+            <div class='row'>
+              <div class='col-sm-5'>Session :</div><div class='col-sm-7 certificate'>{{certification.sessionId}}</div>
+            </div>
+            <div class='row'>
+              <div class='col-sm-5'>Statut :</div><div class='col-sm-7'>{{certification.status}}</div>
+            </div>
+            <div class='row'>
+              <div class='col-sm-5'>Créée le :</div><div class='col-sm-7'>{{certification.creationDate}}</div>
+            </div>
+            <div class='row'>
+              <div class='col-sm-5'>Terminée le :</div><div class='col-sm-7'>{{certification.completionDate}}</div>
+            </div>
+          </div>
         </div>
       </div>
-      {{/each}}
+    </div>
+    <div class="col">
+      <div class="card">
+        <div class="card-body">
+          <h5 class="card-title">Candidat</h5>
+          <div class="card-text">
+            <div class='row'>
+              <div class='col-sm-5'>Prénom :</div><div class='col-sm-7 certificate'>{{certification.firstName}}</div>
+            </div>
+            <div class='row'>
+              <div class='col-sm-5'>Nom :</div><div class='col-sm-7 certificate'>{{certification.lastName}}</div>
+            </div>
+            <div class='row'>
+              <div class='col-sm-5'>Date de naissance :</div><div class='col-sm-7 certificate'>{{certification.birthDate}}</div>
+            </div>
+            <div class='row'>
+              <div class='col-sm-5'>Lieu de naissance :</div><div class='col-sm-7 certificate'>{{certification.birthPlace}}</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class='row'>
+    <div class="col">
+      <div class="card">
+        <div class="card-body">
+          <h5 class="card-title">Jury</h5>
+          <div class="card-text">
+            <div class="row">
+              <div class="col">
+                Commentaires
+              </div>
+            </div>
+            <div class='row'>
+              <div class='col-sm-3'>Pour le candidat :</div><div class='col-sm-9 certificate'>{{certification.commentForCandidate}}</div>
+            </div>
+            <div class='row'>
+              <div class='col-sm-3'>Pour l'organisation :</div><div class='col-sm-9 certificate'>{{certification.commentForOrganization}}</div>
+            </div>
+            <div class='row'>
+              <div class='col-sm-3'>Pour le jury :</div><div class='col-sm-9 certificate'>{{certification.commentForJury}}</div>
+            </div>
+            <div class='row'>
+              <div class='col-sm-3'>Identifiant jury :</div><div class='col-sm-9 certificate'>{{certification.juryId}}</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class='row'>
+    <div class="col">
+      <div class="card">
+        <div class="card-body">
+          <h5 class="card-title">Résultats</h5>
+          <div class="card-text">
+            <div class="row">
+              <div class='col-sm-2'>Score :</div><div class='col-sm-10 certificate'>{{certification.pixScore}} Pix</div>
+            </div>
+            <p></p>
+            {{#each certification.competences as |competence|}}
+            <div class="row">
+              <div class="col-sm-2">
+                {{competence.index}}
+              </div>
+              <div class="col-sm-2">
+                {{competence.score}} Pix
+              </div>
+              <div class="col-sm-8">
+                Niveau : {{competence.level}}
+              </div>
+            </div>
+            {{/each}}
+          </div>
+        </div>
+      </div>
     </div>
   </div>
 </div>
