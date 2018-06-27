@@ -28,7 +28,7 @@ describe('Acceptance | Controller | authentication-controller', () => {
           cgu: true
         };
       })
-      .then(user => knex('users').insert(user, 'id'))
+      .then(user => knex('users').insert(user).returning('id'))
       .then(([id]) => userId = id);
   });
 
@@ -111,8 +111,8 @@ describe('Acceptance | Controller | authentication-controller', () => {
       };
 
       return Promise.all([
-        knex('organizations').insert(organization, 'id'),
-        knex('organization-roles').insert(organizationRole, 'id'),
+        knex('organizations').insert(organization).returning('id'),
+        knex('organization-roles').insert(organizationRole).returning('id'),
       ])
         .then(([[organizationId], [organizationRoleId]]) => {
           return {

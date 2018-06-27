@@ -13,7 +13,7 @@ describe('Acceptance | Controller | feedback-controller', () => {
     };
 
     beforeEach(() => {
-      return knex('assessments').insert(assessment, 'id')
+      return knex('assessments').insert(assessment).returning('id')
         .then(([assessmentId]) => {
           options = {
             method: 'POST',

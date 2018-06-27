@@ -31,17 +31,17 @@ function generateValidRequestAuhorizationHeader(userId = 1234) {
 
 function insertUserWithRolePixMaster() {
   let userId;
-  return knex('users').insert({ id:1234, firstName: 'Super', lastName: 'Papa', email: 'super.papa@ho.me', password: 'abcd1234' }, 'id')
+  return knex('users').insert({ id:1234, firstName: 'Super', lastName: 'Papa', email: 'super.papa@ho.me', password: 'abcd1234' }).returning('id')
     .then((insertUserId) => {
       userId = insertUserId[0];
-      return knex('pix_roles').insert({ name: 'PIX_MASTER' }, 'id');
+      return knex('pix_roles').insert({ name: 'PIX_MASTER' }).returning('id');
     }).then((insertRoleId) => {
       return knex('users_pix_roles').insert({ user_id: userId, pix_role_id: insertRoleId[0] });
     });
 }
 
 function insertUserWithStandardRole() {
-  return knex('users').insert({ id: 4444, firstName: 'Classic', lastName: 'Papa', email: 'classic.papa@ho.me', password: 'abcd1234' }, 'id');
+  return knex('users').insert({ id: 4444, firstName: 'Classic', lastName: 'Papa', email: 'classic.papa@ho.me', password: 'abcd1234' }).returning('id');
 }
 
 function cleanupUsersAndPixRolesTables() {

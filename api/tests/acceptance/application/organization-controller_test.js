@@ -12,7 +12,7 @@ function _insertOrganization(userId) {
     userId
   };
 
-  return knex('organizations').insert(organizationRaw, 'id');
+  return knex('organizations').insert(organizationRaw).returning('id');
 }
 
 function _insertUser() {
@@ -23,7 +23,7 @@ function _insertUser() {
     password: 'Pix2017!'
   };
 
-  return knex('users').insert(userRaw, 'id');
+  return knex('users').insert(userRaw).returning('id');
 }
 
 function _insertSnapshot(organizationId, userId) {
@@ -109,7 +109,7 @@ function _insertSnapshot(organizationId, userId) {
     createdAt: '2017-08-31 15:57:06'
   };
 
-  return knex('snapshots').insert(snapshotRaw, 'id');
+  return knex('snapshots').insert(snapshotRaw).returning('id');
 }
 
 function _createToken(user) {

@@ -128,7 +128,7 @@ describe('Acceptance | API | assessment-controller-get-adaptive-correct', () => 
     };
 
     beforeEach(() => {
-      return knex('assessments').insert([insertedAssessment], 'id')
+      return knex('assessments').insert([insertedAssessment]).returning('id')
         .then((ids) => {
           insertedAssessmentId = ids[0];
 
@@ -176,7 +176,7 @@ describe('Acceptance | API | assessment-controller-get-adaptive-correct', () => 
     };
 
     beforeEach(() => {
-      return knex('assessments').insert([insertedAssessment], 'id')
+      return knex('assessments').insert([insertedAssessment]).returning('id')
         .then((ids) => {
           insertedAssessmentId = ids[0];
 
@@ -224,7 +224,7 @@ describe('Acceptance | API | assessment-controller-get-adaptive-correct', () => 
     };
 
     beforeEach(() => {
-      return knex('assessments').insert([insertedAssessment], 'id')
+      return knex('assessments').insert([insertedAssessment]).returning('id')
         .then((ids) => {
           insertedAssessmentId = ids[0];
 

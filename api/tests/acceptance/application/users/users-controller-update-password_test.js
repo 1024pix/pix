@@ -90,7 +90,7 @@ function _insertUser(email) {
     password: 'Pix2017!'
   };
 
-  return knex('users').insert(userRaw, 'id');
+  return knex('users').insert(userRaw).returning('id');
 }
 
 function _insertPasswordResetDemand(temporaryKey, email) {

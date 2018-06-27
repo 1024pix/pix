@@ -64,12 +64,12 @@ describe('Acceptance | Controller | snapshot-controller', () => {
   };
 
   beforeEach(() => {
-    return knex('users').insert(inserted_user, 'id')
+    return knex('users').insert(inserted_user).returning('id')
       .then(([id]) => {
         userId = id;
         inserted_organization.userId = id;
       })
-      .then(() => knex('organizations').insert(inserted_organization, 'id'))
+      .then(() => knex('organizations').insert(inserted_organization).returning('id'))
       .then(([id]) => organizationId = id);
   });
 
