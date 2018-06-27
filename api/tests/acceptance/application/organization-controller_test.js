@@ -240,7 +240,7 @@ describe('Acceptance | Application | Controller | organization-controller', () =
         return creatingOrganizationOnFailure
           .then(() => {
             return knex('users').count('id as id').then((count) => {
-              expect(count[0].id).to.equal('1');
+              expect(parseInt(count[0].id, 10)).to.equal(1);
             });
           });
       });
