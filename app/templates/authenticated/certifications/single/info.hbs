@@ -5,39 +5,23 @@
         <div class="card-body">
           <h5 class="card-title">État</h5>
           <div class="card-text">
-            <div class='row'>
-              <div class='col-sm-5'>Session :</div><div class='col-sm-7 certificate'>{{certification.sessionId}}</div>
-            </div>
-            <div class='row'>
-              <div class='col-sm-5'>Statut :</div><div class='col-sm-7'>{{certification.status}}</div>
-            </div>
-            <div class='row'>
-              <div class='col-sm-5'>Créée le :</div><div class='col-sm-7'>{{certification.creationDate}}</div>
-            </div>
-            <div class='row'>
-              <div class='col-sm-5'>Terminée le :</div><div class='col-sm-7'>{{certification.completionDate}}</div>
-            </div>
+            {{certification-info-field value=certification.sessionId edition=false label="Session :"}}
+            {{certification-info-field value=certification.status edition=false label="Statut :"}}
+            {{certification-info-field value=certification.creationDate edition=false label="Créée le :"}}
+            {{certification-info-field value=certification.completionDate edition=false label="Terminée le :"}}
           </div>
         </div>
       </div>
     </div>
     <div class="col">
-      <div class="card">
+      <div class="card {{if edition "border-primary"}}">
         <div class="card-body">
           <h5 class="card-title">Candidat</h5>
           <div class="card-text">
-            <div class='row'>
-              <div class='col-sm-5'>Prénom :</div><div class='col-sm-7 certificate'>{{certification.firstName}}</div>
-            </div>
-            <div class='row'>
-              <div class='col-sm-5'>Nom :</div><div class='col-sm-7 certificate'>{{certification.lastName}}</div>
-            </div>
-            <div class='row'>
-              <div class='col-sm-5'>Date de naissance :</div><div class='col-sm-7 certificate'>{{certification.birthDate}}</div>
-            </div>
-            <div class='row'>
-              <div class='col-sm-5'>Lieu de naissance :</div><div class='col-sm-7 certificate'>{{certification.birthPlace}}</div>
-            </div>
+            {{certification-info-field value=certification.firstName edition=edition label="Prénom :" fieldId="certification-firstName"}}
+            {{certification-info-field value=certification.lastName edition=edition label="Nom :" fieldId="certification-lastName"}}
+            {{certification-info-field value=certification.birthDate edition=edition label="Date de naissance :" fieldId="certification-birthDate"}}
+            {{certification-info-field value=certification.birthPlace edition=edition label="Lieu de naissance :" fieldId="certification-birthPlace"}}
           </div>
         </div>
       </div>
@@ -45,27 +29,15 @@
   </div>
   <div class='row'>
     <div class="col">
-      <div class="card">
+      <div class="card {{if edition "border-primary"}}">
         <div class="card-body">
-          <h5 class="card-title">Jury</h5>
+          <h5 class="card-title">Commentaires jury</h5>
           <div class="card-text">
-            <div class="row">
-              <div class="col">
-                Commentaires
-              </div>
-            </div>
-            <div class='row'>
-              <div class='col-sm-3'>Pour le candidat :</div><div class='col-sm-9 certificate'>{{certification.commentForCandidate}}</div>
-            </div>
-            <div class='row'>
-              <div class='col-sm-3'>Pour l'organisation :</div><div class='col-sm-9 certificate'>{{certification.commentForOrganization}}</div>
-            </div>
-            <div class='row'>
-              <div class='col-sm-3'>Pour le jury :</div><div class='col-sm-9 certificate'>{{certification.commentForJury}}</div>
-            </div>
-            <div class='row'>
-              <div class='col-sm-3'>Identifiant jury :</div><div class='col-sm-9 certificate'>{{certification.juryId}}</div>
-            </div>
+            {{certification-info-field value=certification.commentForCandidate edition=edition label="Pour le candidat :" fieldId="certification-commentForCandidate" large=true}}
+            {{certification-info-field value=certification.commentForOrganization edition=edition label="Pour l'organisation :" fieldId="certification-commentForOrganization" large=true}}
+            {{certification-info-field value=certification.commentForJury edition=edition label="Pour le jury :" fieldId="certification-commentForJury" large=true}}
+            <p></p>
+            {{certification-info-field value=certification.juryId edition=false label="Identifiant jury :" large=true}}
           </div>
         </div>
       </div>
@@ -73,30 +45,27 @@
   </div>
   <div class='row'>
     <div class="col">
-      <div class="card">
+      <div class="card {{if edition "border-primary"}}">
         <div class="card-body">
           <h5 class="card-title">Résultats</h5>
           <div class="card-text">
-            <div class="row">
-              <div class='col-sm-2'>Score :</div><div class='col-sm-10 certificate'>{{certification.pixScore}} Pix</div>
-            </div>
+            {{certification-info-field value=certification.pixScore edition=edition label="Score :" fieldId="certification-pixScore" suffix=" Pix" large=true}}
             <p></p>
-            {{#each certification.competences as |competence|}}
-            <div class="row">
-              <div class="col-sm-2">
-                {{competence.index}}
-              </div>
-              <div class="col-sm-2">
-                {{competence.score}} Pix
-              </div>
-              <div class="col-sm-8">
-                Niveau : {{competence.level}}
-              </div>
-            </div>
-            {{/each}}
+            {{certification-info-competences competences=certification.competences rawCompetences=certification.competencesWithMark edition=edition}}
           </div>
         </div>
       </div>
     </div>
   </div>
+<!--
+  <div class="row">
+    <div class="col single-certification-info__actions">
+      {{#if edition}}
+        {{#bs-button class='single-certification-edit__button' type='secondary' size='sm' onClick=(action "cancel")}}Annuler{{/bs-button}}
+      {{else}}
+        {{#bs-button class='single-certification-edit__button' type='primary' size='sm' onClick=(action "edit")}}Modifier{{/bs-button}}
+      {{/if}}
+    </div>
+  </div>
+-->
 </div>
