@@ -141,6 +141,10 @@ describe('Acceptance | API | Certification Course', () => {
     });
 
     it('should retrieve the certification total pix score and certified competences levels', () => {
+      // given
+      const expectedCreatedAt = new Date('2017-12-21 15:44:38').toISOString();
+      const expectedCompletedAt = new Date('2017-12-21T15:48:38.468Z');
+
       // when
       const promise = server.inject(options);
 
@@ -148,11 +152,14 @@ describe('Acceptance | API | Certification Course', () => {
       return promise.then(response => {
         // then
         const result = response.result.data;
+        const givenCompletedAt = new Date(result.attributes['completed-at']).toISOString();
+        const givenCreatedAt = new Date(result.attributes['created-at']).toISOString();
+        const givenResultCreatedAt = new Date(result.attributes['result-created-at']).toISOString();
+
         expect(result.attributes['pix-score']).to.equal(42);
-        // TODO bug UTC
-        expect(result.attributes['created-at']).to.equal(new Date('2017-12-21 15:44:38'));
-        expect(result.attributes['result-created-at']).to.equal(new Date('2017-12-21 16:44:38'));
-        expect(result.attributes['completed-at']).to.equal(new Date('2017-12-21T15:48:38.468Z'));
+        expect(givenCreatedAt).to.equal(expectedCreatedAt);
+        expect(givenResultCreatedAt).to.equal(expectedCreatedAt);
+        expect(givenCompletedAt).to.equal(expectedCompletedAt);
         expect(result.attributes['competences-with-mark']).to.have.lengthOf(2);
 
         const firstCertifiedCompetence = result.attributes['competences-with-mark'][0];
