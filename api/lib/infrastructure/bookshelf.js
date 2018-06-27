@@ -15,7 +15,6 @@ validator.isTrue = function(value) {
   return _.isBoolean(value) && value === true;
 };
 
-
 bookshelf.plugin('bookshelf-validate', {
   validateOnSave: true,
   validator: validator
