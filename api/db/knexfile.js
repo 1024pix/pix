@@ -27,7 +27,7 @@ const commonSqliteProperties = {
   useNullAsDefault: true
 };
 
-module.exports = {
+const config = {
 
   development: Object.assign({}, commonPgProperties),
 
@@ -39,9 +39,17 @@ module.exports = {
 
   production: Object.assign({}, commonPgProperties),
 
-  test: Object.assign({}, commonSqliteProperties, {
+  test_with_sqlite: Object.assign({}, commonSqliteProperties, {
     connection: { filename: `${__dirname}/test.sqlite3` }
   }),
 
   test_with_pg: Object.assign({}, commonPgProperties),
 };
+
+if (process.env.USE_PG) {
+  config.test = config.test_with_pg;
+} else {
+  config.test = config.test_with_sqlite;
+}
+
+module.exports = config;
