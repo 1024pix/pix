@@ -27,7 +27,9 @@ describe('Integration | Infrastructure | Repository | UserRepository', () => {
   describe('#findUserById', () => {
 
     beforeEach(() => {
-      return knex('users').insert(inserted_user)
+      return knex('users')
+        .insert(inserted_user)
+        .returning('id')
         .then((result) => (userId = result.shift()));
     });
 
@@ -201,7 +203,9 @@ describe('Integration | Infrastructure | Repository | UserRepository', () => {
   describe('#isEmailAvailable', () => {
 
     beforeEach(() => {
-      return knex('users').insert(inserted_user)
+      return knex('users')
+        .insert(inserted_user)
+        .returning('id')
         .then((result) => (userId = result.shift()));
     });
 
@@ -327,7 +331,9 @@ describe('Integration | Infrastructure | Repository | UserRepository', () => {
   describe('#get', () => {
 
     beforeEach(() => {
-      return knex('users').insert(inserted_user)
+      return knex('users')
+        .insert(inserted_user)
+        .returning('id')
         .then((insertedIds) => (userId = insertedIds.shift()));
     });
 
@@ -364,4 +370,3 @@ describe('Integration | Infrastructure | Repository | UserRepository', () => {
   });
 
 });
-

@@ -83,6 +83,7 @@ describe('Integration | Repository | AssessmentResult', function() {
     beforeEach(() => {
       return knex('assessment-results')
         .insert([assessmentResult])
+        .returning('id')
         .then((rows) => {
           assessmentResultId = rows[0];
 
@@ -133,4 +134,3 @@ describe('Integration | Repository | AssessmentResult', function() {
     });
   });
 });
-
