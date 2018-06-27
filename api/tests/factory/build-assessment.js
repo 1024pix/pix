@@ -4,10 +4,10 @@ const Assessment = require('../../lib/domain/models/Assessment');
 const buildAnswer = require('./build-answer');
 const buildCourse = require('./build-course');
 const buildAssessmentResult = require('./build-assessment-result');
+const buildTargetProfile = require('./build-target-profile');
 
-module.exports = function({
+function buildAssessment({
   id = faker.random.number(),
-  assessmentResults = [buildAssessementResult()],
   courseId = 'courseId',
   createdAt = new Date('1992-06-12'),
   userId = faker.random.number(),
@@ -32,4 +32,36 @@ module.exports = function({
     assessmentResults,
     course,
   });
+}
+
+buildAssessment.ofTypeSmartPlacement = function({
+  id = faker.random.number(),
+
+  courseId = 'courseId',
+  createdAt = new Date('1992-06-12'),
+  userId = faker.random.number(),
+  state = Assessment.states.COMPLETED,
+
+  answers = [buildAnswer()],
+  assessmentResults = [buildAssessmentResult()],
+  course = buildCourse({ id: 'courseId' }),
+  targetProfile = buildTargetProfile(),
+}) {
+  return new Assessment({
+    // attributes
+    id,
+    courseId,
+    createdAt,
+    userId,
+    type: Assessment.types.SMARTPLACEMENT,
+    state,
+
+    // relationships
+    answers,
+    assessmentResults,
+    course,
+    targetProfile,
+  });
 };
+
+module.exports = buildAssessment;

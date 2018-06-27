@@ -1,6 +1,7 @@
 const _ = require('lodash');
 const AnswerStatus = require('./AnswerStatus');
-const { ObjectValidationError } = require('../errors');
+const SkillReview = require('./SkillReview');
+const { NoSkillReviewAvailableForAssessment, ObjectValidationError } = require('../errors');
 
 const TYPES_OF_ASSESSMENT_NEEDING_USER = ['PLACEMENT', 'CERTIFICATION'];
 
@@ -47,10 +48,10 @@ class Assessment {
     answers = [],
     assessmentResults = [],
     course,
+    targetProfile,
   } = {}) {
     this.id = id;
 
-    this.assessmentResults = assessmentResults;
     this.courseId = courseId;
     this.createdAt = createdAt;
     this.userId = userId;
@@ -61,6 +62,7 @@ class Assessment {
     this.answers = answers;
     this.assessmentResults = assessmentResults;
     this.course = course;
+    this.targetProfile = targetProfile;
   }
 
   /**
@@ -175,6 +177,18 @@ class Assessment {
     return this.getLastAssessmentResult().level >= 1;
   }
 
+  generateSkillReview() {
+    if (this.type !== Assessment.types.SMARTPLACEMENT) {
+      throw new NoSkillReviewAvailableForAssessment();
+    }
+
+    return new SkillReview({
+      id: SkillReview.generateIdFromAssessmentId(this.id),
+      targetedSkills: this.targetProfile.skills,
+      validatedSkills: this.getValidatedSkills(),
+      failedSkills: this.getFailedSkills(),
+    });
+  }
 }
 
 Assessment.states = states;
