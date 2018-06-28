@@ -10,7 +10,7 @@ export default Model.extend({
 
   answers: hasMany('answer'),
   course: belongsTo('course', { inverse: null }),
-  skillReview: belongsTo('skill-review', { inverse: null }),
+  skillReview: belongsTo('skillReview', { inverse: null }),
   certificationNumber: attr('string'),
   estimatedLevel: attr('number'),
   firstChallenge: alias('course.challenges.firstObject'),

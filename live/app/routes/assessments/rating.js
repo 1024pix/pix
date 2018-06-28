@@ -11,7 +11,7 @@ export default Route.extend({
         break;
 
       case 'SMART_PLACEMENT':
-        this.transitionTo('campaigns.skill-review', { 'skill-review_id': assessment.get('id') });
+        this.transitionTo('campaigns.skill-review', assessment.get('id'));
         break;
 
       default:
