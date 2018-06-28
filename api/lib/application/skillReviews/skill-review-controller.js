@@ -1,8 +1,7 @@
 const JSONAPIError = require('jsonapi-serializer').Error;
 
-const assessmentRepository = require('../../infrastructure/repositories/assessment-repository');
-const answerRepository = require('../../infrastructure/repositories/answer-repository');
-const challengeRepository = require('../../infrastructure/repositories/challenge-repository');
+const smartPlacementAssessmentRepository =
+  require('../../infrastructure/repositories/smart-placement-assessment-repository');
 const logger = require('../../infrastructure/logger');
 const skillReviewSerializer = require('../../infrastructure/serializers/jsonapi/skill-review-serializer');
 const usecases = require('../../domain/usecases');
@@ -26,9 +25,7 @@ module.exports = {
     return usecases.getSkillReview({
       skillReviewId,
       userId,
-      assessmentRepository,
-      answerRepository,
-      challengeRepository,
+      smartPlacementAssessmentRepository
     })
       .then(skillReviewSerializer.serialize)
       .then(serializedSkillReview => reply(serializedSkillReview).code(200))

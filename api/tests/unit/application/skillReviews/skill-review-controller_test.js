@@ -1,7 +1,7 @@
 const { expect, sinon, factory } = require('../../../test-helper');
-const assessmentRepository = require('../../../../lib/infrastructure/repositories/assessment-repository');
-const answerRepository = require('../../../../lib/infrastructure/repositories/answer-repository');
-const challengeRepository = require('../../../../lib/infrastructure/repositories/challenge-repository');
+const smartPlacementAssessmentRepository =
+  require('../../../../lib/infrastructure/repositories/smart-placement-assessment-repository');
+
 const logger = require('../../../../lib/infrastructure/logger');
 const usecases = require('../../../../lib/domain/usecases');
 const skillReviewController = require('../../../../lib/application/skillReviews/skill-review-controller');
@@ -27,7 +27,7 @@ describe('Unit | Controller | skill-review-controller', () => {
 
   describe('#get', () => {
 
-    const skillReviewId = 'skillReviewId';
+    const skillReviewId = 'skill-review-1234';
 
     const request = {
       params: {
@@ -48,9 +48,7 @@ describe('Unit | Controller | skill-review-controller', () => {
 
     context('if assessment exists', () => {
 
-      const assessmentId = skillReviewId;
-      const assessment = factory.buildAssessment({ id: assessmentId, userId });
-      const skillReview = factory.buildSkillReview({ assessment });
+      const skillReview = factory.buildSkillReview({ validatedSkills: [] });
 
       context('and belongs to current user', () => {
 
@@ -60,17 +58,9 @@ describe('Unit | Controller | skill-review-controller', () => {
             data: {
               id: skillReviewId,
               attributes: {
-                'profile-mastery': 0,
+                'profile-mastery-rate': 0,
               },
               type: 'skill-reviews',
-              relationships: {
-                assessment: {
-                  data: {
-                    id: assessmentId,
-                    type: 'assessments',
-                  },
-                },
-              },
             },
           };
           usecases.getSkillReview.resolves(skillReview);
@@ -84,10 +74,10 @@ describe('Unit | Controller | skill-review-controller', () => {
               expect(usecases.getSkillReview).to.have.been.calledWith({
                 skillReviewId,
                 userId,
-                assessmentRepository,
-                answerRepository,
-                challengeRepository,
+                smartPlacementAssessmentRepository,
               });
+
+              expect(replyStub.args[0]).to.deep.equal([serializedSkillReview]);
               expect(replyStub).to.have.been.calledWith(serializedSkillReview);
               expect(codeSpy).to.have.been.calledWith(200);
             });
