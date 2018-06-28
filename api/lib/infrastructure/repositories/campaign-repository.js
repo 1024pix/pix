@@ -1,9 +1,14 @@
-const Campaign = require('../data/campaign');
+const BookshelfCampaign = require('../data/campaign');
+const Campaign = require('../../domain/models/Campaign');
+
+function _toDomain(bookshelfCampaign) {
+  return new Campaign(bookshelfCampaign.toJSON());
+}
 
 module.exports = {
 
   isCodeAvailable(code) {
-    return Campaign
+    return BookshelfCampaign
       .where({ code })
       .fetch()
       .then(campaign => {
@@ -16,9 +21,9 @@ module.exports = {
   },
 
   save(campaignToSave) {
-    return new Campaign(campaignToSave)
+    return new BookshelfCampaign(campaignToSave)
       .save()
-      .then(bookshelfCampaign => bookshelfCampaign.toDomainEntity());
+      .then(_toDomain);
   }
 
 };

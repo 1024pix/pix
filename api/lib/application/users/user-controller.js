@@ -52,7 +52,6 @@ module.exports = {
         }
 
         logger.error(error);
-        // TODO extract the formatting into a common error formatter
         return reply(JSONAPI.internalError('Une erreur est survenue lors de la création de l’utilisateur')).code(500);
       });
   },
