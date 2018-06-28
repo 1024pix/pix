@@ -5,6 +5,7 @@ module.exports = function() {
     id: 'recTIddrkopID28Ep',
     name: '@accesDonnées1',
     hint: 'Peut-on géo-localiser un téléphone lorsqu’il est éteint ?',
-    hintStatus: 'Validé'
+    hintStatus: 'Validé',
+    tutorialId: ['receomyzL0AmpMFGw'],
   });
 };

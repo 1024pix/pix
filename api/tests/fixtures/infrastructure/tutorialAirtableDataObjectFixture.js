@@ -2,6 +2,7 @@ const dataModels = require('../../../lib/infrastructure/datasources/airtable/obj
 
 module.exports = function() {
   return new dataModels.Tutorial({
+    id: 'receomyzL0AmpMFGw',
     duration: '00:01:30',
     format: 'video',
     link: 'https://youtube.fr',
