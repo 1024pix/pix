@@ -1,9 +1,12 @@
 <div class="tutorial-item__tutorial-title">
-  <a href="{{tutorial.link}}">{{tutorial.title}}</a>
+  <a href="{{tutorial.link}}" target="_blank" class="tutorial-item__tutorial-title-url">{{tutorial.title}}</a>
 </div>
 <div class="tutorial-item__tutorial-details">
-  <div class="tutorial-item__tutorial-details__format"> {{tutorial.format}} </div>
+  <div class="tutorial-item__tutorial-details__format">
+    <img src="/images/{{tutorial.format}}-icone.png" alt="{{tutorial.format}}">
+  </div>
   <div class="tutorial-item__tutorial-details__informations">
     {{displayedDuration}} | par {{tutorial.source}}
   </div>
 </div>
+<hr/>
