@@ -64,4 +64,37 @@ describe('Unit | Component | tutorial item', function() {
     });
 
   });
+
+  describe('#formatImageName', function() {
+
+    ['video', 'son', 'page'].forEach((format) => {
+      it(`should return the same name "${format}" to display the image`, function() {
+        // given
+        const tutorial = {
+          format: format,
+        };
+        component.set('tutorial', tutorial);
+
+        // when
+        const result = component.get('formatImageName');
+
+        // then
+        expect(result).to.equal(format);
+      });
+    });
+
+    it('should return the default value "page" when is not precise format', function() {
+      // given
+      const tutorial = {
+        format: 'site',
+      };
+      component.set('tutorial', tutorial);
+
+      // when
+      const result = component.get('formatImageName');
+
+      // then
+      expect(result).to.equal('page');
+    });
+  });
 });
