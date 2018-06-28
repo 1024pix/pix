@@ -25,6 +25,8 @@ describe('Unit | Adapter | Assessment', () => {
 
   describe('#getAdaptedAssessment', () => {
 
+    const assessmentId = 0;
+
     it('should return an Assessment from the Cat repository', () => {
       // given
       const skills = defaultRawSkillCollection;
@@ -32,7 +34,7 @@ describe('Unit | Adapter | Assessment', () => {
       const answers = [];
 
       // when
-      const adaptedAssessment = assessmentAdapter.getAdaptedAssessment(answers, challenges, skills);
+      const adaptedAssessment = assessmentAdapter.getAdaptedAssessment(assessmentId, answers, challenges, skills);
 
       // then
       expect(adaptedAssessment).to.be.an.instanceOf(CatAssessment);
@@ -46,7 +48,7 @@ describe('Unit | Adapter | Assessment', () => {
       const answers = [];
 
       // when
-      const adaptedAssessment = assessmentAdapter.getAdaptedAssessment(answers, challenges, skills);
+      const adaptedAssessment = assessmentAdapter.getAdaptedAssessment(assessmentId, answers, challenges, skills);
 
       // then
       expect(adaptedAssessment).to.have.property('course').and.to.be.an.instanceOf(CatCourse);
@@ -68,7 +70,7 @@ describe('Unit | Adapter | Assessment', () => {
         const expectedChallenge = defaultCatChallenge;
 
         // when
-        const adaptedAssessment = assessmentAdapter.getAdaptedAssessment(answers, challenges, skills);
+        const adaptedAssessment = assessmentAdapter.getAdaptedAssessment(assessmentId, answers, challenges, skills);
 
         // then
         const { course } = adaptedAssessment;
@@ -87,7 +89,7 @@ describe('Unit | Adapter | Assessment', () => {
         const answers = [];
 
         // when
-        const adaptedAssessment = assessmentAdapter.getAdaptedAssessment(answers, challenges, skills);
+        const adaptedAssessment = assessmentAdapter.getAdaptedAssessment(assessmentId, answers, challenges, skills);
 
         // then
         const { course } = adaptedAssessment;
@@ -106,7 +108,7 @@ describe('Unit | Adapter | Assessment', () => {
         const answers = [];
 
         // when
-        const adaptedAssessment = assessmentAdapter.getAdaptedAssessment(answers, challenges, skills);
+        const adaptedAssessment = assessmentAdapter.getAdaptedAssessment(assessmentId, answers, challenges, skills);
 
         // then
         const challenge  = adaptedAssessment.course.challenges[0];
@@ -125,7 +127,7 @@ describe('Unit | Adapter | Assessment', () => {
         const answersGiven = [new Answer({ id: 42, challengeId: challenge.id, result: '#ABAND#' })];
 
         // when
-        const adaptedAssessment = assessmentAdapter.getAdaptedAssessment(answersGiven, [challenge], skills);
+        const adaptedAssessment = assessmentAdapter.getAdaptedAssessment(assessmentId, answersGiven, [challenge], skills);
 
         // then
         const { answers } = adaptedAssessment;

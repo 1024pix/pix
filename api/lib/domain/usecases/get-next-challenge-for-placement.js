@@ -38,7 +38,7 @@ module.exports = function({
       logContext.challenges = challenges.map(challenge => challenge.id);
       logContext.skills = skills.map(skill => skill.name);
       logger.trace(logContext, 'fetched all entites. Running cat to look for next challenge');
-      return getNextChallengeInAdaptiveCourse(answers, challenges, skills);
+      return getNextChallengeInAdaptiveCourse(assessment.id, answers, challenges, skills);
     })
     .then((nextChallenge) => {
       if (nextChallenge) {
@@ -54,7 +54,7 @@ module.exports = function({
 
 };
 
-function getNextChallengeInAdaptiveCourse(answersPix, challengesPix, skills) {
-  const assessment = assessmentAdapter.getAdaptedAssessment(answersPix, challengesPix, skills);
+function getNextChallengeInAdaptiveCourse(assessmentId, answersPix, challengesPix, skills) {
+  const assessment = assessmentAdapter.getAdaptedAssessment(assessmentId, answersPix, challengesPix, skills);
   return _.get(assessment, 'nextChallenge.id', null);
 }
