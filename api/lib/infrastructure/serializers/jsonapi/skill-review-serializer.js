@@ -4,7 +4,7 @@ module.exports = {
 
   serialize(skillReview) {
     return new Serializer('skill-review', {
-      attributes: ['assessment', 'profileMasteryRate'],
+      attributes: ['profileMasteryRate'],
     }).serialize(skillReview);
   }
 };

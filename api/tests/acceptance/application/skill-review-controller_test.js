@@ -127,8 +127,6 @@ describe('Acceptance | API | SkillReviews', () => {
           });
         });
       });
-
     });
-
   });
 });
