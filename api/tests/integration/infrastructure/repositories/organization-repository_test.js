@@ -96,8 +96,9 @@ describe('Integration | Repository | Organization', function() {
     before(() => {
       return knex('organizations')
         .insert(organization)
+        .returning('id')
         .then((id) => {
-          organizationId = id.toString();
+          organizationId = id.shift();
         });
     });
 

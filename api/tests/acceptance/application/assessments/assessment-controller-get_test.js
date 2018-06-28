@@ -4,6 +4,18 @@ const server = require('../../../../server');
 
 describe('Acceptance | API | assessment-controller-get', () => {
 
+  let userId;
+  const inserted_user = {
+    firstName: 'Jar Jar',
+    lastName: 'Binks',
+    email: 'jj.binks@save.us',
+    password: '123missa',
+    cgu: true,
+  };
+  const inserted_assessment = {
+    courseId: 'anyFromAirTable'
+  };
+
   before(() => {
 
     nock.cleanAll();
@@ -120,11 +132,21 @@ describe('Acceptance | API | assessment-controller-get', () => {
           { 'fields': { 'Nom': '@web5' } }
         ]
       });
+
+    return knex('answers').delete()
+      .then(() => knex('assessments').delete())
+      .then(() => knex('users').delete())
+      .then(() => knex('users').insert(inserted_user).returning('id'))
+      .then(([id]) => {
+        userId = id;
+        inserted_assessment.userId = userId;
+      });
   });
 
   after(() => {
     nock.cleanAll();
     cache.flushAll();
+    return knex('users').delete();
   });
 
   describe('(no provided answer) GET /api/assessments/:id', () => {
@@ -132,18 +154,13 @@ describe('Acceptance | API | assessment-controller-get', () => {
     let options;
     let inserted_assessment_id;
 
-    const inserted_assessment_with_user_null = {
-      courseId: 'anyFromAirTable',
-      userId: 1234
-    };
-
     beforeEach(() => {
-      return knex('assessments').insert([inserted_assessment_with_user_null]).then((rows) => {
-        inserted_assessment_id = rows[0];
+      return knex('assessments').insert(inserted_assessment).returning('id').then(([id]) => {
+        inserted_assessment_id = id;
         options = {
           method: 'GET',
           url: `/api/assessments/${inserted_assessment_id}`,
-          headers: { authorization: generateValidRequestAuhorizationHeader() },
+          headers: { authorization: generateValidRequestAuhorizationHeader(userId) },
         };
       });
     });
@@ -207,21 +224,16 @@ describe('Acceptance | API | assessment-controller-get', () => {
   });
 
   describe('(when userId and assessmentId match) GET /api/assessments/:id', () => {
-    const inserted_assessment = {
-      courseId: 'anyFromAirTable',
-      userId: 1234
-    };
+
     let inserted_assessment_id;
     let options;
 
-    const accessToken = generateValidRequestAuhorizationHeader();
-
     beforeEach(function() {
-      return knex('assessments').insert([inserted_assessment]).then((rows) => {
-        inserted_assessment_id = rows[0];
+      return knex('assessments').insert([inserted_assessment]).returning('id').then(([id]) => {
+        inserted_assessment_id = id;
         options = {
           headers: {
-            authorization: `Bearer ${accessToken}`
+            authorization: generateValidRequestAuhorizationHeader(userId)
           },
           method: 'GET',
           url: `/api/assessments/${inserted_assessment_id}`
@@ -247,50 +259,38 @@ describe('Acceptance | API | assessment-controller-get', () => {
 
   describe('(answers provided) GET /api/assessments/:id', () => {
 
-    let inserted_assessment_id = null;
-    let inserted_answer_ids = null;
+    let inserted_assessment_id;
+    let inserted_good_answer_id;
+    let inserted_bad_answer_id;
 
-    const inserted_assessment_with_user_null = {
-      courseId: 'anyFromAirTable',
-      userId: 1234
-    };
+    beforeEach(() => {
+      return knex('assessments').insert([inserted_assessment]).returning('id').then(([id]) => {
+        inserted_assessment_id = id;
 
-    beforeEach((done) => {
-      inserted_answer_ids = [];
-
-      knex('assessments').insert([inserted_assessment_with_user_null]).then((rows) => {
-        inserted_assessment_id = rows[0];
-
-        const inserted_answers = [{
+        const inserted_good_answer = {
           value: 'any good answer',
           result: 'ok',
           challengeId: 'y_first_challenge',
           assessmentId: inserted_assessment_id
-        }, {
+        };
+        const inserted_bad_answer = {
           value: 'any bad answer',
           result: 'ko',
           challengeId: 'y_second_challenge',
           assessmentId: inserted_assessment_id
-        }];
+        };
 
-        knex('answers').delete().then(() => {
-          knex('answers').insert([inserted_answers[0]]).then((rows) => {
-            inserted_answer_ids.push(rows[0]);
-            knex('answers').insert([inserted_answers[1]]).then((rows) => {
-              inserted_answer_ids.push(rows[0]);
-              done();
-            });
-          });
-        });
-
+        return knex('answers').delete()
+          .then(() => knex('answers').insert(inserted_good_answer).returning('id'))
+          .then(([id]) => inserted_good_answer_id = id)
+          .then(() => knex('answers').insert(inserted_bad_answer).returning('id'))
+          .then(([id]) => inserted_bad_answer_id = id);
       });
     });
 
     afterEach(() => {
-      return Promise.all([
-        knex('assessments').delete(),
-        knex('answers').delete(),
-      ]);
+      return knex('answers').delete()
+        .then(() => knex('assessments').delete());
     });
 
     it('should return 200 HTTP status code', () => {
@@ -302,7 +302,7 @@ describe('Acceptance | API | assessment-controller-get', () => {
           const options = {
             method: 'GET',
             url: `/api/assessments/${inserted_assessment_id}`,
-            headers: { authorization: generateValidRequestAuhorizationHeader() },
+            headers: { authorization: generateValidRequestAuhorizationHeader(userId) },
           };
 
           // when
@@ -324,7 +324,7 @@ describe('Acceptance | API | assessment-controller-get', () => {
           const options = {
             method: 'GET',
             url: `/api/assessments/${inserted_assessment_id}`,
-            headers: { authorization: generateValidRequestAuhorizationHeader() },
+            headers: { authorization: generateValidRequestAuhorizationHeader(userId) },
           };
 
           // when
@@ -344,7 +344,7 @@ describe('Acceptance | API | assessment-controller-get', () => {
       const options = {
         method: 'GET',
         url: `/api/assessments/${inserted_assessment_id}`,
-        headers: { authorization: generateValidRequestAuhorizationHeader() },
+        headers: { authorization: generateValidRequestAuhorizationHeader(userId) },
       };
 
       // when
@@ -365,9 +365,13 @@ describe('Acceptance | API | assessment-controller-get', () => {
           'relationships': {
             'course': { 'data': { 'type': 'courses', 'id': 'anyFromAirTable' } },
             'answers': {
-              'data': [{ type: 'answers', id: inserted_answer_ids[0] }, {
+              'data': [{
                 type: 'answers',
-                id: inserted_answer_ids[1]
+                id: inserted_good_answer_id
+              },
+              {
+                type: 'answers',
+                id: inserted_bad_answer_id
               }]
             }
           }

@@ -111,9 +111,9 @@ describe('Acceptance | API | assessment-controller-get-nonadaptive', function() 
     };
 
     before(() => {
-      return knex('assessments').insert([insertedAssessment])
-        .then((rows) => {
-          insertedAssessmentId = rows[0];
+      return knex('assessments').insert([insertedAssessment]).returning('id')
+        .then((ids) => {
+          insertedAssessmentId = ids[0];
         });
     });
 

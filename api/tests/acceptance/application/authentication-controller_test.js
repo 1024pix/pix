@@ -12,47 +12,50 @@ const server = require('../../../server');
 
 describe('Acceptance | Controller | authentication-controller', () => {
 
-  describe('POST /api/authentications', () => {
+  let userId;
+  const userEmail = 'emailWithSomeCamelCase@example.net';
+  const userEmailSavedInDb = _.toLower(userEmail);
+  const userPassword = 'A124B2C3#!';
 
-    let options;
-    let userId;
-    const userEmail = 'emailWithSomeCamelCase@example.net';
-    const userEmailSavedInDb = _.toLower(userEmail);
-    const userPassword = 'A124B2C3#!';
-
-    beforeEach(() => {
-      return encrypt.hashPassword(userPassword)
-        .then((encryptedPassword) => knex('users').insert({
+  beforeEach(() => {
+    return encrypt.hashPassword(userPassword)
+      .then(encryptedPassword => {
+        return {
           firstName: faker.name.firstName(),
           lastName: faker.name.lastName(),
           email: userEmailSavedInDb,
           password: encryptedPassword,
           cgu: true
-        })
-        )
-        .then((userIds) => userId = userIds[0])
-        .then(() => {
-          options = {
-            method: 'POST',
-            url: '/api/authentications',
-            payload: {
-              data: {
-                type: 'user',
-                attributes: {
-                  email: userEmail,
-                  password: userPassword,
-                },
-                relationships: {}
-              }
-            },
-            headers: { authorization: generateValidRequestAuhorizationHeader(userId) },
-          };
-        });
-    });
+        };
+      })
+      .then(user => knex('users').insert(user).returning('id'))
+      .then(([id]) => userId = id);
+  });
 
-    afterEach(() => {
-      return knex('users').delete();
-    });
+  afterEach(() => {
+    return knex('organizations-accesses').delete()
+      .then(() => knex('organization-roles').delete())
+      .then(() => knex('organizations').delete())
+      .then(() => knex('users').delete());
+  });
+
+  describe('POST /api/authentications', () => {
+
+    const options = {
+      method: 'POST',
+      url: '/api/authentications',
+      payload: {
+        data: {
+          type: 'user',
+          attributes: {
+            email: userEmail,
+            password: userPassword,
+          },
+          relationships: {}
+        }
+      },
+      headers: { authorization: generateValidRequestAuhorizationHeader(userId) },
+    };
 
     it('should return 201 HTTP status code', () => {
       // given
@@ -96,45 +99,36 @@ describe('Acceptance | Controller | authentication-controller', () => {
 
   describe('POST /api/token', () => {
 
-    let userId;
-    const userPassword = 'A124B2C3#!';
-    const userEmail = 'emailWithSomeCamelCase@example.net';
-    const userEmailSavedInDb = _.toLower(userEmail);
-
     beforeEach(() => {
-      const organizationAccess = {};
+      const organization = {
+        email: userEmail,
+        type: 'PRO',
+        name: 'Mon Entreprise',
+        code: 'ABCD12'
+      };
+      const organizationRole = {
+        name: 'ADMIN'
+      };
 
-      return encrypt.hashPassword(userPassword)
-        .then((encryptedPassword) => knex('users').insert({
-          firstName: faker.name.firstName(),
-          lastName: faker.name.lastName(),
-          email: userEmailSavedInDb,
-          password: encryptedPassword,
-          cgu: true
+      return Promise.all([
+        knex('organizations').insert(organization).returning('id'),
+        knex('organization-roles').insert(organizationRole).returning('id'),
+      ])
+        .then(([[organizationId], [organizationRoleId]]) => {
+          return {
+            userId,
+            organizationId,
+            organizationRoleId,
+          };
         })
-          .then((insertedUser) => {
-            userId = insertedUser[0];
-            organizationAccess.userId = userId;
-            return knex('organizations').insert({ email: userEmail, type: 'PRO', name: 'Mon Entreprise', code: 'ABCD12' });
-          }).then((insertedOrganization) => {
-            organizationAccess.organizationId = insertedOrganization[0];
-            return knex('organization-roles').insert({ name: 'ADMIN' });
-          })
-          .then((insertedOrganizationRole) => {
-            organizationAccess.organizationRoleId = insertedOrganizationRole[0];
-            return knex('organizations-accesses').insert(organizationAccess);
-          }));
+        .then(organizationAccess => knex('organizations-accesses').insert(organizationAccess));
     });
 
     afterEach(() => {
       return knex('organizations-accesses').delete()
-        .then(() => {
-          return Promise.all([
-            knex('organizations').delete(),
-            knex('users').delete(),
-            knex('organization-roles').delete()
-          ]);
-        });
+        .then(() => knex('organization-roles').delete())
+        .then(() => knex('organizations').delete())
+        .then(() => knex('users').delete());
     });
 
     it('should return an 200 with accessToken when authentication is ok', () => {

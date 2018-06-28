@@ -64,20 +64,19 @@ describe('Acceptance | Controller | snapshot-controller', () => {
   };
 
   beforeEach(() => {
-    return knex('users').insert(inserted_user)
-      .then((result) => {
-        userId = result.shift();
-        inserted_organization['userId'] = userId;
+    return knex('users').insert(inserted_user).returning('id')
+      .then(([id]) => {
+        userId = id;
+        inserted_organization.userId = id;
       })
-      .then(() => knex('organizations').insert(inserted_organization))
-      .then((organization) => organizationId = organization.shift());
+      .then(() => knex('organizations').insert(inserted_organization).returning('id'))
+      .then(([id]) => organizationId = id);
   });
 
   afterEach(() => {
-    return knex('users').delete()
-      .then(() => {
-        return knex('organizations').delete();
-      });
+    return knex('snapshots').delete()
+      .then(() => knex('organizations').delete())
+      .then(() => knex('users').delete());
   });
 
   describe('POST /api/snapshots', () => {

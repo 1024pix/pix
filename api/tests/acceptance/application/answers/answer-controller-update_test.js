@@ -8,7 +8,12 @@ describe('Acceptance | Controller | answer-controller', () => {
 
     let options;
     let insertedAnswerId;
+    let inserted_assessment_id;
 
+    const inserted_assessment = {
+      userId: null,
+      courseId: 'rec',
+    };
     const insertedAnswer = {
       value: '2',
       elapsedTime: 100,
@@ -16,7 +21,6 @@ describe('Acceptance | Controller | answer-controller', () => {
       result: 'ok',
       resultDetails: null,
       challengeId: 'recLt9uwa2dR3IYpi',
-      assessmentId: '12345'
     };
     const updatedAnswerAttributes = {
       'value': '1',
@@ -38,9 +42,13 @@ describe('Acceptance | Controller | answer-controller', () => {
             //other fields not represented
           }
         });
+
+      return knex('assessments').insert(inserted_assessment,'id')
+        .then(([id]) => inserted_assessment_id = id);
     });
 
     beforeEach(() => {
+      insertedAnswer.assessmentId = inserted_assessment_id;
       return knex('answers').insert([insertedAnswer])
         .then((id) => {
           insertedAnswerId = id;
@@ -72,65 +80,80 @@ describe('Acceptance | Controller | answer-controller', () => {
         });
     });
 
+    after(() => {
+      nock.cleanAll();
+      return knex('assessments').delete();
+    });
+
     afterEach(() => {
       return knex('answers').delete();
     });
 
-    it('should return 200 HTTP status code', (done) => {
-      server.inject(options, (response) => {
+    it('should return 200 HTTP status code', () => {
+      // when
+      const promise = server.inject(options);
+
+      // then
+      return promise.then((response) => {
         expect(response.statusCode).to.equal(200);
-        done();
       });
     });
 
-    it('should return application/json', (done) => {
-      server.inject(options, (response) => {
+    it('should return application/json', () => {
+      // when
+      const promise = server.inject(options);
+
+      // then
+      return promise.then((response) => {
         const contentType = response.headers['content-type'];
         expect(contentType).to.contain('application/json');
-        done();
       });
     });
 
-    it('should not create a new answer into the database', (done) => {
-      server.inject(options, () => {
-        Answer.count().then((afterAnswersNumber) => {
+    it('should not create a new answer into the database', () => {
+      // when
+      const promise = server.inject(options);
+
+      // then
+      return promise.then(() => {
+        return Answer.count().then((afterAnswersNumber) => {
           expect(afterAnswersNumber).to.equal(1);
-          done();
         });
       });
     });
 
-    it('should update the answer in the database', (done) => {
+    it('should update the answer in the database', () => {
       // when
-      server.inject(options, () => {
+      const promise = server.inject(options);
+
+      // then
+      return promise.then(() => {
         new Answer()
           .fetch()
-          .then(function(model) {
-
-            // then
+          .then((model) => {
             expect(model.id).to.be.a('number');
             expect(model.get('value')).to.equal(options.payload.data.attributes['value']);
             expect(model.get('elapsedTime')).to.equal(options.payload.data.attributes['elapsed-time']);
             expect(model.get('timeout')).to.equal(options.payload.data.attributes['timeout']);
             expect(model.get('result')).to.equal(options.payload.data.attributes['result']);
             expect(model.get('resultDetails')).to.equal('null\n');
-            expect(model.get('assessmentId').toString()).to.equal(options.payload.data.relationships.assessment.data.id);
+            expect(model.get('assessmentId')).to.equal(options.payload.data.relationships.assessment.data.id);
             expect(model.get('challengeId')).to.equal(options.payload.data.relationships.challenge.data.id);
-            done();
           });
       });
     });
 
-    it('should return the updated answer', (done) => {
+    it('should return the updated answer', () => {
       // when
-      server.inject(options, (response) => {
+      const promise = server.inject(options);
+
+      // then
+      return promise.then((response) => {
         const answer = response.result.data;
 
         new Answer()
           .fetch()
-          .then(function(model) {
-
-            // then
+          .then((model) => {
             expect(answer.id).to.equal(model.id);
             expect(answer.id).to.equal(response.result.data.id);
             expect(answer.attributes['value']).to.equal(model.get('value'));
@@ -139,8 +162,6 @@ describe('Acceptance | Controller | answer-controller', () => {
             expect(answer.attributes['result']).to.equal(model.get('result'));
             expect(answer.relationships.assessment.data.id).to.equal(model.get('assessmentId').toString());
             expect(answer.relationships.challenge.data.id).to.equal(model.get('challengeId'));
-
-            done();
           });
       });
     });
