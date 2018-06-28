@@ -17,6 +17,9 @@ class SmartPlacementAssessment {
     // attributes
     state,
 
+    // relation Ids
+    userId,
+
     // relations
     answers = [], // of type SmartPlacementAnswers
     knowledgeElements = [], // of type SmartKnowledgeElements
@@ -24,6 +27,7 @@ class SmartPlacementAssessment {
   }) {
     this.id = id;
     this.state = state;
+    this.userId = userId;
     this.answers = answers;
     this.knowledgeElements = knowledgeElements;
     this.targetProfile = targetProfile;
