@@ -1,4 +1,4 @@
-const { expect, sinon } = require('../../../test-helper');
+const { expect, sinon, factory } = require('../../../test-helper');
 
 const getNextChallengeForSmartRandom = require('../../../../lib/domain/usecases/get-next-challenge-for-smart-placement');
 const Assessment = require('../../../../lib/domain/models/Assessment');
@@ -9,21 +9,29 @@ describe('Unit | Domain | Use Cases | get-next-challenge-for-smart-placement', 
 
   describe('#getNextChallengeForSmartRandom', () => {
 
-    let answerRepository;
-    let challengeRepository;
+    const answerRepository = { findByAssessment: () => undefined };
+    const challengeRepository = { findBySkills: () => undefined };
+    const targetProfileRepository = { get: () => undefined };
 
     const skill = new Skill({ name: '@unite2' });
     const challenge = Challenge.fromAttributes({ status: 'validé', id: 'challenge_ID', skills: [skill] });
     const assessment = Assessment.fromAttributes({ id: 'assessment_ID' });
 
     beforeEach(() => {
-      answerRepository = { findByAssessment: sinon.stub().resolves([]) };
-      challengeRepository = { findBySkills: sinon.stub().resolves([challenge]) };
+      answerRepository.findByAssessment = sinon.stub().resolves([]);
+      challengeRepository.findBySkills = sinon.stub().resolves([challenge]);
+      targetProfileRepository.get = sinon.stub()
+        .resolves(factory.buildTargetProfile({ skills: factory.buildSkillCollection() }));
     });
 
     it('should find answers of the smart placement assessment', () => {
       // when
-      const promise = getNextChallengeForSmartRandom({ assessment, answerRepository, challengeRepository });
+      const promise = getNextChallengeForSmartRandom({
+        assessment,
+        answerRepository,
+        challengeRepository,
+        targetProfileRepository,
+      });
 
       // then
       return promise.then(() => {
@@ -33,7 +41,12 @@ describe('Unit | Domain | Use Cases | get-next-challenge-for-smart-placement', 
 
     it('should return the next Challenge', () => {
       // when
-      const promise = getNextChallengeForSmartRandom({ assessment, answerRepository, challengeRepository });
+      const promise = getNextChallengeForSmartRandom({
+        assessment,
+        answerRepository,
+        challengeRepository,
+        targetProfileRepository,
+      });
 
       // then
       return promise.then((challenge) => {
