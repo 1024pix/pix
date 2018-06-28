@@ -1,5 +1,4 @@
 const { AssessmentEndedError } = require('../errors');
-const TargetProfile = require('../models/TargetProfile');
 const SmartRandom = require('../strategies/SmartRandom');
 const _ = require('lodash');
 
@@ -17,14 +16,15 @@ module.exports = function({
   assessment,
   answerRepository,
   challengeRepository,
+  targetProfileRepository
 } = {}) {
 
-  let answers, challenges;
-
-  const targetProfile = TargetProfile.TEST_PROFIL;
+  let answers, challenges, targetProfile;
 
   return answerRepository.findByAssessment(assessment.id)
     .then(fetchedAnswers => (answers = fetchedAnswers))
+    .then(() => targetProfileRepository.get('unusedId'))
+    .then(fetchedTargetProfile => (targetProfile = fetchedTargetProfile))
     .then(() => challengeRepository.findBySkills(targetProfile.skills))
     .then(fetchedChallenges => (challenges = fetchedChallenges))
     .then(() => getNextChallengeInSmartRandom(
