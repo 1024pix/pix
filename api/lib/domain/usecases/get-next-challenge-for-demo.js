@@ -1,17 +1,34 @@
 const { AssessmentEndedError } = require('../errors');
 const _ = require('../../infrastructure/utils/lodash-utils');
+const logger = require('../../infrastructure/logger');
 
 module.exports = function({ assessment, challengeId, courseRepository, challengeRepository }) {
 
   const courseId = assessment.courseId;
 
+  const logContext = {
+    zone: 'usecase.getNextChallengeForDemo',
+    type: 'usecase',
+    assessmendId: assessment.id,
+    challengeId,
+    courseId,
+  };
+  logger.trace(logContext, 'looking for next challenge in DEMO assessment');
+
   return courseRepository.get(courseId)
-    .then(course => _selectNextChallengeId(course, challengeId))
+    .then(course => {
+      logContext.courseId = course.id;
+      logger.trace(logContext, 'found course, selecting challenge');
+      return _selectNextChallengeId(course, challengeId);
+    })
     .then((nextChallenge) => {
       if (nextChallenge) {
+        logContext.nextChallengeId = nextChallenge.id;
+        logger.trace(logContext, 'found next challenge');
         return nextChallenge;
       }
 
+      logger.trace(logContext, 'no next challenge. Assessment ended');
       throw new AssessmentEndedError();
     })
     .then(challengeRepository.get);

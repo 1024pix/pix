@@ -1,7 +1,14 @@
-const CertificationChallengeBookshelf = require('../data/certification-challenge');
-const CertificationChallenge = require('../../domain/models/CertificationChallenge');
-const { AssessmentEndedError } = require('../../domain/errors');
 const Bookshelf = require('../bookshelf');
+const CertificationChallenge = require('../../domain/models/CertificationChallenge');
+const CertificationChallengeBookshelf = require('../data/certification-challenge');
+const logger = require('../../infrastructure/logger');
+
+const { AssessmentEndedError } = require('../../domain/errors');
+
+const logContext = {
+  zone: 'certificationChallengeRepository.getNonAnsweredChallengeByCourseId',
+  type: 'repository',
+};
 
 function _toDomain(model) {
   return CertificationChallenge.fromAttributes({
@@ -38,6 +45,7 @@ module.exports = {
   },
 
   getNonAnsweredChallengeByCourseId(assessmentId, courseId) {
+
     const answeredChallengeIds = Bookshelf.knex('answers')
       .select('challengeId')
       .where({ assessmentId });
@@ -46,11 +54,14 @@ module.exports = {
       .where({ courseId })
       .query((knex) => knex.whereNotIn('challengeId', answeredChallengeIds))
       .fetch()
-      .then((certificationChallenge) => {
+      .then(certificationChallenge => {
         if(certificationChallenge === null) {
+          logger.trace(logContext, 'no found challenges');
           throw new AssessmentEndedError();
         }
 
+        logContext.challengeId = certificationChallenge.id;
+        logger.trace(logContext, 'found challenge');
         return _toDomain(certificationChallenge);
       });
   },

@@ -8,8 +8,11 @@ if (settings.logging.enabled) {
   logger.addStream({
     name: 'standard-output',
     stream: process.stdout,
-    level: 'info'
+    level: settings.logging.logLevel,
   });
+
+  logger.debug('DEBUG logs enabled');
+  logger.trace('TRACE logs enabled');
 }
 
 module.exports = logger;

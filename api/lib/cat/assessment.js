@@ -1,5 +1,6 @@
 const AnswerStatus = require('../domain/models/AnswerStatus');
 const _ = require('lodash');
+const logger = require('../infrastructure/logger');
 
 const MAX_REACHABLE_LEVEL = 5;
 const NB_PIX_BY_LEVEL = 8;
@@ -209,17 +210,33 @@ class Assessment {
   }
 
   get nextChallenge() {
+    const logContext = {
+      zone: 'CatAsessment.nextChallenge',
+      type: 'cat',
+      answers: this.answers.map(answer => {
+        return {
+          challengeId: answer.challenge.id,
+          skills: answer.challenge.skills.map(skill => skill.name),
+          result: answer.result,
+        };
+      }),
+      courseId: this.course.id,
+    };
+    logger.trace(logContext, 'looking for next challenge in CAT Assessment');
 
     if (this.answers.length === 0) {
+      logger.trace(logContext, 'no answer, return first challenge');
       return this._firstChallenge;
     }
 
     if (this.answers.length >= MAX_NUMBER_OF_CHALLENGES) {
+      logger.trace(logContext, 'max answers for assessment reached. End of assessment.');
       return null;
     }
 
     const availableChallenges = this.filteredChallenges;
     if (availableChallenges.length === 0) {
+      logger.trace(logContext, 'no more available challenges. End of Assessment.');
       return null;
     }
 
@@ -233,14 +250,21 @@ class Assessment {
 
     const challengeWithMaxReward = _.maxBy(challengesAndRewards, 'reward');
     const maxReward = challengeWithMaxReward.reward;
+    logContext.challengeWithMaxReward = challengeWithMaxReward.id;
+    logContext.maxReward = maxReward;
+    logContext.predictedLevel = predictedLevel;
 
     if (maxReward === 0) {
+      logger.trace(logContext, 'maxReward is 0, nothing more to ask. End of assessment.');
       return null;
     }
 
     const bestChallenges = challengesAndRewards
       .filter(challengeAndReward => challengeAndReward.reward === maxReward)
       .map(challengeAndReward => challengeAndReward.challenge);
+
+    logContext.bestChallenges = bestChallenges.map(challenge => challenge.id);
+    logger.trace(logContext, 'best challenges selected. Choosing one randomly.');
     return bestChallenges.sort(this._randomly)[0];
   }
 
