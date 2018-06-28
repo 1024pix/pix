@@ -9,6 +9,7 @@ const buildCatChallenge = require('./build-cat-challenge');
 const buildCatCourse = require('./build-cat-course');
 const buildCatTube = require('./build-cat-tube');
 const buildChallenge = require('./build-challenge');
+const buildChallengeAirtableDataObject = require('./build-challenge-airtable-data-object');
 const buildCertification = require('./build-certification');
 const buildCertificationWithCompetenceTree = require('./build-certification-with-competence-tree');
 const buildCompetence = require('./build-competence');
@@ -48,6 +49,7 @@ module.exports = {
   buildCertificationWithCompetenceTree,
   buildCompetenceAirtableDataObject,
   buildChallenge,
+  buildChallengeAirtableDataObject,
   buildCourse,
   buildCompetence,
   buildCompetenceMark,
