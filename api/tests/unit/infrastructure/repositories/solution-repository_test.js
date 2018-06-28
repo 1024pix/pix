@@ -2,7 +2,7 @@ const { expect, sinon } = require('../../../test-helper');
 const solutionRepository = require('../../../../lib/infrastructure/repositories/solution-repository');
 const challengeDatasource = require('../../../../lib/infrastructure/datasources/airtable/challenge-datasource');
 const Solution = require('../../../../lib/domain/models/Solution');
-const ChallengeAirtableDataObjectFixture = require('../../../fixtures/infrastructure/ChallengeAirtableDataObjectFixture');
+const ChallengeAirtableDataObjectFixture = require('../../../fixtures/infrastructure/challengeAirtableDataObjectFixture');
 
 describe('Unit | Repository | solution-repository', function() {
 

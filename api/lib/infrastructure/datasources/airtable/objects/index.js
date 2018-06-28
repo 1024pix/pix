@@ -2,6 +2,7 @@ const Area = require('./Area');
 const Challenge = require('./Challenge');
 const Competence = require('./Competence');
 const Skill = require('./Skill');
+const Tutorial = require('./Tutorial');
 const AirtableResourceNotFound = require('./AirtableResourceNotFound');
 
 module.exports = {
@@ -9,5 +10,6 @@ module.exports = {
   Challenge,
   Competence,
   Skill,
+  Tutorial,
   AirtableResourceNotFound,
 };
