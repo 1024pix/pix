@@ -46,7 +46,7 @@ buildAssessment.ofTypeSmartPlacement = function({
   assessmentResults = [buildAssessmentResult()],
   course = buildCourse({ id: 'courseId' }),
   targetProfile = buildTargetProfile(),
-}) {
+} = {}) {
   return new Assessment({
     // attributes
     id,
