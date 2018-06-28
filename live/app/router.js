@@ -68,7 +68,7 @@ Router.map(function() {
 
   this.route('campaigns', { path: '/campagnes' }, function() {
     this.route('create-assessment', { path: '/codecampagnepix' });
-    this.route('skill-review', { path: '/codecampagnepix/resultats/:skill-review_id' });
+    this.route('skill-review', { path: '/codecampagnepix/resultats/:assessment_id' });
   });
 });
 
