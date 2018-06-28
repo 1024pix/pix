@@ -37,12 +37,9 @@ class User {
   }
 
   hasAccessToOrganization(organizationId) {
-    if(this.isLinkedToOrganizations()) {
-      return this.organizationsAccesses
-        .map((organizationAccess) => organizationAccess.organization.id)
-        .includes(organizationId);
-    }
-    return false;
+    return this.organizationsAccesses
+      .map((organizationAccess) => organizationAccess.organization.id)
+      .includes(organizationId);
   }
 
 }
