@@ -128,12 +128,6 @@ class NotFoundError extends DomainError {
   }
 }
 
-class NoSkillReviewAvailableForAssessment extends DomainError {
-  constructor() {
-    super('On ne peut pas gérérer de profil d’avancement pour cet évaluation');
-  }
-}
-
 class ObjectValidationError extends DomainError {
 
 }
@@ -241,7 +235,6 @@ module.exports = {
   InvalidTokenError,
   InvaliOrganizationIdError,
   MissingOrInvalidCredentialsError,
-  NoSkillReviewAvailableForAssessment,
   NotCompletedAssessmentError,
   NotElligibleToQmailError,
   NotFoundError,

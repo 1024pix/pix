@@ -93,7 +93,7 @@ describe('Unit | Domain | Models | SmartPlacementAssessment', () => {
 
     it('should sum all skills validated in knowledge elements', () => {
       // given
-      const { assessment, knowledgeElement1Skill, knowledgeElement2Skill, _knowledgeElement3Skill } =
+      const { assessment, knowledgeElement1Skill, knowledgeElement2Skill } =
         generateSmartPlacementAssessmentDataWithThreeKnowledgeElements({
           knowledgeElement1Status: SmartPlacementKnowledgeElement.StatusType.VALIDATED,
           knowledgeElement2Status: SmartPlacementKnowledgeElement.StatusType.VALIDATED,
@@ -127,7 +127,7 @@ describe('Unit | Domain | Models | SmartPlacementAssessment', () => {
 
     it('should sum all skills failed in knowledge elements', () => {
       // given
-      const { assessment, knowledgeElement1Skill, knowledgeElement2Skill, _knowledgeElement3Skill } =
+      const { assessment, knowledgeElement1Skill, knowledgeElement2Skill } =
         generateSmartPlacementAssessmentDataWithThreeKnowledgeElements({
           knowledgeElement1Status: SmartPlacementKnowledgeElement.StatusType.INVALIDATED,
           knowledgeElement2Status: SmartPlacementKnowledgeElement.StatusType.INVALIDATED,

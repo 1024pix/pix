@@ -1,7 +1,6 @@
 const _ = require('lodash');
 const AnswerStatus = require('./AnswerStatus');
-const SkillReview = require('./SkillReview');
-const { NoSkillReviewAvailableForAssessment, ObjectValidationError } = require('../errors');
+const { ObjectValidationError } = require('../errors');
 
 const TYPES_OF_ASSESSMENT_NEEDING_USER = ['PLACEMENT', 'CERTIFICATION'];
 
