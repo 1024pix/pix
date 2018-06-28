@@ -1,4 +1,4 @@
-const { expect } = require('../../../../test-helper');
+const { expect, factory } = require('../../../../test-helper');
 const serializer = require('../../../../../lib/infrastructure/serializers/jsonapi/assessment-serializer');
 const BookshelfAssessment = require('../../../../../lib/infrastructure/data/assessment');
 const Assessment = require('../../../../../lib/domain/models/Assessment');
@@ -11,10 +11,10 @@ describe('Unit | Serializer | JSONAPI | assessment-serializer', function() {
 
   beforeEach(() => {
     const associatedCourse = {
-      id : 'course_id',
-      nbChallenges : 8,
-      description : 'coucou',
-      name: 'PIX EST FORMIDABLE'
+      id: 'course_id',
+      nbChallenges: 8,
+      description: 'coucou',
+      name: 'PIX EST FORMIDABLE',
     };
 
     modelObject = new BookshelfAssessment({
@@ -22,7 +22,7 @@ describe('Unit | Serializer | JSONAPI | assessment-serializer', function() {
       courseId: 'course_id',
       successRate: 24,
       type: 'charade',
-      course : associatedCourse
+      course: associatedCourse,
     });
 
     jsonAssessment = {
@@ -34,26 +34,26 @@ describe('Unit | Serializer | JSONAPI | assessment-serializer', function() {
           'pix-score': undefined,
           'success-rate': 24,
           'type': 'charade',
-          'certification-number': null
+          'certification-number': null,
         },
         relationships: {
           course: {
             data: {
               type: 'courses',
-              id: 'course_id'
-            }
+              id: 'course_id',
+            },
           },
-        }
+        },
       },
-      included : [{
-        type : 'courses',
-        id : 'course_id',
-        attributes : {
+      included: [{
+        type: 'courses',
+        id: 'course_id',
+        attributes: {
           'nb-challenges': '8',
-          description : 'coucou',
-          name: 'PIX EST FORMIDABLE'
-        }
-      }]
+          description: 'coucou',
+          name: 'PIX EST FORMIDABLE',
+        },
+      }],
     };
 
     jsonAssessmentSmartPlacement = {
@@ -65,11 +65,10 @@ describe('Unit | Serializer | JSONAPI | assessment-serializer', function() {
           'pix-score': undefined,
           'success-rate': 24,
           'type': 'SMART_PLACEMENT',
-          'certification-number': null
-        }
-      }
+          'certification-number': null,
+        },
+      },
     };
-
   });
 
   describe('#serialize()', function() {
@@ -80,6 +79,28 @@ describe('Unit | Serializer | JSONAPI | assessment-serializer', function() {
 
       // then
       expect(json).to.deep.equal(jsonAssessment);
+    });
+
+    it('should add a relationship for assessments of type SMART_PLACEMENT', function() {
+      // given
+      const assessmentId = 15615386;
+      const assessment = factory.buildAssessment.ofTypeSmartPlacement({ id: assessmentId });
+      const expectedSkillReviewRelationship = {
+        data: {
+          id: 'skill-review-15615386',
+          type: 'skill-reviews',
+        },
+      };
+
+      // when
+      const json = serializer.serialize(assessment);
+
+      // then
+
+      expect(json.data).to.have.property('relationships')
+        .and.to.contain.key('skill-review');
+
+      expect(json.data.relationships['skill-review']).to.deep.equal(expectedSkillReviewRelationship);
     });
 
   });
