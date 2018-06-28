@@ -45,6 +45,7 @@ describe('Integration | Component | tutorial panel', function() {
   it('should render the default message when answer is not correct and hint is not defined', function() {
     // given
     this.set('hint', null);
+    this.set('tutorials', null);
     this.set('resultItemStatus', 'ko');
 
     // when
