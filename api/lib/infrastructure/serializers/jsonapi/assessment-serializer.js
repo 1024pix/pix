@@ -1,6 +1,7 @@
 const JSONAPISerializer = require('./jsonapi-serializer');
 const Bookshelf = require('../../../infrastructure/bookshelf');
 const Assessment = require('../../../domain/models/Assessment');
+const SkillReview = require('../../../domain/models/SkillReview');
 
 class AssessmentSerializer extends JSONAPISerializer {
 
@@ -53,20 +54,29 @@ class AssessmentSerializer extends JSONAPISerializer {
     data.relationships.course = {
       data: {
         type: 'courses',
-        id: model.courseId
-      }
+        id: model.courseId,
+      },
     };
 
     if (model.answers) {
       data.relationships.answers = {
-        data: []
+        data: [],
       };
       for (const answer of model.answers) {
         data.relationships.answers.data.push({
           'type': 'answers',
-          'id': answer.id
+          'id': answer.id,
         });
       }
+    }
+
+    if (model.type === Assessment.types.SMARTPLACEMENT) {
+      data.relationships['skill-review'] = {
+        data: {
+          type: 'skill-reviews',
+          id: SkillReview.generateIdFromAssessmentId(model.id),
+        }
+      };
     }
   }
 
@@ -79,8 +89,8 @@ class AssessmentSerializer extends JSONAPISerializer {
         attributes: {
           'name': course.name,
           'description': course.description,
-          'nb-challenges': course.nbChallenges.toString()
-        }
+          'nb-challenges': course.nbChallenges.toString(),
+        },
       };
     }
   }
@@ -95,7 +105,7 @@ class AssessmentSerializer extends JSONAPISerializer {
     return Assessment.fromAttributes({
       id: json.data.id,
       type: json.data.attributes.type,
-      courseId
+      courseId,
     });
   }
 }
