@@ -6,6 +6,7 @@
     border: none;
     color: $gainsboro;
     background-color: $gainsboro;
+    margin: 15px 0;
   }
 }
 
@@ -15,8 +16,9 @@
   font-family: $font-lato;
   font-size: 1.3rem;
   line-height: 1.2rem;
-  padding-top: 15px;
   word-spacing: 0.3rem;
+  margin-top: 10px;
+  align-items: center;
 }
 
 .tutorial-item__tutorial-details__format {

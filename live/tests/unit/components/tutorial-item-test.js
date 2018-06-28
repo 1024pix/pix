@@ -67,7 +67,7 @@ describe('Unit | Component | tutorial item', function() {
 
   describe('#formatImageName', function() {
 
-    ['video', 'son', 'page'].forEach((format) => {
+    ['vidéo', 'son', 'page'].forEach((format) => {
       it(`should return the same name "${format}" to display the image`, function() {
         // given
         const tutorial = {
