@@ -1,6 +1,3 @@
-// To delete once target-profile table is created
-const targetProfileRepository = require('./target-profile-repository');
-
 const BookshelfAssessment = require('../data/assessment');
 const Answer = require('../../domain/models/Answer');
 const Assessment = require('../../domain/models/Assessment');
@@ -28,12 +25,7 @@ function _toDomain(bookshelfAssessment) {
         return new AssessmentResult(bookshelfAssessmentResult.toJSON());
       });
 
-    const typeIsSmartPlacement = modelObjectInJSON.type === Assessment.types.SMARTPLACEMENT;
-
-    // To delete once target-profile table is created. A repository should not call another repository.
-    // use Bookshelf as datasource
-    const targetProfile = typeIsSmartPlacement ? targetProfileRepository.get('unusedForNowId') : undefined;
-    return new Assessment(Object.assign(modelObjectInJSON, { answers, assessmentResults, targetProfile }));
+    return new Assessment(Object.assign(modelObjectInJSON, { answers, assessmentResults }));
   }
 
   return null;
