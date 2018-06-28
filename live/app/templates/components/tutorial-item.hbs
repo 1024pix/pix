@@ -1,7 +1,9 @@
-<div>
+<div class="tutorial-item__tutorial-title">
   <a href="{{tutorial.link}}">{{tutorial.title}}</a>
 </div>
-<div>
-  {{tutorial.format}}. {{displayedDuration}}
-  par : {{tutorial.source}}
+<div class="tutorial-item__tutorial-details">
+  <div class="tutorial-item__tutorial-details__format"> {{tutorial.format}} </div>
+  <div class="tutorial-item__tutorial-details__informations">
+    {{displayedDuration}} | par {{tutorial.source}}
+  </div>
 </div>
