@@ -1,21 +1,18 @@
 const Boom = require('boom');
+const logger = require('../../infrastructure/logger');
+const queryParamsUtils = require('../../infrastructure/utils/query-params-utils');
 
+const answerRepository = require('../../infrastructure/repositories/answer-repository');
 const assessmentSerializer = require('../../infrastructure/serializers/jsonapi/assessment-serializer');
 const assessmentRepository = require('../../infrastructure/repositories/assessment-repository');
 const assessmentService = require('../../domain/services/assessment-service');
-const tokenService = require('../../domain/services/token-service');
+const certificationChallengeRepository = require('../../infrastructure/repositories/certification-challenge-repository');
 const challengeRepository = require('../../infrastructure/repositories/challenge-repository');
 const challengeSerializer = require('../../infrastructure/serializers/jsonapi/challenge-serializer');
-
-const skillRepository = require('../../infrastructure/repositories/skill-repository');
 const competenceRepository = require('../../infrastructure/repositories/competence-repository');
-const answerRepository = require('../../infrastructure/repositories/answer-repository');
 const courseRepository = require('../../infrastructure/repositories/course-repository');
-const certificationChallengeRepository = require('../../infrastructure/repositories/certification-challenge-repository');
-
-const queryParamsUtils = require('../../infrastructure/utils/query-params-utils');
-const logger = require('../../infrastructure/logger');
-
+const skillRepository = require('../../infrastructure/repositories/skill-repository');
+const tokenService = require('../../domain/services/token-service');
 const useCases = require('../../domain/usecases');
 
 const { NotFoundError, AssessmentEndedError, ObjectValidationError } = require('../../domain/errors');
@@ -83,9 +80,19 @@ module.exports = {
 
   getNextChallenge(request, reply) {
 
+    const logContext = {
+      zone: 'assessmentController.getNextChallenge',
+      type: 'controller',
+      assessmentId: request.params.id,
+    };
+    logger.trace(logContext, 'tracing assessmentController.getNextChallenge()');
+
     return assessmentRepository
       .get(request.params.id)
       .then((assessment) => {
+
+        logContext.assessmentType = assessment.type;
+        logger.trace(logContext, 'assessment loaded');
 
         if (assessmentService.isPreviewAssessment(assessment)) {
           return useCases.getNextChallengeForPreview({});
@@ -101,8 +108,8 @@ module.exports = {
 
         if (assessmentService.isDemoAssessment(assessment)) {
           return useCases.getNextChallengeForDemo({
-            assessment, challengeId:
-            request.params.challengeId,
+            assessment,
+            challengeId: request.params.challengeId,
             courseRepository,
             challengeRepository
           });
@@ -129,9 +136,13 @@ module.exports = {
 
       })
       .then((challenge) => {
+        logContext.challenge = challenge;
+        logger.trace(logContext, 'replying with challenge');
         reply(challengeSerializer.serialize(challenge));
       })
       .catch((err) => {
+        logContext.err = err;
+        logger.trace(logContext, 'catching exception');
         if (err instanceof AssessmentEndedError) {
           return reply(Boom.notFound());
         }

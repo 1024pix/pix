@@ -6,7 +6,7 @@ const CatAssessment = require('../../cat/assessment');
 
 // TODO: Déclencher une erreur quand pas de skill ?
 
-function getAdaptedAssessment(answersPix, challengesPix, skills) {
+function getAdaptedAssessment(assessmentId, answersPix, challengesPix, skills) {
   const challenges = [];
 
   challengesPix.forEach(challengePix => {
@@ -25,7 +25,7 @@ function getAdaptedAssessment(answersPix, challengesPix, skills) {
     return new CatAnswer(challengeOfTheAnswer, answer.result.status);
   });
 
-  return new CatAssessment(course, answers);
+  return new CatAssessment(course, answers, assessmentId);
 }
 
 module.exports = {

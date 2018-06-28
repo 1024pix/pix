@@ -24,7 +24,8 @@ module.exports = (function() {
 
     logging: {
       enabled: (process.env.LOG_ENABLED || process.env.NODE_ENV != 'test'),
-      colorEnabled: ('development' === process.env.NODE_ENV)
+      colorEnabled: ('development' === process.env.NODE_ENV),
+      logLevel: (process.env.LOG_LEVEL || 'info'),
     },
 
     mailjet: {
