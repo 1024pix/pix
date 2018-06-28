@@ -61,7 +61,7 @@ async function fetchAssessment(assessmentId) {
 
       if (skillsAndChallenges) {
         const [skills, challengesPix] = skillsAndChallenges;
-        const catAssessment = assessmentAdapter.getAdaptedAssessment(answers, challengesPix, skills);
+        const catAssessment = assessmentAdapter.getAdaptedAssessment(assessmentId, answers, challengesPix, skills);
 
         skillsReport = {
           assessmentId,
@@ -112,7 +112,7 @@ async function getSkills(assessment) {
 
       if (skillsAndChallenges) {
         const [skills, challengesPix] = skillsAndChallenges;
-        const catAssessment = assessmentAdapter.getAdaptedAssessment(answers, challengesPix, skills);
+        const catAssessment = assessmentAdapter.getAdaptedAssessment(assessmentId, answers, challengesPix, skills);
 
         skillsReport = {
           validatedSkills: catAssessment.validatedSkills,
@@ -149,7 +149,7 @@ function getScoreAndLevel(assessmentId) {
       .then((skillsAndChallenges) => {
         if (skillsAndChallenges) {
           const [skills, challengesPix] = skillsAndChallenges;
-          const catAssessment = assessmentAdapter.getAdaptedAssessment(answers, challengesPix, skills);
+          const catAssessment = assessmentAdapter.getAdaptedAssessment(assessmentId, answers, challengesPix, skills);
 
           estimatedLevel = catAssessment.obtainedLevel;
           pixScore = catAssessment.displayedPixScore;
