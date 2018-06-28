@@ -9,9 +9,10 @@ const LEVEL_FOR_FIRST_CHALLENGE = 2;
 const LEVEL_MAX_TO_BE_AN_EASY_TUBE = 3;
 
 class Assessment {
-  constructor(course, answers) {
+  constructor(course, answers, assessmentId) {
     this.course = course;
     this.answers = answers;
+    this.assessmentId = assessmentId;
   }
 
   _randomly() {
@@ -222,6 +223,7 @@ class Assessment {
           skills,
         };
       }),
+      assessmentId: this.assessmentId,
       courseId: this.course.id,
     };
     logger.trace(logContext, 'looking for next challenge in CAT Assessment');
