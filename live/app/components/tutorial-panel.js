@@ -1,3 +1,4 @@
+import _ from 'lodash';
 import Component from '@ember/component';
 import { computed } from '@ember/object';
 
@@ -6,12 +7,18 @@ export default Component.extend({
 
   hint: null,
   resultItemStatus: null,
+  tutorials: null,
 
-  shouldDisplayDefaultMessage: computed('resultItemStatus', 'hint', function() {
-    return this.get('resultItemStatus') !== 'ok' && !this.get('hint');
+  shouldDisplayHintAndTuto: computed('resultItemStatus', function() {
+    return this.get('resultItemStatus') !== 'ok';
   }),
 
   shouldDisplayHint: computed('resultItemStatus', 'hint', function() {
-    return this.get('resultItemStatus') !== 'ok' && Boolean(this.get('hint'));
+    return Boolean(this.get('hint'));
   }),
+
+  shouldDisplayTutorial: computed('resultItemStatus', 'tutorials', function() {
+    return !_.isEmpty(this.get('tutorials'));
+  }),
+
 });
