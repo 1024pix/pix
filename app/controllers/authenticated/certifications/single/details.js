@@ -40,15 +40,15 @@ export default Controller.extend({
         return data;
       }, {count:0, good:0});
       if (jury) {
-        this.set("juryRate", Math.round(answersData.good*10000/answersData.count)/100);
+        this.set('juryRate', Math.round(answersData.good*10000/answersData.count)/100);
       } else {
-        this.set("juryRate", false);
+        this.set('juryRate', false);
       }
       schedule('afterRender', this, () => {
         const score = this.get('score');
         const competences = this.get('details.competences');
         let newScore = competences.reduce((value,competence) => {
-          value += (typeof competence.juryScore !== "undefined" && competence.juryScore !== false)?competence.juryScore:competence.obtainedScore;
+          value += (typeof competence.juryScore !== 'undefined' && competence.juryScore !== false)?competence.juryScore:competence.obtainedScore;
           return value;
         }, 0);
         if (newScore !== score) {

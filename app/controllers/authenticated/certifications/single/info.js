@@ -6,11 +6,11 @@ export default Controller.extend({
   edition:false,
   actions: {
     edit() {
-      this.set("edition", true);
+      this.set('edition', true);
     },
     cancel() {
-      this.set("edition", false);
-      this.get("certification").rollbackAttributes();
+      this.set('edition', false);
+      this.get('certification').rollbackAttributes();
     }
   }
 });

@@ -6,17 +6,17 @@ export default Component.extend({
   leftWidth:computed('large', function() {
     let large = this.get('large');
     if (large) {
-      return "col-sm-3";
+      return 'col-sm-3';
     } else {
-      return "col-sm-5";
+      return 'col-sm-5';
     }
   }),
   rightWidth:computed('large', function() {
     let large = this.get('large');
     if (large) {
-      return "col-sm-9";
+      return 'col-sm-9';
     } else {
-      return "col-sm-7";
+      return 'col-sm-7';
     }
   })
 });
