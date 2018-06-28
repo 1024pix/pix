@@ -7,13 +7,13 @@ export default Controller.extend({
   loading:false,
   actions: {
     loadCertification(id) {
-      switch (this.get("router.currentRouteName")) {
-        case "authenticated.certifications.single.details":
-          this.transitionToRoute("authenticated.certifications.single.details", id);
+      switch (this.get('router.currentRouteName')) {
+        case 'authenticated.certifications.single.details':
+          this.transitionToRoute('authenticated.certifications.single.details', id);
           break;
-        case "authenticated.certifications.single.info":
+        case 'authenticated.certifications.single.info':
         default:
-          this.transitionToRoute("authenticated.certifications.single.info", id);
+          this.transitionToRoute('authenticated.certifications.single.info', id);
           break;
       }
     }

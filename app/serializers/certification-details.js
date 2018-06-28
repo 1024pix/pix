@@ -14,7 +14,7 @@ export default DS.JSONAPISerializer.extend({
           completedAt:payload.completedAt,
           listChallengesAndAnswers:payload.listChallengesAndAnswers
         },
-        type: "certificationDetails"
+        type: 'certificationDetails'
       };
     }
     payload.data.id = id;

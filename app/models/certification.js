@@ -27,7 +27,7 @@ export default DS.Model.extend({
   competences:computed('competencesWithMark', function() {
     let competencesWithMarks = this.get('competencesWithMark');
     let indexedCompetences = competencesWithMarks.reduce((result, value) => {
-      value.index = value["competence-code"];
+      value.index = value['competence-code'];
       result[value.index] = value;
       return result;
     }, {});
