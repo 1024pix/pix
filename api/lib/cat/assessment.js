@@ -214,10 +214,12 @@ class Assessment {
       zone: 'CatAsessment.nextChallenge',
       type: 'cat',
       answers: this.answers.map(answer => {
+        const challenge = answer.challenge || { id: null };
+        const skills = (challenge.skills || []).map(skill => skill.name);
         return {
-          challengeId: answer.challenge.id,
-          skills: answer.challenge.skills.map(skill => skill.name),
+          challengeId: challenge.id,
           result: answer.result,
+          skills,
         };
       }),
       courseId: this.course.id,
