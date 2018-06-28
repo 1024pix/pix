@@ -4,8 +4,12 @@ const Boom = require('boom');
 const assessmentController = require('../../../../lib/application/assessments/assessment-controller');
 const assessmentService = require('../../../../lib/domain/services/assessment-service');
 const skillService = require('../../../../lib/domain/services/skills-service');
+
 const assessmentRepository = require('../../../../lib/infrastructure/repositories/assessment-repository');
 const challengeRepository = require('../../../../lib/infrastructure/repositories/challenge-repository');
+const answerRepository = require('../../../../lib/infrastructure/repositories/answer-repository');
+const targetProfileRepository = require('../../../../lib/infrastructure/repositories/target-profile-repository');
+
 const certificationCourseRepository = require('../../../../lib/infrastructure/repositories/certification-course-repository');
 const certificationChallengeRepository = require('../../../../lib/infrastructure/repositories/certification-challenge-repository');
 
@@ -30,7 +34,7 @@ describe('Unit | Controller | assessment-controller-get-next-challenge', () => {
     const assessmentSkills = {
       assessmentId: 1,
       validatedSkills: _generateValitedSkills(),
-      failedSkills: _generateFailedSkills()
+      failedSkills: _generateFailedSkills(),
     };
 
     beforeEach(() => {
@@ -42,7 +46,7 @@ describe('Unit | Controller | assessment-controller-get-next-challenge', () => {
         id: 1,
         courseId: 'recHzEA6lN4PEs7LG',
         userId: 5,
-        type: 'DEMO'
+        type: 'DEMO',
       });
 
       assessmentWithScore = Assessment.fromAttributes({
@@ -54,7 +58,7 @@ describe('Unit | Controller | assessment-controller-get-next-challenge', () => {
 
       scoredAsssessment = {
         assessmentPix: assessmentWithScore,
-        skills: assessmentSkills
+        skills: assessmentSkills,
       };
 
       sandbox = sinon.sandbox.create();
@@ -91,7 +95,7 @@ describe('Unit | Controller | assessment-controller-get-next-challenge', () => {
           userId: 5,
           estimatedLevel: 0,
           pixScore: 0,
-          type: 'PREVIEW'
+          type: 'PREVIEW',
         }));
       });
 
@@ -177,7 +181,7 @@ describe('Unit | Controller | assessment-controller-get-next-challenge', () => {
 
       const certificationAssessment = Assessment.fromAttributes({
         id: 'assessmentId',
-        type: Assessment.types.CERTIFICATION
+        type: Assessment.types.CERTIFICATION,
       });
 
       beforeEach(() => {
@@ -197,7 +201,7 @@ describe('Unit | Controller | assessment-controller-get-next-challenge', () => {
           expect(usecases.getNextChallengeForCertification).to.have.been.calledWith({
             assessment: certificationAssessment,
             certificationChallengeRepository,
-            challengeRepository
+            challengeRepository,
           });
         });
       });
@@ -218,13 +222,16 @@ describe('Unit | Controller | assessment-controller-get-next-challenge', () => {
     });
 
     describe('when the assessment is a smart placement assessment', () => {
+
+      const assessment = Assessment.fromAttributes({
+        id: 1,
+        courseId: 'courseId',
+        userId: 5,
+        type: 'SMART_PLACEMENT',
+      });
+
       beforeEach(() => {
-        assessmentRepository.get.resolves(Assessment.fromAttributes({
-          id: 1,
-          courseId: 'courseId',
-          userId: 5,
-          type: 'SMART_PLACEMENT'
-        }));
+        assessmentRepository.get.resolves(assessment);
       });
 
       it('should call the usecase getNextChallengeForSmartPlacement', () => {
@@ -233,13 +240,16 @@ describe('Unit | Controller | assessment-controller-get-next-challenge', () => {
 
         // then
         return promise.then(() => {
-          expect(usecases.getNextChallengeForSmartPlacement).to.have.been.calledOnce;
+          expect(usecases.getNextChallengeForSmartPlacement).to.have.been.calledWith({
+            assessment,
+            answerRepository,
+            challengeRepository,
+            targetProfileRepository,
+          });
         });
       });
     });
-
   });
-
 });
 
 function _generateValitedSkills() {

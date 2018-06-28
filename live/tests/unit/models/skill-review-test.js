@@ -15,7 +15,7 @@ describe('Unit | Model | skill review', function() {
       run(() => {
         // given
         const store = this.store();
-        const skillReview = store.createRecord('skill-review', { profileMastery: 0.6815 });
+        const skillReview = store.createRecord('skill-review', { profileMasteryRate: 0.6815 });
 
         // when
         const profileMasteryInPourcent = skillReview.get('profileMasteryInPourcent');
@@ -29,7 +29,7 @@ describe('Unit | Model | skill review', function() {
       run(() => {
         // given
         const store = this.store();
-        const skillReview = store.createRecord('skill-review', { profileMastery: 0.651 });
+        const skillReview = store.createRecord('skill-review', { profileMasteryRate: 0.651 });
 
         // when
         const profileMasteryInPourcent = skillReview.get('profileMasteryInPourcent');
