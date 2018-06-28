@@ -4,7 +4,7 @@ import { computed } from '@ember/object';
 export default Component.extend({
   classNames : ['tutorial-item'],
 
-  formatWithImage: ['video', 'son', 'page'],
+  formatWithImage: ['vidéo', 'son', 'page'],
   tutorial: null,
 
   displayedDuration: computed('tutorial', function() {
