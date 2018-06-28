@@ -6,6 +6,12 @@ describe('Acceptance | Controller | answer-controller-save', () => {
 
   describe('POST /api/answers', () => {
 
+    const inserted_assessment = {
+      userId: null,
+      courseId: 'rec',
+    };
+    let inserted_assessment_id;
+
     before(() => {
       nock('https://api.airtable.com')
         .get('/v0/test-base/Epreuves/a_challenge_id')
@@ -19,10 +25,14 @@ describe('Acceptance | Controller | answer-controller-save', () => {
             //other fields not represented
           }
         });
+
+      return knex('assessments').insert(inserted_assessment,'id')
+        .then(([id]) => inserted_assessment_id = id);
     });
 
     after(() => {
       nock.cleanAll();
+      return knex('assessments').delete();
     });
 
     afterEach(() => {
@@ -48,7 +58,7 @@ describe('Acceptance | Controller | answer-controller-save', () => {
                 assessment: {
                   data: {
                     type: 'assessment',
-                    id: 'assessment_id'
+                    id: inserted_assessment_id
                   }
                 },
                 challenge: {
@@ -118,7 +128,7 @@ describe('Acceptance | Controller | answer-controller-save', () => {
               expect(answer.attributes.value).to.equal(model.get('value'));
               expect(answer.attributes.result).to.equal(model.get('result'));
               expect(answer.attributes['result-details']).to.equal(model.get('resultDetails'));
-              expect(answer.relationships.assessment.data.id).to.equal(model.get('assessmentId'));
+              expect(answer.relationships.assessment.data.id).to.equal(model.get('assessmentId').toString());
               expect(answer.relationships.challenge.data.id).to.equal(model.get('challengeId'));
             });
         });
@@ -157,15 +167,15 @@ describe('Acceptance | Controller | answer-controller-save', () => {
       let options;
       let existingAnswerId;
 
-      const existingAnswer = {
-        value: '2',
-        challengeId: 'a_challenge_id',
-        assessmentId: 'assessment_id'
-      };
-
       beforeEach(() => {
-        return knex('answers').insert([existingAnswer])
-          .then((id) => {
+        const existingAnswer = {
+          value: '2',
+          challengeId: 'a_challenge_id',
+          assessmentId: inserted_assessment_id
+        };
+
+        return knex('answers').insert(existingAnswer).returning('id')
+          .then(([id]) => {
             existingAnswerId = id;
             options = {
               method: 'POST',
@@ -181,7 +191,7 @@ describe('Acceptance | Controller | answer-controller-save', () => {
                     assessment: {
                       data: {
                         type: 'assessment',
-                        id: 'assessment_id'
+                        id: inserted_assessment_id
                       }
                     },
                     challenge: {

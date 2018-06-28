@@ -3,26 +3,38 @@ const server = require('../../../../server');
 
 describe('Acceptance | Controller | answer-controller', () => {
 
-  describe('GET /api/answers?challengeId=Y&assessmentId=Z', () => {
+  describe('FIND /api/answers?challengeId=Y&assessmentId=Z', () => {
 
-    let inserted_answer_id = null;
+    let inserted_answer_id;
+    let inserted_assessment_id;
+    let queryUrl;
 
-    const queryUrl = '/api/answers?challenge=recLt9uwa2dR3IYpi&assessment=12345';
+    const inserted_assessment = {
+      userId: null,
+      courseId: 'rec',
+    };
 
     const inserted_answer = {
       value: '1,2',
       result: 'ok',
       challengeId: 'recLt9uwa2dR3IYpi',
-      assessmentId: '12345'
     };
 
     beforeEach(() => {
-      return knex('answers').insert([inserted_answer])
-        .then((ids) => (inserted_answer_id = ids[0]));
+      return knex('assessments').insert(inserted_assessment,'id')
+        .then(([id]) => {
+          inserted_assessment_id = id;
+          inserted_answer.assessmentId = inserted_assessment_id;
+          queryUrl = `/api/answers?challenge=recLt9uwa2dR3IYpi&assessment=${inserted_assessment_id}`;
+
+          return knex('answers').insert(inserted_answer,'id');
+        })
+        .then(([id]) => inserted_answer_id = id);
     });
 
     afterEach(() => {
-      return knex('answers').delete();
+      return knex('answers').delete()
+        .then(() => knex('assessments').delete());
     });
 
     it('should return 200 HTTP status code', () => {
@@ -81,9 +93,10 @@ describe('Acceptance | Controller | answer-controller', () => {
 
     it('should return 200 with "null" data if not found answer', () => {
       // given
+      const queryUrl = `/api/answers?challenge=recLt9uwa2dR3IYpi&assessment=${inserted_assessment_id + 1}`;
       const options = {
         method: 'GET',
-        url: '/api/answers?challenge=nothing&assessment=nothing',
+        url: queryUrl,
       };
 
       // when

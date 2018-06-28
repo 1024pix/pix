@@ -81,7 +81,6 @@ describe('Acceptance | Controller | users-controller', () => {
           firstName: 'John',
           lastName: 'DoDoe',
           email: 'john.dodoe@example.net',
-          cgu: 1,
         };
 
         // when
@@ -93,6 +92,7 @@ describe('Acceptance | Controller | users-controller', () => {
           .then((users) => {
             expect(users).to.have.lengthOf(1);
             expect(users[0]).to.include(expectedUserWithNoPasswordNorId);
+            expect(users[0].cgu).to.be.ok;
             expect(users[0].password).to.exist;
           });
       });

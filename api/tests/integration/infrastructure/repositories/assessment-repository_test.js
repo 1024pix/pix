@@ -195,6 +195,7 @@ describe('Integration | Infrastructure | Repositories | assessment-repository', 
       beforeEach(() => {
         return knex('assessments')
           .insert(assessment)
+          .returning('id')
           .then((insertedAssessment) => {
             assessmentId = insertedAssessment.shift();
           });

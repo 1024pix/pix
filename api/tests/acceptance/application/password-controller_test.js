@@ -19,10 +19,8 @@ describe('Acceptance | Controller | password-controller', () => {
     });
 
     after(() => {
-      return Promise.all([
-        knex('users').delete(),
-        knex('reset-password-demands').delete()
-      ]);
+      return knex('reset-password-demands').delete()
+        .then(() => knex('users').delete());
     });
 
     describe('when email provided is unknown', () => {
@@ -228,8 +226,10 @@ describe('Acceptance | Controller | password-controller', () => {
 
       before(() => {
         fakeUserEmail = faker.internet.email();
-        return _insertUser(fakeUserEmail)
-          .then(() => _insertPasswordResetDemand(temporaryKey, fakeUserEmail));
+        return Promise.all([
+          _insertUser(fakeUserEmail),
+          _insertPasswordResetDemand(temporaryKey, fakeUserEmail),
+        ]);
       });
 
       after(() => {
@@ -267,8 +267,8 @@ function _insertUser(email) {
     password: 'Pix2017!'
   };
 
-  return knex('users').insert(userRaw)
-    .then(user => user.shift());
+  return knex('users').insert(userRaw).returning('id')
+    .then(([id]) => id);
 }
 
 function _insertPasswordResetDemand(temporaryKey, email) {

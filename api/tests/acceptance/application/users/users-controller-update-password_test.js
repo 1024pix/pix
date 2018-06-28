@@ -7,70 +7,78 @@ const passwordResetService = require('../../../../lib/domain/services/reset-pass
 describe('Acceptance | Controller | users-controller', () => {
 
   describe('Patch /api/users/{id}', () => {
-    let fakeUserEmail;
     let userId;
     let options;
-    const temporaryKey = passwordResetService.generateTemporaryKey();
+    let fakeUserEmail;
 
-    before(async () => {
+    beforeEach(() => {
       fakeUserEmail = faker.internet.email();
-      userId = await _insertUser(fakeUserEmail);
+      return _insertUser(fakeUserEmail)
+        .then(([id]) => userId = id);
     });
 
     afterEach(() => {
-      return Promise.all([
-        knex('users').delete(),
-        knex('reset-password-demands').delete()
-      ]);
+      return knex('reset-password-demands').delete()
+        .then(() => knex('users').delete());
     });
 
-    it('should reply with 204 status code, when password is updated', async () => {
-      // given
-      options = {
-        method: 'PATCH',
-        url: `/api/users/${userId}`,
-        payload: {
-          data: {
-            attributes: {
-              password: 'Pix2017!'
+    context('with a passwordResetDemand', () => {
+
+      beforeEach(() => {
+        const temporaryKey = passwordResetService.generateTemporaryKey();
+        return _insertPasswordResetDemand(temporaryKey, fakeUserEmail);
+      });
+
+      it('should reply with 204 status code, when password is updated', () => {
+        // given
+        options = {
+          method: 'PATCH',
+          url: `/api/users/${userId}`,
+          payload: {
+            data: {
+              attributes: {
+                password: 'Pix2017!'
+              }
             }
           }
-        }
-      };
+        };
 
-      await _insertPasswordResetDemand(temporaryKey, fakeUserEmail);
+        // when
+        const promise = server.inject(options);
 
-      // when
-      const promise = server.inject(options);
-
-      // then
-      return promise.then(response => {
-        expect(response.statusCode).to.equal(204);
+        // then
+        return promise.then(response => {
+          expect(response.statusCode).to.equal(204);
+        });
       });
     });
 
-    it('should reply with 404 status code, when user has not a password reset demand in progress', () => {
-      // given
-      options = {
-        method: 'PATCH',
-        url: `/api/users/${userId}`,
-        payload: {
-          data: {
-            attributes: {
-              password: 'Pix2017!'
+    context('without a passwordResetDemand', () => {
+
+      it('should reply with 404 status code, when user has not a password reset demand in progress', () => {
+        // given
+        options = {
+          method: 'PATCH',
+          url: `/api/users/${userId}`,
+          payload: {
+            data: {
+              attributes: {
+                password: 'Pix2017!'
+              }
             }
           }
-        }
-      };
+        };
 
-      // when
-      const promise = server.inject(options);
+        // when
+        const promise = server.inject(options);
 
-      // then
-      return promise.then(response => {
-        expect(response.statusCode).to.equal(404);
+        // then
+        return promise.then(response => {
+          expect(response.statusCode).to.equal(404);
+        });
       });
     });
+
   });
 });
 
@@ -82,8 +90,7 @@ function _insertUser(email) {
     password: 'Pix2017!'
   };
 
-  return knex('users').insert(userRaw)
-    .then(user => user.shift());
+  return knex('users').insert(userRaw).returning('id');
 }
 
 function _insertPasswordResetDemand(temporaryKey, email) {

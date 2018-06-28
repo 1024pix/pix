@@ -101,7 +101,12 @@ jobs:
       - run: echo "Nothing to do for building the API"
 
   test_server:
-    <<: *server_properties
+    docker:
+      - image: circleci/node:8
+      - image: postgres:10-alpine
+        environment:
+          POSTGRES_USER: circleci
+    working_directory: ~/pix/api
     steps:
       - run: echo "${CIRCLE_BRANCH}_${CIRCLE_SHA1}" > .circle-cache-key
       - restore_cache:
@@ -110,9 +115,12 @@ jobs:
       - restore_cache:
           keys:
             - v5-server-dependencies-{{ checksum "package.json" }}
-      - run: |
-          npm run lint
-          npm test
+      - run:
+          command: |
+            npm run lint
+            npm test
+          environment:
+            DATABASE_URL: "postgres://circleci@localhost:5432/circleci"
 
   deploy_server_on_dokku:
     <<: *server_properties

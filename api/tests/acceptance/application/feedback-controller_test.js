@@ -7,36 +7,43 @@ describe('Acceptance | Controller | feedback-controller', () => {
   describe('POST /api/feedbacks', () => {
 
     let options;
+    const assessment = {
+      userId: null,
+      courseId: 'rec'
+    };
 
     beforeEach(() => {
-      options = {
-        method: 'POST',
-        url: '/api/feedbacks',
-        payload: {
-          data: {
-            type: 'feedbacks',
-            attributes: {
-              email: 'shi@fu.me',
-              content: 'Some content'
-            },
-            relationships: {
-              assessment: {
-                data: {
-                  type: 'assessment',
-                  id: 'assessment_id'
-                }
-              },
-              challenge: {
-                data: {
-                  type: 'challenge',
-                  id: 'challenge_id'
+      return knex('assessments').insert(assessment).returning('id')
+        .then(([assessmentId]) => {
+          options = {
+            method: 'POST',
+            url: '/api/feedbacks',
+            payload: {
+              data: {
+                type: 'feedbacks',
+                attributes: {
+                  email: 'shi@fu.me',
+                  content: 'Some content'
+                },
+                relationships: {
+                  assessment: {
+                    data: {
+                      type: 'assessment',
+                      id: assessmentId
+                    }
+                  },
+                  challenge: {
+                    data: {
+                      type: 'challenge',
+                      id: 'challenge_id'
+                    }
+                  }
                 }
               }
-            }
-          }
-        },
-        headers: { authorization: generateValidRequestAuhorizationHeader() },
-      };
+            },
+            headers: { authorization: generateValidRequestAuhorizationHeader() },
+          };
+        });
     });
 
     afterEach(() => {
@@ -108,7 +115,7 @@ describe('Acceptance | Controller | feedback-controller', () => {
             expect(feedback.id).to.equal(model.id);
             expect(feedback.id).to.equal(response.result.data.id);
             expect(feedback.attributes.content).to.equal(model.get('content'));
-            expect(feedback.relationships.assessment.data.id).to.equal(model.get('assessmentId'));
+            expect(feedback.relationships.assessment.data.id).to.equal(model.get('assessmentId').toString());
             expect(feedback.relationships.challenge.data.id).to.equal(model.get('challengeId'));
           });
       });
