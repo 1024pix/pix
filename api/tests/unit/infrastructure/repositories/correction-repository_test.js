@@ -34,8 +34,8 @@ describe('Unit | Repository | correction-repository', function() {
     ];
 
     const expectedTutorials = [
-      new Tutorial({ duration: '00:01:30', format: 'video', link: 'https://youtube.fr', source: 'Youtube', title:'Comment dresser un panda' }),
-      new Tutorial({ duration: '00:01:30', format: 'document', link: 'https://youtube.fr', source: 'Youtube', title:'Comment dresser un chat' }),
+      new Tutorial({ id: 'recTuto1', duration: '00:01:30', format: 'video', link: 'https://youtube.fr', source: 'Youtube', title:'Comment dresser un panda' }),
+      new Tutorial({ id: 'recTuto2', duration: '00:01:30', format: 'document', link: 'https://youtube.fr', source: 'Youtube', title:'Comment dresser un chat' }),
     ];
 
     const expectedCorrection = new Correction({
@@ -62,10 +62,13 @@ describe('Unit | Repository | correction-repository', function() {
       const skillDataObject3 = SkillAirtableDataObjectFixture();
       skillDataObject3.name = '@web3';
       skillDataObject3.hintStatus = 'Validé';
+      skillDataObject3.tutorialId = [];
       const tutoData1 = TutorialAirtableDataObjectFixture();
+      tutoData1.id = 'recTuto1';
       const tutoData2 = TutorialAirtableDataObjectFixture();
       tutoData2.format = 'document';
       tutoData2.title = 'Comment dresser un chat';
+      tutoData2.id = 'recTuto2';
 
       challengeDatasource.get.resolves(challengeDataObject);
       skillDatasource.get.onFirstCall().resolves(skillDataObject1);
