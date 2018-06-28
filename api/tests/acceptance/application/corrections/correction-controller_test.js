@@ -79,7 +79,12 @@ describe('Acceptance | Controller | correction-controller', () => {
         'data': [{
           'attributes': {
             'solution': 'fromage',
-            'hint': 'Indice web3'
+            'hint': 'Indice web3',
+          },
+          'relationships': {
+            'tutorials': {
+              'data': []
+            }
           },
           'id': 'q_first_challenge',
           'type': 'corrections'
