@@ -20,7 +20,7 @@
     {{#if shouldDisplayTutorial}}
       <div class="tutorial-panel__tutorials-container">
         {{#each tutorials as |tutorial|}}
-          {{tutorial-item tutorial=tutorial}}
+          {{tutorial-item tutorial=limitedTutorial}}
         {{/each}}
       </div>
 

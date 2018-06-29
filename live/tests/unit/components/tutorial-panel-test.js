@@ -104,4 +104,55 @@ describe('Unit | Component | tutorial panel', function() {
       expect(result).to.be.false;
     });
   });
+
+  describe('#limitedTutorial', function() {
+
+    it('should return an array with the same tutorials', function() {
+      // given
+      const tutorialsExpected1 = {
+        id: 'recTuto1',
+        format: 'video',
+      };
+      const tutorialsExpected2 = {
+        id: 'recTuto2',
+        format: 'son',
+      };
+      const tutorials = [tutorialsExpected1, tutorialsExpected2];
+      component.set('tutorials', tutorials);
+
+      // when
+      const result = component.get('limitedTutorial');
+
+      // then
+      expect(result).to.deep.equal(tutorials);
+    });
+
+    it('should return only 3 elements if the tutorials contains more', function() {
+      // given
+      const tutorialsExpected1 = {
+        id: 'recTuto1',
+      };
+      const tutorialsExpected2 = {
+        id: 'recTuto2',
+      };
+      const tutorialsExpected3 = {
+        id: 'recTuto3',
+      };
+      const tutorialsExpected4 = {
+        id: 'recTuto4',
+      };
+
+      const tutorials = [tutorialsExpected1, tutorialsExpected2, tutorialsExpected3, tutorialsExpected4];
+      const expectedTutorials = [tutorialsExpected1, tutorialsExpected2, tutorialsExpected3];
+      component.set('tutorials', tutorials);
+
+      // when
+      const result = component.get('limitedTutorial');
+
+      // then
+      expect(result.length).to.equal(3);
+      expect(result).to.deep.equal(expectedTutorials);
+    });
+  });
+
 });
