@@ -30,7 +30,7 @@ describe('Integration | Component | tutorial panel', function() {
     context('when there is nor a hint or a tutorial', function() {
       beforeEach(function() {
         this.set('hint', null);
-        this.set('tutorials', null);
+        this.set('tutorials', []);
       });
       it('should render the default message', function() {
         // when
@@ -56,7 +56,7 @@ describe('Integration | Component | tutorial panel', function() {
     context('when a hint is present', function() {
       beforeEach(function() {
         this.set('hint', 'Ceci est un indice.');
-        this.set('tutorials', null);
+        this.set('tutorials', []);
       });
 
       it('should render the hint', function() {

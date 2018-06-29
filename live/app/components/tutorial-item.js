@@ -12,10 +12,10 @@ export default Component.extend({
       .split(':')
       .map(duration => parseInt(duration));
 
-    if(durationByTime[0]>0) {
+    if(durationByTime[0] > 0) {
       return durationByTime[0] + ' h';
     }
-    if(durationByTime[1]>0) {
+    if(durationByTime[1] > 0) {
       return durationByTime[1] + ' min';
     }
     return '1 min';

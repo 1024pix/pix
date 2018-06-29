@@ -1,6 +1,6 @@
 const dataModels = require('../../../../../../lib/infrastructure/datasources/airtable/objects/index');
 const tutorialRawAirTableFixture = require('../../../../../fixtures/infrastructure/tutorialRawAirtableFixture');
-const TutorialAirtableDataModelFixture = require('../../../../../fixtures/infrastructure/tutorialAirtableDataObjectFixture');
+const tutorialAirtableDataModelFixture = require('../../../../../fixtures/infrastructure/tutorialAirtableDataObjectFixture');
 const { expect } = require('../../../../../test-helper');
 
 describe('Unit | Infrastructure | Datasource | Airtable | Model | Tutorial', () => {
@@ -9,7 +9,7 @@ describe('Unit | Infrastructure | Datasource | Airtable | Model | Tutorial', () 
 
     it('should create a Tutorial from the AirtableRecord', () => {
       // given
-      const expectedTuto = TutorialAirtableDataModelFixture();
+      const expectedTuto = tutorialAirtableDataModelFixture();
 
       // when
       const tuto = dataModels.Tutorial.fromAirTableObject(tutorialRawAirTableFixture());
