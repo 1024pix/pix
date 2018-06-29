@@ -1,5 +1,15 @@
 # Pix Changelog
 
+## v1.53.0 (29/06/2018)
+
+- [#109](https://github.com/1024pix/pix/pull/109) Ajout de traces de log dans la sélection du next challenge (PF-267).
+- [#105](https://github.com/1024pix/pix/pull/105) [CI] Correction des tests en préparation d'un passage du PostgreSQL (PF-259).
+- [#91](https://github.com/1024pix/pix/pull/91) [BUGFIX] Erreur dans le calcul des certifications (PF-178).
+- [#106](https://github.com/1024pix/pix/pull/106) [FEATURE] Ajout d'un message d'erreur dans la page de saisie du code accès d'une certification en cas de code vide (PF-19).
+- [#107](https://github.com/1024pix/pix/pull/107) [FEATURES] Mise à jour des acquis du profil cible pour les panels PIC (PF-105).
+- [#99](https://github.com/1024pix/pix/pull/99) [FEATURE] Modification de l'écran de fin de certif (PF-164).
+- [#100](https://github.com/1024pix/pix/pull/100) Corrections mineures sur les scripts de déploiement (PF-256).
+
 ## 1.52.0 (19/06/2018)
 
 - [#85](https://github.com/1024pix/pix/pull/85) [FEATURE] Ajout des niveaux des compétences dans le résultat d'une certif (PF-11).
