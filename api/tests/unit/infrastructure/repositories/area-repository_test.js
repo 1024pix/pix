@@ -1,38 +1,39 @@
-const { expect, sinon } = require('../../../test-helper');
-const airtable = require('../../../../lib/infrastructure/airtable');
-const AirtableRecord = require('airtable').Record;
-
+const { expect, sinon, factory } = require('../../../test-helper');
 const Area = require('../../../../lib/domain/models/Area');
+const areaDatasource = require('../../../../lib/infrastructure/datasources/airtable/area-datasource');
+
 const areaRepository = require('../../../../lib/infrastructure/repositories/area-repository');
 
 describe('Unit | Repository | area-repository', function() {
 
+  let sandbox;
+
   beforeEach(() => {
-    sinon.stub(airtable, 'findRecords');
+    sandbox = sinon.sandbox.create();
+    sandbox.stub(areaDatasource, 'list');
   });
 
   afterEach(() => {
-    airtable.findRecords.restore();
+    sandbox.restore();
   });
 
   describe('#list', () => {
 
     beforeEach(() => {
-      const area1 = new AirtableRecord('Domaines', 'recDomaine1', {
-        fields: {
-          'Nom': '1. Domaine 1',
-          'Code': '1',
-          'Titre': 'Domaine 1'
-        }
-      });
-      const area2 = new AirtableRecord('Domaines', 'recDomaine2', {
-        fields: {
-          'Nom': '2. Domaine 2',
-          'Code': '2',
-          'Titre': 'Domaine 2'
-        }
-      });
-      airtable.findRecords.resolves([area1, area2]);
+      areaDatasource.list.resolves([
+        factory.buildAreaAirtableDataObject({
+          id: 'recDomaine1',
+          code: '1',
+          title: 'Domaine 1',
+          name: '1. Domaine 1',
+        }),
+        factory.buildAreaAirtableDataObject({
+          id: 'recDomaine2',
+          code: '2',
+          title: 'Domaine 2',
+          name: '2. Domaine 2',
+        }),
+      ]);
     });
 
     it('should fetch all area records from Airtable "Domaines" table', () => {
@@ -41,7 +42,7 @@ describe('Unit | Repository | area-repository', function() {
 
       // then
       return fetchedAreas.then(() => {
-        expect(airtable.findRecords).to.have.been.calledWith('Domaines', {});
+        expect(areaDatasource.list).to.have.been.called;
       });
     });
 
@@ -59,7 +60,7 @@ describe('Unit | Repository | area-repository', function() {
           name: '2. Domaine 2',
           code: '2',
           title: 'Domaine 2',
-        })
+        }),
       ];
 
       // when
