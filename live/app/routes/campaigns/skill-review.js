@@ -1,5 +1,4 @@
 import BaseRoute from 'pix-live/routes/base-route';
-import { next } from '@ember/runloop';
 
 export default BaseRoute.extend({
 
