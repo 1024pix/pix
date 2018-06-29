@@ -9,8 +9,12 @@ export default Component.extend({
   resultItemStatus: null,
   tutorials: null,
 
-  shouldDisplayHintAndTuto: computed('resultItemStatus', function() {
+  shouldDisplayTipsToSucceed: computed('resultItemStatus', function() {
     return this.get('resultItemStatus') !== 'ok';
+  }),
+
+  shouldDisplayHintOrTuto: computed('resultItemStatus', function() {
+    return Boolean(this.get('hint')) || !_.isEmpty(this.get('tutorials'));
   }),
 
   shouldDisplayHint: computed('resultItemStatus', 'hint', function() {

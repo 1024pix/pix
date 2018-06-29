@@ -1,40 +1,39 @@
-{{#if shouldDisplayHintAndTuto}}
+{{#if shouldDisplayTipsToSucceed}}
+  {{#if shouldDisplayHintOrTuto}}
   <div class="tutorial-panel__hint-container">
     <header class="tutorial-panel__hint-container-header">
       <h3 class="tutorial-panel__hint-title"><span>Pour réussir la prochaine fois</span></h3>
     </header>
-
-  {{#if shouldDisplayHint}}
-      <div class="tutorial-panel__hint-container-body">
-        <div class="tutorial-panel__hint-picto-container">
-          <img src="{{rootURL}}/images/comparison-window/icon-lampe.svg"
-               alt=""
-               class="tutorial-panel__hint-picto">
+    {{#if shouldDisplayHint}}
+        <div class="tutorial-panel__hint-container-body">
+          <div class="tutorial-panel__hint-picto-container">
+            <img src="{{rootURL}}/images/comparison-window/icon-lampe.svg"
+                 alt=""
+                 class="tutorial-panel__hint-picto">
+          </div>
+          {{markdown-to-html class="tutorial-panel__hint-content" markdown=hint}}
         </div>
-        {{markdown-to-html class="tutorial-panel__hint-content" markdown=hint}}
-      </div>
-  {{/if}}
-
-  </div>
-
+    {{/if}}
+e
     {{#if shouldDisplayTutorial}}
       <div class="tutorial-panel__tutorials-container">
         {{#each limitedTutorials as |tutorial|}}
           {{tutorial-item tutorial=tutorial}}
         {{/each}}
       </div>
+    {{/if}}
+  </div>
 
   {{else}}
-    <div class="tutorial-panel__default-message-container">
-      <div class="tutorial-panel__default-message-picto-container">
-        <img src="{{rootURL}}/images/comparison-window/icon-tuto.svg"
-             alt=""
-             class="tutorial-panel__default-message-picto">
-      </div>
-      <div class="tutorial-panel__default-message-title">Bientôt ici des tutoriaux pour vous aider à réussir ce type
-        d'épreuves !!
-      </div>
+  <div class="tutorial-panel__default-message-container">
+    <div class="tutorial-panel__default-message-picto-container">
+      <img src="{{rootURL}}/images/comparison-window/icon-tuto.svg"
+           alt=""
+           class="tutorial-panel__default-message-picto">
     </div>
+    <div class="tutorial-panel__default-message-title">Bientôt ici des tutoriaux pour vous aider à réussir ce type
+      d'épreuves !!
+    </div>
+  </div>
   {{/if}}
-
 {{/if}}
