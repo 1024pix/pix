@@ -1,4 +1,3 @@
-import _ from 'lodash';
 import Component from '@ember/component';
 import { computed } from '@ember/object';
 
@@ -14,7 +13,7 @@ export default Component.extend({
   }),
 
   shouldDisplayHintOrTuto: computed('resultItemStatus', function() {
-    return Boolean(this.get('hint')) || !_.isEmpty(this.get('tutorials'));
+    return Boolean(this.get('hint')) || this.get('tutorials').length > 0;
   }),
 
   shouldDisplayHint: computed('resultItemStatus', 'hint', function() {
@@ -22,7 +21,7 @@ export default Component.extend({
   }),
 
   shouldDisplayTutorial: computed('resultItemStatus', 'tutorials', function() {
-    return !_.isEmpty(this.get('tutorials'));
+    return this.get('tutorials').length > 0;
   }),
 
   limitedTutorials: computed('tutorials', function() {

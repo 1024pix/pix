@@ -1,5 +1,7 @@
+const AirtableRecord = require('airtable').Record;
+
 module.exports = function() {
-  return {
+  return new AirtableRecord('Skill', 'recTIddrkopID28Ep',{
     'id': 'recTIddrkopID28Ep',
     'fields': {
       'Nom': '@accesDonnées1',
@@ -25,5 +27,5 @@ module.exports = function() {
       ]
     },
     'createdTime': '2018-01-31T12:41:07.000Z'
-  };
+  });
 };

@@ -8,7 +8,7 @@ const Hint = require('../../../../lib/domain/models/Hint');
 const Tutorial = require('../../../../lib/domain/models/Tutorial');
 const ChallengeAirtableDataObjectFixture = require('../../../fixtures/infrastructure/challengeAirtableDataObjectFixture');
 const SkillAirtableDataObjectFixture = require('../../../fixtures/infrastructure/skillAirtableDataObjectFixture');
-const TutorialAirtableDataObjectFixture = require('../../../fixtures/infrastructure/tutorialAirtableDataObjectFixture');
+const tutorialAirtableDataObjectFixture = require('../../../fixtures/infrastructure/tutorialAirtableDataObjectFixture');
 
 describe('Unit | Repository | correction-repository', function() {
 
@@ -54,18 +54,18 @@ describe('Unit | Repository | correction-repository', function() {
       const skillDataObject1 = SkillAirtableDataObjectFixture();
       skillDataObject1.name = '@web1';
       skillDataObject1.hintStatus = 'Proposé';
-      skillDataObject1.tutorialId = ['recTuto1'];
+      skillDataObject1.tutorialIds = ['recTuto1'];
       const skillDataObject2 = SkillAirtableDataObjectFixture();
       skillDataObject2.name = '@web2';
       skillDataObject2.hintStatus = 'Validé';
-      skillDataObject2.tutorialId = ['recTuto2'];
+      skillDataObject2.tutorialIds = ['recTuto2'];
       const skillDataObject3 = SkillAirtableDataObjectFixture();
       skillDataObject3.name = '@web3';
-      skillDataObject3.hintStatus = 'Validé';
-      skillDataObject3.tutorialId = [];
-      const tutoData1 = TutorialAirtableDataObjectFixture();
+      skillDataObject3.hintStatus = 'pré-validé';
+      skillDataObject3.tutorialIds = [];
+      const tutoData1 = tutorialAirtableDataObjectFixture();
       tutoData1.id = 'recTuto1';
-      const tutoData2 = TutorialAirtableDataObjectFixture();
+      const tutoData2 = tutorialAirtableDataObjectFixture();
       tutoData2.format = 'document';
       tutoData2.title = 'Comment dresser un chat';
       tutoData2.id = 'recTuto2';
