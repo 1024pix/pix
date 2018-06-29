@@ -5,6 +5,7 @@ const Hint = require('../../domain/models/Hint');
 const challengeDatasource = require('../datasources/airtable/challenge-datasource');
 const skillDatasource = require('../datasources/airtable/skill-datasource');
 const tutorialDatasource = require('../datasources/airtable/tutorial-datasource');
+const validatedStatusOfHint = ['Validé', 'pré-validé'];
 
 function _getSkillDataObjects(challengeDataObject) {
   const skillDataObjectPromises = challengeDataObject.skillIds.map(skillDatasource.get);
@@ -17,7 +18,7 @@ function _getTutorialDataObjects(tutorialIds) {
 }
 
 function _selectSkillDataObjectsWithValidatedHint(skillDataObjects) {
-  return skillDataObjects.filter((skillDataObject) => skillDataObject.hintStatus === 'Validé');
+  return skillDataObjects.filter((skillDataObject) => validatedStatusOfHint.includes(skillDataObject.hintStatus));
 }
 
 function _convertSkillDataObjectsToHints(skillDataObjects) {
@@ -51,10 +52,11 @@ module.exports = {
       .then((hints) => {
         hintsForChallenge = hints;
         tutorialsIds = _(skillsForChallenge)
-          .map((skill) => skill.tutorialId)
-          .filter((tutorialId) => tutorialId)
+          .map((skill) => skill.tutorialIds)
+          .filter((tutorialId) => !_.isEmpty(tutorialId))
           .flatten()
           .value();
+
         return _getTutorialDataObjects(tutorialsIds);
       })
       .then((tutorials) =>{

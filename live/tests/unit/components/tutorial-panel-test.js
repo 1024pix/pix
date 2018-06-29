@@ -70,7 +70,7 @@ describe('Unit | Component | tutorial panel', function() {
     it('should return true when hint is defined and tuto is not', function() {
       // given
       component.set('hint', 'Un conseil...');
-      component.set('tutorials', null);
+      component.set('tutorials', []);
 
       // when
       const result = component.get('shouldDisplayHintOrTuto');
@@ -94,7 +94,7 @@ describe('Unit | Component | tutorial panel', function() {
     it('should return false when hint and tutorials are not defined', function() {
       // given
       component.set('hint', null);
-      component.set('tutorials', null);
+      component.set('tutorials', []);
 
       // when
       const result = component.get('shouldDisplayHintOrTuto');
@@ -130,17 +130,7 @@ describe('Unit | Component | tutorial panel', function() {
 
       // then
       expect(result).to.be.false;
-    });
 
-    it('should return false when tutorials is null', function() {
-      // given
-      component.set('tutorials', null);
-
-      // when
-      const result = component.get('shouldDisplayTutorial');
-
-      // then
-      expect(result).to.be.false;
     });
   });
 
