@@ -11,14 +11,9 @@ const challengeRepository = require('../../infrastructure/repositories/challenge
 const challengeSerializer = require('../../infrastructure/serializers/jsonapi/challenge-serializer');
 const competenceRepository = require('../../infrastructure/repositories/competence-repository');
 const courseRepository = require('../../infrastructure/repositories/course-repository');
-
 const skillRepository = require('../../infrastructure/repositories/skill-repository');
 const tokenService = require('../../domain/services/token-service');
-const certificationChallengeRepository = require('../../infrastructure/repositories/certification-challenge-repository');
 const targetProfileRepository = require('../../infrastructure/repositories/target-profile-repository');
-
-const queryParamsUtils = require('../../infrastructure/utils/query-params-utils');
-const logger = require('../../infrastructure/logger');
 
 const useCases = require('../../domain/usecases');
 

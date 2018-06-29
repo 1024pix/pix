@@ -49,15 +49,13 @@ function insertUserWithRolePixMaster() {
 }
 
 function insertUserWithStandardRole() {
-  return Promise.all([
-    knex('users').insert({
-      id: 4444,
-      firstName: 'Classic',
-      lastName: 'Papa',
-      email: 'classic.papa@example.net',
-      password: 'abcd1234',
-    }).returning('id'),
-  ]);
+  return knex('users').insert({
+    id: 4444,
+    firstName: 'Classic',
+    lastName: 'Papa',
+    email: 'classic.papa@example.net',
+    password: 'abcd1234',
+  }).returning('id');
 }
 
 function cleanupUsersAndPixRolesTables() {
