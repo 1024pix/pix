@@ -13,7 +13,7 @@ describe('Unit | Component | tutorial panel', function() {
     component = this.subject();
   });
 
-  describe('#shouldDisplayHintAndTuto', function() {
+  describe('#shouldDisplayTipsToSucceed', function() {
 
     [ 'ko', 'aband', 'partially', 'timedout', 'default' ].forEach((status) => {
       it(`should return true when resultItemStatus is "${status}"`, function() {
@@ -21,7 +21,7 @@ describe('Unit | Component | tutorial panel', function() {
         component.set('resultItemStatus', status);
 
         // when
-        const result = component.get('shouldDisplayHintAndTuto');
+        const result = component.get('shouldDisplayTipsToSucceed');
 
         // then
         expect(result).to.be.true;
@@ -33,7 +33,7 @@ describe('Unit | Component | tutorial panel', function() {
       component.set('resultItemStatus', 'ok');
 
       // when
-      const result = component.get('shouldDisplayHintAndTuto');
+      const result = component.get('shouldDisplayTipsToSucceed');
 
       // then
       expect(result).to.be.false;
@@ -59,6 +59,45 @@ describe('Unit | Component | tutorial panel', function() {
 
       // when
       const result = component.get('shouldDisplayHint');
+
+      // then
+      expect(result).to.be.false;
+    });
+  });
+
+  describe('#shouldDisplayHintOrTuto', function() {
+
+    it('should return true when hint is defined and tuto is not', function() {
+      // given
+      component.set('hint', 'Un conseil...');
+      component.set('tutorials', null);
+
+      // when
+      const result = component.get('shouldDisplayHintOrTuto');
+
+      // then
+      expect(result).to.be.true;
+    });
+
+    it('should return true when hint is not defined and tuto is defined', function() {
+      // given
+      component.set('hint', null);
+      component.set('tutorials', [{ id: 'recTuto' }]);
+
+      // when
+      const result = component.get('shouldDisplayHintOrTuto');
+
+      // then
+      expect(result).to.be.true;
+    });
+
+    it('should return false when hint and tutorials are not defined', function() {
+      // given
+      component.set('hint', null);
+      component.set('tutorials', null);
+
+      // when
+      const result = component.get('shouldDisplayHintOrTuto');
 
       // then
       expect(result).to.be.false;
@@ -121,7 +160,7 @@ describe('Unit | Component | tutorial panel', function() {
       component.set('tutorials', tutorials);
 
       // when
-      const result = component.get('limitedTutorial');
+      const result = component.get('limitedTutorials');
 
       // then
       expect(result).to.deep.equal(tutorials);
@@ -147,7 +186,7 @@ describe('Unit | Component | tutorial panel', function() {
       component.set('tutorials', tutorials);
 
       // when
-      const result = component.get('limitedTutorial');
+      const result = component.get('limitedTutorials');
 
       // then
       expect(result.length).to.equal(3);
