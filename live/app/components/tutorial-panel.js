@@ -13,7 +13,8 @@ export default Component.extend({
   }),
 
   shouldDisplayHintOrTuto: computed('resultItemStatus', function() {
-    return Boolean(this.get('hint')) || this.get('tutorials').length > 0;
+    const tutorials = this.get('tutorials') || [];
+    return Boolean(this.get('hint')) || (tutorials.length > 0);
   }),
 
   shouldDisplayHint: computed('resultItemStatus', 'hint', function() {
@@ -21,7 +22,8 @@ export default Component.extend({
   }),
 
   shouldDisplayTutorial: computed('resultItemStatus', 'tutorials', function() {
-    return this.get('tutorials').length > 0;
+    const tutorials = this.get('tutorials') || [];
+    return tutorials.length > 0;
   }),
 
   limitedTutorials: computed('tutorials', function() {
