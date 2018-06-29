@@ -7,7 +7,7 @@ import sinon from 'sinon';
 
 describe('Unit | Route | assessments.rating', function() {
   setupTest('route:assessments.rating', {
-    needs: ['service:current-routed-modal']
+    needs: ['service:current-routed-modal'],
   });
 
   it('exists', function() {
@@ -49,10 +49,12 @@ describe('Unit | Route | assessments.rating', function() {
         const assessment = EmberObject.create({ id: 12, type: 'CERTIFICATION', answers: [answerToChallengeOne] });
 
         // when
-        route.afterModel(assessment);
+        const promise = route.afterModel(assessment);
 
         // then
-        sinon.assert.calledWith(route.transitionTo, 'certifications.results');
+        promise.then(() => {
+          return sinon.assert.calledWith(route.transitionTo, 'certifications.results');
+        });
       });
     });
 
@@ -62,10 +64,12 @@ describe('Unit | Route | assessments.rating', function() {
         const assessment = EmberObject.create({ id: 12, type: 'SMART_PLACEMENT', answers: [answerToChallengeOne] });
 
         // when
-        route.afterModel(assessment);
+        const promise = route.afterModel(assessment);
 
         // then
-        sinon.assert.calledWith(route.transitionTo, 'campaigns.skill-review', { 'skill-review_id': assessment.get('id') });
+        promise.then(() => {
+          return sinon.assert.calledWith(route.transitionTo, 'campaigns.skill-review', { 'skill-review_id': assessment.get('id') });
+        });
       });
     });
 
@@ -75,10 +79,10 @@ describe('Unit | Route | assessments.rating', function() {
         const assessment = EmberObject.create({ answers: [answerToChallengeOne] });
 
         // when
-        route.afterModel(assessment);
+        const promise = route.afterModel(assessment);
 
         // then
-        sinon.assert.calledWith(route.transitionTo, 'assessments.results', assessment.get('id'));
+        promise.then(() => sinon.assert.calledWith(route.transitionTo, 'assessments.results', assessment.get('id')));
       });
     });
 
