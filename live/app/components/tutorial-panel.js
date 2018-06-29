@@ -21,7 +21,7 @@ export default Component.extend({
     return !_.isEmpty(this.get('tutorials'));
   }),
 
-  limitedTutorial: computed('tutorials', function() {
+  limitedTutorials: computed('tutorials', function() {
     return this.get('tutorials').slice(0, 3);
   }),
 
