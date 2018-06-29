@@ -1,9 +1,8 @@
-const { expect, sinon } = require('../../../test-helper');
+const { expect, sinon, factory } = require('../../../test-helper');
 const competenceTreeRepository = require('../../../../lib/infrastructure/repositories/competence-tree-repository');
 const competenceDatasource = require('../../../../lib/infrastructure/datasources/airtable/competence-datasource');
 const areaDatasource = require('../../../../lib/infrastructure/datasources/airtable/area-datasource');
 const CompetenceTree = require('../../../../lib/domain/models/CompetenceTree');
-const factory = require('../../../factory');
 
 describe('Unit | Repository | competence-tree-repository', () => {
 
