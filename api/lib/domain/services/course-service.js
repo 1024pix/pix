@@ -7,6 +7,12 @@ const { NotFoundError } = require('../../../lib/domain/errors');
 module.exports = {
 
   getCourse(courseId) {
+
+    // TODO: delete when smart placement assessment does not have courses anymore
+    if (_.startsWith(courseId, 'Smart')) {
+      return Promise.resolve(new Course({ id: courseId }));
+    }
+
     // TODO This repo switch should not be here because we make a technical discrimination on the course id
     if (_.startsWith(courseId, 'rec')) {
       return courseRepository.get(courseId)
