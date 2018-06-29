@@ -72,7 +72,7 @@ describe('Integration | Component | tutorial panel', function() {
         expect(this.$('.tutorial-panel__hint-content')).to.have.lengthOf(1);
 
         const $contentElement = this.$('.tutorial-panel__hint-content');
-        expect($contentElement.text().trim()).to.equal('Ceci est une indice.');
+        expect($contentElement.text().trim()).to.equal('Ceci est un indice.');
       });
       it('should not render the default message', function() {
         // when
