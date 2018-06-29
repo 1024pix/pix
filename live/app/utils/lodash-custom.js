@@ -8,13 +8,6 @@ _.mixin({
   isAmongst: function(element, collection) {
     return _.includes(collection, element);
   },
-  forceString: function(x) {
-    if (_(x).isNonEmptyString()) {
-      return x;
-    } else {
-      return '';
-    }
-  },
   // See http://stackoverflow.com/a/10834843
   /* istanbul ignore next */
   isStrictlyPositiveInteger: function(str) {
@@ -23,9 +16,6 @@ _.mixin({
   // Just an alias, ignore test
   /* istanbul ignore next */
   checkPoint: _.thru,
-  isTrue: function(x) {
-    return x === true;
-  },
   removeFirstElement: function(x) {
     return _.drop(x, 1);
   },
