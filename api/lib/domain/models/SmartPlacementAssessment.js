@@ -1,9 +1,9 @@
 const SkillReview = require('./SkillReview');
 
-const SmartPlacementAssessmentState = {
+const SmartPlacementAssessmentState = Object.freeze({
   COMPLETED: 'completed',
   STARTED: 'started',
-};
+});
 
 /*
  * Traduction : évaluation
