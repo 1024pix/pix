@@ -6,7 +6,7 @@ describe('Acceptance | API | SkillReviews', () => {
   describe('GET /api/skill-reviews/:id', () => {
 
     const userIdOfUserWithAssessment = 9999;
-    const inserted_assessment = {
+    const insertedAssessment = {
       courseId: 1,
       userId: userIdOfUserWithAssessment,
       type: 'SMART_PLACEMENT',
@@ -24,7 +24,7 @@ describe('Acceptance | API | SkillReviews', () => {
         .times(3)
         .reply(200, {});
 
-      return knex('assessments').insert(inserted_assessment)
+      return knex('assessments').insert(insertedAssessment)
         .then(([createdAssessmentId]) => assessmentId = createdAssessmentId);
     });
 

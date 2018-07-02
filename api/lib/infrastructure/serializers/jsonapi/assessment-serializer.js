@@ -70,6 +70,8 @@ class AssessmentSerializer extends JSONAPISerializer {
       }
     }
 
+    // XXX - to link smart placement assessment to the associated skill-review
+    // which exists only on smartPlacementAssessment
     if (model.type === Assessment.types.SMARTPLACEMENT) {
       data.relationships['skill-review'] = {
         data: {
