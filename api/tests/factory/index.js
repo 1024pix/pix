@@ -16,6 +16,7 @@ const buildCompetenceAirtableDataObject = require('./build-competence-airtable-d
 const buildCompetenceMark = require('./build-competence-mark');
 const buildCompetenceTree = require('./build-competence-tree');
 const buildCourse = require('./build-course');
+const buildHint = require('./build-hint');
 const buildOrganization = require('./build-organization');
 const buildOrganizationAccess = require('./build-organization-access');
 const buildOrganizationRole = require('./build-organization-role');
@@ -24,6 +25,7 @@ const buildResultCompetenceTree = require('./build-result-competence-tree');
 const buildSkill = require('./build-skill');
 const buildSkillCollection = require('./build-skill-collection');
 const buildTube = require('./build-tube');
+const buildTutorial = require('./build-tutorial');
 const buildUser = require('./build-user');
 
 module.exports = {
@@ -45,6 +47,7 @@ module.exports = {
   buildCompetence,
   buildCompetenceMark,
   buildCompetenceTree,
+  buildHint,
   buildOrganization,
   buildOrganizationAccess,
   buildOrganizationRole,
@@ -53,5 +56,6 @@ module.exports = {
   buildSkill,
   buildSkillCollection,
   buildTube,
+  buildTutorial,
   buildUser,
 };

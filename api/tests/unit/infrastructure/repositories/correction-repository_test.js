@@ -1,11 +1,10 @@
-const { expect, sinon } = require('../../../test-helper');
+const { expect, sinon, factory } = require('../../../test-helper');
 const correctionRepository = require('../../../../lib/infrastructure/repositories/correction-repository');
 const challengeDatasource = require('../../../../lib/infrastructure/datasources/airtable/challenge-datasource');
 const skillDatasource = require('../../../../lib/infrastructure/datasources/airtable/skill-datasource');
 const tutorialDataSource = require('../../../../lib/infrastructure/datasources/airtable/tutorial-datasource');
 const Correction = require('../../../../lib/domain/models/Correction');
 const Hint = require('../../../../lib/domain/models/Hint');
-const Tutorial = require('../../../../lib/domain/models/Tutorial');
 const ChallengeAirtableDataObjectFixture = require('../../../fixtures/infrastructure/challengeAirtableDataObjectFixture');
 const SkillAirtableDataObjectFixture = require('../../../fixtures/infrastructure/skillAirtableDataObjectFixture');
 const tutorialAirtableDataObjectFixture = require('../../../fixtures/infrastructure/tutorialAirtableDataObjectFixture');
@@ -29,13 +28,13 @@ describe('Unit | Repository | correction-repository', function() {
 
     const recordId = 'rec-challengeId';
     const expectedHints = [
-      new Hint({ skillName: '@web2', value: 'Peut-on géo-localiser un téléphone lorsqu’il est éteint ?' }),
-      new Hint({ skillName: '@web3', value: 'Peut-on géo-localiser un téléphone lorsqu’il est éteint ?' }),
+      factory.buildHint({ skillName: '@web2', value: 'Peut-on géo-localiser un téléphone lorsqu’il est éteint ?' }),
+      factory.buildHint({ skillName: '@web3', value: 'Peut-on géo-localiser un téléphone lorsqu’il est éteint ?' }),
     ];
 
     const expectedTutorials = [
-      new Tutorial({ id: 'recTuto1', duration: '00:01:30', format: 'video', link: 'https://youtube.fr', source: 'Youtube', title:'Comment dresser un panda' }),
-      new Tutorial({ id: 'recTuto2', duration: '00:01:30', format: 'document', link: 'https://youtube.fr', source: 'Youtube', title:'Comment dresser un chat' }),
+      factory.buildTutorial({ id: 'recTuto1', title:'Comment dresser un panda' }),
+      factory.buildTutorial({ id: 'recTuto2', title:'Comment dresser un chat' }),
     ];
 
     const expectedCorrection = new Correction({
@@ -65,10 +64,10 @@ describe('Unit | Repository | correction-repository', function() {
       skillDataObject3.tutorialIds = [];
       const tutoData1 = tutorialAirtableDataObjectFixture();
       tutoData1.id = 'recTuto1';
+      tutoData1.title = 'Comment dresser un panda';
       const tutoData2 = tutorialAirtableDataObjectFixture();
-      tutoData2.format = 'document';
-      tutoData2.title = 'Comment dresser un chat';
       tutoData2.id = 'recTuto2';
+      tutoData2.title = 'Comment dresser un chat';
 
       challengeDatasource.get.resolves(challengeDataObject);
       skillDatasource.get.onFirstCall().resolves(skillDataObject1);

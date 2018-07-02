@@ -130,8 +130,19 @@ describe('Unit | Component | tutorial panel', function() {
 
       // then
       expect(result).to.be.false;
-
     });
+
+    it('should return false when tutorials is null', function() {
+      // given
+      component.set('tutorials', null);
+
+      // when
+      const result = component.get('shouldDisplayTutorial');
+
+      // then
+      expect(result).to.be.false;
+    });
+
   });
 
   describe('#limitedTutorial', function() {
