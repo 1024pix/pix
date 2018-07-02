@@ -1,5 +1,6 @@
 const { expect, factory } = require('../../../test-helper');
 const SmartPlacementAnswer = require('../../../../lib/domain/models/SmartPlacementAnswer');
+const SmartPlacementAssessment = require('../../../../lib/domain/models/SmartPlacementAssessment');
 const SmartPlacementKnowledgeElement = require('../../../../lib/domain/models/SmartPlacementKnowledgeElement');
 const SkillReview = require('../../../../lib/domain/models/SkillReview');
 
@@ -75,6 +76,64 @@ function generateSmartPlacementAssessmentDataWithThreeKnowledgeElements({
 }
 
 describe('Unit | Domain | Models | SmartPlacementAssessment', () => {
+
+  describe('#isCompleted', () => {
+
+    it('should be true if state is completed', () => {
+      // given
+      const assessment = factory.buildSmartPlacementAssessment({
+        state: SmartPlacementAssessment.State.COMPLETED,
+      });
+
+      // when
+      const isCompleted = assessment.isCompleted;
+
+      // then
+      expect(isCompleted).to.be.true;
+    });
+
+    it('should be false if state not completed', () => {
+      // given
+      const assessment = factory.buildSmartPlacementAssessment({
+        state: SmartPlacementAssessment.State.STARTED,
+      });
+
+      // when
+      const isCompleted = assessment.isCompleted;
+
+      // then
+      expect(isCompleted).to.be.false;
+    });
+  });
+
+  describe('#isStarted', () => {
+
+    it('should be true if state is started', () => {
+      // given
+      const assessment = factory.buildSmartPlacementAssessment({
+        state: SmartPlacementAssessment.State.STARTED,
+      });
+
+      // when
+      const isStarted = assessment.isStarted;
+
+      // then
+      expect(isStarted).to.be.true;
+    });
+
+    it('should be false if state not started', () => {
+      // given
+      const assessment = factory.buildSmartPlacementAssessment({
+        state: SmartPlacementAssessment.State.COMPLETED,
+      });
+
+      // when
+      const isStarted = assessment.isStarted;
+
+      // then
+      expect(isStarted).to.be.false;
+    });
+  });
 
   describe('#getValidatedSkills', () => {
 
