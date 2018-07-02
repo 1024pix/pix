@@ -10,13 +10,13 @@ export default Route.extend({
       .finally(() => {
         switch (assessment.get('type')) {
           case 'CERTIFICATION':
-            return this.transitionTo('certifications.results', assessment.get('certificationNumber'));
+            return this.replaceWith('certifications.results', assessment.get('certificationNumber'));
 
           case 'SMART_PLACEMENT':
-            return this.transitionTo('campaigns.skill-review', assessment.get('id'));
+            return this.replaceWith('campaigns.skill-review', assessment.get('id'));
 
           default:
-            return this.transitionTo('assessments.results', assessment.get('id'));
+            return this.replaceWith('assessments.results', assessment.get('id'));
         }
       });
   },

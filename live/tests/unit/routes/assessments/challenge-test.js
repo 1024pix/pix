@@ -286,7 +286,8 @@ describe('Unit | Route | Assessments.ChallengeRoute', function() {
           EmberObject.create({ challenge: challengeTwo })
         ];
 
-        const assessment = EmberObject.create({ id: 154, type: 'SMART_PLACEMENT', answers: listOfAnswers, hasCheckpoints: true });
+        const assessmentId = 154;
+        const assessment = EmberObject.create({ id: assessmentId, type: 'SMART_PLACEMENT', answers: listOfAnswers, hasCheckpoints: true });
         createRecordStub.returns(answerToChallengeOne);
         queryRecordStub.resolves(nextChallenge);
 
@@ -297,7 +298,7 @@ describe('Unit | Route | Assessments.ChallengeRoute', function() {
         return promise.then(function() {
           sinon.assert.callOrder(answerToChallengeOne.save, route.transitionTo);
           sinon.assert.calledOnce(route.transitionTo);
-          sinon.assert.calledWith(route.transitionTo, 'assessments.checkpoint', 154);
+          sinon.assert.calledWith(route.transitionTo, 'assessments.checkpoint', assessmentId);
         });
       });
 
@@ -330,7 +331,8 @@ describe('Unit | Route | Assessments.ChallengeRoute', function() {
 
       it('should redirect to checkpoint before the rating on the last serie of 5', function() {
         // given
-        const assessment = EmberObject.create({ id: 947, answers: [answerToChallengeOne], hasCheckpoints: true });
+        const assessmentId = 947;
+        const assessment = EmberObject.create({ id: assessmentId, answers: [answerToChallengeOne], hasCheckpoints: true });
         createRecordStub.returns(answerToChallengeOne);
         queryRecordStub.rejects();
 
@@ -341,7 +343,7 @@ describe('Unit | Route | Assessments.ChallengeRoute', function() {
         return promise.then(function() {
           sinon.assert.callOrder(answerToChallengeOne.save, route.transitionTo);
           sinon.assert.calledOnce(route.transitionTo);
-          sinon.assert.calledWith(route.transitionTo, 'assessments.checkpoint', assessment, {
+          sinon.assert.calledWith(route.transitionTo, 'assessments.checkpoint', assessmentId, {
             queryParams: { finalCheckpoint: true }
           });
         });

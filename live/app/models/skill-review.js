@@ -4,7 +4,7 @@ import { computed } from '@ember/object';
 export default DS.Model.extend({
   profileMasteryRate: DS.attr('number'),
 
-  profileMasteryInPourcent: computed('profileMasteryRate', function() {
-    return Number((this.get('profileMasteryRate') * 100).toFixed(1));
+  profileMasteryPercentage: computed('profileMasteryRate', function() {
+    return Number((this.get('profileMasteryRate') * 100).toFixed(1)) + ' %';
   }),
 });
