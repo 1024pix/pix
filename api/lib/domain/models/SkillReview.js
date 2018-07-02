@@ -5,7 +5,12 @@ const SKILL_REVIEW_ID_PREFIX = 'skill-review-';
  */
 class SkillReview {
 
-  constructor({ id, targetedSkills, validatedSkills, failedSkills } = {}) {
+  constructor({
+    id,
+    targetedSkills = [],
+    validatedSkills = [],
+    failedSkills = [],
+  }) {
     this.id = id;
     this.targetedSkills = targetedSkills;
     this.validatedSkills = validatedSkills;
