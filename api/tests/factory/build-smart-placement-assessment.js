@@ -6,7 +6,13 @@ const buildSmartPlacementAnswer = require('./build-smart-placement-answer');
 const buildSmartPlacementKnowledgeElement = require('./build-smart-placement-knowledge-element');
 const buildTargetProfile = require('./build-target-profile');
 
-function initialValues() {
+const initialValues = {};
+
+function initialValuesForId(id) {
+
+  if (initialValues[id]) {
+    return initialValues[id];
+  }
 
   const skills = buildSkillCollection();
   const [skill1] = skills;
@@ -15,20 +21,22 @@ function initialValues() {
   const answer1 = buildSmartPlacementAnswer();
   const knowledgeElement1 = buildSmartPlacementKnowledgeElement({ answerId: answer1.id, skillId: skill1.name });
 
-  return {
+  initialValues[id] = {
     answers: [answer1],
     knowledgeElements: [knowledgeElement1],
     targetProfile,
   };
+
+  return initialValues[id];
 }
 
 module.exports = function buildSmartPlacementAssessment({
   id = faker.random.number(),
   state = SmartPlacementAssessment.State.COMPLETED,
   userId = faker.random.number(),
-  answers = initialValues().answers,
-  knowledgeElements = initialValues().knowledgeElements,
-  targetProfile = initialValues().targetProfile,
+  answers = initialValuesForId(id).answers,
+  knowledgeElements = initialValuesForId(id).knowledgeElements,
+  targetProfile = initialValuesForId(id).targetProfile,
 } = {}) {
   return new SmartPlacementAssessment({
     id,
