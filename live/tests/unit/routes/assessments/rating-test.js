@@ -35,7 +35,7 @@ describe('Unit | Route | assessments.rating', function() {
 
     // instance route object
     route = this.subject();
-    route.transitionTo = sinon.stub();
+    route.replaceWith = sinon.stub();
   });
 
   describe('#afterModel', function() {
@@ -52,8 +52,8 @@ describe('Unit | Route | assessments.rating', function() {
         const promise = route.afterModel(assessment);
 
         // then
-        promise.then(() => {
-          return sinon.assert.calledWith(route.transitionTo, 'certifications.results');
+        return promise.then(() => {
+          return sinon.assert.calledWith(route.replaceWith, 'certifications.results');
         });
       });
     });
@@ -61,14 +61,15 @@ describe('Unit | Route | assessments.rating', function() {
     context('when the assessment is a SMART_PLACEMENT', function() {
       it('should redirect to the certification end page', function() {
         // given
-        const assessment = EmberObject.create({ id: 12, type: 'SMART_PLACEMENT', answers: [answerToChallengeOne] });
+        const assessmentId = 12;
+        const assessment = EmberObject.create({ id: assessmentId, type: 'SMART_PLACEMENT', answers: [answerToChallengeOne] });
 
         // when
         const promise = route.afterModel(assessment);
 
         // then
-        promise.then(() => {
-          return sinon.assert.calledWith(route.transitionTo, 'campaigns.skill-review', { 'skill-review_id': assessment.get('id') });
+        return promise.then(() => {
+          return sinon.assert.calledWith(route.replaceWith, 'campaigns.skill-review', assessmentId);
         });
       });
     });
@@ -82,7 +83,7 @@ describe('Unit | Route | assessments.rating', function() {
         const promise = route.afterModel(assessment);
 
         // then
-        promise.then(() => sinon.assert.calledWith(route.transitionTo, 'assessments.results', assessment.get('id')));
+        return promise.then(() => sinon.assert.calledWith(route.replaceWith, 'assessments.results', assessment.get('id')));
       });
     });
 

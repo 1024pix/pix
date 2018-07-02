@@ -9,33 +9,33 @@ describe('Unit | Model | skill review', function() {
     needs: []
   });
 
-  describe('Computed property #profileMasteryInPourcent', function() {
+  describe('Computed property #profileMasteryPercentage', function() {
 
-    it('should compute a property in %', function() {
+    it('should compute a property in  %', function() {
       run(() => {
         // given
         const store = this.store();
         const skillReview = store.createRecord('skill-review', { profileMasteryRate: 0.6815 });
 
         // when
-        const profileMasteryInPourcent = skillReview.get('profileMasteryInPourcent');
+        const profileMasteryInPourcent = skillReview.get('profileMasteryPercentage');
 
         // then
-        expect(profileMasteryInPourcent).to.equal(68.2);
+        expect(profileMasteryInPourcent).to.equal('68.2 %');
       });
     });
 
-    it('should round the property%', function() {
+    it('should round the property to one decimal %', function() {
       run(() => {
         // given
         const store = this.store();
         const skillReview = store.createRecord('skill-review', { profileMasteryRate: 0.651 });
 
         // when
-        const profileMasteryInPourcent = skillReview.get('profileMasteryInPourcent');
+        const profileMasteryInPourcent = skillReview.get('profileMasteryPercentage');
 
         // then
-        expect(profileMasteryInPourcent).to.equal(65.1);
+        expect(profileMasteryInPourcent).to.equal('65.1 %');
       });
     });
 

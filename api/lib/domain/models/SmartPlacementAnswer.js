@@ -1,11 +1,11 @@
-const ResultType = {
+const ResultType = Object.freeze({
   OK: 'ok',
   KO: 'ko',
   SKIPPED: 'skipped',
   TIMEDOUT: 'timeout',
   PARTIALLY: 'partially',
   UNIMPLEMENTED: 'unimplemented',
-};
+});
 
 /*
  * Traduction : réponse

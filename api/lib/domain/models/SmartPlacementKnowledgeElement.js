@@ -1,12 +1,12 @@
-const SmartPlacementKnowledgeElementSourceType = {
+const SmartPlacementKnowledgeElementSourceType = Object.freeze({
   DIRECT: 'direct',
   INFERRED: 'inferred',
-};
+});
 
-const SmartPlacementKnowledgeElementStatusType = {
+const SmartPlacementKnowledgeElementStatusType = Object.freeze({
   VALIDATED: 'validated',
   INVALIDATED: 'invalidated',
-};
+});
 
 /*
  * Traduction : élément de connaissance d'un profil exploré dans le cadre d'un smart placement
