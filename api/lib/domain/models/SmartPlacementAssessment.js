@@ -1,4 +1,3 @@
-const KnowledgeElement = require('./SmartPlacementKnowledgeElement');
 const SkillReview = require('./SkillReview');
 
 const SmartPlacementAssessmentState = {
@@ -36,20 +35,16 @@ class SmartPlacementAssessment {
   getValidatedSkills() {
 
     return this.knowledgeElements
-      .filter(knowledgeElement => knowledgeElement.status === KnowledgeElement.StatusType.VALIDATED)
-      .reduce((validatedSkills, knowledgeElement) => {
-        return validatedSkills.concat(knowledgeElement.skillId);
-      }, [])
+      .filter(knowledgeElement => knowledgeElement.isValidated)
+      .map((knowledgeElement) => knowledgeElement.skillId)
       .map((skillId) => this.targetProfile.skills.find((skill) => skill.name === skillId));
   }
 
   getFailedSkills() {
 
     return this.knowledgeElements
-      .filter(knowledgeElement => knowledgeElement.status === KnowledgeElement.StatusType.INVALIDATED)
-      .reduce((validatedSkills, knowledgeElement) => {
-        return validatedSkills.concat(knowledgeElement.skillId);
-      }, [])
+      .filter(knowledgeElement => knowledgeElement.isInvalidated)
+      .map((knowledgeElement) => knowledgeElement.skillId)
       .map((skillId) => this.targetProfile.skills.find((skill) => skill.name === skillId));
   }
 
