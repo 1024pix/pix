@@ -8,7 +8,6 @@ describe('Unit | Domain | Models | SmartPlacementKnowledgeElement', () => {
     it('should be true if status validated', () => {
       // given
       const knowledgeElement = factory.buildSmartPlacementKnowledgeElement({
-        // source = SmartPlacementKnowledgeElement.SourceType.DIRECT,
         status: SmartPlacementKnowledgeElement.StatusType.VALIDATED,
       });
 

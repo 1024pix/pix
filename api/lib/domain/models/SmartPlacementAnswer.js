@@ -25,6 +25,10 @@ class SmartPlacementAnswer {
     this.result = result;
     this.challengeId = challengeId;
   }
+
+  get isCorrect() {
+    return this.result === ResultType.OK;
+  }
 }
 
 SmartPlacementAnswer.ResultType = ResultType;

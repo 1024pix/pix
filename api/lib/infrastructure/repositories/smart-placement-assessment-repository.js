@@ -1,13 +1,10 @@
-// To delete once target-profile table is created
-const targetProfileRepository = require('./target-profile-repository');
-
-const challengeDatasource = require('../datasources/airtable/challenge-datasource');
-
 const BookshelfAssessment = require('../../infrastructure/data/assessment');
+const challengeDatasource = require('../datasources/airtable/challenge-datasource');
 const SmartPlacementAnswer = require('../../domain/models/SmartPlacementAnswer');
 const SmartPlacementAssessment = require('../../domain/models/SmartPlacementAssessment');
 const SmartPlacementKnowledgeElement = require('../../domain/models/SmartPlacementKnowledgeElement');
-
+// To delete once target-profile table is created
+const targetProfileRepository = require('./target-profile-repository');
 const { NotFoundError } = require('../../domain/errors');
 
 function getChallengeAirtableDataObject(bookshelfAssessment) {
@@ -41,9 +38,10 @@ function toDomain({ bookshelfAssessment, challengeAirtableDataObjects }) {
         const associatedChallengeAirtableDataObject = challengeAirtableDataObjects
           .find((challengeAirtableDataObject) => challengeAirtableDataObject.id === answer.challengeId);
 
-        const status = answer.result === SmartPlacementAnswer.ResultType.OK ?
-          SmartPlacementKnowledgeElement.StatusType.VALIDATED :
-          SmartPlacementKnowledgeElement.StatusType.INVALIDATED;
+        const validatedStatus = SmartPlacementKnowledgeElement.StatusType.VALIDATED;
+        const invalidatedStatus = SmartPlacementKnowledgeElement.StatusType.INVALIDATED;
+
+        const status = answer.isCorrect ? validatedStatus : invalidatedStatus;
 
         const knowledgeElementsToAdd = associatedChallengeAirtableDataObject.skills
           .map((skillName) => {
