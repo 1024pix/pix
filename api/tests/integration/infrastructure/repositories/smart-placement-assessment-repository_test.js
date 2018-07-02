@@ -2,16 +2,15 @@ const {
   expect, sinon, knex, insertUserWithStandardRole, cleanupUsersAndPixRolesTables, factory,
 } = require('../../../test-helper');
 
-const SmartPlacementAssessment = require('../../../../lib/domain/models/SmartPlacementAssessment');
+const challengeDatasource = require('../../../../lib/infrastructure/datasources/airtable/challenge-datasource');
 const SmartPlacementAnswer = require('../../../../lib/domain/models/SmartPlacementAnswer');
+const SmartPlacementAssessment = require('../../../../lib/domain/models/SmartPlacementAssessment');
 const smartPlacementAssessmentRepository =
   require('../../../../lib/infrastructure/repositories/smart-placement-assessment-repository');
 const SmartPlacementKnowledgeElement = require('../../../../lib/domain/models/SmartPlacementKnowledgeElement');
 const targetProfileRepository =
   require('../../../../lib/infrastructure/repositories/target-profile-repository');
 const { NotFoundError } = require('../../../../lib/domain/errors');
-
-const challengeDatasource = require('../../../../lib/infrastructure/datasources/airtable/challenge-datasource');
 
 describe('Integration | Repository | SmartPlacementAssessmentRepository', () => {
 
