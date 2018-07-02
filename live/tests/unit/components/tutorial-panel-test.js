@@ -63,6 +63,18 @@ describe('Unit | Component | tutorial panel', function() {
       // then
       expect(result).to.be.false;
     });
+
+    it('should return false when hint is an empty array', function() {
+      // given
+      component.set('hint', []);
+
+      // when
+      const result = component.get('shouldDisplayHint');
+
+      // then
+      expect(result).to.be.false;
+    });
+
   });
 
   describe('#shouldDisplayHintOrTuto', function() {
@@ -94,6 +106,18 @@ describe('Unit | Component | tutorial panel', function() {
     it('should return false when hint and tutorials are not defined', function() {
       // given
       component.set('hint', null);
+      component.set('tutorials', null);
+
+      // when
+      const result = component.get('shouldDisplayHintOrTuto');
+
+      // then
+      expect(result).to.be.false;
+    });
+
+    it('should return false when hint and tutorials are empty array', function() {
+      // given
+      component.set('hint', []);
       component.set('tutorials', []);
 
       // when
@@ -102,6 +126,7 @@ describe('Unit | Component | tutorial panel', function() {
       // then
       expect(result).to.be.false;
     });
+
   });
 
   describe('#shouldDisplayTutorial', function() {
