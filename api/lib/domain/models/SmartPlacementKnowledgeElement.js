@@ -31,6 +31,14 @@ class SmartPlacementKnowledgeElement {
     this.answerId = answerId;
     this.skillId = skillId;
   }
+
+  get isValidated() {
+    return this.status === SmartPlacementKnowledgeElementStatusType.VALIDATED;
+  }
+
+  get isInvalidated() {
+    return this.status === SmartPlacementKnowledgeElementStatusType.INVALIDATED;
+  }
 }
 
 SmartPlacementKnowledgeElement.SourceType = SmartPlacementKnowledgeElementSourceType;
