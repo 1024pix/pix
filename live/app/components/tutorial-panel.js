@@ -14,11 +14,14 @@ export default Component.extend({
 
   shouldDisplayHintOrTuto: computed('resultItemStatus', function() {
     const tutorials = this.get('tutorials') || [];
-    return Boolean(this.get('hint')) || (tutorials.length > 0);
+    const hint = this.get('hint') || [];
+
+    return (hint.length > 0) || (tutorials.length > 0);
   }),
 
   shouldDisplayHint: computed('resultItemStatus', 'hint', function() {
-    return Boolean(this.get('hint'));
+    const hint = this.get('hint') || [];
+    return hint.length > 0;
   }),
 
   shouldDisplayTutorial: computed('resultItemStatus', 'tutorials', function() {
