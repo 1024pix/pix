@@ -287,8 +287,8 @@ describe('Unit | Service | User Service', () => {
         const promise = userService.getProfileToCertify(userId);
 
         // then
-        return promise.then((targetProfile) => {
-          expect(targetProfile).to.deep.equal([
+        return promise.then((skillProfile) => {
+          expect(skillProfile).to.deep.equal([
             {
               id: 'competenceRecordIdOne',
               index: '1.1',
@@ -329,8 +329,8 @@ describe('Unit | Service | User Service', () => {
             const promise = userService.getProfileToCertify(userId);
 
             // then
-            return promise.then((targetProfile) => {
-              expect(targetProfile).to.deep.equal([{
+            return promise.then((skillProfile) => {
+              expect(skillProfile).to.deep.equal([{
                 id: 'competenceRecordIdOne',
                 index: '1.1',
                 name: '1.1 Construire un flipper',
@@ -365,8 +365,8 @@ describe('Unit | Service | User Service', () => {
             const promise = userService.getProfileToCertify(userId);
 
             // then
-            return promise.then((targetProfile) => {
-              expect(targetProfile).to.deep.equal([
+            return promise.then((skillProfile) => {
+              expect(skillProfile).to.deep.equal([
                 {
                   id: 'competenceRecordIdOne',
                   index: '1.1',
@@ -402,8 +402,8 @@ describe('Unit | Service | User Service', () => {
             const promise = userService.getProfileToCertify(userId);
 
             // then
-            return promise.then((targetProfile) => {
-              expect(targetProfile).to.deep.equal([
+            return promise.then((skillProfile) => {
+              expect(skillProfile).to.deep.equal([
                 {
                   id: 'competenceRecordIdOne',
                   index: '1.1',
@@ -438,8 +438,8 @@ describe('Unit | Service | User Service', () => {
             const promise = userService.getProfileToCertify(userId);
 
             // then
-            return promise.then((targetProfile) => {
-              expect(targetProfile).to.deep.equal([
+            return promise.then((skillProfile) => {
+              expect(skillProfile).to.deep.equal([
                 {
                   id: 'competenceRecordIdOne',
                   index: '1.1',
@@ -479,8 +479,8 @@ describe('Unit | Service | User Service', () => {
         const promise = userService.getProfileToCertify(userId);
 
         // then
-        return promise.then((targetProfile) => {
-          expect(targetProfile).to.deep.equal([
+        return promise.then((skillProfile) => {
+          expect(skillProfile).to.deep.equal([
             {
               id: 'competenceRecordIdOne',
               index: '1.1',
@@ -516,8 +516,8 @@ describe('Unit | Service | User Service', () => {
         const promise = userService.getProfileToCertify(userId);
 
         // then
-        return promise.then((targetProfile) => {
-          expect(targetProfile).to.deep.equal([
+        return promise.then((skillProfile) => {
+          expect(skillProfile).to.deep.equal([
             {
               id: 'competenceRecordIdOne',
               index: '1.1',
@@ -555,8 +555,8 @@ describe('Unit | Service | User Service', () => {
         const promise = userService.getProfileToCertify(userId);
 
         // then
-        return promise.then((targetProfile) => {
-          expect(targetProfile).to.deep.equal([
+        return promise.then((skillProfile) => {
+          expect(skillProfile).to.deep.equal([
             {
               id: 'competenceRecordIdOne',
               index: '1.1',
@@ -591,8 +591,8 @@ describe('Unit | Service | User Service', () => {
         const promise = userService.getProfileToCertify(userId);
 
         // then
-        return promise.then((targetProfile) => {
-          expect(targetProfile).to.deep.equal([
+        return promise.then((skillProfile) => {
+          expect(skillProfile).to.deep.equal([
             {
               id: 'competenceRecordIdOne',
               index: '1.1',
@@ -626,8 +626,8 @@ describe('Unit | Service | User Service', () => {
         const promise = userService.getProfileToCertify(userId);
 
         // then
-        return promise.then((targetProfile) => {
-          expect(targetProfile).to.deep.equal([
+        return promise.then((skillProfile) => {
+          expect(skillProfile).to.deep.equal([
             {
               id: 'competenceRecordIdOne',
               index: '1.1',
@@ -661,8 +661,8 @@ describe('Unit | Service | User Service', () => {
         const promise = userService.getProfileToCertify(userId);
 
         // then
-        return promise.then((targetProfile) => {
-          expect(targetProfile).to.deep.equal([
+        return promise.then((skillProfile) => {
+          expect(skillProfile).to.deep.equal([
             {
               id: 'competenceRecordIdOne',
               index: '1.1',
