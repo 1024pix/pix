@@ -1,0 +1,41 @@
+.tutorial-item{
+  margin: 5px;
+
+  hr {
+    height: 1px;
+    border: none;
+    color: $gainsboro;
+    background-color: $gainsboro;
+    margin: 15px 0;
+  }
+}
+
+.tutorial-item__tutorial-details {
+  display: flex;
+  color: $raven-grey;
+  font-family: $font-lato;
+  font-size: 1.3rem;
+  line-height: 1.2rem;
+  word-spacing: 0.3rem;
+  margin-top: 10px;
+  align-items: center;
+}
+
+.tutorial-item__tutorial-details__format {
+  margin-right: 10px;
+}
+
+.tutorial-item__tutorial-title {
+  color: $pix-blue;
+  font-family: $font-lato;
+  font-size: 1.7rem;
+  font-weight: bold;
+  line-height: 1.3rem;
+}
+
+.tutorial-item__tutorial-title-url,
+.tutorial-item__tutorial-title-url:hover,
+.tutorial-item__tutorial-title-url:visited {
+  color: $pix-blue;
+  text-decoration: none;
+}

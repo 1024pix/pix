@@ -1,6 +1,6 @@
 const dataModels = require('../../../../../../lib/infrastructure/datasources/airtable/objects/index');
 const challengeRawAirTableFixture = require('../../../../../fixtures/infrastructure/challengeRawAirTableFixture');
-const ChallengeAirtableDataModelFixture = require('../../../../../fixtures/infrastructure/ChallengeAirtableDataObjectFixture');
+const ChallengeAirtableDataModelFixture = require('../../../../../fixtures/infrastructure/challengeAirtableDataObjectFixture');
 const ChallengeDataObject = require('../../../../../../lib/infrastructure/datasources/airtable/objects/Challenge');
 const { expect } = require('../../../../../test-helper');
 

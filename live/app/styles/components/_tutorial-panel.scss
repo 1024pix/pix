@@ -44,13 +44,19 @@
   padding: 36px 0 28px;
 }
 
+.tutorial-panel__tutorials-container {
+  display: flex;
+  flex-direction: column;
+  margin: 20px;
+}
+
 .tutorial-panel__hint-title {
   font-family: $font-raleway;
   font-size: 24px;
   text-align: center;
   color: $charcoal-grey;
   font-weight: $font-semi-bold;
-  margin-bottom: 40px;
+  margin-bottom: 20px;
 
   // XXX Inspired from https://codepen.io/ericrasch/pen/Irlpm
   position: relative;

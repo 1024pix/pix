@@ -6,12 +6,31 @@ export default Component.extend({
 
   hint: null,
   resultItemStatus: null,
+  tutorials: null,
 
-  shouldDisplayDefaultMessage: computed('resultItemStatus', 'hint', function() {
-    return this.get('resultItemStatus') !== 'ok' && !this.get('hint');
+  shouldDisplayTipsToSucceed: computed('resultItemStatus', function() {
+    return this.get('resultItemStatus') !== 'ok';
   }),
 
-  shouldDisplayHint: computed('resultItemStatus', 'hint', function() {
-    return this.get('resultItemStatus') !== 'ok' && Boolean(this.get('hint'));
+  shouldDisplayHintOrTuto: computed('tutorials', 'hint', function() {
+    const tutorials = this.get('tutorials') || [];
+    const hint = this.get('hint') || [];
+
+    return (hint.length > 0) || (tutorials.length > 0);
   }),
+
+  shouldDisplayHint: computed('hint', function() {
+    const hint = this.get('hint') || [];
+    return hint.length > 0;
+  }),
+
+  shouldDisplayTutorial: computed('tutorials', function() {
+    const tutorials = this.get('tutorials') || [];
+    return tutorials.length > 0;
+  }),
+
+  limitedTutorials: computed('tutorials', function() {
+    return this.get('tutorials').slice(0, 3);
+  }),
+
 });

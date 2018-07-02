@@ -3,6 +3,7 @@ const JSONAPIError = require('jsonapi-serializer').Error;
 const usecases = require('../../../../lib/domain/usecases');
 const Correction = require('../../../../lib/domain/models/Correction');
 const Hint = require('../../../../lib/domain/models/Hint');
+const Tutorial = require('../../../../lib/domain/models/Tutorial');
 const { NotFoundError, NotCompletedAssessmentError } = require('../../../../lib/domain/errors');
 
 const assessmentRepository = require('../../../../lib/infrastructure/repositories/assessment-repository');
@@ -66,6 +67,9 @@ describe('Unit | Controller | corrections-controller', () => {
         solution: 'This is a correction.',
         hints: [
           new Hint({ skillName: '@test1', value: 'Indice Facile' })
+        ],
+        tutorials: [
+          new Tutorial({ id: 'recTuto1', format: 'video' })
         ]
       });
       usecases.getCorrectionForAnswerWhenAssessmentEnded.resolves(responseCorrection);
@@ -76,8 +80,21 @@ describe('Unit | Controller | corrections-controller', () => {
           id: '234',
           attributes: {
             solution: 'This is a correction.',
-            hint: 'Indice Facile'
-          }
+            hint: 'Indice Facile',
+          },
+          relationships: { tutorials: { data: [{ id: 'recTuto1', type: 'tutorials' }] } },
+        }],
+        included: [{
+          attributes: {
+            duration: undefined,
+            format: 'video',
+            id: 'recTuto1',
+            link: undefined,
+            source: undefined,
+            title: undefined
+          },
+          id: 'recTuto1',
+          type: 'tutorials'
         }]
       };
 
