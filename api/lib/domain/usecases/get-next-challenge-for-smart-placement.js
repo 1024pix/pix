@@ -23,7 +23,7 @@ module.exports = function({
 
   return answerRepository.findByAssessment(assessment.id)
     .then(fetchedAnswers => (answers = fetchedAnswers))
-    .then(() => targetProfileRepository.get('unusedId'))
+    .then(() => targetProfileRepository.get('unusedId')) // XXX for now the profile repo is a stub, the id is of no use
     .then(fetchedTargetProfile => (targetProfile = fetchedTargetProfile))
     .then(() => challengeRepository.findBySkills(targetProfile.skills))
     .then(fetchedChallenges => (challenges = fetchedChallenges))
