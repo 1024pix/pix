@@ -2,7 +2,7 @@ import Component from '@ember/component';
 import { computed } from '@ember/object';
 
 export default Component.extend({
-  classNames : ['tutorial-item'],
+  classNames: ['tutorial-item'],
 
   formatWithImage: ['vidéo', 'son', 'page'],
   tutorial: null,
@@ -12,10 +12,13 @@ export default Component.extend({
       .split(':')
       .map(duration => parseInt(duration));
 
-    if(durationByTime[0] > 0) {
+    const HOURS_OF_DURATION = durationByTime[0];
+    const MINUTES_OF_DURATION = durationByTime[1];
+
+    if (HOURS_OF_DURATION > 0) {
       return durationByTime[0] + ' h';
     }
-    if(durationByTime[1] > 0) {
+    if (MINUTES_OF_DURATION > 0) {
       return durationByTime[1] + ' min';
     }
     return '1 min';
@@ -23,11 +26,11 @@ export default Component.extend({
 
   formatImageName: computed('tutorial', function() {
     const format = this.get('tutorial').format;
-    if(this.get('formatWithImage').includes(format)) {
+    if (this.get('formatWithImage').includes(format)) {
       return format;
-    } else {
-      return 'page';
     }
+    return 'page';
+
   })
 
 });
