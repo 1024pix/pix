@@ -32,6 +32,14 @@ class SmartPlacementAssessment {
     this.targetProfile = targetProfile;
   }
 
+  get isCompleted() {
+    return this.state === SmartPlacementAssessmentState.COMPLETED;
+  }
+
+  get isStarted() {
+    return this.state === SmartPlacementAssessmentState.STARTED;
+  }
+
   getValidatedSkills() {
 
     return this.knowledgeElements
@@ -49,6 +57,7 @@ class SmartPlacementAssessment {
   }
 
   generateSkillReview() {
+
     return new SkillReview({
       id: SkillReview.generateIdFromAssessmentId(this.id),
       targetedSkills: this.targetProfile.skills,
