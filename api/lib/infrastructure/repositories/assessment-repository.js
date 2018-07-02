@@ -16,20 +16,15 @@ function _toDomain(bookshelfAssessment) {
     const modelObjectInJSON = bookshelfAssessment.toJSON();
 
     const answers = bookshelfAssessment.related('answers')
-      .map(bookshelfAnswer => {
-        return new Answer(bookshelfAnswer.toJSON());
-      });
+      .map(bookshelfAnswer => new Answer(bookshelfAnswer.toJSON()));
 
     const assessmentResults = bookshelfAssessment.related('assessmentResults')
-      .map(bookshelfAssessmentResult => {
-        return new AssessmentResult(bookshelfAssessmentResult.toJSON());
-      });
+      .map(bookshelfAssessmentResult => new AssessmentResult(bookshelfAssessmentResult.toJSON()));
 
     return new Assessment(Object.assign(modelObjectInJSON, { answers, assessmentResults }));
   }
 
   return null;
-
 }
 
 function _adaptModelToDb(assessment) {
