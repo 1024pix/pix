@@ -1,12 +1,11 @@
 const JSONAPIError = require('jsonapi-serializer').Error;
 
+const errorSerializer = require('../../infrastructure/serializers/jsonapi/error-serializer');
+const logger = require('../../infrastructure/logger');
 const smartPlacementAssessmentRepository =
   require('../../infrastructure/repositories/smart-placement-assessment-repository');
-const logger = require('../../infrastructure/logger');
 const skillReviewSerializer = require('../../infrastructure/serializers/jsonapi/skill-review-serializer');
 const usecases = require('../../domain/usecases');
-
-const errorSerializer = require('../../infrastructure/serializers/jsonapi/error-serializer');
 const { InfrastructureError } = require('../../infrastructure/errors');
 const { NotFoundError, UserNotAuthorizedToAccessEntity } = require('../../domain/errors');
 
@@ -25,7 +24,7 @@ module.exports = {
     return usecases.getSkillReview({
       skillReviewId,
       userId,
-      smartPlacementAssessmentRepository
+      smartPlacementAssessmentRepository,
     })
       .then(skillReviewSerializer.serialize)
       .then(serializedSkillReview => reply(serializedSkillReview).code(200))
