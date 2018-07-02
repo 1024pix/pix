@@ -67,7 +67,7 @@ describe('Unit | Component | tutorial item', function() {
 
   describe('#formatImageName', function() {
 
-    ['vidéo', 'son', 'page'].forEach((format) => {
+    ['son', 'page'].forEach((format) => {
       it(`should return the same name "${format}" to display the image`, function() {
         // given
         const tutorial = {
@@ -81,6 +81,20 @@ describe('Unit | Component | tutorial item', function() {
         // then
         expect(result).to.equal(format);
       });
+    });
+
+    it('should return "video" when format is "vidéo"', function() {
+      // given
+      const tutorial = {
+        format: 'vidéo',
+      };
+      component.set('tutorial', tutorial);
+
+      // when
+      const result = component.get('formatImageName');
+
+      // then
+      expect(result).to.equal('video');
     });
 
     it('should return the default value "page" when is not precise format', function() {
