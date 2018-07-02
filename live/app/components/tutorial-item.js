@@ -4,7 +4,11 @@ import { computed } from '@ember/object';
 export default Component.extend({
   classNames: ['tutorial-item'],
 
-  formatWithImage: ['vidéo', 'son', 'page'],
+  imageForFormat: {
+    'vidéo': 'video',
+    'son': 'son',
+    'page': 'page'
+  },
   tutorial: null,
 
   displayedDuration: computed('tutorial', function() {
@@ -26,11 +30,10 @@ export default Component.extend({
 
   formatImageName: computed('tutorial', function() {
     const format = this.get('tutorial').format;
-    if (this.get('formatWithImage').includes(format)) {
-      return format;
+    if (this.get('imageForFormat')[format]) {
+      return this.get('imageForFormat')[format];
     }
     return 'page';
-
   })
 
 });
