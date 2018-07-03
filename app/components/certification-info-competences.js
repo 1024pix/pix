@@ -3,6 +3,9 @@ import { computed } from '@ember/object';
 
 export default Component.extend({
 
+  // Elements
+  classNames: ['certification-info-competences'],
+
   // Properties
   init() {
     this._super();
