@@ -57,7 +57,7 @@ export default BaseRoute.extend({
       .queryRecord('challenge', { assessmentId: assessment.get('id'), challengeId: challenge.get('id') });
   },
 
-  _hasReachedCheckpoint: function(assessment) {
+  _hasReachedCheckpoint(assessment) {
     return assessment.get('answers.length') % ENV.APP.NUMBER_OF_CHALLENGE_BETWEEN_TWO_CHECKPOINTS_IN_SMART_PLACEMENT === 0;
   },
 
