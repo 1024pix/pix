@@ -61,9 +61,9 @@
   <div class="row">
     <div class="col single-certification-info__actions">
       {{#if edition}}
-        {{#bs-button class='single-certification-edit__button' type='secondary' size='sm' onClick=(action "cancel")}}Annuler{{/bs-button}}
+        {{#bs-button class='single-certification-edit__button' type='secondary' size='sm' onClick=(action "onCancel")}}Annuler{{/bs-button}}
       {{else}}
-        {{#bs-button class='single-certification-edit__button' type='primary' size='sm' onClick=(action "edit")}}Modifier{{/bs-button}}
+        {{#bs-button class='single-certification-edit__button' type='primary' size='sm' onClick=(action "onEdit")}}Modifier{{/bs-button}}
       {{/if}}
     </div>
   </div>

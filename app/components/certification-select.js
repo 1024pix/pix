@@ -1,8 +1,10 @@
 import Component from '@ember/component';
 
 export default Component.extend({
+
+  // Actions
   actions: {
-    change() {
+    onChange() {
       this.get('select')(this.get('id'));
     }
   }

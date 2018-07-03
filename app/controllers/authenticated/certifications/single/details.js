@@ -52,6 +52,7 @@ export default Controller.extend({
       } else {
         this.set('juryRate', false);
       }
+      // TODO: find a better way
       schedule('afterRender', this, () => {
         const score = this.get('score');
         const competences = this.get('details.competences');

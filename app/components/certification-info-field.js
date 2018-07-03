@@ -2,7 +2,11 @@ import Component from '@ember/component';
 import { computed } from '@ember/object';
 
 export default Component.extend({
+
+  // Properties
   large:false,
+
+  // Computed properties
   leftWidth:computed('large', function() {
     let large = this.get('large');
     if (large) {
