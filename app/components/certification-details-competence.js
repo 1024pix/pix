@@ -50,7 +50,7 @@ export default Component.extend({
   // Private methods
   _computeScore: function(rate) {
     if (rate < 50) {
-      return {score:0, level:0};
+      return {score:0, level:-1};
     }
     let competence = this.get('competence');
     const score = competence.positionedScore;
@@ -74,7 +74,7 @@ export default Component.extend({
     }
     switch (answersData.count) {
       case 0:
-        return {score:0, level:0};
+        return {score:0, level:-1};
       case 1:
         if (answersData.good === 1) {
           return {score:score, level:level};
@@ -92,7 +92,7 @@ export default Component.extend({
             }
           }
         }
-        return {score:0, level:0};
+        return {score:0, level:-1};
       case 3:
         if (answersData.good === 3) {
           return {score:score, level:level};
@@ -103,7 +103,7 @@ export default Component.extend({
             return {score:score-8, level:level-1};
           }
         }
-        return {score:0, level:0};
+        return {score:0, level:-1};
     }
   }
 });
