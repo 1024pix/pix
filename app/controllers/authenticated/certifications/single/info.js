@@ -9,10 +9,10 @@ export default Controller.extend({
 
   // Actions
   actions: {
-    edit() {
+    onEdit() {
       this.set('edition', true);
     },
-    cancel() {
+    onCancel() {
       this.set('edition', false);
       this.get('certification').rollbackAttributes();
     }

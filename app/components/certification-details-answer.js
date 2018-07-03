@@ -21,11 +21,11 @@ export default Component.extend({
 
   // Actions
   actions: {
-    setResult(value){
+    onSetResult(value){
       let answer = this.get('answer');
       let jury = (value !== answer.result) ? value : false;
       answer.jury = jury;
-      this.set('jury', jury);
+      this.set('_jury', jury);
       this.get('onUpdateRate')();
     }
   }

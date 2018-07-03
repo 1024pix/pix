@@ -47,6 +47,7 @@ export default Component.extend({
     }
   }),
 
+  // Private methods
   _computeScore: function(rate) {
     if (rate < 50) {
       return {score:0, level:0};

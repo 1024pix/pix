@@ -1,4 +1,4 @@
-<form class='certifications-search form-inline' {{action "change" on='submit'}}>
+<form class='certifications-search form-inline' {{action "onChange" on='submit'}}>
   {{input class='certifications-search__control' placeholder='Identifiant' value=id}}
-  {{#bs-button class='certifications-search__button' type='primary' size='sm' onClick=(action "change")}}Charger{{/bs-button}}
+  {{#bs-button class='certifications-search__button' type='primary' size='sm' onClick=(action "onChange")}}Charger{{/bs-button}}
 </form>
