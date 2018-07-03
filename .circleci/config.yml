@@ -43,7 +43,7 @@ jobs:
       - deploy:
           command: |
             if [ "${CIRCLE_BRANCH}" == "master" ]; then
-              git remote add scalingo git@scalingo.com:pix-admin.git
+              git remote add scalingo git@scalingo.com:pix-admin-production.git
               git push scalingo master:master
             elif [ "${CIRCLE_BRANCH}" == "jury" ]; then
               git remote add scalingo git@scalingo.com:pix-admin-jury.git
