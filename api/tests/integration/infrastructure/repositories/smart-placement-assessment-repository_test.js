@@ -3,11 +3,13 @@ const {
 } = require('../../../test-helper');
 
 const challengeDatasource = require('../../../../lib/infrastructure/datasources/airtable/challenge-datasource');
+const Skill = require('../../../../lib/domain/models/Skill');
 const SmartPlacementAnswer = require('../../../../lib/domain/models/SmartPlacementAnswer');
 const SmartPlacementAssessment = require('../../../../lib/domain/models/SmartPlacementAssessment');
 const smartPlacementAssessmentRepository =
   require('../../../../lib/infrastructure/repositories/smart-placement-assessment-repository');
 const SmartPlacementKnowledgeElement = require('../../../../lib/domain/models/SmartPlacementKnowledgeElement');
+const TargetProfile = require('../../../../lib/domain/models/TargetProfile');
 const targetProfileRepository =
   require('../../../../lib/infrastructure/repositories/target-profile-repository');
 const { NotFoundError } = require('../../../../lib/domain/errors');
@@ -19,6 +21,7 @@ describe('Integration | Repository | SmartPlacementAssessmentRepository', () => 
   beforeEach(() => {
     sandbox = sinon.sandbox.create();
     sandbox.stub(challengeDatasource, 'get');
+    sandbox.stub(targetProfileRepository, 'get');
   });
 
   afterEach(() => {
@@ -31,9 +34,20 @@ describe('Integration | Repository | SmartPlacementAssessmentRepository', () => 
     const firstAnswerId = 1;
     const secondAnswerId = 2;
     const firstSkillName = '@web1';
-    const secondSkillName = '@donnee3';
+    const secondSkillName = '@donnee4';
+    const firstInferedSkillName = '@donnee3';
+    const secondInferedSkillName = '@donnee2';
     const notForAssessmentAnswerId = 3;
-    let targetProfile;
+
+    const targetProfile = new TargetProfile({
+      skills: [
+        new Skill({ name: '@web2' }),
+        new Skill({ name: firstSkillName }),
+        new Skill({ name: secondSkillName }),
+        new Skill({ name: firstInferedSkillName }),
+        new Skill({ name: secondInferedSkillName }),
+      ],
+    });
 
     const firstChallengeDO = factory.buildChallengeAirtableDataObject({
       id: 'challenge_1_4',
@@ -47,12 +61,9 @@ describe('Integration | Repository | SmartPlacementAssessmentRepository', () => 
     beforeEach(() => {
       challengeDatasource.get.onFirstCall().resolves(firstChallengeDO);
       challengeDatasource.get.onSecondCall().resolves(secondChallengeDO);
+      targetProfileRepository.get.resolves(targetProfile);
 
       return insertUserWithStandardRole()
-        .then(targetProfileRepository.get)
-        .then((targetProfileFromRepo) => {
-          targetProfile = targetProfileFromRepo;
-        })
         .then(() => {
           return knex('assessments')
             .insert({
@@ -141,6 +152,22 @@ describe('Integration | Repository | SmartPlacementAssessmentRepository', () => 
           pixScore: 0,
           answerId: secondAnswerId,
           skillId: secondSkillName,
+        }),
+        factory.buildSmartPlacementKnowledgeElement({
+          id: -1,
+          source: SmartPlacementKnowledgeElement.SourceType.INFERRED,
+          status: SmartPlacementKnowledgeElement.StatusType.VALIDATED,
+          pixScore: 0,
+          answerId: secondAnswerId,
+          skillId: firstInferedSkillName,
+        }),
+        factory.buildSmartPlacementKnowledgeElement({
+          id: -1,
+          source: SmartPlacementKnowledgeElement.SourceType.INFERRED,
+          status: SmartPlacementKnowledgeElement.StatusType.VALIDATED,
+          pixScore: 0,
+          answerId: secondAnswerId,
+          skillId: secondInferedSkillName,
         }),
       ];
       const expectedSmartPlacementAssessment = new SmartPlacementAssessment({
