@@ -28,3 +28,4 @@ package.json.ember-try
 
 # CircleCI
 *.circle-cache-key
+jsconfig.json
