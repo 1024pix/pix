@@ -1,5 +1,6 @@
 import { module, test } from 'qunit';
 import { setupTest } from 'ember-qunit';
+import { htmlSafe } from '@ember/string';
 
 module('Unit | Component | certification-details-competence', function(hooks) {
   setupTest(hooks);
@@ -310,6 +311,34 @@ module('Unit | Component | certification-details-competence', function(hooks) {
     // then
     assert.equal(component.get('competenceJury.level'), -1);
     assert.equal(component.get('competenceJury.score'), 0);
+  });
+
+  // check computed widths
+  test('it should compute widths correctly', async function(assert) {
+    // given
+    let component = this.owner.factoryFor('component:certification-details-competence').create();
+    component.set('competence', competence('ok', 'ok', 'ko', 25, 17, 3, 2));
+    component.set('rate', 60);
+    assert.expect(3);
+
+    // when
+    component.set('juryRate', 81);
+
+    // then
+    assert.equal(component.get('positionedWidth').toString(), htmlSafe('width:'+Math.round((3/8)*100)+'%'));
+    assert.equal(component.get('certifiedWidth').toString(), htmlSafe('width:'+Math.round((2/8)*100)+'%'));
+    assert.equal(component.get('competenceJury.width').toString(), htmlSafe('width:'+Math.round((3/8)*100)+'%'));
+  });
+
+  test('it should retrieve answers from competence', async function(assert) {
+    // given
+    let component = this.owner.factoryFor('component:certification-details-competence').create();
+
+    // when
+    component.set('competence', competence('ok', 'partially', 'ko'));
+
+    // then
+    assert.deepEqual(component.get('answers'), [answer('ok'), answer('partially'), answer('ko')]);
   });
 
 });
