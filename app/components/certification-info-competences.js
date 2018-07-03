@@ -13,12 +13,24 @@ export default Component.extend({
   },
 
   // Computed properties
-  indexedCompetences:computed('rawCompetences', function() {
-    let rawCompetences = this.get('rawCompetences');
-    return rawCompetences.reduce((result, value) => {
-      value.index = value['competence-code'];
+  indexedValues:computed('competences', function() {
+    let competences = this.get('competences');
+    let indexedCompetences = competences.reduce((result, value) => {
       result[value.index] = value;
       return result;
     }, {});
+    let competencesList = this.get('competenceList');
+    let scores = [];
+    let levels = [];
+    let index = 0;
+    competencesList.forEach((value) => {
+      scores[index] = indexedCompetences[value]?indexedCompetences[value].score:null;
+      levels[index] = indexedCompetences[value]?indexedCompetences[value].level:null;
+      index++;
+    });
+    return {
+      scores:scores,
+      levels:levels
+    };
   })
 });
