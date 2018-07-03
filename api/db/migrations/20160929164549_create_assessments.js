@@ -5,7 +5,7 @@ exports.up = (knex) => {
   function table(t) {
 
     t.increments().primary();
-    t.string('courseId').notNull();
+    t.string('courseId');
     t.string('userName').notNull();
     t.string('userEmail').notNull();
     t.dateTime('createdAt').notNullable().defaultTo(knex.fn.now());
