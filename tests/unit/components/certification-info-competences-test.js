@@ -9,15 +9,15 @@ module('Unit | Component | certification-info-competences', function(hooks) {
     assert.ok(component);
   });
 
-  test('it computes raw competences correctly', function(assert) {
+  test('it computes indexed values correctly', function(assert) {
     // given
     let component = this.owner.factoryFor('component:certification-info-competences').create();
 
     // when
-    component.set('rawCompetences', [{'competence-code':'1.1', value:'a competence'}, {'competence-code':'5.2', value:'another competence'}])
+    component.set('competences', [{'index':'1.1', value:'a competence', score:16, level:2}, {'index':'3.3', value:'another competence', score:42, level:5}, {'index':'5.2', value:'and another competence', score:37, level:4}])
 
     // then
-    assert.deepEqual(component.get('indexedCompetences'), {'1.1':{index:'1.1', 'competence-code':'1.1', value:'a competence'}, '5.2':{index:'5.2', 'competence-code':'5.2', value:'another competence'}});
+    assert.deepEqual(component.get('indexedValues'), {'scores':[16, null, null, null, null, null, null, null, null, 42, null, null, null, null, null, 37], 'levels':[2, null, null, null, null, null, null, null, null, 5, null, null, null, null, null, 4]});
   });
 
 });
