@@ -13,14 +13,11 @@ export default Model.extend({
   skillReview: belongsTo('skill-review', { inverse: null }),
   certificationNumber: attr('string'),
   estimatedLevel: attr('number'),
-  firstChallenge: alias('course.challenges.firstObject'),
   hasCheckpoints: equal('type', 'SMART_PLACEMENT'),
   isCertification: equal('type', 'CERTIFICATION'),
   pixScore: attr('number'),
   result: belongsTo('assessment-result'),
   type: attr('string'),
-  userName: attr('string'),
-  userEmail: attr('string'),
 
   ready() {
     this._progressionBehavior = getProgressionBehaviorFromAssessmentType(this.get('type'));
