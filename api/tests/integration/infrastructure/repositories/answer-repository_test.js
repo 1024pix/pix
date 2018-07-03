@@ -1,4 +1,4 @@
-const { expect, knex } = require('../../../test-helper');
+const { expect, knex, factory, databaseBuilder } = require('../../../test-helper');
 const Answer = require('../../../../lib/domain/models/Answer');
 const { NotFoundError } = require('../../../../lib/domain/errors');
 
@@ -28,7 +28,7 @@ describe('Integration | Repository | AnswerRepository', () => {
             value: '1,2',
             result: 'ko',
             challengeId: 'challenge_1234',
-            assessmentId: 353
+            assessmentId: 353,
           })
           .then((createdAnswer) => {
             answerId = createdAnswer[0];
@@ -59,7 +59,7 @@ describe('Integration | Repository | AnswerRepository', () => {
       value: '1,2',
       result: 'ko',
       challengeId: 'challenge_1234',
-      assessmentId: 1234
+      assessmentId: 1234,
     };
 
     // same assessmentId, different challengeId
@@ -67,7 +67,7 @@ describe('Integration | Repository | AnswerRepository', () => {
       value: '1,2,4',
       result: 'ok',
       challengeId: 'challenge_000',
-      assessmentId: 1234
+      assessmentId: 1234,
     };
 
     // different assessmentId, same challengeId
@@ -75,7 +75,7 @@ describe('Integration | Repository | AnswerRepository', () => {
       value: '3',
       result: 'partially',
       challengeId: 'challenge_1234',
-      assessmentId: 1
+      assessmentId: 1,
     };
 
     beforeEach(() => {
@@ -105,7 +105,7 @@ describe('Integration | Repository | AnswerRepository', () => {
       value: '1',
       result: 'ko',
       challengeId: 'challenge_1234',
-      assessmentId: 1234
+      assessmentId: 1234,
     };
 
     // same challenge different assessment
@@ -113,7 +113,7 @@ describe('Integration | Repository | AnswerRepository', () => {
       value: '1,2',
       result: 'ko',
       challengeId: 'challenge_1234',
-      assessmentId: 1
+      assessmentId: 1,
     };
 
     //different challenge different assessment
@@ -121,7 +121,7 @@ describe('Integration | Repository | AnswerRepository', () => {
       value: '1,2,3',
       result: 'timedout',
       challengeId: 'challenge_000',
-      assessmentId: 1
+      assessmentId: 1,
     };
 
     beforeEach(() => {
@@ -158,21 +158,21 @@ describe('Integration | Repository | AnswerRepository', () => {
       value: 'Un pancake Tabernacle',
       result: 'ko',
       challengeId: 'challenge_tabernacle',
-      assessmentId: 1
+      assessmentId: 1,
     };
 
     const answer2 = {
       value: 'Qu\'est ce qu\'il fout ce pancake Tabernacle',
       result: 'ko',
       challengeId: 'challenge_tabernacle',
-      assessmentId: 2
+      assessmentId: 2,
     };
 
     const answer3 = {
       value: 'la réponse D',
       result: 'timedout',
       challengeId: 'challenge_D',
-      assessmentId: 2
+      assessmentId: 2,
     };
 
     beforeEach(() => {
@@ -219,21 +219,21 @@ describe('Integration | Repository | AnswerRepository', () => {
       value: 'Un pancake Tabernacle',
       result: 'ok',
       challengeId: 'challenge_tabernacle',
-      assessmentId: 2
+      assessmentId: 2,
     };
 
     const answer2 = {
       value: 'Qu\'est ce qu\'il fout ce pancake Tabernacle',
       result: 'ok',
       challengeId: 'challenge_tabernacle',
-      assessmentId: 1
+      assessmentId: 1,
     };
 
     const answer3 = {
       value: 'la réponse D',
       result: 'ko',
       challengeId: 'challenge_D',
-      assessmentId: 1
+      assessmentId: 1,
     };
 
     beforeEach(() => {
@@ -264,4 +264,43 @@ describe('Integration | Repository | AnswerRepository', () => {
     });
   });
 
+  describe('#hasChallengeAlreadyBeenAnswered', () => {
+
+    afterEach(() => {
+      return databaseBuilder.clean();
+    });
+
+    it('should return true if answer exists in database', async () => {
+      // given
+      const { challengeId, assessmentId } = databaseBuilder.factory.buildAnswer();
+
+      await databaseBuilder.commit();
+
+      // when
+      const promise = AnswerRepository.hasChallengeAlreadyBeenAnswered({
+        challengeId,
+        assessmentId,
+      });
+
+      // then
+      return expect(promise).to.eventually.be.true;
+    });
+
+    it('should return false if answer does not exist in database', async () => {
+      // given
+      const { assessmentId } = databaseBuilder.factory.buildAnswer();
+      const otherChallengeId = 'rec1234';
+
+      await databaseBuilder.commit();
+
+      // when
+      const promise = AnswerRepository.hasChallengeAlreadyBeenAnswered({
+        challengeId: otherChallengeId,
+        assessmentId,
+      });
+
+      // then
+      return expect(promise).to.eventually.be.false;
+    });
+  });
 });
