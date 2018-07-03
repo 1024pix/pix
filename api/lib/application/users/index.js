@@ -28,7 +28,8 @@ exports.register = function(server, options, next) {
         ],
         tags: ['api', 'user'],
       }
-    },{
+    },
+    {
       method: 'GET',
       path: '/api/users/me',
       config: {
@@ -46,6 +47,19 @@ exports.register = function(server, options, next) {
         }],
         handler: UserController.getProfileToCertify
         , tags: ['api']
+      }
+    },
+    {
+      method: 'GET',
+      path: '/api/users/{id}/organization-accesses',
+      config: {
+        handler: UserController.getOrganizationAccesses,
+        notes : [
+          '- **Cette route est restreinte aux utilisateurs authentifiés**\n' +
+          '- Récupération des accès utilisateurs à partir de l\'id\n' +
+          '- L‘id demandé doit correspondre à celui de l‘utilisateur authentifié',
+        ],
+        tags: ['api']
       }
     },
     {

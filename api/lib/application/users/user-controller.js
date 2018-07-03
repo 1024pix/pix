@@ -137,6 +137,10 @@ module.exports = {
         reply(Boom.badImplementation(err));
       });
   },
+
+  getOrganizationAccesses(request, reply) {
+
+  }
 };
 
 // TODO refacto, extract and simplify
