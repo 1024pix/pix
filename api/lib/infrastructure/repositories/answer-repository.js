@@ -17,6 +17,9 @@ module.exports = {
   },
 
   // TODO return domain object
+  /**
+   * @deprecated use hasChallengeAlreadyBeenAnswered
+   */
   findByChallengeAndAssessment(challengeId, assessmentId) {
     return BookshelfAnswer
       .where({ challengeId, assessmentId })
@@ -44,6 +47,12 @@ module.exports = {
     return BookshelfAnswer
       .where({ assessmentId, result: 'ok' })
       .fetchAll();
-  }
+  },
 
+  hasChallengeAlreadyBeenAnswered({ assessmentId, challengeId }) {
+    return BookshelfAnswer
+      .where({ challengeId, assessmentId })
+      .fetch()
+      .then(answer => answer !== null);
+  },
 };
