@@ -1,4 +1,4 @@
-import { alias, equal } from '@ember/object/computed';
+import { equal } from '@ember/object/computed';
 import { computed } from '@ember/object';
 import DS from 'ember-data';
 
