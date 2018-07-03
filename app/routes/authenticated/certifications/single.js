@@ -1,6 +1,11 @@
 import Route from '@ember/routing/route';
 
 export default Route.extend({
+  redirect: function () {
+    if (this.controller && this.controller.get('certificationId')) {
+      this.transitionTo('authenticated.certifications.single.info', this.controller.get('certificationId'));
+    }
+  },
   actions: {
     loading(transition) {
       let controller = this.controller;
