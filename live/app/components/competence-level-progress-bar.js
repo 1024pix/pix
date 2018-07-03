@@ -16,6 +16,8 @@ export default Component.extend({
   name: null,
   status: null,
 
+  _showSecondChanceModal: false,
+
   limitedLevel: computed('level', function() {
     const level = this.get('level');
     return Math.min(level, this.get('_MAX_REACHABLE_LEVEL'));
@@ -54,5 +56,14 @@ export default Component.extend({
 
   canUserReplayAssessment: computed('courseId', 'status', function() {
     return Boolean(this.get('status') === 'evaluated' && this.get('courseId'));
-  })
+  }),
+
+  actions: {
+    openModal() {
+      this.set('_showSecondChanceModal', true);
+    },
+    closeModal() {
+      this.set('_showSecondChanceModal', false);
+    },
+  },
 });

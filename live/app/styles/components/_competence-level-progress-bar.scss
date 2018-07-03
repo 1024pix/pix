@@ -88,8 +88,10 @@
   text-decoration: none;
   cursor: pointer;
 
-  &:hover {
-    color: $pix-blue;
+  &:hover, &:active, &:focus {
+    color: $mariner-blue;
+    cursor: pointer;
+    text-decoration: underline;
   }
 }
 
@@ -103,23 +105,83 @@
   text-decoration: none;
   cursor: pointer;
 
-  &:hover {
-    color: $pix-blue;
+  &:hover, &:active, &:focus {
+    color: $mariner-blue;
+    cursor: pointer;
+    text-decoration: underline;
   }
 }
 
 .competence-level-progress-bar__link-replay {
-  margin-top: -30px;
-  width: 81px;
+  border: none;
+  background-color: inherit;
+  color: $pix-blue;
   font-family: $font-lato;
   font-size: 14px;
   font-weight: $font-bold;
   letter-spacing: 0.5px;
-  color: $pix-blue;
+  margin-top: -30px;
+  padding: 0;
   text-decoration: none;
-  cursor: pointer;
+  width: 107px;
 
-  &:hover {
-    color: $pix-blue;
+
+  &:hover, &:active, &:focus {
+    color: $mariner-blue;
+    cursor: pointer;
+    text-decoration: underline;
+  }
+}
+
+.competence-level-progress-bar__modal-body {
+  padding: 4% 0;
+}
+
+.competence-level-progress-bar__modal-text {
+  padding: 2% 0;
+  font-size: 2rem;
+}
+
+.competence-level-progress-bar__modal-actions {
+  padding: 2% 0;
+  text-align: center;
+}
+
+.competence-level-progress-bar__modal-link-cancel {
+  display: inline-block;
+  background: $dusty-grey;
+  border: none;
+  border-radius: 5px;
+  color: $white;
+  flex-grow: 0;
+  font-size: 13px;
+  margin-top: 10px;
+  margin-right: 25px;
+  padding: 12px 30px;
+  text-transform: uppercase;
+
+  &:hover, &:active, &:focus {
+    background-color: $boulder-grey;
+    color: white;
+    text-decoration: none;
+  }
+}
+
+.competence-level-progress-bar__modal-link-validate {
+  display: inline-block;
+  background: $pix-blue;
+  border: none;
+  border-radius: 5px;
+  color: $white;
+  flex-grow: 0;
+  font-size: 13px;
+  margin-top: 10px;
+  padding: 12px 30px;
+  text-transform: uppercase;
+
+  &:hover, &:active, &:focus {
+    background-color: $mariner-blue;
+    color: white;
+    text-decoration: none;
   }
 }
