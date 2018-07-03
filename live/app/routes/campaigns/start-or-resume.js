@@ -1,19 +1,27 @@
 import BaseRoute from 'pix-live/routes/base-route';
 import AuthenticatedRouteMixin from 'ember-simple-auth/mixins/authenticated-route-mixin';
+import { isEmpty } from '@ember/utils';
 
 export default BaseRoute.extend(AuthenticatedRouteMixin, {
 
-  redirect() {
+  async model() {
     const store = this.get('store');
+    const smartPlacementAssessments = await store.query('assessment', { filter: { type: 'SMART_PLACEMENT' } });
+    if (!isEmpty(smartPlacementAssessments)) {
+      return smartPlacementAssessments.get('firstObject');
+    }
+    return store.createRecord('assessment', { type: 'SMART_PLACEMENT' }).save();
+  },
 
-    let assessment;
-
-    return store.createRecord('assessment', { type: 'SMART_PLACEMENT' }).save()
-      .then((createdAssessment) => assessment = createdAssessment)
-      .then(() => store.queryRecord('challenge', { assessmentId: assessment.get('id') }))
-      .then(challenge => this.replaceWith('assessments.challenge', { assessment, challenge }))
-      .catch(() => {
-        this.replaceWith('logout');
-      });
+  async afterModel(assessment) {
+    const store = this.get('store');
+    try {
+      await assessment.reload();
+      const challenge = await store.queryRecord('challenge', { assessmentId: assessment.get('id') });
+      return this.transitionTo('assessments.challenge', { assessment, challenge });
+    } catch (error) {
+      // FIXME: do not manage error when there is no more challenge anymore
+      this.transitionTo('assessments.rating', assessment.get('id'));
+    }
   }
 });
