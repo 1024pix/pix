@@ -4,18 +4,26 @@ import { alias } from '@ember/object/computed';
 import { schedule } from '@ember/runloop';
 
 export default Controller.extend({
+
+  // Properties
   juryRate: false,
   juryScore: false,
   requestedId:'',
+
+  // Aliases
   rate:alias('details.percentageCorrectAnswers'),
   score:alias('details.totalScore'),
   details:alias('model'),
+
+  // Observers
   initJury:observer('details', function() {
     this.set('juryRate', false);
     this.set('juryScore', false);
   }),
+
+  // Actions
   actions: {
-    updateRate() {
+    onUpdateRate() {
       const competences = this.get('details.competences');
       let jury = false;
       let answersData = competences.reduce((data, competence) => {

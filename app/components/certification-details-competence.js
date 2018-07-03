@@ -3,10 +3,16 @@ import { computed } from '@ember/object';
 import { htmlSafe } from '@ember/string';
 
 export default Component.extend({
+
+  // Elements
   classNames: ['card', 'border-primary', 'certification-details-competence'],
-  rate:0,
+
+  // Properties
   competence:null,
+  rate:0,
   juryRate:false,
+
+  // Computed properties
   certifiedWidth: computed('competence', function(){
     let obtainedLevel = this.get('competence').obtainedLevel;
     return htmlSafe('width:'+Math.round((obtainedLevel / 8)*100)+'%');
@@ -19,7 +25,29 @@ export default Component.extend({
     const competence = this.get('competence');
     return competence.answers;
   }),
-  computeScore: function(rate) {
+  competenceJury:computed('juryRate', function() {
+    const juryRate = this.get('juryRate');
+    const competence = this.get('competence');
+    if (juryRate === false )  {
+      competence.juryScore = false;
+      return false;
+    }
+    const score = competence.obtainedScore;
+    let newScore = this._computeScore(juryRate);
+    if (newScore.score != score) {
+      competence.juryScore = newScore.score;
+      return ({
+        score:newScore.score,
+        level:newScore.level,
+        width:htmlSafe('width:'+Math.round((newScore.level / 8)*100)+'%')
+      });
+    } else {
+      competence.juryScore = false;
+      return false;
+    }
+  }),
+
+  _computeScore: function(rate) {
     if (rate < 50) {
       return {score:0, level:0};
     }
@@ -76,26 +104,5 @@ export default Component.extend({
         }
         return {score:0, level:0};
     }
-  },
-  competenceJury:computed('juryRate', function() {
-    const juryRate = this.get('juryRate');
-    const competence = this.get('competence');
-    if (juryRate === false )  {
-      competence.juryScore = false;
-      return false;
-    }
-    const score = competence.obtainedScore;
-    let newScore = this.computeScore(juryRate);
-    if (newScore.score != score) {
-      competence.juryScore = newScore.score;
-      return ({
-        score:newScore.score,
-        level:newScore.level,
-        width:htmlSafe('width:'+Math.round((newScore.level / 8)*100)+'%')
-      });
-    } else {
-      competence.juryScore = false;
-      return false;
-    }
-  })
+  }
 });
