@@ -184,7 +184,32 @@ describe('Integration | Component | competence level progress bar', function() {
       // then
       expect(this.$('.competence-level-progress-bar__link')).to.have.lengthOf(1);
       expect(this.$('.competence-level-progress-bar__link-replay')).to.have.lengthOf(1);
-      expect(this.$('a.competence-level-progress-bar__link-replay').text().trim()).to.be.equal('Seconde chance pour le test "deuxième test"');
+      expect(this.$('.competence-level-progress-bar__link-replay').text().trim()).to.be.equal('Seconde chance pour le test "deuxième test"');
+    });
+
+    it('should display a modal when clicked', async function() {
+      // given
+      const status = 'evaluated';
+      const name = 'deuxième test';
+      const courseId = 'courseId';
+      const level = 3;
+
+      this.set('status', status);
+      this.set('name', name);
+      this.set('courseId', courseId);
+      this.set('level', level);
+
+      // when
+      this.render(hbs`{{competence-level-progress-bar status=status name=name courseId=courseId level=level}}`);
+      await this.$('.competence-level-progress-bar__link-replay').click();
+      const $modal = document.querySelector('.pix-modal__container');
+
+      // then
+      expect($modal).to.be.ok;
+      expect($modal.querySelector('h1').textContent).to.contains('Seconde chance');
+      expect($modal.textContent).to.contains('Votre niveau actuel sera remplacé par celui de ce nouveau test');
+      expect($modal.querySelector('.pix-modal__action.cancel').textContent).to.contains('Annuler');
+      expect($modal.querySelector('.pix-modal__action.validate').textContent).to.contains('J\'ai compris');
     });
   });
 

@@ -11,13 +11,6 @@ describe('Integration | Component | share profile', function() {
 
   setupComponentTest('share-profile', {
     integration: true,
-
-    // the only way to stub ember-tabbable/jquery-tabbable initializer
-    beforeSetup() {
-      $.extend($.expr[':'], {
-        tabbable: () => true
-      });
-    }
   });
 
   function expectToBeOnOrganizationCodeEntryView() {
@@ -355,13 +348,13 @@ describe('Integration | Component | share profile', function() {
       this.set('studentCode', 'student_code');
       this.set('campaignCode', 'campaign_code');
 
-      this.render(hbs`{{share-profile 
-      _showingModal=showingModal 
-      _view=view 
+      this.render(hbs`{{share-profile
+      _showingModal=showingModal
+      _view=view
       _code=code
       _organization=organization
       _organizationNotFound=organizationNotFound
-      _studentCode=studentCode 
+      _studentCode=studentCode
       _campaignCode=campaignCode}}`);
     });
 
