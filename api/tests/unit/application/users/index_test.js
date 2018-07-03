@@ -118,6 +118,27 @@ describe('Unit | Router | user-router', () => {
     });
   });
 
+  describe('GET /api/users/{id}/organization-accesses', function() {
+    beforeEach(() => {
+      sandbox.stub(UserController, 'getOrganizationAccesses').callsFake((request, reply) => reply('ok'));
+      startServer();
+    });
+
+    it('should exist', () => {
+      // given
+      const options = {
+        method: 'GET',
+        url: '/api/users/12/organization-accesses'
+      };
+
+      // when
+      return server.inject(options).then(_ => {
+        // then
+        sinon.assert.calledOnce(UserController.getOrganizationAccesses);
+      });
+    });
+  });
+
   describe('PATCH /api/users/{id}', function() {
 
     const userId = '12344';
