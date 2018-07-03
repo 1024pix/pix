@@ -35,9 +35,13 @@ module('Unit | Controller | authenticated/certifications/single/details', functi
     controller.set('model', EmberObject.create( {
       competences:[competence(false,'ok','ok','skip'), competence(false,'ok', 'ko', 'ok'), competence(false,'ok', 'aband', 'ok'), competence(false,'ok', 'timedout', 'ok'), competence(false,'ok', 'ok', 'ok')]
     }));
+
+    // when
     run(function() {
       controller.send('onUpdateRate');
     });
+
+    // then
     assert.equal(controller.get('juryRate'), 78.57);
   });
 
@@ -47,9 +51,13 @@ module('Unit | Controller | authenticated/certifications/single/details', functi
     controller.set('model', EmberObject.create( {
       competences:[competence(true,'ok','ok','skip'), competence(false,'ok', 'ko', 'ok'), competence(true,'ok', 'aband', 'ok'), competence(false,'ok', 'timedout', 'ok'), competence(true,'ok', 'ok', 'ok')]
     }));
+
+    // when
     run(function() {
       controller.send('onUpdateRate');
     });
+
+    // then
     // 3 jury scores + 2 obtained scores
     assert.equal(controller.get('juryScore'), 12*3+26*2);
   });
