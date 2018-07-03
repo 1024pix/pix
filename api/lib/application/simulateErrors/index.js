@@ -9,7 +9,6 @@ exports.register = function(server, options, next) {
       config: {
         auth: false,
         handler: errorController.simulateInternalError,
-        tags: ['api']
       }
     },
   ]);
