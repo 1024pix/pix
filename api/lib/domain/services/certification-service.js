@@ -53,7 +53,7 @@ function _numberOfCorrectAnswersPerCompetence(answersWithCompetences, competence
   const answerForCompetence = _.filter(answersWithCompetences, answer => answer.competenceId === competence.id);
   const challengesForCompetence = _.filter(certificationChallenges, challenge => challenge.competenceId === competence.id);
 
-  if(!ignoreError){
+  if(!ignoreError) {
     CertificationContract.assertThatCompetenceHasEnoughChallenge(challengesForCompetence, competence.index);
 
     CertificationContract.assertThatCompetenceHasEnoughChallenge(answerForCompetence, competence.index);
