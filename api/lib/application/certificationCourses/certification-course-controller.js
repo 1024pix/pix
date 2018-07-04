@@ -11,8 +11,12 @@ module.exports = {
 
   computeResult(request, reply) {
     const certificationCourseId = request.params.id;
+    let ignoreError = false;
+    if(request.route.path.includes('details')){
+      ignoreError = true;
+    }
 
-    return certificationService.calculateCertificationResultByCertificationCourseId(certificationCourseId)
+    return certificationService.calculateCertificationResultByCertificationCourseId(certificationCourseId, ignoreError)
       .then(reply)
       .catch((err) => {
         logger.error(err);

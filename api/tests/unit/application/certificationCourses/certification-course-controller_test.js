@@ -34,6 +34,9 @@ describe('Unit | Controller | certification-course-controller', () => {
     const request = {
       params: {
         id: certificationCourseId
+      },
+      route: {
+        path: '/certification'
       }
     };
 
