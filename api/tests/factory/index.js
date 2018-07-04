@@ -9,6 +9,7 @@ const buildCatChallenge = require('./build-cat-challenge');
 const buildCatCourse = require('./build-cat-course');
 const buildCatTube = require('./build-cat-tube');
 const buildChallenge = require('./build-challenge');
+const buildChallengeAirtableDataObject = require('./build-challenge-airtable-data-object');
 const buildCertification = require('./build-certification');
 const buildCertificationWithCompetenceTree = require('./build-certification-with-competence-tree');
 const buildCompetence = require('./build-competence');
@@ -24,6 +25,11 @@ const buildPixRole = require('./build-pix-role');
 const buildResultCompetenceTree = require('./build-result-competence-tree');
 const buildSkill = require('./build-skill');
 const buildSkillCollection = require('./build-skill-collection');
+const buildSkillReview = require('./build-skill-review');
+const buildSmartPlacementAnswer = require('./build-smart-placement-answer');
+const buildSmartPlacementAssessment = require('./build-smart-placement-assessment');
+const buildSmartPlacementKnowledgeElement = require('./build-smart-placement-knowledge-element');
+const buildTargetProfile = require('./build-target-profile');
 const buildTube = require('./build-tube');
 const buildTutorial = require('./build-tutorial');
 const buildUser = require('./build-user');
@@ -43,6 +49,7 @@ module.exports = {
   buildCertificationWithCompetenceTree,
   buildCompetenceAirtableDataObject,
   buildChallenge,
+  buildChallengeAirtableDataObject,
   buildCourse,
   buildCompetence,
   buildCompetenceMark,
@@ -55,6 +62,11 @@ module.exports = {
   buildPixRole,
   buildSkill,
   buildSkillCollection,
+  buildSkillReview,
+  buildSmartPlacementAnswer,
+  buildSmartPlacementAssessment,
+  buildSmartPlacementKnowledgeElement,
+  buildTargetProfile,
   buildTube,
   buildTutorial,
   buildUser,

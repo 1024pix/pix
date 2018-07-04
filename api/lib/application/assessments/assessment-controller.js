@@ -13,6 +13,8 @@ const competenceRepository = require('../../infrastructure/repositories/competen
 const courseRepository = require('../../infrastructure/repositories/course-repository');
 const skillRepository = require('../../infrastructure/repositories/skill-repository');
 const tokenService = require('../../domain/services/token-service');
+const targetProfileRepository = require('../../infrastructure/repositories/target-profile-repository');
+
 const useCases = require('../../domain/usecases');
 
 const { NotFoundError, AssessmentEndedError, ObjectValidationError } = require('../../domain/errors');
@@ -131,6 +133,7 @@ module.exports = {
             assessment,
             answerRepository,
             challengeRepository,
+            targetProfileRepository
           });
         }
 

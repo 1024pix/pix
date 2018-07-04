@@ -61,23 +61,23 @@ describe('Unit | Domain | Models | Assessment', () => {
       const assessmentResultComputed = new AssessmentResult({
         id: 1,
         createdAt: '2017-12-20',
-        emitter: 'PIX-ALGO'
+        emitter: 'PIX-ALGO',
       });
       const assessmentResultJury = new AssessmentResult({
         id: 2,
         createdAt: '2017-12-24',
-        emitter: 'Michel'
+        emitter: 'Michel',
       });
 
       const assessmentResultJuryOld = new AssessmentResult({
         id: 3,
         createdAt: '2017-12-22',
-        emitter: 'Gerard'
+        emitter: 'Gerard',
       });
 
       const assessment = Assessment.fromAttributes({
         status: 'completed',
-        assessmentResults: [assessmentResultComputed, assessmentResultJury, assessmentResultJuryOld]
+        assessmentResults: [assessmentResultComputed, assessmentResultJury, assessmentResultJuryOld],
       });
 
       // when
@@ -109,18 +109,18 @@ describe('Unit | Domain | Models | Assessment', () => {
         id: 1,
         createdAt: '2017-12-20',
         pixScore: 12,
-        emitter: 'PIX-ALGO'
+        emitter: 'PIX-ALGO',
       });
       const assessmentResultJury = new AssessmentResult({
         id: 2,
         createdAt: '2017-12-24',
         pixScore: 18,
-        emitter: 'Michel'
+        emitter: 'Michel',
       });
 
       const assessment = Assessment.fromAttributes({
         status: 'completed',
-        assessmentResults: [assessmentResultComputed, assessmentResultJury]
+        assessmentResults: [assessmentResultComputed, assessmentResultJury],
       });
 
       // when
@@ -151,18 +151,18 @@ describe('Unit | Domain | Models | Assessment', () => {
         id: 1,
         createdAt: '2017-12-20',
         level: 1,
-        emitter: 'PIX-ALGO'
+        emitter: 'PIX-ALGO',
       });
       const assessmentResultJury = new AssessmentResult({
         id: 2,
         createdAt: '2017-12-24',
         level: 5,
-        emitter: 'Michel'
+        emitter: 'Michel',
       });
 
       const assessment = Assessment.fromAttributes({
         status: 'completed',
-        assessmentResults: [assessmentResultComputed, assessmentResultJury]
+        assessmentResults: [assessmentResultComputed, assessmentResultJury],
       });
 
       // when
@@ -326,7 +326,7 @@ describe('Unit | Domain | Models | Assessment', () => {
       const assessment = new Assessment({});
       const answerList = [
         new Answer({ challengeId: 1, value: 'truc' }),
-        new Answer({ challengeId: 2, value: 'machin' })
+        new Answer({ challengeId: 2, value: 'machin' }),
       ];
       const challenge1 = Challenge.fromAttributes();
       challenge1.id = 1;
@@ -361,7 +361,7 @@ describe('Unit | Domain | Models | Assessment', () => {
       course.tubes = [
         _newTube([skills['@web1'], skills['@web2'], skills['@web3']]),
         _newTube([skills['@chi1'], skills['@chi3']]),
-        _newTube([skills['@fou3']])
+        _newTube([skills['@fou3']]),
       ];
 
       course.competenceSkills = competenceSkills;
@@ -391,7 +391,7 @@ describe('Unit | Domain | Models | Assessment', () => {
         _newTube([skills['@web1'], skills['@web2'], skills['@web3']]),
         _newTube([skills['@chi1'], skills['@chi3']]),
         _newTube([skills['@fou3']]),
-        _newTube([skills['@mis3']])
+        _newTube([skills['@mis3']]),
       ];
       course.competenceSkills = competenceSkills;
       const answer1 = _newAnswer(AnswerStatus.OK, ch1);
@@ -421,7 +421,7 @@ describe('Unit | Domain | Models | Assessment', () => {
         _newTube([skills['@web1'], skills['@web2'], skills['@web3']]),
         _newTube([skills['@chi1'], skills['@chi3']]),
         _newTube([skills['@fou3']]),
-        _newTube([skills['@mis3']])
+        _newTube([skills['@mis3']]),
       ];
       course.competenceSkills = competenceSkills;
       const answer1 = _newAnswer(AnswerStatus.OK, ch1);
@@ -518,30 +518,29 @@ describe('Unit | Domain | Models | Assessment', () => {
     });
   });
 
-  describe('#getValidatedSkills', function() {
+  describe('#getValidatedSkills', () => {
 
     it('should return [web1, web2] if the user answered correctly a question that requires web2', function() {
       // given
       const skillNames = ['@web1', '@chi1', '@web2', '@web3', '@chi3', '@fou3'];
       const skills = [];
       const competenceSkills = skillNames.map(skillName => skills[skillName] = new Skill({ name: skillName }));
-      const ch1 = Challenge.fromAttributes();
-      ch1.addSkill(skills['@web3']);
-      const ch2 = Challenge.fromAttributes();
-      ch2.addSkill(skills['@web2']);
-      const course = new Course([ch2], competenceSkills);
-      course.tubes = [
-        _newTube([skills['@web1'], skills['@web2'], skills['@web3']]),
-        _newTube([skills['@chi1'], skills['@chi3']]),
-        _newTube([skills['@fou3']])
-      ];
-      const answer1 = new Answer({ result: AnswerStatus.KO });
-      answer1.challenge = ch1;
-      const answer2 = new Answer({ result: AnswerStatus.OK });
-      answer2.challenge = ch2;
-      const assessment = new Assessment();
-      assessment.course = course;
-      assessment.answers = [answer1, answer2];
+
+      const challengeForWeb3 = Challenge.fromAttributes({ skills: [skills['@web3']] });
+      const challengeForWeb2 = Challenge.fromAttributes({ skills: [skills['@web2']] });
+
+      const course = new Course({ challenges: [challengeForWeb2, challengeForWeb3] });
+      course.computeTubes(competenceSkills);
+
+      const answerFailingWeb3 = new Answer({ result: AnswerStatus.KO });
+      answerFailingWeb3.challenge = challengeForWeb3;
+      const answerValidatingWeb2 = new Answer({ result: AnswerStatus.OK });
+      answerValidatingWeb2.challenge = challengeForWeb2;
+
+      const assessment = Assessment.fromAttributes({
+        course,
+        answers: [answerFailingWeb3, answerValidatingWeb2],
+      });
 
       // when
       const validatedSkills = assessment.getValidatedSkills();
@@ -555,6 +554,7 @@ describe('Unit | Domain | Models | Assessment', () => {
       const skillNames = ['@web1', '@chi1', '@web2', '@web3', '@chi3', '@fou3'];
       const skills = [];
       const competenceSkills = skillNames.map(skillName => skills[skillName] = new Skill({ name: skillName }));
+
       const ch1 = Challenge.fromAttributes();
       ch1.addSkill(skills['@web1']);
       const ch2 = Challenge.fromAttributes();
@@ -563,7 +563,7 @@ describe('Unit | Domain | Models | Assessment', () => {
       course.tubes = [
         _newTube([skills['@web1'], skills['@web2'], skills['@web3']]),
         _newTube([skills['@chi1'], skills['@chi3']]),
-        _newTube([skills['@fou3']])
+        _newTube([skills['@fou3']]),
       ];
 
       const answer1 = new Answer({ result: AnswerStatus.OK });
@@ -584,7 +584,7 @@ describe('Unit | Domain | Models | Assessment', () => {
 
   });
 
-  describe('#getFailedSkills', function() {
+  describe('#getFailedSkills', () => {
 
     it('should return [web1, web2, web3] if the user fails a question that requires web1', function() {
       // given
@@ -610,7 +610,7 @@ describe('Unit | Domain | Models | Assessment', () => {
     });
   });
 
-  describe('#getAssessedSkills()', function() {
+  describe('#getAssessedSkills()', () => {
 
     it('should return empty array when no answers', function() {
       // given
@@ -666,7 +666,7 @@ describe('Unit | Domain | Models | Assessment', () => {
           competenceSkills: _.flatten([skillCollection1, skillCollection2]),
           tubes: [
             factory.buildTube({ skills: skillCollection1 }),
-            factory.buildTube({ skills: skillCollection2 })
+            factory.buildTube({ skills: skillCollection2 }),
           ],
         }),
         answers: [answerCh2, answerCh4],
@@ -699,7 +699,7 @@ describe('Unit | Domain | Models | Assessment', () => {
           competenceSkills: _.flatten([skillCollection1, skillCollection2]),
           tubes: [
             factory.buildTube({ skills: skillCollection1 }),
-            factory.buildTube({ skills: skillCollection2 })
+            factory.buildTube({ skills: skillCollection2 }),
           ],
         }),
         answers: [answerCh2, answerCh4],
@@ -714,6 +714,7 @@ describe('Unit | Domain | Models | Assessment', () => {
       expect(result).to.be.deep.equal(expectedSkills);
     });
   });
+
   describe('#isCertifiable', () => {
 
     it('should return true when the last assessment has a level > 0', () => {
@@ -755,7 +756,5 @@ describe('Unit | Domain | Models | Assessment', () => {
       // then
       expect(isCompleted).to.be.false;
     });
-
   });
-
 });

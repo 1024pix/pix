@@ -226,6 +226,7 @@ describe('Unit | Controller | assessment-controller-save', () => {
         answers: [],
         assessmentResults: [],
         course: undefined,
+        targetProfile: undefined,
       };
       const serializedAssessment = {
         id: 42,

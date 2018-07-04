@@ -1,5 +1,7 @@
 const BookshelfAssessment = require('../data/assessment');
+const Answer = require('../../domain/models/Answer');
 const Assessment = require('../../domain/models/Assessment');
+const AssessmentResult = require('../../domain/models/AssessmentResult');
 const { groupBy, map, head, _ } = require('lodash');
 
 const LIST_NOT_PLACEMENT = ['CERTIFICATION', 'DEMO', 'SMART_PLACEMENT', 'PREVIEW'];
@@ -12,14 +14,28 @@ function _selectLastAssessmentForEachCourse(assessments) {
 function _toDomain(bookshelfAssessment) {
   if (bookshelfAssessment !== null) {
     const modelObjectInJSON = bookshelfAssessment.toJSON();
-    return Assessment.fromAttributes(modelObjectInJSON);
+
+    const answers = bookshelfAssessment.related('answers')
+      .map(bookshelfAnswer => new Answer(bookshelfAnswer.toJSON()));
+
+    const assessmentResults = bookshelfAssessment.related('assessmentResults')
+      .map(bookshelfAssessmentResult => new AssessmentResult(bookshelfAssessmentResult.toJSON()));
+
+    return new Assessment(Object.assign(modelObjectInJSON, { answers, assessmentResults }));
   }
 
   return null;
 }
 
 function _adaptModelToDb(assessment) {
-  return _.omit(assessment, ['answers', 'assessmentResults', 'course', 'successRate', 'createdAt']);
+  return _.omit(assessment, [
+    'course',
+    'createdAt',
+    'successRate',
+    'answers',
+    'assessmentResults',
+    'targetProfile',
+  ]);
 }
 
 module.exports = {
@@ -31,8 +47,8 @@ module.exports = {
         withRelated: [{
           answers: function(query) {
             query.orderBy('createdAt', 'ASC');
-          }
-        }, 'assessmentResults']
+          },
+        }, 'assessmentResults'],
       })
       .then(_toDomain);
   },
@@ -115,6 +131,6 @@ module.exports = {
       .fetchAll()
       .then(assessments => assessments.models)
       .then((assessments) => _.map(assessments, (assessment) => _toDomain(assessment)));
-  }
+  },
 
 };

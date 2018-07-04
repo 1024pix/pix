@@ -72,7 +72,7 @@ function _isAnAvailableChallenge(challenge, assessedSkills) {
 function _isPreviousChallengeTimed(answers) {
   const answeredChallenges = answers.map(answer => answer.challenge);
   const lastAnswer = answers[answeredChallenges.length - 1];
-  if(!lastAnswer || !lastAnswer.challenge) return false;
+  if (!lastAnswer || !lastAnswer.challenge) return false;
   return lastAnswer && (lastAnswer.challenge.timer !== undefined);
 }
 
@@ -88,16 +88,16 @@ function _filterChallengesBySkills(listOfChallenges, listOfRequiredSkills) {
 
   return listOfChallenges.filter((challenge) => {
 
-    let challengeContainsSkillsProfile = false;
+    let challengeContainsSkillsInTargetProfile = false;
 
     listOfRequiredSkills.map((skill) => skill.name).forEach((skillName) => {
       const challengeHasSkill = challenge.skills.map((skill) => skill.name).includes(skillName);
       if (challengeHasSkill) {
-        challengeContainsSkillsProfile = true;
+        challengeContainsSkillsInTargetProfile = true;
       }
     });
 
-    return challengeContainsSkillsProfile;
+    return challengeContainsSkillsInTargetProfile;
   });
 }
 
@@ -140,12 +140,13 @@ function _firstChallenge(challenges, answers, tubes, validatedSkills, failedSkil
 
 class SmartRandom {
 
-  constructor(answers, challenges, skills) {
+  constructor({ answers, challenges, targetProfile } = {}) {
     this.challenges = challenges;
-    this.skills = skills;
+    this.targetProfile = targetProfile;
+    this.skills = targetProfile.skills;
 
     this.course = new Course();
-    const listSkillsWithChallenges = _filterSkillsByChallenges(skills, challenges);
+    const listSkillsWithChallenges = _filterSkillsByChallenges(this.skills, challenges);
     this.course.competenceSkills = listSkillsWithChallenges;
     this.course.computeTubes(listSkillsWithChallenges);
 

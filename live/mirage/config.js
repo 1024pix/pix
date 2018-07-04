@@ -22,7 +22,7 @@ import { Response } from 'ember-cli-mirage';
 
 /* eslint max-statements: off */
 export default function() {
-  this.logging = false;
+  this.logging = true;
   this.passthrough('/write-coverage');
   this.post('https://fonts.googleapis.com/**', () => {
   });
@@ -83,11 +83,12 @@ export default function() {
     const sentEmail = attrs.data.attributes.email;
     const matchingAccount = schema.users.findBy({ email: sentEmail });
 
-    if (matchingAccount != null) {
+    if (matchingAccount !== null) {
       return schema.passwordResetDemands.create({ email: sentEmail });
     } else {
       return new Response(400);
     }
-
   });
+
+  this.get('/skill-reviews/:id');
 }

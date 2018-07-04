@@ -17,6 +17,9 @@ const type = {
   PREVIEW: 'PREVIEW',
 };
 
+/*
+ * Traduction : Évaluation
+ */
 class Assessment {
 
   /*
@@ -26,7 +29,6 @@ class Assessment {
    * id: String,
    * course : associatedCourse (Class Course)
    * createdAt: Date
-   * updatedAt: Date
    * user: ? (class User ?)
    * successRate: 24, ?? Je ne sais pas ce que c'est
    * type: 'charade', String ?
@@ -38,17 +40,19 @@ class Assessment {
     courseId,
     createdAt,
     userId,
-    type,
     state,
+    type,
 
     // relationships
     answers = [],
     assessmentResults = [],
     course,
+    targetProfile,
   } = {}) {
     this.id = id;
-    this.createdAt = createdAt;
+
     this.courseId = courseId;
+    this.createdAt = createdAt;
     this.userId = userId;
     this.state = state;
     this.type = type;
@@ -57,6 +61,7 @@ class Assessment {
     this.answers = answers;
     this.assessmentResults = assessmentResults;
     this.course = course;
+    this.targetProfile = targetProfile;
   }
 
   /**
@@ -170,7 +175,6 @@ class Assessment {
   isCertifiable() {
     return this.getLastAssessmentResult().level >= 1;
   }
-
 }
 
 Assessment.states = states;

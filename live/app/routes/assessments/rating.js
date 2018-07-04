@@ -3,11 +3,21 @@ import Route from '@ember/routing/route';
 export default Route.extend({
 
   afterModel(assessment) {
-    this.get('store').createRecord('assessment-result', { assessment }).save();
 
-    assessment.get('type') === 'CERTIFICATION' ?
-      this.transitionTo('certifications.results', assessment.get('certificationNumber'))
-      : this.transitionTo('assessments.results', assessment.get('id'));
-  }
+    return this.get('store')
+      .createRecord('assessment-result', { assessment })
+      .save()
+      .finally(() => {
+        switch (assessment.get('type')) {
+          case 'CERTIFICATION':
+            return this.replaceWith('certifications.results', assessment.get('certificationNumber'));
 
+          case 'SMART_PLACEMENT':
+            return this.replaceWith('campaigns.skill-review', assessment.get('id'));
+
+          default:
+            return this.replaceWith('assessments.results', assessment.get('id'));
+        }
+      });
+  },
 });

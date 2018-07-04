@@ -2,13 +2,27 @@ const AnswerStatus = require('./AnswerStatus');
 
 class Answer {
 
-  constructor({ id, value, result, timeout, elapsedTime, resultDetails, assessmentId, challengeId } = {}) {
+  constructor({
+    id,
+    // attributes
+    elapsedTime,
+    result,
+    resultDetails,
+    timeout,
+    value,
+
+    // relationship Ids
+    assessmentId,
+    challengeId,
+  } = {}) {
     this.id = id;
-    this.value = value;
-    this.result = AnswerStatus.from(result);
-    this.timeout = timeout;
+
     this.elapsedTime = elapsedTime;
+    this.result = AnswerStatus.from(result);
     this.resultDetails = resultDetails;
+    this.timeout = timeout;
+    this.value = value;
+
     this.assessmentId = assessmentId;
     this.challengeId = challengeId;
   }
@@ -25,6 +39,11 @@ class Answer {
     return AnswerStatus.isOK(this.result) ? 1 : 0;
   }
 
+  /**
+   * @deprecated Method that does not belong here. Answer has no knowledge of challenge
+   * Should maybe belong to challenge ?
+   * (Demeter law broken this.challenge.skills.(first-object).difficulty
+   */
   maxDifficulty(baseDifficulty = 2) {
     if (this.challenge) {
       const difficulties = this.challenge.skills.map(skill => skill.difficulty);
