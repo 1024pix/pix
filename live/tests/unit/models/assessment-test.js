@@ -2,6 +2,7 @@ import { expect } from 'chai';
 import { run } from '@ember/runloop';
 import { describe, it } from 'mocha';
 import { setupModelTest } from 'ember-mocha';
+import _ from 'lodash';
 
 const SMART_PLACEMENT_TYPE = 'SMART_PLACEMENT';
 
@@ -47,20 +48,21 @@ describe('Unit | Model | Assessment', function() {
     });
   });
 
-  /*
+  describe('@answersSinceLastCheckpoints', function() {
 
-  describe('#answersSinceLastCheckpoints(answers)', function() {
-
-    function newAnswer() {
-      return EmberObject.create();
+    function newAnswers(store, nbAnswers) {
+      return run(() => {
+        return _.times(nbAnswers, () => store.createRecord('answer'));
+      });
     }
 
     it('should return an empty array when no answers has been given', function() {
       // given
-      const answers = [];
+      const assessment = this.subject();
+      assessment.set('answers', []);
 
       // when
-      const answersSinceLastCheckpoints = ProgressWithCheckpoints.answersSinceLastCheckpoints(answers);
+      const answersSinceLastCheckpoints = assessment.get('answersSinceLastCheckpoints');
 
       // then
       expect(answersSinceLastCheckpoints).to.deep.equal([]);
@@ -68,10 +70,13 @@ describe('Unit | Model | Assessment', function() {
 
     it('should return the one answer when only one answer has been given', function() {
       // given
-      const answers = [newAnswer()];
+      const answer = run(() => this.store().createRecord('answer'));
+      const assessment = this.subject();
+      const answers = [answer];
+      run(() => assessment.set('answers', answers));
 
       // when
-      const answersSinceLastCheckpoints = ProgressWithCheckpoints.answersSinceLastCheckpoints(answers);
+      const answersSinceLastCheckpoints = assessment.get('answersSinceLastCheckpoints');
 
       // then
       expect(answersSinceLastCheckpoints).to.deep.equal(answers);
@@ -79,11 +84,13 @@ describe('Unit | Model | Assessment', function() {
 
     it('should return the last 2 answers when there is 7 answers', function() {
       // given
-      const answers = _.times(7, newAnswer);
+      const answers = newAnswers(this.store(), 7);
       const [answer6, answer7] = answers.slice(5);
+      const assessment = this.subject();
+      run(() => assessment.set('answers', answers));
 
       // when
-      const answersSinceLastCheckpoints = ProgressWithCheckpoints.answersSinceLastCheckpoints(answers);
+      const answersSinceLastCheckpoints = assessment.get('answersSinceLastCheckpoints');
 
       // then
       expect(answersSinceLastCheckpoints).to.deep.equal([answer6, answer7]);
@@ -91,11 +98,13 @@ describe('Unit | Model | Assessment', function() {
 
     it('should return the last 5 answers when there is 10 answers', function() {
       // given
-      const answers = _.times(10, newAnswer);
+      const answers = newAnswers(this.store(), 10);
       const [answer6, answer7, answer8, answer9, answer10] = answers.slice(5);
+      const assessment = this.subject();
+      run(() => assessment.set('answers', answers));
 
       // when
-      const answersSinceLastCheckpoints = ProgressWithCheckpoints.answersSinceLastCheckpoints(answers);
+      const answersSinceLastCheckpoints = assessment.get('answersSinceLastCheckpoints');
 
       // then
       expect(answersSinceLastCheckpoints).to.deep.equal([answer6, answer7, answer8, answer9, answer10]);
@@ -103,16 +112,16 @@ describe('Unit | Model | Assessment', function() {
 
     it('should return the last 1 answer when there is 11 answers', function() {
       // given
-      const answers = _.times(11, newAnswer);
+      const answers = newAnswers(this.store(), 11);
       const answer11 = answers[10];
+      const assessment = this.subject();
+      run(() => assessment.set('answers', answers));
 
       // when
-      const answersSinceLastCheckpoints = ProgressWithCheckpoints.answersSinceLastCheckpoints(answers);
+      const answersSinceLastCheckpoints = assessment.get('answersSinceLastCheckpoints');
 
       // then
       expect(answersSinceLastCheckpoints).to.deep.equal([answer11]);
     });
   });
-
-   */
 });
