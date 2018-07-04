@@ -34,12 +34,7 @@ export default ModalDialog.extend(EmberKeyboardMixin, {
         _setFocusOnFirstTabbableElement(modalId);
       });
     } catch(e) {
-      if (e.message.includes('unsupported pseudo: tabbable')) {
-        // eslint-disable-next-line no-console
-        console.log('unable to use :tabbable attribute. Maybe the jQuery plugin is not loaded ?', e);
-      } else {
-        throw e;
-      }
+      // thow away the jQuery error
     }
   },
 
