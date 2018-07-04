@@ -1,5 +1,5 @@
 @import "../ember-modal-dialog/ember-modal-structure";
-@import "../ember-modal-dialog/ember-modal-appearance";
+// @import "../ember-modal-dialog/ember-modal-appearance";
 
 /* Structure & layout
 –––––––––––––––––––––––––––––––––––––––––––––––––– */
@@ -10,11 +10,11 @@
 }
 
 .pix-modal {
-  width: 100%;
-  padding: 10px;
   background: transparent;
   color: $charcoal-grey;
   font-family: $font-lato;
+  padding: 10px;
+  width: 100%;
 }
 
 .pix-modal__container {
@@ -72,6 +72,7 @@
 
 .pix-modal p {
   margin-bottom: 5px;
+  padding: 0 10px;
 }
 
 .pix-modal ul {
@@ -178,4 +179,3 @@
 .ember-modal-overlay.translucent {
   background-color: rgba(red($charcoal-grey), green($charcoal-grey), blue($charcoal-grey), 0.95);
 }
-
