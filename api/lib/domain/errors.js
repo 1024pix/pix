@@ -42,6 +42,12 @@ class CertificationComputeError extends DomainError {
   }
 }
 
+class ChallengeAlreadyAnsweredError extends DomainError {
+  constructor(message) {
+    super(message);
+  }
+}
+
 class EntityValidationError extends DomainError {
   constructor({ invalidAttributes }) {
     super();
@@ -232,6 +238,7 @@ module.exports = {
   AlreadyRegisteredEmailError,
   AssessmentEndedError,
   CertificationComputeError,
+  ChallengeAlreadyAnsweredError,
   EntityValidationError,
   ForbiddenAccess,
   InternalError,

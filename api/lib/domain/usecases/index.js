@@ -17,6 +17,7 @@ const getUserWithOrganizationAccesses = require('./get-user-with-organization-ac
 const preloadCacheEntries = require('./preload-cache-entries');
 const removeAllCacheEntries = require('./remove-all-cache-entries');
 const removeCacheEntry = require('./remove-cache-entry');
+const saveAnswerAndCreateAssociatedKnowledgeElements = require('./save-answer-and-create-associated-knowledge-elements');
 const updateCertification = require('./update-certification');
 
 module.exports = {
@@ -39,5 +40,6 @@ module.exports = {
   preloadCacheEntries,
   removeAllCacheEntries,
   removeCacheEntry,
+  saveAnswerAndCreateAssociatedKnowledgeElements,
   updateCertification,
 };
