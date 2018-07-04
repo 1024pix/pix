@@ -1,10 +1,16 @@
-const { expect, knex, databaseBuilder } = require('../../../test-helper');
+const { expect, knex, factory, databaseBuilder } = require('../../../test-helper');
 const Answer = require('../../../../lib/domain/models/Answer');
 const { NotFoundError } = require('../../../../lib/domain/errors');
+const _ = require('lodash');
 
 const AnswerRepository = require('../../../../lib/infrastructure/repositories/answer-repository');
 
 describe('Integration | Repository | AnswerRepository', () => {
+
+  afterEach(() => {
+    return knex('answers').delete()
+      .then(() => (databaseBuilder.clean()));
+  });
 
   describe('#get', () => {
     let answerId;
@@ -33,10 +39,6 @@ describe('Integration | Repository | AnswerRepository', () => {
           .then((createdAnswer) => {
             answerId = createdAnswer[0];
           });
-      });
-
-      afterEach(() => {
-        return knex('answers').delete();
       });
 
       it('should retrieve an answer from its id', () => {
@@ -82,10 +84,6 @@ describe('Integration | Repository | AnswerRepository', () => {
       return knex('answers').insert([wrongAnswer, correctAnswer, partiallyCorrectAnswer]);
     });
 
-    afterEach(() => {
-      return knex('answers').delete();
-    });
-
     it('should find the answer by challenge and assessment and return its in an object', () => {
       // when
       const promise = AnswerRepository.findByChallengeAndAssessment('challenge_1234', 1234);
@@ -126,10 +124,6 @@ describe('Integration | Repository | AnswerRepository', () => {
 
     beforeEach(() => {
       return knex('answers').insert([wrongAnswerForAssessment1234, wrongAnswerForAssessment1, timedOutAnswerForAssessment1]);
-    });
-
-    afterEach(() => {
-      return knex('answers').delete();
     });
 
     it('should find all answers by challenge id', () => {
@@ -177,10 +171,6 @@ describe('Integration | Repository | AnswerRepository', () => {
 
     beforeEach(() => {
       return knex('answers').delete().then(() => knex('answers').insert([answer1, answer2, answer3]));
-    });
-
-    afterEach(() => {
-      return knex('answers').delete();
     });
 
     it('should resolves answers with assessment id provided', () => {
@@ -240,10 +230,6 @@ describe('Integration | Repository | AnswerRepository', () => {
       return knex('answers').delete().then(() => knex('answers').insert([answer1, answer2, answer3]));
     });
 
-    afterEach(() => {
-      return knex('answers').delete();
-    });
-
     it('should retrieve answers with ok status from assessment id provided', () => {
       // given
       const assessmentId = 1;
@@ -265,10 +251,6 @@ describe('Integration | Repository | AnswerRepository', () => {
   });
 
   describe('#hasChallengeAlreadyBeenAnswered', () => {
-
-    afterEach(() => {
-      return databaseBuilder.clean();
-    });
 
     it('should return true if answer exists in database', async () => {
       // given
@@ -303,4 +285,56 @@ describe('Integration | Repository | AnswerRepository', () => {
       return expect(promise).to.eventually.be.false;
     });
   });
-});
+
+  describe('#save', () => {
+
+    let answer;
+    let promise;
+
+    beforeEach(async () => {
+      // given
+      const assessmentId = databaseBuilder.factory.buildAssessment().id;
+      await databaseBuilder.commit();
+
+      // XXX resultDetails is by default null which is saved as "null\n" in db.
+      // To avoid problems in test it is fixed to another string.
+      answer = factory.buildAnswer({ assessmentId, resultDetails: 'some random detail' });
+      answer.id = undefined;
+
+      // when
+      promise = AnswerRepository.save(answer);
+    });
+
+    it('should save the answer in db', async () => {
+      // then
+      // id, createdAt, and updatedAt are not present
+      const expectedRawAnswerWithoutIdNorDates = {
+        value: answer.value,
+        result: answer.result.raw,
+        assessmentId: answer.assessmentId,
+        challengeId: answer.challengeId,
+        timeout: answer.timeout,
+        elapsedTime: answer.elapsedTime,
+        resultDetails: `${answer.resultDetails}\n`, // XXX text fields are saved with a \n at the end
+      };
+      return promise
+        .then(() => knex('answers').first())
+        .then((answer) => _.omit(answer, ['id', 'createdAt', 'updatedAt']))
+        .then((answerWithoutIdNorDates) => {
+          return expect(answerWithoutIdNorDates).to.deep.equal(expectedRawAnswerWithoutIdNorDates);
+        });
+    });
+
+    it('should return a domain object with the id', async () => {
+      // then
+      return promise
+        .then((savedAnswer) => {
+          expect(savedAnswer.id).to.not.equal(undefined);
+          expect(savedAnswer).to.be.an.instanceOf(Answer);
+          // XXX text fields are saved with a \n at the end, so the test fails for that reason
+          expect(_.omit(savedAnswer, ['id', 'resultDetails'])).to.deep.equal(_.omit(answer, ['id', 'resultDetails']));
+        });
+    });
+  });
+})
+;

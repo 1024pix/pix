@@ -1,4 +1,3 @@
-
 const { expect } = require('chai');
 const AnswerStatus = require('../../../../lib/domain/models/AnswerStatus');
 
@@ -102,4 +101,15 @@ describe('AnswerStatus', () => {
     });
   });
 
+  context('#toString', () => {
+
+    it('should return its string value', () => {
+      expect(AnswerStatus.OK.raw).to.equal('ok');
+      expect(AnswerStatus.KO.raw).to.equal('ko');
+      expect(AnswerStatus.SKIPPED.raw).to.equal('#ABAND#');
+      expect(AnswerStatus.TIMEDOUT.raw).to.equal('timedout');
+      expect(AnswerStatus.PARTIALLY.raw).to.equal('partially');
+      expect(AnswerStatus.UNIMPLEMENTED.raw).to.equal('unimplemented');
+    });
+  });
 });

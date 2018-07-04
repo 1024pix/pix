@@ -1,5 +1,24 @@
+const Answer = require('../../domain/models/Answer');
 const BookshelfAnswer = require('../data/answer');
+const jsYaml = require('js-yaml');
 const { NotFoundError } = require('../../domain/errors');
+
+function _adaptModelToDb(answer) {
+  return {
+    id: answer.id,
+    result: answer.result.raw,
+    resultDetails: jsYaml.safeDump(answer.resultDetails),
+    value: answer.value,
+    timeout: answer.timeout,
+    elapsedTime: answer.elapsedTime,
+    challengeId: answer.challengeId,
+    assessmentId: answer.assessmentId,
+  };
+}
+
+function _toDomain(bookshelfAnswer) {
+  return new Answer(bookshelfAnswer.toJSON());
+}
 
 module.exports = {
 
@@ -54,5 +73,13 @@ module.exports = {
       .where({ challengeId, assessmentId })
       .fetch()
       .then(answer => answer !== null);
+  },
+
+  save(answer) {
+    return Promise.resolve(answer)
+      .then(_adaptModelToDb)
+      .then((rawDBAnswerModel) => new BookshelfAnswer(rawDBAnswerModel))
+      .then((answerBookshelf) => answerBookshelf.save())
+      .then(_toDomain);
   },
 };
