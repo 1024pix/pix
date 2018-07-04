@@ -10,7 +10,9 @@ function _setFocusOnFirstTabbableElement(modalId) {
   const $tabbableElementInModal = $(modalId).find(':tabbable');
 
   const $firstElementToFocus = $tabbableElementInModal.get(0);
-  $firstElementToFocus.focus();
+  if ($firstElementToFocus != null) {
+    $firstElementToFocus.focus();
+  }
 }
 
 export default ModalDialog.extend(EmberKeyboardMixin, {
@@ -25,11 +27,15 @@ export default ModalDialog.extend(EmberKeyboardMixin, {
 
     const modalId = `#${$('.ember-modal-dialog').attr('id')}`;
 
-    _setFocusOnFirstTabbableElement(modalId);
-
-    $(modalId).find(':tabbable').last().on('blur', function() {
+    try {
+      // XXX :tabbable is a jQuery plugin, not loaded in integration tests
       _setFocusOnFirstTabbableElement(modalId);
-    });
+      $(modalId).find(':tabbable').last().on('blur', function() {
+        _setFocusOnFirstTabbableElement(modalId);
+      });
+    } catch(e) {
+      // thow away the jQuery error
+    }
   },
 
   closeOnEsc: on(keyUp('Escape'), function() {
