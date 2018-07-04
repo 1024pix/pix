@@ -1,4 +1,4 @@
-const { expect, knex, factory, databaseBuilder } = require('../../../test-helper');
+const { expect, knex, databaseBuilder } = require('../../../test-helper');
 const Answer = require('../../../../lib/domain/models/Answer');
 const { NotFoundError } = require('../../../../lib/domain/errors');
 
