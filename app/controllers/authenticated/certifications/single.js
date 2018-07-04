@@ -7,6 +7,7 @@ export default Controller.extend({
   loading:false,
   actions: {
     onLoadCertification(id) {
+      this.set('certificationId', id);
       switch (this.get('router.currentRouteName')) {
         case 'authenticated.certifications.single.details':
           this.transitionToRoute('authenticated.certifications.single.details', id);
