@@ -1,3 +1,4 @@
+const _ = require('lodash');
 const SKILL_REVIEW_ID_PREFIX = 'skill-review-';
 
 /*
@@ -19,7 +20,10 @@ class SkillReview {
 
   get profileMasteryRate() {
     const numberOfTargetedSkills = this.targetedSkills.length;
-    const numberOfValidatedSkills = this.validatedSkills.length;
+
+    const validatedSkillsThatExistsInTargetedSkills = _.intersectionBy(this.targetedSkills, this.validatedSkills, 'name');
+    const numberOfValidatedSkills = validatedSkillsThatExistsInTargetedSkills.length;
+
     const targetProfileHasSkills = numberOfTargetedSkills !== 0;
 
     return targetProfileHasSkills ? (numberOfValidatedSkills / numberOfTargetedSkills) : 0;

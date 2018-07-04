@@ -51,6 +51,21 @@ describe('Unit | Domain | Models | SkillReview', () => {
         expect(skillReview.profileMasteryRate).to.eq(0);
       });
     });
+
+    context('when an evaluated skill is not contained in the target profile', () => {
+      it('should not take that extra validated skill into account', () => {
+        // Given
+        const targetedSkills = [skillLevel1];
+        const validatedSkills = [skillLevel1, skillLevel2];
+        const failedSkills = [];
+
+        // When
+        const skillReview = new SkillReview({ targetedSkills, validatedSkills, failedSkills });
+
+        // Then
+        expect(skillReview.profileMasteryRate).to.eq(1);
+      });
+    });
   });
 
   describe('#generateIdFromAssessmentId', () => {
