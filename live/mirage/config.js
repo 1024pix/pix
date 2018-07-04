@@ -72,7 +72,6 @@ export default function() {
   this.get('/snapshots/:id');
   this.get('/organizations/:id/snapshots', getSnapshots);
 
-  this.post('/followers');
   this.post('/users');
   this.post('/assessment-results');
 
