@@ -73,22 +73,6 @@ describe('Acceptance | La page d\'accueil', function() {
     });
   });
 
-  describe('The "Community" section', function() {
-
-    it('should have a title', function() {
-      findWithAssert('.index-page-community__title');
-    });
-
-    it('should have a description', function() {
-      findWithAssert('.index-page-community__description');
-    });
-
-    it('should a "beta" user inscription form', function() {
-      findWithAssert('.index-page-community__form');
-    });
-
-  });
-
   describe('the "Features" section', function() {
 
     it('should contain a list of features', function() {
