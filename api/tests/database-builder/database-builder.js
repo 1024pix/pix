@@ -26,6 +26,7 @@ module.exports = class DatabaseBuilder {
 
       return promise
         .then(() => this.knex(objectToInsert.tableName).delete());
+
     }, initialPromise)
       .then(() => {
         this.databaseBuffer.purge();
