@@ -35,6 +35,19 @@ class SkillReview {
     return targetProfileHasSkills ? (numberOfValidatedSkills / numberOfTargetedSkills) : 0;
   }
 
+  get profileCompletionRate() {
+    const numberOfTargetedSkills = this.targetedSkills.length;
+
+    const validatedSkillsThatExistsInTargetedSkills = _.intersectionBy(this.targetedSkills, this.validatedSkills, 'name');
+    const numberOfValidatedSkills = validatedSkillsThatExistsInTargetedSkills.length;
+
+    const failedSkillsThatExistsInTargetedSkills = _.intersectionBy(this.targetedSkills, this.failedSkills, 'name');
+    const numberOfFailedSkills = failedSkillsThatExistsInTargetedSkills.length;
+
+    const targetProfileHasSkills = numberOfTargetedSkills !== 0;
+    return targetProfileHasSkills ? (numberOfFailedSkills + numberOfValidatedSkills) / numberOfTargetedSkills : 0;
+  }
+
   static generateIdFromAssessmentId(assessmentId) {
     return `${SKILL_REVIEW_ID_PREFIX}${assessmentId}`;
   }

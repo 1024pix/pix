@@ -18,6 +18,7 @@ describe('Unit | Serializer | JSONAPI | skill-review-serializer', function() {
           'id': skillReview.id,
           'attributes': {
             'profile-mastery-rate': skillReview.profileMasteryRate,
+            'profile-completion-rate': skillReview.profileCompletionRate,
           },
         },
       });
