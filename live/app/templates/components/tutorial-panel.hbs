@@ -14,12 +14,15 @@
           {{markdown-to-html class="tutorial-panel__hint-content" markdown=hint}}
         </div>
     {{/if}}
-    
+
     {{#if shouldDisplayTutorial}}
       <div class="tutorial-panel__tutorials-container">
         {{#each limitedTutorials as |tutorial|}}
           {{tutorial-item tutorial=tutorial}}
         {{/each}}
+      </div>
+      <div class="tutorial-panel__tutorial-info">
+        Ces liens ont été proposés par des utilisateurs de PIX.
       </div>
     {{/if}}
   </div>
