@@ -22,7 +22,7 @@ module.exports = {
 
     const listOfFilters = [];
     listOfSkillNames.forEach((skillName) => {
-      listOfFilters.push(`FIND("${skillName}", {acquis})`);
+      listOfFilters.push(`FIND("${skillName}", ARRAYJOIN({acquis}, ";"))`);
     });
     const statutsValidated = VALIDATED_CHALLENGES.map(validatedStatut => `{Statut}="${validatedStatut}"`);
 
