@@ -319,34 +319,11 @@ describe('Integration | Infrastructure | Repositories | assessment-repository', 
               juryId: null,
               level: null,
               pixScore: null,
-              status: 'validated'
+              status: 'validated',
+              competenceMarks: []
             }
           ]
-        }),
-        Assessment.fromAttributes({
-          id: 4,
-          userId: JOHN,
-          courseId: 'courseId2',
-          state: 'completed',
-          createdAt: '2017-11-08 11:47:38',
-          type: null,
-          assessmentResults: [
-            {
-              assessmentId: 4,
-              commentForCandidate: null,
-              commentForJury: null,
-              commentForOrganization: null,
-              createdAt: '2018-10-27 08:44:25',
-              emitter: 'PIX',
-              id: 4,
-              juryId: null,
-              level: null,
-              pixScore: null,
-              status: 'validated'
-            }
-          ]
-
-        }),
+        })
       ];
 
       // when
