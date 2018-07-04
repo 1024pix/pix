@@ -68,6 +68,109 @@ describe('Unit | Domain | Models | SkillReview', () => {
     });
   });
 
+  describe('#profileCompletionRate', () => {
+
+    context('when no skill are validated nor failed', () => {
+      it('should returns the profileCompletionRate of 0', () => {
+        // Given
+        const targetedSkills = [skillLevel1, skillLevel2, skillLevel3];
+        const validatedSkills = [];
+        const failedSkills = [];
+
+        // When
+        const skillReview = new SkillReview({ targetedSkills, validatedSkills, failedSkills });
+
+        // Then
+        expect(skillReview.profileCompletionRate).to.eq(0);
+      });
+    });
+
+    context('with the profile is fully evaluated', () => {
+      it('should returns a profileCompletionRate of 1 when there is a 50/50 answers ratio', () => {
+        // Given
+        const targetedSkills = [skillLevel1, skillLevel2];
+        const validatedSkills = [skillLevel1];
+        const failedSkills = [skillLevel2];
+
+        // When
+        const skillReview = new SkillReview({ targetedSkills, validatedSkills, failedSkills });
+
+        // Then
+        expect(skillReview.profileCompletionRate).to.eq(1);
+      });
+
+      it('should returns a profileCompletionRate of 1 when all skills are failed', () => {
+        // Given
+        const targetedSkills = [skillLevel1, skillLevel2];
+        const validatedSkills = [];
+        const failedSkills = [skillLevel1, skillLevel2];
+
+        // When
+        const skillReview = new SkillReview({ targetedSkills, validatedSkills, failedSkills });
+
+        // Then
+        expect(skillReview.profileCompletionRate).to.eq(1);
+      });
+
+      it('should returns a profileCompletionRate of 1 when all skills are validated', () => {
+        // Given
+        const targetedSkills = [skillLevel1, skillLevel2];
+        const validatedSkills = [skillLevel1, skillLevel2];
+        const failedSkills = [];
+
+        // When
+        const skillReview = new SkillReview({ targetedSkills, validatedSkills, failedSkills });
+
+        // Then
+        expect(skillReview.profileCompletionRate).to.eq(1);
+      });
+    });
+
+    context('with the skillProfile contains no skill', () => {
+      it('should returns a progression rate of 0', () => {
+        // Given
+        const targetedSkills = [];
+        const validatedSkills = [skillLevel1];
+        const failedSkills = [];
+
+        // When
+        const skillReview = new SkillReview({ targetedSkills, validatedSkills, failedSkills });
+
+        // Then
+        expect(skillReview.profileCompletionRate).to.eq(0);
+      });
+    });
+
+    context('with the skillProfile contains extra skills', () => {
+      it('should returns a progression rate of 0', () => {
+        // Given
+        const targetedSkills = [skillLevel1];
+        const validatedSkills = [skillLevel1, skillLevel2];
+        const failedSkills = [];
+
+        // When
+        const skillReview = new SkillReview({ targetedSkills, validatedSkills, failedSkills });
+
+        // Then
+        expect(skillReview.profileCompletionRate).to.eq(1);
+      });
+
+
+      it('should returns a progression rate of 0', () => {
+        // Given
+        const targetedSkills = [skillLevel1];
+        const validatedSkills = [];
+        const failedSkills = [skillLevel1, skillLevel2];
+
+        // When
+        const skillReview = new SkillReview({ targetedSkills, validatedSkills, failedSkills });
+
+        // Then
+        expect(skillReview.profileCompletionRate).to.eq(1);
+      });
+    });
+  });
+
   describe('#generateIdFromAssessmentId', () => {
 
     it('should returns the id prepended with "skill-review-"', () => {
