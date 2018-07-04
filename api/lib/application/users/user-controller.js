@@ -3,6 +3,7 @@ const moment = require('moment');
 const JSONAPIError = require('jsonapi-serializer').Error;
 
 const userSerializer = require('../../infrastructure/serializers/jsonapi/user-serializer');
+const organizationAccessSerializer = require('../../infrastructure/serializers/jsonapi/organizations-accesses-serializer');
 const validationErrorSerializer = require('../../infrastructure/serializers/jsonapi/validation-error-serializer');
 const mailService = require('../../domain/services/mail-service');
 const userService = require('../../domain/services/user-service');
@@ -138,7 +139,20 @@ module.exports = {
       });
   },
 
-  getOrganizationAccesses(request, reply) {
+  getOrganizationsAccesses(request, reply) {
+    const authenticatedUserId = request.auth.credentials.userId;
+    const requestedUserId = request.params.id;
+
+    return usecases.getUserOrganizationsAccesses({ authenticatedUserId, requestedUserId, userRepository })
+      .then((organizationAccesses) => {
+        return reply(organizationAccessSerializer.serialize(organizationAccesses)).code(200);
+      })
+      .catch((error) => {
+        if (error instanceof UserNotAuthorizedToAccessEntity) {
+          reply(JSONAPI.forbiddenError(error.message)).code(403);
+        }
+        reply(JSONAPI.internalError('Une erreur inattendue est survenue lors de la création de la campagne')).code(500);
+      });
 
   }
 };
