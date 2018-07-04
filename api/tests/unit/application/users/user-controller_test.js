@@ -11,6 +11,7 @@ const logger = require('../../../../lib/infrastructure/logger');
 
 const mailService = require('../../../../lib/domain/services/mail-service');
 const userSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/user-serializer');
+const organizationsAccessesSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/organizations-accesses-serializer');
 const passwordResetService = require('../../../../lib/domain/services/reset-password-service');
 const encryptionService = require('../../../../lib/domain/services/encryption-service');
 const userRepository = require('../../../../lib/infrastructure/repositories/user-repository');
@@ -416,6 +417,7 @@ describe('Unit | Controller | user-controller', () => {
     });
   });
 
+
   describe('#getProfileToCertify', () => {
 
     let sandbox;
@@ -620,4 +622,120 @@ describe('Unit | Controller | user-controller', () => {
     });
 
   });
+
+  describe('#getOrganizationsAccesses', () => {
+
+    let sandbox;
+    const authenticatedUserId = 1;
+    const requestedUserId = 1;
+    const request = {
+      auth: {
+        credentials: {
+          userId: authenticatedUserId
+        }
+      },
+      params: {
+        id: requestedUserId
+      }
+    };
+    let codeStub;
+    let replyStub;
+
+
+    beforeEach(() => {
+      sandbox = sinon.sandbox.create();
+      sandbox.stub(organizationsAccessesSerializer, 'serialize');
+      codeStub = sandbox.stub();
+      replyStub = sandbox.stub().returns({ code: codeStub });
+    });
+
+    afterEach(() => {
+      sandbox.restore();
+    });
+
+    it('should get accesses of the user passed on params', () => {
+      // given
+      sandbox.stub(usecases, 'getUserOrganizationsAccesses').resolves();
+
+      // when
+      const promise = userController.getOrganizationsAccesses(request, replyStub);
+
+      // then
+      return promise.then(() => {
+        expect(usecases.getUserOrganizationsAccesses).to.have.been.calledWith({requestedUserId, authenticatedUserId, userRepository});
+      });
+    });
+
+    context('When accesses are found', () => {
+
+      beforeEach(() => {
+        sandbox.stub(usecases, 'getUserOrganizationsAccesses');
+      });
+
+      it('should serialize found organization-accesses', () => {
+        // given
+        const foundAccesses = [];
+        usecases.getUserOrganizationsAccesses.resolves(foundAccesses);
+
+        // when
+        const promise = userController.getOrganizationsAccesses(request, replyStub);
+
+        // then
+        return promise.then(() => {
+          expect(organizationsAccessesSerializer.serialize).to.have.been.calledWith(foundAccesses);
+        });
+      });
+
+      it('should return serialized Organizations Accesses, a 200 code response', function() {
+        // given
+        const serializedOrganizationsAccesses = {};
+        organizationsAccessesSerializer.serialize.returns(serializedOrganizationsAccesses);
+        usecases.getUserOrganizationsAccesses.resolves();
+
+        // when
+        const promise = userController.getOrganizationsAccesses(request, replyStub);
+
+        // then
+        return promise.then(() => {
+          expect(replyStub).to.have.been.calledWith(serializedOrganizationsAccesses);
+          expect(codeStub).to.have.been.calledWith(200);
+        });
+      });
+
+    });
+
+    context('When authenticated user want to retrieve access of another user', () => {
+      it('should return a 403 Forbidden access error ', () => {
+        // given
+        sandbox.stub(usecases, 'getUserOrganizationsAccesses').rejects(new UserNotAuthorizedToAccessEntity());
+
+        // when
+        const promise = userController.getOrganizationsAccesses(request, replyStub);
+
+        // then
+        return promise.then(() => {
+          expect(codeStub).to.have.been.calledWith(403);
+        });
+      });
+
+    });
+
+    context('When an unexpected error occurs', () => {
+      it('should return a 500 internal error ', () => {
+        // given
+        sandbox.stub(usecases, 'getUserOrganizationsAccesses').rejects(new Error());
+
+        // when
+        const promise = userController.getOrganizationsAccesses(request, replyStub);
+
+        // then
+        return promise.then(() => {
+          expect(codeStub).to.have.been.calledWith(500);
+        });
+      });
+
+    });
+
+  });
+
 });
