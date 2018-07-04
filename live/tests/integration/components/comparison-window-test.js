@@ -148,5 +148,17 @@ describe('Integration | Component | comparison-window', function() {
       expect(this.$('.tutorial-panel').text()).to.contain('Conseil : mangez des épinards.');
     });
 
+    it('should render a learningMore panel when correction has a list of LearningMore elements', function() {
+      // given
+      this.set('correction', {
+        learningMoreList: [{}],
+      });
+
+      // when
+      this.render(hbs`{{comparison-window answer=answer correction=correction}}`);
+
+      // then
+      expect(this.$('.learning-more-panel')).to.have.lengthOf(1);
+    });
   });
 });
