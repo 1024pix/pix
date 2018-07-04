@@ -40,11 +40,14 @@ class AnswerStatus {
 
   /* METHODES DE TRANSITION */
   static isFailed(otherResult) { return AnswerStatus.from(otherResult).isFailed(); }
-
   static isOK(otherResult)      { return AnswerStatus.from(otherResult).isOK(); }
   static isKO(otherResult)      { return AnswerStatus.from(otherResult).isKO(); }
   static isSKIPPED(otherResult) { return AnswerStatus.from(otherResult).isSKIPPED(); }
   static isPARTIALLY(otherResult) { return AnswerStatus.from(otherResult).isPARTIALLY(); }
+
+  get raw() {
+    return this.status;
+  }
 
   /* PRIVATE */
   static from(other) {
