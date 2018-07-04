@@ -223,7 +223,7 @@ describe('Integration | Infrastructure | Repositories | assessment-repository', 
 
   });
 
-  describe('#findLastCompletedAssessmentsByUser', () => {
+  describe('#findLastCompletedAssessmentsForEachCoursesByUser', () => {
     const JOHN = 2;
     const LAYLA = 3;
 
@@ -266,12 +266,35 @@ describe('Integration | Infrastructure | Repositories | assessment-repository', 
     },
     ];
 
+    const assessmentResultsInDb = [{
+      id: 1,
+      assessmentId: 1,
+      createdAt: '2018-10-27 08:44:25',
+      emitter: 'PIX',
+      status: 'validated',
+    }, {
+      id: 3,
+      assessmentId: 3,
+      createdAt: '2019-08-27 08:44:25',
+      emitter: 'PIX',
+      status: 'validated',
+    }, {
+      id:4,
+      assessmentId: 4,
+      createdAt: '2020-10-27 08:44:25',
+      emitter: 'PIX',
+      status: 'validated',
+    }
+    ];
+
     before(() => {
-      return knex('assessments').insert(assessmentsInDb);
+      return knex('assessments').insert(assessmentsInDb)
+        .then(() => knex('assessment-results').insert(assessmentResultsInDb));
     });
 
     after(() => {
-      return knex('assessments').delete();
+      return knex('assessment-results').delete()
+        .then(() => knex('assessments').delete());
     });
 
     it('should correctly query Assessment conditions', () => {
@@ -284,6 +307,21 @@ describe('Integration | Infrastructure | Repositories | assessment-repository', 
           state: 'completed',
           createdAt: '2017-11-08 12:47:38',
           type: null,
+          assessmentResults: [
+            {
+              assessmentId: 3,
+              commentForCandidate: null,
+              commentForJury: null,
+              commentForOrganization: null,
+              createdAt: '2019-08-27 08:44:25',
+              emitter: 'PIX',
+              id: 3,
+              juryId: null,
+              level: null,
+              pixScore: null,
+              status: 'validated'
+            }
+          ]
         }),
         Assessment.fromAttributes({
           id: 4,
@@ -292,6 +330,22 @@ describe('Integration | Infrastructure | Repositories | assessment-repository', 
           state: 'completed',
           createdAt: '2017-11-08 11:47:38',
           type: null,
+          assessmentResults: [
+            {
+              assessmentId: 4,
+              commentForCandidate: null,
+              commentForJury: null,
+              commentForOrganization: null,
+              createdAt: '2018-10-27 08:44:25',
+              emitter: 'PIX',
+              id: 4,
+              juryId: null,
+              level: null,
+              pixScore: null,
+              status: 'validated'
+            }
+          ]
+
         }),
       ];
 
@@ -300,13 +354,11 @@ describe('Integration | Infrastructure | Repositories | assessment-repository', 
 
       // then
       return promise.then((assessments) => {
-        expect(assessments).to.have.a.lengthOf(2);
+        expect(assessments).to.have.a.lengthOf(1);
 
         expect(assessments[0]).to.be.an.instanceOf(Assessment);
-        expect(assessments[1]).to.be.an.instanceOf(Assessment);
 
         expect(assessments[0]).to.deep.contains(expectedAssessments[0]);
-        expect(assessments[1]).to.deep.contains(expectedAssessments[1]);
       });
     });
   });
