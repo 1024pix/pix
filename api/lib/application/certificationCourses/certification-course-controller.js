@@ -12,7 +12,7 @@ module.exports = {
   computeResult(request, reply) {
     const certificationCourseId = request.params.id;
     let ignoreError = false;
-    if(request.route.path.includes('details')){
+    if(request.route.path.includes('details')) {
       ignoreError = true;
     }
 
