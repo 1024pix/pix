@@ -11,6 +11,10 @@ function _selectLastAssessmentForEachCourse(assessments) {
   return map(assessmentsGroupedByCourse, head);
 }
 
+function _selectAssessmentFinishedBeforeDate(assessments, limitDate) {
+  return assessments.filter(assessment => assessment.assessmentResults[0].createdAt < limitDate);
+}
+
 function _toDomain(bookshelfAssessment) {
   if (bookshelfAssessment !== null) {
     const modelObjectInJSON = bookshelfAssessment.toJSON();
@@ -101,7 +105,8 @@ module.exports = {
       })
       .fetch({ withRelated: ['assessmentResults'] })
       .then(_selectLastAssessmentForEachCourse)
-      .then((assessments) => _.map(assessments, (assessment) => _toDomain(assessment)));
+      .then((assessments) => _.map(assessments, (assessment) => _toDomain(assessment)))
+      .then(assessments => _selectAssessmentFinishedBeforeDate(assessments, limitDate));
   },
 
   getByUserIdAndAssessmentId(assessmentId, userId) {
