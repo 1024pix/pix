@@ -1,31 +1,37 @@
 class AssessmentResult {
   // FIXME: assessmentId && juryId to replace by assessment && jury domain objects
   constructor({
-    pixScore,
-    level,
-    status,
-    emitter,
-    commentForJury,
-    commentForCandidate,
-    commentForOrganization,
     id,
+    // attributes
+    commentForCandidate,
+    commentForJury,
+    commentForOrganization,
     createdAt,
-    juryId,
-    assessmentId,
+    emitter,
+    level,
+    pixScore,
+    status,
+    // embedded
     competenceMarks = [],
-  }) {
-    this.pixScore = pixScore;
-    this.level = level;
-    this.status = status;
-    this.emitter = emitter;
-    this.commentForJury = commentForJury;
-    this.commentForCandidate = commentForCandidate;
-    this.commentForOrganization = commentForOrganization;
+    // relations
+    assessmentId,
+    juryId,
+  } = {}) {
     this.id = id;
+    // attributes
+    this.commentForCandidate = commentForCandidate;
+    this.commentForJury = commentForJury;
+    this.commentForOrganization = commentForOrganization;
     this.createdAt = createdAt;
-    this.juryId = juryId;
-    this.assessmentId = assessmentId;
+    this.emitter = emitter;
+    this.level = level;
+    this.pixScore = pixScore;
+    this.status = status;
+    // embedded
     this.competenceMarks = competenceMarks;
+    // relations
+    this.assessmentId = assessmentId;
+    this.juryId = juryId;
   }
 
   static BuildAlgoErrorResult(error, assessmentId) {

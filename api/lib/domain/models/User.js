@@ -4,22 +4,28 @@ class User {
 
   constructor({
     id,
+    // attributes
+    cgu,
+    email,
     firstName,
     lastName,
-    email,
     password,
-    cgu,
+    // embedded
+    organizationsAccesses = [],
     pixRoles = [],
-    organizationsAccesses = []
+    // relations
   } = {}) {
     this.id = id;
+    // attributes
     this.firstName = firstName;
     this.lastName = lastName;
     this.email = _.toLower(email);
     this.password = password;
     this.cgu = cgu;
+    // embedded
     this.pixRoles = pixRoles;
     this.organizationsAccesses = organizationsAccesses;
+    // relations
   }
 
   get hasRolePixMaster() {

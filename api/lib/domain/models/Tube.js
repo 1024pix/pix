@@ -1,7 +1,16 @@
 class Tube {
 
-  constructor({ skills = [] }) {
+  constructor({
+    // attributes
+    // embedded
+    skills = []
+    // relations
+  } = {}) {
+    // attributes
+    // embedded
     this.skills = skills;
+    // relations
+
     this.name = (skills.length > 0) ? skills[0].tubeName : '';
   }
 

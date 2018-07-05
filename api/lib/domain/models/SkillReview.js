@@ -8,14 +8,20 @@ class SkillReview {
 
   constructor({
     id,
+    // attributes
+    // embedded
     targetedSkills = [],
     validatedSkills = [],
     failedSkills = [],
+    // relations
   }) {
     this.id = id;
+    // attributes
+    // embedded
     this.targetedSkills = targetedSkills;
     this.validatedSkills = validatedSkills;
     this.failedSkills = failedSkills;
+    // relations
   }
 
   get profileMasteryRate() {

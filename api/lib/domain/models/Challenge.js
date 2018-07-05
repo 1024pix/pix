@@ -18,6 +18,7 @@ class Challenge {
     status,
     timer,
     type,
+    // embedded
     // relations
     skills = [],
   } = {}) {
@@ -35,6 +36,7 @@ class Challenge {
     this.timer = timer;
     this.status = status;
     this.type = type;
+    // embedded
     // relations
     this.skills = skills;
   }

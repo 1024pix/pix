@@ -8,18 +8,22 @@ class Certification {
 
   constructor({
     id,
+    // attributes
     assessmentState,
-    assessmentResults = [],
     birthdate,
     certificationCenter,
     date,
     firstName,
     isPublished,
     lastName,
-    userId,
+    // embedded
+    assessmentResults = [],
     resultCompetenceTree,
+    // relations
+    userId,
   } = {}) {
     this.id = id;
+    // attributes
     this.assessmentState = assessmentState;
     this.birthdate = birthdate;
     this.certificationCenter = certificationCenter;
@@ -27,9 +31,6 @@ class Certification {
     this.firstName = firstName;
     this.isPublished = isPublished;
     this.lastName = lastName;
-    this.userId = userId;
-    this.resultCompetenceTree = resultCompetenceTree;
-
     const assessmentResultsCopy = Array.from(assessmentResults);
     const mostRecentAssessmentResult = assessmentResultsCopy.sort(_byDate)[0];
 
@@ -38,6 +39,11 @@ class Certification {
       this.status = mostRecentAssessmentResult.status;
       this.commentForCandidate = mostRecentAssessmentResult.commentForCandidate;
     }
+    // embedded
+    this.resultCompetenceTree = resultCompetenceTree;
+    // relations
+    this.userId = userId;
+
   }
 }
 

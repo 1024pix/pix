@@ -35,33 +35,33 @@ class Assessment {
    * state: String
    */
   constructor({
-    // attributes
     id,
-    courseId,
+    // attributes
     createdAt,
-    userId,
     state,
     type,
-
-    // relationships
+    // embedded
     answers = [],
     assessmentResults = [],
     course,
     targetProfile,
+    // relations
+    courseId,
+    userId,
   } = {}) {
     this.id = id;
-
-    this.courseId = courseId;
+    // attributes
     this.createdAt = createdAt;
-    this.userId = userId;
     this.state = state;
     this.type = type;
-
-    // relationships
+    // embedded
     this.answers = answers;
     this.assessmentResults = assessmentResults;
     this.course = course;
     this.targetProfile = targetProfile;
+    // relations
+    this.courseId = courseId;
+    this.userId = userId;
   }
 
   /**

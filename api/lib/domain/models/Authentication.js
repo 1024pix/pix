@@ -1,8 +1,17 @@
 class Authentication {
 
-  constructor({ userId, token }) {
-    this.userId = userId;
+  constructor({
+    // attributes
+    token,
+    // embedded
+    // relations
+    userId,
+  } = {}) {
+    // attributes
     this.token = token;
+    // embedded
+    // relations
+    this.userId = userId;
   }
 
   toJSON() {

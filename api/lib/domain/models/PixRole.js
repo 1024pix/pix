@@ -1,8 +1,17 @@
 class PixRole {
 
-  constructor({ id, name } = {}) {
+  constructor({
+    id,
+    // attributes
+    name,
+    // embedded
+    // relations
+  } = {}) {
     this.id = id;
+    // attributes
     this.name = name;
+    // embedded
+    // relations
   }
 }
 
