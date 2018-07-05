@@ -14,7 +14,8 @@ const CertificationContract = require('../../domain/models/CertificationContract
 const {
   CertificationComputeError,
   NotCompletedAssessmentError,
-  UserNotAuthorizedToCertifyError } = require('../../../lib/domain/errors');
+  UserNotAuthorizedToCertifyError
+} = require('../../../lib/domain/errors');
 
 const answerServices = require('./answer-service');
 const certificationChallengesService = require('../../../lib/domain/services/certification-challenges-service');
@@ -31,7 +32,7 @@ const competenceRepository = require('../../infrastructure/repositories/competen
 function _enhanceAnswersWithCompetenceId(listAnswers, listChallenges, ignoreError) {
   return _.map(listAnswers, (answer) => {
     const competence = listChallenges.find((challenge) => challenge.challengeId === answer.challengeId);
-    if (competence == null && !ignoreError) {
+    if (!competence && !ignoreError) {
       throw new CertificationComputeError('Problème de chargement de la compétence pour le challenge ' + answer.challengeId);
     }
     answer.competenceId = competence.competenceId;
@@ -53,7 +54,7 @@ function _numberOfCorrectAnswersPerCompetence(answersWithCompetences, competence
   const answerForCompetence = _.filter(answersWithCompetences, answer => answer.competenceId === competence.id);
   const challengesForCompetence = _.filter(certificationChallenges, challenge => challenge.competenceId === competence.id);
 
-  if(!ignoreError) {
+  if (!ignoreError) {
     CertificationContract.assertThatCompetenceHasEnoughChallenge(challengesForCompetence, competence.index);
 
     CertificationContract.assertThatCompetenceHasEnoughAnswers(answerForCompetence, competence.index);
@@ -147,7 +148,7 @@ function _checkIfUserCanStartACertification(userCompetences) {
 
 function _getResult(listAnswers, certificationChallenges, testedCompetences, ignoreError) {
 
-  if(!ignoreError) {
+  if (!ignoreError) {
     CertificationContract.assertThatWeHaveEnoughAnswers(listAnswers, certificationChallenges);
   }
 
@@ -164,8 +165,8 @@ function _getResult(listAnswers, certificationChallenges, testedCompetences, ign
   const competencesWithMark = _getCompetencesWithCertifiedLevelAndScore(answersWithCompetences, testedCompetences, reproductibilityRate, certificationChallenges, ignoreError);
   const scoreAfterRating = _getSumScoreFromCertifiedCompetences(competencesWithMark);
 
-  if(!ignoreError) {
-    CertificationContract.assertThatScoreIsCoherentWithReproductibilityRate(scoreAfterRating,reproductibilityRate);
+  if (!ignoreError) {
+    CertificationContract.assertThatScoreIsCoherentWithReproductibilityRate(scoreAfterRating, reproductibilityRate);
   }
 
   return { competencesWithMark, totalScore: scoreAfterRating, percentageCorrectAnswers: reproductibilityRate };
