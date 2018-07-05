@@ -32,5 +32,17 @@ export default Component.extend({
       scores:scores,
       levels:levels
     };
-  })
+  }),
+
+  //Actions
+  actions: {
+    onScoreChange(index, event) {
+      let list = this.get('competenceList');
+      this.get('onUpdateScore')(list[index], event.target.value);
+    },
+    onLevelChange(index, event) {
+      let list = this.get('competenceList');
+      this.get('onUpdateLevel')(list[index], event.target.value);
+    }
+  }
 });
