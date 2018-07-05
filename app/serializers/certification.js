@@ -15,7 +15,7 @@ export default DS.JSONAPISerializer.extend({
   },
 
   serialize(snapshot, options) {
-    if (options.onlyInformation) {
+    if (options && options.onlyInformation) {
       let data = {};
       this.serializeAttribute(snapshot, data, 'firstName', 'first-name');
       this.serializeAttribute(snapshot, data, 'lastName', 'last-name');
