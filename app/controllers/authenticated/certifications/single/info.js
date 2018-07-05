@@ -7,6 +7,9 @@ export default Controller.extend({
   certification:alias('model'),
   edition:false,
 
+  // private properties
+  _competencesCopy:null,
+
   // Actions
   actions: {
     onEdit() {
@@ -15,6 +18,76 @@ export default Controller.extend({
     onCancel() {
       this.set('edition', false);
       this.get('certification').rollbackAttributes();
+      let competencesCopy = this.get('_competencesCopy');
+      if (competencesCopy) {
+        this.set('certification.competencesWithMark', competencesCopy);
+        this.set('_competencesCopy', null);
+      }
+    },
+    onSave() {
+      let certification = this.get('certification');
+      certification.save();
+      this.set('edition', false);
+      this.set('_competencesCopy', null);
+    },
+    onUpdateScore(code, value) {
+      this._saveCompetences();
+      let existingCompetences = this.get('certification.competencesWithMark');
+      let newCompetences = existingCompetences.map((value) => {
+        return value;
+      });
+      let competence = newCompetences.filter((value) => {
+        return (value['competence-code'] === code);
+      })[0];
+      if (competence) {
+        if (value.trim().length === 0) {
+          if (competence.level) {
+            competence.score = null;
+          } else {
+            let index = newCompetences.indexOf(competence);
+            newCompetences.splice(index, 1);
+          }
+        } else {
+          competence.score = parseInt(value);
+        }
+      } else if (value.trim().length > 0) {
+        newCompetences.addObject({'competence-code':code, 'score':parseInt(value), 'area-code':code.substr(0,1)});
+      }
+      this.set('certification.competencesWithMark', newCompetences);
+    },
+    onUpdateLevel(code, value) {
+      this._saveCompetences();
+      let existingCompetences = this.get('certification.competencesWithMark');
+      let newCompetences = existingCompetences.map((value) => {
+        return value;
+      });
+      let competence = newCompetences.filter((value) => {
+        return (value['competence-code'] === code);
+      })[0];
+      if (competence) {
+        if (value.trim().length === 0) {
+          if (competence.score) {
+            competence.level = null;
+          } else {
+            let index = newCompetences.indexOf(competence);
+            newCompetences.splice(index, 1);
+          }
+        } else {
+          competence.level = parseInt(value);
+        }
+      } else if (value.trim().length > 0) {
+        newCompetences.addObject({'competence-code':code, 'level':parseInt(value), 'area-code':code.substr(0,1)});
+      }
+      this.set('certification.competencesWithMark', newCompetences);
+    }
+  },
+
+  // Private methods
+  _saveCompetences() {
+    let copy = this.get('_competencesCopy');
+    if (!copy) {
+      let current = this.get('certification.competencesWithMark');
+      this.set('_competencesCopy', current.copy(true));
     }
   }
 });
