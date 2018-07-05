@@ -17,12 +17,15 @@ class SmartPlacementAnswer {
     id,
     // attributes
     result,
-
-    // relationship Ids
+    // embedded
+    // relations
     challengeId,
   }) {
     this.id = id;
+    // attributes
     this.result = result;
+    // embedded
+    // relations
     this.challengeId = challengeId;
   }
 

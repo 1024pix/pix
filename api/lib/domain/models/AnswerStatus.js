@@ -7,9 +7,17 @@ const PARTIALLY = 'partially';
 const UNIMPLEMENTED = 'unimplemented';
 
 class AnswerStatus {
-  constructor(status) {
+  constructor({
+    // attributes
+    status
+    // embedded
+    // relations
+  } = {}) {
+    // attributes
     // TODO: throw a BadAnswerStatus error if the status is bad + adapt the tests
-    Object.assign(this, { status });
+    this.status = status;
+    // embedded
+    // relations
   }
 
   /* PUBLIC INTERFACE */

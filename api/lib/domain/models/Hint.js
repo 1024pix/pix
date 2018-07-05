@@ -1,8 +1,17 @@
 class Hint {
 
-  constructor({ skillName, value } = {}) {
+  constructor({
+    // attributes
+    skillName,
+    value,
+    // embedded
+    // relations
+  } = {}) {
+    // attributes
     this.skillName = skillName;
     this.value = value;
+    // embedded
+    // relations
   }
 }
 

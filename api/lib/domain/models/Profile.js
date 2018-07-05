@@ -2,11 +2,25 @@ const _ = require('lodash');
 
 // FIXME: Cet objet a trop de responsabilité (modification des compétences)
 class Profile {
-  constructor({ user, competences, areas, lastAssessments, assessmentsCompleted, courses, organizations } = {}) {
-    this.user = user;
-    this.competences = competences;
+  constructor({
+    // attributes
+    // embedded
+    areas,
+    assessmentsCompleted,
+    competences,
+    courses,
+    lastAssessments,
+    organizations,
+    user,
+    // relations
+  } = {}) {
+    // attributes
+    // embedded
     this.areas = areas;
+    this.competences = competences;
     this.organizations = organizations;
+    this.user = user;
+    // relations
 
     this._setStatusToCompetences(lastAssessments, assessmentsCompleted, courses);
     this._setLevelAndPixScoreToCompetences(lastAssessments, courses);

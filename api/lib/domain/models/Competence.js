@@ -1,12 +1,25 @@
 class Competence {
 
-  constructor({ id, name, index, courseId, skills = [], area } = {}) {
+  constructor({
+    id,
+    // attributes
+    area,
+    name,
+    index,
+    // embedded
+    skills = [],
+    // relations
+    courseId,
+  } = {}) {
     this.id = id;
+    // attributes
+    this.area = area;
     this.name = name;
     this.index = index;
-    this.courseId = courseId; // TODO remplacer par un vrai Course
+    // embedded
     this.skills = skills; // TODO remplacer par un vrai tableau de SKills
-    this.area = area;
+    // relations
+    this.courseId = courseId; // TODO remplacer par un vrai Course
   }
 
   get reference() {

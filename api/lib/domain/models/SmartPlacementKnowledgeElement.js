@@ -16,18 +16,22 @@ class SmartPlacementKnowledgeElement {
 
   constructor({
     id,
+    // attributes
     source,
     status,
     pixScore,
-
-    // relationship Ids
+    // embedded
+    // relations
     answerId,
     skillId, // for now it is the skill name
   }) {
     this.id = id;
+    // attributes
     this.source = source;
     this.status = status;
     this.pixScore = pixScore;
+    // embedded
+    // relations
     this.answerId = answerId;
     this.skillId = skillId;
   }
