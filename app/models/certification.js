@@ -3,10 +3,13 @@ import { computed } from '@ember/object';
 
 export default DS.Model.extend({
   sessionId: DS.attr(),
+  certificationId: DS.attr(),
+  assessmentId: DS.attr(),
   firstName: DS.attr(),
   lastName: DS.attr(),
-  birthDate: DS.attr(),
-  birthPlace: DS.attr(),
+  birthdate: DS.attr(),
+  birthplace: DS.attr(),
+  externalId: DS.attr(),
   createdAt: DS.attr(),
   completedAt: DS.attr(),
   creationDate:computed('createdAt', function() {
@@ -27,8 +30,7 @@ export default DS.Model.extend({
   competences:computed('competencesWithMark', function() {
     let competencesWithMarks = this.get('competencesWithMark');
     let indexedCompetences = competencesWithMarks.reduce((result, value) => {
-      value.index = value['competence-code'];
-      result[value.index] = value;
+      result[value['competence-code']] = {index:value['competence-code'], level:value.level, score:value.score};
       return result;
     }, {});
     return Object.keys(indexedCompetences).sort().reduce((result, value) => {
