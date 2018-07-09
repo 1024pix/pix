@@ -140,7 +140,7 @@ module.exports = {
   },
 
   getOrganizationsAccesses(request, reply) {
-    const authenticatedUserId = request.auth.credentials.userId;
+    const authenticatedUserId = request.auth.credentials.userId.toString();
     const requestedUserId = request.params.id;
 
     return usecases.getUserOrganizationsAccesses({ authenticatedUserId, requestedUserId, userRepository })
@@ -153,7 +153,6 @@ module.exports = {
         }
         reply(JSONAPI.internalError('Une erreur inattendue est survenue lors de la création de la campagne')).code(500);
       });
-
   }
 };
 
