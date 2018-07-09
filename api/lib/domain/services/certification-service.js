@@ -244,13 +244,15 @@ function _getCertificationResult(assessment, ignoreError = false) {
 
 module.exports = {
 
-  calculateCertificationResultByCertificationCourseId(certificationCourseId, ignoreError = false) {
+  calculateCertificationResultByCertificationCourseId(certificationCourseId) {
+    const ignoreError = true;
     return assessmentRepository
       .getByCertificationCourseId(certificationCourseId)
       .then(assessment => _getCertificationResult(assessment, ignoreError));
   },
 
-  calculateCertificationResultByAssessmentId(assessmentId, ignoreError = false) {
+  calculateCertificationResultByAssessmentId(assessmentId) {
+    const ignoreError = false;
     return assessmentRepository
       .get(assessmentId)
       .then(assessment => _getCertificationResult(assessment, ignoreError));
