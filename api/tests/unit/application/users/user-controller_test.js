@@ -417,7 +417,6 @@ describe('Unit | Controller | user-controller', () => {
     });
   });
 
-
   describe('#getProfileToCertify', () => {
 
     let sandbox;
@@ -627,7 +626,7 @@ describe('Unit | Controller | user-controller', () => {
 
     let sandbox;
     const authenticatedUserId = 1;
-    const requestedUserId = 1;
+    const requestedUserId = '1';
     const request = {
       auth: {
         credentials: {
@@ -640,7 +639,6 @@ describe('Unit | Controller | user-controller', () => {
     };
     let codeStub;
     let replyStub;
-
 
     beforeEach(() => {
       sandbox = sinon.sandbox.create();
@@ -655,6 +653,7 @@ describe('Unit | Controller | user-controller', () => {
 
     it('should get accesses of the user passed on params', () => {
       // given
+      const stringifiedAuthenticatedUserId = authenticatedUserId.toString();
       sandbox.stub(usecases, 'getUserOrganizationsAccesses').resolves();
 
       // when
@@ -662,7 +661,11 @@ describe('Unit | Controller | user-controller', () => {
 
       // then
       return promise.then(() => {
-        expect(usecases.getUserOrganizationsAccesses).to.have.been.calledWith({requestedUserId, authenticatedUserId, userRepository});
+        expect(usecases.getUserOrganizationsAccesses).to.have.been.calledWith({
+          requestedUserId,
+          authenticatedUserId: stringifiedAuthenticatedUserId,
+          userRepository
+        });
       });
     });
 
