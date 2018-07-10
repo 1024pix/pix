@@ -29,13 +29,16 @@ const certificationCourseRepository = require('../../infrastructure/repositories
 const challengeRepository = require('../../infrastructure/repositories/challenge-repository');
 const competenceRepository = require('../../infrastructure/repositories/competence-repository');
 
-function _enhanceAnswersWithCompetenceId(listAnswers, listChallenges, ignoreError) {
+function _enhanceAnswersWithCompetenceId(listAnswers, listChallenges, continueOnError) {
   return _.map(listAnswers, (answer) => {
-    const competence = listChallenges.find((challenge) => challenge.challengeId === answer.challengeId);
-    if (!competence && !ignoreError) {
-      throw new CertificationComputeError('Problème de chargement de la compétence pour le challenge ' + answer.challengeId);
+    const challenge = listChallenges.find((challenge) => challenge.challengeId === answer.challengeId);
+    if (!challenge) {
+      if (!continueOnError) {
+        throw new CertificationComputeError('Problème de chargement de la compétence pour le challenge ' + answer.challengeId);
+      }
+    } else {
+      answer.competenceId = challenge.competenceId;
     }
-    answer.competenceId = competence.competenceId;
     return answer;
   });
 }
@@ -50,11 +53,11 @@ function _isQROCMdepPartially(challenge, answer) {
   return challengeType === qrocmDepChallenge && answer.isPartially();
 }
 
-function _numberOfCorrectAnswersPerCompetence(answersWithCompetences, competence, certificationChallenges, ignoreError) {
+function _numberOfCorrectAnswersPerCompetence(answersWithCompetences, competence, certificationChallenges, continueOnError) {
   const answerForCompetence = _.filter(answersWithCompetences, answer => answer.competenceId === competence.id);
   const challengesForCompetence = _.filter(certificationChallenges, challenge => challenge.competenceId === competence.id);
 
-  if (!ignoreError) {
+  if (!continueOnError) {
     CertificationContract.assertThatCompetenceHasEnoughChallenge(challengesForCompetence, competence.index);
 
     CertificationContract.assertThatCompetenceHasEnoughAnswers(answerForCompetence, competence.index);
@@ -64,7 +67,7 @@ function _numberOfCorrectAnswersPerCompetence(answersWithCompetences, competence
   answerForCompetence.forEach(answer => {
     const challenge = _.find(certificationChallenges, challenge => challenge.challengeId === answer.challengeId);
 
-    if (_.isUndefined(challenge) && !ignoreError) {
+    if (!challenge && !continueOnError) {
       throw new CertificationComputeError('Problème de chargement du challenge ' + answer.challengeId);
     }
 
@@ -105,9 +108,9 @@ function _getSumScoreFromCertifiedCompetences(listCompetences) {
   return _(listCompetences).map('obtainedScore').sum();
 }
 
-function _getCompetencesWithCertifiedLevelAndScore(answersWithCompetences, listCompetences, reproductibilityRate, certificationChallenges, ignoreError) {
+function _getCompetencesWithCertifiedLevelAndScore(answersWithCompetences, listCompetences, reproductibilityRate, certificationChallenges, continueOnError) {
   return listCompetences.map((competence) => {
-    const numberOfCorrectAnswers = _numberOfCorrectAnswersPerCompetence(answersWithCompetences, competence, certificationChallenges, ignoreError);
+    const numberOfCorrectAnswers = _numberOfCorrectAnswersPerCompetence(answersWithCompetences, competence, certificationChallenges, continueOnError);
     // TODO: Convertir ça en Mark ?
     return {
       name: competence.name,
@@ -146,9 +149,9 @@ function _checkIfUserCanStartACertification(userCompetences) {
     throw new UserNotAuthorizedToCertifyError();
 }
 
-function _getResult(listAnswers, certificationChallenges, testedCompetences, ignoreError) {
+function _getResult(listAnswers, certificationChallenges, testedCompetences, continueOnError) {
 
-  if (!ignoreError) {
+  if (!continueOnError) {
     CertificationContract.assertThatWeHaveEnoughAnswers(listAnswers, certificationChallenges);
   }
 
@@ -161,11 +164,11 @@ function _getResult(listAnswers, certificationChallenges, testedCompetences, ign
     };
   }
 
-  const answersWithCompetences = _enhanceAnswersWithCompetenceId(listAnswers, certificationChallenges, ignoreError);
-  const competencesWithMark = _getCompetencesWithCertifiedLevelAndScore(answersWithCompetences, testedCompetences, reproductibilityRate, certificationChallenges, ignoreError);
+  const answersWithCompetences = _enhanceAnswersWithCompetenceId(listAnswers, certificationChallenges, continueOnError);
+  const competencesWithMark = _getCompetencesWithCertifiedLevelAndScore(answersWithCompetences, testedCompetences, reproductibilityRate, certificationChallenges, continueOnError);
   const scoreAfterRating = _getSumScoreFromCertifiedCompetences(competencesWithMark);
 
-  if (!ignoreError) {
+  if (!continueOnError) {
     CertificationContract.assertThatScoreIsCoherentWithReproductibilityRate(scoreAfterRating, reproductibilityRate);
   }
 
@@ -191,7 +194,7 @@ function _getChallengeInformation(listAnswers, certificationChallenges, competen
   });
 }
 
-function _getCertificationResult(assessment, ignoreError = false) {
+function _getCertificationResult(assessment, continueOnError = false) {
   let startOfCertificationDate;
 
   return answersRepository.findByAssessment(assessment.id)
@@ -230,7 +233,7 @@ function _getCertificationResult(assessment, ignoreError = false) {
         certifChallenge.type = challenge.type || '';
       });
 
-      const result = _getResult(listAnswers, certificationChallenges, testedCompetences, ignoreError);
+      const result = _getResult(listAnswers, certificationChallenges, testedCompetences, continueOnError);
       // FIXME: Missing tests
       result.createdAt = startOfCertificationDate;
       result.userId = assessment.userId;
@@ -245,17 +248,17 @@ function _getCertificationResult(assessment, ignoreError = false) {
 module.exports = {
 
   calculateCertificationResultByCertificationCourseId(certificationCourseId) {
-    const ignoreError = true;
+    const continueOnError = true;
     return assessmentRepository
       .getByCertificationCourseId(certificationCourseId)
-      .then(assessment => _getCertificationResult(assessment, ignoreError));
+      .then(assessment => _getCertificationResult(assessment, continueOnError));
   },
 
   calculateCertificationResultByAssessmentId(assessmentId) {
-    const ignoreError = false;
+    const continueOnError = false;
     return assessmentRepository
       .get(assessmentId)
-      .then(assessment => _getCertificationResult(assessment, ignoreError));
+      .then(assessment => _getCertificationResult(assessment, continueOnError));
   },
 
   getCertificationResult(certificationCourseId) {
