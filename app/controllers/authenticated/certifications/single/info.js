@@ -8,6 +8,7 @@ export default Controller.extend({
   certification:alias('model'),
   edition:false,
   notifications: service('notification-messages'),
+  displayConfirm: false,
 
   // private properties
   _competencesCopy:null,
@@ -26,11 +27,18 @@ export default Controller.extend({
         this.set('_competencesCopy', null);
       }
     },
+    onSaveConfirm() {
+      this.set('displayConfirm', true);
+    },
+    onCancelConfirm() {
+      this.set('displayConfirm', false);
+    },
     onSave() {
+      this.set('displayConfirm', false);
       let certification = this.get('certification');
       let changedAttributes = certification.changedAttributes();
       let marksUpdateRequired = (changedAttributes.competencesWithMark)?true:false;
-      certification.save({adapterOptions:{updateMarks:false}})
+      return certification.save({adapterOptions:{updateMarks:false}})
       .then(() => {
         if (marksUpdateRequired) {
           return certification.save({adapterOptions:{updateMarks:true}});
