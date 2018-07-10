@@ -57,16 +57,26 @@
       </div>
     </div>
   </div>
-<!--
-    <div class="row">
+  <div class="row">
     <div class="col single-certification-info__actions">
       {{#if edition}}
         {{#bs-button class='single-certification-edit__button' type='secondary' size='sm' onClick=(action "onCancel")}}Annuler{{/bs-button}}
-        {{#bs-button class='single-certification-edit__button' type='primary' size='sm' onClick=(action "onSave")}}Enregistrer{{/bs-button}}
+        {{#bs-button class='single-certification-edit__button' type='primary' size='sm' onClick=(action "onSaveConfirm")}}Enregistrer{{/bs-button}}
       {{else}}
         {{#bs-button class='single-certification-edit__button' type='primary' size='sm' onClick=(action "onEdit")}}Modifier{{/bs-button}}
       {{/if}}
     </div>
   </div>
--->
+  {{#bs-modal-simple
+      title="Merci de confirmer"
+      closeTitle="Annuler"
+      submitTitle="Confirmer"
+      size=null
+      fade=false
+      open=displayConfirm
+      position="center"
+      onSubmit=(action "onSave")
+      onHide=(action "onCancelConfirm")}}
+      Souhaitez-vous mettre à jour cette certification ?
+  {{/bs-modal-simple}}
 </div>
