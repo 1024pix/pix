@@ -14,17 +14,25 @@ export default ApplicationAdapter.extend({
   },
 
   updateRecord(store, type, snapshot) {
-    let data = {}, marksData = {};
-    let requests = [];
+    let data = {};
     let serializer = store.serializerFor(type.modelName);
-    serializer.serializeIntoHash(data, type, snapshot, { includeId: true, onlyInformation:true });
-    requests.push(this.ajax(this.buildURL(type.modelName, snapshot.id, snapshot, 'updateRecord'), 'PATCH', { data: data }));
-    serializer.serializeIntoHash(marksData, type, snapshot, { includeId: true });
-    marksData.data.type = 'results';
-    marksData.data.attributes['jury-id'] = null;
-    marksData.data.attributes['emitter'] = 'Jury Pix';
-    requests.push(this.ajax(this.urlForUpdateMarks(), 'POST', { data: marksData }));
-    return Promise.all(requests);
-  }
+    if (snapshot.adapterOptions.updateMarks) {
+      serializer.serializeIntoHash(data, type, snapshot, { includeId: true});
+      data.data.type = 'results';
+      data.data.attributes['jury-id'] = null;
+      data.data.attributes['emitter'] = 'Jury Pix';
+      return this.ajax(this.urlForUpdateMarks(), 'POST', { data: data });
+    } else {
+      serializer.serializeIntoHash(data, type, snapshot, { includeId: true, onlyInformation:true  });
+      return this.ajax(this.buildURL(type.modelName, snapshot.id, snapshot, 'updateRecord'), 'PATCH', { data: data });
+    }
+  },
 
+  ajaxOptions(url, type) {
+    let hash = this._super(...arguments);
+    if (type === 'POST') {
+      hash.dataType = '*';
+    }
+    return hash;
+  }
 });
