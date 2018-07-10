@@ -56,7 +56,7 @@ function _numberOfCorrectAnswersPerCompetence(answersWithCompetences, competence
   if(!ignoreError) {
     CertificationContract.assertThatCompetenceHasEnoughChallenge(challengesForCompetence, competence.index);
 
-    CertificationContract.assertThatCompetenceHasEnoughChallenge(answerForCompetence, competence.index);
+    CertificationContract.assertThatCompetenceHasEnoughAnswers(answerForCompetence, competence.index);
   }
 
   let nbOfCorrectAnswers = 0;
