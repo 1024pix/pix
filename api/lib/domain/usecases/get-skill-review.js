@@ -11,7 +11,7 @@ module.exports = function({
 
   return smartPlacementAssessmentRepository.get(assessmentId)
     .then((assessment) => {
-      if(assessment.userId !== userId) {
+      if(`${assessment.userId}` !== `${userId}`) {
         throw new UserNotAuthorizedToAccessEntity();
       }
 
