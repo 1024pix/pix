@@ -1,11 +1,13 @@
 import Controller from '@ember/controller';
 import { alias } from '@ember/object/computed';
+import { inject as service } from '@ember/service';
 
 export default Controller.extend({
 
   // Properties
   certification:alias('model'),
   edition:false,
+  notifications: service('notification-messages'),
 
   // private properties
   _competencesCopy:null,
@@ -26,9 +28,30 @@ export default Controller.extend({
     },
     onSave() {
       let certification = this.get('certification');
-      certification.save();
-      this.set('edition', false);
-      this.set('_competencesCopy', null);
+      let changedAttributes = certification.changedAttributes();
+      let marksUpdateRequired = (changedAttributes.competencesWithMark)?true:false;
+      certification.save({adapterOptions:{updateMarks:false}})
+      .then(() => {
+        if (marksUpdateRequired) {
+          return certification.save({adapterOptions:{updateMarks:true}});
+        } else {
+          return Promise.resolve(true);
+        }
+      })
+      .then(() => {
+        this.get('notifications').success('Modifications enregistrées');
+        this.set('edition', false);
+        this.set('_competencesCopy', null);
+      })
+      .catch((e) => {
+        if (e.errors && e.errors.length > 0) {
+          e.errors.forEach((error) => {
+            this.get('notifications').error(error.detail);
+          });
+        } else {
+          this.get('notifications').error(e);
+        }
+      });
     },
     onUpdateScore(code, value) {
       this._saveCompetences();
