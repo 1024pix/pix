@@ -8,7 +8,7 @@ const Assessment = require('../../../../lib/domain/models/Assessment');
 const AssessmentResult = require('../../../../lib/domain/models/AssessmentResult');
 const CompetenceMarks = require('../../../../lib/domain/models/CompetenceMark');
 
-const { UserNotAuthorizedToCertifyError } = require('../../../../lib/domain/errors');
+const { CertificationComputeError, UserNotAuthorizedToCertifyError } = require('../../../../lib/domain/errors');
 
 const userService = require('../../../../lib/domain/services/user-service');
 const certificationChallengesService = require('../../../../lib/domain/services/certification-challenges-service');
@@ -333,6 +333,17 @@ describe('Unit | Service | Certification Service', function() {
       beforeEach(() => {
         const answers = _buildCorrectAnswersForAllChallenges();
         answersRepository.findByAssessment.resolves(answers);
+      });
+
+      it('should ignore answers with no matching challenge', function() {
+        // when
+        certificationChallengesRepository.findByCertificationCourseId.resolves([]);
+        const promise = certificationService.calculateCertificationResultByCertificationCourseId('course_id');
+
+        // then
+        return promise.then((result) => {
+          expect(result.totalScore).to.equal(0);
+        });
       });
 
       it('should return totalScore = all pix', () => {
@@ -880,6 +891,17 @@ describe('Unit | Service | Certification Service', function() {
         return promise.then((result) => {
           expect(result.totalScore).to.equal(totalPix);
         });
+      });
+
+      it('should fail if an answer has no matching challenge', function() {
+        // when
+        const answers = _buildCorrectAnswersForAllChallenges().concat([_buildAnswer('non_existing_challenge', 'ok')]);
+        answersRepository.findByAssessment.resolves(answers);
+        const promise = certificationService.calculateCertificationResultByAssessmentId('assessment_id');
+
+        // then
+        return expect(promise).to.be.rejectedWith(CertificationComputeError,
+          'Problème de chargement de la compétence pour le challenge non_existing_challenge');
       });
 
       it('should return list of competences with all certifiedLevel equal to estimatedLevel', () => {
