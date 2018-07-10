@@ -33,6 +33,7 @@
 .tutorial-panel__hint-container-body {
   display: flex;
   align-items: center;
+  margin-bottom: 10px;
 }
 
 .tutorial-panel__hint-container {
@@ -54,6 +55,7 @@
   font-family: $font-lato;
   font-size: 1.3rem;
   line-height: 2rem;
+  margin: 5px;
 }
 
 .tutorial-panel__hint-title {
