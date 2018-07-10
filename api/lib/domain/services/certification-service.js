@@ -54,17 +54,17 @@ function _isQROCMdepPartially(challenge, answer) {
 }
 
 function _numberOfCorrectAnswersPerCompetence(answersWithCompetences, competence, certificationChallenges, continueOnError) {
-  const answerForCompetence = _.filter(answersWithCompetences, answer => answer.competenceId === competence.id);
+  const answersForCompetence = _.filter(answersWithCompetences, answer => answer.competenceId === competence.id);
   const challengesForCompetence = _.filter(certificationChallenges, challenge => challenge.competenceId === competence.id);
 
   if (!continueOnError) {
     CertificationContract.assertThatCompetenceHasEnoughChallenge(challengesForCompetence, competence.index);
 
-    CertificationContract.assertThatCompetenceHasEnoughAnswers(answerForCompetence, competence.index);
+    CertificationContract.assertThatCompetenceHasEnoughAnswers(answersForCompetence, competence.index);
   }
 
   let nbOfCorrectAnswers = 0;
-  answerForCompetence.forEach(answer => {
+  answersForCompetence.forEach(answer => {
     const challenge = _.find(certificationChallenges, challenge => challenge.challengeId === answer.challengeId);
 
     if (!challenge && !continueOnError) {
@@ -72,9 +72,9 @@ function _numberOfCorrectAnswersPerCompetence(answersWithCompetences, competence
     }
 
     const answerResult = answer.result;
-    if (answerForCompetence.length < 3 && _isQROCMdepOk(challenge, answer)) {
+    if (answersForCompetence.length < 3 && _isQROCMdepOk(challenge, answer)) {
       nbOfCorrectAnswers += 2;
-    } else if (answerForCompetence.length < 3 && _isQROCMdepPartially(challenge, answer)) {
+    } else if (answersForCompetence.length < 3 && _isQROCMdepPartially(challenge, answer)) {
       nbOfCorrectAnswers++;
     } else if (AnswerStatus.isOK(answerResult)) {
       nbOfCorrectAnswers++;
@@ -195,54 +195,42 @@ function _getChallengeInformation(listAnswers, certificationChallenges, competen
 }
 
 function _getCertificationResult(assessment, continueOnError = false) {
-  let startOfCertificationDate;
-
-  return answersRepository.findByAssessment(assessment.id)
-    .then((answersByAssessments) => {
-      startOfCertificationDate = assessment.createdAt;
-      return Promise.all([answersByAssessments, certificationChallengesRepository.findByCertificationCourseId(assessment.courseId)]);
-    })
-    .then(([answersByAssessments, certificationChallenges]) => {
-      const userId = assessment.userId;
-
-      return Promise.all([
-        answersByAssessments,
-        certificationChallenges,
-        assessmentRepository.findLastCompletedAssessmentsForEachCoursesByUser(userId, startOfCertificationDate),
-        certificationCourseRepository.get(assessment.courseId),
-        competenceRepository.find(),
-        challengeRepository.list(),
-      ]);
-    })
-    .then(([listAnswers, certificationChallenges, assessmentsPositioned, certificationCourse, competences, challengesList]) => {
-      const testedCompetences = assessmentsPositioned
-        .filter(assessment => assessment.isCertifiable())
-        .map(assessment => {
-          const competenceOfAssessment = _.find(competences, competence => competence.courseId === assessment.courseId);
-          return {
-            id: competenceOfAssessment.id,
-            index: competenceOfAssessment.index,
-            name: competenceOfAssessment.name,
-            estimatedLevel: assessment.getLastAssessmentResult().level,
-            pixScore: assessment.getLastAssessmentResult().pixScore,
-          };
-        });
-
-      certificationChallenges.forEach(certifChallenge => {
-        const challenge = _.find(challengesList, challengeFromAirtable => challengeFromAirtable.id === certifChallenge.challengeId);
-        certifChallenge.type = challenge.type || '';
+  return Promise.all([
+    answersRepository.findByAssessment(assessment.id),
+    certificationChallengesRepository.findByCertificationCourseId(assessment.courseId),
+    assessmentRepository.findLastCompletedAssessmentsForEachCoursesByUser(assessment.userId, assessment.createdAt),
+    certificationCourseRepository.get(assessment.courseId),
+    competenceRepository.find(),
+    challengeRepository.list(),
+  ]).then(([assessmentAnswers, certificationChallenges, userCompletedAssessments, certificationCourse, allCompetences, allChallenges]) => {
+    const testedCompetences = userCompletedAssessments
+      .filter(assessment => assessment.isCertifiable())
+      .map(assessment => {
+        const competenceOfAssessment = _.find(allCompetences, competence => competence.courseId === assessment.courseId);
+        return {
+          id: competenceOfAssessment.id,
+          index: competenceOfAssessment.index,
+          name: competenceOfAssessment.name,
+          estimatedLevel: assessment.getLastAssessmentResult().level,
+          pixScore: assessment.getLastAssessmentResult().pixScore,
+        };
       });
 
-      const result = _getResult(listAnswers, certificationChallenges, testedCompetences, continueOnError);
-      // FIXME: Missing tests
-      result.createdAt = startOfCertificationDate;
-      result.userId = assessment.userId;
-      result.status = assessment.state;
-      result.completedAt = certificationCourse.completedAt;
-
-      result.listChallengesAndAnswers = _getChallengeInformation(listAnswers, certificationChallenges, competences);
-      return result;
+    certificationChallenges.forEach(certifChallenge => {
+      const challenge = _.find(allChallenges, challengeFromAirtable => challengeFromAirtable.id === certifChallenge.challengeId);
+      certifChallenge.type = challenge.type || '';
     });
+
+    const result = _getResult(assessmentAnswers, certificationChallenges, testedCompetences, continueOnError);
+    // FIXME: Missing tests
+    result.createdAt = assessment.createdAt;
+    result.userId = assessment.userId;
+    result.status = assessment.state;
+    result.completedAt = certificationCourse.completedAt;
+
+    result.listChallengesAndAnswers = _getChallengeInformation(assessmentAnswers, certificationChallenges, allCompetences);
+    return result;
+  });
 }
 
 module.exports = {
