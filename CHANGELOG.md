@@ -1,14 +1,23 @@
 # Pix Changelog
 
+## v1.54.0 (10/07/2018) 
+
+- [#111](https://github.com/1024pix/pix/pull/111) [FEATURE] Afficher des tutoriaux sur la page de réponse (PF-62).
+- [#113](https://github.com/1024pix/pix/pull/113) [TECH] Ajout d'une modale demandant confirmation avant de rejouer une épreuve (PF-40).
+- [#112](https://github.com/1024pix/pix/pull/112) [TECH] [LEGACY] Faire que le area-repository utilise un data source airtable (pf-191).
+- [#110](https://github.com/1024pix/pix/pull/110) [TECH] [BSR] Suppression d'une vieille route.
+- [#123](https://github.com/1024pix/pix/pull/123) [BUGFIX] Corrections du CSS pour les tutos.
+- [#121](https://github.com/1024pix/pix/pull/121) [BUGFIX] Respecter la variable DATABASE_CONNECTION_POOL_MAX_SIZE pour le pool PG en staging (PF-284).
+
 ## v1.53.0 (29/06/2018)
 
+- [#107](https://github.com/1024pix/pix/pull/107) [FEATURE] Mise à jour des acquis du profil cible pour les panels PIC (PF-105).
+- [#106](https://github.com/1024pix/pix/pull/106) [FEATURE] Ajout d'un message d'erreur dans la page de saisie du code accès d'une certification en cas de code vide (PF-19).
+- [#99](https://github.com/1024pix/pix/pull/99) [FEATURE] Modification de l'écran de fin de certif (PF-164).
 - [#109](https://github.com/1024pix/pix/pull/109) [TECH] Ajout de traces de log dans la sélection du next challenge (PF-267).
 - [#105](https://github.com/1024pix/pix/pull/105) [TECH] CI: Correction des tests en préparation d'un passage du PostgreSQL (PF-259).
-- [#91](https://github.com/1024pix/pix/pull/91) [BUGFIX] Erreur dans le calcul des certifications (PF-178).
-- [#106](https://github.com/1024pix/pix/pull/106) [FEATURE] Ajout d'un message d'erreur dans la page de saisie du code accès d'une certification en cas de code vide (PF-19).
-- [#107](https://github.com/1024pix/pix/pull/107) [FEATURES] Mise à jour des acquis du profil cible pour les panels PIC (PF-105).
-- [#99](https://github.com/1024pix/pix/pull/99) [FEATURE] Modification de l'écran de fin de certif (PF-164).
 - [#100](https://github.com/1024pix/pix/pull/100) [TECH] Corrections mineures sur les scripts de déploiement (PF-256).
+- [#91](https://github.com/1024pix/pix/pull/91) [BUGFIX] Erreur dans le calcul des certifications (PF-178).
 
 ## 1.52.0 (19/06/2018)
 
