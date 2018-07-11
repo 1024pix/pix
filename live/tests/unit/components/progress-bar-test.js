@@ -10,7 +10,7 @@ describe('Unit | Component | progress-bar', function() {
 
   describe('@progression', function() {
 
-    it('should ', function() {
+    it('should return a progression object', function() {
       // given
       const assessment = EmberObject.create({
         type: 'DEMO',
