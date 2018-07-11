@@ -8,7 +8,7 @@ describe('Unit | Model | assessment progress', function() {
 
     context('when assessment type is not "SMART_PLACEMENT"', function() {
 
-      it('should return the number of answers linked to an assessment', () => {
+      it('should return the number of current challenges', () => {
         // given
         const model = new AssessmentProgression({
           assessmentType: 'DEMO',
@@ -34,7 +34,7 @@ describe('Unit | Model | assessment progress', function() {
         });
       });
 
-      it('should return 3 if number of answers is less than 5', () => {
+      it('should return 3 if number of answers is 2 (less than 5)', () => {
         // given
         model.set('nbAnswers', 2);
 
@@ -45,7 +45,7 @@ describe('Unit | Model | assessment progress', function() {
         expect(_currentStep).to.equal(3);
       });
 
-      it('should return 4 (a modulo of 5) if number of answers is more than 5', () => {
+      it('should return 4 (a modulo of 5) if number of answers is 8 (more than 5)', () => {
         // given
         model.set('nbAnswers', 8);
 
@@ -96,7 +96,7 @@ describe('Unit | Model | assessment progress', function() {
 
   describe('@valueNow', function() {
 
-    it('should ', () => {
+    it('should return the percentage of completion', () => {
       // given
       const model = new AssessmentProgression({
         _currentStep: 2,
@@ -113,7 +113,7 @@ describe('Unit | Model | assessment progress', function() {
 
   describe('@text', function() {
 
-    it('should ', () => {
+    it('should return the text display in progression bar', () => {
       // given
       const model = new AssessmentProgression({
         _currentStep: 2,
