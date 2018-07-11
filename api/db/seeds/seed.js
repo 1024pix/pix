@@ -17,6 +17,7 @@ const listSeeds = {
     'certification-challenges',
     'snapshots',
     'campaigns',
+    'organizations-accesses',
   ],
   '4th-to-create': [
     'competence-marks',
