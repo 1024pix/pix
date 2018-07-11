@@ -11,9 +11,9 @@ class Session {
     examiner,
     room,
     time,
-    // embedded
+    // includes
     certifications,
-    // relations
+    // references
   } = {}) {
     this.id = id;
     // attributes
@@ -25,9 +25,9 @@ class Session {
     this.examiner = examiner;
     this.room = room;
     this.time = time;
-    // embedded
+    // includes
     this.certifications = certifications;
-    // relations
+    // references
   }
 }
 

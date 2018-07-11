@@ -15,21 +15,21 @@ class SmartPlacementAssessment {
     id,
     // attributes
     state,
-    // embedded
+    // includes
     answers = [], // of type SmartPlacementAnswers
     knowledgeElements = [], // of type SmartKnowledgeElements
     targetProfile,
-    // relations
+    // references
     userId,
   }) {
     this.id = id;
     // attributes
     this.state = state;
-    // embedded
+    // includes
     this.answers = answers;
     this.knowledgeElements = knowledgeElements;
     this.targetProfile = targetProfile;
-    // relations
+    // references
     this.userId = userId;
   }
 

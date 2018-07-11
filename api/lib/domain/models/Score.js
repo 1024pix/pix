@@ -6,13 +6,13 @@ class Score {
   constructor({
     // attributes
     pixScore,
-    // embedded
-    // relations
+    // includes
+    // references
   } = {}) {
     // attributes
     this.pixScore = pixScore;
-    // embedded
-    // relations
+    // includes
+    // references
   }
 
   get displayedPixScore() {

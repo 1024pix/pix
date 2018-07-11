@@ -11,11 +11,11 @@ class Course {
     isAdaptive,
     name,
     type,
-    // embedded
+    // includes
     assessment,
     competenceSkills = [],
     tubes = [],
-    // relations
+    // references
     challenges = [],
     competences = [],
   } = {}) {
@@ -26,11 +26,11 @@ class Course {
     this.imageUrl = imageUrl;
     this.isAdaptive = isAdaptive;
     this.type = type;
-    // embedded
+    // includes
     this.assessment = assessment;
     this.competenceSkills = competenceSkills;
     this.tubes = tubes;
-    // relations
+    // references
     this.challenges = challenges; // Array of Record IDs
     this.competences = competences; // Array of Record IDs
   }

@@ -40,12 +40,12 @@ class Assessment {
     createdAt,
     state,
     type,
-    // embedded
+    // includes
     answers = [],
     assessmentResults = [],
     course,
     targetProfile,
-    // relations
+    // references
     courseId,
     userId,
   } = {}) {
@@ -54,12 +54,12 @@ class Assessment {
     this.createdAt = createdAt;
     this.state = state;
     this.type = type;
-    // embedded
+    // includes
     this.answers = answers;
     this.assessmentResults = assessmentResults;
     this.course = course;
     this.targetProfile = targetProfile;
-    // relations
+    // references
     this.courseId = courseId;
     this.userId = userId;
   }

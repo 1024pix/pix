@@ -11,9 +11,9 @@ class AssessmentResult {
     level,
     pixScore,
     status,
-    // embedded
+    // includes
     competenceMarks = [],
-    // relations
+    // references
     assessmentId,
     juryId,
   } = {}) {
@@ -27,9 +27,9 @@ class AssessmentResult {
     this.level = level;
     this.pixScore = pixScore;
     this.status = status;
-    // embedded
+    // includes
     this.competenceMarks = competenceMarks;
-    // relations
+    // references
     this.assessmentId = assessmentId;
     this.juryId = juryId;
   }

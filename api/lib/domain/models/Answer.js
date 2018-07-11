@@ -10,8 +10,8 @@ class Answer {
     resultDetails,
     timeout,
     value,
-    // embedded
-    // relations
+    // includes
+    // references
     assessmentId,
     challengeId,
   } = {}) {
@@ -22,8 +22,8 @@ class Answer {
     this.resultDetails = resultDetails;
     this.timeout = timeout;
     this.value = value;
-    // embedded
-    // relations
+    // includes
+    // references
     this.assessmentId = assessmentId;
     this.challengeId = challengeId;
   }

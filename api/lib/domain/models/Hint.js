@@ -4,14 +4,14 @@ class Hint {
     // attributes
     skillName,
     value,
-    // embedded
-    // relations
+    // includes
+    // references
   } = {}) {
     // attributes
     this.skillName = skillName;
     this.value = value;
-    // embedded
-    // relations
+    // includes
+    // references
   }
 }
 

@@ -4,14 +4,14 @@ class PixRole {
     id,
     // attributes
     name,
-    // embedded
-    // relations
+    // includes
+    // references
   } = {}) {
     this.id = id;
     // attributes
     this.name = name;
-    // embedded
-    // relations
+    // includes
+    // references
   }
 }
 

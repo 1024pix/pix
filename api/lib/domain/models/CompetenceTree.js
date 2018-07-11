@@ -3,15 +3,15 @@ class CompetenceTree {
   constructor({
     id = 1,
     // attributes
-    // embedded
+    // includes
     areas = [],
-    // relations
+    // references
   } = {}) {
     this.id = id;
     // attributes
-    // embedded
+    // includes
     this.areas = areas;
-    // relations
+    // references
   }
 }
 

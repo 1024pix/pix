@@ -6,18 +6,18 @@ class Area {
     code,
     name,
     title,
-    // embedded
+    // includes
     competences = [], // list of Competence domain objects
-    // relations
+    // references
   } = {}) {
     this.id = id;
     // attributes
     this.code = code;
     this.name = name;
     this.title = title;
-    // embedded
+    // includes
     this.competences = competences;
-    // relations
+    // references
   }
 }
 

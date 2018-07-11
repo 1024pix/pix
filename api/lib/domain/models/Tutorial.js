@@ -8,8 +8,8 @@ class Tutorial {
     link,
     source,
     title
-    // embedded
-    // relations
+    // includes
+    // references
   } = {}) {
     this.id = id;
     // attributes
@@ -18,8 +18,8 @@ class Tutorial {
     this.link = link;
     this.source = source;
     this.title = title;
-    // embedded
-    // relations
+    // includes
+    // references
   }
 }
 

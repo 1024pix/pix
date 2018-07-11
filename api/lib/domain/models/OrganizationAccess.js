@@ -3,17 +3,17 @@ class OrganizationAccess {
   constructor({
     id,
     // attributes
-    // embedded
+    // includes
     organization = {},
     organizationRole = {}
-    // relations
+    // references
   } = {}) {
     this.id = id;
     // attributes
-    // embedded
+    // includes
     this.organization = organization;
     this.organizationRole = organizationRole;
-    // relations
+    // references
   }
 }
 

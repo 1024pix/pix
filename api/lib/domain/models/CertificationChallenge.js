@@ -2,12 +2,12 @@ class CertificationChallenge {
   constructor({
     _id,
     // attributes
-    // embedded
-    // relations
+    // includes
+    // references
   } = {}) {
     // attributes
-    // embedded
-    // relations
+    // includes
+    // references
   }
 
   /**

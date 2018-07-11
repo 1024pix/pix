@@ -10,14 +10,14 @@ class AnswerStatus {
   constructor({
     // attributes
     status
-    // embedded
-    // relations
+    // includes
+    // references
   } = {}) {
     // attributes
     // TODO: throw a BadAnswerStatus error if the status is bad + adapt the tests
     this.status = status;
-    // embedded
-    // relations
+    // includes
+    // references
   }
 
   /* PUBLIC INTERFACE */

@@ -9,19 +9,19 @@ class SkillReview {
   constructor({
     id,
     // attributes
-    // embedded
+    // includes
     targetedSkills = [],
     validatedSkills = [],
     failedSkills = [],
-    // relations
+    // references
   }) {
     this.id = id;
     // attributes
-    // embedded
+    // includes
     this.targetedSkills = targetedSkills;
     this.validatedSkills = validatedSkills;
     this.failedSkills = failedSkills;
-    // relations
+    // references
   }
 
   get profileMasteryRate() {

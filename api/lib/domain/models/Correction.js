@@ -8,18 +8,18 @@ class Correction {
     id,
     // attributes
     solution,
-    // embedded
+    // includes
     hints = [],
     tutorials = [],
-    // relations
+    // references
   } = {}) {
     this.id = id;
     // attributes
     this.solution = solution;
-    // embedded
+    // includes
     this.hints = hints;
     this.tutorials = tutorials;
-    // relations
+    // references
   }
 
   get relevantHint() {

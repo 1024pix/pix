@@ -16,10 +16,10 @@ class Certification {
     firstName,
     isPublished,
     lastName,
-    // embedded
+    // includes
     assessmentResults = [],
     resultCompetenceTree,
-    // relations
+    // references
     userId,
   } = {}) {
     this.id = id;
@@ -39,9 +39,9 @@ class Certification {
       this.status = mostRecentAssessmentResult.status;
       this.commentForCandidate = mostRecentAssessmentResult.commentForCandidate;
     }
-    // embedded
+    // includes
     this.resultCompetenceTree = resultCompetenceTree;
-    // relations
+    // references
     this.userId = userId;
 
   }
