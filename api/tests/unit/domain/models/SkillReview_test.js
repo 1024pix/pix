@@ -124,6 +124,21 @@ describe('Unit | Domain | Models | SkillReview', () => {
         // Then
         expect(skillReview.profileCompletionRate).to.eq(1);
       });
+
+      it('should returns a profileCompletionRate of 1 when some skills were not suited to be evaluated (too hard, no question)', () => {
+        // Given
+        const targetedSkills = [skillLevel1, skillLevel2];
+        const validatedSkills = [skillLevel1];
+        const failedSkills = [];
+        const unratableSkills = [skillLevel2];
+
+        // When
+        const skillReview = new SkillReview({ targetedSkills, validatedSkills, failedSkills, unratableSkills });
+
+        // Then
+        expect(skillReview.profileCompletionRate).to.eq(1);
+      });
+
     });
 
     context('with the skillProfile contains no skill', () => {
@@ -155,8 +170,7 @@ describe('Unit | Domain | Models | SkillReview', () => {
         expect(skillReview.profileCompletionRate).to.eq(1);
       });
 
-
-      it('should returns a progression rate of 0', () => {
+      it('should mark the completion at 100%', () => {
         // Given
         const targetedSkills = [skillLevel1];
         const validatedSkills = [];
