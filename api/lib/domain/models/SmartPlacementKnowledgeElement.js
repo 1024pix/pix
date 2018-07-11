@@ -89,12 +89,12 @@ function createDirectKnowledgeElements({ answer, associatedChallenge, targetSkil
 }
 
 function skillIsInTargetedSkills({ targetSkills }) {
-  return (skill) => _.intersectionWith(targetSkills, skill, Skill.areEqual).length > 0;
+  return (skill) => _.intersectionWith(targetSkills, [skill], Skill.areEqual).length > 0;
 }
 
 function skillIsNotAlreadyAssessed({ previouslyFailedSkills, previouslyValidatedSkills }) {
   const alreadyAssessedSkills = previouslyValidatedSkills.concat(previouslyFailedSkills);
-  return (skill) => _.intersectionWith(alreadyAssessedSkills, skill, Skill.areEqual).length === 0;
+  return (skill) => _.intersectionWith(alreadyAssessedSkills, [skill], Skill.areEqual).length === 0;
 }
 
 function enrichDirectKnowledgeElementsWithInferredKnowledgeElements({
