@@ -7,9 +7,9 @@ const ResultType = Object.freeze({
   UNIMPLEMENTED: 'unimplemented',
 });
 
-/*
- * Traduction : réponse
- * Object existant dans le cadre d'un smart placement hors calcul de la réponse suivante
+/**
+ * Traduction: Réponse
+ * Context: Object existant dans le cadre d'un smart placement hors calcul de la réponse suivante
  */
 class SmartPlacementAnswer {
 

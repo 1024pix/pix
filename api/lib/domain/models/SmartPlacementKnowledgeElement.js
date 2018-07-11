@@ -14,9 +14,9 @@ const SmartPlacementKnowledgeElementStatusType = Object.freeze({
 const validatedStatus = SmartPlacementKnowledgeElementStatusType.VALIDATED;
 const invalidatedStatus = SmartPlacementKnowledgeElementStatusType.INVALIDATED;
 
-/*
- * Traduction : élément de connaissance d'un profil exploré dans le cadre d'un smart placement
- * Object existant dans le cadre d'un smart placement hors calcul de la réponse suivante
+/**
+ * Traduction: Élément de connaissance d'un profil exploré dans le cadre d'un smart placement
+ * Context:    Object existant dans le cadre d'un smart placement hors calcul de la réponse suivante
  */
 class SmartPlacementKnowledgeElement {
 

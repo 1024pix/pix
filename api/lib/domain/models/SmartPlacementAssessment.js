@@ -5,9 +5,9 @@ const SmartPlacementAssessmentState = Object.freeze({
   STARTED: 'started',
 });
 
-/*
- * Traduction : évaluation
- * Object existant dans le cadre d'un smart placement hors calcul de la réponse suivante
+/**
+ * Traduction: Évaluation
+ * Context: Object existant dans le cadre d'un smart placement hors calcul de la réponse suivante
  */
 class SmartPlacementAssessment {
 
