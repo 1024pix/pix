@@ -329,7 +329,7 @@ describe('Unit | Route | Assessments.ChallengeRoute', function() {
         });
       });
 
-      it('should redirect to checkpoint before the rating on the last serie of 5', function() {
+      it('should redirect to rating after the last serie of questions', function() {
         // given
         const assessmentId = 947;
         const assessment = EmberObject.create({ id: assessmentId, answers: [answerToChallengeOne], hasCheckpoints: true });

@@ -59,8 +59,10 @@ $mandy-red: #E14956;
 $mexican-red: #ac2925;
 
 $pure-orange: #f45c00;
+$purple: #8A49FF;
 
 /*
   Gradients
  */
 $pix-blue-gradient: linear-gradient(to bottom, $dogder-blue, $strong-blue);
+$pix-blue-to-purple-gradient: linear-gradient(to right, $dogder-blue, $purple);
