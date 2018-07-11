@@ -8,14 +8,20 @@ class SkillReview {
 
   constructor({
     id,
+    // attributes
+    // includes
     targetedSkills = [],
     validatedSkills = [],
     failedSkills = [],
+    // references
   }) {
     this.id = id;
+    // attributes
+    // includes
     this.targetedSkills = targetedSkills;
     this.validatedSkills = validatedSkills;
     this.failedSkills = failedSkills;
+    // references
   }
 
   get profileMasteryRate() {

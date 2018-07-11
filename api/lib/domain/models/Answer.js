@@ -10,19 +10,20 @@ class Answer {
     resultDetails,
     timeout,
     value,
-
-    // relationship Ids
+    // includes
+    // references
     assessmentId,
     challengeId,
   } = {}) {
     this.id = id;
-
+    // attributes
     this.elapsedTime = elapsedTime;
     this.result = AnswerStatus.from(result);
     this.resultDetails = resultDetails;
     this.timeout = timeout;
     this.value = value;
-
+    // includes
+    // references
     this.assessmentId = assessmentId;
     this.challengeId = challengeId;
   }

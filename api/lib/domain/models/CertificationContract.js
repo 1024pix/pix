@@ -1,9 +1,6 @@
 const { CertificationComputeError } = require('../../../lib/domain/errors');
 
 class CertificationRules {
-  constructor() {
-  }
-
   /* PUBLIC INTERFACE */
   static assertThatWeHaveEnoughAnswers(listAnswers, listChallenges) {
     if (listAnswers.length < listChallenges.length) {

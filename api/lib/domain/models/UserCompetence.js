@@ -2,12 +2,22 @@ const _ = require('lodash');
 
 class UserCompetence {
 
-  constructor({ id, index, name } = {}) {
+  constructor({
+    id,
+    // attributes
+    index,
+    name,
+    // includes
+    // references
+  } = {}) {
     this.id = id;
+    // attributes
     this.index = index;
     this.name = name;
+    // includes
     this.skills = [];
     this.challenges = [];
+    // references
   }
 
   addSkill(newSkill) {

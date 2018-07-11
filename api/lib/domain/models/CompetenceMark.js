@@ -13,17 +13,23 @@ const schemaValidateCompetenceMark = Joi.object().keys({
 class CompetenceMark {
   constructor({
     id,
-    level,
-    score,
+    // attributes
     area_code,
     competence_code,
+    level,
+    score,
+    // includes
+    // references
     assessmentResultId,
   } = {}) {
     this.id = id;
-    this.level = level;
-    this.score = score;
+    // attributes
     this.area_code = area_code;
     this.competence_code = competence_code;
+    this.level = level;
+    this.score = score;
+    // includes
+    // references
     this.assessmentResultId = assessmentResultId;
   }
 
