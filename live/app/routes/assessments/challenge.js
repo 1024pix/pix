@@ -82,12 +82,6 @@ export default BaseRoute.extend({
           this.transitionTo('assessments.challenge', { assessment, challenge: nextChallenge });
         })
         .catch(() => {
-          if(assessment.get('hasCheckpoints')) {
-            return this.transitionTo('assessments.checkpoint', assessment.get('id'), {
-              queryParams: { finalCheckpoint: true }
-            });
-          }
-
           this.transitionTo('assessments.rating', assessment.get('id'));
         });
     }
