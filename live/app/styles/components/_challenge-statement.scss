@@ -9,6 +9,17 @@
   font-weight: $font-heavy;
 }
 
+.challenge-statement__instruction a {
+  text-decoration: underline;
+  color: $pix-blue;
+
+  &:active,
+  &:focus,
+  &:hover {
+    color: $strong-blue;
+  }
+}
+
 .challenge-statement__instruction-section {
   font-size: 15px;
 
