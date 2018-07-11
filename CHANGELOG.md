@@ -1,13 +1,16 @@
 # Pix Changelog
 
-## v1.54.0 (10/07/2018) 
+## v1.54.0 (10/07/2018)
 
+- [#116](https://github.com/1024pix/pix/pull/116) [FEATURE] Ajout d'une phrase sous les tuto (PF-281).
+- [#120](https://github.com/1024pix/pix/pull/120) [FEATURE] Correction wording sur tutoriels (PF-283).
+- [#103](https://github.com/1024pix/pix/pull/103) [FEATURE] Affiche le pourcentage de maitrise du profile cible (PF-94).
 - [#111](https://github.com/1024pix/pix/pull/111) [FEATURE] Afficher des tutoriaux sur la page de réponse (PF-62).
-- [#113](https://github.com/1024pix/pix/pull/113) [TECH] Ajout d'une modale demandant confirmation avant de rejouer une épreuve (PF-40).
-- [#112](https://github.com/1024pix/pix/pull/112) [TECH] [LEGACY] Faire que le area-repository utilise un data source airtable (pf-191).
-- [#110](https://github.com/1024pix/pix/pull/110) [TECH] [BSR] Suppression d'une vieille route.
-- [#123](https://github.com/1024pix/pix/pull/123) [BUGFIX] Corrections du CSS pour les tutos.
+- [#113](https://github.com/1024pix/pix/pull/113) [FEATURE] Ajout d'une modale demandant confirmation avant de rejouer une épreuve (PF-40).
 - [#121](https://github.com/1024pix/pix/pull/121) [BUGFIX] Respecter la variable DATABASE_CONNECTION_POOL_MAX_SIZE pour le pool PG en staging (PF-284).
+- [#123](https://github.com/1024pix/pix/pull/123) [BUGFIX] Corrections du CSS pour les tutos.
+- [#112](https://github.com/1024pix/pix/pull/112) [TECH] Faire que le area-repository utilise un data source airtable (PF-191).
+- [#110](https://github.com/1024pix/pix/pull/110) [BSR] Suppression d'une vieille route.
 
 ## v1.53.0 (29/06/2018)
 
