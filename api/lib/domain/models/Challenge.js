@@ -18,7 +18,8 @@ class Challenge {
     status,
     timer,
     type,
-    // relations
+    // includes
+    // references
     skills = [],
   } = {}) {
     this.id = id;
@@ -35,7 +36,8 @@ class Challenge {
     this.timer = timer;
     this.status = status;
     this.type = type;
-    // relations
+    // includes
+    // references
     this.skills = skills;
   }
 

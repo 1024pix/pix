@@ -2,17 +2,21 @@ class Session {
 
   constructor({
     id,
+    // attributes
     accessCode,
     address,
     certificationCenter,
-    certifications,
     date,
     description,
     examiner,
     room,
     time,
+    // includes
+    certifications,
+    // references
   } = {}) {
     this.id = id;
+    // attributes
     this.accessCode = accessCode;
     this.address = address;
     this.certificationCenter = certificationCenter;
@@ -21,8 +25,9 @@ class Session {
     this.examiner = examiner;
     this.room = room;
     this.time = time;
-
+    // includes
     this.certifications = certifications;
+    // references
   }
 }
 

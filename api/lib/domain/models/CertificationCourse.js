@@ -1,5 +1,13 @@
 class CertificationCourse {
-  constructor(_ = {}) {
+  constructor({
+    _id,
+    // attributes
+    // includes
+    // references
+  } = {}) {
+    // attributes
+    // includes
+    // references
   }
 
   /**

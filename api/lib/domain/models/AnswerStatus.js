@@ -7,9 +7,17 @@ const PARTIALLY = 'partially';
 const UNIMPLEMENTED = 'unimplemented';
 
 class AnswerStatus {
-  constructor(status) {
+  constructor({
+    // attributes
+    status
+    // includes
+    // references
+  } = {}) {
+    // attributes
     // TODO: throw a BadAnswerStatus error if the status is bad + adapt the tests
-    Object.assign(this, { status });
+    this.status = status;
+    // includes
+    // references
   }
 
   /* PUBLIC INTERFACE */
@@ -23,12 +31,12 @@ class AnswerStatus {
   isUNIMPLEMENTED() { return this.status === UNIMPLEMENTED; }
 
   /* PUBLIC CONSTRUCTORS */
-  static get OK()             { return new AnswerStatus(OK); }
-  static get KO()             { return new AnswerStatus(KO); }
-  static get SKIPPED()        { return new AnswerStatus(SKIPPED); }
-  static get TIMEDOUT()       { return new AnswerStatus(TIMEDOUT); }
-  static get PARTIALLY()      { return new AnswerStatus(PARTIALLY); }
-  static get UNIMPLEMENTED()  { return new AnswerStatus(UNIMPLEMENTED); }
+  static get OK()             { return new AnswerStatus({ status: OK }); }
+  static get KO()             { return new AnswerStatus({ status: KO }); }
+  static get SKIPPED()        { return new AnswerStatus({ status: SKIPPED }); }
+  static get TIMEDOUT()       { return new AnswerStatus({ status: TIMEDOUT }); }
+  static get PARTIALLY()      { return new AnswerStatus({ status: PARTIALLY }); }
+  static get UNIMPLEMENTED()  { return new AnswerStatus({ status: UNIMPLEMENTED }); }
 
   /* METHODES DE TRANSITION */
   static isFailed(otherResult) { return AnswerStatus.from(otherResult).isFailed(); }
@@ -43,7 +51,7 @@ class AnswerStatus {
     if (other instanceof AnswerStatus) {
       return other;
     } else {
-      return new AnswerStatus(other);
+      return new AnswerStatus({ status: other });
     }
   }
 }

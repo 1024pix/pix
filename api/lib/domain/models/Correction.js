@@ -4,11 +4,22 @@ function _byLowestSkillName(hintA, hintB) {
 
 class Correction {
 
-  constructor({ id, solution, hints = [], tutorials = [] } = {}) {
+  constructor({
+    id,
+    // attributes
+    solution,
+    // includes
+    hints = [],
+    tutorials = [],
+    // references
+  } = {}) {
     this.id = id;
+    // attributes
     this.solution = solution;
+    // includes
     this.hints = hints;
     this.tutorials = tutorials;
+    // references
   }
 
   get relevantHint() {
