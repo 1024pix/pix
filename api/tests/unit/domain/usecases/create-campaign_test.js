@@ -55,6 +55,20 @@ describe('Unit | UseCase | create-campaign', () => {
     return expect(promise).to.be.rejectedWith(UserNotAuthorizedToCreateCampaignError);
   });
 
+  it('should not check if user do have an access to the campaign organization if organization is not given', () => {
+    // given
+    campaignToCreate.organizationId = null;
+    campaignValidator.validate.resolves();
+    campaignCodeGenerator.generate.resolves(availableCampaignCode);
+    campaignRepository.save.resolves(savedCampaign);
+
+    // when
+    const promise = usecases.createCampaign({ campaign: campaignToCreate, campaignRepository, userRepository });
+
+    // then
+    return expect(promise).to.be.fulfilled;
+  });
+
   it('should generate a new code to the campaign', () => {
     // given
     campaignValidator.validate.resolves();
