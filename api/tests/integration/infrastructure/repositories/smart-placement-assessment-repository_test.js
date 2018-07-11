@@ -1,7 +1,8 @@
 const {
-  expect, sinon, knex, insertUserWithStandardRole, cleanupUsersAndPixRolesTables, factory,
+  expect, sinon, knex, insertUserWithStandardRole, cleanupUsersAndPixRolesTables, factory, databaseBuilder,
 } = require('../../../test-helper');
 
+const Assessment = require('../../../../lib/domain/models/Assessment');
 const challengeDatasource = require('../../../../lib/infrastructure/datasources/airtable/challenge-datasource');
 const Skill = require('../../../../lib/domain/models/Skill');
 const SmartPlacementAnswer = require('../../../../lib/domain/models/SmartPlacementAnswer');
@@ -31,6 +32,7 @@ describe('Integration | Repository | SmartPlacementAssessmentRepository', () => 
   describe('#get', () => {
 
     const assessmentId = 100;
+    const notSmartPlacementAssessmentId = 222;
     const firstAnswerId = 1;
     const secondAnswerId = 2;
     const web1SkillName = '@web1';
@@ -89,10 +91,45 @@ describe('Integration | Repository | SmartPlacementAssessmentRepository', () => 
       skills: [secondSkillName],
     });
 
+    beforeEach(() => {
+      challengeDatasource.get.onFirstCall().resolves(firstChallengeDO);
+      challengeDatasource.get.onSecondCall().resolves(secondChallengeDO);
+      targetProfileRepository.get.resolves(targetProfile);
+
+      databaseBuilder.factory.buildAssessment({
+        id: assessmentId,
+        type: Assessment.types.SMARTPLACEMENT,
+        userId: 4444,
+      });
+      databaseBuilder.factory.buildAssessment({
+        id: notSmartPlacementAssessmentId,
+        type: Assessment.types.PLACEMENT,
+      });
+      databaseBuilder.factory.buildAnswer({
+        id: firstAnswerId,
+        result: 'ko',
+        assessmentId: assessmentId,
+        challengeId: firstChallengeDO.id,
+      });
+      databaseBuilder.factory.buildAnswer({
+        id: secondAnswerId,
+        result: 'ok',
+        assessmentId: assessmentId,
+        challengeId: secondChallengeDO.id,
+      });
+      databaseBuilder.factory.buildAnswer({
+        id: notForAssessmentAnswerId,
+        result: 'ok',
+        challengeId: secondChallengeDO.id,
+      });
+
+      return insertUserWithStandardRole()
+        .then(() => databaseBuilder.commit());
+    });
+
     afterEach(() => {
       return cleanupUsersAndPixRolesTables()
-        .then(() => knex('assessments').delete())
-        .then(() => knex('answers').delete());
+        .then(() => databaseBuilder.clean());
     });
 
     it('should throw a not found error if the assessment does not exist', () => {

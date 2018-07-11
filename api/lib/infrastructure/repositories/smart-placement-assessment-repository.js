@@ -1,5 +1,6 @@
 const BookshelfAssessment = require('../../infrastructure/data/assessment');
 const challengeDatasource = require('../datasources/airtable/challenge-datasource');
+const Assessment = require('../../domain/models/Assessment');
 const Skill = require('../../domain/models/Skill');
 const SmartPlacementAnswer = require('../../domain/models/SmartPlacementAnswer');
 const SmartPlacementAssessment = require('../../domain/models/SmartPlacementAssessment');
@@ -8,6 +9,32 @@ const SmartPlacementKnowledgeElement = require('../../domain/models/SmartPlaceme
 const targetProfileRepository = require('./target-profile-repository');
 const _ = require('lodash');
 const { NotFoundError } = require('../../domain/errors');
+
+module.exports = {
+
+  get(assessmentId) {
+    return BookshelfAssessment
+      .where({ id: assessmentId })
+      .fetch({
+        require: true,
+        withRelated: [
+          'answers',
+        ],
+      })
+      .then(checkIsSmartPlacement)
+      .then(getChallengeAirtableDataObject)
+      .then(toDomain)
+      .catch(mapNotFoundErrorToDomainError(assessmentId));
+  },
+};
+
+function checkIsSmartPlacement(bookshelfAssessment) {
+  if (bookshelfAssessment.get('type') !== Assessment.types.SMARTPLACEMENT) {
+    throw new NotFoundError(`Not found Smart Placement Assessment for ID ${bookshelfAssessment.get('id')}`);
+  } else {
+    return bookshelfAssessment;
+  }
+}
 
 function getChallengeAirtableDataObject(bookshelfAssessment) {
 
@@ -151,25 +178,12 @@ function createKnowledgeElements({ answers, challengeAirtableDataObjects, target
   return knowledgeElementsWithInfered;
 }
 
-module.exports = {
-
-  get(assessmentId) {
-    return BookshelfAssessment
-      .where({ id: assessmentId })
-      .fetch({
-        require: true,
-        withRelated: [
-          'answers',
-        ],
-      })
-      .then(getChallengeAirtableDataObject)
-      .then(toDomain)
-      .catch((err) => {
-        if (err instanceof BookshelfAssessment.NotFoundError) {
-          throw new NotFoundError(`Not found Assessment for ID ${assessmentId}`);
-        } else {
-          throw err;
-        }
-      });
-  },
-};
+function mapNotFoundErrorToDomainError(assessmentId) {
+  return (err) => {
+    if (err instanceof BookshelfAssessment.NotFoundError) {
+      throw new NotFoundError(`Not found Smart Placement Assessment for ID ${assessmentId}`);
+    } else {
+      throw err;
+    }
+  };
+}
