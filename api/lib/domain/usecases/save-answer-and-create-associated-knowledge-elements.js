@@ -1,12 +1,13 @@
-const { ChallengeAlreadyAnsweredError } = require('../errors');
+const { ChallengeAlreadyAnsweredError, NotFoundError } = require('../errors');
 const Answer = require('../models/Answer');
-// const KnowledgeElement = require('../models/SmartPlacementKnowledgeElement');
+const KnowledgeElement = require('../models/SmartPlacementKnowledgeElement');
 
 module.exports = function({
   answer,
   answerRepository,
+  challengeRepository,
   smartPlacementAssessmentRepository,
-  // smartPlacementKnowledgeElementRepository,
+  smartPlacementKnowledgeElementRepository,
   solutionRepository,
   solutionService,
 } = {}) {
@@ -40,8 +41,40 @@ module.exports = function({
     .then((answer) => {
       return smartPlacementAssessmentRepository
         .get(answer.assessmentId)
-        .catch(() => {
-          return answer;
-        });
+        .then(saveKnowledgeElements({ answer, challengeRepository, smartPlacementKnowledgeElementRepository }))
+        .catch(absorbeSmartAssessmentNotFoundError)
+        .then(() => answer);
     });
 };
+
+function saveKnowledgeElements({ answer, challengeRepository, smartPlacementKnowledgeElementRepository }) {
+  return (assessment) => {
+    return Promise.all([
+      assessment,
+      challengeRepository.get(answer.challengeId),
+    ])
+      .then(([assessment, challenge]) => {
+        return KnowledgeElement.createKnowledgeElementsForAnswer({
+          answer,
+          associatedChallenge: challenge,
+          previouslyFailedSkills: assessment.failedSkills,
+          previouslyValidatedSkills: assessment.validatedSkills,
+          targetSkills: assessment.targetProfile.skills,
+        });
+      })
+      .then((knowledgeElements) => {
+        const saveknowledgeElementPromises = knowledgeElements.map((knowledgeElement) => {
+          return smartPlacementKnowledgeElementRepository.save(knowledgeElement);
+        });
+        return Promise.all(saveknowledgeElementPromises);
+      });
+  };
+}
+
+function absorbeSmartAssessmentNotFoundError(error) {
+  if (error instanceof NotFoundError) {
+    return;
+  } else {
+    throw error;
+  }
+}
