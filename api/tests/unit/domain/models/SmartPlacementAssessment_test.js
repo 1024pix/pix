@@ -47,10 +47,11 @@ function generateSmartPlacementAssessmentDataWithThreeKnowledgeElements({
   const answer2 = factory.buildSmartPlacementAnswer({
     result: answerStatusForKnowledgeElementStatus(knowledgeElement2Status),
   });
+
   const knowledgeElement2 = factory.buildSmartPlacementKnowledgeElement({
     answerId: answer2.id,
     skillId: skill2.name,
-    status: SmartPlacementKnowledgeElement.StatusType.INVALIDATED,
+    status: knowledgeElement2Status,
   });
 
   const answer3 = factory.buildSmartPlacementAnswer({
@@ -59,7 +60,7 @@ function generateSmartPlacementAssessmentDataWithThreeKnowledgeElements({
   const knowledgeElement3 = factory.buildSmartPlacementKnowledgeElement({
     answerId: answer3.id,
     skillId: skill3.name,
-    status: SmartPlacementKnowledgeElement.StatusType.VALIDATED,
+    status: knowledgeElement3Status,
   });
 
   return {
@@ -203,6 +204,60 @@ describe('Unit | Domain | Models | SmartPlacementAssessment', () => {
     });
   });
 
+  describe('#getUnratableSkills', () => {
+
+    context('when the assessment is STARTED', () => {
+      it('should return an empty array', () => {
+        // given
+        const { assessment } =
+          generateSmartPlacementAssessmentDataWithThreeKnowledgeElements({
+            knowledgeElement1Status: SmartPlacementKnowledgeElement.StatusType.INVALIDATED,
+            knowledgeElement2Status: SmartPlacementKnowledgeElement.StatusType.VALIDATED,
+          });
+
+        assessment.state = SmartPlacementAssessment.State.STARTED;
+
+        // when
+        const unratableSkills = assessment.getUnratableSkills();
+
+        // then
+        expect(unratableSkills).to.deep.equal([]);
+      });
+
+    });
+
+    context('when the assessment is COMPLETED', () => {
+      it('should return a list of unratable skills', () => {
+        // given
+        const validatedSkill = factory.buildSkill({ name: '@good2' });
+        const unratableSkill = factory.buildSkill({ name: '@ignored5' });
+
+        const targetProfile = factory.buildTargetProfile({ skills: [validatedSkill, unratableSkill] });
+
+        const knowledgeElementForGood2 = factory.buildSmartPlacementKnowledgeElement({
+          answerId: -1,
+          skillId: validatedSkill.name,
+          status: SmartPlacementKnowledgeElement.StatusType.VALIDATED,
+          source: SmartPlacementKnowledgeElement.SourceType.DIRECT,
+        });
+
+        const assessment = factory.buildSmartPlacementAssessment({
+          answers: [],
+          knowledgeElements: [ knowledgeElementForGood2 ],
+          targetProfile,
+        });
+
+        // when
+        const unratableSkills = assessment.getUnratableSkills();
+
+        // then
+        expect(unratableSkills).to.deep.equal([
+          unratableSkill,
+        ]);
+      });
+    });
+  });
+
   describe('#generateSkillReview', () => {
 
     it('should return a skill review with the right skills', () => {
@@ -210,7 +265,7 @@ describe('Unit | Domain | Models | SmartPlacementAssessment', () => {
       const { assessment } =
         generateSmartPlacementAssessmentDataWithThreeKnowledgeElements({
           knowledgeElement1Status: SmartPlacementKnowledgeElement.StatusType.INVALIDATED,
-          knowledgeElement2Status: SmartPlacementKnowledgeElement.StatusType.INVALIDATED,
+          knowledgeElement2Status: SmartPlacementKnowledgeElement.StatusType.UNRATABLE,
           knowledgeElement3Status: SmartPlacementKnowledgeElement.StatusType.VALIDATED,
         });
 
@@ -223,6 +278,7 @@ describe('Unit | Domain | Models | SmartPlacementAssessment', () => {
       expect(skillReview.targetedSkills).to.be.deep.equal(assessment.targetProfile.skills);
       expect(skillReview.validatedSkills).to.be.deep.equal(assessment.getValidatedSkills());
       expect(skillReview.failedSkills).to.be.deep.equal(assessment.getFailedSkills());
+      expect(skillReview.unratableSkills).to.be.deep.equal(assessment.getUnratableSkills());
     });
   });
 });

@@ -57,13 +57,28 @@ class SmartPlacementAssessment {
       .map((skillId) => this.targetProfile.skills.find((skill) => skill.name === skillId));
   }
 
-  generateSkillReview() {
+  getUnratableSkills() {
+    if(this.state !== SmartPlacementAssessment.State.COMPLETED) {
+      return [];
+    }
 
+    return this.targetProfile.skills.filter((skillInProfile) => {
+
+      const matchingSkillKnowledgeElement = this.knowledgeElements.find((knowledgeElement) => {
+        return knowledgeElement.skillId === skillInProfile.name;
+      });
+
+      return (!matchingSkillKnowledgeElement);
+    });
+  }
+
+  generateSkillReview() {
     return new SkillReview({
       id: SkillReview.generateIdFromAssessmentId(this.id),
       targetedSkills: this.targetProfile.skills,
       validatedSkills: this.getValidatedSkills(),
       failedSkills: this.getFailedSkills(),
+      unratableSkills: this.getUnratableSkills(),
     });
   }
 }
