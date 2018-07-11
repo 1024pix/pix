@@ -4,7 +4,7 @@ const _ = require('lodash');
 class Profile {
   constructor({
     // attributes
-    // embedded
+    // includes
     areas,
     assessmentsCompleted,
     competences,
@@ -12,15 +12,15 @@ class Profile {
     lastAssessments,
     organizations,
     user,
-    // relations
+    // references
   } = {}) {
     // attributes
-    // embedded
+    // includes
     this.areas = areas;
     this.competences = competences;
     this.organizations = organizations;
     this.user = user;
-    // relations
+    // references
 
     this._setStatusToCompetences(lastAssessments, assessmentsCompleted, courses);
     this._setLevelAndPixScoreToCompetences(lastAssessments, courses);

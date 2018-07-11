@@ -1,14 +1,14 @@
 class TargetProfile {
   constructor({
     // attributes
-    // embedded
+    // includes
     skills = []
-    // relations
+    // references
   } = {}) {
     // attributes
-    // embedded
+    // includes
     this.skills = skills;
-    // relations
+    // references
   }
 }
 

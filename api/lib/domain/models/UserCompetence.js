@@ -7,17 +7,17 @@ class UserCompetence {
     // attributes
     index,
     name,
-    // embedded
-    // relations
+    // includes
+    // references
   } = {}) {
     this.id = id;
     // attributes
     this.index = index;
     this.name = name;
-    // embedded
+    // includes
     this.skills = [];
     this.challenges = [];
-    // relations
+    // references
   }
 
   addSkill(newSkill) {

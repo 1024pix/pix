@@ -6,8 +6,8 @@ class ResultCompetence {
     level,
     name,
     score,
-    // embedded
-    // relations
+    // includes
+    // references
   } = {}) {
     this.id = id;
     // attributes
@@ -15,8 +15,8 @@ class ResultCompetence {
     this.level = level;
     this.name = name;
     this.score = score;
-    // embedded
-    // relations
+    // includes
+    // references
   }
 }
 

@@ -22,8 +22,8 @@ class Solution {
     scoring,
     type,
     value,
-    // embedded
-    // relations
+    // includes
+    // references
   } = {}) {
     this.id = id;
     // attributes
@@ -33,8 +33,8 @@ class Solution {
     this.scoring = scoring;
     this.type = type;
     this.value = value;
-    // embedded
-    // relations
+    // includes
+    // references
   }
 
   get enabledTreatments() {

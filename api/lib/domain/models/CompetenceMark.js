@@ -18,8 +18,8 @@ class CompetenceMark {
     competence_code,
     level,
     score,
-    // embedded
-    // relations
+    // includes
+    // references
     assessmentResultId,
   } = {}) {
     this.id = id;
@@ -28,8 +28,8 @@ class CompetenceMark {
     this.competence_code = competence_code;
     this.level = level;
     this.score = score;
-    // embedded
-    // relations
+    // includes
+    // references
     this.assessmentResultId = assessmentResultId;
   }
 

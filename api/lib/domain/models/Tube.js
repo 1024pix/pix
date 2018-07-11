@@ -2,14 +2,14 @@ class Tube {
 
   constructor({
     // attributes
-    // embedded
+    // includes
     skills = []
-    // relations
+    // references
   } = {}) {
     // attributes
-    // embedded
+    // includes
     this.skills = skills;
-    // relations
+    // references
 
     this.name = (skills.length > 0) ? skills[0].tubeName : '';
   }

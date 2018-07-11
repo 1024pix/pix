@@ -20,8 +20,8 @@ class SmartPlacementKnowledgeElement {
     source,
     status,
     pixScore,
-    // embedded
-    // relations
+    // includes
+    // references
     answerId,
     skillId, // for now it is the skill name
   }) {
@@ -30,8 +30,8 @@ class SmartPlacementKnowledgeElement {
     this.source = source;
     this.status = status;
     this.pixScore = pixScore;
-    // embedded
-    // relations
+    // includes
+    // references
     this.answerId = answerId;
     this.skillId = skillId;
   }

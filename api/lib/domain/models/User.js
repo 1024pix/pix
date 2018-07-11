@@ -10,10 +10,10 @@ class User {
     firstName,
     lastName,
     password,
-    // embedded
+    // includes
     organizationsAccesses = [],
     pixRoles = [],
-    // relations
+    // references
   } = {}) {
     this.id = id;
     // attributes
@@ -22,10 +22,10 @@ class User {
     this.email = _.toLower(email);
     this.password = password;
     this.cgu = cgu;
-    // embedded
+    // includes
     this.pixRoles = pixRoles;
     this.organizationsAccesses = organizationsAccesses;
-    // relations
+    // references
   }
 
   get hasRolePixMaster() {

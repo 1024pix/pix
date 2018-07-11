@@ -3,14 +3,14 @@ class Authentication {
   constructor({
     // attributes
     token,
-    // embedded
-    // relations
+    // includes
+    // references
     userId,
   } = {}) {
     // attributes
     this.token = token;
-    // embedded
-    // relations
+    // includes
+    // references
     this.userId = userId;
   }
 

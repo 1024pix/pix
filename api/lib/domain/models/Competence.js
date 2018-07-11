@@ -6,9 +6,9 @@ class Competence {
     area,
     name,
     index,
-    // embedded
+    // includes
     skills = [],
-    // relations
+    // references
     courseId,
   } = {}) {
     this.id = id;
@@ -16,9 +16,9 @@ class Competence {
     this.area = area;
     this.name = name;
     this.index = index;
-    // embedded
+    // includes
     this.skills = skills; // TODO remplacer par un vrai tableau de SKills
-    // relations
+    // references
     this.courseId = courseId; // TODO remplacer par un vrai Course
   }
 

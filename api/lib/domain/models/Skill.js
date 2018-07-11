@@ -3,13 +3,13 @@ class Skill {
   constructor({
     // attributes
     name
-    // embedded
-    // relations
+    // includes
+    // references
   } = {}) {
     // attributes
     this.name = name;
-    // embedded
-    // relations
+    // includes
+    // references
   }
 
   get difficulty() {

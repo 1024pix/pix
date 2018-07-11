@@ -7,9 +7,9 @@ class Organization {
     email,
     name,
     type,
-    // embedded
+    // includes
     user
-    // relations
+    // references
   } = {}) {
     this.id = id;
     // attributes
@@ -17,9 +17,9 @@ class Organization {
     this.name = name;
     this.type = type;
     this.email = email;
-    // embedded
+    // includes
     this.user = user;
-    // relations
+    // references
   }
 }
 
