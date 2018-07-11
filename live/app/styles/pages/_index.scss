@@ -3,9 +3,7 @@
  - General
  - Hero
  - Challenges
- - Community
  - Features
- - Partners
 –––––––––––––––––––––––––––––––––––––––––––––––––– */
 
 .index-page__background {
@@ -234,49 +232,6 @@
   max-width: 1200px;
 }
 
-/* Community
-–––––––––––––––––––––––––––––––––––––––––––––––––– */
-
-.index-page-community {
-  height: 500px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  color: $white;
-  background: url("/images/index-community-bg-min.jpg");
-  background-size: cover;
-}
-
-.index-page-community__title {
-  font-size: 24px;
-  font-family: $font-raleway;
-  font-weight: $font-bold;
-  text-align: center;
-  color: white;
-  text-transform: uppercase;
-  margin: 0;
-
-  @include device-is('desktop') {
-    font-size: 36px;
-    font-weight: $font-extra-bold;
-    margin-top: 70px;
-  }
-}
-
-.index-page-community__description {
-  margin-top: 10px;
-  margin-bottom: 0;
-  font-family: $font-raleway;
-  font-size: 28px;
-  max-width: 600px;
-  text-align: center;
-  font-weight: $font-light;
-}
-
-.index-page-community__form {
-  margin-top: 70px;
-}
-
 /* Features
 –––––––––––––––––––––––––––––––––––––––––––––––––– */
 
@@ -310,11 +265,4 @@
   @include device-is('desktop') {
     font-size: 13px;
   }
-}
-
-/* Partners
-–––––––––––––––––––––––––––––––––––––––––––––––––– */
-
-.index-page-partners {
-  background: $alabaster-grey;
 }
