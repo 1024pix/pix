@@ -29,6 +29,7 @@ class SmartPlacementKnowledgeElement {
     // includes
     // references
     answerId,
+    assessmentId,
     skillId, // for now it is the skill name
   }) {
     this.id = id;
@@ -39,6 +40,7 @@ class SmartPlacementKnowledgeElement {
     // includes
     // references
     this.answerId = answerId;
+    this.assessmentId = assessmentId;
     this.skillId = skillId;
   }
 
@@ -84,7 +86,7 @@ function createDirectKnowledgeElements({ answer, associatedChallenge, targetSkil
     .filter(skillIsNotAlreadyAssessed({ previouslyFailedSkills, previouslyValidatedSkills }))
     .map((skill) => {
       const source = SmartPlacementKnowledgeElement.SourceType.DIRECT;
-      return createKnowledgeElementsForSkill({ skill, source, status, answerId: answer.id });
+      return createKnowledgeElementsForSkill({ skill, source, status, answer });
     });
 }
 
@@ -150,7 +152,7 @@ function createInferredValidatedKnowledgeElement({ answer, skillToInfer }) {
     skill: skillToInfer,
     source,
     status: validatedStatus,
-    answerId: answer.id,
+    answer,
   });
 }
 
@@ -161,16 +163,17 @@ function createInferredInvalidatedKnowledgeElement({ answer, skillToInfer }) {
     skill: skillToInfer,
     source,
     status: invalidatedStatus,
-    answerId: answer.id,
+    answer,
   });
 }
 
-function createKnowledgeElementsForSkill({ skill, source, status, answerId }) {
+function createKnowledgeElementsForSkill({ skill, source, status, answer }) {
   return new SmartPlacementKnowledgeElement({
     source,
     status,
     pixScore: 0,
-    answerId,
+    answerId: answer.id,
+    assessmentId: answer.assessmentId,
     skillId: skill.name,
   });
 }

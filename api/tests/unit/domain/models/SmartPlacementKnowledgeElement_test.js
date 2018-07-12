@@ -111,6 +111,7 @@ describe('Unit | Domain | Models | SmartPlacementKnowledgeElement', () => {
           status: SmartPlacementKnowledgeElement.StatusType.VALIDATED,
           pixScore: 0,
           answerId: answer.id,
+          assessmentId: answer.assessmentId,
           skillId: skill2.name,
         });
         directKnowledgeElement.id = undefined;
@@ -143,6 +144,7 @@ describe('Unit | Domain | Models | SmartPlacementKnowledgeElement', () => {
           status: SmartPlacementKnowledgeElement.StatusType.VALIDATED,
           pixScore: 0,
           answerId: answer.id,
+          assessmentId: answer.assessmentId,
           skillId: skill2.name,
         });
         directKnowledgeElement.id = undefined;
@@ -151,6 +153,7 @@ describe('Unit | Domain | Models | SmartPlacementKnowledgeElement', () => {
           status: SmartPlacementKnowledgeElement.StatusType.VALIDATED,
           pixScore: 0,
           answerId: answer.id,
+          assessmentId: answer.assessmentId,
           skillId: skill1.name,
         });
         inferredKnowledgeElement.id = undefined;
@@ -184,6 +187,7 @@ describe('Unit | Domain | Models | SmartPlacementKnowledgeElement', () => {
           status: SmartPlacementKnowledgeElement.StatusType.INVALIDATED,
           pixScore: 0,
           answerId: answer.id,
+          assessmentId: answer.assessmentId,
           skillId: skill2.name,
         });
         directKnowledgeElement.id = undefined;
@@ -192,6 +196,7 @@ describe('Unit | Domain | Models | SmartPlacementKnowledgeElement', () => {
           status: SmartPlacementKnowledgeElement.StatusType.INVALIDATED,
           pixScore: 0,
           answerId: answer.id,
+          assessmentId: answer.assessmentId,
           skillId: skill3.name,
         });
         inferredKnowledgeElement.id = undefined;
@@ -224,6 +229,7 @@ describe('Unit | Domain | Models | SmartPlacementKnowledgeElement', () => {
           status: SmartPlacementKnowledgeElement.StatusType.INVALIDATED,
           pixScore: 0,
           answerId: answer.id,
+          assessmentId: answer.assessmentId,
           skillId: skill.name,
         });
         expectedKnowledgeElement.id = undefined;
@@ -256,6 +262,7 @@ describe('Unit | Domain | Models | SmartPlacementKnowledgeElement', () => {
           status: SmartPlacementKnowledgeElement.StatusType.INVALIDATED,
           pixScore: 0,
           answerId: answer.id,
+          assessmentId: answer.assessmentId,
           skillId: skill1.name,
         });
         directKnowledgeElement.id = undefined;
