@@ -15,9 +15,6 @@ export default BaseRoute.extend(AuthenticatedRouteMixin, {
           return this.transitionTo('board');
         }
         return user;
-      })
-      .catch(_ => {
-        this.transitionTo('logout');
       });
   },
 

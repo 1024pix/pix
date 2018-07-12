@@ -110,20 +110,6 @@ describe('Unit | Route | board', function() {
     });
   });
 
-  it('should return to home page if no user was found', function() {
-    // given
-    findRecord.rejects();
-
-    // when
-    const result = route.model();
-
-    // then
-    return result.then(_ => {
-      sinon.assert.calledOnce(route.transitionTo);
-      sinon.assert.calledWith(route.transitionTo, 'index');
-    });
-  });
-
   it('should return to /compte when the user has no organization', function() {
     // given
     const user = EmberObject.create({ id: 1, organizations: [] });
