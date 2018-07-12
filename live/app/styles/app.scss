@@ -9,6 +9,8 @@
 @import 'globals/loading';
 @import 'globals/redesign-inputs';
 @import 'globals/pix-modale';
+@import 'globals/pix-page';
+@import 'globals/pix-button';
 @import 'globals/buttons';
 @import 'globals/progress-bar';
 /* 3rd-party */
@@ -87,6 +89,7 @@
 @import 'pages/assessment-challenge';
 @import 'pages/assessment-results';
 @import 'pages/competences';
+@import 'pages/error';
 @import 'pages/inscription';
 @import 'pages/login';
 @import 'pages/compte';
