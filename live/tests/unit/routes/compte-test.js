@@ -10,14 +10,6 @@ describe('Unit | Route | compte', function() {
     needs: ['service:current-routed-modal', 'service:session']
   });
 
-  it('should redirect to / (Home)', function() {
-    // Given
-    const route = this.subject();
-
-    // Then
-    expect(route.authenticationRoute).to.equal('/connexion');
-  });
-
   describe('model', function() {
 
     let storyStub;

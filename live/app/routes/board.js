@@ -5,7 +5,6 @@ import RSVP from 'rsvp';
 import ENV from 'pix-live/config/environment';
 
 export default BaseRoute.extend(AuthenticatedRouteMixin, {
-  authenticationRoute: '/connexion',
 
   session: service(),
 
