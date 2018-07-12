@@ -488,5 +488,35 @@ describe('Unit | Domain | Models | SmartRandom', () => {
       // then
       expect(result).to.deep.equal([challengeAssessingSkill3]);
     });
+
+    it('should not ask a question that already answered', function() {
+      // given
+      const [skill1, skill2] = factory.buildSkillCollection();
+
+      const targetProfile = new TargetProfile({ skills: [skill1] });
+
+      const challengeAssessingSkill1 = factory.buildChallenge({ skills: [skill1, skill2] });
+
+      const answerCh1 = factory.buildAnswer({ challengeId: challengeAssessingSkill1.id, result: AnswerStatus.OK });
+      const answers = [answerCh1];
+      const challenges = [
+        challengeAssessingSkill1,
+      ];
+
+      // when
+      const smartRandom = new SmartRandom({ answers, challenges, targetProfile });
+      const result = SmartRandom._filteredChallenges(
+        smartRandom.challenges,
+        smartRandom.answers,
+        smartRandom.tubes,
+        smartRandom.validatedSkills,
+        smartRandom.failedSkills,
+        smartRandom.getPredictedLevel(),
+      );
+
+      // then
+      expect(result).to.deep.equal([]);
+    });
+
   });
 });
