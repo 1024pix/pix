@@ -5,11 +5,6 @@ export default BaseRoute.extend(AuthenticatedRouteMixin, {
 
   model() {
     return this.get('store').findAll('certification');
-  },
-
-  actions: {
-    error() {
-      this.transitionTo('compte');
-    }
   }
+
 });

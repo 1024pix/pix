@@ -94,19 +94,4 @@ describe('Unit | Route | resume', function() {
     });
   });
 
-  describe('#error', function() {
-
-    it('should redirect to index page', function() {
-      // given
-      const route = this.subject();
-      route.transitionTo = sinon.spy();
-
-      // when
-      route.send('error');
-
-      // then
-      sinon.assert.calledWith(route.transitionTo, 'index');
-    });
-  });
-
 });
