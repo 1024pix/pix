@@ -9,6 +9,8 @@
 @import 'globals/loading';
 @import 'globals/redesign-inputs';
 @import 'globals/pix-modale';
+@import 'globals/pix-page';
+@import 'globals/pix-button';
 @import 'globals/buttons';
 /* 3rd-party */
 @import 'vendor/ember-routable-modal/core';
@@ -85,6 +87,7 @@
 @import 'pages/assessment-challenge';
 @import 'pages/assessment-results';
 @import 'pages/competences';
+@import 'pages/error';
 @import 'pages/inscription';
 @import 'pages/login';
 @import 'pages/compte';
