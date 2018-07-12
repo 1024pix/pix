@@ -179,6 +179,7 @@ describe('Integration | Repository | SmartPlacementAssessmentRepository', () => 
           status: SmartPlacementKnowledgeElement.StatusType.INVALIDATED,
           pixScore: 0,
           answerId: firstAnswerId,
+          assessmentId: assessmentId,
           skillId: firstSkillName,
         }),
         factory.buildSmartPlacementKnowledgeElement({
@@ -187,6 +188,7 @@ describe('Integration | Repository | SmartPlacementAssessmentRepository', () => 
           status: SmartPlacementKnowledgeElement.StatusType.VALIDATED,
           pixScore: 0,
           answerId: secondAnswerId,
+          assessmentId: assessmentId,
           skillId: secondSkillName,
         }),
         factory.buildSmartPlacementKnowledgeElement({
@@ -195,6 +197,7 @@ describe('Integration | Repository | SmartPlacementAssessmentRepository', () => 
           status: SmartPlacementKnowledgeElement.StatusType.VALIDATED,
           pixScore: 0,
           answerId: secondAnswerId,
+          assessmentId: assessmentId,
           skillId: firstInferredSkillName,
         }),
         factory.buildSmartPlacementKnowledgeElement({
@@ -203,6 +206,7 @@ describe('Integration | Repository | SmartPlacementAssessmentRepository', () => 
           status: SmartPlacementKnowledgeElement.StatusType.VALIDATED,
           pixScore: 0,
           answerId: secondAnswerId,
+          assessmentId: assessmentId,
           skillId: secondInferredSkillName,
         }),
       ].sort((a, b) => a.id > b.id);

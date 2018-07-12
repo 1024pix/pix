@@ -9,6 +9,7 @@ module.exports = function buildSmartPlacementKnowledgeElement({
 
   // relationship Ids
   answerId = faker.random.number(),
+  assessmentId = faker.random.number(),
   skillId = faker.random.number(),
 } = {}) {
   return new SmartPlacementKnowledgeElement({
@@ -17,6 +18,7 @@ module.exports = function buildSmartPlacementKnowledgeElement({
     status,
     pixScore,
     answerId,
+    assessmentId,
     skillId,
   });
 };

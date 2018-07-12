@@ -55,6 +55,7 @@ function toDomain(bookshelfAssessment) {
           status: bookshelfKnowledgeElement.get('status'),
           pixScore: bookshelfKnowledgeElement.get('pixScore'),
           answerId: bookshelfKnowledgeElement.get('answerId'),
+          assessmentId: bookshelfKnowledgeElement.get('assessmentId'),
           skillId: bookshelfKnowledgeElement.get('skillId'),
         });
       });
