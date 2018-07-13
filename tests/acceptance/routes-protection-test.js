@@ -55,9 +55,9 @@ module('Acceptance | routes protection', function(hooks) {
   //
   // route /certifications/menu
   //
-  test('guest users are redirected to login page when visiting /certifications/menu', async function(assert) {
+  test('guest users are redirected to login page when visiting /certifications', async function(assert) {
     // when
-    await visit('/certifications/menu');
+    await visit('/certifications');
 
     // then
     assert.equal(currentURL(), '/login');
@@ -74,4 +74,14 @@ module('Acceptance | routes protection', function(hooks) {
     assert.equal(currentURL(), '/login');
   });
 
+  //
+  // route /certifications/sessions
+  //
+  test('guest users are redirected to login page when visiting /certifications/sessions', async function(assert) {
+    // when
+    await visit('/certifications/sessions');
+
+    // then
+    assert.equal(currentURL(), '/login');
+  });
 });
