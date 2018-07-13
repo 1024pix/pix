@@ -1,0 +1,21 @@
+<header class="page-header">
+  <h1 class="page-title">Sessions de certification</h1>
+  <div class="page-actions">
+    {{certification-select id=(readonly sessionId) select=(action "onLoadSession")}}
+  </div>
+</header>
+<section class="page-section">
+  {{#unless sessionId}}
+  <div class="single-no-id">
+    Choisissez un identifiant de session
+  </div>
+  {{/unless}}
+  {{#if loading}}
+    <div class="single-loading">
+      <i class='fa fa-spinner fa-spin fa-lg'></i>
+      Chargement...
+    </div>
+  {{else}}
+    {{outlet}}
+  {{/if}}
+</section>
