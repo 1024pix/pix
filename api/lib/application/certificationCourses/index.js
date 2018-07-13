@@ -13,7 +13,12 @@ exports.register = function(server, options, next) {
           assign: 'hasRolePixMaster'
         }],
         handler: certificationCourseController.computeResult,
-        tags: ['api']
+        tags: ['api'],
+        notes: [
+          'Cette route est utilisé par Pix Admin',
+          'Elle sert au cas où une certification a eu une erreur de calcul',
+          'Cette route ne renvoie pas le bon format.',
+        ]
       }
     },
     {
