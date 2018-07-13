@@ -1,6 +1,6 @@
 const { NotCompletedAssessmentError } = require('../errors');
 
-module.exports = function({
+module.exports = function getCorrectionForAnswerWhenAssessmentEnded({
   assessmentRepository,
   answerRepository,
   correctionRepository,
