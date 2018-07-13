@@ -4,7 +4,7 @@
     {{certification-select id=(readonly sessionId) select=(action "onLoadSession")}}
   </div>
 </header>
-<section class="page-section">
+<section class="page-section  {{if certificationId 'with-navs'}}">
   {{#if loading}}
     <div class="single-loading">
       <i class='fa fa-spinner fa-spin fa-lg'></i>
