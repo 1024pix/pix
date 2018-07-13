@@ -2,9 +2,15 @@ import Controller from '@ember/controller';
 import { inject as service } from '@ember/service';
 
 export default Controller.extend({
+
+  //Properties
   certificationId:null,
-  router:service(),
   loading:false,
+
+  // Private properties
+  router:service(),
+
+  // Actions
   actions: {
     onLoadCertification(id) {
       this.set('certificationId', id);
