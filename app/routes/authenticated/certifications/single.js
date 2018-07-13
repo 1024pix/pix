@@ -26,6 +26,7 @@ export default Route.extend({
         controller.set('certificationId', null);
       }
       this.get('notifications').error(error);
+      this.replaceWith('authenticated.certifications.single');
     }
   }
 });
