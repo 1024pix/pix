@@ -27,6 +27,7 @@ export default DS.Model.extend({
   commentForJury: DS.attr(),
   pixScore: DS.attr(),
   competencesWithMark: DS.attr(),
+  isPublished: DS.attr(),
   competences:computed('competencesWithMark', function() {
     let competencesWithMarks = this.get('competencesWithMark');
     let indexedCompetences = competencesWithMarks.reduce((result, value) => {
