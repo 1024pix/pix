@@ -489,12 +489,12 @@ describe('Unit | Domain | Models | SmartRandom', () => {
       expect(result).to.deep.equal([challengeAssessingSkill3]);
     });
 
-    context('when a challenge than validated skill not in target profil has been answered', () => {
-      it('should not ask the question that already answered', function() {
+    context('when the selected challenges cover more skills than the defined target profile', () => {
+      it('should ignore the already answered challenges, even if they have non evaluated skills', function() {
         // given
         const [skill1, skill2] = factory.buildSkillCollection();
 
-        const targetProfile = new TargetProfile({ skills: [skill1] });
+        const targetProfile = factory.buildTargetProfile({ skills: [skill1] });
 
         const challengeAssessingSkill1 = factory.buildChallenge({ skills: [skill1, skill2] });
 
