@@ -37,21 +37,6 @@ describe('Unit | Domain | Models | SkillReview', () => {
       });
     });
 
-    context('with the skillProfile contains no skill', () => {
-      it('should returns a progression rate of 0', () => {
-        // Given
-        const targetedSkills = [];
-        const validatedSkills = [skillLevel1];
-        const failedSkills = [];
-
-        // When
-        const skillReview = new SkillReview({ targetedSkills, validatedSkills, failedSkills });
-
-        // Then
-        expect(skillReview.profileMasteryRate).to.eq(0);
-      });
-    });
-
     context('when an evaluated skill is not contained in the target profile', () => {
       it('should not take that extra validated skill into account', () => {
         // Given
@@ -141,7 +126,7 @@ describe('Unit | Domain | Models | SkillReview', () => {
 
     });
 
-    context('with the skillProfile contains no skill', () => {
+    context('when the skillProfile contains no skill', () => {
       it('should returns a progression rate of 0', () => {
         // Given
         const targetedSkills = [];
@@ -156,7 +141,7 @@ describe('Unit | Domain | Models | SkillReview', () => {
       });
     });
 
-    context('with the skillProfile contains extra skills', () => {
+    context('when the skillProfile contains extra skills', () => {
       it('should returns a progression rate of 0', () => {
         // Given
         const targetedSkills = [skillLevel1];
@@ -170,7 +155,7 @@ describe('Unit | Domain | Models | SkillReview', () => {
         expect(skillReview.profileCompletionRate).to.eq(1);
       });
 
-      it('should mark the completion at 100%', () => {
+      it('should mark the completion at 1 (equal 100%)', () => {
         // Given
         const targetedSkills = [skillLevel1];
         const validatedSkills = [];

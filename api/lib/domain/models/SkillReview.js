@@ -30,9 +30,7 @@ class SkillReview {
     const validatedSkillsThatExistsInTargetedSkills = _.intersectionBy(this.targetedSkills, this.validatedSkills, 'name');
     const numberOfValidatedSkills = validatedSkillsThatExistsInTargetedSkills.length;
 
-    const targetProfileHasSkills = numberOfTargetedSkills !== 0;
-
-    return targetProfileHasSkills ? (numberOfValidatedSkills / numberOfTargetedSkills) : 0;
+    return numberOfValidatedSkills / numberOfTargetedSkills;
   }
 
   get profileCompletionRate() {

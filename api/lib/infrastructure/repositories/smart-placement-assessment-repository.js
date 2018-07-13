@@ -81,6 +81,7 @@ function createKnowledgeElements({ answers, challengeAirtableDataObjects, target
 
   let knowledgeElementsWithInfered = [].concat(knowledgeElementsWithoutInfered);
 
+  // XXX: Extend the list of KnowledgeElements with inferred ones from the validated skills
   validatedKnowledgeElements.forEach((validatedKnowledgeElement) => {
 
     const validatedSkill = new Skill({ name: validatedKnowledgeElement.skillId });
@@ -112,6 +113,7 @@ function createKnowledgeElements({ answers, challengeAirtableDataObjects, target
     });
   });
 
+  // XXX: Extend the list of KnowledgeElements with inferred ones from the validated skills
   const failedKnowledgeElements = knowledgeElementsWithoutInfered
     .filter((knowledgeElement) => !knowledgeElement.isValidated);
 
