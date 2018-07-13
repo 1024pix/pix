@@ -148,10 +148,10 @@ describe('Integration | Component | comparison-window', function() {
       expect(this.$('.tutorial-panel').text()).to.contain('Conseil : mangez des épinards.');
     });
 
-    it('should render a learningMore panel when correction has a list of LearningMore elements', function() {
+    it('should render a learningMoreTutorials panel when correction has a list of LearningMoreTutorials elements', function() {
       // given
       this.set('correction', {
-        learningMoreList: [{}],
+        learningMoreTutorials: [{ titre: 'Ceci est un tuto', duration: '20:00:00', type: 'video' }],
       });
 
       // when

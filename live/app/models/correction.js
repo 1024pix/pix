@@ -6,6 +6,7 @@ export default Model.extend({
 
   solution: attr('string'),
   hint: attr('string'),
-  tutorials: hasMany('tutorial'),
+  tutorials: hasMany('tutorial', { inverse: null }),
+  learningMoreTutorials: hasMany('tutorial', { inverse: null }),
 
 });
