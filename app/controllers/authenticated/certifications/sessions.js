@@ -10,7 +10,7 @@ export default Controller.extend({
   actions: {
     onLoadSession(id) {
       this.set('sessionId', id);
-      this.transitionToRoute('authenticated.certifications.sessions.details', id);
+      this.transitionToRoute('authenticated.certifications.sessions.info', id);
     }
   }
 

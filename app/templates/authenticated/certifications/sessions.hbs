@@ -4,7 +4,17 @@
     {{certification-select id=(readonly sessionId) select=(action "onLoadSession")}}
   </div>
 </header>
-<section class="page-section  {{if certificationId 'with-navs'}}">
+{{#if sessionId}}
+  <ul class="nav nav-tabs">
+    <li class="nav-item">
+      {{#link-to "authenticated.certifications.sessions.info" sessionId class="nav-link"}}Informations{{/link-to}}
+    </li>
+    <li class="nav-item">
+      {{#link-to "authenticated.certifications.sessions.info.list" sessionId class="nav-link"}}Liste{{/link-to}}
+    </li>
+  </ul>
+{{/if}}
+<section class="page-section  {{if sessionId 'with-navs'}}">
   {{#if loading}}
     <div class="single-loading">
       <i class='fa fa-spinner fa-spin fa-lg'></i>

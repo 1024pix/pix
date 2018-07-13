@@ -29,7 +29,9 @@ Router.map(function() {
         this.route('details', {path:'/:certification_id/details'});
       });
       this.route('sessions', function() {
-        this.route('details', {path:'/:session_id'});
+        this.route('info', {path:'/:session_id'}, function() {
+          this.route('list', {path:'/list'});
+        });
       });
     });
   });
