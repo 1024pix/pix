@@ -1,6 +1,7 @@
 const { CertificationComputeError } = require('../../../lib/domain/errors');
 
-class CertificationRules {
+class CertificationContract {
+
   /* PUBLIC INTERFACE */
   static assertThatWeHaveEnoughAnswers(listAnswers, listChallenges) {
     if (listAnswers.length < listChallenges.length) {
@@ -27,4 +28,4 @@ class CertificationRules {
   }
 }
 
-module.exports = CertificationRules;
+module.exports = CertificationContract;
