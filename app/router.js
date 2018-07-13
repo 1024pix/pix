@@ -23,11 +23,13 @@ Router.map(function() {
       this.route('list');
     });
     this.route('certifications', function() {
-      this.route('menu');
       //TODO: find a better routes settings between info and details
       this.route('single', function() {
         this.route('info', {path:'/:certification_id'});
         this.route('details', {path:'/:certification_id/details'});
+      });
+      this.route('sessions', function() {
+        this.route('details', {path:'/:session_id'});
       });
     });
   });
