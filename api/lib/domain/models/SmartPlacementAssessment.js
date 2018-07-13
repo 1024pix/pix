@@ -64,11 +64,11 @@ class SmartPlacementAssessment {
 
     return this.targetProfile.skills.filter((skillInProfile) => {
 
-      const matchingSkillKnowledgeElement = this.knowledgeElements.find((knowledgeElement) => {
+      const foundKnowledgeElementForTheSkill = this.knowledgeElements.find((knowledgeElement) => {
         return knowledgeElement.skillId === skillInProfile.name;
       });
 
-      return (!matchingSkillKnowledgeElement);
+      return (!foundKnowledgeElementForTheSkill);
     });
   }
 
