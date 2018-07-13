@@ -6,7 +6,7 @@ export default Route.extend({
 
   redirect: function () {
     if (this.controller && this.controller.get('sessionId')) {
-      this.transitionTo('authenticated.certifications.sessions.details', this.controller.get('sessionId'));
+      this.transitionTo('authenticated.certifications.sessions.info', this.controller.get('sessionId'));
     }
   },
   actions: {
