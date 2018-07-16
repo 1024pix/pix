@@ -3,7 +3,7 @@ const Solution = require('../../lib/domain/models/Solution');
 
 module.exports = function buildSolution({
   id = `rec${faker.random.uuid()}`,
-  type = 'qcm',
+  type = 'QCM',
   value = '1',
   isT1Enabled = false,
   isT2Enabled = false,
