@@ -27,16 +27,30 @@
   background-color: $porcelain-grey;
   display: flex;
   flex-direction: column;
+  /*
   padding: 15px 15px 0 15px;
+  */
 
   @include device-is('desktop') {
-    padding: 20px 40px 0 40px;
+    /*padding: 20px 40px 0 40px;*/
   }
 }
 
 .comparison-window__instruction {
-  margin: 0 0 15px;
+  margin: 15px;
   font-size: 16px;
+
+  @include device-is('desktop') {
+    margin: 20px 40px 0 40px;
+  }
+}
+
+.comparison-window__corrected-answers {
+  margin: 0 15px;
+
+  @include device-is('desktop') {
+    margin: 0 40px;
+  }
 }
 
 /*Modal Close button*/
