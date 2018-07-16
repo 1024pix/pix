@@ -24,6 +24,7 @@
     "bootstrap": "^4.1.1",
     "broccoli-asset-rev": "^2.7.0",
     "ember-ajax": "^3.1.0",
+    "ember-auto-import": "^1.2.2",
     "ember-bootstrap": "^1.2.2",
     "ember-cli": "^3.1.4",
     "ember-cli-app-version": "^3.2.0",
@@ -63,5 +64,8 @@
   },
   "engines": {
     "node": "^4.5 || 6.* || 7.* || 8.* || 9.*"
+  },
+  "dependencies": {
+    "json2csv": "^4.1.6"
   }
 }
