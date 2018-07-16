@@ -60,7 +60,7 @@
 
 .tutorial-panel__hint-title {
   font-family: $font-raleway;
-  font-size: 24px;
+  font-size: 2.2rem;
   text-align: center;
   color: $charcoal-grey;
   font-weight: $font-semi-bold;
@@ -86,7 +86,7 @@
   }
 
   @include device-is('desktop') {
-    font-size: 22px;
+    font-size: 2.2rem;
     line-height: 26px;
   }
 }

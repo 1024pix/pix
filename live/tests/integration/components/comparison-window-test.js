@@ -158,7 +158,7 @@ describe('Integration | Component | comparison-window', function() {
       this.render(hbs`{{comparison-window answer=answer correction=correction}}`);
 
       // then
-      expect(this.$('.learning-more-panel')).to.have.lengthOf(1);
+      expect(this.$('.learning-more-panel__container')).to.have.lengthOf(1);
     });
   });
 });

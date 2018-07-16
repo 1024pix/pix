@@ -42,7 +42,7 @@ describe('Unit | Repository | correction-repository', function() {
       factory.buildTutorial({ id: 'recTuto4', title:'Comment dresser une belette' }),
     ];
 
-    describe('normal challenge', () => {
+    context('normal challenge', () => {
 
       const expectedCorrection = new Correction({
         id: 'recwWzTquPlvIl4So',
@@ -122,7 +122,7 @@ describe('Unit | Repository | correction-repository', function() {
       });
     });
 
-    describe('duplicated tutorials', () => {
+    context('duplicated tutorials', () => {
 
       const expectedCorrection = new Correction({
         id: 'recwWzTquPlvIl4So',
