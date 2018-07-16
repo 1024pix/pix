@@ -6,6 +6,14 @@ class InfrastructureError extends Error {
   }
 }
 
+class ConflictError extends InfrastructureError {
+  constructor(reason = 'Conflict between request and server state.') {
+    super(reason);
+    this.title = 'Conflict';
+    this.code = 409;
+  }
+}
+
 class MissingQueryParamError extends InfrastructureError {
   constructor(missingParamName) {
     const message = `Missing ${missingParamName} query parameter.`;
@@ -17,5 +25,6 @@ class MissingQueryParamError extends InfrastructureError {
 
 module.exports = {
   InfrastructureError,
-  MissingQueryParamError
+  ConflictError,
+  MissingQueryParamError,
 };
