@@ -488,5 +488,37 @@ describe('Unit | Domain | Models | SmartRandom', () => {
       // then
       expect(result).to.deep.equal([challengeAssessingSkill3]);
     });
+
+    context('when the selected challenges cover more skills than the defined target profile', () => {
+      it('should ignore the already answered challenges, even if they have non evaluated skills', function() {
+        // given
+        const [skill1, skill2] = factory.buildSkillCollection();
+
+        const targetProfile = factory.buildTargetProfile({ skills: [skill1] });
+
+        const challengeAssessingSkill1 = factory.buildChallenge({ skills: [skill1, skill2] });
+
+        const answerCh1 = factory.buildAnswer({ challengeId: challengeAssessingSkill1.id, result: AnswerStatus.OK });
+        const answers = [answerCh1];
+        const challenges = [
+          challengeAssessingSkill1,
+        ];
+
+        // when
+        const smartRandom = new SmartRandom({ answers, challenges, targetProfile });
+        const result = SmartRandom._filteredChallenges(
+          smartRandom.challenges,
+          smartRandom.answers,
+          smartRandom.tubes,
+          smartRandom.validatedSkills,
+          smartRandom.failedSkills,
+          smartRandom.getPredictedLevel(),
+        );
+
+        // then
+        expect(result).to.deep.equal([]);
+      });
+    });
+
   });
 });
