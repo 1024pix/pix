@@ -1380,7 +1380,7 @@ describe('Unit | Service | Certification Service', function() {
         sandbox.stub(assessmentResultRepository, 'get').resolves(null);
       });
 
-      it('should return certification results with state at started and undefined for information not yet valid', () => {
+      it('should return certification results with state at started, empty marks and undefined for information not yet valid', () => {
         // given
         const certificationCourseId = 1;
 
@@ -1390,9 +1390,9 @@ describe('Unit | Service | Certification Service', function() {
         // then
         return promise.then(certification => {
           expect(certification.status).to.deep.equal('started');
+          expect(certification.competencesWithMark).to.deep.equal([]);
           expect(certification.pixScore).to.deep.equal(undefined);
           expect(certification.completedAt).to.deep.equal(undefined);
-          expect(certification.competencesWithMark).to.deep.equal(undefined);
           expect(certification.createdAt).to.deep.equal('2017-12-23 15:23:12');
           expect(certification.sessionId).to.deep.equal('MoufMufassa');
         });
