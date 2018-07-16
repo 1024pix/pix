@@ -6,6 +6,7 @@ module.exports = function buildSkillReview({
   targetedSkills = buildSkillCollection(),
   validatedSkills = [targetedSkills[0]],
   failedSkills = [targetedSkills[1]],
+  nonEvaluableSkills = [targetedSkills[2]],
 } = {}) {
-  return new SkillReview({ id, targetedSkills, validatedSkills, failedSkills });
+  return new SkillReview({ id, targetedSkills, validatedSkills, failedSkills, nonEvaluableSkills });
 };

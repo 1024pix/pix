@@ -13,7 +13,7 @@ class SkillReview {
     targetedSkills = [],
     validatedSkills = [],
     failedSkills = [],
-    // references
+    unratableSkills = [],
   }) {
     this.id = id;
     // attributes
@@ -21,7 +21,7 @@ class SkillReview {
     this.targetedSkills = targetedSkills;
     this.validatedSkills = validatedSkills;
     this.failedSkills = failedSkills;
-    // references
+    this.unratableSkills = unratableSkills;
   }
 
   get profileMasteryRate() {
@@ -30,9 +30,21 @@ class SkillReview {
     const validatedSkillsThatExistsInTargetedSkills = _.intersectionBy(this.targetedSkills, this.validatedSkills, 'name');
     const numberOfValidatedSkills = validatedSkillsThatExistsInTargetedSkills.length;
 
-    const targetProfileHasSkills = numberOfTargetedSkills !== 0;
+    return numberOfValidatedSkills / numberOfTargetedSkills;
+  }
 
-    return targetProfileHasSkills ? (numberOfValidatedSkills / numberOfTargetedSkills) : 0;
+  get profileCompletionRate() {
+    const numberOfTargetedSkills = this.targetedSkills.length;
+    const numberOfUnratableSkills = this.unratableSkills.length;
+
+    const validatedSkillsThatExistsInTargetedSkills = _.intersectionBy(this.targetedSkills, this.validatedSkills, 'name');
+    const numberOfValidatedSkills = validatedSkillsThatExistsInTargetedSkills.length;
+
+    const failedSkillsThatExistsInTargetedSkills = _.intersectionBy(this.targetedSkills, this.failedSkills, 'name');
+    const numberOfFailedSkills = failedSkillsThatExistsInTargetedSkills.length;
+
+    const profileCompletionRate = (numberOfFailedSkills + numberOfValidatedSkills + numberOfUnratableSkills) / numberOfTargetedSkills;
+    return profileCompletionRate;
   }
 
   static generateIdFromAssessmentId(assessmentId) {
