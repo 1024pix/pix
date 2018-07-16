@@ -6,6 +6,6 @@ module.exports = ({ authenticatedUserId, requestedUserId, userRepository }) => {
     return Promise.reject(new UserNotAuthorizedToAccessEntity());
   }
 
-  return userRepository.get(requestedUserId);
+  return userRepository.getWithOrganizationsAccesses(requestedUserId);
 
 };

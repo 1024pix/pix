@@ -56,6 +56,7 @@ describe('Unit | Serializer | JSONAPI | user-serializer', () => {
     });
 
     context('when the given parameter is a User', () => {
+
       it('should serialize excluding email and password', () => {
         // given
         const modelObject = new User({
@@ -80,7 +81,14 @@ describe('Unit | Serializer | JSONAPI | user-serializer', () => {
               'cgu': true,
             },
             id: '234567',
-            type: 'users'
+            type: 'users',
+            'relationships': {
+              'organizations-accesses': {
+                'links': {
+                  'related': '/users/234567/organizations-accesses'
+                }
+              }
+            }
           }
         });
       });
