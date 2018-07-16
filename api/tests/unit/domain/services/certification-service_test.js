@@ -1398,6 +1398,6 @@ describe('Unit | Service | Certification Service', function() {
         });
       });
 
-    })
+    });
   });
 });
