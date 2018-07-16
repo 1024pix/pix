@@ -270,7 +270,7 @@ module.exports = {
           return assessmentResultRepository.get(assessmentLastResult.id);
         else {
           assessmentLastResult = { status: assessment.state };
-          return {};
+          return { competenceMarks: [] };
         }
       })
       .then(assessmentResult => {
