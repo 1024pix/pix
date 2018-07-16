@@ -1,5 +1,11 @@
+const { expect, factory, sinon } = require('../../../test-helper');
+const AnswerStatus = require('../../../../lib/domain/models/AnswerStatus');
 const Solution = require('../../../../lib/domain/models/Solution');
-const { expect } = require('../../../test-helper');
+const solutionServiceQcm = require('../../../../lib/domain/services/solution-service-qcm');
+const solutionServiceQcu = require('../../../../lib/domain/services/solution-service-qcu');
+const solutionServiceQroc = require('../../../../lib/domain/services/solution-service-qroc');
+const solutionServiceQrocmInd = require('../../../../lib/domain/services/solution-service-qrocm-ind');
+const solutionServiceQrocmDep = require('../../../../lib/domain/services/solution-service-qrocm-dep');
 
 describe('Unit | Domain | Models | Solution', () => {
 
@@ -127,6 +133,233 @@ describe('Unit | Domain | Models | Solution', () => {
 
       // then
       expect(deactivationsT3).to.be.true;
+    });
+  });
+
+  describe('#match', () => {
+
+    let sandbox;
+
+    beforeEach(() => {
+      sandbox = sinon.sandbox.create();
+
+      sandbox.stub(solutionServiceQcm, 'match');
+      sandbox.stub(solutionServiceQcu, 'match');
+      sandbox.stub(solutionServiceQroc, 'match');
+      sandbox.stub(solutionServiceQrocmInd, 'match');
+      sandbox.stub(solutionServiceQrocmDep, 'match');
+    });
+
+    afterEach(() => {
+      sandbox.restore();
+    });
+
+    context('when solution is of type QCU', () => {
+
+      const answerValue = 'answerValue';
+      let solution;
+      let result;
+
+      beforeEach(() => {
+        // given
+        solutionServiceQcu.match.returns(AnswerStatus.OK);
+        solution = factory.buildSolution({ type: 'QCU' });
+
+        // when
+        result = solution.match(answerValue);
+      });
+
+      it('should call solutionServiceQcu', () => {
+        // then
+        expect(solutionServiceQcu.match).to.have.been.calledWith(answerValue, solution.value);
+      });
+      it('should return OK if answer is correct', () => {
+        // then
+        expect(result.isOK()).to.be.true;
+      });
+    });
+
+    context('when solution is of type QCM', () => {
+
+      const answerValue = 'answerValue';
+      let solution;
+      let result;
+
+      beforeEach(() => {
+        // given
+        solutionServiceQcm.match.returns(AnswerStatus.OK);
+        solution = factory.buildSolution({ type: 'QCM' });
+
+        // when
+        result = solution.match(answerValue);
+      });
+
+      it('should call solutionServiceQcm', () => {
+        // then
+        expect(solutionServiceQcm.match).to.have.been.calledWith(answerValue, solution.value);
+      });
+      it('should return OK if answer is correct', () => {
+        // then
+        expect(result.isOK()).to.be.true;
+      });
+    });
+
+    context('when solution is of type QROC', () => {
+
+      const answerValue = 'answerValue';
+      let solution;
+      let result;
+
+      beforeEach(() => {
+        // given
+        solutionServiceQroc.match.returns(AnswerStatus.OK);
+        solution = factory.buildSolution({ type: 'QROC' });
+
+        // when
+        result = solution.match(answerValue);
+      });
+
+      it('should call solutionServiceQroc', () => {
+        // then
+        expect(solutionServiceQroc.match).to.have.been.calledWith(answerValue, solution.value, solution.deactivations);
+      });
+      it('should return OK if answer is correct', () => {
+        // then
+        expect(result.isOK()).to.be.true;
+      });
+    });
+
+    context('when solution is of type QROCM-ind', () => {
+
+      const answerValue = 'answerValue';
+      let solution;
+      let result;
+
+      beforeEach(() => {
+        // given
+        solutionServiceQrocmInd.match.returns({ result: AnswerStatus.OK, resultDetails: 'result details' });
+        solution = factory.buildSolution({ type: 'QROCM-ind' });
+
+        // when
+        result = solution.match(answerValue);
+      });
+
+      it('should call solutionServiceQrocmInd', () => {
+        // then
+        expect(solutionServiceQrocmInd.match).to.have.been
+          .calledWith(answerValue, solution.value, solution.enabledTreatments);
+      });
+      it('should return OK if answer is correct', () => {
+        // then
+        expect(result.isOK()).to.be.true;
+      });
+    });
+
+    context('when solution is of type QROCM-dep', () => {
+
+      const answerValue = 'answerValue';
+      let solution;
+      let result;
+
+      beforeEach(() => {
+        // given
+        solutionServiceQrocmDep.match.returns(AnswerStatus.OK);
+        solution = factory.buildSolution({ type: 'QROCM-dep' });
+
+        // when
+        result = solution.match(answerValue);
+      });
+
+      it('should call solutionServiceQrocmDep', () => {
+        // then
+        expect(solutionServiceQrocmDep.match).to.have.been
+          .calledWith(answerValue, solution.value, solution.scoring, solution.deactivations);
+      });
+      it('should return OK if answer is correct', () => {
+        // then
+        expect(result.isOK()).to.be.true;
+      });
+    });
+
+    context('when solution is of some other type', () => {
+
+      const answerValue = 'answerValue';
+      let solution;
+      let result;
+
+      beforeEach(() => {
+        // given
+        solution = factory.buildSolution({ type: 'something strange' });
+
+        // when
+        result = solution.match(answerValue);
+      });
+
+      it('should return UNIMPLEMENTED', () => {
+        // then
+        expect(result.isUNIMPLEMENTED()).to.be.true;
+      });
+    });
+  });
+
+  describe('#matchDetails', () => {
+
+    let sandbox;
+
+    beforeEach(() => {
+      sandbox = sinon.sandbox.create();
+
+      sandbox.stub(solutionServiceQrocmInd, 'match');
+    });
+
+    afterEach(() => {
+      sandbox.restore();
+    });
+
+    context('when solution is of type QROCM-ind', () => {
+
+      const answerValue = 'answerValue';
+      let solution;
+      let resultDetails;
+
+      beforeEach(() => {
+        // given
+        solutionServiceQrocmInd.match.returns({ result: AnswerStatus.OK, resultDetails: 'result details' });
+        solution = factory.buildSolution({ type: 'QROCM-ind' });
+
+        // when
+        resultDetails = solution.matchDetails(answerValue);
+      });
+
+      it('should call solutionServiceQrocmInd', () => {
+        // then
+        expect(solutionServiceQrocmInd.match).to.have.been
+          .calledWith(answerValue, solution.value, solution.enabledTreatments);
+      });
+      it('should return OK if answer is correct', () => {
+        // then
+        expect(resultDetails).to.equal('result details');
+      });
+    });
+
+    context('when solution is of some other type', () => {
+
+      const answerValue = 'answerValue';
+      let solution;
+      let resultDetails;
+
+      beforeEach(() => {
+        // given
+        solution = factory.buildSolution({ type: 'QCM' });
+
+        // when
+        resultDetails = solution.matchDetails(answerValue);
+      });
+
+      it('should return null', () => {
+        // then
+        expect(resultDetails).to.equal(null);
+      });
     });
   });
 });

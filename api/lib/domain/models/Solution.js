@@ -1,3 +1,10 @@
+const AnswerStatus = require('./AnswerStatus');
+const solutionServiceQcm = require('../services/solution-service-qcm');
+const solutionServiceQcu = require('../services/solution-service-qcu');
+const solutionServiceQroc = require('../services/solution-service-qroc');
+const solutionServiceQrocmInd = require('../services/solution-service-qrocm-ind');
+const solutionServiceQrocmDep = require('../services/solution-service-qrocm-dep');
+
 class Solution {
 
   /**
@@ -59,8 +66,34 @@ class Solution {
     return {
       t1: !this.enabledTreatments.includes('t1'),
       t2: !this.enabledTreatments.includes('t2'),
-      t3: !this.enabledTreatments.includes('t3')
+      t3: !this.enabledTreatments.includes('t3'),
     };
+  }
+
+  match(answerValue) {
+    switch (this.type) {
+      case 'QCU':
+        return solutionServiceQcu.match(answerValue, this.value);
+      case 'QCM':
+        return solutionServiceQcm.match(answerValue, this.value);
+      case 'QROC':
+        return solutionServiceQroc.match(answerValue, this.value, this.deactivations);
+      case 'QROCM-ind':
+        return solutionServiceQrocmInd.match(answerValue, this.value, this.enabledTreatments).result;
+      case 'QROCM-dep':
+        return solutionServiceQrocmDep.match(answerValue, this.value, this.scoring, this.deactivations);
+      default:
+        return AnswerStatus.UNIMPLEMENTED;
+    }
+  }
+
+  matchDetails(answerValue) {
+    switch (this.type) {
+      case 'QROCM-ind':
+        return solutionServiceQrocmInd.match(answerValue, this.value, this.enabledTreatments).resultDetails;
+      default:
+        return null;
+    }
   }
 }
 
