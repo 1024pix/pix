@@ -5,7 +5,7 @@
         <div class="card-body">
           <h5 class="card-title">État</h5>
           <div class="card-text">
-            {{certification-info-field value=certification.sessionId edition=false label="Session :"}}
+            {{certification-info-field value=certification.sessionId edition=false label="Session :" linkRoute='authenticated.certifications.sessions.info'}}
             {{certification-info-field value=certification.status edition=false label="Statut :"}}
             {{certification-info-field value=certification.creationDate edition=false label="Créée le :"}}
             {{certification-info-field value=certification.completionDate edition=false label="Terminée le :"}}
