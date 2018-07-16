@@ -74,6 +74,8 @@ module.exports = {
   findByFilters(request, reply) {
     const filters = queryParamsUtils.extractFilters(request);
 
+    filters.userId = request.auth.credentials.userId;
+
     return assessmentService.findByFilters(filters)
       .then((assessments) => {
         reply(assessmentSerializer.serializeArray(assessments));

@@ -41,7 +41,15 @@ describe('Unit | Controller | assessment-controller', function() {
 
     describe('GET assessments with filters', function() {
 
-      const request = { query: { 'filter[courseId]': 'courseId' } };
+      const userId = 24504875;
+      const request = {
+        query: { 'filter[courseId]': 'courseId' },
+        auth: {
+          credentials: {
+            userId
+          }
+        }
+      };
 
       it('should call assessment service with query filters', function() {
         // when
@@ -50,7 +58,7 @@ describe('Unit | Controller | assessment-controller', function() {
         // then
         return promise.then(() => {
           expect(assessmentService.findByFilters).to.have.been.called;
-          expect(assessmentService.findByFilters).to.have.been.calledWith({ courseId: 'courseId' });
+          expect(assessmentService.findByFilters).to.have.been.calledWith({ courseId: 'courseId', userId });
         });
       });
 
