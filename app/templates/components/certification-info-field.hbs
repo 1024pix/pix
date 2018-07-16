@@ -9,7 +9,13 @@
   <div class='row certification-info-field'>
     <div class='{{leftWidth}} certification-info-label'>{{label}}</div>
     <div class='{{rightWidth}} certification-info-value'>
-      {{value}} {{suffix}}
+      {{#if linkRoute}}
+        {{#link-to linkRoute value}}
+          {{value}} {{suffix}}
+        {{/link-to}}
+      {{else}}
+        {{value}} {{suffix}}
+      {{/if}}
     </div>
   </div>
 {{/if}}
