@@ -251,7 +251,7 @@ module.exports = {
 
   getCertificationResult(certificationCourseId) {
     let assessment = {};
-    let assessmentLastResult;
+    let assessmentLastResult = {};
     let certification = {};
     return assessmentRepository
       .getByCertificationCourseId(certificationCourseId)
@@ -266,7 +266,12 @@ module.exports = {
           throw new NotCompletedAssessmentError();
         }
         assessmentLastResult = assessment.getLastAssessmentResult();
-        return assessmentResultRepository.get(assessmentLastResult.id);
+        if(assessmentLastResult)
+          return assessmentResultRepository.get(assessmentLastResult.id);
+        else {
+          assessmentLastResult = { status: assessment.state };
+          return {};
+        }
       })
       .then(assessmentResult => {
         return {

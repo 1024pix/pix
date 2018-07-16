@@ -1295,7 +1295,7 @@ describe('Unit | Service | Certification Service', function() {
       sandbox = sinon.sandbox.create();
       const assessmentResult = _buildAssessmentResult(20, 3);
       sandbox.stub(assessmentRepository, 'getByCertificationCourseId').resolves(Assessment.fromAttributes({
-        status: 'completed',
+        state: 'completed',
         assessmentResults: [
           _buildAssessmentResult(20, 3),
         ],
@@ -1360,5 +1360,44 @@ describe('Unit | Service | Certification Service', function() {
         expect(certification.externalId).to.deep.equal('TimonsFriend');
       });
     });
+
+    context('when certification is not finished', () => {
+
+      beforeEach(() => {
+        sandbox.restore();
+        sandbox.stub(assessmentRepository, 'getByCertificationCourseId').resolves(Assessment.fromAttributes({
+          state: 'started',
+        }));
+        sandbox.stub(certificationCourseRepository, 'get').resolves({
+          createdAt: '2017-12-23 15:23:12',
+          firstName: 'Pumba',
+          lastName: 'De La Savane',
+          birthplace: 'Savane',
+          birthdate: '28/01/1992',
+          sessionId: 'MoufMufassa',
+          externalId: 'TimonsFriend',
+        });
+        sandbox.stub(assessmentResultRepository, 'get').resolves(null);
+      });
+
+      it('should return certification results with state at started and undefined for information not yet valid', () => {
+        // given
+        const certificationCourseId = 1;
+
+        // when
+        const promise = certificationService.getCertificationResult(certificationCourseId);
+
+        // then
+        return promise.then(certification => {
+          expect(certification.status).to.deep.equal('started');
+          expect(certification.pixScore).to.deep.equal(undefined);
+          expect(certification.completedAt).to.deep.equal(undefined);
+          expect(certification.competencesWithMark).to.deep.equal(undefined);
+          expect(certification.createdAt).to.deep.equal('2017-12-23 15:23:12');
+          expect(certification.sessionId).to.deep.equal('MoufMufassa');
+        });
+      });
+
+    })
   });
 });
