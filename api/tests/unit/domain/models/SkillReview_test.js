@@ -126,21 +126,6 @@ describe('Unit | Domain | Models | SkillReview', () => {
 
     });
 
-    context('when the skillProfile contains no skill', () => {
-      it('should returns a progression rate of 0', () => {
-        // Given
-        const targetedSkills = [];
-        const validatedSkills = [skillLevel1];
-        const failedSkills = [];
-
-        // When
-        const skillReview = new SkillReview({ targetedSkills, validatedSkills, failedSkills });
-
-        // Then
-        expect(skillReview.profileCompletionRate).to.eq(0);
-      });
-    });
-
     context('when the skillProfile contains extra skills', () => {
       it('should returns a progression rate of 0', () => {
         // Given
