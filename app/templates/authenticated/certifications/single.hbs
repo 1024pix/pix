@@ -5,14 +5,10 @@
   </div>
 </header>
   {{#if certificationId}}
-    <ul class="nav nav-tabs">
-      <li class="nav-item">
-        {{#link-to "authenticated.certifications.single.info" certificationId class="nav-link"}}Informations{{/link-to}}
-      </li>
-      <li class="nav-item">
-        {{#link-to "authenticated.certifications.single.details" certificationId class="nav-link"}}Détails{{/link-to}}
-      </li>
-    </ul>
+  {{#bs-nav type="tabs" as |nav|}}
+    {{#nav.item}}{{#nav.link-to 'authenticated.certifications.single.info' certificationId}}Informations{{/nav.link-to}}{{/nav.item}}
+    {{#nav.item}}{{#nav.link-to 'authenticated.certifications.single.details' certificationId}}Détails{{/nav.link-to}}{{/nav.item}}
+  {{/bs-nav}}
   {{/if}}
 <section class="page-section {{if certificationId 'with-navs'}}">
   {{#if loading}}
