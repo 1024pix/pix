@@ -69,7 +69,7 @@ Router.map(function() {
     this.route('skill-review', { path: '/codecampagnepix/resultats/:assessment_id' });
   });
 
-  // this route must always be the last one
+  // XXX: this route is used for any request that did not match any of the previous routes. SHOULD ALWAYS BE THE LAST ONE
   this.route('not-found', { path: '/*path' });
 });
 
