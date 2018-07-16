@@ -45,6 +45,13 @@ describe('Acceptance | Controller | users-controller-get-user', () => {
             'last-name': userToInsert.lastName,
             'email': userToInsert.email.toLowerCase(),
             'cgu': true
+          },
+          relationships: {
+            'organizations-accesses': {
+              links: {
+                related: '/users/1234/organizations-accesses'
+              }
+            }
           }
         }
       };
