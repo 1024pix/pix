@@ -51,7 +51,7 @@ exports.register = function(server, options, next) {
     },
     {
       method: 'GET',
-      path: '/api/users/{id}/organization-accesses',
+      path: '/api/users/{id}/organizations-accesses',
       config: {
         handler: UserController.getOrganizationsAccesses,
         notes : [

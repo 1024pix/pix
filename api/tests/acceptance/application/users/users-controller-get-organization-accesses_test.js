@@ -54,7 +54,7 @@ describe('Acceptance | Controller | users-controller-get-organization-accesses',
     function _options(userId) {
       return {
         method: 'GET',
-        url: `/api/users/${userId}/organization-accesses`,
+        url: `/api/users/${userId}/organizations-accesses`,
         headers: { authorization: generateValidRequestAuhorizationHeader(userId) },
       };
     }

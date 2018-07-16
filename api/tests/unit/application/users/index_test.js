@@ -128,7 +128,7 @@ describe('Unit | Router | user-router', () => {
       // given
       const options = {
         method: 'GET',
-        url: '/api/users/12/organization-accesses'
+        url: '/api/users/12/organizations-accesses'
       };
 
       // when
