@@ -31,7 +31,7 @@
 
     <div class="assessment-challenge__continue-wrapper">
       {{#if finalCheckpoint}}
-        {{#link-to 'assessments.rating' model class="assessment-checkpoint__continue-button"}}
+        {{#link-to 'campaigns.skill-review' model.id class="assessment-checkpoint__continue-button"}}
           Voir mes résultats
           <img src="{{rootURL}}/images/button-continue/button-continue-next.png" srcset="
            {{rootURL}}/images/button-continue/button-continue-next@2x.png 2x,
@@ -39,7 +39,7 @@
                alt="" class="assessment-checkpoint__continue-button__image" />
         {{/link-to}}
       {{else}}
-        {{#link-to 'assessments.resume' model class="assessment-checkpoint__continue-button"}}
+        {{#link-to 'assessments.resume' model.id class="assessment-checkpoint__continue-button"}}
           Je continue
           <img src="{{rootURL}}/images/button-continue/button-continue-next.png" srcset="
            {{rootURL}}/images/button-continue/button-continue-next@2x.png 2x,
