@@ -961,34 +961,6 @@ describe('Unit | Domain | Services | assessment', () => {
     });
   });
 
-  describe('#findByFilters', function() {
-
-    let sandbox;
-
-    beforeEach(() => {
-      sandbox = sinon.sandbox.create();
-      sandbox.stub(assessmentRepository, 'findByFilters').resolves([]);
-    });
-
-    afterEach(() => {
-      sandbox.restore();
-    });
-
-    it('should find all the assessment with corresponding filters', function() {
-      // given
-      const filters = { courseId: 'courseId' };
-
-      // when
-      const promise = service.findByFilters(filters);
-
-      // then
-      return promise.then(() => {
-        expect(assessmentRepository.findByFilters).to.have.been.called;
-        expect(assessmentRepository.findByFilters).to.have.been.calledWith({ courseId: 'courseId' });
-      });
-    });
-  });
-
   describe('#isCertificationAssessment', () => {
 
     context('if assessment type is \'CERTIFICATION\'', () => {

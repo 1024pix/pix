@@ -74,9 +74,11 @@ module.exports = {
   findByFilters(request, reply) {
     const filters = queryParamsUtils.extractFilters(request);
 
-    filters.userId = request.auth.credentials.userId;
-
-    return assessmentService.findByFilters(filters)
+    return useCases.findUserAssessmentsByFilters({
+      userId: request.auth.credentials.userId,
+      filters,
+      assessmentRepository
+    })
       .then((assessments) => {
         reply(assessmentSerializer.serializeArray(assessments));
       });

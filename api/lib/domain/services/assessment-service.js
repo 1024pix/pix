@@ -203,10 +203,6 @@ function getCompetenceMarks(assessment) {
   return [];
 }
 
-function findByFilters(filters) {
-  return assessmentRepository.findByFilters(filters);
-}
-
 // TODO Move the below functions into Assessment
 function _isNonScoredAssessment(assessment) {
   return isPreviewAssessment(assessment)
@@ -232,7 +228,6 @@ function isPlacementAssessment(assessment) {
 
 module.exports = {
   fetchAssessment,
-  findByFilters,
   isPreviewAssessment,
   isPlacementAssessment,
   isDemoAssessment,
