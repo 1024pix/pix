@@ -5,7 +5,24 @@
   </div>
 
   <div class="assessment-challenge__content">
-    <h1>Vos réponses :</h1>
+
+    <div class="smart-random pix-progress-bar-wrapper">
+      <h2 class="checkpoint-title">Mon parcours effectué</h2>
+
+      <div class="pix-progress-bar">
+        <div class="pix-progress-bar__marker" style="width: {{model.skillReview.profileCompletionPercentage}}"></div>
+      </div>
+
+
+      <div class="pix-progress-bar__legend-wrapper" style="width: {{model.skillReview.profileCompletionPercentage}}">
+        <div class="pix-progress-bar__legend-circle"></div>
+        <div class="pix-progress-bar__legend">
+          <p class="sr-only">Vous avez effectué</p>{{model.skillReview.profileCompletionPercentage}}<p class="sr-only"> de votre parcours.</p>
+        </div>
+      </div>
+    </div>
+
+    <h2>Vos réponses :</h2>
     <div class="assessment-results__list">
       {{#each model.answersSinceLastCheckpoints as |answer index|}}
         {{result-item answer=answer index=index openComparison="openComparison" a11y-focus-id=(concat "open-comparison_" (add index 1))}}

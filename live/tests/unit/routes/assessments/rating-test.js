@@ -69,7 +69,9 @@ describe('Unit | Route | assessments.rating', function() {
 
         // then
         return promise.then(() => {
-          return sinon.assert.calledWith(route.replaceWith, 'campaigns.skill-review', assessmentId);
+          return sinon.assert.calledWith(route.replaceWith, 'assessments.checkpoint', assessmentId, {
+            queryParams: { finalCheckpoint: true }
+          });
         });
       });
     });

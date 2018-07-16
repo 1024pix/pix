@@ -38,12 +38,12 @@ describe('Unit | Controller | Assessments | Checkpoint', function() {
 
         // then
         sinon.assert.calledOnce(controller.transitionToRoute);
-        sinon.assert.calledWith(controller.transitionToRoute, 'assessments.resume', assessment);
+        sinon.assert.calledWith(controller.transitionToRoute, 'assessments.resume', assessment.get('id'));
       });
     });
 
     context('when it is the final checkpoint', () => {
-      it('should redirect to the rating phase', function() {
+      it('should redirect to the campaign last screen with the skill review', function() {
         // given
         const assessment = EmberObject.create({ id: 12, answers: [] });
         controller.set('finalCheckpoint', true);
@@ -53,7 +53,7 @@ describe('Unit | Controller | Assessments | Checkpoint', function() {
 
         // then
         sinon.assert.calledOnce(controller.transitionToRoute);
-        sinon.assert.calledWith(controller.transitionToRoute, 'assessments.rating', assessment);
+        sinon.assert.calledWith(controller.transitionToRoute, 'campaigns.skill-review', assessment.get('id'));
       });
     });
   });

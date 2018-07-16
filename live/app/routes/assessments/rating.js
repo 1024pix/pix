@@ -13,7 +13,7 @@ export default Route.extend({
             return this.replaceWith('certifications.results', assessment.get('certificationNumber'));
 
           case 'SMART_PLACEMENT':
-            return this.replaceWith('campaigns.skill-review', assessment.get('id'));
+            return this.replaceWith('assessments.checkpoint', assessment.get('id'), { queryParams: { finalCheckpoint: true } });
 
           default:
             return this.replaceWith('assessments.results', assessment.get('id'));

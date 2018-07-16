@@ -10,6 +10,7 @@
 @import 'globals/redesign-inputs';
 @import 'globals/pix-modale';
 @import 'globals/buttons';
+@import 'globals/progress-bar';
 /* 3rd-party */
 @import 'vendor/ember-routable-modal/core';
 @import 'vendor/ember-routable-modal/dialog';
@@ -77,6 +78,7 @@
 @import "components/navbar-desktop-menu";
 @import "components/_blue-ribbon.scss";
 @import "components/_certification-code-validation";
+@import "components/checkpoint";
 @import "ember-side-menu";
 /* pages */
 @import 'pages/index';
