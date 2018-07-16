@@ -43,8 +43,8 @@ class SkillReview {
     const failedSkillsThatExistsInTargetedSkills = _.intersectionBy(this.targetedSkills, this.failedSkills, 'name');
     const numberOfFailedSkills = failedSkillsThatExistsInTargetedSkills.length;
 
-    const targetProfileHasSkills = numberOfTargetedSkills !== 0;
-    return targetProfileHasSkills ? (numberOfFailedSkills + numberOfValidatedSkills + numberOfUnratableSkills) / numberOfTargetedSkills : 0;
+    const profileCompletionRate = (numberOfFailedSkills + numberOfValidatedSkills + numberOfUnratableSkills) / numberOfTargetedSkills;
+    return profileCompletionRate;
   }
 
   static generateIdFromAssessmentId(assessmentId) {
