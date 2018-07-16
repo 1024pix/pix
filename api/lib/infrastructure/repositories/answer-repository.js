@@ -1,4 +1,5 @@
 const Answer = require('../../domain/models/Answer');
+const answerStatusDatabaseAdapter = require('../adapters/answer-status-database-adapter');
 const BookshelfAnswer = require('../data/answer');
 const jsYaml = require('js-yaml');
 const { NotFoundError } = require('../../domain/errors');
@@ -6,7 +7,7 @@ const { NotFoundError } = require('../../domain/errors');
 function _adaptModelToDb(answer) {
   return {
     id: answer.id,
-    result: answer.result.raw,
+    result: answerStatusDatabaseAdapter.toSQLString(answer.result),
     resultDetails: jsYaml.safeDump(answer.resultDetails),
     value: answer.value,
     timeout: answer.timeout,
@@ -17,7 +18,16 @@ function _adaptModelToDb(answer) {
 }
 
 function _toDomain(bookshelfAnswer) {
-  return new Answer(bookshelfAnswer.toJSON());
+  return new Answer({
+    id: bookshelfAnswer.get('id'),
+    elapsedTime: bookshelfAnswer.get('elapsedTime'),
+    result: answerStatusDatabaseAdapter.fromSQLString(bookshelfAnswer.get('result')),
+    resultDetails: bookshelfAnswer.get('resultDetails'),
+    timeout: bookshelfAnswer.get('timeout'),
+    value: bookshelfAnswer.get('value'),
+    assessmentId: bookshelfAnswer.get('assessmentId'),
+    challengeId: bookshelfAnswer.get('challengeId'),
+  });
 }
 
 module.exports = {

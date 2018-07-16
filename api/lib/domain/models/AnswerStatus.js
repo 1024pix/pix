@@ -45,10 +45,6 @@ class AnswerStatus {
   static isSKIPPED(otherResult) { return AnswerStatus.from(otherResult).isSKIPPED(); }
   static isPARTIALLY(otherResult) { return AnswerStatus.from(otherResult).isPARTIALLY(); }
 
-  get raw() {
-    return this.status;
-  }
-
   /* PRIVATE */
   static from(other) {
     if (other instanceof AnswerStatus) {
