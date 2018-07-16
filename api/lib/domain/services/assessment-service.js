@@ -1,5 +1,4 @@
 const courseRepository = require('../../infrastructure/repositories/course-repository');
-const certificationCourseRepository = require('../../infrastructure/repositories/certification-course-repository');
 const answerRepository = require('../../infrastructure/repositories/answer-repository');
 const assessmentRepository = require('../../infrastructure/repositories/assessment-repository');
 const challengeRepository = require('../../infrastructure/repositories/challenge-repository');
@@ -13,8 +12,6 @@ const CompetenceMark = require('../../domain/models/CompetenceMark');
 const Assessment = require('../../domain/models/Assessment');
 
 const _ = require('../../infrastructure/utils/lodash-utils');
-
-const Course = require('../models/Course');
 
 const { NotFoundError } = require('../../domain/errors');
 
@@ -207,22 +204,7 @@ function getCompetenceMarks(assessment) {
 }
 
 function findByFilters(filters) {
-  return assessmentRepository.findByFilters(filters)
-    .then((assessments) => {
-      const assessmentsWithAssociatedCourse = assessments.map((assessment) => {
-        // TODO REFACTO DE LA MAGIC STRING
-        if (assessment.type === Assessment.types.CERTIFICATION) {
-          return certificationCourseRepository.get(assessment.courseId)
-            .then((certificationCourse) => {
-              assessment.course = new Course(certificationCourse);
-              return assessment;
-            });
-        } else {
-          return Promise.resolve(assessment);
-        }
-      });
-      return Promise.all(assessmentsWithAssociatedCourse);
-    });
+  return assessmentRepository.findByFilters(filters);
 }
 
 // TODO Move the below functions into Assessment
