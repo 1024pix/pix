@@ -1,12 +1,23 @@
+const AnswerStatus = require('../../domain/models/AnswerStatus');
 
-class AnswerStatusDbAdapter {
-  static adapt(answerStatus) {
-    const UNIMPLEMENTED = 'unimplemented';
-    const TIMEDOUT = 'timedout';
-    const PARTIALLY = 'partially';
-    const SKIPPED = 'aband';
-    const OK = 'ok';
-    const KO = 'ko';
+const UNIMPLEMENTED = 'unimplemented';
+const TIMEDOUT = 'timedout';
+const PARTIALLY = 'partially';
+const SKIPPED = 'aband';
+const OK = 'ok';
+const KO = 'ko';
+
+module.exports = {
+
+  /**
+   * @deprecated use toSQLString instead
+   */
+  adapt(answerStatus) {
+
+    return this.toSQLString(answerStatus);
+  },
+
+  toSQLString(answerStatus) {
 
     if (answerStatus.isOK()) {
       return OK;
@@ -21,7 +32,23 @@ class AnswerStatusDbAdapter {
     } else {
       return UNIMPLEMENTED;
     }
-  }
-}
+  },
 
-module.exports = AnswerStatusDbAdapter;
+  fromSQLString(answerStatusString) {
+
+    if (answerStatusString === OK) {
+      return AnswerStatus.OK;
+    } else if (answerStatusString === KO) {
+      return AnswerStatus.KO;
+    } else if (answerStatusString === PARTIALLY) {
+      return AnswerStatus.PARTIALLY;
+    } else if (answerStatusString === TIMEDOUT) {
+      return AnswerStatus.TIMEDOUT;
+    } else if (answerStatusString === SKIPPED) {
+      return AnswerStatus.SKIPPED;
+    } else if (answerStatusString === UNIMPLEMENTED) {
+      return AnswerStatus.UNIMPLEMENTED;
+    }
+  },
+};
+

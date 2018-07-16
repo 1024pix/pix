@@ -1,5 +1,6 @@
 const { expect, knex, factory, databaseBuilder } = require('../../../test-helper');
 const Answer = require('../../../../lib/domain/models/Answer');
+const answerStatusDatabaseAdapter = require('../../../../lib/infrastructure/adapters/answer-status-database-adapter');
 const { NotFoundError } = require('../../../../lib/domain/errors');
 const _ = require('lodash');
 
@@ -310,7 +311,7 @@ describe('Integration | Repository | AnswerRepository', () => {
       // id, createdAt, and updatedAt are not present
       const expectedRawAnswerWithoutIdNorDates = {
         value: answer.value,
-        result: answer.result.raw,
+        result: answerStatusDatabaseAdapter.toSQLString(answer.result),
         assessmentId: answer.assessmentId,
         challengeId: answer.challengeId,
         timeout: answer.timeout,
