@@ -7,5 +7,7 @@
 <div class="row">
   <div class="col session-list__actions">
     {{#bs-button class='session-lit__button' type='primary' size='sm' onClick=(action "onExport")}}Exporter{{/bs-button}}
+    {{#bs-button class='session-lit__button' type='primary' size='sm' onClick=(action "onImport")}}Importer...{{/bs-button}}
+    {{input type='file' id='session-list__import-file' change=(action "onImportFileSelect")}}
   </div>
 </div>

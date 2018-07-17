@@ -2,6 +2,8 @@ import Controller from '@ember/controller';
 import json2csv from 'json2csv';
 import { computed } from '@ember/object';
 import FileSaver from 'file-saver';
+import Papa from 'papaparse';
+import { inject as service } from '@ember/service';
 
 export default Controller.extend({
 
@@ -9,6 +11,8 @@ export default Controller.extend({
   progress:false,
   progressMax:0,
   progressCurrent:0,
+  notifications: service('notification-messages'),
+
 
   // Computed properties
   progressValue:computed('progressMax', 'progressCurrent', function() {
@@ -49,6 +53,7 @@ export default Controller.extend({
 
     this._csvHeaders = Object.values(this._fields).concat(this._competences);
 
+    this._csvImportFields = ['firstName', 'lastName', 'birthdate', 'birthplace', 'externalId'];
   },
 
   // Actions
@@ -71,6 +76,39 @@ export default Controller.extend({
         let csvFile = new File([csv], fileName, {type:'text/csv;charset=utf-8'});
         FileSaver.saveAs(csvFile);
       });
+    },
+    onImport() {
+      let fileInput = document.getElementById('session-list__import-file');
+      fileInput.click();
+    },
+    onImportFileSelect(evt) {
+      try {
+        let file = evt.target.files[0];
+        let reader = new FileReader();
+        let that = this;
+        reader.onload = function(event) {
+          let data = event.target.result;
+          // We delete the BOM UTF8 at the beginning of the CSV,
+          // otherwise the first element is wrongly parsed.
+          const csvRawData = data.toString('utf8').replace(/^\uFEFF/, '');
+          const parsedCSVData = Papa.parse(csvRawData, { header: true }).data;
+          that.set('progressMax', parsedCSVData.length);
+          that.set('progress', true);
+          return that._importCertificationsData(parsedCSVData)
+          .then(() => {
+            that.set('progress', false);
+          })
+          .catch((error) => {
+            that.set('progress', false);
+            that.get('notifications').error(error);
+          });
+        }
+        reader.readAsText(file);
+      }
+      catch(error) {
+        this.set('progress', false);
+        this.get('notifications').error(error);
+      }
     }
   },
 
@@ -114,6 +152,58 @@ export default Controller.extend({
         return json.concat(value);
       }
     });
+  },
+
+  _importCertificationsData(data) {
+    let dataPiece = data.splice(0,10);
+    return this._updateCertifications(dataPiece)
+    .then(() => {
+      this.set('progressCurrent', this.get('progressCurrent')+10);
+      if (data.length>0) {
+        return this._importCertificationsData(data);
+      } else {
+        return true;
+      }
+    });
+  },
+
+  _updateCertifications(data) {
+    let store = this.get('store');
+    let requests = [];
+    let newData = {};
+    data.forEach((piece) => {
+      let id = piece[this._fields.id];
+      newData[id] = piece;
+      requests.push(store.findRecord('certification', id));
+    })
+    return Promise.all(requests)
+    .then((certifications) => {
+      let updateRequests = [];
+      certifications.forEach((certification) => {
+        let id = certification.get('id');
+        let newDataPiece = newData[id];
+        this._csvImportFields.forEach((key) => {
+          let fieldName = this._fields[key];
+          let fieldValue = newDataPiece[fieldName];
+          if (fieldValue.length == 0) {
+            fieldValue = null;
+          }
+          certification.set(key, fieldValue);
+        });
+        // check that session id is correct
+        if (certification.get('sessionId') == this.get('model.session.id')) {
+          // check that info has changed
+          if (Object.keys(certification.changedAttributes()).length>0) {
+            updateRequests.push(certification.save({adapterOptions:{updateMarks:false}}));
+          }
+        }
+      })
+      return Promise.all(updateRequests);
+    })
+    .then(() => {
+      return true;
+    });
   }
+
 
 });
