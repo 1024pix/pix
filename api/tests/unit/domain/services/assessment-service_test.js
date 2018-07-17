@@ -6,7 +6,6 @@ const assessmentAdapter = require('../../../../lib/infrastructure/adapters/asses
 
 const assessmentRepository = require('../../../../lib/infrastructure/repositories/assessment-repository');
 const courseRepository = require('../../../../lib/infrastructure/repositories/course-repository');
-const certificationCourseRepository = require('../../../../lib/infrastructure/repositories/certification-course-repository');
 const challengeRepository = require('../../../../lib/infrastructure/repositories/challenge-repository');
 const answerRepository = require('../../../../lib/infrastructure/repositories/answer-repository');
 const skillRepository = require('../../../../lib/infrastructure/repositories/skill-repository');
@@ -959,126 +958,6 @@ describe('Unit | Domain | Services | assessment', () => {
         // then
         expect(result).to.deep.equal([]);
       });
-    });
-  });
-
-  describe('#findByFilters', function() {
-
-    let sandbox;
-
-    beforeEach(() => {
-      sandbox = sinon.sandbox.create();
-      sandbox.stub(assessmentRepository, 'findByFilters').resolves([]);
-      sandbox.stub(certificationCourseRepository, 'get').resolves();
-    });
-
-    afterEach(() => {
-      sandbox.restore();
-    });
-
-    it('should find all the assessment with corresponding filters', function() {
-      // given
-      const filters = { courseId: 'courseId' };
-
-      // when
-      const promise = service.findByFilters(filters);
-
-      // then
-      return promise.then(() => {
-        expect(assessmentRepository.findByFilters).to.have.been.called;
-        expect(assessmentRepository.findByFilters).to.have.been.calledWith({ courseId: 'courseId' });
-      });
-    });
-
-    context('when the assessment is a certification assessment', () => {
-
-      it('should get the course associated to each assessment ', function() {
-        // given
-        const filters = { courseId: 'courseId' };
-        const retrievedAssessments = [Assessment.fromAttributes({
-          id: 1,
-          type: Assessment.types.CERTIFICATION,
-          courseId: 'courseId',
-        })];
-        assessmentRepository.findByFilters.resolves(retrievedAssessments);
-
-        // when
-        const promise = service.findByFilters(filters);
-
-        // then
-        return promise.then(() => {
-          expect(certificationCourseRepository.get).to.have.been.calledOnce;
-          expect(certificationCourseRepository.get).to.have.been.calledWith('courseId');
-        });
-      });
-
-      it('should return one assessment with corresponding course', function() {
-        // given
-        const filters = { courseId: 'courseId' };
-        const retrievedAssessments = [Assessment.fromAttributes({
-          id: 1,
-          type: Assessment.types.CERTIFICATION,
-          courseId: 'courseId',
-        })];
-        assessmentRepository.findByFilters.resolves(retrievedAssessments);
-        certificationCourseRepository.get.resolves({ id: 'courseId', status: 'started' });
-        // when
-        const promise = service.findByFilters(filters);
-
-        // then
-        return promise.then((assessments) => {
-          expect(assessments[0]).to.be.instanceOf(Assessment);
-          expect(assessments[0].id).to.be.deep.equal(1);
-          expect(assessments[0].course).to.be.instanceOf(Course);
-        });
-      });
-    });
-
-    context('when there are different types of assessment', () => {
-
-      it('should get the course associated to each assessment ', function() {
-        // given
-        const filters = { userId: 1 };
-        const retrievedAssessments = [
-          Assessment.fromAttributes({ id: 1, type: Assessment.types.CERTIFICATION, courseId: '2' }),
-          Assessment.fromAttributes({ id: 2, type: Assessment.types.DEMO, courseId: 'recCourseId' }),
-        ];
-        assessmentRepository.findByFilters.resolves(retrievedAssessments);
-
-        // when
-        const promise = service.findByFilters(filters);
-
-        // then
-        return promise.then(() => {
-          expect(certificationCourseRepository.get).to.have.been.calledOnce;
-          expect(certificationCourseRepository.get).to.have.been.calledWith('2');
-        });
-      });
-
-      it('should return two assessment with corresponding course just for the certification assessment', function() {
-        // given
-        const filters = { userId: 1 };
-        const retrievedAssessments = [
-          Assessment.fromAttributes({ id: 1, type: Assessment.types.CERTIFICATION, courseId: '2' }),
-          Assessment.fromAttributes({ id: 2, type: Assessment.types.DEMO, courseId: 'recCourseId' }),
-        ];
-        assessmentRepository.findByFilters.resolves(retrievedAssessments);
-        certificationCourseRepository.get.resolves({ id: 'courseId', status: 'started' });
-
-        // when
-        const promise = service.findByFilters(filters);
-
-        // then
-        return promise.then((assessments) => {
-          expect(assessments[0]).to.be.instanceOf(Assessment);
-          expect(assessments[1]).to.be.instanceOf(Assessment);
-          expect(assessments[0].id).to.be.deep.equal(1);
-          expect(assessments[1].id).to.be.deep.equal(2);
-          expect(assessments[0].course).to.be.instanceOf(Course);
-          expect(assessments[1].course).to.be.deep.equal(undefined);
-        });
-      });
-
     });
   });
 

@@ -7,7 +7,8 @@ export default BaseRoute.extend({
 
     return this.get('store').query('assessment', {
       filter: {
-        courseId: certificationCourseId
+        courseId: certificationCourseId,
+        type: 'CERTIFICATION'
       }
     }).then((assessments)=> {
       return assessments.get('firstObject');
