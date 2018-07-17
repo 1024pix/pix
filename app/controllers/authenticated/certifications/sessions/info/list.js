@@ -1,12 +1,16 @@
 import Controller from '@ember/controller';
 import json2csv from 'json2csv';
 import { computed } from '@ember/object';
+import FileSaver from 'file-saver';
 
 export default Controller.extend({
 
+  // Properties
   progress:false,
   progressMax:0,
   progressCurrent:0,
+
+  // Computed properties
   progressValue:computed('progressMax', 'progressCurrent', function() {
     let max = this.get('progressMax');
     let current = this.get('progressCurrent');
@@ -26,35 +30,59 @@ export default Controller.extend({
       '4.1', '4.2', '4.3',
       '5.1', '5.2'
     ]
-    this._csvHeaders = [
-      'ID de certification',
-      'Prenom du candidat', 'Nom du candidat', 'Date de naissance du candidat', 'Lieu de naissance du candidat', 'Identifiant Externe',
-      'Statut de la certification', 'ID de session', 'Date de debut', 'Date de fin',
-      'Commentaire pour le candidat', 'Commentaire pour l\'organisation', 'Commentaire pour le jury', 'Note Pix'
-    ];
+    this._fields = {
+      id:'ID de certification',
+      firstName:'Prenom du candidat',
+      lastName:'Nom du candidat',
+      birthdate:'Date de naissance du candidat',
+      birthplace:'Lieu de naissance du candidat',
+      externalId:'Identifiant Externe',
+      status:'Statut de la certification',
+      sessionId:'ID de session',
+      creationDate:'Date de debut',
+      completionDate:'Date de fin',
+      commentForCandidate:'Commentaire pour le candidat',
+      commentForOrganization:'Commentaire pour l\'organisation',
+      commentForJury:'Commentaire pour le jury',
+      pixScore:'Note Pix'
+    };
 
-    this._csvHeaders = this._csvHeaders.concat(this._competences);
+    this._csvHeaders = Object.values(this._fields).concat(this._competences);
 
   },
 
+  // Actions
+  actions: {
+    onExport() {
+      let ids = this.get('model.certificationIds').toArray();
+      this.set('progressMax', ids.length);
+      this.set('progress', true);
+      this._getExportJson(ids, [])
+      .then((json) => {
+        return json2csv.parse(json, {
+          fields: this._csvHeaders,
+          delimiter: ';',
+          withBOM: true,
+        });
+      })
+      .then((csv) => {
+        this.set('progress', false);
+        let fileName = 'session_'+this.get('model.session.id')+' '+(new Date()).toLocaleString('fr-FR')+'.csv';
+        let csvFile = new File([csv], fileName, {type:'text/csv;charset=utf-8'});
+        FileSaver.saveAs(csvFile);
+      });
+    }
+  },
+
+  // Private methods
   _getJsonRow(certification) {
     // TODO: handle birthdate
-    let data = {
-      'ID de certification':certification.get('id'),
-      'Prenom du candidat':certification.get('firstName'),
-      'Nom du candidat':certification.get('lastName'),
-      'Date de naissance du candidat':certification.get('birthdate'),
-      'Lieu de naissance du candidat':certification.get('birthplace'),
-      'Identifiant Externe':certification.get('externalId'),
-      'Statut de la certification':certification.get('status'),
-      'ID de session':certification.get('sessionId'),
-      'Date de debut':certification.get('creationDate'),
-      'Date de fin':certification.get('completionDate'),
-      'Commentaire pour le candidat':certification.get('commentForCandidate'),
-      'Commentaire pour l\'organisation':certification.get('commentForOrganization'),
-      'Commentaire pour le jury':certification.get('commentForJury'),
-      'Note Pix':certification.get('pixScore')
-    };
+
+    let data = Object.keys(this._fields).reduce((currentData, field) => {
+      let header = this._fields[field];
+      currentData[header] = certification.get(field);
+      return currentData;
+    }, {});
     let competences = certification.get('indexedCompetences');
     this._competences.forEach((competence) => {
       data[competence] = (competences[competence] == null)?'':competences[competence].level;
@@ -64,17 +92,15 @@ export default Controller.extend({
 
   _getCertificationsJson(ids) {
     let store = this.get('store');
-    let requests = ids.reduce((result, id) => {
-      result.push(store.findRecord('certification', id));
-      return result;
-    }, []);
+    let requests = ids.map((id) => {
+      return store.findRecord('certification', id);
+    });
     return Promise.all(requests)
     .then((certifications) => {
-      return certifications.reduce((result, certification) => {
-        result.push(this._getJsonRow(certification));
-        return result;
-      }, []);
-    })
+      return certifications.map((certification) => {
+        return this._getJsonRow(certification);
+      });
+    });
   },
 
   _getExportJson(certificationsIds, json) {
@@ -88,26 +114,6 @@ export default Controller.extend({
         return json.concat(value);
       }
     });
-  },
-
-  actions: {
-    onExport() {
-      let ids = this.get('model.ids');
-      this.set('progressMax', ids.length);
-      this.set('progress', true);
-      this._getExportJson(ids, [])
-      .then((json) => {
-        return json2csv.parse({
-          data: json,
-          fieldNames: this._csvHeaders,
-          del: ';',
-          withBOM: true,
-        });
-      })
-      .then((csv) => {
-        //this.set('progress', false);
-        console.debug(csv);
-      });
-    }
   }
+
 });
