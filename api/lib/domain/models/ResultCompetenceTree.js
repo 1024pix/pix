@@ -27,7 +27,7 @@ class ResultCompetenceTree {
 
       const areaWithResultCompetences = new Area(area);
 
-      areaWithResultCompetences.competences = area.competences.map((competence) => {
+      areaWithResultCompetences.resultCompetences = area.competences.map((competence) => {
         const noLevelCompetenceMark = new CompetenceMark({ level: NOT_PASSED_LEVEL, score: NOT_PASSED_SCORE });
 
         const associatedCompetenceMark = competenceMarks.find((competenceMark) => {
@@ -42,7 +42,7 @@ class ResultCompetenceTree {
           score: associatedCompetenceMark.score,
         });
       });
-
+      delete  areaWithResultCompetences.competences;
       return areaWithResultCompetences;
     });
 
