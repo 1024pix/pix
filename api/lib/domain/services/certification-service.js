@@ -251,7 +251,6 @@ module.exports = {
 
   getCertificationResult(certificationCourseId) {
     let assessment = {};
-    let assessmentLastResult = {};
     let certification = {};
     return assessmentRepository
       .getByCertificationCourseId(certificationCourseId)
@@ -265,30 +264,29 @@ module.exports = {
         if (assessment == null) {
           throw new NotCompletedAssessmentError();
         }
-        assessmentLastResult = assessment.getLastAssessmentResult();
-        if(assessmentLastResult)
-          return assessmentResultRepository.get(assessmentLastResult.id);
+        const lastAssessmentResult = assessment.getLastAssessmentResult();
+        if (lastAssessmentResult)
+          return assessmentResultRepository.get(lastAssessmentResult.id);
         else {
-          assessmentLastResult = { status: assessment.state };
-          return { competenceMarks: [] };
+          return { competenceMarks: [], status: assessment.state };
         }
       })
-      .then(assessmentResult => {
+      .then(lastAssessmentResultFull => {
         return {
-          level: assessmentLastResult.level,
+          level: lastAssessmentResultFull.level,
           certificationId: certification.id,
           assessmentId: assessment.id,
-          emitter: assessmentLastResult.emitter,
-          commentForJury: assessmentLastResult.commentForJury,
-          commentForCandidate: assessmentLastResult.commentForCandidate,
-          commentForOrganization: assessmentLastResult.commentForOrganization,
-          status: assessmentLastResult.status,
-          pixScore: assessmentLastResult.pixScore,
+          emitter: lastAssessmentResultFull.emitter,
+          commentForJury: lastAssessmentResultFull.commentForJury,
+          commentForCandidate: lastAssessmentResultFull.commentForCandidate,
+          commentForOrganization: lastAssessmentResultFull.commentForOrganization,
+          status: lastAssessmentResultFull.status,
+          pixScore: lastAssessmentResultFull.pixScore,
           createdAt: certification.createdAt,
-          juryId: assessmentLastResult.juryId,
-          resultCreatedAt: assessmentLastResult.createdAt,
+          juryId: lastAssessmentResultFull.juryId,
+          resultCreatedAt: lastAssessmentResultFull.createdAt,
           completedAt: certification.completedAt,
-          competencesWithMark: assessmentResult.competenceMarks,
+          competencesWithMark: lastAssessmentResultFull.competenceMarks,
           firstName: certification.firstName,
           lastName: certification.lastName,
           birthdate: certification.birthdate,
