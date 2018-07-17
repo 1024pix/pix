@@ -1,8 +1,8 @@
 const randomString = require('randomstring');
 
 function generate(campaignRepository) {
-  const letters = randomString.generate({ length: 6, charset: 'alphabetic', capitalization: 'uppercase' });
-  const numbers = randomString.generate({ length: 3, charset: 'numeric' });
+  const letters = randomString.generate({ length: 6, charset: 'alphabetic', capitalization: 'uppercase', readable: true });
+  const numbers = randomString.generate({ length: 3, charset: 'numeric', readable: true });
 
   const generatedCampaignCode = letters.concat(numbers);
 
