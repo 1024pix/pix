@@ -4,7 +4,8 @@ const columns = [
   {
     propertyName: 'id',
     title: 'Id',
-    routeName: "authenticated.certifications.single.info"
+    routeName: 'authenticated.certifications.single.info',
+    sortPrecedence: 1
   },
   {
     propertyName: 'firstName',
