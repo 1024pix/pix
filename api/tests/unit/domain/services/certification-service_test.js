@@ -1291,80 +1291,84 @@ describe('Unit | Service | Certification Service', function() {
   describe('#getCertificationResult', () => {
     let sandbox;
 
-    beforeEach(() => {
-      sandbox = sinon.sandbox.create();
-      const assessmentResult = _buildAssessmentResult(20, 3);
-      sandbox.stub(assessmentRepository, 'getByCertificationCourseId').resolves(Assessment.fromAttributes({
-        state: 'completed',
-        assessmentResults: [
-          _buildAssessmentResult(20, 3),
-        ],
-      }));
-      sandbox.stub(certificationCourseRepository, 'get').resolves({
-        createdAt: '2017-12-23 15:23:12',
-        completedAt: '2017-12-23T16:23:12.232Z',
-        firstName: 'Pumba',
-        lastName: 'De La Savane',
-        birthplace: 'Savane',
-        birthdate: '28/01/1992',
-        sessionId: 'MoufMufassa',
-        externalId: 'TimonsFriend',
+    context('when certification is finished', () => {
+
+      beforeEach(() => {
+        sandbox = sinon.sandbox.create();
+        const assessmentResult = _buildAssessmentResult(20, 3);
+        sandbox.stub(assessmentRepository, 'getByCertificationCourseId').resolves(Assessment.fromAttributes({
+          state: 'completed',
+          assessmentResults: [
+            _buildAssessmentResult(20, 3),
+          ],
+        }));
+        sandbox.stub(certificationCourseRepository, 'get').resolves({
+          createdAt: '2017-12-23 15:23:12',
+          completedAt: '2017-12-23T16:23:12.232Z',
+          firstName: 'Pumba',
+          lastName: 'De La Savane',
+          birthplace: 'Savane',
+          birthdate: '28/01/1992',
+          sessionId: 'MoufMufassa',
+          externalId: 'TimonsFriend',
+        });
+        assessmentResult.competenceMarks = [_buildCompetenceMarks(3, 27, '2', '2.1')];
+        sandbox.stub(assessmentResultRepository, 'get').resolves(
+          assessmentResult,
+        );
       });
-      assessmentResult.competenceMarks = [_buildCompetenceMarks(3, 27, '2', '2.1')];
-      sandbox.stub(assessmentResultRepository, 'get').resolves(
-        assessmentResult,
-      );
-    });
 
-    afterEach(() => {
-      sandbox.restore();
-    });
-
-    it('should return certification results with pix score, date and certified competences levels', () => {
-      // given
-      const certificationCourseId = 1;
-
-      // when
-      const promise = certificationService.getCertificationResult(certificationCourseId);
-
-      // then
-      return promise.then(certification => {
-        expect(certification.pixScore).to.deep.equal(20);
-        expect(certification.createdAt).to.deep.equal('2017-12-23 15:23:12');
-        expect(certification.completedAt).to.deep.equal('2017-12-23T16:23:12.232Z');
-        expect(certification.competencesWithMark).to.deep.equal([{
-          area_code: '2',
-          assessmentResultId: undefined,
-          competence_code: '2.1',
-          id: undefined,
-          level: 3,
-          score: 27,
-        }]);
-        expect(certification.sessionId).to.deep.equal('MoufMufassa');
+      afterEach(() => {
+        sandbox.restore();
       });
-    });
 
-    it('should return certified user informations', function() {
-      // given
-      const certificationCourseId = 1;
+      it('should return certification results with pix score, date and certified competences levels', () => {
+        // given
+        const certificationCourseId = 1;
 
-      // when
-      const promise = certificationService.getCertificationResult(certificationCourseId);
+        // when
+        const promise = certificationService.getCertificationResult(certificationCourseId);
 
-      // then
-      return promise.then(certification => {
-        expect(certification.firstName).to.deep.equal('Pumba');
-        expect(certification.lastName).to.deep.equal('De La Savane');
-        expect(certification.birthplace).to.deep.equal('Savane');
-        expect(certification.birthdate).to.deep.equal('28/01/1992');
-        expect(certification.externalId).to.deep.equal('TimonsFriend');
+        // then
+        return promise.then(certification => {
+          expect(certification.pixScore).to.deep.equal(20);
+          expect(certification.createdAt).to.deep.equal('2017-12-23 15:23:12');
+          expect(certification.completedAt).to.deep.equal('2017-12-23T16:23:12.232Z');
+          expect(certification.competencesWithMark).to.deep.equal([{
+            area_code: '2',
+            assessmentResultId: undefined,
+            competence_code: '2.1',
+            id: undefined,
+            level: 3,
+            score: 27,
+          }]);
+          expect(certification.sessionId).to.deep.equal('MoufMufassa');
+        });
       });
+
+      it('should return certified user informations', function() {
+        // given
+        const certificationCourseId = 1;
+
+        // when
+        const promise = certificationService.getCertificationResult(certificationCourseId);
+
+        // then
+        return promise.then(certification => {
+          expect(certification.firstName).to.deep.equal('Pumba');
+          expect(certification.lastName).to.deep.equal('De La Savane');
+          expect(certification.birthplace).to.deep.equal('Savane');
+          expect(certification.birthdate).to.deep.equal('28/01/1992');
+          expect(certification.externalId).to.deep.equal('TimonsFriend');
+        });
+      });
+
     });
 
     context('when certification is not finished', () => {
 
       beforeEach(() => {
-        sandbox.restore();
+        sandbox = sinon.sandbox.create();
         sandbox.stub(assessmentRepository, 'getByCertificationCourseId').resolves(Assessment.fromAttributes({
           state: 'started',
         }));
@@ -1378,6 +1382,10 @@ describe('Unit | Service | Certification Service', function() {
           externalId: 'TimonsFriend',
         });
         sandbox.stub(assessmentResultRepository, 'get').resolves(null);
+      });
+
+      afterEach(() => {
+        sandbox.restore();
       });
 
       it('should return certification results with state at started, empty marks and undefined for information not yet valid', () => {
