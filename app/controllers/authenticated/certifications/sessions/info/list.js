@@ -1,7 +1,21 @@
 import Controller from '@ember/controller';
-//import json2csv from 'json2csv';
+import json2csv from 'json2csv';
+import { computed } from '@ember/object';
 
 export default Controller.extend({
+
+  progress:false,
+  progressMax:0,
+  progressCurrent:0,
+  progressValue:computed('progressMax', 'progressCurrent', function() {
+    let max = this.get('progressMax');
+    let current = this.get('progressCurrent');
+    if (max > 0 ) {
+      return Math.round((current*100)/max);
+    } else {
+      return 0;
+    }
+  }),
 
   init() {
     this._super();
@@ -16,7 +30,7 @@ export default Controller.extend({
       'ID de certification',
       'Prenom du candidat', 'Nom du candidat', 'Date de naissance du candidat', 'Lieu de naissance du candidat', 'Identifiant Externe',
       'Statut de la certification', 'ID de session', 'Date de debut', 'Date de fin',
-      'Commentaire pour le candidat', 'Commentaire pour l\'organisation', 'Commentaire pour le jury', 'Note Pix',
+      'Commentaire pour le candidat', 'Commentaire pour l\'organisation', 'Commentaire pour le jury', 'Note Pix'
     ];
 
     this._csvHeaders = this._csvHeaders.concat(this._competences);
@@ -25,21 +39,27 @@ export default Controller.extend({
 
   _getJsonRow(certification) {
     // TODO: handle birthdate
-    return {
-      id:certification.get('id'),
-      firstName:certification.get('firstName'),
-      lastName:certification.get('lastName'),
-      birthdate:certification.get('birthdate'),
-      externalId:certification.get('externalId'),
-      status:certification.get('status'),
-      sessionNumber:certification.get('sessionId'),
-      dateStart:certification.get('creationDate'),
-      dateEnd:certification.get('completionDate'),
-      commentCandidate:certification.get('commentForCandidate'),
-      commentOrganization:certification.get('commentForOrganization'),
-      commentJury:certification.get('commentForJury'),
-      note:certification.get('pixScore')
-    }
+    let data = {
+      'ID de certification':certification.get('id'),
+      'Prenom du candidat':certification.get('firstName'),
+      'Nom du candidat':certification.get('lastName'),
+      'Date de naissance du candidat':certification.get('birthdate'),
+      'Lieu de naissance du candidat':certification.get('birthplace'),
+      'Identifiant Externe':certification.get('externalId'),
+      'Statut de la certification':certification.get('status'),
+      'ID de session':certification.get('sessionId'),
+      'Date de debut':certification.get('creationDate'),
+      'Date de fin':certification.get('completionDate'),
+      'Commentaire pour le candidat':certification.get('commentForCandidate'),
+      'Commentaire pour l\'organisation':certification.get('commentForOrganization'),
+      'Commentaire pour le jury':certification.get('commentForJury'),
+      'Note Pix':certification.get('pixScore')
+    };
+    let competences = certification.get('indexedCompetences');
+    this._competences.forEach((competence) => {
+      data[competence] = (competences[competence] == null)?'':competences[competence].level;
+    });
+    return data;
   },
 
   _getCertificationsJson(ids) {
@@ -57,15 +77,37 @@ export default Controller.extend({
     })
   },
 
-  _getExportJson() {
-    //let ids = certificationIds.splice(0,10);
+  _getExportJson(certificationsIds, json) {
+    let ids = certificationsIds.splice(0,10);
+    return this._getCertificationsJson(ids)
+    .then((value) => {
+      this.set('progressCurrent', this.get('progressCurrent')+value.length);
+      if (certificationsIds.length >0 ) {
+        return this._getExportJson(certificationsIds, json.concat(value));
+      } else {
+        return json.concat(value);
+      }
+    });
   },
 
   actions: {
     onExport() {
-      //let ids = this.get('model.ids');
-      //this._getCertificationSet(ids);
-
+      let ids = this.get('model.ids');
+      this.set('progressMax', ids.length);
+      this.set('progress', true);
+      this._getExportJson(ids, [])
+      .then((json) => {
+        return json2csv.parse({
+          data: json,
+          fieldNames: this._csvHeaders,
+          del: ';',
+          withBOM: true,
+        });
+      })
+      .then((csv) => {
+        //this.set('progress', false);
+        console.debug(csv);
+      });
     }
   }
 });

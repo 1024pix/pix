@@ -28,12 +28,15 @@ export default DS.Model.extend({
   pixScore: DS.attr(),
   competencesWithMark: DS.attr(),
   isPublished: DS.attr(),
-  competences:computed('competencesWithMark', function() {
+  indexedCompetences:computed('competencesWithMark', function() {
     let competencesWithMarks = this.get('competencesWithMark');
-    let indexedCompetences = competencesWithMarks.reduce((result, value) => {
+    return competencesWithMarks.reduce((result, value) => {
       result[value['competence-code']] = {index:value['competence-code'], level:value.level, score:value.score};
       return result;
     }, {});
+  }),
+  competences:computed('indexedCompetences', function() {
+    let indexedCompetences = this.get('indexedCompetences');
     return Object.keys(indexedCompetences).sort().reduce((result, value) => {
       result.push(indexedCompetences[value]);
       return result;

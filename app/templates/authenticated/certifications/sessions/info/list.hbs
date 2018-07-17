@@ -1,8 +1,11 @@
 {{certification-list certifications=model.data}}
-<!--
+{{#if progress}}
+{{#bs-progress as |p|}}
+  {{p.bar value=progressValue maxValue=progressMax}}
+{{/bs-progress}}
+{{/if}}
 <div class="row">
   <div class="col session-list__actions">
     {{#bs-button class='session-lit__button' type='primary' size='sm' onClick=(action "onExport")}}Exporter{{/bs-button}}
   </div>
 </div>
--->
