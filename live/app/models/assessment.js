@@ -1,10 +1,9 @@
-import { alias, equal } from '@ember/object/computed';
+import { equal } from '@ember/object/computed';
 import { computed } from '@ember/object';
 import DS from 'ember-data';
+import ENV from 'pix-live/config/environment';
 
 const { attr, Model, belongsTo, hasMany } = DS;
-
-import { getProgressionBehaviorFromAssessmentType } from 'pix-live/models/behaviors/assessment-progression';
 
 export default Model.extend({
 
@@ -13,28 +12,19 @@ export default Model.extend({
   skillReview: belongsTo('skill-review', { inverse: null }),
   certificationNumber: attr('string'),
   estimatedLevel: attr('number'),
-  firstChallenge: alias('course.challenges.firstObject'),
   hasCheckpoints: equal('type', 'SMART_PLACEMENT'),
   isCertification: equal('type', 'CERTIFICATION'),
   pixScore: attr('number'),
   result: belongsTo('assessment-result'),
   type: attr('string'),
-  userName: attr('string'),
-  userEmail: attr('string'),
-
-  ready() {
-    this._progressionBehavior = getProgressionBehaviorFromAssessmentType(this.get('type'));
-  },
 
   answersSinceLastCheckpoints: computed('answers.[]', function() {
     const answers = this.get('answers').toArray();
-    return this._progressionBehavior.answersSinceLastCheckpoints(answers);
-  }),
+    const howManyAnswersSinceTheLastCheckpoint = answers.length % ENV.APP.NUMBER_OF_CHALLENGE_BETWEEN_TWO_CHECKPOINTS_IN_SMART_PLACEMENT;
+    const sliceAnswersFrom = (howManyAnswersSinceTheLastCheckpoint === 0)
+      ? -ENV.APP.NUMBER_OF_CHALLENGE_BETWEEN_TWO_CHECKPOINTS_IN_SMART_PLACEMENT
+      : -howManyAnswersSinceTheLastCheckpoint;
+    return answers.slice(sliceAnswersFrom);
+  })
 
-  progress: computed('answers', 'course', function() {
-    return this._progressionBehavior.progress(
-      this.get('answers.length'),
-      this.get('course.nbChallenges'),
-    );
-  }),
 });

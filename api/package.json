@@ -74,6 +74,7 @@
     "dev": "npx nodemon bin/www",
     "db:create": "npx knex --knexfile db/knexfile.js migrate:make $migrationname",
     "db:migrate": "npx knex --knexfile db/knexfile.js migrate:latest",
+    "db:rollback": "npx knex --knexfile db/knexfile.js migrate:rollback",
     "db:seed": "npx knex --knexfile db/knexfile.js seed:run",
     "db:delete": "rm -f db/dev.sqlite3",
     "db:reset": "npm run db:delete && npm run db:migrate && npm run db:seed",

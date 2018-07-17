@@ -1,8 +1,9 @@
 const { sinon, expect } = require('../../../test-helper');
 
 const assessmentController = require('../../../../lib/application/assessments/assessment-controller');
+const useCases = require('../../../../lib/domain/usecases');
 
-const assessmentService = require('../../../../lib/domain/services/assessment-service');
+const assessmentRepository = require('../../../../lib/infrastructure/repositories/assessment-repository');
 const assessmentSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/assessment-serializer');
 
 describe('Unit | Controller | assessment-controller', function() {
@@ -31,7 +32,7 @@ describe('Unit | Controller | assessment-controller', function() {
 
       codeStub = sinon.stub();
       replyStub = sinon.stub().returns({ code: codeStub });
-      sandbox.stub(assessmentService, 'findByFilters').resolves();
+      sandbox.stub(useCases, 'findUserAssessmentsByFilters').resolves();
       sandbox.stub(assessmentSerializer, 'serializeArray').resolves();
     });
 
@@ -41,7 +42,15 @@ describe('Unit | Controller | assessment-controller', function() {
 
     describe('GET assessments with filters', function() {
 
-      const request = { query: { 'filter[courseId]': 'courseId' } };
+      const userId = 24504875;
+      const request = {
+        query: { 'filter[courseId]': 'courseId' },
+        auth: {
+          credentials: {
+            userId
+          }
+        }
+      };
 
       it('should call assessment service with query filters', function() {
         // when
@@ -49,14 +58,18 @@ describe('Unit | Controller | assessment-controller', function() {
 
         // then
         return promise.then(() => {
-          expect(assessmentService.findByFilters).to.have.been.called;
-          expect(assessmentService.findByFilters).to.have.been.calledWith({ courseId: 'courseId' });
+          expect(useCases.findUserAssessmentsByFilters).to.have.been.called;
+          expect(useCases.findUserAssessmentsByFilters).to.have.been.calledWith({
+            userId,
+            filters: { courseId: 'courseId' },
+            assessmentRepository
+          });
         });
       });
 
       it('should serialize assessment to JSON API', function() {
         // given
-        assessmentService.findByFilters.resolves(assessments);
+        useCases.findUserAssessmentsByFilters.resolves(assessments);
 
         // when
         const promise = assessmentController.findByFilters(request, replyStub);

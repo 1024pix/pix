@@ -45,7 +45,8 @@ describe('Unit | Route | Certification | resume', function() {
       const params = { certification_course_id: certificationCourseId };
       const filters = {
         filter: {
-          courseId: certificationCourseId
+          courseId: certificationCourseId,
+          type: 'CERTIFICATION'
         }
       };
       const retrievedAssessments = [EmberObject.create({ id: 1 })];
