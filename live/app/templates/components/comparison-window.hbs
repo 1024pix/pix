@@ -67,8 +67,23 @@
         </div>
       {{/if}}
 
-      {{tutorial-panel resultItemStatus=resultItem.status hint=correction.hint tutorials=correction.tutorials}}
-      {{learning-more-panel learningMoreTutorials=correction.learningMoreTutorials}}
+      {{#if answer.isResultNotOk}}
+        {{#if correction.noHintsNorTutorialsAtAll }}
+          <div class="comparison-windows__default-message-container">
+            <div class="comparison-windows__default-message-picto-container">
+              <img src="{{rootURL}}/images/comparison-window/icon-tuto.svg"
+                  alt=""
+                  class="comparison-windows__default-message-picto">
+            </div>
+            <div class="comparison-windows__default-message-title">Bientôt ici des tutoriels pour vous aider à réussir ce type
+              d'épreuves !!
+            </div>
+          </div>
+        {{else}}
+          {{tutorial-panel hint=correction.hint tutorials=correction.tutorials}}
+          {{learning-more-panel learningMoreTutorials=correction.learningMoreTutorials}}
+        {{/if}}
+      {{/if}}
     </div>
 
     <div class="routable-modal--footer">
