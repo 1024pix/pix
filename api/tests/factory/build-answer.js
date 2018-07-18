@@ -2,7 +2,7 @@ const faker = require('faker');
 const Answer = require('../../lib/domain/models/Answer');
 const AnswerStatus = require('../../lib/domain/models/AnswerStatus');
 
-module.exports = function buildAnswer({
+function buildAnswer({
   id = faker.random.uuid(),
   elapsedTime = faker.random.number(),
   result = AnswerStatus.OK,
@@ -23,3 +23,21 @@ module.exports = function buildAnswer({
     challengeId,
   });
 };
+
+buildAnswer.uncorrected = function({
+  elapsedTime = faker.random.number(),
+  timeout = faker.random.number(),
+  value = '1',
+  assessmentId = faker.random.number(),
+  challengeId = faker.random.uuid(),
+} = {}) {
+  return new Answer({
+    elapsedTime,
+    timeout,
+    value,
+    assessmentId,
+    challengeId,
+  });
+};
+
+module.exports = buildAnswer;
