@@ -3,13 +3,17 @@ const Answer = require('../../domain/models/Answer');
 const Assessment = require('../../domain/models/Assessment');
 const AssessmentResult = require('../../domain/models/AssessmentResult');
 const { groupBy, map, head, _ } = require('lodash');
-const knex = require('knex');
+const fp = require('lodash/fp');
 
 const LIST_NOT_PLACEMENT = ['CERTIFICATION', 'DEMO', 'SMART_PLACEMENT', 'PREVIEW'];
 
-function _selectLastAssessmentForEachCourse(assessments) {
-  const assessmentsGroupedByCourse = groupBy(assessments.models, (assessment) => assessment.get('courseId'));
+function _selectLastAssessmentForEachCourse(bookshelfAssessments) {
+  const assessmentsGroupedByCourse = groupBy(bookshelfAssessments, (bookshelfAssessment) => bookshelfAssessment.get('courseId'));
   return map(assessmentsGroupedByCourse, head);
+}
+
+function _selectAssessmentsHavingAnAssessmentResult(bookshelfAssessments) {
+  return bookshelfAssessments.filter((bookshelfAssessment) => bookshelfAssessment.relations.assessmentResults.length > 0);
 }
 
 function _toDomain(bookshelfAssessment) {
@@ -65,8 +69,8 @@ module.exports = {
         });
       })
       .fetchAll({ withRelated: ['assessmentResults'] })
-      .then(assessments => assessments.models)
-      .then((assessments) => _.map(assessments, (assessment) => _toDomain(assessment)));
+      .then(bookshelfAssessmentCollection => bookshelfAssessmentCollection.models)
+      .then(fp.map(_toDomain));
   },
 
   findLastAssessmentsForEachCoursesByUser(userId) {
@@ -81,8 +85,9 @@ module.exports = {
           .orderBy('createdAt', 'desc');
       })
       .fetch({ withRelated: ['assessmentResults'] })
+      .then(bookshelfAssessmentCollection => bookshelfAssessmentCollection.models)
       .then(_selectLastAssessmentForEachCourse)
-      .then((assessments) => _.map(assessments, (assessment) => _toDomain(assessment)));
+      .then(fp.map(_toDomain));
   },
 
   findLastCompletedAssessmentsForEachCoursesByUser(userId, limitDate) {
@@ -96,16 +101,15 @@ module.exports = {
           })
           .where('createdAt', '<', limitDate)
           .where('state', '=', 'completed')
-          .whereExists(function() {
-            this.from('assessment-results')
-              .where({ assessmentId: knex.raw('assessments.id') })
-              .where('createdAt', '<', limitDate);
-          })
           .orderBy('createdAt', 'desc');
       })
-      .fetch({ withRelated: ['assessmentResults'] })
+      .fetch({ withRelated: [
+        { assessmentResults: (qb) => { qb.where('createdAt', '<', limitDate); } }
+      ] })
+      .then(bookshelfAssessmentCollection => bookshelfAssessmentCollection.models)
+      .then(_selectAssessmentsHavingAnAssessmentResult)
       .then(_selectLastAssessmentForEachCourse)
-      .then((assessments) => _.map(assessments, (assessment) => _toDomain(assessment)));
+      .then(fp.map(_toDomain));
   },
 
   getByUserIdAndAssessmentId(assessmentId, userId) {
@@ -118,7 +122,7 @@ module.exports = {
   save(assessment) {
     return assessment.validate()
       .then(() => new BookshelfAssessment(_adaptModelToDb(assessment)))
-      .then((assessmentBookshelf) => assessmentBookshelf.save())
+      .then((bookshelfAssessment) => bookshelfAssessment.save())
       .then(_toDomain);
   },
 
@@ -133,8 +137,8 @@ module.exports = {
     return BookshelfAssessment
       .where(filters)
       .fetchAll()
-      .then(assessments => assessments.models)
-      .then((assessments) => _.map(assessments, (assessment) => _toDomain(assessment)));
+      .then(bookshelfAssessmentCollection => bookshelfAssessmentCollection.models)
+      .then(fp.map(_toDomain));
   },
 
 };
