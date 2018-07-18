@@ -457,7 +457,7 @@ describe('Acceptance | API | Certifications', () => {
               'score': 23,
             },
             'id': 'recsvLz0W2ShyfD63',
-            'type': 'resultCompetences',
+            'type': 'result-competences',
           },
           {
             'attributes': {
@@ -467,7 +467,7 @@ describe('Acceptance | API | Certifications', () => {
               'score': 0,
             },
             'id': 'recNv8qhaY887jQb2',
-            'type': 'resultCompetences',
+            'type': 'result-competences',
           },
           {
             'attributes': {
@@ -477,7 +477,7 @@ describe('Acceptance | API | Certifications', () => {
               'score': 0,
             },
             'id': 'recIkYm646lrGvLNT',
-            'type': 'resultCompetences',
+            'type': 'result-competences',
           },
           {
             'attributes': {
@@ -491,15 +491,15 @@ describe('Acceptance | API | Certifications', () => {
                 'data': [
                   {
                     'id': 'recsvLz0W2ShyfD63',
-                    'type': 'resultCompetences',
+                    'type': 'result-competences',
                   },
                   {
                     'id': 'recNv8qhaY887jQb2',
-                    'type': 'resultCompetences',
+                    'type': 'result-competences',
                   },
                   {
                     'id': 'recIkYm646lrGvLNT',
-                    'type': 'resultCompetences',
+                    'type': 'result-competences',
                   },
                 ],
               },
