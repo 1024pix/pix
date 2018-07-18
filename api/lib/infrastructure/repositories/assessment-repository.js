@@ -3,16 +3,13 @@ const Answer = require('../../domain/models/Answer');
 const Assessment = require('../../domain/models/Assessment');
 const AssessmentResult = require('../../domain/models/AssessmentResult');
 const { groupBy, map, head, _ } = require('lodash');
+const knex = require('knex');
 
 const LIST_NOT_PLACEMENT = ['CERTIFICATION', 'DEMO', 'SMART_PLACEMENT', 'PREVIEW'];
 
 function _selectLastAssessmentForEachCourse(assessments) {
   const assessmentsGroupedByCourse = groupBy(assessments.models, (assessment) => assessment.get('courseId'));
   return map(assessmentsGroupedByCourse, head);
-}
-
-function _selectAssessmentFinishedBeforeDate(assessments, limitDate) {
-  return assessments.filter(assessment => assessment.assessmentResults[0].createdAt < limitDate);
 }
 
 function _toDomain(bookshelfAssessment) {
@@ -73,13 +70,11 @@ module.exports = {
   },
 
   findLastAssessmentsForEachCoursesByUser(userId) {
-
     return BookshelfAssessment
       .collection()
       .query(qb => {
-        qb.select()
-          .where({ userId })
-          .andWhere(function() {
+        qb.where({ userId })
+          .where(function() {
             this.where({ type: null })
               .orWhereNotIn('type', LIST_NOT_PLACEMENT);
           })
@@ -95,18 +90,22 @@ module.exports = {
       .collection()
       .query(qb => {
         qb.where({ userId })
-          .where('createdAt', '<', limitDate)
-          .where('state', '=', 'completed')
-          .andWhere(function() {
+          .where(function() {
             this.where({ type: null })
               .orWhereNotIn('type', LIST_NOT_PLACEMENT);
+          })
+          .where('createdAt', '<', limitDate)
+          .where('state', '=', 'completed')
+          .whereExists(function() {
+            this.from('assessment-results')
+              .where({ assessmentId: knex.raw('assessments.id') })
+              .where('createdAt', '<', limitDate);
           })
           .orderBy('createdAt', 'desc');
       })
       .fetch({ withRelated: ['assessmentResults'] })
       .then(_selectLastAssessmentForEachCourse)
-      .then((assessments) => _.map(assessments, (assessment) => _toDomain(assessment)))
-      .then(assessments => _selectAssessmentFinishedBeforeDate(assessments, limitDate));
+      .then((assessments) => _.map(assessments, (assessment) => _toDomain(assessment)));
   },
 
   getByUserIdAndAssessmentId(assessmentId, userId) {
