@@ -66,7 +66,7 @@ describe('Integration | Component | comparison-window', function() {
       // when
       this.render(hbs`{{comparison-window answer=answer challenge=challenge correction=correction index=index}}`);
       // then
-      expect(this.$('.comparison-window__corrected-answers')).to.have.lengthOf(0);
+      expect(this.$('.comparison-window__corrected-answers--qroc')).to.have.lengthOf(0);
     });
 
     it('should render corrected answers when challenge type is QROC', function() {
