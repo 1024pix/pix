@@ -22,24 +22,6 @@ describe('Unit | Route | compte', function() {
       });
     });
 
-    it('should redirect to logout when unable to find user details', function() {
-      // Given
-      this.register('service:store', storyStub);
-      this.inject.service('store', { as: 'store' });
-
-      findRecordStub.rejects();
-      const route = this.subject();
-      route.transitionTo = sinon.stub();
-
-      // When
-      const promise = route.model();
-
-      // Then
-      return promise.catch(function() {
-        sinon.assert.calledWith(route.transitionTo, 'logout');
-      });
-    });
-
     it('should redirect to /board when the user as an organization', function() {
       // Given
       const linkedOrganization = EmberObject.create({ id: 1 });

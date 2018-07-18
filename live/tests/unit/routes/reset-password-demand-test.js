@@ -17,7 +17,6 @@ describe('Unit | Route | changer mot de passe', function() {
     const params = {
       temporaryKey: 'pwd-reset-demand-token'
     };
-    const transitionToStub = sinon.stub();
 
     beforeEach(function() {
       findRecordStub = sinon.stub();
@@ -82,25 +81,6 @@ describe('Unit | Route | changer mot de passe', function() {
         // then
         return promise.then((user) => {
           expect(user).to.eql(expectedUser);
-        });
-      });
-    });
-
-    describe('When password reset demand is not valid', function() {
-
-      it('should redirect to home', function() {
-        // given
-        findRecordStub.rejects();
-        const route = this.subject();
-        route.set('transitionTo', transitionToStub);
-
-        // when
-        const promise = route.model(params);
-
-        // then
-        return promise.then(() => {
-          sinon.assert.calledOnce(transitionToStub);
-          sinon.assert.calledWith(transitionToStub, 'index');
         });
       });
     });

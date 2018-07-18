@@ -54,19 +54,23 @@ Router.map(function() {
   this.route('terms-of-service', { path: '/conditions-generales-d-utilisation' });
   this.route('reset-password', { path: '/changer-mot-de-passe/:temporaryKey' });
   this.route('password-reset-demand', { path: '/mot-de-passe-oublie' });
-  this.route('not-found', { path: '/*path' });
   this.route('certifications', function() {
     this.route('start', { path: '/' });
     this.route('resume', { path: '/:certification_course_id' });
     this.route('results', { path: '/:certification_number/results' });
   });
+
+  this.route('user-certifications', { path: 'mes-certifications' }, function() {
+    this.route('get', { path: '/:id' });
+  });
+
   this.route('campaigns', { path: '/campagnes' }, function() {
     this.route('start-or-resume', { path: '/codecampagnepix' });
     this.route('skill-review', { path: '/codecampagnepix/resultats/:assessment_id' });
   });
-  this.route('user-certifications', { path: 'mes-certifications' }, function() {
-    this.route('get', { path: '/:id' });
-  });
+
+  // XXX: this route is used for any request that did not match any of the previous routes. SHOULD ALWAYS BE THE LAST ONE
+  this.route('not-found', { path: '/*path' });
 });
 
 export default Router;
