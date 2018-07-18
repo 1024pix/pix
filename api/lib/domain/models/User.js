@@ -38,8 +38,7 @@ class User {
 
   hasAccessToOrganization(organizationId) {
     return this.organizationsAccesses
-      .map((organizationAccess) => organizationAccess.organization.id)
-      .includes(organizationId);
+      .some((organizationAccess) => organizationAccess.organization.id === organizationId);
   }
 
 }

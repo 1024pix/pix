@@ -11,32 +11,30 @@ describe('Unit | Application | Controller | Campaign', () => {
 
   describe('#save', () => {
 
+    let sandbox;
     let replyStub;
     let codeStub;
+    const deserializedCampaign = factory.buildCampaign({ id: NaN, code: '' });
 
     beforeEach(() => {
-      sinon.stub(usecases, 'createCampaign');
-      sinon.stub(campaignSerializer, 'deserialize');
-      sinon.stub(campaignSerializer, 'serialize');
-      codeStub = sinon.stub();
-      replyStub = sinon.stub().returns({
+      sandbox = sinon.createSandbox();
+      sandbox.stub(usecases, 'createCampaign');
+      sandbox.stub(campaignSerializer, 'deserialize').returns(deserializedCampaign);
+      sandbox.stub(campaignSerializer, 'serialize');
+      codeStub = sandbox.stub();
+      replyStub = sandbox.stub().returns({
         code: codeStub,
       });
     });
 
     afterEach(() => {
-      usecases.createCampaign.restore();
-      campaignSerializer.deserialize.restore();
-      campaignSerializer.serialize.restore();
+      sandbox.restore();
     });
 
     it('should call the use case to create the new campaign', () => {
       // given
-      const userId = 1245;
-      const request = { auth: { credentials: { userId } } };
-
-      const deserializedCampaign = factory.buildCampaign({ id: NaN, code: '', creatorId: '' });
-      campaignSerializer.deserialize.returns(deserializedCampaign);
+      const connectedUserId = 1;
+      const request = { auth: { credentials: { userId : connectedUserId } } };
 
       const createdCampaign = factory.buildCampaign();
       usecases.createCampaign.resolves(createdCampaign);
@@ -46,9 +44,10 @@ describe('Unit | Application | Controller | Campaign', () => {
 
       // then
       return promise.then(() => {
+        expect(usecases.createCampaign).to.have.been.calledOnce;
         const createCampaignArgs = usecases.createCampaign.firstCall.args[0];
         expect(createCampaignArgs.campaign).to.have.property('name', deserializedCampaign.name);
-        expect(createCampaignArgs.campaign).to.have.property('creatorId', userId);
+        expect(createCampaignArgs.campaign).to.have.property('creatorId', connectedUserId);
         expect(createCampaignArgs.campaign).to.have.property('organizationId', deserializedCampaign.organizationId);
         expect(createCampaignArgs).to.have.property('campaignRepository', campaignRepository);
         expect(createCampaignArgs).to.have.property('userRepository', userRepository);
@@ -59,9 +58,6 @@ describe('Unit | Application | Controller | Campaign', () => {
       // given
       const userId = 1245;
       const request = { auth: { credentials: { userId } } };
-
-      const deserializedCampaign = factory.buildCampaign({ id: NaN, code: '', creatorId: '' });
-      campaignSerializer.deserialize.returns(deserializedCampaign);
 
       const createdCampaign = factory.buildCampaign();
       usecases.createCampaign.resolves(createdCampaign);

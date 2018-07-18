@@ -18,14 +18,14 @@ describe('Acceptance | API | Campaigns', () => {
         email: 'myemail@example.net',
         password: 'oizjef76235hb',
         cgu: true
-      })
+      }, 'id')
         .then((insertedUser) => {
           organizationAccess.userId = insertedUser[0];
-          return knex('organizations').insert({ email: 'trololo@example.net', type: 'PRO', name: 'Mon Entreprise', code: 'ABCD12' });
+          return knex('organizations').insert({ email: 'trololo@example.net', type: 'PRO', name: 'Mon Entreprise', code: 'ABCD12' }, 'id');
         }).then((insertedOrganization) => {
           organizationInDbId = insertedOrganization[0];
           organizationAccess.organizationId = organizationInDbId;
-          return knex('organization-roles').insert({ name: 'ADMIN' });
+          return knex('organization-roles').insert({ name: 'ADMIN' }, 'id');
         })
         .then((insertedOrganizationRole) => {
           organizationAccess.organizationRoleId = insertedOrganizationRole[0];
@@ -71,5 +71,33 @@ describe('Acceptance | API | Campaigns', () => {
         expect(response.result.data.attributes.code).to.exist;
       });
     });
+
+    it('should return 403 Unauthorized when a user try to create a campaign for an organization that he does not access', function() {
+      const organizationIdThatNobodyHasAccess = 0;
+      const options = {
+        method: 'POST',
+        url: '/api/campaigns',
+        headers: { authorization: generateValidRequestAuhorizationHeader() },
+        payload: {
+          data: {
+            type: 'campaigns',
+            attributes: {
+              name: 'L‘hymne de nos campagnes',
+              'organization-id': organizationIdThatNobodyHasAccess,
+            }
+          }
+        }
+      };
+
+      // when
+      const promise = server.inject(options);
+
+      // then
+      return promise.then((response) => {
+        expect(response.statusCode).to.equal(403);
+        expect(response.result.errors[0].title).to.equal('Forbidden Error');
+      });
+    });
+
   });
 });
