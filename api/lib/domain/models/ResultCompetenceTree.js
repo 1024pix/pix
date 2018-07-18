@@ -42,7 +42,7 @@ class ResultCompetenceTree {
           score: associatedCompetenceMark.score,
         });
       });
-      delete  areaWithResultCompetences.competences;
+      areaWithResultCompetences.competences = [];
       return areaWithResultCompetences;
     });
 
