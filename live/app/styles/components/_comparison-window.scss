@@ -132,3 +132,28 @@
   border-bottom-right-radius: 5px;
   padding: 20px 40px;
 }
+
+.comparison-windows__default-message-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  border: 1.3px dashed $raven-grey;
+  max-width: 991px;
+  width: 100%;
+  border-radius: 5px;
+  padding: 36px 0 28px;
+}
+
+.comparison-windows__default-message-title {
+  font-family: $font-raleway;
+  font-size: 17px;
+  text-align: center;
+  color: $black;
+  font-weight: $font-semi-bold;
+  margin-top: 10.2px;
+
+  @include device-is('desktop') {
+    font-size: 22px;
+    line-height: 26px;
+  }
+}

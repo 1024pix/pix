@@ -8,7 +8,7 @@ import resultIconUrl from 'pix-live/utils/result-icon-url';
 import { EKMixin, keyUp } from 'ember-keyboard';
 import FocusableComponent from 'ember-component-focus/mixins/focusable-component';
 
-const contentReference = {
+const TEXT_FOR_RESULT = {
   ok: {
     status: 'ok',
     title: 'Vous avez la bonne réponse !',
@@ -84,16 +84,16 @@ export default Component.extend(EKMixin, FocusableComponent, {
   },
 
   resultItem: computed('answer.result', function() {
-    let resultItem = contentReference['default'];
+    let resultItem = TEXT_FOR_RESULT['default'];
     const answerStatus = this.get('answer.result');
 
-    if (answerStatus && (answerStatus in contentReference)) {
-      resultItem = contentReference[answerStatus];
+    if (answerStatus && (answerStatus in TEXT_FOR_RESULT)) {
+      resultItem = TEXT_FOR_RESULT[answerStatus];
     }
     return resultItem;
   }),
 
   resultItemIcon: computed('resultItem', function() {
     return resultIconUrl(this.get('resultItem.status'));
-  })
+  }),
 });
