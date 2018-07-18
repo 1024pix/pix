@@ -1,4 +1,3 @@
-
 .comparison-window {
   padding: 0 15px;
   max-width: 900px;
@@ -27,13 +26,6 @@
   background-color: $porcelain-grey;
   display: flex;
   flex-direction: column;
-  /*
-  padding: 15px 15px 0 15px;
-  */
-
-  @include device-is('desktop') {
-    /*padding: 20px 40px 0 40px;*/
-  }
 }
 
 .comparison-window__instruction {
@@ -139,9 +131,13 @@
   align-items: center;
   border: 1.3px dashed $raven-grey;
   max-width: 991px;
-  width: 100%;
   border-radius: 5px;
   padding: 36px 0 28px;
+  margin: 0 15px 15px;
+
+  @include device-is('desktop') {
+    margin: 0 40px 20px;
+  }
 }
 
 .comparison-windows__default-message-title {

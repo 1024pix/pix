@@ -1,7 +1,6 @@
 .tutorial-panel {
   display: flex;
   flex-direction: column;
-  align-items: center;
   margin-bottom: 10px;
 }
 
@@ -17,7 +16,6 @@
   max-width: 991px;
   margin: 0 15px;
   border-radius: 5px;
-  /*padding: 36px 0 28px;*/
 
   @include device-is('desktop') {
     margin: 0 40px;
