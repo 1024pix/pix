@@ -37,4 +37,5 @@ module.exports = {
   buildTube: require('./build-tube'),
   buildTutorial: require('./build-tutorial'),
   buildUser: require('./build-user'),
+  buildValidation: require('./build-validation'),
 };
