@@ -23,7 +23,6 @@ describe('Unit | Domain | Models | ResultCompetence', () => {
             code: '1',
             name: '1. Information et données',
             title: 'Information et données',
-            competences: [],
             resultCompetences: [
               {
                 id: 'recsvLz0W2ShyfD63',
