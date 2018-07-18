@@ -33,32 +33,6 @@ describe('Unit | Route | Certifications | Results', function() {
       this.inject.service('store', { as: 'store' });
     });
 
-    context('When no user is logged', function() {
-
-      beforeEach(function() {
-        this.register('service:session', Service.extend({
-          isAuthenticated: false
-        }));
-        this.inject.service('session', { as: 'session' });
-
-        route = this.subject();
-        route.transitionTo = sinon.stub();
-      });
-
-      it('should redirect to logout', function() {
-        // Given
-        findRecordStub.rejects();
-        // When
-        const promise = route.model(params);
-
-        // Then
-        return promise.then(function() {
-          sinon.assert.calledWith(findRecordStub, 'user', undefined, { reload: true });
-          sinon.assert.calledWith(route.transitionTo, 'logout');
-        });
-      });
-    });
-
     context('When user is logged', function() {
 
       beforeEach(function() {

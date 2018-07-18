@@ -22,9 +22,6 @@ export default BaseRoute.extend(AuthenticatedRouteMixin, {
           organizationSnapshotsExportUrl:
             `${ENV.APP.API_HOST}/api/organizations/${organization.get('id')}/snapshots/export?userToken=${this.get('session.data.authenticated.token')}`
         });
-      })
-      .catch(_ => {
-        this.transitionTo('index');
       });
   }
 });
