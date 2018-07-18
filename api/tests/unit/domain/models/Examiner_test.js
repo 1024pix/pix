@@ -8,7 +8,7 @@ const { expect, factory, sinon } = require('../../../test-helper');
 describe('Unit | Domain | Models | Examiner', () => {
 
   const validator = {
-    match: () => undefined,
+    assess: () => undefined,
   };
 
   beforeEach(() => {
