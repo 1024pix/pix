@@ -1,5 +1,5 @@
 import EmberObject from '@ember/object';
-import { A } from '@ember/array';
+import { A as EmberArray } from '@ember/array';
 
 import { expect } from 'chai';
 import { describe, it } from 'mocha';
@@ -19,7 +19,7 @@ describe('Integration | Component | user certifications detail area', function()
       id: 'recs7Gpf90ln8NCv7',
       name: '3. Création de contenu',
       title: 'Création de contenu',
-      competences: A([
+      resultCompetences: EmberArray([
         {
           'index': 1.1,
           'level': 5,
@@ -69,7 +69,7 @@ describe('Integration | Component | user certifications detail area', function()
       const divOfCompetence = '.user-certifications-detail-competence';
 
       // then
-      expect(this.$(divOfCompetence)).to.have.lengthOf(area.get('competences.length'));
+      expect(this.$(divOfCompetence)).to.have.lengthOf(area.get('resultCompetences.length'));
     });
   });
 });
