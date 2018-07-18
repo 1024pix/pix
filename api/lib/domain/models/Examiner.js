@@ -2,6 +2,9 @@ const Answer = require('./Answer');
 const AnswerStatus = require('./AnswerStatus');
 const _ = require('lodash');
 
+/**
+ * Traduction: Correcteur
+ */
 class Examiner {
 
   constructor({
