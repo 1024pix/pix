@@ -12,6 +12,9 @@ module.exports = {
         if (attribute === 'resultCompetenceTree') {
           return 'result-competence-trees';
         }
+        if (attribute === 'resultCompetences') {
+          return 'result-competences';
+        }
       },
       attributes: [
         'certificationCenter',
@@ -35,11 +38,12 @@ module.exports = {
         areas: {
           included: true,
           ref: 'id',
-          attributes: ['code', 'name', 'title', 'competences'],
+          attributes: ['code', 'name', 'title', 'resultCompetences'],
 
-          competences: {
+          resultCompetences: {
             included: true,
             ref: 'id',
+            type: 'result-competences',
             attributes: ['index', 'level', 'name', 'score'],
           },
         },
