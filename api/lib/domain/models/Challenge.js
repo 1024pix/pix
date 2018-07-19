@@ -19,6 +19,7 @@ class Challenge {
     timer,
     type,
     // includes
+    validator,
     // references
     skills = [],
   } = {}) {
@@ -37,6 +38,7 @@ class Challenge {
     this.status = status;
     this.type = type;
     // includes
+    this.validator = validator;
     // references
     this.skills = skills;
   }
@@ -47,7 +49,7 @@ class Challenge {
   static fromAttributes(attributes) {
     const challenge = new Challenge();
     Object.assign(challenge, attributes);
-    if(!challenge.skills) {
+    if (!challenge.skills) {
       challenge.skills = [];
     }
     return challenge;
