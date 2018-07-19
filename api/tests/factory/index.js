@@ -27,6 +27,7 @@ module.exports = {
   buildPixRole: require('./build-pix-role'),
   buildResultCompetenceTree: require('./build-result-competence-tree'),
   buildSkill: require('./build-skill'),
+  buildSkillAirtableDataObject: require('./build-skill-airtable-data-object'),
   buildSkillCollection: require('./build-skill-collection'),
   buildSkillReview: require('./build-skill-review'),
   buildSolution: require('./build-solution'),
