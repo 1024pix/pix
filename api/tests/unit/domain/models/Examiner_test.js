@@ -1,7 +1,6 @@
 const Answer = require('../../../../lib/domain/models/Answer');
 const AnswerStatus = require('../../../../lib/domain/models/AnswerStatus');
 const Examiner = require('../../../../lib/domain/models/Examiner');
-const Validation = require('../../../../lib/domain/models/Validation');
 
 const { expect, factory, sinon } = require('../../../test-helper');
 

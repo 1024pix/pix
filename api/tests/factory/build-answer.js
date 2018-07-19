@@ -22,7 +22,7 @@ function buildAnswer({
     assessmentId,
     challengeId,
   });
-};
+}
 
 buildAnswer.uncorrected = function({
   elapsedTime = faker.random.number(),
