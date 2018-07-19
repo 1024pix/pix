@@ -16,7 +16,7 @@ describe('Unit | Domain | Models | Answer', () => {
         elapsedTime: 100,
         timeout: 0,
         challengeId: 'redRecordId',
-        assessmentId: 82
+        assessmentId: 82,
       };
 
       const expectedAnswer = {
@@ -27,7 +27,7 @@ describe('Unit | Domain | Models | Answer', () => {
         elapsedTime: 100,
         timeout: 0,
         challengeId: 'redRecordId',
-        assessmentId: 82
+        assessmentId: 82,
       };
 
       // when
@@ -108,7 +108,7 @@ describe('Unit | Domain | Models | Answer', () => {
 
     it('should return the base difficulty if the challenge is undefined', function() {
       // given
-      const answer = new Answer({ });
+      const answer = new Answer({});
 
       const baseDifficulty = 2;
       // when
@@ -150,5 +150,4 @@ describe('Unit | Domain | Models | Answer', () => {
       expect(maxDifficulty).to.equal(0);
     });
   });
-
 });
