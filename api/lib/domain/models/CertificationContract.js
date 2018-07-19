@@ -1,8 +1,6 @@
 const { CertificationComputeError } = require('../../../lib/domain/errors');
 
-class CertificationRules {
-  constructor() {
-  }
+class CertificationContract {
 
   /* PUBLIC INTERFACE */
   static assertThatWeHaveEnoughAnswers(listAnswers, listChallenges) {
@@ -30,4 +28,4 @@ class CertificationRules {
   }
 }
 
-module.exports = CertificationRules;
+module.exports = CertificationContract;

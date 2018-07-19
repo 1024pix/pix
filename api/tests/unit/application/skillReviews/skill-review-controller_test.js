@@ -48,7 +48,7 @@ describe('Unit | Controller | skill-review-controller', () => {
 
     context('if assessment exists', () => {
 
-      const skillReview = factory.buildSkillReview({ validatedSkills: [] });
+      const skillReview = factory.buildSkillReview({ validatedSkills: [], failedSkills: [] });
 
       context('and belongs to current user', () => {
 
@@ -59,6 +59,7 @@ describe('Unit | Controller | skill-review-controller', () => {
               id: skillReviewId,
               attributes: {
                 'profile-mastery-rate': 0,
+                'profile-completion-rate': 0,
               },
               type: 'skill-reviews',
             },

@@ -5,7 +5,6 @@ import BaseRoute from 'pix-live/routes/base-route';
 
 export default BaseRoute.extend(AuthenticatedRouteMixin, {
 
-  authenticationRoute: '/connexion',
   session: service(),
 
   model() {
@@ -16,9 +15,6 @@ export default BaseRoute.extend(AuthenticatedRouteMixin, {
           return this.transitionTo('board');
         }
         return user;
-      })
-      .catch(_ => {
-        this.transitionTo('logout');
       });
   },
 

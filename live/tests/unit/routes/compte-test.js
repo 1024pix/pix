@@ -10,14 +10,6 @@ describe('Unit | Route | compte', function() {
     needs: ['service:current-routed-modal', 'service:session']
   });
 
-  it('should redirect to / (Home)', function() {
-    // Given
-    const route = this.subject();
-
-    // Then
-    expect(route.authenticationRoute).to.equal('/connexion');
-  });
-
   describe('model', function() {
 
     let storyStub;
@@ -27,24 +19,6 @@ describe('Unit | Route | compte', function() {
       findRecordStub = sinon.stub();
       storyStub = Service.extend({
         findRecord: findRecordStub
-      });
-    });
-
-    it('should redirect to logout when unable to find user details', function() {
-      // Given
-      this.register('service:store', storyStub);
-      this.inject.service('store', { as: 'store' });
-
-      findRecordStub.rejects();
-      const route = this.subject();
-      route.transitionTo = sinon.stub();
-
-      // When
-      const promise = route.model();
-
-      // Then
-      return promise.catch(function() {
-        sinon.assert.calledWith(route.transitionTo, 'logout');
       });
     });
 

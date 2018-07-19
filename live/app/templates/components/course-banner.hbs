@@ -1,9 +1,6 @@
 <div class="course-banner__container">
-  {{#if course.name}}
-    <h1 class="course-banner__name">{{course.name}}</h1>
-  {{else}}
-    <h1 class="course-banner__name">Parcours e-pro</h1>
-  {{/if}}
+
+  <h1 class="course-banner__name">{{courseName}}</h1>
 
   {{#if withHomeLink}}
     {{#link-to "index" class="course-banner__home-link"}}Revenir à l'accueil{{/link-to}}

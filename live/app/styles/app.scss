@@ -9,7 +9,10 @@
 @import 'globals/loading';
 @import 'globals/redesign-inputs';
 @import 'globals/pix-modale';
+@import 'globals/pix-page';
+@import 'globals/pix-button';
 @import 'globals/buttons';
+@import 'globals/progress-bar';
 /* 3rd-party */
 @import 'vendor/ember-routable-modal/core';
 @import 'vendor/ember-routable-modal/dialog';
@@ -34,7 +37,6 @@
 @import 'components/feature-item';
 @import 'components/feature-list';
 @import 'components/feedback-panel';
-@import 'components/follower-form';
 @import 'components/legal-notices';
 @import 'components/modal-mobile';
 @import 'components/medal-item';
@@ -68,7 +70,6 @@
 @import 'components/user-certifications-detail-profile';
 @import 'components/user-certifications-detail-area';
 @import 'components/user-certifications-detail-competence';
-@import 'components/partners-enrollment-panel';
 @import 'components/share-profile';
 @import 'components/logged-user-profile-banner';
 @import 'components/reset-password-form';
@@ -79,6 +80,7 @@
 @import "components/navbar-desktop-menu";
 @import "components/_blue-ribbon.scss";
 @import "components/_certification-code-validation";
+@import "components/checkpoint";
 @import "ember-side-menu";
 /* pages */
 @import 'pages/index';
@@ -87,10 +89,10 @@
 @import 'pages/assessment-challenge';
 @import 'pages/assessment-results';
 @import 'pages/competences';
+@import 'pages/error';
 @import 'pages/inscription';
 @import 'pages/login';
 @import 'pages/compte';
-@import 'pages/enrollment';
 @import 'pages/board';
 @import 'pages/terms-of-service';
 @import 'pages/reset-password';

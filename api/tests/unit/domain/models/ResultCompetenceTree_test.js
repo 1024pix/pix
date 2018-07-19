@@ -23,7 +23,7 @@ describe('Unit | Domain | Models | ResultCompetence', () => {
             code: '1',
             name: '1. Information et données',
             title: 'Information et données',
-            competences: [
+            resultCompetences: [
               {
                 id: 'recsvLz0W2ShyfD63',
                 index: '1.1',
@@ -55,7 +55,7 @@ describe('Unit | Domain | Models | ResultCompetence', () => {
 
       // then
       expect(resultTree).to.be.an.instanceOf(ResultCompetenceTree);
-      expect(resultTree.areas[0].competences[0]).to.be.an.instanceOf(ResultCompetence);
+      expect(resultTree.areas[0].resultCompetences[0]).to.be.an.instanceOf(ResultCompetence);
       expect(resultTree).to.deep.equal(expectedResultTree);
     });
   });

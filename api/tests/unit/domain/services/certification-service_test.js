@@ -8,7 +8,7 @@ const Assessment = require('../../../../lib/domain/models/Assessment');
 const AssessmentResult = require('../../../../lib/domain/models/AssessmentResult');
 const CompetenceMarks = require('../../../../lib/domain/models/CompetenceMark');
 
-const { UserNotAuthorizedToCertifyError } = require('../../../../lib/domain/errors');
+const { CertificationComputeError, UserNotAuthorizedToCertifyError } = require('../../../../lib/domain/errors');
 
 const userService = require('../../../../lib/domain/services/user-service');
 const certificationChallengesService = require('../../../../lib/domain/services/certification-challenges-service');
@@ -333,6 +333,17 @@ describe('Unit | Service | Certification Service', function() {
       beforeEach(() => {
         const answers = _buildCorrectAnswersForAllChallenges();
         answersRepository.findByAssessment.resolves(answers);
+      });
+
+      it('should ignore answers with no matching challenge', function() {
+        // when
+        certificationChallengesRepository.findByCertificationCourseId.resolves([]);
+        const promise = certificationService.calculateCertificationResultByCertificationCourseId('course_id');
+
+        // then
+        return promise.then((result) => {
+          expect(result.totalScore).to.equal(0);
+        });
       });
 
       it('should return totalScore = all pix', () => {
@@ -882,6 +893,17 @@ describe('Unit | Service | Certification Service', function() {
         });
       });
 
+      it('should fail if an answer has no matching challenge', function() {
+        // when
+        const answers = _buildCorrectAnswersForAllChallenges().concat([_buildAnswer('non_existing_challenge', 'ok')]);
+        answersRepository.findByAssessment.resolves(answers);
+        const promise = certificationService.calculateCertificationResultByAssessmentId('assessment_id');
+
+        // then
+        return expect(promise).to.be.rejectedWith(CertificationComputeError,
+          'Problème de chargement de la compétence pour le challenge non_existing_challenge');
+      });
+
       it('should return list of competences with all certifiedLevel equal to estimatedLevel', () => {
         // given
 
@@ -1269,74 +1291,121 @@ describe('Unit | Service | Certification Service', function() {
   describe('#getCertificationResult', () => {
     let sandbox;
 
-    beforeEach(() => {
-      sandbox = sinon.sandbox.create();
-      const assessmentResult = _buildAssessmentResult(20, 3);
-      sandbox.stub(assessmentRepository, 'getByCertificationCourseId').resolves(Assessment.fromAttributes({
-        status: 'completed',
-        assessmentResults: [
-          _buildAssessmentResult(20, 3),
-        ],
-      }));
-      sandbox.stub(certificationCourseRepository, 'get').resolves({
-        createdAt: '2017-12-23 15:23:12',
-        completedAt: '2017-12-23T16:23:12.232Z',
-        firstName: 'Pumba',
-        lastName: 'De La Savane',
-        birthplace: 'Savane',
-        birthdate: '28/01/1992',
-        sessionId: 'MoufMufassa',
-        externalId: 'TimonsFriend',
+    context('when certification is finished', () => {
+
+      beforeEach(() => {
+        sandbox = sinon.sandbox.create();
+        const assessmentResult = _buildAssessmentResult(20, 3);
+        sandbox.stub(assessmentRepository, 'getByCertificationCourseId').resolves(Assessment.fromAttributes({
+          state: 'completed',
+          assessmentResults: [
+            _buildAssessmentResult(20, 3),
+          ],
+        }));
+        sandbox.stub(certificationCourseRepository, 'get').resolves({
+          createdAt: '2017-12-23 15:23:12',
+          completedAt: '2017-12-23T16:23:12.232Z',
+          firstName: 'Pumba',
+          lastName: 'De La Savane',
+          birthplace: 'Savane',
+          birthdate: '28/01/1992',
+          sessionId: 'MoufMufassa',
+          externalId: 'TimonsFriend',
+        });
+        assessmentResult.competenceMarks = [_buildCompetenceMarks(3, 27, '2', '2.1')];
+        sandbox.stub(assessmentResultRepository, 'get').resolves(
+          assessmentResult,
+        );
       });
-      assessmentResult.competenceMarks = [_buildCompetenceMarks(3, 27, '2', '2.1')];
-      sandbox.stub(assessmentResultRepository, 'get').resolves(
-        assessmentResult,
-      );
+
+      afterEach(() => {
+        sandbox.restore();
+      });
+
+      it('should return certification results with pix score, date and certified competences levels', () => {
+        // given
+        const certificationCourseId = 1;
+
+        // when
+        const promise = certificationService.getCertificationResult(certificationCourseId);
+
+        // then
+        return promise.then(certification => {
+          expect(certification.pixScore).to.deep.equal(20);
+          expect(certification.createdAt).to.deep.equal('2017-12-23 15:23:12');
+          expect(certification.completedAt).to.deep.equal('2017-12-23T16:23:12.232Z');
+          expect(certification.competencesWithMark).to.deep.equal([{
+            area_code: '2',
+            assessmentResultId: undefined,
+            competence_code: '2.1',
+            id: undefined,
+            level: 3,
+            score: 27,
+          }]);
+          expect(certification.sessionId).to.deep.equal('MoufMufassa');
+        });
+      });
+
+      it('should return certified user informations', function() {
+        // given
+        const certificationCourseId = 1;
+
+        // when
+        const promise = certificationService.getCertificationResult(certificationCourseId);
+
+        // then
+        return promise.then(certification => {
+          expect(certification.firstName).to.deep.equal('Pumba');
+          expect(certification.lastName).to.deep.equal('De La Savane');
+          expect(certification.birthplace).to.deep.equal('Savane');
+          expect(certification.birthdate).to.deep.equal('28/01/1992');
+          expect(certification.externalId).to.deep.equal('TimonsFriend');
+        });
+      });
+
     });
 
-    afterEach(() => {
-      sandbox.restore();
-    });
+    context('when certification is not finished', () => {
 
-    it('should return certification results with pix score, date and certified competences levels', () => {
-      // given
-      const certificationCourseId = 1;
-
-      // when
-      const promise = certificationService.getCertificationResult(certificationCourseId);
-
-      // then
-      return promise.then(certification => {
-        expect(certification.pixScore).to.deep.equal(20);
-        expect(certification.createdAt).to.deep.equal('2017-12-23 15:23:12');
-        expect(certification.completedAt).to.deep.equal('2017-12-23T16:23:12.232Z');
-        expect(certification.competencesWithMark).to.deep.equal([{
-          area_code: '2',
-          assessmentResultId: undefined,
-          competence_code: '2.1',
-          id: undefined,
-          level: 3,
-          score: 27,
-        }]);
-        expect(certification.sessionId).to.deep.equal('MoufMufassa');
+      beforeEach(() => {
+        sandbox = sinon.sandbox.create();
+        sandbox.stub(assessmentRepository, 'getByCertificationCourseId').resolves(Assessment.fromAttributes({
+          state: 'started',
+        }));
+        sandbox.stub(certificationCourseRepository, 'get').resolves({
+          createdAt: '2017-12-23 15:23:12',
+          firstName: 'Pumba',
+          lastName: 'De La Savane',
+          birthplace: 'Savane',
+          birthdate: '28/01/1992',
+          sessionId: 'MoufMufassa',
+          externalId: 'TimonsFriend',
+        });
+        sandbox.stub(assessmentResultRepository, 'get').resolves(null);
       });
-    });
 
-    it('should return certified user informations', function() {
-      // given
-      const certificationCourseId = 1;
-
-      // when
-      const promise = certificationService.getCertificationResult(certificationCourseId);
-
-      // then
-      return promise.then(certification => {
-        expect(certification.firstName).to.deep.equal('Pumba');
-        expect(certification.lastName).to.deep.equal('De La Savane');
-        expect(certification.birthplace).to.deep.equal('Savane');
-        expect(certification.birthdate).to.deep.equal('28/01/1992');
-        expect(certification.externalId).to.deep.equal('TimonsFriend');
+      afterEach(() => {
+        sandbox.restore();
       });
+
+      it('should return certification results with state at started, empty marks and undefined for information not yet valid', () => {
+        // given
+        const certificationCourseId = 1;
+
+        // when
+        const promise = certificationService.getCertificationResult(certificationCourseId);
+
+        // then
+        return promise.then(certification => {
+          expect(certification.status).to.deep.equal('started');
+          expect(certification.competencesWithMark).to.deep.equal([]);
+          expect(certification.pixScore).to.deep.equal(undefined);
+          expect(certification.completedAt).to.deep.equal(undefined);
+          expect(certification.createdAt).to.deep.equal('2017-12-23 15:23:12');
+          expect(certification.sessionId).to.deep.equal('MoufMufassa');
+        });
+      });
+
     });
   });
 });

@@ -45,7 +45,8 @@ describe('Unit | Route | Certification | resume', function() {
       const params = { certification_course_id: certificationCourseId };
       const filters = {
         filter: {
-          courseId: certificationCourseId
+          courseId: certificationCourseId,
+          type: 'CERTIFICATION'
         }
       };
       const retrievedAssessments = [EmberObject.create({ id: 1 })];
@@ -134,20 +135,4 @@ describe('Unit | Route | Certification | resume', function() {
 
     });
   });
-
-  describe('#error', function() {
-
-    it('should redirect to index page', function() {
-      // given
-      const route = this.subject();
-      route.transitionTo = sinon.spy();
-
-      // when
-      route.send('error');
-
-      // then
-      sinon.assert.calledWith(route.transitionTo, 'index');
-    });
-  });
-
 });

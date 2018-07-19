@@ -3,8 +3,16 @@ const NB_PIX_BY_LEVEL = 8;
 
 class Score {
 
-  constructor({ pixScore } = {}) {
+  constructor({
+    // attributes
+    pixScore,
+    // includes
+    // references
+  } = {}) {
+    // attributes
     this.pixScore = pixScore;
+    // includes
+    // references
   }
 
   get displayedPixScore() {

@@ -38,7 +38,6 @@ Router.map(function() {
   this.route('competences');
   this.route('inscription');
   this.route('compte');
-  this.route('enrollment', { path: '/rejoindre' });
   this.route('challenge-preview', { path: '/challenges/:challenge_id/preview' });
   this.route('courses.create-assessment', { path: '/courses/:course_id' });
 
@@ -55,7 +54,6 @@ Router.map(function() {
   this.route('terms-of-service', { path: '/conditions-generales-d-utilisation' });
   this.route('reset-password', { path: '/changer-mot-de-passe/:temporaryKey' });
   this.route('password-reset-demand', { path: '/mot-de-passe-oublie' });
-  this.route('not-found', { path: '/*path' });
   this.route('certifications', function() {
     this.route('start', { path: '/' });
     this.route('resume', { path: '/:certification_course_id' });
@@ -67,9 +65,12 @@ Router.map(function() {
   });
 
   this.route('campaigns', { path: '/campagnes' }, function() {
-    this.route('create-assessment', { path: '/codecampagnepix' });
+    this.route('start-or-resume', { path: '/codecampagnepix' });
     this.route('skill-review', { path: '/codecampagnepix/resultats/:assessment_id' });
   });
+
+  // XXX: this route is used for any request that did not match any of the previous routes. SHOULD ALWAYS BE THE LAST ONE
+  this.route('not-found', { path: '/*path' });
 });
 
 export default Router;

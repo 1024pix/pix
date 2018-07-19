@@ -49,6 +49,7 @@ describe('Unit | Route | Assessments.ChallengeRoute', function() {
     this.register('service:session', EmberService.extend({
       data: { authenticated: { userId: userId, token: 'VALID-TOKEN' } }
     }));
+
     // instance route object
     route = this.subject();
     route.transitionTo = sinon.stub();
@@ -329,7 +330,7 @@ describe('Unit | Route | Assessments.ChallengeRoute', function() {
         });
       });
 
-      it('should redirect to checkpoint before the rating on the last serie of 5', function() {
+      it('should redirect to rating after the last serie of questions', function() {
         // given
         const assessmentId = 947;
         const assessment = EmberObject.create({ id: assessmentId, answers: [answerToChallengeOne], hasCheckpoints: true });
@@ -343,9 +344,7 @@ describe('Unit | Route | Assessments.ChallengeRoute', function() {
         return promise.then(function() {
           sinon.assert.callOrder(answerToChallengeOne.save, route.transitionTo);
           sinon.assert.calledOnce(route.transitionTo);
-          sinon.assert.calledWith(route.transitionTo, 'assessments.checkpoint', assessmentId, {
-            queryParams: { finalCheckpoint: true }
-          });
+          sinon.assert.calledWith(route.transitionTo, 'assessments.rating', assessmentId);
         });
       });
     });

@@ -65,8 +65,15 @@ function _isChallengeNotTooHard(challenge, predictedLevel) {
   return challenge.hardestSkill.difficulty - predictedLevel <= 2;
 }
 
-function _isAnAvailableChallenge(challenge, assessedSkills) {
-  return challenge.isPublished() && challenge.testsAtLeastOneNewSkill(assessedSkills);
+function _isNotAnsweredYet(challenge, answers) {
+  const findAnswersForThisChallenge = answers.find(answer => answer.challengeId == challenge.id);
+  return !findAnswersForThisChallenge;
+}
+
+function _isAnAvailableChallenge(challenge, assessedSkills, answers) {
+  return challenge.isPublished()
+    && challenge.testsAtLeastOneNewSkill(assessedSkills)
+    && _isNotAnsweredYet(challenge, answers);
 }
 
 function _isPreviousChallengeTimed(answers) {
@@ -247,7 +254,7 @@ class SmartRandom {
   static _filteredChallenges(challenges, answers, tubes, validatedSkills, failedSkills, predictedLevel) {
 
     const assessedSkills = _.union(validatedSkills, failedSkills);
-    let availableChallenges = challenges.filter(challenge => _isAnAvailableChallenge(challenge, assessedSkills));
+    let availableChallenges = challenges.filter(challenge => _isAnAvailableChallenge(challenge, assessedSkills, answers));
 
     if (_isPreviousChallengeTimed(answers)) {
       availableChallenges = _extractNotTimedChallenge(availableChallenges);

@@ -12,8 +12,12 @@ export default Controller.extend({
 
   actions: {
     resumeAssessment(assessment) {
-      const nextRoute = this.get('finalCheckpoint') ? 'assessments.rating' : 'assessments.resume';
-      return this.transitionToRoute(nextRoute, assessment);
+      const nextRoute = this.get('finalCheckpoint') ? 'campaigns.skill-review' : 'assessments.resume';
+      return this.transitionToRoute(nextRoute, assessment.get('id'));
+    },
+
+    openComparison(assessment_id, answer_id, index) {
+      return this.transitionToRoute('assessments.comparison', assessment_id, answer_id, index);
     }
   }
 

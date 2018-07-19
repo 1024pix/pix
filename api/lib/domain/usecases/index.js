@@ -2,6 +2,7 @@ const authenticateUser = require('./authenticate-user');
 const createAssessmentResultForCompletedCertification = require('./create-assessment-result-for-completed-certification');
 const createUser = require('./create-user');
 const findCompletedUserCertifications = require('./find-completed-user-certifications');
+const findUserAssessmentsByFilters = require('./find-user-assessments-by-filters');
 const getCorrectionForAnswerWhenAssessmentEnded = require('./get-correction-for-answer-when-assessment-ended');
 const getNextChallengeForCertification = require('./get-next-challenge-for-certification');
 const getNextChallengeForDemo = require('./get-next-challenge-for-demo');
@@ -23,6 +24,7 @@ module.exports = {
   createAssessmentResultForCompletedCertification,
   createUser,
   findCompletedUserCertifications,
+  findUserAssessmentsByFilters,
   getCorrectionForAnswerWhenAssessmentEnded,
   getNextChallengeForCertification,
   getNextChallengeForDemo,

@@ -1,6 +1,14 @@
 class TargetProfile {
-  constructor({ skills = [] } = {}) {
+  constructor({
+    // attributes
+    // includes
+    skills = []
+    // references
+  } = {}) {
+    // attributes
+    // includes
     this.skills = skills;
+    // references
   }
 }
 

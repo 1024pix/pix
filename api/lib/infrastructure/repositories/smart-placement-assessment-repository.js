@@ -81,13 +81,14 @@ function createKnowledgeElements({ answers, challengeAirtableDataObjects, target
 
   let knowledgeElementsWithInfered = [].concat(knowledgeElementsWithoutInfered);
 
+  // XXX: Extend the list of KnowledgeElements with inferred ones from the validated skills
   validatedKnowledgeElements.forEach((validatedKnowledgeElement) => {
 
     const validatedSkill = new Skill({ name: validatedKnowledgeElement.skillId });
 
     skillsGroupedByTubeName[validatedSkill.tubeName].forEach((skillToInfer) => {
 
-      if (skillToInfer.difficulty < validatedSkill.difficulty) {
+      if (skillToInfer.difficulty <= validatedSkill.difficulty) {
 
         const knowledgeElementThatExistForThatSkill = knowledgeElementsWithInfered
           .find((knowledgeElement) => {
@@ -103,6 +104,41 @@ function createKnowledgeElements({ answers, challengeAirtableDataObjects, target
             status: SmartPlacementKnowledgeElement.StatusType.VALIDATED,
             pixScore: 0,
             answerId: validatedKnowledgeElement.answerId,
+            skillId: skillToInfer.name,
+          });
+
+          knowledgeElementsWithInfered = knowledgeElementsWithInfered.concat(newKnowledgeElement);
+        }
+      }
+    });
+  });
+
+  // XXX: Extend the list of KnowledgeElements with inferred ones from the validated skills
+  const failedKnowledgeElements = knowledgeElementsWithoutInfered
+    .filter((knowledgeElement) => !knowledgeElement.isValidated);
+
+  failedKnowledgeElements.forEach((failedKnowledgeElement) => {
+
+    const failedSkill = new Skill({ name: failedKnowledgeElement.skillId });
+
+    skillsGroupedByTubeName[failedSkill.tubeName].forEach((skillToInfer) => {
+
+      if (skillToInfer.difficulty >= failedSkill.difficulty) {
+
+        const knowledgeElementThatExistForThatSkill = knowledgeElementsWithInfered
+          .find((knowledgeElement) => {
+            const skillOfKnowledgeElement = new Skill({ name: knowledgeElement.skillId });
+            return Skill.areEqual(skillToInfer, skillOfKnowledgeElement);
+          });
+
+        if (knowledgeElementThatExistForThatSkill === undefined) {
+
+          const newKnowledgeElement = new SmartPlacementKnowledgeElement({
+            id: -1,
+            source: SmartPlacementKnowledgeElement.SourceType.INFERRED,
+            status: SmartPlacementKnowledgeElement.StatusType.INVALIDATED,
+            pixScore: 0,
+            answerId: failedKnowledgeElement.answerId,
             skillId: skillToInfer.name,
           });
 

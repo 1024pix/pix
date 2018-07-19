@@ -1,7 +1,15 @@
 const _ = require('lodash');
 class Skill {
-  constructor({ name } = {}) {
+  constructor({
+    // attributes
+    name
+    // includes
+    // references
+  } = {}) {
+    // attributes
     this.name = name;
+    // includes
+    // references
   }
 
   get difficulty() {

@@ -1,13 +1,31 @@
 # Pix Changelog
 
-## v1.54.0 (10/07/2018) 
+## v1.55.0 (19/07/2018) 
 
+- [#126](https://github.com/1024pix/pix/pull/126) [FEATURE] Mettre les liens en bleu Pix et souligné dans la consigne d'une d'épreuve afin de comprendre qu'il faut cliquer (PF-126).
+- [#117](https://github.com/1024pix/pix/pull/117) [FEATURE] Reprise d'une évaluation de type Smart Random (US-93).
+- [#129](https://github.com/1024pix/pix/pull/129) [FEATURE] Afficher le % d'avancement du smart placement (PF-78).
+- [#132](https://github.com/1024pix/pix/pull/132) [FEATURE] Mise à jour du profil cible pour rendre l'expérience plus rapide pour les panels (PF-293).
+- [#133](https://github.com/1024pix/pix/pull/133) [BUGFIX] Correction du bug affichant les compétences du profil plutôt que celui des certifs (PF-282).
+- [#131](https://github.com/1024pix/pix/pull/131) [BUGFIX] La route /admin/certifications doit retourner des informations même quand la certif n'est pas terminé (PF-291).
+- [#130](https://github.com/1024pix/pix/pull/130) [BUGFIX] Correction du bug des questions en doubles dans le smart-random (PF-287).
+- [#124](https://github.com/1024pix/pix/pull/124) [BUGFIX] Bug d'affichage du bouton demo IE (PF-179).
+- [#134](https://github.com/1024pix/pix/pull/134) [CLEANUP] Amélioration de la gestion d'erreurs côté front (PF-292).
+- [#128](https://github.com/1024pix/pix/pull/128) [CLEANUP] Suppression de la propriété "authenticationRoute" inutile dans les routes Ember.
+- [#118](https://github.com/1024pix/pix/pull/118) [CLEANUP] Suppression des sections "partenaires" et "bêta-testeur" sur la page d'accueil (PF-155).
+- [#114](https://github.com/1024pix/pix/pull/114) [TECH] Réparer la route /details des certifs (PF-253).
+
+## v1.54.0 (10/07/2018)
+
+- [#116](https://github.com/1024pix/pix/pull/116) [FEATURE] Ajout d'une phrase sous les tuto (PF-281).
+- [#120](https://github.com/1024pix/pix/pull/120) [FEATURE] Correction wording sur tutoriels (PF-283).
+- [#103](https://github.com/1024pix/pix/pull/103) [FEATURE] Affiche le pourcentage de maitrise du profile cible (PF-94).
 - [#111](https://github.com/1024pix/pix/pull/111) [FEATURE] Afficher des tutoriaux sur la page de réponse (PF-62).
-- [#113](https://github.com/1024pix/pix/pull/113) [TECH] Ajout d'une modale demandant confirmation avant de rejouer une épreuve (PF-40).
-- [#112](https://github.com/1024pix/pix/pull/112) [TECH] [LEGACY] Faire que le area-repository utilise un data source airtable (pf-191).
-- [#110](https://github.com/1024pix/pix/pull/110) [TECH] [BSR] Suppression d'une vieille route.
-- [#123](https://github.com/1024pix/pix/pull/123) [BUGFIX] Corrections du CSS pour les tutos.
+- [#113](https://github.com/1024pix/pix/pull/113) [FEATURE] Ajout d'une modale demandant confirmation avant de rejouer une épreuve (PF-40).
 - [#121](https://github.com/1024pix/pix/pull/121) [BUGFIX] Respecter la variable DATABASE_CONNECTION_POOL_MAX_SIZE pour le pool PG en staging (PF-284).
+- [#123](https://github.com/1024pix/pix/pull/123) [BUGFIX] Corrections du CSS pour les tutos.
+- [#112](https://github.com/1024pix/pix/pull/112) [TECH] Faire que le area-repository utilise un data source airtable (PF-191).
+- [#110](https://github.com/1024pix/pix/pull/110) [BSR] Suppression d'une vieille route.
 
 ## v1.53.0 (29/06/2018)
 

@@ -4,14 +4,7 @@ import AuthenticatedRouteMixin from 'ember-simple-auth/mixins/authenticated-rout
 export default BaseRoute.extend(AuthenticatedRouteMixin, {
 
   model() {
-    const store = this.get('store');
-    store.unloadAll('certification');
-    return store.findAll('certification');
-  },
-
-  actions: {
-    error() {
-      this.transitionTo('compte');
-    }
+    return this.get('store').findAll('certification');
   }
+
 });

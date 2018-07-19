@@ -11,7 +11,7 @@
   <div class="assessment-challenge__content">
     {{#unless model.assessment.course.isAdaptive}}
       <div class="assessment-challenge__progress-bar">
-        {{progress-bar progress=model.assessment.progress}}
+        {{progress-bar assessment=model.assessment}}
       </div>
     {{/unless}}
 

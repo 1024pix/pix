@@ -83,9 +83,7 @@
 .assessment-results__list {
   display: flex;
   flex-direction: column;
-  &:nth-last-child(1) {
-    margin-bottom: 20px;
-  }
+  margin-bottom: 20px;
 }
 
 /* Button 'go back'

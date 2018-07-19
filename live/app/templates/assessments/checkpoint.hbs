@@ -5,7 +5,24 @@
   </div>
 
   <div class="assessment-challenge__content">
-    <h1>Vos réponses :</h1>
+
+    <div class="smart-random pix-progress-bar-wrapper">
+      <h2 class="checkpoint-title">Mon parcours effectué</h2>
+
+      <div class="pix-progress-bar">
+        <div class="pix-progress-bar__marker" style="width: {{model.skillReview.profileCompletionPercentage}}"></div>
+      </div>
+
+
+      <div class="pix-progress-bar__legend-wrapper" style="width: {{model.skillReview.profileCompletionPercentage}}">
+        <div class="pix-progress-bar__legend-circle"></div>
+        <div class="pix-progress-bar__legend">
+          <p class="sr-only">Vous avez effectué</p>{{model.skillReview.profileCompletionPercentage}}<p class="sr-only"> de votre parcours.</p>
+        </div>
+      </div>
+    </div>
+
+    <h2>Vos réponses :</h2>
     <div class="assessment-results__list">
       {{#each model.answersSinceLastCheckpoints as |answer index|}}
         {{result-item answer=answer index=index openComparison="openComparison" a11y-focus-id=(concat "open-comparison_" (add index 1))}}
@@ -13,16 +30,23 @@
     </div>
 
     <div class="assessment-challenge__continue-wrapper">
-      <button {{action "resumeAssessment" model}} class="assessment-checkpoint__continue-button">
-
-        {{buttonText}}
-
-        <img src="{{rootURL}}/images/button-continue/button-continue-next.png" srcset="
+      {{#if finalCheckpoint}}
+        {{#link-to 'campaigns.skill-review' model.id class="assessment-checkpoint__continue-button"}}
+          Voir mes résultats
+          <img src="{{rootURL}}/images/button-continue/button-continue-next.png" srcset="
            {{rootURL}}/images/button-continue/button-continue-next@2x.png 2x,
 					 {{rootURL}}/images/button-continue/button-continue-next@3x.png 3x"
-             alt="" class="assessment-checkpoint__continue-button__image" />
-
-      </button>
+               alt="" class="assessment-checkpoint__continue-button__image" />
+        {{/link-to}}
+      {{else}}
+        {{#link-to 'assessments.resume' model.id class="assessment-checkpoint__continue-button"}}
+          Je continue
+          <img src="{{rootURL}}/images/button-continue/button-continue-next.png" srcset="
+           {{rootURL}}/images/button-continue/button-continue-next@2x.png 2x,
+					 {{rootURL}}/images/button-continue/button-continue-next@3x.png 3x"
+               alt="" class="assessment-checkpoint__continue-button__image" />
+        {{/link-to}}
+      {{/if}}
     </div>
   </div>
 </div>

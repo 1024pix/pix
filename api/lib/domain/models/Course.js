@@ -11,27 +11,28 @@ class Course {
     isAdaptive,
     name,
     type,
-    // relations
+    // includes
     assessment,
-    challenges = [],
-    competences = [],
     competenceSkills = [],
     tubes = [],
+    // references
+    challenges = [],
+    competences = [],
   } = {}) {
-    // properties
     this.id = id;
+    // attributes
     this.name = name;
     this.description = description;
     this.imageUrl = imageUrl;
     this.isAdaptive = isAdaptive;
     this.type = type;
-
-    // relationships
+    // includes
     this.assessment = assessment;
-    this.challenges = challenges; // Array of Record IDs
-    this.competences = competences; // Array of Record IDs
     this.competenceSkills = competenceSkills;
     this.tubes = tubes;
+    // references
+    this.challenges = challenges; // Array of Record IDs
+    this.competences = competences; // Array of Record IDs
   }
 
   get nbChallenges() {
