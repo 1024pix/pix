@@ -14,13 +14,13 @@ module.exports = function buildChallengeAirtableDataObject({
   skillIds = ['recUDrCWD76fp5MsE'],
   skills = ['@modèleEco3'],
   timer = 1234,
-  illustrationUrl = 'https =//dl.airtable.com/2MGErxGTQl2g2KiqlYgV_venise4.png',
+  illustrationUrl = 'https://dl.airtable.com/2MGErxGTQl2g2KiqlYgV_venise4.png',
   attachments = [
-    'https =//dl.airtable.com/nHWKNZZ7SQeOKsOvVykV_navigationdiaporama5.pptx',
-    'https =//dl.airtable.com/rsXNJrSPuepuJQDByFVA_navigationdiaporama5.odp',
+    'https://dl.airtable.com/nHWKNZZ7SQeOKsOvVykV_navigationdiaporama5.pptx',
+    'https://dl.airtable.com/rsXNJrSPuepuJQDByFVA_navigationdiaporama5.odp',
   ],
   competenceId = 'recsvLz0W2ShyfD63',
-  embedUrl = 'https =//github.io/page/epreuve.html',
+  embedUrl = 'https://github.io/page/epreuve.html',
   embedTitle = 'Epreuve de selection de dossier',
   embedHeight = 500,
 } = {}) {

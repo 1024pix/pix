@@ -1,4 +1,4 @@
-const { expect, sinon } = require('../../../test-helper');
+const { expect, factory, sinon } = require('../../../test-helper');
 const AirtableRecord = require('airtable').Record;
 const airtable = require('../../../../lib/infrastructure/airtable');
 
@@ -24,16 +24,16 @@ describe('Unit | Repository | challenge-repository', () => {
     fields: {
       'Consigne': 'Instruction #1',
       'Propositions': 'Proposal #1',
-      'Statut': 'validé'
-    }
+      'Statut': 'validé',
+    },
   });
 
   const challenge2 = new AirtableRecord('Epreuves', 'recChallenge2', {
     fields: {
       'Consigne': 'Instruction #2',
       'Propositions': 'Proposal #2',
-      'Statut': 'pré-validé'
-    }
+      'Statut': 'pré-validé',
+    },
   });
 
   afterEach(() => {
@@ -78,7 +78,7 @@ describe('Unit | Repository | challenge-repository', () => {
       // given
       const competence = new Competence({
         index: '1.1',
-        name: 'Mener une recherche et une veille d’informations'
+        name: 'Mener une recherche et une veille d’informations',
       });
       const expectedQuery = { view: competence.reference };
 
@@ -111,101 +111,81 @@ describe('Unit | Repository | challenge-repository', () => {
       sandbox.stub(skillDatasource, 'get').resolves();
     });
 
-    it('should resolve a Challenge domain object when the challenge exists', () => {
-      // given
-      const challengeRecordId = 'rec_challenge_id';
-      challengeDataSource.get.withArgs(challengeRecordId).resolves(new ChallengeAirtableDataObject({
-        id: challengeRecordId,
-        type: 'QCU'
-      }));
+    context('when challenge exists and no error arise', () => {
 
-      // when
-      const promise = challengeRepository.get(challengeRecordId);
+      let challengeDataObject;
+      let challengeRecordId;
+      let promise;
 
-      // then
-      return promise.then((challenge) => {
-        expect(challenge).to.be.an.instanceOf(Challenge);
-        expect(challenge.id).to.equal(challengeRecordId);
-        expect(challenge.type).to.equal('QCU');
+      beforeEach(() => {
+        // given
+        challengeRecordId = 'rec_challenge_id';
+        challengeDataObject = factory.buildChallengeAirtableDataObject({
+          id: challengeRecordId,
+          skillIds: ['skillId_1', 'skillId_2'],
+          type: 'QCU',
+        });
+        challengeDataSource.get.withArgs(challengeRecordId).resolves(challengeDataObject);
+        skillDatasource.get.withArgs('skillId_1').resolves(factory.buildSkillAirtableDataObject({ name: '@web1' }));
+        skillDatasource.get.withArgs('skillId_2').resolves(factory.buildSkillAirtableDataObject({ name: '@url2' }));
+
+        // when
+        promise = challengeRepository.get(challengeRecordId);
       });
-    });
 
-    it('should have basic properties', () => {
-      // given
-      const challengeRecordId = 'rec_challenge_id';
-      challengeDataSource.get.withArgs(challengeRecordId).resolves(ChallengeAirtableDataObjectFixture());
-
-      // when
-      const promise = challengeRepository.get(challengeRecordId);
-
-      // then
-      return promise.then((challenge) => {
-        expect(challenge.instruction).to.equal('Les moteurs de recherche affichent certains liens en raison d\'un accord commercial.\n\nDans quels encadrés se trouvent ces liens ?');
-        expect(challenge.proposals).to.equal('- 1\n- 2\n- 3\n- 4\n- 5');
-        expect(challenge.timer).to.equal(1234);
-        expect(challenge.illustrationUrl).to.equal('https://dl.airtable.com/2MGErxGTQl2g2KiqlYgV_venise4.png');
-        expect(challenge.attachments).to.deep.equal([
-          'https://dl.airtable.com/nHWKNZZ7SQeOKsOvVykV_navigationdiaporama5.pptx',
-          'https://dl.airtable.com/rsXNJrSPuepuJQDByFVA_navigationdiaporama5.odp'
-        ]);
+      it('should succeed', () => {
+        // then
+        return expect(promise).to.be.fulfilled;
       });
-    });
-
-    it('should have embed properties', () => {
-      // given
-      const challengeRecordId = 'rec_challenge_id';
-      challengeDataSource.get.withArgs(challengeRecordId).resolves(ChallengeAirtableDataObjectFixture());
-
-      // when
-      const promise = challengeRepository.get(challengeRecordId);
-
-      // then
-      return promise.then((challenge) => {
-        expect(challenge).to.be.an.instanceOf(Challenge);
-        expect(challenge.embedUrl).to.equal('https://github.io/page/epreuve.html');
-        expect(challenge.embedTitle).to.equal('Epreuve de selection de dossier');
-        expect(challenge.embedHeight).to.equal(500);
+      it('should resolve a Challenge domain object when the challenge exists', () => {
+        // then
+        return promise.then((challenge) => {
+          expect(challenge).to.be.an.instanceOf(Challenge);
+          expect(challenge.id).to.equal(challengeRecordId);
+          expect(challenge.type).to.equal('QCU');
+        });
       });
-    });
-
-    it('should load skills', () => {
-      // given
-      const challengeRecordId = 'rec_challenge_id';
-      challengeDataSource.get.resolves(new ChallengeAirtableDataObject({
-        skillIds: ['skillId_1', 'skillId_2']
-      }));
-
-      // when
-      const promise = challengeRepository.get(challengeRecordId);
-
-      // then
-      return promise.then(() => {
-        expect(skillDatasource.get).to.have.been.calledWith('skillId_1');
-        expect(skillDatasource.get).to.have.been.calledWith('skillId_2');
+      it('should have basic properties', () => {
+        // then
+        return promise.then((challenge) => {
+          expect(challenge.instruction).to.equal('Les moteurs de recherche affichent certains liens en raison d\'un accord commercial.\n\nDans quels encadrés se trouvent ces liens ?');
+          expect(challenge.proposals).to.equal('- 1\n- 2\n- 3\n- 4\n- 5');
+          expect(challenge.timer).to.equal(1234);
+          expect(challenge.illustrationUrl).to.equal('https://dl.airtable.com/2MGErxGTQl2g2KiqlYgV_venise4.png');
+          expect(challenge.attachments).to.deep.equal([
+            'https://dl.airtable.com/nHWKNZZ7SQeOKsOvVykV_navigationdiaporama5.pptx',
+            'https://dl.airtable.com/rsXNJrSPuepuJQDByFVA_navigationdiaporama5.odp',
+          ]);
+        });
       });
-    });
-
-    it('should load skills in the challenge', () => {
-      // given
-      const challengeRecordId = 'rec_challenge_id';
-      challengeDataSource.get.resolves(new ChallengeAirtableDataObject({
-        skillIds: ['123', '456']
-      }));
-      skillDatasource.get.withArgs('123').resolves(new SkillAirtableDataObject({ name: '@web1' }));
-      skillDatasource.get.withArgs('456').resolves(new SkillAirtableDataObject({ name: '@url2' }));
-
-      // when
-      const promise = challengeRepository.get(challengeRecordId);
-
-      // then
-      return promise.then((challenge) => {
-        expect(challenge.skills).to.have.lengthOf(2);
-        expect(challenge.skills[0]).to.deep.equal(new Skill({ name: '@web1' }));
-        expect(challenge.skills[1]).to.deep.equal(new Skill({ name: '@url2' }));
+      it('should have embed properties', () => {
+        // then
+        return promise.then((challenge) => {
+          expect(challenge).to.be.an.instanceOf(Challenge);
+          expect(challenge.embedUrl).to.equal('https://github.io/page/epreuve.html');
+          expect(challenge.embedTitle).to.equal('Epreuve de selection de dossier');
+          expect(challenge.embedHeight).to.equal(500);
+        });
+      });
+      it('should load skills', () => {
+        // then
+        return promise.then(() => {
+          expect(skillDatasource.get).to.have.been.calledWith('skillId_1');
+          expect(skillDatasource.get).to.have.been.calledWith('skillId_2');
+        });
+      });
+      it('should load skills in the challenge', () => {
+        // then
+        return promise.then((challenge) => {
+          expect(challenge.skills).to.have.lengthOf(2);
+          expect(challenge.skills[0]).to.deep.equal(new Skill({ name: '@web1' }));
+          expect(challenge.skills[1]).to.deep.equal(new Skill({ name: '@url2' }));
+        });
       });
     });
 
     context('when the datasource is on error', () => {
+
       it('should return a NotFoundError if the challenge is not found', () => {
         // given
         const challengeRecordId = 'rec_challenge_id';
@@ -232,7 +212,6 @@ describe('Unit | Repository | challenge-repository', () => {
         return expect(promise).to.have.been.rejectedWith(error);
       });
     });
-
   });
 
   describe('#findBySkills', () => {
@@ -276,5 +255,4 @@ describe('Unit | Repository | challenge-repository', () => {
     });
 
   });
-
 });
