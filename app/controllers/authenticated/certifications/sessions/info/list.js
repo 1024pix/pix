@@ -114,8 +114,6 @@ export default Controller.extend({
 
   // Private methods
   _getJsonRow(certification) {
-    // TODO: handle birthdate
-
     let data = Object.keys(this._fields).reduce((currentData, field) => {
       let header = this._fields[field];
       currentData[header] = certification.get(field);
@@ -131,13 +129,20 @@ export default Controller.extend({
   _getCertificationsJson(ids) {
     let store = this.get('store');
     let requests = ids.map((id) => {
-      return store.findRecord('certification', id);
+      return store.findRecord('certification', id)
+      .catch(() => {
+        // TODO: display error somehow
+        return null;
+      });
     });
     return Promise.all(requests)
     .then((certifications) => {
-      return certifications.map((certification) => {
-        return this._getJsonRow(certification);
-      });
+      return certifications.reduce((current, certification) => {
+        if (certification) {
+          current.push(this._getJsonRow(certification));
+        }
+        return current;
+      }, []);
     });
   },
 
