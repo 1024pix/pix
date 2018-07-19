@@ -1,5 +1,20 @@
 # Pix Changelog
 
+## v1.55.0 (19/07/2018) 
+
+- [#126](https://github.com/1024pix/pix/pull/126) [FEATURE] Mettre les liens en bleu Pix et souligné dans la consigne d'une d'épreuve afin de comprendre qu'il faut cliquer (PF-126).
+- [#117](https://github.com/1024pix/pix/pull/117) [FEATURE] Reprise d'une évaluation de type Smart Random (US-93).
+- [#129](https://github.com/1024pix/pix/pull/129) [FEATURE] Afficher le % d'avancement du smart placement (PF-78).
+- [#132](https://github.com/1024pix/pix/pull/132) [FEATURE] Mise à jour du profil cible pour rendre l'expérience plus rapide pour les panels (PF-293).
+- [#133](https://github.com/1024pix/pix/pull/133) [BUGFIX] Correction du bug affichant les compétences du profil plutôt que celui des certifs (PF-282).
+- [#131](https://github.com/1024pix/pix/pull/131) [BUGFIX] La route /admin/certifications doit retourner des informations même quand la certif n'est pas terminé (PF-291).
+- [#130](https://github.com/1024pix/pix/pull/130) [BUGFIX] Correction du bug des questions en doubles dans le smart-random (PF-287).
+- [#124](https://github.com/1024pix/pix/pull/124) [BUGFIX] Bug d'affichage du bouton demo IE (PF-179).
+- [#134](https://github.com/1024pix/pix/pull/134) [CLEANUP] Amélioration de la gestion d'erreurs côté front (PF-292).
+- [#128](https://github.com/1024pix/pix/pull/128) [CLEANUP] Suppression de la propriété "authenticationRoute" inutile dans les routes Ember.
+- [#118](https://github.com/1024pix/pix/pull/118) [CLEANUP] Suppression des sections "partenaires" et "bêta-testeur" sur la page d'accueil (PF-155).
+- [#114](https://github.com/1024pix/pix/pull/114) [TECH] Réparer la route /details des certifs (PF-253).
+
 ## v1.54.0 (10/07/2018)
 
 - [#116](https://github.com/1024pix/pix/pull/116) [FEATURE] Ajout d'une phrase sous les tuto (PF-281).
