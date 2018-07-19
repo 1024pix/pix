@@ -67,7 +67,7 @@ export default Controller.extend({
         return json2csv.parse(json, {
           fields: this._csvHeaders,
           delimiter: ';',
-          withBOM: true,
+          withBOM: false,
         });
       })
       .then((csv) => {
@@ -91,7 +91,7 @@ export default Controller.extend({
           // We delete the BOM UTF8 at the beginning of the CSV,
           // otherwise the first element is wrongly parsed.
           const csvRawData = data.toString('utf8').replace(/^\uFEFF/, '');
-          const parsedCSVData = Papa.parse(csvRawData, { header: true }).data;
+          const parsedCSVData = Papa.parse(csvRawData, { header: true , skipEmptyLines: true}).data;
           that.set('progressMax', parsedCSVData.length);
           that.set('progress', true);
           return that._importCertificationsData(parsedCSVData)
