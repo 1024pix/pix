@@ -33,7 +33,7 @@ function _updateExistingAnswer(existingAnswer, newAnswer, reply) {
           assessmentId: newAnswer.get('assessmentId'),
         }, { method: 'update' })
         .then((updatedAnswer) => {
-          return reply(answerSerializer.serialize(updatedAnswer)).code(200);
+          return reply(answerSerializer.serializeFromBookshelfAnswer(updatedAnswer)).code(200);
         })
         .catch((err) => {
           logger.error(err);
@@ -55,8 +55,6 @@ module.exports = {
           challengeRepository,
           smartPlacementAssessmentRepository,
           smartPlacementKnowledgeElementRepository,
-          solutionRepository,
-          solutionService,
         });
       })
       .then(answerSerializer.serialize)
@@ -69,7 +67,7 @@ module.exports = {
 
     new BookshelfAnswer({ id: request.params.id })
       .fetch()
-      .then((answer) => reply(answerSerializer.serialize(answer)))
+      .then((answer) => reply(answerSerializer.serializeFromBookshelfAnswer(answer)))
       .catch((err) => logger.error(err));
   },
 
@@ -92,7 +90,7 @@ module.exports = {
     return answerRepository
       .findByChallengeAndAssessment(request.url.query.challenge, request.url.query.assessment)
       .then((answer) => {
-        return reply(answerSerializer.serialize(answer)).code(200);
+        return reply(answerSerializer.serializeFromBookshelfAnswer(answer)).code(200);
       })
       .catch((err) => {
         logger.error(err);

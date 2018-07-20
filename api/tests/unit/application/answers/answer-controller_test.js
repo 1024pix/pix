@@ -10,8 +10,6 @@ const smartPlacementAssessmentRepository =
   require('../../../../lib/infrastructure/repositories/smart-placement-assessment-repository');
 const smartPlacementKnowledgeElementRepository =
   require('../../../../lib/infrastructure/repositories/smart-placement-knowledge-element-repository');
-const solutionRepository = require('../../../../lib/infrastructure/repositories/solution-repository');
-const solutionService = require('../../../../lib/domain/services/solution-service');
 const { ChallengeAlreadyAnsweredError } = require('../../../../lib/domain/errors');
 
 describe('Unit | Controller | answer-controller', () => {
@@ -150,8 +148,6 @@ describe('Unit | Controller | answer-controller', () => {
               challengeRepository,
               smartPlacementAssessmentRepository,
               smartPlacementKnowledgeElementRepository,
-              solutionRepository,
-              solutionService,
             });
         });
       });
@@ -195,8 +191,6 @@ describe('Unit | Controller | answer-controller', () => {
               challengeRepository,
               smartPlacementAssessmentRepository,
               smartPlacementKnowledgeElementRepository,
-              solutionRepository,
-              solutionService,
             });
         });
       });
@@ -240,8 +234,6 @@ describe('Unit | Controller | answer-controller', () => {
               challengeRepository,
               smartPlacementAssessmentRepository,
               smartPlacementKnowledgeElementRepository,
-              solutionRepository,
-              solutionService,
             });
         });
       });
