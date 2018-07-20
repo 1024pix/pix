@@ -1,6 +1,9 @@
 const _ = require('lodash');
 const Skill = require('./Skill');
 
+/**
+ * Traduction: Épreuve
+ */
 class Challenge {
 
   constructor({
