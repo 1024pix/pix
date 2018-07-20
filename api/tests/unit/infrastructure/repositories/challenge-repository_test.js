@@ -3,18 +3,24 @@ const AirtableRecord = require('airtable').Record;
 const airtable = require('../../../../lib/infrastructure/airtable');
 
 const ChallengeAirtableDataObjectFixture = require('../../../fixtures/infrastructure/challengeAirtableDataObjectFixture');
-const ChallengeAirtableDataObject = require('../../../../lib/infrastructure/datasources/airtable/objects/Challenge');
-const SkillAirtableDataObject = require('../../../../lib/infrastructure/datasources/airtable/objects/Skill');
 const AirtableResourceNotFound = require('../../../../lib/infrastructure/datasources/airtable/objects/AirtableResourceNotFound');
 const { NotFoundError } = require('../../../../lib/domain/errors');
 
 const Challenge = require('../../../../lib/domain/models/Challenge');
 const Competence = require('../../../../lib/domain/models/Competence');
 const Skill = require('../../../../lib/domain/models/Skill');
+const Solution = require('../../../../lib/domain/models/Solution');
+const Validator = require('../../../../lib/domain/models/Validator');
+const ValidatorQCM = require('../../../../lib/domain/models/ValidatorQCM');
+const ValidatorQCU = require('../../../../lib/domain/models/ValidatorQCU');
+const ValidatorQROC = require('../../../../lib/domain/models/ValidatorQROC');
+const ValidatorQROCMDep = require('../../../../lib/domain/models/ValidatorQROCMDep');
+const ValidatorQROCMInd = require('../../../../lib/domain/models/ValidatorQROCMInd');
 const challengeDatasource = require('../../../../lib/infrastructure/datasources/airtable/challenge-datasource');
 const challengeRepository = require('../../../../lib/infrastructure/repositories/challenge-repository');
 const challengeDataSource = require('../../../../lib/infrastructure/datasources/airtable/challenge-datasource');
 const skillDatasource = require('../../../../lib/infrastructure/datasources/airtable/skill-datasource');
+const solutionAdapter = require('../../../../lib/infrastructure/adapters/solution-adapter');
 
 describe('Unit | Repository | challenge-repository', () => {
 
@@ -109,77 +115,108 @@ describe('Unit | Repository | challenge-repository', () => {
       sandbox.stub(airtable, 'getRecord').resolves(challenge1);
       sandbox.stub(challengeDataSource, 'get');
       sandbox.stub(skillDatasource, 'get').resolves();
+      sandbox.stub(solutionAdapter, 'fromChallengeAirtableDataObject');
     });
 
-    context('when challenge exists and no error arise', () => {
+    const challengeTypeAndValidators = {
+      'QCM': ValidatorQCM,
+      'QCU': ValidatorQCU,
+      'QROC': ValidatorQROC,
+      'QROCM-dep': ValidatorQROCMDep,
+      'QROCM-ind': ValidatorQROCMInd,
+      'other': Validator,
+    };
 
-      let challengeDataObject;
-      let challengeRecordId;
-      let promise;
+    Object.entries(challengeTypeAndValidators).forEach(([challengeType, associatedValidatorClass]) => {
 
-      beforeEach(() => {
-        // given
-        challengeRecordId = 'rec_challenge_id';
-        challengeDataObject = factory.buildChallengeAirtableDataObject({
-          id: challengeRecordId,
-          skillIds: ['skillId_1', 'skillId_2'],
-          type: 'QCU',
-        });
-        challengeDataSource.get.withArgs(challengeRecordId).resolves(challengeDataObject);
-        skillDatasource.get.withArgs('skillId_1').resolves(factory.buildSkillAirtableDataObject({ name: '@web1' }));
-        skillDatasource.get.withArgs('skillId_2').resolves(factory.buildSkillAirtableDataObject({ name: '@url2' }));
+      context(`when challenge of type: ${challengeType} exists and no error arise`, () => {
 
-        // when
-        promise = challengeRepository.get(challengeRecordId);
-      });
+        let challengeDataObject;
+        let challengeRecordId;
+        let promise;
+        let solution;
 
-      it('should succeed', () => {
-        // then
-        return expect(promise).to.be.fulfilled;
-      });
-      it('should resolve a Challenge domain object when the challenge exists', () => {
-        // then
-        return promise.then((challenge) => {
-          expect(challenge).to.be.an.instanceOf(Challenge);
-          expect(challenge.id).to.equal(challengeRecordId);
-          expect(challenge.type).to.equal('QCU');
+        beforeEach(() => {
+          // given
+          challengeRecordId = 'rec_challenge_id';
+          challengeDataObject = factory.buildChallengeAirtableDataObject({
+            id: challengeRecordId,
+            skillIds: ['skillId_1', 'skillId_2'],
+            type: challengeType,
+          });
+          solution = factory.buildSolution();
+          challengeDataSource.get.withArgs(challengeRecordId).resolves(challengeDataObject);
+          skillDatasource.get.withArgs('skillId_1').resolves(factory.buildSkillAirtableDataObject({ name: '@web1' }));
+          skillDatasource.get.withArgs('skillId_2').resolves(factory.buildSkillAirtableDataObject({ name: '@url2' }));
+          solutionAdapter.fromChallengeAirtableDataObject.returns(solution);
+
+          // when
+          promise = challengeRepository.get(challengeRecordId);
         });
-      });
-      it('should have basic properties', () => {
-        // then
-        return promise.then((challenge) => {
-          expect(challenge.instruction).to.equal('Les moteurs de recherche affichent certains liens en raison d\'un accord commercial.\n\nDans quels encadrés se trouvent ces liens ?');
-          expect(challenge.proposals).to.equal('- 1\n- 2\n- 3\n- 4\n- 5');
-          expect(challenge.timer).to.equal(1234);
-          expect(challenge.illustrationUrl).to.equal('https://dl.airtable.com/2MGErxGTQl2g2KiqlYgV_venise4.png');
-          expect(challenge.attachments).to.deep.equal([
-            'https://dl.airtable.com/nHWKNZZ7SQeOKsOvVykV_navigationdiaporama5.pptx',
-            'https://dl.airtable.com/rsXNJrSPuepuJQDByFVA_navigationdiaporama5.odp',
-          ]);
+
+        it('should succeed', () => {
+          // then
+          return expect(promise).to.be.fulfilled;
         });
-      });
-      it('should have embed properties', () => {
-        // then
-        return promise.then((challenge) => {
-          expect(challenge).to.be.an.instanceOf(Challenge);
-          expect(challenge.embedUrl).to.equal('https://github.io/page/epreuve.html');
-          expect(challenge.embedTitle).to.equal('Epreuve de selection de dossier');
-          expect(challenge.embedHeight).to.equal(500);
+        it('should resolve a Challenge domain object when the challenge exists', () => {
+          // then
+          return promise.then((challenge) => {
+            expect(challenge).to.be.an.instanceOf(Challenge);
+            expect(challenge.id).to.equal(challengeRecordId);
+            expect(challenge.type).to.equal(challengeType);
+          });
         });
-      });
-      it('should load skills', () => {
-        // then
-        return promise.then(() => {
-          expect(skillDatasource.get).to.have.been.calledWith('skillId_1');
-          expect(skillDatasource.get).to.have.been.calledWith('skillId_2');
+        it('should have basic properties', () => {
+          // then
+          return promise.then((challenge) => {
+            expect(challenge.instruction).to.equal('Les moteurs de recherche affichent certains liens en raison d\'un accord commercial.\n\nDans quels encadrés se trouvent ces liens ?');
+            expect(challenge.proposals).to.equal('- 1\n- 2\n- 3\n- 4\n- 5');
+            expect(challenge.timer).to.equal(1234);
+            expect(challenge.illustrationUrl).to.equal('https://dl.airtable.com/2MGErxGTQl2g2KiqlYgV_venise4.png');
+            expect(challenge.attachments).to.deep.equal([
+              'https://dl.airtable.com/nHWKNZZ7SQeOKsOvVykV_navigationdiaporama5.pptx',
+              'https://dl.airtable.com/rsXNJrSPuepuJQDByFVA_navigationdiaporama5.odp',
+            ]);
+          });
         });
-      });
-      it('should load skills in the challenge', () => {
-        // then
-        return promise.then((challenge) => {
-          expect(challenge.skills).to.have.lengthOf(2);
-          expect(challenge.skills[0]).to.deep.equal(new Skill({ name: '@web1' }));
-          expect(challenge.skills[1]).to.deep.equal(new Skill({ name: '@url2' }));
+        it('should have embed properties', () => {
+          // then
+          return promise.then((challenge) => {
+            expect(challenge).to.be.an.instanceOf(Challenge);
+            expect(challenge.embedUrl).to.equal('https://github.io/page/epreuve.html');
+            expect(challenge.embedTitle).to.equal('Epreuve de selection de dossier');
+            expect(challenge.embedHeight).to.equal(500);
+          });
+        });
+        it('should load skills', () => {
+          // then
+          return promise.then(() => {
+            expect(skillDatasource.get).to.have.been.calledWith('skillId_1');
+            expect(skillDatasource.get).to.have.been.calledWith('skillId_2');
+          });
+        });
+        it('should load skills in the challenge', () => {
+          // then
+          return promise.then((challenge) => {
+            expect(challenge.skills).to.have.lengthOf(2);
+            expect(challenge.skills[0]).to.deep.equal(new Skill({ name: '@web1' }));
+            expect(challenge.skills[1]).to.deep.equal(new Skill({ name: '@url2' }));
+          });
+        });
+        it('should call the solution-adapter to create the solution', () => {
+          // then
+          return promise.then(() => {
+            expect(solutionAdapter.fromChallengeAirtableDataObject).to.have.been.calledWith(challengeDataObject);
+          });
+        });
+        it('should include a validator with the challenge solution', () => {
+          const expectedValidator = new Validator({ solution });
+          // then
+          return promise.then((challenge) => {
+            expect(challenge.validator).to.be.an.instanceOf(associatedValidatorClass);
+            expect(challenge.validator.solution).to.be.an.instanceOf(Solution);
+            expect(challenge.validator).to.deep.equal(expectedValidator);
+          });
         });
       });
     });
