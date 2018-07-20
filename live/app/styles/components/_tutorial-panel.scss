@@ -1,7 +1,7 @@
 .tutorial-panel {
   display: flex;
   flex-direction: column;
-  margin-bottom: 10px;
+  margin-bottom: 40px;
 }
 
 .tutorial-panel__hint-container-body {
@@ -32,7 +32,7 @@
   font-family: $font-lato;
   font-size: 1.3rem;
   line-height: 2rem;
-  margin: 5px;
+  margin: -5px 5px 0;
 }
 
 .tutorial-panel__hint-title {
