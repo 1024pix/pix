@@ -39,4 +39,5 @@ module.exports = {
   buildTutorial: require('./build-tutorial'),
   buildUser: require('./build-user'),
   buildValidation: require('./build-validation'),
+  buildValidator: require('./build-validator'),
 };

@@ -18,8 +18,6 @@ describe('Unit | Domain | Use Cases | save-answer-and-create-associated-knowled
   const challengeRepository = { get: () => undefined };
   const smartPlacementAssessmentRepository = { get: () => undefined };
   const smartPlacementKnowledgeElementRepository = { save: () => undefined };
-  const solutionRepository = { getByChallengeId: () => undefined };
-  const solutionService = { validate: () => undefined };
 
   beforeEach(() => {
     sandbox = sinon.createSandbox();
@@ -27,8 +25,6 @@ describe('Unit | Domain | Use Cases | save-answer-and-create-associated-knowled
     sandbox.stub(answerRepository, 'hasChallengeAlreadyBeenAnswered');
     sandbox.stub(answerRepository, 'save');
     sandbox.stub(challengeRepository, 'get');
-    sandbox.stub(solutionRepository, 'getByChallengeId');
-    sandbox.stub(solutionService, 'validate');
     sandbox.stub(smartPlacementAssessmentRepository, 'get');
     sandbox.stub(smartPlacementKnowledgeElementRepository, 'save');
     sandbox.stub(SmartPlacementKnowledgeElement, 'createKnowledgeElementsForAnswer');
@@ -55,8 +51,6 @@ describe('Unit | Domain | Use Cases | save-answer-and-create-associated-knowled
         challengeRepository,
         smartPlacementAssessmentRepository,
         smartPlacementKnowledgeElementRepository,
-        solutionRepository,
-        solutionService,
       });
     });
 
@@ -82,35 +76,35 @@ describe('Unit | Domain | Use Cases | save-answer-and-create-associated-knowled
     let promise;
 
     let answer;
+    let challenge;
     let completedAnswer;
+    let correctAnswerValue;
     let savedAnswer;
     let solution;
-    let validation;
+    let validator;
 
     beforeEach(() => {
       // given
-      answer = factory.buildAnswer();
+      correctAnswerValue = '1';
+
+      answer = factory.buildAnswer({ value: correctAnswerValue });
       answer.id = undefined;
       answer.result = undefined;
       answer.resultDetails = undefined;
 
-      solution = factory.buildSolution({ id: answer.challengeId });
-
-      validation = {
-        result: AnswerStatus.OK,
-        resultDetails: null,
-      };
+      solution = factory.buildSolution({ id: answer.challengeId, value: correctAnswerValue });
+      validator = factory.buildValidator.ofTypeQCU({ solution });
+      challenge = factory.buildChallenge({ id: answer.challengeId, validator });
 
       completedAnswer = factory.buildAnswer(answer);
       completedAnswer.id = undefined;
-      completedAnswer.result = validation.result;
-      completedAnswer.resultDetails = validation.resultDetails;
+      completedAnswer.result = AnswerStatus.OK;
+      completedAnswer.resultDetails = null;
 
       savedAnswer = factory.buildAnswer(completedAnswer);
 
       answerRepository.hasChallengeAlreadyBeenAnswered.resolves(false);
-      solutionRepository.getByChallengeId.resolves(solution);
-      solutionService.validate.returns(validation);
+      challengeRepository.get.resolves(challenge);
       answerRepository.save.resolves(savedAnswer);
       smartPlacementAssessmentRepository.get.rejects(new NotFoundError());
 
@@ -121,60 +115,43 @@ describe('Unit | Domain | Use Cases | save-answer-and-create-associated-knowled
         challengeRepository,
         smartPlacementAssessmentRepository,
         smartPlacementKnowledgeElementRepository,
-        solutionRepository,
-        solutionService,
       });
     });
 
+    it('should succeed', () => {
+      // then
+      return expect(promise).to.be.fulfilled;
+    });
     it('should call the answer repository to check if challenge has already been answered', () => {
       // then
       const expectedArguments = {
         assessmentId: answer.assessmentId,
         challengeId: answer.challengeId,
       };
-      return promise.catch((error) => error)
-        .then(() => {
-          return expect(answerRepository.hasChallengeAlreadyBeenAnswered).to.have.been.calledWith(expectedArguments);
-        });
-    });
-    it('should call the solution repository to get the solution the answer’s challenge', () => {
-      // then
-      const expectedArguments = answer.challengeId;
-      return promise.catch((error) => error)
-        .then(() => {
-          return expect(solutionRepository.getByChallengeId).to.have.been.calledWith(expectedArguments);
-        });
-    });
-    it('should call the solution service to calculate the result status of the answer', () => {
-      // then
-      return promise.catch((error) => error)
-        .then(() => {
-          return expect(solutionService.validate).to.have.been.calledWith(answer, solution);
-        });
+      return promise.then(() => {
+        return expect(answerRepository.hasChallengeAlreadyBeenAnswered).to.have.been.calledWith(expectedArguments);
+      });
     });
     it('should call the answer repository to save the answer', () => {
       // then
       const expectedArgument = completedAnswer;
-      return promise.catch((error) => error)
-        .then(() => {
-          return expect(answerRepository.save).to.have.been.calledWith(expectedArgument);
-        });
+      return promise.then(() => {
+        return expect(answerRepository.save).to.have.been.calledWith(expectedArgument);
+      });
     });
     it('should call the smart placement assessment repository to try and get the assessment', () => {
       // then
       const expectedArgument = answer.assessmentId;
-      return promise.catch((error) => error)
-        .then(() => {
-          return expect(smartPlacementAssessmentRepository.get).to.have.been.calledWith(expectedArgument);
-        });
+      return promise.then(() => {
+        return expect(smartPlacementAssessmentRepository.get).to.have.been.calledWith(expectedArgument);
+      });
     });
     it('should return the saved answer - with the id', () => {
       // then
       const expectedArgument = savedAnswer;
-      return promise.catch((error) => error)
-        .then((answer) => {
-          return expect(answer).to.deep.equal(expectedArgument);
-        });
+      return promise.then((answer) => {
+        return expect(answer).to.deep.equal(expectedArgument);
+      });
     });
   });
 
@@ -186,31 +163,30 @@ describe('Unit | Domain | Use Cases | save-answer-and-create-associated-knowled
     let assessment;
     let challenge;
     let completedAnswer;
+    let correctAnswerValue;
     let firstKnowledgeElement;
     let savedAnswer;
     let secondKnowledgeElement;
     let solution;
-    let validation;
+    let validator;
 
     beforeEach(() => {
       // given
+      correctAnswerValue = '1';
+
       answer = factory.buildAnswer();
       answer.id = undefined;
       answer.result = undefined;
       answer.resultDetails = undefined;
 
-      challenge = factory.buildChallenge({ id: answer.challengeId });
-      solution = factory.buildSolution({ id: answer.challengeId });
-
-      validation = {
-        result: AnswerStatus.OK,
-        resultDetails: null,
-      };
+      solution = factory.buildSolution({ id: answer.challengeId, value: correctAnswerValue });
+      validator = factory.buildValidator.ofTypeQCU({ solution });
+      challenge = factory.buildChallenge({ id: answer.challengeId, validator });
 
       completedAnswer = factory.buildAnswer(answer);
       completedAnswer.id = undefined;
-      completedAnswer.result = validation.result;
-      completedAnswer.resultDetails = validation.resultDetails;
+      completedAnswer.result = AnswerStatus.OK;
+      completedAnswer.resultDetails = null;
 
       savedAnswer = factory.buildAnswer(completedAnswer);
 
@@ -220,8 +196,6 @@ describe('Unit | Domain | Use Cases | save-answer-and-create-associated-knowled
 
       answerRepository.hasChallengeAlreadyBeenAnswered.resolves(false);
       challengeRepository.get.resolves(challenge);
-      solutionRepository.getByChallengeId.resolves(solution);
-      solutionService.validate.returns(validation);
       answerRepository.save.resolves(savedAnswer);
       smartPlacementAssessmentRepository.get.resolves(assessment);
       SmartPlacementKnowledgeElement.createKnowledgeElementsForAnswer.returns([
@@ -235,60 +209,43 @@ describe('Unit | Domain | Use Cases | save-answer-and-create-associated-knowled
         challengeRepository,
         smartPlacementAssessmentRepository,
         smartPlacementKnowledgeElementRepository,
-        solutionRepository,
-        solutionService,
       });
     });
 
+    it('should succeed', () => {
+      // then
+      return expect(promise).to.be.fulfilled;
+    });
     it('should call the answer repository to check if challenge has already been answered', () => {
       // then
       const expectedArguments = {
         assessmentId: answer.assessmentId,
         challengeId: answer.challengeId,
       };
-      return promise.catch((error) => error)
-        .then(() => {
-          return expect(answerRepository.hasChallengeAlreadyBeenAnswered).to.have.been.calledWith(expectedArguments);
-        });
-    });
-    it('should call the solution repository to get the solution the answer’s challenge', () => {
-      // then
-      const expectedArguments = answer.challengeId;
-      return promise.catch((error) => error)
-        .then(() => {
-          return expect(solutionRepository.getByChallengeId).to.have.been.calledWith(expectedArguments);
-        });
-    });
-    it('should call the solution service to calculate the result status of the answer', () => {
-      // then
-      return promise.catch((error) => error)
-        .then(() => {
-          return expect(solutionService.validate).to.have.been.calledWith(answer, solution);
-        });
+      return promise.then(() => {
+        return expect(answerRepository.hasChallengeAlreadyBeenAnswered).to.have.been.calledWith(expectedArguments);
+      });
     });
     it('should call the answer repository to save the answer', () => {
       // then
       const expectedArgument = completedAnswer;
-      return promise.catch((error) => error)
-        .then(() => {
-          return expect(answerRepository.save).to.have.been.calledWith(expectedArgument);
-        });
+      return promise.then(() => {
+        return expect(answerRepository.save).to.have.been.calledWith(expectedArgument);
+      });
     });
     it('should call the smart placement assessment repository to try and get the assessment', () => {
       // then
       const expectedArgument = answer.assessmentId;
-      return promise.catch((error) => error)
-        .then(() => {
-          return expect(smartPlacementAssessmentRepository.get).to.have.been.calledWith(expectedArgument);
-        });
+      return promise.then(() => {
+        return expect(smartPlacementAssessmentRepository.get).to.have.been.calledWith(expectedArgument);
+      });
     });
     it('should call the challenge repository to get the answer challenge', () => {
       // then
       const expectedArgument = answer.challengeId;
-      return promise.catch((error) => error)
-        .then(() => {
-          return expect(challengeRepository.get).to.have.been.calledWith(expectedArgument);
-        });
+      return promise.then(() => {
+        return expect(challengeRepository.get).to.have.been.calledWith(expectedArgument);
+      });
     });
     it('should create the knowledge elements for the answer', () => {
       // then
@@ -299,11 +256,10 @@ describe('Unit | Domain | Use Cases | save-answer-and-create-associated-knowled
         previouslyValidatedSkills: assessment.validatedSkills,
         targetSkills: assessment.targetProfile.skills,
       };
-      return promise.catch((error) => error)
-        .then(() => {
-          return expect(SmartPlacementKnowledgeElement.createKnowledgeElementsForAnswer)
-            .to.have.been.calledWith(expectedArgument);
-        });
+      return promise.then(() => {
+        return expect(SmartPlacementKnowledgeElement.createKnowledgeElementsForAnswer)
+          .to.have.been.calledWith(expectedArgument);
+      });
     });
     it('should save the newly created knowledge elements', () => {
       // then
@@ -311,16 +267,14 @@ describe('Unit | Domain | Use Cases | save-answer-and-create-associated-knowled
         [firstKnowledgeElement],
         [secondKnowledgeElement],
       ];
-      return promise.catch((error) => error)
-        .then(() => expect(smartPlacementKnowledgeElementRepository.save.args).to.deep.equal(expectedArgs));
+      return promise.then(() => expect(smartPlacementKnowledgeElementRepository.save.args).to.deep.equal(expectedArgs));
     });
     it('should return the saved answer - with the id', () => {
       // then
       const expectedArgument = savedAnswer;
-      return promise.catch((error) => error)
-        .then((answer) => {
-          return expect(answer).to.deep.equal(expectedArgument);
-        });
+      return promise.then((answer) => {
+        return expect(answer).to.deep.equal(expectedArgument);
+      });
     });
   });
 });
