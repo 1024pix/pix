@@ -1,12 +1,12 @@
+const UNIMPLEMENTED = 'unimplemented';
+const TIMEDOUT = 'timedout';
+const PARTIALLY = 'partially';
+const SKIPPED = 'aband';
+const OK = 'ok';
+const KO = 'ko';
 
-class AnswerStatusJsonApiAdapter {
-  static adapt(answerStatus) {
-    const UNIMPLEMENTED = 'unimplemented';
-    const TIMEDOUT = 'timedout';
-    const PARTIALLY = 'partially';
-    const SKIPPED = 'aband';
-    const OK = 'ok';
-    const KO = 'ko';
+const AnswerStatusJsonApiAdapter = {
+  adapt(answerStatus) {
 
     if (answerStatus.isOK()) {
       return OK;
@@ -21,7 +21,7 @@ class AnswerStatusJsonApiAdapter {
     } else {
       return UNIMPLEMENTED;
     }
-  }
-}
+  },
+};
 
 module.exports = AnswerStatusJsonApiAdapter;
