@@ -6,7 +6,7 @@ const validationConfiguration = { abortEarly: false, allowUnknown: true };
 const campaignValidationJoiSchema = Joi.object().keys({
 
   name: Joi.string().required().error(() => {
-    return { message: 'Le nom n’est pas renseigné.' };
+    return { message: 'Veuillez donner un nom à votre campagne.' };
   }),
 
   creatorId: Joi.number().integer().required().error(() => {
