@@ -6,7 +6,7 @@
 }
 
 .learning-more-panel__container{
-  margin: 20px 0;
+  margin: 20px 0 40px;
 }
 
 .learning-more-panel__hint-title {
@@ -39,6 +39,14 @@
     font-size: 2.2rem;
     line-height: 26px;
   }
+}
+
+.learning-more-panel__tutorial-info {
+  color: $raven-grey;
+  font-family: $font-lato;
+  font-size: 1.3rem;
+  line-height: 2rem;
+  margin: 5px;
 }
 
 .learning-more-panel__hint-container-header{
