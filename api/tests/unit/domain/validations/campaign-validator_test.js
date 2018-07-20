@@ -43,7 +43,7 @@ describe('Unit | Domain | Validators | campaign-validator', function() {
           // given
           const expectedError = {
             attribute: 'name',
-            message: 'Le nom n’est pas renseigné.'
+            message: 'Veuillez donner un nom à votre campagne.'
           };
           campaign.name = MISSING_VALUE;
 
