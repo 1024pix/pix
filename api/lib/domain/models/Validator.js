@@ -10,10 +10,12 @@ class Validator {
   constructor({
     // attributes
     // includes
+    solution,
     // references
   } = {}) {
     // attributes
     // includes
+    this.solution = solution;
     // references
   }
 
