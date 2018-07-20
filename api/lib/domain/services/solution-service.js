@@ -1,6 +1,6 @@
 const Answer = require('../../infrastructure/data/answer');
 const AnswerStatus = require('../../domain/models/AnswerStatus');
-const AnswerStatusJsonApiAdapter = require('../../interfaces/serializer/json-api/AnswerStatusJsonApiAdapter');
+const AnswerStatusJsonApiAdapter = require('../../infrastructure/adapters/answer-status-json-api-adapter');
 const _ = require('../../infrastructure/utils/lodash-utils');
 
 const solutionServiceQcm = require('./solution-service-qcm');

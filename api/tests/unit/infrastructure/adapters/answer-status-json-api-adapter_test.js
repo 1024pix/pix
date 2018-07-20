@@ -1,6 +1,6 @@
 
-const AnswerStatusJsonApiAdapter = require('../../../../../lib/interfaces/serializer/json-api/AnswerStatusJsonApiAdapter');
-const AnswerStatus = require('../../../../../lib/domain/models/AnswerStatus');
+const AnswerStatusJsonApiAdapter = require('../../../../lib/infrastructure/adapters/answer-status-json-api-adapter');
+const AnswerStatus = require('../../../../lib/domain/models/AnswerStatus');
 
 const { expect } = require('chai');
 
