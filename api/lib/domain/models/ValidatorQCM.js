@@ -13,10 +13,9 @@ class ValidatorQCM extends Validator {
     solution,
     // references
   } = {}) {
-    super();
+    super({ solution });
     // attributes
     // includes
-    this.solution = solution;
     // references
   }
 
