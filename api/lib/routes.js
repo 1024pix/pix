@@ -4,6 +4,7 @@ module.exports = [
   require('./application/assessment-results'),
   require('./application/authentication'),
   require('./application/cache'),
+  require('./application/campaigns'),
   require('./application/certifications'),
   require('./application/certificationCourses'),
   require('./application/challenges'),

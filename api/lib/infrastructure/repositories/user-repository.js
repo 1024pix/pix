@@ -1,7 +1,7 @@
 const _ = require('lodash');
 const BookshelfUser = require('../data/user');
 const { AlreadyRegisteredEmailError } = require('../../domain/errors');
-const { NotFoundError, UserNotFoundError } = require('../../domain/errors');
+const { UserNotFoundError } = require('../../domain/errors');
 const User = require('../../domain/models/User');
 const OrganizationAccess = require('../../domain/models/OrganizationAccess');
 const Organization = require('../../domain/models/Organization');
@@ -54,7 +54,11 @@ module.exports = {
     return BookshelfUser
       .where({ email })
       .fetch({
-        withRelated: ['organizationsAccesses', 'organizationsAccesses.organization', 'organizationsAccesses.organizationRole']
+        withRelated: [
+          'organizationsAccesses',
+          'organizationsAccesses.organization',
+          'organizationsAccesses.organizationRole',
+        ]
       })
       .then((foundUser) => {
         if(foundUser === null) {
@@ -83,9 +87,27 @@ module.exports = {
       .then(bookshelfUser => bookshelfUser.toDomainEntity())
       .catch(err => {
         if (err instanceof BookshelfUser.NotFoundError) {
-          throw new NotFoundError(`User not found for ID ${userId}`);
+          throw new UserNotFoundError(`User not found for ID ${userId}`);
         }
         throw err;
+      });
+  },
+
+  getWithOrganizationsAccesses(userId) {
+    return BookshelfUser
+      .where({ id: userId })
+      .fetch({
+        withRelated: [
+          'organizationsAccesses',
+          'organizationsAccesses.organization',
+          'organizationsAccesses.organizationRole',
+        ]
+      })
+      .then((foundUser) => {
+        if(foundUser === null) {
+          return Promise.reject(new UserNotFoundError(`User not found for ID ${userId}`));
+        }
+        return _toDomain(foundUser);
       });
   },
 

@@ -16,6 +16,12 @@ class AlreadyRegisteredEmailError extends DomainError {
   }
 }
 
+class UserNotAuthorizedToCreateCampaignError extends DomainError {
+  constructor(message) {
+    super(message);
+  }
+}
+
 class AssessmentEndedError extends DomainError {
   constructor() {
     super();
@@ -172,7 +178,7 @@ class UserNotAuthorizedToCertifyError extends DomainError {
   }
 }
 
-class UserNotFoundError extends DomainError {
+class UserNotFoundError extends NotFoundError {
   constructor() {
     super();
   }
@@ -243,6 +249,7 @@ module.exports = {
   PasswordResetDemandNotFoundError,
   UserNotAuthorizedToAccessEntity,
   UserNotAuthorizedToCertifyError,
+  UserNotAuthorizedToCreateCampaignError,
   UserNotFoundError,
   WrongDateFormatError,
 };

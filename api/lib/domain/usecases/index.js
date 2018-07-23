@@ -1,4 +1,5 @@
 const authenticateUser = require('./authenticate-user');
+const createCampaign = require('./create-campaign');
 const createAssessmentResultForCompletedCertification = require('./create-assessment-result-for-completed-certification');
 const createUser = require('./create-user');
 const findCompletedUserCertifications = require('./find-completed-user-certifications');
@@ -19,8 +20,8 @@ const removeCacheEntry = require('./remove-cache-entry');
 const updateCertification = require('./update-certification');
 
 module.exports = {
-  // Thx to list the use cases in alphabetical order :)
   authenticateUser,
+  createCampaign,
   createAssessmentResultForCompletedCertification,
   createUser,
   findCompletedUserCertifications,
