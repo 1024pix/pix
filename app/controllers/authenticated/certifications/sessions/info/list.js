@@ -1,6 +1,5 @@
 import Controller from '@ember/controller';
 import json2csv from 'json2csv';
-import { computed } from '@ember/object';
 import FileSaver from 'file-saver';
 import Papa from 'papaparse';
 import { inject as service } from '@ember/service';
@@ -10,20 +9,8 @@ export default Controller.extend({
   // Properties
   progress:false,
   progressMax:0,
-  progressCurrent:0,
+  progressValue:0,
   notifications: service('notification-messages'),
-
-
-  // Computed properties
-  progressValue:computed('progressMax', 'progressCurrent', function() {
-    let max = this.get('progressMax');
-    let current = this.get('progressCurrent');
-    if (max > 0 ) {
-      return Math.round((current*100)/max);
-    } else {
-      return 0;
-    }
-  }),
 
   init() {
     this._super();
@@ -61,6 +48,7 @@ export default Controller.extend({
     onExport() {
       let ids = this.get('model.certificationIds').toArray();
       this.set('progressMax', ids.length);
+      this.set('progressValue', 0);
       this.set('progress', true);
       this._getExportJson(ids, [])
       .then((json) => {
@@ -93,6 +81,7 @@ export default Controller.extend({
           const csvRawData = data.toString('utf8').replace(/^\uFEFF/, '');
           const parsedCSVData = Papa.parse(csvRawData, { header: true , skipEmptyLines: true}).data;
           that.set('progressMax', parsedCSVData.length);
+          that.set('progressValue', 0);
           that.set('progress', true);
           return that._importCertificationsData(parsedCSVData)
           .then(() => {
@@ -150,7 +139,7 @@ export default Controller.extend({
     let ids = certificationsIds.splice(0,10);
     return this._getCertificationsJson(ids)
     .then((value) => {
-      this.set('progressCurrent', this.get('progressCurrent')+value.length);
+      this.set('progressValue', this.get('progressValue')+value.length);
       if (certificationsIds.length >0 ) {
         return this._getExportJson(certificationsIds, json.concat(value));
       } else {
@@ -163,7 +152,7 @@ export default Controller.extend({
     let dataPiece = data.splice(0,10);
     return this._updateCertifications(dataPiece)
     .then(() => {
-      this.set('progressCurrent', this.get('progressCurrent')+10);
+      this.set('progressValue', this.get('progressValue')+10);
       if (data.length>0) {
         return this._importCertificationsData(data);
       } else {
