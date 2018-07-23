@@ -9,9 +9,17 @@ export default Controller.extend({
   edition:false,
   notifications: service('notification-messages'),
   displayConfirm: false,
+  confirmMessage:'',
+  confirmAction:'onSave',
+  statuses:null,
 
   // private properties
   _competencesCopy:null,
+
+  init() {
+    this._super(...arguments);
+    this.set('statuses', ['validated', 'rejected']);
+  },
 
   // Actions
   actions: {
@@ -28,6 +36,8 @@ export default Controller.extend({
       }
     },
     onSaveConfirm() {
+      this.set('confirmMessage', 'Souhaitez-vous mettre à jour cette certification ?');
+      this.set('confirmAction', 'onSave');
       this.set('displayConfirm', true);
     },
     onCancelConfirm() {
@@ -37,7 +47,7 @@ export default Controller.extend({
       this.set('displayConfirm', false);
       let certification = this.get('certification');
       let changedAttributes = certification.changedAttributes();
-      let marksUpdateRequired = (changedAttributes.competencesWithMark)?true:false;
+      let marksUpdateRequired = (changedAttributes.competencesWithMark || changedAttributes.commentForCandidate || changedAttributes.commentForOrganization ||changedAttributes.commentForJury)?true:false;
       return certification.save({adapterOptions:{updateMarks:false}})
       .then(() => {
         if (marksUpdateRequired) {
@@ -110,6 +120,36 @@ export default Controller.extend({
         newCompetences.addObject({'competence-code':code, 'level':parseInt(value), 'area-code':code.substr(0,1)});
       }
       this.set('certification.competencesWithMark', newCompetences);
+    },
+    onTogglePublishConfirm() {
+      let state = this.get('certification.isPublished');
+      if (state) {
+        this.set('confirmMessage', 'Souhaitez-vous dépublier cette certification ?');
+      } else {
+        this.set('confirmMessage', 'Souhaitez-vous publier cette certification ?');
+      }
+      this.set('confirmAction', 'onTogglePublish');
+      this.set('displayConfirm', true);
+    },
+    onTogglePublish() {
+      this.set('displayConfirm', false);
+      let certification = this.get('certification');
+      let currentPublishState = certification.get('isPublished');
+      let operation;
+      if (currentPublishState) {
+        certification.set('isPublished', false);
+        operation = "dépubliée";
+      } else {
+        certification.set('isPublished', true);
+        operation = "publiée";
+      }
+      return certification.save({adapterOptions:{updateMarks:false}})
+      .then(() => {
+        this.get('notifications').success('Certification '+operation);
+      })
+      .catch((e) => {
+        this.get('notifications').error(e);
+      });
     }
   },
 
