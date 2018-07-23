@@ -74,7 +74,7 @@ module.exports = {
   update(request, reply) {
 
     const updatedAnswer = answerSerializer.deserialize(request.payload);
-    answerRepository
+    return answerRepository
       .findByChallengeAndAssessment(updatedAnswer.get('challengeId'), updatedAnswer.get('assessmentId'))
       .then((existingAnswer) => {
 
@@ -82,7 +82,18 @@ module.exports = {
           return reply(Boom.notFound());
         }
 
-        return _updateExistingAnswer(existingAnswer, updatedAnswer, reply);
+        // XXX if assessment is a Smart Placement, than return 204 and do not update answer. If not proceed normally.
+        return smartPlacementAssessmentRepository.get(existingAnswer.get('assessmentId'))
+          .catch(() => undefined)
+          .then((assessment) => {
+
+            if (assessment) {
+              return controllerReplies(reply).noContent();
+
+            } else {
+              return _updateExistingAnswer(existingAnswer, updatedAnswer, reply);
+            }
+          });
       });
   },
 

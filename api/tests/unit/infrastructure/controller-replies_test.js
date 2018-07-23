@@ -80,6 +80,28 @@ describe('Unit | Infrastructure | ControllerReplies', () => {
       });
     });
 
+    context('noContent', () => {
+
+      let promise;
+
+      beforeEach(() => {
+        // when
+        promise = controllerReplies(replyStub).noContent();
+      });
+
+      it('should succeed', () => {
+        // then
+        return expect(promise).to.be.fulfilled;
+      });
+      it('should return reply with payload and 201', () => {
+        // then
+        return promise.then(() => {
+          expect(replyStub).to.have.been.calledWith();
+          expect(codeStub).to.have.been.calledWith(204);
+        });
+      });
+    });
+
     context('error', () => {
 
       let promise;
