@@ -11,14 +11,14 @@ export default BaseRoute.extend({
     this.get('splash').hide();
   },
 
-  hasForbiddenError(errorEvent) {
+  hasUnauthorizedError(errorEvent) {
     const statusCode = _.get(errorEvent, 'errors[0].code');
     return statusCode === 401;
   },
 
   actions: {
     error: function(error) {
-      if (this.hasForbiddenError(error)) {
+      if (this.hasUnauthorizedError(error)) {
         return this.get('session').invalidate()
           .then(() => this.transitionTo('login'));
       }
