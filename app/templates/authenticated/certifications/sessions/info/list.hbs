@@ -1,8 +1,10 @@
 {{certification-list certifications=model.certifications}}
 {{#if progress}}
-{{#bs-progress as |p|}}
-  {{p.bar value=progressValue maxValue=progressMax}}
-{{/bs-progress}}
+<div class="session-list__progress">
+  {{#bs-progress as |p|}}
+    {{p.bar value=progressValue maxValue=progressMax}}
+  {{/bs-progress}}
+</div>
 {{/if}}
 <div class="row">
   <div class="col session-list__actions">
