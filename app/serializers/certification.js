@@ -22,6 +22,7 @@ export default DS.JSONAPISerializer.extend({
       this.serializeAttribute(snapshot, data, 'birthplace', 'birthplace');
       this.serializeAttribute(snapshot, data, 'birthdate', 'birthdate');
       this.serializeAttribute(snapshot, data, 'externalId', 'external-id');
+      this.serializeAttribute(snapshot, data, 'isPublished', 'is-published');
       data.type = 'certifications';
       if (options.includeId) {
         data.id = parseInt(snapshot.id);

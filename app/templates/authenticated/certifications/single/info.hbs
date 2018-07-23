@@ -6,9 +6,13 @@
           <h5 class="card-title">État</h5>
           <div class="card-text">
             {{certification-info-field value=certification.sessionId edition=false label="Session :" linkRoute='authenticated.certifications.sessions.info'}}
+            <!--
+            {{certification-info-select value=certification.status values=statuses edition=edition label="Statut :"}}
+            -->
             {{certification-info-field value=certification.status edition=false label="Statut :"}}
             {{certification-info-field value=certification.creationDate edition=false label="Créée le :"}}
             {{certification-info-field value=certification.completionDate edition=false label="Terminée le :"}}
+            {{certification-info-field value=certification.publishedText edition=false label="Publiée :"}}
           </div>
         </div>
       </div>
@@ -64,6 +68,13 @@
         {{#bs-button class='single-certification-edit__button' type='primary' size='sm' onClick=(action "onSaveConfirm")}}Enregistrer{{/bs-button}}
       {{else}}
         {{#bs-button class='single-certification-edit__button' type='primary' size='sm' onClick=(action "onEdit")}}Modifier{{/bs-button}}
+        {{#bs-button class='single-certification-edit__button' type='primary' size='sm' onClick=(action "onTogglePublishConfirm")}}
+          {{#if certification.isPublished}}
+            Dépublier
+          {{else}}
+            Publier
+          {{/if}}
+        {{/bs-button}}
       {{/if}}
     </div>
   </div>
@@ -75,8 +86,8 @@
       fade=false
       open=displayConfirm
       position="center"
-      onSubmit=(action "onSave")
+      onSubmit=(action confirmAction)
       onHide=(action "onCancelConfirm")}}
-      Souhaitez-vous mettre à jour cette certification ?
+      {{confirmMessage}}
   {{/bs-modal-simple}}
 </div>
