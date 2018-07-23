@@ -1,5 +1,10 @@
 # Pix Changelog
 
+## v1.56.0 (23/07/2018)
+
+- [#136](https://github.com/1024pix/pix/pull/136) [BUGFIX] Correction de la page "Oups" qui s'affiche en boucle à l'expiration de la session (PF-297).
+
+
 ## v1.55.0 (19/07/2018) 
 
 - [#126](https://github.com/1024pix/pix/pull/126) [FEATURE] Mettre les liens en bleu Pix et souligné dans la consigne d'une d'épreuve afin de comprendre qu'il faut cliquer (PF-126).
