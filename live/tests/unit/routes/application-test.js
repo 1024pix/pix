@@ -32,19 +32,19 @@ describe('Unit | Route | application splash', function() {
     expect(splashStub.hideCount).to.equal(1);
   });
 
-  describe('#hasForbiddenError', function() {
+  describe('#hasUnauthorizedError', function() {
     let route;
 
     beforeEach(function() {
       route = this.subject();
     });
 
-    it('finds a forbidden code in the first error object', function() {
+    it('finds an unauthorized code in the first error object', function() {
       // Given
-      const forbiddenError = { errors: [{ code: 401 }] };
+      const errorEvent = { errors: [{ code: 401 }] };
 
       // When
-      const result = route.hasForbiddenError(forbiddenError);
+      const result = route.hasUnauthorizedError(errorEvent);
 
       // Then
       expect(result).to.be.true;
@@ -52,10 +52,10 @@ describe('Unit | Route | application splash', function() {
 
     it('returns false if there is no "errors" key', function() {
       // Given
-      const forbiddenError = {};
+      const errorEvent = {};
 
       // When
-      const result = route.hasForbiddenError(forbiddenError);
+      const result = route.hasUnauthorizedError(errorEvent);
 
       // Then
       expect(result).to.be.false;
@@ -63,10 +63,10 @@ describe('Unit | Route | application splash', function() {
 
     it('returns false if the "errors" key points to an empty array', function() {
       // Given
-      const forbiddenError = { errors: [] };
+      const errorEvent = { errors: [] };
 
       // When
-      const result = route.hasForbiddenError(forbiddenError);
+      const result = route.hasUnauthorizedError(errorEvent);
 
       // Then
       expect(result).to.be.false;
