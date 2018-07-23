@@ -3,6 +3,7 @@ const { expect, sinon, factory } = require('../../../test-helper');
 const answerController = require('../../../../lib/application/answers/answer-controller');
 const answerRepository = require('../../../../lib/infrastructure/repositories/answer-repository');
 const answerSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/answer-serializer');
+const bookshelfAnswer = require('../../../../lib/infrastructure/data/answer');
 const challengeRepository = require('../../../../lib/infrastructure/repositories/challenge-repository');
 const logger = require('../../../../lib/infrastructure/logger');
 const usecases = require('../../../../lib/domain/usecases');
@@ -22,6 +23,8 @@ describe('Unit | Controller | answer-controller', () => {
     sandbox = sinon.sandbox.create();
 
     sandbox.stub(answerSerializer, 'serialize');
+    sandbox.stub(answerRepository, 'findByChallengeAndAssessment');
+    sandbox.stub(smartPlacementAssessmentRepository, 'get');
     sandbox.stub(usecases, 'saveAnswerAndCreateAssociatedKnowledgeElements');
     sandbox.stub(logger, 'error');
     codeStub = sinon.stub();
@@ -44,7 +47,6 @@ describe('Unit | Controller | answer-controller', () => {
     const resultDetails = null;
     const value = 'NumA = "4", NumB = "1", NumC = "3", NumD = "2"';
     const elapsedTime = 1000;
-    const certificationId = 154;
 
     let request;
     let deserializedAnswer;
@@ -78,9 +80,6 @@ describe('Unit | Controller | answer-controller', () => {
 
     beforeEach(() => {
       request = {
-        params: {
-          id: certificationId,
-        },
         payload: {
           data: {
             attributes: {
@@ -120,7 +119,7 @@ describe('Unit | Controller | answer-controller', () => {
       deserializedAnswer.id = undefined;
     });
 
-    context('when usecase succeds', () => {
+    context('when answer does not exist', () => {
 
       let createdAnswer;
       let promise;
@@ -254,6 +253,119 @@ describe('Unit | Controller | answer-controller', () => {
         return promise.then(() => {
           expect(replyStub).to.have.been.calledWith(jsonAPIError);
           expect(codeStub).to.have.been.calledWith(500);
+        });
+      });
+    });
+  });
+
+  describe('#update', () => {
+
+    const answerId = 1212;
+    const assessmentId = 12;
+    const challengeId = 'recdTpx4c0kPPDTtf';
+    const result = null;
+    const timeout = null;
+    const resultDetails = null;
+    const value = 'NumA = "4", NumB = "1", NumC = "3", NumD = "2"';
+    const elapsedTime = 1000;
+
+    let request;
+
+    beforeEach(() => {
+      request = {
+        params: {
+          id: answerId,
+        },
+        payload: {
+          data: {
+            id: answerId,
+            attributes: {
+              value: value,
+              result: result,
+              timeout: timeout,
+              'result-details': resultDetails,
+              'elapsed-time': elapsedTime,
+            },
+            relationships: {
+              assessment: {
+                data: {
+                  type: 'assessments',
+                  id: assessmentId,
+                },
+              },
+              challenge: {
+                data: {
+                  type: 'challenges',
+                  id: challengeId,
+                },
+              },
+            },
+            type: 'answers',
+          },
+        },
+      };
+    });
+
+    context('when assessment is a SmartPlacement and Answer exists', () => {
+
+      let existingAnswer;
+      let existingBookshelfAnswer;
+      let promise;
+      let assessment;
+
+      beforeEach(() => {
+        // given
+        existingAnswer = factory.buildAnswer({
+          id: answerId,
+          value,
+          result,
+          timeout,
+          resultDetails,
+          elapsedTime,
+          assessmentId,
+          challengeId,
+        });
+        existingBookshelfAnswer = new bookshelfAnswer({
+          id: existingAnswer.id,
+          value: existingAnswer.value,
+          result: existingAnswer.result,
+          resultDetails: existingAnswer.resultDetails,
+          timeout: existingAnswer.timeout,
+          elapsedTime: existingAnswer.elapsedTime,
+          assessmentId: existingAnswer.assessmentId,
+          challengeId: existingAnswer.challengeId,
+        });
+
+        assessment = factory.buildSmartPlacementAssessment({ id: assessmentId });
+
+        answerRepository.findByChallengeAndAssessment.resolves(existingBookshelfAnswer);
+        smartPlacementAssessmentRepository.get.resolves(assessment);
+
+        // when
+        promise = answerController.update(request, replyStub);
+      });
+
+      it('should succeed', () => {
+        return expect(promise).to.be.fulfilled;
+      });
+      it('should get existing answer', () => {
+        // then
+        return promise.then(() => {
+          return expect(answerRepository.findByChallengeAndAssessment)
+            .to.have.been.calledWith(challengeId, assessmentId);
+        });
+      });
+      it('should call the smartPlacementAssessmentRepository to try and get the assessment', () => {
+        // then
+        return promise.then(() => {
+          return expect(smartPlacementAssessmentRepository.get).to.have.been.calledWith(assessmentId);
+        });
+      });
+      it('should return no content', () => {
+        // then
+        return promise.then(() => {
+          expect(replyStub).to.have.been.calledWith();
+          expect(codeStub).to.have.been.calledWith(204);
         });
       });
     });

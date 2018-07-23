@@ -13,6 +13,10 @@ function controllerReplies(reply) {
       return reply(payload).code(201);
     },
 
+    noContent() {
+      return reply().code(204);
+    },
+
     error(error) {
 
       if (error instanceof infraError.InfrastructureError) {
