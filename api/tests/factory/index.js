@@ -16,7 +16,7 @@ module.exports = {
   buildChallenge: require('./build-challenge'),
   buildChallengeAirtableDataObject: require('./build-challenge-airtable-data-object'),
   buildCompetence: require('./build-competence'),
-  buildCompetenceAirtableDataObject: ('./build-competence-airtable-data-object'),
+  buildCompetenceAirtableDataObject: require('./build-competence-airtable-data-object'),
   buildCompetenceMark: require('./build-competence-mark'),
   buildCompetenceTree: require('./build-competence-tree'),
   buildCourse: require('./build-course'),
