@@ -36,6 +36,11 @@ class User {
     return this.organizationsAccesses.length > 0;
   }
 
+  hasAccessToOrganization(organizationId) {
+    return this.organizationsAccesses
+      .some((organizationAccess) => organizationAccess.organization.id === organizationId);
+  }
+
 }
 
 module.exports = User;
