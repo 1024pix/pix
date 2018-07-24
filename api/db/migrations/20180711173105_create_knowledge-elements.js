@@ -12,7 +12,7 @@ exports.up = (knex) => {
 
       table.bigInteger('answerId').references('answers.id').index();
       table.bigInteger('assessmentId').references('assessments.id').index();
-      table.string('skillId').index('skillId');
+      table.string('skillId').index();
     })
     .then(() => {
       console.log(`${KNOWLEDGE_ELEMENTS_TABLE_NAME} table is created!`);
