@@ -1,4 +1,3 @@
-/* eslint-disable no-empty-pattern */
 const AnswerStatus = require('./AnswerStatus');
 const Validation = require('./Validation');
 
