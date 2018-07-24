@@ -1,18 +1,21 @@
 const Skill = require('../models/Skill');
 const _ = require('lodash');
 
-const SmartPlacementKnowledgeElementSourceType = Object.freeze({
-  DIRECT: 'direct',
-  INFERRED: 'inferred',
-});
-
 const SmartPlacementKnowledgeElementStatusType = Object.freeze({
   VALIDATED: 'validated',
   INVALIDATED: 'invalidated',
 });
 
-const validatedStatus = SmartPlacementKnowledgeElementStatusType.VALIDATED;
-const invalidatedStatus = SmartPlacementKnowledgeElementStatusType.INVALIDATED;
+// Par quelle méthode avons nous créé cet Élément de Connaissance ?
+// DIRECT => On sait que l'Acquis est validé ou non par une Réponse à une Épreuve
+// INFERRED => On déduit que l'Acquis est validé ou non parce qu'il fait partie d'un Tube sur lequel on a un Élément de Connaissance direct
+const SmartPlacementKnowledgeElementSourceType = Object.freeze({
+  DIRECT: 'direct',
+  INFERRED: 'inferred',
+});
+
+const VALIDATED_STATUS = SmartPlacementKnowledgeElementStatusType.VALIDATED;
+const INVALIDATED_STATUS = SmartPlacementKnowledgeElementStatusType.INVALIDATED;
 
 /**
  * Traduction: Élément de connaissance d'un profil exploré dans le cadre d'un smart placement
@@ -85,7 +88,7 @@ function createDirectKnowledgeElements({
   targetSkills,
 }) {
 
-  const status = answer.isOk() ? validatedStatus : invalidatedStatus;
+  const status = answer.isOk() ? VALIDATED_STATUS : INVALIDATED_STATUS;
 
   return associatedChallenge.skills
     .filter(skillIsInTargetedSkills({ targetSkills }))
@@ -113,7 +116,7 @@ function enrichDirectKnowledgeElementsWithInferredKnowledgeElements({
   targetSkills,
 }) {
   const targetSkillsGroupedByTubeName = _.groupBy(targetSkills, (skill) => skill.tubeName);
-  const status = answer.isOk() ? validatedStatus : invalidatedStatus;
+  const status = answer.isOk() ? VALIDATED_STATUS : INVALIDATED_STATUS;
 
   return directKnowledgeElements.reduce((totalKnowledgeElements, directKnowledgeElement) => {
 
@@ -130,14 +133,14 @@ function enrichDirectKnowledgeElementsWithInferredKnowledgeElements({
           });
         const knowledgeElementDoesNotExistForThatSkill = knowledgeElementThatExistForThatSkill === undefined;
 
-        if (status === validatedStatus
+        if (status === VALIDATED_STATUS
           && knowledgeElementDoesNotExistForThatSkill
           && skillToInfer.difficulty < directSkill.difficulty) {
 
           const newKnowledgeElement = createInferredValidatedKnowledgeElement({ answer, skillToInfer });
           totalKnowledgeElements = totalKnowledgeElements.concat(newKnowledgeElement);
         }
-        if (status === invalidatedStatus
+        if (status === INVALIDATED_STATUS
           && knowledgeElementDoesNotExistForThatSkill
           && skillToInfer.difficulty > directSkill.difficulty) {
 
@@ -155,10 +158,10 @@ function createInferredValidatedKnowledgeElement({ answer, skillToInfer }) {
   const source = SmartPlacementKnowledgeElement.SourceType.INFERRED;
 
   return createKnowledgeElementsForSkill({
+    answer,
     skill: skillToInfer,
     source,
-    status: validatedStatus,
-    answer,
+    status: VALIDATED_STATUS,
   });
 }
 
@@ -166,21 +169,21 @@ function createInferredInvalidatedKnowledgeElement({ answer, skillToInfer }) {
   const source = SmartPlacementKnowledgeElement.SourceType.INFERRED;
 
   return createKnowledgeElementsForSkill({
+    answer,
     skill: skillToInfer,
     source,
-    status: invalidatedStatus,
-    answer,
+    status: INVALIDATED_STATUS,
   });
 }
 
 function createKnowledgeElementsForSkill({ skill, source, status, answer }) {
   return new SmartPlacementKnowledgeElement({
-    source,
-    status,
-    pixScore: 0,
     answerId: answer.id,
     assessmentId: answer.assessmentId,
+    pixScore: 0,
     skillId: skill.name,
+    source,
+    status,
   });
 }
 
