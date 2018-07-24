@@ -10,10 +10,10 @@ module.exports = function({
   smartPlacementKnowledgeElementRepository,
 } = {}) {
 
-  const contextObject = {
+  const contextObject = Object.seal({
     challenge: undefined,
     answer: undefined,
-  };
+  });
 
   return answerRepository
     .hasChallengeAlreadyBeenAnswered({
