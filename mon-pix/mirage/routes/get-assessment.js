@@ -1,5 +1,6 @@
 import _ from 'mon-pix/utils/lodash-custom';
 import refAssessment from '../data/assessments/ref-assessment';
+import refAssessmentCampaign from '../data/assessments/ref-assessment-placement';
 import refAssessmentTimedChallenges from '../data/assessments/ref-assessment-timed-challenges';
 
 export default function(schema, request) {
@@ -8,6 +9,7 @@ export default function(schema, request) {
 
   const allAssessments = [
     refAssessment,
+    refAssessmentCampaign,
     refAssessmentTimedChallenges
   ];
 
