@@ -1,6 +1,6 @@
 const Answer = require('../../domain/models/Answer');
-const answerSerializer = require('../../infrastructure/serializers/jsonapi/answer-serializer');
 const answerRepository = require('../../infrastructure/repositories/answer-repository');
+const answerSerializer = require('../../infrastructure/serializers/jsonapi/answer-serializer');
 const BookshelfAnswer = require('../../infrastructure/data/answer');
 const Boom = require('boom');
 const challengeRepository = require('../../infrastructure/repositories/challenge-repository');

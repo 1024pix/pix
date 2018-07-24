@@ -55,8 +55,8 @@ class SmartPlacementKnowledgeElement {
   static createKnowledgeElementsForAnswer({
     answer,
     associatedChallenge,
-    previouslyValidatedSkills,
     previouslyFailedSkills,
+    previouslyValidatedSkills,
     targetSkills,
   }) {
 
@@ -77,7 +77,13 @@ class SmartPlacementKnowledgeElement {
 SmartPlacementKnowledgeElement.SourceType = SmartPlacementKnowledgeElementSourceType;
 SmartPlacementKnowledgeElement.StatusType = SmartPlacementKnowledgeElementStatusType;
 
-function createDirectKnowledgeElements({ answer, associatedChallenge, targetSkills, previouslyFailedSkills, previouslyValidatedSkills }) {
+function createDirectKnowledgeElements({
+  answer,
+  associatedChallenge,
+  previouslyFailedSkills,
+  previouslyValidatedSkills,
+  targetSkills,
+}) {
 
   const status = answer.isOk() ? validatedStatus : invalidatedStatus;
 
@@ -179,4 +185,3 @@ function createKnowledgeElementsForSkill({ skill, source, status, answer }) {
 }
 
 module.exports = SmartPlacementKnowledgeElement;
-
