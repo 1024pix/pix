@@ -82,7 +82,7 @@ module.exports = {
           return reply(Boom.notFound());
         }
 
-        // XXX if assessment is a Smart Placement, than return 204 and do not update answer. If not proceed normally.
+        // XXX if assessment is a Smart Placement, then return 204 and do not update answer. If not proceed normally.
         return smartPlacementAssessmentRepository.get(existingAnswer.get('assessmentId'))
           .catch(() => undefined)
           .then((assessment) => {

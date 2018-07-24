@@ -9,7 +9,7 @@ const ResultType = Object.freeze({
 
 /**
  * Traduction: Réponse
- * Context: Object existant dans le cadre d'un smart placement hors calcul de la réponse suivante
+ * Context: Objet existant dans le cadre d'un smart placement hors calcul de la réponse suivante
  */
 class SmartPlacementAnswer {
 
