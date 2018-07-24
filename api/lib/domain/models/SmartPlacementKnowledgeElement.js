@@ -19,7 +19,7 @@ const INVALIDATED_STATUS = SmartPlacementKnowledgeElementStatusType.INVALIDATED;
 
 /**
  * Traduction: Élément de connaissance d'un profil exploré dans le cadre d'un smart placement
- * Context:    Objet existant  dans le cadre d'un smart placement hors calcul de la réponse suivante
+ * Context:    Objet existant dans le cadre d'un smart placement hors calcul de la réponse suivante
  */
 class SmartPlacementKnowledgeElement {
 
