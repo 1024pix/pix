@@ -4,6 +4,11 @@ import { isEmpty } from '@ember/utils';
 
 export default BaseRoute.extend(AuthenticatedRouteMixin, {
 
+  beforeModel(transition) {
+    this.get('session').set('data.intentUrl', transition.intent.url);
+    this._super(...arguments);
+  },
+
   async model() {
     const store = this.get('store');
     const smartPlacementAssessments = await store.query('assessment', { filter: { type: 'SMART_PLACEMENT' } });
@@ -15,6 +20,8 @@ export default BaseRoute.extend(AuthenticatedRouteMixin, {
 
   async afterModel(assessment) {
     const store = this.get('store');
+    console.log('HERE 3');
+    console.log(assessment);
     try {
       await assessment.reload();
       const challenge = await store.queryRecord('challenge', { assessmentId: assessment.get('id') });
