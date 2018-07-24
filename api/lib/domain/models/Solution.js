@@ -7,7 +7,8 @@ const solutionServiceQrocmInd = require('../services/solution-service-qrocm-ind'
 
 /*
  * Traduction: Correction
- * Context:    Objet existant dans le cadre de la correction d'une réponse pendant le fonctionnement interne de l'algorithme.
+ * Context:    Objet existant dans le cadre de la correction d'une réponse pendant le fonctionnement
+ *             interne de l'algorithme.
  */
 class Solution {
 
@@ -72,32 +73,6 @@ class Solution {
       t2: !this.enabledTreatments.includes('t2'),
       t3: !this.enabledTreatments.includes('t3'),
     };
-  }
-
-  match(answerValue) {
-    switch (this.type) {
-      case 'QCU':
-        return solutionServiceQcu.match(answerValue, this.value);
-      case 'QCM':
-        return solutionServiceQcm.match(answerValue, this.value);
-      case 'QROC':
-        return solutionServiceQroc.match(answerValue, this.value, this.deactivations);
-      case 'QROCM-ind':
-        return solutionServiceQrocmInd.match(answerValue, this.value, this.enabledTreatments).result;
-      case 'QROCM-dep':
-        return solutionServiceQrocmDep.match(answerValue, this.value, this.scoring, this.deactivations);
-      default:
-        return AnswerStatus.UNIMPLEMENTED;
-    }
-  }
-
-  matchDetails(answerValue) {
-    switch (this.type) {
-      case 'QROCM-ind':
-        return solutionServiceQrocmInd.match(answerValue, this.value, this.enabledTreatments).resultDetails;
-      default:
-        return null;
-    }
   }
 }
 
