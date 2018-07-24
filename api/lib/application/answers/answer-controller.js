@@ -18,11 +18,11 @@ const solutionService = require('../../domain/services/solution-service');
 const { ChallengeAlreadyAnsweredError } = require('../../domain/errors');
 
 function _updateExistingAnswer(existingAnswer, newAnswer, reply) {
-  solutionRepository
+  return solutionRepository
     .getByChallengeId(existingAnswer.get('challengeId'))
     .then((solution) => {
       const answerCorrectness = solutionService.validate(newAnswer, solution);
-      new BookshelfAnswer({ id: existingAnswer.id })
+      return new BookshelfAnswer({ id: existingAnswer.id })
         .save({
           result: answerCorrectness.result,
           resultDetails: jsYaml.safeDump(answerCorrectness.resultDetails),
@@ -31,14 +31,14 @@ function _updateExistingAnswer(existingAnswer, newAnswer, reply) {
           elapsedTime: newAnswer.get('elapsedTime'),
           challengeId: newAnswer.get('challengeId'),
           assessmentId: newAnswer.get('assessmentId'),
-        }, { method: 'update' })
-        .then((updatedAnswer) => {
-          return reply(answerSerializer.serializeFromBookshelfAnswer(updatedAnswer)).code(200);
-        })
-        .catch((err) => {
-          logger.error(err);
-          reply(Boom.badImplementation(err));
-        });
+        }, { method: 'update' });
+    })
+    .then((updatedAnswer) => {
+      return reply(answerSerializer.serializeFromBookshelfAnswer(updatedAnswer)).code(200);
+    })
+    .catch((err) => {
+      logger.error(err);
+      reply(Boom.badImplementation(err));
     });
 }
 

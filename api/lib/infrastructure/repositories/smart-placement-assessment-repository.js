@@ -40,25 +40,29 @@ function toDomain(bookshelfAssessment) {
   return targetProfileRepository.get('unusedForNowId')
     .then((targetProfile) => {
 
-      const answers = bookshelfAssessment.related('answers').map((bookshelfAnswer) => {
-        return new SmartPlacementAnswer({
-          id: bookshelfAnswer.get('id'),
-          result: bookshelfAnswer.get('result'),
-          challengeId: bookshelfAnswer.get('challengeId'),
+      const answers = bookshelfAssessment
+        .related('answers')
+        .map((bookshelfAnswer) => {
+          return new SmartPlacementAnswer({
+            id: bookshelfAnswer.get('id'),
+            result: bookshelfAnswer.get('result'),
+            challengeId: bookshelfAnswer.get('challengeId'),
+          });
         });
-      });
 
-      const knowledgeElements = bookshelfAssessment.related('knowledgeElements').map((bookshelfKnowledgeElement) => {
-        return new SmartPlacementKnowledgeElement({
-          id: bookshelfKnowledgeElement.get('id'),
-          source: bookshelfKnowledgeElement.get('source'),
-          status: bookshelfKnowledgeElement.get('status'),
-          pixScore: bookshelfKnowledgeElement.get('pixScore'),
-          answerId: bookshelfKnowledgeElement.get('answerId'),
-          assessmentId: bookshelfKnowledgeElement.get('assessmentId'),
-          skillId: bookshelfKnowledgeElement.get('skillId'),
+      const knowledgeElements = bookshelfAssessment
+        .related('knowledgeElements')
+        .map((bookshelfKnowledgeElement) => {
+          return new SmartPlacementKnowledgeElement({
+            id: bookshelfKnowledgeElement.get('id'),
+            source: bookshelfKnowledgeElement.get('source'),
+            status: bookshelfKnowledgeElement.get('status'),
+            pixScore: bookshelfKnowledgeElement.get('pixScore'),
+            answerId: bookshelfKnowledgeElement.get('answerId'),
+            assessmentId: bookshelfKnowledgeElement.get('assessmentId'),
+            skillId: bookshelfKnowledgeElement.get('skillId'),
+          });
         });
-      });
 
       return new SmartPlacementAssessment({
         id: bookshelfAssessment.get('id'),
