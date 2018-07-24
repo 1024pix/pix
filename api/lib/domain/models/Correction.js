@@ -11,6 +11,7 @@ class Correction {
     // includes
     hints = [],
     tutorials = [],
+    learningMoreTutorials = [],
     // references
   } = {}) {
     this.id = id;
@@ -19,6 +20,7 @@ class Correction {
     // includes
     this.hints = hints;
     this.tutorials = tutorials;
+    this.learningMoreTutorials = learningMoreTutorials;
     // references
   }
 

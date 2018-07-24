@@ -217,6 +217,4 @@ describe('Unit | Component | comparison-window', function() {
       _assertResultItemTooltip(resultItem, 'Temps dépassé');
     });
   });
-
 });
-

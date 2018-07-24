@@ -5,12 +5,7 @@ export default Component.extend({
   classNames: [ 'tutorial-panel' ],
 
   hint: null,
-  resultItemStatus: null,
   tutorials: null,
-
-  shouldDisplayTipsToSucceed: computed('resultItemStatus', function() {
-    return this.get('resultItemStatus') !== 'ok';
-  }),
 
   shouldDisplayHintOrTuto: computed('tutorials', 'hint', function() {
     const tutorials = this.get('tutorials') || [];
