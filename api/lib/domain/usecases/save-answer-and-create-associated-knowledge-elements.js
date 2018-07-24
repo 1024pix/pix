@@ -86,8 +86,8 @@ function saveKnowledgeElements({ answer, challenge, smartPlacementKnowledgeEleme
     const knowledgeElements = KnowledgeElement.createKnowledgeElementsForAnswer({
       answer,
       associatedChallenge: challenge,
-      previouslyFailedSkills: assessment.failedSkills,
-      previouslyValidatedSkills: assessment.validatedSkills,
+      previouslyFailedSkills: assessment.getFailedSkills(),
+      previouslyValidatedSkills: assessment.getValidatedSkills(),
       targetSkills: assessment.targetProfile.skills,
     });
 
