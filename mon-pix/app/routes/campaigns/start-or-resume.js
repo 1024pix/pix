@@ -9,26 +9,25 @@ export default BaseRoute.extend(AuthenticatedRouteMixin, {
     this._super(...arguments);
   },
 
-  async model() {
+  model() {
     const store = this.get('store');
-    const smartPlacementAssessments = await store.query('assessment', { filter: { type: 'SMART_PLACEMENT' } });
-    if (!isEmpty(smartPlacementAssessments)) {
-      return smartPlacementAssessments.get('firstObject');
-    }
-    return store.createRecord('assessment', { type: 'SMART_PLACEMENT' }).save();
+    return store.query('assessment', { filter: { type: 'SMART_PLACEMENT' } })
+      .then((smartPlacementAssessments) => {
+        if (!isEmpty(smartPlacementAssessments)) {
+          return smartPlacementAssessments.get('firstObject');
+        }
+        return store.createRecord('assessment', { type: 'SMART_PLACEMENT' }).save();
+      });
   },
 
-  async afterModel(assessment) {
+  afterModel(assessment) {
     const store = this.get('store');
-    console.log('HERE 3');
-    console.log(assessment);
-    try {
-      await assessment.reload();
-      const challenge = await store.queryRecord('challenge', { assessmentId: assessment.get('id') });
-      return this.transitionTo('assessments.challenge', { assessment, challenge });
-    } catch (error) {
-      // FIXME: do not manage error when there is no more challenge anymore
-      this.transitionTo('assessments.rating', assessment.get('id'));
-    }
+    return assessment.reload()
+      .then(() => store.queryRecord('challenge', { assessmentId: assessment.get('id') }))
+      .then((challenge) => this.transitionTo('assessments.challenge', { assessment, challenge }))
+      .catch(() => {
+        // FIXME: do not manage error when there is no more challenge anymore
+        this.transitionTo('assessments.rating', assessment.get('id'));
+      });
   }
 });
