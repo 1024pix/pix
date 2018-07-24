@@ -86,6 +86,28 @@ describe('Unit | Route | login page', function() {
       });
     });
 
+    it('should redirect to url indicated in session.data.intentUrl', function() {
+      // given
+      const route = this.subject();
+      const intentUrl = '/jedoisallerici';
+
+      authenticatedStub.resolves();
+
+      const foundUser = EmberObject.create({ id: 12 });
+      queryRecordStub.resolves(foundUser);
+
+      route.transitionTo = sinon.stub();
+      route.session.data = { intentUrl };
+
+      // when
+      const promise = route.actions.signin.call(route, expectedEmail, expectedPassword);
+
+      return promise.then(() => {
+        // then
+        sinon.assert.calledWith(route.transitionTo, intentUrl);
+      });
+    });
+
   });
 
 });

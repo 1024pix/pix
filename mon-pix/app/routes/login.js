@@ -18,7 +18,12 @@ export default BaseRoute.extend(UnauthenticatedRouteMixin, {
           return this.get('store').queryRecord('user', {});
         })
         .then((user) => {
-          const routeToRedirect = (_isUserLinkedToOrganization(user)) ? this.routeForLoggedUserLinkedToOrganization : this.routeIfAlreadyAuthenticated;
+
+          let routeToRedirect = (_isUserLinkedToOrganization(user)) ? this.routeForLoggedUserLinkedToOrganization : this.routeIfAlreadyAuthenticated;
+          if(this.get('session.data.intentUrl')) {
+            routeToRedirect = this.get('session.data.intentUrl');
+            this.get('session').set('data.intentUrl', null);
+          }
           this.transitionTo(routeToRedirect);
         });
     }
