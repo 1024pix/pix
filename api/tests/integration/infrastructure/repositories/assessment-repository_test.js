@@ -273,19 +273,40 @@ describe('Integration | Infrastructure | Repositories | assessment-repository', 
       emitter: 'PIX',
       status: 'validated',
     }, {
+      id: 2,
+      assessmentId: 2,
+      createdAt: '2017-11-08 18:00:00',
+      emitter: 'PIX',
+      status: 'validated',
+    }, {
       id: 3,
       assessmentId: 3,
       createdAt: '2019-08-27 08:44:25',
       emitter: 'PIX',
       status: 'validated',
     }, {
-      id:4,
+      id: 4,
       assessmentId: 4,
       createdAt: '2020-10-27 08:44:25',
       emitter: 'PIX',
       status: 'validated',
-    }
+    }, {
+      id: 5,
+      assessmentId: 5,
+      createdAt: '2017-11-08 21:00:00',
+      emitter: 'PIX',
+      status: 'validated',
+    }, {
+      id: 6,
+      assessmentId: 6,
+      createdAt: '2020-10-27 20:00:00',
+      emitter: 'PIX',
+      status: 'validated',
+    },
     ];
+
+    // TODO: test with malformed data, e.g.:
+    // - completed assessments without an AssessmentResult
 
     before(() => {
       return knex('assessments').insert(assessmentsInDb)
@@ -331,11 +352,7 @@ describe('Integration | Infrastructure | Repositories | assessment-repository', 
 
       // then
       return promise.then((assessments) => {
-        expect(assessments).to.have.a.lengthOf(1);
-
-        expect(assessments[0]).to.be.an.instanceOf(Assessment);
-
-        expect(assessments[0]).to.deep.contains(expectedAssessments[0]);
+        expect(assessments).to.deep.equal(expectedAssessments);
       });
     });
   });
