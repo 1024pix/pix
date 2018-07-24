@@ -1,11 +1,4 @@
-const AnswerStatus = require('./AnswerStatus');
-const solutionServiceQcm = require('../services/solution-service-qcm');
-const solutionServiceQcu = require('../services/solution-service-qcu');
-const solutionServiceQroc = require('../services/solution-service-qroc');
-const solutionServiceQrocmDep = require('../services/solution-service-qrocm-dep');
-const solutionServiceQrocmInd = require('../services/solution-service-qrocm-ind');
-
-/*
+/**
  * Traduction: Correction
  * Context:    Objet existant dans le cadre de la correction d'une réponse pendant le fonctionnement
  *             interne de l'algorithme.
