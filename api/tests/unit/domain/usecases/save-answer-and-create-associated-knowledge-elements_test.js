@@ -252,8 +252,8 @@ describe('Unit | Domain | Use Cases | save-answer-and-create-associated-knowled
       const expectedArgument = {
         answer: savedAnswer,
         associatedChallenge: challenge,
-        previouslyFailedSkills: assessment.failedSkills,
-        previouslyValidatedSkills: assessment.validatedSkills,
+        previouslyFailedSkills: assessment.getFailedSkills(),
+        previouslyValidatedSkills: assessment.getValidatedSkills(),
         targetSkills: assessment.targetProfile.skills,
       };
       return promise.then(() => {
