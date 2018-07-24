@@ -37,63 +37,152 @@ describe('Unit | Repository | correction-repository', function() {
       factory.buildTutorial({ id: 'recTuto2', title:'Comment dresser un chat' }),
     ];
 
-    const expectedCorrection = new Correction({
-      id: 'recwWzTquPlvIl4So',
-      solution: '1, 5',
-      hints: expectedHints,
-      tutorials: expectedTutorials
-    });
+    const expectedLearningMoreTutorials = [
+      factory.buildTutorial({ id: 'recTuto3', title:'Comment dresser un tigre du bengale' }),
+      factory.buildTutorial({ id: 'recTuto4', title:'Comment dresser une belette' }),
+    ];
 
-    let promise;
+    context('normal challenge', () => {
 
-    beforeEach(() => {
-      // given
-      const challengeDataObject = ChallengeAirtableDataObjectFixture();
-      challengeDataObject.skillIds = ['recIdSkill001', 'recIdSkill002', 'recIdSkill003'];
-      const skillDataObject1 = SkillAirtableDataObjectFixture();
-      skillDataObject1.name = '@web1';
-      skillDataObject1.hintStatus = 'Proposé';
-      skillDataObject1.tutorialIds = ['recTuto1'];
-      const skillDataObject2 = SkillAirtableDataObjectFixture();
-      skillDataObject2.name = '@web2';
-      skillDataObject2.hintStatus = 'Validé';
-      skillDataObject2.tutorialIds = ['recTuto2'];
-      const skillDataObject3 = SkillAirtableDataObjectFixture();
-      skillDataObject3.name = '@web3';
-      skillDataObject3.hintStatus = 'pré-validé';
-      skillDataObject3.tutorialIds = [];
-      const tutoData1 = tutorialAirtableDataObjectFixture();
-      tutoData1.id = 'recTuto1';
-      tutoData1.title = 'Comment dresser un panda';
-      const tutoData2 = tutorialAirtableDataObjectFixture();
-      tutoData2.id = 'recTuto2';
-      tutoData2.title = 'Comment dresser un chat';
+      const expectedCorrection = new Correction({
+        id: 'recwWzTquPlvIl4So',
+        solution: '1, 5',
+        hints: expectedHints,
+        tutorials: expectedTutorials,
+        learningMoreTutorials: expectedLearningMoreTutorials,
+      });
 
-      challengeDatasource.get.resolves(challengeDataObject);
-      skillDatasource.get.onFirstCall().resolves(skillDataObject1);
-      skillDatasource.get.onSecondCall().resolves(skillDataObject2);
-      skillDatasource.get.onThirdCall().resolves(skillDataObject3);
-      tutorialDataSource.get.onFirstCall().resolves(tutoData1);
-      tutorialDataSource.get.onSecondCall().resolves(tutoData2);
+      let promise;
 
-      // when
-      promise = correctionRepository.getByChallengeId(recordId);
-    });
+      beforeEach(() => {
+        // given
+        const challengeDataObject = ChallengeAirtableDataObjectFixture({ skillIds: ['recIdSkill001', 'recIdSkill002', 'recIdSkill003'] });
+        const skillDatas = [
+          SkillAirtableDataObjectFixture({
+            name: '@web1',
+            hintStatus: 'Proposé',
+            tutorialIds: ['recTuto1'],
+            learningMoreTutorialIds: ['recTuto3'],
+          }),
+          SkillAirtableDataObjectFixture({
+            name: '@web2',
+            hintStatus: 'Validé',
+            tutorialIds: ['recTuto2'],
+            learningMoreTutorialIds: ['recTuto4'],
+          }),
+          SkillAirtableDataObjectFixture({
+            name: '@web3',
+            hintStatus: 'pré-validé',
+            tutorialIds: [],
+            learningMoreTutorialIds: [],
+          }),
+        ];
+        const tutoDatas = [
+          tutorialAirtableDataObjectFixture({
+            id: 'recTuto1',
+            title: 'Comment dresser un panda',
+          }),
+          tutorialAirtableDataObjectFixture({
+            id: 'recTuto2',
+            title: 'Comment dresser un chat',
+          }),
+          tutorialAirtableDataObjectFixture({
+            id: 'recTuto3',
+            title: 'Comment dresser un tigre du bengale',
+          }),
+          tutorialAirtableDataObjectFixture({
+            id: 'recTuto4',
+            title: 'Comment dresser une belette',
+          }),
+        ];
 
-    it('should return a correction with the solution', function() {
-      // then
-      return promise.then((result) => {
-        expect(result).to.be.an.instanceof(Correction);
-        expect(result).to.deep.equal(expectedCorrection);
-        expect(challengeDatasource.get).to.have.been.calledWith(recordId);
+        challengeDatasource.get.resolves(challengeDataObject);
+        skillDatas.forEach((skillData, index) => skillDatasource.get.onCall(index).resolves(skillData));
+        tutoDatas.forEach((tutoData, index) => tutorialDataSource.get.onCall(index).resolves(tutoData));
+
+        // when
+        promise = correctionRepository.getByChallengeId(recordId);
+      });
+
+      it('should return a correction with the solution', function() {
+        // then
+        return promise.then((result) => {
+          expect(result).to.be.an.instanceof(Correction);
+          expect(result).to.deep.equal(expectedCorrection);
+          expect(challengeDatasource.get).to.have.been.calledWith(recordId);
+        });
+      });
+
+      it('should return the correction with hints that are validated', function() {
+        // then
+        return promise.then((result) => {
+          result.hints.forEach((hint) => expect(hint).to.be.an.instanceof(Hint));
+          expect(result.hints).to.deep.equal(expectedHints);
+        });
       });
     });
 
-    it('should return the correction with hints that are validated', function() {
-      // then
-      return promise.then((result) => {
-        result.hints.forEach((hint) => expect(hint).to.be.an.instanceof(Hint));
-        expect(result.hints).to.deep.equal(expectedHints);
+    context('duplicated tutorials', () => {
+
+      const expectedCorrection = new Correction({
+        id: 'recwWzTquPlvIl4So',
+        solution: '1, 5',
+        hints: expectedHints,
+        tutorials: [expectedTutorials[0]],
+        learningMoreTutorials: [expectedLearningMoreTutorials[0]],
+      });
+
+      let promise;
+
+      beforeEach(() => {
+        // given
+        const challengeDataObject = ChallengeAirtableDataObjectFixture({ skillIds: ['recIdSkill001', 'recIdSkill002', 'recIdSkill003'] });
+        const skillDatas = [
+          SkillAirtableDataObjectFixture({
+            name: '@web1',
+            hintStatus: 'Proposé',
+            tutorialIds: ['recTuto1'],
+            learningMoreTutorialIds: [],
+          }),
+          SkillAirtableDataObjectFixture({
+            name: '@web2',
+            hintStatus: 'Validé',
+            tutorialIds: ['recTuto1', 'recTuto1'],
+            learningMoreTutorialIds: ['recTuto3'],
+          }),
+          SkillAirtableDataObjectFixture({
+            name: '@web3',
+            hintStatus: 'pré-validé',
+            tutorialIds: [],
+            learningMoreTutorialIds: ['recTuto3']
+          }),
+        ];
+        const tutoDatas = [
+          tutorialAirtableDataObjectFixture({
+            id: expectedTutorials[0].id,
+            title: expectedTutorials[0].title,
+          }),
+          tutorialAirtableDataObjectFixture({
+            id: expectedLearningMoreTutorials[0].id,
+            title: expectedLearningMoreTutorials[0].title,
+          }),
+        ];
+
+        challengeDatasource.get.resolves(challengeDataObject);
+        skillDatas.forEach((skillData, index) => skillDatasource.get.onCall(index).resolves(skillData));
+        tutoDatas.forEach((tutoData, index) => tutorialDataSource.get.onCall(index).resolves(tutoData));
+
+        // when
+        promise = correctionRepository.getByChallengeId(recordId);
+      });
+
+      it('should return a correction with deduplicated tutorials', function() {
+        // then
+        return promise.then((result) => {
+          expect(result).to.be.an.instanceof(Correction);
+          expect(result).to.deep.equal(expectedCorrection);
+          expect(challengeDatasource.get).to.have.been.calledWith(recordId);
+        });
       });
     });
   });

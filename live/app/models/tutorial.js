@@ -1,6 +1,6 @@
 import DS from 'ember-data';
 
-const { Model, attr, hasMany } = DS;
+const { Model, attr } = DS;
 
 export default Model.extend({
 
@@ -9,6 +9,5 @@ export default Model.extend({
   link: attr('string'),
   source: attr('string'),
   title: attr('string'),
-  correction: hasMany('correction'),
 
 });

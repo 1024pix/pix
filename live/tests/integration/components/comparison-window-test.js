@@ -20,7 +20,11 @@ describe('Integration | Component | comparison-window', function() {
     let correction;
 
     beforeEach(function() {
-      answer = EmberObject.create({ value: '1,2', result: 'ko' });
+      answer = EmberObject.create({
+        value: '1,2',
+        result: 'ko',
+        isResultNotOk: true,
+      });
       challenge = EmberObject.create({
         instruction: 'This is the instruction',
         proposals: '' +
@@ -62,7 +66,7 @@ describe('Integration | Component | comparison-window', function() {
       // when
       this.render(hbs`{{comparison-window answer=answer challenge=challenge correction=correction index=index}}`);
       // then
-      expect(this.$('.comparison-window__corrected-answers')).to.have.lengthOf(0);
+      expect(this.$('.comparison-window__corrected-answers--qroc')).to.have.lengthOf(0);
     });
 
     it('should render corrected answers when challenge type is QROC', function() {
@@ -124,7 +128,10 @@ describe('Integration | Component | comparison-window', function() {
 
       it(`should display the good icon in title when answer's result is "${data.status}"`, function() {
         // given
-        answer.set('result', data.status);
+        answer.setProperties({
+          result: data.status,
+          isResultNotOk: data.status !== 'ok',
+        });
 
         // when
         this.render(hbs`{{comparison-window answer=answer challenge=challenge correction=correction index=index}}`);
@@ -138,8 +145,8 @@ describe('Integration | Component | comparison-window', function() {
 
     it('should render a tutorial panel with a hint', function() {
       // given
-      this.set('answer', { result: { status: 'ko' } });
-      this.set('correction', { hint: 'Conseil : mangez des épinards.' });
+      answer.set('result', 'ko');
+      correction.set('hint', 'Conseil : mangez des épinards.');
 
       // when
       this.render(hbs`{{comparison-window answer=answer correction=correction}}`);
@@ -148,5 +155,71 @@ describe('Integration | Component | comparison-window', function() {
       expect(this.$('.tutorial-panel').text()).to.contain('Conseil : mangez des épinards.');
     });
 
+    it('should render a learningMoreTutorials panel when correction has a list of LearningMoreTutorials elements', function() {
+      // given
+      correction.setProperties({
+        learningMoreTutorials: [{ titre: 'Ceci est un tuto', duration: '20:00:00', type: 'video' }],
+      });
+
+      // when
+      this.render(hbs`{{comparison-window answer=answer correction=correction}}`);
+
+      // then
+      expect(this.$('.learning-more-panel__container')).to.have.lengthOf(1);
+    });
+
+    context('when the answer is OK', () => {
+      it('should neither display “Bientot ici des tutos“ nor hints nor any tutorials', function() {
+        // given
+        answer.setProperties({
+          result: 'ok',
+          isResultNotOk: false,
+        });
+
+        // when
+        this.render(hbs`{{comparison-window answer=answer correction=correction}}`);
+
+        // then
+        expect(this.$('.tutorial-panel')).to.have.lengthOf(0);
+        expect(this.$('.learning-more-panel__container')).to.have.lengthOf(0);
+        expect(this.$('.comparison-window__default-message-container')).to.have.lengthOf(0);
+      });
+    });
+
+    context('the correction has no hints nor tutoriasl at all', function() {
+      it('should render “Bientot des tutos”', function() {
+        // given
+        correction.setProperties({
+          solution: '2,3',
+          noHintsNorTutorialsAtAll: true,
+        });
+
+        // when
+        this.render(hbs`{{comparison-window answer=answer correction=correction}}`);
+
+        // then
+        expect(this.$('.comparison-windows__default-message-container')).to.have.lengthOf(1);
+        expect(this.$('.comparison-windows__default-message-title')).to.have.lengthOf(1);
+        expect(this.$('.comparison-windows__default-message-picto-container')).to.have.lengthOf(1);
+        expect(this.$('.comparison-windows__default-message-picto')).to.have.lengthOf(1);
+      });
+    });
+
+    context('when the correction has a hint or a tutorial or a learninMoreTutorial', function() {
+      it('should not render a hint or a tutorial', function() {
+        // given
+        correction.setProperties({
+          learningMoreTutorials: [{ titre: 'Ceci est un tuto', duration: '20:00:00', type: 'video' }],
+        });
+
+        // when
+        this.render(hbs`{{comparison-window answer=answer correction=correction}}`);
+
+        // then
+        expect(this.$('.tutorial-panel')).to.have.lengthOf(1);
+        expect(this.$('.tutorial-panel__hint-container')).to.have.lengthOf(0);
+        expect(this.$('.tutorial-panel__tutorial-item')).to.have.lengthOf(0);
+      });
+    });
   });
 });
