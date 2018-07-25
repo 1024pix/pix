@@ -59,8 +59,10 @@ module.exports = {
       })
       .then(answerSerializer.serialize)
       .then(controllerReplies(reply).created)
-      .catch(mapToInfrastructureErrors)
-      .catch(controllerReplies(reply).error);
+      .catch(error => {
+        const mappedError = mapToInfrastructureErrors(error);
+        return controllerReplies(reply).error(mappedError);
+      });
   },
 
   get(request, reply) {
@@ -125,8 +127,8 @@ function deserialize(payload) {
 function mapToInfrastructureErrors(error) {
 
   if (error instanceof ChallengeAlreadyAnsweredError) {
-    throw new infraErrors.ConflictError('This challenge has already been answered.');
+    return new infraErrors.ConflictError('This challenge has already been answered.');
   }
 
-  throw error;
+  return error;
 }
