@@ -14,7 +14,7 @@ function _getsCompetenceMarksAndAssessmentResultId({ certificationId, assessment
     });
 }
 
-module.exports = function({
+module.exports = function getUserCertificationWithResultTree({
   certificationId,
   userId,
   certificationRepository,

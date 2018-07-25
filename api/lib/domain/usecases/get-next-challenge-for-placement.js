@@ -4,7 +4,7 @@ const assessmentAdapter = require('../../infrastructure/adapters/assessment-adap
 const _ = require('lodash');
 const logger = require('../../infrastructure/logger');
 
-module.exports = function({
+module.exports = function getNextChallengeForPlacement({
   assessment,
   courseRepository,
   answerRepository,

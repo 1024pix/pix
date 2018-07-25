@@ -1,7 +1,7 @@
 const Campaign = require('../../lib/domain/models/Campaign');
 const faker = require('faker');
 
-module.exports = function(
+module.exports = function buildCampaign(
   {
     id = 1,
     name = faker.company.companyName(),

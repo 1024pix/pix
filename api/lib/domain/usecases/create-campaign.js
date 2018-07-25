@@ -19,7 +19,7 @@ function _checkCreatorHasAccessToCampaignOrganization(userId, organizationId, us
     });
 }
 
-module.exports = function({ campaign, campaignRepository, userRepository }) {
+module.exports = function createCampaign({ campaign, campaignRepository, userRepository }) {
 
   return campaignValidator.validate(campaign)
     .then(() => _checkCreatorHasAccessToCampaignOrganization(campaign.creatorId, campaign.organizationId, userRepository))

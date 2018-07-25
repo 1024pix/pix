@@ -8,7 +8,13 @@ function _canUserAccessScope(scope, user) {
   return Promise.resolve();
 }
 
-module.exports = function({ userEmail, password, scope, userRepository, tokenService }) {
+module.exports = function authenticateUser({
+  password,
+  scope,
+  tokenService,
+  userEmail,
+  userRepository,
+}) {
   let user;
   return userRepository.findByEmailWithRoles(userEmail.toLowerCase())
     .then(foundUser => (user = foundUser))
