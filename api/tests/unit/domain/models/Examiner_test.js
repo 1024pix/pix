@@ -73,7 +73,7 @@ describe('Unit | Domain | Models | Examiner', () => {
         expect(correctedAnswer).to.be.an.instanceOf(Answer);
         expect(correctedAnswer).to.deep.equal(expectedAnswer);
       });
-      it('should call validator.assess with answer', () => {
+      it('should call validator.assess with answer to assess validity of answer', () => {
         // then
         expect(validator.assess).to.have.been.calledWithExactly(uncorrectedAnswer);
       });
@@ -106,7 +106,7 @@ describe('Unit | Domain | Models | Examiner', () => {
         expect(correctedAnswer).to.be.an.instanceOf(Answer);
         expect(correctedAnswer).to.deep.equal(expectedAnswer);
       });
-      it('should call validator.assess with answer', () => {
+      it('should call validator.assess with answer to assess validity of answer', () => {
         // then
         expect(validator.assess).to.have.been.calledWithExactly(uncorrectedAnswer);
       });
@@ -130,7 +130,7 @@ describe('Unit | Domain | Models | Examiner', () => {
         correctedAnswer = examiner.validate(uncorrectedAnswer);
       });
 
-      it('should return an answer with TIMEOUT as result, and the correct resultDetails', () => {
+      it('should return an answer with the validator‘s result and resultDetails', () => {
         const expectedAnswer = new Answer(uncorrectedAnswer);
         expectedAnswer.result = validation.result;
         expectedAnswer.resultDetails = validation.resultDetails;
@@ -139,7 +139,7 @@ describe('Unit | Domain | Models | Examiner', () => {
         expect(correctedAnswer).to.be.an.instanceOf(Answer);
         expect(correctedAnswer).to.deep.equal(expectedAnswer);
       });
-      it('should call validator.assess with answer', () => {
+      it('should call validator.assess with answer to assess validity of answer', () => {
         // then
         expect(validator.assess).to.have.been.calledWithExactly(uncorrectedAnswer);
       });

@@ -1,4 +1,5 @@
 const AnswerStatus = require('./AnswerStatus');
+const _ = require('lodash');
 
 class Answer {
 
@@ -55,6 +56,10 @@ class Answer {
     }
     // XXX : to avoid problem when challenge has no skill/ when we cannot get challenge
     return baseDifficulty;
+  }
+
+  get hasTimedOut() {
+    return _.isInteger(this.timeout) && this.timeout < 0;
   }
 }
 

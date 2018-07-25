@@ -1,6 +1,5 @@
 const Answer = require('./Answer');
 const AnswerStatus = require('./AnswerStatus');
-const _ = require('lodash');
 
 /**
  * Traduction: Correcteur
@@ -33,9 +32,8 @@ class Examiner {
     const answerValidation = this.validator.assess(answer);
 
     const isPartiallyOrCorrectAnswer = answerValidation.result.isOK() || answerValidation.result.isPARTIALLY();
-    const hasTimedOut = _.isInteger(answer.timeout) && answer.timeout < 0;
 
-    if (isPartiallyOrCorrectAnswer && hasTimedOut) {
+    if (isPartiallyOrCorrectAnswer && answer.hasTimedOut) {
       correctedAnswer.result = AnswerStatus.TIMEDOUT;
       correctedAnswer.resultDetails = answerValidation.resultDetails;
 
