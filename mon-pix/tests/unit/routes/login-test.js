@@ -1,3 +1,4 @@
+import { expect } from 'chai';
 import EmberObject from '@ember/object';
 import Service from '@ember/service';
 import { beforeEach, describe, it } from 'mocha';
