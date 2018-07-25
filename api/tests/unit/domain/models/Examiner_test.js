@@ -14,7 +14,7 @@ describe('Unit | Domain | Models | Examiner', () => {
     validator.assess = sinon.stub();
   });
 
-  describe('#validate', () => {
+  describe('#evaluate', () => {
 
     context('when answer is SKIPPED', () => {
 
@@ -28,7 +28,7 @@ describe('Unit | Domain | Models | Examiner', () => {
         examiner = new Examiner({ validator });
 
         // when
-        correctedAnswer = examiner.validate(uncorrectedAnswer);
+        correctedAnswer = examiner.evaluate(uncorrectedAnswer);
       });
 
       it('should return an answer with skipped as result and null as resultDetails', () => {
@@ -61,7 +61,7 @@ describe('Unit | Domain | Models | Examiner', () => {
         examiner = new Examiner({ validator });
 
         // when
-        correctedAnswer = examiner.validate(uncorrectedAnswer);
+        correctedAnswer = examiner.evaluate(uncorrectedAnswer);
       });
 
       it('should return an answer with TIMEOUT as result, and the correct resultDetails', () => {
@@ -94,7 +94,7 @@ describe('Unit | Domain | Models | Examiner', () => {
         examiner = new Examiner({ validator });
 
         // when
-        correctedAnswer = examiner.validate(uncorrectedAnswer);
+        correctedAnswer = examiner.evaluate(uncorrectedAnswer);
       });
 
       it('should return an answer with TIMEOUT as result, and the correct resultDetails', () => {
@@ -127,7 +127,7 @@ describe('Unit | Domain | Models | Examiner', () => {
         examiner = new Examiner({ validator });
 
         // when
-        correctedAnswer = examiner.validate(uncorrectedAnswer);
+        correctedAnswer = examiner.evaluate(uncorrectedAnswer);
       });
 
       it('should return an answer with the validator‘s result and resultDetails', () => {
