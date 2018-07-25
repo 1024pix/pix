@@ -1,4 +1,3 @@
-/* eslint-disable no-console */
 const KNOWLEDGE_ELEMENTS_TABLE_NAME = 'knowledge-elements';
 
 exports.up = (knex) => {
@@ -10,8 +9,8 @@ exports.up = (knex) => {
       table.string('status');
       table.integer('pixScore').unsigned();
 
-      table.bigInteger('answerId').references('answers.id').index();
-      table.bigInteger('assessmentId').references('assessments.id').index();
+      table.integer('answerId').unsigned().references('answers.id').index();
+      table.integer('assessmentId').unsigned().references('assessments.id').index();
       table.string('skillId').index();
     })
     .then(() => {
