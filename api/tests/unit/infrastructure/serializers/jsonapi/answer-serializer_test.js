@@ -1,6 +1,5 @@
 const { expect, factory } = require('../../../../test-helper');
 const BookshelfAnswer = require('../../../../../lib/infrastructure/data/answer');
-const Answer = require('../../../../../lib/domain/models/Answer');
 const AnswerStatus = require('../../../../../lib/domain/models/AnswerStatus');
 const answerStatusJSONAPIAdapter = require('../../../../../lib/infrastructure/adapters/answer-status-json-api-adapter');
 const serializer = require('../../../../../lib/infrastructure/serializers/jsonapi/answer-serializer');

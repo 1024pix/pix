@@ -23,7 +23,7 @@ module.exports = function({
     .then(throwIfChallengeAlreadyAnswered)
     .then(() => challengeRepository.get(answer.challengeId))
     .then(saveChallengeToContext(contextObject))
-    .then(correctAnswer({ answer }))
+    .then(evaluateAnswer({ answer }))
     .then(answerRepository.save)
     .then(saveAnswerToContext(contextObject))
     .then(saveKnowledgeElementsIfSmartPlacement({
@@ -56,10 +56,10 @@ function saveAnswerToContext(contextObject) {
   };
 }
 
-function correctAnswer({ answer }) {
+function evaluateAnswer({ answer }) {
   return (challenge) => {
     const examiner = new Examiner({ validator: challenge.validator });
-    return examiner.validate(answer);
+    return examiner.evaluate(answer);
   };
 }
 
@@ -100,9 +100,7 @@ function saveKnowledgeElements({ answer, challenge, smartPlacementKnowledgeEleme
 }
 
 function absorbSmartAssessmentNotFoundError(error) {
-  if (error instanceof NotFoundError) {
-    return;
-  } else {
+  if (!(error instanceof NotFoundError)) {
     throw error;
   }
 }

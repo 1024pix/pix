@@ -18,7 +18,7 @@ class Examiner {
     // references
   }
 
-  validate(answer) {
+  evaluate(answer) {
 
     const correctedAnswer = new Answer(answer);
 
