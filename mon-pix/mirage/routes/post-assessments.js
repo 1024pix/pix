@@ -1,39 +1,38 @@
 import _ from 'mon-pix/utils/lodash-custom';
 
 import refAssessment from '../data/assessments/ref-assessment';
-import refAssessmentPlacement from '../data/assessments/ref-assessment-placement';
 
 export default function(schema, request) {
 
-  const answer = JSON.parse(request.requestBody);
-  const courseId = answer.data.relationships.course.data.id;
-
-  const allAssessments = [
-    refAssessment,
-    refAssessmentPlacement
-  ];
-
-  // TODO: clean legacy
-  const assessments = _.map(allAssessments, function(oneAssessment) {
-    return { id: oneAssessment.data.relationships.course.data.id, obj: oneAssessment };
-  });
+  const requestedAssessment = JSON.parse(request.requestBody);
 
   const newAssessment = {
     'user-id': 'user_id',
     'user-name': 'Jane Doe',
     'user-email': 'jane@acme.com',
-    'certification-number': 'certification-number',
   };
 
-  const assessment = _.find(assessments, { id: courseId });
-  if (assessment) {
-    return assessment.obj;
+  if(requestedAssessment.data.attributes.type === 'SMART_PLACEMENT') {
+    newAssessment.type = 'SMART_PLACEMENT';
+    return schema.assessments.create(newAssessment);
+  }
 
+  const allAssessments = [
+    refAssessment,
+  ];
+  const courseId = requestedAssessment.data.relationships.course.data.id;
+  const assessment = _.find(allAssessments,
+    (assessment) => assessment.data.relationships.course.data.id === courseId);
+
+  if (assessment) {
+    return assessment;
   } else if (_.startsWith(courseId, 'null')) {
     return refAssessment;
   } else if (!_.startsWith(courseId, 'rec')) {
     newAssessment.type = 'CERTIFICATION';
     newAssessment.courseId = 'certification-number';
+    newAssessment['certification-number'] = 'certification-number';
   }
+
   return schema.assessments.create(newAssessment);
 }
