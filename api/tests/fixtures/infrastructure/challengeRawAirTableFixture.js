@@ -1,6 +1,6 @@
 const AirtableRecord = require('airtable').Record;
 
-module.exports = function() {
+module.exports = function challengeRawAirTableFixture() {
   return new AirtableRecord('Epreuves', 'recwWzTquPlvIl4So', {
     'id': 'recwWzTquPlvIl4So',
     'fields': {

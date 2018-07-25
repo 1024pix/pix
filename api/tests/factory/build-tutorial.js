@@ -1,6 +1,6 @@
 const Tutorial = require('../../lib/domain/models/Tutorial');
 
-module.exports = function({
+module.exports = function buildTutorial({
   id = 'recTuto1',
   duration = '00:01:30',
   format = 'video',

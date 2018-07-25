@@ -1,6 +1,6 @@
 const AirtableRecord = require('airtable').Record;
 
-module.exports = function() {
+module.exports = function tutorialRawAirTableFixture() {
   return new AirtableRecord('Tutorial', 'receomyzL0AmpMFGw',{
     'id': 'receomyzL0AmpMFGw',
     'fields': {

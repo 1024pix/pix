@@ -1,6 +1,6 @@
 const AirtableRecord = require('airtable').Record;
 
-module.exports = function() {
+module.exports = function areaRawAirTableFixture() {
   return new AirtableRecord('Domaine', 'recvoGdo7z2z7pXWa', {
     'id': 'recvoGdo7z2z7pXWa',
     'fields': {

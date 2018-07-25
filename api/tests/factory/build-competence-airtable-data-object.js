@@ -1,6 +1,6 @@
 const dataObjects = require('../../lib/infrastructure/datasources/airtable/objects/index');
 
-module.exports = function({
+module.exports = function buildCompetenceAirtableDataObject({
   id = 'recsvLz0W2ShyfD63',
   competenceCode = '1.1',
   title = 'Mener une recherche et une veille d’information',
@@ -37,4 +37,3 @@ module.exports = function({
     skillIds,
   });
 };
-

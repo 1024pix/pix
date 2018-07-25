@@ -1,7 +1,7 @@
 
 const logger = require('../../infrastructure/logger');
 
-module.exports = function({ certificationChallengeRepository, challengeRepository, assessment }) {
+module.exports = function getNextChallengeForCertification({ certificationChallengeRepository, challengeRepository, assessment }) {
 
   const logContext = {
     zone: 'usecase.getNextChallengeForCertification',

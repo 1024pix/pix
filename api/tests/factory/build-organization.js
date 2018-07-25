@@ -1,7 +1,7 @@
 const Organization = require('../../lib/domain/models/Organization');
 const User = require('../../lib/domain/models/User');
 
-module.exports = function(
+module.exports = function buildOrganization(
   {
     id = 1,
     code = 'EBG123',
