@@ -86,25 +86,40 @@ describe('Unit | Route | login page', function() {
       });
     });
 
-    it('should redirect to url indicated in session.data.intentUrl', function() {
-      // given
-      const route = this.subject();
+    context('when an url is precise in data.intentUrl', function() {
+      let route;
       const intentUrl = '/jedoisallerici';
 
-      authenticatedStub.resolves();
+      beforeEach(function() {
+        route = this.subject();
+        authenticatedStub.resolves();
 
-      const foundUser = EmberObject.create({ id: 12 });
-      queryRecordStub.resolves(foundUser);
+        const foundUser = EmberObject.create({ id: 12 });
+        queryRecordStub.resolves(foundUser);
 
-      route.transitionTo = sinon.stub();
-      route.session.data = { intentUrl };
+        route.transitionTo = sinon.stub();
+        route.session.data = { intentUrl };
 
-      // when
-      const promise = route.actions.signin.call(route, expectedEmail, expectedPassword);
+      });
 
-      return promise.then(() => {
-        // then
-        sinon.assert.calledWith(route.transitionTo, intentUrl);
+      it('should redirect to the url indicated in session.data.intentUrl', function() {
+        // when
+        const promise = route.actions.signin.call(route, expectedEmail, expectedPassword);
+
+        return promise.then(() => {
+          // then
+          sinon.assert.calledWith(route.transitionTo, intentUrl);
+        });
+      });
+
+      it('should set session.data.intentUrl at null', function() {
+        // when
+        const promise = route.actions.signin.call(route, expectedEmail, expectedPassword);
+
+        return promise.then(() => {
+          // then
+          expect(route.session.data.intentUrl).to.be.null;
+        });
       });
     });
 
