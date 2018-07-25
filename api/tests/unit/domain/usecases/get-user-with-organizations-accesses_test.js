@@ -3,6 +3,7 @@ const { UserNotAuthorizedToAccessEntity } = require('../../../../lib/domain/erro
 const factory = require('../../../factory');
 const usecases = require('../../../../lib/domain/usecases');
 const OrganizationAccess = require('../../../../lib/domain/models/OrganizationAccess');
+const User = require('../../../../lib/domain/models/User');
 
 describe('Unit | UseCase | get-user-organizations-accesses', () => {
 
@@ -16,7 +17,7 @@ describe('Unit | UseCase | get-user-organizations-accesses', () => {
     requestedUserId = 2;
 
     // when
-    const promise = usecases.getUserOrganizationAccesses({ authenticatedUserId, requestedUserId, userRepository });
+    const promise = usecases.getUserWithOrganizationAccesses({ authenticatedUserId, requestedUserId, userRepository });
 
     // then
     return promise.catch((err) => {
@@ -45,7 +46,7 @@ describe('Unit | UseCase | get-user-organizations-accesses', () => {
       userRepository.getWithOrganizationAccesses.resolves(foundUser);
 
       // when
-      const promise = usecases.getUserOrganizationAccesses({ authenticatedUserId, requestedUserId, userRepository });
+      const promise = usecases.getUserWithOrganizationAccesses({ authenticatedUserId, requestedUserId, userRepository });
 
       // then
       return promise.then(() => {
@@ -53,18 +54,18 @@ describe('Unit | UseCase | get-user-organizations-accesses', () => {
       });
     });
 
-    it('should return organizations user accesses', function() {
+    it('should return user with the organization accesses', function() {
       // given
       const foundUser = factory.buildUser({ organizationAccesses: [ new OrganizationAccess({ id: 'Le premier accès de l\'utilisateur' })] });
       userRepository.getWithOrganizationAccesses.resolves(foundUser);
 
       // when
-      const promise = usecases.getUserOrganizationAccesses({ authenticatedUserId, requestedUserId, userRepository });
+      const promise = usecases.getUserWithOrganizationAccesses({ authenticatedUserId, requestedUserId, userRepository });
 
       // then
-      return promise.then((organizationAccesses) => {
-        expect(organizationAccesses[0]).to.be.an.instanceOf(OrganizationAccess);
-        expect(organizationAccesses[0].id).to.deep.equal('Le premier accès de l\'utilisateur');
+      return promise.then((foundUser) => {
+        expect(foundUser).to.be.an.instanceOf(User);
+        expect(foundUser.organizationAccesses[0].id).to.deep.equal('Le premier accès de l\'utilisateur');
       });
     });
   });

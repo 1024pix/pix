@@ -12,9 +12,8 @@ const getNextChallengeForPreview = require('./get-next-challenge-for-preview');
 const getNextChallengeForSmartPlacement = require('./get-next-challenge-for-smart-placement');
 const getSkillReview = require('./get-skill-review');
 const getUserCertification = require('./get-user-certification');
-const getUser = require('./get-user');
 const getUserCertificationWithResultTree = require('./get-user-certification-with-result-tree');
-const getUserOrganizationAccesses = require('./get-user-organization-accesses');
+const getUserWithOrganizationAccesses = require('./get-user-with-organization-accesses');
 const preloadCacheEntries = require('./preload-cache-entries');
 const removeAllCacheEntries = require('./remove-all-cache-entries');
 const removeCacheEntry = require('./remove-cache-entry');
@@ -34,10 +33,9 @@ module.exports = {
   getNextChallengeForPreview,
   getNextChallengeForSmartPlacement,
   getSkillReview,
-  getUser,
   getUserCertification,
   getUserCertificationWithResultTree,
-  getUserOrganizationAccesses,
+  getUserWithOrganizationAccesses,
   preloadCacheEntries,
   removeAllCacheEntries,
   removeCacheEntry,

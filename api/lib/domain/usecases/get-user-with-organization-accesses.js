@@ -2,7 +2,7 @@ const { UserNotAuthorizedToAccessEntity } = require('../errors');
 
 module.exports = ({ authenticatedUserId, requestedUserId, userRepository }) => {
 
-  if(authenticatedUserId !== requestedUserId) {
+  if (authenticatedUserId !== requestedUserId) {
     return Promise.reject(new UserNotAuthorizedToAccessEntity());
   }
 

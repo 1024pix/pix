@@ -540,7 +540,7 @@ describe('Unit | Controller | user-controller', () => {
       sandbox = sinon.sandbox.create();
       codeStub = sandbox.stub();
       replyStub = sandbox.stub().returns({ code: codeStub });
-      sandbox.stub(usecases, 'getUser').resolves();
+      sandbox.stub(usecases, 'getUserWithOrganizationAccesses').resolves();
       sandbox.stub(userSerializer, 'serialize');
     });
 
@@ -554,14 +554,18 @@ describe('Unit | Controller | user-controller', () => {
 
       // then
       return promise.then(() => {
-        expect(usecases.getUser).to.have.been.calledWith({ authenticatedUserId, requestedUserId, userRepository });
+        expect(usecases.getUserWithOrganizationAccesses).to.have.been.calledWith({
+          authenticatedUserId,
+          requestedUserId,
+          userRepository
+        });
       });
     });
 
     it('should serialize the authenticated user', () => {
       // given
       const foundUser = factory.buildUser();
-      usecases.getUser.resolves(foundUser);
+      usecases.getUserWithOrganizationAccesses.resolves(foundUser);
 
       // when
       const promise = userController.getUser(request, replyStub);
@@ -581,7 +585,7 @@ describe('Unit | Controller | user-controller', () => {
           title: 'Forbidden Access'
         }]
       };
-      usecases.getUser.rejects(new UserNotAuthorizedToAccessEntity());
+      usecases.getUserWithOrganizationAccesses.rejects(new UserNotAuthorizedToAccessEntity());
 
       // when
       const promise = userController.getUser(request, replyStub);
@@ -608,7 +612,7 @@ describe('Unit | Controller | user-controller', () => {
           }
         }
       };
-      usecases.getUser.resolves(foundUser);
+      usecases.getUserWithOrganizationAccesses.resolves(foundUser);
       userSerializer.serialize.returns(serializedUser);
 
       // when
@@ -654,14 +658,14 @@ describe('Unit | Controller | user-controller', () => {
     it('should get accesses of the user passed on params', () => {
       // given
       const stringifiedAuthenticatedUserId = authenticatedUserId.toString();
-      sandbox.stub(usecases, 'getUserOrganizationAccesses').resolves();
+      sandbox.stub(usecases, 'getUserWithOrganizationAccesses').resolves();
 
       // when
       const promise = userController.getOrganizationAccesses(request, replyStub);
 
       // then
       return promise.then(() => {
-        expect(usecases.getUserOrganizationAccesses).to.have.been.calledWith({
+        expect(usecases.getUserWithOrganizationAccesses).to.have.been.calledWith({
           requestedUserId,
           authenticatedUserId: stringifiedAuthenticatedUserId,
           userRepository
@@ -672,13 +676,14 @@ describe('Unit | Controller | user-controller', () => {
     context('When accesses are found', () => {
 
       beforeEach(() => {
-        sandbox.stub(usecases, 'getUserOrganizationAccesses');
+        sandbox.stub(usecases, 'getUserWithOrganizationAccesses');
       });
 
       it('should serialize found organization-accesses', () => {
         // given
         const foundAccesses = [];
-        usecases.getUserOrganizationAccesses.resolves(foundAccesses);
+        const foundUser = new User({ organizationAccesses: foundAccesses });
+        usecases.getUserWithOrganizationAccesses.resolves(foundUser);
 
         // when
         const promise = userController.getOrganizationAccesses(request, replyStub);
@@ -693,7 +698,7 @@ describe('Unit | Controller | user-controller', () => {
         // given
         const serializedOrganizationAccesses = {};
         organizationAccessesSerializer.serialize.returns(serializedOrganizationAccesses);
-        usecases.getUserOrganizationAccesses.resolves();
+        usecases.getUserWithOrganizationAccesses.resolves({});
 
         // when
         const promise = userController.getOrganizationAccesses(request, replyStub);
@@ -710,7 +715,7 @@ describe('Unit | Controller | user-controller', () => {
     context('When authenticated user want to retrieve access of another user', () => {
       it('should return a 403 Forbidden access error ', () => {
         // given
-        sandbox.stub(usecases, 'getUserOrganizationAccesses').rejects(new UserNotAuthorizedToAccessEntity());
+        sandbox.stub(usecases, 'getUserWithOrganizationAccesses').rejects(new UserNotAuthorizedToAccessEntity());
 
         // when
         const promise = userController.getOrganizationAccesses(request, replyStub);
@@ -726,7 +731,7 @@ describe('Unit | Controller | user-controller', () => {
     context('When an unexpected error occurs', () => {
       it('should return a 500 internal error ', () => {
         // given
-        sandbox.stub(usecases, 'getUserOrganizationAccesses').rejects(new Error());
+        sandbox.stub(usecases, 'getUserWithOrganizationAccesses').rejects(new Error());
 
         // when
         const promise = userController.getOrganizationAccesses(request, replyStub);

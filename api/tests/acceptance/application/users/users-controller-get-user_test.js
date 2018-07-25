@@ -15,7 +15,7 @@ describe('Acceptance | Controller | users-controller-get-user', () => {
     };
   });
 
-  describe('GET /users/me', () => {
+  describe('GET /users/:id', () => {
 
     const userToInsert = {
       id: 1234,
