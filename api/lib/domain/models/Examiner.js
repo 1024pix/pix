@@ -30,18 +30,14 @@ class Examiner {
     }
 
     const answerValidation = this.validator.assess(answer);
+    correctedAnswer.result = answerValidation.result;
+    correctedAnswer.resultDetails = answerValidation.resultDetails;
 
     const isPartiallyOrCorrectAnswer = answerValidation.result.isOK() || answerValidation.result.isPARTIALLY();
 
     if (isPartiallyOrCorrectAnswer && answer.hasTimedOut) {
       correctedAnswer.result = AnswerStatus.TIMEDOUT;
-      correctedAnswer.resultDetails = answerValidation.resultDetails;
-
-      return correctedAnswer;
     }
-
-    correctedAnswer.result = answerValidation.result;
-    correctedAnswer.resultDetails = answerValidation.resultDetails;
 
     return correctedAnswer;
   }
