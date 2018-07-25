@@ -1,7 +1,7 @@
 const SkillReview = require('../../../lib/domain/models/SkillReview');
 const { UserNotAuthorizedToAccessEntity } = require('../../../lib/domain/errors');
 
-module.exports = function({
+module.exports = function getSkillReview({
   skillReviewId,
   userId,
   smartPlacementAssessmentRepository,

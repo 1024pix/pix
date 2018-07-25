@@ -12,7 +12,7 @@ function getNextChallengeInSmartRandom(answersPix, challengesPix, targetProfile)
   return _.get(nextChallenge, 'id', null);
 }
 
-module.exports = function({
+module.exports = function getNextChallengeForSmartPlacement({
   assessment,
   answerRepository,
   challengeRepository,
