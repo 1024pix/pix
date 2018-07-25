@@ -11,11 +11,11 @@ module.exports = function(
     password = 'liuehrfi128743KUUKNSUkuz12Ukun',
     cgu = true,
     pixRoles = [buildPixRole()],
-    organizationsAccesses = [buildOrganizationAccess()],
+    organizationAccesses = [buildOrganizationAccess()],
   } = {}) {
 
   return new User({
-    id, firstName, lastName, email, password, cgu, pixRoles, organizationsAccesses
+    id, firstName, lastName, email, password, cgu, pixRoles, organizationAccesses
   });
 };
 

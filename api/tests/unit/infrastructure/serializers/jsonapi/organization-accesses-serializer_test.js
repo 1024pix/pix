@@ -1,5 +1,5 @@
 const { expect } = require('../../../../test-helper');
-const serializer = require('../../../../../lib/infrastructure/serializers/jsonapi/organizations-accesses-serializer');
+const serializer = require('../../../../../lib/infrastructure/serializers/jsonapi/organization-accesses-serializer');
 const OrganizationAccess = require('../../../../../lib/domain/models/OrganizationAccess');
 
 describe('Unit | Serializer | JSONAPI | organizations-accesses-serializer', () => {
@@ -20,7 +20,7 @@ describe('Unit | Serializer | JSONAPI | organizations-accesses-serializer', () =
 
       const expectedSerializedOrganizationAccess = {
         data: {
-          type: 'organizations-accesses',
+          type: 'organization-accesses',
           id: 5,
           attributes: {},
           relationships: {

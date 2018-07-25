@@ -54,7 +54,7 @@ describe('Acceptance | Controller | users-controller-get-organization-accesses',
     function _options(userId) {
       return {
         method: 'GET',
-        url: `/api/users/${userId}/organizations-accesses`,
+        url: `/api/users/${userId}/organization-accesses`,
         headers: { authorization: generateValidRequestAuhorizationHeader(userId) },
       };
     }
@@ -86,7 +86,7 @@ describe('Acceptance | Controller | users-controller-get-organization-accesses',
         expect(response.result).to.deep.equal({
           data: [
             {
-              type: 'organizations-accesses',
+              type: 'organization-accesses',
               id: organizationAccessId,
               attributes: {},
               relationships: {

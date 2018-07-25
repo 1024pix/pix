@@ -8,7 +8,7 @@ describe('Unit | UseCase | get-user-organizations-accesses', () => {
 
   let authenticatedUserId;
   let requestedUserId;
-  const userRepository = { getWithOrganizationsAccesses: () => undefined };
+  const userRepository = { getWithOrganizationAccesses: () => undefined };
 
   it('should rejetcs a NotAuthorized error if authenticated user ask for another user organizations accesses', function() {
     // given
@@ -16,7 +16,7 @@ describe('Unit | UseCase | get-user-organizations-accesses', () => {
     requestedUserId = 2;
 
     // when
-    const promise = usecases.getUserOrganizationsAccesses({ authenticatedUserId, requestedUserId, userRepository });
+    const promise = usecases.getUserOrganizationAccesses({ authenticatedUserId, requestedUserId, userRepository });
 
     // then
     return promise.catch((err) => {
@@ -30,7 +30,7 @@ describe('Unit | UseCase | get-user-organizations-accesses', () => {
 
     beforeEach(() => {
       sandbox = sinon.sandbox.create();
-      sandbox.stub(userRepository, 'getWithOrganizationsAccesses');
+      sandbox.stub(userRepository, 'getWithOrganizationAccesses');
     });
 
     afterEach(() => {
@@ -42,29 +42,29 @@ describe('Unit | UseCase | get-user-organizations-accesses', () => {
       authenticatedUserId = 1;
       requestedUserId = 1;
       const foundUser = factory.buildUser();
-      userRepository.getWithOrganizationsAccesses.resolves(foundUser);
+      userRepository.getWithOrganizationAccesses.resolves(foundUser);
 
       // when
-      const promise = usecases.getUserOrganizationsAccesses({ authenticatedUserId, requestedUserId, userRepository });
+      const promise = usecases.getUserOrganizationAccesses({ authenticatedUserId, requestedUserId, userRepository });
 
       // then
       return promise.then(() => {
-        expect(userRepository.getWithOrganizationsAccesses).to.have.been.calledWith(requestedUserId);
+        expect(userRepository.getWithOrganizationAccesses).to.have.been.calledWith(requestedUserId);
       });
     });
 
     it('should return organizations user accesses', function() {
       // given
-      const foundUser = factory.buildUser({ organizationsAccesses: [ new OrganizationAccess({ id: 'Le premier accès de l\'utilisateur' })] });
-      userRepository.getWithOrganizationsAccesses.resolves(foundUser);
+      const foundUser = factory.buildUser({ organizationAccesses: [ new OrganizationAccess({ id: 'Le premier accès de l\'utilisateur' })] });
+      userRepository.getWithOrganizationAccesses.resolves(foundUser);
 
       // when
-      const promise = usecases.getUserOrganizationsAccesses({ authenticatedUserId, requestedUserId, userRepository });
+      const promise = usecases.getUserOrganizationAccesses({ authenticatedUserId, requestedUserId, userRepository });
 
       // then
-      return promise.then((organizationsAccesses) => {
-        expect(organizationsAccesses[0]).to.be.an.instanceOf(OrganizationAccess);
-        expect(organizationsAccesses[0].id).to.deep.equal('Le premier accès de l\'utilisateur');
+      return promise.then((organizationAccesses) => {
+        expect(organizationAccesses[0]).to.be.an.instanceOf(OrganizationAccess);
+        expect(organizationAccesses[0].id).to.deep.equal('Le premier accès de l\'utilisateur');
       });
     });
   });

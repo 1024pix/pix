@@ -5,9 +5,9 @@ module.exports = ({ authenticatedUserId, requestedUserId, userRepository }) => {
   if (authenticatedUserId !== requestedUserId) {
     return Promise.reject(new UserNotAuthorizedToAccessEntity());
   } else {
-    return userRepository.getWithOrganizationsAccesses(requestedUserId)
+    return userRepository.getWithOrganizationAccesses(requestedUserId)
       .then((user) => {
-        return user.organizationsAccesses;
+        return user.organizationAccesses;
       });
   }
 

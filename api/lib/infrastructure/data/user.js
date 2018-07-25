@@ -26,7 +26,7 @@ module.exports = Bookshelf.model('User', {
     return this.belongsToMany(BookshelfPixRole).through(BookshelfUserPixRole);
   },
 
-  organizationsAccesses() {
+  organizationAccesses() {
     return this.hasMany('OrganizationAccess', 'userId');
   },
 

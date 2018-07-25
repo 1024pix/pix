@@ -120,7 +120,7 @@ describe('Unit | Router | user-router', () => {
 
   describe('GET /api/users/{id}/organization-accesses', function() {
     beforeEach(() => {
-      sandbox.stub(UserController, 'getOrganizationsAccesses').callsFake((request, reply) => reply('ok'));
+      sandbox.stub(UserController, 'getOrganizationAccesses').callsFake((request, reply) => reply('ok'));
       startServer();
     });
 
@@ -128,13 +128,13 @@ describe('Unit | Router | user-router', () => {
       // given
       const options = {
         method: 'GET',
-        url: '/api/users/12/organizations-accesses'
+        url: '/api/users/12/organization-accesses'
       };
 
       // when
       return server.inject(options).then(_ => {
         // then
-        sinon.assert.calledOnce(UserController.getOrganizationsAccesses);
+        sinon.assert.calledOnce(UserController.getOrganizationAccesses);
       });
     });
   });

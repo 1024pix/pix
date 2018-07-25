@@ -62,9 +62,9 @@ describe('Acceptance | Controller | users-controller', () => {
                 '"cgu":true' +
               '},' +
             '"relationships":{' +
-              '"organizations-accesses":{'+
+              '"organization-accesses":{'+
                 '"links":{'+
-                  '"related":"/users/(\\d+)/organizations-accesses"'+
+                  '"related":"/users/(\\d+)/organization-accesses"'+
                 '}'+
               '}'+
             '}'+

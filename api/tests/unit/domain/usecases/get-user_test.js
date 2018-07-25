@@ -9,7 +9,7 @@ describe('Unit | Application | Use Case | get-user', () => {
 
   beforeEach(() => {
     sandbox = sinon.sandbox.create();
-    userRepository = { getWithOrganizationsAccesses: sandbox.stub() };
+    userRepository = { getWithOrganizationAccesses: sandbox.stub() };
   });
 
   afterEach(() => {
@@ -21,7 +21,7 @@ describe('Unit | Application | Use Case | get-user', () => {
     const authenticatedUserId = 1234;
     const requestedUserId = 1234;
     const foundUser = factory.buildUser({ id: requestedUserId });
-    userRepository.getWithOrganizationsAccesses.resolves(foundUser);
+    userRepository.getWithOrganizationAccesses.resolves(foundUser);
 
     // when
     const promise = usecases.getUser({ authenticatedUserId, requestedUserId, userRepository });
