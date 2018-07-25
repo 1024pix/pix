@@ -126,32 +126,40 @@ function enrichDirectKnowledgeElementsWithInferredKnowledgeElements({
       .filter(skillIsNotAlreadyAssessed({ previouslyFailedSkills, previouslyValidatedSkills }))
       .forEach((skillToInfer) => {
 
-        const knowledgeElementThatExistForThatSkill = totalKnowledgeElements
-          .find((knowledgeElement) => {
+        const knowledgeElementAlreadyExistsForThatSkill = _.some(
+          totalKnowledgeElements,
+          knowledgeElement => {
             const skillOfKnowledgeElement = new Skill({ name: knowledgeElement.skillId });
             return Skill.areEqual(skillToInfer, skillOfKnowledgeElement);
-          });
-        const knowledgeElementDoesNotExistForThatSkill = knowledgeElementThatExistForThatSkill === undefined;
+          },
+        );
 
-        if (status === VALIDATED_STATUS
-          && knowledgeElementDoesNotExistForThatSkill
-          && skillToInfer.difficulty < directSkill.difficulty) {
-
-          const newKnowledgeElement = createInferredValidatedKnowledgeElement({ answer, skillToInfer });
-          totalKnowledgeElements = totalKnowledgeElements.concat(newKnowledgeElement);
-        }
-        if (status === INVALIDATED_STATUS
-          && knowledgeElementDoesNotExistForThatSkill
-          && skillToInfer.difficulty > directSkill.difficulty) {
-
-          const newKnowledgeElement = createInferredInvalidatedKnowledgeElement({ answer, skillToInfer });
-          totalKnowledgeElements = totalKnowledgeElements.concat(newKnowledgeElement);
+        if (!knowledgeElementAlreadyExistsForThatSkill) {
+          const newKnowledgeElements = createInferredKnowledgeElements({ answer, status, directSkill, skillToInfer });
+          totalKnowledgeElements = totalKnowledgeElements.concat(newKnowledgeElements);
         }
       });
 
     return totalKnowledgeElements;
   }, directKnowledgeElements);
 
+}
+
+function createInferredKnowledgeElements({ answer, status, directSkill, skillToInfer }) {
+  const newInferredKnowledgeElements = [];
+  if (status === VALIDATED_STATUS
+    && skillToInfer.difficulty < directSkill.difficulty) {
+
+    const newKnowledgeElement = createInferredValidatedKnowledgeElement({ answer, skillToInfer });
+    newInferredKnowledgeElements.push(newKnowledgeElement);
+  }
+  if (status === INVALIDATED_STATUS
+    && skillToInfer.difficulty > directSkill.difficulty) {
+
+    const newKnowledgeElement = createInferredInvalidatedKnowledgeElement({ answer, skillToInfer });
+    newInferredKnowledgeElements.push(newKnowledgeElement);
+  }
+  return newInferredKnowledgeElements;
 }
 
 function createInferredValidatedKnowledgeElement({ answer, skillToInfer }) {
