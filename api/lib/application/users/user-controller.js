@@ -61,7 +61,7 @@ module.exports = {
     const requestedUserId = parseInt(request.params.id, 10);
     const authenticatedUserId = request.auth.credentials.userId;
 
-    return usecases.getUser({ authenticatedUserId, requestedUserId, userRepository })
+    return usecases.getUserWithOrganizationAccesses({ authenticatedUserId, requestedUserId, userRepository })
       .then((foundUser) => {
         return reply(userSerializer.serialize(foundUser)).code(200);
       })
@@ -143,15 +143,16 @@ module.exports = {
     const authenticatedUserId = request.auth.credentials.userId.toString();
     const requestedUserId = request.params.id;
 
-    return usecases.getUserOrganizationAccesses({ authenticatedUserId, requestedUserId, userRepository })
-      .then((organizationAccesses) => {
-        return reply(organizationAccessSerializer.serialize(organizationAccesses)).code(200);
+    return usecases.getUserWithOrganizationAccesses({ authenticatedUserId, requestedUserId, userRepository })
+      .then((user) => {
+        return reply(organizationAccessSerializer.serialize(user.organizationAccesses)).code(200);
       })
       .catch((error) => {
         if (error instanceof UserNotAuthorizedToAccessEntity) {
           reply(JSONAPI.forbiddenError(error.message)).code(403);
         }
-        reply(JSONAPI.internalError('Une erreur inattendue est survenue lors de la création de la campagne')).code(500);
+        logger.error(error);
+        reply(JSONAPI.internalError('Une erreur est survenue lors de la récupération de l’utilisateur')).code(500);
       });
   }
 };
