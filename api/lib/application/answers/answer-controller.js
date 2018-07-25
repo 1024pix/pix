@@ -15,7 +15,7 @@ const smartPlacementKnowledgeElementRepository =
   require('../../infrastructure/repositories/smart-placement-knowledge-element-repository');
 const solutionRepository = require('../../infrastructure/repositories/solution-repository');
 const solutionService = require('../../domain/services/solution-service');
-const { ChallengeAlreadyAnsweredError } = require('../../domain/errors');
+const { ChallengeAlreadyAnsweredError, NotFoundError } = require('../../domain/errors');
 
 function _updateExistingAnswer(existingAnswer, newAnswer, reply) {
   return solutionRepository
@@ -85,17 +85,17 @@ module.exports = {
         }
 
         // XXX if assessment is a Smart Placement, then return 204 and do not update answer. If not proceed normally.
-        return smartPlacementAssessmentRepository.get(existingAnswer.get('assessmentId'))
-          .catch(() => undefined)
-          .then((assessment) => {
+        return isAssessmentSmartPlacement(existingAnswer.get('assessmentId'))
+          .then((assessmentIsSmartPlacement) => {
 
-            if (assessment) {
+            if (assessmentIsSmartPlacement) {
               return controllerReplies(reply).noContent();
 
             } else {
               return _updateExistingAnswer(existingAnswer, updatedAnswer, reply);
             }
-          });
+          })
+          .catch(controllerReplies(reply).error);
       });
   },
 
@@ -131,4 +131,21 @@ function mapToInfrastructureErrors(error) {
   }
 
   return error;
+}
+
+function isAssessmentSmartPlacement(assessmentId) {
+
+  return smartPlacementAssessmentRepository.get(assessmentId)
+    .then(() => {
+      return true;
+    })
+    .catch((error) => {
+
+      if (error instanceof NotFoundError) {
+        return false;
+
+      } else {
+        throw error;
+      }
+    });
 }
