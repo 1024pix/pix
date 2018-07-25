@@ -3,7 +3,7 @@ const moment = require('moment');
 const JSONAPIError = require('jsonapi-serializer').Error;
 
 const userSerializer = require('../../infrastructure/serializers/jsonapi/user-serializer');
-const organizationAccessSerializer = require('../../infrastructure/serializers/jsonapi/organizations-accesses-serializer');
+const organizationAccessSerializer = require('../../infrastructure/serializers/jsonapi/organization-accesses-serializer');
 const validationErrorSerializer = require('../../infrastructure/serializers/jsonapi/validation-error-serializer');
 const mailService = require('../../domain/services/mail-service');
 const userService = require('../../domain/services/user-service');
@@ -139,11 +139,11 @@ module.exports = {
       });
   },
 
-  getOrganizationsAccesses(request, reply) {
+  getOrganizationAccesses(request, reply) {
     const authenticatedUserId = request.auth.credentials.userId.toString();
     const requestedUserId = request.params.id;
 
-    return usecases.getUserOrganizationsAccesses({ authenticatedUserId, requestedUserId, userRepository })
+    return usecases.getUserOrganizationAccesses({ authenticatedUserId, requestedUserId, userRepository })
       .then((organizationAccesses) => {
         return reply(organizationAccessSerializer.serialize(organizationAccesses)).code(200);
       })

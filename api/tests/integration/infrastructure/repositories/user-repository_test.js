@@ -196,9 +196,9 @@ describe('Integration | Infrastructure | Repository | UserRepository', () => {
         // then
         return promise.then((user) => {
 
-          expect(user.organizationsAccesses).to.be.an('array');
+          expect(user.organizationAccesses).to.be.an('array');
 
-          const firstOrganizationAccess = user.organizationsAccesses[0];
+          const firstOrganizationAccess = user.organizationAccesses[0];
           expect(firstOrganizationAccess).to.be.an.instanceof(OrganizationAccess);
           expect(firstOrganizationAccess.id).to.equal(organizationAccessInDB.id);
 
@@ -273,7 +273,7 @@ describe('Integration | Infrastructure | Repository | UserRepository', () => {
       });
     });
 
-    describe('#getWithOrganizationsAccesses', () => {
+    describe('#getWithOrganizationAccesses', () => {
       let userInDB, organizationInDB, organizationRoleInDB, organizationAccessInDB;
 
       beforeEach(() => {
@@ -298,7 +298,7 @@ describe('Integration | Infrastructure | Repository | UserRepository', () => {
         const expectedUser = new User(userInDB);
 
         // when
-        const promise = userRepository.getWithOrganizationsAccesses(userInDB.id);
+        const promise = userRepository.getWithOrganizationAccesses(userInDB.id);
 
         // then
         return promise.then((user) => {
@@ -314,14 +314,14 @@ describe('Integration | Infrastructure | Repository | UserRepository', () => {
 
       it('should return organization access associated to the user', () => {
         // when
-        const promise = userRepository.getWithOrganizationsAccesses(userInDB.id);
+        const promise = userRepository.getWithOrganizationAccesses(userInDB.id);
 
         // then
         return promise.then((user) => {
 
-          expect(user.organizationsAccesses).to.be.an('array');
+          expect(user.organizationAccesses).to.be.an('array');
 
-          const organizationAccess = user.organizationsAccesses[0];
+          const organizationAccess = user.organizationAccesses[0];
           expect(organizationAccess).to.be.an.instanceof(OrganizationAccess);
           expect(organizationAccess.id).to.equal(organizationAccessInDB.id);
 
@@ -345,7 +345,7 @@ describe('Integration | Infrastructure | Repository | UserRepository', () => {
         const unknownUserId = 666;
 
         // when
-        const promise = userRepository.getWithOrganizationsAccesses(unknownUserId);
+        const promise = userRepository.getWithOrganizationAccesses(unknownUserId);
 
         // then
         return expect(promise).to.be.rejectedWith(UserNotFoundError);

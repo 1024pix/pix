@@ -78,7 +78,7 @@ describe('Unit | Domain | Models | User', () => {
     it('should be true if user has a role in an organization', () => {
       // given
       const user = factory.buildUser({
-        organizationsAccesses: [factory.buildOrganizationAccess()]
+        organizationAccesses: [factory.buildOrganizationAccess()]
       });
 
       // when/then
@@ -110,9 +110,9 @@ describe('Unit | Domain | Models | User', () => {
       // given
       const organizationId = 12345;
       const user = factory.buildUser();
-      user.organizationsAccesses.push(factory.buildOrganizationAccess());
-      user.organizationsAccesses[0].organization.id = 93472;
-      user.organizationsAccesses[1].organization.id = 74569;
+      user.organizationAccesses.push(factory.buildOrganizationAccess());
+      user.organizationAccesses[0].organization.id = 93472;
+      user.organizationAccesses[1].organization.id = 74569;
 
       // when/then
       expect(user.hasAccessToOrganization(organizationId)).to.be.false;
@@ -122,7 +122,7 @@ describe('Unit | Domain | Models | User', () => {
       // given
       const organizationId = 12345;
       const user = factory.buildUser();
-      user.organizationsAccesses[0].organization.id = 12345;
+      user.organizationAccesses[0].organization.id = 12345;
 
       // when/then
       expect(user.hasAccessToOrganization(organizationId)).to.be.true;

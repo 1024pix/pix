@@ -51,9 +51,9 @@ exports.register = function(server, options, next) {
     },
     {
       method: 'GET',
-      path: '/api/users/{id}/organizations-accesses',
+      path: '/api/users/{id}/organization-accesses',
       config: {
-        handler: UserController.getOrganizationsAccesses,
+        handler: UserController.getOrganizationAccesses,
         notes : [
           '- **Cette route est restreinte aux utilisateurs authentifiés**\n' +
           '- Récupération des accès utilisateurs à partir de l\'id\n' +

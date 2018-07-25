@@ -14,7 +14,7 @@ const getSkillReview = require('./get-skill-review');
 const getUserCertification = require('./get-user-certification');
 const getUser = require('./get-user');
 const getUserCertificationWithResultTree = require('./get-user-certification-with-result-tree');
-const getUserOrganizationsAccesses = require('./get-user-organization-accesses');
+const getUserOrganizationAccesses = require('./get-user-organization-accesses');
 const preloadCacheEntries = require('./preload-cache-entries');
 const removeAllCacheEntries = require('./remove-all-cache-entries');
 const removeCacheEntry = require('./remove-cache-entry');
@@ -37,7 +37,7 @@ module.exports = {
   getUser,
   getUserCertification,
   getUserCertificationWithResultTree,
-  getUserOrganizationsAccesses,
+  getUserOrganizationAccesses,
   preloadCacheEntries,
   removeAllCacheEntries,
   removeCacheEntry,

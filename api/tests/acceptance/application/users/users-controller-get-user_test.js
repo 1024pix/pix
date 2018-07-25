@@ -47,9 +47,9 @@ describe('Acceptance | Controller | users-controller-get-user', () => {
             'cgu': true
           },
           relationships: {
-            'organizations-accesses': {
+            'organization-accesses': {
               links: {
-                related: '/users/1234/organizations-accesses'
+                related: '/users/1234/organization-accesses'
               }
             }
           }

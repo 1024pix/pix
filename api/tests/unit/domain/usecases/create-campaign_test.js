@@ -11,12 +11,12 @@ describe('Unit | UseCase | create-campaign', () => {
   const campaignToCreate = factory.buildCampaign({ id: '', code: '' });
   const savedCampaign = factory.buildCampaign({ code: availableCampaignCode });
   const campaignRepository = { save: () => undefined };
-  const userRepository = { getWithOrganizationsAccesses: () => undefined };
+  const userRepository = { getWithOrganizationAccesses: () => undefined };
 
   function _stubGetUserWithOrganizationsAccesses(organizationIdUserHasAccessTo) {
     const userWithOrganizationAccess = factory.buildUser();
-    userWithOrganizationAccess.organizationsAccesses[0].organization.id = organizationIdUserHasAccessTo;
-    userRepository.getWithOrganizationsAccesses.resolves(userWithOrganizationAccess);
+    userWithOrganizationAccess.organizationAccesses[0].organization.id = organizationIdUserHasAccessTo;
+    userRepository.getWithOrganizationAccesses.resolves(userWithOrganizationAccess);
   }
 
   beforeEach(() => {
@@ -24,7 +24,7 @@ describe('Unit | UseCase | create-campaign', () => {
     sandbox.stub(campaignCodeGenerator, 'generate');
     sandbox.stub(campaignRepository, 'save');
     sandbox.stub(campaignValidator, 'validate');
-    sandbox.stub(userRepository, 'getWithOrganizationsAccesses');
+    sandbox.stub(userRepository, 'getWithOrganizationAccesses');
   });
 
   afterEach(() => {

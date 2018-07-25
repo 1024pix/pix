@@ -5,13 +5,13 @@ module.exports = {
 
   serialize(users) {
     return new Serializer('user', {
-      attributes: ['firstName', 'lastName', 'email', 'cgu', 'organizationsAccesses'],
-      organizationsAccesses: {
+      attributes: ['firstName', 'lastName', 'email', 'cgu', 'organizationAccesses'],
+      organizationAccesses: {
         ref: 'id',
         ignoreRelationshipData: true,
         relationshipLinks: {
           related: function(record, current, parent) {
-            return `/users/${parent.id}/organizations-accesses`;
+            return `/users/${parent.id}/organization-accesses`;
           }
         }
       },
