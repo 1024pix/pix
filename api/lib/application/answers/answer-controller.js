@@ -47,7 +47,7 @@ module.exports = {
   save(request, reply) {
 
     return Promise.resolve(request.payload)
-      .then(deserialize)
+      .then(partialDeserialize)
       .then((newAnswer) => {
         return usecases.saveAnswerAndCreateAssociatedKnowledgeElements({
           answer: newAnswer,
@@ -75,7 +75,7 @@ module.exports = {
 
   update(request, reply) {
 
-    const updatedAnswer = answerSerializer.deserialize(request.payload);
+    const updatedAnswer = answerSerializer.deserializeToBookshelfAnswer(request.payload);
     return answerRepository
       .findByChallengeAndAssessment(updatedAnswer.get('challengeId'), updatedAnswer.get('assessmentId'))
       .then((existingAnswer) => {
@@ -112,11 +112,12 @@ module.exports = {
   },
 };
 
-function deserialize(payload) {
+function partialDeserialize(payload) {
+  // XXX missing AnswerStatus adapter for result serialisation
   return new Answer({
     value: payload.data.attributes.value,
-    result: payload.data.attributes.result,
-    resultDetails: payload.data.attributes['result-details'],
+    result: null,
+    resultDetails: null,
     timeout: payload.data.attributes.timeout,
     elapsedTime: payload.data.attributes['elapsed-time'],
     assessmentId: payload.data.relationships.assessment.data.id,

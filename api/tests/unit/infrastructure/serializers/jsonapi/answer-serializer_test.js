@@ -1,5 +1,6 @@
 const { expect, factory } = require('../../../../test-helper');
 const BookshelfAnswer = require('../../../../../lib/infrastructure/data/answer');
+const Answer = require('../../../../../lib/domain/models/Answer');
 const AnswerStatus = require('../../../../../lib/domain/models/AnswerStatus');
 const answerStatusJSONAPIAdapter = require('../../../../../lib/infrastructure/adapters/answer-status-json-api-adapter');
 const serializer = require('../../../../../lib/infrastructure/serializers/jsonapi/answer-serializer');
@@ -115,11 +116,11 @@ describe('Unit | Serializer | JSONAPI | answer-serializer', () => {
     });
   });
 
-  describe('#deserialize()', () => {
+  describe('#deserializeToBookshelfAnswer()', () => {
 
     it('should convert JSON API data into an Answer model object', () => {
       // when
-      const answer = serializer.deserialize(jsonAnswer);
+      const answer = serializer.deserializeToBookshelfAnswer(jsonAnswer);
 
       // then
       expect(answer.id).to.equal(jsonAnswer.data.id);
