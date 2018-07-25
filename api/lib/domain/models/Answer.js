@@ -18,6 +18,7 @@ class Answer {
     this.id = id;
     // attributes
     this.elapsedTime = elapsedTime;
+    // XXX result property should not be auto-created from result to an AnswerStatus Object
     this.result = AnswerStatus.from(result);
     this.resultDetails = resultDetails;
     this.timeout = timeout;

@@ -1,5 +1,5 @@
 const { Serializer } = require('jsonapi-serializer');
-const Answer = require('../../data/answer');
+const BookshelfAnswer = require('../../data/answer');
 const answerStatusJSONAPIAdapter = require('../../adapters/answer-status-json-api-adapter');
 
 module.exports = {
@@ -48,8 +48,11 @@ module.exports = {
     }).serialize(answers);
   },
 
-  deserialize(json) {
-    const answer = new Answer({
+  /**
+   * @deprecated use deserialize with domain model objects instead
+   */
+  deserializeToBookshelfAnswer(json) {
+    const answer = new BookshelfAnswer({
       value: json.data.attributes.value,
       result: json.data.attributes.result,
       resultDetails: json.data.attributes['result-details'],
