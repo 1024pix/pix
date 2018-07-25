@@ -114,7 +114,7 @@ function _saveCertificationResult({
     .then(() => _updateCompletedDateOfCertification(assessment, certificationCourseRepository));
 }
 
-module.exports = function({
+module.exports = function createAssessmentResultForCompletedCertification({
   // Parameters
   assessmentId,
   forceRecomputeResult = false,

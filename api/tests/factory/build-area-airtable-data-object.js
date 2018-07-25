@@ -1,6 +1,6 @@
 const dataObjects = require('../../lib/infrastructure/datasources/airtable/objects/index');
 
-module.exports = function({
+module.exports = function buildAreaAirtableDataObject({
   id = 'recvoGdo7z2z7pXWa',
   code = '1',
   name = '1. Information et données',
@@ -20,4 +20,3 @@ module.exports = function({
     competenceIds,
   });
 };
-

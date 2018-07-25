@@ -44,7 +44,7 @@ function _checkEncryptedPassword(userPassword, encryptedPassword) {
   return encryptedPassword;
 }
 
-module.exports = function({
+module.exports = function createUser({
   user,
   reCaptchaToken,
   userRepository,

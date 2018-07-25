@@ -2,7 +2,12 @@ const { AssessmentEndedError } = require('../errors');
 const _ = require('../../infrastructure/utils/lodash-utils');
 const logger = require('../../infrastructure/logger');
 
-module.exports = function({ assessment, challengeId, courseRepository, challengeRepository }) {
+module.exports = function getNextChallengeForDemo({
+  assessment,
+  challengeId,
+  challengeRepository,
+  courseRepository,
+}) {
 
   const courseId = assessment.courseId;
 
