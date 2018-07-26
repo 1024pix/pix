@@ -1,4 +1,3 @@
-import { expect } from 'chai';
 import EmberObject from '@ember/object';
 import Service from '@ember/service';
 import { beforeEach, describe, it } from 'mocha';
@@ -44,86 +43,6 @@ describe('Unit | Route | login page', function() {
     return promise.then(() => {
       sinon.assert.calledWith(authenticatedStub, 'authenticator:simple', expectedEmail, expectedPassword);
     });
-  });
-
-  describe('Route behavior according to organization belong status (authenticated user)', function() {
-
-    it('should redirect to /compte, when user is not linked to an Organization', function() {
-      //Given
-      const route = this.subject();
-      authenticatedStub.resolves();
-
-      const foundUser = EmberObject.create({ id: 12 });
-      queryRecordStub.resolves(foundUser);
-
-      route.transitionTo = sinon.stub();
-
-      //When
-      const promise = route.actions.signin.call(route, expectedEmail, expectedPassword);
-
-      return promise.then(() => {
-        //Then
-        sinon.assert.calledWith(route.transitionTo, 'compte');
-      });
-    });
-
-    it('should redirect to /board, when user is linked to an Organization', function() {
-      //Given
-      const route = this.subject();
-      authenticatedStub.resolves();
-
-      const linkedOrganization = EmberObject.create({ id: 1 });
-      const foundUser = EmberObject.create({ organizations: [linkedOrganization] });
-      queryRecordStub.resolves(foundUser);
-
-      route.transitionTo = sinon.stub();
-
-      //When
-      const promise = route.actions.signin.call(route, expectedEmail, expectedPassword);
-
-      return promise.then(() => {
-        //Then
-        sinon.assert.calledWith(route.transitionTo, 'board');
-      });
-    });
-
-    context('when an url is precise in data.intentUrl', function() {
-      let route;
-      const intentUrl = '/jedoisallerici';
-
-      beforeEach(function() {
-        route = this.subject();
-        authenticatedStub.resolves();
-
-        const foundUser = EmberObject.create({ id: 12 });
-        queryRecordStub.resolves(foundUser);
-
-        route.transitionTo = sinon.stub();
-        route.session.data = { intentUrl };
-
-      });
-
-      it('should redirect to the url indicated in session.data.intentUrl', function() {
-        // when
-        const promise = route.actions.signin.call(route, expectedEmail, expectedPassword);
-
-        return promise.then(() => {
-          // then
-          sinon.assert.calledWith(route.transitionTo, intentUrl);
-        });
-      });
-
-      it('should set session.data.intentUrl at null', function() {
-        // when
-        const promise = route.actions.signin.call(route, expectedEmail, expectedPassword);
-
-        return promise.then(() => {
-          // then
-          expect(route.session.data.intentUrl).to.be.null;
-        });
-      });
-    });
-
   });
 
 });
