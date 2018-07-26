@@ -4,11 +4,6 @@ import { isEmpty } from '@ember/utils';
 
 export default BaseRoute.extend(AuthenticatedRouteMixin, {
 
-  beforeModel(transition) {
-    this.get('session').set('data.intentUrl', transition.intent.url);
-    this._super(...arguments);
-  },
-
   model() {
     const store = this.get('store');
     return store.query('assessment', { filter: { type: 'SMART_PLACEMENT' } })
