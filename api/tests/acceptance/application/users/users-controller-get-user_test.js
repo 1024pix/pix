@@ -15,7 +15,7 @@ describe('Acceptance | Controller | users-controller-get-user', () => {
     };
   });
 
-  describe('GET /users/me', () => {
+  describe('GET /users/:id', () => {
 
     const userToInsert = {
       id: 1234,
@@ -45,6 +45,13 @@ describe('Acceptance | Controller | users-controller-get-user', () => {
             'last-name': userToInsert.lastName,
             'email': userToInsert.email.toLowerCase(),
             'cgu': true
+          },
+          relationships: {
+            'organization-accesses': {
+              links: {
+                related: '/users/1234/organization-accesses'
+              }
+            }
           }
         }
       };
