@@ -5,7 +5,7 @@ const faker = require('faker');
 module.exports = function buildAssessment({
   id = faker.random.number(),
   courseId = 'default value',
-  userId,
+  userId = faker.random.number(),
   type = Assessment.types.PLACEMENT,
   state = Assessment.states.COMPLETED,
 } = {}) {
