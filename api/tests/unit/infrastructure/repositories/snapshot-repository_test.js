@@ -97,7 +97,7 @@ describe('Unit | Repository | SnapshotRepository', function() {
       // when
       const promise = snapshotRepository.save(snapshot);
 
-      return promise.then(snapshot => {
+      return promise.then((snapshot) => {
         // then
         expect(snapshot).to.not.be.null;
         sinon.assert.calledOnce(Snapshot.prototype.save);

@@ -30,7 +30,7 @@ export default BaseRoute.extend({
     return RSVP.hash({
       user: model.assessment.get('isCertification') ? store.findRecord('user', this.get('session.data.authenticated.userId')) : null,
       answers: store.queryRecord('answer', { assessment: model.assessment.id, challenge: model.challenge.id })
-    }).then(hash => {
+    }).then((hash) => {
       model.user = hash.user;
       model.answers = hash.answers;
       return model;

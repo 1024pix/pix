@@ -14,7 +14,7 @@ export default BaseRoute.extend(UnauthenticatedRouteMixin, {
     signin(email, password) {
       return this.get('session')
         .authenticate('authenticator:simple', email, password)
-        .then(_ => {
+        .then((_) => {
           return this.get('store').queryRecord('user', {});
         })
         .then((user) => {

@@ -111,7 +111,7 @@ describe('Unit | Service | OrganizationService', () => {
         // then
         return promise.then(() => {
           expect.fail('Treatment did not throw an error as expected', 'Expected a "NotFoundError" to have been throwed');
-        }).catch(err => {
+        }).catch((err) => {
           expect(err).to.be.an.instanceof(NotFoundError);
         });
       });

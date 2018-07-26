@@ -54,7 +54,7 @@ module.exports = {
       .where({ courseId })
       .query((knex) => knex.whereNotIn('challengeId', answeredChallengeIds))
       .fetch()
-      .then(certificationChallenge => {
+      .then((certificationChallenge) => {
         if(certificationChallenge === null) {
           logger.trace(logContext, 'no found challenges');
           throw new AssessmentEndedError();
@@ -70,6 +70,6 @@ module.exports = {
     return CertificationChallengeBookshelf
       .where({ courseId: certificationCourseId })
       .fetchAll()
-      .then(challenges => challenges.models.map(_toDomain));
+      .then((challenges) => challenges.models.map(_toDomain));
   }
 };

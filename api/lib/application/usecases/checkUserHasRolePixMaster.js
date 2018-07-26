@@ -4,7 +4,7 @@ module.exports = {
 
   execute(userId) {
     return userRepository.get(userId)
-      .then(user => user.hasRolePixMaster);
+      .then((user) => user.hasRolePixMaster);
   }
 
 };

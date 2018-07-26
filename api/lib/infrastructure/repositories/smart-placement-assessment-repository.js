@@ -164,7 +164,7 @@ module.exports = {
       })
       .then(getChallengeAirtableDataObject)
       .then(toDomain)
-      .catch(err => {
+      .catch((err) => {
         if (err instanceof BookshelfAssessment.NotFoundError) {
           throw new NotFoundError(`Not found Assessment for ID ${assessmentId}`);
         } else {

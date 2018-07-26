@@ -23,7 +23,7 @@ module.exports = {
   getResult(request, reply) {
     const certificationCourseId = request.params.id;
     return certificationService.getCertificationResult(certificationCourseId)
-      .then(certificationResult => {
+      .then((certificationResult) => {
         reply(certificationCourseSerializer.serializeResult(certificationResult));
       })
       .catch((err) => {

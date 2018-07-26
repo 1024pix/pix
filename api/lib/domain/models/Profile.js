@@ -34,7 +34,7 @@ class Profile {
       const course = this._getCourseById(courses, courseIdFromAssessment);
 
       if (assessment.isCompleted()) {
-        const competence = this.competences.find(competence => course.competences.includes(competence.id));
+        const competence = this.competences.find((competence) => course.competences.includes(competence.id));
         competence.level = assessment.getLevel();
         competence.pixScore = assessment.getPixScore();
         // TODO: Standardiser l'usage de status pour une compétence
@@ -72,11 +72,11 @@ class Profile {
   }
 
   _setAssessmentToCompetence(assessments, courses) {
-    assessments.forEach(assessment => {
+    assessments.forEach((assessment) => {
       const courseIdFromAssessment = assessment.courseId;
       const course = this._getCourseById(courses, courseIdFromAssessment);
       if (course) {
-        const competence = this.competences.find(competence => course.competences.includes(competence.id));
+        const competence = this.competences.find((competence) => course.competences.includes(competence.id));
         competence.assessmentId = assessment.id;
       }
     });

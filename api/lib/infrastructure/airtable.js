@@ -21,7 +21,7 @@ module.exports = {
     };
 
     return cache.get(cacheKey)
-      .then(cachedRawJson => {
+      .then((cachedRawJson) => {
         if (cachedRawJson) {
           return new AirtableRecord(tableName, cachedRawJson.id, cachedRawJson);
         }
@@ -30,12 +30,12 @@ module.exports = {
         return this._base()
           .table(tableName)
           .find(recordId)
-          .then(record => {
+          .then((record) => {
             logger.trace(logContext, 'found record in Airtable.');
             return cache.set(cacheKey, record._rawJson)
               .then(() => record);
           })
-          .catch(err => {
+          .catch((err) => {
             logContext.err = err;
             logger.error(logContext, 'Airtable error');
             return Promise.reject(err);
@@ -53,9 +53,9 @@ module.exports = {
     };
 
     return cache.get(cacheKey)
-      .then(cachedArrayOfRawJson => {
+      .then((cachedArrayOfRawJson) => {
         if (cachedArrayOfRawJson) {
-          return cachedArrayOfRawJson.map(rawJson => new AirtableRecord(tableName, rawJson.id, rawJson));
+          return cachedArrayOfRawJson.map((rawJson) => new AirtableRecord(tableName, rawJson.id, rawJson));
         }
 
         logger.trace(logContext, 'cache miss. Calling airtable');
@@ -63,12 +63,12 @@ module.exports = {
           .table(tableName)
           .select(query)
           .all()
-          .then(records => {
+          .then((records) => {
             logger.trace(logContext, 'found record in Airtable.');
-            return cache.set(cacheKey, records.map(record => record._rawJson))
+            return cache.set(cacheKey, records.map((record) => record._rawJson))
               .then(() => records);
           })
-          .catch(err => {
+          .catch((err) => {
             logContext.err = err;
             logger.error(logContext, 'Airtable error');
             return Promise.reject(err);

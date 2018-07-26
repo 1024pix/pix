@@ -174,7 +174,7 @@ describe('Acceptance | API | assessment-controller-get', () => {
       const promise = server.inject(options);
 
       // then
-      return promise.then(response => {
+      return promise.then((response) => {
         expect(response.statusCode).to.equal(200);
       });
     });
@@ -188,7 +188,7 @@ describe('Acceptance | API | assessment-controller-get', () => {
           const promise = server.inject(options);
 
           // then
-          return promise.then(response => {
+          return promise.then((response) => {
             const contentType = response.headers['content-type'];
             expect(contentType).to.contain('application/json');
           });

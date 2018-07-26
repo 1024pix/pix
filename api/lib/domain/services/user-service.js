@@ -15,9 +15,9 @@ function _findCorrectAnswersByAssessments(assessments) {
   const answersByAssessmentsPromises = assessments.map((assessment) => answerRepository.findCorrectAnswersByAssessment(assessment.id));
 
   return Promise.all(answersByAssessmentsPromises)
-    .then(answersByAssessments => {
+    .then((answersByAssessments) => {
       return answersByAssessments.reduce((answersInJSON, answersByAssessment) => {
-        answersByAssessment.models.forEach(answer => {
+        answersByAssessment.models.forEach((answer) => {
           answersInJSON.push(answer);
         });
         return answersInJSON;
@@ -57,8 +57,8 @@ function _skillHasAtLeastOneChallengeInTheReferentiel(skill, challenges) {
 
 function _addCourseIdAndPixToCompetence(competences, courses, assessments) {
   competences.forEach((competence) => {
-    const currentCourse =  courses.find(course => course.competences[0] === competence.id);
-    const assessment = assessments.find(assessment => currentCourse.id === assessment.courseId);
+    const currentCourse =  courses.find((course) => course.competences[0] === competence.id);
+    const assessment = assessments.find((assessment) => currentCourse.id === assessment.courseId);
     if (assessment) {
       competence.pixScore = assessment.getPixScore();
       competence.estimatedLevel = assessment.getLevel();
@@ -95,7 +95,7 @@ function _getChallengeById(challenges, challengeId) {
 }
 
 function _filterAssessmentWithEstimatedLevelGreaterThanZero(assessments) {
-  return _(assessments).filter(assessment => assessment.getLastAssessmentResult().level >= 1).values();
+  return _(assessments).filter((assessment) => assessment.getLastAssessmentResult().level >= 1).values();
 }
 
 module.exports = {
@@ -139,14 +139,14 @@ module.exports = {
 
           if (challenge && competence) {
             challenge.skills
-              .filter(skill => _skillHasAtLeastOneChallengeInTheReferentiel(skill, challenges))
-              .forEach(publishedSkill => competence.addSkill(publishedSkill));
+              .filter((skill) => _skillHasAtLeastOneChallengeInTheReferentiel(skill, challenges))
+              .forEach((publishedSkill) => competence.addSkill(publishedSkill));
           }
         });
 
         userCompetences = _limitSkillsToTheThreeHighestOrderedByDifficultyDesc(userCompetences);
-        const challengeIdsAlreadyAnswered = answers.map(answer => answer.get('challengeId'));
-        const challengesAlreadyAnswered = challengeIdsAlreadyAnswered.map(challengeId => _getChallengeById(challenges, challengeId));
+        const challengeIdsAlreadyAnswered = answers.map((answer) => answer.get('challengeId'));
+        const challengesAlreadyAnswered = challengeIdsAlreadyAnswered.map((challengeId) => _getChallengeById(challenges, challengeId));
 
         userCompetences = _addCourseIdAndPixToCompetence(userCompetences, coursesFromAdaptativeCourses, userLastAssessments);
 

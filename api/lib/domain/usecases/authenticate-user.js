@@ -17,7 +17,7 @@ module.exports = function authenticateUser({
 }) {
   let user;
   return userRepository.findByEmailWithRoles(userEmail.toLowerCase())
-    .then(foundUser => (user = foundUser))
+    .then((foundUser) => (user = foundUser))
     .then(() => _canUserAccessScope(scope, user))
     .then(() => encryptionService.check(password, user.password))
     .then(() => tokenService.createTokenFromUser(user))

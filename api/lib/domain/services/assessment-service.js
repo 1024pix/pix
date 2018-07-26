@@ -44,7 +44,7 @@ async function fetchAssessment(assessmentId) {
       if (course.isAdaptive) {
         return competenceRepository
           .get(course.competences[0])
-          .then(competencePix => Promise.all([
+          .then((competencePix) => Promise.all([
             skillRepository.findByCompetence(competencePix),
             challengeRepository.findByCompetence(competencePix)
           ]));
@@ -98,7 +98,7 @@ async function getSkills(assessment) {
       if (course.isAdaptive) {
         return competenceRepository
           .get(course.competences[0])
-          .then(competencePix => Promise.all([
+          .then((competencePix) => Promise.all([
             skillRepository.findByCompetence(competencePix),
             challengeRepository.findByCompetence(competencePix)
           ]));
@@ -135,7 +135,7 @@ function getScoreAndLevel(assessmentId) {
         if (course.isAdaptive) {
           return competenceRepository
             .get(course.competences[0])
-            .then(competencePix => Promise.all([
+            .then((competencePix) => Promise.all([
               skillRepository.findByCompetence(competencePix),
               challengeRepository.findByCompetence(competencePix)
             ]));
@@ -164,7 +164,7 @@ function getCompetenceMarks(assessment) {
     return courseRepository.get(assessment.courseId)
       .then((course) => {
         return competenceRepository.get(course.competences[0]);
-      }).then(competence => {
+      }).then((competence) => {
         competenceOfMark = competence;
         return this.getScoreAndLevel(assessment.id);
       }).then(({ estimatedLevel, pixScore }) =>{

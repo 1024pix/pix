@@ -34,7 +34,7 @@ describe('Integration | Application | Route | Corrections ', () => {
       const promise = server.inject(options);
 
       // then
-      return promise.then(response => {
+      return promise.then((response) => {
         expect(response.statusCode).to.equal(200);
       });
     });

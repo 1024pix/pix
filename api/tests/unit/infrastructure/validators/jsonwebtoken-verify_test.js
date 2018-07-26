@@ -12,7 +12,7 @@ describe('Unit | Validator | json-web-token-verify', function() {
       expect(authorizationToken.verify).to.be.a('function');
     });
 
-    describe('Error management', _ => {
+    describe('Error management', (_) => {
       [
         '',
         ' ',
@@ -51,7 +51,7 @@ describe('Unit | Validator | json-web-token-verify', function() {
         // when
         const promise = authorizationToken.verify('VALID_TOKEN');
 
-        return promise.catch(_ => {
+        return promise.catch((_) => {
           // then
           expect(promise).to.be.rejected;
         });

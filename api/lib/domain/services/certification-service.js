@@ -54,8 +54,8 @@ function _isQROCMdepPartially(challenge, answer) {
 }
 
 function _numberOfCorrectAnswersPerCompetence(answersWithCompetences, competence, certificationChallenges, continueOnError) {
-  const answersForCompetence = _.filter(answersWithCompetences, answer => answer.competenceId === competence.id);
-  const challengesForCompetence = _.filter(certificationChallenges, challenge => challenge.competenceId === competence.id);
+  const answersForCompetence = _.filter(answersWithCompetences, (answer) => answer.competenceId === competence.id);
+  const challengesForCompetence = _.filter(certificationChallenges, (challenge) => challenge.competenceId === competence.id);
 
   if (!continueOnError) {
     CertificationContract.assertThatCompetenceHasEnoughChallenge(challengesForCompetence, competence.index);
@@ -64,8 +64,8 @@ function _numberOfCorrectAnswersPerCompetence(answersWithCompetences, competence
   }
 
   let nbOfCorrectAnswers = 0;
-  answersForCompetence.forEach(answer => {
-    const challenge = _.find(certificationChallenges, challenge => challenge.challengeId === answer.challengeId);
+  answersForCompetence.forEach((answer) => {
+    const challenge = _.find(certificationChallenges, (challenge) => challenge.challengeId === answer.challengeId);
 
     if (!challenge && !continueOnError) {
       throw new CertificationComputeError('Problème de chargement du challenge ' + answer.challengeId);
@@ -142,7 +142,7 @@ function _getCompetenceWithFailedLevel(listCompetences) {
 
 function _checkIfUserCanStartACertification(userCompetences) {
   const nbCompetencesWithEstimatedLevelHigherThan0 = userCompetences
-    .filter(competence => competence.estimatedLevel > 0)
+    .filter((competence) => competence.estimatedLevel > 0)
     .length;
 
   if (nbCompetencesWithEstimatedLevelHigherThan0 < 5)
@@ -179,10 +179,10 @@ function _getChallengeInformation(listAnswers, certificationChallenges, competen
   return listAnswers.map((answer) => {
 
     const certificationChallengeRelatedToAnswer = certificationChallenges.find(
-      certificationChallenge => certificationChallenge.challengeId === answer.challengeId,
+      (certificationChallenge) => certificationChallenge.challengeId === answer.challengeId,
     ) || {};
 
-    const competenceValidatedByCertifChallenge = competences.find(competence => competence.id === certificationChallengeRelatedToAnswer.competenceId) || {};
+    const competenceValidatedByCertifChallenge = competences.find((competence) => competence.id === certificationChallengeRelatedToAnswer.competenceId) || {};
 
     return {
       result: answer.result.status,
@@ -204,9 +204,9 @@ function _getCertificationResult(assessment, continueOnError = false) {
     challengeRepository.list(),
   ]).then(([assessmentAnswers, certificationChallenges, userCompletedAssessments, certificationCourse, allCompetences, allChallenges]) => {
     const testedCompetences = userCompletedAssessments
-      .filter(assessment => assessment.isCertifiable())
-      .map(assessment => {
-        const competenceOfAssessment = _.find(allCompetences, competence => competence.courseId === assessment.courseId);
+      .filter((assessment) => assessment.isCertifiable())
+      .map((assessment) => {
+        const competenceOfAssessment = _.find(allCompetences, (competence) => competence.courseId === assessment.courseId);
         return {
           id: competenceOfAssessment.id,
           index: competenceOfAssessment.index,
@@ -216,8 +216,8 @@ function _getCertificationResult(assessment, continueOnError = false) {
         };
       });
 
-    certificationChallenges.forEach(certifChallenge => {
-      const challenge = _.find(allChallenges, challengeFromAirtable => challengeFromAirtable.id === certifChallenge.challengeId);
+    certificationChallenges.forEach((certifChallenge) => {
+      const challenge = _.find(allChallenges, (challengeFromAirtable) => challengeFromAirtable.id === certifChallenge.challengeId);
       certifChallenge.type = challenge.type || '';
     });
 
@@ -239,14 +239,14 @@ module.exports = {
     const continueOnError = true;
     return assessmentRepository
       .getByCertificationCourseId(certificationCourseId)
-      .then(assessment => _getCertificationResult(assessment, continueOnError));
+      .then((assessment) => _getCertificationResult(assessment, continueOnError));
   },
 
   calculateCertificationResultByAssessmentId(assessmentId) {
     const continueOnError = false;
     return assessmentRepository
       .get(assessmentId)
-      .then(assessment => _getCertificationResult(assessment, continueOnError));
+      .then((assessment) => _getCertificationResult(assessment, continueOnError));
   },
 
   getCertificationResult(certificationCourseId) {
@@ -254,12 +254,12 @@ module.exports = {
     let certification = {};
     return assessmentRepository
       .getByCertificationCourseId(certificationCourseId)
-      .then(foundAssessment => {
+      .then((foundAssessment) => {
         certification = certificationCourseRepository.get(certificationCourseId);
         assessment = foundAssessment;
         return certification;
       })
-      .then(foundCertification => {
+      .then((foundCertification) => {
         certification = foundCertification;
         if (assessment == null) {
           throw new NotCompletedAssessmentError();
@@ -271,7 +271,7 @@ module.exports = {
           return { competenceMarks: [], status: assessment.state };
         }
       })
-      .then(lastAssessmentResultFull => {
+      .then((lastAssessmentResultFull) => {
         return {
           level: lastAssessmentResultFull.level,
           certificationId: certification.id,
@@ -302,11 +302,11 @@ module.exports = {
     const newCertificationCourse = CertificationCourse.fromAttributes({ userId, sessionId });
 
     return userService.getProfileToCertify(userId, moment().toISOString())
-      .then(userCompetences => {
+      .then((userCompetences) => {
         userCompetencesToCertify = userCompetences;
         return _checkIfUserCanStartACertification(userCompetences);
       })
       .then(() => certificationCourseRepository.save(newCertificationCourse))
-      .then(savedCertificationCourse => certificationChallengesService.saveChallenges(userCompetencesToCertify, savedCertificationCourse));
+      .then((savedCertificationCourse) => certificationChallengesService.saveChallenges(userCompetencesToCertify, savedCertificationCourse));
   },
 };

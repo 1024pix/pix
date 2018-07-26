@@ -42,7 +42,7 @@ describe('Unit | Authenticator | simple', function() {
     const promise = authenticator.authenticate(email, password);
 
     // Then
-    return promise.then(_ => {
+    return promise.then((_) => {
 
       sinon.assert.calledWith(requestStub, '/api/authentications');
       expect(requestStub.getCall(0).args[1]).to.deep.equal({
@@ -62,7 +62,7 @@ describe('Unit | Authenticator | simple', function() {
     const promise = authenticator.authenticate(email, password);
 
     // Then
-    return promise.then(data => {
+    return promise.then((data) => {
       expect(data.userId).to.equal(expectedUserId);
       expect(data.token).to.equal(expectedToken);
     });

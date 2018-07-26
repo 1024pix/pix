@@ -6,8 +6,8 @@ module.exports = {
   get(answerId) {
     return BookshelfAnswer.where('id', answerId)
       .fetch({ require: true })
-      .then(answer => answer.toDomainEntity())
-      .catch(err => {
+      .then((answer) => answer.toDomainEntity())
+      .catch((err) => {
         if (err instanceof BookshelfAnswer.NotFoundError) {
           throw new NotFoundError(`Not found answer for ID ${answerId}`);
         } else {
@@ -28,7 +28,7 @@ module.exports = {
       .where({ assessmentId })
       .orderBy('createdAt')
       .fetchAll()
-      .then(answers => answers.models.map((answer) => answer.toDomainEntity()));
+      .then((answers) => answers.models.map((answer) => answer.toDomainEntity()));
   },
 
   // TODO return domain object
@@ -36,7 +36,7 @@ module.exports = {
     return BookshelfAnswer
       .where({ challengeId })
       .fetchAll()
-      .then(answers => answers.models);
+      .then((answers) => answers.models);
   },
 
   // TODO return domain object

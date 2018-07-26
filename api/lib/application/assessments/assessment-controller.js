@@ -39,7 +39,7 @@ module.exports = {
     }
 
     return assessmentRepository.save(assessment)
-      .then(assessment => {
+      .then((assessment) => {
         reply(assessmentSerializer.serialize(assessment)).code(201);
       })
       .catch((err) => {
@@ -60,7 +60,7 @@ module.exports = {
         const serializedAssessment = assessmentSerializer.serialize(assessmentPix);
         return reply(serializedAssessment);
       })
-      .catch(err => {
+      .catch((err) => {
         if (err instanceof NotFoundError) {
           return reply(Boom.notFound(err));
         }

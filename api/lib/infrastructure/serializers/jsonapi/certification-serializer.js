@@ -62,7 +62,7 @@ module.exports = {
 
     return new Deserializer({ keyForAttribute: 'camelCase' })
       .deserialize(json)
-      .then((certifications => {
+      .then(((certifications) => {
         if (birthdate) {
           if (!moment(birthdate, 'DD/MM/YYYY').isValid()) {
             return Promise.reject(new WrongDateFormatError());

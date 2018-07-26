@@ -21,11 +21,11 @@ describe('Unit | Controller | challenge-controller', function() {
     it('should fetch and return the given challenge, serialized as JSONAPI', () => {
       // given
       sinon.stub(ChallengeRepository, 'get').resolves(challenge);
-      sinon.stub(ChallengeSerializer, 'serialize').callsFake(_ => challenge);
+      sinon.stub(ChallengeSerializer, 'serialize').callsFake((_) => challenge);
 
       // when
       return server.inject({ method: 'GET', url: '/api/challenges/challenge_id' })
-        .then(res => {
+        .then((res) => {
           // then
           expect(res.result).to.deep.equal(challenge);
 
@@ -47,7 +47,7 @@ describe('Unit | Controller | challenge-controller', function() {
 
       // when
       return server.inject({ method: 'GET', url: '/api/challenges/unknown_id' })
-        .then(res => {
+        .then((res) => {
           // then
           expect(res.statusCode).to.equal(404);
 

@@ -59,7 +59,7 @@ describe('Acceptance | Infrastructure | Repositories | feedback-repository', () 
     // then
     return promise.then((feedbacks) => {
       expect(feedbacks).to.have.lengthOf(3);
-      expect(feedbacks.map(feedback => feedback.id)).to.deep.equal([3, 4, 5]);
+      expect(feedbacks.map((feedback) => feedback.id)).to.deep.equal([3, 4, 5]);
     });
   });
 
@@ -70,7 +70,7 @@ describe('Acceptance | Infrastructure | Repositories | feedback-repository', () 
     // then
     return promise.then((feedbacks) => {
       expect(feedbacks).to.have.lengthOf(2);
-      expect(feedbacks.map(feedback => feedback.id)).to.deep.equal([1, 2]);
+      expect(feedbacks.map((feedback) => feedback.id)).to.deep.equal([1, 2]);
     });
   });
 
@@ -81,7 +81,7 @@ describe('Acceptance | Infrastructure | Repositories | feedback-repository', () 
     // then
     return promise.then((feedbacks) => {
       expect(feedbacks).to.have.lengthOf(1);
-      expect(feedbacks.map(feedback => feedback.id)).to.deep.equal([2]);
+      expect(feedbacks.map((feedback) => feedback.id)).to.deep.equal([2]);
     });
   });
 
@@ -92,7 +92,7 @@ describe('Acceptance | Infrastructure | Repositories | feedback-repository', () 
     // then
     return promise.then((feedbacks) => {
       expect(feedbacks).to.have.lengthOf(2);
-      expect(feedbacks.map(feedback => feedback.id)).to.deep.equal([2, 3]);
+      expect(feedbacks.map((feedback) => feedback.id)).to.deep.equal([2, 3]);
     });
   });
 });

@@ -10,7 +10,7 @@ export default BaseRoute.extend(AuthenticatedRouteMixin, {
   model() {
     const store = this.get('store');
     return store.findRecord('user', this.get('session.data.authenticated.userId'), { reload: true })
-      .then(user => {
+      .then((user) => {
         if (user.get('organizations.length') > 0) {
           return this.transitionTo('board');
         }
