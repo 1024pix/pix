@@ -48,7 +48,7 @@ describe('Acceptance | Controller | answer-controller', () => {
       const promise = server.inject(options);
 
       // then
-      return promise.then(response => {
+      return promise.then((response) => {
         expect(response.statusCode).to.equal(200);
       });
     });
@@ -64,7 +64,7 @@ describe('Acceptance | Controller | answer-controller', () => {
       const promise = server.inject(options);
 
       // then
-      return promise.then(response => {
+      return promise.then((response) => {
         const contentType = response.headers['content-type'];
         expect(contentType).to.contain('application/json');
       });
@@ -81,7 +81,7 @@ describe('Acceptance | Controller | answer-controller', () => {
       const promise = server.inject(options);
 
       // then
-      return promise.then(response => {
+      return promise.then((response) => {
         const answer = response.result.data;
         expect(answer.id).to.equal(inserted_answer_id);
         expect(answer.attributes.value.toString()).to.equal(inserted_answer.value.toString());
@@ -103,7 +103,7 @@ describe('Acceptance | Controller | answer-controller', () => {
       const promise = server.inject(options);
 
       // then
-      return promise.then(response => {
+      return promise.then((response) => {
         expect(response.statusCode).to.equal(200);
         expect(response.result.data).to.be.null;
       });

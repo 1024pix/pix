@@ -434,7 +434,7 @@ describe('Integration | Infrastructure | Repository | UserRepository', () => {
       const promise = userRepository.isEmailAvailable(userInDb.email);
 
       // then
-      return promise.catch(err => {
+      return promise.catch((err) => {
         expect(err).to.be.an.instanceOf(AlreadyRegisteredEmailError);
       });
 

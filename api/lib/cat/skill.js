@@ -6,11 +6,11 @@ class Skill {
   }
 
   getEasierWithin(tubes) {
-    return tubes[this.tubeName].filter(skill => skill.difficulty <= this.difficulty);
+    return tubes[this.tubeName].filter((skill) => skill.difficulty <= this.difficulty);
   }
 
   getHarderWithin(tubes) {
-    return tubes[this.tubeName].filter(skill => skill.difficulty >= this.difficulty);
+    return tubes[this.tubeName].filter((skill) => skill.difficulty >= this.difficulty);
   }
 
   static areEqual(oneSkill, otherSkill) {

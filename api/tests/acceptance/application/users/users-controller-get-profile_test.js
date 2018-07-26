@@ -189,7 +189,7 @@ describe('Acceptance | Controller | users-controller-get-profile', () => {
         const promise = server.inject(options);
 
         // then
-        return promise.then(response => {
+        return promise.then((response) => {
           expect(response.statusCode).to.equal(201);
           expect(response.result).to.deep.equal(expectedSerializedProfile);
         });
@@ -214,7 +214,7 @@ describe('Acceptance | Controller | users-controller-get-profile', () => {
         const promise = server.inject(options);
 
         // then
-        return promise.then(response => {
+        return promise.then((response) => {
           expect(response.statusCode).to.equal(401);
         });
       });
@@ -227,7 +227,7 @@ describe('Acceptance | Controller | users-controller-get-profile', () => {
         const promise = server.inject(options);
 
         // then
-        return promise.then(response => {
+        return promise.then((response) => {
           expect(response.statusCode).to.equal(404);
           expect(response.result).to.deep.equal(expectedResultUserNotFounded);
         });
@@ -241,7 +241,7 @@ describe('Acceptance | Controller | users-controller-get-profile', () => {
         const promise = server.inject(options);
 
         // then
-        return promise.then(response => {
+        return promise.then((response) => {
           expect(response.statusCode).to.equal(500);
           expect(response.result).to.deep.equal(expectedResultWhenErrorOccured);
         });

@@ -56,13 +56,13 @@ describe('Integration | Controller | course-controller', () => {
         url: '/api/courses'
       };
       courseRepository.getProgressionCourses.resolves(courses);
-      courseSerializer.serialize.callsFake(_ => courses);
+      courseSerializer.serialize.callsFake((_) => courses);
 
       // when
       const promise = server.inject(options);
 
       // then
-      return promise.then(res => {
+      return promise.then((res) => {
         expect(res.result).to.deep.equal(courses);
       });
     });
@@ -74,13 +74,13 @@ describe('Integration | Controller | course-controller', () => {
         url: '/api/courses?isAdaptive=true'
       };
       courseRepository.getAdaptiveCourses.resolves(courses);
-      courseSerializer.serialize.callsFake(_ => courses);
+      courseSerializer.serialize.callsFake((_) => courses);
 
       // when
       const promise = server.inject(options);
 
       // then
-      return promise.then(res => {
+      return promise.then((res) => {
         expect(res.result).to.deep.equal(courses);
       });
     });
@@ -92,13 +92,13 @@ describe('Integration | Controller | course-controller', () => {
         url: '/api/courses?isCourseOfTheWeek=true'
       };
       courseRepository.getCoursesOfTheWeek.resolves(courses);
-      courseSerializer.serialize.callsFake(_ => courses);
+      courseSerializer.serialize.callsFake((_) => courses);
 
       // when
       const promise = server.inject(options);
 
       // then
-      return promise.then(res => {
+      return promise.then((res) => {
         expect(res.result).to.deep.equal(courses);
       });
     });
@@ -145,7 +145,7 @@ describe('Integration | Controller | course-controller', () => {
       const promise = server.inject(options);
 
       // then
-      return promise.then(res => {
+      return promise.then((res) => {
         expect(res.statusCode).to.equal(404);
       });
     });

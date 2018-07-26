@@ -4,7 +4,7 @@ const { expect, sinon } = require('../../../test-helper');
 const authenticationController = require('../../../../lib/application/authentication/authentication-controller');
 
 function _expectBadRequestResponse(promise) {
-  return promise.then(response => {
+  return promise.then((response) => {
     const jsonApiError = {
       errors:
         [{
@@ -50,7 +50,7 @@ describe('Integration | Application | Route | AuthenticationRouter', () => {
       const promise = server.inject(options);
 
       // then
-      return promise.then(response => {
+      return promise.then((response) => {
         expect(response.statusCode).to.equal(200);
       });
     });
@@ -96,7 +96,7 @@ describe('Integration | Application | Route | AuthenticationRouter', () => {
       const promise = server.inject(options);
 
       // then
-      return promise.then(response => {
+      return promise.then((response) => {
         expect(response.statusCode).to.equal(200);
       });
     });
@@ -113,7 +113,7 @@ describe('Integration | Application | Route | AuthenticationRouter', () => {
       const promise = server.inject(options);
 
       // then
-      return promise.then(response => {
+      return promise.then((response) => {
         expect(response.statusCode).to.equal(200);
       });
     });
@@ -184,7 +184,7 @@ describe('Integration | Application | Route | AuthenticationRouter', () => {
       const promise = server.inject(options);
 
       // then
-      return promise.then(response => {
+      return promise.then((response) => {
         expect(response.statusCode).to.equal(415);
       });
     });
@@ -220,7 +220,7 @@ describe('Integration | Application | Route | AuthenticationRouter', () => {
       const promise = server.inject(options);
 
       // then
-      return promise.then(response => {
+      return promise.then((response) => {
         expect(response.statusCode).to.equal(200);
       });
     });
@@ -262,7 +262,7 @@ describe('Integration | Application | Route | AuthenticationRouter', () => {
       const promise = server.inject(options);
 
       // then
-      return promise.then(response => {
+      return promise.then((response) => {
         expect(response.statusCode).to.equal(200);
       });
     });
@@ -275,7 +275,7 @@ describe('Integration | Application | Route | AuthenticationRouter', () => {
       const promise = server.inject(options);
 
       // then
-      return promise.then(response => {
+      return promise.then((response) => {
         expect(response.statusCode).to.equal(415);
       });
     });

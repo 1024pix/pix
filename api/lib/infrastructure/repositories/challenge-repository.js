@@ -19,16 +19,16 @@ module.exports = {
 
   list() {
     return airtable.findRecords(AIRTABLE_TABLE_NAME, {})
-      .then(airtableChallenges => airtableChallenges.map(serializer.deserialize));
+      .then((airtableChallenges) => airtableChallenges.map(serializer.deserialize));
   },
 
   findByCompetence(competence) {
     return airtable.findRecords(AIRTABLE_TABLE_NAME, { view: competence.reference })
-      .then(airtableChallenges => airtableChallenges.map(serializer.deserialize));
+      .then((airtableChallenges) => airtableChallenges.map(serializer.deserialize));
   },
 
   findBySkills(skills) {
-    skills = skills.map(skill => {
+    skills = skills.map((skill) => {
       return skill.name;
     });
     return challengeDatasource.findBySkills(skills)
@@ -71,7 +71,7 @@ module.exports = {
           embedHeight: challengeDataObject.embedHeight,
         });
       })
-      .catch(error => {
+      .catch((error) => {
         if(error instanceof airtableDatasourceObjects.AirtableResourceNotFound) {
           throw new NotFoundError();
         }

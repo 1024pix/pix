@@ -10,11 +10,11 @@ function _getMailField(mail, field) {
 }
 
 function _atLeastOneRuleIsValid(listOfRulesResults) {
-  return listOfRulesResults.filter(value => value === true).length > 0;
+  return listOfRulesResults.filter((value) => value === true).length > 0;
 }
 
 function _allRulesAreValidated(listOfRulesResults) {
-  return listOfRulesResults.filter(value => value === false).length === 0;
+  return listOfRulesResults.filter((value) => value === false).length === 0;
 }
 
 function _isEmailField(operator) {

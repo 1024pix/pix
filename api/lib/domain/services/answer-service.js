@@ -7,7 +7,7 @@ module.exports = {
       return null;
     }
 
-    const numberOfValidAnswers = answers.filter(answer => answer.isOk()).length;
+    const numberOfValidAnswers = answers.filter((answer) => answer.isOk()).length;
 
     return (numberOfValidAnswers % 100 / numberOfAnswers) * 100;
   }

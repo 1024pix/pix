@@ -33,7 +33,7 @@ class ChallengeSerializer {
       }
 
       if (fields['Pièce jointe']) {
-        challenge.attachments = fields['Pièce jointe'].map(attachment => attachment.url).reverse();
+        challenge.attachments = fields['Pièce jointe'].map((attachment) => attachment.url).reverse();
       }
     }
 

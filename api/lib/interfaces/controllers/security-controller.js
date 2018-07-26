@@ -43,13 +43,13 @@ module.exports = {
     }
 
     return checkUserIsAuthenticatedUseCase.execute(accessToken)
-      .then(authenticatedUser => {
+      .then((authenticatedUser) => {
         if (authenticatedUser) {
           return reply.continue({ credentials: { accessToken, userId: authenticatedUser.user_id } });
         }
         return _replyWithAuthenticationError(reply);
       })
-      .catch(err => {
+      .catch((err) => {
         logger.error(err);
         return _replyWithAuthenticationError(reply);
       });
@@ -63,13 +63,13 @@ module.exports = {
     const userId = request.auth.credentials.userId;
 
     return checkUserHasRolePixMasterUseCase.execute(userId)
-      .then(hasRolePixMaster => {
+      .then((hasRolePixMaster) => {
         if (hasRolePixMaster) {
           return reply(true);
         }
         return _replyWithAuthorizationError(reply);
       })
-      .catch(err => {
+      .catch((err) => {
         logger.error(err);
         return _replyWithAuthorizationError(reply);
       });

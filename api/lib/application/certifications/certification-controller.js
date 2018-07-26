@@ -24,10 +24,10 @@ module.exports = {
     const userId = request.auth.credentials.userId;
 
     return usecases.findCompletedUserCertifications({ userId, certificationRepository })
-      .then(certifications => {
+      .then((certifications) => {
         return reply(certificationSerializer.serialize(certifications)).code(200);
       })
-      .catch(err => {
+      .catch((err) => {
         logger.error(err);
         reply(Boom.badImplementation(err));
       });
@@ -45,7 +45,7 @@ module.exports = {
       competenceMarksRepository,
       competenceTreeRepository,
     })
-      .then(certification => {
+      .then((certification) => {
         return reply(certificationSerializer.serialize(certification)).code(200);
       })
       .catch((error) => {
@@ -85,10 +85,10 @@ module.exports = {
           certificationRepository,
         });
       })
-      .then(certification => {
+      .then((certification) => {
         return reply(certificationSerializer.serialize(certification)).code(200);
       })
-      .catch(err => {
+      .catch((err) => {
         logger.error(err);
         reply(Boom.badImplementation(err));
       });

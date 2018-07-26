@@ -43,7 +43,7 @@ describe('Integration | Repository | CompetenceMark', function() {
       const promise = CompetenceMarkRepository.save(mark);
 
       // then
-      return promise.then(mark => {
+      return promise.then((mark) => {
         expect(mark).to.be.an.instanceOf(CompetenceMark);
 
         expect(mark).to.have.property('id').and.not.to.be.null;
@@ -134,4 +134,3 @@ describe('Integration | Repository | CompetenceMark', function() {
     });
   });
 });
-

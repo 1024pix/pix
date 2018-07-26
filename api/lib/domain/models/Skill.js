@@ -25,7 +25,7 @@ class Skill {
   }
 
   computePixScore(competenceSkills) {
-    const numberOfSkillsByDifficulty= _.filter(competenceSkills, skill => skill.difficulty === this.difficulty).length;
+    const numberOfSkillsByDifficulty= _.filter(competenceSkills, (skill) => skill.difficulty === this.difficulty).length;
 
     return Math.min(4, 8 / numberOfSkillsByDifficulty);
   }

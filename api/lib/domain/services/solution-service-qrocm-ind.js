@@ -44,7 +44,7 @@ function _compareAnswersAndSolutions(answers, solutions, enabledTreatments) {
 
 function _formatResult(resultDetails) {
   let result = AnswerStatus.OK;
-  _.forEach(resultDetails, resultDetail => {
+  _.forEach(resultDetails, (resultDetail) => {
     if (!resultDetail) {
       result = AnswerStatus.KO;
     }

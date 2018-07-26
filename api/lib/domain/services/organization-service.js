@@ -45,14 +45,14 @@ module.exports = {
         snapshots = _snapshots;
       })
       .then(() => bookshelfUtils.mergeModelWithRelationship(snapshots, 'user'))
-      .then(snapshotsWithRelatedUsers => snapshotsWithRelatedUsers.map((snapshot) => snapshot.toJSON()))
-      .then(jsonSnapshots => snapshotsCsvConverter.convertJsonToCsv(organization, competences, jsonSnapshots));
+      .then((snapshotsWithRelatedUsers) => snapshotsWithRelatedUsers.map((snapshot) => snapshot.toJSON()))
+      .then((jsonSnapshots) => snapshotsCsvConverter.convertJsonToCsv(organization, competences, jsonSnapshots));
   },
 
   search(userId, filters = {}) {
     return userRepository
       .hasRolePixMaster(userId)
-      .then(isUserPixMaster => {
+      .then((isUserPixMaster) => {
         if (!isUserPixMaster && _noCodeGivenIn(filters)) {
           return [];
         }

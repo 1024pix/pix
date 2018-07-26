@@ -21,7 +21,7 @@ module.exports = {
   deserialize(json) {
     return new Deserializer({ keyForAttribute: 'camelCase' })
       .deserialize(json)
-      .then((snapshot => {
+      .then(((snapshot) => {
         snapshot.studentCode = snapshot.studentCode || '';
         snapshot.campaignCode = snapshot.campaignCode || '';
         snapshot.organization = {

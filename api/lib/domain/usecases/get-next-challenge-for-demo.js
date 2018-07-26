@@ -21,7 +21,7 @@ module.exports = function getNextChallengeForDemo({
   logger.trace(logContext, 'looking for next challenge in DEMO assessment');
 
   return courseRepository.get(courseId)
-    .then(course => {
+    .then((course) => {
       logContext.courseId = course.id;
       logger.trace(logContext, 'found course, selecting challenge');
       return _selectNextChallengeId(course, challengeId);

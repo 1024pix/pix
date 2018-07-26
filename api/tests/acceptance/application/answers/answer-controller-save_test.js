@@ -88,7 +88,7 @@ describe('Acceptance | Controller | answer-controller-save', () => {
         const promise = server.inject(options);
 
         // then
-        return promise.then(response => {
+        return promise.then((response) => {
           const contentType = response.headers['content-type'];
           expect(contentType).to.contain('application/json');
         });
@@ -111,7 +111,7 @@ describe('Acceptance | Controller | answer-controller-save', () => {
         const promise = server.inject(options);
 
         // then
-        return promise.then(response => {
+        return promise.then((response) => {
           const answer = response.result.data;
 
           new Answer().fetch()
@@ -157,7 +157,7 @@ describe('Acceptance | Controller | answer-controller-save', () => {
 
         return promise
           .then(() => Answer.count())
-          .then(afterAnswersNumber => {
+          .then((afterAnswersNumber) => {
             expect(afterAnswersNumber).to.equal(1);
           });
       });

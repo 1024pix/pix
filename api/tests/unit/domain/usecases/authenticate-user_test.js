@@ -40,7 +40,7 @@ describe('Unit | Application | Use Case | authenticate-user', () => {
     const promise = usecases.authenticateUser({ userEmail, userPassword, userRepository, tokenService });
 
     // then
-    return promise.then(accessToken => {
+    return promise.then((accessToken) => {
       expect(userRepository.findByEmailWithRoles).to.have.been.calledWithExactly(userEmail);
       expect(tokenService.createTokenFromUser).to.have.been.calledWithExactly(user);
       expect(accessToken).to.equal(accessToken);
@@ -106,4 +106,3 @@ describe('Unit | Application | Use Case | authenticate-user', () => {
   });
 
 });
-
