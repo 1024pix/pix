@@ -7,7 +7,7 @@ const OrganizationAccess = require('../../domain/models/OrganizationAccess');
 const Organization = require('../../domain/models/Organization');
 const OrganizationRole = require('../../domain/models/OrganizationRole');
 
-function _toOrganizationsAccessesDomain(organizationAccessesBookshelf) {
+function _toOrganizationAccessesDomain(organizationAccessesBookshelf) {
   return organizationAccessesBookshelf.map((organizationAccessBookshelf) => {
     return new OrganizationAccess({
       id: organizationAccessBookshelf.get('id'),
@@ -34,7 +34,7 @@ function _toDomain(userBookshelf) {
     email: userBookshelf.get('email'),
     password: userBookshelf.get('password'),
     cgu: Boolean(userBookshelf.get('cgu')),
-    organizationsAccesses: _toOrganizationsAccessesDomain(userBookshelf.related('organizationsAccesses'))
+    organizationAccesses: _toOrganizationAccessesDomain(userBookshelf.related('organizationAccesses'))
   });
 }
 
@@ -55,9 +55,9 @@ module.exports = {
       .where({ email })
       .fetch({
         withRelated: [
-          'organizationsAccesses',
-          'organizationsAccesses.organization',
-          'organizationsAccesses.organizationRole',
+          'organizationAccesses',
+          'organizationAccesses.organization',
+          'organizationAccesses.organizationRole',
         ]
       })
       .then((foundUser) => {
@@ -93,14 +93,14 @@ module.exports = {
       });
   },
 
-  getWithOrganizationsAccesses(userId) {
+  getWithOrganizationAccesses(userId) {
     return BookshelfUser
       .where({ id: userId })
       .fetch({
         withRelated: [
-          'organizationsAccesses',
-          'organizationsAccesses.organization',
-          'organizationsAccesses.organizationRole',
+          'organizationAccesses',
+          'organizationAccesses.organization',
+          'organizationAccesses.organizationRole',
         ]
       })
       .then((foundUser) => {
@@ -112,7 +112,7 @@ module.exports = {
   },
 
   create(domainUser) {
-    const userRawData = _.omit(domainUser, ['pixRoles', 'organizationsAccesses']);
+    const userRawData = _.omit(domainUser, ['pixRoles', 'organizationAccesses']);
     return new BookshelfUser(userRawData)
       .save()
       .then(bookshelfUser => bookshelfUser.toDomainEntity());

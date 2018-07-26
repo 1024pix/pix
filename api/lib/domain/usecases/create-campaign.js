@@ -10,7 +10,7 @@ function _checkCreatorHasAccessToCampaignOrganization(userId, organizationId, us
     return Promise.resolve();
   }
 
-  return userRepository.getWithOrganizationsAccesses(userId)
+  return userRepository.getWithOrganizationAccesses(userId)
     .then((user) => {
       if(user.hasAccessToOrganization(organizationId)) {
         return Promise.resolve();

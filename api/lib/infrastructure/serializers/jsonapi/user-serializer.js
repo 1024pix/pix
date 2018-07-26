@@ -5,7 +5,16 @@ module.exports = {
 
   serialize(users) {
     return new Serializer('user', {
-      attributes: ['firstName', 'lastName', 'email', 'cgu'],
+      attributes: ['firstName', 'lastName', 'email', 'cgu', 'organizationAccesses'],
+      organizationAccesses: {
+        ref: 'id',
+        ignoreRelationshipData: true,
+        relationshipLinks: {
+          related: function(record, current, parent) {
+            return `/users/${parent.id}/organization-accesses`;
+          }
+        }
+      },
       transform: (model) => {
         // FIXME: Used to make it work in both cases
         return (model instanceof User) ? model : model.toJSON();
