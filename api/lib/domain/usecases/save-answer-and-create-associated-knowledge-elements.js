@@ -71,12 +71,14 @@ function saveKnowledgeElementsIfSmartPlacement({
   return (answer) => {
     return smartPlacementAssessmentRepository
       .get(answer.assessmentId)
-      .then(saveKnowledgeElements({
-        answer,
-        challenge: contextObject.challenge,
-        smartPlacementKnowledgeElementRepository,
-      }))
-      .catch(absorbSmartAssessmentNotFoundError);
+      .then(
+        saveKnowledgeElements({
+          answer,
+          challenge: contextObject.challenge,
+          smartPlacementKnowledgeElementRepository,
+        }),
+        absorbSmartAssessmentNotFoundError
+      );
   };
 }
 
