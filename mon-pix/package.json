@@ -12,7 +12,7 @@
     "test": "tests"
   },
   "scripts": {
-    "build": "npx ember build",
+    "build": "npx ember build --environment production",
     "ci:test": "COVERAGE=true npx ember test --reporter dot",
     "clean": "rm -rf tmp dist node_modules",
     "coverage": "npm run coverage:check && npm run coverage:convert && npm run coverage:rename",
