@@ -12,6 +12,7 @@ module.exports = {
   getNextChallengeForPlacement: require('./get-next-challenge-for-placement'),
   getNextChallengeForPreview: require('./get-next-challenge-for-preview'),
   getNextChallengeForSmartPlacement: require('./get-next-challenge-for-smart-placement'),
+  getOrganizationCampaigns: require('./get-organization-campaigns'),
   getSkillReview: require('./get-skill-review'),
   getUserCertification: require('./get-user-certification'),
   getUserCertificationWithResultTree: require('./get-user-certification-with-result-tree'),
