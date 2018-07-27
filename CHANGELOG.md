@@ -1,5 +1,16 @@
 # Pix Changelog
 
+## v1.57.0 (27/07/2018) 
+
+- [#108](https://github.com/1024pix/pix/pull/108) [FEATURE] Création d'une campagne (PO-82).
+- [#119](https://github.com/1024pix/pix/pull/119) [FEATURE] Ajout des tutoriels “Pour en savoir plus” à la page des résultats (PF-63).
+- [#138](https://github.com/1024pix/pix/pull/138) [FEATURE] Afficher le nom de l'organisation courante dans le menu de Pix-Orga (PO-116).
+- [#135](https://github.com/1024pix/pix/pull/135) [BUGFIX] Fix certification start (PF-295).
+- [#141](https://github.com/1024pix/pix/pull/141) [BUGFIX] Création d'un script pour un recalcul massif des certifications (PF-296).
+- [#145](https://github.com/1024pix/pix/pull/145) [BUGFIX] Affichage de la page "Oups" pour les code erreurs API autre que 401 (PF-302).
+- [#139](https://github.com/1024pix/pix/pull/139) [TECH] BSR: name usecase and factories functions.
+- [#143](https://github.com/1024pix/pix/pull/143) [TECH] Utiliser la convention `(arg) => ...` partout + ajout de la règle eslint.
+
 ## v1.56.0 (23/07/2018)
 
 - [#136](https://github.com/1024pix/pix/pull/136) [BUGFIX] Correction de la page "Oups" qui s'affiche en boucle à l'expiration de la session (PF-297).
