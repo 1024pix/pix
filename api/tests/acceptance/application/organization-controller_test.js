@@ -395,7 +395,7 @@ describe('Acceptance | Application | Controller | organization-controller', () =
       const promise = server.inject(options);
 
       // then
-      return promise.then(response => {
+      return promise.then((response) => {
         expect(response.statusCode).to.equal(200);
       });
     });
@@ -405,7 +405,7 @@ describe('Acceptance | Application | Controller | organization-controller', () =
       const promise = server.inject(options);
 
       // then
-      return promise.then(response => {
+      return promise.then((response) => {
         const contentType = response.headers['content-type'];
         expect(contentType).to.contain('application/json');
       });
@@ -416,7 +416,7 @@ describe('Acceptance | Application | Controller | organization-controller', () =
       const promise = server.inject(options);
 
       // then
-      return promise.then(response => {
+      return promise.then((response) => {
         // then
         const organization = response.result.data[0];
         expect(organization.attributes.name).to.equal('The name of the organization');

@@ -106,7 +106,7 @@ describe('Unit | Model | Course', function() {
     it('should return a mapping defined for each skill', function() {
       // given
       const skillNames = ['web1', 'chi1', 'fou1', 'mis1', 'web3', 'url3', 'web4', 'chi5', 'fou5', 'mis5'];
-      const competenceSkills = skillNames.map(skillName => new Skill(skillName));
+      const competenceSkills = skillNames.map((skillName) => new Skill(skillName));
       const course = new Course([], competenceSkills);
 
       // when
@@ -114,7 +114,7 @@ describe('Unit | Model | Course', function() {
 
       // then
       expect(pixScoreOfSkills.length).to.equal(competenceSkills.size);
-      competenceSkills.forEach(skill => {
+      competenceSkills.forEach((skill) => {
         expect(pixScoreOfSkills[skill.name]).to.not.equal(undefined);
       });
     });
@@ -122,7 +122,7 @@ describe('Unit | Model | Course', function() {
     it('should return a mapping between skills and pix scores', function() {
       // given
       const skillNames = ['web1', 'chi1', 'fou1', 'mis1', 'web3', 'url3', 'web4', 'chi5', 'fou5', 'mis5'];
-      const competenceSkills = skillNames.map(skillName => new Skill(skillName));
+      const competenceSkills = skillNames.map((skillName) => new Skill(skillName));
 
       const course = new Course([], competenceSkills);
 
@@ -131,7 +131,7 @@ describe('Unit | Model | Course', function() {
 
       // then
       const expectedPixScoresByLevel = { 1: 2, 3: 4, 4: 4, 5: 2.6666666666666665 };
-      competenceSkills.forEach(skill => {
+      competenceSkills.forEach((skill) => {
         expect(pixScoreOfSkills[skill.name]).to.equal(expectedPixScoresByLevel[skill.difficulty]);
       });
     });
@@ -139,14 +139,14 @@ describe('Unit | Model | Course', function() {
     it('the pix score of each skill should be 4 at most', function() {
       // given
       const skillNames = ['web1', 'chi1', 'fou1', 'mis1', 'web3', 'url3', 'web4', 'chi5', 'fou5', 'mis5'];
-      const competenceSkills = skillNames.map(skillName => new Skill(skillName));
+      const competenceSkills = skillNames.map((skillName) => new Skill(skillName));
       const course = new Course([], competenceSkills);
 
       // when
       const pixScoreOfSkills = course.computePixScoreOfSkills();
 
       // then
-      competenceSkills.forEach(skill => {
+      competenceSkills.forEach((skill) => {
         expect(pixScoreOfSkills[skill.name]).to.be.at.most(4);
       });
     });

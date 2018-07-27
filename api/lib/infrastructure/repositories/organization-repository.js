@@ -8,14 +8,14 @@ module.exports = {
     const organizationRawData = _.omit(domainOrganization, ['user']);
     return new BookshelfOrganization(organizationRawData)
       .save()
-      .then(bookshelfOrganization => bookshelfOrganization.toDomainEntity());
+      .then((bookshelfOrganization) => bookshelfOrganization.toDomainEntity());
   },
 
   isCodeAvailable(code) {
     return BookshelfOrganization
       .where({ code })
       .fetch()
-      .then(organizations => {
+      .then((organizations) => {
 
         if (organizations) {
           return Promise.reject();
@@ -29,15 +29,15 @@ module.exports = {
     return BookshelfOrganization
       .where({ id })
       .fetch()
-      .then(organizations => !!organizations);
+      .then((organizations) => !!organizations);
   },
 
   get(id) {
     return BookshelfOrganization
       .where({ id })
       .fetch({ require: true })
-      .then(organization => organization.toDomainEntity())
-      .catch(err => {
+      .then((organization) => organization.toDomainEntity())
+      .catch((err) => {
         if (err instanceof BookshelfOrganization.NotFoundError) {
           throw new NotFoundError(`Not found organization for ID ${id}`);
         }
@@ -48,7 +48,7 @@ module.exports = {
     return BookshelfOrganization
       .where(filters)
       .fetchAll()
-      .then(organizations => organizations.models.map((organization) => organization.toDomainEntity()));
+      .then((organizations) => organizations.models.map((organization) => organization.toDomainEntity()));
   },
 
   // TODO return domain object
@@ -56,7 +56,7 @@ module.exports = {
     return BookshelfOrganization
       .where({ userId })
       .fetchAll()
-      .then(organizations => organizations.models);
+      .then((organizations) => organizations.models);
   },
 };
 

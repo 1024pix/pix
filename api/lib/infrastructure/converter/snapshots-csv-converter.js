@@ -25,7 +25,7 @@ function _createHeadersLine(organization, competences) {
     '"Tests Réalisés"'
   ];
 
-  competences.forEach(competence => {
+  competences.forEach((competence) => {
     headers.push(`"${competence.name}"`);
   });
   return headers.join(';') + '\n';
@@ -42,7 +42,7 @@ function _fromStringOrJsonToJson(data) {
 function _getSnapshotCompetenceLevelsSortedByCompetenceIndex(snapshot) {
   const jsonapiProfile = _fromStringOrJsonToJson(snapshot.profile);
   const competences = jsonapiProfile.included.filter((item) => item.type === 'competences');
-  const competenceLevels = competences.map(competence => {
+  const competenceLevels = competences.map((competence) => {
     return {
       index: competence.attributes.index,
       level: competence.attributes.level
@@ -70,7 +70,7 @@ function _createProfileLine(snapshot) {
   // XXX We add '=' before string to force Excel to read it as string, not as date
   snapshotCsvLine += `="${snapshot.testsFinished}/${snapshotCompetenceLevels.length}";`;
 
-  snapshotCsvLine += snapshotCompetenceLevels.map(competenceLevel =>  competenceLevel.level < 0 ? '' : competenceLevel.level).join(';');
+  snapshotCsvLine += snapshotCompetenceLevels.map((competenceLevel) =>  competenceLevel.level < 0 ? '' : competenceLevel.level).join(';');
 
   return snapshotCsvLine + '\n';
 }

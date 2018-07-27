@@ -16,9 +16,9 @@ export default Model.extend({
   certifications: hasMany('certification'),
 
   competenceAreas: computed('competences', function() {
-    return this.get('competences').then(competences => {
+    return this.get('competences').then((competences) => {
       return competences.reduce((areas, competence) => {
-        competence.get('area').then(competenceArea => {
+        competence.get('area').then((competenceArea) => {
           if (!areas[competenceArea.get('id')]) {
             areas[competenceArea.get('id')] = {
               name: competenceArea.get('name'),

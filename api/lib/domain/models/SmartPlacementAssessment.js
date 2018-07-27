@@ -44,7 +44,7 @@ class SmartPlacementAssessment {
   getValidatedSkills() {
 
     return this.knowledgeElements
-      .filter(knowledgeElement => knowledgeElement.isValidated)
+      .filter((knowledgeElement) => knowledgeElement.isValidated)
       .map((knowledgeElement) => knowledgeElement.skillId)
       .map((skillId) => this.targetProfile.skills.find((skill) => skill.name === skillId));
   }
@@ -52,7 +52,7 @@ class SmartPlacementAssessment {
   getFailedSkills() {
 
     return this.knowledgeElements
-      .filter(knowledgeElement => knowledgeElement.isInvalidated)
+      .filter((knowledgeElement) => knowledgeElement.isInvalidated)
       .map((knowledgeElement) => knowledgeElement.skillId)
       .map((skillId) => this.targetProfile.skills.find((skill) => skill.name === skillId));
   }

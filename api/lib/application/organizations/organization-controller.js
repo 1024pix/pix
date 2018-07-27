@@ -59,8 +59,8 @@ module.exports = {
     const filters = _extractFilters(request);
 
     return organizationService.search(userId, filters)
-      .then(organizations => reply(organizationSerializer.serialize(organizations)))
-      .catch(err => {
+      .then((organizations) => reply(organizationSerializer.serialize(organizations)))
+      .catch((err) => {
         logger.error(err);
         reply().code(500);
       });

@@ -6,9 +6,9 @@ const LEVEL_FOR_FIRST_CHALLENGE = 2;
 const LEVEL_MAX_TO_BE_AN_EASY_TUBE = 3;
 
 function _filterSkillsByChallenges(skills, challenges) {
-  const skillsWithChallenges = skills.filter(skill => {
-    return challenges.find(challenge => {
-      return challenge.skills.find(challengeSkill => skill.name === challengeSkill.name);
+  const skillsWithChallenges = skills.filter((skill) => {
+    return challenges.find((challenge) => {
+      return challenge.skills.find((challengeSkill) => skill.name === challengeSkill.name);
     });
   });
 
@@ -24,7 +24,7 @@ function _probaOfCorrectAnswer(level, difficulty) {
 }
 
 function _computeLikelihood(level, answers) {
-  const extraAnswers = answers.map(answer => {
+  const extraAnswers = answers.map((answer) => {
     return { binaryOutcome: answer.binaryOutcome, maxDifficulty: answer.maxDifficulty() };
   });
 
@@ -32,7 +32,7 @@ function _computeLikelihood(level, answers) {
   const answerThatNobodyCanSolve = { maxDifficulty: 7, binaryOutcome: 0 };
   extraAnswers.push(answerThatAnyoneCanSolve, answerThatNobodyCanSolve);
 
-  const diffBetweenResultAndProbaToResolve = extraAnswers.map(answer =>
+  const diffBetweenResultAndProbaToResolve = extraAnswers.map((answer) =>
     answer.binaryOutcome - _probaOfCorrectAnswer(level, answer.maxDifficulty));
 
   return -Math.abs(diffBetweenResultAndProbaToResolve.reduce((a, b) => a + b));
@@ -66,7 +66,7 @@ function _isChallengeNotTooHard(challenge, predictedLevel) {
 }
 
 function _isNotAnsweredYet(challenge, answers) {
-  const findAnswersForThisChallenge = answers.find(answer => answer.challengeId == challenge.id);
+  const findAnswersForThisChallenge = answers.find((answer) => answer.challengeId == challenge.id);
   return !findAnswersForThisChallenge;
 }
 
@@ -77,14 +77,14 @@ function _isAnAvailableChallenge(challenge, assessedSkills, answers) {
 }
 
 function _isPreviousChallengeTimed(answers) {
-  const answeredChallenges = answers.map(answer => answer.challenge);
+  const answeredChallenges = answers.map((answer) => answer.challenge);
   const lastAnswer = answers[answeredChallenges.length - 1];
   if (!lastAnswer || !lastAnswer.challenge) return false;
   return lastAnswer && (lastAnswer.challenge.timer !== undefined);
 }
 
 function _extractNotTimedChallenge(availableChallenges) {
-  return availableChallenges.filter(challenge => challenge.timer === undefined);
+  return availableChallenges.filter((challenge) => challenge.timer === undefined);
 }
 
 function _skillNotKnownYet(skill, validatedSkills, failedSkills) {
@@ -110,7 +110,7 @@ function _filterChallengesBySkills(listOfChallenges, listOfRequiredSkills) {
 
 function _getNewSkillsInfoIfChallengeSolved(challenge, course, validatedSkills, failedSkills) {
   return challenge.skills.reduce((extraValidatedSkills, skill) => {
-    course.findTube(skill.tubeName).getEasierThan(skill).forEach(skill => {
+    course.findTube(skill.tubeName).getEasierThan(skill).forEach((skill) => {
       if (_skillNotKnownYet(skill, validatedSkills, failedSkills)) {
         extraValidatedSkills.push(skill);
       }
@@ -139,7 +139,7 @@ function _computeReward(challenge, predictedLevel, course, validatedSkills, fail
 
 function _firstChallenge(challenges, answers, tubes, validatedSkills, failedSkills, predictedLevel) {
   const filteredFirstChallenges = SmartRandom._filteredChallenges(challenges, answers, tubes, validatedSkills, failedSkills, predictedLevel).filter(
-    challenge => (challenge.hardestSkill.difficulty === LEVEL_FOR_FIRST_CHALLENGE) && (challenge.timer === undefined)
+    (challenge) => (challenge.hardestSkill.difficulty === LEVEL_FOR_FIRST_CHALLENGE) && (challenge.timer === undefined)
   );
   filteredFirstChallenges.sort(_randomly);
   return filteredFirstChallenges[0];
@@ -189,7 +189,7 @@ class SmartRandom {
     }
 
     const predictedLevel = this.getPredictedLevel();
-    const challengesAndRewards = availableChallenges.map(challenge => {
+    const challengesAndRewards = availableChallenges.map((challenge) => {
       return {
         challenge: challenge,
         reward: _computeReward(
@@ -209,8 +209,8 @@ class SmartRandom {
     }
 
     const bestChallenges = challengesAndRewards
-      .filter(challengeAndReward => challengeAndReward.reward === maxReward)
-      .map(challengeAndReward => challengeAndReward.challenge);
+      .filter((challengeAndReward) => challengeAndReward.reward === maxReward)
+      .map((challengeAndReward) => challengeAndReward.challenge);
     return bestChallenges.sort(_randomly)[0];
   }
 
@@ -254,13 +254,13 @@ class SmartRandom {
   static _filteredChallenges(challenges, answers, tubes, validatedSkills, failedSkills, predictedLevel) {
 
     const assessedSkills = _.union(validatedSkills, failedSkills);
-    let availableChallenges = challenges.filter(challenge => _isAnAvailableChallenge(challenge, assessedSkills, answers));
+    let availableChallenges = challenges.filter((challenge) => _isAnAvailableChallenge(challenge, assessedSkills, answers));
 
     if (_isPreviousChallengeTimed(answers)) {
       availableChallenges = _extractNotTimedChallenge(availableChallenges);
     }
 
-    availableChallenges = availableChallenges.filter(challenge => _isChallengeNotTooHard(challenge, predictedLevel));
+    availableChallenges = availableChallenges.filter((challenge) => _isChallengeNotTooHard(challenge, predictedLevel));
 
     const listOfSkillsToTargetInPriority = _skillsToTargetInPriority(tubes, validatedSkills, failedSkills);
     if (listOfSkillsToTargetInPriority.length > 0) {

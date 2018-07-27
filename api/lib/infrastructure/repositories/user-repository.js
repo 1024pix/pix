@@ -45,7 +45,7 @@ module.exports = {
     return BookshelfUser
       .where({ email })
       .fetch({ require: true })
-      .then(bookshelfUser => {
+      .then((bookshelfUser) => {
         return bookshelfUser.toDomainEntity();
       });
   },
@@ -84,8 +84,8 @@ module.exports = {
         require: true,
         withRelated: ['pixRoles']
       })
-      .then(bookshelfUser => bookshelfUser.toDomainEntity())
-      .catch(err => {
+      .then((bookshelfUser) => bookshelfUser.toDomainEntity())
+      .catch((err) => {
         if (err instanceof BookshelfUser.NotFoundError) {
           throw new UserNotFoundError(`User not found for ID ${userId}`);
         }
@@ -115,14 +115,14 @@ module.exports = {
     const userRawData = _.omit(domainUser, ['pixRoles', 'organizationAccesses']);
     return new BookshelfUser(userRawData)
       .save()
-      .then(bookshelfUser => bookshelfUser.toDomainEntity());
+      .then((bookshelfUser) => bookshelfUser.toDomainEntity());
   },
 
   isEmailAvailable(email) {
     return BookshelfUser
       .where({ email })
       .fetch()
-      .then(user => {
+      .then((user) => {
         if (user) {
           return Promise.reject(new AlreadyRegisteredEmailError());
         }
@@ -137,12 +137,12 @@ module.exports = {
         patch: true,
         require: false
       })
-      .then(bookshelfUser => bookshelfUser.toDomainEntity());
+      .then((bookshelfUser) => bookshelfUser.toDomainEntity());
   },
 
   hasRolePixMaster(userId) {
     return this.get(userId)
-      .then(user => user.hasRolePixMaster);
+      .then((user) => user.hasRolePixMaster);
   }
 
 };

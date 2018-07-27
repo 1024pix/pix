@@ -24,7 +24,7 @@ class Assessment {
   }
 
   _computeLikelihood(level, answers) {
-    const extraAnswers = answers.map(answer => {
+    const extraAnswers = answers.map((answer) => {
       return { binaryOutcome: answer.binaryOutcome, maxDifficulty: answer.maxDifficulty };
     });
 
@@ -32,7 +32,7 @@ class Assessment {
     const answerThatNobodyCanSolve = { maxDifficulty: 7, binaryOutcome: 0 };
     extraAnswers.push(answerThatAnyoneCanSolve, answerThatNobodyCanSolve);
 
-    const diffBetweenResultAndProbaToResolve = extraAnswers.map(answer =>
+    const diffBetweenResultAndProbaToResolve = extraAnswers.map((answer) =>
       answer.binaryOutcome - this._probaOfCorrectAnswer(level, answer.maxDifficulty));
 
     return -Math.abs(diffBetweenResultAndProbaToResolve.reduce((a, b) => a + b));
@@ -47,13 +47,13 @@ class Assessment {
   }
 
   _isPreviousChallengeTimed() {
-    const answeredChallenges = this.answers.map(answer => answer.challenge);
+    const answeredChallenges = this.answers.map((answer) => answer.challenge);
     const lastAnswer = this.answers[answeredChallenges.length - 1];
     return lastAnswer && lastAnswer.challenge.timer !== undefined;
   }
 
   _extractNotTimedChallenge(availableChallenges) {
-    return availableChallenges.filter(challenge => challenge.timer === undefined);
+    return availableChallenges.filter((challenge) => challenge.timer === undefined);
   }
 
   _skillNotKnownYet(skill) {
@@ -62,7 +62,7 @@ class Assessment {
 
   _getNewSkillsInfoIfChallengeSolved(challenge) {
     return challenge.skills.reduce((extraValidatedSkills, skill) => {
-      skill.getEasierWithin(this.course.tubes).forEach(skill => {
+      skill.getEasierWithin(this.course.tubes).forEach((skill) => {
         if (this._skillNotKnownYet(skill)) {
           extraValidatedSkills.push(skill);
         }
@@ -94,10 +94,10 @@ class Assessment {
 
   get validatedSkills() {
     return this.answers
-      .filter(answer => AnswerStatus.isOK(answer.result))
+      .filter((answer) => AnswerStatus.isOK(answer.result))
       .reduce((skills, answer) => {
-        answer.challenge.skills.forEach(skill => {
-          skill.getEasierWithin(this.course.tubes).forEach(validatedSkill => {
+        answer.challenge.skills.forEach((skill) => {
+          skill.getEasierWithin(this.course.tubes).forEach((validatedSkill) => {
             if (!skills.includes(validatedSkill))
               skills.push(validatedSkill);
           });
@@ -108,13 +108,13 @@ class Assessment {
 
   get failedSkills() {
     return this.answers
-      .filter(answer => AnswerStatus.isFailed(answer.result))
+      .filter((answer) => AnswerStatus.isFailed(answer.result))
       .reduce((failedSkills, answer) => {
         // FIXME refactor !
         // XXX we take the current failed skill and all the harder skills in
         // its tube and mark them all as failed
-        answer.challenge.skills.forEach(skill => {
-          skill.getHarderWithin(this.course.tubes).forEach(failedSkill => {
+        answer.challenge.skills.forEach((skill) => {
+          skill.getHarderWithin(this.course.tubes).forEach((failedSkill) => {
             if (!failedSkills.includes(failedSkill))
               failedSkills.push(failedSkill);
           });
@@ -167,13 +167,13 @@ class Assessment {
   }
 
   get filteredChallenges() {
-    let availableChallenges = this.course.challenges.filter(challenge => this._isAnAvailableChallenge(challenge));
+    let availableChallenges = this.course.challenges.filter((challenge) => this._isAnAvailableChallenge(challenge));
 
     if (this._isPreviousChallengeTimed()) {
       availableChallenges = this._extractNotTimedChallenge(availableChallenges);
     }
 
-    availableChallenges = availableChallenges.filter(challenge => this._isChallengeNotTooHard(challenge));
+    availableChallenges = availableChallenges.filter((challenge) => this._isChallengeNotTooHard(challenge));
 
     const listOfSkillsToTargetInPriority = this._skillsToTargetInPriority();
     const thereAreSkillsToTargetInPriority = listOfSkillsToTargetInPriority.length > 0;
@@ -204,7 +204,7 @@ class Assessment {
 
   get _firstChallenge() {
     const filteredFirstChallenges = this.filteredChallenges.filter(
-      challenge => (challenge.hardestSkill.difficulty === LEVEL_FOR_FIRST_CHALLENGE) && (challenge.timer === undefined)
+      (challenge) => (challenge.hardestSkill.difficulty === LEVEL_FOR_FIRST_CHALLENGE) && (challenge.timer === undefined)
     );
     filteredFirstChallenges.sort(this._randomly);
     return filteredFirstChallenges[0];
@@ -214,9 +214,9 @@ class Assessment {
     const logContext = {
       zone: 'CatAsessment.nextChallenge',
       type: 'cat',
-      answers: this.answers.map(answer => {
+      answers: this.answers.map((answer) => {
         const challenge = answer.challenge || { id: null };
-        const skills = (challenge.skills || []).map(skill => skill.name);
+        const skills = (challenge.skills || []).map((skill) => skill.name);
         return {
           challengeId: challenge.id,
           result: answer.result,
@@ -245,7 +245,7 @@ class Assessment {
     }
 
     const predictedLevel = this._getPredictedLevel();
-    const challengesAndRewards = availableChallenges.map(challenge => {
+    const challengesAndRewards = availableChallenges.map((challenge) => {
       return {
         challenge: challenge,
         reward: this._computeReward(challenge, predictedLevel)
@@ -264,10 +264,10 @@ class Assessment {
     }
 
     const bestChallenges = challengesAndRewards
-      .filter(challengeAndReward => challengeAndReward.reward === maxReward)
-      .map(challengeAndReward => challengeAndReward.challenge);
+      .filter((challengeAndReward) => challengeAndReward.reward === maxReward)
+      .map((challengeAndReward) => challengeAndReward.challenge);
 
-    logContext.bestChallenges = bestChallenges.map(challenge => challenge.id);
+    logContext.bestChallenges = bestChallenges.map((challenge) => challenge.id);
     logger.trace(logContext, 'best challenges selected. Choosing one randomly.');
     return bestChallenges.sort(this._randomly)[0];
   }
@@ -275,7 +275,7 @@ class Assessment {
   get pixScore() {
     const pixScoreOfSkills = this.course.computePixScoreOfSkills();
     return this.validatedSkills
-      .map(skill => pixScoreOfSkills[skill.name] || 0)
+      .map((skill) => pixScoreOfSkills[skill.name] || 0)
       .reduce((a, b) => a + b, 0);
   }
 

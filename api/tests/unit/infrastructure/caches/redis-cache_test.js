@@ -50,7 +50,7 @@ describe('Unit | Infrastructure | Cache | redis-cache', () => {
 
       // then
       return expect(promise).to.have.been.fulfilled
-        .then(result => {
+        .then((result) => {
           expect(result).to.deep.equal(cachedObject);
           expect(stubbedClient.get).to.have.been.calledWith(CACHE_KEY);
         });
@@ -66,7 +66,7 @@ describe('Unit | Infrastructure | Cache | redis-cache', () => {
 
       // then
       return expect(promise).to.have.been.fulfilled
-        .then(result => {
+        .then((result) => {
           expect(result).to.deep.equal(null);
         });
     });
@@ -113,7 +113,7 @@ describe('Unit | Infrastructure | Cache | redis-cache', () => {
 
       // then
       return expect(promise).to.have.been.fulfilled
-        .then(result => {
+        .then((result) => {
           expect(result).to.deep.equal(objectToCache);
           expect(stubbedClient.set).to.have.been.calledWith(CACHE_KEY, JSON.stringify(objectToCache));
         });

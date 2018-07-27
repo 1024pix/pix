@@ -355,7 +355,7 @@ describe('Unit | Domain | Models | Assessment', () => {
       // given
       const skillNames = ['@web1', '@chi1', '@web2', '@web3', '@chi3', '@fou3'];
       const skills = [];
-      const competenceSkills = skillNames.map(skillName => skills[skillName] = new Skill({ name: skillName }));
+      const competenceSkills = skillNames.map((skillName) => skills[skillName] = new Skill({ name: skillName }));
       const ch2 = _newChallenge(skills['@web2']);
       const course = new Course([ch2], competenceSkills);
       course.tubes = [
@@ -381,7 +381,7 @@ describe('Unit | Domain | Models | Assessment', () => {
       // given
       const skillNames = ['@web1', '@chi1', '@web2', '@web3', '@chi3', '@fou3', '@mis3'];
       const skills = [];
-      const competenceSkills = skillNames.map(skillName => skills[skillName] = new Skill({ name: skillName }));
+      const competenceSkills = skillNames.map((skillName) => skills[skillName] = new Skill({ name: skillName }));
       const ch1 = _newChallenge(skills['@web1']);
       ch1.addSkill(skills['@web2']);
       const ch2 = _newChallenge(skills['@web3']);
@@ -412,7 +412,7 @@ describe('Unit | Domain | Models | Assessment', () => {
       // given
       const skillNames = ['@web1', '@chi1', '@web2', '@web3', '@chi3', '@fou3', '@mis3'];
       const skills = [];
-      const competenceSkills = skillNames.map(skillName => skills[skillName] = new Skill({ name: skillName }));
+      const competenceSkills = skillNames.map((skillName) => skills[skillName] = new Skill({ name: skillName }));
       const ch1 = _newChallenge(skills['@web1']);
       const ch2 = _newChallenge(skills['@web2']);
       const ch3 = _newChallenge(skills['@fou3']);
@@ -445,7 +445,7 @@ describe('Unit | Domain | Models | Assessment', () => {
         // given
         const skillNames = ['@web1', '@web3', '@ch1', '@ch2', '@ch3', '@truc2'];
         const skills = {};
-        const competenceSkills = skillNames.map(skillName => skills[skillName] = new Skill({ name: skillName }));
+        const competenceSkills = skillNames.map((skillName) => skills[skillName] = new Skill({ name: skillName }));
         const web1Challenge = _newChallenge(skills['@web1']);
         const web3Challege = _newChallenge(skills['@web3']);
         const ch1Challenge = _newChallenge(skills['@ch1']);
@@ -484,7 +484,7 @@ describe('Unit | Domain | Models | Assessment', () => {
         // given
         const skillNames = ['@web1', '@web2', '@web3', '@ch1', '@ch2', '@ch3'];
         const skills = {};
-        const competenceSkills = skillNames.map(skillName => skills[skillName] = new Skill({ name: skillName }));
+        const competenceSkills = skillNames.map((skillName) => skills[skillName] = new Skill({ name: skillName }));
         const web1Challenge = _newChallenge(skills['@web1']);
         const web2Challenge = _newChallenge(skills['@web2']);
         const web3Challege = _newChallenge(skills['@web3']);
@@ -524,7 +524,7 @@ describe('Unit | Domain | Models | Assessment', () => {
       // given
       const skillNames = ['@web1', '@chi1', '@web2', '@web3', '@chi3', '@fou3'];
       const skills = [];
-      const competenceSkills = skillNames.map(skillName => skills[skillName] = new Skill({ name: skillName }));
+      const competenceSkills = skillNames.map((skillName) => skills[skillName] = new Skill({ name: skillName }));
 
       const challengeForWeb3 = Challenge.fromAttributes({ skills: [skills['@web3']] });
       const challengeForWeb2 = Challenge.fromAttributes({ skills: [skills['@web2']] });
@@ -553,7 +553,7 @@ describe('Unit | Domain | Models | Assessment', () => {
       // given
       const skillNames = ['@web1', '@chi1', '@web2', '@web3', '@chi3', '@fou3'];
       const skills = [];
-      const competenceSkills = skillNames.map(skillName => skills[skillName] = new Skill({ name: skillName }));
+      const competenceSkills = skillNames.map((skillName) => skills[skillName] = new Skill({ name: skillName }));
 
       const ch1 = Challenge.fromAttributes();
       ch1.addSkill(skills['@web1']);
@@ -590,7 +590,7 @@ describe('Unit | Domain | Models | Assessment', () => {
       // given
       const skillNames = ['@web1', '@web2', '@web3'];
       const skills = [];
-      const competenceSkills = skillNames.map(skillName => skills[skillName] = new Skill({ name: skillName }));
+      const competenceSkills = skillNames.map((skillName) => skills[skillName] = new Skill({ name: skillName }));
       const ch1 = Challenge.fromAttributes();
       ch1.addSkill(skills['@web1']);
       const course = new Course([ch1], competenceSkills);

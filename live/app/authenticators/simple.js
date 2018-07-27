@@ -21,7 +21,7 @@ export default Base.extend({
           }
         }
       })
-    }).then(payload => {
+    }).then((payload) => {
       return RSVP.Promise.resolve({
         token: payload.data.attributes.token,
         userId: payload.data.attributes['user-id']

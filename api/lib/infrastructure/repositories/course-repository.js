@@ -13,7 +13,7 @@ function _getCourses(viewName) {
   };
 
   return airtable.findRecords(AIRTABLE_TABLE_NAME, query)
-    .then(courses => courses.map(serializer.deserialize));
+    .then((courses) => courses.map(serializer.deserialize));
 }
 
 module.exports = {

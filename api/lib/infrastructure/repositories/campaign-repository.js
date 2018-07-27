@@ -11,7 +11,7 @@ module.exports = {
     return BookshelfCampaign
       .where({ code })
       .fetch()
-      .then(campaign => {
+      .then((campaign) => {
         if (campaign) {
           return Promise.resolve(false);
         }

@@ -50,7 +50,7 @@ class Challenge {
 
     let attachments;
     if(airtableEpreuveObject.get('Pièce jointe')) {
-      attachments = airtableEpreuveObject.get('Pièce jointe').map(attachment => attachment.url).reverse();
+      attachments = airtableEpreuveObject.get('Pièce jointe').map((attachment) => attachment.url).reverse();
     }
 
     let competenceId;

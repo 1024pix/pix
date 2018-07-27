@@ -91,7 +91,7 @@ function create(request, reply) {
     .then((userId) => userRepository.findUserById(userId))
     .then((foundUser) => user = foundUser)
     .then(() => snapshotSerializer.deserialize(request.payload))
-    .then(deserializedSnapshot => (snapshot = deserializedSnapshot))
+    .then((deserializedSnapshot) => (snapshot = deserializedSnapshot))
     .then(() => _validateSnapshotCode(snapshot))
     .then(() => _assertThatOrganizationExists(snapshot.organization.id))
     .then(() => profileService.getByUserId(user.id))
@@ -101,7 +101,7 @@ function create(request, reply) {
     .then((testsFinished) => snapshot.testsFinished = testsFinished)
     .then(() => snapshotService.create(snapshot, user, serializedProfile))
     .then((snapshotId) => snapshotSerializer.serialize({ id: snapshotId }))
-    .then(snapshotSerialized => reply(snapshotSerialized).code(201))
+    .then((snapshotSerialized) => reply(snapshotSerialized).code(201))
     .catch((err) => _replyError(err, reply));
 }
 
