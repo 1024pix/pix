@@ -21,7 +21,8 @@ module.exports = function(environment) {
     APP: {
       // Here you can pass flags/options to your application instance
       // when it is created
-      API_HOST: process.env.API_HOST,
+      // FIXME: this should be dynamic, dependent of `document.URL` (as this is frontend code)
+      API_HOST: 'https://pix-api-integration.scalingo.io',
       isChallengeTimerEnable: true,
       MESSAGE_DISPLAY_DURATION: 1500,
       isMobileSimulationEnabled: false,
