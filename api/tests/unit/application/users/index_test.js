@@ -37,10 +37,10 @@ describe('Unit | Router | user-router', () => {
               'first-name': 'Edouard',
               'last-name': 'Doux',
               email: 'doux.doudou@example.net',
-              password: 'password_1234'
-            }
-          }
-        }
+              password: 'password_1234',
+            },
+          },
+        },
       };
 
       // when
@@ -51,7 +51,6 @@ describe('Unit | Router | user-router', () => {
         expect(response.statusCode).to.equal(200);
       });
     });
-
   });
 
   describe('GET /api/users/{id}', function() {
@@ -106,7 +105,7 @@ describe('Unit | Router | user-router', () => {
     it('should exist', () => {
       const options = {
         method: 'GET',
-        url: '/api/users/12/skills'
+        url: '/api/users/12/skills',
       };
 
       // given
@@ -128,11 +127,11 @@ describe('Unit | Router | user-router', () => {
       // given
       const options = {
         method: 'GET',
-        url: '/api/users/12/organization-accesses'
+        url: '/api/users/12/organization-accesses',
       };
 
       // when
-      return server.inject(options).then(_ => {
+      return server.inject(options).then(() => {
         // then
         sinon.assert.calledOnce(UserController.getOrganizationAccesses);
       });
@@ -145,7 +144,7 @@ describe('Unit | Router | user-router', () => {
     const wellFormedOptions = () => ({
       method: 'PATCH',
       url: `/api/users/${userId}`,
-      payload: { data: { attributes: { password: '12345678ab+!' } } }
+      payload: { data: { attributes: { password: '12345678ab+!' } } },
     });
 
     beforeEach(() => {
@@ -186,9 +185,6 @@ describe('Unit | Router | user-router', () => {
           expect(res.statusCode).to.equal(400);
         });
       });
-
     });
-
   });
-
 });
