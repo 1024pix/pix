@@ -7,12 +7,14 @@ const competenceRepository = require('../../infrastructure/repositories/competen
 const snapshotRepository = require('../../infrastructure/repositories/snapshot-repository');
 const organizationSerializer = require('../../infrastructure/serializers/jsonapi/organization-serializer');
 const snapshotSerializer = require('../../infrastructure/serializers/jsonapi/snapshot-serializer');
+const campaignSerializer = require('../../infrastructure/serializers/jsonapi/campaign-serializer');
 const organizationService = require('../../domain/services/organization-service');
 const encryptionService = require('../../domain/services/encryption-service');
 const bookshelfUtils = require('../../../lib/infrastructure/utils/bookshelf-utils');
 const validationErrorSerializer = require('../../infrastructure/serializers/jsonapi/validation-error-serializer');
 const snapshotsCsvConverter = require('../../infrastructure/converter/snapshots-csv-converter');
 const organizationCreationValidator = require('../../domain/validators/organization-creation-validator');
+const usecases = require('../../domain/usecases');
 
 const logger = require('../../infrastructure/logger');
 const JSONAPI = require('../../interfaces/jsonapi');
@@ -63,6 +65,14 @@ module.exports = {
       .catch((err) => {
         logger.error(err);
         reply().code(500);
+      });
+  },
+
+  getCampaigns(request, reply) {
+    const organizationId = request.params.id;
+    return usecases.getOrganizationCampaigns(organizationId)
+      .then((campaigns) => {
+        reply(campaignSerializer.serialize(campaigns)).code(200);
       });
   },
 

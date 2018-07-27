@@ -1,4 +1,4 @@
-const { expect, sinon } = require('../../../test-helper');
+const { expect, sinon, factory } = require('../../../test-helper');
 
 const User = require('../../../../lib/domain/models/User');
 const BookshelfOrganization = require('../../../../lib/infrastructure/data/organization');
@@ -17,6 +17,8 @@ const bookshelfUtils = require('../../../../lib/infrastructure/utils/bookshelf-u
 const { EntityValidationError, NotFoundError } = require('../../../../lib/domain/errors');
 const logger = require('../../../../lib/infrastructure/logger');
 const organizationCreationValidator = require('../../../../lib/domain/validators/organization-creation-validator');
+const usecases = require('../../../../lib/domain/usecases');
+const campaignSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/campaign-serializer');
 
 describe('Unit | Application | Organizations | organization-controller', () => {
 
@@ -107,7 +109,13 @@ describe('Unit | Application | Organizations | organization-controller', () => {
         encryptionService.hashPassword.resolves(encryptedPassword);
         const promise = organizationController.create(request, replyStub);
 
-        const userToCreate = new User({ firstName: 'Tom', lastName: 'Hanks',  email: 'existing-email@example.net', password: encryptedPassword, cgu: true });
+        const userToCreate = new User({
+          firstName: 'Tom',
+          lastName: 'Hanks',
+          email: 'existing-email@example.net',
+          password: encryptedPassword,
+          cgu: true
+        });
 
         // then
         return promise.then(() => {
@@ -622,5 +630,52 @@ describe('Unit | Application | Organizations | organization-controller', () => {
     });
 
   });
-})
-;
+
+  describe('#getCampaigns', () => {
+
+    let sandbox;
+
+    beforeEach(() => {
+      sandbox = sinon.sandbox.create();
+      sandbox.stub(usecases, 'getOrganizationCampaigns');
+      sandbox.stub(campaignSerializer, 'serialize');
+      codeStub = sandbox.stub();
+      replyStub = sandbox.stub().returns({ code: codeStub });
+    });
+
+    afterEach(() => {
+      sandbox.restore();
+    });
+
+    it('should return the campaigns belonging to the organization', () => {
+      // given
+      const campaigns = factory.buildCampaign();
+      const serializedCampaigns = {
+        data:
+          [
+            {
+              name: 'My awesome campaign',
+              code: 'AZERTY117'
+            }
+          ]
+      };
+      usecases.getOrganizationCampaigns.resolves(campaigns);
+      campaignSerializer.serialize.returns(serializedCampaigns);
+      request = {
+        params: {
+          id: 1
+        }
+      };
+
+      // when
+      const promise = organizationController.getCampaigns(request, replyStub);
+
+      // then
+      return promise.then(() => {
+        expect(usecases.getOrganizationCampaigns).to.have.been.calledOnce;
+        expect(replyStub).to.have.been.calledWith(serializedCampaigns);
+        expect(codeStub).to.have.been.calledWith(200);
+      });
+    });
+  });
+});
