@@ -1,6 +1,5 @@
 import Controller from '@ember/controller';
 import json2csv from 'json2csv';
-import FileSaver from 'file-saver';
 import Papa from 'papaparse';
 import { inject as service } from '@ember/service';
 
@@ -11,6 +10,7 @@ export default Controller.extend({
   progressMax:0,
   progressValue:0,
   notifications: service('notification-messages'),
+  fileSaver: service('file-saver'),
 
   init() {
     this._super();
@@ -62,7 +62,7 @@ export default Controller.extend({
         this.set('progress', false);
         let fileName = 'session_'+this.get('model.session.id')+' '+(new Date()).toLocaleString('fr-FR')+'.csv';
         let csvFile = new File([csv], fileName, {type:'text/csv;charset=utf-8'});
-        FileSaver.saveAs(csvFile);
+        this.get('fileSaver').saveAs(csvFile);
       });
     },
     onImport() {
