@@ -16,7 +16,7 @@ describe('Acceptance | Controller | users-controller-get-organization-accesses',
         email: 'organization@email.com',
         type: 'SUP',
         code: 'AAA111',
-        userId
+        userId,
       };
 
       return knex('organizations').insert(organizationRaw).returning('id');
@@ -27,7 +27,7 @@ describe('Acceptance | Controller | users-controller-get-organization-accesses',
         'firstName': 'john',
         'lastName': 'Doe',
         'email': 'john.Doe@internet.fr',
-        password: 'Pix2017!'
+        password: 'Pix2017!',
       };
 
       return knex('users').insert(userRaw).returning('id');
@@ -37,7 +37,7 @@ describe('Acceptance | Controller | users-controller-get-organization-accesses',
       const organizationAccessRaw = {
         organizationId,
         userId,
-        organizationRoleId
+        organizationRoleId,
       };
 
       return knex('organizations-accesses').insert(organizationAccessRaw).returning('id');
@@ -45,7 +45,7 @@ describe('Acceptance | Controller | users-controller-get-organization-accesses',
 
     function _insertOrganizationRoles() {
       const organizationRoleRaw = {
-        name: 'ADMIN'
+        name: 'ADMIN',
       };
 
       return knex('organization-roles').insert(organizationRoleRaw).returning('id');
@@ -81,7 +81,7 @@ describe('Acceptance | Controller | users-controller-get-organization-accesses',
       const promise = server.inject(_options(userId));
 
       // then
-      return promise.then(response => {
+      return promise.then((response) => {
         expect(response.statusCode).to.equal(200);
         expect(response.result).to.deep.equal({
           data: [
@@ -92,10 +92,10 @@ describe('Acceptance | Controller | users-controller-get-organization-accesses',
               relationships: {
                 organization: {
                   data:
-                    { type: 'organizations', id: organizationId.toString() }
-                }
-              }
-            }
+                    { type: 'organizations', id: organizationId.toString() },
+                },
+              },
+            },
           ],
           included: [
             {
@@ -105,12 +105,11 @@ describe('Acceptance | Controller | users-controller-get-organization-accesses',
                 name: 'The name of the organization',
                 type: 'SUP',
                 code: 'AAA111',
-              }
-            }
-          ]
+              },
+            },
+          ],
         });
       });
     });
   });
-
 });
