@@ -1,4 +1,4 @@
-const { expect, knex } = require('../../../test-helper');
+const { expect, knex, factory } = require('../../../test-helper');
 const campaignRepository = require('../../../../lib/infrastructure/repositories/campaign-repository');
 const Campaign = require('../../../../lib/domain/models/Campaign');
 
@@ -113,4 +113,33 @@ describe('Integration | Repository | Campaign', () => {
 
   });
 
+  describe('#findByOrganization', () => {
+
+    const campaign1Organization1 = factory.buildCampaign({ id: 1, organizationId: 1 });
+    const campaign2Organization1 = factory.buildCampaign({ id: 2, organizationId: 1 });
+    const campaign1Organization2 = factory.buildCampaign({ id: 3, organizationId: 2 });
+
+    beforeEach(() => {
+      return knex('campaigns').insert([campaign1Organization1, campaign2Organization1, campaign1Organization2]);
+    });
+
+    afterEach(() => {
+      return knex('campaigns').delete();
+    });
+
+    it('should return the campaigns of the given organization id', () => {
+      // given
+      const organizationId = 1;
+
+      // when
+      const promise = campaignRepository.findByOrganization(organizationId);
+
+      // then
+      return promise.then((campaigns) => {
+        expect(campaigns).to.have.lengthOf(2);
+        expect(campaigns[0]).to.deep.equal(campaign1Organization1);
+        expect(campaigns[1]).to.deep.equal(campaign2Organization1);
+      });
+    });
+  });
 });
