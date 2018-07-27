@@ -12,14 +12,20 @@ function batch(knex, elementsToUpdate, treatment) {
     }
 
     const assessments = remainingElementsToUpdate.splice(0, BATCH_SIZE);
-    const promises = assessments.map(treatment);
+    const promises = assessments.map((assessment) => {
+      return treatment(assessment).catch(err => {
+        console.error('Treatment failed for :', assessment);
+
+        throw err;
+      });
+    });
 
     return Promise
       .all(promises)
       .then((results) => {
         console.log(`---- Lot ${batchesDone} : ${results.length} processed - (total: ${countOfBatches} lots, ${batchesDone / countOfBatches * 100}%)`);
       })
-      .then(() => _innerTreatment(knex, remainingElementsToUpdate, countOfBatches, batchesDone+1));
+      .then(() => _innerTreatment(knex, remainingElementsToUpdate, countOfBatches, batchesDone + 1));
   }
 
   const numberOfTotalBatches = Math.ceil(elementsToUpdate.length / BATCH_SIZE);
