@@ -50,7 +50,7 @@ export default Controller.extend({
       this.set('progressMax', ids.length);
       this.set('progressValue', 0);
       this.set('progress', true);
-      this._getExportJson(ids, [])
+      return this._getExportJson(ids, [])
       .then((json) => {
         return json2csv.parse(json, {
           fields: this._csvHeaders,
@@ -61,8 +61,7 @@ export default Controller.extend({
       .then((csv) => {
         this.set('progress', false);
         let fileName = 'session_'+this.get('model.session.id')+' '+(new Date()).toLocaleString('fr-FR')+'.csv';
-        let csvFile = new File([csv], fileName, {type:'text/csv;charset=utf-8'});
-        this.get('fileSaver').saveAs(csvFile);
+        this.get('fileSaver').saveAs(csv, fileName);
       });
     },
     onImport() {
