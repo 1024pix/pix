@@ -31,7 +31,6 @@
     "url": "git+https://github.com/1024pix/pix.git"
   },
   "scripts": {
-    "build:mon-pix": "cd mon-pix && npm run build",
     "clean": "node_modules/.bin/run-p clean:api clean:mon-pix clean:coverage && npm run clean:root",
     "clean:api": "cd api && npm run clean",
     "clean:coverage": "rm -rf coverage api/coverage mon-pix/coverage",
@@ -56,7 +55,6 @@
     "release:prepare": "./scripts/release/prepare.sh",
     "release:perform": "./scripts/release/perform.sh",
     "release:publish": "./scripts/release/publish.sh",
-    "scalingo-postbuild": "npm run build:$APPLICATION_NAME",
     "start": "run-p start:api start:mon-pix",
     "start:api": "cd api && npm run start:watch",
     "start:mon-pix": "cd mon-pix && npx ember serve --proxy",

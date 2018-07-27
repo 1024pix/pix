@@ -21,8 +21,7 @@ module.exports = function(environment) {
     APP: {
       // Here you can pass flags/options to your application instance
       // when it is created
-      // FIXME: this should be dynamic, dependent of `document.URL` (as this is frontend code)
-      API_HOST: 'https://pix-api-integration.scalingo.io',
+      API_HOST: inferApiURLFromScalingoAppName(process.env.APP),
       isChallengeTimerEnable: true,
       MESSAGE_DISPLAY_DURATION: 1500,
       isMobileSimulationEnabled: false,
@@ -143,3 +142,15 @@ module.exports = function(environment) {
 
   return ENV;
 };
+
+function inferApiURLFromScalingoAppName(appName) {
+
+  switch (appName) {
+    case 'mon-pix-integration':
+      return 'https://pix-api-integration.scalingo.io';
+    case 'mon-pix-production':
+      return 'https://pix-api-production.scalingo.io';
+    default:
+      return 'http://localhost:3000';
+  }
+}
