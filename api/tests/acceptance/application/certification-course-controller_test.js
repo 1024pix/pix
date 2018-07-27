@@ -16,7 +16,6 @@ describe('Acceptance | API | Certification Course', () => {
         headers: {}
       };
     });
-
     afterEach(() => {
       return knex('certification-courses').delete();
     });
@@ -62,7 +61,8 @@ describe('Acceptance | API | Certification Course', () => {
         .then(() => {
           return knex('certification-courses').insert({
             createdAt: '2017-12-21 15:44:38',
-            completedAt: '2017-12-21T15:48:38.468Z'
+            completedAt: '2017-12-21T15:48:38.468Z',
+            isPublished: false,
           }, 'id');
         })
         .then(([id]) => certificationCourseId = id)
@@ -161,6 +161,7 @@ describe('Acceptance | API | Certification Course', () => {
         expect(givenCreatedAt).to.equal(expectedCreatedAt);
         expect(givenResultCreatedAt).to.equal(expectedResultCreatedAt);
         expect(givenCompletedAt).to.equal(expectedCompletedAt);
+        expect(result.attributes['is-published']).to.not.be.ok;
         expect(result.attributes['competences-with-mark']).to.have.lengthOf(2);
 
         const firstCertifiedCompetence = result.attributes['competences-with-mark'][0];
