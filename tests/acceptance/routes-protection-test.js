@@ -64,7 +64,7 @@ module('Acceptance | routes protection', function(hooks) {
   });
 
   //
-  // route /certifications/jury
+  // route /certifications/single
   //
   test('guest users are redirected to login page when visiting /certifications/single', async function(assert) {
     // when
