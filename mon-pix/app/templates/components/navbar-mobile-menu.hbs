@@ -1,0 +1,18 @@
+{{#side-menu}}
+  <div class="mobile-menu-header">
+    <div class="mobile-menu-header__title">Menu</div>
+    <div class="mobile-menu-header__close-button" {{action 'closeMenu'}}>
+      <img src="{{rootURL}}/images/icons/icon-croix.svg" alt="close menu">
+    </div>
+  </div>
+  {{#each menu as |item|}}
+    {{#link-to item.link class="mobile-menu__item"
+               classNameBindings="item.class" action="closeMenu" preventDefault=false}} {{item.name}}{{/link-to}}
+  {{/each}}
+{{/side-menu}}
+
+{{pix-content-backdrop}}
+
+{{#side-menu-toggle}}
+  &nbsp;
+{{/side-menu-toggle}}
