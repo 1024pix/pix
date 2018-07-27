@@ -472,4 +472,57 @@ describe('Acceptance | Application | Controller | organization-controller', () =
       });
     });
   });
+
+  describe('GET /api/organizations/{id}/campaigns', () => {
+
+    const orga1Campaign1 = {
+      name: 'Quand Peigne numba one',
+      code: 'ATDGRK343',
+      organizationId: 1,
+      creatorId: 2,
+    };
+
+    const orga1Campaign2 = {
+      name: 'Quand Peigne numba two',
+      code: 'KFCTSU984',
+      organizationId: 1,
+      creatorId: 3,
+    };
+
+    const orga2Campaign1 = {
+      name: 'Quand Peigne otha orga',
+      code: 'CPFTQX735',
+      organizationId: 2,
+      creatorId: 3,
+    };
+
+    beforeEach(() => {
+      knex('campaigns').insert([orga1Campaign1, orga1Campaign2, orga2Campaign1]).returning('id');
+    });
+
+    afterEach(() => {
+      knex('campaigns').delete();
+    });
+
+    it('should return the organization campaigns', () => {
+      // given
+      const organizationId = 1;
+      const options = {
+        method: 'GET',
+        url: '/api/organizations/' + organizationId + '/campaigns',
+        headers: {},
+      };
+
+      // when
+      const promise = server.inject(options);
+
+      // then
+      return promise.then(response => {
+        const campaigns = response.result.data;
+        expect(campaigns).to.have.lengthOf(2);
+        expect(campaigns[0].name).to.equal(orga1Campaign1.name);
+        expect(campaigns[0].code).to.equal(orga1Campaign1.code);
+      });
+    });
+  });
 });
