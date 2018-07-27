@@ -1,14 +1,17 @@
-const { expect } = require('../../../test-helper');
+const { expect, factory, sinon } = require('../../../test-helper');
 
 const useCase = require('../../../../lib/domain/usecases/');
 
-
 describe('Unit | Domain | Use Cases | get-organization-campaigns', () => {
 
+  const campaignRepository = { findByOrganization: () => undefined };
+
   beforeEach(() => {
+    sinon.stub(campaignRepository, 'findByOrganization');
   });
 
   afterEach(() => {
+    campaignRepository.findByOrganization.restore();
   });
 
   describe('#getOrganizationCampaigns', () => {
@@ -16,12 +19,17 @@ describe('Unit | Domain | Use Cases | get-organization-campaigns', () => {
     it('should return the campaigns of the given organization', () => {
       // given
       const organizationId = 251;
+      const foundCampaign = factory.buildCampaign({ organizationId });
+      const foundCampaigns = [foundCampaign];
+      campaignRepository.findByOrganization.resolves(foundCampaigns);
+
       // when
-      const promise = useCase.getOrganizationCampaigns({ organizationId });
+      const promise = useCase.getOrganizationCampaigns({ organizationId, campaignRepository });
 
       // then
-      return promise.then(() => {
-        expect(campaignRepository.getByOrganization).to.have.been.calledWith(organizationId);
+      return promise.then((campaigns) => {
+        expect(campaigns).to.have.lengthOf(1);
+        expect(campaigns).to.contains(foundCampaign);
       });
     });
 
