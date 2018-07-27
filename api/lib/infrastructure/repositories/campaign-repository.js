@@ -13,10 +13,10 @@ module.exports = {
       .fetch()
       .then((campaign) => {
         if (campaign) {
-          return Promise.resolve(false);
+          return false;
         }
 
-        return Promise.resolve(true);
+        return true;
       });
   },
 
@@ -36,6 +36,15 @@ module.exports = {
     return new BookshelfCampaign(campaignToSave)
       .save()
       .then(_toDomain);
+  },
+
+  findByOrganization(organizationId) {
+    return BookshelfCampaign
+      .where({ organizationId })
+      .fetchAll()
+      .then(campaigns => {
+        return campaigns.models.map(_toDomain);
+      });
   }
 
 };
