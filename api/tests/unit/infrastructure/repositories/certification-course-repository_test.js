@@ -23,7 +23,8 @@ describe('Unit | Repository | Certification Course', function() {
         birthplace: 'Macon',
         birthdate: '21/03/1991',
         sessionId: 'EURO2016',
-        externalId: 'xenoverse2'
+        externalId: 'xenoverse2',
+        isPublished: false,
       });
       savedCertificationCourse = CertificationCourse.fromAttributes({
         id: 'certifId',
@@ -38,7 +39,8 @@ describe('Unit | Repository | Certification Course', function() {
         challenges: [],
         assessment: {},
         sessionId: 'EURO2016',
-        externalId: 'xenoverse2'
+        externalId: 'xenoverse2',
+        isPublished: false
       });
 
       const certificationCourseBookshelf = new CertificationCourseBookshelf(certificationCourse);
