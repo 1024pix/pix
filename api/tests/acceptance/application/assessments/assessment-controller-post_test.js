@@ -95,10 +95,10 @@ describe('Acceptance | API | Assessments POST', () => {
         const promise = server.inject(options);
 
         // then
-        return promise.then(response => {
+        return promise.then((response) => {
           return new BookshelfAssessment({ id: response.result.data.id }).fetch();
         })
-          .then(model => {
+          .then((model) => {
             expect(parseInt(model.get('userId'))).to.deep.equal(userId);
           });
       });
@@ -136,7 +136,7 @@ describe('Acceptance | API | Assessments POST', () => {
           const promise = server.inject(options);
 
           // then
-          return promise.then(response => {
+          return promise.then((response) => {
             return new BookshelfAssessment({ id: response.result.data.id }).fetch();
           })
             .then((model) => {

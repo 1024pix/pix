@@ -16,7 +16,7 @@ module.exports = {
 
     return newFeedback
       .save()
-      .then(persistedFeedback => {
+      .then((persistedFeedback) => {
         reply(serializer.serialize(persistedFeedback.toJSON())).code(201);
       })
       .catch((err) => {
@@ -30,7 +30,7 @@ module.exports = {
 
     return repository
       .find({ startDate, endDate })
-      .then(feedbacks => serializer.serialize(feedbacks.toJSON()))
+      .then((feedbacks) => serializer.serialize(feedbacks.toJSON()))
       .then(reply);
   }
 

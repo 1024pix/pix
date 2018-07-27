@@ -44,7 +44,7 @@ describe('Unit | Infrastructure | Cache | in-memory-cache', () => {
 
       // then
       return expect(promise).to.have.been.fulfilled
-        .then(result => {
+        .then((result) => {
           expect(result).to.deep.equal(cachedObject);
           expect(cache.get).to.have.been.calledWith(CACHE_KEY);
         });
@@ -60,7 +60,7 @@ describe('Unit | Infrastructure | Cache | in-memory-cache', () => {
 
       // then
       return expect(promise).to.have.been.fulfilled
-        .then(result => {
+        .then((result) => {
           expect(result).to.deep.equal(noCachedObject);
         });
     });
@@ -95,7 +95,7 @@ describe('Unit | Infrastructure | Cache | in-memory-cache', () => {
 
       // then
       return expect(promise).to.have.been.fulfilled
-        .then(result => {
+        .then((result) => {
           expect(result).to.deep.equal(objectToCache);
           expect(cache.set).to.have.been.calledWith(CACHE_KEY, objectToCache);
         });

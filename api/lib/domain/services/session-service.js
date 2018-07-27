@@ -9,7 +9,7 @@ module.exports = {
 
   sessionExists(accessCode) {
     return sessionCodeService.getSessionByAccessCode(accessCode)
-      .then(session => {
+      .then((session) => {
         if(session) {
           return session.id;
         } else {

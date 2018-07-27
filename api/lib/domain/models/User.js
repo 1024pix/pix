@@ -29,7 +29,7 @@ class User {
   }
 
   get hasRolePixMaster() {
-    return !!this.pixRoles.find(pixRole => pixRole.name === 'PIX_MASTER');
+    return !!this.pixRoles.find((pixRole) => pixRole.name === 'PIX_MASTER');
   }
 
   isLinkedToOrganizations() {

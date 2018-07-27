@@ -36,7 +36,7 @@ describe('Unit | Service | Encryption', () => {
       const promise = encryptionService.check(password, encryptedPassword);
 
       // then
-      return promise.catch(_ => {
+      return promise.catch((_) => {
         sinon.assert.fail('Should not fail');
       });
     });

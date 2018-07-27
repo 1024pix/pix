@@ -133,7 +133,7 @@ module.exports = {
 
     return userService.getProfileToCertify(userId, currentDate)
       .then(reply)
-      .catch(err => {
+      .catch((err) => {
         logger.error(err);
         reply(Boom.badImplementation(err));
       });

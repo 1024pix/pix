@@ -253,7 +253,7 @@ describe('Integration | Repository | Organization', function() {
         const promise = organizationRepository.getByUserId(userId);
 
         // then
-        return promise.then(foundOrganizations => {
+        return promise.then((foundOrganizations) => {
           expect(foundOrganizations).to.exist;
           expect(foundOrganizations).to.be.an('array');
           expect(foundOrganizations).to.have.lengthOf(2);
@@ -298,7 +298,7 @@ describe('Integration | Repository | Organization', function() {
 
     beforeEach(() => {
       return knex('users').returning('id').insert(associatedUser)
-        .then(userIdArray => {
+        .then((userIdArray) => {
           insertedOrganization1.userId = userIdArray[0];
           insertedOrganization2.userId = userIdArray[0];
           return knex('organizations').insert([insertedOrganization1, insertedOrganization2]);
@@ -320,7 +320,7 @@ describe('Integration | Repository | Organization', function() {
       const promise = organizationRepository.findBy(filters);
 
       // then
-      return promise.then(organizations => {
+      return promise.then((organizations) => {
         expect(organizations).to.have.lengthOf(1);
 
         const foundOrganization = organizations[0];

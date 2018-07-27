@@ -35,7 +35,7 @@ describe('Unit | Class | Mailjet', function() {
 
     it('should post a send instruction', () => {
       // given
-      const postStub = sinon.stub().returns({ request: _ => Promise.resolve() });
+      const postStub = sinon.stub().returns({ request: (_) => Promise.resolve() });
       nodeMailjet.connect.returns({ post: postStub });
 
       // when

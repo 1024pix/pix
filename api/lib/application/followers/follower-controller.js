@@ -50,7 +50,7 @@ module.exports = {
 
         reply(followerSerializer.serialize(follower)).code(201);
       })
-      .catch(err => {
+      .catch((err) => {
         logger.error(err);
         reply(err);
       });

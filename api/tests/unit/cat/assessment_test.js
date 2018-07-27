@@ -71,7 +71,7 @@ describe('Unit | Model | Assessment', function() {
       const assessment = new CatAssessment(course, answers);
 
       // when
-      const likelihoodValues = [3.5, 4.5, 5.5].map(level => assessment._computeLikelihood(level, assessment.answers));
+      const likelihoodValues = [3.5, 4.5, 5.5].map((level) => assessment._computeLikelihood(level, assessment.answers));
 
       // then
       expect(likelihoodValues).to.deep.equal([-0.4400338073954983, -0.06487123739065036, -0.6183891934859586]);
@@ -93,10 +93,10 @@ describe('Unit | Model | Assessment', function() {
       const assessment = new CatAssessment(course, answers);
 
       // when
-      const likelihoodValues = [1.2, 3.4, 5.6].map(level => assessment._computeLikelihood(level, assessment.answers));
+      const likelihoodValues = [1.2, 3.4, 5.6].map((level) => assessment._computeLikelihood(level, assessment.answers));
 
       // then
-      likelihoodValues.forEach(likelihoodValue => expect(likelihoodValue).to.be.below(0));
+      likelihoodValues.forEach((likelihoodValue) => expect(likelihoodValue).to.be.below(0));
     });
   });
 
@@ -879,7 +879,7 @@ describe('Unit | Model | Assessment', function() {
       // given
       const skillNames = ['web1', 'chi1', 'web2', 'web3', 'chi3', 'fou3', 'mis3'];
       const skills = [];
-      const competenceSkills = skillNames.map(skillName => skills[skillName] = new CatSkill(skillName));
+      const competenceSkills = skillNames.map((skillName) => skills[skillName] = new CatSkill(skillName));
       const ch1 = new CatChallenge('a', 'validé', [skills['web1'], skills['web2']]);
       const ch2 = new CatChallenge('b', 'validé', [skills['web3']]);
       const course = new CatCourse([ch1, ch2], competenceSkills);
@@ -895,7 +895,7 @@ describe('Unit | Model | Assessment', function() {
       // given
       const skillNames = ['web1', 'chi1', 'web2', 'web3', 'chi3', 'fou3', 'mis3'];
       const skills = [];
-      const competenceSkills = skillNames.map(skillName => skills[skillName] = new CatSkill(skillName));
+      const competenceSkills = skillNames.map((skillName) => skills[skillName] = new CatSkill(skillName));
       const ch1 = new CatChallenge('a', 'validé', [skills['web1'], skills['web2']]);
       const ch2 = new CatChallenge('b', 'validé', [skills['web3']]);
       const course = new CatCourse([ch1, ch2], competenceSkills);
@@ -911,7 +911,7 @@ describe('Unit | Model | Assessment', function() {
       // given
       const skillNames = ['web1', 'chi1', 'web2', 'web3', 'chi3', 'fou3', 'mis3'];
       const skills = {};
-      const competenceSkills = skillNames.map(skillName => skills[skillName] = new CatSkill(skillName));
+      const competenceSkills = skillNames.map((skillName) => skills[skillName] = new CatSkill(skillName));
       const ch1 = new CatChallenge('a', 'validé', [skills['web1']]);
       const ch2 = new CatChallenge('b', 'validé', [skills['web2']]);
       const ch3 = new CatChallenge('c', 'validé', [skills['fou3']]);
@@ -931,7 +931,7 @@ describe('Unit | Model | Assessment', function() {
         // given
         const skillNames = ['web1', 'web3', 'ch1', 'ch2', 'ch3', 'truc2'];
         const skills = {};
-        const competenceSkills = skillNames.map(skillName => skills[skillName] = new CatSkill(skillName));
+        const competenceSkills = skillNames.map((skillName) => skills[skillName] = new CatSkill(skillName));
         const web1Challenge = new CatChallenge('a', 'validé', [skills['web1']]);
         const web3Challege = new CatChallenge('c', 'validé', [skills['web3']]);
         const ch1Challenge = new CatChallenge('a', 'validé', [skills['ch1']]);
@@ -957,7 +957,7 @@ describe('Unit | Model | Assessment', function() {
         // given
         const skillNames = ['web1', 'web2', 'web3', 'ch1', 'ch2', 'ch3'];
         const skills = {};
-        const competenceSkills = skillNames.map(skillName => skills[skillName] = new CatSkill(skillName));
+        const competenceSkills = skillNames.map((skillName) => skills[skillName] = new CatSkill(skillName));
         const web1Challenge = new CatChallenge('a', 'validé', [skills['web1']]);
         const web2Challenge = new CatChallenge('a', 'validé', [skills['web2']]);
         const web3Challege = new CatChallenge('c', 'validé', [skills['web3']]);

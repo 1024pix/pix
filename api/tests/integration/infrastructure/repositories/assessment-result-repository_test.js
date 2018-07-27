@@ -47,7 +47,7 @@ describe('Integration | Repository | AssessmentResult', function() {
       const promise = AssessmentResultRepository.save(result);
 
       // then
-      return promise.then(result => {
+      return promise.then((result) => {
         expect(result).to.be.an.instanceOf(AssessmentResult);
 
         expect(result).to.have.property('id').and.not.to.be.null;
@@ -101,7 +101,7 @@ describe('Integration | Repository | AssessmentResult', function() {
       const promise = AssessmentResultRepository.get(assessmentResultId);
 
       // then
-      return promise.then(result => {
+      return promise.then((result) => {
         expect(result).to.be.an.instanceOf(AssessmentResult);
         expect(result.level).to.be.deep.equal(assessmentResult.level);
         expect(result.pixScore).to.be.deep.equal(assessmentResult.pixScore);
@@ -118,7 +118,7 @@ describe('Integration | Repository | AssessmentResult', function() {
       const promise = AssessmentResultRepository.get(assessmentResultId);
 
       // then
-      return promise.then(result => {
+      return promise.then((result) => {
         expect(result.competenceMarks).to.be.instanceOf(Array).and.to.have.lengthOf(2);
         expect(result.competenceMarks[0].score).to.be.deep.equal(competenceMarks1.score);
         expect(result.competenceMarks[0].level).to.be.deep.equal(competenceMarks1.level);

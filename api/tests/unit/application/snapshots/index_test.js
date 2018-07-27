@@ -13,7 +13,7 @@ describe('Unit | Router | snapshot-router', () => {
     server.register({ register: require('../../../../lib/application/snapshots') });
   });
 
-  describe('POST /api/snapshots', _ => {
+  describe('POST /api/snapshots', (_) => {
 
     before(() => {
       sinon.stub(snapshotController, 'create').callsFake((request, reply) => reply('ok'));
@@ -24,7 +24,7 @@ describe('Unit | Router | snapshot-router', () => {
     });
 
     it('should exist', (done) => {
-      return server.inject({ method: 'POST', url: '/api/snapshots' }, res => {
+      return server.inject({ method: 'POST', url: '/api/snapshots' }, (res) => {
         expect(res.statusCode).to.equal(200);
         done();
       });

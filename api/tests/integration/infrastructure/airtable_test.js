@@ -66,7 +66,7 @@ describe('Integration | Class | airtable', () => {
         const promise = airtable.getRecord(tableName, recordId);
 
         // then
-        return promise.then(record => {
+        return promise.then((record) => {
           assertAirtableRecordToEqualExpected(record, airtableRecord);
           expect(findStub).to.have.not.been.called;
         });
@@ -86,7 +86,7 @@ describe('Integration | Class | airtable', () => {
         const promise = airtable.getRecord(tableName, recordId);
 
         // then
-        return promise.then(record => {
+        return promise.then((record) => {
           assertAirtableRecordToEqualExpected(record, airtableRecord);
           expect(cache.set).to.have.been.calledWith(cacheKey, airtableRecord._rawJson);
         });
@@ -135,7 +135,7 @@ describe('Integration | Class | airtable', () => {
 
       it('should resolve with cached value', () => {
         // given
-        const cachedArrayOfRawJson = airtableRecords.map(airtableRecord => airtableRecord._rawJson);
+        const cachedArrayOfRawJson = airtableRecords.map((airtableRecord) => airtableRecord._rawJson);
         cache.get.resolves(cachedArrayOfRawJson);
         cache.set.resolves();
 
@@ -143,7 +143,7 @@ describe('Integration | Class | airtable', () => {
         const promise = airtable.findRecords(tableName, query);
 
         // then
-        return promise.then(records => {
+        return promise.then((records) => {
           records.forEach((record, index) => {
             const expectedRecord = airtableRecords[index];
             assertAirtableRecordToEqualExpected(record, expectedRecord);
@@ -166,12 +166,12 @@ describe('Integration | Class | airtable', () => {
         const promise = airtable.findRecords(tableName, query);
 
         // then
-        return promise.then(records => {
+        return promise.then((records) => {
           records.forEach((record, index) => {
             const expectedRecord = airtableRecords[index];
             assertAirtableRecordToEqualExpected(record, expectedRecord);
           });
-          expect(cache.set).to.have.been.calledWith(cacheKey, airtableRecords.map(airtableRecord => airtableRecord._rawJson));
+          expect(cache.set).to.have.been.calledWith(cacheKey, airtableRecords.map((airtableRecord) => airtableRecord._rawJson));
         });
       });
     });
@@ -192,4 +192,3 @@ describe('Integration | Class | airtable', () => {
     });
   });
 });
-

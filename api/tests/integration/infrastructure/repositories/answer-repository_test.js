@@ -44,7 +44,7 @@ describe('Integration | Repository | AnswerRepository', () => {
         const promise = AnswerRepository.get(answerId);
 
         // then
-        return promise.then(foundAnswer => {
+        return promise.then((foundAnswer) => {
           expect(foundAnswer).to.be.an.instanceof(Answer);
           expect(foundAnswer.id).to.equal(answerId);
         });
@@ -91,7 +91,7 @@ describe('Integration | Repository | AnswerRepository', () => {
       const promise = AnswerRepository.findByChallengeAndAssessment('challenge_1234', 1234);
 
       // then
-      return promise.then(foundAnswers => {
+      return promise.then((foundAnswers) => {
         expect(foundAnswers).to.exist;
         expect(foundAnswers).to.be.an('object');
         expect(foundAnswers.attributes.value).to.equal(wrongAnswer.value);
@@ -137,7 +137,7 @@ describe('Integration | Repository | AnswerRepository', () => {
       const promise = AnswerRepository.findByChallenge('challenge_1234');
 
       // then
-      return promise.then(foundAnswers => {
+      return promise.then((foundAnswers) => {
 
         expect(foundAnswers).to.exist;
 

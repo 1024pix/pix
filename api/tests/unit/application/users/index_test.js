@@ -110,7 +110,7 @@ describe('Unit | Router | user-router', () => {
       };
 
       // given
-      return server.inject(options).then(_ => {
+      return server.inject(options).then((_) => {
         sinon.assert.calledOnce(userVerification.verifyById);
         sinon.assert.calledOnce(UserController.getProfileToCertify);
         sinon.assert.callOrder(userVerification.verifyById, UserController.getProfileToCertify);

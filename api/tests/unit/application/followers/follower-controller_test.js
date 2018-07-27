@@ -30,7 +30,7 @@ describe('Unit | Controller | FollowerController', function() {
       // given
       const follower = { 'email': 'testeur@follower.pix' };
       const emailValidatorStub = sinon.stub(EmailValidator, 'emailIsValid').returns(false);
-      sinon.stub(followerSerializer, 'deserialize').callsFake(_ => new Follower(follower));
+      sinon.stub(followerSerializer, 'deserialize').callsFake((_) => new Follower(follower));
 
       // when
       const promise = server.inject({ method: 'POST', url: '/api/followers', payload: { 'email': 'INVALID_EMAIL' } });

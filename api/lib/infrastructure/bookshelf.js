@@ -29,13 +29,13 @@ if (bookshelf.VERSION !== '0.12.1') {
 
 // XXX a supprimer si Model.count() retourne un Integer
 // ref: https://github.com/bookshelf/bookshelf/issues/1275
-bookshelf.plugin(bookshelf => {
+bookshelf.plugin((bookshelf) => {
   const Model = bookshelf.Model;
 
   const PatchedModel = Model.extend({
     count(...options) {
       const promise = Model.prototype.count.apply(this, options);
-      return promise.then(count => parseInt(count, 10));
+      return promise.then((count) => parseInt(count, 10));
     }
   });
 

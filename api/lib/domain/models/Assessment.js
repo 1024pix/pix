@@ -118,19 +118,19 @@ class Assessment {
 
   addAnswersWithTheirChallenge(answers, challenges) {
     this.answers = answers;
-    this.answers.forEach(answer => {
-      answer.challenge = challenges.find(challenge => challenge.id === answer.challengeId);
+    this.answers.forEach((answer) => {
+      answer.challenge = challenges.find((challenge) => challenge.id === answer.challengeId);
     });
   }
 
   getValidatedSkills() {
     return this.answers
-      .filter(answer => AnswerStatus.isOK(answer.result))
-      .filter(answer => answer.challenge)
+      .filter((answer) => AnswerStatus.isOK(answer.result))
+      .filter((answer) => answer.challenge)
       .reduce((validatedSkills, answer) => {
-        answer.challenge.skills.forEach(skill => {
+        answer.challenge.skills.forEach((skill) => {
           const tube = this.course.findTube(skill.tubeName);
-          tube.getEasierThan(skill).forEach(easierSkill => {
+          tube.getEasierThan(skill).forEach((easierSkill) => {
             if (!validatedSkills.includes(easierSkill))
               validatedSkills.push(easierSkill);
           });
@@ -141,15 +141,15 @@ class Assessment {
 
   getFailedSkills() {
     return this.answers
-      .filter(answer => AnswerStatus.isFailed(answer.result))
-      .filter(answer => answer.challenge)
+      .filter((answer) => AnswerStatus.isFailed(answer.result))
+      .filter((answer) => answer.challenge)
       .reduce((failedSkills, answer) => {
         // FIXME refactor !
         // XXX we take the current failed skill and all the harder skills in
         // its tube and mark them all as failed
-        answer.challenge.skills.forEach(skill => {
+        answer.challenge.skills.forEach((skill) => {
           const tube = this.course.findTube(skill.tubeName);
-          tube.getHarderThan(skill).forEach(harderSkill => {
+          tube.getHarderThan(skill).forEach((harderSkill) => {
             if (!failedSkills.includes(harderSkill))
               failedSkills.push(harderSkill);
           });
@@ -166,9 +166,9 @@ class Assessment {
     const skillsEvaluated = this.course.competenceSkills;
     const pixScoreBySkill = [];
 
-    skillsEvaluated.forEach(skill => pixScoreBySkill[skill.name] = skill.computePixScore(skillsEvaluated));
+    skillsEvaluated.forEach((skill) => pixScoreBySkill[skill.name] = skill.computePixScore(skillsEvaluated));
     return this.getValidatedSkills()
-      .map(skill => pixScoreBySkill[skill.name] || 0)
+      .map((skill) => pixScoreBySkill[skill.name] || 0)
       .reduce((a, b) => a + b, 0);
   }
 

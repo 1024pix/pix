@@ -64,7 +64,7 @@ describe('Integration | Infrastructure | Repositories | assessment-repository', 
         const promise = assessmentRepository.get(assessmentIdInDb);
 
         // then
-        return promise.then(assessment => {
+        return promise.then((assessment) => {
           expect(assessment).to.be.an.instanceOf(Assessment);
           expect(assessment.id).to.equal(assessmentIdInDb);
           expect(assessment.courseId).to.equal('course_A');
@@ -84,7 +84,7 @@ describe('Integration | Infrastructure | Repositories | assessment-repository', 
         const promise = assessmentRepository.get(245);
 
         // then
-        return promise.then(assessment => {
+        return promise.then((assessment) => {
           expect(assessment).to.equal(null);
         });
       });
@@ -139,13 +139,13 @@ describe('Integration | Infrastructure | Repositories | assessment-repository', 
       const promise = assessmentRepository.findLastAssessmentsForEachCoursesByUser(userId);
 
       // then
-      return promise.then(assessments => {
+      return promise.then((assessments) => {
         expect(assessments).to.have.lengthOf(2);
 
         expect(assessments[0]).to.be.an.instanceOf(Assessment);
         expect(assessments[1]).to.be.an.instanceOf(Assessment);
 
-        expect(assessments.map(assessment => assessment.id)).to.deep.equal([3, 5]);
+        expect(assessments.map((assessment) => assessment.id)).to.deep.equal([3, 5]);
       });
     });
   });
@@ -416,7 +416,7 @@ describe('Integration | Infrastructure | Repositories | assessment-repository', 
 
     beforeEach(() => {
       return knex('assessments').insert(assessmentInDb)
-        .then(assessmentIds => {
+        .then((assessmentIds) => {
           const assessmentId = _.first(assessmentIds);
           const result = {
             id: 12,

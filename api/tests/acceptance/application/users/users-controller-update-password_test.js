@@ -47,7 +47,7 @@ describe('Acceptance | Controller | users-controller', () => {
         const promise = server.inject(options);
 
         // then
-        return promise.then(response => {
+        return promise.then((response) => {
           expect(response.statusCode).to.equal(204);
         });
       });
@@ -73,7 +73,7 @@ describe('Acceptance | Controller | users-controller', () => {
         const promise = server.inject(options);
 
         // then
-        return promise.then(response => {
+        return promise.then((response) => {
           expect(response.statusCode).to.equal(404);
         });
       });

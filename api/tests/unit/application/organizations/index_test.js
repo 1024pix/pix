@@ -13,7 +13,7 @@ describe('Unit | Application | Organizations | Routes', () => {
     server.register({ register: require('../../../../lib/application/organizations') });
   });
 
-  describe('POST /api/organizations', _ => {
+  describe('POST /api/organizations', (_) => {
 
     before(() => {
       sinon.stub(securityController, 'checkUserHasRolePixMaster').callsFake((request, reply) => reply(true));
@@ -26,14 +26,14 @@ describe('Unit | Application | Organizations | Routes', () => {
     });
 
     it('should exist', (done) => {
-      return server.inject({ method: 'POST', url: '/api/organizations' }, res => {
+      return server.inject({ method: 'POST', url: '/api/organizations' }, (res) => {
         expect(res.statusCode).to.equal(200);
         done();
       });
     });
   });
 
-  describe('GET /api/organizations', _ => {
+  describe('GET /api/organizations', (_) => {
 
     before(() => {
       sinon.stub(organisationController, 'search').callsFake((request, reply) => reply('ok'));
@@ -44,14 +44,14 @@ describe('Unit | Application | Organizations | Routes', () => {
     });
 
     it('should exist', (done) => {
-      server.inject({ method: 'GET', url: '/api/organizations' }, res => {
+      server.inject({ method: 'GET', url: '/api/organizations' }, (res) => {
         expect(res.statusCode).to.equal(200);
         done();
       });
     });
   });
 
-  describe('GET /api/organizations/:id/snapshots', _ => {
+  describe('GET /api/organizations/:id/snapshots', (_) => {
 
     before(() => {
       sinon.stub(organisationController, 'getSharedProfiles').callsFake((request, reply) => reply('ok'));
@@ -62,7 +62,7 @@ describe('Unit | Application | Organizations | Routes', () => {
     });
 
     it('should exist', (done) => {
-      server.inject({ method: 'GET', url: '/api/organizations/:id/snapshots' }, res => {
+      server.inject({ method: 'GET', url: '/api/organizations/:id/snapshots' }, (res) => {
         expect(res.statusCode).to.equal(200);
         done();
       });

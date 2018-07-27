@@ -9,8 +9,8 @@ class Course {
   get tubes() {
     const tubes = {};
 
-    this.challenges.forEach(challenge => {
-      challenge.skills.forEach(skill => {
+    this.challenges.forEach((challenge) => {
+      challenge.skills.forEach((skill) => {
         const tubeName = skill.tubeName;
 
         if(!tubes[tubeName]) {
@@ -22,7 +22,7 @@ class Course {
         }
       });
     });
-    Object.keys(tubes).forEach(tubeName =>  {
+    Object.keys(tubes).forEach((tubeName) =>  {
       tubes[tubeName] = _.sortBy(tubes[tubeName], ['difficulty']);
     });
     return tubes;
@@ -34,9 +34,9 @@ class Course {
     const numberOfSkillsByDifficulty = [];
 
     for (let levelDifficulty = 0; levelDifficulty < maxDifficulty; levelDifficulty++) {
-      numberOfSkillsByDifficulty[levelDifficulty] = _.filter(this.competenceSkills, skill => skill.difficulty === levelDifficulty).length;
+      numberOfSkillsByDifficulty[levelDifficulty] = _.filter(this.competenceSkills, (skill) => skill.difficulty === levelDifficulty).length;
     }
-    this.competenceSkills.forEach(skill => {
+    this.competenceSkills.forEach((skill) => {
       pixScoreOfSkills[skill.name] = Math.min(4, 8 / numberOfSkillsByDifficulty[skill.difficulty]);
     });
     return pixScoreOfSkills;

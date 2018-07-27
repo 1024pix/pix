@@ -57,7 +57,7 @@ module.exports = {
         ],
       })
       .then(_certificationToDomain)
-      .catch(err => {
+      .catch((err) => {
         if (err instanceof CertificationCourseBookshelf.NotFoundError) {
           throw new NotFoundError(`Not found certification for ID ${id}`);
         } else {
@@ -101,7 +101,7 @@ module.exports = {
           });
       })
       .then(_certificationToDomain)
-      .catch(err => {
+      .catch((err) => {
         if (err instanceof CertificationCourseBookshelf.NoRowsUpdatedError) {
           throw new NotFoundError(`Not found certification for ID ${id}`);
         } else {

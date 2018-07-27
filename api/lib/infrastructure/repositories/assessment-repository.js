@@ -21,10 +21,10 @@ function _toDomain(bookshelfAssessment) {
     const modelObjectInJSON = bookshelfAssessment.toJSON();
 
     const answers = bookshelfAssessment.related('answers')
-      .map(bookshelfAnswer => new Answer(bookshelfAnswer.toJSON()));
+      .map((bookshelfAnswer) => new Answer(bookshelfAnswer.toJSON()));
 
     const assessmentResults = bookshelfAssessment.related('assessmentResults')
-      .map(bookshelfAssessmentResult => new AssessmentResult(bookshelfAssessmentResult.toJSON()));
+      .map((bookshelfAssessmentResult) => new AssessmentResult(bookshelfAssessmentResult.toJSON()));
 
     return new Assessment(Object.assign(modelObjectInJSON, { answers, assessmentResults }));
   }
@@ -60,7 +60,7 @@ module.exports = {
 
   findCompletedAssessmentsByUserId(userId) {
     return BookshelfAssessment
-      .query(qb => {
+      .query((qb) => {
         qb.where({ userId });
         qb.where('state', '=', 'completed');
         qb.andWhere(function() {
@@ -69,14 +69,14 @@ module.exports = {
         });
       })
       .fetchAll({ withRelated: ['assessmentResults'] })
-      .then(bookshelfAssessmentCollection => bookshelfAssessmentCollection.models)
+      .then((bookshelfAssessmentCollection) => bookshelfAssessmentCollection.models)
       .then(fp.map(_toDomain));
   },
 
   findLastAssessmentsForEachCoursesByUser(userId) {
     return BookshelfAssessment
       .collection()
-      .query(qb => {
+      .query((qb) => {
         qb.where({ userId })
           .where(function() {
             this.where({ type: null })
@@ -85,7 +85,7 @@ module.exports = {
           .orderBy('createdAt', 'desc');
       })
       .fetch({ withRelated: ['assessmentResults'] })
-      .then(bookshelfAssessmentCollection => bookshelfAssessmentCollection.models)
+      .then((bookshelfAssessmentCollection) => bookshelfAssessmentCollection.models)
       .then(_selectLastAssessmentForEachCourse)
       .then(fp.map(_toDomain));
   },
@@ -93,7 +93,7 @@ module.exports = {
   findLastCompletedAssessmentsForEachCoursesByUser(userId, limitDate) {
     return BookshelfAssessment
       .collection()
-      .query(qb => {
+      .query((qb) => {
         qb.where({ userId })
           .where(function() {
             this.where({ type: null })
@@ -106,7 +106,7 @@ module.exports = {
       .fetch({ withRelated: [
         { assessmentResults: (qb) => { qb.where('createdAt', '<', limitDate); } }
       ] })
-      .then(bookshelfAssessmentCollection => bookshelfAssessmentCollection.models)
+      .then((bookshelfAssessmentCollection) => bookshelfAssessmentCollection.models)
       .then(_selectAssessmentsHavingAnAssessmentResult)
       .then(_selectLastAssessmentForEachCourse)
       .then(fp.map(_toDomain));
@@ -137,7 +137,7 @@ module.exports = {
     return BookshelfAssessment
       .where(filters)
       .fetchAll()
-      .then(bookshelfAssessmentCollection => bookshelfAssessmentCollection.models)
+      .then((bookshelfAssessmentCollection) => bookshelfAssessmentCollection.models)
       .then(fp.map(_toDomain));
   },
 
