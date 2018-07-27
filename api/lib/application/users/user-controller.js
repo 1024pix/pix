@@ -1,9 +1,9 @@
 const Boom = require('boom');
 const moment = require('moment');
 const JSONAPIError = require('jsonapi-serializer').Error;
-const _ = require('lodash');
 
 const userSerializer = require('../../infrastructure/serializers/jsonapi/user-serializer');
+const organizationAccessSerializer = require('../../infrastructure/serializers/jsonapi/organization-accesses-serializer');
 const validationErrorSerializer = require('../../infrastructure/serializers/jsonapi/validation-error-serializer');
 const mailService = require('../../domain/services/mail-service');
 const userService = require('../../domain/services/user-service');
@@ -49,12 +49,10 @@ module.exports = {
       .catch((error) => {
 
         if (error instanceof EntityValidationError) {
-          const serializedErrors = new JSONAPIError(error.invalidAttributes.map(_formatValidationError));
-          return reply(serializedErrors).code(422);
+          return reply(JSONAPI.unprocessableEntityError(error.invalidAttributes)).code(422);
         }
 
         logger.error(error);
-        // TODO extract the formatting into a common error formatter
         return reply(JSONAPI.internalError('Une erreur est survenue lors de la création de l’utilisateur')).code(500);
       });
   },
@@ -63,7 +61,7 @@ module.exports = {
     const requestedUserId = parseInt(request.params.id, 10);
     const authenticatedUserId = request.auth.credentials.userId;
 
-    return usecases.getUser({ authenticatedUserId, requestedUserId, userRepository })
+    return usecases.getUserWithOrganizationAccesses({ authenticatedUserId, requestedUserId, userRepository })
       .then((foundUser) => {
         return reply(userSerializer.serialize(foundUser)).code(200);
       })
@@ -135,11 +133,28 @@ module.exports = {
 
     return userService.getProfileToCertify(userId, currentDate)
       .then(reply)
-      .catch(err => {
+      .catch((err) => {
         logger.error(err);
         reply(Boom.badImplementation(err));
       });
   },
+
+  getOrganizationAccesses(request, reply) {
+    const authenticatedUserId = request.auth.credentials.userId.toString();
+    const requestedUserId = request.params.id;
+
+    return usecases.getUserWithOrganizationAccesses({ authenticatedUserId, requestedUserId, userRepository })
+      .then((user) => {
+        return reply(organizationAccessSerializer.serialize(user.organizationAccesses)).code(200);
+      })
+      .catch((error) => {
+        if (error instanceof UserNotAuthorizedToAccessEntity) {
+          reply(JSONAPI.forbiddenError(error.message)).code(403);
+        }
+        logger.error(error);
+        reply(JSONAPI.internalError('Une erreur est survenue lors de la récupération de l’utilisateur')).code(500);
+      });
+  }
 };
 
 // TODO refacto, extract and simplify
@@ -152,17 +167,5 @@ function _handleWhenInvalidAuthorization(errorMessage) {
     data: {
       authorization: [errorMessage],
     },
-  };
-}
-
-// TODO extract this into a common error formatter
-function _formatValidationError({ attribute, message }) {
-  return {
-    status: '422',
-    source: {
-      pointer: `/data/attributes/${ _.kebabCase(attribute) }`,
-    },
-    title: `Invalid user data attribute "${ attribute }"`,
-    detail: message
   };
 }

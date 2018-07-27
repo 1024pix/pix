@@ -26,7 +26,7 @@ module.exports = {
 
   list(request, reply) {
     return _fetchCourses(request.query)
-      .then(courses => reply(courseSerializer.serialize(courses)))
+      .then((courses) => reply(courseSerializer.serialize(courses)))
       .catch((err) => {
         logger.error(err);
         return reply(Boom.badImplementation(err));
@@ -38,8 +38,8 @@ module.exports = {
 
     return courseService
       .getCourse(courseId)
-      .then(course => reply(courseSerializer.serialize(course)))
-      .catch(err => {
+      .then((course) => reply(courseSerializer.serialize(course)))
+      .catch((err) => {
         if (err instanceof NotFoundError) {
           return reply(Boom.notFound(err));
         }
@@ -55,8 +55,8 @@ module.exports = {
     const accessCode = request.payload.data.attributes['access-code'];
     return sessionService.sessionExists(accessCode)
       .then((sessionId) => certificationService.startNewCertification(userId, sessionId))
-      .then(certificationCourse => reply(certificationCourseSerializer.serialize(certificationCourse)).code(201))
-      .catch(err => {
+      .then((certificationCourse) => reply(certificationCourseSerializer.serialize(certificationCourse)).code(201))
+      .catch((err) => {
         if (err instanceof UserNotAuthorizedToCertifyError) {
           const errorHttpStatusCode = 403;
           const jsonApiError = new JSONAPIError({

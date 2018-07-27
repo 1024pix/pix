@@ -8,7 +8,7 @@ module.exports = {
 
   get(id) {
     return airtable.getRecord(AIRTABLE_TABLE_NAME, id)
-      .then(airtableRawObject => airTableDataObjects.Challenge.fromAirTableObject(airtableRawObject))
+      .then((airtableRawObject) => airTableDataObjects.Challenge.fromAirTableObject(airtableRawObject))
       .catch((err) => {
         if (err.error === 'NOT_FOUND') {
           throw new airTableDataObjects.AirtableResourceNotFound();
@@ -24,7 +24,7 @@ module.exports = {
     listOfSkillNames.forEach((skillName) => {
       listOfFilters.push(`FIND("${skillName}", ARRAYJOIN({acquis}, ";"))`);
     });
-    const statutsValidated = VALIDATED_CHALLENGES.map(validatedStatut => `{Statut}="${validatedStatut}"`);
+    const statutsValidated = VALIDATED_CHALLENGES.map((validatedStatut) => `{Statut}="${validatedStatut}"`);
 
     const query = { filterByFormula: `AND(OR(${listOfFilters.join(', ')}), OR(${statutsValidated.join(',')}))` };
 

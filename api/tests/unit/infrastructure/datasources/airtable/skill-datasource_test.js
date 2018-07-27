@@ -20,7 +20,8 @@ describe('Unit | Infrastructure | Datasource | Airtable | SkillDatasource', () =
 
     it('should call airtable on Acquis table with the id and return a datamodel Skill object', () => {
       // given
-      sandbox.stub(airtable, 'getRecord').resolves(skillRawAirTableFixture());
+      const airtableSkillObject = skillRawAirTableFixture();
+      sandbox.stub(airtable, 'getRecord').resolves(airtableSkillObject);
 
       // when
       const promise = skillDatasource.get('243');
@@ -30,8 +31,12 @@ describe('Unit | Infrastructure | Datasource | Airtable | SkillDatasource', () =
         expect(airtable.getRecord).to.have.been.calledWith('Acquis', '243');
 
         expect(skill).to.be.an.instanceof(airTableDataModels.Skill);
-        expect(skill.id).to.equal('recTIddrkopID28Ep');
-        expect(skill.name).to.equal('@accesDonnées1');
+        expect(skill.id).to.equal(airtableSkillObject.id);
+        expect(skill.name).to.equal(airtableSkillObject.get('Nom'));
+        expect(skill.hint).to.equal(airtableSkillObject.get('Indice'));
+        expect(skill.hintStatus).to.equal(airtableSkillObject.get('Statut de l\'indice'));
+        expect(skill.tutorialIds).to.equal(airtableSkillObject.get('Comprendre'));
+        expect(skill.learningMoreTutorialIds).to.equal(airtableSkillObject.get('En savoir plus'));
       });
     });
   });

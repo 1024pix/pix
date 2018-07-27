@@ -11,6 +11,7 @@ const logger = require('../../../../lib/infrastructure/logger');
 
 const mailService = require('../../../../lib/domain/services/mail-service');
 const userSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/user-serializer');
+const organizationAccessesSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/organization-accesses-serializer');
 const passwordResetService = require('../../../../lib/domain/services/reset-password-service');
 const encryptionService = require('../../../../lib/domain/services/encryption-service');
 const userRepository = require('../../../../lib/infrastructure/repositories/user-repository');
@@ -156,13 +157,13 @@ describe('Unit | Controller | user-controller', () => {
             {
               status: '422',
               source: { 'pointer': '/data/attributes/first-name' },
-              title: 'Invalid user data attribute "firstName"',
+              title: 'Invalid data attribute "firstName"',
               detail: 'Votre prénom n’est pas renseigné.'
             },
             {
               status: '422',
               source: { 'pointer': '/data/attributes/password' },
-              title: 'Invalid user data attribute "password"',
+              title: 'Invalid data attribute "password"',
               detail: 'Votre mot de passe n’est pas renseigné.'
             }
           ]
@@ -539,7 +540,7 @@ describe('Unit | Controller | user-controller', () => {
       sandbox = sinon.sandbox.create();
       codeStub = sandbox.stub();
       replyStub = sandbox.stub().returns({ code: codeStub });
-      sandbox.stub(usecases, 'getUser').resolves();
+      sandbox.stub(usecases, 'getUserWithOrganizationAccesses').resolves();
       sandbox.stub(userSerializer, 'serialize');
     });
 
@@ -553,14 +554,18 @@ describe('Unit | Controller | user-controller', () => {
 
       // then
       return promise.then(() => {
-        expect(usecases.getUser).to.have.been.calledWith({ authenticatedUserId, requestedUserId, userRepository });
+        expect(usecases.getUserWithOrganizationAccesses).to.have.been.calledWith({
+          authenticatedUserId,
+          requestedUserId,
+          userRepository
+        });
       });
     });
 
     it('should serialize the authenticated user', () => {
       // given
       const foundUser = factory.buildUser();
-      usecases.getUser.resolves(foundUser);
+      usecases.getUserWithOrganizationAccesses.resolves(foundUser);
 
       // when
       const promise = userController.getUser(request, replyStub);
@@ -580,7 +585,7 @@ describe('Unit | Controller | user-controller', () => {
           title: 'Forbidden Access'
         }]
       };
-      usecases.getUser.rejects(new UserNotAuthorizedToAccessEntity());
+      usecases.getUserWithOrganizationAccesses.rejects(new UserNotAuthorizedToAccessEntity());
 
       // when
       const promise = userController.getUser(request, replyStub);
@@ -607,7 +612,7 @@ describe('Unit | Controller | user-controller', () => {
           }
         }
       };
-      usecases.getUser.resolves(foundUser);
+      usecases.getUserWithOrganizationAccesses.resolves(foundUser);
       userSerializer.serialize.returns(serializedUser);
 
       // when
@@ -620,4 +625,125 @@ describe('Unit | Controller | user-controller', () => {
     });
 
   });
+
+  describe('#getOrganizationAccesses', () => {
+
+    let sandbox;
+    const authenticatedUserId = 1;
+    const requestedUserId = '1';
+    const request = {
+      auth: {
+        credentials: {
+          userId: authenticatedUserId
+        }
+      },
+      params: {
+        id: requestedUserId
+      }
+    };
+    let codeStub;
+    let replyStub;
+
+    beforeEach(() => {
+      sandbox = sinon.sandbox.create();
+      sandbox.stub(organizationAccessesSerializer, 'serialize');
+      codeStub = sandbox.stub();
+      replyStub = sandbox.stub().returns({ code: codeStub });
+    });
+
+    afterEach(() => {
+      sandbox.restore();
+    });
+
+    it('should get accesses of the user passed on params', () => {
+      // given
+      const stringifiedAuthenticatedUserId = authenticatedUserId.toString();
+      sandbox.stub(usecases, 'getUserWithOrganizationAccesses').resolves();
+
+      // when
+      const promise = userController.getOrganizationAccesses(request, replyStub);
+
+      // then
+      return promise.then(() => {
+        expect(usecases.getUserWithOrganizationAccesses).to.have.been.calledWith({
+          requestedUserId,
+          authenticatedUserId: stringifiedAuthenticatedUserId,
+          userRepository
+        });
+      });
+    });
+
+    context('When accesses are found', () => {
+
+      beforeEach(() => {
+        sandbox.stub(usecases, 'getUserWithOrganizationAccesses');
+      });
+
+      it('should serialize found organization-accesses', () => {
+        // given
+        const foundAccesses = [];
+        const foundUser = new User({ organizationAccesses: foundAccesses });
+        usecases.getUserWithOrganizationAccesses.resolves(foundUser);
+
+        // when
+        const promise = userController.getOrganizationAccesses(request, replyStub);
+
+        // then
+        return promise.then(() => {
+          expect(organizationAccessesSerializer.serialize).to.have.been.calledWith(foundAccesses);
+        });
+      });
+
+      it('should return serialized Organizations Accesses, a 200 code response', function() {
+        // given
+        const serializedOrganizationAccesses = {};
+        organizationAccessesSerializer.serialize.returns(serializedOrganizationAccesses);
+        usecases.getUserWithOrganizationAccesses.resolves({});
+
+        // when
+        const promise = userController.getOrganizationAccesses(request, replyStub);
+
+        // then
+        return promise.then(() => {
+          expect(replyStub).to.have.been.calledWith(serializedOrganizationAccesses);
+          expect(codeStub).to.have.been.calledWith(200);
+        });
+      });
+
+    });
+
+    context('When authenticated user want to retrieve access of another user', () => {
+      it('should return a 403 Forbidden access error ', () => {
+        // given
+        sandbox.stub(usecases, 'getUserWithOrganizationAccesses').rejects(new UserNotAuthorizedToAccessEntity());
+
+        // when
+        const promise = userController.getOrganizationAccesses(request, replyStub);
+
+        // then
+        return promise.then(() => {
+          expect(codeStub).to.have.been.calledWith(403);
+        });
+      });
+
+    });
+
+    context('When an unexpected error occurs', () => {
+      it('should return a 500 internal error ', () => {
+        // given
+        sandbox.stub(usecases, 'getUserWithOrganizationAccesses').rejects(new Error());
+
+        // when
+        const promise = userController.getOrganizationAccesses(request, replyStub);
+
+        // then
+        return promise.then(() => {
+          expect(codeStub).to.have.been.calledWith(500);
+        });
+      });
+
+    });
+
+  });
+
 });

@@ -119,7 +119,7 @@ describe('Unit | Route | board', function() {
     const result = route.model();
 
     // then
-    return result.then(_ => {
+    return result.then((_) => {
       sinon.assert.calledOnce(route.transitionTo);
       sinon.assert.calledWith(route.transitionTo, 'compte');
     });

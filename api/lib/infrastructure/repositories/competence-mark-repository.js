@@ -9,14 +9,14 @@ module.exports = {
   save: (competenceMark) => {
     return competenceMark.validate()
       .then(() => new BookshelfCompetenceMark(competenceMark).save())
-      .then(savedCompetenceMark => savedCompetenceMark.toDomainEntity());
+      .then((savedCompetenceMark) => savedCompetenceMark.toDomainEntity());
   },
 
   findByAssessmentResultId(assessmentResultId) {
     return BookshelfCompetenceMark
       .where({ assessmentResultId })
       .fetchAll()
-      .then(competenceMarks => competenceMarks.models.map(_toDomain));
+      .then((competenceMarks) => competenceMarks.models.map(_toDomain));
   },
 
 };

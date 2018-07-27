@@ -48,7 +48,7 @@ describe('Unit | Infrastructure | Repository | UserRepository', () => {
       // then
       return promise
         .then(() => expect.fail('Expected an error to have been thrown.'))
-        .catch(err => expect(err).to.be.an.instanceof(NotFoundError));
+        .catch((err) => expect(err).to.be.an.instanceof(NotFoundError));
     });
 
   });
@@ -73,7 +73,7 @@ describe('Unit | Infrastructure | Repository | UserRepository', () => {
       const promise = userRepository.hasRolePixMaster(userId);
 
       // then
-      return promise.then(result => {
+      return promise.then((result) => {
         expect(result).to.be.true;
       });
     });
@@ -96,11 +96,10 @@ describe('Unit | Infrastructure | Repository | UserRepository', () => {
       const promise = userRepository.hasRolePixMaster(userId);
 
       // then
-      return promise.then(result => {
+      return promise.then((result) => {
         expect(result).to.be.false;
       });
     });
   });
 
 });
-

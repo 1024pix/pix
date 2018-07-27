@@ -19,7 +19,7 @@ describe('Acceptance | Controller | authentication-controller', () => {
 
   beforeEach(() => {
     return encrypt.hashPassword(userPassword)
-      .then(encryptedPassword => {
+      .then((encryptedPassword) => {
         return {
           firstName: faker.name.firstName(),
           lastName: faker.name.lastName(),
@@ -28,7 +28,7 @@ describe('Acceptance | Controller | authentication-controller', () => {
           cgu: true
         };
       })
-      .then(user => knex('users').insert(user).returning('id'))
+      .then((user) => knex('users').insert(user).returning('id'))
       .then(([id]) => userId = id);
   });
 
@@ -67,7 +67,7 @@ describe('Acceptance | Controller | authentication-controller', () => {
       const promise = server.inject(options);
 
       // then
-      return promise.then(response => {
+      return promise.then((response) => {
         expect(response.statusCode).to.equal(201);
         expect(response.result).to.deep.equal({
           data: {
@@ -121,7 +121,7 @@ describe('Acceptance | Controller | authentication-controller', () => {
             organizationRoleId,
           };
         })
-        .then(organizationAccess => knex('organizations-accesses').insert(organizationAccess));
+        .then((organizationAccess) => knex('organizations-accesses').insert(organizationAccess));
     });
 
     afterEach(() => {

@@ -2,7 +2,7 @@ const User = require('../../lib/domain/models/User');
 const buildOrganizationAccess = require('./build-organization-access');
 const buildPixRole = require('./build-pix-role');
 
-module.exports = function(
+module.exports = function buildUser(
   {
     id = 1,
     firstName = 'Jean',
@@ -11,11 +11,10 @@ module.exports = function(
     password = 'liuehrfi128743KUUKNSUkuz12Ukun',
     cgu = true,
     pixRoles = [buildPixRole()],
-    organizationsAccesses = [buildOrganizationAccess()],
+    organizationAccesses = [buildOrganizationAccess()],
   } = {}) {
 
   return new User({
-    id, firstName, lastName, email, password, cgu, pixRoles, organizationsAccesses
+    id, firstName, lastName, email, password, cgu, pixRoles, organizationAccesses
   });
 };
-

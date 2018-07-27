@@ -52,16 +52,23 @@ describe('Acceptance | Controller | users-controller', () => {
         // given
         const payloadRegExp = XRegExp(
           '{' +
-          '"data":{' +
-          '"type":"users",' +
-          '"id":(\\d+),' +
-          '"attributes":{' +
-          '"first-name":"John",' +
-          '"last-name":"DoDoe",' +
-          '"email":"john.dodoe@example.net",' +
-          '"cgu":true' +
-          '}' +
-          '}' +
+            '"data":{' +
+              '"type":"users",' +
+              '"id":(\\d+),' +
+              '"attributes":{' +
+                '"first-name":"John",' +
+                '"last-name":"DoDoe",' +
+                '"email":"john.dodoe@example.net",' +
+                '"cgu":true' +
+              '},' +
+            '"relationships":{' +
+              '"organization-accesses":{'+
+                '"links":{'+
+                  '"related":"/users/(\\d+)/organization-accesses"'+
+                '}'+
+              '}'+
+            '}'+
+            '}' +
           '}',
         );
 

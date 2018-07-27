@@ -14,7 +14,7 @@ export default Component.extend({
   displayedDuration: computed('tutorial', function() {
     const durationByTime = this.get('tutorial').duration
       .split(':')
-      .map(duration => parseInt(duration));
+      .map((duration) => parseInt(duration));
 
     const HOURS_OF_DURATION = durationByTime[0];
     const MINUTES_OF_DURATION = durationByTime[1];

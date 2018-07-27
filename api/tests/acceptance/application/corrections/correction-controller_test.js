@@ -69,7 +69,7 @@ describe('Acceptance | Controller | correction-controller', () => {
         .then(() => knex('assessments').delete());
     });
 
-    it('should not necessitate auth and return 200 HTTP status with an array of one solution', () => {
+    it('should not necessitate auth and return 200 HTTP status with a solution, a hint, an array of tutorial and a learning more array', () => {
       // given
       const options = {
         method: 'GET',
@@ -83,11 +83,14 @@ describe('Acceptance | Controller | correction-controller', () => {
           },
           'relationships': {
             'tutorials': {
-              'data': []
+              'data': [],
+            },
+            'learning-more-tutorials': {
+              'data': [],
             }
           },
           'id': 'q_first_challenge',
-          'type': 'corrections'
+          'type': 'corrections',
         }]
       };
 

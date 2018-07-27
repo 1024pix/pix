@@ -3,24 +3,27 @@ const Hapi = require('hapi');
 const UserController = require('../../../../lib/application/users/user-controller');
 const userVerification = require('../../../../lib/application/preHandlers/user-existence-verification');
 
+const sandbox = sinon.createSandbox();
+
+let server;
+
+function startServer() {
+  server = new Hapi.Server();
+  server.connection({ port: null });
+  server.register({ register: require('../../../../lib/application/users') });
+}
+
 describe('Unit | Router | user-router', () => {
 
-  let server;
-
-  beforeEach(() => {
-    server = new Hapi.Server();
-    server.connection({ port: null });
-    server.register({ register: require('../../../../lib/application/users') });
+  afterEach(() => {
+    sandbox.restore();
   });
 
   describe('POST /api/users', () => {
 
-    before(() => {
-      sinon.stub(UserController, 'save').callsFake((request, reply) => reply('ok'));
-    });
-
-    after(() => {
-      UserController.save.restore();
+    beforeEach(() => {
+      sandbox.stub(UserController, 'save').callsFake((request, reply) => reply('ok'));
+      startServer();
     });
 
     it('should exist', () => {
@@ -34,10 +37,10 @@ describe('Unit | Router | user-router', () => {
               'first-name': 'Edouard',
               'last-name': 'Doux',
               email: 'doux.doudou@example.net',
-              password: 'password_1234'
-            }
-          }
-        }
+              password: 'password_1234',
+            },
+          },
+        },
       };
 
       // when
@@ -48,17 +51,13 @@ describe('Unit | Router | user-router', () => {
         expect(response.statusCode).to.equal(200);
       });
     });
-
   });
 
   describe('GET /api/users/{id}', function() {
 
-    before(() => {
-      sinon.stub(UserController, 'getUser').callsFake((request, reply) => reply('ok'));
-    });
-
-    after(() => {
-      UserController.getUser.restore();
+    beforeEach(() => {
+      sandbox.stub(UserController, 'getUser').callsFake((request, reply) => reply('ok'));
+      startServer();
     });
 
     it('should exist', () => {
@@ -77,13 +76,11 @@ describe('Unit | Router | user-router', () => {
 
   describe('GET /api/users/me', function() {
 
-    before(() => {
-      sinon.stub(UserController, 'getAuthenticatedUserProfile').callsFake((request, reply) => reply('ok'));
+    beforeEach(() => {
+      sandbox.stub(UserController, 'getAuthenticatedUserProfile').callsFake((request, reply) => reply('ok'));
+      startServer();
     });
 
-    after(() => {
-      UserController.getAuthenticatedUserProfile.restore();
-    });
     it('should exist', () => {
       // given
       const options = { method: 'GET', url: '/api/users/me' };
@@ -99,24 +96,20 @@ describe('Unit | Router | user-router', () => {
   });
 
   describe('GET /api/users/{id}/skills', function() {
-    before(() => {
-      sinon.stub(UserController, 'getProfileToCertify').callsFake((request, reply) => reply('ok'));
-      sinon.stub(userVerification, 'verifyById').callsFake((request, reply) => reply('ok'));
-    });
-
-    after(() => {
-      UserController.getProfileToCertify.restore();
-      userVerification.verifyById.restore();
+    beforeEach(() => {
+      sandbox.stub(UserController, 'getProfileToCertify').callsFake((request, reply) => reply('ok'));
+      sandbox.stub(userVerification, 'verifyById').callsFake((request, reply) => reply('ok'));
+      startServer();
     });
 
     it('should exist', () => {
       const options = {
         method: 'GET',
-        url: '/api/users/12/skills'
+        url: '/api/users/12/skills',
       };
 
       // given
-      return server.inject(options).then(_ => {
+      return server.inject(options).then((_) => {
         sinon.assert.calledOnce(userVerification.verifyById);
         sinon.assert.calledOnce(UserController.getProfileToCertify);
         sinon.assert.callOrder(userVerification.verifyById, UserController.getProfileToCertify);
@@ -124,76 +117,74 @@ describe('Unit | Router | user-router', () => {
     });
   });
 
-  describe('PATCH /api/users/{id}', function() {
-
-    const userId = '12344';
-    const options = { method: 'PATCH', url: `/api/users/${userId}` };
-
-    before(() => {
-      sinon.stub(UserController, 'updatePassword').callsFake((request, reply) => reply('ok'));
-      sinon.stub(userVerification, 'verifyById').callsFake((request, reply) => reply('ok'));
-    });
-
-    after(() => {
-      UserController.updatePassword.restore();
-      userVerification.verifyById.restore();
+  describe('GET /api/users/{id}/organization-accesses', function() {
+    beforeEach(() => {
+      sandbox.stub(UserController, 'getOrganizationAccesses').callsFake((request, reply) => reply('ok'));
+      startServer();
     });
 
     it('should exist', () => {
-      const wellFormedOptions = {
-        method: 'PATCH',
-        url: `/api/users/${userId}`,
-        payload: { data: { attributes: { password: '12345678ab+!' } } }
+      // given
+      const options = {
+        method: 'GET',
+        url: '/api/users/12/organization-accesses',
       };
 
+      // when
+      return server.inject(options).then(() => {
+        // then
+        sinon.assert.calledOnce(UserController.getOrganizationAccesses);
+      });
+    });
+  });
+
+  describe('PATCH /api/users/{id}', function() {
+
+    const userId = '12344';
+    const wellFormedOptions = () => ({
+      method: 'PATCH',
+      url: `/api/users/${userId}`,
+      payload: { data: { attributes: { password: '12345678ab+!' } } },
+    });
+
+    beforeEach(() => {
+      sandbox.stub(UserController, 'updatePassword').callsFake((request, reply) => reply('ok'));
+      sandbox.stub(userVerification, 'verifyById').callsFake((request, reply) => reply('ok'));
+      startServer();
+    });
+
+    it('should exist and pass through user verification pre-handler', () => {
       // given
-      return server.inject(wellFormedOptions).then((res) => {
+      return server.inject(wellFormedOptions()).then((res) => {
+        // then
         expect(res.statusCode).to.equal(200);
+        sinon.assert.calledOnce(userVerification.verifyById);
       });
     });
 
     describe('Payload schema validation (password attribute in payload)', () => {
 
       it('should have a payload', () => {
-        // then
-        return server.inject(options)
-          .then((res) => {
-            expect(res.statusCode).to.equal(400);
-          });
-      });
-
-      it('should have a valid password format in payload', () => {
         // given
-        options['payload'] = {
-          data: {
-            attributes: {
-              password: 'Mot de passe'
-            }
-          }
-        };
+        const options = wellFormedOptions();
+        delete options.payload;
+
         // then
         return server.inject(options).then((res) => {
           expect(res.statusCode).to.equal(400);
         });
       });
 
-      it('should passing thought user verification pre-handler', () => {
+      it('should have a valid password format in payload', () => {
         // given
-        options['payload'] = {
-          data: {
-            attributes: {
-              password: 'Mot de passe'
-            }
-          }
-        };
+        const options = wellFormedOptions();
+        options.payload.data.attributes.password = 'Mot de passe mal formé';
+
         // then
-        return server.inject(options).then(() => {
-          sinon.assert.calledOnce(userVerification.verifyById);
+        return server.inject(options).then((res) => {
+          expect(res.statusCode).to.equal(400);
         });
       });
-
     });
-
   });
-
 });

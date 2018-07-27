@@ -2,7 +2,12 @@ const { AssessmentEndedError } = require('../errors');
 const _ = require('../../infrastructure/utils/lodash-utils');
 const logger = require('../../infrastructure/logger');
 
-module.exports = function({ assessment, challengeId, courseRepository, challengeRepository }) {
+module.exports = function getNextChallengeForDemo({
+  assessment,
+  challengeId,
+  challengeRepository,
+  courseRepository,
+}) {
 
   const courseId = assessment.courseId;
 
@@ -16,7 +21,7 @@ module.exports = function({ assessment, challengeId, courseRepository, challenge
   logger.trace(logContext, 'looking for next challenge in DEMO assessment');
 
   return courseRepository.get(courseId)
-    .then(course => {
+    .then((course) => {
       logContext.courseId = course.id;
       logger.trace(logContext, 'found course, selecting challenge');
       return _selectNextChallengeId(course, challengeId);

@@ -47,7 +47,7 @@ describe('Unit | Service | Certification Course Service', function() {
       const promise = certificationCourseService.update(certificationCourse);
 
       // then
-      return promise.then(result => {
+      return promise.then((result) => {
         expect(result).to.be.instanceOf(CertificationCourse);
       });
     });
@@ -56,7 +56,7 @@ describe('Unit | Service | Certification Course Service', function() {
 
       it('should return an error', () => {
         // given
-        certificationCourseRepositoryUpdateStub.rejects(new NotFoundError);
+        certificationCourseRepositoryUpdateStub.rejects(new NotFoundError());
 
         // when
         const promise = certificationCourseService.update(certificationCourse);

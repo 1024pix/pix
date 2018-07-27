@@ -30,7 +30,7 @@ module.exports = {
     let user;
 
     return userRepository.findByEmail(userFromRequest.email)
-      .then(foundUser => {
+      .then((foundUser) => {
 
         if (foundUser === null) {
           return Promise.reject();
@@ -39,7 +39,7 @@ module.exports = {
         user = foundUser;
         return encrypt.check(userFromRequest.password, foundUser.password);
       })
-      .then(_ => {
+      .then((_) => {
         const token = tokenService.createTokenFromUser(user);
 
         const authentication = new Authentication({ userId: user.id, token });
@@ -58,7 +58,7 @@ module.exports = {
     const { username, password, scope } = request.payload;
 
     return usecases.authenticateUser({ userEmail: username, password, scope, userRepository, tokenService })
-      .then(accessToken => {
+      .then((accessToken) => {
         return reply({
           token_type: 'bearer',
           expires_in: 3600,

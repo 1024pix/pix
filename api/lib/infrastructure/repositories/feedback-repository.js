@@ -29,7 +29,7 @@ module.exports = {
     }
 
     return Feedback
-      .query(qb => {
+      .query((qb) => {
         qb.whereBetween('createdAt', [startDate, endDate]);
       })
       .fetchAll();

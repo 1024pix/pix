@@ -4,7 +4,7 @@ const assessmentAdapter = require('../../infrastructure/adapters/assessment-adap
 const _ = require('lodash');
 const logger = require('../../infrastructure/logger');
 
-module.exports = function({
+module.exports = function getNextChallengeForPlacement({
   assessment,
   courseRepository,
   answerRepository,
@@ -25,18 +25,18 @@ module.exports = function({
   logger.trace(logContext, 'looking for next challenge in PLACEMENT assessment');
 
   return courseRepository.get(courseId)
-    .then(fetchedCourse => (course = fetchedCourse))
+    .then((fetchedCourse) => (course = fetchedCourse))
     .then(() => answerRepository.findByAssessment(assessment.id))
-    .then(fetchedAnswers => (answers = fetchedAnswers))
+    .then((fetchedAnswers) => (answers = fetchedAnswers))
     .then(() => competenceRepository.get(course.competences[0]))
     .then((fetchedCompetence) => (competence = fetchedCompetence))
     .then(() => challengeRepository.findByCompetence(competence))
-    .then(fetchedChallenges => (challenges = fetchedChallenges))
+    .then((fetchedChallenges) => (challenges = fetchedChallenges))
     .then(() => skillRepository.findByCompetence(competence))
-    .then(skills => {
-      logContext.answers = answers.map(answer => answer.id);
-      logContext.challenges = challenges.map(challenge => challenge.id);
-      logContext.skills = skills.map(skill => skill.name);
+    .then((skills) => {
+      logContext.answers = answers.map((answer) => answer.id);
+      logContext.challenges = challenges.map((challenge) => challenge.id);
+      logContext.skills = skills.map((skill) => skill.name);
       logger.trace(logContext, 'fetched all entites. Running cat to look for next challenge');
       return getNextChallengeInAdaptiveCourse(assessment.id, answers, challenges, skills);
     })

@@ -13,33 +13,6 @@ describe('Unit | Component | tutorial panel', function() {
     component = this.subject();
   });
 
-  describe('#shouldDisplayTipsToSucceed', function() {
-
-    [ 'ko', 'aband', 'partially', 'timedout', 'default' ].forEach((status) => {
-      it(`should return true when resultItemStatus is "${status}"`, function() {
-        // given
-        component.set('resultItemStatus', status);
-
-        // when
-        const result = component.get('shouldDisplayTipsToSucceed');
-
-        // then
-        expect(result).to.be.true;
-      });
-    });
-
-    it('should return false when resultItemStatus is "ok"', function() {
-      // given
-      component.set('resultItemStatus', 'ok');
-
-      // when
-      const result = component.get('shouldDisplayTipsToSucceed');
-
-      // then
-      expect(result).to.be.false;
-    });
-  });
-
   describe('#shouldDisplayHint', function() {
 
     it('should return true when hint is defined', function() {

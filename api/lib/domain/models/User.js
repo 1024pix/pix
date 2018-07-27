@@ -11,7 +11,7 @@ class User {
     lastName,
     password,
     // includes
-    organizationsAccesses = [],
+    organizationAccesses = [],
     pixRoles = [],
     // references
   } = {}) {
@@ -24,16 +24,21 @@ class User {
     this.cgu = cgu;
     // includes
     this.pixRoles = pixRoles;
-    this.organizationsAccesses = organizationsAccesses;
+    this.organizationAccesses = organizationAccesses;
     // references
   }
 
   get hasRolePixMaster() {
-    return !!this.pixRoles.find(pixRole => pixRole.name === 'PIX_MASTER');
+    return !!this.pixRoles.find((pixRole) => pixRole.name === 'PIX_MASTER');
   }
 
   isLinkedToOrganizations() {
-    return this.organizationsAccesses.length > 0;
+    return this.organizationAccesses.length > 0;
+  }
+
+  hasAccessToOrganization(organizationId) {
+    return this.organizationAccesses
+      .some((organizationAccess) => organizationAccess.organization.id === organizationId);
   }
 
 }

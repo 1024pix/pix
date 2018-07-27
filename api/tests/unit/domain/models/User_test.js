@@ -78,7 +78,7 @@ describe('Unit | Domain | Models | User', () => {
     it('should be true if user has a role in an organization', () => {
       // given
       const user = factory.buildUser({
-        organizationsAccesses: [factory.buildOrganizationAccess()]
+        organizationAccesses: [factory.buildOrganizationAccess()]
       });
 
       // when/then
@@ -91,6 +91,41 @@ describe('Unit | Domain | Models | User', () => {
 
       // when/then
       expect(user.isLinkedToOrganizations()).to.be.false;
+    });
+
+  });
+
+  describe('hasAccessToOrganization', () => {
+
+    it('should be false is user has no access to no organizations', () => {
+      // given
+      const user = new User();
+      const organizationId = 12345;
+
+      // when/then
+      expect(user.hasAccessToOrganization(organizationId)).to.be.false;
+    });
+
+    it('should be false is the user has access to many organizations, but not the one asked', () => {
+      // given
+      const organizationId = 12345;
+      const user = factory.buildUser();
+      user.organizationAccesses.push(factory.buildOrganizationAccess());
+      user.organizationAccesses[0].organization.id = 93472;
+      user.organizationAccesses[1].organization.id = 74569;
+
+      // when/then
+      expect(user.hasAccessToOrganization(organizationId)).to.be.false;
+    });
+
+    it('should be true if the user has an access to the given organizationId', () => {
+      // given
+      const organizationId = 12345;
+      const user = factory.buildUser();
+      user.organizationAccesses[0].organization.id = 12345;
+
+      // when/then
+      expect(user.hasAccessToOrganization(organizationId)).to.be.true;
     });
 
   });

@@ -42,6 +42,24 @@ describe('Unit | Serializer | JSONAPI | correction-serializer', function() {
             source: 'Youtube',
             title: 'Comment dresser un chien'
           }),
+        ],
+        learningMoreTutorials: [
+          new Tutorial({
+            id: 'recTuto4',
+            duration: '00:30:19',
+            format: 'page',
+            link: 'http://www.cafe-craft.fr',
+            source: 'Café Craft',
+            title: 'Explorons les problèmes humains de la Technique',
+          }),
+          new Tutorial({
+            id: 'recTuto5',
+            duration: '00:12:40',
+            format: 'video',
+            link: 'https://www.youtube.com/watch?v=-4PayaEgEZc',
+            source: 'Youtube',
+            title: 'Why the Universe Needs Dark Energy | Space Time | PBS Digital Studios',
+          }),
         ]
       });
 
@@ -69,6 +87,18 @@ describe('Unit | Serializer | JSONAPI | correction-serializer', function() {
                 },
                 {
                   'id': 'recTuto3',
+                  'type': 'tutorials',
+                },
+              ]
+            },
+            'learning-more-tutorials': {
+              'data': [
+                {
+                  'id': 'recTuto4',
+                  'type': 'tutorials',
+                },
+                {
+                  'id': 'recTuto5',
                   'type': 'tutorials',
                 },
               ]
@@ -112,6 +142,32 @@ describe('Unit | Serializer | JSONAPI | correction-serializer', function() {
                 'title': 'Comment dresser un chien',
               },
             'id': 'recTuto3',
+            'type': 'tutorials',
+          },
+          {
+            'attributes':
+              {
+                'duration': '00:30:19',
+                'format': 'page',
+                'id': 'recTuto4',
+                'link': 'http://www.cafe-craft.fr',
+                'source': 'Café Craft',
+                'title': 'Explorons les problèmes humains de la Technique',
+              },
+            'id': 'recTuto4',
+            'type': 'tutorials',
+          },
+          {
+            'attributes':
+              {
+                'duration': '00:12:40',
+                'format': 'video',
+                'id': 'recTuto5',
+                'link': 'https://www.youtube.com/watch?v=-4PayaEgEZc',
+                'source': 'Youtube',
+                'title': 'Why the Universe Needs Dark Energy | Space Time | PBS Digital Studios',
+              },
+            'id': 'recTuto5',
             'type': 'tutorials',
           },
         ],

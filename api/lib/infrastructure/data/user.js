@@ -26,14 +26,14 @@ module.exports = Bookshelf.model('User', {
     return this.belongsToMany(BookshelfPixRole).through(BookshelfUserPixRole);
   },
 
-  organizationsAccesses() {
+  organizationAccesses() {
     return this.hasMany('OrganizationAccess', 'userId');
   },
 
   toDomainEntity() {
     const model = this.toJSON();
     if (model.pixRoles) {
-      model.pixRoles = model.pixRoles.map(pixRoleJson => new DomainPixRole(pixRoleJson));
+      model.pixRoles = model.pixRoles.map((pixRoleJson) => new DomainPixRole(pixRoleJson));
     }
     model.cgu = Boolean(model.cgu);
     return new DomainUser(model);

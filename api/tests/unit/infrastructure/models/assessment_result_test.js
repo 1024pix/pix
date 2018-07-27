@@ -45,7 +45,7 @@ describe('Unit | Infrastructure | Models | BookshelfAssessmentResult', () => {
           const promise = certification.save();
 
           // then
-          return promise.catch(_ => {
+          return promise.catch((_) => {
             sinon.assert.fail(new Error(`Should not fail with ${status} type`));
           });
         });

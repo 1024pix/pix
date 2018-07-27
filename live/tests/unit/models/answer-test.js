@@ -17,14 +17,50 @@ describe('Unit | Model | Answer', function() {
 
   describe('isResultOk', function() {
 
-    it('should return bool', function() {
-      run(() => {
-        // given
-        const store = this.store();
-        const answer = store.createRecord('answer', { 'result': 'ok' });
+    it('should return true when answser.result is ok', function() {
+      // given
+      const store = this.store();
+      const answer = run(() => store.createRecord('answer', { 'result': 'ok' }));
 
-        expect(answer.get('result')).to.equal('ok');
-      });
+      // when
+      const result = answer.get('isResultOk');
+
+      expect(result).to.be.true;
+    });
+
+    it('should return false when answser.result is ko', function() {
+      // given
+      const store = this.store();
+      const answer = run(() => store.createRecord('answer', { 'result': 'ko' }));
+
+      // when
+      const result = answer.get('isResultOk');
+
+      expect(result).to.be.false;
+    });
+  });
+  describe('isResultNotOk', function() {
+
+    it('should return true when answser.result is ok', function() {
+      // given
+      const store = this.store();
+      const answer = run(() => store.createRecord('answer', { 'result': 'ok' }));
+
+      // when
+      const result = answer.get('isResultNotOk');
+
+      expect(result).to.be.false;
+    });
+
+    it('should return false when answser.result is ko', function() {
+      // given
+      const store = this.store();
+      const answer = run(() => store.createRecord('answer', { 'result': 'ko' }));
+
+      // when
+      const result = answer.get('isResultNotOk');
+
+      expect(result).to.be.true;
     });
   });
 });

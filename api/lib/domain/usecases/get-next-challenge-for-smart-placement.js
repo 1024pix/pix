@@ -12,7 +12,7 @@ function getNextChallengeInSmartRandom(answersPix, challengesPix, targetProfile)
   return _.get(nextChallenge, 'id', null);
 }
 
-module.exports = function({
+module.exports = function getNextChallengeForSmartPlacement({
   assessment,
   answerRepository,
   challengeRepository,
@@ -22,11 +22,11 @@ module.exports = function({
   let answers, challenges, targetProfile;
 
   return answerRepository.findByAssessment(assessment.id)
-    .then(fetchedAnswers => (answers = fetchedAnswers))
+    .then((fetchedAnswers) => (answers = fetchedAnswers))
     .then(() => targetProfileRepository.get('unusedId')) // XXX for now the profile repo is a stub, the id is of no use
-    .then(fetchedTargetProfile => (targetProfile = fetchedTargetProfile))
+    .then((fetchedTargetProfile) => (targetProfile = fetchedTargetProfile))
     .then(() => challengeRepository.findBySkills(targetProfile.skills))
-    .then(fetchedChallenges => (challenges = fetchedChallenges))
+    .then((fetchedChallenges) => (challenges = fetchedChallenges))
     .then(() => getNextChallengeInSmartRandom(
       answers,
       challenges,

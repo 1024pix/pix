@@ -48,7 +48,7 @@ describe('Integration | Repository | Session', function() {
       const promise = sessionRepository.save(session);
 
       // then
-      return promise.then(savedSession => {
+      return promise.then((savedSession) => {
         expect(savedSession).to.be.an.instanceOf(Session);
 
         expect(savedSession).to.have.property('id').and.not.null;

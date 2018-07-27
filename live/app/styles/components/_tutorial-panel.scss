@@ -1,33 +1,7 @@
 .tutorial-panel {
   display: flex;
   flex-direction: column;
-  align-items: center;
-  margin-bottom: 23px;
-}
-
-.tutorial-panel__default-message-container {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  border: 1.3px dashed $raven-grey;
-  max-width: 991px;
-  width: 100%;
-  border-radius: 5px;
-  padding: 36px 0 28px;
-}
-
-.tutorial-panel__default-message-title {
-  font-family: $font-raleway;
-  font-size: 17px;
-  text-align: center;
-  color: $black;
-  font-weight: $font-semi-bold;
-  margin-top: 10.2px;
-
-  @include device-is('desktop') {
-    font-size: 22px;
-    line-height: 26px;
-  }
+  margin-bottom: 40px;
 }
 
 .tutorial-panel__hint-container-body {
@@ -40,9 +14,12 @@
   display: flex;
   flex-direction: column;
   max-width: 991px;
-  width: 100%;
+  margin: 0 15px;
   border-radius: 5px;
-  padding: 36px 0 28px;
+
+  @include device-is('desktop') {
+    margin: 0 40px;
+  }
 }
 
 .tutorial-panel__tutorials-container {
@@ -55,12 +32,12 @@
   font-family: $font-lato;
   font-size: 1.3rem;
   line-height: 2rem;
-  margin: 5px;
+  margin: -5px 5px 0;
 }
 
 .tutorial-panel__hint-title {
   font-family: $font-raleway;
-  font-size: 24px;
+  font-size: 2.2rem;
   text-align: center;
   color: $charcoal-grey;
   font-weight: $font-semi-bold;
@@ -86,7 +63,7 @@
   }
 
   @include device-is('desktop') {
-    font-size: 22px;
+    font-size: 2.2rem;
     line-height: 26px;
   }
 }

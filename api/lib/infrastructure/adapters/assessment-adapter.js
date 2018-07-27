@@ -9,18 +9,18 @@ const CatAssessment = require('../../cat/assessment');
 function getAdaptedAssessment(assessmentId, answersPix, challengesPix, skills) {
   const challenges = [];
 
-  challengesPix.forEach(challengePix => {
+  challengesPix.forEach((challengePix) => {
     if(challengePix.skills) {
-      const challengeCatSkills = challengePix.skills.map(skill => new CatSkill(skill.name));
+      const challengeCatSkills = challengePix.skills.map((skill) => new CatSkill(skill.name));
       const challenge = new CatChallenge(challengePix.id, challengePix.status, challengeCatSkills, challengePix.timer);
       challenges.push(challenge);
     }
   });
 
-  const catSkills = skills.map(skill => new CatSkill(skill.name));
+  const catSkills = skills.map((skill) => new CatSkill(skill.name));
   const course = new CatCourse(challenges, catSkills);
 
-  const answers = answersPix.map(answer => {
+  const answers = answersPix.map((answer) => {
     const challengeOfTheAnswer = challenges.find((challenge) => challenge.id === answer.challengeId);
     return new CatAnswer(challengeOfTheAnswer, answer.result.status);
   });

@@ -27,8 +27,8 @@ module.exports = {
       smartPlacementAssessmentRepository,
     })
       .then(skillReviewSerializer.serialize)
-      .then(serializedSkillReview => reply(serializedSkillReview).code(200))
-      .catch(error => {
+      .then((serializedSkillReview) => reply(serializedSkillReview).code(200))
+      .catch((error) => {
 
         if (error instanceof UserNotAuthorizedToAccessEntity) {
           const jsonAPIError = new JSONAPIError({

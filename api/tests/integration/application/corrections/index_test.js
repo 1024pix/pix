@@ -8,7 +8,7 @@ describe('Integration | Application | Route | Corrections ', () => {
 
   beforeEach(() => {
     // stub dependencies
-    sinon.stub(correctionsController, 'findByAnswerId').callsFake((request, reply) => reply('ok'));
+    sinon.stub(correctionsController, 'findByAnswerId').callsFake((_request, reply) => reply('ok'));
 
     // configure and start server
     server = new Hapi.Server();
@@ -34,7 +34,7 @@ describe('Integration | Application | Route | Corrections ', () => {
       const promise = server.inject(options);
 
       // then
-      return promise.then(response => {
+      return promise.then((response) => {
         expect(response.statusCode).to.equal(200);
       });
     });

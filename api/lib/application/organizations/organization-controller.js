@@ -15,6 +15,7 @@ const snapshotsCsvConverter = require('../../infrastructure/converter/snapshots-
 const organizationCreationValidator = require('../../domain/validators/organization-creation-validator');
 
 const logger = require('../../infrastructure/logger');
+const JSONAPI = require('../../interfaces/jsonapi');
 const User = require('../../domain/models/User');
 const Organization = require('../../domain/models/Organization');
 const exportCsvFileName = 'Pix - Export donnees partagees.csv';
@@ -41,8 +42,7 @@ module.exports = {
       .catch((error) => {
 
         if (error instanceof EntityValidationError) {
-          const serializedErrors = new JSONAPIError(error.invalidAttributes.map(_formatValidationError));
-          return reply(serializedErrors).code(422);
+          return reply(JSONAPI.unprocessableEntityError(error.invalidAttributes)).code(422);
         }
 
         logger.error(error);
@@ -59,8 +59,8 @@ module.exports = {
     const filters = _extractFilters(request);
 
     return organizationService.search(userId, filters)
-      .then(organizations => reply(organizationSerializer.serialize(organizations)))
-      .catch(err => {
+      .then((organizations) => reply(organizationSerializer.serialize(organizations)))
+      .catch((err) => {
         logger.error(err);
         reply().code(500);
       });
@@ -154,17 +154,5 @@ function _buildErrorMessage(errorMessage) {
     data: {
       authorization: [errorMessage]
     }
-  };
-}
-
-// TODO extract this into a common error formatter
-function _formatValidationError({ attribute, message }) {
-  return {
-    status: '422',
-    source: {
-      pointer: `/data/attributes/${ _.kebabCase(attribute) }`,
-    },
-    title: `Invalid user data attribute "${ attribute }"`,
-    detail: message
   };
 }

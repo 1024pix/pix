@@ -62,7 +62,7 @@ module.exports = {
     const newAnswer = answerSerializer.deserialize(request.payload);
     answerRepository
       .findByChallengeAndAssessment(newAnswer.get('challengeId'), newAnswer.get('assessmentId'))
-      .then(existingAnswer => {
+      .then((existingAnswer) => {
         if (existingAnswer) {
           return reply(Boom.conflict(`An answer with id ${existingAnswer.get('id')} already exists.`));
         }
@@ -75,7 +75,7 @@ module.exports = {
     new Answer({ id: request.params.id })
       .fetch()
       .then((answer) => reply(answerSerializer.serialize(answer)))
-      .catch(err => logger.error(err));
+      .catch((err) => logger.error(err));
   },
 
   update(request, reply) {
@@ -83,7 +83,7 @@ module.exports = {
     const updatedAnswer = answerSerializer.deserialize(request.payload);
     answerRepository
       .findByChallengeAndAssessment(updatedAnswer.get('challengeId'), updatedAnswer.get('assessmentId'))
-      .then(existingAnswer => {
+      .then((existingAnswer) => {
 
         if (!existingAnswer) {
           return reply(Boom.notFound());
@@ -99,7 +99,7 @@ module.exports = {
       .then((answer) => {
         return reply(answerSerializer.serialize(answer)).code(200);
       })
-      .catch(err => {
+      .catch((err) => {
         logger.error(err);
         return reply(Boom.badImplementation(err));
       });

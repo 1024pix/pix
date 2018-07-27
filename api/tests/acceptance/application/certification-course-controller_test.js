@@ -150,7 +150,7 @@ describe('Acceptance | API | Certification Course', () => {
       const promise = server.inject(options);
 
       // then
-      return promise.then(response => {
+      return promise.then((response) => {
         // then
         const result = response.result.data;
         const givenCompletedAt = new Date(result.attributes['completed-at']).toISOString();

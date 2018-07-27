@@ -1330,7 +1330,7 @@ describe('Unit | Service | Certification Service', function() {
         const promise = certificationService.getCertificationResult(certificationCourseId);
 
         // then
-        return promise.then(certification => {
+        return promise.then((certification) => {
           expect(certification.pixScore).to.deep.equal(20);
           expect(certification.createdAt).to.deep.equal('2017-12-23 15:23:12');
           expect(certification.completedAt).to.deep.equal('2017-12-23T16:23:12.232Z');
@@ -1354,7 +1354,7 @@ describe('Unit | Service | Certification Service', function() {
         const promise = certificationService.getCertificationResult(certificationCourseId);
 
         // then
-        return promise.then(certification => {
+        return promise.then((certification) => {
           expect(certification.firstName).to.deep.equal('Pumba');
           expect(certification.lastName).to.deep.equal('De La Savane');
           expect(certification.birthplace).to.deep.equal('Savane');
@@ -1396,7 +1396,7 @@ describe('Unit | Service | Certification Service', function() {
         const promise = certificationService.getCertificationResult(certificationCourseId);
 
         // then
-        return promise.then(certification => {
+        return promise.then((certification) => {
           expect(certification.status).to.deep.equal('started');
           expect(certification.competencesWithMark).to.deep.equal([]);
           expect(certification.pixScore).to.deep.equal(undefined);

@@ -190,13 +190,13 @@ describe('Unit | Application | Organizations | organization-controller', () => {
               {
                 status: '422',
                 source: { 'pointer': '/data/attributes/name' },
-                title: 'Invalid user data attribute "name"',
+                title: 'Invalid data attribute "name"',
                 detail: 'Le nom n’est pas renseigné.'
               },
               {
                 status: '422',
                 source: { 'pointer': '/data/attributes/type' },
-                title: 'Invalid user data attribute "type"',
+                title: 'Invalid data attribute "type"',
                 detail: 'Le type n’est pas renseigné.'
               }
             ]
