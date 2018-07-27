@@ -5,7 +5,7 @@ import destroyApp from '../helpers/destroy-app';
 import defaultScenario from '../../mirage/scenarios/default';
 import { authenticateAsSimpleUser } from '../helpers/testing';
 
-describe('Acceptance | User certifications page', function() {
+describe('Acceptance | error page', function() {
   let application;
 
   beforeEach(function() {
