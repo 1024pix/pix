@@ -47,7 +47,7 @@ export default Controller.extend({
       this.set('displayConfirm', false);
       let certification = this.get('certification');
       let changedAttributes = certification.changedAttributes();
-      let marksUpdateRequired = (changedAttributes.competencesWithMark || changedAttributes.commentForCandidate || changedAttributes.commentForOrganization ||changedAttributes.commentForJury)?true:false;
+      let marksUpdateRequired = (changedAttributes.pixScore || changedAttributes.competencesWithMark || changedAttributes.commentForCandidate || changedAttributes.commentForOrganization ||changedAttributes.commentForJury)?true:false;
       return certification.save({adapterOptions:{updateMarks:false}})
       .then(() => {
         if (marksUpdateRequired) {

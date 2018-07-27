@@ -204,7 +204,7 @@ module('Unit | Controller | authenticated/certifications/single/info', function(
     assert.equal(this.get('marksUpdated'), false);
   });
 
-  test('marks are updated when change has been made and save is sent', async function(assert) {
+  test('marks are updated when change has been made to competence marks and save is sent', async function(assert) {
     // Given
     let controller = this.owner.lookup('controller:authenticated/certifications/single/info');
     let that = this;
@@ -212,6 +212,36 @@ module('Unit | Controller | authenticated/certifications/single/info', function(
       competencesWithMark:[competence('1.1', 24, 3), competence('3.1',40, 5), competence('5.2',33, 4)],
       changedAttributes() {
         return {competencesWithMark:true};
+      },
+      save(options) {
+        if (options.adapterOptions.updateMarks) {
+          that.set('marksUpdated', true);
+        } else {
+          that.set('competenceSaved', true);
+        }
+        return Promise.resolve(true);
+      }
+    }));
+    this.set('competenceSaved', false);
+    this.set('marksUpdated', false);
+    assert.expect(2);
+
+    // When
+    await controller.send('onSave');
+
+    // Then
+    assert.equal(this.get('competenceSaved'), true);
+    assert.equal(this.get('marksUpdated'), true);
+  });
+
+  test('marks are updated when change has been made to pix score and save is sent', async function(assert) {
+    // Given
+    let controller = this.owner.lookup('controller:authenticated/certifications/single/info');
+    let that = this;
+    controller.set('model', EmberObject.create( {
+      competencesWithMark:[competence('1.1', 24, 3), competence('3.1',40, 5), competence('5.2',33, 4)],
+      changedAttributes() {
+        return {pixScore:true};
       },
       save(options) {
         if (options.adapterOptions.updateMarks) {
