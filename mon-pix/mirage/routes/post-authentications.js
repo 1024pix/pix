@@ -20,15 +20,13 @@ const prescriberAuthentication = {
   }
 };
 
-const otherUserAuthentication = {
-  data: {
-    type: 'authentication',
-    attributes: {
-      'user-id': 3,
-      token: 'other-user-token'
-    },
-    id: 3
-  }
+const badUser = {
+  errors: [
+    { status:'400',
+      title:'Invalid Payload',
+      detail: 'L\'adresse e-mail et/ou le mot de passe saisi(s) sont incorrects.'
+    }
+  ]
 };
 
 export default function(schema, request) {
@@ -39,5 +37,5 @@ export default function(schema, request) {
 
   if (email === 'john@acme.com') return prescriberAuthentication;
 
-  return otherUserAuthentication;
+  return badUser;
 }
