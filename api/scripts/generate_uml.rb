@@ -1,6 +1,7 @@
 #! /usr/bin/env ruby
 #
-# Ce script a pour but de générer l'UML des modèles du domaine. Le format est PlantUML (http://plantuml.com/class-diagram).
+# Ce script a pour but de générer l'UML des modèles du domaine.
+# Il émet un fichier texte au format PlantUML (documentation: http://plantuml.com/class-diagram).
 #
 # /!\ ATTENTION /!\
 # le script essaye d'inférer la classe d'un attribut à partir de son nom, mais parfois le nom ne matche pas.
@@ -16,9 +17,12 @@ INPUT_FILES = './lib/domain/models/*.js'
 OUTPUT_FILE = "output.uml"
 NUMBER_OF_PAGES = 2
 USAGE = <<EOS
-Usage: generate_uml.rb
+Usage: generate_uml.rb [OPTIONS]
 
 Generate PlantUML file of #{INPUT_FILES} files to the #{OUTPUT_FILE} file.
+
+OPTIONS:
+  -v or --verbose: enable debug print (very verbose)
 
 To transform the PlantUML file to an image you can either:
 - use an IDE plugin (VS Code is known to work well)
@@ -31,20 +35,31 @@ if ARGV.include? '-h' or ARGV.include? '--help'
   exit 0
 end
 
+if ARGV.include? '-v' or ARGV.include? '--verbose'
+  VERBOSE = true
+else
+  VERBOSE = false
+end
+
 classes = []
 classes_attrs = {}
 
+def log(string)
+  return unless VERBOSE
+  puts string
+end
+
 def parse_block(file, lines, stop_line, output_array)
   current_line = lines.next
-  # puts "current_line=#{current_line}"
+  log "current_line=#{current_line}"
   while not current_line.include?(stop_line)
     matches = /this.(\w+) =/.match(current_line)
     if matches.nil?
-      # puts "not found in line #{current_line}"
-      # puts "from file #{file}"
-      # puts "(stopping at #{stop_line})"
+      log "not found in line #{current_line}"
+      log "from file #{file}"
+      log "(stopping at #{stop_line})"
     else
-      # puts "found #{matches[1]}"
+      log "found #{matches[1]}"
       output_array.push(matches[1])
     end
     current_line = lines.next
@@ -52,18 +67,18 @@ def parse_block(file, lines, stop_line, output_array)
 end
 
 def find_matching_ref_relations(className, classes, references)
-  # puts "class #{className}"
+  log "class #{className}"
   output = []
   references.each do |relation|
-    # puts "relation = #{relation}"
+    log "relation = #{relation}"
     type, relationTo = if relation.end_with? "Ids"
-      # puts "ends with Ids"
+      log "ends with Ids"
       ["ref *", relation.sub("Ids", "")]
     elsif relation.end_with? "Id"
-      # puts "ends with Id"
+      log "ends with Id"
       ["ref 1", relation.sub("Id", "")]
     else
-      # puts "other"
+      log "other"
       ["???", relation]
     end
     relationTo = "#{relationTo[0].capitalize}#{relationTo[1..-1]}"
@@ -71,7 +86,7 @@ def find_matching_ref_relations(className, classes, references)
     puts "pushing #{relObject}"
     output.push(relObject)
   end
-  # puts "output: #{output}"
+  log "output: #{output}"
   output
 end
 
@@ -126,7 +141,7 @@ Dir[INPUT_FILES].sort.each do |file|
   # find references
   parse_block(file, lines, "  }\n", references)
 
-  # puts "For class [#{className}], found:
+  log "For class [#{className}], found:
   # idAttribute= #{idAttribute}
   # attributes=#{attributes}
   # includes=#{includes}
@@ -204,6 +219,9 @@ puts "===== PATCH FILE ======="
 
 # FIXME: ici nous avons les patches à maintenir.
 # La première string est celle que nous cherchons, la seconde est celle que nous voulons. Un patch par ligne
+# Pour rappel, le format du fichier est défini ici: http://plantuml.com/class-diagram
+#
+# Nous cherchons une string (1er élément du sous-tableau) et la remplaçons par le patch (2nd élément du sous-tableau)
 replacements = [
   ["Challenge o-- Skills : ???", "Challenge o-- Skill : ???"],
   ["Course *-- CompetenceSkill :", "Course *-- Skill :"],
