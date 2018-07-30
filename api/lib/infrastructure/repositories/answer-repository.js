@@ -82,7 +82,7 @@ module.exports = {
     return BookshelfAnswer
       .where({ challengeId, assessmentId })
       .fetch()
-      .then(answer => answer !== null);
+      .then((answer) => answer !== null);
   },
 
   save(answer) {

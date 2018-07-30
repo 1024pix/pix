@@ -59,7 +59,7 @@ module.exports = {
       })
       .then(answerSerializer.serialize)
       .then(controllerReplies(reply).created)
-      .catch(error => {
+      .catch((error) => {
         const mappedError = mapToInfrastructureErrors(error);
         return controllerReplies(reply).error(mappedError);
       });
