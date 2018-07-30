@@ -146,7 +146,7 @@ module.exports = function(environment) {
 function inferApiURLFromScalingoAppName(appName) {
 
   const matchesReviewApp = /pix-mon-pix-integration-pr(\d+)/.exec(appName);
-  if (matchesReviewApp[1]) {
+  if (matchesReviewApp != null) {
     return `https://pix-api-integration-pr${matchesReviewApp[1]}.scalingo.io`;
   }
 
