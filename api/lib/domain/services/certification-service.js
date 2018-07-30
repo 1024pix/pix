@@ -293,6 +293,7 @@ module.exports = {
           birthplace: certification.birthplace,
           sessionId: certification.sessionId,
           externalId: certification.externalId,
+          isPublished: certification.isPublished,
         };
       });
   },
