@@ -25,7 +25,7 @@
     "lint": "npx eslint app mirage tests",
     "lint:fix": "npm run lint --fix",
     "lint:js": "npx eslint ./*.js app config lib server tests",
-    "scalingo-start": "npx ember build --environment production && ../bin/run",
+    "scalingo-start": "npx ember build --environment $BUILD_ENVIRONMENT && ../bin/run",
     "start": "npx ember server",
     "test": "npx ember test --reporter dot",
     "test:lint": "npm test && npm run lint",
