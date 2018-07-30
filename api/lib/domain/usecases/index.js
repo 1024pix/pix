@@ -2,6 +2,7 @@ module.exports = {
   authenticateUser: require('./authenticate-user'),
   createCampaign: require('./create-campaign'),
   createAssessmentResultForCompletedCertification: require('./create-assessment-result-for-completed-certification'),
+  createAssessmentForCampaign: require('./create-assessment-for-campaign'),
   createUser: require('./create-user'),
   findCompletedUserCertifications: require('./find-completed-user-certifications'),
   findUserAssessmentsByFilters: require('./find-user-assessments-by-filters'),
