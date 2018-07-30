@@ -71,8 +71,10 @@ module.exports = {
   getCampaigns(request, reply) {
     const organizationId = request.params.id;
     return usecases.getOrganizationCampaigns(organizationId)
-      .then((campaigns) => {
-        reply(campaignSerializer.serialize(campaigns)).code(200);
+      .then((campaigns) => reply(campaignSerializer.serialize(campaigns)).code(200))
+      .catch((error) => {
+        logger.error(error);
+        reply(JSONAPI.internalError(error.message)).code(500);
       });
   },
 
