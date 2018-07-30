@@ -29,13 +29,13 @@ describe('Acceptance | Campaigns | Start Campaigns', function() {
       it('should redirect to login page', function() {
         // then
         return andThen(() => {
-          expect(currentURL()).to.match(/connexion/);
+          expect(currentURL()).to.equal('/connexion');
         });
       });
 
       it('should redirect to campaigns after connexion', async function() {
         // when
-        expect(currentURL()).to.match(/connexion/);
+        expect(currentURL()).to.equal('/connexion');
         fillIn('#pix-email', 'jane@acme.com');
         fillIn('#pix-password', 'Jane1234');
         await click('.signin-form__submit_button');
