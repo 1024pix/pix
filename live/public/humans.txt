@@ -1,0 +1,12 @@
+/* TEAM DEV */
+
+	Name: Brandone Martins
+	Role: Développeur
+	Avatar: Lémurien
+	Contact: brandone.martins@pix.fr
+
+	Name: Roman Robin
+	Role: Observateur
+
+
+
