@@ -21,7 +21,8 @@ describe('Integration | Repository | Certification Course', function() {
     lastName: 'De La Havane',
     birthdate: '14/08/1993',
     birthplace: 'Cuba',
-    sessionId: 'HakunaMatata'
+    sessionId: 'HakunaMatata',
+    isPublished: true,
   };
 
   const certificationChallenges = [
@@ -101,6 +102,7 @@ describe('Integration | Repository | Certification Course', function() {
           expect(certificationCourse.birthdate).to.equal('14/08/1993');
           expect(certificationCourse.birthplace).to.equal('Cuba');
           expect(certificationCourse.sessionId).to.equal('HakunaMatata');
+          expect(certificationCourse.isPublished).to.be.ok;
         });
       });
 
