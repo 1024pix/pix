@@ -42,6 +42,46 @@ describe('Integration | Repository | Campaign', () => {
 
   });
 
+  describe('#getByCode', () => {
+
+    let campaignInsered;
+    beforeEach(() => {
+      campaignInsered = {
+        id: 3,
+        name: 'Nom de Campagne',
+        code: 'BADOIT710',
+        creatorId: 1,
+        organizationId: 1
+      };
+      return knex('campaigns').insert(campaignInsered);
+    });
+
+    afterEach(() => {
+      return knex('campaigns').delete();
+    });
+
+    it('should resolve the campaign relies to the code', () => {
+      // when
+      const promise = campaignRepository.getByCode('BADOIT710');
+
+      // then
+      return promise.then((result) => {
+        expect(result).to.deep.equal(campaignInsered);
+      });
+    });
+
+    it('should resolve null if the code do not correspond to any campaign ', () => {
+      // when
+      const promise = campaignRepository.getByCode('BIDULEFAUX');
+
+      // then
+      return promise.then((result) => {
+        expect(result).to.be.null;
+      });
+    });
+
+  });
+
   describe('#save', () => {
 
     afterEach(() => {
