@@ -252,8 +252,6 @@ workflows:
       - install_server_dependencies:
           requires:
             - checkout_code
-          requires:
-            - install_server_dependencies
       - test_server:
           requires:
             - install_server_dependencies
@@ -261,8 +259,6 @@ workflows:
       - install_client_dependencies:
           requires:
             - checkout_code
-          requires:
-            - install_client_dependencies
       - test_client_1:
           requires:
             - install_client_dependencies
@@ -272,12 +268,3 @@ workflows:
       - test_client_3:
           requires:
             - install_client_dependencies
-      - deploy_client:
-          requires:
-            - test_client_1
-            - test_client_2
-            - test_client_3
-          filters:
-            branches:
-              ignore:
-                - gh-pages
