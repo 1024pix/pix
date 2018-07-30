@@ -25,7 +25,7 @@ describe('Unit | Controller | answer-controller', () => {
     sandbox.stub(answerSerializer, 'serialize');
     sandbox.stub(answerRepository, 'findByChallengeAndAssessment');
     sandbox.stub(smartPlacementAssessmentRepository, 'get');
-    sandbox.stub(usecases, 'saveAnswerAndCreateAssociatedKnowledgeElements');
+    sandbox.stub(usecases, 'correctAnswerThenUpdateAssessment');
     sandbox.stub(logger, 'error');
     codeStub = sinon.stub();
     replyStub = sinon.stub().returns({
@@ -131,7 +131,7 @@ describe('Unit | Controller | answer-controller', () => {
         createdAnswer = factory.buildAnswer({ assessmentId });
 
         answerSerializer.serialize.returns(serializedAnswer);
-        usecases.saveAnswerAndCreateAssociatedKnowledgeElements.resolves(createdAnswer);
+        usecases.correctAnswerThenUpdateAssessment.resolves(createdAnswer);
 
         // when
         promise = answerController.save(request, replyStub);
@@ -140,7 +140,7 @@ describe('Unit | Controller | answer-controller', () => {
       it('should call the usecase to save the answer', () => {
         // then
         return promise.then(() => {
-          return expect(usecases.saveAnswerAndCreateAssociatedKnowledgeElements)
+          return expect(usecases.correctAnswerThenUpdateAssessment)
             .to.have.been.calledWith({
               answer: deserializedAnswer,
               answerRepository,
@@ -174,7 +174,7 @@ describe('Unit | Controller | answer-controller', () => {
       beforeEach(() => {
         // given
         error = new ChallengeAlreadyAnsweredError();
-        usecases.saveAnswerAndCreateAssociatedKnowledgeElements.rejects(error);
+        usecases.correctAnswerThenUpdateAssessment.rejects(error);
 
         // when
         promise = answerController.save(request, replyStub);
@@ -183,7 +183,7 @@ describe('Unit | Controller | answer-controller', () => {
       it('should call the usecase to save the answer', () => {
         // then
         return promise.then(() => {
-          return expect(usecases.saveAnswerAndCreateAssociatedKnowledgeElements)
+          return expect(usecases.correctAnswerThenUpdateAssessment)
             .to.have.been.calledWith({
               answer: deserializedAnswer,
               answerRepository,
@@ -217,7 +217,7 @@ describe('Unit | Controller | answer-controller', () => {
       beforeEach(() => {
         // given
         error = new Error();
-        usecases.saveAnswerAndCreateAssociatedKnowledgeElements.rejects(error);
+        usecases.correctAnswerThenUpdateAssessment.rejects(error);
 
         // when
         promise = answerController.save(request, replyStub);
@@ -226,7 +226,7 @@ describe('Unit | Controller | answer-controller', () => {
       it('should call the usecase to save the answer', () => {
         // then
         return promise.then(() => {
-          return expect(usecases.saveAnswerAndCreateAssociatedKnowledgeElements)
+          return expect(usecases.correctAnswerThenUpdateAssessment)
             .to.have.been.calledWith({
               answer: deserializedAnswer,
               answerRepository,

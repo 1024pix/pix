@@ -7,7 +7,7 @@ const useCase = require('../../../../lib/domain/usecases');
 
 const { ChallengeAlreadyAnsweredError, NotFoundError } = require('../../../../lib/domain/errors');
 
-describe('Unit | Domain | Use Cases | save-answer-and-create-associated-knowledge-elements', () => {
+describe('Unit | Domain | Use Cases | correct-answer-then-update-assessment', () => {
 
   let sandbox;
 
@@ -45,7 +45,7 @@ describe('Unit | Domain | Use Cases | save-answer-and-create-associated-knowled
       answerRepository.hasChallengeAlreadyBeenAnswered.resolves(true);
 
       // when
-      promise = useCase.saveAnswerAndCreateAssociatedKnowledgeElements({
+      promise = useCase.correctAnswerThenUpdateAssessment({
         answer,
         answerRepository,
         challengeRepository,
@@ -109,7 +109,7 @@ describe('Unit | Domain | Use Cases | save-answer-and-create-associated-knowled
       smartPlacementAssessmentRepository.get.rejects(new NotFoundError());
 
       // when
-      promise = useCase.saveAnswerAndCreateAssociatedKnowledgeElements({
+      promise = useCase.correctAnswerThenUpdateAssessment({
         answer,
         answerRepository,
         challengeRepository,
@@ -203,7 +203,7 @@ describe('Unit | Domain | Use Cases | save-answer-and-create-associated-knowled
       ]);
 
       // when
-      promise = useCase.saveAnswerAndCreateAssociatedKnowledgeElements({
+      promise = useCase.correctAnswerThenUpdateAssessment({
         answer,
         answerRepository,
         challengeRepository,
