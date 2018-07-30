@@ -42,7 +42,7 @@
     "ember-cli": "~3.1.4",
     "ember-cli-app-version": "^3.2.0",
     "ember-cli-autoprefixer": "^0.8.1",
-    "ember-cli-babel": "^6.14.1",
+    "ember-cli-babel": "^6.16.0",
     "ember-cli-chai": "^0.4.3",
     "ember-cli-circleci": "^0.1.0",
     "ember-cli-code-coverage": "^0.4.2",
