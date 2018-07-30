@@ -17,6 +17,7 @@ export default Model.extend({
   pixScore: attr('number'),
   result: belongsTo('assessment-result'),
   type: attr('string'),
+  codeCampaign: attr('string'),
 
   answersSinceLastCheckpoints: computed('answers.[]', function() {
     const answers = this.get('answers').toArray();
