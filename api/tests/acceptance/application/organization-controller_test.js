@@ -497,11 +497,11 @@ describe('Acceptance | Application | Controller | organization-controller', () =
     };
 
     beforeEach(() => {
-      knex('campaigns').insert([orga1Campaign1, orga1Campaign2, orga2Campaign1]).returning('id');
+      return knex('campaigns').insert([orga1Campaign1, orga1Campaign2, orga2Campaign1]).returning('id');
     });
 
     afterEach(() => {
-      knex('campaigns').delete();
+      return knex('campaigns').delete();
     });
 
     it('should return the organization campaigns', () => {
@@ -510,18 +510,22 @@ describe('Acceptance | Application | Controller | organization-controller', () =
       const options = {
         method: 'GET',
         url: '/api/organizations/' + organizationId + '/campaigns',
-        headers: {},
+        headers: {
+          authorization: generateValidRequestAuhorizationHeader()
+        },
       };
 
       // when
       const promise = server.inject(options);
 
       // then
-      return promise.then(response => {
+      return promise.then((response) => {
         const campaigns = response.result.data;
         expect(campaigns).to.have.lengthOf(2);
-        expect(campaigns[0].name).to.equal(orga1Campaign1.name);
-        expect(campaigns[0].code).to.equal(orga1Campaign1.code);
+        expect(campaigns[0].attributes.name).to.equal(orga1Campaign1.name);
+        expect(campaigns[0].attributes.code).to.equal(orga1Campaign1.code);
+        expect(campaigns[1].attributes.name).to.equal(orga1Campaign2.name);
+        expect(campaigns[1].attributes.code).to.equal(orga1Campaign2.code);
       });
     });
   });

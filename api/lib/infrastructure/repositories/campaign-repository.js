@@ -15,7 +15,6 @@ module.exports = {
         if (campaign) {
           return false;
         }
-
         return true;
       });
   },
@@ -42,9 +41,6 @@ module.exports = {
     return BookshelfCampaign
       .where({ organizationId })
       .fetchAll()
-      .then(campaigns => {
-        return campaigns.models.map(_toDomain);
-      });
+      .then((campaigns) => campaigns.models.map(_toDomain));
   }
-
 };
