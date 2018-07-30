@@ -9,6 +9,7 @@ const assessmentService = require('../../domain/services/assessment-service');
 const certificationChallengeRepository = require('../../infrastructure/repositories/certification-challenge-repository');
 const challengeRepository = require('../../infrastructure/repositories/challenge-repository');
 const challengeSerializer = require('../../infrastructure/serializers/jsonapi/challenge-serializer');
+const campaignRepository = require('../../infrastructure/repositories/campaign-repository');
 const competenceRepository = require('../../infrastructure/repositories/competence-repository');
 const courseRepository = require('../../infrastructure/repositories/course-repository');
 const skillRepository = require('../../infrastructure/repositories/skill-repository');
@@ -17,19 +18,13 @@ const targetProfileRepository = require('../../infrastructure/repositories/targe
 
 const useCases = require('../../domain/usecases');
 
-const { NotFoundError, AssessmentEndedError, ObjectValidationError } = require('../../domain/errors');
+const { NotFoundError, AssessmentEndedError, ObjectValidationError, CampaignCodeError } = require('../../domain/errors');
 
 module.exports = {
 
   save(request, reply) {
 
     const assessment = assessmentSerializer.deserialize(request.payload);
-    assessment.state = 'started';
-
-    // XXX Fake name, waiting for campaign
-    if (assessment.isSmartPlacementAssessment()) {
-      assessment.courseId = 'Smart Placement Tests CourseId Not Used';
-    }
 
     if (request.headers.hasOwnProperty('authorization')) {
       const token = tokenService.extractTokenFromAuthChain(request.headers.authorization);
@@ -38,7 +33,21 @@ module.exports = {
       assessment.userId = userId;
     }
 
-    return assessmentRepository.save(assessment)
+    assessment.state = 'started';
+    return Promise.resolve()
+      .then(() => {
+        if (assessment.isSmartPlacementAssessment()) {
+          const codeCampaign = request.payload.data.attributes['code-campaign'];
+          return useCases.createAssessmentForCampaign({
+            assessment,
+            codeCampaign,
+            assessmentRepository,
+            campaignRepository,
+          });
+        } else {
+          return assessmentRepository.save(assessment);
+        }
+      })
       .then((assessment) => {
         reply(assessmentSerializer.serialize(assessment)).code(201);
       })
@@ -46,9 +55,13 @@ module.exports = {
         if (err instanceof ObjectValidationError) {
           return reply(Boom.badData(err));
         }
+        if (err instanceof CampaignCodeError) {
+          return reply(Boom.notFound(CampaignCodeError));
+        }
         logger.error(err);
         reply(Boom.badImplementation(err));
       });
+
   },
 
   get(request, reply) {
