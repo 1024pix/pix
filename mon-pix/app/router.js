@@ -65,8 +65,8 @@ Router.map(function() {
   });
 
   this.route('campaigns', { path: '/campagnes' }, function() {
-    this.route('start-or-resume', { path: '/codecampagnepix' });
-    this.route('skill-review', { path: '/codecampagnepix/resultats/:assessment_id' });
+    this.route('start-or-resume', { path: '/:campaign_code' });
+    this.route('skill-review', { path: '/:campaign_code/resultats/:assessment_id' });
   });
 
   // XXX: this route is used for any request that did not match any of the previous routes. SHOULD ALWAYS BE THE LAST ONE

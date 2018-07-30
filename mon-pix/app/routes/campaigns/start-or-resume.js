@@ -11,7 +11,7 @@ export default BaseRoute.extend(AuthenticatedRouteMixin, {
         if (!isEmpty(smartPlacementAssessments)) {
           return smartPlacementAssessments.get('firstObject');
         }
-        return store.createRecord('assessment', { type: 'SMART_PLACEMENT' }).save();
+        return store.createRecord('assessment', { type: 'SMART_PLACEMENT', codeCampaign }).save();
       });
   },
 
