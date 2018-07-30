@@ -36,6 +36,12 @@ class AssessmentEndedError extends DomainError {
   }
 }
 
+class CampaignCodeError extends DomainError {
+  constructor() {
+    super('Le code campagne n\'existe pas.');
+  }
+}
+
 class CertificationComputeError extends DomainError {
   constructor(message) {
     super(message);
@@ -237,6 +243,7 @@ module.exports = {
   AlreadyRatedAssessmentError,
   AlreadyRegisteredEmailError,
   AssessmentEndedError,
+  CampaignCodeError,
   CertificationComputeError,
   ChallengeAlreadyAnsweredError,
   EntityValidationError,
