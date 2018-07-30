@@ -14,6 +14,7 @@ class SkillReview {
     validatedSkills = [],
     failedSkills = [],
     unratableSkills = [],
+    // references
   }) {
     this.id = id;
     // attributes
@@ -22,6 +23,7 @@ class SkillReview {
     this.validatedSkills = validatedSkills;
     this.failedSkills = failedSkills;
     this.unratableSkills = unratableSkills;
+    // references
   }
 
   get profileMasteryRate() {
