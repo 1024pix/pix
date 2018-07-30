@@ -5,6 +5,11 @@
 	Avatar: Lémurien
 	Contact: brandone.martins@pix.fr
 
+	Name: David Rivière
+  Role: Développeur
+  Avatar: Loutre
+  Contact: david.riviere@pix.fr
+
 	Name: Roman Robin
 	Role: Observateur
 
