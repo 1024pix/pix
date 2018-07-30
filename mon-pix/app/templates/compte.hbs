@@ -1,0 +1,13 @@
+<div class="compte-page">
+
+  {{navbar-header class="navbar-header--white"}}
+  {{logged-user-profile-banner}}
+
+  {{profile-panel
+    competences=model.competences
+    totalPixScore=model.totalPixScore
+    searchForOrganization=(route-action 'searchForOrganization')
+    shareProfileSnapshot=(route-action 'shareProfileSnapshot')}}
+</div>
+
+{{app-footer}}

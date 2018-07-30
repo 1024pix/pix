@@ -1,0 +1,25 @@
+<label for="{{textfieldName}}" class="form-textfield__label">{{label}}</label>
+{{#if hasIcon}}
+  <div class="form-textfield__message {{validationMessageClass}} form-textfield__message-{{textfieldType}}
+" role="alert">{{validationMessage}}</div>
+{{/if}}
+
+<div class="form-textfield__input-field-container {{inputContainerStatusClass}}">
+  {{input type=textfieldType
+          id=textfieldName
+          value=inputBindingValue
+          focus-out=(action 'validate')
+          class= 'form-textfield__input'
+          classBinding="inputValidationStatus"
+  }}
+
+
+  {{#if hasIcon}}
+    {{#if (eq validationStatus 'error') }}
+      <img src="/images/icons/icon-error.svg" class="form-textfield__icon form-textfield__icon--error">
+    {{else}}
+      <img src="/images/icons/icon-success.svg"
+           class="form-textfield__icon form-textfield__icon--success validation-icon-success">
+    {{/if}}
+  {{/if}}
+</div>
