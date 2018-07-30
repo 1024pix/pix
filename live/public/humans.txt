@@ -1,5 +1,10 @@
 /* TEAM DEV */
 
+	Name: Adrien Saunier
+	Role: Développeur && Tech-lead
+	Avatar: Panda
+	Contact: contact.adriensaunier@gmail.com
+
 	Name: Brandone Martins
 	Role: Développeur
 	Avatar: Lémurien
