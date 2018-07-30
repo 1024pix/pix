@@ -132,7 +132,7 @@ function enrichDirectKnowledgeElementsWithInferredKnowledgeElements({
 
         const knowledgeElementAlreadyExistsForThatSkill = _.some(
           totalKnowledgeElements,
-          knowledgeElement => {
+          (knowledgeElement) => {
             const skillOfKnowledgeElement = new Skill({ name: knowledgeElement.skillId });
             return Skill.areEqual(skillToInfer, skillOfKnowledgeElement);
           },
