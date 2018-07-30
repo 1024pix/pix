@@ -44,6 +44,18 @@ exports.register = (server, options, next) => {
         }],
         handler: organisationController.exportSharedSnapshotsAsCsv, tags: ['api']
       }
+    },
+    {
+      method: 'GET',
+      path: '/api/organizations/{id}/campaigns',
+      config: {
+        handler: organisationController.getCampaigns,
+        tags: ['api'],
+        notes: [
+          'Cette route est restreinte aux utilisateurs authentifiés',
+          'Elle retourne les campagnes rattachées à l’organisation.',
+        ]
+      }
     }
   ]);
 
