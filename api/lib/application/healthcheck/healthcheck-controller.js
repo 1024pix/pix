@@ -11,7 +11,9 @@ module.exports = {
       'name': packageJSON.name,
       'version': packageJSON.version,
       'description': packageJSON.description,
-      'environment': settings.environment
+      'environment': settings.environment,
+      'container-version': process.env.CONTAINER_VERSION,
+      'conainter-app-name': process.env.APP,
     });
   },
 
