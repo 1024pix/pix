@@ -20,6 +20,18 @@ module.exports = {
       });
   },
 
+  getByCode(code) {
+    return BookshelfCampaign
+      .where({ code })
+      .fetch()
+      .then((campaign) => {
+        if (campaign) {
+          return _toDomain(campaign);
+        }
+        return Promise.resolve(null);
+      });
+  },
+
   save(campaignToSave) {
     return new BookshelfCampaign(campaignToSave)
       .save()
