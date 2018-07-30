@@ -3,6 +3,7 @@ const JSONAPIError = require('jsonapi-serializer').Error;
 
 const userRepository = require('../../infrastructure/repositories/user-repository');
 const organizationRepository = require('../../infrastructure/repositories/organization-repository');
+const campaignRepository = require('../../infrastructure/repositories/campaign-repository');
 const competenceRepository = require('../../infrastructure/repositories/competence-repository');
 const snapshotRepository = require('../../infrastructure/repositories/snapshot-repository');
 const organizationSerializer = require('../../infrastructure/serializers/jsonapi/organization-serializer');
@@ -70,7 +71,7 @@ module.exports = {
 
   getCampaigns(request, reply) {
     const organizationId = request.params.id;
-    return usecases.getOrganizationCampaigns(organizationId)
+    return usecases.getOrganizationCampaigns({ organizationId, campaignRepository })
       .then((campaigns) => reply(campaignSerializer.serialize(campaigns)).code(200))
       .catch((error) => {
         logger.error(error);
