@@ -86,6 +86,7 @@
     "lint": "npx eslint lib tests",
     "lint:fix": "npx eslint lib tests --fix",
     "scalingo-start": "npm run db:migrate && npm start",
+    "scalingo-postdeploy": "true",
     "start": "node bin/www",
     "start:watch": "npx nodemon bin/www",
     "test": "npm run test:api",
