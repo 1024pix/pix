@@ -1,4 +1,6 @@
 const { expect, sinon, factory } = require('../../../test-helper');
+const JSONAPIError = require('jsonapi-serializer').Error;
+const JSONAPI = require('../../../../lib/interfaces/jsonapi');
 
 const User = require('../../../../lib/domain/models/User');
 const BookshelfOrganization = require('../../../../lib/infrastructure/data/organization');
@@ -641,6 +643,7 @@ describe('Unit | Application | Organizations | organization-controller', () => {
       sandbox.stub(campaignSerializer, 'serialize');
       codeStub = sandbox.stub();
       replyStub = sandbox.stub().returns({ code: codeStub });
+      sandbox.stub(JSONAPI, 'internalError');
     });
 
     afterEach(() => {
@@ -675,6 +678,33 @@ describe('Unit | Application | Organizations | organization-controller', () => {
         expect(usecases.getOrganizationCampaigns).to.have.been.calledOnce;
         expect(replyStub).to.have.been.calledWith(serializedCampaigns);
         expect(codeStub).to.have.been.calledWith(200);
+      });
+    });
+
+    it('should return a 500 error when an error occurs', () => {
+      // given
+      const errorMessage = 'Unexpected error';
+      usecases.getOrganizationCampaigns.rejects(new Error(errorMessage));
+      const expectedError = new JSONAPIError({
+        status: '500',
+        title: 'Internal Server Error',
+        detail: errorMessage
+      });
+      JSONAPI.internalError.returns(expectedError);
+      request = {
+        params: {
+          id: 1
+        }
+      };
+
+      // when
+      const promise = organizationController.getCampaigns(request, replyStub);
+
+      // then
+      return promise.then(() => {
+        expect(JSONAPI.internalError).to.have.been.calledWith(errorMessage);
+        expect(replyStub).to.have.been.calledWith(expectedError);
+        expect(codeStub).to.have.been.calledWith(500);
       });
     });
   });
