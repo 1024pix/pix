@@ -45,21 +45,18 @@ describe('Acceptance | Campaigns | Start Campaigns', function() {
           expect(currentURL()).to.contains(/assessments/);
           expect(find('.course-banner__name').text()).to.equal('Parcours e-pro');
         });
-
       });
 
     });
 
-    context('When user is logged in',async function() {
+    context('When user is logged in', async function() {
 
       beforeEach(async function() {
         authenticateAsSimpleUser();
         await visit('/campagnes/codecampagnepix');
-
       });
 
       it('should redirect directly in campaigns', async function() {
-
         // then
         return andThen(() => {
           expect(currentURL()).to.contains(/assessments/);
