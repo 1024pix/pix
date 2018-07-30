@@ -46,3 +46,4 @@ api/.vscode/*
 api/.vscode
 api/.nvmrc
 .nvmrc
+.vscode/*
