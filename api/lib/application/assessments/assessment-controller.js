@@ -10,6 +10,7 @@ const certificationChallengeRepository = require('../../infrastructure/repositor
 const challengeRepository = require('../../infrastructure/repositories/challenge-repository');
 const challengeSerializer = require('../../infrastructure/serializers/jsonapi/challenge-serializer');
 const campaignRepository = require('../../infrastructure/repositories/campaign-repository');
+const campaignParticipationRepository = require('../../infrastructure/repositories/campaign-participation-repository');
 const competenceRepository = require('../../infrastructure/repositories/competence-repository');
 const courseRepository = require('../../infrastructure/repositories/course-repository');
 const skillRepository = require('../../infrastructure/repositories/skill-repository');
@@ -43,6 +44,7 @@ module.exports = {
             codeCampaign,
             assessmentRepository,
             campaignRepository,
+            campaignParticipationRepository,
           });
         } else {
           return assessmentRepository.save(assessment);
