@@ -49,7 +49,7 @@ module.exports = {
     return Promise.resolve(request.payload)
       .then(partialDeserialize)
       .then((newAnswer) => {
-        return usecases.saveAnswerAndCreateAssociatedKnowledgeElements({
+        return usecases.correctAnswerThenUpdateAssessment({
           answer: newAnswer,
           answerRepository,
           challengeRepository,
