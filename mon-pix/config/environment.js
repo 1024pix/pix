@@ -151,9 +151,9 @@ function inferApiURLFromScalingoAppName(appName) {
   }
 
   switch (appName) {
-    case 'mon-pix-integration':
+    case 'pix-mon-pix-integration':
       return 'https://pix-api-integration.scalingo.io';
-    case 'mon-pix-production':
+    case 'pix-mon-pix-production':
       return 'https://pix-api-production.scalingo.io';
     default:
       return 'http://localhost:3000';
