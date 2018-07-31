@@ -45,7 +45,15 @@ workflows:
   build-test-and-deploy:
     jobs:
       # Common
-      - checkout_code
+      - checkout_code:
+          filters:
+            branches:
+              ignore:
+                - master
+                - math
+                - preview
+                - gh-pages
+                - /release-.*/
 
       # Server side
       - install_server_dependencies:
@@ -74,6 +82,11 @@ workflows:
             - test_client_1
             - test_client_2
             - test_client_3
+          filters:
+            branches:
+              ignore:
+                - dev
+
 
 jobs:
   # Common
