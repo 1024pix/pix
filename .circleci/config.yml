@@ -45,10 +45,7 @@ jobs:
   # Common
 
   checkout_code:
-    docker:
-      - image: circleci/node:8
-      - image: circleci/node:8-browsers
-    working_directory: ~/pix
+    <<: *common_properties
     steps:
       - checkout
       - run: echo "${CIRCLE_BRANCH}_${CIRCLE_SHA1}" > .circle-cache-key
@@ -56,25 +53,6 @@ jobs:
           key: v5-pix-{{ checksum ".circle-cache-key" }}
           paths:
             - ~/pix
-
-  add_review_app_url_to_jira_issue:
-    <<: *common_properties
-    steps:
-      - run: echo "${CIRCLE_BRANCH}_${CIRCLE_SHA1}" > .circle-cache-key
-      - restore_cache:
-          keys:
-            - v5-pix-{{ checksum ".circle-cache-key" }}
-      - run: sudo apt-get install -y jq
-      - run: ~/pix/scripts/jira/comment_with_review_app_url.sh
-
-  signal_pr_deployment_to_github:
-    <<: *common_properties
-    steps:
-      - run: echo "${CIRCLE_BRANCH}_${CIRCLE_SHA1}" > .circle-cache-key
-      - restore_cache:
-          keys:
-            - v5-pix-{{ checksum ".circle-cache-key" }}
-      - run: ~/pix/mon-pix/scripts/signal_deploy_to_pr.sh
 
   # Server side
 
@@ -94,11 +72,6 @@ jobs:
           paths:
             - ~/pix/api/node_modules
             - ~/pix/.npm
-
-  build_server:
-    <<: *server_properties
-    steps:
-      - run: echo "Nothing to do for building the API"
 
   test_server:
     docker:
@@ -181,32 +154,21 @@ jobs:
             - v5-client-dependencies-{{ checksum ".circle-cache-key" }}
             #- v5-client-dependencies-{{ checksum "package.json" }} # FIXME restore shared cache between builds
       - run: npm install
-      - save_cache:
-          key: v5-client-dependencies-{{ checksum ".circle-cache-key" }}
-          paths:
-            - ~/pix/mon-pix/node_modules
-            - ~/.npm
-
-  build_client:
-    <<: *client_properties
-    steps:
-      - run: echo "${CIRCLE_BRANCH}_${CIRCLE_SHA1}" > .circle-cache-key
-      - restore_cache:
-          keys:
-            - v5-pix-{{ checksum ".circle-cache-key" }}
-      - restore_cache:
-          keys:
-            - v5-client-dependencies-{{ checksum ".circle-cache-key" }}
       - run: |
           if [ "${CIRCLE_BRANCH}" == "dev" ]; then
-            ./node_modules/.bin/ember build --environment staging
+            npx ember build --environment staging
           else
-            ./node_modules/.bin/ember build --environment integration
+            npx ember build --environment integration
           fi
       - persist_to_workspace:
           root: ~/pix/mon-pix
           paths:
             - dist
+      - save_cache:
+          key: v5-client-dependencies-{{ checksum ".circle-cache-key" }}
+          paths:
+            - ~/pix/mon-pix/node_modules
+            - ~/.npm
 
   test_client_1:
     <<: *client_properties
@@ -220,7 +182,7 @@ jobs:
             - v5-client-dependencies-{{ checksum ".circle-cache-key" }}
       - attach_workspace:
           at: ~/pix/mon-pix
-      - run: ./node_modules/.bin/ember exam --path dist --split=3 --partition=1 --reporter dot
+      - run: npx ember exam --path dist --split=3 --partition=1 --reporter dot
 
   test_client_2:
     <<: *client_properties
@@ -234,7 +196,7 @@ jobs:
             - v5-client-dependencies-{{ checksum ".circle-cache-key" }}
       - attach_workspace:
           at: ~/pix/mon-pix
-      - run: ./node_modules/.bin/ember exam --path dist --split=3 --partition=2 --reporter dot
+      - run: npx ember exam --path dist --split=3 --partition=2 --reporter dot
 
   test_client_3:
     <<: *client_properties
@@ -248,7 +210,7 @@ jobs:
             - v5-client-dependencies-{{ checksum ".circle-cache-key" }}
       - attach_workspace:
           at: ~/pix/mon-pix
-      - run: ./node_modules/.bin/ember exam --path dist --split=3 --partition=3 --reporter dot
+      - run: npx ember exam --path dist --split=3 --partition=3 --reporter dot
 
   deploy_client:
     <<: *client_properties
@@ -290,84 +252,19 @@ workflows:
       - install_server_dependencies:
           requires:
             - checkout_code
-      - build_server:
-          requires:
-            - install_server_dependencies
       - test_server:
           requires:
-            - build_server
-      - deploy_server_on_dokku:
-          requires:
-            - test_server
-          filters:
-            branches:
-              ignore:
-                - master
-                - dev
-                - gh-pages
-      - deploy_server_on_scalingo:
-          requires:
-            - test_server
-          filters:
-            branches:
-              only:
-                - master
-                - dev
-
+            - install_server_dependencies
       # Client side
       - install_client_dependencies:
           requires:
             - checkout_code
-      - build_client:
-          requires:
-            - install_client_dependencies
       - test_client_1:
           requires:
-            - build_client
+            - install_client_dependencies
       - test_client_2:
           requires:
-            - build_client
+            - install_client_dependencies
       - test_client_3:
           requires:
-            - build_client
-      - deploy_client:
-          requires:
-            - test_client_1
-            - test_client_2
-            - test_client_3
-          filters:
-            branches:
-              ignore:
-                - gh-pages
-
-      - add_review_app_url_to_jira_issue:
-          requires:
-            - deploy_client
-            - deploy_server_on_dokku
-            - deploy_server_on_scalingo
-          filters:
-            branches:
-              ignore:
-                - master
-                - dev
-                - gh-pages
-                - ghp
-                - preview
-                - maths
-                - /release-.*/
-
-      - signal_pr_deployment_to_github:
-          requires:
-            - deploy_client
-            - deploy_server_on_dokku
-            - deploy_server_on_scalingo
-          filters:
-            branches:
-              ignore:
-                - master
-                - dev
-                - gh-pages
-                - ghp
-                - preview
-                - maths
-                - /release-.*/
+            - install_client_dependencies
