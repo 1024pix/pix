@@ -16,11 +16,9 @@ module('Integration | Component | certification-list-checkbox', function(hooks) 
 
     // Template block usage:
     await render(hbs`
-      {{#certification-list-checkbox}}
-        template block text
-      {{/certification-list-checkbox}}
+      {{certification-list-checkbox}}
     `);
 
-    assert.equal(this.element.textContent.trim(), 'template block text');
+    assert.dom('input[type="checkbox"]').exists();
   });
 });
