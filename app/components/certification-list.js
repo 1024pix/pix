@@ -38,7 +38,7 @@ const columns = [
     title: 'Fin'
   },
   {
-    component:'certification-list-published',
+    component:'certification-info-published',
     useFilter:false,
     mayBeHidden:false,
     title:'Publiée'
