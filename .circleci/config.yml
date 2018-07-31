@@ -15,8 +15,8 @@
 #
 # Cached entries (lifetime = months):
 # - `v1-pix-{{ checksum ".circle-cache-key" }}`                  => the source code
-# - `v1-server-dependencies-{{ checksum "package.json" }}` => `pix/api/node_modules` directory
-# - `v1-client-dependencies-{{ checksum "package.json" }}` => `pix/mon-pix/{node_modules, bower_components}` directories
+# - `v1-api-dependencies-{{ checksum "package.json" }}` => `pix/api/node_modules` directory
+# - `v1-mon_pix-dependencies-{{ checksum "package.json" }}` => `pix/mon-pix/{node_modules, bower_components}` directories
 #
 # Workspace entries (lifetime = workflow):
 # - `~/pix/mon-pix/dist`                                      => `pix/mon-pix/dist` directory
@@ -26,17 +26,23 @@ common_properties: &common_properties
     - image: circleci/node:8
   working_directory: ~/pix
 
-# Properties shared by all server-side jobs
-server_properties: &server_properties
+# Properties shared by all api-side jobs
+api_properties: &api_properties
   docker:
     - image: circleci/node:8
   working_directory: ~/pix/api
 
-# Properties shared by all client-side jobs
-client_properties: &client_properties
+# Properties shared by all mon_pix-side jobs
+mon_pix_properties: &mon_pix_properties
   docker:
     - image: circleci/node:8-browsers
   working_directory: ~/pix/mon-pix
+
+# Properties shared by all orga-side jobs
+orga_properties: &orga_properties
+  docker:
+    - image: circleci/node:8-browsers
+  working_directory: ~/pix/orga
 
 version: 2.0
 
@@ -55,38 +61,46 @@ workflows:
                 - gh-pages
                 - /release-.*/
 
-      # Server side
-      - install_server_dependencies:
+      # api side
+      - install_api_dependencies:
           requires:
             - checkout_code
-      - test_server:
+      - test_api:
           requires:
-            - install_server_dependencies
-      # Client side
-      - install_client_dependencies:
+            - install_api_dependencies
+      # mon_pix side
+      - install_mon_pix_dependencies:
           requires:
             - checkout_code
-      - test_client_1:
+      - test_mon_pix_1:
           requires:
-            - install_client_dependencies
-      - test_client_2:
+            - install_mon_pix_dependencies
+      - test_mon_pix_2:
           requires:
-            - install_client_dependencies
-      - test_client_3:
+            - install_mon_pix_dependencies
+      - test_mon_pix_3:
           requires:
-            - install_client_dependencies
+            - install_mon_pix_dependencies
+
+      # orga side
+      - install_orga_dependencies:
+          requires:
+            - checkout_code
+      - test_orga:
+          requires:
+            - install_orga_dependencies
 
       - signal_ci_ok:
           requires:
-            - test_server
-            - test_client_1
-            - test_client_2
-            - test_client_3
+            - test_api
+            - test_mon_pix_1
+            - test_mon_pix_2
+            - test_mon_pix_3
+            - test_orga
           filters:
             branches:
               ignore:
                 - dev
-
 
 jobs:
   # Common
@@ -100,9 +114,9 @@ jobs:
           paths:
             - ~/pix
 
-  # Server side
-  install_server_dependencies:
-    <<: *server_properties
+  # api
+  install_api_dependencies:
+    <<: *api_properties
     steps:
       - run: echo "${CIRCLE_BRANCH}_${CIRCLE_SHA1}" > .circle-cache-key
       - restore_cache:
@@ -110,14 +124,14 @@ jobs:
             - v5-pix-{{ checksum ".circle-cache-key" }}
       - restore_cache:
           keys:
-            - v5-server-dependencies-{{ checksum "package.json" }}
+            - v5-api-dependencies-{{ checksum "package.json" }}
       - run: npm install
       - save_cache:
-          key: v5-server-dependencies-{{ checksum "package.json" }}
+          key: v5-api-dependencies-{{ checksum "package.json" }}
           paths:
             - ~/pix/api/node_modules
             - ~/pix/.npm
-  test_server:
+  test_api:
     docker:
       - image: circleci/node:8
       - image: postgres:10-alpine
@@ -131,7 +145,7 @@ jobs:
             - v5-pix-{{ checksum ".circle-cache-key" }}
       - restore_cache:
           keys:
-            - v5-server-dependencies-{{ checksum "package.json" }}
+            - v5-api-dependencies-{{ checksum "package.json" }}
       - run:
           command: |
             npm run lint
@@ -139,9 +153,9 @@ jobs:
           environment:
             DATABASE_URL: "postgres://circleci@localhost:5432/circleci"
 
-  # Client side
-  install_client_dependencies:
-    <<: *client_properties
+  # mon_pix
+  install_mon_pix_dependencies:
+    <<: *mon_pix_properties
     steps:
       - run: echo "${CIRCLE_BRANCH}_${CIRCLE_SHA1}" > .circle-cache-key
       - restore_cache:
@@ -149,8 +163,8 @@ jobs:
             - v5-pix-{{ checksum ".circle-cache-key" }}
       - restore_cache:
           keys:
-            - v5-client-dependencies-{{ checksum ".circle-cache-key" }}
-            #- v5-client-dependencies-{{ checksum "package.json" }} # FIXME restore shared cache between builds
+            - v5-mon_pix-dependencies-{{ checksum ".circle-cache-key" }}
+            #- v5-mon_pix-dependencies-{{ checksum "package.json" }} # FIXME restore shared cache between builds
       - run: npm install
       - run: |
           if [ "${CIRCLE_BRANCH}" == "dev" ]; then
@@ -163,13 +177,13 @@ jobs:
           paths:
             - dist
       - save_cache:
-          key: v5-client-dependencies-{{ checksum ".circle-cache-key" }}
+          key: v5-mon_pix-dependencies-{{ checksum ".circle-cache-key" }}
           paths:
             - ~/pix/mon-pix/node_modules
             - ~/.npm
 
-  test_client_1:
-    <<: *client_properties
+  test_mon_pix_1:
+    <<: *mon_pix_properties
     steps:
       - run: echo "${CIRCLE_BRANCH}_${CIRCLE_SHA1}" > .circle-cache-key
       - restore_cache:
@@ -177,13 +191,13 @@ jobs:
             - v5-pix-{{ checksum ".circle-cache-key" }}
       - restore_cache:
           keys:
-            - v5-client-dependencies-{{ checksum ".circle-cache-key" }}
+            - v5-mon_pix-dependencies-{{ checksum ".circle-cache-key" }}
       - attach_workspace:
           at: ~/pix/mon-pix
       - run: npx ember exam --path dist --split=3 --partition=1 --reporter dot
 
-  test_client_2:
-    <<: *client_properties
+  test_mon_pix_2:
+    <<: *mon_pix_properties
     steps:
       - run: echo "${CIRCLE_BRANCH}_${CIRCLE_SHA1}" > .circle-cache-key
       - restore_cache:
@@ -191,13 +205,13 @@ jobs:
             - v5-pix-{{ checksum ".circle-cache-key" }}
       - restore_cache:
           keys:
-            - v5-client-dependencies-{{ checksum ".circle-cache-key" }}
+            - v5-mon_pix-dependencies-{{ checksum ".circle-cache-key" }}
       - attach_workspace:
           at: ~/pix/mon-pix
       - run: npx ember exam --path dist --split=3 --partition=2 --reporter dot
 
-  test_client_3:
-    <<: *client_properties
+  test_mon_pix_3:
+    <<: *mon_pix_properties
     steps:
       - run: echo "${CIRCLE_BRANCH}_${CIRCLE_SHA1}" > .circle-cache-key
       - restore_cache:
@@ -205,10 +219,51 @@ jobs:
             - v5-pix-{{ checksum ".circle-cache-key" }}
       - restore_cache:
           keys:
-            - v5-client-dependencies-{{ checksum ".circle-cache-key" }}
+            - v5-mon_pix-dependencies-{{ checksum ".circle-cache-key" }}
       - attach_workspace:
           at: ~/pix/mon-pix
       - run: npx ember exam --path dist --split=3 --partition=3 --reporter dot
+
+  # orga
+  install_orga_dependencies:
+    <<: *orga_properties
+    steps:
+      - run: echo "${CIRCLE_BRANCH}_${CIRCLE_SHA1}" > .circle-cache-key
+      - restore_cache:
+          keys:
+            - v5-pix-{{ checksum ".circle-cache-key" }}
+      - restore_cache:
+          keys:
+            - v5-orga-dependencies-{{ checksum ".circle-cache-key" }}
+            #- v5-orga-dependencies-{{ checksum "package.json" }} # FIXME restore shared cache between builds
+      - run: npm install
+      - run: |
+          if [ "${CIRCLE_BRANCH}" == "dev" ]; then
+            npx ember build --environment staging
+          else
+            npx ember build --environment integration
+          fi
+      - persist_to_workspace:
+          root: ~/pix/orga
+          paths:
+            - dist
+      - save_cache:
+          key: v5-orga-dependencies-{{ checksum ".circle-cache-key" }}
+          paths:
+            - ~/pix/orga/node_modules
+            - ~/.npm
+
+    test_orga:
+      <<: *orga_properties
+      steps:
+        - run: echo "${CIRCLE_BRANCH}_${CIRCLE_SHA1}" > .circle-cache-key
+        - restore_cache:
+            keys:
+              - v5-pix-{{ checksum ".circle-cache-key" }}
+        - restore_cache:
+            key:
+              - v5-orga-dependencies-{{ checksum ".circle-cache-key" }}
+        - run: npm test
 
   signal_ci_ok:
     <<: *common_properties

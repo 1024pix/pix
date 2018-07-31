@@ -1,0 +1,28 @@
+<div class="app">
+
+  <aside class="app__sidebar sidebar">
+    <header class="sidebar__logo logo sidebar--padding-left">
+      {{#link-to "authenticated"}}
+        <img class="logo__image" src="/pix-logo-blanc.png">
+      {{/link-to}}
+    </header>
+
+    <div class="sidebar__current-organization sidebar--padding-left sidebar--padding-right">
+      {{current-organization organization=model}}
+    </div>
+  </aside>
+
+  <div class="app__main-content main-content">
+
+    <div class="main-content__topbar topbar">
+      <div class="topbar__user-identification">{{user-identification}}</div>
+      <div class="topbar__disconnect">{{#link-to "logout"}}Se deconnecter{{/link-to}}</div>
+    </div>
+
+    <div class="main-content__body">
+      {{outlet}}
+    </div>
+
+  </div>
+
+</div>
