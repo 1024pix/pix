@@ -10,7 +10,10 @@ export default BaseRoute.extend(AuthenticatedRouteMixin, {
     return store.query('assessment', { filter: { type: 'SMART_PLACEMENT' } })
       .then((smartPlacementAssessments) => {
         if (!isEmpty(smartPlacementAssessments)) {
-          return smartPlacementAssessments.get('firstObject');
+          const findCampaignAssessment = smartPlacementAssessments.find((assessment) => assessment.codeCampaign === codeCampaign);
+          if(findCampaignAssessment) {
+            return findCampaignAssessment;
+          }
         }
         return store.createRecord('assessment', { type: 'SMART_PLACEMENT', codeCampaign }).save();
       });

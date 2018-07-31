@@ -17,6 +17,9 @@ describe('Unit | Route | campaigns/start-or-resume', function() {
     let storeStub;
     let queryStub;
     let createRecordStub;
+    const params = {
+      campaign_code: 'CODECAMPAIGN'
+    };
 
     beforeEach(function() {
       queryStub = sinon.stub();
@@ -35,7 +38,7 @@ describe('Unit | Route | campaigns/start-or-resume', function() {
       const route = this.subject();
 
       // when
-      const promise = route.model();
+      const promise = route.model(params);
 
       // then
       return promise.then(() => {
@@ -43,18 +46,38 @@ describe('Unit | Route | campaigns/start-or-resume', function() {
       });
     });
 
-    it('should resolve with first assessment found if at least one has been found', function() {
+    it('should resolve with assessment corresponding of campaignCode if found', function() {
       // given
-      const assessments = A([EmberObject.create({ id: 1234 })]);
+      const assessments = A([EmberObject.create({ id: 1234, codeCampaign: 'CODECAMPAIGN' })]);
       queryStub.resolves(assessments);
       const route = this.subject();
 
       // when
-      const promise = route.model();
+      const promise = route.model(params);
 
       // then
       return promise.then((model) => {
         expect(model.get('id')).to.equal(1234);
+      });
+    });
+
+    it('should resolve with freshly created one if assessment found but not for this campaign', function() {
+      // given
+      const assessments = A([EmberObject.create({ id: 1234, codeCampaign: 'BADCODE' })]);
+      queryStub.resolves(assessments);
+      const route = this.subject();
+
+      createRecordStub.returns({
+        save() {
+        }
+      });
+
+      // when
+      const promise = route.model(params);
+
+      // then
+      return promise.then(() => {
+        sinon.assert.calledWith(createRecordStub, 'assessment', { type: 'SMART_PLACEMENT', codeCampaign: params.campaign_code });
       });
     });
 
@@ -66,14 +89,15 @@ describe('Unit | Route | campaigns/start-or-resume', function() {
         save() {
         }
       });
+
       const route = this.subject();
 
       // when
-      const promise = route.model();
+      const promise = route.model(params);
 
       // then
       return promise.then(() => {
-        sinon.assert.calledWith(createRecordStub, 'assessment', { type: 'SMART_PLACEMENT' });
+        sinon.assert.calledWith(createRecordStub, 'assessment', { type: 'SMART_PLACEMENT', codeCampaign: params.campaign_code });
       });
     });
   });
