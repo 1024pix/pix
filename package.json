@@ -55,7 +55,7 @@
     "release:prepare": "./scripts/release/prepare.sh",
     "release:perform": "./scripts/release/perform.sh",
     "release:publish": "./scripts/release/publish.sh",
-    "scalingo-postbuild": "cd $APPLICATION_NAME && npm run scalingo-build",
+    "scalingo-postbuild": "cd $APPLICATION_NAME && npm run scalingo-postbuild",
     "start": "run-p start:api start:mon-pix",
     "start:api": "cd api && npm run start:watch",
     "start:mon-pix": "cd mon-pix && npx ember serve --proxy",
