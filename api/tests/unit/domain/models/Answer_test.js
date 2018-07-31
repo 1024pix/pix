@@ -1,9 +1,10 @@
 const Answer = require('../../../../lib/domain/models/Answer');
 const Challenge = require('../../../../lib/domain/models/Challenge');
 const Skill = require('../../../../lib/domain/models/Skill');
-const { expect } = require('../../../test-helper');
+const { expect, factory } = require('../../../test-helper');
 
 describe('Unit | Domain | Models | Answer', () => {
+
   describe('constructor', () => {
 
     it('should build an Answer from raw JSON', () => {
@@ -16,7 +17,7 @@ describe('Unit | Domain | Models | Answer', () => {
         elapsedTime: 100,
         timeout: 0,
         challengeId: 'redRecordId',
-        assessmentId: 82
+        assessmentId: 82,
       };
 
       const expectedAnswer = {
@@ -27,7 +28,7 @@ describe('Unit | Domain | Models | Answer', () => {
         elapsedTime: 100,
         timeout: 0,
         challengeId: 'redRecordId',
-        assessmentId: 82
+        assessmentId: 82,
       };
 
       // when
@@ -36,7 +37,6 @@ describe('Unit | Domain | Models | Answer', () => {
       // then
       expect(answer).to.deep.equal(expectedAnswer);
     });
-
   });
 
   describe('isOK', () => {
@@ -56,7 +56,6 @@ describe('Unit | Domain | Models | Answer', () => {
       // when/then
       expect(answer.isOk()).to.be.false;
     });
-
   });
 
   describe('isPartially', () => {
@@ -76,11 +75,11 @@ describe('Unit | Domain | Models | Answer', () => {
       // when
       expect(answer.isPartially()).to.be.false;
     });
-
   });
 
-  describe('#maxDifficulty', function() {
-    it('should exist', function() {
+  describe('#maxDifficulty', () => {
+
+    it('should exist', () => {
       // given
       const challenge = Challenge.fromAttributes();
       const answer = new Answer({ result: 'ko' });
@@ -89,7 +88,7 @@ describe('Unit | Domain | Models | Answer', () => {
       expect(answer.maxDifficulty).to.exist;
     });
 
-    it('should return the maximal skill difficulty of a challenge', function() {
+    it('should return the maximal skill difficulty of a challenge', () => {
       // given
       const web5 = new Skill({ name: '@web5' });
       const url1 = new Skill({ name: '@url1' });
@@ -106,9 +105,9 @@ describe('Unit | Domain | Models | Answer', () => {
       expect(maxDifficulty).to.equal(5);
     });
 
-    it('should return the base difficulty if the challenge is undefined', function() {
+    it('should return the base difficulty if the challenge is undefined', () => {
       // given
-      const answer = new Answer({ });
+      const answer = new Answer({});
 
       const baseDifficulty = 2;
       // when
@@ -119,8 +118,9 @@ describe('Unit | Domain | Models | Answer', () => {
     });
   });
 
-  describe('#binaryOutcome', function() {
-    it('should exist', function() {
+  describe('#binaryOutcome', () => {
+
+    it('should exist', () => {
       // given
       const answer = new Answer({ result: 'ko' });
 
@@ -128,7 +128,7 @@ describe('Unit | Domain | Models | Answer', () => {
       expect(answer.binaryOutcome).to.exist;
     });
 
-    it('should return 1 if answer is correct', function() {
+    it('should return 1 if answer is correct', () => {
       // given
       const answer = new Answer({ result: 'ok' });
 
@@ -139,7 +139,7 @@ describe('Unit | Domain | Models | Answer', () => {
       expect(maxDifficulty).to.equal(1);
     });
 
-    it('should return 0 if answer is not correct', function() {
+    it('should return 0 if answer is not correct', () => {
       // given
       const answer = new Answer({ result: 'ko' });
 
@@ -151,4 +151,28 @@ describe('Unit | Domain | Models | Answer', () => {
     });
   });
 
+  describe('#hasTimedOut', () => {
+
+    it('should return true if answer has timed out', () => {
+      // given
+      const answer = factory.buildAnswer({ timeout: -1 });
+
+      // when
+      const hasTimedOut = answer.hasTimedOut;
+
+      // then
+      expect(hasTimedOut).to.be.true;
+    });
+
+    it('should return false if answer has not timed out', () => {
+      // given
+      const answer = factory.buildAnswer({ timeout: 1 });
+
+      // when
+      const hasTimedOut = answer.hasTimedOut;
+
+      // then
+      expect(hasTimedOut).to.be.false;
+    });
+  });
 });

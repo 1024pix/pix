@@ -1,79 +1,43 @@
-const buildAnswer = require('./build-answer');
-const buildArea = require('./build-area');
-const buildAreaAirtableDataObject = require('./build-area-airtable-data-object');
-const buildAssessment = require('./build-assessment');
-const buildAssessementResult = require('./build-assessment-result');
-const buildCampaign = require('./build-campaign');
-const buildAssessmentResult = require('./build-assessment-result');
-const buildCatAnswer = require('./build-cat-answer');
-const buildCatAssessment = require('./build-cat-assessment');
-const buildCatChallenge = require('./build-cat-challenge');
-const buildCatCourse = require('./build-cat-course');
-const buildCatTube = require('./build-cat-tube');
-const buildChallenge = require('./build-challenge');
-const buildChallengeAirtableDataObject = require('./build-challenge-airtable-data-object');
-const buildCertification = require('./build-certification');
-const buildCertificationCourse = require('./build-certification-course');
-const buildCertificationWithCompetenceTree = require('./build-certification-with-competence-tree');
-const buildCompetence = require('./build-competence');
-const buildCompetenceAirtableDataObject = require('./build-competence-airtable-data-object');
-const buildCompetenceMark = require('./build-competence-mark');
-const buildCompetenceTree = require('./build-competence-tree');
-const buildCourse = require('./build-course');
-const buildHint = require('./build-hint');
-const buildOrganization = require('./build-organization');
-const buildOrganizationAccess = require('./build-organization-access');
-const buildOrganizationRole = require('./build-organization-role');
-const buildPixRole = require('./build-pix-role');
-const buildResultCompetenceTree = require('./build-result-competence-tree');
-const buildSkill = require('./build-skill');
-const buildSkillCollection = require('./build-skill-collection');
-const buildSkillReview = require('./build-skill-review');
-const buildSmartPlacementAnswer = require('./build-smart-placement-answer');
-const buildSmartPlacementAssessment = require('./build-smart-placement-assessment');
-const buildSmartPlacementKnowledgeElement = require('./build-smart-placement-knowledge-element');
-const buildTargetProfile = require('./build-target-profile');
-const buildTube = require('./build-tube');
-const buildTutorial = require('./build-tutorial');
-const buildUser = require('./build-user');
-
 module.exports = {
-  buildAnswer,
-  buildArea,
-  buildAreaAirtableDataObject,
-  buildAssessment,
-  buildAssessementResult,
-  buildCampaign,
-  buildAssessmentResult,
-  buildCatAnswer,
-  buildCatAssessment,
-  buildCatChallenge,
-  buildCatCourse,
-  buildCatTube,
-  buildCertification,
-  buildCertificationCourse,
-  buildCertificationWithCompetenceTree,
-  buildCompetenceAirtableDataObject,
-  buildChallenge,
-  buildChallengeAirtableDataObject,
-  buildCourse,
-  buildCompetence,
-  buildCompetenceMark,
-  buildCompetenceTree,
-  buildHint,
-  buildOrganization,
-  buildOrganizationAccess,
-  buildOrganizationRole,
-  buildResultCompetenceTree,
-  buildPixRole,
-  buildSkill,
-  buildSkillCollection,
-  buildSkillReview,
-  buildSmartPlacementAnswer,
-  buildSmartPlacementAssessment,
-  buildSmartPlacementKnowledgeElement,
-  buildTargetProfile,
-  buildTube,
-  buildTutorial,
-  buildUser,
+  buildAnswer: require('./build-answer'),
+  buildArea: require('./build-area'),
+  buildAreaAirtableDataObject: require('./build-area-airtable-data-object'),
+  buildAssessment: require('./build-assessment'),
+  buildAssessmentResult: require('./build-assessment-result'),
+  buildCampaign: require('./build-campaign'),
+  buildCatAnswer: require('./build-cat-answer'),
+  buildCatAssessment: require('./build-cat-assessment'),
+  buildCatChallenge: require('./build-cat-challenge'),
+  buildCatCourse: require('./build-cat-course'),
+  buildCatTube: require('./build-cat-tube'),
+  buildCertification: require('./build-certification'),
+  buildCertificationCourse: require('./build-certification-course'),
+  buildCertificationWithCompetenceTree: require('./build-certification-with-competence-tree'),
+  buildChallenge: require('./build-challenge'),
+  buildChallengeAirtableDataObject: require('./build-challenge-airtable-data-object'),
+  buildCompetence: require('./build-competence'),
+  buildCompetenceAirtableDataObject: require('./build-competence-airtable-data-object'),
+  buildCompetenceMark: require('./build-competence-mark'),
+  buildCompetenceTree: require('./build-competence-tree'),
+  buildCourse: require('./build-course'),
+  buildHint: require('./build-hint'),
+  buildOrganization: require('./build-organization'),
+  buildOrganizationAccess: require('./build-organization-access'),
+  buildOrganizationRole: require('./build-organization-role'),
+  buildPixRole: require('./build-pix-role'),
+  buildResultCompetenceTree: require('./build-result-competence-tree'),
+  buildSkill: require('./build-skill'),
+  buildSkillAirtableDataObject: require('./build-skill-airtable-data-object'),
+  buildSkillCollection: require('./build-skill-collection'),
+  buildSkillReview: require('./build-skill-review'),
+  buildSolution: require('./build-solution'),
+  buildSmartPlacementAnswer: require('./build-smart-placement-answer'),
+  buildSmartPlacementAssessment: require('./build-smart-placement-assessment'),
+  buildSmartPlacementKnowledgeElement: require('./build-smart-placement-knowledge-element'),
+  buildTargetProfile: require('./build-target-profile'),
+  buildTube: require('./build-tube'),
+  buildTutorial: require('./build-tutorial'),
+  buildUser: require('./build-user'),
+  buildValidation: require('./build-validation'),
+  buildValidator: require('./build-validator'),
 };

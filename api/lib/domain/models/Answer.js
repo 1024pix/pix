@@ -1,4 +1,5 @@
 const AnswerStatus = require('./AnswerStatus');
+const _ = require('lodash');
 
 class Answer {
 
@@ -18,6 +19,7 @@ class Answer {
     this.id = id;
     // attributes
     this.elapsedTime = elapsedTime;
+    // XXX result property should not be auto-created from result to an AnswerStatus Object
     this.result = AnswerStatus.from(result);
     this.resultDetails = resultDetails;
     this.timeout = timeout;
@@ -54,6 +56,10 @@ class Answer {
     }
     // XXX : to avoid problem when challenge has no skill/ when we cannot get challenge
     return baseDifficulty;
+  }
+
+  get hasTimedOut() {
+    return _.isInteger(this.timeout) && this.timeout < 0;
   }
 }
 

@@ -1,3 +1,8 @@
+/**
+ * Traduction: Correction
+ * Context:    Objet existant dans le cadre de la correction d'une réponse pendant le fonctionnement
+ *             interne de l'algorithme.
+ */
 class Solution {
 
   /**
@@ -59,7 +64,7 @@ class Solution {
     return {
       t1: !this.enabledTreatments.includes('t1'),
       t2: !this.enabledTreatments.includes('t2'),
-      t3: !this.enabledTreatments.includes('t3')
+      t3: !this.enabledTreatments.includes('t3'),
     };
   }
 }

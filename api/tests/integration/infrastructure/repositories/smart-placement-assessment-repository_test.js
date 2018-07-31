@@ -1,10 +1,10 @@
 const {
-  expect, sinon, knex, insertUserWithStandardRole, cleanupUsersAndPixRolesTables, factory,
+  expect, sinon, insertUserWithStandardRole, cleanupUsersAndPixRolesTables, factory, databaseBuilder,
 } = require('../../../test-helper');
 
+const Assessment = require('../../../../lib/domain/models/Assessment');
 const challengeDatasource = require('../../../../lib/infrastructure/datasources/airtable/challenge-datasource');
 const Skill = require('../../../../lib/domain/models/Skill');
-const SmartPlacementAnswer = require('../../../../lib/domain/models/SmartPlacementAnswer');
 const SmartPlacementAssessment = require('../../../../lib/domain/models/SmartPlacementAssessment');
 const smartPlacementAssessmentRepository =
   require('../../../../lib/infrastructure/repositories/smart-placement-assessment-repository');
@@ -30,172 +30,188 @@ describe('Integration | Repository | SmartPlacementAssessmentRepository', () => 
 
   describe('#get', () => {
 
-    const assessmentId = 100;
-    const firstAnswerId = 1;
-    const secondAnswerId = 2;
-    const web1SkillName = '@web1';
-    const web2SkillName = '@web2';
-    const secondSkillName = '@donnee4';
-    const firstInferedSkillName = '@donnee3';
-    const secondInferedSkillName = '@donnee2';
-    const unratableSkillName = '@eval6';
-    const notForAssessmentAnswerId = 3;
+    describe('finding smart placement by id', () => {
 
-    const registeredAnswers = [
-      {
-        id: firstAnswerId,
-        value: '1,4',
-        result: 'ko',
-        challengeId: 'challenge_1_4',
-        assessmentId: assessmentId,
-        createdAt: '2016-10-27 08:45:00',
-      },
-      {
-        id: secondAnswerId,
-        value: '2,8',
-        result: 'ok',
-        challengeId: 'challenge_2_8',
-        assessmentId: assessmentId,
-        createdAt: '2016-10-27 08:45:30',
-      },
-      {
-        id: notForAssessmentAnswerId,
-        value: '5,2',
-        result: 'ko',
-        assessmentId: 6666,
-        challengeId: 'challenge_4',
-        createdAt: '2016-10-27 08:45:50',
-      },
-    ];
+      let givenPlacementAssessment;
+      let givenSmartPlacementAssessment;
 
-    const targetProfile = new TargetProfile({
-      skills: [
-        new Skill({ name: web2SkillName }),
-        new Skill({ name: web1SkillName }),
-        new Skill({ name: secondSkillName }),
-        new Skill({ name: firstInferedSkillName }),
-        new Skill({ name: secondInferedSkillName }),
-        new Skill({ name: unratableSkillName }),
-      ],
+      const targetProfile = new TargetProfile({});
+
+      beforeEach(() => {
+
+        targetProfileRepository.get.resolves(targetProfile);
+
+        givenPlacementAssessment = databaseBuilder.factory.buildAssessment({
+          type: Assessment.types.PLACEMENT,
+        });
+        givenSmartPlacementAssessment = databaseBuilder.factory.buildAssessment({
+          type: Assessment.types.SMARTPLACEMENT,
+        });
+
+        return databaseBuilder.commit();
+      });
+
+      afterEach(() => {
+        return cleanupUsersAndPixRolesTables()
+          .then(() => databaseBuilder.clean());
+      });
+
+      it('should find an existing smart placement assessment', () => {
+        // when
+        const promise = smartPlacementAssessmentRepository.get(givenSmartPlacementAssessment.id);
+
+        // then
+        return promise.then((assessment) => {
+          expect(assessment.id).to.equal(givenSmartPlacementAssessment.id);
+        });
+      });
+
+      it('should throw a not found error if the assessment does not exist', () => {
+        // given
+        const notExistingAssessmentId = 999;
+
+        // when
+        const promise = smartPlacementAssessmentRepository.get(notExistingAssessmentId);
+
+        // then
+        return expect(promise).to.be.rejectedWith(NotFoundError);
+      });
+
+      it('should throw a not found error if the assessment is not of type smartPlacement', () => {
+        // when
+        const promise = smartPlacementAssessmentRepository.get(givenPlacementAssessment.id);
+
+        // then
+        return expect(promise).to.be.rejectedWith(NotFoundError);
+      });
     });
 
-    const firstChallengeDO = factory.buildChallengeAirtableDataObject({
-      id: 'challenge_1_4',
-      skills: [web1SkillName],
-    });
+    describe('Full Smart Placement behaviour', () => {
 
-    const secondChallengeDO = factory.buildChallengeAirtableDataObject({
-      id: 'challenge_2_8',
-      skills: [secondSkillName],
-    });
+      const firstAnswerId = 1;
+      const secondAnswerId = 2;
+      const firstSkillName = '@web1';
+      const secondSkillName = '@donnee4';
+      const firstInferredSkillName = '@donnee3';
+      const secondInferredSkillName = '@donnee2';
+      const notForAssessmentAnswerId = 3;
 
-    afterEach(() => {
-      return cleanupUsersAndPixRolesTables()
-        .then(() => knex('assessments').delete())
-        .then(() => knex('answers').delete());
-    });
+      let givenSmartPlacementAssessment;
+      let givenAnswers;
+      let givenKnowledgeElements;
 
-    it('should throw a not found error if the assessment does not exist', () => {
-      // given
-      const notExistingAssessmentId = 999;
+      const targetProfile = new TargetProfile({
+        skills: [
+          new Skill({ name: firstSkillName }),
+          new Skill({ name: secondSkillName }),
+          new Skill({ name: firstInferredSkillName }),
+          new Skill({ name: secondInferredSkillName }),
+        ],
+      });
 
-      // when
-      const promise = smartPlacementAssessmentRepository.get(notExistingAssessmentId);
+      const firstChallengeDO = factory.buildChallengeAirtableDataObject({
+        id: 'challenge_1_4',
+        skills: [firstSkillName],
+      });
 
-      // then
-      return expect(promise).to.be.rejectedWith(NotFoundError);
-    });
-
-    context('when the assessment is STARTED', () => {
+      const secondChallengeDO = factory.buildChallengeAirtableDataObject({
+        id: 'challenge_2_8',
+        skills: [secondSkillName],
+      });
 
       beforeEach(() => {
         challengeDatasource.get.onFirstCall().resolves(firstChallengeDO);
         challengeDatasource.get.onSecondCall().resolves(secondChallengeDO);
         targetProfileRepository.get.resolves(targetProfile);
 
-        return insertUserWithStandardRole()
-          .then(() => {
-            return knex('assessments')
-              .insert({
-                id: assessmentId,
-                userId: 4444,
-                courseId: 'course_A',
-                state: SmartPlacementAssessment.State.STARTED,
-                createdAt: '2016-10-27 08:44:25',
-              });
-          })
-          .then(() => {
-            return knex('answers').insert(registeredAnswers);
-          });
-      });
+        givenSmartPlacementAssessment = databaseBuilder.factory.buildAssessment({
+          type: Assessment.types.SMARTPLACEMENT,
+        });
 
-      it('should return a smartPlacementAssessment when one exists', () => {
-        // given
-        const answers = [
-          factory.buildSmartPlacementAnswer({
+        givenAnswers = [
+          databaseBuilder.factory.buildAnswer({
             id: firstAnswerId,
-            result: SmartPlacementAnswer.ResultType.KO,
-            challengeId: 'challenge_1_4',
+            result: 'ko',
+            assessmentId: givenSmartPlacementAssessment.id,
+            challengeId: firstChallengeDO.id,
           }),
-          factory.buildSmartPlacementAnswer({
+          databaseBuilder.factory.buildAnswer({
             id: secondAnswerId,
-            result: SmartPlacementAnswer.ResultType.OK,
-            challengeId: 'challenge_2_8',
+            result: 'ok',
+            assessmentId: givenSmartPlacementAssessment.id,
+            challengeId: secondChallengeDO.id,
           }),
+          databaseBuilder.factory.buildAnswer({
+            id: notForAssessmentAnswerId,
+            result: 'ok',
+            challengeId: secondChallengeDO.id,
+          })
         ];
-        const knowledgeElements = [
-          factory.buildSmartPlacementKnowledgeElement({
-            id: -1,
+
+        givenKnowledgeElements = [
+          databaseBuilder.factory.buildSmartPlacementKnowledgeElement({
             source: SmartPlacementKnowledgeElement.SourceType.DIRECT,
             status: SmartPlacementKnowledgeElement.StatusType.INVALIDATED,
             pixScore: 0,
             answerId: firstAnswerId,
-            skillId: web1SkillName,
+            assessmentId: givenSmartPlacementAssessment.id,
+            skillId: firstSkillName,
           }),
-          factory.buildSmartPlacementKnowledgeElement({
-            id: -1,
+          databaseBuilder.factory.buildSmartPlacementKnowledgeElement({
             source: SmartPlacementKnowledgeElement.SourceType.DIRECT,
             status: SmartPlacementKnowledgeElement.StatusType.VALIDATED,
             pixScore: 0,
             answerId: secondAnswerId,
+            assessmentId: givenSmartPlacementAssessment.id,
             skillId: secondSkillName,
           }),
-          factory.buildSmartPlacementKnowledgeElement({
-            id: -1,
+          databaseBuilder.factory.buildSmartPlacementKnowledgeElement({
             source: SmartPlacementKnowledgeElement.SourceType.INFERRED,
             status: SmartPlacementKnowledgeElement.StatusType.VALIDATED,
             pixScore: 0,
             answerId: secondAnswerId,
-            skillId: firstInferedSkillName,
+            assessmentId: givenSmartPlacementAssessment.id,
+            skillId: firstInferredSkillName,
           }),
-          factory.buildSmartPlacementKnowledgeElement({
-            id: -1,
+          databaseBuilder.factory.buildSmartPlacementKnowledgeElement({
             source: SmartPlacementKnowledgeElement.SourceType.INFERRED,
             status: SmartPlacementKnowledgeElement.StatusType.VALIDATED,
             pixScore: 0,
             answerId: secondAnswerId,
-            skillId: secondInferedSkillName,
+            assessmentId: givenSmartPlacementAssessment.id,
+            skillId: secondInferredSkillName,
           }),
-          factory.buildSmartPlacementKnowledgeElement({
-            id: -1,
-            source: SmartPlacementKnowledgeElement.SourceType.INFERRED,
-            status: SmartPlacementKnowledgeElement.StatusType.INVALIDATED,
-            pixScore: 0,
-            answerId: firstAnswerId,
-            skillId: web2SkillName,
-          })
         ];
-        const expectedSmartPlacementAssessment = new SmartPlacementAssessment({
-          id: assessmentId,
-          state: SmartPlacementAssessment.State.STARTED,
-          userId: 4444,
-          answers,
-          knowledgeElements,
+
+        return insertUserWithStandardRole()
+          .then(() => databaseBuilder.commit());
+      });
+
+      afterEach(() => {
+        return cleanupUsersAndPixRolesTables()
+          .then(() => databaseBuilder.clean());
+      });
+
+      it('should not include answers given to a regular placement assessment', () => {
+        // given
+        const expectedAnswersForSmartPlacementAssessment = givenAnswers
+          .filter((answer) => answer.assessmentId === givenSmartPlacementAssessment.id)
+          .map(factory.buildSmartPlacementAnswer);
+        const expectedKnowledgeElements = givenKnowledgeElements
+          .map(factory.buildSmartPlacementKnowledgeElement)
+          .sort((a, b) => a.id > b.id);
+
+        const expectedSmartPlacementAssessment = factory.buildSmartPlacementAssessment({
+          id: givenSmartPlacementAssessment.id,
+          state: givenSmartPlacementAssessment.state,
+          userId: givenSmartPlacementAssessment.userId,
+          answers: expectedAnswersForSmartPlacementAssessment,
+          knowledgeElements: expectedKnowledgeElements,
           targetProfile,
         });
 
         // when
-        const promise = smartPlacementAssessmentRepository.get(assessmentId);
+        const promise = smartPlacementAssessmentRepository.get(givenSmartPlacementAssessment.id);
 
         // then
         return promise.then((assessment) => {
