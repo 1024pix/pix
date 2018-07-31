@@ -3,7 +3,9 @@
     <div class="col">
       <div class="card">
         <div class="card-body">
-          <h5 class="card-title">État</h5>
+          <h5 class="card-title">
+          {{certification-info-published record=certification float=true}}État
+          </h5>
           <div class="card-text">
             {{certification-info-field value=certification.sessionId edition=false label="Session :" linkRoute='authenticated.certifications.sessions.info'}}
             <!--
