@@ -1,4 +1,4 @@
-{{certification-list certifications=model.certifications}}
+{{certification-list certifications=model.certifications changeAction=(action "onListSelectionChange")}}
 {{#if progress}}
 <div class="session-list__progress">
   {{#bs-progress as |p|}}
@@ -10,6 +10,16 @@
   <div class="col session-list__actions">
     {{#bs-button class='session-lit__button' type='primary' size='sm' onClick=(action "onExport")}}Exporter{{/bs-button}}
     {{#bs-button class='session-lit__button' type='primary' size='sm' onClick=(action "onImport")}}Importer...{{/bs-button}}
+    {{#if showSelectedActions}}
+      {{#bs-dropdown as |dd|}}
+        {{#dd.button type='primary'}}Avec la sélection... <span class='caret'></span>{{/dd.button}}
+        {{#dd.menu as |ddm|}}
+          {{#ddm.item}}<span class='dropdown-item' {{action "onConfirmPublishSelected"}}>Publier</span>{{/ddm.item}}
+          {{#ddm.item}}<span class='dropdown-item' {{action "onConfirmUnpublishSelected"}}>Dépublier</span>{{/ddm.item}}
+        {{/dd.menu}}
+      {{/bs-dropdown}}
+    {{/if}}
     {{input type='file' id='session-list__import-file' change=(action "onImportFileSelect")}}
   </div>
 </div>
+{{confirm-popup message=confirmMessage confirm=(action confirmAction) cancel=(action "onCancelConfirm") show=displayConfirm}}

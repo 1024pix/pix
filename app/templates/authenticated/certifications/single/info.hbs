@@ -78,16 +78,5 @@
       {{/if}}
     </div>
   </div>
-  {{#bs-modal-simple
-      title="Merci de confirmer"
-      closeTitle="Annuler"
-      submitTitle="Confirmer"
-      size=null
-      fade=false
-      open=displayConfirm
-      position="center"
-      onSubmit=(action confirmAction)
-      onHide=(action "onCancelConfirm")}}
-      {{confirmMessage}}
-  {{/bs-modal-simple}}
+{{confirm-popup message=confirmMessage confirm=(action confirmAction) cancel=(action "onCancelConfirm") show=displayConfirm}}
 </div>
