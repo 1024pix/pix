@@ -25,6 +25,7 @@
     "lint": "npx eslint app mirage tests",
     "lint:fix": "npm run lint --fix",
     "lint:js": "npx eslint ./*.js app config lib server tests",
+    "scalingo-background-job": "true",
     "scalingo-build": "git rev-parse --abbrev-ref HEAD ; npx ember build --environment $BUILD_ENVIRONMENT",
     "scalingo-start": "cd .. && ./bin/run",
     "scalingo-postdeploy": "./scripts/jira/comment_with_review_app_url.sh ; ./scripts/signal_deploy_to_pr.sh ; true",
