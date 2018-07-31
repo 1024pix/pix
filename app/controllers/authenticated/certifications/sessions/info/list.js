@@ -11,6 +11,11 @@ export default Controller.extend({
   progressValue:0,
   notifications: service('notification-messages'),
   fileSaver: service('file-saver'),
+  displayConfirm:false,
+  confirmMessage:null,
+  confirmAction:'onPublishSelected',
+  showSelectedActions:false,
+  selectedCertifications:null,
 
   init() {
     this._super();
@@ -41,6 +46,8 @@ export default Controller.extend({
     this._csvHeaders = Object.values(this._fields).concat(this._competences);
 
     this._csvImportFields = ['firstName', 'lastName', 'birthdate', 'birthplace', 'externalId'];
+
+    this.selected = [];
   },
 
   // Actions
@@ -79,12 +86,14 @@ export default Controller.extend({
           // otherwise the first element is wrongly parsed.
           const csvRawData = data.toString('utf8').replace(/^\uFEFF/, '');
           const parsedCSVData = Papa.parse(csvRawData, { header: true , skipEmptyLines: true}).data;
+          let rowCount = parsedCSVData.length;
           that.set('progressMax', parsedCSVData.length);
           that.set('progressValue', 0);
           that.set('progress', true);
           return that._importCertificationsData(parsedCSVData)
           .then(() => {
             that.set('progress', false);
+            that.get('notifications').success(rowCount+ ' lignes correctement importées');
           })
           .catch((error) => {
             that.set('progress', false);
@@ -97,42 +106,43 @@ export default Controller.extend({
         this.set('progress', false);
         this.get('notifications').error(error);
       }
+    },
+    onConfirmPublishSelected() {
+      let count = this.get('selectedCertifications').length;
+      if (count === 1) {
+        this.set('confirmMessage', 'Souhaitez-vous publier la certification sélectionnée ?');
+      } else {
+        this.set('confirmMessage', 'Souhaitez-vous publier les '+count+' certifications sélectionnées ?');
+      }
+      this.set('confirmAction', 'onPublishSelected');
+      this.set('displayConfirm', true);
+    },
+    onConfirmUnpublishSelected() {
+      let count = this.get('selectedCertifications').length;
+      if (count === 1) {
+        this.set('confirmMessage', 'Souhaitez-vous dépublier la certification sélectionnée ?');
+      } else {
+        this.set('confirmMessage', 'Souhaitez-vous dépublier les '+count+' certifications sélectionnées ?');
+      }
+      this.set('confirmAction', 'onUnpublishSelected');
+      this.set('displayConfirm', true);
+    },
+    onPublishSelected() {
+      this._startCertificationPublication(true);
+    },
+    onUnpublishSelected() {
+      this._startCertificationPublication(false);
+    },
+    onCancelConfirm() {
+      this.set('displayConfirm', false);
+    },
+    onListSelectionChange(e) {
+      this.set('selectedCertifications', e.selectedItems);
+      this.set('showSelectedActions', e.selectedItems.length > 0);
     }
   },
 
   // Private methods
-  _getJsonRow(certification) {
-    let data = Object.keys(this._fields).reduce((currentData, field) => {
-      let header = this._fields[field];
-      currentData[header] = certification.get(field);
-      return currentData;
-    }, {});
-    let competences = certification.get('indexedCompetences');
-    this._competences.forEach((competence) => {
-      data[competence] = (competences[competence] == null)?'':competences[competence].level;
-    });
-    return data;
-  },
-
-  _getCertificationsJson(ids) {
-    let store = this.get('store');
-    let requests = ids.map((id) => {
-      return store.findRecord('certification', id)
-      .catch(() => {
-        // TODO: display error somehow
-        return null;
-      });
-    });
-    return Promise.all(requests)
-    .then((certifications) => {
-      return certifications.reduce((current, certification) => {
-        if (certification) {
-          current.push(this._getJsonRow(certification));
-        }
-        return current;
-      }, []);
-    });
-  },
 
   _getExportJson(certificationsIds, json) {
     let ids = certificationsIds.splice(0,10);
@@ -158,6 +168,75 @@ export default Controller.extend({
         return true;
       }
     });
+  },
+
+  _startCertificationPublication(value) {
+    this.set('displayConfirm', false);
+    let certifications = this.get('selectedCertifications');
+    let count = certifications.length;
+    this.set('progressMax', certifications.length);
+    this.set('progressValue', 0);
+    this.set('progress', true);
+    return this._publishCertifications(certifications.slice(0), value)
+    .then(() => {
+      this.set('progress', false);
+      if (count === 1) {
+
+        this.get('notifications').success('La certification a été correctement '+(value?'publiée':'dépubliée'));
+      } else {
+        this.get('notifications').success('Les '+count+' certifications ont été correctement '+(value?'publiées':'dépubliées'));
+      }
+    })
+    .catch((error) => {
+      this.set('progress', false);
+      this.get('notifications').error(error);
+    });
+  },
+
+  _publishCertifications(certifications, value) {
+    let piece = certifications.splice(0,10);
+    return this._setCertificationPublished(piece, value)
+    .then(() => {
+      this.set('progressValue', this.get('progressValue')+10);
+      if (certifications.length>0) {
+        return this._publishCertifications(certifications, value);
+      } else {
+        return true;
+      }
+    });
+  },
+
+  _getCertificationsJson(ids) {
+    let store = this.get('store');
+    let requests = ids.map((id) => {
+      return store.findRecord('certification', id)
+      .catch(() => {
+        // TODO: display error somehow
+        return null;
+      });
+    });
+    return Promise.all(requests)
+    .then((certifications) => {
+      return certifications.reduce((current, certification) => {
+        if (certification) {
+          current.push(this._getJsonRow(certification));
+        }
+        return current;
+      }, []);
+    });
+  },
+
+  _getJsonRow(certification) {
+    let data = Object.keys(this._fields).reduce((currentData, field) => {
+      let header = this._fields[field];
+      currentData[header] = certification.get(field);
+      return currentData;
+    }, {});
+    let competences = certification.get('indexedCompetences');
+    this._competences.forEach((competence) => {
+      data[competence] = (competences[competence] == null)?'':competences[competence].level;
+    });
+    return data;
   },
 
   _updateCertifications(data) {
@@ -196,7 +275,14 @@ export default Controller.extend({
     .then(() => {
       return true;
     });
+  },
+
+  _setCertificationPublished(certifications, value) {
+    let promises = certifications.reduce((result, certification) => {
+      certification.set('isPublished', value);
+      result.push(certification.save({adapterOptions:{updateMarks:false}}));
+      return result;
+    }, []);
+    return Promise.all(promises);
   }
-
-
 });
