@@ -17,5 +17,4 @@ module.exports = Bookshelf.model('Campaign', {
     return this.belongsToMany('Assessment', 'campaingId').through('CampaignParticipation');
   }
 
-
 });

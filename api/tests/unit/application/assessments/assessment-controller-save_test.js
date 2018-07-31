@@ -6,6 +6,7 @@ const controller = require('../../../../lib/application/assessments/assessment-c
 const assessmentSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/assessment-serializer');
 const assessmentRepository = require('../../../../lib/infrastructure/repositories/assessment-repository');
 const campaignRepository = require('../../../../lib/infrastructure/repositories/campaign-repository');
+const campaignParticipationRepository = require('../../../../lib/infrastructure/repositories/campaign-participation-repository');
 const tokenService = require('../../../../lib/domain/services/token-service');
 const Assessment = require('../../../../lib/domain/models/Assessment');
 const usecases = require('../../../../lib/domain/usecases');
@@ -67,7 +68,8 @@ describe('Unit | Controller | assessment-controller-save', () => {
           assessment: expectedAssessment,
           codeCampaign: 'CODECAMPAIGN',
           assessmentRepository,
-          campaignRepository
+          campaignRepository,
+          campaignParticipationRepository,
         };
         // when
         const promise = controller.save(request, replyStub);
@@ -243,6 +245,8 @@ describe('Unit | Controller | assessment-controller-save', () => {
         assessmentResults: [],
         course: undefined,
         targetProfile: undefined,
+        campaignParticipation: undefined,
+        campaign: undefined,
       };
       const serializedAssessment = {
         id: 42,
