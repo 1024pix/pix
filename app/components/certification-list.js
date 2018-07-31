@@ -2,6 +2,12 @@ import Component from '@ember/component';
 
 const columns = [
   {
+    component:'certification-list-checkbox',
+    useFilter:false,
+    mayBeHidden:false,
+    componentForSortCell:'certification-list-select-all'
+  },
+  {
     propertyName: 'id',
     title: 'Id',
     routeName: 'authenticated.certifications.single.info',

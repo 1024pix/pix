@@ -1,9 +1,12 @@
 <div class="certification-list">
-  {{models-table
+  {{selectable-table
     data=certifications
     columns=columns
     showColumnsDropdown=false
     showGlobalFilter=false
     useNumericPagination=true
+    multipleSelect=true
+    selectedItems=selectedItems
+    displayDataChangedAction=(action changeAction)
   }}
 </div>
