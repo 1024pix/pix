@@ -5,7 +5,7 @@ const BookshelfOrganization = require('../data/organization');
 module.exports = {
 
   create(domainOrganization) {
-    const organizationRawData = _.omit(domainOrganization, ['user']);
+    const organizationRawData = _.omit(domainOrganization, ['user', 'campaigns']);
     return new BookshelfOrganization(organizationRawData)
       .save()
       .then((bookshelfOrganization) => bookshelfOrganization.toDomainEntity());

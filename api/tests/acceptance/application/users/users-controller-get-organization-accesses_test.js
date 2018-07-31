@@ -106,6 +106,13 @@ describe('Acceptance | Controller | users-controller-get-organization-accesses',
                 type: 'SUP',
                 code: 'AAA111',
               },
+              relationships: {
+                campaigns: {
+                  links: {
+                    related: `/organizations/${organizationId.toString()}/campaigns`
+                  }
+                }
+              }
             },
           ],
         });
