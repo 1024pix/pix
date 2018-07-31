@@ -5,6 +5,7 @@ const Skill = require('../../domain/models/Skill');
 
 const challengeDatasource = require('../datasources/airtable/challenge-datasource');
 const skillDatasource = require('../datasources/airtable/skill-datasource');
+const solutionAdapter = require('../adapters/solution-adapter');
 const airtableDatasourceObjects = require('../datasources/airtable/objects');
 const { NotFoundError } = require('../../domain/errors');
 
@@ -42,7 +43,7 @@ module.exports = {
             timer: challenge.timer,
             skills: challenge.skills.map((acquis) => {
               return new Skill({ name: acquis });
-            })
+            }),
           });
         });
       });
@@ -56,6 +57,11 @@ module.exports = {
       .then(_getSkillDataObjects)
       .then((skillDataObjects) => {
         const skills = skillDataObjects.map((skillDataObject) => new Skill(skillDataObject));
+        const solution = solutionAdapter.fromChallengeAirtableDataObject(challengeDataObject);
+        const validator = Challenge.createValidatorForChallengeType({
+          challengeType: challengeDataObject.type,
+          solution
+        });
 
         return new Challenge({
           id: challengeDataObject.id,
@@ -69,14 +75,15 @@ module.exports = {
           embedUrl: challengeDataObject.embedUrl,
           embedTitle: challengeDataObject.embedTitle,
           embedHeight: challengeDataObject.embedHeight,
+          validator,
         });
       })
       .catch((error) => {
-        if(error instanceof airtableDatasourceObjects.AirtableResourceNotFound) {
+        if (error instanceof airtableDatasourceObjects.AirtableResourceNotFound) {
           throw new NotFoundError();
         }
 
         throw error;
       });
-  }
+  },
 };

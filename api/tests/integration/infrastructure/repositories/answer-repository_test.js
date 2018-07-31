@@ -1,10 +1,17 @@
-const { expect, knex } = require('../../../test-helper');
+const { expect, knex, factory, databaseBuilder } = require('../../../test-helper');
 const Answer = require('../../../../lib/domain/models/Answer');
+const answerStatusDatabaseAdapter = require('../../../../lib/infrastructure/adapters/answer-status-database-adapter');
 const { NotFoundError } = require('../../../../lib/domain/errors');
+const _ = require('lodash');
 
 const AnswerRepository = require('../../../../lib/infrastructure/repositories/answer-repository');
 
 describe('Integration | Repository | AnswerRepository', () => {
+
+  afterEach(() => {
+    return knex('answers').delete()
+      .then(() => (databaseBuilder.clean()));
+  });
 
   describe('#get', () => {
     let answerId;
@@ -28,15 +35,11 @@ describe('Integration | Repository | AnswerRepository', () => {
             value: '1,2',
             result: 'ko',
             challengeId: 'challenge_1234',
-            assessmentId: 353
+            assessmentId: 353,
           })
           .then((createdAnswer) => {
             answerId = createdAnswer[0];
           });
-      });
-
-      afterEach(() => {
-        return knex('answers').delete();
       });
 
       it('should retrieve an answer from its id', () => {
@@ -59,7 +62,7 @@ describe('Integration | Repository | AnswerRepository', () => {
       value: '1,2',
       result: 'ko',
       challengeId: 'challenge_1234',
-      assessmentId: 1234
+      assessmentId: 1234,
     };
 
     // same assessmentId, different challengeId
@@ -67,7 +70,7 @@ describe('Integration | Repository | AnswerRepository', () => {
       value: '1,2,4',
       result: 'ok',
       challengeId: 'challenge_000',
-      assessmentId: 1234
+      assessmentId: 1234,
     };
 
     // different assessmentId, same challengeId
@@ -75,15 +78,11 @@ describe('Integration | Repository | AnswerRepository', () => {
       value: '3',
       result: 'partially',
       challengeId: 'challenge_1234',
-      assessmentId: 1
+      assessmentId: 1,
     };
 
     beforeEach(() => {
       return knex('answers').insert([wrongAnswer, correctAnswer, partiallyCorrectAnswer]);
-    });
-
-    afterEach(() => {
-      return knex('answers').delete();
     });
 
     it('should find the answer by challenge and assessment and return its in an object', () => {
@@ -105,7 +104,7 @@ describe('Integration | Repository | AnswerRepository', () => {
       value: '1',
       result: 'ko',
       challengeId: 'challenge_1234',
-      assessmentId: 1234
+      assessmentId: 1234,
     };
 
     // same challenge different assessment
@@ -113,7 +112,7 @@ describe('Integration | Repository | AnswerRepository', () => {
       value: '1,2',
       result: 'ko',
       challengeId: 'challenge_1234',
-      assessmentId: 1
+      assessmentId: 1,
     };
 
     //different challenge different assessment
@@ -121,15 +120,11 @@ describe('Integration | Repository | AnswerRepository', () => {
       value: '1,2,3',
       result: 'timedout',
       challengeId: 'challenge_000',
-      assessmentId: 1
+      assessmentId: 1,
     };
 
     beforeEach(() => {
       return knex('answers').insert([wrongAnswerForAssessment1234, wrongAnswerForAssessment1, timedOutAnswerForAssessment1]);
-    });
-
-    afterEach(() => {
-      return knex('answers').delete();
     });
 
     it('should find all answers by challenge id', () => {
@@ -158,29 +153,25 @@ describe('Integration | Repository | AnswerRepository', () => {
       value: 'Un pancake Tabernacle',
       result: 'ko',
       challengeId: 'challenge_tabernacle',
-      assessmentId: 1
+      assessmentId: 1,
     };
 
     const answer2 = {
       value: 'Qu\'est ce qu\'il fout ce pancake Tabernacle',
       result: 'ko',
       challengeId: 'challenge_tabernacle',
-      assessmentId: 2
+      assessmentId: 2,
     };
 
     const answer3 = {
       value: 'la réponse D',
       result: 'timedout',
       challengeId: 'challenge_D',
-      assessmentId: 2
+      assessmentId: 2,
     };
 
     beforeEach(() => {
       return knex('answers').delete().then(() => knex('answers').insert([answer1, answer2, answer3]));
-    });
-
-    afterEach(() => {
-      return knex('answers').delete();
     });
 
     it('should resolves answers with assessment id provided', () => {
@@ -219,29 +210,25 @@ describe('Integration | Repository | AnswerRepository', () => {
       value: 'Un pancake Tabernacle',
       result: 'ok',
       challengeId: 'challenge_tabernacle',
-      assessmentId: 2
+      assessmentId: 2,
     };
 
     const answer2 = {
       value: 'Qu\'est ce qu\'il fout ce pancake Tabernacle',
       result: 'ok',
       challengeId: 'challenge_tabernacle',
-      assessmentId: 1
+      assessmentId: 1,
     };
 
     const answer3 = {
       value: 'la réponse D',
       result: 'ko',
       challengeId: 'challenge_D',
-      assessmentId: 1
+      assessmentId: 1,
     };
 
     beforeEach(() => {
       return knex('answers').delete().then(() => knex('answers').insert([answer1, answer2, answer3]));
-    });
-
-    afterEach(() => {
-      return knex('answers').delete();
     });
 
     it('should retrieve answers with ok status from assessment id provided', () => {
@@ -264,4 +251,91 @@ describe('Integration | Repository | AnswerRepository', () => {
     });
   });
 
-});
+  describe('#hasChallengeAlreadyBeenAnswered', () => {
+
+    it('should return true if answer exists in database', async () => {
+      // given
+      const { challengeId, assessmentId } = databaseBuilder.factory.buildAnswer();
+
+      await databaseBuilder.commit();
+
+      // when
+      const promise = AnswerRepository.hasChallengeAlreadyBeenAnswered({
+        challengeId,
+        assessmentId,
+      });
+
+      // then
+      return expect(promise).to.eventually.be.true;
+    });
+
+    it('should return false if answer does not exist in database', async () => {
+      // given
+      const { assessmentId } = databaseBuilder.factory.buildAnswer();
+      const otherChallengeId = 'rec1234';
+
+      await databaseBuilder.commit();
+
+      // when
+      const promise = AnswerRepository.hasChallengeAlreadyBeenAnswered({
+        challengeId: otherChallengeId,
+        assessmentId,
+      });
+
+      // then
+      return expect(promise).to.eventually.be.false;
+    });
+  });
+
+  describe('#save', () => {
+
+    let answer;
+    let promise;
+
+    beforeEach(async () => {
+      // given
+      const assessmentId = databaseBuilder.factory.buildAssessment().id;
+      await databaseBuilder.commit();
+
+      // XXX resultDetails is by default null which is saved as "null\n" in db.
+      // To avoid problems in test it is fixed to another string.
+      answer = factory.buildAnswer({ assessmentId, resultDetails: 'some random detail' });
+      answer.id = undefined;
+
+      // when
+      promise = AnswerRepository.save(answer);
+    });
+
+    it('should save the answer in db', async () => {
+      // then
+      // id, createdAt, and updatedAt are not present
+      const expectedRawAnswerWithoutIdNorDates = {
+        value: answer.value,
+        result: answerStatusDatabaseAdapter.toSQLString(answer.result),
+        assessmentId: answer.assessmentId,
+        challengeId: answer.challengeId,
+        timeout: answer.timeout,
+        elapsedTime: answer.elapsedTime,
+        resultDetails: `${answer.resultDetails}\n`, // XXX text fields are saved with a \n at the end
+      };
+      return promise
+        .then(() => knex('answers').first())
+        .then((answer) => _.omit(answer, ['id', 'createdAt', 'updatedAt']))
+        .then((answerWithoutIdNorDates) => {
+          return expect(answerWithoutIdNorDates).to.deep.equal(expectedRawAnswerWithoutIdNorDates);
+        });
+    });
+
+    it('should return a domain object with the id', async () => {
+      // then
+      return promise
+        .then((savedAnswer) => {
+          expect(savedAnswer.id).to.not.equal(undefined);
+          expect(savedAnswer).to.be.an.instanceOf(Answer);
+          // XXX text fields are saved with a \n at the end, so the test fails for that reason
+          expect(_.omit(savedAnswer, ['id', 'resultDetails'])).to.deep.equal(_.omit(answer, ['id', 'resultDetails']));
+        });
+    });
+  });
+})
+;

@@ -1,46 +1,63 @@
-const { expect, sinon } = require('../../../test-helper');
+const { expect, sinon, factory } = require('../../../test-helper');
 const solutionRepository = require('../../../../lib/infrastructure/repositories/solution-repository');
+const solutionAdapter = require('../../../../lib/infrastructure/adapters/solution-adapter');
 const challengeDatasource = require('../../../../lib/infrastructure/datasources/airtable/challenge-datasource');
 const Solution = require('../../../../lib/domain/models/Solution');
-const ChallengeAirtableDataObjectFixture = require('../../../fixtures/infrastructure/challengeAirtableDataObjectFixture');
 
-describe('Unit | Repository | solution-repository', function() {
+describe('Unit | Repository | solution-repository', () => {
 
   let sandbox;
 
-  beforeEach(function() {
+  beforeEach(() => {
     sandbox = sinon.sandbox.create();
     sandbox.stub(challengeDatasource, 'get');
+    sandbox.stub(solutionAdapter, 'fromChallengeAirtableDataObject');
   });
 
-  afterEach(function() {
+  afterEach(() => {
     sandbox.restore();
   });
 
-  describe('#getByChallengeId', function() {
+  describe('#getByChallengeId', () => {
 
-    it('should call the challenge datasource with the challenge Id to compose the get solution', function() {
+    let promise;
+    let challengeDataObject;
+    let solution;
+    let recordId;
+
+    beforeEach(() => {
       // given
-      const recordId = 'rec-challengeId';
-      const expectedSolution = new Solution({
-        id: 'recwWzTquPlvIl4So',
-        isT1Enabled: true,
-        isT2Enabled: false,
-        isT3Enabled: true,
-        scoring: '1: outilsTexte2\n2: outilsTexte4',
-        type: 'QCM',
-        value: '1, 5'
-      });
-      challengeDatasource.get.resolves(ChallengeAirtableDataObjectFixture());
+      recordId = 'rec-challengeId';
+      challengeDataObject = factory.buildChallengeAirtableDataObject();
+      challengeDatasource.get.resolves(challengeDataObject);
+      solution = factory.buildSolution();
+      solutionAdapter.fromChallengeAirtableDataObject.returns(solution);
 
       // when
-      const promise = solutionRepository.getByChallengeId(recordId);
+      promise = solutionRepository.getByChallengeId(recordId);
+    });
 
+    it('should succeed', () => {
+      // then
+      return expect(promise).to.be.fulfilled;
+    });
+    it('should call the challenge datasource with the challenge Id to compose the get solution', () => {
+      // then
+      return promise.then(() => {
+        expect(challengeDatasource.get).to.have.been.calledWith(recordId);
+      });
+    });
+    it('should call the solution adapter to create the Solution from the dataObject', () => {
+      // then
+      return promise.then(() => {
+        expect(solutionAdapter.fromChallengeAirtableDataObject).to.have.been.calledWith(challengeDataObject);
+      });
+    });
+    it('should return the solution', () => {
       // then
       return promise.then((result) => {
-        expect(challengeDatasource.get).to.have.been.calledWith(recordId);
         expect(result).to.be.an.instanceof(Solution);
-        expect(result).to.deep.equal(expectedSolution);
+        expect(result).to.deep.equal(solution);
       });
     });
   });
