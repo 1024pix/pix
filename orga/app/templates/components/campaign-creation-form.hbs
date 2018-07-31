@@ -1,0 +1,25 @@
+<div class="campaign-creation-form">
+
+  <form {{action 'submit' on='submit'}}>
+
+    <div>
+      <div class="label">
+        <label for="campaign-name">Nom de la campagne</label>
+      </div>
+      <div class="campaign-creation-form__campaign-name">
+        {{input class="input" id='campaign-name' name='campaign-name' type='text' maxlength='255' value=campaign.name}}
+        {{#each campaign.errors.name as |error|}}
+          <div class='campaign-creation-form__error'>
+            {{error.message}}
+          </div>
+        {{/each}}
+      </div>
+    </div>
+
+    <div>
+      <button class="campaign-creation-form__validation-button submit-button" type="submit">Créer la campagne</button>
+    </div>
+
+  </form>
+
+</div>

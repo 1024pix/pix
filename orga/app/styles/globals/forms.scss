@@ -1,0 +1,31 @@
+.label {
+  color: $tundora;
+  font-size: 0.94rem;
+  font-weight: 500;
+  padding-bottom: 5px;
+}
+
+.input {
+  border: 2px solid $alto;
+  border-radius: 4px;
+  width: 100%;
+  height: 40px;
+  font-size: 1rem;
+  padding-left: 15px;
+  color: $mine-shaft;
+}
+
+.submit-button {
+  padding: 13px 20px;
+  background-color: $dodger-blue;
+  color: white;
+  font-size: 0.7rem;
+  font-weight: 500;
+  letter-spacing: 0.019rem;
+  text-align: center;
+  border-radius: 5px;
+
+  &:hover, &:active, &:focus {
+    background-color: $mariner;
+  }
+}
