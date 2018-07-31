@@ -30,9 +30,11 @@ function _toDomain(bookshelfAssessment) {
 
     let campaignParticipation = null;
     let campaign = null;
-    if(bookshelfAssessment.related('campaignParticipations')) {
-      campaignParticipation = new CampaignParticipation(bookshelfAssessment.related('campaignParticipations').toJSON());
-      campaign = new Campaign(bookshelfAssessment.related('campaignParticipations').related('campaign').toJSON());
+    const campaignOfAssessment = bookshelfAssessment.related('campaignParticipations');
+
+    if(campaignOfAssessment.attributes.campaignId) {
+      campaignParticipation = new CampaignParticipation(campaignOfAssessment.toJSON());
+      campaign = new Campaign(campaignOfAssessment.related('campaign').toJSON());
     }
 
     return new Assessment(Object.assign(modelObjectInJSON, {
@@ -54,6 +56,8 @@ function _adaptModelToDb(assessment) {
     'answers',
     'assessmentResults',
     'targetProfile',
+    'campaign',
+    'campaignParticipation',
   ]);
 }
 
@@ -151,9 +155,7 @@ module.exports = {
     return BookshelfAssessment
       .where(filters)
       .fetchAll({ withRelated: ['campaignParticipations', 'campaignParticipations.campaign'] })
-      .then((bookshelfAssessmentCollection) => {
-        return bookshelfAssessmentCollection.models
-      })
+      .then((bookshelfAssessmentCollection) => bookshelfAssessmentCollection.models)
       .then(fp.map(_toDomain));
   },
 
