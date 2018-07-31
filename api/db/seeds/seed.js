@@ -53,8 +53,9 @@ function insertSeedsByGroup(knex, groupName) {
 }
 
 exports.seed = (knex) => {
-  return insertSeedsByGroup(knex, '1st-to-create')
-    .then(() => insertSeedsByGroup(knex, '2nd-to-create'))
-    .then(() => insertSeedsByGroup(knex, '3rd-to-create'))
-    .then(() => insertSeedsByGroup(knex, '4th-to-create'));
+  // FIXME seeds have broken foreign keys which means it don't work on PostgreSQL
+  // return insertSeedsByGroup(knex, '1st-to-create')
+  //   .then(() => insertSeedsByGroup(knex, '2nd-to-create'))
+  //   .then(() => insertSeedsByGroup(knex, '3rd-to-create'))
+  //   .then(() => insertSeedsByGroup(knex, '4th-to-create'));
 };

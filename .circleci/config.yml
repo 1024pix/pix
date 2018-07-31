@@ -40,15 +40,58 @@ client_properties: &client_properties
 
 version: 2.0
 
+workflows:
+  version: 2
+  build-test-and-deploy:
+    jobs:
+      # Common
+      - checkout_code:
+          filters:
+            branches:
+              ignore:
+                - master
+                - math
+                - preview
+                - gh-pages
+                - /release-.*/
+
+      # Server side
+      - install_server_dependencies:
+          requires:
+            - checkout_code
+      - test_server:
+          requires:
+            - install_server_dependencies
+      # Client side
+      - install_client_dependencies:
+          requires:
+            - checkout_code
+      - test_client_1:
+          requires:
+            - install_client_dependencies
+      - test_client_2:
+          requires:
+            - install_client_dependencies
+      - test_client_3:
+          requires:
+            - install_client_dependencies
+
+      - signal_ci_ok:
+          requires:
+            - test_server
+            - test_client_1
+            - test_client_2
+            - test_client_3
+          filters:
+            branches:
+              ignore:
+                - dev
+
+
 jobs:
-
   # Common
-
   checkout_code:
-    docker:
-      - image: circleci/node:8
-      - image: circleci/node:8-browsers
-    working_directory: ~/pix
+    <<: *common_properties
     steps:
       - checkout
       - run: echo "${CIRCLE_BRANCH}_${CIRCLE_SHA1}" > .circle-cache-key
@@ -57,27 +100,7 @@ jobs:
           paths:
             - ~/pix
 
-  add_review_app_url_to_jira_issue:
-    <<: *common_properties
-    steps:
-      - run: echo "${CIRCLE_BRANCH}_${CIRCLE_SHA1}" > .circle-cache-key
-      - restore_cache:
-          keys:
-            - v5-pix-{{ checksum ".circle-cache-key" }}
-      - run: sudo apt-get install -y jq
-      - run: ~/pix/scripts/jira/comment_with_review_app_url.sh
-
-  signal_pr_deployment_to_github:
-    <<: *common_properties
-    steps:
-      - run: echo "${CIRCLE_BRANCH}_${CIRCLE_SHA1}" > .circle-cache-key
-      - restore_cache:
-          keys:
-            - v5-pix-{{ checksum ".circle-cache-key" }}
-      - run: ~/pix/mon-pix/scripts/signal_deploy_to_pr.sh
-
   # Server side
-
   install_server_dependencies:
     <<: *server_properties
     steps:
@@ -94,12 +117,6 @@ jobs:
           paths:
             - ~/pix/api/node_modules
             - ~/pix/.npm
-
-  build_server:
-    <<: *server_properties
-    steps:
-      - run: echo "Nothing to do for building the API"
-
   test_server:
     docker:
       - image: circleci/node:8
@@ -122,53 +139,7 @@ jobs:
           environment:
             DATABASE_URL: "postgres://circleci@localhost:5432/circleci"
 
-  deploy_server_on_dokku:
-    <<: *server_properties
-    steps:
-      - run: echo "${CIRCLE_BRANCH}_${CIRCLE_SHA1}" > .circle-cache-key
-      - restore_cache:
-          keys:
-            - v5-pix-{{ checksum ".circle-cache-key" }}
-      - restore_cache:
-          keys:
-            - v5-server-dependencies-{{ checksum "package.json" }}
-      - add_ssh_keys:
-          fingerprints:
-            - "77:2f:5f:ff:39:d2:c5:1d:89:69:be:4c:0b:ef:33:34"
-      - run: |
-          ssh-keyscan pix-app.ovh >> ~/.ssh/known_hosts
-          git config user.email "jbuget@gmail.com"
-          git config user.name "Jérémy Buget"
-      - deploy:
-          command: npm run deploy:integration $CIRCLE_BRANCH
-
-  deploy_server_on_scalingo:
-    <<: *server_properties
-    steps:
-      - run: echo "${CIRCLE_BRANCH}_${CIRCLE_SHA1}" > .circle-cache-key
-      - restore_cache:
-          keys:
-            - v5-pix-{{ checksum ".circle-cache-key" }}
-      - restore_cache:
-          keys:
-            - v5-server-dependencies-{{ checksum "package.json" }}
-      - add_ssh_keys:
-          fingerprints:
-            - "d8:07:94:de:70:24:96:32:7f:e0:ac:e6:80:dd:0e:9a"
-      - run: |
-          ssh-keyscan scalingo.com >> ~/.ssh/known_hosts
-          git config user.email "jbuget@gmail.com"
-          git config user.name "Jérémy Buget"
-      - deploy:
-          command: |
-            if [ "${CIRCLE_BRANCH}" == "dev" ]; then
-              npm run deploy:staging
-            elif [ "${CIRCLE_BRANCH}" == "master" ]; then
-              npm run deploy:production
-            fi
-
   # Client side
-
   install_client_dependencies:
     <<: *client_properties
     steps:
@@ -181,32 +152,21 @@ jobs:
             - v5-client-dependencies-{{ checksum ".circle-cache-key" }}
             #- v5-client-dependencies-{{ checksum "package.json" }} # FIXME restore shared cache between builds
       - run: npm install
-      - save_cache:
-          key: v5-client-dependencies-{{ checksum ".circle-cache-key" }}
-          paths:
-            - ~/pix/mon-pix/node_modules
-            - ~/.npm
-
-  build_client:
-    <<: *client_properties
-    steps:
-      - run: echo "${CIRCLE_BRANCH}_${CIRCLE_SHA1}" > .circle-cache-key
-      - restore_cache:
-          keys:
-            - v5-pix-{{ checksum ".circle-cache-key" }}
-      - restore_cache:
-          keys:
-            - v5-client-dependencies-{{ checksum ".circle-cache-key" }}
       - run: |
           if [ "${CIRCLE_BRANCH}" == "dev" ]; then
-            ./node_modules/.bin/ember build --environment staging
+            npx ember build --environment staging
           else
-            ./node_modules/.bin/ember build --environment integration
+            npx ember build --environment integration
           fi
       - persist_to_workspace:
           root: ~/pix/mon-pix
           paths:
             - dist
+      - save_cache:
+          key: v5-client-dependencies-{{ checksum ".circle-cache-key" }}
+          paths:
+            - ~/pix/mon-pix/node_modules
+            - ~/.npm
 
   test_client_1:
     <<: *client_properties
@@ -220,7 +180,7 @@ jobs:
             - v5-client-dependencies-{{ checksum ".circle-cache-key" }}
       - attach_workspace:
           at: ~/pix/mon-pix
-      - run: ./node_modules/.bin/ember exam --path dist --split=3 --partition=1 --reporter dot
+      - run: npx ember exam --path dist --split=3 --partition=1 --reporter dot
 
   test_client_2:
     <<: *client_properties
@@ -234,7 +194,7 @@ jobs:
             - v5-client-dependencies-{{ checksum ".circle-cache-key" }}
       - attach_workspace:
           at: ~/pix/mon-pix
-      - run: ./node_modules/.bin/ember exam --path dist --split=3 --partition=2 --reporter dot
+      - run: npx ember exam --path dist --split=3 --partition=2 --reporter dot
 
   test_client_3:
     <<: *client_properties
@@ -248,126 +208,15 @@ jobs:
             - v5-client-dependencies-{{ checksum ".circle-cache-key" }}
       - attach_workspace:
           at: ~/pix/mon-pix
-      - run: ./node_modules/.bin/ember exam --path dist --split=3 --partition=3 --reporter dot
+      - run: npx ember exam --path dist --split=3 --partition=3 --reporter dot
 
-  deploy_client:
-    <<: *client_properties
+  signal_ci_ok:
+    <<: *common_properties
     steps:
       - run: echo "${CIRCLE_BRANCH}_${CIRCLE_SHA1}" > .circle-cache-key
       - restore_cache:
           keys:
             - v5-pix-{{ checksum ".circle-cache-key" }}
-      - restore_cache:
-          keys:
-            - v5-client-dependencies-{{ checksum ".circle-cache-key" }}
-      - attach_workspace:
-          at: ~/pix/mon-pix
-      - add_ssh_keys:
-          fingerprints:
-            - "7b:e6:22:38:43:3e:e5:32:6c:e1:25:41:0e:28:a7:7e"
-      - run: |
-          ssh-keyscan github.com >> ~/.ssh/known_hosts
-          git config user.email "jbuget@gmail.com"
-          git config user.name "Jérémy Buget"
-      - deploy:
-          command: |
-            if [ "${CIRCLE_BRANCH}" == "dev" ]; then
-              npm run deploy:staging
-            elif [ "${CIRCLE_BRANCH}" == "master" ]; then
-              npm run deploy:production
-            else
-              npm run deploy:integration
-            fi
-
-workflows:
-  version: 2
-  build-test-and-deploy:
-    jobs:
-      # Common
-      - checkout_code
-
-      # Server side
-      - install_server_dependencies:
-          requires:
-            - checkout_code
-      - build_server:
-          requires:
-            - install_server_dependencies
-      - test_server:
-          requires:
-            - build_server
-      - deploy_server_on_dokku:
-          requires:
-            - test_server
-          filters:
-            branches:
-              ignore:
-                - master
-                - dev
-                - gh-pages
-      - deploy_server_on_scalingo:
-          requires:
-            - test_server
-          filters:
-            branches:
-              only:
-                - master
-                - dev
-
-      # Client side
-      - install_client_dependencies:
-          requires:
-            - checkout_code
-      - build_client:
-          requires:
-            - install_client_dependencies
-      - test_client_1:
-          requires:
-            - build_client
-      - test_client_2:
-          requires:
-            - build_client
-      - test_client_3:
-          requires:
-            - build_client
-      - deploy_client:
-          requires:
-            - test_client_1
-            - test_client_2
-            - test_client_3
-          filters:
-            branches:
-              ignore:
-                - gh-pages
-
-      - add_review_app_url_to_jira_issue:
-          requires:
-            - deploy_client
-            - deploy_server_on_dokku
-            - deploy_server_on_scalingo
-          filters:
-            branches:
-              ignore:
-                - master
-                - dev
-                - gh-pages
-                - ghp
-                - preview
-                - maths
-                - /release-.*/
-
-      - signal_pr_deployment_to_github:
-          requires:
-            - deploy_client
-            - deploy_server_on_dokku
-            - deploy_server_on_scalingo
-          filters:
-            branches:
-              ignore:
-                - master
-                - dev
-                - gh-pages
-                - ghp
-                - preview
-                - maths
-                - /release-.*/
+      - run: sudo apt-get install -y jq
+      - run: ~/pix/mon-pix/scripts/jira/comment_with_review_app_url.sh
+      - run: ~/pix/mon-pix/scripts/signal_deploy_to_pr.sh

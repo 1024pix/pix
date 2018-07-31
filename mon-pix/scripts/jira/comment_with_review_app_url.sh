@@ -24,11 +24,13 @@ then
 fi
 
 ISSUE_COMMENTS=$(echo $RESPONSE | jq .comments[].body)
-REVIEW_APP_URL="http://$CIRCLE_BRANCH.integration.pix.fr"
+PR_NUMBER=`echo $CI_PULL_REQUEST | grep -Po '(?<=pix/pull/)(\d+)'`
+REVIEW_APP_URL="https://pix-mon-pix-integration-pr$PR_NUMBER.scalingo.io"
+
 if [[ $ISSUE_COMMENTS =~ .*$REVIEW_APP_URL.* ]]
 then
     echo "Review app url already found in issue comments. No need to add it again"
 else
-    TEXT="J'ai déployé la Review App. Elle est consultable sur $REVIEW_APP_URL"
+    TEXT="Je m'apprête à déployer la Review App. Elle sera consultable sur $REVIEW_APP_URL"
     curl -X POST "$API_URL/issue/$ISSUE_ID/comment" --header 'Content-Type: application/json' --fail --user $CREDENTIALS --data '{"body": "'"$TEXT"'"}'
 fi
