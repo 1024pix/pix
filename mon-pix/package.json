@@ -28,7 +28,6 @@
     "scalingo-background-job": "echo 'nothing to do'",
     "scalingo-build": "npx ember build --environment $BUILD_ENVIRONMENT",
     "scalingo-start": "./scripts/start_scalingo_nginx.sh",
-    "scalingo-postdeploy": "echo 'nothing to do'",
     "start": "npx ember server",
     "test": "npx ember test --reporter dot",
     "test:lint": "npm test && npm run lint",
