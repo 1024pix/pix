@@ -1,7 +1,0 @@
-{
-  "scripts": {
-    "dokku": {
-      "predeploy": "npm run db:migrate && ./scripts/seed_review_app.sh"
-    }
-  }
-}
