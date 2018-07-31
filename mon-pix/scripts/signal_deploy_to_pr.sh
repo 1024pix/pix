@@ -19,7 +19,8 @@
 }
 
 PR_NUMBER=`echo $CI_PULL_REQUEST | grep -Po '(?<=pix/pull/)(\d+)'`
+REVIEW_APP_URL="https://pix-mon-pix-integration-pr$PR_NUMBER.scalingo.io"
 
 curl -u $GITHUB_USER:$GITHUB_USER_TOKEN --verbose \
 	-X POST "https://api.github.com/repos/1024pix/pix/issues/${PR_NUMBER}/comments" \
-	--data "{\"body\":\"I'm deploying this PR to https://pix-mon-pix-pr${PR_NUMBER}.scalingo.io . Please check it out\"}"
+	--data "{\"body\":\"I'm deploying this PR to $REVIEW_APP_URL . Please check it out\"}"
