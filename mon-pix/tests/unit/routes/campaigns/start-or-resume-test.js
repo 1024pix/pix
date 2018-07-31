@@ -78,27 +78,25 @@ describe('Unit | Route | campaigns/start-or-resume', function() {
     });
   });
 
-  describe('#afterMoodel', function() {
+  describe('#afterModel', function() {
 
     let storeStub;
     let queryRecordStub;
+    let route;
+    let assessment;
 
     beforeEach(function() {
       queryRecordStub = sinon.stub();
       storeStub = Service.extend({ queryRecord: queryRecordStub });
       this.register('service:store', storeStub);
       this.inject.service('store', { as: 'store' });
+      route = this.subject();
+      route.transitionTo = sinon.stub();
+      assessment = EmberObject.create({ reload: sinon.stub().resolves() });
+
     });
 
-    it('should force assessment reload in ortder to pre-fetch its answers', function() {
-      // given
-      const route = this.subject();
-      route.transitionTo = sinon.stub();
-      const assessment = EmberObject.create({
-        reload: sinon.stub()
-      });
-
-      // when
+    it('should force assessment reload in order to pre-fetch its answers', function() {// when
       const promise = route.afterModel(assessment);
 
       // then
@@ -109,9 +107,6 @@ describe('Unit | Route | campaigns/start-or-resume', function() {
 
     it('should redirect to next challenge if one was found', function() {
       // given
-      const route = this.subject();
-      route.transitionTo = sinon.stub();
-      const assessment = EmberObject.create({ reload: () => true });
       queryRecordStub.resolves();
 
       // when
@@ -125,9 +120,6 @@ describe('Unit | Route | campaigns/start-or-resume', function() {
 
     it('should redirect to assessment rating if no next challenge was found', function() {
       // given
-      const route = this.subject();
-      route.transitionTo = sinon.stub();
-      const assessment = EmberObject.create({ reload: () => true });
       queryRecordStub.rejects();
 
       // when
