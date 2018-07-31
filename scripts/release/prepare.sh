@@ -27,7 +27,8 @@ function ensure_new_version_is_either_minor_or_patch {
 function update_version {
     ROOT_PATH=`pwd`
     cd $ROOT_PATH/api/ && npm version $NEW_VERSION_TYPE --git-tag-version=false >> /dev/null
-    cd $ROOT_PATH/live/ && npm version $NEW_VERSION_TYPE --git-tag-version=false >> /dev/null
+    cd $ROOT_PATH/mon-pix/ && npm version $NEW_VERSION_TYPE --git-tag-version=false >> /dev/null
+    cd $ROOT_PATH/orga/ && npm version $NEW_VERSION_TYPE --git-tag-version=false >> /dev/null
     cd $ROOT_PATH && npm version $NEW_VERSION_TYPE --git-tag-version=false >> /dev/null
 }
 
