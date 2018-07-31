@@ -5,7 +5,7 @@ const healthcheckRepository = require('../../infrastructure/repositories/healthc
 
 module.exports = {
 
-  get(request, reply) {
+  get(_request, reply) {
 
     reply({
       'name': packageJSON.name,
@@ -13,11 +13,11 @@ module.exports = {
       'description': packageJSON.description,
       'environment': settings.environment,
       'container-version': process.env.CONTAINER_VERSION,
-      'conainter-app-name': process.env.APP,
+      'container-app-name': process.env.APP,
     });
   },
 
-  getDbStatus(request, reply) {
+  getDbStatus(_request, reply) {
     return healthcheckRepository.check()
       .then(() => reply({ message: 'Connection to database ok' }))
       .catch(() => {
@@ -25,7 +25,7 @@ module.exports = {
       });
   },
 
-  crashTest(request, reply) {
+  crashTest(_request, reply) {
     reply(Boom.internal());
   }
 };
