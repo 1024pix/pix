@@ -36,7 +36,13 @@ const columns = [
   {
     propertyName: 'completionDate',
     title: 'Fin'
-  }
+  },
+  {
+    component:'certification-list-published',
+    useFilter:false,
+    mayBeHidden:false,
+    title:'Publiée'
+  },
 ];
 
 export default Component.extend({
