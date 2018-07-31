@@ -253,17 +253,17 @@ jobs:
             - ~/pix/orga/node_modules
             - ~/.npm
 
-    test_orga:
-      <<: *orga_properties
-      steps:
-        - run: echo "${CIRCLE_BRANCH}_${CIRCLE_SHA1}" > .circle-cache-key
-        - restore_cache:
-            keys:
-              - v5-pix-{{ checksum ".circle-cache-key" }}
-        - restore_cache:
-            key:
-              - v5-orga-dependencies-{{ checksum ".circle-cache-key" }}
-        - run: npm test
+  test_orga:
+    <<: *orga_properties
+    steps:
+      - run: echo "${CIRCLE_BRANCH}_${CIRCLE_SHA1}" > .circle-cache-key
+      - restore_cache:
+          keys:
+            - v5-pix-{{ checksum ".circle-cache-key" }}
+      - restore_cache:
+          key:
+            - v5-orga-dependencies-{{ checksum ".circle-cache-key" }}
+      - run: npm test
 
   signal_ci_ok:
     <<: *common_properties
