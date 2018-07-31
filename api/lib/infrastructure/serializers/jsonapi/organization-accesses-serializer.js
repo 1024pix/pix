@@ -7,8 +7,17 @@ module.exports = {
       attributes: ['organization'],
       organization: {
         ref: 'id',
-        attributes: ['code', 'name', 'type'],
         included: true,
+        attributes: ['code', 'name', 'type', 'campaigns'],
+        campaigns: {
+          ref: 'id',
+          ignoreRelationshipData: true,
+          relationshipLinks: {
+            related: function(record, current, parent) {
+              return `/organizations/${parent.id}/campaigns`;
+            }
+          }
+        }
       }
     }).serialize(organizationAccesses);
   }
