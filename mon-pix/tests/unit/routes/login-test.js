@@ -45,47 +45,4 @@ describe('Unit | Route | login page', function() {
     });
   });
 
-  describe('Route behavior according to organization belong status (authenticated user)', function() {
-
-    it('should redirect to /compte, when user is not linked to an Organization', function() {
-      //Given
-      const route = this.subject();
-      authenticatedStub.resolves();
-
-      const foundUser = EmberObject.create({ id: 12 });
-      queryRecordStub.resolves(foundUser);
-
-      route.transitionTo = sinon.stub();
-
-      //When
-      const promise = route.actions.signin.call(route, expectedEmail, expectedPassword);
-
-      return promise.then(() => {
-        //Then
-        sinon.assert.calledWith(route.transitionTo, 'compte');
-      });
-    });
-
-    it('should redirect to /board, when user is linked to an Organization', function() {
-      //Given
-      const route = this.subject();
-      authenticatedStub.resolves();
-
-      const linkedOrganization = EmberObject.create({ id: 1 });
-      const foundUser = EmberObject.create({ organizations: [linkedOrganization] });
-      queryRecordStub.resolves(foundUser);
-
-      route.transitionTo = sinon.stub();
-
-      //When
-      const promise = route.actions.signin.call(route, expectedEmail, expectedPassword);
-
-      return promise.then(() => {
-        //Then
-        sinon.assert.calledWith(route.transitionTo, 'board');
-      });
-    });
-
-  });
-
 });
