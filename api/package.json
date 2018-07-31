@@ -84,7 +84,6 @@
     "scalingo-background-job": "node scripts/reload-cache-everyday.js",
     "scalingo-build": "echo 'nothing to do'",
     "scalingo-start": "npm run db:migrate && npm start",
-    "scalingo-postdeploy": "echo 'nothing to do'",
     "start": "node bin/www",
     "start:watch": "npx nodemon bin/www",
     "test": "npm run test:api",
