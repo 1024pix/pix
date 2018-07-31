@@ -261,7 +261,7 @@ jobs:
           keys:
             - v5-pix-{{ checksum ".circle-cache-key" }}
       - restore_cache:
-          key:
+          keys:
             - v5-orga-dependencies-{{ checksum ".circle-cache-key" }}
       - run: npm test
 
