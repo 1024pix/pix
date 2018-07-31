@@ -12,15 +12,6 @@ module('Integration | Component | selectable-table', function(hooks) {
 
     await render(hbs`{{selectable-table}}`);
 
-    assert.equal(this.element.textContent.trim(), '');
-
-    // Template block usage:
-    await render(hbs`
-      {{#selectable-table}}
-        template block text
-      {{/selectable-table}}
-    `);
-
-    assert.equal(this.element.textContent.trim(), 'template block text');
+    assert.dom('table').exists();
   });
 });

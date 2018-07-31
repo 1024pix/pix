@@ -16,11 +16,9 @@ module('Integration | Component | certification-list-select-all', function(hooks
 
     // Template block usage:
     await render(hbs`
-      {{#certification-list-select-all}}
-        template block text
-      {{/certification-list-select-all}}
+      {{certification-list-select-all}}
     `);
 
-    assert.equal(this.element.textContent.trim(), 'template block text');
+    assert.dom('input[type="checkbox"]').exists();
   });
 });

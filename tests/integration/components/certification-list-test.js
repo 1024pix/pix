@@ -15,9 +15,10 @@ module('Integration | Component | certification-list', function(hooks) {
       EmberObject.create({ id: 3}),
     ];
     this.set('model', certifications);
+    this.set('actionChange', () => {});
 
     // when
-    await render(hbs`{{certification-list certifications=model}}`);
+    await render(hbs`{{certification-list certifications=model changeAction=actionChange}}`);
 
     const $tableRows = this.element.querySelectorAll('tbody > tr');
     assert.equal($tableRows.length, 3);

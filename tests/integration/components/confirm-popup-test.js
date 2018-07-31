@@ -9,18 +9,14 @@ module('Integration | Component | confirm-popup', function(hooks) {
   test('it renders', async function(assert) {
     // Set any properties with this.set('myProperty', 'value');
     // Handle any actions with this.set('myAction', function(val) { ... });
+    this.set('display', true)
+    this.set('actionConfirm', () => {
+    });
+    this.set('actionCancel', () => {
+    });
 
-    await render(hbs`{{confirm-popup}}`);
+    await render(hbs`{{confirm-popup show=display confirm=actionConfirm cancel=actionCancel }}`);
 
-    assert.equal(this.element.textContent.trim(), '');
-
-    // Template block usage:
-    await render(hbs`
-      {{#confirm-popup}}
-        template block text
-      {{/confirm-popup}}
-    `);
-
-    assert.equal(this.element.textContent.trim(), 'template block text');
+    assert.dom('.modal-dialog').exists();
   });
 });
