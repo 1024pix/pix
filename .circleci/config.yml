@@ -273,5 +273,5 @@ jobs:
           keys:
             - v5-pix-{{ checksum ".circle-cache-key" }}
       - run: sudo apt-get install -y jq
-      - run: ~/pix/mon-pix/scripts/jira/comment_with_review_app_url.sh
-      - run: ~/pix/mon-pix/scripts/signal_deploy_to_pr.sh
+      - run: ~/pix/scripts/jira/comment_with_review_app_url.sh
+      - run: ~/pix/scripts/signal_deploy_to_pr.sh
