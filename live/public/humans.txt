@@ -15,6 +15,11 @@
   Avatar: Loutre
   Contact: david.riviere@pix.fr
 
+	Name: Mélanie Boudard
+  Role: Développeur
+  Avatar: Lézard
+  Contact: melanie.boudard@pix.fr
+
 	Name: Roman Robin
 	Role: Observateur
 
