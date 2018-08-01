@@ -1,0 +1,69 @@
+.app {
+  display: flex;
+  height: 100%;
+
+  &__sidebar {
+    width: 280px;
+    min-width: 100px;
+  }
+
+  &__main-content {
+    width: 100%;
+  }
+}
+
+.sidebar {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  background: $denim-gradient;
+
+  &--padding-left {
+    padding-left: 25px;
+  }
+
+  &--padding-right {
+    padding-right: 15px;
+  }
+}
+
+.logo {
+  padding-top: 20px;
+
+  &__image {
+    height: 80px;
+  }
+}
+
+.main-content {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  background-color: $wild-sand;
+  overflow: hidden;
+
+  &__topbar {
+    height: 60px;
+    background-color: white;
+  }
+
+  &__body {
+    padding-top: 24px;
+    padding-left: 32px;
+    padding-right: 32px;
+  }
+}
+
+.topbar {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+
+  &__disconnect {
+    padding-right: 32px;
+  }
+
+  &__user-identification {
+    padding-right: 16px;
+  }
+}

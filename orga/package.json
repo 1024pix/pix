@@ -1,0 +1,56 @@
+{
+  "name": "pix-orga",
+  "version": "1.57.0",
+  "private": true,
+  "description": "Plateforme en ligne de gestion de campagne d'évaluation",
+  "license": "AGPL-3.0",
+  "author": "Team PIX",
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:1024pix/pix-orga.git"
+  },
+  "scripts": {
+    "build": "ember build",
+    "clean": "rm -rf tmp dist node_modules",
+    "dev": "ember serve",
+    "lint": "eslint ./*.js app blueprints config lib server tests",
+    "scalingo-background-job": "echo 'nothing to do'",
+    "scalingo-postbuild": "npx ember build --environment $BUILD_ENVIRONMENT",
+    "scalingo-start": "/app/scripts/start_scalingo_nginx.sh",
+    "start": "ember serve --environment production --liveReload false ",
+    "test": "ember test"
+  },
+  "devDependencies": {
+    "broccoli-asset-rev": "^2.4.5",
+    "ember-ajax": "^3.0.0",
+    "ember-cli": "~3.1.4",
+    "ember-cli-app-version": "^3.0.0",
+    "ember-cli-babel": "^6.14.1",
+    "ember-cli-dependency-checker": "^2.1.1",
+    "ember-cli-eslint": "^4.2.1",
+    "ember-cli-google-fonts": "^2.16.2",
+    "ember-cli-htmlbars": "^2.0.1",
+    "ember-cli-htmlbars-inline-precompile": "^1.0.3",
+    "ember-cli-inject-live-reload": "^1.4.1",
+    "ember-cli-mirage": "^0.4.7",
+    "ember-cli-qunit": "^4.3.2",
+    "ember-cli-sass": "^7.2.0",
+    "ember-cli-shims": "^1.2.0",
+    "ember-cli-sri": "^2.1.0",
+    "ember-cli-uglify": "^2.0.0",
+    "ember-data": "~3.1.0",
+    "ember-export-application-global": "^2.0.0",
+    "ember-load-initializers": "^1.0.0",
+    "ember-maybe-import-regenerator": "^0.1.6",
+    "ember-resolver": "^4.5.6",
+    "ember-simple-auth": "^1.6.0",
+    "ember-source": "~3.1.0",
+    "eslint-plugin-ember": "^5.2.0",
+    "loader.js": "^4.2.3",
+    "qunit-dom": "^0.6.3"
+  },
+  "engines": {
+    "node": "^4.5 || 6.* || >= 7.*"
+  },
+  "dependencies": {}
+}
