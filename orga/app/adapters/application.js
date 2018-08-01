@@ -3,7 +3,9 @@ import DataAdapterMixin from 'ember-simple-auth/mixins/data-adapter-mixin';
 import ENV from 'pix-orga/config/environment';
 
 export default DS.JSONAPIAdapter.extend(DataAdapterMixin, {
-  host: ENV.APP.API_HOST,
+  host: ENV.APP.API_HOST + '/api',
+  // FIXME we should use namespace property but this doesn't work
+  // namespace: 'api',
 
   /*
   * Appelé uniquement lorsqu'on est connecté

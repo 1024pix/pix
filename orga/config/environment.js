@@ -17,9 +17,8 @@ module.exports = function(environment) {
       }
     },
 
-
     APP: {
-      API_HOST: process.env.API_HOST
+      API_HOST: inferApiURLFromScalingoAppName(process.env.APP),
     },
 
     googleFonts: [
@@ -34,7 +33,7 @@ module.exports = function(environment) {
   };
 
   if (environment === 'development') {
-    ENV.APP.API_HOST= 'http://localhost:3000/api'
+    ENV.APP.API_HOST= 'http://localhost:3000'
     // ENV.APP.LOG_RESOLVER = true;
     // ENV.APP.LOG_ACTIVE_GENERATION = true;
     // ENV.APP.LOG_TRANSITIONS = true;
@@ -43,7 +42,7 @@ module.exports = function(environment) {
   }
 
   if (environment === 'test') {
-    ENV.APP.API_HOST= 'http://localhost:3000/api';
+    ENV.APP.API_HOST= 'http://localhost:3000';
 
     // Testem prefers this...
     ENV.locationType = 'none';
@@ -63,3 +62,20 @@ module.exports = function(environment) {
 
   return ENV;
 };
+
+function inferApiURLFromScalingoAppName(appName) {
+
+  const matchesReviewApp = /pix-orga-integration-pr(\d+)/.exec(appName);
+  if (matchesReviewApp) {
+    return `https://pix-api-integration-pr${matchesReviewApp[1]}.scalingo.io`;
+  }
+
+  switch (appName) {
+    case 'pix-orga-integration':
+      return 'https://api.integration.pix.fr';
+    case 'pix-orga-production':
+      return 'https://api.pix.fr';
+    default:
+      return 'http://localhost:3000';
+  }
+}
