@@ -20,6 +20,16 @@
   Avatar: Lézard
   Contact: melanie.boudard@pix.fr
 
+  Name: Thomas Wickham
+  Role: Officier consultant et aussi ops
+  Avatar: Chimpanzé
+  Contact: mackwic+pix@gmail.com
+
+  Name: Antoine Boileau
+  Role: Développeur / Refactoreur
+  Avatar: :turtle:
+  Contact: contact@boileau.io
+
 	Name: Roman Robin
 	Role: Observateur
 
