@@ -31,10 +31,11 @@
     "url": "git+https://github.com/1024pix/pix.git"
   },
   "scripts": {
-    "clean": "node_modules/.bin/run-p clean:api clean:mon-pix clean:coverage && npm run clean:root",
+    "clean": "node_modules/.bin/run-p clean:api clean:mon-pix clean:orga clean:coverage && npm run clean:root",
     "clean:api": "cd api && npm run clean",
     "clean:coverage": "rm -rf coverage api/coverage mon-pix/coverage",
     "clean:mon-pix": "cd mon-pix && npm run clean",
+    "clean:orga": "cd orga && npm run clean",
     "clean:root": "rm -rf node_modules && rm -rf tmp",
     "configure": "npm install && npm test && npm run configure:api",
     "configure:api": "(cd api && npm run db:migrate)",
@@ -48,21 +49,25 @@
     "commitmsg": "node ./scripts/git-hook/prepend-commit-message.js",
     "install:api": "cd api && npm install",
     "install:mon-pix": "cd mon-pix && npm install",
-    "lint": "npm run lint:api && npm run lint:mon-pix",
+    "install:orga": "cd orga && npm install",
+    "lint": "npm run lint:api && npm run lint:mon-pix && npm run lint:orga",
     "lint:api": "cd api/ && npm run lint",
     "lint:mon-pix": "cd mon-pix/ && npm run lint",
-    "postinstall": "npm run install:api && npm run install:mon-pix",
+    "lint:orga": "cd orga/ && npm run lint",
+    "postinstall": "npm run install:api && npm run install:mon-pix && npm run install:orga",
     "release:prepare": "./scripts/release/prepare.sh",
     "release:perform": "./scripts/release/perform.sh",
     "release:publish": "./scripts/release/publish.sh",
     "scalingo-postbuild": "cd $APPLICATION_NAME && npm run scalingo-postbuild",
-    "start": "run-p start:api start:mon-pix",
+    "start": "run-p start:api start:mon-pix start:orga",
     "start:api": "cd api && npm run start:watch",
     "start:mon-pix": "cd mon-pix && npx ember serve --proxy",
-    "test": "npm run test:api && npm run test:mon-pix",
+    "start:orga": "echo 'if need be'",
+    "test": "npm run test:api && npm run test:mon-pix && npm run test:orga",
     "test:api": "cd api && npm run lint && npm test",
     "test:api:debug": "cd api && npm run test:api:debug",
-    "test:mon-pix": "cd mon-pix && npm test"
+    "test:mon-pix": "cd mon-pix && npm test",
+    "test:orga": "cd orga && npm test"
   },
   "dependencies": {
     "eslint-plugin-ember": "^5.2.0"

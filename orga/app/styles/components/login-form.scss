@@ -1,0 +1,13 @@
+.login-form {
+  display: flex;
+  flex-direction: column;
+  margin:auto;
+  align-items: center;
+  background-color: white;
+  border-radius: 10px;
+  padding: 20px;
+}
+
+.login-form__title {
+  font-family: $roboto;
+}
