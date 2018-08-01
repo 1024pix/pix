@@ -1,0 +1,59 @@
+/* TEAM DEV */
+
+	Name: Adrien Saunier
+	Role: Développeur && Tech-lead
+	Avatar: Panda
+	Contact: contact.adriensaunier@gmail.com
+
+  Name: Antoine Boileau
+  Role: Développeur / Refactoreur
+  Avatar: :turtle:
+  Contact: contact@boileau.io
+
+	Name: Brandone Martins
+	Role: Développeur
+	Avatar: Lémurien
+	Contact: brandone.martins@pix.fr
+
+	Name: David Rivière
+  Role: Développeur
+  Avatar: Loutre
+  Contact: david.riviere@pix.fr
+
+  Name: Jérémy Buget
+  Role: Développeur / CTO
+  Avatar: Ornithorynque
+  Contact: jeremy.buget@pix.fr
+
+  Name: Jonathan Perret
+  Role: Développeur
+  Avatar: Kangourou
+  Contact: jonathan.perret@pix.fr
+
+	Name: Mathieu Laurent
+  Role: Développeur
+  Avatar: Lama
+  Contact: mathieu.laurent@pix.fr
+
+  Name: Mélanie Boudard
+  Role: Développeur
+  Avatar: Lézard
+  Contact: melanie.boudard@pix.fr
+
+  Name: Sébastien Roccaserra
+  Role: Développeur
+  Avatar: Canard
+  Contact: sebastien.roccaserra@pix.fr
+
+  Name: Thomas Wickham
+  Role: Officier consultant et aussi ops
+  Avatar: Chimpanzé
+  Contact: mackwic+pix@gmail.com
+
+/* OTHERS */
+
+	Name: Roman Robin
+	Role: Observateur
+
+
+
