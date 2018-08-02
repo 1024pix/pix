@@ -28,6 +28,7 @@ export default BaseRoute.extend(UnauthenticatedRouteMixin, {
         .then(() => {
           return this.get('store').queryRecord('user', {});
         });
-    }
+    },
+    
   }
 });
