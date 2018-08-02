@@ -49,5 +49,6 @@ export default Component.extend({
   init() {
     this._super(...arguments);
     this.columns = columns;
+    this.pageValues = [10, 25, 50];
   }
 });
