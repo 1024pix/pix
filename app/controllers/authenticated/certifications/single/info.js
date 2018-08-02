@@ -2,6 +2,7 @@ import Controller from '@ember/controller';
 import { alias } from '@ember/object/computed';
 import { inject as service } from '@ember/service';
 import { A } from '@ember/array';
+import { schedule } from '@ember/runloop';
 
 export default Controller.extend({
 
@@ -165,8 +166,9 @@ export default Controller.extend({
           return competences;
         }, A());
         certification.set('competencesWithMark', newCompetences);
-
-        this.set('edition', true);
+        schedule('afterRender', this, () => {
+          this.set('edition', true);
+        });
       }
     }
   },
