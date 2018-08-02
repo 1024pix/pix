@@ -9,5 +9,16 @@ export default Route.extend({
     this._super(controller, model);
     this.controllerFor('authenticated.certifications.single').set('certificationId', model.get('id'));
     controller.send('onCheckMarks');
+  },
+  actions: {
+    willTransition(transition) {
+      if (this.controller.get("edition") &&
+          !confirm('Êtes-vous sûr de vouloir abandonner la modification en cours ?')) {
+        transition.abort();
+      } else {
+        this.controller.set("edition", false);
+        return true;
+      }
+    }
   }
 });
