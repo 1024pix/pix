@@ -53,8 +53,8 @@ describe('Unit | Repository | skill-repository', function() {
       // then
       return promise.then((skills) => {
         expect(skills).to.have.lengthOf(2);
-        expect(skills[0]).to.be.deep.equal({ name: '@acquix1' });
-        expect(skills[1]).to.be.deep.equal({ name: '@acquix2' });
+        expect(skills[0]).to.be.deep.equal({ id: 'recAcquix1', name: '@acquix1' });
+        expect(skills[1]).to.be.deep.equal({ id: 'recAcquix2', name: '@acquix2' });
       });
     });
   });
