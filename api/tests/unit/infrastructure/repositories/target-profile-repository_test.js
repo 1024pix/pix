@@ -5,7 +5,7 @@ const Skill = require('../../../../lib/domain/models/Skill');
 
 describe('Unit | Repository | target-profile-repository', function() {
 
-  describe('#get', function() {
+  describe('#getStaticProfile', function() {
 
     it('should return the easy profile whatever the id parameter', function() {
       // given
@@ -40,7 +40,7 @@ describe('Unit | Repository | target-profile-repository', function() {
       });
 
       // when
-      const promise = targetProfileRepository.get('unusedparameter');
+      const promise = targetProfileRepository.getStaticProfile('unusedparameter');
 
       // then
       return promise.then((result) => {

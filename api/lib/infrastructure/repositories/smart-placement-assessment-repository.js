@@ -37,7 +37,7 @@ function toDomain(bookshelfAssessment) {
 
   // To delete once target-profile table is created. A repository should not call another repository.
   // use Bookshelf as datasource
-  return targetProfileRepository.get('unusedForNowId')
+  return targetProfileRepository.getStaticProfile('unusedForNowId')
     .then((targetProfile) => {
 
       const answers = bookshelfAssessment
