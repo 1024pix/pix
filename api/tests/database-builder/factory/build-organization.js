@@ -1,4 +1,3 @@
-const Organization = require('../../../lib/domain/models/Organization');
 const databaseBuffer = require('../database-buffer');
 const faker = require('faker');
 
