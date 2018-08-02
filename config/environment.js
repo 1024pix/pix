@@ -64,7 +64,7 @@ module.exports = function(environment) {
 
   if (environment === 'production') {
     // here you can enable a production-specific feature
-    ENV.apiHost = 'https://pix.fr/api';
+    ENV.apiHost = 'https://api.pix.fr/api';
     ENV.locationType = 'hash';
   }
 
