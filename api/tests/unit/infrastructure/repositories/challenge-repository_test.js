@@ -199,8 +199,8 @@ describe('Unit | Repository | challenge-repository', () => {
           // then
           return promise.then((challenge) => {
             expect(challenge.skills).to.have.lengthOf(2);
-            expect(challenge.skills[0]).to.deep.equal(new Skill({id: 'recTIddrkopID28Ep', name: '@web1' }));
-            expect(challenge.skills[1]).to.deep.equal(new Skill({id: 'recTIddrkopID28Ep', name: '@url2' }));
+            expect(challenge.skills[0]).to.deep.equal(new Skill({ id: 'recTIddrkopID28Ep', name: '@web1' }));
+            expect(challenge.skills[1]).to.deep.equal(new Skill({ id: 'recTIddrkopID28Ep', name: '@url2' }));
           });
         });
         it('should call the solution-adapter to create the solution', () => {

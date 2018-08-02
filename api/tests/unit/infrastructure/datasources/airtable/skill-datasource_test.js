@@ -41,7 +41,6 @@ describe('Unit | Infrastructure | Datasource | Airtable | SkillDatasource', () =
     });
   });
 
-
   describe('#getByRecordIds', function() {
 
     it('should request skills from airtable API ', function() {

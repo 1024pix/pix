@@ -14,10 +14,10 @@ function _toDomain(targetProfileBookshelf) {
 function _toDomainSkills(skillsDataObjects) {
   return skillsDataObjects.map((skillDataObject) => {
     return new Skill({
-      id : skillDataObject.id,
-      name : skillDataObject.name
+      id: skillDataObject.id,
+      name: skillDataObject.name
     });
-  })
+  });
 }
 
 module.exports = {
@@ -59,7 +59,7 @@ module.exports = {
   get(id) {
     return BookshelfTargetProfile
       .where({ id })
-      .fetch({ withRelated: ['skillIds']})
+      .fetch({ withRelated: ['skillIds'] })
       .then(async (foundTargetProfile) => {
         const skillRecordIds = foundTargetProfile.related('skillIds').map((BookshelfSkillId) => BookshelfSkillId.get('skillId'));
         const skillAssociatedToTargetProfileWIthName = await skillDatasource.findByRecordIds(skillRecordIds);

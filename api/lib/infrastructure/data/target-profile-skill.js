@@ -7,6 +7,6 @@ module.exports = Bookshelf.model('TargetProfileSkill', {
   tableName: 'target-profiles_skills',
 
   targetProfile() {
-    return this.belongsTo('TargetProfile', 'targetProfileId')
+    return this.belongsTo('TargetProfile', 'targetProfileId');
   }
 });

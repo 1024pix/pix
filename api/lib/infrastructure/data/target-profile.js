@@ -7,7 +7,7 @@ module.exports = Bookshelf.model('TargetProfile', {
   tableName: 'target-profiles',
 
   skillIds() {
-    return this.hasMany('TargetProfileSkill', 'targetProfileId')
+    return this.hasMany('TargetProfileSkill', 'targetProfileId');
   }
 
 });

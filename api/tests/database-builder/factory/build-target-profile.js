@@ -1,4 +1,3 @@
-const TargetProfile = require('../../../lib/domain/models/TargetProfile');
 const databaseBuffer = require('../database-buffer');
 const faker = require('faker');
 
