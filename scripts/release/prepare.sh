@@ -36,9 +36,10 @@ function reinstall_dependencies {
     npm run clean && npm install
 }
 
+# Update when adding a new app
 function create_a_release_commit {
     NEW_PACKAGE_VERSION=$(get_package_version)
-    git add package*.json api/package*json live/package*.json --update
+    git add package*.json api/package*json mon-pix/package*.json orga/package*.json --update
     git commit --message "[RELEASE] A ${NEW_VERSION_TYPE} is being released from ${OLD_PACKAGE_VERSION} to ${NEW_PACKAGE_VERSION}."
 }
 
