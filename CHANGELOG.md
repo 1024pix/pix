@@ -1,5 +1,15 @@
 # Pix Changelog
 
+## v1.58.0 (02/08/2018) 
+
+- [#137](https://github.com/1024pix/pix/pull/137) [FEATURE] Sauvegarde des éléments de connaissance sur le profil à chaque sauvegarde de réponses (PF-243).
+- [#140](https://github.com/1024pix/pix/pull/140) [FEATURE] Lancer la connexion lors d'un début de campagne (PF-237).
+- [#144](https://github.com/1024pix/pix/pull/144) [FEATURE] Ajouter le champ "Publié" pour le résultat d'une certification (PF-300).
+- [#146](https://github.com/1024pix/pix/pull/146) [TECH] Passer en monorepo sur scalingo (PF-305).
+- [#150](https://github.com/1024pix/pix/pull/150) [TECH] Brancher les review apps sur Scalingo (PF-307).
+- [#152](https://github.com/1024pix/pix/pull/152) [TECH] Intégrer la codebase de pix Orga dans le repo (PF-308).
+- [#153](https://github.com/1024pix/pix/pull/153) [TECH] Ajout de la page de maintenance (PF-320).
+
 ## v1.57.0 (27/07/2018)
 
 - [#108](https://github.com/1024pix/pix/pull/108) [FEATURE] Création d'une campagne (PO-82).
