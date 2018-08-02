@@ -8,10 +8,7 @@
           </h5>
           <div class="card-text">
             {{certification-info-field value=certification.sessionId edition=false label="Session :" linkRoute='authenticated.certifications.sessions.info'}}
-            <!--
             {{certification-info-select value=certification.status values=statuses edition=edition label="Statut :"}}
-            -->
-            {{certification-info-field value=certification.status edition=false label="Statut :"}}
             {{certification-info-field value=certification.creationDate edition=false label="Créée le :"}}
             {{certification-info-field value=certification.completionDate edition=false label="Terminée le :"}}
             {{certification-info-field value=certification.publishedText edition=false label="Publiée :"}}
