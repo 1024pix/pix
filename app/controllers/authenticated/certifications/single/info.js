@@ -1,6 +1,7 @@
 import Controller from '@ember/controller';
 import { alias } from '@ember/object/computed';
 import { inject as service } from '@ember/service';
+import { A } from '@ember/array';
 
 export default Controller.extend({
 
@@ -15,6 +16,7 @@ export default Controller.extend({
 
   // private properties
   _competencesCopy:null,
+  _markStore: service('mark-store'),
 
   init() {
     this._super(...arguments);
@@ -150,6 +152,22 @@ export default Controller.extend({
       .catch((e) => {
         this.get('notifications').error(e);
       });
+    },
+    onCheckMarks() {
+      let markStore = this.get('_markStore');
+      if (markStore.hasState()) {
+        let state = markStore.getState();
+        let certification = this.get('certification');
+        certification.set('pixScore', state.score);
+        let newCompetences = Object.keys(state.marks).reduce((competences, code) => {
+          let mark = state.marks[code];
+          competences.addObject({'competence-code':code, 'level':mark.level, 'score': mark.score, 'area-code':code.substr(0,1)});
+          return competences;
+        }, A());
+        certification.set('competencesWithMark', newCompetences);
+
+        this.set('edition', true);
+      }
     }
   },
 

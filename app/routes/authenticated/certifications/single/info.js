@@ -8,5 +8,6 @@ export default Route.extend({
   setupController(controller, model) {
     this._super(controller, model);
     this.controllerFor('authenticated.certifications.single').set('certificationId', model.get('id'));
+    controller.send('onCheckMarks');
   }
 });
