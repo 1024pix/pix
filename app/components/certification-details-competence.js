@@ -30,12 +30,14 @@ export default Component.extend({
     const competence = this.get('competence');
     if (juryRate === false )  {
       competence.juryScore = false;
+      competence.juryLevel = false;
       return false;
     }
     const score = competence.obtainedScore;
     let newScore = this._computeScore(juryRate);
     if (newScore.score != score) {
       competence.juryScore = newScore.score;
+      competence.juryLevel = newScore.level;
       return ({
         score:newScore.score,
         level:newScore.level,
@@ -43,6 +45,7 @@ export default Component.extend({
       });
     } else {
       competence.juryScore = false;
+      competence.juryLevel = false;
       return false;
     }
   }),

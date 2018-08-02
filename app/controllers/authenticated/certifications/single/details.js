@@ -2,6 +2,7 @@ import Controller from '@ember/controller';
 import { observer } from '@ember/object';
 import { alias } from '@ember/object/computed';
 import { schedule } from '@ember/runloop';
+import { inject as service}  from '@ember/service';
 
 export default Controller.extend({
 
@@ -9,6 +10,9 @@ export default Controller.extend({
   juryRate: false,
   juryScore: false,
   requestedId:'',
+
+  // Private properties
+  _markStore:service('mark-store'),
 
   // Aliases
   rate:alias('details.percentageCorrectAnswers'),
@@ -66,6 +70,19 @@ export default Controller.extend({
           this.set('juryScore', false);
         }
       });
+    },
+    onStoreMarks() {
+      this.get('_markStore').storeState({
+        score:(this.get('juryScore') === false)?this.get('score'):this.get('juryScore'),
+        marks:this.get('details.competences').reduce((marks, competence) => {
+          marks[competence.index] = {
+            level:(competence.juryLevel === false)?competence.obtainedLevel:competence.juryLevel,
+            score:(competence.juryScore === false)?competence.obtainedScore:competence.juryScore
+          };
+          return marks;
+        }, {})
+      });
+      this.transitionToRoute('authenticated.certifications.single.info', this.get('details.id'));
     }
   }
 });
