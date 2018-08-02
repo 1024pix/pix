@@ -1,0 +1,35 @@
+<div class="login-form">
+
+  <div>
+    <img src="/pix-logo.svg">
+  </div>
+
+  <h1 class="login-form__title">Se Connecter</h1>
+
+  {{#if isErrorMessagePresent}}
+    <div id="login-form-error-message">L'adresse e-mail et/ou le mot de passe saisis sont incorrects</div>
+  {{/if}}
+
+  <form {{action 'authenticate' on='submit'}}>
+
+    <div>
+      <div>
+        <label for="login-email">ADRESSE E-MAIL : </label>
+      </div>
+      {{input required id='login-email' name='email' type='email' value=email}}
+    </div>
+
+    <div>
+      <div>
+        <label for="login-password">MOT DE PASSE : </label>
+      </div>
+      {{input required id='login-password' name='password' type='password' value=password}}
+    </div>
+
+    <div>
+      <button type="submit">Se connecter</button>
+    </div>
+
+  </form>
+
+</div>

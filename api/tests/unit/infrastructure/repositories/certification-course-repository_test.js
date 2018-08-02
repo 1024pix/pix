@@ -1,8 +1,9 @@
 const { expect, sinon } = require('../../../test-helper');
+const factory = require('../../../factory');
+
 const CertificationCourseRepository = require('../../../../lib/infrastructure/repositories/certification-course-repository');
 const CertificationCourseBookshelf = require('../../../../lib/infrastructure/data/certification-course');
 
-const CertificationCourse = require('../../../../lib/domain/models/CertificationCourse');
 const Assessment = require('../../../../lib/domain/models/Assessment');
 
 describe('Unit | Repository | Certification Course', function() {
@@ -13,7 +14,7 @@ describe('Unit | Repository | Certification Course', function() {
     let savedCertificationCourse;
 
     beforeEach(() => {
-      certificationCourse = CertificationCourse.fromAttributes({
+      const certificationInformation = {
         id: 'certifId',
         userId: 1,
         completedAt: null,
@@ -23,25 +24,18 @@ describe('Unit | Repository | Certification Course', function() {
         birthplace: 'Macon',
         birthdate: '21/03/1991',
         sessionId: 'EURO2016',
-        externalId: 'xenoverse2'
-      });
-      savedCertificationCourse = CertificationCourse.fromAttributes({
-        id: 'certifId',
-        userId: 1,
-        completedAt: null,
-        createdAt: null,
-        type: Assessment.types.CERTIFICATION,
-        firstName: 'Antoine',
-        lastName: 'Griezmann',
-        birthplace: 'Macon',
-        birthdate: '21/03/1991',
-        challenges: [],
-        assessment: {},
-        sessionId: 'EURO2016',
-        externalId: 'xenoverse2'
-      });
+        externalId: 'xenoverse2',
+        isPublished: false,
+      };
+      certificationCourse = factory.buildCertificationCourse(certificationInformation);
+
+      savedCertificationCourse = factory.buildCertificationCourse(certificationInformation);
+      savedCertificationCourse.type = Assessment.types.CERTIFICATION;
+      savedCertificationCourse.challenges = [];
+      savedCertificationCourse.assessment = {};
 
       const certificationCourseBookshelf = new CertificationCourseBookshelf(certificationCourse);
+
       sinon.stub(CertificationCourseBookshelf.prototype, 'save').resolves(certificationCourseBookshelf);
     });
 

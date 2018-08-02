@@ -2,6 +2,7 @@ const Bookshelf = require('../bookshelf');
 
 require('./answer');
 require('./assessment-result');
+require('./knowledge-element');
 
 module.exports = Bookshelf.model('Assessment', {
 
@@ -15,4 +16,7 @@ module.exports = Bookshelf.model('Assessment', {
     return this.hasMany('AssessmentResults', 'assessmentId');
   },
 
+  knowledgeElements() {
+    return this.hasMany('KnowledgeElement', 'assessmentId');
+  },
 });

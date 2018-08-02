@@ -63,6 +63,7 @@ describe('Unit | Serializer | JSONAPI | certification-course-serializer', functi
         birthplace: 'Neuilly-Sur-Seine',
         sessionId: '#DaftPunk',
         externalId: 'Grammys2016',
+        isPublished: 'true',
       });
 
       // when
@@ -83,6 +84,7 @@ describe('Unit | Serializer | JSONAPI | certification-course-serializer', functi
             'birthplace': 'Neuilly-Sur-Seine',
             'session-id': '#DaftPunk',
             'external-id': 'Grammys2016',
+            'is-published': 'true',
           },
         },
       });

@@ -5,6 +5,7 @@ const Skill = require('../../../../lib/domain/models/Skill');
 describe('Unit | Domain | Models | Challenge', () => {
 
   describe('#constructor', () => {
+
     it('should construct a model Challenge from attributes', () => {
       // given
       const challengeRawData = {
@@ -17,14 +18,15 @@ describe('Unit | Domain | Models | Challenge', () => {
         illustrationUrl: 'https://dl.airtable.com/2MGErxGTQl2g2KiqlYgV_venise4.png',
         attachments: [
           'https://dl.airtable.com/nHWKNZZ7SQeOKsOvVykV_navigationdiaporama5.pptx',
-          'https://dl.airtable.com/rsXNJrSPuepuJQDByFVA_navigationdiaporama5.odp'
+          'https://dl.airtable.com/rsXNJrSPuepuJQDByFVA_navigationdiaporama5.odp',
         ],
         skills: [new Skill('recUDrCWD76fp5MsE')],
         answer: [],
         embedUrl: 'https://github.page.io/pages/mon-epreuve.html',
         embedTitle: 'Epreuve de selection d’imprimante',
         embedHeight: 400,
-        status: 'validé'
+        status: 'validé',
+        validator: undefined,
       };
 
       // when
@@ -85,7 +87,7 @@ describe('Unit | Domain | Models | Challenge', () => {
       { status: 'validé sans test', expectedResult: true },
       { status: 'proposé', expectedResult: false },
       { status: 'pré-validé', expectedResult: true },
-      { status: 'archive', expectedResult: false }
+      { status: 'archive', expectedResult: false },
     ].forEach((testCase) => {
       it(`should return ${testCase.expectedResult} when the status is "${testCase.status}"`, () => {
         // given

@@ -1,6 +1,16 @@
 # Pix Changelog
 
-## v1.57.0 (27/07/2018) 
+## v1.58.0 (02/08/2018) 
+
+- [#137](https://github.com/1024pix/pix/pull/137) [FEATURE] Sauvegarde des éléments de connaissance sur le profil à chaque sauvegarde de réponses (PF-243).
+- [#140](https://github.com/1024pix/pix/pull/140) [FEATURE] Lancer la connexion lors d'un début de campagne (PF-237).
+- [#144](https://github.com/1024pix/pix/pull/144) [FEATURE] Ajouter le champ "Publié" pour le résultat d'une certification (PF-300).
+- [#146](https://github.com/1024pix/pix/pull/146) [TECH] Passer en monorepo sur scalingo (PF-305).
+- [#150](https://github.com/1024pix/pix/pull/150) [TECH] Brancher les review apps sur Scalingo (PF-307).
+- [#152](https://github.com/1024pix/pix/pull/152) [TECH] Intégrer la codebase de pix Orga dans le repo (PF-308).
+- [#153](https://github.com/1024pix/pix/pull/153) [TECH] Ajout de la page de maintenance (PF-320).
+
+## v1.57.0 (27/07/2018)
 
 - [#108](https://github.com/1024pix/pix/pull/108) [FEATURE] Création d'une campagne (PO-82).
 - [#119](https://github.com/1024pix/pix/pull/119) [FEATURE] Ajout des tutoriels “Pour en savoir plus” à la page des résultats (PF-63).
@@ -16,7 +26,7 @@
 - [#136](https://github.com/1024pix/pix/pull/136) [BUGFIX] Correction de la page "Oups" qui s'affiche en boucle à l'expiration de la session (PF-297).
 
 
-## v1.55.0 (19/07/2018) 
+## v1.55.0 (19/07/2018)
 
 - [#126](https://github.com/1024pix/pix/pull/126) [FEATURE] Mettre les liens en bleu Pix et souligné dans la consigne d'une d'épreuve afin de comprendre qu'il faut cliquer (PF-126).
 - [#117](https://github.com/1024pix/pix/pull/117) [FEATURE] Reprise d'une évaluation de type Smart Random (US-93).
@@ -749,7 +759,7 @@
 - [#158](https://github.com/sgmap/pix/pull/158) [BUGFIX] Modification du mail Formspree pour contourner momentanément la limite de 1000 bêta-souscripteurs / mois.
 - [#156](https://github.com/sgmap/pix/pull/156) [FEATURE] Remplacement du mot "digital" par "numérique".
 - [#153](https://github.com/sgmap/pix/pull/153) [CLEANUP] Ajout de tests pour PIX-API.
-- [#154](https://github.com/sgmap/pix/pull/154) [CLEANUP] Remaniement des tests d'acceptance pour PIX-Live.
+- [#154](https://github.com/sgmap/pix/pull/154) [CLEANUP] Remaniement des tests d'acceptance pour PIX-live.
 
 ## 1.0.0 (15/11/2016)
 

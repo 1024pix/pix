@@ -1,0 +1,10 @@
+<div class="navbar-desktop-menu-links">
+  <ul class="navbar-desktop-menu-links__list">
+    {{#each menu as |item|}}
+      <li class="navbar-desktop-menu-links__item">
+        {{#link-to item.link class="navbar-desktop-menu-links__link"
+                   classNameBindings="item.class"}}{{item.name}}{{/link-to}}
+      </li>
+    {{/each}}
+  </ul>
+</div>

@@ -1,4 +1,3 @@
-
 const { expect } = require('chai');
 const AnswerStatus = require('../../../../lib/domain/models/AnswerStatus');
 
@@ -101,5 +100,4 @@ describe('AnswerStatus', () => {
       expect(AnswerStatus.UNIMPLEMENTED.isFailed()).to.be.true;
     });
   });
-
 });

@@ -1,5 +1,34 @@
+const Answer = require('../../domain/models/Answer');
+const answerStatusDatabaseAdapter = require('../adapters/answer-status-database-adapter');
 const BookshelfAnswer = require('../data/answer');
+const jsYaml = require('js-yaml');
 const { NotFoundError } = require('../../domain/errors');
+
+function _adaptModelToDb(answer) {
+  return {
+    id: answer.id,
+    result: answerStatusDatabaseAdapter.toSQLString(answer.result),
+    resultDetails: jsYaml.safeDump(answer.resultDetails),
+    value: answer.value,
+    timeout: answer.timeout,
+    elapsedTime: answer.elapsedTime,
+    challengeId: answer.challengeId,
+    assessmentId: answer.assessmentId,
+  };
+}
+
+function _toDomain(bookshelfAnswer) {
+  return new Answer({
+    id: bookshelfAnswer.get('id'),
+    elapsedTime: bookshelfAnswer.get('elapsedTime'),
+    result: answerStatusDatabaseAdapter.fromSQLString(bookshelfAnswer.get('result')),
+    resultDetails: bookshelfAnswer.get('resultDetails'),
+    timeout: bookshelfAnswer.get('timeout'),
+    value: bookshelfAnswer.get('value'),
+    assessmentId: bookshelfAnswer.get('assessmentId'),
+    challengeId: bookshelfAnswer.get('challengeId'),
+  });
+}
 
 module.exports = {
 
@@ -17,6 +46,9 @@ module.exports = {
   },
 
   // TODO return domain object
+  /**
+   * @deprecated use hasChallengeAlreadyBeenAnswered
+   */
   findByChallengeAndAssessment(challengeId, assessmentId) {
     return BookshelfAnswer
       .where({ challengeId, assessmentId })
@@ -44,6 +76,20 @@ module.exports = {
     return BookshelfAnswer
       .where({ assessmentId, result: 'ok' })
       .fetchAll();
-  }
+  },
 
+  hasChallengeAlreadyBeenAnswered({ assessmentId, challengeId }) {
+    return BookshelfAnswer
+      .where({ challengeId, assessmentId })
+      .fetch()
+      .then((answer) => answer !== null);
+  },
+
+  save(answer) {
+    return Promise.resolve(answer)
+      .then(_adaptModelToDb)
+      .then((rawDBAnswerModel) => new BookshelfAnswer(rawDBAnswerModel))
+      .then((answerBookshelf) => answerBookshelf.save())
+      .then(_toDomain);
+  },
 };

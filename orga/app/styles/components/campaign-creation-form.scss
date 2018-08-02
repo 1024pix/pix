@@ -1,0 +1,19 @@
+.campaign-creation-form {
+  padding-top: 32px;
+
+  &__campaign-name {
+    max-width: 400px;
+  }
+
+  &__validation-button {
+    margin-top: 32px;
+  }
+
+  &__error {
+    color: red;
+    font-size: 0.75rem;
+    padding-top: 4px;
+  }
+
+}
+

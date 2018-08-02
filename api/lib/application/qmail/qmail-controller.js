@@ -1,7 +1,7 @@
 const Boom = require('boom');
 
 const AnswerStatus = require('../../domain/models/AnswerStatus');
-const AnswerStatusDatabaseAdapter = require('../../interfaces/storage/database/AnswerStatusDatabaseAdapter');
+const AnswerStatusDatabaseAdapter = require('../../infrastructure/adapters/answer-status-database-adapter');
 
 const AnswerRepository = require('../../infrastructure/repositories/answer-repository');
 const solutionRepository = require('../../infrastructure/repositories/solution-repository');
