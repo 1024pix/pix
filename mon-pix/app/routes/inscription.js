@@ -27,9 +27,6 @@ export default BaseRoute.extend(UnauthenticatedRouteMixin, {
         .authenticate('authenticator:simple', email, password)
         .then(() => {
           return this.get('store').queryRecord('user', {});
-        })
-        .then(() => {
-          this.transitionTo('compte');
         });
     }
   }

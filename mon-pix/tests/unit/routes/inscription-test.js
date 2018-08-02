@@ -13,7 +13,7 @@ describe('Unit | Route | inscription', function() {
     expect(route).to.be.ok;
   });
 
-  it('should automatically redirect authenticated user to compte page', function() {
+  it('should automatically authenticated user', function() {
     // Given
     const expectedEmail = 'email@example.net';
     const expectedPassword = 'Azertya1!';
@@ -23,7 +23,6 @@ describe('Unit | Route | inscription', function() {
     const storeStub = { queryRecord: queryRecordStub };
 
     const route = this.subject();
-    route.transitionTo = sinon.stub();
     route.set('session', sessionStub);
     route.set('store', storeStub);
 
@@ -37,7 +36,6 @@ describe('Unit | Route | inscription', function() {
       // Then
       sinon.assert.calledWith(authenticateStub, 'authenticator:simple', expectedEmail, expectedPassword);
       sinon.assert.calledWith(queryRecordStub, 'user', {});
-      sinon.assert.calledWith(route.transitionTo, 'compte');
     });
   });
 });
