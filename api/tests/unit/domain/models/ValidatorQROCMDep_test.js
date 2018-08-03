@@ -29,7 +29,14 @@ describe('Unit | Domain | Models | ValidatorQROCMDep', () => {
     beforeEach(() => {
       // given
       solutionServiceQrocmDep.match.returns(AnswerStatus.OK);
-      solution = factory.buildSolution({ type: 'QROCM-ind' });
+      solution = factory.buildSolution({
+        type: 'QROCM-dep',
+        value: 'Google:\n- abcd\n- efgh\n- hijk\nYahoo:\n- lmno\n- pqrs\n',
+        isT1Enabled: true,
+        isT2Enabled: true,
+        isT3Enabled: true,
+        scoring: '1: acquix\n2: acquix',
+      });
 
       uncorrectedAnswer = factory.buildAnswer.uncorrected();
       validator = new ValidatorQROCMDep({ solution: solution });
@@ -38,10 +45,10 @@ describe('Unit | Domain | Models | ValidatorQROCMDep', () => {
       validation = validator.assess(uncorrectedAnswer);
     });
 
-    it('should call solutionServiceQROCMInd', () => {
+    it('should call solutionServiceQROCMDep', () => {
       // then
       expect(solutionServiceQrocmDep.match).to.have.been.calledWith(
-        uncorrectedAnswer.value, solution.value, solution.deactivations);
+        uncorrectedAnswer.value, solution.value, solution.scoring, solution.deactivations);
     });
     it('should return a validation object with the returned status', () => {
       const expectedValidation = factory.buildValidation({
