@@ -2,6 +2,8 @@ const BookshelfAssessment = require('../data/assessment');
 const Answer = require('../../domain/models/Answer');
 const Assessment = require('../../domain/models/Assessment');
 const AssessmentResult = require('../../domain/models/AssessmentResult');
+const Campaign = require('../../domain/models/Campaign');
+const CampaignParticipation = require('../../domain/models/CampaignParticipation');
 const { groupBy, map, head, _ } = require('lodash');
 const fp = require('lodash/fp');
 
@@ -26,7 +28,21 @@ function _toDomain(bookshelfAssessment) {
     const assessmentResults = bookshelfAssessment.related('assessmentResults')
       .map((bookshelfAssessmentResult) => new AssessmentResult(bookshelfAssessmentResult.toJSON()));
 
-    return new Assessment(Object.assign(modelObjectInJSON, { answers, assessmentResults }));
+    let campaignParticipation = null;
+    let campaign = null;
+    const campaignOfAssessment = bookshelfAssessment.related('campaignParticipations');
+
+    if(campaignOfAssessment.attributes.campaignId) {
+      campaignParticipation = new CampaignParticipation(campaignOfAssessment.toJSON());
+      campaign = new Campaign(campaignOfAssessment.related('campaign').toJSON());
+    }
+
+    return new Assessment(Object.assign(modelObjectInJSON, {
+      answers,
+      assessmentResults,
+      campaignParticipation,
+      campaign,
+    }));
   }
 
   return null;
@@ -40,6 +56,8 @@ function _adaptModelToDb(assessment) {
     'answers',
     'assessmentResults',
     'targetProfile',
+    'campaign',
+    'campaignParticipation',
   ]);
 }
 
@@ -136,7 +154,7 @@ module.exports = {
   findByFilters(filters) {
     return BookshelfAssessment
       .where(filters)
-      .fetchAll()
+      .fetchAll({ withRelated: ['campaignParticipations', 'campaignParticipations.campaign'] })
       .then((bookshelfAssessmentCollection) => bookshelfAssessmentCollection.models)
       .then(fp.map(_toDomain));
   },

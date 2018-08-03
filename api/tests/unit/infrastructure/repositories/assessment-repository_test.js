@@ -257,7 +257,7 @@ describe('Unit | Repository | assessmentRepository', () => {
 
     context('when assessment is valid', () => {
       beforeEach(() => {
-        assessment = Assessment.fromAttributes({ id: '1', type: Assessment.types.CERTIFICATION, userId: 2 });
+        assessment = Assessment.fromAttributes({ id: '1', type: Assessment.types.CERTIFICATION, userId: 2, campaign: null, campaignParticipation: null });
         const assessmentBookshelf = new BookshelfAssessment(assessment);
         sinon.stub(BookshelfAssessment.prototype, 'save').resolves(assessmentBookshelf);
       });
@@ -396,6 +396,41 @@ describe('Unit | Repository | assessmentRepository', () => {
       // then
       return promise.then((assessments) => {
         expect(assessments).to.have.lengthOf(0);
+      });
+
+    });
+
+    context('when assessment is related to campaign', () => {
+      const campaignIdDB = {
+        id: 1,
+        name: 'Campagne In DB',
+        code: 'CAMPDB',
+      };
+
+      before(() => {
+        return knex('campaigns').insert(campaignIdDB)
+          .then(() => knex('campaign-participations')
+            .insert({ assessmentId: assessmentsInDb[2].id, campaignId: campaignIdDB.id }));
+      });
+
+      after(() => {
+        return knex('campaign-participations').delete()
+          .then(() => knex('campaigns').delete());
+      });
+
+      it('should return courses which have the given courseId and his campaign information', function() {
+        // given
+        const filters = { courseId: 'courseId2' };
+
+        // when
+        const promise = assessmentRepository.findByFilters(filters);
+
+        // then
+        return promise.then((assessments) => {
+          expect(assessments).to.have.lengthOf(1);
+          expect(assessments[0].courseId).to.equal('courseId2');
+          expect(assessments[0].campaign.code).to.equal('CAMPDB');
+        });
       });
 
     });

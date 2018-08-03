@@ -5,8 +5,12 @@ const controller = require('../../../../lib/application/assessments/assessment-c
 
 const assessmentSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/assessment-serializer');
 const assessmentRepository = require('../../../../lib/infrastructure/repositories/assessment-repository');
+const campaignRepository = require('../../../../lib/infrastructure/repositories/campaign-repository');
+const campaignParticipationRepository = require('../../../../lib/infrastructure/repositories/campaign-participation-repository');
 const tokenService = require('../../../../lib/domain/services/token-service');
 const Assessment = require('../../../../lib/domain/models/Assessment');
+const usecases = require('../../../../lib/domain/usecases');
+
 const { ObjectValidationError } = require('../../../../lib/domain/errors');
 
 describe('Unit | Controller | assessment-controller-save', () => {
@@ -40,31 +44,41 @@ describe('Unit | Controller | assessment-controller-save', () => {
             id: 42,
             attributes: {
               'type': 'SMART_PLACEMENT',
+              'code-campaign': 'CODECAMPAIGN'
             },
           },
         },
       };
 
       beforeEach(() => {
-        sandbox.stub(assessmentRepository, 'save').resolves();
+        sandbox.stub(usecases, 'createAssessmentForCampaign').resolves();
       });
 
       it('should save an assessment with the type SMART_PLACEMENT and with a fake courseId', function() {
         // given
-        const expected = Assessment.fromAttributes({
+        const expectedAssessment = Assessment.fromAttributes({
           id: 42,
-          courseId: 'Smart Placement Tests CourseId Not Used',
+          courseId: null,
           type: 'SMART_PLACEMENT',
           state: 'started',
           userId: null,
         });
 
+        const expectedCallArguments = {
+          assessment: expectedAssessment,
+          codeCampaign: 'CODECAMPAIGN',
+          assessmentRepository,
+          campaignRepository,
+          campaignParticipationRepository,
+        };
         // when
-        controller.save(request, replyStub);
+        const promise = controller.save(request, replyStub);
 
         // then
-        sinon.assert.calledOnce(assessmentRepository.save);
-        return expect(assessmentRepository.save).to.have.been.calledWith(expected);
+        return promise.then(() => {
+          sinon.assert.calledOnce(usecases.createAssessmentForCampaign);
+          sinon.assert.calledWith(usecases.createAssessmentForCampaign, expectedCallArguments);
+        });
       });
     });
 
@@ -108,11 +122,13 @@ describe('Unit | Controller | assessment-controller-save', () => {
         });
 
         // when
-        controller.save(request, replyStub);
+        const promise = controller.save(request, replyStub);
 
         // then
-        sinon.assert.calledOnce(assessmentRepository.save);
-        return expect(assessmentRepository.save).to.have.been.calledWith(expected);
+        return promise.then(() => {
+          sinon.assert.calledOnce(assessmentRepository.save);
+          expect(assessmentRepository.save).to.have.been.calledWith(expected);
+        });
       });
 
       context('where there is no UserId', () => {
@@ -179,10 +195,12 @@ describe('Unit | Controller | assessment-controller-save', () => {
         });
 
         // when
-        controller.save(request, replyStub);
+        const promise = controller.save(request, replyStub);
 
         // then
-        expect(assessmentRepository.save).to.have.been.calledWith(expected);
+        return promise.then(() => {
+          expect(assessmentRepository.save).to.have.been.calledWith(expected);
+        });
       });
     });
 
@@ -227,6 +245,8 @@ describe('Unit | Controller | assessment-controller-save', () => {
         assessmentResults: [],
         course: undefined,
         targetProfile: undefined,
+        campaignParticipation: undefined,
+        campaign: undefined,
       };
       const serializedAssessment = {
         id: 42,
@@ -260,10 +280,12 @@ describe('Unit | Controller | assessment-controller-save', () => {
 
       it('should persist the deserializedAssessment', () => {
         // when
-        controller.save(request, replyStub);
+        const promise = controller.save(request, replyStub);
 
         // then
-        expect(assessmentRepository.save).to.have.been.calledWith(assessment);
+        return promise.then(() => {
+          expect(assessmentRepository.save).to.have.been.calledWith(assessment);
+        });
       });
 
       it('should serialize the deserializedAssessment after its creation', () => {

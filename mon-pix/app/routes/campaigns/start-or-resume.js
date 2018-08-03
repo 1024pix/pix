@@ -4,14 +4,18 @@ import { isEmpty } from '@ember/utils';
 
 export default BaseRoute.extend(AuthenticatedRouteMixin, {
 
-  model() {
+  model(params) {
+    const codeCampaign = params.campaign_code;
     const store = this.get('store');
     return store.query('assessment', { filter: { type: 'SMART_PLACEMENT' } })
       .then((smartPlacementAssessments) => {
         if (!isEmpty(smartPlacementAssessments)) {
-          return smartPlacementAssessments.get('firstObject');
+          const findCampaignAssessment = smartPlacementAssessments.find((assessment) => assessment.codeCampaign === codeCampaign);
+          if(findCampaignAssessment) {
+            return findCampaignAssessment;
+          }
         }
-        return store.createRecord('assessment', { type: 'SMART_PLACEMENT' }).save();
+        return store.createRecord('assessment', { type: 'SMART_PLACEMENT', codeCampaign }).save();
       });
   },
 
