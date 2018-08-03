@@ -1,5 +1,4 @@
 module.exports = [
-  { id:1, courseId: 'recyochcrrSOALQPS', createdAt: '2018-02-15 14:59:35', updatedAt: '2018-02-15 14:59:35', userId: 1, type: 'PLACEMENT', state: 'completed' },
   { id:2, courseId: 'rec43mpMIR5dUzdjh', createdAt: '2018-02-15 15:00:34', updatedAt: '2018-02-15 15:00:34', userId: 1, type:'PLACEMENT', state: 'completed' },
   { id:3, courseId: 'recNPB7dTNt5krlMA', createdAt: '2018-02-15 15:03:18', updatedAt: '2018-02-15 15:03:18', userId: 1, type:'PLACEMENT', state: 'completed' },
   { id:4, courseId: 'recR9yCEqgedB0LYQ', createdAt: '2018-02-15 15:04:26', updatedAt: '2018-02-15 15:04:26', userId: 1, type:'PLACEMENT', state: 'completed' },

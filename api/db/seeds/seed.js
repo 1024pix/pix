@@ -1,4 +1,6 @@
 'use strict';
+const DatabaseBuilder = require('../../tests/database-builder/database-builder');
+const pixAileBuilder = require('./data/user-with-related/pix-aile-builder');
 
 const listSeeds = {
   '1st-to-create': [
@@ -26,7 +28,7 @@ const listSeeds = {
 
 function addData(knex, table, data) {
   return Promise.all(data)
-    .then(data => {
+    .then((data) => {
       return knex(table)
         .insert(data)
         .catch(console.log);
@@ -36,25 +38,31 @@ function addData(knex, table, data) {
 function createDataByTables(groupName) {
   const directory = groupName;
   const files = listSeeds[groupName];
-  return files.map(tableName => {
+
+  return files.map((tableName) => {
     return {
       table: tableName,
-      data: require('./data/'+directory+'/'+tableName+'.js')
+      data: require('./data/' + directory + '/' + tableName + '.js'),
     };
   });
 }
 
 function insertSeedsByGroup(knex, groupName) {
   const dataByTables = createDataByTables(groupName);
-  const dataToAdd = dataByTables.map(dataByTable => {
+  const dataToAdd = dataByTables.map((dataByTable) => {
     return addData(knex, dataByTable.table, dataByTable.data);
   });
   return Promise.all(dataToAdd);
 }
 
 exports.seed = (knex) => {
+
+  const databaseBuilder = new DatabaseBuilder({ knex });
+  pixAileBuilder({ databaseBuilder });
+
   // FIXME seeds have broken foreign keys which means it don't work on PostgreSQL
-  return insertSeedsByGroup(knex, '1st-to-create')
+  return databaseBuilder.commit()
+    .then(() => insertSeedsByGroup(knex, '1st-to-create'))
     .then(() => insertSeedsByGroup(knex, '2nd-to-create'))
     .then(() => insertSeedsByGroup(knex, '3rd-to-create'))
     .then(() => insertSeedsByGroup(knex, '4th-to-create'));
