@@ -1,5 +1,11 @@
 # Pix Changelog
 
+
+## v1.58.1 (03/08/2018)
+
+- \#XXX [BUGFIX] Les questions en QrocMdep s'affichent en "validées" quelque soit la réponse donnée (PF-329).
+
+
 ## v1.58.0 (02/08/2018) 
 
 - [#137](https://github.com/1024pix/pix/pull/137) [FEATURE] Sauvegarde des éléments de connaissance sur le profil à chaque sauvegarde de réponses (PF-243).
