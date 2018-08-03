@@ -1,4 +1,4 @@
-const solutionServiceQROCMInd = require('../services/solution-service-qrocm-dep');
+const solutionServiceQROCMDep = require('../services/solution-service-qrocm-dep');
 const Validation = require('./Validation');
 const Validator = require('./Validator');
 
@@ -20,7 +20,12 @@ class ValidatorQROCMDep extends Validator {
   }
 
   assess(answer) {
-    const result = solutionServiceQROCMInd.match(answer.value, this.solution.value, this.solution.deactivations);
+    const result = solutionServiceQROCMDep.match(
+      answer.value,
+      this.solution.value,
+      this.solution.scoring,
+      this.solution.deactivations,
+    );
 
     return new Validation({
       result,
