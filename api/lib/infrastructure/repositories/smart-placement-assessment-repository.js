@@ -6,8 +6,7 @@ const SmartPlacementKnowledgeElement = require('../../domain/models/SmartPlaceme
 // To delete once target-profile table is created
 const targetProfileRepository = require('./target-profile-repository');
 const { NotFoundError } = require('../../domain/errors');
-const PICInitialDiagnosticTargetProfileId = 1; /// XXX For now itis the only used target profile
-
+const PICInitialDiagnosticTargetProfileId = 1; /// XXX For now it is the only used target profile
 
 module.exports = {
 

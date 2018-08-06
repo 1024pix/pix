@@ -1,4 +1,4 @@
-const { expect, databaseBuilder, factory, sinon } = require('../../../test-helper');
+const { expect, databaseBuilder, sinon } = require('../../../test-helper');
 const TargetProfile = require('../../../../lib/domain/models/TargetProfile');
 const Skill = require('../../../../lib/domain/models/Skill');
 const SkillDataObject = require('../../../../lib/infrastructure/datasources/airtable/objects/Skill');
