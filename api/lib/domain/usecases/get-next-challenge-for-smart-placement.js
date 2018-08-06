@@ -2,6 +2,8 @@ const { AssessmentEndedError } = require('../errors');
 const SmartRandom = require('../strategies/SmartRandom');
 const _ = require('lodash');
 
+const PICInitialDiagnosticTargetProfileId = 1; /// XXX For now it is the only used target profile
+
 function getNextChallengeInSmartRandom(answersPix, challengesPix, targetProfile) {
   const smartRandom = new SmartRandom({
     answers: answersPix,
@@ -23,7 +25,7 @@ module.exports = function getNextChallengeForSmartPlacement({
 
   return answerRepository.findByAssessment(assessment.id)
     .then((fetchedAnswers) => (answers = fetchedAnswers))
-    .then(() => targetProfileRepository.getStaticProfile('unusedId')) // XXX for now the profile repo is a stub, the id is of no use
+    .then(() => targetProfileRepository.get(PICInitialDiagnosticTargetProfileId))
     .then((fetchedTargetProfile) => (targetProfile = fetchedTargetProfile))
     .then(() => challengeRepository.findBySkills(targetProfile.skills))
     .then((fetchedChallenges) => (challenges = fetchedChallenges))

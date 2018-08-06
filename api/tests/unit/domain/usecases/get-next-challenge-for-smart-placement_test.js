@@ -11,7 +11,7 @@ describe('Unit | Domain | Use Cases | get-next-challenge-for-smart-placement', 
 
     const answerRepository = { findByAssessment: () => undefined };
     const challengeRepository = { findBySkills: () => undefined };
-    const targetProfileRepository = { getStaticProfile: () => undefined };
+    const targetProfileRepository = { get: () => undefined };
 
     const skill = new Skill({ name: '@unite2' });
     const challenge = Challenge.fromAttributes({ status: 'validé', id: 'challenge_ID', skills: [skill] });
@@ -20,7 +20,7 @@ describe('Unit | Domain | Use Cases | get-next-challenge-for-smart-placement', 
     beforeEach(() => {
       answerRepository.findByAssessment = sinon.stub().resolves([]);
       challengeRepository.findBySkills = sinon.stub().resolves([challenge]);
-      targetProfileRepository.getStaticProfile = sinon.stub()
+      targetProfileRepository.get = sinon.stub()
         .resolves(factory.buildTargetProfile({ skills: factory.buildSkillCollection() }));
     });
 

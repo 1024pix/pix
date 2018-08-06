@@ -21,7 +21,7 @@ describe('Integration | Repository | SmartPlacementAssessmentRepository', () => 
   beforeEach(() => {
     sandbox = sinon.sandbox.create();
     sandbox.stub(challengeDatasource, 'get');
-    sandbox.stub(targetProfileRepository, 'getStaticProfile');
+    sandbox.stub(targetProfileRepository, 'get');
   });
 
   afterEach(() => {
@@ -39,7 +39,7 @@ describe('Integration | Repository | SmartPlacementAssessmentRepository', () => 
 
       beforeEach(() => {
 
-        targetProfileRepository.getStaticProfile.resolves(targetProfile);
+        targetProfileRepository.get.resolves(targetProfile);
 
         givenPlacementAssessment = databaseBuilder.factory.buildAssessment({
           type: Assessment.types.PLACEMENT,
@@ -122,7 +122,7 @@ describe('Integration | Repository | SmartPlacementAssessmentRepository', () => 
       beforeEach(() => {
         challengeDatasource.get.onFirstCall().resolves(firstChallengeDO);
         challengeDatasource.get.onSecondCall().resolves(secondChallengeDO);
-        targetProfileRepository.getStaticProfile.resolves(targetProfile);
+        targetProfileRepository.get.resolves(targetProfile);
 
         givenSmartPlacementAssessment = databaseBuilder.factory.buildAssessment({
           type: Assessment.types.SMARTPLACEMENT,
