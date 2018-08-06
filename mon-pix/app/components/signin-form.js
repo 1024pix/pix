@@ -12,7 +12,7 @@ export default Component.extend({
   email: '',
   password: '',
 
-  displayMessageForCampaign: computed(function(){
+  displayMessageForCampaign: computed(function() {
     const intentUrl = this.get('session.attemptedTransition.intent.url') || '';
     return intentUrl.includes('campagnes');
   }),
