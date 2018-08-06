@@ -1,13 +1,21 @@
 import Component from '@ember/component';
+import { computed } from '@ember/object';
+import { inject as service } from '@ember/service';
 
 export default Component.extend({
 
   classNames: [ 'signin-form-container' ],
 
+  session: service(),
   displayErrorMessage: false,
   signin: null,
   email: '',
   password: '',
+
+  displayMessageForCampaign: computed(function(){
+    const intentUrl = this.get('session.attemptedTransition.intent.url') || '';
+    return intentUrl.includes('campagnes');
+  }),
 
   actions: {
     submit() {

@@ -1,4 +1,6 @@
 import { later } from '@ember/runloop';
+import { inject as service } from '@ember/service';
+import { computed } from '@ember/object';
 import Component from '@ember/component';
 import isEmailValid from 'mon-pix/utils/email-validator';
 import isPasswordValid from '../utils/password-validator';
@@ -30,6 +32,7 @@ function isValuePresent(value) {
 export default Component.extend({
   classNames: ['signup-form'],
 
+  session: service(),
   _notificationMessage: null,
   validation: null,
   _tokenHasBeenUsed: null,
@@ -38,6 +41,11 @@ export default Component.extend({
     this._super(...arguments);
     this._resetValidationFields();
   },
+
+  displayMessageForCampaign: computed(function(){
+    const intentUrl = this.get('session.attemptedTransition.intent.url') || '';
+    return intentUrl.includes('campagnes');
+  }),
 
   _updateValidationStatus(key, status, message) {
     const statusObject = 'validation.' + key + '.status';
