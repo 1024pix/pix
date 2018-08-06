@@ -12,6 +12,11 @@ describe('Acceptance | API | SkillReviews', () => {
       type: 'SMART_PLACEMENT',
       state: 'completed',
     };
+    const insertedTargetProfile = {
+      id: 1,
+      name: 'PIC Diagnostic',
+      isPublic: true
+    };
 
     let assessmentId;
 
@@ -24,13 +29,24 @@ describe('Acceptance | API | SkillReviews', () => {
         .times(3)
         .reply(200, {});
 
-      return knex('assessments').insert(insertedAssessment)
-        .then(([createdAssessmentId]) => assessmentId = createdAssessmentId);
+      nock('https://api.airtable.com')
+        .get('/v0/test-base/Acquis')
+        .query(true)
+        .reply(200, {});
+
+      return knex('assessments').insert(insertedAssessment).returning('id')
+        .then(([createdAssessmentId]) => assessmentId = createdAssessmentId)
+        .then(() => {
+          return knex('target-profiles').insert(insertedTargetProfile);
+        });
     });
 
     afterEach(() => {
       nock.cleanAll();
-      return knex('assessments').delete();
+      return knex('assessments').delete()
+        .then(() => {
+          return knex('target-profiles').delete();
+        });
     });
 
     context('without authorization token', () => {

@@ -6,6 +6,8 @@ const SmartPlacementKnowledgeElement = require('../../domain/models/SmartPlaceme
 // To delete once target-profile table is created
 const targetProfileRepository = require('./target-profile-repository');
 const { NotFoundError } = require('../../domain/errors');
+const PICInitialDiagnosticTargetProfileId = 1; /// XXX For now itis the only used target profile
+
 
 module.exports = {
 
@@ -35,9 +37,12 @@ function checkIsSmartPlacement(bookshelfAssessment) {
 
 function toDomain(bookshelfAssessment) {
 
-  // To delete once target-profile table is created. A repository should not call another repository.
+  // A repository should not call another repository.
   // use Bookshelf as datasource
-  return targetProfileRepository.getStaticProfile('unusedForNowId')
+  // Target-profiles table has been added
+  // waiting for link beetween assessment and target-profile
+  // in order to find associated target-profile before toDomain() and do only mapping in toDomain()
+  return targetProfileRepository.get(PICInitialDiagnosticTargetProfileId)
     .then((targetProfile) => {
 
       const answers = bookshelfAssessment

@@ -1,17 +1,17 @@
-const { expect, databaseBuilder, sinon } = require('../../../test-helper');
+const { expect, databaseBuilder, factory, sinon } = require('../../../test-helper');
 const TargetProfile = require('../../../../lib/domain/models/TargetProfile');
 const Skill = require('../../../../lib/domain/models/Skill');
 const SkillDataObject = require('../../../../lib/infrastructure/datasources/airtable/objects/Skill');
 const targetProfileRepository = require('../../../../lib/infrastructure/repositories/target-profile-repository');
 const skillDatasource = require('../../../../lib/infrastructure/datasources/airtable/skill-datasource');
 
-describe('Integration | Repository | Target-profile', function() {
+describe('Integration | Repository | Target-profile', () => {
 
-  let targetProfile;
-  let targetProfileFirstSkill;
-  let skillAssociatedToTargetProfile;
+  describe('#get', () => {
 
-  describe('#get', function() {
+    let targetProfile;
+    let targetProfileFirstSkill;
+    let skillAssociatedToTargetProfile;
 
     beforeEach(async () => {
 
@@ -29,7 +29,7 @@ describe('Integration | Repository | Target-profile', function() {
       await databaseBuilder.clean();
     });
 
-    it('should return the target profile with its associated skills', function() {
+    it('should return the target profile with its associated skills', () => {
       // when
       const promise = targetProfileRepository.get(targetProfile.id);
 
