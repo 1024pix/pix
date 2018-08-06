@@ -60,7 +60,7 @@ describe('Unit | Controller | assessment-controller-save', () => {
           id: 42,
           courseId: null,
           type: 'SMART_PLACEMENT',
-          state: 'started',
+          state: undefined,
           userId: null,
         });
 
@@ -246,7 +246,6 @@ describe('Unit | Controller | assessment-controller-save', () => {
         course: undefined,
         targetProfile: undefined,
         campaignParticipation: undefined,
-        campaign: undefined,
       };
       const serializedAssessment = {
         id: 42,

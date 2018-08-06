@@ -257,7 +257,7 @@ describe('Unit | Repository | assessmentRepository', () => {
 
     context('when assessment is valid', () => {
       beforeEach(() => {
-        assessment = Assessment.fromAttributes({ id: '1', type: Assessment.types.CERTIFICATION, userId: 2, campaign: null, campaignParticipation: null });
+        assessment = Assessment.fromAttributes({ id: '1', type: Assessment.types.CERTIFICATION, userId: 2, campaignParticipation: null });
         const assessmentBookshelf = new BookshelfAssessment(assessment);
         sinon.stub(BookshelfAssessment.prototype, 'save').resolves(assessmentBookshelf);
       });
@@ -429,7 +429,7 @@ describe('Unit | Repository | assessmentRepository', () => {
         return promise.then((assessments) => {
           expect(assessments).to.have.lengthOf(1);
           expect(assessments[0].courseId).to.equal('courseId2');
-          expect(assessments[0].campaign.code).to.equal('CAMPDB');
+          expect(assessments[0].campaignParticipation.campaign.code).to.equal('CAMPDB');
         });
       });
 

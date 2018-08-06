@@ -1,14 +1,15 @@
 const { CampaignCodeError } = require('../errors');
 const CampaignParticipation = require('../models/CampaignParticipation');
+const Assessment = require('../models/Assessment');
 
-function _checkCampaignCodeRelatedToExistingCampaign(codeCampaign, campaignRepository) {
+function _getCampaignFromCode(codeCampaign, campaignRepository) {
   return campaignRepository.getByCode(codeCampaign)
     .then((campaign) => {
       if(campaign) {
-        return campaign;
-      } else {
-        return Promise.reject(new CampaignCodeError());
+        return Promise.resolve(campaign);
       }
+
+      return Promise.reject(new CampaignCodeError());
     });
 }
 
@@ -23,8 +24,9 @@ module.exports = function createAssessmentForCampaign(
 
   let assessmentCreated;
   let campaign;
+  assessment.state = Assessment.states.STARTED;
 
-  return _checkCampaignCodeRelatedToExistingCampaign(codeCampaign, campaignRepository)
+  return _getCampaignFromCode(codeCampaign, campaignRepository)
     .then((campaignFound) => {
       campaign = campaignFound;
       assessment.courseId = 'Smart Placement Tests CourseId Not Used';
@@ -34,7 +36,7 @@ module.exports = function createAssessmentForCampaign(
       assessmentCreated = assessmentCreatedInDb;
       const campaignParticipation = new CampaignParticipation({
         assessmentId: assessmentCreated.id,
-        campaignId: campaign.id,
+        campaign: campaign,
       });
       return campaignParticipationRepository.save(campaignParticipation);
     })

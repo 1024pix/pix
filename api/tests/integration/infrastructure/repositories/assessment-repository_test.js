@@ -328,7 +328,6 @@ describe('Integration | Infrastructure | Repositories | assessment-repository', 
           state: 'completed',
           createdAt: '2017-11-08 12:47:38',
           type: null,
-          campaign: null,
           campaignParticipation: null,
           assessmentResults: [
             {

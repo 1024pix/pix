@@ -8,7 +8,7 @@ function _toDomain(bookshelfCampaignParticipation) {
 module.exports = {
 
   save(campaignParticipation) {
-    return new BookshelfCampaignParticipation(campaignParticipation)
+    return new BookshelfCampaignParticipation(campaignParticipation.adaptModelToDb())
       .save()
       .then(_toDomain);
   }

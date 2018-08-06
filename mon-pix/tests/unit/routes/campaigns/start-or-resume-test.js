@@ -42,7 +42,7 @@ describe('Unit | Route | campaigns/start-or-resume', function() {
 
       // then
       return promise.then(() => {
-        sinon.assert.calledWith(queryStub, 'assessment', { filter: { type: 'SMART_PLACEMENT' } });
+        sinon.assert.calledWith(queryStub, 'assessment', { filter: { type: 'SMART_PLACEMENT', codeCampaign: 'CODECAMPAIGN' } });
       });
     });
 
@@ -58,26 +58,6 @@ describe('Unit | Route | campaigns/start-or-resume', function() {
       // then
       return promise.then((model) => {
         expect(model.get('id')).to.equal(1234);
-      });
-    });
-
-    it('should resolve with freshly created one if assessment found but not for this campaign', function() {
-      // given
-      const assessments = A([EmberObject.create({ id: 1234, codeCampaign: 'BADCODE' })]);
-      queryStub.resolves(assessments);
-      const route = this.subject();
-
-      createRecordStub.returns({
-        save() {
-        }
-      });
-
-      // when
-      const promise = route.model(params);
-
-      // then
-      return promise.then(() => {
-        sinon.assert.calledWith(createRecordStub, 'assessment', { type: 'SMART_PLACEMENT', codeCampaign: params.campaign_code });
       });
     });
 
