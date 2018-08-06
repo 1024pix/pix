@@ -2,6 +2,10 @@ const { expect, knex, generateValidRequestAuhorizationHeader, nock } = require('
 const server = require('../../../server');
 
 describe('Acceptance | API | SkillReviews', () => {
+  
+  before(() => {
+    return knex('target-profiles').delete();
+  });
 
   describe('GET /api/skill-reviews/:id', () => {
 
