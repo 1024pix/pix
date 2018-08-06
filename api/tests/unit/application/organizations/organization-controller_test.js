@@ -1,6 +1,5 @@
 const { expect, sinon, factory } = require('../../../test-helper');
 const JSONAPIError = require('jsonapi-serializer').Error;
-const JSONAPI = require('../../../../lib/interfaces/jsonapi');
 
 const User = require('../../../../lib/domain/models/User');
 const BookshelfOrganization = require('../../../../lib/infrastructure/data/organization');
@@ -643,7 +642,6 @@ describe('Unit | Application | Organizations | organization-controller', () => {
       sandbox.stub(campaignSerializer, 'serialize');
       codeStub = sandbox.stub();
       replyStub = sandbox.stub().returns({ code: codeStub });
-      sandbox.stub(JSONAPI, 'internalError');
     });
 
     afterEach(() => {
@@ -686,11 +684,10 @@ describe('Unit | Application | Organizations | organization-controller', () => {
       const errorMessage = 'Unexpected error';
       usecases.getOrganizationCampaigns.rejects(new Error(errorMessage));
       const expectedError = new JSONAPIError({
-        status: '500',
+        code: '500',
         title: 'Internal Server Error',
         detail: errorMessage
       });
-      JSONAPI.internalError.returns(expectedError);
       request = {
         params: {
           id: 1
@@ -702,7 +699,6 @@ describe('Unit | Application | Organizations | organization-controller', () => {
 
       // then
       return promise.then(() => {
-        expect(JSONAPI.internalError).to.have.been.calledWith(errorMessage);
         expect(replyStub).to.have.been.calledWith(expectedError);
         expect(codeStub).to.have.been.calledWith(500);
       });
