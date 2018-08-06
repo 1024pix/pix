@@ -34,7 +34,6 @@ module.exports = {
       assessment.userId = userId;
     }
 
-    assessment.state = 'started';
     return Promise.resolve()
       .then(() => {
         if (assessment.isSmartPlacementAssessment()) {
@@ -47,6 +46,7 @@ module.exports = {
             campaignParticipationRepository,
           });
         } else {
+          assessment.state = 'started';
           return assessmentRepository.save(assessment);
         }
       })

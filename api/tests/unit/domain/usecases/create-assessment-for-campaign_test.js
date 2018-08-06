@@ -59,7 +59,7 @@ describe('Unit | UseCase | create-assessment-for-campaign', () => {
 
       campaignParticipation = new CampaignParticipation({
         assessmentId: assessment.id,
-        campaignId: campaign.id,
+        campaign: campaign,
       });
 
       campaignRepository.getByCode.resolves(campaign);

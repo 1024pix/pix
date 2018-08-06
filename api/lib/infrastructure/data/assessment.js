@@ -20,7 +20,7 @@ module.exports = Bookshelf.model('Assessment', {
   knowledgeElements() {
     return this.hasMany('KnowledgeElement', 'assessmentId');
   },
-  campaignParticipations() {
+  campaignParticipation() {
     return this.hasOne('CampaignParticipation', 'assessmentId');
   },
 

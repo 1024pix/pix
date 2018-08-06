@@ -7,13 +7,10 @@ export default BaseRoute.extend(AuthenticatedRouteMixin, {
   model(params) {
     const codeCampaign = params.campaign_code;
     const store = this.get('store');
-    return store.query('assessment', { filter: { type: 'SMART_PLACEMENT' } })
+    return store.query('assessment', { filter: { type: 'SMART_PLACEMENT', codeCampaign } })
       .then((smartPlacementAssessments) => {
         if (!isEmpty(smartPlacementAssessments)) {
-          const findCampaignAssessment = smartPlacementAssessments.find((assessment) => assessment.codeCampaign === codeCampaign);
-          if(findCampaignAssessment) {
-            return findCampaignAssessment;
-          }
+          return smartPlacementAssessments.get('firstObject');
         }
         return store.createRecord('assessment', { type: 'SMART_PLACEMENT', codeCampaign }).save();
       });

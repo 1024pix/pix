@@ -1,6 +1,7 @@
 const { expect, knex } = require('../../../test-helper');
 const campaignParticipationRepository = require('../../../../lib/infrastructure/repositories/campaign-participation-repository');
 const CampaignParticipation = require('../../../../lib/domain/models/CampaignParticipation');
+const Campaign = require('../../../../lib/domain/models/Campaign');
 
 describe('Integration | Repository | Campaign Participation', () => {
 
@@ -12,9 +13,10 @@ describe('Integration | Repository | Campaign Participation', () => {
 
     it('should save the given campaign participation', () => {
       // given
+      const campaignId =23;
       const campaignParticipationToSave = new CampaignParticipation({
         assessmentId: 12,
-        campaignId: 24,
+        campaign: new Campaign({ id : campaignId }),
       });
 
       // when
@@ -25,7 +27,6 @@ describe('Integration | Repository | Campaign Participation', () => {
         expect(savedCampaignParticipations).to.be.instanceof(CampaignParticipation);
         expect(savedCampaignParticipations.id).to.exist;
         expect(savedCampaignParticipations.assessmentId).to.equal(campaignParticipationToSave.assessmentId);
-        expect(savedCampaignParticipations.campaignId).to.equal(campaignParticipationToSave.campaignId);
       });
     });
 

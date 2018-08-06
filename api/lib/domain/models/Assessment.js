@@ -43,7 +43,6 @@ class Assessment {
     // includes
     answers = [],
     assessmentResults = [],
-    campaign,
     campaignParticipation,
     course,
     targetProfile,
@@ -59,7 +58,6 @@ class Assessment {
     // includes
     this.answers = answers;
     this.assessmentResults = assessmentResults;
-    this.campaign = campaign;
     this.campaignParticipation = campaignParticipation;
     this.course = course;
     this.targetProfile = targetProfile;
