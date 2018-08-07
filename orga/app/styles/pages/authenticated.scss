@@ -40,11 +40,11 @@
   flex-direction: column;
   height: 100%;
   background-color: $wild-sand;
-  overflow: hidden;
+  overflow: scroll;
 
   &__topbar {
-    height: 60px;
     background-color: white;
+    min-height: 60px;
   }
 
   &__body {
