@@ -92,4 +92,22 @@ module('Acceptance | authentication', function(hooks) {
     assert.equal(find('.current-organization-panel__name').innerText.trim(), "BRO & Evil Associates");
   });
 
+  test('it should redirect user to the campaigns list on root url', async function(assert) {
+    // given
+    const user = createUserWithOrganizationAccess();
+
+    await authenticateSession({
+      user_id: user.id,
+      access_token: 'access token',
+      expires_in: 3600,
+      token_type: 'Bearer token type',
+    });
+
+    // when
+    await visit('/');
+
+    // then
+    assert.equal(currentURL(), '/campagnes/liste');
+  });
+
 });
