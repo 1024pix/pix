@@ -15,6 +15,9 @@ function _checkCreatorHasAccessToCampaignOrganization(userId, organizationId, us
 
 module.exports = function createCampaign({ campaign, campaignRepository, userRepository }) {
 
+  // XXX: delete when we save targetProfileId
+  campaign.targetProfileId = 1;
+
   return campaignValidator.validate(campaign)
     .then(() => _checkCreatorHasAccessToCampaignOrganization(campaign.creatorId, campaign.organizationId, userRepository))
     .then(() => campaignCodeGenerator.generate(campaignRepository))
