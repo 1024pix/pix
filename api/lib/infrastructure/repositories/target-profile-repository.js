@@ -8,6 +8,8 @@ function _toDomain(targetProfileBookshelf) {
   return new TargetProfile({
     id: targetProfileBookshelf.get('id'),
     name: targetProfileBookshelf.get('name'),
+    isPublic: Boolean(targetProfileBookshelf.get('isPublic')),
+    organizationId: targetProfileBookshelf.get('organizationId')
   });
 }
 
