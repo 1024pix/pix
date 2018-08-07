@@ -5,6 +5,7 @@ import ENV from 'pix-orga/config/environment';
 export default DS.Model.extend({
   name: DS.attr('string'),
   code: DS.attr('string'),
+  createdAt: DS.attr('date'),
   organizationId: DS.attr('number'),
   organization: DS.belongsTo('organization'),
 

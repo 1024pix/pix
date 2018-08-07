@@ -10,4 +10,8 @@ export default Factory.extend({
     return faker.address.zipCode();
   },
 
+  createdAt() {
+    return faker.date.recent();
+  },
+
 });

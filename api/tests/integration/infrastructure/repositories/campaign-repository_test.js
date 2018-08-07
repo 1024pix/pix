@@ -10,6 +10,7 @@ describe('Integration | Repository | Campaign', () => {
       const campaignToInsert = {
         name: 'Nom de Campagne',
         code: 'BADOIT710',
+        createdAt: '2018-02-06 14:12:44',
         creatorId: 1,
         organizationId: 1
       };
@@ -137,8 +138,16 @@ describe('Integration | Repository | Campaign', () => {
       // then
       return promise.then((campaigns) => {
         expect(campaigns).to.have.lengthOf(2);
-        expect(campaigns[0]).to.deep.equal(campaign1Organization1);
-        expect(campaigns[1]).to.deep.equal(campaign2Organization1);
+
+        expect(campaigns[0]).to.be.instanceof(Campaign);
+        expect(campaigns[0].id).to.equal(campaign1Organization1.id);
+        expect(campaigns[0].name).to.equal(campaign1Organization1.name);
+        expect(campaigns[0].code).to.equal(campaign1Organization1.code);
+        expect(campaigns[0].createdAt).to.exist;
+        expect(campaigns[0].creatorId).to.equal(campaign1Organization1.creatorId);
+        expect(campaigns[0].organizationId).to.equal(campaign1Organization1.organizationId);
+
+        expect(campaigns[1].id).to.equal(campaign2Organization1.id);
       });
     });
   });
