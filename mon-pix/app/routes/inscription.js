@@ -22,13 +22,13 @@ export default BaseRoute.extend(UnauthenticatedRouteMixin, {
       this.refresh();
     },
 
-    redirectToProfileRoute({ email, password }) {
+    authenticateUser({ email, password }) {
       return this.get('session')
         .authenticate('authenticator:simple', email, password)
         .then(() => {
           return this.get('store').queryRecord('user', {});
         });
     },
-    
+
   }
 });
