@@ -17,7 +17,7 @@ function _createSignedUpUser(server) {
 }
 
 function _createCampaigns(server) {
-  server.createList('campaign', 4);
+  server.createList('campaign', 18);
 }
 
 export default function(server) {
