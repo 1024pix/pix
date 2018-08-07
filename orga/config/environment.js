@@ -19,6 +19,7 @@ module.exports = function(environment) {
 
     APP: {
       API_HOST: inferApiURLFromScalingoAppName(process.env.APP),
+      CAMPAIGNS_ROOT_URL: process.env.CAMPAIGNS_ROOT_URL || 'https://mon-pix.pix.fr/campagnes/',
     },
 
     googleFonts: [
@@ -33,7 +34,8 @@ module.exports = function(environment) {
   };
 
   if (environment === 'development') {
-    ENV.APP.API_HOST= 'http://localhost:3000'
+    ENV.APP.API_HOST= 'http://localhost:3000';
+    ENV.APP.CAMPAIGNS_ROOT_URL= 'http://localhost:4200/campagnes/';
     // ENV.APP.LOG_RESOLVER = true;
     // ENV.APP.LOG_ACTIVE_GENERATION = true;
     // ENV.APP.LOG_TRANSITIONS = true;
@@ -43,6 +45,7 @@ module.exports = function(environment) {
 
   if (environment === 'test') {
     ENV.APP.API_HOST= 'http://localhost:3000';
+    ENV.APP.CAMPAIGNS_ROOT_URL= 'http://localhost:4200/campagnes/';
 
     // Testem prefers this...
     ENV.locationType = 'none';
@@ -56,6 +59,7 @@ module.exports = function(environment) {
   }
 
   if (environment === 'production') {
+    ENV.APP.CAMPAIGNS_ROOT_URL= 'https://mon-pix.pix.fr/campagnes/';
     // here you can enable a production-specific feature
     //ENV.APP.API_HOST = 'https://pix.fr/api';
   }
