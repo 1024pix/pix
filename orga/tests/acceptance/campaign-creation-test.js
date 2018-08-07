@@ -5,6 +5,21 @@ import { authenticateSession } from 'ember-simple-auth/test-support';
 
 import setupMirage from 'ember-cli-mirage/test-support/setup-mirage';
 
+function _createUserWithOneOrganization() {
+  const user = server.create('user');
+
+  const organization = server.create('organization', {
+    name: 'Le nom de l\'organization'
+  });
+  const organizationAccess = server.create('organization-access', {
+    organizationId: organization.id,
+    userId: user.id
+  });
+
+  user.organizationAccesses = [organizationAccess];
+  return user;
+}
+
 module('Acceptance | Campaign Creation', function(hooks) {
 
   setupApplicationTest(hooks);
@@ -20,7 +35,8 @@ module('Acceptance | Campaign Creation', function(hooks) {
 
   test('it should be accessible for an authenticated user', async function(assert) {
     // given
-    let user = server.create('user');
+    const user = _createUserWithOneOrganization();
+
     await authenticateSession({
       user_id: user.id,
     });
@@ -35,7 +51,8 @@ module('Acceptance | Campaign Creation', function(hooks) {
 
   test('it should allow creating a campaign', async function(assert) {
     // given
-    let user = server.create('user');
+    const user = _createUserWithOneOrganization();
+
     await authenticateSession({
       user_id: user.id,
     });
@@ -62,7 +79,8 @@ module('Acceptance | Campaign Creation', function(hooks) {
           }
         ]
       }, 500);
-    let user = server.create('user');
+
+    const user = _createUserWithOneOrganization();
     await authenticateSession({
       user_id: user.id,
     });
