@@ -4,8 +4,9 @@ class TargetProfile {
     name,
     isPublic,
     // includes
-    skills = []
+    skills = [],
     // references
+    organizationId
   } = {}) {
     // attributes
     this.name = name;
@@ -13,6 +14,7 @@ class TargetProfile {
     // includes
     this.skills = skills;
     // references
+    this.organizationId = organizationId;
   }
 }
 

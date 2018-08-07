@@ -1,8 +1,8 @@
-const { expect, knex, generateValidRequestAuhorizationHeader, nock } = require('../../test-helper');
+const { expect, knex, generateValidRequestAuhorizationHeader, nock, databaseBuilder } = require('../../test-helper');
 const server = require('../../../server');
 
 describe('Acceptance | API | SkillReviews', () => {
-  
+
   before(() => {
     return knex('target-profiles').delete();
   });
@@ -38,19 +38,15 @@ describe('Acceptance | API | SkillReviews', () => {
         .query(true)
         .reply(200, {});
 
-      return knex('assessments').insert(insertedAssessment).returning('id')
-        .then(([createdAssessmentId]) => assessmentId = createdAssessmentId)
-        .then(() => {
-          return knex('target-profiles').insert(insertedTargetProfile);
-        });
+      const assessment = databaseBuilder.factory.buildAssessment(insertedAssessment);
+      assessmentId = assessment.id;
+      databaseBuilder.factory.buildTargetProfile(insertedTargetProfile);
+      return databaseBuilder.commit();
     });
 
     afterEach(() => {
       nock.cleanAll();
-      return knex('assessments').delete()
-        .then(() => {
-          return knex('target-profiles').delete();
-        });
+      return databaseBuilder.clean();
     });
 
     context('without authorization token', () => {

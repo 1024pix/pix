@@ -2,7 +2,7 @@ const { AssessmentEndedError } = require('../errors');
 const SmartRandom = require('../strategies/SmartRandom');
 const _ = require('lodash');
 
-const PICInitialDiagnosticTargetProfileId = 1; /// XXX For now it is the only used target profile
+const PIC_INITIAL_DIAGNOSTIC_TARGET_PROFILE_ID = 1; /// XXX For now it is the only used target profile
 
 function getNextChallengeInSmartRandom(answersPix, challengesPix, targetProfile) {
   const smartRandom = new SmartRandom({
@@ -25,7 +25,7 @@ module.exports = function getNextChallengeForSmartPlacement({
 
   return answerRepository.findByAssessment(assessment.id)
     .then((fetchedAnswers) => (answers = fetchedAnswers))
-    .then(() => targetProfileRepository.get(PICInitialDiagnosticTargetProfileId))
+    .then(() => targetProfileRepository.get(PIC_INITIAL_DIAGNOSTIC_TARGET_PROFILE_ID))
     .then((fetchedTargetProfile) => (targetProfile = fetchedTargetProfile))
     .then(() => challengeRepository.findBySkills(targetProfile.skills))
     .then((fetchedChallenges) => (challenges = fetchedChallenges))
