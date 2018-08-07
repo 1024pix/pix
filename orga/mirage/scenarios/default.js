@@ -16,6 +16,11 @@ function _createSignedUpUser(server) {
   user.organizationAccesses = [userOrganizationAccess];
 }
 
+function _createCampaigns(server) {
+  server.createList('campaign', 4);
+}
+
 export default function(server) {
   _createSignedUpUser(server);
+  _createCampaigns(server);
 }
