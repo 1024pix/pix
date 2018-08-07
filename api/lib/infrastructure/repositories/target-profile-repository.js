@@ -23,16 +23,20 @@ function _toDomainSkills(skillsDataObjects) {
 module.exports = {
 
   get(id) {
+    let targetProfile;
+
     return BookshelfTargetProfile
       .where({ id })
       .fetch({ withRelated: ['skillIds'] })
-      .then(async (foundTargetProfile) => {
+      .then((foundTargetProfile) => {
+        targetProfile = _toDomain(foundTargetProfile);
         const skillRecordIds = foundTargetProfile.related('skillIds').map((BookshelfSkillId) => BookshelfSkillId.get('skillId'));
-        const skillAssociatedToTargetProfileWIthName = await skillDatasource.findByRecordIds(skillRecordIds);
-        const targetProfile = _toDomain(foundTargetProfile);
+        return skillDatasource.findByRecordIds(skillRecordIds);
+      })
+      .then((skillAssociatedToTargetProfileWIthName) => {
         targetProfile.skills = _toDomainSkills(skillAssociatedToTargetProfileWIthName);
         return targetProfile;
       });
-  }
+  },
 
 };

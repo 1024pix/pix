@@ -6,7 +6,7 @@ const SmartPlacementKnowledgeElement = require('../../domain/models/SmartPlaceme
 // To delete once target-profile table is created
 const targetProfileRepository = require('./target-profile-repository');
 const { NotFoundError } = require('../../domain/errors');
-const PICInitialDiagnosticTargetProfileId = 1; /// XXX For now it is the only used target profile
+const PIC_INITIAL_DIAGNOSTIC_TARGET_PROFILE_ID = 1; /// XXX For now it is the only used target profile
 
 module.exports = {
 
@@ -41,7 +41,7 @@ function toDomain(bookshelfAssessment) {
   // Target-profiles table has been added
   // waiting for link beetween assessment and target-profile
   // in order to find associated target-profile before toDomain() and do only mapping in toDomain()
-  return targetProfileRepository.get(PICInitialDiagnosticTargetProfileId)
+  return targetProfileRepository.get(PIC_INITIAL_DIAGNOSTIC_TARGET_PROFILE_ID)
     .then((targetProfile) => {
 
       const answers = bookshelfAssessment
