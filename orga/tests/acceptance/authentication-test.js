@@ -25,8 +25,18 @@ module('Acceptance | authentication', function(hooks) {
     assert.notOk(currentSession(this.application).get('isAuthenticated'), 'The user is still unauthenticated');
   });
 
-  test('it should redirect user to home page showing user name once user logs in', async function(assert) {
+  test('it should show user name once user is logged in', async function(assert) {
     // given
+    const organization = server.create('organization', {
+      name: 'Le nom de l\'organization'
+    });
+    const organizationAccess = server.create('organization-access', {
+      organizationId: organization.id,
+      userId: user.id
+    });
+    user.organizationAccesses = [organizationAccess];
+    server.create('campaign');
+
     await visit('/connexion');
     await fillIn('#login-email', 'titi@toto.com');
     await fillIn('#login-password', 'secret');
@@ -35,10 +45,33 @@ module('Acceptance | authentication', function(hooks) {
     await click('button[type=submit]');
 
     // then
-    assert.equal(currentURL(), '/');
     assert.ok(currentSession(this.application).get('isAuthenticated'), 'The user is authenticated');
 
     assert.equal(find('.topbar__user-identification').innerText.trim(), "Titi Toto");
+  });
+
+  test('it should redirect user to the campaigns list once logged in', async function(assert) {
+    // given
+    const organization = server.create('organization', {
+      name: 'Le nom de l\'organization'
+    });
+    const organizationAccess = server.create('organization-access', {
+      organizationId: organization.id,
+      userId: user.id
+    });
+    user.organizationAccesses = [organizationAccess];
+    server.create('campaign');
+
+    await visit('/connexion');
+    await fillIn('#login-email', 'titi@toto.com');
+    await fillIn('#login-password', 'secret');
+
+    // when
+    await click('button[type=submit]');
+
+    // then
+    assert.equal(currentURL(), '/campagnes/liste');
+    assert.ok(currentSession(this.application).get('isAuthenticated'), 'The user is authenticated');
   });
 
   test('it should let user access requested page if user is already authenticated', async function(assert) {
