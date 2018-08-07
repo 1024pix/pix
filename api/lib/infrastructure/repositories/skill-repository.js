@@ -5,6 +5,7 @@ const airtable = require('../airtable');
 
 function _toDomain(airtableSkill) {
   return new Skill({
+    id: airtableSkill.getId(),
     name: airtableSkill.get('Nom')
   });
 }
