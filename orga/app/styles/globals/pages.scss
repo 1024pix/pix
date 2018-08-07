@@ -1,0 +1,11 @@
+.page {
+  display: flex;
+  flex-direction: column;
+  padding-top: 24px;
+  padding-left: 35px;
+  padding-right: 35px;
+
+  &__title {
+    margin-bottom: 18px;
+  }
+}
