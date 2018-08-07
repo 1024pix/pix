@@ -9,7 +9,8 @@ class Campaign {
     // includes
     // references
     creatorId,
-    organizationId
+    organizationId,
+    targetProfileId,
   } = {}) {
     this.id = id;
     // attributes
@@ -20,6 +21,7 @@ class Campaign {
     // references
     this.creatorId = creatorId;
     this.organizationId = organizationId;
+    this.targetProfileId = targetProfileId;
   }
 }
 
