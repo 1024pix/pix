@@ -8,8 +8,6 @@ export default Route.extend({
 
   model() {
     return this.currentOrganization.organization
-      .then((organization) => {
-        return organization.get('campaigns');
-      })
+      .then((organization) => organization.get('campaigns'));
   }
 });
