@@ -1,11 +1,11 @@
 module.exports = function addPixAileUserAndRelations({ databaseBuilder }) {
 
-  const pixAile = databaseBuilder.factory.buildUser({
+  const pixAile = databaseBuilder.factory.buildUser.withUnencryptedPassword({
     id: 1,
     firstName: 'Pix',
     lastName: 'Aile',
     email: 'userpix1@example.net',
-    password: 'pix123',
+    rawPassword: 'pix123',
     cgu: true,
   });
 

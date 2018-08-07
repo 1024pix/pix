@@ -60,7 +60,6 @@ exports.seed = (knex) => {
   const databaseBuilder = new DatabaseBuilder({ knex });
   pixAileBuilder({ databaseBuilder });
 
-  // FIXME seeds have broken foreign keys which means it don't work on PostgreSQL
   return databaseBuilder.commit()
     .then(() => insertSeedsByGroup(knex, '1st-to-create'))
     .then(() => insertSeedsByGroup(knex, '2nd-to-create'))
