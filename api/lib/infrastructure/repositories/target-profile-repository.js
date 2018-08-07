@@ -1,40 +1,53 @@
 const TargetProfile = require('../../domain/models/TargetProfile');
+const BookshelfTargetProfile = require('../../infrastructure/data/target-profile');
+
+const skillDatasource = require('../../infrastructure/datasources/airtable/skill-datasource');
 const Skill = require('../../domain/models/Skill');
+
+function _toDomain(targetProfileBookshelf) {
+  return new TargetProfile({
+    id: targetProfileBookshelf.get('id'),
+    name: targetProfileBookshelf.get('name'),
+    isPublic: Boolean(targetProfileBookshelf.get('isPublic')),
+    organizationId: targetProfileBookshelf.get('organizationId')
+  });
+}
+
+function _toDomainSkills(skillsDataObjects) {
+  return skillsDataObjects.map((skillDataObject) => {
+    return new Skill({
+      id: skillDataObject.id,
+      name: skillDataObject.name
+    });
+  });
+}
 
 module.exports = {
 
-  get(_targetProfileId) {
-    return Promise.resolve(
-      new TargetProfile({
-        skills: [
-          new Skill({ name: '@connectique2' }),
-          new Skill({ name: '@connectique3' }),
-          new Skill({ name: '@appliOS1' }),
-          new Skill({ name: '@recherche1' }),
-          new Skill({ name: '@recherche2' }),
-          new Skill({ name: '@environnementTravail1' }),
-          new Skill({ name: '@environnementTravail2' }),
-          new Skill({ name: '@outilsTexte1' }),
-          new Skill({ name: '@outilsTexte2' }),
-          new Skill({ name: '@copierColler1' }),
-          new Skill({ name: '@copierColler2' }),
-          new Skill({ name: '@miseEnFormeTttTxt1' }),
-          new Skill({ name: '@miseEnFormeTttTxt2' }),
-          new Skill({ name: '@form_intero2' }),
-          new Skill({ name: '@champsCourriel1' }),
-          new Skill({ name: '@Moteur1' }),
-          new Skill({ name: '@rechinfo1' }),
-          new Skill({ name: '@rechinfo3' }),
-          new Skill({ name: '@outilsRS1' }),
-          new Skill({ name: '@outilsRS2' }),
-          new Skill({ name: '@outilsMessagerie2' }),
-          new Skill({ name: '@outilsMessagerie3' }),
-          new Skill({ name: '@accesDonnées1' }),
-          new Skill({ name: '@accesDonnées2' }),
-          new Skill({ name: '@choixmotdepasse1' }),
-        ],
-      }),
-    );
-  },
-};
+  get(id) {
+    let targetProfile;
 
+    return BookshelfTargetProfile
+      .where({ id })
+      .fetch({ withRelated: ['skillIds'] })
+      .then((foundTargetProfile) => {
+        targetProfile = _toDomain(foundTargetProfile);
+        const skillRecordIds = foundTargetProfile.related('skillIds').map((BookshelfSkillId) => BookshelfSkillId.get('skillId'));
+        return skillDatasource.findByRecordIds(skillRecordIds);
+      })
+      .then((skillAssociatedToTargetProfileWIthName) => {
+        targetProfile.skills = _toDomainSkills(skillAssociatedToTargetProfileWIthName);
+        return targetProfile;
+      });
+  },
+
+  findByFilters(filters = {}) {
+    return BookshelfTargetProfile
+      .where(filters)
+      .fetchAll()
+      .then((availableTargetProfilesBookshelf) => {
+        return availableTargetProfilesBookshelf.map(_toDomain);
+      });
+  },
+
+};

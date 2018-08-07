@@ -2,11 +2,13 @@ const _ = require('lodash');
 class Skill {
   constructor({
     // attributes
+    id,
     name
     // includes
     // references
   } = {}) {
     // attributes
+    this.id = id;
     this.name = name;
     // includes
     // references
