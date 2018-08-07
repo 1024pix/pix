@@ -1,5 +1,6 @@
 const TABLE_NAME_TARGET_PROFILES = 'target-profiles';
 const TABLE_NAME_TARGET_PROFILES_SKILLS = 'target-profiles_skills';
+const TABLE_NAME_CAMPAIGNS = 'campaigns';
 
 let targetProfile = {
   name: 'PIC - Diagnostic Initial',
@@ -42,6 +43,7 @@ exports.up = function(knex, Promise) {
       t.string('name').notNullable();
       t.boolean('isPublic').notNullable().defaultTo(false);
       t.integer('organizationId').unsigned().references('organizations.id').index();
+      t.dateTime('createdAt').notNullable().defaultTo(knex.fn.now());
     })
     .then(() => {
       console.log(`${TABLE_NAME_TARGET_PROFILES} table is created!`);
@@ -72,18 +74,26 @@ exports.up = function(knex, Promise) {
     .then((associatedSkillsWithTargetProfileId) => {
       return knex(TABLE_NAME_TARGET_PROFILES_SKILLS)
         .insert(associatedSkillsWithTargetProfileId);
+    })
+    .then(() => {
+      return knex.schema.table(TABLE_NAME_CAMPAIGNS, function(table) {
+        table.integer('targetProfileId').references('target-profiles.id').index();
+      });
     });
 };
 
 exports.down = function(knex, Promise) {
-  return knex.schema
-    .dropTable(TABLE_NAME_TARGET_PROFILES_SKILLS)
+  return knex.schema.table(TABLE_NAME_CAMPAIGNS, function(table) {
+    table.dropColumn('targetProfileId');
+  })
+    .then(() => {
+      return knex.schema.dropTable(TABLE_NAME_TARGET_PROFILES_SKILLS);
+    })
     .then(() => {
       console.log(`${TABLE_NAME_TARGET_PROFILES_SKILLS} table was dropped!`);
     })
     .then(() => {
-      return knex.schema
-        .dropTable(TABLE_NAME_TARGET_PROFILES);
+      return knex.schema.dropTable(TABLE_NAME_TARGET_PROFILES);
     })
     .then(() => {
       console.log(`${TABLE_NAME_TARGET_PROFILES} table was dropped!`);
