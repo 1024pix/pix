@@ -1,36 +1,41 @@
 .campaign-item {
+  display: flex;
+  flex-direction: column;
+  background-color: white;
+  line-height: 30px;
+  padding: 8px;
+  align-items: center;
 
-  &__name {
-    // flex settings
-    flex-grow: 1;
-
-    // position
-    padding: 0 30px;
-    max-width: 60%;
-
-    // style
-    font-size: 1.125rem;
-    overflow: hidden;
-    white-space: nowrap;
-    text-overflow: ellipsis;
+  @include device-is('desktop') {
+    flex-direction: row;
   }
+}
 
-  &__code {
-    // flex settings
-    flex-grow: 1;
+.campaign-name {
+  // flex settings
+  flex-grow: 1;
 
-    // position
-    max-width: 30%;
+  // position
+  padding: 0 30px;
 
-    // style
-    color: $dodger-blue;
-    font-size: 1rem;
-    font-weight: 300;
-  }
+  // style
+  font-size: 1.125rem;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
 
-  &__tiny-text {
-    // style
-    color: $dusty-gray;
-    font-size: 0.75rem;
-  }
+.campaign-2-lines-column {
+}
+
+.campaign-column-label {
+  color: $dusty-gray;
+  font-size: 0.75rem;
+  font-weight: 300;
+}
+
+.campaign-link {
+  color: $dodger-blue;
+  font-size: 1rem;
+  font-weight: 300;
 }

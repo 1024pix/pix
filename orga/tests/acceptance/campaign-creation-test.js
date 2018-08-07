@@ -46,7 +46,7 @@ module('Acceptance | Campaign Creation', function(hooks) {
 
     // then
     assert.equal(currentURL(), '/campagnes/creation');
-    assert.dom('.new-campaign-page__title').hasText('Création d\'une campagne');
+    assert.dom('.page__title').hasText('Création d\'une campagne');
   });
 
   test('it should allow creating a campaign', async function(assert) {
