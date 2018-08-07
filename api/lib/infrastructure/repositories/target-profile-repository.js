@@ -39,4 +39,13 @@ module.exports = {
       });
   },
 
+  findByFilters(filters = {}) {
+    return BookshelfTargetProfile
+      .where(filters)
+      .fetchAll()
+      .then((availableTargetProfilesBookshelf) => {
+        return availableTargetProfilesBookshelf.map(_toDomain);
+      });
+  },
+
 };
