@@ -381,4 +381,96 @@ describe('Acceptance | API | assessment-controller-get', () => {
       });
     });
   });
+
+  describe('GET /api/assessments/', () => {
+    let assessmentId;
+
+    beforeEach(() => {
+      return knex('assessments').insert([inserted_assessment],'id')
+        .then(([id]) => {
+          assessmentId = id;
+          return knex('campaigns').insert({ code: 'TESTCODE', name: 'CAMPAIGN TEST' }, 'id');
+        }).then(([id]) => {
+          return knex('campaign-participations').insert({ assessmentId, campaignId: id });
+        });
+    });
+
+    afterEach(() => {
+      return knex('campaign-participations').delete()
+        .then(() => knex('assessments').delete())
+        .then(() => knex('campaigns').delete());
+    });
+
+    it('should return 200 HTTP status code', () => {
+      // given
+      const options = {
+        method: 'GET',
+        url: '/api/assessments/',
+        headers: { authorization: generateValidRequestAuhorizationHeader(userId) },
+      };
+
+      // when
+      const promise = server.inject(options);
+
+      // then
+      return promise.then((response) => {
+        expect(response.statusCode).to.equal(200);
+      });
+
+    });
+
+    it('should return application/json', () => {
+      // given
+      const options = {
+        method: 'GET',
+        url: '/api/assessments/',
+        headers: { authorization: generateValidRequestAuhorizationHeader(userId) },
+      };
+
+      // when
+      const promise = server.inject(options);
+
+      // then
+      return promise.then((response) => {
+        const contentType = response.headers['content-type'];
+        expect(contentType).to.contain('application/json');
+      });
+    });
+
+    it('should return an array of assessments, with related campaign', () => {
+      // given
+      const options = {
+        method: 'GET',
+        url: '/api/assessments/',
+        headers: { authorization: generateValidRequestAuhorizationHeader(userId) },
+      };
+      const expectedFirstAssessment = {
+        'type': 'assessment',
+        'id': assessmentId,
+        'attributes': {
+          'estimated-level': undefined,
+          'pix-score': undefined,
+          'success-rate': undefined,
+          'type': null,
+          'certification-number': null,
+          'code-campaign': 'TESTCODE',
+        },
+        'relationships': {
+          'course': { 'data': { 'type': 'courses', 'id': 'anyFromAirTable' } },
+          'answers': {
+            'data': []
+          },
+        }
+      };
+      // when
+      const promise = server.inject(options);
+
+      // then
+      return promise.then((response) => {
+        expect(response.result.data).to.be.an('array');
+        const assessment = response.result.data[0];
+        expect(assessment).to.deep.equal(expectedFirstAssessment);
+      });
+    });
+  });
 });
