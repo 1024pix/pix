@@ -27,7 +27,7 @@ describe('Unit | Route | inscription', function() {
     route.set('store', storeStub);
 
     // When
-    const promise = route.actions.redirectToProfileRoute.call(route, {
+    const promise = route.actions.authenticateUser.call(route, {
       email: expectedEmail,
       password: expectedPassword
     });

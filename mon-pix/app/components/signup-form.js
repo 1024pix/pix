@@ -135,7 +135,7 @@ export default Component.extend({
       this.set('_notificationMessage', null);
       this.get('user').save().then(() => {
         const credentials = { email: this.get('user.email'), password: this.get('user.password') };
-        this.sendAction('redirectToProfileRoute', credentials);
+        this.sendAction('authenticateUser', credentials);
         this.set('_tokenHasBeenUsed', true);
       }).catch(() => {
         this._updateInputsStatus();

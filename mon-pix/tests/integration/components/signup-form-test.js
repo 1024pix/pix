@@ -148,9 +148,9 @@ describe('Integration | Component | signup form', function() {
 
       it('should redirect automatically to user compte', function() {
         // given
-        const redirectToProfileRouteStub = sinon.stub();
+        const authenticateUserStub = sinon.stub();
 
-        this.set('redirectToProfileRoute', redirectToProfileRouteStub);
+        this.set('authenticateUser', authenticateUserStub);
 
         const user = EmberObject.create({
           email: 'toto@pix.fr',
@@ -164,15 +164,15 @@ describe('Integration | Component | signup form', function() {
           }
         });
         this.set('user', user);
-        this.render(hbs`{{signup-form user=user signup="signup" redirectToProfileRoute=(action redirectToProfileRoute)}}`);
+        this.render(hbs`{{signup-form user=user signup="signup" authenticateUser=(action authenticateUser)}}`);
 
         // when
         $(SUBMIT_BUTTON).click();
 
         // then
         return wait().then(() => {
-          sinon.assert.calledOnce(redirectToProfileRouteStub);
-          sinon.assert.calledWith(redirectToProfileRouteStub, { email: 'toto@pix.fr', password: 'gipix2017' });
+          sinon.assert.calledOnce(authenticateUserStub);
+          sinon.assert.calledWith(authenticateUserStub, { email: 'toto@pix.fr', password: 'gipix2017' });
         });
       });
     });
