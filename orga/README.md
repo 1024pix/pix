@@ -48,5 +48,5 @@ Make use of the many generators for code, try `ember help generate` for more det
 ### Style 
 
 * CSS Methodology : BEM (Block, Element, Modifier)
-* CSS units : fonts (size, lettering ans letter-spaces) in rem and postions (padding, border and margin) in px
+* CSS units : fonts (size, lettering ans letter-spaces) in rem and positions (padding, border and margin) in px
 

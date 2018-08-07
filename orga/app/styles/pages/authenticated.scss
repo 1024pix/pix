@@ -48,9 +48,11 @@
   }
 
   &__body {
+    display: flex;
+    flex-direction: column;
     padding-top: 24px;
-    padding-left: 32px;
-    padding-right: 32px;
+    padding-left: 35px;
+    padding-right: 80px;
   }
 }
 
@@ -58,10 +60,7 @@
   display: flex;
   justify-content: flex-end;
   align-items: center;
-
-  &__disconnect {
-    padding-right: 32px;
-  }
+  padding-right: 80px;
 
   &__user-identification {
     padding-right: 16px;

@@ -2,5 +2,7 @@ import DS from 'ember-data';
 
 export default DS.Model.extend({
   name: DS.attr('string'),
+  code: DS.attr('string'),
   organizationId: DS.attr('number'),
+  organization: DS.belongsTo('organization'),
 });

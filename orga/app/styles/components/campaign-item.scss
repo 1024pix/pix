@@ -1,0 +1,36 @@
+.campaign-item {
+
+  &__name {
+    // flex settings
+    flex-grow: 1;
+
+    // position
+    padding: 0 30px;
+    max-width: 60%;
+
+    // style
+    font-size: 1.125rem;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+  }
+
+  &__code {
+    // flex settings
+    flex-grow: 1;
+
+    // position
+    max-width: 30%;
+
+    // style
+    color: $dodger-blue;
+    font-size: 1rem;
+    font-weight: 300;
+  }
+
+  &__tiny-text {
+    // style
+    color: $dusty-gray;
+    font-size: 0.75rem;
+  }
+}
