@@ -86,6 +86,7 @@
     "lint:fix": "npx eslint lib tests --fix",
     "scalingo-background-job": "node scripts/reload-cache-everyday.js",
     "scalingo-postbuild": "echo 'nothing to do'",
+    "scalingo-post-ra-creation": "echo 'nothing to do'",
     "scalingo-start": "npm run db:migrate && ./scripts/seed_if_review_app.sh && npm start",
     "start": "node bin/www",
     "start:watch": "npx nodemon bin/www",

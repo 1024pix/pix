@@ -16,6 +16,7 @@
     "lint": "eslint ./*.js app blueprints config lib server tests",
     "scalingo-background-job": "echo 'nothing to do'",
     "scalingo-postbuild": "npx ember build --environment $BUILD_ENVIRONMENT",
+    "scalingo-post-ra-creation": "echo 'nothing to do'",
     "scalingo-start": "/app/scripts/start_scalingo_nginx.sh",
     "start": "ember serve --environment production --liveReload false ",
     "test": "ember test"
