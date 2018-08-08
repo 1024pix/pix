@@ -30,6 +30,7 @@ export default function() {
       return new Response(401, {}, 'Authentication failed');
     }
   });
+
   this.post('/revoke', () => {});
 
   this.get('/users/:id');
@@ -41,4 +42,5 @@ export default function() {
   this.get('/organizations/:id/campaigns', (schema) => {
     return schema.campaigns.all();
   });
+  this.get('/target-profiles');
 }

@@ -1,7 +1,15 @@
 .campaign-creation-form {
+  display: flex;
+  flex-direction: column;
 
-  &__campaign-name {
-    max-width: 400px;
+  @include device-is('desktop') {
+    max-width: 500px;
+  }
+
+  &__field {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 10px;
   }
 
   &__validation-button {
