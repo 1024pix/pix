@@ -2,6 +2,8 @@
 const DatabaseBuilder = require('../../tests/database-builder/database-builder');
 const pixAileBuilder = require('./data/user-with-related/pix-aile-builder');
 
+const SEQUENCE_RESTART_AT_NUMBER = 10000000;
+
 const listSeeds = {
   '1st-to-create': [
     'sessions',
@@ -64,5 +66,30 @@ exports.seed = (knex) => {
     .then(() => insertSeedsByGroup(knex, '1st-to-create'))
     .then(() => insertSeedsByGroup(knex, '2nd-to-create'))
     .then(() => insertSeedsByGroup(knex, '3rd-to-create'))
-    .then(() => insertSeedsByGroup(knex, '4th-to-create'));
+    .then(() => insertSeedsByGroup(knex, '4th-to-create'))
+    .then(() => alterSequenceIfPG(knex));
 };
+
+/**
+ * Inserting elements in PGSQL when specifying their ID does not update the sequence for that id.
+ * THis results in id conflict errors when trying to insert a new elements in the base.
+ * Making the sequences start at an arbitrary high number prevents the problem from happening for a time.
+ * (time being enough for dev ou review apps - seed are not run on staging or prod)
+ */
+function alterSequenceIfPG(knex) {
+
+  const isPG = process.env.DATABASE_URL || false;
+
+  if (isPG) {
+    return knex.raw('SELECT sequence_name FROM information_schema.sequences;')
+      .then((sequenceNameQueryResult) => {
+        const sequenceNames = sequenceNameQueryResult.rows.map((row) => row.sequence_name);
+
+        const sequenceUpdatePromises = sequenceNames.map((sequenceName) => {
+          return knex.raw(`ALTER SEQUENCE "${sequenceName}" RESTART WITH ${SEQUENCE_RESTART_AT_NUMBER};`);
+        });
+
+        return Promise.all(sequenceUpdatePromises);
+      });
+  }
+}
