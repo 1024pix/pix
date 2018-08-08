@@ -1,9 +1,10 @@
 const Organization = require('../../lib/domain/models/Organization');
 const User = require('../../lib/domain/models/User');
+const faker = require('faker');
 
 module.exports = function buildOrganization(
   {
-    id = 1,
+    id = faker.random.number(),
     code = 'EBG123',
     name = 'Lycée Luke Skywalker',
     type = 'SCO',

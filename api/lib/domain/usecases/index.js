@@ -4,6 +4,7 @@ module.exports = {
   createAssessmentResultForCompletedCertification: require('./create-assessment-result-for-completed-certification'),
   createAssessmentForCampaign: require('./create-assessment-for-campaign'),
   createUser: require('./create-user'),
+  findAvailableTargetProfiles: require('./find-available-target-profiles'),
   findCompletedUserCertifications: require('./find-completed-user-certifications'),
   findUserAssessmentsByFilters: require('./find-user-assessments-by-filters'),
   getCorrectionForAnswerWhenAssessmentEnded: require('./get-correction-for-answer-when-assessment-ended'),
