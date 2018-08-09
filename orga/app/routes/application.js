@@ -13,7 +13,7 @@ export default Route.extend(ApplicationRouteMixin, {
   },
 
   sessionAuthenticated() {
-    this._loadInitialData()
+    return this._loadInitialData()
       .then(() => {
         // Because ember-simple-auth does not support calling this._super() asynchronously,
         // we have to do this hack to call the original "sessionAuthenticated"
