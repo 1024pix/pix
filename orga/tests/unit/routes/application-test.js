@@ -1,6 +1,6 @@
 import { module, test } from 'qunit';
 import { setupTest } from 'ember-qunit';
-import { reject } from 'rsvp';
+import { resolve } from 'rsvp';
 import Service from '@ember/service';
 
 function createLoadServiceStub() {
@@ -8,7 +8,7 @@ function createLoadServiceStub() {
     called: false,
     load: function() {
       this.called = true;
-      return reject();
+      return resolve();
     }
   });
 }
@@ -28,10 +28,12 @@ module('Unit | Route | application', function(hooks) {
     route.set('currentUser', currentUserStub);
 
     // when
-    route.sessionAuthenticated();
+    const promise = route.sessionAuthenticated();
 
     // then
-    assert.ok(true, currentUserStub.called);
+    return promise.catch(() => {
+      assert.ok(currentUserStub.called);
+    });
   });
 
   test('it should load the current organization', function(assert) {
@@ -44,10 +46,12 @@ module('Unit | Route | application', function(hooks) {
     route.set('currentOrganization', currentOrganizationStub);
 
     // when
-    route.sessionAuthenticated();
+    const promise = route.sessionAuthenticated();
 
     // then
-    assert.ok(true, currentOrganizationStub.called);
+    return promise.catch(() => {
+      assert.ok(currentOrganizationStub.called);
+    });
   });
 
 });
