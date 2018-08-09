@@ -72,6 +72,7 @@ function toDomain(bookshelfAssessment) {
 
       return new SmartPlacementAssessment({
         id: bookshelfAssessment.get('id'),
+        createdAt: bookshelfAssessment.get('createdAt'),
         state: bookshelfAssessment.get('state'),
         userId: bookshelfAssessment.get('userId'),
         answers,
