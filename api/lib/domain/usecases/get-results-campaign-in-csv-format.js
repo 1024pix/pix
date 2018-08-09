@@ -64,18 +64,28 @@ function _createHeaderOfCSV(skills, competences, domains) {
   return headers;
 }
 
-function _createOneLineOfCSV(headers, organization, campaign) {
+function _createOneLineOfCSV(headers, organization, campaign, campaignParticipation, userRepository, smartPlacementAssessmentRepository) {
   const line = headers.map((headers) => '');
   line[headers.indexOf('"Nom de l\'organisation"')] = organization.name;
   line[headers.indexOf('"ID Campagne"')] = campaign.id;
   line[headers.indexOf('"Nom de la campagne"')] = campaign.name;
-
-  return Promise.resolve(line.join(';') + '\n');
+  return smartPlacementAssessmentRepository.get(campaignParticipation.assessmentId)
+    .then((assessment) => {
+      return Promise.all([assessment, userRepository.get(assessment.userId)])
+    })
+    .then(([assessment, user]) => {
+      line[headers.indexOf('"Nom du Participant"')] = user.firstName;
+      line[headers.indexOf('"Prénom du Participant"')] = user.lastName;
+      line[headers.indexOf('"Date entrée (rejoint)"')] = assessment.createdAt;
+    })
+    .then(() => {
+      return line.join(';') + '\n';
+    });
 }
 
 module.exports = function createCampaign({ userId, campaignId,
   campaignRepository, userRepository, targetProfileRepository, competenceRepository,
-  campaignParticipationRepository, organizationRepository }) {
+  campaignParticipationRepository, organizationRepository, smartPlacementAssessmentRepository }) {
 
   // XXX: add the UTF-8 BOM at the start of the text; see https://stackoverflow.com/a/38192870
   let textCsv = '\uFEFF';
@@ -111,8 +121,9 @@ module.exports = function createCampaign({ userId, campaignId,
       headers = _createHeaderOfCSV(listSkillsName, listCompetences, listDomains);
       textCsv += headers.join(';') + '\n';
 
+      // USE SMARTPLACEMENTASSESSMENT
       const getCSVLineForEachParticipation = listCampaignParticipation.map((campaignParticipation) => {
-        return _createOneLineOfCSV(headers,organization,campaign, userRepository);
+        return _createOneLineOfCSV(headers,organization,campaign, campaignParticipation, userRepository, smartPlacementAssessmentRepository);
       });
       return Promise.all(getCSVLineForEachParticipation);
     })
