@@ -3,7 +3,7 @@ const Hapi = require('hapi');
 const securityController = require('../../../../lib/interfaces/controllers/security-controller');
 const organisationController = require('../../../../lib/application/organizations/organization-controller');
 
-describe('Unit | Application | Organizations | Routes', () => {
+describe('Integration | Application | Organizations | Routes', () => {
 
   let server;
 

@@ -11,6 +11,12 @@ module('Acceptance | authentication', function(hooks) {
   setupApplicationTest(hooks);
   setupMirage(hooks);
 
+  let user;
+
+  hooks.beforeEach(() => {
+    user = createUserWithOrganizationAccess();
+  });
+
   test('it should redirect user to login page if not logged in', async function(assert) {
     // when
     await visit('/');
@@ -22,7 +28,6 @@ module('Acceptance | authentication', function(hooks) {
 
   test('it should show user name once user is logged in', async function(assert) {
     // given
-    const user = createUserWithOrganizationAccess();
     server.create('campaign');
 
     await visit('/connexion');
@@ -40,7 +45,6 @@ module('Acceptance | authentication', function(hooks) {
 
   test('it should redirect user to the campaigns list once logged in', async function(assert) {
     // given
-    const user = createUserWithOrganizationAccess();
     server.create('campaign');
 
     await visit('/connexion');
@@ -57,8 +61,6 @@ module('Acceptance | authentication', function(hooks) {
 
   test('it should let user access requested page if user is already authenticated', async function(assert) {
     // given
-    const user = createUserWithOrganizationAccess();
-
     await authenticateSession({
       user_id: user.id,
       access_token: 'access token',
@@ -76,8 +78,6 @@ module('Acceptance | authentication', function(hooks) {
 
   test('it should display the organization linked to the connected user', async function(assert) {
     // given
-    const user = createUserWithOrganizationAccess();
-
     await authenticateSession({
       user_id: user.id,
       access_token: 'access token',
@@ -94,8 +94,6 @@ module('Acceptance | authentication', function(hooks) {
 
   test('it should redirect user to the campaigns list on root url', async function(assert) {
     // given
-    const user = createUserWithOrganizationAccess();
-
     await authenticateSession({
       user_id: user.id,
       access_token: 'access token',
