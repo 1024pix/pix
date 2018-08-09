@@ -100,4 +100,15 @@ describe('Acceptance | API | Campaigns', () => {
     });
 
   });
+
+  describe('GET /api/campaigns/:id/csvResults', () => {
+
+    it('should return an csv file', () => {
+
+    });
+
+    it('should return a list of results', () => {
+
+    });
+  });
 });
