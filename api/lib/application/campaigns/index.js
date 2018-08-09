@@ -17,6 +17,20 @@ exports.register = function(server, options, next) {
         tags: ['api', 'campaign']
       }
     },
+    {
+      method: 'GET',
+      path: '/api/campaigns/{id}/csvResults',
+      config: {
+        auth: false,
+        handler: campaignController.getCsvResults,
+        notes: [
+          '- **Cette route est restreinte aux utilisateurs authentifiés**\n' +
+          '- Récupération d\'un CSV avec les résultats de la campagne\n' +
+          '- L‘utilisateur doit avoir les droits d‘accès à l‘organisation liée à la campagne à créer',
+        ],
+        tags: ['api', 'campaign']
+      }
+    },
 
   ]);
 
