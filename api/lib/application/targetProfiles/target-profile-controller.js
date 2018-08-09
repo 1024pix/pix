@@ -10,7 +10,7 @@ module.exports = {
 
     return usecases.findAvailableTargetProfiles({ organizationId: requestedOrganizationId, targetProfileRepository })
       .then((foundTargetProfiles) => {
-        const serializedTargetProfiles = targetProfileSerializer.serialize(foundTargetProfiles)
+        const serializedTargetProfiles = targetProfileSerializer.serialize(foundTargetProfiles);
         controllerReplies(reply).ok(serializedTargetProfiles);
       })
       .catch((error) => {
