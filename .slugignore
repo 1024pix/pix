@@ -1,6 +1,8 @@
 CHANGELOG.md
 README.md
 LICENSE.md
+api/plop
+api/plopfile.js
 api/README.md
 api/tests/acceptance
 api/tests/integration
