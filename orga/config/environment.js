@@ -19,7 +19,7 @@ module.exports = function(environment) {
 
     APP: {
       API_HOST: inferApiURLFromScalingoAppName(process.env.APP),
-      CAMPAIGNS_ROOT_URL: process.env.CAMPAIGNS_ROOT_URL || 'https://mon-pix.pix.fr/campagnes/',
+      CAMPAIGNS_ROOT_URL: process.env.CAMPAIGNS_ROOT_URL || 'https://pix.fr/campagnes/',
     },
 
     googleFonts: [
@@ -59,7 +59,7 @@ module.exports = function(environment) {
   }
 
   if (environment === 'production') {
-    ENV.APP.CAMPAIGNS_ROOT_URL= 'https://mon-pix.pix.fr/campagnes/';
+    ENV.APP.CAMPAIGNS_ROOT_URL= 'https://pix.fr/campagnes/';
     // here you can enable a production-specific feature
     //ENV.APP.API_HOST = 'https://pix.fr/api';
   }
