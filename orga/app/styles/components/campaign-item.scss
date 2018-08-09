@@ -1,7 +1,6 @@
 .campaign-item {
   display: flex;
   flex-direction: column;
-  background-color: white;
   line-height: 30px;
   padding: 8px;
   align-items: center;
@@ -23,9 +22,6 @@
   overflow: hidden;
   white-space: nowrap;
   text-overflow: ellipsis;
-}
-
-.campaign-2-lines-column {
 }
 
 .campaign-column-label {
