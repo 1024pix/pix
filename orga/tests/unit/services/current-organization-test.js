@@ -1,7 +1,7 @@
 import { module, test } from 'qunit';
 import { setupTest } from 'ember-qunit';
 
-import { A } from '@ember/array';
+import { A as EmberArray } from '@ember/array';
 import Object from '@ember/object';
 import { resolve } from 'rsvp';
 
@@ -13,7 +13,7 @@ module('Unit | Service | current-organization', function(hooks) {
     // given
     const userOrganization = Object.create({ name: 'Orga Nisme'});
     const organizationAccess = Object.create({ organization: userOrganization });
-    const organizationAccesses = A([organizationAccess]);
+    const organizationAccesses = EmberArray([organizationAccess]);
 
     const connectedUser = Object.create({ id: 1 });
     connectedUser.get = () => resolve(organizationAccesses);

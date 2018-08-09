@@ -19,6 +19,7 @@ const { EntityValidationError, NotFoundError } = require('../../../../lib/domain
 const logger = require('../../../../lib/infrastructure/logger');
 const organizationCreationValidator = require('../../../../lib/domain/validators/organization-creation-validator');
 const usecases = require('../../../../lib/domain/usecases');
+const campaignRepository = require('../../../../lib/infrastructure/repositories/campaign-repository');
 const campaignSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/campaign-serializer');
 
 describe('Unit | Application | Organizations | organization-controller', () => {
@@ -635,8 +636,17 @@ describe('Unit | Application | Organizations | organization-controller', () => {
   describe('#getCampaigns', () => {
 
     let sandbox;
+    let organizationId;
+    let request;
+    let campaign;
+    let serializedCampaigns;
 
     beforeEach(() => {
+      organizationId = 1;
+      request = { params: { id: organizationId } };
+      campaign = factory.buildCampaign();
+      serializedCampaigns = { data: [{ name: campaign.name, code: campaign.code }] };
+
       sandbox = sinon.sandbox.create();
       sandbox.stub(usecases, 'getOrganizationCampaigns');
       sandbox.stub(campaignSerializer, 'serialize');
@@ -648,32 +658,30 @@ describe('Unit | Application | Organizations | organization-controller', () => {
       sandbox.restore();
     });
 
-    it('should return the campaigns belonging to the organization', () => {
+    it('should call the usecase to get the campaigns', () => {
       // given
-      const campaigns = factory.buildCampaign();
-      const serializedCampaigns = {
-        data:
-          [
-            {
-              name: 'My awesome campaign',
-              code: 'AZERTY117'
-            }
-          ]
-      };
-      usecases.getOrganizationCampaigns.resolves(campaigns);
+      usecases.getOrganizationCampaigns.resolves([campaign]);
       campaignSerializer.serialize.returns(serializedCampaigns);
-      request = {
-        params: {
-          id: 1
-        }
-      };
 
       // when
       const promise = organizationController.getCampaigns(request, replyStub);
 
       // then
       return promise.then(() => {
-        expect(usecases.getOrganizationCampaigns).to.have.been.calledOnce;
+        expect(usecases.getOrganizationCampaigns).to.have.been.calledWith({ organizationId, campaignRepository });
+      });
+    });
+
+    it('should return the serialized campaigns belonging to the organization', () => {
+      // given
+      usecases.getOrganizationCampaigns.resolves([campaign]);
+      campaignSerializer.serialize.returns(serializedCampaigns);
+
+      // when
+      const promise = organizationController.getCampaigns(request, replyStub);
+
+      // then
+      return promise.then(() => {
         expect(replyStub).to.have.been.calledWith(serializedCampaigns);
         expect(codeStub).to.have.been.calledWith(200);
       });
@@ -682,17 +690,13 @@ describe('Unit | Application | Organizations | organization-controller', () => {
     it('should return a 500 error when an error occurs', () => {
       // given
       const errorMessage = 'Unexpected error';
-      usecases.getOrganizationCampaigns.rejects(new Error(errorMessage));
       const expectedError = new JSONAPIError({
         code: '500',
         title: 'Internal Server Error',
         detail: errorMessage
       });
-      request = {
-        params: {
-          id: 1
-        }
-      };
+
+      usecases.getOrganizationCampaigns.rejects(new Error(errorMessage));
 
       // when
       const promise = organizationController.getCampaigns(request, replyStub);
