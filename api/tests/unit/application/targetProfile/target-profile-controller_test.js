@@ -15,7 +15,7 @@ describe('Unit | Application | Controller | Target-Profile', () => {
     let request;
     let codeStub;
     let replyStub;
-    let connectedUserId = 1;
+    const connectedUserId = 1;
 
     beforeEach(() => {
       sandbox = sinon.sandbox.create();
@@ -56,7 +56,7 @@ describe('Unit | Application | Controller | Target-Profile', () => {
         // given
         foundTargetProfiles = [factory.buildTargetProfile()];
         usecases.findAvailableTargetProfiles.resolves(foundTargetProfiles);
-        sandbox.stub(targetProfileSerializer, 'serialize')
+        sandbox.stub(targetProfileSerializer, 'serialize');
       });
 
       it('should serialize the array of target profile', () => {

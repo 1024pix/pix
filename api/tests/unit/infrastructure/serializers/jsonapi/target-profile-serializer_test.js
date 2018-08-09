@@ -27,7 +27,7 @@ describe('Unit | Serializer | JSONAPI | target-profile-serializer', function() {
       const serializedTargetProfile = serializer.serialize(targetProfile);
 
       // then
-      return expect(serializedTargetProfile).to.deep.equal(expectedTargetProfile)
+      return expect(serializedTargetProfile).to.deep.equal(expectedTargetProfile);
     });
 
   });
