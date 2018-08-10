@@ -7,6 +7,6 @@
     }
   },
   "scripts": {
-    "postdeploy": "npm run scalingo-post-ra-creation"
+    "first-deploy": "npm run scalingo-post-ra-creation"
   }
 }
