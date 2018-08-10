@@ -19,7 +19,6 @@ class Organization {
     this.email = email;
     // includes
     this.user = user;
-    this.campaigns = [];
     // references
   }
 }
