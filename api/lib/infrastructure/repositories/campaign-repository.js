@@ -40,7 +40,7 @@ module.exports = {
       .then(_toDomain);
   },
 
-  findByOrganization(organizationId) {
+  findByOrganizationId(organizationId) {
     return BookshelfCampaign
       .where({ organizationId })
       .fetchAll()

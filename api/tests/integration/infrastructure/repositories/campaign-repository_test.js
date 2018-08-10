@@ -1,4 +1,4 @@
-const { expect, knex, factory } = require('../../../test-helper');
+const { expect, knex } = require('../../../test-helper');
 const campaignRepository = require('../../../../lib/infrastructure/repositories/campaign-repository');
 const Campaign = require('../../../../lib/domain/models/Campaign');
 
@@ -114,11 +114,12 @@ describe('Integration | Repository | Campaign', () => {
 
   });
 
-  describe('#findByOrganization', () => {
+  describe('#findByOrganizationId', () => {
 
-    const campaign1Organization1 = factory.buildCampaign({ id: 1, organizationId: 1 });
-    const campaign2Organization1 = factory.buildCampaign({ id: 2, organizationId: 1 });
-    const campaign1Organization2 = factory.buildCampaign({ id: 3, organizationId: 2 });
+    const organizationId = 1;
+    const campaign1Organization1 = { id: 1, name: 'campaign1', code: 'AZERTY123', organizationId: organizationId, creatorId: 1 };
+    const campaign2Organization1 = { id: 2, name: 'campaign2', code: 'AZERTY456', organizationId: organizationId, creatorId: 2 };
+    const campaign1Organization2 = { id: 3, name: 'campaign3', code: 'AZERTY789', organizationId: 2, creatorId: 3 };
 
     beforeEach(() => {
       return knex('campaigns').insert([campaign1Organization1, campaign2Organization1, campaign1Organization2]);
@@ -129,11 +130,8 @@ describe('Integration | Repository | Campaign', () => {
     });
 
     it('should return the campaigns of the given organization id', () => {
-      // given
-      const organizationId = 1;
-
       // when
-      const promise = campaignRepository.findByOrganization(organizationId);
+      const promise = campaignRepository.findByOrganizationId(organizationId);
 
       // then
       return promise.then((campaigns) => {
