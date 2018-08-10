@@ -24,13 +24,15 @@
   "cacheDirectories": [
     "node_modules/",
     "api/node_modules/",
-    "mon-pix/node_modules/"
+    "mon-pix/node_modules/",
+    "orga/node_modules/"
   ],
   "repository": {
     "type": "git",
     "url": "git+https://github.com/1024pix/pix.git"
   },
   "scripts": {
+    "ci:signal-jira": "node ./scripts/jira/comment-with-review-app-url.js",
     "clean": "node_modules/.bin/run-p clean:api clean:mon-pix clean:orga clean:coverage && npm run clean:root",
     "clean:api": "cd api && npm run clean",
     "clean:coverage": "rm -rf coverage api/coverage mon-pix/coverage",
@@ -71,6 +73,7 @@
     "test:orga": "cd orga && npm test"
   },
   "dependencies": {
+    "axios": "^0.18.0",
     "eslint-plugin-ember": "^5.2.0"
   }
 }
