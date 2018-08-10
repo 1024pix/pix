@@ -1,0 +1,12 @@
+{
+  "name": "Pix Review App",
+  "env": {
+    "REVIEW_APP": {
+      "description": "Indicates that the application is a review app",
+      "value": "true"
+    }
+  },
+  "scripts": {
+    "first-deploy": "npm run scalingo-post-ra-creation"
+  }
+}
