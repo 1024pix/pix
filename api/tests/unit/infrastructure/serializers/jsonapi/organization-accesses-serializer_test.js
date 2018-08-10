@@ -39,6 +39,13 @@ describe('Unit | Serializer | JSONAPI | organizations-accesses-serializer', () =
             name: 'The name of the organization',
             type: 'SUP',
             code: 'WASABI666',
+          },
+          relationships: {
+            campaigns: {
+              links: {
+                related: '/organizations/10293/campaigns'
+              }
+            }
           }
         }]
       };
