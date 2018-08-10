@@ -8,10 +8,12 @@ module.exports = function buildAssessment({
   userId = faker.random.number(),
   type = Assessment.types.PLACEMENT,
   state = Assessment.states.COMPLETED,
+  createdAt = faker.date.past(),
+  updatedAt = faker.date.past(),
 } = {}) {
 
   const values = {
-    id, courseId, userId, type, state,
+    id, courseId, userId, type, state, createdAt, updatedAt,
   };
 
   databaseBuffer.pushInsertable({
