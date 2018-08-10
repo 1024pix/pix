@@ -1,3 +1,3 @@
 module.exports = ({ organizationId, campaignRepository }) => {
-  return campaignRepository.findByOrganization(organizationId);
+  return campaignRepository.findByOrganizationId(organizationId);
 };

@@ -4,14 +4,10 @@ const useCase = require('../../../../lib/domain/usecases/');
 
 describe('Unit | Domain | Use Cases | get-organization-campaigns', () => {
 
-  const campaignRepository = { findByOrganization: () => undefined };
+  const campaignRepository = { findByOrganizationId: () => undefined };
 
   beforeEach(() => {
-    sinon.stub(campaignRepository, 'findByOrganization');
-  });
-
-  afterEach(() => {
-    campaignRepository.findByOrganization.restore();
+    campaignRepository.findByOrganizationId = sinon.stub();
   });
 
   describe('#getOrganizationCampaigns', () => {
@@ -21,7 +17,7 @@ describe('Unit | Domain | Use Cases | get-organization-campaigns', () => {
       const organizationId = 251;
       const foundCampaign = factory.buildCampaign({ organizationId });
       const foundCampaigns = [foundCampaign];
-      campaignRepository.findByOrganization.resolves(foundCampaigns);
+      campaignRepository.findByOrganizationId.resolves(foundCampaigns);
 
       // when
       const promise = useCase.getOrganizationCampaigns({ organizationId, campaignRepository });
@@ -32,6 +28,5 @@ describe('Unit | Domain | Use Cases | get-organization-campaigns', () => {
         expect(campaigns).to.contains(foundCampaign);
       });
     });
-
   });
 });
