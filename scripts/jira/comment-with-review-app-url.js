@@ -22,15 +22,20 @@ extractIssueCodeFromBranchName(process.env.CIRCLE_BRANCH)
   .then((response) => {
     const commentContents = response.data.comments.map((comment) => comment.body);
 
-    console.log(`Generating Review apps urls for pull request: ${process.env.CIRCLE_PULL_REQUEST}`);
+    if (process.env.CIRCLE_PULL_REQUEST) {
 
-    return Promise.all([
-      commentContents,
-      extractPRNumberFromPRURL(process.env.CIRCLE_PULL_REQUEST),
-    ]);
+      console.log(`Generating Review apps urls for pull request: ${process.env.CIRCLE_PULL_REQUEST}`);
+
+      return Promise.all([
+        commentContents,
+        extractPRNumberFromPRURL(process.env.CIRCLE_PULL_REQUEST),
+      ]);
+    } else {
+      return Promise.reject(new Error('The Pull Request associated to the branch was not found.'));
+    }
   })
   .then(([commentContents, { prNumber }]) => {
-    
+
     const raMonPixURL = `https://pix-mon-pix-integration-pr${prNumber}.scalingo.io`;
     const raOragaURL = `https://pix-orga-integration-pr${prNumber}.scalingo.io`;
     const raAPIURL = `https://pix-api-integration-pr${prNumber}.scalingo.io`;
@@ -94,11 +99,11 @@ function extractIssueCodeFromBranchName(brancheName) {
 
 function extractPRNumberFromPRURL(pullRequestURL) {
 
-  const PRnumberRegex = new RegExp(/(?<=pix\/pull\/)(d+)/, 'i');
+  const PRnumberRegex = new RegExp(/pix\/pull\/(\d+)/, 'i');
   const regexMatches = pullRequestURL.match(PRnumberRegex);
 
   if (regexMatches) {
-    return Promise.resolve({ prNumber: regexMatches[0] });
+    return Promise.resolve({ prNumber: regexMatches[1] });
   } else {
     return Promise.reject(new Error('The PR number could not be found.'));
   }
