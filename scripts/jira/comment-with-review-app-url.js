@@ -11,7 +11,7 @@ extractIssueCodeFromBranchName(process.env.CIRCLE_BRANCH)
       url: `${JIRA_API_URL}/issue/${issueCode}/comment`,
       auth: {
         username: process.env.JIRA_API_KEY,
-        password: process.env.$JIRA_API_SECRET,
+        password: process.env.JIRA_API_SECRET,
       },
     });
   })
@@ -51,7 +51,7 @@ extractIssueCodeFromBranchName(process.env.CIRCLE_BRANCH)
         headers: { 'Content-Type': 'application/json' },
         auth: {
           username: process.env.JIRA_API_KEY,
-          password: process.env.$JIRA_API_SECRET,
+          password: process.env.JIRA_API_SECRET,
         },
         data: {
           body: text,
