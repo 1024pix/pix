@@ -22,10 +22,6 @@ export default Route.extend(ApplicationRouteMixin, {
       });
   },
 
-  sessionInvalidated() {
-    this.transitionTo('login');
-  },
-
   _loadInitialData() {
     return this._loadCurrentUser()
       .then((user) => this._loadCurrentOrganization(user));
