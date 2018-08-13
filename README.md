@@ -54,7 +54,9 @@ $ npm start
 
 **5/ Accéder à l'application**
 
-Par défaut, [l'API](http://localhost:3000) tourne en local sur le port 3000 et [l'application Web cliente](http://localhost:4200) sur le port 4200.
+[l'API](http://localhost:3000) tourne en local sur le port 3000
+[l'application Mon-Pix](http://localhost:4200) sur le port 4200.
+[l'application Pix-Orga](http://localhost:4201) sur le port 4201.
 
 Licence
 -------
