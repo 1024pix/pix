@@ -4,8 +4,12 @@ const axios = require('axios');
 const JIRA_API_VERSION = '2';
 const JIRA_API_URL = `https://1024pix.atlassian.net/rest/api/${JIRA_API_VERSION}`;
 
+const contextObject = Object.seal({ issueCode: '' });
+
 extractIssueCodeFromBranchName(process.env.CIRCLE_BRANCH)
   .then(({ issueCode }) => {
+    console.log(`Getting existing comments on JIRA issue: ${issueCode}`);
+    contextObject.issueCode = issueCode;
     return axios({
       method: 'get',
       url: `${JIRA_API_URL}/issue/${issueCode}/comment`,
@@ -18,18 +22,22 @@ extractIssueCodeFromBranchName(process.env.CIRCLE_BRANCH)
   .then((response) => {
     const commentContents = response.data.comments.map((comment) => comment.body);
 
+    console.log(`Generating Review apps urls for pull request: ${process.env.CIRCLE_PULL_REQUEST}`);
+
     return Promise.all([
       commentContents,
       extractPRNumberFromPRURL(process.env.CIRCLE_PULL_REQUEST),
     ]);
   })
   .then(([commentContents, { prNumber }]) => {
-
+    
     const raMonPixURL = `https://pix-mon-pix-integration-pr${prNumber}.scalingo.io`;
     const raOragaURL = `https://pix-orga-integration-pr${prNumber}.scalingo.io`;
     const raAPIURL = `https://pix-api-integration-pr${prNumber}.scalingo.io`;
 
     const scalingoCommentRegex = new RegExp(`${raMonPixURL}`, 'i');
+
+    console.log(`Checking comment has not already been posted for PR number: ${prNumber}`);
 
     const hasAlreadyScalingoComment = commentContents.reduce((hasAlreadyScalingoComment, comment) => {
 
@@ -39,15 +47,17 @@ extractIssueCodeFromBranchName(process.env.CIRCLE_BRANCH)
     }, false);
 
     if (hasAlreadyScalingoComment) {
-      console.log('Review app url already found in issue comments. No need to add it again');
+      console.log('Review apps urls already found in issue comments. No need to add it again');
     } else {
       const text = `Je m'apprête à déployer la Review App. Elle sera consultable sur les URL suivantes:\n` +
                    `- Mon Pix: ${raMonPixURL}\n` +
                    `- Orga: ${raOragaURL}\n` +
                    `- API (Postman): ${raAPIURL}`;
+
+      console.log(`Posting Review apps urls for PR number: ${prNumber} to JIRA issue: ${contextObject.issueCode}`);
       return axios({
         method: 'post',
-        url: `${JIRA_API_URL}/issue/${issueCode}/comment`,
+        url: `${JIRA_API_URL}/issue/${contextObject.issueCode}/comment`,
         headers: { 'Content-Type': 'application/json' },
         auth: {
           username: process.env.JIRA_API_KEY,
