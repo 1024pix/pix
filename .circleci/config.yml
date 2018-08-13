@@ -14,9 +14,10 @@
 # `v1-` at the beginning. Increment it to `v1-` when you need to change the cache content
 #
 # Cached entries (lifetime = months):
-# - `v1-pix-{{ checksum ".circle-cache-key" }}`                  => the source code
-# - `v1-api-dependencies-{{ checksum "package.json" }}` => `pix/api/node_modules` directory
-# - `v1-mon_pix-dependencies-{{ checksum "package.json" }}` => `pix/mon-pix/{node_modules, bower_components}` directories
+# - `v1-pix-{{ checksum ".circle-cache-key" }}`               => the source code
+# - `v1-root-dependencies-{{ checksum "package.json" }}`      => `pix/node_modules` directory
+# - `v1-api-dependencies-{{ checksum "package.json" }}`       => `pix/api/node_modules` directory
+# - `v1-mon_pix-dependencies-{{ checksum "package.json" }}`   => `pix/mon-pix/{node_modules, bower_components}` directories
 #
 # Workspace entries (lifetime = workflow):
 # - `~/pix/mon-pix/dist`                                      => `pix/mon-pix/dist` directory
@@ -60,18 +61,21 @@ workflows:
                 - preview
                 - gh-pages
                 - /release-.*/
+      - install_root_dependencies:
+          requires:
+          - checkout_code
 
       # api side
       - install_api_dependencies:
           requires:
-            - checkout_code
+            - install_root_dependencies
       - test_api:
           requires:
             - install_api_dependencies
       # mon_pix side
       - install_mon_pix_dependencies:
           requires:
-            - checkout_code
+            - install_root_dependencies
       - test_mon_pix_1:
           requires:
             - install_mon_pix_dependencies
@@ -85,11 +89,12 @@ workflows:
       # orga side
       - install_orga_dependencies:
           requires:
-            - checkout_code
+            - install_root_dependencies
       - test_orga:
           requires:
             - install_orga_dependencies
 
+      # common ci notification
       - signal_ci_ok:
           requires:
             - test_api
@@ -113,6 +118,21 @@ jobs:
           key: v5-pix-{{ checksum ".circle-cache-key" }}
           paths:
             - ~/pix
+  install_root_dependencies:
+    <<: *common_properties
+    steps:
+    - run: echo "${CIRCLE_BRANCH}_${CIRCLE_SHA1}" > .circle-cache-key
+    - restore_cache:
+        keys:
+        - v5-pix-{{ checksum ".circle-cache-key" }}
+    - run: npm install
+    - save_cache:
+        key: v5-root-dependencies-{{ checksum "~/pix/package.json" }}
+        paths:
+          - ~/pix/node_modules
+          - ~/pix/api/node_modules
+          - ~/pix/mon-pix/node_modules
+          - ~/pix/orga/node_modules
 
   # api
   install_api_dependencies:
@@ -122,6 +142,9 @@ jobs:
       - restore_cache:
           keys:
             - v5-pix-{{ checksum ".circle-cache-key" }}
+      - restore_cache:
+          keys:
+            - v5-root-dependencies-{{ checksum "~/pix/package.json" }}
       - restore_cache:
           keys:
             - v5-api-dependencies-{{ checksum "package.json" }}
@@ -145,6 +168,9 @@ jobs:
             - v5-pix-{{ checksum ".circle-cache-key" }}
       - restore_cache:
           keys:
+          - v5-root-dependencies-{{ checksum "~/pix/package.json" }}
+      - restore_cache:
+          keys:
             - v5-api-dependencies-{{ checksum "package.json" }}
       - run:
           command: |
@@ -161,6 +187,9 @@ jobs:
       - restore_cache:
           keys:
             - v5-pix-{{ checksum ".circle-cache-key" }}
+      - restore_cache:
+          keys:
+          - v5-root-dependencies-{{ checksum "~/pix/package.json" }}
       - restore_cache:
           keys:
             - v5-mon_pix-dependencies-{{ checksum ".circle-cache-key" }}
@@ -191,6 +220,9 @@ jobs:
             - v5-pix-{{ checksum ".circle-cache-key" }}
       - restore_cache:
           keys:
+          - v5-root-dependencies-{{ checksum "~/pix/package.json" }}
+      - restore_cache:
+          keys:
             - v5-mon_pix-dependencies-{{ checksum ".circle-cache-key" }}
       - attach_workspace:
           at: ~/pix/mon-pix
@@ -203,6 +235,9 @@ jobs:
       - restore_cache:
           keys:
             - v5-pix-{{ checksum ".circle-cache-key" }}
+      - restore_cache:
+          keys:
+          - v5-root-dependencies-{{ checksum "~/pix/package.json" }}
       - restore_cache:
           keys:
             - v5-mon_pix-dependencies-{{ checksum ".circle-cache-key" }}
@@ -219,6 +254,9 @@ jobs:
             - v5-pix-{{ checksum ".circle-cache-key" }}
       - restore_cache:
           keys:
+          - v5-root-dependencies-{{ checksum "~/pix/package.json" }}
+      - restore_cache:
+          keys:
             - v5-mon_pix-dependencies-{{ checksum ".circle-cache-key" }}
       - attach_workspace:
           at: ~/pix/mon-pix
@@ -232,6 +270,9 @@ jobs:
       - restore_cache:
           keys:
             - v5-pix-{{ checksum ".circle-cache-key" }}
+      - restore_cache:
+          keys:
+          - v5-root-dependencies-{{ checksum "~/pix/package.json" }}
       - restore_cache:
           keys:
             - v5-orga-dependencies-{{ checksum ".circle-cache-key" }}
@@ -252,7 +293,6 @@ jobs:
           paths:
             - ~/pix/orga/node_modules
             - ~/.npm
-
   test_orga:
     <<: *orga_properties
     steps:
@@ -262,9 +302,13 @@ jobs:
             - v5-pix-{{ checksum ".circle-cache-key" }}
       - restore_cache:
           keys:
+          - v5-root-dependencies-{{ checksum "~/pix/package.json" }}
+      - restore_cache:
+          keys:
             - v5-orga-dependencies-{{ checksum ".circle-cache-key" }}
       - run: npm test
 
+  # common ci notification
   signal_ci_ok:
     <<: *common_properties
     steps:
@@ -272,6 +316,9 @@ jobs:
       - restore_cache:
           keys:
             - v5-pix-{{ checksum ".circle-cache-key" }}
+      - restore_cache:
+          keys:
+          - v5-root-dependencies-{{ checksum "~/pix/package.json" }}
       - run: sudo apt-get install -y jq
-      - run: ~/pix/scripts/jira/comment_with_review_app_url.sh
+      - run: npm run ci:signal-jira
       - run: ~/pix/scripts/signal_deploy_to_pr.sh
