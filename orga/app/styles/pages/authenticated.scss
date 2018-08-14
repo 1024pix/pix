@@ -40,17 +40,15 @@
   flex-direction: column;
   height: 100%;
   background-color: $wild-sand;
-  overflow: hidden;
+  overflow: scroll;
 
   &__topbar {
-    height: 60px;
     background-color: white;
+    min-height: 60px;
   }
 
   &__body {
-    padding-top: 24px;
-    padding-left: 32px;
-    padding-right: 32px;
+    height: 100%;
   }
 }
 
@@ -58,10 +56,7 @@
   display: flex;
   justify-content: flex-end;
   align-items: center;
-
-  &__disconnect {
-    padding-right: 32px;
-  }
+  padding-right: 35px;
 
   &__user-identification {
     padding-right: 16px;

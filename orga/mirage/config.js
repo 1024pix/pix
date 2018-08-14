@@ -38,4 +38,7 @@ export default function() {
     return schema.organizationAccesses.where({ userId });
   });
   this.post('/campaigns');
+  this.get('/organizations/:id/campaigns', (schema) => {
+    return schema.campaigns.all();
+  });
 }

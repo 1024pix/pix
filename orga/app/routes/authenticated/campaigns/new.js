@@ -1,11 +1,16 @@
 import Route from '@ember/routing/route';
-import { inject } from '@ember/service';
+import { inject as service } from '@ember/service';
 
 export default Route.extend({
 
-  store: inject(),
+  store: service(),
+  currentOrganization: service(),
 
-  model(){
-    return this.get('store').createRecord('campaign');
+  model() {
+    return this.currentOrganization.organization
+      .then((organization) => organization.get('id'))
+      .then((organizationId) => {
+        return this.get('store').createRecord('campaign', { organizationId })
+      });
   }
 });

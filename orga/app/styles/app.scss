@@ -5,6 +5,8 @@
 @import "globals/errors";
 @import "globals/fonts";
 @import "globals/forms";
+@import "globals/pages";
+@import "globals/panels";
 @import "globals/titles";
 
 @import "pages/login";
@@ -13,6 +15,8 @@
 
 @import "components/login-form";
 @import "components/campaign-creation-form";
+@import "components/campaign-list";
+@import "components/campaign-item";
 @import "components/current-organization";
 
 body, html{

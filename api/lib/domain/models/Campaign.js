@@ -5,6 +5,7 @@ class Campaign {
     // attributes
     name,
     code,
+    createdAt,
     // includes
     // references
     creatorId,
@@ -14,6 +15,7 @@ class Campaign {
     // attributes
     this.name = name;
     this.code = code;
+    this.createdAt = createdAt;
     // includes
     // references
     this.creatorId = creatorId;

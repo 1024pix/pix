@@ -12,6 +12,7 @@ describe('Unit | Serializer | JSONAPI | campaign-serializer', function() {
         id: 5,
         name: 'My zuper organization',
         code: 'ATDGER342',
+        createdAt: '2018-02-06 14:12:44',
         creatorId: 3453,
         organizationId: 10293,
       });
@@ -23,6 +24,7 @@ describe('Unit | Serializer | JSONAPI | campaign-serializer', function() {
           attributes: {
             name: 'My zuper organization',
             code: 'ATDGER342',
+            'created-at': '2018-02-06 14:12:44',
           },
         }
       };

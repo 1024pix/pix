@@ -1,4 +1,5 @@
-const { expect, sinon } = require('../../../test-helper');
+const { expect, sinon, factory } = require('../../../test-helper');
+const JSONAPIError = require('jsonapi-serializer').Error;
 
 const User = require('../../../../lib/domain/models/User');
 const BookshelfOrganization = require('../../../../lib/infrastructure/data/organization');
@@ -17,6 +18,9 @@ const bookshelfUtils = require('../../../../lib/infrastructure/utils/bookshelf-u
 const { EntityValidationError, NotFoundError } = require('../../../../lib/domain/errors');
 const logger = require('../../../../lib/infrastructure/logger');
 const organizationCreationValidator = require('../../../../lib/domain/validators/organization-creation-validator');
+const usecases = require('../../../../lib/domain/usecases');
+const campaignRepository = require('../../../../lib/infrastructure/repositories/campaign-repository');
+const campaignSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/campaign-serializer');
 
 describe('Unit | Application | Organizations | organization-controller', () => {
 
@@ -107,7 +111,13 @@ describe('Unit | Application | Organizations | organization-controller', () => {
         encryptionService.hashPassword.resolves(encryptedPassword);
         const promise = organizationController.create(request, replyStub);
 
-        const userToCreate = new User({ firstName: 'Tom', lastName: 'Hanks',  email: 'existing-email@example.net', password: encryptedPassword, cgu: true });
+        const userToCreate = new User({
+          firstName: 'Tom',
+          lastName: 'Hanks',
+          email: 'existing-email@example.net',
+          password: encryptedPassword,
+          cgu: true
+        });
 
         // then
         return promise.then(() => {
@@ -622,5 +632,80 @@ describe('Unit | Application | Organizations | organization-controller', () => {
     });
 
   });
-})
-;
+
+  describe('#getCampaigns', () => {
+
+    let sandbox;
+    let organizationId;
+    let request;
+    let campaign;
+    let serializedCampaigns;
+
+    beforeEach(() => {
+      organizationId = 1;
+      request = { params: { id: organizationId } };
+      campaign = factory.buildCampaign();
+      serializedCampaigns = { data: [{ name: campaign.name, code: campaign.code }] };
+
+      sandbox = sinon.sandbox.create();
+      sandbox.stub(usecases, 'getOrganizationCampaigns');
+      sandbox.stub(campaignSerializer, 'serialize');
+      codeStub = sandbox.stub();
+      replyStub = sandbox.stub().returns({ code: codeStub });
+    });
+
+    afterEach(() => {
+      sandbox.restore();
+    });
+
+    it('should call the usecase to get the campaigns', () => {
+      // given
+      usecases.getOrganizationCampaigns.resolves([campaign]);
+      campaignSerializer.serialize.returns(serializedCampaigns);
+
+      // when
+      const promise = organizationController.getCampaigns(request, replyStub);
+
+      // then
+      return promise.then(() => {
+        expect(usecases.getOrganizationCampaigns).to.have.been.calledWith({ organizationId, campaignRepository });
+      });
+    });
+
+    it('should return the serialized campaigns belonging to the organization', () => {
+      // given
+      usecases.getOrganizationCampaigns.resolves([campaign]);
+      campaignSerializer.serialize.returns(serializedCampaigns);
+
+      // when
+      const promise = organizationController.getCampaigns(request, replyStub);
+
+      // then
+      return promise.then(() => {
+        expect(replyStub).to.have.been.calledWith(serializedCampaigns);
+        expect(codeStub).to.have.been.calledWith(200);
+      });
+    });
+
+    it('should return a 500 error when an error occurs', () => {
+      // given
+      const errorMessage = 'Unexpected error';
+      const expectedError = new JSONAPIError({
+        code: '500',
+        title: 'Internal Server Error',
+        detail: errorMessage
+      });
+
+      usecases.getOrganizationCampaigns.rejects(new Error(errorMessage));
+
+      // when
+      const promise = organizationController.getCampaigns(request, replyStub);
+
+      // then
+      return promise.then(() => {
+        expect(replyStub).to.have.been.calledWith(expectedError);
+        expect(codeStub).to.have.been.calledWith(500);
+      });
+    });
+  });
+});

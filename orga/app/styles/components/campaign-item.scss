@@ -1,0 +1,37 @@
+.campaign-item {
+  display: flex;
+  flex-direction: column;
+  line-height: 30px;
+  padding: 8px;
+  align-items: center;
+
+  @include device-is('desktop') {
+    flex-direction: row;
+  }
+}
+
+.campaign-name {
+  // flex settings
+  flex-grow: 1;
+
+  // position
+  padding: 0 30px;
+
+  // style
+  font-size: 1.125rem;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.campaign-column-label {
+  color: $dusty-gray;
+  font-size: 0.75rem;
+  font-weight: 300;
+}
+
+.campaign-link {
+  color: $dodger-blue;
+  font-size: 1rem;
+  font-weight: 300;
+}

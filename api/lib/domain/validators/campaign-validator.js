@@ -13,6 +13,9 @@ const campaignValidationJoiSchema = Joi.object().keys({
     return { message: 'Le créateur n’est pas renseigné.' };
   }),
 
+  organizationId: Joi.number().integer().required().error(() => {
+    return { message: 'L‘organisation n’est pas renseignée.' };
+  })
 });
 
 module.exports = {

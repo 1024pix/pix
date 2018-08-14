@@ -3,14 +3,14 @@ const Hapi = require('hapi');
 const securityController = require('../../../../lib/interfaces/controllers/security-controller');
 const organisationController = require('../../../../lib/application/organizations/organization-controller');
 
-describe('Unit | Application | Organizations | Routes', () => {
+describe('Integration | Application | Organizations | Routes', () => {
 
   let server;
 
   beforeEach(() => {
     server = new Hapi.Server();
     server.connection({ port: null });
-    server.register({ register: require('../../../../lib/application/organizations') });
+    server.register({ register: require('../../../../lib/application/organizations/index') });
   });
 
   describe('POST /api/organizations', (_) => {
@@ -69,4 +69,25 @@ describe('Unit | Application | Organizations | Routes', () => {
     });
   });
 
+  describe('GET /api/organizations/:id/campaigns', () => {
+
+    before(() => {
+      sinon.stub(organisationController, 'getCampaigns').callsFake((request, reply) => reply('ok'));
+    });
+
+    after(() => {
+      organisationController.getCampaigns.restore();
+    });
+
+    it('should call the organization controller to get the campaigns', () => {
+      // when
+      const promise = server.inject({ method: 'GET', url: '/api/organizations/:id/campaigns' });
+
+      // then
+      return promise.then((resp) => {
+        expect(resp.statusCode).to.equal(200);
+        expect(organisationController.getCampaigns).to.have.been.calledOnce;
+      });
+    });
+  });
 });

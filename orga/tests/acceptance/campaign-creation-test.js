@@ -2,6 +2,7 @@ import { module, test } from 'qunit';
 import { click, currentURL, fillIn, visit } from '@ember/test-helpers';
 import { setupApplicationTest } from 'ember-qunit';
 import { authenticateSession } from 'ember-simple-auth/test-support';
+import { createUserWithOrganizationAccess } from '../helpers/test-init';
 
 import setupMirage from 'ember-cli-mirage/test-support/setup-mirage';
 
@@ -20,7 +21,8 @@ module('Acceptance | Campaign Creation', function(hooks) {
 
   test('it should be accessible for an authenticated user', async function(assert) {
     // given
-    let user = server.create('user');
+    const user = createUserWithOrganizationAccess();
+
     await authenticateSession({
       user_id: user.id,
     });
@@ -30,12 +32,13 @@ module('Acceptance | Campaign Creation', function(hooks) {
 
     // then
     assert.equal(currentURL(), '/campagnes/creation');
-    assert.dom('.new-campaign-page__title').hasText('Création d\'une campagne');
+    assert.dom('.page__title').hasText('Création d\'une campagne');
   });
 
   test('it should allow creating a campaign', async function(assert) {
     // given
-    let user = server.create('user');
+    const user = createUserWithOrganizationAccess();
+
     await authenticateSession({
       user_id: user.id,
     });
@@ -62,7 +65,8 @@ module('Acceptance | Campaign Creation', function(hooks) {
           }
         ]
       }, 500);
-    let user = server.create('user');
+
+    const user = createUserWithOrganizationAccess();
     await authenticateSession({
       user_id: user.id,
     });
