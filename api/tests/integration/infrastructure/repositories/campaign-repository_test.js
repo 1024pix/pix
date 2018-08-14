@@ -10,6 +10,7 @@ describe('Integration | Repository | Campaign', () => {
       const campaignToInsert = {
         name: 'Nom de Campagne',
         code: 'BADOIT710',
+        createdAt: '2018-02-06 14:12:44',
         creatorId: 1,
         organizationId: 1
       };
@@ -44,16 +45,17 @@ describe('Integration | Repository | Campaign', () => {
 
   describe('#getByCode', () => {
 
-    let campaignInsered;
+    let campaignToInsert;
     beforeEach(() => {
-      campaignInsered = {
+      campaignToInsert = {
         id: 3,
         name: 'Nom de Campagne',
         code: 'BADOIT710',
+        createdAt: '2018-02-06 14:12:45',
         creatorId: 1,
         organizationId: 1
       };
-      return knex('campaigns').insert(campaignInsered);
+      return knex('campaigns').insert(campaignToInsert);
     });
 
     afterEach(() => {
@@ -66,7 +68,7 @@ describe('Integration | Repository | Campaign', () => {
 
       // then
       return promise.then((result) => {
-        expect(result).to.deep.equal(campaignInsered);
+        expect(result).to.deep.equal(campaignToInsert);
       });
     });
 
@@ -113,4 +115,39 @@ describe('Integration | Repository | Campaign', () => {
 
   });
 
+  describe('#findByOrganizationId', () => {
+
+    const organizationId = 1;
+    const campaign1Organization1 = { id: 1, name: 'campaign1', code: 'AZERTY123', organizationId: organizationId, creatorId: 1 };
+    const campaign2Organization1 = { id: 2, name: 'campaign2', code: 'AZERTY456', organizationId: organizationId, creatorId: 2 };
+    const campaign1Organization2 = { id: 3, name: 'campaign3', code: 'AZERTY789', organizationId: 2, creatorId: 3 };
+
+    beforeEach(() => {
+      return knex('campaigns').insert([campaign1Organization1, campaign2Organization1, campaign1Organization2]);
+    });
+
+    afterEach(() => {
+      return knex('campaigns').delete();
+    });
+
+    it('should return the campaigns of the given organization id', () => {
+      // when
+      const promise = campaignRepository.findByOrganizationId(organizationId);
+
+      // then
+      return promise.then((campaigns) => {
+        expect(campaigns).to.have.lengthOf(2);
+
+        expect(campaigns[0]).to.be.instanceof(Campaign);
+        expect(campaigns[0].id).to.equal(campaign1Organization1.id);
+        expect(campaigns[0].name).to.equal(campaign1Organization1.name);
+        expect(campaigns[0].code).to.equal(campaign1Organization1.code);
+        expect(campaigns[0].createdAt).to.exist;
+        expect(campaigns[0].creatorId).to.equal(campaign1Organization1.creatorId);
+        expect(campaigns[0].organizationId).to.equal(campaign1Organization1.organizationId);
+
+        expect(campaigns[1].id).to.equal(campaign2Organization1.id);
+      });
+    });
+  });
 });

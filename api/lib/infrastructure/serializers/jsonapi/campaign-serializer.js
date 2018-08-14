@@ -5,7 +5,7 @@ module.exports = {
 
   serialize(answers) {
     return new Serializer('campaign', {
-      attributes: ['name', 'code'],
+      attributes: ['name', 'code', 'createdAt'],
     }).serialize(answers);
   },
 

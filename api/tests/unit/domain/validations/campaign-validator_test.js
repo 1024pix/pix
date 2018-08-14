@@ -77,17 +77,38 @@ describe('Unit | Domain | Validators | campaign-validator', function() {
 
       });
 
+      context('on organizationId attribute', () => {
+
+        it('should reject with error when organizationId is missing', () => {
+          // given
+          const expectedError = {
+            attribute: 'organizationId',
+            message: 'L‘organisation n’est pas renseignée.'
+          };
+          campaign.organizationId = MISSING_VALUE;
+
+          // when
+          const promise = campaignValidator.validate(campaign);
+
+          // then
+          return expect(promise).to.be.rejectedWith(EntityValidationError)
+            .then((entityValidationErrors) => _assertErrorMatchesWithExpectedOne(entityValidationErrors, expectedError));
+        });
+
+      });
+
       it('should reject with errors on all fields (but only once by field) when all fields are missing', () => {
         // given
         campaign.name = MISSING_VALUE;
         campaign.creatorId = MISSING_VALUE;
+        campaign.organizationId = MISSING_VALUE;
 
         // when
         const promise = campaignValidator.validate(campaign);
 
         // then
         return expect(promise).to.be.rejectedWith(EntityValidationError)
-          .then((entityValidationErrors) => expect(entityValidationErrors.invalidAttributes).to.have.lengthOf(2));
+          .then((entityValidationErrors) => expect(entityValidationErrors.invalidAttributes).to.have.lengthOf(3));
       });
 
     });
