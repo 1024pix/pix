@@ -45,16 +45,17 @@ describe('Integration | Repository | Campaign', () => {
 
   describe('#getByCode', () => {
 
-    let campaignInsered;
+    let campaignToInsert;
     beforeEach(() => {
-      campaignInsered = {
+      campaignToInsert = {
         id: 3,
         name: 'Nom de Campagne',
         code: 'BADOIT710',
+        createdAt: '2018-02-06 14:12:45',
         creatorId: 1,
         organizationId: 1
       };
-      return knex('campaigns').insert(campaignInsered);
+      return knex('campaigns').insert(campaignToInsert);
     });
 
     afterEach(() => {
@@ -67,7 +68,7 @@ describe('Integration | Repository | Campaign', () => {
 
       // then
       return promise.then((result) => {
-        expect(result).to.deep.equal(campaignInsered);
+        expect(result).to.deep.equal(campaignToInsert);
       });
     });
 
