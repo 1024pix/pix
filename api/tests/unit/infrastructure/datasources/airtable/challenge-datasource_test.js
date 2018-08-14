@@ -1,4 +1,4 @@
-const { expect, sinon } = require('../../../../test-helper');
+const { expect, sinon, factory } = require('../../../../test-helper');
 const airtable = require('../../../../../lib/infrastructure/airtable');
 const AirtableError = require('airtable').Error;
 const challengeDatasource = require('../../../../../lib/infrastructure/datasources/airtable/challenge-datasource');
@@ -79,16 +79,16 @@ describe('Unit | Infrastructure | Datasource | Airtable | ChallengeDatasource', 
       return promise.then(() => {
         expect(airtable.findRecords).to.have.been.calledWith('Epreuves', {
           filterByFormula: 'AND(' +
-          'OR(' +
-            'FIND("@web1", ARRAYJOIN({acquis}, ";")), ' +
-            'FIND("@web2", ARRAYJOIN({acquis}, ";"))' +
-          '), ' +
-          'OR(' +
-            '{Statut}="validé",' +
-            '{Statut}="validé sans test",' +
-            '{Statut}="pré-validé"' +
-          ')' +
-        ')'
+                           'OR(' +
+                           'FIND("@web1", ARRAYJOIN({acquis}, ";")), ' +
+                           'FIND("@web2", ARRAYJOIN({acquis}, ";"))' +
+                           '), ' +
+                           'OR(' +
+                           '{Statut}="validé",' +
+                           '{Statut}="validé sans test",' +
+                           '{Statut}="pré-validé"' +
+                           ')' +
+                           ')',
         });
       });
 
@@ -109,5 +109,34 @@ describe('Unit | Infrastructure | Datasource | Airtable | ChallengeDatasource', 
 
     });
 
+  });
+
+  describe('#findByCompetence', () => {
+
+    let competence;
+    let promise;
+
+    beforeEach(() => {
+      // given
+      competence = factory.buildCompetence();
+
+      // when
+      promise = challengeDatasource.findByCompetence(competence);
+    });
+
+    it('should query Airtable challenges with the Competence Reference', () => {
+      // then
+      return promise.then(() => {
+        expect(airtable.findRecords).to.have.been.calledWith('Epreuves', { view: competence.reference });
+      });
+    });
+
+    it('should resolve an array of Challenge from airTable', () => {
+      // then
+      return promise.then((result) => {
+        expect(result).to.be.an('array').and.to.have.lengthOf(2);
+        expect(result[0]).to.be.an.instanceOf(airTableDataModels.Challenge);
+      });
+    });
   });
 });
