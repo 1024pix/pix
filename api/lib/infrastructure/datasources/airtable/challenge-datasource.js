@@ -30,10 +30,18 @@ module.exports = {
 
     return airtable.findRecords(AIRTABLE_TABLE_NAME, query)
       .then((airtableRawObject) => {
-        return airtableRawObject.map((airTableChallenge) => {
-          return airTableDataObjects.Challenge.fromAirTableObject(airTableChallenge);
-        });
+        return airtableRawObject.map(airTableDataObjects.Challenge.fromAirTableObject);
       });
-  }
+  },
+
+  findByCompetence(competence) {
+
+    const query = { view: competence.reference };
+
+    return airtable.findRecords(AIRTABLE_TABLE_NAME, query)
+      .then((airtableChallenges) => {
+        return airtableChallenges.map(airTableDataObjects.Challenge.fromAirTableObject);
+      });
+  },
 };
 
