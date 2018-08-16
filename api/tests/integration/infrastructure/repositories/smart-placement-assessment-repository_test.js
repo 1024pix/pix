@@ -203,6 +203,7 @@ describe('Integration | Repository | SmartPlacementAssessmentRepository', () => 
 
         const expectedSmartPlacementAssessment = factory.buildSmartPlacementAssessment({
           id: givenSmartPlacementAssessment.id,
+          createdAt: givenSmartPlacementAssessment.createdAt,
           state: givenSmartPlacementAssessment.state,
           userId: givenSmartPlacementAssessment.userId,
           answers: expectedAnswersForSmartPlacementAssessment,

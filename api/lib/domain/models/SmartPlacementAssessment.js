@@ -16,6 +16,7 @@ class SmartPlacementAssessment {
     // attributes
     state,
     createdAt,
+    type,
     // includes
     answers = [], // of type SmartPlacementAnswers
     knowledgeElements = [], // of type SmartKnowledgeElements
@@ -27,6 +28,7 @@ class SmartPlacementAssessment {
     // attributes
     this.state = state;
     this.createdAt = createdAt;
+    this.type = type;
     // includes
     this.answers = answers;
     this.knowledgeElements = knowledgeElements;
