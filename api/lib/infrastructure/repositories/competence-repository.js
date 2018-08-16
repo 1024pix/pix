@@ -11,7 +11,7 @@ function _toDomain(airtableCompetence) {
     name: airtableCompetence.get('Titre'),
     index: airtableCompetence.get('Sous-domaine'),
     courseId: airtableCompetence.get('Tests Record ID') ? airtableCompetence.get('Tests Record ID')[0] : '',
-    skills: airtableCompetence.get('Acquis'),
+    skills: airtableCompetence.get('Acquis (via Tubes)'),
     area: new Area({
       id: _.first(airtableCompetence.get('Domaine')),
       code: _.first(airtableCompetence.get('Domaine Code')),
