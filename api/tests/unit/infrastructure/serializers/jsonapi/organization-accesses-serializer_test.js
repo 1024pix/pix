@@ -45,6 +45,11 @@ describe('Unit | Serializer | JSONAPI | organizations-accesses-serializer', () =
               links: {
                 related: '/organizations/10293/campaigns'
               }
+            },
+            'target-profiles': {
+              links: {
+                related: '/organizations/10293/target-profiles'
+              }
             }
           }
         }]
