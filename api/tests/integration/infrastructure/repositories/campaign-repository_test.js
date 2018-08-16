@@ -53,7 +53,8 @@ describe('Integration | Repository | Campaign', () => {
         code: 'BADOIT710',
         createdAt: '2018-02-06 14:12:45',
         creatorId: 1,
-        organizationId: 1
+        organizationId: 1,
+        targetProfileId: 3,
       };
       return knex('campaigns').insert(campaignToInsert);
     });

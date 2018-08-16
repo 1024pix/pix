@@ -14,6 +14,7 @@ module.exports = {
       id: json.data.id,
       name: json.data.attributes.name,
       organizationId: json.data.attributes['organization-id'],
+      targetProfileId: json.data.relationships['target-profile'].data.id,
     });
 
     return campaign;

@@ -54,7 +54,7 @@ module('Acceptance | Campaign Creation', function(hooks) {
 
       // then
       assert.equal(server.db.campaigns[0].name, 'Ma Campagne');
-      assert.equal(server.db.campaigns[0].targetProfile, expectedTargetProfileId);
+      assert.equal(server.db.campaigns[0].targetProfileId, expectedTargetProfileId);
       assert.equal(currentURL(), '/campagnes/liste');
     });
 
