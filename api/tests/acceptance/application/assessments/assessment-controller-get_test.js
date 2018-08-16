@@ -1,4 +1,4 @@
-const { airtableBuilder, expect, knex, nock, generateValidRequestAuhorizationHeader } = require('../../../test-helper');
+const { airtableBuilder, expect, knex, nock, generateValidRequestAuhorizationHeader, databaseBuilder } = require('../../../test-helper');
 const cache = require('../../../../lib/infrastructure/caches/cache');
 const server = require('../../../../server');
 
@@ -362,15 +362,21 @@ describe('Acceptance | API | assessment-controller-get', () => {
           },
         };
         const assessment = response.result.data;
-        expect(assessment).to.deep.equal(expectedAssessment);
+        expect(assessment.attributes).to.deep.equal(expectedAssessment.attributes);
+        expect(assessment.relationships.answers).to.deep.equal(expectedAssessment.relationships.answers);
       });
     });
   });
 
   describe('GET /api/assessments/', () => {
     let assessmentId;
+    const inserted_assessment_placement = databaseBuilder.factory.buildAssessment({
+      courseId: 'anyFromAirTable',
+      type: 'SMART_PLACEMENT',
+    });
 
     beforeEach(() => {
+      inserted_assessment_placement.userId = userId;
       return knex('assessments').insert([inserted_assessment], 'id')
         .then(([id]) => {
           assessmentId = id;
@@ -422,11 +428,11 @@ describe('Acceptance | API | assessment-controller-get', () => {
       });
     });
 
-    it('should return an array of assessments, with related campaign', () => {
+    it('should return an array of assessments, with code campaign', () => {
       // given
       const options = {
         method: 'GET',
-        url: '/api/assessments/',
+        url: '/api/assessments?filter[codeCampaign]=TESTCODE',
         headers: { authorization: generateValidRequestAuhorizationHeader(userId) },
       };
       const expectedFirstAssessment = {
@@ -436,7 +442,7 @@ describe('Acceptance | API | assessment-controller-get', () => {
           'estimated-level': undefined,
           'pix-score': undefined,
           'success-rate': undefined,
-          'type': null,
+          'type': 'SMART_PLACEMENT',
           'certification-number': null,
           'code-campaign': 'TESTCODE',
         },
@@ -454,7 +460,7 @@ describe('Acceptance | API | assessment-controller-get', () => {
       return promise.then((response) => {
         expect(response.result.data).to.be.an('array');
         const assessment = response.result.data[0];
-        expect(assessment).to.deep.equal(expectedFirstAssessment);
+        expect(assessment.attributes).to.deep.equal(expectedFirstAssessment.attributes);
       });
     });
   });
