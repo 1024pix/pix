@@ -1,5 +1,5 @@
 'use strict';
-const DatabaseBuilder = require('../../tests/database-builder/database-builder');
+const DatabaseBuilder = require('../../tests/tooling/database-builder/database-builder');
 const pixAileBuilder = require('./data/user-with-related/pix-aile-builder');
 
 const SEQUENCE_RESTART_AT_NUMBER = 10000000;
