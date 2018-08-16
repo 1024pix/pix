@@ -111,6 +111,11 @@ describe('Acceptance | Controller | users-controller-get-organization-accesses',
                   links: {
                     related: `/organizations/${organizationId.toString()}/campaigns`
                   }
+                },
+                'target-profiles': {
+                  links: {
+                    related: `/organizations/${organizationId.toString()}/target-profiles`
+                  }
                 }
               }
             },

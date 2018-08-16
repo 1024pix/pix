@@ -34,13 +34,19 @@ export default function() {
   this.post('/revoke', () => {});
 
   this.get('/users/:id');
+
   this.get('/users/:id/organization-accesses', (schema, request) => {
     const userId = request.params.id;
     return schema.organizationAccesses.where({ userId });
   });
-  this.post('/campaigns');
+
   this.get('/organizations/:id/campaigns', (schema) => {
     return schema.campaigns.all();
   });
-  this.get('/target-profiles');
+
+  this.get('/organizations/:id/target-profiles', (schema) => {
+    return schema.targetProfiles.all();
+  });
+
+  this.post('/campaigns');
 }

@@ -7,18 +7,13 @@ export default Route.extend({
   store: service(),
   currentOrganization: service(),
 
-  _initNewCampaign() {
-    return this.currentOrganization.organization
-      .then((organization) => organization.get('id'))
-      .then((organizationId) => {
-        return this.get('store').createRecord('campaign', { organizationId })
-      });
-  },
-
   model() {
-    return RSVP.hash({
-      campaign: this._initNewCampaign(),
-      targetProfiles: this.get('store').findAll('target-profile')
-    });
+    return this.currentOrganization.organization
+      .then((organization) => {
+        return RSVP.hash({
+          campaign: this.get('store').createRecord('campaign', { organizationId: organization.get('id') }),
+          targetProfiles: organization.get('targetProfiles')
+        });
+      });
   }
 });
