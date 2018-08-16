@@ -1,7 +1,7 @@
 const databaseBuffer = require('../database-buffer');
 const faker = require('faker');
 
-module.exports = function buildOrganization({
+module.exports = function buildCampaignParticipation({
   id = faker.random.number(),
   assessmentId = faker.random.number(),
   campaignId = faker.random.number(),

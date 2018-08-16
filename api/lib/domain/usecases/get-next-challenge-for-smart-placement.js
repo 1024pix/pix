@@ -20,10 +20,7 @@ module.exports = function getNextChallengeForSmartPlacement({
 } = {}) {
 
   let answers, challenges, targetProfile;
-  let targetProfileId = null;
-  if(assessment.campaignParticipation) {
-    targetProfileId = assessment.campaignParticipation.getTargetProfileId();
-  }
+  const targetProfileId = assessment.campaignParticipation.getTargetProfileId();
   return answerRepository.findByAssessment(assessment.id)
     .then((fetchedAnswers) => (answers = fetchedAnswers))
     .then(() => targetProfileRepository.get(targetProfileId))
