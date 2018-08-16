@@ -96,9 +96,6 @@ describe('Unit | Serializer | JSONAPI | challenge-serializer', function() {
           }
         });
       });
-
     });
-
   });
-
 });

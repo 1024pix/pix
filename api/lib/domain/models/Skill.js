@@ -1,14 +1,15 @@
 const _ = require('lodash');
+
 class Skill {
   constructor({
-    // attributes
     id,
-    name
+    // attributes
+    name,
     // includes
     // references
   } = {}) {
-    // attributes
     this.id = id;
+    // attributes
     this.name = name;
     // includes
     // references
@@ -27,9 +28,10 @@ class Skill {
   }
 
   computePixScore(competenceSkills) {
-    const numberOfSkillsByDifficulty= _.filter(competenceSkills, (skill) => skill.difficulty === this.difficulty).length;
+    const skillsOfThisDifficulty = _.filter(competenceSkills, (skill) => skill.difficulty === this.difficulty);
+    const numberOfSkillsOfThisDifficulty = skillsOfThisDifficulty.length;
 
-    return Math.min(4, 8 / numberOfSkillsByDifficulty);
+    return Math.min(4, 8 / numberOfSkillsOfThisDifficulty);
   }
 
   static areEqual(oneSkill, otherSkill) {
