@@ -12,7 +12,7 @@ const knexConfig = require('../db/knexfile');
 const knex = require('knex')(knexConfig['test']);
 
 // DatabaseBuilder
-const DatabaseBuilder = require('./database-builder/database-builder');
+const DatabaseBuilder = require('./tooling/database-builder/database-builder');
 const databaseBuilder = new DatabaseBuilder({ knex });
 
 // Nock
@@ -73,7 +73,7 @@ function cleanupUsersAndPixRolesTables() {
 module.exports = {
   cleanupUsersAndPixRolesTables,
   expect,
-  factory: require('./factory'),
+  factory: require('./tooling/factory'),
   databaseBuilder,
   generateValidRequestAuhorizationHeader,
   insertUserWithRolePixMaster,

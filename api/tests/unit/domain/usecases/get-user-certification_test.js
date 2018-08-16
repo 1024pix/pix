@@ -1,6 +1,5 @@
-const { expect, sinon } = require('../../../test-helper');
+const { expect, sinon, factory } = require('../../../test-helper');
 const { UserNotAuthorizedToAccessEntity } = require('../../../../lib/domain/errors');
-const factory = require('../../../factory');
 const usecases = require('../../../../lib/domain/usecases');
 
 describe('Unit | UseCase | get-user-certification', () => {

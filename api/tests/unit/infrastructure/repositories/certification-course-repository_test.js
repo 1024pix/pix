@@ -1,7 +1,7 @@
-const { expect, sinon } = require('../../../test-helper');
-const factory = require('../../../factory');
+const { expect, sinon, factory } = require('../../../test-helper');
 
-const CertificationCourseRepository = require('../../../../lib/infrastructure/repositories/certification-course-repository');
+const CertificationCourseRepository = require(
+  '../../../../lib/infrastructure/repositories/certification-course-repository');
 const CertificationCourseBookshelf = require('../../../../lib/infrastructure/data/certification-course');
 
 const Assessment = require('../../../../lib/domain/models/Assessment');

@@ -1,14 +1,13 @@
+const { expect, factory } = require('../../../test-helper');
 const ResultCompetence = require('../../../../lib/domain/models/ResultCompetence');
 const ResultCompetenceTree = require('../../../../lib/domain/models/ResultCompetenceTree');
-const factory = require('../../../factory');
-const { expect } = require('../../../test-helper');
 
 describe('Unit | Domain | Models | ResultCompetence', () => {
 
   describe('#generateTreeFromCompetenceMarks', () => {
 
     it('should return the tree with the resultCompetence filled with -1 if no mark ' +
-      ' or the real mark if the mark exists', () => {
+       ' or the real mark if the mark exists', () => {
       const competenceTree = factory.buildCompetenceTree();
       const competenceMark1 = factory.buildCompetenceMark({ id: 1, competence_code: '1.1', level: 2, score: 13 });
       const competenceMark3 = factory.buildCompetenceMark({ id: 3, competence_code: '1.3', level: 4, score: 22 });
