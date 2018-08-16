@@ -13,7 +13,9 @@ export default Component.extend({
     },
 
     setSelectedTargetProfile: function(selectedTargetProfileId) {
-      this.get('campaign').set('targetProfile', selectedTargetProfileId)
+      const selectedTargetProfile = this.targetProfiles
+        .find((targetProfile) => targetProfile.get('id') === selectedTargetProfileId);
+      this.get('campaign').set('targetProfile', selectedTargetProfile);
     },
   }
 });

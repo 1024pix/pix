@@ -42,13 +42,22 @@ describe('Unit | Serializer | JSONAPI | campaign-serializer', function() {
 
     it('should convert JSON API campaign data into a Campaign model object', function() {
       // given
+      const organizationId = 10293;
+      const targetProfileId = '23';
       const jsonAnswer = {
         data: {
           type: 'campaign',
           attributes: {
             name: 'My zuper organization',
-            'organization-id': 10293,
+            'organization-id': organizationId,
           },
+          relationships: {
+            'target-profile': {
+              data: {
+                id: targetProfileId
+              }
+            }
+          }
         }
       };
 
@@ -57,7 +66,8 @@ describe('Unit | Serializer | JSONAPI | campaign-serializer', function() {
 
       // then
       expect(campaign.name).to.equal(jsonAnswer.data.attributes.name);
-      expect(campaign.organizationId).to.equal(jsonAnswer.data.attributes['organization-id']);
+      expect(campaign.organizationId).to.equal(organizationId);
+      expect(campaign.targetProfileId).to.equal(targetProfileId);
     });
 
   });
