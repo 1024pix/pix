@@ -6,26 +6,47 @@ const Area = require('../../../../lib/domain/models/Area');
 describe('Unit | Domain | Use Cases | get-results-campaign-in-csv-format', () => {
 
   describe('#getResultsCampaignInCsvFormat', () => {
+    const user = factory.buildUser();
+    const organization = user.organizationAccesses[0].organization;
+    const listSkills = factory.buildSkillCollection({ name: 'web', minLevel: 1, maxLevel: 4 });
+    const assessment = factory.buildAssessment.ofTypeSmartPlacement({
+      state: 'completed',
+      knowledgeElements: [
+        factory.buildSmartPlacementKnowledgeElement({
+          status: 'validated',
+          pixScore: 2,
+          skillId: '@web1',
+        }),
+        factory.buildSmartPlacementKnowledgeElement({
+          status: 'validated',
+          pixScore: 2,
+          skillId: '@web2',
+        }),
+        factory.buildSmartPlacementKnowledgeElement({
+          status: 'validated',
+          pixScore: 2,
+          skillId: '@web3',
+        }),
+        factory.buildSmartPlacementKnowledgeElement({
+          status: 'invalidated',
+          pixScore: 2,
+          skillId: '@web4',
+        })
+      ] });
 
-    const userId = 1;
-    const campaignId = 1;
-    const campaignRepository = { get: () => undefined };
-    const userRepository = { getWithOrganizationAccesses: () => undefined };
-    const targetProfileRepository = { get: () => undefined };
-    const competenceRepository = { list: () => undefined };
-    const organizationRepository = { get: () => undefined };
-    const campaignParticipationRepository = { findByCampaignId: () => undefined };
+    const targetProfile = factory.buildTargetProfile({ skills: listSkills, name: 'Profile 1' });
 
     const campaign = factory.buildCampaign({
       name:'CampaignName',
       code:'AZERTY123',
+      organizationId: organization.id,
     });
     const competences = [
       {
         name: 'Competence1',
         index: '1.1',
         courseId: 'recComp1',
-        skills: ['@web1', '@web2', '@web3', '@web4', '@web5'],
+        skills: listSkills.map((skill) => skill.id),
         area: new Area({
           code: '1',
           title: 'Domain 1',
@@ -42,15 +63,27 @@ describe('Unit | Domain | Use Cases | get-results-campaign-in-csv-format', () =
         })
       },
     ];
+    const campaignRepository = { get: () => undefined };
+    const userRepository = { getWithOrganizationAccesses: () => undefined, get: () => undefined };
+    const targetProfileRepository = { get: () => undefined };
+    const competenceRepository = { list: () => undefined };
+    const organizationRepository = { get: () => undefined };
+    const campaignParticipationRepository = { findByCampaignId: () => undefined };
+    const smartPlacementAssessmentRepository = { get: () => undefined };
 
     beforeEach(() => {
+
       campaignRepository.get = sinon.stub().resolves(campaign);
       competenceRepository.list = sinon.stub().resolves(competences);
-      targetProfileRepository.get = sinon.stub()
-        .resolves(factory.buildTargetProfile({ skills: factory.buildSkillCollection({ name: 'web', minLevel: 1, maxLevel: 4 }) }));
-      userRepository.getWithOrganizationAccesses = sinon.stub().resolves();
-      organizationRepository.get = sinon.stub().resolves(factory.buildOrganization());
-      campaignParticipationRepository.findByCampaignId = sinon.stub().resolves([]);
+      targetProfileRepository.get = sinon.stub().resolves(targetProfile);
+      userRepository.getWithOrganizationAccesses = sinon.stub().resolves(user);
+      organizationRepository.get = sinon.stub().resolves(organization);
+      campaignParticipationRepository.findByCampaignId = sinon.stub().resolves([{
+        assessmentId: assessment.id,
+        campaign
+      }]);
+      userRepository.get = sinon.stub().resolves(user);
+      smartPlacementAssessmentRepository.get = sinon.stub().resolves(assessment);
     });
 
     it('should return the header in CSV styles with all competence, domain and skills', () => {
@@ -76,7 +109,7 @@ describe('Unit | Domain | Use Cases | get-results-campaign-in-csv-format', () =
         '"Date du partage";' +
         '"Heure du partage";' +
         '"Nombre de Pix obtenus";' +
-        '"Nombre de pix possible";' +
+        '"Nombre de pix possibles";' +
         '"% maitrise de l\'ensemble des acquis du profil";' +
         '"Niveau de la competence Competence1";' +
         '"Pix de la competence Competence1";' +
@@ -91,20 +124,77 @@ describe('Unit | Domain | Use Cases | get-results-campaign-in-csv-format', () =
 
       // when
       const promise = getResultsCampaignInCsvFormat({
-        userId,
-        campaignId,
+        userId: user.id,
+        campaignId: campaign.id,
         campaignRepository,
         userRepository,
         targetProfileRepository,
         competenceRepository,
         organizationRepository,
-        campaignParticipationRepository
+        campaignParticipationRepository,
+        smartPlacementAssessmentRepository
       });
 
       // then
       return promise.then((result) => {
-        expect(result).to.equal(csvExpected);
+        expect(result).to.contains(csvExpected);
       });
     });
+
+    it('should return the line with user results for her participation', () => {
+      // given
+      const csvSecondLine = `"${organization.name}";`+
+        `"${campaign.id}";` +
+        `"${campaign.name}";` +
+        `"${targetProfile.name}";` +
+        `"${user.firstName}";` +
+        `"${user.lastName}";` +
+        '"";' +
+        '"";' +
+        '"";' +
+        '"";' +
+        '"";' +
+        '"";' +
+        '"";' +
+        '"";' +
+        '"";' +
+        '"100";' +
+        `"${assessment.createdAt}";` +
+        '"";' +
+        '"";' +
+        '"";' +
+        '"6";' +
+        '"";' +
+        '"75";' +
+        ';' +
+        ';' +
+        ';' +
+        ';' +
+        ';' +
+        ';' +
+        '"OK";' +
+        '"OK";' +
+        '"OK";' +
+        '"KO"\n';
+
+      // when
+      const promise = getResultsCampaignInCsvFormat({
+        userId: user.id,
+        campaignId: campaign.id,
+        campaignRepository,
+        userRepository,
+        targetProfileRepository,
+        competenceRepository,
+        organizationRepository,
+        campaignParticipationRepository,
+        smartPlacementAssessmentRepository,
+      });
+
+      // then
+      return promise.then((result) => {
+        expect(result).to.contains(csvSecondLine);
+      });
+    });
+
   });
 });
