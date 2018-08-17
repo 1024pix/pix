@@ -28,10 +28,12 @@ module('Integration | Component | campaign-list', function(hooks) {
     // given
     let store = this.owner.lookup('service:store');
     let campaign1 = run(() => store.createRecord('campaign', {
+      id: 1,
       name: 'campagne 1',
       code: 'AAAAAA111'
     }));
     let campaign2 = run(() => store.createRecord('campaign', {
+      id: 2,
       name: 'campagne 1',
       code: 'BBBBBB222'
     }));
