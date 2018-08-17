@@ -17,6 +17,14 @@ module.exports = class AirtableBuilder {
     return newMockRoute;
   }
 
+  mockGet({ tableName }) {
+    return this.mockRoute({ routeType: this.ROUTE_TYPE.GET, tableName });
+  }
+
+  mockList({ tableName }) {
+    return this.mockRoute({ routeType: this.ROUTE_TYPE.LIST, tableName });
+  }
+
   cleanAll() {
     this.nock.cleanAll();
     this.routeMocks = [];
