@@ -1,5 +1,5 @@
 const dataObjects = require('../../../../../../lib/infrastructure/datasources/airtable/objects/index');
-const competenceRawAirTableFixture = require('../../../../../fixtures/infrastructure/competenceRawAirTableFixture');
+const competenceRawAirTableFixture = require('../../../../../tooling/fixtures/infrastructure/competenceRawAirTableFixture');
 const { expect, factory } = require('../../../../../test-helper');
 
 describe('Unit | Infrastructure | Datasource | Airtable | Model | Competence', () => {

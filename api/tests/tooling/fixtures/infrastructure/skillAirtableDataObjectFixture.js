@@ -1,4 +1,4 @@
-const dataModels = require('../../../lib/infrastructure/datasources/airtable/objects');
+const dataModels = require('../../../../lib/infrastructure/datasources/airtable/objects/index');
 
 module.exports = function SkillAirtableDataObjectFixture({
   id = 'recTIddrkopID28Ep',

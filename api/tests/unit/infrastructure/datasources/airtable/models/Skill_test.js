@@ -1,6 +1,6 @@
 const dataModels = require('../../../../../../lib/infrastructure/datasources/airtable/objects/index');
-const skillRawAirTableFixture = require('../../../../../fixtures/infrastructure/skillRawAirTableFixture');
-const SkillAirtableDataModelFixture = require('../../../../../fixtures/infrastructure/skillAirtableDataObjectFixture');
+const skillRawAirTableFixture = require('../../../../../tooling/fixtures/infrastructure/skillRawAirTableFixture');
+const SkillAirtableDataModelFixture = require('../../../../../tooling/fixtures/infrastructure/skillAirtableDataObjectFixture');
 const { expect } = require('../../../../../test-helper');
 
 describe('Unit | Infrastructure | Datasource | Airtable | Model | Skill', () => {
