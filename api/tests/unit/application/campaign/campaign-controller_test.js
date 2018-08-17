@@ -19,7 +19,7 @@ describe('Unit | Application | Controller | Campaign', () => {
     beforeEach(() => {
       sandbox = sinon.createSandbox();
       sandbox.stub(usecases, 'createCampaign');
-      sandbox.stub(campaignSerializer, 'deserialize').returns(deserializedCampaign);
+      sandbox.stub(campaignSerializer, 'deserialize').resolves(deserializedCampaign);
       sandbox.stub(campaignSerializer, 'serialize');
       codeStub = sandbox.stub();
       replyStub = sandbox.stub().returns({
@@ -128,8 +128,8 @@ describe('Unit | Application | Controller | Campaign', () => {
           },
           {
             status: '422',
-            source: { 'pointer': '/data/attributes/organization-id' },
-            title: 'Invalid data attribute "organizationId"',
+            source: { 'pointer': '/data/relationships/organization' },
+            title: 'Invalid relationship "organization"',
             detail: 'L’id de l’organisation n’est pas renseigné.'
           }
         ]

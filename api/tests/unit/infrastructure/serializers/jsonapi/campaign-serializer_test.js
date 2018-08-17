@@ -62,12 +62,15 @@ describe('Unit | Serializer | JSONAPI | campaign-serializer', function() {
       };
 
       // when
-      const campaign = serializer.deserialize(jsonAnswer);
+      const promise = serializer.deserialize(jsonAnswer);
 
       // then
-      expect(campaign.name).to.equal(jsonAnswer.data.attributes.name);
-      expect(campaign.organizationId).to.equal(organizationId);
-      expect(campaign.targetProfileId).to.equal(targetProfileId);
+      expect(promise).to.be.fulfilled
+        .then((campaign) => {
+          expect(campaign.name).to.equal(jsonAnswer.data.attributes.name);
+          expect(campaign.organizationId).to.equal(organizationId);
+          expect(campaign.targetProfileId).to.equal(targetProfileId);
+        });
     });
 
   });
