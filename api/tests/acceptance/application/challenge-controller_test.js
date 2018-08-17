@@ -28,7 +28,7 @@ describe('Acceptance | API | ChallengeController', () => {
         acquix: [],
       });
       airtableBuilder
-        .mockRoute({ tableName: 'Epreuves', routeType: 'get' })
+        .mockRoute({ tableName: 'Epreuves', routeType: airtableBuilder.ROUTE_TYPE.GET })
         .returns(airtableChallenge)
         .activate();
     });
