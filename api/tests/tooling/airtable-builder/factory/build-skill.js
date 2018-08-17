@@ -28,7 +28,7 @@ module.exports = function buildSkill({
   ],
   status = 'actif',
   nom = '@accesDonnées1',
-  recordId = 'recTIddrkopID28Ep',
+  recordId = id,
   compétenceViaTube = [
     'recofJCxg0NqTqTdP',
   ],

@@ -5,7 +5,6 @@ const server = require('../../../../server');
 describe('Acceptance | API | assessment-controller-get-adaptive', () => {
 
   before(() => {
-
     nock.cleanAll();
 
     nock('https://api.airtable.com')
@@ -37,32 +36,34 @@ describe('Acceptance | API | assessment-controller-get-adaptive', () => {
           'Sous-domaine': '1.1',
           'Domaine': '1. Information et données',
           'Statut': 'validé',
-          'Acquis': ['@web1']
-        }
+          'Acquis': ['@web1'],
+        },
       });
 
     nock('https://api.airtable.com')
       .get('/v0/test-base/Epreuves')
       .query({ view: '1.1 Mener une recherche et une veille d’information' })
-      .reply(200, [{
-        'id': 'z_second_challenge',
-        'fields': {
-          'competences': ['competence_id'],
-          'acquis': ['web2']
-        }
-      }, {
-        'id': 'z_first_challenge',
-        'fields': {
-          'competences': ['competence_id'],
-          'acquis': ['web1']
-        }
-      }, {
-        'id': 'z_third_challenge',
-        'fields': {
-          'competences': ['competence_id'],
-          'acquis': ['web3']
-        }
-      }]);
+      .reply(200, [
+        {
+          'id': 'z_second_challenge',
+          'fields': {
+            'competences': ['competence_id'],
+            'acquis': ['web2'],
+          },
+        }, {
+          'id': 'z_first_challenge',
+          'fields': {
+            'competences': ['competence_id'],
+            'acquis': ['web1'],
+          },
+        }, {
+          'id': 'z_third_challenge',
+          'fields': {
+            'competences': ['competence_id'],
+            'acquis': ['web3'],
+          },
+        },
+      ]);
 
     nock('https://api.airtable.com')
       .get('/v0/test-base/Epreuves/z_first_challenge')
@@ -83,7 +84,7 @@ describe('Acceptance | API | assessment-controller-get-adaptive', () => {
         'id': 'z_second_challenge',
         'fields': {
           'competences': ['competence_id'],
-          'acquis': ['web2']
+          'acquis': ['web2'],
         },
       });
 
@@ -94,17 +95,17 @@ describe('Acceptance | API | assessment-controller-get-adaptive', () => {
         'id': 'z_third_challenge',
         'fields': {
           'competences': ['competence_id'],
-          'acquis': ['web3']
+          'acquis': ['web3'],
         },
       });
 
     nock('https://api.airtable.com')
       .get('/v0/test-base/Acquis')
       .query({
-        filterByFormula: 'FIND(\'1.1\', {Compétence})'
+        filterByFormula: 'FIND(\'1.1\', {Compétence})',
       })
       .reply(200, {
-        'id': 'idAcquix'
+        'id': 'idAcquix',
       });
   });
 
@@ -119,7 +120,7 @@ describe('Acceptance | API | assessment-controller-get-adaptive', () => {
 
     const inserted_assessment = {
       courseId: 'the_adaptive_course_id',
-      type: 'PLACEMENT'
+      type: 'PLACEMENT',
     };
 
     beforeEach(() => {
