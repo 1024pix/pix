@@ -1,5 +1,7 @@
 const moment = require('moment');
 const usecases = require('../../domain/usecases');
+const tokenService = require('../../../lib/domain/services/token-service');
+
 const smartPlacementAssessmentRepository = require('../../infrastructure/repositories/smart-placement-assessment-repository');
 const competenceRepository = require('../../infrastructure/repositories/competence-repository');
 const campaignRepository = require('../../infrastructure/repositories/campaign-repository');
@@ -39,9 +41,10 @@ module.exports = {
   },
 
   getCsvResults(request, reply) {
-    //const userId = request.auth.credentials.userId;
-    const userId = 1;
-    const campaignId = request.params.id;
+    const token = request.query.userToken;
+    const userId = tokenService.extractUserId(token);
+
+    const campaignId = parseInt(request.params.id);
     const fileName = ` export-campaign-${campaignId}-${moment().format('YYYY-MM-DD-hhmm')}.csv`;
 
     return usecases.getResultsCampaignInCSVFormat({ userId, campaignId,
@@ -54,6 +57,10 @@ module.exports = {
           .header('Content-Disposition', `attachment; filename=${fileName}`);
       })
       .catch((error) => {
+        if(error instanceof UserNotAuthorizedToCreateCampaignError) {
+          return reply(JSONAPI.forbiddenError(error.message)).code(403);
+        }
+
         logger.error(error);
         return reply(JSONAPI.internalError('Une erreur inattendue est survenue lors de la création de la campagne')).code(500);
       });

@@ -3,6 +3,7 @@ import { computed } from '@ember/object';
 import ENV from 'pix-orga/config/environment';
 
 export default DS.Model.extend({
+  id: DS.attr('integer'),
   name: DS.attr('string'),
   code: DS.attr('string'),
   createdAt: DS.attr('date'),
