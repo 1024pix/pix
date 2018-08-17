@@ -19,6 +19,10 @@ const databaseBuilder = new DatabaseBuilder({ knex });
 const nock = require('nock');
 nock.disableNetConnect();
 
+// airtableBuilde
+const AirtableBuilder = require('./tooling/airtable-builder/airtable-builder');
+const airtableBuilder = new AirtableBuilder({ nock });
+
 // Security
 const tokenService = require('../lib/domain/services/token-service');
 
@@ -71,6 +75,7 @@ function cleanupUsersAndPixRolesTables() {
 }
 
 module.exports = {
+  airtableBuilder,
   cleanupUsersAndPixRolesTables,
   expect,
   factory: require('./tooling/factory'),
