@@ -7,7 +7,7 @@ function _toDomain(bookshelfCampaignParticipation) {
   return new CampaignParticipation({
     id: bookshelfCampaignParticipation.get('id'),
     assessmentId: bookshelfCampaignParticipation.get('assessmentId'),
-    campaign: new Campaign({ id: bookshelfCampaignParticipation.get('campaignId') }),
+    campaign: new Campaign(bookshelfCampaignParticipation.related('campaign').toJSON()),
   });
 }
 

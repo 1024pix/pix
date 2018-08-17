@@ -3,10 +3,22 @@ const Campaign = require('../../../domain/models/Campaign');
 
 module.exports = {
 
-  serialize(answers) {
+  serialize(campaigns, tokenToResult) {
     return new Serializer('campaign', {
-      attributes: ['name', 'code', 'createdAt'],
-    }).serialize(answers);
+      attributes: ['name', 'code', 'createdAt', 'tokenToResult'],
+      transform: (record) => {
+        const campaign = Object.assign({}, record);
+        campaign.tokenToResult = tokenToResult;
+        return campaign;
+      }
+
+    }).serialize(campaigns);
+  },
+
+  serializeCsv(csvResult) {
+    return new Serializer('campaign-result-csv', {
+      attributes: ['data', 'filename'],
+    }).serialize(csvResult);
   },
 
   deserialize(json) {
