@@ -50,7 +50,7 @@ module.exports = {
     return usecases.getResultsCampaignInCSVFormat({ userId, campaignId,
       campaignRepository, userRepository, targetProfileRepository,
       competenceRepository, campaignParticipationRepository, organizationRepository,
-      smartPlacementAssessmentRepository})
+      smartPlacementAssessmentRepository })
       .then((resultCampaignCsv) => {
         return reply(resultCampaignCsv)
           .header('Content-Type', 'text/csv;charset=utf-8')
