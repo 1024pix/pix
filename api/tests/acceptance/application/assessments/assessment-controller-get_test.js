@@ -85,38 +85,38 @@ describe('Acceptance | API | assessment-controller-get', () => {
 
   beforeEach(() => {
     airtableBuilder
-      .mockRoute({ routeType: airtableBuilder.ROUTE_TYPE.GET, tableName: 'Tests' })
+      .mockGet({ tableName: 'Tests' })
       .returns(course)
       .activate();
 
     airtableBuilder
-      .mockRoute({ routeType: airtableBuilder.ROUTE_TYPE.GET, tableName: 'Competences' })
+      .mockGet({ tableName: 'Competences' })
       .returns(competence)
       .activate();
 
     airtableBuilder
-      .mockRoute({ routeType: airtableBuilder.ROUTE_TYPE.LIST, tableName: 'Epreuves' })
+      .mockList({ tableName: 'Epreuves' })
       .respondsToQuery({ view: '1.1 Mener une recherche et une veille d’information' })
       .returns([firstChallenge, secondChallenge, thirdChallenge])
       .activate();
 
     airtableBuilder
-      .mockRoute({ routeType: airtableBuilder.ROUTE_TYPE.GET, tableName: 'Epreuves' })
+      .mockGet({ tableName: 'Epreuves' })
       .returns(firstChallenge)
       .activate();
 
     airtableBuilder
-      .mockRoute({ routeType: airtableBuilder.ROUTE_TYPE.GET, tableName: 'Epreuves' })
+      .mockGet({ tableName: 'Epreuves' })
       .returns(secondChallenge)
       .activate();
 
     airtableBuilder
-      .mockRoute({ routeType: airtableBuilder.ROUTE_TYPE.GET, tableName: 'Epreuves' })
+      .mockGet({ tableName: 'Epreuves' })
       .returns(thirdChallenge)
       .activate();
 
     airtableBuilder
-      .mockRoute({ routeType: airtableBuilder.ROUTE_TYPE.LIST, tableName: 'Acquis' })
+      .mockList({ tableName: 'Acquis' })
       .respondsToQuery({ filterByFormula: 'FIND(\'1.1\', {Compétence})' })
       .returns([skillurl1, skillWeb1, skillWeb4, skillWeb5])
       .activate();
