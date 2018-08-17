@@ -15,22 +15,22 @@ describe('Unit | Domain | Use Cases | get-results-campaign-in-csv-format', () =
         factory.buildSmartPlacementKnowledgeElement({
           status: 'validated',
           pixScore: 2,
-          skillId: '@web1',
+          skillId: 'web1',
         }),
         factory.buildSmartPlacementKnowledgeElement({
           status: 'validated',
           pixScore: 2,
-          skillId: '@web2',
+          skillId: 'web2',
         }),
         factory.buildSmartPlacementKnowledgeElement({
           status: 'validated',
           pixScore: 2,
-          skillId: '@web3',
+          skillId: 'web3',
         }),
         factory.buildSmartPlacementKnowledgeElement({
           status: 'invalidated',
           pixScore: 2,
-          skillId: '@web4',
+          skillId: 'web4',
         })
       ] });
 
@@ -117,10 +117,10 @@ describe('Unit | Domain | Use Cases | get-results-campaign-in-csv-format', () =
         '"Nombre d\'acquis du profil cible maitrisés / nombre d\'acquis Competence1";' +
         '"% de maitrise des acquis pour le domaine Domain 1";' +
         '"Nombre d\'acquis du profil cible maitrisés / nombre d\'acquis Domain 1";' +
-        '"Acquis @web1";' +
-        '"Acquis @web2";' +
-        '"Acquis @web3";' +
-        '"Acquis @web4"\n';
+        '"Acquis web1";' +
+        '"Acquis web2";' +
+        '"Acquis web3";' +
+        '"Acquis web4"\n';
 
       // when
       const promise = getResultsCampaignInCsvFormat({

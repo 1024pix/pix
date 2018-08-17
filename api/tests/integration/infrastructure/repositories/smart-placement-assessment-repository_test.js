@@ -216,6 +216,7 @@ describe('Integration | Repository | SmartPlacementAssessmentRepository', () => 
 
         // then
         return promise.then((assessment) => {
+          assessment.createdAt = new Date(assessment.createdAt);
           expect(assessment).to.be.an.instanceOf(SmartPlacementAssessment);
           expect(assessment).to.deep.equal(expectedSmartPlacementAssessment);
         });
