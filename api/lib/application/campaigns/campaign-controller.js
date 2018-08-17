@@ -11,10 +11,13 @@ module.exports = {
 
   save(request, reply) {
     const userId = request.auth.credentials.userId;
-    const campaign = campaignSerializer.deserialize(request.payload);
-    campaign.creatorId = userId;
 
-    return usecases.createCampaign({ campaign, campaignRepository, userRepository })
+    return campaignSerializer.deserialize(request.payload)
+      .then((campaign) => {
+        campaign.creatorId = userId;
+        return campaign;
+      })
+      .then((campaign) => usecases.createCampaign({ campaign, campaignRepository, userRepository }))
       .then((createdCampaign) => {
         return reply(campaignSerializer.serialize(createdCampaign)).code(201);
       })
