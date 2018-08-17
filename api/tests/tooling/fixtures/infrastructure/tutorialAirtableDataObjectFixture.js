@@ -1,4 +1,4 @@
-const dataModels = require('../../../lib/infrastructure/datasources/airtable/objects');
+const dataModels = require('../../../../lib/infrastructure/datasources/airtable/objects/index');
 
 module.exports = function tutorialAirtableDataObjectFixture({
   id = 'receomyzL0AmpMFGw',

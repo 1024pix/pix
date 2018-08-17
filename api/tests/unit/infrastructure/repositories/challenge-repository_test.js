@@ -2,7 +2,7 @@ const { expect, factory, sinon } = require('../../../test-helper');
 const AirtableRecord = require('airtable').Record;
 const airtable = require('../../../../lib/infrastructure/airtable');
 
-const ChallengeAirtableDataObjectFixture = require('../../../fixtures/infrastructure/challengeAirtableDataObjectFixture');
+const ChallengeAirtableDataObjectFixture = require('../../../tooling/fixtures/infrastructure/challengeAirtableDataObjectFixture');
 const AirtableResourceNotFound = require('../../../../lib/infrastructure/datasources/airtable/objects/AirtableResourceNotFound');
 const { NotFoundError } = require('../../../../lib/domain/errors');
 

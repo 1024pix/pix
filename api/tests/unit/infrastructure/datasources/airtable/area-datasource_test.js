@@ -1,7 +1,7 @@
 const { expect, sinon } = require('../../../../test-helper');
 const airtable = require('../../../../../lib/infrastructure/airtable');
 const areaDatasource = require('../../../../../lib/infrastructure/datasources/airtable/area-datasource');
-const areaRawAirTableFixture = require('../../../../fixtures/infrastructure/areaRawAirTableFixture');
+const areaRawAirTableFixture = require('../../../../tooling/fixtures/infrastructure/areaRawAirTableFixture');
 const airTableDataObjects = require('../../../../../lib/infrastructure/datasources/airtable/objects');
 
 describe('Unit | Infrastructure | Datasource | Airtable | AreaDatasource', () => {
