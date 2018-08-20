@@ -377,7 +377,7 @@ describe('Acceptance | API | assessment-controller-get', () => {
 
     beforeEach(() => {
       inserted_assessment_placement.userId = userId;
-      return knex('assessments').insert([inserted_assessment], 'id')
+      return knex('assessments').insert(inserted_assessment_placement, 'id')
         .then(([id]) => {
           assessmentId = id;
           return knex('campaigns').insert({ code: 'TESTCODE', name: 'CAMPAIGN TEST' }, 'id');
