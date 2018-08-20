@@ -62,7 +62,7 @@ module.exports = {
         }
 
         logger.error(error);
-        return reply(JSONAPI.internalError('Une erreur inattendue est survenue lors de la création de la campagne')).code(500);
+        return reply(JSONAPI.internalError('Une erreur inattendue est survenue lors de la récupération des résultats de la campagne')).code(500);
       });
   },
 

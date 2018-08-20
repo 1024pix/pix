@@ -100,7 +100,25 @@ function _stateOfSkill(skillName, knowledgeElements) {
   }
 }
 
-function _createOneLineOfCSV(headers, organization, campaign, campaignParticipation, targetProfile, userRepository, smartPlacementAssessmentRepository) {
+function _getSkillsOfCompetenceByTargetProfile(competence, targetProfile) {
+  const skillsOfProfile = targetProfile.skills;
+  const skillsOfCompetences = competence.skills;
+  return skillsOfProfile
+    .filter((skillOfProfile) => skillsOfCompetences.some((skill)=> skill === skillOfProfile.id));
+}
+
+function _getSkillsValidatedForCompetence(skills, knowledgeElements) {
+  const sumValidatedSkills = _.reduce(knowledgeElements, function(validatedSkill, knowledgeElement) {
+    if(knowledgeElement.isValidated && skills.find(skill => skill.name === knowledgeElement.skillId)) {
+      return validatedSkill + 1;
+    }
+    return validatedSkill;
+  }, 0);
+  return sumValidatedSkills;
+
+}
+
+function _createOneLineOfCSV(headers, organization, campaign, listCompetences, listArea, campaignParticipation, targetProfile, userRepository, smartPlacementAssessmentRepository) {
   let line = headers.map(() => '');
 
   return smartPlacementAssessmentRepository.get(campaignParticipation.assessmentId)
@@ -109,13 +127,13 @@ function _createOneLineOfCSV(headers, organization, campaign, campaignParticipat
     })
     .then(([assessment, user]) => {
       '"Partage (O/N)"',
-      '"Date du partage"',
-      '"Heure du partage"',
-      '"Nombre de Pix obtenus"',
-      '"Nombre de pix possible"',
-      '"% maitrise de l\'ensemble des acquis du profil"',
+        '"Date du partage"',
+        '"Heure du partage"',
+        '"Nombre de Pix obtenus"',
+        '"Nombre de pix possible"',
+        '"% maitrise de l\'ensemble des acquis du profil"',
 
-      line = _addCellByHeadersTitle('"Nom de l\'organisation"', organization.name, line, headers);
+        line = _addCellByHeadersTitle('"Nom de l\'organisation"', organization.name, line, headers);
       line = _addCellByHeadersTitle('"ID Campagne"', campaign.id, line, headers);
       line = _addCellByHeadersTitle('"Nom de la campagne"', campaign.name, line, headers);
       line = _addCellByHeadersTitle('"Nom du Profil Cible"', targetProfile.name, line, headers);
@@ -144,11 +162,19 @@ function _createOneLineOfCSV(headers, organization, campaign, campaignParticipat
 
       if(assessment.isCompleted) {
         line = _addCellByHeadersTitle('"Nombre de Pix obtenus"', _totalPixScore(assessment.knowledgeElements), line, headers);
-        line = _addCellByHeadersTitle('"Nombre de pix possibles"', '', line, headers);
+        line = _addCellByHeadersTitle('"Nombre de pix possibles"', '0', line, headers);
         line = _addCellByHeadersTitle('"% maitrise de l\'ensemble des acquis du profil"', _numberSkillsValidatedInProfile(assessment, targetProfile), line, headers);
 
         // By Competences
 
+        _.forEach(listCompetences, (competence) => {
+          const skillsForThisCompetence = _getSkillsOfCompetenceByTargetProfile(competence, targetProfile);
+          const skillsValidatedForThisCompetence = _getSkillsValidatedForCompetence(skillsForThisCompetence, assessment.knowledgeElements);
+          const percentage = skillsValidatedForThisCompetence * 100 / skillsForThisCompetence.length;
+          const diff = `${skillsValidatedForThisCompetence}/${skillsForThisCompetence.length}`;
+          line = _addCellByHeadersTitle(`"% de maitrise des acquis pour la competence ${competence.name}"`, percentage, line, headers);
+          line = _addCellByHeadersTitle(`"Nombre d'acquis du profil cible maitrisés / nombre d'acquis ${competence.name}"`, diff, line, headers);
+        });
         // By Area
 
         // By Skills
@@ -176,7 +202,7 @@ module.exports = function createCampaign(
   }) {
 
   // XXX: add the UTF-8 BOM at the start of the text; see https://stackoverflow.com/a/38192870
-  let campaign, targetProfile, headersAsArray, listCompetences, listDomains, listCampaignParticipation, organization;
+  let campaign, targetProfile, headersAsArray, listCompetences, listArea, listCampaignParticipation, organization;
   let textCsv = '\uFEFF';
 
   return campaignRepository.get(campaignId)
@@ -203,10 +229,10 @@ module.exports = function createCampaign(
       listCompetences = listAllCompetences.filter((competence) => {
         return listSkillsId.some((skill)=> competence.skills.includes(skill));
       });
-      listDomains = _.uniqBy(listCompetences.map((competence) => competence.area), 'code');
+      listArea = _.uniqBy(listCompetences.map((competence) => competence.area), 'code');
 
       //Create HEADER of CSV
-      headersAsArray = _createHeaderOfCSV(listSkillsName, listCompetences, listDomains);
+      headersAsArray = _createHeaderOfCSV(listSkillsName, listCompetences, listArea);
       textCsv += headersAsArray.join(';') + '\n';
 
       const getCSVLineForEachParticipation = listCampaignParticipation.map((campaignParticipation) => {
@@ -214,6 +240,8 @@ module.exports = function createCampaign(
           headersAsArray,
           organization,
           campaign,
+          listCompetences,
+          listArea,
           campaignParticipation,
           targetProfile,
           userRepository,

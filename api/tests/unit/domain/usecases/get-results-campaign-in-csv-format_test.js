@@ -168,8 +168,8 @@ describe('Unit | Domain | Use Cases | get-results-campaign-in-csv-format', () =
         '"75";' +
         ';' +
         ';' +
-        ';' +
-        ';' +
+        '75;' +
+        '3/4;' +
         ';' +
         ';' +
         '"OK";' +
