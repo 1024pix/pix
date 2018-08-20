@@ -12,12 +12,16 @@ const knexConfig = require('../db/knexfile');
 const knex = require('knex')(knexConfig['test']);
 
 // DatabaseBuilder
-const DatabaseBuilder = require('./database-builder/database-builder');
+const DatabaseBuilder = require('./tooling/database-builder/database-builder');
 const databaseBuilder = new DatabaseBuilder({ knex });
 
 // Nock
 const nock = require('nock');
 nock.disableNetConnect();
+
+// airtableBuilde
+const AirtableBuilder = require('./tooling/airtable-builder/airtable-builder');
+const airtableBuilder = new AirtableBuilder({ nock });
 
 // Security
 const tokenService = require('../lib/domain/services/token-service');
@@ -71,9 +75,10 @@ function cleanupUsersAndPixRolesTables() {
 }
 
 module.exports = {
+  airtableBuilder,
   cleanupUsersAndPixRolesTables,
   expect,
-  factory: require('./factory'),
+  factory: require('./tooling/factory'),
   databaseBuilder,
   generateValidRequestAuhorizationHeader,
   insertUserWithRolePixMaster,

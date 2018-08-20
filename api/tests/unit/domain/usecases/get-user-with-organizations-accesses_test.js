@@ -1,6 +1,5 @@
-const { expect, sinon } = require('../../../test-helper');
+const { expect, sinon, factory } = require('../../../test-helper');
 const { UserNotAuthorizedToAccessEntity } = require('../../../../lib/domain/errors');
-const factory = require('../../../factory');
 const usecases = require('../../../../lib/domain/usecases');
 const OrganizationAccess = require('../../../../lib/domain/models/OrganizationAccess');
 const User = require('../../../../lib/domain/models/User');
@@ -11,7 +10,7 @@ describe('Unit | UseCase | get-user-organizations-accesses', () => {
   let requestedUserId;
   const userRepository = { getWithOrganizationAccesses: () => undefined };
 
-  it('should rejetcs a NotAuthorized error if authenticated user ask for another user organizations accesses', function() {
+  it('should rejetcs a NotAuthorized error if authenticated user ask for another user organizations accesses', () => {
     // given
     authenticatedUserId = 1;
     requestedUserId = 2;
@@ -46,7 +45,11 @@ describe('Unit | UseCase | get-user-organizations-accesses', () => {
       userRepository.getWithOrganizationAccesses.resolves(foundUser);
 
       // when
-      const promise = usecases.getUserWithOrganizationAccesses({ authenticatedUserId, requestedUserId, userRepository });
+      const promise = usecases.getUserWithOrganizationAccesses({
+        authenticatedUserId,
+        requestedUserId,
+        userRepository,
+      });
 
       // then
       return promise.then(() => {
@@ -54,13 +57,19 @@ describe('Unit | UseCase | get-user-organizations-accesses', () => {
       });
     });
 
-    it('should return user with the organization accesses', function() {
+    it('should return user with the organization accesses', () => {
       // given
-      const foundUser = factory.buildUser({ organizationAccesses: [ new OrganizationAccess({ id: 'Le premier accès de l\'utilisateur' })] });
+      const foundUser = factory.buildUser({
+        organizationAccesses: [new OrganizationAccess({ id: 'Le premier accès de l\'utilisateur' })],
+      });
       userRepository.getWithOrganizationAccesses.resolves(foundUser);
 
       // when
-      const promise = usecases.getUserWithOrganizationAccesses({ authenticatedUserId, requestedUserId, userRepository });
+      const promise = usecases.getUserWithOrganizationAccesses({
+        authenticatedUserId,
+        requestedUserId,
+        userRepository,
+      });
 
       // then
       return promise.then((foundUser) => {
@@ -69,5 +78,4 @@ describe('Unit | UseCase | get-user-organizations-accesses', () => {
       });
     });
   });
-
 });

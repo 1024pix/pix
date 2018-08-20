@@ -5,9 +5,9 @@ const skillDatasource = require('../../../../lib/infrastructure/datasources/airt
 const tutorialDataSource = require('../../../../lib/infrastructure/datasources/airtable/tutorial-datasource');
 const Correction = require('../../../../lib/domain/models/Correction');
 const Hint = require('../../../../lib/domain/models/Hint');
-const ChallengeAirtableDataObjectFixture = require('../../../fixtures/infrastructure/challengeAirtableDataObjectFixture');
-const SkillAirtableDataObjectFixture = require('../../../fixtures/infrastructure/skillAirtableDataObjectFixture');
-const tutorialAirtableDataObjectFixture = require('../../../fixtures/infrastructure/tutorialAirtableDataObjectFixture');
+const ChallengeAirtableDataObjectFixture = require('../../../tooling/fixtures/infrastructure/challengeAirtableDataObjectFixture');
+const SkillAirtableDataObjectFixture = require('../../../tooling/fixtures/infrastructure/skillAirtableDataObjectFixture');
+const tutorialAirtableDataObjectFixture = require('../../../tooling/fixtures/infrastructure/tutorialAirtableDataObjectFixture');
 
 describe('Unit | Repository | correction-repository', function() {
 
