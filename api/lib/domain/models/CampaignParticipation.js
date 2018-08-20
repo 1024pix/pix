@@ -13,10 +13,7 @@ class CampaignParticipation {
   }
 
   getTargetProfileId() {
-    if(_.has(this, 'campaign.targetProfileId')) {
-      return this.campaign.targetProfileId;
-    }
-    return null;
+    return _.get(this, 'campaign.targetProfileId', null);
   }
 
   adaptModelToDb() {
