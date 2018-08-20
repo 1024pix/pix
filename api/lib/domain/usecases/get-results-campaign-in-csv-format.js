@@ -109,7 +109,7 @@ function _getSkillsOfCompetenceByTargetProfile(competence, targetProfile) {
 
 function _getSkillsValidatedForCompetence(skills, knowledgeElements) {
   const sumValidatedSkills = _.reduce(knowledgeElements, function(validatedSkill, knowledgeElement) {
-    if(knowledgeElement.isValidated && skills.find(skill => skill.name === knowledgeElement.skillId)) {
+    if(knowledgeElement.isValidated && skills.find((skill) => skill.name === knowledgeElement.skillId)) {
       return validatedSkill + 1;
     }
     return validatedSkill;
@@ -127,13 +127,13 @@ function _createOneLineOfCSV(headers, organization, campaign, listCompetences, l
     })
     .then(([assessment, user]) => {
       '"Partage (O/N)"',
-        '"Date du partage"',
-        '"Heure du partage"',
-        '"Nombre de Pix obtenus"',
-        '"Nombre de pix possible"',
-        '"% maitrise de l\'ensemble des acquis du profil"',
+      '"Date du partage"',
+      '"Heure du partage"',
+      '"Nombre de Pix obtenus"',
+      '"Nombre de pix possible"',
+      '"% maitrise de l\'ensemble des acquis du profil"',
 
-        line = _addCellByHeadersTitle('"Nom de l\'organisation"', organization.name, line, headers);
+      line = _addCellByHeadersTitle('"Nom de l\'organisation"', organization.name, line, headers);
       line = _addCellByHeadersTitle('"ID Campagne"', campaign.id, line, headers);
       line = _addCellByHeadersTitle('"Nom de la campagne"', campaign.name, line, headers);
       line = _addCellByHeadersTitle('"Nom du Profil Cible"', targetProfile.name, line, headers);
