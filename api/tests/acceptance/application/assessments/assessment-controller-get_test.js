@@ -19,8 +19,8 @@ describe('Acceptance | API | assessment-controller-get', () => {
   const skillWeb5Name = '@web5';
 
   const skillWeb1 = airtableBuilder.factory.buildSkill({
-    id: skillWeb1Name,
-    nom: '@web1',
+    id: 'recSkillWeb1',
+    nom: skillWeb1Name,
   });
   const skillWeb4 = airtableBuilder.factory.buildSkill({
     id: 'recSkillWeb4',
