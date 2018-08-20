@@ -5,7 +5,6 @@ module.exports = class AirtableBuilder {
   constructor({ nock }) {
     this.nockScope = nock('https://api.airtable.com').persist();
     this.nock = nock;
-    this.routeMocks = [];
     this.factory = factory;
     this.ROUTE_TYPE = AirtableMockRoute.ROUTE_TYPE;
   }
@@ -13,7 +12,6 @@ module.exports = class AirtableBuilder {
   mockRoute({ routeType, tableName }) {
 
     const newMockRoute = new AirtableMockRoute({ routeType, tableName, nockScope: this.nockScope });
-    this.routeMocks.push(newMockRoute);
     return newMockRoute;
   }
 
@@ -27,6 +25,5 @@ module.exports = class AirtableBuilder {
 
   cleanAll() {
     this.nock.cleanAll();
-    this.routeMocks = [];
   }
 };
