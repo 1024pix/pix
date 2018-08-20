@@ -7,6 +7,7 @@ const { expect } = require('../../../../../test-helper');
 describe('Unit | Infrastructure | Datasource | Airtable | Model | Challenge', () => {
 
   describe('#constructor', () => {
+
     it('should construct an AirtableChallenge from attributes', () => {
       // given
       const challengeRawData = {
@@ -100,6 +101,7 @@ describe('Unit | Infrastructure | Datasource | Airtable | Model | Challenge', ()
       // given
       const airtableEpreuveObject = challengeRawAirTableFixture();
       airtableEpreuveObject.set('competences', undefined);
+      airtableEpreuveObject.set('Compétences (via tube)', undefined);
 
       // when
       const challenge = dataModels.Challenge.fromAirTableObject(airtableEpreuveObject);
