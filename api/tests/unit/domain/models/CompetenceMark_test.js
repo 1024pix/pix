@@ -1,7 +1,6 @@
-const { expect } = require('../../../test-helper');
+const { expect, factory } = require('../../../test-helper');
 const CompetenceMark = require('../../../../lib/domain/models/CompetenceMark');
 const { ObjectValidationError } = require('../../../../lib/domain/errors');
-const factory = require('../../../factory');
 
 describe('Unit | Domain | Models | Competence Mark', () => {
 
