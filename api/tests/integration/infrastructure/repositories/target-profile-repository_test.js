@@ -46,7 +46,6 @@ describe('Integration | Repository | Target-profile', () => {
         expect(foundTargetProfile.skills[0].name).to.equal(skillAssociatedToTargetProfile.name);
       });
     });
-
   });
 
   describe('#findPublicTargetProfiles', () => {
@@ -109,7 +108,6 @@ describe('Integration | Repository | Target-profile', () => {
         expect(skill.id).to.equal(targetProfileSkill.id);
         expect(skill.name).to.equal(targetProfileSkill.name);
       });
-
     });
   });
 
@@ -183,9 +181,6 @@ describe('Integration | Repository | Target-profile', () => {
         expect(skill.id).to.equal(targetProfileSkill.id);
         expect(skill.name).to.equal(targetProfileSkill.name);
       });
-
     });
-
   });
-
 });

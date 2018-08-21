@@ -42,7 +42,11 @@ function toDomain(bookshelfAssessment) {
   // Target-profiles table has been added
   // waiting for link beetween assessment and target-profile
   // in order to find associated target-profile before toDomain() and do only mapping in toDomain()
-  const targetProfileId = bookshelfAssessment.related('campaignParticipation').related('campaign').get('targetProfileId');
+  const targetProfileId = bookshelfAssessment
+    .related('campaignParticipation')
+    .related('campaign')
+    .get('targetProfileId');
+
   return targetProfileRepository.get(targetProfileId)
     .then((targetProfile) => {
 
