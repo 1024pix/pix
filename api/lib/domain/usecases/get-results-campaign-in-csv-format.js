@@ -86,7 +86,7 @@ function _totalValidatedSkills(knowledgeElements) {
   return sumValidatedSkills;
 }
 
-function _numberSkillsValidatedInProfile(assessment, targetProfile) {
+function _percentageSkillsValidated(assessment, targetProfile) {
   return _totalValidatedSkills(assessment.knowledgeElements) * 100 / targetProfile.skills.length;
 }
 
@@ -134,17 +134,16 @@ function _createOneLineOfCSV(headers, organization, campaign, listCompetences, l
       line = _addCellByHeadersTitle('"Nom du Participant"', user.firstName, line, headers);
       line = _addCellByHeadersTitle('"Prénom du Participant"', user.lastName, line, headers);
 
-      // Question : set % of progression at 100 when its finished ?
-      line = _addCellByHeadersTitle('"% de progression"', assessment.knowledgeElements.length * 100 / (targetProfile.skills.length), line, headers);
+      const percentageProgression = (assessment.isCompleted) ? 100 : assessment.knowledgeElements.length * 100 / (targetProfile.skills.length);
+      line = _addCellByHeadersTitle('"% de progression"', percentageProgression, line, headers);
       line = _addCellByHeadersTitle('"Date entrée (rejoint)"', assessment.createdAt, line, headers);
 
       if(assessment.isCompleted) {
         line = _addCellByHeadersTitle('"Nombre de Pix obtenus"', _totalPixScore(assessment.knowledgeElements), line, headers);
         line = _addCellByHeadersTitle('"Nombre de pix possibles"', '0', line, headers);
-        line = _addCellByHeadersTitle('"% maitrise de l\'ensemble des acquis du profil"', _numberSkillsValidatedInProfile(assessment, targetProfile), line, headers);
+        line = _addCellByHeadersTitle('"% maitrise de l\'ensemble des acquis du profil"', _percentageSkillsValidated(assessment, targetProfile), line, headers);
 
         // By Competences
-
         _.forEach(listCompetences, (competence) => {
           const skillsForThisCompetence = _getSkillsOfCompetenceByTargetProfile(competence, targetProfile);
           const skillsValidatedForThisCompetence = _getSkillsValidatedForCompetence(skillsForThisCompetence, assessment.knowledgeElements);
