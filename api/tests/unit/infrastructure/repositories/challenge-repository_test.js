@@ -314,12 +314,12 @@ describe('Unit | Repository | challenge-repository', () => {
   describe('#findBySkills', () => {
 
     beforeEach(() => {
-      sinon.stub(challengeDatasource, 'findBySkills')
+      sinon.stub(challengeDatasource, 'findBySkillNames')
         .resolves([ChallengeAirtableDataObjectFixture(), ChallengeAirtableDataObjectFixture()]);
     });
 
     afterEach(() => {
-      challengeDatasource.findBySkills.restore();
+      challengeDatasource.findBySkillNames.restore();
     });
 
     it('should call challengeDatasource with list of skills name and return challenges', () => {
@@ -331,7 +331,7 @@ describe('Unit | Repository | challenge-repository', () => {
 
       // then
       return promise.then((challenges) => {
-        expect(challengeDatasource.findBySkills).to.have.been.calledWith(['@element1', '@element2']);
+        expect(challengeDatasource.findBySkillNames).to.have.been.calledWith(['@element1', '@element2']);
         expect(challenges).to.be.an('array').and.to.have.lengthOf(2);
         expect(challenges[0]).to.be.an.instanceOf(Challenge);
       });
