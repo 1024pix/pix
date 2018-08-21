@@ -2,8 +2,6 @@ const { expect, factory, sinon } = require('../../../test-helper');
 const AirtableRecord = require('airtable').Record;
 const airtable = require('../../../../lib/infrastructure/airtable');
 
-const ChallengeAirtableDataObjectFixture = require(
-  '../../../tooling/fixtures/infrastructure/challengeAirtableDataObjectFixture');
 const AirtableResourceNotFound = require(
   '../../../../lib/infrastructure/datasources/airtable/objects/AirtableResourceNotFound');
 const { NotFoundError } = require('../../../../lib/domain/errors');
@@ -227,8 +225,6 @@ describe('Unit | Repository | challenge-repository', () => {
     beforeEach(() => {
       competence = factory.buildCompetence();
 
-      sandbox.stub(airtable, 'findRecords').resolves([challenge1, challenge2]);
-
       sandbox.stub(challengeDataSource, 'findByCompetence');
       sandbox.stub(skillDatasource, 'get').resolves();
       sandbox.stub(solutionAdapter, 'fromChallengeAirtableDataObject');
@@ -313,44 +309,118 @@ describe('Unit | Repository | challenge-repository', () => {
 
   describe('#findBySkills', () => {
 
+    let skillWeb1;
+    let skillURL2;
+    let skillURL3;
+    let skills;
+    let skillNames;
+
     beforeEach(() => {
-      sinon.stub(challengeDatasource, 'findBySkillNames')
-        .resolves([ChallengeAirtableDataObjectFixture(), ChallengeAirtableDataObjectFixture()]);
+      skillWeb1 = factory.buildSkill({
+        id: 'recSkillWeb1',
+        name: '@web1',
+      });
+      skillURL2 = factory.buildSkill({
+        id: 'recSkillURL2',
+        name: '@url2',
+      });
+      skillURL3 = factory.buildSkill({
+        id: 'recSkillURL3',
+        name: '@url3',
+      });
+      skills = [skillWeb1, skillURL2, skillURL3];
+      skillNames = [skillWeb1.name, skillURL2.name, skillURL3.name];
+
+      sandbox.stub(challengeDatasource, 'findBySkillNames');
+      sandbox.stub(skillDatasource, 'get');
+      sandbox.stub(solutionAdapter, 'fromChallengeAirtableDataObject');
     });
 
-    afterEach(() => {
-      challengeDatasource.findBySkillNames.restore();
-    });
+    context('when query happens with no error', () => {
 
-    it('should call challengeDatasource with list of skills name and return challenges', () => {
-      // given
-      const skills = [new Skill({ name: '@element1' }), new Skill({ name: '@element2' })];
+      let challengeDataObject1;
+      let challengeDataObject2;
+      let challengeRecordId;
+      let promise;
+      let solution;
 
-      // when
-      const promise = challengeRepository.findBySkills(skills);
+      beforeEach(() => {
+        // given
+        challengeRecordId = 'rec_challenge_id';
+        challengeDataObject1 = factory.buildChallengeAirtableDataObject({
+          id: challengeRecordId,
+          skillIds: [skillWeb1.id],
+        });
+        challengeDataObject2 = factory.buildChallengeAirtableDataObject({
+          id: challengeRecordId,
+          skillIds: [skillURL2.id, skillURL3.id],
+        });
+        solution = factory.buildSolution();
 
-      // then
-      return promise.then((challenges) => {
-        expect(challengeDatasource.findBySkillNames).to.have.been.calledWith(['@element1', '@element2']);
-        expect(challenges).to.be.an('array').and.to.have.lengthOf(2);
-        expect(challenges[0]).to.be.an.instanceOf(Challenge);
+        challengeDataSource.findBySkillNames.withArgs(skillNames).resolves([
+          challengeDataObject1,
+          challengeDataObject2,
+        ]);
+
+        skillDatasource.get.withArgs(skillWeb1.id).resolves(factory.buildSkillAirtableDataObject({
+          id: skillWeb1.id,
+          name: skillWeb1.name,
+        }));
+        skillDatasource.get.withArgs(skillURL2.id).resolves(factory.buildSkillAirtableDataObject({
+          id: skillURL2.id,
+          name: skillURL2.name,
+        }));
+        skillDatasource.get.withArgs(skillURL3.id).resolves(factory.buildSkillAirtableDataObject({
+          id: skillURL3.id, name: skillURL3.name,
+        }));
+        solutionAdapter.fromChallengeAirtableDataObject.returns(solution);
+
+        // when
+        promise = challengeRepository.findBySkills(skills);
+      });
+
+      it('should succeed', () => {
+        // then
+        return expect(promise).to.be.fulfilled;
+      });
+      it('should call challengeDataObjects with competence', () => {
+        // then
+        return promise.then(() => {
+          expect(challengeDataSource.findBySkillNames).to.have.been.calledWith(skillNames);
+        });
+      });
+      it('should resolve an array of 2 Challenge domain objects', () => {
+        // then
+        // exact composition and construction of the Challenge object is tested in repository 'get' function.
+        return promise.then((challenges) => {
+          expect(challenges).to.be.an('array');
+          expect(challenges).to.have.lengthOf(2);
+          challenges.map((challenge) => expect(challenge).to.be.an.instanceOf(Challenge));
+        });
+      });
+      it('should load skills', () => {
+        // then
+        return promise.then(() => {
+          expect(skillDatasource.get).to.have.been.calledWith(skillWeb1.id);
+          expect(skillDatasource.get).to.have.been.calledWith(skillURL2.id);
+          expect(skillDatasource.get).to.have.been.calledWith(skillURL3.id);
+        });
       });
     });
 
-    it('should return Challenge with skills', () => {
-      // given
-      const skills = [new Skill({ name: '@modèleEco3' })];
+    context('when the datasource is on error', () => {
 
-      // when
-      const promise = challengeRepository.findBySkills(skills);
+      it('should transfer the error', () => {
+        // given
+        const error = new Error();
+        challengeDataSource.findBySkillNames.rejects(error);
 
-      // then
-      return promise.then((challenges) => {
-        expect(challenges[0]).to.be.an.instanceOf(Challenge);
-        expect(challenges[0].skills).to.be.an('array').and.to.have.lengthOf(1);
-        expect(challenges[0].skills[0].name).to.be.equal('@modèleEco3');
+        // when
+        const promise = challengeRepository.findBySkills(skills);
+
+        // then
+        return expect(promise).to.have.been.rejectedWith(error);
       });
     });
-
   });
 });
