@@ -3,7 +3,6 @@ const airtable = require('../../../../../lib/infrastructure/airtable');
 const AirtableError = require('airtable').Error;
 const challengeDatasource = require('../../../../../lib/infrastructure/datasources/airtable/challenge-datasource');
 const challengeRawAirTableFixture = require('../../../../tooling/fixtures/infrastructure/challengeRawAirTableFixture');
-
 const airTableDataModels = require('../../../../../lib/infrastructure/datasources/airtable/objects');
 
 describe('Unit | Infrastructure | Datasource | Airtable | ChallengeDatasource', () => {
@@ -66,14 +65,14 @@ describe('Unit | Infrastructure | Datasource | Airtable | ChallengeDatasource', 
 
   });
 
-  describe('#findBySkills', () => {
+  describe('#findBySkillNames', () => {
 
-    it('should query Airtable challenges with skills', () => {
+    it('should query Airtable challenges with skill names', () => {
       // given
-      const skills = ['@web1', '@web2'];
+      const skillNames = ['@web1', '@web2'];
 
       // when
-      const promise = challengeDatasource.findBySkills(skills);
+      const promise = challengeDatasource.findBySkillNames(skillNames);
 
       // then
       return promise.then(() => {
@@ -96,19 +95,17 @@ describe('Unit | Infrastructure | Datasource | Airtable | ChallengeDatasource', 
 
     it('should resolve an array of Challenge from airTable', () => {
       // given
-      const skills = ['@web1', '@web2'];
+      const skillNames = ['@web1', '@web2'];
 
       // when
-      const promise = challengeDatasource.findBySkills(skills);
+      const promise = challengeDatasource.findBySkillNames(skillNames);
 
       // then
       return promise.then((result) => {
         expect(result).to.be.an('array').and.to.have.lengthOf(2);
         expect(result[0]).to.be.an.instanceOf(airTableDataModels.Challenge);
       });
-
     });
-
   });
 
   describe('#findByCompetence', () => {
