@@ -120,6 +120,26 @@ describe('Acceptance | API | assessment-controller-get', () => {
       .respondsToQuery({ filterByFormula: 'FIND(\'1.1\', {Compétence})' })
       .returns([skillurl1, skillWeb1, skillWeb4, skillWeb5])
       .activate();
+
+    airtableBuilder
+      .mockGet({ tableName: 'Acquis' })
+      .returns(skillurl1)
+      .activate();
+
+    airtableBuilder
+      .mockGet({ tableName: 'Acquis' })
+      .returns(skillWeb1)
+      .activate();
+
+    airtableBuilder
+      .mockGet({ tableName: 'Acquis' })
+      .returns(skillWeb4)
+      .activate();
+
+    airtableBuilder
+      .mockGet({ tableName: 'Acquis' })
+      .returns(skillWeb5)
+      .activate();
   });
 
   afterEach(() => {
