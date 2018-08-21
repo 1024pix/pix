@@ -26,7 +26,7 @@ describe('Unit | Serializer | JSONAPI | campaign-serializer', function() {
             name: 'My zuper organization',
             code: 'ATDGER342',
             'created-at': '2018-02-06 14:12:44',
-            'token-to-result': tokenToAccessToCampaign,
+            'token-for-campaign-results': tokenToAccessToCampaign,
           },
         }
       };

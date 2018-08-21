@@ -6,7 +6,7 @@ const tokenService = require('../../../../lib/domain/services/token-service');
 const campaignRepository = require('../../../../lib/infrastructure/repositories/campaign-repository');
 const userRepository = require('../../../../lib/infrastructure/repositories/user-repository');
 const campaignSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/campaign-serializer');
-const { UserNotAuthorizedToCreateCampaignError, EntityValidationError } = require('../../../../lib/domain/errors');
+const { UserNotAuthorizedToCreateCampaignError, UserNotAuthorizedToGetCampaignResultsError, EntityValidationError } = require('../../../../lib/domain/errors');
 
 describe('Unit | Application | Controller | Campaign', () => {
 
@@ -181,7 +181,7 @@ describe('Unit | Application | Controller | Campaign', () => {
     beforeEach(() => {
       sandbox = sinon.createSandbox();
       sandbox.stub(usecases, 'getResultsCampaignInCSVFormat');
-      sandbox.stub(tokenService, 'extractAccessUserId').resolves(userId);
+      sandbox.stub(tokenService, 'extractUserIdForCampaignResults').resolves(userId);
       codeStub = sandbox.stub();
       replyStub = sandbox.stub().returns({
         code: codeStub,
@@ -222,7 +222,6 @@ describe('Unit | Application | Controller | Campaign', () => {
 
     it('should return a serialized campaign when the campaign has been successfully created', () => {
       // given
-      // given
       const campaignId = 2;
       const request = {
         query: {
@@ -255,7 +254,7 @@ describe('Unit | Application | Controller | Campaign', () => {
         }
       };
       const errorMessage = 'Vous ne pouvez pas accéder à cette campagne';
-      usecases.getResultsCampaignInCSVFormat.rejects(new UserNotAuthorizedToCreateCampaignError(errorMessage));
+      usecases.getResultsCampaignInCSVFormat.rejects(new UserNotAuthorizedToGetCampaignResultsError(errorMessage));
 
       const expectedUnprocessableEntityError = {
         errors: [{

@@ -27,7 +27,7 @@ module('Unit | Model | campaign', function(hooks) {
       id: 1,
       name: 'Fake name',
       code: 'ABC123',
-      tokenToResult: 'token'
+      tokenForCampaignResults: 'token'
     }));
     assert.equal(model.urlToResult, 'http://localhost:3000/api/campaigns/1/csvResults?accessToken=token');
   })

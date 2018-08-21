@@ -12,14 +12,14 @@ describe('Unit | Domain | Service | Token Service', function() {
     });
 
     it('should return userId if the token passed is valid', () => {
-      //Given
+      // given
       const user = new User({ id: 123 });
       const token = tokenService.createTokenFromUser(user);
 
-      //When
+      // when
       const result = tokenService.extractUserId(token);
 
-      //Then
+      // then
       expect(result).to.equal(123);
     });
 
@@ -27,26 +27,26 @@ describe('Unit | Domain | Service | Token Service', function() {
       // given
       const token = 'eyJhbGciOiJIUzI1NiIsIgR5cCI6IkpXVCJ9.eyJ1c2VyX2lPIjoxMjMsImlhdCI6MTQ5OTA3Nzg2Mn0.FRAAoowTA8Bc6BOzD7wWh2viVN47VrPcGgLuHi_NmKw';
 
-      //When
+      // when
       const result = tokenService.extractUserId(token);
 
-      //Then
+      // then
       expect(result).to.equal(null);
     });
 
   });
 
-  describe('#extractAccessUserId', () => {
+  describe('#extractUserIdForCampaignResults', () => {
 
     it('should return userId if the token passed is valid', () => {
-      //Given
+      // given
       const userId = 123;
-      const token = tokenService.createTokenForAccessLimited(userId);
+      const token = tokenService.createTokenForCampaignResults(userId);
 
-      //When
-      const result = tokenService.extractAccessUserId(token);
+      // when
+      const result = tokenService.extractUserIdForCampaignResults(token);
 
-      //Then
+      // then
       expect(result).to.equal(userId);
     });
 
@@ -54,10 +54,10 @@ describe('Unit | Domain | Service | Token Service', function() {
       // given
       const token = 'eyJhbGciOiJIUzI1NiIsIgR5cCI6IkpXVCJ9.eyJ1c2VyX2lPIjoxMjMsImlhdCI6MTQ5OTA3Nzg2Mn0.FRAAoowTA8Bc6BOzD7wWh2viVN47VrPcGgLuHi_NmKw';
 
-      //When
-      const result = tokenService.extractAccessUserId(token);
+      // when
+      const result = tokenService.extractUserIdForCampaignResults(token);
 
-      //Then
+      // then
       expect(result).to.equal(null);
     });
 
@@ -69,10 +69,10 @@ describe('Unit | Domain | Service | Token Service', function() {
       // given
       const token = 'eyJhbGciOiJIUzI1NiIsIgR5cCI6IkpXVCJ9.eyJ1c2VyX2lPIjoxMjMsImlhdCI6MTQ5OTA3Nzg2Mn0.FRAAoowTA8Bc6BOzD7wWh2viVN47VrPcGgLuHi_NmKw';
 
-      //When
+      // when
       const promise = tokenService.verifyValidity(token);
 
-      //Then
+      // then
       return promise.catch((result) => {
         expect(result).to.be.an.instanceof(InvalidTemporaryKeyError);
       });

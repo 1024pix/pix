@@ -24,7 +24,7 @@ exports.register = function(server, options, next) {
         auth: false,
         handler: campaignController.getCsvResults,
         notes: [
-          '- **Cette route est restreinte aux utilisateurs authentifiés**\n' +
+          '- **Cette route est restreinte via un token dédié passé en paramètre avec l\'id de l\'utilisateur.**\n' +
           '- Récupération d\'un CSV avec les résultats de la campagne\n' +
           '- L‘utilisateur doit avoir les droits d‘accès à l‘organisation liée à la campagne à créer',
         ],

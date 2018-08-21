@@ -73,9 +73,9 @@ module.exports = {
 
   getCampaigns(request, reply) {
     const organizationId = request.params.id;
-    const tokenToAccessAtCampaigns = tokenService.createTokenForAccessLimited(request.auth.credentials.userId);
+    const tokenForCampaignResults = tokenService.createTokenForCampaignResults(request.auth.credentials.userId);
     return usecases.getOrganizationCampaigns({ organizationId, campaignRepository })
-      .then((campaigns) => campaignSerializer.serialize(campaigns, tokenToAccessAtCampaigns))
+      .then((campaigns) => campaignSerializer.serialize(campaigns, tokenForCampaignResults))
       .then(controllerReplies(reply).ok)
       .catch(controllerReplies(reply).error);
   },

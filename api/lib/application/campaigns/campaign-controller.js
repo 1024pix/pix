@@ -10,7 +10,7 @@ const userRepository = require('../../infrastructure/repositories/user-repositor
 const campaignParticipationRepository = require('../../infrastructure/repositories/campaign-participation-repository');
 const organizationRepository = require('../../infrastructure/repositories/organization-repository');
 const campaignSerializer = require('../../infrastructure/serializers/jsonapi/campaign-serializer');
-const { UserNotAuthorizedToCreateCampaignError, EntityValidationError } = require('../../domain/errors');
+const { UserNotAuthorizedToCreateCampaignError, UserNotAuthorizedToGetCampaignResultsError, EntityValidationError } = require('../../domain/errors');
 
 const JSONAPI = require('../../interfaces/jsonapi');
 const logger = require('../../infrastructure/logger');
@@ -42,10 +42,10 @@ module.exports = {
 
   getCsvResults(request, reply) {
     const token = request.query.accessToken;
-    const userId = tokenService.extractAccessUserId(token);
+    const userId = tokenService.extractUserIdForCampaignResults(token);
 
     const campaignId = parseInt(request.params.id);
-    const fileName = ` export-campaign-${campaignId}-${moment().format('YYYY-MM-DD-hhmm')}.csv`;
+    const fileName = `export-campaign-${campaignId}-${moment().format('YYYY-MM-DD-hhmm')}.csv`;
 
     return usecases.getResultsCampaignInCSVFormat({ userId, campaignId,
       campaignRepository, userRepository, targetProfileRepository,
@@ -57,36 +57,12 @@ module.exports = {
           .header('Content-Disposition', `attachment; filename=${fileName}`);
       })
       .catch((error) => {
-        if(error instanceof UserNotAuthorizedToCreateCampaignError) {
+        if(error instanceof UserNotAuthorizedToGetCampaignResultsError) {
           return reply(JSONAPI.forbiddenError(error.message)).code(403);
         }
 
         logger.error(error);
         return reply(JSONAPI.internalError('Une erreur inattendue est survenue lors de la récupération des résultats de la campagne')).code(500);
       });
-  },
-
-  getCsvResultsData(request, reply) {
-    const userId = request.auth.credentials.userId;
-
-    const campaignId = parseInt(request.params.id);
-    const fileName = ` export-campaign-${campaignId}-${moment().format('YYYY-MM-DD-hhmm')}.csv`;
-
-    return usecases.getResultsCampaignInCSVFormat({ userId, campaignId,
-      campaignRepository, userRepository, targetProfileRepository,
-      competenceRepository, campaignParticipationRepository, organizationRepository,
-      smartPlacementAssessmentRepository })
-      .then((resultCampaignCsv) => {
-        return reply(campaignSerializer.serializeCsv({ data:resultCampaignCsv, filename:fileName })).code(201);
-      })
-      .catch((error) => {
-        if(error instanceof UserNotAuthorizedToCreateCampaignError) {
-          return reply(JSONAPI.forbiddenError(error.message)).code(403);
-        }
-
-        logger.error(error);
-        return reply(JSONAPI.internalError('Une erreur inattendue est survenue lors de la création de la campagne')).code(500);
-      });
   }
-
 };
