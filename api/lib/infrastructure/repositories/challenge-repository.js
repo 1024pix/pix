@@ -1,5 +1,3 @@
-const airtable = require('../airtable');
-const serializer = require('../serializers/airtable/challenge-serializer');
 const Challenge = require('../../domain/models/Challenge');
 const Skill = require('../../domain/models/Skill');
 
@@ -9,14 +7,7 @@ const solutionAdapter = require('../adapters/solution-adapter');
 const airtableDatasourceObjects = require('../datasources/airtable/objects');
 const { NotFoundError } = require('../../domain/errors');
 
-const AIRTABLE_TABLE_NAME = 'Epreuves';
-
 module.exports = {
-
-  list() {
-    return airtable.findRecords(AIRTABLE_TABLE_NAME, {})
-      .then((airtableChallenges) => airtableChallenges.map(serializer.deserialize));
-  },
 
   get(id) {
 
@@ -28,6 +19,12 @@ module.exports = {
         }
         throw error;
       });
+  },
+
+  list() {
+
+    return challengeDatasource.list()
+      .then((challengeDataObjects) => Promise.all(challengeDataObjects.map(_convertChallengeDatasourceToDomain)));
   },
 
   findByCompetence(competence) {

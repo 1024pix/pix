@@ -18,6 +18,31 @@ describe('Unit | Infrastructure | Datasource | Airtable | ChallengeDatasource', 
     sandbox.restore();
   });
 
+  describe('#list', () => {
+
+    let promise;
+
+    beforeEach(() => {
+      // when
+      promise = challengeDatasource.list();
+    });
+
+    it('should query Airtable challenges with empty query', () => {
+      // then
+      return promise.then(() => {
+        expect(airtable.findRecords).to.have.been.calledWith('Epreuves', {});
+      });
+    });
+
+    it('should resolve an array of Challenge from airTable', () => {
+      // then
+      return promise.then((result) => {
+        expect(result).to.be.an('array').and.to.have.lengthOf(2);
+        expect(result[0]).to.be.an.instanceOf(airTableDataModels.Challenge);
+      });
+    });
+  });
+
   describe('#get', () => {
 
     it('should call airtable on Epreuves table with the id and return a datamodel Challenge object', () => {
@@ -60,9 +85,7 @@ describe('Unit | Infrastructure | Datasource | Airtable | ChallengeDatasource', 
         // then
         return expect(promise).to.have.been.rejectedWith(new AirtableError('SERVICE_UNAVAILABLE'));
       });
-
     });
-
   });
 
   describe('#findBySkillNames', () => {
@@ -90,7 +113,6 @@ describe('Unit | Infrastructure | Datasource | Airtable | ChallengeDatasource', 
                            ')',
         });
       });
-
     });
 
     it('should resolve an array of Challenge from airTable', () => {
