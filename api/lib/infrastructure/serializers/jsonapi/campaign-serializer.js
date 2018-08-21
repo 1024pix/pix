@@ -15,12 +15,6 @@ module.exports = {
     }).serialize(campaigns);
   },
 
-  serializeCsv(csvResult) {
-    return new Serializer('campaign-result-csv', {
-      attributes: ['data', 'filename'],
-    }).serialize(csvResult);
-  },
-
   deserialize(json) {
     const campaign = new Campaign({
       id: json.data.id,
