@@ -2,12 +2,13 @@ const { expect, factory, sinon } = require('../../../test-helper');
 const AirtableRecord = require('airtable').Record;
 const airtable = require('../../../../lib/infrastructure/airtable');
 
-const ChallengeAirtableDataObjectFixture = require('../../../tooling/fixtures/infrastructure/challengeAirtableDataObjectFixture');
-const AirtableResourceNotFound = require('../../../../lib/infrastructure/datasources/airtable/objects/AirtableResourceNotFound');
+const ChallengeAirtableDataObjectFixture = require(
+  '../../../tooling/fixtures/infrastructure/challengeAirtableDataObjectFixture');
+const AirtableResourceNotFound = require(
+  '../../../../lib/infrastructure/datasources/airtable/objects/AirtableResourceNotFound');
 const { NotFoundError } = require('../../../../lib/domain/errors');
 
 const Challenge = require('../../../../lib/domain/models/Challenge');
-const Competence = require('../../../../lib/domain/models/Competence');
 const Skill = require('../../../../lib/domain/models/Skill');
 const Solution = require('../../../../lib/domain/models/Solution');
 const Validator = require('../../../../lib/domain/models/Validator');
@@ -74,45 +75,9 @@ describe('Unit | Repository | challenge-repository', () => {
     });
   });
 
-  describe('#findByCompetence', () => {
-
-    beforeEach(() => {
-      sandbox.stub(airtable, 'findRecords').resolves([challenge1, challenge2]);
-    });
-
-    it('should fetch all challenge records from Airtable "Epreuves" table with given competence', () => {
-      // given
-      const competence = new Competence({
-        index: '1.1',
-        name: 'Mener une recherche et une veille d’informations',
-      });
-      const expectedQuery = { view: competence.reference };
-
-      // when
-      const fetchedChallenges = challengeRepository.findByCompetence(competence);
-
-      // then
-      return fetchedChallenges.then(() => {
-        expect(airtable.findRecords).to.have.been.calledWith('Epreuves', expectedQuery);
-      });
-    });
-
-    it('should return domain Challenge objects', () => {
-      // when
-      const fetchedChallenges = challengeRepository.list();
-
-      // then
-      return fetchedChallenges.then((challenges) => {
-        expect(challenges).to.have.lengthOf(2);
-        expect(challenges[0]).to.be.an.instanceOf(Challenge);
-      });
-    });
-  });
-
   describe('#get', () => {
 
     beforeEach(() => {
-      sandbox.stub(airtable, 'getRecord').resolves(challenge1);
       sandbox.stub(challengeDataSource, 'get');
       sandbox.stub(skillDatasource, 'get').resolves();
       sandbox.stub(solutionAdapter, 'fromChallengeAirtableDataObject');
@@ -169,9 +134,13 @@ describe('Unit | Repository | challenge-repository', () => {
         it('should have basic properties', () => {
           // then
           return promise.then((challenge) => {
-            expect(challenge.instruction).to.equal('Les moteurs de recherche affichent certains liens en raison d\'un accord commercial.\n\nDans quels encadrés se trouvent ces liens ?');
+            expect(challenge.instruction)
+              .to
+              .equal(
+                'Les moteurs de recherche affichent certains liens en raison d\'un accord commercial.\n\nDans quels encadrés se trouvent ces liens ?');
             expect(challenge.proposals).to.equal('- 1\n- 2\n- 3\n- 4\n- 5');
             expect(challenge.timer).to.equal(1234);
+            expect(challenge.status).to.equal('validé');
             expect(challenge.illustrationUrl).to.equal('https://dl.airtable.com/2MGErxGTQl2g2KiqlYgV_venise4.png');
             expect(challenge.attachments).to.deep.equal([
               'https://dl.airtable.com/nHWKNZZ7SQeOKsOvVykV_navigationdiaporama5.pptx',
@@ -251,10 +220,102 @@ describe('Unit | Repository | challenge-repository', () => {
     });
   });
 
+  describe('#findByCompetence', () => {
+
+    let competence;
+
+    beforeEach(() => {
+      competence = factory.buildCompetence();
+
+      sandbox.stub(airtable, 'findRecords').resolves([challenge1, challenge2]);
+
+      sandbox.stub(challengeDataSource, 'findByCompetence');
+      sandbox.stub(skillDatasource, 'get').resolves();
+      sandbox.stub(solutionAdapter, 'fromChallengeAirtableDataObject');
+    });
+
+    context('when query happens with no error', () => {
+
+      let challengeDataObject1;
+      let challengeDataObject2;
+      let challengeRecordId;
+      let promise;
+      let solution;
+
+      beforeEach(() => {
+        // given
+        challengeRecordId = 'rec_challenge_id';
+        challengeDataObject1 = factory.buildChallengeAirtableDataObject({
+          id: challengeRecordId,
+          skillIds: ['skillId_1'],
+        });
+        challengeDataObject2 = factory.buildChallengeAirtableDataObject({
+          id: challengeRecordId,
+          skillIds: ['skillId_2', 'skillId_3'],
+        });
+        solution = factory.buildSolution();
+        challengeDataSource.findByCompetence
+          .withArgs(competence)
+          .resolves([challengeDataObject1, challengeDataObject2]);
+        skillDatasource.get.withArgs('skillId_1').resolves(factory.buildSkillAirtableDataObject({ name: '@web1' }));
+        skillDatasource.get.withArgs('skillId_2').resolves(factory.buildSkillAirtableDataObject({ name: '@url2' }));
+        skillDatasource.get.withArgs('skillId_3').resolves(factory.buildSkillAirtableDataObject({ name: '@url3' }));
+        solutionAdapter.fromChallengeAirtableDataObject.returns(solution);
+
+        // when
+        promise = challengeRepository.findByCompetence(competence);
+      });
+
+      it('should succeed', () => {
+        // then
+        return expect(promise).to.be.fulfilled;
+      });
+      it('should call challengeDataObjects with competence', () => {
+        // then
+        return promise.then(() => {
+          expect(challengeDataSource.findByCompetence).to.have.been.calledWith(competence);
+        });
+      });
+      it('should resolve an array of 2 Challenge domain objects', () => {
+        // then
+        // exact composition and construction of the Challenge object is tested in repository 'get' function.
+        return promise.then((challenges) => {
+          expect(challenges).to.be.an('array');
+          expect(challenges).to.have.lengthOf(2);
+          challenges.map((challenge) => expect(challenge).to.be.an.instanceOf(Challenge));
+        });
+      });
+      it('should load skills', () => {
+        // then
+        return promise.then(() => {
+          expect(skillDatasource.get).to.have.been.calledWith('skillId_1');
+          expect(skillDatasource.get).to.have.been.calledWith('skillId_2');
+          expect(skillDatasource.get).to.have.been.calledWith('skillId_3');
+        });
+      });
+    });
+
+    context('when the datasource is on error', () => {
+
+      it('should transfer the error', () => {
+        // given
+        const error = new Error();
+        challengeDataSource.findByCompetence.rejects(error);
+
+        // when
+        const promise = challengeRepository.findByCompetence(competence);
+
+        // then
+        return expect(promise).to.have.been.rejectedWith(error);
+      });
+    });
+  });
+
   describe('#findBySkills', () => {
 
     beforeEach(() => {
-      sinon.stub(challengeDatasource, 'findBySkills').resolves([ChallengeAirtableDataObjectFixture(), ChallengeAirtableDataObjectFixture()]);
+      sinon.stub(challengeDatasource, 'findBySkills')
+        .resolves([ChallengeAirtableDataObjectFixture(), ChallengeAirtableDataObjectFixture()]);
     });
 
     afterEach(() => {
