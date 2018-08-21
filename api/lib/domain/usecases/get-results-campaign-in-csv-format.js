@@ -119,7 +119,7 @@ function _getSkillsValidatedForCompetence(skills, knowledgeElements) {
 }
 
 function _createOneLineOfCSV(headers, organization, campaign, listCompetences, listArea, campaignParticipation, targetProfile, userRepository, smartPlacementAssessmentRepository) {
-  let line = headers.map(() => '');
+  let line = headers.map(() => '"Non disponible"');
 
   return smartPlacementAssessmentRepository.get(campaignParticipation.assessmentId)
     .then((assessment) => {
@@ -136,11 +136,11 @@ function _createOneLineOfCSV(headers, organization, campaign, listCompetences, l
 
       const percentageProgression = (assessment.isCompleted) ? 100 : assessment.knowledgeElements.length * 100 / (targetProfile.skills.length);
       line = _addCellByHeadersTitle('"% de progression"', percentageProgression, line, headers);
+
       line = _addCellByHeadersTitle('"Date entrée (rejoint)"', assessment.createdAt, line, headers);
 
       if(assessment.isCompleted) {
-        line = _addCellByHeadersTitle('"Nombre de Pix obtenus"', _totalPixScore(assessment.knowledgeElements), line, headers);
-        line = _addCellByHeadersTitle('"Nombre de pix possibles"', '0', line, headers);
+        //line = _addCellByHeadersTitle('"Nombre de Pix obtenus"', _totalPixScore(assessment.knowledgeElements), line, headers);
         line = _addCellByHeadersTitle('"% maitrise de l\'ensemble des acquis du profil"', _percentageSkillsValidated(assessment, targetProfile), line, headers);
 
         // By Competences
