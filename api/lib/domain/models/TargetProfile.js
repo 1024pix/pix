@@ -1,7 +1,7 @@
 class TargetProfile {
   constructor({
-    // attributes
     id,
+    // attributes
     name,
     isPublic,
     // includes
