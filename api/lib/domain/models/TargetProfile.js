@@ -9,6 +9,7 @@ class TargetProfile {
     // references
     organizationId
   } = {}) {
+    this.id = id;
     // attributes
     this.id = id;
     this.name = name;
