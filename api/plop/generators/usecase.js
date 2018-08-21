@@ -9,7 +9,7 @@ module.exports = {
     {
       type: 'add',
       path: 'lib/domain/usecases/{{name}}.js',
-      templateFile: './plop/templates/usecase.hbs'
+      templateFile: './plop/templates/usecase/usecase.hbs'
     },
     {
       type: 'modify',
@@ -20,7 +20,7 @@ module.exports = {
     {
       type: 'add',
       path: 'tests/unit/domain/usecases/{{name}}_test.js',
-      templateFile: './plop/templates/usecase_test.hbs'
+      templateFile: './plop/templates/usecase/usecase_test.hbs'
     }
   ]
 };
