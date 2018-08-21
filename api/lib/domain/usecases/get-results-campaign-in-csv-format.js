@@ -45,13 +45,13 @@ function _createHeaderOfCSV(skillNames, competences, areas) {
   competences.forEach((competence) => {
     headers.push(`"Niveau de la competence ${competence.name}"`);
     headers.push(`"Pix de la competence ${competence.name}"`);
-    headers.push(`"% de maitrise des acquis pour la competence ${competence.name}"`);
-    headers.push(`"Nombre d'acquis du profil cible maitrisés / nombre d'acquis ${competence.name}"`);
+    headers.push(`"% de maitrise des acquis pour la compétence ${competence.name}"`);
+    headers.push(`"Nombre d'acquis du profil cible maitrisés / nombre d'acquis pour la compétence ${competence.name}"`);
   });
 
   areas.forEach((area) => {
     headers.push(`"% de maitrise des acquis pour le domaine ${area.title}"`);
-    headers.push(`"Nombre d'acquis du profil cible maitrisés / nombre d'acquis ${area.title}"`);
+    headers.push(`"Nombre d'acquis du profil cible maitrisés / nombre d'acquis pour le domaine ${area.title}"`);
   });
 
   skillNames.forEach((skill) => {
@@ -143,16 +143,37 @@ function _createOneLineOfCSV(headers, organization, campaign, listCompetences, l
         //line = _addCellByHeadersTitle('"Nombre de Pix obtenus"', _totalPixScore(assessment.knowledgeElements), line, headers);
         line = _addCellByHeadersTitle('"% maitrise de l\'ensemble des acquis du profil"', _percentageSkillsValidated(assessment, targetProfile), line, headers);
 
+        const areaSkills = listArea.map((area) => {
+          return {
+            title: area.title,
+            numberSkillsValidated: 0,
+            numberSkillsTested: 0,
+          }
+        });
+
         // By Competences
         _.forEach(listCompetences, (competence) => {
           const skillsForThisCompetence = _getSkillsOfCompetenceByTargetProfile(competence, targetProfile);
-          const skillsValidatedForThisCompetence = _getSkillsValidatedForCompetence(skillsForThisCompetence, assessment.knowledgeElements);
-          const percentage = skillsValidatedForThisCompetence * 100 / skillsForThisCompetence.length;
-          const diff = `${skillsValidatedForThisCompetence}/${skillsForThisCompetence.length}`;
-          line = _addCellByHeadersTitle(`"% de maitrise des acquis pour la competence ${competence.name}"`, percentage, line, headers);
-          line = _addCellByHeadersTitle(`"Nombre d'acquis du profil cible maitrisés / nombre d'acquis ${competence.name}"`, diff, line, headers);
+          const numberOfSkillsValidatedForThisCompetence = _getSkillsValidatedForCompetence(skillsForThisCompetence, assessment.knowledgeElements);
+          const percentage = numberOfSkillsValidatedForThisCompetence * 100 / skillsForThisCompetence.length;
+          const diff = `${numberOfSkillsValidatedForThisCompetence}/${skillsForThisCompetence.length}`;
+          line = _addCellByHeadersTitle(`"% de maitrise des acquis pour la compétence ${competence.name}"`, percentage, line, headers);
+          line = _addCellByHeadersTitle(`"Nombre d'acquis du profil cible maitrisés / nombre d'acquis pour la compétence ${competence.name}"`, diff, line, headers);
+
+          // Add on Area
+          const skillsByAreaForCompetence = areaSkills.find(area => area.title === competence.area.title);
+          skillsByAreaForCompetence.numberSkillsValidated = skillsByAreaForCompetence.numberSkillsValidated + numberOfSkillsValidatedForThisCompetence;
+          skillsByAreaForCompetence.numberSkillsTested = skillsByAreaForCompetence.numberSkillsTested + skillsForThisCompetence.length;
         });
+
         // By Area
+        _.forEach(areaSkills, (area) => {
+          const percentage = area.numberSkillsValidated * 100 / area.numberSkillsTested;
+          const diff = `${area.numberSkillsValidated}/${area.numberSkillsTested}`;
+
+          line = _addCellByHeadersTitle(`"% de maitrise des acquis pour le domaine ${area.title}"`, percentage, line, headers);
+          line = _addCellByHeadersTitle(`"Nombre d'acquis du profil cible maitrisés / nombre d'acquis pour le domaine ${area.title}"`, diff, line, headers);
+        });
 
         // By Skills
         _.forEach(targetProfile.skills, (skill) => {
