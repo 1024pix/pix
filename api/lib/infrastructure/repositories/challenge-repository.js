@@ -19,13 +19,13 @@ module.exports = {
   },
 
   get(id) {
+
     return challengeDatasource.get(id)
       .then(_convertChallengeDatasourceToDomain)
       .catch((error) => {
         if (error instanceof airtableDatasourceObjects.AirtableResourceNotFound) {
           throw new NotFoundError();
         }
-
         throw error;
       });
   },
@@ -37,24 +37,10 @@ module.exports = {
   },
 
   findBySkills(skills) {
-    skills = skills.map((skill) => {
-      return skill.name;
-    });
-    return challengeDatasource.findBySkillNames(skills)
-      .then((fetchedChallenges) => {
-        return fetchedChallenges.map((challenge) => {
-          return Challenge.fromAttributes({
-            id: challenge.id,
-            instruction: challenge.instruction,
-            status: challenge.status,
-            proposals: challenge.proposals,
-            timer: challenge.timer,
-            skills: challenge.skills.map((acquis) => {
-              return new Skill({ name: acquis });
-            }),
-          });
-        });
-      });
+
+    const skillNames = skills.map((skill) => skill.name);
+    return challengeDatasource.findBySkillNames(skillNames)
+      .then((challengeDataObjects) => Promise.all(challengeDataObjects.map(_convertChallengeDatasourceToDomain)));
   },
 };
 
