@@ -9,13 +9,9 @@ module.exports = {
     const requestedOrganizationId = request.params.id;
 
     return usecases.findAvailableTargetProfiles({ organizationId: requestedOrganizationId, targetProfileRepository })
-      .then((foundTargetProfiles) => {
-        const serializedTargetProfiles = targetProfileSerializer.serialize(foundTargetProfiles);
-        controllerReplies(reply).ok(serializedTargetProfiles);
-      })
-      .catch((error) => {
-        controllerReplies(reply).error(error);
-      });
+      .then(targetProfileSerializer.serialize)
+      .then(controllerReplies(reply).ok)
+      .catch(controllerReplies(reply).error);
   }
 
 };
