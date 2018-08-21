@@ -18,6 +18,16 @@ module.exports = {
       });
   },
 
+  list() {
+
+    const query = {};
+
+    return airtable.findRecords(AIRTABLE_TABLE_NAME, query)
+      .then((airtableChallenges) => {
+        return airtableChallenges.map(airTableDataObjects.Challenge.fromAirTableObject);
+      });
+  },
+
   findBySkillNames(listOfSkillNames) {
 
     const listOfFilters = [];
