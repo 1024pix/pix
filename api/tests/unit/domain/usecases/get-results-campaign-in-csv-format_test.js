@@ -113,10 +113,10 @@ describe('Unit | Domain | Use Cases | get-results-campaign-in-csv-format', () =
         '"% maitrise de l\'ensemble des acquis du profil";' +
         '"Niveau de la competence Competence1";' +
         '"Pix de la competence Competence1";' +
-        '"% de maitrise des acquis pour la competence Competence1";' +
-        '"Nombre d\'acquis du profil cible maitrisés / nombre d\'acquis Competence1";' +
+        '"% de maitrise des acquis pour la compétence Competence1";' +
+        '"Nombre d\'acquis du profil cible maitrisés / nombre d\'acquis pour la compétence Competence1";' +
         '"% de maitrise des acquis pour le domaine Domain 1";' +
-        '"Nombre d\'acquis du profil cible maitrisés / nombre d\'acquis Domain 1";' +
+        '"Nombre d\'acquis du profil cible maitrisés / nombre d\'acquis pour le domaine Domain 1";' +
         '"Acquis web1";' +
         '"Acquis web2";' +
         '"Acquis web3";' +
@@ -170,8 +170,8 @@ describe('Unit | Domain | Use Cases | get-results-campaign-in-csv-format', () =
         '"Non disponible";' +
         '"75";' +
         '"3/4";' +
-        '"Non disponible";' +
-        '"Non disponible";' +
+        '"75";' +
+        '"3/4";' +
         '"OK";' +
         '"OK";' +
         '"OK";' +
