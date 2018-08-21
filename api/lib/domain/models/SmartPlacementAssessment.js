@@ -1,4 +1,5 @@
 const SkillReview = require('./SkillReview');
+const SMART_PLACEMENT_TYPE = 'SMART_PLACEMENT';
 
 const SmartPlacementAssessmentState = Object.freeze({
   COMPLETED: 'completed',
@@ -16,7 +17,6 @@ class SmartPlacementAssessment {
     // attributes
     state,
     createdAt,
-    type,
     // includes
     answers = [], // of type SmartPlacementAnswers
     knowledgeElements = [], // of type SmartKnowledgeElements
@@ -28,13 +28,16 @@ class SmartPlacementAssessment {
     // attributes
     this.state = state;
     this.createdAt = createdAt;
-    this.type = type;
     // includes
     this.answers = answers;
     this.knowledgeElements = knowledgeElements;
     this.targetProfile = targetProfile;
     // references
     this.userId = userId;
+  }
+
+  get type() {
+    return SMART_PLACEMENT_TYPE;
   }
 
   get isCompleted() {

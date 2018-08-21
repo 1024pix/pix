@@ -8,10 +8,10 @@ function createTokenFromUser(user) {
   }, settings.authentication.secret, { expiresIn: settings.authentication.tokenLifespan });
 }
 
-function createTokenForAccessLimited(userId) {
+function createTokenForCampaignResults(userId) {
   return jsonwebtoken.sign({
     access_id: userId,
-  }, settings.authentication.secret, { expiresIn: settings.authentication.tokenForDataLifespan });
+  }, settings.authentication.secret, { expiresIn: settings.authentication.tokenForCampaignResultLifespan });
 }
 
 function extractTokenFromAuthChain(authChain) {
@@ -46,15 +46,15 @@ function extractUserId(token) {
   return decoded.user_id || null;
 }
 
-function extractAccessUserId(token) {
+function extractUserIdForCampaignResults(token) {
   const decoded = getDecodedToken(token);
   return decoded.access_id || null;
 }
 
 module.exports = {
   createTokenFromUser,
-  createTokenForAccessLimited,
-  extractAccessUserId,
+  createTokenForCampaignResults,
+  extractUserIdForCampaignResults,
   extractUserId,
   extractTokenFromAuthChain,
   verifyValidity,

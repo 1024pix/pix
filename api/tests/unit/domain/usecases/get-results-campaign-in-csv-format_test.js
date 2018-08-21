@@ -149,20 +149,21 @@ describe('Unit | Domain | Use Cases | get-results-campaign-in-csv-format', () =
         `"${targetProfile.name}";` +
         `"${user.firstName}";` +
         `"${user.lastName}";` +
-        '"";' +
-        '"";' +
-        '"";' +
-        '"";' +
-        '"";' +
-        '"";' +
-        '"";' +
-        '"";' +
-        '"";' +
+        ';' +
+        ';' +
+        ';' +
+        ';' +
+        ';' +
+        ';' +
+        ';' +
+        ';' +
+        ';' +
         '"100";' +
+
         `"${assessment.createdAt}";` +
-        '"";' +
-        '"";' +
-        '"";' +
+        ';' +
+        ';' +
+        ';' +
         '"6";' +
         '"0";' +
         '"75";' +
