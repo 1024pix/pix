@@ -13,8 +13,7 @@ module.exports = {
       isT3Enabled: challengeAirtableDataObject.t3Status !== 'Désactivé',
       type: challengeAirtableDataObject.type,
       value: challengeAirtableDataObject.solution,
-      scoring
+      scoring,
     });
   },
 };
-
