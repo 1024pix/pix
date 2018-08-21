@@ -8,8 +8,13 @@ exports.register = (server, options, next) => {
       path: '/api/organizations/{id}/target-profiles',
       config: {
         handler: targetProfileController.findTargetProfiles,
-        tags: ['api']
+        notes: [
+          '- **Cette route est restreinte aux utilisateurs authentifiés**\n' +
+          '- Récupération des profiles cibles utilisables par l‘organisation\n'
+        ],
+        tags: ['api', 'target-profile']
       }
+
     }
   ]);
 
