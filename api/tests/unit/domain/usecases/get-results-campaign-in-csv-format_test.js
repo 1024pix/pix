@@ -149,30 +149,29 @@ describe('Unit | Domain | Use Cases | get-results-campaign-in-csv-format', () =
         `"${targetProfile.name}";` +
         `"${user.firstName}";` +
         `"${user.lastName}";` +
-        ';' +
-        ';' +
-        ';' +
-        ';' +
-        ';' +
-        ';' +
-        ';' +
-        ';' +
-        ';' +
+        '"Non disponible";' +
+        '"Non disponible";' +
+        '"Non disponible";' +
+        '"Non disponible";' +
+        '"Non disponible";' +
+        '"Non disponible";' +
+        '"Non disponible";' +
+        '"Non disponible";' +
+        '"Non disponible";' +
         '"100";' +
-
         `"${assessment.createdAt}";` +
-        ';' +
-        ';' +
-        ';' +
-        '"6";' +
-        '"0";' +
+        '"Non disponible";' +
+        '"Non disponible";' +
+        '"Non disponible";' +
+        '"Non disponible";' +
+        '"Non disponible";' +
         '"75";' +
-        ';' +
-        ';' +
+        '"Non disponible";' +
+        '"Non disponible";' +
         '"75";' +
         '"3/4";' +
-        ';' +
-        ';' +
+        '"Non disponible";' +
+        '"Non disponible";' +
         '"OK";' +
         '"OK";' +
         '"OK";' +
