@@ -18,7 +18,7 @@ module.exports = {
       });
   },
 
-  findBySkills(listOfSkillNames) {
+  findBySkillNames(listOfSkillNames) {
 
     const listOfFilters = [];
     listOfSkillNames.forEach((skillName) => {

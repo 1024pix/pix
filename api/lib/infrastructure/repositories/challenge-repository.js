@@ -40,7 +40,7 @@ module.exports = {
     skills = skills.map((skill) => {
       return skill.name;
     });
-    return challengeDatasource.findBySkills(skills)
+    return challengeDatasource.findBySkillNames(skills)
       .then((fetchedChallenges) => {
         return fetchedChallenges.map((challenge) => {
           return Challenge.fromAttributes({
@@ -56,7 +56,6 @@ module.exports = {
         });
       });
   },
-
 };
 
 function _convertChallengeDatasourceToDomain(challengeDataObject) {
