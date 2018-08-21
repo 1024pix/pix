@@ -1,3 +1,5 @@
+const _ = require('lodash');
+
 class CampaignParticipation {
 
   constructor({ id, campaign, assessmentId } = {}) {
@@ -8,6 +10,10 @@ class CampaignParticipation {
 
   isAboutCampaignCode(code) {
     return this.campaign.code === code;
+  }
+
+  getTargetProfileId() {
+    return _.get(this, 'campaign.targetProfileId', null);
   }
 
   adaptModelToDb() {

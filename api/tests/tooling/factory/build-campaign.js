@@ -9,6 +9,7 @@ module.exports = function buildCampaign(
     createdAt = faker.date.recent(),
     creatorId = faker.random.number(2),
     organizationId = faker.random.number(2),
+    targetProfileId = faker.random.number(2),
   } = {}) {
-  return new Campaign({ id, name, code, createdAt, creatorId, organizationId });
+  return new Campaign({ id, name, code, createdAt, creatorId, organizationId, targetProfileId });
 };
