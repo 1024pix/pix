@@ -39,5 +39,4 @@ module.exports = function getNextChallengeForSmartPlacement({
       throw new AssessmentEndedError();
     })
     .then(challengeRepository.get);
-
 };
