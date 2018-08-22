@@ -1,7 +1,6 @@
 const BookshelfTargetProfile = require('../../infrastructure/data/target-profile');
 const skillDatasource = require('../../infrastructure/datasources/airtable/skill-datasource');
-const Skill = require('../../domain/models/Skill');
-const TargetProfile = require('../../domain/models/TargetProfile');
+const targetProfileAdapter = require('../adapters/target-profile-adapter');
 
 module.exports = {
 
@@ -10,12 +9,13 @@ module.exports = {
     return BookshelfTargetProfile
       .where({ id })
       .fetch({ withRelated: ['skillIds'] })
-      .then((bookshelfTargetProfile) => {
-        return _fetchTargetProfileSkillDataObjects(bookshelfTargetProfile)
-          .then((skillDataObjects) => {
+      .then(_getBookshelfTargetProfileAndAssociatedSkillAirtableDataObjects)
+      .then(([bookshelfTargetProfile, associatedSkillAirtableDataObjects]) => {
 
-            return _toDomain(bookshelfTargetProfile, skillDataObjects);
-          });
+        return targetProfileAdapter.fromDatasourceObjects({
+          bookshelfTargetProfile,
+          associatedSkillAirtableDataObjects,
+        });
       });
   },
 
@@ -27,10 +27,13 @@ module.exports = {
       .then((bookshelfTargetProfiles) => {
         const promises = bookshelfTargetProfiles.map((bookshelfTargetProfile) => {
 
-          return _fetchTargetProfileSkillDataObjects(bookshelfTargetProfile)
-            .then((skillDataObjects) => {
+          return _getBookshelfTargetProfileAndAssociatedSkillAirtableDataObjects(bookshelfTargetProfile)
+            .then(([bookshelfTargetProfile, associatedSkillAirtableDataObjects]) => {
 
-              return _toDomain(bookshelfTargetProfile, skillDataObjects);
+              return targetProfileAdapter.fromDatasourceObjects({
+                bookshelfTargetProfile,
+                associatedSkillAirtableDataObjects,
+              });
             });
         });
 
@@ -46,10 +49,13 @@ module.exports = {
       .then((bookshelfTargetProfiles) => {
         const promises = bookshelfTargetProfiles.map((bookshelfTargetProfile) => {
 
-          return _fetchTargetProfileSkillDataObjects(bookshelfTargetProfile)
-            .then((skillDataObjects) => {
+          return _getBookshelfTargetProfileAndAssociatedSkillAirtableDataObjects(bookshelfTargetProfile)
+            .then(([bookshelfTargetProfile, associatedSkillAirtableDataObjects]) => {
 
-              return _toDomain(bookshelfTargetProfile, skillDataObjects);
+              return targetProfileAdapter.fromDatasourceObjects({
+                bookshelfTargetProfile,
+                associatedSkillAirtableDataObjects,
+              });
             });
         });
 
@@ -58,30 +64,14 @@ module.exports = {
   },
 };
 
-function _fetchTargetProfileSkillDataObjects(bookshelfTargetProfile) {
+function _getBookshelfTargetProfileAndAssociatedSkillAirtableDataObjects(bookshelfTargetProfile) {
+
   const skillRecordIds = bookshelfTargetProfile
     .related('skillIds')
     .map((BookshelfSkillId) => BookshelfSkillId.get('skillId'));
 
-  return skillDatasource.findByRecordIds(skillRecordIds);
-}
-
-function _toDomain(targetProfileBookshelf, associatedSkillDataObjects) {
-
-  const associatedSkills = associatedSkillDataObjects.map(_toDomainSkill);
-
-  return new TargetProfile({
-    id: targetProfileBookshelf.get('id'),
-    name: targetProfileBookshelf.get('name'),
-    isPublic: Boolean(targetProfileBookshelf.get('isPublic')),
-    organizationId: targetProfileBookshelf.get('organizationId'),
-    skills: associatedSkills,
-  });
-}
-
-function _toDomainSkill(skillDataObject) {
-  return new Skill({
-    id: skillDataObject.id,
-    name: skillDataObject.name,
-  });
+  return Promise.all([
+    bookshelfTargetProfile,
+    skillDatasource.findByRecordIds(skillRecordIds),
+  ]);
 }

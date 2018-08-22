@@ -166,7 +166,7 @@ describe('Integration | Repository | Target-profile', () => {
       });
     });
 
-    it('should contain skills linked to every target profiles', function() {
+    it('should contain skills linked to every target profiles', () => {
       // when
       const promise = targetProfileRepository.findTargetProfilesByOrganizationId(theRequestedOrganization.id);
 
