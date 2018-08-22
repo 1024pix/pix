@@ -16,7 +16,7 @@ describe('Unit | Application | Controller | Target-Profile', () => {
     let codeStub;
     let replyStub;
     const connectedUserId = 1;
-    let organizationId = '145'
+    const organizationId = '145';
 
     beforeEach(() => {
       sandbox = sinon.sandbox.create();

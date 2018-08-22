@@ -1,12 +1,9 @@
-module.exports = async function findAvailableTargetProfiles({
-  organizationId,
-  targetProfileRepository
-}) {
-  let availableTargetProfiles = [];
-
-  const targetProfilesLinkedToOrganization = await targetProfileRepository.findByFilters({ organizationId });
-  const publicTargetProfiles = await targetProfileRepository.findByFilters({ isPublic: true });
-  availableTargetProfiles = availableTargetProfiles.concat(targetProfilesLinkedToOrganization).concat(publicTargetProfiles);
-  return availableTargetProfiles;
-
+module.exports = function findAvailableTargetProfiles({ organizationId, targetProfileRepository }) {
+  return Promise.all([
+    targetProfileRepository.findByFilters({ organizationId }),
+    targetProfileRepository.findByFilters({ isPublic: true }),
+  ])
+    .then(([targetProfilesLinkedToOrganization, publicTargetProfiles]) => {
+      return targetProfilesLinkedToOrganization.concat(publicTargetProfiles);
+    });
 };

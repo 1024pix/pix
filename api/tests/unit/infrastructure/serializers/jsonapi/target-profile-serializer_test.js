@@ -1,6 +1,5 @@
 const { expect, factory } = require('../../../../test-helper');
 const serializer = require('../../../../../lib/infrastructure/serializers/jsonapi/target-profile-serializer');
-const TargetProfile = require('../../../../../lib/domain/models/TargetProfile');
 
 describe('Unit | Serializer | JSONAPI | target-profile-serializer', function() {
 
