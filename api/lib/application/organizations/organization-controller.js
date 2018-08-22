@@ -3,16 +3,20 @@ const JSONAPIError = require('jsonapi-serializer').Error;
 
 const userRepository = require('../../infrastructure/repositories/user-repository');
 const organizationRepository = require('../../infrastructure/repositories/organization-repository');
+const campaignRepository = require('../../infrastructure/repositories/campaign-repository');
 const competenceRepository = require('../../infrastructure/repositories/competence-repository');
 const snapshotRepository = require('../../infrastructure/repositories/snapshot-repository');
 const organizationSerializer = require('../../infrastructure/serializers/jsonapi/organization-serializer');
 const snapshotSerializer = require('../../infrastructure/serializers/jsonapi/snapshot-serializer');
+const campaignSerializer = require('../../infrastructure/serializers/jsonapi/campaign-serializer');
 const organizationService = require('../../domain/services/organization-service');
 const encryptionService = require('../../domain/services/encryption-service');
 const bookshelfUtils = require('../../../lib/infrastructure/utils/bookshelf-utils');
 const validationErrorSerializer = require('../../infrastructure/serializers/jsonapi/validation-error-serializer');
 const snapshotsCsvConverter = require('../../infrastructure/converter/snapshots-csv-converter');
 const organizationCreationValidator = require('../../domain/validators/organization-creation-validator');
+const usecases = require('../../domain/usecases');
+const controllerReplies = require('../../infrastructure/controller-replies');
 
 const logger = require('../../infrastructure/logger');
 const JSONAPI = require('../../interfaces/jsonapi');
@@ -64,6 +68,14 @@ module.exports = {
         logger.error(err);
         reply().code(500);
       });
+  },
+
+  getCampaigns(request, reply) {
+    const organizationId = request.params.id;
+    return usecases.getOrganizationCampaigns({ organizationId, campaignRepository })
+      .then(campaignSerializer.serialize)
+      .then(controllerReplies(reply).ok)
+      .catch(controllerReplies(reply).error);
   },
 
   // TODO extract domain logic into service

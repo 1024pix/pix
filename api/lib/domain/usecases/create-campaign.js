@@ -1,15 +1,9 @@
-const _ = require('lodash');
-
 const campaignCodeGenerator = require('../services/campaigns/campaign-code-generator');
 const campaignValidator = require('../validators/campaign-validator');
 const Campaign = require('../models/Campaign');
 const { UserNotAuthorizedToCreateCampaignError } = require('../errors');
 
 function _checkCreatorHasAccessToCampaignOrganization(userId, organizationId, userRepository) {
-  if(_.isNil(organizationId)) {
-    return Promise.resolve();
-  }
-
   return userRepository.getWithOrganizationAccesses(userId)
     .then((user) => {
       if(user.hasAccessToOrganization(organizationId)) {
@@ -20,6 +14,9 @@ function _checkCreatorHasAccessToCampaignOrganization(userId, organizationId, us
 }
 
 module.exports = function createCampaign({ campaign, campaignRepository, userRepository }) {
+
+  // XXX: delete when we save targetProfileId
+  campaign.targetProfileId = 1;
 
   return campaignValidator.validate(campaign)
     .then(() => _checkCreatorHasAccessToCampaignOrganization(campaign.creatorId, campaign.organizationId, userRepository))

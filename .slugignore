@@ -1,8 +1,12 @@
 CHANGELOG.md
 README.md
 LICENSE.md
+api/plop
+api/plopfile.js
 api/README.md
-api/tests
+api/tests/acceptance
+api/tests/integration
+api/tests/unit
 mon-pix/app
 mon-pix/config
 mon-pix/dist/assets/tests.js

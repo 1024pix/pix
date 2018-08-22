@@ -1,0 +1,9 @@
+.page {
+  display: flex;
+  flex-direction: column;
+  padding: 24px 35px;
+
+  &__title {
+    margin-bottom: 18px;
+  }
+}

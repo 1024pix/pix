@@ -1,16 +1,36 @@
-const { expect, knex, generateValidRequestAuhorizationHeader, nock } = require('../../test-helper');
+const { expect, knex, generateValidRequestAuhorizationHeader, nock, databaseBuilder } = require('../../test-helper');
 const server = require('../../../server');
 
 describe('Acceptance | API | SkillReviews', () => {
+
+  before(() => {
+    return knex('target-profiles').delete();
+  });
 
   describe('GET /api/skill-reviews/:id', () => {
 
     const userIdOfUserWithAssessment = 9999;
     const insertedAssessment = {
+      id: 12,
       courseId: 1,
       userId: userIdOfUserWithAssessment,
       type: 'SMART_PLACEMENT',
       state: 'completed',
+    };
+    const insertedCampaign = {
+      id: 14,
+      name: 'Campaign',
+      organizationId: null,
+      targetProfileId:1
+    };
+    const insertedCampaignParticipation = {
+      campaignId: insertedCampaign.id,
+      assessmentId: insertedAssessment.id
+    };
+    const insertedTargetProfile = {
+      id: 1,
+      name: 'PIC Diagnostic',
+      isPublic: true
     };
 
     let assessmentId;
@@ -24,13 +44,22 @@ describe('Acceptance | API | SkillReviews', () => {
         .times(3)
         .reply(200, {});
 
-      return knex('assessments').insert(insertedAssessment)
-        .then(([createdAssessmentId]) => assessmentId = createdAssessmentId);
+      nock('https://api.airtable.com')
+        .get('/v0/test-base/Acquis')
+        .query(true)
+        .reply(200, {});
+
+      const assessment = databaseBuilder.factory.buildAssessment(insertedAssessment);
+      assessmentId = assessment.id;
+      databaseBuilder.factory.buildTargetProfile(insertedTargetProfile);
+      databaseBuilder.factory.buildCampaign(insertedCampaign);
+      databaseBuilder.factory.buildCampaignParticipation(insertedCampaignParticipation);
+      return databaseBuilder.commit();
     });
 
     afterEach(() => {
       nock.cleanAll();
-      return knex('assessments').delete();
+      return databaseBuilder.clean();
     });
 
     context('without authorization token', () => {

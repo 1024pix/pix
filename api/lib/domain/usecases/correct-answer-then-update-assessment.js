@@ -77,7 +77,7 @@ function saveKnowledgeElementsIfSmartPlacement({
           challenge: contextObject.challenge,
           smartPlacementKnowledgeElementRepository,
         }),
-        absorbSmartAssessmentNotFoundError
+        absorbSmartAssessmentNotFoundError,
       );
   };
 }

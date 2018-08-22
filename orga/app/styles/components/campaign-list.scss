@@ -1,0 +1,9 @@
+.campaign-list {
+  display: flex;
+  flex-direction: column;
+
+  &__item {
+    // position
+    margin-bottom: 18px;
+  }
+}

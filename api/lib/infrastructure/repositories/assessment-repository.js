@@ -2,6 +2,8 @@ const BookshelfAssessment = require('../data/assessment');
 const Answer = require('../../domain/models/Answer');
 const Assessment = require('../../domain/models/Assessment');
 const AssessmentResult = require('../../domain/models/AssessmentResult');
+const Campaign = require('../../domain/models/Campaign');
+const CampaignParticipation = require('../../domain/models/CampaignParticipation');
 const { groupBy, map, head, _ } = require('lodash');
 const fp = require('lodash/fp');
 
@@ -26,7 +28,23 @@ function _toDomain(bookshelfAssessment) {
     const assessmentResults = bookshelfAssessment.related('assessmentResults')
       .map((bookshelfAssessmentResult) => new AssessmentResult(bookshelfAssessmentResult.toJSON()));
 
-    return new Assessment(Object.assign(modelObjectInJSON, { answers, assessmentResults }));
+    let campaignParticipation = null;
+    let campaign = null;
+    const campaignOfAssessment = bookshelfAssessment.related('campaignParticipation');
+
+    if(_.has(campaignOfAssessment,'attributes.campaignId')) {
+      campaign = new Campaign(campaignOfAssessment.related('campaign').toJSON());
+      campaignParticipation = new CampaignParticipation({
+        campaign,
+        assessmentId: bookshelfAssessment.get('id')
+      });
+    }
+
+    return new Assessment(Object.assign(modelObjectInJSON, {
+      answers,
+      assessmentResults,
+      campaignParticipation,
+    }));
   }
 
   return null;
@@ -40,6 +58,8 @@ function _adaptModelToDb(assessment) {
     'answers',
     'assessmentResults',
     'targetProfile',
+    'campaign',
+    'campaignParticipation',
   ]);
 }
 
@@ -53,7 +73,7 @@ module.exports = {
           answers: function(query) {
             query.orderBy('createdAt', 'ASC');
           },
-        }, 'assessmentResults'],
+        }, 'assessmentResults','campaignParticipation', 'campaignParticipation.campaign'],
       })
       .then(_toDomain);
   },
@@ -136,7 +156,7 @@ module.exports = {
   findByFilters(filters) {
     return BookshelfAssessment
       .where(filters)
-      .fetchAll()
+      .fetchAll({ withRelated: ['campaignParticipation', 'campaignParticipation.campaign'] })
       .then((bookshelfAssessmentCollection) => bookshelfAssessmentCollection.models)
       .then(fp.map(_toDomain));
   },

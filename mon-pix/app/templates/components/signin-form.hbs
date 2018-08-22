@@ -28,6 +28,13 @@
         {{#link-to 'password-reset-demand' class="signin-form__forgotten-password-link"}}Mot de passe oublié ?{{/link-to}}
       </div>
 
+      {{#if displayMessageForCampaign}}
+        <div class="signin-form__message_campaign">
+          En démarrant le parcours, les informations relatives à votre avancée seront transmises à la personne qui vous a invité(e).
+          <br/>Les résultats des tests ne seront transmis qu’avec votre consentement.
+        </div>
+      {{/if}}
+
       <div class="signin-form__form-field signin-form__form-field-button">
         <button type="submit" class="signin-form__submit_button" {{action "submit" allowedKeys="enter"}}>Je me connecte</button>
       </div>

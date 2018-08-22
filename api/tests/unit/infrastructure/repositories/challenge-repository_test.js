@@ -2,7 +2,7 @@ const { expect, factory, sinon } = require('../../../test-helper');
 const AirtableRecord = require('airtable').Record;
 const airtable = require('../../../../lib/infrastructure/airtable');
 
-const ChallengeAirtableDataObjectFixture = require('../../../fixtures/infrastructure/challengeAirtableDataObjectFixture');
+const ChallengeAirtableDataObjectFixture = require('../../../tooling/fixtures/infrastructure/challengeAirtableDataObjectFixture');
 const AirtableResourceNotFound = require('../../../../lib/infrastructure/datasources/airtable/objects/AirtableResourceNotFound');
 const { NotFoundError } = require('../../../../lib/domain/errors');
 
@@ -199,8 +199,8 @@ describe('Unit | Repository | challenge-repository', () => {
           // then
           return promise.then((challenge) => {
             expect(challenge.skills).to.have.lengthOf(2);
-            expect(challenge.skills[0]).to.deep.equal(new Skill({ name: '@web1' }));
-            expect(challenge.skills[1]).to.deep.equal(new Skill({ name: '@url2' }));
+            expect(challenge.skills[0]).to.deep.equal(new Skill({ id: 'recTIddrkopID28Ep', name: '@web1' }));
+            expect(challenge.skills[1]).to.deep.equal(new Skill({ id: 'recTIddrkopID28Ep', name: '@url2' }));
           });
         });
         it('should call the solution-adapter to create the solution', () => {

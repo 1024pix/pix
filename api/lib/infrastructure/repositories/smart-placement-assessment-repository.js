@@ -17,6 +17,8 @@ module.exports = {
         withRelated: [
           'answers',
           'knowledgeElements',
+          'campaignParticipation',
+          'campaignParticipation.campaign',
         ],
       })
       .then(checkIsSmartPlacement)
@@ -35,9 +37,13 @@ function checkIsSmartPlacement(bookshelfAssessment) {
 
 function toDomain(bookshelfAssessment) {
 
-  // To delete once target-profile table is created. A repository should not call another repository.
+  // A repository should not call another repository.
   // use Bookshelf as datasource
-  return targetProfileRepository.get('unusedForNowId')
+  // Target-profiles table has been added
+  // waiting for link beetween assessment and target-profile
+  // in order to find associated target-profile before toDomain() and do only mapping in toDomain()
+  const targetProfileId = bookshelfAssessment.related('campaignParticipation').related('campaign').get('targetProfileId');
+  return targetProfileRepository.get(targetProfileId)
     .then((targetProfile) => {
 
       const answers = bookshelfAssessment

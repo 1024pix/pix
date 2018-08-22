@@ -46,6 +46,9 @@ class AssessmentSerializer extends JSONAPISerializer {
     } else {
       data.attributes['certification-number'] = null;
     }
+    if(model.campaignParticipation) {
+      data.attributes['code-campaign'] = model.campaignParticipation.campaign.code;
+    }
   }
 
   serializeRelationships(model, data) {

@@ -73,6 +73,13 @@
     {{g-recaptcha recaptchaToken=user.recaptchaToken tokenHasBeenUsed=_tokenHasBeenUsed}}
   </div>
 
+  {{#if displayMessageForCampaign}}
+    <div class="signin-form__message_campaign">
+      En démarrant le parcours, les informations relatives à votre avancée seront transmises à la personne qui vous a invité(e).
+      <br/>Les résultats des tests ne seront transmis qu’avec votre consentement.
+    </div>
+  {{/if}}
+
   <div class="signup-form__submit-container">
     <button class="signup__submit-button" {{action "signup"}}>Je m'inscris</button>
   </div>

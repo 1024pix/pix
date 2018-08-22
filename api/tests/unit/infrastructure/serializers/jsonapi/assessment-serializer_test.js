@@ -1,7 +1,8 @@
 const { expect, factory } = require('../../../../test-helper');
 const serializer = require('../../../../../lib/infrastructure/serializers/jsonapi/assessment-serializer');
-const BookshelfAssessment = require('../../../../../lib/infrastructure/data/assessment');
 const Assessment = require('../../../../../lib/domain/models/Assessment');
+const Campaign = require('../../../../../lib/domain/models/Campaign');
+const CampaignParticipation = require('../../../../../lib/domain/models/CampaignParticipation');
 
 describe('Unit | Serializer | JSONAPI | assessment-serializer', function() {
 
@@ -17,10 +18,9 @@ describe('Unit | Serializer | JSONAPI | assessment-serializer', function() {
       name: 'PIX EST FORMIDABLE',
     };
 
-    modelObject = new BookshelfAssessment({
+    modelObject = new Assessment({
       id: 'assessment_id',
       courseId: 'course_id',
-      successRate: 24,
       type: 'charade',
       course: associatedCourse,
     });
@@ -32,7 +32,7 @@ describe('Unit | Serializer | JSONAPI | assessment-serializer', function() {
         attributes: {
           'estimated-level': undefined,
           'pix-score': undefined,
-          'success-rate': 24,
+          'success-rate': undefined,
           'type': 'charade',
           'certification-number': null,
         },
@@ -43,6 +43,9 @@ describe('Unit | Serializer | JSONAPI | assessment-serializer', function() {
               id: 'course_id',
             },
           },
+          answers: {
+            data: []
+          }
         },
       },
       included: [{
@@ -101,6 +104,21 @@ describe('Unit | Serializer | JSONAPI | assessment-serializer', function() {
         .and.to.contain.key('skill-review');
 
       expect(json.data.relationships['skill-review']).to.deep.equal(expectedSkillReviewRelationship);
+    });
+
+    it('should add campaign-code when the model has a campaign', function() {
+      // given
+      const codeCampaign = 'CODECAMP';
+      modelObject.campaignParticipation = new CampaignParticipation({
+        campaign: new Campaign({ code: codeCampaign })
+      });
+      jsonAssessment.data.attributes['code-campaign'] = codeCampaign;
+
+      // when
+      const json = serializer.serialize(modelObject);
+
+      // then
+      expect(json).to.deep.equal(jsonAssessment);
     });
 
   });

@@ -1,3 +1,5 @@
+const _ = require('lodash');
+
 const BookshelfCampaign = require('../data/campaign');
 const Campaign = require('../../domain/models/Campaign');
 
@@ -13,17 +15,35 @@ module.exports = {
       .fetch()
       .then((campaign) => {
         if (campaign) {
-          return Promise.resolve(false);
+          return false;
         }
+        return true;
+      });
+  },
 
-        return Promise.resolve(true);
+  getByCode(code) {
+    return BookshelfCampaign
+      .where({ code })
+      .fetch()
+      .then((campaign) => {
+        if (campaign) {
+          return _toDomain(campaign);
+        }
+        return Promise.resolve(null);
       });
   },
 
   save(campaignToSave) {
-    return new BookshelfCampaign(campaignToSave)
+    const cleanedCampaignToSave = _.omit(campaignToSave, ['createdAt']);
+    return new BookshelfCampaign(cleanedCampaignToSave)
       .save()
       .then(_toDomain);
-  }
+  },
 
+  findByOrganizationId(organizationId) {
+    return BookshelfCampaign
+      .where({ organizationId })
+      .fetchAll()
+      .then((campaigns) => campaigns.models.map(_toDomain));
+  }
 };

@@ -1,7 +1,7 @@
 const { expect, sinon } = require('../../../../test-helper');
 const airtable = require('../../../../../lib/infrastructure/airtable');
 const competenceDatasource = require('../../../../../lib/infrastructure/datasources/airtable/competence-datasource');
-const competenceRawAirTableFixture = require('../../../../fixtures/infrastructure/competenceRawAirTableFixture');
+const competenceRawAirTableFixture = require('../../../../tooling/fixtures/infrastructure/competenceRawAirTableFixture');
 const airTableDataModels = require('../../../../../lib/infrastructure/datasources/airtable/objects');
 
 describe('Unit | Infrastructure | Datasource | Airtable | CompetenceDatasource', () => {

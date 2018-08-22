@@ -1,7 +1,6 @@
 const dataObjects = require('../../../../../../lib/infrastructure/datasources/airtable/objects/index');
-const factory = require('../../../../../factory');
-const areaRawAirTableFixture = require('../../../../../fixtures/infrastructure/areaRawAirTableFixture');
-const { expect } = require('../../../../../test-helper');
+const areaRawAirTableFixture = require('../../../../../tooling/fixtures/infrastructure/areaRawAirTableFixture');
+const { expect, factory } = require('../../../../../test-helper');
 
 describe('Unit | Infrastructure | Datasource | Airtable | Model | Area', () => {
 

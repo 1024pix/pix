@@ -13,25 +13,43 @@ describe('Unit | UseCase | find-user-assessments-by-filters', () => {
 
   beforeEach(() => {
     sandbox = sinon.sandbox.create();
-    sandbox.stub(assessmentRepository, 'findByFilters').resolves();
+    sandbox.stub(assessmentRepository, 'findByFilters').resolves([]);
   });
 
   afterEach(() => {
     sandbox.restore();
   });
 
-  it('should resolve assessments that match filters and belong to the user', () => {
-    // given
-    const userId = 1234;
-    const filters = { type: 'SMART_PLACEMENT' };
-    const expectedFilters = { type: 'SMART_PLACEMENT', userId };
+  context('when filters contains a codeCampaign', () => {
+    it('should resolve assessments that match filters and belong to the user', () => {
+      // given
+      const userId = 1234;
+      const filters = { type: 'SMART_PLACEMENT', codeCampaign: 'Code' };
+      const expectedFilters = { type: 'SMART_PLACEMENT', userId };
 
-    // when
-    const promise = usecases.findUserAssessmentsByFilters({ userId, filters, assessmentRepository });
+      // when
+      const promise = usecases.findUserAssessmentsByFilters({ userId, filters, assessmentRepository });
 
-    // then
-    return promise.then(() => {
-      expect(assessmentRepository.findByFilters).to.have.been.calledWithExactly(expectedFilters);
+      // then
+      return promise.then(() => {
+        expect(assessmentRepository.findByFilters).to.have.been.calledWithExactly(expectedFilters);
+      });
+    });
+  });
+
+  context('when filters not contains a codeCampaign', () => {
+    it('should resolve an empty arrat', () => {
+      // given
+      const userId = 1234;
+      const filters = { type: 'DEMO' };
+
+      // when
+      const promise = usecases.findUserAssessmentsByFilters({ userId, filters, assessmentRepository });
+
+      // then
+      return promise.then((result) => {
+        expect(result).to.deep.equal([]);
+      });
     });
   });
 });

@@ -1,6 +1,6 @@
 {
   "name": "mon-pix",
-  "version": "1.58.1",
+  "version": "1.59.0",
   "description": "Plateforme d'évaluation et de certification des compétences numériques à l'usage de tous les citoyens francophones.",
   "license": "AGPL-3.0",
   "engines": {
@@ -27,6 +27,7 @@
     "lint:js": "npx eslint ./*.js app config lib server tests",
     "scalingo-background-job": "echo 'nothing to do'",
     "scalingo-postbuild": "npx ember build --environment $BUILD_ENVIRONMENT",
+    "scalingo-post-ra-creation": "echo 'nothing to do'",
     "scalingo-start": "/app/scripts/start_scalingo_nginx.sh",
     "start": "npx ember server",
     "test": "npx ember test --reporter dot",

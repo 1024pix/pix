@@ -1,4 +1,4 @@
-const { expect, knex } = require('../../../test-helper');
+const { expect, knex, databaseBuilder } = require('../../../test-helper');
 const _ = require('lodash');
 
 const assessmentRepository = require('../../../../lib/infrastructure/repositories/assessment-repository');
@@ -328,6 +328,7 @@ describe('Integration | Infrastructure | Repositories | assessment-repository', 
           state: 'completed',
           createdAt: '2017-11-08 12:47:38',
           type: null,
+          campaignParticipation: null,
           assessmentResults: [
             {
               assessmentId: 3,
@@ -463,6 +464,74 @@ describe('Integration | Infrastructure | Repositories | assessment-repository', 
         expect(assessmentReturned.pixScore).to.equal(assessmentInDb.pixScore);
         expect(assessmentReturned.assessmentResults).to.have.lengthOf(1);
         expect(assessmentReturned.assessmentResults[0]).to.deep.equal(expectedAssessmentResult);
+      });
+    });
+  });
+
+  describe('#findByFilters', () => {
+    let assessmentId;
+
+    const assessmentInDb = databaseBuilder.factory.buildAssessment({
+      courseId: 'course_A',
+      type: 'SMART_PLACEMENT',
+    });
+
+    const campaign = databaseBuilder.factory.buildCampaign({
+      name: 'Campagne',
+    });
+
+    beforeEach(() => {
+      return knex('assessments').insert(assessmentInDb)
+        .then((assessmentIds) => {
+          assessmentId = _.first(assessmentIds);
+          return knex('campaigns').insert(campaign);
+        })
+        .then((campaignIds) => {
+          const campaignId = _.first(campaignIds);
+          return knex('campaign-participations').insert({ assessmentId, campaignId });
+        });
+    });
+
+    afterEach(() => {
+      return Promise.all([
+        knex('assessments').delete(),
+        knex('campaign-participations').delete(),
+        knex('campaigns').delete(),
+      ]);
+    });
+
+    it('should returns the assessment with campaign', () => {
+      // when
+
+      const promise = assessmentRepository.findByFilters({ type: 'SMART_PLACEMENT' });
+
+      // then
+      return promise.then((assessmentsReturned) => {
+        expect(assessmentsReturned[0]).to.be.an.instanceOf(Assessment);
+        expect(assessmentsReturned[0].id).to.equal(assessmentId);
+        expect(assessmentsReturned[0].campaignParticipation.campaign.name).to.equal('Campagne');
+      });
+    });
+
+    context('when assessment do not have campaign', () => {
+      beforeEach(() => {
+        return Promise.all([
+          knex('campaign-participations').delete(),
+          knex('campaigns').delete(),
+        ]);
+      });
+
+      it('should returns the assessment without campaign', () => {
+        // when
+
+        const promise = assessmentRepository.findByFilters({ type: 'SMART_PLACEMENT' });
+
+        // then
+        return promise.then((assessmentsReturned) => {
+          expect(assessmentsReturned[0]).to.be.an.instanceOf(Assessment);
+          expect(assessmentsReturned[0].id).to.equal(assessmentId);
+          expect(assessmentsReturned[0].campaignParticipation).to.equal(null);
+        });
       });
     });
   });

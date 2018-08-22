@@ -1,7 +1,21 @@
 module.exports = function findUserAssessmentsByFilters({ userId, filters, assessmentRepository }) {
 
-  const filtersWithUserId = Object.assign({}, filters, { userId });
+  if(filters.codeCampaign) {
+    const filtersOfAssessment = {
+      userId,
+      type: 'SMART_PLACEMENT',
+    };
 
-  return assessmentRepository.findByFilters(filtersWithUserId);
+    return assessmentRepository.findByFilters(filtersOfAssessment)
+      .then((assessments)=> {
+        return assessments.filter((assessment) => {
+          if(assessment.campaignParticipation) {
+            return assessment.campaignParticipation.isAboutCampaignCode(filters.codeCampaign);
+          }
+          return false;
+        });
+      });
+  }
 
+  return Promise.resolve([]);
 };

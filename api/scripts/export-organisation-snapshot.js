@@ -19,7 +19,7 @@ function main(args) {
 
   const token = tokenService.createTokenFromUser(userWeUseToCreateSnapshot);
 
-  request(`https://pix.fr/api/organizations/${organizationId}/snapshots/export?userToken=${token}`)
+  request(`https://api.pix.fr/api/organizations/${organizationId}/snapshots/export?userToken=${token}`)
     .pipe(fs.createWriteStream(`organization-${organizationId}-${fileName}.csv`));
 }
 
