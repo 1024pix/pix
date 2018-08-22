@@ -141,7 +141,7 @@ function _createOneLineOfCSV(headers, organization, campaign, listCompetences, l
 
       if(assessment.isCompleted) {
         line = _addCellByHeadersTitle('"Nombre de Pix obtenus"', _totalPixScore(assessment.knowledgeElements), line, headers);
-        // Change to Non Disponible until we have pixScore on knowledgeElements
+        //XXX: Change to Non Disponible until we have pixScore on knowledgeElements
         line = _addCellByHeadersTitle('"Nombre de Pix obtenus"', 'Non disponible', line, headers);
 
         line = _addCellByHeadersTitle('"% maitrise de l\'ensemble des acquis du profil"', _percentageSkillsValidated(assessment, targetProfile), line, headers);
@@ -164,9 +164,9 @@ function _createOneLineOfCSV(headers, organization, campaign, listCompetences, l
           line = _addCellByHeadersTitle(`"Nombre d'acquis du profil cible maitrisés / nombre d'acquis pour la compétence ${competence.name}"`, diff, line, headers);
 
           // Add on Area
-          const skillsByAreaForCompetence = areaSkills.find((area) => area.title === competence.area.title);
-          skillsByAreaForCompetence.numberSkillsValidated = skillsByAreaForCompetence.numberSkillsValidated + numberOfSkillsValidatedForThisCompetence;
-          skillsByAreaForCompetence.numberSkillsTested = skillsByAreaForCompetence.numberSkillsTested + skillsForThisCompetence.length;
+          const areaSkillsForThisCompetence = areaSkills.find((area) => area.title === competence.area.title);
+          areaSkillsForThisCompetence.numberSkillsValidated = areaSkillsForThisCompetence.numberSkillsValidated + numberOfSkillsValidatedForThisCompetence;
+          areaSkillsForThisCompetence.numberSkillsTested = areaSkillsForThisCompetence.numberSkillsTested + skillsForThisCompetence.length;
         });
 
         // By Area

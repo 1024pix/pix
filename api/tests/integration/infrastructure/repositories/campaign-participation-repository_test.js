@@ -13,7 +13,7 @@ describe('Integration | Repository | Campaign Participation', () => {
 
     it('should return the given campaign participation', () => {
       // given
-      const campaignId =23;
+      const campaignId = 23;
       const campaignParticipationToSave = new CampaignParticipation({
         assessmentId: 12,
         campaign: new Campaign({ id : campaignId }),
@@ -32,7 +32,7 @@ describe('Integration | Repository | Campaign Participation', () => {
 
     it('should save the given campaign participation', () => {
       // given
-      const campaignId =23;
+      const campaignId = 23;
       const campaignParticipationToSave = new CampaignParticipation({
         assessmentId: 12,
         campaign: new Campaign({ id : campaignId }),
