@@ -4,7 +4,6 @@ const TargetProfile = require('../../../../lib/domain/models/TargetProfile');
 
 describe('Unit | UseCase | find-available-target-profiles', () => {
 
-  let sandbox;
   const targetProfileRepository = {
     findByFilters: () => undefined
   };
@@ -17,14 +16,9 @@ describe('Unit | UseCase | find-available-target-profiles', () => {
     targetProfilesLinkedToOrganization = [factory.buildTargetProfile({ organizationId })];
     publicTargetProfiles = [factory.buildTargetProfile({ isPublic: true })];
 
-    sandbox = sinon.sandbox.create();
-    sandbox.stub(targetProfileRepository, 'findByFilters');
+    targetProfileRepository.findByFilters = sinon.stub();
     targetProfileRepository.findByFilters.withArgs({ isPublic: true }).resolves(publicTargetProfiles);
     targetProfileRepository.findByFilters.withArgs({ organizationId }).resolves(targetProfilesLinkedToOrganization);
-  });
-
-  afterEach(() => {
-    sandbox.restore();
   });
 
   it('should return an array of target profiles', () => {
@@ -57,6 +51,8 @@ describe('Unit | UseCase | find-available-target-profiles', () => {
     // then
     return promise.then((availableTargetProfiles) => {
       expect(availableTargetProfiles.length).to.equal(2);
+      expect(availableTargetProfiles).to.include.deep.members(targetProfilesLinkedToOrganization);
+      expect(availableTargetProfiles).to.include.deep.members(publicTargetProfiles);
     });
   });
 

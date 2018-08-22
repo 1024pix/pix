@@ -16,12 +16,13 @@ describe('Unit | Application | Controller | Target-Profile', () => {
     let codeStub;
     let replyStub;
     const connectedUserId = 1;
+    let organizationId = '145'
 
     beforeEach(() => {
       sandbox = sinon.sandbox.create();
       request = {
         auth: { credentials: { userId: connectedUserId } },
-        params: { id: 'id_organization' }
+        params: { id: organizationId }
       };
       codeStub = sandbox.stub();
       replyStub = sandbox.stub().returns({
@@ -40,9 +41,9 @@ describe('Unit | Application | Controller | Target-Profile', () => {
 
       // then
       return promise.then(() => {
-        expect(usecases.findAvailableTargetProfiles).to.have.been.called;
+        expect(usecases.findAvailableTargetProfiles).to.have.been.calledOnce;
         expect(usecases.findAvailableTargetProfiles).to.have.been.calledWith({
-          organizationId: 'id_organization',
+          organizationId: organizationId,
           targetProfileRepository
         });
       });
@@ -107,7 +108,5 @@ describe('Unit | Application | Controller | Target-Profile', () => {
         });
       });
     });
-
   });
-
 });
