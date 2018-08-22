@@ -29,7 +29,7 @@ describe('Acceptance | Controller | target-profile-controller', () => {
       it('should return 200', () => {
         const options = {
           method: 'GET',
-          url: '/api/organizations/1/target-profiles',
+          url: `/api/organizations/${linkedOrganization.id}/target-profiles`,
           headers: { authorization: generateValidRequestAuhorizationHeader(connectedUserId) },
         };
 
@@ -41,7 +41,6 @@ describe('Acceptance | Controller | target-profile-controller', () => {
           expect(response.statusCode).to.equal(200);
         });
       });
-
     });
 
     context('when user is not authenticated', () => {
