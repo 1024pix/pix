@@ -12,7 +12,7 @@ export default Component.extend({
       this.get('doCreateCampaign')(this.get('campaign'));
     },
 
-    setSelectedTargetProfile: function(selectedTargetProfileId) {
+    setSelectedTargetProfile(selectedTargetProfileId) {
       const selectedTargetProfile = this.targetProfiles
         .find((targetProfile) => targetProfile.get('id') === selectedTargetProfileId);
       this.get('campaign').set('targetProfile', selectedTargetProfile);
