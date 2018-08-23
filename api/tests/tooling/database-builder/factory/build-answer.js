@@ -1,6 +1,6 @@
+const faker = require('faker');
 const buildAssessment = require('./build-assessment');
 const databaseBuffer = require('../database-buffer');
-const faker = require('faker');
 
 module.exports = function buildAnswer({
   id = faker.random.number(),
