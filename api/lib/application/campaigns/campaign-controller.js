@@ -51,7 +51,7 @@ module.exports = {
       competenceRepository, campaignParticipationRepository, organizationRepository,
       smartPlacementAssessmentRepository })
       .then((resultCampaign) => {
-        const fileName = `resultats-${resultCampaign.campaignName}-${campaignId}-${moment().format('YYYY-MM-DD-hhmm')}.csv`;
+        const fileName = `resultats-${campaignId}-${moment().format('YYYY-MM-DD-hhmm')}.csv`;
         return reply(resultCampaign.csvData)
           .header('Content-Type', 'text/csv;charset=utf-8')
           .header('Content-Disposition', `attachment; filename=${fileName}`);
