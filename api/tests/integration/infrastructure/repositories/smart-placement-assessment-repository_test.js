@@ -203,6 +203,7 @@ describe('Integration | Repository | SmartPlacementAssessmentRepository', () => 
 
         const expectedSmartPlacementAssessment = factory.buildSmartPlacementAssessment({
           id: givenSmartPlacementAssessment.id,
+          createdAt: givenSmartPlacementAssessment.createdAt,
           state: givenSmartPlacementAssessment.state,
           userId: givenSmartPlacementAssessment.userId,
           answers: expectedAnswersForSmartPlacementAssessment,
@@ -215,6 +216,7 @@ describe('Integration | Repository | SmartPlacementAssessmentRepository', () => 
 
         // then
         return promise.then((assessment) => {
+          assessment.createdAt = new Date(assessment.createdAt);
           expect(assessment).to.be.an.instanceOf(SmartPlacementAssessment);
           expect(assessment).to.deep.equal(expectedSmartPlacementAssessment);
         });

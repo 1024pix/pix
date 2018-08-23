@@ -15,6 +15,7 @@ const bookshelfUtils = require('../../../lib/infrastructure/utils/bookshelf-util
 const validationErrorSerializer = require('../../infrastructure/serializers/jsonapi/validation-error-serializer');
 const snapshotsCsvConverter = require('../../infrastructure/converter/snapshots-csv-converter');
 const organizationCreationValidator = require('../../domain/validators/organization-creation-validator');
+const tokenService = require('../../domain/services/token-service');
 const usecases = require('../../domain/usecases');
 const controllerReplies = require('../../infrastructure/controller-replies');
 
@@ -72,8 +73,9 @@ module.exports = {
 
   getCampaigns(request, reply) {
     const organizationId = request.params.id;
+    const tokenForCampaignResults = tokenService.createTokenForCampaignResults(request.auth.credentials.userId);
     return usecases.getOrganizationCampaigns({ organizationId, campaignRepository })
-      .then(campaignSerializer.serialize)
+      .then((campaigns) => campaignSerializer.serialize(campaigns, tokenForCampaignResults))
       .then(controllerReplies(reply).ok)
       .catch(controllerReplies(reply).error);
   },
