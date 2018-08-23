@@ -11,7 +11,7 @@ module.exports = function buildOrganization({
 } = {}) {
 
   const values = {
-    id, email, type, name, userId
+    id, email, type, name, userId,
   };
 
   databaseBuffer.pushInsertable({

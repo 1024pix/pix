@@ -1,6 +1,6 @@
+const faker = require('faker');
 const buildTargetProfile = require('./build-target-profile');
 const databaseBuffer = require('../database-buffer');
-const faker = require('faker');
 
 module.exports = function buildTargetProfilesSkills({
   id = faker.random.number(),
@@ -18,6 +18,6 @@ module.exports = function buildTargetProfilesSkills({
     tableName: 'target-profiles_skills',
     values,
   });
-  
+
   return values;
 };
