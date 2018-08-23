@@ -102,9 +102,8 @@ describe('Unit | Domain | Use Cases | get-results-campaign-in-csv-format', () =
         '"Champs optionel 2";' +
         '"Champs optionel 3";' +
         '"ID invitation";' +
-        '"Statut (invité / participant / terminé)";' +
         '"% de progression";' +
-        '"Date entrée (rejoint)";' +
+        '"Date de début";' +
         '"Partage (O/N)";' +
         '"Date du partage";' +
         '"Heure du partage";' +
@@ -113,10 +112,10 @@ describe('Unit | Domain | Use Cases | get-results-campaign-in-csv-format', () =
         '"% maitrise de l\'ensemble des acquis du profil";' +
         '"Niveau de la competence Competence1";' +
         '"Pix de la competence Competence1";' +
-        '"% de maitrise des acquis pour la compétence Competence1";' +
-        '"Nombre d\'acquis du profil cible maitrisés / nombre d\'acquis pour la compétence Competence1";' +
-        '"% de maitrise des acquis pour le domaine Domain 1";' +
-        '"Nombre d\'acquis du profil cible maitrisés / nombre d\'acquis pour le domaine Domain 1";' +
+        '"% de maitrise des acquis de la compétence Competence1";' +
+        '"Nombre d\'acquis du profil cible maitrisés / nombre d\'acquis de la compétence Competence1";' +
+        '"% de maitrise des acquis du domaine Domain 1";' +
+        '"Nombre d\'acquis du profil cible maitrisés / nombre d\'acquis du domaine Domain 1";' +
         '"Acquis web1";' +
         '"Acquis web2";' +
         '"Acquis web3";' +
@@ -137,45 +136,44 @@ describe('Unit | Domain | Use Cases | get-results-campaign-in-csv-format', () =
 
       // then
       return promise.then((result) => {
-        expect(result).to.contains(csvExpected);
+        expect(result.csvData).to.contains(csvExpected);
       });
     });
 
     it('should return the line with user results for her participation', () => {
       // given
-      const csvSecondLine = `"${organization.name}";`+
-        `"${campaign.id}";` +
-        `"${campaign.name}";` +
-        `"${targetProfile.name}";` +
-        `"${user.firstName}";` +
-        `"${user.lastName}";` +
-        '"Non disponible";' +
-        '"Non disponible";' +
-        '"Non disponible";' +
-        '"Non disponible";' +
-        '"Non disponible";' +
-        '"Non disponible";' +
-        '"Non disponible";' +
-        '"Non disponible";' +
-        '"Non disponible";' +
-        '"100";' +
-        `"${assessment.createdAt}";` +
-        '"Non disponible";' +
-        '"Non disponible";' +
-        '"Non disponible";' +
-        '"Non disponible";' +
-        '"Non disponible";' +
-        '"75";' +
-        '"Non disponible";' +
-        '"Non disponible";' +
-        '"75";' +
-        '"3/4";' +
-        '"75";' +
-        '"3/4";' +
-        '"OK";' +
-        '"OK";' +
-        '"OK";' +
-        '"KO"\n';
+      const csvSecondLine = `="${organization.name}";`+
+        `="${campaign.id}";` +
+        `="${campaign.name}";` +
+        `="${targetProfile.name}";` +
+        `="${user.firstName}";` +
+        `="${user.lastName}";` +
+        '="Non disponible";' +
+        '="Non disponible";' +
+        '="Non disponible";' +
+        '="Non disponible";' +
+        '="Non disponible";' +
+        '="Non disponible";' +
+        '="Non disponible";' +
+        '="Non disponible";' +
+        '="100";' +
+        `="${assessment.createdAt}";` +
+        '="Non disponible";' +
+        '="Non disponible";' +
+        '="Non disponible";' +
+        '="Non disponible";' +
+        '="Non disponible";' +
+        '="75";' +
+        '="Non disponible";' +
+        '="Non disponible";' +
+        '="75";' +
+        '="3/4";' +
+        '="75";' +
+        '="3/4";' +
+        '="OK";' +
+        '="OK";' +
+        '="OK";' +
+        '="KO"\n';
 
       // when
       const promise = getResultsCampaignInCsvFormat({
@@ -192,7 +190,7 @@ describe('Unit | Domain | Use Cases | get-results-campaign-in-csv-format', () =
 
       // then
       return promise.then((result) => {
-        expect(result).to.contains(csvSecondLine);
+        expect(result.csvData).to.contains(csvSecondLine);
       });
     });
 

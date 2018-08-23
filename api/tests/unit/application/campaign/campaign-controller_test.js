@@ -231,7 +231,7 @@ describe('Unit | Application | Controller | Campaign', () => {
           id: campaignId
         }
       };
-      usecases.getResultsCampaignInCSVFormat.resolves('csv;result');
+      usecases.getResultsCampaignInCSVFormat.resolves({ csvData: 'csv;result', campaignName: 'Campagne' });
 
       // when
       const promise = campaignController.getCsvResults(request, replyStub);
