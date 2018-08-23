@@ -1,5 +1,5 @@
-const databaseBuffer = require('../database-buffer');
 const faker = require('faker');
+const databaseBuffer = require('../database-buffer');
 const encrypt = require('../../../../lib/domain/services/encryption-service');
 
 const buildUser = function buildUser({
