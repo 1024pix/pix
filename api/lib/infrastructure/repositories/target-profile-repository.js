@@ -41,9 +41,18 @@ module.exports = {
       });
   },
 
-  findByFilters(filters = {}) {
+  findPublicTargetProfiles() {
     return BookshelfTargetProfile
-      .where(filters)
+      .where({ isPublic: true })
+      .fetchAll()
+      .then((availableTargetProfilesBookshelf) => {
+        return availableTargetProfilesBookshelf.map(_toDomain);
+      });
+  },
+
+  findTargetProfilesByOrganizationId(organizationId) {
+    return BookshelfTargetProfile
+      .where({ organizationId })
       .fetchAll()
       .then((availableTargetProfilesBookshelf) => {
         return availableTargetProfilesBookshelf.map(_toDomain);

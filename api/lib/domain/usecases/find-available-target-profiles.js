@@ -1,7 +1,7 @@
 module.exports = function findAvailableTargetProfiles({ organizationId, targetProfileRepository }) {
   return Promise.all([
-    targetProfileRepository.findByFilters({ organizationId }),
-    targetProfileRepository.findByFilters({ isPublic: true }),
+    targetProfileRepository.findTargetProfilesByOrganizationId(organizationId),
+    targetProfileRepository.findPublicTargetProfiles(),
   ])
     .then(([targetProfilesLinkedToOrganization, publicTargetProfiles]) => {
       return targetProfilesLinkedToOrganization.concat(publicTargetProfiles);
