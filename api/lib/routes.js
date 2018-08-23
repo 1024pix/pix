@@ -21,6 +21,5 @@ module.exports = [
   require('./application/simulateErrors'),
   require('./application/skillReviews'),
   require('./application/snapshots'),
-  require('./application/targetProfiles'),
   require('./application/users'),
 ];
