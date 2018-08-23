@@ -25,6 +25,8 @@ const User = require('../../domain/models/User');
 const Organization = require('../../domain/models/Organization');
 const { EntityValidationError } = require('../../domain/errors');
 
+const fileName = 'Pix - Export donnees partagees.csv';
+
 module.exports = {
 
   // TODO extract domain logic into use case, like create user
@@ -101,13 +103,12 @@ module.exports = {
       snapshotsCsvConverter,
     };
     const organizationId = request.params.id;
-    const fileName = `pix-export-donnees-partagees-${organizationId}.csv`;
 
     return organizationService.getOrganizationSharedProfilesAsCsv(dependencies, organizationId)
       .then((snapshotsTextCsv) => {
         return reply(snapshotsTextCsv)
           .header('Content-Type', 'text/csv;charset=utf-8')
-          .header('Content-Disposition', `attachment; filename=${fileName}`);
+          .header('Content-Disposition', `attachment; filename="${fileName}"`);
       })
       .catch((err) => {
         logger.error(err);
