@@ -1,25 +1,24 @@
 const Boom = require('boom');
-const logger = require('../../infrastructure/logger');
-const queryParamsUtils = require('../../infrastructure/utils/query-params-utils');
 
+const logger = require('../../infrastructure/logger');
 const answerRepository = require('../../infrastructure/repositories/answer-repository');
-const assessmentSerializer = require('../../infrastructure/serializers/jsonapi/assessment-serializer');
 const assessmentRepository = require('../../infrastructure/repositories/assessment-repository');
-const assessmentService = require('../../domain/services/assessment-service');
-const certificationChallengeRepository = require('../../infrastructure/repositories/certification-challenge-repository');
-const challengeRepository = require('../../infrastructure/repositories/challenge-repository');
-const challengeSerializer = require('../../infrastructure/serializers/jsonapi/challenge-serializer');
-const campaignRepository = require('../../infrastructure/repositories/campaign-repository');
 const campaignParticipationRepository = require('../../infrastructure/repositories/campaign-participation-repository');
+const campaignRepository = require('../../infrastructure/repositories/campaign-repository');
+const challengeRepository = require('../../infrastructure/repositories/challenge-repository');
+const certificationChallengeRepository = require('../../infrastructure/repositories/certification-challenge-repository');
 const competenceRepository = require('../../infrastructure/repositories/competence-repository');
 const courseRepository = require('../../infrastructure/repositories/course-repository');
 const skillRepository = require('../../infrastructure/repositories/skill-repository');
-const tokenService = require('../../domain/services/token-service');
 const targetProfileRepository = require('../../infrastructure/repositories/target-profile-repository');
-
-const useCases = require('../../domain/usecases');
+const assessmentSerializer = require('../../infrastructure/serializers/jsonapi/assessment-serializer');
+const challengeSerializer = require('../../infrastructure/serializers/jsonapi/challenge-serializer');
+const queryParamsUtils = require('../../infrastructure/utils/query-params-utils');
 
 const { NotFoundError, AssessmentEndedError, ObjectValidationError, CampaignCodeError } = require('../../domain/errors');
+const assessmentService = require('../../domain/services/assessment-service');
+const tokenService = require('../../domain/services/token-service');
+const useCases = require('../../domain/usecases');
 
 module.exports = {
 
