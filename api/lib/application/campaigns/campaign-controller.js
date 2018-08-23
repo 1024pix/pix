@@ -45,14 +45,14 @@ module.exports = {
     const userId = tokenService.extractUserIdForCampaignResults(token);
 
     const campaignId = parseInt(request.params.id);
-    const fileName = `export-campaign-${campaignId}-${moment().format('YYYY-MM-DD-hhmm')}.csv`;
 
     return usecases.getResultsCampaignInCSVFormat({ userId, campaignId,
       campaignRepository, userRepository, targetProfileRepository,
       competenceRepository, campaignParticipationRepository, organizationRepository,
       smartPlacementAssessmentRepository })
-      .then((resultCampaignCsv) => {
-        return reply(resultCampaignCsv)
+      .then((resultCampaign) => {
+        const fileName = `resultats-${resultCampaign.campaignName}-${campaignId}-${moment().format('YYYY-MM-DD-hhmm')}.csv`;
+        return reply(resultCampaign.csvData)
           .header('Content-Type', 'text/csv;charset=utf-8')
           .header('Content-Disposition', `attachment; filename=${fileName}`);
       })
