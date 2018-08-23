@@ -7,8 +7,10 @@ const campaignRepository = require('../../infrastructure/repositories/campaign-r
 const competenceRepository = require('../../infrastructure/repositories/competence-repository');
 const snapshotRepository = require('../../infrastructure/repositories/snapshot-repository');
 const organizationSerializer = require('../../infrastructure/serializers/jsonapi/organization-serializer');
+const targetProfileRepository = require('../../infrastructure/repositories/target-profile-repository');
 const snapshotSerializer = require('../../infrastructure/serializers/jsonapi/snapshot-serializer');
 const campaignSerializer = require('../../infrastructure/serializers/jsonapi/campaign-serializer');
+const targetProfileSerializer = require('../../infrastructure/serializers/jsonapi/target-profile-serializer');
 const organizationService = require('../../domain/services/organization-service');
 const encryptionService = require('../../domain/services/encryption-service');
 const bookshelfUtils = require('../../../lib/infrastructure/utils/bookshelf-utils');
@@ -24,6 +26,7 @@ const User = require('../../domain/models/User');
 const Organization = require('../../domain/models/Organization');
 const exportCsvFileName = 'Pix - Export donnees partagees.csv';
 const { EntityValidationError } = require('../../domain/errors');
+
 
 module.exports = {
 
@@ -74,6 +77,15 @@ module.exports = {
     const organizationId = request.params.id;
     return usecases.getOrganizationCampaigns({ organizationId, campaignRepository })
       .then(campaignSerializer.serialize)
+      .then(controllerReplies(reply).ok)
+      .catch(controllerReplies(reply).error);
+  },
+
+  findTargetProfiles(request, reply) {
+    const requestedOrganizationId = request.params.id;
+
+    return usecases.findAvailableTargetProfiles({ organizationId: requestedOrganizationId, targetProfileRepository })
+      .then(targetProfileSerializer.serialize)
       .then(controllerReplies(reply).ok)
       .catch(controllerReplies(reply).error);
   },
