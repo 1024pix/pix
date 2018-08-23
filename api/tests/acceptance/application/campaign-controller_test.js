@@ -100,4 +100,5 @@ describe('Acceptance | API | Campaigns', () => {
     });
 
   });
+
 });

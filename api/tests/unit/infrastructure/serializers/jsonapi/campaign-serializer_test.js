@@ -8,6 +8,7 @@ describe('Unit | Serializer | JSONAPI | campaign-serializer', function() {
 
     it('should convert a Campaign model object into JSON API data', function() {
       // given
+      const tokenToAccessToCampaign = 'token';
       const campaign = new Campaign({
         id: 5,
         name: 'My zuper organization',
@@ -25,12 +26,13 @@ describe('Unit | Serializer | JSONAPI | campaign-serializer', function() {
             name: 'My zuper organization',
             code: 'ATDGER342',
             'created-at': '2018-02-06 14:12:44',
+            'token-for-campaign-results': tokenToAccessToCampaign,
           },
         }
       };
 
       // when
-      const json = serializer.serialize(campaign);
+      const json = serializer.serialize(campaign, tokenToAccessToCampaign);
 
       // then
       expect(json).to.deep.equal(expectedSerializedCampaign);

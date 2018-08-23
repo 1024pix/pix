@@ -32,6 +32,7 @@ function initialValuesForId(id) {
 
 module.exports = function buildSmartPlacementAssessment({
   id = faker.random.number(),
+  createdAt = '2017-10-10',
   state = SmartPlacementAssessment.State.COMPLETED,
   userId = faker.random.number(),
   answers = initialValuesForId(id).answers,
@@ -40,6 +41,7 @@ module.exports = function buildSmartPlacementAssessment({
 } = {}) {
   return new SmartPlacementAssessment({
     id,
+    createdAt,
     state,
     userId,
     answers,
