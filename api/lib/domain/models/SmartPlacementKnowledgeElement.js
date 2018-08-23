@@ -101,14 +101,14 @@ function createDirectKnowledgeElements({
 
 function skillIsInTargetedSkills({ targetSkills }) {
   return (skill) => !_(targetSkills)
-    .intersectionWith([skill], Skill.areEqual)
+    .intersectionWith([skill], Skill.areEqualById)
     .isEmpty();
 }
 
 function skillIsNotAlreadyAssessed({ previouslyFailedSkills, previouslyValidatedSkills }) {
   const alreadyAssessedSkills = previouslyValidatedSkills.concat(previouslyFailedSkills);
   return (skill) => _(alreadyAssessedSkills)
-    .intersectionWith([skill], Skill.areEqual)
+    .intersectionWith([skill], Skill.areEqualById)
     .isEmpty();
 }
 
@@ -119,12 +119,18 @@ function enrichDirectKnowledgeElementsWithInferredKnowledgeElements({
   previouslyValidatedSkills,
   targetSkills,
 }) {
+
+  function getTargetSkillById(skillId) {
+    const skillToCopy = targetSkills.find((skill) => skill.id === skillId);
+    return new Skill({ id: skillToCopy.id, name: skillToCopy.name });
+  }
+
   const targetSkillsGroupedByTubeName = _.groupBy(targetSkills, (skill) => skill.tubeName);
   const status = answer.isOk() ? VALIDATED_STATUS : INVALIDATED_STATUS;
 
   return directKnowledgeElements.reduce((totalKnowledgeElements, directKnowledgeElement) => {
 
-    const directSkill = new Skill({ name: directKnowledgeElement.skillId });
+    const directSkill = getTargetSkillById(directKnowledgeElement.skillId);
 
     targetSkillsGroupedByTubeName[directSkill.tubeName]
       .filter(skillIsNotAlreadyAssessed({ previouslyFailedSkills, previouslyValidatedSkills }))
@@ -133,8 +139,8 @@ function enrichDirectKnowledgeElementsWithInferredKnowledgeElements({
         const knowledgeElementAlreadyExistsForThatSkill = _.some(
           totalKnowledgeElements,
           (knowledgeElement) => {
-            const skillOfKnowledgeElement = new Skill({ name: knowledgeElement.skillId });
-            return Skill.areEqual(skillToInfer, skillOfKnowledgeElement);
+            const skillOfKnowledgeElement = getTargetSkillById(knowledgeElement.skillId);
+            return Skill.areEqualById(skillToInfer, skillOfKnowledgeElement);
           },
         );
 
@@ -152,13 +158,13 @@ function enrichDirectKnowledgeElementsWithInferredKnowledgeElements({
 function createInferredKnowledgeElements({ answer, status, directSkill, skillToInfer }) {
   const newInferredKnowledgeElements = [];
   if (status === VALIDATED_STATUS
-    && skillToInfer.difficulty < directSkill.difficulty) {
+      && skillToInfer.difficulty < directSkill.difficulty) {
 
     const newKnowledgeElement = createInferredValidatedKnowledgeElement({ answer, skillToInfer });
     newInferredKnowledgeElements.push(newKnowledgeElement);
   }
   if (status === INVALIDATED_STATUS
-    && skillToInfer.difficulty > directSkill.difficulty) {
+      && skillToInfer.difficulty > directSkill.difficulty) {
 
     const newKnowledgeElement = createInferredInvalidatedKnowledgeElement({ answer, skillToInfer });
     newInferredKnowledgeElements.push(newKnowledgeElement);
@@ -193,7 +199,7 @@ function createKnowledgeElementsForSkill({ skill, source, status, answer }) {
     answerId: answer.id,
     assessmentId: answer.assessmentId,
     pixScore: 0,
-    skillId: skill.name,
+    skillId: skill.id,
     source,
     status,
   });

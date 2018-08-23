@@ -41,6 +41,14 @@ class Skill {
 
     return oneSkill.name === otherSkill.name;
   }
+
+  static areEqualById(oneSkill, otherSkill) {
+    if (oneSkill == null || otherSkill == null) {
+      return false;
+    }
+
+    return oneSkill.id === otherSkill.id;
+  }
 }
 
 module.exports = Skill;
