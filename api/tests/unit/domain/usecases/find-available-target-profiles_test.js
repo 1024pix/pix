@@ -4,8 +4,10 @@ const TargetProfile = require('../../../../lib/domain/models/TargetProfile');
 
 describe('Unit | UseCase | find-available-target-profiles', () => {
 
+  let sandbox;
   const targetProfileRepository = {
-    findByFilters: () => undefined
+    findPublicTargetProfiles: () => undefined,
+    findTargetProfilesByOrganizationId: () => undefined,
   };
   let organizationId;
   let targetProfilesLinkedToOrganization;
@@ -16,9 +18,13 @@ describe('Unit | UseCase | find-available-target-profiles', () => {
     targetProfilesLinkedToOrganization = [factory.buildTargetProfile({ organizationId })];
     publicTargetProfiles = [factory.buildTargetProfile({ isPublic: true })];
 
-    targetProfileRepository.findByFilters = sinon.stub();
-    targetProfileRepository.findByFilters.withArgs({ isPublic: true }).resolves(publicTargetProfiles);
-    targetProfileRepository.findByFilters.withArgs({ organizationId }).resolves(targetProfilesLinkedToOrganization);
+    sandbox = sinon.sandbox.create();
+    targetProfileRepository.findPublicTargetProfiles = sandbox.stub().resolves(publicTargetProfiles);
+    targetProfileRepository.findTargetProfilesByOrganizationId = sandbox.stub().resolves(targetProfilesLinkedToOrganization);
+  });
+
+  afterEach(() => {
+    sandbox.restore();
   });
 
   it('should return an array of target profiles', () => {
@@ -38,9 +44,8 @@ describe('Unit | UseCase | find-available-target-profiles', () => {
 
     // then
     return promise.then(() => {
-      expect(targetProfileRepository.findByFilters).to.have.been.calledTwice;
-      expect(targetProfileRepository.findByFilters).to.have.been.calledWith({ organizationId: organizationId });
-      expect(targetProfileRepository.findByFilters).to.have.been.calledWith({ isPublic: true });
+      expect(targetProfileRepository.findPublicTargetProfiles).to.have.been.calledOnce;
+      expect(targetProfileRepository.findTargetProfilesByOrganizationId).to.have.been.calledOnce;
     });
   });
 

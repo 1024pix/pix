@@ -49,19 +49,14 @@ describe('Integration | Repository | Target-profile', () => {
 
   });
 
-  describe('#findByFilters', () => {
+  describe('#findPublicTargetProfiles', () => {
 
-    let theRequestedOrganization = factory.buildOrganization();
     let publicTargetProfile = factory.buildTargetProfile({ isPublic: true });
-    let privateTargetProfileForTheGivenOrganization = factory.buildTargetProfile({
-      isPublic: false,
-      organizationId: theRequestedOrganization.id
-    });
+    let privateTargetProfile = factory.buildTargetProfile({ isPublic: false, });
 
     beforeEach(async () => {
-      theRequestedOrganization = databaseBuilder.factory.buildOrganization(theRequestedOrganization);
       publicTargetProfile = databaseBuilder.factory.buildTargetProfile(publicTargetProfile);
-      privateTargetProfileForTheGivenOrganization = databaseBuilder.factory.buildTargetProfile(privateTargetProfileForTheGivenOrganization);
+      privateTargetProfile = databaseBuilder.factory.buildTargetProfile(privateTargetProfile);
 
       await databaseBuilder.commit();
     });
@@ -72,7 +67,7 @@ describe('Integration | Repository | Target-profile', () => {
 
     it('should return an Array', () => {
       // when
-      const promise = targetProfileRepository.findByFilters();
+      const promise = targetProfileRepository.findPublicTargetProfiles();
 
       // then
       return promise.then((foundTargetProfiles) => {
@@ -80,31 +75,62 @@ describe('Integration | Repository | Target-profile', () => {
       });
     });
 
-    context('when we asked for public profiles', () => {
-      it('should return saved public profiles', () => {
-        // when
-        const promise = targetProfileRepository.findByFilters({ isPublic: true });
+    it('should return public target profiles', () => {
+      // when
+      const promise = targetProfileRepository.findPublicTargetProfiles();
 
-        // then
-        return promise.then((foundTargetProfiles) => {
-          expect(foundTargetProfiles[0]).to.be.an.instanceOf(TargetProfile);
-          const publicProfilesInFoundTargetProfiles = foundTargetProfiles.filter((targetProfile) => targetProfile.isPublic === true);
-          expect(publicProfilesInFoundTargetProfiles).to.have.lengthOf(1);
-        });
+      // then
+      return promise.then((foundTargetProfiles) => {
+        expect(foundTargetProfiles).to.have.lengthOf(1);
+        expect(foundTargetProfiles[0]).to.be.an.instanceOf(TargetProfile);
+        expect(foundTargetProfiles[0].isPublic).to.be.true;
+      });
+    });
+  });
+
+  describe('#findTargetProfileByOrganizationId', () => {
+
+    let theRequestedOrganization = factory.buildOrganization();
+    let anotherOrganization = factory.buildOrganization();
+    let targetProfileForTheGivenOrganization = factory.buildTargetProfile({
+      organizationId: theRequestedOrganization.id
+    });
+    let targetProfileForAnotherOrganization = factory.buildTargetProfile({
+      organizationId: anotherOrganization.id
+    });
+
+    beforeEach(async () => {
+      theRequestedOrganization = databaseBuilder.factory.buildOrganization(theRequestedOrganization);
+      anotherOrganization = databaseBuilder.factory.buildOrganization(anotherOrganization);
+      targetProfileForTheGivenOrganization = databaseBuilder.factory.buildTargetProfile(targetProfileForTheGivenOrganization);
+      targetProfileForAnotherOrganization = databaseBuilder.factory.buildTargetProfile(targetProfileForAnotherOrganization);
+
+      await databaseBuilder.commit();
+    });
+
+    afterEach(async () => {
+      await databaseBuilder.clean();
+    });
+
+    it('should return an Array', () => {
+      // when
+      const promise = targetProfileRepository.findTargetProfilesByOrganizationId(theRequestedOrganization.id);
+
+      // then
+      return promise.then((foundTargetProfiles) => {
+        expect(foundTargetProfiles).to.be.an('array');
       });
     });
 
-    context('when we asked for profiles linked to any organization', () => {
-      it('should return saved profiles linked to the organization', () => {
-        // when
-        const promise = targetProfileRepository.findByFilters({ organizationId: theRequestedOrganization.id });
+    it('should return target profiles linked to the organization', () => {
+      // when
+      const promise = targetProfileRepository.findTargetProfilesByOrganizationId(theRequestedOrganization.id);
 
-        // then
-        return promise.then((foundTargetProfiles) => {
-          expect(foundTargetProfiles[0]).to.be.an.instanceOf(TargetProfile);
-          const organizationProfilesInFoundTargetProfiles = foundTargetProfiles.filter((targetProfile) => targetProfile.organizationId === theRequestedOrganization.id);
-          expect(organizationProfilesInFoundTargetProfiles).to.have.lengthOf(1);
-        });
+      // then
+      return promise.then((foundTargetProfiles) => {
+        expect(foundTargetProfiles[0]).to.be.an.instanceOf(TargetProfile);
+        expect(foundTargetProfiles).to.have.lengthOf(1);
+        expect(foundTargetProfiles[0].organizationId).to.equal(theRequestedOrganization.id);
       });
     });
 
