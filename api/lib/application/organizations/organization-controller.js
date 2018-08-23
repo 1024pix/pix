@@ -25,7 +25,7 @@ const User = require('../../domain/models/User');
 const Organization = require('../../domain/models/Organization');
 const { EntityValidationError } = require('../../domain/errors');
 
-const fileName = 'Pix - Export donnees partagees.csv';
+const EXPORT_CSV_FILE_NAME = 'Pix - Export donnees partagees.csv';
 
 module.exports = {
 
@@ -108,7 +108,7 @@ module.exports = {
       .then((snapshotsTextCsv) => {
         return reply(snapshotsTextCsv)
           .header('Content-Type', 'text/csv;charset=utf-8')
-          .header('Content-Disposition', `attachment; filename="${fileName}"`);
+          .header('Content-Disposition', `attachment; filename="${EXPORT_CSV_FILE_NAME}"`);
       })
       .catch((err) => {
         logger.error(err);
