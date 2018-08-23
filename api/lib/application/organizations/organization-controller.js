@@ -23,7 +23,6 @@ const logger = require('../../infrastructure/logger');
 const JSONAPI = require('../../interfaces/jsonapi');
 const User = require('../../domain/models/User');
 const Organization = require('../../domain/models/Organization');
-const exportCsvFileName = 'Pix - Export donnees partagees.csv';
 const { EntityValidationError } = require('../../domain/errors');
 
 module.exports = {
@@ -102,14 +101,14 @@ module.exports = {
       snapshotsCsvConverter,
     };
     const organizationId = request.params.id;
+    const fileName = `pix-export-donnees-partagees-${organizationId}.csv`;
 
     return organizationService.getOrganizationSharedProfilesAsCsv(dependencies, organizationId)
       .then((snapshotsTextCsv) => {
         return reply(snapshotsTextCsv)
           .header('Content-Type', 'text/csv;charset=utf-8')
-          .header('Content-Disposition', `attachment; filename=${exportCsvFileName}`);
-      }
-      )
+          .header('Content-Disposition', `attachment; filename=${fileName}`);
+      })
       .catch((err) => {
         logger.error(err);
         return reply(validationErrorSerializer.serialize(
