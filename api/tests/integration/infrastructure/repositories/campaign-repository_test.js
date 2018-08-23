@@ -57,6 +57,7 @@ describe('Integration | Repository | Campaign', () => {
 
       // then
       return promise.then((result) => {
+        result.createdAt = new Date(result.createdAt);
         expect(result).to.deep.equal(campaignToInsert);
       });
     });

@@ -4,6 +4,7 @@ const faker = require('faker');
 module.exports = function buildCampaign({
   id = faker.random.number(),
   name = faker.company.companyName(),
+  idPix = faker.company.companyName(),
   code = faker.random.alphaNumeric(9),
   createdAt = faker.date.recent(),
   organizationId = faker.random.number(),
@@ -12,7 +13,7 @@ module.exports = function buildCampaign({
 } = {}) {
 
   const values = {
-    id, name, code, createdAt, organizationId, creatorId, targetProfileId
+    id, name, idPix, code, createdAt, organizationId, creatorId, targetProfileId
   };
 
   databaseBuffer.pushInsertable({
