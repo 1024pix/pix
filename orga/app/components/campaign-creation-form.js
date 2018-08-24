@@ -5,9 +5,20 @@ export default Component.extend({
   doCreateCampaign: null,
 
   campaign: null,
+  askIdPix: null,
+  wantToAddIdPix: false,
   targetProfiles: null,
 
   actions: {
+    askLibeledIdPix() {
+      this.set('wantToAddIdPix', true);
+    },
+
+    doNotAskLibeledIdPix() {
+      this.set('campaign.idPix', null);
+      this.set('wantToAddIdPix', false);
+    },
+
     submit() {
       this.get('doCreateCampaign')(this.get('campaign'));
     },

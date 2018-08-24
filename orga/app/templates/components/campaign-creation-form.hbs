@@ -32,6 +32,27 @@
     {{/each}}
   </div>
 
+  <div class="campaign-creation-form_id-pix">
+    <div class="campaign-creation-form_id-pix_askIfWanted">
+      Souhaitez-vous demander un ID Pix ?
+      <input type="radio" id="id-pix-wanted" class="" name="id-pix-wanted" value="false" onclick={{action "doNotAskLibeledIdPix"}} checked/> Non
+      <input type="radio" id="id-pix-wanted" class="" name="id-pix-wanted" value="true" onclick={{action "askLibeledIdPix"}} /> Oui
+    </div>
+    {{#if wantToAddIdPix}}
+      <div class="campaign-creation-form_id-pix_libelled">
+        Libellé de l'ID Pix:
+        {{input class="input" id='id-pix' name='id-pix' type='text' maxlength='255' length='30'
+                value=campaign.idPix label='Libellé de l\'ID Pix' aria-required='true'}}
+        {{#each campaign.errors.idPix as |error|}}
+          <div class='campaign-creation-form__error'>
+            {{error.message}}
+          </div>
+        {{/each}}
+        Exemple: "Numéro de l'étudiant" ou "Adresse mail professionnelle"
+      </div>
+    {{/if}}
+  </div>
+
   <div>
     <button class="campaign-creation-form__validation-button submit-button" type="submit">Créer la campagne</button>
   </div>
