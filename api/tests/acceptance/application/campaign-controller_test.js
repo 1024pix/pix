@@ -59,7 +59,7 @@ describe('Acceptance | API | Campaigns', () => {
             relationships: {
               'target-profile': {
                 data: {
-                  id: 5
+                  id: faker.random.number()
                 }
               }
             }
@@ -95,7 +95,7 @@ describe('Acceptance | API | Campaigns', () => {
             relationships: {
               'target-profile': {
                 data: {
-                  id: 5
+                  id: faker.random.number()
                 }
               }
             }
