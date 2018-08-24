@@ -64,7 +64,7 @@ function _fetchTargetProfileSkillDataObjects(bookshelfTargetProfile) {
 }
 
 function _convertDataObjectsIntoDomain(bookshelfTargetProfile, skillAssociatedToTargetProfileWIthName) {
-  let targetProfile = _toDomain(bookshelfTargetProfile);
+  const targetProfile = _toDomain(bookshelfTargetProfile);
   targetProfile.skills = _toDomainSkills(skillAssociatedToTargetProfileWIthName);
   return targetProfile;
 }
