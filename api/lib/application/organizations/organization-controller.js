@@ -23,8 +23,9 @@ const logger = require('../../infrastructure/logger');
 const JSONAPI = require('../../interfaces/jsonapi');
 const User = require('../../domain/models/User');
 const Organization = require('../../domain/models/Organization');
-const exportCsvFileName = 'Pix - Export donnees partagees.csv';
 const { EntityValidationError } = require('../../domain/errors');
+
+const EXPORT_CSV_FILE_NAME = 'Pix - Export donnees partagees.csv';
 
 module.exports = {
 
@@ -107,9 +108,8 @@ module.exports = {
       .then((snapshotsTextCsv) => {
         return reply(snapshotsTextCsv)
           .header('Content-Type', 'text/csv;charset=utf-8')
-          .header('Content-Disposition', `attachment; filename=${exportCsvFileName}`);
-      }
-      )
+          .header('Content-Disposition', `attachment; filename="${EXPORT_CSV_FILE_NAME}"`);
+      })
       .catch((err) => {
         logger.error(err);
         return reply(validationErrorSerializer.serialize(
