@@ -6,7 +6,6 @@ const SmartPlacementKnowledgeElement = require('../../domain/models/SmartPlaceme
 // To delete once target-profile table is created
 const targetProfileRepository = require('./target-profile-repository');
 const { NotFoundError } = require('../../domain/errors');
-const PIC_INITIAL_DIAGNOSTIC_TARGET_PROFILE_ID = 1; /// XXX For now it is the only used target profile
 
 module.exports = {
 
@@ -18,6 +17,8 @@ module.exports = {
         withRelated: [
           'answers',
           'knowledgeElements',
+          'campaignParticipation',
+          'campaignParticipation.campaign',
         ],
       })
       .then(checkIsSmartPlacement)
@@ -41,7 +42,8 @@ function toDomain(bookshelfAssessment) {
   // Target-profiles table has been added
   // waiting for link beetween assessment and target-profile
   // in order to find associated target-profile before toDomain() and do only mapping in toDomain()
-  return targetProfileRepository.get(PIC_INITIAL_DIAGNOSTIC_TARGET_PROFILE_ID)
+  const targetProfileId = bookshelfAssessment.related('campaignParticipation').related('campaign').get('targetProfileId');
+  return targetProfileRepository.get(targetProfileId)
     .then((targetProfile) => {
 
       const answers = bookshelfAssessment
@@ -70,6 +72,7 @@ function toDomain(bookshelfAssessment) {
 
       return new SmartPlacementAssessment({
         id: bookshelfAssessment.get('id'),
+        createdAt: bookshelfAssessment.get('createdAt'),
         state: bookshelfAssessment.get('state'),
         userId: bookshelfAssessment.get('userId'),
         answers,

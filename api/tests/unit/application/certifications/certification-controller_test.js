@@ -1,5 +1,4 @@
-const { expect, sinon } = require('../../../test-helper');
-const factory = require('../../../factory');
+const { expect, sinon, factory } = require('../../../test-helper');
 
 const certificationController = require('../../../../lib/application/certifications/certification-controller');
 
@@ -126,11 +125,13 @@ describe('Unit | Controller | certifications-controller', () => {
     it('should return a 403 unauthorized when use case returns a user not authorized to access ressource error', () => {
       // given
       const jsonAPIError = {
-        errors: [{
-          detail: 'Vous n’avez pas accès à cette certification',
-          code: '403',
-          title: 'Unauthorized Access',
-        }],
+        errors: [
+          {
+            detail: 'Vous n’avez pas accès à cette certification',
+            code: '403',
+            title: 'Unauthorized Access',
+          },
+        ],
       };
       usecases.getUserCertificationWithResultTree.rejects(new errors.UserNotAuthorizedToAccessEntity());
 
@@ -152,11 +153,13 @@ describe('Unit | Controller | certifications-controller', () => {
         params: { id: certificationID },
       };
       const jsonAPIError = {
-        errors: [{
-          detail: `Not found certification for ID ${certificationID}`,
-          code: '404',
-          title: 'Not Found',
-        }],
+        errors: [
+          {
+            detail: `Not found certification for ID ${certificationID}`,
+            code: '404',
+            title: 'Not Found',
+          },
+        ],
       };
       usecases.getUserCertificationWithResultTree.rejects(new errors.NotFoundError(`Not found certification for ID ${certificationID}`));
 
@@ -174,11 +177,13 @@ describe('Unit | Controller | certifications-controller', () => {
       // given
       const error = new Error('Oh no...');
       const jsonAPIError = {
-        errors: [{
-          code: '500',
-          detail: 'Oh no...',
-          title: 'Internal Server Error',
-        }],
+        errors: [
+          {
+            code: '500',
+            detail: 'Oh no...',
+            title: 'Internal Server Error',
+          },
+        ],
       };
       usecases.getUserCertificationWithResultTree.rejects(error);
 

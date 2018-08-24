@@ -22,6 +22,18 @@ class UserNotAuthorizedToCreateCampaignError extends DomainError {
   }
 }
 
+class UserNotAuthorizedToGetCampaignResultsError extends DomainError {
+  constructor(message) {
+    super(message);
+  }
+}
+
+class CampaignWithoutOrganizationError extends DomainError {
+  constructor(message) {
+    super(message);
+  }
+}
+
 class AssessmentEndedError extends DomainError {
   constructor() {
     super();
@@ -244,6 +256,7 @@ module.exports = {
   AlreadyRegisteredEmailError,
   AssessmentEndedError,
   CampaignCodeError,
+  CampaignWithoutOrganizationError,
   CertificationComputeError,
   ChallengeAlreadyAnsweredError,
   EntityValidationError,
@@ -264,6 +277,7 @@ module.exports = {
   UserNotAuthorizedToAccessEntity,
   UserNotAuthorizedToCertifyError,
   UserNotAuthorizedToCreateCampaignError,
+  UserNotAuthorizedToGetCampaignResultsError,
   UserNotFoundError,
   WrongDateFormatError,
 };

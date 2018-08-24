@@ -11,10 +11,21 @@ describe('Acceptance | API | SkillReviews', () => {
 
     const userIdOfUserWithAssessment = 9999;
     const insertedAssessment = {
+      id: 12,
       courseId: 1,
       userId: userIdOfUserWithAssessment,
       type: 'SMART_PLACEMENT',
       state: 'completed',
+    };
+    const insertedCampaign = {
+      id: 14,
+      name: 'Campaign',
+      organizationId: null,
+      targetProfileId:1
+    };
+    const insertedCampaignParticipation = {
+      campaignId: insertedCampaign.id,
+      assessmentId: insertedAssessment.id
     };
     const insertedTargetProfile = {
       id: 1,
@@ -41,6 +52,8 @@ describe('Acceptance | API | SkillReviews', () => {
       const assessment = databaseBuilder.factory.buildAssessment(insertedAssessment);
       assessmentId = assessment.id;
       databaseBuilder.factory.buildTargetProfile(insertedTargetProfile);
+      databaseBuilder.factory.buildCampaign(insertedCampaign);
+      databaseBuilder.factory.buildCampaignParticipation(insertedCampaignParticipation);
       return databaseBuilder.commit();
     });
 

@@ -1,7 +1,6 @@
-const { expect } = require('../../../../test-helper');
+const { expect, factory } = require('../../../../test-helper');
 const serializer = require('../../../../../lib/infrastructure/serializers/jsonapi/certification-serializer');
 const { WrongDateFormatError } = require('../../../../../lib/domain/errors');
-const factory = require('../../../../factory');
 
 describe('Unit | Serializer | JSONAPI | certification-serializer', () => {
 

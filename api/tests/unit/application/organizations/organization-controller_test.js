@@ -645,7 +645,14 @@ describe('Unit | Application | Organizations | organization-controller', () => {
 
     beforeEach(() => {
       organizationId = 1;
-      request = { params: { id: organizationId } };
+      request = {
+        params: { id: organizationId },
+        auth: {
+          credentials : {
+            userId: 1
+          }
+        }
+      };
       campaign = factory.buildCampaign();
       serializedCampaigns = { data: [{ name: campaign.name, code: campaign.code }] };
 

@@ -1,7 +1,6 @@
 const { expect, sinon, factory } = require('../../../test-helper');
 
 const getNextChallengeForSmartRandom = require('../../../../lib/domain/usecases/get-next-challenge-for-smart-placement');
-const Assessment = require('../../../../lib/domain/models/Assessment');
 const Challenge = require('../../../../lib/domain/models/Challenge');
 const Skill = require('../../../../lib/domain/models/Skill');
 
@@ -15,7 +14,9 @@ describe('Unit | Domain | Use Cases | get-next-challenge-for-smart-placement', 
 
     const skill = new Skill({ name: '@unite2' });
     const challenge = Challenge.fromAttributes({ status: 'validé', id: 'challenge_ID', skills: [skill] });
-    const assessment = Assessment.fromAttributes({ id: 'assessment_ID' });
+    const assessment = factory.buildAssessment({ id: 'assessment_ID' });
+    const campaign = factory.buildCampaignParticipation();
+    assessment.campaignParticipation = factory.buildCampaignParticipation({ assessmentId: assessment.id, campaign });
 
     beforeEach(() => {
       answerRepository.findByAssessment = sinon.stub().resolves([]);
