@@ -1,4 +1,4 @@
-const { expect, knex } = require('../../../test-helper');
+const { expect, knex, factory, databaseBuilder } = require('../../../test-helper');
 const campaignRepository = require('../../../../lib/infrastructure/repositories/campaign-repository');
 const Campaign = require('../../../../lib/domain/models/Campaign');
 
@@ -6,19 +6,14 @@ describe('Integration | Repository | Campaign', () => {
 
   describe('#isCodeAvailable', () => {
 
-    beforeEach(() => {
-      const campaignToInsert = {
-        name: 'Nom de Campagne',
-        code: 'BADOIT710',
-        createdAt: '2018-02-06 14:12:44',
-        creatorId: 1,
-        organizationId: 1
-      };
-      return knex('campaigns').insert(campaignToInsert);
+    beforeEach(async () => {
+      const campaign = factory.buildCampaign({ code: 'BADOIT710' });
+      databaseBuilder.factory.buildCampaign(campaign);
+      await databaseBuilder.commit();
     });
 
-    afterEach(() => {
-      return knex('campaigns').delete();
+    afterEach(async () => {
+      await databaseBuilder.clean();
     });
 
     it('should resolve true if the code is available', () => {
@@ -46,21 +41,14 @@ describe('Integration | Repository | Campaign', () => {
   describe('#getByCode', () => {
 
     let campaignToInsert;
-    beforeEach(() => {
-      campaignToInsert = {
-        id: 3,
-        name: 'Nom de Campagne',
-        code: 'BADOIT710',
-        createdAt: '2018-02-06 14:12:45',
-        creatorId: 1,
-        organizationId: 1,
-        targetProfileId: 3,
-      };
-      return knex('campaigns').insert(campaignToInsert);
+    beforeEach(async () => {
+      campaignToInsert = factory.buildCampaign({ code: 'BADOIT710', createdAt: '2018-02-06 14:12:45' });
+      databaseBuilder.factory.buildCampaign(campaignToInsert);
+      await databaseBuilder.commit();
     });
 
-    afterEach(() => {
-      return knex('campaigns').delete();
+    afterEach(async () => {
+      await databaseBuilder.clean();
     });
 
     it('should resolve the campaign relies to the code', () => {
@@ -119,16 +107,38 @@ describe('Integration | Repository | Campaign', () => {
   describe('#findByOrganizationId', () => {
 
     const organizationId = 1;
-    const campaign1Organization1 = { id: 1, name: 'campaign1', code: 'AZERTY123', organizationId: organizationId, creatorId: 1 };
-    const campaign2Organization1 = { id: 2, name: 'campaign2', code: 'AZERTY456', organizationId: organizationId, creatorId: 2 };
-    const campaign1Organization2 = { id: 3, name: 'campaign3', code: 'AZERTY789', organizationId: 2, creatorId: 3 };
+    const campaign1Organization1 = factory.buildCampaign({
+      id: 1,
+      name: 'campaign1',
+      code: 'AZERTY123',
+      organizationId: organizationId,
+      creatorId: 1
+    });
+    const campaign2Organization1 = factory.buildCampaign({
+      id: 2,
+      name: 'campaign2',
+      code: 'AZERTY456',
+      organizationId: organizationId,
+      creatorId: 2
+    });
+    const campaign1Organization2 = factory.buildCampaign({
+      id: 3,
+      name: 'campaign3',
+      code: 'AZERTY789',
+      organizationId: 2,
+      creatorId: 3
+    });
+    const campaigns = [campaign1Organization1, campaign2Organization1, campaign1Organization2];
 
-    beforeEach(() => {
-      return knex('campaigns').insert([campaign1Organization1, campaign2Organization1, campaign1Organization2]);
+    beforeEach(async () => {
+      campaigns.forEach((campaign) => {
+        databaseBuilder.factory.buildCampaign(campaign);
+      });
+      await databaseBuilder.commit();
     });
 
-    afterEach(() => {
-      return knex('campaigns').delete();
+    afterEach(async () => {
+      await databaseBuilder.clean();
     });
 
     it('should return the campaigns of the given organization id', () => {
@@ -150,5 +160,6 @@ describe('Integration | Repository | Campaign', () => {
         expect(campaigns[1].id).to.equal(campaign2Organization1.id);
       });
     });
+
   });
 });
