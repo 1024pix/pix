@@ -27,7 +27,6 @@ const Organization = require('../../domain/models/Organization');
 const exportCsvFileName = 'Pix - Export donnees partagees.csv';
 const { EntityValidationError } = require('../../domain/errors');
 
-
 module.exports = {
 
   // TODO extract domain logic into use case, like create user
