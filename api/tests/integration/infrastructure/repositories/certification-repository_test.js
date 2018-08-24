@@ -1,7 +1,6 @@
-const { expect, knex } = require('../../../test-helper');
+const { expect, knex, factory } = require('../../../test-helper');
 const certificationRepository = require('../../../../lib/infrastructure/repositories/certification-repository');
 const { NotFoundError } = require('../../../../lib/domain/errors');
-const factory = require('../../../factory');
 
 const Certification = require('../../../../lib/domain/models/Certification');
 const Assessment = require('../../../../lib/domain/models/Assessment');
@@ -87,7 +86,7 @@ describe('Integration | Repository | Certification ', () => {
         pixScore: 23,
         status: 'rejected',
         commentForCandidate: 'Comment for candidate',
-        certifiedProfile: null
+        certifiedProfile: null,
       });
 
       // when
@@ -177,20 +176,22 @@ describe('Integration | Repository | Certification ', () => {
 
     it('should return an array of Certification with needed informations', () => {
       // given
-      const expectedCertifications = [factory.buildCertification({
-        id: 123,
-        certificationCenter: 'Université des chocolats',
-        date: new Date('2000-02-12'),
-        isPublished: true,
-        assessmentState: 'completed',
-        birthdate: new Date('1989-10-24'),
-        firstName: 'Jane',
-        lastName: 'Kalamity',
-        pixScore: 23,
-        status: 'rejected',
-        commentForCandidate: 'Comment for candidate',
-        certifiedProfile: null,
-      })];
+      const expectedCertifications = [
+        factory.buildCertification({
+          id: 123,
+          certificationCenter: 'Université des chocolats',
+          date: new Date('2000-02-12'),
+          isPublished: true,
+          assessmentState: 'completed',
+          birthdate: new Date('1989-10-24'),
+          firstName: 'Jane',
+          lastName: 'Kalamity',
+          pixScore: 23,
+          status: 'rejected',
+          commentForCandidate: 'Comment for candidate',
+          certifiedProfile: null,
+        }),
+      ];
 
       // when
       const promise = certificationRepository.findCertificationsByUserId(USER_ID);

@@ -73,7 +73,7 @@ module.exports = {
           answers: function(query) {
             query.orderBy('createdAt', 'ASC');
           },
-        }, 'assessmentResults'],
+        }, 'assessmentResults','campaignParticipation', 'campaignParticipation.campaign'],
       })
       .then(_toDomain);
   },

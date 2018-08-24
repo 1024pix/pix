@@ -1,12 +1,12 @@
-const { expect, knex } = require('../../../test-helper');
+const { expect, knex, factory } = require('../../../test-helper');
 
 const CompetenceMark = require('../../../../lib/domain/models/CompetenceMark');
 const CompetenceMarkRepository = require('../../../../lib/infrastructure/repositories/competence-mark-repository');
-const factory = require('../../../factory');
 
-describe('Integration | Repository | CompetenceMark', function() {
+describe('Integration | Repository | CompetenceMark', () => {
 
   describe('#save', () => {
+
     before(() => knex('competence-marks').delete());
 
     afterEach(() => knex('competence-marks').delete());
@@ -48,12 +48,13 @@ describe('Integration | Repository | CompetenceMark', function() {
 
         expect(mark).to.have.property('id').and.not.to.be.null;
       });
-
     });
 
     context('when competenceMark is not validated', () => {
       it('should return an error', () => {
         // given
+        const expectedValidationErrorMessage = 'ValidationError: child "level" fails because' +
+                                               ' ["level" must be less than or equal to 8]';
         const markWithLevelGreaterThanEight = factory.buildCompetenceMark({
           score: 13,
           level: 10,
@@ -64,7 +65,7 @@ describe('Integration | Repository | CompetenceMark', function() {
 
         // then
         return promise.catch((error) => {
-          expect(error.message).to.be.equal('ValidationError: child "level" fails because ["level" must be less than or equal to 8]');
+          expect(error.message).to.be.equal(expectedValidationErrorMessage);
         });
       });
 

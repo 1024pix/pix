@@ -2,10 +2,11 @@ const { sinon, expect, factory } = require('../../../test-helper');
 
 const campaignController = require('../../../../lib/application/campaigns/campaign-controller');
 const usecases = require('../../../../lib/domain/usecases');
+const tokenService = require('../../../../lib/domain/services/token-service');
 const campaignRepository = require('../../../../lib/infrastructure/repositories/campaign-repository');
 const userRepository = require('../../../../lib/infrastructure/repositories/user-repository');
 const campaignSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/campaign-serializer');
-const { UserNotAuthorizedToCreateCampaignError, EntityValidationError } = require('../../../../lib/domain/errors');
+const { UserNotAuthorizedToCreateCampaignError, UserNotAuthorizedToGetCampaignResultsError, EntityValidationError } = require('../../../../lib/domain/errors');
 
 describe('Unit | Application | Controller | Campaign', () => {
 
@@ -166,6 +167,111 @@ describe('Unit | Application | Controller | Campaign', () => {
       return promise.then(() => {
         expect(codeStub).to.have.been.calledWith(500);
         expect(replyStub).to.have.been.calledWith(expectedInternalServerError);
+      });
+    });
+
+  });
+
+  describe('#getCsvResult', () => {
+    let sandbox;
+    let replyStub;
+    let codeStub;
+    const userId = 1;
+
+    beforeEach(() => {
+      sandbox = sinon.createSandbox();
+      sandbox.stub(usecases, 'getResultsCampaignInCSVFormat');
+      sandbox.stub(tokenService, 'extractUserIdForCampaignResults').resolves(userId);
+      codeStub = sandbox.stub();
+      replyStub = sandbox.stub().returns({
+        code: codeStub,
+        header: sandbox.stub().returns({
+          header:sandbox.stub()
+        }),
+      });
+    });
+
+    afterEach(() => {
+      sandbox.restore();
+    });
+
+    it('should call the use case to get result campaign in csv', () => {
+      // given
+      const campaignId = 2;
+      const request = {
+        query: {
+          accessToken: 'token'
+        },
+        params: {
+          id: campaignId
+        }
+      };
+      usecases.getResultsCampaignInCSVFormat.resolves('csv;result');
+
+      // when
+      const promise = campaignController.getCsvResults(request, replyStub);
+
+      // then
+      return promise.then(() => {
+        expect(usecases.getResultsCampaignInCSVFormat).to.have.been.calledOnce;
+        const getResultsCampaignArgs = usecases.getResultsCampaignInCSVFormat.firstCall.args[0];
+        expect(getResultsCampaignArgs).to.have.property('userId');
+        expect(getResultsCampaignArgs).to.have.property('campaignId');
+      });
+    });
+
+    it('should return a serialized campaign when the campaign has been successfully created', () => {
+      // given
+      const campaignId = 2;
+      const request = {
+        query: {
+          accessToken: 'token'
+        },
+        params: {
+          id: campaignId
+        }
+      };
+      usecases.getResultsCampaignInCSVFormat.resolves({ csvData: 'csv;result', campaignName: 'Campagne' });
+
+      // when
+      const promise = campaignController.getCsvResults(request, replyStub);
+
+      // then
+      return promise.then(() => {
+        expect(replyStub).to.have.been.calledWith('csv;result');
+      });
+    });
+
+    it('should throw a 403 JSONAPI error if user is not authorized to create a campaign', () => {
+      // given
+      const campaignId = 2;
+      const request = {
+        query: {
+          accessToken: 'token'
+        },
+        params: {
+          id: campaignId
+        }
+      };
+      const errorMessage = 'Vous ne pouvez pas accéder à cette campagne';
+      usecases.getResultsCampaignInCSVFormat.rejects(new UserNotAuthorizedToGetCampaignResultsError(errorMessage));
+
+      const expectedUnprocessableEntityError = {
+        errors: [{
+          detail: errorMessage,
+          status: '403',
+          title: 'Forbidden Error'
+        }]
+      };
+
+      // when
+      const promise = campaignController.getCsvResults(request, replyStub);
+
+      // then
+      return promise.then(() => {
+        expect(codeStub).to.have.been.calledWith(403);
+        expect(replyStub).to.have.been.calledWith(expectedUnprocessableEntityError);
+
       });
     });
 

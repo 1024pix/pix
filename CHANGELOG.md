@@ -1,5 +1,18 @@
 # Pix Changelog
 
+## 1.59.0 (22/08/2018) 
+
+- [#148](https://github.com/1024pix/pix/pull/148) [FEATURE] Affichage de la liste des campagnes d'une organisation (PO-22).
+- [#161](https://github.com/1024pix/pix/pull/161) [FEATURE] Les campagnes utilisent les profil cibles (PO-124).
+- [#155](https://github.com/1024pix/pix/pull/155) [FEATURE] Rediriger sur une campagne après inscription (PF-241).
+- [#156](https://github.com/1024pix/pix/pull/156) [FEATURE] Faire passer le code Campagne dans l'url de démarrage d'une campagne (PF-294).
+- [#165](https://github.com/1024pix/pix/pull/165) [BUGFIX] Réparer les seeds pour les RA (PF-324).
+- [#167](https://github.com/1024pix/pix/pull/167) [BUGFIX] Fix script export des snapshots d'organisation (PF-331).
+- [#166](https://github.com/1024pix/pix/pull/166) [TECH] Mise à jour du script de notification JIRA quand il n'y a pas de numéro d'US dans le nom de la branche.
+- [#170](https://github.com/1024pix/pix/pull/170) [TECH] Création d'un générateur de mock http pour Airtable.
+- [#163](https://github.com/1024pix/pix/pull/163) [TECH] Ajout de plop.js et de générateur.
+- [#159](https://github.com/1024pix/pix/pull/159) [TECH] Les profils cibles sont désormais en bases de données (PO-101).
+
 
 ## v1.58.1 (03/08/2018)
 
