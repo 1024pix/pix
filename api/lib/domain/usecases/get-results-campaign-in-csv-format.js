@@ -86,7 +86,7 @@ function _totalValidatedSkills(knowledgeElements) {
 }
 
 function _percentageSkillsValidated(assessment, targetProfile) {
-  return _totalValidatedSkills(assessment.knowledgeElements) * 100 / targetProfile.skills.length;
+  return _.round(_totalValidatedSkills(assessment.knowledgeElements) * 100 / targetProfile.skills.length, 1);
 }
 
 function _stateOfSkill(skillName, knowledgeElements) {
@@ -133,7 +133,7 @@ function _createOneLineOfCSV(headers, organization, campaign, listCompetences, l
       line = _addCellByHeadersTitle('"Nom du Participant"', user.firstName, line, headers);
       line = _addCellByHeadersTitle('"Prénom du Participant"', user.lastName, line, headers);
 
-      const percentageProgression = (assessment.isCompleted) ? 100 : assessment.knowledgeElements.length * 100 / (targetProfile.skills.length);
+      const percentageProgression = (assessment.isCompleted) ? 100 : _.round(assessment.knowledgeElements.length * 100 / (targetProfile.skills.length), 1);
       line = _addCellByHeadersTitle('"% de progression"', percentageProgression, line, headers);
 
       line = _addCellByHeadersTitle('"Date de début"', assessment.createdAt, line, headers);
