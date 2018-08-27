@@ -22,6 +22,7 @@ export default Component.extend({
   actions: {
     askLabelIdPix() {
       this.set('wantIdPix', 'checked');
+      this.set('campaign.idPix', '');
     },
 
     doNotAskLabelIdPix() {
