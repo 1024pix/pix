@@ -155,17 +155,17 @@ describe('Integration | Repository | SmartPlacementAssessmentRepository', () => 
       });
 
       databaseBuilder.factory.buildTargetProfilesSkills({
-        id: 1,
+        id: 101,
         targetProfileId: targetProfile.id,
         skillId: firstSkill.id,
       });
       databaseBuilder.factory.buildTargetProfilesSkills({
-        id: 2,
+        id: 102,
         targetProfileId: targetProfile.id,
         skillId: secondSkill.id,
       });
       databaseBuilder.factory.buildTargetProfilesSkills({
-        id: 3,
+        id: 103,
         targetProfileId: targetProfile.id,
         skillId: thirdSkill.id,
       });
