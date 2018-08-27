@@ -22,12 +22,15 @@ function _toDomain(model) {
 }
 
 module.exports = {
+
+  // TODO modifier pour que cela prenne un CertificationChallenge en entrée
   save(challenge, certificationCourse) {
     const certificationChallenge = new CertificationChallengeBookshelf({
       challengeId: challenge.id,
       competenceId: challenge.competence,
-      associatedSkill: challenge.testedSkill,
-      courseId: certificationCourse.id
+      associatedSkill: challenge.testedSkill, // TODO: Add skillId
+      associatedSkillId: undefined, // TODO: Add skillId
+      courseId: certificationCourse.id,
     });
 
     return certificationChallenge.save()
