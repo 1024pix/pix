@@ -40,6 +40,7 @@ describe('Unit | Domain | Use Cases | get-results-campaign-in-csv-format', () =
       name:'CampaignName',
       code:'AZERTY123',
       organizationId: organization.id,
+      idPix: 'Mail Pro',
     });
     const competences = [
       {
@@ -94,7 +95,7 @@ describe('Unit | Domain | Use Cases | get-results-campaign-in-csv-format', () =
         '"Nom du Profil Cible";' +
         '"Nom du Participant";' +
         '"Prénom du Participant";' +
-        '"ID PIX";' +
+        '"Mail Pro";' +
         '"Nom invité";' +
         '"Prénom invité";' +
         '"Email invité";' +
