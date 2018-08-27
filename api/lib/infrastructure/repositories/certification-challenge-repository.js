@@ -11,12 +11,13 @@ const logContext = {
 };
 
 function _toDomain(model) {
-  return CertificationChallenge.fromAttributes({
+  return new CertificationChallenge({
     id: model.get('id'),
     challengeId: model.get('challengeId'),
     competenceId: model.get('competenceId'),
-    associatedSkill: model.get('associatedSkill'),
-    courseId: model.get('courseId')
+    associatedSkillName: model.get('associatedSkill'),
+    associatedSkillId: model.get('associatedSkillId'),
+    courseId: model.get('courseId'),
   });
 }
 
@@ -35,13 +36,18 @@ module.exports = {
       });
   },
 
-  findChallengesByCertificationCourseId(courseId) {
+  findByCertificationCourseId(certificationCourseId) {
     return CertificationChallengeBookshelf
-      .where({ courseId })
+      .where({ courseId: certificationCourseId })
       .fetchAll()
-      .then((collection) => {
-        return collection.map((certificationChallenge) => _toDomain(certificationChallenge));
-      });
+      .then((challenges) => challenges.models.map(_toDomain));
+  },
+
+  /**
+   * @deprecated use findByCertificationCourseId instead
+   */
+  findChallengesByCertificationCourseId(courseId) {
+    return this.findByCertificationCourseId(courseId);
   },
 
   getNonAnsweredChallengeByCourseId(assessmentId, courseId) {
@@ -55,7 +61,7 @@ module.exports = {
       .query((knex) => knex.whereNotIn('challengeId', answeredChallengeIds))
       .fetch()
       .then((certificationChallenge) => {
-        if(certificationChallenge === null) {
+        if (certificationChallenge === null) {
           logger.trace(logContext, 'no found challenges');
           throw new AssessmentEndedError();
         }
@@ -65,11 +71,4 @@ module.exports = {
         return _toDomain(certificationChallenge);
       });
   },
-
-  findByCertificationCourseId(certificationCourseId) {
-    return CertificationChallengeBookshelf
-      .where({ courseId: certificationCourseId })
-      .fetchAll()
-      .then((challenges) => challenges.models.map(_toDomain));
-  }
 };
