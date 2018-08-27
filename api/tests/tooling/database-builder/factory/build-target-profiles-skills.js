@@ -1,7 +1,7 @@
 const databaseBuffer = require('../database-buffer');
 const faker = require('faker');
 
-module.exports = function buildTargetProfileSkills({
+module.exports = function buildTargetProfilesSkills({
   id = faker.random.number(),
   targetProfileId = faker.random.number(),
   skillId = 'rec' + faker.random.word()
