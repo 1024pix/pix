@@ -1,11 +1,11 @@
 const { sinon, expect, factory } = require('../../../test-helper');
 
 const campaignController = require('../../../../lib/application/campaigns/campaign-controller');
-const usecases = require('../../../../lib/domain/usecases');
-const tokenService = require('../../../../lib/domain/services/token-service');
 const campaignRepository = require('../../../../lib/infrastructure/repositories/campaign-repository');
-const userRepository = require('../../../../lib/infrastructure/repositories/user-repository');
 const campaignSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/campaign-serializer');
+const userRepository = require('../../../../lib/infrastructure/repositories/user-repository');
+const tokenService = require('../../../../lib/domain/services/token-service');
+const usecases = require('../../../../lib/domain/usecases');
 const { UserNotAuthorizedToCreateCampaignError, UserNotAuthorizedToGetCampaignResultsError, EntityValidationError } = require('../../../../lib/domain/errors');
 
 describe('Unit | Application | Controller | Campaign', () => {
@@ -35,7 +35,7 @@ describe('Unit | Application | Controller | Campaign', () => {
     it('should call the use case to create the new campaign', () => {
       // given
       const connectedUserId = 1;
-      const request = { auth: { credentials: { userId : connectedUserId } } };
+      const request = { auth: { credentials: { userId: connectedUserId } } };
 
       const createdCampaign = factory.buildCampaign();
       usecases.createCampaign.resolves(createdCampaign);
@@ -186,7 +186,7 @@ describe('Unit | Application | Controller | Campaign', () => {
       replyStub = sandbox.stub().returns({
         code: codeStub,
         header: sandbox.stub().returns({
-          header:sandbox.stub()
+          header: sandbox.stub()
         }),
       });
     });
@@ -277,4 +277,48 @@ describe('Unit | Application | Controller | Campaign', () => {
 
   });
 
+  describe('#shareCampaignResult', () => {
+
+    let sandbox;
+    let replyStub;
+    let codeStub;
+
+    beforeEach(() => {
+      sandbox = sinon.createSandbox();
+      sandbox.stub(usecases, 'allowUserToShareHisCampaignResult');
+      codeStub = sandbox.stub();
+      replyStub = sandbox.stub().returns({
+        code: codeStub
+      });
+    });
+
+    afterEach(() => {
+      sandbox.restore();
+    });
+
+    it('should call the use case to share campaign result', () => {
+      // given
+      const assessmentId = 4;
+      const request = {
+        query: {
+          accessToken: 'token'
+        },
+        params: {
+          id: assessmentId
+        }
+      };
+      usecases.allowUserToShareHisCampaignResult.resolves();
+
+      // when
+      const promise = campaignController.shareCampaignResult(request, replyStub);
+
+      // then
+      return promise.then(() => {
+        expect(usecases.allowUserToShareHisCampaignResult).to.have.been.calledOnce;
+        const updateCampaignParticiaption = usecases.allowUserToShareHisCampaignResult.firstCall.args[0];
+        expect(updateCampaignParticiaption).to.have.property('assessmentId');
+        expect(updateCampaignParticiaption).to.have.property('campaignParticipationRepository');
+      });
+    });
+  });
 });
