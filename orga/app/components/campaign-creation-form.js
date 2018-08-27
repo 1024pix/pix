@@ -1,4 +1,5 @@
 import Component from '@ember/component';
+import { computed } from '@ember/object';
 
 export default Component.extend({
 
@@ -9,14 +10,23 @@ export default Component.extend({
   wantToAddIdPix: false,
   targetProfiles: null,
 
+  wantIdPix: '',
+  notWantIdPix: computed('wantIdPix', function() {
+    return this.get('wantIdPix') === 'checked' ? '' : 'checked';
+  }),
+
+  showLabelIdPixQuestion: computed('wantIdPix', function() {
+    return this.get('wantIdPix') === 'checked';
+  }),
+
   actions: {
-    askLibeledIdPix() {
-      this.set('wantToAddIdPix', true);
+    askLabelIdPix() {
+      this.set('wantIdPix', 'checked');
     },
 
-    doNotAskLibeledIdPix() {
+    doNotAskLabelIdPix() {
+      this.set('wantIdPix', '');
       this.set('campaign.idPix', null);
-      this.set('wantToAddIdPix', false);
     },
 
     submit() {

@@ -22,5 +22,39 @@
     padding-top: 4px;
   }
 
+  &__information {
+    font-size: 0.8rem;
+    color: $dove-gray;
+  }
+
+  &_label {
+    font-size: 1.1rem;
+    font-weight: 600;
+  }
+
+  &_sub-label {
+    font-weight: 500;
+  }
+
+  input[type="radio"] {
+    display: none;
+  }
+
+  input[type="radio"] + label span {
+    display: inline-block;
+    width: 10px;
+    height: 10px;
+    margin: 10px 20px 10px 0px;
+    border-radius: 50%;
+    vertical-align: middle;
+    box-shadow: 0 0 0 2px $dusty-gray;
+    border: 4px solid $wild-sand;
+  }
+
+  input[type="radio"]:checked + label span{
+    box-shadow: 0 0 0 2px $dodger-blue;
+    background-color: $dodger-blue;
+  }
+
 }
 
