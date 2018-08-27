@@ -189,7 +189,7 @@ function _getChallengeInformation(listAnswers, certificationChallenges, competen
       value: answer.value,
       challengeId: answer.challengeId,
       competence: competenceValidatedByCertifChallenge.index || '',
-      skill: certificationChallengeRelatedToAnswer.associatedSkill || '',
+      skill: certificationChallengeRelatedToAnswer.associatedSkillName || '',
     };
   });
 }
