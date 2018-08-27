@@ -16,7 +16,8 @@ function _checkCreatorHasAccessToCampaignOrganization(userId, organizationId, us
     });
 }
 
-function _createHeaderOfCSV(skillNames, competences, areas) {
+function _createHeaderOfCSV(skillNames, competences, areas, campaign) {
+  const labelOfIdPix = campaign.idPix || 'ID Pix';
   const headers = [
     '"Nom de l\'organisation"',
     '"ID Campagne"',
@@ -24,7 +25,7 @@ function _createHeaderOfCSV(skillNames, competences, areas) {
     '"Nom du Profil Cible"',
     '"Nom du Participant"',
     '"Prénom du Participant"',
-    '"ID PIX"',
+    `"${labelOfIdPix}"`,
     '"Nom invité"',
     '"Prénom invité"',
     '"Email invité"',
@@ -230,7 +231,7 @@ module.exports = function getResultsCampaignInCSVFormat(
       listArea = _.uniqBy(listCompetences.map((competence) => competence.area), 'code');
 
       //Create HEADER of CSV
-      headersAsArray = _createHeaderOfCSV(listSkillsName, listCompetences, listArea);
+      headersAsArray = _createHeaderOfCSV(listSkillsName, listCompetences, listArea, campaign);
       textCsv += headersAsArray.join(';') + '\n';
 
       const getCSVLineForEachParticipation = listCampaignParticipation.map((campaignParticipation) => {
