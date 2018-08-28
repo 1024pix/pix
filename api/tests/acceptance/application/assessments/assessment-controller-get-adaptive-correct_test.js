@@ -1,4 +1,4 @@
-const { airtableBuilder, expect, knex, nock } = require('../../../test-helper');
+const { airtableBuilder, expect, knex } = require('../../../test-helper');
 const cache = require('../../../../lib/infrastructure/caches/cache');
 const server = require('../../../../server');
 
@@ -76,10 +76,6 @@ describe('Acceptance | API | assessment-controller-get-adaptive-correct', () => 
     acquis: [skillWeb1Name],
   });
 
-  before(() => {
-    nock.cleanAll();
-  });
-
   beforeEach(() => {
 
     airtableBuilder.mockGet({ tableName: 'Tests' })
@@ -130,7 +126,6 @@ describe('Acceptance | API | assessment-controller-get-adaptive-correct', () => 
   });
 
   after(() => {
-    nock.cleanAll();
     cache.flushAll();
   });
 

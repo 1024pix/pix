@@ -16,7 +16,7 @@ describe('Unit | Repository | certification-challenge-repository', () => {
       testedSkill: '@skill2',
     };
     const certificationCourseObject = { id: 'certification_course_id' };
-    const certificationChallengeRawBookshelf = {
+    const certificationChallengeBookshelfData = {
       id: 12,
       challengeId: 'challenge_id',
       competenceId: 'competenceId',
@@ -25,14 +25,14 @@ describe('Unit | Repository | certification-challenge-repository', () => {
       courseId: 'certification_course_id',
     };
     const certificationChallenge = factory.buildCertificationChallenge({
-      id: certificationChallengeRawBookshelf.id,
-      challengeId: certificationChallengeRawBookshelf.challengeId,
-      competenceId: certificationChallengeRawBookshelf.competenceId,
-      associatedSkillName: certificationChallengeRawBookshelf.associatedSkill,
-      associatedSkillId: certificationChallengeRawBookshelf.associatedSkillId,
-      courseId: certificationChallengeRawBookshelf.courseId,
+      id: certificationChallengeBookshelfData.id,
+      challengeId: certificationChallengeBookshelfData.challengeId,
+      competenceId: certificationChallengeBookshelfData.competenceId,
+      associatedSkillName: certificationChallengeBookshelfData.associatedSkill,
+      associatedSkillId: certificationChallengeBookshelfData.associatedSkillId,
+      courseId: certificationChallengeBookshelfData.courseId,
     });
-    const certificationChallengeBookshelf = new CertificationChallengeBookshelf(certificationChallengeRawBookshelf);
+    const certificationChallengeBookshelf = new CertificationChallengeBookshelf(certificationChallengeBookshelfData);
 
     beforeEach(() => {
       sinon.stub(CertificationChallengeBookshelf.prototype, 'save').resolves(certificationChallengeBookshelf);
