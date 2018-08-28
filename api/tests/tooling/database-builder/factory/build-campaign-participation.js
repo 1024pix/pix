@@ -7,10 +7,11 @@ module.exports = function buildCampaignParticipation({
   id = faker.random.number(),
   assessmentId = buildAssessment().id,
   campaignId = buildCampaign().id,
+  isShared = faker.random.boolean(),
 } = {}) {
 
   const values = {
-    id, assessmentId, campaignId,
+    id, assessmentId, campaignId, isShared
   };
 
   databaseBuffer.pushInsertable({

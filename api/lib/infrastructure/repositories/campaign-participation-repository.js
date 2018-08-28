@@ -8,6 +8,7 @@ function _toDomain(bookshelfCampaignParticipation) {
     id: bookshelfCampaignParticipation.get('id'),
     assessmentId: bookshelfCampaignParticipation.get('assessmentId'),
     campaign: new Campaign(bookshelfCampaignParticipation.related('campaign').toJSON()),
+    isShared: bookshelfCampaignParticipation.get('isShared'),
   });
 }
 
@@ -26,5 +27,6 @@ module.exports = {
       })
       .fetchAll({ withRelated: ['campaign'] })
       .then((bookshelfCampaignParticipation) => bookshelfCampaignParticipation.models)
-      .then(fp.map(_toDomain));  }
+      .then(fp.map(_toDomain));
+  }
 };
