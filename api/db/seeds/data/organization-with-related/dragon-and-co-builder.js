@@ -10,6 +10,7 @@ module.exports = function addDragonAndCoWithrelated({ databaseBuilder }) {
   });
 
   const dragonAndCoCompany = databaseBuilder.factory.buildOrganization({
+    id: 1,
     email: 'pro@example.net',
     type: 'PRO',
     name: 'Dragon & Co',
