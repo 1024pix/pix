@@ -1,5 +1,5 @@
 module.exports = {
-  allowUserToShareHisCampaignResult: require('./allow-user-to-share-his-campaign-result'),
+  allowUserToShareHisCampaignResult: require('./allow-user-to-share-his-campaign-result.js'),
   authenticateUser: require('./authenticate-user'),
   createCampaign: require('./create-campaign'),
   createAssessmentResultForCompletedCertification: require('./create-assessment-result-for-completed-certification'),
