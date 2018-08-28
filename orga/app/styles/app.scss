@@ -11,7 +11,9 @@
 
 @import "pages/login";
 @import "pages/authenticated";
+@import "pages/authenticated/campaigns";
 @import "pages/authenticated/campaigns/new";
+@import "pages/authenticated/campaigns/list";
 
 @import "components/login-form";
 @import "components/campaign-creation-form";

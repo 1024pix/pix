@@ -1,12 +1,5 @@
 module.exports = [
   {
-    userId: 2,
-    type: 'PRO',
-    name: 'Dragon & Co',
-    email: 'pro@example.net',
-    code: 'DRAGO'
-  },
-  {
     userId: 3,
     type: 'SUP',
     name: 'Tyrion SUP',

@@ -4,6 +4,7 @@ module.exports = {
   buildCampaign: require('./build-campaign'),
   buildCampaignParticipation: require('./build-campaign-participation'),
   buildOrganization: require('./build-organization'),
+  buildOrganizationAccess: require('./build-organization-access'),
   buildSmartPlacementKnowledgeElement: require('./build-smart-placement-knowledge-element'),
   buildTargetProfile: require('./build-target-profile'),
   buildTargetProfilesSkills: require('./build-target-profiles-skills'),

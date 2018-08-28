@@ -65,7 +65,7 @@
     "start": "run-p start:api start:mon-pix start:orga",
     "start:api": "cd api && npm run start:watch",
     "start:mon-pix": "cd mon-pix && npx ember serve --proxy",
-    "start:orga": "echo 'if need be'",
+    "start:orga": "cd orga && npx ember serve --port 4201 ---live-reload-port=7001 --proxy",
     "test": "npm run test:api && npm run test:mon-pix && npm run test:orga",
     "test:api": "cd api && npm run lint && npm test",
     "test:api:debug": "cd api && npm run test:api:debug",

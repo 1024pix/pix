@@ -5,6 +5,9 @@ export default JSONAPISerializer.extend({
     return {
       'campaigns': {
         related: `/organizations/${organization.id}/campaigns`
+      },
+      'targetProfiles': {
+        related: `/organizations/${organization.id}/target-profiles`
       }
     }
   }
