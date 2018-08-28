@@ -6,8 +6,6 @@ export default Component.extend({
   doCreateCampaign: null,
 
   campaign: null,
-  askIdPix: null,
-  wantToAddIdPix: false,
   targetProfiles: null,
 
   wantIdPix: false,
