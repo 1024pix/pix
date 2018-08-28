@@ -55,6 +55,13 @@ describe('Acceptance | API | Campaigns', () => {
             attributes: {
               name: 'L‘hymne de nos campagnes',
               'organization-id': organizationInDbId,
+            },
+            relationships: {
+              'target-profile': {
+                data: {
+                  id: faker.random.number()
+                }
+              }
             }
           }
         }
@@ -84,6 +91,13 @@ describe('Acceptance | API | Campaigns', () => {
             attributes: {
               name: 'L‘hymne de nos campagnes',
               'organization-id': organizationIdThatNobodyHasAccess,
+            },
+            relationships: {
+              'target-profile': {
+                data: {
+                  id: faker.random.number()
+                }
+              }
             }
           }
         }

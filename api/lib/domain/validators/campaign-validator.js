@@ -15,7 +15,11 @@ const campaignValidationJoiSchema = Joi.object().keys({
 
   organizationId: Joi.number().integer().required().error(() => {
     return { message: 'L‘organisation n’est pas renseignée.' };
-  })
+  }),
+
+  targetProfileId: Joi.number().integer().required().error(() => {
+    return { message: 'Veuillez sélectionner un profil cible pour votre campagne.' };
+  }),
 });
 
 module.exports = {

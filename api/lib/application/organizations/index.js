@@ -56,6 +56,18 @@ exports.register = (server, options, next) => {
           'Elle retourne les campagnes rattachées à l’organisation.',
         ]
       }
+    },
+    {
+      method: 'GET',
+      path: '/api/organizations/{id}/target-profiles',
+      config: {
+        handler: organisationController.findTargetProfiles,
+        tags: ['api', 'target-profile'],
+        notes: [
+          '- **Cette route est restreinte aux utilisateurs authentifiés**\n' +
+          '- Récupération des profiles cibles utilisables par l‘organisation\n'
+        ]
+      }
     }
   ]);
 

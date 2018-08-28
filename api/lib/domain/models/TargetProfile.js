@@ -1,5 +1,6 @@
 class TargetProfile {
   constructor({
+    id,
     // attributes
     name,
     isPublic,
@@ -9,6 +10,7 @@ class TargetProfile {
     organizationId
   } = {}) {
     // attributes
+    this.id = id;
     this.name = name;
     this.isPublic = isPublic;
     // includes

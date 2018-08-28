@@ -18,6 +18,7 @@ describe('Unit | Domain | Validators | campaign-validator', function() {
       name: 'campagne de test',
       creatorId: 4,
       organizationId: 12,
+      targetProfileId: 44,
     });
   });
 
@@ -97,18 +98,39 @@ describe('Unit | Domain | Validators | campaign-validator', function() {
 
       });
 
+      context('on targetProfileId attribute', () => {
+
+        it('should reject with error when targetProfileId is missing', () => {
+          // given
+          const expectedError = {
+            attribute: 'targetProfileId',
+            message: 'Veuillez sélectionner un profil cible pour votre campagne.'
+          };
+          campaign.targetProfileId = MISSING_VALUE;
+
+          // when
+          const promise = campaignValidator.validate(campaign);
+
+          // then
+          return expect(promise).to.be.rejectedWith(EntityValidationError)
+            .then((entityValidationErrors) => _assertErrorMatchesWithExpectedOne(entityValidationErrors, expectedError));
+        });
+
+      });
+
       it('should reject with errors on all fields (but only once by field) when all fields are missing', () => {
         // given
         campaign.name = MISSING_VALUE;
         campaign.creatorId = MISSING_VALUE;
         campaign.organizationId = MISSING_VALUE;
+        campaign.targetProfileId = MISSING_VALUE;
 
         // when
         const promise = campaignValidator.validate(campaign);
 
         // then
         return expect(promise).to.be.rejectedWith(EntityValidationError)
-          .then((entityValidationErrors) => expect(entityValidationErrors.invalidAttributes).to.have.lengthOf(3));
+          .then((entityValidationErrors) => expect(entityValidationErrors.invalidAttributes).to.have.lengthOf(4));
       });
 
     });
