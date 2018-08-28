@@ -1,10 +1,19 @@
 module.exports = function addDragonAndCoWithrelated({ databaseBuilder }) {
 
+  const proUserDaenerys = databaseBuilder.factory.buildUser.withUnencryptedPassword({
+    id: 2,
+    firstName: 'Daenerys',
+    lastName: 'Targaryen',
+    email: 'pro@example.net',
+    rawPassword: 'pix123',
+    cgu: true,
+  });
+
   const dragonAndCoCompany = databaseBuilder.factory.buildOrganization({
     email: 'pro@example.net',
     type: 'PRO',
     name: 'Dragon & Co',
-    userId: 2,
+    userId: proUserDaenerys.id,
     code: 'DRAGO'
   });
 
