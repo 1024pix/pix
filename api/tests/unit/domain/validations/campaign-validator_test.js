@@ -18,7 +18,7 @@ describe('Unit | Domain | Validators | campaign-validator', function() {
       name: 'campagne de test',
       creatorId: 4,
       organizationId: 12,
-      idPix: 'Mail Pro',
+      idPixLabel: 'Mail Pro',
       targetProfileId: 44,
     });
   });
@@ -35,9 +35,9 @@ describe('Unit | Domain | Validators | campaign-validator', function() {
         return expect(promise).to.be.fulfilled;
       });
 
-      it('should resolve when idPix is null', () => {
+      it('should resolve when idPixLabel is null', () => {
         // given
-        campaign.idPix = null;
+        campaign.idPixLabel = null;
 
         // when
         const promise = campaignValidator.validate(campaign);
@@ -111,14 +111,14 @@ describe('Unit | Domain | Validators | campaign-validator', function() {
 
       });
 
-      context('on idPix attribute', () => {
-        it('should reject with error when idPix is an empty string', () => {
+      context('on idPixLabel attribute', () => {
+        it('should reject with error when idPixLabel is an empty string', () => {
           // given
           const expectedError = {
-            attribute: 'idPix',
+            attribute: 'idPixLabel',
             message: 'Veuillez préciser le libellé du champ qui sera demandé à vos participants au démarrage du parcours.'
           };
-          campaign.idPix = '';
+          campaign.idPixLabel = '';
 
           // when
           const promise = campaignValidator.validate(campaign);
@@ -128,13 +128,13 @@ describe('Unit | Domain | Validators | campaign-validator', function() {
             .then((entityValidationErrors) => _assertErrorMatchesWithExpectedOne(entityValidationErrors, expectedError));
         });
 
-        it('should reject with error when idPix is not long enough', () => {
+        it('should reject with error when idPixLabel length is under 3 characters', () => {
           // given
           const expectedError = {
-            attribute: 'idPix',
+            attribute: 'idPixLabel',
             message: 'Veuillez préciser le libellé du champ qui sera demandé à vos participants au démarrage du parcours.'
           };
-          campaign.idPix = 'AZ';
+          campaign.idPixLabel = 'AZ';
 
           // when
           const promise = campaignValidator.validate(campaign);
