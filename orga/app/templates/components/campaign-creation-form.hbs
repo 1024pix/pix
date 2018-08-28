@@ -52,7 +52,9 @@
     </div>
 
     {{#if wantIdPix}}
-      <div class="campaign-creation-form_id-pix_libelled">
+
+      <div class="campaign-creation-form__field">
+        <label for="campaign-name" class="label">Nom de la campagne</label>
         {{input class="input"
                 id='id-pix-label'
                 name='id-pix-label'
@@ -70,6 +72,7 @@
         <div class="campaign-creation-form__information">
           Exemple: "Numéro de l'étudiant" ou "Adresse mail professionnelle"
         </div>
+
       </div>
     {{/if}}
   </div>
