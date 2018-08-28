@@ -10,24 +10,20 @@ export default Component.extend({
   wantToAddIdPix: false,
   targetProfiles: null,
 
-  wantIdPix: '',
+  wantIdPix: false,
   notWantIdPix: computed('wantIdPix', function() {
-    return this.get('wantIdPix') === 'checked' ? '' : 'checked';
-  }),
-
-  showLabelIdPixQuestion: computed('wantIdPix', function() {
-    return this.get('wantIdPix') === 'checked';
+    return !this.get('wantIdPix');
   }),
 
   actions: {
     askLabelIdPix() {
-      this.set('wantIdPix', 'checked');
-      this.set('campaign.idPix', '');
+      this.set('wantIdPix', true);
+      this.set('campaign.idPixLabel', '');
     },
 
     doNotAskLabelIdPix() {
-      this.set('wantIdPix', '');
-      this.set('campaign.idPix', null);
+      this.set('wantIdPix', false);
+      this.set('campaign.idPixLabel', null);
     },
 
     submit() {

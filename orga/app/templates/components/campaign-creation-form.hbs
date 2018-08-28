@@ -35,30 +35,34 @@
   <div class="campaign-creation-form__one-parameter">
     <div class="campaign-creation-form_id-pix">
       <div class="label">
-        <label for="id-pix-wanted-or-not" class="campaign-creation-form_label">Souhaitez-vous demander un ID Pix ?</label>
+        <label for="id-pix-wanted-or-not">Souhaitez-vous demander un ID Pix ?</label>
       </div>
-      <div id="doNotAskLabelIdPix" class="campaign-creation-form_sub-label" onclick={{action "doNotAskLabelIdPix"}}>
-        <input type="radio" checked={{notWantIdPix}} class="blue-radio-button" name="radio">
-        <label><span></span>Non</label>
+      <div id="doNotAskLabelIdPix" class="campaign-creation-form__sub-label" onclick={{action "doNotAskLabelIdPix"}}>
+        <label>
+          <input type="radio" checked={{notWantIdPix}} name="radio" class="radio-button">
+          <span class="radio-button-span"></span>Non
+        </label>
       </div>
-      <div id="askLabelIdPix" class="campaign-creation-form_sub-label" onclick={{action "askLabelIdPix"}}>
-        <input type="radio" checked={{wantIdPix}} name="radio" class="blue-radio-button">
-        <label><span></span>Oui</label>
+      <div id="askLabelIdPix" class="campaign-creation-form__sub-label" onclick={{action "askLabelIdPix"}}>
+        <label>
+          <input type="radio" checked={{wantIdPix}} name="radio" class="radio-button">
+          <span class="radio-button-span"></span>Oui
+        </label>
       </div>
     </div>
 
-    {{#if showLabelIdPixQuestion}}
+    {{#if wantIdPix}}
       <div class="campaign-creation-form_id-pix_libelled">
         {{input class="input"
                 id='id-pix-label'
                 name='id-pix-label'
                 type='text'
                 maxlength='255'
-                value=campaign.idPix
+                value=campaign.idPixLabel
                 label='Libellé de l\'ID Pix'
                 aria-required='true'
                 placeholder="Libellé de l'id Pix"}}
-        {{#each campaign.errors.idPix as |error|}}
+        {{#each campaign.errors.idPixLabel as |error|}}
           <div class='campaign-creation-form__error'>
             {{error.message}}
           </div>
@@ -69,6 +73,7 @@
       </div>
     {{/if}}
   </div>
+
   <div>
     <button class="campaign-creation-form__validation-button submit-button" type="submit">Créer la campagne</button>
   </div>
