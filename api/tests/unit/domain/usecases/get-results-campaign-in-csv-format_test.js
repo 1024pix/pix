@@ -257,6 +257,6 @@ describe('Unit | Domain | Use Cases | get-results-campaign-in-csv-format', () =
           expect(result.csvData).to.contains(csvExpected);
         });
       });
-    })
+    });
   });
 });
