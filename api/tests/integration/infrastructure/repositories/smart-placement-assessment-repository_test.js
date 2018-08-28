@@ -174,6 +174,7 @@ describe('Integration | Repository | SmartPlacementAssessmentRepository', () => 
     });
 
     afterEach(() => {
+      airtableBuilder.cleanAll();
       return databaseBuilder.clean();
     });
 
