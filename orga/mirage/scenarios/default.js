@@ -22,7 +22,7 @@ function _createSignedUpUser(server) {
 }
 
 function _createCampaigns(server) {
-  server.createList('campaign', 18);
+  server.createList('campaign', 6);
 }
 
 export default function(server) {

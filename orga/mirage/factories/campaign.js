@@ -7,7 +7,7 @@ export default Factory.extend({
   },
 
   code() {
-    return faker.address.zipCode();
+    return 'ABCDEF' + faker.random.number({min: 100, max: 999});
   },
 
   createdAt() {
@@ -15,3 +15,4 @@ export default Factory.extend({
   },
 
 });
+
