@@ -4,32 +4,41 @@
     <img src="/logo-pix-orga.svg">
   </div>
 
-  <h1 class="login-form__title">Se Connecter</h1>
+  <div>
 
-  {{#if isErrorMessagePresent}}
-    <div id="login-form-error-message">L'adresse e-mail et/ou le mot de passe saisis sont incorrects</div>
-  {{/if}}
+    <h1 class="login-form__title">Déjà utilisateur Pix ?</h1>
 
-  <form {{action 'authenticate' on='submit'}}>
+    <div class="login-form__information">Vous avez déjà un compte sur Pix.fr ? Vous pouvez utiliser ce compte pour
+      rejoindre
+      l'espace organisation ou choisir de vous créer un autre compte.
+    </div>
 
-    <div>
-      <div>
-        <label for="login-email">ADRESSE E-MAIL : </label>
+    {{#if isErrorMessagePresent}}
+      <div id="login-form-error-message" class="login-form__error-message error-message">L'adresse e-mail et/ou le mot de passe saisis sont incorrects.</div>
+    {{/if}}
+
+    <form {{action 'authenticate' on='submit'}}>
+
+      <div class="login-form__input-field">
+        <label for="login-email" class="label">E-mail</label>
+        {{input required id='login-email' class="input" name='email' type='email' value=email }}
       </div>
-      {{input required id='login-email' name='email' type='email' value=email}}
-    </div>
 
-    <div>
-      <div>
-        <label for="login-password">MOT DE PASSE : </label>
+      <div class="login-form__input-field">
+        <label for="login-password" class="label">Mot de passe</label>
+        {{input required id='login-password' class="input" name='password' type='password'
+                value=password}}
       </div>
-      {{input required id='login-password' name='password' type='password' value=password}}
+
+      <div class="login-form__input-field">
+        <button type="submit" class="submit-button">Je me connecte</button>
+      </div>
+
+    </form>
+
+    <div class="login-form__forgotten-password">
+      Vous avez oublié votre mot de passe ? Rendez-vous sur <a href="https://pix.fr/mot-de-passe-oublie">Pix.fr</a>
     </div>
 
-    <div>
-      <button type="submit">Se connecter</button>
-    </div>
-
-  </form>
-
+  </div>
 </div>
