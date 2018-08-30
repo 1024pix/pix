@@ -1,42 +1,30 @@
 .login-form {
   display: flex;
   flex-direction: column;
-  margin:auto;
+  margin: auto;
   align-items: center;
   background-color: white;
   max-width: 360px;
   border-radius: 10px;
   padding: 60px 100px;
-}
 
-.login-form__title {
-  font-family: $open-sans;
-  font-weight: 300;
-}
+  &__information {
+    max-width: 360px;
+    margin-bottom: 20px;
+  }
 
-.login-form__information {
-  color: $dove-gray;
-  font-family: $open-sans;
-  font-size: 0.875rem;
-  max-width: 360px;
-  line-height: 20px;
-  margin-bottom: 20px;
-}
+  &__error-message {
+    margin-bottom: 10px;
+  }
 
-.login-form__error-message {
-  margin-bottom: 10px;
-}
+  &__input-field {
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    margin-bottom: 22px;
+  }
 
-.login-form__input-field {
-  display: flex;
-  flex-direction: column;
-  align-items: stretch;
-  margin-bottom: 22px;
-}
-
-.login-form__forgotten-password {
-  color: $dove-gray;
-  font-family: $roboto;
-  font-size: 0.8125rem;
-  text-align: center;
+  &__forgotten-password {
+    text-align: center;
+  }
 }
