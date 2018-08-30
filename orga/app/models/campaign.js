@@ -6,6 +6,7 @@ export default DS.Model.extend({
   name: DS.attr('string'),
   code: DS.attr('string'),
   createdAt: DS.attr('date'),
+  idPixLabel: DS.attr('string'),
   // TODO remove organizationId and work only with the relationship
   organizationId: DS.attr('number'),
   organization: DS.belongsTo('organization'),

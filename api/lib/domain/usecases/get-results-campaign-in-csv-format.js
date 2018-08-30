@@ -16,7 +16,7 @@ function _checkCreatorHasAccessToCampaignOrganization(userId, organizationId, us
     });
 }
 
-function _createHeaderOfCSV(skillNames, competences, areas) {
+function _createHeaderOfCSV(skillNames, competences, areas, idPixLabel) {
   const headers = [
     '"Nom de l\'organisation"',
     '"ID Campagne"',
@@ -24,7 +24,7 @@ function _createHeaderOfCSV(skillNames, competences, areas) {
     '"Nom du Profil Cible"',
     '"Nom du Participant"',
     '"Prénom du Participant"',
-    '"ID PIX"',
+    `"${idPixLabel}"`,
     '"Nom invité"',
     '"Prénom invité"',
     '"Email invité"',
@@ -41,6 +41,9 @@ function _createHeaderOfCSV(skillNames, competences, areas) {
     '"Nombre de pix possibles"',
     '"% maitrise de l\'ensemble des acquis du profil"',
   ];
+
+  _.remove(headers, (title) => title === '"null"');
+
   competences.forEach((competence) => {
     headers.push(`"Niveau de la competence ${competence.name}"`);
     headers.push(`"Pix de la competence ${competence.name}"`);
@@ -230,7 +233,7 @@ module.exports = function getResultsCampaignInCSVFormat(
       listArea = _.uniqBy(listCompetences.map((competence) => competence.area), 'code');
 
       //Create HEADER of CSV
-      headersAsArray = _createHeaderOfCSV(listSkillsName, listCompetences, listArea);
+      headersAsArray = _createHeaderOfCSV(listSkillsName, listCompetences, listArea, campaign.idPixLabel);
       textCsv += headersAsArray.join(';') + '\n';
 
       const getCSVLineForEachParticipation = listCampaignParticipation.map((campaignParticipation) => {

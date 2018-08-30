@@ -48,6 +48,8 @@ module('Acceptance | Campaign Creation', function(hooks) {
       await visit('/campagnes/creation');
       await fillIn('#campaign-target-profile', expectedTargetProfileId);
       await fillIn('#campaign-name', 'Ma Campagne');
+      await click('#askLabelIdPix');
+      await fillIn('#id-pix-label', 'Mail Pro');
 
       // when
       await click('.campaign-creation-form__validation-button');
