@@ -1,6 +1,15 @@
 # Pix Changelog
 
-## 1.59.0 (22/08/2018) 
+## v1.60.0 (30/08/2018)
+
+- [#169](https://github.com/1024pix/pix/pull/169) [FEATURE] Export des résultats en CSV (PO-28).
+- [#162](https://github.com/1024pix/pix/pull/162) [FEATURE] Choix d'un profile cible lors de la création d'une campagne (PO-123).
+- [#176](https://github.com/1024pix/pix/pull/176) [BUGFIX] Arrondi dans le CSV des résultats de la campagne (PF-340).
+- [#175](https://github.com/1024pix/pix/pull/175) [BUGFIX] Afficher les "Pour en apprendre d'avantage" même lorsqu'on a bien répondu (PF-322).
+- [#172](https://github.com/1024pix/pix/pull/172) [BUGFIX] Problème de téléchargement du fichier csv des profils partagées sous Firefox (PF-285).
+- [#171](https://github.com/1024pix/pix/pull/171) [BUGFIX] Problème d'id dans l'url de la skill-review d'une campagne (PF-332).
+
+## v1.59.0 (22/08/2018) 
 
 - [#148](https://github.com/1024pix/pix/pull/148) [FEATURE] Affichage de la liste des campagnes d'une organisation (PO-22).
 - [#161](https://github.com/1024pix/pix/pull/161) [FEATURE] Les campagnes utilisent les profil cibles (PO-124).
