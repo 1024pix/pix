@@ -166,7 +166,12 @@ function _createOneLineOfCSV(
         headers,
       );
 
-      if (assessment.isCompleted) {
+      line = _addCellByHeadersTitleForText('"Partage (O/N)"', campaignParticipation.isShared, line, headers);
+
+      if(assessment.isCompleted && campaignParticipation.isShared) {
+
+        line = _addCellByHeadersTitleForText('"Date du partage"', moment(campaignParticipation.sharedAt).format('DD-MM-YYYY'), line, headers);
+        line = _addCellByHeadersTitleForText('"Heure du partage"', moment(campaignParticipation.sharedAt).format('HH:mm:ss'), line, headers);
 
         line = _addCellByHeadersTitleForNumber(
           '"% maitrise de l\'ensemble des acquis du profil"',
