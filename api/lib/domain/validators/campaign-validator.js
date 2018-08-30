@@ -20,6 +20,11 @@ const campaignValidationJoiSchema = Joi.object().keys({
   targetProfileId: Joi.number().integer().required().error(() => {
     return { message: 'Veuillez sélectionner un profil cible pour votre campagne.' };
   }),
+
+  idPixLabel: Joi.string().allow(null).min(3).error(() => {
+    return { message: 'Veuillez préciser le libellé du champ qui sera demandé à vos participants au démarrage du parcours.' };
+  })
+
 });
 
 module.exports = {

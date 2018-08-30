@@ -32,6 +32,51 @@
     {{/each}}
   </div>
 
+  <div class="campaign-creation-form__field">
+    <div class="campaign-creation-form_id-pix">
+      <div class="label">
+        <label for="id-pix-wanted-or-not">Souhaitez-vous demander un ID Pix ?</label>
+      </div>
+      <div id="doNotAskLabelIdPix" class="campaign-creation-form__sub-label" onclick={{action "doNotAskLabelIdPix"}}>
+        <label>
+          <input type="radio" checked={{notWantIdPix}} name="radio" class="radio-button">
+          <span class="radio-button-span"></span>Non
+        </label>
+      </div>
+      <div id="askLabelIdPix" class="campaign-creation-form__sub-label" onclick={{action "askLabelIdPix"}}>
+        <label>
+          <input type="radio" checked={{wantIdPix}} name="radio" class="radio-button">
+          <span class="radio-button-span"></span>Oui
+        </label>
+      </div>
+    </div>
+
+    {{#if wantIdPix}}
+
+      <div class="campaign-creation-form__field">
+        <label for="campaign-name" class="label">Nom de la campagne</label>
+        {{input class="input"
+                id='id-pix-label'
+                name='id-pix-label'
+                type='text'
+                maxlength='255'
+                value=campaign.idPixLabel
+                label='Libellé de l\'ID Pix'
+                aria-required='true'
+                placeholder="Libellé de l'id Pix"}}
+        {{#each campaign.errors.idPixLabel as |error|}}
+          <div class='campaign-creation-form__error'>
+            {{error.message}}
+          </div>
+        {{/each}}
+        <div class="campaign-creation-form__information">
+          Exemple: "Numéro de l'étudiant" ou "Adresse mail professionnelle"
+        </div>
+
+      </div>
+    {{/if}}
+  </div>
+
   <div>
     <button class="campaign-creation-form__validation-button submit-button" type="submit">Créer la campagne</button>
   </div>
