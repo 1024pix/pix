@@ -9,6 +9,7 @@ function _toDomain(bookshelfCampaignParticipation) {
     assessmentId: bookshelfCampaignParticipation.get('assessmentId'),
     campaign: new Campaign(bookshelfCampaignParticipation.related('campaign').toJSON()),
     isShared: bookshelfCampaignParticipation.get('isShared'),
+    sharedAt: new Date(bookshelfCampaignParticipation.get('sharedAt')),
   });
 }
 
