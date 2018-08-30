@@ -20,4 +20,15 @@ module('Unit | Model | campaign', function(hooks) {
     assert.equal(model.name, 'Fake name');
     assert.equal(model.code, 'ABC123');
   });
+
+  test('it should construct the url to result of the campaign', function(assert) {
+    let store = this.owner.lookup('service:store');
+    let model = run(() => store.createRecord('campaign', {
+      id: 1,
+      name: 'Fake name',
+      code: 'ABC123',
+      tokenForCampaignResults: 'token'
+    }));
+    assert.equal(model.urlToResult, 'http://localhost:3000/api/campaigns/1/csvResults?accessToken=token');
+  })
 });

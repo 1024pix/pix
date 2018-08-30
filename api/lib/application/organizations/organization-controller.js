@@ -7,14 +7,17 @@ const campaignRepository = require('../../infrastructure/repositories/campaign-r
 const competenceRepository = require('../../infrastructure/repositories/competence-repository');
 const snapshotRepository = require('../../infrastructure/repositories/snapshot-repository');
 const organizationSerializer = require('../../infrastructure/serializers/jsonapi/organization-serializer');
+const targetProfileRepository = require('../../infrastructure/repositories/target-profile-repository');
 const snapshotSerializer = require('../../infrastructure/serializers/jsonapi/snapshot-serializer');
 const campaignSerializer = require('../../infrastructure/serializers/jsonapi/campaign-serializer');
+const targetProfileSerializer = require('../../infrastructure/serializers/jsonapi/target-profile-serializer');
 const organizationService = require('../../domain/services/organization-service');
 const encryptionService = require('../../domain/services/encryption-service');
 const bookshelfUtils = require('../../../lib/infrastructure/utils/bookshelf-utils');
 const validationErrorSerializer = require('../../infrastructure/serializers/jsonapi/validation-error-serializer');
 const snapshotsCsvConverter = require('../../infrastructure/converter/snapshots-csv-converter');
 const organizationCreationValidator = require('../../domain/validators/organization-creation-validator');
+const tokenService = require('../../domain/services/token-service');
 const usecases = require('../../domain/usecases');
 const controllerReplies = require('../../infrastructure/controller-replies');
 
@@ -22,8 +25,9 @@ const logger = require('../../infrastructure/logger');
 const JSONAPI = require('../../interfaces/jsonapi');
 const User = require('../../domain/models/User');
 const Organization = require('../../domain/models/Organization');
-const exportCsvFileName = 'Pix - Export donnees partagees.csv';
 const { EntityValidationError } = require('../../domain/errors');
+
+const EXPORT_CSV_FILE_NAME = 'Pix - Export donnees partagees.csv';
 
 module.exports = {
 
@@ -72,8 +76,18 @@ module.exports = {
 
   getCampaigns(request, reply) {
     const organizationId = request.params.id;
+    const tokenForCampaignResults = tokenService.createTokenForCampaignResults(request.auth.credentials.userId);
     return usecases.getOrganizationCampaigns({ organizationId, campaignRepository })
-      .then(campaignSerializer.serialize)
+      .then((campaigns) => campaignSerializer.serialize(campaigns, tokenForCampaignResults))
+      .then(controllerReplies(reply).ok)
+      .catch(controllerReplies(reply).error);
+  },
+
+  findTargetProfiles(request, reply) {
+    const requestedOrganizationId = request.params.id;
+
+    return usecases.findAvailableTargetProfiles({ organizationId: requestedOrganizationId, targetProfileRepository })
+      .then(targetProfileSerializer.serialize)
       .then(controllerReplies(reply).ok)
       .catch(controllerReplies(reply).error);
   },
@@ -105,9 +119,8 @@ module.exports = {
       .then((snapshotsTextCsv) => {
         return reply(snapshotsTextCsv)
           .header('Content-Type', 'text/csv;charset=utf-8')
-          .header('Content-Disposition', `attachment; filename=${exportCsvFileName}`);
-      }
-      )
+          .header('Content-Disposition', `attachment; filename="${EXPORT_CSV_FILE_NAME}"`);
+      })
       .catch((err) => {
         logger.error(err);
         return reply(validationErrorSerializer.serialize(

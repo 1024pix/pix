@@ -1,25 +1,39 @@
-<div class="campaign-creation-form">
+<form {{action 'submit' on='submit'}} class="campaign-creation-form">
 
-  <form {{action 'submit' on='submit'}}>
+  <div class="campaign-creation-form__field">
+    <label for="campaign-name" class="label">Nom de la campagne</label>
+    {{input id='campaign-name'
+            name='campaign-name'
+            type='text'
+            maxlength='255'
+            value=campaign.name
+            class="input"
+    }}
 
-    <div>
-      <div class="label">
-        <label for="campaign-name">Nom de la campagne</label>
+    {{#each campaign.errors.name as |error|}}
+      <div class='campaign-creation-form__error'>
+        {{error.message}}
       </div>
-      <div class="campaign-creation-form__campaign-name">
-        {{input class="input" id='campaign-name' name='campaign-name' type='text' maxlength='255' value=campaign.name}}
-        {{#each campaign.errors.name as |error|}}
-          <div class='campaign-creation-form__error'>
-            {{error.message}}
-          </div>
-        {{/each}}
+    {{/each}}
+  </div>
+
+  <div class="campaign-creation-form__field">
+    <label for="campaign-target-profile" class="label">Que souhaitez-vous tester ?</label>
+    <select class="select" id="campaign-target-profile" onchange={{action 'setSelectedTargetProfile' value='target.value'}}>
+      <option value="" disabled="disabled" selected></option>
+      {{#each targetProfiles as |targetProfile|}}
+        <option value="{{targetProfile.id}}">{{targetProfile.name}}</option>
+      {{/each}}
+    </select>
+    {{#each campaign.errors.targetProfile as |error|}}
+      <div class='campaign-creation-form__error'>
+        {{error.message}}
       </div>
-    </div>
+    {{/each}}
+  </div>
 
-    <div>
-      <button class="campaign-creation-form__validation-button submit-button" type="submit">Créer la campagne</button>
-    </div>
+  <div>
+    <button class="campaign-creation-form__validation-button submit-button" type="submit">Créer la campagne</button>
+  </div>
 
-  </form>
-
-</div>
+</form>

@@ -10,7 +10,7 @@ class Campaign {
     // references
     creatorId,
     organizationId,
-    targetProfileId,
+    targetProfileId
   } = {}) {
     this.id = id;
     // attributes

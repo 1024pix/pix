@@ -1,5 +1,5 @@
 import { module, test } from 'qunit';
-import { visit, currentURL, find, fillIn, click } from '@ember/test-helpers';
+import { visit, currentURL, fillIn, click } from '@ember/test-helpers';
 import { setupApplicationTest } from 'ember-qunit';
 import { authenticateSession, currentSession } from 'ember-simple-auth/test-support';
 import { createUserWithOrganizationAccess } from '../helpers/test-init';
@@ -40,7 +40,7 @@ module('Acceptance | authentication', function(hooks) {
     // then
     assert.ok(currentSession(this.application).get('isAuthenticated'), 'The user is authenticated');
 
-    assert.equal(find('.topbar__user-identification').innerText.trim(), "Harry Cover");
+    assert.dom('.topbar__user-identification').hasText('Harry Cover');
   });
 
   test('it should redirect user to the campaigns list once logged in', async function(assert) {
@@ -89,7 +89,7 @@ module('Acceptance | authentication', function(hooks) {
     await visit('/');
 
     // then
-    assert.equal(find('.current-organization-panel__name').innerText.trim(), "BRO & Evil Associates");
+    assert.dom('.current-organization-panel__name').hasText('BRO & Evil Associates');
   });
 
   test('it should redirect user to the campaigns list on root url', async function(assert) {

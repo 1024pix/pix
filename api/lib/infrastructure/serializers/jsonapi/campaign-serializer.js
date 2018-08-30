@@ -1,22 +1,30 @@
-const { Serializer } = require('jsonapi-serializer');
+const _ = require('lodash');
+const { Serializer, Deserializer } = require('jsonapi-serializer');
+
 const Campaign = require('../../../domain/models/Campaign');
 
 module.exports = {
 
-  serialize(answers) {
+  serialize(campaigns, tokenForCampaignResults) {
     return new Serializer('campaign', {
-      attributes: ['name', 'code', 'createdAt'],
-    }).serialize(answers);
+      attributes: ['name', 'code', 'createdAt', 'tokenForCampaignResults'],
+      transform: (record) => {
+        const campaign = Object.assign({}, record);
+        campaign.tokenForCampaignResults = tokenForCampaignResults;
+        return campaign;
+      }
+
+    }).serialize(campaigns);
   },
 
   deserialize(json) {
-    const campaign = new Campaign({
-      id: json.data.id,
-      name: json.data.attributes.name,
-      organizationId: json.data.attributes['organization-id'],
-    });
-
-    return campaign;
+    return new Deserializer({ keyForAttribute: 'camelCase' })
+      .deserialize(json)
+      .then((campaign) => {
+        campaign.targetProfileId = _.get(json.data, ['relationships', 'target-profile', 'data', 'id']);
+        return campaign;
+      })
+      .then(new Campaign);
   }
 
 };

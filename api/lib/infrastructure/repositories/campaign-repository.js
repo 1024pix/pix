@@ -33,6 +33,18 @@ module.exports = {
       });
   },
 
+  get(id) {
+    return BookshelfCampaign
+      .where({ id })
+      .fetch()
+      .then((campaign) => {
+        if (campaign) {
+          return _toDomain(campaign);
+        }
+        return Promise.resolve(null);
+      });
+  },
+
   save(campaignToSave) {
     const cleanedCampaignToSave = _.omit(campaignToSave, ['createdAt']);
     return new BookshelfCampaign(cleanedCampaignToSave)

@@ -1,6 +1,7 @@
 'use strict';
 const DatabaseBuilder = require('../../tests/tooling/database-builder/database-builder');
 const pixAileBuilder = require('./data/user-with-related/pix-aile-builder');
+const dragonAndCoBuilder = require('./data/organization-with-related/dragon-and-co-builder');
 
 const SEQUENCE_RESTART_AT_NUMBER = 10000000;
 
@@ -61,6 +62,7 @@ exports.seed = (knex) => {
 
   const databaseBuilder = new DatabaseBuilder({ knex });
   pixAileBuilder({ databaseBuilder });
+  dragonAndCoBuilder({ databaseBuilder });
 
   return databaseBuilder.commit()
     .then(() => insertSeedsByGroup(knex, '1st-to-create'))

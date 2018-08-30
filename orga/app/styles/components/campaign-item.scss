@@ -2,8 +2,8 @@
   display: flex;
   flex-direction: column;
   line-height: 30px;
-  padding: 8px;
   align-items: center;
+  padding: 8px 38px;
 
   @include device-is('desktop') {
     flex-direction: row;
@@ -13,9 +13,6 @@
 .campaign-name {
   // flex settings
   flex-grow: 1;
-
-  // position
-  padding: 0 30px;
 
   // style
   font-size: 1.125rem;
@@ -30,8 +27,18 @@
   font-weight: 300;
 }
 
+.campaign-2-lines-column {
+  min-width: 280px;
+}
+
 .campaign-link {
   color: $dodger-blue;
   font-size: 1rem;
   font-weight: 300;
+}
+
+.campaign-csv-export {
+  padding: 0 30px;
+  font-size: 0.75rem;
+  text-decoration: none;
 }

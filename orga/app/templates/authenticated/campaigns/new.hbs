@@ -1,11 +1,11 @@
-{{#if error500Message}}
-  <div class="new-campaign-page__error error-zone">
-    {{error500Message}}
-  </div>
-{{/if}}
+<div class="new-campaign-page">
+  {{#if error500Message}}
+    <div class="new-campaign-page__error error-zone">
+      {{error500Message}}
+    </div>
+  {{/if}}
 
-<h1 class="page__title page-title">Création d'une campagne</h1>
+  <h1 class="page__title page-title">Création d'une campagne</h1>
 
-<div>
-  {{campaign-creation-form campaign=model doCreateCampaign=(action 'createCampaign')}}
+  {{campaign-creation-form campaign=model.campaign targetProfiles=model.targetProfiles doCreateCampaign=(action 'createCampaign')}}
 </div>
