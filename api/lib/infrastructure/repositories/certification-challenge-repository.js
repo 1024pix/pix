@@ -28,7 +28,7 @@ module.exports = {
     const certificationChallenge = new CertificationChallengeBookshelf({
       challengeId: challenge.id,
       competenceId: challenge.competence,
-      associatedSkill: challenge.testedSkill, // TODO: Add skillId
+      associatedSkill: challenge.testedSkill,
       associatedSkillId: undefined, // TODO: Add skillId
       courseId: certificationCourse.id,
     });
