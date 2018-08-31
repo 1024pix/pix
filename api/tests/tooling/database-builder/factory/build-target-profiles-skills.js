@@ -1,14 +1,17 @@
-const databaseBuffer = require('../database-buffer');
 const faker = require('faker');
+const buildTargetProfile = require('./build-target-profile');
+const databaseBuffer = require('../database-buffer');
 
 module.exports = function buildTargetProfilesSkills({
   id = faker.random.number(),
-  targetProfileId = faker.random.number(),
-  skillId = 'rec' + faker.random.word()
+  targetProfileId = buildTargetProfile().id,
+  skillId = `rec${faker.random.uuid()}`,
 } = {}) {
 
   const values = {
-    id, targetProfileId, skillId
+    id,
+    targetProfileId,
+    skillId,
   };
 
   databaseBuffer.pushInsertable({
@@ -18,4 +21,3 @@ module.exports = function buildTargetProfilesSkills({
 
   return values;
 };
-

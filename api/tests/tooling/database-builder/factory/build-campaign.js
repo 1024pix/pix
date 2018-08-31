@@ -1,5 +1,8 @@
-const databaseBuffer = require('../database-buffer');
 const faker = require('faker');
+const buildOrganization = require('./build-organization');
+const buildTargetProfile = require('./build-target-profile');
+const buildUser = require('./build-user');
+const databaseBuffer = require('../database-buffer');
 
 module.exports = function buildCampaign({
   id = faker.random.number(),
@@ -7,13 +10,20 @@ module.exports = function buildCampaign({
   idPixLabel = faker.random.word(),
   code = faker.random.alphaNumeric(9),
   createdAt = faker.date.recent(),
-  organizationId = faker.random.number(),
-  creatorId = faker.random.number(),
-  targetProfileId = faker.random.number(),
+  organizationId = buildOrganization().id,
+  creatorId = buildUser().id,
+  targetProfileId = buildTargetProfile({ organizationId }).id,
 } = {}) {
 
   const values = {
-    id, name, idPixLabel, code, createdAt, organizationId, creatorId, targetProfileId
+    id,
+    name,
+    code,
+    createdAt,
+    idPixLabel,
+    organizationId,
+    creatorId,
+    targetProfileId,
   };
 
   databaseBuffer.pushInsertable({
