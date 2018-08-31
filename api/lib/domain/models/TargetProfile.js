@@ -11,7 +11,6 @@ class TargetProfile {
   } = {}) {
     this.id = id;
     // attributes
-    this.id = id;
     this.name = name;
     this.isPublic = isPublic;
     // includes
