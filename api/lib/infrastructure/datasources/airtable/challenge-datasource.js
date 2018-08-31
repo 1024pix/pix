@@ -8,7 +8,7 @@ module.exports = {
 
   get(id) {
     return airtable.getRecord(AIRTABLE_TABLE_NAME, id)
-      .then((airtableRawObject) => airTableDataObjects.Challenge.fromAirTableObject(airtableRawObject))
+      .then(airTableDataObjects.Challenge.fromAirTableObject)
       .catch((err) => {
         if (err.error === 'NOT_FOUND') {
           throw new airTableDataObjects.AirtableResourceNotFound();
@@ -23,8 +23,8 @@ module.exports = {
     const query = {};
 
     return airtable.findRecords(AIRTABLE_TABLE_NAME, query)
-      .then((airtableChallenges) => {
-        return airtableChallenges.map(airTableDataObjects.Challenge.fromAirTableObject);
+      .then((challengeDataObjects) => {
+        return challengeDataObjects.map(airTableDataObjects.Challenge.fromAirTableObject);
       });
   },
 
@@ -39,8 +39,8 @@ module.exports = {
     const query = { filterByFormula: `AND(OR(${listOfFilters.join(', ')}), OR(${statutsValidated.join(',')}))` };
 
     return airtable.findRecords(AIRTABLE_TABLE_NAME, query)
-      .then((airtableRawObject) => {
-        return airtableRawObject.map(airTableDataObjects.Challenge.fromAirTableObject);
+      .then((challengeDataObjects) => {
+        return challengeDataObjects.map(airTableDataObjects.Challenge.fromAirTableObject);
       });
   },
 
@@ -49,8 +49,8 @@ module.exports = {
     const query = { view: competence.reference };
 
     return airtable.findRecords(AIRTABLE_TABLE_NAME, query)
-      .then((airtableChallenges) => {
-        return airtableChallenges.map(airTableDataObjects.Challenge.fromAirTableObject);
+      .then((challengeDataObjects) => {
+        return challengeDataObjects.map(airTableDataObjects.Challenge.fromAirTableObject);
       });
   },
 };
