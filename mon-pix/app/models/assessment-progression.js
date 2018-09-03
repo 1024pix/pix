@@ -21,7 +21,7 @@ export default EmberObject.extend({
     if (assessmentType === 'SMART_PLACEMENT') {
       return FIRST_STEP_VALUE + nbAnswers % CHECKPOINTS_MAX_STEPS;
     }
-    return FIRST_STEP_VALUE + nbAnswers;
+    return Math.min(FIRST_STEP_VALUE + nbAnswers, this.get('nbChallenges'));
   }),
 
   _maxSteps: computed('assessmentType', 'nbChallenges', function() {
