@@ -36,28 +36,23 @@ extractIssueCodeFromBranchName(process.env.CIRCLE_BRANCH)
   })
   .then(([commentContents, { prNumber }]) => {
 
-    const raMonPixURL = `https://pix-mon-pix-integration-pr${prNumber}.scalingo.io`;
-    const raOragaURL = `https://pix-orga-integration-pr${prNumber}.scalingo.io`;
+    const raAppURL = `https://pix-app-integration-pr${prNumber}.scalingo.io`;
+    const raOrgaURL = `https://pix-orga-integration-pr${prNumber}.scalingo.io`;
     const raAPIURL = `https://pix-api-integration-pr${prNumber}.scalingo.io`;
 
-    const scalingoCommentRegex = new RegExp(`${raMonPixURL}`, 'i');
+    const scalingoCommentRegex = new RegExp(raAppURL, 'i');
 
     console.log(`Checking comment has not already been posted for PR number: ${prNumber}`);
 
-    const hasAlreadyScalingoComment = commentContents.reduce((hasAlreadyScalingoComment, comment) => {
-
-      const hasScalingoComment = comment.match(scalingoCommentRegex);
-      return hasAlreadyScalingoComment || hasScalingoComment;
-
-    }, false);
+    const hasAlreadyScalingoComment = commentContents.some((comment) => comment.match(scalingoCommentRegex));
 
     if (hasAlreadyScalingoComment) {
       console.log('Review apps urls already found in issue comments. No need to add it again');
     } else {
-      const text = `Je m'apprête à déployer la Review App. Elle sera consultable sur les URL suivantes:\n` +
-                   `- Mon Pix: ${raMonPixURL}\n` +
-                   `- Orga: ${raOragaURL}\n` +
-                   `- API (Postman): ${raAPIURL}`;
+      const text = `Je m'apprête à déployer la Review App. Elle sera consultable sur les URL suivantes :\n` +
+                   `- App : ${raAppURL}\n` +
+                   `- Orga : ${raOrgaURL}\n` +
+                   `- API (Postman) : ${raAPIURL}`;
 
       console.log(`Posting Review apps urls for PR number: ${prNumber} to JIRA issue: ${contextObject.issueCode}`);
       return axios({
