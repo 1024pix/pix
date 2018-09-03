@@ -19,7 +19,7 @@ describe('Unit | Scripts | recompute-assessment-results', () => {
 
         expect(request.firstCall.args).to.deep.equal([{
           method: 'POST',
-          uri: 'https://pix.fr/api/assessment-results?recompute=true',
+          uri: 'https://api.pix.fr/api/assessment-results?recompute=true',
           body: {
             'data': {
               'relationships': {
@@ -37,7 +37,7 @@ describe('Unit | Scripts | recompute-assessment-results', () => {
 
         expect(request.secondCall.args).to.deep.equal([{
           method: 'POST',
-          uri: 'https://pix.fr/api/assessment-results?recompute=true',
+          uri: 'https://api.pix.fr/api/assessment-results?recompute=true',
           body: {
             'data': {
               'relationships': {
