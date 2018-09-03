@@ -15,7 +15,7 @@ export default EmberObject.extend({
   nbChallenges: null,
 
   // CPs
-  _currentStep: computed('assessmentType', 'nbAnswers', function() {
+  _currentStep: computed('assessmentType', 'nbAnswers', 'nbChallenges', function() {
     const assessmentType = this.get('assessmentType');
     const nbAnswers = this.get('nbAnswers');
     if (assessmentType === 'SMART_PLACEMENT') {
