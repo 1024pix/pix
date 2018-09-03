@@ -8,13 +8,16 @@
 
     <h1 class="form-title">Déjà utilisateur Pix ?</h1>
 
-    <div class="login-form__information paragraph">Vous avez déjà un compte sur Pix.fr ? Vous pouvez utiliser ce compte pour
+    <div class="login-form__information paragraph">Vous avez déjà un compte sur Pix.fr ? Vous pouvez utiliser ce compte
+      pour
       rejoindre
       l'espace organisation.
     </div>
 
     {{#if isErrorMessagePresent}}
-      <div id="login-form-error-message" class="login-form__error-message error-message">L'adresse e-mail et/ou le mot de passe saisis sont incorrects.</div>
+      <div id="login-form-error-message" class="login-form__error-message error-message">L'adresse e-mail et/ou le mot
+        de passe saisis sont incorrects.
+      </div>
     {{/if}}
 
     <form {{action 'authenticate' on='submit'}}>
@@ -37,7 +40,8 @@
     </form>
 
     <div class="login-form__forgotten-password one-line-text">
-      Vous avez oublié votre mot de passe ? Rendez-vous sur <a href="https://pix.fr/mot-de-passe-oublie">Pix.fr</a>
+      Vous avez oublié votre mot de passe ? Rendez-vous sur <a href="https://pix.fr/mot-de-passe-oublie" target="_blank">pix.fr</a> pour
+      le réinitialiser.
     </div>
 
   </div>
