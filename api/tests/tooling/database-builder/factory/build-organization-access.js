@@ -7,10 +7,11 @@ module.exports = function buildOrganizationAccess({
   id = faker.random.number(),
   userId = buildUser().id,
   organizationId = buildOrganization().id,
+  organizationRoleId = 1
 } = {}) {
 
   const values = {
-    id, userId, organizationId
+    id, userId, organizationRoleId, organizationId
   };
 
   databaseBuffer.pushInsertable({
