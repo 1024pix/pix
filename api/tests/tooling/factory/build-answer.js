@@ -3,7 +3,7 @@ const Answer = require('../../../lib/domain/models/Answer');
 const AnswerStatus = require('../../../lib/domain/models/AnswerStatus');
 
 function buildAnswer({
-  id = faker.random.uuid(),
+  id = faker.random.number(),
   elapsedTime = faker.random.number(),
   result = AnswerStatus.OK,
   resultDetails = null,

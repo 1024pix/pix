@@ -12,7 +12,8 @@ describe('Unit | Model | assessment progress', function() {
         // given
         const model = new AssessmentProgression({
           assessmentType: 'DEMO',
-          nbAnswers: 8
+          nbAnswers: 8,
+          nbChallenges: 10,
         });
 
         // when
@@ -21,6 +22,22 @@ describe('Unit | Model | assessment progress', function() {
         // then
         expect(_currentStep).to.equal(9);
       });
+
+      it('should return the number of current challenges and not exceed the number of challenge', () => {
+        // given
+        const model = new AssessmentProgression({
+          assessmentType: 'DEMO',
+          nbAnswers: 10,
+          nbChallenges: 10,
+        });
+
+        // when
+        const _currentStep = model.get('_currentStep');
+
+        // then
+        expect(_currentStep).to.equal(10);
+      });
+
     });
 
     context('when assessment type is "SMART_PLACEMENT"', function() {

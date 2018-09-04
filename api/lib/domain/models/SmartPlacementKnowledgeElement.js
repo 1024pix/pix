@@ -63,11 +63,11 @@ class SmartPlacementKnowledgeElement {
     targetSkills,
   }) {
 
-    const directKnowledgeElements = createDirectKnowledgeElements({
+    const directKnowledgeElements = _createDirectKnowledgeElements({
       answer, associatedChallenge, previouslyFailedSkills, previouslyValidatedSkills, targetSkills,
     });
 
-    return enrichDirectKnowledgeElementsWithInferredKnowledgeElements({
+    return _enrichDirectKnowledgeElementsWithInferredKnowledgeElements({
       answer,
       directKnowledgeElements,
       previouslyFailedSkills,
@@ -80,7 +80,7 @@ class SmartPlacementKnowledgeElement {
 SmartPlacementKnowledgeElement.SourceType = SmartPlacementKnowledgeElementSourceType;
 SmartPlacementKnowledgeElement.StatusType = SmartPlacementKnowledgeElementStatusType;
 
-function createDirectKnowledgeElements({
+function _createDirectKnowledgeElements({
   answer,
   associatedChallenge,
   previouslyFailedSkills,
@@ -91,28 +91,28 @@ function createDirectKnowledgeElements({
   const status = answer.isOk() ? VALIDATED_STATUS : INVALIDATED_STATUS;
 
   return associatedChallenge.skills
-    .filter(skillIsInTargetedSkills({ targetSkills }))
-    .filter(skillIsNotAlreadyAssessed({ previouslyFailedSkills, previouslyValidatedSkills }))
+    .filter(_skillIsInTargetedSkills({ targetSkills }))
+    .filter(_skillIsNotAlreadyAssessed({ previouslyFailedSkills, previouslyValidatedSkills }))
     .map((skill) => {
       const source = SmartPlacementKnowledgeElement.SourceType.DIRECT;
-      return createKnowledgeElementsForSkill({ skill, source, status, answer });
+      return _createKnowledgeElementsForSkill({ skill, source, status, answer });
     });
 }
 
-function skillIsInTargetedSkills({ targetSkills }) {
+function _skillIsInTargetedSkills({ targetSkills }) {
   return (skill) => !_(targetSkills)
-    .intersectionWith([skill], Skill.areEqual)
+    .intersectionWith([skill], Skill.areEqualById)
     .isEmpty();
 }
 
-function skillIsNotAlreadyAssessed({ previouslyFailedSkills, previouslyValidatedSkills }) {
+function _skillIsNotAlreadyAssessed({ previouslyFailedSkills, previouslyValidatedSkills }) {
   const alreadyAssessedSkills = previouslyValidatedSkills.concat(previouslyFailedSkills);
   return (skill) => _(alreadyAssessedSkills)
-    .intersectionWith([skill], Skill.areEqual)
+    .intersectionWith([skill], Skill.areEqualById)
     .isEmpty();
 }
 
-function enrichDirectKnowledgeElementsWithInferredKnowledgeElements({
+function _enrichDirectKnowledgeElementsWithInferredKnowledgeElements({
   answer,
   directKnowledgeElements,
   previouslyFailedSkills,
@@ -124,52 +124,56 @@ function enrichDirectKnowledgeElementsWithInferredKnowledgeElements({
 
   return directKnowledgeElements.reduce((totalKnowledgeElements, directKnowledgeElement) => {
 
-    const directSkill = new Skill({ name: directKnowledgeElement.skillId });
+    const directSkill = _findSkillByIdFromTargetSkills(directKnowledgeElement.skillId, targetSkills);
 
     targetSkillsGroupedByTubeName[directSkill.tubeName]
-      .filter(skillIsNotAlreadyAssessed({ previouslyFailedSkills, previouslyValidatedSkills }))
+      .filter(_skillIsNotAlreadyAssessed({ previouslyFailedSkills, previouslyValidatedSkills }))
       .forEach((skillToInfer) => {
 
         const knowledgeElementAlreadyExistsForThatSkill = _.some(
           totalKnowledgeElements,
           (knowledgeElement) => {
-            const skillOfKnowledgeElement = new Skill({ name: knowledgeElement.skillId });
-            return Skill.areEqual(skillToInfer, skillOfKnowledgeElement);
+            const skillOfKnowledgeElement = _findSkillByIdFromTargetSkills(knowledgeElement.skillId, targetSkills);
+            return Skill.areEqualById(skillToInfer, skillOfKnowledgeElement);
           },
         );
 
         if (!knowledgeElementAlreadyExistsForThatSkill) {
-          const newKnowledgeElements = createInferredKnowledgeElements({ answer, status, directSkill, skillToInfer });
+          const newKnowledgeElements = _createInferredKnowledgeElements({ answer, status, directSkill, skillToInfer });
           totalKnowledgeElements = totalKnowledgeElements.concat(newKnowledgeElements);
         }
       });
 
     return totalKnowledgeElements;
   }, directKnowledgeElements);
-
 }
 
-function createInferredKnowledgeElements({ answer, status, directSkill, skillToInfer }) {
+function _findSkillByIdFromTargetSkills(skillId, targetSkills) {
+  const skillToCopy = targetSkills.find((skill) => skill.id === skillId);
+  return new Skill({ id: skillToCopy.id, name: skillToCopy.name });
+}
+
+function _createInferredKnowledgeElements({ answer, status, directSkill, skillToInfer }) {
   const newInferredKnowledgeElements = [];
   if (status === VALIDATED_STATUS
-    && skillToInfer.difficulty < directSkill.difficulty) {
+      && skillToInfer.difficulty < directSkill.difficulty) {
 
-    const newKnowledgeElement = createInferredValidatedKnowledgeElement({ answer, skillToInfer });
+    const newKnowledgeElement = _createInferredValidatedKnowledgeElement({ answer, skillToInfer });
     newInferredKnowledgeElements.push(newKnowledgeElement);
   }
   if (status === INVALIDATED_STATUS
-    && skillToInfer.difficulty > directSkill.difficulty) {
+      && skillToInfer.difficulty > directSkill.difficulty) {
 
-    const newKnowledgeElement = createInferredInvalidatedKnowledgeElement({ answer, skillToInfer });
+    const newKnowledgeElement = _createInferredInvalidatedKnowledgeElement({ answer, skillToInfer });
     newInferredKnowledgeElements.push(newKnowledgeElement);
   }
   return newInferredKnowledgeElements;
 }
 
-function createInferredValidatedKnowledgeElement({ answer, skillToInfer }) {
+function _createInferredValidatedKnowledgeElement({ answer, skillToInfer }) {
   const source = SmartPlacementKnowledgeElement.SourceType.INFERRED;
 
-  return createKnowledgeElementsForSkill({
+  return _createKnowledgeElementsForSkill({
     answer,
     skill: skillToInfer,
     source,
@@ -177,10 +181,10 @@ function createInferredValidatedKnowledgeElement({ answer, skillToInfer }) {
   });
 }
 
-function createInferredInvalidatedKnowledgeElement({ answer, skillToInfer }) {
+function _createInferredInvalidatedKnowledgeElement({ answer, skillToInfer }) {
   const source = SmartPlacementKnowledgeElement.SourceType.INFERRED;
 
-  return createKnowledgeElementsForSkill({
+  return _createKnowledgeElementsForSkill({
     answer,
     skill: skillToInfer,
     source,
@@ -188,12 +192,12 @@ function createInferredInvalidatedKnowledgeElement({ answer, skillToInfer }) {
   });
 }
 
-function createKnowledgeElementsForSkill({ skill, source, status, answer }) {
+function _createKnowledgeElementsForSkill({ skill, source, status, answer }) {
   return new SmartPlacementKnowledgeElement({
     answerId: answer.id,
     assessmentId: answer.assessmentId,
     pixScore: 0,
-    skillId: skill.name,
+    skillId: skill.id,
     source,
     status,
   });

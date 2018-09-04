@@ -9,8 +9,8 @@ class TargetProfile {
     // references
     organizationId
   } = {}) {
-    // attributes
     this.id = id;
+    // attributes
     this.name = name;
     this.isPublic = isPublic;
     // includes
