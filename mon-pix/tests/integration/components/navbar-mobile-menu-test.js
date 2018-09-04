@@ -52,7 +52,7 @@ describe('Integration | Component | navbar mobile menu', function() {
 
     it('should close the side-menu', function() {
       // given
-      const menu = [{ name: 'Projet', link: 'project', class: '', permanent: true }];
+      const menu = [];
       this.set('menu', menu);
 
       this.render(hbs`{{navbar-mobile-menu menu=menu}}`);
