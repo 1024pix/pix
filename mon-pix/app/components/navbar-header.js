@@ -10,12 +10,6 @@ export default Component.extend({
   _canDisplayMenu: false,
   _menuItems: [
     { name: 'Projet', link: 'project', class: 'navbar-header-links__link--project', permanent: true },
-    {
-      name: 'Compétences',
-      link: 'competences',
-      class: 'navbar-header-links__link--competences',
-      permanent: true
-    },
     { name: 'Se connecter', link: 'login', class: 'navbar-menu-signin-link' },
     { name: 'S’inscrire', link: 'inscription', class: 'navbar-menu-signup-link' }
   ],
