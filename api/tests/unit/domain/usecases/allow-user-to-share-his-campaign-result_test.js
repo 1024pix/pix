@@ -1,23 +1,64 @@
-const { expect } = require('../../../test-helper');
+const { sinon, expect, factory } = require('../../../test-helper');
+const { NotFoundError } = require('../../../../lib/domain/errors');
 const usecases = require('../../../../lib/domain/usecases');
 
 describe('Unit | UseCase | allow-user-to-share-his-campaign-result', () => {
 
-  beforeEach(() => {
+  let sandbox;
+  let expectedCampaignParticipation;
+  const assessmentId = 4;
+  const campaignParticipationRepository = {
+    updateCampaignParticipation() {
+    },
+  };
 
+  context('when the assessmentId is in the database', () => {
+
+    beforeEach(() => {
+      expectedCampaignParticipation = factory.buildCampaignParticipation({ assessmentId: assessmentId, isShared: true });
+      sandbox = sinon.sandbox.create();
+      sandbox.stub(campaignParticipationRepository, 'updateCampaignParticipation')
+        .resolves(expectedCampaignParticipation);
+    });
+
+    afterEach(() => {
+      sandbox.restore();
+    });
+
+    it('should return a modified campaign participation', () => {
+      // when
+      const promise = usecases.allowUserToShareHisCampaignResult({
+        assessmentId,
+        campaignParticipationRepository,
+      });
+
+      // then
+      return promise.then((result) => {
+        expect(result).to.deep.equal(expectedCampaignParticipation);
+      });
+    });
   });
 
-  afterEach(() => {
+  context('when the assessmentId is not in the database', () => {
 
-  });
+    beforeEach(() => {
+      sandbox = sinon.sandbox.create();
+      sandbox.stub(campaignParticipationRepository, 'updateCampaignParticipation').rejects(new NotFoundError());
+    });
 
-  it('should succeed', () => {
-    // given
+    afterEach(() => {
+      sandbox.restore();
+    });
 
-    // when
-    const promise = usecases.allowUserToShareHisCampaignResult({});
+    it('should reject with a Not Found Error', () => {
+      // when
+      const promise = usecases.allowUserToShareHisCampaignResult({
+        assessmentId,
+        campaignParticipationRepository,
+      });
 
-    // then
-    return expect(promise).to.be.fulfilled;
+      // then
+      return expect(promise).to.have.been.rejectedWith(NotFoundError);
+    });
   });
 });

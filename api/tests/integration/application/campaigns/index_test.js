@@ -72,7 +72,7 @@ describe('Integration | Application | Route | campaignRouter', () => {
       // when
       const promise = server.inject({
         method: 'PATCH',
-        url: '/api/campaigns/FAKE_ID',
+        url: '/api/campaigns/campaign-participation/FAKE_ID',
         payload: {
           data: {
             type: 'campaigns',

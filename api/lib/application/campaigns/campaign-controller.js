@@ -72,14 +72,19 @@ module.exports = {
   },
 
   shareCampaignResult(request, reply) {
-    const assessmentId = parseInt(request.params.id);
+    const assessmentId = parseInt(request.params.assessmentId);
 
-    return usecases.allowUserToShareHisCampaignResult({ assessmentId, campaignParticipationRepository })
-      .then((campaignParticipation) => {
-        return reply(campaignParticipation).code(201);
-      })
-      .catch((error) => {
-        logger.error(error);
-      });
+    if (assessmentId) {
+      return usecases.allowUserToShareHisCampaignResult({ assessmentId, campaignParticipationRepository })
+        .then((campaignParticipation) => {
+          return reply(campaignParticipation).code(200);
+        })
+        .catch((error) => {
+          logger.error(error);
+        });
+    }
+    else {
+      return reply(JSONAPI.badRequest('assessmentId manquant')).code(400);
+    }
   }
 };

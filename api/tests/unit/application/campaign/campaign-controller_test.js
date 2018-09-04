@@ -298,13 +298,9 @@ describe('Unit | Application | Controller | Campaign', () => {
 
     it('should call the use case to share campaign result', () => {
       // given
-      const assessmentId = 4;
       const request = {
-        query: {
-          accessToken: 'token'
-        },
         params: {
-          id: assessmentId
+          assessmentId: '5'
         }
       };
       usecases.allowUserToShareHisCampaignResult.resolves();
@@ -318,6 +314,30 @@ describe('Unit | Application | Controller | Campaign', () => {
         const updateCampaignParticiaption = usecases.allowUserToShareHisCampaignResult.firstCall.args[0];
         expect(updateCampaignParticiaption).to.have.property('assessmentId');
         expect(updateCampaignParticiaption).to.have.property('campaignParticipationRepository');
+      });
+    });
+
+    context('when the request is invalid', () => {
+
+      it('should return a 400 status code', () => {
+        // given
+        const paramsWithMissingAssessmentId = {};
+        const request = {
+          params: paramsWithMissingAssessmentId
+        };
+
+        // when
+        campaignController.shareCampaignResult(request, replyStub);
+
+        // then
+        expect(codeStub).to.have.been.calledWith(400);
+        expect(replyStub).to.have.been.calledWith({
+          errors: [{
+            detail: 'assessmentId manquant',
+            status: '400',
+            title: 'Bad Request',
+          }]
+        });
       });
     });
   });
