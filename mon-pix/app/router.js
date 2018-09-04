@@ -48,7 +48,6 @@ Router.map(function() {
   this.route('login', { path: '/connexion' });
   this.route('logout', { path: '/deconnexion' });
   this.route('board');
-  this.route('legal-notices', { path: '/mentions-legales' });
   this.route('terms-of-service', { path: '/conditions-generales-d-utilisation' });
   this.route('reset-password', { path: '/changer-mot-de-passe/:temporaryKey' });
   this.route('password-reset-demand', { path: '/mot-de-passe-oublie' });
