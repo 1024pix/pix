@@ -1,4 +1,5 @@
 const _ = require('lodash');
+const moment = require('moment');
 
 const { UserNotAuthorizedToGetCampaignResultsError, CampaignWithoutOrganizationError } = require('../errors');
 
@@ -64,7 +65,7 @@ function _createHeaderOfCSV(skillNames, competences, areas, idPixLabel) {
 }
 
 function _addCellByHeadersTitle(title, data, line, headers) {
-  line[headers.indexOf(title)] = `="${data}"`;
+  line[headers.indexOf(title)] = `"${data}"`;
   return line;
 }
 
@@ -121,7 +122,7 @@ function _getSkillsValidatedForCompetence(skills, knowledgeElements) {
 }
 
 function _createOneLineOfCSV(headers, organization, campaign, listCompetences, listArea, campaignParticipation, targetProfile, userRepository, smartPlacementAssessmentRepository) {
-  let line = headers.map(() => '="Non disponible"');
+  let line = headers.map(() => '"NA"');
 
   return smartPlacementAssessmentRepository.get(campaignParticipation.assessmentId)
     .then((assessment) => {
@@ -138,13 +139,12 @@ function _createOneLineOfCSV(headers, organization, campaign, listCompetences, l
 
       const percentageProgression = (assessment.isCompleted) ? 100 : _.round(assessment.knowledgeElements.length * 100 / (targetProfile.skills.length), 1);
       line = _addCellByHeadersTitle('"% de progression"', percentageProgression, line, headers);
-
-      line = _addCellByHeadersTitle('"Date de début"', assessment.createdAt, line, headers);
+      line = _addCellByHeadersTitle('"Date de début"', moment(assessment.createdAt).format('DD/MM/YYYY'), line, headers);
 
       if(assessment.isCompleted) {
         line = _addCellByHeadersTitle('"Nombre de Pix obtenus"', _totalPixScore(assessment.knowledgeElements), line, headers);
         //XXX: Change to Non Disponible until we have pixScore on knowledgeElements
-        line = _addCellByHeadersTitle('"Nombre de Pix obtenus"', 'Non disponible', line, headers);
+        line = _addCellByHeadersTitle('"Nombre de Pix obtenus"', 'NA', line, headers);
 
         line = _addCellByHeadersTitle('"% maitrise de l\'ensemble des acquis du profil"', _percentageSkillsValidated(assessment, targetProfile), line, headers);
 
@@ -191,6 +191,14 @@ function _createOneLineOfCSV(headers, organization, campaign, listCompetences, l
     });
 }
 
+function _getInformation() {
+
+}
+
+function _showInformationInCSVFormat() {
+
+}
+
 module.exports = function getResultsCampaignInCSVFormat(
   {
     userId,
@@ -225,9 +233,11 @@ module.exports = function getResultsCampaignInCSVFormat(
       organization = organizationFound;
 
       const listSkillsName = targetProfile.skills.map((skill) => skill.name);
+      const listSkillsId = targetProfile.skills.map((skill) => skill.id);
 
       listCompetences = listAllCompetences.filter((competence) => {
-        return targetProfile.skills.some((skill)=> competence.skills.includes(skill.id));
+        const commonSkills = _.intersection(listSkillsId, competence.skills);
+        return commonSkills.length > 0;
       });
 
       listArea = _.uniqBy(listCompetences.map((competence) => competence.area), 'code');

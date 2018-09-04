@@ -11,6 +11,7 @@ describe('Unit | Domain | Use Cases | get-results-campaign-in-csv-format', () =
     const listSkills = factory.buildSkillCollection({ name: 'web', minLevel: 1, maxLevel: 4 });
     const assessment = factory.buildAssessment.ofTypeSmartPlacement({
       state: 'completed',
+      createdAt: '05/05/2017',
       knowledgeElements: [
         factory.buildSmartPlacementKnowledgeElement({
           status: 'validated',
@@ -143,38 +144,38 @@ describe('Unit | Domain | Use Cases | get-results-campaign-in-csv-format', () =
 
     it('should return the line with user results for her participation', () => {
       // given
-      const csvSecondLine = `="${organization.name}";`+
-        `="${campaign.id}";` +
-        `="${campaign.name}";` +
-        `="${targetProfile.name}";` +
-        `="${user.firstName}";` +
-        `="${user.lastName}";` +
-        '="Non disponible";' +
-        '="Non disponible";' +
-        '="Non disponible";' +
-        '="Non disponible";' +
-        '="Non disponible";' +
-        '="Non disponible";' +
-        '="Non disponible";' +
-        '="Non disponible";' +
-        '="100";' +
-        `="${assessment.createdAt}";` +
-        '="Non disponible";' +
-        '="Non disponible";' +
-        '="Non disponible";' +
-        '="Non disponible";' +
-        '="Non disponible";' +
-        '="75";' +
-        '="Non disponible";' +
-        '="Non disponible";' +
-        '="75";' +
-        '="3/4";' +
-        '="75";' +
-        '="3/4";' +
-        '="OK";' +
-        '="OK";' +
-        '="OK";' +
-        '="KO"\n';
+      const csvSecondLine = `"${organization.name}";`+
+        `"${campaign.id}";` +
+        `"${campaign.name}";` +
+        `"${targetProfile.name}";` +
+        `"${user.firstName}";` +
+        `"${user.lastName}";` +
+        '"NA";' +
+        '"NA";' +
+        '"NA";' +
+        '"NA";' +
+        '"NA";' +
+        '"NA";' +
+        '"NA";' +
+        '"NA";' +
+        '"100";' +
+        `"${assessment.createdAt}";` +
+        '"NA";' +
+        '"NA";' +
+        '"NA";' +
+        '"NA";' +
+        '"NA";' +
+        '"75";' +
+        '"NA";' +
+        '"NA";' +
+        '"75";' +
+        '"3/4";' +
+        '"75";' +
+        '"3/4";' +
+        '"OK";' +
+        '"OK";' +
+        '"OK";' +
+        '"KO"\n';
 
       // when
       const promise = getResultsCampaignInCsvFormat({
