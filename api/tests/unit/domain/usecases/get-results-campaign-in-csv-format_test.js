@@ -11,7 +11,7 @@ describe('Unit | Domain | Use Cases | get-results-campaign-in-csv-format', () =
     const listSkills = factory.buildSkillCollection({ name: 'web', minLevel: 1, maxLevel: 4 });
     const assessment = factory.buildAssessment.ofTypeSmartPlacement({
       state: 'completed',
-      createdAt: '05/05/2017',
+      createdAt: new Date('05/05/2017'),
       knowledgeElements: [
         factory.buildSmartPlacementKnowledgeElement({
           status: 'validated',
@@ -159,7 +159,7 @@ describe('Unit | Domain | Use Cases | get-results-campaign-in-csv-format', () =
         '"NA";' +
         '"NA";' +
         '"100";' +
-        `"${assessment.createdAt}";` +
+        '"05/05/2017";' +
         '"NA";' +
         '"NA";' +
         '"NA";' +

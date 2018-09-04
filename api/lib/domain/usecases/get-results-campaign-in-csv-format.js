@@ -191,14 +191,6 @@ function _createOneLineOfCSV(headers, organization, campaign, listCompetences, l
     });
 }
 
-function _getInformation() {
-
-}
-
-function _showInformationInCSVFormat() {
-
-}
-
 module.exports = function getResultsCampaignInCSVFormat(
   {
     userId,
