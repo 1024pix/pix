@@ -12,7 +12,6 @@ describe('Unit | Domain | Models | Challenge', () => {
         id: 'recwWzTquPlvIl4So',
         type: 'QCM',
         instruction: 'Les moteurs de recherche affichent certains liens en raison d\'un accord commercial.\n\nDans quels encadrés se trouvent ces liens ?',
-        competence: 'recsvLz0W2ShyfD63',
         proposals: '- 1\n- 2\n- 3\n- 4\n- 5',
         timer: 1234,
         illustrationUrl: 'https://dl.airtable.com/2MGErxGTQl2g2KiqlYgV_venise4.png',
@@ -20,13 +19,14 @@ describe('Unit | Domain | Models | Challenge', () => {
           'https://dl.airtable.com/nHWKNZZ7SQeOKsOvVykV_navigationdiaporama5.pptx',
           'https://dl.airtable.com/rsXNJrSPuepuJQDByFVA_navigationdiaporama5.odp',
         ],
-        skills: [new Skill('recUDrCWD76fp5MsE')],
-        answer: [],
         embedUrl: 'https://github.page.io/pages/mon-epreuve.html',
         embedTitle: 'Epreuve de selection d’imprimante',
         embedHeight: 400,
         status: 'validé',
+        answer: [],
+        skills: [new Skill('recUDrCWD76fp5MsE')],
         validator: undefined,
+        competenceId: 'recsvLz0W2ShyfD63',
       };
 
       // when

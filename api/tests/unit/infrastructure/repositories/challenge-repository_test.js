@@ -107,6 +107,7 @@ describe('Unit | Repository | challenge-repository', () => {
             expect(challenge.embedUrl).to.equal('https://github.io/page/epreuve.html');
             expect(challenge.embedTitle).to.equal('Epreuve de selection de dossier');
             expect(challenge.embedHeight).to.equal(500);
+            expect(challenge.competenceId).to.equal('recsvLz0W2ShyfD63');
           });
         });
         it('should load skills', () => {

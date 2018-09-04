@@ -74,5 +74,5 @@ module.exports = {
             return Promise.reject(err);
           });
       });
-  }
+  },
 };

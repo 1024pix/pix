@@ -15,9 +15,7 @@ class Challenge {
   constructor({
     id,
     // attributes
-    answer,
     attachments,
-    competence,
     embedHeight,
     embedTitle,
     embedUrl,
@@ -28,15 +26,16 @@ class Challenge {
     timer,
     type,
     // includes
+    answer,
+    skills = [],
     validator,
     // references
-    skills = [],
+    competenceId,
   } = {}) {
     this.id = id;
     // attributes
     this.answer = answer;
     this.attachments = attachments;
-    this.competence = competence;
     this.embedHeight = embedHeight;
     this.embedTitle = embedTitle;
     this.embedUrl = embedUrl;
@@ -47,9 +46,10 @@ class Challenge {
     this.status = status;
     this.type = type;
     // includes
+    this.skills = skills;
     this.validator = validator;
     // references
-    this.skills = skills;
+    this.competenceId = competenceId;
   }
 
   /**

@@ -15,7 +15,7 @@ describe('Unit | Serializer | JSONAPI | challenge-serializer', function() {
         type: 'QCM',
         illustrationUrl: 'http://illustration.url',
         timer: 300,
-        competence: 'competence_id',
+        competenceId: 'competence_id',
         attachments: [
           'http://challenge.attachement.url.docx',
           'http://challenge.attachement.url.odt',
@@ -40,7 +40,7 @@ describe('Unit | Serializer | JSONAPI | challenge-serializer', function() {
             type: challenge.type,
             'illustration-url': challenge.illustrationUrl,
             timer: challenge.timer,
-            competence: challenge.competence,
+            competence: challenge.competenceId,
             attachments: [
               challenge.attachments[0],
               challenge.attachments[1],
@@ -60,7 +60,7 @@ describe('Unit | Serializer | JSONAPI | challenge-serializer', function() {
         // given
         const challenge = Challenge.fromAttributes();
         challenge.id = 1;
-        challenge.competence = 'competence_id';
+        challenge.competenceId = 'competence_id';
 
         // when
         const json = serializer.serialize(challenge);
