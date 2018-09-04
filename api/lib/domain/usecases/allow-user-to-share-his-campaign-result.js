@@ -1,3 +1,6 @@
-module.exports = function allowUserToShareHisCampaignResult() {
-  return Promise.resolve();
+module.exports = function allowUserToShareHisCampaignResult({
+  assessmentId,
+  campaignParticipationRepository
+}) {
+  return campaignParticipationRepository.updateCampaignParticipation(assessmentId);
 };

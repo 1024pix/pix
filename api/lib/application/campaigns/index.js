@@ -33,7 +33,7 @@ exports.register = function(server, options, next) {
     },
     {
       method: 'PATCH',
-      path: '/api/campaigns/{id}',
+      path: '/api/campaigns/campaign-participation/{assessmentId}',
       config: {
         handler: campaignController.shareCampaignResult,
         notes: [

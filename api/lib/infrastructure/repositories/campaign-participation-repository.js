@@ -29,5 +29,9 @@ module.exports = {
       .fetchAll({ withRelated: ['campaign'] })
       .then((bookshelfCampaignParticipation) => bookshelfCampaignParticipation.models)
       .then(fp.map(_toDomain));
+  },
+
+  updateCampaignParticipation(assessmentId) {
+    return Promise.resolve();
   }
 };

@@ -1,6 +1,6 @@
 const faker = require('faker');
 const server = require('../../../server');
-const { knex, expect, generateValidRequestAuhorizationHeader } = require('../../test-helper');
+const { knex, expect, databaseBuilder, generateValidRequestAuhorizationHeader } = require('../../test-helper');
 
 describe('Acceptance | API | Campaigns', () => {
 
@@ -21,7 +21,12 @@ describe('Acceptance | API | Campaigns', () => {
       }, 'id')
         .then((insertedUser) => {
           organizationAccess.userId = insertedUser[0];
-          return knex('organizations').insert({ email: 'trololo@example.net', type: 'PRO', name: 'Mon Entreprise', code: 'ABCD12' }, 'id');
+          return knex('organizations').insert({
+            email: 'trololo@example.net',
+            type: 'PRO',
+            name: 'Mon Entreprise',
+            code: 'ABCD12'
+          }, 'id');
         }).then((insertedOrganization) => {
           organizationInDbId = insertedOrganization[0];
           organizationAccess.organizationId = organizationInDbId;
@@ -115,4 +120,43 @@ describe('Acceptance | API | Campaigns', () => {
 
   });
 
+  xdescribe('PATCH /api/campaigns/campaign-participation/{assessementId}', () => {
+    let options;
+    let campaignParticipation;
+
+    beforeEach(() => {
+      campaignParticipation = databaseBuilder.factory.buildCampaignParticipation();
+
+      options = {
+        method: 'PATCH',
+        url: `/api/campaigns/campaign-participation/${campaignParticipation.assessmentId}`,
+        headers: { authorization: generateValidRequestAuhorizationHeader() },
+        payload: {
+          data: {
+            isShared: true
+          }
+        },
+      };
+
+      return databaseBuilder.commit();
+    });
+
+    afterEach(() => {
+      databaseBuilder.clean();
+    });
+
+    it('should allow user to share his campaign participation', () => {
+      // when
+      const promise = server.inject(options);
+
+      // then
+      return promise.then((response) => {
+        expect(response.statusCode).to.equal(200);
+        expect(response.result.assessmentId).to.equal(campaignParticipation.assessmentId);
+        expect(response.result.campaignId).to.equal(campaignParticipation.campaignId);
+        expect(response.result.isShared).to.equal(true);
+        expect(response.result.sharedAt).to.equal(campaignParticipation.sharedAt);
+      });
+    });
+  });
 });
