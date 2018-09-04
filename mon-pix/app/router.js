@@ -34,7 +34,6 @@ if (config.environment === 'integration' || config.environment === 'staging' || 
 /* eslint-disable max-statements */
 Router.map(function() {
   this.route('index', { path: '/' });
-  this.route('project', { path: '/projet' });
   this.route('inscription');
   this.route('compte');
   this.route('challenge-preview', { path: '/challenges/:challenge_id/preview' });

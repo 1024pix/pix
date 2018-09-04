@@ -9,7 +9,6 @@ export default Component.extend({
   classNames: ['navbar-header'],
   _canDisplayMenu: false,
   _menuItems: [
-    { name: 'Projet', link: 'project', class: 'navbar-header-links__link--project', permanent: true },
     { name: 'Se connecter', link: 'login', class: 'navbar-menu-signin-link' },
     { name: 'S’inscrire', link: 'inscription', class: 'navbar-menu-signup-link' }
   ],
