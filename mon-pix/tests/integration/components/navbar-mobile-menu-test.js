@@ -52,14 +52,13 @@ describe('Integration | Component | navbar mobile menu', function() {
 
     it('should close the side-menu', function() {
       // given
-      const menu = [{ name: 'Projet', link: 'project', class: '', permanent: true },
-        { name: 'Compétences', link: 'competences', class: '', permanent: true }];
+      const menu = [{ name: 'Projet', link: 'project', class: '', permanent: true }];
       this.set('menu', menu);
 
       this.render(hbs`{{navbar-mobile-menu menu=menu}}`);
 
       // when
-      this.$('.navbar-header-links__item').eq(1).click();
+      this.$('.navbar-header-links__item').eq(0).click();
 
       // then
       expect(this.$('.side-menu').attr('style').indexOf('box-shadow: none')).to.be.at.least(0);
