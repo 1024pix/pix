@@ -75,10 +75,11 @@ function _adaptChallengeFromDataObjects({ challengeDataObject, skillDataObjects 
     timer: challengeDataObject.timer,
     illustrationUrl: challengeDataObject.illustrationUrl,
     attachments: challengeDataObject.attachments,
-    skills,
     embedUrl: challengeDataObject.embedUrl,
     embedTitle: challengeDataObject.embedTitle,
     embedHeight: challengeDataObject.embedHeight,
+    skills,
     validator,
+    competenceId: challengeDataObject.competenceId,
   });
 }

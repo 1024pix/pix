@@ -150,7 +150,7 @@ describe('Unit | Service | User Service', () => {
       const challenge = Challenge.fromAttributes();
       challenge.id = id;
       challenge.skills = skills;
-      challenge.competence = competence;
+      challenge.competenceId = competence;
       challenge.testedSkill = testedSkill;
       challenge.status = status;
       return challenge;
