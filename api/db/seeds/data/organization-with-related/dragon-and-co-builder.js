@@ -18,6 +18,11 @@ module.exports = function addDragonAndCoWithrelated({ databaseBuilder }) {
     code: 'DRAGO'
   });
 
+  databaseBuilder.factory.buildOrganizationAccess({
+    userId: proUserDaenerys.id,
+    organizationId: dragonAndCoCompany.id,
+  });
+
   const privateTargetProfile = databaseBuilder.factory.buildTargetProfile({
     name: 'Résoudre des problèmes techniques (compétence 5.1)',
     isPublic: false,

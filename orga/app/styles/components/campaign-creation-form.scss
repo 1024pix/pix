@@ -17,14 +17,10 @@
   }
 
   &__error {
-    color: red;
-    font-size: 0.75rem;
     padding-top: 4px;
   }
 
   &__information {
-    font-size: 0.8rem;
-    color: $dove-gray;
     margin-top: 7px;
   }
 }
