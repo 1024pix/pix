@@ -2,5 +2,6 @@ module.exports = function allowUserToShareHisCampaignResult({
   assessmentId,
   campaignParticipationRepository
 }) {
-  return campaignParticipationRepository.updateCampaignParticipation(assessmentId);
+  return campaignParticipationRepository.findByAssessmentId(assessmentId)
+    .then(campaignParticipationRepository.updateCampaignParticipation);
 };

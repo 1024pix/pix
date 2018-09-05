@@ -120,7 +120,7 @@ describe('Acceptance | API | Campaigns', () => {
 
   });
 
-  xdescribe('PATCH /api/campaigns/campaign-participation/{assessementId}', () => {
+  describe('PATCH /api/campaigns/campaign-participation/{assessementId}', () => {
     let options;
     let campaignParticipation;
 
@@ -153,9 +153,8 @@ describe('Acceptance | API | Campaigns', () => {
       return promise.then((response) => {
         expect(response.statusCode).to.equal(200);
         expect(response.result.assessmentId).to.equal(campaignParticipation.assessmentId);
-        expect(response.result.campaignId).to.equal(campaignParticipation.campaignId);
         expect(response.result.isShared).to.equal(true);
-        expect(response.result.sharedAt).to.equal(campaignParticipation.sharedAt);
+        expect(response.result.sharedAt).to.deep.equal(campaignParticipation.sharedAt);
       });
     });
   });

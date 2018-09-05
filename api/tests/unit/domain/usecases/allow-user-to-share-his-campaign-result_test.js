@@ -8,15 +8,19 @@ describe('Unit | UseCase | allow-user-to-share-his-campaign-result', () => {
   let expectedCampaignParticipation;
   const assessmentId = 4;
   const campaignParticipationRepository = {
-    updateCampaignParticipation() {
-    },
+    updateCampaignParticipation() {},
+    findByAssessmentId() {},
   };
+
+  beforeEach(() => {
+    sandbox = sinon.sandbox.create();
+    sandbox.stub(campaignParticipationRepository, 'findByAssessmentId').resolves();
+  });
 
   context('when the assessmentId is in the database', () => {
 
     beforeEach(() => {
       expectedCampaignParticipation = factory.buildCampaignParticipation({ assessmentId: assessmentId, isShared: true });
-      sandbox = sinon.sandbox.create();
       sandbox.stub(campaignParticipationRepository, 'updateCampaignParticipation')
         .resolves(expectedCampaignParticipation);
     });
@@ -42,7 +46,6 @@ describe('Unit | UseCase | allow-user-to-share-his-campaign-result', () => {
   context('when the assessmentId is not in the database', () => {
 
     beforeEach(() => {
-      sandbox = sinon.sandbox.create();
       sandbox.stub(campaignParticipationRepository, 'updateCampaignParticipation').rejects(new NotFoundError());
     });
 

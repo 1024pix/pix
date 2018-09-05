@@ -42,7 +42,7 @@ exports.register = function(server, options, next) {
         ],
         tags: ['api', 'campaign']
       }
-    }
+    },
   ]);
 
   return next();
