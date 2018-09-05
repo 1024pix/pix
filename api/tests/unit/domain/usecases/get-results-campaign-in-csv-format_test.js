@@ -38,7 +38,7 @@ describe('Unit | Domain | Use Cases | get-results-campaign-in-csv-format', () =
     const targetProfile = factory.buildTargetProfile({ skills: listSkills, name: 'Profile 1' });
 
     const campaign = factory.buildCampaign({
-      name:'CampaignName',
+      name:'Campaign "Name"',
       code:'AZERTY123',
       organizationId: organization.id,
       idPixLabel: 'Mail Pro',
@@ -144,12 +144,12 @@ describe('Unit | Domain | Use Cases | get-results-campaign-in-csv-format', () =
 
     it('should return the line with user results for her participation', () => {
       // given
-      const csvSecondLine = `"${organization.name}";`+
-        `"${campaign.id}";` +
-        `"${campaign.name}";` +
-        `"${targetProfile.name}";` +
-        `"${user.firstName}";` +
-        `"${user.lastName}";` +
+      const csvSecondLine = `="${organization.name}";`+
+        `="${campaign.id}";` +
+        '="Campaign ""Name""";' +
+        `="${targetProfile.name}";` +
+        `="${user.firstName}";` +
+        `="${user.lastName}";` +
         '"NA";' +
         '"NA";' +
         '"NA";' +
@@ -158,24 +158,24 @@ describe('Unit | Domain | Use Cases | get-results-campaign-in-csv-format', () =
         '"NA";' +
         '"NA";' +
         '"NA";' +
-        '"100";' +
-        '"05/05/2017";' +
+        '100;' +
+        '="2017-05-05";' +
         '"NA";' +
         '"NA";' +
         '"NA";' +
         '"NA";' +
         '"NA";' +
-        '"75";' +
+        '75;' +
         '"NA";' +
         '"NA";' +
-        '"75";' +
-        '"3/4";' +
-        '"75";' +
-        '"3/4";' +
-        '"OK";' +
-        '"OK";' +
-        '"OK";' +
-        '"KO"\n';
+        '75;' +
+        '="3/4";' +
+        '75;' +
+        '="3/4";' +
+        '="OK";' +
+        '="OK";' +
+        '="OK";' +
+        '="KO"\n';
 
       // when
       const promise = getResultsCampaignInCsvFormat({
