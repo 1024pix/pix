@@ -1,13 +1,12 @@
 const fs = require('fs');
-const path = require('path');
-const pixLivePath = path.join(__dirname, '..');
-const lcovFile = `${pixLivePath}/coverage/lcov.info`;
+const projectPath = process.argv[2];
+const lcovFile = `${projectPath}/coverage/lcov.info`;
 
 fs.readFile(lcovFile, 'utf8', (err, data) => {
 
   if (err) return console.error(err);
 
-  const result = data.replace(/SF:app/g, `SF:${pixLivePath}/app`);
+  const result = data.replace(/^SF:/g, `SF:${projectPath}/`);
 
   fs.writeFile(lcovFile, result, 'utf8', (err) => {
 
