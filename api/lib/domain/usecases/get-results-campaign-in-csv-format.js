@@ -18,32 +18,31 @@ function _checkCreatorHasAccessToCampaignOrganization(userId, organizationId, us
 }
 
 function _createHeaderOfCSV(skillNames, competences, areas, idPixLabel) {
-  const headers = [
-    '"Nom de l\'organisation"',
-    '"ID Campagne"',
-    '"Nom de la campagne"',
-    '"Nom du Profil Cible"',
-    '"Nom du Participant"',
-    '"Prénom du Participant"',
-    `"${idPixLabel}"`,
-    '"Nom invité"',
-    '"Prénom invité"',
-    '"Email invité"',
-    '"Champs optionel 1"',
-    '"Champs optionel 2"',
-    '"Champs optionel 3"',
-    '"ID invitation"',
-    '"% de progression"',
-    '"Date de début"',
-    '"Partage (O/N)"',
-    '"Date du partage"',
-    '"Heure du partage"',
-    '"Nombre de Pix obtenus"',
-    '"Nombre de pix possibles"',
-    '"% maitrise de l\'ensemble des acquis du profil"',
-  ];
-
-  _.remove(headers, (title) => title === '"null"');
+  const headers = [];
+  headers.push('"Nom de l\'organisation"');
+  headers.push('"ID Campagne"');
+  headers.push('"Nom de la campagne"');
+  headers.push('"Nom du Profil Cible"');
+  headers.push('"Nom du Participant"');
+  headers.push('"Prénom du Participant"');
+  if(idPixLabel) {
+    headers.push(`"${idPixLabel.replace(/"/g, '""')}"`);
+  }
+  headers.push('"Nom invité"');
+  headers.push('"Prénom invité"');
+  headers.push('"Email invité"');
+  headers.push('"Champs optionel 1"');
+  headers.push('"Champs optionel 2"');
+  headers.push('"Champs optionel 3"');
+  headers.push('"ID invitation"');
+  headers.push('"% de progression"');
+  headers.push('"Date de début"');
+  headers.push('"Partage (O/N)"');
+  headers.push('"Date du partage"');
+  headers.push('"Heure du partage"');
+  headers.push('"Nombre de Pix obtenus"');
+  headers.push('"Nombre de pix possibles"');
+  headers.push('"% maitrise de l\'ensemble des acquis du profil"');
 
   competences.forEach((competence) => {
     headers.push(`"Niveau de la competence ${competence.name}"`);
