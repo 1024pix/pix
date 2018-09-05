@@ -101,4 +101,66 @@ describe('Integration | Repository | Campaign Participation', () => {
       });
     });
   });
+
+  describe('#findByAssessmentId', () => {
+
+    let campaignParticipation;
+
+    beforeEach(() => {
+      campaignParticipation = databaseBuilder.factory.buildCampaignParticipation();
+
+      return databaseBuilder.commit();
+    });
+
+    afterEach(() => {
+      databaseBuilder.clean();
+    });
+
+    it('should return the shared campaign-participation of the given assessmentId', () => {
+      // given
+      const expectedAssessmentId = campaignParticipation.assessmentId;
+
+      // when
+      const promise = campaignParticipationRepository.findByAssessmentId(expectedAssessmentId);
+
+      // then
+      return promise.then((foundCampaignParticipation) => {
+        expect(foundCampaignParticipation.id).to.equal(campaignParticipation.id);
+        expect(foundCampaignParticipation.assessmentId).to.equal(expectedAssessmentId);
+        expect(foundCampaignParticipation.sharedAt).to.deep.equal(campaignParticipation.sharedAt);
+        expect(foundCampaignParticipation.isShared).to.equal(campaignParticipation.isShared);
+      });
+    });
+  });
+
+  describe('#updateCampaignParticipation', () => {
+    let campaignParticipation;
+
+    beforeEach(() => {
+      campaignParticipation = databaseBuilder.factory.buildCampaignParticipation({
+        isShared: false
+      });
+
+      return databaseBuilder.commit();
+    });
+
+    afterEach(() => {
+      databaseBuilder.clean();
+    });
+
+    it('should return the shared campaign-participation of the given assessmentId', () => {
+      // given
+      //const assessmentId = campaignParticipation.assessmentId;
+
+      // when
+      const promise = campaignParticipationRepository.updateCampaignParticipation(campaignParticipation);
+
+      // then
+      return promise.then((updatedCampaignParticipation) => {
+        expect(updatedCampaignParticipation.isShared).to.be.true;
+        expect(updatedCampaignParticipation.assessmentId).to.equal(campaignParticipation.assessmentId);
+        expect(updatedCampaignParticipation.sharedAt).to.deep.equal(campaignParticipation.sharedAt);
+      });
+    });
+  });
 });

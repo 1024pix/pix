@@ -8,7 +8,7 @@ function _toDomain(bookshelfCampaignParticipation) {
     id: bookshelfCampaignParticipation.get('id'),
     assessmentId: bookshelfCampaignParticipation.get('assessmentId'),
     campaign: new Campaign(bookshelfCampaignParticipation.related('campaign').toJSON()),
-    isShared: bookshelfCampaignParticipation.get('isShared'),
+    isShared: Boolean(bookshelfCampaignParticipation.get('isShared')),
     sharedAt: new Date(bookshelfCampaignParticipation.get('sharedAt')),
   });
 }
@@ -31,7 +31,18 @@ module.exports = {
       .then(fp.map(_toDomain));
   },
 
-  updateCampaignParticipation(assessmentId) {
-    return Promise.resolve();
+  findByAssessmentId(assessmentId) {
+    return BookshelfCampaignParticipation
+      .query((qb) => {
+        qb.where({ assessmentId });
+      })
+      .fetch()
+      .then(_toDomain);
+  },
+
+  updateCampaignParticipation(campaignParticipation) {
+    return new BookshelfCampaignParticipation(campaignParticipation)
+      .save({ isShared: true }, { patch: true, require: true })
+      .then(_toDomain);
   }
 };
