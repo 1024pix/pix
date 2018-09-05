@@ -61,8 +61,9 @@
 
     <label for="pix-cgu" class="signup-form__cgu-label">
       {{input type="checkbox" id='pix-cgu' checked=user.cgu}}
-      <span>J'​accepte les {{#link-to 'terms-of-service' class="signup__cgu-link" target="_blank"}}
-        conditions d'​utilisation de Pix{{/link-to}}</span>
+      <span>
+        J'​accepte les <a href="https://site.pix.fr/cgu" class="signup__cgu-link" target="_blank">conditions d'​utilisation de Pix</a>
+      </span>
     </label>
   </div>
 
@@ -75,7 +76,8 @@
 
   {{#if displayMessageForCampaign}}
     <div class="signin-form__message_campaign">
-      En démarrant le parcours, les informations relatives à votre avancée seront transmises à la personne qui vous a invité(e).
+      En démarrant le parcours, les informations relatives à votre avancée seront transmises à la personne qui vous a
+      invité(e).
       <br/>Les résultats des tests ne seront transmis qu’avec votre consentement.
     </div>
   {{/if}}
@@ -85,9 +87,12 @@
   </div>
 
   <div class="signup-form__legal-details-container">
-    Les informations recueillies sur ce formulaire sont enregistrées dans un fichier informatisé par Pix pour permettre l'accès au service offert par Pix.
-    Elles sont conservées pendant la durée d'utilisation du service et sont destinées à Pix exclusivement. Elles ne sont pas communiquées à des tiers.
-    Conformément à la loi « informatique et libertés », vous pouvez exercer votre droit d'accès aux données vous concernant et les faire rectifier en envoyant un mail à dpo@pix.fr.
+    Les informations recueillies sur ce formulaire sont enregistrées dans un fichier informatisé par Pix pour permettre
+    l'accès au service offert par Pix.
+    Elles sont conservées pendant la durée d'utilisation du service et sont destinées à Pix exclusivement. Elles ne sont
+    pas communiquées à des tiers.
+    Conformément à la loi « informatique et libertés », vous pouvez exercer votre droit d'accès aux données vous
+    concernant et les faire rectifier en envoyant un mail à dpo@pix.fr.
   </div>
 
 </form>
