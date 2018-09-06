@@ -11,6 +11,7 @@ describe('Unit | Domain | Use Cases | get-results-campaign-in-csv-format', () =
     const listSkills = factory.buildSkillCollection({ name: 'web', minLevel: 1, maxLevel: 4 });
     const assessment = factory.buildAssessment.ofTypeSmartPlacement({
       state: 'completed',
+      createdAt: new Date('05/05/2017'),
       knowledgeElements: [
         factory.buildSmartPlacementKnowledgeElement({
           status: 'validated',
@@ -37,7 +38,7 @@ describe('Unit | Domain | Use Cases | get-results-campaign-in-csv-format', () =
     const targetProfile = factory.buildTargetProfile({ skills: listSkills, name: 'Profile 1' });
 
     const campaign = factory.buildCampaign({
-      name:'CampaignName',
+      name:'Campaign "Name"',
       code:'AZERTY123',
       organizationId: organization.id,
       idPixLabel: 'Mail Pro',
@@ -145,31 +146,31 @@ describe('Unit | Domain | Use Cases | get-results-campaign-in-csv-format', () =
       // given
       const csvSecondLine = `="${organization.name}";`+
         `="${campaign.id}";` +
-        `="${campaign.name}";` +
+        '="Campaign ""Name""";' +
         `="${targetProfile.name}";` +
         `="${user.firstName}";` +
         `="${user.lastName}";` +
-        '="Non disponible";' +
-        '="Non disponible";' +
-        '="Non disponible";' +
-        '="Non disponible";' +
-        '="Non disponible";' +
-        '="Non disponible";' +
-        '="Non disponible";' +
-        '="Non disponible";' +
-        '="100";' +
-        `="${assessment.createdAt}";` +
-        '="Non disponible";' +
-        '="Non disponible";' +
-        '="Non disponible";' +
-        '="Non disponible";' +
-        '="Non disponible";' +
-        '="75";' +
-        '="Non disponible";' +
-        '="Non disponible";' +
-        '="75";' +
+        '"NA";' +
+        '"NA";' +
+        '"NA";' +
+        '"NA";' +
+        '"NA";' +
+        '"NA";' +
+        '"NA";' +
+        '"NA";' +
+        '100;' +
+        '="2017-05-05";' +
+        '"NA";' +
+        '"NA";' +
+        '"NA";' +
+        '"NA";' +
+        '"NA";' +
+        '75;' +
+        '"NA";' +
+        '"NA";' +
+        '75;' +
         '="3/4";' +
-        '="75";' +
+        '75;' +
         '="3/4";' +
         '="OK";' +
         '="OK";' +
