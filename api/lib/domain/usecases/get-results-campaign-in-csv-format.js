@@ -4,16 +4,18 @@ const moment = require('moment');
 const { UserNotAuthorizedToGetCampaignResultsError, CampaignWithoutOrganizationError } = require('../errors');
 
 function _checkCreatorHasAccessToCampaignOrganization(userId, organizationId, userRepository) {
-  if(_.isNil(organizationId)) {
+  if (_.isNil(organizationId)) {
     return Promise.reject(new CampaignWithoutOrganizationError(`Campaign without organization : ${organizationId}`));
   }
 
   return userRepository.getWithOrganizationAccesses(userId)
     .then((user) => {
-      if(user.hasAccessToOrganization(organizationId)) {
+      if (user.hasAccessToOrganization(organizationId)) {
         return Promise.resolve();
       }
-      return Promise.reject(new UserNotAuthorizedToGetCampaignResultsError(`User does not have an access to the organization ${organizationId}`));
+      return Promise.reject(
+        new UserNotAuthorizedToGetCampaignResultsError(`User does not have an access to the organization ${organizationId}`),
+      );
     });
 }
 
@@ -25,7 +27,7 @@ function _createHeaderOfCSV(skillNames, competences, areas, idPixLabel) {
   headers.push('"Nom du Profil Cible"');
   headers.push('"Nom du Participant"');
   headers.push('"Prénom du Participant"');
-  if(idPixLabel) {
+  if (idPixLabel) {
     headers.push(`"${idPixLabel.replace(/"/g, '""')}"`);
   }
   headers.push('"Nom invité"');
@@ -56,8 +58,8 @@ function _createHeaderOfCSV(skillNames, competences, areas, idPixLabel) {
     headers.push(`"Nombre d'acquis du profil cible maitrisés / nombre d'acquis du domaine ${area.title}"`);
   });
 
-  skillNames.forEach((skill) => {
-    headers.push(`"Acquis ${skill}"`);
+  skillNames.forEach((skillName) => {
+    headers.push(`"Acquis ${skillName}"`);
   });
 
   return headers;
@@ -74,18 +76,18 @@ function _addCellByHeadersTitleForText(title, data, line, headers) {
 }
 
 /*function _totalPixScore(knowledgeElements) {
-  const sumTotalPixScore = _.reduce(knowledgeElements, function(sumPix, knowledgeElement) {
-    if(knowledgeElement.isValidated) {
-      return sumPix + knowledgeElement.pixScore;
-    }
-    return sumPix;
-  }, 0);
-  return sumTotalPixScore;
-}*/
+ const sumTotalPixScore = _.reduce(knowledgeElements, function(sumPix, knowledgeElement) {
+ if (knowledgeElement.isValidated) {
+ return sumPix + knowledgeElement.pixScore;
+ }
+ return sumPix;
+ }, 0);
+ return sumTotalPixScore;
+ }*/
 
 function _totalValidatedSkills(knowledgeElements) {
   const sumValidatedSkills = _.reduce(knowledgeElements, function(validatedSkill, knowledgeElement) {
-    if(knowledgeElement.isValidated) {
+    if (knowledgeElement.isValidated) {
       return validatedSkill + 1;
     }
     return validatedSkill;
@@ -97,10 +99,10 @@ function _percentageSkillsValidated(assessment, targetProfile) {
   return _.round(_totalValidatedSkills(assessment.knowledgeElements) * 100 / targetProfile.skills.length, 1);
 }
 
-function _stateOfSkill(skillName, knowledgeElements) {
-  // XXX : Currently, skillId is skillName
-  const knowledgeElementForSkill = _.findLast(knowledgeElements, (knowledgeElement) => knowledgeElement.skillId == skillName);
-  if(knowledgeElementForSkill) {
+function _stateOfSkill(skillId, knowledgeElements) {
+  const knowledgeElementForSkill = _.findLast(knowledgeElements,
+    (knowledgeElement) => knowledgeElement.skillId === skillId);
+  if (knowledgeElementForSkill) {
     return knowledgeElementForSkill.isValidated ? 'OK' : 'KO';
   } else {
     return 'Non testé';
@@ -111,12 +113,12 @@ function _getSkillsOfCompetenceByTargetProfile(competence, targetProfile) {
   const skillsOfProfile = targetProfile.skills;
   const skillsOfCompetences = competence.skills;
   return skillsOfProfile
-    .filter((skillOfProfile) => skillsOfCompetences.some((skill)=> skill === skillOfProfile.id));
+    .filter((skillOfProfile) => skillsOfCompetences.some((skill) => skill === skillOfProfile.id));
 }
 
 function _getSkillsValidatedForCompetence(skills, knowledgeElements) {
   const sumValidatedSkills = _.reduce(knowledgeElements, function(validatedSkill, knowledgeElement) {
-    if(knowledgeElement.isValidated && skills.find((skill) => skill.name === knowledgeElement.skillId)) {
+    if (knowledgeElement.isValidated && skills.find((skill) => skill.id === knowledgeElement.skillId)) {
       return validatedSkill + 1;
     }
     return validatedSkill;
@@ -125,7 +127,17 @@ function _getSkillsValidatedForCompetence(skills, knowledgeElements) {
 
 }
 
-function _createOneLineOfCSV(headers, organization, campaign, listCompetences, listArea, campaignParticipation, targetProfile, userRepository, smartPlacementAssessmentRepository) {
+function _createOneLineOfCSV(
+  headers,
+  organization,
+  campaign,
+  listCompetences,
+  listArea,
+  campaignParticipation,
+  targetProfile,
+  userRepository,
+  smartPlacementAssessmentRepository,
+) {
   let line = headers.map(() => '"NA"');
 
   return smartPlacementAssessmentRepository.get(campaignParticipation.assessmentId)
@@ -141,13 +153,27 @@ function _createOneLineOfCSV(headers, organization, campaign, listCompetences, l
       line = _addCellByHeadersTitleForText('"Nom du Participant"', user.firstName, line, headers);
       line = _addCellByHeadersTitleForText('"Prénom du Participant"', user.lastName, line, headers);
 
-      const percentageProgression = (assessment.isCompleted) ? 100 : _.round(assessment.knowledgeElements.length * 100 / (targetProfile.skills.length), 1);
+      const notCompletedPercentageProgression = _.round(
+        assessment.knowledgeElements.length * 100 / (targetProfile.skills.length),
+        1,
+      );
+      const percentageProgression = (assessment.isCompleted) ? 100 : notCompletedPercentageProgression;
       line = _addCellByHeadersTitleForNumber('"% de progression"', percentageProgression, line, headers);
-      line = _addCellByHeadersTitleForText('"Date de début"', moment(assessment.createdAt).format('YYYY-MM-DD'), line, headers);
+      line = _addCellByHeadersTitleForText(
+        '"Date de début"',
+        moment(assessment.createdAt).format('YYYY-MM-DD'),
+        line,
+        headers,
+      );
 
-      if(assessment.isCompleted) {
+      if (assessment.isCompleted) {
 
-        line = _addCellByHeadersTitleForNumber('"% maitrise de l\'ensemble des acquis du profil"', _percentageSkillsValidated(assessment, targetProfile), line, headers);
+        line = _addCellByHeadersTitleForNumber(
+          '"% maitrise de l\'ensemble des acquis du profil"',
+          _percentageSkillsValidated(assessment, targetProfile),
+          line,
+          headers,
+        );
 
         const areaSkills = listArea.map((area) => {
           return {
@@ -160,16 +186,30 @@ function _createOneLineOfCSV(headers, organization, campaign, listCompetences, l
         // By Competences
         _.forEach(listCompetences, (competence) => {
           const skillsForThisCompetence = _getSkillsOfCompetenceByTargetProfile(competence, targetProfile);
-          const numberOfSkillsValidatedForThisCompetence = _getSkillsValidatedForCompetence(skillsForThisCompetence, assessment.knowledgeElements);
-          const percentage = _.round(numberOfSkillsValidatedForThisCompetence * 100 / skillsForThisCompetence.length, 1);
+          const numberOfSkillsValidatedForThisCompetence = _getSkillsValidatedForCompetence(skillsForThisCompetence,
+            assessment.knowledgeElements);
+          const percentage = _.round(numberOfSkillsValidatedForThisCompetence * 100 / skillsForThisCompetence.length,
+            1);
           const diff = `${numberOfSkillsValidatedForThisCompetence}/${skillsForThisCompetence.length}`;
-          line = _addCellByHeadersTitleForNumber(`"% de maitrise des acquis de la compétence ${competence.name}"`, percentage, line, headers);
-          line = _addCellByHeadersTitleForText(`"Nombre d'acquis du profil cible maitrisés / nombre d'acquis de la compétence ${competence.name}"`, diff, line, headers);
+          line = _addCellByHeadersTitleForNumber(
+            `"% de maitrise des acquis de la compétence ${competence.name}"`,
+            percentage,
+            line,
+            headers,
+          );
+          line = _addCellByHeadersTitleForText(
+            `"Nombre d'acquis du profil cible maitrisés / nombre d'acquis de la compétence ${competence.name}"`,
+            diff,
+            line,
+            headers,
+          );
 
           // Add on Area
           const areaSkillsForThisCompetence = areaSkills.find((area) => area.title === competence.area.title);
-          areaSkillsForThisCompetence.numberSkillsValidated = areaSkillsForThisCompetence.numberSkillsValidated + numberOfSkillsValidatedForThisCompetence;
-          areaSkillsForThisCompetence.numberSkillsTested = areaSkillsForThisCompetence.numberSkillsTested + skillsForThisCompetence.length;
+          areaSkillsForThisCompetence.numberSkillsValidated =
+            areaSkillsForThisCompetence.numberSkillsValidated + numberOfSkillsValidatedForThisCompetence;
+          areaSkillsForThisCompetence.numberSkillsTested =
+            areaSkillsForThisCompetence.numberSkillsTested + skillsForThisCompetence.length;
         });
 
         // By Area
@@ -177,13 +217,24 @@ function _createOneLineOfCSV(headers, organization, campaign, listCompetences, l
           const percentage = _.round(area.numberSkillsValidated * 100 / area.numberSkillsTested, 1);
           const diff = `${area.numberSkillsValidated}/${area.numberSkillsTested}`;
 
-          line = _addCellByHeadersTitleForNumber(`"% de maitrise des acquis du domaine ${area.title}"`, percentage, line, headers);
-          line = _addCellByHeadersTitleForText(`"Nombre d'acquis du profil cible maitrisés / nombre d'acquis du domaine ${area.title}"`, diff, line, headers);
+          line = _addCellByHeadersTitleForNumber(`"% de maitrise des acquis du domaine ${area.title}"`,
+            percentage,
+            line,
+            headers);
+          line = _addCellByHeadersTitleForText(
+            `"Nombre d'acquis du profil cible maitrisés / nombre d'acquis du domaine ${area.title}"`,
+            diff,
+            line,
+            headers,
+          );
         });
 
         // By Skills
         _.forEach(targetProfile.skills, (skill) => {
-          line = _addCellByHeadersTitleForText(`"Acquis ${skill.name}"`, _stateOfSkill(skill.name, assessment.knowledgeElements), line, headers);
+          line = _addCellByHeadersTitleForText(`"Acquis ${skill.name}"`,
+            _stateOfSkill(skill.id, assessment.knowledgeElements),
+            line,
+            headers);
         });
       }
     })
@@ -202,7 +253,7 @@ module.exports = function getResultsCampaignInCSVFormat(
     competenceRepository,
     campaignParticipationRepository,
     organizationRepository,
-    smartPlacementAssessmentRepository
+    smartPlacementAssessmentRepository,
   }) {
 
   let campaign, headersAsArray, listCompetences, listArea, organization;
@@ -219,7 +270,7 @@ module.exports = function getResultsCampaignInCSVFormat(
         targetProfileRepository.get(campaign.targetProfileId),
         competenceRepository.list(),
         organizationRepository.get(campaign.organizationId),
-        campaignParticipationRepository.findByCampaignId(campaign.id)
+        campaignParticipationRepository.findByCampaignId(campaign.id),
       ]);
 
     }).then(([targetProfile, listAllCompetences, organizationFound, listCampaignParticipation]) => {
@@ -229,7 +280,7 @@ module.exports = function getResultsCampaignInCSVFormat(
       const listSkillsId = targetProfile.skills.map((skill) => skill.id);
 
       listCompetences = listAllCompetences.filter((competence) => {
-        return listSkillsId.some((skillId)=> competence.skills.includes(skillId));
+        return listSkillsId.some((skillId) => competence.skills.includes(skillId));
       });
 
       listArea = _.uniqBy(listCompetences.map((competence) => competence.area), 'code');
