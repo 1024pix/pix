@@ -21,6 +21,14 @@ export default BaseRoute.extend(UnauthenticatedRouteMixin, {
           }
         });
     } else {
+      this._redirectToHome();
+    }
+  },
+
+  _redirectToHome: function() {
+    if(ENV.environment === 'test') {
+      this.transitionTo('index');
+    } else {
       window.location.replace(ENV.APP.HOME_HOST);
     }
   },

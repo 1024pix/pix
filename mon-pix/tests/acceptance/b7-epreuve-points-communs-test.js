@@ -57,14 +57,6 @@ describe('Acceptance | b7 - Points communs a toutes les épreuves | ', function(
     expect($courseListButton.text()).to.equal('Revenir à l\'accueil');
   });
 
-  it('b7.6 Quand je clique sur le bouton "Revenir à la liste des tests", je suis redirigé vers l\'index', function() {
-    // when
-    click('.course-banner__home-link');
-
-    // then
-    andThen(() => expect(currentURL()).to.equal('/'));
-  });
-
   it('b7.7 Il est possible de signaler l\'épreuve via le formulaire de Feedback', () => {
     expect($('.feedback-panel')).to.have.lengthOf(1);
   });
