@@ -21,7 +21,7 @@ describe('Acceptance | Page | Inscription', function() {
 
     andThen(() => {
       const $termsOfServiceLink = findWithAssert('.signup__cgu-link');
-      return expect($termsOfServiceLink.attr('href').trim()).to.equal('https://site.pix.fr/cgu');
+      return expect($termsOfServiceLink.attr('href').trim()).to.equal('https://site.pix.fr/conditions-generales-d-utilisation');
     });
   });
 
