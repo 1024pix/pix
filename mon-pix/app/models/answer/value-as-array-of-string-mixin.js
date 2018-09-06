@@ -1,5 +1,6 @@
 import { computed } from '@ember/object';
 import Mixin from '@ember/object/mixin';
+import jsyaml from 'js-yaml';
 
 export default Mixin.create({
 
