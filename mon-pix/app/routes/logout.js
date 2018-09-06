@@ -12,7 +12,10 @@ export default BaseRoute.extend({
     if (session.get('isAuthenticated')) {
       session.invalidate();
     }
-    window.location.replace(ENV.APP.HOME_HOST);
-  }
+    this._redirectToHome();
+  },
 
+  _redirectToHome() {
+    window.location.replace(ENV.APP.HOME_HOST);
+  },
 });

@@ -15,6 +15,7 @@ describe('Unit | Route | logout', () => {
     this.inject.service('session', { as: 'session' });
 
     const route = this.subject();
+    route._redirectToHome = function() {};
     route.transitionTo = function() {
     };
 
