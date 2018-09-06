@@ -5,7 +5,6 @@ const buildSkill = function buildSkill({
   id = `rec${faker.random.uuid()}`,
   name = `${buildRandomTubeName()}${faker.random.number(8)}`,
 } = {}) {
-  faker.helpers.replaceSymbols();
   return new Skill({ id, name });
 };
 

@@ -26,12 +26,12 @@ function _findCorrectAnswersByAssessments(assessments) {
 }
 
 function _getCompetenceByChallengeCompetenceId(competences, challenge) {
-  return challenge ? competences.find((competence) => competence.id === challenge.competence) : null;
+  return challenge ? competences.find((competence) => competence.id === challenge.competenceId) : null;
 }
 
 function _loadRequiredChallengesInformationsAndAnswers(answers) {
   return Promise.all([
-    challengeRepository.list(), competenceRepository.list(), answers
+    challengeRepository.list(), competenceRepository.list(), answers,
   ]);
 }
 
@@ -57,7 +57,7 @@ function _skillHasAtLeastOneChallengeInTheReferentiel(skill, challenges) {
 
 function _addCourseIdAndPixToCompetence(competences, courses, assessments) {
   competences.forEach((competence) => {
-    const currentCourse =  courses.find((course) => course.competences[0] === competence.id);
+    const currentCourse = courses.find((course) => course.competences[0] === competence.id);
     const assessment = assessments.find((assessment) => currentCourse.id === assessment.courseId);
     if (assessment) {
       competence.pixScore = assessment.getPixScore();

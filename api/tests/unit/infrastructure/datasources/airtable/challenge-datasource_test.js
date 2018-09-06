@@ -1,9 +1,8 @@
-const { expect, sinon } = require('../../../../test-helper');
+const { expect, sinon, factory } = require('../../../../test-helper');
 const airtable = require('../../../../../lib/infrastructure/airtable');
 const AirtableError = require('airtable').Error;
 const challengeDatasource = require('../../../../../lib/infrastructure/datasources/airtable/challenge-datasource');
 const challengeRawAirTableFixture = require('../../../../tooling/fixtures/infrastructure/challengeRawAirTableFixture');
-
 const airTableDataModels = require('../../../../../lib/infrastructure/datasources/airtable/objects');
 
 describe('Unit | Infrastructure | Datasource | Airtable | ChallengeDatasource', () => {
@@ -17,6 +16,31 @@ describe('Unit | Infrastructure | Datasource | Airtable | ChallengeDatasource', 
 
   afterEach(() => {
     sandbox.restore();
+  });
+
+  describe('#list', () => {
+
+    let promise;
+
+    beforeEach(() => {
+      // when
+      promise = challengeDatasource.list();
+    });
+
+    it('should query Airtable challenges with empty query', () => {
+      // then
+      return promise.then(() => {
+        expect(airtable.findRecords).to.have.been.calledWith('Epreuves', {});
+      });
+    });
+
+    it('should resolve an array of Challenge from airTable', () => {
+      // then
+      return promise.then((result) => {
+        expect(result).to.be.an('array').and.to.have.lengthOf(2);
+        expect(result[0]).to.be.an.instanceOf(airTableDataModels.Challenge);
+      });
+    });
   });
 
   describe('#get', () => {
@@ -61,53 +85,77 @@ describe('Unit | Infrastructure | Datasource | Airtable | ChallengeDatasource', 
         // then
         return expect(promise).to.have.been.rejectedWith(new AirtableError('SERVICE_UNAVAILABLE'));
       });
-
     });
-
   });
 
-  describe('#findBySkills', () => {
+  describe('#findBySkillNames', () => {
 
-    it('should query Airtable challenges with skills', () => {
+    it('should query Airtable challenges with skill names', () => {
       // given
-      const skills = ['@web1', '@web2'];
+      const skillNames = ['@web1', '@web2'];
 
       // when
-      const promise = challengeDatasource.findBySkills(skills);
+      const promise = challengeDatasource.findBySkillNames(skillNames);
 
       // then
       return promise.then(() => {
         expect(airtable.findRecords).to.have.been.calledWith('Epreuves', {
           filterByFormula: 'AND(' +
-          'OR(' +
-            'FIND("@web1", ARRAYJOIN({acquis}, ";")), ' +
-            'FIND("@web2", ARRAYJOIN({acquis}, ";"))' +
-          '), ' +
-          'OR(' +
-            '{Statut}="validé",' +
-            '{Statut}="validé sans test",' +
-            '{Statut}="pré-validé"' +
-          ')' +
-        ')'
+                           'OR(' +
+                           'FIND("@web1", ARRAYJOIN({acquis}, ";")), ' +
+                           'FIND("@web2", ARRAYJOIN({acquis}, ";"))' +
+                           '), ' +
+                           'OR(' +
+                           '{Statut}="validé",' +
+                           '{Statut}="validé sans test",' +
+                           '{Statut}="pré-validé"' +
+                           ')' +
+                           ')',
         });
       });
-
     });
 
     it('should resolve an array of Challenge from airTable', () => {
       // given
-      const skills = ['@web1', '@web2'];
+      const skillNames = ['@web1', '@web2'];
 
       // when
-      const promise = challengeDatasource.findBySkills(skills);
+      const promise = challengeDatasource.findBySkillNames(skillNames);
 
       // then
       return promise.then((result) => {
         expect(result).to.be.an('array').and.to.have.lengthOf(2);
         expect(result[0]).to.be.an.instanceOf(airTableDataModels.Challenge);
       });
+    });
+  });
 
+  describe('#findByCompetence', () => {
+
+    let competence;
+    let promise;
+
+    beforeEach(() => {
+      // given
+      competence = factory.buildCompetence();
+
+      // when
+      promise = challengeDatasource.findByCompetence(competence);
     });
 
+    it('should query Airtable challenges with the Competence Reference', () => {
+      // then
+      return promise.then(() => {
+        expect(airtable.findRecords).to.have.been.calledWith('Epreuves', { view: competence.reference });
+      });
+    });
+
+    it('should resolve an array of Challenge from airTable', () => {
+      // then
+      return promise.then((result) => {
+        expect(result).to.be.an('array').and.to.have.lengthOf(2);
+        expect(result[0]).to.be.an.instanceOf(airTableDataModels.Challenge);
+      });
+    });
   });
 });

@@ -53,7 +53,7 @@ class SmartPlacementAssessment {
     return this.knowledgeElements
       .filter((knowledgeElement) => knowledgeElement.isValidated)
       .map((knowledgeElement) => knowledgeElement.skillId)
-      .map((skillId) => this.targetProfile.skills.find((skill) => skill.name === skillId));
+      .map((skillId) => this.targetProfile.skills.find((skill) => skill.id === skillId));
   }
 
   getFailedSkills() {
@@ -61,10 +61,11 @@ class SmartPlacementAssessment {
     return this.knowledgeElements
       .filter((knowledgeElement) => knowledgeElement.isInvalidated)
       .map((knowledgeElement) => knowledgeElement.skillId)
-      .map((skillId) => this.targetProfile.skills.find((skill) => skill.name === skillId));
+      .map((skillId) => this.targetProfile.skills.find((skill) => skill.id === skillId));
   }
 
   getUnratableSkills() {
+
     if(this.state !== SmartPlacementAssessment.State.COMPLETED) {
       return [];
     }
@@ -72,7 +73,7 @@ class SmartPlacementAssessment {
     return this.targetProfile.skills.filter((skillInProfile) => {
 
       const foundKnowledgeElementForTheSkill = this.knowledgeElements.find((knowledgeElement) => {
-        return knowledgeElement.skillId === skillInProfile.name;
+        return knowledgeElement.skillId === skillInProfile.id;
       });
 
       return (!foundKnowledgeElementForTheSkill);

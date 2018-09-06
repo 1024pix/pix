@@ -1,11 +1,12 @@
+const targetProfileAdapter = require('../adapters/target-profile-adapter');
+const skillDatasource = require('../datasources/airtable/skill-datasource');
+const BookshelfAssessment = require('../data/assessment');
+
+const { NotFoundError } = require('../../domain/errors');
 const Assessment = require('../../domain/models/Assessment');
-const BookshelfAssessment = require('../../infrastructure/data/assessment');
 const SmartPlacementAnswer = require('../../domain/models/SmartPlacementAnswer');
 const SmartPlacementAssessment = require('../../domain/models/SmartPlacementAssessment');
 const SmartPlacementKnowledgeElement = require('../../domain/models/SmartPlacementKnowledgeElement');
-// To delete once target-profile table is created
-const targetProfileRepository = require('./target-profile-repository');
-const { NotFoundError } = require('../../domain/errors');
 
 module.exports = {
 
@@ -19,15 +20,18 @@ module.exports = {
           'knowledgeElements',
           'campaignParticipation',
           'campaignParticipation.campaign',
+          'campaignParticipation.campaign.targetProfile',
+          'campaignParticipation.campaign.targetProfile.skillIds',
         ],
       })
-      .then(checkIsSmartPlacement)
-      .then(toDomain)
-      .catch(mapNotFoundErrorToDomainError(assessmentId));
+      .then(_checkIsSmartPlacement)
+      .then(_fetchAllDependencies)
+      .then(_toDomain)
+      .catch(_mapNotFoundErrorToDomainError(assessmentId));
   },
 };
 
-function checkIsSmartPlacement(bookshelfAssessment) {
+function _checkIsSmartPlacement(bookshelfAssessment) {
   if (bookshelfAssessment.get('type') !== Assessment.types.SMARTPLACEMENT) {
     throw new NotFoundError(`Not found Smart Placement Assessment for ID ${bookshelfAssessment.get('id')}`);
   } else {
@@ -35,54 +39,68 @@ function checkIsSmartPlacement(bookshelfAssessment) {
   }
 }
 
-function toDomain(bookshelfAssessment) {
+function _fetchAllDependencies(bookshelfAssessment) {
 
-  // A repository should not call another repository.
-  // use Bookshelf as datasource
-  // Target-profiles table has been added
-  // waiting for link beetween assessment and target-profile
-  // in order to find associated target-profile before toDomain() and do only mapping in toDomain()
-  const targetProfileId = bookshelfAssessment.related('campaignParticipation').related('campaign').get('targetProfileId');
-  return targetProfileRepository.get(targetProfileId)
-    .then((targetProfile) => {
+  const bookshelfTargetProfile = bookshelfAssessment
+    .related('campaignParticipation')
+    .related('campaign')
+    .related('targetProfile');
 
-      const answers = bookshelfAssessment
-        .related('answers')
-        .map((bookshelfAnswer) => {
-          return new SmartPlacementAnswer({
-            id: bookshelfAnswer.get('id'),
-            result: bookshelfAnswer.get('result'),
-            challengeId: bookshelfAnswer.get('challengeId'),
-          });
-        });
+  const skillRecordIds = bookshelfTargetProfile
+    .related('skillIds')
+    .map((BookshelfSkillId) => BookshelfSkillId.get('skillId'));
 
-      const knowledgeElements = bookshelfAssessment
-        .related('knowledgeElements')
-        .map((bookshelfKnowledgeElement) => {
-          return new SmartPlacementKnowledgeElement({
-            id: bookshelfKnowledgeElement.get('id'),
-            source: bookshelfKnowledgeElement.get('source'),
-            status: bookshelfKnowledgeElement.get('status'),
-            pixScore: bookshelfKnowledgeElement.get('pixScore'),
-            answerId: bookshelfKnowledgeElement.get('answerId'),
-            assessmentId: bookshelfKnowledgeElement.get('assessmentId'),
-            skillId: bookshelfKnowledgeElement.get('skillId'),
-          });
-        });
-
-      return new SmartPlacementAssessment({
-        id: bookshelfAssessment.get('id'),
-        createdAt: bookshelfAssessment.get('createdAt'),
-        state: bookshelfAssessment.get('state'),
-        userId: bookshelfAssessment.get('userId'),
-        answers,
-        knowledgeElements,
-        targetProfile,
-      });
+  return Promise
+    .all([
+      bookshelfAssessment, bookshelfTargetProfile, skillDatasource.findByRecordIds(skillRecordIds),
+    ])
+    .then(([bookshelfAssessment, bookshelfTargetProfile, associatedSkillAirtableDataObjects]) => {
+      return { bookshelfAssessment, bookshelfTargetProfile, associatedSkillAirtableDataObjects };
     });
 }
 
-function mapNotFoundErrorToDomainError(assessmentId) {
+function _toDomain({ bookshelfAssessment, bookshelfTargetProfile, associatedSkillAirtableDataObjects }) {
+
+  const targetProfile = targetProfileAdapter.fromDatasourceObjects({
+    bookshelfTargetProfile,
+    associatedSkillAirtableDataObjects,
+  });
+
+  const answers = bookshelfAssessment
+    .related('answers')
+    .map((bookshelfAnswer) => {
+      return new SmartPlacementAnswer({
+        id: bookshelfAnswer.get('id'),
+        result: bookshelfAnswer.get('result'),
+        challengeId: bookshelfAnswer.get('challengeId'),
+      });
+    });
+
+  const knowledgeElements = bookshelfAssessment
+    .related('knowledgeElements')
+    .map((bookshelfKnowledgeElement) => {
+      return new SmartPlacementKnowledgeElement({
+        id: bookshelfKnowledgeElement.get('id'),
+        source: bookshelfKnowledgeElement.get('source'),
+        status: bookshelfKnowledgeElement.get('status'),
+        pixScore: bookshelfKnowledgeElement.get('pixScore'),
+        answerId: bookshelfKnowledgeElement.get('answerId'),
+        assessmentId: bookshelfKnowledgeElement.get('assessmentId'),
+        skillId: bookshelfKnowledgeElement.get('skillId'),
+      });
+    });
+
+  return new SmartPlacementAssessment({
+    id: bookshelfAssessment.get('id'),
+    state: bookshelfAssessment.get('state'),
+    userId: bookshelfAssessment.get('userId'),
+    answers,
+    knowledgeElements,
+    targetProfile,
+  });
+}
+
+function _mapNotFoundErrorToDomainError(assessmentId) {
   return (err) => {
     if (err instanceof BookshelfAssessment.NotFoundError) {
       throw new NotFoundError(`Not found Smart Placement Assessment for ID ${assessmentId}`);

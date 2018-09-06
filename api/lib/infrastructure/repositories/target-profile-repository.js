@@ -1,7 +1,6 @@
-const TargetProfile = require('../../domain/models/TargetProfile');
 const BookshelfTargetProfile = require('../../infrastructure/data/target-profile');
 const skillDatasource = require('../../infrastructure/datasources/airtable/skill-datasource');
-const Skill = require('../../domain/models/Skill');
+const targetProfileAdapter = require('../adapters/target-profile-adapter');
 
 module.exports = {
 
@@ -10,11 +9,13 @@ module.exports = {
     return BookshelfTargetProfile
       .where({ id })
       .fetch({ withRelated: ['skillIds'] })
-      .then((bookshelfTargetProfile) => {
-        return _fetchTargetProfileSkillDataObjects(bookshelfTargetProfile)
-          .then((skillDataObjects) => {
-            return _convertDataObjectsIntoDomain(bookshelfTargetProfile, skillDataObjects);
-          });
+      .then(_getBookshelfTargetProfileAndAssociatedSkillAirtableDataObjects)
+      .then(([bookshelfTargetProfile, associatedSkillAirtableDataObjects]) => {
+
+        return targetProfileAdapter.fromDatasourceObjects({
+          bookshelfTargetProfile,
+          associatedSkillAirtableDataObjects,
+        });
       });
   },
 
@@ -26,9 +27,13 @@ module.exports = {
       .then((bookshelfTargetProfiles) => {
         const promises = bookshelfTargetProfiles.map((bookshelfTargetProfile) => {
 
-          return _fetchTargetProfileSkillDataObjects(bookshelfTargetProfile)
-            .then((skillDataObjects) => {
-              return _convertDataObjectsIntoDomain(bookshelfTargetProfile, skillDataObjects);
+          return _getBookshelfTargetProfileAndAssociatedSkillAirtableDataObjects(bookshelfTargetProfile)
+            .then(([bookshelfTargetProfile, associatedSkillAirtableDataObjects]) => {
+
+              return targetProfileAdapter.fromDatasourceObjects({
+                bookshelfTargetProfile,
+                associatedSkillAirtableDataObjects,
+              });
             });
         });
 
@@ -44,46 +49,29 @@ module.exports = {
       .then((bookshelfTargetProfiles) => {
         const promises = bookshelfTargetProfiles.map((bookshelfTargetProfile) => {
 
-          return _fetchTargetProfileSkillDataObjects(bookshelfTargetProfile)
-            .then((skillDataObjects) => {
-              return _convertDataObjectsIntoDomain(bookshelfTargetProfile, skillDataObjects);
+          return _getBookshelfTargetProfileAndAssociatedSkillAirtableDataObjects(bookshelfTargetProfile)
+            .then(([bookshelfTargetProfile, associatedSkillAirtableDataObjects]) => {
+
+              return targetProfileAdapter.fromDatasourceObjects({
+                bookshelfTargetProfile,
+                associatedSkillAirtableDataObjects,
+              });
             });
         });
 
         return Promise.all(promises);
       });
   },
-
 };
 
-function _fetchTargetProfileSkillDataObjects(bookshelfTargetProfile) {
+function _getBookshelfTargetProfileAndAssociatedSkillAirtableDataObjects(bookshelfTargetProfile) {
+
   const skillRecordIds = bookshelfTargetProfile
     .related('skillIds')
     .map((BookshelfSkillId) => BookshelfSkillId.get('skillId'));
-  return skillDatasource.findByRecordIds(skillRecordIds);
-}
 
-function _convertDataObjectsIntoDomain(bookshelfTargetProfile, skillAssociatedToTargetProfileWIthName) {
-  const targetProfile = _toDomain(bookshelfTargetProfile);
-  targetProfile.skills = _toDomainSkills(skillAssociatedToTargetProfileWIthName);
-  return targetProfile;
-}
-
-function _toDomain(targetProfileBookshelf) {
-  return new TargetProfile({
-    id: targetProfileBookshelf.get('id'),
-    name: targetProfileBookshelf.get('name'),
-    isPublic: Boolean(targetProfileBookshelf.get('isPublic')),
-    organizationId: targetProfileBookshelf.get('organizationId'),
-    skills: []
-  });
-}
-
-function _toDomainSkills(skillsDataObjects) {
-  return skillsDataObjects.map((skillDataObject) => {
-    return new Skill({
-      id: skillDataObject.id,
-      name: skillDataObject.name
-    });
-  });
+  return Promise.all([
+    bookshelfTargetProfile,
+    skillDatasource.findByRecordIds(skillRecordIds),
+  ]);
 }
