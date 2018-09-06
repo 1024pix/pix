@@ -8,10 +8,12 @@ import {
 import { expect } from 'chai';
 import startApp from '../helpers/start-app';
 import destroyApp from '../helpers/destroy-app';
+import { authenticateAsSimpleUser } from '../helpers/testing';
+import defaultScenario from '../../mirage/scenarios/default';
 
 const URL_OF_FIRST_TEST = '/assessments/ref_assessment_id/challenges/ref_qcm_challenge_id';
 const MODAL_SELECTOR = '.modal.fade.js-modal-mobile.in';
-const START_BUTTON = '.course-item__begin-button';
+const START_BUTTON = '.competence-level-progress-bar__link-start';
 
 describe('Acceptance | a4 - Démarrer un test |', function() {
 
@@ -19,21 +21,23 @@ describe('Acceptance | a4 - Démarrer un test |', function() {
 
   beforeEach(function() {
     application = startApp();
-    visit('/');
+    defaultScenario(server);
+    authenticateAsSimpleUser();
+    visit('/compte');
   });
 
   afterEach(function() {
     destroyApp(application);
   });
 
-  it('a4.2 Je peux démarrer un test directement depuis la nouvelle url "courses/:course_id"', function() {
+  it('a4.1 Je peux démarrer un test directement depuis la nouvelle url "courses/:course_id"', function() {
     visit('/courses/ref_course_id');
     andThen(() => {
       expect(currentURL()).to.be.equal('/assessments/ref_assessment_id/challenges/ref_qcm_challenge_id');
     });
   });
 
-  it('a4.4 Quand je démarre un test, je suis redirigé vers la première épreuve du test', function() {
+  it('a4.2 Quand je démarre un test, je suis redirigé vers la première épreuve du test', function() {
     const $startLink = findWithAssert(START_BUTTON);
     return click($startLink).then(function() {
       findWithAssert('.assessment-challenge');
@@ -41,13 +45,13 @@ describe('Acceptance | a4 - Démarrer un test |', function() {
     });
   });
 
-  it('a4.5 Quand je démarre un test sur mobile, une modale m\'averti que l\'expérience ne sera pas optimale, mais je peux quand même continuer', function(done) {
+  it('a4.3 Quand je démarre un test sur mobile, une modale m\'averti que l\'expérience ne sera pas optimale, mais je peux quand même continuer', function(done) {
     const $startLink = findWithAssert(START_BUTTON);
 
     expect(find(MODAL_SELECTOR)).to.have.lengthOf(0);
 
     // test on mobile
-    triggerEvent('.course-list', 'simulateMobileScreen');
+    triggerEvent('.competence-list', 'simulateMobileScreen');
 
     // clear local storage
     andThen(() => {
@@ -75,13 +79,13 @@ describe('Acceptance | a4 - Démarrer un test |', function() {
     });
   });
 
-  it('a4.6 Quand je RE-démarre un test sur mobile, la modale NE s\'affiche PAS', function(done) {
+  it('a4.4 Quand je RE-démarre un test sur mobile, la modale NE s\'affiche PAS', function(done) {
     const $startLink = findWithAssert(START_BUTTON);
-    triggerEvent('.index-page', 'simulateMobileScreen');
+    triggerEvent('.competence-list', 'simulateMobileScreen');
 
     andThen(() => {
       later(function() {
-        expect(currentURL()).to.equals('/');
+        expect(currentURL()).to.equals('/compte');
         expect(find(MODAL_SELECTOR)).to.have.lengthOf(0);
       }, 500);
     });

@@ -19,19 +19,19 @@ describe('Unit | Route | index', function() {
   describe('when the user is not logged id', () => {
 
     it('should redirect the user to external home', function() {
-      // Given
       this.register('service:session', Service.extend({ isAuthenticated: false }));
       this.inject.service('session', { as: 'session' });
 
       const route = this.subject();
       route.transitionTo = sinon.stub();
+      route._redirectToHome = sinon.stub();
 
       // When
       route.beforeModel();
 
       // Then
       sinon.assert.notCalled(route.transitionTo);
-      sinon.assert.called(window.location.replace);
+      sinon.assert.called(route._redirectToHome);
     });
   });
 
