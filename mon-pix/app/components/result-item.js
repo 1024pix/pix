@@ -42,6 +42,8 @@ export default Component.extend({
 
   tabindex: 0,
 
+  openComparison: null,
+
   resultItem: computed('answer.result', function() {
     if (!this.get('answer.result')) return;
     return contentReference[this.get('answer.result')] || contentReference['default'];
@@ -78,7 +80,7 @@ export default Component.extend({
       const answerId = this.get('answer.id');
       const index = this.get('index') + 1;
 
-      this.sendAction('openComparison', assessmentId, answerId, index);
+      return this.openComparison(assessmentId, answerId, index);
     }
   }
 });
