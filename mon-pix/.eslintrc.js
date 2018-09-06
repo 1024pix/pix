@@ -22,9 +22,6 @@ module.exports = {
     'ember/routes-segments-snake-case': 0,
     'ember/avoid-leaking-state-in-ember-objects': 0
   },
-  globals: {
-    jsyaml: true
-  },
   overrides: [
     // node files
     {
