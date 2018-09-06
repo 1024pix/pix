@@ -1,4 +1,5 @@
 import _ from 'lodash';
+import jsyaml from 'js-yaml';
 
 function transformSolutionsToString(solutionsAsObject) {
   _.each(solutionsAsObject, (potentialSolution) => {

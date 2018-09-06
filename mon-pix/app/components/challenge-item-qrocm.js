@@ -2,6 +2,7 @@ import _ from 'mon-pix/utils/lodash-custom';
 import $ from 'jquery';
 
 import ChallengeItemGeneric from './challenge-item-generic';
+import jsyaml from 'js-yaml';
 
 const ChallengeItemQrocm = ChallengeItemGeneric.extend({
 
