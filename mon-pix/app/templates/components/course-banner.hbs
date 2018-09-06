@@ -3,7 +3,12 @@
   <h1 class="course-banner__name">{{courseName}}</h1>
 
   {{#if withHomeLink}}
-    {{#link-to "index" class="course-banner__home-link"}}Revenir à l'accueil{{/link-to}}
+    {{#if course.isDemo}}
+      <a href="https://pix.fr" class="course-banner__home-link">Revenir à l'accueil</a>
+    {{else}}
+      {{#link-to "index" class="course-banner__home-link"}}Revenir à l'accueil{{/link-to}}
+    {{/if}}
+
   {{/if}}
 
 </div>
