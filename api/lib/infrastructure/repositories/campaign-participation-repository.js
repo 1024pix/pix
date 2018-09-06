@@ -1,6 +1,7 @@
 const BookshelfCampaignParticipation = require('../data/campaign-participation');
 const CampaignParticipation = require('../../domain/models/CampaignParticipation');
 const Campaign = require('../../domain/models/Campaign');
+const { NotFoundError } = require('../../domain/errors');
 const fp = require('lodash/fp');
 
 function _toDomain(bookshelfCampaignParticipation) {
@@ -36,13 +37,23 @@ module.exports = {
       .query((qb) => {
         qb.where({ assessmentId });
       })
-      .fetch()
-      .then(_toDomain);
+      .fetch({ require: true })
+      .then(_toDomain)
+      .catch(_checkNotFoundError);
+
   },
 
   updateCampaignParticipation(campaignParticipation) {
     return new BookshelfCampaignParticipation(campaignParticipation)
-      .save({ isShared: true }, { patch: true, require: true })
-      .then(_toDomain);
+      .save({ isShared: true, sharedAt: new Date() }, { patch: true, require: true })
+      .then(_toDomain)
+      .catch(_checkNotFoundError);
   }
 };
+
+function _checkNotFoundError(err) {
+  if (err instanceof BookshelfCampaignParticipation.NotFoundError) {
+    throw new NotFoundError();
+  }
+  throw err;
+}
