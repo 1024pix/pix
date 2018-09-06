@@ -1,5 +1,6 @@
 const faker = require('faker');
 const server = require('../../../server');
+const Assessment = require('../../../lib/domain/models/Assessment');
 const { knex, expect, databaseBuilder, generateValidRequestAuhorizationHeader } = require('../../test-helper');
 
 describe('Acceptance | API | Campaigns', () => {
@@ -122,27 +123,35 @@ describe('Acceptance | API | Campaigns', () => {
 
   describe('PATCH /api/campaigns/campaign-participation/{assessementId}', () => {
     let options;
+    let user;
+    let assessment;
     let campaignParticipation;
 
     beforeEach(() => {
-      campaignParticipation = databaseBuilder.factory.buildCampaignParticipation();
+      user = databaseBuilder.factory.buildUser();
+      assessment = databaseBuilder.factory.buildAssessment({ userId: user.id, type: Assessment.types.SMARTPLACEMENT });
+      campaignParticipation = databaseBuilder.factory.buildCampaignParticipation({
+        isShared: false,
+        sharedAt: null,
+        assessmentId: assessment.id,
+      });
 
       options = {
         method: 'PATCH',
         url: `/api/campaigns/campaign-participation/${campaignParticipation.assessmentId}`,
-        headers: { authorization: generateValidRequestAuhorizationHeader() },
+        headers: { authorization: generateValidRequestAuhorizationHeader(user.id) },
         payload: {
           data: {
             isShared: true
           }
         },
       };
-
       return databaseBuilder.commit();
+
     });
 
-    afterEach(() => {
-      databaseBuilder.clean();
+    afterEach(async () => {
+      await databaseBuilder.clean();
     });
 
     it('should allow user to share his campaign participation', () => {
@@ -154,7 +163,6 @@ describe('Acceptance | API | Campaigns', () => {
         expect(response.statusCode).to.equal(200);
         expect(response.result.assessmentId).to.equal(campaignParticipation.assessmentId);
         expect(response.result.isShared).to.equal(true);
-        expect(response.result.sharedAt).to.deep.equal(campaignParticipation.sharedAt);
       });
     });
   });

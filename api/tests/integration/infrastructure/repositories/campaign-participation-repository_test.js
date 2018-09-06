@@ -1,7 +1,8 @@
-const { expect, knex, databaseBuilder } = require('../../../test-helper');
+const { sinon, expect, knex, databaseBuilder } = require('../../../test-helper');
 const campaignParticipationRepository = require('../../../../lib/infrastructure/repositories/campaign-participation-repository');
 const CampaignParticipation = require('../../../../lib/domain/models/CampaignParticipation');
 const Campaign = require('../../../../lib/domain/models/Campaign');
+const { NotFoundError } = require('../../../../lib/domain/errors');
 
 describe('Integration | Repository | Campaign Participation', () => {
 
@@ -112,8 +113,8 @@ describe('Integration | Repository | Campaign Participation', () => {
       return databaseBuilder.commit();
     });
 
-    afterEach(() => {
-      databaseBuilder.clean();
+    afterEach(async () => {
+      await databaseBuilder.clean();
     });
 
     it('should return the shared campaign-participation of the given assessmentId', () => {
@@ -131,27 +132,42 @@ describe('Integration | Repository | Campaign Participation', () => {
         expect(foundCampaignParticipation.isShared).to.equal(campaignParticipation.isShared);
       });
     });
+
+    it('should reject with a not found error if the participation is not found', () => {
+      // given
+      const notFoundAssessmentId = 1789;
+
+      // when
+      const promise = campaignParticipationRepository.findByAssessmentId(notFoundAssessmentId);
+
+      // then
+      return expect(promise).to.be.rejectedWith(NotFoundError);
+    });
   });
 
   describe('#updateCampaignParticipation', () => {
+
     let campaignParticipation;
+    let clock;
+    const frozenTime = new Date('1987-09-01:00:00.000+01:00');
 
     beforeEach(() => {
       campaignParticipation = databaseBuilder.factory.buildCampaignParticipation({
-        isShared: false
+        isShared: false,
+        sharedAt: null,
       });
+
+      clock = sinon.useFakeTimers(frozenTime);
 
       return databaseBuilder.commit();
     });
 
-    afterEach(() => {
-      databaseBuilder.clean();
+    afterEach(async () => {
+      clock.restore();
+      await databaseBuilder.clean();
     });
 
     it('should return the shared campaign-participation of the given assessmentId', () => {
-      // given
-      //const assessmentId = campaignParticipation.assessmentId;
-
       // when
       const promise = campaignParticipationRepository.updateCampaignParticipation(campaignParticipation);
 
@@ -159,7 +175,7 @@ describe('Integration | Repository | Campaign Participation', () => {
       return promise.then((updatedCampaignParticipation) => {
         expect(updatedCampaignParticipation.isShared).to.be.true;
         expect(updatedCampaignParticipation.assessmentId).to.equal(campaignParticipation.assessmentId);
-        expect(updatedCampaignParticipation.sharedAt).to.deep.equal(campaignParticipation.sharedAt);
+        expect(updatedCampaignParticipation.sharedAt).to.deep.equal(frozenTime);
       });
     });
   });

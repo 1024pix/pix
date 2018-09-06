@@ -29,6 +29,16 @@ module.exports = {
       .then(_toDomain)
       .catch(_mapNotFoundErrorToDomainError(assessmentId));
   },
+
+  checkIfAssessmentBelongToUser(assessmentId, userId) {
+    return BookshelfAssessment
+      .where({ id: assessmentId, userId: userId })
+      .fetch({
+        require: true,
+      })
+      .then(() => Promise.resolve(true))
+      .catch(() => Promise.resolve(false));
+  },
 };
 
 function _checkIsSmartPlacement(bookshelfAssessment) {
