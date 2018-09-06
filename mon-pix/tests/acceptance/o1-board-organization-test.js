@@ -33,14 +33,9 @@ describe('Acceptance | o1 - board organization', function() {
     andThen(() => {
       expect(currentURL()).to.equal('/board');
     });
-
-    await visit('/deconnexion');
   });
 
   it('should not be accessible while the user is not connected', async function() {
-    // given
-    await visit('/deconnexion');
-
     // when
     await visit('/board');
 

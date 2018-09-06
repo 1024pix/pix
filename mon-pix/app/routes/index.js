@@ -1,7 +1,6 @@
 import { inject as service } from '@ember/service';
 import BaseRoute from 'mon-pix/routes/base-route';
 import UnauthenticatedRouteMixin from 'ember-simple-auth/mixins/unauthenticated-route-mixin';
-import ENV from 'mon-pix/config/environment';
 
 export default BaseRoute.extend(UnauthenticatedRouteMixin, {
 
@@ -21,15 +20,7 @@ export default BaseRoute.extend(UnauthenticatedRouteMixin, {
           }
         });
     } else {
-      this._redirectToHome();
-    }
-  },
-
-  _redirectToHome: function() {
-    if(ENV.environment === 'test') {
-      this.transitionTo('index');
-    } else {
-      window.location.replace(ENV.APP.HOME_HOST);
+      this.transitionTo('login');
     }
   },
 

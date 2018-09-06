@@ -100,6 +100,13 @@
   border-radius: 23px;
   background-color: $pix-blue;
   border: none;
+
+}
+
+.assessment-results__index-link__a-element {
+  align-items: flex-start;
+  text-align: center;
+  padding-top: 10px;
 }
 
 .assessment-results__index-link__element:hover {

@@ -1,4 +1,5 @@
 import { inject as service } from '@ember/service';
+import ENV from 'mon-pix/config/environment';
 
 import BaseRoute from 'mon-pix/routes/base-route';
 
@@ -11,7 +12,7 @@ export default BaseRoute.extend({
     if (session.get('isAuthenticated')) {
       session.invalidate();
     }
-    this.transitionTo('/');
+    window.location.replace(ENV.APP.HOME_HOST);
   }
 
 });

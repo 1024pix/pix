@@ -24,38 +24,4 @@ describe('Unit | Route | logout', () => {
     // Then
     sinon.assert.calledOnce(invalidateStub);
   });
-
-  it('should redirect after disconnection', function() {
-    // Given
-    const invalidateStub = sinon.stub();
-    this.register('service:session', Service.extend({ isAuthenticated: true, invalidate: invalidateStub }));
-    this.inject.service('session', { as: 'session' });
-
-    const route = this.subject();
-    route.transitionTo = sinon.stub();
-
-    // When
-    route.beforeModel();
-
-    // Then
-    sinon.assert.calledOnce(route.transitionTo);
-    sinon.assert.calledWith(route.transitionTo, '/');
-  });
-
-  it('should redirect even if user was not authenticated', function() {
-    // Given
-    const invalidateStub = sinon.stub();
-    this.register('service:session', Service.extend({ isAuthenticated: false, invalidate: invalidateStub }));
-    this.inject.service('session', { as: 'session' });
-
-    const route = this.subject();
-    route.transitionTo = sinon.stub();
-
-    // When
-    route.beforeModel();
-
-    // Then
-    sinon.assert.calledOnce(route.transitionTo);
-    sinon.assert.calledWith(route.transitionTo, '/');
-  });
 });
