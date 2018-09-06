@@ -54,8 +54,8 @@ class Challenge {
     }
 
     let competenceId;
-    if(airtableEpreuveObject.get('competences')) {
-      competenceId = airtableEpreuveObject.get('competences')[0];
+    if(airtableEpreuveObject.get('Compétences (via tube)')) {
+      competenceId = airtableEpreuveObject.get('Compétences (via tube)')[0];
     }
 
     let timer;

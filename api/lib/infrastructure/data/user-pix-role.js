@@ -1,6 +1,6 @@
 const Bookshelf = require('../bookshelf');
 const BookshelfUser = require('./user');
-const BookshelfPixRole = require('./BookshelfPixRole');
+const BookshelfPixRole = require('./pix-role');
 
 module.exports = Bookshelf.model('UserPixRole', {
 

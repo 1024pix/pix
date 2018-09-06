@@ -40,7 +40,7 @@ function generateSmartPlacementAssessmentDataWithThreeKnowledgeElements({
   });
   const knowledgeElement1 = factory.buildSmartPlacementKnowledgeElement({
     answerId: answer1.id,
-    skillId: skill1.name,
+    skillId: skill1.id,
     status: knowledgeElement1Status,
   });
 
@@ -50,7 +50,7 @@ function generateSmartPlacementAssessmentDataWithThreeKnowledgeElements({
 
   const knowledgeElement2 = factory.buildSmartPlacementKnowledgeElement({
     answerId: answer2.id,
-    skillId: skill2.name,
+    skillId: skill2.id,
     status: knowledgeElement2Status,
   });
 
@@ -59,7 +59,7 @@ function generateSmartPlacementAssessmentDataWithThreeKnowledgeElements({
   });
   const knowledgeElement3 = factory.buildSmartPlacementKnowledgeElement({
     answerId: answer3.id,
-    skillId: skill3.name,
+    skillId: skill3.id,
     status: knowledgeElement3Status,
   });
 
@@ -207,6 +207,7 @@ describe('Unit | Domain | Models | SmartPlacementAssessment', () => {
   describe('#getUnratableSkills', () => {
 
     context('when the assessment is STARTED', () => {
+
       it('should return an empty array', () => {
         // given
         const { assessment } =
@@ -223,10 +224,10 @@ describe('Unit | Domain | Models | SmartPlacementAssessment', () => {
         // then
         expect(unratableSkills).to.deep.equal([]);
       });
-
     });
 
     context('when the assessment is COMPLETED', () => {
+
       it('should return a list of unratable skills', () => {
         // given
         const validatedSkill = factory.buildSkill({ name: '@good2' });
@@ -236,14 +237,15 @@ describe('Unit | Domain | Models | SmartPlacementAssessment', () => {
 
         const knowledgeElementForGood2 = factory.buildSmartPlacementKnowledgeElement({
           answerId: -1,
-          skillId: validatedSkill.name,
+          skillId: validatedSkill.id,
           status: SmartPlacementKnowledgeElement.StatusType.VALIDATED,
           source: SmartPlacementKnowledgeElement.SourceType.DIRECT,
         });
 
         const assessment = factory.buildSmartPlacementAssessment({
+          state: SmartPlacementAssessment.State.COMPLETED,
           answers: [],
-          knowledgeElements: [ knowledgeElementForGood2 ],
+          knowledgeElements: [knowledgeElementForGood2],
           targetProfile,
         });
 

@@ -224,6 +224,7 @@ puts "===== PATCH FILE ======="
 # Nous cherchons une string (1er élément du sous-tableau) et la remplaçons par le patch (2nd élément du sous-tableau)
 replacements = [
   ["Challenge o-- Skills : ???", "Challenge o-- Skill : ???"],
+  ["CertificationChallenge *-- AssociatedSkill :", "CertificationChallenge *-- Skill :"],
   ["Course *-- CompetenceSkill :", "Course *-- Skill :"],
   ["Course o-- Challenges : ???", "Course o-- Challenge : ???"],
   ["Course o-- Competences : ???", "Course o-- Competence : ???"],

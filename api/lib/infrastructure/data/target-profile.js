@@ -9,5 +9,4 @@ module.exports = Bookshelf.model('TargetProfile', {
   skillIds() {
     return this.hasMany('TargetProfileSkill', 'targetProfileId');
   }
-
 });

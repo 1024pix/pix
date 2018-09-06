@@ -1,120 +1,131 @@
-const { expect, knex, nock } = require('../../../test-helper');
+const { airtableBuilder, expect, knex } = require('../../../test-helper');
 const cache = require('../../../../lib/infrastructure/caches/cache');
 const server = require('../../../../server');
 
 describe('Acceptance | API | assessment-controller-get-adaptive-correct', () => {
 
-  before(() => {
+  const skillWeb1Id = 'recAcquisWeb1';
+  const skillWeb1Name = '@web1';
+  const skillWeb1 = airtableBuilder.factory.buildSkill({
+    id: skillWeb1Id,
+    nom: skillWeb1Name,
+  });
 
-    nock.cleanAll();
+  const skillWeb2Id = 'recAcquisWeb2';
+  const skillWeb2Name = '@web2';
+  const skillWeb2 = airtableBuilder.factory.buildSkill({
+    id: skillWeb2Id,
+    nom: skillWeb2Name,
+  });
 
-    nock('https://api.airtable.com')
-      .get('/v0/test-base/Tests/w_adaptive_course_id')
-      .query(true)
-      .times(4)
-      .reply(200, {
-        'id': 'w_adaptive_course_id',
-        'fields': {
-          'Adaptatif ?': true,
-          'Competence': ['competence_id']
-        }
-      });
+  const skillWeb3Id = 'recAcquisWeb3';
+  const skillWeb3Name = '@web3';
+  const skillWeb3 = airtableBuilder.factory.buildSkill({
+    id: skillWeb3Id,
+    nom: skillWeb3Name,
+  });
 
-    nock('https://api.airtable.com')
-      .get('/v0/test-base/Competences/competence_id')
-      .query(true)
-      .reply(200, {
-        'id': 'competence_id',
-        'fields': {
-          'Référence': '1.1 Mener une recherche et une veille d’information',
-          'Titre': 'Mener une recherche et une veille d’information',
-          'Sous-domaine': '1.1',
-          'Domaine': '1. Information et données',
-          'Statut': 'validé',
-          'Acquis': ['@web1']
-        }
-      });
+  const competenceId = 'recCompetence';
+  const competenceReference = '1.1 Mener une recherche et une veille d’information';
+  const competence = airtableBuilder.factory.buildCompetence({
+    id: competenceId,
+    epreuves: [],
+    titre: 'Mener une recherche et une veille d’information',
+    tests: [],
+    acquisIdentifiants: [skillWeb1Id],
+    tubes: [],
+    acquisViaTubes: [skillWeb1Id],
+    reference: competenceReference,
+    testsRecordID: [],
+    acquis: [skillWeb1Name],
+  });
 
-    nock('https://api.airtable.com')
-      .get('/v0/test-base/Epreuves')
-      .query({ view: '1.1 Mener une recherche et une veille d’information' })
-      .reply(200, {
-        'records': [
-          {
-            'id': 'w_first_challenge',
-            'fields': {
-              'Statut': 'validé',
-              'competences': ['competence_id'],
-              'acquis': ['@web2']
-            }
-          },
-          {
-            'id': 'w_second_challenge',
-            'fields': {
-              'Statut': 'validé',
-              'competences': ['competence_id'],
-              'acquis': ['@web3']
-            },
-          },
-          {
-            'id': 'w_third_challenge',
-            'fields': {
-              'Statut': 'validé',
-              'competences': ['competence_id'],
-              'acquis': ['@web1']
-            },
-          }
-        ]
-      });
+  const adaptiveCourseId = 'recAdaptativeCourseId';
+  const adaptiveCourse = airtableBuilder.factory.buildCourse({
+    id: adaptiveCourseId,
+    adaptatif: true,
+    competence: [competenceId],
+    epreuves: [],
+  });
 
-    nock('https://api.airtable.com')
-      .get('/v0/test-base/Epreuves/w_first_challenge')
-      .query(true)
-      .reply(200, {
-        'id': 'w_first_challenge',
-        'fields': {
-          'competences': ['competence_id'],
-          'Statut': 'validé',
-          'acquis': ['@web2']
-        }
-      });
+  const firstChallengeId = 'recFirstChallenge';
+  const firstChallenge = airtableBuilder.factory.buildChallenge.untimed({
+    id: firstChallengeId,
+    tests: [],
+    competences: [competenceId],
+    statut: 'validé',
+    acquix: [skillWeb2Id],
+    acquis: [skillWeb2Name],
+  });
+  const secondChallengeId = 'recSecondChallenge';
+  const secondChallenge = airtableBuilder.factory.buildChallenge.untimed({
+    id: secondChallengeId,
+    tests: [],
+    competences: [competenceId],
+    statut: 'validé',
+    acquix: [skillWeb3Id],
+    acquis: [skillWeb3Name],
+  });
+  const thirdChallengeId = 'recThirdChallenge';
+  const thirdChallenge = airtableBuilder.factory.buildChallenge.untimed({
+    id: thirdChallengeId,
+    tests: [],
+    competences: [competenceId],
+    statut: 'validé',
+    acquix: [skillWeb1Id],
+    acquis: [skillWeb1Name],
+  });
 
-    nock('https://api.airtable.com')
-      .get('/v0/test-base/Epreuves/w_second_challenge')
-      .query(true)
-      .reply(200, {
-        'id': 'w_second_challenge',
-        'fields': {
-          'competences': ['competence_id'],
-          'Statut': 'validé',
-          'acquis': ['@web3']
-        }
-      });
+  beforeEach(() => {
 
-    nock('https://api.airtable.com')
-      .get('/v0/test-base/Epreuves/w_third_challenge')
-      .query(true)
-      .reply(200, {
-        'id': 'w_third_challenge',
-        'fields': {
-          'competences': ['competence_id'],
-          'Statut': 'validé',
-          'acquis': ['@web1']
-        }
-      });
+    airtableBuilder.mockGet({ tableName: 'Tests' })
+      .returns(adaptiveCourse)
+      .activate();
 
-    nock('https://api.airtable.com')
-      .get('/v0/test-base/Acquis')
-      .query({
-        filterByFormula: 'FIND(\'1.1\', {Compétence})'
-      })
-      .reply(200, {
-        'id': 'idAcquix'
-      });
+    airtableBuilder.mockGet({ tableName: 'Competences' })
+      .returns(competence)
+      .activate();
+
+    airtableBuilder.mockList({ tableName: 'Epreuves' })
+      .respondsToQuery({ view: '1.1 Mener une recherche et une veille d’information' })
+      .returns([firstChallenge, secondChallenge, thirdChallenge])
+      .activate();
+
+    airtableBuilder.mockGet({ tableName: 'Epreuves' })
+      .returns(firstChallenge)
+      .activate();
+
+    airtableBuilder.mockGet({ tableName: 'Epreuves' })
+      .returns(secondChallenge)
+      .activate();
+
+    airtableBuilder.mockGet({ tableName: 'Epreuves' })
+      .returns(thirdChallenge)
+      .activate();
+
+    airtableBuilder.mockList({ tableName: 'Acquis' })
+      .respondsToQuery({ filterByFormula: 'FIND(\'1.1\', {Compétence})' })
+      .returns([skillWeb1, skillWeb2, skillWeb3])
+      .activate();
+
+    airtableBuilder.mockGet({ tableName: 'Acquis' })
+      .returns(skillWeb1)
+      .activate();
+
+    airtableBuilder.mockGet({ tableName: 'Acquis' })
+      .returns(skillWeb2)
+      .activate();
+
+    airtableBuilder.mockGet({ tableName: 'Acquis' })
+      .returns(skillWeb3)
+      .activate();
+  });
+
+  afterEach(() => {
+    airtableBuilder.cleanAll();
   });
 
   after(() => {
-    nock.cleanAll();
     cache.flushAll();
   });
 
@@ -123,8 +134,8 @@ describe('Acceptance | API | assessment-controller-get-adaptive-correct', () => 
     let insertedAssessmentId = null;
 
     const insertedAssessment = {
-      courseId: 'w_adaptive_course_id',
-      type: 'PLACEMENT'
+      courseId: adaptiveCourseId,
+      type: 'PLACEMENT',
     };
 
     beforeEach(() => {
@@ -135,8 +146,8 @@ describe('Acceptance | API | assessment-controller-get-adaptive-correct', () => 
           return {
             value: 'any good answer',
             result: 'ok',
-            challengeId: 'w_first_challenge',
-            assessmentId: insertedAssessmentId
+            challengeId: firstChallengeId,
+            assessmentId: insertedAssessmentId,
           };
         })
         .then((inserted_answer) => {
@@ -153,7 +164,7 @@ describe('Acceptance | API | assessment-controller-get-adaptive-correct', () => 
       // given
       const options = {
         method: 'GET',
-        url: '/api/assessments/' + insertedAssessmentId + '/next/w_first_challenge',
+        url: `/api/assessments/${insertedAssessmentId}/next/${firstChallengeId}`,
       };
 
       // when
@@ -161,18 +172,18 @@ describe('Acceptance | API | assessment-controller-get-adaptive-correct', () => 
 
       // then
       return promise.then((response) => {
-        expect(response.result.data.id).to.equal('w_second_challenge');
+        expect(response.result.data.id).to.equal(secondChallengeId);
       });
     });
   });
 
-  describe('(adaptive incorrect answer) GET /api/assessments/:assessment_id/next/:current_challenge_id', function() {
+  describe('(adaptive incorrect answer) GET /api/assessments/:assessment_id/next/:current_challenge_id', () => {
 
     let insertedAssessmentId = null;
 
     const insertedAssessment = {
-      courseId: 'w_adaptive_course_id',
-      type: 'PLACEMENT'
+      courseId: adaptiveCourseId,
+      type: 'PLACEMENT',
     };
 
     beforeEach(() => {
@@ -183,8 +194,8 @@ describe('Acceptance | API | assessment-controller-get-adaptive-correct', () => 
           return {
             value: 'any bad answer',
             result: 'ko',
-            challengeId: 'w_first_challenge',
-            assessmentId: insertedAssessmentId
+            challengeId: firstChallengeId,
+            assessmentId: insertedAssessmentId,
           };
         })
         .then((inserted_answer) => {
@@ -201,7 +212,7 @@ describe('Acceptance | API | assessment-controller-get-adaptive-correct', () => 
       // given
       const options = {
         method: 'GET',
-        url: '/api/assessments/' + insertedAssessmentId + '/next/w_first_challenge',
+        url: `/api/assessments/${insertedAssessmentId}/next/${firstChallengeId}`,
       };
 
       // when
@@ -209,7 +220,7 @@ describe('Acceptance | API | assessment-controller-get-adaptive-correct', () => 
 
       // then
       return promise.then((response) => {
-        expect(response.result.data.id).to.equal('w_third_challenge');
+        expect(response.result.data.id).to.equal(thirdChallengeId);
       });
     });
   });
@@ -219,8 +230,8 @@ describe('Acceptance | API | assessment-controller-get-adaptive-correct', () => 
     let insertedAssessmentId = null;
 
     const insertedAssessment = {
-      courseId: 'w_adaptive_course_id',
-      type: 'PLACEMENT'
+      courseId: adaptiveCourseId,
+      type: 'PLACEMENT',
     };
 
     beforeEach(() => {
@@ -228,17 +239,19 @@ describe('Acceptance | API | assessment-controller-get-adaptive-correct', () => 
         .then((ids) => {
           insertedAssessmentId = ids[0];
 
-          return [{
-            value: 'any good answer',
-            result: 'ok',
-            challengeId: 'w_first_challenge',
-            assessmentId: insertedAssessmentId
-          }, {
-            value: 'any bad answer',
-            result: 'ko',
-            challengeId: 'w_second_challenge',
-            assessmentId: insertedAssessmentId
-          }];
+          return [
+            {
+              value: 'any good answer',
+              result: 'ok',
+              challengeId: firstChallengeId,
+              assessmentId: insertedAssessmentId,
+            }, {
+              value: 'any bad answer',
+              result: 'ko',
+              challengeId: secondChallengeId,
+              assessmentId: insertedAssessmentId,
+            },
+          ];
         })
         .then((insertedAnswers) => {
           return knex('answers').insert(insertedAnswers);
@@ -254,7 +267,7 @@ describe('Acceptance | API | assessment-controller-get-adaptive-correct', () => 
       // given
       const options = {
         method: 'GET',
-        url: '/api/assessments/' + insertedAssessmentId + '/next/w_second_challenge',
+        url: `/api/assessments/${insertedAssessmentId}/next/${secondChallengeId}`,
       };
 
       // when
@@ -266,10 +279,9 @@ describe('Acceptance | API | assessment-controller-get-adaptive-correct', () => 
         expect(response.result).to.deep.equal({
           error: 'Not Found',
           message: 'Not Found',
-          statusCode: 404
+          statusCode: 404,
         });
       });
     });
   });
-
 });
