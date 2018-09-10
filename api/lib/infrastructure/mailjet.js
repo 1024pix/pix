@@ -5,7 +5,7 @@ const nodeMailjet = require('node-mailjet');
 function _formatPayload(options) {
 
   const configuration = _.defaults(options, {
-    from: 'communaute@pix.beta.gouv.fr',
+    from: 'communaute@pix.fr',
     fromName: 'Communauté PIX',
     to: null,
     subject: 'Bienvenue dans la communauté PIX',

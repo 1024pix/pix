@@ -19,8 +19,8 @@ describe('Unit | Service | QMail Validation', function() {
           to:
             {
               value: [],
-              html: `<span class="mp_address_group"><a href="mailto:${challengeId}-${assessmentId}-0609@pix.beta.gouv.fr" class="mp_address_email">${challengeId}-${assessmentId}-0609@pix.beta.gouv.fr</a></span>`,
-              text: `${challengeId}-${assessmentId}-0609@pix.beta.gouv.fr`
+              html: `<span class="mp_address_group"><a href="mailto:${challengeId}-${assessmentId}-0609@pix.fr" class="mp_address_email">${challengeId}-${assessmentId}-0609@pix.fr</a></span>`,
+              text: `${challengeId}-${assessmentId}-0609@pix.fr`
             },
           from:
             {
@@ -43,8 +43,8 @@ describe('Unit | Service | QMail Validation', function() {
           to:
             {
               value: [],
-              html: `<span class="mp_address_group"><a href="mailto:${challengeId}-${assessmentId}-0609@pix.beta.gouv.fr" class="mp_address_email">${challengeId}-${assessmentId}-0609@pix.beta.gouv.fr</a></span>`,
-              text: `${challengeId}-${assessmentId}-0609@pix.beta.gouv.fr`
+              html: `<span class="mp_address_group"><a href="mailto:${challengeId}-${assessmentId}-0609@pix.fr" class="mp_address_email">${challengeId}-${assessmentId}-0609@pix.fr</a></span>`,
+              text: `${challengeId}-${assessmentId}-0609@pix.fr`
             },
           subject: 'Invitation - Ouverture du bar commun ',
           date: '2017-10-10T15:17:36.000Z',

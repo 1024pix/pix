@@ -19,7 +19,7 @@ module.exports = (function() {
     },
 
     app: {
-      domain: 'pix.beta.gouv.fr'
+      domain: 'app.pix.fr'
     },
 
     logging: {
