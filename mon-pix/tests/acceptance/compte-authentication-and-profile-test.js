@@ -26,25 +26,6 @@ describe('Acceptance | Espace compte | Authentication', function() {
     destroyApp(application);
   });
 
-  describe('Logged Menu', function() {
-    describe('after visiting the project page', function() {
-      it('should redirect to /compte user "Mon compte"', function() {
-        // given
-        authenticateAsSimpleUser();
-        visit('/projet');
-
-        // when
-        click('.logged-user-name__link');
-        click('a:contains("Mon compte")');
-
-        // then
-        return andThen(function() {
-          expect(currentURL()).to.equal('/compte');
-        });
-      });
-    });
-  });
-
   describe('Success cases', function() {
 
     describe('m1.1 Accessing to the /compte page while disconnected', function() {
