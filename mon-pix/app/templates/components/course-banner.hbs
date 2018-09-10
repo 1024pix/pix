@@ -4,7 +4,7 @@
 
   {{#if withHomeLink}}
     {{#if course.isDemo}}
-      <a href="https://pix.fr" class="course-banner__home-link">Revenir à l'accueil</a>
+      <a href={{urlHome}} class="course-banner__home-link">Revenir à l'accueil</a>
     {{else}}
       {{#link-to "index" class="course-banner__home-link"}}Revenir à l'accueil{{/link-to}}
     {{/if}}
