@@ -15,8 +15,6 @@ describe('Unit | Route | logout', () => {
     this.inject.service('session', { as: 'session' });
 
     const route = this.subject();
-    route.transitionTo = function() {
-    };
 
     // When
     route.beforeModel();
@@ -27,11 +25,12 @@ describe('Unit | Route | logout', () => {
 
   it('should redirect to home', function() {
     // Given
-    this.register('service:session', Service.extend({}));
+    const invalidateStub = sinon.stub();
+    this.register('service:session', Service.extend({ isAuthenticated: true, invalidate: invalidateStub }));
     this.inject.service('session', { as: 'session' });
 
     const route = this.subject();
-    route._redirectToHome = function() {};
+    route._redirectToHome = sinon.stub();
 
     // When
     route.afterModel();
