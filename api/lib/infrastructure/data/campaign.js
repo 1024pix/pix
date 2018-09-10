@@ -1,9 +1,10 @@
 const Bookshelf = require('../bookshelf');
 
-require('./user');
-require('./organization');
-require('./campaign-participation');
 require('./assessment');
+require('./campaign-participation');
+require('./organization');
+require('./target-profile');
+require('./user');
 
 module.exports = Bookshelf.model('Campaign', {
 
@@ -17,4 +18,7 @@ module.exports = Bookshelf.model('Campaign', {
     return this.belongsToMany('Assessment', 'campaingId').through('CampaignParticipation');
   },
 
+  targetProfile: function() {
+    return this.belongsTo('TargetProfile', 'targetProfileId');
+  },
 });

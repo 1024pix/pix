@@ -21,7 +21,7 @@ describe('Unit | Component | course-banner', function() {
       // then
       expect(courseName).to.equal('On est en finale !!!');
     });
-    it('should return "Parcours e-pro" when it does not exist', function() {
+    it('should return empty string when it does not exist', function() {
       // given
       const component = this.subject();
 
@@ -29,7 +29,7 @@ describe('Unit | Component | course-banner', function() {
       const courseName = component.get('courseName');
 
       // then
-      expect(courseName).to.equal('Parcours e-pro');
+      expect(courseName).to.equal('');
     });
   });
 

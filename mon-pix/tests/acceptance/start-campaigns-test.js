@@ -43,7 +43,8 @@ describe('Acceptance | Campaigns | Start Campaigns', function() {
         // then
         return andThen(() => {
           expect(currentURL()).to.contains(/assessments/);
-          expect(find('.course-banner__name').text()).to.equal('Parcours e-pro');
+          expect(find('.course-banner__name').text()).to.equal('');
+          findWithAssert('.assessment-challenge__progress-bar');
         });
       });
 
@@ -60,7 +61,8 @@ describe('Acceptance | Campaigns | Start Campaigns', function() {
         // then
         return andThen(() => {
           expect(currentURL()).to.contains(/assessments/);
-          expect(find('.course-banner__name').text()).to.equal('Parcours e-pro');
+          expect(find('.course-banner__name').text()).to.equal('');
+          findWithAssert('.assessment-challenge__progress-bar');
         });
       });
     });

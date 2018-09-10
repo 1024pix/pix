@@ -24,6 +24,7 @@ module.exports = function(environment) {
 
     googleFonts: [
       'Roboto:300,400,700,900', // main font
+      'Open+Sans:300',
     ],
 
     contentSecurityPolicy: {

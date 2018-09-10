@@ -1,12 +1,14 @@
 const dataModels = require('../../../../../../lib/infrastructure/datasources/airtable/objects/index');
 const challengeRawAirTableFixture = require('../../../../../tooling/fixtures/infrastructure/challengeRawAirTableFixture');
-const ChallengeAirtableDataModelFixture = require('../../../../../tooling/fixtures/infrastructure/challengeAirtableDataObjectFixture');
+const ChallengeAirtableDataModelFixture = require(
+  '../../../../../tooling/fixtures/infrastructure/challengeAirtableDataObjectFixture');
 const ChallengeDataObject = require('../../../../../../lib/infrastructure/datasources/airtable/objects/Challenge');
 const { expect } = require('../../../../../test-helper');
 
 describe('Unit | Infrastructure | Datasource | Airtable | Model | Challenge', () => {
 
   describe('#constructor', () => {
+
     it('should construct an AirtableChallenge from attributes', () => {
       // given
       const challengeRawData = {
@@ -26,7 +28,7 @@ describe('Unit | Infrastructure | Datasource | Airtable | Model | Challenge', ()
         illustrationUrl: 'https://dl.airtable.com/2MGErxGTQl2g2KiqlYgV_venise4.png',
         attachments: [
           'https://dl.airtable.com/nHWKNZZ7SQeOKsOvVykV_navigationdiaporama5.pptx',
-          'https://dl.airtable.com/rsXNJrSPuepuJQDByFVA_navigationdiaporama5.odp'
+          'https://dl.airtable.com/rsXNJrSPuepuJQDByFVA_navigationdiaporama5.odp',
         ],
         competenceId: 'recsvLz0W2ShyfD63',
         embedUrl: 'https://github.page.io/pages/mon-epreuve.html',
@@ -100,6 +102,7 @@ describe('Unit | Infrastructure | Datasource | Airtable | Model | Challenge', ()
       // given
       const airtableEpreuveObject = challengeRawAirTableFixture();
       airtableEpreuveObject.set('competences', undefined);
+      airtableEpreuveObject.set('Compétences (via tube)', undefined);
 
       // when
       const challenge = dataModels.Challenge.fromAirTableObject(airtableEpreuveObject);

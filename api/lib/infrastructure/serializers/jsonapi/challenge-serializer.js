@@ -5,15 +5,26 @@ module.exports = {
 
   serialize(challenges) {
     return new Serializer('challenge', {
-      attributes: ['type', 'instruction', 'competence', 'proposals', 'timer', 'illustrationUrl', 'attachments', 'competence', 'embedUrl', 'embedTitle', 'embedHeight'],
+      attributes: [
+        'type',
+        'instruction',
+        'competence',
+        'proposals',
+        'timer',
+        'illustrationUrl',
+        'attachments',
+        'competence',
+        'embedUrl',
+        'embedTitle',
+        'embedHeight',
+      ],
       transform: (record) => {
         const challenge = _.pickBy(record, (value) => !_.isUndefined(value));
 
-        challenge.competence = challenge.competence || 'N/A';
+        challenge.competence = challenge.competenceId || 'N/A';
 
         return challenge;
-      }
+      },
     }).serialize(challenges);
-  }
-
+  },
 };

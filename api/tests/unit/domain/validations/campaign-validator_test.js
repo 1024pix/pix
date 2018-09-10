@@ -18,6 +18,7 @@ describe('Unit | Domain | Validators | campaign-validator', function() {
       name: 'campagne de test',
       creatorId: 4,
       organizationId: 12,
+      idPixLabel: 'Mail Pro',
       targetProfileId: 44,
     });
   });
@@ -32,6 +33,18 @@ describe('Unit | Domain | Validators | campaign-validator', function() {
 
         // then
         return expect(promise).to.be.fulfilled;
+      });
+
+      it('should resolve when idPixLabel is null', () => {
+        // given
+        campaign.idPixLabel = null;
+
+        // when
+        const promise = campaignValidator.validate(campaign);
+
+        // then
+        return expect(promise).to.be.fulfilled;
+
       });
 
     });
@@ -87,6 +100,41 @@ describe('Unit | Domain | Validators | campaign-validator', function() {
             message: 'L‘organisation n’est pas renseignée.'
           };
           campaign.organizationId = MISSING_VALUE;
+
+          // when
+          const promise = campaignValidator.validate(campaign);
+
+          // then
+          return expect(promise).to.be.rejectedWith(EntityValidationError)
+            .then((entityValidationErrors) => _assertErrorMatchesWithExpectedOne(entityValidationErrors, expectedError));
+        });
+
+      });
+
+      context('on idPixLabel attribute', () => {
+        it('should reject with error when idPixLabel is an empty string', () => {
+          // given
+          const expectedError = {
+            attribute: 'idPixLabel',
+            message: 'Veuillez préciser le libellé du champ qui sera demandé à vos participants au démarrage du parcours.'
+          };
+          campaign.idPixLabel = '';
+
+          // when
+          const promise = campaignValidator.validate(campaign);
+
+          // then
+          return expect(promise).to.be.rejectedWith(EntityValidationError)
+            .then((entityValidationErrors) => _assertErrorMatchesWithExpectedOne(entityValidationErrors, expectedError));
+        });
+
+        it('should reject with error when idPixLabel length is under 3 characters', () => {
+          // given
+          const expectedError = {
+            attribute: 'idPixLabel',
+            message: 'Veuillez préciser le libellé du champ qui sera demandé à vos participants au démarrage du parcours.'
+          };
+          campaign.idPixLabel = 'AZ';
 
           // when
           const promise = campaignValidator.validate(campaign);

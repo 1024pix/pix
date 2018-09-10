@@ -1,5 +1,6 @@
 module.exports = [
   {
+    id: 2,
     userId: 3,
     type: 'SUP',
     name: 'Tyrion SUP',
@@ -7,6 +8,7 @@ module.exports = [
     code: 'SUPTY'
   },
   {
+    id: 3,
     userId: 4,
     type: 'SCO',
     name: 'SCOw',

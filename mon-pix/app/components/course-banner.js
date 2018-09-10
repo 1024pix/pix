@@ -13,6 +13,6 @@ export default Component.extend({
   // CPs
   courseName: computed('course.name', function() {
     const courseName = this.get('course.name');
-    return courseName ? courseName : 'Parcours e-pro';
+    return courseName ? courseName : '';
   })
 });

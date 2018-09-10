@@ -1,5 +1,16 @@
 # Pix Changelog
 
+## v1.61.0 (10/09/2018)
+
+- [#181](https://github.com/1024pix/pix/pull/181) [FEATURE] Rendre accessible l'espace perso pix via l'url app.pix.fr (PF-345).
+- [#178](https://github.com/1024pix/pix/pull/178) [FEATURE] Nouveau style pour la page de connexion de Pix-Orga (PO-105).
+- [#177](https://github.com/1024pix/pix/pull/177) [FEATURE] Retirer le titre "Parcours e-pro" des campagnes (PF-321).
+- [#174](https://github.com/1024pix/pix/pull/174) [FEATURE] Ajout de la demande d'id pix dans la création de la campagne (PO-121).
+- [#184](https://github.com/1024pix/pix/pull/184) [BUGFIX] Changer Non Disponible à NA (PO-128).
+- [#183](https://github.com/1024pix/pix/pull/183) [BUGFIX] La barre de progression ne doit plus afficher un nombre d'answers trop grand (PF-306).
+- [#182](https://github.com/1024pix/pix/pull/182) [TECH] Prise en compte des modifications du référentiel Airtable - part 1Bis / 2 (PF-311).
+- [#173](https://github.com/1024pix/pix/pull/173) [TECH] Prise en compte des modifications du référentiel Airtable - part 1 / 2 (PF-311).
+
 ## v1.60.0 (30/08/2018)
 
 - [#169](https://github.com/1024pix/pix/pull/169) [FEATURE] Export des résultats en CSV (PO-28).

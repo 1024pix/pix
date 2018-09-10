@@ -38,8 +38,8 @@ function _buildAssessmentResult(pixScore, level) {
   });
 }
 
-function _buildCertificationChallenge(challengeId, competenceId, associatedSkill) {
-  return CertificationChallenge.fromAttributes({ challengeId, competenceId, associatedSkill });
+function _buildCertificationChallenge(challengeId, competenceId, associatedSkillName) {
+  return CertificationChallenge.fromAttributes({ challengeId, competenceId, associatedSkillName });
 }
 
 function _buildChallenge(id, competence, type) {

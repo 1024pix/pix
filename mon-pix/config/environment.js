@@ -145,15 +145,16 @@ module.exports = function(environment) {
 
 function inferApiURLFromScalingoAppName(appName) {
 
-  const matchesReviewApp = /pix-mon-pix-integration-pr(\d+)/.exec(appName);
+  const matchesReviewApp = /pix-app-integration-pr(\d+)/.exec(appName);
   if (matchesReviewApp) {
     return `https://pix-api-integration-pr${matchesReviewApp[1]}.scalingo.io`;
   }
 
   switch (appName) {
-    case 'pix-mon-pix-integration':
+    case 'pix-app-integration':
       return 'https://api.integration.pix.fr';
     case 'pix-mon-pix-production':
+    case 'pix-app-production':
       return 'https://api.pix.fr';
     default:
       return 'http://localhost:3000';

@@ -138,7 +138,7 @@ describe('Unit | Domain | Models | SmartPlacementKnowledgeElement', () => {
             pixScore: 0,
             answerId: validAnswer.id,
             assessmentId: validAnswer.assessmentId,
-            skillId: skill.name,
+            skillId: skill.id,
           });
           directKnowledgeElement.id = undefined;
 
@@ -178,7 +178,7 @@ describe('Unit | Domain | Models | SmartPlacementKnowledgeElement', () => {
               pixScore: 0,
               answerId: validAnswer.id,
               assessmentId: validAnswer.assessmentId,
-              skillId: skill.name,
+              skillId: skill.id,
             });
             directKnowledgeElement.id = undefined;
             const inferredKnowledgeElementForEasierSkill = factory.buildSmartPlacementKnowledgeElement({
@@ -187,7 +187,7 @@ describe('Unit | Domain | Models | SmartPlacementKnowledgeElement', () => {
               pixScore: 0,
               answerId: validAnswer.id,
               assessmentId: validAnswer.assessmentId,
-              skillId: easierSkill.name,
+              skillId: easierSkill.id,
             });
             inferredKnowledgeElementForEasierSkill.id = undefined;
             const inferredKnowledgeElementForMuchEasierSkill = factory.buildSmartPlacementKnowledgeElement({
@@ -196,7 +196,7 @@ describe('Unit | Domain | Models | SmartPlacementKnowledgeElement', () => {
               pixScore: 0,
               answerId: validAnswer.id,
               assessmentId: validAnswer.assessmentId,
-              skillId: muchEasierSkill.name,
+              skillId: muchEasierSkill.id,
             });
             inferredKnowledgeElementForMuchEasierSkill.id = undefined;
             const expectedKnowledgeElements = [
@@ -232,7 +232,7 @@ describe('Unit | Domain | Models | SmartPlacementKnowledgeElement', () => {
               pixScore: 0,
               answerId: invalidAnswer.id,
               assessmentId: invalidAnswer.assessmentId,
-              skillId: skill.name,
+              skillId: skill.id,
             });
             directKnowledgeElement.id = undefined;
             const inferredKnowledgeElementForHarderSkill = factory.buildSmartPlacementKnowledgeElement({
@@ -241,7 +241,7 @@ describe('Unit | Domain | Models | SmartPlacementKnowledgeElement', () => {
               pixScore: 0,
               answerId: invalidAnswer.id,
               assessmentId: invalidAnswer.assessmentId,
-              skillId: harderSkill.name,
+              skillId: harderSkill.id,
             });
             inferredKnowledgeElementForHarderSkill.id = undefined;
             const inferredKnowledgeElementForMuchHarderSkill = factory.buildSmartPlacementKnowledgeElement({
@@ -250,7 +250,7 @@ describe('Unit | Domain | Models | SmartPlacementKnowledgeElement', () => {
               pixScore: 0,
               answerId: invalidAnswer.id,
               assessmentId: invalidAnswer.assessmentId,
-              skillId: muchHarderSkill.name,
+              skillId: muchHarderSkill.id,
             });
             inferredKnowledgeElementForMuchHarderSkill.id = undefined;
             const expectedKnowledgeElements = [
@@ -344,7 +344,7 @@ describe('Unit | Domain | Models | SmartPlacementKnowledgeElement', () => {
             pixScore: 0,
             answerId: validAnswer.id,
             assessmentId: validAnswer.assessmentId,
-            skillId: skillFromTube1.name,
+            skillId: skillFromTube1.id,
           });
           directKnowledgeElementFromTube1.id = undefined;
           const directKnowledgeElementFromTube3 = factory.buildSmartPlacementKnowledgeElement({
@@ -353,7 +353,7 @@ describe('Unit | Domain | Models | SmartPlacementKnowledgeElement', () => {
             pixScore: 0,
             answerId: validAnswer.id,
             assessmentId: validAnswer.assessmentId,
-            skillId: skillFromTube3.name,
+            skillId: skillFromTube3.id,
           });
           directKnowledgeElementFromTube3.id = undefined;
           const expectedKnowledgeElements = [directKnowledgeElementFromTube1, directKnowledgeElementFromTube3];
@@ -409,7 +409,7 @@ describe('Unit | Domain | Models | SmartPlacementKnowledgeElement', () => {
               pixScore: 0,
               answerId: validAnswer.id,
               assessmentId: validAnswer.assessmentId,
-              skillId: skillFromTube1.name,
+              skillId: skillFromTube1.id,
             });
             directKnowledgeElementFromTube1.id = undefined;
             const inferredKnowledgeElementForEasierSkillFromTube1 = factory.buildSmartPlacementKnowledgeElement({
@@ -418,7 +418,7 @@ describe('Unit | Domain | Models | SmartPlacementKnowledgeElement', () => {
               pixScore: 0,
               answerId: validAnswer.id,
               assessmentId: validAnswer.assessmentId,
-              skillId: easierSkillFromTube1.name,
+              skillId: easierSkillFromTube1.id,
             });
             inferredKnowledgeElementForEasierSkillFromTube1.id = undefined;
             const inferredKnowledgeElementForMuchEasierSkillFromTube1 = factory.buildSmartPlacementKnowledgeElement({
@@ -427,7 +427,7 @@ describe('Unit | Domain | Models | SmartPlacementKnowledgeElement', () => {
               pixScore: 0,
               answerId: validAnswer.id,
               assessmentId: validAnswer.assessmentId,
-              skillId: muchEasierSkillFromTube1.name,
+              skillId: muchEasierSkillFromTube1.id,
             });
             inferredKnowledgeElementForMuchEasierSkillFromTube1.id = undefined;
 
@@ -437,7 +437,7 @@ describe('Unit | Domain | Models | SmartPlacementKnowledgeElement', () => {
               pixScore: 0,
               answerId: validAnswer.id,
               assessmentId: validAnswer.assessmentId,
-              skillId: skillFromTube2.name,
+              skillId: skillFromTube2.id,
             });
             directKnowledgeElementFromTube2.id = undefined;
             const inferredKnowledgeElementForEasierSkillFromTube2 = factory.buildSmartPlacementKnowledgeElement({
@@ -446,7 +446,7 @@ describe('Unit | Domain | Models | SmartPlacementKnowledgeElement', () => {
               pixScore: 0,
               answerId: validAnswer.id,
               assessmentId: validAnswer.assessmentId,
-              skillId: easierSkillFromTube2.name,
+              skillId: easierSkillFromTube2.id,
             });
             inferredKnowledgeElementForEasierSkillFromTube2.id = undefined;
             const inferredKnowledgeElementForMuchEasierSkillFromTube2 = factory.buildSmartPlacementKnowledgeElement({
@@ -455,7 +455,7 @@ describe('Unit | Domain | Models | SmartPlacementKnowledgeElement', () => {
               pixScore: 0,
               answerId: validAnswer.id,
               assessmentId: validAnswer.assessmentId,
-              skillId: muchEasierSkillFromTube2.name,
+              skillId: muchEasierSkillFromTube2.id,
             });
             inferredKnowledgeElementForMuchEasierSkillFromTube2.id = undefined;
 
@@ -465,7 +465,7 @@ describe('Unit | Domain | Models | SmartPlacementKnowledgeElement', () => {
               pixScore: 0,
               answerId: validAnswer.id,
               assessmentId: validAnswer.assessmentId,
-              skillId: skillFromTube3.name,
+              skillId: skillFromTube3.id,
             });
             directKnowledgeElementFromTube3.id = undefined;
             const inferredKnowledgeElementForEasierSkillFromTube3 = factory.buildSmartPlacementKnowledgeElement({
@@ -474,7 +474,7 @@ describe('Unit | Domain | Models | SmartPlacementKnowledgeElement', () => {
               pixScore: 0,
               answerId: validAnswer.id,
               assessmentId: validAnswer.assessmentId,
-              skillId: easierSkillFromTube3.name,
+              skillId: easierSkillFromTube3.id,
             });
             inferredKnowledgeElementForEasierSkillFromTube3.id = undefined;
             const inferredKnowledgeElementForMuchEasierSkillFromTube3 = factory.buildSmartPlacementKnowledgeElement({
@@ -483,7 +483,7 @@ describe('Unit | Domain | Models | SmartPlacementKnowledgeElement', () => {
               pixScore: 0,
               answerId: validAnswer.id,
               assessmentId: validAnswer.assessmentId,
-              skillId: muchEasierSkillFromTube3.name,
+              skillId: muchEasierSkillFromTube3.id,
             });
             inferredKnowledgeElementForMuchEasierSkillFromTube3.id = undefined;
 
@@ -526,7 +526,7 @@ describe('Unit | Domain | Models | SmartPlacementKnowledgeElement', () => {
               pixScore: 0,
               answerId: invalidAnswer.id,
               assessmentId: invalidAnswer.assessmentId,
-              skillId: skillFromTube1.name,
+              skillId: skillFromTube1.id,
             });
             directKnowledgeElementFromTube1.id = undefined;
             const inferredKnowledgeElementForHarderSkillFromTube1 = factory.buildSmartPlacementKnowledgeElement({
@@ -535,7 +535,7 @@ describe('Unit | Domain | Models | SmartPlacementKnowledgeElement', () => {
               pixScore: 0,
               answerId: invalidAnswer.id,
               assessmentId: invalidAnswer.assessmentId,
-              skillId: harderSkillFromTube1.name,
+              skillId: harderSkillFromTube1.id,
             });
             inferredKnowledgeElementForHarderSkillFromTube1.id = undefined;
             const inferredKnowledgeElementForMuchHarderSkillFromTube1 = factory.buildSmartPlacementKnowledgeElement({
@@ -544,7 +544,7 @@ describe('Unit | Domain | Models | SmartPlacementKnowledgeElement', () => {
               pixScore: 0,
               answerId: invalidAnswer.id,
               assessmentId: invalidAnswer.assessmentId,
-              skillId: muchHarderSkillFromTube1.name,
+              skillId: muchHarderSkillFromTube1.id,
             });
             inferredKnowledgeElementForMuchHarderSkillFromTube1.id = undefined;
 
@@ -554,7 +554,7 @@ describe('Unit | Domain | Models | SmartPlacementKnowledgeElement', () => {
               pixScore: 0,
               answerId: invalidAnswer.id,
               assessmentId: invalidAnswer.assessmentId,
-              skillId: skillFromTube2.name,
+              skillId: skillFromTube2.id,
             });
             directKnowledgeElementFromTube2.id = undefined;
             const inferredKnowledgeElementForHarderSkillFromTube2 = factory.buildSmartPlacementKnowledgeElement({
@@ -563,7 +563,7 @@ describe('Unit | Domain | Models | SmartPlacementKnowledgeElement', () => {
               pixScore: 0,
               answerId: invalidAnswer.id,
               assessmentId: invalidAnswer.assessmentId,
-              skillId: harderSkillFromTube2.name,
+              skillId: harderSkillFromTube2.id,
             });
             inferredKnowledgeElementForHarderSkillFromTube2.id = undefined;
             const inferredKnowledgeElementForMuchHarderSkillFromTube2 = factory.buildSmartPlacementKnowledgeElement({
@@ -572,7 +572,7 @@ describe('Unit | Domain | Models | SmartPlacementKnowledgeElement', () => {
               pixScore: 0,
               answerId: invalidAnswer.id,
               assessmentId: invalidAnswer.assessmentId,
-              skillId: muchHarderSkillFromTube2.name,
+              skillId: muchHarderSkillFromTube2.id,
             });
             inferredKnowledgeElementForMuchHarderSkillFromTube2.id = undefined;
 
@@ -582,7 +582,7 @@ describe('Unit | Domain | Models | SmartPlacementKnowledgeElement', () => {
               pixScore: 0,
               answerId: invalidAnswer.id,
               assessmentId: invalidAnswer.assessmentId,
-              skillId: skillFromTube3.name,
+              skillId: skillFromTube3.id,
             });
             directKnowledgeElementFromTube3.id = undefined;
             const inferredKnowledgeElementForHarderSkillFromTube3 = factory.buildSmartPlacementKnowledgeElement({
@@ -591,7 +591,7 @@ describe('Unit | Domain | Models | SmartPlacementKnowledgeElement', () => {
               pixScore: 0,
               answerId: invalidAnswer.id,
               assessmentId: invalidAnswer.assessmentId,
-              skillId: harderSkillFromTube3.name,
+              skillId: harderSkillFromTube3.id,
             });
             inferredKnowledgeElementForHarderSkillFromTube3.id = undefined;
             const inferredKnowledgeElementForMuchHarderSkillFromTube3 = factory.buildSmartPlacementKnowledgeElement({
@@ -600,7 +600,7 @@ describe('Unit | Domain | Models | SmartPlacementKnowledgeElement', () => {
               pixScore: 0,
               answerId: invalidAnswer.id,
               assessmentId: invalidAnswer.assessmentId,
-              skillId: muchHarderSkillFromTube3.name,
+              skillId: muchHarderSkillFromTube3.id,
             });
             inferredKnowledgeElementForMuchHarderSkillFromTube3.id = undefined;
 
@@ -725,7 +725,7 @@ describe('Unit | Domain | Models | SmartPlacementKnowledgeElement', () => {
                 pixScore: 0,
                 answerId: validAnswer.id,
                 assessmentId: validAnswer.assessmentId,
-                skillId: skillFromTube1.name,
+                skillId: skillFromTube1.id,
               });
               directKnowledgeElementFromTube1.id = undefined;
 
@@ -735,7 +735,7 @@ describe('Unit | Domain | Models | SmartPlacementKnowledgeElement', () => {
                 pixScore: 0,
                 answerId: validAnswer.id,
                 assessmentId: validAnswer.assessmentId,
-                skillId: skillFromTube2.name,
+                skillId: skillFromTube2.id,
               });
               directKnowledgeElementFromTube2.id = undefined;
               const inferredKnowledgeElementForMuchEasierSkillFromTube2 = factory.buildSmartPlacementKnowledgeElement({
@@ -744,7 +744,7 @@ describe('Unit | Domain | Models | SmartPlacementKnowledgeElement', () => {
                 pixScore: 0,
                 answerId: validAnswer.id,
                 assessmentId: validAnswer.assessmentId,
-                skillId: muchEasierSkillFromTube2.name,
+                skillId: muchEasierSkillFromTube2.id,
               });
               inferredKnowledgeElementForMuchEasierSkillFromTube2.id = undefined;
 
@@ -754,7 +754,7 @@ describe('Unit | Domain | Models | SmartPlacementKnowledgeElement', () => {
                 pixScore: 0,
                 answerId: validAnswer.id,
                 assessmentId: validAnswer.assessmentId,
-                skillId: skillFromTube3.name,
+                skillId: skillFromTube3.id,
               });
               directKnowledgeElementFromTube3.id = undefined;
               const inferredKnowledgeElementForEasierSkillFromTube3 = factory.buildSmartPlacementKnowledgeElement({
@@ -763,7 +763,7 @@ describe('Unit | Domain | Models | SmartPlacementKnowledgeElement', () => {
                 pixScore: 0,
                 answerId: validAnswer.id,
                 assessmentId: validAnswer.assessmentId,
-                skillId: easierSkillFromTube3.name,
+                skillId: easierSkillFromTube3.id,
               });
               inferredKnowledgeElementForEasierSkillFromTube3.id = undefined;
               const inferredKnowledgeElementForMuchEasierSkillFromTube3 = factory.buildSmartPlacementKnowledgeElement({
@@ -772,7 +772,7 @@ describe('Unit | Domain | Models | SmartPlacementKnowledgeElement', () => {
                 pixScore: 0,
                 answerId: validAnswer.id,
                 assessmentId: validAnswer.assessmentId,
-                skillId: muchEasierSkillFromTube3.name,
+                skillId: muchEasierSkillFromTube3.id,
               });
               inferredKnowledgeElementForMuchEasierSkillFromTube3.id = undefined;
 
