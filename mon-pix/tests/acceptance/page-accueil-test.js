@@ -60,8 +60,5 @@ describe('Acceptance | La page d\'accueil', function() {
       findWithAssert('.index-page-features__list');
     });
 
-    it('should have a link to the "projet" page', function() {
-      findWithAssert('.index-page-features__project-button[href="/projet"]');
-    });
   });
 });

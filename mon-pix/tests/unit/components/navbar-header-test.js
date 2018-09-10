@@ -27,10 +27,7 @@ describe('Unit | Component | Navbar Header Component', function() {
     context('#menu', function() {
       it('should only contains permanent menu items', function() {
         // given
-        const expectedLoggedUserMenu = [
-          { name: 'Projet', link: 'project', class: 'navbar-header-links__link--project', permanent: true },
-          { name: 'Compétences', link: 'competences', class: 'navbar-header-links__link--competences', permanent: true }
-        ];
+        const expectedLoggedUserMenu = [];
 
         // when
         const component = this.subject();
@@ -61,13 +58,6 @@ describe('Unit | Component | Navbar Header Component', function() {
       it('should set with default values (including connexion link)', function() {
         // given
         const expectedUnloggedUserMenu = [
-          { name: 'Projet', link: 'project', class: 'navbar-header-links__link--project', permanent: true },
-          {
-            name: 'Compétences',
-            link: 'competences',
-            class: 'navbar-header-links__link--competences',
-            permanent: true
-          },
           { name: 'Se connecter', link: 'login', class: 'navbar-menu-signin-link' },
           { name: 'S’inscrire', link: 'inscription', class: 'navbar-menu-signup-link' }
         ];

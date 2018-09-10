@@ -34,8 +34,6 @@ if (config.environment === 'integration' || config.environment === 'staging' || 
 /* eslint-disable max-statements */
 Router.map(function() {
   this.route('index', { path: '/' });
-  this.route('project', { path: '/projet' });
-  this.route('competences');
   this.route('inscription');
   this.route('compte');
   this.route('challenge-preview', { path: '/challenges/:challenge_id/preview' });
@@ -50,8 +48,6 @@ Router.map(function() {
   this.route('login', { path: '/connexion' });
   this.route('logout', { path: '/deconnexion' });
   this.route('board');
-  this.route('legal-notices', { path: '/mentions-legales' });
-  this.route('terms-of-service', { path: '/conditions-generales-d-utilisation' });
   this.route('reset-password', { path: '/changer-mot-de-passe/:temporaryKey' });
   this.route('password-reset-demand', { path: '/mot-de-passe-oublie' });
   this.route('certifications', function() {
