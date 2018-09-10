@@ -12,6 +12,9 @@ export default BaseRoute.extend({
     if (session.get('isAuthenticated')) {
       session.invalidate();
     }
+  },
+
+  afterModel() {
     this._redirectToHome();
   },
 
