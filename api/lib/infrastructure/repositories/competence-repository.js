@@ -5,6 +5,7 @@ const Area = require('../../domain/models/Area');
 
 const AIRTABLE_TABLE_NAME = 'Competences';
 
+// TODO : change to get skills as skill objects
 function _toDomain(airtableCompetence) {
   return new Competence({
     id: airtableCompetence.getId(),
