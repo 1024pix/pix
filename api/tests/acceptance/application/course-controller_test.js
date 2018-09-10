@@ -110,7 +110,7 @@ describe('Acceptance | API | Courses', () => {
               'k_challenge_id',
             ],
             'Ordre affichage': 2,
-            'Preview': 'http://development.pix.beta.gouv.fr/courses/rec_course_id/preview',
+            'Preview': 'http://development.pix.fr/courses/rec_course_id/preview',
             'Nb d\'épreuves': 10,
             'Acquis': '#ordonnancement,#source,#rechercheInfo,#moteur,#wikipedia,#syntaxe,#sponsor,#rechercheInfo,#cult1.1,#rechercheInfo'
           },

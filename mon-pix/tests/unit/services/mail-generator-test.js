@@ -37,7 +37,7 @@ describe('Unit | Service | mail generator', function() {
 
     it('when the environment is production', function() {
       // Given
-      const host = 'pix.beta.gouv.fr';
+      const host = 'pix.fr';
       const env = 'production';
 
       // When
@@ -52,7 +52,7 @@ describe('Unit | Service | mail generator', function() {
         // Given
         const env = 'integration';
         const branchName = 'ma-branche';
-        const host = `${branchName}.pix.beta.gouv.fr`;
+        const host = `${branchName}.pix.fr`;
 
         // When
         const email = service.generateEmail('recigAYl5bl96WGXj', '267845', host, env);
@@ -67,7 +67,7 @@ describe('Unit | Service | mail generator', function() {
         // Given
         const env = 'staging';
         const branchName = 'ma-branche';
-        const host = `${branchName}.pix.beta.gouv.fr`;
+        const host = `${branchName}.pix.fr`;
 
         // When
         const email = service.generateEmail('recigAYl5bl96WGXj', '267845', host, env);
