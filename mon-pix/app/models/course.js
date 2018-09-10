@@ -14,7 +14,7 @@ export default Model.extend({
   type: attr('string'),
   accessCode : attr('string'),
 
-  isDemo: computed('type', 'lastName', function() {
+  isDemo: computed('type', function() {
     return this.get('type')==='DEMO';
   }),
 });
