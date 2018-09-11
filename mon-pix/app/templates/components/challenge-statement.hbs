@@ -45,8 +45,7 @@
                      name="attachment_selector"
                      value="{{attachmentUrl}}"
                      onclick={{action "selectAttachementUrl" attachmentUrl}}
-                       checked="{{if (eq attachmentUrl selectedAttachmentUrl) "checked"}}"
-              />
+                       checked="{{if (eq attachmentUrl selectedAttachmentUrl) "checked"}}">
 
               <label class="label-checkbox-downloadable" for="attachment{{index}}">
                 <span class="challenge-statement__file-option-label">fichier .{{extract-extension attachmentUrl}}</span>
