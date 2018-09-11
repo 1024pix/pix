@@ -4,7 +4,7 @@
   "description": "Plateforme d'évaluation et de certification des compétences numériques à l'usage de tous les citoyens francophones.",
   "license": "AGPL-3.0",
   "engines": {
-    "node": "^4.5 || 6.* || >= 7.*"
+    "node": "6.* || 8.* || >= 10.*"
   },
   "author": "Team Pix",
   "directories": {
@@ -24,7 +24,8 @@
     "dev": "npx ember server --proxy",
     "lint": "npx eslint app mirage tests",
     "lint:fix": "npm run lint --fix",
-    "lint:js": "npx eslint ./*.js app config lib server tests",
+    "lint:hbs": "ember-template-lint .",
+    "lint:js": "eslint .",
     "scalingo-background-job": "echo 'nothing to do'",
     "scalingo-postbuild": "npx ember build --environment $BUILD_ENVIRONMENT",
     "scalingo-post-ra-creation": "echo 'nothing to do'",
@@ -35,6 +36,8 @@
     "test:watch": "npx ember exam --serve --reporter dot"
   },
   "devDependencies": {
+    "@ember/jquery": "^0.5.2",
+    "@ember/optional-features": "^0.6.3",
     "bootstrap": "^3.3.7",
     "broccoli-asset-rev": "^2.7.0",
     "chai-dom": "^1.8.0",
@@ -63,6 +66,7 @@
     "ember-cli-shims": "^1.2.0",
     "ember-cli-showdown": "^4.4.4",
     "ember-cli-sri": "^2.1.1",
+    "ember-cli-template-lint": "^1.0.0-beta.1",
     "ember-cli-test-loader": "^2.2.0",
     "ember-cli-uglify": "^2.1.0",
     "ember-click-outside": "^0.1.11",
