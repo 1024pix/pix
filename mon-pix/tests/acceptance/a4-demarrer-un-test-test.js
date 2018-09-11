@@ -13,7 +13,7 @@ import defaultScenario from '../../mirage/scenarios/default';
 const URL_OF_FIRST_TEST = '/assessments/ref_assessment_id/challenges/ref_qcm_challenge_id';
 const START_BUTTON = '.competence-level-progress-bar__link-start';
 
-describe('Acceptance | a4 - Démarrer un test |', function() {
+describe('Acceptance | Démarrer un test |', function() {
 
   let application;
 
@@ -28,14 +28,14 @@ describe('Acceptance | a4 - Démarrer un test |', function() {
     destroyApp(application);
   });
 
-  it('a4.1 Je peux démarrer un test directement depuis la nouvelle url "courses/:course_id"', function() {
+  it('Je peux démarrer un test directement depuis la nouvelle url "courses/:course_id"', function() {
     visit('/courses/ref_course_id');
     andThen(() => {
       expect(currentURL()).to.be.equal('/assessments/ref_assessment_id/challenges/ref_qcm_challenge_id');
     });
   });
 
-  it('a4.2 Quand je démarre un test, je suis redirigé vers la première épreuve du test', function() {
+  it('Quand je démarre un test, je suis redirigé vers la première épreuve du test', function() {
     const $startLink = findWithAssert(START_BUTTON);
     return click($startLink).then(function() {
       findWithAssert('.assessment-challenge');
