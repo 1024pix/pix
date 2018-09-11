@@ -25,9 +25,15 @@
     </div>
 
     <div class="assessment-results__index-link-container">
-      {{#link-to 'index' class='assessment-results__index-link__element' tagName='button'}}
-        <span class="assessment-results__link-back">Revenir à l'accueil</span>
-      {{/link-to}}
+      {{#if model.course.isDemo}}
+        <a href={{urlHome}} class="assessment-results__index-link__element assessment-results__index-a-link">
+          <span class="assessment-results__link-back">Revenir à l'accueil</span>
+        </a>
+      {{else}}
+        {{#link-to 'index' class='assessment-results__index-link__element' tagName='button'}}
+          <span class="assessment-results__link-back">Revenir à l'accueil</span>
+        {{/link-to}}
+      {{/if}}
     </div>
   </div>
 

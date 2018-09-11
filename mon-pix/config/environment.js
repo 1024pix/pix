@@ -22,6 +22,7 @@ module.exports = function(environment) {
       // Here you can pass flags/options to your application instance
       // when it is created
       API_HOST: inferApiURLFromScalingoAppName(process.env.APP),
+      HOME_HOST: 'https://pix.fr',
       isChallengeTimerEnable: true,
       MESSAGE_DISPLAY_DURATION: 1500,
       isMobileSimulationEnabled: false,
@@ -160,3 +161,4 @@ function inferApiURLFromScalingoAppName(appName) {
       return 'http://localhost:3000';
   }
 }
+

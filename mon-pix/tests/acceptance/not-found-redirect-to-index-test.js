@@ -25,7 +25,7 @@ describe('Acceptance | Page | Not Found Redirection', () => {
     visit('/plop');
 
     return andThen(() => {
-      expect(currentURL()).to.eq('/');
+      expect(currentURL()).to.eq('/connexion');
     });
   });
 
