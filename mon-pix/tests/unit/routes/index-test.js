@@ -18,8 +18,7 @@ describe('Unit | Route | index', function() {
 
   describe('when the user is not logged id', () => {
 
-    it('should leave the user on the current location', function() {
-      // Given
+    it('should redirect the user to login', function() {
       this.register('service:session', Service.extend({ isAuthenticated: false }));
       this.inject.service('session', { as: 'session' });
 
@@ -30,7 +29,7 @@ describe('Unit | Route | index', function() {
       route.beforeModel();
 
       // Then
-      sinon.assert.notCalled(route.transitionTo);
+      sinon.assert.calledWith(route.transitionTo, 'login');
     });
   });
 
