@@ -4,8 +4,52 @@ const campaignParticipationController = require('../../../../lib/application/cam
 const { NotFoundError } = require('../../../../lib/domain/errors');
 const tokenService = require('../../../../lib/domain/services/token-service');
 const usecases = require('../../../../lib/domain/usecases');
+const queryParamsUtils = require('../../../../lib/infrastructure/utils/query-params-utils');
 
 describe('Unit | Application | Controller | Campaign-Participation', () => {
+
+  describe('#getCampaignParticipationByAssessment', () => {
+
+    let sandbox;
+    let replyStub;
+    let codeStub;
+    const resultFilter = {
+      assessmentId: 4,
+    };
+
+    beforeEach(() => {
+      sandbox = sinon.sandbox.create();
+      sandbox.stub(queryParamsUtils, 'extractFilters').resolves(resultFilter);
+      sandbox.stub(usecases, 'findCampaignParticipationsByAssessmentId');
+      codeStub = sandbox.stub();
+      replyStub = sandbox.stub().returns({
+        code: codeStub
+      });
+    });
+
+    afterEach(() => {
+      sandbox.restore();
+    });
+
+    it('should call the usecases to get the campaign participations of the given assessmentId', () => {
+      const request = {
+        headers: {
+          authorization: 'token'
+        },
+      };
+      usecases.findCampaignParticipationsByAssessmentId.resolves();
+
+      // when
+      const promise = campaignParticipationController.getCampaignParticipationByAssessment(request, replyStub);
+
+      // then
+      return promise.then(() => {
+        expect(usecases.findCampaignParticipationsByAssessmentId).to.have.been.calledOnce;
+        const findCampaignParticipations = usecases.findCampaignParticipationsByAssessmentId.firstCall.args[0];
+        expect(findCampaignParticipations).to.have.property('assessmentId');
+      });
+    });
+  });
 
   describe('#shareCampaignResult', () => {
 

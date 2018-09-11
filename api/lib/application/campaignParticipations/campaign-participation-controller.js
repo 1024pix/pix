@@ -7,8 +7,23 @@ const { NotFoundError, UserNotAuthorizedToAccessEntity } = require('../../domain
 
 const JSONAPI = require('../../interfaces/jsonapi');
 const logger = require('../../infrastructure/logger');
+const { extractFilters } = require('../../infrastructure/utils/query-params-utils');
 
 module.exports = {
+
+  /*TODO use controller replies */
+
+  getCampaignParticipationByAssessment(request, reply) {
+    const filters = extractFilters(request);
+    const assessmentId = filters.assessmentId;
+    return usecases.findCampaignParticipationsByAssessmentId({
+      assessmentId,
+      campaignParticipationRepository,
+    })
+      .then((campaignParticipation) => {
+        return reply(campaignParticipation).code(200);
+      });
+  },
 
   shareCampaignResult(request, reply) {
     const token = tokenService.extractTokenFromAuthChain(request.headers.authorization);

@@ -4,6 +4,40 @@ const { expect, databaseBuilder, generateValidRequestAuhorizationHeader } = requ
 
 describe('Acceptance | API | Campaign Participations', () => {
 
+  describe('GET /api/campaign-participations?filter[assessmentId]={id}', () => {
+
+    let options;
+    let assessment;
+
+    beforeEach(() => {
+      assessment = databaseBuilder.factory.buildAssessment({ type: Assessment.types.SMARTPLACEMENT });
+      databaseBuilder.factory.buildCampaignParticipation({
+        assessmentId: assessment.id,
+      });
+
+      options = {
+        method: 'GET',
+        url: `/api/campaign-participations?filter[assessmentId]=${assessment.id}`,
+        headers: { authorization: generateValidRequestAuhorizationHeader() },
+      };
+      return databaseBuilder.commit();
+    });
+
+    afterEach(async () => {
+      await databaseBuilder.clean();
+    });
+
+    it('should return the campaign-participation of the given assessmentId', () => {
+      // when
+      const promise = server.inject(options);
+
+      // then
+      return promise.then((response) => {
+        expect(response.statusCode).to.equal(200);
+      });
+    });
+  });
+
   describe('PATCH /api/campaign-participations/{assessementId}', () => {
     let options;
     let user;
