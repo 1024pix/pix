@@ -218,7 +218,7 @@ function _getCertificationResult(assessment, continueOnError = false) {
 
     certificationChallenges.forEach((certifChallenge) => {
       const challenge = _.find(allChallenges, (challengeFromAirtable) => challengeFromAirtable.id === certifChallenge.challengeId);
-      certifChallenge.type = challenge.type || '';
+      certifChallenge.type = challenge ? challenge.type : 'EmptyType';
     });
 
     const result = _getResult(assessmentAnswers, certificationChallenges, testedCompetences, continueOnError);
