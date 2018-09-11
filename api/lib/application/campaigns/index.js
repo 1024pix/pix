@@ -31,18 +31,6 @@ exports.register = function(server, options, next) {
         tags: ['api', 'campaign']
       }
     },
-    {
-      method: 'PATCH',
-      path: '/api/campaigns/campaign-participation/{assessmentId}',
-      config: {
-        handler: campaignController.shareCampaignResult,
-        notes: [
-          '- **Cette route est restreinte aux utilisateurs authentifiés**\n' +
-          '- Partage de résultat de la campagne d‘un utilisateur, à son organisation',
-        ],
-        tags: ['api', 'campaign']
-      }
-    },
   ]);
 
   return next();
