@@ -6,6 +6,7 @@ module.exports = {
   createAssessmentForCampaign: require('./create-assessment-for-campaign'),
   createUser: require('./create-user'),
   findAvailableTargetProfiles: require('./find-available-target-profiles'),
+  findCampaignParticipationsByAssessmentId: require('./find-campaign-participations-by-assessmentId'),
   findCompletedUserCertifications: require('./find-completed-user-certifications'),
   findUserAssessmentsByFilters: require('./find-user-assessments-by-filters'),
   getCorrectionForAnswerWhenAssessmentEnded: require('./get-correction-for-answer-when-assessment-ended'),
