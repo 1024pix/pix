@@ -30,7 +30,7 @@ describe('Unit | Service | MailService', () => {
         sinon.assert.calledWith(sendEmailStub, {
           to: email,
           template: '143620',
-          from: 'ne-pas-repondre@pix.beta.gouv.fr',
+          from: 'ne-pas-repondre@pix.fr',
           fromName: 'PIX - Ne pas répondre',
           subject: 'Création de votre compte PIX'
         });
@@ -181,7 +181,7 @@ describe('Unit | Service | MailService', () => {
         // given
         const email = 'text@example.net';
         const fakeTemporaryKey = 'token';
-        const passwordResetDemandBaseUrl = 'http://dev.pix.beta.gouv.fr';
+        const passwordResetDemandBaseUrl = 'http://dev.pix.fr';
 
         // when
         const promise = mailService.sendResetPasswordDemandEmail(email, passwordResetDemandBaseUrl, fakeTemporaryKey);
@@ -191,7 +191,7 @@ describe('Unit | Service | MailService', () => {
           sinon.assert.calledWith(sendEmailStub, {
             to: email,
             template: '232827',
-            from: 'ne-pas-repondre@pix.beta.gouv.fr',
+            from: 'ne-pas-repondre@pix.fr',
             fromName: 'PIX - Ne pas répondre',
             subject: 'Demande de réinitialisation de mot de passe PIX',
             variables: {

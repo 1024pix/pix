@@ -107,7 +107,7 @@ describe('Acceptance | Controller | users-controller', () => {
       it('should send account creation email to user', () => {
         // given
         const expectedMail = {
-          from: 'ne-pas-repondre@pix.beta.gouv.fr',
+          from: 'ne-pas-repondre@pix.fr',
           fromName: 'PIX - Ne pas répondre',
           subject: 'Création de votre compte PIX',
           template: '143620',

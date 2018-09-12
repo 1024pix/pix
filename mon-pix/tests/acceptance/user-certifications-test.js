@@ -73,14 +73,6 @@ describe('Acceptance | User certifications page', function() {
       findWithAssert('.user-certifications-panel');
     });
 
-    it('should render the app footer', async function() {
-      // when
-      await authenticateAsSimpleUser();
-      await visit('/mes-certifications');
-
-      // then
-      findWithAssert('.app-footer');
-    });
   });
 
 });

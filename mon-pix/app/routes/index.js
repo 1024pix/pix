@@ -19,6 +19,8 @@ export default BaseRoute.extend(UnauthenticatedRouteMixin, {
             this.transitionTo('compte');
           }
         });
+    } else {
+      this.transitionTo('login');
     }
   },
 

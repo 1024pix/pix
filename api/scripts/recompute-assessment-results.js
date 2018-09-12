@@ -7,7 +7,7 @@ function compute(listOfAssessmentsToRecompute, request) {
   return batch(null, listOfAssessmentsToRecompute, (assessmentId) => {
     return request({
       method: 'POST',
-      uri: 'https://pix.fr/api/assessment-results?recompute=true',
+      uri: 'https://api.pix.fr/api/assessment-results?recompute=true',
       body: {
         'data': {
           'relationships': {

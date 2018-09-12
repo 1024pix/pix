@@ -90,7 +90,7 @@ describe('Unit | Class | Mailjet', function() {
       // then
       return result.then(() => {
         sinon.assert.calledWith(requestStub, {
-          'FromEmail': 'communaute@pix.beta.gouv.fr',
+          'FromEmail': 'communaute@pix.fr',
           'FromName': 'Communauté PIX',
           'Subject': 'Bienvenue dans la communauté PIX',
           'MJ-TemplateID': '129291',
@@ -114,7 +114,7 @@ describe('Unit | Class | Mailjet', function() {
       // then
       return result.then(() => {
         sinon.assert.calledWith(requestStub, {
-          'FromEmail': 'communaute@pix.beta.gouv.fr',
+          'FromEmail': 'communaute@pix.fr',
           'FromName': 'Communauté PIX',
           'Subject': 'Bienvenue dans la communauté PIX',
           'MJ-TemplateID': '129291',

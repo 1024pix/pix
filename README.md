@@ -4,7 +4,7 @@
 Présentation
 ------------
 
-[PIX](https://pix.beta.gouv.fr) s’adresse à tous les citoyens francophones (élèves, étudiants, professionnels, décrocheurs, demandeurs d’emploi, séniors, citoyens) qui souhaitent mesurer, développer et valoriser leurs compétences numériques.
+[PIX](https://pix.fr) s’adresse à tous les citoyens francophones (élèves, étudiants, professionnels, décrocheurs, demandeurs d’emploi, séniors, citoyens) qui souhaitent mesurer, développer et valoriser leurs compétences numériques.
 
 Le service se présente sous la forme d’une plateforme en ligne d’évaluation et de certification des compétences numériques.
 
