@@ -1,5 +1,12 @@
 # Pix Changelog
 
+## v1.62.0 (12/09/2018)
+
+- [#191](https://github.com/1024pix/pix/pull/191) [FEATURE] Redirection sur pix.fr apres déco et dans les démo (PF-336).
+- [#186](https://github.com/1024pix/pix/pull/186) [FEATURE] Tous les liens vers l'espace perso utilisent app.pix.fr (PF-346).
+- [#185](https://github.com/1024pix/pix/pull/185) [FEATURE] Suppression des pages de contenus éditoriaux dans app.pix.fr (PF-333).
+- [#192](https://github.com/1024pix/pix/pull/192) [BUGFIX] Erreur 500 lorsque les challenges ne sont pas retrouvés dans /details (PF-356).
+
 ## v1.61.0 (10/09/2018)
 
 - [#181](https://github.com/1024pix/pix/pull/181) [FEATURE] Rendre accessible l'espace perso pix via l'url app.pix.fr (PF-345).
