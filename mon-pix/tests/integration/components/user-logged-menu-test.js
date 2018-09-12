@@ -72,15 +72,16 @@ describe('Integration | Component | user logged menu', function() {
       });
     });
 
-    it('should display link to user certifications', function() {
+    it('should display link to user certifications and help', function() {
       // when
       this.render(hbs`{{user-logged-menu _canDisplayMenu=true}}`);
 
       return wait().then(() => {
         // then
         expect(this.$('.logged-user-menu')).to.have.lengthOf(1);
-        expect(this.$('.user-menu-item__certification-link')).to.have.lengthOf(1);
-        expect(this.$('.user-menu-item__certification-link').text()).to.contains('MES CERTIFICATIONS');
+        expect(this.$('.user-menu-item__link')).to.have.lengthOf(2);
+        expect(this.$('.user-menu-item__link').text()).to.contains('MES CERTIFICATIONS');
+        expect(this.$('.user-menu-item__link').text()).to.contains('AIDE');
       });
     });
 
