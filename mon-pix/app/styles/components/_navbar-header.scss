@@ -56,11 +56,10 @@
 }
 
 .navbar-header-logo__marianne {
-  height: 45px;
-  margin-left: 30px;
-
-  @include device-is('mobile') {
-    height: 35px;
-    margin-left: 5px;
+  height: 35px;
+  margin-left: 5px;
+  @include device-is('tablet') {
+    height: 45px;
+    margin-left: 30px;
   }
 }
