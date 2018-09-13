@@ -42,7 +42,7 @@ describe('Unit | Domain | Use Cases | get-results-campaign-in-csv-format', () =
     const targetProfile = factory.buildTargetProfile({ skills: listSkills, name: 'Profile 1' });
 
     const campaign = factory.buildCampaign({
-      name:'CampaignName',
+      name:'Campaign "Name"',
       code:'AZERTY123',
       organizationId: organization.id,
       idPixLabel: 'Mail Pro',
@@ -123,7 +123,6 @@ describe('Unit | Domain | Use Cases | get-results-campaign-in-csv-format', () =
         '"Date de début";' +
         '"Partage (O/N)";' +
         '"Date du partage";' +
-        '"Heure du partage";' +
         '"Nombre de Pix obtenus";' +
         '"Nombre de pix possibles";' +
         '"% maitrise de l\'ensemble des acquis du profil";' +
@@ -181,8 +180,7 @@ describe('Unit | Domain | Use Cases | get-results-campaign-in-csv-format', () =
           '100;' +
           '="2017-05-05";' +
           '="true";' +
-          `="${moment(factoryCampaignParticipation.sharedAt).format('DD-MM-YYYY')}";` +
-          `="${moment(factoryCampaignParticipation.sharedAt).format('HH:mm:ss')}";` +
+          `="${moment(factoryCampaignParticipation.sharedAt).format('YYYY-MM-DD')}";` +
           '"NA";' +
           '"NA";' +
           '75;' +
@@ -228,36 +226,35 @@ describe('Unit | Domain | Use Cases | get-results-campaign-in-csv-format', () =
         const csvSecondLine =
           `="${organization.name}";` +
           `="${campaign.id}";` +
-          `="${campaign.name}";` +
+          '="Campaign ""Name""";' +
           `="${targetProfile.name}";` +
           `="${user.firstName}";` +
           `="${user.lastName}";` +
-          '="Non disponible";' +
-          '="Non disponible";' +
-          '="Non disponible";' +
-          '="Non disponible";' +
-          '="Non disponible";' +
-          '="Non disponible";' +
-          '="Non disponible";' +
-          '="Non disponible";' +
-          '="100";' +
-          `="${assessment.createdAt}";` +
+          '"NA";' +
+          '"NA";' +
+          '"NA";' +
+          '"NA";' +
+          '"NA";' +
+          '"NA";' +
+          '"NA";' +
+          '"NA";' +
+          '100;' +
+          '="2017-05-05";' +
           '="false";' +
-          '="Non disponible";' +
-          '="Non disponible";' +
-          '="Non disponible";' +
-          '="Non disponible";' +
-          '="Non disponible";' +
-          '="Non disponible";' +
-          '="Non disponible";' +
-          '="Non disponible";' +
-          '="Non disponible";' +
-          '="Non disponible";' +
-          '="Non disponible";' +
-          '="Non disponible";' +
-          '="Non disponible";' +
-          '="Non disponible";' +
-          '="Non disponible"\n';
+          '"NA";' +
+          '"NA";' +
+          '"NA";' +
+          '"NA";' +
+          '"NA";' +
+          '"NA";' +
+          '"NA";' +
+          '"NA";' +
+          '"NA";' +
+          '"NA";' +
+          '"NA";' +
+          '"NA";' +
+          '"NA";' +
+          '"NA"\n';
 
         // when
         const promise = getResultsCampaignInCsvFormat({
@@ -281,6 +278,9 @@ describe('Unit | Domain | Use Cases | get-results-campaign-in-csv-format', () =
     context('when campaign do not have a idPixLabel', () => {
 
       beforeEach(() => {
+        const factoryCampaignParticipation = factory.buildCampaignParticipation({ isShared: false });
+        findCampaignParticipationStub.resolves([factoryCampaignParticipation]);
+
         const campaignWithoutIdPixLabel = factory.buildCampaign({
           name: 'CampaignName',
           code: 'AZERTY123',
@@ -309,7 +309,6 @@ describe('Unit | Domain | Use Cases | get-results-campaign-in-csv-format', () =
           '"Date de début";' +
           '"Partage (O/N)";' +
           '"Date du partage";' +
-          '"Heure du partage";' +
           '"Nombre de Pix obtenus";' +
           '"Nombre de pix possibles";' +
           '"% maitrise de l\'ensemble des acquis du profil";' +
