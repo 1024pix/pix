@@ -21,6 +21,7 @@ bookshelf.plugin('bookshelf-validate', {
 });
 
 bookshelf.plugin('registry');
+bookshelf.plugin('pagination');
 
 if (bookshelf.VERSION !== '0.12.1') {
   logger.error('WARNING: nous avons patché la version 0.12.1 de Bookshelf. Risque de bug dans les versions à venir.');
