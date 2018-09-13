@@ -1,4 +1,4 @@
-const { expect,  } = require('../../../test-helper');
+const { expect, } = require('../../../test-helper');
 const queryParamsUtils = require('../../../../lib/infrastructure/utils/query-params-utils');
 
 describe('Unit | Utils | Query Params Utils', function() {
@@ -8,8 +8,8 @@ describe('Unit | Utils | Query Params Utils', function() {
     it('should extract a filter from request Object', function() {
       // given
       const request = {
-        query : {
-          'filter[courseId]' : '26'
+        query: {
+          'filter[courseId]': '26'
         }
       };
 
@@ -18,16 +18,16 @@ describe('Unit | Utils | Query Params Utils', function() {
 
       // then
       expect(result).to.deep.equal({
-        courseId : '26'
+        courseId: '26'
       });
     });
 
     it('should extract multiple filters from request Object', function() {
       // given
       const request = {
-        query : {
-          'filter[courseId]' : '26',
-          'filter[userId]' : '1'
+        query: {
+          'filter[courseId]': '26',
+          'filter[userId]': '1'
         }
       };
 
@@ -36,11 +36,25 @@ describe('Unit | Utils | Query Params Utils', function() {
 
       // then
       expect(result).to.deep.equal({
-        courseId : '26',
-        userId : '1'
+        courseId: '26',
+        userId: '1'
       });
     });
 
-  });
+    it('should return an empty object if the request contains no query param "filter"', function() {
+      // given
+      const request = {
+        query: {
+          'page': 1,
+          'pageSize': 10
+        }
+      };
 
+      // when
+      const result = queryParamsUtils.extractFilters(request);
+
+      // then
+      expect(result).to.deep.equal({});
+    });
+  });
 });
