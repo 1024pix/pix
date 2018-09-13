@@ -111,14 +111,17 @@
   text-transform: capitalize;
 }
 
-.user-menu-item__certification-link {
+.user-menu-item__link {
   background-color: white;
   font-size: 13px;
   line-height: 16px;
-  height: 50px;
+  height: 35px;
+}
+.user-menu-item__link--first {
+  margin-top:25px;
 }
 
-.user-menu-item__certification-link a{
+.user-menu-item__link a{
   color: $dove-gray;
   font-family: $font-lato;
   font-size: 13px;

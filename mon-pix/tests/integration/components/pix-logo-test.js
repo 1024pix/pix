@@ -21,12 +21,8 @@ describe('Integration | Component | pix logo', function() {
     expect(this.$('.pix-logo__image').attr('src')).to.equal('/images/pix-logo.svg');
   });
 
-  it('should display "bêta"', function() {
-    expect(this.$().text().trim()).to.equal('Bêta');
-  });
-
   it('should have a textual alternative', function() {
-    expect(this.$('.pix-logo__image').attr('alt')).to.equal('Logo officiel de PIX (version bêta)');
+    expect(this.$('.pix-logo__image').attr('alt')).to.equal('Pix');
   });
 
   it('should have a title in the link', function() {
