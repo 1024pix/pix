@@ -77,7 +77,7 @@ describe('Unit | Application | Controller | Campaign-Participation', () => {
       // given
       const request = {
         params: {
-          assessmentId: '5'
+          id: '5'
         },
         headers: {
           authorization: 'token'
@@ -92,7 +92,7 @@ describe('Unit | Application | Controller | Campaign-Participation', () => {
       return promise.then(() => {
         expect(usecases.allowUserToShareHisCampaignResult).to.have.been.calledOnce;
         const updateCampaignParticiaption = usecases.allowUserToShareHisCampaignResult.firstCall.args[0];
-        expect(updateCampaignParticiaption).to.have.property('assessmentId');
+        expect(updateCampaignParticiaption).to.have.property('campaignParticipationId');
         expect(updateCampaignParticiaption).to.have.property('userId');
         expect(updateCampaignParticiaption).to.have.property('campaignParticipationRepository');
       });
@@ -117,7 +117,7 @@ describe('Unit | Application | Controller | Campaign-Participation', () => {
         expect(codeStub).to.have.been.calledWith(400);
         expect(replyStub).to.have.been.calledWith({
           errors: [{
-            detail: 'assessmentId manquant',
+            detail: 'campaignParticipationId manquant',
             status: '400',
             title: 'Bad Request',
           }]
@@ -129,7 +129,7 @@ describe('Unit | Application | Controller | Campaign-Participation', () => {
         const nonExistingAssessmentId = 1789;
         const request = {
           params: {
-            assessmentId: nonExistingAssessmentId,
+            id: nonExistingAssessmentId,
           },
           headers: {
             authorization: 'token'
@@ -164,7 +164,7 @@ describe('Unit | Application | Controller | Campaign-Participation', () => {
         // given
         const request = {
           params: {
-            assessmentId: '5'
+            id: '5'
           },
           headers: {
             authorization: 'token'
@@ -179,7 +179,7 @@ describe('Unit | Application | Controller | Campaign-Participation', () => {
         return promise.then(() => {
           expect(usecases.allowUserToShareHisCampaignResult).to.have.been.calledOnce;
           const updateCampaignParticiaption = usecases.allowUserToShareHisCampaignResult.firstCall.args[0];
-          expect(updateCampaignParticiaption).to.have.property('assessmentId');
+          expect(updateCampaignParticiaption).to.have.property('campaignParticipationId');
           expect(updateCampaignParticiaption).to.have.property('userId');
           expect(updateCampaignParticiaption).to.have.property('campaignParticipationRepository');
         });

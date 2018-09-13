@@ -38,10 +38,11 @@ describe('Acceptance | API | Campaign Participations', () => {
     });
   });
 
-  describe('PATCH /api/campaign-participations/{assessementId}', () => {
+  describe('PATCH /api/campaign-participations/{id}', () => {
+
     let options;
-    let user;
     let assessment;
+    let user;
     let campaignParticipation;
 
     beforeEach(() => {
@@ -55,7 +56,7 @@ describe('Acceptance | API | Campaign Participations', () => {
 
       options = {
         method: 'PATCH',
-        url: `/api/campaign-participations/${campaignParticipation.assessmentId}`,
+        url: `/api/campaign-participations/${campaignParticipation.id}`,
         headers: { authorization: generateValidRequestAuhorizationHeader(user.id) },
         payload: {
           data: {

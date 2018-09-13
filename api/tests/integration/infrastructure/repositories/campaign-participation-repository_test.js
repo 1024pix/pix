@@ -6,6 +6,35 @@ const { NotFoundError } = require('../../../../lib/domain/errors');
 
 describe('Integration | Repository | Campaign Participation', () => {
 
+  describe('#get', () => {
+
+    let campaign1;
+    let campaignParticipation1;
+
+    beforeEach(async () => {
+      campaign1 = databaseBuilder.factory.buildCampaign({});
+
+      campaignParticipation1 = databaseBuilder.factory.buildCampaignParticipation({
+        campaignId: campaign1.id
+      });
+      await databaseBuilder.commit();
+    });
+
+    afterEach(async () => {
+      await databaseBuilder.clean();
+    });
+
+    it('should return a campaign participation object', () => {
+      // when
+      const promise = campaignParticipationRepository.get(campaignParticipation1.id);
+
+      // then
+      return promise.then((campaignParticipationFind) => {
+        expect(campaignParticipationFind.id).to.equal(campaignParticipation1.id);
+      });
+    });
+  });
+
   describe('#save', () => {
 
     afterEach(() => {
