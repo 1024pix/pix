@@ -2,19 +2,21 @@ const { UserNotAuthorizedToAccessEntity } = require('../errors');
 
 module.exports = function allowUserToShareHisCampaignResult({
   userId,
-  assessmentId,
+  campaignParticipationId,
   campaignParticipationRepository,
   smartPlacementAssessmentRepository,
 }) {
-  return smartPlacementAssessmentRepository.checkIfAssessmentBelongToUser(assessmentId, userId)
+  let campaignParticipation;
+  return campaignParticipationRepository.get(campaignParticipationId)
+    .then((campaignParticipationFound) => {
+      campaignParticipation = campaignParticipationFound;
+      return smartPlacementAssessmentRepository.checkIfAssessmentBelongToUser(campaignParticipation.assessmentId, userId);
+    })
     .then((assessmentBelongToUser) => {
       if (assessmentBelongToUser) {
         return Promise.resolve();
       }
       return Promise.reject(new UserNotAuthorizedToAccessEntity('User does not have an access to this campaign participation'));
     })
-    .then(() => {
-      return campaignParticipationRepository.findByAssessmentId(assessmentId);
-    })
-    .then(campaignParticipationRepository.updateCampaignParticipation);
+    .then(() => campaignParticipationRepository.updateCampaignParticipation(campaignParticipation));
 };

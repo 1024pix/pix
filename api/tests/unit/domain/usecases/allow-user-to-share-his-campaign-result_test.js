@@ -9,11 +9,12 @@ describe('Unit | UseCase | allow-user-to-share-his-campaign-result', () => {
   let userId;
   let assessment;
   let assessmentId;
+  let campaignParticipation;
   let expectedCampaignParticipation;
   const campaignParticipationRepository = {
     updateCampaignParticipation() {
     },
-    findByAssessmentId() {
+    get() {
     },
   };
   const smartPlacementAssessmentRepository = {
@@ -26,10 +27,11 @@ describe('Unit | UseCase | allow-user-to-share-his-campaign-result', () => {
     userId = user.id;
     assessment = factory.buildSmartPlacementAssessment({ userId: userId });
     assessmentId = assessment.id;
+    campaignParticipation = factory.buildCampaignParticipation({ assessmentId });
 
     sandbox = sinon.sandbox.create();
     sandbox.stub(smartPlacementAssessmentRepository, 'checkIfAssessmentBelongToUser');
-    sandbox.stub(campaignParticipationRepository, 'findByAssessmentId').resolves();
+    sandbox.stub(campaignParticipationRepository, 'get').resolves();
   });
 
   afterEach(() => {
@@ -45,10 +47,14 @@ describe('Unit | UseCase | allow-user-to-share-his-campaign-result', () => {
     context('when the assessmentId is in the database', () => {
 
       beforeEach(() => {
+        campaignParticipationRepository.get.resolves(campaignParticipation);
+
         expectedCampaignParticipation = factory.buildCampaignParticipation({
-          assessmentId: assessmentId,
+          assessmentId: campaignParticipation.assessmentId,
+          campaignId: campaignParticipation.campaignId,
           isShared: true
         });
+
         sandbox.stub(campaignParticipationRepository, 'updateCampaignParticipation')
           .resolves(expectedCampaignParticipation);
       });
@@ -76,7 +82,7 @@ describe('Unit | UseCase | allow-user-to-share-his-campaign-result', () => {
     context('when the assessmentId is not in the database', () => {
 
       beforeEach(() => {
-        sandbox.stub(campaignParticipationRepository, 'updateCampaignParticipation').rejects(new NotFoundError());
+        campaignParticipationRepository.get.rejects(new NotFoundError());
       });
 
       afterEach(() => {
@@ -101,6 +107,7 @@ describe('Unit | UseCase | allow-user-to-share-his-campaign-result', () => {
   context('when the share request does not come from the owner of the assessment', () => {
 
     beforeEach(() => {
+      campaignParticipationRepository.get.resolves(campaignParticipation);
       smartPlacementAssessmentRepository.checkIfAssessmentBelongToUser.resolves(false);
     });
 

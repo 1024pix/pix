@@ -17,7 +17,7 @@ exports.register = function(server, options, next) {
     },
     {
       method: 'PATCH',
-      path: '/api/campaign-participations/{assessmentId}',
+      path: '/api/campaign-participations/{id}',
       config: {
         handler: campaignParticipationController.shareCampaignResult,
         notes: [

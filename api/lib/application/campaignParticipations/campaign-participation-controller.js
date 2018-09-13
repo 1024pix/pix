@@ -28,12 +28,12 @@ module.exports = {
   shareCampaignResult(request, reply) {
     const token = tokenService.extractTokenFromAuthChain(request.headers.authorization);
     const userId = tokenService.extractUserId(token);
-    const assessmentId = parseInt(request.params.assessmentId);
+    const campaignParticipationId = parseInt(request.params.id);
 
-    if (assessmentId) {
+    if (campaignParticipationId) {
       return usecases.allowUserToShareHisCampaignResult({
         userId,
-        assessmentId,
+        campaignParticipationId,
         campaignParticipationRepository,
         smartPlacementAssessmentRepository
       })
@@ -53,7 +53,7 @@ module.exports = {
         });
     }
     else {
-      return reply(JSONAPI.badRequest('assessmentId manquant')).code(400);
+      return reply(JSONAPI.badRequest('campaignParticipationId manquant')).code(400);
     }
   }
 };

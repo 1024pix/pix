@@ -16,6 +16,16 @@ function _toDomain(bookshelfCampaignParticipation) {
 
 module.exports = {
 
+  get(id) {
+    return BookshelfCampaignParticipation
+      .query((qb) => {
+        qb.where({ id });
+      })
+      .fetch({ require: true })
+      .then(_toDomain)
+      .catch(_checkNotFoundError);
+  },
+
   save(campaignParticipation) {
     return new BookshelfCampaignParticipation(campaignParticipation.adaptModelToDb())
       .save()
