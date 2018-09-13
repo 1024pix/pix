@@ -14,6 +14,7 @@
     "bcrypt": "^1.0.3",
     "blipp": "^2.3.0",
     "bookshelf": "^0.12.1",
+    "bookshelf-page": "^0.3.2",
     "bookshelf-validate": "^2.0.3",
     "boom": "^5.2.0",
     "bunyan": "^1.8.12",
