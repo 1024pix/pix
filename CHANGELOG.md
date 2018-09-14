@@ -1,5 +1,10 @@
 # Pix Changelog
 
+
+## 2.0.0 (14/09/2018) 
+
+- [#193](https://github.com/1024pix/pix/pull/193) [FEATURE] Mise à jour du header (PF-344).
+
 ## v1.62.0 (12/09/2018)
 
 - [#191](https://github.com/1024pix/pix/pull/191) [FEATURE] Redirection sur pix.fr apres déco et dans les démo (PF-336).
