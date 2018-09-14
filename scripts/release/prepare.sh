@@ -16,10 +16,10 @@ function ensure_no_uncommited_changes_are_present {
     fi
 }
 
-function ensure_new_version_is_either_minor_or_patch {
-    if [ "$NEW_VERSION_TYPE" != "patch" -a "$NEW_VERSION_TYPE" != "minor" ];
+function ensure_new_version_is_either_minor_or_patch_or_major {
+    if [ "$NEW_VERSION_TYPE" != "patch" -a "$NEW_VERSION_TYPE" != "minor" -a "$NEW_VERSION_TYPE" != "major" ];
     then
-      echo -e "${RED}Wrong argument!${RESET_COLOR} Only ${GREEN}patch${RESET_COLOR} or ${GREEN}minor${RESET_COLOR} is allowed.\n"
+      echo -e "${RED}Wrong argument!${RESET_COLOR} Only ${GREEN}patch${RESET_COLOR}, ${GREEN}minor${RESET_COLOR} or ${GREEN}major${RESET_COLOR} is allowed.\n"
       exit 1
     fi
 }
@@ -46,7 +46,7 @@ function create_a_release_commit {
 echo -e "Preparing a new release for ${RED}production${RESET_COLOR}.\n"
 
 ensure_no_uncommited_changes_are_present
-ensure_new_version_is_either_minor_or_patch
+ensure_new_version_is_either_minor_or_patch_or_major
 checkout_dev
 fetch_and_rebase
 update_version
