@@ -102,6 +102,7 @@ jobs:
     steps:
       - checkout
       - run: npm install # triggers npm install for subdirectories
+      - run: rm -rf .git/ # do not cache .git
       - save_cache:
           key: v6-pix-{{ .Environment.CIRCLE_WORKFLOW_ID }}
           paths:
