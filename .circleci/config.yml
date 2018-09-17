@@ -20,25 +20,25 @@
 
 common_properties: &common_properties
   docker:
-    - image: circleci/node:8
+    - image: circleci/node:8.11
   working_directory: ~/pix
 
 # Properties shared by all api-side jobs
 api_properties: &api_properties
   docker:
-    - image: circleci/node:8
+    - image: circleci/node:8.11
   working_directory: ~/pix/api
 
 # Properties shared by all mon_pix-side jobs
 mon_pix_properties: &mon_pix_properties
   docker:
-    - image: circleci/node:8-browsers
+    - image: circleci/node:8.11-browsers
   working_directory: ~/pix/mon-pix
 
 # Properties shared by all orga-side jobs
 orga_properties: &orga_properties
   docker:
-    - image: circleci/node:8-browsers
+    - image: circleci/node:8.11-browsers
   working_directory: ~/pix/orga
 
 version: 2.0
@@ -112,7 +112,7 @@ jobs:
   # api
   build_and_test_api:
     docker:
-      - image: circleci/node:8
+      - image: circleci/node:8.11
       - image: postgres:10-alpine
         environment:
           POSTGRES_USER: circleci
