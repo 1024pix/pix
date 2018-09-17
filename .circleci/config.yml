@@ -59,37 +59,37 @@ workflows:
                 - /release-.*/
 
       # api side
-      - build_and_test_api:
+      - api_build_and_test:
           requires:
             - checkout_and_install
 
       # mon_pix side
-      - build_mon_pix:
+      - mon_pix_build:
           requires:
             - checkout_and_install
-      - test_mon_pix_1:
+      - mon_pix_test_1:
           requires:
-            - build_mon_pix
-      - test_mon_pix_2:
+            - mon_pix_build
+      - mon_pix_test_2:
           requires:
-            - build_mon_pix
-      - test_mon_pix_3:
+            - mon_pix_build
+      - mon_pix_test_3:
           requires:
-            - build_mon_pix
+            - mon_pix_build
 
       # orga side
-      - build_and_test_orga:
+      - orga_build_and_test:
           requires:
             - checkout_and_install
 
       # common ci notification
       - signal_ci_ok:
           requires:
-            - build_and_test_api
-            - test_mon_pix_1
-            - test_mon_pix_2
-            - test_mon_pix_3
-            - build_and_test_orga
+            - api_build_and_test
+            - mon_pix_test_1
+            - mon_pix_test_2
+            - mon_pix_test_3
+            - orga_build_and_test
           filters:
             branches:
               ignore:
@@ -110,7 +110,7 @@ jobs:
             - ~/.npm
 
   # api
-  build_and_test_api:
+  api_build_and_test:
     docker:
       - image: circleci/node:8.11
       - image: postgres:10-alpine
@@ -129,7 +129,7 @@ jobs:
             DATABASE_URL: "postgres://circleci@localhost:5432/circleci"
 
   # mon_pix
-  build_mon_pix:
+  mon_pix_build:
     <<: *mon_pix_properties
     steps:
       - restore_cache:
@@ -146,7 +146,7 @@ jobs:
           paths:
             - dist
 
-  test_mon_pix_1:
+  mon_pix_test_1:
     <<: *mon_pix_properties
     steps:
       - restore_cache:
@@ -156,7 +156,7 @@ jobs:
           at: ~/pix/mon-pix
       - run: npx ember exam --path dist --split=3 --partition=1 --reporter dot
 
-  test_mon_pix_2:
+  mon_pix_test_2:
     <<: *mon_pix_properties
     steps:
       - restore_cache:
@@ -166,7 +166,7 @@ jobs:
           at: ~/pix/mon-pix
       - run: npx ember exam --path dist --split=3 --partition=2 --reporter dot
 
-  test_mon_pix_3:
+  mon_pix_test_3:
     <<: *mon_pix_properties
     steps:
       - restore_cache:
@@ -177,7 +177,7 @@ jobs:
       - run: npx ember exam --path dist --split=3 --partition=3 --reporter dot
 
   # orga
-  build_and_test_orga:
+  orga_build_and_test:
     <<: *orga_properties
     steps:
       - restore_cache:
