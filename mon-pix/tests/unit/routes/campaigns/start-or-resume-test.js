@@ -9,25 +9,65 @@ import sinon from 'sinon';
 describe('Unit | Route | campaigns/start-or-resume', function() {
 
   setupTest('route:campaigns/start-or-resume', {
-    needs: ['service:session', 'service:current-routed-modal']
+    needs: ['service:current-routed-modal']
+  });
+
+  let storeStub;
+  let createRecordStub;
+  let queryRecordStub;
+  let queryStub;
+
+  beforeEach(function() {
+    queryStub = sinon.stub();
+    createRecordStub = sinon.stub();
+    queryRecordStub = sinon.stub();
+    storeStub = Service.extend({ queryRecord: queryRecordStub, query: queryStub, createRecord: createRecordStub });
+    this.register('service:store', storeStub);
+    this.inject.service('store', { as: 'store' });
+
+    this.register('service:session', Service.extend({
+      isAuthenticated: true,
+      data: {
+        authenticated: {
+          userId: 1435
+        }
+      }
+    }));
+    this.inject.service('session', { as: 'session' });
+  });
+
+  describe('#modelNew', function() {
+
+    it('should create new campaign-participation for current user', function() {
+      // given
+      const route = this.subject();
+      const params = {
+        campaign_code: 'AQST765'
+      };
+      const currentUserId = 1435;
+      const currentCampaign = EmberObject.create({ id: 1234 });
+      const campaigns = A([currentCampaign]);
+      const newCampaignParticipation = EmberObject.create({ });
+
+      queryStub.resolves(campaigns);
+      createRecordStub.returns(newCampaignParticipation);
+
+      // when
+      const promise = route.modelNew(params);
+
+      // then
+      return promise.then((campaignParticipation) => {
+        sinon.assert.calledWith(createRecordStub, 'campaign-participation', { userId: currentUserId, campaignId: currentCampaign.get('id') });
+        expect(campaignParticipation).to.deep.equal(newCampaignParticipation);
+      });
+    });
   });
 
   describe('#model', function() {
 
-    let storeStub;
-    let queryStub;
-    let createRecordStub;
     const params = {
       campaign_code: 'CODECAMPAIGN'
     };
-
-    beforeEach(function() {
-      queryStub = sinon.stub();
-      createRecordStub = sinon.stub();
-      storeStub = Service.extend({ query: queryStub, createRecord: createRecordStub });
-      this.register('service:store', storeStub);
-      this.inject.service('store', { as: 'store' });
-    });
 
     it('should fetch all user assessments with type "SMART_PLACEMENT"', function() {
       // given
@@ -84,20 +124,13 @@ describe('Unit | Route | campaigns/start-or-resume', function() {
 
   describe('#afterModel', function() {
 
-    let storeStub;
-    let queryRecordStub;
     let route;
     let assessment;
 
     beforeEach(function() {
-      queryRecordStub = sinon.stub();
-      storeStub = Service.extend({ queryRecord: queryRecordStub });
-      this.register('service:store', storeStub);
-      this.inject.service('store', { as: 'store' });
       route = this.subject();
       route.transitionTo = sinon.stub();
       assessment = EmberObject.create({ reload: sinon.stub().resolves() });
-
     });
 
     it('should force assessment reload in order to pre-fetch its answers', function() {// when

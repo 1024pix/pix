@@ -16,6 +16,15 @@ export default BaseRoute.extend(AuthenticatedRouteMixin, {
       });
   },
 
+  modelNew(params) {
+    const codeCampaign = params.campaign_code;
+    const userId = this.get('session.data.authenticated.userId');
+    const store = this.get('store');
+    return store.query('campaign', { filter: { code: codeCampaign } })
+      .then((campaigns) => campaigns.get('firstObject'))
+      .then((campaign) => store.createRecord('campaign-participation', { userId, campaignId: campaign.get('id') }));
+  },
+
   afterModel(assessment) {
     const store = this.get('store');
     return assessment.reload()
