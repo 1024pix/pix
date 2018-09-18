@@ -133,7 +133,7 @@ describe('Acceptance | API | assessment-controller-get-adaptive', () => {
       return knex('assessments').delete();
     });
 
-    it('should return HTTP status code 404 when there is not next challenge', () => {
+    it('should return HTTP status code 200 with null data when there is not next challenge', () => {
       // given
       const options = {
         method: 'GET',
@@ -142,7 +142,10 @@ describe('Acceptance | API | assessment-controller-get-adaptive', () => {
 
       // when
       return server.inject(options).then((response) => {
-        expect(response.statusCode).to.equal(404);
+        expect(response.statusCode).to.equal(200);
+        expect(response.result).to.deep.equal({
+          data: null
+        });
       });
     });
   });

@@ -99,15 +99,14 @@ describe('Unit | Controller | assessment-controller-get-next-challenge', () => {
         }));
       });
 
-      it('should return a 404 code directly', () => {
+      it('should return a null data directly', () => {
         // when
         const promise = assessmentController.getNextChallenge({ params: { id: PREVIEW_ASSESSMENT_ID } }, replyStub);
 
         // then
         return promise.then(() => {
           expect(replyStub).to.have.been.calledOnce;
-          expect(replyStub).to.have.been.calledWith({ message: 'NotFoundError' });
-          expect(Boom.notFound).to.have.been.calledOnce;
+          expect(replyStub).to.have.been.calledWith({ data: null });
         });
       });
     });
@@ -145,15 +144,14 @@ describe('Unit | Controller | assessment-controller-get-next-challenge', () => {
       });
 
       context('when the assessment is a DEMO', () => {
-        it('should reply with not found', () => {
+        it('should reply with no data', () => {
           // when
           const promise = assessmentController.getNextChallenge({ params: { id: 7531 } }, replyStub);
 
           // then
           return promise.then(() => {
             expect(replyStub).to.have.been.calledOnce;
-            expect(replyStub).to.have.been.calledWith({ message: 'NotFoundError' });
-            expect(Boom.notFound).to.have.been.calledOnce;
+            expect(replyStub).to.have.been.calledWith({ data: null });
           });
         });
       });
@@ -206,7 +204,7 @@ describe('Unit | Controller | assessment-controller-get-next-challenge', () => {
         });
       });
 
-      it('should reply 404 when unable to find the next challenge', () => {
+      it('should reply null data when unable to find the next challenge', () => {
         // given
         usecases.getNextChallengeForCertification.rejects(new AssessmentEndedError());
 
@@ -216,7 +214,7 @@ describe('Unit | Controller | assessment-controller-get-next-challenge', () => {
         // then
         return promise.then(() => {
           expect(replyStub).to.have.been.calledOnce
-            .and.to.have.been.calledWith(Boom.notFound());
+            .and.to.have.been.calledWith({ data: null });
         });
       });
     });

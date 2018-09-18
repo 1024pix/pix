@@ -165,11 +165,11 @@ module.exports = {
         logContext.err = err;
         logger.trace(logContext, 'catching exception');
         if (err instanceof AssessmentEndedError) {
-          return reply(Boom.notFound());
+          reply({ data: null }).code(200);
+        } else {
+          logger.error(err);
+          reply(Boom.badImplementation(err));
         }
-
-        logger.error(err);
-        reply(Boom.badImplementation(err));
       });
   }
 };
