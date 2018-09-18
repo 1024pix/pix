@@ -1,5 +1,5 @@
 const { expect, sinon } = require('../../../test-helper');
-const usecases = require('../../../../lib/domain/usecases');
+const createUser = require('../../../../lib/domain/usecases/create-user');
 const { AlreadyRegisteredEmailError, InvalidRecaptchaTokenError, EntityValidationError } = require('../../../../lib/domain/errors');
 const User = require('../../../../lib/domain/models/User');
 const userValidator = require('../../../../lib/domain/validators/user-validator');
@@ -52,7 +52,7 @@ describe('Unit | UseCase | create-user', () => {
       userRepository.isEmailAvailable.resolves();
 
       // when
-      const promise = usecases.createUser({
+      const promise = createUser({
         user, reCaptchaToken, userRepository, reCaptchaValidator, encryptionService, mailService
       });
 
@@ -68,7 +68,7 @@ describe('Unit | UseCase | create-user', () => {
       userValidator.validate.resolves();
 
       // when
-      const promise = usecases.createUser({
+      const promise = createUser({
         user, reCaptchaToken, userRepository, reCaptchaValidator, encryptionService, mailService
       });
 
@@ -81,7 +81,7 @@ describe('Unit | UseCase | create-user', () => {
 
     it('should validate the token', () => {
       // when
-      const promise = usecases.createUser({
+      const promise = createUser({
         user, reCaptchaToken, userRepository, reCaptchaValidator, encryptionService, mailService
       });
 
@@ -109,7 +109,7 @@ describe('Unit | UseCase | create-user', () => {
         userRepository.isEmailAvailable.rejects(emailExistError);
 
         // when
-        const promise = usecases.createUser({
+        const promise = createUser({
           user, reCaptchaToken, userRepository, reCaptchaValidator, encryptionService, mailService
         });
 
@@ -144,7 +144,7 @@ describe('Unit | UseCase | create-user', () => {
         userValidator.validate.rejects(expectedValidationError);
 
         // when
-        const promise = usecases.createUser({
+        const promise = createUser({
           user, reCaptchaToken, userRepository, reCaptchaValidator, encryptionService, mailService
         });
 
@@ -176,7 +176,7 @@ describe('Unit | UseCase | create-user', () => {
         reCaptchaValidator.verify.rejects(invalidReCaptchaTokenError);
 
         // when
-        const promise = usecases.createUser({
+        const promise = createUser({
           user, reCaptchaToken, userRepository, userValidator, reCaptchaValidator, encryptionService, mailService
         });
 
@@ -216,7 +216,7 @@ describe('Unit | UseCase | create-user', () => {
         reCaptchaValidator.verify.rejects(invalidReCaptchaTokenError);
 
         // when
-        promise = usecases.createUser({
+        promise = createUser({
           user, reCaptchaToken, userRepository, reCaptchaValidator, encryptionService, mailService
         });
 
@@ -237,7 +237,7 @@ describe('Unit | UseCase | create-user', () => {
 
       it('should encrypt the password', () => {
         // when
-        const promise = usecases.createUser({
+        const promise = createUser({
           user, reCaptchaToken, userRepository, reCaptchaValidator, encryptionService, mailService
         });
 
@@ -253,7 +253,7 @@ describe('Unit | UseCase | create-user', () => {
         encryptionService.hashPassword.resolves(password);
 
         // when
-        const promise = usecases.createUser({
+        const promise = createUser({
           user, reCaptchaToken, userRepository, reCaptchaValidator, encryptionService, mailService
         });
 
@@ -271,7 +271,7 @@ describe('Unit | UseCase | create-user', () => {
         const userWithEncryptedPassword = new User({ email: userEmail, password: encryptedPassword });
 
         // when
-        const promise = usecases.createUser({
+        const promise = createUser({
           user, reCaptchaToken, userRepository, reCaptchaValidator, encryptionService, mailService
         });
 
@@ -291,7 +291,7 @@ describe('Unit | UseCase | create-user', () => {
 
       beforeEach(() => {
         // when
-        promise = usecases.createUser({
+        promise = createUser({
           user,
           reCaptchaToken,
           userRepository,
@@ -312,7 +312,7 @@ describe('Unit | UseCase | create-user', () => {
 
     it('should return saved user (with id)', () => {
       // when
-      const promise = usecases.createUser({
+      const promise = createUser({
         user,
         reCaptchaToken,
         userRepository,

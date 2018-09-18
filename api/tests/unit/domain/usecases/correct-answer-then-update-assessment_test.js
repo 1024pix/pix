@@ -3,7 +3,7 @@ const { expect, sinon, factory } = require('../../../test-helper');
 const AnswerStatus = require('../../../../lib/domain/models/AnswerStatus');
 const SmartPlacementKnowledgeElement = require('../../../../lib/domain/models/SmartPlacementKnowledgeElement');
 
-const useCase = require('../../../../lib/domain/usecases');
+const correctAnswerThenUpdateAssessment = require('../../../../lib/domain/usecases/correct-answer-then-update-assessment');
 
 const { ChallengeAlreadyAnsweredError, NotFoundError } = require('../../../../lib/domain/errors');
 
@@ -45,7 +45,7 @@ describe('Unit | Domain | Use Cases | correct-answer-then-update-assessment', (
       answerRepository.hasChallengeAlreadyBeenAnswered.resolves(true);
 
       // when
-      promise = useCase.correctAnswerThenUpdateAssessment({
+      promise = correctAnswerThenUpdateAssessment({
         answer,
         answerRepository,
         challengeRepository,
@@ -109,7 +109,7 @@ describe('Unit | Domain | Use Cases | correct-answer-then-update-assessment', (
       smartPlacementAssessmentRepository.get.rejects(new NotFoundError());
 
       // when
-      promise = useCase.correctAnswerThenUpdateAssessment({
+      promise = correctAnswerThenUpdateAssessment({
         answer,
         answerRepository,
         challengeRepository,
@@ -203,7 +203,7 @@ describe('Unit | Domain | Use Cases | correct-answer-then-update-assessment', (
       ]);
 
       // when
-      promise = useCase.correctAnswerThenUpdateAssessment({
+      promise = correctAnswerThenUpdateAssessment({
         answer,
         answerRepository,
         challengeRepository,

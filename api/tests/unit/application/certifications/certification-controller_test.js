@@ -10,11 +10,6 @@ const Boom = require('boom');
 const logger = require('../../../../lib/infrastructure/logger');
 const certificationSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/certification-serializer');
 
-const certificationRepository = require('../../../../lib/infrastructure/repositories/certification-repository');
-const assessmentRepository = require('../../../../lib/infrastructure/repositories/assessment-repository');
-const competenceMarksRepository = require('../../../../lib/infrastructure/repositories/competence-mark-repository');
-const competenceTreeRepository = require('../../../../lib/infrastructure/repositories/competence-tree-repository');
-
 describe('Unit | Controller | certifications-controller', () => {
 
   let replyStub;
@@ -60,7 +55,7 @@ describe('Unit | Controller | certifications-controller', () => {
 
       // then
       return promise.then(() => {
-        expect(usecases.findCompletedUserCertifications).to.have.been.calledWith({ userId, certificationRepository });
+        expect(usecases.findCompletedUserCertifications).to.have.been.calledWith({ userId });
         expect(certificationSerializer.serialize).to.have.been.calledWith(retrievedCertifications);
         expect(replyStub).to.have.been.calledWith(serializedCertifications);
         expect(codeStub).to.have.been.calledWith(200);
@@ -111,10 +106,6 @@ describe('Unit | Controller | certifications-controller', () => {
         expect(usecases.getUserCertificationWithResultTree).to.have.been.calledWith({
           userId,
           certificationId: certification.id,
-          certificationRepository,
-          assessmentRepository,
-          competenceMarksRepository,
-          competenceTreeRepository,
         });
         expect(certificationSerializer.serialize).to.have.been.calledWith(certification);
         expect(replyStub).to.have.been.calledWith(serializedCertification);
@@ -244,7 +235,7 @@ describe('Unit | Controller | certifications-controller', () => {
       // then
       return promise.then(() => {
         expect(usecases.updateCertification).to.have.been.calledWith({
-          certificationId, attributesToUpdate, certificationRepository,
+          certificationId, attributesToUpdate,
         });
         expect(certificationSerializer.serialize).to.have.been.calledWith(updatedCertification);
         expect(replyStub).to.have.been.calledWith(serializedCertification);

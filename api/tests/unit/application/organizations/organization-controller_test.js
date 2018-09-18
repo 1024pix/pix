@@ -19,9 +19,7 @@ const { EntityValidationError, NotFoundError } = require('../../../../lib/domain
 const logger = require('../../../../lib/infrastructure/logger');
 const organizationCreationValidator = require('../../../../lib/domain/validators/organization-creation-validator');
 const usecases = require('../../../../lib/domain/usecases');
-const campaignRepository = require('../../../../lib/infrastructure/repositories/campaign-repository');
 const campaignSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/campaign-serializer');
-const targetProfileRepository = require('../../../../lib/infrastructure/repositories/target-profile-repository');
 const targetProfileSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/target-profile-serializer');
 
 describe('Unit | Application | Organizations | organization-controller', () => {
@@ -677,7 +675,7 @@ describe('Unit | Application | Organizations | organization-controller', () => {
 
       // then
       return promise.then(() => {
-        expect(usecases.getOrganizationCampaigns).to.have.been.calledWith({ organizationId, campaignRepository });
+        expect(usecases.getOrganizationCampaigns).to.have.been.calledWith({ organizationId });
       });
     });
 
@@ -751,7 +749,6 @@ describe('Unit | Application | Organizations | organization-controller', () => {
         expect(usecases.findAvailableTargetProfiles).to.have.been.calledOnce;
         expect(usecases.findAvailableTargetProfiles).to.have.been.calledWith({
           organizationId: organizationId,
-          targetProfileRepository
         });
       });
     });

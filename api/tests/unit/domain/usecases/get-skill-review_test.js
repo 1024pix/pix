@@ -1,6 +1,6 @@
 const { expect, sinon, factory } = require('../../../test-helper');
 
-const useCase = require('../../../../lib/domain/usecases/');
+const getSkillReview = require('../../../../lib/domain/usecases/get-skill-review');
 
 const SkillReview = require('../../../../lib/domain/models/SkillReview');
 
@@ -34,7 +34,7 @@ describe('Unit | Domain | Use Cases | get-skill-review', () => {
     context('when the assessment exists and belongs to user', () => {
       it('should load the right assessment', () => {
         // when
-        const promise = useCase.getSkillReview({
+        const promise = getSkillReview({
           userId,
           skillReviewId,
           smartPlacementAssessmentRepository,
@@ -48,7 +48,7 @@ describe('Unit | Domain | Use Cases | get-skill-review', () => {
 
       it('should return the skillReview associated to the assessment', () => {
         // when
-        const promise = useCase.getSkillReview({
+        const promise = getSkillReview({
           userId,
           skillReviewId,
           smartPlacementAssessmentRepository,
@@ -68,7 +68,7 @@ describe('Unit | Domain | Use Cases | get-skill-review', () => {
         smartPlacementAssessmentRepository.get.rejects(new NotFoundError('No found Assessment for ID 1234'));
 
         // when
-        const promise = useCase.getSkillReview({
+        const promise = getSkillReview({
           userId,
           skillReviewId,
           smartPlacementAssessmentRepository,
@@ -85,7 +85,7 @@ describe('Unit | Domain | Use Cases | get-skill-review', () => {
         const unauthorizedUserId = 66666666666666;
 
         // when
-        const promise = useCase.getSkillReview({
+        const promise = getSkillReview({
           smartPlacementAssessmentRepository,
           skillReviewId,
           userId: unauthorizedUserId,

@@ -1,9 +1,5 @@
 const usecases = require('../../domain/usecases');
 const certificationSerializer = require('../../infrastructure/serializers/jsonapi/certification-serializer');
-const certificationRepository = require('../../infrastructure/repositories/certification-repository');
-const assessmentRepository = require('../../infrastructure/repositories/assessment-repository');
-const competenceMarksRepository = require('../../infrastructure/repositories/competence-mark-repository');
-const competenceTreeRepository = require('../../infrastructure/repositories/competence-tree-repository');
 const logger = require('../../infrastructure/logger');
 const Boom = require('boom');
 const { Deserializer } = require('jsonapi-serializer');
@@ -23,7 +19,7 @@ module.exports = {
   findUserCertifications(request, reply) {
     const userId = request.auth.credentials.userId;
 
-    return usecases.findCompletedUserCertifications({ userId, certificationRepository })
+    return usecases.findCompletedUserCertifications({ userId })
       .then((certifications) => {
         return reply(certificationSerializer.serialize(certifications)).code(200);
       })
@@ -40,10 +36,6 @@ module.exports = {
     return usecases.getUserCertificationWithResultTree({
       userId,
       certificationId,
-      certificationRepository,
-      assessmentRepository,
-      competenceMarksRepository,
-      competenceTreeRepository,
     })
       .then((certification) => {
         return reply(certificationSerializer.serialize(certification)).code(200);
@@ -82,7 +74,6 @@ module.exports = {
         return usecases.updateCertification({
           certificationId: request.params.id,
           attributesToUpdate: payload,
-          certificationRepository,
         });
       })
       .then((certification) => {

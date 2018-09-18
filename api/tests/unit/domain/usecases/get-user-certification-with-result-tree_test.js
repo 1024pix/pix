@@ -1,9 +1,9 @@
 const { expect, sinon, factory } = require('../../../test-helper');
 const { UserNotAuthorizedToAccessEntity } = require('../../../../lib/domain/errors');
-const usecases = require('../../../../lib/domain/usecases');
+const getUserCertificationWithResultTree = require('../../../../lib/domain/usecases/get-user-certification-with-result-tree');
 const ResultCompetenceTree = require('../../../../lib/domain/models/ResultCompetenceTree');
 
-describe('Unit | UseCase | getUserCertificatiWithResultTree', () => {
+describe('Unit | UseCase | getUserCertificationWithResultTree', () => {
 
   const userId = '2';
   const certificationId = '23';
@@ -40,7 +40,7 @@ describe('Unit | UseCase | getUserCertificatiWithResultTree', () => {
       certificationRepository.getCertification.resolves(certification);
 
       // when
-      promise = usecases.getUserCertificationWithResultTree({
+      promise = getUserCertificationWithResultTree({
         assessmentRepository,
         certificationId,
         certificationRepository,
@@ -86,7 +86,7 @@ describe('Unit | UseCase | getUserCertificatiWithResultTree', () => {
       competenceTreeRepository.get.resolves(competenceTree);
 
       // when
-      promise = usecases.getUserCertificationWithResultTree({
+      promise = getUserCertificationWithResultTree({
         assessmentRepository,
         certificationId,
         certificationRepository,
