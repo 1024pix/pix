@@ -69,6 +69,7 @@ describe('Unit | Serializer | JSONAPI | campaign-serializer', function() {
       // then
       return expect(promise).to.be.fulfilled
         .then((campaign) => {
+          expect(campaign).to.be.instanceOf(Campaign);
           expect(campaign.name).to.equal(jsonAnswer.data.attributes.name);
           expect(campaign.organizationId).to.equal(organizationId);
           expect(campaign.targetProfileId).to.equal(targetProfileId);
