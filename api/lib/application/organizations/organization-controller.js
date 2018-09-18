@@ -2,11 +2,9 @@ const JSONAPIError = require('jsonapi-serializer').Error;
 
 const userRepository = require('../../infrastructure/repositories/user-repository');
 const organizationRepository = require('../../infrastructure/repositories/organization-repository');
-const campaignRepository = require('../../infrastructure/repositories/campaign-repository');
 const competenceRepository = require('../../infrastructure/repositories/competence-repository');
 const snapshotRepository = require('../../infrastructure/repositories/snapshot-repository');
 const organizationSerializer = require('../../infrastructure/serializers/jsonapi/organization-serializer');
-const targetProfileRepository = require('../../infrastructure/repositories/target-profile-repository');
 const snapshotSerializer = require('../../infrastructure/serializers/jsonapi/snapshot-serializer');
 const campaignSerializer = require('../../infrastructure/serializers/jsonapi/campaign-serializer');
 const targetProfileSerializer = require('../../infrastructure/serializers/jsonapi/target-profile-serializer');
@@ -77,7 +75,7 @@ module.exports = {
   getCampaigns(request, reply) {
     const organizationId = request.params.id;
     const tokenForCampaignResults = tokenService.createTokenForCampaignResults(request.auth.credentials.userId);
-    return usecases.getOrganizationCampaigns({ organizationId, campaignRepository })
+    return usecases.getOrganizationCampaigns({ organizationId })
       .then((campaigns) => campaignSerializer.serialize(campaigns, tokenForCampaignResults))
       .then(controllerReplies(reply).ok)
       .catch(controllerReplies(reply).error);
@@ -86,7 +84,7 @@ module.exports = {
   findTargetProfiles(request, reply) {
     const requestedOrganizationId = request.params.id;
 
-    return usecases.findAvailableTargetProfiles({ organizationId: requestedOrganizationId, targetProfileRepository })
+    return usecases.findAvailableTargetProfiles({ organizationId: requestedOrganizationId })
       .then(targetProfileSerializer.serialize)
       .then(controllerReplies(reply).ok)
       .catch(controllerReplies(reply).error);

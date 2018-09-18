@@ -1,6 +1,6 @@
 const { expect, factory, sinon } = require('../../../test-helper');
 
-const useCase = require('../../../../lib/domain/usecases/');
+const getOrganizationCampaigns = require('../../../../lib/domain/usecases/get-organization-campaigns');
 
 describe('Unit | Domain | Use Cases | get-organization-campaigns', () => {
 
@@ -20,7 +20,7 @@ describe('Unit | Domain | Use Cases | get-organization-campaigns', () => {
       campaignRepository.findByOrganizationId.resolves(foundCampaigns);
 
       // when
-      const promise = useCase.getOrganizationCampaigns({ organizationId, campaignRepository });
+      const promise = getOrganizationCampaigns({ organizationId, campaignRepository });
 
       // then
       return promise.then((campaigns) => {

@@ -5,8 +5,6 @@ const controller = require('../../../../lib/application/assessments/assessment-c
 
 const assessmentSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/assessment-serializer');
 const assessmentRepository = require('../../../../lib/infrastructure/repositories/assessment-repository');
-const campaignRepository = require('../../../../lib/infrastructure/repositories/campaign-repository');
-const campaignParticipationRepository = require('../../../../lib/infrastructure/repositories/campaign-participation-repository');
 const tokenService = require('../../../../lib/domain/services/token-service');
 const Assessment = require('../../../../lib/domain/models/Assessment');
 const usecases = require('../../../../lib/domain/usecases');
@@ -67,9 +65,6 @@ describe('Unit | Controller | assessment-controller-save', () => {
         const expectedCallArguments = {
           assessment: expectedAssessment,
           codeCampaign: 'CODECAMPAIGN',
-          assessmentRepository,
-          campaignRepository,
-          campaignParticipationRepository,
         };
         // when
         const promise = controller.save(request, replyStub);

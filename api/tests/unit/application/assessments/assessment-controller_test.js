@@ -3,7 +3,6 @@ const { sinon, expect } = require('../../../test-helper');
 const assessmentController = require('../../../../lib/application/assessments/assessment-controller');
 const useCases = require('../../../../lib/domain/usecases');
 
-const assessmentRepository = require('../../../../lib/infrastructure/repositories/assessment-repository');
 const assessmentSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/assessment-serializer');
 
 describe('Unit | Controller | assessment-controller', function() {
@@ -62,7 +61,6 @@ describe('Unit | Controller | assessment-controller', function() {
           expect(useCases.findUserAssessmentsByFilters).to.have.been.calledWith({
             userId,
             filters: { courseId: 'courseId' },
-            assessmentRepository
           });
         });
       });

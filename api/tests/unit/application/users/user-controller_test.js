@@ -16,7 +16,6 @@ const passwordResetService = require('../../../../lib/domain/services/reset-pass
 const encryptionService = require('../../../../lib/domain/services/encryption-service');
 const userRepository = require('../../../../lib/infrastructure/repositories/user-repository');
 const userService = require('../../../../lib/domain/services/user-service');
-const reCaptchaValidator = require('../../../../lib/infrastructure/validators/grecaptcha-validator');
 const usecases = require('../../../../lib/domain/usecases');
 
 const {
@@ -108,10 +107,6 @@ describe('Unit | Controller | user-controller', () => {
         const useCaseParameters = {
           user: deserializedUser,
           reCaptchaToken,
-          userRepository,
-          reCaptchaValidator,
-          encryptionService,
-          mailService,
         };
 
         // when
@@ -557,7 +552,6 @@ describe('Unit | Controller | user-controller', () => {
         expect(usecases.getUserWithOrganizationAccesses).to.have.been.calledWith({
           authenticatedUserId,
           requestedUserId,
-          userRepository
         });
       });
     });
@@ -668,7 +662,6 @@ describe('Unit | Controller | user-controller', () => {
         expect(usecases.getUserWithOrganizationAccesses).to.have.been.calledWith({
           requestedUserId,
           authenticatedUserId: stringifiedAuthenticatedUserId,
-          userRepository
         });
       });
     });
