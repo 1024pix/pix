@@ -32,13 +32,4 @@ module('Integration | Component | menu-bar', function(hooks) {
     assert.dom('a.menu-bar__link--certifications').exists();
     assert.dom('a.menu-bar__link--certifications').hasText('Certifications');
   });
-
-  test('should contain link to "operating" management page', async function(assert) {
-    // when
-    await render(hbs`{{menu-bar}}`);
-
-    // then
-    assert.dom('a.menu-bar__link--operating').exists();
-    assert.dom('a.menu-bar__link--operating').hasText('Exploitation');
-  });
 });
