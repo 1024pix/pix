@@ -74,17 +74,21 @@ export default BaseRoute.extend({
       return answer.save()
         .then(() => this._getNextChallenge(assessment, challenge))
         .then((nextChallenge) => {
-
-          if(assessment.get('hasCheckpoints') && this._hasReachedCheckpoint(assessment)) {
-            return this.transitionTo('assessments.checkpoint', assessment.get('id'));
+          if(nextChallenge) {
+            if(assessment.get('hasCheckpoints') && this._hasReachedCheckpoint(assessment)) {
+              return this.transitionTo('assessments.checkpoint', assessment.get('id'));
+            }
+            this.transitionTo('assessments.challenge', { assessment, challenge: nextChallenge });
+          } else {
+            this.transitionTo('assessments.rating', assessment.get('id'));
           }
-
-          this.transitionTo('assessments.challenge', { assessment, challenge: nextChallenge });
         })
         .catch(() => {
-          this.transitionTo('assessments.rating', assessment.get('id'));
+          this.send('error');
         });
+    },
+    error() {
+      return true;
     }
   }
-
 });
