@@ -2,6 +2,7 @@ const { sinon, expect } = require('../../../test-helper');
 
 const campaignParticipationController = require('../../../../lib/application/campaignParticipations/campaign-participation-controller');
 const { NotFoundError } = require('../../../../lib/domain/errors');
+const serializer = require('../../../../lib/infrastructure/serializers/jsonapi/campaign-participation-serializer');
 const tokenService = require('../../../../lib/domain/services/token-service');
 const usecases = require('../../../../lib/domain/usecases');
 const queryParamsUtils = require('../../../../lib/infrastructure/utils/query-params-utils');
@@ -21,7 +22,7 @@ describe('Unit | Application | Controller | Campaign-Participation', () => {
       sandbox = sinon.sandbox.create();
       sandbox.stub(queryParamsUtils, 'extractFilters').resolves(resultFilter);
       sandbox.stub(usecases, 'findCampaignParticipationsByAssessmentId');
-      codeStub = sandbox.stub();
+      codeStub = sandbox.stub(serializer, 'serialize').resolves();
       replyStub = sandbox.stub().returns({
         code: codeStub
       });

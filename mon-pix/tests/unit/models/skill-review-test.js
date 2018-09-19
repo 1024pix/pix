@@ -21,24 +21,9 @@ describe('Unit | Model | skill review', function() {
         const profileMasteryInPourcent = skillReview.get('profileMasteryPercentage');
 
         // then
-        expect(profileMasteryInPourcent).to.equal('68.2%');
+        expect(profileMasteryInPourcent).to.equal('68%');
       });
     });
-
-    it('should round the property to one decimal %', function() {
-      run(() => {
-        // given
-        const store = this.store();
-        const skillReview = store.createRecord('skill-review', { profileMasteryRate: 0.651 });
-
-        // when
-        const profileMasteryInPourcent = skillReview.get('profileMasteryPercentage');
-
-        // then
-        expect(profileMasteryInPourcent).to.equal('65.1%');
-      });
-    });
-
   });
 
   describe('Computed property #profileCompletionPercentage', function() {

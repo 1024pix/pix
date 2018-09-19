@@ -1,6 +1,6 @@
 module.exports = function findCampaignParticipationsByAssessmentId({
-  assessmentId,
   campaignParticipationRepository,
+  assessmentId,
 }) {
   return campaignParticipationRepository.findByAssessmentId(assessmentId);
 };

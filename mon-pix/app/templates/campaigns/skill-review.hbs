@@ -3,16 +3,19 @@
     VOS RÉSULTATS :
   </p>
   <p class="campaign__result__text score">
-    Vous maîtrisez {{model.skillReview.profileMasteryPercentage}} des compétences testées.
+    Vous maîtrisez {{model.assessment.skillReview.profileMasteryPercentage}} des compétences testées.
   </p>
 </div>
 
 <div class="campaign__share_container">
-  <button class="campaign__share__button">J'ENVOIE MES RÉSULTATS</button>
+  {{#if showShareButton}}
+    <button class="campaign__share__button" {{action 'shareCampaignParticipation'}}>J'ENVOIE MES RÉSULTATS</button>
+    {{else}}
+    <p class="campaign__share__thanks">Merci, vos résultats ont bien été envoyés !</p>
+  {{/if}}
   <p class="campaign__share__legal">
   En cliquant, les résultats de votre parcours seront transmis à la personne qui vous a invité(e) pour lui permettre de vous accompagner.
 </p>
 </div>
-
 
 {{outlet}}
