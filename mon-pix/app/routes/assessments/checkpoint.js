@@ -3,10 +3,11 @@ import RSVP from 'rsvp';
 
 export default Route.extend({
 
-  afterModel(assesssment) {
+  afterModel(assessment) {
+
     return RSVP.hash({
-      assesssment,
-      skillReview: this.get('store').findRecord('skillReview', assesssment.get('skillReview.id'))
+      assessment,
+      skillReview: assessment.belongsTo('skillReview').reload()
     });
   },
 
