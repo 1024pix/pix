@@ -78,9 +78,7 @@ describe('Acceptance | API | Campaign Participations', () => {
 
       // then
       return promise.then((response) => {
-        expect(response.statusCode).to.equal(200);
-        expect(response.result.assessmentId).to.equal(campaignParticipation.assessmentId);
-        expect(response.result.isShared).to.equal(true);
+        expect(response.statusCode).to.equal(204);
       });
     });
   });

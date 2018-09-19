@@ -1,6 +1,8 @@
 const usecases = require('../../domain/usecases');
 const tokenService = require('../../../lib/domain/services/token-service');
 
+const serializer = require('../../infrastructure/serializers/jsonapi/campaign-participation-serializer');
+
 const smartPlacementAssessmentRepository = require('../../infrastructure/repositories/smart-placement-assessment-repository');
 const campaignParticipationRepository = require('../../infrastructure/repositories/campaign-participation-repository');
 const { NotFoundError, UserNotAuthorizedToAccessEntity } = require('../../domain/errors');
@@ -21,7 +23,8 @@ module.exports = {
       campaignParticipationRepository,
     })
       .then((campaignParticipation) => {
-        return reply(campaignParticipation).code(200);
+        const serializedCampaignParticipation = serializer.serialize(campaignParticipation);
+        return reply(serializedCampaignParticipation).code(200);
       });
   },
 
@@ -38,7 +41,7 @@ module.exports = {
         smartPlacementAssessmentRepository
       })
         .then((campaignParticipation) => {
-          return reply(campaignParticipation).code(200);
+          return reply(campaignParticipation).code(204);
         })
         .catch((error) => {
           if (error instanceof NotFoundError) {
