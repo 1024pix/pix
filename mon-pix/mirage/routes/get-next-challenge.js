@@ -8,7 +8,7 @@ function getNextChallengeForDynamicAssessment(assessment, challenges) {
   const answers = assessment.answers.models;
 
   if (answers.length >= challenges.length) {
-    return null;
+    return { data: null };
   }
 
   return challenges[answers.length];
