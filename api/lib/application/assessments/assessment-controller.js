@@ -1,4 +1,5 @@
 const Boom = require('boom');
+const JSONAPI = require('../../interfaces/jsonapi');
 
 const logger = require('../../infrastructure/logger');
 const answerRepository = require('../../infrastructure/repositories/answer-repository');
@@ -165,7 +166,7 @@ module.exports = {
         logContext.err = err;
         logger.trace(logContext, 'catching exception');
         if (err instanceof AssessmentEndedError) {
-          reply({ data: null }).code(200);
+          reply(JSONAPI.emptyDataResponse('challenge'));
         } else {
           logger.error(err);
           reply(Boom.badImplementation(err));
