@@ -170,7 +170,7 @@ module.exports = {
           return controllerReplies(reply).ok(JSONAPI.emptyDataResponse());
         } else {
           logger.error(err);
-          reply(Boom.badImplementation(err));
+          return controllerReplies(reply).error(err);
         }
       });
   }
