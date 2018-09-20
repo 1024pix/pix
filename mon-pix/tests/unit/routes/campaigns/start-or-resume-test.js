@@ -1,7 +1,7 @@
 import EmberObject from '@ember/object';
 import { A } from '@ember/array';
 import Service from '@ember/service';
-import { expect } from 'chai';
+import { assert, expect } from 'chai';
 import { describe, it, beforeEach } from 'mocha';
 import { setupTest } from 'ember-mocha';
 import sinon from 'sinon';
@@ -36,8 +36,7 @@ describe('Unit | Route | campaigns/start-or-resume', function() {
     this.inject.service('session', { as: 'session' });
   });
 
-  describe('#modelNew', function() {
-
+  describe('#model', function() {
     it('should create new campaign-participation for current user', function() {
       // given
       const route = this.subject();
@@ -53,7 +52,7 @@ describe('Unit | Route | campaigns/start-or-resume', function() {
       createRecordStub.returns(newCampaignParticipation);
 
       // when
-      const promise = route.modelNew(params);
+      const promise = route.model(params);
 
       // then
       return promise.then((campaignParticipation) => {
@@ -61,110 +60,74 @@ describe('Unit | Route | campaigns/start-or-resume', function() {
         expect(campaignParticipation).to.deep.equal(newCampaignParticipation);
       });
     });
-  });
 
-  describe('#model', function() {
-
-    const params = {
-      campaign_code: 'CODECAMPAIGN'
-    };
-
-    it('should fetch all user assessments with type "SMART_PLACEMENT"', function() {
+    it('should reject when no campaign found for the given code', function() {
       // given
-      const assessments = A([]);
-      queryStub.resolves(assessments);
-      const assessment = EmberObject.create({ save: () => true });
-      createRecordStub.returns(assessment);
       const route = this.subject();
+      const params = {
+        campaign_code: 'AQST765'
+      };
+
+      queryStub.resolves(A([]));
 
       // when
       const promise = route.model(params);
 
       // then
       return promise.then(() => {
-        sinon.assert.calledWith(queryStub, 'assessment', { filter: { type: 'SMART_PLACEMENT', codeCampaign: 'CODECAMPAIGN' } });
+        assert.ok(false, 'promise should be rejected.');
+      }).catch(() => {
+        assert.ok(true);
       });
     });
 
-    it('should resolve with assessment corresponding of campaignCode if found', function() {
+    it('should not create campaign participation when no campaign found for the given code', function() {
       // given
-      const assessments = A([EmberObject.create({ id: 1234, codeCampaign: 'CODECAMPAIGN' })]);
-      queryStub.resolves(assessments);
       const route = this.subject();
+      const params = {
+        campaign_code: 'AQST765'
+      };
+
+      queryStub.resolves(A([]));
 
       // when
       const promise = route.model(params);
 
       // then
-      return promise.then((model) => {
-        expect(model.get('id')).to.equal(1234);
-      });
-    });
-
-    it('should resolve with freshly created one if no one has been found', function() {
-      // given
-      const assessments = A([]);
-      queryStub.resolves(assessments);
-      createRecordStub.returns({
-        save() {
-        }
-      });
-
-      const route = this.subject();
-
-      // when
-      const promise = route.model(params);
-
-      // then
-      return promise.then(() => {
-        sinon.assert.calledWith(createRecordStub, 'assessment', { type: 'SMART_PLACEMENT', codeCampaign: params.campaign_code });
+      return promise.catch(() => {
+        sinon.assert.notCalled(createRecordStub);
       });
     });
   });
 
-  describe('#afterModel', function() {
+  describe('#startParcours', function() {
 
-    let route;
-    let assessment;
+    it('should save campaign participation', function() {
+      // given
+      const campaignParticipation = { save: sinon.stub() };
+      campaignParticipation.save.resolves();
+      const route = this.subject();
 
-    beforeEach(function() {
-      route = this.subject();
+      // when
+      route.send('startParcours', campaignParticipation);
+
+      // then
+      sinon.assert.called(campaignParticipation.save);
+    });
+
+    it('should redirect to "fill in id pix" page after saving campaign participation', function() {
+      // given
+      const campaignParticipation = { save: sinon.stub() };
+      campaignParticipation.save.resolves();
+      const route = this.subject();
       route.transitionTo = sinon.stub();
-      assessment = EmberObject.create({ reload: sinon.stub().resolves() });
-    });
-
-    it('should force assessment reload in order to pre-fetch its answers', function() {// when
-      const promise = route.afterModel(assessment);
-
-      // then
-      return promise.then(() => {
-        sinon.assert.calledOnce(assessment.reload);
-      });
-    });
-
-    it('should redirect to next challenge if one was found', function() {
-      // given
-      queryRecordStub.resolves();
 
       // when
-      const promise = route.afterModel(assessment);
+      const promise = route.send('startParcours', campaignParticipation);
 
       // then
       return promise.then(() => {
-        sinon.assert.calledWith(route.transitionTo, 'assessments.challenge');
-      });
-    });
-
-    it('should redirect to assessment rating if no next challenge was found', function() {
-      // given
-      queryRecordStub.rejects();
-
-      // when
-      const promise = route.afterModel(assessment);
-
-      // then
-      return promise.then(() => {
-        sinon.assert.calledWith(route.transitionTo, 'assessments.rating');
+        sinon.assert.calledWith(route.transitionTo, 'campaigns.start-or-resume.fill-in-id-pix');
       });
     });
   });

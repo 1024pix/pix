@@ -42,9 +42,8 @@ describe('Acceptance | Campaigns | Start Campaigns', function() {
 
         // then
         return andThen(() => {
-          expect(currentURL()).to.contains(/assessments/);
-          expect(find('.course-banner__name').text()).to.equal('');
-          findWithAssert('.assessment-challenge__progress-bar');
+          expect(currentURL()).to.equal('/campagnes/codecampagnepix');
+          expect(find('.campaign-landing-page__start-button').text()).to.equal('Je commence');
         });
       });
 
@@ -60,9 +59,8 @@ describe('Acceptance | Campaigns | Start Campaigns', function() {
       it('should redirect directly in campaigns', async function() {
         // then
         return andThen(() => {
-          expect(currentURL()).to.contains(/assessments/);
-          expect(find('.course-banner__name').text()).to.equal('');
-          findWithAssert('.assessment-challenge__progress-bar');
+          expect(currentURL()).to.equal('/campagnes/codecampagnepix');
+          expect(find('.campaign-landing-page__start-button').text()).to.equal('Je commence');
         });
       });
     });
