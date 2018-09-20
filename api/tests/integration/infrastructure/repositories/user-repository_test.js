@@ -13,6 +13,24 @@ const OrganizationRole = require('../../../../lib/domain/models/OrganizationRole
 
 describe('Integration | Infrastructure | Repository | UserRepository', () => {
 
+  function _generateUser({ firstName, lastName, email }) {
+    return {
+      firstName: firstName ? firstName : faker.name.firstName(),
+      lastName: lastName ? lastName : faker.name.lastName(),
+      email: email ? email : faker.internet.email().toLowerCase(),
+      password: bcrypt.hashSync('A124B2C3#!', 1),
+      cgu: true,
+    };
+  }
+
+  function _generateUsers(nbUsers) {
+    const users = [];
+    for (let i = 0; i < nbUsers; i++) {
+      users.push(_generateUser({}));
+    }
+    return users;
+  }
+
   const userToInsert = {
     firstName: faker.name.firstName(),
     lastName: faker.name.lastName(),
@@ -467,6 +485,152 @@ describe('Integration | Infrastructure | Repository | UserRepository', () => {
           expect(updatedUser).to.be.an.instanceOf(User);
           expect(updatedUser.password).to.equal(newPassword);
         });
+    });
+  });
+
+  describe('#find', () => {
+
+    afterEach(() => {
+      return knex('users').delete();
+    });
+
+    it('should return an Array of Users', async () => {
+      // given
+      await knex('users').insert(_generateUsers(3));
+
+      const filters = {};
+      const pagination = { page: 1, pageSize: 10 };
+
+      // when
+      const promise = userRepository.find(filters, pagination);
+
+      // then
+      return promise.then((matchingUsers) => {
+        expect(matchingUsers).to.exist;
+        expect(matchingUsers).to.have.lengthOf(3);
+        expect(matchingUsers[0]).to.be.an.instanceOf(User);
+      });
+    });
+
+    it('should return only users matching first name if given in filters', async () => {
+      // given
+      const matchingUser1 = _generateUser({ firstName: 'Son Gohan' });
+      const matchingUser2 = _generateUser({ firstName: 'Son Goku' });
+      const matchingUser3 = _generateUser({ firstName: 'Son Goten' });
+      const ignoredUser1 = _generateUser({ firstName: 'Vegeta' });
+      const ignoredUser2 = _generateUser({ firstName: 'Piccolo' });
+
+      await knex('users').insert([matchingUser1, matchingUser2, matchingUser3, ignoredUser1, ignoredUser2]);
+
+      const filters = { firstName: 'Go' };
+      const pagination = { page: 1, pageSize: 10 };
+
+      // when
+      const promise = userRepository.find(filters, pagination);
+
+      // then
+      return promise.then((matchingUsers) => {
+        expect(matchingUsers).to.have.lengthOf(3);
+      });
+    });
+
+    it('should return only users matching last name if given in filters', async () => {
+      // given
+      const matchingUser1 = _generateUser({ firstName: 'Anakin', lastName: 'Skywalker' });
+      const matchingUser2 = _generateUser({ firstName: 'Luke', lastName: 'Skywalker' });
+      const matchingUser3 = _generateUser({ firstName: 'Leia', lastName: 'Skywalker' });
+      const ignoredUser1 = _generateUser({ firstName: 'Han', lastName: 'Solo' });
+      const ignoredUser2 = _generateUser({ firstName: 'Ben', lastName: 'Solo' });
+
+      await knex('users').insert([matchingUser1, matchingUser2, matchingUser3, ignoredUser1, ignoredUser2]);
+
+      const filters = { lastName: 'walk' };
+      const pagination = { page: 1, pageSize: 10 };
+
+      // when
+      const promise = userRepository.find(filters, pagination);
+
+      // then
+      return promise.then((matchingUsers) => {
+        expect(matchingUsers).to.have.lengthOf(3);
+      });
+    });
+
+    it('should return only users matching email if given in filters', async () => {
+      // given
+      const matchingUser1 = _generateUser({ email: 'playpus@pix.fr' });
+      const matchingUser2 = _generateUser({ email: 'panda@pix.fr' });
+      const matchingUser3 = _generateUser({ email: 'otter@pix.fr' });
+      const ignoredUser1 = _generateUser({ email: 'playpus@example.net' });
+      const ignoredUser2 = _generateUser({ email: 'panda@example.net' });
+
+      await knex('users').insert([matchingUser1, matchingUser2, matchingUser3, ignoredUser1, ignoredUser2]);
+
+      const filters = { email: 'pix.fr' };
+      const pagination = { page: 1, pageSize: 10 };
+
+      // when
+      const promise = userRepository.find(filters, pagination);
+
+      // then
+      return promise.then((matchingUsers) => {
+        expect(matchingUsers).to.have.lengthOf(3);
+      });
+    });
+
+    it('should return paginated matching users', async () => {
+      // given
+      await knex('users').insert(_generateUsers(12));
+
+      const filters = {};
+      const pagination = { page: 1, pageSize: 3 };
+
+      // when
+      const promise = userRepository.find(filters, pagination);
+
+      // then
+      return promise.then((matchingUsers) => {
+        expect(matchingUsers).to.have.lengthOf(3);
+      });
+    });
+  });
+
+  describe('#count', () => {
+
+    it('should return the total number of matching Users', async () => {
+      // given
+      await knex('users').insert(_generateUsers(8));
+
+      const filters = {};
+
+      // when
+      const promise = userRepository.count(filters);
+
+      // then
+      return promise.then((totalMatchingUsers) => {
+        expect(totalMatchingUsers).to.equal(8);
+      });
+    });
+
+    it('should take into account filters', async () => {
+      // given
+      const matchingUser1 = _generateUser({ email: 'playpus@pix.fr' });
+      const matchingUser2 = _generateUser({ email: 'panda@pix.fr' });
+      const matchingUser3 = _generateUser({ email: 'otter@pix.fr' });
+      const ignoredUser1 = _generateUser({ email: 'playpus@example.net' });
+      const ignoredUser2 = _generateUser({ email: 'panda@example.net' });
+
+      await knex('users').insert([matchingUser1, matchingUser2, matchingUser3, ignoredUser1, ignoredUser2]);
+
+      const filters = { email: 'pix.fr' };
+
+      // when
+      const promise = userRepository.count(filters);
+
+      // then
+      return promise.then((totalMatchingUsers) => {
+        expect(totalMatchingUsers).to.equal(3);
+      });
     });
   });
 
