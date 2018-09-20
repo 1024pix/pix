@@ -32,7 +32,7 @@ module('Acceptance | Campaign List', function(hooks) {
 
     // then
     assert.equal(currentURL(), '/campagnes/liste');
-    assert.dom('.page__title').hasText('Campagnes');
+    assert.dom('.page__title').hasText('Créez votre première campagne');
   });
 
   test('it should list the campaigns of the current organization', async function(assert) {
