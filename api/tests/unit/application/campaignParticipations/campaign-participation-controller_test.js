@@ -61,7 +61,7 @@ describe('Unit | Application | Controller | Campaign-Participation', () => {
 
     beforeEach(() => {
       sandbox = sinon.createSandbox();
-      sandbox.stub(usecases, 'allowUserToShareHisCampaignResult');
+      sandbox.stub(usecases, 'shareCampaignResult');
       sandbox.stub(tokenService, 'extractTokenFromAuthChain').resolves();
       sandbox.stub(tokenService, 'extractUserId').resolves(userId);
       codeStub = sandbox.stub();
@@ -84,15 +84,15 @@ describe('Unit | Application | Controller | Campaign-Participation', () => {
           authorization: 'token'
         },
       };
-      usecases.allowUserToShareHisCampaignResult.resolves();
+      usecases.shareCampaignResult.resolves();
 
       // when
       const promise = campaignParticipationController.shareCampaignResult(request, replyStub);
 
       // then
       return promise.then(() => {
-        expect(usecases.allowUserToShareHisCampaignResult).to.have.been.calledOnce;
-        const updateCampaignParticiaption = usecases.allowUserToShareHisCampaignResult.firstCall.args[0];
+        expect(usecases.shareCampaignResult).to.have.been.calledOnce;
+        const updateCampaignParticiaption = usecases.shareCampaignResult.firstCall.args[0];
         expect(updateCampaignParticiaption).to.have.property('campaignParticipationId');
         expect(updateCampaignParticiaption).to.have.property('userId');
         expect(updateCampaignParticiaption).to.have.property('campaignParticipationRepository');
@@ -136,7 +136,7 @@ describe('Unit | Application | Controller | Campaign-Participation', () => {
             authorization: 'token'
           },
         };
-        usecases.allowUserToShareHisCampaignResult.rejects(new NotFoundError());
+        usecases.shareCampaignResult.rejects(new NotFoundError());
 
         // when
         const promise = campaignParticipationController.shareCampaignResult(request, replyStub);
@@ -171,15 +171,15 @@ describe('Unit | Application | Controller | Campaign-Participation', () => {
             authorization: 'token'
           },
         };
-        usecases.allowUserToShareHisCampaignResult.resolves();
+        usecases.shareCampaignResult.resolves();
 
         // when
         const promise = campaignParticipationController.shareCampaignResult(request, replyStub);
 
         // then
         return promise.then(() => {
-          expect(usecases.allowUserToShareHisCampaignResult).to.have.been.calledOnce;
-          const updateCampaignParticiaption = usecases.allowUserToShareHisCampaignResult.firstCall.args[0];
+          expect(usecases.shareCampaignResult).to.have.been.calledOnce;
+          const updateCampaignParticiaption = usecases.shareCampaignResult.firstCall.args[0];
           expect(updateCampaignParticiaption).to.have.property('campaignParticipationId');
           expect(updateCampaignParticiaption).to.have.property('userId');
           expect(updateCampaignParticiaption).to.have.property('campaignParticipationRepository');

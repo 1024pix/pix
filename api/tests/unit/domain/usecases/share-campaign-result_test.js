@@ -2,7 +2,7 @@ const { sinon, expect, factory } = require('../../../test-helper');
 const { NotFoundError, UserNotAuthorizedToAccessEntity } = require('../../../../lib/domain/errors');
 const usecases = require('../../../../lib/domain/usecases');
 
-describe('Unit | UseCase | allow-user-to-share-his-campaign-result', () => {
+describe('Unit | UseCase | share-campaign-result', () => {
 
   let sandbox;
   let user;
@@ -43,7 +43,7 @@ describe('Unit | UseCase | allow-user-to-share-his-campaign-result', () => {
     beforeEach(() => {
       smartPlacementAssessmentRepository.checkIfAssessmentBelongToUser.resolves(true);
     });
-    
+
     context('when the assessmentId is in the database', () => {
 
       beforeEach(() => {
@@ -65,7 +65,7 @@ describe('Unit | UseCase | allow-user-to-share-his-campaign-result', () => {
 
       it('should return a modified campaign participation', () => {
         // when
-        const promise = usecases.allowUserToShareHisCampaignResult({
+        const promise = usecases.shareCampaignResult({
           userId,
           assessmentId,
           campaignParticipationRepository,
@@ -91,7 +91,7 @@ describe('Unit | UseCase | allow-user-to-share-his-campaign-result', () => {
 
       it('should reject with a Not Found Error', () => {
         // when
-        const promise = usecases.allowUserToShareHisCampaignResult({
+        const promise = usecases.shareCampaignResult({
           userId,
           assessmentId,
           campaignParticipationRepository,
@@ -116,7 +116,7 @@ describe('Unit | UseCase | allow-user-to-share-his-campaign-result', () => {
       const wrongUserId = userId + 1;
 
       // when
-      const promise = usecases.allowUserToShareHisCampaignResult({
+      const promise = usecases.shareCampaignResult({
         userId: wrongUserId,
         assessmentId,
         campaignParticipationRepository,

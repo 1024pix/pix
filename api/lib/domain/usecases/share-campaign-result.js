@@ -1,6 +1,6 @@
 const { UserNotAuthorizedToAccessEntity } = require('../errors');
 
-module.exports = function allowUserToShareHisCampaignResult({
+module.exports = function ShareCampaignResult({
   userId,
   campaignParticipationId,
   campaignParticipationRepository,

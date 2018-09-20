@@ -1,10 +1,10 @@
 module.exports = {
-  allowUserToShareHisCampaignResult: require('./allow-user-to-share-his-campaign-result.js'),
   authenticateUser: require('./authenticate-user'),
   createCampaign: require('./create-campaign'),
   createAssessmentResultForCompletedCertification: require('./create-assessment-result-for-completed-certification'),
   createAssessmentForCampaign: require('./create-assessment-for-campaign'),
   createUser: require('./create-user'),
+  correctAnswerThenUpdateAssessment: require('./correct-answer-then-update-assessment'),
   findAvailableTargetProfiles: require('./find-available-target-profiles'),
   findCampaignParticipationsByAssessmentId: require('./find-campaign-participations-by-assessmentId'),
   findCompletedUserCertifications: require('./find-completed-user-certifications'),
@@ -24,6 +24,6 @@ module.exports = {
   preloadCacheEntries: require('./preload-cache-entries'),
   removeAllCacheEntries: require('./remove-all-cache-entries'),
   removeCacheEntry: require('./remove-cache-entry'),
-  correctAnswerThenUpdateAssessment: require('./correct-answer-then-update-assessment'),
+  shareCampaignResult: require('./share-campaign-result.js'),
   updateCertification: require('./update-certification'),
 };
