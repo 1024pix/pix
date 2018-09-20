@@ -23,10 +23,10 @@
             {{input class="pix-modal__input share-profile__organization-code-input"
                     id="code"
                     placeholder=_placeholder
-                    focus-in="focusInOrganizationCodeInput"
-                    focus-out="focusOutOrganizationCodeInput"
+                    focus-in=(action "focusInOrganizationCodeInput")
+                    focus-out=(action "focusOutOrganizationCodeInput")
                     value=_code
-                    enter="findOrganizationAndGoToSharingConfirmationView"}}
+                    enter=(action "findOrganizationAndGoToSharingConfirmationView")}}
 
             {{#if _organizationNotFound}}
               <p class="share-profile__form-error">Ce code ne correspond à aucune organisation.</p>
