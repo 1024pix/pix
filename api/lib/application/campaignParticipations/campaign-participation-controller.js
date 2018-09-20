@@ -1,4 +1,6 @@
 const controllerReplies = require('../../infrastructure/controller-replies');
+const infraErrors = require('../../infrastructure/errors');
+
 const usecases = require('../../domain/usecases');
 const tokenService = require('../../../lib/domain/services/token-service');
 
@@ -8,7 +10,6 @@ const smartPlacementAssessmentRepository = require('../../infrastructure/reposit
 const campaignParticipationRepository = require('../../infrastructure/repositories/campaign-participation-repository');
 const { NotFoundError, UserNotAuthorizedToAccessEntity } = require('../../domain/errors');
 
-const JSONAPI = require('../../interfaces/jsonapi');
 const logger = require('../../infrastructure/logger');
 const { extractFilters } = require('../../infrastructure/utils/query-params-utils');
 
@@ -22,9 +23,9 @@ module.exports = {
       campaignParticipationRepository,
     })
       .then((campaignParticipation) => {
-        const serializedCampaignParticipation = serializer.serialize(campaignParticipation);
-        return controllerReplies(reply).ok(serializedCampaignParticipation);
-      });
+        return serializer.serialize(campaignParticipation);
+      })
+      .then(controllerReplies(reply).ok);
   },
 
   shareCampaignResult(request, reply) {
@@ -39,23 +40,29 @@ module.exports = {
         campaignParticipationRepository,
         smartPlacementAssessmentRepository
       })
-        .then((campaignParticipation) => {
-          return reply(campaignParticipation).code(204);
+        .then(() => {
+          return controllerReplies(reply).noContent();
         })
         .catch((error) => {
-          if (error instanceof NotFoundError) {
-            const errorMessage = 'Participation non trouvée';
-            return reply(JSONAPI.notFoundError(errorMessage)).code(404);
-          }
-          if (error instanceof UserNotAuthorizedToAccessEntity) {
-            const errorMessage = 'Utilisateur non authorisé à accéder à la ressource';
-            return reply(JSONAPI.unauthorized(errorMessage)).code(401);
-          }
           logger.error(error);
+          return controllerReplies(reply).error(mapToInfrastructureErrors(error));
         });
     }
     else {
-      return reply(JSONAPI.badRequest('campaignParticipationId manquant')).code(400);
+      return controllerReplies(reply).error(new infraErrors.BadRequestError('campaignParticipationId manquant'));
     }
   }
-};
+}
+;
+
+function mapToInfrastructureErrors(error) {
+
+  if (error instanceof NotFoundError) {
+    return new infraErrors.NotFoundError('Participation non trouvée');
+  }
+  if (error instanceof UserNotAuthorizedToAccessEntity) {
+    return new infraErrors.UnauthorizedError('Utilisateur non authorisé à accéder à la ressource');
+  }
+
+  return error;
+}

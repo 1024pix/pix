@@ -29,8 +29,8 @@ describe('Integration | Repository | Campaign Participation', () => {
       const promise = campaignParticipationRepository.get(campaignParticipation1.id);
 
       // then
-      return promise.then((campaignParticipationFind) => {
-        expect(campaignParticipationFind.id).to.equal(campaignParticipation1.id);
+      return promise.then((foundCampaignParticipation) => {
+        expect(foundCampaignParticipation.id).to.equal(campaignParticipation1.id);
       });
     });
   });
