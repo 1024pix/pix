@@ -94,6 +94,7 @@ function _toDomain({ bookshelfAssessment, bookshelfTargetProfile, associatedSkil
     id: bookshelfAssessment.get('id'),
     state: bookshelfAssessment.get('state'),
     userId: bookshelfAssessment.get('userId'),
+    createdAt: bookshelfAssessment.get('createdAt'),
     answers,
     knowledgeElements,
     targetProfile,
