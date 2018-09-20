@@ -7,8 +7,8 @@ class InfrastructureError extends Error {
 }
 
 class ConflictError extends InfrastructureError {
-  constructor(reason = 'Conflict between request and server state.') {
-    super(reason);
+  constructor(message = 'Conflict between request and server state.') {
+    super(message);
     this.title = 'Conflict';
     this.code = 409;
   }
@@ -23,8 +23,35 @@ class MissingQueryParamError extends InfrastructureError {
   }
 }
 
+class NotFoundError extends InfrastructureError {
+  constructor(message) {
+    super(message);
+    this.title = 'Not Found';
+    this.code = 404;
+  }
+}
+
+class UnauthorizedError extends InfrastructureError {
+  constructor(message) {
+    super(message);
+    this.title = 'Unauthorized';
+    this.code = 401;
+  }
+}
+
+class BadRequestError extends InfrastructureError {
+  constructor(message) {
+    super(message);
+    this.title = 'Bad Request';
+    this.code = 400;
+  }
+}
+
 module.exports = {
   InfrastructureError,
   ConflictError,
   MissingQueryParamError,
+  NotFoundError,
+  UnauthorizedError,
+  BadRequestError,
 };

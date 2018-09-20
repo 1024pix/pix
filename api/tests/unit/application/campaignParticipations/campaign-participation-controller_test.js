@@ -119,7 +119,7 @@ describe('Unit | Application | Controller | Campaign-Participation', () => {
         expect(replyStub).to.have.been.calledWith({
           errors: [{
             detail: 'campaignParticipationId manquant',
-            status: '400',
+            code: '400',
             title: 'Bad Request',
           }]
         });
@@ -147,7 +147,7 @@ describe('Unit | Application | Controller | Campaign-Participation', () => {
           expect(replyStub).to.have.been.calledWith({
             errors: [{
               detail: 'Participation non trouvée',
-              status: '404',
+              code: '404',
               title: 'Not Found',
             }]
           });
@@ -156,10 +156,6 @@ describe('Unit | Application | Controller | Campaign-Participation', () => {
     });
 
     context('when the request comes from a different user', () => {
-
-      beforeEach(() => {
-
-      });
 
       it('should return a 403 status code', () => {
         // given
