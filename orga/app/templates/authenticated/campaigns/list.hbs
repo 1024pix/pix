@@ -1,5 +1,20 @@
 <div class="list-campaigns-page">
-  <h1 class="page__title page-title">Campagnes</h1>
+  {{#if hasCampaign}}
+    <div class="list-campaigns-page__header-page">
+      <h1 class="page__title page-title">Campagnes</h1>
+      <div class="button-at-right">{{button-create-campaign}}</div>
+    </div>
 
-  {{campaign-list campaigns=sortedCampaigns}}
+    {{campaign-list campaigns=sortedCampaigns}}
+
+  {{else}}
+    <div class="list-campaigns-page__explain-create-campaign">
+      <img src="{{rootURL}}/icons/icon-campagne-start.svg" alt="Vous pouvez créer des campagnes."/>
+      <h1 class="page__title page-title">Créez votre première campagne</h1>
+      <div class="list-campaigns-page__information-text">
+        Configurez et lancez votre première campagne. Vous pourrez ensuite inviter vos utilisateurs à rejoindre ce parcours.
+      </div>
+      {{button-create-campaign}}
+    </div>
+  {{/if}}
 </div>
