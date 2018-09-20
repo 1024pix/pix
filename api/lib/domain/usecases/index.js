@@ -44,6 +44,7 @@ module.exports = injectDependencies({
   findAvailableTargetProfiles: require('./find-available-target-profiles'),
   findCampaignParticipationsByAssessmentId: require('./find-campaign-participations-by-assessmentId'),
   findCompletedUserCertifications: require('./find-completed-user-certifications'),
+  findUsers: require('./find-users.js'),
   findUserAssessmentsByFilters: require('./find-user-assessments-by-filters'),
   getCampaignByCode: require('./get-campaign-by-code'),
   getCorrectionForAnswerWhenAssessmentEnded: require('./get-correction-for-answer-when-assessment-ended'),
