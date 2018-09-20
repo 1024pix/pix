@@ -68,7 +68,6 @@ describe('Unit | Controller | assessment-controller-get-next-challenge', () => {
       sandbox.stub(assessmentRepository, 'get');
       sandbox.stub(assessmentRepository, 'save');
       sandbox.stub(Boom, 'notFound').returns({ message: 'NotFoundError' });
-      sandbox.stub(Boom, 'badImplementation').returns({ message: 'BadImplementation' });
       sandbox.stub(challengeRepository, 'get').resolves({});
       sandbox.stub(certificationCourseRepository, 'changeCompletionDate').resolves();
 
@@ -127,8 +126,7 @@ describe('Unit | Controller | assessment-controller-get-next-challenge', () => {
 
         // then
         return promise.then(() => {
-          expect(Boom.badImplementation).to.have.been.calledWith(error);
-          expect(replyStub).to.have.been.calledWith(Boom.badImplementation(error));
+          expect(codeStub).to.have.been.calledWith(500);
         });
       });
 
