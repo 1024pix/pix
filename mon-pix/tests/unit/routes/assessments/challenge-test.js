@@ -235,7 +235,7 @@ describe('Unit | Route | Assessments.ChallengeRoute', function() {
           // given
           const assessment = EmberObject.create({ answers: [answerToChallengeOne] });
           createRecordStub.returns(answerToChallengeOne);
-          queryRecordStub.rejects();
+          queryRecordStub.returns(null);
 
           // when
           const promise = route.actions.saveAnswerAndNavigate.call(route, challengeOne, assessment, answerValue, answerTimeout, answerElapsedTime);
@@ -335,7 +335,7 @@ describe('Unit | Route | Assessments.ChallengeRoute', function() {
         const assessmentId = 947;
         const assessment = EmberObject.create({ id: assessmentId, answers: [answerToChallengeOne], hasCheckpoints: true });
         createRecordStub.returns(answerToChallengeOne);
-        queryRecordStub.rejects();
+        queryRecordStub.returns(null);
 
         // when
         const promise = route.actions.saveAnswerAndNavigate.call(route, challengeOne, assessment, answerValue, answerTimeout, answerElapsedTime);
