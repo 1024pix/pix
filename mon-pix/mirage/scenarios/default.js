@@ -84,6 +84,7 @@ export default function(server) {
   });
 
   server.create('correction');
+  server.create('campaign');
 
   prescriber.organization = company;
   company.user = prescriber;

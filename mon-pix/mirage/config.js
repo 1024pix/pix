@@ -2,6 +2,7 @@ import getAnswer from './routes/get-answer';
 import getAnswerByChallengeAndAssessment from './routes/get-answer-by-challenge-and-assessment';
 import getAssessment from './routes/get-assessment';
 import getAuthenticatedUser from './routes/get-user-me';
+import getCampaigns from './routes/get-campaigns';
 import getChallenge from './routes/get-challenge';
 import getChallenges from './routes/get-challenges';
 import getCourse from './routes/get-course';
@@ -90,4 +91,6 @@ export default function() {
   });
 
   this.get('/skill-reviews/:id');
+  this.get('/campaigns', getCampaigns);
+  this.post('/campaign-participations');
 }
