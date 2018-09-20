@@ -1,38 +1,29 @@
 import BaseRoute from 'mon-pix/routes/base-route';
 import AuthenticatedRouteMixin from 'ember-simple-auth/mixins/authenticated-route-mixin';
-import { isEmpty } from '@ember/utils';
+import RSVP from 'rsvp';
 
 export default BaseRoute.extend(AuthenticatedRouteMixin, {
 
-  model(params) {
-    const codeCampaign = params.campaign_code;
-    const store = this.get('store');
-    return store.query('assessment', { filter: { type: 'SMART_PLACEMENT', codeCampaign } })
-      .then((smartPlacementAssessments) => {
-        if (!isEmpty(smartPlacementAssessments)) {
-          return smartPlacementAssessments.get('firstObject');
-        }
-        return store.createRecord('assessment', { type: 'SMART_PLACEMENT', codeCampaign }).save();
-      });
-  },
+  campaignCode: null,
 
-  modelNew(params) {
-    const codeCampaign = params.campaign_code;
+  model(params) {
     const userId = this.get('session.data.authenticated.userId');
     const store = this.get('store');
-    return store.query('campaign', { filter: { code: codeCampaign } })
+    this.set('campaignCode', params.campaign_code);
+    return store.query('campaign', { filter: { code: this.get('campaignCode') } })
       .then((campaigns) => campaigns.get('firstObject'))
-      .then((campaign) => store.createRecord('campaign-participation', { userId, campaignId: campaign.get('id') }));
+      .then((campaign) => {
+        if (campaign) {
+          return store.createRecord('campaign-participation', { userId, campaignId: campaign.get('id') });
+        }
+        return RSVP.reject();
+      });
   },
 
-  afterModel(assessment) {
-    const store = this.get('store');
-    return assessment.reload()
-      .then(() => store.queryRecord('challenge', { assessmentId: assessment.get('id') }))
-      .then((challenge) => this.transitionTo('assessments.challenge', { assessment, challenge }))
-      .catch(() => {
-        // FIXME: do not manage error when there is no more challenge anymore
-        this.transitionTo('assessments.rating', assessment.get('id'));
-      });
+  actions: {
+    startParcours(campaignParticipation) {
+      return campaignParticipation.save()
+        .then(() => this.transitionTo('campaigns.start-or-resume.fill-in-id-pix', this.get('campaignCode')));
+    }
   }
 });
