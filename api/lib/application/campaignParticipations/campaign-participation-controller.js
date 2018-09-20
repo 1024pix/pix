@@ -1,3 +1,4 @@
+const controllerReplies = require('../../infrastructure/controller-replies');
 const usecases = require('../../domain/usecases');
 const tokenService = require('../../../lib/domain/services/token-service');
 
@@ -13,8 +14,6 @@ const { extractFilters } = require('../../infrastructure/utils/query-params-util
 
 module.exports = {
 
-  /*TODO use controller replies */
-
   getCampaignParticipationByAssessment(request, reply) {
     const filters = extractFilters(request);
     const assessmentId = filters.assessmentId;
@@ -24,7 +23,7 @@ module.exports = {
     })
       .then((campaignParticipation) => {
         const serializedCampaignParticipation = serializer.serialize(campaignParticipation);
-        return reply(serializedCampaignParticipation).code(200);
+        return controllerReplies(reply).ok(serializedCampaignParticipation);
       });
   },
 
@@ -34,7 +33,7 @@ module.exports = {
     const campaignParticipationId = parseInt(request.params.id);
 
     if (campaignParticipationId) {
-      return usecases.allowUserToShareHisCampaignResult({
+      return usecases.shareCampaignResult({
         userId,
         campaignParticipationId,
         campaignParticipationRepository,
