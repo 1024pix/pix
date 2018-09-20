@@ -49,7 +49,7 @@
 }
 
 .blue-button-linkto {
-  padding: 13px 20px;
+  padding: 13px 2px;
   margin-top: 20px;
   background-color: $aqua;
   font-weight: 500;
@@ -63,6 +63,10 @@
   &:hover, &:active, &:focus {
     background-color: $mariner;
   }
+  @include device-is('tablet') {
+    padding: 13px 20px;
+  }
+
 }
 
 .radio-button {
