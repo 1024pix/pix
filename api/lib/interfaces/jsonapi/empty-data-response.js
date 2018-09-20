@@ -1,8 +1,6 @@
 const JSONAPISerializer = require('jsonapi-serializer').Serializer;
 
-module.exports = (type) => {
-  const object = new JSONAPISerializer(type, {
-    attributes: []
-  });
+module.exports = () => {
+  const object = new JSONAPISerializer('', {});
   return object.serialize(null);
 };
