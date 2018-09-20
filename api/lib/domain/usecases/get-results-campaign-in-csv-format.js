@@ -165,7 +165,8 @@ function _createOneLineOfCSV(
         headers,
       );
 
-      line = _addCellByHeadersTitleForText('"Partage (O/N)"', campaignParticipation.isShared, line, headers);
+      const textForParticipationShared = campaignParticipation.isShared ? 'Oui' : 'Non';
+      line = _addCellByHeadersTitleForText('"Partage (O/N)"', textForParticipationShared, line, headers);
 
       if(assessment.isCompleted && campaignParticipation.isShared) {
 

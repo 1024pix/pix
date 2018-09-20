@@ -179,7 +179,7 @@ describe('Unit | Domain | Use Cases | get-results-campaign-in-csv-format', () =
           '"NA";' +
           '100;' +
           '="2017-05-05";' +
-          '="true";' +
+          '="Oui";' +
           `="${moment(factoryCampaignParticipation.sharedAt).format('YYYY-MM-DD')}";` +
           '"NA";' +
           '"NA";' +
@@ -240,7 +240,7 @@ describe('Unit | Domain | Use Cases | get-results-campaign-in-csv-format', () =
           '"NA";' +
           '100;' +
           '="2017-05-05";' +
-          '="false";' +
+          '="Non";' +
           '"NA";' +
           '"NA";' +
           '"NA";' +
