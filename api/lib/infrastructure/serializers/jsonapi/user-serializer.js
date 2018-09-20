@@ -3,7 +3,7 @@ const User = require('../../../domain/models/User');
 
 module.exports = {
 
-  serialize(users) {
+  serialize(users, meta) {
     return new Serializer('user', {
       attributes: ['firstName', 'lastName', 'email', 'cgu', 'organizationAccesses'],
       organizationAccesses: {
@@ -15,10 +15,11 @@ module.exports = {
           }
         }
       },
-      transform: (model) => {
+      transform(model) {
         // FIXME: Used to make it work in both cases
         return (model instanceof User) ? model : model.toJSON();
-      }
+      },
+      meta
     }).serialize(users);
   },
 
