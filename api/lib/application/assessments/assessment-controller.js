@@ -1,5 +1,7 @@
 const Boom = require('boom');
+const JSONAPI = require('../../interfaces/jsonapi');
 
+const controllerReplies = require('../../infrastructure/controller-replies');
 const logger = require('../../infrastructure/logger');
 const answerRepository = require('../../infrastructure/repositories/answer-repository');
 const assessmentRepository = require('../../infrastructure/repositories/assessment-repository');
@@ -165,11 +167,11 @@ module.exports = {
         logContext.err = err;
         logger.trace(logContext, 'catching exception');
         if (err instanceof AssessmentEndedError) {
-          return reply(Boom.notFound());
+          return controllerReplies(reply).ok(JSONAPI.emptyDataResponse());
+        } else {
+          logger.error(err);
+          return controllerReplies(reply).error(err);
         }
-
-        logger.error(err);
-        reply(Boom.badImplementation(err));
       });
   }
 };
