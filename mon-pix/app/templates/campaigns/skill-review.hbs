@@ -10,12 +10,13 @@
 <div class="campaign__share_container">
   {{#if showButtonToShareResult}}
     <button class="campaign__share__button" {{action 'shareCampaignParticipation'}}>J'ENVOIE MES RÉSULTATS</button>
-    {{else}}
+    <p class="campaign__share__legal">
+      En cliquant, les résultats de votre parcours seront transmis à l’organisateur du parcours pour lui permettre de
+      vous accompagner.
+    </p>
+  {{else}}
     <p class="campaign__share__thanks">Merci, vos résultats ont bien été envoyés !</p>
   {{/if}}
-  <p class="campaign__share__legal">
-  En cliquant, les résultats de votre parcours seront transmis à la personne qui vous a invité(e) pour lui permettre de vous accompagner.
-</p>
 </div>
 
 {{outlet}}
