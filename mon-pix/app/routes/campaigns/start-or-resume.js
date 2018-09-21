@@ -12,12 +12,8 @@ export default BaseRoute.extend(AuthenticatedRouteMixin, {
     this.set('campaignCode', params.campaign_code);
     return store.query('campaign', { filter: { code: this.get('campaignCode') } })
       .then((campaigns) => campaigns.get('firstObject'))
-      .then((campaign) => {
-        if (campaign) {
-          return store.createRecord('campaign-participation', { userId, campaignId: campaign.get('id') });
-        }
-        return RSVP.reject();
-      });
+      .then((campaign) => store.createRecord('campaign-participation', { userId, campaignId: campaign.get('id') }))
+      .catch(() => RSVP.reject());
   },
 
   actions: {
