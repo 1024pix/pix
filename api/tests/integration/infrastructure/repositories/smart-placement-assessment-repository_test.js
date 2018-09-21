@@ -213,4 +213,45 @@ describe('Integration | Repository | SmartPlacementAssessmentRepository', () => 
       return expect(promise).to.be.rejectedWith(NotFoundError);
     });
   });
+
+  describe('#checkIfAssessmentBelongToUser', () => {
+
+    let user;
+    let userWithNoAssessment;
+    let assessment;
+
+    beforeEach(() => {
+      user = databaseBuilder.factory.buildUser();
+      assessment = databaseBuilder.factory.buildAssessment({
+        userId: user.id,
+        type: Assessment.types.SMARTPLACEMENT
+      });
+      userWithNoAssessment = databaseBuilder.factory.buildUser();
+      return databaseBuilder.commit();
+    });
+
+    afterEach(async () => {
+      await databaseBuilder.clean();
+    });
+
+    it('should resolve if the given assessmentId belongs to the user', () => {
+      // when
+      const promise = smartPlacementAssessmentRepository.checkIfAssessmentBelongToUser(assessment.id, user.id);
+
+      // then
+      return promise.then((result) => {
+        expect(result).to.be.true;
+      });
+    });
+
+    it('should resolve false if the given assessmentId does not belong to the user', () => {
+      // when
+      const promise = smartPlacementAssessmentRepository.checkIfAssessmentBelongToUser(assessment.id, userWithNoAssessment.id);
+
+      // then
+      return promise.then((result) => {
+        expect(result).to.be.false;
+      });
+    });
+  });
 });

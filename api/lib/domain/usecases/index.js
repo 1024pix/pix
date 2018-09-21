@@ -4,7 +4,9 @@ module.exports = {
   createAssessmentResultForCompletedCertification: require('./create-assessment-result-for-completed-certification'),
   createAssessmentForCampaign: require('./create-assessment-for-campaign'),
   createUser: require('./create-user'),
+  correctAnswerThenUpdateAssessment: require('./correct-answer-then-update-assessment'),
   findAvailableTargetProfiles: require('./find-available-target-profiles'),
+  findCampaignParticipationsByAssessmentId: require('./find-campaign-participations-by-assessmentId'),
   findCompletedUserCertifications: require('./find-completed-user-certifications'),
   findUserAssessmentsByFilters: require('./find-user-assessments-by-filters'),
   getCorrectionForAnswerWhenAssessmentEnded: require('./get-correction-for-answer-when-assessment-ended'),
@@ -22,6 +24,6 @@ module.exports = {
   preloadCacheEntries: require('./preload-cache-entries'),
   removeAllCacheEntries: require('./remove-all-cache-entries'),
   removeCacheEntry: require('./remove-cache-entry'),
-  correctAnswerThenUpdateAssessment: require('./correct-answer-then-update-assessment'),
+  shareCampaignResult: require('./share-campaign-result.js'),
   updateCertification: require('./update-certification'),
 };
