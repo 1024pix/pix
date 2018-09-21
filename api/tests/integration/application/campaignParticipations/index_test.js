@@ -25,8 +25,6 @@ describe('Integration | Application | Route | campaignParticipationRouter', () =
   describe('GET /api/campaign-participations?filter[assessmentId]={id}', () => {
 
     it('should exist', () => {
-      // given
-
       // when
       const promise = server.inject({
         method: 'GET',
