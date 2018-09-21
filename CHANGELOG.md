@@ -1,5 +1,11 @@
 # Pix Changelog
 
+## 2.1.0 (21/09/2018)
+
+- [#207](https://github.com/1024pix/pix/pull/207) [BUGFIX] Les pop-ups ne s'ouvre plus sur les checkpoints des campagnes (PF-395).
+- [#199](https://github.com/1024pix/pix/pull/199) [BUGFIX] Ne tomber sur la page de fin que lorsque nous n'avons plus de question (PF-268).
+- [#195](https://github.com/1024pix/pix/pull/195) [TECH] Set scalingo formation for review apps. (PF-352).
+- [#197](https://github.com/1024pix/pix/pull/197) [TECH] Mise à jour des frameworks ember et amelioration de la configuration circleCI (PF-359).
 
 ## 2.0.0 (14/09/2018) 
 
