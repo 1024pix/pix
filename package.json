@@ -1,6 +1,6 @@
 {
   "name": "pix",
-  "version": "2.0.0",
+  "version": "2.1.0",
   "description": "Plateforme d'évaluation et de certification des compétences numériques des citoyens francophones.",
   "author": "Team PIX",
   "license": "AGPL-3.0",
@@ -45,8 +45,8 @@
     "coverage:api": "cd api && npm run lint && npm run coverage",
     "coverage:mon-pix": "cd mon-pix && npm run coverage",
     "coverage:merge": "./node_modules/.bin/lcov-result-merger 'coverage/*_lcov.info' 'coverage/lcov.info'",
-    "coverage:coveralls": "cat coverage/lcov.info | COVERALLS_SERVICE_NAME=circleci COVERALLS_REPO_TOKEN=M9ACRID08PaZPH1LoaIkNpek1S8YEyAvA ./node_modules/.bin/coveralls",
-    "coverage:codeclimate": "cat coverage/lcov.info | CODECLIMATE_REPO_TOKEN=bd614b65638c2cdf55c040a201c45996b8838195786bc522453ee241c9fb2cae ./node_modules/.bin/codeclimate-test-reporter",
+    "coverage:coveralls": "cat coverage/lcov.info | COVERALLS_SERVICE_NAME=circleci COVERALLS_REPO_TOKEN=7ZqXV3M8PYB3iWKIFbIbDCnKkpr7k19wP ./node_modules/.bin/coveralls",
+    "coverage:codeclimate": "cat coverage/lcov.info | CODECLIMATE_REPO_TOKEN=80a1861f8334f8bf1876c2dce46512e7cb13bf4a0fbe7f677543e0e958219ead ./node_modules/.bin/codeclimate-test-reporter",
     "coverage": "npm run coverage:clean && npm run coverage:api && npm run coverage:mon-pix && npm run coverage:merge && npm run coverage:coveralls && npm run coverage:codeclimate",
     "commitmsg": "node ./scripts/git-hook/prepend-commit-message.js",
     "install:api": "cd api && npm install",
