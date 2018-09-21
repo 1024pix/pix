@@ -37,6 +37,7 @@ describe('Unit | Route | campaigns/start-or-resume', function() {
   });
 
   describe('#model', function() {
+
     it('should create new campaign-participation for current user', function() {
       // given
       const route = this.subject();
@@ -67,8 +68,11 @@ describe('Unit | Route | campaigns/start-or-resume', function() {
       const params = {
         campaign_code: 'AQST765'
       };
+      const error = {
+        errors: [{ code: 404, title: 'Not Found', detail: 'Not found campaign with code AZERTY123445' }]
+      };
 
-      queryStub.resolves(A([]));
+      queryStub.rejects(error);
 
       // when
       const promise = route.model(params);
