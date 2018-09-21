@@ -30,7 +30,7 @@ module.exports = {
         return reply(campaignSerializer.serialize(createdCampaign)).code(201);
       })
       .catch((error) => {
-        if(error instanceof UserNotAuthorizedToCreateCampaignError) {
+        if (error instanceof UserNotAuthorizedToCreateCampaignError) {
           return reply(JSONAPI.forbiddenError(error.message)).code(403);
         }
 
@@ -49,10 +49,12 @@ module.exports = {
 
     const campaignId = parseInt(request.params.id);
 
-    return usecases.getResultsCampaignInCSVFormat({ userId, campaignId,
+    return usecases.getResultsCampaignInCSVFormat({
+      userId, campaignId,
       campaignRepository, userRepository, targetProfileRepository,
       competenceRepository, campaignParticipationRepository, organizationRepository,
-      smartPlacementAssessmentRepository })
+      smartPlacementAssessmentRepository
+    })
       .then((resultCampaign) => {
         const fileName = `Resultats-${resultCampaign.campaignName}-${campaignId}-${moment().format('YYYY-MM-DD-hhmm')}.csv`;
         return reply(resultCampaign.csvData)
@@ -60,12 +62,12 @@ module.exports = {
           .header('Content-Disposition', `attachment; filename="${fileName}"`);
       })
       .catch((error) => {
-        if(error instanceof UserNotAuthorizedToGetCampaignResultsError) {
+        if (error instanceof UserNotAuthorizedToGetCampaignResultsError) {
           return reply(JSONAPI.forbiddenError(error.message)).code(403);
         }
 
         logger.error(error);
         return reply(JSONAPI.internalError('Une erreur inattendue est survenue lors de la récupération des résultats de la campagne')).code(500);
       });
-  }
+  },
 };

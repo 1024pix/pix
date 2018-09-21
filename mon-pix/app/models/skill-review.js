@@ -6,7 +6,7 @@ export default DS.Model.extend({
   profileCompletionRate: DS.attr('number'),
 
   profileMasteryPercentage: computed('profileMasteryRate', function() {
-    return Number((this.get('profileMasteryRate') * 100).toFixed(1)) + '%';
+    return Number((this.get('profileMasteryRate') * 100).toFixed(0)) + '%';
   }),
 
   profileCompletionPercentage: computed('profileCompletionRate', function() {

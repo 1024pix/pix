@@ -1,4 +1,3 @@
-const _ = require('lodash');
 const JSONAPIError = require('jsonapi-serializer').Error;
 
 const userRepository = require('../../infrastructure/repositories/user-repository');
@@ -22,6 +21,7 @@ const usecases = require('../../domain/usecases');
 const controllerReplies = require('../../infrastructure/controller-replies');
 
 const logger = require('../../infrastructure/logger');
+const { extractFilters } = require('../../infrastructure/utils/query-params-utils');
 const JSONAPI = require('../../interfaces/jsonapi');
 const User = require('../../domain/models/User');
 const Organization = require('../../domain/models/Organization');
@@ -64,7 +64,7 @@ module.exports = {
 
   search: (request, reply) => {
     const userId = request.auth.credentials.userId;
-    const filters = _extractFilters(request);
+    const filters = extractFilters(request);
 
     return organizationService.search(userId, filters)
       .then((organizations) => reply(organizationSerializer.serialize(organizations)))
@@ -162,16 +162,6 @@ function _generateUniqueOrganizationCode() {
   return organizationRepository.isCodeAvailable(code)
     .then(() => code)
     .catch(_generateUniqueOrganizationCode);
-}
-
-function _extractFilters(request) {
-  return _.reduce(request.query, (result, queryFilterValue, queryFilterKey) => {
-    const field = queryFilterKey.match(/filter\[([a-z]*)]/)[1];
-    if (field) {
-      result[field] = queryFilterValue;
-    }
-    return result;
-  }, {});
 }
 
 function _buildErrorMessage(errorMessage) {
