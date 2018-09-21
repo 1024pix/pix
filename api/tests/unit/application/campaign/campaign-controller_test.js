@@ -4,30 +4,35 @@ const campaignController = require('../../../../lib/application/campaigns/campai
 const campaignSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/campaign-serializer');
 const tokenService = require('../../../../lib/domain/services/token-service');
 const usecases = require('../../../../lib/domain/usecases');
-const { UserNotAuthorizedToCreateCampaignError, UserNotAuthorizedToGetCampaignResultsError, EntityValidationError } = require('../../../../lib/domain/errors');
+const { UserNotAuthorizedToCreateCampaignError, UserNotAuthorizedToGetCampaignResultsError, EntityValidationError,
+  NotFoundError } = require('../../../../lib/domain/errors');
 
 describe('Unit | Application | Controller | Campaign', () => {
 
+  let sandbox;
+  let replyStub;
+  let codeStub;
+
+  beforeEach(() => {
+    sandbox = sinon.createSandbox();
+    codeStub = sandbox.stub();
+    replyStub = sandbox.stub().returns({
+      code: codeStub,
+    });
+  });
+
+  afterEach(() => {
+    sandbox.restore();
+  });
+
   describe('#save', () => {
 
-    let sandbox;
-    let replyStub;
-    let codeStub;
     const deserializedCampaign = factory.buildCampaign({ id: NaN, code: '' });
 
     beforeEach(() => {
-      sandbox = sinon.createSandbox();
       sandbox.stub(usecases, 'createCampaign');
       sandbox.stub(campaignSerializer, 'deserialize').resolves(deserializedCampaign);
       sandbox.stub(campaignSerializer, 'serialize');
-      codeStub = sandbox.stub();
-      replyStub = sandbox.stub().returns({
-        code: codeStub,
-      });
-    });
-
-    afterEach(() => {
-      sandbox.restore();
     });
 
     it('should call the use case to create the new campaign', () => {
@@ -268,6 +273,83 @@ describe('Unit | Application | Controller | Campaign', () => {
         expect(codeStub).to.have.been.calledWith(403);
         expect(replyStub).to.have.been.calledWith(expectedUnprocessableEntityError);
 
+      });
+    });
+
+  });
+
+  describe('#findByCode ', () => {
+
+    const campaignCode = 'AZERTY123';
+    let request;
+
+    beforeEach(() => {
+      request = {
+        query: { 'filter[code]': campaignCode }
+      };
+      sandbox.stub(usecases, 'getCampaignByCode');
+      sandbox.stub(campaignSerializer, 'serialize');
+    });
+
+    it('should call the use case to retrieve the campaign with the expected code', () => {
+      // given
+      const createdCampaign = factory.buildCampaign();
+      usecases.getCampaignByCode.resolves(createdCampaign);
+
+      const serializedCampaign = { name: createdCampaign.name };
+      campaignSerializer.serialize.returns(serializedCampaign);
+
+      // when
+      const promise = campaignController.getByCode(request, replyStub);
+
+      // then
+      return promise.then(() => {
+        expect(usecases.getCampaignByCode).to.have.been.calledWith({ code: campaignCode, campaignRepository });
+      });
+    });
+
+    it('should return the serialized campaign found by the use case', () => {
+      // given
+      const createdCampaign = factory.buildCampaign();
+      usecases.getCampaignByCode.resolves(createdCampaign);
+
+      const serializedCampaign = { name: createdCampaign.name };
+      campaignSerializer.serialize.returns(serializedCampaign);
+
+      // when
+      const promise = campaignController.getByCode(request, replyStub);
+
+      // then
+      return promise.then(() => {
+        expect(campaignSerializer.serialize).to.have.been.calledWith([createdCampaign]);
+        expect(replyStub).to.have.been.calledWith(serializedCampaign);
+        expect(codeStub).to.have.been.calledWith(200);
+      });
+    });
+
+    it('should return a 404 error if campaign is not found', () => {
+      // given
+      usecases.getCampaignByCode.rejects(new NotFoundError());
+
+      // when
+      const promise = campaignController.getByCode(request, replyStub);
+
+      // then
+      return promise.then(() => {
+        expect(codeStub).to.have.been.calledWith(404);
+      });
+    });
+
+    it('should return a 400 error if there is no code param in the request', () => {
+      // given
+      request.query = {};
+
+      // when
+      const promise = campaignController.getByCode(request, replyStub);
+
+      // then
+      return promise.then(() => {
+        expect(codeStub).to.have.been.calledWith(400);
       });
     });
 

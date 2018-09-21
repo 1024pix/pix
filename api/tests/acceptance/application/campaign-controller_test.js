@@ -1,6 +1,6 @@
 const faker = require('faker');
 const server = require('../../../server');
-const { knex, expect, generateValidRequestAuhorizationHeader } = require('../../test-helper');
+const { knex, expect, generateValidRequestAuhorizationHeader, databaseBuilder } = require('../../test-helper');
 
 describe('Acceptance | API | Campaigns', () => {
 
@@ -116,6 +116,63 @@ describe('Acceptance | API | Campaigns', () => {
         expect(response.statusCode).to.equal(403);
         expect(response.result.errors[0].title).to.equal('Forbidden Error');
       });
+    });
+
+  });
+
+  describe('GET /api/campaigns', () => {
+
+    const options = {
+      method: 'GET',
+      url: '/api/campaigns?filter[code]=AZERTY123',
+    };
+    let insertedCampaign;
+
+    beforeEach(() => {
+      insertedCampaign = databaseBuilder.factory.buildCampaign({ name: 'Ou est Brandone 1.0', code: 'AZERTY123' });
+      return databaseBuilder.commit();
+    });
+
+    afterEach(() => {
+      return databaseBuilder.clean();
+    });
+
+    context('without authorization token', () => {
+
+      it('should return 401 HTTP status code', () => {
+        // given
+        options.headers = { };
+
+        // when
+        const promise = server.inject(options);
+
+        // then
+        return promise.then((response) => {
+          expect(response.statusCode).to.equal(401);
+        });
+      });
+    });
+
+    context('with authorization token', () => {
+
+      it('should return the campaign found for the given code', () => {
+        // given
+        options.headers = { authorization: generateValidRequestAuhorizationHeader() };
+
+        // when
+        const promise = server.inject(options);
+
+        // then
+        return promise.then((response) => {
+          const campaign = response.result.data[0];
+          expect(response.statusCode).to.equal(200);
+          expect(campaign).to.exist;
+          expect(campaign.type).to.equal('campaigns');
+          expect(campaign.attributes.name).to.equal(insertedCampaign.name);
+          expect(campaign.attributes.code).to.equal(insertedCampaign.code);
+        });
+      });
+
     });
 
   });

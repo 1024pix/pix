@@ -19,6 +19,18 @@ exports.register = function(server, options, next) {
     },
     {
       method: 'GET',
+      path: '/api/campaigns',
+      config: {
+        handler: campaignController.getByCode,
+        notes: [
+          '- **Cette route est restreinte aux utilisateurs authentifiés**\n' +
+          '- Récupération de la campagne dont le code est spécifié dans les filters de la requête',
+        ],
+        tags: ['api', 'campaign']
+      }
+    },
+    {
+      method: 'GET',
       path: '/api/campaigns/{id}/csvResults',
       config: {
         auth: false,
