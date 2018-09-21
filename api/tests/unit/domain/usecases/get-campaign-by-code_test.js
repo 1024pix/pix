@@ -1,5 +1,6 @@
 const { expect, sinon, factory } = require('../../../test-helper');
 const usecases = require('../../../../lib/domain/usecases');
+const { NotFoundError } = require('../../../../lib/domain/errors');
 
 describe('Unit | UseCase | get-campaign-by-code', () => {
 
@@ -10,7 +11,7 @@ describe('Unit | UseCase | get-campaign-by-code', () => {
     campaignRepository.getByCode = sinon.stub();
   });
 
-  it('should call the repository to retrieve the campaign with the given code', function() {
+  it('should call the repository to retrieve the campaign with the given code', () => {
     // given
     campaignRepository.getByCode.resolves();
 
@@ -23,7 +24,7 @@ describe('Unit | UseCase | get-campaign-by-code', () => {
     });
   });
 
-  it('should return the found campaign', function() {
+  it('should return the found campaign', () => {
     // given
     const campaignFound = factory.buildCampaign();
     campaignRepository.getByCode.resolves(campaignFound);
@@ -35,6 +36,17 @@ describe('Unit | UseCase | get-campaign-by-code', () => {
     return promise.then((campaign) => {
       expect(campaign).to.deep.equal(campaignFound);
     });
+  });
+
+  it('should return an error if no campaign found for the given code', () => {
+    // given
+    campaignRepository.getByCode.resolves(null);
+
+    // when
+    const promise = usecases.getCampaignByCode({ code: campaignCode, campaignRepository });
+
+    // then
+    return expect(promise).to.be.rejectedWith(NotFoundError);
   });
 
 });
