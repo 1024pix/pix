@@ -2,7 +2,7 @@ import Controller from '@ember/controller';
 
 export default Controller.extend({
 
-  showShareButton: true,
+  showButtonToShareResult: true,
 
   actions: {
     shareCampaignParticipation() {
@@ -10,7 +10,7 @@ export default Controller.extend({
       campaignParticipation.set('isShared', true);
       campaignParticipation.save()
         .then(function() {
-          this.set('showShareButton', false);
+          this.set('showButtonToShareResult', false);
         }.bind(this));
 
     }
