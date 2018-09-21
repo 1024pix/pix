@@ -1,26 +1,30 @@
-const controllerReplies = require('../../infrastructure/controller-replies');
-const infraErrors = require('../../infrastructure/errors');
-
 const usecases = require('../../domain/usecases');
 const tokenService = require('../../../lib/domain/services/token-service');
-
-const serializer = require('../../infrastructure/serializers/jsonapi/campaign-participation-serializer');
+const infraErrors = require('../../infrastructure/errors');
 
 const smartPlacementAssessmentRepository = require('../../infrastructure/repositories/smart-placement-assessment-repository');
 const campaignParticipationRepository = require('../../infrastructure/repositories/campaign-participation-repository');
 const { NotFoundError, UserNotAuthorizedToAccessEntity } = require('../../domain/errors');
 
 const logger = require('../../infrastructure/logger');
+
+const controllerReplies = require('../../infrastructure/controller-replies');
 const { extractFilters } = require('../../infrastructure/utils/query-params-utils');
+const serializer = require('../../infrastructure/serializers/jsonapi/campaign-participation-serializer');
 
 module.exports = {
 
   getCampaignParticipationByAssessment(request, reply) {
+    const token = tokenService.extractTokenFromAuthChain(request.headers.authorization);
+    const userId = tokenService.extractUserId(token);
+
     const filters = extractFilters(request);
     const assessmentId = filters.assessmentId;
     return usecases.findCampaignParticipationsByAssessmentId({
+      userId,
       assessmentId,
       campaignParticipationRepository,
+      smartPlacementAssessmentRepository
     })
       .then((campaignParticipation) => {
         return serializer.serialize(campaignParticipation);
