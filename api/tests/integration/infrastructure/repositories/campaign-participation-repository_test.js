@@ -8,14 +8,14 @@ describe('Integration | Repository | Campaign Participation', () => {
 
   describe('#get', () => {
 
-    let campaign1;
-    let campaignParticipation1;
+    let campaign;
+    let campaignParticipation;
 
     beforeEach(async () => {
-      campaign1 = databaseBuilder.factory.buildCampaign({});
+      campaign = databaseBuilder.factory.buildCampaign({});
 
-      campaignParticipation1 = databaseBuilder.factory.buildCampaignParticipation({
-        campaignId: campaign1.id
+      campaignParticipation = databaseBuilder.factory.buildCampaignParticipation({
+        campaignId: campaign.id
       });
       await databaseBuilder.commit();
     });
@@ -26,11 +26,11 @@ describe('Integration | Repository | Campaign Participation', () => {
 
     it('should return a campaign participation object', () => {
       // when
-      const promise = campaignParticipationRepository.get(campaignParticipation1.id);
+      const promise = campaignParticipationRepository.get(campaignParticipation.id);
 
       // then
       return promise.then((foundCampaignParticipation) => {
-        expect(foundCampaignParticipation.id).to.equal(campaignParticipation1.id);
+        expect(foundCampaignParticipation.id).to.equal(campaignParticipation.id);
       });
     });
   });

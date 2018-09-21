@@ -99,11 +99,7 @@ describe('Unit | Domain | Use Cases | get-results-campaign-in-csv-format', () =
 
     it('should return the header in CSV styles with all competence, domain and skills', () => {
       // given
-      //const factoryCampaignParticipation = factory.buildCampaignParticipation({ isShared: true });
-      findCampaignParticipationStub.resolves([
-        //factoryCampaignParticipation,
-        //campaign,
-      ]);
+      findCampaignParticipationStub.resolves([]);
 
       const csvExpected = '\uFEFF"Nom de l\'organisation";' +
         '"ID Campagne";' +

@@ -59,10 +59,6 @@ describe('Unit | UseCase | share-campaign-result', () => {
           .resolves(expectedCampaignParticipation);
       });
 
-      afterEach(() => {
-        sandbox.restore();
-      });
-
       it('should return a modified campaign participation', () => {
         // when
         const promise = usecases.shareCampaignResult({
@@ -83,10 +79,6 @@ describe('Unit | UseCase | share-campaign-result', () => {
 
       beforeEach(() => {
         campaignParticipationRepository.get.rejects(new NotFoundError());
-      });
-
-      afterEach(() => {
-        sandbox.restore();
       });
 
       it('should reject with a Not Found Error', () => {

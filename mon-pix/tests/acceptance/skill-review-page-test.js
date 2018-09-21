@@ -38,30 +38,10 @@ describe('Acceptance | Campaigns | Campaigns Result', function() {
 
     describe('When user is logged in', async function() {
 
-      const profileCompletionRate = 64;
       const requestedAssessmentId = 1;
       const campaignId = 1;
-      const campaignParticipationId = 1;
-
-      //ressources
-      const skillReview = { profileCompletionRate };
-      const assessment = { id: requestedAssessmentId, skillReview };
-      const campaignParticipation = { id: campaignParticipationId };
 
       beforeEach(async function() {
-        //STUB
-        server.get('/campaign-participations', () => {
-          return server.createList('campaign-participation', 1, [campaignParticipation]);
-        });
-        server.get('/assessment/:id', () => {
-          return server.create('assessment', assessment);
-        });
-        server.patch('/campaign-participations/:id', () => {
-          return new Promise((resolve) => {
-            resolve(new Response(204));
-          });
-        });
-
         authenticateAsSimpleUser();
         await visit(`/campagnes/${campaignId}/resultats/${requestedAssessmentId}`);
       });

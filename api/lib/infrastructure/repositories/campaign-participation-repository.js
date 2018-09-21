@@ -18,9 +18,7 @@ module.exports = {
 
   get(id) {
     return BookshelfCampaignParticipation
-      .query((qb) => {
-        qb.where({ id });
-      })
+      .where({ id })
       .fetch({ require: true })
       .then(_toDomain)
       .catch(_checkNotFoundError);
@@ -34,9 +32,7 @@ module.exports = {
 
   findByCampaignId(campaignId) {
     return BookshelfCampaignParticipation
-      .query((qb) => {
-        qb.where({ campaignId });
-      })
+      .where({ campaignId })
       .fetchAll({ withRelated: ['campaign'] })
       .then((bookshelfCampaignParticipation) => bookshelfCampaignParticipation.models)
       .then(fp.map(_toDomain));
@@ -44,9 +40,7 @@ module.exports = {
 
   findByAssessmentId(assessmentId) {
     return BookshelfCampaignParticipation
-      .query((qb) => {
-        qb.where({ assessmentId });
-      })
+      .where({ assessmentId })
       .fetch({ require: true })
       .then(_toDomain)
       .catch(_checkNotFoundError);
