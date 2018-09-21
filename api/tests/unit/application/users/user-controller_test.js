@@ -4,6 +4,7 @@ const Boom = require('boom');
 
 const BookshelfUser = require('../../../../lib/infrastructure/data/user');
 const User = require('../../../../lib/domain/models/User');
+const SearchResultList = require('../../../../lib/domain/models/SearchResultList');
 
 const userController = require('../../../../lib/application/users/user-controller');
 const validationErrorSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/validation-error-serializer');
@@ -739,4 +740,137 @@ describe('Unit | Controller | user-controller', () => {
 
   });
 
+  describe('#find', () => {
+
+    beforeEach(() => {
+      sinon.stub(usecases, 'findUsers');
+      sinon.stub(userSerializer, 'serialize');
+    });
+
+    afterEach(() => {
+      usecases.findUsers.restore();
+      userSerializer.serialize.restore();
+    });
+
+    it('should return a list of JSON API users fetched from the data repository', () => {
+      // given
+      const request = { query: {} };
+      const replyStub = sinon.stub();
+      usecases.findUsers.resolves(new SearchResultList());
+      userSerializer.serialize.returns({ data: {}, meta: {} });
+
+      // when
+      const promise = userController.find(request, replyStub);
+
+      // then
+      return promise.then(() => {
+        expect(usecases.findUsers).to.have.been.calledOnce;
+        expect(userSerializer.serialize).to.have.been.calledOnce;
+        expect(replyStub).to.have.been.calledOnce;
+      });
+    });
+
+    it('should return a JSON API response with pagination information in the data field "meta"', () => {
+      // given
+      const request = { query: {} };
+      const replyStub = sinon.stub();
+      const searchResultList = new SearchResultList({
+        page: 2,
+        pageSize: 25,
+        totalResults: 100,
+        paginatedResults: [new User({ id: 1 }), new User({ id: 2 }), new User({ id: 3 })],
+      });
+      usecases.findUsers.resolves(searchResultList);
+
+      // when
+      const promise = userController.find(request, replyStub);
+
+      // then
+      return promise.then(() => {
+        const expectedResults = searchResultList.paginatedResults;
+        const expectedMeta = { page: 2, pageSize: 25, itemsCount: 100, pagesCount: 4, };
+        expect(userSerializer.serialize).to.have.been.calledWithExactly(expectedResults, expectedMeta);
+      });
+    });
+
+    it('should allow to filter users by first name', () => {
+      // given
+      const request = { query: { firstName: 'first_name' } };
+      const replyStub = sinon.stub();
+      usecases.findUsers.resolves(new SearchResultList());
+
+      // when
+      const promise = userController.find(request, replyStub);
+
+      // then
+      return promise.then(() => {
+        const expectedFilters = { firstName: 'first_name' };
+        expect(usecases.findUsers).to.have.been.calledWithMatch({ filters: expectedFilters });
+      });
+    });
+
+    it('should allow to filter users by last name', () => {
+      // given
+      const request = { query: { lastName: 'last_name' } };
+      const replyStub = sinon.stub();
+      usecases.findUsers.resolves(new SearchResultList());
+
+      // when
+      const promise = userController.find(request, replyStub);
+
+      // then
+      return promise.then(() => {
+        const expectedFilters = { lastName: 'last_name' };
+        expect(usecases.findUsers).to.have.been.calledWithMatch({ filters: expectedFilters });
+      });
+    });
+
+    it('should allow to filter users by email', () => {
+      // given
+      const request = { query: { email: 'email' } };
+      const replyStub = sinon.stub();
+      usecases.findUsers.resolves(new SearchResultList());
+
+      // when
+      const promise = userController.find(request, replyStub);
+
+      // then
+      return promise.then(() => {
+        const expectedFilters = { email: 'email' };
+        expect(usecases.findUsers).to.have.been.calledWithMatch({ filters: expectedFilters });
+      });
+    });
+
+    it('should allow to paginate on a given page and page size', () => {
+      // given
+      const request = { query: { page: 2, pageSize: 25 } };
+      const replyStub = sinon.stub();
+      usecases.findUsers.resolves(new SearchResultList());
+
+      // when
+      const promise = userController.find(request, replyStub);
+
+      // then
+      return promise.then(() => {
+        const expectedPagination = { page: 2, pageSize: 25 };
+        expect(usecases.findUsers).to.have.been.calledWithMatch({ pagination: expectedPagination });
+      });
+    });
+
+    it('should paginate on page 1 for a page size of 10 elements by default', () => {
+      // given
+      const request = { query: {} };
+      const replyStub = sinon.stub();
+      usecases.findUsers.resolves(new SearchResultList());
+
+      // when
+      const promise = userController.find(request, replyStub);
+
+      // then
+      return promise.then(() => {
+        const expectedPagination = { page: 1, pageSize: 10 };
+        expect(usecases.findUsers).to.have.been.calledWithMatch({ pagination: expectedPagination });
+      });
+    });
+  });
 });
