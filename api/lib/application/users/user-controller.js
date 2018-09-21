@@ -148,6 +148,29 @@ module.exports = {
         logger.error(error);
         reply(JSONAPI.internalError('Une erreur est survenue lors de la récupération de l’utilisateur')).code(500);
       });
+  },
+
+  find(request, reply) {
+    const filters = {
+      firstName: request.query['firstName'],
+      lastName: request.query['lastName'],
+      email: request.query['email']
+    };
+    const pagination = {
+      page: request.query['page'] ? request.query['page'] : 1,
+      pageSize: request.query['pageSize'] ? request.query['pageSize'] : 10,
+    };
+
+    return usecases.findUsers({ filters, pagination, userRepository })
+      .then((searchResultList) => {
+        const meta = {
+          page: searchResultList.page,
+          pageSize: searchResultList.pageSize,
+          itemsCount: searchResultList.totalResults,
+          pagesCount: searchResultList.pagesCount,
+        };
+        return reply(userSerializer.serialize(searchResultList.paginatedResults, meta));
+      });
   }
 };
 
