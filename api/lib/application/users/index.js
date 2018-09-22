@@ -1,4 +1,5 @@
-const UserController = require('./user-controller');
+const securityController = require('../../interfaces/controllers/security-controller');
+const userController = require('./user-controller');
 const Joi = require('joi');
 const userVerification = require('../preHandlers/user-existence-verification');
 const { passwordValidationPattern } = require('../../settings');
@@ -12,15 +13,29 @@ exports.register = function(server, options, next) {
       path: '/api/users',
       config: {
         auth: false,
-        handler: UserController.save,
+        handler: userController.save,
         tags: ['api']
       }
-    },
-    {
+    }, {
+      method: 'GET',
+      path: '/api/users',
+      config: {
+        pre: [{
+          method: securityController.checkUserHasRolePixMaster,
+          assign: 'hasRolePixMaster'
+        }],
+        handler: userController.find,
+        notes: [
+          '- **Cette route est restreinte aux utilisateurs authentifiés avec le rôle Pix Master**\n' +
+          '- Elle permet de récupérer & chercher une liste d’utilisateurs (avec pagination)'
+        ],
+        tags: ['api', 'user']
+      }
+    }, {
       method: 'GET',
       path: '/api/users/{id}',
       config: {
-        handler: UserController.getUser,
+        handler: userController.getUser,
         notes: [
           '- **Cette route est restreinte aux utilisateurs authentifiés**\n' +
           '- Récupération de l‘utilisateur par id\n' +
@@ -33,7 +48,7 @@ exports.register = function(server, options, next) {
       method: 'GET',
       path: '/api/users/me',
       config: {
-        handler: UserController.getAuthenticatedUserProfile,
+        handler: userController.getAuthenticatedUserProfile,
         tags: ['api']
       }
     },
@@ -45,7 +60,7 @@ exports.register = function(server, options, next) {
           method: userVerification.verifyById,
           assign: 'user'
         }],
-        handler: UserController.getProfileToCertify
+        handler: userController.getProfileToCertify
         , tags: ['api']
       }
     },
@@ -53,7 +68,7 @@ exports.register = function(server, options, next) {
       method: 'GET',
       path: '/api/users/{id}/organization-accesses',
       config: {
-        handler: UserController.getOrganizationAccesses,
+        handler: userController.getOrganizationAccesses,
         notes : [
           '- **Cette route est restreinte aux utilisateurs authentifiés**\n' +
           '- Récupération des accès utilisateurs à partir de l\'id\n' +
@@ -71,7 +86,7 @@ exports.register = function(server, options, next) {
           method: userVerification.verifyById,
           assign: 'user'
         }],
-        handler: UserController.updatePassword,
+        handler: userController.updatePassword,
         validate: {
           options: {
             allowUnknown: true
