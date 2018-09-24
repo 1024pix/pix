@@ -17,9 +17,9 @@ export default BaseRoute.extend(AuthenticatedRouteMixin, {
   },
 
   actions: {
-    startParcours(campaignParticipation) {
+    startCampaignParticipation(campaignParticipation) {
       return campaignParticipation.save()
-        .then(() => this.transitionTo('campaigns.start-or-resume.fill-in-id-pix', this.get('campaignCode')));
+        .then(() => this.transitionTo('campaigns.campaign-landing-page.fill-in-id-pix', this.get('campaignCode')));
     }
   }
 });

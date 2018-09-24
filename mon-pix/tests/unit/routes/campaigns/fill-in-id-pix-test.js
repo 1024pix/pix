@@ -5,9 +5,9 @@ import { describe, it, beforeEach } from 'mocha';
 import { setupTest } from 'ember-mocha';
 import sinon from 'sinon';
 
-describe('Unit | Route | campaigns/start-or-resume/fill-in-id-pix', function() {
+describe('Unit | Route | campaigns/campaign-landing-page/fill-in-id-pix', function() {
 
-  setupTest('route:campaigns/start-or-resume/fill-in-id-pix', {
+  setupTest('route:campaigns/campaign-landing-page/fill-in-id-pix', {
     needs: ['service:session', 'service:current-routed-modal']
   });
 
