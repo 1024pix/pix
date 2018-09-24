@@ -46,7 +46,7 @@ class AssessmentSerializer extends JSONAPISerializer {
     } else {
       data.attributes['certification-number'] = null;
     }
-    if(model.campaignParticipation) {
+    if (model.campaignParticipation) {
       data.attributes['code-campaign'] = model.campaignParticipation.campaign.code;
     }
   }
@@ -54,12 +54,14 @@ class AssessmentSerializer extends JSONAPISerializer {
   serializeRelationships(model, data) {
     data.relationships = {};
 
-    data.relationships.course = {
-      data: {
-        type: 'courses',
-        id: model.courseId,
-      },
-    };
+    if (model.courseId) {
+      data.relationships.course = {
+        data: {
+          type: 'courses',
+          id: model.courseId,
+        },
+      };
+    }
 
     if (model.answers) {
       data.relationships.answers = {
@@ -102,7 +104,8 @@ class AssessmentSerializer extends JSONAPISerializer {
 
   deserialize(json) {
     let courseId;
-    if (json.data.attributes.type === 'SMART_PLACEMENT') {
+    if (json.data.attributes.type === 'SMART_PLACEMENT' ||
+      json.data.attributes.type === 'PREVIEW') {
       courseId = null;
     } else {
       courseId = json.data.relationships.course.data.id;

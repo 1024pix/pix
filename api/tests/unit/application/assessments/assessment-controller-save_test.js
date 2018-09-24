@@ -183,7 +183,7 @@ describe('Unit | Controller | assessment-controller-save', () => {
         // given
         const expected = Assessment.fromAttributes({
           id: 42,
-          courseId: 'null-preview-id',
+          courseId: null,
           type: 'PREVIEW',
           userId: null,
           state: 'started',
