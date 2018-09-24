@@ -13,7 +13,6 @@ const dependencies = {
   certificationRepository: require('../../infrastructure/repositories/certification-repository'),
   challengeRepository: require('../../infrastructure/repositories/challenge-repository'),
   competenceMarkRepository: require('../../infrastructure/repositories/competence-mark-repository'),
-  competenceMarksRepository: require('../../infrastructure/repositories/competence-mark-repository'), // FIXME use competenceMarkRepository
   competenceRepository: require('../../infrastructure/repositories/competence-repository'),
   competenceTreeRepository: require('../../infrastructure/repositories/competence-tree-repository'),
   correctionRepository: require('../../infrastructure/repositories/correction-repository'),

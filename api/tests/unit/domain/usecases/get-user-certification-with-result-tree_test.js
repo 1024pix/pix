@@ -14,7 +14,7 @@ describe('Unit | UseCase | getUserCertificationWithResultTree', () => {
   const certificationRepository = {
     getCertification: () => undefined,
   };
-  const competenceMarksRepository = {
+  const competenceMarkRepository = {
     findByAssessmentResultId: () => undefined,
   };
   const competenceTreeRepository = {
@@ -24,7 +24,7 @@ describe('Unit | UseCase | getUserCertificationWithResultTree', () => {
   beforeEach(() => {
     assessmentRepository.getByCertificationCourseId = sinon.stub();
     certificationRepository.getCertification = sinon.stub();
-    competenceMarksRepository.findByAssessmentResultId = sinon.stub();
+    competenceMarkRepository.findByAssessmentResultId = sinon.stub();
     competenceTreeRepository.get = sinon.stub();
   });
 
@@ -44,7 +44,7 @@ describe('Unit | UseCase | getUserCertificationWithResultTree', () => {
         assessmentRepository,
         certificationId,
         certificationRepository,
-        competenceMarksRepository,
+        competenceMarkRepository,
         competenceTreeRepository,
         userId,
       });
@@ -80,7 +80,7 @@ describe('Unit | UseCase | getUserCertificationWithResultTree', () => {
       certificationRepository.getCertification.resolves(certification);
 
       competenceMarks = [factory.buildCompetenceMark()];
-      competenceMarksRepository.findByAssessmentResultId.resolves(competenceMarks);
+      competenceMarkRepository.findByAssessmentResultId.resolves(competenceMarks);
 
       competenceTree = factory.buildCompetenceTree();
       competenceTreeRepository.get.resolves(competenceTree);
@@ -90,7 +90,7 @@ describe('Unit | UseCase | getUserCertificationWithResultTree', () => {
         assessmentRepository,
         certificationId,
         certificationRepository,
-        competenceMarksRepository,
+        competenceMarkRepository,
         competenceTreeRepository,
         userId,
       });
