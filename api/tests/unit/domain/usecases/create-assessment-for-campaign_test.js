@@ -1,5 +1,5 @@
 const { expect, sinon, factory } = require('../../../test-helper');
-const usecases = require('../../../../lib/domain/usecases');
+const createAssessmentForCampaign = require('../../../../lib/domain/usecases/create-assessment-for-campaign');
 const CampaignParticipation = require('../../../../lib/domain/models/CampaignParticipation');
 const { CampaignCodeError } = require('../../../../lib/domain/errors');
 
@@ -28,7 +28,7 @@ describe('Unit | UseCase | create-assessment-for-campaign', () => {
       campaignRepository.getByCode.resolves(null);
 
       // when
-      const promise = usecases.createAssessmentForCampaign({
+      const promise = createAssessmentForCampaign({
         assessment: {},
         codeCampaign:availableCampaignCode,
         campaignRepository,
@@ -69,7 +69,7 @@ describe('Unit | UseCase | create-assessment-for-campaign', () => {
 
     it('should save the assessment', () => {
       // when
-      const promise = usecases.createAssessmentForCampaign({
+      const promise = createAssessmentForCampaign({
         assessment,
         codeCampaign:availableCampaignCode,
         campaignRepository,
@@ -86,7 +86,7 @@ describe('Unit | UseCase | create-assessment-for-campaign', () => {
 
     it('should save a campaign-participation object', () => {
       // when
-      const promise = usecases.createAssessmentForCampaign({
+      const promise = createAssessmentForCampaign({
         assessment,
         codeCampaign:availableCampaignCode,
         campaignRepository,
@@ -103,7 +103,7 @@ describe('Unit | UseCase | create-assessment-for-campaign', () => {
 
     it('should return the newly created assessment', () => {
       // when
-      const promise = usecases.createAssessmentForCampaign({
+      const promise = createAssessmentForCampaign({
         assessment,
         codeCampaign:availableCampaignCode,
         campaignRepository,

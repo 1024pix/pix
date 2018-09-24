@@ -2,7 +2,7 @@ const { ChallengeAlreadyAnsweredError, NotFoundError } = require('../errors');
 const Examiner = require('../models/Examiner');
 const KnowledgeElement = require('../models/SmartPlacementKnowledgeElement');
 
-module.exports = function({
+module.exports = function correctAnswerThenUpdateAssessment({
   answer,
   answerRepository,
   challengeRepository,

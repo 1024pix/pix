@@ -5,12 +5,6 @@ const JSONAPIError = require('jsonapi-serializer').Error;
 
 const assessmentResultController = require('../../../../lib/application/assessment-results/assessment-result-controller');
 const assessmentResultService = require('../../../../lib/domain/services/assessment-result-service');
-const certificationCourseRepository = require('../../../../lib/infrastructure/repositories/certification-course-repository');
-const assessmentRepository = require('../../../../lib/infrastructure/repositories/assessment-repository');
-const skillsService = require('../../../../lib/domain/services/skills-service');
-const assessmentService = require('../../../../lib/domain/services/assessment-service');
-const assessmentResultRepository = require('../../../../lib/infrastructure/repositories/assessment-result-repository');
-const competenceMarkRepository = require('../../../../lib/infrastructure/repositories/competence-mark-repository');
 
 const { AlreadyRatedAssessmentError, NotFoundError } = require('../../../../lib/domain/errors');
 const AssessmentResult = require('../../../../lib/domain/models/AssessmentResult');
@@ -68,12 +62,6 @@ describe('Unit | Controller | assessment-results', () => {
       expect(usecases.createAssessmentResultForCompletedCertification).to.have.been.calledWith({
         assessmentId: '22',
         forceRecomputeResult: false,
-        assessmentRepository,
-        assessmentResultRepository,
-        assessmentService,
-        certificationCourseRepository,
-        competenceMarkRepository,
-        skillsService,
       });
     });
 

@@ -1,4 +1,4 @@
-const usecases = require('../../../../lib/domain/usecases');
+const findAvailableTargetProfiles = require('../../../../lib/domain/usecases/find-available-target-profiles');
 const { expect, sinon, factory } = require('../../../test-helper');
 const TargetProfile = require('../../../../lib/domain/models/TargetProfile');
 
@@ -29,7 +29,7 @@ describe('Unit | UseCase | find-available-target-profiles', () => {
 
   it('should return an array of target profiles', () => {
     // when
-    const promise = usecases.findAvailableTargetProfiles({ organizationId, targetProfileRepository });
+    const promise = findAvailableTargetProfiles({ organizationId, targetProfileRepository });
 
     // then
     return promise.then((availableTargetProfiles) => {
@@ -40,7 +40,7 @@ describe('Unit | UseCase | find-available-target-profiles', () => {
 
   it('should find public profiles and profiles linked to anyOrganization', () => {
     // when
-    const promise = usecases.findAvailableTargetProfiles({ organizationId, targetProfileRepository });
+    const promise = findAvailableTargetProfiles({ organizationId, targetProfileRepository });
 
     // then
     return promise.then(() => {
@@ -51,7 +51,7 @@ describe('Unit | UseCase | find-available-target-profiles', () => {
 
   it('should return public profiles and profiles linked to specified organization', () => {
     // when
-    const promise = usecases.findAvailableTargetProfiles({ organizationId, targetProfileRepository });
+    const promise = findAvailableTargetProfiles({ organizationId, targetProfileRepository });
 
     // then
     return promise.then((availableTargetProfiles) => {
