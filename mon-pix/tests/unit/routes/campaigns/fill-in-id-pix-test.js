@@ -5,9 +5,9 @@ import { describe, it, beforeEach } from 'mocha';
 import { setupTest } from 'ember-mocha';
 import sinon from 'sinon';
 
-describe('Unit | Route | campaigns/campaign-landing-page/fill-in-id-pix', function() {
+describe('Unit | Route | campaigns/fill-in-id-pix', function() {
 
-  setupTest('route:campaigns/campaign-landing-page/fill-in-id-pix', {
+  setupTest('route:campaigns/fill-in-id-pix', {
     needs: ['service:session', 'service:current-routed-modal']
   });
 
@@ -29,8 +29,8 @@ describe('Unit | Route | campaigns/campaign-landing-page/fill-in-id-pix', functi
 
   describe('#afterModel', function() {
 
-    const savedAssessment = EmberObject.create({ id: 1234, codeCampaign: campaignCode });
     const campaignCode = 'CODECAMPAIGN';
+    const savedAssessment = EmberObject.create({ id: 1234, codeCampaign: campaignCode });
 
     beforeEach(function() {
       route.transitionTo = sinon.stub();
@@ -94,21 +94,6 @@ describe('Unit | Route | campaigns/campaign-landing-page/fill-in-id-pix', functi
       // then
       return promise.then(() => {
         sinon.assert.calledWith(route.transitionTo, 'assessments.challenge');
-      });
-    });
-
-    it('should redirect to assessment rating if no next challenge was found', function() {
-      // given
-      const assessments = A([savedAssessment]);
-      queryAssessementsStub.resolves(assessments);
-      queryChallengeStub.rejects();
-
-      // when
-      const promise = route.afterModel(campaignCode);
-
-      // then
-      return promise.then(() => {
-        sinon.assert.calledWith(route.transitionTo, 'assessments.rating');
       });
     });
   });

@@ -26,7 +26,9 @@ describe('Acceptance | Campaigns | Start Campaigns', function() {
         await visit('/campagnes/codecampagnepix');
       });
 
-      it('should redirect to login page', function() {
+      it('should redirect to login page when user start', async function() {
+        await click('.campaign-landing-page__start-button');
+
         // then
         return andThen(() => {
           expect(currentURL()).to.equal('/connexion');
@@ -34,6 +36,8 @@ describe('Acceptance | Campaigns | Start Campaigns', function() {
       });
 
       it('should redirect to campaigns after connexion', async function() {
+        await click('.campaign-landing-page__start-button');
+
         // when
         expect(currentURL()).to.equal('/connexion');
         fillIn('#pix-email', 'jane@acme.com');
@@ -42,8 +46,7 @@ describe('Acceptance | Campaigns | Start Campaigns', function() {
 
         // then
         return andThen(() => {
-          expect(currentURL()).to.equal('/campagnes/codecampagnepix');
-          expect(find('.campaign-landing-page__start-button').text()).to.equal('Je commence');
+          expect(currentURL()).to.contains('/assessments/');
         });
       });
 

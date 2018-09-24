@@ -27,10 +27,6 @@ export default BaseRoute.extend(AuthenticatedRouteMixin, {
   _startFirstChallenge(assessment) {
     const store = this.get('store');
     return store.queryRecord('challenge', { assessmentId: assessment.get('id') })
-      .then((challenge) => this.transitionTo('assessments.challenge', { assessment, challenge }))
-      .catch(() => {
-        // FIXME: do not manage error when there is no more challenge anymore
-        this.transitionTo('assessments.rating', assessment.get('id'));
-      });
+      .then((challenge) => this.transitionTo('assessments.challenge', { assessment, challenge }));
   }
 });
