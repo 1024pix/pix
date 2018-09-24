@@ -1,4 +1,3 @@
-import _ from 'mon-pix/utils/lodash-custom';
 import BaseRoute from 'mon-pix/routes/base-route';
 
 export default BaseRoute.extend({
@@ -11,9 +10,8 @@ export default BaseRoute.extend({
   afterModel(challenge) {
     const store = this.get('store');
     const that = this;
-    // creates a fake course
-    const course = store.createRecord('course', { id: 'null' + _.guid(), type: 'PREVIEW', challenges: [challenge] });
-    const assessment = store.createRecord('assessment', { course, type: course.get('type') });
+
+    const assessment = store.createRecord('assessment', { type: 'PREVIEW' });
 
     const correctionAdapter = store.adapterFor('correction');
 

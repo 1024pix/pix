@@ -211,7 +211,7 @@ function _isNonScoredAssessment(assessment) {
 }
 
 function isPreviewAssessment(assessment) {
-  return _.startsWith(assessment.courseId, 'null');
+  return assessment.type === Assessment.types.PREVIEW;
 }
 
 function isDemoAssessment(assessment) {
