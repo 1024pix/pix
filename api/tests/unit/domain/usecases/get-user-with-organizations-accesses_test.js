@@ -1,6 +1,6 @@
 const { expect, sinon, factory } = require('../../../test-helper');
 const { UserNotAuthorizedToAccessEntity } = require('../../../../lib/domain/errors');
-const usecases = require('../../../../lib/domain/usecases');
+const getUserWithOrganizationAccesses = require('../../../../lib/domain/usecases/get-user-with-organization-accesses');
 const OrganizationAccess = require('../../../../lib/domain/models/OrganizationAccess');
 const User = require('../../../../lib/domain/models/User');
 
@@ -16,7 +16,7 @@ describe('Unit | UseCase | get-user-organizations-accesses', () => {
     requestedUserId = 2;
 
     // when
-    const promise = usecases.getUserWithOrganizationAccesses({ authenticatedUserId, requestedUserId, userRepository });
+    const promise = getUserWithOrganizationAccesses({ authenticatedUserId, requestedUserId, userRepository });
 
     // then
     return promise.catch((err) => {
@@ -45,7 +45,7 @@ describe('Unit | UseCase | get-user-organizations-accesses', () => {
       userRepository.getWithOrganizationAccesses.resolves(foundUser);
 
       // when
-      const promise = usecases.getUserWithOrganizationAccesses({
+      const promise = getUserWithOrganizationAccesses({
         authenticatedUserId,
         requestedUserId,
         userRepository,
@@ -65,7 +65,7 @@ describe('Unit | UseCase | get-user-organizations-accesses', () => {
       userRepository.getWithOrganizationAccesses.resolves(foundUser);
 
       // when
-      const promise = usecases.getUserWithOrganizationAccesses({
+      const promise = getUserWithOrganizationAccesses({
         authenticatedUserId,
         requestedUserId,
         userRepository,

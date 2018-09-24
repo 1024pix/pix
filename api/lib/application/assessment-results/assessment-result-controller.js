@@ -7,14 +7,7 @@ const logger = require('../../infrastructure/logger');
 const AssessmentResult = require('../../domain/models/AssessmentResult');
 const CompetenceMark = require('../../domain/models/CompetenceMark');
 
-const assessmentRepository = require('../../infrastructure/repositories/assessment-repository');
-const assessmentResultRepository = require('../../infrastructure/repositories/assessment-result-repository');
-const certificationCourseRepository = require('../../infrastructure/repositories/certification-course-repository');
-const competenceMarkRepository = require('../../infrastructure/repositories/competence-mark-repository');
-
 const assessmentResultService = require('../../domain/services/assessment-result-service');
-const assessmentService = require('../../domain/services/assessment-service');
-const skillsService = require('../../domain/services/skills-service');
 
 const assessmentResultsSerializer = require('../../infrastructure/serializers/jsonapi/assessment-result-serializer');
 
@@ -73,19 +66,8 @@ module.exports = {
     const forceRecomputeResult = (request.query) ? request.query.recompute : false;
 
     return usecases.createAssessmentResultForCompletedCertification({
-      // Parameters
       assessmentId: assessmentRating.assessmentId,
       forceRecomputeResult,
-
-      // Repositories
-      assessmentRepository,
-      assessmentResultRepository,
-      certificationCourseRepository,
-      competenceMarkRepository,
-
-      // Services
-      assessmentService,
-      skillsService,
     })
       .then(() => {
         reply();

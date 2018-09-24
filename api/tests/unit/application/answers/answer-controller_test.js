@@ -4,13 +4,10 @@ const answerController = require('../../../../lib/application/answers/answer-con
 const answerRepository = require('../../../../lib/infrastructure/repositories/answer-repository');
 const answerSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/answer-serializer');
 const bookshelfAnswer = require('../../../../lib/infrastructure/data/answer');
-const challengeRepository = require('../../../../lib/infrastructure/repositories/challenge-repository');
 const logger = require('../../../../lib/infrastructure/logger');
 const usecases = require('../../../../lib/domain/usecases');
 const smartPlacementAssessmentRepository =
   require('../../../../lib/infrastructure/repositories/smart-placement-assessment-repository');
-const smartPlacementKnowledgeElementRepository =
-  require('../../../../lib/infrastructure/repositories/smart-placement-knowledge-element-repository');
 const { ChallengeAlreadyAnsweredError } = require('../../../../lib/domain/errors');
 
 describe('Unit | Controller | answer-controller', () => {
@@ -141,13 +138,7 @@ describe('Unit | Controller | answer-controller', () => {
         // then
         return promise.then(() => {
           return expect(usecases.correctAnswerThenUpdateAssessment)
-            .to.have.been.calledWith({
-              answer: deserializedAnswer,
-              answerRepository,
-              challengeRepository,
-              smartPlacementAssessmentRepository,
-              smartPlacementKnowledgeElementRepository,
-            });
+            .to.have.been.calledWith({ answer: deserializedAnswer });
         });
       });
       it('should serialize the answer', () => {
@@ -184,13 +175,7 @@ describe('Unit | Controller | answer-controller', () => {
         // then
         return promise.then(() => {
           return expect(usecases.correctAnswerThenUpdateAssessment)
-            .to.have.been.calledWith({
-              answer: deserializedAnswer,
-              answerRepository,
-              challengeRepository,
-              smartPlacementAssessmentRepository,
-              smartPlacementKnowledgeElementRepository,
-            });
+            .to.have.been.calledWith({ answer: deserializedAnswer });
         });
       });
       it('should return a 409 jsonAPIError', () => {
@@ -227,13 +212,7 @@ describe('Unit | Controller | answer-controller', () => {
         // then
         return promise.then(() => {
           return expect(usecases.correctAnswerThenUpdateAssessment)
-            .to.have.been.calledWith({
-              answer: deserializedAnswer,
-              answerRepository,
-              challengeRepository,
-              smartPlacementAssessmentRepository,
-              smartPlacementKnowledgeElementRepository,
-            });
+            .to.have.been.calledWith({ answer: deserializedAnswer });
         });
       });
       it('should log the error', () => {
