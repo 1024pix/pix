@@ -6,9 +6,9 @@ import { describe, it, beforeEach } from 'mocha';
 import { setupTest } from 'ember-mocha';
 import sinon from 'sinon';
 
-describe('Unit | Route | campaigns/start-or-resume', function() {
+describe('Unit | Route | campaigns/campaign-landing-page', function() {
 
-  setupTest('route:campaigns/start-or-resume', {
+  setupTest('route:campaigns/campaign-landing-page', {
     needs: ['service:current-routed-modal']
   });
 
@@ -104,7 +104,7 @@ describe('Unit | Route | campaigns/start-or-resume', function() {
     });
   });
 
-  describe('#startParcours', function() {
+  describe('#startCampaignParticipation', function() {
 
     it('should save campaign participation', function() {
       // given
@@ -113,7 +113,7 @@ describe('Unit | Route | campaigns/start-or-resume', function() {
       const route = this.subject();
 
       // when
-      route.send('startParcours', campaignParticipation);
+      route.send('startCampaignParticipation', campaignParticipation);
 
       // then
       sinon.assert.called(campaignParticipation.save);
@@ -127,11 +127,11 @@ describe('Unit | Route | campaigns/start-or-resume', function() {
       route.transitionTo = sinon.stub();
 
       // when
-      const promise = route.send('startParcours', campaignParticipation);
+      const promise = route.send('startCampaignParticipation', campaignParticipation);
 
       // then
       return promise.then(() => {
-        sinon.assert.calledWith(route.transitionTo, 'campaigns.start-or-resume.fill-in-id-pix');
+        sinon.assert.calledWith(route.transitionTo, 'campaigns.campaign-landing-page.fill-in-id-pix');
       });
     });
   });
