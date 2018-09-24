@@ -9,6 +9,7 @@ describe('Unit | Serializer | JSONAPI | assessment-serializer', function() {
   let modelObject;
   let jsonAssessment;
   let jsonAssessmentSmartPlacement;
+  let jsonPreviewAssessment;
 
   beforeEach(() => {
     const associatedCourse = {
@@ -68,6 +69,20 @@ describe('Unit | Serializer | JSONAPI | assessment-serializer', function() {
           'pix-score': undefined,
           'success-rate': 24,
           'type': 'SMART_PLACEMENT',
+          'certification-number': null,
+        },
+      },
+    };
+
+    jsonPreviewAssessment = {
+      data: {
+        type: 'assessment',
+        id: 'preview_assessment_id',
+        attributes: {
+          'estimated-level': undefined,
+          'pix-score': undefined,
+          'success-rate': 24,
+          'type': 'PREVIEW',
           'certification-number': null,
         },
       },
@@ -145,6 +160,19 @@ describe('Unit | Serializer | JSONAPI | assessment-serializer', function() {
         expect(assessment.id).to.equal(jsonAssessment.data.id);
         expect(assessment.type).to.equal('SMART_PLACEMENT');
         expect(assessment.courseId).to.equal(null);
+      });
+    });
+
+    context('when the assessment is a PREVIEW assessment', () => {
+      it('should convert JSON API data into an Assessment object with a phony courseId', () => {
+        // when
+        const assessment = serializer.deserialize(jsonPreviewAssessment);
+
+        // then
+        expect(assessment).to.be.instanceOf(Assessment);
+        expect(assessment.id).to.equal(jsonPreviewAssessment.data.id);
+        expect(assessment.type).to.equal('PREVIEW');
+        expect(assessment.courseId).to.be.null;
       });
     });
 
