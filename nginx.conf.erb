@@ -2,3 +2,14 @@
 set $maintenance_mode <%= ENV['MAINTENANCE'] %>;
 
 include /app/<%= ENV['APPLICATION_NAME'].downcase %>/nginx.conf;
+
+location /api/ {
+  <%
+  # We compute the API host from the front app name, examples:
+  #   pix-orga-integration      -> pix-api-integration.scalingo.io
+  #   pix-app-integration-pr123 -> pix-api-integration-pr123.scalingo.io
+  #   pix-app-production        -> pix-api-production.scalingo.io
+  %>
+  proxy_pass https://<%= ENV['APP'].gsub(/-(app|orga)-/, "-api-") %>.scalingo.io;
+  proxy_redirect default;
+}

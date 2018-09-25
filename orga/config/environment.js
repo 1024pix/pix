@@ -18,7 +18,7 @@ module.exports = function(environment) {
     },
 
     APP: {
-      API_HOST: inferApiURLFromScalingoAppName(process.env.APP),
+      API_HOST: process.env.API_HOST || '',
       CAMPAIGNS_ROOT_URL: process.env.CAMPAIGNS_ROOT_URL || 'https://app.pix.fr/campagnes/',
     },
 
@@ -67,20 +67,3 @@ module.exports = function(environment) {
 
   return ENV;
 };
-
-function inferApiURLFromScalingoAppName(appName) {
-
-  const matchesReviewApp = /pix-orga-integration-pr(\d+)/.exec(appName);
-  if (matchesReviewApp) {
-    return `https://pix-api-integration-pr${matchesReviewApp[1]}.scalingo.io`;
-  }
-
-  switch (appName) {
-    case 'pix-orga-integration':
-      return 'https://api.integration.pix.fr';
-    case 'pix-orga-production':
-      return 'https://api.pix.fr';
-    default:
-      return 'http://localhost:3000';
-  }
-}
