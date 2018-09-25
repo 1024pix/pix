@@ -21,7 +21,7 @@ module.exports = function(environment) {
     APP: {
       // Here you can pass flags/options to your application instance
       // when it is created
-      API_HOST: inferApiURLFromScalingoAppName(process.env.APP),
+      API_HOST: process.env.API_HOST || '',
       HOME_HOST: 'https://pix.fr',
       isChallengeTimerEnable: true,
       MESSAGE_DISPLAY_DURATION: 1500,
@@ -143,22 +143,3 @@ module.exports = function(environment) {
 
   return ENV;
 };
-
-function inferApiURLFromScalingoAppName(appName) {
-
-  const matchesReviewApp = /pix-app-integration-pr(\d+)/.exec(appName);
-  if (matchesReviewApp) {
-    return `https://pix-api-integration-pr${matchesReviewApp[1]}.scalingo.io`;
-  }
-
-  switch (appName) {
-    case 'pix-app-integration':
-      return 'https://api.integration.pix.fr';
-    case 'pix-mon-pix-production':
-    case 'pix-app-production':
-      return 'https://api.pix.fr';
-    default:
-      return 'http://localhost:3000';
-  }
-}
-
