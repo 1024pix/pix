@@ -22,9 +22,8 @@ module.exports = {
       .deserialize(json)
       .then((campaign) => {
         campaign.targetProfileId = _.get(json.data, ['relationships', 'target-profile', 'data', 'id']);
-        return campaign;
-      })
-      .then(new Campaign);
+        return new Campaign(campaign);
+      });
   }
 
 };

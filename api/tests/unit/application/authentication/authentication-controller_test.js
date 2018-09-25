@@ -3,7 +3,6 @@ const { sinon, expect } = require('../../../test-helper');
 const authenticationController = require('../../../../lib/application/authentication/authentication-controller');
 const usecases = require('../../../../lib/domain/usecases');
 const tokenService = require('../../../../lib/domain/services/token-service');
-const userRepository = require('../../../../lib/infrastructure/repositories/user-repository');
 
 describe('Unit | Application | Controller | Authentication', () => {
 
@@ -54,8 +53,6 @@ describe('Unit | Application | Controller | Authentication', () => {
           userEmail,
           password,
           scope,
-          userRepository,
-          tokenService,
         });
       });
     });

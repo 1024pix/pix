@@ -1,6 +1,6 @@
 const { expect, sinon, factory } = require('../../../test-helper');
 const { UserNotAuthorizedToAccessEntity } = require('../../../../lib/domain/errors');
-const usecases = require('../../../../lib/domain/usecases');
+const getUserCertification = require('../../../../lib/domain/usecases/get-user-certification');
 
 describe('Unit | UseCase | get-user-certification', () => {
 
@@ -20,7 +20,7 @@ describe('Unit | UseCase | get-user-certification', () => {
     certificationRepository.getCertification.resolves(certification);
 
     // when
-    const promise = usecases.getUserCertification({ certificationId, certificationRepository, userId });
+    const promise = getUserCertification({ certificationId, certificationRepository, userId });
 
     // then
     return promise.then(() => {
@@ -36,7 +36,7 @@ describe('Unit | UseCase | get-user-certification', () => {
       certificationRepository.getCertification.resolves(certification);
 
       // when
-      const promise = usecases.getUserCertification({ certificationId, certificationRepository, userId });
+      const promise = getUserCertification({ certificationId, certificationRepository, userId });
 
       // then
       return promise.then((retreivedCertification) => {
@@ -53,7 +53,7 @@ describe('Unit | UseCase | get-user-certification', () => {
       certificationRepository.getCertification.resolves(certification);
 
       // when
-      const promise = usecases.getUserCertification({ certificationId, certificationRepository, userId });
+      const promise = getUserCertification({ certificationId, certificationRepository, userId });
 
       // then
       return expect(promise).to.be.rejectedWith(UserNotAuthorizedToAccessEntity);

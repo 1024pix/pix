@@ -56,7 +56,6 @@ describe('Unit | Domain | Services | assessment', () => {
   describe('#fetchAssessment', () => {
 
     const COURSE_ID = 123;
-    const PREVIEW_COURSE_ID = 'nullfec89bd5-a706-419b-a6d2-f8805e708ace';
 
     const COMPETENCE_ID = 'competence_id';
     const COMPETENCE = { id: COMPETENCE_ID };
@@ -76,10 +75,7 @@ describe('Unit | Domain | Services | assessment', () => {
 
     beforeEach(() => {
       competenceRepository.get.resolves(COMPETENCE);
-      sandbox.stub(assessmentRepository, 'get').resolves(Assessment.fromAttributes({
-        id: ASSESSMENT_ID,
-        courseId: PREVIEW_COURSE_ID,
-      }));
+      sandbox.stub(assessmentRepository, 'get').resolves(assessment);
       sandbox.stub(courseRepository, 'get').resolves({
         challenges: ['challenge_web_2', 'challenge_web_1'],
         competences: [COMPETENCE_ID],
@@ -145,7 +141,7 @@ describe('Unit | Domain | Services | assessment', () => {
       return promise
         .then(({ assessmentPix }) => {
           expect(assessmentPix.id).to.equal(ASSESSMENT_ID);
-          expect(assessmentPix.courseId).to.deep.equal(PREVIEW_COURSE_ID);
+          expect(assessmentPix.courseId).to.deep.equal(COURSE_ID);
         });
     });
 
@@ -165,6 +161,12 @@ describe('Unit | Domain | Services | assessment', () => {
       context('when the Assessment is a preview', () => {
         beforeEach(() => {
           answerRepository.findByAssessment.returns([correctAnswerWeb1]);
+
+          const previewAssessment = Assessment.fromAttributes({
+            id: ASSESSMENT_ID,
+            type: Assessment.types.PREVIEW
+          });
+          assessmentRepository.get.resolves(previewAssessment);
         });
 
         it('should return an assessment with an estimated level of 0, a pix-score of 0 and a success rate of 100', () => {
@@ -323,8 +325,8 @@ describe('Unit | Domain | Services | assessment', () => {
     it('should detect Assessment created for preview Challenge and do not evaluate score', () => {
       // given
       const assessmentFromPreview = Assessment.fromAttributes({
-        id: '1',
-        courseId: PREVIEW_COURSE_ID,
+        id: ASSESSMENT_ID,
+        type: Assessment.types.PREVIEW
       });
       assessmentRepository.get.resolves(assessmentFromPreview);
 
@@ -409,7 +411,6 @@ describe('Unit | Domain | Services | assessment', () => {
   describe('#getSkills', () => {
 
     const COURSE_ID = 123;
-    const PREVIEW_COURSE_ID = 'nullfec89bd5-a706-419b-a6d2-f8805e708ace';
 
     const COMPETENCE_ID = 'competence_id';
     const COMPETENCE = { id: COMPETENCE_ID };
@@ -424,12 +425,7 @@ describe('Unit | Domain | Services | assessment', () => {
     ];
 
     const sandbox = sinon.sandbox.create();
-    let assessment;
     beforeEach(() => {
-      assessment = Assessment.fromAttributes({
-        id: ASSESSMENT_ID,
-        courseId: PREVIEW_COURSE_ID,
-      });
       competenceRepository.get.resolves(COMPETENCE);
       sandbox.stub(courseRepository, 'get').resolves({
         challenges: ['challenge_web_2', 'challenge_web_1'],
@@ -465,13 +461,19 @@ describe('Unit | Domain | Services | assessment', () => {
     context('when the assessment is correctly retrieved', () => {
 
       context('when the Assessment is a preview', () => {
+        let previewAssessment;
         beforeEach(() => {
           answerRepository.findByAssessment.returns([correctAnswerWeb1]);
+
+          previewAssessment = Assessment.fromAttributes({
+            id: ASSESSMENT_ID,
+            type: Assessment.types.PREVIEW
+          });
         });
 
         it('should return an empty list of skills', () => {
           // when
-          const promise = service.getSkills(assessment);
+          const promise = service.getSkills(previewAssessment);
 
           // then
           return promise
@@ -483,7 +485,7 @@ describe('Unit | Domain | Services | assessment', () => {
 
         it('should not try to get course details', () => {
           // when
-          const promise = service.getSkills(assessment);
+          const promise = service.getSkills(previewAssessment);
 
           // then
           return promise.then(() => {
@@ -604,7 +606,7 @@ describe('Unit | Domain | Services | assessment', () => {
       // given
       const assessmentFromPreview = Assessment.fromAttributes({
         id: '1',
-        courseId: PREVIEW_COURSE_ID,
+        type: Assessment.types.PREVIEW
       });
       // when
       const promise = service.getSkills(assessmentFromPreview);

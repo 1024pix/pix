@@ -1,11 +1,9 @@
 const { sinon, expect, factory } = require('../../../test-helper');
 
 const campaignController = require('../../../../lib/application/campaigns/campaign-controller');
-const usecases = require('../../../../lib/domain/usecases');
-const tokenService = require('../../../../lib/domain/services/token-service');
-const campaignRepository = require('../../../../lib/infrastructure/repositories/campaign-repository');
-const userRepository = require('../../../../lib/infrastructure/repositories/user-repository');
 const campaignSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/campaign-serializer');
+const tokenService = require('../../../../lib/domain/services/token-service');
+const usecases = require('../../../../lib/domain/usecases');
 const { UserNotAuthorizedToCreateCampaignError, UserNotAuthorizedToGetCampaignResultsError, EntityValidationError } = require('../../../../lib/domain/errors');
 
 describe('Unit | Application | Controller | Campaign', () => {
@@ -35,7 +33,7 @@ describe('Unit | Application | Controller | Campaign', () => {
     it('should call the use case to create the new campaign', () => {
       // given
       const connectedUserId = 1;
-      const request = { auth: { credentials: { userId : connectedUserId } } };
+      const request = { auth: { credentials: { userId: connectedUserId } } };
 
       const createdCampaign = factory.buildCampaign();
       usecases.createCampaign.resolves(createdCampaign);
@@ -50,8 +48,6 @@ describe('Unit | Application | Controller | Campaign', () => {
         expect(createCampaignArgs.campaign).to.have.property('name', deserializedCampaign.name);
         expect(createCampaignArgs.campaign).to.have.property('creatorId', connectedUserId);
         expect(createCampaignArgs.campaign).to.have.property('organizationId', deserializedCampaign.organizationId);
-        expect(createCampaignArgs).to.have.property('campaignRepository', campaignRepository);
-        expect(createCampaignArgs).to.have.property('userRepository', userRepository);
       });
     });
 
@@ -186,7 +182,7 @@ describe('Unit | Application | Controller | Campaign', () => {
       replyStub = sandbox.stub().returns({
         code: codeStub,
         header: sandbox.stub().returns({
-          header:sandbox.stub()
+          header: sandbox.stub()
         }),
       });
     });

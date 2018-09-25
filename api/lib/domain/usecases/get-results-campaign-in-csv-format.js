@@ -41,7 +41,6 @@ function _createHeaderOfCSV(skillNames, competences, areas, idPixLabel) {
   headers.push('"Date de début"');
   headers.push('"Partage (O/N)"');
   headers.push('"Date du partage"');
-  headers.push('"Heure du partage"');
   headers.push('"Nombre de Pix obtenus"');
   headers.push('"Nombre de pix possibles"');
   headers.push('"% maitrise de l\'ensemble des acquis du profil"');
@@ -166,7 +165,12 @@ function _createOneLineOfCSV(
         headers,
       );
 
-      if (assessment.isCompleted) {
+      const textForParticipationShared = campaignParticipation.isShared ? 'Oui' : 'Non';
+      line = _addCellByHeadersTitleForText('"Partage (O/N)"', textForParticipationShared, line, headers);
+
+      if(assessment.isCompleted && campaignParticipation.isShared) {
+
+        line = _addCellByHeadersTitleForText('"Date du partage"', moment(campaignParticipation.sharedAt).format('YYYY-MM-DD'), line, headers);
 
         line = _addCellByHeadersTitleForNumber(
           '"% maitrise de l\'ensemble des acquis du profil"',

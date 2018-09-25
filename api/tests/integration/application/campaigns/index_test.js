@@ -8,6 +8,7 @@ describe('Integration | Application | Route | campaignRouter', () => {
 
   beforeEach(() => {
     sinon.stub(campaignController, 'save').callsFake((request, reply) => reply('ok').code(201));
+    sinon.stub(campaignController, 'getCsvResults').callsFake((request, reply) => reply('ok').code(201));
 
     server = new Hapi.Server();
     server.connection({ port: null });
@@ -16,6 +17,7 @@ describe('Integration | Application | Route | campaignRouter', () => {
 
   afterEach(() => {
     campaignController.save.restore();
+    campaignController.getCsvResults.restore();
     server.stop();
   });
 
@@ -43,6 +45,23 @@ describe('Integration | Application | Route | campaignRouter', () => {
 
     });
 
+  });
+
+  describe('GET /api/campaigns/{id}/csvResults', () => {
+
+    it('should exist', () => {
+      // when
+      const promise = server.inject({
+        method: 'GET',
+        url: '/api/campaigns/FAKE_ID/csvResults',
+      });
+
+      // then
+      return promise.then((res) => {
+        expect(res.statusCode).to.equal(201);
+      });
+
+    });
   });
 
 });

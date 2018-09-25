@@ -3,7 +3,6 @@ const answerRepository = require('../../infrastructure/repositories/answer-repos
 const answerSerializer = require('../../infrastructure/serializers/jsonapi/answer-serializer');
 const BookshelfAnswer = require('../../infrastructure/data/answer');
 const Boom = require('boom');
-const challengeRepository = require('../../infrastructure/repositories/challenge-repository');
 const controllerReplies = require('../../infrastructure/controller-replies');
 const infraErrors = require('../../infrastructure/errors');
 const jsYaml = require('js-yaml');
@@ -11,8 +10,6 @@ const logger = require('../../infrastructure/logger');
 const usecases = require('../../domain/usecases');
 const smartPlacementAssessmentRepository =
   require('../../infrastructure/repositories/smart-placement-assessment-repository');
-const smartPlacementKnowledgeElementRepository =
-  require('../../infrastructure/repositories/smart-placement-knowledge-element-repository');
 const solutionRepository = require('../../infrastructure/repositories/solution-repository');
 const solutionService = require('../../domain/services/solution-service');
 const { ChallengeAlreadyAnsweredError, NotFoundError } = require('../../domain/errors');
@@ -51,10 +48,6 @@ module.exports = {
       .then((newAnswer) => {
         return usecases.correctAnswerThenUpdateAssessment({
           answer: newAnswer,
-          answerRepository,
-          challengeRepository,
-          smartPlacementAssessmentRepository,
-          smartPlacementKnowledgeElementRepository,
         });
       })
       .then(answerSerializer.serialize)

@@ -1,7 +1,7 @@
 const { expect, sinon } = require('../../../test-helper');
 const AssessmentResult = require('../../../../lib/domain/models/AssessmentResult');
 const Certification = require('../../../../lib/domain/models/Certification');
-const usecases = require('../../../../lib/domain/usecases');
+const findCompletedUserCertifications = require('../../../../lib/domain/usecases/find-completed-user-certifications');
 
 describe('Unit | UseCase | find-completed-user-certifications', () => {
 
@@ -37,7 +37,7 @@ describe('Unit | UseCase | find-completed-user-certifications', () => {
     certificationRepository.findCertificationsByUserId.resolves([toFilterCertifications, completedCertifications]);
 
     // when
-    const promise = usecases.findCompletedUserCertifications({ userId, certificationRepository });
+    const promise = findCompletedUserCertifications({ userId, certificationRepository });
 
     // then
     return promise.then((certifications) => {

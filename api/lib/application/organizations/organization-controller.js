@@ -1,13 +1,10 @@
-const _ = require('lodash');
 const JSONAPIError = require('jsonapi-serializer').Error;
 
 const userRepository = require('../../infrastructure/repositories/user-repository');
 const organizationRepository = require('../../infrastructure/repositories/organization-repository');
-const campaignRepository = require('../../infrastructure/repositories/campaign-repository');
 const competenceRepository = require('../../infrastructure/repositories/competence-repository');
 const snapshotRepository = require('../../infrastructure/repositories/snapshot-repository');
 const organizationSerializer = require('../../infrastructure/serializers/jsonapi/organization-serializer');
-const targetProfileRepository = require('../../infrastructure/repositories/target-profile-repository');
 const snapshotSerializer = require('../../infrastructure/serializers/jsonapi/snapshot-serializer');
 const campaignSerializer = require('../../infrastructure/serializers/jsonapi/campaign-serializer');
 const targetProfileSerializer = require('../../infrastructure/serializers/jsonapi/target-profile-serializer');
@@ -22,6 +19,7 @@ const usecases = require('../../domain/usecases');
 const controllerReplies = require('../../infrastructure/controller-replies');
 
 const logger = require('../../infrastructure/logger');
+const { extractFilters } = require('../../infrastructure/utils/query-params-utils');
 const JSONAPI = require('../../interfaces/jsonapi');
 const User = require('../../domain/models/User');
 const Organization = require('../../domain/models/Organization');
@@ -64,7 +62,7 @@ module.exports = {
 
   search: (request, reply) => {
     const userId = request.auth.credentials.userId;
-    const filters = _extractFilters(request);
+    const filters = extractFilters(request);
 
     return organizationService.search(userId, filters)
       .then((organizations) => reply(organizationSerializer.serialize(organizations)))
@@ -77,7 +75,7 @@ module.exports = {
   getCampaigns(request, reply) {
     const organizationId = request.params.id;
     const tokenForCampaignResults = tokenService.createTokenForCampaignResults(request.auth.credentials.userId);
-    return usecases.getOrganizationCampaigns({ organizationId, campaignRepository })
+    return usecases.getOrganizationCampaigns({ organizationId })
       .then((campaigns) => campaignSerializer.serialize(campaigns, tokenForCampaignResults))
       .then(controllerReplies(reply).ok)
       .catch(controllerReplies(reply).error);
@@ -86,7 +84,7 @@ module.exports = {
   findTargetProfiles(request, reply) {
     const requestedOrganizationId = request.params.id;
 
-    return usecases.findAvailableTargetProfiles({ organizationId: requestedOrganizationId, targetProfileRepository })
+    return usecases.findAvailableTargetProfiles({ organizationId: requestedOrganizationId })
       .then(targetProfileSerializer.serialize)
       .then(controllerReplies(reply).ok)
       .catch(controllerReplies(reply).error);
@@ -162,16 +160,6 @@ function _generateUniqueOrganizationCode() {
   return organizationRepository.isCodeAvailable(code)
     .then(() => code)
     .catch(_generateUniqueOrganizationCode);
-}
-
-function _extractFilters(request) {
-  return _.reduce(request.query, (result, queryFilterValue, queryFilterKey) => {
-    const field = queryFilterKey.match(/filter\[([a-z]*)]/)[1];
-    if (field) {
-      result[field] = queryFilterValue;
-    }
-    return result;
-  }, {});
 }
 
 function _buildErrorMessage(errorMessage) {

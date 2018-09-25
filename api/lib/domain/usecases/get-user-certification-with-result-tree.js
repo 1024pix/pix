@@ -1,7 +1,7 @@
 const { UserNotAuthorizedToAccessEntity } = require('../errors');
 const ResultCompetenceTree = require('../models/ResultCompetenceTree');
 
-function _getsCompetenceMarksAndAssessmentResultId({ certificationId, assessmentRepository, competenceMarksRepository }) {
+function _getsCompetenceMarksAndAssessmentResultId({ certificationId, assessmentRepository, competenceMarkRepository }) {
   return assessmentRepository.getByCertificationCourseId(certificationId)
     .then((assessment) => {
       return assessment.getLastAssessmentResult().id;
@@ -9,7 +9,7 @@ function _getsCompetenceMarksAndAssessmentResultId({ certificationId, assessment
     .then((assessmentResultId) => {
       return Promise.all([
         assessmentResultId,
-        competenceMarksRepository.findByAssessmentResultId(assessmentResultId),
+        competenceMarkRepository.findByAssessmentResultId(assessmentResultId),
       ]);
     });
 }
@@ -19,7 +19,7 @@ module.exports = function getUserCertificationWithResultTree({
   userId,
   certificationRepository,
   assessmentRepository,
-  competenceMarksRepository,
+  competenceMarkRepository,
   competenceTreeRepository,
 }) {
   return certificationRepository.getCertification({ id: certificationId })
@@ -34,7 +34,7 @@ module.exports = function getUserCertificationWithResultTree({
 
       return Promise.all([
         competenceTreeRepository.get(),
-        _getsCompetenceMarksAndAssessmentResultId({ certificationId, assessmentRepository, competenceMarksRepository }),
+        _getsCompetenceMarksAndAssessmentResultId({ certificationId, assessmentRepository, competenceMarkRepository }),
       ])
         .then(([competenceTree, [assessmentResultId, competenceMarks]]) => {
 

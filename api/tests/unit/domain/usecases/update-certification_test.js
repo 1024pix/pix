@@ -1,7 +1,7 @@
 const { expect, sinon } = require('../../../test-helper');
 const AssessmentResult = require('../../../../lib/domain/models/AssessmentResult');
 const Certification = require('../../../../lib/domain/models/Certification');
-const usecases = require('../../../../lib/domain/usecases');
+const updateCertification = require('../../../../lib/domain/usecases/update-certification');
 
 describe('Unit | UseCase | update-certification', () => {
 
@@ -33,7 +33,7 @@ describe('Unit | UseCase | update-certification', () => {
     certificationRepository.updateCertification.resolves(certification);
 
     // when
-    const promise = usecases.updateCertification({
+    const promise = updateCertification({
       certificationId,
       attributesToUpdate,
       certificationRepository

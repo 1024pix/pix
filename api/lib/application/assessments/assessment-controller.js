@@ -3,16 +3,7 @@ const JSONAPI = require('../../interfaces/jsonapi');
 
 const controllerReplies = require('../../infrastructure/controller-replies');
 const logger = require('../../infrastructure/logger');
-const answerRepository = require('../../infrastructure/repositories/answer-repository');
 const assessmentRepository = require('../../infrastructure/repositories/assessment-repository');
-const campaignParticipationRepository = require('../../infrastructure/repositories/campaign-participation-repository');
-const campaignRepository = require('../../infrastructure/repositories/campaign-repository');
-const challengeRepository = require('../../infrastructure/repositories/challenge-repository');
-const certificationChallengeRepository = require('../../infrastructure/repositories/certification-challenge-repository');
-const competenceRepository = require('../../infrastructure/repositories/competence-repository');
-const courseRepository = require('../../infrastructure/repositories/course-repository');
-const skillRepository = require('../../infrastructure/repositories/skill-repository');
-const targetProfileRepository = require('../../infrastructure/repositories/target-profile-repository');
 const assessmentSerializer = require('../../infrastructure/serializers/jsonapi/assessment-serializer');
 const challengeSerializer = require('../../infrastructure/serializers/jsonapi/challenge-serializer');
 const queryParamsUtils = require('../../infrastructure/utils/query-params-utils');
@@ -42,9 +33,6 @@ module.exports = {
           return useCases.createAssessmentForCampaign({
             assessment,
             codeCampaign,
-            assessmentRepository,
-            campaignRepository,
-            campaignParticipationRepository,
           });
         } else {
           assessment.state = 'started';
@@ -93,7 +81,6 @@ module.exports = {
     return useCases.findUserAssessmentsByFilters({
       userId: request.auth.credentials.userId,
       filters,
-      assessmentRepository
     })
       .then((assessments) => {
         reply(assessmentSerializer.serializeArray(assessments));
@@ -122,8 +109,6 @@ module.exports = {
 
         if (assessmentService.isCertificationAssessment(assessment)) {
           return useCases.getNextChallengeForCertification({
-            certificationChallengeRepository,
-            challengeRepository,
             assessment
           });
         }
@@ -132,28 +117,18 @@ module.exports = {
           return useCases.getNextChallengeForDemo({
             assessment,
             challengeId: request.params.challengeId,
-            courseRepository,
-            challengeRepository
           });
         }
 
         if (assessmentService.isPlacementAssessment(assessment)) {
           return useCases.getNextChallengeForPlacement({
             assessment,
-            courseRepository,
-            answerRepository,
-            challengeRepository,
-            skillRepository,
-            competenceRepository
           });
         }
 
         if (assessment.isSmartPlacementAssessment()) {
           return useCases.getNextChallengeForSmartPlacement({
             assessment,
-            answerRepository,
-            challengeRepository,
-            targetProfileRepository
           });
         }
 

@@ -1,5 +1,5 @@
 const { expect, sinon, factory } = require('../../../test-helper');
-const usecases = require('../../../../lib/domain/usecases');
+const authenticateUser = require('../../../../lib/domain/usecases/authenticate-user');
 const User = require('../../../../lib/domain/models/User');
 const { MissingOrInvalidCredentialsError, PasswordNotMatching, ForbiddenAccess } = require('../../../../lib/domain/errors');
 const encryptionService = require('../../../../lib/domain/services/encryption-service');
@@ -37,7 +37,7 @@ describe('Unit | Application | Use Case | authenticate-user', () => {
     tokenService.createTokenFromUser.returns(accessToken);
 
     // when
-    const promise = usecases.authenticateUser({ userEmail, userPassword, userRepository, tokenService });
+    const promise = authenticateUser({ userEmail, userPassword, userRepository, tokenService });
 
     // then
     return promise.then((accessToken) => {
@@ -54,7 +54,7 @@ describe('Unit | Application | Use Case | authenticate-user', () => {
     userRepository.findByEmailWithRoles.resolves(user);
 
     // when
-    const promise = usecases.authenticateUser({ userEmail: emailCamelCase, userPassword, userRepository, tokenService });
+    const promise = authenticateUser({ userEmail: emailCamelCase, userPassword, userRepository, tokenService });
 
     // then
     return promise.then(() =>
@@ -69,7 +69,7 @@ describe('Unit | Application | Use Case | authenticate-user', () => {
     userRepository.findByEmailWithRoles.rejects(error);
 
     // when
-    const promise = usecases.authenticateUser({ userEmail: unknownUserEmail, userPassword, userRepository, tokenService });
+    const promise = authenticateUser({ userEmail: unknownUserEmail, userPassword, userRepository, tokenService });
 
     // then
     return _expectTreatmentToFailWithMissingOrInvalidCredentialsError(promise);
@@ -82,7 +82,7 @@ describe('Unit | Application | Use Case | authenticate-user', () => {
     encryptionService.check.rejects(new PasswordNotMatching());
 
     // when
-    const promise = usecases.authenticateUser({ userEmail, userPassword, userRepository, tokenService });
+    const promise = authenticateUser({ userEmail, userPassword, userRepository, tokenService });
 
     // then
     return _expectTreatmentToFailWithMissingOrInvalidCredentialsError(promise);
@@ -98,7 +98,7 @@ describe('Unit | Application | Use Case | authenticate-user', () => {
       userRepository.findByEmailWithRoles.resolves(user);
 
       // when
-      const promise = usecases.authenticateUser({ userEmail, wrongUserPassword, scope, userRepository, tokenService });
+      const promise = authenticateUser({ userEmail, wrongUserPassword, scope, userRepository, tokenService });
 
       // then
       return expect(promise).to.be.rejectedWith(ForbiddenAccess, 'User is not allowed to access this area');

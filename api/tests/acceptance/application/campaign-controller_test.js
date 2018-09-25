@@ -21,7 +21,12 @@ describe('Acceptance | API | Campaigns', () => {
       }, 'id')
         .then((insertedUser) => {
           organizationAccess.userId = insertedUser[0];
-          return knex('organizations').insert({ email: 'trololo@example.net', type: 'PRO', name: 'Mon Entreprise', code: 'ABCD12' }, 'id');
+          return knex('organizations').insert({
+            email: 'trololo@example.net',
+            type: 'PRO',
+            name: 'Mon Entreprise',
+            code: 'ABCD12'
+          }, 'id');
         }).then((insertedOrganization) => {
           organizationInDbId = insertedOrganization[0];
           organizationAccess.organizationId = organizationInDbId;

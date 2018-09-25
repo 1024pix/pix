@@ -6,10 +6,6 @@ const Hint = require('../../../../lib/domain/models/Hint');
 const Tutorial = require('../../../../lib/domain/models/Tutorial');
 const { NotFoundError, NotCompletedAssessmentError } = require('../../../../lib/domain/errors');
 
-const assessmentRepository = require('../../../../lib/infrastructure/repositories/assessment-repository');
-const answerRepository = require('../../../../lib/infrastructure/repositories/answer-repository');
-const correctionRepository = require('../../../../lib/infrastructure/repositories/correction-repository');
-
 const correctionsController = require('../../../../lib/application/corrections/corrections-controller');
 
 describe('Unit | Controller | corrections-controller', () => {
@@ -126,9 +122,6 @@ describe('Unit | Controller | corrections-controller', () => {
         sinon.assert.calledWith(replyStub, expectedResponse);
         sinon.assert.calledWith(codeStub, 200);
         expect(usecases.getCorrectionForAnswerWhenAssessmentEnded).to.have.been.calledWith({
-          assessmentRepository,
-          answerRepository,
-          correctionRepository,
           answerId: '234'
         });
       });

@@ -1,6 +1,4 @@
 const { expect, sinon, factory } = require('../../../test-helper');
-const smartPlacementAssessmentRepository =
-  require('../../../../lib/infrastructure/repositories/smart-placement-assessment-repository');
 
 const logger = require('../../../../lib/infrastructure/logger');
 const usecases = require('../../../../lib/domain/usecases');
@@ -75,7 +73,6 @@ describe('Unit | Controller | skill-review-controller', () => {
               expect(usecases.getSkillReview).to.have.been.calledWith({
                 skillReviewId,
                 userId,
-                smartPlacementAssessmentRepository,
               });
 
               expect(replyStub.args[0]).to.deep.equal([serializedSkillReview]);

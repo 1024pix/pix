@@ -7,8 +7,6 @@ const skillService = require('../../../../lib/domain/services/skills-service');
 
 const assessmentRepository = require('../../../../lib/infrastructure/repositories/assessment-repository');
 const challengeRepository = require('../../../../lib/infrastructure/repositories/challenge-repository');
-const answerRepository = require('../../../../lib/infrastructure/repositories/answer-repository');
-const targetProfileRepository = require('../../../../lib/infrastructure/repositories/target-profile-repository');
 
 const certificationCourseRepository = require('../../../../lib/infrastructure/repositories/certification-course-repository');
 const certificationChallengeRepository = require('../../../../lib/infrastructure/repositories/certification-challenge-repository');
@@ -196,8 +194,6 @@ describe('Unit | Controller | assessment-controller-get-next-challenge', () => {
           expect(usecases.getNextChallengeForCertification).to.have.been.calledOnce;
           expect(usecases.getNextChallengeForCertification).to.have.been.calledWith({
             assessment: certificationAssessment,
-            certificationChallengeRepository,
-            challengeRepository,
           });
         });
       });
@@ -238,9 +234,6 @@ describe('Unit | Controller | assessment-controller-get-next-challenge', () => {
         return promise.then(() => {
           expect(usecases.getNextChallengeForSmartPlacement).to.have.been.calledWith({
             assessment,
-            answerRepository,
-            challengeRepository,
-            targetProfileRepository,
           });
         });
       });

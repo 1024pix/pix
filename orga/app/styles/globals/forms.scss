@@ -48,6 +48,26 @@
   }
 }
 
+.blue-link {
+  padding: 13px 10px;
+  background-color: $dodger-blue;
+  font-weight: 500;
+  letter-spacing: 0.019rem;
+  text-align: center;
+  border-radius: 5px;
+  text-decoration: none;
+  color: white;
+  font-size: 0.8rem;
+
+  &:hover, &:active, &:focus {
+    background-color: $mariner;
+  }
+  @include device-is('tablet') {
+    font-size: 1rem;
+    padding: 13px 20px;
+  }
+}
+
 .radio-button {
   -ms-transform: scale(0.0);
   -webkit-transform: scale(0.0);

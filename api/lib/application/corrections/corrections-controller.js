@@ -7,10 +7,6 @@ const domainErrors = require('./../../domain/errors');
 const errorSerializer = require('./../../infrastructure/serializers/jsonapi/error-serializer');
 const usecases = require('../../domain/usecases');
 
-const assessmentRepository = require('../../infrastructure/repositories/assessment-repository');
-const answerRepository = require('../../infrastructure/repositories/answer-repository');
-const correctionRepository = require('../../infrastructure/repositories/correction-repository');
-
 const correctionSerializer = require('../../infrastructure/serializers/jsonapi/correction-serializer');
 
 function _validateQueryParams(query) {
@@ -28,9 +24,6 @@ module.exports = {
     return _validateQueryParams(request.query)
       .then(() => {
         return usecases.getCorrectionForAnswerWhenAssessmentEnded({
-          assessmentRepository,
-          answerRepository,
-          correctionRepository,
           answerId: request.query.answerId
         });
       })

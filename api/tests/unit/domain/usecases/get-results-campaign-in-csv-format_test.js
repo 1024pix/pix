@@ -1,4 +1,5 @@
 const { expect, sinon, factory } = require('../../../test-helper');
+const moment = require('moment');
 
 const getResultsCampaignInCsvFormat = require('../../../../lib/domain/usecases/get-results-campaign-in-csv-format');
 const Area = require('../../../../lib/domain/models/Area');
@@ -41,8 +42,8 @@ describe('Unit | Domain | Use Cases | get-results-campaign-in-csv-format', () =
     const targetProfile = factory.buildTargetProfile({ skills: listSkills, name: 'Profile 1' });
 
     const campaign = factory.buildCampaign({
-      name: 'Campaign "Name"',
-      code: 'AZERTY123',
+      name:'Campaign "Name"',
+      code:'AZERTY123',
       organizationId: organization.id,
       idPixLabel: 'Mail Pro',
     });
@@ -76,57 +77,61 @@ describe('Unit | Domain | Use Cases | get-results-campaign-in-csv-format', () =
     const campaignParticipationRepository = { findByCampaignId: () => undefined };
     const smartPlacementAssessmentRepository = { get: () => undefined };
 
+    let sandbox;
+    let findCampaignParticipationStub;
+
     beforeEach(() => {
 
-      campaignRepository.get = sinon.stub().resolves(campaign);
-      competenceRepository.list = sinon.stub().resolves(competences);
-      targetProfileRepository.get = sinon.stub().resolves(targetProfile);
-      userRepository.getWithOrganizationAccesses = sinon.stub().resolves(user);
-      organizationRepository.get = sinon.stub().resolves(organization);
-      campaignParticipationRepository.findByCampaignId = sinon.stub().resolves([
-        {
-          assessmentId: assessment.id,
-          campaign,
-        },
-      ]);
-      userRepository.get = sinon.stub().resolves(user);
-      smartPlacementAssessmentRepository.get = sinon.stub().resolves(assessment);
+      sandbox = sinon.sandbox.create();
+      sandbox.stub(campaignRepository, 'get').resolves(campaign);
+      sandbox.stub(competenceRepository, 'list').resolves(competences);
+      sandbox.stub(targetProfileRepository, 'get').resolves(targetProfile);
+      sandbox.stub(userRepository, 'getWithOrganizationAccesses').resolves(user);
+      sandbox.stub(organizationRepository, 'get').resolves(organization);
+      sandbox.stub(userRepository, 'get').resolves(user);
+      sandbox.stub(smartPlacementAssessmentRepository, 'get').resolves(assessment);
+      findCampaignParticipationStub = sandbox.stub(campaignParticipationRepository, 'findByCampaignId');
+    });
+
+    afterEach(() => {
+      sandbox.restore();
     });
 
     it('should return the header in CSV styles with all competence, domain and skills', () => {
       // given
+      findCampaignParticipationStub.resolves([]);
+
       const csvExpected = '\uFEFF"Nom de l\'organisation";' +
-                          '"ID Campagne";' +
-                          '"Nom de la campagne";' +
-                          '"Nom du Profil Cible";' +
-                          '"Nom du Participant";' +
-                          '"Prénom du Participant";' +
-                          '"Mail Pro";' +
-                          '"Nom invité";' +
-                          '"Prénom invité";' +
-                          '"Email invité";' +
-                          '"Champs optionel 1";' +
-                          '"Champs optionel 2";' +
-                          '"Champs optionel 3";' +
-                          '"ID invitation";' +
-                          '"% de progression";' +
-                          '"Date de début";' +
-                          '"Partage (O/N)";' +
-                          '"Date du partage";' +
-                          '"Heure du partage";' +
-                          '"Nombre de Pix obtenus";' +
-                          '"Nombre de pix possibles";' +
-                          '"% maitrise de l\'ensemble des acquis du profil";' +
-                          '"Niveau de la competence Competence1";' +
-                          '"Pix de la competence Competence1";' +
-                          '"% de maitrise des acquis de la compétence Competence1";' +
-                          '"Nombre d\'acquis du profil cible maitrisés / nombre d\'acquis de la compétence Competence1";' +
-                          '"% de maitrise des acquis du domaine Domain 1";' +
-                          '"Nombre d\'acquis du profil cible maitrisés / nombre d\'acquis du domaine Domain 1";' +
-                          '"Acquis web1";' +
-                          '"Acquis web2";' +
-                          '"Acquis web3";' +
-                          '"Acquis web4"\n';
+        '"ID Campagne";' +
+        '"Nom de la campagne";' +
+        '"Nom du Profil Cible";' +
+        '"Nom du Participant";' +
+        '"Prénom du Participant";' +
+        '"Mail Pro";' +
+        '"Nom invité";' +
+        '"Prénom invité";' +
+        '"Email invité";' +
+        '"Champs optionel 1";' +
+        '"Champs optionel 2";' +
+        '"Champs optionel 3";' +
+        '"ID invitation";' +
+        '"% de progression";' +
+        '"Date de début";' +
+        '"Partage (O/N)";' +
+        '"Date du partage";' +
+        '"Nombre de Pix obtenus";' +
+        '"Nombre de pix possibles";' +
+        '"% maitrise de l\'ensemble des acquis du profil";' +
+        '"Niveau de la competence Competence1";' +
+        '"Pix de la competence Competence1";' +
+        '"% de maitrise des acquis de la compétence Competence1";' +
+        '"Nombre d\'acquis du profil cible maitrisés / nombre d\'acquis de la compétence Competence1";' +
+        '"% de maitrise des acquis du domaine Domain 1";' +
+        '"Nombre d\'acquis du profil cible maitrisés / nombre d\'acquis du domaine Domain 1";' +
+        '"Acquis web1";' +
+        '"Acquis web2";' +
+        '"Acquis web3";' +
+        '"Acquis web4"\n';
 
       // when
       const promise = getResultsCampaignInCsvFormat({
@@ -147,63 +152,131 @@ describe('Unit | Domain | Use Cases | get-results-campaign-in-csv-format', () =
       });
     });
 
-    it('should return the line with user results for her participation', () => {
-      // given
-      const csvSecondLine = `="${organization.name}";` +
-                            `="${campaign.id}";` +
-                            '="Campaign ""Name""";' +
-                            `="${targetProfile.name}";` +
-                            `="${user.firstName}";` +
-                            `="${user.lastName}";` +
-                            '"NA";' +
-                            '"NA";' +
-                            '"NA";' +
-                            '"NA";' +
-                            '"NA";' +
-                            '"NA";' +
-                            '"NA";' +
-                            '"NA";' +
-                            '100;' +
-                            '="2017-05-05";' +
-                            '"NA";' +
-                            '"NA";' +
-                            '"NA";' +
-                            '"NA";' +
-                            '"NA";' +
-                            '75;' +
-                            '"NA";' +
-                            '"NA";' +
-                            '75;' +
-                            '="3/4";' +
-                            '75;' +
-                            '="3/4";' +
-                            '="OK";' +
-                            '="OK";' +
-                            '="OK";' +
-                            '="KO"\n';
+    context('when isShared is true', () => {
 
-      // when
-      const promise = getResultsCampaignInCsvFormat({
-        userId: user.id,
-        campaignId: campaign.id,
-        campaignRepository,
-        userRepository,
-        targetProfileRepository,
-        competenceRepository,
-        organizationRepository,
-        campaignParticipationRepository,
-        smartPlacementAssessmentRepository,
-      });
+      it('should return the complete line with user results for her participation', () => {
+        // given
+        const factoryCampaignParticipation = factory.buildCampaignParticipation({ isShared: true });
+        findCampaignParticipationStub.resolves([factoryCampaignParticipation]);
 
-      // then
-      return promise.then((result) => {
-        expect(result.csvData).to.contains(csvSecondLine);
+        const csvSecondLine = `="${organization.name}";` +
+          `="${campaign.id}";` +
+          '="Campaign ""Name""";' +
+          `="${targetProfile.name}";` +
+          `="${user.firstName}";` +
+          `="${user.lastName}";` +
+          '"NA";' +
+          '"NA";' +
+          '"NA";' +
+          '"NA";' +
+          '"NA";' +
+          '"NA";' +
+          '"NA";' +
+          '"NA";' +
+          '100;' +
+          '="2017-05-05";' +
+          '="Oui";' +
+          `="${moment(factoryCampaignParticipation.sharedAt).format('YYYY-MM-DD')}";` +
+          '"NA";' +
+          '"NA";' +
+          '75;' +
+          '"NA";' +
+          '"NA";' +
+          '75;' +
+          '="3/4";' +
+          '75;' +
+          '="3/4";' +
+          '="OK";' +
+          '="OK";' +
+          '="OK";' +
+          '="KO"\n';
+
+        // when
+        const promise = getResultsCampaignInCsvFormat({
+          userId: user.id,
+          campaignId: campaign.id,
+          campaignRepository,
+          userRepository,
+          targetProfileRepository,
+          competenceRepository,
+          organizationRepository,
+          campaignParticipationRepository,
+          smartPlacementAssessmentRepository,
+        });
+
+        // then
+        return promise.then((result) => {
+          expect(result.csvData).to.contains(csvSecondLine);
+        });
       });
     });
 
+    context('when isShared is false', () => {
+
+      it('should return the beginning of the line with user information for her participation', () => {
+        // given
+
+        const factoryCampaignParticipation = factory.buildCampaignParticipation({ isShared: false });
+        findCampaignParticipationStub.resolves([factoryCampaignParticipation]);
+
+        const csvSecondLine =
+          `="${organization.name}";` +
+          `="${campaign.id}";` +
+          '="Campaign ""Name""";' +
+          `="${targetProfile.name}";` +
+          `="${user.firstName}";` +
+          `="${user.lastName}";` +
+          '"NA";' +
+          '"NA";' +
+          '"NA";' +
+          '"NA";' +
+          '"NA";' +
+          '"NA";' +
+          '"NA";' +
+          '"NA";' +
+          '100;' +
+          '="2017-05-05";' +
+          '="Non";' +
+          '"NA";' +
+          '"NA";' +
+          '"NA";' +
+          '"NA";' +
+          '"NA";' +
+          '"NA";' +
+          '"NA";' +
+          '"NA";' +
+          '"NA";' +
+          '"NA";' +
+          '"NA";' +
+          '"NA";' +
+          '"NA";' +
+          '"NA"\n';
+
+        // when
+        const promise = getResultsCampaignInCsvFormat({
+          userId: user.id,
+          campaignId: campaign.id,
+          campaignRepository,
+          userRepository,
+          targetProfileRepository,
+          competenceRepository,
+          organizationRepository,
+          campaignParticipationRepository,
+          smartPlacementAssessmentRepository,
+        });
+
+        // then
+        return promise.then((result) => {
+          expect(result.csvData).to.contains(csvSecondLine);
+        });
+      });
+    });
     context('when campaign do not have a idPixLabel', () => {
 
       beforeEach(() => {
+        const factoryCampaignParticipation = factory.buildCampaignParticipation({ isShared: false });
+        findCampaignParticipationStub.resolves([factoryCampaignParticipation]);
+
         const campaignWithoutIdPixLabel = factory.buildCampaign({
           name: 'CampaignName',
           code: 'AZERTY123',
@@ -216,36 +289,35 @@ describe('Unit | Domain | Use Cases | get-results-campaign-in-csv-format', () =
       it('should return the header in CSV styles with all competence, domain and skills', () => {
         // given
         const csvExpected = '\uFEFF"Nom de l\'organisation";' +
-                            '"ID Campagne";' +
-                            '"Nom de la campagne";' +
-                            '"Nom du Profil Cible";' +
-                            '"Nom du Participant";' +
-                            '"Prénom du Participant";' +
-                            '"Nom invité";' +
-                            '"Prénom invité";' +
-                            '"Email invité";' +
-                            '"Champs optionel 1";' +
-                            '"Champs optionel 2";' +
-                            '"Champs optionel 3";' +
-                            '"ID invitation";' +
-                            '"% de progression";' +
-                            '"Date de début";' +
-                            '"Partage (O/N)";' +
-                            '"Date du partage";' +
-                            '"Heure du partage";' +
-                            '"Nombre de Pix obtenus";' +
-                            '"Nombre de pix possibles";' +
-                            '"% maitrise de l\'ensemble des acquis du profil";' +
-                            '"Niveau de la competence Competence1";' +
-                            '"Pix de la competence Competence1";' +
-                            '"% de maitrise des acquis de la compétence Competence1";' +
-                            '"Nombre d\'acquis du profil cible maitrisés / nombre d\'acquis de la compétence Competence1";' +
-                            '"% de maitrise des acquis du domaine Domain 1";' +
-                            '"Nombre d\'acquis du profil cible maitrisés / nombre d\'acquis du domaine Domain 1";' +
-                            '"Acquis web1";' +
-                            '"Acquis web2";' +
-                            '"Acquis web3";' +
-                            '"Acquis web4"\n';
+          '"ID Campagne";' +
+          '"Nom de la campagne";' +
+          '"Nom du Profil Cible";' +
+          '"Nom du Participant";' +
+          '"Prénom du Participant";' +
+          '"Nom invité";' +
+          '"Prénom invité";' +
+          '"Email invité";' +
+          '"Champs optionel 1";' +
+          '"Champs optionel 2";' +
+          '"Champs optionel 3";' +
+          '"ID invitation";' +
+          '"% de progression";' +
+          '"Date de début";' +
+          '"Partage (O/N)";' +
+          '"Date du partage";' +
+          '"Nombre de Pix obtenus";' +
+          '"Nombre de pix possibles";' +
+          '"% maitrise de l\'ensemble des acquis du profil";' +
+          '"Niveau de la competence Competence1";' +
+          '"Pix de la competence Competence1";' +
+          '"% de maitrise des acquis de la compétence Competence1";' +
+          '"Nombre d\'acquis du profil cible maitrisés / nombre d\'acquis de la compétence Competence1";' +
+          '"% de maitrise des acquis du domaine Domain 1";' +
+          '"Nombre d\'acquis du profil cible maitrisés / nombre d\'acquis du domaine Domain 1";' +
+          '"Acquis web1";' +
+          '"Acquis web2";' +
+          '"Acquis web3";' +
+          '"Acquis web4"\n';
 
         // when
         const promise = getResultsCampaignInCsvFormat({

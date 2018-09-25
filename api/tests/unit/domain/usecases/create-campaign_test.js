@@ -1,5 +1,5 @@
 const { expect, sinon, factory } = require('../../../test-helper');
-const usecases = require('../../../../lib/domain/usecases');
+const createCampaign = require('../../../../lib/domain/usecases/create-campaign');
 const campaignCodeGenerator = require('../../../../lib/domain/services/campaigns/campaign-code-generator');
 const campaignValidator = require('../../../../lib/domain/validators/campaign-validator');
 const { EntityValidationError, UserNotAuthorizedToCreateCampaignError } = require('../../../../lib/domain/errors');
@@ -36,7 +36,7 @@ describe('Unit | UseCase | create-campaign', () => {
     campaignValidator.validate.rejects(new EntityValidationError({ invalidAttributes: [] }));
 
     // when
-    const promise = usecases.createCampaign({ campaign: campaignToCreate, campaignRepository, userRepository });
+    const promise = createCampaign({ campaign: campaignToCreate, campaignRepository, userRepository });
 
     // then
     return expect(promise).to.be.rejectedWith(EntityValidationError);
@@ -49,7 +49,7 @@ describe('Unit | UseCase | create-campaign', () => {
     _stubGetUserWithOrganizationsAccesses(organizationIdDifferentFromCampaign);
 
     // when
-    const promise = usecases.createCampaign({ campaign: campaignToCreate, campaignRepository, userRepository });
+    const promise = createCampaign({ campaign: campaignToCreate, campaignRepository, userRepository });
 
     // then
     return expect(promise).to.be.rejectedWith(UserNotAuthorizedToCreateCampaignError);
@@ -63,7 +63,7 @@ describe('Unit | UseCase | create-campaign', () => {
     campaignRepository.save.resolves(savedCampaign);
 
     // when
-    const promise = usecases.createCampaign({ campaign: campaignToCreate, campaignRepository, userRepository });
+    const promise = createCampaign({ campaign: campaignToCreate, campaignRepository, userRepository });
 
     // then
     return promise.then(() => {
@@ -80,7 +80,7 @@ describe('Unit | UseCase | create-campaign', () => {
     campaignRepository.save.resolves(savedCampaign);
 
     // when
-    const promise = usecases.createCampaign({ campaign: campaignToCreate, campaignRepository, userRepository });
+    const promise = createCampaign({ campaign: campaignToCreate, campaignRepository, userRepository });
 
     // then
     return promise.then(() => {
@@ -102,7 +102,7 @@ describe('Unit | UseCase | create-campaign', () => {
     campaignRepository.save.resolves(savedCampaign);
 
     // when
-    const promise = usecases.createCampaign({ campaign: campaignToCreate, campaignRepository, userRepository });
+    const promise = createCampaign({ campaign: campaignToCreate, campaignRepository, userRepository });
 
     // then
     return promise.then((campaign) => {

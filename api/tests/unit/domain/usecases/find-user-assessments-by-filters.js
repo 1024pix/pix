@@ -1,6 +1,6 @@
 const { expect, sinon } = require('../../../test-helper');
 
-const usecases = require('../../../../lib/domain/usecases');
+const findUserAssessmentsByFilters = require('../../../../lib/domain/usecases/find-user-assessments-by-filters');
 
 describe('Unit | UseCase | find-user-assessments-by-filters', () => {
 
@@ -28,7 +28,7 @@ describe('Unit | UseCase | find-user-assessments-by-filters', () => {
       const expectedFilters = { type: 'SMART_PLACEMENT', userId };
 
       // when
-      const promise = usecases.findUserAssessmentsByFilters({ userId, filters, assessmentRepository });
+      const promise = findUserAssessmentsByFilters({ userId, filters, assessmentRepository });
 
       // then
       return promise.then(() => {
@@ -44,7 +44,7 @@ describe('Unit | UseCase | find-user-assessments-by-filters', () => {
       const filters = { type: 'DEMO' };
 
       // when
-      const promise = usecases.findUserAssessmentsByFilters({ userId, filters, assessmentRepository });
+      const promise = findUserAssessmentsByFilters({ userId, filters, assessmentRepository });
 
       // then
       return promise.then((result) => {
