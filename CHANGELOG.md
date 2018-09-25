@@ -1,5 +1,12 @@
 # Pix Changelog
 
+## 2.2.0 (25/09/2018)
+
+- [#194](https://github.com/1024pix/pix/pull/194) [FEATURE] Partage des résultats d'un parcours à une organisation (PF-216).
+- [#204](https://github.com/1024pix/pix/pull/204) [FEATURE] Ajout d'un bouton et d'une page pour créer une campagne (PO-119).
+- [#209](https://github.com/1024pix/pix/pull/209) [BUGFIX] Corrige les previews d'épreuves (PF-396).
+- [#205](https://github.com/1024pix/pix/pull/205) [BUGFIX] Les dates de début de parcours dans le CSV doit correspondre à celle enregistré (PF-393).
+
 ## 2.1.0 (21/09/2018)
 
 - [#207](https://github.com/1024pix/pix/pull/207) [BUGFIX] Les pop-ups ne s'ouvre plus sur les checkpoints des campagnes (PF-395).
@@ -7,7 +14,7 @@
 - [#195](https://github.com/1024pix/pix/pull/195) [TECH] Set scalingo formation for review apps. (PF-352).
 - [#197](https://github.com/1024pix/pix/pull/197) [TECH] Mise à jour des frameworks ember et amelioration de la configuration circleCI (PF-359).
 
-## 2.0.0 (14/09/2018) 
+## 2.0.0 (14/09/2018)
 
 - [#193](https://github.com/1024pix/pix/pull/193) [FEATURE] Mise à jour du header (PF-344).
 
@@ -38,7 +45,7 @@
 - [#172](https://github.com/1024pix/pix/pull/172) [BUGFIX] Problème de téléchargement du fichier csv des profils partagées sous Firefox (PF-285).
 - [#171](https://github.com/1024pix/pix/pull/171) [BUGFIX] Problème d'id dans l'url de la skill-review d'une campagne (PF-332).
 
-## v1.59.0 (22/08/2018) 
+## v1.59.0 (22/08/2018)
 
 - [#148](https://github.com/1024pix/pix/pull/148) [FEATURE] Affichage de la liste des campagnes d'une organisation (PO-22).
 - [#161](https://github.com/1024pix/pix/pull/161) [FEATURE] Les campagnes utilisent les profil cibles (PO-124).
@@ -57,7 +64,7 @@
 - \#XXX [BUGFIX] Les questions en QrocMdep s'affichent en "validées" quelque soit la réponse donnée (PF-329).
 
 
-## v1.58.0 (02/08/2018) 
+## v1.58.0 (02/08/2018)
 
 - [#137](https://github.com/1024pix/pix/pull/137) [FEATURE] Sauvegarde des éléments de connaissance sur le profil à chaque sauvegarde de réponses (PF-243).
 - [#140](https://github.com/1024pix/pix/pull/140) [FEATURE] Lancer la connexion lors d'un début de campagne (PF-237).
