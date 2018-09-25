@@ -1,6 +1,34 @@
-<div class="app-loader">
-  <p class="app-loader__image"><img src="/images/interwind.gif"></p>
-  <p class="app-loader__text">
-    Votre test est en cours de préparation.
-  </p>
+<div class="campaign-landing-page__gradient" xmlns="http://www.w3.org/1999/html"></div>
+<div class="campaign-landing-page__container">
+  <div class="landing-page__container__start">
+    <div class="campaign-landing-page__start__text">
+      <h1>Avant de commencer</h1>
+      <p class="lcampaign-anding-page__start__text announcement">L'organisateur de votre parcours a besoin de l'information ci-dessous pour pouvoir vous accompagner :</p>
+      <div class="share-profile__row">
+        <label for="id-pix-label">{{model.idPixLabel}} :</label>
+        {{input required id="id-pix-label" class="pix-modal__input share-profile__campaign-code-input" value=model.idPix}}
+        {{#if model.errorMessage}}
+          <div class="">{{model.errorMessage}}</div>
+        {{/if}}
+        <button type="submit" class="pix-button" {{action "submit"}}>C'est parti</button>
+      </div>
+      <button class="" {{action "cancel"}}>Annuler</button>
+    </div>
+  </div>
 </div>
+
+
+<!-- <div class="pix-section">
+  <div class="pix-row">
+    <div class="pix-panel">
+      <h1>Avant de commencer</h1>
+      <div>L'organisateur de votre parcours a besoin de l'information ci-dessous pour pouvoir vous accompagner :</div>
+      <div class="share-profile__row">
+        <label for="id-pix-label">{{model.idPixLabel}} :</label>
+        {{input required id="id-pix-label" class="pix-modal__input share-profile__campaign-code-input" value=_idPix}}
+        <button class="pix-button" {{action "submit" model.code}}>C'est parti</button>
+      </div>
+      <button class="" {{action "cancel"}}>Annuler</button>
+    </div>
+  </div>
+</div> -->

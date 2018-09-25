@@ -1,14 +1,31 @@
-import BaseRoute from 'mon-pix/routes/base-route';
 import AuthenticatedRouteMixin from 'ember-simple-auth/mixins/authenticated-route-mixin';
+import BaseRoute from 'mon-pix/routes/base-route';
 import { isEmpty } from '@ember/utils';
+import RSVP from 'rsvp';
 
 export default BaseRoute.extend(AuthenticatedRouteMixin, {
 
   model(params) {
-    return params.campaign_code;
+    const campaignCode = params.campaign_code;
+    const store = this.get('store');
+    return store.query('campaign', { filter: { code: campaignCode } })
+      .then((campaigns) => campaigns.get('firstObject'))
+      .then((campaign) => {
+        if(campaign.get('idPixLabel') == null) { // we want to handle null or undefined
+          return this._start(campaignCode);
+        }
+        return campaign;
+      })
+      .catch(() => RSVP.reject());
   },
 
-  afterModel(campaignCode) {
+  actions: {
+    submit(campaignCode) {
+      return this._start(campaignCode);
+    },
+  },
+
+  _start(campaignCode) {
     return this._retrieveOrCreateAssessements(campaignCode)
       .then((assessment) => this._startFirstChallenge(assessment));
   },
