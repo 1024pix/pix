@@ -24,7 +24,7 @@ exports.register = function(server, options, next) {
         auth: false,
         handler: campaignController.getByCode,
         notes: [
-          '- Récupération de la campagne dont le code est spécifié dans les filters de la requête',
+          '- Récupération de la campagne dont le code est spécifié dans les filtres de la requête',
         ],
         tags: ['api', 'campaign']
       }
