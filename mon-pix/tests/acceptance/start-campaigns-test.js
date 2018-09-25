@@ -66,6 +66,19 @@ describe('Acceptance | Campaigns | Start Campaigns', function() {
           expect(find('.campaign-landing-page__start-button').text()).to.equal('Je commence');
         });
       });
+
+      it('should start the campaign after clicking "I start" button', async function() {
+        // when
+        await click('.campaign-landing-page__start-button');
+
+        // then
+        return andThen(() => {
+          expect(currentURL()).to.contains(/assessments/);
+          expect(find('.course-banner__name').text()).to.equal('');
+          findWithAssert('.assessment-challenge__progress-bar');
+        });
+      });
+
     });
   });
 });
