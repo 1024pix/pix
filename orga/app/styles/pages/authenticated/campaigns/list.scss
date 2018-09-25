@@ -8,19 +8,7 @@
     margin: 1em;
   }
 
-  &__explain-create-campaign {
-    text-align: center;
-    margin: 5%;
-  }
-
-  &__information-text {
-    color: $dove-gray;
-    font-family: $open-sans;
-    font-size: 1.2rem;
-    margin: 30px 30%;
-  }
-
-  .button-at-right {
+  &__create-campaign-button {
     margin-top: 20px;
     margin-left: auto;
   }
