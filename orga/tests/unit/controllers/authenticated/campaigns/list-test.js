@@ -50,4 +50,36 @@ module('Unit | Controller | authenticated/campaigns/list', function(hooks) {
     assert.equal(sortedCampaigns[2].code, 'THIRD');
   });
 
+  test('it should know when there is no campaigns', function(assert) {
+
+    // given
+    let controller = this.owner.lookup('controller:authenticated/campaigns/list');
+    const campaigns = ArrayProxy.create({
+      content: []
+    });
+    controller.set('model', campaigns);
+
+    // when
+    const hasCampaign = controller.get('hasCampaign');
+
+    // then
+    assert.equal(hasCampaign, false);
+  });
+
+  test('it should know when there are campaigns', function(assert) {
+
+    // given
+    let controller = this.owner.lookup('controller:authenticated/campaigns/list');
+    const campaign1 = { name: 'Cat', createdAt: new Date('2018-08-07 14:00:44') };
+    const campaigns = ArrayProxy.create({
+      content: [campaign1]
+    });
+    controller.set('model', campaigns);
+
+    // when
+    const hasCampaign = controller.get('hasCampaign');
+
+    // then
+    assert.equal(hasCampaign, true);
+  });
 });

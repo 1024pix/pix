@@ -32,7 +32,21 @@ module('Acceptance | Campaign List', function(hooks) {
 
     // then
     assert.equal(currentURL(), '/campagnes/liste');
-    assert.dom('.page__title').hasText('Campagnes');
+  });
+
+  test('it should show title indicate than user can create a campaign', async function(assert) {
+    // given
+    const user = createUserWithOrganizationAccess();
+
+    await authenticateSession({
+      user_id: user.id,
+    });
+
+    // when
+    await visit('/campagnes/liste');
+
+    // then
+    assert.dom('.page-title').hasText('Créez votre première campagne');
   });
 
   test('it should list the campaigns of the current organization', async function(assert) {
