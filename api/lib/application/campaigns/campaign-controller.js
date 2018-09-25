@@ -43,7 +43,7 @@ module.exports = {
   getByCode(request, reply) {
     const filters = queryParamsUtils.extractFilters(request);
     return _validateFilters(filters)
-      .then(() => usecases.getCampaignByCode({ code: filters.code, campaignRepository }))
+      .then(() => usecases.getCampaignByCode({ code: filters.code }))
       .then((campaign) => {
         return campaignSerializer.serialize([campaign]);
       })

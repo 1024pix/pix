@@ -304,7 +304,7 @@ describe('Unit | Application | Controller | Campaign', () => {
 
       // then
       return promise.then(() => {
-        expect(usecases.getCampaignByCode).to.have.been.calledWith({ code: campaignCode, campaignRepository });
+        expect(usecases.getCampaignByCode).to.have.been.calledWith({ code: campaignCode });
       });
     });
 
