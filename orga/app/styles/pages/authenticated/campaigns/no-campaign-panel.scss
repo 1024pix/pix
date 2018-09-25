@@ -1,0 +1,17 @@
+.no-campaign-panel {
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+
+  &__explain-create-campaign {
+    text-align: center;
+    margin: 5%;
+  }
+
+  &__information-text {
+    margin: 30px 30%;
+  }
+  &__link-to-create {
+    padding-top: 20px;
+  }
+}

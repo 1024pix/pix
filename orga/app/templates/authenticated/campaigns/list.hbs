@@ -1,5 +1,14 @@
 <div class="list-campaigns-page">
-  <h1 class="page__title page-title">Campagnes</h1>
+  {{#if hasCampaign}}
+    <div class="list-campaigns-page__header-page">
+      <h1 class="page__title page-title">Campagnes</h1>
+      <div class="list-campaigns-page__create-campaign-button">
+        {{blue-link title='Créer une campagne +' ahref='authenticated.campaigns.new'}}
+      </div>
+    </div>
+    {{campaign-list campaigns=sortedCampaigns}}
 
-  {{campaign-list campaigns=sortedCampaigns}}
+  {{else}}
+    {{no-campaign-panel}}
+  {{/if}}
 </div>
