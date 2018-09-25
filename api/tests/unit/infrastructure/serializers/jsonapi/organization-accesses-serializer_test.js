@@ -15,6 +15,9 @@ describe('Unit | Serializer | JSONAPI | organizations-accesses-serializer', () =
           name: 'The name of the organization',
           type: 'SUP',
           code: 'WASABI666',
+        },
+        user: {
+          id: 45678,
         }
       });
 
@@ -29,7 +32,13 @@ describe('Unit | Serializer | JSONAPI | organizations-accesses-serializer', () =
                 {
                   type: 'organizations', id: '10293'
                 },
-            }
+            },
+            user: {
+              data:
+                {
+                  type: 'users', id: '45678'
+                },
+            },
           }
         },
         included: [{

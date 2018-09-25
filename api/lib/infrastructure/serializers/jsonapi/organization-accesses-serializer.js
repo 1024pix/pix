@@ -11,7 +11,7 @@ module.exports = {
         record.organization.targetProfiles = [];
         return record;
       },
-      attributes: ['organization'],
+      attributes: ['organization', 'user'],
       organization: {
         ref: 'id',
         included: true,
@@ -34,6 +34,9 @@ module.exports = {
             }
           }
         }
+      },
+      user: {
+        ref: 'id',
       }
     }).serialize(organizationAccesses);
   }
