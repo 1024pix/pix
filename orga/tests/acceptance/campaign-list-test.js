@@ -46,7 +46,7 @@ module('Acceptance | Campaign List', function(hooks) {
     await visit('/campagnes/liste');
 
     // then
-    assert.dom('.page__title').hasText('Créez votre première campagne');
+    assert.dom('.page-title').hasText('Créez votre première campagne');
   });
 
   test('it should list the campaigns of the current organization', async function(assert) {
