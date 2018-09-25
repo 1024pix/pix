@@ -1,5 +1,4 @@
 import BaseRoute from 'mon-pix/routes/base-route';
-import RSVP from 'rsvp';
 
 export default BaseRoute.extend({
 
@@ -9,8 +8,7 @@ export default BaseRoute.extend({
     const store = this.get('store');
     this.set('campaignCode', params.campaign_code);
     return store.query('campaign', { filter: { code: this.get('campaignCode') } })
-      .then((campaigns) => campaigns.get('firstObject'))
-      .catch(() => RSVP.reject());
+      .then((campaigns) => campaigns.get('firstObject'));
   },
 
   actions: {
