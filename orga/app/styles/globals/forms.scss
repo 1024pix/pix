@@ -48,9 +48,9 @@
   }
 }
 
-.blue-button-linkto {
-  padding: 13px 20px;
-  background-color: $aqua;
+.blue-link {
+  padding: 13px 10px;
+  background-color: $dodger-blue;
   font-weight: 500;
   letter-spacing: 0.019rem;
   text-align: center;
@@ -64,8 +64,8 @@
   }
   @include device-is('tablet') {
     font-size: 1rem;
+    padding: 13px 20px;
   }
-
 }
 
 .radio-button {
