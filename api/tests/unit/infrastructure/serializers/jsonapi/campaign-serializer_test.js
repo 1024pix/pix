@@ -16,6 +16,7 @@ describe('Unit | Serializer | JSONAPI | campaign-serializer', function() {
         createdAt: '2018-02-06 14:12:44',
         creatorId: 3453,
         organizationId: 10293,
+        idPixLabel: 'company id',
       });
 
       const expectedSerializedCampaign = {
@@ -26,6 +27,7 @@ describe('Unit | Serializer | JSONAPI | campaign-serializer', function() {
             name: 'My zuper organization',
             code: 'ATDGER342',
             'created-at': '2018-02-06 14:12:44',
+            'id-pix-label': 'company id',
             'token-for-campaign-results': tokenToAccessToCampaign,
           },
         }

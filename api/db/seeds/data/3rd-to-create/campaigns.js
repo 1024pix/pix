@@ -6,6 +6,7 @@ module.exports = [
     organizationId: 1,
     creatorId: 2,
     targetProfileId: 1,
+    idPixLabel: 'identifiant entreprise',
   },
   {
     id: 2,
@@ -14,5 +15,6 @@ module.exports = [
     organizationId: 1,
     creatorId: 2,
     targetProfileId: 1,
+    idPixLabel: null,
   },
 ];
