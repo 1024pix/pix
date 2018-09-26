@@ -2,8 +2,9 @@ import { afterEach, beforeEach, describe, it } from 'mocha';
 import { expect } from 'chai';
 import startApp from '../helpers/start-app';
 import destroyApp from '../helpers/destroy-app';
-import { authenticateAsSimpleUser, logout } from '../helpers/testing';
+import { authenticateAsSimpleUser } from '../helpers/testing';
 import defaultScenario from '../../mirage/scenarios/default';
+import { invalidateSession } from 'mon-pix/tests/helpers/ember-simple-auth';
 
 describe('Acceptance | Campaigns | Resume Campaigns', function() {
 
@@ -31,7 +32,7 @@ describe('Acceptance | Campaigns | Resume Campaigns', function() {
 
       beforeEach(async function() {
         await visit('/compte');
-        await logout();
+        invalidateSession(application);
       });
 
       it('should propose to reconnect', async function() {
@@ -45,7 +46,7 @@ describe('Acceptance | Campaigns | Resume Campaigns', function() {
         });
       });
 
-      /*it('should connect and redirect in assessment when we enter URL', async function() {
+      it('should connect and redirect in assessment when we enter URL', async function() {
         // given
         await visit('/campagnes/codecampagnepix');
         await click('.campaign-landing-page__start-button');
@@ -53,13 +54,16 @@ describe('Acceptance | Campaigns | Resume Campaigns', function() {
         fillIn('#pix-email', 'jane@acme.com');
         fillIn('#pix-password', 'Jane1234');
 
+        // when
+        click('.signin-form__submit_button');
+
         // then
         return andThen(() => {
           expect(currentURL()).to.contains('/assessments/');
           expect(find('.progress-bar-info').text()).to.contains('2 / 5');
         });
       });
-*/
+
     });
 
     context('When user is logged in', async function() {
