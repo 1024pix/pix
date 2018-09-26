@@ -63,7 +63,7 @@ describe('Acceptance | Campaigns | Start Campaigns', function() {
         // then
         return andThen(() => {
           expect(currentURL()).to.equal('/campagnes/codecampagnepix');
-          expect(find('.campaign-landing-page__start-button').text()).to.equal('Je commence');
+          expect(find('.campaign-landing-page__start-button').text().trim()).to.equal('Je commence');
         });
       });
 
