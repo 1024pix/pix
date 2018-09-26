@@ -3,10 +3,14 @@ const usecases = require('../../domain/usecases');
 const tokenService = require('../../../lib/domain/services/token-service');
 
 const campaignSerializer = require('../../infrastructure/serializers/jsonapi/campaign-serializer');
-const { UserNotAuthorizedToCreateCampaignError, UserNotAuthorizedToGetCampaignResultsError, EntityValidationError } = require('../../domain/errors');
+const { UserNotAuthorizedToCreateCampaignError, UserNotAuthorizedToGetCampaignResultsError, EntityValidationError,
+  NotFoundError } = require('../../domain/errors');
 
 const JSONAPI = require('../../interfaces/jsonapi');
 const logger = require('../../infrastructure/logger');
+const controllerReplies = require('../../infrastructure/controller-replies');
+const queryParamsUtils = require('../../infrastructure/utils/query-params-utils');
+const infraErrors = require('../../infrastructure/errors');
 
 module.exports = {
 
@@ -36,6 +40,20 @@ module.exports = {
       });
   },
 
+  getByCode(request, reply) {
+    const filters = queryParamsUtils.extractFilters(request);
+    return _validateFilters(filters)
+      .then(() => usecases.getCampaignByCode({ code: filters.code }))
+      .then((campaign) => {
+        return campaignSerializer.serialize([campaign]);
+      })
+      .then(controllerReplies(reply).ok)
+      .catch((error) => {
+        const mappedError = _mapToInfraError(error);
+        return controllerReplies(reply).error(mappedError);
+      });
+  },
+
   getCsvResults(request, reply) {
     const token = request.query.accessToken;
     const userId = tokenService.extractUserIdForCampaignResults(token);
@@ -59,3 +77,20 @@ module.exports = {
       });
   },
 };
+
+function _validateFilters(filters) {
+  return new Promise((resolve) => {
+    if (typeof filters.code === 'undefined') {
+      throw new infraErrors.MissingQueryParamError('filter.code');
+    }
+    resolve();
+  });
+}
+
+function _mapToInfraError(error) {
+  if (error instanceof NotFoundError) {
+    return new infraErrors.NotFoundError(error.message);
+  }
+
+  return error;
+}
