@@ -16,6 +16,7 @@ describe('Unit | Route | campaigns/fill-in-id-pix', function() {
   let createAssessementStub;
   let queryChallengeStub;
   let queryAssessementsStub;
+  let savedAssessment;
 
   beforeEach(function() {
     queryAssessementsStub = sinon.stub();
@@ -24,15 +25,16 @@ describe('Unit | Route | campaigns/fill-in-id-pix', function() {
     storeStub = Service.extend({ queryRecord: queryChallengeStub, query: queryAssessementsStub, createRecord: createAssessementStub });
     this.register('service:store', storeStub);
     this.inject.service('store', { as: 'store' });
+    savedAssessment = EmberObject.create({ id: 1234, codeCampaign: 'CODECAMPAIGN', reload: sinon.stub() });
     route = this.subject();
   });
 
   describe('#afterModel', function() {
 
     const campaignCode = 'CODECAMPAIGN';
-    const savedAssessment = EmberObject.create({ id: 1234, codeCampaign: campaignCode });
 
     beforeEach(function() {
+      savedAssessment.reload.resolves();
       route.transitionTo = sinon.stub();
     });
 
