@@ -6,7 +6,7 @@
       <p class="lcampaign-anding-page__start__text announcement">L'organisateur de votre parcours a besoin de l'information ci-dessous pour pouvoir vous accompagner :</p>
       <div class="share-profile__row">
         <label for="id-pix-label">{{model.idPixLabel}} :</label>
-        {{input required id="id-pix-label" class="pix-modal__input share-profile__campaign-code-input" value=model.idPix}}
+        {{input required id="id-pix-label" class="pix-modal__input share-profile__campaign-code-input" value=model.participantExternalId}}
         {{#if model.errorMessage}}
           <div class="">{{model.errorMessage}}</div>
         {{/if}}
