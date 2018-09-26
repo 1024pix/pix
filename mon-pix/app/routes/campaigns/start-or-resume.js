@@ -34,7 +34,7 @@ export default BaseRoute.extend({
           } else {
             const assessmentToContinue = smartPlacementAssessments.get('firstObject');
             this._fetchChallenge(assessmentToContinue)
-              .then((challenge) => this.transitionTo('assessments.challenge', { assessmentToContinue, challenge }));
+              .then((challenge) => this.transitionTo('assessments.challenge', { assessment: assessmentToContinue, challenge }));
 
           }
         });
