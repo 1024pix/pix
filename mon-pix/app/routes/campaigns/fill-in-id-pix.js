@@ -26,7 +26,8 @@ export default BaseRoute.extend(AuthenticatedRouteMixin, {
 
   _startFirstChallenge(assessment) {
     const store = this.get('store');
-    return store.queryRecord('challenge', { assessmentId: assessment.get('id') })
+    return assessment.reload()
+      .then(() => store.queryRecord('challenge', { assessmentId: assessment.get('id') }))
       .then((challenge) => this.transitionTo('assessments.challenge', { assessment, challenge }));
   }
 });
