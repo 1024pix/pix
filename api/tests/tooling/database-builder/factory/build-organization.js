@@ -7,11 +7,12 @@ module.exports = function buildOrganization({
   email = faker.internet.email(),
   type = 'PRO',
   name = faker.company.companyName(),
+  code = faker.random.word(),
   userId = buildUser().id,
 } = {}) {
 
   const values = {
-    id, email, type, name, userId,
+    id, email, type, name, code, userId,
   };
 
   databaseBuffer.pushInsertable({
