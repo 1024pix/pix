@@ -1,53 +1,58 @@
 import BaseRoute from 'mon-pix/routes/base-route';
 import { inject as service } from '@ember/service';
-import RSVP from 'rsvp';
 import { isEmpty } from '@ember/utils';
 
 export default BaseRoute.extend({
 
+  session: service(),
   campaignCode: null,
   campaign: null,
-  session: service(),
 
   model(params) {
-
     const store = this.get('store');
     this.set('campaignCode', params.campaign_code);
+
     return store.query('campaign', { filter: { code: this.get('campaignCode') } })
       .then((campaigns) => {
-        this.set('campaign', campaigns.get('firstObject'));
-      })
-      .then(() => {
-        if (this.get('session').get('isAuthenticated')) {
-          return this._retrieveOrCreateAssessements(this.get('campaignCode'));
-        }
-        return this.transitionTo('campaigns.campaign-landing-page', this.get('campaignCode'));
-      })
-      .catch(() => RSVP.reject());
-  },
-
-  _retrieveOrCreateAssessements(campaignCode) {
-    const store = this.get('store');
-    return store.query('assessment', { filter: { type: 'SMART_PLACEMENT', codeCampaign: campaignCode } })
-      .then((smartPlacementAssessments) => {
-        if (!isEmpty(smartPlacementAssessments)) {
-          return smartPlacementAssessments.get('firstObject')
-        }
-        return null;
-      })
-      .then((assessment) => {
-        if(assessment) {
-          this._startFirstChallenge(assessment);
-        } else {
-          this.transitionTo('campaigns.campaign-landing-page', this.get('campaignCode'));
-        }
+        return this.set('campaign', campaigns.get('firstObject'));
       });
   },
 
-  _startFirstChallenge(assessment) {
+  afterModel() {
+    const store = this.get('store');
+
+    if (this._userIsUnauthenticated()) {
+      return this.transitionTo('campaigns.campaign-landing-page', this.get('campaignCode'));
+
+    } else {
+      return store.query('assessment', { filter: { type: 'SMART_PLACEMENT', codeCampaign: this.get('campaignCode') } })
+        .then((smartPlacementAssessments) => {
+
+          if (this._thereIsNoAssessment(smartPlacementAssessments)) {
+            this.transitionTo('campaigns.campaign-landing-page', this.get('campaignCode'));
+
+          } else {
+            const assessmentToContinue = smartPlacementAssessments.get('firstObject');
+            this._fetchChallenge(assessmentToContinue)
+              .then((challenge) => this.transitionTo('assessments.challenge', { assessmentToContinue, challenge }));
+
+          }
+        });
+    }
+  },
+
+  _fetchChallenge(assessment) {
     const store = this.get('store');
     return assessment.reload()
-      .then(()=> store.queryRecord('challenge', { assessmentId: assessment.get('id') }))
-      .then((challenge) => this.transitionTo('assessments.challenge', { assessment, challenge }));
+      .then(() => store.queryRecord('challenge', { assessmentId: assessment.get('id') }));
   },
+
+  _userIsUnauthenticated() {
+    return this.get('session.isAuthenticated') === false;
+  },
+
+  _thereIsNoAssessment(assessments) {
+    return isEmpty(assessments);
+  }
+
 });
