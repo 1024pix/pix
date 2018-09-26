@@ -12,32 +12,31 @@ export default BaseRoute.extend(AuthenticatedRouteMixin, {
       .then((campaigns) => campaigns.get('firstObject'))
       .then((campaign) => {
         if(campaign.get('idPixLabel') == null) { // we want to handle null or undefined
-          return this._start(campaignCode);
+          return this.start(campaignCode);
         }
-        return campaign;
+        return { idPixLabel: campaign.get('idPixLabel'), campaignCode };
       })
-      .catch(() => RSVP.reject());
+      .catch(() => RSVP.reject());// FIXME return?
   },
 
-  actions: {
-    submit(campaignCode) {
-      return this._start(campaignCode);
-    },
+  setupController(controller, model) {
+    controller.set('model', model);
+    controller.set('start', (campaignCode, participantExternalId) => this.start(campaignCode, participantExternalId));
   },
 
-  _start(campaignCode) {
-    return this._retrieveOrCreateAssessements(campaignCode)
+  start(campaignCode, participantExternalId) {
+    return this._retrieveOrCreateAssessements(campaignCode, participantExternalId)
       .then((assessment) => this._startFirstChallenge(assessment));
   },
 
-  _retrieveOrCreateAssessements(campaignCode) {
+  _retrieveOrCreateAssessements(campaignCode, participantExternalId) {
     const store = this.get('store');
     return store.query('assessment', { filter: { type: 'SMART_PLACEMENT', codeCampaign: campaignCode } })
       .then((smartPlacementAssessments) => {
         if (!isEmpty(smartPlacementAssessments)) {
           return smartPlacementAssessments.get('firstObject');
         }
-        return store.createRecord('assessment', { type: 'SMART_PLACEMENT', codeCampaign: campaignCode }).save();
+        return store.createRecord('assessment', { type: 'SMART_PLACEMENT', codeCampaign: campaignCode, participantExternalId }).save();
       });
   },
 
@@ -46,5 +45,5 @@ export default BaseRoute.extend(AuthenticatedRouteMixin, {
     return assessment.reload()
       .then(() => store.queryRecord('challenge', { assessmentId: assessment.get('id') }))
       .then((challenge) => this.transitionTo('assessments.challenge', { assessment, challenge }));
-  }
+  },
 });

@@ -92,9 +92,10 @@ describe('Unit | Route | campaigns/fill-in-id-pix', function() {
     });
   });
 
-  describe('#submit', function() {
+  describe('#start', function() {
 
     const campaignCode = 'CODECAMPAIGN';
+    const participantExternalId = 'Identifiant professionnel';
 
     beforeEach(function() {
       savedAssessment.reload.resolves();
@@ -108,7 +109,7 @@ describe('Unit | Route | campaigns/fill-in-id-pix', function() {
       queryChallengeStub.resolves();
 
       // when
-      const promise = route.send('submit', campaignCode);
+      const promise = route.start(campaignCode, participantExternalId);
 
       // then
       return promise.then(() => {
@@ -124,11 +125,11 @@ describe('Unit | Route | campaigns/fill-in-id-pix', function() {
       queryChallengeStub.resolves();
 
       // when
-      const promise = route.send('submit', campaignCode);
+      const promise = route.start(campaignCode, participantExternalId);
 
       // then
       return promise.then(() => {
-        sinon.assert.calledWith(createAssessementStub, 'assessment', { type: 'SMART_PLACEMENT', codeCampaign: campaignCode });
+        sinon.assert.calledWith(createAssessementStub, 'assessment', { type: 'SMART_PLACEMENT', codeCampaign: campaignCode, participantExternalId });
       });
     });
 
@@ -139,7 +140,7 @@ describe('Unit | Route | campaigns/fill-in-id-pix', function() {
       queryChallengeStub.resolves();
 
       // when
-      const promise = route.send('submit', campaignCode);
+      const promise = route.start(campaignCode, participantExternalId);
 
       // then
       return promise.then(() => {
@@ -154,7 +155,7 @@ describe('Unit | Route | campaigns/fill-in-id-pix', function() {
       queryChallengeStub.resolves();
 
       // when
-      const promise = route.send('submit', campaignCode);
+      const promise = route.start(campaignCode, participantExternalId);
 
       // then
       return promise.then(() => {

@@ -18,6 +18,7 @@ export default Model.extend({
   result: belongsTo('assessment-result'),
   type: attr('string'),
   codeCampaign: attr('string'),
+  participantExternalId: attr('string'),
 
   answersSinceLastCheckpoints: computed('answers.[]', function() {
     const answers = this.get('answers').toArray();
