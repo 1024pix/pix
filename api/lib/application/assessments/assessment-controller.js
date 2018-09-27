@@ -30,9 +30,11 @@ module.exports = {
       .then(() => {
         if (assessment.isSmartPlacementAssessment()) {
           const codeCampaign = request.payload.data.attributes['code-campaign'];
+          const participantExternalId = request.payload.data.attributes['participant-external-id'];
           return useCases.createAssessmentForCampaign({
             assessment,
             codeCampaign,
+            participantExternalId
           });
         } else {
           assessment.state = 'started';

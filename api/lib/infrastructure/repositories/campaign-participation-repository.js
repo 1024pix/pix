@@ -25,7 +25,7 @@ module.exports = {
   },
 
   save(campaignParticipation) {
-    return new BookshelfCampaignParticipation(campaignParticipation.adaptModelToDb())
+    return new BookshelfCampaignParticipation(_adaptModelToDb(campaignParticipation))
       .save()
       .then(_toDomain);
   },
@@ -55,9 +55,17 @@ module.exports = {
   }
 };
 
+function _adaptModelToDb(campaignParticipation) {
+  return {
+    assessmentId: campaignParticipation.assessmentId,
+    campaignId: campaignParticipation.campaign.id,
+    participantExternalId: campaignParticipation.participantExternalId,
+  };
+};
+
 function _checkNotFoundError(err) {
   if (err instanceof BookshelfCampaignParticipation.NotFoundError) {
     throw new NotFoundError();
   }
   throw err;
-}
+};
