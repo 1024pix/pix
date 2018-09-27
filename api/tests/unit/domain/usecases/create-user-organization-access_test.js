@@ -1,28 +1,28 @@
 const { expect, sinon } = require('../../../test-helper');
 const usecases = require('../../../../lib/domain/usecases');
-const User = require('../../../../lib/domain/models/User');
-const OrganizationRole = require('../../../../lib/domain/models/Organization');
-const Organization = require('../../../../lib/domain/models/OrganizationRole');
-const OrganizationAccess = require('../../../../lib/domain/models/OrganizationAccess');
 
 describe('Unit | UseCase | create-user-organization-access', () => {
 
   it('should succeed', () => {
     // given
-    const user = new User({ id: 1 });
-    const organization = new Organization({ id: 2 });
+    const userId = 1;
+    const organizationId = 1;
 
+    const userRepository = { get: sinon.stub() };
+    const organizationRepository = { get: sinon.stub() };
+    const organizationRoleRepository = { getByName: sinon.stub() };
     const organizationAccessRepository = { create: sinon.stub() };
     organizationAccessRepository.create.resolves();
 
     // when
-    const promise = usecases.createUserOrganizationAccess({ user, organization, organizationAccessRepository });
+    const promise = usecases.createUserOrganizationAccess({ userId, organizationId, userRepository, organizationRepository, organizationRoleRepository, organizationAccessRepository });
 
     // then
     return expect(promise).to.be.fulfilled.then(() => {
-      const organizationRole = new OrganizationRole({ id: 1, name: 'ADMIN' });
-      const organizationAccess = new OrganizationAccess({ user, organization, organizationRole });
-      expect(organizationAccessRepository.create).to.have.been.calledWithMatch(organizationAccess);
+      expect(userRepository.get).to.have.been.calledWith(userId);
+      expect(organizationRepository.get).to.have.been.calledWith(organizationId);
+      expect(organizationRoleRepository.getByName).to.have.been.calledWith('ADMIN');
+      expect(organizationAccessRepository.create).to.have.been.calledOnce;
     });
   });
 });
