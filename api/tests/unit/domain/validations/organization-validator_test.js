@@ -4,6 +4,7 @@ const { EntityValidationError } = require('../../../../lib/domain/errors');
 const Organization = require('../../../../lib/domain/models/Organization');
 
 const MISSING_VALUE = '';
+const SPACES_ONLY = '        ';
 
 function _assertErrorMatchesWithExpectedOne(entityValidationErrors, expectedError) {
   expect(entityValidationErrors).to.be.instanceOf(EntityValidationError);
@@ -19,7 +20,6 @@ describe('Unit | Domain | Validators | organization-validator', function() {
     organization = new Organization({
       name: 'Lycée des Rosiers',
       type: 'SUP',
-      email: 'lycee.des.rosiers@example.net'
     });
   });
 
@@ -57,34 +57,13 @@ describe('Unit | Domain | Validators | organization-validator', function() {
             .catch((errors) => _assertErrorMatchesWithExpectedOne(errors, expectedError));
         });
 
-      });
-
-      context('on email attribute', () => {
-
-        it('should reject with error when email is missing', () => {
+        it('should reject with error when name contains only spaces', () => {
           // given
           const expectedError = {
-            attribute: 'email',
-            message: 'L’adresse électronique n’est pas renseignée.'
+            attribute: 'name',
+            message: 'Le nom n’est pas renseigné.'
           };
-          organization.email = MISSING_VALUE;
-
-          // when
-          const promise = organizationValidator.validate(organization);
-
-          // then
-          return promise
-            .then(() => expect.fail('Expected rejection erros'))
-            .catch((errors) => _assertErrorMatchesWithExpectedOne(errors, expectedError));
-        });
-
-        it('should reject with error when email is invalid', () => {
-          // given
-          const expectedError = {
-            attribute: 'email',
-            message: 'L’adresse électronique n’est pas correcte.'
-          };
-          organization.email = 'invalid_email';
+          organization.name = SPACES_ONLY;
 
           // when
           const promise = organizationValidator.validate(organization);
@@ -156,7 +135,6 @@ describe('Unit | Domain | Validators | organization-validator', function() {
         // given
         organization = {
           name: '',
-          email: '',
           type: '',
         };
 
@@ -167,7 +145,7 @@ describe('Unit | Domain | Validators | organization-validator', function() {
         return promise
           .then(() => expect.fail('Expected rejection with errors'))
           .catch((entityValidationErrors) => {
-            expect(entityValidationErrors.invalidAttributes).to.have.lengthOf(3);
+            expect(entityValidationErrors.invalidAttributes).to.have.lengthOf(2);
           });
       });
     });
