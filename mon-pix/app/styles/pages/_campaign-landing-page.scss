@@ -1,4 +1,4 @@
-.landing-page__gradient {
+.campaign-landing-page__gradient {
   z-index: -1;
   height: 420px;
   width: 100%;
@@ -6,7 +6,7 @@
   box-shadow: 0 2px 8px 0 rgba(0, 0, 0, 0.1);
 }
 
-.landing-page__container {
+.campaign-landing-page__container {
   display: flex;
   flex-direction: column;
   justify-content: space-between;
@@ -22,7 +22,7 @@
 
 /*------------------------ START ------------------------*/
 
-.landing-page__container__start {
+.campaign-landing-page__container__start {
   flex-direction: column;
   margin-bottom: 25px;
   padding-bottom: 40px;
@@ -31,22 +31,22 @@
   box-shadow: 0 0 20px 0 rgba(12, 22, 58, 0.1), 0 3px 6px 0 rgba(0, 0, 0, 0.1);
 }
 
-.landing-page__start__image__container {
+.campaign-landing-page__start__image__container {
   display: flex;
   justify-content: space-between;
   padding: 25px;
 }
 
-.landing-page__pix-logo  .landing-page__marianne-logo {
+.campaign-landing-page__pix-logo .campaign-landing-page__marianne-logo {
   flex-direction: row;
 }
 
-.landing-page__image {
+.campaign-landing-page__image {
   height: 100px;
   width: 100px;
 }
 
-.landing-page__start__text {
+.campaign-landing-page__start__text {
   width: 90%;
   margin: auto;
   padding: 5px;
@@ -80,7 +80,7 @@
 
 /*------------------------ DETAILS ------------------------*/
 
-.landing-page__container__details {
+.campaign-landing-page__container__details {
   display: flex;
   flex-direction: column;
   padding-bottom: 70px;
@@ -90,7 +90,7 @@
   box-shadow: 0 0 20px 0 rgba(12, 22, 58, 0.1), 0 3px 6px 0 rgba(0, 0, 0, 0.1);
 }
 
-.landing-page__details__text {
+.campaign-landing-page__details__text {
   font-family: $font-open-sans;
 
   .title {
@@ -124,7 +124,7 @@
   }
 }
 
-.landing-page__details__line {
+.campaign-landing-page__details__line {
   box-sizing: border-box;
   width: 100px;
   border: 1px solid $pix-blue;
@@ -132,7 +132,7 @@
   margin: 35px auto;
 }
 
-.landing-page__details__dash-line {
+.campaign-landing-page__details__dash-line {
   border-top: 1px dashed $dove-gray;
   width: 85%;
   margin-top: 50px;
@@ -140,7 +140,7 @@
 
 }
 
-.landing-page__details__measure__container {
+.campaign-landing-page__details__measure__container {
   display: flex;
   flex-direction: column;
   margin: auto;
@@ -152,10 +152,30 @@
   }
 }
 
-.landing-page__details__article-side {
+.campaign-landing-page__details__article-side {
   padding: 0 40px;
 }
 
-.landing__page__details__article-image {
+.campaign-landing-page__details__article-image {
   padding-bottom: 100px;
+}
+
+/*------------------------ ERROR ------------------------*/
+
+.campaign-landing-page__error-text {
+  display: flex;
+  flex-direction: column;
+  font-family: $font-open-sans;
+  padding-bottom: 50px;
+
+  .title {
+    font-size: 2.2rem;
+    font-weight: $font-light;
+    text-align: center;
+  }
+}
+
+.campaign-landing-page__error-button {
+  width: 35%;
+  margin: auto;
 }

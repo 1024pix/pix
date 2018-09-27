@@ -1,8 +1,18 @@
-<div class="pix-section error-page__body-section">
-  <div class="pix-row">
-    <div class="pix-panel error-page__main-content">
-      <h1>La campagne demandée n'existe pas.</h1>
-      {{#link-to 'index' class="pix-button error-page__index-link"}}Revenir à la page d'accueil{{/link-to}}
+<div class="campaign-landing-page__gradient"></div>
+<div class="campaign-landing-page__container">
+
+  <div class="campaign-landing-page__container__start">
+    <div class="campaign-landing-page__start__image__container">
+      <div class="campaign-landing-page__pix-logo">
+        <img class="campaign-landing-page__image" src="{{rootURL}}/images/pix-logo.svg" alt="Pix">
+      </div>
+      <div class="campaign-landing-page__marianne-logo">
+        <img class="campaign-landing-page__image" src="{{rootURL}}/images/logo-de-la-republique-francaise.svg" alt="Logo de la Marianne">
+      </div>
+    </div>
+    <div class="pix-panel campaign-landing-page__error-text">
+      <p class="campaign-landing-page__error-text title">La campagne demandée n'existe pas.</p>
+        {{#link-to 'index' class="pix-button campaign-landing-page__error-button"}}Revenir à la page d'accueil{{/link-to}}
     </div>
   </div>
 </div>
