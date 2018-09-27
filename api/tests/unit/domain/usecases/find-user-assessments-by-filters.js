@@ -37,7 +37,24 @@ describe('Unit | UseCase | find-user-assessments-by-filters', () => {
     });
   });
 
-  context('when filters not contains a codeCampaign', () => {
+  context('when filters contains a type certification', () => {
+    it('should call repository with filter to find the certification assessment', () => {
+      // given
+      const userId = 1234;
+      const filters = { type: 'CERTIFICATION', courseId: '2' };
+      const expectedFilters = { type: 'CERTIFICATION', courseId: '2', userId };
+
+      // when
+      const promise = findUserAssessmentsByFilters({ userId, filters, assessmentRepository });
+
+      // then
+      return promise.then(() => {
+        expect(assessmentRepository.findByFilters).to.have.been.calledWithExactly(expectedFilters);
+      });
+    });
+  });
+
+  context('when filters not contains a codeCampaign or an certification', () => {
     it('should resolve an empty arrat', () => {
       // given
       const userId = 1234;
