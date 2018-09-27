@@ -23,22 +23,20 @@ export default BaseRoute.extend({
 
     if (this._userIsUnauthenticated()) {
       return this.transitionTo('campaigns.campaign-landing-page', this.get('campaignCode'));
-
-    } else {
-      return store.query('assessment', { filter: { type: 'SMART_PLACEMENT', codeCampaign: this.get('campaignCode') } })
-        .then((smartPlacementAssessments) => {
-
-          if (this._thereIsNoAssessment(smartPlacementAssessments)) {
-            this.transitionTo('campaigns.campaign-landing-page', this.get('campaignCode'));
-
-          } else {
-            const assessmentToContinue = smartPlacementAssessments.get('firstObject');
-            this._fetchChallenge(assessmentToContinue)
-              .then((challenge) => this.transitionTo('assessments.challenge', { assessment: assessmentToContinue, challenge }));
-
-          }
-        });
     }
+
+    return store.query('assessment', { filter: { type: 'SMART_PLACEMENT', codeCampaign: this.get('campaignCode') } })
+      .then((smartPlacementAssessments) => {
+
+        if (this._thereIsNoAssessment(smartPlacementAssessments)) {
+          return this.transitionTo('campaigns.campaign-landing-page', this.get('campaignCode'));
+        }
+        
+        const assessmentToContinue = smartPlacementAssessments.get('firstObject');
+        return this._fetchChallenge(assessmentToContinue)
+          .then((challenge) => this.transitionTo('assessments.challenge', { assessment: assessmentToContinue, challenge }));
+
+      });
   },
 
   _fetchChallenge(assessment) {
