@@ -28,10 +28,9 @@ describe('Acceptance | Campaigns | Resume Campaigns', function() {
       await click('.challenge-actions__action-skip');
     });
 
-    context('When user is not logged in', function() {
+    context('When user had started a campaign and he is not logged anymore', function() {
 
       beforeEach(async function() {
-        await visit('/compte');
         invalidateSession(application);
       });
 
@@ -66,7 +65,7 @@ describe('Acceptance | Campaigns | Resume Campaigns', function() {
 
     });
 
-    context('When user is logged in', async function() {
+    context('When user had started a campaign and she retry the starter URL', async function() {
 
       it('should redirect directly in assessment when we enter URL', async function() {
         // given

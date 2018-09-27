@@ -31,7 +31,7 @@ export default BaseRoute.extend({
         if (this._thereIsNoAssessment(smartPlacementAssessments)) {
           return this.transitionTo('campaigns.campaign-landing-page', this.get('campaignCode'));
         }
-        
+
         const assessmentToContinue = smartPlacementAssessments.get('firstObject');
         return this._fetchChallenge(assessmentToContinue)
           .then((challenge) => this.transitionTo('assessments.challenge', { assessment: assessmentToContinue, challenge }));
