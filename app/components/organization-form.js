@@ -24,7 +24,6 @@ export default Component.extend({
   init() {
     this._super(...arguments);
     this.organization = this.organization || {};
-    this.contact = this.contact || {};
   },
 
   // Actions
@@ -38,8 +37,7 @@ export default Component.extend({
 
     submitOrganization() {
       const organization = this.get('organization');
-      const contact = this.get('contact');
-      return this.get('onSubmitOrganization')(organization, contact)
+      return this.get('onSubmitOrganization')(organization)
         .then(() => {
           this._resetFields();
           this.get('notifications').success('L’organisation a été créée avec succès.');
@@ -54,7 +52,6 @@ export default Component.extend({
 
   _resetFields() {
     this.set('organization', {});
-    this.set('contact', {});
     this.set('selectedOrganizationType', null);
   }
 

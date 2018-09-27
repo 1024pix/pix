@@ -34,6 +34,9 @@ Router.map(function() {
         });
       });
     });
+    this.route('users', function() {
+      this.route('list');
+    });
   });
 });
 
