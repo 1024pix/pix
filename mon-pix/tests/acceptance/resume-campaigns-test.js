@@ -27,20 +27,6 @@ describe('Acceptance | Campaigns | Resume Campaigns', function() {
       await click('.campaign-landing-page__start-button');
       await click('.challenge-actions__action-skip');
     });
-    context('When user is logged in', function() {
-
-      it('should redirect directly in assessment when we enter URL', async function() {
-        // given
-        await visit('/compte');
-        await visit('/campagnes/codecampagnepix');
-
-        // then
-        return andThen(() => {
-          expect(currentURL()).to.contains('/assessments/');
-          expect(find('.progress-bar-info').text()).to.contains('2 / 5');
-        });
-      });
-    });
 
     context('When user is not logged in', function() {
 
@@ -78,6 +64,21 @@ describe('Acceptance | Campaigns | Resume Campaigns', function() {
         });
       });
 
+    });
+
+    context('When user is logged in', async function() {
+
+      it('should redirect directly in assessment when we enter URL', async function() {
+        // given
+        await visit('/compte');
+        await visit('/campagnes/codecampagnepix');
+
+        // then
+        return andThen(() => {
+          expect(currentURL()).to.contains('/assessments/');
+          expect(find('.progress-bar-info').text()).to.contains('2 / 5');
+        });
+      });
     });
   });
 });
