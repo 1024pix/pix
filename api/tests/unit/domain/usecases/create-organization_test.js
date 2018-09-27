@@ -1,22 +1,89 @@
 const { expect, sinon } = require('../../../test-helper');
 const usecases = require('../../../../lib/domain/usecases');
 const Organization = require('../../../../lib/domain/models/Organization');
+const organizationValidator = require('../../../../lib/domain/validators/organization-validator');
+const organizationService = require('../../../../lib/domain/services/organization-service');
+const { EntityValidationError } = require('../../../../lib/domain/errors');
 
 describe('Unit | UseCase | create-organization', () => {
 
-  it('should create a new Organization Entity into data repository', () => {
-    // given
-    const organization = new Organization({ name: 'ACME', type: 'PRO' });
+  let sandbox;
 
-    const organizationRepository = { create: sinon.stub() };
-    organizationRepository.create.resolves();
+  beforeEach(() => {
+    sandbox = sinon.sandbox.create();
+    sandbox.stub(organizationValidator, 'validate');
+    sandbox.stub(organizationService, 'generateUniqueOrganizationCode');
+  });
 
-    // when
-    const promise = usecases.createOrganization({ organization, organizationRepository });
+  afterEach(() => {
+    sandbox.restore();
+  });
 
-    // then
-    return expect(promise).to.be.fulfilled.then(() => {
-      expect(organizationRepository.create).to.have.been.calledWithMatch(organization);
+  context('Green cases', () => {
+
+    const name = 'ACME';
+    const type = 'PRO';
+    const code = 'ABCD12';
+    let organizationRepository;
+
+    beforeEach(() => {
+      organizationValidator.validate.resolves(true);
+      organizationService.generateUniqueOrganizationCode.resolves(code);
+
+      organizationRepository = { create: sinon.stub() };
+      organizationRepository.create.resolves();
+    });
+
+    it('should validate params (name + type)', () => {
+      // when
+      const promise = usecases.createOrganization({ name, type, organizationRepository });
+
+      // then
+      return promise.then(() => {
+        expect(organizationValidator.validate).to.have.been.calledWithExactly({ name, type });
+      });
+    });
+
+    it('should generate a unique code', () => {
+      // when
+      const promise = usecases.createOrganization({ name, type, organizationRepository });
+
+      // then
+      return promise.then(() => {
+        expect(organizationService.generateUniqueOrganizationCode).to.have.been.calledWithExactly({ organizationRepository });
+      });
+    });
+
+    it('should create a new Organization Entity into data repository', () => {
+      // when
+      const promise = usecases.createOrganization({ name, type, organizationRepository });
+
+      // then
+      return expect(promise).to.be.fulfilled.then(() => {
+        const expectedOrganization = new Organization({ name, type, code });
+        expect(organizationRepository.create).to.have.been.calledWithMatch(expectedOrganization);
+      });
+    });
+
+  });
+
+  context('Red cases', () => {
+
+    it('should reject an EntityValidationError when params are not valid', () => {
+      // given
+      const name = 'ACME';
+      const type = 'PRO';
+      const organizationRepository = {};
+
+      organizationValidator.validate.rejects(new EntityValidationError({}));
+
+      // when
+      const promise = usecases.createOrganization({ name, type, organizationRepository });
+
+      // then
+      return expect(promise).to.be.rejected.then((error) => {
+        expect(error).to.be.an.instanceOf(EntityValidationError);
+      });
     });
   });
 });
