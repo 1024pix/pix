@@ -42,7 +42,8 @@ describe('Unit | Controller | assessment-controller-save', () => {
             id: 42,
             attributes: {
               'type': 'SMART_PLACEMENT',
-              'code-campaign': 'CODECAMPAIGN'
+              'code-campaign': 'CODECAMPAIGN',
+              'participant-external-id': 'matricule123',
             },
           },
         },
@@ -65,6 +66,7 @@ describe('Unit | Controller | assessment-controller-save', () => {
         const expectedCallArguments = {
           assessment: expectedAssessment,
           codeCampaign: 'CODECAMPAIGN',
+          participantExternalId: 'matricule123',
         };
         // when
         const promise = controller.save(request, replyStub);

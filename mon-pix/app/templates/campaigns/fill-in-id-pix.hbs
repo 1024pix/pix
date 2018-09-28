@@ -1,6 +1,28 @@
-<div class="app-loader">
-  <p class="app-loader__image"><img src="/images/interwind.gif"></p>
-  <p class="app-loader__text">
-    Votre test est en cours de préparation.
-  </p>
+<div class="fill-in-id-pix__gradient" xmlns="http://www.w3.org/1999/html"></div>
+<div class="fill-in-id-pix__container">
+  <div class="fill-in-id-pix__container__start">
+    <div class="fill-in-id-pix__start__text">
+      <h1 class="fill-in-id-pix__start__text title">Avant de commencer</h1>
+      <p class="fill-in-id-pix__start__text announcement">L'organisateur de votre parcours a besoin de l'information ci-dessous pour pouvoir vous accompagner :</p>
+      <div class="fill-in-id-pix__form">
+        <div class="fill-in-id-pix__form-field">
+          <label for="id-pix-label">{{model.idPixLabel}} :</label>
+          {{input required id="id-pix-label" value=model.participantExternalId}}
+        </div>
+        {{#if model.loading}}
+          <button type="submit" class="pix-button"><span class="loader-in-button"></span></button>
+        {{else}}
+          <button type="submit" class="pix-button" {{action "submit"}}>C'est parti</button>
+        {{/if}}
+        {{#if model.errorMessage}}
+          <div class="fill-in-id-pix__form__error-message">{{model.errorMessage}}</div>
+        {{/if}}
+      </div>
+      {{#if model.loading}}
+        <button class="fill-in-id-pix__cancel-button">Annuler</button>
+      {{else}}
+        <button class="fill-in-id-pix__cancel-button" {{action "cancel"}}>Annuler</button>
+      {{/if}}
+    </div>
+  </div>
 </div>

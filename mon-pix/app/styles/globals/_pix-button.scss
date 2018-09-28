@@ -18,3 +18,12 @@
     background-color: $strong-blue;
   }
 }
+
+.loader-in-button {
+  background: url('/images/loader-white.svg');
+  background-size: 50px 58px;
+  margin: auto;
+  height: 35px;
+  width: 58px;
+  margin-top: -5px;
+}

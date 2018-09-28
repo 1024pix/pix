@@ -17,6 +17,7 @@ module.exports = function createAssessmentForCampaign(
   {
     assessment,
     codeCampaign,
+    participantExternalId,
     assessmentRepository,
     campaignRepository,
     campaignParticipationRepository
@@ -37,6 +38,7 @@ module.exports = function createAssessmentForCampaign(
       const campaignParticipation = new CampaignParticipation({
         assessmentId: assessmentCreated.id,
         campaign: campaign,
+        participantExternalId
       });
       return campaignParticipationRepository.save(campaignParticipation);
     })
