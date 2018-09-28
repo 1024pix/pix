@@ -1,5 +1,4 @@
 import Component from '@ember/component';
-import { computed } from '@ember/object';
 import { inject as service } from '@ember/service';
 import ENV from 'mon-pix/config/environment';
 
@@ -13,11 +12,6 @@ export default Component.extend({
   email: '',
   password: '',
   urlHome: ENV.APP.HOME_HOST,
-
-  displayMessageForCampaign: computed(function() {
-    const intentUrl = this.get('session.attemptedTransition.intent.url') || '';
-    return intentUrl.includes('campagnes');
-  }),
 
   actions: {
     submit() {
