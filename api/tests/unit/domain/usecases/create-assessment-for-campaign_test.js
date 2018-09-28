@@ -107,13 +107,13 @@ describe('Unit | UseCase | create-assessment-for-campaign', () => {
       const promise = createAssessmentForCampaign({
         assessment,
         codeCampaign: availableCampaignCode,
-        participantExternalId: 'Brandone Le Petit',
+        participantExternalId: 'matricule123',
         campaignRepository,
         assessmentRepository,
         campaignParticipationRepository
       });
 
-      campaignParticipation.participantExternalId = 'Brandone Le Petit';
+      campaignParticipation.participantExternalId = 'matricule123';
 
       // then
       return promise.then(() => {
