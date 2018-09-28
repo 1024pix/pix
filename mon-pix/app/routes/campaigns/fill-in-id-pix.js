@@ -16,7 +16,7 @@ export default BaseRoute.extend(AuthenticatedRouteMixin, {
         }
         return { idPixLabel: campaign.get('idPixLabel'), campaignCode };
       })
-      .catch(() => RSVP.reject());// FIXME return?
+      .catch(() => RSVP.reject());
   },
 
   afterModel(model) {
@@ -28,8 +28,8 @@ export default BaseRoute.extend(AuthenticatedRouteMixin, {
       });
   },
 
-  setupController(controller, model) {
-    controller.set('model', model);
+  setupController(controller) {
+    this._super(...arguments);
     controller.set('start', (campaignCode, participantExternalId) => this.start(campaignCode, participantExternalId));
   },
 
