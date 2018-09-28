@@ -1,4 +1,4 @@
-const { expect, sinon } = require('../../../test-helper');
+const { expect, sinon, factory } = require('../../../test-helper');
 
 const findUserAssessmentsByFilters = require('../../../../lib/domain/usecases/find-user-assessments-by-filters');
 
@@ -6,6 +6,8 @@ describe('Unit | UseCase | find-user-assessments-by-filters', () => {
 
   const assessmentRepository = {
     findByFilters: () => {
+    },
+    getByCertificationCourseId: () => {
     }
   };
 
@@ -14,6 +16,7 @@ describe('Unit | UseCase | find-user-assessments-by-filters', () => {
   beforeEach(() => {
     sandbox = sinon.sandbox.create();
     sandbox.stub(assessmentRepository, 'findByFilters').resolves([]);
+    sandbox.stub(assessmentRepository, 'getByCertificationCourseId').resolves([]);
   });
 
   afterEach(() => {
@@ -38,20 +41,39 @@ describe('Unit | UseCase | find-user-assessments-by-filters', () => {
   });
 
   context('when filters contains a type certification', () => {
-    it('should call repository with filter to find the certification assessment', () => {
+    it('should call repository to find the certification assessment', () => {
       // given
       const userId = 1234;
       const filters = { type: 'CERTIFICATION', courseId: '2' };
-      const expectedFilters = { type: 'CERTIFICATION', courseId: '2', userId };
 
       // when
       const promise = findUserAssessmentsByFilters({ userId, filters, assessmentRepository });
 
       // then
       return promise.then(() => {
-        expect(assessmentRepository.findByFilters).to.have.been.calledWithExactly(expectedFilters);
+        expect(assessmentRepository.getByCertificationCourseId).to.have.been.calledWithExactly(filters.courseId);
       });
     });
+
+    it('should filter assessmentBy userId', () => {
+      // given
+      const userId = 1234;
+      const filters = { type: 'CERTIFICATION', courseId: '2' };
+      const expectedAssessment = factory.buildAssessment({ userId, courseId: filters.courseId });
+      assessmentRepository.getByCertificationCourseId.resolves([
+        expectedAssessment,
+        factory.buildAssessment({ userId: 3456, courseId: filters.courseId })
+      ]);
+
+      // when
+      const promise = findUserAssessmentsByFilters({ userId, filters, assessmentRepository });
+
+      // then
+      return promise.then((result) => {
+        expect(result).to.deep.equal([expectedAssessment]);
+      });
+    });
+
   });
 
   context('when filters not contains a codeCampaign or an certification', () => {
