@@ -92,6 +92,53 @@ describe('Unit | Route | campaigns/fill-in-id-pix', function() {
     });
   });
 
+  describe('#afterModel', function() {
+
+    beforeEach(function() {
+      savedAssessment.reload.resolves();
+      route.transitionTo = sinon.stub();
+    });
+
+    it('should transition to challenge when there already is an assessment', function() {
+      // given
+      const model = {
+        campaignCode: 'campaignCode'
+      };
+
+      // given
+      const assessments = A([savedAssessment]);
+      queryStub.resolves(assessments);
+      queryChallengeStub.resolves();
+
+      // when
+      const promise = route.afterModel(model);
+
+      // then
+      return promise.then(() => {
+        sinon.assert.calledWith(route.transitionTo, 'assessments.challenge');
+      });
+    });
+
+    it('should do nothing if there is not assessment', function() {
+      // given
+      const model = {
+        campaignCode: 'campaignCode'
+      };
+
+      // given
+      queryStub.resolves([]);
+      queryChallengeStub.resolves();
+
+      // when
+      const promise = route.afterModel(model);
+
+      // then
+      return promise.then(() => {
+        sinon.assert.notCalled(route.transitionTo);
+      });
+    });
+  });
+
   describe('#start', function() {
 
     const campaignCode = 'CODECAMPAIGN';

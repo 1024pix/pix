@@ -19,6 +19,15 @@ export default BaseRoute.extend(AuthenticatedRouteMixin, {
       .catch(() => RSVP.reject());// FIXME return?
   },
 
+  afterModel(model) {
+    return this._existAssessment(model.campaignCode)
+      .then((assessment) => {
+        if(assessment) {
+          return this._startFirstChallenge(assessment);
+        }
+      });
+  },
+
   setupController(controller, model) {
     controller.set('model', model);
     controller.set('start', (campaignCode, participantExternalId) => this.start(campaignCode, participantExternalId));
@@ -27,6 +36,17 @@ export default BaseRoute.extend(AuthenticatedRouteMixin, {
   start(campaignCode, participantExternalId) {
     return this._retrieveOrCreateAssessements(campaignCode, participantExternalId)
       .then((assessment) => this._startFirstChallenge(assessment));
+  },
+
+  _existAssessment(campaignCode) {
+    const store = this.get('store');
+    return store.query('assessment', { filter: { type: 'SMART_PLACEMENT', codeCampaign: campaignCode } })
+      .then((smartPlacementAssessments) => {
+        if (!isEmpty(smartPlacementAssessments)) {
+          return smartPlacementAssessments.get('firstObject');
+        }
+        return null;
+      });
   },
 
   _retrieveOrCreateAssessements(campaignCode, participantExternalId) {
