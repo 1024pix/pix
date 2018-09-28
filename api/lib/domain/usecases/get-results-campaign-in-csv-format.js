@@ -19,6 +19,10 @@ function _checkCreatorHasAccessToCampaignOrganization(userId, organizationId, us
     });
 }
 
+function _cleanText(text) {
+  return `"${text.replace(/"/g, '""')}"`;
+}
+
 function _createHeaderOfCSV(skillNames, competences, areas, idPixLabel) {
   const headers = [];
   headers.push('"Nom de l\'organisation"');
@@ -28,7 +32,7 @@ function _createHeaderOfCSV(skillNames, competences, areas, idPixLabel) {
   headers.push('"Nom du Participant"');
   headers.push('"Prénom du Participant"');
   if (idPixLabel) {
-    headers.push(`"${idPixLabel.replace(/"/g, '""')}"`);
+    headers.push(_cleanText(idPixLabel));
   }
   headers.push('"Nom invité"');
   headers.push('"Prénom invité"');
@@ -152,6 +156,9 @@ function _createOneLineOfCSV(
       line = _addCellByHeadersTitleForText('"Nom du Participant"', user.firstName, line, headers);
       line = _addCellByHeadersTitleForText('"Prénom du Participant"', user.lastName, line, headers);
 
+      if (campaign.idPixLabel) {
+        line = _addCellByHeadersTitleForText(_cleanText(campaign.idPixLabel), campaignParticipation.participantExternalId, line, headers);
+      }
       const notCompletedPercentageProgression = _.round(
         assessment.knowledgeElements.length * 100 / (targetProfile.skills.length),
         1,

@@ -10,6 +10,7 @@ module.exports = function buildCampaignParticipation(
     campaign = buildCampaign(),
     isShared = faker.random.boolean(),
     sharedAt = faker.date.recent(),
+    participantExternalId = 'Mon mail pro',
   } = {}) {
-  return new CampaignParticipation({ id, assessmentId, campaign, isShared, sharedAt });
+  return new CampaignParticipation({ id, assessmentId, campaign, isShared, sharedAt, participantExternalId });
 };
