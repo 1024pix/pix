@@ -392,6 +392,7 @@ describe('Integration | Infrastructure | Repositories | assessment-repository', 
       courseId: 'course_A',
       state: 'completed',
       createdAt: '2016-10-27 08:44:25',
+      type: 'CERTIFICATION',
     };
 
     const competenceMark = {
