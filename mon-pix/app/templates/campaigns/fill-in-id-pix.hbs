@@ -18,7 +18,11 @@
           <div class="fill-in-id-pix__form__error-message">{{model.errorMessage}}</div>
         {{/if}}
       </div>
-      <button class="fill-in-id-pix__cancel-button" {{action "cancel"}}>Annuler</button>
+      {{#if model.loading}}
+        <button class="fill-in-id-pix__cancel-button">Annuler</button>
+      {{else}}
+        <button class="fill-in-id-pix__cancel-button" {{action "cancel"}}>Annuler</button>
+      {{/if}}
     </div>
   </div>
 </div>
