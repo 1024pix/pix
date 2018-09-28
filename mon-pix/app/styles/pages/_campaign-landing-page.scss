@@ -34,6 +34,8 @@
 .campaign-landing-page__start__image__container {
   display: flex;
   justify-content: space-between;
+  width: 90%;
+  margin: auto;
   padding: 25px;
 }
 
@@ -100,21 +102,21 @@
   }
 
   .article-title {
-    color: $mine-shaft;
+    color: $nero;
     font-size: 2.4rem;
     font-weight: $font-semi-bold;
     line-height: 30px;
   }
 
   .article-list {
-    color: $mine-shaft;
+    color: $nero;
     font-size: 1.4rem;
     line-height: 22px;
   }
 
   .article-text {
     margin: auto;
-    color: $mine-shaft;
+    color: $nero;
     font-size: 16px;
     line-height: 24px;
   }
