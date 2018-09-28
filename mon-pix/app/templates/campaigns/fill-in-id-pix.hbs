@@ -1,34 +1,24 @@
-<div class="campaign-landing-page__gradient" xmlns="http://www.w3.org/1999/html"></div>
-<div class="campaign-landing-page__container">
-  <div class="landing-page__container__start">
-    <div class="campaign-landing-page__start__text">
-      <h1>Avant de commencer</h1>
-      <p class="lcampaign-anding-page__start__text announcement">L'organisateur de votre parcours a besoin de l'information ci-dessous pour pouvoir vous accompagner :</p>
-      <div class="share-profile__row">
-        <label for="id-pix-label">{{model.idPixLabel}} :</label>
-        {{input required id="id-pix-label" class="pix-modal__input share-profile__campaign-code-input" value=model.participantExternalId}}
-        {{#if model.errorMessage}}
-          <div class="">{{model.errorMessage}}</div>
+<div class="fill-in-id-pix__gradient" xmlns="http://www.w3.org/1999/html"></div>
+<div class="fill-in-id-pix__container">
+  <div class="fill-in-id-pix__container__start">
+    <div class="fill-in-id-pix__start__text">
+      <h1 class="fill-in-id-pix__start__text title">Avant de commencer</h1>
+      <p class="fill-in-id-pix__start__text announcement">L'organisateur de votre parcours a besoin de l'information ci-dessous pour pouvoir vous accompagner :</p>
+      <div class="fill-in-id-pix__form">
+        <div class="fill-in-id-pix__form-field">
+          <label for="id-pix-label">{{model.idPixLabel}} :</label>
+          {{input required id="id-pix-label" value=model.participantExternalId}}
+        </div>
+        {{#if model.loading}}
+          <button type="submit" class="pix-button"><span class="loader-in-button"></span></button>
+        {{else}}
+          <button type="submit" class="pix-button" {{action "submit"}}>C'est parti</button>
         {{/if}}
-        <button type="submit" class="pix-button" {{action "submit"}}>C'est parti</button>
+        {{#if model.errorMessage}}
+          <div class="fill-in-id-pix__form__error-message">{{model.errorMessage}}</div>
+        {{/if}}
       </div>
-      <button class="" {{action "cancel"}}>Annuler</button>
+      <button class="fill-in-id-pix__cancel-button" {{action "cancel"}}>Annuler</button>
     </div>
   </div>
 </div>
-
-
-<!-- <div class="pix-section">
-  <div class="pix-row">
-    <div class="pix-panel">
-      <h1>Avant de commencer</h1>
-      <div>L'organisateur de votre parcours a besoin de l'information ci-dessous pour pouvoir vous accompagner :</div>
-      <div class="share-profile__row">
-        <label for="id-pix-label">{{model.idPixLabel}} :</label>
-        {{input required id="id-pix-label" class="pix-modal__input share-profile__campaign-code-input" value=_idPix}}
-        <button class="pix-button" {{action "submit" model.code}}>C'est parti</button>
-      </div>
-      <button class="" {{action "cancel"}}>Annuler</button>
-    </div>
-  </div>
-</div> -->

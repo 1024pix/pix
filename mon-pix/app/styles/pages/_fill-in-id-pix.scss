@@ -1,4 +1,4 @@
-.landing-page__gradient {
+.fill-in-id-pix__gradient {
   z-index: -1;
   height: 420px;
   width: 100%;
@@ -6,48 +6,39 @@
   box-shadow: 0 2px 8px 0 rgba(0, 0, 0, 0.1);
 }
 
-.landing-page__container {
+.fill-in-id-pix__container {
   display: flex;
   flex-direction: column;
   justify-content: space-between;
 
-  margin: -385px 10px;
-  max-width: 850px;
-  padding: 20px;
+  margin: -405px 10px;
+  max-width: 950px;
 
   @include device-is('tablet') {
-    margin: -385px auto;
+    margin: -315px auto;
   }
 }
 
 /*------------------------ START ------------------------*/
 
-.landing-page__container__start {
+.fill-in-id-pix__container__start {
   flex-direction: column;
-  margin-bottom: 25px;
-  padding-bottom: 40px;
+  margin-bottom: 10px;
+  padding-bottom: 20px;
+  padding-top: 10px;
   background-color: $white;
   border-radius: 10px;
   box-shadow: 0 0 20px 0 rgba(12, 22, 58, 0.1), 0 3px 6px 0 rgba(0, 0, 0, 0.1);
+
+  @include device-is('tablet') {
+    margin-bottom: 25px;
+    padding-bottom: 40px;
+    padding-top: 80px;
+  }
 }
 
-.landing-page__start__image__container {
-  display: flex;
-  justify-content: space-between;
-  padding: 25px;
-}
-
-.landing-page__pix-logo  .landing-page__marianne-logo {
-  flex-direction: row;
-}
-
-.landing-page__image {
-  height: 100px;
-  width: 100px;
-}
-
-.landing-page__start__text {
-  width: 90%;
+.fill-in-id-pix__start__text {
+  width: 100%;
   margin: auto;
   padding: 5px;
   text-align: center;
@@ -55,107 +46,50 @@
 
   .title {
     font-size: 3rem;
-    font-weight: $font-light;
+    font-weight: $font-bold;
 
     @include device-is('tablet') {
-      font-size: 4.8rem;
+      font-size: 3.2rem;
     }
   }
 
   .announcement {
     font-size: 1.8rem;
-  }
-
-  .legal {
-    font-size: 1.2rem;
-    color: $dove-gray;
+    margin-bottom: 40px;
   }
 }
 
-.campaign-landing-page__start-button {
-  height: 60px;
-  width: 30%;
-  margin: 30px;
+.fill-in-id-pix__form label {
+  display: block;
+  font-family: "Lato", Arial, sans-serif;
+  font-weight: $font-bold;
 }
 
-/*------------------------ DETAILS ------------------------*/
-
-.landing-page__container__details {
-  display: flex;
-  flex-direction: column;
-  padding-bottom: 70px;
-  padding-top: 60px;
-  background-color: $white;
-  border-radius: 10px;
-  box-shadow: 0 0 20px 0 rgba(12, 22, 58, 0.1), 0 3px 6px 0 rgba(0, 0, 0, 0.1);
+.fill-in-id-pix__form-field {
+  display: inline-block;
+  text-align: left;
 }
 
-.landing-page__details__text {
-  font-family: $font-open-sans;
-
-  .title {
-    font-size: 2.2rem;
-    font-weight: $font-light;
-    text-align: center;
-  }
-
-  .article-title {
-    color: $nero;
-    font-size: 2.4rem;
-    font-weight: $font-semi-bold;
-    line-height: 30px;
-  }
-
-  .article-list {
-    color: $nero;
-    font-size: 1.4rem;
-    line-height: 22px;
-  }
-
-  .article-text {
-    margin: auto;
-    color: $nero;
-    font-size: 16px;
-    line-height: 24px;
-  }
-
-  .complement {
-    width: 80%;
-  }
+.fill-in-id-pix__form-field input {
+  border: solid 2px $gainsboro;
+  border-radius: 3px;
+  outline: none;
+  width: 232px;
+  height: 50px;
+  margin-right: 5px;
 }
 
-.landing-page__details__line {
-  box-sizing: border-box;
-  width: 100px;
-  border: 1px solid $pix-blue;
-  border-radius: 5px;
-  margin: 35px auto;
-}
-
-.landing-page__details__dash-line {
-  border-top: 1px dashed $dove-gray;
-  width: 85%;
+.fill-in-id-pix__cancel-button {
   margin-top: 50px;
-  margin-bottom: 50px;
-
+  border: none;
+  font-family: "Lato", Arial, sans-serif;
+  font-size: 1.6rem;
 }
 
-.landing-page__details__measure__container {
-  display: flex;
-  flex-direction: column;
-  margin: auto;
-  width: 80%;
-  padding: 10px;
+/*------------------------ ERROR ------------------------*/
 
-  @include device-is('tablet') {
-    flex-direction: row;
-  }
-}
-
-.landing-page__details__article-side {
-  padding: 0 40px;
-}
-
-.landing__page__details__article-image {
-  padding-bottom: 100px;
+.fill-in-id-pix__form__error-message {
+  margin-top: 5px;
+  font-size: 12px;
+  color: red;
 }
