@@ -1,15 +1,15 @@
-.campaign__gradient {
+.skill-review__gradient {
   position: absolute;
   top: 100px;
   z-index: -1;
 
-  background: $pix-blue-to-purple-gradient;
   height: 320px;
   width: 100%;
+  background: $pix-blue-to-purple-gradient;
   box-shadow: 0 2px 8px 0 rgba(0,0,0,0.1);
 }
 
-.campaign__container {
+.skill-review__result__container {
   max-width: 850px;
   margin: 55px 10px;
   padding: 20px;
@@ -23,7 +23,7 @@
   }
 }
 
-.campaign__result__text {
+.skill-review__result__text {
   text-align: center;
   font-family: $font-open-sans;
   font-weight: 300;
@@ -41,12 +41,12 @@
   }
 }
 
-.campaign__share_container {
+.skill-review__share_container {
   padding: 20px;
   text-align: center;
 }
 
-.campaign__share__button {
+.skill-review__share__button {
   height: 60px;
   width: 280px;
   padding: 10px 30px;
@@ -57,7 +57,7 @@
   background-color: $pix-blue;
 }
 
-.campaign__share__legal {
+.skill-review__share__legal {
   margin: auto;
   text-align: center;
   font-size: 1.2rem;
@@ -69,7 +69,7 @@
   }
 }
 
-.campaign__share__thanks {
+.skill-review__share__thanks {
   font-family: $font-open-sans;
   font-weight: 300;
   font-size: 2.5rem;
