@@ -62,7 +62,7 @@ describe('Acceptance | Campaigns | Start Campaigns', function() {
       it('should redirect directly in campaigns', async function() {
         // then
         return andThen(() => {
-          expect(currentURL()).to.equal('/campagnes/codecampagnepix');
+          expect(currentURL()).to.equal('/campagnes/codecampagnepix/presentation');
           expect(find('.campaign-landing-page__start-button').text().trim()).to.equal('Je commence');
         });
       });
@@ -79,6 +79,20 @@ describe('Acceptance | Campaigns | Start Campaigns', function() {
         });
       });
 
+    });
+
+    context('When campaign does not exist', function() {
+      beforeEach(async function() {
+        await visit('/campagnes/codefaux');
+      });
+
+      it('should show an error message', async function() {
+        // then
+        return andThen(() => {
+          expect(currentURL()).to.equal('/campagnes/codefaux');
+          expect(find('.pix-panel').text()).to.contains('La campagne demandée n\'existe pas.');
+        });
+      });
     });
   });
 });

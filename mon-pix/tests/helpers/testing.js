@@ -12,3 +12,7 @@ export function authenticateAsPrescriber() {
   click('.signin-form__submit_button');
 }
 
+export function logout() {
+  visit('/deconnexion');
+}
+
