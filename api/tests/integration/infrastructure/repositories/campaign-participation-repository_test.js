@@ -66,6 +66,7 @@ describe('Integration | Repository | Campaign Participation', () => {
       const campaignParticipationToSave = new CampaignParticipation({
         assessmentId: 12,
         campaign: new Campaign({ id: campaignId }),
+        participantExternalId: '034516273645RET'
       });
 
       // when
@@ -73,13 +74,14 @@ describe('Integration | Repository | Campaign Participation', () => {
 
       // then
       return promise.then((campaignParticipationSaved) => {
-        return knex.select('id', 'assessmentId', 'campaignId')
+        return knex.select('id', 'assessmentId', 'campaignId', 'participantExternalId')
           .from('campaign-participations')
           .where({ id: campaignParticipationSaved.id })
           .then(([campaignParticipationInDb]) => {
             expect(campaignParticipationInDb.id).to.equal(campaignParticipationSaved.id);
             expect(campaignParticipationInDb.assessmentId).to.equal(campaignParticipationToSave.assessmentId);
             expect(campaignParticipationInDb.campaignId).to.equal(campaignParticipationToSave.campaign.id);
+            expect(campaignParticipationInDb.participantExternalId).to.equal(campaignParticipationToSave.participantExternalId);
           });
       });
     });

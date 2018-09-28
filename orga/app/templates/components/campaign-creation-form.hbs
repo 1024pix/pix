@@ -34,7 +34,7 @@
   <div class="campaign-creation-form__field">
     <div class="campaign-creation-form_id-pix">
       <div class="label">
-        <label for="id-pix-wanted-or-not">Souhaitez-vous demander un ID Pix ?</label>
+        <label for="id-pix-wanted-or-not">Souhaitez-vous demander un identifiant ?</label>
       </div>
       <div id="doNotAskLabelIdPix" class="campaign-creation-form__sub-label" onclick={{action "doNotAskLabelIdPix"}}>
         <label>
@@ -59,9 +59,9 @@
                 type='text'
                 maxlength='255'
                 value=campaign.idPixLabel
-                label='Libellé de l\'ID Pix'
+                label='Libellé de l\'identifiant'
                 aria-required='true'
-                placeholder="Libellé de l'id Pix"}}
+                placeholder="Libellé de l'identifiant"}}
         {{#each campaign.errors.idPixLabel as |error|}}
           <div class='campaign-creation-form__error'>
             {{error.message}}

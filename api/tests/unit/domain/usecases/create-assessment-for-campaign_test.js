@@ -23,6 +23,7 @@ describe('Unit | UseCase | create-assessment-for-campaign', () => {
   });
 
   context('when campaignCode not exist', () => {
+
     it('should throw an CampaignCodeError', () => {
       // given
       campaignRepository.getByCode.resolves(null);
@@ -71,7 +72,7 @@ describe('Unit | UseCase | create-assessment-for-campaign', () => {
       // when
       const promise = createAssessmentForCampaign({
         assessment,
-        codeCampaign:availableCampaignCode,
+        codeCampaign: availableCampaignCode,
         campaignRepository,
         assessmentRepository,
         campaignParticipationRepository
@@ -84,11 +85,11 @@ describe('Unit | UseCase | create-assessment-for-campaign', () => {
       });
     });
 
-    it('should save a campaign-participation object', () => {
+    it('should save a campaign-participation without participantExternalId', () => {
       // when
       const promise = createAssessmentForCampaign({
         assessment,
-        codeCampaign:availableCampaignCode,
+        codeCampaign: availableCampaignCode,
         campaignRepository,
         assessmentRepository,
         campaignParticipationRepository
@@ -101,11 +102,31 @@ describe('Unit | UseCase | create-assessment-for-campaign', () => {
       });
     });
 
+    it('should save a campaign-participation with participantExternalId', () => {
+      // when
+      const promise = createAssessmentForCampaign({
+        assessment,
+        codeCampaign: availableCampaignCode,
+        participantExternalId: 'matricule123',
+        campaignRepository,
+        assessmentRepository,
+        campaignParticipationRepository
+      });
+
+      campaignParticipation.participantExternalId = 'matricule123';
+
+      // then
+      return promise.then(() => {
+        expect(campaignParticipationRepository.save).to.have.been.called;
+        expect(campaignParticipationRepository.save).to.have.been.calledWith(campaignParticipation);
+      });
+    });
+
     it('should return the newly created assessment', () => {
       // when
       const promise = createAssessmentForCampaign({
         assessment,
-        codeCampaign:availableCampaignCode,
+        codeCampaign: availableCampaignCode,
         campaignRepository,
         assessmentRepository,
         campaignParticipationRepository

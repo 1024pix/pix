@@ -11,6 +11,7 @@ function _toDomain(bookshelfCampaignParticipation) {
     campaign: new Campaign(bookshelfCampaignParticipation.related('campaign').toJSON()),
     isShared: Boolean(bookshelfCampaignParticipation.get('isShared')),
     sharedAt: new Date(bookshelfCampaignParticipation.get('sharedAt')),
+    participantExternalId: bookshelfCampaignParticipation.get('participantExternalId'),
   });
 }
 
@@ -25,7 +26,7 @@ module.exports = {
   },
 
   save(campaignParticipation) {
-    return new BookshelfCampaignParticipation(campaignParticipation.adaptModelToDb())
+    return new BookshelfCampaignParticipation(_adaptModelToDb(campaignParticipation))
       .save()
       .then(_toDomain);
   },
@@ -54,6 +55,14 @@ module.exports = {
       .catch(_checkNotFoundError);
   }
 };
+
+function _adaptModelToDb(campaignParticipation) {
+  return {
+    assessmentId: campaignParticipation.assessmentId,
+    campaignId: campaignParticipation.campaign.id,
+    participantExternalId: campaignParticipation.participantExternalId,
+  };
+}
 
 function _checkNotFoundError(err) {
   if (err instanceof BookshelfCampaignParticipation.NotFoundError) {

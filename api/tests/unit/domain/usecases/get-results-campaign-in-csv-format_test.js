@@ -165,7 +165,7 @@ describe('Unit | Domain | Use Cases | get-results-campaign-in-csv-format', () =
           `="${targetProfile.name}";` +
           `="${user.firstName}";` +
           `="${user.lastName}";` +
-          '"NA";' +
+          `="${factoryCampaignParticipation.participantExternalId}";` +
           '"NA";' +
           '"NA";' +
           '"NA";' +
@@ -226,7 +226,7 @@ describe('Unit | Domain | Use Cases | get-results-campaign-in-csv-format', () =
           `="${targetProfile.name}";` +
           `="${user.firstName}";` +
           `="${user.lastName}";` +
-          '"NA";' +
+          `="${factoryCampaignParticipation.participantExternalId}";` +
           '"NA";' +
           '"NA";' +
           '"NA";' +

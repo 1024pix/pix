@@ -7,7 +7,7 @@ module.exports = {
 
   serialize(campaigns, tokenForCampaignResults) {
     return new Serializer('campaign', {
-      attributes: ['name', 'code', 'createdAt', 'tokenForCampaignResults'],
+      attributes: ['name', 'code', 'createdAt', 'tokenForCampaignResults', 'idPixLabel'],
       transform: (record) => {
         const campaign = Object.assign({}, record);
         campaign.tokenForCampaignResults = tokenForCampaignResults;
