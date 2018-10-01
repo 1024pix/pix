@@ -12,10 +12,12 @@ class CampaignParticipation {
     campaign,
     // references
     assessmentId,
+    campaignId,
     userId,
   } = {}) {
     this.id = id;
     this.campaign = campaign;
+    this.campaignId = campaignId;
     this.assessmentId = assessmentId;
     this.participantExternalId = participantExternalId;
     this.isShared = isShared;
