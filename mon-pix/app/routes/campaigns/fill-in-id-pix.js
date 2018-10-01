@@ -66,7 +66,7 @@ export default BaseRoute.extend(AuthenticatedRouteMixin, {
       .then(() => store.queryRecord('challenge', { assessmentId: assessment.get('id') }))
       .then((challenge) => {
         if(challenge) {
-          return this.transitionTo('assessments.challenge', { assessment, challenge })
+          return this.transitionTo('assessments.challenge', { assessment, challenge });
         } else {
           return this.transitionTo('assessments.rating', assessment.get('id'));
         }
