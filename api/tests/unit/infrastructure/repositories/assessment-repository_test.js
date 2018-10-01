@@ -331,7 +331,7 @@ describe('Unit | Repository | assessmentRepository', () => {
     it('should correctly query Assessment', () => {
       // given
       const fakeCertificationCourseId = 10;
-      const expectedParams = { courseId: fakeCertificationCourseId };
+      const expectedParams = { courseId: fakeCertificationCourseId, type: 'CERTIFICATION' };
 
       // when
       const promise = assessmentRepository.getByCertificationCourseId(fakeCertificationCourseId);
