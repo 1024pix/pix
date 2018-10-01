@@ -20,7 +20,7 @@ module.exports = function findUserAssessmentsByFilters({ userId, filters, assess
   if(filters.type === 'CERTIFICATION' && filters.courseId) {
     return assessmentRepository.getByCertificationCourseId(filters.courseId)
       .then((assessment) => {
-        if(assessment.userId === userId) {
+        if(assessment.userId == userId) {
           return [assessment];
         }
         return [];
