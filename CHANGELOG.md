@@ -1,5 +1,14 @@
 # Pix Changelog
 
+## 2.3.0 (01/10/2018)
+
+- [#206](https://github.com/1024pix/pix/pull/206) [FEATURE] Ajout d'une landing page simple avec un bouton pour commencer son parcours de campagne (PF-390).
+- [#215](https://github.com/1024pix/pix/pull/215) [FEATURE] Ajout de la demande d'identifiant extérieur (PF-271).
+- [#211](https://github.com/1024pix/pix/pull/211) [FEATURE] Reprise d'une campagne (PF-394).
+- [#212](https://github.com/1024pix/pix/pull/212) [FEATURE] Ajout de texte explicatif à la landing page de début de campagne (PF-102).
+- [#217](https://github.com/1024pix/pix/pull/217) [BUGFIX] Résolution du bug de redirection après avoir fini une campagne (PF-403).
+- [#210](https://github.com/1024pix/pix/pull/210) [TECH] Publication de l'API sur les domaines front pour éviter les requêtes OPTIONS.
+
 ## 2.2.0 (25/09/2018)
 
 - [#194](https://github.com/1024pix/pix/pull/194) [FEATURE] Partage des résultats d'un parcours à une organisation (PF-216).

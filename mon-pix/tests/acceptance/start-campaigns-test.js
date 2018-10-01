@@ -26,7 +26,9 @@ describe('Acceptance | Campaigns | Start Campaigns', function() {
         await visit('/campagnes/codecampagnepix');
       });
 
-      it('should redirect to login page', function() {
+      it('should redirect to login page when user start', async function() {
+        await click('.campaign-landing-page__start-button');
+
         // then
         return andThen(() => {
           expect(currentURL()).to.equal('/connexion');
@@ -34,6 +36,8 @@ describe('Acceptance | Campaigns | Start Campaigns', function() {
       });
 
       it('should redirect to campaigns after connexion', async function() {
+        await click('.campaign-landing-page__start-button');
+
         // when
         expect(currentURL()).to.equal('/connexion');
         fillIn('#pix-email', 'jane@acme.com');
@@ -42,9 +46,7 @@ describe('Acceptance | Campaigns | Start Campaigns', function() {
 
         // then
         return andThen(() => {
-          expect(currentURL()).to.contains(/assessments/);
-          expect(find('.course-banner__name').text()).to.equal('');
-          findWithAssert('.assessment-challenge__progress-bar');
+          expect(currentURL()).to.contains('/assessments/');
         });
       });
 
@@ -60,9 +62,35 @@ describe('Acceptance | Campaigns | Start Campaigns', function() {
       it('should redirect directly in campaigns', async function() {
         // then
         return andThen(() => {
+          expect(currentURL()).to.equal('/campagnes/codecampagnepix/presentation');
+          expect(find('.campaign-landing-page__start-button').text().trim()).to.equal('Je commence');
+        });
+      });
+
+      it('should start the campaign after clicking "I start" button', async function() {
+        // when
+        await click('.campaign-landing-page__start-button');
+
+        // then
+        return andThen(() => {
           expect(currentURL()).to.contains(/assessments/);
           expect(find('.course-banner__name').text()).to.equal('');
           findWithAssert('.assessment-challenge__progress-bar');
+        });
+      });
+
+    });
+
+    context('When campaign does not exist', function() {
+      beforeEach(async function() {
+        await visit('/campagnes/codefaux');
+      });
+
+      it('should show an error message', async function() {
+        // then
+        return andThen(() => {
+          expect(currentURL()).to.equal('/campagnes/codefaux');
+          expect(find('.pix-panel').text()).to.contains('La campagne demandée n\'existe pas.');
         });
       });
     });

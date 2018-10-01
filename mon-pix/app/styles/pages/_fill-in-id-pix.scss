@@ -1,0 +1,95 @@
+.fill-in-id-pix__gradient {
+  z-index: -1;
+  height: 420px;
+  width: 100%;
+  background: $pix-blue-to-purple-gradient;
+  box-shadow: 0 2px 8px 0 rgba(0, 0, 0, 0.1);
+}
+
+.fill-in-id-pix__container {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+
+  margin: -405px 10px;
+  max-width: 950px;
+
+  @include device-is('tablet') {
+    margin: -315px auto;
+  }
+}
+
+/*------------------------ START ------------------------*/
+
+.fill-in-id-pix__container__start {
+  flex-direction: column;
+  margin-bottom: 10px;
+  padding-bottom: 20px;
+  padding-top: 10px;
+  background-color: $white;
+  border-radius: 10px;
+  box-shadow: 0 0 20px 0 rgba(12, 22, 58, 0.1), 0 3px 6px 0 rgba(0, 0, 0, 0.1);
+
+  @include device-is('tablet') {
+    margin-bottom: 25px;
+    padding-bottom: 40px;
+    padding-top: 80px;
+  }
+}
+
+.fill-in-id-pix__start__text {
+  width: 100%;
+  margin: auto;
+  padding: 5px;
+  text-align: center;
+  font-family: $font-open-sans;
+
+  .title {
+    font-size: 3rem;
+    font-weight: $font-bold;
+
+    @include device-is('tablet') {
+      font-size: 3.2rem;
+    }
+  }
+
+  .announcement {
+    font-size: 1.8rem;
+    margin-bottom: 40px;
+  }
+}
+
+.fill-in-id-pix__form label {
+  display: block;
+  font-family: "Lato", Arial, sans-serif;
+  font-weight: $font-bold;
+}
+
+.fill-in-id-pix__form-field {
+  display: inline-block;
+  text-align: left;
+}
+
+.fill-in-id-pix__form-field input {
+  border: solid 2px $gainsboro;
+  border-radius: 3px;
+  outline: none;
+  width: 232px;
+  height: 50px;
+  margin-right: 5px;
+}
+
+.fill-in-id-pix__cancel-button {
+  margin-top: 50px;
+  border: none;
+  font-family: "Lato", Arial, sans-serif;
+  font-size: 1.6rem;
+}
+
+/*------------------------ ERROR ------------------------*/
+
+.fill-in-id-pix__form__error-message {
+  margin-top: 5px;
+  font-size: 12px;
+  color: red;
+}

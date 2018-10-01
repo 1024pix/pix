@@ -62,6 +62,8 @@ Router.map(function() {
 
   this.route('campaigns', { path: '/campagnes' }, function() {
     this.route('start-or-resume', { path: '/:campaign_code' });
+    this.route('campaign-landing-page', { path: '/:campaign_code/presentation' });
+    this.route('fill-in-id-pix', { path: '/:campaign_code/identifiant' });
     this.route('skill-review', { path: '/:campaign_code/resultats/:assessment_id' });
   });
 
