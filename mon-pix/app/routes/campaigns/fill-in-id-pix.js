@@ -64,6 +64,12 @@ export default BaseRoute.extend(AuthenticatedRouteMixin, {
     const store = this.get('store');
     return assessment.reload()
       .then(() => store.queryRecord('challenge', { assessmentId: assessment.get('id') }))
-      .then((challenge) => this.transitionTo('assessments.challenge', { assessment, challenge }));
+      .then((challenge) => {
+        if(challenge) {
+          return this.transitionTo('assessments.challenge', { assessment, challenge })
+        } else {
+          return this.transitionTo('assessments.rating', assessment.get('id'));
+        }
+      });
   },
 });
