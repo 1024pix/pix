@@ -11,7 +11,8 @@ class CampaignParticipation {
     // includes
     campaign,
     // references
-    assessmentId
+    assessmentId,
+    userId,
   } = {}) {
     this.id = id;
     this.campaign = campaign;
@@ -19,6 +20,7 @@ class CampaignParticipation {
     this.participantExternalId = participantExternalId;
     this.isShared = isShared;
     this.sharedAt = sharedAt;
+    this.userId = userId;
   }
 
   isAboutCampaignCode(code) {
