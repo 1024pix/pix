@@ -66,7 +66,7 @@ describe('Unit | UseCase | find-user-assessments-by-filters', () => {
 
       // then
       return promise.then((result) => {
-        expect(result).to.deep.equal(null);
+        expect(result).to.deep.equal([]);
       });
     });
 
