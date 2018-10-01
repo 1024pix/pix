@@ -21,9 +21,9 @@ module.exports = function findUserAssessmentsByFilters({ userId, filters, assess
     return assessmentRepository.getByCertificationCourseId(filters.courseId)
       .then((assessment) => {
         if(assessment.userId === userId) {
-          return assessment;
+          return [assessment];
         }
-        return null;
+        return [];
       });
   }
 

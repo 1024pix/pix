@@ -50,9 +50,9 @@ describe('Integration | Infrastructure | Usecases | find-user-assessment-by-filt
         });
 
         // then
-        return promise.then((assessment) => {
-          expect(assessment).to.be.an.instanceOf(Assessment);
-          expect(assessment.id).to.equal(assessmentWanted.id);
+        return promise.then((assessments) => {
+          expect(assessments[0]).to.be.an.instanceOf(Assessment);
+          expect(assessments[0].id).to.equal(assessmentWanted.id);
         });
       });
     });
