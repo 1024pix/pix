@@ -161,7 +161,7 @@ module.exports = {
       pageSize: request.query['pageSize'] ? request.query['pageSize'] : 10,
     };
 
-    return usecases.findUsers({ filters, pagination, userRepository })
+    return usecases.findUsers({ filters, pagination })
       .then((searchResultList) => {
         const meta = {
           page: searchResultList.page,
