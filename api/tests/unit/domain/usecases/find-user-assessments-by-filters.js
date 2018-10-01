@@ -59,25 +59,21 @@ describe('Unit | UseCase | find-user-assessments-by-filters', () => {
       // given
       const userId = 1234;
       const filters = { type: 'CERTIFICATION', courseId: '2' };
-      const expectedAssessment = factory.buildAssessment({ userId, courseId: filters.courseId });
-      assessmentRepository.getByCertificationCourseId.resolves([
-        expectedAssessment,
-        factory.buildAssessment({ userId: 3456, courseId: filters.courseId })
-      ]);
+      assessmentRepository.getByCertificationCourseId.resolves(factory.buildAssessment({ userId: 3456, courseId: filters.courseId }));
 
       // when
       const promise = findUserAssessmentsByFilters({ userId, filters, assessmentRepository });
 
       // then
       return promise.then((result) => {
-        expect(result).to.deep.equal([expectedAssessment]);
+        expect(result).to.deep.equal(null);
       });
     });
 
   });
 
   context('when filters not contains a codeCampaign or an certification', () => {
-    it('should resolve an empty arrat', () => {
+    it('should resolve an empty array', () => {
       // given
       const userId = 1234;
       const filters = { type: 'DEMO' };
