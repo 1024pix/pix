@@ -79,5 +79,27 @@ describe('Acceptance | Campaigns | Resume Campaigns', function() {
         });
       });
     });
+
+    context('When user had finished the campaign', function() {
+      beforeEach(async function() {
+        await visit('/campagnes/codecampagnepix');
+        await click('.challenge-actions__action-skip');
+        await click('.challenge-item-warning__confirm-btn');
+        await click('.challenge-actions__action-skip');
+      });
+
+      it('should show the result page', async function() {
+        // given
+        await visit('/compte');
+
+        await visit('/campagnes/codecampagnepix');
+
+        // then
+        return andThen(() => {
+          expect(currentURL()).to.contains('checkpoint');
+        });
+      });
+
+    });
   });
 });
