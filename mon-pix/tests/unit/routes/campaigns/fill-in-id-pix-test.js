@@ -108,7 +108,7 @@ describe('Unit | Route | campaigns/fill-in-id-pix', function() {
       // given
       const assessments = A([savedAssessment]);
       queryStub.resolves(assessments);
-      queryChallengeStub.resolves();
+      queryChallengeStub.resolves({ id: 23 });
 
       // when
       const promise = route.afterModel(model);
@@ -199,7 +199,7 @@ describe('Unit | Route | campaigns/fill-in-id-pix', function() {
       // given
       const assessments = A([savedAssessment]);
       queryStub.resolves(assessments);
-      queryChallengeStub.resolves();
+      queryChallengeStub.resolves({ id: 23 });
 
       // when
       const promise = route.start(campaignCode, participantExternalId);
