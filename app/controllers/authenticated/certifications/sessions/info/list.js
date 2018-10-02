@@ -68,7 +68,7 @@ export default Controller.extend({
       .then((csv) => {
         this.set('progress', false);
         let fileName = 'session_'+this.get('model.session.id')+' '+(new Date()).toLocaleString('fr-FR')+'.csv';
-        this.get('fileSaver').saveAs(csv, fileName);
+        this.get('fileSaver').saveAs(csv+"\n", fileName);
       });
     },
     onImport() {
