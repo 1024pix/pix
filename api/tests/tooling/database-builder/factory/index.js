@@ -7,6 +7,7 @@ module.exports = {
   buildCertificationCourse: require('./build-certification-course'),
   buildOrganization: require('./build-organization'),
   buildOrganizationAccess: require('./build-organization-access'),
+  buildOrganizationRole: require('./build-organization-role'),
   buildSmartPlacementKnowledgeElement: require('./build-smart-placement-knowledge-element'),
   buildSession: require('./build-session'),
   buildTargetProfile: require('./build-target-profile'),

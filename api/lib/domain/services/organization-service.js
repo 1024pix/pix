@@ -17,12 +17,19 @@ function _noCodeGivenIn(filters) {
   return !code || !code.trim();
 }
 
+function _generateOrganizationCode() {
+  let code = _randomLetters(4);
+  code += random(0, 9) + '' + random(0, 9);
+  return code;
+}
+
 module.exports = {
 
-  generateOrganizationCode() {
-    let code = _randomLetters(4);
-    code += random(0, 9) + '' + random(0, 9);
-    return code;
+  generateUniqueOrganizationCode({ organizationRepository }) {
+    const code = _generateOrganizationCode();
+    return organizationRepository.isCodeAvailable(code)
+      .then(() => code)
+      .catch(() => this.generateUniqueOrganizationCode({ organizationRepository }));
   },
 
   getOrganizationSharedProfilesAsCsv(dependencies, organizationId) {

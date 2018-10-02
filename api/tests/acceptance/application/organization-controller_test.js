@@ -169,11 +169,7 @@ describe('Acceptance | Application | Controller | organization-controller', () =
           type: 'organizations',
           attributes: {
             name: 'The name of the organization',
-            email: 'organization@example.com',
             type: 'PRO',
-            'first-name': 'Steve',
-            'last-name': 'Travail',
-            password: 'Pix1024#'
           }
         }
       };
@@ -207,10 +203,8 @@ describe('Acceptance | Application | Controller | organization-controller', () =
       return promise.then((response) => {
         const createdOrganization = response.result.data.attributes;
         expect(createdOrganization.name).to.equal('The name of the organization');
-        expect(createdOrganization.email).to.equal('organization@example.com');
         expect(createdOrganization.type).to.equal('PRO');
         expect(createdOrganization.code).not.to.be.empty;
-        expect(createdOrganization.user).to.be.undefined;
       });
     });
 

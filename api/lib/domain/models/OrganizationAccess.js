@@ -4,6 +4,7 @@ class OrganizationAccess {
     id,
     // attributes
     // includes
+    user= {},
     organization = {},
     organizationRole = {}
     // references
@@ -11,6 +12,7 @@ class OrganizationAccess {
     this.id = id;
     // attributes
     // includes
+    this.user = user;
     this.organization = organization;
     this.organizationRole = organizationRole;
     // references

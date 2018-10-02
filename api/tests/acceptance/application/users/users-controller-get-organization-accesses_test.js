@@ -94,6 +94,9 @@ describe('Acceptance | Controller | users-controller-get-organization-accesses',
                   data:
                     { type: 'organizations', id: organizationId.toString() },
                 },
+                user: {
+                  data: null
+                }
               },
             },
           ],

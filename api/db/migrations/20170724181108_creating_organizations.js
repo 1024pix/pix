@@ -2,7 +2,7 @@ exports.up = function(knex) {
 
   function table(table) {
     table.increments().primary();
-    table.string('email').notNullable();
+    table.string('email').nullable();
     table.enu('type', ['SCO', 'SUP', 'PRO']).notNullable();
     table.string('name').notNullable();
     table.dateTime('createdAt').notNullable().defaultTo(knex.fn.now());
