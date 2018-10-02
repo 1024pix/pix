@@ -10,7 +10,7 @@ export default Controller.extend({
       const participantExternalId = this.get('model.participantExternalId');
       if (participantExternalId) {
         this.set('model.loading', true);
-        return this.get('start')(this.get('model.campaignCode'), participantExternalId);
+        return this.get('start')(this.get('model.campaign'), this.get('model.campaignCode'), participantExternalId);
       } else {
         return this.set('model.errorMessage', `Merci de renseigner votre ${this.get('model.idPixLabel')}.`);
       }
