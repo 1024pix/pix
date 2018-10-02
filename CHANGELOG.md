@@ -1,5 +1,9 @@
 # Pix Changelog
 
+## 2.3.1 (02/10/2018) 
+
+- [#213](https://github.com/1024pix/pix/pull/213) [BUGFIX] Correction du bug sur la reprise des certifications (PF-351).
+
 ## 2.3.0 (01/10/2018)
 
 - [#206](https://github.com/1024pix/pix/pull/206) [FEATURE] Ajout d'une landing page simple avec un bouton pour commencer son parcours de campagne (PF-390).
