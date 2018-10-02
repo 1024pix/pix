@@ -39,15 +39,28 @@ describe('Acceptance | API | Campaign Participations', () => {
 
       it('should return the campaign-participation of the given assessmentId', () => {
         // given
-        const expectedCampaignPart = [
+        const expectedCampaignParticipation = [
           {
             'attributes': {
-              'assessment-id': campaignParticipation.assessmentId,
               'is-shared': campaignParticipation.isShared,
               'shared-at': campaignParticipation.sharedAt,
             },
             'id': campaignParticipation.id,
-            'type': 'campaign-participations'
+            'type': 'campaign-participations',
+            relationships: {
+              assessment: {
+                data: {
+                  type: 'assessments',
+                  id: campaignParticipation.assessmentId.toString()
+                }
+              },
+              campaign: {
+                data: {
+                  type: 'campaigns',
+                  id: campaignParticipation.campaignId.toString()
+                }
+              }
+            }
           }
         ];
 
@@ -57,7 +70,7 @@ describe('Acceptance | API | Campaign Participations', () => {
         // then
         return promise.then((response) => {
           expect(response.statusCode).to.equal(200);
-          expect(response.result.data).to.be.deep.equal(expectedCampaignPart);
+          expect(response.result.data).to.be.deep.equal(expectedCampaignParticipation);
         });
       });
 
@@ -123,4 +136,73 @@ describe('Acceptance | API | Campaign Participations', () => {
       });
     });
   });
+
+  describe('POST /api/campaign-participations', () => {
+
+    let campaignInDb;
+
+    beforeEach(() => {
+      campaignInDb = databaseBuilder.factory.buildCampaign({});
+      databaseBuilder.commit();
+    });
+
+    afterEach(() => {
+    });
+
+    it('should return 201 and the campaign when it has been successfully created', () => {
+      const options = {
+        method: 'POST',
+        url: '/api/campaign-participations',
+        headers: { authorization: generateValidRequestAuhorizationHeader() },
+        payload: {
+          data: {
+            type: 'campaign-participations',
+            attributes: {
+              'participant-external-id': 'iuqezfh13736',
+            },
+            relationships: {
+              'campaign': {
+                data: {
+                  id: campaignInDb.id,
+                  type: 'campaigns',
+                }
+              }
+            }
+          }
+        }
+      };
+
+      const expectedResult = {
+        data: {
+          type: 'campaign-participations',
+          attributes: { 'is-shared': false, 'shared-at': null },
+          relationships: {
+            campaign: { data: { type: 'campaigns', id: campaignInDb.id.toString() } },
+            assessment: { data: { type: 'assessments' } }
+          }
+        }
+      };
+
+      // when
+      const promise = server.inject(options);
+
+      // then
+      return promise.then((response) => {
+        expect(response.statusCode).to.equal(201);
+
+        expect(response.result.data.id).to.exist;
+        expect(response.result.data.relationships.assessment.data.id).to.exist;
+
+        const result = JSON.parse(response.payload);
+        _deleteIrrelevantIds(result);
+
+        expect(result).to.deep.equal(expectedResult);
+      });
+    });
+  });
 });
+
+function _deleteIrrelevantIds(result) {
+  delete result.data.id;
+  delete result.data.relationships.assessment.data.id;
+}
