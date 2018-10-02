@@ -148,7 +148,7 @@ module.exports = {
 
   getByCertificationCourseId(certificationCourseId) {
     return BookshelfAssessment
-      .where({ courseId: certificationCourseId })
+      .where({ courseId: certificationCourseId, type: 'CERTIFICATION' })
       .fetch({ withRelated: ['assessmentResults'] })
       .then(_toDomain);
   },
