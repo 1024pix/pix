@@ -24,8 +24,8 @@
     </div>
 
     <div class="cgu-form__actions">
-      <button class="button button--white button--big">Annuler</button>
-      <button class="button button--big cgu-form__submit">J'accepte les CGU</button>
+      {{link-to 'Annuler' 'logout' id="cgu-cancel-button" class="button button--white button--big button--link"}}
+      <button type="submit" class="button button--big cgu-form__submit" {{action 'submit'}}>J'accepte les CGU</button>
     </div>
 
   </div>

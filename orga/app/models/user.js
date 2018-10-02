@@ -6,5 +6,6 @@ export default DS.Model.extend({
   firstName: DS.attr('string'),
   lastName: DS.attr('string'),
   cgu: DS.attr('boolean'),
+  cguOrga: DS.attr('boolean'),
   organizationAccesses: DS.hasMany('organization-access')
 });
