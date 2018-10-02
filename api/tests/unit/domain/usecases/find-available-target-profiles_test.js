@@ -8,19 +8,23 @@ describe('Unit | UseCase | find-available-target-profiles', () => {
   const targetProfileRepository = {
     findPublicTargetProfiles: () => undefined,
     findTargetProfilesByOrganizationId: () => undefined,
+    findTargetProfilesSharedWithOrganization: () => undefined,
   };
   let organizationId;
   let targetProfilesLinkedToOrganization;
+  let targetProfileSharedWithOrganization;
   let publicTargetProfiles;
 
   beforeEach(() => {
     organizationId = 1;
-    targetProfilesLinkedToOrganization = [factory.buildTargetProfile({ organizationId })];
+    targetProfilesLinkedToOrganization = [factory.buildTargetProfile({ organizationId, isPublic: false })];
+    targetProfileSharedWithOrganization = [factory.buildTargetProfile({ isPublic: false })];
     publicTargetProfiles = [factory.buildTargetProfile({ isPublic: true })];
 
     sandbox = sinon.sandbox.create();
     targetProfileRepository.findPublicTargetProfiles = sandbox.stub().resolves(publicTargetProfiles);
     targetProfileRepository.findTargetProfilesByOrganizationId = sandbox.stub().resolves(targetProfilesLinkedToOrganization);
+    targetProfileRepository.findTargetProfilesSharedWithOrganization = sandbox.stub().resolves(targetProfileSharedWithOrganization);
   });
 
   afterEach(() => {
@@ -38,7 +42,7 @@ describe('Unit | UseCase | find-available-target-profiles', () => {
     });
   });
 
-  it('should find public profiles and profiles linked to anyOrganization', () => {
+  it('should find public profiles and profiles linked or shared to/with anyOrganization', () => {
     // when
     const promise = findAvailableTargetProfiles({ organizationId, targetProfileRepository });
 
@@ -46,6 +50,7 @@ describe('Unit | UseCase | find-available-target-profiles', () => {
     return promise.then(() => {
       expect(targetProfileRepository.findPublicTargetProfiles).to.have.been.calledOnce;
       expect(targetProfileRepository.findTargetProfilesByOrganizationId).to.have.been.calledOnce;
+      expect(targetProfileRepository.findTargetProfilesSharedWithOrganization).to.have.been.calledOnce;
     });
   });
 
@@ -55,9 +60,23 @@ describe('Unit | UseCase | find-available-target-profiles', () => {
 
     // then
     return promise.then((availableTargetProfiles) => {
-      expect(availableTargetProfiles.length).to.equal(2);
+      expect(availableTargetProfiles.length).to.equal(3);
       expect(availableTargetProfiles).to.include.deep.members(targetProfilesLinkedToOrganization);
+      expect(availableTargetProfiles).to.include.deep.members(targetProfileSharedWithOrganization);
       expect(availableTargetProfiles).to.include.deep.members(publicTargetProfiles);
+    });
+  });
+
+  it('should not have duplicate in targetProfiles', () => {
+    // given
+    targetProfileRepository.findTargetProfilesSharedWithOrganization.resolves(targetProfilesLinkedToOrganization);
+
+    // when
+    const promise = findAvailableTargetProfiles({ organizationId, targetProfileRepository });
+
+    // then
+    return promise.then((availableTargetProfiles) => {
+      expect(availableTargetProfiles.length).to.equal(2);
     });
   });
 
