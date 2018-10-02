@@ -8,6 +8,7 @@ module.exports = function buildTargetProfile({
   isPublic = faker.random.boolean(),
   skills = [buildSkill()],
   organizationId = faker.random.number(),
+  organizationsSharedId = [],
 } = {}) {
   return new TargetProfile({
     id,
@@ -15,5 +16,6 @@ module.exports = function buildTargetProfile({
     isPublic,
     skills,
     organizationId,
+    organizationsSharedId,
   });
 };
