@@ -34,6 +34,7 @@ function _toDomain(userBookshelf) {
     email: userBookshelf.get('email'),
     password: userBookshelf.get('password'),
     cgu: Boolean(userBookshelf.get('cgu')),
+    cguOrga: Boolean(userBookshelf.get('cguOrga')),
     organizationAccesses: _toOrganizationAccessesDomain(userBookshelf.related('organizationAccesses'))
   });
 }
@@ -160,6 +161,16 @@ module.exports = {
       .save({ password: hashedPassword, cgu: true }, {
         patch: true,
         require: false
+      })
+      .then((bookshelfUser) => bookshelfUser.toDomainEntity());
+  },
+
+  updateUser({ id, attributes }) {
+    return BookshelfUser.where({ id })
+      .save(attributes, {
+        patch: true,
+        method: 'update',
+        require: true,
       })
       .then((bookshelfUser) => bookshelfUser.toDomainEntity());
   },
