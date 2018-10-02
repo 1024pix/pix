@@ -1,6 +1,7 @@
 const Boom = require('boom');
 const moment = require('moment');
 const JSONAPIError = require('jsonapi-serializer').Error;
+const { Deserializer } = require('jsonapi-serializer');
 
 const userSerializer = require('../../infrastructure/serializers/jsonapi/user-serializer');
 const organizationAccessSerializer = require('../../infrastructure/serializers/jsonapi/organization-accesses-serializer');
@@ -9,8 +10,6 @@ const userService = require('../../domain/services/user-service');
 const userRepository = require('../../../lib/infrastructure/repositories/user-repository');
 const profileService = require('../../domain/services/profile-service');
 const profileSerializer = require('../../infrastructure/serializers/jsonapi/profile-serializer');
-const passwordResetDemandService = require('../../domain/services/reset-password-service');
-const encryptionService = require('../../domain/services/encryption-service');
 const tokenService = require('../../domain/services/token-service');
 
 const usecases = require('../../domain/usecases');
@@ -25,6 +24,13 @@ const {
   PasswordResetDemandNotFoundError,
   UserNotAuthorizedToAccessEntity,
 } = require('../../domain/errors');
+
+function _deserializePayload(payload) { // FIXME refactor this duplicated code
+  const deserializer = new Deserializer({
+    keyForAttribute: 'camelCase',
+  });
+  return deserializer.deserialize(payload);
+}
 
 module.exports = {
 
@@ -102,16 +108,15 @@ module.exports = {
       });
   },
 
-  async updatePassword(request, reply) {
-    const { password } = request.payload.data.attributes;
-    const hashedPassword = await encryptionService.hashPassword(password);
-    let user = await userRepository.findUserById(request.params.id);
-    user = user.toJSON();
-
-    return passwordResetDemandService
-      .hasUserAPasswordResetDemandInProgress(user.email)
-      .then(() => userRepository.updatePassword(user.id, hashedPassword))
-      .then(() => passwordResetDemandService.invalidOldResetPasswordDemand(user.email))
+  updateUser(request, reply) {
+    return Promise.resolve(request.payload)
+      .then(_deserializePayload)
+      .then((payload) => {
+        return usecases.updateUser({
+          userId: request.params.id,
+          attributesToUpdate: payload
+        });
+      })
       .then(() => reply().code(204))
       .catch((err) => {
         if (err instanceof PasswordResetDemandNotFoundError) {

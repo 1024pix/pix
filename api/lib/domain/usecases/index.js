@@ -20,6 +20,7 @@ const dependencies = {
   encryptionService: require('../../domain/services/encryption-service'),
   mailService: require('../../domain/services/mail-service'),
   organizationRepository: require('../../infrastructure/repositories/organization-repository'),
+  passwordResetDemandService: require('../../domain/services/reset-password-service'),
   reCaptchaValidator: require('../../infrastructure/validators/grecaptcha-validator'),
   skillRepository: require('../../infrastructure/repositories/skill-repository'),
   skillsService: require('../../domain/services/skills-service'),
@@ -64,4 +65,5 @@ module.exports = injectDependencies({
   removeCacheEntry: require('./remove-cache-entry'),
   shareCampaignResult: require('./share-campaign-result.js'),
   updateCertification: require('./update-certification'),
+  updateUser: require('./update-user'),
 });

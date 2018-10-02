@@ -177,7 +177,7 @@ describe('Unit | Router | user-router', () => {
     });
 
     beforeEach(() => {
-      sandbox.stub(userController, 'updatePassword').callsFake((request, reply) => reply('ok'));
+      sandbox.stub(userController, 'updateUser').callsFake((request, reply) => reply('ok'));
       sandbox.stub(userVerification, 'verifyById').callsFake((request, reply) => reply('ok'));
       startServer();
     });
@@ -191,7 +191,7 @@ describe('Unit | Router | user-router', () => {
       });
     });
 
-    describe('Payload schema validation (password attribute in payload)', () => {
+    describe('Payload schema validation', () => {
 
       it('should have a payload', () => {
         // given
@@ -201,6 +201,21 @@ describe('Unit | Router | user-router', () => {
         // then
         return server.inject(options).then((res) => {
           expect(res.statusCode).to.equal(400);
+        });
+      });
+
+      it('should be valid when only a cguOrga field', () => {
+        // given
+        const wellFormedOptions = () => ({
+          method: 'PATCH',
+          url: `/api/users/${userId}`,
+          payload: { data: { attributes: { cguOrga: true } } },
+        });
+
+        // then
+        return server.inject(wellFormedOptions()).then((res) => {
+          // then
+          expect(res.statusCode).not.to.equal(400);
         });
       });
 

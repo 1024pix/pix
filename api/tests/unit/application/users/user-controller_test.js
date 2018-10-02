@@ -240,7 +240,7 @@ describe('Unit | Controller | user-controller', () => {
     });
   });
 
-  describe('#updatePassword', () => {
+  describe('#updateUser', () => {
 
     describe('When payload is good (with a payload and a password attribute)', () => {
 
@@ -288,7 +288,7 @@ describe('Unit | Controller | user-controller', () => {
         passwordResetService.hasUserAPasswordResetDemandInProgress.resolves();
 
         // when
-        const promise = userController.updatePassword(request, reply);
+        const promise = userController.updateUser(request, reply);
 
         // then
         return promise.then(() => {
@@ -302,7 +302,7 @@ describe('Unit | Controller | user-controller', () => {
         passwordResetService.hasUserAPasswordResetDemandInProgress.resolves();
 
         // when
-        const promise = userController.updatePassword(request, reply);
+        const promise = userController.updateUser(request, reply);
 
         // then
         return promise.then(() => {
@@ -318,7 +318,7 @@ describe('Unit | Controller | user-controller', () => {
         encryptionService.hashPassword.resolves(encryptedPassword);
 
         // when
-        const promise = userController.updatePassword(request, reply);
+        const promise = userController.updateUser(request, reply);
 
         // then
         return promise.then(() => {
@@ -336,7 +336,7 @@ describe('Unit | Controller | user-controller', () => {
         passwordResetService.invalidOldResetPasswordDemand.resolves();
 
         // when
-        const promise = userController.updatePassword(request, reply);
+        const promise = userController.updateUser(request, reply);
 
         // then
         return promise.then(() => {
@@ -352,7 +352,7 @@ describe('Unit | Controller | user-controller', () => {
         passwordResetService.invalidOldResetPasswordDemand.resolves();
 
         // when
-        const promise = userController.updatePassword(request, reply);
+        const promise = userController.updateUser(request, reply);
 
         // then
         return promise.then(() => {
@@ -369,7 +369,7 @@ describe('Unit | Controller | user-controller', () => {
           passwordResetService.hasUserAPasswordResetDemandInProgress.rejects(error);
 
           // when
-          const promise = userController.updatePassword(request, reply);
+          const promise = userController.updateUser(request, reply);
 
           // then
           return promise.then(() => {
@@ -399,7 +399,7 @@ describe('Unit | Controller | user-controller', () => {
           passwordResetService.hasUserAPasswordResetDemandInProgress.rejects(error);
 
           // when
-          const promise = userController.updatePassword(request, reply);
+          const promise = userController.updateUser(request, reply);
 
           // then
           return promise.then(() => {
