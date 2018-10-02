@@ -8,7 +8,7 @@ module.exports = {
 
     return BookshelfTargetProfile
       .where({ id })
-      .fetch({ withRelated: ['skillIds'] })
+      .fetch({ withRelated: ['skillIds', 'organizationsWhichShared'] })
       .then(_getBookshelfTargetProfileAndAssociatedSkillAirtableDataObjects)
       .then(([bookshelfTargetProfile, associatedSkillAirtableDataObjects]) => {
 

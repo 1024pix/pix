@@ -7,7 +7,8 @@ class TargetProfile {
     // includes
     skills = [],
     // references
-    organizationId
+    organizationId,
+    organizationsSharedId = [],
   } = {}) {
     this.id = id;
     // attributes
@@ -17,6 +18,7 @@ class TargetProfile {
     this.skills = skills;
     // references
     this.organizationId = organizationId;
+    this.organizationsSharedId = organizationsSharedId;
   }
 }
 
