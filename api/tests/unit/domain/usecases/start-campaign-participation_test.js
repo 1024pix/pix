@@ -1,23 +1,40 @@
 const { expect, sinon, factory } = require('../../../test-helper');
-const usecases = require('../../../../lib/domain/usecases');
+
 const Assessment = require('../../../../lib/domain/models/Assessment');
+const usecases = require('../../../../lib/domain/usecases');
+const { NotFoundError } = require('../../../../lib/domain/errors');
 
 describe('Unit | UseCase | start-campaign-participation', () => {
 
   let sandbox;
   const userId = 19837482;
   const campaignParticipation = factory.buildCampaignParticipation({});
+  const campaignRepository = { get: () => undefined };
   const campaignParticipationRepository = { save: () => undefined };
   const assessmentRepository = { save: () => undefined };
 
   beforeEach(() => {
     sandbox = sinon.sandbox.create();
+    sandbox.stub(campaignRepository, 'get');
     sandbox.stub(campaignParticipationRepository, 'save');
     sandbox.stub(assessmentRepository, 'save');
+
+    campaignRepository.get.resolves(factory.buildCampaign());
   });
 
   afterEach(() => {
     sandbox.restore();
+  });
+
+  it('should throw an error if the campaign does not exists', () => {
+    // given
+    campaignRepository.get.resolves(null);
+
+    // when
+    const promise = usecases.startCampaignParticipation({ campaignParticipation, userId, campaignParticipationRepository, assessmentRepository, campaignRepository });
+
+    // then
+    return expect(promise).to.be.rejectedWith(NotFoundError);
   });
 
   it('should create a smart placement assessment', () => {
@@ -25,7 +42,7 @@ describe('Unit | UseCase | start-campaign-participation', () => {
     assessmentRepository.save.resolves({});
 
     // when
-    const promise = usecases.startCampaignParticipation({ campaignParticipation, userId, campaignParticipationRepository, assessmentRepository });
+    const promise = usecases.startCampaignParticipation({ campaignParticipation, userId, campaignParticipationRepository, assessmentRepository, campaignRepository });
 
     // then
     return promise.then(() => {
@@ -46,7 +63,7 @@ describe('Unit | UseCase | start-campaign-participation', () => {
     campaignParticipationRepository.save.resolves({});
 
     // when
-    const promise = usecases.startCampaignParticipation({ campaignParticipation, userId, campaignParticipationRepository, assessmentRepository });
+    const promise = usecases.startCampaignParticipation({ campaignParticipation, userId, campaignParticipationRepository, assessmentRepository, campaignRepository });
 
     // then
     return promise.then(() => {
@@ -67,7 +84,7 @@ describe('Unit | UseCase | start-campaign-participation', () => {
     campaignParticipationRepository.save.resolves(createdCampaignParticipation);
 
     // when
-    const promise = usecases.startCampaignParticipation({ campaignParticipation, userId, campaignParticipationRepository, assessmentRepository });
+    const promise = usecases.startCampaignParticipation({ campaignParticipation, userId, campaignParticipationRepository, assessmentRepository, campaignRepository });
 
     // then
     return promise.then((campaignParticipation) => {
