@@ -1,0 +1,51 @@
+{{#freestyle-guide
+  title='Pix Style Guide'
+  subtitle='Pix Orga'
+  }}
+  {{#freestyle-section name='Elements' as |section|}}
+
+    {{#section.subsection name='Boutons'}}
+      {{#freestyle-usage "Boutons" title="Lien"}}
+        {{blue-link title='Je commence'}}
+      {{/freestyle-usage}}
+
+      {{#freestyle-usage "Ember button" title="Lien"}}
+        {{campaign-item}}
+      {{/freestyle-usage}}
+
+    {{/section.subsection}}
+
+    {{#section.subsection name='Panneaux'}}
+    {{/section.subsection}}
+
+    {{#section.subsection name='Formulaire'}}
+    {{/section.subsection}}
+
+  {{/freestyle-section}}
+
+  {{#freestyle-section name='Style' as |section|}}
+
+    {{#section.subsection name='Typographie'}}
+
+      {{#freestyle-usage 'typography-roboto' title='Roboto'}}
+        {{freestyle-typeface fontFamily='Roboto'}}
+      {{/freestyle-usage}}
+
+      {{#freestyle-usage 'typography-open-sans' title='Open Sans'}}
+        {{freestyle-typeface fontFamily='Open Sans'}}
+      {{/freestyle-usage}}
+
+    {{/section.subsection}}
+
+    {{#section.subsection name='Couleur'}}
+
+        {{freestyle-palette
+        colorPalette=colorPalette
+        title='Palette'
+        }}
+
+    {{/section.subsection}}
+
+  {{/freestyle-section}}
+
+{{/freestyle-guide}}
