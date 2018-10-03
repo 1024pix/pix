@@ -22,6 +22,12 @@ module.exports = {
       .then(controllerReplies(reply).created)
       .catch((error) => {
         logger.error(error);
+
+        if (error instanceof NotFoundError) {
+          const infraError = new infraErrors.NotFoundError(error.message);
+          return controllerReplies(reply).error(infraError);
+        }
+
         return controllerReplies(reply).error(error);
       });
   },
@@ -61,18 +67,16 @@ module.exports = {
         })
         .catch((error) => {
           logger.error(error);
-          return controllerReplies(reply).error(mapToInfrastructureErrors(error));
+          return controllerReplies(reply).error(_mapToInfrastructureErrors(error));
         });
     }
     else {
       return controllerReplies(reply).error(new infraErrors.BadRequestError('campaignParticipationId manquant'));
     }
   }
-}
-;
+};
 
-function mapToInfrastructureErrors(error) {
-
+function _mapToInfrastructureErrors(error) {
   if (error instanceof NotFoundError) {
     return new infraErrors.NotFoundError('Participation non trouvée');
   }

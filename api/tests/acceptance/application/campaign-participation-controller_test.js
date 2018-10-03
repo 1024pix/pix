@@ -140,38 +140,39 @@ describe('Acceptance | API | Campaign Participations', () => {
   describe('POST /api/campaign-participations', () => {
 
     let campaignInDb;
-
-    beforeEach(() => {
-      campaignInDb = databaseBuilder.factory.buildCampaign({});
-      databaseBuilder.commit();
-    });
-
-    afterEach(() => {
-    });
-
-    it('should return 201 and the campaign when it has been successfully created', () => {
-      const options = {
-        method: 'POST',
-        url: '/api/campaign-participations',
-        headers: { authorization: generateValidRequestAuhorizationHeader() },
-        payload: {
-          data: {
-            type: 'campaign-participations',
-            attributes: {
-              'participant-external-id': 'iuqezfh13736',
-            },
-            relationships: {
-              'campaign': {
-                data: {
-                  id: campaignInDb.id,
-                  type: 'campaigns',
-                }
+    const campaignId = 132435;
+    const options = {
+      method: 'POST',
+      url: '/api/campaign-participations',
+      headers: { authorization: generateValidRequestAuhorizationHeader() },
+      payload: {
+        data: {
+          type: 'campaign-participations',
+          attributes: {
+            'participant-external-id': 'iuqezfh13736',
+          },
+          relationships: {
+            'campaign': {
+              data: {
+                id: campaignId,
+                type: 'campaigns',
               }
             }
           }
         }
-      };
+      }
+    };
 
+    beforeEach(() => {
+      campaignInDb = databaseBuilder.factory.buildCampaign({ id: campaignId });
+      return databaseBuilder.commit();
+    });
+
+    afterEach(() => {
+      return databaseBuilder.clean();
+    });
+
+    it('should return 201 and the campaign participation when it has been successfully created', () => {
       const expectedResult = {
         data: {
           type: 'campaign-participations',
@@ -197,6 +198,19 @@ describe('Acceptance | API | Campaign Participations', () => {
         _deleteIrrelevantIds(result);
 
         expect(result).to.deep.equal(expectedResult);
+      });
+    });
+
+    it('should return 404 error if the campaign related to the participation does not exist', () => {
+      // given
+      options.payload.data.relationships.campaign.data.id = null;
+
+      // when
+      const promise = server.inject(options);
+
+      // then
+      return promise.then((response) => {
+        expect(response.statusCode).to.equal(404);
       });
     });
   });
