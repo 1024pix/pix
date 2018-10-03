@@ -94,7 +94,8 @@ exports.register = function(server, options, next) {
           payload: {
             data: {
               attributes: {
-                password: Joi.string().regex(XRegExp(passwordValidationPattern))
+                password: Joi.string().regex(XRegExp(passwordValidationPattern)),
+                'cgu-orga': Joi.boolean()
               }
             }
           }
