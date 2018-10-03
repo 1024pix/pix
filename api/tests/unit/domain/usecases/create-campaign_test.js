@@ -10,13 +10,16 @@ describe('Unit | UseCase | create-campaign', () => {
   const availableCampaignCode = 'ABCDEF123';
   const campaignToCreate = factory.buildCampaign({ id: '', code: '' });
   const savedCampaign = factory.buildCampaign({ code: availableCampaignCode });
+  const targetProfile = factory.buildTargetProfile({ isPublic: true });
   const campaignRepository = { save: () => undefined };
   const userRepository = { getWithOrganizationAccesses: () => undefined };
+  const targetProfileRepository = { get: () => undefined };
 
   function _stubGetUserWithOrganizationsAccesses(organizationIdUserHasAccessTo) {
     const userWithOrganizationAccess = factory.buildUser();
     userWithOrganizationAccess.organizationAccesses[0].organization.id = organizationIdUserHasAccessTo;
     userRepository.getWithOrganizationAccesses.resolves(userWithOrganizationAccess);
+    targetProfileRepository.get.resolves(targetProfile);
   }
 
   beforeEach(() => {
@@ -25,6 +28,7 @@ describe('Unit | UseCase | create-campaign', () => {
     sandbox.stub(campaignRepository, 'save');
     sandbox.stub(campaignValidator, 'validate');
     sandbox.stub(userRepository, 'getWithOrganizationAccesses');
+    sandbox.stub(targetProfileRepository, 'get');
   });
 
   afterEach(() => {
@@ -36,7 +40,7 @@ describe('Unit | UseCase | create-campaign', () => {
     campaignValidator.validate.rejects(new EntityValidationError({ invalidAttributes: [] }));
 
     // when
-    const promise = createCampaign({ campaign: campaignToCreate, campaignRepository, userRepository });
+    const promise = createCampaign({ campaign: campaignToCreate, campaignRepository, userRepository, targetProfileRepository });
 
     // then
     return expect(promise).to.be.rejectedWith(EntityValidationError);
@@ -49,7 +53,7 @@ describe('Unit | UseCase | create-campaign', () => {
     _stubGetUserWithOrganizationsAccesses(organizationIdDifferentFromCampaign);
 
     // when
-    const promise = createCampaign({ campaign: campaignToCreate, campaignRepository, userRepository });
+    const promise = createCampaign({ campaign: campaignToCreate, campaignRepository, userRepository, targetProfileRepository  });
 
     // then
     return expect(promise).to.be.rejectedWith(UserNotAuthorizedToCreateCampaignError);
@@ -63,7 +67,7 @@ describe('Unit | UseCase | create-campaign', () => {
     campaignRepository.save.resolves(savedCampaign);
 
     // when
-    const promise = createCampaign({ campaign: campaignToCreate, campaignRepository, userRepository });
+    const promise = createCampaign({ campaign: campaignToCreate, campaignRepository, userRepository, targetProfileRepository });
 
     // then
     return promise.then(() => {
@@ -80,7 +84,7 @@ describe('Unit | UseCase | create-campaign', () => {
     campaignRepository.save.resolves(savedCampaign);
 
     // when
-    const promise = createCampaign({ campaign: campaignToCreate, campaignRepository, userRepository });
+    const promise = createCampaign({ campaign: campaignToCreate, campaignRepository, userRepository, targetProfileRepository });
 
     // then
     return promise.then(() => {
@@ -102,7 +106,7 @@ describe('Unit | UseCase | create-campaign', () => {
     campaignRepository.save.resolves(savedCampaign);
 
     // when
-    const promise = createCampaign({ campaign: campaignToCreate, campaignRepository, userRepository });
+    const promise = createCampaign({ campaign: campaignToCreate, campaignRepository, userRepository, targetProfileRepository });
 
     // then
     return promise.then((campaign) => {

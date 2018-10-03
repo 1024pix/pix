@@ -1,70 +1,56 @@
 const faker = require('faker');
 const server = require('../../../server');
-const { knex, expect, generateValidRequestAuhorizationHeader, databaseBuilder } = require('../../test-helper');
+const { knex, expect, generateValidRequestAuhorizationHeader, databaseBuilder, airtableBuilder } = require('../../test-helper');
 
 describe('Acceptance | API | Campaigns', () => {
 
   describe('POST /api/campaigns', () => {
 
-    let organizationInDbId;
+    let organization;
+    let user;
+    let otherUser;
+    let targetProfile;
 
     beforeEach(() => {
-      const organizationAccess = {};
+      user = databaseBuilder.factory.buildUser({});
+      otherUser = databaseBuilder.factory.buildUser({});
+      organization = databaseBuilder.factory.buildOrganization({ userId: user.id });
+      databaseBuilder.factory.buildOrganizationAccess({
+        userId: user.id,
+        organizationId: organization.id
+      });
+      targetProfile = databaseBuilder.factory.buildTargetProfile({ organizationId: organization.id, isPublic: false });
 
-      return knex('users').insert({
-        id: 1234,
-        firstName: faker.name.firstName(),
-        lastName: faker.name.lastName(),
-        email: 'myemail@example.net',
-        password: 'oizjef76235hb',
-        cgu: true
-      }, 'id')
-        .then((insertedUser) => {
-          organizationAccess.userId = insertedUser[0];
-          return knex('organizations').insert({
-            email: 'trololo@example.net',
-            type: 'PRO',
-            name: 'Mon Entreprise',
-            code: 'ABCD12'
-          }, 'id');
-        }).then((insertedOrganization) => {
-          organizationInDbId = insertedOrganization[0];
-          organizationAccess.organizationId = organizationInDbId;
-          return knex('organization-roles').insert({ name: 'ADMIN' }, 'id');
-        })
-        .then((insertedOrganizationRole) => {
-          organizationAccess.organizationRoleId = insertedOrganizationRole[0];
-          return knex('organizations-accesses').insert(organizationAccess);
-        });
+      airtableBuilder
+        .mockList({ tableName: 'Acquis' })
+        .returns(airtableBuilder.factory.buildSkill())
+        .activate();
+
+      return databaseBuilder.commit();
     });
 
     afterEach(() => {
-      return knex('organizations-accesses').delete()
-        .then(() => {
-          return Promise.all([
-            knex('organizations').delete(),
-            knex('users').delete(),
-            knex('organization-roles').delete()
-          ]);
-        });
+      return knex('campaigns').delete()
+        .then(() => databaseBuilder.clean())
+        .then(() => airtableBuilder.cleanAll());
     });
 
     it('should return 201 and the campaign when it has been successfully created', function() {
       const options = {
         method: 'POST',
         url: '/api/campaigns',
-        headers: { authorization: generateValidRequestAuhorizationHeader() },
+        headers: { authorization: generateValidRequestAuhorizationHeader(user.id) },
         payload: {
           data: {
             type: 'campaigns',
             attributes: {
               name: 'L‘hymne de nos campagnes',
-              'organization-id': organizationInDbId,
+              'organization-id': organization.id,
             },
             relationships: {
               'target-profile': {
                 data: {
-                  id: faker.random.number()
+                  id: targetProfile.id
                 }
               }
             }
@@ -89,7 +75,7 @@ describe('Acceptance | API | Campaigns', () => {
       const options = {
         method: 'POST',
         url: '/api/campaigns',
-        headers: { authorization: generateValidRequestAuhorizationHeader() },
+        headers: { authorization: generateValidRequestAuhorizationHeader(otherUser.id) },
         payload: {
           data: {
             type: 'campaigns',

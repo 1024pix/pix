@@ -13,10 +13,22 @@ function _checkCreatorHasAccessToCampaignOrganization(userId, organizationId, us
     });
 }
 
-module.exports = function createCampaign({ campaign, campaignRepository, userRepository }) {
+function _checkOrganizationHasAccessToTargetProfile(targetProfileId, organizationId, targetProfileRepository) {
+  return targetProfileRepository.get(targetProfileId)
+    .then((targetProfile) => {
+      if(targetProfile.isPublic ||
+        targetProfile.organizationId == organizationId ||
+        targetProfile.organizationsSharedId.includes(organizationId)) {
+        return Promise.resolve();
+      }
+      return Promise.reject(new UserNotAuthorizedToCreateCampaignError(`Organization does not have an access to the profile ${targetProfileId}`));
+    });
+}
 
+module.exports = function createCampaign({ campaign, campaignRepository, userRepository, targetProfileRepository }) {
   return campaignValidator.validate(campaign)
     .then(() => _checkCreatorHasAccessToCampaignOrganization(campaign.creatorId, campaign.organizationId, userRepository))
+    .then(() => _checkOrganizationHasAccessToTargetProfile(campaign.targetProfileId, campaign.organizationId, targetProfileRepository))
     .then(() => campaignCodeGenerator.generate(campaignRepository))
     .then((generatedCampaignCode) => {
       const campaignWithCode = new Campaign(campaign);
