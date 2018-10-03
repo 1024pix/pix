@@ -170,10 +170,10 @@ describe('Unit | Router | user-router', () => {
   describe('PATCH /api/users/{id}', function() {
 
     const userId = '12344';
-    const wellFormedOptions = () => ({
+    const request = (payloadAttributes) => ({
       method: 'PATCH',
       url: `/api/users/${userId}`,
-      payload: { data: { attributes: { password: '12345678ab+!' } } },
+      payload: { data: { attributes: payloadAttributes } },
     });
 
     beforeEach(() => {
@@ -184,7 +184,7 @@ describe('Unit | Router | user-router', () => {
 
     it('should exist and pass through user verification pre-handler', () => {
       // given
-      return server.inject(wellFormedOptions()).then((res) => {
+      return server.inject(request({})).then((res) => {
         // then
         expect(res.statusCode).to.equal(200);
         sinon.assert.calledOnce(userVerification.verifyById);
@@ -195,38 +195,59 @@ describe('Unit | Router | user-router', () => {
 
       it('should have a payload', () => {
         // given
-        const options = wellFormedOptions();
-        delete options.payload;
-
-        // then
-        return server.inject(options).then((res) => {
-          expect(res.statusCode).to.equal(400);
-        });
-      });
-
-      it('should be valid when only a cguOrga field', () => {
-        // given
-        const wellFormedOptions = () => ({
+        const requestWithoutPayload = {
           method: 'PATCH',
           url: `/api/users/${userId}`,
-          payload: { data: { attributes: { cguOrga: true } } },
-        });
+        };
 
         // then
-        return server.inject(wellFormedOptions()).then((res) => {
-          // then
-          expect(res.statusCode).not.to.equal(400);
+        return server.inject(requestWithoutPayload).then((res) => {
+          expect(res.statusCode).to.equal(400);
         });
       });
 
-      it('should have a valid password format in payload', () => {
-        // given
-        const options = wellFormedOptions();
-        options.payload.data.attributes.password = 'Mot de passe mal formé';
+      describe('cgu-orga validation', () => {
 
-        // then
-        return server.inject(options).then((res) => {
-          expect(res.statusCode).to.equal(400);
+        it('should return 200 when cgu-orga field is a boolean', () => {
+          // given
+          const payloadAttributes = {
+            'cgu-orga': true
+          };
+
+          // when
+          return server.inject(request(payloadAttributes)).then((res) => {
+            // then
+            expect(res.statusCode).to.equal(200);
+          });
+        });
+
+        it('should return 400 when cgu-orga field is not a boolean', () => {
+          // given
+          const payloadAttributes = {
+            'cgu-orga': 'yolo'
+          };
+
+          // when
+          return server.inject(request(payloadAttributes)).then((res) => {
+            // then
+            expect(res.statusCode).to.equal(400);
+          });
+        });
+      });
+
+      describe('password validation', () => {
+
+        it('should have a valid password format in payload', () => {
+          // given
+          const payloadAttributes = {
+            'password': 'Mot de passe mal formé'
+          };
+
+          // when
+          return server.inject(request(payloadAttributes)).then((res) => {
+            // then
+            expect(res.statusCode).to.equal(400);
+          });
         });
       });
     });
