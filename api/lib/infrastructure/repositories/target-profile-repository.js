@@ -71,10 +71,10 @@ module.exports = {
         const targetProfilesSharedWithOrga = bookshelfTargetProfiles
           .filter((bookshelfTargetProfile) => {
             const organizationShared = bookshelfTargetProfile.relations.organizationsWhichShared;
-            const solution = organizationShared.find((organizationShared) => {
+            const findOrganizationInSharedOrga = organizationShared.find((organizationShared) => {
               return organizationShared.get('organizationId') == organizationId;
             });
-            return solution ? true : false;
+            return findOrganizationInSharedOrga ? true : false;
           });
         const promises = targetProfilesSharedWithOrga
           .map((bookshelfTargetProfile) => {
