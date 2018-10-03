@@ -53,7 +53,7 @@ describe('Unit | UseCase | create-assessment-for-campaign', () => {
     let campaignParticipation;
 
     beforeEach(() => {
-      userId = faker.random.number()
+      userId = faker.random.number();
       // given
       campaign = factory.buildCampaign({
         id: 'campaignId',
