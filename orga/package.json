@@ -44,6 +44,7 @@
     "ember-cli-uglify": "^2.1.0",
     "ember-data": "~3.4.0",
     "ember-export-application-global": "^2.0.0",
+    "ember-freestyle": "^0.9.0",
     "ember-load-initializers": "^1.1.0",
     "ember-maybe-import-regenerator": "^0.1.6",
     "ember-resolver": "^5.0.1",

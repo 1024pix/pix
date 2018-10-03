@@ -18,6 +18,10 @@ Router.map(function() {
   });
 
   this.route('logout');
+
+  if (config.environment !== 'production') {
+    this.route('style-guide', { path: 'guide-de-style' });
+  }
 });
 
 export default Router;
