@@ -19,7 +19,7 @@
     "npm-run-all": "^4.1.0"
   },
   "engines": {
-    "node": ">=7.10 <9"
+    "node": "8.11.4"
   },
   "cacheDirectories": [
     "node_modules/",

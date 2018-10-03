@@ -9,6 +9,9 @@
   },
   "license": "AGPL-3.0",
   "author": "Team PIX",
+  "engines": {
+    "node": "8.11.4"
+  },
   "scripts": {
     "build": "ember build",
     "clean": "rm -rf tmp dist node_modules",
@@ -52,9 +55,6 @@
     "eslint-plugin-ember": "^5.2.0",
     "loader.js": "^4.7.0",
     "qunit-dom": "^0.7.1"
-  },
-  "engines": {
-    "node": "6.* || 8.* || >= 10.*"
   },
   "dependencies": {
     "lodash": "latest"
