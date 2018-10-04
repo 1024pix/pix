@@ -7,7 +7,7 @@ import { Response } from 'ember-cli-mirage';
 
 import setupMirage from 'ember-cli-mirage/test-support/setup-mirage';
 
-module('Acceptance | cgu', function(hooks) {
+module('Acceptance | terms-of-service', function(hooks) {
 
   setupApplicationTest(hooks);
   setupMirage(hooks);
@@ -27,12 +27,12 @@ module('Acceptance | cgu', function(hooks) {
     assert.notOk(currentSession(this.application).get('isAuthenticated'), 'The user is still unauthenticated');
   });
 
-  test('it should send request for saving Pix-orga cgu when submitting', async function(assert) {
+  test('it should send request for saving Pix-orga terms of service acceptation when submitting', async function(assert) {
     // given
-    let cguOrgaValue;
+    let pixOrgaTermsOfServiceAccepted;
     server.patch('/users/:id', (schema, request) => {
       let requestBodyParams = JSON.parse(request.requestBody);
-      cguOrgaValue = requestBodyParams.data.attributes['cgu-orga'];
+      pixOrgaTermsOfServiceAccepted = requestBodyParams.data.attributes['pix-orga-terms-of-service-accepted'];
       return new Response(204);
     });
 
@@ -48,10 +48,10 @@ module('Acceptance | cgu', function(hooks) {
     await click('button[type=submit]');
 
     // then
-    assert.equal(cguOrgaValue, true);
+    assert.equal(pixOrgaTermsOfServiceAccepted, true);
   });
 
-  test('it should redirect to campaign list after saving cgu validation', async function(assert) {
+  test('it should redirect to campaign list after saving terms of service acceptation', async function(assert) {
     // given
     server.patch('/users/:id', new Response(204));
 
@@ -81,7 +81,7 @@ module('Acceptance | cgu', function(hooks) {
     await visit('/cgu');
 
     // when
-    await click('#cgu-cancel-button');
+    await click('#terms-of-service-cancel-button');
 
     // then
     assert.notOk(currentSession(this.application).get('isAuthenticated'), 'The user is still authenticated');

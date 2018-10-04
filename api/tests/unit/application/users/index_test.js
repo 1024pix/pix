@@ -206,12 +206,12 @@ describe('Unit | Router | user-router', () => {
         });
       });
 
-      describe('cgu-orga validation', () => {
+      describe('pix-orga-terms-of-service-accepted validation', () => {
 
-        it('should return 200 when cgu-orga field is a boolean', () => {
+        it('should return 200 when pix-orga-terms-of-service-accepted field is a boolean', () => {
           // given
           const payloadAttributes = {
-            'cgu-orga': true
+            'pix-orga-terms-of-service-accepted': true
           };
 
           // when
@@ -221,10 +221,10 @@ describe('Unit | Router | user-router', () => {
           });
         });
 
-        it('should return 400 when cgu-orga field is not a boolean', () => {
+        it('should return 400 when pix-orga-terms-of-service-accepted field is not a boolean', () => {
           // given
           const payloadAttributes = {
-            'cgu-orga': 'yolo'
+            'pix-orga-terms-of-service-accepted': 'yolo'
           };
 
           // when

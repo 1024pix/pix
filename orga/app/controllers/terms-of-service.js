@@ -11,7 +11,7 @@ export default Controller.extend({
       const store = this.get('store');
       const userId = this.get('session.data.authenticated.user_id');
       const loggedUser = store.peekRecord('user', userId);
-      loggedUser.set('cguOrga', true);
+      loggedUser.set('pixOrgaTermsOfServiceAccepted', true);
 
       return loggedUser.save().then(() => {
         return this.transitionToRoute('authenticated.campaigns.list');

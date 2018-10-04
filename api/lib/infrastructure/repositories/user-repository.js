@@ -34,7 +34,7 @@ function _toDomain(userBookshelf) {
     email: userBookshelf.get('email'),
     password: userBookshelf.get('password'),
     cgu: Boolean(userBookshelf.get('cgu')),
-    cguOrga: Boolean(userBookshelf.get('cguOrga')),
+    pixOrgaTermsOfServiceAccepted: Boolean(userBookshelf.get('pixOrgaTermsOfServiceAccepted')),
     organizationAccesses: _toOrganizationAccessesDomain(userBookshelf.related('organizationAccesses'))
   });
 }
