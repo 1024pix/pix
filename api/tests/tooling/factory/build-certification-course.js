@@ -1,31 +1,39 @@
+const faker = require('faker');
+const moment = require('moment');
 const CertificationCourse = require('../../../lib/domain/models/CertificationCourse');
 
-module.exports = function buildCertificationCourse({
-  id= 1,
-  userId= 1,
-  completedAt= new Date('2018-12-01'),
-  createdAt= new Date('2018-12-01'),
-  firstName= 'Prenom',
-  lastName= 'Nom',
-  birthplace= 'Paris',
-  birthdate= '21/03/1991',
-  sessionId= 1,
-  externalId= 'nomDeLaPersonne',
-  isPublished= false,
-} = {}) {
+module.exports = function buildCertificationCourse(
+  {
+    id = faker.random.number(),
+    // attributes
+    birthplace = faker.address.city(),
+    birthdate = moment(faker.date.past(25)).format('DD/MM/YYYY'),
+    completedAt = faker.date.recent(),
+    createdAt = faker.date.past(1),
+    externalId = faker.random.uuid(),
+    firstName = faker.name.firstName(),
+    isPublished = faker.random.boolean(),
+    lastName = faker.name.lastName(),
+    nbChallenges = faker.random.number(40),
+    // includes
+    // references
+    userId = faker.random.number(),
+    sessionId = faker.random.number(),
+  } = {}) {
 
-  const certificationCourse = CertificationCourse.fromAttributes({
+  const certificationCourse = new CertificationCourse({
     id,
-    userId,
+    birthdate,
+    birthplace,
     completedAt,
     createdAt,
-    firstName,
-    lastName,
-    birthplace,
-    birthdate,
-    sessionId,
     externalId,
+    firstName,
     isPublished,
+    lastName,
+    nbChallenges,
+    sessionId,
+    userId,
   });
 
   return certificationCourse;

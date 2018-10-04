@@ -43,5 +43,4 @@ module.exports = {
     return airtable.findRecords(AIRTABLE_TABLE_NAME, query)
       .then((competences) => competences.map(_toDomain));
   }
-
 };
