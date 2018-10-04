@@ -502,6 +502,32 @@ describe('Integration | Infrastructure | Repository | UserRepository', () => {
 
     });
 
+    context('when there are lots of users (> 10) in the database', () => {
+
+      beforeEach(() => {
+        _.times(12, databaseBuilder.factory.buildUser);
+        return databaseBuilder.commit();
+      });
+
+      afterEach(() => {
+        return databaseBuilder.clean();
+      });
+
+      it('should return paginated matching users', async () => {
+        // given
+        const filters = {};
+        const pagination = { page: 1, pageSize: 3 };
+
+        // when
+        const promise = userRepository.find(filters, pagination);
+
+        // then
+        return promise.then((matchingUsers) => {
+          expect(matchingUsers).to.have.lengthOf(3);
+        });
+      });
+    });
+
     context('when there are multiple users matching the same "first name" search pattern', () => {
 
       beforeEach(() => {
@@ -592,10 +618,19 @@ describe('Integration | Infrastructure | Repository | UserRepository', () => {
       });
     });
 
-    context('when there are lots of users (> 10) in the database', () => {
+    context('when there are multiple users matching the fields "first name", "last name" and "email" search pattern', () => {
 
       beforeEach(() => {
-        _.times(12, databaseBuilder.factory.buildUser);
+        // Matching users
+        databaseBuilder.factory.buildUser({ firstName: 'fn_ok_1', lastName: 'ln_ok_1', email: 'email_ok_1@mail.com' });
+        databaseBuilder.factory.buildUser({ firstName: 'fn_ok_2', lastName: 'ln_ok_2', email: 'email_ok_2@mail.com' });
+        databaseBuilder.factory.buildUser({ firstName: 'fn_ok_3', lastName: 'ln_ok_3', email: 'email_ok_3@mail.com' });
+
+        // Unmatching users
+        databaseBuilder.factory.buildUser({ firstName: 'fn_ko_4', lastName: 'ln_ok_4', email: 'email_ok_4@mail.com' });
+        databaseBuilder.factory.buildUser({ firstName: 'fn_ok_5', lastName: 'ln_ko_5', email: 'email_ok_5@mail.com' });
+        databaseBuilder.factory.buildUser({ firstName: 'fn_ok_6', lastName: 'ln_ok_6', email: 'email_ko_6@mail.com' });
+
         return databaseBuilder.commit();
       });
 
@@ -603,10 +638,10 @@ describe('Integration | Infrastructure | Repository | UserRepository', () => {
         return databaseBuilder.clean();
       });
 
-      it('should return paginated matching users', async () => {
+      it('should return only users matching "first name" AND "last name" AND "email" if given in filters', async () => {
         // given
-        const filters = {};
-        const pagination = { page: 1, pageSize: 3 };
+        const filters = { firstName: 'fn_ok', lastName: 'ln_ok', email: 'email_ok' };
+        const pagination = { page: 1, pageSize: 10 };
 
         // when
         const promise = userRepository.find(filters, pagination);
