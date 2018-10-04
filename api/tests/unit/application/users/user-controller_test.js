@@ -20,7 +20,6 @@ const userService = require('../../../../lib/domain/services/user-service');
 const usecases = require('../../../../lib/domain/usecases');
 
 const {
-  PasswordResetDemandNotFoundError,
   InternalError,
   EntityValidationError,
   UserNotAuthorizedToAccessEntity
@@ -242,7 +241,7 @@ describe('Unit | Controller | user-controller', () => {
 
   describe('#updateUser', () => {
 
-    describe('When payload is good (with a payload and a password attribute)', () => {
+    context('When payload is good (with a payload and a password attribute)', () => {
 
       let sandbox;
       let reply;
@@ -283,68 +282,6 @@ describe('Unit | Controller | user-controller', () => {
         sandbox.restore();
       });
 
-      it('should get user by his id', () => {
-        // given
-        passwordResetService.hasUserAPasswordResetDemandInProgress.resolves();
-
-        // when
-        const promise = userController.updateUser(request, reply);
-
-        // then
-        return promise.then(() => {
-          sinon.assert.calledOnce(userRepository.findUserById);
-          sinon.assert.calledWith(userRepository.findUserById, request.params.id);
-        });
-      });
-
-      it('should check if user has a current password reset demand', () => {
-        // given
-        passwordResetService.hasUserAPasswordResetDemandInProgress.resolves();
-
-        // when
-        const promise = userController.updateUser(request, reply);
-
-        // then
-        return promise.then(() => {
-          sinon.assert.calledOnce(passwordResetService.hasUserAPasswordResetDemandInProgress);
-          sinon.assert.calledWith(passwordResetService.hasUserAPasswordResetDemandInProgress, user.get('email'));
-        });
-      });
-
-      it('should update user password with a hashed password', async () => {
-        // given
-        passwordResetService.hasUserAPasswordResetDemandInProgress.resolves();
-        const encryptedPassword = '$2a$05$jJnoQ/YCvAChJmYW9AoQXe/k17mx2l2MqJBgXVo/R/ju4HblB2iAe';
-        encryptionService.hashPassword.resolves(encryptedPassword);
-
-        // when
-        const promise = userController.updateUser(request, reply);
-
-        // then
-        return promise.then(() => {
-          sinon.assert.calledOnce(userRepository.updatePassword);
-          sinon.assert.calledOnce(encryptionService.hashPassword);
-          sinon.assert.calledWith(encryptionService.hashPassword, request.payload.data.attributes.password);
-          sinon.assert.calledWith(userRepository.updatePassword, request.params.id, encryptedPassword);
-        });
-      });
-
-      it('should invalidate current password reset demand (mark as being used)', () => {
-        // given
-        passwordResetService.hasUserAPasswordResetDemandInProgress.resolves();
-        userRepository.updatePassword.resolves();
-        passwordResetService.invalidOldResetPasswordDemand.resolves();
-
-        // when
-        const promise = userController.updateUser(request, reply);
-
-        // then
-        return promise.then(() => {
-          sinon.assert.calledOnce(passwordResetService.invalidOldResetPasswordDemand);
-          sinon.assert.calledWith(passwordResetService.invalidOldResetPasswordDemand, user.get('email'));
-        });
-      });
-
       it('should reply with no content', () => {
         // given
         passwordResetService.hasUserAPasswordResetDemandInProgress.resolves();
@@ -357,27 +294,6 @@ describe('Unit | Controller | user-controller', () => {
         // then
         return promise.then(() => {
           sinon.assert.calledOnce(reply);
-        });
-      });
-
-      describe('When user has not a current password reset demand', () => {
-        it('should reply with a serialized Not found error', () => {
-          // given
-          const error = new PasswordResetDemandNotFoundError();
-          const serializedError = {};
-          validationErrorSerializer.serialize.returns(serializedError);
-          passwordResetService.hasUserAPasswordResetDemandInProgress.rejects(error);
-
-          // when
-          const promise = userController.updateUser(request, reply);
-
-          // then
-          return promise.then(() => {
-            sinon.assert.calledOnce(reply);
-            sinon.assert.calledWith(reply, serializedError);
-            sinon.assert.calledOnce(validationErrorSerializer.serialize);
-            sinon.assert.calledWith(validationErrorSerializer.serialize, error.getErrorMessage());
-          });
         });
       });
 
@@ -410,6 +326,108 @@ describe('Unit | Controller | user-controller', () => {
         });
       });
 
+    });
+
+    context('When payload contains no password field nor pix-orga-terms-of-service-accepted field', () => {
+
+      it('should returns 400 status code', () => {
+        // given
+        const request = {
+          params: {
+            id: 7,
+          },
+          payload: {
+            data: {
+              attributes: {
+                'unknown-attribute': true,
+              },
+            },
+          },
+        };
+        const sandbox = sinon.sandbox.create();
+        const codeStub = sandbox.stub();
+        const reply = sandbox.stub().returns({
+          code: codeStub,
+        });
+
+        // when
+        const promise = userController.updateUser(request, reply);
+
+        // then
+        return promise.then(() => {
+          expect(codeStub).to.have.been.calledWith(400);
+        });
+
+      });
+    });
+
+    context('When payload has a password field', () => {
+      it('should update password', () => {
+        // given
+        const userId = 7;
+        const password = 'PIX123$';
+        const request = {
+          params: {
+            id: userId,
+          },
+          payload: {
+            data: {
+              attributes: {
+                password,
+              },
+            },
+          },
+        };
+        const sandbox = sinon.sandbox.create();
+        const codeStub = sandbox.stub();
+        const reply = sandbox.stub().returns({
+          code: codeStub,
+        });
+        const usecaseUpdateUserPasswordStub = sandbox.stub(usecases, 'updateUserPassword');
+
+        // when
+        const promise = userController.updateUser(request, reply);
+
+        // then
+        return promise.then(() => {
+          expect(usecaseUpdateUserPasswordStub).to.have.been.calledWith({ userId, password });
+        });
+      });
+
+    });
+
+    context('When payload has a pix-orga-terms-of-service-accepted field', () => {
+
+      it('should accept pix orga terms of service', () => {
+        // given
+        const userId = 7;
+        const request = {
+          params: {
+            id: userId,
+          },
+          payload: {
+            data: {
+              attributes: {
+                'pix-orga-terms-of-service-accepted': true,
+              },
+            },
+          },
+        };
+        const sandbox = sinon.sandbox.create();
+        const codeStub = sandbox.stub();
+        const reply = sandbox.stub().returns({
+          code: codeStub,
+        });
+        const usecaseAcceptPixOrgaTermsOfServiceStub = sandbox.stub(usecases, 'acceptPixOrgaTermsOfService');
+
+        // when
+        const promise = userController.updateUser(request, reply);
+
+        // then
+        return promise.then(() => {
+          expect(usecaseAcceptPixOrgaTermsOfServiceStub).to.have.been.calledWith({ userId });
+        });
+      });
     });
   });
 
