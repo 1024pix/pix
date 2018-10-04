@@ -1,6 +1,7 @@
-const { expect, knex } = require('../../../test-helper');
+const { expect, knex, databaseBuilder } = require('../../../test-helper');
 const faker = require('faker');
 const bcrypt = require('bcrypt');
+const _ = require('lodash');
 
 const Bookshelf = require('../../../../lib/infrastructure/bookshelf');
 const BookshelfUser = require('../../../../lib/infrastructure/data/user');
@@ -12,24 +13,6 @@ const Organization = require('../../../../lib/domain/models/Organization');
 const OrganizationRole = require('../../../../lib/domain/models/OrganizationRole');
 
 describe('Integration | Infrastructure | Repository | UserRepository', () => {
-
-  function _generateUser({ firstName, lastName, email }) {
-    return {
-      firstName: firstName ? firstName : faker.name.firstName(),
-      lastName: lastName ? lastName : faker.name.lastName(),
-      email: email ? email : faker.internet.email().toLowerCase(),
-      password: bcrypt.hashSync('A124B2C3#!', 1),
-      cgu: true,
-    };
-  }
-
-  function _generateUsers(nbUsers) {
-    const users = [];
-    for (let i = 0; i < nbUsers; i++) {
-      users.push(_generateUser({}));
-    }
-    return users;
-  }
 
   const userToInsert = {
     firstName: faker.name.firstName(),
@@ -490,148 +473,206 @@ describe('Integration | Infrastructure | Repository | UserRepository', () => {
 
   describe('#find', () => {
 
-    afterEach(() => {
-      return knex('users').delete();
+    context('when there are users in the database', () => {
+
+      beforeEach(() => {
+        _.times(3, databaseBuilder.factory.buildUser);
+        return databaseBuilder.commit();
+      });
+
+      afterEach(() => {
+        return databaseBuilder.clean();
+      });
+
+      it('should return an Array of Users', async () => {
+        // given
+        const filters = {};
+        const pagination = { page: 1, pageSize: 10 };
+
+        // when
+        const promise = userRepository.find(filters, pagination);
+
+        // then
+        return promise.then((matchingUsers) => {
+          expect(matchingUsers).to.exist;
+          expect(matchingUsers).to.have.lengthOf(3);
+          expect(matchingUsers[0]).to.be.an.instanceOf(User);
+        });
+      });
+
     });
 
-    it('should return an Array of Users', async () => {
-      // given
-      await knex('users').insert(_generateUsers(3));
+    context('when there are multiple users matching the same "first name" search pattern', () => {
 
-      const filters = {};
-      const pagination = { page: 1, pageSize: 10 };
+      beforeEach(() => {
+        databaseBuilder.factory.buildUser({ firstName: 'Son Gohan' });
+        databaseBuilder.factory.buildUser({ firstName: 'Son Goku' });
+        databaseBuilder.factory.buildUser({ firstName: 'Son Goten' });
+        databaseBuilder.factory.buildUser({ firstName: 'Vegeta' });
+        databaseBuilder.factory.buildUser({ firstName: 'Piccolo' });
+        return databaseBuilder.commit();
+      });
 
-      // when
-      const promise = userRepository.find(filters, pagination);
+      afterEach(() => {
+        return databaseBuilder.clean();
+      });
 
-      // then
-      return promise.then((matchingUsers) => {
-        expect(matchingUsers).to.exist;
-        expect(matchingUsers).to.have.lengthOf(3);
-        expect(matchingUsers[0]).to.be.an.instanceOf(User);
+      it('should return only users matching "first name" if given in filters', async () => {
+        // given
+        const filters = { firstName: 'Go' };
+        const pagination = { page: 1, pageSize: 10 };
+
+        // when
+        const promise = userRepository.find(filters, pagination);
+
+        // then
+        return promise.then((matchingUsers) => {
+          expect(matchingUsers).to.have.lengthOf(3);
+        });
       });
     });
 
-    it('should return only users matching first name if given in filters', async () => {
-      // given
-      const matchingUser1 = _generateUser({ firstName: 'Son Gohan' });
-      const matchingUser2 = _generateUser({ firstName: 'Son Goku' });
-      const matchingUser3 = _generateUser({ firstName: 'Son Goten' });
-      const ignoredUser1 = _generateUser({ firstName: 'Vegeta' });
-      const ignoredUser2 = _generateUser({ firstName: 'Piccolo' });
+    context('when there are multiple users matching the same "last name" search pattern', () => {
 
-      await knex('users').insert([matchingUser1, matchingUser2, matchingUser3, ignoredUser1, ignoredUser2]);
+      beforeEach(() => {
+        databaseBuilder.factory.buildUser({ firstName: 'Anakin', lastName: 'Skywalker' });
+        databaseBuilder.factory.buildUser({ firstName: 'Luke', lastName: 'Skywalker' });
+        databaseBuilder.factory.buildUser({ firstName: 'Leia', lastName: 'Skywalker' });
+        databaseBuilder.factory.buildUser({ firstName: 'Han', lastName: 'Solo' });
+        databaseBuilder.factory.buildUser({ firstName: 'Ben', lastName: 'Solo' });
+        return databaseBuilder.commit();
+      });
 
-      const filters = { firstName: 'Go' };
-      const pagination = { page: 1, pageSize: 10 };
+      afterEach(() => {
+        return databaseBuilder.clean();
+      });
 
-      // when
-      const promise = userRepository.find(filters, pagination);
+      it('should return only users matching "last name" if given in filters', async () => {
+        // given
+        const filters = { lastName: 'walk' };
+        const pagination = { page: 1, pageSize: 10 };
 
-      // then
-      return promise.then((matchingUsers) => {
-        expect(matchingUsers).to.have.lengthOf(3);
+        // when
+        const promise = userRepository.find(filters, pagination);
+
+        // then
+        return promise.then((matchingUsers) => {
+          expect(matchingUsers).to.have.lengthOf(3);
+        });
       });
     });
 
-    it('should return only users matching last name if given in filters', async () => {
-      // given
-      const matchingUser1 = _generateUser({ firstName: 'Anakin', lastName: 'Skywalker' });
-      const matchingUser2 = _generateUser({ firstName: 'Luke', lastName: 'Skywalker' });
-      const matchingUser3 = _generateUser({ firstName: 'Leia', lastName: 'Skywalker' });
-      const ignoredUser1 = _generateUser({ firstName: 'Han', lastName: 'Solo' });
-      const ignoredUser2 = _generateUser({ firstName: 'Ben', lastName: 'Solo' });
+    context('when there are multiple users matching the same "email" search pattern', () => {
 
-      await knex('users').insert([matchingUser1, matchingUser2, matchingUser3, ignoredUser1, ignoredUser2]);
+      beforeEach(() => {
+        databaseBuilder.factory.buildUser({ email: 'playpus@pix.fr' });
+        databaseBuilder.factory.buildUser({ email: 'panda@pix.fr' });
+        databaseBuilder.factory.buildUser({ email: 'otter@pix.fr' });
+        databaseBuilder.factory.buildUser({ email: 'playpus@example.net' });
+        databaseBuilder.factory.buildUser({ email: 'panda@example.net' });
+        return databaseBuilder.commit();
+      });
 
-      const filters = { lastName: 'walk' };
-      const pagination = { page: 1, pageSize: 10 };
+      afterEach(() => {
+        return databaseBuilder.clean();
+      });
 
-      // when
-      const promise = userRepository.find(filters, pagination);
+      it('should return only users matching "email" if given in filters', async () => {
+        // given
+        const filters = { email: 'pix.fr' };
+        const pagination = { page: 1, pageSize: 10 };
 
-      // then
-      return promise.then((matchingUsers) => {
-        expect(matchingUsers).to.have.lengthOf(3);
+        // when
+        const promise = userRepository.find(filters, pagination);
+
+        // then
+        return promise.then((matchingUsers) => {
+          expect(matchingUsers).to.have.lengthOf(3);
+        });
       });
     });
 
-    it('should return only users matching email if given in filters', async () => {
-      // given
-      const matchingUser1 = _generateUser({ email: 'playpus@pix.fr' });
-      const matchingUser2 = _generateUser({ email: 'panda@pix.fr' });
-      const matchingUser3 = _generateUser({ email: 'otter@pix.fr' });
-      const ignoredUser1 = _generateUser({ email: 'playpus@example.net' });
-      const ignoredUser2 = _generateUser({ email: 'panda@example.net' });
+    context('when there are lots of users (> 10) in the database', () => {
 
-      await knex('users').insert([matchingUser1, matchingUser2, matchingUser3, ignoredUser1, ignoredUser2]);
-
-      const filters = { email: 'pix.fr' };
-      const pagination = { page: 1, pageSize: 10 };
-
-      // when
-      const promise = userRepository.find(filters, pagination);
-
-      // then
-      return promise.then((matchingUsers) => {
-        expect(matchingUsers).to.have.lengthOf(3);
+      beforeEach(() => {
+        _.times(12, databaseBuilder.factory.buildUser);
+        return databaseBuilder.commit();
       });
-    });
 
-    it('should return paginated matching users', async () => {
-      // given
-      await knex('users').insert(_generateUsers(12));
+      afterEach(() => {
+        return databaseBuilder.clean();
+      });
 
-      const filters = {};
-      const pagination = { page: 1, pageSize: 3 };
+      it('should return paginated matching users', async () => {
+        // given
+        const filters = {};
+        const pagination = { page: 1, pageSize: 3 };
 
-      // when
-      const promise = userRepository.find(filters, pagination);
+        // when
+        const promise = userRepository.find(filters, pagination);
 
-      // then
-      return promise.then((matchingUsers) => {
-        expect(matchingUsers).to.have.lengthOf(3);
+        // then
+        return promise.then((matchingUsers) => {
+          expect(matchingUsers).to.have.lengthOf(3);
+        });
       });
     });
   });
 
   describe('#count', () => {
 
-    it('should return the total number of matching Users', async () => {
-      // given
-      await knex('users').insert(_generateUsers(8));
+    context('when there are multiple users in database', () => {
 
-      const filters = {};
+      beforeEach(() => {
+        _.times(8, databaseBuilder.factory.buildUser);
+        return databaseBuilder.commit();
+      });
 
-      // when
-      const promise = userRepository.count(filters);
+      afterEach(() => {
+        return databaseBuilder.clean();
+      });
 
-      // then
-      return promise.then((totalMatchingUsers) => {
-        expect(totalMatchingUsers).to.equal(8);
+      it('should return the total number of Users when there is no filter', async () => {
+        // given
+        const filters = {};
+
+        // when
+        const promise = userRepository.count(filters);
+
+        // then
+        return promise.then((totalMatchingUsers) => {
+          expect(totalMatchingUsers).to.equal(8);
+        });
       });
     });
 
-    it('should take into account filters', async () => {
-      // given
-      const matchingUser1 = _generateUser({ email: 'playpus@pix.fr' });
-      const matchingUser2 = _generateUser({ email: 'panda@pix.fr' });
-      const matchingUser3 = _generateUser({ email: 'otter@pix.fr' });
-      const ignoredUser1 = _generateUser({ email: 'playpus@example.net' });
-      const ignoredUser2 = _generateUser({ email: 'panda@example.net' });
+    context('when there are multiple users matching the same "email" search pattern', () => {
 
-      await knex('users').insert([matchingUser1, matchingUser2, matchingUser3, ignoredUser1, ignoredUser2]);
+      beforeEach(() => {
+        databaseBuilder.factory.buildUser({ email: 'playpus@pix.fr' });
+        databaseBuilder.factory.buildUser({ email: 'panda@pix.fr' });
+        databaseBuilder.factory.buildUser({ email: 'otter@pix.fr' });
+        databaseBuilder.factory.buildUser({ email: 'playpus@example.net' });
+        databaseBuilder.factory.buildUser({ email: 'panda@example.net' });
+        return databaseBuilder.commit();
+      });
 
-      const filters = { email: 'pix.fr' };
+      afterEach(() => {
+        return databaseBuilder.clean();
+      });
 
-      // when
-      const promise = userRepository.count(filters);
+      it('should return the total number of matching Users', async () => {
+        // given
+        const filters = { email: 'pix.fr' };
 
-      // then
-      return promise.then((totalMatchingUsers) => {
-        expect(totalMatchingUsers).to.equal(3);
+        // when
+        const promise = userRepository.count(filters);
+
+        // then
+        return promise.then((totalMatchingUsers) => {
+          expect(totalMatchingUsers).to.equal(3);
+        });
       });
     });
   });
-
 });
