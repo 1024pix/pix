@@ -2,7 +2,7 @@ module.exports = async function updateUser({
   userId,
   attributesToUpdate: {
     password,
-    cguOrga
+    pixOrgaTermsOfServiceAccepted
   },
   encryptionService,
   passwordResetDemandService,
@@ -21,8 +21,8 @@ module.exports = async function updateUser({
       .then(() => passwordResetDemandService.invalidOldResetPasswordDemand(user.email));
   }
 
-  if (cguOrga) {
-    attributesToUpdate = { cguOrga };
+  if (pixOrgaTermsOfServiceAccepted) {
+    attributesToUpdate = { pixOrgaTermsOfServiceAccepted };
   }
 
   return userRepository.updateUser({

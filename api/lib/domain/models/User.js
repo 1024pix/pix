@@ -6,7 +6,7 @@ class User {
     id,
     // attributes
     cgu,
-    cguOrga,
+    pixOrgaTermsOfServiceAccepted,
     email,
     firstName,
     lastName,
@@ -23,7 +23,7 @@ class User {
     this.email = _.toLower(email);
     this.password = password;
     this.cgu = cgu;
-    this.cguOrga = cguOrga;
+    this.pixOrgaTermsOfServiceAccepted = pixOrgaTermsOfServiceAccepted;
     // includes
     this.pixRoles = pixRoles;
     this.organizationAccesses = organizationAccesses;

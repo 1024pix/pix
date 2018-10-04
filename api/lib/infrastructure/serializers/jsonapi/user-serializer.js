@@ -31,7 +31,7 @@ module.exports = {
       email: json.data.attributes.email,
       password: json.data.attributes.password,
       cgu: json.data.attributes.cgu,
-      cguOrga: json.data.attributes['cgu-orga'],
+      pixOrgaTermsOfServiceAccepted: json.data.attributes['pix-orga-terms-of-service-accepted'],
     });
   }
 

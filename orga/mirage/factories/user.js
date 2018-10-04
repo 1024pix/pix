@@ -14,11 +14,7 @@ export default Factory.extend({
     return faker.internet.email();
   },
 
-  cgu() {
-    return faker.random.boolean();
-  },
-
-  cguOrga() {
+  pixOrgaTermsOfServiceAccepted() {
     return faker.random.boolean();
   }
 
