@@ -1,7 +1,7 @@
 const { expect, generateValidRequestAuhorizationHeader } = require('../../../test-helper');
 const server = require('../../../../server');
 
-describe('Acceptance | Controller | users-controller-find-users', () => {
+describe('Acceptance | users-controller-find-users', () => {
 
   let options;
 
