@@ -158,21 +158,21 @@ module.exports = {
 
   updatePassword(id, hashedPassword) {
     return BookshelfUser.where({ id })
-      .save({ password: hashedPassword, cgu: true }, {
+      .save({ password: hashedPassword }, {
         patch: true,
         require: false
       })
       .then((bookshelfUser) => bookshelfUser.toDomainEntity());
   },
 
-  updateUser({ id, attributes }) {
-    return BookshelfUser.where({ id })
-      .save(attributes, {
+  updateUser(domainUser) {
+    const userToUpdate = _.omit(domainUser, ['pixRoles', 'organizationAccesses']);
+    return BookshelfUser.where({ id: domainUser.id })
+      .save(userToUpdate, {
         patch: true,
         method: 'update',
-        require: true,
       })
-      .then((bookshelfUser) => bookshelfUser.toDomainEntity());
+      .then(_toDomain);
   },
 
   hasRolePixMaster(userId) {

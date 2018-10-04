@@ -1,4 +1,4 @@
-const { expect, knex, databaseBuilder } = require('../../../test-helper');
+const { expect, knex, databaseBuilder, factory } = require('../../../test-helper');
 const faker = require('faker');
 const bcrypt = require('bcrypt');
 const _ = require('lodash');
@@ -355,7 +355,7 @@ describe('Integration | Infrastructure | Repository | UserRepository', () => {
 
   });
 
-  describe('#save', () => {
+  describe('#create', () => {
 
     afterEach(() => {
       return knex('users').delete();
@@ -468,6 +468,36 @@ describe('Integration | Infrastructure | Repository | UserRepository', () => {
           expect(updatedUser).to.be.an.instanceOf(User);
           expect(updatedUser.password).to.equal(newPassword);
         });
+    });
+  });
+
+  describe('#updateUser', () => {
+
+    let userToUpdate;
+
+    beforeEach(async () => {
+      userToUpdate = factory.buildUser({ pixOrgaTermsOfServiceAccepted: true });
+      databaseBuilder.factory.buildUser({ id: userToUpdate.id, pixOrgaTermsOfServiceAccepted: false });
+      await databaseBuilder.commit();
+    });
+
+    afterEach(async () => {
+      await databaseBuilder.clean();
+    });
+
+    it('should update pixOrgaTermsOfServiceAccepted field', () => {
+      // when
+      const promise = userRepository.updateUser(userToUpdate);
+
+      // then
+      return promise.then((user) => {
+        expect(user).be.instanceOf(User);
+        expect(user.pixOrgaTermsOfServiceAccepted).to.be.true;
+        knex('users').select().where({ id: userToUpdate.id })
+          .then((usersSaved) => {
+            expect(Boolean(usersSaved[0].pixOrgaTermsOfServiceAccepted)).to.be.true;
+          });
+      });
     });
   });
 

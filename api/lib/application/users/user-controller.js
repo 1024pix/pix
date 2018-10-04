@@ -1,8 +1,8 @@
 const Boom = require('boom');
 const moment = require('moment');
 const JSONAPIError = require('jsonapi-serializer').Error;
-const { Deserializer } = require('jsonapi-serializer');
 
+const errorSerializer = require('../../infrastructure/serializers/jsonapi/error-serializer');
 const userSerializer = require('../../infrastructure/serializers/jsonapi/user-serializer');
 const organizationAccessSerializer = require('../../infrastructure/serializers/jsonapi/organization-accesses-serializer');
 const validationErrorSerializer = require('../../infrastructure/serializers/jsonapi/validation-error-serializer');
@@ -18,19 +18,13 @@ const JSONAPI = require('../../interfaces/jsonapi');
 const Bookshelf = require('../../infrastructure/bookshelf');
 
 const logger = require('../../infrastructure/logger');
+const { BadRequestError } = require('../../infrastructure/errors');
 const {
   InvalidTokenError,
   EntityValidationError,
   PasswordResetDemandNotFoundError,
   UserNotAuthorizedToAccessEntity,
 } = require('../../domain/errors');
-
-function _deserializePayload(payload) { // FIXME refactor this duplicated code
-  const deserializer = new Deserializer({
-    keyForAttribute: 'camelCase',
-  });
-  return deserializer.deserialize(payload);
-}
 
 module.exports = {
 
@@ -109,19 +103,34 @@ module.exports = {
   },
 
   updateUser(request, reply) {
+    const userId = request.params.id;
+
     return Promise.resolve(request.payload)
-      .then(_deserializePayload)
-      .then((payload) => {
-        return usecases.updateUser({
-          userId: request.params.id,
-          attributesToUpdate: payload
-        });
+      .then(userSerializer.deserialize)
+      .then((user) => {
+        if (user.password) {
+          return usecases.updateUserPassword({
+            userId,
+            password: user.password
+          });
+        }
+        if (user.pixOrgaTermsOfServiceAccepted) {
+          return usecases.acceptPixOrgaTermsOfService({
+            userId
+          });
+        }
+        return Promise.reject(new BadRequestError());
       })
       .then(() => reply().code(204))
       .catch((err) => {
         if (err instanceof PasswordResetDemandNotFoundError) {
           return reply(validationErrorSerializer.serialize(err.getErrorMessage())).code(404);
         }
+
+        if (err instanceof BadRequestError) {
+          return reply(errorSerializer.serialize(err)).code(err.code);
+        }
+
         return reply(JSONAPI.internalError('Une erreur interne est survenue.')).code(500);
       });
   },
