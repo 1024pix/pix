@@ -1,10 +1,36 @@
 const { expect, knex, factory, databaseBuilder } = require('../../../test-helper');
 
 const CertificationChallenge = require('../../../../lib/domain/models/CertificationChallenge');
-const certificationChallengeRepository = require(
-  '../../../../lib/infrastructure/repositories/certification-challenge-repository');
+const certificationChallengeRepository = require('../../../../lib/infrastructure/repositories/certification-challenge-repository');
 
 describe('Integration | Repository | Certification Challenge', function() {
+
+  describe('#save', () => {
+
+    let certificationCourseObject;
+    let certificationChallenge;
+
+    beforeEach(() => {
+      certificationCourseObject = databaseBuilder.factory.buildCertificationCourse();
+
+      certificationChallenge = factory.buildCertificationChallenge();
+      return databaseBuilder.commit();
+    });
+
+    afterEach(() => {
+      return knex('certification-challenges').delete()
+        .then(() => databaseBuilder.clean());
+    });
+
+    it('should return certification challenge object', () => {
+      const promise = certificationChallengeRepository.save(certificationChallenge, certificationCourseObject);
+
+      // then
+      return promise.then((savedCertificationChallenge) => {
+        expect(savedCertificationChallenge.challengeId).to.deep.equal(certificationChallenge.id);
+      });
+    });
+  });
 
   describe('#findByCertificationCourseId', () => {
 
