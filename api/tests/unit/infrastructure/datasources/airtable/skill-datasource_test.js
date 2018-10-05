@@ -55,10 +55,10 @@ describe('Unit | Infrastructure | Datasource | Airtable | SkillDatasource', () =
       return promise.then(() => {
         expect(airtable.findRecords).to.have.been.calledWith('Acquis', {
           filterByFormula:
-          'OR(' +
-          'FIND("recSkillRecordId1", {Record Id}), ' +
-          'FIND("recSkillRecordId2", {Record Id})' +
-          ')'
+            'OR(' +
+            'RECORD_ID()="recSkillRecordId1", ' +
+            'RECORD_ID()="recSkillRecordId2"' +
+            ')'
         });
       });
 
@@ -81,6 +81,36 @@ describe('Unit | Infrastructure | Datasource | Airtable | SkillDatasource', () =
         expect(foundSkills[0].name).to.equal(airtableSkillObject.fields.Nom);
       });
 
+    });
+  });
+
+  describe('#list', () => {
+
+    it('should query Airtable skills with empty query', () => {
+      // given
+      sandbox.stub(airtable, 'findRecords').resolves([]);
+
+      // when
+      const promise = skillDatasource.list();
+
+      // then
+      return promise.then(() => {
+        expect(airtable.findRecords).to.have.been.calledWith('Acquis', {});
+      });
+    });
+
+    it('should resolve an array of Skills from airTable', () => {
+      // given
+      sandbox.stub(airtable, 'findRecords').resolves([skillRawAirTableFixture(), skillRawAirTableFixture()]);
+
+      // when
+      const promise = skillDatasource.list();
+
+      // then
+      return promise.then((result) => {
+        expect(result).to.be.an('array').and.to.have.lengthOf(2);
+        expect(result[0]).to.be.an.instanceOf(airTableDataModels.Skill);
+      });
     });
   });
 });

@@ -173,210 +173,7 @@ describe('Unit | Repository | challenge-repository', () => {
     });
   });
 
-  describe('#list', () => {
-
-    let skillWeb1;
-    let skillURL2;
-    let skillURL3;
-
-    beforeEach(() => {
-
-      skillWeb1 = factory.buildSkill({
-        id: 'recSkillWeb1',
-        name: '@web1',
-      });
-      skillURL2 = factory.buildSkill({
-        id: 'recSkillURL2',
-        name: '@url2',
-      });
-      skillURL3 = factory.buildSkill({
-        id: 'recSkillURL3',
-        name: '@url3',
-      });
-
-      sandbox.stub(challengeDatasource, 'list');
-      sandbox.stub(skillDatasource, 'get');
-      sandbox.stub(solutionAdapter, 'fromChallengeAirtableDataObject');
-    });
-
-    context('when query happens with no error', () => {
-
-      let challengeDataObject1;
-      let challengeDataObject2;
-      let challengeRecordId;
-      let promise;
-      let solution;
-
-      beforeEach(() => {
-        // given
-        challengeRecordId = 'rec_challenge_id';
-        challengeDataObject1 = factory.buildChallengeAirtableDataObject({
-          id: challengeRecordId,
-          skillIds: [skillWeb1.id],
-        });
-        challengeDataObject2 = factory.buildChallengeAirtableDataObject({
-          id: challengeRecordId,
-          skillIds: [skillURL2.id, skillURL3.id],
-        });
-        solution = factory.buildSolution();
-
-        challengeDataSource.list.resolves([
-          challengeDataObject1,
-          challengeDataObject2,
-        ]);
-
-        skillDatasource.get.withArgs(skillWeb1.id).resolves(factory.buildSkillAirtableDataObject({
-          id: skillWeb1.id,
-          name: skillWeb1.name,
-        }));
-        skillDatasource.get.withArgs(skillURL2.id).resolves(factory.buildSkillAirtableDataObject({
-          id: skillURL2.id,
-          name: skillURL2.name,
-        }));
-        skillDatasource.get.withArgs(skillURL3.id).resolves(factory.buildSkillAirtableDataObject({
-          id: skillURL3.id, name: skillURL3.name,
-        }));
-        solutionAdapter.fromChallengeAirtableDataObject.returns(solution);
-
-        // when
-        promise = challengeRepository.list();
-      });
-
-      it('should succeed', () => {
-        // then
-        return expect(promise).to.be.fulfilled;
-      });
-      it('should call challengeDataObjects with competence', () => {
-        // then
-        return promise.then(() => {
-          expect(challengeDataSource.list).to.have.been.calledWithExactly();
-        });
-      });
-      it('should resolve an array of 2 Challenge domain objects', () => {
-        // then
-        // exact composition and construction of the Challenge object is tested in repository 'get' function.
-        return promise.then((challenges) => {
-          expect(challenges).to.be.an('array');
-          expect(challenges).to.have.lengthOf(2);
-          challenges.map((challenge) => expect(challenge).to.be.an.instanceOf(Challenge));
-        });
-      });
-      it('should load skills', () => {
-        // then
-        return promise.then(() => {
-          expect(skillDatasource.get).to.have.been.calledWith(skillWeb1.id);
-          expect(skillDatasource.get).to.have.been.calledWith(skillURL2.id);
-          expect(skillDatasource.get).to.have.been.calledWith(skillURL3.id);
-        });
-      });
-    });
-
-    context('when the datasource is on error', () => {
-
-      it('should transfer the error', () => {
-        // given
-        const error = new Error();
-        challengeDataSource.list.rejects(error);
-
-        // when
-        const promise = challengeRepository.list();
-
-        // then
-        return expect(promise).to.have.been.rejectedWith(error);
-      });
-    });
-  });
-
-  describe('#findByCompetence', () => {
-
-    let competence;
-
-    beforeEach(() => {
-      competence = factory.buildCompetence();
-
-      sandbox.stub(challengeDataSource, 'findByCompetence');
-      sandbox.stub(skillDatasource, 'get').resolves();
-      sandbox.stub(solutionAdapter, 'fromChallengeAirtableDataObject');
-    });
-
-    context('when query happens with no error', () => {
-
-      let challengeDataObject1;
-      let challengeDataObject2;
-      let challengeRecordId;
-      let promise;
-      let solution;
-
-      beforeEach(() => {
-        // given
-        challengeRecordId = 'rec_challenge_id';
-        challengeDataObject1 = factory.buildChallengeAirtableDataObject({
-          id: challengeRecordId,
-          skillIds: ['skillId_1'],
-        });
-        challengeDataObject2 = factory.buildChallengeAirtableDataObject({
-          id: challengeRecordId,
-          skillIds: ['skillId_2', 'skillId_3'],
-        });
-        solution = factory.buildSolution();
-        challengeDataSource.findByCompetence
-          .withArgs(competence)
-          .resolves([challengeDataObject1, challengeDataObject2]);
-        skillDatasource.get.withArgs('skillId_1').resolves(factory.buildSkillAirtableDataObject({ name: '@web1' }));
-        skillDatasource.get.withArgs('skillId_2').resolves(factory.buildSkillAirtableDataObject({ name: '@url2' }));
-        skillDatasource.get.withArgs('skillId_3').resolves(factory.buildSkillAirtableDataObject({ name: '@url3' }));
-        solutionAdapter.fromChallengeAirtableDataObject.returns(solution);
-
-        // when
-        promise = challengeRepository.findByCompetence(competence);
-      });
-
-      it('should succeed', () => {
-        // then
-        return expect(promise).to.be.fulfilled;
-      });
-      it('should call challengeDataObjects with competence', () => {
-        // then
-        return promise.then(() => {
-          expect(challengeDataSource.findByCompetence).to.have.been.calledWith(competence);
-        });
-      });
-      it('should resolve an array of 2 Challenge domain objects', () => {
-        // then
-        // exact composition and construction of the Challenge object is tested in repository 'get' function.
-        return promise.then((challenges) => {
-          expect(challenges).to.be.an('array');
-          expect(challenges).to.have.lengthOf(2);
-          challenges.map((challenge) => expect(challenge).to.be.an.instanceOf(Challenge));
-        });
-      });
-      it('should load skills', () => {
-        // then
-        return promise.then(() => {
-          expect(skillDatasource.get).to.have.been.calledWith('skillId_1');
-          expect(skillDatasource.get).to.have.been.calledWith('skillId_2');
-          expect(skillDatasource.get).to.have.been.calledWith('skillId_3');
-        });
-      });
-    });
-
-    context('when the datasource is on error', () => {
-
-      it('should transfer the error', () => {
-        // given
-        const error = new Error();
-        challengeDataSource.findByCompetence.rejects(error);
-
-        // when
-        const promise = challengeRepository.findByCompetence(competence);
-
-        // then
-        return expect(promise).to.have.been.rejectedWith(error);
-      });
-    });
-  });
-
-  describe('#findBySkills', () => {
+  context('when requesting multiple challenges', () => {
 
     let skillWeb1;
     let skillURL2;
@@ -385,6 +182,7 @@ describe('Unit | Repository | challenge-repository', () => {
     let skillNames;
 
     beforeEach(() => {
+
       skillWeb1 = factory.buildSkill({
         id: 'recSkillWeb1',
         name: '@web1',
@@ -400,96 +198,273 @@ describe('Unit | Repository | challenge-repository', () => {
       skills = [skillWeb1, skillURL2, skillURL3];
       skillNames = [skillWeb1.name, skillURL2.name, skillURL3.name];
 
-      sandbox.stub(challengeDatasource, 'findBySkillNames');
       sandbox.stub(skillDatasource, 'get');
-      sandbox.stub(solutionAdapter, 'fromChallengeAirtableDataObject');
-    });
-
-    context('when query happens with no error', () => {
-
-      let challengeDataObject1;
-      let challengeDataObject2;
-      let challengeRecordId;
-      let promise;
-      let solution;
-
-      beforeEach(() => {
-        // given
-        challengeRecordId = 'rec_challenge_id';
-        challengeDataObject1 = factory.buildChallengeAirtableDataObject({
-          id: challengeRecordId,
-          skillIds: [skillWeb1.id],
-        });
-        challengeDataObject2 = factory.buildChallengeAirtableDataObject({
-          id: challengeRecordId,
-          skillIds: [skillURL2.id, skillURL3.id],
-        });
-        solution = factory.buildSolution();
-
-        challengeDataSource.findBySkillNames.withArgs(skillNames).resolves([
-          challengeDataObject1,
-          challengeDataObject2,
-        ]);
-
-        skillDatasource.get.withArgs(skillWeb1.id).resolves(factory.buildSkillAirtableDataObject({
-          id: skillWeb1.id,
-          name: skillWeb1.name,
-        }));
-        skillDatasource.get.withArgs(skillURL2.id).resolves(factory.buildSkillAirtableDataObject({
+      sandbox.stub(skillDatasource, 'list');
+      skillDatasource.list.resolves([
+        factory.buildSkillAirtableDataObject({
+          id: skillURL3.id, name: skillURL3.name,
+        }),
+        factory.buildSkillAirtableDataObject({
           id: skillURL2.id,
           name: skillURL2.name,
-        }));
-        skillDatasource.get.withArgs(skillURL3.id).resolves(factory.buildSkillAirtableDataObject({
-          id: skillURL3.id, name: skillURL3.name,
-        }));
-        solutionAdapter.fromChallengeAirtableDataObject.returns(solution);
+        }),
+        factory.buildSkillAirtableDataObject({
+          id: skillWeb1.id,
+          name: skillWeb1.name,
+        })]);
+    });
 
-        // when
-        promise = challengeRepository.findBySkills(skills);
+    describe('#list', () => {
+
+      beforeEach(() => {
+        sandbox.stub(challengeDatasource, 'list');
+        sandbox.stub(solutionAdapter, 'fromChallengeAirtableDataObject');
       });
 
-      it('should succeed', () => {
-        // then
-        return expect(promise).to.be.fulfilled;
-      });
-      it('should call challengeDataObjects with competence', () => {
-        // then
-        return promise.then(() => {
-          expect(challengeDataSource.findBySkillNames).to.have.been.calledWith(skillNames);
+      context('when query happens with no error', () => {
+
+        let promise;
+
+        beforeEach(() => {
+          // given
+          challengeDataSource.list.resolves([
+            factory.buildChallengeAirtableDataObject({
+              id: 'rec_challenge_1',
+              skillIds: [skillWeb1.id],
+            }),
+            factory.buildChallengeAirtableDataObject({
+              id: 'rec_challenge_2',
+              skillIds: [skillURL2.id, skillURL3.id, 'not_existing_skill_id'],
+            }),
+          ]);
+
+          solutionAdapter.fromChallengeAirtableDataObject.returns(factory.buildSolution());
+
+          // when
+          promise = challengeRepository.list();
+        });
+
+        it('should succeed', () => {
+          // then
+          return expect(promise).to.be.fulfilled;
+        });
+
+        it('should call challengeDataObjects with competence', () => {
+          // then
+          return promise.then(() => {
+            expect(challengeDataSource.list).to.have.been.calledWithExactly();
+          });
+        });
+
+        it('should resolve an array of 2 Challenge domain objects', () => {
+          // then
+          return promise.then((challenges) => {
+            expect(challenges).to.be.an('array');
+            expect(challenges).to.have.lengthOf(2);
+            challenges.map((challenge) => expect(challenge).to.be.an.instanceOf(Challenge));
+          });
+        });
+
+        it('should load skills in the challenges', () => {
+          // then
+          return promise.then((challenges) => {
+            expect(challenges[0].skills).to.deep.equal([
+              {
+                'id': 'recSkillWeb1',
+                'name': '@web1',
+              }
+            ]);
+            expect(challenges[1].skills).to.deep.equal([
+              {
+                'id': 'recSkillURL2',
+                'name': '@url2',
+              },
+              {
+                'id': 'recSkillURL3',
+                'name': '@url3',
+              }
+            ]);
+          });
+        });
+
+        it('should not retrieve skills individually', () => {
+          // then
+          return promise.then(() => {
+            expect(skillDatasource.get).not.to.have.been.called;
+          });
         });
       });
-      it('should resolve an array of 2 Challenge domain objects', () => {
-        // then
-        // exact composition and construction of the Challenge object is tested in repository 'get' function.
-        return promise.then((challenges) => {
-          expect(challenges).to.be.an('array');
-          expect(challenges).to.have.lengthOf(2);
-          challenges.map((challenge) => expect(challenge).to.be.an.instanceOf(Challenge));
-        });
-      });
-      it('should load skills', () => {
-        // then
-        return promise.then(() => {
-          expect(skillDatasource.get).to.have.been.calledWith(skillWeb1.id);
-          expect(skillDatasource.get).to.have.been.calledWith(skillURL2.id);
-          expect(skillDatasource.get).to.have.been.calledWith(skillURL3.id);
+
+      context('when the datasource is on error', () => {
+
+        it('should transfer the error', () => {
+          // given
+          const error = new Error();
+          challengeDataSource.list.rejects(error);
+
+          // when
+          const promise = challengeRepository.list();
+
+          // then
+          return expect(promise).to.have.been.rejectedWith(error);
         });
       });
     });
 
-    context('when the datasource is on error', () => {
+    describe('#findByCompetence', () => {
 
-      it('should transfer the error', () => {
-        // given
-        const error = new Error();
-        challengeDataSource.findBySkillNames.rejects(error);
+      let competence;
 
-        // when
-        const promise = challengeRepository.findBySkills(skills);
+      beforeEach(() => {
+        competence = factory.buildCompetence();
 
-        // then
-        return expect(promise).to.have.been.rejectedWith(error);
+        sandbox.stub(challengeDataSource, 'findByCompetence');
+        sandbox.stub(solutionAdapter, 'fromChallengeAirtableDataObject');
+      });
+
+      context('when query happens with no error', () => {
+
+        let challengeDataObject1;
+        let challengeDataObject2;
+        let challengeRecordId;
+        let promise;
+        let solution;
+
+        beforeEach(() => {
+          // given
+          challengeRecordId = 'rec_challenge_id';
+          challengeDataObject1 = factory.buildChallengeAirtableDataObject({
+            id: challengeRecordId,
+            skillIds: [skillWeb1.id],
+          });
+          challengeDataObject2 = factory.buildChallengeAirtableDataObject({
+            id: challengeRecordId,
+            skillIds: [skillURL2.id, skillURL3.id],
+          });
+          solution = factory.buildSolution();
+          challengeDataSource.findByCompetence
+            .withArgs(competence)
+            .resolves([challengeDataObject1, challengeDataObject2]);
+          solutionAdapter.fromChallengeAirtableDataObject.returns(solution);
+
+          // when
+          promise = challengeRepository.findByCompetence(competence);
+        });
+
+        it('should succeed', () => {
+          // then
+          return expect(promise).to.be.fulfilled;
+        });
+        it('should call challengeDataObjects with competence', () => {
+          // then
+          return promise.then(() => {
+            expect(challengeDataSource.findByCompetence).to.have.been.calledWith(competence);
+          });
+        });
+        it('should resolve an array of 2 Challenge domain objects', () => {
+          // then
+          // exact composition and construction of the Challenge object is tested in repository 'get' function.
+          return promise.then((challenges) => {
+            expect(challenges).to.be.an('array');
+            expect(challenges).to.have.lengthOf(2);
+            challenges.map((challenge) => expect(challenge).to.be.an.instanceOf(Challenge));
+          });
+        });
+      });
+
+      context('when the datasource is on error', () => {
+
+        it('should transfer the error', () => {
+          // given
+          const error = new Error();
+          challengeDataSource.findByCompetence.rejects(error);
+
+          // when
+          const promise = challengeRepository.findByCompetence(competence);
+
+          // then
+          return expect(promise).to.have.been.rejectedWith(error);
+        });
       });
     });
+
+    describe('#findBySkills', () => {
+
+      beforeEach(() => {
+
+        sandbox.stub(challengeDatasource, 'findBySkillNames');
+        sandbox.stub(solutionAdapter, 'fromChallengeAirtableDataObject');
+      });
+
+      context('when query happens with no error', () => {
+
+        let challengeDataObject1;
+        let challengeDataObject2;
+        let challengeRecordId;
+        let promise;
+        let solution;
+
+        beforeEach(() => {
+          // given
+          challengeRecordId = 'rec_challenge_id';
+          challengeDataObject1 = factory.buildChallengeAirtableDataObject({
+            id: challengeRecordId,
+            skillIds: [skillWeb1.id],
+          });
+          challengeDataObject2 = factory.buildChallengeAirtableDataObject({
+            id: challengeRecordId,
+            skillIds: [skillURL2.id, skillURL3.id],
+          });
+          solution = factory.buildSolution();
+
+          challengeDataSource.findBySkillNames.withArgs(skillNames).resolves([
+            challengeDataObject1,
+            challengeDataObject2,
+          ]);
+
+          solutionAdapter.fromChallengeAirtableDataObject.returns(solution);
+
+          // when
+          promise = challengeRepository.findBySkills(skills);
+        });
+
+        it('should succeed', () => {
+          // then
+          return expect(promise).to.be.fulfilled;
+        });
+        it('should call challengeDataObjects with competence', () => {
+          // then
+          return promise.then(() => {
+            expect(challengeDataSource.findBySkillNames).to.have.been.calledWith(skillNames);
+          });
+        });
+        it('should resolve an array of 2 Challenge domain objects', () => {
+          // then
+          // exact composition and construction of the Challenge object is tested in repository 'get' function.
+          return promise.then((challenges) => {
+            expect(challenges).to.be.an('array');
+            expect(challenges).to.have.lengthOf(2);
+            challenges.map((challenge) => expect(challenge).to.be.an.instanceOf(Challenge));
+          });
+        });
+      });
+
+      context('when the datasource is on error', () => {
+
+        it('should transfer the error', () => {
+          // given
+          const error = new Error();
+          challengeDataSource.findBySkillNames.rejects(error);
+
+          // when
+          const promise = challengeRepository.findBySkills(skills);
+
+          // then
+          return expect(promise).to.have.been.rejectedWith(error);
+        });
+      });
+    });
+
   });
+
 });

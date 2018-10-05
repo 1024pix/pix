@@ -73,9 +73,9 @@ describe('Integration | Repository | SmartPlacementAssessmentRepository', () => 
 
       // XXX: escape is necessary for nock to properly match the query
       const uri = ('OR(' +
-                   `FIND(\"${firstSkill.id}\", \{Record Id\}), ` +
-                   `FIND(\"${secondSkill.id}\", \{Record Id\}), ` +
-                   `FIND(\"${thirdSkill.id}\", \{Record Id\})` +
+                   `RECORD_ID()=\"${firstSkill.id}\", ` +
+                   `RECORD_ID()=\"${secondSkill.id}\", ` +
+                   `RECORD_ID()=\"${thirdSkill.id}\"` +
                    ')');
 
       airtableBuilder
