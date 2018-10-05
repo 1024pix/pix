@@ -1,6 +1,5 @@
 import AuthenticatedRouteMixin from 'ember-simple-auth/mixins/authenticated-route-mixin';
 import BaseRoute from 'mon-pix/routes/base-route';
-import { isEmpty } from '@ember/utils';
 import RSVP from 'rsvp';
 
 export default BaseRoute.extend(AuthenticatedRouteMixin, {
@@ -19,49 +18,21 @@ export default BaseRoute.extend(AuthenticatedRouteMixin, {
       .catch(() => RSVP.reject());
   },
 
-  afterModel(model) {
-    return this._existAssessment(model.campaignCode)
-      .then((assessment) => {
-        if(assessment) {
-          return this._startFirstChallenge(assessment);
-        }
-      });
-  },
-
   setupController(controller) {
     this._super(...arguments);
     controller.set('start', (campaign, campaignCode, participantExternalId) => this.start(campaign, campaignCode, participantExternalId));
   },
 
-  start(campaign, campaignCode, participantExternalId) {
-    return this._retrieveOrCreateCampaignParticipation(campaign, campaignCode, participantExternalId)
+  start(campaign, participantExternalId) {
+    return this._createCampaignParticipation(campaign, participantExternalId)
       .then((assessment) => this._startFirstChallenge(assessment));
   },
 
-  _existAssessment(campaignCode) {
+  _createCampaignParticipation(campaign, participantExternalId) {
     const store = this.get('store');
-    // TODO query campaign-participation instead of assessment
-    return store.query('assessment', { filter: { type: 'SMART_PLACEMENT', codeCampaign: campaignCode } })
-      .then((smartPlacementAssessments) => {
-        if (!isEmpty(smartPlacementAssessments)) {
-          return smartPlacementAssessments.get('firstObject');
-        }
-        return null;
-      });
-  },
-
-  _retrieveOrCreateCampaignParticipation(campaign, campaignCode, participantExternalId) {
-    const store = this.get('store');
-    // TODO query campaign-participation instead of assessment
-    return store.query('assessment', { filter: { type: 'SMART_PLACEMENT', codeCampaign: campaignCode } })
-      .then((smartPlacementAssessments) => {
-        if (!isEmpty(smartPlacementAssessments)) {
-          return smartPlacementAssessments.get('firstObject');
-        }
-        return store.createRecord('campaign-participation', { campaign, participantExternalId })
-          .save()
-          .then((campaignParticipation) => campaignParticipation.get('assessment'));
-      });
+    return store.createRecord('campaign-participation', { campaign, participantExternalId })
+      .save()
+      .then((campaignParticipation) => campaignParticipation.get('assessment'));
   },
 
   _startFirstChallenge(assessment) {
@@ -72,7 +43,7 @@ export default BaseRoute.extend(AuthenticatedRouteMixin, {
         if(challenge) {
           return this.transitionTo('assessments.challenge', { assessment, challenge });
         } else {
-          return this.transitionTo('assessments.rating', assessment.get('id'));
+          return this.transitionTo('campaigns.start-or-resume', this.get('campaignCode'));
         }
       });
   },
