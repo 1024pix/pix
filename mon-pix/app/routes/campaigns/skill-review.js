@@ -7,11 +7,16 @@ export default BaseRoute.extend(AuthenticatedRouteMixin, {
   model(params) {
     const store = this.get('store');
     const assessmentId = params.assessment_id;
-
     return RSVP.hash({
       campaignParticipation: store.query('campaignParticipation', { filter: { assessmentId } })
         .then((campaignParticipations) => campaignParticipations.get('firstObject')),
       assessment: store.findRecord('assessment', assessmentId)
     });
   },
+
+  afterModel(model) {
+    if(model.campaignParticipation.isShared) {
+      this.controllerFor('campaigns.skill-review').send('hideShareButton');
+    }
+  }
 });

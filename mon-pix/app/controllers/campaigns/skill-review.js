@@ -13,6 +13,9 @@ export default Controller.extend({
           this.set('showButtonToShareResult', false);
         }.bind(this));
 
+    },
+    hideShareButton() {
+      this.set('showButtonToShareResult', false);
     }
   }
 });
