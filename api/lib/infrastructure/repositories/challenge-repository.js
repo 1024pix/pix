@@ -1,3 +1,5 @@
+const _ = require('lodash');
+
 const Challenge = require('../../domain/models/Challenge');
 const Skill = require('../../domain/models/Skill');
 
@@ -24,33 +26,44 @@ module.exports = {
   list() {
 
     return challengeDatasource.list()
-      .then((challengeDataObjects) => Promise.all(challengeDataObjects.map(_generateChallengeDomainModel)));
+      .then(_generateChallengeDomainModels);
   },
 
   findByCompetence(competence) {
 
     return challengeDatasource.findByCompetence(competence)
-      .then((challengeDataObjects) => Promise.all(challengeDataObjects.map(_generateChallengeDomainModel)));
+      .then(_generateChallengeDomainModels);
   },
 
   findBySkills(skills) {
 
     const skillNames = skills.map((skill) => skill.name);
     return challengeDatasource.findBySkillNames(skillNames)
-      .then((challengeDataObjects) => Promise.all(challengeDataObjects.map(_generateChallengeDomainModel)));
+      .then(_generateChallengeDomainModels);
   },
 };
 
-function _generateChallengeDomainModel(challengeDataObject) {
+function _generateChallengeDomainModels(challengeDataObjects) {
+  return skillDatasource.list().then((allSkills) => {
+    const lookupSkill = (id) => _.find(allSkills, { id });
 
-  return Promise.resolve(challengeDataObject)
-    .then(_getSkillDataObjects)
-    .then((skillDataObjects) => _adaptChallengeFromDataObjects({ challengeDataObject, skillDataObjects }));
+    return challengeDataObjects.map((challengeDataObject) => {
+      const lookedUpSkillDataObjects = challengeDataObject.skillIds.map(lookupSkill);
+      const foundSkillDataObjects = _.compact(lookedUpSkillDataObjects);
+
+      return _adaptChallengeFromDataObjects({
+        challengeDataObject,
+        skillDataObjects: foundSkillDataObjects
+      });
+    });
+  });
 }
 
-function _getSkillDataObjects(challengeDataObject) {
-  const skillDataObjectPromises = challengeDataObject.skillIds.map(skillDatasource.get);
-  return Promise.all(skillDataObjectPromises);
+function _generateChallengeDomainModel(challengeDataObject) {
+  return Promise.all(challengeDataObject.skillIds.map(skillDatasource.get))
+    .then((skillDataObjects) => {
+      return _adaptChallengeFromDataObjects({ challengeDataObject, skillDataObjects });
+    });
 }
 
 function _adaptChallengeFromDataObjects({ challengeDataObject, skillDataObjects }) {
