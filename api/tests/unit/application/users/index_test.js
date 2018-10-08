@@ -1,6 +1,7 @@
 const { expect, sinon } = require('../../../test-helper');
 const Hapi = require('hapi');
-const UserController = require('../../../../lib/application/users/user-controller');
+const securityController = require('../../../../lib/interfaces/controllers/security-controller');
+const userController = require('../../../../lib/application/users/user-controller');
 const userVerification = require('../../../../lib/application/preHandlers/user-existence-verification');
 
 const sandbox = sinon.createSandbox();
@@ -19,10 +20,38 @@ describe('Unit | Router | user-router', () => {
     sandbox.restore();
   });
 
+  describe('GET /api/users', () => {
+
+    beforeEach(() => {
+      sandbox.stub(securityController, 'checkUserIsAuthenticated').callsFake((request, reply) => {
+        reply.continue({ credentials: { accessToken: 'jwt.access.token' } });
+      });
+      sandbox.stub(securityController, 'checkUserHasRolePixMaster').callsFake((request, reply) => reply(true));
+      sandbox.stub(userController, 'find').callsFake((request, reply) => reply('ok'));
+      startServer();
+    });
+
+    it('should exist', () => {
+      // given
+      const options = {
+        method: 'GET',
+        url: '/api/users?firstName=Bruce&lastName=Wayne&email=batman@gotham.city&page=3&pageSize=25',
+      };
+
+      // when
+      const promise = server.inject(options);
+
+      // then
+      return promise.then((response) => {
+        expect(response.statusCode).to.equal(200);
+      });
+    });
+  });
+
   describe('POST /api/users', () => {
 
     beforeEach(() => {
-      sandbox.stub(UserController, 'save').callsFake((request, reply) => reply('ok'));
+      sandbox.stub(userController, 'save').callsFake((request, reply) => reply('ok'));
       startServer();
     });
 
@@ -56,7 +85,7 @@ describe('Unit | Router | user-router', () => {
   describe('GET /api/users/{id}', function() {
 
     beforeEach(() => {
-      sandbox.stub(UserController, 'getUser').callsFake((request, reply) => reply('ok'));
+      sandbox.stub(userController, 'getUser').callsFake((request, reply) => reply('ok'));
       startServer();
     });
 
@@ -77,7 +106,7 @@ describe('Unit | Router | user-router', () => {
   describe('GET /api/users/me', function() {
 
     beforeEach(() => {
-      sandbox.stub(UserController, 'getAuthenticatedUserProfile').callsFake((request, reply) => reply('ok'));
+      sandbox.stub(userController, 'getAuthenticatedUserProfile').callsFake((request, reply) => reply('ok'));
       startServer();
     });
 
@@ -97,7 +126,7 @@ describe('Unit | Router | user-router', () => {
 
   describe('GET /api/users/{id}/skills', function() {
     beforeEach(() => {
-      sandbox.stub(UserController, 'getProfileToCertify').callsFake((request, reply) => reply('ok'));
+      sandbox.stub(userController, 'getProfileToCertify').callsFake((request, reply) => reply('ok'));
       sandbox.stub(userVerification, 'verifyById').callsFake((request, reply) => reply('ok'));
       startServer();
     });
@@ -111,15 +140,15 @@ describe('Unit | Router | user-router', () => {
       // given
       return server.inject(options).then((_) => {
         sinon.assert.calledOnce(userVerification.verifyById);
-        sinon.assert.calledOnce(UserController.getProfileToCertify);
-        sinon.assert.callOrder(userVerification.verifyById, UserController.getProfileToCertify);
+        sinon.assert.calledOnce(userController.getProfileToCertify);
+        sinon.assert.callOrder(userVerification.verifyById, userController.getProfileToCertify);
       });
     });
   });
 
   describe('GET /api/users/{id}/organization-accesses', function() {
     beforeEach(() => {
-      sandbox.stub(UserController, 'getOrganizationAccesses').callsFake((request, reply) => reply('ok'));
+      sandbox.stub(userController, 'getOrganizationAccesses').callsFake((request, reply) => reply('ok'));
       startServer();
     });
 
@@ -133,7 +162,7 @@ describe('Unit | Router | user-router', () => {
       // when
       return server.inject(options).then(() => {
         // then
-        sinon.assert.calledOnce(UserController.getOrganizationAccesses);
+        sinon.assert.calledOnce(userController.getOrganizationAccesses);
       });
     });
   });
@@ -148,7 +177,7 @@ describe('Unit | Router | user-router', () => {
     });
 
     beforeEach(() => {
-      sandbox.stub(UserController, 'updatePassword').callsFake((request, reply) => reply('ok'));
+      sandbox.stub(userController, 'updatePassword').callsFake((request, reply) => reply('ok'));
       sandbox.stub(userVerification, 'verifyById').callsFake((request, reply) => reply('ok'));
       startServer();
     });
