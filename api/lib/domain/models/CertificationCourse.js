@@ -9,7 +9,7 @@ class CertificationCourse {
       createdAt,
       externalId,
       firstName,
-      isPublished,
+      isPublished = false,
       lastName,
       nbChallenges,
       // includes
