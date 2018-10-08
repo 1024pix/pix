@@ -300,8 +300,7 @@ module.exports = {
 
   startNewCertification(userId, sessionId) {
     let userCompetencesToCertify;
-    //TODO: utiliser new CertificationCourse
-    const newCertificationCourse = CertificationCourse.fromAttributes({ userId, sessionId });
+    const newCertificationCourse = new CertificationCourse({ userId, sessionId });
 
     return userService.getProfileToCertify(userId, moment().toISOString())
       .then((userCompetences) => {
