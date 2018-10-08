@@ -32,4 +32,29 @@ describe('Unit | Infrastructure | Adapter | targetSkillAdapter', () => {
     expect(targetProfile).to.be.an.instanceOf(TargetProfile);
     expect(targetProfile).to.be.deep.equal(expectedTargetProfile);
   });
+
+  it('should adapt TargetSkill object to domain with organizationAccess', () => {
+    // given
+    const bookshelfTargetProfile = new BookshelfTargetProfile(databaseBuilder.factory.buildTargetProfile());
+    const skillAirtableDataObject = factory.buildSkillAirtableDataObject();
+    const associatedSkillAirtableDataObjects = [skillAirtableDataObject];
+    const expectedTargetProfile = factory.buildTargetProfile({
+      id: bookshelfTargetProfile.get('id'),
+      name: bookshelfTargetProfile.get('name'),
+      isPublic: Boolean(bookshelfTargetProfile.get('isPublic')),
+      organizationId: bookshelfTargetProfile.get('organizationId'),
+      skills: [factory.buildSkill({ id: skillAirtableDataObject.id, name: skillAirtableDataObject.name })],
+    });
+
+    // when
+    const targetProfile = targetProfileAdapter.fromDatasourceObjects({
+      bookshelfTargetProfile,
+      associatedSkillAirtableDataObjects,
+    });
+
+    // then
+    expect(targetProfile).to.be.an.instanceOf(TargetProfile);
+    expect(targetProfile).to.be.deep.equal(expectedTargetProfile);
+  });
+
 });

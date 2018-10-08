@@ -10,6 +10,7 @@ module.exports = function buildOrganization(
     type = 'SCO',
     email = 'lycee.luke.skywalker@example.net',
     user = new User(),
+    targetProfileShared = [],
   } = {}) {
-  return new Organization({ id, code, name, type, email, user });
+  return new Organization({ id, code, name, type, email, user, targetProfileShared });
 };

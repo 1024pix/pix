@@ -748,7 +748,7 @@ describe('Unit | Application | Organizations | organization-controller', () => {
       return promise.then(() => {
         expect(usecases.findAvailableTargetProfiles).to.have.been.calledOnce;
         expect(usecases.findAvailableTargetProfiles).to.have.been.calledWith({
-          organizationId: organizationId,
+          organizationId: 145,
         });
       });
     });

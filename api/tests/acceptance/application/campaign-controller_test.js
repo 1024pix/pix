@@ -10,6 +10,7 @@ describe('Acceptance | API | Campaigns', () => {
     let user;
     let otherUser;
     let targetProfile;
+    let targetProfileNotAccessibleToUser;
 
     beforeEach(() => {
       user = databaseBuilder.factory.buildUser({});
@@ -20,6 +21,7 @@ describe('Acceptance | API | Campaigns', () => {
         organizationId: organization.id
       });
       targetProfile = databaseBuilder.factory.buildTargetProfile({ organizationId: organization.id, isPublic: false });
+      targetProfileNotAccessibleToUser = databaseBuilder.factory.buildTargetProfile({ organizationId: 0, isPublic: false });
 
       airtableBuilder
         .mockList({ tableName: 'Acquis' })
@@ -87,6 +89,39 @@ describe('Acceptance | API | Campaigns', () => {
               'target-profile': {
                 data: {
                   id: faker.random.number()
+                }
+              }
+            }
+          }
+        }
+      };
+
+      // when
+      const promise = server.inject(options);
+
+      // then
+      return promise.then((response) => {
+        expect(response.statusCode).to.equal(403);
+        expect(response.result.errors[0].title).to.equal('Forbidden Error');
+      });
+    });
+
+    it('should return 403 Unauthorized when a user try to create a campaign with a profile not shared with his organization', function() {
+      const options = {
+        method: 'POST',
+        url: '/api/campaigns',
+        headers: { authorization: generateValidRequestAuhorizationHeader(user.id) },
+        payload: {
+          data: {
+            type: 'campaigns',
+            attributes: {
+              name: 'L‘hymne de nos campagnes',
+              'organization-id': organization.id,
+            },
+            relationships: {
+              'target-profile': {
+                data: {
+                  id: targetProfileNotAccessibleToUser.id
                 }
               }
             }

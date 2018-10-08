@@ -9,7 +9,7 @@ module.exports = {
     let organizationsSharedId = [];
     if(bookshelfTargetProfile.relations.organizationsWhichShared) {
       organizationsSharedId = bookshelfTargetProfile.relations.organizationsWhichShared
-        .map((organizations) => organizations.get('organizationId'));
+        .map((organization) => organization.get('organizationId'));
     }
     return new TargetProfile({
       id: bookshelfTargetProfile.get('id'),
