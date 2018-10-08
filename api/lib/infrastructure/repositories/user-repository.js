@@ -38,6 +38,19 @@ function _toDomain(userBookshelf) {
   });
 }
 
+function _setSearchFiltersForQueryBuilder(filters, qb) {
+  const { firstName, lastName, email } = filters;
+  if (firstName) {
+    qb.where('firstName', 'LIKE', `%${firstName}%`);
+  }
+  if (lastName) {
+    qb.where('lastName', 'LIKE', `%${lastName}%`);
+  }
+  if (email) {
+    qb.where('email', 'LIKE', `%${email}%`);
+  }
+}
+
 module.exports = {
 
   // TODO use _toDomain()
@@ -61,7 +74,7 @@ module.exports = {
         ]
       })
       .then((foundUser) => {
-        if(foundUser === null) {
+        if (foundUser === null) {
           return Promise.reject(new UserNotFoundError());
         }
         return _toDomain(foundUser);
@@ -93,6 +106,17 @@ module.exports = {
       });
   },
 
+  find(filters, pagination) {
+    const { page, pageSize } = pagination;
+    return BookshelfUser.query((qb) => _setSearchFiltersForQueryBuilder(filters, qb))
+      .fetchPage({ page, pageSize })
+      .then((results) => results.map(_toDomain));
+  },
+
+  count(filters) {
+    return BookshelfUser.query((qb) => _setSearchFiltersForQueryBuilder(filters, qb)).count();
+  },
+
   getWithOrganizationAccesses(userId) {
     return BookshelfUser
       .where({ id: userId })
@@ -104,7 +128,7 @@ module.exports = {
         ]
       })
       .then((foundUser) => {
-        if(foundUser === null) {
+        if (foundUser === null) {
           return Promise.reject(new UserNotFoundError(`User not found for ID ${userId}`));
         }
         return _toDomain(foundUser);
