@@ -82,7 +82,7 @@ module.exports = {
   },
 
   findTargetProfiles(request, reply) {
-    const requestedOrganizationId = request.params.id;
+    const requestedOrganizationId = parseInt(request.params.id);
 
     return usecases.findAvailableTargetProfiles({ organizationId: requestedOrganizationId })
       .then(targetProfileSerializer.serialize)

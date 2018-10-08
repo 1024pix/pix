@@ -29,6 +29,31 @@ describe('Unit | Domain | Models | Organization', () => {
       expect(organization.user).to.equal(user);
     });
 
+    it('should build an Organization with targetProfile related', () => {
+      // given
+      const user = { firstName: 'John', lastName: 'Doe'  };
+      const rawData = {
+        id: 1,
+        code: 'AZE123',
+        name: 'Lycée Jean Rostand',
+        type: 'SCO',
+        email: 'jr@lycee.fr',
+        user: user,
+        targetProfileShared: [
+          {
+            targetProfile: []
+          }
+        ]
+      };
+      // when
+      const organization = new Organization(rawData);
+
+      // then
+      expect(organization.id).to.equal(1);
+      expect(organization.email).to.equal('jr@lycee.fr');
+      expect(organization.targetProfileShared.length).to.equal(1);
+    });
+
   });
 
 });

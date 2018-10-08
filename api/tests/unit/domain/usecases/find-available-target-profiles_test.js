@@ -8,7 +8,9 @@ describe('Unit | UseCase | find-available-target-profiles', () => {
   const targetProfileRepository = {
     findPublicTargetProfiles: () => undefined,
     findTargetProfilesByOrganizationId: () => undefined,
-    findTargetProfilesSharedWithOrganization: () => undefined,
+  };
+  const organizationRepository = {
+    get: () => undefined,
   };
   let organizationId;
   let targetProfilesLinkedToOrganization;
@@ -18,13 +20,17 @@ describe('Unit | UseCase | find-available-target-profiles', () => {
   beforeEach(() => {
     organizationId = 1;
     targetProfilesLinkedToOrganization = [factory.buildTargetProfile({ organizationId, isPublic: false })];
-    targetProfileSharedWithOrganization = [factory.buildTargetProfile({ isPublic: false })];
+    targetProfileSharedWithOrganization = factory.buildTargetProfile({ isPublic: false });
     publicTargetProfiles = [factory.buildTargetProfile({ isPublic: true })];
+    const targetProfileShared = [{
+      targetProfile: targetProfileSharedWithOrganization
+    }];
+    const organization = factory.buildOrganization({ id: organizationId, targetProfileShared });
 
     sandbox = sinon.sandbox.create();
     targetProfileRepository.findPublicTargetProfiles = sandbox.stub().resolves(publicTargetProfiles);
     targetProfileRepository.findTargetProfilesByOrganizationId = sandbox.stub().resolves(targetProfilesLinkedToOrganization);
-    targetProfileRepository.findTargetProfilesSharedWithOrganization = sandbox.stub().resolves(targetProfileSharedWithOrganization);
+    organizationRepository.get = sandbox.stub().resolves(organization);
   });
 
   afterEach(() => {
@@ -33,7 +39,7 @@ describe('Unit | UseCase | find-available-target-profiles', () => {
 
   it('should return an array of target profiles', () => {
     // when
-    const promise = findAvailableTargetProfiles({ organizationId, targetProfileRepository });
+    const promise = findAvailableTargetProfiles({ organizationId, targetProfileRepository, organizationRepository });
 
     // then
     return promise.then((availableTargetProfiles) => {
@@ -44,35 +50,35 @@ describe('Unit | UseCase | find-available-target-profiles', () => {
 
   it('should find public profiles and profiles linked or shared to/with anyOrganization', () => {
     // when
-    const promise = findAvailableTargetProfiles({ organizationId, targetProfileRepository });
+    const promise = findAvailableTargetProfiles({ organizationId, targetProfileRepository, organizationRepository });
 
     // then
     return promise.then(() => {
       expect(targetProfileRepository.findPublicTargetProfiles).to.have.been.calledOnce;
       expect(targetProfileRepository.findTargetProfilesByOrganizationId).to.have.been.calledOnce;
-      expect(targetProfileRepository.findTargetProfilesSharedWithOrganization).to.have.been.calledOnce;
+      expect(organizationRepository.get).to.have.been.calledOnce;
     });
   });
 
   it('should return public profiles and profiles linked to specified organization', () => {
     // when
-    const promise = findAvailableTargetProfiles({ organizationId, targetProfileRepository });
+    const promise = findAvailableTargetProfiles({ organizationId, targetProfileRepository, organizationRepository });
 
     // then
     return promise.then((availableTargetProfiles) => {
       expect(availableTargetProfiles.length).to.equal(3);
       expect(availableTargetProfiles).to.include.deep.members(targetProfilesLinkedToOrganization);
-      expect(availableTargetProfiles).to.include.deep.members(targetProfileSharedWithOrganization);
+      expect(availableTargetProfiles).to.include(targetProfileSharedWithOrganization);
       expect(availableTargetProfiles).to.include.deep.members(publicTargetProfiles);
     });
   });
 
   it('should not have duplicate in targetProfiles', () => {
     // given
-    targetProfileRepository.findTargetProfilesSharedWithOrganization.resolves(targetProfilesLinkedToOrganization);
+    targetProfileRepository.findPublicTargetProfiles.resolves(targetProfilesLinkedToOrganization);
 
     // when
-    const promise = findAvailableTargetProfiles({ organizationId, targetProfileRepository });
+    const promise = findAvailableTargetProfiles({ organizationId, targetProfileRepository, organizationRepository });
 
     // then
     return promise.then((availableTargetProfiles) => {

@@ -62,36 +62,6 @@ module.exports = {
         return Promise.all(promises);
       });
   },
-
-  findTargetProfilesSharedWithOrganization(organizationId) {
-
-    return BookshelfTargetProfile
-      .fetchAll({ withRelated: ['skillIds', 'organizationsWhichShared'] })
-      .then((bookshelfTargetProfiles) => {
-        const targetProfilesSharedWithOrga = bookshelfTargetProfiles
-          .filter((bookshelfTargetProfile) => {
-            const organizationShared = bookshelfTargetProfile.relations.organizationsWhichShared;
-            const findOrganizationInSharedOrga = organizationShared.find((organizationShared) => {
-              return organizationShared.get('organizationId') == organizationId;
-            });
-            return findOrganizationInSharedOrga ? true : false;
-          });
-        const promises = targetProfilesSharedWithOrga
-          .map((bookshelfTargetProfile) => {
-            return _getBookshelfTargetProfileAndAssociatedSkillAirtableDataObjects(bookshelfTargetProfile)
-              .then(([bookshelfTargetProfile, associatedSkillAirtableDataObjects]) => {
-
-                return targetProfileAdapter.fromDatasourceObjects({
-                  bookshelfTargetProfile,
-                  associatedSkillAirtableDataObjects,
-                });
-              });
-          });
-
-        return Promise.all(promises);
-      });
-  },
-
 };
 
 function _getBookshelfTargetProfileAndAssociatedSkillAirtableDataObjects(bookshelfTargetProfile) {
