@@ -59,7 +59,8 @@ describe('Acceptance | Controller | users-controller', () => {
                 '"first-name":"John",' +
                 '"last-name":"DoDoe",' +
                 '"email":"john.dodoe@example.net",' +
-                '"cgu":true' +
+                '"cgu":true,' +
+                '"pix-orga-terms-of-service-accepted":false' +
               '},' +
             '"relationships":{' +
               '"organization-accesses":{'+

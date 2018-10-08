@@ -4,7 +4,7 @@ import ApplicationRouteMixin from 'ember-simple-auth/mixins/application-route-mi
 
 export default Route.extend(ApplicationRouteMixin, {
 
-  routeAfterAuthentication: 'authenticated.campaigns.list',
+  routeAfterAuthentication: 'authenticated',
   currentUser: service(),
   currentOrganization: service(),
 
