@@ -2,7 +2,7 @@ import { module, test } from 'qunit';
 import { click, currentURL, visit } from '@ember/test-helpers';
 import { setupApplicationTest } from 'ember-qunit';
 import { authenticateSession, currentSession } from 'ember-simple-auth/test-support';
-import { createUserWithOrganizationAccess } from '../helpers/test-init';
+import { createUserWithOrganizationAccess, createUserWithOrganizationAccessAndTermsOfServiceAccepted } from '../helpers/test-init';
 import { Response } from 'ember-cli-mirage';
 
 import setupMirage from 'ember-cli-mirage/test-support/setup-mirage';
@@ -87,4 +87,20 @@ module('Acceptance | terms-of-service', function(hooks) {
     assert.notOk(currentSession(this.application).get('isAuthenticated'), 'The user is still authenticated');
   });
 
+  test('it should redirect to campaign list if user has already accepted terms of service', async function(assert) {
+    // given
+    user = createUserWithOrganizationAccessAndTermsOfServiceAccepted();
+    await authenticateSession({
+      user_id: user.id,
+      access_token: 'access token',
+      expires_in: 3600,
+      token_type: 'Bearer token type',
+    });
+
+    // when
+    await visit('/cgu');
+
+    // then
+    assert.equal(currentURL(), '/campagnes/liste');
+  });
 });
