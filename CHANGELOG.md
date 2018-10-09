@@ -1,5 +1,12 @@
 # Pix Changelog
 
+## 2.4.0 (09/10/2018) 
+
+- [#222](https://github.com/1024pix/pix/pull/222) [TECH] Amélioration du modèle de données (PF-339).
+- [#223](https://github.com/1024pix/pix/pull/223) [TECH] Amélioration des performances d'accès au référentiel pédagogique (PF-413).
+- [#224](https://github.com/1024pix/pix/pull/224) [FEATURE] Ajout d'une page pour les CGU sur Pix Orga (PO-118).
+- [#208](https://github.com/1024pix/pix/pull/208) [FEATURE] Ajout du endpoint d'administration "GET /api/users" permettant de lister, filtrer et paginer des utilisateurs (PA-46).
+
 ## 2.3.1 (02/10/2018) 
 
 - [#213](https://github.com/1024pix/pix/pull/213) [BUGFIX] Correction du bug sur la reprise des certifications (PF-351).
