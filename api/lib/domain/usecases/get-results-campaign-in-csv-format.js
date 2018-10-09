@@ -142,8 +142,8 @@ function _createOneLineOfCSV(
       line = _addCellByHeadersTitleForText('"Nom de la campagne"', campaign.name, line, headers);
       line = _addCellByHeadersTitleForText('"Nom du Profil Cible"', targetProfile.name, line, headers);
 
-      line = _addCellByHeadersTitleForText('"Nom du Participant"', user.firstName, line, headers);
-      line = _addCellByHeadersTitleForText('"Prénom du Participant"', user.lastName, line, headers);
+      line = _addCellByHeadersTitleForText('"Nom du Participant"', user.lastName, line, headers);
+      line = _addCellByHeadersTitleForText('"Prénom du Participant"', user.firstName, line, headers);
 
       if (campaign.idPixLabel) {
         line = _addCellByHeadersTitleForText(_cleanText(campaign.idPixLabel), campaignParticipation.participantExternalId, line, headers);
