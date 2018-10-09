@@ -34,6 +34,7 @@ function _toDomain(userBookshelf) {
     email: userBookshelf.get('email'),
     password: userBookshelf.get('password'),
     cgu: Boolean(userBookshelf.get('cgu')),
+    pixOrgaTermsOfServiceAccepted: Boolean(userBookshelf.get('pixOrgaTermsOfServiceAccepted')),
     organizationAccesses: _toOrganizationAccessesDomain(userBookshelf.related('organizationAccesses'))
   });
 }
@@ -157,11 +158,21 @@ module.exports = {
 
   updatePassword(id, hashedPassword) {
     return BookshelfUser.where({ id })
-      .save({ password: hashedPassword, cgu: true }, {
+      .save({ password: hashedPassword }, {
         patch: true,
         require: false
       })
       .then((bookshelfUser) => bookshelfUser.toDomainEntity());
+  },
+
+  updateUser(domainUser) {
+    const userToUpdate = _.omit(domainUser, ['pixRoles', 'organizationAccesses']);
+    return BookshelfUser.where({ id: domainUser.id })
+      .save(userToUpdate, {
+        patch: true,
+        method: 'update',
+      })
+      .then(_toDomain);
   },
 
   hasRolePixMaster(userId) {

@@ -33,38 +33,36 @@
   background-color: white;
 }
 
-.submit-button {
+.button {
   padding: 13px 20px;
-  background-color: $dodger-blue;
-  color: white;
-  font-size: 0.7rem;
-  font-weight: 500;
-  letter-spacing: 0.019rem;
-  text-align: center;
-  border-radius: 5px;
-
-  &:hover, &:active, &:focus {
-    background-color: $mariner;
-  }
-}
-
-.blue-link {
-  padding: 13px 10px;
-  background-color: $dodger-blue;
-  font-weight: 500;
-  letter-spacing: 0.019rem;
-  text-align: center;
-  border-radius: 5px;
-  text-decoration: none;
-  color: white;
   font-size: 0.8rem;
+  font-weight: 500;
+  letter-spacing: 0.019rem;
+  text-align: center;
+  border-radius: 5px;
+  background-color: $dodger-blue;
+  color: white;
 
   &:hover, &:active, &:focus {
     background-color: $mariner;
   }
-  @include device-is('tablet') {
-    font-size: 1rem;
-    padding: 13px 20px;
+
+  &--white {
+    background-color: white;
+    color: black;
+    border: none;
+
+    &:hover, &:active, &:focus {
+      background-color: $alto;
+    }
+  }
+
+  &--big {
+    width: 180px;
+  }
+
+  &--link {
+    text-decoration: none;
   }
 }
 

@@ -10,11 +10,12 @@ module.exports = function buildUser(
     email = 'jean.bono@example.net',
     password = 'liuehrfi128743KUUKNSUkuz12Ukun',
     cgu = true,
+    pixOrgaTermsOfServiceAccepted = false,
     pixRoles = [buildPixRole()],
     organizationAccesses = [buildOrganizationAccess()],
   } = {}) {
 
   return new User({
-    id, firstName, lastName, email, password, cgu, pixRoles, organizationAccesses
+    id, firstName, lastName, email, password, cgu, pixOrgaTermsOfServiceAccepted, pixRoles, organizationAccesses
   });
 };
