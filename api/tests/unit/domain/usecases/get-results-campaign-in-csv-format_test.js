@@ -108,22 +108,11 @@ describe('Unit | Domain | Use Cases | get-results-campaign-in-csv-format', () =
         '"Nom du Participant";' +
         '"Prénom du Participant";' +
         '"Mail Pro";' +
-        '"Nom invité";' +
-        '"Prénom invité";' +
-        '"Email invité";' +
-        '"Champs optionel 1";' +
-        '"Champs optionel 2";' +
-        '"Champs optionel 3";' +
-        '"ID invitation";' +
         '"% de progression";' +
         '"Date de début";' +
         '"Partage (O/N)";' +
         '"Date du partage";' +
-        '"Nombre de Pix obtenus";' +
-        '"Nombre de pix possibles";' +
         '"% maitrise de l\'ensemble des acquis du profil";' +
-        '"Niveau de la competence Competence1";' +
-        '"Pix de la competence Competence1";' +
         '"% de maitrise des acquis de la compétence Competence1";' +
         '"Nombre d\'acquis du profil cible maitrisés / nombre d\'acquis de la compétence Competence1";' +
         '"% de maitrise des acquis du domaine Domain 1";' +
@@ -166,22 +155,11 @@ describe('Unit | Domain | Use Cases | get-results-campaign-in-csv-format', () =
           `="${user.firstName}";` +
           `="${user.lastName}";` +
           `="${factoryCampaignParticipation.participantExternalId}";` +
-          '"NA";' +
-          '"NA";' +
-          '"NA";' +
-          '"NA";' +
-          '"NA";' +
-          '"NA";' +
-          '"NA";' +
           '100;' +
           '="2017-05-05";' +
           '="Oui";' +
           `="${moment(factoryCampaignParticipation.sharedAt).format('YYYY-MM-DD')}";` +
-          '"NA";' +
-          '"NA";' +
           '75;' +
-          '"NA";' +
-          '"NA";' +
           '75;' +
           '="3/4";' +
           '75;' +
@@ -227,20 +205,9 @@ describe('Unit | Domain | Use Cases | get-results-campaign-in-csv-format', () =
           `="${user.firstName}";` +
           `="${user.lastName}";` +
           `="${factoryCampaignParticipation.participantExternalId}";` +
-          '"NA";' +
-          '"NA";' +
-          '"NA";' +
-          '"NA";' +
-          '"NA";' +
-          '"NA";' +
-          '"NA";' +
           '100;' +
           '="2017-05-05";' +
           '="Non";' +
-          '"NA";' +
-          '"NA";' +
-          '"NA";' +
-          '"NA";' +
           '"NA";' +
           '"NA";' +
           '"NA";' +
@@ -294,22 +261,11 @@ describe('Unit | Domain | Use Cases | get-results-campaign-in-csv-format', () =
           '"Nom du Profil Cible";' +
           '"Nom du Participant";' +
           '"Prénom du Participant";' +
-          '"Nom invité";' +
-          '"Prénom invité";' +
-          '"Email invité";' +
-          '"Champs optionel 1";' +
-          '"Champs optionel 2";' +
-          '"Champs optionel 3";' +
-          '"ID invitation";' +
           '"% de progression";' +
           '"Date de début";' +
           '"Partage (O/N)";' +
           '"Date du partage";' +
-          '"Nombre de Pix obtenus";' +
-          '"Nombre de pix possibles";' +
           '"% maitrise de l\'ensemble des acquis du profil";' +
-          '"Niveau de la competence Competence1";' +
-          '"Pix de la competence Competence1";' +
           '"% de maitrise des acquis de la compétence Competence1";' +
           '"Nombre d\'acquis du profil cible maitrisés / nombre d\'acquis de la compétence Competence1";' +
           '"% de maitrise des acquis du domaine Domain 1";' +
