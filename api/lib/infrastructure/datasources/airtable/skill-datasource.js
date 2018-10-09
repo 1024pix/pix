@@ -1,29 +1,29 @@
 const airtable = require('../../airtable');
-const airTableDataObjects = require('./objects');
+const { Skill: { fromAirTableObject } } = require('./objects');
 
 const AIRTABLE_TABLE_NAME = 'Acquis';
+
+function _doQuery(query) {
+  return airtable.findRecords(AIRTABLE_TABLE_NAME, query)
+    .then((airtableRawObjects) => airtableRawObjects.map(fromAirTableObject));
+}
 
 module.exports = {
   get(id) {
     return airtable.getRecord(AIRTABLE_TABLE_NAME, id)
-      .then((airtableRawObject) => airTableDataObjects.Skill.fromAirTableObject(airtableRawObject));
+      .then(fromAirTableObject);
   },
 
   findByRecordIds(skillRecordIds) {
-
     const listOfAirtableFilters = skillRecordIds.map((recordId) => {
-      return `FIND("${recordId}", {Record Id})`;
+      return `RECORD_ID()="${recordId}"`;
     });
 
-    const query = { filterByFormula: `OR(${listOfAirtableFilters.join(', ')})` };
+    return _doQuery({ filterByFormula: `OR(${listOfAirtableFilters.join(', ')})` });
+  },
 
-    return airtable.findRecords(AIRTABLE_TABLE_NAME, query)
-      .then((airtableSkillsRawObjectsArray) => {
-        return airtableSkillsRawObjectsArray
-          .map((airTableSkill) => {
-            return airTableDataObjects.Skill.fromAirTableObject(airTableSkill);
-          });
-      });
+  list() {
+    return _doQuery({});
   }
 };
 

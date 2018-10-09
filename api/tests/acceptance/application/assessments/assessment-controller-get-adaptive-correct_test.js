@@ -104,7 +104,6 @@ describe('Acceptance | API | assessment-controller-get-adaptive-correct', () => 
       .activate();
 
     airtableBuilder.mockList({ tableName: 'Acquis' })
-      .respondsToQuery({ filterByFormula: 'FIND(\'1.1\', {Compétence})' })
       .returns([skillWeb1, skillWeb2, skillWeb3])
       .activate();
 
@@ -119,6 +118,7 @@ describe('Acceptance | API | assessment-controller-get-adaptive-correct', () => 
     airtableBuilder.mockGet({ tableName: 'Acquis' })
       .returns(skillWeb3)
       .activate();
+
   });
 
   afterEach(() => {

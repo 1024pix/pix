@@ -107,6 +107,12 @@ describe('Acceptance | API | assessment-controller-get-adaptive', () => {
       .reply(200, {
         'id': 'idAcquix',
       });
+
+    // Our Epreuves have no Acquix (skillIds) so no need to return anything here
+    nock('https://api.airtable.com')
+      .get('/v0/test-base/Acquis')
+      .query({})
+      .reply(200, []);
   });
 
   after(() => {
@@ -141,11 +147,12 @@ describe('Acceptance | API | assessment-controller-get-adaptive', () => {
       };
 
       // when
-      return server.inject(options).then((response) => {
+      const promise = server.inject(options);
+
+      // then
+      return promise.then((response) => {
         expect(response.statusCode).to.equal(200);
-        expect(response.result).to.deep.equal({
-          data: null
-        });
+        expect(response.result).to.deep.equal({ data: null });
       });
     });
   });
