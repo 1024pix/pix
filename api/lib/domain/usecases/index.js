@@ -20,6 +20,7 @@ const dependencies = {
   encryptionService: require('../../domain/services/encryption-service'),
   mailService: require('../../domain/services/mail-service'),
   organizationRepository: require('../../infrastructure/repositories/organization-repository'),
+  resetPasswordService: require('../../domain/services/reset-password-service'),
   reCaptchaValidator: require('../../infrastructure/validators/grecaptcha-validator'),
   skillRepository: require('../../infrastructure/repositories/skill-repository'),
   skillsService: require('../../domain/services/skills-service'),
@@ -35,6 +36,7 @@ function injectDependencies(usecases) {
 }
 
 module.exports = injectDependencies({
+  acceptPixOrgaTermsOfService: require('./accept-pix-orga-terms-of-service'),
   authenticateUser: require('./authenticate-user'),
   correctAnswerThenUpdateAssessment: require('./correct-answer-then-update-assessment'),
   createCampaign: require('./create-campaign'),
@@ -62,6 +64,7 @@ module.exports = injectDependencies({
   preloadCacheEntries: require('./preload-cache-entries'),
   removeAllCacheEntries: require('./remove-all-cache-entries'),
   removeCacheEntry: require('./remove-cache-entry'),
-  shareCampaignResult: require('./share-campaign-result.js'),
+  shareCampaignResult: require('./share-campaign-result'),
   updateCertification: require('./update-certification'),
+  updateUserPassword: require('./update-user-password'),
 });

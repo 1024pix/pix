@@ -46,7 +46,7 @@ describe('Unit | Serializer | JSONAPI | user-serializer', () => {
               'first-name': 'Luke',
               'last-name': 'Skywalker',
               'email': 'lskywalker@deathstar.empire',
-              'cgu': true,
+              'cgu': true
             },
             id: '234567',
             type: 'users'
@@ -78,7 +78,7 @@ describe('Unit | Serializer | JSONAPI | user-serializer', () => {
               'first-name': 'Luke',
               'last-name': 'Skywalker',
               'email': 'lskywalker@deathstar.empire',
-              'cgu': true,
+              'cgu': true
             },
             id: '234567',
             type: 'users',

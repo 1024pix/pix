@@ -62,6 +62,7 @@ describe('Acceptance | Controller | users-controller', () => {
           url: `/api/users/${userId}`,
           payload: {
             data: {
+              id: '2',
               attributes: {
                 password: 'Pix2017!'
               }
@@ -79,6 +80,31 @@ describe('Acceptance | Controller | users-controller', () => {
       });
     });
 
+    context('with a terms of service acceptation', () => {
+
+      it('should reply 204 status code, when user accepts pix-orga terms of service', () => {
+        // given
+        options = {
+          method: 'PATCH',
+          url: `/api/users/${userId}`,
+          payload: {
+            data: {
+              attributes: {
+                'pix-orga-terms-of-service-accepted': true
+              }
+            }
+          }
+        };
+
+        // when
+        const promise = server.inject(options);
+
+        // then
+        return promise.then((response) => {
+          expect(response.statusCode).to.equal(204);
+        });
+      });
+    });
   });
 });
 

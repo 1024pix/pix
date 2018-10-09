@@ -86,7 +86,7 @@ exports.register = function(server, options, next) {
           method: userVerification.verifyById,
           assign: 'user'
         }],
-        handler: userController.updatePassword,
+        handler: userController.updateUser,
         validate: {
           options: {
             allowUnknown: true
@@ -94,7 +94,8 @@ exports.register = function(server, options, next) {
           payload: {
             data: {
               attributes: {
-                password: Joi.string().regex(XRegExp(passwordValidationPattern)).required()
+                password: Joi.string().regex(XRegExp(passwordValidationPattern)),
+                'pix-orga-terms-of-service-accepted': Joi.boolean()
               }
             }
           }
