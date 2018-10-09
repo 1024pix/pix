@@ -34,24 +34,13 @@ function _createHeaderOfCSV(skillNames, competences, areas, idPixLabel) {
   if (idPixLabel) {
     headers.push(_cleanText(idPixLabel));
   }
-  headers.push('"Nom invité"');
-  headers.push('"Prénom invité"');
-  headers.push('"Email invité"');
-  headers.push('"Champs optionel 1"');
-  headers.push('"Champs optionel 2"');
-  headers.push('"Champs optionel 3"');
-  headers.push('"ID invitation"');
   headers.push('"% de progression"');
   headers.push('"Date de début"');
   headers.push('"Partage (O/N)"');
   headers.push('"Date du partage"');
-  headers.push('"Nombre de Pix obtenus"');
-  headers.push('"Nombre de pix possibles"');
   headers.push('"% maitrise de l\'ensemble des acquis du profil"');
 
   competences.forEach((competence) => {
-    headers.push(`"Niveau de la competence ${competence.name}"`);
-    headers.push(`"Pix de la competence ${competence.name}"`);
     headers.push(`"% de maitrise des acquis de la compétence ${competence.name}"`);
     headers.push(`"Nombre d'acquis du profil cible maitrisés / nombre d'acquis de la compétence ${competence.name}"`);
   });
