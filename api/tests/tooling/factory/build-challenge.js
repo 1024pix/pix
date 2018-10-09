@@ -3,33 +3,31 @@ const Challenge = require('../../../lib/domain/models/Challenge');
 const Validator = require('../../../lib/domain/models/Validator');
 const buildSkillCollection = require('./build-skill-collection');
 
-module.exports = function buildChallenge({
-  id = faker.random.uuid(),
-  // attributes
-  answer,
-  attachments,
-  competence,
-  embedHeight,
-  embedTitle,
-  embedUrl,
-  illustrationUrl,
-  instruction,
-  proposals,
-  status = 'validé',
-  timer,
-  type = 'QCM',
-  // includes
-  validator = new Validator(),
-  // references
-  skills = buildSkillCollection(),
-
-} = {}) {
+module.exports = function buildChallenge(
+  {
+    id = faker.random.uuid(),
+    // attributes
+    attachments,
+    embedHeight,
+    embedTitle,
+    embedUrl,
+    illustrationUrl,
+    instruction,
+    proposals,
+    status = 'validé',
+    timer,
+    type = Challenge.Type.QCM,
+    // includes
+    answer,
+    validator = new Validator(),
+    skills = buildSkillCollection(),
+    // references
+    competenceId = faker.random.uuid(),
+  } = {}) {
   return new Challenge({
     id,
     // attributes
-    answer,
     attachments,
-    competence,
     embedHeight,
     embedTitle,
     embedUrl,
@@ -40,8 +38,10 @@ module.exports = function buildChallenge({
     timer,
     type,
     // includes
+    answer,
     validator,
-    // references
     skills,
+    // references
+    competenceId,
   });
 };
