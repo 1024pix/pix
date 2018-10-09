@@ -41,6 +41,7 @@ module.exports = {
         if (err instanceof BookshelfOrganization.NotFoundError) {
           throw new NotFoundError(`Not found organization for ID ${id}`);
         }
+        throw err;
       });
   },
 

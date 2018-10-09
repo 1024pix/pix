@@ -48,7 +48,7 @@ module.exports = {
         if(error.message === 'EmptyResponse') {
           return Promise.reject(new NotFoundError());
         }
-        return Promise.reject();
+        return Promise.reject(error);
       });
   }
 };
