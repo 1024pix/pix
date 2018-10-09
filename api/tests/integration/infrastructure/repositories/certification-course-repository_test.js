@@ -1,3 +1,5 @@
+const _ = require('lodash');
+
 const { expect, knex } = require('../../../test-helper');
 const certificationCourseRepository = require('../../../../lib/infrastructure/repositories/certification-course-repository');
 const { NotFoundError } = require('../../../../lib/domain/errors');
@@ -154,7 +156,6 @@ describe('Integration | Repository | Certification Course', function() {
       const modifiedCertifcationCourse = {
         id: 1,
         completedAt: null,
-        createdAt: '2018-03-07 14:33:49',
         updatedAt: '2018-03-07 14:38:11',
         userId: null,
         firstName: 'Freezer',
@@ -172,7 +173,8 @@ describe('Integration | Repository | Certification Course', function() {
       // then
       return promise.then(() => knex('certification-courses').where({ id: 1 }).first())
         .then((certificationCourseInDatabase) => {
-          expect(certificationCourseInDatabase).to.be.deep.equal(modifiedCertifcationCourse);
+          const certificationCourseInDatabaseWithoutCreationDate = _.omit(certificationCourseInDatabase, ['createdAt']);
+          expect(certificationCourseInDatabaseWithoutCreationDate).to.be.deep.equal(modifiedCertifcationCourse);
         });
     });
 

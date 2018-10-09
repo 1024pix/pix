@@ -275,6 +275,7 @@ describe('Unit | Service | User Service', () => {
     });
 
     context('when all informations needed are collected', () => {
+
       it('should assign skill to related competence', () => {
         // given
         const answerInstance = new BookshelfAnswer({ challengeId: challengeForSkillRemplir2.id, result: 'ok' });
@@ -314,7 +315,7 @@ describe('Unit | Service | User Service', () => {
 
         context('when no challenge validate the skill', () => {
 
-          it('should not return the skill', function() {
+          it('should not return the skill', () => {
             // given
             const answerOfOldChallenge = new BookshelfAnswer({
               challengeId: oldChallengeWithAlreadyValidatedSkill.id,
@@ -349,10 +350,10 @@ describe('Unit | Service | User Service', () => {
               }]);
             });
           });
-
         });
 
         context('when only one challenge validate the skill', () => {
+
           it('should select the same challenge', () => {
             // given
             const answer = new BookshelfAnswer({ challengeId: challengeForSkillRemplir2.id, result: 'ok' });
@@ -390,6 +391,7 @@ describe('Unit | Service | User Service', () => {
         });
 
         context('when three challenges validate the same skill', () => {
+
           it('should select the unanswered challenge which is published', () => {
             // given
             const answer = new BookshelfAnswer({ challengeId: challengeForSkillCitation4.id, result: 'ok' });

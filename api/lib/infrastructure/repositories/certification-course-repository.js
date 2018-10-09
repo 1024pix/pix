@@ -1,3 +1,5 @@
+const { _ } = require('lodash');
+
 const CertificationCourseBookshelf = require('../data/certification-course');
 const CertificationCourse = require('../../domain/models/CertificationCourse');
 const Assessment = require('../../domain/models/Assessment');
@@ -24,8 +26,10 @@ function _toDomain(model) {
 
 module.exports = {
 
+  //TODO omit number of course, add it to domain (length of related certificationChallenge array)
   save(certificationCourseDomainModel) {
-    const certificationCourseBookshelf = new CertificationCourseBookshelf(certificationCourseDomainModel);
+    const certificationCourseData = _adaptModelToDb(certificationCourseDomainModel);
+    const certificationCourseBookshelf = new CertificationCourseBookshelf(certificationCourseData);
     return certificationCourseBookshelf.save()
       .then(_toDomain);
   },
@@ -49,7 +53,8 @@ module.exports = {
   },
 
   update(certificationCourse) {
-    const certificationCourseBookshelf = new CertificationCourseBookshelf(certificationCourse);
+    const certificationCourseData = _adaptModelToDb(certificationCourse);
+    const certificationCourseBookshelf = new CertificationCourseBookshelf(certificationCourseData);
     return certificationCourseBookshelf.save()
       .then(_toDomain)
       .catch((err) => {
@@ -62,3 +67,10 @@ module.exports = {
   }
 
 };
+
+function _adaptModelToDb(certificationCourse) {
+  return _.omit(certificationCourse, [
+    'nbChallenges',
+    'createdAt',
+  ]);
+}

@@ -2,6 +2,7 @@ const { expect, sinon, factory } = require('../../../test-helper');
 const certificationService = require('../../../../lib/domain/services/certification-service');
 const Answer = require('../../../../lib/domain/models/Answer');
 const CertificationChallenge = require('../../../../lib/domain/models/CertificationChallenge');
+const CertificationCourse = require('../../../../lib/domain/models/CertificationCourse');
 
 const Competence = require('../../../../lib/domain/models/Competence');
 const Assessment = require('../../../../lib/domain/models/Assessment');
@@ -1260,10 +1261,7 @@ describe('Unit | Service | Certification Service', function() {
       // then
       return promise.then((newCertification) => {
         sinon.assert.calledOnce(certificationCourseRepository.save);
-        expect(certificationCourseRepository.save).to.have.been.calledWith({
-          userId: userId,
-          sessionId,
-        });
+        expect(certificationCourseRepository.save).to.have.been.calledWith(CertificationCourse.fromAttributes({ userId, sessionId }));
         expect(newCertification.id).to.equal('certificationCourseWithChallenges');
       });
     });
