@@ -300,7 +300,7 @@ module.exports = {
 
   startNewCertification(userId, sessionId) {
     let userCompetencesToCertify;
-    const newCertificationCourse = CertificationCourse.fromAttributes({ userId, sessionId });
+    const newCertificationCourse = new CertificationCourse({ userId, sessionId });
 
     return userService.getProfileToCertify(userId, moment().toISOString())
       .then((userCompetences) => {
@@ -308,6 +308,7 @@ module.exports = {
         return _checkIfUserCanStartACertification(userCompetences);
       })
       .then(() => certificationCourseRepository.save(newCertificationCourse))
+      //TODO : Creer ici un tableau de CertificationChalleges (Domain Object) avec certificationCourseId rempli
       .then((savedCertificationCourse) => certificationChallengesService.saveChallenges(userCompetencesToCertify, savedCertificationCourse));
   },
 };

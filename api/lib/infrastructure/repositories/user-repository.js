@@ -34,8 +34,22 @@ function _toDomain(userBookshelf) {
     email: userBookshelf.get('email'),
     password: userBookshelf.get('password'),
     cgu: Boolean(userBookshelf.get('cgu')),
+    pixOrgaTermsOfServiceAccepted: Boolean(userBookshelf.get('pixOrgaTermsOfServiceAccepted')),
     organizationAccesses: _toOrganizationAccessesDomain(userBookshelf.related('organizationAccesses'))
   });
+}
+
+function _setSearchFiltersForQueryBuilder(filters, qb) {
+  const { firstName, lastName, email } = filters;
+  if (firstName) {
+    qb.where('firstName', 'LIKE', `%${firstName}%`);
+  }
+  if (lastName) {
+    qb.where('lastName', 'LIKE', `%${lastName}%`);
+  }
+  if (email) {
+    qb.where('email', 'LIKE', `%${email}%`);
+  }
 }
 
 module.exports = {
@@ -61,7 +75,7 @@ module.exports = {
         ]
       })
       .then((foundUser) => {
-        if(foundUser === null) {
+        if (foundUser === null) {
           return Promise.reject(new UserNotFoundError());
         }
         return _toDomain(foundUser);
@@ -93,6 +107,17 @@ module.exports = {
       });
   },
 
+  find(filters, pagination) {
+    const { page, pageSize } = pagination;
+    return BookshelfUser.query((qb) => _setSearchFiltersForQueryBuilder(filters, qb))
+      .fetchPage({ page, pageSize })
+      .then((results) => results.map(_toDomain));
+  },
+
+  count(filters) {
+    return BookshelfUser.query((qb) => _setSearchFiltersForQueryBuilder(filters, qb)).count();
+  },
+
   getWithOrganizationAccesses(userId) {
     return BookshelfUser
       .where({ id: userId })
@@ -104,7 +129,7 @@ module.exports = {
         ]
       })
       .then((foundUser) => {
-        if(foundUser === null) {
+        if (foundUser === null) {
           return Promise.reject(new UserNotFoundError(`User not found for ID ${userId}`));
         }
         return _toDomain(foundUser);
@@ -133,11 +158,21 @@ module.exports = {
 
   updatePassword(id, hashedPassword) {
     return BookshelfUser.where({ id })
-      .save({ password: hashedPassword, cgu: true }, {
+      .save({ password: hashedPassword }, {
         patch: true,
         require: false
       })
       .then((bookshelfUser) => bookshelfUser.toDomainEntity());
+  },
+
+  updateUser(domainUser) {
+    const userToUpdate = _.omit(domainUser, ['pixRoles', 'organizationAccesses']);
+    return BookshelfUser.where({ id: domainUser.id })
+      .save(userToUpdate, {
+        patch: true,
+        method: 'update',
+      })
+      .then(_toDomain);
   },
 
   hasRolePixMaster(userId) {

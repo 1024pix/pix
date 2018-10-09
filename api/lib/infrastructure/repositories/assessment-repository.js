@@ -9,71 +9,19 @@ const fp = require('lodash/fp');
 
 const LIST_NOT_PLACEMENT = ['CERTIFICATION', 'DEMO', 'SMART_PLACEMENT', 'PREVIEW'];
 
-function _selectLastAssessmentForEachCourse(bookshelfAssessments) {
-  const assessmentsGroupedByCourse = groupBy(bookshelfAssessments, (bookshelfAssessment) => bookshelfAssessment.get('courseId'));
-  return map(assessmentsGroupedByCourse, head);
-}
-
-function _selectAssessmentsHavingAnAssessmentResult(bookshelfAssessments) {
-  return bookshelfAssessments.filter((bookshelfAssessment) => bookshelfAssessment.relations.assessmentResults.length > 0);
-}
-
-function _toDomain(bookshelfAssessment) {
-  if (bookshelfAssessment !== null) {
-    const modelObjectInJSON = bookshelfAssessment.toJSON();
-
-    const answers = bookshelfAssessment.related('answers')
-      .map((bookshelfAnswer) => new Answer(bookshelfAnswer.toJSON()));
-
-    const assessmentResults = bookshelfAssessment.related('assessmentResults')
-      .map((bookshelfAssessmentResult) => new AssessmentResult(bookshelfAssessmentResult.toJSON()));
-
-    let campaignParticipation = null;
-    let campaign = null;
-    const campaignOfAssessment = bookshelfAssessment.related('campaignParticipation');
-
-    if(_.has(campaignOfAssessment,'attributes.campaignId')) {
-      campaign = new Campaign(campaignOfAssessment.related('campaign').toJSON());
-      campaignParticipation = new CampaignParticipation({
-        campaign,
-        assessmentId: bookshelfAssessment.get('id')
-      });
-    }
-
-    return new Assessment(Object.assign(modelObjectInJSON, {
-      answers,
-      assessmentResults,
-      campaignParticipation,
-    }));
-  }
-
-  return null;
-}
-
-function _adaptModelToDb(assessment) {
-  return _.omit(assessment, [
-    'course',
-    'createdAt',
-    'successRate',
-    'answers',
-    'assessmentResults',
-    'targetProfile',
-    'campaign',
-    'campaignParticipation',
-  ]);
-}
-
 module.exports = {
 
   get(id) {
     return BookshelfAssessment
       .where('id', id)
       .fetch({
-        withRelated: [{
-          answers: function(query) {
-            query.orderBy('createdAt', 'ASC');
-          },
-        }, 'assessmentResults','campaignParticipation', 'campaignParticipation.campaign'],
+        withRelated: [
+          {
+            answers: function(query) {
+              query.orderBy('createdAt', 'ASC');
+            },
+          }, 'assessmentResults', 'campaignParticipation', 'campaignParticipation.campaign',
+        ],
       })
       .then(_toDomain);
   },
@@ -123,9 +71,11 @@ module.exports = {
           .where('state', '=', 'completed')
           .orderBy('createdAt', 'desc');
       })
-      .fetch({ withRelated: [
-        { assessmentResults: (qb) => { qb.where('createdAt', '<', limitDate); } }
-      ] })
+      .fetch({
+        withRelated: [
+          { assessmentResults: (qb) => { qb.where('createdAt', '<', limitDate); } },
+        ],
+      })
       .then((bookshelfAssessmentCollection) => bookshelfAssessmentCollection.models)
       .then(_selectAssessmentsHavingAnAssessmentResult)
       .then(_selectLastAssessmentForEachCourse)
@@ -160,5 +110,59 @@ module.exports = {
       .then((bookshelfAssessmentCollection) => bookshelfAssessmentCollection.models)
       .then(fp.map(_toDomain));
   },
-
 };
+
+function _toDomain(bookshelfAssessment) {
+  if (bookshelfAssessment !== null) {
+    const modelObjectInJSON = bookshelfAssessment.toJSON();
+
+    const answers = bookshelfAssessment.related('answers')
+      .map((bookshelfAnswer) => new Answer(bookshelfAnswer.toJSON()));
+
+    const assessmentResults = bookshelfAssessment.related('assessmentResults')
+      .map((bookshelfAssessmentResult) => new AssessmentResult(bookshelfAssessmentResult.toJSON()));
+
+    let campaignParticipation = null;
+    let campaign = null;
+    const campaignOfAssessment = bookshelfAssessment.related('campaignParticipation');
+
+    if (_.has(campaignOfAssessment, 'attributes.campaignId')) {
+      campaign = new Campaign(campaignOfAssessment.related('campaign').toJSON());
+      campaignParticipation = new CampaignParticipation({
+        campaign,
+        assessmentId: bookshelfAssessment.get('id'),
+      });
+    }
+
+    return new Assessment(Object.assign(modelObjectInJSON, {
+      answers,
+      assessmentResults,
+      campaignParticipation,
+    }));
+  }
+
+  return null;
+}
+
+function _selectLastAssessmentForEachCourse(bookshelfAssessments) {
+  const assessmentsGroupedByCourse = groupBy(bookshelfAssessments,
+    (bookshelfAssessment) => bookshelfAssessment.get('courseId'));
+  return map(assessmentsGroupedByCourse, head);
+}
+
+function _selectAssessmentsHavingAnAssessmentResult(bookshelfAssessments) {
+  return bookshelfAssessments.filter((bookshelfAssessment) => bookshelfAssessment.relations.assessmentResults.length > 0);
+}
+
+function _adaptModelToDb(assessment) {
+  return _.omit(assessment, [
+    'course',
+    'createdAt',
+    'successRate',
+    'answers',
+    'assessmentResults',
+    'targetProfile',
+    'campaign',
+    'campaignParticipation',
+  ]);
+}

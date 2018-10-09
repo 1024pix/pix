@@ -55,7 +55,7 @@ rules:
   space-in-parens:
     - 2
 parserOptions:
-  ecmaVersion: 8
+  ecmaVersion: 2018
   sourceType: script
 plugins:
   - mocha

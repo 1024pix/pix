@@ -1,6 +1,7 @@
 const { expect, sinon } = require('../../../test-helper');
 const Hapi = require('hapi');
-const UserController = require('../../../../lib/application/users/user-controller');
+const securityController = require('../../../../lib/interfaces/controllers/security-controller');
+const userController = require('../../../../lib/application/users/user-controller');
 const userVerification = require('../../../../lib/application/preHandlers/user-existence-verification');
 
 const sandbox = sinon.createSandbox();
@@ -19,10 +20,38 @@ describe('Unit | Router | user-router', () => {
     sandbox.restore();
   });
 
+  describe('GET /api/users', () => {
+
+    beforeEach(() => {
+      sandbox.stub(securityController, 'checkUserIsAuthenticated').callsFake((request, reply) => {
+        reply.continue({ credentials: { accessToken: 'jwt.access.token' } });
+      });
+      sandbox.stub(securityController, 'checkUserHasRolePixMaster').callsFake((request, reply) => reply(true));
+      sandbox.stub(userController, 'find').callsFake((request, reply) => reply('ok'));
+      startServer();
+    });
+
+    it('should exist', () => {
+      // given
+      const options = {
+        method: 'GET',
+        url: '/api/users?firstName=Bruce&lastName=Wayne&email=batman@gotham.city&page=3&pageSize=25',
+      };
+
+      // when
+      const promise = server.inject(options);
+
+      // then
+      return promise.then((response) => {
+        expect(response.statusCode).to.equal(200);
+      });
+    });
+  });
+
   describe('POST /api/users', () => {
 
     beforeEach(() => {
-      sandbox.stub(UserController, 'save').callsFake((request, reply) => reply('ok'));
+      sandbox.stub(userController, 'save').callsFake((request, reply) => reply('ok'));
       startServer();
     });
 
@@ -56,7 +85,7 @@ describe('Unit | Router | user-router', () => {
   describe('GET /api/users/{id}', function() {
 
     beforeEach(() => {
-      sandbox.stub(UserController, 'getUser').callsFake((request, reply) => reply('ok'));
+      sandbox.stub(userController, 'getUser').callsFake((request, reply) => reply('ok'));
       startServer();
     });
 
@@ -77,7 +106,7 @@ describe('Unit | Router | user-router', () => {
   describe('GET /api/users/me', function() {
 
     beforeEach(() => {
-      sandbox.stub(UserController, 'getAuthenticatedUserProfile').callsFake((request, reply) => reply('ok'));
+      sandbox.stub(userController, 'getAuthenticatedUserProfile').callsFake((request, reply) => reply('ok'));
       startServer();
     });
 
@@ -97,7 +126,7 @@ describe('Unit | Router | user-router', () => {
 
   describe('GET /api/users/{id}/skills', function() {
     beforeEach(() => {
-      sandbox.stub(UserController, 'getProfileToCertify').callsFake((request, reply) => reply('ok'));
+      sandbox.stub(userController, 'getProfileToCertify').callsFake((request, reply) => reply('ok'));
       sandbox.stub(userVerification, 'verifyById').callsFake((request, reply) => reply('ok'));
       startServer();
     });
@@ -111,15 +140,15 @@ describe('Unit | Router | user-router', () => {
       // given
       return server.inject(options).then((_) => {
         sinon.assert.calledOnce(userVerification.verifyById);
-        sinon.assert.calledOnce(UserController.getProfileToCertify);
-        sinon.assert.callOrder(userVerification.verifyById, UserController.getProfileToCertify);
+        sinon.assert.calledOnce(userController.getProfileToCertify);
+        sinon.assert.callOrder(userVerification.verifyById, userController.getProfileToCertify);
       });
     });
   });
 
   describe('GET /api/users/{id}/organization-accesses', function() {
     beforeEach(() => {
-      sandbox.stub(UserController, 'getOrganizationAccesses').callsFake((request, reply) => reply('ok'));
+      sandbox.stub(userController, 'getOrganizationAccesses').callsFake((request, reply) => reply('ok'));
       startServer();
     });
 
@@ -133,7 +162,7 @@ describe('Unit | Router | user-router', () => {
       // when
       return server.inject(options).then(() => {
         // then
-        sinon.assert.calledOnce(UserController.getOrganizationAccesses);
+        sinon.assert.calledOnce(userController.getOrganizationAccesses);
       });
     });
   });
@@ -141,48 +170,84 @@ describe('Unit | Router | user-router', () => {
   describe('PATCH /api/users/{id}', function() {
 
     const userId = '12344';
-    const wellFormedOptions = () => ({
+    const request = (payloadAttributes) => ({
       method: 'PATCH',
       url: `/api/users/${userId}`,
-      payload: { data: { attributes: { password: '12345678ab+!' } } },
+      payload: { data: { attributes: payloadAttributes } },
     });
 
     beforeEach(() => {
-      sandbox.stub(UserController, 'updatePassword').callsFake((request, reply) => reply('ok'));
+      sandbox.stub(userController, 'updateUser').callsFake((request, reply) => reply('ok'));
       sandbox.stub(userVerification, 'verifyById').callsFake((request, reply) => reply('ok'));
       startServer();
     });
 
     it('should exist and pass through user verification pre-handler', () => {
       // given
-      return server.inject(wellFormedOptions()).then((res) => {
+      return server.inject(request({})).then((res) => {
         // then
         expect(res.statusCode).to.equal(200);
         sinon.assert.calledOnce(userVerification.verifyById);
       });
     });
 
-    describe('Payload schema validation (password attribute in payload)', () => {
+    describe('Payload schema validation', () => {
 
       it('should have a payload', () => {
         // given
-        const options = wellFormedOptions();
-        delete options.payload;
+        const requestWithoutPayload = {
+          method: 'PATCH',
+          url: `/api/users/${userId}`,
+        };
 
         // then
-        return server.inject(options).then((res) => {
+        return server.inject(requestWithoutPayload).then((res) => {
           expect(res.statusCode).to.equal(400);
         });
       });
 
-      it('should have a valid password format in payload', () => {
-        // given
-        const options = wellFormedOptions();
-        options.payload.data.attributes.password = 'Mot de passe mal formé';
+      describe('pix-orga-terms-of-service-accepted validation', () => {
 
-        // then
-        return server.inject(options).then((res) => {
-          expect(res.statusCode).to.equal(400);
+        it('should return 200 when pix-orga-terms-of-service-accepted field is a boolean', () => {
+          // given
+          const payloadAttributes = {
+            'pix-orga-terms-of-service-accepted': true
+          };
+
+          // when
+          return server.inject(request(payloadAttributes)).then((res) => {
+            // then
+            expect(res.statusCode).to.equal(200);
+          });
+        });
+
+        it('should return 400 when pix-orga-terms-of-service-accepted field is not a boolean', () => {
+          // given
+          const payloadAttributes = {
+            'pix-orga-terms-of-service-accepted': 'yolo'
+          };
+
+          // when
+          return server.inject(request(payloadAttributes)).then((res) => {
+            // then
+            expect(res.statusCode).to.equal(400);
+          });
+        });
+      });
+
+      describe('password validation', () => {
+
+        it('should have a valid password format in payload', () => {
+          // given
+          const payloadAttributes = {
+            'password': 'Mot de passe mal formé'
+          };
+
+          // when
+          return server.inject(request(payloadAttributes)).then((res) => {
+            // then
+            expect(res.statusCode).to.equal(400);
+          });
         });
       });
     });

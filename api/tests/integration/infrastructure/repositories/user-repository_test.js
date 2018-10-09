@@ -1,6 +1,7 @@
-const { expect, knex } = require('../../../test-helper');
+const { expect, knex, databaseBuilder, factory } = require('../../../test-helper');
 const faker = require('faker');
 const bcrypt = require('bcrypt');
+const _ = require('lodash');
 
 const Bookshelf = require('../../../../lib/infrastructure/bookshelf');
 const BookshelfUser = require('../../../../lib/infrastructure/data/user');
@@ -354,7 +355,7 @@ describe('Integration | Infrastructure | Repository | UserRepository', () => {
 
   });
 
-  describe('#save', () => {
+  describe('#create', () => {
 
     afterEach(() => {
       return knex('users').delete();
@@ -470,4 +471,273 @@ describe('Integration | Infrastructure | Repository | UserRepository', () => {
     });
   });
 
+  describe('#updateUser', () => {
+
+    let userToUpdate;
+
+    beforeEach(async () => {
+      userToUpdate = factory.buildUser({ pixOrgaTermsOfServiceAccepted: true });
+      databaseBuilder.factory.buildUser({ id: userToUpdate.id, pixOrgaTermsOfServiceAccepted: false });
+      await databaseBuilder.commit();
+    });
+
+    afterEach(async () => {
+      await databaseBuilder.clean();
+    });
+
+    it('should update pixOrgaTermsOfServiceAccepted field', () => {
+      // when
+      const promise = userRepository.updateUser(userToUpdate);
+
+      // then
+      return promise.then((user) => {
+        expect(user).be.instanceOf(User);
+        expect(user.pixOrgaTermsOfServiceAccepted).to.be.true;
+        knex('users').select().where({ id: userToUpdate.id })
+          .then((usersSaved) => {
+            expect(Boolean(usersSaved[0].pixOrgaTermsOfServiceAccepted)).to.be.true;
+          });
+      });
+    });
+  });
+
+  describe('#find', () => {
+
+    context('when there are users in the database', () => {
+
+      beforeEach(() => {
+        _.times(3, databaseBuilder.factory.buildUser);
+        return databaseBuilder.commit();
+      });
+
+      afterEach(() => {
+        return databaseBuilder.clean();
+      });
+
+      it('should return an Array of Users', async () => {
+        // given
+        const filters = {};
+        const pagination = { page: 1, pageSize: 10 };
+
+        // when
+        const promise = userRepository.find(filters, pagination);
+
+        // then
+        return promise.then((matchingUsers) => {
+          expect(matchingUsers).to.exist;
+          expect(matchingUsers).to.have.lengthOf(3);
+          expect(matchingUsers[0]).to.be.an.instanceOf(User);
+        });
+      });
+
+    });
+
+    context('when there are lots of users (> 10) in the database', () => {
+
+      beforeEach(() => {
+        _.times(12, databaseBuilder.factory.buildUser);
+        return databaseBuilder.commit();
+      });
+
+      afterEach(() => {
+        return databaseBuilder.clean();
+      });
+
+      it('should return paginated matching users', async () => {
+        // given
+        const filters = {};
+        const pagination = { page: 1, pageSize: 3 };
+
+        // when
+        const promise = userRepository.find(filters, pagination);
+
+        // then
+        return promise.then((matchingUsers) => {
+          expect(matchingUsers).to.have.lengthOf(3);
+        });
+      });
+    });
+
+    context('when there are multiple users matching the same "first name" search pattern', () => {
+
+      beforeEach(() => {
+        databaseBuilder.factory.buildUser({ firstName: 'Son Gohan' });
+        databaseBuilder.factory.buildUser({ firstName: 'Son Goku' });
+        databaseBuilder.factory.buildUser({ firstName: 'Son Goten' });
+        databaseBuilder.factory.buildUser({ firstName: 'Vegeta' });
+        databaseBuilder.factory.buildUser({ firstName: 'Piccolo' });
+        return databaseBuilder.commit();
+      });
+
+      afterEach(() => {
+        return databaseBuilder.clean();
+      });
+
+      it('should return only users matching "first name" if given in filters', async () => {
+        // given
+        const filters = { firstName: 'Go' };
+        const pagination = { page: 1, pageSize: 10 };
+
+        // when
+        const promise = userRepository.find(filters, pagination);
+
+        // then
+        return promise.then((matchingUsers) => {
+          expect(matchingUsers).to.have.lengthOf(3);
+        });
+      });
+    });
+
+    context('when there are multiple users matching the same "last name" search pattern', () => {
+
+      beforeEach(() => {
+        databaseBuilder.factory.buildUser({ firstName: 'Anakin', lastName: 'Skywalker' });
+        databaseBuilder.factory.buildUser({ firstName: 'Luke', lastName: 'Skywalker' });
+        databaseBuilder.factory.buildUser({ firstName: 'Leia', lastName: 'Skywalker' });
+        databaseBuilder.factory.buildUser({ firstName: 'Han', lastName: 'Solo' });
+        databaseBuilder.factory.buildUser({ firstName: 'Ben', lastName: 'Solo' });
+        return databaseBuilder.commit();
+      });
+
+      afterEach(() => {
+        return databaseBuilder.clean();
+      });
+
+      it('should return only users matching "last name" if given in filters', async () => {
+        // given
+        const filters = { lastName: 'walk' };
+        const pagination = { page: 1, pageSize: 10 };
+
+        // when
+        const promise = userRepository.find(filters, pagination);
+
+        // then
+        return promise.then((matchingUsers) => {
+          expect(matchingUsers).to.have.lengthOf(3);
+        });
+      });
+    });
+
+    context('when there are multiple users matching the same "email" search pattern', () => {
+
+      beforeEach(() => {
+        databaseBuilder.factory.buildUser({ email: 'playpus@pix.fr' });
+        databaseBuilder.factory.buildUser({ email: 'panda@pix.fr' });
+        databaseBuilder.factory.buildUser({ email: 'otter@pix.fr' });
+        databaseBuilder.factory.buildUser({ email: 'playpus@example.net' });
+        databaseBuilder.factory.buildUser({ email: 'panda@example.net' });
+        return databaseBuilder.commit();
+      });
+
+      afterEach(() => {
+        return databaseBuilder.clean();
+      });
+
+      it('should return only users matching "email" if given in filters', async () => {
+        // given
+        const filters = { email: 'pix.fr' };
+        const pagination = { page: 1, pageSize: 10 };
+
+        // when
+        const promise = userRepository.find(filters, pagination);
+
+        // then
+        return promise.then((matchingUsers) => {
+          expect(matchingUsers).to.have.lengthOf(3);
+        });
+      });
+    });
+
+    context('when there are multiple users matching the fields "first name", "last name" and "email" search pattern', () => {
+
+      beforeEach(() => {
+        // Matching users
+        databaseBuilder.factory.buildUser({ firstName: 'fn_ok_1', lastName: 'ln_ok_1', email: 'email_ok_1@mail.com' });
+        databaseBuilder.factory.buildUser({ firstName: 'fn_ok_2', lastName: 'ln_ok_2', email: 'email_ok_2@mail.com' });
+        databaseBuilder.factory.buildUser({ firstName: 'fn_ok_3', lastName: 'ln_ok_3', email: 'email_ok_3@mail.com' });
+
+        // Unmatching users
+        databaseBuilder.factory.buildUser({ firstName: 'fn_ko_4', lastName: 'ln_ok_4', email: 'email_ok_4@mail.com' });
+        databaseBuilder.factory.buildUser({ firstName: 'fn_ok_5', lastName: 'ln_ko_5', email: 'email_ok_5@mail.com' });
+        databaseBuilder.factory.buildUser({ firstName: 'fn_ok_6', lastName: 'ln_ok_6', email: 'email_ko_6@mail.com' });
+
+        return databaseBuilder.commit();
+      });
+
+      afterEach(() => {
+        return databaseBuilder.clean();
+      });
+
+      it('should return only users matching "first name" AND "last name" AND "email" if given in filters', async () => {
+        // given
+        const filters = { firstName: 'fn_ok', lastName: 'ln_ok', email: 'email_ok' };
+        const pagination = { page: 1, pageSize: 10 };
+
+        // when
+        const promise = userRepository.find(filters, pagination);
+
+        // then
+        return promise.then((matchingUsers) => {
+          expect(matchingUsers).to.have.lengthOf(3);
+        });
+      });
+    });
+  });
+
+  describe('#count', () => {
+
+    context('when there are multiple users in database', () => {
+
+      beforeEach(() => {
+        _.times(8, databaseBuilder.factory.buildUser);
+        return databaseBuilder.commit();
+      });
+
+      afterEach(() => {
+        return databaseBuilder.clean();
+      });
+
+      it('should return the total number of Users when there is no filter', async () => {
+        // given
+        const filters = {};
+
+        // when
+        const promise = userRepository.count(filters);
+
+        // then
+        return promise.then((totalMatchingUsers) => {
+          expect(totalMatchingUsers).to.equal(8);
+        });
+      });
+    });
+
+    context('when there are multiple users matching the same "email" search pattern', () => {
+
+      beforeEach(() => {
+        databaseBuilder.factory.buildUser({ email: 'playpus@pix.fr' });
+        databaseBuilder.factory.buildUser({ email: 'panda@pix.fr' });
+        databaseBuilder.factory.buildUser({ email: 'otter@pix.fr' });
+        databaseBuilder.factory.buildUser({ email: 'playpus@example.net' });
+        databaseBuilder.factory.buildUser({ email: 'panda@example.net' });
+        return databaseBuilder.commit();
+      });
+
+      afterEach(() => {
+        return databaseBuilder.clean();
+      });
+
+      it('should return the total number of matching Users', async () => {
+        // given
+        const filters = { email: 'pix.fr' };
+
+        // when
+        const promise = userRepository.count(filters);
+
+        // then
+        return promise.then((totalMatchingUsers) => {
+          expect(totalMatchingUsers).to.equal(3);
+        });
+      });
+    });
+  });
 });

@@ -2,6 +2,7 @@ const Boom = require('boom');
 const moment = require('moment');
 const JSONAPIError = require('jsonapi-serializer').Error;
 
+const errorSerializer = require('../../infrastructure/serializers/jsonapi/error-serializer');
 const userSerializer = require('../../infrastructure/serializers/jsonapi/user-serializer');
 const organizationAccessSerializer = require('../../infrastructure/serializers/jsonapi/organization-accesses-serializer');
 const validationErrorSerializer = require('../../infrastructure/serializers/jsonapi/validation-error-serializer');
@@ -9,8 +10,6 @@ const userService = require('../../domain/services/user-service');
 const userRepository = require('../../../lib/infrastructure/repositories/user-repository');
 const profileService = require('../../domain/services/profile-service');
 const profileSerializer = require('../../infrastructure/serializers/jsonapi/profile-serializer');
-const passwordResetDemandService = require('../../domain/services/reset-password-service');
-const encryptionService = require('../../domain/services/encryption-service');
 const tokenService = require('../../domain/services/token-service');
 
 const usecases = require('../../domain/usecases');
@@ -19,6 +18,7 @@ const JSONAPI = require('../../interfaces/jsonapi');
 const Bookshelf = require('../../infrastructure/bookshelf');
 
 const logger = require('../../infrastructure/logger');
+const { BadRequestError } = require('../../infrastructure/errors');
 const {
   InvalidTokenError,
   EntityValidationError,
@@ -102,21 +102,35 @@ module.exports = {
       });
   },
 
-  async updatePassword(request, reply) {
-    const { password } = request.payload.data.attributes;
-    const hashedPassword = await encryptionService.hashPassword(password);
-    let user = await userRepository.findUserById(request.params.id);
-    user = user.toJSON();
+  updateUser(request, reply) {
+    const userId = request.params.id;
 
-    return passwordResetDemandService
-      .hasUserAPasswordResetDemandInProgress(user.email)
-      .then(() => userRepository.updatePassword(user.id, hashedPassword))
-      .then(() => passwordResetDemandService.invalidOldResetPasswordDemand(user.email))
+    return Promise.resolve(request.payload)
+      .then(userSerializer.deserialize)
+      .then((user) => {
+        if (user.password) {
+          return usecases.updateUserPassword({
+            userId,
+            password: user.password
+          });
+        }
+        if (user.pixOrgaTermsOfServiceAccepted) {
+          return usecases.acceptPixOrgaTermsOfService({
+            userId
+          });
+        }
+        return Promise.reject(new BadRequestError());
+      })
       .then(() => reply().code(204))
       .catch((err) => {
         if (err instanceof PasswordResetDemandNotFoundError) {
           return reply(validationErrorSerializer.serialize(err.getErrorMessage())).code(404);
         }
+
+        if (err instanceof BadRequestError) {
+          return reply(errorSerializer.serialize(err)).code(err.code);
+        }
+
         return reply(JSONAPI.internalError('Une erreur interne est survenue.')).code(500);
       });
   },
@@ -147,6 +161,29 @@ module.exports = {
         }
         logger.error(error);
         reply(JSONAPI.internalError('Une erreur est survenue lors de la récupération de l’utilisateur')).code(500);
+      });
+  },
+
+  find(request, reply) {
+    const filters = {
+      firstName: request.query['firstName'],
+      lastName: request.query['lastName'],
+      email: request.query['email']
+    };
+    const pagination = {
+      page: request.query['page'] ? request.query['page'] : 1,
+      pageSize: request.query['pageSize'] ? request.query['pageSize'] : 10,
+    };
+
+    return usecases.findUsers({ filters, pagination })
+      .then((searchResultList) => {
+        const meta = {
+          page: searchResultList.page,
+          pageSize: searchResultList.pageSize,
+          itemsCount: searchResultList.totalResults,
+          pagesCount: searchResultList.pagesCount,
+        };
+        return reply(userSerializer.serialize(searchResultList.paginatedResults, meta));
       });
   }
 };

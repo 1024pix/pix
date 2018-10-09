@@ -133,6 +133,7 @@ module.exports = {
       .then(_loadRequiredChallengesInformationsAndAnswers)
       .then(_castCompetencesToUserCompetences)
       .then(([challenges, userCompetences, answers]) => {
+
         answers.forEach((answer) => {
           const challenge = _getRelatedChallengeById(challenges, answer);
           const competence = _getCompetenceByChallengeCompetenceId(userCompetences, challenge);
@@ -157,6 +158,7 @@ module.exports = {
 
             const challenge = (_.isEmpty(challengesLeftToAnswer)) ? _.first(challengesToValidateCurrentSkill) : _.first(challengesLeftToAnswer);
 
+            //TODO : Mettre le skill en entier (Skill{id, name})
             challenge.testedSkill = skill.name;
 
             userCompetence.addChallenge(challenge);

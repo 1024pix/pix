@@ -4,6 +4,7 @@ const Boom = require('boom');
 
 const BookshelfUser = require('../../../../lib/infrastructure/data/user');
 const User = require('../../../../lib/domain/models/User');
+const SearchResultList = require('../../../../lib/domain/models/SearchResultList');
 
 const userController = require('../../../../lib/application/users/user-controller');
 const validationErrorSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/validation-error-serializer');
@@ -19,7 +20,6 @@ const userService = require('../../../../lib/domain/services/user-service');
 const usecases = require('../../../../lib/domain/usecases');
 
 const {
-  PasswordResetDemandNotFoundError,
   InternalError,
   EntityValidationError,
   UserNotAuthorizedToAccessEntity
@@ -239,9 +239,9 @@ describe('Unit | Controller | user-controller', () => {
     });
   });
 
-  describe('#updatePassword', () => {
+  describe('#updateUser', () => {
 
-    describe('When payload is good (with a payload and a password attribute)', () => {
+    context('When payload is good (with a payload and a password attribute)', () => {
 
       let sandbox;
       let reply;
@@ -282,68 +282,6 @@ describe('Unit | Controller | user-controller', () => {
         sandbox.restore();
       });
 
-      it('should get user by his id', () => {
-        // given
-        passwordResetService.hasUserAPasswordResetDemandInProgress.resolves();
-
-        // when
-        const promise = userController.updatePassword(request, reply);
-
-        // then
-        return promise.then(() => {
-          sinon.assert.calledOnce(userRepository.findUserById);
-          sinon.assert.calledWith(userRepository.findUserById, request.params.id);
-        });
-      });
-
-      it('should check if user has a current password reset demand', () => {
-        // given
-        passwordResetService.hasUserAPasswordResetDemandInProgress.resolves();
-
-        // when
-        const promise = userController.updatePassword(request, reply);
-
-        // then
-        return promise.then(() => {
-          sinon.assert.calledOnce(passwordResetService.hasUserAPasswordResetDemandInProgress);
-          sinon.assert.calledWith(passwordResetService.hasUserAPasswordResetDemandInProgress, user.get('email'));
-        });
-      });
-
-      it('should update user password with a hashed password', async () => {
-        // given
-        passwordResetService.hasUserAPasswordResetDemandInProgress.resolves();
-        const encryptedPassword = '$2a$05$jJnoQ/YCvAChJmYW9AoQXe/k17mx2l2MqJBgXVo/R/ju4HblB2iAe';
-        encryptionService.hashPassword.resolves(encryptedPassword);
-
-        // when
-        const promise = userController.updatePassword(request, reply);
-
-        // then
-        return promise.then(() => {
-          sinon.assert.calledOnce(userRepository.updatePassword);
-          sinon.assert.calledOnce(encryptionService.hashPassword);
-          sinon.assert.calledWith(encryptionService.hashPassword, request.payload.data.attributes.password);
-          sinon.assert.calledWith(userRepository.updatePassword, request.params.id, encryptedPassword);
-        });
-      });
-
-      it('should invalidate current password reset demand (mark as being used)', () => {
-        // given
-        passwordResetService.hasUserAPasswordResetDemandInProgress.resolves();
-        userRepository.updatePassword.resolves();
-        passwordResetService.invalidOldResetPasswordDemand.resolves();
-
-        // when
-        const promise = userController.updatePassword(request, reply);
-
-        // then
-        return promise.then(() => {
-          sinon.assert.calledOnce(passwordResetService.invalidOldResetPasswordDemand);
-          sinon.assert.calledWith(passwordResetService.invalidOldResetPasswordDemand, user.get('email'));
-        });
-      });
-
       it('should reply with no content', () => {
         // given
         passwordResetService.hasUserAPasswordResetDemandInProgress.resolves();
@@ -351,32 +289,11 @@ describe('Unit | Controller | user-controller', () => {
         passwordResetService.invalidOldResetPasswordDemand.resolves();
 
         // when
-        const promise = userController.updatePassword(request, reply);
+        const promise = userController.updateUser(request, reply);
 
         // then
         return promise.then(() => {
           sinon.assert.calledOnce(reply);
-        });
-      });
-
-      describe('When user has not a current password reset demand', () => {
-        it('should reply with a serialized Not found error', () => {
-          // given
-          const error = new PasswordResetDemandNotFoundError();
-          const serializedError = {};
-          validationErrorSerializer.serialize.returns(serializedError);
-          passwordResetService.hasUserAPasswordResetDemandInProgress.rejects(error);
-
-          // when
-          const promise = userController.updatePassword(request, reply);
-
-          // then
-          return promise.then(() => {
-            sinon.assert.calledOnce(reply);
-            sinon.assert.calledWith(reply, serializedError);
-            sinon.assert.calledOnce(validationErrorSerializer.serialize);
-            sinon.assert.calledWith(validationErrorSerializer.serialize, error.getErrorMessage());
-          });
         });
       });
 
@@ -398,7 +315,7 @@ describe('Unit | Controller | user-controller', () => {
           passwordResetService.hasUserAPasswordResetDemandInProgress.rejects(error);
 
           // when
-          const promise = userController.updatePassword(request, reply);
+          const promise = userController.updateUser(request, reply);
 
           // then
           return promise.then(() => {
@@ -409,6 +326,108 @@ describe('Unit | Controller | user-controller', () => {
         });
       });
 
+    });
+
+    context('When payload contains no password field nor pix-orga-terms-of-service-accepted field', () => {
+
+      it('should returns 400 status code', () => {
+        // given
+        const request = {
+          params: {
+            id: 7,
+          },
+          payload: {
+            data: {
+              attributes: {
+                'unknown-attribute': true,
+              },
+            },
+          },
+        };
+        const sandbox = sinon.sandbox.create();
+        const codeStub = sandbox.stub();
+        const reply = sandbox.stub().returns({
+          code: codeStub,
+        });
+
+        // when
+        const promise = userController.updateUser(request, reply);
+
+        // then
+        return promise.then(() => {
+          expect(codeStub).to.have.been.calledWith(400);
+        });
+
+      });
+    });
+
+    context('When payload has a password field', () => {
+      it('should update password', () => {
+        // given
+        const userId = 7;
+        const password = 'PIX123$';
+        const request = {
+          params: {
+            id: userId,
+          },
+          payload: {
+            data: {
+              attributes: {
+                password,
+              },
+            },
+          },
+        };
+        const sandbox = sinon.sandbox.create();
+        const codeStub = sandbox.stub();
+        const reply = sandbox.stub().returns({
+          code: codeStub,
+        });
+        const usecaseUpdateUserPasswordStub = sandbox.stub(usecases, 'updateUserPassword');
+
+        // when
+        const promise = userController.updateUser(request, reply);
+
+        // then
+        return promise.then(() => {
+          expect(usecaseUpdateUserPasswordStub).to.have.been.calledWith({ userId, password });
+        });
+      });
+
+    });
+
+    context('When payload has a pix-orga-terms-of-service-accepted field', () => {
+
+      it('should accept pix orga terms of service', () => {
+        // given
+        const userId = 7;
+        const request = {
+          params: {
+            id: userId,
+          },
+          payload: {
+            data: {
+              attributes: {
+                'pix-orga-terms-of-service-accepted': true,
+              },
+            },
+          },
+        };
+        const sandbox = sinon.sandbox.create();
+        const codeStub = sandbox.stub();
+        const reply = sandbox.stub().returns({
+          code: codeStub,
+        });
+        const usecaseAcceptPixOrgaTermsOfServiceStub = sandbox.stub(usecases, 'acceptPixOrgaTermsOfService');
+
+        // when
+        const promise = userController.updateUser(request, reply);
+
+        // then
+        return promise.then(() => {
+          expect(usecaseAcceptPixOrgaTermsOfServiceStub).to.have.been.calledWith({ userId });
+        });
+      });
     });
   });
 
@@ -739,4 +758,137 @@ describe('Unit | Controller | user-controller', () => {
 
   });
 
+  describe('#find', () => {
+
+    beforeEach(() => {
+      sinon.stub(usecases, 'findUsers');
+      sinon.stub(userSerializer, 'serialize');
+    });
+
+    afterEach(() => {
+      usecases.findUsers.restore();
+      userSerializer.serialize.restore();
+    });
+
+    it('should return a list of JSON API users fetched from the data repository', () => {
+      // given
+      const request = { query: {} };
+      const replyStub = sinon.stub();
+      usecases.findUsers.resolves(new SearchResultList());
+      userSerializer.serialize.returns({ data: {}, meta: {} });
+
+      // when
+      const promise = userController.find(request, replyStub);
+
+      // then
+      return promise.then(() => {
+        expect(usecases.findUsers).to.have.been.calledOnce;
+        expect(userSerializer.serialize).to.have.been.calledOnce;
+        expect(replyStub).to.have.been.calledOnce;
+      });
+    });
+
+    it('should return a JSON API response with pagination information in the data field "meta"', () => {
+      // given
+      const request = { query: {} };
+      const replyStub = sinon.stub();
+      const searchResultList = new SearchResultList({
+        page: 2,
+        pageSize: 25,
+        totalResults: 100,
+        paginatedResults: [new User({ id: 1 }), new User({ id: 2 }), new User({ id: 3 })],
+      });
+      usecases.findUsers.resolves(searchResultList);
+
+      // when
+      const promise = userController.find(request, replyStub);
+
+      // then
+      return promise.then(() => {
+        const expectedResults = searchResultList.paginatedResults;
+        const expectedMeta = { page: 2, pageSize: 25, itemsCount: 100, pagesCount: 4, };
+        expect(userSerializer.serialize).to.have.been.calledWithExactly(expectedResults, expectedMeta);
+      });
+    });
+
+    it('should allow to filter users by first name', () => {
+      // given
+      const request = { query: { firstName: 'first_name' } };
+      const replyStub = sinon.stub();
+      usecases.findUsers.resolves(new SearchResultList());
+
+      // when
+      const promise = userController.find(request, replyStub);
+
+      // then
+      return promise.then(() => {
+        const expectedFilters = { firstName: 'first_name' };
+        expect(usecases.findUsers).to.have.been.calledWithMatch({ filters: expectedFilters });
+      });
+    });
+
+    it('should allow to filter users by last name', () => {
+      // given
+      const request = { query: { lastName: 'last_name' } };
+      const replyStub = sinon.stub();
+      usecases.findUsers.resolves(new SearchResultList());
+
+      // when
+      const promise = userController.find(request, replyStub);
+
+      // then
+      return promise.then(() => {
+        const expectedFilters = { lastName: 'last_name' };
+        expect(usecases.findUsers).to.have.been.calledWithMatch({ filters: expectedFilters });
+      });
+    });
+
+    it('should allow to filter users by email', () => {
+      // given
+      const request = { query: { email: 'email' } };
+      const replyStub = sinon.stub();
+      usecases.findUsers.resolves(new SearchResultList());
+
+      // when
+      const promise = userController.find(request, replyStub);
+
+      // then
+      return promise.then(() => {
+        const expectedFilters = { email: 'email' };
+        expect(usecases.findUsers).to.have.been.calledWithMatch({ filters: expectedFilters });
+      });
+    });
+
+    it('should allow to paginate on a given page and page size', () => {
+      // given
+      const request = { query: { page: 2, pageSize: 25 } };
+      const replyStub = sinon.stub();
+      usecases.findUsers.resolves(new SearchResultList());
+
+      // when
+      const promise = userController.find(request, replyStub);
+
+      // then
+      return promise.then(() => {
+        const expectedPagination = { page: 2, pageSize: 25 };
+        expect(usecases.findUsers).to.have.been.calledWithMatch({ pagination: expectedPagination });
+      });
+    });
+
+    it('should paginate on page 1 for a page size of 10 elements by default', () => {
+      // given
+      const request = { query: {} };
+      const replyStub = sinon.stub();
+      usecases.findUsers.resolves(new SearchResultList());
+
+      // when
+      const promise = userController.find(request, replyStub);
+
+      // then
+      return promise.then(() => {
+        const expectedPagination = { page: 1, pageSize: 10 };
+        expect(usecases.findUsers).to.have.been.calledWithMatch({ pagination: expectedPagination });
+      });
+    });
+  });
 });

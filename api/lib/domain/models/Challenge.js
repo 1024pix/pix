@@ -7,31 +7,59 @@ const ValidatorQROC = require('./ValidatorQROC');
 const ValidatorQROCMDep = require('./ValidatorQROCMDep');
 const ValidatorQROCMInd = require('./ValidatorQROCMInd');
 
+const ChallengeType = Object.freeze({
+  QCU: 'QCU',
+  QCM: 'QCM',
+  QROC: 'QROC',
+  QROCM_IND: 'QROCM-ind',
+  QROCM_DEP: 'QROCM-dep',
+});
+
 /**
  * Traduction: Épreuve
  */
 class Challenge {
 
-  constructor({
-    id,
-    // attributes
-    attachments,
-    embedHeight,
-    embedTitle,
-    embedUrl,
-    illustrationUrl,
-    instruction,
-    proposals,
-    status,
-    timer,
-    type,
-    // includes
-    answer,
-    skills = [],
-    validator,
-    // references
-    competenceId,
-  } = {}) {
+  /**
+   * Constructeur d'épreuve
+   *
+   * @param id
+   * @param attachments
+   * @param embedHeight
+   * @param embedTitle
+   * @param embedUrl
+   * @param illustrationUrl
+   * @param instruction
+   * @param proposals
+   * @param status
+   * @param timer
+   * @param type
+   * @param answer ==> Il semblerait que answer ne serve plus.
+   * @param skills
+   * @param validator
+   * @param competenceId
+   */
+  constructor(
+    {
+      id,
+      // attributes
+      attachments,
+      embedHeight,
+      embedTitle,
+      embedUrl,
+      illustrationUrl,
+      instruction,
+      proposals,
+      status,
+      timer,
+      type,
+      // includes
+      answer,
+      skills = [],
+      validator,
+      // references
+      competenceId,
+    } = {}) {
     this.id = id;
     // attributes
     this.answer = answer;
@@ -87,26 +115,27 @@ class Challenge {
 
   static createValidatorForChallengeType({ challengeType, solution }) {
     switch (challengeType) {
-      case 'QCU':
+      case ChallengeType.QCU:
         return new ValidatorQCU({ solution });
 
-      case 'QCM':
+      case ChallengeType.QCM:
         return new ValidatorQCM({ solution });
 
-      case 'QROC':
+      case ChallengeType.QROC:
         return new ValidatorQROC({ solution });
 
-      case 'QROCM-ind':
+      case ChallengeType.QROCM_IND:
         return new ValidatorQROCMInd({ solution });
 
-      case 'QROCM-dep':
+      case ChallengeType.QROCM_DEP:
         return new ValidatorQROCMDep({ solution });
 
       default:
         return new Validator({ solution });
     }
   }
-
 }
+
+Challenge.Type = ChallengeType;
 
 module.exports = Challenge;
