@@ -9,9 +9,11 @@ function _toDomain(bookshelfCampaignParticipation) {
     id: bookshelfCampaignParticipation.get('id'),
     assessmentId: bookshelfCampaignParticipation.get('assessmentId'),
     campaign: new Campaign(bookshelfCampaignParticipation.related('campaign').toJSON()),
+    campaignId: bookshelfCampaignParticipation.get('campaignId'),
     isShared: Boolean(bookshelfCampaignParticipation.get('isShared')),
     sharedAt: new Date(bookshelfCampaignParticipation.get('sharedAt')),
     participantExternalId: bookshelfCampaignParticipation.get('participantExternalId'),
+    userId: bookshelfCampaignParticipation.get('userId'),
   });
 }
 
@@ -59,8 +61,9 @@ module.exports = {
 function _adaptModelToDb(campaignParticipation) {
   return {
     assessmentId: campaignParticipation.assessmentId,
-    campaignId: campaignParticipation.campaign.id,
+    campaignId: campaignParticipation.campaignId,
     participantExternalId: campaignParticipation.participantExternalId,
+    userId: campaignParticipation.userId,
   };
 }
 

@@ -12,7 +12,7 @@ describe('Integration | Infrastructure | Usecases | find-user-assessment-by-filt
       let certificationWanted;
       let assessmentWanted;
       let user;
-      beforeEach(() => {
+      beforeEach(async () => {
         user = databaseBuilder.factory.buildUser();
         certificationWanted = databaseBuilder.factory.buildCertificationCourse();
         assessmentWanted = databaseBuilder.factory.buildAssessment({
@@ -28,11 +28,11 @@ describe('Integration | Infrastructure | Usecases | find-user-assessment-by-filt
         databaseBuilder.factory.buildAssessment({
           type: 'CERTIFICATION'
         });
-        return databaseBuilder.commit();
+        await databaseBuilder.commit();
       });
 
-      afterEach(() => {
-        return databaseBuilder.clean();
+      afterEach(async () => {
+        await databaseBuilder.clean();
       });
 
       it('should return only the certification asked', () => {

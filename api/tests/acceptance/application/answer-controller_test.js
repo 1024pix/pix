@@ -9,12 +9,12 @@ describe('Acceptance | Controller | answer-controller-save', () => {
 
     let insertedAssessmentId;
 
-    beforeEach(() => {
+    beforeEach(async () => {
       insertedAssessmentId = databaseBuilder.factory.buildAssessment({
         type: Assessment.types.PLACEMENT,
       }).id;
 
-      return databaseBuilder.commit();
+      await databaseBuilder.commit();
     });
 
     afterEach(() => {

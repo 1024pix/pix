@@ -15,6 +15,7 @@ function _getCampaignFromCode(codeCampaign, campaignRepository) {
 
 module.exports = function createAssessmentForCampaign(
   {
+    userId,
     assessment,
     codeCampaign,
     participantExternalId,
@@ -36,8 +37,9 @@ module.exports = function createAssessmentForCampaign(
     .then((assessmentCreatedInDb) => {
       assessmentCreated = assessmentCreatedInDb;
       const campaignParticipation = new CampaignParticipation({
+        userId,
         assessmentId: assessmentCreated.id,
-        campaign: campaign,
+        campaignId: campaign.id,
         participantExternalId
       });
       return campaignParticipationRepository.save(campaignParticipation);

@@ -8,6 +8,7 @@ describe('Unit | Controller | Campaigns | Fill in ParticipantExternalId', functi
     needs: ['service:current-routed-modal']
   });
 
+  const campaign = { id: 1243 };
   const campaignCode = 'CODECAMPAIGN';
   const participantExternalId = 'matricule123';
   let controller;
@@ -15,6 +16,7 @@ describe('Unit | Controller | Campaigns | Fill in ParticipantExternalId', functi
   beforeEach(function() {
     controller = this.subject();
     controller.set('model', {
+      campaign,
       campaignCode,
       participantExternalId,
       idPixLabel: 'Identifiant professionnel',
@@ -36,7 +38,7 @@ describe('Unit | Controller | Campaigns | Fill in ParticipantExternalId', functi
       controller.actions.submit.call(controller);
 
       // then
-      sinon.assert.calledWith(startStub, campaignCode, participantExternalId);
+      sinon.assert.calledWith(startStub, campaign, campaignCode, participantExternalId);
     });
 
     it('should display error when participant external id is empty', () => {

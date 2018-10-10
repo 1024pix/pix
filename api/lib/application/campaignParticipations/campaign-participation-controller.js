@@ -14,6 +14,24 @@ const serializer = require('../../infrastructure/serializers/jsonapi/campaign-pa
 
 module.exports = {
 
+  save(request, reply) {
+    const userId = request.auth.credentials.userId;
+    return serializer.deserialize(request.payload)
+      .then((campaignParticipation) => usecases.startCampaignParticipation({ campaignParticipation, userId }))
+      .then(serializer.serialize)
+      .then(controllerReplies(reply).created)
+      .catch((error) => {
+        logger.error(error);
+
+        if (error instanceof NotFoundError) {
+          const infraError = new infraErrors.NotFoundError(error.message);
+          return controllerReplies(reply).error(infraError);
+        }
+
+        return controllerReplies(reply).error(error);
+      });
+  },
+
   getCampaignParticipationByAssessment(request, reply) {
     const token = tokenService.extractTokenFromAuthChain(request.headers.authorization);
     const userId = tokenService.extractUserId(token);
@@ -27,7 +45,7 @@ module.exports = {
       smartPlacementAssessmentRepository
     })
       .then((campaignParticipation) => {
-        return serializer.serialize(campaignParticipation);
+        return serializer.serialize([campaignParticipation]);
       })
       .then(controllerReplies(reply).ok);
   },
@@ -49,18 +67,16 @@ module.exports = {
         })
         .catch((error) => {
           logger.error(error);
-          return controllerReplies(reply).error(mapToInfrastructureErrors(error));
+          return controllerReplies(reply).error(_mapToInfrastructureErrors(error));
         });
     }
     else {
       return controllerReplies(reply).error(new infraErrors.BadRequestError('campaignParticipationId manquant'));
     }
   }
-}
-;
+};
 
-function mapToInfrastructureErrors(error) {
-
+function _mapToInfrastructureErrors(error) {
   if (error instanceof NotFoundError) {
     return new infraErrors.NotFoundError('Participation non trouvée');
   }
