@@ -84,7 +84,7 @@ module.exports = {
   findTargetProfiles(request, reply) {
     const requestedOrganizationId = parseInt(request.params.id);
 
-    return usecases.findAvailableTargetProfiles({ organizationId: requestedOrganizationId })
+    return organizationService.findAllTargetProfilesAvailableForOrganization(requestedOrganizationId)
       .then(targetProfileSerializer.serialize)
       .then(controllerReplies(reply).ok)
       .catch(controllerReplies(reply).error);

@@ -1,3 +1,4 @@
+const _ = require('lodash');
 const campaignCodeGenerator = require('../services/campaigns/campaign-code-generator');
 const campaignValidator = require('../validators/campaign-validator');
 const Campaign = require('../models/Campaign');
@@ -13,24 +14,20 @@ function _checkCreatorHasAccessToCampaignOrganization(userId, organizationId, us
     });
 }
 
-function _checkOrganizationHasAccessToTargetProfile(targetProfileId, organizationId, targetProfileRepository) {
-  return targetProfileRepository.get(targetProfileId)
-    .then((targetProfile) => {
-
-      if(targetProfile.isPublic ||
-        targetProfile.organizationId === organizationId ||
-        targetProfile.sharedWithOrganizationIds.includes(organizationId)) {
-
+function _checkOrganizationHasAccessToTargetProfile(targetProfileId, organizationId, organizationService) {
+  return organizationService.findAllTargetProfilesAvailableForOrganization(organizationId)
+    .then((targetProfiles) => {
+      if(_.find(targetProfiles, (targetProfile) => targetProfile.id == targetProfileId)) {
         return Promise.resolve();
       }
       throw new UserNotAuthorizedToCreateCampaignError(`Organization does not have an access to the profile ${targetProfileId}`);
     });
 }
 
-module.exports = function createCampaign({ campaign, campaignRepository, userRepository, targetProfileRepository }) {
+module.exports = function createCampaign({ campaign, campaignRepository, userRepository, organizationService }) {
   return campaignValidator.validate(campaign)
     .then(() => _checkCreatorHasAccessToCampaignOrganization(campaign.creatorId, campaign.organizationId, userRepository))
-    .then(() => _checkOrganizationHasAccessToTargetProfile(campaign.targetProfileId, campaign.organizationId, targetProfileRepository))
+    .then(() => _checkOrganizationHasAccessToTargetProfile(campaign.targetProfileId, campaign.organizationId, organizationService))
     .then(() => campaignCodeGenerator.generate(campaignRepository))
     .then((generatedCampaignCode) => {
       const campaignWithCode = new Campaign(campaign);
