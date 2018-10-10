@@ -2,9 +2,9 @@ const Bookshelf = require('../bookshelf');
 
 require('./target-profile');
 
-module.exports = Bookshelf.model('TargetProfileShared', {
+module.exports = Bookshelf.model('TargetProfileShares', {
 
-  tableName: 'target-profiles_shared',
+  tableName: 'target-profile-shares',
 
   targetProfile() {
     return this.belongsTo('TargetProfile', 'targetProfileId');

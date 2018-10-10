@@ -5,19 +5,19 @@ module.exports = function findAvailableTargetProfiles({ organizationId, targetPr
   return organizationRepository.get(organizationId)
     .then((organization) => {
       return Promise.all([
-        targetProfileRepository.findTargetProfilesByOrganizationId(organizationId),
-        _extractProfileSharedWithTheOrganization(organization),
+        targetProfileRepository.findTargetProfilesOwnedByOrganizationId(organizationId),
+        _extractProfilesSharedWithOrganization(organization),
         targetProfileRepository.findPublicTargetProfiles(),
       ]);
     })
-    .then(([targetProfilesLinkedToOrganization, targetProfileSharedWithOrganization, publicTargetProfiles]) => {
-      const allAvailableTargetProfiles = _.concat(targetProfilesLinkedToOrganization, targetProfileSharedWithOrganization, publicTargetProfiles);
+    .then(([targetProfilesOwnedByOrganization, targetProfileSharesWithOrganization, publicTargetProfiles]) => {
+      const allAvailableTargetProfiles = _.concat(targetProfilesOwnedByOrganization, targetProfileSharesWithOrganization, publicTargetProfiles);
       return _.uniqBy(allAvailableTargetProfiles, 'id');
     });
 };
 
-function _extractProfileSharedWithTheOrganization(organization) {
-  return organization.targetProfileShared.map((targetProfileShared) => {
-    return targetProfileShared.targetProfile;
+function _extractProfilesSharedWithOrganization(organization) {
+  return organization.targetProfileShares.map((targetProfileShare) => {
+    return targetProfileShare.targetProfile;
   });
 }

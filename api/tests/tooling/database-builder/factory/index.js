@@ -12,7 +12,7 @@ module.exports = {
   buildSession: require('./build-session'),
   buildTargetProfile: require('./build-target-profile'),
   buildTargetProfilesSkills: require('./build-target-profiles-skills'),
-  buildTargetProfilesShared: require('./build-target-profiles-shared'),
+  buildTargetProfilesShare: require('./build-target-profiles-shares'),
   buildUser: require('./build-user'),
   buildUserPixRole: require('./build-user-pix-role'),
 };

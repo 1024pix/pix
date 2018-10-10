@@ -9,7 +9,7 @@ class Organization {
     type,
     // includes
     user,
-    targetProfileShared = [],
+    targetProfileShares = [],
     // references
   } = {}) {
     this.id = id;
@@ -20,7 +20,7 @@ class Organization {
     this.email = email;
     // includes
     this.user = user;
-    this.targetProfileShared = targetProfileShared;
+    this.targetProfileShares = targetProfileShares;
     // references
   }
 }

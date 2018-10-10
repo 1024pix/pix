@@ -39,7 +39,7 @@ describe('Unit | Domain | Models | Organization', () => {
         type: 'SCO',
         email: 'jr@lycee.fr',
         user: user,
-        targetProfileShared: [
+        targetProfileShares: [
           {
             targetProfile: []
           }
@@ -51,7 +51,7 @@ describe('Unit | Domain | Models | Organization', () => {
       // then
       expect(organization.id).to.equal(1);
       expect(organization.email).to.equal('jr@lycee.fr');
-      expect(organization.targetProfileShared.length).to.equal(1);
+      expect(organization.targetProfileShares.length).to.equal(1);
     });
 
   });

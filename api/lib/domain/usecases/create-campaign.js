@@ -19,11 +19,11 @@ function _checkOrganizationHasAccessToTargetProfile(targetProfileId, organizatio
 
       if(targetProfile.isPublic ||
         targetProfile.organizationId === organizationId ||
-        targetProfile.organizationsSharedId.includes(organizationId)) {
+        targetProfile.sharedWithOrganizationIds.includes(organizationId)) {
 
         return Promise.resolve();
       }
-      return Promise.reject(new UserNotAuthorizedToCreateCampaignError(`Organization does not have an access to the profile ${targetProfileId}`));
+      throw new UserNotAuthorizedToCreateCampaignError(`Organization does not have an access to the profile ${targetProfileId}`);
     });
 }
 

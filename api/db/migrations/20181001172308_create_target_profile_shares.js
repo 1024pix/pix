@@ -1,4 +1,4 @@
-const TABLE_NAME = 'target-profiles_shared';
+const TABLE_NAME = 'target-profile-shares';
 
 exports.up = (knex) => {
   return knex.schema
