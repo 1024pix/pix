@@ -1,7 +1,6 @@
 const { expect } = require('../../../test-helper');
-const organizationValidator = require('../../../../lib/domain/validators/organization-validator');
+const organizationCreationValidator = require('../../../../lib/domain/validators/organization-creation-validator');
 const { EntityValidationError } = require('../../../../lib/domain/errors');
-const Organization = require('../../../../lib/domain/models/Organization');
 
 const MISSING_VALUE = '';
 
@@ -13,22 +12,16 @@ function _assertErrorMatchesWithExpectedOne(entityValidationErrors, expectedErro
 
 describe('Unit | Domain | Validators | organization-validator', function() {
 
-  let organization;
-
-  beforeEach(() => {
-    organization = new Organization({
-      name: 'Lycée des Rosiers',
-      type: 'SUP',
-    });
-  });
-
   describe('#validate', () => {
 
     context('when validation is successful', () => {
 
       it('should resolve (with no value) when validation is successful', () => {
+        // given
+        const organizationCreationParams = { name: 'ACME', type: 'PRO' };
+
         // when
-        const promise = organizationValidator.validate(organization);
+        const promise = organizationCreationValidator.validate(organizationCreationParams);
 
         // then
         return expect(promise).to.be.fulfilled;
@@ -45,10 +38,10 @@ describe('Unit | Domain | Validators | organization-validator', function() {
             attribute: 'name',
             message: 'Le nom n’est pas renseigné.'
           };
-          organization.name = MISSING_VALUE;
+          const organizationCreationParams = { name: MISSING_VALUE, type: 'PRO' };
 
           // when
-          const promise = organizationValidator.validate(organization);
+          const promise = organizationCreationValidator.validate(organizationCreationParams);
 
           // then
           return promise
@@ -66,10 +59,10 @@ describe('Unit | Domain | Validators | organization-validator', function() {
             attribute: 'type',
             message: 'Le type n’est pas renseigné.'
           };
-          organization.type = MISSING_VALUE;
+          const organizationCreationParams = { name: 'ACME', type: MISSING_VALUE };
 
           // when
-          const promise = organizationValidator.validate(organization);
+          const promise = organizationCreationValidator.validate(organizationCreationParams);
 
           // then
           return promise
@@ -83,10 +76,10 @@ describe('Unit | Domain | Validators | organization-validator', function() {
             attribute: 'type',
             message: 'Le type de l’organisation doit avoir l’une des valeurs suivantes: SCO, SUP, PRO.'
           };
-          organization.type = 'PTT';
+          const organizationCreationParams = { name: 'ACME', type: 'PTT' };
 
           // when
-          const promise = organizationValidator.validate(organization);
+          const promise = organizationCreationValidator.validate(organizationCreationParams);
 
           // then
           return promise
@@ -101,10 +94,10 @@ describe('Unit | Domain | Validators | organization-validator', function() {
         ].forEach((type) => {
           it(`should accept ${type} as type`, function() {
             // given
-            organization.type = type;
+            const organizationCreationParams = { name: 'ACME', type };
 
             // when
-            const promise = organizationValidator.validate(organization);
+            const promise = organizationCreationValidator.validate(organizationCreationParams);
 
             // then
             return expect(promise).to.be.fulfilled;
@@ -115,13 +108,10 @@ describe('Unit | Domain | Validators | organization-validator', function() {
 
       it('should reject with errors on all fields (but only once by field) when all fields are missing', () => {
         // given
-        organization = {
-          name: '',
-          type: '',
-        };
+        const organizationCreationParams = { name: MISSING_VALUE, type: MISSING_VALUE, };
 
         // when
-        const promise = organizationValidator.validate(organization);
+        const promise = organizationCreationValidator.validate(organizationCreationParams);
 
         // then
         return promise

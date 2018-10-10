@@ -15,7 +15,7 @@ const validationErrorSerializer = require('../../../../lib/infrastructure/serial
 const bookshelfUtils = require('../../../../lib/infrastructure/utils/bookshelf-utils');
 const { EntityValidationError, NotFoundError } = require('../../../../lib/domain/errors');
 const logger = require('../../../../lib/infrastructure/logger');
-const organizationValidator = require('../../../../lib/domain/validators/organization-validator');
+const organizationCreationValidator = require('../../../../lib/domain/validators/organization-creation-validator');
 const usecases = require('../../../../lib/domain/usecases');
 const campaignSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/campaign-serializer');
 const targetProfileSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/target-profile-serializer');
@@ -42,7 +42,7 @@ describe('Unit | Application | Organizations | organization-controller', () => {
       sandbox.stub(organizationRepository, 'create').resolves(organizationBookshelf);
       sandbox.stub(organizationRepository, 'isCodeAvailable');
       sandbox.stub(organizationSerializer, 'serialize');
-      sandbox.stub(organizationValidator, 'validate');
+      sandbox.stub(organizationCreationValidator, 'validate');
       sandbox.stub(encryptionService, 'hashPassword');
 
       request = {
@@ -72,7 +72,7 @@ describe('Unit | Application | Organizations | organization-controller', () => {
         savedOrganization = { titi: 'toto' };
         serializedOrganization = { foo: 'bar' };
 
-        organizationValidator.validate.resolves();
+        organizationCreationValidator.validate.resolves();
         organizationService.generateOrganizationCode.returns(generatedOrganizationCode);
         organizationRepository.isCodeAvailable.withArgs(generatedOrganizationCode).resolves();
         organizationRepository.create.resolves(savedOrganization);
@@ -143,7 +143,7 @@ describe('Unit | Application | Organizations | organization-controller', () => {
           });
 
           error = new EntityValidationError(expectedValidationError);
-          organizationValidator.validate.rejects(error);
+          organizationCreationValidator.validate.rejects(error);
         });
 
         it('should return an error with HTTP status code 422 when a validation error occurred', () => {
@@ -179,7 +179,7 @@ describe('Unit | Application | Organizations | organization-controller', () => {
       context('when a treatment error occurred (other than validation)', () => {
 
         beforeEach(() => {
-          organizationValidator.validate.resolves();
+          organizationCreationValidator.validate.resolves();
           error = new Error('Some error');
           organizationService.generateOrganizationCode.returns('ABCD12');
           organizationRepository.isCodeAvailable.resolves(true);
