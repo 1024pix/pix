@@ -25,7 +25,7 @@ module('Acceptance | authentication', function(hooks) {
     });
   });
 
-  module( "When user is logged in but has not accepted terms of service yet", function(hooks) {
+  module( "When user is logging in but has not accepted terms of service yet", function(hooks) {
 
     hooks.beforeEach(() => {
       user = createUserWithOrganizationAccess();
@@ -64,7 +64,7 @@ module('Acceptance | authentication', function(hooks) {
    });
   });
 
-  module( "When user is logged in and has accepted terms of service", function(hooks) {
+  module( "When user is logging in and has accepted terms of service", function(hooks) {
 
     hooks.beforeEach(() => {
       user = createUserWithOrganizationAccessAndTermsOfServiceAccepted();
@@ -106,19 +106,18 @@ module('Acceptance | authentication', function(hooks) {
 
   module( "When user is already authenticated and has accepted terms of service", function(hooks) {
 
-    hooks.beforeEach(() => {
+    hooks.beforeEach(async () => {
       user = createUserWithOrganizationAccessAndTermsOfServiceAccepted();
-    });
 
-    test('it should let user access requested page', async function(assert) {
-      // given
       await authenticateSession({
         user_id: user.id,
         access_token: 'access token',
         expires_in: 3600,
         token_type: 'Bearer token type',
       });
+    });
 
+    test('it should let user access requested page', async function(assert) {
       // when
       await visit('/campagnes/creation');
 
@@ -128,14 +127,6 @@ module('Acceptance | authentication', function(hooks) {
     });
 
     test('it should display the organization linked to the connected user', async function(assert) {
-      // given
-      await authenticateSession({
-        user_id: user.id,
-        access_token: 'access token',
-        expires_in: 3600,
-        token_type: 'Bearer token type',
-      });
-
       // when
       await visit('/');
 
@@ -144,14 +135,6 @@ module('Acceptance | authentication', function(hooks) {
     });
 
     test('it should redirect user to the campaigns list on root url', async function(assert) {
-      // given
-      await authenticateSession({
-        user_id: user.id,
-        access_token: 'access token',
-        expires_in: 3600,
-        token_type: 'Bearer token type',
-      });
-
       // when
       await visit('/');
 

@@ -17,9 +17,6 @@ export default Route.extend({
         if (user.pixOrgaTermsOfServiceAccepted) {
           return this.transitionTo('authenticated.campaigns.list');
         }
-      })
-      .catch(() => {
-        return this.transitionTo('authenticated');
       });
   }
 });
