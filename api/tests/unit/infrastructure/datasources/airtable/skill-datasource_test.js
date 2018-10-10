@@ -2,7 +2,8 @@ const { expect, sinon } = require('../../../../test-helper');
 const airtable = require('../../../../../lib/infrastructure/airtable');
 const skillDatasource = require('../../../../../lib/infrastructure/datasources/airtable/skill-datasource');
 const skillRawAirTableFixture = require('../../../../tooling/fixtures/infrastructure/skillRawAirTableFixture');
-const airTableDataModels = require('../../../../../lib/infrastructure/datasources/airtable/objects');
+const { Skill } = require('../../../../../lib/infrastructure/datasources/airtable/objects');
+const _ = require('lodash');
 
 describe('Unit | Infrastructure | Datasource | Airtable | SkillDatasource', () => {
 
@@ -20,23 +21,18 @@ describe('Unit | Infrastructure | Datasource | Airtable | SkillDatasource', () =
 
     it('should call airtable on Acquis table with the id and return a datamodel Skill object', () => {
       // given
-      const airtableSkillObject = skillRawAirTableFixture();
-      sandbox.stub(airtable, 'getRecord').resolves(airtableSkillObject);
+      const rawSkill = skillRawAirTableFixture();
+      sandbox.stub(airtable, 'getRecord').withArgs('Acquis', rawSkill.id).resolves(rawSkill);
 
       // when
-      const promise = skillDatasource.get('243');
+      const promise = skillDatasource.get(rawSkill.id);
 
       // then
       return promise.then((skill) => {
-        expect(airtable.getRecord).to.have.been.calledWith('Acquis', '243');
+        expect(airtable.getRecord).to.have.been.calledWith('Acquis', rawSkill.id);
 
-        expect(skill).to.be.an.instanceof(airTableDataModels.Skill);
-        expect(skill.id).to.equal(airtableSkillObject.id);
-        expect(skill.name).to.equal(airtableSkillObject.get('Nom'));
-        expect(skill.hint).to.equal(airtableSkillObject.get('Indice'));
-        expect(skill.hintStatus).to.equal(airtableSkillObject.get('Statut de l\'indice'));
-        expect(skill.tutorialIds).to.equal(airtableSkillObject.get('Comprendre'));
-        expect(skill.learningMoreTutorialIds).to.equal(airtableSkillObject.get('En savoir plus'));
+        expect(skill).to.be.an.instanceof(Skill);
+        expect(skill.id).to.equal(rawSkill.id);
       });
     });
   });
@@ -66,19 +62,17 @@ describe('Unit | Infrastructure | Datasource | Airtable | SkillDatasource', () =
 
     it('should return an array of airtable skill data objects', function() {
       // given
-      const airtableSkillObject = skillRawAirTableFixture();
-      const requestedSkillRecordIds = ['recTIddrkopID28Ep'];
-      sandbox.stub(airtable, 'findRecords').resolves([airtableSkillObject]);
+      const rawSkill = skillRawAirTableFixture();
+      sandbox.stub(airtable, 'findRecords').resolves([rawSkill]);
 
       // when
-      const promise = skillDatasource.findByRecordIds(requestedSkillRecordIds);
+      const promise = skillDatasource.findByRecordIds([rawSkill.id]);
 
       // then
       return promise.then((foundSkills) => {
         expect(foundSkills).to.be.an('array');
-        expect(foundSkills[0]).to.be.an.instanceOf(airTableDataModels.Skill);
-        expect(foundSkills[0].id).to.equal(airtableSkillObject.id);
-        expect(foundSkills[0].name).to.equal(airtableSkillObject.fields.Nom);
+        expect(foundSkills[0]).to.be.an.instanceOf(Skill);
+        expect(_.map(foundSkills, 'id')).to.deep.equal([rawSkill.id]);
       });
 
     });
@@ -101,15 +95,18 @@ describe('Unit | Infrastructure | Datasource | Airtable | SkillDatasource', () =
 
     it('should resolve an array of Skills from airTable', () => {
       // given
-      sandbox.stub(airtable, 'findRecords').resolves([skillRawAirTableFixture(), skillRawAirTableFixture()]);
+      const
+        rawSkill1 = skillRawAirTableFixture(),
+        rawSkill2 = skillRawAirTableFixture();
+      sandbox.stub(airtable, 'findRecords').resolves([rawSkill1, rawSkill2]);
 
       // when
       const promise = skillDatasource.list();
 
       // then
-      return promise.then((result) => {
-        expect(result).to.be.an('array').and.to.have.lengthOf(2);
-        expect(result[0]).to.be.an.instanceOf(airTableDataModels.Skill);
+      return promise.then((foundSkills) => {
+        expect(foundSkills[0]).to.be.an.instanceOf(Skill);
+        expect(_.map(foundSkills, 'id')).to.deep.equal([rawSkill1.id, rawSkill2.id]);
       });
     });
   });
