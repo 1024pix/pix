@@ -194,32 +194,6 @@ describe('Unit | Service | OrganizationService', () => {
           expect(organization).to.be.an('array').that.is.empty;
         });
       });
-
-      it('should return the organization found for the given filters, without the email', () => {
-        // given
-        const filters = { code: 'OE34RND', type: 'SCO' };
-        const organizationWithEmail = [new Organization({
-          type: 'SCO',
-          name: 'Lycée des Tuileries',
-          code: 'OE34RND',
-          email: 'tuileries@sco.com'
-        })];
-        const expectedReturnedOrganizationWithoutEmail = [new Organization({
-          type: 'SCO',
-          name: 'Lycée des Tuileries',
-          code: 'OE34RND'
-        })];
-
-        organizationRepository.findBy.withArgs(filters).resolves(organizationWithEmail);
-
-        // when
-        const promise = organizationService.search(userId, filters);
-
-        // then
-        return promise.then((organization) => {
-          expect(organization).to.deep.equal(expectedReturnedOrganizationWithoutEmail);
-        });
-      });
     });
   });
 

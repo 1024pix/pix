@@ -8,11 +8,6 @@ function _randomLetters(count) {
   return sampleSize(letters, count).join('');
 }
 
-function _organizationWithoutEmail(organization) {
-  organization.email = undefined;
-  return organization;
-}
-
 function _noCodeGivenIn(filters) {
   const code = filters.code;
   return !code || !code.trim();
@@ -78,9 +73,7 @@ module.exports = {
         if (!isUserPixMaster && _noCodeGivenIn(filters)) {
           return [];
         }
-        return organizationRepository
-          .findBy(filters)
-          .then((organizations) => organizations.map(_organizationWithoutEmail));
+        return organizationRepository.findBy(filters);
       });
 
   }

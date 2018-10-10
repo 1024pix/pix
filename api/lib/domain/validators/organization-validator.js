@@ -17,13 +17,6 @@ const organizationValidationJoiSchema = Joi.object().keys({
     return { message: 'Le type de l’organisation doit avoir l’une des valeurs suivantes: SCO, SUP, PRO.' };
   }),
 
-  email: Joi.string().email().required().error((errors) => {
-    const error = errors[0];
-    if (error.type === 'any.empty') {
-      return { message: 'L’adresse électronique n’est pas renseignée.' };
-    }
-    return { message: 'L’adresse électronique n’est pas correcte.' };
-  })
 });
 
 module.exports = {
