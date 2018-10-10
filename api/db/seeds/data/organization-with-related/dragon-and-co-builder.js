@@ -87,7 +87,7 @@ module.exports = function addDragonAndCoWithrelated({ databaseBuilder }) {
     organizationId: dragonAndCoSubsidiary.id
   });
 
-  databaseBuilder.factory.buildTargetProfilesShare({ targetProfileId: privateTargetProfile.id, organizationId: dragonAndCoSubsidiary.id });
+  databaseBuilder.factory.buildTargetProfileShare({ targetProfileId: privateTargetProfile.id, organizationId: dragonAndCoSubsidiary.id });
 
   const proUserSub2 = databaseBuilder.factory.buildUser.withUnencryptedPassword({
     id: 7,

@@ -1,6 +1,6 @@
 const { sinon, databaseBuilder, expect, factory } = require('../../../test-helper');
 const BookshelfTargetProfile = require('../../../../lib/infrastructure/data/target-profile');
-const BookshelfTargetProfileShares = require('../../../../lib/infrastructure/data/target-profile-shares');
+const BookshelfTargetProfileShare = require('../../../../lib/infrastructure/data/target-profile-share');
 const TargetProfile = require('../../../../lib/domain/models/TargetProfile');
 const targetProfileAdapter = require('../../../../lib/infrastructure/adapters/target-profile-adapter');
 
@@ -13,7 +13,7 @@ describe('Unit | Infrastructure | Adapter | targetSkillAdapter', () => {
   it('should adapt TargetProfile object to domain', () => {
     // given
     const bookshelfTargetProfile = new BookshelfTargetProfile(databaseBuilder.factory.buildTargetProfile());
-    const organizationWhichShared = new BookshelfTargetProfileShares(databaseBuilder.factory.buildTargetProfilesShare());
+    const organizationWhichShared = new BookshelfTargetProfileShare(databaseBuilder.factory.buildTargetProfileShare());
     bookshelfTargetProfile.related = sinon.stub().onCall('sharedWithOrganizations').resolves([ organizationWhichShared ]);
     const skillAirtableDataObject = factory.buildSkillAirtableDataObject();
     const associatedSkillAirtableDataObjects = [skillAirtableDataObject];

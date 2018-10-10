@@ -2,7 +2,7 @@ const Bookshelf = require('../bookshelf');
 
 require('./target-profile');
 
-module.exports = Bookshelf.model('TargetProfileShares', {
+module.exports = Bookshelf.model('TargetProfileShare', {
 
   tableName: 'target-profile-shares',
 
