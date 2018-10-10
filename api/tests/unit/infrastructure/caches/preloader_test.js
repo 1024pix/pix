@@ -77,7 +77,7 @@ describe('Unit | Infrastructure | preloader', () => {
   });
 
   describe('#loadChallenges', () => {
-    it('should fetch all challenges, challenges by competence and cache them individually', () => {
+    it('should fetch all challenges and cache them individually', () => {
       // given
       const airtableChallenge_1 = new AirtableRecord('Epreuves', 'recChallenge1', {
         fields: {
@@ -94,14 +94,8 @@ describe('Unit | Infrastructure | preloader', () => {
         }
       });
 
-      const filterChallengeByCompetence_1 = { view: '1.1 Mener une recherche d’information' };
-      const filterChallengeByCompetence_2 = { view: '1.2 Gérer des données' };
-
       airtable.findRecords
-        .withArgs('Competences', no_filter).resolves([ airtableCompetence_1, airtableCompetence_2 ])
-        .withArgs('Epreuves', no_filter).resolves([ airtableChallenge_1, airtableChallenge_2 ])
-        .withArgs('Epreuves', filterChallengeByCompetence_1).resolves([ airtableChallenge_1 ])
-        .withArgs('Epreuves', filterChallengeByCompetence_2).resolves([ airtableChallenge_2 ]);
+        .withArgs('Epreuves', no_filter).resolves([ airtableChallenge_1, airtableChallenge_2 ]);
 
       // when
       const promise = preloader.loadChallenges();
@@ -109,8 +103,7 @@ describe('Unit | Infrastructure | preloader', () => {
       // then
       return expect(promise).to.have.been.fulfilled
         .then(() => {
-          expect(airtable.findRecords).to.have.been.calledWith('Epreuves', filterChallengeByCompetence_1);
-          expect(airtable.findRecords).to.have.been.calledWith('Epreuves', filterChallengeByCompetence_2);
+          expect(airtable.findRecords).to.have.been.calledWith('Epreuves', no_filter);
           expect(cache.set).to.have.been.calledWith('Epreuves_recChallenge1', airtableChallenge_1._rawJson);
           expect(cache.set).to.have.been.calledWith('Epreuves_recChallenge2', airtableChallenge_2._rawJson);
         });
