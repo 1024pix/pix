@@ -1,4 +1,7 @@
 const { expect, sinon, factory } = require('../../../test-helper');
+
+const faker = require('faker');
+
 const createAssessmentForCampaign = require('../../../../lib/domain/usecases/create-assessment-for-campaign');
 const CampaignParticipation = require('../../../../lib/domain/models/CampaignParticipation');
 const { CampaignCodeError } = require('../../../../lib/domain/errors');
@@ -44,11 +47,13 @@ describe('Unit | UseCase | create-assessment-for-campaign', () => {
   });
 
   context('when campaignCode exist', () => {
+    let userId;
     let campaign;
     let assessment;
     let campaignParticipation;
 
     beforeEach(() => {
+      userId = faker.random.number();
       // given
       campaign = factory.buildCampaign({
         id: 'campaignId',
@@ -56,11 +61,13 @@ describe('Unit | UseCase | create-assessment-for-campaign', () => {
       assessment = factory.buildAssessment({
         id: 'assessmentId',
         type: 'SMART_PLACEMENT',
+        userId
       });
 
       campaignParticipation = new CampaignParticipation({
         assessmentId: assessment.id,
-        campaign: campaign,
+        campaignId: campaign.id,
+        userId,
       });
 
       campaignRepository.getByCode.resolves(campaign);
@@ -71,6 +78,7 @@ describe('Unit | UseCase | create-assessment-for-campaign', () => {
     it('should save the assessment', () => {
       // when
       const promise = createAssessmentForCampaign({
+        userId,
         assessment,
         codeCampaign: availableCampaignCode,
         campaignRepository,
@@ -88,6 +96,7 @@ describe('Unit | UseCase | create-assessment-for-campaign', () => {
     it('should save a campaign-participation without participantExternalId', () => {
       // when
       const promise = createAssessmentForCampaign({
+        userId,
         assessment,
         codeCampaign: availableCampaignCode,
         campaignRepository,
@@ -105,6 +114,7 @@ describe('Unit | UseCase | create-assessment-for-campaign', () => {
     it('should save a campaign-participation with participantExternalId', () => {
       // when
       const promise = createAssessmentForCampaign({
+        userId,
         assessment,
         codeCampaign: availableCampaignCode,
         participantExternalId: 'matricule123',
@@ -125,6 +135,7 @@ describe('Unit | UseCase | create-assessment-for-campaign', () => {
     it('should return the newly created assessment', () => {
       // when
       const promise = createAssessmentForCampaign({
+        userId,
         assessment,
         codeCampaign: availableCampaignCode,
         campaignRepository,
@@ -137,6 +148,5 @@ describe('Unit | UseCase | create-assessment-for-campaign', () => {
         expect(assessmentCreated).to.deep.equal(assessment);
       });
     });
-
   });
 });

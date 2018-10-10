@@ -1,7 +1,6 @@
 const { sinon, expect, knex, databaseBuilder } = require('../../../test-helper');
 const campaignParticipationRepository = require('../../../../lib/infrastructure/repositories/campaign-participation-repository');
 const CampaignParticipation = require('../../../../lib/domain/models/CampaignParticipation');
-const Campaign = require('../../../../lib/domain/models/Campaign');
 const { NotFoundError } = require('../../../../lib/domain/errors');
 
 describe('Integration | Repository | Campaign Participation', () => {
@@ -46,7 +45,8 @@ describe('Integration | Repository | Campaign Participation', () => {
       const campaignId = 23;
       const campaignParticipationToSave = new CampaignParticipation({
         assessmentId: 12,
-        campaign: new Campaign({ id: campaignId }),
+        campaignId,
+        userId: 1,
       });
 
       // when
@@ -57,6 +57,8 @@ describe('Integration | Repository | Campaign Participation', () => {
         expect(savedCampaignParticipations).to.be.instanceof(CampaignParticipation);
         expect(savedCampaignParticipations.id).to.exist;
         expect(savedCampaignParticipations.assessmentId).to.equal(campaignParticipationToSave.assessmentId);
+        expect(savedCampaignParticipations.campaignId).to.equal(campaignId);
+        expect(savedCampaignParticipations.userId).to.equal(campaignParticipationToSave.userId);
       });
     });
 
@@ -65,7 +67,7 @@ describe('Integration | Repository | Campaign Participation', () => {
       const campaignId = 23;
       const campaignParticipationToSave = new CampaignParticipation({
         assessmentId: 12,
-        campaign: new Campaign({ id: campaignId }),
+        campaignId,
         participantExternalId: '034516273645RET'
       });
 
@@ -80,8 +82,9 @@ describe('Integration | Repository | Campaign Participation', () => {
           .then(([campaignParticipationInDb]) => {
             expect(campaignParticipationInDb.id).to.equal(campaignParticipationSaved.id);
             expect(campaignParticipationInDb.assessmentId).to.equal(campaignParticipationToSave.assessmentId);
-            expect(campaignParticipationInDb.campaignId).to.equal(campaignParticipationToSave.campaign.id);
+            expect(campaignParticipationInDb.campaignId).to.equal(campaignParticipationToSave.campaignId);
             expect(campaignParticipationInDb.participantExternalId).to.equal(campaignParticipationToSave.participantExternalId);
+            expect(campaignParticipationInDb.userId).to.equal(campaignParticipationToSave.userId);
           });
       });
     });
@@ -138,10 +141,9 @@ describe('Integration | Repository | Campaign Participation', () => {
 
     let campaignParticipation;
 
-    beforeEach(() => {
+    beforeEach(async () => {
       campaignParticipation = databaseBuilder.factory.buildCampaignParticipation();
-
-      return databaseBuilder.commit();
+      await databaseBuilder.commit();
     });
 
     afterEach(async () => {
@@ -182,7 +184,7 @@ describe('Integration | Repository | Campaign Participation', () => {
     let clock;
     const frozenTime = new Date('1987-09-01:00:00.000+01:00');
 
-    beforeEach(() => {
+    beforeEach(async () => {
       campaignParticipation = databaseBuilder.factory.buildCampaignParticipation({
         isShared: false,
         sharedAt: null,
@@ -190,7 +192,7 @@ describe('Integration | Repository | Campaign Participation', () => {
 
       clock = sinon.useFakeTimers(frozenTime);
 
-      return databaseBuilder.commit();
+      await databaseBuilder.commit();
     });
 
     afterEach(async () => {

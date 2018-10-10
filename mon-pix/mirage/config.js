@@ -16,6 +16,7 @@ import patchAnswer from './routes/patch-answer';
 import postAnswers from './routes/post-answers';
 import postAssessments from './routes/post-assessments';
 import postAuthentications from './routes/post-authentications';
+import postCampaignParticipation from './routes/post-campaign-participation';
 import postCertificationCourse from './routes/post-certification-course';
 import postFeedbacks from './routes/post-feedbacks';
 
@@ -92,5 +93,5 @@ export default function() {
 
   this.get('/skill-reviews/:id');
   this.get('/campaigns', getCampaigns);
-  this.post('/campaign-participations');
+  this.post('/campaign-participations', postCampaignParticipation);
 }

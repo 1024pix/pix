@@ -29,7 +29,7 @@ describe('Integration | Repository | SmartPlacementAssessmentRepository', () => 
     let secondSkill;
     let thirdSkill;
 
-    beforeEach(() => {
+    beforeEach(async () => {
 
       assessmentId = 987654321;
       notSmartPlacementAssessmentId = 32323;
@@ -172,12 +172,12 @@ describe('Integration | Repository | SmartPlacementAssessmentRepository', () => 
         skillId: thirdSkill.id,
       });
 
-      return databaseBuilder.commit();
+      await databaseBuilder.commit();
     });
 
-    afterEach(() => {
+    afterEach(async () => {
       airtableBuilder.cleanAll();
-      return databaseBuilder.clean();
+      await databaseBuilder.clean();
     });
 
     it('should get the smart placement assessment', () => {
@@ -220,14 +220,14 @@ describe('Integration | Repository | SmartPlacementAssessmentRepository', () => 
     let userWithNoAssessment;
     let assessment;
 
-    beforeEach(() => {
+    beforeEach(async () => {
       user = databaseBuilder.factory.buildUser();
       assessment = databaseBuilder.factory.buildAssessment({
         userId: user.id,
         type: Assessment.types.SMARTPLACEMENT
       });
       userWithNoAssessment = databaseBuilder.factory.buildUser();
-      return databaseBuilder.commit();
+      await databaseBuilder.commit();
     });
 
     afterEach(async () => {

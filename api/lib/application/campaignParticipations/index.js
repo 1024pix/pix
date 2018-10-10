@@ -27,6 +27,18 @@ exports.register = function(server, options, next) {
         tags: ['api', 'campaign-participation']
       }
     },
+    {
+      method: 'POST',
+      path: '/api/campaign-participations',
+      config: {
+        handler: campaignParticipationController.save,
+        notes: [
+          '- **Cette route est restreinte aux utilisateurs authentifiés**\n' +
+          '- Création d‘une nouvelle participation à une campagne'
+        ],
+        tags: ['api', 'campaign-participation']
+      }
+    }
   ]);
 
   return next();

@@ -65,6 +65,7 @@ module.exports = injectDependencies({
   removeAllCacheEntries: require('./remove-all-cache-entries'),
   removeCacheEntry: require('./remove-cache-entry'),
   shareCampaignResult: require('./share-campaign-result'),
+  startCampaignParticipation: require('./start-campaign-participation'),
   updateCertification: require('./update-certification'),
   updateUserPassword: require('./update-user-password'),
 });

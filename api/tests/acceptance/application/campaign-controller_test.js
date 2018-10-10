@@ -128,13 +128,13 @@ describe('Acceptance | API | Campaigns', () => {
     };
     let insertedCampaign;
 
-    beforeEach(() => {
+    beforeEach(async () => {
       insertedCampaign = databaseBuilder.factory.buildCampaign({ name: 'Ou est Brandone 1.0', code: 'AZERTY123' });
-      return databaseBuilder.commit();
+      await databaseBuilder.commit();
     });
 
-    afterEach(() => {
-      return databaseBuilder.clean();
+    afterEach(async () => {
+      await databaseBuilder.clean();
     });
 
     it('should return the campaign found for the given code', () => {
