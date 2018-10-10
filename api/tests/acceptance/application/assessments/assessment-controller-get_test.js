@@ -96,7 +96,6 @@ describe('Acceptance | API | assessment-controller-get', () => {
 
     airtableBuilder
       .mockList({ tableName: 'Epreuves' })
-      .respondsToQuery({ view: '1.1 Mener une recherche et une veille d’information' })
       .returns([firstChallenge, secondChallenge, thirdChallenge])
       .activate();
 

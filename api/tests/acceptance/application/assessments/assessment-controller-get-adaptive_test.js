@@ -17,7 +17,7 @@ describe('Acceptance | API | assessment-controller-get-adaptive', () => {
           // a bunch of fields
           'Adaptatif ?': true,
           'Competence': ['competence_id'],
-          '\u00c9preuves': [
+          'Épreuves': [
             'z_third_challenge',
             'z_second_challenge',
             'z_first_challenge',
@@ -42,7 +42,7 @@ describe('Acceptance | API | assessment-controller-get-adaptive', () => {
 
     nock('https://api.airtable.com')
       .get('/v0/test-base/Epreuves')
-      .query({ view: '1.1 Mener une recherche et une veille d’information' })
+      .query(true)
       .reply(200, [
         {
           'id': 'z_second_challenge',
@@ -61,6 +61,12 @@ describe('Acceptance | API | assessment-controller-get-adaptive', () => {
           'fields': {
             'competences': ['competence_id'],
             'acquis': ['web3'],
+          },
+        }, {
+          'id': 'other_challenge',
+          'fields': {
+            'competences': ['other_competence_id'],
+            'acquis': ['web4'],
           },
         },
       ]);

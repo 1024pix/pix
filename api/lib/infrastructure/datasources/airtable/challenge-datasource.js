@@ -1,6 +1,8 @@
 const airtable = require('../../airtable');
 const airTableDataObjects = require('./objects');
 
+const _ = require('lodash');
+
 const AIRTABLE_TABLE_NAME = 'Epreuves';
 const VALIDATED_CHALLENGES = ['validé', 'validé sans test', 'pré-validé'];
 
@@ -19,17 +21,13 @@ module.exports = {
   },
 
   list() {
-
-    const query = {};
-
-    return airtable.findRecords(AIRTABLE_TABLE_NAME, query)
+    return airtable.findRecords(AIRTABLE_TABLE_NAME, {})
       .then((challengeDataObjects) => {
         return challengeDataObjects.map(airTableDataObjects.Challenge.fromAirTableObject);
       });
   },
 
   findBySkillNames(listOfSkillNames) {
-
     const listOfFilters = [];
     listOfSkillNames.forEach((skillName) => {
       listOfFilters.push(`FIND("${skillName}", ARRAYJOIN({acquis}, ";"))`);
@@ -45,12 +43,15 @@ module.exports = {
   },
 
   findByCompetence(competence) {
-
-    const query = { view: competence.reference };
-
-    return airtable.findRecords(AIRTABLE_TABLE_NAME, query)
+    return airtable.findRecords(AIRTABLE_TABLE_NAME, {})
       .then((challengeDataObjects) => {
-        return challengeDataObjects.map(airTableDataObjects.Challenge.fromAirTableObject);
+        return challengeDataObjects
+          .filter((challenge) => (
+            _.includes(VALIDATED_CHALLENGES, challenge.fields.Statut)
+            && !_.isEmpty(challenge.fields.acquis)
+            && _.includes(challenge.fields.competences, competence.id)
+          ))
+          .map(airTableDataObjects.Challenge.fromAirTableObject);
       });
   },
 };
