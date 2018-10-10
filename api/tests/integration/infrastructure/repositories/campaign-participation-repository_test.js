@@ -141,10 +141,9 @@ describe('Integration | Repository | Campaign Participation', () => {
 
     let campaignParticipation;
 
-    beforeEach(() => {
+    beforeEach(async () => {
       campaignParticipation = databaseBuilder.factory.buildCampaignParticipation();
-
-      return databaseBuilder.commit();
+      await databaseBuilder.commit();
     });
 
     afterEach(async () => {
@@ -185,7 +184,7 @@ describe('Integration | Repository | Campaign Participation', () => {
     let clock;
     const frozenTime = new Date('1987-09-01:00:00.000+01:00');
 
-    beforeEach(() => {
+    beforeEach(async () => {
       campaignParticipation = databaseBuilder.factory.buildCampaignParticipation({
         isShared: false,
         sharedAt: null,
@@ -193,7 +192,7 @@ describe('Integration | Repository | Campaign Participation', () => {
 
       clock = sinon.useFakeTimers(frozenTime);
 
-      return databaseBuilder.commit();
+      await databaseBuilder.commit();
     });
 
     afterEach(async () => {

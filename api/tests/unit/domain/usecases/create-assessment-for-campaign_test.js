@@ -61,13 +61,13 @@ describe('Unit | UseCase | create-assessment-for-campaign', () => {
       assessment = factory.buildAssessment({
         id: 'assessmentId',
         type: 'SMART_PLACEMENT',
-        userId: userId
+        userId
       });
 
       campaignParticipation = new CampaignParticipation({
         assessmentId: assessment.id,
         campaignId: campaign.id,
-        userId: userId,
+        userId,
       });
 
       campaignRepository.getByCode.resolves(campaign);

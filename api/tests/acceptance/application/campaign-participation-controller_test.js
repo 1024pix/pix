@@ -16,11 +16,11 @@ describe('Acceptance | API | Campaign Participations', () => {
 
   describe('GET /api/campaign-participations?filter[assessmentId]={id}', () => {
 
-    beforeEach(() => {
+    beforeEach(async () => {
       campaignParticipation = databaseBuilder.factory.buildCampaignParticipation({
         assessmentId: assessment.id,
       });
-      return databaseBuilder.commit();
+      await databaseBuilder.commit();
     });
 
     afterEach(async () => {
@@ -100,7 +100,7 @@ describe('Acceptance | API | Campaign Participations', () => {
 
   describe('PATCH /api/campaign-participations/{id}', () => {
 
-    beforeEach(() => {
+    beforeEach(async () => {
       campaignParticipation = databaseBuilder.factory.buildCampaignParticipation({
         isShared: false,
         sharedAt: null,
@@ -117,7 +117,7 @@ describe('Acceptance | API | Campaign Participations', () => {
           }
         },
       };
-      return databaseBuilder.commit();
+      await databaseBuilder.commit();
 
     });
 
@@ -163,13 +163,13 @@ describe('Acceptance | API | Campaign Participations', () => {
       }
     };
 
-    beforeEach(() => {
+    beforeEach(async () => {
       campaignInDb = databaseBuilder.factory.buildCampaign({ id: campaignId });
-      return databaseBuilder.commit();
+      await databaseBuilder.commit();
     });
 
-    afterEach(() => {
-      return databaseBuilder.clean();
+    afterEach(async () => {
+      await databaseBuilder.clean();
     });
 
     it('should return 201 and the campaign participation when it has been successfully created', () => {

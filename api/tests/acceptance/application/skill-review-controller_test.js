@@ -35,7 +35,7 @@ describe('Acceptance | API | SkillReviews', () => {
 
     let assessmentId;
 
-    beforeEach(() => {
+    beforeEach(async () => {
       nock.cleanAll();
 
       nock('https://api.airtable.com')
@@ -54,12 +54,12 @@ describe('Acceptance | API | SkillReviews', () => {
       databaseBuilder.factory.buildTargetProfile(insertedTargetProfile);
       databaseBuilder.factory.buildCampaign(insertedCampaign);
       databaseBuilder.factory.buildCampaignParticipation(insertedCampaignParticipation);
-      return databaseBuilder.commit();
+      await databaseBuilder.commit();
     });
 
-    afterEach(() => {
+    afterEach(async () => {
       nock.cleanAll();
-      return databaseBuilder.clean();
+      await databaseBuilder.clean();
     });
 
     context('without authorization token', () => {
