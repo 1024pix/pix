@@ -1,5 +1,3 @@
-const JSONAPIError = require('jsonapi-serializer').Error;
-
 const organizationRepository = require('../../infrastructure/repositories/organization-repository');
 const competenceRepository = require('../../infrastructure/repositories/competence-repository');
 const snapshotRepository = require('../../infrastructure/repositories/snapshot-repository');
@@ -11,7 +9,6 @@ const organizationService = require('../../domain/services/organization-service'
 const bookshelfUtils = require('../../../lib/infrastructure/utils/bookshelf-utils');
 const validationErrorSerializer = require('../../infrastructure/serializers/jsonapi/validation-error-serializer');
 const snapshotsCsvConverter = require('../../infrastructure/converter/snapshots-csv-converter');
-const organizationCreationValidator = require('../../domain/validators/organization-creation-validator');
 const tokenService = require('../../domain/services/token-service');
 const usecases = require('../../domain/usecases');
 const controllerReplies = require('../../infrastructure/controller-replies');
@@ -19,7 +16,6 @@ const controllerReplies = require('../../infrastructure/controller-replies');
 const logger = require('../../infrastructure/logger');
 const { extractFilters } = require('../../infrastructure/utils/query-params-utils');
 const JSONAPI = require('../../interfaces/jsonapi');
-const Organization = require('../../domain/models/Organization');
 const { EntityValidationError } = require('../../domain/errors');
 const { InfrastructureError } = require('../../infrastructure/errors');
 
@@ -27,23 +23,17 @@ const EXPORT_CSV_FILE_NAME = 'Pix - Export donnees partagees.csv';
 
 module.exports = {
 
-  // TODO extract domain logic into use case, like create user
   create: (request, reply) => {
 
     const { name, type } = request.payload.data.attributes;
 
-    return organizationCreationValidator.validate({ name, type })
-      .then(_generateUniqueOrganizationCode)
-      .then((code) => new Organization({ name, type, code }))
-      .then(organizationRepository.create)
+    return usecases.createOrganization({ name, type })
       .then(organizationSerializer.serialize)
       .then(controllerReplies(reply).ok)
       .catch((error) => {
-
         if (error instanceof EntityValidationError) {
           return reply(JSONAPI.unprocessableEntityError(error.invalidAttributes)).code(422);
         }
-
         const serverError = new InfrastructureError('Une erreur est survenue lors de la création de l’organisation');
         return controllerReplies(reply).error(serverError);
       });
@@ -124,20 +114,6 @@ function _extractSnapshotsForOrganization(organizationId) {
     .then((snapshotsWithRelatedUsers) => {
       return snapshotsWithRelatedUsers.map((snapshot) => snapshot.toJSON());
     });
-}
-
-function _extractOrganization(request) {
-  return new Organization({
-    name: request.payload.data.attributes['name'] || '',
-    type: request.payload.data.attributes['type'] || '',
-  });
-}
-
-function _generateUniqueOrganizationCode() {
-  const code = organizationService.generateOrganizationCode();
-  return organizationRepository.isCodeAvailable(code)
-    .then(() => code)
-    .catch(_generateUniqueOrganizationCode);
 }
 
 function _buildErrorMessage(errorMessage) {

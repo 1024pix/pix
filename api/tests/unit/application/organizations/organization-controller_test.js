@@ -1,22 +1,18 @@
 const { expect, sinon, factory } = require('../../../test-helper');
 const JSONAPIError = require('jsonapi-serializer').Error;
 
-const BookshelfOrganization = require('../../../../lib/infrastructure/data/organization');
 const BookshelfSnapshot = require('../../../../lib/infrastructure/data/snapshot');
 const Organization = require('../../../../lib/domain/models/Organization');
 const organizationController = require('../../../../lib/application/organizations/organization-controller');
-const organizationRepository = require('../../../../lib/infrastructure/repositories/organization-repository');
 const snapshotRepository = require('../../../../lib/infrastructure/repositories/snapshot-repository');
 const organizationSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/organization-serializer');
 const organizationService = require('../../../../lib/domain/services/organization-service');
-const encryptionService = require('../../../../lib/domain/services/encryption-service');
 const snapshotSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/snapshot-serializer');
 const validationErrorSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/validation-error-serializer');
 const bookshelfUtils = require('../../../../lib/infrastructure/utils/bookshelf-utils');
 const { EntityValidationError, NotFoundError } = require('../../../../lib/domain/errors');
 const { InfrastructureError } = require('../../../../lib/infrastructure/errors');
 const logger = require('../../../../lib/infrastructure/logger');
-const organizationCreationValidator = require('../../../../lib/domain/validators/organization-creation-validator');
 const usecases = require('../../../../lib/domain/usecases');
 const campaignSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/campaign-serializer');
 const targetProfileSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/target-profile-serializer');
@@ -30,21 +26,14 @@ describe('Unit | Application | Organizations | organization-controller', () => {
 
   describe('#create', () => {
 
-    const organizationBookshelf = new BookshelfOrganization({ type: 'PRO' });
-
     beforeEach(() => {
       codeStub = sinon.stub();
       replyStub = sinon.stub().returns({ code: codeStub });
 
       sandbox = sinon.sandbox.create();
 
-      sandbox.stub(logger, 'error');
-      sandbox.stub(organizationService, 'generateOrganizationCode').returns('ABCD12');
-      sandbox.stub(organizationRepository, 'create').resolves(organizationBookshelf);
-      sandbox.stub(organizationRepository, 'isCodeAvailable');
+      sandbox.stub(usecases, 'createOrganization');
       sandbox.stub(organizationSerializer, 'serialize');
-      sandbox.stub(organizationCreationValidator, 'validate');
-      sandbox.stub(encryptionService, 'hashPassword');
 
       request = {
         payload: {
@@ -69,25 +58,11 @@ describe('Unit | Application | Organizations | organization-controller', () => {
 
       beforeEach(() => {
 
-        const generatedOrganizationCode = 'ABCD12';
-        savedOrganization = { titi: 'toto' };
+        savedOrganization = factory.buildOrganization();
         serializedOrganization = { foo: 'bar' };
 
-        organizationCreationValidator.validate.resolves();
-        organizationService.generateOrganizationCode.returns(generatedOrganizationCode);
-        organizationRepository.isCodeAvailable.withArgs(generatedOrganizationCode).resolves();
-        organizationRepository.create.resolves(savedOrganization);
+        usecases.createOrganization.resolves(savedOrganization);
         organizationSerializer.serialize.withArgs(savedOrganization).returns(serializedOrganization);
-      });
-      
-      it('should generate a unique randomized organization code', () => {
-        // when
-        const promise = organizationController.create(request, replyStub);
-
-        // then
-        return promise.then(() => {
-          expect(organizationService.generateOrganizationCode).to.have.been.calledOnce;
-        });
       });
 
       it('should create an organization', () => {
@@ -96,7 +71,8 @@ describe('Unit | Application | Organizations | organization-controller', () => {
 
         // then
         return promise.then(() => {
-          expect(organizationRepository.create).to.have.been.calledOnce;
+          expect(usecases.createOrganization).to.have.been.calledOnce;
+          expect(usecases.createOrganization).to.have.been.calledWith({ name: 'Acme', type: 'PRO' });
         });
       });
 
@@ -144,7 +120,7 @@ describe('Unit | Application | Organizations | organization-controller', () => {
           });
 
           error = new EntityValidationError(expectedValidationError);
-          organizationCreationValidator.validate.rejects(error);
+          usecases.createOrganization.rejects(error);
         });
 
         it('should return an error with HTTP status code 422 when a validation error occurred', () => {
@@ -180,11 +156,8 @@ describe('Unit | Application | Organizations | organization-controller', () => {
       context('when a treatment error occurred (other than validation)', () => {
 
         beforeEach(() => {
-          organizationCreationValidator.validate.resolves();
           error = new InfrastructureError('Une erreur est survenue lors de la création de l’organisation');
-          organizationService.generateOrganizationCode.returns('ABCD12');
-          organizationRepository.isCodeAvailable.resolves(true);
-          organizationRepository.create.rejects(error);
+          usecases.createOrganization.rejects(error);
         });
 
         it('should return an error with HTTP status code 500', () => {
@@ -582,7 +555,7 @@ describe('Unit | Application | Organizations | organization-controller', () => {
       request = {
         params: { id: organizationId },
         auth: {
-          credentials : {
+          credentials: {
             userId: 1
           }
         }
