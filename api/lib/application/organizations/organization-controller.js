@@ -11,7 +11,7 @@ const organizationService = require('../../domain/services/organization-service'
 const bookshelfUtils = require('../../../lib/infrastructure/utils/bookshelf-utils');
 const validationErrorSerializer = require('../../infrastructure/serializers/jsonapi/validation-error-serializer');
 const snapshotsCsvConverter = require('../../infrastructure/converter/snapshots-csv-converter');
-const organizationValidator = require('../../domain/validators/organization-validator');
+const organizationCreationValidator = require('../../domain/validators/organization-creation-validator');
 const tokenService = require('../../domain/services/token-service');
 const usecases = require('../../domain/usecases');
 const controllerReplies = require('../../infrastructure/controller-replies');
@@ -29,14 +29,14 @@ module.exports = {
   // TODO extract domain logic into use case, like create user
   create: (request, reply) => {
 
-    const organization = _extractOrganization(request);
+    const { name, type } = request.payload.data.attributes;
 
-    return organizationValidator.validate(organization)
+    return organizationCreationValidator.validate({ name, type })
       .then(_generateUniqueOrganizationCode)
-      .then((code) => organization.code = code)
-      .then(() => organizationRepository.create(organization))
-      .then((savedOrganization) => organizationSerializer.serialize(savedOrganization))
-      .then((serializedOrganization) => reply(serializedOrganization))
+      .then((code) => new Organization({ name, type, code }))
+      .then(organizationRepository.create)
+      .then(organizationSerializer.serialize)
+      .then(reply)
       .catch((error) => {
 
         if (error instanceof EntityValidationError) {

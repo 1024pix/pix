@@ -21,9 +21,9 @@ const organizationValidationJoiSchema = Joi.object().keys({
 
 module.exports = {
 
-  validate(organization) {
+  validate(organizationCreationParams) {
 
-    const joiValidationResults = Joi.validate(organization, organizationValidationJoiSchema, validationConfiguration);
+    const joiValidationResults = Joi.validate(organizationCreationParams, organizationValidationJoiSchema, validationConfiguration);
     if(joiValidationResults.error === null) {
       return Promise.resolve();
     } else {
