@@ -159,22 +159,6 @@ module('Acceptance | authentication', function(hooks) {
       assert.equal(currentURL(), '/campagnes/liste');
     });
 
-    test('it should redirect user to the campaigns list on /index', async function(assert) {
-      // given
-      await authenticateSession({
-        user_id: user.id,
-        access_token: 'access token',
-        expires_in: 3600,
-        token_type: 'Bearer token type',
-      });
-
-      // when
-      await visit('/index');
-
-      // then
-      assert.equal(currentURL(), '/campagnes/liste');
-    });
-
   });
 
 });
