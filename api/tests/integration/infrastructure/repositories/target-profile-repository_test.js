@@ -17,7 +17,7 @@ describe('Integration | Repository | Target-profile', () => {
 
       targetProfile = databaseBuilder.factory.buildTargetProfile({});
       targetProfileFirstSkill = databaseBuilder.factory.buildTargetProfilesSkills({ targetProfileId: targetProfile.id });
-      databaseBuilder.factory.buildTargetProfilesShare({ targetProfileId: targetProfile.id, organizationId: 2 });
+      databaseBuilder.factory.buildTargetProfileShare({ targetProfileId: targetProfile.id, organizationId: 2 });
       await databaseBuilder.commit();
 
       skillAssociatedToTargetProfile = new SkillDataObject({ id: targetProfileFirstSkill.skillId, name: '@Acquis2' });

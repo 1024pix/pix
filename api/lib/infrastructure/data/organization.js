@@ -2,7 +2,7 @@ const Bookshelf = require('../bookshelf');
 const DomainOrganization = require('../../domain/models/Organization');
 
 require('./user');
-require('./target-profile-shares');
+require('./target-profile-share');
 
 module.exports = Bookshelf.model('Organization', {
 
@@ -14,7 +14,7 @@ module.exports = Bookshelf.model('Organization', {
   },
 
   targetProfileShares() {
-    return this.hasMany('TargetProfileShares', 'organizationId');
+    return this.hasMany('TargetProfileShare', 'organizationId');
   },
 
   toDomainEntity() {
