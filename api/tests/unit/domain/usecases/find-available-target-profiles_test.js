@@ -7,29 +7,29 @@ describe('Unit | UseCase | find-available-target-profiles', () => {
   let sandbox;
   const targetProfileRepository = {
     findPublicTargetProfiles: () => undefined,
-    findTargetProfilesByOrganizationId: () => undefined,
+    findTargetProfilesOwnedByOrganizationId: () => undefined,
   };
   const organizationRepository = {
     get: () => undefined,
   };
   let organizationId;
-  let targetProfilesLinkedToOrganization;
-  let targetProfileSharedWithOrganization;
+  let targetProfilesOwnedByOrganization;
+  let targetProfileSharesWithOrganization;
   let publicTargetProfiles;
 
   beforeEach(() => {
     organizationId = 1;
-    targetProfilesLinkedToOrganization = [factory.buildTargetProfile({ organizationId, isPublic: false })];
-    targetProfileSharedWithOrganization = factory.buildTargetProfile({ isPublic: false });
+    targetProfilesOwnedByOrganization = [factory.buildTargetProfile({ organizationId, isPublic: false })];
+    targetProfileSharesWithOrganization = factory.buildTargetProfile({ isPublic: false });
     publicTargetProfiles = [factory.buildTargetProfile({ isPublic: true })];
-    const targetProfileShared = [{
-      targetProfile: targetProfileSharedWithOrganization
+    const targetProfileShares = [{
+      targetProfile: targetProfileSharesWithOrganization
     }];
-    const organization = factory.buildOrganization({ id: organizationId, targetProfileShared });
+    const organization = factory.buildOrganization({ id: organizationId, targetProfileShares });
 
     sandbox = sinon.sandbox.create();
     targetProfileRepository.findPublicTargetProfiles = sandbox.stub().resolves(publicTargetProfiles);
-    targetProfileRepository.findTargetProfilesByOrganizationId = sandbox.stub().resolves(targetProfilesLinkedToOrganization);
+    targetProfileRepository.findTargetProfilesOwnedByOrganizationId = sandbox.stub().resolves(targetProfilesOwnedByOrganization);
     organizationRepository.get = sandbox.stub().resolves(organization);
   });
 
@@ -48,34 +48,22 @@ describe('Unit | UseCase | find-available-target-profiles', () => {
     });
   });
 
-  it('should find public profiles and profiles linked or shared to/with anyOrganization', () => {
-    // when
-    const promise = findAvailableTargetProfiles({ organizationId, targetProfileRepository, organizationRepository });
-
-    // then
-    return promise.then(() => {
-      expect(targetProfileRepository.findPublicTargetProfiles).to.have.been.calledOnce;
-      expect(targetProfileRepository.findTargetProfilesByOrganizationId).to.have.been.calledOnce;
-      expect(organizationRepository.get).to.have.been.calledOnce;
-    });
-  });
-
-  it('should return public profiles and profiles linked to specified organization', () => {
+  it('should return public profiles and profiles owned by or shared with anyOrganization', () => {
     // when
     const promise = findAvailableTargetProfiles({ organizationId, targetProfileRepository, organizationRepository });
 
     // then
     return promise.then((availableTargetProfiles) => {
       expect(availableTargetProfiles.length).to.equal(3);
-      expect(availableTargetProfiles).to.include.deep.members(targetProfilesLinkedToOrganization);
-      expect(availableTargetProfiles).to.include(targetProfileSharedWithOrganization);
+      expect(availableTargetProfiles).to.include.deep.members(targetProfilesOwnedByOrganization);
+      expect(availableTargetProfiles).to.include(targetProfileSharesWithOrganization);
       expect(availableTargetProfiles).to.include.deep.members(publicTargetProfiles);
     });
   });
 
   it('should not have duplicate in targetProfiles', () => {
     // given
-    targetProfileRepository.findPublicTargetProfiles.resolves(targetProfilesLinkedToOrganization);
+    targetProfileRepository.findPublicTargetProfiles.resolves(targetProfilesOwnedByOrganization);
 
     // when
     const promise = findAvailableTargetProfiles({ organizationId, targetProfileRepository, organizationRepository });

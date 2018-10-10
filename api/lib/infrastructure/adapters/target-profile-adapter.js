@@ -6,9 +6,10 @@ module.exports = {
   fromDatasourceObjects({ bookshelfTargetProfile, associatedSkillAirtableDataObjects }) {
 
     const skills = associatedSkillAirtableDataObjects.map(skillAdapter.fromAirtableDataObject);
-    let organizationsSharedId = [];
-    if(bookshelfTargetProfile.relations.organizationsWhichShared) {
-      organizationsSharedId = bookshelfTargetProfile.relations.organizationsWhichShared
+    let sharedWithOrganizationIds = [];
+
+    if(bookshelfTargetProfile.related('sharedWithOrganizations')) {
+      sharedWithOrganizationIds = bookshelfTargetProfile.related('sharedWithOrganizations')
         .map((organization) => organization.get('organizationId'));
     }
     return new TargetProfile({
@@ -17,7 +18,7 @@ module.exports = {
       isPublic: Boolean(bookshelfTargetProfile.get('isPublic')),
       organizationId: bookshelfTargetProfile.get('organizationId'),
       skills,
-      organizationsSharedId,
+      sharedWithOrganizationIds,
     });
   },
 };

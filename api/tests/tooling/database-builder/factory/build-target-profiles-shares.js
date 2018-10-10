@@ -3,7 +3,7 @@ const buildTargetProfile = require('./build-target-profile');
 const buildOrganization = require('./build-organization');
 const databaseBuffer = require('../database-buffer');
 
-module.exports = function buildTargetProfilesShared({
+module.exports = function buildTargetProfilesShare({
   id = faker.random.number(),
   targetProfileId = buildTargetProfile().id,
   organizationId = buildOrganization().id,
@@ -16,7 +16,7 @@ module.exports = function buildTargetProfilesShared({
   };
 
   databaseBuffer.pushInsertable({
-    tableName: 'target-profiles_shared',
+    tableName: 'target-profile-shares',
     values,
   });
 
