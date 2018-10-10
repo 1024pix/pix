@@ -733,7 +733,7 @@ describe('Unit | Application | Organizations | organization-controller', () => {
       replyStub = sandbox.stub().returns({
         code: codeStub
       });
-      sandbox.stub(usecases, 'findAvailableTargetProfiles').resolves();
+      sandbox.stub(organizationService, 'findAllTargetProfilesAvailableForOrganization').resolves();
     });
 
     afterEach(() => {
@@ -746,10 +746,8 @@ describe('Unit | Application | Organizations | organization-controller', () => {
 
       // then
       return promise.then(() => {
-        expect(usecases.findAvailableTargetProfiles).to.have.been.calledOnce;
-        expect(usecases.findAvailableTargetProfiles).to.have.been.calledWith({
-          organizationId: 145,
-        });
+        expect(organizationService.findAllTargetProfilesAvailableForOrganization).to.have.been.calledOnce;
+        expect(organizationService.findAllTargetProfilesAvailableForOrganization).to.have.been.calledWith(145);
       });
     });
 
@@ -760,7 +758,7 @@ describe('Unit | Application | Organizations | organization-controller', () => {
       beforeEach(() => {
         // given
         foundTargetProfiles = [factory.buildTargetProfile()];
-        usecases.findAvailableTargetProfiles.resolves(foundTargetProfiles);
+        organizationService.findAllTargetProfilesAvailableForOrganization.resolves(foundTargetProfiles);
         sandbox.stub(targetProfileSerializer, 'serialize');
       });
 
@@ -800,7 +798,7 @@ describe('Unit | Application | Organizations | organization-controller', () => {
       it('should log the error and reply with 500 error', () => {
         // given
         const error = new Error();
-        usecases.findAvailableTargetProfiles.rejects(error);
+        organizationService.findAllTargetProfilesAvailableForOrganization.rejects(error);
 
         // when
         const promise = organizationController.findTargetProfiles(request, replyStub);
