@@ -5,8 +5,8 @@ const targetProfileAdapter = require('../../../../lib/infrastructure/adapters/ta
 
 describe('Unit | Infrastructure | Adapter | targetSkillAdapter', () => {
 
-  afterEach(() => {
-    return databaseBuilder.clean();
+  afterEach(async () => {
+    await databaseBuilder.clean();
   });
 
   it('should adapt TargetSkill object to domain', () => {

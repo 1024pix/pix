@@ -85,7 +85,7 @@ describe('Integration | Repository | Certification Challenge', function() {
     let challenge2;
     let challenge3;
 
-    beforeEach(() => {
+    beforeEach(async () => {
 
       challenge1 = factory.buildCertificationChallenge({
         id: 1,
@@ -137,11 +137,11 @@ describe('Integration | Repository | Certification Challenge', function() {
         courseId: otherCourseId,
       });
 
-      return databaseBuilder.commit();
+      await databaseBuilder.commit();
     });
 
-    afterEach(() => {
-      return databaseBuilder.clean();
+    afterEach(async () => {
+      await databaseBuilder.clean();
     });
 
     it('should find all challenges related to a given courseId', () => {

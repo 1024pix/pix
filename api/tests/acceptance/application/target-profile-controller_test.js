@@ -11,7 +11,7 @@ describe('Acceptance | Controller | target-profile-controller', () => {
       let linkedOrganization;
 
       const connectedUserId = 1;
-      beforeEach(() => {
+      beforeEach(async () => {
         connectedUser = databaseBuilder.factory.buildUser({ id: connectedUserId });
         linkedOrganization = databaseBuilder.factory.buildOrganization();
         databaseBuilder.factory.buildOrganizationAccess({
@@ -19,11 +19,11 @@ describe('Acceptance | Controller | target-profile-controller', () => {
           organizationId: linkedOrganization.id
         });
 
-        return databaseBuilder.commit();
+        await databaseBuilder.commit();
       });
 
-      afterEach(() => {
-        return databaseBuilder.clean();
+      afterEach(async () => {
+        await databaseBuilder.clean();
       });
 
       it('should return 200', () => {
