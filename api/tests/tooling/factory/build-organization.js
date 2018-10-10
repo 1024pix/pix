@@ -8,9 +8,8 @@ module.exports = function buildOrganization(
     code = 'EBG123',
     name = 'Lycée Luke Skywalker',
     type = 'SCO',
-    email = 'lycee.luke.skywalker@example.net',
     user = new User(),
     targetProfileShares = [],
   } = {}) {
-  return new Organization({ id, code, name, type, email, user, targetProfileShares });
+  return new Organization({ id, code, name, type, user, targetProfileShares });
 };

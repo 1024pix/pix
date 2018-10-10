@@ -151,7 +151,6 @@ function _extractOrganization(request) {
   return new Organization({
     name: request.payload.data.attributes['name'] || '',
     type: request.payload.data.attributes['type'] || '',
-    email: request.payload.data.attributes['email'] || '',
   });
 }
 

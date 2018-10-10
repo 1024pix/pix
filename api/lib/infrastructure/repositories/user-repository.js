@@ -16,7 +16,6 @@ function _toOrganizationAccessesDomain(organizationAccessesBookshelf) {
         code: organizationAccessBookshelf.related('organization').get('code'),
         name: organizationAccessBookshelf.related('organization').get('name'),
         type: organizationAccessBookshelf.related('organization').get('type'),
-        email: organizationAccessBookshelf.related('organization').get('email')
       }),
       organizationRole: new OrganizationRole({
         id: organizationAccessBookshelf.related('organizationRole').get('id'),

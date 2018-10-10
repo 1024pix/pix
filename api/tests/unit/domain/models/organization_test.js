@@ -22,7 +22,6 @@ describe('Unit | Domain | Models | Organization', () => {
 
       // then
       expect(organization.id).to.equal(1);
-      expect(organization.email).to.equal('jr@lycee.fr');
       expect(organization.type).to.equal('SCO');
       expect(organization.name).to.equal('Lycée Jean Rostand');
       expect(organization.code).to.equal('AZE123');
@@ -50,7 +49,6 @@ describe('Unit | Domain | Models | Organization', () => {
 
       // then
       expect(organization.id).to.equal(1);
-      expect(organization.email).to.equal('jr@lycee.fr');
       expect(organization.targetProfileShares.length).to.equal(1);
     });
 

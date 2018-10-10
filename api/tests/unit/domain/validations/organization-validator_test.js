@@ -19,7 +19,6 @@ describe('Unit | Domain | Validators | organization-validator', function() {
     organization = new Organization({
       name: 'Lycée des Rosiers',
       type: 'SUP',
-      email: 'lycee.des.rosiers@example.net'
     });
   });
 
@@ -47,44 +46,6 @@ describe('Unit | Domain | Validators | organization-validator', function() {
             message: 'Le nom n’est pas renseigné.'
           };
           organization.name = MISSING_VALUE;
-
-          // when
-          const promise = organizationValidator.validate(organization);
-
-          // then
-          return promise
-            .then(() => expect.fail('Expected rejection with errors'))
-            .catch((errors) => _assertErrorMatchesWithExpectedOne(errors, expectedError));
-        });
-
-      });
-
-      context('on email attribute', () => {
-
-        it('should reject with error when email is missing', () => {
-          // given
-          const expectedError = {
-            attribute: 'email',
-            message: 'L’adresse électronique n’est pas renseignée.'
-          };
-          organization.email = MISSING_VALUE;
-
-          // when
-          const promise = organizationValidator.validate(organization);
-
-          // then
-          return promise
-            .then(() => expect.fail('Expected rejection erros'))
-            .catch((errors) => _assertErrorMatchesWithExpectedOne(errors, expectedError));
-        });
-
-        it('should reject with error when email is invalid', () => {
-          // given
-          const expectedError = {
-            attribute: 'email',
-            message: 'L’adresse électronique n’est pas correcte.'
-          };
-          organization.email = 'invalid_email';
 
           // when
           const promise = organizationValidator.validate(organization);
@@ -156,7 +117,6 @@ describe('Unit | Domain | Validators | organization-validator', function() {
         // given
         organization = {
           name: '',
-          email: '',
           type: '',
         };
 
@@ -167,7 +127,7 @@ describe('Unit | Domain | Validators | organization-validator', function() {
         return promise
           .then(() => expect.fail('Expected rejection with errors'))
           .catch((entityValidationErrors) => {
-            expect(entityValidationErrors.invalidAttributes).to.have.lengthOf(3);
+            expect(entityValidationErrors.invalidAttributes).to.have.lengthOf(2);
           });
       });
     });

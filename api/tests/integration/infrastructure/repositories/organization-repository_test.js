@@ -27,7 +27,7 @@ describe('Integration | Repository | Organization', function() {
 
     it('should save model in database', () => {
       // given
-      const organization = new Organization({ code: 'AAAA99', name: 'Lycée Rousseau', type: 'SCO', email: 'a@b.fr' });
+      const organization = new Organization({ code: 'AAAA99', name: 'Lycée Rousseau', type: 'SCO' });
 
       // when
       const promise = organizationRepository.create(organization);
@@ -43,7 +43,6 @@ describe('Integration | Repository | Organization', function() {
   describe('#isCodeAvailable', () => {
 
     const organization = {
-      email: faker.internet.email(),
       type: 'PRO',
       name: faker.name.firstName(),
       code: 'ABCD01'
@@ -85,7 +84,6 @@ describe('Integration | Repository | Organization', function() {
   describe('#isOrganizationIdExist', () => {
 
     const organization = {
-      email: faker.internet.email(),
       type: 'PRO',
       name: faker.name.firstName(),
       code: 'ABCD01'
@@ -131,7 +129,6 @@ describe('Integration | Repository | Organization', function() {
 
     const existingId = 1;
     const insertedOrganization = {
-      email: 'test@email.com',
       type: 'PRO',
       name: 'The name of the organization',
       userId: 294,
@@ -158,7 +155,6 @@ describe('Integration | Repository | Organization', function() {
         // then
         return promise.then((foundOrganization) => {
           expect(foundOrganization).to.be.an.instanceof(Organization);
-          expect(foundOrganization.email).to.equal(insertedOrganization.email);
           expect(foundOrganization.type).to.equal(insertedOrganization.type);
           expect(foundOrganization.name).to.equal(insertedOrganization.name);
           expect(foundOrganization.id).to.equal(insertedOrganization.id);
@@ -186,7 +182,6 @@ describe('Integration | Repository | Organization', function() {
   describe('#getByUserId', () => {
 
     const firstInsertedOrganization = {
-      email: 'entreprise1@email.com',
       type: 'PRO',
       name: 'organization 1',
       userId: 1,
@@ -195,7 +190,6 @@ describe('Integration | Repository | Organization', function() {
     };
 
     const secondInsertedOrganization = {
-      email: 'entreprise2@email.com',
       type: 'SCO',
       name: 'organization 2',
       userId: 2,
@@ -204,7 +198,6 @@ describe('Integration | Repository | Organization', function() {
     };
 
     const thirdInsertedOrganization = {
-      email: 'entreprise3@email.com',
       type: 'SUP',
       name: 'organization 3',
       userId: 1,
@@ -236,7 +229,6 @@ describe('Integration | Repository | Organization', function() {
           .then((foundOrganization) => {
             expect(foundOrganization).to.exist;
             expect(foundOrganization).to.be.an('array');
-            expect(foundOrganization[0].attributes.email).to.equal(secondInsertedOrganization.email);
             expect(foundOrganization[0].attributes.type).to.equal(secondInsertedOrganization.type);
             expect(foundOrganization[0].attributes.name).to.equal(secondInsertedOrganization.name);
             expect(foundOrganization[0].attributes.userId).to.equal(secondInsertedOrganization.userId);
@@ -284,13 +276,11 @@ describe('Integration | Repository | Organization', function() {
     };
 
     const insertedOrganization1 = {
-      email: faker.internet.email(),
       type: 'PRO',
       name: faker.name.firstName(),
       code: 'ABCD01',
     };
     const insertedOrganization2 = {
-      email: faker.internet.email(),
       type: 'SCO',
       name: faker.name.firstName(),
       code: 'ABCD02',

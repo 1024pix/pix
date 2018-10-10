@@ -101,7 +101,6 @@ describe('Acceptance | Controller | authentication-controller', () => {
 
     beforeEach(() => {
       const organization = {
-        email: userEmail,
         type: 'PRO',
         name: 'Mon Entreprise',
         code: 'ABCD12'
