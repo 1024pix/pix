@@ -17,17 +17,6 @@ function cacheIndividually(records, tablename) {
   }));
 }
 
-function findChallengesByCompetence() {
-  return airtable.findRecords(COMPETENCE_TABLENAME, NO_FILTER)
-    .then((competences) => {
-      return Promise.all(competences.map((competence) => {
-        return airtable.findRecords(CHALLENGE_TABLENAME, {
-          view: `${competence.get('Sous-domaine')} ${competence.get('Titre')}`
-        });
-      }));
-    });
-}
-
 function findSkillsByCompetence() {
   return airtable.findRecords(COMPETENCE_TABLENAME, NO_FILTER)
     .then((competences) => {
@@ -47,8 +36,7 @@ module.exports = {
   },
 
   loadChallenges() {
-    return findChallengesByCompetence()
-      .then(() => airtable.findRecords(CHALLENGE_TABLENAME, NO_FILTER))
+    return airtable.findRecords(CHALLENGE_TABLENAME, NO_FILTER)
       .then((records) => cacheIndividually(records, CHALLENGE_TABLENAME));
   },
 
