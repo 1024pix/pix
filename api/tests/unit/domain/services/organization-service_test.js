@@ -11,18 +11,40 @@ const userRepository = require('../../../../lib/infrastructure/repositories/user
 
 describe('Unit | Service | OrganizationService', () => {
 
-  describe('#generateOrganizationCode', () => {
+  describe('#generateUniqueOrganizationCode', () => {
 
     it('should exist', () => {
-      expect(organizationService.generateOrganizationCode).to.exist.and.to.be.a('function');
+      expect(organizationService.generateUniqueOrganizationCode).to.exist.and.to.be.a('function');
     });
 
-    it('should generate a code', () => {
+    it('should generate a random code with 4 letters and 2 numbers', () => {
+      // given
+      const organizationRepository = { isCodeAvailable: sinon.stub() };
+      organizationRepository.isCodeAvailable.resolves(true);
+
       // when
-      const code = organizationService.generateOrganizationCode();
+      const promise = organizationService.generateUniqueOrganizationCode({ organizationRepository });
 
       // then
-      expect(code).to.match(/[A-Z]{4}\d{2}/);
+      return promise.then((code) => {
+        expect(code).to.match(/[A-Z]{4}\d{2}/);
+      });
+    });
+
+    it('should re-generate a code if the first ones already exist', () => {
+      // given
+      const organizationRepository = { isCodeAvailable: sinon.stub() };
+      organizationRepository.isCodeAvailable
+        .onFirstCall().rejects()
+        .onSecondCall().resolves(true);
+
+      // when
+      const promise = organizationService.generateUniqueOrganizationCode({ organizationRepository });
+
+      // then
+      return promise.then(() => {
+        expect(organizationRepository.isCodeAvailable).to.have.been.calledTwice;
+      });
     });
   });
 
@@ -194,6 +216,32 @@ describe('Unit | Service | OrganizationService', () => {
           expect(organization).to.be.an('array').that.is.empty;
         });
       });
+
+      it('should return the organization found for the given filters, without the email', () => {
+        // given
+        const filters = { code: 'OE34RND', type: 'SCO' };
+        const organizationWithEmail = [new Organization({
+          type: 'SCO',
+          name: 'Lycée des Tuileries',
+          code: 'OE34RND',
+          email: 'tuileries@sco.com'
+        })];
+        const expectedReturnedOrganizationWithoutEmail = [new Organization({
+          type: 'SCO',
+          name: 'Lycée des Tuileries',
+          code: 'OE34RND'
+        })];
+
+        organizationRepository.findBy.withArgs(filters).resolves(organizationWithEmail);
+
+        // when
+        const promise = organizationService.search(userId, filters);
+
+        // then
+        return promise.then((organization) => {
+          expect(organization).to.deep.equal(expectedReturnedOrganizationWithoutEmail);
+        });
+      });
     });
   });
 
@@ -261,7 +309,5 @@ describe('Unit | Service | OrganizationService', () => {
         expect(availableTargetProfiles.length).to.equal(2);
       });
     });
-
   });
-
 });
