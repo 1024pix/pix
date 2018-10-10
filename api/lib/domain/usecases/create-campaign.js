@@ -17,7 +17,7 @@ function _checkCreatorHasAccessToCampaignOrganization(userId, organizationId, us
 function _checkOrganizationHasAccessToTargetProfile(targetProfileId, organizationId, organizationService) {
   return organizationService.findAllTargetProfilesAvailableForOrganization(organizationId)
     .then((targetProfiles) => {
-      if(_.find(targetProfiles, (targetProfile) => targetProfile.id == targetProfileId)) {
+      if(_.find(targetProfiles, (targetProfile) => targetProfile.id === targetProfileId)) {
         return Promise.resolve();
       }
       throw new UserNotAuthorizedToCreateCampaignError(`Organization does not have an access to the profile ${targetProfileId}`);
