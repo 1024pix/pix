@@ -21,6 +21,7 @@ const { extractFilters } = require('../../infrastructure/utils/query-params-util
 const JSONAPI = require('../../interfaces/jsonapi');
 const Organization = require('../../domain/models/Organization');
 const { EntityValidationError } = require('../../domain/errors');
+const { InfrastructureError } = require('../../infrastructure/errors');
 
 const EXPORT_CSV_FILE_NAME = 'Pix - Export donnees partagees.csv';
 
@@ -36,19 +37,15 @@ module.exports = {
       .then((code) => new Organization({ name, type, code }))
       .then(organizationRepository.create)
       .then(organizationSerializer.serialize)
-      .then(reply)
+      .then(controllerReplies(reply).ok)
       .catch((error) => {
 
         if (error instanceof EntityValidationError) {
           return reply(JSONAPI.unprocessableEntityError(error.invalidAttributes)).code(422);
         }
 
-        logger.error(error);
-        return reply(new JSONAPIError({
-          status: '500',
-          title: 'Internal Server Error',
-          detail: 'Une erreur est survenue lors de la création de l’organisation'
-        })).code(500);
+        const serverError = new InfrastructureError('Une erreur est survenue lors de la création de l’organisation');
+        return controllerReplies(reply).error(serverError);
       });
   },
 

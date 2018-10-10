@@ -14,6 +14,7 @@ const snapshotSerializer = require('../../../../lib/infrastructure/serializers/j
 const validationErrorSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/validation-error-serializer');
 const bookshelfUtils = require('../../../../lib/infrastructure/utils/bookshelf-utils');
 const { EntityValidationError, NotFoundError } = require('../../../../lib/domain/errors');
+const { InfrastructureError } = require('../../../../lib/infrastructure/errors');
 const logger = require('../../../../lib/infrastructure/logger');
 const organizationCreationValidator = require('../../../../lib/domain/validators/organization-creation-validator');
 const usecases = require('../../../../lib/domain/usecases');
@@ -180,42 +181,22 @@ describe('Unit | Application | Organizations | organization-controller', () => {
 
         beforeEach(() => {
           organizationCreationValidator.validate.resolves();
-          error = new Error('Some error');
+          error = new InfrastructureError('Une erreur est survenue lors de la création de l’organisation');
           organizationService.generateOrganizationCode.returns('ABCD12');
           organizationRepository.isCodeAvailable.resolves(true);
           organizationRepository.create.rejects(error);
         });
 
         it('should return an error with HTTP status code 500', () => {
-          // given
-          const expectedResponseContent = {
-            status: '500',
-            title: 'Internal Server Error',
-            detail: 'Une erreur est survenue lors de la création de l’organisation'
-          };
-
           // when
           const promise = organizationController.create(request, replyStub);
 
           // then
           return promise.then(() => {
-            expect(replyStub).to.have.been.calledWith({ errors: [expectedResponseContent] });
             expect(codeStub).to.have.been.calledWith(500);
           });
         });
-
-        it('should log the error', () => {
-          // when
-          const promise = organizationController.create(request, replyStub);
-
-          // then
-          return promise.then(() => {
-            expect(logger.error).to.have.been.calledWith(error);
-          });
-        });
-
       });
-
     });
   });
 
