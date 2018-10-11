@@ -1,5 +1,6 @@
-const { sampleSize, random } = require('lodash');
-const organisationRepository = require('../../infrastructure/repositories/organization-repository');
+const { sampleSize, random, uniqBy, concat } = require('lodash');
+const organizationRepository = require('../../infrastructure/repositories/organization-repository');
+const targetProfileRepository = require('../../infrastructure/repositories/target-profile-repository');
 const userRepository = require('../../infrastructure/repositories/user-repository');
 
 function _randomLetters(count) {
@@ -17,12 +18,33 @@ function _noCodeGivenIn(filters) {
   return !code || !code.trim();
 }
 
+function _extractProfilesSharedWithOrganization(organization) {
+  return organization.targetProfileShares.map((targetProfileShare) => {
+    return targetProfileShare.targetProfile;
+  });
+}
+
 module.exports = {
 
   generateOrganizationCode() {
     let code = _randomLetters(4);
     code += random(0, 9) + '' + random(0, 9);
     return code;
+  },
+
+  findAllTargetProfilesAvailableForOrganization(organizationId) {
+    return organizationRepository.get(organizationId)
+      .then((organization) => {
+        return Promise.all([
+          targetProfileRepository.findTargetProfilesOwnedByOrganizationId(organizationId),
+          _extractProfilesSharedWithOrganization(organization),
+          targetProfileRepository.findPublicTargetProfiles(),
+        ]);
+      })
+      .then(([targetProfilesOwnedByOrganization, targetProfileSharesWithOrganization, publicTargetProfiles]) => {
+        const allAvailableTargetProfiles = concat(targetProfilesOwnedByOrganization, targetProfileSharesWithOrganization, publicTargetProfiles);
+        return uniqBy(allAvailableTargetProfiles, 'id');
+      });
   },
 
   getOrganizationSharedProfilesAsCsv(dependencies, organizationId) {
@@ -56,7 +78,7 @@ module.exports = {
         if (!isUserPixMaster && _noCodeGivenIn(filters)) {
           return [];
         }
-        return organisationRepository
+        return organizationRepository
           .findBy(filters)
           .then((organizations) => organizations.map(_organizationWithoutEmail));
       });

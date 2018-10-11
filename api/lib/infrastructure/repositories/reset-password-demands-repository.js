@@ -20,6 +20,7 @@ module.exports = {
         if (err instanceof ResetPasswordDemand.NotFoundError) {
           throw new PasswordResetDemandNotFoundError();
         }
+        throw err;
       });
   },
 
