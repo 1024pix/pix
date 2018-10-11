@@ -1,6 +1,5 @@
 .form {
 
-
   .form-section {
     padding: 0 40px 40px;
 
@@ -22,6 +21,20 @@
 
     .form-field__text {
 
+    }
+
+    .form-field__select {
+
+      &.is-invalid > .ember-power-select-trigger {
+        border-color: #dc3545;
+      }
+    }
+
+    .form-field__error {
+      width: 100%;
+      margin-top: 0.25rem;
+      font-size: 0.8em;
+      color: #dc3545;
     }
   }
 }
