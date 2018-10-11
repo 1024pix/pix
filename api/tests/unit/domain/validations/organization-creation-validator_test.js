@@ -1,194 +1,125 @@
-const { expect, sinon } = require('../../../test-helper');
+const { expect } = require('../../../test-helper');
 const organizationCreationValidator = require('../../../../lib/domain/validators/organization-creation-validator');
-const userValidator = require('../../../../lib/domain/validators/user-validator');
-const organizationValidator = require('../../../../lib/domain/validators/organization-validator');
-const User = require('../../../../lib/domain/models/User');
-const Organization = require('../../../../lib/domain/models/Organization');
-const { AlreadyRegisteredEmailError, EntityValidationError } = require('../../../../lib/domain/errors');
+const { EntityValidationError } = require('../../../../lib/domain/errors');
 
-describe('Unit | Domain | Validators | organization-creation-validator', function() {
+const MISSING_VALUE = '';
 
-  const userRepository = { isEmailAvailable: () => undefined };
+function _assertErrorMatchesWithExpectedOne(entityValidationErrors, expectedError) {
+  expect(entityValidationErrors).to.be.instanceOf(EntityValidationError);
+  expect(entityValidationErrors.invalidAttributes).to.have.lengthOf(1);
+  expect(entityValidationErrors.invalidAttributes[0]).to.deep.equal(expectedError);
+}
 
-  let sandbox;
-  let user;
-  let organization;
-
-  beforeEach(() => {
-    user = new User({
-      firstName: 'John',
-      lastName: 'Doe',
-      email: 'john.doe@example.net',
-      password: 'password1234',
-      cgu: true,
-    });
-    organization = new Organization({
-      name: 'Acme',
-      type: 'PRO',
-      email: user.email,
-    });
-
-    sandbox = sinon.sandbox.create();
-    sandbox.stub(userValidator, 'validate');
-    sandbox.stub(organizationValidator, 'validate');
-    sandbox.stub(userRepository, 'isEmailAvailable');
-
-    userRepository.isEmailAvailable.resolves();
-  });
-
-  afterEach(() => {
-    sandbox.restore();
-  });
+describe('Unit | Domain | Validators | organization-validator', function() {
 
   describe('#validate', () => {
 
     context('when validation is successful', () => {
 
-      beforeEach(() => {
-        userValidator.validate.resolves();
-        organizationValidator.validate.resolves();
-      });
-
       it('should resolve (with no value) when validation is successful', () => {
+        // given
+        const organizationCreationParams = { name: 'ACME', type: 'PRO' };
+
         // when
-        const promise = organizationCreationValidator.validate(user, organization, userRepository);
+        const promise = organizationCreationValidator.validate(organizationCreationParams);
 
         // then
         return expect(promise).to.be.fulfilled;
       });
     });
 
-    context('when user email is already used', () => {
+    context('when organization data validation fails', () => {
 
-      it('should reject with an error EntityValidationError on email already registered', () => {
-        // given
-        const emailExistError = new AlreadyRegisteredEmailError('email already exists');
-        const expectedValidationError = new EntityValidationError({
-          invalidAttributes: [
-            {
-              attribute: 'email',
-              message: 'Cette adresse electronique est déjà enregistrée.',
-            }
-          ]
+      context('on name attribute', () => {
+
+        it('should reject with error when name is missing', () => {
+          // given
+          const expectedError = {
+            attribute: 'name',
+            message: 'Le nom n’est pas renseigné.'
+          };
+          const organizationCreationParams = { name: MISSING_VALUE, type: 'PRO' };
+
+          // when
+          const promise = organizationCreationValidator.validate(organizationCreationParams);
+
+          // then
+          return promise
+            .then(() => expect.fail('Expected rejection with errors'))
+            .catch((errors) => _assertErrorMatchesWithExpectedOne(errors, expectedError));
         });
 
-        userRepository.isEmailAvailable.rejects(emailExistError);
-        userValidator.validate.resolves();
-        organizationValidator.validate.resolves();
+      });
+
+      context('on type attribute', () => {
+
+        it('should reject with error when type is missing', () => {
+          // given
+          const expectedError = {
+            attribute: 'type',
+            message: 'Le type n’est pas renseigné.'
+          };
+          const organizationCreationParams = { name: 'ACME', type: MISSING_VALUE };
+
+          // when
+          const promise = organizationCreationValidator.validate(organizationCreationParams);
+
+          // then
+          return promise
+            .then(() => expect.fail('Expected rejection with errors'))
+            .catch((errors) => _assertErrorMatchesWithExpectedOne(errors, expectedError));
+        });
+
+        it('should reject with error when type value is not SUP, SCO or PRO', () => {
+          // given
+          const expectedError = {
+            attribute: 'type',
+            message: 'Le type de l’organisation doit avoir l’une des valeurs suivantes: SCO, SUP, PRO.'
+          };
+          const organizationCreationParams = { name: 'ACME', type: 'PTT' };
+
+          // when
+          const promise = organizationCreationValidator.validate(organizationCreationParams);
+
+          // then
+          return promise
+            .then(() => expect.fail('Expected rejection with errors'))
+            .catch((errors) => _assertErrorMatchesWithExpectedOne(errors, expectedError));
+        });
+
+        [
+          'SUP',
+          'SCO',
+          'PRO'
+        ].forEach((type) => {
+          it(`should accept ${type} as type`, function() {
+            // given
+            const organizationCreationParams = { name: 'ACME', type };
+
+            // when
+            const promise = organizationCreationValidator.validate(organizationCreationParams);
+
+            // then
+            return expect(promise).to.be.fulfilled;
+          });
+        });
+
+      });
+
+      it('should reject with errors on all fields (but only once by field) when all fields are missing', () => {
+        // given
+        const organizationCreationParams = { name: MISSING_VALUE, type: MISSING_VALUE, };
 
         // when
-        const promise = organizationCreationValidator.validate(user, organization, userRepository);
+        const promise = organizationCreationValidator.validate(organizationCreationParams);
 
         // then
         return promise
           .then(() => expect.fail('Expected rejection with errors'))
-          .catch((error) => {
-            expect(error).to.be.instanceOf(EntityValidationError);
-            expect(error.invalidAttributes).to.deep.equal(expectedValidationError.invalidAttributes);
+          .catch((entityValidationErrors) => {
+            expect(entityValidationErrors.invalidAttributes).to.have.lengthOf(2);
           });
       });
-
-    });
-
-    context('when user validation fails', () => {
-
-      it('should reject with the errors from user validation', () => {
-        // given
-        const expectedValidationError = new EntityValidationError({
-          invalidAttributes: [
-            {
-              attribute: 'firstName',
-              message: 'Votre prénom n’est pas renseigné.',
-            },
-            {
-              attribute: 'password',
-              message: 'Votre mot de passe n’est pas renseigné.',
-            },
-          ]
-        });
-
-        userValidator.validate.rejects(expectedValidationError);
-        organizationValidator.validate.resolves();
-
-        // when
-        const promise = organizationCreationValidator.validate(user, organization, userRepository);
-
-        // then
-        return promise
-          .then(() => expect.fail('Expected rejection with errors'))
-          .catch((error) => {
-            expect(error).to.be.instanceOf(EntityValidationError);
-            expect(error.invalidAttributes).to.deep.equal(expectedValidationError.invalidAttributes);
-          });
-      });
-
-    });
-
-    context('when organization validation fails', () => {
-
-      it('should reject with the errors from organization validation', () => {
-        // given
-        const expectedValidationError = new EntityValidationError({
-          invalidAttributes: [
-            {
-              attribute: 'type',
-              message: 'Le type n‘est pas renseigné.',
-            }
-          ]
-        });
-
-        organizationValidator.validate.rejects(expectedValidationError);
-        userValidator.validate.resolves();
-
-        // when
-        const promise = organizationCreationValidator.validate(user, organization, userRepository);
-
-        // then
-        return promise
-          .then(() => expect.fail('Expected rejection with errors'))
-          .catch((error) => {
-            expect(error).to.be.instanceOf(EntityValidationError);
-            expect(error.invalidAttributes).to.deep.equal(expectedValidationError.invalidAttributes);
-          });
-      });
-
-    });
-
-    context('when both user and organization validations fail', () => {
-
-      it('should reject with the errors from user and organization validations', () => {
-        // given
-        const expectedUserValidationError = new EntityValidationError({
-          invalidAttributes: [
-            {
-              attribute: 'firstName',
-              message: 'Votre prénom n’est pas renseigné.',
-            }
-          ]
-        });
-        const expectedOrgaValidationError = new EntityValidationError({
-          invalidAttributes: [
-            {
-              attribute: 'type',
-              message: 'Le type de l’organisation doit avoir l’une des valeurs suivantes: SCO, SUP, PRO.',
-            }
-          ]
-        });
-
-        userValidator.validate.rejects(expectedUserValidationError);
-        organizationValidator.validate.rejects(expectedOrgaValidationError);
-
-        // when
-        const promise = organizationCreationValidator.validate(user, organization, userRepository);
-
-        // then
-        return promise
-          .catch((error) => {
-            expect(error).to.be.instanceOf(EntityValidationError);
-            expect(error.invalidAttributes).to.have.lengthOf(2);
-          });
-      });
-
     });
   });
 });
