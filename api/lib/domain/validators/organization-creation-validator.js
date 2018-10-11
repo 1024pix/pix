@@ -1,34 +1,34 @@
-const userValidator = require('./user-validator');
-const organizationValidator = require('./organization-validator');
-const { AlreadyRegisteredEmailError, EntityValidationError } = require('../../domain/errors');
+const Joi = require('joi');
+const { EntityValidationError } = require('../errors');
 
-function _manageEmailAvailabilityError(error) {
-  if(error instanceof AlreadyRegisteredEmailError) {
-    return new EntityValidationError({
-      invalidAttributes: [{ attribute: 'email', message: 'Cette adresse electronique est déjà enregistrée.' }]
-    });
-  }
+const validationConfiguration = { abortEarly: false, allowUnknown: true };
 
-  throw error;
-}
+const organizationValidationJoiSchema = Joi.object().keys({
 
-// FIXME move it in the "future" Use Case that creates an organization, like create user
+  name: Joi.string().required().error(() => {
+    return { message: 'Le nom n’est pas renseigné.' };
+  }),
+
+  type: Joi.string().required().valid('SCO', 'SUP', 'PRO').error((errors) => {
+    const error = errors[0];
+    if (error.type === 'any.empty') {
+      return { message: 'Le type n’est pas renseigné.' };
+    }
+    return { message: 'Le type de l’organisation doit avoir l’une des valeurs suivantes: SCO, SUP, PRO.' };
+  }),
+
+});
+
 module.exports = {
 
-  validate(user, organization, userRepository) {
-    return Promise.all([
-      userRepository.isEmailAvailable(user.email).catch(_manageEmailAvailabilityError),
-      userValidator.validate(user).catch((errors) => errors),
-      organizationValidator.validate(organization).catch((errors) => errors),
-    ])
-      .then((results) => {
-        // Promise.all returns the return value of all promises, even if the return value is undefined
-        return results.filter((result) => result instanceof Error);
-      }).then((validationErrors) => {
-        if (validationErrors.length > 0) {
-          throw EntityValidationError.fromMultipleEntityValidationErrors(validationErrors);
-        }
-      });
+  validate(organizationCreationParams) {
+
+    const joiValidationResults = Joi.validate(organizationCreationParams, organizationValidationJoiSchema, validationConfiguration);
+    if(joiValidationResults.error === null) {
+      return Promise.resolve();
+    } else {
+      return Promise.reject(EntityValidationError.fromJoiErrors(joiValidationResults.error.details));
+    }
   }
 
 };

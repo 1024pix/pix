@@ -34,7 +34,6 @@ describe('Integration | Infrastructure | Repository | UserRepository', () => {
 
   function _insertUserWithOrganizationsAccesses() {
     const organizationToInsert = {
-      email: faker.internet.email().toLowerCase(),
       type: 'PRO',
       name: 'Mon Entreprise',
       code: 'ABCD12',
@@ -209,7 +208,6 @@ describe('Integration | Infrastructure | Repository | UserRepository', () => {
           expect(accessibleOrganization.code).to.equal(organizationInDB.code);
           expect(accessibleOrganization.name).to.equal(organizationInDB.name);
           expect(accessibleOrganization.type).to.equal(organizationInDB.type);
-          expect(accessibleOrganization.email).to.equal(organizationInDB.email);
 
           const associatedRole = firstOrganizationAccess.organizationRole;
           expect(associatedRole).to.be.an.instanceof(OrganizationRole);
@@ -332,7 +330,6 @@ describe('Integration | Infrastructure | Repository | UserRepository', () => {
           expect(accessibleOrganization.code).to.equal(organizationInDB.code);
           expect(accessibleOrganization.name).to.equal(organizationInDB.name);
           expect(accessibleOrganization.type).to.equal(organizationInDB.type);
-          expect(accessibleOrganization.email).to.equal(organizationInDB.email);
 
           const associatedRole = organizationAccess.organizationRole;
           expect(associatedRole).to.be.an.instanceof(OrganizationRole);

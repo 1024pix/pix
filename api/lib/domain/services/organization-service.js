@@ -8,11 +8,6 @@ function _randomLetters(count) {
   return sampleSize(letters, count).join('');
 }
 
-function _organizationWithoutEmail(organization) {
-  organization.email = undefined;
-  return organization;
-}
-
 function _noCodeGivenIn(filters) {
   const code = filters.code;
   return !code || !code.trim();
@@ -24,12 +19,19 @@ function _extractProfilesSharedWithOrganization(organization) {
   });
 }
 
+function _generateOrganizationCode() {
+  let code = _randomLetters(4);
+  code += random(0, 9) + '' + random(0, 9);
+  return code;
+}
+
 module.exports = {
 
-  generateOrganizationCode() {
-    let code = _randomLetters(4);
-    code += random(0, 9) + '' + random(0, 9);
-    return code;
+  generateUniqueOrganizationCode({ organizationRepository }) {
+    const code = _generateOrganizationCode();
+    return organizationRepository.isCodeAvailable(code)
+      .then(() => code)
+      .catch(() => this.generateUniqueOrganizationCode({ organizationRepository }));
   },
 
   findAllTargetProfilesAvailableForOrganization(organizationId) {
@@ -78,9 +80,7 @@ module.exports = {
         if (!isUserPixMaster && _noCodeGivenIn(filters)) {
           return [];
         }
-        return organizationRepository
-          .findBy(filters)
-          .then((organizations) => organizations.map(_organizationWithoutEmail));
+        return organizationRepository.findBy(filters);
       });
 
   }

@@ -25,7 +25,7 @@ function _formatRelationship({ attribute, message }) {
 }
 
 function _formatInvalidAttribute({ attribute, message }) {
-  if(attribute.endsWith('Id')) {
+  if (attribute.endsWith('Id')) {
     return _formatRelationship({ attribute, message });
   }
   return _formatAttribute({ attribute, message });
