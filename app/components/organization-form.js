@@ -21,11 +21,6 @@ export default Component.extend({
 
   // Hooks
 
-  init() {
-    this._super(...arguments);
-    this.organization = this.organization || {};
-  },
-
   // Actions
 
   actions: {
@@ -36,10 +31,8 @@ export default Component.extend({
     },
 
     submitOrganization() {
-      const organization = this.get('organization');
-      return this.get('onSubmitOrganization')(organization)
+      return this.get('onSubmitOrganization')()
         .then(() => {
-          this._resetFields();
           this.get('notifications').success('L’organisation a été créée avec succès.');
         })
         .catch(() => {
@@ -49,10 +42,5 @@ export default Component.extend({
   },
 
   // Methods
-
-  _resetFields() {
-    this.set('organization', {});
-    this.set('selectedOrganizationType', null);
-  }
 
 });
