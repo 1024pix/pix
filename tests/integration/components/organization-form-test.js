@@ -59,70 +59,20 @@ module('Integration | Component | organization-form', function(hooks) {
   async function fillInAllFormFields() {
     await fillIn('#organizationName', 'ACME');
     await selectChoose('#organizationTypeSelector', 'Établissement scolaire');
-    await fillIn('#contactFirstName', 'Goku');
-    await fillIn('#contactLastName', 'Black');
-    await fillIn('#contactEmail', 'test@example.net');
-    await fillIn('#contactPassword', 'password1234');
   }
 
   module('#submitOrganization', function() {
-
-    test('should call external action with good params', async function(assert) {
-      assert.expect(2);
-
-      // test double for the external action
-      this.set('externalAction', (organization, contact) => {
-        let expectedOrganization = {
-          name: 'ACME',
-          type: 'SCO' };
-        let expectedContact = {
-          firstName: 'Goku',
-          lastName: 'Black',
-          email: 'test@example.net',
-          password: 'password1234',
-        };
-        assert.deepEqual(organization, expectedOrganization, 'submitted value is passed to external action');
-        assert.deepEqual(contact, expectedContact, 'submitted value is passed to external action');
-        return resolve();
-      });
-
-      await render(hbs`{{organization-form onSubmitOrganization=(action externalAction)}}`);
-
-      // fill out the form and force an onchange
-      await fillInAllFormFields();
-
-      // click the button to submit the form
-      await click('.form-action--submit');
-    });
-
-    test('should reset form fields when organization creation succeeded', async function(assert) {
-      assert.expect(1);
-
-      // test double for the external action
-      this.set('externalAction', () => {
-        return resolve();
-      });
-
-      await render(hbs`{{organization-form onSubmitOrganization=(action externalAction)}}`);
-
-      // fill out the form and force an onchange
-      await fillInAllFormFields();
-
-      // click the button to submit the form
-      await click('.form-action--submit');
-
-      assert.dom('input').hasNoValue();
-    });
 
     test('should display successful notification when organization creation succeeded', async function(assert) {
       assert.expect(2);
 
       // test double for the external action
+      this.set('organization', EmberObject.create());
       this.set('externalAction', () => {
         return resolve();
       });
 
-      await render(hbs`{{organization-form onSubmitOrganization=(action externalAction)}}`);
+      await render(hbs`{{organization-form organization=organization onSubmitOrganization=(action externalAction)}}`);
 
       // fill out the form and force an onchange
       await fillInAllFormFields();
@@ -139,11 +89,12 @@ module('Integration | Component | organization-form', function(hooks) {
       assert.expect(2);
 
       // test double for the external action
+      this.set('organization', EmberObject.create());
       this.set('externalAction', () => {
         return reject();
       });
 
-      await render(hbs`{{organization-form onSubmitOrganization=(action externalAction)}}`);
+      await render(hbs`{{organization-form organization=organization onSubmitOrganization=(action externalAction)}}`);
 
       // fill out the form and force an onchange
       await fillInAllFormFields();
