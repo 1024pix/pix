@@ -21,85 +21,86 @@ describe('Acceptance | Campaigns | Resume Campaigns', function() {
 
   describe('Resume a campaigns course', function() {
 
-    beforeEach(async function() {
-      authenticateAsSimpleUser();
-      await visit('/campagnes/codecampagnepix');
-      await click('.campaign-landing-page__start-button');
-      await click('.challenge-actions__action-skip');
-    });
-
-    context('When user had started a campaign and he is not logged anymore', function() {
-
+    context('when campaign does not have external Id', function() {
       beforeEach(async function() {
-        invalidateSession(application);
-      });
-
-      it('should propose to reconnect', async function() {
-        // given
-        await visit('/campagnes/codecampagnepix');
+        authenticateAsSimpleUser();
+        await visit('/campagnes/AZERTY2');
         await click('.campaign-landing-page__start-button');
-
-        // then
-        return andThen(() => {
-          expect(currentURL()).to.contains('/connexion');
-        });
-      });
-
-      it('should connect and redirect in assessment when we enter URL', async function() {
-        // given
-        await visit('/campagnes/codecampagnepix');
-        await click('.campaign-landing-page__start-button');
-
-        fillIn('#pix-email', 'jane@acme.com');
-        fillIn('#pix-password', 'Jane1234');
-
-        // when
-        click('.signin-form__submit_button');
-
-        // then
-        return andThen(() => {
-          expect(currentURL()).to.contains('/assessments/');
-          expect(find('.progress-bar-info').text()).to.contains('2 / 5');
-        });
-      });
-
-    });
-
-    context('When user had started a campaign and she retry the starter URL', async function() {
-
-      it('should redirect directly in assessment when we enter URL', async function() {
-        // given
-        await visit('/compte');
-        await visit('/campagnes/codecampagnepix');
-
-        // then
-        return andThen(() => {
-          expect(currentURL()).to.contains('/assessments/');
-          expect(find('.progress-bar-info').text()).to.contains('2 / 5');
-        });
-      });
-    });
-
-    context('When user had finished the campaign', function() {
-      beforeEach(async function() {
-        await visit('/campagnes/codecampagnepix');
-        await click('.challenge-actions__action-skip');
-        await click('.challenge-item-warning__confirm-btn');
         await click('.challenge-actions__action-skip');
       });
 
-      it('should show the result page', async function() {
-        // given
-        await visit('/compte');
+      context('When user had started a campaign and he is not logged anymore', function() {
 
-        await visit('/campagnes/codecampagnepix');
+        beforeEach(async function() {
+          invalidateSession(application);
+        });
 
-        // then
-        return andThen(() => {
-          expect(currentURL()).to.contains('checkpoint');
+        it('should propose to reconnect', async function() {
+          // given
+          await visit('/campagnes/AZERTY2');
+          await click('.campaign-landing-page__start-button');
+
+          // then
+          return andThen(() => {
+            expect(currentURL()).to.contains('/connexion');
+          });
+        });
+
+        it('should connect and redirect in assessment when we enter URL', async function() {
+          // given
+          await visit('/campagnes/AZERTY2');
+          await click('.campaign-landing-page__start-button');
+
+          fillIn('#pix-email', 'jane@acme.com');
+          fillIn('#pix-password', 'Jane1234');
+
+          // when
+          click('.signin-form__submit_button');
+
+          // then
+          return andThen(() => {
+            expect(currentURL()).to.contains('/assessments/');
+            expect(find('.progress-bar-info').text()).to.contains('2 / 5');
+          });
+        });
+
+      });
+
+      context('When user had started a campaign and he enters campaign URL', async function() {
+
+        it('should redirect directly in assessment', async function() {
+          // given
+          await visit('/compte');
+          await visit('/campagnes/AZERTY2');
+
+          // then
+          return andThen(() => {
+            expect(currentURL()).to.contains('/assessments/');
+            expect(find('.progress-bar-info').text()).to.contains('2 / 5');
+          });
         });
       });
 
+      context('When user had finished the campaign', function() {
+        beforeEach(async function() {
+          await visit('/campagnes/AZERTY2');
+          await click('.challenge-actions__action-skip');
+          await click('.challenge-item-warning__confirm-btn');
+          await click('.challenge-actions__action-skip');
+        });
+
+        it('should show the result page', async function() {
+          // given
+          await visit('/compte');
+          await visit('/campagnes/AZERTY2');
+
+          // then
+          return andThen(() => {
+            expect(currentURL()).to.contains('resultats');
+          });
+        });
+
+      });
     });
   });
 });
