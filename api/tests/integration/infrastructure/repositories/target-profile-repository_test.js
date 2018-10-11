@@ -17,7 +17,7 @@ describe('Integration | Repository | Target-profile', () => {
 
       targetProfile = databaseBuilder.factory.buildTargetProfile({});
       targetProfileFirstSkill = databaseBuilder.factory.buildTargetProfilesSkills({ targetProfileId: targetProfile.id });
-
+      databaseBuilder.factory.buildTargetProfileShare({ targetProfileId: targetProfile.id, organizationId: 2 });
       await databaseBuilder.commit();
 
       skillAssociatedToTargetProfile = new SkillDataObject({ id: targetProfileFirstSkill.skillId, name: '@Acquis2' });
@@ -29,7 +29,7 @@ describe('Integration | Repository | Target-profile', () => {
       await databaseBuilder.clean();
     });
 
-    it('should return the target profile with its associated skills', () => {
+    it('should return the target profile with its associated skills and the list of organizations which could access it', () => {
       // when
       const promise = targetProfileRepository.get(targetProfile.id);
 
@@ -44,6 +44,10 @@ describe('Integration | Repository | Target-profile', () => {
         expect(foundTargetProfile.skills[0]).to.be.an.instanceOf(Skill);
         expect(foundTargetProfile.skills[0].id).to.equal(skillAssociatedToTargetProfile.id);
         expect(foundTargetProfile.skills[0].name).to.equal(skillAssociatedToTargetProfile.name);
+
+        expect(foundTargetProfile.sharedWithOrganizationIds).to.be.an('array');
+        expect(foundTargetProfile.sharedWithOrganizationIds.length).to.equal(1);
+        expect(foundTargetProfile.sharedWithOrganizationIds[0]).to.equal(2);
       });
     });
   });
@@ -146,7 +150,7 @@ describe('Integration | Repository | Target-profile', () => {
 
     it('should return an Array', () => {
       // when
-      const promise = targetProfileRepository.findTargetProfilesByOrganizationId(theRequestedOrganization.id);
+      const promise = targetProfileRepository.findTargetProfilesOwnedByOrganizationId(theRequestedOrganization.id);
 
       // then
       return promise.then((foundTargetProfiles) => {
@@ -156,7 +160,7 @@ describe('Integration | Repository | Target-profile', () => {
 
     it('should return target profiles linked to the organization', () => {
       // when
-      const promise = targetProfileRepository.findTargetProfilesByOrganizationId(theRequestedOrganization.id);
+      const promise = targetProfileRepository.findTargetProfilesOwnedByOrganizationId(theRequestedOrganization.id);
 
       // then
       return promise.then((foundTargetProfiles) => {
@@ -168,7 +172,7 @@ describe('Integration | Repository | Target-profile', () => {
 
     it('should contain skills linked to every target profiles', () => {
       // when
-      const promise = targetProfileRepository.findTargetProfilesByOrganizationId(theRequestedOrganization.id);
+      const promise = targetProfileRepository.findTargetProfilesOwnedByOrganizationId(theRequestedOrganization.id);
 
       // then
       return promise.then((targetProfiles) => {

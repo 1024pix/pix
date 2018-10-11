@@ -5,7 +5,7 @@ const BookshelfOrganization = require('../data/organization');
 module.exports = {
 
   create(domainOrganization) {
-    const organizationRawData = _.omit(domainOrganization, ['user']);
+    const organizationRawData = _.omit(domainOrganization, ['user', 'targetProfileShares']);
     return new BookshelfOrganization(organizationRawData)
       .save()
       .then((bookshelfOrganization) => bookshelfOrganization.toDomainEntity());
@@ -35,12 +35,13 @@ module.exports = {
   get(id) {
     return BookshelfOrganization
       .where({ id })
-      .fetch({ require: true })
+      .fetch({ require: true, withRelated: ['targetProfileShares', 'targetProfileShares.targetProfile']  })
       .then((organization) => organization.toDomainEntity())
       .catch((err) => {
         if (err instanceof BookshelfOrganization.NotFoundError) {
           throw new NotFoundError(`Not found organization for ID ${id}`);
         }
+        throw err;
       });
   },
 
