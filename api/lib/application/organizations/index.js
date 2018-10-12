@@ -33,6 +33,22 @@ exports.register = (server, options, next) => {
     },
     {
       method: 'GET',
+      path: '/api/organizations/{id}',
+      config: {
+        pre: [{
+          method: securityController.checkUserHasRolePixMaster,
+          assign: 'hasRolePixMaster'
+        }],
+        handler: organisationController.getOrganizationDetails,
+        tags: ['api'],
+        notes: [
+          '- **Cette route est restreinte aux utilisateurs authentifiés avec le rôle Pix Master**\n' +
+          '- Elle permet de récupérer toutes les informations d’une organisation',
+        ]
+      }
+    },
+    {
+      method: 'GET',
       path: '/api/organizations/{id}/snapshots',
       config: { handler: organisationController.getSharedProfiles, tags: ['api'] }
     },

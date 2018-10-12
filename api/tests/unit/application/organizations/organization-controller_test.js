@@ -24,6 +24,43 @@ describe('Unit | Application | Organizations | organization-controller', () => {
   let request;
   let replyStub;
 
+  describe('#getOrganizationDetails', () => {
+
+    beforeEach(() => {
+      sandbox = sinon.sandbox.create();
+      sandbox.stub(usecases, 'getOrganizationDetails');
+      sandbox.stub(organizationSerializer, 'serialize');
+    });
+
+    afterEach(() => {
+      sandbox.restore();
+    });
+
+    it('should return a JSON API Organization', () => {
+      // given
+      const organizationId = 1234;
+      request = { params: { id: organizationId } };
+      replyStub = () => {
+        return {
+          code() {
+          }
+        };
+      };
+      usecases.getOrganizationDetails.resolves();
+      organizationSerializer.serialize.returns();
+
+      // when
+      const promise = organizationController.getOrganizationDetails(request, replyStub);
+
+      // then
+      return promise.then(() => {
+        expect(usecases.getOrganizationDetails).to.have.been.calledOnce;
+        expect(usecases.getOrganizationDetails).to.have.been.calledWith({ organizationId });
+        expect(organizationSerializer.serialize).to.have.been.calledOnce;
+      });
+    });
+  });
+
   describe('#create', () => {
 
     beforeEach(() => {

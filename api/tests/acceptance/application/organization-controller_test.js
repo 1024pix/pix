@@ -1,5 +1,5 @@
 const jwt = require('jsonwebtoken');
-const { expect, knex, nock, generateValidRequestAuhorizationHeader, insertUserWithRolePixMaster, cleanupUsersAndPixRolesTables } = require('../../test-helper');
+const { expect, knex, nock, databaseBuilder, generateValidRequestAuhorizationHeader, insertUserWithRolePixMaster, cleanupUsersAndPixRolesTables } = require('../../test-helper');
 const server = require('../../../server');
 const settings = require('../../../lib/settings');
 const areaRawAirTableFixture = require('../../tooling/fixtures/infrastructure/areaRawAirTableFixture');
@@ -528,4 +528,89 @@ describe('Acceptance | Application | organization-controller', () => {
       });
     });
   });
+
+  describe('GET /api/organizations/{id}', () => {
+
+    let organization;
+    let options;
+
+    beforeEach(async () => {
+      const userPixMaster = databaseBuilder.factory.buildUser.withPixRolePixMaster();
+      organization = databaseBuilder.factory.buildOrganization();
+      await databaseBuilder.commit();
+
+      options = {
+        method: 'GET',
+        url: `/api/organizations/${organization.id}`,
+        headers: { authorization: generateValidRequestAuhorizationHeader(userPixMaster.id) },
+      };
+
+    });
+
+    afterEach(async () => {
+      await databaseBuilder.clean();
+    });
+
+    context('Expected output', () => {
+
+      it('should return the matching organization as JSON API', () => {
+        // given
+        const expectedResult = {
+          'data': {
+            'attributes': {
+              'code': organization.code,
+              'name': organization.name,
+              'type': organization.type
+            },
+            'id': organization.id,
+            'relationships': {
+              'user': {
+                'data': null
+              }
+            },
+            'type': 'organizations'
+          }
+        };
+
+        // when
+        const promise = server.inject(options);
+
+        // then
+        return promise.then((response) => {
+          expect(response.result).to.deep.equal(expectedResult);
+        });
+      });
+    });
+
+    context('Resource access management', () => {
+
+      it('should respond with a 401 - unauthorized access - if user is not authenticated', () => {
+        // given
+        options.headers.authorization = 'invalid.access.token';
+
+        // when
+        const promise = server.inject(options);
+
+        // then
+        return promise.then((response) => {
+          expect(response.statusCode).to.equal(401);
+        });
+      });
+
+      it('should respond with a 403 - forbidden access - if user has not role PIX_MASTER', () => {
+        // given
+        const nonPixMAsterUserId = 9999;
+        options.headers.authorization = generateValidRequestAuhorizationHeader(nonPixMAsterUserId);
+
+        // when
+        const promise = server.inject(options);
+
+        // then
+        return promise.then((response) => {
+          expect(response.statusCode).to.equal(403);
+        });
+      });
+    });
+  });
+
 });
