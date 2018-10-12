@@ -37,44 +37,33 @@ describe('Unit | Infrastructure | Datasource | Airtable | SkillDatasource', () =
     });
   });
 
-  describe('#getByRecordIds', function() {
+  describe('#findByRecordIds', () => {
 
-    it('should request skills from airtable API ', function() {
+    it('should return an array of airtable skill data objects -- PARTS II -- ', function() {
       // given
-      const requestedSkillRecordIds = ['recSkillRecordId1', 'recSkillRecordId2'];
-      sandbox.stub(airtable, 'findRecords').resolves([]);
+      const rawSkill1 = skillRawAirTableFixture();
+      rawSkill1.id = 'FAKE_REC_ID_RAW_SKILL_1' ;
+
+      const rawSkill2 = skillRawAirTableFixture();
+      rawSkill2.id = 'FAKE_REC_ID_RAW_SKILL_2' ;
+
+      const rawSkill3 = skillRawAirTableFixture();
+      rawSkill3.id = 'FAKE_REC_ID_RAW_SKILL_3' ;
+
+      sandbox.stub(airtable, 'findRecords').resolves([rawSkill1, rawSkill2, rawSkill3]);
 
       // when
-      const promise = skillDatasource.findByRecordIds(requestedSkillRecordIds);
-
-      // then
-      return promise.then(() => {
-        expect(airtable.findRecords).to.have.been.calledWith('Acquis', {
-          filterByFormula:
-            'OR(' +
-            'RECORD_ID()="recSkillRecordId1", ' +
-            'RECORD_ID()="recSkillRecordId2"' +
-            ')'
-        });
-      });
-
-    });
-
-    it('should return an array of airtable skill data objects', function() {
-      // given
-      const rawSkill = skillRawAirTableFixture();
-      sandbox.stub(airtable, 'findRecords').resolves([rawSkill]);
-
-      // when
-      const promise = skillDatasource.findByRecordIds([rawSkill.id]);
+      const promise = skillDatasource.findByRecordIds([rawSkill1.id, rawSkill2.id]);
 
       // then
       return promise.then((foundSkills) => {
         expect(foundSkills).to.be.an('array');
         expect(foundSkills[0]).to.be.an.instanceOf(Skill);
-        expect(_.map(foundSkills, 'id')).to.deep.equal([rawSkill.id]);
-      });
+        expect(foundSkills[1]).to.be.an.instanceOf(Skill);
+        expect(_.map(foundSkills, 'id')).to.deep.equal([rawSkill1.id, rawSkill2.id]);
+        expect(airtable.findRecords).to.have.been.calledWith('Acquis', {});
 
+      });
     });
   });
 
