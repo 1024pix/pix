@@ -2,7 +2,7 @@
 
 /* eslint max-statements: off */
 module.exports = function(environment) {
-  let ENV = {
+  const ENV = {
     modulePrefix: 'mon-pix',
     environment: environment,
     rootURL: '/',
