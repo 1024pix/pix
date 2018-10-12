@@ -1,8 +1,21 @@
 import AuthenticatedRouteMixin from 'ember-simple-auth/mixins/authenticated-route-mixin';
 import BaseRoute from 'mon-pix/routes/base-route';
 import RSVP from 'rsvp';
+import { isEmpty } from '@ember/utils';
 
 export default BaseRoute.extend(AuthenticatedRouteMixin, {
+
+  beforeModel(transition) {
+    const campaignCode = transition.params['campaigns.fill-in-id-pix'].campaign_code;
+    const store = this.get('store');
+    return store.query('assessment', { filter: { type: 'SMART_PLACEMENT', codeCampaign: campaignCode } })
+      .then((smartPlacementAssessments) => {
+        if (!isEmpty(smartPlacementAssessments)) {
+          return this.transitionTo('campaigns.start-or-resume', campaignCode);
+        }
+        return this._super(...arguments);
+      });
+  },
 
   model(params) {
     const campaignCode = params.campaign_code;

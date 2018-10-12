@@ -37,6 +37,50 @@ describe('Unit | Route | campaigns/fill-in-id-pix', function() {
     route = this.subject();
   });
 
+  describe('#beforeModel', function() {
+
+    let transition;
+
+    beforeEach(function() {
+      transition = {
+        params: {
+          'campaigns.fill-in-id-pix': {
+            campaign_code: campaignCode
+          }
+        }
+      };
+      route.transitionTo = sinon.stub();
+    });
+
+    it('should redirect to start-or-resume when there is already an assessement', function() {
+      // given
+      const assessments = A([savedAssessment]);
+      queryStub.resolves(assessments);
+
+      // when
+      const promise = route.beforeModel(transition);
+
+      // then
+      return promise.then(() => {
+        sinon.assert.calledWith(route.transitionTo, 'campaigns.start-or-resume', campaignCode);
+      });
+    });
+
+    it('should not redirect to start-or-resume when there is no assessement', function() {
+      // given
+      const assessments = A([]);
+      queryStub.resolves(assessments);
+
+      // when
+      const promise = route.beforeModel(transition);
+
+      // then
+      return promise.then(() => {
+        sinon.assert.notCalled(route.transitionTo);
+      });
+    });
+  });
+
   describe('#model', function() {
 
     beforeEach(function() {
