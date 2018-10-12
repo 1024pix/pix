@@ -23,7 +23,7 @@ module.exports = (function() {
     },
 
     logging: {
-      enabled: (process.env.LOG_ENABLED || process.env.NODE_ENV != 'test'),
+      enabled: (process.env.LOG_ENABLED == 'true' || process.env.NODE_ENV != 'test'),
       colorEnabled: ('development' === process.env.NODE_ENV),
       logLevel: (process.env.LOG_LEVEL || 'info'),
     },
@@ -64,8 +64,6 @@ module.exports = (function() {
       apiKey: 'test-api-key',
       base: 'test-base'
     };
-
-    config.logging.enabled = false;
 
     config.mailjet = {
       apiKey: 'test-api-ket',
