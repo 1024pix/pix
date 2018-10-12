@@ -2,7 +2,7 @@ import Component from '@ember/component';
 import isPasswordValid from '../utils/password-validator';
 
 const ERROR_PASSWORD_MESSAGE = 'Votre mot de passe doit comporter au moins une lettre, un chiffre et 8 caractères.';
-const PASSWORD_SUCCESS_MESSAGE = 'Votre mot de passe a été bien mis à jour';
+const PASSWORD_SUCCESS_MESSAGE = 'Votre mot de passe a bien été mis à jour';
 const VALIDATION_MAP = {
   default: {
     status: 'default', message: null
