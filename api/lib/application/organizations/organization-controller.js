@@ -23,6 +23,15 @@ const EXPORT_CSV_FILE_NAME = 'Pix - Export donnees partagees.csv';
 
 module.exports = {
 
+  getOrganizationDetails: (request, reply) => {
+
+    const organizationId = request.params.id;
+
+    return usecases.getOrganizationDetails({ organizationId })
+      .then(organizationSerializer.serialize)
+      .then(controllerReplies(reply).ok);
+  },
+
   create: (request, reply) => {
 
     const { name, type } = request.payload.data.attributes;
