@@ -22,11 +22,21 @@ describe('Acceptance | Campaigns | Start Campaigns', function() {
 
     context('When user is not logged in', function() {
 
-      beforeEach(async function() {
+      it('should redirect to landing page when user has not started his assessment yet', async function() {
+        // when
         await visit('/campagnes/AZERTY1');
+
+        // then
+        return andThen(() => {
+          expect(currentURL()).to.equal('/campagnes/AZERTY1/presentation');
+        });
       });
 
-      it('should redirect to login page when user start', async function() {
+      it('should redirect to login page once user has seen landing page', async function() {
+        // given
+        await visit('/campagnes/AZERTY1');
+
+        //when
         await click('.campaign-landing-page__start-button');
 
         // then
@@ -35,17 +45,17 @@ describe('Acceptance | Campaigns | Start Campaigns', function() {
         });
       });
 
-      context('When campaign have external identifiant', function() {
+      context('When campaign have external id', function() {
 
-        it('should redirect to fill-in-id-pix page after connexion', async function() {
+        beforeEach(async function() {
+          await visit('/campagnes/AZERTY1');
           await click('.campaign-landing-page__start-button');
-
-          // when
-          expect(currentURL()).to.equal('/connexion');
           fillIn('#pix-email', 'jane@acme.com');
           fillIn('#pix-password', 'Jane1234');
           await click('.signin-form__submit_button');
+        });
 
+        it('should redirect to fill-in-id-pix page after connexion', async function() {
           // then
           return andThen(() => {
             expect(currentURL()).to.contains('/campagnes/AZERTY1/identifiant');
@@ -53,20 +63,30 @@ describe('Acceptance | Campaigns | Start Campaigns', function() {
         });
 
         it('should redirect to assessment after completion of external id', async function() {
-          await click('.campaign-landing-page__start-button');
-
           // when
-          expect(currentURL()).to.equal('/connexion');
-          fillIn('#pix-email', 'jane@acme.com');
-          fillIn('#pix-password', 'Jane1234');
-          await click('.signin-form__submit_button');
-
           fillIn('#id-pix-label', 'monmail@truc.fr');
           await click('.pix-button');
 
           // then
           return andThen(() => {
-            expect(currentURL()).to.contains('/assessment');
+            expect(currentURL()).to.contains(/assessments/);
+          });
+        });
+      });
+
+      context('When campaign does not have external id', function() {
+        beforeEach(async function() {
+          await visit('/campagnes/AZERTY2');
+          await click('.campaign-landing-page__start-button');
+          fillIn('#pix-email', 'jane@acme.com');
+          fillIn('#pix-password', 'Jane1234');
+          await click('.signin-form__submit_button');
+        });
+
+        it('should redirect to assessment after connexion', async function() {
+          // then
+          return andThen(() => {
+            expect(currentURL()).to.contains(/assessments/);
           });
         });
       });
@@ -79,8 +99,8 @@ describe('Acceptance | Campaigns | Start Campaigns', function() {
         authenticateAsSimpleUser();
       });
 
-      it('should redirect directly in campaigns', async function() {
-        // then
+      it('should redirect to landing page', async function() {
+        // when
         await visit('/campagnes/AZERTY1');
 
         // then
@@ -90,13 +110,13 @@ describe('Acceptance | Campaigns | Start Campaigns', function() {
         });
       });
 
-      context('When campaign have external identifiant', function() {
+      context('When campaign have external id', function() {
 
         beforeEach(async function() {
           await visit('/campagnes/AZERTY1');
         });
 
-        it('should show the fill-in-id-pix page after clicking "I start" button', async function() {
+        it('should show the fill-in-id-pix page after clicking on start button in landing page', async function() {
           // when
           await click('.campaign-landing-page__start-button');
 
@@ -106,7 +126,7 @@ describe('Acceptance | Campaigns | Start Campaigns', function() {
           });
         });
 
-        it('should go to the assessment when the user complete his identifiant', async function() {
+        it('should go to the assessment when the user fill in his id', async function() {
           // when
           await click('.campaign-landing-page__start-button');
 
@@ -123,19 +143,19 @@ describe('Acceptance | Campaigns | Start Campaigns', function() {
         });
       });
 
-      context('When campaign does not have external identifiant', function() {
+      context('When campaign does not have external id', function() {
 
         beforeEach(async function() {
           await visit('/campagnes/AZERTY2');
         });
 
-        it('should redirect to assessment after clicking to start button', async function() {
+        it('should redirect to assessment after clicking on start button in landing page', async function() {
           // when
           await click('.campaign-landing-page__start-button');
 
           // then
           return andThen(() => {
-            expect(currentURL()).to.contains('/assessment');
+            expect(currentURL()).to.contains(/assessments/);
           });
         });
       });
