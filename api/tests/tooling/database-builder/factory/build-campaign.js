@@ -7,8 +7,9 @@ const databaseBuffer = require('../database-buffer');
 module.exports = function buildCampaign({
   id = faker.random.number(),
   name = faker.company.companyName(),
-  idPixLabel = faker.random.word(),
   code = faker.random.alphaNumeric(9),
+  title = faker.random.word(),
+  idPixLabel = faker.random.word(),
   createdAt = faker.date.recent(),
   organizationId = buildOrganization().id,
   creatorId = buildUser().id,
@@ -19,6 +20,7 @@ module.exports = function buildCampaign({
     id,
     name,
     code,
+    title,
     createdAt,
     idPixLabel,
     organizationId,

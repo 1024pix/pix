@@ -12,6 +12,7 @@ module.exports = [
     id: 2,
     name: 'Campagne 2',
     code: 'AZERTY456',
+    title: 'Parcours recherche avancée',
     organizationId: 1,
     creatorId: 2,
     targetProfileId: 1,

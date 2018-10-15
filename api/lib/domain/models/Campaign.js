@@ -5,6 +5,7 @@ class Campaign {
     // attributes
     name,
     code,
+    title,
     idPixLabel,
     createdAt,
     // includes
@@ -17,6 +18,7 @@ class Campaign {
     // attributes
     this.name = name;
     this.code = code;
+    this.title = title;
     this.idPixLabel = idPixLabel;
     this.createdAt = createdAt;
     // includes
