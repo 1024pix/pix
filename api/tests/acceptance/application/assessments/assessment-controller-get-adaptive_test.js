@@ -1,4 +1,5 @@
 const { expect, knex, nock } = require('../../../test-helper');
+const areaRawAirTableFixture = require('../../../tooling/fixtures/infrastructure/areaRawAirTableFixture');
 const cache = require('../../../../lib/infrastructure/caches/cache');
 const server = require('../../../../server');
 
@@ -24,6 +25,13 @@ describe('Acceptance | API | assessment-controller-get-adaptive', () => {
           ],
         },
       });
+
+    nock('https://api.airtable.com')
+      .get('/v0/test-base/Domaines')
+      .query(true)
+      .reply(200, [
+        areaRawAirTableFixture()
+      ]);
 
     nock('https://api.airtable.com')
       .get('/v0/test-base/Competences/competence_id')

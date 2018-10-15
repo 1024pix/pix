@@ -2,14 +2,18 @@ const { expect, sinon } = require('../../../test-helper');
 const AirtableRecord = require('airtable').Record;
 const airtable = require('../../../../lib/infrastructure/airtable');
 const Area = require('../../../../lib/domain/models/Area');
+const AreaData = require('../../../../lib/infrastructure/datasources/airtable/objects/area');
+const areaDatasource = require('../../../../lib/infrastructure/datasources/airtable/area-datasource');
 const Competence = require('../../../../lib/domain/models/Competence');
+const CompetenceData = require('../../../../lib/infrastructure/datasources/airtable/objects/competence');
+const competenceDatasource = require('../../../../lib/infrastructure/datasources/airtable/competence-datasource');
 const competenceRepository = require('../../../../lib/infrastructure/repositories/competence-repository');
 
 describe('Unit | Repository | competence-repository', () => {
 
   const sandbox = sinon.sandbox.create();
 
-  const competence1 = new AirtableRecord('Competences', 'recCompetence1', {
+  const rawCompetence1 = new AirtableRecord('Competences', 'recCompetence1', {
     fields: {
       'Titre': 'Mener une recherche d’information',
       'Sous-domaine': '1.1',
@@ -21,7 +25,7 @@ describe('Unit | Repository | competence-repository', () => {
     }
   });
 
-  const competence2 = new AirtableRecord('Competences', 'recCompetence2', {
+  const rawCompetence2 = new AirtableRecord('Competences', 'recCompetence2', {
     fields: {
       'Titre': 'Gérer des données',
       'Sous-domaine': '1.2',
@@ -40,7 +44,7 @@ describe('Unit | Repository | competence-repository', () => {
   describe('#list', () => {
 
     beforeEach(() => {
-      sandbox.stub(airtable, 'findRecords').resolves([competence1, competence2]);
+      sandbox.stub(airtable, 'findRecords').resolves([rawCompetence1, rawCompetence2]);
     });
 
     it('should fetch all competence records from Airtable "Competences" table', () => {
@@ -66,35 +70,51 @@ describe('Unit | Repository | competence-repository', () => {
   });
 
   describe('#get', () => {
-
-    beforeEach(() => {
-      sandbox.stub(airtable, 'getRecord').resolves(competence1);
+    let competenceData1 = new CompetenceData({
+      id: 'recCompetence1',
+      name: 'Mener une recherche d’information',
+      index: '1.1',
+      courseId: 'recCourse',
+      skillIds: ['recSkill1', 'recSkill2'],
+      areaId: 'recArea',
     });
 
-    it('should fetch all competence records from Airtable "Competences" table', () => {
+    beforeEach(() => {
       // given
-      const recordId = 'recCompetence1';
+      sandbox.stub(competenceDatasource, 'get')
+        .withArgs('recCompetence1')
+        .resolves(competenceData1);
 
-      // when
-      const fetchedCompetence = competenceRepository.get(recordId);
-
-      // then
-      return fetchedCompetence.then(() => {
-        expect(airtable.getRecord).to.have.been.calledWith('Competences', recordId);
-      });
+      sandbox.stub(areaDatasource, 'list')
+        .resolves([
+          new AreaData({
+            id: 'recArea',
+            code: '1',
+            title: 'Information et données',
+          })
+        ]);
     });
 
     it('should return a domain Competence object', () => {
-      // given
-      const recordId = 'recCompetence1';
-
       // when
-      const fetchedCompetence = competenceRepository.get(recordId);
+      const fetchedCompetence = competenceRepository.get('recCompetence1');
 
       // then
+      const expectedCompetence = new Competence({
+        id: 'recCompetence1',
+        index: '1.1',
+        name: 'Mener une recherche d’information',
+        courseId: 'recCourse',
+        skills: ['recSkill1', 'recSkill2'],
+        area: new Area({
+          id: 'recArea',
+          code: '1',
+          title: 'Information et données',
+        })
+      });
       return fetchedCompetence.then((competence) => {
-        expect(competence).to.exist;
         expect(competence).to.be.an.instanceOf(Competence);
+        expect(competence).to.deep.equal(expectedCompetence);
       });
     });
   });
@@ -102,7 +122,7 @@ describe('Unit | Repository | competence-repository', () => {
   describe('#find', () => {
 
     beforeEach(() => {
-      sandbox.stub(airtable, 'findRecords').resolves([competence1, competence2]);
+      sandbox.stub(airtable, 'findRecords').resolves([rawCompetence1, rawCompetence2]);
     });
 
     it('should fetch all competence records from Airtable "Competences" table sorted by index', () => {
@@ -130,11 +150,11 @@ describe('Unit | Repository | competence-repository', () => {
     });
   });
 
-  describe('#_toDomain', () => {
+  describe('#_rawToDomain', () => {
 
     it('should match Competence domain object content', () => {
       // given
-      sandbox.stub(airtable, 'findRecords').resolves([competence1]);
+      sandbox.stub(airtable, 'findRecords').resolves([rawCompetence1]);
 
       const expectedArea = new Area({
         id: 'recArea',

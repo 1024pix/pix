@@ -90,6 +90,11 @@ describe('Acceptance | API | assessment-controller-get', () => {
       .activate();
 
     airtableBuilder
+      .mockList({ tableName: 'Domaines' })
+      .returns([airtableBuilder.factory.buildArea()])
+      .activate();
+
+    airtableBuilder
       .mockGet({ tableName: 'Competences' })
       .returns(competence)
       .activate();
