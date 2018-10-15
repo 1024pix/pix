@@ -11,7 +11,6 @@ module.exports = function addDragonAndCoWithrelated({ databaseBuilder }) {
 
   const dragonAndCoCompany = databaseBuilder.factory.buildOrganization({
     id: 1,
-    email: 'pro@example.net',
     type: 'PRO',
     name: 'Dragon & Co',
     userId: proUserDaenerys.id,
@@ -75,7 +74,6 @@ module.exports = function addDragonAndCoWithrelated({ databaseBuilder }) {
 
   const dragonAndCoSubsidiary = databaseBuilder.factory.buildOrganization({
     id: 4,
-    email: 'prosub@example.net',
     type: 'PRO',
     name: 'Dragon subsidiary',
     userId: proUserSub.id,
@@ -100,7 +98,6 @@ module.exports = function addDragonAndCoWithrelated({ databaseBuilder }) {
 
   const dragonAndCoSubsidiary2 = databaseBuilder.factory.buildOrganization({
     id: 5,
-    email: 'prosub2@example.net',
     type: 'PRO',
     name: 'Dragon subsidiary 2',
     userId: proUserSub2.id,
