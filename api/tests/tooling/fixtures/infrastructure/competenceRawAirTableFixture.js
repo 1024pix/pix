@@ -21,7 +21,7 @@ module.exports = function competenceRawAirTableFixture() {
       'Tests': [
         'recNPB7dTNt5krlMA',
       ],
-      'Acquis (identifiants)': [
+      'Acquis (via Tubes)': [
         'recV11ibSCXvaUzZd',
         'recD01ptfJy7c4Sex',
         'recfO8994EvSQV9Ip',
@@ -33,9 +33,6 @@ module.exports = function competenceRawAirTableFixture() {
         'rec50NXHkatsRkjVQ',
       ],
       'Référence': '1.1 Mener une recherche et une veille d’information',
-      'Tests Record ID': [
-        'recNPB7dTNt5krlMA',
-      ],
       'Acquis': [
         '@url2',
         '@url5',

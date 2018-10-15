@@ -20,18 +20,18 @@ describe('Unit | Infrastructure | Datasource | Airtable | CompetenceDatasource',
 
     it('should call airtable on Competences table with the id and return a Competence data object', () => {
       // given
-      sandbox.stub(airtable, 'getRecord').resolves(competenceRawAirTableFixture());
+      sandbox.stub(airtable, 'getRecord')
+        .withArgs('Competences', 'recsvLz0W2ShyfD63')
+        .resolves(competenceRawAirTableFixture());
 
       // when
-      const promise = competenceDatasource.get('243');
+      const promise = competenceDatasource.get('recsvLz0W2ShyfD63');
 
       // then
       return promise.then((competence) => {
-        expect(airtable.getRecord).to.have.been.calledWith('Competences', '243');
-
         expect(competence).to.be.an.instanceof(airTableDataModels.Competence);
         expect(competence.id).to.equal('recsvLz0W2ShyfD63');
-        expect(competence.title).to.equal('Mener une recherche et une veille d’information');
+        expect(competence.name).to.equal('Mener une recherche et une veille d’information');
       });
     });
   });
