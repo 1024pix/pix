@@ -50,12 +50,14 @@ module('Acceptance | Campaign Creation', function(hooks) {
       await fillIn('#campaign-name', 'Ma Campagne');
       await click('#askLabelIdPix');
       await fillIn('#id-pix-label', 'Mail Pro');
+      await fillIn('#campaign-title', 'Savoir rechercher');
 
       // when
       await click('.campaign-creation-form__validation-button');
 
       // then
       assert.equal(server.db.campaigns[0].name, 'Ma Campagne');
+      assert.equal(server.db.campaigns[0].title, 'Savoir rechercher');
       assert.equal(server.db.campaigns[0].targetProfileId, expectedTargetProfileId);
       assert.equal(currentURL(), '/campagnes/liste');
     });
