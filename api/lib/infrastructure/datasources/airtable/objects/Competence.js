@@ -1,29 +1,29 @@
 class Competence {
   constructor({
     id,
-    competenceCode,
-    title,
-    areaIds = [],
-    courseIds = [],
+    name,
+    index,
+    courseId,
     skillIds = [],
+    areaId
   } = {}) {
     this.id = id;
-    this.competenceCode = competenceCode;
-    this.title = title;
-    this.areaIds = areaIds;
-    this.courseIds = courseIds;
+    this.name = name;
+    this.index = index;
+    this.courseId = courseId;
     this.skillIds = skillIds;
+    this.areaId = areaId;
   }
 
-  static fromAirTableObject(airtableCompetenceObject) {
+  static fromAirTableObject(rawAirtableCompetence) {
 
     return new Competence({
-      id: airtableCompetenceObject.getId(),
-      competenceCode: airtableCompetenceObject.get('Sous-domaine'),
-      title: airtableCompetenceObject.get('Titre'),
-      areaIds: airtableCompetenceObject.get('Domaine'),
-      courseIds: airtableCompetenceObject.get('Epreuves'),
-      skillIds: airtableCompetenceObject.get('Acquis (identifiants)'),
+      id: rawAirtableCompetence.getId(),
+      name: rawAirtableCompetence.get('Titre'),
+      index: rawAirtableCompetence.get('Sous-domaine'),
+      areaId: rawAirtableCompetence.get('Domaine') ? rawAirtableCompetence.get('Domaine')[0] : '',
+      courseId: rawAirtableCompetence.get('Tests') ? rawAirtableCompetence.get('Tests')[0] : '',
+      skillIds: rawAirtableCompetence.get('Acquis (via Tubes)'),
     });
   }
 }
