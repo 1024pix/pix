@@ -5,18 +5,21 @@ const Area = require('../../domain/models/Area');
 
 const AIRTABLE_TABLE_NAME = 'Competences';
 
+// TODO: change this repository to use a datasource instead of airtable directly
+
 // TODO : change to get skills as skill objects
-function _toDomain(airtableCompetence) {
+function _toDomain(rawAirtableCompetence) {
   return new Competence({
-    id: airtableCompetence.getId(),
-    name: airtableCompetence.get('Titre'),
-    index: airtableCompetence.get('Sous-domaine'),
-    courseId: airtableCompetence.get('Tests Record ID') ? airtableCompetence.get('Tests Record ID')[0] : '',
-    skills: airtableCompetence.get('Acquis (via Tubes)'),
+    id: rawAirtableCompetence.getId(),
+    name: rawAirtableCompetence.get('Titre'),
+    index: rawAirtableCompetence.get('Sous-domaine'),
+    courseId: rawAirtableCompetence.get('Tests Record ID') ? rawAirtableCompetence.get('Tests Record ID')[0] : '',
+    skills: rawAirtableCompetence.get('Acquis (via Tubes)'),
+    // TODO: stop relying on Airtable lookup fields to get Area data
     area: new Area({
-      id: _.first(airtableCompetence.get('Domaine')),
-      code: _.first(airtableCompetence.get('Domaine Code')),
-      title: _.first(airtableCompetence.get('Domaine Titre'))
+      id: _.first(rawAirtableCompetence.get('Domaine')),
+      code: _.first(rawAirtableCompetence.get('Domaine Code')),
+      title: _.first(rawAirtableCompetence.get('Domaine Titre'))
     })
   });
 }
@@ -28,7 +31,7 @@ module.exports = {
    */
   list() {
     return airtable.findRecords(AIRTABLE_TABLE_NAME, {})
-      .then((competences) => competences.map(_toDomain));
+      .then((rawCompetences) => rawCompetences.map(_toDomain));
   },
 
   get(recordId) {
@@ -41,6 +44,6 @@ module.exports = {
       sort: [{ field: 'Sous-domaine', direction: 'asc' }]
     };
     return airtable.findRecords(AIRTABLE_TABLE_NAME, query)
-      .then((competences) => competences.map(_toDomain));
+      .then((rawCompetences) => rawCompetences.map(_toDomain));
   }
 };
