@@ -6,16 +6,16 @@
 
     {{#section.subsection name='Boutons'}}
       {{#freestyle-usage "Boutons" title="Lien"}}
-        {{blue-link title='Je commence'}}
+        {{blue-link href='guide-de-style' title='Je commence'}}
       {{/freestyle-usage}}
-
-      {{#freestyle-usage "Ember button" title="Lien"}}
-        {{campaign-item}}
-      {{/freestyle-usage}}
-
     {{/section.subsection}}
 
     {{#section.subsection name='Panneaux'}}
+      {{#freestyle-usage "Ember button" title="Lien"}}
+        {{campaign-item campaign=campaignTest}}
+      {{/freestyle-usage}}
+
+
     {{/section.subsection}}
 
     {{#section.subsection name='Formulaire'}}
@@ -38,12 +38,20 @@
     {{/section.subsection}}
 
     {{#section.subsection name='Couleur'}}
-
-        {{freestyle-palette
+      {{freestyle-palette
         colorPalette=colorPalette
-        title='Palette'
-        }}
+        title='Palette de couleur'
+      }}
 
+      {{freestyle-palette
+        colorPalette=textColorPalette
+        title='Palette de couleur pour le texte'
+      }}
+
+      {{freestyle-palette
+        colorPalette=gradientPalette
+        title='Gradiant de couleur'
+      }}
     {{/section.subsection}}
 
   {{/freestyle-section}}
