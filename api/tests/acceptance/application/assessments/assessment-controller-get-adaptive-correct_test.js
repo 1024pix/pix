@@ -91,6 +91,10 @@ describe('Acceptance | API | assessment-controller-get-adaptive-correct', () => 
       .returns(adaptiveCourse)
       .activate();
 
+    airtableBuilder.mockList({ tableName: 'Domaines' })
+      .returns([airtableBuilder.factory.buildArea()])
+      .activate();
+
     airtableBuilder.mockGet({ tableName: 'Competences' })
       .returns(competence)
       .activate();
