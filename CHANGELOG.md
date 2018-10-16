@@ -1,5 +1,16 @@
 # Pix Changelog
 
+## 2.5.0 (16/10/2018) 
+
+- [#226](https://github.com/1024pix/pix/pull/226) [FEATURE] Suppression temporaire des colonnes non renseignées et correction de valeurs inversées par rapport aux colonnes dans le CSV téléchargeable (PO-162).
+- [#230](https://github.com/1024pix/pix/pull/230) [FEATURE] Modifier le texte de mise à jour de mot de passe (PF-428).
+- [#232](https://github.com/1024pix/pix/pull/232) [FEATURE] Ajout d'un fichier de validation pour l'indexation par Google Search Console (PF-412).
+- [#233](https://github.com/1024pix/pix/pull/233) [FEATURE] Micro améliorations UI (PF-257 & PF-286).
+- [#218](https://github.com/1024pix/pix/pull/218) [FEATURE] Pouvoir partager un profil cible avec d'autres organisations (PO-161).
+- [#229](https://github.com/1024pix/pix/pull/229) [BUGFIX] Quick hotfix, ne pas rediriger vers la page résultats en cas d'erreur d'api (PF-427).
+- [#227](https://github.com/1024pix/pix/pull/227) [BUGFIX] Réparation de la ressource POST /api/organizations (PA-49).
+- [#219](https://github.com/1024pix/pix/pull/219) [TECH] Création d'une participation à une campagne plutôt qu'un assessment (PF-407).
+
 ## 2.4.0 (09/10/2018) 
 
 - [#222](https://github.com/1024pix/pix/pull/222) [TECH] Amélioration du modèle de données (PF-339).
