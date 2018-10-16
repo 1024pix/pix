@@ -113,15 +113,6 @@ describe('Acceptance | API | assessment-controller-get-adaptive', () => {
         },
       });
 
-    nock('https://api.airtable.com')
-      .get('/v0/test-base/Acquis')
-      .query({
-        filterByFormula: 'FIND(\'1.1\', {Compétence})',
-      })
-      .reply(200, {
-        'id': 'idAcquix',
-      });
-
     // Our Epreuves have no Acquix (skillIds) so no need to return anything here
     nock('https://api.airtable.com')
       .get('/v0/test-base/Acquis')

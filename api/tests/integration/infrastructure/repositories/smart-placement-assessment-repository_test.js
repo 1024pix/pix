@@ -71,23 +71,6 @@ describe('Integration | Repository | SmartPlacementAssessmentRepository', () => 
         targetProfile,
       });
 
-      // XXX: escape is necessary for nock to properly match the query
-      const uri = ('OR(' +
-                   `RECORD_ID()=\"${firstSkill.id}\", ` +
-                   `RECORD_ID()=\"${secondSkill.id}\", ` +
-                   `RECORD_ID()=\"${thirdSkill.id}\"` +
-                   ')');
-
-      airtableBuilder
-        .mockList({ tableName: 'Acquis' })
-        .respondsToQuery({ filterByFormula: uri })
-        .returns([
-          airtableBuilder.factory.buildSkill({ id: firstSkill.id, nom: firstSkill.name }),
-          airtableBuilder.factory.buildSkill({ id: secondSkill.id, nom: secondSkill.name }),
-          airtableBuilder.factory.buildSkill({ id: thirdSkill.id, nom: thirdSkill.name }),
-        ])
-        .activate();
-
       databaseBuilder.factory.buildUser({ id: assessment.userId });
 
       databaseBuilder.factory.buildAssessment({

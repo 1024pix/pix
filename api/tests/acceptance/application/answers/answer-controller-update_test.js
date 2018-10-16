@@ -32,7 +32,8 @@ describe('Acceptance | Controller | answer-controller', () => {
 
     before(() => {
       nock('https://api.airtable.com')
-        .get(`/v0/test-base/Epreuves/${insertedAnswer.challengeId}?`)
+        .get(`/v0/test-base/Epreuves/${insertedAnswer.challengeId}`)
+        .query(true)
         .times(5)
         .reply(200, {
           'id': 'recLt9uwa2dR3IYpi',
