@@ -6,6 +6,24 @@ const preloader = require('../../../../lib/infrastructure/caches/preloader');
 
 describe('Unit | Infrastructure | preloader', () => {
 
+  const airtableSkill_1 = new AirtableRecord('Acquis', 'recSkill1', { fields: { 'Nom': '@skill1' } });
+  const airtableSkill_2 = new AirtableRecord('Acquis', 'recSkill2', { fields: { 'Nom': '@skill2' } });
+
+  const airtableArea_1 = new AirtableRecord('Domaines', 'recArea1', {
+    fields: {
+      'Nom': '1. Information et données',
+      'Code': '1',
+      'Titre': 'Information et données'
+    }
+  });
+  const airtableArea_2 = new AirtableRecord('Domaines', 'recArea2', {
+    fields: {
+      'Nom': '2. Communication et collaboration',
+      'Code': '2',
+      'Titre': 'Communication et collaboration'
+    }
+  });
+
   const airtableCompetence_1 = new AirtableRecord('Competences', 'recCompetence1', {
     fields: {
       'Titre': 'Mener une recherche d’information',
@@ -29,6 +47,62 @@ describe('Unit | Infrastructure | preloader', () => {
     }
   });
 
+  const airtableProgressionCourse = new AirtableRecord('Tests', 'recProgressionCourse', {
+    fields: {
+      'Nom': 'Test de positionnement 1.1',
+      'Description': 'A single line of text.',
+      'Adaptatif ?': true,
+      'Competence': ['recCompetence1'],
+      'Image': ['https://dl.airtable.com/foo.jpg'],
+      'Épreuves': ['recChallenge1']
+    }
+  });
+  const airtableAdaptiveCourse = new AirtableRecord('Tests', 'recAdaptiveCourse', {
+    fields: {
+      'Nom': 'Gérer des données 1.2',
+      'Description': 'A single line of text.',
+      'Adaptatif ?': false,
+      'Competence': ['recCompetence2'],
+      'Image': ['https://dl.airtable.com/foo.jpg'],
+      'Épreuves': ['recChallenge2']
+    }
+  });
+  const airtableWeekCourse = new AirtableRecord('Tests', 'recWeekCourse', {
+    fields: {
+      'Nom': 'Création de contenu 1.3',
+      'Description': 'A single line of text.',
+      'Adaptatif ?': false,
+      'Competence': ['recCompetence3'],
+      'Image': ['https://dl.airtable.com/foo.jpg'],
+      'Épreuves': ['recChallenge3']
+    }
+  });
+
+  const airtableChallenge_1 = new AirtableRecord('Epreuves', 'recChallenge1', {
+    fields: {
+      'Consigne': 'Instruction #1',
+      'Propositions': 'Proposal #1',
+      'Statut': 'validé'
+    }
+  });
+  const airtableChallenge_2 = new AirtableRecord('Epreuves', 'recChallenge2', {
+    fields: {
+      'Consigne': 'Instruction #2',
+      'Propositions': 'Proposal #2',
+      'Statut': 'pré-validé'
+    }
+  });
+
+  const airtableTutorial = new AirtableRecord('Tutoriels', 'recTutorial', {
+    fields: {
+      'Titre': 'Les formats de cellule',
+      'Format': 'page',
+      'Durée': '00:02:00',
+      'Source': '2i2l',
+      'Lien': 'http://www.2i2l.fr/spip.php?article137',
+    }
+  });
+
   beforeEach(() => {
     sinon.stub(airtable, 'findRecords');
     sinon.stub(cache, 'set').resolves();
@@ -39,81 +113,66 @@ describe('Unit | Infrastructure | preloader', () => {
     cache.set.restore();
   });
 
-  describe('#loadAreas', () => {
-    it('should fetch all areas and cache them individually', () => {
+  describe('#loadAllTables', () => {
+    let promise = null;
+
+    beforeEach(() => {
       // given
-      const airtableArea_1 = new AirtableRecord('Domaines', 'recArea1', {
-        fields: {
-          'Nom': '1. Information et données',
-          'Code': '1',
-          'Titre': 'Information et données'
-        }
-      });
-      const airtableArea_2 = new AirtableRecord('Domaines', 'recArea2', {
-        fields: {
-          'Nom': '2. Communication et collaboration',
-          'Code': '2',
-          'Titre': 'Communication et collaboration'
-        }
-      });
+      airtable.findRecords
+        .withArgs('Acquis')
+        .resolves([ airtableSkill_1, airtableSkill_2 ]);
 
-      airtable.findRecords.resolves([ airtableArea_1, airtableArea_2 ]);
+      airtable.findRecords
+        .withArgs('Domaines')
+        .resolves([ airtableArea_1, airtableArea_2 ]);
 
-      // when
-      const promise = preloader.loadAreas();
+      airtable.findRecords
+        .withArgs('Epreuves')
+        .resolves([ airtableChallenge_1, airtableChallenge_2 ]);
 
+      airtable.findRecords
+        .withArgs('Competences')
+        .resolves([ airtableCompetence_1, airtableCompetence_2 ]);
+
+      airtable.findRecords
+        .withArgs('Tests')
+        .resolves([ airtableProgressionCourse, airtableAdaptiveCourse, airtableWeekCourse ]);
+
+      airtable.findRecords
+        .withArgs('Tutoriels')
+        .resolves([ airtableTutorial ]);
+
+      promise = preloader.loadAllTables();
+    });
+
+    it('should fetch skills and cache them individually', () => {
       // then
       return expect(promise).to.have.been.fulfilled
         .then(() => {
-          expect(airtable.findRecords).to.have.been.calledWith('Domaines');
+          expect(cache.set).to.have.been.calledWith('Acquis_recSkill1', airtableSkill_1._rawJson);
+          expect(cache.set).to.have.been.calledWith('Acquis_recSkill2', airtableSkill_2._rawJson);
+        });
+    });
+
+    it('should fetch all areas and cache them individually', () => {
+      // then
+      return expect(promise).to.have.been.fulfilled
+        .then(() => {
           expect(cache.set).to.have.been.calledWith('Domaines_recArea1', airtableArea_1._rawJson);
           expect(cache.set).to.have.been.calledWith('Domaines_recArea2', airtableArea_2._rawJson);
         });
     });
-  });
 
-  describe('#loadChallenges', () => {
     it('should fetch all challenges and cache them individually', () => {
-      // given
-      const airtableChallenge_1 = new AirtableRecord('Epreuves', 'recChallenge1', {
-        fields: {
-          'Consigne': 'Instruction #1',
-          'Propositions': 'Proposal #1',
-          'Statut': 'validé'
-        }
-      });
-      const airtableChallenge_2 = new AirtableRecord('Epreuves', 'recChallenge2', {
-        fields: {
-          'Consigne': 'Instruction #2',
-          'Propositions': 'Proposal #2',
-          'Statut': 'pré-validé'
-        }
-      });
-
-      airtable.findRecords
-        .withArgs('Epreuves').resolves([ airtableChallenge_1, airtableChallenge_2 ]);
-
-      // when
-      const promise = preloader.loadChallenges();
-
       // then
       return expect(promise).to.have.been.fulfilled
         .then(() => {
-          expect(airtable.findRecords).to.have.been.calledWith('Epreuves');
           expect(cache.set).to.have.been.calledWith('Epreuves_recChallenge1', airtableChallenge_1._rawJson);
           expect(cache.set).to.have.been.calledWith('Epreuves_recChallenge2', airtableChallenge_2._rawJson);
         });
     });
-  });
 
-  describe('#loadCompetences', () => {
     it('should fetch all competences and cache them individually', () => {
-      // given
-      airtable.findRecords.withArgs('Competences').resolves([ airtableCompetence_1, airtableCompetence_2 ]);
-
-      // when
-      const promise = preloader.loadCompetences();
-
       // then
       return expect(promise).to.have.been.fulfilled
         .then(() => {
@@ -121,49 +180,8 @@ describe('Unit | Infrastructure | preloader', () => {
           expect(cache.set).to.have.been.calledWith('Competences_recCompetence2', airtableCompetence_2._rawJson);
         });
     });
-  });
 
-  describe('#loadCourses', () => {
     it('should fetch courses and cache them individually', () => {
-      // given
-      const airtableProgressionCourse = new AirtableRecord('Tests', 'recProgressionCourse', {
-        fields: {
-          'Nom': 'Test de positionnement 1.1',
-          'Description': 'A single line of text.',
-          'Adaptatif ?': true,
-          'Competence': ['recCompetence1'],
-          'Image': ['https://dl.airtable.com/foo.jpg'],
-          'Épreuves': ['recChallenge1']
-        }
-      });
-      const airtableAdaptiveCourse = new AirtableRecord('Tests', 'recAdaptiveCourse', {
-        fields: {
-          'Nom': 'Gérer des données 1.2',
-          'Description': 'A single line of text.',
-          'Adaptatif ?': false,
-          'Competence': ['recCompetence2'],
-          'Image': ['https://dl.airtable.com/foo.jpg'],
-          'Épreuves': ['recChallenge2']
-        }
-      });
-      const airtableWeekCourse = new AirtableRecord('Tests', 'recWeekCourse', {
-        fields: {
-          'Nom': 'Création de contenu 1.3',
-          'Description': 'A single line of text.',
-          'Adaptatif ?': false,
-          'Competence': ['recCompetence3'],
-          'Image': ['https://dl.airtable.com/foo.jpg'],
-          'Épreuves': ['recChallenge3']
-        }
-      });
-
-      airtable.findRecords
-        .withArgs('Tests')
-        .resolves([ airtableProgressionCourse, airtableAdaptiveCourse, airtableWeekCourse ]);
-
-      // when
-      const promise = preloader.loadCourses();
-
       // then
       return expect(promise).to.have.been.fulfilled
         .then(() => {
@@ -172,25 +190,12 @@ describe('Unit | Infrastructure | preloader', () => {
           expect(cache.set).to.have.been.calledWith('Tests_recWeekCourse', airtableWeekCourse._rawJson);
         });
     });
-  });
 
-  describe('#loadSkills', () => {
-    it('should fetch skills and cache them individually', () => {
-      // given
-      const airtableSkill_1 = new AirtableRecord('Acquis', 'recSkill1', { fields: { 'Nom': '@skill1' } });
-      const airtableSkill_2 = new AirtableRecord('Acquis', 'recSkill2', { fields: { 'Nom': '@skill2' } });
-
-      airtable.findRecords
-        .withArgs('Acquis').resolves([ airtableSkill_1, airtableSkill_2 ]);
-
-      // when
-      const promise = preloader.loadSkills();
-
+    it('should fetch tutorials and cache them individually', () => {
       // then
       return expect(promise).to.have.been.fulfilled
         .then(() => {
-          expect(cache.set).to.have.been.calledWith('Acquis_recSkill1', airtableSkill_1._rawJson);
-          expect(cache.set).to.have.been.calledWith('Acquis_recSkill2', airtableSkill_2._rawJson);
+          expect(cache.set).to.have.been.calledWith('Tutoriels_recTutorial', airtableTutorial._rawJson);
         });
     });
   });
