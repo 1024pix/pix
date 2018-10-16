@@ -34,16 +34,16 @@ export default BaseRoute.extend(AuthenticatedRouteMixin, {
     return store.query('assessment', { filter: { type: 'SMART_PLACEMENT', codeCampaign: this.get('campaignCode') } })
       .then((smartPlacementAssessments) => {
 
-        if (this._thereIsNoAssessment(smartPlacementAssessments) && this.get('userHasSeenLanding')) {
-          return this.transitionTo('campaigns.fill-in-id-pix', this.get('campaignCode'));
-        }
-        if (this._thereIsNoAssessment(smartPlacementAssessments) && !this.get('userHasSeenLanding')) {
+        if (this._thereIsNoAssessment(smartPlacementAssessments)) {
+          if (this.get('userHasSeenLanding')) {
+            return this.transitionTo('campaigns.fill-in-id-pix', this.get('campaignCode'));
+          }
           return this.transitionTo('campaigns.campaign-landing-page', this.get('campaignCode'));
         }
         const assessment = smartPlacementAssessments.get('firstObject');
         return this._fetchChallenge(assessment)
           .then((challenge) => {
-            if(challenge) {
+            if (challenge) {
               return this.transitionTo('assessments.challenge', { assessment, challenge });
             } else {
               return this.transitionTo('campaigns.skill-review', this.get('campaignCode'), assessment.get('id'));

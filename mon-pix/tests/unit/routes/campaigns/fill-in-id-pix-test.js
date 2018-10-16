@@ -83,9 +83,6 @@ describe('Unit | Route | campaigns/fill-in-id-pix', function() {
 
   describe('#model', function() {
 
-    beforeEach(function() {
-    });
-
     it('should retrieve campaign with given campaign code', function() {
       // given
       const params = {
@@ -94,6 +91,7 @@ describe('Unit | Route | campaigns/fill-in-id-pix', function() {
 
       const campaigns = A([campaign]);
       queryStub.resolves(campaigns);
+      route.start = sinon.stub();
 
       // when
       const promise = route.model(params);
@@ -109,16 +107,18 @@ describe('Unit | Route | campaigns/fill-in-id-pix', function() {
       const params = {
         campaign_code: campaignCode
       };
+
       const campaigns = A([campaign]);
       queryStub.resolves(campaigns);
       route.transitionTo = sinon.stub();
+      route.start = sinon.stub();
 
       // when
       const promise = route.model(params);
 
       // then
       return promise.then(() => {
-        sinon.assert.calledWith(route.transitionTo, 'assessments.challenge');
+        sinon.assert.called(route.start);
       });
     });
 
@@ -127,7 +127,7 @@ describe('Unit | Route | campaigns/fill-in-id-pix', function() {
       const params = {
         campaign_code: campaignCode
       };
-      campaign.idPixLabel = 'email';
+      campaign.set('idPixLabel', 'email');
       const campaigns = A([campaign]);
       queryStub.resolves(campaigns);
       route.transitionTo = sinon.stub();
