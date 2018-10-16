@@ -16,3 +16,7 @@ export async function logout() {
   await visit('/deconnexion');
 }
 
+export async function startCampaignByCode(campaignCode) {
+  await visit(`/campagnes/${campaignCode}`);
+  await click('.campaign-landing-page__start-button');
+}

@@ -75,7 +75,7 @@ describe('Unit | Route | campaigns/campaign-landing-page', function() {
       route.send('startCampaignParticipation', campaignParticipation);
 
       // then
-      return sinon.assert.calledWith(route.transitionTo, 'campaigns.start-or-resume', null, { queryParams : { flagAlreadySeeLanding: true } });
+      return sinon.assert.calledWith(route.transitionTo, 'campaigns.start-or-resume', null, { queryParams : { hasSeenLanding: true } });
 
     });
   });
