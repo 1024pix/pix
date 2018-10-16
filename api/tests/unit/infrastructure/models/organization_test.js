@@ -24,7 +24,6 @@ describe('Unit | Infrastructure | Data | organization', () => {
       // then
       expect(domainOrganization).to.be.an.instanceof(DomainOrganization);
       expect(domainOrganization.id).to.equal(rawData.id);
-      expect(domainOrganization.email).to.equal(rawData.email);
       expect(domainOrganization.type).to.equal(rawData.type);
       expect(domainOrganization.name).to.equal(rawData.name);
       expect(domainOrganization.code).to.equal(rawData.code);

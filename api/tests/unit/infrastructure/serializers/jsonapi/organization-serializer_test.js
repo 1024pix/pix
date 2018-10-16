@@ -16,7 +16,6 @@ describe('Unit | Serializer | organization-serializer', () => {
           id: 12,
           name: 'LexCorp',
           type: 'PRO',
-          email: 'lex@lexcorp.com',
           code: 'ABCD66',
           userId: '42157',
           user: {
@@ -38,7 +37,6 @@ describe('Unit | Serializer | organization-serializer', () => {
             id: 12,
             attributes: {
               name: 'LexCorp',
-              email: 'lex@lexcorp.com',
               type: 'PRO',
               code: 'ABCD66'
             },
@@ -66,7 +64,6 @@ describe('Unit | Serializer | organization-serializer', () => {
       const organizationOne = new Organization({
         id: 1,
         name: faker.name.firstName(),
-        email: faker.internet.email().toLowerCase(),
         type: 'PRO',
         code: 'ABCD12',
         userId: 3,
@@ -81,7 +78,6 @@ describe('Unit | Serializer | organization-serializer', () => {
       const organizationTwo = new Organization({
         id: 2,
         name: faker.name.firstName(),
-        email: faker.internet.email().toLowerCase(),
         type: 'PRO',
         code: 'EFGH54',
         userId: 4,
@@ -100,7 +96,6 @@ describe('Unit | Serializer | organization-serializer', () => {
           attributes: {
             name: organizationOne.name,
             type: organizationOne.type,
-            email: organizationOne.email,
             code: organizationOne.code,
           },
           relationships: {
@@ -117,7 +112,6 @@ describe('Unit | Serializer | organization-serializer', () => {
           attributes: {
             name: organizationTwo.name,
             type: organizationTwo.type,
-            email: organizationTwo.email,
             code: organizationTwo.code,
           },
           relationships: {

@@ -1,26 +1,50 @@
-const { expect, sinon } = require('../../../test-helper');
-const Organization = require('../../../../lib/domain/models/Organization');
+const { expect, sinon, factory } = require('../../../test-helper');
 const Competence = require('../../../../lib/domain/models/Competence');
+const Organization = require('../../../../lib/domain/models/Organization');
+const TargetProfile = require('../../../../lib/domain/models/TargetProfile');
 const { NotFoundError } = require('../../../../lib/domain/errors');
 
 const organizationService = require('../../../../lib/domain/services/organization-service');
-const organisationRepository = require('../../../../lib/infrastructure/repositories/organization-repository');
+const organizationRepository = require('../../../../lib/infrastructure/repositories/organization-repository');
+const targetProfileRepository = require('../../../../lib/infrastructure/repositories/target-profile-repository');
 const userRepository = require('../../../../lib/infrastructure/repositories/user-repository');
 
 describe('Unit | Service | OrganizationService', () => {
 
-  describe('#generateOrganizationCode', () => {
+  describe('#generateUniqueOrganizationCode', () => {
 
     it('should exist', () => {
-      expect(organizationService.generateOrganizationCode).to.exist.and.to.be.a('function');
+      expect(organizationService.generateUniqueOrganizationCode).to.exist.and.to.be.a('function');
     });
 
-    it('should generate a code', () => {
+    it('should generate a random code with 4 letters and 2 numbers', () => {
+      // given
+      const organizationRepository = { isCodeAvailable: sinon.stub() };
+      organizationRepository.isCodeAvailable.resolves(true);
+
       // when
-      const code = organizationService.generateOrganizationCode();
+      const promise = organizationService.generateUniqueOrganizationCode({ organizationRepository });
 
       // then
-      expect(code).to.match(/[A-Z]{4}\d{2}/);
+      return promise.then((code) => {
+        expect(code).to.match(/[A-Z]{4}\d{2}/);
+      });
+    });
+
+    it('should re-generate a code if the first ones already exist', () => {
+      // given
+      const organizationRepository = { isCodeAvailable: sinon.stub() };
+      organizationRepository.isCodeAvailable
+        .onFirstCall().rejects()
+        .onSecondCall().resolves(true);
+
+      // when
+      const promise = organizationService.generateUniqueOrganizationCode({ organizationRepository });
+
+      // then
+      return promise.then(() => {
+        expect(organizationRepository.isCodeAvailable).to.have.been.calledTwice;
+      });
     });
   });
 
@@ -126,7 +150,7 @@ describe('Unit | Service | OrganizationService', () => {
     beforeEach(() => {
       sandbox = sinon.sandbox.create();
       sandbox.stub(userRepository, 'hasRolePixMaster');
-      sandbox.stub(organisationRepository, 'findBy');
+      sandbox.stub(organizationRepository, 'findBy');
     });
 
     afterEach(() => {
@@ -147,7 +171,7 @@ describe('Unit | Service | OrganizationService', () => {
           new Organization({ name: 'organization_2', type: 'SCO', code: 'ORGA2' }),
           new Organization({ name: 'organization_3', type: 'SUP', code: 'ORGA3' }),
         ];
-        organisationRepository.findBy.withArgs(filters).resolves(organizations);
+        organizationRepository.findBy.withArgs(filters).resolves(organizations);
 
         // when
         const promise = organizationService.search(userId, filters);
@@ -208,7 +232,7 @@ describe('Unit | Service | OrganizationService', () => {
           code: 'OE34RND'
         })];
 
-        organisationRepository.findBy.withArgs(filters).resolves(organizationWithEmail);
+        organizationRepository.findBy.withArgs(filters).resolves(organizationWithEmail);
 
         // when
         const promise = organizationService.search(userId, filters);
@@ -221,4 +245,69 @@ describe('Unit | Service | OrganizationService', () => {
     });
   });
 
+  describe('#findAllTargetProfilesAvailableForOrganization', () => {
+
+    let sandbox;
+    let organizationId;
+    let targetProfilesOwnedByOrganization;
+    let targetProfileSharesWithOrganization;
+    let publicTargetProfiles;
+
+    beforeEach(() => {
+      organizationId = 1;
+      targetProfilesOwnedByOrganization = [factory.buildTargetProfile({ organizationId, isPublic: false })];
+      targetProfileSharesWithOrganization = factory.buildTargetProfile({ isPublic: false });
+      publicTargetProfiles = [factory.buildTargetProfile({ isPublic: true })];
+      const targetProfileShares = [{
+        targetProfile: targetProfileSharesWithOrganization
+      }];
+      const organization = factory.buildOrganization({ id: organizationId, targetProfileShares });
+
+      sandbox = sinon.sandbox.create();
+      sandbox.stub(targetProfileRepository, 'findPublicTargetProfiles').resolves(publicTargetProfiles);
+      sandbox.stub(targetProfileRepository, 'findTargetProfilesOwnedByOrganizationId').resolves(targetProfilesOwnedByOrganization);
+      sandbox.stub(organizationRepository, 'get').resolves(organization);
+    });
+
+    afterEach(() => {
+      sandbox.restore();
+    });
+
+    it('should return an array of target profiles', () => {
+      // when
+      const promise = organizationService.findAllTargetProfilesAvailableForOrganization(organizationId);
+
+      // then
+      return promise.then((availableTargetProfiles) => {
+        expect(availableTargetProfiles).to.be.an('array');
+        expect(availableTargetProfiles[0]).to.be.an.instanceOf(TargetProfile);
+      });
+    });
+
+    it('should return public profiles and profiles owned by or shared with anyOrganization', () => {
+      // when
+      const promise = organizationService.findAllTargetProfilesAvailableForOrganization(organizationId);
+
+      // then
+      return promise.then((availableTargetProfiles) => {
+        expect(availableTargetProfiles.length).to.equal(3);
+        expect(availableTargetProfiles).to.include.deep.members(targetProfilesOwnedByOrganization);
+        expect(availableTargetProfiles).to.include(targetProfileSharesWithOrganization);
+        expect(availableTargetProfiles).to.include.deep.members(publicTargetProfiles);
+      });
+    });
+
+    it('should not have duplicate in targetProfiles', () => {
+      // given
+      targetProfileRepository.findPublicTargetProfiles.resolves(targetProfilesOwnedByOrganization);
+
+      // when
+      const promise = organizationService.findAllTargetProfilesAvailableForOrganization(organizationId);
+
+      // then
+      return promise.then((availableTargetProfiles) => {
+        expect(availableTargetProfiles.length).to.equal(2);
+      });
+    });
+  });
 });

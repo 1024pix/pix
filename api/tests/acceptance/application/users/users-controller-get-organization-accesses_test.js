@@ -13,7 +13,6 @@ describe('Acceptance | Controller | users-controller-get-organization-accesses',
     function _insertOrganization(userId) {
       const organizationRaw = {
         name: 'The name of the organization',
-        email: 'organization@email.com',
         type: 'SUP',
         code: 'AAA111',
         userId,

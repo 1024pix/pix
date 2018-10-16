@@ -4,11 +4,11 @@ class Organization {
     id,
     // attributes
     code,
-    email,
     name,
     type,
     // includes
-    user
+    user,
+    targetProfileShares = [],
     // references
   } = {}) {
     this.id = id;
@@ -16,9 +16,9 @@ class Organization {
     this.code = code;
     this.name = name;
     this.type = type;
-    this.email = email;
     // includes
     this.user = user;
+    this.targetProfileShares = targetProfileShares;
     // references
   }
 }

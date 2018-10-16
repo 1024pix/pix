@@ -6,7 +6,7 @@ import { beforeEach, describe, it } from 'mocha';
 import { setupComponentTest } from 'ember-mocha';
 
 const ERROR_PASSWORD_MESSAGE = 'Votre mot de passe doit comporter au moins une lettre, un chiffre et 8 caractères.';
-const SUCCESS_VALIDATION_MESSAGE = 'Votre mot de passe a été bien mis à jour';
+const SUCCESS_VALIDATION_MESSAGE = 'Votre mot de passe a bien été mis à jour';
 
 const VALIDATION_MAP = {
   default: {

@@ -12,9 +12,9 @@ export default BaseRoute.extend(AuthenticatedRouteMixin, {
       .then((campaigns) => campaigns.get('firstObject'))
       .then((campaign) => {
         if(campaign.get('idPixLabel') == null) { // we want to handle null or undefined
-          return this.start(campaignCode);
+          return this.start(campaign, campaignCode);
         }
-        return { idPixLabel: campaign.get('idPixLabel'), campaignCode };
+        return { campaign , idPixLabel: campaign.get('idPixLabel'), campaignCode };
       })
       .catch(() => RSVP.reject());
   },
@@ -30,16 +30,17 @@ export default BaseRoute.extend(AuthenticatedRouteMixin, {
 
   setupController(controller) {
     this._super(...arguments);
-    controller.set('start', (campaignCode, participantExternalId) => this.start(campaignCode, participantExternalId));
+    controller.set('start', (campaign, campaignCode, participantExternalId) => this.start(campaign, campaignCode, participantExternalId));
   },
 
-  start(campaignCode, participantExternalId) {
-    return this._retrieveOrCreateAssessements(campaignCode, participantExternalId)
+  start(campaign, campaignCode, participantExternalId) {
+    return this._retrieveOrCreateCampaignParticipation(campaign, campaignCode, participantExternalId)
       .then((assessment) => this._startFirstChallenge(assessment));
   },
 
   _existAssessment(campaignCode) {
     const store = this.get('store');
+    // TODO query campaign-participation instead of assessment
     return store.query('assessment', { filter: { type: 'SMART_PLACEMENT', codeCampaign: campaignCode } })
       .then((smartPlacementAssessments) => {
         if (!isEmpty(smartPlacementAssessments)) {
@@ -49,14 +50,17 @@ export default BaseRoute.extend(AuthenticatedRouteMixin, {
       });
   },
 
-  _retrieveOrCreateAssessements(campaignCode, participantExternalId) {
+  _retrieveOrCreateCampaignParticipation(campaign, campaignCode, participantExternalId) {
     const store = this.get('store');
+    // TODO query campaign-participation instead of assessment
     return store.query('assessment', { filter: { type: 'SMART_PLACEMENT', codeCampaign: campaignCode } })
       .then((smartPlacementAssessments) => {
         if (!isEmpty(smartPlacementAssessments)) {
           return smartPlacementAssessments.get('firstObject');
         }
-        return store.createRecord('assessment', { type: 'SMART_PLACEMENT', codeCampaign: campaignCode, participantExternalId }).save();
+        return store.createRecord('campaign-participation', { campaign, participantExternalId })
+          .save()
+          .then((campaignParticipation) => campaignParticipation.get('assessment'));
       });
   },
 

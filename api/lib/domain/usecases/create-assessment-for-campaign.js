@@ -1,3 +1,4 @@
+
 const { CampaignCodeError } = require('../errors');
 const CampaignParticipation = require('../models/CampaignParticipation');
 const Assessment = require('../models/Assessment');
@@ -15,6 +16,7 @@ function _getCampaignFromCode(codeCampaign, campaignRepository) {
 
 module.exports = function createAssessmentForCampaign(
   {
+    userId,
     assessment,
     codeCampaign,
     participantExternalId,
@@ -36,8 +38,9 @@ module.exports = function createAssessmentForCampaign(
     .then((assessmentCreatedInDb) => {
       assessmentCreated = assessmentCreatedInDb;
       const campaignParticipation = new CampaignParticipation({
+        userId,
         assessmentId: assessmentCreated.id,
-        campaign: campaign,
+        campaignId: campaign.id,
         participantExternalId
       });
       return campaignParticipationRepository.save(campaignParticipation);

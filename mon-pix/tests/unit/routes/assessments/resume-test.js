@@ -79,7 +79,7 @@ describe('Unit | Route | resume', function() {
 
       it('should redirect to assessment results page', function() {
         // given
-        queryRecordStub.rejects();
+        queryRecordStub.resolves(null);
 
         // when
         const promise = route.afterModel(assessment);
@@ -92,6 +92,7 @@ describe('Unit | Route | resume', function() {
       });
 
     });
+
   });
 
 });

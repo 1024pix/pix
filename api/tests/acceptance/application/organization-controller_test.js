@@ -6,7 +6,6 @@ const settings = require('../../../lib/settings');
 function _insertOrganization(userId) {
   const organizationRaw = {
     name: 'The name of the organization',
-    email: 'organization@email.com',
     type: 'SUP',
     code: 'AAA111',
     userId
@@ -118,7 +117,7 @@ function _createToken(user) {
   }, settings.authentication.secret, { expiresIn: settings.authentication.tokenLifespan });
 }
 
-describe('Acceptance | Application | Controller | organization-controller', () => {
+describe('Acceptance | Application | organization-controller', () => {
 
   before(() => {
     nock('https://api.airtable.com')
@@ -207,7 +206,6 @@ describe('Acceptance | Application | Controller | organization-controller', () =
       return promise.then((response) => {
         const createdOrganization = response.result.data.attributes;
         expect(createdOrganization.name).to.equal('The name of the organization');
-        expect(createdOrganization.email).to.equal('organization@example.com');
         expect(createdOrganization.type).to.equal('PRO');
         expect(createdOrganization.code).not.to.be.empty;
         expect(createdOrganization.user).to.be.undefined;
@@ -420,7 +418,6 @@ describe('Acceptance | Application | Controller | organization-controller', () =
         // then
         const organization = response.result.data[0];
         expect(organization.attributes.name).to.equal('The name of the organization');
-        expect(organization.attributes.email).to.be.undefined;
         expect(organization.attributes.type).to.equal('SUP');
         expect(organization.attributes.code).to.equal('AAA111');
         expect(organization.attributes.user).to.be.undefined;

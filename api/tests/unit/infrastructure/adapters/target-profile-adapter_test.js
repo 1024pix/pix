@@ -1,17 +1,20 @@
-const { databaseBuilder, expect, factory } = require('../../../test-helper');
+const { sinon, databaseBuilder, expect, factory } = require('../../../test-helper');
 const BookshelfTargetProfile = require('../../../../lib/infrastructure/data/target-profile');
+const BookshelfTargetProfileShare = require('../../../../lib/infrastructure/data/target-profile-share');
 const TargetProfile = require('../../../../lib/domain/models/TargetProfile');
 const targetProfileAdapter = require('../../../../lib/infrastructure/adapters/target-profile-adapter');
 
 describe('Unit | Infrastructure | Adapter | targetSkillAdapter', () => {
 
-  afterEach(() => {
-    return databaseBuilder.clean();
+  afterEach(async () => {
+    await databaseBuilder.clean();
   });
 
-  it('should adapt TargetSkill object to domain', () => {
+  it('should adapt TargetProfile object to domain', () => {
     // given
     const bookshelfTargetProfile = new BookshelfTargetProfile(databaseBuilder.factory.buildTargetProfile());
+    const organizationWhichShared = new BookshelfTargetProfileShare(databaseBuilder.factory.buildTargetProfileShare());
+    bookshelfTargetProfile.related = sinon.stub().onCall('sharedWithOrganizations').resolves([ organizationWhichShared ]);
     const skillAirtableDataObject = factory.buildSkillAirtableDataObject();
     const associatedSkillAirtableDataObjects = [skillAirtableDataObject];
     const expectedTargetProfile = factory.buildTargetProfile({
@@ -20,6 +23,7 @@ describe('Unit | Infrastructure | Adapter | targetSkillAdapter', () => {
       isPublic: Boolean(bookshelfTargetProfile.get('isPublic')),
       organizationId: bookshelfTargetProfile.get('organizationId'),
       skills: [factory.buildSkill({ id: skillAirtableDataObject.id, name: skillAirtableDataObject.name })],
+      sharedWithOrganizationIds: [organizationWhichShared.get('organizationId')]
     });
 
     // when
@@ -32,4 +36,5 @@ describe('Unit | Infrastructure | Adapter | targetSkillAdapter', () => {
     expect(targetProfile).to.be.an.instanceOf(TargetProfile);
     expect(targetProfile).to.be.deep.equal(expectedTargetProfile);
   });
+
 });

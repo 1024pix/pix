@@ -11,7 +11,6 @@ module.exports = function addDragonAndCoWithrelated({ databaseBuilder }) {
 
   const dragonAndCoCompany = databaseBuilder.factory.buildOrganization({
     id: 1,
-    email: 'pro@example.net',
     type: 'PRO',
     name: 'Dragon & Co',
     userId: proUserDaenerys.id,
@@ -63,4 +62,51 @@ module.exports = function addDragonAndCoWithrelated({ databaseBuilder }) {
   databaseBuilder.factory.buildTargetProfilesSkills({ targetProfileId: privateTargetProfile.id, skillId: 'recWalmeLbapvhX3K' });
   databaseBuilder.factory.buildTargetProfilesSkills({ targetProfileId: privateTargetProfile.id, skillId: 'recKTybfk95zVWBDM' });
   databaseBuilder.factory.buildTargetProfilesSkills({ targetProfileId: privateTargetProfile.id, skillId: 'recKFUQ2CzcYHrxPR' });
+
+  const proUserSub = databaseBuilder.factory.buildUser.withUnencryptedPassword({
+    id: 6,
+    firstName: 'Viserys',
+    lastName: 'Targaryen',
+    email: 'prosub@example.net',
+    rawPassword: 'pix123',
+    cgu: true,
+  });
+
+  const dragonAndCoSubsidiary = databaseBuilder.factory.buildOrganization({
+    id: 4,
+    type: 'PRO',
+    name: 'Dragon subsidiary',
+    userId: proUserSub.id,
+    code: 'DRAGOSUB'
+  });
+
+  databaseBuilder.factory.buildOrganizationAccess({
+    userId: proUserSub.id,
+    organizationId: dragonAndCoSubsidiary.id
+  });
+
+  databaseBuilder.factory.buildTargetProfileShare({ targetProfileId: privateTargetProfile.id, organizationId: dragonAndCoSubsidiary.id });
+
+  const proUserSub2 = databaseBuilder.factory.buildUser.withUnencryptedPassword({
+    id: 7,
+    firstName: 'Rhaegon',
+    lastName: 'Targaryen',
+    email: 'prosub2@example.net',
+    rawPassword: 'pix123',
+    cgu: true,
+  });
+
+  const dragonAndCoSubsidiary2 = databaseBuilder.factory.buildOrganization({
+    id: 5,
+    type: 'PRO',
+    name: 'Dragon subsidiary 2',
+    userId: proUserSub2.id,
+    code: 'DRAGOSUB'
+  });
+
+  databaseBuilder.factory.buildOrganizationAccess({
+    userId: proUserSub2.id,
+    organizationId: dragonAndCoSubsidiary2.id
+  });
+
 };

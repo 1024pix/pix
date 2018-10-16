@@ -1,4 +1,4 @@
-const { sinon, expect } = require('../../../test-helper');
+const { sinon, expect, factory } = require('../../../test-helper');
 
 const campaignParticipationController = require('../../../../lib/application/campaignParticipations/campaign-participation-controller');
 const { NotFoundError } = require('../../../../lib/domain/errors');
@@ -183,4 +183,90 @@ describe('Unit | Application | Controller | Campaign-Participation', () => {
       });
     });
   });
+
+  describe('#save', () => {
+
+    let sandbox;
+    let replyStub;
+    let codeStub;
+    let request;
+    const campaignId = 123456;
+    const participantExternalId = 'azer@ty.com';
+    const userId = 6;
+
+    beforeEach(() => {
+      sandbox = sinon.sandbox.create();
+      sandbox.stub(usecases, 'startCampaignParticipation');
+      codeStub = sandbox.stub(serializer, 'serialize').resolves();
+      replyStub = sandbox.stub().returns({
+        code: codeStub
+      });
+      request = {
+        headers: { authorization: 'token' },
+        auth: { credentials: { userId } },
+        payload: {
+          data: {
+            type: 'campaign-participations',
+            attributes: {
+              'participant-external-id': participantExternalId,
+            },
+            relationships: {
+              'campaign': {
+                data: {
+                  id: campaignId,
+                  type: 'campaigns',
+                }
+              }
+            }
+          }
+        }
+      };
+    });
+
+    afterEach(() => {
+      sandbox.restore();
+    });
+
+    it('should call the usecases to start the campaign participation', () => {
+      // given
+      usecases.startCampaignParticipation.resolves();
+
+      // when
+      const promise = campaignParticipationController.save(request, replyStub);
+
+      // then
+      return promise.then(() => {
+        expect(usecases.startCampaignParticipation).to.have.been.calledOnce;
+
+        const arguments = usecases.startCampaignParticipation.firstCall.args[0];
+
+        expect(arguments.userId).to.equal(userId);
+
+        const campaignParticipation = arguments.campaignParticipation;
+        expect(campaignParticipation).to.have.property('campaignId', campaignId);
+        expect(campaignParticipation).to.have.property('participantExternalId', participantExternalId);
+      });
+    });
+
+    it('should return the serialized campaign participation when it has been successfully created', () => {
+      // given
+      const createdCampaignParticipation = factory.buildCampaignParticipation();
+      usecases.startCampaignParticipation.resolves(createdCampaignParticipation);
+
+      const serializedCampaignParticipation = { id: 88, assessmentId: 12 };
+      serializer.serialize.returns(serializedCampaignParticipation);
+
+      // when
+      const promise = campaignParticipationController.save(request, replyStub);
+
+      // then
+      return promise.then(() => {
+        expect(serializer.serialize).to.have.been.calledWith(createdCampaignParticipation);
+        expect(codeStub).to.have.been.calledWith(201);
+        expect(replyStub).to.have.been.calledWith(serializedCampaignParticipation);
+      });
+    });
+
+  });
+
 });

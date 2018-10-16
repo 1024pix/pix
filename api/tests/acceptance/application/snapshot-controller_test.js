@@ -59,7 +59,6 @@ describe('Acceptance | Controller | snapshot-controller', () => {
 
   const inserted_organization = {
     name: 'The name of the organization',
-    email: 'organization@email.com',
     type: 'PRO'
   };
 

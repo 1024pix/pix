@@ -1,23 +1,18 @@
 const { expect, sinon, factory } = require('../../../test-helper');
 const JSONAPIError = require('jsonapi-serializer').Error;
 
-const User = require('../../../../lib/domain/models/User');
-const BookshelfOrganization = require('../../../../lib/infrastructure/data/organization');
 const BookshelfSnapshot = require('../../../../lib/infrastructure/data/snapshot');
 const Organization = require('../../../../lib/domain/models/Organization');
 const organizationController = require('../../../../lib/application/organizations/organization-controller');
-const organizationRepository = require('../../../../lib/infrastructure/repositories/organization-repository');
-const userRepository = require('../../../../lib/infrastructure/repositories/user-repository');
 const snapshotRepository = require('../../../../lib/infrastructure/repositories/snapshot-repository');
 const organizationSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/organization-serializer');
 const organizationService = require('../../../../lib/domain/services/organization-service');
-const encryptionService = require('../../../../lib/domain/services/encryption-service');
 const snapshotSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/snapshot-serializer');
 const validationErrorSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/validation-error-serializer');
 const bookshelfUtils = require('../../../../lib/infrastructure/utils/bookshelf-utils');
 const { EntityValidationError, NotFoundError } = require('../../../../lib/domain/errors');
+const { InfrastructureError } = require('../../../../lib/infrastructure/errors');
 const logger = require('../../../../lib/infrastructure/logger');
-const organizationCreationValidator = require('../../../../lib/domain/validators/organization-creation-validator');
 const usecases = require('../../../../lib/domain/usecases');
 const campaignSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/campaign-serializer');
 const targetProfileSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/target-profile-serializer');
@@ -31,34 +26,21 @@ describe('Unit | Application | Organizations | organization-controller', () => {
 
   describe('#create', () => {
 
-    const organizationBookshelf = new BookshelfOrganization({ email: 'existing-email@example.net', type: 'PRO' });
-    const userSaved = new User({ email: 'existing-email@example.net', id: 12 });
-
     beforeEach(() => {
       codeStub = sinon.stub();
       replyStub = sinon.stub().returns({ code: codeStub });
 
       sandbox = sinon.sandbox.create();
 
-      sandbox.stub(logger, 'error');
-      sandbox.stub(userRepository, 'create').resolves(userSaved);
-      sandbox.stub(userRepository, 'isEmailAvailable').resolves();
-      sandbox.stub(organizationService, 'generateOrganizationCode').returns('ABCD12');
-      sandbox.stub(organizationRepository, 'create').resolves(organizationBookshelf);
-      sandbox.stub(organizationRepository, 'isCodeAvailable');
+      sandbox.stub(usecases, 'createOrganization');
       sandbox.stub(organizationSerializer, 'serialize');
-      sandbox.stub(organizationCreationValidator, 'validate');
-      sandbox.stub(encryptionService, 'hashPassword');
 
       request = {
         payload: {
           data: {
             attributes: {
+              name: 'Acme',
               type: 'PRO',
-              email: 'existing-email@example.net',
-              'first-name': 'Tom',
-              'last-name': 'Hanks',
-              password: 'Pix2048#-DamnItEvolved'
             }
           }
         }
@@ -76,64 +58,11 @@ describe('Unit | Application | Organizations | organization-controller', () => {
 
       beforeEach(() => {
 
-        const generatedOrganizationCode = 'ABCD12';
-        const user = new User({ id: 1234 });
-        savedOrganization = { titi: 'toto' };
+        savedOrganization = factory.buildOrganization();
         serializedOrganization = { foo: 'bar' };
 
-        organizationCreationValidator.validate.resolves();
-        userRepository.create.resolves(user);
-        organizationService.generateOrganizationCode.returns(generatedOrganizationCode);
-        organizationRepository.isCodeAvailable.withArgs(generatedOrganizationCode).resolves();
-        organizationRepository.create.resolves(savedOrganization);
+        usecases.createOrganization.resolves(savedOrganization);
         organizationSerializer.serialize.withArgs(savedOrganization).returns(serializedOrganization);
-      });
-
-      it('should update user password with a hashed password', () => {
-        // given
-        const encryptedPassword = '$2a$05$jJnoQ/YCvAChJmYW9AoQXe/k17mx2l2MqJBgXVo/R/ju4HblB2iAe';
-        encryptionService.hashPassword.resolves(encryptedPassword);
-
-        // when
-        const promise = organizationController.create(request, replyStub);
-
-        // then
-        return promise.then(() => {
-          sinon.assert.calledOnce(encryptionService.hashPassword);
-          sinon.assert.calledWith(encryptionService.hashPassword, request.payload.data.attributes.password);
-
-        });
-      });
-
-      it('should create a user', () => {
-        // when
-        const encryptedPassword = '$2a$05$jJnoQ/YCvAChJmYW9AoQXe/k17mx2l2MqJBgXVo/R/ju4HblB2iAe';
-        encryptionService.hashPassword.resolves(encryptedPassword);
-        const promise = organizationController.create(request, replyStub);
-
-        const userToCreate = new User({
-          firstName: 'Tom',
-          lastName: 'Hanks',
-          email: 'existing-email@example.net',
-          password: encryptedPassword,
-          cgu: true
-        });
-
-        // then
-        return promise.then(() => {
-          expect(userRepository.create).to.have.been.calledOnce;
-          expect(userRepository.create).to.have.been.calledWith(userToCreate);
-        });
-      });
-
-      it('should generate a unique randomized organization code', () => {
-        // when
-        const promise = organizationController.create(request, replyStub);
-
-        // then
-        return promise.then(() => {
-          expect(organizationService.generateOrganizationCode).to.have.been.calledOnce;
-        });
       });
 
       it('should create an organization', () => {
@@ -142,7 +71,8 @@ describe('Unit | Application | Organizations | organization-controller', () => {
 
         // then
         return promise.then(() => {
-          expect(organizationRepository.create).to.have.been.calledOnce;
+          expect(usecases.createOrganization).to.have.been.calledOnce;
+          expect(usecases.createOrganization).to.have.been.calledWith({ name: 'Acme', type: 'PRO' });
         });
       });
 
@@ -190,7 +120,7 @@ describe('Unit | Application | Organizations | organization-controller', () => {
           });
 
           error = new EntityValidationError(expectedValidationError);
-          organizationCreationValidator.validate.rejects(error);
+          usecases.createOrganization.rejects(error);
         });
 
         it('should return an error with HTTP status code 422 when a validation error occurred', () => {
@@ -226,41 +156,20 @@ describe('Unit | Application | Organizations | organization-controller', () => {
       context('when a treatment error occurred (other than validation)', () => {
 
         beforeEach(() => {
-          organizationCreationValidator.validate.resolves();
-          error = new Error('Some error');
-          userRepository.create.rejects(error);
+          error = new InfrastructureError('Une erreur est survenue lors de la création de l’organisation');
+          usecases.createOrganization.rejects(error);
         });
 
         it('should return an error with HTTP status code 500', () => {
-          // given
-          const expectedResponseContent = {
-            status: '500',
-            title: 'Internal Server Error',
-            detail: 'Une erreur est survenue lors de la création de l’organisation'
-          };
-
           // when
           const promise = organizationController.create(request, replyStub);
 
           // then
           return promise.then(() => {
-            expect(replyStub).to.have.been.calledWith({ errors: [expectedResponseContent] });
             expect(codeStub).to.have.been.calledWith(500);
           });
         });
-
-        it('should log the error', () => {
-          // when
-          const promise = organizationController.create(request, replyStub);
-
-          // then
-          return promise.then(() => {
-            expect(logger.error).to.have.been.calledWith(error);
-          });
-        });
-
       });
-
     });
   });
 
@@ -646,7 +555,7 @@ describe('Unit | Application | Organizations | organization-controller', () => {
       request = {
         params: { id: organizationId },
         auth: {
-          credentials : {
+          credentials: {
             userId: 1
           }
         }
@@ -733,7 +642,7 @@ describe('Unit | Application | Organizations | organization-controller', () => {
       replyStub = sandbox.stub().returns({
         code: codeStub
       });
-      sandbox.stub(usecases, 'findAvailableTargetProfiles').resolves();
+      sandbox.stub(organizationService, 'findAllTargetProfilesAvailableForOrganization').resolves();
     });
 
     afterEach(() => {
@@ -746,10 +655,8 @@ describe('Unit | Application | Organizations | organization-controller', () => {
 
       // then
       return promise.then(() => {
-        expect(usecases.findAvailableTargetProfiles).to.have.been.calledOnce;
-        expect(usecases.findAvailableTargetProfiles).to.have.been.calledWith({
-          organizationId: organizationId,
-        });
+        expect(organizationService.findAllTargetProfilesAvailableForOrganization).to.have.been.calledOnce;
+        expect(organizationService.findAllTargetProfilesAvailableForOrganization).to.have.been.calledWith(145);
       });
     });
 
@@ -760,7 +667,7 @@ describe('Unit | Application | Organizations | organization-controller', () => {
       beforeEach(() => {
         // given
         foundTargetProfiles = [factory.buildTargetProfile()];
-        usecases.findAvailableTargetProfiles.resolves(foundTargetProfiles);
+        organizationService.findAllTargetProfilesAvailableForOrganization.resolves(foundTargetProfiles);
         sandbox.stub(targetProfileSerializer, 'serialize');
       });
 
@@ -800,7 +707,7 @@ describe('Unit | Application | Organizations | organization-controller', () => {
       it('should log the error and reply with 500 error', () => {
         // given
         const error = new Error();
-        usecases.findAvailableTargetProfiles.rejects(error);
+        organizationService.findAllTargetProfilesAvailableForOrganization.rejects(error);
 
         // when
         const promise = organizationController.findTargetProfiles(request, replyStub);

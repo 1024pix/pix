@@ -13,26 +13,29 @@ describe('Unit | Route | campaigns/fill-in-id-pix', function() {
 
   let route;
   let storeStub;
-  let createAssessementStub;
+  let createCampaignParticipationStub;
   let queryChallengeStub;
   let queryStub;
   let savedAssessment;
+  let createdCampaignParticipation;
+  let campaign;
+  const campaignCode = 'CODECAMPAIGN';
 
   beforeEach(function() {
-    createAssessementStub = sinon.stub();
+    createCampaignParticipationStub = sinon.stub();
     queryChallengeStub = sinon.stub();
     queryStub = sinon.stub();
     storeStub = Service.extend({
-      queryRecord: queryChallengeStub, query: queryStub, createRecord: createAssessementStub });
+      queryRecord: queryChallengeStub, query: queryStub, createRecord: createCampaignParticipationStub });
     this.register('service:store', storeStub);
     this.inject.service('store', { as: 'store' });
     savedAssessment = EmberObject.create({ id: 1234, codeCampaign: 'CODECAMPAIGN', reload: sinon.stub() });
+    createdCampaignParticipation = EmberObject.create({ id: 456, assessment: savedAssessment });
+    campaign = EmberObject.create({ code: campaignCode });
     route = this.subject();
   });
 
   describe('#model', function() {
-
-    const campaignCode = 'CODECAMPAIGN';
 
     beforeEach(function() {
     });
@@ -43,7 +46,7 @@ describe('Unit | Route | campaigns/fill-in-id-pix', function() {
         campaign_code: campaignCode
       };
 
-      const campaigns = A([EmberObject.create({ code: campaignCode })]);
+      const campaigns = A([campaign]);
       queryStub.resolves(campaigns);
 
       // when
@@ -60,7 +63,7 @@ describe('Unit | Route | campaigns/fill-in-id-pix', function() {
       const params = {
         campaign_code: campaignCode
       };
-      const campaigns = A([EmberObject.create({ code: campaignCode })]);
+      const campaigns = A([campaign]);
       queryStub.resolves(campaigns);
       route.transitionTo = sinon.stub();
 
@@ -78,7 +81,8 @@ describe('Unit | Route | campaigns/fill-in-id-pix', function() {
       const params = {
         campaign_code: campaignCode
       };
-      const campaigns = A([EmberObject.create({ code: campaignCode, idPixLabel: 'email' })]);
+      campaign.idPixLabel = 'email';
+      const campaigns = A([campaign]);
       queryStub.resolves(campaigns);
       route.transitionTo = sinon.stub();
 
@@ -156,7 +160,7 @@ describe('Unit | Route | campaigns/fill-in-id-pix', function() {
       queryChallengeStub.resolves();
 
       // when
-      const promise = route.start(campaignCode, participantExternalId);
+      const promise = route.start(campaign, campaignCode, participantExternalId);
 
       // then
       return promise.then(() => {
@@ -164,19 +168,19 @@ describe('Unit | Route | campaigns/fill-in-id-pix', function() {
       });
     });
 
-    it('should create new assessment if nothing found', function() {
+    it('should create new campaignParticipation if nothing found', function() {
       // given
       const assessments = A([]);
       queryStub.resolves(assessments);
-      createAssessementStub.returns({ save: () => savedAssessment });
+      createCampaignParticipationStub.returns({ save: () => Promise.resolve(createdCampaignParticipation) });
       queryChallengeStub.resolves();
 
       // when
-      const promise = route.start(campaignCode, participantExternalId);
+      const promise = route.start(campaign, campaignCode, participantExternalId);
 
       // then
       return promise.then(() => {
-        sinon.assert.calledWith(createAssessementStub, 'assessment', { type: 'SMART_PLACEMENT', codeCampaign: campaignCode, participantExternalId });
+        sinon.assert.calledWith(createCampaignParticipationStub, 'campaign-participation', { campaign, participantExternalId });
       });
     });
 
@@ -187,7 +191,7 @@ describe('Unit | Route | campaigns/fill-in-id-pix', function() {
       queryChallengeStub.resolves();
 
       // when
-      const promise = route.start(campaignCode, participantExternalId);
+      const promise = route.start(campaign, campaignCode, participantExternalId);
 
       // then
       return promise.then(() => {
@@ -202,7 +206,7 @@ describe('Unit | Route | campaigns/fill-in-id-pix', function() {
       queryChallengeStub.resolves({ id: 23 });
 
       // when
-      const promise = route.start(campaignCode, participantExternalId);
+      const promise = route.start(campaign, campaignCode, participantExternalId);
 
       // then
       return promise.then(() => {

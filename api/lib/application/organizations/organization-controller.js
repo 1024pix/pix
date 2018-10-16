@@ -1,6 +1,3 @@
-const JSONAPIError = require('jsonapi-serializer').Error;
-
-const userRepository = require('../../infrastructure/repositories/user-repository');
 const organizationRepository = require('../../infrastructure/repositories/organization-repository');
 const competenceRepository = require('../../infrastructure/repositories/competence-repository');
 const snapshotRepository = require('../../infrastructure/repositories/snapshot-repository');
@@ -9,11 +6,9 @@ const snapshotSerializer = require('../../infrastructure/serializers/jsonapi/sna
 const campaignSerializer = require('../../infrastructure/serializers/jsonapi/campaign-serializer');
 const targetProfileSerializer = require('../../infrastructure/serializers/jsonapi/target-profile-serializer');
 const organizationService = require('../../domain/services/organization-service');
-const encryptionService = require('../../domain/services/encryption-service');
 const bookshelfUtils = require('../../../lib/infrastructure/utils/bookshelf-utils');
 const validationErrorSerializer = require('../../infrastructure/serializers/jsonapi/validation-error-serializer');
 const snapshotsCsvConverter = require('../../infrastructure/converter/snapshots-csv-converter');
-const organizationCreationValidator = require('../../domain/validators/organization-creation-validator');
 const tokenService = require('../../domain/services/token-service');
 const usecases = require('../../domain/usecases');
 const controllerReplies = require('../../infrastructure/controller-replies');
@@ -21,42 +16,26 @@ const controllerReplies = require('../../infrastructure/controller-replies');
 const logger = require('../../infrastructure/logger');
 const { extractFilters } = require('../../infrastructure/utils/query-params-utils');
 const JSONAPI = require('../../interfaces/jsonapi');
-const User = require('../../domain/models/User');
-const Organization = require('../../domain/models/Organization');
 const { EntityValidationError } = require('../../domain/errors');
+const { InfrastructureError } = require('../../infrastructure/errors');
 
 const EXPORT_CSV_FILE_NAME = 'Pix - Export donnees partagees.csv';
 
 module.exports = {
 
-  // TODO extract domain logic into use case, like create user
   create: (request, reply) => {
 
-    const user = _extractUser(request);
-    const organization = _extractOrganization(request);
+    const { name, type } = request.payload.data.attributes;
 
-    return organizationCreationValidator.validate(user, organization, userRepository)
-      .then(() => encryptionService.hashPassword(user.password))
-      .then((encryptedPassword) => user.password = encryptedPassword)
-      .then(() => userRepository.create(user))
-      .then((user) => organization.userId = user.id)
-      .then(_generateUniqueOrganizationCode)
-      .then((code) => organization.code = code)
-      .then(() => organizationRepository.create(organization))
-      .then((savedOrganization) => organizationSerializer.serialize(savedOrganization))
-      .then((serializedOrganization) => reply(serializedOrganization))
+    return usecases.createOrganization({ name, type })
+      .then(organizationSerializer.serialize)
+      .then(controllerReplies(reply).ok)
       .catch((error) => {
-
         if (error instanceof EntityValidationError) {
           return reply(JSONAPI.unprocessableEntityError(error.invalidAttributes)).code(422);
         }
-
-        logger.error(error);
-        return reply(new JSONAPIError({
-          status: '500',
-          title: 'Internal Server Error',
-          detail: 'Une erreur est survenue lors de la création de l’organisation'
-        })).code(500);
+        const serverError = new InfrastructureError('Une erreur est survenue lors de la création de l’organisation');
+        return controllerReplies(reply).error(serverError);
       });
   },
 
@@ -82,9 +61,9 @@ module.exports = {
   },
 
   findTargetProfiles(request, reply) {
-    const requestedOrganizationId = request.params.id;
+    const requestedOrganizationId = parseInt(request.params.id);
 
-    return usecases.findAvailableTargetProfiles({ organizationId: requestedOrganizationId })
+    return organizationService.findAllTargetProfilesAvailableForOrganization(requestedOrganizationId)
       .then(targetProfileSerializer.serialize)
       .then(controllerReplies(reply).ok)
       .catch(controllerReplies(reply).error);
@@ -135,31 +114,6 @@ function _extractSnapshotsForOrganization(organizationId) {
     .then((snapshotsWithRelatedUsers) => {
       return snapshotsWithRelatedUsers.map((snapshot) => snapshot.toJSON());
     });
-}
-
-function _extractUser(request) {
-  return new User({
-    firstName: request.payload.data.attributes['first-name'] || '',
-    lastName: request.payload.data.attributes['last-name'] || '',
-    email: request.payload.data.attributes['email'] || '',
-    password: request.payload.data.attributes['password'] || '',
-    cgu: true,
-  });
-}
-
-function _extractOrganization(request) {
-  return new Organization({
-    name: request.payload.data.attributes['name'] || '',
-    type: request.payload.data.attributes['type'] || '',
-    email: request.payload.data.attributes['email'] || '',
-  });
-}
-
-function _generateUniqueOrganizationCode() {
-  const code = organizationService.generateOrganizationCode();
-  return organizationRepository.isCodeAvailable(code)
-    .then(() => code)
-    .catch(_generateUniqueOrganizationCode);
 }
 
 function _buildErrorMessage(errorMessage) {
