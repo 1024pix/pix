@@ -21,20 +21,25 @@ describe('Acceptance | API | assessment-controller-get', () => {
   const skillWeb1 = airtableBuilder.factory.buildSkill({
     id: 'recSkillWeb1',
     nom: skillWeb1Name,
+    compétence: [ 'recCompetence' ],
   });
   const skillWeb4 = airtableBuilder.factory.buildSkill({
     id: 'recSkillWeb4',
     nom: skillWeb4Name,
+    compétence: [ 'recCompetence' ],
   });
   const skillWeb5 = airtableBuilder.factory.buildSkill({
     id: 'recSkillWeb5',
     nom: skillWeb5Name,
+    compétence: [ 'recCompetence' ],
   });
   const skillurl1 = airtableBuilder.factory.buildSkill({
     id: 'recSkillurl1',
     nom: skillurl1Name,
+    compétence: [ 'recCompetence' ],
   });
   const competence = airtableBuilder.factory.buildCompetence({
+    id: 'recCompetence',
     acquis: [skillurl1Name, skillWeb1Name, skillWeb4Name, skillWeb5Name],
     acquisIdentifiants: [skillurl1.id, skillWeb1.id, skillWeb4.id, skillWeb5.id],
     acquisViaTubes: [skillurl1.id, skillWeb1.id, skillWeb4.id, skillWeb5.id],

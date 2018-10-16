@@ -1,4 +1,3 @@
-const _ = require('lodash');
 const airtable = require('../airtable');
 const cache = require('./cache');
 
@@ -17,17 +16,6 @@ function cacheIndividually(records, tablename) {
   }));
 }
 
-function findSkillsByCompetence() {
-  return airtable.findRecords(COMPETENCE_TABLENAME, NO_FILTER)
-    .then((competences) => {
-      return Promise.all(competences.map((competence) => {
-        return airtable.findRecords(SKILL_TABLENAME, {
-          filterByFormula: `FIND('${competence.get('Sous-domaine')}', {Compétence})`
-        });
-      }));
-    });
-}
-
 module.exports = {
 
   loadAreas() {
@@ -41,12 +29,7 @@ module.exports = {
   },
 
   loadCompetences() {
-    const sortBySubdomain = {
-      sort: [{ field: 'Sous-domaine', direction: 'asc' }]
-    };
-
     return airtable.findRecords(COMPETENCE_TABLENAME, NO_FILTER)
-      .then(() => airtable.findRecords(COMPETENCE_TABLENAME, sortBySubdomain))
       .then((records) => cacheIndividually(records, COMPETENCE_TABLENAME));
   },
 
@@ -56,8 +39,7 @@ module.exports = {
   },
 
   loadSkills() {
-    return findSkillsByCompetence()
-      .then(_.flatten)
+    return airtable.findRecords(SKILL_TABLENAME, {})
       .then((records) => cacheIndividually(records, SKILL_TABLENAME));
   }
 

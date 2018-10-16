@@ -8,11 +8,11 @@ const skillRepository = require('../../../../lib/infrastructure/repositories/ski
 describe('Unit | Repository | skill-repository', function() {
 
   beforeEach(() => {
-    sinon.stub(skillDatasource, 'findByCompetenceIndex');
+    sinon.stub(skillDatasource, 'findByCompetenceId');
   });
 
   afterEach(() => {
-    skillDatasource.findByCompetenceIndex.restore();
+    skillDatasource.findByCompetenceId.restore();
   });
 
   describe('#findByCompetence', function() {
@@ -24,8 +24,8 @@ describe('Unit | Repository | skill-repository', function() {
     };
 
     beforeEach(() => {
-      skillDatasource.findByCompetenceIndex
-        .withArgs('X.Y')
+      skillDatasource.findByCompetenceId
+        .withArgs('competence_id')
         .resolves([
           new airTableDataObjects.Skill({ id: 'recAcquix1', name: '@acquix1' }),
           new airTableDataObjects.Skill({ id: 'recAcquix2', name: '@acquix2' }),
