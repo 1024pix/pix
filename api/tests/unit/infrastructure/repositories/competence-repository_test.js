@@ -2,10 +2,9 @@ const { expect, sinon } = require('../../../test-helper');
 const AirtableRecord = require('airtable').Record;
 const airtable = require('../../../../lib/infrastructure/airtable');
 const Area = require('../../../../lib/domain/models/Area');
-const AreaData = require('../../../../lib/infrastructure/datasources/airtable/objects/area');
+const airTableDataObjects = require('../../../../lib/infrastructure/datasources/airtable/objects');
 const areaDatasource = require('../../../../lib/infrastructure/datasources/airtable/area-datasource');
 const Competence = require('../../../../lib/domain/models/Competence');
-const CompetenceData = require('../../../../lib/infrastructure/datasources/airtable/objects/competence');
 const competenceDatasource = require('../../../../lib/infrastructure/datasources/airtable/competence-datasource');
 const competenceRepository = require('../../../../lib/infrastructure/repositories/competence-repository');
 
@@ -70,7 +69,7 @@ describe('Unit | Repository | competence-repository', () => {
   });
 
   describe('#get', () => {
-    let competenceData1 = new CompetenceData({
+    const competenceData1 = new airTableDataObjects.Competence({
       id: 'recCompetence1',
       name: 'Mener une recherche d’information',
       index: '1.1',
@@ -87,7 +86,7 @@ describe('Unit | Repository | competence-repository', () => {
 
       sandbox.stub(areaDatasource, 'list')
         .resolves([
-          new AreaData({
+          new airTableDataObjects.Area({
             id: 'recArea',
             code: '1',
             title: 'Information et données',

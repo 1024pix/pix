@@ -35,4 +35,24 @@ describe('Unit | Infrastructure | Datasource | Airtable | CompetenceDatasource',
       });
     });
   });
+
+  describe('#list', () => {
+
+    it('should call airtable on Competences table to retrieve all Competences', () => {
+      // given
+      sandbox.stub(airtable, 'findRecords')
+        .withArgs('Competences', { })
+        .resolves([ competenceRawAirTableFixture() ]);
+
+      // when
+      const promise = competenceDatasource.list();
+
+      // then
+      return promise.then((competences) => {
+        expect(competences[0]).to.be.an.instanceof(airTableDataModels.Competence);
+        expect(competences[0].id).to.equal('recsvLz0W2ShyfD63');
+        expect(competences[0].name).to.equal('Mener une recherche et une veille d’information');
+      });
+    });
+  });
 });

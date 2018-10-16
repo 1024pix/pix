@@ -26,23 +26,20 @@ function _rawToDomain(rawAirtableCompetence) {
   });
 }
 
-function _toDomain(competenceData) {
-  return areaDatasource.list()
-    .then((areaDatas) => {
-      const areaData = competenceData.areaId && _.find(areaDatas, { id: competenceData.areaId });
-      return new Competence({
-        id: competenceData.id,
-        name: competenceData.name,
-        index: competenceData.index,
-        courseId: competenceData.courseId,
-        skills: competenceData.skillIds,
-        area: areaData && new Area({
-          id: areaData.id,
-          code: areaData.code,
-          title: areaData.title,
-        }),
-      });
-    });
+function _toDomain(competenceData, areaDatas) {
+  const areaData = competenceData.areaId && _.find(areaDatas, { id: competenceData.areaId });
+  return new Competence({
+    id: competenceData.id,
+    name: competenceData.name,
+    index: competenceData.index,
+    courseId: competenceData.courseId,
+    skills: competenceData.skillIds,
+    area: areaData && new Area({
+      id: areaData.id,
+      code: areaData.code,
+      title: areaData.title,
+    }),
+  });
 }
 
 module.exports = {
@@ -51,13 +48,15 @@ module.exports = {
    * @deprecated use method #find below
    */
   list() {
-    return airtable.findRecords(AIRTABLE_TABLE_NAME, {})
-      .then((rawCompetences) => rawCompetences.map(_rawToDomain));
+    return Promise.all([competenceDatasource.list(), areaDatasource.list()])
+      .then(([competenceDatas, areaDatas]) => {
+        return competenceDatas.map((competenceData) => _toDomain(competenceData, areaDatas));
+      });
   },
 
   get(id) {
-    return competenceDatasource.get(id)
-      .then(_toDomain);
+    return Promise.all([competenceDatasource.get(id), areaDatasource.list()])
+      .then(([competenceData, areaDatas]) => _toDomain(competenceData, areaDatas));
   },
 
   find() {
