@@ -3,6 +3,7 @@ const airtable = require('../../../../../lib/infrastructure/airtable');
 const skillDatasource = require('../../../../../lib/infrastructure/datasources/airtable/skill-datasource');
 const skillRawAirTableFixture = require('../../../../tooling/fixtures/infrastructure/skillRawAirTableFixture');
 const { Skill } = require('../../../../../lib/infrastructure/datasources/airtable/objects');
+const AirtableRecord = require('airtable').Record;
 const _ = require('lodash');
 
 describe('Unit | Infrastructure | Datasource | Airtable | SkillDatasource', () => {
@@ -99,4 +100,29 @@ describe('Unit | Infrastructure | Datasource | Airtable | SkillDatasource', () =
       });
     });
   });
+
+  describe('#findByCompetenceIndex', function() {
+
+    beforeEach(() => {
+      const acquix1 = new AirtableRecord('Acquis', 'recAcquix1', { fields: { 'Nom': '@acquix1' } });
+      const acquix2 = new AirtableRecord('Acquis', 'recAcquix2', { fields: { 'Nom': '@acquix2' } });
+      sandbox.stub(airtable, 'findRecords')
+        .withArgs('Acquis', {
+          filterByFormula: 'FIND(\'X.Y\', {Compétence})'
+        })
+        .resolves([acquix1, acquix2]);
+    });
+
+    it('should retrieve all skills from Airtable for one competence', function() {
+      // when
+      const promise = skillDatasource.findByCompetenceIndex('X.Y');
+
+      // then
+      return promise.then((skills) => {
+        expect(_.map(skills, 'id')).to.have.members([ 'recAcquix1', 'recAcquix2' ]);
+        expect(skills[0]).to.be.an.instanceof(Skill);
+      });
+    });
+  });
+
 });
