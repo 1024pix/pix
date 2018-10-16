@@ -36,6 +36,17 @@ describe('Unit | Repository | competence-repository', () => {
     }
   });
 
+  beforeEach(() => {
+    sandbox.stub(areaDatasource, 'list')
+      .resolves([
+        new airTableDataObjects.Area({
+          id: 'recArea',
+          code: '1',
+          title: 'Information et données',
+        })
+      ]);
+  });
+
   afterEach(() => {
     sandbox.restore();
   });
@@ -43,20 +54,12 @@ describe('Unit | Repository | competence-repository', () => {
   describe('#list', () => {
 
     beforeEach(() => {
-      sandbox.stub(airtable, 'findRecords').resolves([rawCompetence1, rawCompetence2]);
+      sandbox.stub(airtable, 'findRecords')
+        .withArgs('Competences', {})
+        .resolves([rawCompetence2, rawCompetence1]);
     });
 
-    it('should fetch all competence records from Airtable "Competences" table', () => {
-      // when
-      const fetchedCompetences = competenceRepository.list();
-
-      // then
-      return fetchedCompetences.then(() => {
-        expect(airtable.findRecords).to.have.been.calledWith('Competences', {});
-      });
-    });
-
-    it('should return domain Competence objects', () => {
+    it('should return domain Competence objects sorted by index', () => {
       // when
       const fetchedCompetences = competenceRepository.list();
 
@@ -64,6 +67,8 @@ describe('Unit | Repository | competence-repository', () => {
       return fetchedCompetences.then((competences) => {
         expect(competences).to.have.lengthOf(2);
         expect(competences[0]).to.be.an.instanceOf(Competence);
+        expect(competences[0].index).to.equal('1.1');
+        expect(competences[1].index).to.equal('1.2');
       });
     });
   });
@@ -83,15 +88,6 @@ describe('Unit | Repository | competence-repository', () => {
       sandbox.stub(competenceDatasource, 'get')
         .withArgs('recCompetence1')
         .resolves(competenceData1);
-
-      sandbox.stub(areaDatasource, 'list')
-        .resolves([
-          new airTableDataObjects.Area({
-            id: 'recArea',
-            code: '1',
-            title: 'Information et données',
-          })
-        ]);
     });
 
     it('should return a domain Competence object', () => {
@@ -117,68 +113,4 @@ describe('Unit | Repository | competence-repository', () => {
       });
     });
   });
-
-  describe('#find', () => {
-
-    beforeEach(() => {
-      sandbox.stub(airtable, 'findRecords').resolves([rawCompetence1, rawCompetence2]);
-    });
-
-    it('should fetch all competence records from Airtable "Competences" table sorted by index', () => {
-      // given
-      const expectedQuery = { sort: [{ field: 'Sous-domaine', direction: 'asc' }] };
-
-      // when
-      const promise = competenceRepository.find();
-
-      // then
-      return promise.then(() => {
-        expect(airtable.findRecords).to.have.been.calledWith('Competences', expectedQuery);
-      });
-    });
-
-    it('should return Competence domain objects', () => {
-      // when
-      const promise = competenceRepository.find();
-
-      // then
-      return promise.then((competences) => {
-        expect(competences).to.have.lengthOf(2);
-        expect(competences[0]).to.be.an.instanceOf(Competence);
-      });
-    });
-  });
-
-  describe('#_rawToDomain', () => {
-
-    it('should match Competence domain object content', () => {
-      // given
-      sandbox.stub(airtable, 'findRecords').resolves([rawCompetence1]);
-
-      const expectedArea = new Area({
-        id: 'recArea',
-        code: '1',
-        title: 'Information et données'
-      });
-
-      const expectedCompetence = new Competence({
-        id: 'recCompetence1',
-        index: '1.1',
-        name: 'Mener une recherche d’information',
-        courseId: 'recAY0W7x9urA11OLZJJ',
-        skills: ['@url2', '@url5', '@utiliserserv6'],
-        area: expectedArea
-      });
-
-      // when
-      const promise = competenceRepository.find();
-
-      // then
-      return promise.then((competences) => {
-        expect(competences[0]).to.be.an.instanceOf(Competence);
-        expect(competences[0]).to.deep.equal(expectedCompetence);
-      });
-    });
-  });
-
 });
