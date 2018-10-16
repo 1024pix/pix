@@ -1,9 +1,11 @@
 export default function(schema, request) {
-  if(request.queryParams['filter[code]'] === 'AZERTY1') {
-    return schema.campaigns.find(['1']);
+  const code = request.queryParams['filter[code]'];
+
+  const foundCampaigns = schema.campaigns.where({ code });
+
+  if (foundCampaigns.length > 0) {
+    return foundCampaigns;
   }
-  if(request.queryParams['filter[code]'] === 'AZERTY2') {
-    return schema.campaigns.find(['2']);
-  }
-  return schema.campaigns.find(0);
+  // FIXME REST API should return an empty array when no ressources were found
+  return new Response(404);
 }
