@@ -42,7 +42,7 @@ describe('Acceptance | Campaigns | Campaigns Result', function() {
       const campaignId = 1;
 
       beforeEach(async function() {
-        authenticateAsSimpleUser();
+        await authenticateAsSimpleUser();
         await visit(`/campagnes/${campaignId}/resultats/${requestedAssessmentId}`);
       });
 

@@ -17,19 +17,19 @@ describe('Acceptance | Démarrer un test |', function() {
 
   let application;
 
-  beforeEach(function() {
+  beforeEach(async function() {
     application = startApp();
     defaultScenario(server);
-    authenticateAsSimpleUser();
-    visit('/compte');
+    await authenticateAsSimpleUser();
+    await visit('/compte');
   });
 
   afterEach(function() {
     destroyApp(application);
   });
 
-  it('Je peux démarrer un test directement depuis la nouvelle url "courses/:course_id"', function() {
-    visit('/courses/ref_course_id');
+  it('Je peux démarrer un test directement depuis la nouvelle url "courses/:course_id"', async function() {
+    await visit('/courses/ref_course_id');
     andThen(() => {
       expect(currentURL()).to.be.equal('/assessments/ref_assessment_id/challenges/ref_qcm_challenge_id');
     });
