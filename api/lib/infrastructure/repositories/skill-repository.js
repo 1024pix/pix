@@ -13,7 +13,7 @@ function _toDomain(skillData) {
 module.exports = {
 
   findByCompetence(competence) {
-    return skillDatasource.findByCompetenceIndex(competence.index)
+    return skillDatasource.findByCompetenceId(competence.id)
       .then((skillDatas) => skillDatas.map(_toDomain));
   },
 
