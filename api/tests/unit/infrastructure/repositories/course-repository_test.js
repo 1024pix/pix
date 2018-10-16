@@ -86,7 +86,7 @@ describe('Unit | Repository | course-repository', function() {
 
   beforeEach(() => {
     sandbox.stub(airtable, 'findRecords')
-      .withArgs('Tests', { })
+      .withArgs('Tests')
       .resolves(courses);
   });
 

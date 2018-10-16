@@ -75,7 +75,7 @@ describe('Unit | Infrastructure | Datasource | Airtable | ChallengeDatasource', 
     it('should query Airtable challenges with empty query', () => {
       // then
       return promise.then(() => {
-        expect(airtable.findRecords).to.have.been.calledWith('Epreuves', {});
+        expect(airtable.findRecords).to.have.been.calledWith('Epreuves');
       });
     });
 

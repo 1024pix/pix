@@ -6,7 +6,7 @@ const _ = require('lodash');
 const AIRTABLE_TABLE_NAME = 'Acquis';
 
 function _doQuery(filter) {
-  return airtable.findRecords(AIRTABLE_TABLE_NAME, {})
+  return airtable.findRecords(AIRTABLE_TABLE_NAME)
     .then((rawSkills) => {
       return _.filter(rawSkills, filter)
         .map(fromAirTableObject);

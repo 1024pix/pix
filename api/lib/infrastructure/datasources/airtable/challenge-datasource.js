@@ -24,14 +24,14 @@ module.exports = {
   },
 
   list() {
-    return airtable.findRecords(AIRTABLE_TABLE_NAME, {})
+    return airtable.findRecords(AIRTABLE_TABLE_NAME)
       .then((challengeDataObjects) => challengeDataObjects.map(fromAirTableObject));
   },
 
   findBySkillIds(skillIds) {
     const foundInSkillIds = (skillId) => _.includes(skillIds, skillId);
 
-    return airtable.findRecords(AIRTABLE_TABLE_NAME, {})
+    return airtable.findRecords(AIRTABLE_TABLE_NAME)
       .then((challengeDataObjects) => {
         return challengeDataObjects
           .filter((rawChallenge) => (
@@ -43,7 +43,7 @@ module.exports = {
   },
 
   findByCompetence(competence) {
-    return airtable.findRecords(AIRTABLE_TABLE_NAME, {})
+    return airtable.findRecords(AIRTABLE_TABLE_NAME)
       .then((challengeDataObjects) => {
         return challengeDataObjects
           .filter((rawChallenge) => (
