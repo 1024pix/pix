@@ -1,33 +1,42 @@
 const airtable = require('../airtable');
 const serializer = require('../serializers/airtable/course-serializer');
+const _ = require('lodash');
+
+// TODO refactor to use a course-datasource
 
 const AIRTABLE_TABLE_NAME = 'Tests';
-const AIRTABLE_TABLE_VIEW_PROGRESSION_COURSES = 'Tests de progression';
-const AIRTABLE_TABLE_VIEW_ADAPTIVE_COURSES = 'Tests de positionnement';
-const AIRTABLE_TABLE_VIEW_COURSES_OF_THE_WEEK = 'Défis de la semaine';
 
-function _getCourses(viewName) {
-  const query = {
-    filterByFormula: '{Statut} = "Publié"',
-    view: viewName
-  };
-
-  return airtable.findRecords(AIRTABLE_TABLE_NAME, query)
-    .then((courses) => courses.map(serializer.deserialize));
+function _getCourses(filter) {
+  return airtable.findRecords(AIRTABLE_TABLE_NAME, {})
+    .then((courses) => {
+      return _.filter(courses, {
+        fields: filter
+      }).map(serializer.deserialize);
+    });
 }
 
 module.exports = {
 
   getProgressionCourses() {
-    return _getCourses(AIRTABLE_TABLE_VIEW_PROGRESSION_COURSES);
+    return _getCourses({
+      'Adaptatif ?': false,
+      'Défi de la semaine ?': false,
+      'Statut': 'Publié',
+    });
   },
 
   getCoursesOfTheWeek() {
-    return _getCourses(AIRTABLE_TABLE_VIEW_COURSES_OF_THE_WEEK);
+    return _getCourses({
+      'Défi de la semaine ?': true,
+      'Statut': 'Publié',
+    });
   },
 
   getAdaptiveCourses() {
-    return _getCourses(AIRTABLE_TABLE_VIEW_ADAPTIVE_COURSES);
+    return _getCourses({
+      'Adaptatif ?': true,
+      'Statut': 'Publié',
+    });
   },
 
   get(id) {

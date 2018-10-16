@@ -133,7 +133,7 @@ describe('Unit | Infrastructure | preloader', () => {
   });
 
   describe('#loadCourses', () => {
-    it('should fetch courses by view and cache them individually', () => {
+    it('should fetch courses and cache them individually', () => {
       // given
       const airtableProgressionCourse = new AirtableRecord('Tests', 'recProgressionCourse', {
         fields: {
@@ -166,23 +166,9 @@ describe('Unit | Infrastructure | preloader', () => {
         }
       });
 
-      const filterWithPublishedProgressionCourses = {
-        filterByFormula: '{Statut} = "Publié"',
-        view: 'Tests de progression'
-      };
-      const filterWithPublishedAdaptiveCourses = {
-        filterByFormula: '{Statut} = "Publié"',
-        view: 'Tests de positionnement'
-      };
-      const filterWithPublishedWeekCourses = {
-        filterByFormula: '{Statut} = "Publié"',
-        view: 'Défis de la semaine'
-      };
-
       airtable.findRecords
-        .withArgs('Tests', filterWithPublishedProgressionCourses).resolves([ airtableProgressionCourse ])
-        .withArgs('Tests', filterWithPublishedAdaptiveCourses).resolves([ airtableAdaptiveCourse ])
-        .withArgs('Tests', filterWithPublishedWeekCourses).resolves([ airtableWeekCourse ]);
+        .withArgs('Tests', { })
+        .resolves([ airtableProgressionCourse, airtableAdaptiveCourse, airtableWeekCourse ]);
 
       // when
       const promise = preloader.loadCourses();
@@ -190,9 +176,6 @@ describe('Unit | Infrastructure | preloader', () => {
       // then
       return expect(promise).to.have.been.fulfilled
         .then(() => {
-          expect(airtable.findRecords).to.have.been.calledWith('Tests', filterWithPublishedProgressionCourses);
-          expect(airtable.findRecords).to.have.been.calledWith('Tests', filterWithPublishedAdaptiveCourses);
-          expect(airtable.findRecords).to.have.been.calledWith('Tests', filterWithPublishedWeekCourses);
           expect(cache.set).to.have.been.calledWith('Tests_recProgressionCourse', airtableProgressionCourse._rawJson);
           expect(cache.set).to.have.been.calledWith('Tests_recAdaptiveCourse', airtableAdaptiveCourse._rawJson);
           expect(cache.set).to.have.been.calledWith('Tests_recWeekCourse', airtableWeekCourse._rawJson);

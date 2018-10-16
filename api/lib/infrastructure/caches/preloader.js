@@ -51,25 +51,7 @@ module.exports = {
   },
 
   loadCourses() {
-    const filterWithPublishedProgressionCourses = {
-      filterByFormula: '{Statut} = "Publié"',
-      view: 'Tests de progression'
-    };
-    const filterWithPublishedAdaptiveCourses = {
-      filterByFormula: '{Statut} = "Publié"',
-      view: 'Tests de positionnement'
-    };
-    const filterWithPublishedWeekCourses = {
-      filterByFormula: '{Statut} = "Publié"',
-      view: 'Défis de la semaine'
-    };
-
-    return Promise.all([
-      airtable.findRecords(COURSE_TABLENAME, filterWithPublishedProgressionCourses),
-      airtable.findRecords(COURSE_TABLENAME, filterWithPublishedAdaptiveCourses),
-      airtable.findRecords(COURSE_TABLENAME, filterWithPublishedWeekCourses)
-    ])
-      .then(_.flatten)
+    return airtable.findRecords(COURSE_TABLENAME, {})
       .then((records) => cacheIndividually(records, COURSE_TABLENAME));
   },
 
