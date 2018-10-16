@@ -22,10 +22,10 @@ describe('Acceptance | Campaigns | Resume Campaigns', function() {
   describe('Resume a campaigns course', function() {
 
     beforeEach(async function() {
-      authenticateAsSimpleUser();
+      await authenticateAsSimpleUser();
       await visit('/campagnes/AZERTY1');
       await click('.campaign-landing-page__start-button');
-      fillIn('#id-pix-label', 'monmail@truc.fr');
+      await fillIn('#id-pix-label', 'monmail@truc.fr');
       await click('.pix-button');
       await click('.challenge-actions__action-skip');
     });
@@ -122,4 +122,5 @@ describe('Acceptance | Campaigns | Resume Campaigns', function() {
 
     });
   });
-});
+})
+;

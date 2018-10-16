@@ -19,7 +19,7 @@ describe('Acceptance | error page', function() {
 
   it('should redirect to route /connexion when the api returned a 401 error', async function() {
     // given
-    authenticateAsSimpleUser();
+    await authenticateAsSimpleUser();
     server.get('/certifications', { errors: [{ code: 401 }] }, 401);
 
     // when
@@ -31,7 +31,7 @@ describe('Acceptance | error page', function() {
 
   it('should display the error page when the api returned an error which is not 401', async function() {
     // given
-    authenticateAsSimpleUser();
+    await authenticateAsSimpleUser();
     server.get('/certifications', { errors: [{ code: 500 }] }, 500);
 
     // when

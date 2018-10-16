@@ -15,11 +15,11 @@ describe('Acceptance | Points communs a toutes les épreuves | ', function() {
 
   let application;
 
-  beforeEach(function() {
+  beforeEach(async function() {
     application = startApp();
     defaultScenario(server);
-    authenticateAsSimpleUser();
-    visit('/assessments/ref_assessment_id/challenges/ref_qrocm_challenge_id');
+    await authenticateAsSimpleUser();
+    await visit('/assessments/ref_assessment_id/challenges/ref_qrocm_challenge_id');
   });
 
   afterEach(function() {

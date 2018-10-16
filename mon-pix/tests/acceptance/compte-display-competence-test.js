@@ -24,7 +24,7 @@ describe('Acceptance | Compte | competence profile', function() {
 
   it('can visit /compte', async function() {
     // given
-    authenticateAsSimpleUser();
+    await authenticateAsSimpleUser();
 
     // when
     await visit('/compte');
@@ -43,9 +43,9 @@ describe('Acceptance | Compte | competence profile', function() {
     });
   });
 
-  it('should display user competences (with level) grouped by area', function() {
+  it('should display user competences (with level) grouped by area', async function() {
     // given
-    authenticateAsSimpleUser();
+    await authenticateAsSimpleUser();
 
     // when
     visit('/compte');
@@ -57,9 +57,9 @@ describe('Acceptance | Compte | competence profile', function() {
     });
   });
 
-  it('should display a link ’commencer’ with the correct url to start an adaptive course, for the first competence', function() {
+  it('should display a link ’commencer’ with the correct url to start an adaptive course, for the first competence', async function() {
     // given
-    authenticateAsSimpleUser();
+    await authenticateAsSimpleUser();
 
     // when
     visit('/compte');
@@ -70,9 +70,9 @@ describe('Acceptance | Compte | competence profile', function() {
     });
   });
 
-  it('should display a hero banner for logged user', function() {
+  it('should display a hero banner for logged user', async function() {
     // given
-    authenticateAsSimpleUser();
+    await authenticateAsSimpleUser();
 
     // when
     visit('/compte');

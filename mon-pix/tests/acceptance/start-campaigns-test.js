@@ -50,8 +50,8 @@ describe('Acceptance | Campaigns | Start Campaigns', function() {
         beforeEach(async function() {
           await visit('/campagnes/AZERTY1');
           await click('.campaign-landing-page__start-button');
-          fillIn('#pix-email', 'jane@acme.com');
-          fillIn('#pix-password', 'Jane1234');
+          await fillIn('#pix-email', 'jane@acme.com');
+          await fillIn('#pix-password', 'Jane1234');
           await click('.signin-form__submit_button');
         });
 
@@ -93,10 +93,10 @@ describe('Acceptance | Campaigns | Start Campaigns', function() {
 
     });
 
-    context('When user is logged in', async function() {
+    context('When user is logged in', function() {
 
-      beforeEach(function() {
-        authenticateAsSimpleUser();
+      beforeEach(async function() {
+        await authenticateAsSimpleUser();
       });
 
       it('should redirect to landing page', async function() {
