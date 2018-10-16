@@ -11,8 +11,9 @@ describe('Unit | Serializer | JSONAPI | campaign-serializer', function() {
       const tokenToAccessToCampaign = 'token';
       const campaign = new Campaign({
         id: 5,
-        name: 'My zuper organization',
+        name: 'My zuper campaign',
         code: 'ATDGER342',
+        title: 'Parcours recherche internet',
         createdAt: '2018-02-06 14:12:44',
         creatorId: 3453,
         organizationId: 10293,
@@ -24,8 +25,9 @@ describe('Unit | Serializer | JSONAPI | campaign-serializer', function() {
           type: 'campaigns',
           id: 5,
           attributes: {
-            name: 'My zuper organization',
+            name: 'My zuper campaign',
             code: 'ATDGER342',
+            title: 'Parcours recherche internet',
             'created-at': '2018-02-06 14:12:44',
             'id-pix-label': 'company id',
             'token-for-campaign-results': tokenToAccessToCampaign,
@@ -52,7 +54,7 @@ describe('Unit | Serializer | JSONAPI | campaign-serializer', function() {
         data: {
           type: 'campaign',
           attributes: {
-            name: 'My zuper organization',
+            name: 'My zuper campaign',
             'organization-id': organizationId,
           },
           relationships: {
