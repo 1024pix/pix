@@ -45,7 +45,7 @@ module.exports = {
   findRecords(tableName) {
     const cacheKey = `${tableName}`;
     const logContext = {
-      zone: 'airtable.getRecord',
+      zone: 'airtable.findRecords',
       type: 'airtable',
       tableName,
     };
@@ -62,7 +62,7 @@ module.exports = {
           .select()
           .all()
           .then((records) => {
-            logger.trace(logContext, 'found record in Airtable.');
+            logger.trace(logContext, 'found records in Airtable.');
             return cache.set(cacheKey, records.map((record) => record._rawJson))
               .then(() => records);
           })

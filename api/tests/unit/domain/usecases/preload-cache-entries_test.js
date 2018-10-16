@@ -9,11 +9,7 @@ describe('Unit | UseCase | preload-cache-entries', () => {
 
   beforeEach(() => {
     sandbox = sinon.sandbox.create();
-    sandbox.stub(preloader, 'loadAreas').resolves();
-    sandbox.stub(preloader, 'loadChallenges').resolves();
-    sandbox.stub(preloader, 'loadCompetences').resolves();
-    sandbox.stub(preloader, 'loadCourses').resolves();
-    sandbox.stub(preloader, 'loadSkills').resolves();
+    sandbox.stub(preloader, 'loadAllTables').resolves();
     sandbox.stub(logger, 'info').returns();
   });
 
@@ -27,11 +23,7 @@ describe('Unit | UseCase | preload-cache-entries', () => {
 
     // Then
     return promise.then(() => {
-      expect(preloader.loadAreas).to.have.been.calledOnce;
-      expect(preloader.loadChallenges).to.have.been.calledOnce;
-      expect(preloader.loadCompetences).to.have.been.calledOnce;
-      expect(preloader.loadCourses).to.have.been.calledOnce;
-      expect(preloader.loadSkills).to.have.been.calledOnce;
+      expect(preloader.loadAllTables).to.have.been.calledOnce;
     });
   });
 
