@@ -15,7 +15,7 @@ export default BaseRoute.extend({
     startCampaignParticipation() {
       this.transitionTo('campaigns.start-or-resume', this.get('campaignCode'), {
         queryParams: {
-          flagAlreadySeeLanding: true
+          hasSeenLanding: true
         }
       });
     }

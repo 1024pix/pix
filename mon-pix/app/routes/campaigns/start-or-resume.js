@@ -13,7 +13,7 @@ export default BaseRoute.extend(AuthenticatedRouteMixin, {
 
   beforeModel(transition) {
     this.set('campaignCode', transition.params['campaigns.start-or-resume'].campaign_code);
-    this.set('userHasSeenLanding', transition.queryParams.flagAlreadySeeLanding);
+    this.set('userHasSeenLanding', transition.queryParams.hasSeenLanding);
 
     if (this._userIsUnauthenticated() && !this.get('userHasSeenLanding')) {
       return this.transitionTo('campaigns.campaign-landing-page', this.get('campaignCode'));
